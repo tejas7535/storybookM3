@@ -110,7 +110,8 @@
             <ea-calculation-result-report-large-items
               *ngIf="
                 calculationResultFacade.calculationReportFrictionalPowerloss$
-                  | ngrxPush as frictionalPowerloss
+                  | ngrxPush as frictionalPowerloss;
+                else calculationNotAvailable
               "
               [items]="frictionalPowerloss"
               translocoRoot="calculationResultReport.frictionalPowerloss"
@@ -275,12 +276,36 @@
       </div>
     </div>
   </mat-dialog-content>
-</ng-container>
 
-<ng-template #loadingTemplate>
-  <div class="item-center flex content-center p-8">
-    <div class="ml-auto mr-auto">
-      <mat-spinner diameter="20"></mat-spinner>
+  <ng-template #loadingTemplate>
+    <div class="item-center flex content-center p-8">
+      <div class="ml-auto mr-auto">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
+
+  <ng-template #calculationNotAvailable>
+    <div
+      class="item-center flex content-center p-4 md:p-8 w-full border-border border-t"
+    >
+      <ea-info-banner [className]="'w-full'">
+        <div class="flex w-full flex-col">
+          <div>{{ t('calculationNotAvailable.line1') }}</div>
+          <div>
+            {{ t('calculationNotAvailable.line2') }}
+            <a
+              [href]="t('calculationNotAvailable.link')"
+              class="underline"
+              target="_blank"
+              >{{ t('calculationNotAvailable.linkText') }}
+              <mat-icon class="align-middle" [inline]="true"
+                >open_in_new</mat-icon
+              >
+            </a>
+          </div>
+        </div>
+      </ea-info-banner>
+    </div>
+  </ng-template>
+</ng-container>

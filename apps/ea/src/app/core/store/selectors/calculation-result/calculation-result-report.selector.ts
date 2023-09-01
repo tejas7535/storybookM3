@@ -69,7 +69,13 @@ export const getFrictionalalPowerlossReport = createSelector(
       },
     ];
 
-    return result.filter((item) => item.value !== undefined);
+    const resultItems = result.filter((item) => item.value !== undefined);
+    if (resultItems.length === 0) {
+      // eslint-disable-next-line unicorn/no-null
+      return null;
+    }
+
+    return resultItems;
   }
 );
 
@@ -221,9 +227,8 @@ export const getReportMessages = createSelector(
 );
 
 export const isFrictionResultAvailable = createSelector(
-  getFrictionalalPowerlossReport,
   isCatalogCalculationResultAvailable,
-  (report, isAvailable): boolean => isAvailable && report?.length > 0
+  (isAvailable): boolean => isAvailable // special case, we show this item always so we can display a hint
 );
 
 export const isLubricationResultAvailable = createSelector(

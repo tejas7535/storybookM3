@@ -40,7 +40,12 @@
             class="flex flex-row items-end justify-start"
             *ngIf="!value.isLoading; else loading"
           >
-            <ng-container *ngIf="!value.calculationError; else error">
+            <ng-container
+              *ngIf="
+                !value.calculationError && !value.calculationWarning;
+                else errorOrWarning
+              "
+            >
               <div class="text-body-2 text-high-emphasis">
                 {{ (value.value | meaningfulRound) || '-' }}
               </div>
@@ -52,6 +57,14 @@
               </div>
             </ng-container>
 
+            <ng-template #errorOrWarning>
+              <ng-container
+                *ngIf="value.calculationError; else warning"
+                [ngTemplateOutlet]="error"
+              >
+              </ng-container>
+            </ng-template>
+
             <ng-template #error>
               <div
                 class="flex flex-shrink-0 flex-grow"
@@ -60,6 +73,19 @@
                 <mat-icon color="error" class="!text-body-2 mx-auto"
                   >warning</mat-icon
                 >
+              </div>
+            </ng-template>
+
+            <ng-template #warning>
+              <div class="flex items-center">
+                <mat-icon class="mr-2 align-middle flex-shrink-0 text-info-icon"
+                  >info_outline
+                </mat-icon>
+                <div
+                  class="text-caption text-medium-emphasis md:max-w-[12rem] md:text-left text-center"
+                >
+                  {{ t(value.calculationWarning) }}
+                </div>
               </div>
             </ng-template>
           </div>

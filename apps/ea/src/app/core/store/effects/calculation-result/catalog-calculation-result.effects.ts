@@ -7,9 +7,13 @@ import { CatalogService } from '@ea/core/services/catalog.service';
 import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import { CatalogCalculationResultActions } from '../../actions';
+import {
+  CalculationTypesActions,
+  CatalogCalculationResultActions,
+} from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
+import { CalculationParametersCalculationTypes } from '../../models/calculation-parameters-state.model';
 
 @Injectable()
 export class CatalogCalculationResultEffects {
@@ -71,38 +75,58 @@ export class CatalogCalculationResultEffects {
         this.calculationParametersFacade.operationConditions$,
         this.calculationParametersFacade.getCalculationTypes$,
       ]),
-      switchMap(([_action, bearingId, operatingConditions, calculationTypes]) =>
-        this.catalogService
-          .getCalculationResult(bearingId, operatingConditions)
-          .pipe(
-            takeUntil(
-              // cancel request if action is called again
-              this.actions$.pipe(
-                ofType(CatalogCalculationResultActions.fetchCalculationResult)
-              )
-            ),
-            switchMap((calculationResult) => {
-              this.trackingService.logCalculation(calculationTypes);
+      switchMap(
+        ([_action, bearingId, operatingConditions, originalCalculationTypes]) =>
+          this.catalogService
+            .getCalculationResult(bearingId, operatingConditions)
+            .pipe(
+              takeUntil(
+                // cancel request if action is called again
+                this.actions$.pipe(
+                  ofType(CatalogCalculationResultActions.fetchCalculationResult)
+                )
+              ),
+              concatLatestFrom(() => [
+                this.calculationParametersFacade.getCalculationTypes$, // fetching an up-to-date state
+              ]),
+              switchMap(([calculationResult, currentCalculationTypes]) => {
+                this.trackingService.logCalculation(originalCalculationTypes);
 
-              return [
-                CatalogCalculationResultActions.setCalculationResult({
-                  calculationResult,
-                }),
-              ];
-            }),
-            catchError((error: HttpErrorResponse) => {
-              this.trackingService.logCalculation(
-                calculationTypes,
-                error.message
-              );
+                // special case: sometimes bearings have no friction data available. In this case we need to disable the calculation option
+                const isFrictionAvailable =
+                  !!calculationResult?.totalFrictionalPowerLoss &&
+                  !!calculationResult?.totalFrictionalTorque;
+                const updatedCalculationTypes: CalculationParametersCalculationTypes =
+                  {
+                    ...currentCalculationTypes,
+                    frictionalPowerloss: {
+                      ...currentCalculationTypes.frictionalPowerloss,
+                      disabled: !isFrictionAvailable,
+                    },
+                  };
 
-              return of(
-                CatalogCalculationResultActions.setCalculationFailure({
-                  error: error.message,
-                })
-              );
-            })
-          )
+                return [
+                  CatalogCalculationResultActions.setCalculationResult({
+                    calculationResult,
+                  }),
+                  CalculationTypesActions.setCalculationTypes({
+                    calculationTypes: updatedCalculationTypes,
+                  }),
+                ];
+              }),
+              catchError((error: HttpErrorResponse) => {
+                this.trackingService.logCalculation(
+                  originalCalculationTypes,
+                  error.message
+                );
+
+                return of(
+                  CatalogCalculationResultActions.setCalculationFailure({
+                    error: error.message,
+                  })
+                );
+              })
+            )
       )
     );
   });

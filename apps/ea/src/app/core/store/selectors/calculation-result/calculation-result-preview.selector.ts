@@ -136,7 +136,12 @@ export const getCalculationResultPreviewData = createSelector(
         icon: 'compress',
         values: [
           {
-            title: 'frictionalPowerlossSubtitle',
+            title: calculationTypes.frictionalPowerloss.disabled
+              ? undefined
+              : 'frictionalPowerlossSubtitle',
+            calculationWarning: calculationTypes.frictionalPowerloss.disabled
+              ? 'frictionalPowerlossUnavailable'
+              : undefined,
             ...frictionResult,
           },
         ],

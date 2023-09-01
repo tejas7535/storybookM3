@@ -26,6 +26,7 @@ Array [
     "values": Array [
       Object {
         "calculationError": undefined,
+        "calculationWarning": undefined,
         "isLoading": false,
         "title": "frictionalPowerlossSubtitle",
         "unit": undefined,

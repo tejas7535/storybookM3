@@ -139,6 +139,7 @@
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
     "frictionalPowerloss": "Frictional power loss",
     "frictionalPowerlossSubtitle": "Total Frictional Torque (MR)",
+    "frictionalPowerlossUnavailable": "For the selected bearing this calculation is not available.",
     "production": "For Production",
     "productionTooltip": "This is the sum of all CO₂ equivalents emitted for the production of the rolling bearing, including necessary resources and energy."
   },
@@ -146,6 +147,12 @@
     "dialogTitle": "Report for bearing {{bearingDesignation}}",
     "reportSectionInput": "Input",
     "reportSectionWarnings": "Errors/Warnings/Notes",
+    "calculationNotAvailable": {
+      "line1": "For the selected bearing this calculation is not possible.",
+      "line2": "For further information please contact our",
+      "linkText": "customer support",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
     "co2Emissions": {
       "title": "Estimation of CO₂e emissions per piece",
       "unit": "CO₂e",
@@ -204,7 +211,7 @@
   "calculationSelection": {
     "title": "Choose your calculations",
     "selectAll": "Select all",
-    "typeUnavailable": "Calculation type unavailable for the selected bearing",
+    "typeUnavailable": "For the selected bearing this calculation is not available.",
     "calculations": "Calculations",
     "calculationTypes": {
       "ratingLife": "Rating Life",

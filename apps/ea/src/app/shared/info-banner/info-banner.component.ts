@@ -9,6 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatIconModule, CommonModule],
 })
 export class InfoBannerComponent {
-  @Input() infoText: string;
+  @Input() infoText?: string;
   @Input() isWarning? = false;
 }
