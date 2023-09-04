@@ -123,6 +123,13 @@
         "K": "OP: Reclassification"
       }
     },
+    "lastCustomerPriceInformationDetails": {
+      "title": "Last Customer Price Information",
+      "lastCustomerPrice": "Last Customer Price",
+      "lastCustomerPriceQty": "Last Customer Price Qty",
+      "gpi": "GPI% (GPC)",
+      "gpm": "GPM% (SQV)"
+    },
     "relocationCostDetails": {
       "title": "Relocation Cost",
       "relocationPlant": "Relocation Plant",

@@ -1,0 +1,42 @@
+<div
+  class="mt-4"
+  *transloco="
+    let t;
+    read: 'detailView.pricingDetails.lastCustomerPriceInformationDetails'
+  "
+>
+  <gq-kpi-status-card [title]="t('title')">
+    <div>
+      <gq-label-text>
+        <span label>{{ t('lastCustomerPrice') }}</span>
+        <span text>{{
+          quotationDetail.lastCustomerPrice | numberCurrency: currency
+        }}</span>
+        <ng-container *ngIf="quotationDetail.lastCustomerPriceDate" text>
+          <span>
+            {{
+              ' (' +
+                (quotationDetail.lastCustomerPriceDate | translocoDate) +
+                ')'
+            }}
+          </span>
+        </ng-container>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('lastCustomerPriceQty') }}</span>
+        <span text>{{ quotationDetail.lastCustomerPriceQuantity || '-' }}</span>
+        <span text *ngIf="quotationDetail.lastCustomerPriceQuantity">
+          {{ quotationDetail.material.baseUoM | uom }}
+        </span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('gpi') }}</span>
+        <span text>{{ quotationDetail.gpi | percentage }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('gpm') }}</span>
+        <span text>{{ quotationDetail.gpm | percentage }}</span>
+      </gq-label-text>
+    </div>
+  </gq-kpi-status-card>
+</div>

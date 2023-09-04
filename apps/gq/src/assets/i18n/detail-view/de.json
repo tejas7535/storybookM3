@@ -123,6 +123,13 @@
         "K": "OP: Umklassifizierung"
       }
     },
+    "lastCustomerPriceInformationDetails": {
+      "title": "Letzter Kundenpreis Informationen",
+      "lastCustomerPrice": "Letzter Kundenpreis",
+      "lastCustomerPriceQty": "Menge letzter Kundenpreis",
+      "gpi": "GPI % (KHK)",
+      "gpm": "GPM % (SAW)"
+    },
     "relocationCostDetails": {
       "title": "Zukünftige Kosten",
       "relocationPlant": "Zukünftiges Prod.Werk",

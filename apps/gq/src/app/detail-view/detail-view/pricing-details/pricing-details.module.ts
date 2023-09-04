@@ -14,6 +14,7 @@ import { PushPipe } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { LastCustomerPriceInformationDetailsComponent } from './last-customer-price-information-details/last-customer-price-information-details.component';
 import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
@@ -30,6 +31,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     MaterialComparableCostDetailsComponent,
     RelocationCostDetailsComponent,
     StockAvailabilityDetailsComponent,
+    LastCustomerPriceInformationDetailsComponent,
   ],
   imports: [
     CommonModule,
