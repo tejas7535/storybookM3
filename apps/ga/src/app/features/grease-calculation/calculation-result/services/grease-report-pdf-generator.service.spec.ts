@@ -13,6 +13,11 @@ import {
   GREASE_PDF_RESULT_MOCK,
 } from '@ga/testing/mocks';
 
+import {
+  NotoSansBold,
+  NotoSansRegular,
+} from '../constants/pdf-report/report-fonts';
+import { schaefflerLogo } from '../constants/pdf-report/report-logo';
 import { GreaseReportDataGeneratorService } from './grease-report-data-generator.service';
 import { GreaseReportPdfGeneratorService } from './grease-report-pdf-generator.service';
 
@@ -22,6 +27,7 @@ const fontSpy = jest.fn();
 const addFontSpy = jest.fn();
 const setPageSpy = jest.fn();
 const addImageSpy = jest.fn();
+const addFileToVFSSpy = jest.fn();
 
 jest.mock(
   'jspdf',
@@ -45,6 +51,7 @@ jest.mock(
         getFontSize: jest.fn(),
         getStringUnitWidth: jest.fn(),
         addImage: addImageSpy,
+        addFileToVFS: addFileToVFSSpy,
         text: textSpy,
         splitTextToSize: jest.fn(() => ['text 1', 'text 2']),
         addPage: jest.fn(),
@@ -112,19 +119,27 @@ describe('GreaseReportPdfGeneratorService', () => {
     });
 
     it('should load NotoSans fonts', () => {
+      expect(addFileToVFSSpy).toBeCalledWith(
+        'NotoSans-Regular.ttf',
+        NotoSansRegular
+      );
+
       expect(addFontSpy).toHaveBeenCalledWith(
-        '/assets/pdf-report/fonts/NotoSans-Regular.ttf',
+        'NotoSans-Regular.ttf',
         'NotoSans',
         'normal'
       );
 
+      expect(addFileToVFSSpy).toBeCalledWith('NotoSans-Bold.ttf', NotoSansBold);
+
       expect(addFontSpy).toHaveBeenCalledWith(
-        '/assets/pdf-report/fonts/NotoSans-Bold.ttf',
+        'NotoSans-Bold.ttf',
         'NotoSans',
         'bold'
       );
 
       expect(addFontSpy).toBeCalledTimes(2);
+      expect(addFileToVFSSpy).toBeCalledTimes(2);
     });
 
     it('should print report title', () => {
@@ -199,7 +214,7 @@ describe('GreaseReportPdfGeneratorService', () => {
 
     it('should load image for every page', () => {
       expect(addImageSpy).toHaveBeenCalledWith(
-        '/assets/images/schaeffler-logo.png',
+        schaefflerLogo,
         'png',
         21,
         pageMargin + 1,

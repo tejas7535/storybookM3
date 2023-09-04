@@ -14,6 +14,11 @@ import autoTable, {
 } from 'jspdf-autotable';
 
 import {
+  NotoSansBold,
+  NotoSansRegular,
+} from '../constants/pdf-report/report-fonts';
+import { schaefflerLogo } from '../constants/pdf-report/report-logo';
+import {
   GreasePdfConcept1Result,
   GreasePdfMessage,
   GreasePdfReportModel,
@@ -52,6 +57,7 @@ export class GreaseReportPdfGeneratorService {
 
   private readonly yPageContentStartPosition = 135;
   private readonly yPageRegularContentEndPosition = 722;
+  private readonly logoImagageType = 'png';
 
   public constructor(
     private readonly dataGeneratorService: GreaseReportDataGeneratorService,
@@ -123,8 +129,8 @@ export class GreaseReportPdfGeneratorService {
   ): void {
     this.generateImage(
       doc,
-      '/assets/images/schaeffler-logo.png',
-      'png',
+      schaefflerLogo,
+      this.logoImagageType,
       21,
       this.pageMargin + 1,
       160,
@@ -156,14 +162,14 @@ export class GreaseReportPdfGeneratorService {
 
   private generateImage(
     doc: jsPDF,
-    path: string,
+    image: string,
     type: string,
     xPosition: number,
     yPosition: number,
     width: number,
     height: number
   ): void {
-    doc.addImage(path, type, xPosition, yPosition, width, height);
+    doc.addImage(image, type, xPosition, yPosition, width, height);
   }
 
   private getElementWidth(doc: jsPDF, text: string): number {
@@ -685,16 +691,12 @@ export class GreaseReportPdfGeneratorService {
   }
 
   private loadNotoSansFonts(doc: jsPDF): void {
-    doc.addFont(
-      '/assets/pdf-report/fonts/NotoSans-Regular.ttf',
-      'NotoSans',
-      'normal'
-    );
+    doc.addFileToVFS('NotoSans-Regular.ttf', NotoSansRegular);
 
-    doc.addFont(
-      '/assets/pdf-report/fonts/NotoSans-Bold.ttf',
-      'NotoSans',
-      'bold'
-    );
+    doc.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal');
+
+    doc.addFileToVFS('NotoSans-Bold.ttf', NotoSansBold);
+
+    doc.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold');
   }
 }
