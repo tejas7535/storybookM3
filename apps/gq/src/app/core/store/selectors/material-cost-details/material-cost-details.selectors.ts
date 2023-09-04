@@ -2,6 +2,7 @@ import {
   MaterialCostDetails,
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
+import { getPriceUnit, roundValue } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
 import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
@@ -28,6 +29,9 @@ export const getMaterialCostUpdateAvl = createSelector(
   ): boolean =>
     materialCostDetails &&
     (materialCostDetails.gpcYear !== selectedQuotationDetail?.gpcYear ||
-      materialCostDetails.gpc !== selectedQuotationDetail?.gpc || // for GPC the year might be the same but the value could differ
+      roundValue(
+        materialCostDetails.gpc,
+        getPriceUnit(selectedQuotationDetail)
+      ) !== selectedQuotationDetail?.gpc || // for GPC the year might be the same but the value could differ -> value is rounded
       materialCostDetails.sqvDate !== selectedQuotationDetail?.sqvDate)
 );
