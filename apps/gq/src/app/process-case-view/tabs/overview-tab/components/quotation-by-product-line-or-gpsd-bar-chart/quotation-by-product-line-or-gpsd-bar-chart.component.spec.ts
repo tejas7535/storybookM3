@@ -21,12 +21,14 @@ describe('QuotationByProductLineBarChartComponent', () => {
       name: 'name1',
       share: '5%',
       value: 15,
+      numberOfItems: 1,
     },
     {
       gpm: '10',
       name: 'name2',
       share: '5%',
       value: 20,
+      numberOfItems: 1,
     },
   ];
   const createComponent = createComponentFactory({
@@ -67,7 +69,13 @@ describe('QuotationByProductLineBarChartComponent', () => {
     test('should recalculate the options', () => {
       component['getOptions'] = jest.fn();
       spectator.setInput('data', [
-        { gpm: '1', name: '!', share: '12', value: 15 },
+        {
+          gpm: '1',
+          name: '!',
+          share: '12',
+          value: 15,
+          numberOfItems: 1,
+        },
       ]);
       spectator.detectChanges();
       expect(component['getOptions']).toHaveBeenCalled();

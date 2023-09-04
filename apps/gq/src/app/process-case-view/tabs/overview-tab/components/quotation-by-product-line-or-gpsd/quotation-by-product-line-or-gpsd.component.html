@@ -18,9 +18,13 @@
         ? (gpsdBarChartData$ | ngrxPush)?.length
         : (plBarChartData$ | ngrxPush)?.length
     }}</span>
-    <span class="w-[90px] text-body-2 text-medium-emphasis">{{
-      t('numberOfItemsLabel')
-    }}</span>
+    <span class="w-[120px] text-body-2 text-medium-emphasis">
+      {{
+        selectedChartType === chartType.GPSD
+          ? t('differentGPSDLabel')
+          : t('differentProductLinesLabel')
+      }}
+    </span>
   </div>
   <gq-quotation-by-product-line-or-gpsd-bar-chart
     [data]="

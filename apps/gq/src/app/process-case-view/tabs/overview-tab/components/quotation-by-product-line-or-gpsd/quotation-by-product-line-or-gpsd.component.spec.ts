@@ -91,12 +91,14 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
                 gpm: '17 %',
                 value: 100,
                 share: '20%',
+                numberOfItems: 1,
               } as BarChartData,
               {
                 name: 'GPSD02',
                 gpm: '17 %',
                 value: 100,
                 share: '20%',
+                numberOfItems: 1,
               } as BarChartData,
             ],
           })
@@ -110,6 +112,7 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
                 gpm: '17 %',
                 value: 100,
                 share: '20%',
+                numberOfItems: 2,
               } as BarChartData,
             ],
           })

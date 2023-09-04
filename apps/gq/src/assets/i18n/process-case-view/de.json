@@ -135,14 +135,16 @@
       "priceDeviationCardTitle": "Preisunterschied",
       "priceDeviationCardSubtitle": "zum letzten Kundenpreis",
       "quotationByProductionLineOrGPSD": {
-        "titlePL": "Angebot nach Produktlinien",
-        "titleGPSD": "Angebot nach GPSD",
+        "titlePL": "GQ Case nach Produktlinie",
+        "titleGPSD": "GQ Case nach GPSD",
         "dropDownPL": "nach Produktlinien",
         "dropDownGPSD": "nach GPSD",
-        "numberOfItemsLabel": "Anzahl Positionen",
+        "differentProductLinesLabel": "Unterschiedliche Produktlinien",
+        "differentGPSDLabel": "Unterschiedliche GPSD",
         "tooltip": {
           "gpmLabel": "GPM %",
-          "shareLabel": "Anteil"
+          "shareLabel": "Anteil",
+          "numberOfItemsLabel": "Anzahl der Positonen"
         }
       },
       "approvalCockpit": {

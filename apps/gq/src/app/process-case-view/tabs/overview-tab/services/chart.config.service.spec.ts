@@ -19,12 +19,14 @@ describe('ChartConfigService', () => {
       name: 'name1',
       share: '5%',
       value: 15,
+      numberOfItems: 1,
     },
     {
       gpm: '10',
       name: 'name2',
       share: '5%',
       value: 20,
+      numberOfItems: 1,
     },
   ];
 
@@ -169,7 +171,7 @@ describe('ChartConfigService', () => {
       ];
       const params = 'name1';
       const result = service.getLegendFormatter(params);
-      expect(result).toBe('name1 5%');
+      expect(result).toBe('name1  5%');
     });
   });
 });

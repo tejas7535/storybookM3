@@ -104,11 +104,12 @@ export class QuotationByProductLineOrGpsdComponent
         gpm: this.transformationService.transformPercentage(calc.gpm),
         value: calc.netValue,
         share: this.calculateShare(calc, totalValues),
+        numberOfItems: groupedDetails.length,
       };
       result.push(barItem);
     });
 
-    return result.sort((a, b) => a.share.localeCompare(b.share));
+    return result.sort((a, b) => b.share.localeCompare(a.share));
   }
 
   /**

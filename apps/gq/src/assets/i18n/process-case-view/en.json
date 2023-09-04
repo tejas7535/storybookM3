@@ -135,14 +135,16 @@
       "priceDeviationCardTitle": "Price Deviation",
       "priceDeviationCardSubtitle": "From last Customer Price",
       "quotationByProductionLineOrGPSD": {
-        "titlePL": "Quotation by Product Line",
-        "titleGPSD": "Quotation by GPSD",
+        "titlePL": "GQ Case by Product Line",
+        "titleGPSD": "GQ Case by GPSD",
         "dropDownPL": "By Product Line",
         "dropDownGPSD": "By GPSD",
-        "numberOfItemsLabel": "Total Number of Items",
+        "differentProductLinesLabel": "Different Product Lines",
+        "differentGPSDLabel": "Different GPSD",
         "tooltip": {
           "gpmLabel": "GPM %",
-          "shareLabel": "Share"
+          "shareLabel": "Share",
+          "numberOfItemsLabel": "Number of Items"
         }
       },
       "approvalCockpit": {

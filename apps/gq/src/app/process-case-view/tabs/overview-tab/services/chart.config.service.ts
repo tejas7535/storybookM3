@@ -15,26 +15,26 @@ import { BarChartData } from '../models/bar-chart-data.model';
 })
 export class ChartConfigService {
   COLORS: string[] = [
-    '#B2CFB3',
-    '#73B281',
-    '#E2EDD0',
     '#C4DB9B',
-    '#A1C861',
-    '#005E46',
-    '#4E8C7A',
+    '#00445F',
+    '#E2EDD0',
     '#A7C3B9',
-    '#D0D0D0',
     '#9D9D9D',
+    '#4E8C7A',
+    '#476E75',
     '#646464',
+    '#A1C861',
+    '#73B281',
     '#A0B6C8',
     '#477791',
-    '#00445F',
     '#A1CADB',
-    '#1C98B5',
     '#BDCDD1',
-    '#7F9CA3',
-    '#476E75',
+    '#B2CFB3',
+    '#005E46',
+    '#1C98B5',
     '#E7EFE6',
+    '#7F9CA3',
+    '#D0D0D0',
   ];
 
   LEGEND: LegendComponentOption = {
@@ -130,10 +130,23 @@ export class ChartConfigService {
   getTooltipFormatter = (param: any): string => {
     const data: BarChartData = param.data;
     const item = `
-    <div class="flex w-[200px] flex-col p-2">
+    <div class="flex w-[250px] flex-col p-2">
     <span class="text-body-2 font-semibold text-high-emphasis">${
       data.name
     }</span>
+
+    <div class="flex flex-row justify-between">
+    <div class="flex flex-row items-center">
+    <span
+    style ="${this.tooltipLegendStyle} background-color: ${param.color};"
+    ></span>
+      <span class="text-body-2 text-medium-emphasis">${translate(
+        `processCaseView.tabs.overview.quotationByProductionLineOrGPSD.tooltip.numberOfItemsLabel`
+      )}</span>
+      </div>
+      <span class="text-body-2 text-high-emphasis">${data.numberOfItems}</span>
+    </div>
+
     <div class="flex flex-row justify-between">
       <div class="flex flex-row items-center">
       <span style ="${this.tooltipLegendStyle} background-color: ${
@@ -170,7 +183,7 @@ export class ChartConfigService {
       seriesFound > -1
         ? (this.seriesConfig[seriesFound].data as BarChartData[])
         : undefined;
-    const item = `${param} ${data ? data[0].share : ''}`;
+    const item = `${param}  ${data ? data[0].share : ''}`;
 
     return item;
   };

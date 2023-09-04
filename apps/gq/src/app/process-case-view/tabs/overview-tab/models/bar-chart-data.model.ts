@@ -3,6 +3,7 @@ export class BarChartData {
     public name: string,
     public value: number,
     public share: string,
-    public gpm: string
+    public gpm: string,
+    public numberOfItems: number
   ) {}
 }
