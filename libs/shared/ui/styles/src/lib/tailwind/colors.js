@@ -11,7 +11,6 @@ const colors = {
 
   'background-dark': '#f5f5f5',
   surface: '#ffffff',
-  'error-red': '#a31739',
 
   // Color Accent
   'nordic-blue': '#4398af',
@@ -30,9 +29,28 @@ const colors = {
   'light-low-emphasis': 'rgba(255, 255, 255, 0.38)',
   'light-disabled': 'rgba(0, 0, 0, 0.38)',
 
-  // Special Text Color
-  'error-text': '#a31739',
-  'link-text': '#00893d',
+  // Special Colors
+  'icon-error': '#cb0b15',
+  'icon-link': '#00893d',
+  'icon-info': '#1c98b5',
+  'icon-warning': '#e9b300',
+  'icon-success': '#a1c861',
+
+  'border-error': '#cb0b15',
+  'border-info': '#1c98b5',
+  'border-warning': '#e9b300',
+  'border-success': '#a1c861',
+
+  'text-error': '#a30f0c',
+  'text-link': '#00893d',
+  'text-info': '#00596e',
+  'text-warning': '#814e00',
+  'text-success': '#517626',
+
+  'bg-error': '#fceee8',
+  'bg-info': '#f0f6fa',
+  'bg-warning': '#fffbef',
+  'bg-success': '#f8fbf4',
 
   // Outline
   border: 'rgba(0, 0, 0, 0.12)',

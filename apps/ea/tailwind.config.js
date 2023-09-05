@@ -33,21 +33,11 @@ module.exports = {
         secondary: secondaryColorPalette,
       },
       backgroundColor: {
-        warning: '#FFFBEF',
-        info: '#F0F6FA',
         inactive: '#DEDEDE',
-      },
-      borderColor: {
-        warning: '#E9B300',
-        info: '#1C98B5',
       },
       textColor: {
         primary: colors.primary,
         secondary: secondaryColorPalette,
-        'warning-icon': '#E9B300',
-        'info-icon': '#1C98B5',
-        warning: '#814E00',
-        info: '#00596E',
       },
     },
   },

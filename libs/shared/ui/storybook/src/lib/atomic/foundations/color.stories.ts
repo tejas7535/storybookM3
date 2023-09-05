@@ -16,7 +16,6 @@ const colors = {
 
   'background-dark': '#f5f5f5',
   surface: '#ffffff',
-  'error-red': '#a31739',
 
   // Color Accent
   'nordic-blue': '#4398af',
@@ -35,9 +34,28 @@ const colors = {
   'light-low-emphasis': 'rgba(255, 255, 255, 0.38)',
   'light-disabled': 'rgba(0, 0, 0, 0.38)',
 
-  // Special Text Color
-  'error-text': '#a31739',
-  'link-text': '#00893d',
+  // Special Colors
+  'icon-error': '#cb0b15',
+  'icon-link': '#00893d',
+  'icon-info': '#1c98b5',
+  'icon-warning': '#e9b300',
+  'icon-success': '#a1c861',
+
+  'border-error': '#cb0b15',
+  'border-info': '#1c98b5',
+  'border-warning': '#e9b300',
+  'border-success': '#a1c861',
+
+  'text-error': '#a30f0c',
+  'text-link': '#00893d',
+  'text-info': '#00596e',
+  'text-warning': '#814e00',
+  'text-success': '#517626',
+
+  'bg-error': '#fceee8',
+  'bg-info': '#f0f6fa',
+  'bg-warning': '#fffbef',
+  'bg-success': '#f8fbf4',
 
   // Outline
   border: 'rgba(0, 0, 0, 0.12)',
@@ -72,7 +90,10 @@ const Template: StoryFn = (args) => ({
       <div class="mat-elevation-z0 bg-secondary-900"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
       <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
       <div class="mat-elevation-z0 bg-surface"><div class="p-4 pt-[60px]">bg-surface {{colors.surface}}</div></div>
-      <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors['error-red']}}</div></div>
+      <div class="mat-elevation-z0 bg-success"><div class="p-4 pt-[60px]">bg-success {{colors['bg-success']}}</div></div>
+      <div class="mat-elevation-z0 bg-info"><div class="p-4 pt-[60px]">bg-info {{colors['bg-info']}}</div></div>
+      <div class="mat-elevation-z0 bg-warning"><div class="p-4 pt-[60px]">bg-warning {{colors['bg-warning']}}</div></div>
+      <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors['bg-error']}}</div></div>
       <div class="mat-elevation-z0 bg-orange"><div class="p-4 pt-[60px]">bg-orange {{colors.orange}}</div></div>
       
       <h4 class="mt-20">Color Accent</h4>
@@ -96,27 +117,31 @@ const Template: StoryFn = (args) => ({
 
       <h4 class="mt-20">Special Text Color</h4>
       <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
-        <div class="p-4 pt-[60px] text-error">text-error</div>
-        <div class="p-4 pt-[60px] text-link">text-link</div>
-        <div class="p-4 pt-[60px] text-info">text-info</div>
-        <div class="p-4 pt-[60px] text-warning">text-warning</div>
+      <div class="p-4 pt-[60px] text-link">text-link</div>
+      <div class="p-4 pt-[60px] text-success">text-success</div>
+      <div class="p-4 pt-[60px] text-info">text-info</div>
+      <div class="p-4 pt-[60px] text-warning">text-warning</div>
+      <div class="p-4 pt-[60px] text-error">text-error</div>
       </div>
 
       <h4 class="mt-20">Outline</h4>
-      <div class="mat-elevation-z0 bg-secondary border border-border">
-        <div class="p-4 pt-[60px]">border-border</div>
+      <div class="mat-elevation-z0 bg-secondary border border-border mb-1">
+        <div class="p-4 pt-[60px] ">border-border {{ colors['border'] }}</div>
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-primary">
-        <div class="p-4 pt-[60px]">border-primary</div>
+      <div class="mat-elevation-z0 bg-secondary border border-primary mb-1">
+        <div class="p-4 pt-[60px]">border-primary {{ colors['primary'] }}</div>
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-info">
-        <div class="p-4 pt-[60px]">border-info</div>
+      <div class="mat-elevation-z0 bg-secondary border border-success mb-1">
+        <div class="p-4 pt-[60px]">border-success {{ colors['border-success'] }}</div>
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-warning">
-            <div class="p-4 pt-[60px]">border-warning</div>    
+      <div class="mat-elevation-z0 bg-secondary border border-info mb-1">
+        <div class="p-4 pt-[60px]">border-info {{ colors['border-info'] }}</div>
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-attention">
-        <div class="p-4 pt-[60px]">border-attention</div>    
+      <div class="mat-elevation-z0 bg-secondary border border-warning mb-1">
+            <div class="p-4 pt-[60px]">border-warning {{ colors['border-warning'] }}</div>    
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-error mb-1">
+            <div class="p-4 pt-[60px]">border-error {{ colors['border-error'] }}</div>    
       </div>
     </section>
   `,

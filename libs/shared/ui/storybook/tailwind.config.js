@@ -11,13 +11,6 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname, '../../**/*.{ts,html}'),
   ],
   theme: {
-    extend: {
-      backgroundColor: {
-        info: '#F0F6FA',
-      },
-      textColor: {
-        'info-icon': '#1C98B5',
-      },
-    },
+    extend: {},
   },
 };
