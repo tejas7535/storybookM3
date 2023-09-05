@@ -200,7 +200,14 @@
       "BPFI": "Overrolling frequency on inner ring",
       "BSF": "Overrolling frequency on rolling element",
       "RPFB": "Ring pass frequency on rolling element",
-      "FTF": "Speed of rolling element set"
+      "FTF": "Speed of rolling element set",
+      "short": {
+        "BPFO": "On outer ring",
+        "BPFI": "On inner ring",
+        "BSF": "On rolling element",
+        "RPFB": "Ring pass frequency on rolling element",
+        "FTF": "Speed of rolling element set"
+      }
     }
   },
   "basicFrequencies": {

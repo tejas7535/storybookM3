@@ -169,9 +169,11 @@ export const getCalculationResultPreviewData = createSelector(
       previewData.push({
         title: 'overrollingFrequency',
         svgIcon: 'airwaves',
-        values: overrollingResult.filter((valueItem) =>
-          OverrollingPreviewKeys.includes(valueItem.title)
-        ),
+        values: overrollingResult
+          .filter((valueItem) =>
+            OverrollingPreviewKeys.includes(valueItem.title)
+          )
+          .map((item) => ({ ...item, title: `short.${item.title}` })),
       });
     }
 
