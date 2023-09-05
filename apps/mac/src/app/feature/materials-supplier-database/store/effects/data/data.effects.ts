@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, of, switchMap, tap, timeout } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -73,7 +73,6 @@ export class DataEffects {
         } & TypedAction<'[MSD - Data] Fetch SAP Materials'>;
 
         return this.msdDataService.fetchSAPMaterials(sapAction.request).pipe(
-          timeout(3000),
           map((result: SAPMaterialsResponse) =>
             DataActions.fetchSAPMaterialsSuccess({
               ...result,

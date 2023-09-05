@@ -1,6 +1,6 @@
 import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
-import { delay, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -258,40 +258,6 @@ describe('Data Effects', () => {
         expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
           startRow: 0,
         } as SAPMaterialsRequest);
-      })
-    );
-
-    it(
-      'should fetch sap materials and return failure action on timeout',
-      marbles((m) => {
-        msdDataFacade.navigation$ = of({
-          materialClass: MaterialClass.SAP_MATERIAL,
-          navigationLevel: NavigationLevel.MATERIAL,
-        });
-
-        action = fetchSAPMaterials({
-          request: { startRow: 0 } as SAPMaterialsRequest,
-        });
-        actions$ = m.hot('-a', { a: action });
-
-        // jest.useFakeTimers();
-
-        msdDataService.fetchSAPMaterials = jest.fn(
-          // jest.advanceTimersByTime(5000);
-          () => of({} as SAPMaterialsResponse).pipe(delay(5000))
-        );
-
-        const result = fetchSAPMaterialsFailure({ startRow: 0 });
-        const expected = m.cold('3001ms (-b)', { b: result });
-
-        m.expect(effects.fetchMaterials$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
-          startRow: 0,
-        } as SAPMaterialsRequest);
-
-        // jest.useRealTimers();
       })
     );
   });
