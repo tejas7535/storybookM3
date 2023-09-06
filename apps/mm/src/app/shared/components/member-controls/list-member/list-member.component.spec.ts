@@ -16,6 +16,7 @@ import {
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
+import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import {
   PictureCardActionComponent,
@@ -238,6 +239,41 @@ describe('ListMemberComponent', () => {
 
       expect(component.control.value).toEqual(ops[0].id);
       expect(component.meta.control.get('value').value).toEqual(ops[0].id);
+    });
+  });
+
+  describe('when filtering options', () => {
+    it('should filter option which match', () => {
+      const option: StringOption = {
+        id: '1',
+        title: 'Test 1',
+      };
+
+      const value = '  tEsT 1   ';
+
+      expect(component.filterFn(option, value)).toBe(true);
+    });
+
+    it('should filter option which not match', () => {
+      const option: StringOption = {
+        id: '1',
+        title: 'Test 1',
+      };
+
+      const value = '  tEsT 2   ';
+
+      expect(component.filterFn(option, value)).toBe(false);
+    });
+
+    it('should return true for empty / not provided filter values', () => {
+      const option: StringOption = {
+        id: '1',
+        title: 'Test 1',
+      };
+
+      const value = '';
+
+      expect(component.filterFn(option, value)).toBe(true);
     });
   });
 

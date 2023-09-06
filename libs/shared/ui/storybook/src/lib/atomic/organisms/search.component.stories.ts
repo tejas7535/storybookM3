@@ -122,6 +122,16 @@ Primary.args = {
   loading: false,
   error: false,
   noResultsText: 'No Results',
+  filterFn: (option?: StringOption, value?: string) => {
+    if (!value) {
+      return true;
+    }
+
+    return option?.title
+      ?.toLowerCase()
+      .trim()
+      .includes(value.toLowerCase().trim());
+  },
 };
 
 Primary.argTypes = {

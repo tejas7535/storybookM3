@@ -107,6 +107,17 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     }
   }
 
+  public filterFn(option?: StringOption, value?: string): boolean {
+    if (!value) {
+      return true;
+    }
+
+    return option?.title
+      ?.toLowerCase()
+      .trim()
+      .includes(value.toLowerCase().trim());
+  }
+
   private connectRuntime(): void {
     const runtime = this.meta.runtime;
     if (runtime) {
