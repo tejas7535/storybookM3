@@ -74,7 +74,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     { provide: OverlayContainer, useClass: AppOverlayContainer },
     {
       provide: PERSON_RESPONSIBLE,
-      useValue: 'Max Mustermann',
+      useValue: 'Schaeffler Technologies AG & Co. KG',
     },
     {
       provide: TERMS_OF_USE,

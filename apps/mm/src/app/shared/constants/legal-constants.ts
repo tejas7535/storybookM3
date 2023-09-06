@@ -1,2 +1,1 @@
-export const responsiblePerson =
-  'Gerhard Zintl</br>Schaeffler Technologies AG & Co. KG';
+export const responsiblePerson = 'Schaeffler Technologies AG & Co. KG';
