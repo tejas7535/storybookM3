@@ -78,7 +78,14 @@
       "sqv": "SQV",
       "productionPlant": "Production Plant",
       "productionSegment": "Production Segment",
-      "refreshCosts": "Refresh costs",
+      "updateCosts": {
+        "tooltip": "Refresh costs",
+        "confirmDialogTitle": "Refresh costs?",
+        "confirmDialogMessage": "Do you really want to refresh the costs?",
+        "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> und <b>GQ-Price</b>.",
+        "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
+      },
       "costsUpToDate": "Costs are up to date"
     },
     "materialComparableCostDetails": {

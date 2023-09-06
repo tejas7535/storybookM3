@@ -7,7 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { Quotation, SAP_SYNC_STATUS } from '@gq/shared/models';
@@ -1244,6 +1244,47 @@ describe('ActiveCaseEffectss', () => {
       expect(translate).toHaveBeenLastCalledWith(
         'shared.snackBarMessages.uploadToSapSync.failed'
       );
+    });
+  });
+
+  describe('updateCosts$', () => {
+    test(
+      'should return updateCostsSuccess when REST call is successful',
+      marbles((m) => {
+        action = ActiveCaseActions.updateCosts({ gqPosId: '123' });
+        quotationDetailsService.updateCostData = jest.fn(() => response);
+        snackBar.open = jest.fn();
+
+        const quotation = QUOTATION_MOCK;
+        const result = ActiveCaseActions.updateCostsSuccess({
+          updatedQuotation: quotation,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: quotation });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.updateCosts$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.updateCostData).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test('should return updateCostsFailure on REST error', () => {
+      action = ActiveCaseActions.updateCosts({ gqPosId: '123' });
+      quotationDetailsService.updateCostData = jest.fn(() => response);
+      const result = ActiveCaseActions.updateCostsFailure({
+        errorMessage,
+      });
+
+      actions$ = of(action);
+      const response = throwError(errorMessage);
+
+      effects.updateCosts$.subscribe((res) => {
+        expect(res).toEqual(result);
+      });
+      expect(quotationDetailsService.updateCostData).toHaveBeenCalledTimes(1);
     });
   });
   // eslint-disable-next-line max-lines

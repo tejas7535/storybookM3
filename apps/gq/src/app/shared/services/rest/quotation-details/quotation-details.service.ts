@@ -33,6 +33,8 @@ export class QuotationDetailsService {
   private readonly PATH_EXTENDED_SAP_PRICE_DETAILS =
     'sap-price-condition-details';
 
+  private readonly PATH_UPDATE_COST_DATA = 'update-cost-data';
+
   constructor(private readonly http: HttpClient) {}
 
   public addQuotationDetails(
@@ -107,6 +109,13 @@ export class QuotationDetailsService {
   getExtendedSapPriceConditionDetails(quotationNumber: number) {
     return this.http.get<ExtendedSapPriceConditionDetail[]>(
       `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${quotationNumber}/${this.PATH_EXTENDED_SAP_PRICE_DETAILS}`
+    );
+  }
+
+  updateCostData(gqPositionId: string): Observable<Quotation> {
+    return this.http.put<Quotation>(
+      `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_UPDATE_COST_DATA}`,
+      {}
     );
   }
 }

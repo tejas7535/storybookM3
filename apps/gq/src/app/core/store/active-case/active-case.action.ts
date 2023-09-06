@@ -109,5 +109,8 @@ export const ActiveCaseActions = createActionGroup({
     'Update Quotation Status by ApprovalEvent': props<{
       quotationStatus: QuotationStatus;
     }>(),
+    'Update Costs': props<{ gqPosId: string }>(),
+    'Update Costs Success': props<{ updatedQuotation: Quotation }>(),
+    'Update Costs Failure': props<{ errorMessage: string }>(),
   },
 });

@@ -391,7 +391,8 @@
         "sync": "Die ausgewählten Positionen wurden in SAP gespeichert",
         "partially": "Die ausgewählten Positionen wurden terilweise in SAP gespeichert",
         "failed": "Update in SAP fehlgeschlagen"
-      }
+      },
+      "costsUpdated": "Kosten erfolgreich aktualisiert"
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"

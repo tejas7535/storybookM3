@@ -78,7 +78,14 @@
       "sqv": "SAW",
       "productionPlant": "Produktionswerk",
       "productionSegment": "Produktionssegment",
-      "refreshCosts": "Kosten aktualisieren",
+      "updateCosts": {
+        "tooltip": "Kosten aktualisieren",
+        "confirmDialogTitle": "Kosten aktualisieren?",
+        "confirmDialogMessage": "Möchten Sie die Kosten aktualisieren?",
+        "confirmDialogWarning": "Dies führt zu einer Neuberechnung von <b>KHK, SAW </b> und <b>GQ-Preis</b>.",
+        "confirmButton": "Bestätigen",
+        "cancelButton": "Abbrechen"
+      },
       "costsUpToDate": "Die Kosten sind aktuell"
     },
     "materialComparableCostDetails": {

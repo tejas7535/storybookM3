@@ -16,4 +16,5 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   quotation: QUOTATION_MOCK,
   removeQuotationDetailsIds: [],
   simulatedItem: undefined,
+  updateCostsLoading: false,
 };

@@ -723,5 +723,30 @@ describe('Active Case Reducer', () => {
       expect(state.quotation.status).toBe(QuotationStatus.REJECTED);
     });
   });
+
+  describe('updateCostData', () => {
+    test('should set updateCostsLoading to true', () => {
+      const action = ActiveCaseActions.updateCosts({ gqPosId: '1234' });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.updateCostsLoading).toEqual(true);
+    });
+    test('should set updateCostsLoading to false', () => {
+      const action = ActiveCaseActions.updateCostsSuccess({
+        updatedQuotation: QUOTATION_MOCK,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.updateCostsLoading).toEqual(false);
+    });
+
+    test('should set updateCostsLoading to false and set errorMessage', () => {
+      const action = ActiveCaseActions.updateCostsFailure({ errorMessage });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.updateCostsLoading).toEqual(false);
+      expect(state.quotationLoadingErrorMessage).toEqual(errorMessage);
+    });
+  });
 });
 // eslint-disable-next-line max-lines

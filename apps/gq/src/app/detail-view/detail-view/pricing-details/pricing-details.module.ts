@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
@@ -19,10 +21,10 @@ import { MaterialComparableCostDetailsComponent } from './material-comparable-co
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
+import { UpdateCostsConfirmModalComponent } from './production-cost-details/update-costs-confirm-modal/update-costs-confirm-modal.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
 import { StockAvailabilityDetailsComponent } from './stock-availability-details/stock-availability-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
-
 @NgModule({
   declarations: [
     PricingDetailsComponent,
@@ -32,6 +34,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     RelocationCostDetailsComponent,
     StockAvailabilityDetailsComponent,
     LastCustomerPriceInformationDetailsComponent,
+    UpdateCostsConfirmModalComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +49,8 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     KpiStatusCardComponent,
     MatIconModule,
     MatTooltipModule,
+    MatButtonModule,
+    DialogHeaderModule,
   ],
   providers: [
     {

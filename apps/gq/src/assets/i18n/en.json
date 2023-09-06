@@ -391,7 +391,8 @@
         "full": "The item selection was saved in SAP",
         "partially": "The item selection was partially saved in SAP",
         "failed": "Failed to save the item selection in SAP"
-      }
+      },
+      "costsUpdated": "Costs updated successfully"
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"

@@ -188,4 +188,20 @@ describe('QuotationDetailsService', (): void => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
+
+  describe('updateCostData', () => {
+    test('should call', () => {
+      const gqPositionId = '1234';
+      service
+        .updateCostData(gqPositionId)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_UPDATE_COST_DATA']}`
+      );
+      req.flush(gqPositionId);
+
+      expect(req.request.method).toBe(HttpMethod.PUT);
+    });
+  });
 });

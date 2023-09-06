@@ -34,6 +34,7 @@ export interface ActiveCaseState {
   updateLoading: boolean;
   selectedQuotationDetails: string[];
   removeQuotationDetailsIds: string[];
+  updateCostsLoading: boolean;
 }
 
 export const initialState: ActiveCaseState = {
@@ -51,6 +52,7 @@ export const initialState: ActiveCaseState = {
   updateLoading: false,
   selectedQuotationDetails: [],
   removeQuotationDetailsIds: [],
+  updateCostsLoading: false,
 };
 
 export const activeCaseFeature = createFeature({
@@ -431,6 +433,29 @@ export const activeCaseFeature = createFeature({
           ...state.quotation,
           status: quotationStatus,
         },
+      })
+    ),
+    on(
+      ActiveCaseActions.updateCosts,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        updateCostsLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateCostsSuccess,
+      (state: ActiveCaseState, { updatedQuotation }): ActiveCaseState => ({
+        ...state,
+        quotation: { ...updatedQuotation },
+        updateCostsLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateCostsFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoadingErrorMessage: errorMessage,
+        updateCostsLoading: false,
       })
     )
   ),

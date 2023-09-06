@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { from, of, timer } from 'rxjs';
 import {
   catchError,
+  concatMap,
   filter,
   map,
   mergeMap,
@@ -507,6 +508,31 @@ export class ActiveCaseEffects {
                 of(ActiveCaseActions.createSapQuoteFailure({ errorMessage }))
               )
             )
+      )
+    );
+  });
+
+  updateCosts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.updateCosts),
+      concatMap((action: ReturnType<typeof ActiveCaseActions.updateCosts>) =>
+        this.quotationDetailsService.updateCostData(action.gqPosId).pipe(
+          tap((item: Quotation) =>
+            addCalculationsForDetails(item.quotationDetails)
+          ),
+          tap(() => {
+            const successMessage = translate(
+              'shared.snackBarMessages.costsUpdated'
+            );
+            this.snackBar.open(successMessage);
+          }),
+          map((updatedQuotation: Quotation) =>
+            ActiveCaseActions.updateCostsSuccess({ updatedQuotation })
+          ),
+          catchError((errorMessage) =>
+            of(ActiveCaseActions.updateCostsFailure({ errorMessage }))
+          )
+        )
       )
     );
   });
