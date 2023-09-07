@@ -3,7 +3,10 @@
 >
   <gq-kpi-status-card [title]="t('title')">
     <div *ngIf="quotationDetail">
-      <span class="absolute right-4 top-5">
+      <span
+        *ngIf="userHasGPCRole && userHasSQVRole"
+        class="absolute right-4 top-5"
+      >
         <mat-icon
           *ngIf="materialCostUpdateAvl; else isUpToDate"
           (click)="updateCosts()"
@@ -21,7 +24,7 @@
         </ng-template>
       </span>
 
-      <gq-label-text>
+      <gq-label-text *ngIf="userHasGPCRole">
         <span label> {{ t('gpc') }}</span>
         <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
         <ng-container *ngIf="quotationDetail.gpc" text>
@@ -36,7 +39,7 @@
           </ng-container>
         </ng-container>
       </gq-label-text>
-      <gq-label-text>
+      <gq-label-text *ngIf="userHasSQVRole">
         <span label>{{ t('sqv') }}</span>
         <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
         <ng-container *ngIf="quotationDetail.sqv" text>

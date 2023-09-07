@@ -7,6 +7,8 @@ import {
   getMaterialComparableCostsLoading,
   getMaterialSalesOrgLoading,
   getPlantMaterialDetailsLoading,
+  userHasGPCRole,
+  userHasSQVRole,
 } from '@gq/core/store/selectors';
 import {
   PlantMaterialDetail,
@@ -28,6 +30,8 @@ export class PricingDetailsComponent implements OnInit {
   plantMaterialDetailsLoading$: Observable<boolean>;
   productionPlantStochasticType: string;
   supplyPlantStochasticType: string;
+  userHasGPCRole$: Observable<boolean>;
+  userHasSQVRole$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
 
@@ -57,5 +61,8 @@ export class PricingDetailsComponent implements OnInit {
     this.plantMaterialDetailsLoading$ = this.store.select(
       getPlantMaterialDetailsLoading
     );
+
+    this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
+    this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
   }
 }

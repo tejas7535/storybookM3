@@ -13,6 +13,9 @@ export class ProductionCostDetailsComponent {
   @Input() currency: string;
   @Input() materialCostUpdateAvl: boolean;
 
+  @Input() userHasGPCRole: boolean;
+  @Input() userHasSQVRole: boolean;
+
   constructor(private readonly matDialog: MatDialog) {}
 
   updateCosts(): void {

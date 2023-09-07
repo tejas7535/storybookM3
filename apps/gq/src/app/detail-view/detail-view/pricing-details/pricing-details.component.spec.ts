@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { UserRoles } from '@gq/shared/constants';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
@@ -10,6 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   ACTIVE_CASE_STATE_MOCK,
+  AUTH_STATE_MOCK,
   MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
   MATERIAL_COST_DETAILS_STATE_MOCK,
   MATERIAL_SALES_ORG_STATE_MOCK,
@@ -40,6 +42,14 @@ describe('PricingDetailsComponent', () => {
           materialComparableCosts: MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
           plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
           materialCostDetails: MATERIAL_COST_DETAILS_STATE_MOCK,
+          'azure-auth': {
+            ...AUTH_STATE_MOCK,
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.COST_GPC, UserRoles.COST_SQV],
+              },
+            },
+          },
         },
       }),
     ],
@@ -56,7 +66,7 @@ describe('PricingDetailsComponent', () => {
   });
   describe('ngOnInit', () => {
     test(
-      'should initalize observables',
+      'should initialize observables',
       marbles((m) => {
         component.ngOnInit();
 
@@ -74,6 +84,14 @@ describe('PricingDetailsComponent', () => {
         );
         m.expect(component.plantMaterialDetailsLoading$).toBeObservable('a', {
           a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetailsLoading,
+        });
+
+        m.expect(component.userHasGPCRole$).toBeObservable('a', {
+          a: true,
+        });
+
+        m.expect(component.userHasSQVRole$).toBeObservable('a', {
+          a: true,
         });
       })
     );
