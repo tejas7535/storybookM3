@@ -9,4 +9,6 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 export class LastCustomerPriceInformationDetailsComponent {
   @Input() quotationDetail: QuotationDetail;
   @Input() currency: string;
+  @Input() userHasGPCRole: boolean;
+  @Input() userHasSQVRole: boolean;
 }

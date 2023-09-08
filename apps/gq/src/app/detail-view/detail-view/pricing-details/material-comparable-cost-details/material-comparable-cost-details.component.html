@@ -13,7 +13,7 @@
   >
     <div class="mt-4" *ngIf="materialComparableCost">
       <gq-kpi-status-card [title]="t('title', { number: i + 1 })">
-        <gq-label-text>
+        <gq-label-text *ngIf="userHasGPCRole$ | ngrxPush">
           <span label>{{ t('gpc') }}</span>
           <span text>{{
             materialComparableCost.gpc
@@ -23,7 +23,7 @@
                 : sapPriceUnit
           }}</span>
         </gq-label-text>
-        <gq-label-text>
+        <gq-label-text *ngIf="userHasSQVRole$ | ngrxPush">
           <span label>{{ t('sqv') }}</span>
           <span text>{{
             materialComparableCost.sqv

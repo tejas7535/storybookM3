@@ -41,6 +41,8 @@
               *ngIf="quotationDetail.lastCustomerPrice"
               [quotationDetail]="quotationDetail"
               [currency]="currency"
+              [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+              [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
             ></gq-last-customer-price-information-details>
           </div>
           <div class="mt-4 w-full md:mt-0 md:w-1/2">

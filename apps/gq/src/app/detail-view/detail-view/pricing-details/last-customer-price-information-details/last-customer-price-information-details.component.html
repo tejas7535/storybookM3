@@ -29,11 +29,11 @@
           {{ quotationDetail.material.baseUoM | uom }}
         </span>
       </gq-label-text>
-      <gq-label-text>
+      <gq-label-text *ngIf="userHasGPCRole">
         <span label>{{ t('gpi') }}</span>
         <span text>{{ quotationDetail.gpi | percentage }}</span>
       </gq-label-text>
-      <gq-label-text>
+      <gq-label-text *ngIf="userHasSQVRole">
         <span label>{{ t('gpm') }}</span>
         <span text>{{ quotationDetail.gpm | percentage }}</span>
       </gq-label-text>
