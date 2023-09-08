@@ -30,6 +30,7 @@
       "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed.",
       "snackbar": {
         "startWorkflow": "Approval workflow was started",
+        "startWorkflowAutoApproval": "Quotation was auto approved",
         "informationSaved": "Quotation approval information was saved",
         "APPROVE_QUOTATION": "Quotation was approved",
         "REJECT_QUOTATION": "Quotation was rejected",

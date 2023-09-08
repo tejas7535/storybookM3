@@ -315,6 +315,88 @@ describe('ApprovalEffects', () => {
     );
 
     test(
+      'should open snackbar with autoApproval Message',
+      marbles((m) => {
+        snackBar.open = jest.fn();
+
+        const sapId = '123456';
+        const quotationIdentifier = {
+          gqId: 999,
+          customerNumber: '20577',
+          salesOrg: '7895',
+        };
+
+        const approvalWorkflowData = {
+          firstApprover: 'APPR1',
+          secondApprover: 'APPR2',
+          thirdApprover: 'APPR3',
+          infoUser: 'CC00',
+          comment: 'test comment',
+          projectInformation: 'project info',
+        };
+
+        const approvalInformation: ApprovalCockpitData = {
+          approvalGeneral: {
+            ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+            ...approvalWorkflowData,
+            gqId: quotationIdentifier.gqId,
+            sapId,
+          },
+          approvalEvents: [
+            {
+              id: 1,
+              gqId: quotationIdentifier.gqId,
+              sapId,
+              userId: approvalWorkflowData.firstApprover,
+              eventDate: '2023-06-07T11:12:30Z',
+              quotationStatus: QuotationStatus.IN_APPROVAL,
+              event: ApprovalEventType.STARTED,
+              comment: approvalWorkflowData.comment,
+              verified: true,
+              user: undefined,
+            },
+          ],
+        };
+
+        store.overrideSelector(getSapId, sapId);
+        store.overrideSelector(
+          activeCaseFeature.selectQuotationIdentifier,
+          quotationIdentifier
+        );
+        store.overrideSelector(approvalFeature.getApprovalCockpitInformation, {
+          ...APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral,
+          autoApproval: true,
+        });
+
+        const triggerApprovalWorkflowSpy = jest.spyOn(
+          approvalService,
+          'triggerApprovalWorkflow'
+        );
+
+        action = ApprovalActions.triggerApprovalWorkflow({
+          approvalWorkflowData,
+        });
+
+        const result = ApprovalActions.triggerApprovalWorkflowSuccess({
+          approvalInformation,
+        });
+        const response = m.cold('-a', { a: approvalInformation });
+        triggerApprovalWorkflowSpy.mockReturnValue(response);
+        const expected = m.cold('-b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(effects.triggerApprovalWorkflow$).toBeObservable(expected);
+        m.flush();
+
+        const translationKey =
+          'processCaseView.header.releaseModal.snackbar.startWorkflowAutoApproval';
+
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(translate).toHaveBeenCalledWith(translationKey);
+      })
+    );
+    test(
       'should dispatch errorAction',
       marbles((m) => {
         store.overrideSelector(getSapId, '123897');

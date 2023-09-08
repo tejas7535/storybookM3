@@ -31,6 +31,7 @@
       "snackbar": {
         "informationSaved": "Informationen zum Freigabeprozess wurden gespeichert",
         "startWorkflow": "Freigabeprozess wurde gestartet",
+        "startWorkflowAutoApproval": "Angebot wurde automatisch freigegeben",
         "APPROVE_QUOTATION": "Angebot wurde genehmigt",
         "REJECT_QUOTATION": "Angebot wurde abgelehnt",
         "FORWARD_WF_ITEM": "Freigabeprozess wurde weitergeleitet",

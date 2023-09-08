@@ -129,7 +129,9 @@ export class ApprovalEffects {
               tap(() => {
                 this.snackBar.open(
                   translate(
-                    `processCaseView.header.releaseModal.snackbar.startWorkflow`
+                    approvalWorkflowInformation.autoApproval
+                      ? `processCaseView.header.releaseModal.snackbar.startWorkflowAutoApproval`
+                      : `processCaseView.header.releaseModal.snackbar.startWorkflow`
                   )
                 );
               }),
