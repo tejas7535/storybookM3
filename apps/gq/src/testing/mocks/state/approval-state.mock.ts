@@ -97,7 +97,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       projectInformation: 'Test Project Information',
       totalNetValue: 662_975.08,
       gpm: 54.09,
-      priceDeviation: undefined,
+      priceDeviation: 0.2,
       currency: 'EUR',
       nextApprover: undefined,
     },

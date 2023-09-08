@@ -83,6 +83,7 @@ describe('OverviewTabComponent', () => {
           gpm: { value: 0.99 },
           netValue: { value: 2020.4 },
           avgGqRating: { value: 2 },
+          deviation: { value: 0.5 },
         };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
@@ -97,6 +98,12 @@ describe('OverviewTabComponent', () => {
           gpm: {
             value: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.gpm,
             warning: true,
+          },
+          deviation: {
+            value:
+              APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                .priceDeviation, // no warning when gq and approval value differ
+            warning: false,
           },
         };
         store.overrideSelector(getQuotationDetails, QUOTATION_DETAILS_MOCK);
@@ -175,6 +182,7 @@ describe('OverviewTabComponent', () => {
           gpm: { value: 0.99, warning: undefined },
           netValue: { value: 2020.4, warning: undefined },
           avgGqRating: { value: 2, warning: undefined },
+          deviation: { value: 0.5, warning: true },
         };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
@@ -192,6 +200,10 @@ describe('OverviewTabComponent', () => {
           gpm: {
             value: mockQuotationOverviewInformation.gpm.value,
             warning: undefined,
+          },
+          deviation: {
+            value: mockQuotationOverviewInformation.deviation.value,
+            warning: true,
           },
         };
 

@@ -196,6 +196,7 @@ describe('Active Case Selectors', () => {
         gpm: { value: 10 },
         netValue: { value: 100 },
         avgGqRating: { value: 2 },
+        deviation: { value: 0 },
       });
       expect(true).toBeTruthy();
     });

@@ -135,6 +135,7 @@
       "ratingCardSubtitle": "Rating from the system",
       "priceDeviationCardTitle": "Price Deviation",
       "priceDeviationCardSubtitle": "From last Customer Price",
+      "deviationCardTitleWarning": "Price Deviation from GQ Case",
       "quotationByProductionLineOrGPSD": {
         "titlePL": "GQ Case by Product Line",
         "titleGPSD": "GQ Case by GPSD",

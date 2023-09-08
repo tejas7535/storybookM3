@@ -146,6 +146,12 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
               approvalInformation.gpm &&
               approvalInformation.gpm !== gqPricing.gpm.value,
           },
+          deviation: {
+            value:
+              approvalInformation.priceDeviation ?? gqPricing.deviation.value,
+            warning:
+              gqPricing.deviation.value && !approvalInformation.priceDeviation,
+          },
         })
       )
     );

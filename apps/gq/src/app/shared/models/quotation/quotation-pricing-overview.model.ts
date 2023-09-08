@@ -3,6 +3,7 @@ export interface QuotationPricingOverview {
   gpi: NumberWarning;
   gpm: NumberWarning;
   avgGqRating: NumberWarning;
+  deviation: NumberWarning;
 }
 
 export interface NumberWarning {

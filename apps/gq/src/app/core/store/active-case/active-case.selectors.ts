@@ -149,6 +149,7 @@ export const getQuotationOverviewInformation = createSelector(
       gpm: { value: priceInformation.gpm },
       netValue: { value: priceInformation.netValue },
       avgGqRating: { value: avgRating },
+      deviation: { value: priceInformation.priceDiff },
     };
   }
 );
