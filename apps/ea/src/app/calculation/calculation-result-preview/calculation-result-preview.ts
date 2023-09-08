@@ -9,7 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { of } from 'rxjs';
 
 import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
-import { CalculationParametersFacade } from '@ea/core/store';
+import { CalculationParametersFacade, SettingsFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
 import { PushPipe } from '@ngrx/component';
 
@@ -46,10 +46,13 @@ export class CalculationResultPreviewComponent {
   public isCalculationMissingInput$ =
     this.calculationParametersFacade.isCalculationMissingInput$;
 
+  public isStandalone$ = this.settingsFacade.isStandalone$;
+
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly analyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly settingsFacade: SettingsFacade,
     private readonly dialog: MatDialog
   ) {}
 

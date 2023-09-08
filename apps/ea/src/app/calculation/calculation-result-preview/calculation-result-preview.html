@@ -1,15 +1,18 @@
 <ng-container *transloco="let t; read: 'calculation'">
   <div
-    class="left-0 flex w-full items-center justify-center overflow-hidden box-border md:bottom-8 z-20"
-    [ngClass]="{'fixed bottom-0': sticky}"
+    class="blur-backdrop"
+    [ngClass]="{'scale-y-0': !sticky}"
+    *ngIf="isStandalone$ | ngrxPush"
+  ></div>
+  <div
+    class="left-0 flex w-full items-center justify-center box-border bottom-0 md:bottom-9 z-20 transition-all duration-150"
+    [ngClass]="{'md:inset-y-auto relative md:fixed': (isStandalone$ |ngrxPush) && !sticky, 'relative h-auto': !isStandalone$ | ngrxPush , 'fixed': isStandalone$ | ngrxPush}"
   >
     <div
-      class="bg-background-dark flex flex-row items-center justify-center rounded-t m-2 mb-0 md:flex-grow-0 flex-grow md:m-0 pt-4 pb-2 px-2 md:py-2 md:px-4"
+      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-2 pt-4 md:py-6 md:px-8 rounded-t-lg min-w-full md:min-w-[890px] max-w-[100vw] md:max-w-[cal(100vw-350px)] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
+      [ngClass]="{'rounded-b-lg rounded-none drop-shadow-none md:rounded-lg md:drop-shadow-lg': 'sticky', 'mx-auto': !isStandalone$ | ngrxPush}"
     >
-      <div
-        class="flex flex-col md:flex-row flex-grow gap-2 md:gap-8 items-center md:min-w-0"
-      >
-        <!-- Missing Input -->
+      <div class="user-hints flex items-center flex-grow-0 flex-shrink-0">
         <ng-container *ngIf="isCalculationMissingInput$ | ngrxPush">
           <div class="flex flex-shrink-0 flex-row items-center justify-center">
             <div class="flex flex-shrink-0">
@@ -30,60 +33,58 @@
             </div>
             <div
               class="text-caption text-high-emphasis ml-2 flex-shrink-0"
-              [style]="{'max-width': '220px'}"
+              [style]="{ 'max-width': '220px' }"
             >
               {{ t('calculationImpossible') }}
             </div>
           </div>
           <mat-divider [vertical]="true"></mat-divider>
         </ng-container>
-
-        <!-- Preview items -->
-        <div
-          *ngIf="overlayData$ | ngrxPush as overlayData"
-          class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 overflow-x-auto md:max-w-auto md:px-0"
-          [ngClass]="{'max-w-[calc(100vw-2rem)] px-[30vw]': sticky, 'max-w-[calc(100vw-2rem-4rem)] px-[25vw]': !sticky}"
+      </div>
+      <div
+        class="result-data"
+        *ngIf="overlayData$ | ngrxPush as overlayData"
+        class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto md:px-0 overflow-x-auto max-w-full mr-2"
+      >
+        <ng-container *ngFor="let item of overlayData">
+          <div class="snap-center my-1 md:my-0 min-w-max">
+            <ng-container
+              *ngIf="
+                  !item.title.includes('overrolling');
+                  else overrollingFrequenciesPreview
+                "
+            >
+              <ea-calculation-result-preview-item
+                styleClass="w-[50vw]"
+                [item]="item"
+              ></ea-calculation-result-preview-item>
+            </ng-container>
+            <ng-template #overrollingFrequenciesPreview>
+              <ea-overrolling-frequencies-preview-item
+                [item]="item"
+                styleClass="w-[50vw]"
+              ></ea-overrolling-frequencies-preview-item>
+            </ng-template>
+          </div>
+          <mat-divider class="hidden md:block" [vertical]="true"></mat-divider>
+        </ng-container>
+      </div>
+      <div
+        class="result-button w-full md:w-auto flex flex-shrink-0 flex-grow md:flex-grow-0 md:justify-end items-center md:ml-auto md:mr-0"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          class="grow md:mx-0 mx-4"
+          [disabled]="
+              (isCalculationResultReportAvailable$ | ngrxPush) === false
+            "
+          (click)="showReport()"
         >
-          <ng-container *ngFor="let item of overlayData">
-            <div class="snap-center my-4 md:my-0">
-              <ng-container
-                *ngIf="!item.title.includes('overrolling'); else overrollingFrequenciesPreview"
-              >
-                <ea-calculation-result-preview-item
-                  styleClass="w-[50vw]"
-                  [item]="item"
-                ></ea-calculation-result-preview-item>
-              </ng-container>
-              <ng-template #overrollingFrequenciesPreview>
-                <ea-overrolling-frequencies-preview-item
-                  [item]="item"
-                  styleClass="w-[50vw]"
-                ></ea-overrolling-frequencies-preview-item>
-              </ng-template>
-            </div>
-            <mat-divider
-              class="hidden md:block"
-              [vertical]="true"
-            ></mat-divider>
-          </ng-container>
-        </div>
-
-        <!-- Report button -->
-        <div
-          class="flex flex-shrink-0 flex-grow md:flex md:items-center w-full md:w-auto"
-        >
-          <button
-            mat-raised-button
-            color="primary"
-            class="grow md:mx-0 mx-4 md:mr-4"
-            [disabled]="(isCalculationResultReportAvailable$ | ngrxPush) === false"
-            (click)="showReport()"
-          >
-            <div class="flex items-center justify-center">
-              {{ t('showReport') }}
-            </div>
-          </button>
-        </div>
+          <div class="flex items-center justify-center flex-grow">
+            {{ t('showReport') }}
+          </div>
+        </button>
       </div>
     </div>
   </div>
