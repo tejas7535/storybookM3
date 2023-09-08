@@ -14,18 +14,23 @@ import {
   resetMaterialCostDetails,
 } from '../../actions';
 import { ActiveCaseActions } from '../../active-case/active-case.action';
-import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
+import {
+  getQuotationCurrency,
+  getSelectedQuotationDetail,
+} from '../../active-case/active-case.selectors';
 
 @Injectable()
 export class MaterialCostDetailsEffects {
   loadMaterialCostDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadMaterialCostDetails),
-      mergeMap((action) =>
+      concatLatestFrom(() => this.store.select(getQuotationCurrency)),
+      mergeMap(([action, currency]) =>
         this.materialService
           .getMaterialCostDetails(
             action.productionPlantId,
-            action.materialNumber15
+            action.materialNumber15,
+            currency
           )
           .pipe(
             map((materialCostDetails) =>

@@ -20,7 +20,10 @@ import {
   resetMaterialCostDetails,
 } from '../../actions';
 import { ActiveCaseActions } from '../../active-case/active-case.action';
-import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
+import {
+  getQuotationCurrency,
+  getSelectedQuotationDetail,
+} from '../../active-case/active-case.selectors';
 import { MaterialCostDetailsEffects } from './material-cost-details.effects';
 
 describe('MaterialCostDetails', () => {
@@ -53,6 +56,11 @@ describe('MaterialCostDetails', () => {
     action = loadMaterialCostDetails({ materialNumber15, productionPlantId });
 
     const materialCostDetails = MATERIAL_COST_DETAILS_MOCK;
+
+    beforeEach(() => {
+      store.overrideSelector(getQuotationCurrency, 'EUR');
+    });
+
     test(
       'should trigger loadMaterialCostDetails',
       marbles((m) => {
@@ -70,7 +78,8 @@ describe('MaterialCostDetails', () => {
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledTimes(1);
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledWith(
           productionPlantId,
-          materialNumber15
+          materialNumber15,
+          'EUR'
         );
       })
     );
@@ -93,7 +102,8 @@ describe('MaterialCostDetails', () => {
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledTimes(1);
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledWith(
           productionPlantId,
-          materialNumber15
+          materialNumber15,
+          'EUR'
         );
       })
     );
