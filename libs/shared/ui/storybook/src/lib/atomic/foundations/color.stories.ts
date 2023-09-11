@@ -124,6 +124,15 @@ const Template: StoryFn = (args) => ({
       <div class="p-4 pt-[60px] text-error">text-error</div>
       </div>
 
+      <h4 class="mt-20">Text icon color</h4>
+      <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
+      <div class="p-4 pt-[60px] text-icon-link">text-icon-link</div>
+      <div class="p-4 pt-[60px] text-icon-success">text-icon-success</div>
+      <div class="p-4 pt-[60px] text-icon-info">text-icon-info</div>
+      <div class="p-4 pt-[60px] text-icon-warning">text-icon-warning</div>
+      <div class="p-4 pt-[60px] text-icon-error">text-icon-error</div>
+      </div>
+
       <h4 class="mt-20">Outline</h4>
       <div class="mat-elevation-z0 bg-secondary border border-border mb-1">
         <div class="p-4 pt-[60px] ">border-border {{ colors['border'] }}</div>
