@@ -18,6 +18,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { isLanguageAvailable } from '@ea/shared/helper/language-helpers';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -33,6 +34,7 @@ import {
   isBearingSupported,
 } from './core/store/selectors/product-selection/product-selection.selector';
 import { isStandalone } from './core/store/selectors/settings/settings.selector';
+import { FALLBACK_LANGUAGE } from './shared/constants/language';
 import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
 @Component({
@@ -44,6 +46,7 @@ import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 export class AppComponent implements OnChanges, OnInit {
   @Input() bearingDesignation: string | undefined;
   @Input() standalone: string | undefined;
+  @Input() language: string | undefined;
 
   public title = 'Engineering App';
   public isStandalone$ = this.store.select(isStandalone);
@@ -153,6 +156,12 @@ export class AppComponent implements OnChanges, OnInit {
         })
       );
     }
+
+    const currentLanguage = isLanguageAvailable(this.language)
+      ? this.language
+      : FALLBACK_LANGUAGE.id;
+
+    this.translocoService.setActiveLang(currentLanguage);
   }
 
   ngOnDestroy() {

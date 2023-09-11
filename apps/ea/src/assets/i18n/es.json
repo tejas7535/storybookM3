@@ -1,248 +1,248 @@
 {
   "appTitle": "Engineering App",
-  "appDescription": "Our calculation tool allows you to perform various calculations, to determine the performance of bearing products.",
+  "appDescription": "Nuestra herramienta de cálculo le permite realizar diversos cálculos para determinar el rendimiento de los productos de rodamiento.",
   "general": {
-    "requiredInformation": "*Mandatory",
+    "requiredInformation": "*Obligatorio",
     "poweredBy": "Powered by {{ name }}",
-    "back": "Back"
+    "back": "Atrás"
   },
   "inputs": {
-    "pleaseSelect": "Please select"
+    "pleaseSelect": "Seleccione una opción"
   },
   "operationConditions": {
-    "title": "Operating conditions for bearing {{bearingDesignation}}",
-    "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
-    "showPresetCalculationParameters": "Show preset calculation parameters",
-    "loads": "Load",
-    "radialLoad": "Radial load",
-    "axialLoad": "Axial load",
-    "resetInputs": "Reset inputs",
-    "pleaseEnter": "Enter {{label}}",
+    "title": "Condiciones de funcionamiento para el rodamiento {{bearingDesignation}}",
+    "prototypeWarning": "Los valores que se muestran en este prototipo de desarrollo son hipotéticos y no deben usarse en la producción",
+    "showPresetCalculationParameters": "Mostrar parámetros de cálculo preestablecidos",
+    "loads": "Carga",
+    "radialLoad": "Carga radial",
+    "axialLoad": "Carga axial",
+    "resetInputs": "Restablecer las entradas",
+    "pleaseEnter": "Introducir {{label}}",
     "tooltip": {
-      "radialLoad": "Load in the radial direction (to be specified as an absolute value)",
-      "axialLoad": "Load in axial direction (to be specified as an absolute value)"
+      "radialLoad": "Carga en dirección radial (se debe especificar como valor absoluto)",
+      "axialLoad": "Carga en dirección axial (se debe especificar como valor absoluto)"
     },
     "errors": {
-      "min": "The minimum value is {{ min }}",
-      "max": "The maximum value is {{ max }}",
-      "required": "This field is required",
-      "lowerThanEnvironmentTemperature": "Cannot be less than ambient temperature",
-      "innerOuterInconsistent": "The bore diameter must be smaller than the outer diameter",
-      "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
-      "anyLoad": "One load is required",
-      "viscosity": "ny40 must be greater than ny100"
+      "min": "El valor mínimo es {{ min }}",
+      "max": "El valor máximo es {{ max }}",
+      "required": "Este campo es obligatorio",
+      "lowerThanEnvironmentTemperature": "No puede ser inferior a la temperatura ambiente",
+      "innerOuterInconsistent": "El diámetro interior debe ser menor que el diámetro exterior",
+      "minMaxInconsistent": "El valor mínimo debe ser menor que el valor máximo",
+      "anyLoad": "Se requiere una carga",
+      "viscosity": "ny40 debe ser mayor que ny100"
     },
     "rotatingCondition": {
-      "title": "Motion Influences",
-      "typeOfMotion": "Type of motion",
-      "relativeRotationalSpeed": "Rotation Speed",
-      "shiftFrequency": "Shift frequency",
-      "shiftAngle": "Shift angle",
+      "title": "Influencias de movimiento",
+      "typeOfMotion": "Tipo de movimiento",
+      "relativeRotationalSpeed": "Velocidad de rotación",
+      "shiftFrequency": "Frecuencia de cambio",
+      "shiftAngle": "Ángulo de cambio",
       "onePerMinute": "1/min",
       "degree": "°",
       "rpm": "RPM",
       "options": {
-        "LB_ROTATING": "rotating",
-        "LB_OSCILLATING": "oscillating"
+        "LB_ROTATING": "Rotativo",
+        "LB_OSCILLATING": "Oscilante"
       },
       "tooltip": {
-        "rotationSpeed": "Relative rotational speed between the inner and the outer ring (to be specified as an absolute value)",
-        "shiftFrequency": "Number of oscillation motions per minute (full cycle, back and forth)",
-        "shiftAngle": "Angle between the turning points for oscillating motions"
+        "rotationSpeed": "Velocidad de rotación relativa entre el anillo interior y el anillo exterior (se debe especificar como valor absoluto)",
+        "shiftFrequency": "Número de movimientos de oscilación por minuto (ciclo completo, ida y vuelta)",
+        "shiftAngle": "Ángulo entre los puntos de retorno para los movimientos de oscilación"
       }
     },
     "lubrication": {
-      "title": "Lubrication conditions",
+      "title": "Condiciones de lubricación",
       "options": {
-        "grease": "Grease",
-        "oilBath": "Oil-bath lubrication",
-        "oilMist": "Oil-mist lubrication",
-        "recirculatingOil": "Recirculating oil lubrication"
+        "grease": "Grasa",
+        "oilBath": "Lubricación por baño de aceite",
+        "oilMist": "Lubricación por niebla de aceite",
+        "recirculatingOil": "Lubricación con recirculación de aceite"
       },
       "grease": {
         "typeOfGrease": {
-          "label": "Type of grease",
-          "description": "Select the used type of grease for your bearing calculation.",
-          "tooltip": "The grease has a significant impact as it affects factors such as friction, heat generation, wear, and overall bearing performance"
+          "label": "Tipo de grasa",
+          "description": "Seleccione el tipo de grasa utilizada para el cálculo del rodamiento.",
+          "tooltip": "La grasa tiene un impacto significativo, ya que afecta factores como la fricción, generación de calor, desgaste y el rendimiento general del rodamiento."
         },
         "isoVgClass": {
-          "label": "ISO VG class",
-          "description": "Select the ISO VG class of your lubricant.",
-          "tooltip": "The ISO VG class is a classification of the viscosity of lubricants"
+          "label": "Clase ISO VG",
+          "description": "Seleccione la clase ISO VG de su lubricante.",
+          "tooltip": "La clase ISO VG es una clasificación de viscosidad de los lubricantes."
         },
         "viscosity": {
-          "label": "Enter viscosity",
-          "description": "Enter your own viscosity at 40°C (ny 40) and at 100°C (ny 100).",
-          "ny40": "Viscosity at 40°C",
-          "ny100": "Viscosity at 100°C",
+          "label": "Ingrese la viscosidad",
+          "description": "Ingrese su propia viscosidad a 40°C (ny 40) y a 100°C (ny 100).",
+          "ny40": "Viscosidad a 40°C",
+          "ny100": "Viscosidad a 100°C",
           "unit": "mm²/s"
         }
       },
       "recirculatingOil": {
-        "oilFlow": "Oil flow (dV/dt)",
-        "oilTemperatureDifference": "Increase in oil temperature (delta T)"
+        "oilFlow": "Flujo de aceite (dV/dt)",
+        "oilTemperatureDifference": "Aumento de la temperatura del aceite (delta T)"
       }
     },
     "contamination": {
-      "title": "Contamination",
-      "label": "Contamination",
+      "title": "Contaminación",
+      "label": "Contaminación",
       "options": {
-        "extremeCleanliness": "extreme cleanliness",
-        "highCleanliness": "high cleanliness",
-        "standardCleanliness": "normal cleanliness",
-        "slightContamination": "slight contamination",
-        "typicalContamination": "typical contamination",
-        "heavyContamination": "heavy contamination",
-        "veryHeavyContamination": "very heavy contamination"
+        "extremeCleanliness": "limpieza extrema",
+        "highCleanliness": "alta limpieza",
+        "standardCleanliness": "limpieza normal",
+        "slightContamination": "ligera contaminación",
+        "typicalContamination": "contaminación típica",
+        "heavyContamination": "contaminación fuerte",
+        "veryHeavyContamination": "contaminación muy fuerte"
       }
     },
     "temperature": {
-      "title": "Temperature",
+      "title": "Temperatura",
       "operatingTemperature": {
-        "label": "Operating Temperature",
+        "label": "Temperatura de operación",
         "unit": "°C",
-        "tooltip": "Operating temperature of the bearing (if necessary, please estimate)"
+        "tooltip": "Temperatura de operación del rodamiento (si es necesario, por favor estimar)"
       },
       "ambientTemperature": {
-        "label": "Ambient Temperature",
+        "label": "Temperatura ambiente",
         "unit": "°C",
-        "tooltip": "Temperature of the machine`s surrounding environment"
+        "tooltip": "Temperatura del entorno circundante de la máquina"
       }
     },
     "externalHeatflow": {
-      "title": "External Heatflow",
-      "label": "External Heatflow",
+      "title": "Flujo de calor externo",
+      "label": "Flujo de calor externo",
       "unit": "KW",
-      "tooltip": "The external heatflow"
+      "tooltip": "El flujo de calor externo"
     },
     "conditionOfRotation": {
-      "title": "Condition of rotation",
+      "title": "Condición de rotación",
       "options": {
-        "rotatingOuterring": "Rotating outerring",
-        "rotatingInnerring": "Rotating innerring"
+        "rotatingOuterring": "Anillo exterior giratorio",
+        "rotatingInnerring": "Anillo interior giratorio"
       }
     }
   },
   "calculation": {
-    "showReport": "Show Report",
-    "calculationImpossible": "For the parameters you have specified no calculation is possible.",
-    "calculationMissingInput": "Please add the remaining conditions."
+    "showReport": "Mostrar informe",
+    "calculationImpossible": "Para los parámetros que ha especificado, no es posible realizar el cálculo.",
+    "calculationMissingInput": "Por favor añada las condiciones restantes."
   },
   "calculationResult": {
-    "ratingLife": "Rating life",
-    "ratingLifeSubtitle": "Total Rating Life (Lh10)",
-    "lubrication": "Lubrication Parameters",
-    "lubricationSubtitle": "Viscosity ratio (kappa)",
-    "emissions": "CO₂e emitted",
-    "emissionsTooltip": "A CO₂ equivalent (CO₂e) is a unit to standardize the climate effects of various greenhouse gases. Thus, different mixtures of greenhouse gases emissions can be compared.",
-    "overrollingFrequency": "Overrolling frequency",
-    "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
-    "frictionalPowerloss": "Frictional power loss",
-    "frictionalPowerlossSubtitle": "Total Frictional Torque (MR)",
-    "frictionalPowerlossUnavailable": "For the selected bearing this calculation is not available.",
-    "production": "For Production",
-    "productionTooltip": "This is the sum of all CO₂ equivalents emitted for the production of the rolling bearing, including necessary resources and energy."
+    "ratingLife": "Vida útil nominal",
+    "ratingLifeSubtitle": "Vida útil nominal total (Lh10)",
+    "lubrication": "Parámetros de lubricación",
+    "lubricationSubtitle": "Relación de viscosidad (kappa)",
+    "emissions": "CO₂e emitidos",
+    "emissionsTooltip": "Un equivalente de CO₂ (CO₂e) es una unidad para estandarizar los efectos del cambio climático de varios gases de efecto invernadero. De esta forma, pueden compararse emisiones de diferentes mezclas de gases de efecto invernadero.",
+    "overrollingFrequency": "Frecuencia de rodadura",
+    "overrollingFrequencySubtitle": "Frecuencia en el anillo interior (BPFI)",
+    "frictionalPowerloss": "Pérdida de energía por fricción",
+    "frictionalPowerlossSubtitle": "Par de fricción total (MR)",
+    "frictionalPowerlossUnavailable": "Para el rodamiento seleccionado, este cálculo no está disponible.",
+    "production": "Para producción",
+    "productionTooltip": "Esta es la suma de todos los equivalentes de CO₂ emitidos para la producción del rodamiento, incluyendo los recursos y energía necesarios."
   },
   "calculationResultReport": {
-    "dialogTitle": "Report for bearing {{bearingDesignation}}",
-    "reportSectionInput": "Input",
-    "reportSectionWarnings": "Errors/Warnings/Notes",
+    "dialogTitle": "Informe del rodamiento {{bearingDesignation}}",
+    "reportSectionInput": "Entrada",
+    "reportSectionWarnings": "Errores/Advertencias/Notas",
     "calculationNotAvailable": {
-      "line1": "For the selected bearing this calculation is not possible.",
-      "line2": "For further information please contact our",
-      "linkText": "customer support",
+      "line1": "Para el rodamiento seleccionado no es posible realizar este cálculo.",
+      "line2": "Para obtener más información, por favor, contacte con nuestro",
+      "linkText": "servicio de atención al cliente",
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "Estimation of CO₂e emissions per piece",
+      "title": "Estimación de emisiones de CO₂e por pieza",
       "unit": "CO₂e",
-      "upstreamTitle": "CO₂e emitted for production* (Upstream)",
-      "upstreamHint": "*Estimated value based on assumptions during production",
-      "upstreamHintLinkText": "More information.",
-      "calculationHint": "Want to know more about CO₂ at Schaeffler?",
+      "upstreamTitle": "CO₂e emitido durante la producción* (aguas arriba)",
+      "upstreamHint": "*Valor estimado basado en suposiciones durante la producción",
+      "upstreamHintLinkText": "Más información.",
+      "calculationHint": "¿Quieres saber más sobre el CO₂ en Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-calculation",
-      "calculationHintLinkText": "Click here"
+      "calculationHintLinkText": "Haz clic aquí"
     },
     "lubrication": {
-      "title": "Lubrication Parameters",
-      "viscosityRatio": "Viscosity ratio",
-      "operatingViscosity": "Operating viscosity",
-      "referenceViscosity": "Reference viscosity",
-      "lifeAdjustmentFactor": "Life adjustment factor",
-      "lowerGuideInterval": "Lower guide value for relubrication interval",
-      "upperGuideInterval": "Upper guide value for relubrication interval"
+      "title": "Parámetros de lubricación",
+      "viscosityRatio": "Relación de viscosidad",
+      "operatingViscosity": "Viscosidad de operación",
+      "referenceViscosity": "Viscosidad de referencia",
+      "lifeAdjustmentFactor": "Factor de ajuste de vida útil",
+      "lowerGuideInterval": "Valor inferior de guía para el intervalo de relubricación",
+      "upperGuideInterval": "Valor superior de guía para el intervalo de relubricación"
     },
     "frictionalPowerloss": {
-      "title": "Frictional power loss",
-      "totalFrictionalTorque": "Total frictional torque",
-      "totalFrictionalPowerLoss": "Total frictional power loss",
-      "speedDependentFrictionalTorque": "Speed-dependent frictional torque",
-      "loadDependentFrictionalTorque": "Load-dependent frictional torque",
-      "thermallySafeOperatingSpeed": "Thermally safe operating speed"
+      "title": "Pérdida de potencia por fricción",
+      "totalFrictionalTorque": "Torque total por fricción",
+      "totalFrictionalPowerLoss": "Pérdida total de potencia por fricción",
+      "speedDependentFrictionalTorque": "Torque por fricción dependiente de la velocidad",
+      "loadDependentFrictionalTorque": "Torque por fricción dependiente de la carga",
+      "thermallySafeOperatingSpeed": "Velocidad de operación térmicamente segura"
     },
     "calculationDisclaimer": {
-      "title": "Calculation disclaimer",
-      "disclaimerFile": "/disclaimers/calculation-en.html"
+      "title": "Renuncia al cálculo",
+      "disclaimerFile": "/disclaimers/calculation-es.html"
     },
     "ratingLife": {
-      "title": "Rating life",
-      "lh10": "Total rating life in hours (nominal)",
-      "lh_nm_unavailable": "Please add “Lubrication parameters” to your calculation to display this value",
-      "lh_nm": "Modified rating life in hours",
-      "p": "Equivalent dynamic load",
-      "n": "Equivalent speed",
-      "s0_min": "Static safety",
-      "p0_max": "Maximum equivalent static load"
+      "title": "Vida nominal",
+      "lh10": "Vida nominal total en horas",
+      "lh_nm_unavailable": "Por favor, agregue “Parámetros de lubricación” a su cálculo para mostrar este valor",
+      "lh_nm": "Vida nominal modificada en horas",
+      "p": "Carga dinámica equivalente",
+      "n": "Velocidad equivalente",
+      "s0_min": "Seguridad estática",
+      "p0_max": "Carga estática equivalente máxima"
     },
     "overrollingFrequencies": {
-      "title": "Overrolling frequencies",
-      "BPFO": "Overrolling frequency on outer ring",
-      "BPFI": "Overrolling frequency on inner ring",
-      "BSF": "Overrolling frequency on rolling element",
-      "RPFB": "Ring pass frequency on rolling element",
-      "FTF": "Speed of rolling element set",
+      "title": "Frecuencias de sobrerodadura",
+      "BPFO": "Frecuencia de sobrerodadura en anillo exterior",
+      "BPFI": "Frecuencia de sobrerodadura en anillo interior",
+      "BSF": "Frecuencia de sobrerodadura en elemento rodante",
+      "RPFB": "Frecuencia de paso de anillo en elemento rodante",
+      "FTF": "Velocidad del conjunto de elementos rodantes",
       "short": {
-        "BPFO": "On outer ring",
-        "BPFI": "On inner ring",
-        "BSF": "On rolling element",
-        "RPFB": "Ring pass frequency on rolling element",
-        "FTF": "Speed of rolling element set"
+        "BPFO": "En anillo exterior",
+        "BPFI": "En anillo interior",
+        "BSF": "En elemento rodante",
+        "RPFB": "Frecuencia de paso de anillo en elemento rodante",
+        "FTF": "Velocidad del conjunto de elementos rodantes"
       }
     }
   },
   "basicFrequencies": {
-    "showBasicFrequencies": "Show Basic Frequencies",
-    "dialogTitle": "Basic frequencies for bearing {{bearingDesignation}}",
-    "saveAsPdf": "Save as PDF"
+    "showBasicFrequencies": "Mostrar frecuencias básicas",
+    "dialogTitle": "Frecuencias básicas para el rodamiento {{bearingDesignation}}",
+    "saveAsPdf": "Guardar como PDF"
   },
   "calculationSelection": {
-    "title": "Choose your calculations",
-    "selectAll": "Select all",
-    "typeUnavailable": "For the selected bearing this calculation is not available.",
-    "calculations": "Calculations",
+    "title": "Seleccione sus cálculos",
+    "selectAll": "Seleccionar todo",
+    "typeUnavailable": "Para el rodamiento seleccionado, este cálculo no está disponible.",
+    "calculations": "Cálculos",
     "calculationTypes": {
-      "ratingLife": "Rating Life",
-      "lubrication": "Lubrication parameter",
-      "frictionalPowerloss": "Frictional power loss",
-      "co2": "CO₂e emissions for production",
-      "overrollingFrequency": "Overrolling frequency"
+      "ratingLife": "Vida nominal",
+      "lubrication": "Parámetros de lubricación",
+      "frictionalPowerloss": "Pérdida de potencia por fricción",
+      "co2": "Emisiones de CO₂e para la producción",
+      "overrollingFrequency": "Frecuencia de sobrerodadura"
     },
-    "basicFrequency": "Basic Frequencies",
-    "saveAsPDF": "Save as pdf"
+    "basicFrequency": "Frecuencias básicas",
+    "saveAsPDF": "Guardar como pdf"
   },
   "qualtricsInfoBanner": {
-    "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback is important to us, and we invite you to participate in our survey to help us improve. \nYour insights will guide our efforts to enhance our product, and we appreciate your time and feedback."
+    "feedbackButton": "Comentarios",
+    "feedbackText": "Sus comentarios son importantes para nosotros, y lo invitamos a participar en nuestra encuesta para ayudarnos a mejorar. \nSus ideas guiarán nuestros esfuerzos para mejorar nuestro producto, y agradecemos su tiempo y comentarios."
   },
   "unit": {},
   "legal": {
-    "imprint": "Imprint",
-    "dataPrivacy": "Data Privacy",
-    "termsOfUse": "Terms of Use",
-    "cookiePolicy": "Cookie Policy",
-    "cookieSettings": "Cookie Settings",
-    "purpose": "</br>With the Engineering Application, calculations are carried out through user input such as bearing selection and operating parameters in order to determine a lubricant recommendation and issue application recommendations.</br>Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Engineering Application in order to be able to make strategic decisions about the further development of the Engineering Application.",
-    "storagePeriod": "one year",
+    "imprint": "Aviso legal",
+    "dataPrivacy": "Política de privacidad",
+    "termsOfUse": "Términos de uso",
+    "cookiePolicy": "Política de cookies",
+    "cookieSettings": "Configuración de cookies",
+    "purpose": "</br>Con la Aplicación de Ingeniería, los cálculos se realizan a través de la entrada de usuario, como la selección de cojinetes y los parámetros de funcionamiento, para determinar una recomendación de lubricante y emitir recomendaciones de aplicación.</br>Tus datos de usuario anonimizados se almacenan en la plataforma de Microsoft Azure y se muestran en forma de un panel de control. Esto nos da la oportunidad de evaluar el comportamiento del usuario en la aplicación de Ingeniería para poder tomar decisiones estratégicas sobre el desarrollo futuro de la aplicación de Ingeniería.",
+    "storagePeriod": "un año",
     "termsOfUseContent": "<h3>General Conditions of Use for the Schaeffler Engineering App</h3><h5>1. Scope</h5><b>1.1</b><p>Any use of this App (“Schaeffler App”) offered by Schaeffler Technologies AG & Co. KG (\"Schaeffler\") shall be subject to these Conditions insofar as use is not otherwise regulated by the conditions of the Schaeffler company in the respective country. By commencing use of the Schaeffler App, the user accepts the validity of these Conditions of Use in their current version.</p><b>1.2</b><p>These General Conditions of Use may be supplemented, modified or replaced from time-to-time.</p><h5>2. Contents of the Schaeffler App</h5><p>On the Schaeffler App, Schaeffler has placed non-binding information as well as related documentation and software which may be called up or downloaded. Such placement shall be without any commitment and without any warranties as to completeness. Schaeffler may at any time in whole or in part block the Schaeffler App or change the contents without any prior notice. Schaeffler does not accept any liability in relation to the uninterrupted availability of the Schaeffler App.</p><p>The Schaeffler App can be used to calculate the lubricant quantity for bearings during initial greasing and relubrication under specific operating conditions. In addition, recommendations for relubrication intervals and grease usage durations are provided. Relubrication can be carried out manually or automatically using the Schaeffler lubricators. The user is given an overview of the properties of the Arcanol greases. Greases with a high relubrication interval are highlighted.</p><h5>3. Rights of Use</h5><b>3.1</b><p>The use of the information, software and documentation available on the Schaeffler App shall be subjected to these Conditions, or if the information, software and documentation are updated, such shall be subject to the applicable license conditions already agreed with Schaeffler. Any license conditions separately agreed upon shall prevail over these Conditions.</p><b>3.2</b><p>Schaeffler grants to the user a non-exclusive, non-transferable, non-assignable, non-sublicensable right to use the Schaeffler App and the information, software and documentation available on the Schaeffler App to the extent to which it is agreed between the parties, or, in case there is no agreement on this point, in accordance with the purpose intended by Schaeffler.</p><b>3.3</b><p>Software is only available in a machine-readable form at no cost. No right shall exist to the release of any source code. In case the license conditions of open source software have priority over these Conditions and require Schaeffler to make the source code available, such source code shall be made available in exchange for reimbursement of expenses.</p><b>3.4</b><p>Unless mandatory provisions govern to the contrary, the user may not change, reverse, develop, or reverse translate the software or its documentation or remove any part therefrom.</p><b>3.5</b><p>The information, software and documentation are protected by applicable copyright laws as well as other applicable laws related to intellectual property. The user shall observe such laws, and in particular any alphanumerical identification, marks or copyright notices shall not be removed from the information, software or documentation or from any copies thereof.</p><b>3.6</b><p>Any provisions of applicable copyright law regarding the protection of any software shall not otherwise be affected hereby.</p><h5>4. Intellectual Property</h5><b>4.1</b><p>Notwithstanding the particular requirements in section 4 of these Conditions of Use, any information, trademark names and other contents of the Schaeffler App may not be changed, copied, reproduced, sold, rented, used, supplemented or used in any other way without the prior written permission of Schaeffler.</p><b>4.2</b><p>Except for the right of use and other rights expressly granted herein, the user shall be granted no further rights of any type whatsoever, in particular those to the company name or to industrial property rights, such as patents, utility models or trademarks, nor shall Schaeffler be subject to any corresponding duty to grant such rights.</p><h5>5. Registration and Use of Protected Pages</h5><b>5.1</b><p>Access to the Schaeffler App or to parts of it can be permitted only for registered users for transactional business security purposes. There shall be no right to be registered by Schaeffler in such case. In particular, Schaeffler reserves the right to make parts of the Schaeffler App previously freely accessible subject to registration.</p><p>Schaeffler may at any time revoke a right of access by blocking the access data without providing any reasons therefor, in particular when the user:</p><ul><li>has provided false details for registration;</li><li>has breached the Conditions of Use or its duties of care in relation to the treatment of access data;</li><li>has breached applicable law in accessing or using the Schaeffler App; or</li><li>has been an inactive user of the Schaeffler Website for a period of at least 24 months.</li></ul><b>5.2</b><p>In the event that registration is permitted, the user shall provide accurate and correct details and must advise Schaeffler immediately of any changes.</p><b>5.3</b><p>After registration the user shall receive a user name and password (user data). At the time of first access the user shall change the password provided by Schaeffler into a secure password. The user data allows the user to access its own data, to change such data, and, if necessary, to extend or revoke agreements to data processing.</p><b>5.4</b><p>The user shall ensure that the user data are not available to third parties and shall be liable for all orders and other activities taken under the user data. After each occasion of use, the area protected by password shall be exited. Insofar as the user becomes aware that any third party is misusing user data, the user shall immediately notify Schaeffler of such in writing, and, if applicable, in advance by e-mail communication. After receipt of such notification, Schaeffler shall block the access to the area protected by password for that user data. The lifting of any blocking is only possible after a special application by the user to Schaeffler or after a further registration.</p><b>5.5</b><p>The user may at any time in writing demand the deletion of any registration insofar as the deletion is not prevented by the processing of current contractual matters. In such case, Schaeffler shall erase all user data and all other personal data of the user as soon as such is no longer required.</p><h5>6. References and Links</h5><p>The Schaeffler App may contain references and links (hyperlinks) to the websites of third parties or of Schaeffler. Schaeffler does not accept any responsibility for the contents of websites of third parties, nor does Schaeffler make the contents of such websites its own, as Schaeffler cannot control any information connected by a third party-link and is not responsible for the contents and information therein contained. Any use of linked websites shall be at the risk of the user.</p><h5>7. Exclusion of Liability for Defects as to Title and Quality, Viruses</h5><b>7.1</b><p>Insofar as any information, software or documentation is made available at no charge, any liability is hereby excluded for defects as to title or defects as to the quality of the information, software and documentation, and in particular for the correctness, defect-free nature, and the non-existence of property rights or copyright of third parties, completeness and/or usability except in cases of willful acts or malice. Schaeffler hereby disclaims all warranties of any kind, whether express or implied, statutory or otherwise. Regardless of the legal basis.</p><b>7.2</b><p>The information contained on the Schaeffler App may include specifications or general descriptions of technical possibilities of products, which in individual cases (e.g. for reasons of changes in products) may not always be available. The required performance specification of the products should therefore be agreed prior to purchase in each case.</p><b>7.3</b><p>The liability of Schaeffler for any defects as to quality and defects as to title shall be determined by the provisions in sections 7.1 and 7.2 of these Conditions. Ceteris paribus, any liability of Schaeffler is excluded unless (i) mandatory law (e. g. the Product Liability Act) requires it, (ii) as a result of product liability law, (iii) as a result of wilful acts or gross negligence, (iv) as a result of death or personal injury, (v) as a result of the acceptance of a guarantee as to quality, (vi) as a result of malicious concealment of a defect, or (vii) because of the material breach of a contract. Any damages for material breach of contract shall however be limited to typical, foreseeable damages, insofar as wilful acts or gross negligence are not involved.</p><b>7.4</b><p>Schaeffler shall endeavor to keep the Schaeffler App free from all viruses, however Schaeffler cannot give any assurance as to a virus-free environment. Before downloading any information, software or documentation, the user shall, for its own protection as well as to prevent viruses coming onto the Schaeffler App, use suitable security measures and virus scanners. The User is responsible for implementing sufficient procedures and checkpoints to satisfy its particular requirements for anti-virus protection and accuracy of data input and output, and for maintaining a means external to our site for any reconstruction of any lost data.</p><b>7.5</b><p>A reversal of the burden of proof shall not be assumed by any of the above provisions.</p><h5>8. Obligations of Use</h5><b>8.1</b><p>The user may not in regard to the Schaeffler App:</p><ul><li>cause any damage or injury to any persons, in particular juveniles, or violate their right to privacy, e.g. by uploading of any content or during the use of the chat function;</li><li>violate good morals or applicable law with usage behaviour;</li><li>violate industrial property rights or copyright or other property rights of Schaeffler or of third parties;</li><li>transmit any contents with viruses or so-called “Trojan Horses” or other programming which could damage software;</li><li>provide, store or send hyperlinks or contents to which it is not allowed, in particular if such hyperlinks or contents are a breach of a duty of confidentiality or are unlawful; or</li><li>distribute advertising or unsolicited e-mails (so-called \"spam\") or irrelevant warnings as to viruses, malware or similar, or request persons to participate in gambling, games, chain letters, pyramid schemes or any other similar actions.</li><li>to engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Schaeffler App, or which, as determined by Schaeffler may harm Schaeffler or users of the Schaeffler App or expose them to liability.</li><li>use the Schaeffler App in any manner that could disable, overburden, damage, or impair the Schaeffler App or interfere with any other party's use of the Schaeffler App, including their ability to engage in real time activities through the Schaeffler App.</li></ul><b>8.2</b><p>Schaeffler may block access to the Schaeffler App at any time, in particular if the user breaches its duties under these Conditions.</p><b>8.3</b><p>The user shall indemnify Schaeffler from all claims, irrespective of legal basis, type and amount, upon first request, which third parties assert against Schaeffler because the user violates his obligations under these terms and conditions.</p><h5>9. Export Requirements</h5><p>The transfer of information, software and documentation can be subject to the applicable legal provisions of export controls, in particular but not limited to the law of the EU or its member states or the US, due to its type or its purpose of use or its end use. The user confirms that he shall comply to the applicable provisions of export control law at all times.</p><h5>10. Protection of Personal Data</h5><p>Schaeffler shall, in compiling, using and processing personal data of the user, observe the applicable data protection regulations which may be viewed on the Schaeffler App.</p><h5>11. Collateral Agreements, Place of Jurisdiction, Applicable Law</h5><b>11.1</b><p>Any collateral agreements to these Conditions of Use including any amendments of this clause shall be in the written form.</p><b>11.2</b><p>The place of jurisdiction is the registered seat of Schaeffler Technologies AG & Co. KG.</p><b>11.3</b><p>The individual pages of the Schaeffler App are operated by and are the responsibility of Schaeffler. These pages comply with the requirements of the specific country in which the Schaeffler Technologies AG & Co. KG has its registered seat. Schaeffler accepts no responsibility for the possibility that information, software and/or documentation in the Schaeffler App may be called up or downloaded in places outside of the respective country. If users from countries outside of the respective country use the Schaeffler App, they are themselves responsible for compliance with the applicable regulations of the respective country. Access to information, software and/or documentation on the Schaeffler App in countries in which access is unlawful is not allowed. In such case, and should the user wish to contact Schaeffler commercially, the user should contact the Schaeffler representatives in the respective country.</p><b>11.4</b><p>These Conditions as well as the use of this App shall be subject to the law of the registered seat of Schaeffler Technologies AG & Co. KG.</p><p>Version 01 14.01.2022</p>"
   }
 }

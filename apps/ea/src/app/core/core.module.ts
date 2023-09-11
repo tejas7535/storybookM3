@@ -13,7 +13,6 @@ import {
   FALLBACK_LANGUAGE,
   LANGUAGE_STORAGE_KEY,
 } from '@ea/shared/constants/language';
-import { TranslocoService } from '@ngneat/transloco';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
@@ -23,9 +22,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import enJson from '../../assets/i18n/en.json';
-// import deJson from '../../assets/i18n/de.json';
 import { HttpBearinxInterceptor } from './interceptor/http-bearinx.interceptor';
+import { HttpCatalogWebApiInterceptor } from './interceptor/http-catalog-web-api.interceptor';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -64,6 +62,11 @@ import { StoreModule } from './store/store.module';
       useClass: HttpBearinxInterceptor,
       multi: true,
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpCatalogWebApiInterceptor,
+      multi: true,
+    },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 
@@ -71,13 +74,9 @@ import { StoreModule } from './store/store.module';
 })
 export class CoreModule {
   public constructor(
-    private readonly translocoService: TranslocoService,
     private readonly matIconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
-    this.translocoService.setTranslation(enJson, 'en');
-    // this.translocoService.setTranslation(deJson, 'de');
-
     this.registerEAIcons();
   }
 

@@ -2,19 +2,49 @@ import { LangDefinition } from '@ngneat/transloco/lib/types';
 
 export const LANGUAGE_STORAGE_KEY = 'language';
 
-export const AVAILABLE_LANGUAGE_EN: LangDefinition = {
+export const LANGUAGE_EN: LangDefinition = {
   id: 'en',
   label: 'English',
 };
 
-export const AVAILABLE_LANGUAGE_DE: LangDefinition = {
+export const LANGUAGE_DE: LangDefinition = {
   id: 'de',
-  label: 'German',
+  label: 'Deutsch',
+};
+
+export const LANGUAGE_FR: LangDefinition = {
+  id: 'fr',
+  label: 'Français',
+};
+
+export const LANGUAGE_ES: LangDefinition = {
+  id: 'es',
+  label: 'Español',
+};
+
+export const LANGUAGE_IT: LangDefinition = {
+  id: 'it',
+  label: 'Italiano',
+};
+
+export const LANGUAGE_ZH: LangDefinition = {
+  id: 'zh',
+  label: '简体中文',
+};
+
+export const LANGUAGE_ZH_TW: LangDefinition = {
+  id: 'zh_TW',
+  label: '繁體中文',
 };
 
 export const AVAILABLE_LANGUAGES: LangDefinition[] = [
-  AVAILABLE_LANGUAGE_EN,
-  AVAILABLE_LANGUAGE_DE,
+  LANGUAGE_EN,
+  LANGUAGE_DE,
+  LANGUAGE_ES,
+  LANGUAGE_FR,
+  LANGUAGE_IT,
+  LANGUAGE_ZH,
+  LANGUAGE_ZH_TW,
 ];
 
-export const FALLBACK_LANGUAGE: LangDefinition = AVAILABLE_LANGUAGE_EN;
+export const FALLBACK_LANGUAGE: LangDefinition = LANGUAGE_EN;
