@@ -68,15 +68,15 @@ export class UploadSelectionToSapButtonComponent {
       (val: QuotationDetail) => val.gqPositionId
     );
     const displayText = translate(
-      'processCaseView.confirmUploadPositions.text',
+      'processCaseView.confirmUpdatePositions.text',
       { variable: gqPositionIds.length }
     );
     const confirmButton = translate(
-      'processCaseView.confirmUploadPositions.uploadButton'
+      'processCaseView.confirmUpdatePositions.updateButton'
     ).toUpperCase();
 
     const cancelButton = translate(
-      'processCaseView.confirmUploadPositions.cancelButton'
+      'processCaseView.confirmUpdatePositions.cancelButton'
     ).toUpperCase();
 
     const data: ConfirmationModalData = {

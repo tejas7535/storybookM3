@@ -223,9 +223,9 @@
     "deleteButton": "löschen",
     "cancelButton": "Abbrechen"
   },
-  "confirmUploadPositions": {
-    "text": "Möchten sie wirklich diese Einträge ({{variable}}) nach SAP hochladen?",
-    "uploadButton": "hochladen",
+  "confirmUpdatePositions": {
+    "text": "Möchten Sie wirklich diese Einträge ({{variable}}) in SAP aktualisieren?",
+    "updateButton": "hochladen",
     "cancelButton": "Abbrechen"
   },
   "confirmRefreshSapPricing": {

@@ -223,9 +223,9 @@
     "deleteButton": "delete",
     "cancelButton": "cancel"
   },
-  "confirmUploadPositions": {
-    "text": "Do you really want to upload these entries ({{variable}}) from this case?",
-    "uploadButton": "upload",
+  "confirmUpdatePositions": {
+    "text": "Do you really want to update these entries ({{variable}}) in SAP?",
+    "updateButton": "update",
     "cancelButton": "cancel"
   },
   "confirmRefreshSapPricing": {
