@@ -191,9 +191,9 @@
         },
         "workflow": {
           "historyLabel": "Historie",
-          "inApprovalLabel": "In Freigabe",
+          "inApprovalLabel": "In Genehmigung",
           "cancelledLabel": "Abgebrochen",
-          "rejectedLabel": "Zurückgewiesen",
+          "rejectedLabel": "Abgelehnt",
           "approversApproved": "{{ variable }} Genehmiger freigegeben",
           "workflowStartedText": "Angebotsfreigabe gestartet",
           "workflowAutoApprovedText": "Automatische Freigabe",
@@ -205,13 +205,13 @@
           "eventCreatedBy": "{{date}} von {{user}}",
           "unknownApprover": "unbekannt",
           "STARTED": "Angebotsfreigabe gestartet",
-          "REJECTED": "Case zurückgewiesen",
+          "REJECTED": "Angebot abgelehnt",
           "APPROVED": "Angebot freigegeben",
           "FORWARDED": "Angebot weitergeleitet",
           "CANCELLED": "Freigabe abgebrochen",
           "AUTO_APPROVAL": "Freigabe gestartet",
           "PRE_APPROVED": "Vorab genehmigt",
-          "RELEASED": "Case vollständig freigegeben"
+          "RELEASED": "Angebot vollständig freigegeben"
         }
       }
     }
