@@ -112,12 +112,16 @@
     <script>
       const { createApp } = Vue;
 
+      // pass bearing-designation="GE10-AW" to display old app interface, "" empty for default.
+
       createApp({
         data() {
           return {
             wrapperAppTitle: 'Embedded App',
             webComponentSrc: 'http://localhost:8000',
-            webComponentTag: '<engineering-app></engineering-app>',
+            webComponentTag:
+              '<engineering-app bearing-designation=""></engineering-app>',
+
             containerHeight: 800,
             containerWidth: 1280,
           };

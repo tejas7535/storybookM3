@@ -1,17 +1,30 @@
-<ng-container *ngIf="isStandalone$ | ngrxPush; else appInner">
-  <schaeffler-app-shell
-    [hasSidebarLeft]="true"
-    [appTitle]="title"
-    appTitleLink="/"
-    [footerFixed]="false"
-    [footerLinks]="footerLinks$ | ngrxPush"
-    (onContentScroll)="handleContentScroll($event)"
-  >
-    <ng-container mainContent>
-      <router-outlet></router-outlet>
-    </ng-container>
-  </schaeffler-app-shell>
+<ng-container *ngIf="isBearingSupported$ | ngrxPush; else legacyApp">
+  <ng-container *ngIf="isStandalone$ | ngrxPush; else appInner">
+    <schaeffler-app-shell
+      [hasSidebarLeft]="true"
+      [appTitle]="title"
+      appTitleLink="/"
+      [footerFixed]="false"
+      [footerLinks]="footerLinks$ | ngrxPush"
+      (onContentScroll)="containerScrollEvent$.next($event)"
+    >
+      <ng-container mainContent>
+        <router-outlet></router-outlet>
+      </ng-container>
+    </schaeffler-app-shell>
+  </ng-container>
 </ng-container>
+
+<!-- adjust language code accordingly in the url-->
+<ng-template #legacyApp>
+  <iframe
+    *ngIf="legacyAppUrl$ | ngrxPush as legacyAppUrl"
+    class="w-full h-[100vh]"
+    [attr.src]="legacyAppUrl"
+  >
+  </iframe>
+</ng-template>
+
 <ng-template #appInner>
   <div
     class="flex h-full w-full flex-1 flex-col items-center relative"

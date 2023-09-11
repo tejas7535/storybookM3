@@ -2,10 +2,10 @@ import {
   Component,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import {
@@ -28,6 +28,10 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { SettingsFacade } from './core/store';
 import { ProductSelectionActions, SettingsActions } from './core/store/actions';
 import { setResultPreviewSticky } from './core/store/actions/settings/settings.actions';
+import {
+  getBearingId,
+  isBearingSupported,
+} from './core/store/selectors/product-selection/product-selection.selector';
 import { isStandalone } from './core/store/selectors/settings/settings.selector';
 import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
@@ -37,12 +41,24 @@ import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnChanges, OnDestroy {
+export class AppComponent implements OnChanges, OnInit {
   @Input() bearingDesignation: string | undefined;
   @Input() standalone: string | undefined;
 
   public title = 'Engineering App';
   public isStandalone$ = this.store.select(isStandalone);
+  public isBearingSupported$ = this.store.select(isBearingSupported);
+
+  public legacyAppUrl$: Observable<SafeResourceUrl> = combineLatest([
+    this.translocoService.langChanges$,
+    this.store.select(getBearingId),
+  ]).pipe(
+    map(([language, bearingId]) =>
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        `https://catalogcalculations-cae.schaeffler.com/app/loadcases/${bearingId}/${language}/comma/metric/true`
+      )
+    )
+  );
 
   public containerScrollEvent$ = new BehaviorSubject<Event>({} as Event);
 
@@ -90,7 +106,8 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
     private readonly store: Store,
     private readonly settingsFacade: SettingsFacade,
     private readonly translocoService: TranslocoService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly sanitizer: DomSanitizer
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,10 +134,6 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
         this.router.initialNavigation();
       }
     }
-  }
-
-  handleContentScroll($event: Event) {
-    this.containerScrollEvent$.next($event);
   }
 
   ngOnInit(): void {

@@ -1,3 +1,5 @@
+import { DEFAULT_BEARING_DESIGNATION } from '@ea/shared/constants/products';
+import { UNSUPPORTED_BEARINGS } from '@ea/shared/constants/unsupported-bearings';
 import { PRODUCT_SELECTION_STATE_MOCK, TEMPLATE_ITEM } from '@ea/testing/mocks';
 
 import {
@@ -7,6 +9,7 @@ import {
   getLoadcaseTemplate,
   getOperatingConditionsTemplate,
   getTemplateItem,
+  isBearingSupported,
 } from './product-selection.selector';
 
 describe('Product Selection Selector', () => {
@@ -21,6 +24,30 @@ describe('Product Selection Selector', () => {
       expect(getBearingDesignation(mockState)).toEqual(
         PRODUCT_SELECTION_STATE_MOCK.bearingDesignation
       );
+    });
+  });
+
+  describe('isBearingSupported', () => {
+    it('should return if bearing designation is supported', () => {
+      expect(
+        isBearingSupported({
+          ...mockState,
+          productSelection: {
+            ...PRODUCT_SELECTION_STATE_MOCK,
+            bearingDesignation: DEFAULT_BEARING_DESIGNATION,
+          },
+        })
+      ).toEqual(true);
+
+      expect(
+        isBearingSupported({
+          ...mockState,
+          productSelection: {
+            ...PRODUCT_SELECTION_STATE_MOCK,
+            bearingDesignation: UNSUPPORTED_BEARINGS[15],
+          },
+        })
+      ).toEqual(false);
     });
   });
 
