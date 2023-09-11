@@ -13,10 +13,15 @@
         {{ _item.icon }}
       </mat-icon>
       <div
-        class="text-caption text-medium-emphasis flex-shrink-0 font-medium"
-        [matTooltip]="_item.titleTooltip ? t(_item.titleTooltip) : undefined"
+        class="text-caption text-medium-emphasis inline-flex flex-shrink-0 font-medium"
       >
         {{ t(_item.title) }}
+        <ea-info-button
+          class="ml-1"
+          *ngIf="_item.titleTooltip"
+          [inline]="true"
+          [tooltip]="t(_item.titleTooltip)"
+        ></ea-info-button>
       </div>
     </div>
 
@@ -27,13 +32,16 @@
           [class.items-center]="isSingleItem"
         >
           <div
-            class="text-caption text-medium-emphasis mb-2 flex flex-col"
+            class="text-caption text-medium-emphasis mb-2"
             [class.text-center]="isSingleItem"
-            [matTooltip]="
-              value.titleTooltip ? t(value.titleTooltip) : undefined
-            "
           >
             {{ value.title && t(value.title) }}
+            <ea-info-button
+              class="inline-flex align-bottom"
+              *ngIf="value.titleTooltip"
+              [inline]="true"
+              [tooltip]="t(value.titleTooltip)"
+            ></ea-info-button>
           </div>
 
           <div

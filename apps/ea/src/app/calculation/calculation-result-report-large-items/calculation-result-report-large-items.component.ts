@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { InfoButtonComponent } from '@ea/shared/info-button/info-button.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 
@@ -16,7 +16,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     SharedTranslocoModule,
     TagComponent,
     MatIconModule,
-    MatTooltipModule,
+    InfoButtonComponent,
     MeaningfulRoundPipe,
   ],
   templateUrl: './calculation-result-report-large-items.component.html',

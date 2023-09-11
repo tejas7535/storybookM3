@@ -62,11 +62,14 @@
         </div>
       </div>
 
-      <div
-        class="text-caption text-medium-emphasis mt-4"
-        [matTooltip]="item.titleTooltip"
-      >
+      <div class="text-caption text-medium-emphasis mt-4">
         {{ t(item.title) }}
+        <ea-info-button
+          class="inline-flex align-bottom"
+          *ngIf="item.titleTooltip"
+          [inline]="true"
+          [tooltip]="item.titleTooltip"
+        ></ea-info-button>
       </div>
     </div>
     <div

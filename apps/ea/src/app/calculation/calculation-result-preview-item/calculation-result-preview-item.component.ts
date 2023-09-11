@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { CalculationResultPreviewItem } from '@ea/core/store/models';
+import { InfoButtonComponent } from '@ea/shared/info-button/info-button.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -19,6 +20,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     CommonModule,
     SharedTranslocoModule,
     MatIconModule,
+    InfoButtonComponent,
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatDividerModule,

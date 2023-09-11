@@ -1,11 +1,11 @@
-<div *ngIf="tooltip">
-  <mat-icon
-    color="primary"
-    class="cursor-help"
-    #tooltipRef="matTooltip"
-    [matTooltip]="tooltip"
-    (click)="tooltipRef.toggle()"
-  >
-    info_outline
-  </mat-icon>
-</div>
+<mat-icon
+  *ngIf="tooltip"
+  [color]="inline ? 'inherit' : 'primary'"
+  class="cursor-help"
+  [inline]="inline"
+  #tooltipRef="matTooltip"
+  [matTooltip]="tooltip"
+  (click)="tooltipRef.toggle()"
+>
+  info_outline
+</mat-icon>
