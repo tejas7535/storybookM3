@@ -170,7 +170,7 @@
         },
         "production": {
           "outputHashing": "bundles",
-          "deployUrl": "https://engineeringapp.dp.schaeffler/",
+          "deployUrl": "https://engineeringapp.com/",
           "optimization": {
             "scripts": true,
             "styles": {
