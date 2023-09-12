@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
+import { SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { LetModule, PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -16,12 +21,14 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import * as en from '../../../../../assets/i18n/en.json';
+import { MsdAgGridStateService } from '../../services';
 import { MsdNavigationComponent } from './msd-navigation.component';
 
 describe('MsdNavigationComponent', () => {
   let component: MsdNavigationComponent;
   let spectator: Spectator<MsdNavigationComponent>;
   let dataFacade: DataFacade;
+  let msdAgGridStateService: MsdAgGridStateService;
 
   const createComponent = createComponentFactory({
     component: MsdNavigationComponent,
@@ -35,6 +42,7 @@ describe('MsdNavigationComponent', () => {
       LetModule,
       provideTranslocoTestingModule({ en }),
     ],
+    detectChanges: false,
     providers: [
       provideMockStore({
         initialState: {
@@ -63,6 +71,7 @@ describe('MsdNavigationComponent', () => {
         },
       }),
       DataFacade,
+      mockProvider(MsdAgGridStateService),
     ],
   });
 
@@ -70,6 +79,7 @@ describe('MsdNavigationComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     dataFacade = spectator.inject(DataFacade);
+    msdAgGridStateService = spectator.inject(MsdAgGridStateService);
 
     dataFacade.dispatch = jest.fn();
   });
@@ -79,39 +89,141 @@ describe('MsdNavigationComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should dispatch the initial navigation', () => {
+    it('should dispatch the active navigation, set from outside', () => {
+      const activeNavigationLevel = {
+        materialClass: MaterialClass.COPPER,
+        navigationLevel: NavigationLevel.STANDARD,
+      };
+      msdAgGridStateService.getLastActiveNavigationLevel = jest.fn();
+
+      component.activeNavigationLevel = activeNavigationLevel;
       component.ngOnInit();
 
+      expect(
+        msdAgGridStateService.getLastActiveNavigationLevel
+      ).not.toHaveBeenCalled();
       expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation({
-          materialClass: MaterialClass.STEEL,
-          navigationLevel: NavigationLevel.MATERIAL,
-        })
+        setNavigation(activeNavigationLevel)
+      );
+    });
+
+    it('should dispatch the last active navigation', () => {
+      const lastActiveNavigationLevel = {
+        materialClass: MaterialClass.POLYMER,
+        navigationLevel: NavigationLevel.MATERIAL,
+      };
+
+      msdAgGridStateService.getLastActiveNavigationLevel = jest.fn(
+        () => lastActiveNavigationLevel
+      );
+
+      component.activeNavigationLevel = undefined;
+      component.ngOnInit();
+
+      expect(
+        msdAgGridStateService.getLastActiveNavigationLevel
+      ).toHaveBeenCalledTimes(1);
+      expect(dataFacade.dispatch).toHaveBeenCalledWith(
+        setNavigation(lastActiveNavigationLevel)
+      );
+    });
+  });
+
+  describe('ngOnChanges', () => {
+    it('should do nothing if activeNavigationLevel has not been changed', () => {
+      msdAgGridStateService.storeActiveNavigationLevel = jest.fn();
+
+      component.ngOnChanges({
+        someValue: {
+          currentValue: 'test',
+        },
+      } as unknown as SimpleChanges);
+
+      expect(
+        msdAgGridStateService.storeActiveNavigationLevel
+      ).not.toHaveBeenCalled();
+      expect(dataFacade.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing if activeNavigationLevel is undefined', () => {
+      msdAgGridStateService.storeActiveNavigationLevel = jest.fn();
+      component.activeNavigationLevel = undefined;
+
+      component.ngOnChanges({
+        activeNavigationLevel: {
+          currentValue: undefined,
+        },
+      } as unknown as SimpleChanges);
+
+      expect(
+        msdAgGridStateService.storeActiveNavigationLevel
+      ).not.toHaveBeenCalled();
+      expect(dataFacade.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should load data and store last active navigation level', () => {
+      const activeNavigationLevel = {
+        materialClass: MaterialClass.COPPER,
+        navigationLevel: NavigationLevel.STANDARD,
+      };
+
+      msdAgGridStateService.storeActiveNavigationLevel = jest.fn();
+      component.activeNavigationLevel = activeNavigationLevel;
+
+      component.ngOnChanges({
+        activeNavigationLevel: {
+          currentValue: activeNavigationLevel,
+        },
+      } as unknown as SimpleChanges);
+
+      expect(
+        msdAgGridStateService.storeActiveNavigationLevel
+      ).toHaveBeenCalledWith(activeNavigationLevel);
+      expect(dataFacade.dispatch).toHaveBeenCalledWith(
+        setNavigation(activeNavigationLevel)
       );
     });
   });
 
   describe('setActive', () => {
     it('should dispatch the action with the given values', () => {
-      component.setActive(MaterialClass.ALUMINUM, NavigationLevel.SUPPLIER);
+      const activeNavigationLevel = {
+        materialClass: MaterialClass.ALUMINUM,
+        navigationLevel: NavigationLevel.SUPPLIER,
+      };
+      msdAgGridStateService.storeActiveNavigationLevel = jest.fn();
+
+      component.setActive(
+        activeNavigationLevel.materialClass,
+        activeNavigationLevel.navigationLevel
+      );
 
       expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation({
-          materialClass: MaterialClass.ALUMINUM,
-          navigationLevel: NavigationLevel.SUPPLIER,
-        })
+        setNavigation({ ...activeNavigationLevel })
       );
+      expect(
+        msdAgGridStateService.storeActiveNavigationLevel
+      ).toHaveBeenCalledWith(activeNavigationLevel);
     });
 
     it('should dispatch the action with default values', () => {
-      component.setActive(MaterialClass.ALUMINUM);
+      const materialClass = MaterialClass.ALUMINUM;
+      const defaultActiveNavigationLevel = {
+        materialClass,
+        navigationLevel: NavigationLevel.MATERIAL,
+      };
+      msdAgGridStateService.storeActiveNavigationLevel = jest.fn();
+
+      component.setActive(materialClass);
 
       expect(dataFacade.dispatch).toHaveBeenCalledWith(
         setNavigation({
-          materialClass: MaterialClass.ALUMINUM,
-          navigationLevel: NavigationLevel.MATERIAL,
+          ...defaultActiveNavigationLevel,
         })
       );
+      expect(
+        msdAgGridStateService.storeActiveNavigationLevel
+      ).toHaveBeenCalledWith(defaultActiveNavigationLevel);
     });
   });
 
@@ -131,6 +243,7 @@ describe('MsdNavigationComponent', () => {
 
       expect(result).toBe(true);
     });
+
     it('should return false if class is sap', () => {
       const result = component.hasNavigationLevels(MaterialClass.SAP_MATERIAL);
 

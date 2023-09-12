@@ -7,6 +7,7 @@ import { QuickFilter } from '../quickilter';
 export interface ViewState {
   quickFilters: QuickFilter[];
   columnState: ColumnState[];
+  active?: boolean;
 }
 
 export interface MsdAgGridStateV2 {

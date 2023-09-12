@@ -3,12 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { setNavigation } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
+
+import { ActiveNavigationLevel } from '../../models';
+import { MsdAgGridStateService } from '../../services';
 
 /* eslint-disable max-lines */
 @Component({
@@ -16,8 +21,8 @@ import { DataFacade } from '@mac/msd/store/facades/data';
   templateUrl: './msd-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MsdNavigationComponent implements OnInit {
-  @Input() expandMaterialClass: MaterialClass;
+export class MsdNavigationComponent implements OnInit, OnChanges {
+  @Input() activeNavigationLevel: ActiveNavigationLevel;
 
   public navigationLevels = [
     NavigationLevel.MATERIAL,
@@ -31,15 +36,35 @@ export class MsdNavigationComponent implements OnInit {
 
   public minimized = false;
 
-  constructor(private readonly dataFacade: DataFacade) {}
+  constructor(
+    private readonly dataFacade: DataFacade,
+    private readonly msdAgGridStateService: MsdAgGridStateService
+  ) {}
 
   public ngOnInit(): void {
+    if (!this.activeNavigationLevel) {
+      this.activeNavigationLevel =
+        this.msdAgGridStateService.getLastActiveNavigationLevel();
+    }
+
     this.dataFacade.dispatch(
       setNavigation({
-        materialClass: MaterialClass.STEEL,
-        navigationLevel: NavigationLevel.MATERIAL,
+        ...this.activeNavigationLevel,
       })
     );
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.activeNavigationLevel && this.activeNavigationLevel) {
+      this.dataFacade.dispatch(
+        setNavigation({
+          ...this.activeNavigationLevel,
+        })
+      );
+      this.msdAgGridStateService.storeActiveNavigationLevel({
+        ...this.activeNavigationLevel,
+      });
+    }
   }
 
   public setActive(
@@ -47,6 +72,10 @@ export class MsdNavigationComponent implements OnInit {
     navigationLevel = NavigationLevel.MATERIAL
   ): void {
     this.dataFacade.dispatch(setNavigation({ materialClass, navigationLevel }));
+    this.msdAgGridStateService.storeActiveNavigationLevel({
+      materialClass,
+      navigationLevel,
+    });
   }
 
   public toggleSideBar() {

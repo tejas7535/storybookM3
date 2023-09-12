@@ -25,7 +25,9 @@
             <ng-container *ngIf="hasNavigationLevels(materialClass)">
               <mat-expansion-panel
                 class="!m-0 !rounded-none border-none"
-                [expanded]="materialClass === expandMaterialClass"
+                [expanded]="
+                  materialClass === activeNavigationLevel?.materialClass
+                "
                 hideToggle
                 #expansionPanel
               >

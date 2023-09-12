@@ -1,4 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -60,7 +61,6 @@ import {
   fetchResult,
   setAgGridColumns,
   setAgGridFilter,
-  setNavigation,
 } from '@mac/msd/store/actions/data';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
@@ -69,7 +69,6 @@ import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers
 import * as en from '../../../../assets/i18n/en.json';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
-import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
 import { getStatus } from './util';
 
@@ -135,7 +134,6 @@ describe('MainTableComponent', () => {
       MatCheckboxModule,
       MatIconModule,
       QuickFilterComponent,
-      MsdNavigationModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -173,6 +171,7 @@ describe('MainTableComponent', () => {
       },
     ],
     declarations: [MainTableComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -264,12 +263,10 @@ describe('MainTableComponent', () => {
         'some params'
       );
 
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        setNavigation({
-          materialClass: MaterialClass.STEEL,
-          navigationLevel: NavigationLevel.MATERIAL,
-        })
-      );
+      expect(component.activeNavigationLevel).toEqual({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
 
       expect(router.navigate).toHaveBeenCalledWith([], {
         relativeTo: route,

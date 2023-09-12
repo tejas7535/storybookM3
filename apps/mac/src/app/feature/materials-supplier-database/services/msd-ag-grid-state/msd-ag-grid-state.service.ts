@@ -18,6 +18,7 @@ import {
   SupportedMaterialClasses,
 } from '@mac/msd/constants';
 import {
+  ActiveNavigationLevel,
   MsdAgGridState,
   MsdAgGridStateCurrent,
   MsdAgGridStateV1,
@@ -106,6 +107,62 @@ export class MsdAgGridStateService {
     };
 
     this.setMsdMainTableState(newMsdMainTableState);
+  }
+
+  public storeActiveNavigationLevel(
+    activeNavigationLevel: ActiveNavigationLevel
+  ) {
+    const updatedCurrentMsdMainTableState = this.getMsdMainTableState();
+
+    Object.keys(updatedCurrentMsdMainTableState.materials).forEach(
+      (materialClass) => {
+        const material =
+          updatedCurrentMsdMainTableState.materials[
+            materialClass as keyof typeof updatedCurrentMsdMainTableState.materials
+          ];
+
+        Object.keys(material).forEach((navigationLevel) => {
+          const viewState: ViewState =
+            material[navigationLevel as keyof typeof material];
+
+          viewState.active =
+            materialClass === activeNavigationLevel.materialClass &&
+            navigationLevel === activeNavigationLevel.navigationLevel;
+        });
+      }
+    );
+
+    this.setMsdMainTableState(updatedCurrentMsdMainTableState);
+  }
+
+  public getLastActiveNavigationLevel(): ActiveNavigationLevel {
+    const currentMsdMainTableState = this.getMsdMainTableState();
+
+    let activeNavigationLevel = {
+      materialClass: MaterialClass.STEEL,
+      navigationLevel: NavigationLevel.MATERIAL,
+    };
+
+    Object.keys(currentMsdMainTableState.materials).forEach((materialClass) => {
+      const material =
+        currentMsdMainTableState.materials[
+          materialClass as keyof typeof currentMsdMainTableState.materials
+        ];
+
+      Object.keys(material).forEach((navigationLevel) => {
+        const viewState: ViewState =
+          material[navigationLevel as keyof typeof material];
+
+        if (viewState.active) {
+          activeNavigationLevel = {
+            materialClass: materialClass as MaterialClass,
+            navigationLevel: navigationLevel as NavigationLevel,
+          };
+        }
+      });
+    });
+
+    return activeNavigationLevel;
   }
 
   private init(): void {
@@ -338,6 +395,10 @@ export class MsdAgGridStateService {
         },
         [MaterialClass.POLYMER]: {
           ...currentStorage.materials[MaterialClass.POLYMER],
+          [NavigationLevel.STANDARD]: {
+            columnState: [],
+            quickFilters: [],
+          },
         },
       },
     };

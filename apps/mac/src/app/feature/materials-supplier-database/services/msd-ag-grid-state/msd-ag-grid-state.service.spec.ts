@@ -390,6 +390,12 @@ describe('MsdAgGridStateService', () => {
             suppliers: resultView,
             materialStandards: { columnState: [] } as ViewState,
           },
+          px: {
+            materialStandards: {
+              columnState: [],
+              quickFilters: [],
+            } as ViewState,
+          },
         },
       };
 
@@ -397,6 +403,7 @@ describe('MsdAgGridStateService', () => {
 
       expect(result.version).toEqual(expected.version);
       expect(result.materials.st).toEqual(expected.materials.st);
+      expect(result.materials.px).toEqual(expected.materials.px);
     });
   });
 
@@ -743,6 +750,145 @@ describe('MsdAgGridStateService', () => {
             suppliers: defaultViewState,
           },
         },
+      });
+    });
+  });
+
+  describe('storeActiveNavigationLevel', () => {
+    it('should store active navigation level', () => {
+      const setMsdMainTableStateMock = jest.fn();
+      service['setMsdMainTableState'] = setMsdMainTableStateMock;
+
+      const getMsdMainTableStateMock = jest.fn();
+      getMsdMainTableStateMock.mockReturnValue({
+        version: 2,
+        materials: {
+          [MaterialClass.ALUMINUM]: {
+            [NavigationLevel.MATERIAL]: {
+              quickFilters: [],
+              columnState: [],
+            },
+            [NavigationLevel.SUPPLIER]: {
+              quickFilters: [],
+              columnState: [],
+            },
+            [NavigationLevel.STANDARD]: {
+              quickFilters: [],
+              columnState: [],
+            },
+          },
+          [MaterialClass.STEEL]: {
+            [NavigationLevel.MATERIAL]: {
+              quickFilters: [],
+              columnState: [],
+            },
+            [NavigationLevel.SUPPLIER]: {
+              quickFilters: [],
+              columnState: [],
+            },
+            [NavigationLevel.STANDARD]: {
+              quickFilters: [],
+              columnState: [],
+            },
+          },
+        },
+      } as unknown as MsdAgGridState);
+      service['getMsdMainTableState'] = getMsdMainTableStateMock;
+
+      service.storeActiveNavigationLevel({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.STANDARD,
+      });
+
+      expect(setMsdMainTableStateMock).toHaveBeenCalledWith({
+        version: 2,
+        materials: {
+          [MaterialClass.ALUMINUM]: {
+            [NavigationLevel.MATERIAL]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.SUPPLIER]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.STANDARD]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+          },
+          [MaterialClass.STEEL]: {
+            [NavigationLevel.MATERIAL]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.SUPPLIER]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.STANDARD]: {
+              quickFilters: [],
+              columnState: [],
+              active: true,
+            },
+          },
+        } as unknown as MsdAgGridState,
+      });
+    });
+  });
+
+  describe('getLastActiveNavigationLevel', () => {
+    it('should get last active navigation level', () => {
+      const getMsdMainTableStateMock = jest.fn();
+      getMsdMainTableStateMock.mockReturnValue({
+        version: 2,
+        materials: {
+          [MaterialClass.ALUMINUM]: {
+            [NavigationLevel.MATERIAL]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.SUPPLIER]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.STANDARD]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+          },
+          [MaterialClass.STEEL]: {
+            [NavigationLevel.MATERIAL]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.SUPPLIER]: {
+              quickFilters: [],
+              columnState: [],
+              active: false,
+            },
+            [NavigationLevel.STANDARD]: {
+              quickFilters: [],
+              columnState: [],
+              active: true,
+            },
+          },
+        } as unknown as MsdAgGridState,
+      } as unknown as MsdAgGridState);
+      service['getMsdMainTableState'] = getMsdMainTableStateMock;
+
+      expect(service.getLastActiveNavigationLevel()).toEqual({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.STANDARD,
       });
     });
   });

@@ -54,7 +54,11 @@ import {
   RELEASE_DATE_VALUE_GETTER,
   STATUS_VALUE_GETTER,
 } from '@mac/msd/main-table/table-config/helpers';
-import { DataResult, SAPMaterial } from '@mac/msd/models';
+import {
+  ActiveNavigationLevel,
+  DataResult,
+  SAPMaterial,
+} from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
@@ -66,7 +70,6 @@ import {
   fetchResult,
   setAgGridColumns,
   setAgGridFilter,
-  setNavigation,
 } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
@@ -105,7 +108,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public columnDefs: ColDef[];
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
   public navigation$ = this.dataFacade.navigation$;
-  public expandedClass = MaterialClass.STEEL;
+  public activeNavigationLevel: ActiveNavigationLevel;
 
   public agGridTooltipDelay = 500;
 
@@ -425,10 +428,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       this.route.snapshot.queryParamMap.get('agGridFilter');
 
     if (materialClass && navigationLevel) {
-      this.expandedClass = materialClass;
-      this.dataFacade.dispatch(
-        setNavigation({ materialClass, navigationLevel })
-      );
+      this.activeNavigationLevel = {
+        materialClass,
+        navigationLevel,
+      };
     }
     if (agGridFilterString) {
       this.setParamAgGridFilter(agGridFilterString);
