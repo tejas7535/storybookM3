@@ -6,7 +6,7 @@ import { HashMap, translate, TranslocoModule } from '@ngneat/transloco';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
-  createSapSupplierIDValidator,
+  createSupplierBusinessPartnerIdValidator,
   filterFn,
   focusSelectedElement,
   getErrorMessage,
@@ -363,21 +363,27 @@ describe('Dialog Helpers', () => {
     const toStrOpt = (name: string) => ({ title: name } as StringOption);
     it('Should create a validator (undefined)', () => {
       const control = new FormControl<StringOption[]>(undefined);
-      control.addValidators(createSapSupplierIDValidator('S\\d{9}'));
+      control.addValidators(
+        createSupplierBusinessPartnerIdValidator('S\\d{9}')
+      );
 
       expect(control.valid).toBeTruthy();
     });
 
     it('Should validate correct values', () => {
       const control = new FormControl<StringOption[]>(undefined);
-      control.addValidators(createSapSupplierIDValidator('S\\d{9}'));
+      control.addValidators(
+        createSupplierBusinessPartnerIdValidator('S\\d{9}')
+      );
       control.setValue([toStrOpt('S123456789')]);
       expect(control.valid).toBeTruthy();
     });
 
     it('Should validate incorrect values correctly', () => {
       const control = new FormControl<StringOption[]>(undefined);
-      control.addValidators(createSapSupplierIDValidator('S\\d{9}'));
+      control.addValidators(
+        createSupplierBusinessPartnerIdValidator('S\\d{9}')
+      );
       control.setValue([toStrOpt('S123456789'), toStrOpt('S1234')]);
       expect(control.valid).toBeFalsy();
     });

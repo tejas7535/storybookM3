@@ -27,10 +27,10 @@ import {
   getResumeDialogData,
   getSteelMakingProcessesInUse,
   getStringOptions,
+  getSupplierBusinessPartnerIdsStringOptionsMerged,
   getSupplierCountryStringOptions,
   getSupplierNameStringOptionsMerged,
   getSupplierPlantsStringOptionsMerged,
-  getSupplierSapIdsStringOptionsMerged,
   getUniqueStringOptions,
   selectedHintData,
   validateCo2Scope,
@@ -51,7 +51,9 @@ export class DialogFacade {
   suppliers$ = this.store.select(getSupplierNameStringOptionsMerged);
   supplierPlants$ = this.store.select(getSupplierPlantsStringOptionsMerged);
   supplierCountries$ = this.store.select(getSupplierCountryStringOptions);
-  supplierSapIds$ = this.store.select(getSupplierSapIdsStringOptionsMerged);
+  businessPartnerIds$ = this.store.select(
+    getSupplierBusinessPartnerIdsStringOptionsMerged
+  );
 
   castingModes$ = this.store.select(getMaterialDialogCastingModes);
   co2Classification$ = this.store.select(getMaterialDialogCo2Classifications);

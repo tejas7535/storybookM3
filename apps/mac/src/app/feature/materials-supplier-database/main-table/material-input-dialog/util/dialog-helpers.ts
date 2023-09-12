@@ -73,8 +73,8 @@ export const getErrorMessage = (errors: { [key: string]: any }): string => {
       min: errors.scopeTotalLowerThanSingleScopes.min,
     });
   }
-  if (errors.invalidSapId) {
-    return getTranslatedError('invalidSapId');
+  if (errors.invalidBusinessPartnerId) {
+    return getTranslatedError('invalidBusinessPartnerId');
   }
 
   return getTranslatedError('generic');
@@ -116,7 +116,7 @@ export const focusSelectedElement = (
   cdRef.detectChanges();
 };
 
-export const createSapSupplierIDValidator =
+export const createSupplierBusinessPartnerIdValidator =
   (pattern: string): ValidatorFn =>
   (control: AbstractControl<StringOption[]>): ValidationErrors | null => {
     const value = control.value;
@@ -126,6 +126,6 @@ export const createSapSupplierIDValidator =
     const regexp = new RegExp(pattern);
 
     return value.some((v) => !regexp.test(v.title))
-      ? { invalidSapId: true }
+      ? { invalidBusinessPartnerId: true }
       : undefined;
   };

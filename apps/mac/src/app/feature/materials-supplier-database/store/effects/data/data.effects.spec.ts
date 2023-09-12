@@ -369,7 +369,8 @@ describe('Data Effects', () => {
             plant: 'plant2',
             country: 'country2',
             manufacturer: true,
-            sapIds: ['blabla', 'superSAP'],
+            sapSupplierIds: ['blabla', 'superSAP'],
+            businessPartnerIds: [1, 2],
             timestamp: 1,
           },
         ];
@@ -388,7 +389,7 @@ describe('Data Effects', () => {
             manufacturerSupplierPlant: 'plant2',
             manufacturerSupplierCountry: 'country2',
             manufacturer: true,
-            sapSupplierIds: ['blabla', 'superSAP'],
+            manufacturerSupplierSapSupplierIds: ['blabla', 'superSAP'],
             lastModified: 1,
           },
         ];

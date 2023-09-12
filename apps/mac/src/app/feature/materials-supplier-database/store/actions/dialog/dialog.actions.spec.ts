@@ -14,9 +14,9 @@ import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
+  addCustomSupplierBusinessPartnerId,
   addCustomSupplierName,
   addCustomSupplierPlant,
-  addCustomSupplierSapId,
   createMaterialComplete,
   editDialogLoadingComplete,
   editDialogLoadingFailure,
@@ -665,10 +665,12 @@ describe('Dialog Actions', () => {
     });
 
     it('SapId', () => {
-      const action = addCustomSupplierSapId({ supplierSapId: 'id' });
+      const action = addCustomSupplierBusinessPartnerId({
+        supplierBusinessPartnerId: 33,
+      });
       expect(action).toEqual({
-        type: '[MSD - Dialog] Add Custom Supplier Sap ID',
-        supplierSapId: 'id',
+        type: '[MSD - Dialog] Add Custom Supplier Business Partner ID',
+        supplierBusinessPartnerId: 33,
       });
     });
   });

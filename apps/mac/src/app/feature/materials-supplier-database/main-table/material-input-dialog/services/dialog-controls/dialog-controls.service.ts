@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { createSapSupplierIDValidator } from '../../util';
+import { createSupplierBusinessPartnerIdValidator } from '../../util';
 
 @Injectable()
 export class DialogControlsService {
@@ -11,7 +11,7 @@ export class DialogControlsService {
     '1\\.[0-9]{4}(, ?1\\.[0-9]{4})*';
   private readonly COPPER_MATERIAL_NUMBER_PATTERN =
     '2\\.[0-9]{4}(, ?2\\.[0-9]{4})*';
-  private readonly SAP_SUPPLIER_ID_PATTERN = 'S[0-9]{9}(, ?S[0-9]{9})*';
+  private readonly SUPPLIER_BUSINESS_PARTNER_ID_PATTERN = '^\\d{5,9}$';
 
   private readonly STEEL_MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
     this.STEEL_MATERIAL_NUMBER_PATTERN
@@ -19,9 +19,10 @@ export class DialogControlsService {
   private readonly COPPER_MATERIAL_NUMBER_VALIDATOR = Validators.pattern(
     this.COPPER_MATERIAL_NUMBER_PATTERN
   );
-  private readonly SAP_SUPPLIER_ID_VALIDATOR = createSapSupplierIDValidator(
-    this.SAP_SUPPLIER_ID_PATTERN
-  );
+  private readonly SUPPLIER_BUSINESS_PARTNER_ID_Validator =
+    createSupplierBusinessPartnerIdValidator(
+      this.SUPPLIER_BUSINESS_PARTNER_ID_PATTERN
+    );
 
   public getControl<T>(value?: T, disabled = false) {
     return new FormControl<T>({ value, disabled });
@@ -66,9 +67,9 @@ export class DialogControlsService {
     ]);
   }
 
-  public getSapSupplierIdControl() {
+  public getSupplierBusinessPartnerIdControl() {
     return new FormControl<StringOption[]>(undefined, [
-      this.SAP_SUPPLIER_ID_VALIDATOR,
+      this.SUPPLIER_BUSINESS_PARTNER_ID_Validator,
     ]);
   }
 }

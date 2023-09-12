@@ -12,6 +12,7 @@ export interface BaseMaterial {
   manufacturerSupplierCountry?: string;
   manufacturerSupplierRegion?: string;
   manufacturerSupplierSapSupplierIds?: string[];
+  manufacturerSupplierBusinessPartnerIds?: number[];
 
   materialClass: MaterialClass;
 

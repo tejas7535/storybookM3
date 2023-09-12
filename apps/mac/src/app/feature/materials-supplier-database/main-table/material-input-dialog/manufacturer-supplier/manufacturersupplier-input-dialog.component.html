@@ -45,17 +45,20 @@
           appearance="outline"
           class="w-1/2"
           [multiple]="true"
-          [stringOptions]="supplierSapIds$ | ngrxPush"
-          [control]="supplierSapIdsControl"
+          [stringOptions]="businessPartnerIds$ | ngrxPush"
+          [control]="supplierBusinessPartnerIdsControl"
           [filterFn]="filterFn"
-          [label]="t('supplierSapIds')"
+          [label]="t('businessPartnerIds')"
           [addEntry]="true"
-          (entryAdded)="addSupplierSapId($event)"
-          name="supplierSapIds"
+          (entryAdded)="addSupplierBusinessPartnerId($event)"
+          name="businessPartnerIds"
           #dialogControl
         >
-          <div matErrorContent *ngIf="supplierSapIdsControl.invalid">
-            {{ getErrorMessage(supplierSapIdsControl.errors) }}
+          <div
+            matErrorContent
+            *ngIf="supplierBusinessPartnerIdsControl.invalid"
+          >
+            {{ getErrorMessage(supplierBusinessPartnerIdsControl.errors) }}
           </div>
         </schaeffler-select>
       </div>

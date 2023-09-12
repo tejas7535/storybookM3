@@ -380,6 +380,8 @@
         "manufacturerSupplierPlant": "Supplier Plant",
         "manufacturerSupplierCountry": "Supplier Country",
         "manufacturerSupplierRegion": "Supplier Region",
+        "manufacturerSupplierSapSupplierIds": "SAP ID(s) for supplier",
+        "manufacturerSupplierBusinessPartnerIds": "SAP Business Partner Id",
         "selfCertified": "Self-certification supplier",
         "materialNumbers": "Material Number(s)",
         "steelNumber": "Steel Number(s)",
@@ -477,6 +479,7 @@
           "info_delete": "All entries will be deleted!"
         },
         "supplierSapIds": "SAP ID(s) for supplier",
+        "businessPartnerIds": "SAP Business Partner Id",
         "addMaterial": "ADD MATERIAL",
         "addMaterialStandard": "ADD MATERIAL STANDARD",
         "addManufacturerSupplier": "ADD MANUFACTURER SUPPLIER",
@@ -531,7 +534,7 @@
           "min": "Value lower than {{min}}",
           "required": "Input required",
           "dependency": "Input required due to dependent field",
-          "invalidSapId": "Required format: S123456789",
+          "invalidBusinessPartnerId": "Required format: 123456789",
           "steelNumber": "Required format: 1.1234(, 1.3456, ...)",
           "copperNumber": "Required format: 2.1234(, 2.3456, ...)"
         },

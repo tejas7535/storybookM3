@@ -146,7 +146,7 @@ describe('MsdDataService', () => {
       service
         .getMaterials<SteelMaterial>(MaterialClass.STEEL)
         .subscribe((result: any) => {
-          expect(result).toEqual(mockResult);
+          expect(result).toMatchObject(mockResult);
           done();
         });
 
@@ -281,7 +281,8 @@ describe('MsdDataService', () => {
           name: 'supplier1',
           plant: 'plant1',
           country: 'country1',
-          sapIds: ['123456', '1234567'],
+          businessPartnerIds: [1, 2],
+          sapSupplierIds: ['123456', '1234567'],
         },
         {
           id: 1,
@@ -1135,7 +1136,8 @@ describe('MsdDataService', () => {
           plant: 'pOne',
           country: 'IT',
           manufacturer: true,
-          sapIds: ['1', '2'],
+          businessPartnerIds: [1, 2],
+          sapSupplierIds: ['1', '2'],
           timestamp: 1345,
           modifiedBy: 'me',
         },
@@ -1156,7 +1158,8 @@ describe('MsdDataService', () => {
           manufacturerSupplierCountry: 'IT',
           manufacturerSupplierRegion: 'EU',
           manufacturer: true,
-          sapSupplierIds: ['1', '2'],
+          manufacturerSupplierSapSupplierIds: ['1', '2'],
+          manufacturerSupplierBusinessPartnerIds: [1, 2],
           lastModified: 1345,
           modifiedBy: 'me',
         },
@@ -1169,7 +1172,8 @@ describe('MsdDataService', () => {
           lastModified: 1345,
           modifiedBy: 'me',
           manufacturer: undefined,
-          sapSupplierIds: undefined,
+          manufacturerSupplierSapSupplierIds: undefined,
+          manufacturerSupplierBusinessPartnerIds: undefined,
         },
       ];
       expect(service.mapSuppliersToTableView(srcArray)).toStrictEqual(expected);

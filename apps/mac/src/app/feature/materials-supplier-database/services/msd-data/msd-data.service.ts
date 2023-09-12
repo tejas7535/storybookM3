@@ -558,16 +558,19 @@ export class MsdDataService {
       manufacturerSupplierRegion: MAP_COUNTRY_TO_REGION(
         materialResponse.manufacturerSupplier.country
       ),
+      manufacturerSupplierSapSupplierIds: findProperty<string[]>(
+        materialResponse.manufacturerSupplier,
+        'sapSupplierIds'
+      ),
+      manufacturerSupplierBusinessPartnerIds: findProperty<number[]>(
+        materialResponse.manufacturerSupplier,
+        'businessPartnerIds'
+      ),
       materialClass: materialResponse.materialClass as MaterialClass,
       selfCertified: findProperty(materialResponse, 'selfCertified'),
       manufacturer: findProperty(
         materialResponse.manufacturerSupplier,
         'manufacturer'
-      ),
-      // this seems to be wrong, why not 'manufacturerSupplierSapSupplierIds'?
-      sapSupplierIds: findProperty<string[]>(
-        materialResponse.manufacturerSupplier,
-        'sapIds'
       ),
       productCategory: materialResponse.productCategory,
       productCategoryText: materialResponse.productCategory
@@ -636,7 +639,14 @@ export class MsdDataService {
         manufacturerSupplier.country
       ),
       manufacturer: findProperty(manufacturerSupplier, 'manufacturer'),
-      sapSupplierIds: findProperty<string[]>(manufacturerSupplier, 'sapIds'),
+      manufacturerSupplierSapSupplierIds: findProperty<string[]>(
+        manufacturerSupplier,
+        'sapSupplierIds'
+      ),
+      manufacturerSupplierBusinessPartnerIds: findProperty<number[]>(
+        manufacturerSupplier,
+        'businessPartnerIds'
+      ),
       lastModified: manufacturerSupplier.timestamp,
       modifiedBy: manufacturerSupplier.modifiedBy,
     } as ManufacturerSupplierTableValue;

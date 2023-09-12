@@ -40,11 +40,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   LAST_MODIFIED,
+  MANUFACTURER_SUPPLIER_SAPID,
   MaterialClass,
   NavigationLevel,
   RELEASE_DATE,
   RELEASED_STATUS,
-  SAP_SUPPLIER_IDS,
   Status,
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
@@ -825,6 +825,33 @@ describe('MainTableComponent', () => {
         () => mockStringFn
       );
 
+      component['visibleColumns'] = [MANUFACTURER_SUPPLIER_SAPID];
+
+      component.exportExcel();
+
+      expect(component['datePipe'].transform).toHaveBeenCalledWith(
+        expect.any(Date),
+        'yyyy-MM-dd'
+      );
+      expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalledWith({
+        author: 'materialsSupplierDatabase.mainTable.excelExport.author',
+        fileName:
+          '1234-13-44materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix',
+        sheetName: 'materialsSupplierDatabase.mainTable.excelExport.sheetName',
+        columnKeys: [MANUFACTURER_SUPPLIER_SAPID],
+        getCustomContentBelowRow: mockArrayFn,
+        processCellCallback: mockStringFn,
+      });
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - MSD] Export Excel');
+    });
+
+    it('should call export function with current timestamp without splitting fkts', () => {
+      component['datePipe'].transform = jest.fn().mockReturnValue('1234-13-44');
+      component['agGridApi'] = {} as unknown as GridApi;
+      component['agGridApi'].exportDataAsExcel = jest.fn();
+
       component['visibleColumns'] = [];
 
       component.exportExcel();
@@ -839,8 +866,8 @@ describe('MainTableComponent', () => {
           '1234-13-44materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix',
         sheetName: 'materialsSupplierDatabase.mainTable.excelExport.sheetName',
         columnKeys: [],
-        getCustomContentBelowRow: mockArrayFn,
-        processCellCallback: mockStringFn,
+        getCustomContentBelowRow: undefined,
+        processCellCallback: undefined,
       });
       expect(
         component['applicationInsightsService'].logEvent
@@ -907,7 +934,7 @@ describe('MainTableComponent', () => {
           data: {
             col1: 'a',
             col2: 'b',
-            [SAP_SUPPLIER_IDS]: [],
+            [MANUFACTURER_SUPPLIER_SAPID]: [],
           },
         } as unknown as RowNode,
       } as ProcessRowGroupForExportParams;
@@ -924,7 +951,7 @@ describe('MainTableComponent', () => {
           data: {
             col1: 'a',
             col2: 'b',
-            [SAP_SUPPLIER_IDS]: ['onlyOneId'],
+            [MANUFACTURER_SUPPLIER_SAPID]: ['onlyOneId'],
           },
         } as unknown as RowNode,
       } as ProcessRowGroupForExportParams;
@@ -941,7 +968,7 @@ describe('MainTableComponent', () => {
           data: {
             col1: 'a',
             col2: 'b',
-            [SAP_SUPPLIER_IDS]: ['id1', 'id2', 'id3'],
+            [MANUFACTURER_SUPPLIER_SAPID]: ['id1', 'id2', 'id3'],
             releaseDateYear: 2000,
             releaseDateMonth: 1,
           },
@@ -949,7 +976,7 @@ describe('MainTableComponent', () => {
       } as ProcessRowGroupForExportParams;
       component['visibleColumns'] = [
         'col1',
-        SAP_SUPPLIER_IDS,
+        MANUFACTURER_SUPPLIER_SAPID,
         RELEASE_DATE,
         RELEASED_STATUS,
       ];
@@ -1024,8 +1051,14 @@ describe('MainTableComponent', () => {
         RELEASED_STATUS,
         'materialsSupplierDatabase.status.statusValues.undefined'
       );
-      expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id2');
-      expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id3');
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        MANUFACTURER_SUPPLIER_SAPID,
+        'id2'
+      );
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        MANUFACTURER_SUPPLIER_SAPID,
+        'id3'
+      );
     });
   });
 
@@ -1044,11 +1077,11 @@ describe('MainTableComponent', () => {
     it('should return the first sap id if multiple ids are present', () => {
       const mockParams = {
         column: {
-          getColId: jest.fn(() => SAP_SUPPLIER_IDS),
+          getColId: jest.fn(() => MANUFACTURER_SUPPLIER_SAPID),
         } as unknown as Column,
         node: {
           data: {
-            [SAP_SUPPLIER_IDS]: ['id1', 'id2', 'id3'],
+            [MANUFACTURER_SUPPLIER_SAPID]: ['id1', 'id2', 'id3'],
           },
         },
         value: ['id1-value', 'id2', 'id3'],
@@ -1057,17 +1090,20 @@ describe('MainTableComponent', () => {
       const result: string = mockExcelExportProcessCellCallback(mockParams);
 
       expect(result).toEqual('test');
-      expect(mockGetCellValue).toHaveBeenCalledWith(SAP_SUPPLIER_IDS, 'id1');
+      expect(mockGetCellValue).toHaveBeenCalledWith(
+        MANUFACTURER_SUPPLIER_SAPID,
+        'id1'
+      );
     });
 
     it('should return the value if only one sap id is present', () => {
       const mockParams = {
         column: {
-          getColId: jest.fn(() => SAP_SUPPLIER_IDS),
+          getColId: jest.fn(() => MANUFACTURER_SUPPLIER_SAPID),
         } as unknown as Column,
         node: {
           data: {
-            [SAP_SUPPLIER_IDS]: ['id1'],
+            [MANUFACTURER_SUPPLIER_SAPID]: ['id1'],
           },
         },
         value: 'id1-value',
@@ -1077,7 +1113,7 @@ describe('MainTableComponent', () => {
 
       expect(result).toEqual('test');
       expect(mockGetCellValue).toHaveBeenCalledWith(
-        SAP_SUPPLIER_IDS,
+        MANUFACTURER_SUPPLIER_SAPID,
         'id1-value'
       );
     });
@@ -1085,11 +1121,11 @@ describe('MainTableComponent', () => {
     it('should return the value if no sap id is present', () => {
       const mockParams = {
         column: {
-          getColId: jest.fn(() => SAP_SUPPLIER_IDS),
+          getColId: jest.fn(() => MANUFACTURER_SUPPLIER_SAPID),
         } as unknown as Column,
         node: {
           data: {
-            [SAP_SUPPLIER_IDS]: [] as string[],
+            [MANUFACTURER_SUPPLIER_SAPID]: [] as string[],
           },
         },
         value: 'id1-value',
@@ -1099,7 +1135,7 @@ describe('MainTableComponent', () => {
 
       expect(result).toEqual('test');
       expect(mockGetCellValue).toHaveBeenCalledWith(
-        SAP_SUPPLIER_IDS,
+        MANUFACTURER_SUPPLIER_SAPID,
         'id1-value'
       );
     });
@@ -1111,7 +1147,7 @@ describe('MainTableComponent', () => {
         } as unknown as Column,
         node: {
           data: {
-            [SAP_SUPPLIER_IDS]: [] as string[],
+            [MANUFACTURER_SUPPLIER_SAPID]: [] as string[],
           },
         },
         value: 'id1-value',

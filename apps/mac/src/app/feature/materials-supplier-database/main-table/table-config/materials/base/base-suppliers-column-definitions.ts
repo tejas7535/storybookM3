@@ -2,13 +2,15 @@ import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-community';
 
 import {
+  BUSINESS_PARTNER_ID,
   LAST_MODIFIED,
+  MANUFACTURER_SUPPLIER_BUSINESSPARTNERID,
   MANUFACTURER_SUPPLIER_COUNTRY,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
   MANUFACTURER_SUPPLIER_REGION,
+  MANUFACTURER_SUPPLIER_SAPID,
   RECENT_STATUS,
-  SAP_SUPPLIER_IDS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
@@ -54,8 +56,14 @@ export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
     tooltipValueGetter: (params) => `region.${params.value}`,
   },
   {
-    field: SAP_SUPPLIER_IDS,
-    headerName: SAP_SUPPLIER_IDS,
+    field: MANUFACTURER_SUPPLIER_SAPID,
+    headerName: MANUFACTURER_SUPPLIER_SAPID,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
+    field: MANUFACTURER_SUPPLIER_BUSINESSPARTNERID,
+    headerName: BUSINESS_PARTNER_ID,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
     hide: true,

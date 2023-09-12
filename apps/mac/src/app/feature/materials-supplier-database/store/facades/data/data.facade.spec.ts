@@ -28,7 +28,6 @@ describe('DataFacade', () => {
       manufacturerSupplierPlant: 'Udine',
       manufacturerSupplierCountry: 'Italy',
       selfCertified: false,
-      sapSupplierIds: [],
       productCategory: 'barBright',
       productCategoryText: 'Bright bar',
       co2PerTon: 6666,

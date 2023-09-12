@@ -212,7 +212,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
-        sapIds: undefined,
+        businessPartnerIds: undefined,
       };
 
       component.confirmMaterial(false);
@@ -237,7 +237,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
-        sapIds: undefined,
+        businessPartnerIds: undefined,
       };
 
       component.confirmMaterial(true);
@@ -262,7 +262,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
-        sapIds: undefined,
+        businessPartnerIds: undefined,
       };
 
       component.confirmMaterial(false);
@@ -287,7 +287,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: values.supplierPlant.title,
         country: values.supplierCountry.id as string,
         manufacturer: values.manufacturer,
-        sapIds: undefined,
+        businessPartnerIds: undefined,
       };
 
       component.confirmMaterial(true);
@@ -369,7 +369,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         plant: { title: 'plant' } as StringOption,
         country: { title: 'country' } as StringOption,
         manufacturer: false,
-        sapSupplierIds: [{ title: '#1' } as StringOption],
+        businessPartnerIds: [{ title: '#1' } as StringOption],
       };
       component.createMaterialForm.patchValue(mockValue, { emitEvent: false });
 
@@ -382,8 +382,8 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
             supplier: { title: 'name' } as StringOption,
             supplierPlant: { title: 'plant' } as StringOption,
             supplierCountry: { title: 'country' } as StringOption,
+            businessPartnerIds: [{ title: '#1' }],
             manufacturer: false,
-            sapSupplierIds: [{ title: '#1' }],
           },
           isCopy: false,
         },

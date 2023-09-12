@@ -166,9 +166,9 @@ export const getCustomSupplierPlants = createSelector(
   (dialogOptions) => dialogOptions.customManufacturerSupplierPlants
 );
 
-export const getCustomSupplierSapIds = createSelector(
+export const getCustomSupplierBusinessPartnerIds = createSelector(
   getMaterialDialogOptions,
-  (dialogOptions) => dialogOptions.customManufacturerSupplierSapIds
+  (dialogOptions) => dialogOptions.customManufacturerSupplierBusinessPartnerIds
 );
 export const getMaterialDialogMaterialStandards = createSelector(
   getMaterialDialogOptions,
@@ -346,21 +346,23 @@ export const getSupplierCountryStringOptions = createSelector(
       .sort(stringOptionsSortFn) || []
 );
 
-export const getSupplierSapIdsStringOptions = createSelector(
+export const getSupplierBusinessPartnerIdsStringOptions = createSelector(
   getMaterialDialogSuppliers,
   (suppliers): StringOption[] =>
     suppliers
       ?.filter(
         (supplier) =>
-          !!supplier && !!supplier.sapIds && supplier.sapIds.length > 0
+          !!supplier &&
+          !!supplier.businessPartnerIds &&
+          supplier.businessPartnerIds.length > 0
       )
-      .flatMap((supplier) => supplier.sapIds)
+      .flatMap((supplier) => supplier.businessPartnerIds)
       // make list unique
       .filter((val, index, array) => array.indexOf(val) === index)
       .sort()
       .map((supplierSapId) => ({
         id: supplierSapId,
-        title: supplierSapId,
+        title: supplierSapId.toString(),
       })) || []
 );
 
@@ -404,18 +406,23 @@ export const getSupplierPlantsStringOptionsMerged = createSelector(
   }
 );
 
-export const getSupplierSapIdsStringOptionsMerged = createSelector(
-  getSupplierSapIdsStringOptions,
-  getCustomSupplierSapIds,
-  (supplierSapIdOptions, customSupplierSapIds): StringOption[] => {
-    const customOptions: StringOption[] = (customSupplierSapIds || []).map(
+export const getSupplierBusinessPartnerIdsStringOptionsMerged = createSelector(
+  getSupplierBusinessPartnerIdsStringOptions,
+  getCustomSupplierBusinessPartnerIds,
+  (
+    supplierBusinessPartnerIdsOptions,
+    customSupplierBusinessPartnerIds
+  ): StringOption[] => {
+    const customOptions: StringOption[] = (
+      customSupplierBusinessPartnerIds || []
+    ).map(
       (value) =>
         ({
           id: undefined,
-          title: value,
+          title: value.toString(),
         } as StringOption)
     );
-    customOptions.push(...supplierSapIdOptions);
+    customOptions.push(...supplierBusinessPartnerIdsOptions);
 
     return customOptions;
   }

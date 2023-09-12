@@ -5,16 +5,17 @@ import {
   CO2_CLASSIFICATION,
   CO2_PER_TON,
   LAST_MODIFIED,
+  MANUFACTURER_SUPPLIER_BUSINESSPARTNERID,
   MANUFACTURER_SUPPLIER_COUNTRY,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
   MANUFACTURER_SUPPLIER_REGION,
+  MANUFACTURER_SUPPLIER_SAPID,
   MATERIAL_STANDARD_MATERIAL_NAME,
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
   PRODUCT_CATEGORY,
   RECENT_STATUS,
   RELEASE_RESTRICTIONS,
-  SAP_SUPPLIER_IDS,
 } from '@mac/msd/constants';
 import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
@@ -126,8 +127,15 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: SAP_SUPPLIER_IDS,
-    headerName: SAP_SUPPLIER_IDS,
+    field: MANUFACTURER_SUPPLIER_SAPID,
+    headerName: MANUFACTURER_SUPPLIER_SAPID,
+    filterParams: FILTER_PARAMS,
+    cellRenderer: EditCellRendererComponent,
+    hide: true,
+  },
+  {
+    field: MANUFACTURER_SUPPLIER_BUSINESSPARTNERID,
+    headerName: MANUFACTURER_SUPPLIER_BUSINESSPARTNERID,
     filterParams: FILTER_PARAMS,
     cellRenderer: EditCellRendererComponent,
     hide: true,

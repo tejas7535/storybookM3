@@ -1083,15 +1083,15 @@ describe('dialogReducer', () => {
     });
 
     it('should add a custom supplier sapId', () => {
-      const action = DialogActions.addCustomSupplierSapId({
-        supplierSapId: 'new',
+      const action = DialogActions.addCustomSupplierBusinessPartnerId({
+        supplierBusinessPartnerId: 99,
       });
       const newState = dialogReducer(
         {
           ...state,
           dialogOptions: {
             ...state.dialogOptions,
-            customManufacturerSupplierSapIds: ['old'],
+            customManufacturerSupplierBusinessPartnerIds: [1],
           },
         },
         action
@@ -1100,7 +1100,7 @@ describe('dialogReducer', () => {
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          customManufacturerSupplierSapIds: ['new', 'old'],
+          customManufacturerSupplierBusinessPartnerIds: [99, 1],
         },
       });
     });

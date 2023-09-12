@@ -244,9 +244,9 @@ export const addCustomSupplierPlant = createAction(
   props<{ supplierPlant: string }>()
 );
 
-export const addCustomSupplierSapId = createAction(
-  '[MSD - Dialog] Add Custom Supplier Sap ID',
-  props<{ supplierSapId: string }>()
+export const addCustomSupplierBusinessPartnerId = createAction(
+  '[MSD - Dialog] Add Custom Supplier Business Partner ID',
+  props<{ supplierBusinessPartnerId: number }>()
 );
 
 export const postMaterial = createAction(

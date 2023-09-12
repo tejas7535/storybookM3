@@ -13,6 +13,7 @@ export interface DataResult {
   manufacturerSupplierCountry: string;
   selfCertified: boolean;
   sapSupplierIds?: string[];
+  businessPartnerIds?: number[];
   productCategory: string;
   productCategoryText: string;
   referenceDoc?: string[];

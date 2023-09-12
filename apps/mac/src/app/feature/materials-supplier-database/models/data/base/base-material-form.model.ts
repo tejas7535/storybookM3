@@ -18,5 +18,5 @@ export interface BaseMaterialForm {
   supplier: FormControl<StringOption>;
   supplierPlant: FormControl<StringOption>;
   supplierCountry: FormControl<StringOption>;
-  sapSupplierIds?: FormControl<StringOption[]>;
+  businessPartnerIds?: FormControl<number[]>;
 }

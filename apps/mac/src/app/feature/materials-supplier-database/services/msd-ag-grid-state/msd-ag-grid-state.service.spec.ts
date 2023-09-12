@@ -7,10 +7,14 @@ import { ColumnState } from 'ag-grid-community';
 
 import {
   ACTION,
+  CO2_PER_TON,
   HISTORY,
+  LAST_MODIFIED,
   MANUFACTURER,
+  MANUFACTURER_SUPPLIER_SAPID,
   MaterialClass,
   NavigationLevel,
+  SAP_SUPPLIER_IDS,
 } from '@mac/msd/constants';
 import {
   MsdAgGridState,
@@ -160,6 +164,7 @@ describe('MsdAgGridStateService', () => {
       service['migrateToVersion2'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_1'] = jest.fn(() => anyMigrationFn());
       service['migrateToVersion2_6'] = jest.fn(() => anyMigrationFn());
+      service['migrateToVersion2_7'] = jest.fn(() => anyMigrationFn());
     });
     it('should run migration to v1', () => {
       service['migrateLocalStorage'](0, { version: 0 } as MsdAgGridState);
@@ -186,6 +191,13 @@ describe('MsdAgGridStateService', () => {
       service['migrateLocalStorage'](2.5, {} as MsdAgGridState);
 
       expect(service['migrateToVersion2_6']).toHaveBeenCalled();
+      expect(service['prepareSupportedMaterialClasses']).toHaveBeenCalled();
+    });
+
+    it('should run migration to v2_7', () => {
+      service['migrateLocalStorage'](2.6, {} as MsdAgGridState);
+
+      expect(service['migrateToVersion2_7']).toHaveBeenCalled();
       expect(service['prepareSupportedMaterialClasses']).toHaveBeenCalled();
     });
 
@@ -436,6 +448,124 @@ describe('MsdAgGridStateService', () => {
       };
 
       expect(service['migrateToVersion2_6'](oldStorage)).toEqual(expected);
+    });
+  });
+
+  describe('migrateToVersion2_7', () => {
+    it('should migrate to version 2_7', () => {
+      const createViewState = (columns: string[]): ViewState => ({
+        columnState: columns.map((id) => ({ colId: id } as ColumnState)),
+        quickFilters: [
+          {
+            title: 'test',
+            filter: { [columns[0]]: 33 },
+            columns,
+            custom: true,
+          },
+        ],
+      });
+
+      const oldStorage: MsdAgGridStateV2 = {
+        version: 2.6,
+        materials: {
+          [MaterialClass.ALUMINUM]: {
+            materials: createViewState([CO2_PER_TON, SAP_SUPPLIER_IDS, 'au']),
+            suppliers: createViewState([CO2_PER_TON, SAP_SUPPLIER_IDS, 'au']),
+          },
+          [MaterialClass.CERAMIC]: {
+            materials: createViewState([SAP_SUPPLIER_IDS, LAST_MODIFIED, 'ce']),
+            suppliers: createViewState([SAP_SUPPLIER_IDS, LAST_MODIFIED, 'ce']),
+          },
+          [MaterialClass.COPPER]: {
+            materials: createViewState([SAP_SUPPLIER_IDS, CO2_PER_TON, 'abc']),
+            suppliers: createViewState([SAP_SUPPLIER_IDS, CO2_PER_TON, 'abc']),
+          },
+          [MaterialClass.POLYMER]: {
+            materials: createViewState([SAP_SUPPLIER_IDS, 'px']),
+            suppliers: createViewState([SAP_SUPPLIER_IDS, 'px']),
+          },
+          [MaterialClass.SAP_MATERIAL]: {
+            materials: createViewState([SAP_SUPPLIER_IDS]),
+          },
+          [MaterialClass.STEEL]: {
+            materials: createViewState([
+              CO2_PER_TON,
+              SAP_SUPPLIER_IDS,
+              MANUFACTURER,
+            ]),
+            suppliers: createViewState([
+              CO2_PER_TON,
+              SAP_SUPPLIER_IDS,
+              MANUFACTURER,
+            ]),
+          },
+        },
+      };
+
+      const expected: MsdAgGridStateV2 = {
+        ...oldStorage,
+        version: 2.7,
+        materials: {
+          ...oldStorage.materials,
+          [MaterialClass.ALUMINUM]: {
+            materials: createViewState([
+              CO2_PER_TON,
+              MANUFACTURER_SUPPLIER_SAPID,
+              'au',
+            ]),
+            suppliers: createViewState([
+              CO2_PER_TON,
+              MANUFACTURER_SUPPLIER_SAPID,
+              'au',
+            ]),
+          },
+          [MaterialClass.CERAMIC]: {
+            materials: createViewState([
+              MANUFACTURER_SUPPLIER_SAPID,
+              LAST_MODIFIED,
+              'ce',
+            ]),
+            suppliers: createViewState([
+              MANUFACTURER_SUPPLIER_SAPID,
+              LAST_MODIFIED,
+              'ce',
+            ]),
+          },
+          [MaterialClass.COPPER]: {
+            materials: createViewState([
+              MANUFACTURER_SUPPLIER_SAPID,
+              CO2_PER_TON,
+              'abc',
+            ]),
+            suppliers: createViewState([
+              MANUFACTURER_SUPPLIER_SAPID,
+              CO2_PER_TON,
+              'abc',
+            ]),
+          },
+          [MaterialClass.POLYMER]: {
+            materials: createViewState([MANUFACTURER_SUPPLIER_SAPID, 'px']),
+            suppliers: createViewState([MANUFACTURER_SUPPLIER_SAPID, 'px']),
+          },
+          [MaterialClass.SAP_MATERIAL]: {
+            materials: createViewState([SAP_SUPPLIER_IDS]),
+          },
+          [MaterialClass.STEEL]: {
+            materials: createViewState([
+              CO2_PER_TON,
+              MANUFACTURER_SUPPLIER_SAPID,
+              MANUFACTURER,
+            ]),
+            suppliers: createViewState([
+              CO2_PER_TON,
+              MANUFACTURER_SUPPLIER_SAPID,
+              MANUFACTURER,
+            ]),
+          },
+        },
+      };
+
+      expect(service['migrateToVersion2_7'](oldStorage)).toEqual(expected);
     });
   });
 

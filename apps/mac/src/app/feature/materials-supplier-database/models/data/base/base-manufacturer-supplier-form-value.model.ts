@@ -5,5 +5,5 @@ export interface BaseManufacturerSupplierFormValue {
   name: StringOption;
   plant: StringOption;
   country: StringOption;
-  sapSupplierIds?: StringOption[];
+  businessPartnerIds?: StringOption[];
 }

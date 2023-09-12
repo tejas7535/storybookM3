@@ -9,10 +9,12 @@ import { ColumnState } from 'ag-grid-enterprise';
 import {
   ACTION,
   HISTORY,
+  MANUFACTURER_SUPPLIER_SAPID,
   MaterialClass,
   NavigationLevel,
   RECENT_STATUS,
   RELEASED_STATUS,
+  SAP_SUPPLIER_IDS,
   SupportedMaterialClasses,
 } from '@mac/msd/constants';
 import {
@@ -31,7 +33,7 @@ import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
   providedIn: 'root',
 })
 export class MsdAgGridStateService {
-  private readonly MIN_STATE_VERSION = 2.6;
+  private readonly MIN_STATE_VERSION = 2.7;
   private readonly KEY = 'MSD_MAIN_TABLE_STATE';
   private readonly LEGACY_MSD_KEY = 'msdMainTable';
   private readonly LEGACY_MSD_QUICKFILTER_KEY = 'MSD_quickfilter';
@@ -171,6 +173,9 @@ export class MsdAgGridStateService {
     // 2.2 to 2.5 are no longer needed, as "prepareSupportedMaterialClasses" will create those structures!
     if (version < 2.6) {
       state = this.migrateToVersion2_6(state as MsdAgGridStateV2);
+    }
+    if (version < 2.7) {
+      state = this.migrateToVersion2_7(state as MsdAgGridStateV2);
     }
     // add further migrations here
     this.setMsdMainTableState(state as MsdAgGridStateCurrent);
@@ -363,6 +368,69 @@ export class MsdAgGridStateService {
     SupportedMaterialClasses.forEach((clazz) =>
       removeColumns(newStorage, clazz)
     );
+
+    return newStorage;
+  }
+
+  // replace old sapId column with new manufacturerSupplierSapId column
+  private migrateToVersion2_7(
+    currentStorage: MsdAgGridStateV2
+  ): MsdAgGridStateV2 {
+    const renameColumn = (
+      storage: MsdAgGridStateV2,
+      clazz: MaterialClass
+    ): void => {
+      if (storage.materials[clazz]) {
+        // update materials
+        const materials = storage.materials[clazz].materials;
+        materials.columnState = materials.columnState.map((cs) =>
+          cs.colId === SAP_SUPPLIER_IDS
+            ? { ...cs, colId: MANUFACTURER_SUPPLIER_SAPID }
+            : cs
+        );
+        // update materials quickfilter
+        materials.quickFilters = materials.quickFilters.map((qf) => {
+          qf.columns = qf.columns.map((col) =>
+            col === SAP_SUPPLIER_IDS ? MANUFACTURER_SUPPLIER_SAPID : col
+          );
+          if (qf.filter[SAP_SUPPLIER_IDS]) {
+            qf.filter[MANUFACTURER_SUPPLIER_SAPID] =
+              qf.filter[SAP_SUPPLIER_IDS];
+            delete qf.filter[SAP_SUPPLIER_IDS];
+          }
+
+          return qf;
+        });
+        // update suppliers
+        const suppliers = storage.materials[clazz].suppliers;
+        suppliers.columnState = suppliers.columnState.map((cs) =>
+          cs.colId === SAP_SUPPLIER_IDS
+            ? { ...cs, colId: MANUFACTURER_SUPPLIER_SAPID }
+            : cs
+        );
+        // update suppliers quickfilter
+        suppliers.quickFilters = suppliers.quickFilters.map((qf) => {
+          qf.columns = qf.columns.map((col) =>
+            col === SAP_SUPPLIER_IDS ? MANUFACTURER_SUPPLIER_SAPID : col
+          );
+          qf.filter[MANUFACTURER_SUPPLIER_SAPID] = qf.filter[SAP_SUPPLIER_IDS];
+          delete qf.filter[SAP_SUPPLIER_IDS];
+
+          return qf;
+        });
+      }
+    };
+
+    const newStorage = {
+      ...currentStorage,
+      version: 2.7,
+    };
+    // exclude sap materials from filter
+    SupportedMaterialClasses.filter(
+      (clazz) => clazz !== MaterialClass.SAP_MATERIAL
+    )
+      // iterate of all material class objects
+      .forEach((clazz) => renameColumn(newStorage, clazz));
 
     return newStorage;
   }

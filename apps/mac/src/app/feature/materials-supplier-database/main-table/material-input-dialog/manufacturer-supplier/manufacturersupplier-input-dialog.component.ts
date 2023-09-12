@@ -12,7 +12,7 @@ import { translate } from '@ngneat/transloco';
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import {
-  addCustomSupplierSapId,
+  addCustomSupplierBusinessPartnerId,
   manufacturerSupplierDialogConfirmed,
   manufacturerSupplierDialogOpened,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
@@ -39,8 +39,9 @@ export class ManufacturerSupplierInputDialogComponent
   implements OnInit
 {
   public isManufacturerControl: FormControl<boolean>;
-  public supplierSapIdsControl = this.controlsService.getSapSupplierIdControl();
-  public supplierSapIds$ = this.dialogFacade.supplierSapIds$;
+  public supplierBusinessPartnerIdsControl =
+    this.controlsService.getSupplierBusinessPartnerIdControl();
+  public businessPartnerIds$ = this.dialogFacade.businessPartnerIds$;
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -81,7 +82,7 @@ export class ManufacturerSupplierInputDialogComponent
       plant: this.supplierPlantControl,
       country: this.supplierCountryControl,
       manufacturer: this.isManufacturerControl,
-      sapSupplierIds: this.supplierSapIdsControl,
+      businessPartnerIds: this.supplierBusinessPartnerIdsControl,
     });
   }
 
@@ -97,7 +98,7 @@ export class ManufacturerSupplierInputDialogComponent
       plant: materialFormValue.supplierPlant,
       country: materialFormValue.supplierCountry,
       manufacturer: findProperty(materialFormValue, 'manufacturer'),
-      sapSupplierIds: materialFormValue.sapSupplierIds,
+      businessPartnerIds: materialFormValue.businessPartnerIds,
     };
 
     this.createMaterialForm.patchValue(formValue);
@@ -142,7 +143,7 @@ export class ManufacturerSupplierInputDialogComponent
           supplierPlant: formValue.plant,
           supplierCountry: formValue.country,
           manufacturer: formValue.manufacturer,
-          sapSupplierIds: formValue.sapSupplierIds,
+          businessPartnerIds: formValue.businessPartnerIds,
         },
         isCopy: this.isCopy,
       },
@@ -159,7 +160,9 @@ export class ManufacturerSupplierInputDialogComponent
       country: baseMaterial.country.id as string,
       name: baseMaterial.name.title,
       plant: baseMaterial.plant.title,
-      sapIds: baseMaterial.sapSupplierIds?.map((so) => so.title as string),
+      businessPartnerIds: baseMaterial.businessPartnerIds?.map((so) =>
+        Number.parseInt(so.title, 10)
+      ),
       manufacturer: findProperty(baseMaterial, 'manufacturer'),
     };
 
@@ -170,7 +173,9 @@ export class ManufacturerSupplierInputDialogComponent
     this.awaitMaterialComplete(createAnother);
   }
 
-  public addSupplierSapId(supplierSapId: string): void {
-    this.dialogFacade.dispatch(addCustomSupplierSapId({ supplierSapId }));
+  public addSupplierBusinessPartnerId(supplierBusinessPartnerId: number): void {
+    this.dialogFacade.dispatch(
+      addCustomSupplierBusinessPartnerId({ supplierBusinessPartnerId })
+    );
   }
 }

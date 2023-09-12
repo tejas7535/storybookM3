@@ -17,9 +17,9 @@ import {
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
+  addCustomSupplierBusinessPartnerId,
   addCustomSupplierName,
   addCustomSupplierPlant,
-  addCustomSupplierSapId,
   cleanMinimizeDialog,
   createMaterialComplete,
   editDialogLoadingComplete,
@@ -100,7 +100,7 @@ export interface DialogState {
     manufacturerSuppliers: ManufacturerSupplier[];
     customManufacturerSupplierNames: string[];
     customManufacturerSupplierPlants: string[];
-    customManufacturerSupplierSapIds: string[];
+    customManufacturerSupplierBusinessPartnerIds: number[];
     manufacturerSuppliersLoading: boolean;
     conditions: StringOption[];
     conditionsLoading: boolean;
@@ -611,7 +611,7 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
-        customManufacturerSupplierSapIds: undefined,
+        customManufacturerSupplierBusinessPartnerIds: undefined,
       },
     })
   ),
@@ -648,7 +648,7 @@ export const dialogReducer = createReducer(
         customMaterialStandardDocuments: undefined,
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
-        customManufacturerSupplierSapIds: undefined,
+        customManufacturerSupplierBusinessPartnerIds: undefined,
         customMaterialStandardNames: undefined,
         // reset loading fields
         co2Values: undefined,
@@ -761,20 +761,24 @@ export const dialogReducer = createReducer(
     };
   }),
 
-  on(addCustomSupplierSapId, (state, { supplierSapId }): DialogState => {
-    const manufSapIds = state.dialogOptions.customManufacturerSupplierSapIds
-      ? [...state.dialogOptions.customManufacturerSupplierSapIds]
-      : [];
-    manufSapIds.unshift(supplierSapId);
+  on(
+    addCustomSupplierBusinessPartnerId,
+    (state, { supplierBusinessPartnerId }): DialogState => {
+      const manufBpIds = state.dialogOptions
+        .customManufacturerSupplierBusinessPartnerIds
+        ? [...state.dialogOptions.customManufacturerSupplierBusinessPartnerIds]
+        : [];
+      manufBpIds.unshift(supplierBusinessPartnerId);
 
-    return {
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        customManufacturerSupplierSapIds: manufSapIds,
-      },
-    };
-  }),
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierBusinessPartnerIds: manufBpIds,
+        },
+      };
+    }
+  ),
 
   on(
     openEditDialog,

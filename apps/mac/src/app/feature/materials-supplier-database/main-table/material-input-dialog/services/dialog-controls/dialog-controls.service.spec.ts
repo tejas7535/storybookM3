@@ -149,9 +149,9 @@ describe('DialogControlsService', () => {
     });
   });
 
-  describe('getSapSupplierIdControl', () => {
-    it('should create a Validator for Sap Supplier Ids', () => {
-      const control = service.getSapSupplierIdControl();
+  describe('getSupplierBusinessPartnerIdControl', () => {
+    it('should create a Validator for Business Partner Ids', () => {
+      const control = service.getSupplierBusinessPartnerIdControl();
 
       expect(control.value).toBeFalsy();
       expect(control.disabled).toBe(false);

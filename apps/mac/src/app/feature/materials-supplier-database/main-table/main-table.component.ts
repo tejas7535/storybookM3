@@ -38,12 +38,12 @@ import {
   ACTION,
   HISTORY,
   LAST_MODIFIED,
+  MANUFACTURER_SUPPLIER_SAPID,
   MaterialClass,
   NavigationLevel,
   RECENT_STATUS,
   RELEASE_DATE,
   RELEASED_STATUS,
-  SAP_SUPPLIER_IDS,
   Status,
 } from '@mac/msd/constants';
 import {
@@ -389,6 +389,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       (columnName) => !this.NON_EXCEL_COLUMNS.has(columnName)
     );
 
+    // add additional content only if column is visible
+    const isSapIdVisible = columns.includes(MANUFACTURER_SUPPLIER_SAPID);
+
     this.agGridApi.exportDataAsExcel({
       author: translate(
         'materialsSupplierDatabase.mainTable.excelExport.author'
@@ -400,12 +403,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         'materialsSupplierDatabase.mainTable.excelExport.sheetName'
       ),
       columnKeys: columns,
-      getCustomContentBelowRow: this.splitRowsForMultipleSapIdsInExportFactory(
-        this.getCellValue
-      ),
-      processCellCallback: this.excelExportProcessCellCallbackFactory(
-        this.getCellValue
-      ),
+      // split rows and add sap data
+      getCustomContentBelowRow: isSapIdVisible
+        ? this.splitRowsForMultipleSapIdsInExportFactory(this.getCellValue)
+        : undefined,
+      processCellCallback: isSapIdVisible
+        ? this.excelExportProcessCellCallbackFactory(this.getCellValue)
+        : undefined,
     });
   }
 
@@ -462,8 +466,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
       const result: ExcelRow[] = [];
 
-      if (data.sapSupplierIds?.length > 1) {
-        for (let i = 1; i < data.sapSupplierIds.length; i += 1) {
+      if (data[MANUFACTURER_SUPPLIER_SAPID]?.length > 1) {
+        for (let i = 1; i < data[MANUFACTURER_SUPPLIER_SAPID].length; i += 1) {
           const cells: ExcelCell[] = [];
           const keys = [
             ...this.META_COLUMNS.filter(
@@ -480,7 +484,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             );
           for (const key of keys) {
             switch (key) {
-              case SAP_SUPPLIER_IDS:
+              case MANUFACTURER_SUPPLIER_SAPID:
                 cells.push({
                   data: {
                     type: 'String',
@@ -539,9 +543,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       const columnName = params.column.getColId();
 
       const value =
-        columnName === SAP_SUPPLIER_IDS &&
-        params.node.data[SAP_SUPPLIER_IDS]?.length > 1
-          ? params.node.data[SAP_SUPPLIER_IDS][0]
+        columnName === MANUFACTURER_SUPPLIER_SAPID &&
+        params.node.data[MANUFACTURER_SUPPLIER_SAPID]?.length > 1
+          ? params.node.data[MANUFACTURER_SUPPLIER_SAPID][0]
           : params.value;
 
       return getCellValueFn(columnName, value);
