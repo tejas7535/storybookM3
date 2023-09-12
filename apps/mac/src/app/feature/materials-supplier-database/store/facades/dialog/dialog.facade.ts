@@ -4,7 +4,6 @@ import { translate } from '@ngneat/transloco';
 import { Action, Store } from '@ngrx/store';
 
 import {
-  getCoatings,
   getConditions,
   getCreateMaterialLoading,
   getCreateMaterialRecord,
@@ -72,7 +71,6 @@ export class DialogFacade {
   );
   categories$ = this.store.select(getUniqueStringOptions(getProductCategories));
   conditions$ = this.store.select(getUniqueStringOptions(getConditions));
-  coatings$ = this.store.select(getUniqueStringOptions(getCoatings));
   castingDiameters$ = this.store.select(
     getMaterialDialogCastingDiameterStringOptions
   );

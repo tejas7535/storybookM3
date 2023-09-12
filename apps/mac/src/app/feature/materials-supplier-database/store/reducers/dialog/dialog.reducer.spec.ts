@@ -1719,62 +1719,6 @@ describe('dialogReducer', () => {
       });
     });
 
-    it('should set the loading state for the coatings to true', () => {
-      const action = DialogActions.fetchCoatings();
-      const newState = dialogReducer(state, action);
-
-      expect(newState).toEqual({
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          coatings: undefined,
-          coatingsLoading: true,
-          error: undefined,
-        },
-      });
-    });
-
-    it('should set the coatings', () => {
-      const coatings = [{} as StringOption];
-      const action = DialogActions.fetchCoatingsSuccess({ coatings });
-      const newState = dialogReducer(state, action);
-
-      expect(newState).toEqual({
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          coatings,
-          coatingsLoading: false,
-        },
-      });
-    });
-
-    it('should set the coatings and the loading state to undefined', () => {
-      const coatings = [{} as StringOption];
-      const action = DialogActions.fetchCoatingsFailure();
-      const newState = dialogReducer(
-        {
-          ...state,
-          dialogOptions: {
-            ...state.dialogOptions,
-            coatings,
-            coatingsLoading: false,
-          },
-        },
-        action
-      );
-
-      expect(newState).toEqual({
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          coatings: undefined,
-          coatingsLoading: undefined,
-          error: true,
-        },
-      });
-    });
-
     it('should set the current form values', () => {
       const action = DialogActions.updateCreateMaterialDialogValues({
         form: {} as MaterialFormValue,

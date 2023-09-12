@@ -32,9 +32,6 @@ import {
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
-  fetchCoatings,
-  fetchCoatingsFailure,
-  fetchCoatingsSuccess,
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
@@ -461,40 +458,6 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Fetch Conditions Failure',
-      });
-    });
-  });
-
-  describe('Fetch Coatings', () => {
-    it('fetchCoatings', () => {
-      const action = fetchCoatings();
-
-      expect(action).toEqual({
-        type: '[MSD - Dialog] Fetch Coatings',
-      });
-    });
-  });
-
-  describe('Fetch Coatings Success', () => {
-    it('fetchCoatingsSuccess', () => {
-      const mockCoatings = [{} as StringOption];
-      const action = fetchCoatingsSuccess({
-        coatings: mockCoatings,
-      });
-
-      expect(action).toEqual({
-        coatings: mockCoatings,
-        type: '[MSD - Dialog] Fetch Coatings Success',
-      });
-    });
-  });
-
-  describe('Fetch Coatings Failure', () => {
-    it('fetchCoatingsFailure', () => {
-      const action = fetchCoatingsFailure();
-
-      expect(action).toEqual({
-        type: '[MSD - Dialog] Fetch Coatings Failure',
       });
     });
   });

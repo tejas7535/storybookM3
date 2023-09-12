@@ -290,27 +290,6 @@ export class MsdDataService {
       );
   }
 
-  public getCoatings(materialClass: MaterialClass) {
-    return this.httpClient
-      .get<string[]>(`${this.BASE_URL}/materials/${materialClass}/coatings`)
-      .pipe(
-        map((coatings) =>
-          coatings.map((coating) => {
-            const title = translate(
-              `materialsSupplierDatabase.coating.${materialClass}.${coating}`
-            );
-
-            return {
-              id: coating,
-              tooltipDelay: this.TOOLTIP_DELAY,
-              tooltip: title,
-              title,
-            } as StringOption;
-          })
-        )
-      );
-  }
-
   public fetchStandardDocumentsForMaterialName(
     materialName: string,
     materialClass: MaterialClass
@@ -637,13 +616,6 @@ export class MsdDataService {
           `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${val}`
         )
       ),
-      coating: findProperty(materialResponse, 'coating'),
-      coatingText: mapProperty<string>(materialResponse, 'coating', (val) =>
-        translate(
-          `materialsSupplierDatabase.coating.${materialResponse.materialClass}.${val}`
-        )
-      ),
-      grade: findProperty(materialResponse, 'grade'),
       co2Type: findProperty(materialResponse, 'co2Type'),
       materialSapId: findProperty(materialResponse, 'materialSapId'),
 

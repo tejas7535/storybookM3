@@ -41,9 +41,6 @@ import {
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
-  fetchCoatings,
-  fetchCoatingsFailure,
-  fetchCoatingsSuccess,
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
@@ -261,27 +258,6 @@ describe('Dialog Effects', () => {
           d: fetchManufacturerSuppliers(),
           e: fetchProductCategories(),
           f: fetchConditions(),
-        });
-
-        m.expect(effects.materialDialogOpened$).toBeObservable(expected);
-        m.flush();
-      })
-    );
-
-    it(
-      'should dispatch the fetch actions for hardmagnet',
-      marbles((m) => {
-        action = materialDialogOpened();
-        actions$ = m.hot('-a', { a: action });
-
-        msdDataFacade.materialClass$ = of(MaterialClass.HARDMAGNET);
-
-        const expected = m.cold('-(bcdef)', {
-          b: fetchMaterialStandards(),
-          c: fetchCo2Classifications(),
-          d: fetchManufacturerSuppliers(),
-          e: fetchCoatings(),
-          f: fetchProductionProcesses(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -713,53 +689,6 @@ describe('Dialog Effects', () => {
         m.flush();
 
         expect(msdDataService.getConditions).toHaveBeenCalledWith(
-          MaterialClass.STEEL
-        );
-      })
-    );
-  });
-
-  describe('fetchCoatings$', () => {
-    it(
-      'should fetch coatings and return success action on success',
-      marbles((m) => {
-        action = fetchCoatings();
-        actions$ = m.hot('a', { a: action });
-
-        const mockResult = [{ id: 'raw', title: 'raw' }];
-        const mockResponse = m.cold('-a|', { a: mockResult });
-        msdDataService.getCoatings = jest.fn(() => mockResponse);
-
-        const result = fetchCoatingsSuccess({
-          coatings: mockResult,
-        });
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.fetchCoatings$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.getCoatings).toHaveBeenCalledWith(
-          MaterialClass.STEEL
-        );
-      })
-    );
-    it(
-      'should fetch coatings and return failure action on failure',
-      marbles((m) => {
-        action = fetchCoatings();
-        actions$ = m.hot('a', { a: action });
-
-        msdDataService.getCoatings = jest
-          .fn()
-          .mockReturnValue(throwError(() => 'error'));
-
-        const result = fetchCoatingsFailure();
-        const expected = m.cold('b', { b: result });
-
-        m.expect(effects.fetchCoatings$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.getCoatings).toHaveBeenCalledWith(
           MaterialClass.STEEL
         );
       })
@@ -2130,10 +2059,8 @@ describe('Dialog Effects', () => {
           ratingChangeComment: 'comment',
           manufacturer: false,
           condition: 'condition',
-          coating: 'coating',
           maxRecyclingRate: 44,
           minRecyclingRate: 44,
-          grade: 'grade',
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
@@ -2165,7 +2092,6 @@ describe('Dialog Effects', () => {
           selfCertified: true,
           minRecyclingRate: 44,
           maxRecyclingRate: 44,
-          grade: 'grade',
           standardDocument: {
             id: 1,
             title: 'document',
@@ -2202,7 +2128,6 @@ describe('Dialog Effects', () => {
           supplierCountry: toStrOpt('country'),
           manufacturer: false,
           condition: toStrOpt('condition'),
-          coating: toStrOpt('coating'),
         };
 
         const editMaterial: any = {
@@ -2272,8 +2197,6 @@ describe('Dialog Effects', () => {
           maxRecyclingRate: 33,
           manufacturer: false,
           condition: 'condition',
-          coating: 'coating',
-          grade: 'grade',
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
@@ -2305,7 +2228,6 @@ describe('Dialog Effects', () => {
           selfCertified: false,
           minRecyclingRate: 33,
           maxRecyclingRate: 33,
-          grade: 'grade',
           standardDocument: {
             data: undefined,
             id: 1,
@@ -2332,7 +2254,6 @@ describe('Dialog Effects', () => {
           supplierCountry: toStrOpt('country'),
           manufacturer: false,
           condition: toStrOpt('condition'),
-          coating: toStrOpt('coating'),
         };
 
         const editMaterial: any = {

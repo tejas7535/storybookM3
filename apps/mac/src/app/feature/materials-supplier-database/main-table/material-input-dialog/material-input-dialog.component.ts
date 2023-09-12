@@ -494,9 +494,6 @@ export class MaterialInputDialogComponent
       maxRecyclingRate: findProperty(baseMaterial, 'maxRecyclingRate'),
       condition: findProperty<StringOption>(baseMaterial, 'condition')
         ?.id as string,
-      coating: findProperty<StringOption>(baseMaterial, 'coating')
-        ?.id as string,
-      grade: findProperty(baseMaterial, 'grade'),
       // attachments: '',
     };
   }

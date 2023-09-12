@@ -6,4 +6,5 @@ export interface LubricantMaterial extends BaseMaterial {
   materialStandardWiamId?: string;
   materialSapId?: string;
   co2type?: string;
+  grade?: string;
 }

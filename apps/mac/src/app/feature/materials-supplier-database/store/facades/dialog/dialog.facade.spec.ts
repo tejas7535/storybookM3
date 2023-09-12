@@ -55,7 +55,6 @@ describe('DialogFacade', () => {
                 co2ClassificationsLoading: false,
                 castingModesLoading: false,
                 conditionsLoading: false,
-                coatingsLoading: false,
                 ratings: ['rating'],
                 co2Classifications: [
                   {
@@ -75,7 +74,6 @@ describe('DialogFacade', () => {
                     tooltipDelay: 1500,
                   },
                 ],
-                coatings: [],
                 conditions: [],
                 materialStandards: [mockMaterialStandard],
                 manufacturerSuppliers: [mockManufacturerSupplier],

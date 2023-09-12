@@ -38,19 +38,6 @@ import {
   CopperMaterialStandardForm,
   CopperMaterialStandardFormValue,
   CopperMaterialStandardTableValue,
-  HardmagnetManufacturerSupplier,
-  HardmagnetManufacturerSupplierForm,
-  HardmagnetManufacturerSupplierFormValue,
-  HardmagnetManufacturerSupplierTableValue,
-  HardmagnetMaterial,
-  HardmagnetMaterialForm,
-  HardmagnetMaterialFormValue,
-  HardmagnetMaterialRequest,
-  HardmagnetMaterialResponse,
-  HardmagnetMaterialStandard,
-  HardmagnetMaterialStandardForm,
-  HardmagnetMaterialStandardFormValue,
-  HardmagnetMaterialStandardTableValue,
   LubricantMaterial,
   LubricantMaterialResponse,
   PolymerManufacturerSupplier,
@@ -80,7 +67,6 @@ export type Material =
   | SteelMaterial
   | PolymerMaterial
   | CopperMaterial
-  | HardmagnetMaterial
   | CeramicMaterial
   | SAPMaterial
   | LubricantMaterial;
@@ -89,7 +75,6 @@ export type MaterialResponse =
   | SteelMaterialResponse
   | PolymerMaterialResponse
   | CopperMaterialResponse
-  | HardmagnetMaterialResponse
   | CeramicMaterialResponse
   | LubricantMaterialResponse;
 export type ManufacturerSupplier =
@@ -97,68 +82,57 @@ export type ManufacturerSupplier =
   | SteelManufacturerSupplier
   | PolymerManufacturerSupplier
   | CopperManufacturerSupplier
-  | HardmagnetManufacturerSupplier
   | CeramicManufacturerSupplier;
 export type MaterialStandard =
   | AluminumMaterialStandard
   | SteelMaterialStandard
   | PolymerMaterialStandard
   | CopperMaterialStandard
-  | CeramicMaterialStandard
-  | HardmagnetMaterialStandard;
+  | CeramicMaterialStandard;
 export type MaterialFormValue =
   | AluminumMaterialFormValue
   | SteelMaterialFormValue
   | CopperMaterialFormValue
-  | HardmagnetMaterialFormValue
   | CeramicMaterialFormValue;
 export type MaterialForm =
   | AluminumMaterialForm
   | SteelMaterialForm
   | CopperMaterialForm
-  | HardmagnetMaterialForm
   | CeramicMaterialForm;
 export type MaterialStandardForm =
   | AluminumMaterialStandardForm
   | SteelMaterialStandardForm
   | CopperMaterialStandardForm
-  | HardmagnetMaterialStandardForm
   | CeramicMaterialStandardForm;
 export type MaterialStandardFormValue =
   | AluminumMaterialStandardFormValue
   | SteelMaterialStandardFormValue
   | CopperMaterialStandardFormValue
-  | HardmagnetMaterialStandardFormValue
   | CeramicMaterialStandardFormValue;
 export type ManufacturerSupplierForm =
   | AluminumManufacturerSupplierForm
   | SteelManufacturerSupplierForm
   | CopperManufacturerSupplierForm
-  | HardmagnetManufacturerSupplierForm
   | CeramicManufacturerSupplierForm;
 export type ManufacturerSupplierFormValue =
   | AluminumManufacturerSupplierFormValue
   | SteelManufacturerSupplierFormValue
   | CopperManufacturerSupplierFormValue
-  | HardmagnetManufacturerSupplierFormValue
   | CeramicManufacturerSupplierFormValue;
 export type MaterialRequest =
   | AluminumMaterialRequest
   | SteelMaterialRequest
   | CopperMaterialRequest
-  | HardmagnetMaterialRequest
   | CeramicMaterialRequest;
 export type ManufacturerSupplierTableValue =
   | AluminumManufacturerSupplierTableValue
   | PolymerManufacturerSupplierTableValue
   | SteelManufacturerSupplierTableValue
   | CopperManufacturerSupplierTableValue
-  | HardmagnetManufacturerSupplierTableValue
   | CeramicManufacturerSupplierTableValue;
 export type MaterialStandardTableValue =
   | AluminumMaterialStandardTableValue
   | PolymerMaterialStandardTableValue
   | SteelMaterialStandardTableValue
   | CopperMaterialStandardTableValue
-  | HardmagnetMaterialStandardTableValue
   | CeramicMaterialStandardTableValue;

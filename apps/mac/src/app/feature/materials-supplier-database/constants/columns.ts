@@ -39,7 +39,6 @@ export const GRADE = 'grade';
 export const SAP_MATERIAL_ID = 'materialSapId';
 export const CO2TYPE = 'co2Type';
 export const CONDITION = 'conditionText';
-export const COATING = 'coatingText';
 export const PRODUCTION_PROCESS = 'productionProcessText';
 
 /* SAP columns */

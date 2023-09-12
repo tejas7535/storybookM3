@@ -16,7 +16,6 @@ import { ManufacturerSupplierInputDialogComponent } from '../../main-table/mater
 import { MaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
 import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
-import { HardmagnetMaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/materials/hardmagnet/hardmagnet-material-standard-input-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
@@ -140,11 +139,7 @@ describe('MsdDialogService', () => {
           mc,
           NavigationLevel.STANDARD
         ).name;
-        const expected =
-          mc === MaterialClass.HARDMAGNET
-            ? HardmagnetMaterialStandardInputDialogComponent.name
-            : MaterialStandardInputDialogComponent.name;
-        expect(result).toEqual(expected);
+        expect(result).toEqual(MaterialStandardInputDialogComponent.name);
       }
     );
   });

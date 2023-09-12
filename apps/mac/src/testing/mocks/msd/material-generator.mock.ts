@@ -95,13 +95,6 @@ export const createMaterialFormValue = (
       condition: rndOpt(),
     };
   }
-  if (type === MaterialClass.HARDMAGNET) {
-    return {
-      ...base,
-      coating: rndOpt(),
-      grade: rndStr(),
-    };
-  }
 
   return base;
 };
@@ -162,8 +155,6 @@ export const transformAsMaterialRequest = (values: MaterialFormValue) => {
     minRecyclingRate: findProperty(values, 'minRecyclingRate'),
     maxRecyclingRate: findProperty(values, 'maxRecyclingRate'),
     condition: findProperty<StringOption>(values, 'condition')?.id as string,
-    coating: findProperty<StringOption>(values, 'coating')?.id as string,
-    grade: findProperty(values, 'grade'),
     blocked: findProperty(values, 'blocked'),
   };
 

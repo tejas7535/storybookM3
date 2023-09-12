@@ -5,5 +5,4 @@ export const EDITABLE_MATERIAL_CLASSES = [
   MaterialClass.ALUMINUM,
   MaterialClass.COPPER,
   MaterialClass.CERAMIC,
-  // MaterialClass.HARDMAGNET,
 ];

@@ -499,35 +499,6 @@ describe('MsdDataService', () => {
       req.flush(mockResponse);
     });
   });
-  describe('fetchCoatings', () => {
-    it('should return a list of casting modes', (done) => {
-      const mockResponse: string[] = ['abc', 'def'];
-      const expected = [
-        {
-          id: 'abc',
-          title: 'materialsSupplierDatabase.coating.st.abc',
-          tooltip: 'materialsSupplierDatabase.coating.st.abc',
-          tooltipDelay: 1500,
-        },
-        {
-          id: 'def',
-          title: 'materialsSupplierDatabase.coating.st.def',
-          tooltip: 'materialsSupplierDatabase.coating.st.def',
-          tooltipDelay: 1500,
-        },
-      ];
-      service.getCoatings(MaterialClass.STEEL).subscribe((result) => {
-        expect(result).toEqual(expected);
-        done();
-      });
-
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/st/coatings`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mockResponse);
-    });
-  });
 
   describe('createMaterialStandard', () => {
     it('should post a material standard (steel legacy)', (done) => {

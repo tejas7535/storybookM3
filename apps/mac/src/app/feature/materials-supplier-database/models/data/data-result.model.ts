@@ -38,6 +38,5 @@ export interface DataResult {
   ratingChangeComment?: string;
   lastModified?: number;
   condition?: string;
-  coating?: string;
-  grade: string;
+  grade?: string;
 }

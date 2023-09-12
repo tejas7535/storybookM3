@@ -5,12 +5,8 @@ export enum MaterialClass {
   COPPER = 'cu',
   CERAMIC = 'ce',
   LUBRICANTS = 'lu',
-  // TODO remove hardmagnet implementation if no longer needed
-  HARDMAGNET = 'hm',
 
   SAP_MATERIAL = 'sap',
 }
 
-export const SupportedMaterialClasses = Object.values(MaterialClass).filter(
-  (c) => c !== MaterialClass.HARDMAGNET
-);
+export const SupportedMaterialClasses = Object.values(MaterialClass);

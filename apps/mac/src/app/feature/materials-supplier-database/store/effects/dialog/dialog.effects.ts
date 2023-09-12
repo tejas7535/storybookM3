@@ -64,12 +64,6 @@ export class DialogEffects {
               DialogActions.fetchProductCategories(),
               DialogActions.fetchConditions(),
             ];
-          case MaterialClass.HARDMAGNET:
-            return [
-              ...baseActions,
-              DialogActions.fetchCoatings(),
-              DialogActions.fetchProductionProcesses(),
-            ];
           default:
             return baseActions;
         }
@@ -239,24 +233,6 @@ export class DialogEffects {
           catchError(() =>
             // TODO: implement proper error handling
             of(DialogActions.fetchConditionsFailure())
-          )
-        )
-      )
-    );
-  });
-
-  public fetchCoatings$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(DialogActions.fetchCoatings),
-      concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(([_action, materialClass]) =>
-        this.msdDataService.getCoatings(materialClass).pipe(
-          map((coatings: StringOption[]) =>
-            DialogActions.fetchCoatingsSuccess({ coatings })
-          ),
-          catchError(() =>
-            // TODO: implement proper error handling
-            of(DialogActions.fetchCoatingsFailure())
           )
         )
       )
@@ -936,7 +912,6 @@ export class DialogEffects {
                 }
               : undefined,
           },
-          grade: material.grade,
           supplier: {
             id:
               editMaterial.supplierIds?.length > 0
@@ -964,14 +939,6 @@ export class DialogEffects {
                 id: material.condition,
                 title: translate(
                   `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
-                ),
-              }
-            : undefined,
-          coating: material.coating
-            ? {
-                id: material.coating,
-                title: translate(
-                  `materialsSupplierDatabase.coating.${material.materialClass}.${material.coating}`
                 ),
               }
             : undefined,

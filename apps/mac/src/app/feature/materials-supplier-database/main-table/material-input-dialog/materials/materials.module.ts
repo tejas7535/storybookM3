@@ -28,8 +28,6 @@ import { MaterialStandardInputDialogComponent } from '../material-standard/mater
 import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.component';
 import { CeramicInputDialogComponent } from './ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from './copper/copper-input-dialog.component';
-import { HardmagnetInputDialogComponent } from './hardmagnet/hardmagnet-input-dialog.component';
-import { HardmagnetMaterialStandardInputDialogComponent } from './hardmagnet/hardmagnet-material-standard-input-dialog.component';
 import { SteelInputDialogComponent } from './steel/steel-input-dialog.component';
 
 @NgModule({
@@ -40,8 +38,6 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     SteelInputDialogComponent,
     CopperInputDialogComponent,
     CeramicInputDialogComponent,
-    HardmagnetInputDialogComponent,
-    HardmagnetMaterialStandardInputDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -72,8 +68,6 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     SteelInputDialogComponent,
     CopperInputDialogComponent,
     CeramicInputDialogComponent,
-    HardmagnetInputDialogComponent,
-    HardmagnetMaterialStandardInputDialogComponent,
   ],
   providers: [DialogControlsService],
 })
