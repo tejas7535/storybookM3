@@ -1,4 +1,18 @@
 # Release Notes of Engineering App
+## [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.1...ea-v0.1.2) (2023-09-12)
+
+
+### Features
+
+* **ea:** move tooltips to info icons (UFTABI-6722) ([#5596](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5596)) ([f47fc9c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f47fc9c4833b41ba75b89365f7f0bf51d29a25ca))
+* **ea:** update type of motion to radio buttons (UFTABI-6717) ([#5601](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5601)) ([ee16495](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee1649564b18bfb6a9d3acf88a7f92e03b92b95c))
+
+
+### Bug Fixes
+
+* **ea:** fix custom headers being sent in prod ([#5605](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5605)) ([35ff43e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35ff43e5022eff53c650d1954b835e9362018d4d))
+* **ea:** partial design fixes ([#5604](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5604)) ([c12aa9d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c12aa9dcce0e0ca01aa261eeaa32630da9fe6303))
+
 ## [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.0...ea-v0.1.1) (2023-09-11)
 
 
