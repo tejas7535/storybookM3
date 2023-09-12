@@ -206,7 +206,7 @@
           "unknownApprover": "unbekannt",
           "STARTED": "Angebotsfreigabe gestartet",
           "REJECTED": "Angebot abgelehnt",
-          "APPROVED": "Angebot freigegeben",
+          "APPROVED": "Angebot genehmigt",
           "FORWARDED": "Angebot weitergeleitet",
           "CANCELLED": "Freigabe abgebrochen",
           "AUTO_APPROVAL": "Freigabe gestartet",
