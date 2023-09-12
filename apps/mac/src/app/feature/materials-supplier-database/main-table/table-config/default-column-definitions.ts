@@ -9,4 +9,7 @@ export const DEFAULT_COLUMN_DEFINITION: ColDef = {
   resizable: true,
   headerClass: ['text-caption', 'leading-6', 'font-medium'],
   tooltipComponent: HeaderTooltipComponent,
+  tooltipComponentParams: {
+    translate: true,
+  },
 };
