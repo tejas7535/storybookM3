@@ -225,7 +225,7 @@
   },
   "confirmUpdatePositions": {
     "text": "Möchten Sie wirklich diese Einträge ({{variable}}) in SAP aktualisieren?",
-    "updateButton": "hochladen",
+    "updateButton": "aktualisieren",
     "cancelButton": "Abbrechen"
   },
   "confirmRefreshSapPricing": {
