@@ -1,6 +1,5 @@
 {
   "appTitle": "Engineering App",
-  "appDescription": "我们的计算工具允许您进行各种计算，以确定轴承产品的性能。",
   "general": {
     "requiredInformation": "*必填",
     "poweredBy": "Powered by {{ name }}",

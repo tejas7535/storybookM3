@@ -1,6 +1,5 @@
 {
   "appTitle": "Engineering App",
-  "appDescription": "Nuestra herramienta de cálculo le permite realizar diversos cálculos para determinar el rendimiento de los productos de rodamiento.",
   "general": {
     "requiredInformation": "*Obligatorio",
     "poweredBy": "Powered by {{ name }}",

@@ -120,16 +120,6 @@ export const getCalculationResultPreviewData = createSelector(
       });
     }
 
-    if (calculationTypes.lubrication.selected) {
-      previewData.push({
-        title: 'lubrication',
-        svgIcon: 'water_drop',
-        values: [
-          { title: 'lubricationSubtitle', ...lubricationParameterResult },
-        ],
-      });
-    }
-
     if (calculationTypes.frictionalPowerloss.selected) {
       previewData.push({
         title: 'frictionalPowerloss',
@@ -144,6 +134,16 @@ export const getCalculationResultPreviewData = createSelector(
               : undefined,
             ...frictionResult,
           },
+        ],
+      });
+    }
+
+    if (calculationTypes.lubrication.selected) {
+      previewData.push({
+        title: 'lubrication',
+        svgIcon: 'water_drop',
+        values: [
+          { title: 'lubricationSubtitle', ...lubricationParameterResult },
         ],
       });
     }

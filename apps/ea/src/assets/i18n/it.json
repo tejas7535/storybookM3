@@ -1,6 +1,5 @@
 {
   "appTitle": "Engineering App",
-  "appDescription": "Il nostro strumento di calcolo consente di effettuare vari calcoli per determinare le prestazioni dei prodotti a cuscinetti.",
   "general": {
     "requiredInformation": "*Obbligatorio",
     "poweredBy": "Powered by {{ name }}",

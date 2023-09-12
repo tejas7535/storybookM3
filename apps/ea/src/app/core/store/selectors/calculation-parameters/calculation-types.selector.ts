@@ -39,16 +39,16 @@ export const getCalculationTypesConfig = createSelector(
         label: 'calculationTypes.ratingLife',
       },
       {
-        name: 'lubrication' as const,
-        ...state.lubrication,
-        svgIcon: 'water_drop',
-        label: 'calculationTypes.lubrication',
-      },
-      {
         name: 'frictionalPowerloss' as const,
         ...state.frictionalPowerloss,
         icon: 'compress',
         label: 'calculationTypes.frictionalPowerloss',
+      },
+      {
+        name: 'lubrication' as const,
+        ...state.lubrication,
+        svgIcon: 'water_drop',
+        label: 'calculationTypes.lubrication',
       },
       {
         name: 'emission' as const,

@@ -1,9 +1,9 @@
 <div
   *transloco="let t; read: 'calculationSelection'"
   class="flex flex-col justify-between h-auto self-start md:top-4 md:sticky"
-  [ngClass]="{ 'items-center': !isInDialog, 'items-start': isInDialog }"
+  [ngClass]="{ 'items-center': !isInDialog, 'items-start': isInDialog, 'p-4': isInDialog  }"
 >
-  <div class="flex flex-col" [ngClass]="{ 'items-center': !isInDialog }">
+  <div class="flex flex-col" [ngClass]="{ 'items-center': !isInDialog}">
     <div
       *ngIf="isInDialog && getCalculationTypesGlobalSelection$ | ngrxPush as selectionState"
     >
@@ -20,7 +20,10 @@
     <div class="text-subtitle-1 text-medium-emphasis mb-8" *ngIf="!isInDialog">
       {{ t('title')}}
     </div>
-    <section class="flex w-56 flex-col">
+    <section
+      class="flex flex-col"
+      [ngClass]="{'w-56': !isInDialog, 'max-w-2xl': isInDialog}"
+    >
       <ng-container *ngIf="!isInDialog">
         <div
           class="mb-2"

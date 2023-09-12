@@ -1,6 +1,5 @@
 {
   "appTitle": "Engineering App",
-  "appDescription": "Notre outil de calcul vous permet d'effectuer divers calculs pour déterminer les performances des produits de roulement.",
   "general": {
     "requiredInformation": "*Obligatoire",
     "poweredBy": "Powered by {{ name }}",

@@ -1,6 +1,5 @@
 {
-  "appTitle": "Engineering Ap",
-  "appDescription": "我們的計算工具允許您進行各種計算，以確定軸承產品的效能。",
+  "appTitle": "Engineering App",
   "general": {
     "requiredInformation": "*必填",
     "poweredBy": "Powered by {{ name }}",

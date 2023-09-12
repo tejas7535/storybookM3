@@ -1,6 +1,5 @@
 {
   "appTitle": "Engineering App",
-  "appDescription": "Unser Berechnungswerkzeug ermöglicht es Ihnen, verschiedene Berechnungen durchzuführen, um die Leistung von Lagerprodukten zu bestimmen.",
   "general": {
     "requiredInformation": "*Pflichtfeld",
     "poweredBy": "Powered by {{ name }}",

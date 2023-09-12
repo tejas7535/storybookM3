@@ -3,9 +3,6 @@
   <div class="flex w-full flex-col max-w-[850px]">
     <div class="flex flex-1 flex-col items-center gap-10">
       <div class="flex flex-col gap-0 sm:gap-6 lg:grid">
-        <div class="text-body-1 text-medium-emphasis px-1 md:py-0 py-2">
-          {{ 'appDescription' | transloco }}
-        </div>
         <ea-qualtrics-info-banner></ea-qualtrics-info-banner>
 
         <div class="text-medium-emphasis px-1 text-h6">
@@ -30,12 +27,13 @@
 
         <div class="flex flex-row items-center md:hidden justify-between mb-4">
           <button
-            mat-icon-button
+            mat-fab
+            extended
             color="primary"
             (click)="onShowCalculationTypesClick()"
-            class="ml-auto mx-2"
+            class="ml-auto mr-2 h-8 px-4"
           >
-            <mat-icon>tune</mat-icon>
+            <mat-icon class="!m-auto">tune</mat-icon>
           </button>
         </div>
 
