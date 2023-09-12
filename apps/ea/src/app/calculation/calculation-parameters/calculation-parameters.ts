@@ -32,7 +32,6 @@ import {
   Observable,
   startWith,
   Subject,
-  switchMap,
   takeUntil,
 } from 'rxjs';
 
@@ -74,7 +73,6 @@ import {
   viscosityGroupValidators,
 } from './form-validators';
 import { ParameterTemplateDirective } from './parameter-template.directive';
-import { getTypeOfMotion } from './type-of-motion.options';
 
 @Component({
   templateUrl: './calculation-parameters.html',
@@ -313,8 +311,10 @@ export class CalculationParametersComponent
 
   public readonly isoVgClasses = ISOVgClasses;
   public readonly greases = Greases;
-  public typeOfMotionOptions$:
-    | Observable<{ label: string; value: string }[]>
+  public typeOfMotionsAvailable$:
+    | Observable<
+        CalculationParametersOperationConditions['rotation']['typeOfMotion'][]
+      >
     | undefined;
   public contaminationOptions$:
     | Observable<{ label: string; value: string }[]>
@@ -402,15 +402,13 @@ export class CalculationParametersComponent
     );
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
-    this.typeOfMotionOptions$ = this.productSelectionFacade
+    this.typeOfMotionsAvailable$ = this.productSelectionFacade
       .getTemplateItem('IDSLC_TYPE_OF_MOVEMENT')
       .pipe(
-        switchMap((template) =>
-          getTypeOfMotion(
-            this.translocoService,
-            (template?.options || []) as {
-              value: CalculationParametersOperationConditions['rotation']['typeOfMotion'];
-            }[]
+        map((template) =>
+          (template?.options || []).map(
+            ({ value }) =>
+              value as CalculationParametersOperationConditions['rotation']['typeOfMotion']
           )
         )
       );

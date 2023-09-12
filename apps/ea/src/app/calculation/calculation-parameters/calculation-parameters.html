@@ -181,51 +181,52 @@ Status: {{ operationConditionsForm.status }}</pre
     [isMandatory]="true"
     *transloco="let t; read: 'operationConditions.rotatingCondition'"
   >
-    <div
-      class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4"
-      *ngIf="typeOfMotionOptions$ | ngrxPush as typeOfMotionOptions else loading"
+    <ea-tabbed-options
+      *ngIf="typeOfMotionsAvailable$ | ngrxPush as typeOfMotionsAvailable else loading"
+      [formControl]="operationConditionsForm.controls.rotation.controls.typeOfMotion"
     >
-      <ea-input-select
-        class="w-full"
-        [formControl]="operationConditionsForm.controls.rotation.controls.typeOfMotion"
-        [label]="t('typeOfMotion')"
-        [options]="typeOfMotionOptions"
-      ></ea-input-select>
-
-      <ng-container
-        *ngIf="operationConditionsForm.controls.rotation.controls.typeOfMotion.value === 'LB_ROTATING'; else oscillatingInputs"
+      <ng-template
+        optionTemplate="LB_ROTATING"
+        [label]="t('options.LB_ROTATING')"
+        *ngIf="typeOfMotionsAvailable.includes('LB_ROTATING')"
       >
-        <ea-input-number
-          [formControl]="operationConditionsForm.controls.rotation.controls.rotationalSpeed"
-          [label]="t('relativeRotationalSpeed')"
-          [unit]="t('onePerMinute')"
-          [tooltip]="t('tooltip.rotationSpeed')"
-          [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('relativeRotationalSpeed')}"
-          [onlyPositive]="true"
-        ></ea-input-number>
-      </ng-container>
-
-      <ng-template #oscillatingInputs>
-        <ea-input-number
-          class="md:row-start-2"
-          [formControl]="operationConditionsForm.controls.rotation.controls.shiftFrequency"
-          [label]="t('shiftFrequency')"
-          [unit]="t('rpm')"
-          [tooltip]="t('tooltip.shiftFrequency')"
-          [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('shiftFrequency')}"
-          [onlyPositive]="true"
-        ></ea-input-number>
-        <ea-input-number
-          class="md:row-start-2"
-          [formControl]="operationConditionsForm.controls.rotation.controls.shiftAngle"
-          [label]="t('shiftAngle')"
-          [unit]="t('degree')"
-          [tooltip]="t('tooltip.shiftAngle')"
-          [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('shiftAngle')}"
-          [onlyPositive]="true"
-        ></ea-input-number>
+        <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
+          <ea-input-number
+            [formControl]="operationConditionsForm.controls.rotation.controls.rotationalSpeed"
+            [label]="t('relativeRotationalSpeed')"
+            [unit]="t('onePerMinute')"
+            [tooltip]="t('tooltip.rotationSpeed')"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('relativeRotationalSpeed')}"
+            [onlyPositive]="true"
+          ></ea-input-number>
+        </div>
       </ng-template>
-    </div>
+
+      <ng-template
+        optionTemplate="LB_OSCILLATING"
+        [label]="t('options.LB_OSCILLATING')"
+        *ngIf="typeOfMotionsAvailable.includes('LB_OSCILLATING')"
+      >
+        <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
+          <ea-input-number
+            [formControl]="operationConditionsForm.controls.rotation.controls.shiftFrequency"
+            [label]="t('shiftFrequency')"
+            [unit]="t('rpm')"
+            [tooltip]="t('tooltip.shiftFrequency')"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('shiftFrequency')}"
+            [onlyPositive]="true"
+          ></ea-input-number>
+          <ea-input-number
+            [formControl]="operationConditionsForm.controls.rotation.controls.shiftAngle"
+            [label]="t('shiftAngle')"
+            [unit]="t('degree')"
+            [tooltip]="t('tooltip.shiftAngle')"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('shiftAngle')}"
+            [onlyPositive]="true"
+          ></ea-input-number>
+        </div>
+      </ng-template>
+    </ea-tabbed-options>
   </ea-input-group>
 </ng-template>
 
