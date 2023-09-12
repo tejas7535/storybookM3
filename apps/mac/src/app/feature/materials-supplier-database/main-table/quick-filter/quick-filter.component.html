@@ -40,12 +40,11 @@
         >close</mat-icon
       >
     </mat-button-toggle>
-    <mat-button-toggle
-      class="!text-caption text-medium-emphasis hover:text-high-emphasis !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8 [&>button]:!cursor-pointer"
-      disabled="true"
+    <button
+      class="flex items-center justify-center w-14 outline-none border-l-[0.8px] border-l-[#e0e0e0] !text-caption text-medium-emphasis hover:text-high-emphasis !bg-[#fafafa] !px-1 !font-medium"
       (click)="add()"
     >
       <mat-icon class="!h-3 !text-[12px]">add</mat-icon>
-    </mat-button-toggle>
+    </button>
   </mat-button-toggle-group>
 </div>
