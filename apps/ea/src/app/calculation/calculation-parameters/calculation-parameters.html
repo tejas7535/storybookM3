@@ -111,10 +111,7 @@ Status: {{ operationConditionsForm.status }}</pre
               {{ t('showPresetCalculationParameters') }}
             </mat-slide-toggle>
           </div>
-          <div
-            class="flex flex-col gap-4"
-            [ngClass]="{ 'hidden': !showPresets.checked }"
-          >
+          <div *ngIf="showPresets.checked" class="flex flex-col gap-4">
             <ng-container
               *ngFor="let parameterTemplate of parameterTemplates.preset"
               [ngTemplateOutlet]="parameterTemplate"
@@ -253,6 +250,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.typeOfGrease.label')"
           name="typeOfGrease"
+          class="grow shrink basis-0"
           [description]="t('grease.typeOfGrease.description')"
         >
           <ng-container formGroupName="typeOfGrease">
@@ -270,6 +268,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
+          class="grow shrink basis-0"
           [description]="t('grease.isoVgClass.description')"
         >
           <ng-container formGroupName="isoVgClass">
@@ -287,6 +286,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
+          class="grow shrink basis-0"
           [description]="t('grease.viscosity.description')"
         >
           <ng-container formGroupName="viscosity">
@@ -323,7 +323,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
-          class="min-w-[50%]"
+          class="grow shrink basis-0"
           [description]="t('grease.isoVgClass.description')"
         >
           <ng-container formGroupName="isoVgClass">
@@ -341,7 +341,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
-          class="min-w-[50%]"
+          class="grow shrink basis-0"
           [description]="t('grease.viscosity.description')"
         >
           <ng-container formGroupName="viscosity">
@@ -376,7 +376,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.isoVgClass.label')"
           name="isoVgClass"
-          class="min-w-[50%]"
+          class="grow shrink basis-0"
           [description]="t('grease.isoVgClass.description')"
         >
           <ng-container formGroupName="isoVgClass">
@@ -394,7 +394,7 @@ Status: {{ operationConditionsForm.status }}</pre
           formControlName="selection"
           [label]="t('grease.viscosity.label')"
           name="viscosity"
-          class="min-w-[50%]"
+          class="grow shrink basis-0"
           [description]="t('grease.viscosity.description')"
         >
           <ng-container formGroupName="viscosity">
@@ -425,12 +425,13 @@ Status: {{ operationConditionsForm.status }}</pre
         [disabled]="!lubricationMethodsAvailable.recirculatingOil"
         [tooltip]="lubricationMethodsAvailable.recirculatingOil ? undefined : t('notAvailable')"
       >
-        <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
           <!-- ISO VG CLASS -->
           <ea-tabbed-suboption
             formControlName="selection"
             [label]="t('grease.isoVgClass.label')"
             name="isoVgClass"
+            class="grow shrink basis-0"
             [description]="t('grease.isoVgClass.description')"
           >
             <ng-container formGroupName="isoVgClass">
@@ -448,6 +449,7 @@ Status: {{ operationConditionsForm.status }}</pre
             formControlName="selection"
             [label]="t('grease.viscosity.label')"
             name="viscosity"
+            class="grow shrink basis-0"
             [description]="t('grease.viscosity.description')"
           >
             <ng-container formGroupName="viscosity">
@@ -526,7 +528,7 @@ Status: {{ operationConditionsForm.status }}</pre
 <ng-template parameterTemplate="contamination">
   <ea-input-group
     [title]="t('title')"
-    svgIcon="mop"
+    icon="flip_camera_android"
     [isMandatory]="true"
     *transloco="let t; read: 'operationConditions.contamination'"
   >
@@ -565,11 +567,12 @@ Status: {{ operationConditionsForm.status }}</pre
 <ng-template parameterTemplate="conditionOfRotation">
   <ea-input-group
     [title]="t('title')"
-    svgIcon="mop"
+    icon="flip_camera_android"
     [isMandatory]="true"
     *transloco="let t; read: 'operationConditions.conditionOfRotation'"
   >
     <ea-tabbed-options
+      mobileStyleClass="bg-transparent !gap-0 pb-0"
       [formControl]="operationConditionsForm.controls.conditionOfRotation"
     >
       <ng-template

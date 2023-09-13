@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Optional, Self } from '@angular/core';
+import { Component, HostBinding, Input, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
   FormControl,
@@ -35,6 +35,10 @@ export class TabbedSuboptionComponent {
     if (this.ngControl) {
       this.ngControl.valueAccessor = NOOP_VALUE_ACCESSOR;
     }
+  }
+
+  @HostBinding('class.grow-[2]') get selectedItemWidth() {
+    return this.selected;
   }
 
   get control(): FormControl {
