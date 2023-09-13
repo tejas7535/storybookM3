@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.2...ea-v0.1.3) (2023-09-13)
+
+
+### Bug Fixes
+
+* **ea:** fix empty api urls to prevent interception ([#5606](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5606)) ([e7aa9d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7aa9d1885ee12c5515ff625ec14cfe7171f2f94))
+
 ## [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.1...ea-v0.1.2) (2023-09-12)
 
 
