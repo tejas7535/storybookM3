@@ -4,8 +4,13 @@
       <div
         class="flex"
         *ngFor="let option of selectionOptions; let last = last"
+        [matTooltip]="option.tooltip"
       >
-        <mat-radio-button [value]="option.value" color="primary">
+        <mat-radio-button
+          [value]="option.value"
+          color="primary"
+          [disabled]="option.disabled"
+        >
           {{ option.label }}
         </mat-radio-button>
         <mat-divider [vertical]="true" *ngIf="!last" class="mx-4"></mat-divider>

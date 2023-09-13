@@ -52,6 +52,7 @@
     },
     "lubrication": {
       "title": "Schmierungsbedingungen",
+      "notAvailable": "Diese Art der Schmierung ist für das ausgewählte Lager nicht verfügbar.",
       "options": {
         "grease": "Fett",
         "oilBath": "Ölbad-Schmierung",

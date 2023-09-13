@@ -52,6 +52,7 @@
     },
     "lubrication": {
       "title": "Condizioni di lubrificazione",
+      "notAvailable": "Questo tipo di lubrificazione non è disponibile per il cuscinetto selezionato.",
       "options": {
         "grease": "Grasso",
         "oilBath": "Lubrificazione ad immersione in olio",

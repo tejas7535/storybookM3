@@ -53,6 +53,7 @@
     },
     "lubrication": {
       "title": "潤滑狀態",
+      "notAvailable": "這種類型的潤滑不適用於您選擇的軸承。",
       "options": {
         "grease": "脂",
         "oilBath": "油浸潤滑",

@@ -52,6 +52,7 @@
     },
     "lubrication": {
       "title": "Conditions de lubrification",
+      "notAvailable": "Ce type de lubrification n'est pas disponible pour le roulement sélectionné.",
       "options": {
         "grease": "Graisse",
         "oilBath": "Lubrification par bain d'huile",

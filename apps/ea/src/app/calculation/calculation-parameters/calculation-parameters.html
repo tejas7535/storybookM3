@@ -245,7 +245,8 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="grease"
         [label]="t('options.grease')"
         formGroupName="grease"
-        *ngIf="lubricationMethodsAvailable.grease"
+        [disabled]="!lubricationMethodsAvailable.grease"
+        [tooltip]="lubricationMethodsAvailable.grease ? undefined : t('notAvailable')"
       >
         <!-- TYPE OF GREASE -->
         <ea-tabbed-suboption
@@ -314,7 +315,8 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="oilBath"
         [label]="t('options.oilBath')"
         formGroupName="oilBath"
-        *ngIf="lubricationMethodsAvailable.oilBath"
+        [disabled]="!lubricationMethodsAvailable.oilBath"
+        [tooltip]="lubricationMethodsAvailable.oilBath ? undefined : t('notAvailable')"
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
@@ -366,7 +368,8 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="oilMist"
         [label]="t('options.oilMist')"
         formGroupName="oilMist"
-        *ngIf="lubricationMethodsAvailable.oilMist"
+        [disabled]="!lubricationMethodsAvailable.oilMist"
+        [tooltip]="lubricationMethodsAvailable.oilMist ? undefined : t('notAvailable')"
       >
         <!-- ISO VG CLASS -->
         <ea-tabbed-suboption
@@ -419,7 +422,8 @@ Status: {{ operationConditionsForm.status }}</pre
         [label]="t('options.recirculatingOil')"
         formGroupName="recirculatingOil"
         [className]="'flex-col'"
-        *ngIf="lubricationMethodsAvailable.recirculatingOil"
+        [disabled]="!lubricationMethodsAvailable.recirculatingOil"
+        [tooltip]="lubricationMethodsAvailable.recirculatingOil ? undefined : t('notAvailable')"
       >
         <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
           <!-- ISO VG CLASS -->

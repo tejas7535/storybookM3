@@ -52,6 +52,7 @@
     },
     "lubrication": {
       "title": "Lubrication conditions",
+      "notAvailable": "This type of lubrication is not available for your selected bearing.",
       "options": {
         "grease": "Grease",
         "oilBath": "Oil-bath lubrication",

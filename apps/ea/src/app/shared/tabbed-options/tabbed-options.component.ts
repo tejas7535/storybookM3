@@ -19,6 +19,7 @@ import {
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 
@@ -38,6 +39,7 @@ import { OptionTemplateDirective } from './option-template.directive';
     OptionTemplateDirective,
     ReactiveFormsModule,
     MatDividerModule,
+    MatTooltipModule,
     RadioButtonComponent,
   ],
   templateUrl: './tabbed-options.component.html',
@@ -64,13 +66,20 @@ export class TabbedOptionsComponent implements AfterContentInit {
       ref: TemplateRef<unknown>;
       label: string;
       styleClass?: string | string[] | Record<string, boolean>;
+      disabled?: boolean;
+      tooltip?: string;
     };
   } = {};
   visibleTemplate$: Observable<
     typeof this.templateMap[keyof typeof this.templateMap] | undefined
   >;
 
-  selectionOptions: { label: string; value: string }[] = [];
+  selectionOptions: {
+    label: string;
+    value: string;
+    disabled: boolean;
+    tooltip?: string;
+  }[] = [];
 
   constructor(
     @Self() @Optional() public ngControl: NgControl,
@@ -92,12 +101,16 @@ export class TabbedOptionsComponent implements AfterContentInit {
         ref: item.template,
         label: item.label,
         styleClass: item.className,
+        disabled: item.disabled,
+        tooltip: item.tooltip,
       };
     });
 
     this.selectionOptions = this.templates.map((item) => ({
       label: item.label || '',
       value: item.name || '',
+      disabled: item.disabled ?? false,
+      tooltip: item.tooltip,
     }));
 
     this.visibleTemplate$ = this.control.valueChanges.pipe(
