@@ -33,6 +33,7 @@ import { AppRoutePath } from './app-route-path.enum';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { responsiblePerson } from './shared/constants/legal-constants';
+import { AgGridStateService } from './shared/services/ag-grid-state/ag-grid-state.service';
 import { FeatureToggleConfigService } from './shared/services/feature-toggle/feature-toggle-config.service';
 import { FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE_KEY } from './shared/services/feature-toggle/feature-toggle-config-localstorage-key.injection-token';
 import { FEATURE_TOGGLE_DEFAULT_CONFIG } from './shared/services/feature-toggle/feature-toggle-default-config.injection-token';
@@ -82,13 +83,17 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
     {
       provide: APP_INITIALIZER,
       useFactory:
-        (featureToggleService: FeatureToggleConfigService): (() => void) =>
+        (
+          featureToggleService: FeatureToggleConfigService,
+          agGridStateService: AgGridStateService
+        ): (() => void) =>
         (): void => {
           featureToggleService.initializeLocalStorage(environment.environment);
+          agGridStateService.renameQuotationIdToActionItemForProcessCaseState();
         },
 
       multi: true,
-      deps: [FeatureToggleConfigService],
+      deps: [FeatureToggleConfigService, AgGridStateService],
     },
     {
       provide: PERSON_RESPONSIBLE,

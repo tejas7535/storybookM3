@@ -16,5 +16,9 @@
   (rowSelected)="onRowSelected($event)"
   (gridReady)="onGridReady($event)"
   (rowDoubleClicked)="onRowDoubleClicked($event)"
+  (columnMoved)="onColumnChange($event)"
+  (sortChanged)="onColumnChange($event)"
+  (filterChanged)="onFilterChanged($event)"
+  (columnResized)="onColumnChange($event)"
 >
 </ag-grid-angular>

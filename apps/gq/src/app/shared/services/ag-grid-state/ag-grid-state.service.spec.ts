@@ -1,19 +1,16 @@
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { ColumnState } from 'ag-grid-community';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { FilterState, GridState } from '../../models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { AgGridStateService } from './ag-grid-state.service';
 
-const translatedViewName = 'TRANSLATED_NAME';
+const translatedViewName = 'translate it';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => translatedViewName),
-}));
 class LocalStorageMock {
   public store: { [key: string]: string } = {};
 
@@ -52,6 +49,7 @@ describe('AgGridStateService', () => {
 
   const createService = createServiceFactory({
     service: AgGridStateService,
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [{ provide: LOCAL_STORAGE, useClass: LocalStorageMock }],
   });
 
@@ -307,7 +305,7 @@ describe('AgGridStateService', () => {
   });
 
   describe('setColumnData', () => {
-    test('should save the gqPositionId and quotationId of quotation details to the local storage', () => {
+    test('should save the gqPositionId and actionItemId of quotation details to the local storage', () => {
       service.localStorage.setStore({});
 
       const quotationDetails: QuotationDetail[] = [
@@ -357,7 +355,7 @@ describe('AgGridStateService', () => {
       const filterModels = [{ filterType: 'set', values: ['20'] }];
       const filterState: FilterState[] = [
         {
-          quotationId: '46425',
+          actionItemId: '46425',
           filterModels,
         },
       ];
@@ -383,7 +381,7 @@ describe('AgGridStateService', () => {
     test('should return columns for current table and view', () => {
       const filterState: FilterState[] = [
         {
-          quotationId: '46425',
+          actionItemId: '46425',
           filterModels: { colId: 'width', pinned: 'left' },
         },
       ];
@@ -412,19 +410,19 @@ describe('AgGridStateService', () => {
     test('should return columns for different views after switching', () => {
       const filterState0: FilterState[] = [
         {
-          quotationId: '46425',
+          actionItemId: '46425',
           filterModels: { colId: 'width', pinned: 'left' },
         },
       ];
       const filterState1: FilterState[] = [
         {
-          quotationId: '46425',
+          actionItemId: '46425',
           filterModels: { colId: 'width', pinned: 'right' },
         },
       ];
       const filterState2: FilterState[] = [
         {
-          quotationId: '46425',
+          actionItemId: '46425',
           filterModels: { colId: 'height', pinned: 'left' },
         },
       ];
@@ -478,7 +476,7 @@ describe('AgGridStateService', () => {
     test('should return empty array if key does not exist', () => {
       const filterState: FilterState[] = [
         {
-          quotationId: '46425',
+          actionItemId: '46425',
           filterModels: { colId: 'width', pinned: 'left' },
         },
       ];
@@ -606,7 +604,7 @@ describe('AgGridStateService', () => {
 
       const mockFilterState = [
         {
-          quotationId: '46426',
+          actionItemId: '46426',
           filterModel: { colId: 'width', pinned: 'right' },
         },
       ];
@@ -701,6 +699,79 @@ describe('AgGridStateService', () => {
 
       service.resetFilterModelsOfDefaultView('46426');
       expect(service['setColumnFilters']).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('renameQuotationIdToActionItem', () => {
+    const mockGridState = {
+      version: 1,
+      customViews: [
+        {
+          id: 0,
+          title: 'Default',
+          state: {
+            columnState: [],
+            filterState: [
+              {
+                quotationId: '46426',
+                filterModels: { colId: 'width', pinned: 'right' },
+              } as any,
+            ],
+          },
+        },
+      ],
+    } as GridState;
+    const renamedGridState = {
+      version: 1,
+      customViews: [
+        {
+          id: 0,
+          title: 'Default',
+          state: {
+            columnState: [],
+            filterState: [
+              {
+                actionItemId: '46426',
+                filterModels: { colId: 'width', pinned: 'right' },
+              } as any,
+            ],
+          },
+        },
+      ],
+    } as GridState;
+    test('should return if gridState is null', () => {
+      localStorage.setItem = jest.fn();
+      service['getGridState'] = jest
+        .fn()
+        .mockReturnValue(undefined as GridState);
+
+      service.renameQuotationIdToActionItemForProcessCaseState();
+      expect(service['getGridState']).toHaveBeenCalledTimes(1);
+      expect(localStorage.setItem).not.toHaveBeenCalled();
+    });
+
+    test('should rename quotationItemId to actionItemId', () => {
+      service['getGridState'] = jest.fn().mockReturnValue(mockGridState);
+      localStorage.setItem = jest.fn();
+
+      service.renameQuotationIdToActionItemForProcessCaseState();
+
+      expect(service['getGridState']).toHaveBeenCalledTimes(1);
+      expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify(renamedGridState)
+      );
+    });
+
+    test('should not rename when already done', () => {
+      service['getGridState'] = jest.fn().mockReturnValue(renamedGridState);
+      localStorage.setItem = jest.fn();
+
+      service.renameQuotationIdToActionItemForProcessCaseState();
+
+      expect(service['getGridState']).toHaveBeenCalledTimes(1);
+      expect(localStorage.setItem).not.toHaveBeenCalledTimes(1);
     });
   });
 });

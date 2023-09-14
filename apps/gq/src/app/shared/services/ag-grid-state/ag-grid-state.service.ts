@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Inject, Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
@@ -21,9 +22,6 @@ import { QuotationDetail } from '../../models/quotation-detail';
 export class AgGridStateService {
   DEFAULT_VIEW_ID = 0;
 
-  private activeTableKey: string;
-  private activeViewId = this.DEFAULT_VIEW_ID;
-
   views: BehaviorSubject<ViewToggle[]> = new BehaviorSubject<ViewToggle[]>([]);
   columnState: BehaviorSubject<ColumnState[]> = new BehaviorSubject<
     ColumnState[]
@@ -31,6 +29,9 @@ export class AgGridStateService {
   filterState: BehaviorSubject<FilterState[]> = new BehaviorSubject<
     FilterState[]
   >([]);
+
+  private activeTableKey: string;
+  private activeViewId = this.DEFAULT_VIEW_ID;
 
   constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
 
@@ -75,110 +76,24 @@ export class AgGridStateService {
     );
   }
 
-  private getColumnFilters(key: string, viewId: number) {
-    const view = this.getViewById(key, viewId);
-
-    return view?.state?.filterState || [];
-  }
-
   public getColumnFiltersForCurrentView(): FilterState[] {
     return this.getColumnFilters(this.activeTableKey, this.activeViewId);
   }
 
-  private setColumnFilters(
-    key: string,
-    viewId: number,
-    quotationId: string,
-    filterModels: { [key: string]: any }
-  ): void {
-    const existingFilters = this.getColumnFilters(key, viewId);
-    const gridState = this.getGridState(key);
-
-    const filterState: FilterState[] =
-      existingFilters !== undefined &&
-      existingFilters.findIndex(
-        (filter: FilterState) => filter.quotationId === quotationId
-      ) > -1
-        ? [
-            ...existingFilters.map((curFilterState: FilterState) => {
-              if (curFilterState.quotationId === quotationId) {
-                return { quotationId, filterModels };
-              }
-
-              return curFilterState;
-            }),
-          ]
-        : [
-            ...existingFilters,
-            {
-              quotationId,
-              filterModels,
-            },
-          ];
-
-    this.saveGridState({
-      ...gridState,
-      customViews: [
-        ...gridState.customViews.map((view: CustomView) =>
-          view.id === viewId
-            ? {
-                ...view,
-                state: {
-                  ...view.state,
-                  filterState,
-                },
-              }
-            : view
-        ),
-      ],
-    });
-  }
-
   public setColumnFilterForCurrentView(
-    quotationId: string,
+    actionItemId: string,
     filterModels: { [key: string]: any }
   ) {
     this.setColumnFilters(
       this.activeTableKey,
       this.activeViewId,
-      quotationId,
+      actionItemId,
       filterModels
     );
   }
 
-  private getColumnState(key: string, viewId: number) {
-    const view = this.getViewById(key, viewId);
-
-    return view?.state?.columnState || [];
-  }
-
   public getColumnStateForCurrentView() {
     return this.getColumnState(this.activeTableKey, this.activeViewId);
-  }
-
-  private setColumnState(
-    key: string,
-    viewId: number,
-    columnState: ColumnState[]
-  ): void {
-    const gridState = this.getGridState(key);
-
-    this.saveGridState({
-      ...gridState,
-      customViews: [
-        ...gridState.customViews.map((view: CustomView) =>
-          view.id === viewId
-            ? {
-                ...view,
-                state: {
-                  ...view.state,
-                  columnState,
-                },
-              }
-            : view
-        ),
-      ],
-    });
   }
 
   public setColumnStateForCurrentView(columnState: ColumnState[]) {
@@ -187,7 +102,7 @@ export class AgGridStateService {
 
   public setActiveView(customViewId: number) {
     this.activeViewId = customViewId;
-    this.udpateColumnState();
+    this.updateColumnState();
     this.updateViews();
     this.updateFilterState();
   }
@@ -206,76 +121,13 @@ export class AgGridStateService {
   public getCurrentViewId(): number {
     return this.activeViewId;
   }
-
-  private getGridState(key: string): GridState {
-    return JSON.parse(this.localStorage.getItem(key)) as GridState;
-  }
-
-  private getViewById(key: string, viewId: number): CustomView | undefined {
-    const gridState = this.getGridState(key);
-
-    return gridState.customViews.find(
-      (customView: CustomView) => customView.id === viewId
-    );
-  }
-
-  private createNewView(
-    title: string,
-    columnState: ColumnState[],
-    quotationId?: string
-  ) {
-    const gridState = this.getGridState(this.activeTableKey);
-    const filterState = this.getColumnFilters(
-      this.activeTableKey,
-      this.activeViewId
-    ).find((state: FilterState) => state.quotationId === quotationId);
-    const id = this.generateViewId();
-
-    this.saveGridState({
-      ...gridState,
-      customViews: [
-        ...gridState.customViews,
-        {
-          id,
-          title,
-          state: {
-            columnState,
-            filterState: filterState ? [filterState] : [],
-          },
-        },
-      ],
-    });
-
-    this.activeViewId = id;
-    this.updateViews();
-    this.updateFilterState();
-    this.udpateColumnState();
-  }
-
   public createViewFromScratch(title: string) {
     this.createNewView(title, []);
   }
 
-  public createViewFromCurrentView(title: string, quotationId: string) {
+  public createViewFromCurrentView(title: string, actionItemId: string) {
     const currentView = this.getCurrentView();
-    this.createNewView(title, currentView.state.columnState, quotationId);
-  }
-
-  private generateViewId(): number {
-    const ids: number[] = this.getCustomViews().map(
-      (view: ViewToggle) => view.id
-    );
-    ids.sort((a: number, b: number) => a - b);
-
-    return ids[ids.length - 1] + 1;
-  }
-
-  private getCurrentView() {
-    const gridState = this.getGridState(this.activeTableKey);
-
-    return gridState.customViews.find(
-      (view: CustomView) => view.id === this.activeViewId
-    );
+    this.createNewView(title, currentView.state.columnState, actionItemId);
   }
 
   public deleteView(id: number) {
@@ -319,21 +171,157 @@ export class AgGridStateService {
   /**
    * resets any filter for default view
    *
-   * @param quotationId number of quotation to reset the filterModel
+   * @param actionItemId name of the criteria to filter (gqId / activeTab etc)
    */
-  public resetFilterModelsOfDefaultView(quotationId: string): void {
+  public resetFilterModelsOfDefaultView(actionItemId: string): void {
     this.setColumnFilters(
       this.activeTableKey,
       this.DEFAULT_VIEW_ID,
-      quotationId,
+      actionItemId,
       {}
+    );
+  }
+
+  /**
+   * a value inside localStorage changed, so it needs to be renamed
+   * @deprecated can be removed a while, when all users have updated their localStorage once, or localStorage is not used any longer
+   */
+  public renameQuotationIdToActionItemForProcessCaseState(): void {
+    let toBeRenamed = false;
+    const gridState = this.getGridState(`GQ_PROCESS_CASE_STATE`);
+    if (!gridState) {
+      return;
+    }
+
+    const customViews = gridState?.customViews?.map((view: CustomView) => {
+      const filterState = view.state?.filterState?.map(
+        (filter: FilterState & { quotationId?: string }) => {
+          if (filter.quotationId) {
+            // the field quotationId needs to be renamed to actionItemId
+            const newFilter: FilterState = {
+              actionItemId: filter.quotationId,
+              filterModels: filter.filterModels,
+            };
+            toBeRenamed = true;
+
+            return newFilter;
+          } else {
+            return filter;
+          }
+        }
+      );
+
+      return {
+        ...view,
+        state: {
+          ...view.state,
+          filterState,
+        },
+      };
+    });
+
+    if (toBeRenamed) {
+      this.localStorage.setItem(
+        `GQ_PROCESS_CASE_STATE`,
+        JSON.stringify({
+          ...gridState,
+          customViews,
+        })
+      );
+    }
+  }
+
+  private setColumnState(
+    key: string,
+    viewId: number,
+    columnState: ColumnState[]
+  ): void {
+    const gridState = this.getGridState(key);
+
+    this.saveGridState({
+      ...gridState,
+      customViews: [
+        ...gridState.customViews.map((view: CustomView) =>
+          view.id === viewId
+            ? {
+                ...view,
+                state: {
+                  ...view.state,
+                  columnState,
+                },
+              }
+            : view
+        ),
+      ],
+    });
+  }
+
+  private getGridState(key: string): GridState {
+    return JSON.parse(this.localStorage.getItem(key)) as GridState;
+  }
+
+  private getViewById(key: string, viewId: number): CustomView | undefined {
+    const gridState = this.getGridState(key);
+
+    return gridState.customViews.find(
+      (customView: CustomView) => customView.id === viewId
+    );
+  }
+
+  private createNewView(
+    title: string,
+    columnState: ColumnState[],
+    actionItemId?: string
+  ) {
+    const gridState = this.getGridState(this.activeTableKey);
+    const filterState = this.getColumnFilters(
+      this.activeTableKey,
+      this.activeViewId
+    ).find((state: FilterState) => state.actionItemId === actionItemId);
+    const id = this.generateViewId();
+
+    this.saveGridState({
+      ...gridState,
+      customViews: [
+        ...gridState.customViews,
+        {
+          id,
+          title,
+          state: {
+            columnState,
+            filterState: filterState ? [filterState] : [],
+          },
+        },
+      ],
+    });
+
+    this.activeViewId = id;
+    this.updateViews();
+    this.updateFilterState();
+    this.updateColumnState();
+  }
+
+  private generateViewId(): number {
+    const ids: number[] = this.getCustomViews().map(
+      (view: ViewToggle) => view.id
+    );
+    ids.sort((a: number, b: number) => a - b);
+
+    return ids[ids.length - 1] + 1;
+  }
+
+  private getCurrentView() {
+    const gridState = this.getGridState(this.activeTableKey);
+
+    return gridState.customViews.find(
+      (view: CustomView) => view.id === this.activeViewId
     );
   }
 
   private saveGridState(gridState: GridState) {
     this.localStorage.setItem(this.activeTableKey, JSON.stringify(gridState));
     this.updateViews();
-    this.udpateColumnState();
+    this.updateColumnState();
     this.updateFilterState();
   }
 
@@ -350,7 +338,7 @@ export class AgGridStateService {
     );
   }
 
-  private udpateColumnState() {
+  private updateColumnState() {
     const columnState = this.getColumnStateForCurrentView();
     this.columnState.next(columnState);
   }
@@ -358,5 +346,65 @@ export class AgGridStateService {
   private updateFilterState() {
     const filterState = this.getColumnFiltersForCurrentView();
     this.filterState.next(filterState);
+  }
+  private setColumnFilters(
+    key: string,
+    viewId: number,
+    actionItemId: string,
+    filterModels: { [key: string]: any }
+  ): void {
+    const existingFilters = this.getColumnFilters(key, viewId);
+    const gridState = this.getGridState(key);
+
+    const filterState: FilterState[] =
+      existingFilters !== undefined &&
+      existingFilters.findIndex(
+        (filter: FilterState) => filter.actionItemId === actionItemId
+      ) > -1
+        ? [
+            ...existingFilters.map((curFilterState: FilterState) => {
+              if (curFilterState.actionItemId === actionItemId) {
+                return { actionItemId, filterModels };
+              }
+
+              return curFilterState;
+            }),
+          ]
+        : [
+            ...existingFilters,
+            {
+              actionItemId,
+              filterModels,
+            },
+          ];
+
+    this.saveGridState({
+      ...gridState,
+      customViews: [
+        ...gridState.customViews.map((view: CustomView) =>
+          view.id === viewId
+            ? {
+                ...view,
+                state: {
+                  ...view.state,
+                  filterState,
+                },
+              }
+            : view
+        ),
+      ],
+    });
+  }
+
+  private getColumnFilters(key: string, viewId: number) {
+    const view = this.getViewById(key, viewId);
+
+    return view?.state?.filterState || [];
+  }
+
+  private getColumnState(key: string, viewId: number) {
+    const view = this.getViewById(key, viewId);
+
+    return view?.state?.columnState || [];
   }
 }

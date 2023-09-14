@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable, take } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
@@ -15,15 +15,20 @@ import {
   disableTableHorizontalScrollbar,
   statusBarStlye,
 } from '@gq/shared/constants';
+import { FilterState } from '@gq/shared/models/grid-state.model';
 import { ViewQuotation } from '@gq/shared/models/quotation';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
   ColDef,
+  ColumnState,
+  FilterChangedEvent,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
   MenuItemDef,
   RowDoubleClickedEvent,
   RowSelectedEvent,
+  SortChangedEvent,
 } from 'ag-grid-community';
 
 import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
@@ -33,7 +38,7 @@ import { ColumnDefService } from './config/column-def.service';
   templateUrl: './case-table.component.html',
   styles: [basicTableStyle, disableTableHorizontalScrollbar, statusBarStlye],
 })
-export class CaseTableComponent implements OnInit {
+export class CaseTableComponent implements OnInit, OnDestroy {
   @Input() rowData: ViewQuotation[];
   @Input() statusBar: AgStatusBar;
   @Input() activeTab: QuotationTab;
@@ -43,17 +48,23 @@ export class CaseTableComponent implements OnInit {
   components = COMPONENTS;
   localeText$: Observable<AgGridLocale>;
   selectedRows: number[] = [];
+  unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
+  private readonly TABLE_KEY = 'CASE_OVERVIEW';
   constructor(
     private readonly columnDefService: ColumnDefService,
     private readonly columnUtilityService: ColumnUtilityService,
     private readonly localizationService: LocalizationService,
     private readonly router: Router,
-    private readonly overviewCasesFacade: OverviewCasesFacade
+    private readonly overviewCasesFacade: OverviewCasesFacade,
+    private readonly agGridStateService: AgGridStateService
   ) {}
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
+    this.agGridStateService.init(this.TABLE_KEY);
+    this.agGridStateService.setActiveView(0);
+
     this.overviewCasesFacade.selectedIds$
       .pipe(take(1))
       .subscribe((val) => (this.selectedRows = val));
@@ -75,12 +86,47 @@ export class CaseTableComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    if (this.unsubscribe$) {
+      this.unsubscribe$.next(true);
+      this.unsubscribe$.unsubscribe();
+    }
+  }
+  public onColumnChange(event: SortChangedEvent): void {
+    const columnState: ColumnState[] = event.columnApi.getColumnState();
+
+    this.agGridStateService.setColumnStateForCurrentView(columnState);
+  }
+
+  public onFilterChanged(event: FilterChangedEvent): void {
+    const filterModels = event.api.getFilterModel();
+    this.agGridStateService.setColumnFilterForCurrentView(
+      this.activeTab, // quotationId is a string, so we use the table name to find the filter
+      filterModels
+    );
+  }
+
   onGridReady(event: GridReadyEvent): void {
     event.api.forEachNode((node) => {
       if (this.selectedRows.includes(node.data.gqId)) {
         node.setSelected(true);
       }
     });
+
+    const state = this.agGridStateService.getColumnStateForCurrentView();
+    if (state) {
+      event.columnApi.applyColumnState({ state, applyOrder: true });
+    }
+
+    // apply filters
+    this.agGridStateService.filterState
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((filterState: FilterState[]) => {
+        const curFilter = filterState.find(
+          (filter) => filter.actionItemId === this.activeTab // quotationId is a string, so we use the table name to find the filter
+        );
+        event?.api?.setFilterModel?.(curFilter?.filterModels || {});
+      });
   }
 
   onRowSelected(event: RowSelectedEvent): void {

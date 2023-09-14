@@ -1,7 +1,11 @@
 import { ColumnState } from 'ag-grid-community';
 
+/**
+ * the actionItemId is the value of the criteria the filter is applied to.
+ * this could be the quotationId or activeTab name, or any other string value of the criteria to filter
+ */
 export interface FilterState {
-  quotationId: string;
+  actionItemId: string;
   filterModels: Record<string, any>;
 }
 

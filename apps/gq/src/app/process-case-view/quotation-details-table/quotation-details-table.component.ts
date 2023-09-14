@@ -220,7 +220,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((filterState: FilterState[]) => {
         const curFilter = filterState.find(
-          (filter) => filter.quotationId === quotationId
+          (filter) => filter.actionItemId === quotationId
         );
         event?.api?.setFilterModel?.(curFilter?.filterModels || {});
       });

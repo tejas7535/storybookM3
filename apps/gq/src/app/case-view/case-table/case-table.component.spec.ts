@@ -2,17 +2,20 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
 import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
 import { QuotationStatus } from '@gq/shared/models';
+import { FilterState } from '@gq/shared/models/grid-state.model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
+  ColumnState,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   RowNode,
@@ -72,7 +75,35 @@ describe('CaseTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnDestroy', () => {
+    test('should emit', () => {
+      component['unsubscribe$'].next = jest.fn();
+      component['unsubscribe$'].unsubscribe = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['unsubscribe$'].next).toHaveBeenCalled();
+      expect(component['unsubscribe$'].unsubscribe).toHaveBeenCalled();
+    });
+  });
+
   describe('on init', () => {
+    test('should init agGridState', () => {
+      const TABLE_KEY = 'CASE_OVERVIEW';
+      component.activeTab = QuotationTab.ACTIVE;
+      component['agGridStateService'].init = jest.fn();
+      component['agGridStateService'].setActiveView = jest.fn();
+      component['overviewCasesFacade'].selectedIds$ = of([]);
+
+      component.ngOnInit();
+
+      expect(component['agGridStateService'].init).toHaveBeenCalledWith(
+        TABLE_KEY
+      );
+      expect(
+        component['agGridStateService'].setActiveView
+      ).toHaveBeenCalledWith(0);
+    });
     test('should take selected cases from the store', () => {
       const selectedIds = [1234];
       const overviewCasesFacadeMock: OverviewCasesFacade = {
@@ -85,6 +116,58 @@ describe('CaseTableComponent', () => {
       expect(component.selectedRows).toEqual(undefined);
       component.ngOnInit();
       expect(component.selectedRows).toEqual(selectedIds);
+    });
+  });
+
+  describe('columnChange', () => {
+    let event: any;
+    const filterModels = {
+      quotationItemId: { filterType: 'set', values: ['20'] },
+    };
+    beforeEach(() => {
+      event = {
+        columnApi: {
+          getColumnState: jest.fn(),
+        },
+        api: {
+          forEachNodeAfterFilterAndSort: jest.fn(),
+          getFilterModel: jest.fn(() => filterModels),
+        },
+      } as any;
+
+      component['agGridStateService'].setColumnData = jest.fn();
+      component['agGridStateService'].setColumnStateForCurrentView = jest.fn();
+      component['agGridStateService'].setColumnFilterForCurrentView = jest.fn();
+
+      component.activeTab = QuotationTab.ACTIVE;
+    });
+
+    test('should set column state', () => {
+      component['agGridStateService'].getCurrentViewId = jest
+        .fn()
+        .mockReturnValue(1);
+
+      component.onColumnChange(event);
+
+      expect(
+        component['agGridStateService'].setColumnStateForCurrentView
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    test('should set column filters', () => {
+      component['agGridStateService'].getCurrentViewId = jest
+        .fn()
+        .mockReturnValue(1);
+
+      component.onFilterChanged(event);
+
+      expect(event.api.getFilterModel).toHaveBeenCalledTimes(1);
+      expect(
+        component['agGridStateService'].setColumnFilterForCurrentView
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['agGridStateService'].setColumnFilterForCurrentView
+      ).toHaveBeenCalledWith(component.activeTab, filterModels);
     });
   });
 
@@ -101,6 +184,7 @@ describe('CaseTableComponent', () => {
               callback(element);
             }),
         },
+        columnApi: { applyColumnState: jest.fn() },
       } as any;
 
       component.selectedRows = [1234];
@@ -108,6 +192,29 @@ describe('CaseTableComponent', () => {
 
       expect(nodes[0].setSelected).toHaveBeenCalledWith(true);
       expect(nodes[1].setSelected).not.toHaveBeenCalled();
+    });
+
+    test('should apply column state and filter model', () => {
+      const mockEvent = {
+        api: { forEachNode: jest.fn(), setFilterModel: jest.fn() },
+        columnApi: { applyColumnState: jest.fn() },
+      } as any;
+      const filterStateSubject = new BehaviorSubject<FilterState[]>([]);
+      component['agGridStateService'].getColumnStateForCurrentView = jest.fn(
+        () => [{ colId: '1' } as ColumnState]
+      );
+      component['agGridStateService'].filterState = filterStateSubject;
+      component.activeTab = QuotationTab.ACTIVE;
+
+      component.onGridReady(mockEvent);
+      filterStateSubject.next([
+        {
+          actionItemId: 'QUOTATION',
+          filterModels: [],
+        },
+      ]);
+      expect(mockEvent.columnApi.applyColumnState).toHaveBeenCalled();
+      expect(mockEvent.api.setFilterModel).toHaveBeenCalled();
     });
   });
 
