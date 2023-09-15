@@ -13,6 +13,7 @@ import {
 import { LetModule, PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
@@ -72,6 +73,12 @@ describe('MsdNavigationComponent', () => {
       }),
       DataFacade,
       mockProvider(MsdAgGridStateService),
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -105,6 +112,9 @@ describe('MsdNavigationComponent', () => {
       expect(dataFacade.dispatch).toHaveBeenCalledWith(
         setNavigation(activeNavigationLevel)
       );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), { ...activeNavigationLevel });
     });
 
     it('should dispatch the last active navigation', () => {
@@ -126,11 +136,17 @@ describe('MsdNavigationComponent', () => {
       expect(dataFacade.dispatch).toHaveBeenCalledWith(
         setNavigation(lastActiveNavigationLevel)
       );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), {
+        ...lastActiveNavigationLevel,
+      });
     });
   });
 
   describe('ngOnChanges', () => {
     it('should do nothing if activeNavigationLevel has not been changed', () => {
+      jest.resetAllMocks();
       msdAgGridStateService.storeActiveNavigationLevel = jest.fn();
 
       component.ngOnChanges({
@@ -143,6 +159,9 @@ describe('MsdNavigationComponent', () => {
         msdAgGridStateService.storeActiveNavigationLevel
       ).not.toHaveBeenCalled();
       expect(dataFacade.dispatch).not.toHaveBeenCalled();
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).not.toHaveBeenCalled();
     });
 
     it('should do nothing if activeNavigationLevel is undefined', () => {
@@ -182,6 +201,9 @@ describe('MsdNavigationComponent', () => {
       expect(dataFacade.dispatch).toHaveBeenCalledWith(
         setNavigation(activeNavigationLevel)
       );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), { ...activeNavigationLevel });
     });
   });
 
@@ -204,6 +226,9 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.storeActiveNavigationLevel
       ).toHaveBeenCalledWith(activeNavigationLevel);
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), { ...activeNavigationLevel });
     });
 
     it('should dispatch the action with default values', () => {
@@ -224,6 +249,11 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.storeActiveNavigationLevel
       ).toHaveBeenCalledWith(defaultActiveNavigationLevel);
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), {
+        ...defaultActiveNavigationLevel,
+      });
     });
   });
 

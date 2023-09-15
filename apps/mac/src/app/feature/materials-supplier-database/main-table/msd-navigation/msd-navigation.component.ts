@@ -8,6 +8,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { setNavigation } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -38,7 +40,8 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly dataFacade: DataFacade,
-    private readonly msdAgGridStateService: MsdAgGridStateService
+    private readonly msdAgGridStateService: MsdAgGridStateService,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -47,23 +50,12 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
         this.msdAgGridStateService.getLastActiveNavigationLevel();
     }
 
-    this.dataFacade.dispatch(
-      setNavigation({
-        ...this.activeNavigationLevel,
-      })
-    );
+    this.updateNavigationLevel(this.activeNavigationLevel, false);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.activeNavigationLevel && this.activeNavigationLevel) {
-      this.dataFacade.dispatch(
-        setNavigation({
-          ...this.activeNavigationLevel,
-        })
-      );
-      this.msdAgGridStateService.storeActiveNavigationLevel({
-        ...this.activeNavigationLevel,
-      });
+      this.updateNavigationLevel(this.activeNavigationLevel);
     }
   }
 
@@ -71,11 +63,7 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
     materialClass: MaterialClass,
     navigationLevel = NavigationLevel.MATERIAL
   ): void {
-    this.dataFacade.dispatch(setNavigation({ materialClass, navigationLevel }));
-    this.msdAgGridStateService.storeActiveNavigationLevel({
-      materialClass,
-      navigationLevel,
-    });
+    this.updateNavigationLevel({ materialClass, navigationLevel });
   }
 
   public toggleSideBar() {
@@ -84,5 +72,21 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
 
   public hasNavigationLevels(materialClass: MaterialClass): boolean {
     return materialClass !== MaterialClass.SAP_MATERIAL;
+  }
+
+  private updateNavigationLevel(
+    active: ActiveNavigationLevel,
+    storeInSessionStorage = true
+  ) {
+    // set event for AppInsights
+    this.applicationInsightsService.logEvent(
+      `[MAC - MSD] SELECTED NAVIGATION LEVEL`,
+      { ...active }
+    );
+    // dispatch event and store
+    this.dataFacade.dispatch(setNavigation({ ...active }));
+    if (storeInSessionStorage) {
+      this.msdAgGridStateService.storeActiveNavigationLevel({ ...active });
+    }
   }
 }
