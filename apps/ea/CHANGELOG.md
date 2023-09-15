@@ -1,4 +1,19 @@
 # Release Notes of Engineering App
+## [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.3...ea-v0.1.4) (2023-09-15)
+
+
+### Features
+
+* **ea:** only embedded release should be visible on production ([#5618](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5618)) ([c922b66](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c922b66e96b74c882b4742687252299d82caac29))
+* **ea:** show tabbed options as disabled instead of hiding (UFTABI-6718) ([#5609](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5609)) ([9eff89a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9eff89aa1240b7a4b5f7212381379736575839a6))
+* **ea:** update co2 disclaimer ([#5617](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5617)) ([e92a42d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e92a42d078f6e7637c53137fa1c443b645a27d78))
+
+
+### Bug Fixes
+
+* **ea:** fix double scroll on small devices ([#5615](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5615)) ([c56ed0c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c56ed0c654c95aeef9079a06ee1f14266d10e615))
+* **ea:** fix remaining design fixes ([#5612](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5612)) ([2343b2c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2343b2c819ce796d3cbb7ef9808a3cfacc7f5dcd))
+
 ## [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.2...ea-v0.1.3) (2023-09-13)
 
 
