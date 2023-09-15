@@ -1,19 +1,29 @@
-<ng-container *ngIf="isBearingSupported$ | ngrxPush; else legacyApp">
+<ng-container *ngIf="isBearingSupported$ | ngrxPush; else legacyAppSelection">
   <ng-container *ngIf="isStandalone$ | ngrxPush; else appInner">
-    <schaeffler-app-shell
-      [hasSidebarLeft]="true"
-      [appTitle]="title"
-      appTitleLink="/"
-      [footerFixed]="false"
-      [footerLinks]="footerLinks$ | ngrxPush"
-      (onContentScroll)="containerScrollEvent$.next($event)"
-    >
-      <ng-container mainContent>
-        <router-outlet></router-outlet>
-      </ng-container>
-    </schaeffler-app-shell>
+    <ng-container *ngIf="!isProduction; else standaloneProdPlaceholder">
+      <schaeffler-app-shell
+        [hasSidebarLeft]="true"
+        [appTitle]="title"
+        appTitleLink="/"
+        [footerFixed]="false"
+        [footerLinks]="footerLinks$ | ngrxPush"
+        (onContentScroll)="containerScrollEvent$.next($event)"
+      >
+        <ng-container mainContent>
+          <router-outlet></router-outlet>
+        </ng-container>
+      </schaeffler-app-shell>
+    </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #legacyAppSelection>
+  <ng-container *ngIf="isStandalone$ | ngrxPush; else legacyApp">
+    <ng-container *ngIf="!isProduction; else standaloneProdPlaceholder">
+      <ng-container *ngTemplateOutlet="legacyApp"></ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
 
 <!-- adjust language code accordingly in the url-->
 <ng-template #legacyApp>
@@ -42,5 +52,15 @@
         [ngClass]="{ 'max-w-full': !isStandalone$ | ngrxPush }"
       ></ea-calculation-container>
     </div>
+  </div>
+</ng-template>
+
+<!-- placeholder required before standalone version release-->
+<ng-template #standaloneProdPlaceholder>
+  <div class="flex flex-col items-center p-4 text-center">
+    <h4 class="mb-4 text-high-emphasis">Under Construction</h4>
+    <p class="text-subtitle-1 text-medium-emphasis">
+      We are sorry, this content is coming soon.
+    </p>
   </div>
 </ng-template>

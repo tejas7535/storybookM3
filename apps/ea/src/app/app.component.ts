@@ -19,6 +19,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { environment } from '@ea/environments/environment';
 import { isLanguageAvailable } from '@ea/shared/helper/language-helpers';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -52,6 +53,8 @@ export class AppComponent implements OnChanges, OnInit, OnDestroy {
   public title = 'Engineering App';
   public isStandalone$ = this.store.select(isStandalone);
   public isBearingSupported$ = this.store.select(isBearingSupported);
+
+  public isProduction = environment.production;
 
   public legacyAppUrl$: Observable<SafeResourceUrl> = combineLatest([
     this.translocoService.langChanges$,
