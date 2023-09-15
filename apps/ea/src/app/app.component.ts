@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
@@ -43,7 +44,7 @@ import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnChanges, OnInit {
+export class AppComponent implements OnChanges, OnInit, OnDestroy {
   @Input() bearingDesignation: string | undefined;
   @Input() standalone: string | undefined;
   @Input() language: string | undefined;

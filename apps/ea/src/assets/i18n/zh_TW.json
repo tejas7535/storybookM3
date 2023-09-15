@@ -182,8 +182,8 @@
       "thermallySafeOperatingSpeed": "熱安全工作速度"
     },
     "calculationDisclaimer": {
-      "title": "計算免責聲明",
-      "disclaimerFile": "/disclaimers/calculation-zh-tw.html"
+      "title": "Disclaimer for PCF calculation",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
     },
     "ratingLife": {
       "title": "額定壽命",

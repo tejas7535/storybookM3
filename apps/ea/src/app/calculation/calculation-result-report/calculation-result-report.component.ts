@@ -104,6 +104,7 @@ export class CalculationResultReportComponent {
     this.dialog.open(CalculationDisclaimerComponent, {
       hasBackdrop: true,
       autoFocus: true,
+      maxWidth: '750px',
     });
   }
 

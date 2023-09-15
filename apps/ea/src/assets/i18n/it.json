@@ -181,8 +181,8 @@
       "thermallySafeOperatingSpeed": "Velocità di esercizio termicamente sicura"
     },
     "calculationDisclaimer": {
-      "title": "Disclaimer del calcolo",
-      "disclaimerFile": "/disclaimers/calculation-it.html"
+      "title": "Disclaimer for PCF calculation",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
     },
     "ratingLife": {
       "title": "Durata nominale",
