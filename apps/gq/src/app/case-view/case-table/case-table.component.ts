@@ -33,6 +33,10 @@ import {
 
 import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
+import {
+  CASE_TABLE_CUSTOM_VIEWS_CONFIG,
+  customViewIdByQuotationTab,
+} from './config/custom-views.config';
 @Component({
   selector: 'gq-case-table',
   templateUrl: './case-table.component.html',
@@ -51,6 +55,7 @@ export class CaseTableComponent implements OnInit, OnDestroy {
   unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   private readonly TABLE_KEY = 'CASE_OVERVIEW';
+
   constructor(
     private readonly columnDefService: ColumnDefService,
     private readonly columnUtilityService: ColumnUtilityService,
@@ -62,12 +67,16 @@ export class CaseTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
-    this.agGridStateService.init(this.TABLE_KEY);
-    this.agGridStateService.setActiveView(0);
+    this.agGridStateService.init(
+      this.TABLE_KEY,
+      CASE_TABLE_CUSTOM_VIEWS_CONFIG
+    );
+    this.agGridStateService.setActiveView(this.getActiveView());
 
     this.overviewCasesFacade.selectedIds$
       .pipe(take(1))
       .subscribe((val) => (this.selectedRows = val));
+
     this.columnDefs = this.columnDefService.COLUMN_DEFS.filter(
       (colDef) =>
         this.columnUtilityService.filterSapSyncStatusColumns(
@@ -180,5 +189,14 @@ export class CaseTableComponent implements OnInit, OnDestroy {
       ColumnUtilityService.getCopyCellContentContextMenuItem(params),
       ...hyperlinkMenuItems,
     ];
+  }
+
+  /**
+   * depending on the tab clicked
+   */
+  private getActiveView(): number {
+    return this.activeTab === QuotationTab.ACTIVE
+      ? 0
+      : customViewIdByQuotationTab.get(this.activeTab);
   }
 }

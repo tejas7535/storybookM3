@@ -31,6 +31,7 @@ import {
 import { AppRoutePath } from '../../app-route-path.enum';
 import { CaseTableComponent } from './case-table.component';
 import { ColumnDefService } from './config/column-def.service';
+import { CASE_TABLE_CUSTOM_VIEWS_CONFIG } from './config/custom-views.config';
 
 describe('CaseTableComponent', () => {
   let component: CaseTableComponent;
@@ -98,7 +99,8 @@ describe('CaseTableComponent', () => {
       component.ngOnInit();
 
       expect(component['agGridStateService'].init).toHaveBeenCalledWith(
-        TABLE_KEY
+        TABLE_KEY,
+        CASE_TABLE_CUSTOM_VIEWS_CONFIG
       );
       expect(
         component['agGridStateService'].setActiveView

@@ -100,6 +100,39 @@ describe('AgGridStateService', () => {
 
       expect(service['localStorage'].setItem).not.toHaveBeenCalled();
     });
+
+    test('should include additional if preset', () => {
+      service['localStorage'].getItem = jest.fn().mockReturnValue('');
+      service['localStorage'].setItem = jest.fn();
+      service.getCustomViews = jest.fn();
+
+      service.init('process_case', [
+        {
+          id: 1,
+          title: 'test view 1',
+          state: { columnState: [], filterState: [] },
+        },
+      ]);
+
+      expect(service['localStorage'].setItem).toHaveBeenCalledWith(
+        'GQ_PROCESS_CASE_STATE',
+        JSON.stringify({
+          version: 1,
+          customViews: [
+            {
+              id: 0,
+              title: translatedViewName,
+              state: { columnState: [] },
+            },
+            {
+              id: 1,
+              title: 'test view 1',
+              state: { columnState: [], filterState: [] },
+            },
+          ],
+        })
+      );
+    });
   });
 
   describe('getColumnStateForCurrentView', () => {

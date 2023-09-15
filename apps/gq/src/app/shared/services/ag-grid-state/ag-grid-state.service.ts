@@ -35,7 +35,15 @@ export class AgGridStateService {
 
   constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
 
-  public init(tableName: string) {
+  /**
+   * Init the gridState by table key.
+   * Optionally customViews can be passed initially, which will be added to the default view.
+   * When table key is not present in localStorage, it will be created.
+   *
+   * @param tableName key of the table
+   * @param additionalViews all custom views but the default one
+   */
+  public init(tableName: string, additionalViews?: CustomView[]) {
     this.activeTableKey = `GQ_${tableName.toUpperCase()}_STATE`;
 
     if (!this.localStorage.getItem(this.activeTableKey)) {
@@ -49,6 +57,7 @@ export class AgGridStateService {
               title: translate('shared.quotationDetailsTable.defaultView'),
               state: { columnState: [] },
             },
+            ...(additionalViews || []),
           ],
         } as GridState)
       );
