@@ -1,4 +1,21 @@
 # Release Notes of Material App Center
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.12.1...mac-v1.13.0) (2023-09-18)
+
+
+### Features
+
+* **mac:** added tracking of selected material - UFTABI-6668 ([#5616](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5616)) ([81170b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/81170b8ce783002af66815fe758a36ee113cf5d1))
+* **mac:** enable tooltips for specific columns in SAP material numbers table (UFTABI-6581) ([#5587](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5587)) ([330d7e3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/330d7e303114b7f3473341201092a072e00995f6))
+* **mac:** store and use last active navigation level (UFTABI-6669) ([#5598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5598)) ([cbaf769](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cbaf76968b34f4d9c042a9b5be10d0e80100c112))
+* **mac:** use new properties for businesspartner ID and SapID - UFTABI-6599 ([#5580](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5580)) ([0cc2eaa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0cc2eaa36008c93bae023cf1edc2b224819a04bf))
+
+
+### Bug Fixes
+
+* **mac:** remove timeout for SAP data requests - UFTABI-6695 ([#5566](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5566)) ([67b86ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/67b86ed16e56c3f76e6ce7ccf5fa361ba829fcb3))
+* **mac:** removed hardmagnet code ([#5593](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5593)) ([7571b82](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7571b82740c1a960812b3f73bf4ebd902ccace5c))
+* **mac:** switch to normal button to enable quick filter add functionality (UFTABI-6725) ([#5581](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5581)) ([5e26a8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e26a8e7f6d7b3161f07656e6131326a32576a78))
+
 ## [1.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.12.0...mac-v1.12.1) (2023-08-09)
 
 
