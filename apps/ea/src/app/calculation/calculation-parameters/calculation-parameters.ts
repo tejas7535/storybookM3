@@ -42,6 +42,7 @@ import {
   CalculationParameterGroup,
   CalculationParametersOperationConditions,
 } from '@ea/core/store/models';
+import { environment } from '@ea/environments/environment';
 import { Greases } from '@ea/shared/constants/greases';
 import { ISOVgClasses } from '@ea/shared/constants/iso-vg-classes';
 import { extractNestedErrors } from '@ea/shared/helper/form.helper';
@@ -110,6 +111,7 @@ export class CalculationParametersComponent
   public DEBOUNCE_TIME_DEFAULT = 200;
 
   public readonly isDev = isDevMode();
+  public readonly isProduction = environment.production;
 
   public parameterTemplates$:
     | Observable<{
