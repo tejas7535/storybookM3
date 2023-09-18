@@ -6,13 +6,17 @@ import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/lega
 import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { DragAndDropDirective } from '@gq/shared/directives/drag-and-drop/drag-and-drop-directive';
+import { PushPipe } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AttachmentFilesUploadModalComponent } from './attachment-files-upload-modal.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [AttachmentFilesUploadModalComponent],
+  declarations: [AttachmentFilesUploadModalComponent, DragAndDropDirective],
   imports: [
     CommonModule,
     MatIconModule,
@@ -21,6 +25,9 @@ import { AttachmentFilesUploadModalComponent } from './attachment-files-upload-m
     MatButtonModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
+    PushPipe,
+    LoadingSpinnerModule,
+    MatTooltipModule,
   ],
   exports: [AttachmentFilesUploadModalComponent],
 })

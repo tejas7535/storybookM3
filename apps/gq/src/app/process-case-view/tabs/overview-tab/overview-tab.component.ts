@@ -14,6 +14,7 @@ import {
   getQuotationCurrency,
   getQuotationOverviewInformation,
 } from '@gq/core/store/active-case';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { ApprovalWorkflowInformation } from '@gq/shared/models';
@@ -43,11 +44,13 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
 
   constructor(
     readonly approvalFacade: ApprovalFacade,
+    readonly activeCaseFacade: ActiveCaseFacade,
     private readonly store: Store
   ) {}
 
   ngOnInit(): void {
     this.approvalFacade.getApprovers();
+    this.activeCaseFacade.getAllAttachments();
     this.initializeObservables();
   }
 

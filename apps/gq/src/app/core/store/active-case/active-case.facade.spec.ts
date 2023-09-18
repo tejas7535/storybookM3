@@ -1,3 +1,4 @@
+import { QuotationAttachment } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -61,6 +62,94 @@ describe('ActiveCaseFacade', () => {
     );
   });
 
+  describe('attachmentsUploading$', () => {
+    test(
+      'should select attachments uploading',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          activeCaseFeature.selectAttachmentsUploading,
+          true
+        );
+        m.expect(facade.attachmentsUploading$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('uploadAttachmentsSuccess$', () => {
+    test(
+      'should dispatch upload attachments success',
+      marbles((m) => {
+        const attachments: QuotationAttachment[] = [];
+        const action = ActiveCaseActions.uploadAttachmentsSuccess({
+          attachments,
+        });
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.uploadAttachmentsSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+  });
+
+  describe('quotationAttachments$', () => {
+    test('should select quotation attachments', () => {
+      const attachments: QuotationAttachment[] = [
+        { filename: 'test' } as unknown as QuotationAttachment,
+      ];
+      mockStore.overrideSelector(
+        activeCaseFeature.selectAttachments,
+        attachments
+      );
+
+      facade.quotationAttachments$.subscribe((result) => {
+        expect(result).toBe(attachments);
+      });
+    });
+  });
+
+  describe('attachmentsGetting$', () => {
+    test(
+      'should select attachments getting',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          activeCaseFeature.selectAttachmentsGetting,
+          true
+        );
+        m.expect(facade.attachmentsGetting$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('attachmentsGettingSuccess$', () => {
+    test(
+      'should dispatch get all attachments success',
+      marbles((m) => {
+        const attachments: QuotationAttachment[] = [];
+        const action = ActiveCaseActions.getAllAttachmentsSuccess({
+          attachments,
+        });
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.attachmentsGettingSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+  });
+  // ############################# methods testing ##############################
   describe('updateCosts', () => {
     test('should dispatch update costs', () => {
       const gqPosId = '123';
@@ -68,6 +157,29 @@ describe('ActiveCaseFacade', () => {
       const spy = jest.spyOn(mockStore, 'dispatch');
 
       facade.updateCosts(gqPosId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('uploadAttachments', () => {
+    test('should dispatch upload attachments', () => {
+      const files = [new File([], 'file')];
+      const action = ActiveCaseActions.uploadAttachments({ files });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.uploadAttachments(files);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('getAllAttachments', () => {
+    test('should dispatch get all attachments', () => {
+      const action = ActiveCaseActions.getAllAttachments();
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.getAllAttachments();
 
       expect(spy).toHaveBeenCalledWith(action);
     });

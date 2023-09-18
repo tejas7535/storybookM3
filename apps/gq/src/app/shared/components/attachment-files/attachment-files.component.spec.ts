@@ -1,9 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { QuotationAttachment } from '@gq/shared/models';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -17,7 +22,10 @@ describe('AttachmentFilesComponent', () => {
   const createComponent = createComponentFactory({
     component: AttachmentFilesComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
-    providers: [{ provide: MatDialog, useValue: {} }],
+    providers: [
+      { provide: MatDialog, useValue: {} },
+      mockProvider(ActiveCaseFacade),
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
@@ -31,6 +39,7 @@ describe('AttachmentFilesComponent', () => {
   });
 
   test('should open upload dialog', () => {
+    component.attachments = [{ fileName: 'test' } as QuotationAttachment];
     const openMock = jest.fn(
       () =>
         ({
@@ -45,26 +54,15 @@ describe('AttachmentFilesComponent', () => {
     expect(openMock).toHaveBeenCalledWith(AttachmentFilesUploadModalComponent, {
       width: '634px',
       disableClose: true,
+      data: { attachments: component.attachments },
     });
   });
 
-  test(
-    'should set the observable after closed',
-    marbles((m) => {
-      expect(true).toBeTruthy();
-      const expectedResult = m.cold('a', { a: ['file-1', 'file-2'] });
-      const openMock = jest.fn(
-        () =>
-          ({
-            afterClosed: () => expectedResult,
-          } as any)
-      );
-      component.selectedFilesList$ = undefined;
-      component['dialog'].open = openMock;
+  describe('trackByFn', () => {
+    test('should return index', () => {
+      const result = component.trackByFn(3);
 
-      expect(component.selectedFilesList$).toBeUndefined();
-      component.openAddFileDialog();
-      m.expect(component.selectedFilesList$).toBeObservable(expectedResult);
-    })
-  );
+      expect(result).toEqual(3);
+    });
+  });
 });

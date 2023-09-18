@@ -10,8 +10,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
-import { Quotation, SAP_SYNC_STATUS } from '@gq/shared/models';
+import {
+  Quotation,
+  QuotationAttachment,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
+import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
@@ -39,7 +44,7 @@ import { getGqId } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
 /* eslint-disable max-lines */
-describe('ActiveCaseEffectss', () => {
+describe('ActiveCaseEffects', () => {
   let spectator: SpectatorService<ActiveCaseEffects>;
   let action: any;
   let actions$: any;
@@ -47,6 +52,7 @@ describe('ActiveCaseEffectss', () => {
   let customerService: CustomerService;
   let quotationDetailsService: QuotationDetailsService;
   let quotationService: QuotationService;
+  let attachmentService: AttachmentsService;
   let snackBar: MatSnackBar;
 
   let store: any;
@@ -71,6 +77,7 @@ describe('ActiveCaseEffectss', () => {
     customerService = spectator.inject(CustomerService);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
     quotationService = spectator.inject(QuotationService);
+    attachmentService = spectator.inject(AttachmentsService);
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
     snackBar = spectator.inject(MatSnackBar);
@@ -1287,5 +1294,99 @@ describe('ActiveCaseEffectss', () => {
       expect(quotationDetailsService.updateCostData).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('uploadAttachments', () => {
+    test(
+      'should return uploadAttachmentsSuccess when REST call is successful',
+      marbles((m) => {
+        action = ActiveCaseActions.uploadAttachments({
+          files: [new File([], 'test')],
+        });
+        const attachments: QuotationAttachment[] = [
+          { fileName: '1' } as QuotationAttachment,
+        ];
+        attachmentService.uploadFiles = jest.fn(() => response);
+        snackBar.open = jest.fn();
+        store.overrideSelector(getGqId, 1245);
+
+        const result = ActiveCaseActions.uploadAttachmentsSuccess({
+          attachments,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: attachments });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.uploadAttachments$).toBeObservable(expected);
+        m.flush();
+        expect(attachmentService.uploadFiles).toHaveBeenCalledTimes(1);
+        expect(attachmentService.uploadFiles).toHaveBeenCalledWith(
+          [new File([], 'test')],
+          1245
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+    test('should return uploadAttachmentsFailure on REST error', () => {
+      action = ActiveCaseActions.uploadAttachments({
+        files: [new File([], 'test')],
+      });
+      attachmentService.uploadFiles = jest.fn(() => response);
+      const result = ActiveCaseActions.uploadAttachmentsFailure({
+        errorMessage,
+      });
+
+      actions$ = of(action);
+      const response = throwError(errorMessage);
+
+      effects.uploadAttachments$.subscribe((res) => {
+        expect(res).toEqual(result);
+      });
+      expect(attachmentService.uploadFiles).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getAllAttachments', () => {
+    test(
+      'should return getAllAttachmentsSuccess when REST call is successful',
+      marbles((m) => {
+        action = ActiveCaseActions.getAllAttachments();
+        const attachments: QuotationAttachment[] = [
+          { fileName: '1' } as QuotationAttachment,
+        ];
+        attachmentService.getAllAttachments = jest.fn(() => response);
+        store.overrideSelector(getGqId, 1245);
+        const result = ActiveCaseActions.getAllAttachmentsSuccess({
+          attachments,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: attachments });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.getAllAttachments$).toBeObservable(expected);
+        m.flush();
+        expect(attachmentService.getAllAttachments).toHaveBeenCalledTimes(1);
+        expect(attachmentService.getAllAttachments).toHaveBeenCalledWith(1245);
+      })
+    );
+
+    test('should return getAllAttachmentsFailure on REST error', () => {
+      action = ActiveCaseActions.getAllAttachments();
+      attachmentService.getAllAttachments = jest.fn(() => response);
+      const result = ActiveCaseActions.getAllAttachmentsFailure({
+        errorMessage,
+      });
+
+      actions$ = of(action);
+      const response = throwError(errorMessage);
+
+      effects.getAllAttachments$.subscribe((res) => {
+        expect(res).toEqual(result);
+      });
+      expect(attachmentService.getAllAttachments).toHaveBeenCalledTimes(1);
+    });
+  });
+
   // eslint-disable-next-line max-lines
 });

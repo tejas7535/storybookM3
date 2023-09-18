@@ -120,7 +120,8 @@
         "requestedQuotationDate": "Angebot bis",
         "commentLabel": "Kommentar",
         "attachments": {
-          "title": "Anhänge"
+          "title": "Anhänge",
+          "uploadInformation": "{{at}} von {{by}}"
         }
       },
       "netValueCardTitle": "Nettowert",

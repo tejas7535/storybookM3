@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { QuotationAttachment } from '@gq/shared/models';
+
 import { GeneralInformation } from './../../models';
 
 @Component({
@@ -8,4 +10,5 @@ import { GeneralInformation } from './../../models';
 })
 export class GeneralInformationComponent {
   @Input() info: GeneralInformation;
+  @Input() attachments: QuotationAttachment[];
 }

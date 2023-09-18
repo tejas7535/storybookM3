@@ -7,6 +7,7 @@ export * from './keyboard.enum';
 export * from './language.model';
 export * from './query-params.model';
 export * from './quotation/quotation.model';
+export * from './quotation/quotation-attachment.model';
 export * from './quotation/quotation-origin.enum';
 export * from './quotation/quotation-status.enum';
 export * from './quotation-detail';

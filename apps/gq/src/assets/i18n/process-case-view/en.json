@@ -120,7 +120,8 @@
         "requestedQuotationDate": "Requested Quotation Date",
         "commentLabel": "Comment",
         "attachments": {
-          "title": "Attachments"
+          "title": "Attachments",
+          "uploadInformation": "{{at}} by {{by}}"
         }
       },
       "netValueCardTitle": "Net Value",

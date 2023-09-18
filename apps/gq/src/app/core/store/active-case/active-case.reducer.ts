@@ -2,6 +2,7 @@
 import {
   Customer,
   Quotation,
+  QuotationAttachment,
   QuotationDetail,
   SimulatedQuotation,
 } from '@gq/shared/models';
@@ -35,6 +36,9 @@ export interface ActiveCaseState {
   selectedQuotationDetails: string[];
   removeQuotationDetailsIds: string[];
   updateCostsLoading: boolean;
+  attachmentsUploading: boolean;
+  attachmentsGetting: boolean;
+  attachments: QuotationAttachment[];
 }
 
 export const initialState: ActiveCaseState = {
@@ -53,6 +57,9 @@ export const initialState: ActiveCaseState = {
   selectedQuotationDetails: [],
   removeQuotationDetailsIds: [],
   updateCostsLoading: false,
+  attachmentsUploading: false,
+  attachmentsGetting: false,
+  attachments: [],
 };
 
 export const activeCaseFeature = createFeature({
@@ -456,6 +463,50 @@ export const activeCaseFeature = createFeature({
         ...state,
         quotationLoadingErrorMessage: errorMessage,
         updateCostsLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.uploadAttachments,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        attachmentsUploading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.uploadAttachmentsSuccess,
+      (state: ActiveCaseState, { attachments }): ActiveCaseState => ({
+        ...state,
+        attachments: [...attachments],
+        attachmentsUploading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.uploadAttachmentsFailure,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        attachmentsUploading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.getAllAttachments,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        attachmentsGetting: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.getAllAttachmentsSuccess,
+      (state: ActiveCaseState, { attachments }): ActiveCaseState => ({
+        ...state,
+        attachments: [...attachments],
+        attachmentsGetting: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.getAllAttachmentsFailure,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        attachmentsGetting: false,
       })
     )
   ),

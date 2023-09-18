@@ -16,12 +16,13 @@ import {
 } from 'rxjs/operators';
 
 import { URL_SUPPORT } from '@gq/shared/http/constants/urls';
-import { Customer, Quotation } from '@gq/shared/models';
+import { Customer, Quotation, QuotationAttachment } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models/quotation-detail';
+import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
@@ -536,12 +537,55 @@ export class ActiveCaseEffects {
       )
     );
   });
+  uploadAttachments$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.uploadAttachments),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      mergeMap(([action, gqId]) =>
+        this.attachmentsService.uploadFiles(action.files, gqId).pipe(
+          tap(() => {
+            const successMessage = translate(
+              'shared.snackBarMessages.attachmentsUploaded'
+            );
+            this.snackBar.open(successMessage);
+          }),
+          map((attachments: QuotationAttachment[]) =>
+            ActiveCaseActions.uploadAttachmentsSuccess({ attachments })
+          ),
+          catchError((errorMessage) =>
+            of(ActiveCaseActions.uploadAttachmentsFailure({ errorMessage }))
+          )
+        )
+      )
+    );
+  });
+
+  getAllAttachments$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.getAllAttachments),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      mergeMap(([_action, gqId]) =>
+        this.attachmentsService
+          // when action.gqId is different to the action
+          .getAllAttachments(gqId)
+          .pipe(
+            map((attachments: QuotationAttachment[]) =>
+              ActiveCaseActions.getAllAttachmentsSuccess({ attachments })
+            ),
+            catchError((errorMessage) =>
+              of(ActiveCaseActions.getAllAttachmentsFailure({ errorMessage }))
+            )
+          )
+      )
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly customerService: CustomerService,
     private readonly quotationDetailsService: QuotationDetailsService,
     private readonly quotationService: QuotationService,
+    private readonly attachmentsService: AttachmentsService,
     private readonly store: Store,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar

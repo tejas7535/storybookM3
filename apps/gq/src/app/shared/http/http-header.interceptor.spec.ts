@@ -32,6 +32,13 @@ class ExampleService {
   public getFromDifferentUrl(): Observable<string> {
     return this.http.get<string>(`${differentUrl}/test`);
   }
+
+  public postAttachments(): Observable<string> {
+    return this.http.post<string>(
+      `${this.apiUrl}/quotations/12345/attachments`,
+      {}
+    );
+  }
 }
 
 describe(`HttpHeaderInterceptor`, () => {
@@ -67,6 +74,23 @@ describe(`HttpHeaderInterceptor`, () => {
   });
 
   describe('intercept', () => {
+    test('should not add header-content to quotations/{gqId}/attachments when post', () => {
+      translocoService.getActiveLang = jest.fn(() => 'en');
+      service.postAttachments().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/quotations/12345/attachments`
+      );
+      expect(httpRequest.request.method).toEqual('POST');
+
+      expect(
+        httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+      expect(
+        httpRequest.request.headers.keys().includes('content-type')
+      ).toBeFalsy();
+    });
     test('should add http header on calls against /api/v1', () => {
       translocoService.getActiveLang = jest.fn(() => 'en');
       service.getTest().subscribe((res) => {

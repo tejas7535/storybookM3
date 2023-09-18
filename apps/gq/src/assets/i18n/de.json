@@ -392,7 +392,8 @@
         "partially": "Die ausgewählten Positionen wurden terilweise in SAP gespeichert",
         "failed": "Update in SAP fehlgeschlagen"
       },
-      "costsUpdated": "Kosten erfolgreich aktualisiert"
+      "costsUpdated": "Kosten erfolgreich aktualisiert",
+      "attachmentsUploaded": "Anhänge erfolgreich hochgeladen"
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
@@ -495,11 +496,13 @@
       }
     },
     "uploadDialog": {
-      "title": "Dokument Hochladen",
-      "dialogOptionInfo": "oder Dateien löschen",
-      "dialogInfo": "Maximale Dateigröße + unterstützte Datentypen",
+      "title": "Dokumente hochladen",
+      "dialogOptionInfo": "oder Dateien hier ablegen",
+      "dialogInfo": "Max Dateigröße 2MB + untersütze Dateitypen <br> [pdf, eml, png, jpeg, jpg, tiff, txt, xls, xlsx, csv]",
       "uploadButton": "Hochladen",
-      "cancelButton": "Abbrechen"
+      "cancelButton": "Abbrechen",
+      "fileSizeExceedsTooltip": "Datei überschreitet maximale Dateigröße (2 MB).",
+      "fileExitsTooltip": "Datei bereits vorhanden."
     },
     "validation": {
       "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",

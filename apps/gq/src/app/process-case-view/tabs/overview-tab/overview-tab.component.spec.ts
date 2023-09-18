@@ -7,6 +7,7 @@ import {
   getQuotationDetails,
   getQuotationOverviewInformation,
 } from '@gq/core/store/active-case';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';
@@ -50,6 +51,7 @@ describe('OverviewTabComponent', () => {
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
       MockProvider(ApprovalFacade),
+      MockProvider(ActiveCaseFacade),
       provideMockStore({
         initialState: {
           activeCase: { ...ACTIVE_CASE_STATE_MOCK },
@@ -71,7 +73,13 @@ describe('OverviewTabComponent', () => {
   describe('ngOnInit', () => {
     test('should call methods', () => {
       component['initializeObservables'] = jest.fn();
+      component.approvalFacade.getApprovers = jest.fn();
+      component.activeCaseFacade.getAllAttachments = jest.fn();
+
       component.ngOnInit();
+
+      expect(component.approvalFacade.getApprovers).toHaveBeenCalled();
+      expect(component.activeCaseFacade.getAllAttachments).toHaveBeenCalled();
       expect(component['initializeObservables']).toHaveBeenCalled();
     });
 

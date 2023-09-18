@@ -1,6 +1,7 @@
 import {
   PriceSource,
   Quotation,
+  QuotationAttachment,
   QuotationDetail,
   QuotationStatus,
 } from '@gq/shared/models';
@@ -15,7 +16,11 @@ import {
 } from '../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { ActiveCaseActions } from './active-case.action';
-import { activeCaseFeature, initialState } from './active-case.reducer';
+import {
+  activeCaseFeature,
+  ActiveCaseState,
+  initialState,
+} from './active-case.reducer';
 import { QuotationIdentifier } from './models';
 
 describe('Active Case Reducer', () => {
@@ -746,6 +751,76 @@ describe('Active Case Reducer', () => {
 
       expect(state.updateCostsLoading).toEqual(false);
       expect(state.quotationLoadingErrorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('uploadAttachments', () => {
+    test('should set attachmentsUploading to true', () => {
+      const action = ActiveCaseActions.uploadAttachments({ files: [] });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachmentsUploading).toEqual(true);
+    });
+    test('should set attachmentsUploading to false and overwrite attachments', () => {
+      const fakeState: ActiveCaseState = {
+        ...ACTIVE_CASE_STATE_MOCK,
+        attachments: [{ filename: '4' } as unknown as QuotationAttachment],
+      } as ActiveCaseState;
+      const attachmentsOfResponse: QuotationAttachment[] = [
+        { filename: '1' } as unknown as QuotationAttachment,
+        { filename: '2' } as unknown as QuotationAttachment,
+      ];
+      const action = ActiveCaseActions.uploadAttachmentsSuccess({
+        attachments: attachmentsOfResponse,
+      });
+      const state = activeCaseFeature.reducer(fakeState, action);
+
+      expect(state.attachmentsUploading).toEqual(false);
+      expect(state.attachments).toEqual(attachmentsOfResponse);
+    });
+
+    test('should set attachmentsUploading to false and set errorMessage', () => {
+      const action = ActiveCaseActions.uploadAttachmentsFailure({
+        errorMessage: 'an Error',
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachmentsUploading).toEqual(false);
+    });
+  });
+
+  describe('get all attachments', () => {
+    test('should set attachmentsGetting to true', () => {
+      const action = ActiveCaseActions.getAllAttachments();
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachmentsGetting).toEqual(true);
+    });
+    test('should set attachmentsGetting to false and overwrite attachments', () => {
+      const fakeState: ActiveCaseState = {
+        ...ACTIVE_CASE_STATE_MOCK,
+        attachments: [{ filename: '4' } as unknown as QuotationAttachment],
+      } as ActiveCaseState;
+      const attachmentsOfResponse: QuotationAttachment[] = [
+        { filename: '1' } as unknown as QuotationAttachment,
+        { filename: '2' } as unknown as QuotationAttachment,
+      ];
+      const action = ActiveCaseActions.getAllAttachmentsSuccess({
+        attachments: attachmentsOfResponse,
+      });
+      const state = activeCaseFeature.reducer(fakeState, action);
+
+      expect(state.attachmentsGetting).toEqual(false);
+      expect(state.attachments).toEqual(attachmentsOfResponse);
+    });
+
+    test('should set attachmentsGetting to false and set errorMessage', () => {
+      const action = ActiveCaseActions.getAllAttachmentsFailure({
+        errorMessage: 'an Error',
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachmentsGetting).toEqual(false);
     });
   });
 });

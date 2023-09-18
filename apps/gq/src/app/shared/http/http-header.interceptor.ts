@@ -12,6 +12,7 @@ import {} from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { ApiVersion } from '../models';
+import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';
 
 @Injectable()
 export class HttpHeaderInterceptor implements HttpInterceptor {
@@ -25,6 +26,17 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const isAttachmentUpload =
+      request.url?.startsWith(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
+      ) &&
+      request.url?.endsWith(`${QuotationPaths.PATH_ATTACHMENTS}`) &&
+      request.method === 'POST';
+
+    if (isAttachmentUpload) {
+      return next.handle(request);
+    }
+
     const requestWithContentTypeHeader = request.clone({
       headers: request.headers.set(
         this.HEADER_CONTENT_TYPE,
@@ -40,7 +52,7 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
       const newRequest = requestWithContentTypeHeader.clone({
         headers: requestWithContentTypeHeader.headers
           .set(this.HEADER_LANGUAGE_KEY, activeLang)
-          .set(this.HEADER_CONTENT_TYPE, 'application/json'),
+          .set(this.HEADER_CONTENT_TYPE, this.HEADER_CONTENT_TYPE_JSON),
       });
 
       return next.handle(newRequest);

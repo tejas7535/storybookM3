@@ -392,7 +392,8 @@
         "partially": "The item selection was partially saved in SAP",
         "failed": "Failed to save the item selection in SAP"
       },
-      "costsUpdated": "Costs updated successfully"
+      "costsUpdated": "Costs updated successfully",
+      "attachmentsUploaded": "Attachments uploaded successfully"
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"
@@ -495,11 +496,13 @@
       }
     },
     "uploadDialog": {
-      "title": "Upload Document",
+      "title": "Upload Documents",
       "dialogOptionInfo": "or Drop Files",
-      "dialogInfo": "Maximum file size + supported file types",
+      "dialogInfo": "Max file size 2MB + supported File Types <br> [pdf, eml, png, jpeg, jpg, tiff, txt, xls, xlsx, csv]",
       "uploadButton": "Upload",
-      "cancelButton": "Cancel"
+      "cancelButton": "Cancel",
+      "fileSizeExceedsTooltip": "File exceeds maximum size (2 MB).",
+      "fileExitsTooltip": "File already exists."
     },
     "validation": {
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",

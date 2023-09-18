@@ -1,4 +1,9 @@
-import { Quotation, QuotationDetail, QuotationStatus } from '@gq/shared/models';
+import {
+  Quotation,
+  QuotationAttachment,
+  QuotationDetail,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
@@ -112,5 +117,17 @@ export const ActiveCaseActions = createActionGroup({
     'Update Costs': props<{ gqPosId: string }>(),
     'Update Costs Success': props<{ updatedQuotation: Quotation }>(),
     'Update Costs Failure': props<{ errorMessage: string }>(),
+
+    'Upload Attachments': props<{ files: File[] }>(),
+    'Upload Attachments Success': props<{
+      attachments: QuotationAttachment[];
+    }>(),
+    'Upload Attachments failure': props<{ errorMessage: string }>(),
+
+    'Get All Attachments': emptyProps(),
+    'Get All Attachments Success': props<{
+      attachments: QuotationAttachment[];
+    }>(),
+    'Get All Attachments Failure': props<{ errorMessage: string }>(),
   },
 });

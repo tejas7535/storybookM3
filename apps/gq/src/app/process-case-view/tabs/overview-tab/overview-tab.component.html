@@ -9,6 +9,7 @@
       <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
         <gq-general-information
           [info]="generalInformation$ | ngrxPush"
+          [attachments]="activeCaseFacade.quotationAttachments$ | ngrxPush"
         ></gq-general-information>
       </gq-kpi-status-card>
     </div>

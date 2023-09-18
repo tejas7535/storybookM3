@@ -17,4 +17,7 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   removeQuotationDetailsIds: [],
   simulatedItem: undefined,
   updateCostsLoading: false,
+  attachmentsUploading: false,
+  attachmentsGetting: false,
+  attachments: [],
 };
