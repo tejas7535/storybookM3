@@ -182,7 +182,7 @@
     },
     "calculationDisclaimer": {
       "title": "Disclaimer for PCF calculation",
-      "disclaimerFile": "/disclaimers/calculations-en.html"
+      "disclaimerFile": "/disclaimers/calculation-en.html"
     },
     "ratingLife": {
       "title": "Bemessungslebensdauer",
