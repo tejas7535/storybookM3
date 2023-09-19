@@ -34,6 +34,13 @@ export class DateInputComponent {
   readonly startView: 'year' | 'month' | 'multi-year' = 'multi-year';
   readonly timePeriods = TimePeriod;
 
+  // minimal date when data is correct
+  readonly MIN_DATE = {
+    year: 2021,
+    month: 5,
+    date: 1,
+  };
+
   private _timePeriod: TimePeriod;
 
   dateInput = new UntypedFormControl({ value: '', disabled: true });
@@ -47,7 +54,7 @@ export class DateInputComponent {
     .utc()
     .subtract(DATA_IMPORT_DAY - 1, 'day') // use previous month if data is not imported yet
     .endOf('month');
-  minDate = this.nowDate.clone();
+  minDate = moment(this.MIN_DATE);
   maxDate = moment({ year: this.nowDate.year() - 1, month: 11, day: 31 }).utc(); // last day of last year
 
   @Input() label: string;
@@ -101,14 +108,6 @@ export class DateInputComponent {
 
   @Output() readonly selected: EventEmitter<string> = new EventEmitter();
 
-  constructor() {
-    this.minDate.set({
-      year: this.minDate.year() - this.PREVIOUS_YEARS_AVAILABLE,
-      month: 0,
-      date: 1,
-    });
-  }
-
   setInitialStartEndDates() {
     if (
       this.timePeriod === TimePeriod.MONTH ||
@@ -142,6 +141,8 @@ export class DateInputComponent {
         this.rangeInput.controls.end.setValue(
           refDate.clone().endOf('year').utc()
         );
+        // set min date as 2021-01-01 to prevent invalid status of input field
+        this.minDate = moment({ year: 2021, month: 0, day: 1 });
         break;
       }
       case TimePeriod.MONTH: {
@@ -154,6 +155,7 @@ export class DateInputComponent {
         const end = refDate.clone().endOf('month').utc();
         this.rangeInput.controls.start.setValue(start);
         this.rangeInput.controls.end.setValue(end);
+        this.minDate = moment(this.MIN_DATE);
         break;
       }
       case TimePeriod.LAST_12_MONTHS: {
@@ -166,6 +168,7 @@ export class DateInputComponent {
         const old = getMonth12MonthsAgo(tmp);
         this.rangeInput.controls.start.setValue(old);
         this.rangeInput.controls.end.setValue(tmp);
+        this.minDate = moment(this.MIN_DATE);
         break;
       }
       default: {
