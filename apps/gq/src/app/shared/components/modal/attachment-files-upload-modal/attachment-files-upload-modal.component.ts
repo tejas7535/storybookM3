@@ -18,7 +18,7 @@ import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 export class AttachmentFilesUploadModalComponent {
   filesToUpload: FilesToUploadDisplay[] = [];
 
-  public readonly MAX_FILE_SIZE = 25_000_000; // ~ 25MB
+  public readonly MAX_FILE_SIZE = 2_000_000; // ~ 2MB
   public disableUploadButton = false;
 
   constructor(
