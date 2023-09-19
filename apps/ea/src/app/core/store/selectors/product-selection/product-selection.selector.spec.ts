@@ -1,5 +1,3 @@
-import { DEFAULT_BEARING_DESIGNATION } from '@ea/shared/constants/products';
-import { UNSUPPORTED_BEARINGS } from '@ea/shared/constants/unsupported-bearings';
 import { PRODUCT_SELECTION_STATE_MOCK, TEMPLATE_ITEM } from '@ea/testing/mocks';
 
 import {
@@ -34,7 +32,7 @@ describe('Product Selection Selector', () => {
           ...mockState,
           productSelection: {
             ...PRODUCT_SELECTION_STATE_MOCK,
-            bearingDesignation: DEFAULT_BEARING_DESIGNATION,
+            bearingProductClass: 'IDO_CATALOGUE_BEARING',
           },
         })
       ).toEqual(true);
@@ -44,7 +42,7 @@ describe('Product Selection Selector', () => {
           ...mockState,
           productSelection: {
             ...PRODUCT_SELECTION_STATE_MOCK,
-            bearingDesignation: UNSUPPORTED_BEARINGS[15],
+            bearingProductClass: 'abc',
           },
         })
       ).toEqual(false);

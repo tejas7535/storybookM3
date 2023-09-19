@@ -181,3 +181,9 @@ export interface CatalogServiceTemplateCondition {
   operator: string;
   matchOperator: string;
 }
+
+export type CatalogServiceProductClass =
+  | 'IDO_CATALOGUE_BEARING'
+  | 'IDO_ELGES_BEARING'
+  | 'IDO_PERMA_PRODUCT'
+  | 'IDO_SLEWING_BEARING';

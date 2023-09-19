@@ -124,6 +124,21 @@ describe('CatalogService', () => {
     }));
   });
 
+  describe('getProductClass', () => {
+    it('should return the product class', waitForAsync(() => {
+      const rawResult = 'abc-class';
+      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/classbydesignation?designation=my-id`;
+
+      firstValueFrom(catalogService.getProductClass('my-id')).then((res) => {
+        expect(res).toMatchSnapshot();
+      });
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('GET');
+      req.flush(rawResult);
+    }));
+  });
+
   describe('convertDefinitionOfViscosity', () => {
     it('should select typeOfGrease', () => {
       const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =

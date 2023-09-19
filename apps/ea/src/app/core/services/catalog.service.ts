@@ -18,6 +18,7 @@ import {
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
   CatalogServiceOperatingConditionsISOClass,
+  CatalogServiceProductClass,
   CatalogServiceTemplateResult,
 } from './catalog.service.interface';
 import {
@@ -235,6 +236,13 @@ export class CatalogService {
         `${this.baseUrl}/product/operatingconditonstemplate/${bearingId}`
       )
       .pipe(map((result) => convertTemplateResult(result)));
+  }
+
+  public getProductClass(bearingDesignation: string) {
+    return this.httpClient.get(`${this.baseUrl}/product/classbydesignation`, {
+      params: { designation: bearingDesignation },
+      responseType: 'text',
+    }) as Observable<CatalogServiceProductClass>;
   }
 
   private convertLubricationMethod(

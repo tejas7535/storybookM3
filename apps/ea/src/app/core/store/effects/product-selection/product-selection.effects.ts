@@ -25,6 +25,7 @@ export class ProductSelectionEffects {
       mergeMap(() => [
         ProductSelectionActions.fetchBearingId(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
+        ProductSelectionActions.fetchBearingProductClass(),
         CO2UpstreamCalculationResultActions.fetchResult(),
       ])
     );
@@ -176,6 +177,29 @@ export class ProductSelectionEffects {
               )
             )
           );
+      })
+    );
+  });
+
+  public fetchBearingProductClass$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.fetchBearingProductClass),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
+      switchMap(([_action, bearingDesignation]) => {
+        return this.catalogService.getProductClass(bearingDesignation).pipe(
+          switchMap((result) => [
+            ProductSelectionActions.setBearingProductClass({
+              productClass: result,
+            }),
+          ]),
+          catchError((_error: HttpErrorResponse) =>
+            of(
+              ProductSelectionActions.setBearingProductClass({
+                productClass: undefined,
+              })
+            )
+          )
+        );
       })
     );
   });

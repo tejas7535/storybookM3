@@ -21,3 +21,5 @@ Object {
   "title": "my-title",
 }
 `;
+
+exports[`CatalogService getProductClass should return the product class 1`] = `"abc-class"`;

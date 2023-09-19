@@ -52,6 +52,13 @@ export const productSelectionReducer = createReducer(
       ...state,
       operatingConditionsTemplate,
     })
+  ),
+  on(
+    ProductSelectionActions.setBearingProductClass,
+    (state, { productClass }): ProductSelectionState => ({
+      ...state,
+      bearingProductClass: productClass,
+    })
   )
 );
 

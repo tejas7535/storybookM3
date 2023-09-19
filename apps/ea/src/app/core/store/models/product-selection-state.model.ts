@@ -1,4 +1,7 @@
-import { CatalogServiceTemplateCondition } from '@ea/core/services/catalog.service.interface';
+import {
+  CatalogServiceProductClass,
+  CatalogServiceTemplateCondition,
+} from '@ea/core/services/catalog.service.interface';
 
 export interface ProductSelectionState {
   bearingDesignation?: string;
@@ -7,6 +10,7 @@ export interface ProductSelectionState {
     catalogueCalculation: boolean;
     frictionCalculation: boolean;
   };
+  bearingProductClass?: CatalogServiceProductClass;
   error?: string;
   loadcaseTemplate?: ProductSelectionTemplate[];
   operatingConditionsTemplate?: ProductSelectionTemplate[];

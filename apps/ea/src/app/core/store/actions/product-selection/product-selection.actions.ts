@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 import { ProductSelectionState } from '../../models/product-selection-state.model';
+import { CatalogServiceProductClass } from '@ea/core/services/catalog.service.interface';
 
 export const setBearingDesignation = createAction(
   '[Product Selection] Set Bearing Designation',
@@ -14,6 +15,15 @@ export const fetchBearingId = createAction(
 export const setBearingId = createAction(
   '[Product Selection] Set Bearing Id',
   props<{ bearingId: string }>()
+);
+
+export const fetchBearingProductClass = createAction(
+  '[Product Selection] Fetch Bearing Product Class'
+);
+
+export const setBearingProductClass = createAction(
+  '[Product Selection] Set Bearing Product Class',
+  props<{ productClass: CatalogServiceProductClass }>()
 );
 
 export const fetchCalculationModuleInfo = createAction(

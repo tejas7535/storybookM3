@@ -1,5 +1,5 @@
 import { CatalogServiceOperatingConditions } from '@ea/core/services/catalog.service.interface';
-import { UNSUPPORTED_BEARINGS } from '@ea/shared/constants/unsupported-bearings';
+import { SUPPORTED_PRODUCT_CLASSES } from '@ea/shared/constants/products';
 import { createSelector } from '@ngrx/store';
 
 import { getProductSelectionState } from '../../reducers';
@@ -9,10 +9,14 @@ export const getBearingDesignation = createSelector(
   (state): string => state.bearingDesignation
 );
 
+export const getBearingProductClass = createSelector(
+  getProductSelectionState,
+  (state) => state.bearingProductClass
+);
+
 export const isBearingSupported = createSelector(
-  getBearingDesignation,
-  (bearingDesignation) =>
-    !UNSUPPORTED_BEARINGS.includes(bearingDesignation?.toUpperCase())
+  getBearingProductClass,
+  (productClass) => SUPPORTED_PRODUCT_CLASSES.includes(productClass)
 );
 
 export const getBearingId = createSelector(
