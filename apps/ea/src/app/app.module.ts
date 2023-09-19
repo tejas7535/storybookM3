@@ -95,10 +95,12 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
 })
 export class AppModule implements DoBootstrap {
   constructor(readonly injector: Injector) {
-    // check if app is already initialized. It should prevent from intialization called multiple times
-    if (!customElements.get(APP_ROOT)) {
+    // this is in a try catch block to handle errors which might occur if the app is initialized multiple times
+    try {
       const webComponent = createCustomElement(AppComponent, { injector });
       customElements.define(APP_ROOT, webComponent);
+    } catch (error) {
+      console.error(error);
     }
   }
 
