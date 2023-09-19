@@ -21,7 +21,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+} from 'rxjs';
 
 import { NOOP_VALUE_ACCESSOR } from '../constants/input';
 import { TAILWIND_SCREENS } from '../constants/screens';
@@ -118,6 +124,7 @@ export class TabbedOptionsComponent implements AfterContentInit {
     this.visibleTemplate$ = this.control.valueChanges.pipe(
       startWith(this.control.value),
       distinctUntilChanged(),
+      shareReplay(1),
       map((value) => this.templateMap[value])
     );
   }
