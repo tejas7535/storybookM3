@@ -50,11 +50,12 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
   describe('handleFileInput', () => {
     test('should add files to filesToUpload', () => {
-      const mockFile = new File([''], 'filename');
+      const mockFile = new File([''], 'filename.eml');
       const expected: FilesToUploadDisplay = {
         file: mockFile,
         exists: false,
         sizeExceeded: false,
+        unsupportedFileType: false,
       };
       const mockEvent = {
         target: {
@@ -86,19 +87,21 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
     test('should add files and set fileSize exceeded to true if file size is exceeded', () => {
       const mockFile: File[] = [
-        { name: 'file1', size: 26_000_000 } as File,
-        { name: 'file2', size: 2_000_000 } as File,
+        { name: 'file1.png', size: 26_000_000 } as File,
+        { name: 'file2.tiff', size: 2_000_000 } as File,
       ];
       const expected: FilesToUploadDisplay[] = [
         {
           file: mockFile[0],
           exists: false,
           sizeExceeded: true,
+          unsupportedFileType: false,
         },
         {
           file: mockFile[1],
           exists: false,
           sizeExceeded: false,
+          unsupportedFileType: false,
         },
       ];
       const mockEvent = {
@@ -118,19 +121,21 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
     test('should add files and set exists to true if file already exists', () => {
       const mockFile: File[] = [
-        { name: 'file1', size: 2_000_000 } as File,
-        { name: 'file2', size: 2_000_000 } as File,
+        { name: 'file1.xls', size: 2_000_000 } as File,
+        { name: 'file2.pdf', size: 2_000_000 } as File,
       ];
       const expected: FilesToUploadDisplay[] = [
         {
           file: mockFile[0],
           exists: false,
           sizeExceeded: false,
+          unsupportedFileType: false,
         },
         {
           file: mockFile[1],
           exists: true,
           sizeExceeded: false,
+          unsupportedFileType: false,
         },
       ];
       const mockEvent = {
@@ -143,8 +148,42 @@ describe('AttachmentFilesUploadModalComponent', () => {
         preventDefault: jest.fn(),
       } as any;
       component.modalData.attachments = [
-        { fileName: 'file2' } as unknown as QuotationAttachment,
+        { fileName: 'file2.pdf' } as unknown as QuotationAttachment,
       ];
+
+      component.handleFileInput(mockEvent);
+
+      expect(component.filesToUpload).toEqual(expected);
+    });
+
+    test('should add files and set unsupportedFileType to true if file type is not supported', () => {
+      const mockFile: File[] = [
+        { name: 'file1.jpeg', size: 2_000_000 } as File,
+        { name: 'file2.xyz', size: 2_000_000 } as File,
+      ];
+      const expected: FilesToUploadDisplay[] = [
+        {
+          file: mockFile[0],
+          exists: false,
+          sizeExceeded: false,
+          unsupportedFileType: false,
+        },
+        {
+          file: mockFile[1],
+          exists: false,
+          sizeExceeded: false,
+          unsupportedFileType: true,
+        },
+      ];
+      const mockEvent = {
+        target: {
+          files: {
+            length: 2,
+            item: (index: number) => mockFile[index],
+          },
+        },
+        preventDefault: jest.fn(),
+      } as any;
 
       component.handleFileInput(mockEvent);
 

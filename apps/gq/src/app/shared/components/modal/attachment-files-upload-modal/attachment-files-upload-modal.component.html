@@ -53,7 +53,9 @@
         <div class="flex flex-row">
           <ng-container
             *ngIf="
-              fileToDisplay.exists || fileToDisplay.sizeExceeded;
+              fileToDisplay.exists ||
+                fileToDisplay.sizeExceeded ||
+                fileToDisplay.unsupportedFileType;
               else noWarning
             "
           >
@@ -62,6 +64,8 @@
               [matTooltip]="
                 fileToDisplay.exists
                   ? t('fileExitsTooltip')
+                  : fileToDisplay.unsupportedFileType
+                  ? t('fileTypeNotSupportedTooltip')
                   : t('fileSizeExceedsTooltip')
               "
             >

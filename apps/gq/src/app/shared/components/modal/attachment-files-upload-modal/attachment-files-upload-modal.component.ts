@@ -9,6 +9,7 @@ import { take } from 'rxjs';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { QuotationAttachment } from '@gq/shared/models';
 
+import { SUPPORTED_FILE_TYPES } from './models/file-types.const';
 import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 
 @Component({
@@ -18,8 +19,8 @@ import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 export class AttachmentFilesUploadModalComponent {
   filesToUpload: FilesToUploadDisplay[] = [];
 
-  public readonly MAX_FILE_SIZE = 2_000_000; // ~ 2MB
-  public disableUploadButton = false;
+  disableUploadButton = false;
+  private readonly MAX_FILE_SIZE = 2_000_000; // ~ 2MB
 
   constructor(
     public readonly activeCaseFacade: ActiveCaseFacade,
@@ -81,6 +82,9 @@ export class AttachmentFilesUploadModalComponent {
               attachment.fileName.toLocaleLowerCase() ===
               fileList.item(i).name.toLocaleLowerCase()
           ),
+          unsupportedFileType: !SUPPORTED_FILE_TYPES.includes(
+            this.getFileExtension(fileList.item(i).name)
+          ),
         };
         if (file) {
           this.filesToUpload.push(file);
@@ -93,7 +97,11 @@ export class AttachmentFilesUploadModalComponent {
 
   private checkForDisabledUploadButton(): void {
     this.disableUploadButton = this.filesToUpload.some(
-      (file) => file.sizeExceeded || file.exists
+      (file) => file.sizeExceeded || file.exists || file.unsupportedFileType
     );
+  }
+
+  private getFileExtension(fileName: string): string {
+    return fileName.split('.').pop();
   }
 }

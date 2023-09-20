@@ -502,7 +502,8 @@
       "uploadButton": "Upload",
       "cancelButton": "Cancel",
       "fileSizeExceedsTooltip": "File exceeds maximum size (2 MB).",
-      "fileExitsTooltip": "File already exists."
+      "fileExitsTooltip": "File already exists.",
+      "fileTypeNotSupportedTooltip": "File type not supported."
     },
     "validation": {
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",

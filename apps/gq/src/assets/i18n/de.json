@@ -502,7 +502,8 @@
       "uploadButton": "Hochladen",
       "cancelButton": "Abbrechen",
       "fileSizeExceedsTooltip": "Datei überschreitet maximale Dateigröße (2 MB).",
-      "fileExitsTooltip": "Datei bereits vorhanden."
+      "fileExitsTooltip": "Datei bereits vorhanden.",
+      "fileTypeNotSupportedTooltip": "Dateityp nicht untersützt."
     },
     "validation": {
       "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
