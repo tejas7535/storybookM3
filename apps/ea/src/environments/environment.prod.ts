@@ -4,8 +4,7 @@ export const environment: Environment = {
   production: true,
   localDev: false,
   devToolsEnabled: false,
-  catalogApiBaseUrl:
-    'https://caeonlinecalculation-q.schaeffler.com/CatalogWebApi', // TODO use prod url
+  catalogApiBaseUrl: 'https://catalogcalculations-cae.schaeffler.com/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api', // TODO use prod url in final deployment
   co2UpstreamApiBaseUrl: 'https://co2-api.dp.schaeffler/api',
   calculationModuleInfoApiBaseUrl:
