@@ -12,6 +12,7 @@ import {
 } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { PriceUnitForQuotationItemId } from '@gq/shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
+import { quotationDetailsHaveFNumberDetails } from '@gq/shared/utils/f-pricing.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
@@ -208,6 +209,11 @@ export const getTabsForProcessCaseView = (featureEnabled: boolean) =>
     }
   );
 
+export const getQuotationHasFNumberMaterials = createSelector(
+  getQuotationDetails,
+  (details: QuotationDetail[]): boolean =>
+    quotationDetailsHaveFNumberDetails(details)
+);
 function groupBy<T>(arr: T[], fn: (item: T) => any) {
   const groupedBy = new Map();
   for (const listItem of arr) {

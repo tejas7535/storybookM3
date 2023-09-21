@@ -12,6 +12,7 @@ export enum ColumnFields {
   PRICE_UNIT = 'priceUnit',
   PRICE = 'price',
   PRICE_SOURCE = 'priceSource',
+  PRICING_ASSISTANT = 'pricingAssistant',
   NET_VALUE = 'netValue',
   ORDER_QUANTITY = 'orderQuantity',
   GPC = 'gpc',

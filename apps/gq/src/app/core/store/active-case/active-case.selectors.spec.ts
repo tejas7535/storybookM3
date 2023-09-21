@@ -481,4 +481,36 @@ describe('Active Case Selectors', () => {
       ).toEqual(expected);
     });
   });
+
+  describe('getQuotationHasFNumberMaterials', () => {
+    test('should return false if quotation has no QuotationDetails', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasFNumberMaterials.projector([])
+      ).toEqual(false);
+    });
+    test('should return false if quotation has no QuotationDetails with F-Numbers', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasFNumberMaterials.projector([
+          { material: { materialDescription: '1test' } } as QuotationDetail,
+          { material: { materialDescription: 'test' } } as QuotationDetail,
+        ])
+      ).toEqual(false);
+    });
+    test('should return true if quotation  has f-number materials', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasFNumberMaterials.projector([
+          { material: { materialDescription: 'F-test' } } as QuotationDetail,
+          { material: { materialDescription: 'test' } } as QuotationDetail,
+        ])
+      ).toEqual(true);
+    });
+    test('should return false if quotation  no f-number materials', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasFNumberMaterials.projector([
+          { material: { materialDescription: 'Z-test' } } as QuotationDetail,
+          { material: { materialDescription: 'test' } } as QuotationDetail,
+        ])
+      ).toEqual(true);
+    });
+  });
 });

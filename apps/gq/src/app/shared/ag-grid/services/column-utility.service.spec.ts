@@ -260,6 +260,22 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('filterPricingAssistantColumns', () => {
+    const colDefs: ColDef[] = [
+      { field: ColumnFields.MATERIAL_NUMBER_15 },
+      { field: ColumnFields.PRICING_ASSISTANT },
+      { field: ColumnFields.STRATEGIC_MATERIAL },
+    ];
+
+    test('should remove pricing Assistant Column', () => {
+      const res = ColumnUtilityService.filterPricingAssistantColumns(colDefs);
+
+      expect(res).toEqual([
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.STRATEGIC_MATERIAL },
+      ]);
+    });
+  });
   describe('createColumnDefs', () => {
     test('should return all cols', () => {
       ColumnUtilityService.filterGpc = jest.fn().mockReturnValue(true);

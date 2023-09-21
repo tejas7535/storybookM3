@@ -1,10 +1,13 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import {
   ActiveCaseActions,
   activeCaseFeature,
 } from '@gq/core/store/active-case';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
@@ -29,12 +32,14 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   AgGridEvent,
+  ColDef,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
   RowNode,
 } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -68,6 +73,7 @@ describe('QuotationDetailsTableComponent', () => {
       MockProvider(ColumnDefService),
       MockProvider(LocalizationService),
       mockProvider(TransformationService),
+      MockProvider(ActiveCaseFacade),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
@@ -109,6 +115,153 @@ describe('QuotationDetailsTableComponent', () => {
 
       expect(component.selectedQuotationIds).toEqual(['1234']);
     });
+
+    test(
+      'should filter SAP Columns',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SAP_STATUS,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component.tableContext = {
+          quotation: { sapId: undefined } as Quotation,
+        };
+
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: [
+              {
+                field: ColumnFields.DATE_NEXT_FREE_ATP,
+              },
+            ],
+          })
+        );
+      })
+    );
+
+    test(
+      'should NOT filter SAP Columns',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SAP_STATUS,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component.tableContext = {
+          quotation: { sapId: '12' } as Quotation,
+        };
+
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: mockColDefs,
+          })
+        );
+      })
+    );
+
+    test(
+      'should remove pricing Assistant column if quotation has no F-Numbers',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.PRICING_ASSISTANT,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(false);
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: [
+              {
+                field: ColumnFields.DATE_NEXT_FREE_ATP,
+              },
+            ],
+          })
+        );
+      })
+    );
+    test(
+      'should NOT remove pricing Assistant column if quotation has F-Numbers',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.PRICING_ASSISTANT,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(false);
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: [
+              {
+                field: ColumnFields.DATE_NEXT_FREE_ATP,
+              },
+            ],
+          })
+        );
+      })
+    );
   });
 
   describe('set quotation', () => {

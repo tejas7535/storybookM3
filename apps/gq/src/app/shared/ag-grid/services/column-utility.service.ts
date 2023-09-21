@@ -142,6 +142,12 @@ export class ColumnUtilityService {
     return columnDefs;
   }
 
+  static filterPricingAssistantColumns(columnDefs: ColDef[]): ColDef[] {
+    return columnDefs.filter(
+      (colDef: ColDef) => colDef.field !== ColumnFields.PRICING_ASSISTANT
+    );
+  }
+
   static infoComparator(info1: any, info2: any): number {
     const valid1 = info1.valid;
     const valid2 = info2.valid;

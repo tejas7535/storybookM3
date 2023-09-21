@@ -2,12 +2,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { map, Observable, Subject, take, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, Subject, take, takeUntil } from 'rxjs';
 
 import {
   ActiveCaseActions,
   activeCaseFeature,
 } from '@gq/core/store/active-case';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { getColumnDefsForRoles } from '@gq/core/store/selectors';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
@@ -32,6 +33,7 @@ import {
   SapPriceCondition,
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   calculateAffectedKPIs,
   calculateMargin,
@@ -74,22 +76,17 @@ import { TableContext } from './config/tablecontext.model';
   styles: [basicTableStyle, statusBarSimulation, statusBarWithBorderStyle],
 })
 export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
-  @Input() set quotation(quotation: Quotation) {
-    this.rowData = quotation?.quotationDetails;
-    this.tableContext.quotation = quotation;
-  }
-
-  public sideBar: SideBarDef = SIDE_BAR;
-  public defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
-  public statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
-  public components = COMPONENTS;
-  public columnDefs$: Observable<ColDef[]>;
-  public rowSelection = 'multiple';
-  public excelStyles: ExcelStyle[] = excelStyles;
-  public localeText$: Observable<AgGridLocale>;
-  public rowData: QuotationDetail[];
-  public selectedRows: RowNode[] = [];
-  public tableContext: TableContext = {
+  sideBar: SideBarDef = SIDE_BAR;
+  defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
+  statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
+  components = COMPONENTS;
+  columnDefs$: Observable<ColDef[]>;
+  rowSelection = 'multiple';
+  excelStyles: ExcelStyle[] = excelStyles;
+  localeText$: Observable<AgGridLocale>;
+  rowData: QuotationDetail[];
+  selectedRows: RowNode[] = [];
+  tableContext: TableContext = {
     quotation: undefined,
     onMultipleMaterialSimulation: () => {},
     onPriceSourceSimulation: () => {},
@@ -109,8 +106,15 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefService,
     private readonly localizationService: LocalizationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activeCaseFacade: ActiveCaseFacade,
+    private readonly featureToggleService: FeatureToggleConfigService
   ) {}
+
+  @Input() set quotation(quotation: Quotation) {
+    this.rowData = quotation?.quotationDetails;
+    this.tableContext.quotation = quotation;
+  }
 
   ngOnDestroy(): void {
     if (this.unsubscribe$) {
@@ -120,14 +124,26 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.columnDefs$ = this.store.pipe(
-      getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS),
-      map((columnDefs: ColDef[]) =>
-        ColumnUtilityService.filterSAPColumns(
+    this.columnDefs$ = combineLatest([
+      this.store.pipe(
+        getColumnDefsForRoles(
+          this.featureToggleService.isEnabled('fPricing')
+            ? this.columnDefinitionService.COLUMN_DEFS
+            : this.columnDefinitionService.COLUMN_DEFS_WITHOUT_PRICING_ASSISTANT
+        )
+      ),
+      this.activeCaseFacade.quotationHasFNumberMaterials$,
+    ]).pipe(
+      map(([columnDefs, hasFNumberMaterials]) => {
+        const columnDef = ColumnUtilityService.filterSAPColumns(
           columnDefs,
           this.tableContext.quotation
-        )
-      )
+        );
+
+        return !hasFNumberMaterials
+          ? ColumnUtilityService.filterPricingAssistantColumns(columnDef)
+          : columnDef;
+      })
     );
 
     this.localeText$ = this.localizationService.locale$;
@@ -144,7 +160,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onColumnChange(event: SortChangedEvent): void {
+  onColumnChange(event: SortChangedEvent): void {
     this.updateColumnData(event);
 
     const viewId = this.agGridStateService.getCurrentViewId();
@@ -156,7 +172,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onFilterChanged(event: FilterChangedEvent): void {
+  onFilterChanged(event: FilterChangedEvent): void {
     const viewId = this.agGridStateService.getCurrentViewId();
 
     if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
@@ -169,7 +185,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onRowDataUpdated(event: RowDataUpdatedEvent): void {
+  onRowDataUpdated(event: RowDataUpdatedEvent): void {
     this.updateColumnData(event);
 
     if (this.selectedRows) {
@@ -179,7 +195,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  public updateColumnData(
+  updateColumnData(
     event: FilterChangedEvent | SortChangedEvent | RowDataUpdatedEvent
   ): void {
     const columnData = this.buildColumnData(event);
@@ -190,7 +206,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onGridReady(event: GridReadyEvent): void {
+  onGridReady(event: GridReadyEvent): void {
     const quotationId = this.tableContext.quotation.gqId.toString();
     if (!this.agGridStateService.getColumnData(quotationId)) {
       const columnData = this.buildColumnData(event);
@@ -226,16 +242,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       });
   }
 
-  private readonly buildColumnData = (event: RowDataUpdatedEvent) => {
-    const columnData: QuotationDetail[] = [];
-    event.api.forEachNodeAfterFilterAndSort((node: RowNode) => {
-      columnData.push(node.data);
-    });
-
-    return columnData;
-  };
-
-  public onFirstDataRendered(event: FirstDataRenderedEvent): void {
+  onFirstDataRendered(event: FirstDataRenderedEvent): void {
     const columnIds = event.columnApi
       .getAllGridColumns()
       .map((col) => col.getColId())
@@ -250,7 +257,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     columnIds.forEach((colId) => event.columnApi.autoSizeColumn(colId, false));
   }
 
-  public onRowSelected(event: RowSelectedEvent): void {
+  onRowSelected(event: RowSelectedEvent): void {
     if (event.node.isSelected()) {
       this.store.dispatch(
         ActiveCaseActions.selectQuotationDetail({
@@ -296,7 +303,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onMultipleMaterialSimulation(
+  onMultipleMaterialSimulation(
     valId: ColumnFields,
     value: number,
     isInvalid: boolean
@@ -310,7 +317,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     this.simulateMaterial(valId, value, isInvalid);
   }
 
-  public onPriceSourceSimulation(priceSourceOption: PriceSourceOptions) {
+  onPriceSourceSimulation(priceSourceOption: PriceSourceOptions) {
     this.simulatedPriceSource = priceSourceOption;
 
     const simulatedRows = this.selectedRows
@@ -390,6 +397,47 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         quotationDetails: simulatedRows,
       })
     );
+  }
+
+  onRowDoubleClicked(event: RowDoubleClickedEvent) {
+    this.router.navigate([AppRoutePath.DetailViewPath], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        gqPositionId: event.data.gqPositionId,
+      },
+    });
+  }
+
+  getMainMenuItems(params: GetMainMenuItemsParams): (string | MenuItemDef)[] {
+    const menuItems: (MenuItemDef | string)[] = [...params.defaultItems];
+    menuItems.push(
+      ColumnUtilityService.getResetAllFilteredColumnsMenuItem(params)
+    );
+
+    return menuItems;
+  }
+
+  getContextMenuItems(
+    params: GetContextMenuItemsParams
+  ): (string | MenuItemDef)[] {
+    let hyperlinkMenuItems: (string | MenuItemDef)[] = [];
+    const HYPERLINK_COLUMNS: string[] = [
+      ColumnFields.QUOTATION_ITEM_ID,
+      ColumnFields.RECOMMENDED_PRICE,
+      ColumnFields.SAP_PRICE,
+    ];
+
+    if (HYPERLINK_COLUMNS.includes(params.column.getColId()) && params.value) {
+      hyperlinkMenuItems = [
+        ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
+        ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
+      ];
+    }
+
+    return [
+      ColumnUtilityService.getCopyCellContentContextMenuItem(params),
+      ...hyperlinkMenuItems,
+    ];
   }
 
   private getPriceByTargetPriceSource(
@@ -542,44 +590,12 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     return kpis.find((kpi: KpiValue) => kpi.key === kpiName)?.value;
   }
 
-  onRowDoubleClicked(event: RowDoubleClickedEvent) {
-    this.router.navigate([AppRoutePath.DetailViewPath], {
-      queryParamsHandling: 'merge',
-      queryParams: {
-        gqPositionId: event.data.gqPositionId,
-      },
+  private readonly buildColumnData = (event: RowDataUpdatedEvent) => {
+    const columnData: QuotationDetail[] = [];
+    event.api.forEachNodeAfterFilterAndSort((node: RowNode) => {
+      columnData.push(node.data);
     });
-  }
 
-  getMainMenuItems(params: GetMainMenuItemsParams): (string | MenuItemDef)[] {
-    const menuItems: (MenuItemDef | string)[] = [...params.defaultItems];
-    menuItems.push(
-      ColumnUtilityService.getResetAllFilteredColumnsMenuItem(params)
-    );
-
-    return menuItems;
-  }
-
-  getContextMenuItems(
-    params: GetContextMenuItemsParams
-  ): (string | MenuItemDef)[] {
-    let hyperlinkMenuItems: (string | MenuItemDef)[] = [];
-    const HYPERLINK_COLUMNS: string[] = [
-      ColumnFields.QUOTATION_ITEM_ID,
-      ColumnFields.RECOMMENDED_PRICE,
-      ColumnFields.SAP_PRICE,
-    ];
-
-    if (HYPERLINK_COLUMNS.includes(params.column.getColId()) && params.value) {
-      hyperlinkMenuItems = [
-        ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
-        ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
-      ];
-    }
-
-    return [
-      ColumnUtilityService.getCopyCellContentContextMenuItem(params),
-      ...hyperlinkMenuItems,
-    ];
-  }
+    return columnData;
+  };
 }

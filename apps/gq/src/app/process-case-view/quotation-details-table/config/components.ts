@@ -4,6 +4,7 @@ import {
   FreeStockCellComponent,
   GqRatingComponent,
   PositionIdComponent,
+  PricingAssistantActionCellComponent,
   QuotationStatusCellComponent,
   SapStatusCellComponent,
 } from '@gq/shared/ag-grid/cell-renderer';
@@ -36,4 +37,5 @@ export const COMPONENTS = {
   SapStatusCellComponent,
   QuotationStatusCellComponent,
   agColumnHeader: ExtendedColumnHeaderComponent,
+  PricingAssistantActionCellComponent,
 };

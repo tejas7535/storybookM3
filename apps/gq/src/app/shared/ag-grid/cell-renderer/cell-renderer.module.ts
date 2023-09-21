@@ -16,6 +16,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import {
   CreateCaseActionCellComponent,
   CreateCaseActionHeaderComponent,
+  PricingAssistantActionCellComponent,
   ProcessCaseActionCellComponent,
   ProcessCaseActionHeaderComponent,
 } from './action-cells';
@@ -33,13 +34,13 @@ import { PositionIdComponent } from './position-id/position-id.component';
 import { QuotationStatusCellComponent } from './quotation-status-cell/quotation-status-cell.component';
 import { SapPriceCellComponent } from './sap-price-cell/sap-price-cell.component';
 import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';
-
 @NgModule({
   declarations: [
     ProcessCaseActionCellComponent,
     ProcessCaseActionHeaderComponent,
     CreateCaseActionHeaderComponent,
     CreateCaseActionCellComponent,
+    PricingAssistantActionCellComponent,
     InfoCellComponent,
     GqRatingComponent,
     PositionIdComponent,

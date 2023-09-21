@@ -8,6 +8,7 @@ import { marbles } from 'rxjs-marbles';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseFacade } from './active-case.facade';
 import { activeCaseFeature } from './active-case.reducer';
+import { getQuotationHasFNumberMaterials } from './active-case.selectors';
 
 describe('ActiveCaseFacade', () => {
   let facade: ActiveCaseFacade;
@@ -145,6 +146,18 @@ describe('ActiveCaseFacade', () => {
 
         m.expect(facade.attachmentsGettingSuccess$).toBeObservable(
           expected as any
+        );
+      })
+    );
+  });
+
+  describe('quotationHasFNumberMaterials$', () => {
+    test(
+      'should select quotationHasF-numbers',
+      marbles((m) => {
+        mockStore.overrideSelector(getQuotationHasFNumberMaterials, true);
+        m.expect(facade.quotationHasFNumberMaterials$).toBeObservable(
+          m.cold('a', { a: true })
         );
       })
     );

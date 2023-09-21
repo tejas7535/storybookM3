@@ -183,6 +183,13 @@ export class ColumnDefService {
       },
     },
     {
+      headerName: translate('shared.quotationDetailsTable.pricingAssistant'),
+      field: ColumnFields.PRICING_ASSISTANT,
+      cellRenderer: 'PricingAssistantActionCellComponent',
+      filter: false,
+      floatingFilter: false,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
       field: ColumnFields.SAP_PRICE_UNIT,
       valueFormatter: (params) =>
@@ -830,6 +837,9 @@ export class ColumnDefService {
       filter: TEXT_COLUMN_FILTER,
     },
   ];
+
+  COLUMN_DEFS_WITHOUT_PRICING_ASSISTANT: ColDef[] =
+    ColumnUtilityService.filterPricingAssistantColumns(this.COLUMN_DEFS);
 
   constructor(
     private readonly columnUtilityService: ColumnUtilityService,
