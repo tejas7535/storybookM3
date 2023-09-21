@@ -16,6 +16,7 @@ export class ApprovalWorkflowHistorySectionComponent {
   @Input() showTimeline = false;
   @Input() showInterruptedTimeline = false;
   @Input() borderClass: string[];
+  @Input() isButton = false;
 
   get getBorderClass(): string {
     return this.borderClass ? this.borderClass.join(' ') : '';

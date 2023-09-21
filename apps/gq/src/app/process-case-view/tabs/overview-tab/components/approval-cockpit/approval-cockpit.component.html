@@ -3,11 +3,13 @@
   *transloco="let t; read: 'processCaseView.tabs.overview.approvalCockpit'"
 >
   <div class="flex flex-col">
-    <div class="mat-card-title text-high-emphasis text-[20px] leading-6 pb-5">
+    <div
+      class="mat-card-title text-high-emphasis text-[20px] leading-6 pb-5 !mb-[4px]"
+    >
       {{ t('approvalOverview') }}
     </div>
     <gq-approval-workflow-history
-      class="pb-4"
+      class="pb-6"
       [workflowEvents]="approvalFacade.getApprovalWorkflowEvents$ | ngrxPush"
       [quotationAutoApprovedEvent]="
         approvalFacade.quotationAutoApprovedEvent$ | ngrxPush
@@ -28,7 +30,7 @@
     ></gq-approval-workflow-history>
 
     <div
-      class="mt-2 bg-gradient-to-r from-low-emphasis from-50% to-secondary to-0% bg-[length:16px] bg-repeat-x bg-top h-[1px]"
+      class="my-2 bg-gradient-to-r from-low-emphasis from-50% to-secondary to-0% bg-[length:16px] bg-repeat-x bg-top h-[1px]"
     ></div>
 
     <ng-container
@@ -38,7 +40,7 @@
       "
     >
       <div class="flex items-center justify-between">
-        <div class="py-4 text-body-1 font-bold">
+        <div class="py-6 text-body-1 font-bold">
           {{ t('approver') }}
         </div>
         <div>
@@ -60,7 +62,7 @@
               >check_circle_outline</mat-icon
             >
             <span
-              class="text-[12px]"
+              class="text-[10px]"
               [ngClass]="
                 (approvalFacade.quotationFullyApproved$ | ngrxPush)
                   ? 'text-white'
@@ -121,31 +123,33 @@
     </ng-template>
 
     <ng-container *ngIf="approvalFacade.shouldShowApprovalButtons$ | ngrxPush">
-      <gq-horizontal-divider class="mx-[-1rem] mt-8"></gq-horizontal-divider>
+      <gq-horizontal-divider class="mx-[-1rem] mt-4"></gq-horizontal-divider>
       <div class="flex flex-row justify-between">
         <button
           mat-stroke-button
-          class="flex flex-col items-center gap-2"
+          class="flex flex-col items-center gap-2 px-8"
           (click)="openRejectionDialog()"
         >
           <mat-icon class="text-orange">clear</mat-icon>
-          <span class="text-orange">{{ t('rejectButton') }}</span>
+          <span class="text-orange text-[12px]">{{ t('rejectButton') }}</span>
         </button>
         <button
           mat-stroke-button
-          class="flex flex-col items-center gap-2"
+          class="flex flex-col items-center gap-2 px-8"
           (click)="openForwardDialog()"
         >
           <mat-icon class="text-medium-emphasis">arrow_forward</mat-icon>
-          <span class="text-medium-emphasis">{{ t('forwardButton') }}</span>
+          <span class="text-medium-emphasis text-[12px]">{{
+            t('forwardButton')
+          }}</span>
         </button>
         <button
           mat-stroke-button
-          class="flex flex-col items-center gap-2"
+          class="flex flex-col items-center gap-2 px-8"
           (click)="openApprovalDialog()"
         >
           <mat-icon class="text-link">check</mat-icon
-          ><span class="text-link">{{ t('approveButton') }}</span>
+          ><span class="text-link text-[12px]">{{ t('approveButton') }}</span>
         </button>
       </div></ng-container
     >

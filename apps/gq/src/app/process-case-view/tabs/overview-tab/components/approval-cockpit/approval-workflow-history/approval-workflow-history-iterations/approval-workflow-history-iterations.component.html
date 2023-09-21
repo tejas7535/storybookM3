@@ -39,7 +39,12 @@
         class="cursor-pointer"
         [icon]="'add'"
         [iconColor]="'text-low-emphasis'"
-        [title]="t('viewIterationsLabel', { amount: workflowEvents.length })"
+        [title]="
+          t('viewIterationsLabel', { amount: workflowEvents.length })
+            | uppercase
+        "
+        [titleTextColor]="'text-medium-emphasis hover:text-link'"
+        [isButton]="true"
         [isIterationItem]="true"
         [borderClass]="[
           inApproval ? 'border-dashed border-l-border' : 'border-solid',
@@ -89,7 +94,12 @@
         class="cursor-pointer"
         [icon]="'remove'"
         [iconColor]="'text-low-emphasis'"
-        [title]="t('hideIterationsLabel', { amount: workflowEvents.length })"
+        [title]="
+          t('hideIterationsLabel', { amount: workflowEvents.length })
+            | uppercase
+        "
+        [titleTextColor]="'text-medium-emphasis hover:text-link'"
+        [isButton]="true"
         [isIterationItem]="true"
         [borderClass]="[
           inApproval ? 'border-dashed border-l-border' : 'border-solid',
