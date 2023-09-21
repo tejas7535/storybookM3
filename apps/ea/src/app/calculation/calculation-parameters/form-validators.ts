@@ -123,6 +123,32 @@ export const viscosityGroupValidators = (): ValidatorFn[] => [
   },
 ];
 
+export const relativeValidatorFactory = (
+  compare: '>' | '<',
+  relativeTo: AbstractControl,
+  errorKey: string
+): ValidatorFn => {
+  const greaterThan = compare === '>';
+
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value && control.value !== 0) {
+      return null;
+    }
+
+    relativeTo.markAsDirty();
+    if (
+      !(
+        (greaterThan && control.value > relativeTo.value) ||
+        (!greaterThan && control.value < relativeTo.value)
+      )
+    ) {
+      return { [errorKey]: true };
+    }
+
+    return null;
+  };
+};
+
 export const increaseInOilTempValidators = [
   Validators.required,
   Validators.min(0),

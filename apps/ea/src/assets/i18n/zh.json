@@ -29,7 +29,8 @@
       "innerOuterInconsistent": "内径直径必须小于外径直径",
       "minMaxInconsistent": "最小值必须小于最大值",
       "anyLoad": "至少需要一个负载",
-      "viscosity": "ny40 必须大于 ny100"
+      "viscosity": "ny40 必须大于 ny100",
+      "tmpBoundViolation": "工作温度必须高于环境温度"
     },
     "rotatingCondition": {
       "title": "运动影响",

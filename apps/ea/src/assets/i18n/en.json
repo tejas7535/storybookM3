@@ -29,7 +29,8 @@
       "innerOuterInconsistent": "The bore diameter must be smaller than the outer diameter",
       "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required",
-      "viscosity": "ny40 must be greater than ny100"
+      "viscosity": "ny40 must be greater than ny100",
+      "tmpBoundViolation": "Operating temperature must be higher than ambient temperature"
     },
     "rotatingCondition": {
       "title": "Motion Influences",

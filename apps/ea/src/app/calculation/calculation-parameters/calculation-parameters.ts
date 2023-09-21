@@ -67,6 +67,7 @@ import {
   anyLoadGroupValidator,
   increaseInOilTempValidators,
   loadValidators,
+  relativeValidatorFactory,
   rotationalSpeedValidators,
   rotationValidator,
   shiftAngleValidators,
@@ -280,15 +281,17 @@ export class CalculationParametersComponent
     >(undefined, [Validators.required]),
     ambientTemperature: new FormControl<number>(
       undefined,
-      Validators.required,
-      this.productSelectionFacade.templateValidator('IDSLC_TEMPERATURE')
+      [Validators.required],
+      [this.productSelectionFacade.templateValidator('IDSLC_TEMPERATURE')]
     ),
     operatingTemperature: new FormControl<number>(
       undefined,
-      Validators.required,
-      this.productSelectionFacade.templateValidator(
-        'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
-      )
+      [Validators.required],
+      [
+        this.productSelectionFacade.templateValidator(
+          'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
+        ),
+      ]
     ),
     externalHeatflow: new FormControl<number>(
       undefined,
@@ -338,6 +341,20 @@ export class CalculationParametersComponent
   ) {}
 
   ngOnInit() {
+    const operatingTmpControl = this.operationConditionsForm.get(
+      'operatingTemperature'
+    );
+
+    const ambientTempControl =
+      this.operationConditionsForm.get('ambientTemperature');
+
+    ambientTempControl.addValidators(
+      relativeValidatorFactory('<', operatingTmpControl, 'tmpBoundViolation')
+    );
+    operatingTmpControl.addValidators(
+      relativeValidatorFactory('>', ambientTempControl, 'tmpBoundViolation')
+    );
+
     // update form from store
     this.operationConditions$
       .pipe(takeUntil(this.destroy$))
@@ -353,6 +370,8 @@ export class CalculationParametersComponent
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
       )
       .subscribe((formValue) => {
+        ambientTempControl.updateValueAndValidity();
+        operatingTmpControl.updateValueAndValidity();
         if (this.form.valid) {
           this.calculationParametersFacade.dispatch(
             CalculationParametersActions.operatingParameters({

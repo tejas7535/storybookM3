@@ -511,6 +511,7 @@ Status: {{ operationConditionsForm.status }}</pre
         [tooltip]="t('operatingTemperature.tooltip')"
         [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('operatingTemperature.label')}"
         [onlyPositive]="true"
+        [customErrors]="[{name: 'tmpBoundViolation'}]"
       ></ea-input-number>
 
       <ea-input-number
@@ -519,6 +520,7 @@ Status: {{ operationConditionsForm.status }}</pre
         [unit]="t('ambientTemperature.unit')"
         [tooltip]="t('ambientTemperature.tooltip')"
         [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('ambientTemperature.label')}"
+        [customErrors]="[{name: 'tmpBoundViolation'}]"
       ></ea-input-number>
     </div>
   </ea-input-group>

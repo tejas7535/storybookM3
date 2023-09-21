@@ -29,7 +29,8 @@
       "innerOuterInconsistent": "Der Bohrungsdurchmesser muss kleiner als der Außendurchmesser sein",
       "minMaxInconsistent": "Der Mindestwert muss kleiner als der Höchstwert sein",
       "anyLoad": "Eine Belastung ist erforderlich",
-      "viscosity": "ny40 muss größer als ny100 sein"
+      "viscosity": "ny40 muss größer als ny100 sein",
+      "tmpBoundViolation": "Die Betriebstemperatur muss über der Umgebungstemperatur liegen"
     },
     "rotatingCondition": {
       "title": "Bewegungseinflüsse",

@@ -29,7 +29,8 @@
       "innerOuterInconsistent": "Il diametro del foro deve essere inferiore al diametro esterno",
       "minMaxInconsistent": "Il valore minimo deve essere inferiore al valore massimo",
       "anyLoad": "È richiesto almeno un carico",
-      "viscosity": "ny40 deve essere maggiore di ny100"
+      "viscosity": "ny40 deve essere maggiore di ny100",
+      "tmpBoundViolation": "La temperatura di esercizio deve essere superiore alla temperatura ambiente"
     },
     "rotatingCondition": {
       "title": "Influenze sul moto",

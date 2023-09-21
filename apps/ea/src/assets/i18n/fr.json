@@ -29,7 +29,8 @@
       "innerOuterInconsistent": "Le diamètre intérieur doit être inférieur au diamètre extérieur",
       "minMaxInconsistent": "La valeur minimale doit être inférieure à la valeur maximale",
       "anyLoad": "Au moins une charge est requise",
-      "viscosity": "ny40 doit être supérieur à ny100"
+      "viscosity": "ny40 doit être supérieur à ny100",
+      "tmpBoundViolation": "La température de fonctionnement doit être supérieure à la température ambiante"
     },
     "rotatingCondition": {
       "title": "Influences du mouvement",
