@@ -17,7 +17,22 @@
   * see https://tailwindcss.com/docs
   */
 @tailwind base;
-@tailwind components;
+
+/*
+ *  
+ * This tailwind layer is commented out because it caused issues with prepending the engineering-app
+ * selector by respecting the important setting in the tailwind configuration and setting it like shown in the comment isn't
+ * officially supported.  
+ * Removing this hasn't caused any issues (yet). If, in the future, any unexpected tailwind behaviors occur, 
+ * consider uncommenting it and testing wether it works or not.
+ * 
+ * @see https://github.com/tailwindlabs/tailwindcss/issues/5521
+ * ========
+ * engineering-app {
+ * @tailwind components;
+ * }
+ */
+
 @tailwind utilities;
 
 /*
