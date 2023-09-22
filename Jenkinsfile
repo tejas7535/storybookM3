@@ -199,47 +199,6 @@ def getPackageVersion(app = null) {
     return packageJSON.version
 }
 
-// returns codeowners e.g. [kauppfbi, herpisef] for helloworld-azure
-def getCodeOwners(appName) {
-    def codeOwnersFile = readFile(file: '.github/CODEOWNERS').trim().split('\n')
-
-    def appString
-
-    if (appName == 'workspace') { // search for workspace codeowners
-        appString = '* '
-    } else { // search for codeowners of given app
-        appString = "apps/${appName} "
-    }
-
-    def codeOwners = []
-    for (line in codeOwnersFile) {
-        if (line.contains(appString)) {
-            // example for codeOwner line -> "apps/helloworld-azure @kauppfbi @herpisef"
-            def splitted = line.split(' ')
-            for (int i = 0; i < splitted.size(); i++) {
-                // dont push first element this would be the app name "apps/helloworld-azure" and we just want the codeowners
-                if (i != 0) {
-                    // currently codeowners are strings like "@userId_SGGIT" -> we want to remove the @ and the postfix SGGIT -> "userId"
-                    codeOwners.push(splitted[i].replace('@', '').replace('_SGGIT', '').toLowerCase())
-                }
-            }
-        }
-    }
-
-    return codeOwners
-}
-
-def getBuildTriggerUser() {
-    def jenkinsUserId = "${currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause').userId}".replace('[', '').replace(']', '').toLowerCase()
-
-    if (jenkinsUserId.contains('schaeffler')) {
-        return jenkinsUserId.split('@')[0]
-    } else {
-        // for non schaeffler users / external developers
-        return jenkinsUserId.replace('.', '').replace('_', '').replace('-', '').replace('@', '')
-    }
-}
-
 def getAgentLabel() {
     return 'monorepo'
 }
@@ -329,38 +288,9 @@ pipeline {
 
                 script {
                     if (isAppRelease()) {
-                        boolean aborted = false
                         def deployments = readJSON file: 'deployments.json'
                         def apps = deployments.keySet()
-
-                        try {
-                            env.RELEASE_SCOPE = params.RELEASE_SCOPE
-                            def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
-                            def userWhoTriggeredBuild = getBuildTriggerUser()
-
-                            // first check if user is the app code owner
-                            if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
-                                // if not check if user is workspace owner
-                                def workSpaceOwners = getCodeOwners('workspace')
-                                if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
-                                    error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
-                                }
-                            }
-                            println("User ${userWhoTriggeredBuild} passed codeowner check for ${env.RELEASE_SCOPE}")
-                        } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
-                            aborted = true
-                        }
-
-                        if (aborted) {
-                            currentBuild.result = 'ABORTED'
-                            skipBuild = true
-                        }
-                    } else if (isLibsRelease()) {
-                        def userWhoTriggeredBuild = getBuildTriggerUser()
-                        def workSpaceOwners = getCodeOwners('workspace')
-                        if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
-                            error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
-                        }
+                        env.RELEASE_SCOPE = params.RELEASE_SCOPE  
                     }
                 }
 
