@@ -686,19 +686,7 @@ pipeline {
                         echo 'Deliver Libraries as npm packages to Artifactory'
 
                         script {
-                            withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-                                sh '''
-                                    username=svc_frontend_mono
-                                    authToken=$(echo -n "${username}:${API_KEY}" | base64 -w 0)
-                                    
-                                    npm config set _auth "${authToken}"
-                                    npm config set email "${username}@schaeffler.com"
-
-                                    npm config list
-                                '''
-
-                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
-                            }
+                            sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
                         }
                     }
                 }
