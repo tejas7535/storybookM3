@@ -6,6 +6,13 @@
 
 * **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
 
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/breadcrumbs-v1.0.2...breadcrumbs-v1.1.0) (2023-09-22)
+
+
+### Features
+
+* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
+
 ## [1.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/breadcrumbs-v1.0.1...breadcrumbs-v1.0.2) (2023-01-09)
 
 ### [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/breadcrumbs-v1.0.0...breadcrumbs-v1.0.1) (2023-01-03)
