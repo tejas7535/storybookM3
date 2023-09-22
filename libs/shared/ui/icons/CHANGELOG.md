@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Icons
+## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.8...icons-v2.2.0) (2023-09-22)
+
+
+### Features
+
+* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
+
 ## [2.1.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.7...icons-v2.1.8) (2023-01-09)
 
 ### [2.1.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.6...icons-v2.1.7) (2023-01-03)
