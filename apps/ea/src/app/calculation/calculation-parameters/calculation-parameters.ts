@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   isDevMode,
   OnDestroy,
@@ -119,6 +120,13 @@ export class CalculationParametersComponent
         mandatory: TemplateRef<unknown>[];
         preset: TemplateRef<unknown>[];
       }>
+    | undefined;
+
+  public parameterTemplates:
+    | {
+        mandatory: TemplateRef<unknown>[];
+        preset: TemplateRef<unknown>[];
+      }
     | undefined;
 
   public operationConditions$ =
@@ -337,7 +345,8 @@ export class CalculationParametersComponent
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly productSelectionFacade: ProductSelectionFacade,
     public readonly matDialog: MatDialog,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly changeDetectionRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -416,9 +425,18 @@ export class CalculationParametersComponent
           .map((element) => convertConfig(element))
           .filter((value, index, self) => self.indexOf(value) === index);
 
+        this.changeDetectionRef.detectChanges();
+
         return { mandatory, preset };
       })
     );
+
+    this.parameterTemplates$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((templates) => {
+        this.parameterTemplates = templates;
+        this.changeDetectionRef.detectChanges();
+      });
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
     this.typeOfMotionsAvailable$ = this.productSelectionFacade

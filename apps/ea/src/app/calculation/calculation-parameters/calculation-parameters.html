@@ -88,9 +88,7 @@ Status: {{ operationConditionsForm.status }}</pre
         </div>
 
         <!-- INPUT PARAMETERS -->
-        <ng-container
-          *ngIf="parameterTemplates$ | ngrxPush as parameterTemplates"
-        >
+        <ng-container *ngIf="parameterTemplates">
           <!-- MANDATORY PARAMETERS -->
           <ng-container
             *ngFor="let parameterTemplate of parameterTemplates.mandatory"

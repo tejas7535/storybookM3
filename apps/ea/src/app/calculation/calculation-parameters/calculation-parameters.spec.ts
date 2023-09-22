@@ -87,21 +87,6 @@ describe('CalculationParametersComponent', () => {
     });
   });
 
-  describe('ngAfterViewInit', () => {
-    it('should setup parameterTemplates after view init', async () => {
-      component.templates = {
-        changes: of([]),
-        find: jest.fn().mockImplementation(() => ({ name: 'abc' })),
-      } as unknown as QueryList<ParameterTemplateDirective>;
-
-      component.ngAfterViewInit();
-
-      const res = await firstValueFrom(component.parameterTemplates$);
-
-      expect(res).toMatchSnapshot();
-    });
-  });
-
   describe('Dialogs', () => {
     it('should open basic frequencies dialog', () => {
       jest.spyOn(component.matDialog, 'open').mockClear();
@@ -117,6 +102,21 @@ describe('CalculationParametersComponent', () => {
       component.onShowCalculationTypesClick();
 
       expect(component.matDialog.open).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngAfterViewInit', () => {
+    it('should setup parameterTemplates after view init', async () => {
+      component.templates = {
+        changes: of([]),
+        find: jest.fn().mockImplementation(() => ({ name: 'abc' })),
+      } as unknown as QueryList<ParameterTemplateDirective>;
+
+      component.ngAfterViewInit();
+
+      const res = await firstValueFrom(component.parameterTemplates$);
+
+      expect(res).toMatchSnapshot();
     });
   });
 });
