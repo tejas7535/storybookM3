@@ -1,4 +1,13 @@
 # Release Notes of Library Shared Utils Transloco
+## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.0.4...transloco-v4.1.0) (2023-09-22)
+
+
+### Features
+
+* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
+* **ga:** add japanese translations (UFTABI-6210) ([#4935](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4935)) ([f7a870b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f7a870bb9f5b52b194765cea6e3615aa9c0aeb29))
+* **transloco:** add loader path parameter ([#5126](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5126)) ([dcb30e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dcb30e8c553f05e09f3514803ebc5f35cc1ed6af))
+
 ## [4.0.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.0.3...transloco-v4.0.4) (2023-01-09)
 
 ### [4.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.0.2...transloco-v4.0.3) (2023-01-03)
