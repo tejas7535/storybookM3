@@ -7,6 +7,14 @@
 * **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
 * **azure-auth:** use session storage insteade of local storage ([#5109](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5109)) ([2b8b9e4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b8b9e4904dcadb046092610bbffc1752af22209))
 
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.0.4...azure-auth-v1.1.0) (2023-09-22)
+
+
+### Features
+
+* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
+* **azure-auth:** use session storage insteade of local storage ([#5109](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5109)) ([2b8b9e4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b8b9e4904dcadb046092610bbffc1752af22209))
+
 ## [1.0.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.0.3...azure-auth-v1.0.4) (2023-01-09)
 
 ### [1.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.0.2...azure-auth-v1.0.3) (2023-01-03)
