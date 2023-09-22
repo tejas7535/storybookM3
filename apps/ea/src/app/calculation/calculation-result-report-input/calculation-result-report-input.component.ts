@@ -20,6 +20,7 @@ import { CalculationResultReportInputItemComponent } from '../calculation-result
 })
 export class CalculationResultReportInputComponent implements OnInit {
   @Input() public reportInput!: CalculationResultReportInput[];
+  @Input() public ignoreFormattingDesignation?: string[] = [];
 
   public nestedInputs: CalculationResultReportInput[];
   public regularInputs: CalculationResultReportInput[];

@@ -30,7 +30,10 @@
           "
           [title]="t('reportSectionInput')"
         >
-          <ea-calculation-result-report-input [reportInput]="calculationInput">
+          <ea-calculation-result-report-input
+            [ignoreFormattingDesignation]="['Designation']"
+            [reportInput]="calculationInput"
+          >
           </ea-calculation-result-report-input>
         </ea-expansion-panel>
 

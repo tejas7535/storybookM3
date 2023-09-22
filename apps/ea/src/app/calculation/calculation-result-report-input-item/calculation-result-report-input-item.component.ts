@@ -32,6 +32,7 @@ export const elementWidthSmall = 400;
 })
 export class CalculationResultReportInputItemComponent implements OnInit {
   @Input() public reportInputItem!: CalculationResultReportInput;
+  @Input() public ignoreFormattingDesignations?: string[] = [];
 
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;
@@ -92,10 +93,17 @@ export class CalculationResultReportInputItemComponent implements OnInit {
   ): string => {
     const unit = this.getUnit(subordinate);
 
-    if (this.reportInputItem.meaningfulRound || subordinate.meaningfulRound) {
+    if (
+      (this.reportInputItem.meaningfulRound || subordinate.meaningfulRound) &&
+      !this.ignoreFormattingDesignations.includes(subordinate.designation)
+    ) {
       return `${this.meaningFulRoundPipe.transform(
         subordinate?.value
       )} ${unit}`.trim();
+    } else if (
+      this.ignoreFormattingDesignations.includes(subordinate.designation)
+    ) {
+      return `${subordinate?.value} ${unit}`.trim();
     }
 
     const localizedNumberString = this.localeService.localizeNumber(
