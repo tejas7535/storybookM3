@@ -1,4 +1,15 @@
 # Release Notes of Library Shared UI Styles
+## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.4...styles-v1.8.0) (2023-09-22)
+
+
+### Features
+
+* **ea:** switch to mdc based angular material components in engineering app ([#5506](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5506)) ([1b75810](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1b75810e6decf2dcb5796eb1d2062adf70ca3c9c))
+* **ea:** update functional colors ([#5575](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5575)) ([3720963](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37209638a128263240df2cd73f2eeb9409b6c61a))
+* **ga:** switch to mdc based angular material components in grease app ([#5500](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5500)) ([32f192e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/32f192e1dde71a6b168b9caf811ef78293802785))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+* **styles:** enable tailwind prefix for styles lib ([#5258](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5258)) ([549197c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/549197cdbe378f7d48efdd2fa23a5655ce7537bf))
+
 ## [1.7.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.3...styles-v1.7.4) (2023-01-09)
 
 ### [1.7.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.2...styles-v1.7.3) (2023-01-03)
