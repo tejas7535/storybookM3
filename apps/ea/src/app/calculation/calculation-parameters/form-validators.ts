@@ -131,19 +131,31 @@ export const relativeValidatorFactory = (
   const greaterThan = compare === '>';
 
   return (control: AbstractControl): ValidationErrors | null => {
-    if (!control.value && control.value !== 0) {
+    if (
+      control.value === undefined ||
+      control.value === null ||
+      relativeTo.value === null ||
+      relativeTo.value === undefined
+    ) {
       return null;
     }
 
-    relativeTo.markAsDirty();
+    if (!relativeTo.dirty) {
+      relativeTo.markAsDirty();
+    }
+
     if (
       !(
         (greaterThan && control.value > relativeTo.value) ||
         (!greaterThan && control.value < relativeTo.value)
       )
     ) {
+      relativeTo.setErrors({ [errorKey]: true });
+
       return { [errorKey]: true };
     }
+
+    relativeTo.setErrors(null);
 
     return null;
   };

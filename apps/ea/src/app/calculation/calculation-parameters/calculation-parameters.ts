@@ -370,8 +370,6 @@ export class CalculationParametersComponent
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
       )
       .subscribe((formValue) => {
-        ambientTempControl.updateValueAndValidity();
-        operatingTmpControl.updateValueAndValidity();
         if (this.form.valid) {
           this.calculationParametersFacade.dispatch(
             CalculationParametersActions.operatingParameters({
