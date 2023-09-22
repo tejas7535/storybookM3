@@ -36,9 +36,13 @@
 </ng-template>
 
 <ng-template #appInner>
+  <!-- The max-w class forces the app to not overflow in medias. Paddings are taken from Medias. -->
   <div
     class="flex h-full w-full flex-1 flex-col items-center relative"
     *transloco="let t"
+    [ngClass]="{
+      '!max-w-[calc(100vw-32px-40px-2px)]': (isStandalone$ | ngrxPush) === false
+    }"
   >
     <div
       *ngIf="isStandalone$ | ngrxPush"

@@ -1,12 +1,14 @@
 <div class="border-border bg-surface rounded border mb-6 md:mb-0">
-  <div class="border-border flex flex-row items-center border-b px-6 py-4">
+  <div
+    class="border-border flex flex-row items-center border-b px-6 py-4 md:flex-nowrap flex-wrap-reverse"
+  >
     <mat-icon
       class="!text-medium-emphasis mr-2"
       *ngIf="svgIcon || icon"
       [svgIcon]="svgIcon"
       >{{ icon }}</mat-icon
     >
-    <h5 class="text-subtitle-2 text-medium-emphasis mr-4">
+    <h5 class="text-subtitle-2 text-medium-emphasis mr-1 md:mr-4">
       {{ title }}
     </h5>
     <span
