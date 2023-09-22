@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Report
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.0.2...report-v1.1.0) (2023-09-22)
+
+
+### Features
+
+* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
+* **ga:** add japanese translations (UFTABI-6210) ([#4935](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4935)) ([f7a870b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f7a870bb9f5b52b194765cea6e3615aa9c0aeb29))
+
 ## [1.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.0.1...report-v1.0.2) (2023-01-09)
 
 ### [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.0.0...report-v1.0.1) (2023-01-03)
