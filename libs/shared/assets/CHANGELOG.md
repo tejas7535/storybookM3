@@ -1,4 +1,6 @@
 # Release Notes of Library Shared Assets
+## [1.12.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.8...assets-v1.12.9) (2023-09-22)
+
 ## [1.12.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.7...assets-v1.12.8) (2023-01-09)
 
 ### [1.12.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.6...assets-v1.12.7) (2023-01-03)
