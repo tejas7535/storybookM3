@@ -1,4 +1,19 @@
 # Release Notes of Library Shared UI App Shell
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.2...app-shell-v1.1.0) (2023-09-22)
+
+
+### Features
+
+* **app-shell:** implement footer links with custom handlers - [#5435](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5435) ([#5439](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5439)) ([855cd12](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/855cd12ff783c49af9a9f550079826c743c52e94))
+* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
+* **ea:** add app shell and legal links - UFTABI-6607 ([#5449](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5449)) ([d0327f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0327f022e5573cb8c55c8fcb8e15ce877764fe4))
+* **subheader:** adjusted ng-content app-shell header to grow to full width (GQUOTE-2190) ([#4976](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4976)) ([dd352b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd352b8f75443d3497808264dcc9d5e28f19540b))
+
+
+### Bug Fixes
+
+* **ea:** e2e tests, spacing ([#5466](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5466)) ([362d29c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/362d29c10c828c99c8c174e3dc248c4c5f133020))
+
 ## [1.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.1...app-shell-v1.0.2) (2023-01-09)
 
 ### [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.0...app-shell-v1.0.1) (2023-01-03)
