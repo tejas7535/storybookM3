@@ -6,8 +6,12 @@ import {
   CalculationResultPreviewItem,
   OverrollingPreviewKeys,
 } from '../../models';
+import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
-import { getOverrollingFrequencies } from './calculation-result-report.selector';
+import {
+  getOverrollingFrequencies,
+  getSelectedCalculations,
+} from './calculation-result-report.selector';
 import {
   getCalculationResult as catalogCalculationResult,
   getError as catalogCalculationError,
@@ -181,11 +185,19 @@ export const getCalculationResultPreviewData = createSelector(
   }
 );
 
+export const isAnyServiceLoading = createSelector(
+  catalogCalculationIsLoading,
+  co2UpstreamIsLoading,
+
+  (...loadingStatus): boolean => loadingStatus.some((status) => !!status)
+);
+
 export const isCalculationResultReportAvailable = createSelector(
-  getCalculationResultPreviewData,
-  (previewData: CalculationResultPreviewData): boolean =>
-    previewData.some((data) =>
-      data.values.some((value) => value.value !== undefined)
-    ) &&
-    previewData.every((data) => data.values.every((value) => !value.isLoading))
+  getSelectedCalculations,
+  isAnyServiceLoading,
+  (
+    selectedCalculations: CalculationResultReportCalculationTypeSelection,
+    anyLoading
+  ): boolean =>
+    !anyLoading && selectedCalculations.some((data) => data.resultAvailable)
 );

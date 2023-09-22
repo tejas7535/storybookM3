@@ -42,6 +42,8 @@ export class CalculationResultPreviewComponent {
     this.calculationResultFacade.getCalculationResultPreviewData$;
   public isCalculationResultReportAvailable$ =
     this.calculationResultFacade.isCalculationResultReportAvailable$;
+  public isAnyServiceLoading$ =
+    this.calculationParametersFacade.isAnyServiceLoading$;
   public isCalculationImpossible$ = of(false);
   public isCalculationMissingInput$ =
     this.calculationParametersFacade.isCalculationMissingInput$;

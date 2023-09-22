@@ -12,6 +12,7 @@ import {
   getCalculationTypesConfig,
   getCalculationTypesGlobalSelectionState,
 } from '../../selectors/calculation-parameters/calculation-types.selector';
+import { isAnyServiceLoading } from '../../selectors/calculation-result/calculation-result-preview.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,8 @@ export class CalculationParametersFacade {
   public getCalculationFieldsConfig$ = this.store.select(
     getCalculationFieldsConfig
   );
+
+  public isAnyServiceLoading$ = this.store.select(isAnyServiceLoading);
 
   constructor(private readonly store: Store) {}
 

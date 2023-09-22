@@ -87,6 +87,11 @@
         >
           <div class="flex items-center justify-center flex-grow">
             {{ t('showReport') }}
+            <mat-spinner
+              *ngIf="isAnyServiceLoading$ | ngrxPush"
+              class="ml-1"
+              diameter="16"
+            />
           </div>
         </button>
       </div>
