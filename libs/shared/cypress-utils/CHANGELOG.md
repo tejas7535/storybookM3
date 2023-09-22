@@ -1,4 +1,6 @@
 # Release Notes of Library Shared Cypress Utils
+## [1.13.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.8...cypress-utils-v1.13.9) (2023-09-22)
+
 ## [1.13.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.7...cypress-utils-v1.13.8) (2023-01-09)
 
 ### [1.13.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.6...cypress-utils-v1.13.7) (2023-01-03)
