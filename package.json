@@ -127,6 +127,7 @@
     "@ngrx/store-devtools": "16.0.1",
     "@nx/angular": "16.3.1",
     "@nx/cypress": "16.3.1",
+    "@nx/devkit": "16.3.1",
     "@nx/eslint-plugin": "16.3.1",
     "@nx/jest": "16.3.1",
     "@nx/js": "16.3.1",

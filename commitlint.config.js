@@ -1,4 +1,4 @@
-const { Workspaces } = require('@nrwl/tao/src/shared/workspace');
+const { Workspaces } = require('@nx/devkit');
 
 const Configuration = {
   extends: ['@commitlint/config-conventional'],
