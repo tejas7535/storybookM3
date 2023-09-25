@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Feedback banner
+## [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/feedback-banner-v0.1.0...feedback-banner-v0.1.1) (2023-09-25)
+
 ## 0.1.0 (2023-09-22)
 
 
