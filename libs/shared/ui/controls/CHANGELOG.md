@@ -1,4 +1,5 @@
 # Release Notes of Library Shared UI Controls
+## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/controls-v1.1.0...controls-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/controls-v1.0.2...controls-v1.1.0) (2023-09-22)
 
