@@ -2,25 +2,42 @@
 
 version: 2
 updates:
-  - package-ecosystem: 'pnpm'
+  - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
     # Disable version updates for npm dependencies
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 10
     labels:
       - 'type:dep-update'
     commit-message:
       prefix: 'chore'
       include: 'scope'
-    ignore:
-      - dependency-name: '@angular/*'
-      - dependency-name: '@nrwl/*'
-      - dependency-name: '@ngrx/*'
-      - dependency-name: '@storybook/*'
-      - dependency-name: '@ag-grid-*'
-      - dependency-name: '@angular-eslint/*'
-      - dependency-name: '@typescript-eslint/*'
-      - dependency-name: 'ng-packagr'
-      - dependency-name: 'eslint'
-      - dependency-name: 'eslint-*'
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
+          - 'ng-packagr'
+      nx:
+        patterns:
+          - '@nrwl/*'
+          - '@nx/*'
+      ngrx:
+        patterns:
+          - '@ngrx/*'
+      storybook:
+        patterns:
+          - '@storybook/*'
+      ag-grid:
+        patterns:
+          - '@ag-grid-*'
+      angular-eslint:
+        patterns:
+          - '@angular-eslint/*'
+      typescript-eslint:
+        patterns:
+          - '@typescript-eslint/*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
