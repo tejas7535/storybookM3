@@ -1,4 +1,5 @@
 # Release Notes of Library Shared UI Styles
+## [1.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.8.0...styles-v1.8.1) (2023-09-25)
 
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.4...styles-v1.8.0) (2023-09-22)
 
