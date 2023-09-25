@@ -1,4 +1,5 @@
 # Release Notes of Library Shared UI Inputs
+## [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.2.0...inputs-v1.2.1) (2023-09-25)
 
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.1.1...inputs-v1.2.0) (2023-09-22)
 
