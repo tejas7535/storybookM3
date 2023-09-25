@@ -1,4 +1,5 @@
 # Release Notes of Library Shared UI App Shell
+## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.1.0...app-shell-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.2...app-shell-v1.1.0) (2023-09-22)
 
