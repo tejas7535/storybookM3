@@ -1,16 +1,4 @@
 # Release Notes of Library Shared UI Subheader
-## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v1.0.2...subheader-v1.1.0) (2023-09-22)
-
-
-### Features
-
-* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
-* **ga:** add bearing link to medias (UFTABI-6450) ([#5299](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5299)) ([19ae7d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/19ae7d86081d9ce796568f01c392d0663157e5e9))
-
-
-### Bug Fixes
-
-* **subheader:** set font size to h5 in subheader (GQUOTE-1874) ([0efe9b2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0efe9b24b4eb1ea65e656b70baf2608447aa302a))
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/subheader-v1.0.2...subheader-v1.1.0) (2023-09-22)
 
