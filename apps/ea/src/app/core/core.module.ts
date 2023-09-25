@@ -24,6 +24,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { HttpBearinxInterceptor } from './interceptor/http-bearinx.interceptor';
 import { HttpCatalogWebApiInterceptor } from './interceptor/http-catalog-web-api.interceptor';
+import { HttpCO2UpstreamInterceptor } from './interceptor/http-co2-upstream.interceptor';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -65,6 +66,11 @@ import { StoreModule } from './store/store.module';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpCatalogWebApiInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpCO2UpstreamInterceptor,
       multi: true,
     },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
