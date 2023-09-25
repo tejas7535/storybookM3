@@ -1,19 +1,4 @@
 # Release Notes of Library Shared UI Inputs
-## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.1.1...inputs-v1.2.0) (2023-09-22)
-
-
-### Features
-
-* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
-* **cdba:** unifying search boxes ([#5135](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5135)) ([b363bd2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b363bd2ce5837488ccbdba9e4fc6e1ee2855c30e)), closes [#5197](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5197)
-* **inputs:** add outer hint for select ([#5330](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5330)) ([308c6a9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/308c6a9f310e0635d5a29ce16903406fe660dd78))
-
-
-### Bug Fixes
-
-* **inputs:** constructor with value breaks the logic for multiple mat-select ([#5548](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5548)) ([f310e81](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f310e813c65b3f8fd3d69cbe62328f886b629d2f))
-* **inputs:** fix position of overlay in Schaeffler-Select ([#5454](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5454)) ([c790026](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c7900266384987b3b94e7cb40de1b618b40a6fad))
-* **inputs:** remove spinner ([#5545](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5545)) ([6409c5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6409c5ba404b37a00b27394df6cbc196905f1d33))
 
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.1.1...inputs-v1.2.0) (2023-09-22)
 
