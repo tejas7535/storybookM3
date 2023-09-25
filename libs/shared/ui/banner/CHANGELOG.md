@@ -1,10 +1,4 @@
 # Release Notes of Library Shared UI Banner
-## [3.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.6...banner-v3.4.0) (2023-09-22)
-
-
-### Features
-
-* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
 
 ## [3.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.6...banner-v3.4.0) (2023-09-22)
 
