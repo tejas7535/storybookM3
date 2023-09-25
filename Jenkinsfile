@@ -686,7 +686,7 @@ pipeline {
                         echo 'Deliver Libraries as npm packages to Artifactory'
 
                         script {
-                            sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
+                            sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/ --parallel=1"
                         }
                     }
                 }
