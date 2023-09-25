@@ -1,4 +1,5 @@
 # Release Notes of Library Shared UI Label Value
+## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v1.1.0...label-value-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v1.0.2...label-value-v1.1.0) (2023-09-22)
 
