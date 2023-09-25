@@ -1,11 +1,4 @@
 # Release Notes of Library Shared UI Loading Spinner
-## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v1.0.2...loading-spinner-v1.1.0) (2023-09-22)
-
-
-### Features
-
-* **app-shell:** update peer dependencies (5339) ([#5417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5417)) ([8fa655b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fa655b608a94cb6e20d54e73187f3efb7ec750e))
-* **loading-spinner:** provide option to use bearing loading spinner ([#5331](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5331)) ([276768a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/276768a91a40b470844db7bd23e3b776597a6f5e))
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v1.0.2...loading-spinner-v1.1.0) (2023-09-22)
 
