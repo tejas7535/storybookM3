@@ -1,4 +1,5 @@
 # Release Notes of Library Shared UI Legal Pages
+## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v1.1.0...legal-pages-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v1.0.2...legal-pages-v1.1.0) (2023-09-22)
 
