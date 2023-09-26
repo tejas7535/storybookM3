@@ -10,6 +10,7 @@ import {
   BasicFrequenciesResult,
   CalculationParametersOperationConditions,
   CatalogCalculationResult,
+  ProductCapabilitiesResult,
 } from '../store/models';
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import {
@@ -18,7 +19,6 @@ import {
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
   CatalogServiceOperatingConditionsISOClass,
-  CatalogServiceProductClass,
   CatalogServiceTemplateResult,
 } from './catalog.service.interface';
 import {
@@ -32,18 +32,13 @@ export class CatalogService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  public getBearingIdFromDesignation(
-    bearingDesignation: string
-  ): Observable<string | undefined> {
-    if (!bearingDesignation) {
-      return throwError(() => new Error('bearingDesignation must be provided'));
-    }
-
-    return this.httpClient
-      .get<{ id: string; designation: string }>(`${this.baseUrl}/product/id`, {
-        params: { designation: bearingDesignation },
-      })
-      .pipe(map((res) => res?.id));
+  public getBearingCapabilities(
+    designation: string
+  ): Observable<ProductCapabilitiesResult> {
+    return this.httpClient.get<ProductCapabilitiesResult>(
+      `${this.baseUrl}/product/capabilities`,
+      { params: { designation } }
+    );
   }
 
   public getBasicFrequencies(
@@ -236,13 +231,6 @@ export class CatalogService {
         `${this.baseUrl}/product/operatingconditonstemplate/${bearingId}`
       )
       .pipe(map((result) => convertTemplateResult(result)));
-  }
-
-  public getProductClass(bearingDesignation: string) {
-    return this.httpClient.get(`${this.baseUrl}/product/classbydesignation`, {
-      params: { designation: bearingDesignation },
-      responseType: 'text',
-    }) as Observable<CatalogServiceProductClass>;
   }
 
   private convertLubricationMethod(

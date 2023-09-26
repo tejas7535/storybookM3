@@ -1,3 +1,5 @@
+import { CatalogServiceProductClass } from '@ea/core/services/catalog.service.interface';
+
 import { CalculationResultReportInput } from './calculation-result-report-input.model';
 import { BasicCalculationResultState } from './calculation-result-state.model';
 
@@ -157,5 +159,16 @@ export interface ReportMessage {
   item?: {
     messages?: string[];
     subItems?: ReportMessage[];
+  };
+}
+
+export interface ProductCapabilitiesResult {
+  productInfo: {
+    designation: string;
+    id: string;
+    bearinxClass: CatalogServiceProductClass;
+  };
+  capabilityInfo: {
+    frictionCalculation: boolean;
   };
 }

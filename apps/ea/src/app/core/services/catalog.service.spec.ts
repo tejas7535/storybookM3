@@ -9,7 +9,10 @@ import { firstValueFrom } from 'rxjs';
 import { environment } from '@ea/environments/environment';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { CalculationParametersOperationConditions } from '../store/models';
+import {
+  CalculationParametersOperationConditions,
+  ProductCapabilitiesResult,
+} from '../store/models';
 import { CatalogService } from './catalog.service';
 import { CatalogServiceBasicFrequenciesResult } from './catalog.service.interface';
 
@@ -34,26 +37,33 @@ describe('CatalogService', () => {
     expect(catalogService).toBeDefined();
   });
 
-  describe('getBearingIdFromDesignation', () => {
-    it('should call the service to return a bearing id', waitForAsync(() => {
-      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/id?designation=abc`;
-      const mockResult = { id: 'my-id' };
+  describe('getBearingCapabilities', () => {
+    it('should call the service to fetch the product capabilities', () => {
+      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/capabilities?designation=6226`;
 
-      firstValueFrom(catalogService.getBearingIdFromDesignation('abc')).then(
+      const mockResponse: ProductCapabilitiesResult = {
+        productInfo: {
+          id: 'test',
+          designation: '6226',
+          bearinxClass: 'IDO_CATALOGUE_BEARING',
+        },
+        capabilityInfo: {
+          frictionCalculation: true,
+        },
+      };
+
+      // eslint-disable-next-line jest/valid-expect-in-promise
+      firstValueFrom(catalogService.getBearingCapabilities('6226')).then(
         (res) => {
-          expect(res).toEqual(mockResult.id);
+          expect(res).toEqual(mockResponse);
         }
       );
 
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('GET');
-      req.flush(mockResult);
-    }));
 
-    it('should throw if no bearing designation is provided', () =>
-      expect(
-        firstValueFrom(catalogService.getBearingIdFromDesignation(undefined))
-      ).rejects.toThrow());
+      req.flush(mockResponse);
+    });
   });
 
   describe('getBasicFrequencies', () => {
@@ -123,22 +133,6 @@ describe('CatalogService', () => {
       req.flush(mockResult);
     }));
   });
-
-  describe('getProductClass', () => {
-    it('should return the product class', waitForAsync(() => {
-      const rawResult = 'abc-class';
-      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/classbydesignation?designation=my-id`;
-
-      firstValueFrom(catalogService.getProductClass('my-id')).then((res) => {
-        expect(res).toMatchSnapshot();
-      });
-
-      const req = httpMock.expectOne(url);
-      expect(req.request.method).toBe('GET');
-      req.flush(rawResult);
-    }));
-  });
-
   describe('convertDefinitionOfViscosity', () => {
     it('should select typeOfGrease', () => {
       const lubricationConditions: CalculationParametersOperationConditions['lubrication'] =

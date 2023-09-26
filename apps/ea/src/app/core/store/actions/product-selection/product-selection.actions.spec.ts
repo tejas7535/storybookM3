@@ -1,5 +1,4 @@
 import {
-  fetchBearingId,
   setBearingDesignation,
   setBearingId,
   setProductFetchFailure,
@@ -17,15 +16,6 @@ describe('Product Selection Actions', () => {
     });
   });
 
-  describe('fetch bearing id', () => {
-    it('fetchBearingId', () => {
-      const action = fetchBearingId();
-
-      expect(action).toEqual({
-        type: '[Product Selection] Fetch Bearing Id',
-      });
-    });
-  });
   describe('set bearing id', () => {
     it('setBearingId', () => {
       const action = setBearingId({ bearingId: '123' });
@@ -37,7 +27,7 @@ describe('Product Selection Actions', () => {
     });
   });
 
-  describe('set fecht failure', () => {
+  describe('set fetch failure', () => {
     it('setProductFetchFailure', () => {
       const action = setProductFetchFailure({ error: 'my-error' });
 

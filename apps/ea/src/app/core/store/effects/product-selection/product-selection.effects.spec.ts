@@ -17,6 +17,7 @@ import {
   ProductSelectionActions,
 } from '../../actions';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
+import { ProductCapabilitiesResult } from '../../models';
 import { ProductSelectionEffects } from './product-selection.effects';
 
 const catalogServiceMock = {
@@ -26,6 +27,7 @@ const catalogServiceMock = {
   downloadBasicFrequenciesPdf: jest.fn(),
   getLoadcaseTemplate: jest.fn(),
   getOperatingConditionsTemplate: jest.fn(),
+  getBearingCapabilities: jest.fn(),
 };
 
 const calculationModuleInfoServiceMock = {
@@ -37,8 +39,6 @@ describe('Product Selection Effects', () => {
   let actions$: any;
   let effects: ProductSelectionEffects;
   let spectator: SpectatorService<ProductSelectionEffects>;
-
-  let productSelectionFacade: ProductSelectionFacade;
 
   const createService = createServiceFactory({
     service: ProductSelectionEffects,
@@ -71,63 +71,6 @@ describe('Product Selection Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ProductSelectionEffects);
-    productSelectionFacade = spectator.inject(ProductSelectionFacade);
-  });
-
-  describe('fetchBearingId$', () => {
-    beforeEach(() => {
-      catalogServiceMock.getBearingIdFromDesignation.mockReset();
-    });
-    it('should fetch bearing id and write it to store', () => {
-      const getBearingIdFromDesignationSpy = jest
-        .spyOn(catalogServiceMock, 'getBearingIdFromDesignation')
-        .mockImplementation(() => of('bearing-id-from-service'));
-
-      return marbles((m) => {
-        action = ProductSelectionActions.fetchBearingId();
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-(bcd)', {
-          b: ProductSelectionActions.setBearingId({
-            bearingId: 'bearing-id-from-service',
-          }),
-          c: ProductSelectionActions.fetchLoadcaseTemplate(),
-          d: ProductSelectionActions.fetchOperatingConditionsTemplate(),
-        });
-
-        m.expect(effects.fetchBearingId$).toBeObservable(expected);
-        m.flush();
-
-        expect(getBearingIdFromDesignationSpy).toHaveBeenCalled();
-      })();
-    });
-
-    it('should not fetch bearing id again if already set', () => {
-      productSelectionFacade.bearingId$ = of('abc');
-
-      const getBearingIdFromDesignationSpy = jest
-        .spyOn(catalogServiceMock, 'getBearingIdFromDesignation')
-        .mockImplementation(() => of('bearing-id-from-service'));
-
-      return marbles((m) => {
-        action = ProductSelectionActions.fetchBearingId();
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-(bcd)', {
-          b: ProductSelectionActions.setBearingId({
-            bearingId: 'abc',
-          }),
-          c: ProductSelectionActions.fetchLoadcaseTemplate(),
-          d: ProductSelectionActions.fetchOperatingConditionsTemplate(),
-        });
-
-        m.expect(effects.fetchBearingId$).toBeObservable(expected);
-        m.flush();
-
-        // should not have called actual service
-        expect(getBearingIdFromDesignationSpy).not.toHaveBeenCalled();
-      })();
-    });
   });
 
   describe('fetchCalculationModuleInfo$', () => {
@@ -225,6 +168,65 @@ describe('Product Selection Effects', () => {
         );
         m.flush();
 
+        expect(serviceSpy).toHaveBeenCalled();
+      })();
+    });
+  });
+
+  describe('fetchBearingCapabilities', () => {
+    beforeEach(() => {
+      catalogServiceMock.getBearingIdFromDesignation();
+    });
+
+    it('should fetch the bearing capabilities', () => {
+      const serviceSpy = jest
+        .spyOn(catalogServiceMock, 'getBearingCapabilities')
+        .mockImplementation(() => {
+          const capabilities = {
+            productInfo: {
+              designation: '6226',
+              id: 'abc',
+              bearinxClass: 'IDO_CATALOGUE_BEARING',
+            },
+            capabilityInfo: { frictionCalculation: false },
+          } as ProductCapabilitiesResult;
+
+          return of(capabilities);
+        });
+
+      const calculationOptions = {
+        emission: { disabled: true, selected: true, visible: true },
+        frictionalPowerloss: {
+          disabled: true,
+          selected: false,
+          visible: true,
+        },
+        lubrication: { disabled: false, selected: false, visible: false },
+        overrollingFrequency: {
+          disabled: false,
+          selected: false,
+          visible: false,
+        },
+        ratingLife: { disabled: false, selected: false, visible: false },
+      };
+
+      return marbles((m) => {
+        action = ProductSelectionActions.fetchBearingCapabilities();
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bcdef)', {
+          b: ProductSelectionActions.setBearingId({ bearingId: 'abc' }),
+          c: ProductSelectionActions.setBearingProductClass({
+            productClass: 'IDO_CATALOGUE_BEARING',
+          }),
+          d: ProductSelectionActions.fetchLoadcaseTemplate(),
+          e: ProductSelectionActions.fetchOperatingConditionsTemplate(),
+          f: CalculationTypesActions.setCalculationTypes({
+            calculationTypes: calculationOptions,
+          }),
+        });
+
+        m.expect(effects.fetchBearingCapabilities$).toBeObservable(expected);
+        m.flush();
         expect(serviceSpy).toHaveBeenCalled();
       })();
     });

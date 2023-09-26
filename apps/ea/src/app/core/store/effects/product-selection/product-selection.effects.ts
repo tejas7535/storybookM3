@@ -23,41 +23,59 @@ export class ProductSelectionEffects {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.setBearingDesignation),
       mergeMap(() => [
-        ProductSelectionActions.fetchBearingId(),
+        ProductSelectionActions.fetchBearingCapabilities(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
-        ProductSelectionActions.fetchBearingProductClass(),
         CO2UpstreamCalculationResultActions.fetchResult(),
       ])
     );
   });
 
-  public fetchBearingId$ = createEffect(() => {
+  public fetchBearingCapabilities$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ProductSelectionActions.fetchBearingId),
-      concatLatestFrom(() => [
-        this.productSelectionFacade.bearingDesignation$,
-        this.productSelectionFacade.bearingId$,
-      ]),
-      switchMap(([_action, bearingDesignation, bearingId]) => {
-        // don't fetch bearing id again if already existing
-        const bearingId$ = bearingId
-          ? of(bearingId)
-          : this.catalogService.getBearingIdFromDesignation(bearingDesignation);
+      ofType(ProductSelectionActions.fetchBearingCapabilities),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
+      switchMap(([_action, bearingDesignation]) => {
+        return this.catalogService
+          .getBearingCapabilities(bearingDesignation)
+          .pipe(
+            concatLatestFrom(() => [
+              this.calculationParametersFacade.getCalculationTypes$,
+            ]),
+            switchMap(([capabilities, calculationConfig]) => {
+              const newCalculationTypes: CalculationParametersCalculationTypes =
+                {
+                  ...calculationConfig,
+                  frictionalPowerloss: {
+                    ...calculationConfig.frictionalPowerloss,
+                    disabled: !capabilities.capabilityInfo.frictionCalculation,
+                    selected: !capabilities.capabilityInfo.frictionCalculation
+                      ? false
+                      : calculationConfig.frictionalPowerloss.selected,
+                  },
+                };
 
-        return bearingId$.pipe(
-          switchMap((result) => [
-            ProductSelectionActions.setBearingId({ bearingId: result }),
-            ProductSelectionActions.fetchLoadcaseTemplate(),
-            ProductSelectionActions.fetchOperatingConditionsTemplate(),
-          ]),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              ProductSelectionActions.setProductFetchFailure({
-                error: error.toString(),
-              })
-            )
-          )
-        );
+              return [
+                ProductSelectionActions.setBearingId({
+                  bearingId: capabilities.productInfo.id,
+                }),
+                ProductSelectionActions.setBearingProductClass({
+                  productClass: capabilities.productInfo.bearinxClass,
+                }),
+                ProductSelectionActions.fetchLoadcaseTemplate(),
+                ProductSelectionActions.fetchOperatingConditionsTemplate(),
+                CalculationTypesActions.setCalculationTypes({
+                  calculationTypes: newCalculationTypes,
+                }),
+              ];
+            }),
+            catchError((err: HttpErrorResponse) => {
+              return of(
+                ProductSelectionActions.setProductFetchFailure({
+                  error: err.toString(),
+                })
+              );
+            })
+          );
       })
     );
   });
@@ -87,12 +105,9 @@ export class ProductSelectionEffects {
                   ...calculationTypes.emission,
                   disabled: false, // special case, stays enabled since we are still able to calculate upstream
                 },
+                // should not change the value as long as the new friciion api isn't implemented in the frontend
                 frictionalPowerloss: {
                   ...calculationTypes.frictionalPowerloss,
-                  disabled: !result.catalogueCalculation,
-                  selected: !result.catalogueCalculation
-                    ? false
-                    : calculationTypes.frictionalPowerloss.selected,
                 },
                 lubrication: {
                   ...calculationTypes.lubrication,
@@ -177,29 +192,6 @@ export class ProductSelectionEffects {
               )
             )
           );
-      })
-    );
-  });
-
-  public fetchBearingProductClass$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ProductSelectionActions.fetchBearingProductClass),
-      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
-      switchMap(([_action, bearingDesignation]) => {
-        return this.catalogService.getProductClass(bearingDesignation).pipe(
-          switchMap((result) => [
-            ProductSelectionActions.setBearingProductClass({
-              productClass: result,
-            }),
-          ]),
-          catchError((_error: HttpErrorResponse) =>
-            of(
-              ProductSelectionActions.setBearingProductClass({
-                productClass: undefined,
-              })
-            )
-          )
-        );
       })
     );
   });
