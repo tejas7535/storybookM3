@@ -1,4 +1,11 @@
 # Release Notes of Guided Quoting
+## [4.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.0...gq-v4.0.1) (2023-09-26)
+
+
+### Features
+
+* **gq:** activate approvalWorkflow via feature Toggle ([#5656](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5656)) ([7df751d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7df751d658c76c49969395c741d7e4a77fca4f57))
+
 ## [4.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v3.8.0...gq-v4.0.0) (2023-09-26)
 
 
