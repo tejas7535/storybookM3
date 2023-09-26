@@ -1,36 +1,42 @@
-<h2 mat-dialog-title class="!text-high-emphasis">
-  {{ (meta$ | ngrxPush)?.data?.title }}
-</h2>
-<mat-dialog-content>
-  <div class="flex h-full flex-col gap-4 lg:flex-row">
-    <div class="flex">
-      <div class="flex-1">
-        <ia-attrition-dialog-meta
-          [meta]="meta$ | ngrxPush"
-          [fluctuationLoading]="fluctuationLoading$ | ngrxPush"
-        ></ia-attrition-dialog-meta>
+<ng-container *transloco="let t; read: 'organizationalView.attritionDialog'">
+  <ng-container *ngrxLet="meta$ as meta">
+    <h2 mat-dialog-title class="!text-high-emphasis">
+      {{ meta?.data?.title }}
+    </h2>
+    <mat-dialog-content>
+      <div class="flex h-full flex-col gap-4 lg:flex-row">
+        <div class="flex">
+          <div class="flex-1">
+            <ia-attrition-dialog-meta
+              [meta]="meta"
+              [fluctuationLoading]="fluctuationLoading$ | ngrxPush"
+            ></ia-attrition-dialog-meta>
+          </div>
+        </div>
+        <div class="invisible lg:visible w-6">
+          <mat-divider class="h-full" [vertical]="true"></mat-divider>
+        </div>
+        <div class="grow">
+          <ia-line-chart
+            [config]="fluctuationChartConfig"
+            [isDataLoading]="childFluctuationOverTimeDataLoading$ | ngrxPush"
+            [title]="(childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')"
+            [series]="childFluctuationOverTimeData$ | ngrxPush"
+            [benchmarkSeries]="parentFluctuationOverTimeData$ | ngrxPush"
+          ></ia-line-chart>
+        </div>
       </div>
-    </div>
-    <div class="invisible lg:visible w-6">
-      <mat-divider class="h-full" [vertical]="true"></mat-divider>
-    </div>
-    <div
-      class="grow"
-      *transloco="let t; read: 'organizationalView.attritionDialog'"
-    >
-      <ia-line-chart
-        [config]="fluctuationChartConfig"
-        [isDataLoading]="childFluctuationOverTimeDataLoading$ | ngrxPush"
-        [title]="(childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')"
-        [series]="childFluctuationOverTimeData$ | ngrxPush"
-        [benchmarkSeries]="parentFluctuationOverTimeData$ | ngrxPush"
-      ></ia-line-chart>
-    </div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions
-  align="end"
-  *transloco="let t; read: 'organizationalView.attritionDialog'"
->
-  <button mat-button mat-dialog-close color="primary">{{ t('close') }}</button>
-</mat-dialog-actions>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <p
+        *ngIf="meta.data.hideDetailedLeaverStats"
+        class="italic text-warning text-start"
+      >
+        {{ t('insufficientRights') }}
+      </p>
+      <button mat-button mat-dialog-close color="primary">
+        {{ t('close') }}
+      </button>
+    </mat-dialog-actions>
+  </ng-container>
+</ng-container>
