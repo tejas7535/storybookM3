@@ -2,7 +2,7 @@
   "appTitle": "Engineering App",
   "general": {
     "requiredInformation": "*必填",
-    "poweredBy": "Powered by {{ name }}",
+    "poweredBy": "由 {{ name }}提供支援",
     "back": "返回"
   },
 

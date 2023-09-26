@@ -2,7 +2,7 @@
   "appTitle": "Engineering App",
   "general": {
     "requiredInformation": "*必填",
-    "poweredBy": "Powered by {{ name }}",
+    "poweredBy": "由 {{ name }}提供支持",
     "back": "返回"
   },
   "inputs": {
@@ -10,7 +10,7 @@
   },
   "operationConditions": {
     "title": "{{bearingDesignation}} 轴承的工作条件",
-    "prototypeWarning": "该开发原型中所示的数值是假想的，不能用于生产",
+    "prototypeWarning": "该开发原型中所示的数值是假设值，不能用于生产",
     "showPresetCalculationParameters": "显示预设的计算参数",
     "loads": "负载",
     "radialLoad": "径向负载",
@@ -22,11 +22,11 @@
       "axialLoad": "轴向方向上的负载（需指定为绝对值）"
     },
     "errors": {
-      "min": "最小值为 {{ min }}",
+      "min": "最最小值为 {{ min }}",
       "max": "最大值为 {{ max }}",
       "required": "此字段为必填项",
       "lowerThanEnvironmentTemperature": "不能低于环境温度",
-      "innerOuterInconsistent": "内径直径必须小于外径直径",
+      "innerOuterInconsistent": "内径必须小于外径",
       "minMaxInconsistent": "最小值必须小于最大值",
       "anyLoad": "至少需要一个负载",
       "viscosity": "ny40 必须大于 ny100",
@@ -46,7 +46,7 @@
         "LB_OSCILLATING": "摆动"
       },
       "tooltip": {
-        "rotationSpeed": "内环和外环之间的相对旋转速度（需指定为绝对值）",
+        "rotationSpeed": "内圈和外圈之间的相对旋转速度（需指定为绝对值）",
         "shiftFrequency": "每分钟的摆动运动次数（完整往返周期）",
         "shiftAngle": "摆动运动的转折点之间的角度"
       }
@@ -62,9 +62,9 @@
       },
       "grease": {
         "typeOfGrease": {
-          "label": "脂种",
-          "description": "选择用于轴承计算的脂种。",
-          "tooltip": "脂类型对轴承的摩擦、热量产生、磨损和整体性能等因素有重要影响。"
+          "label": "油脂类别",
+          "description": "选择用于轴承计算的油脂类别。",
+          "tooltip": "油脂类型对轴承的摩擦、热量产生、磨损和整体性能等因素有重要影响。"
         },
         "isoVgClass": {
           "label": "ISO VG等级",
@@ -73,7 +73,7 @@
         },
         "viscosity": {
           "label": "输入粘度",
-          "description": "输入您自己在40°C（ny40）和100°C（ny100）时的粘度。",
+          "description": "输入在40°C（ny40）和100°C（ny100）时的粘度。",
           "ny40": "40°C下的粘度",
           "ny100": "100°C下的粘度",
           "unit": "mm²/s"
@@ -88,11 +88,11 @@
       "title": "污染",
       "label": "污染",
       "options": {
-        "extremeCleanliness": "极端洁净",
+        "extremeCleanliness": "极度洁净",
         "highCleanliness": "高度洁净",
         "standardCleanliness": "正常洁净度",
         "slightContamination": "轻微污染",
-        "typicalContamination": "典型污染",
+        "typicalContamination": "普通污染",
         "heavyContamination": "严重污染",
         "veryHeavyContamination": "极度污染"
       }
@@ -119,8 +119,8 @@
     "conditionOfRotation": {
       "title": "转动状态",
       "options": {
-        "rotatingOuterring": "转动外环",
-        "rotatingInnerring": "转动内环"
+        "rotatingOuterring": "转动外圈",
+        "rotatingInnerring": "转动内圈"
       }
     }
   },
@@ -207,7 +207,7 @@
         "BPFI": "滚动体内圈",
         "BSF": "滚动体",
         "RPFB": "环通过滚动体的频率",
-        "FTF": "滚动体集合的速度"
+        "FTF": "滚动体组件的转速"
       }
     }
   },
@@ -229,7 +229,7 @@
       "overrollingFrequency": "过滚频率"
     },
     "basicFrequency": "基础频率",
-    "saveAsPDF": "保存为 pdf"
+    "saveAsPDF": "保存为 PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "反馈",
