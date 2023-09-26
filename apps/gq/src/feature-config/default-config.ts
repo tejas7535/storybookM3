@@ -1,5 +1,5 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
-  approvalWorkflow: false,
+  approvalWorkflow: true,
   attachments: false,
   fPricing: false,
 };
