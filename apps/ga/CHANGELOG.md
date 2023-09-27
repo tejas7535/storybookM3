@@ -1,4 +1,18 @@
 # Release Notes of Grease App
+## [1.4.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.1...ga-v1.4.2) (2023-09-27)
+
+
+### Features
+
+* **ea:** adjust person responsible for privacy policy - UFTABI-6715 ([#5577](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5577)) ([060e1c1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/060e1c1cffd97026eca9f230b82b0ca7014625bf))
+* **ea:** update functional colors ([#5575](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5575)) ([3720963](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37209638a128263240df2cd73f2eeb9409b6c61a))
+
+
+### Bug Fixes
+
+* **ea:** partial design fixes ([#5604](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5604)) ([c12aa9d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c12aa9dcce0e0ca01aa261eeaa32630da9fe6303))
+* **ga:** fix fonts on dev env in pdf report (UFTABI-6679) ([#5570](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5570)) ([fba4ec3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fba4ec3cffa39f4db2de33f9ea6f0e15a650eaa6))
+
 ## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.0...ga-v1.4.1) (2023-08-22)
 
 
