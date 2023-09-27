@@ -9,6 +9,7 @@ import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module'
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -50,6 +51,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     ActiveCaseModule,
     EditingModalModule,
     ApprovalModule,
+    SharedDirectivesModule,
   ],
 })
 export class DetailViewModule {}

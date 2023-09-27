@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { activeCaseFeature } from '@gq/core/store/active-case';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ApprovalWorkflowInformation, Quotation } from '@gq/shared/models';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail';
@@ -39,6 +40,7 @@ describe('DetailViewComponent', () => {
       RouterTestingModule,
     ],
     providers: [
+      MockProvider(ActiveCaseFacade),
       provideMockStore({
         initialState: {
           activeCase: {

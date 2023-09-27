@@ -16,6 +16,7 @@ import {
   getDetailViewQueryParams,
   getSelectedQuotationDetail,
 } from '@gq/core/store/active-case';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import {
@@ -67,6 +68,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(
+    public readonly activeCaseFacade: ActiveCaseFacade,
     private readonly store: Store,
     private readonly breadCrumbsService: BreadcrumbsService,
     private readonly router: Router,

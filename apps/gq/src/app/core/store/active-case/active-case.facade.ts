@@ -8,7 +8,10 @@ import { Store } from '@ngrx/store';
 
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
-import { getQuotationHasFNumberMaterials } from './active-case.selectors';
+import {
+  getQuotationDetailIsFNumber,
+  getQuotationHasFNumberMaterials,
+} from './active-case.selectors';
 import { QuotationIdentifier } from './models';
 
 @Injectable({
@@ -50,6 +53,11 @@ export class ActiveCaseFacade {
   quotationHasFNumberMaterials$: Observable<boolean> = this.store.select(
     getQuotationHasFNumberMaterials
   );
+
+  quotationDetailIsFNumber$: Observable<boolean> = this.store.select(
+    getQuotationDetailIsFNumber
+  );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions

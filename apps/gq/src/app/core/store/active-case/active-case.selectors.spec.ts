@@ -513,4 +513,37 @@ describe('Active Case Selectors', () => {
       ).toEqual(true);
     });
   });
+  describe('getQuotationDetailIsFNumber', () => {
+    test('should return false when description does not starts with F- || Z-', () => {
+      expect(
+        activeCaseSelectors.getQuotationDetailIsFNumber.projector(
+          QUOTATION_DETAIL_MOCK
+        )
+      ).toEqual(false);
+    });
+
+    test('should return true when description does  starts with F-', () => {
+      expect(
+        activeCaseSelectors.getQuotationDetailIsFNumber.projector({
+          ...QUOTATION_DETAIL_MOCK,
+          material: {
+            ...QUOTATION_DETAIL_MOCK.material,
+            materialDescription: 'F-123',
+          },
+        })
+      ).toEqual(true);
+    });
+
+    test('should return true when description does  starts with Z-', () => {
+      expect(
+        activeCaseSelectors.getQuotationDetailIsFNumber.projector({
+          ...QUOTATION_DETAIL_MOCK,
+          material: {
+            ...QUOTATION_DETAIL_MOCK.material,
+            materialDescription: 'Z-123',
+          },
+        })
+      ).toEqual(true);
+    });
+  });
 });

@@ -41,6 +41,18 @@
     <div class="w-full md:w-3/5">
       <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">
       </gq-filter-pricing>
+      <ng-container *featureToggle="'fPricing'">
+        <ng-container *transloco="let t; read: 'detailView.filterPricing'">
+          <div
+            *ngIf="activeCaseFacade.quotationDetailIsFNumber$ | ngrxPush"
+            class="flex justify-end md:mr-4"
+          >
+            <button class="!mt-2 w-[250px]" mat-raised-button color="primary">
+              {{ t('pricingAssistantButton') }}
+            </button>
+          </div>
+        </ng-container>
+      </ng-container>
     </div>
     <div class="mt-4 w-full md:mt-0 md:w-2/5">
       <gq-pricing-details

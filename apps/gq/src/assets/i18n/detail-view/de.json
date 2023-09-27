@@ -43,7 +43,8 @@
       "cancel": "Abbrechen"
     },
     "select": "auswählen",
-    "selected": "ausgewählt"
+    "selected": "ausgewählt",
+    "pricingAssistantButton": "Preis Assistent öffnen"
   },
   "pricingDetails": {
     "materialDetails": {

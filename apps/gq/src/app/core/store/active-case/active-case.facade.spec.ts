@@ -8,7 +8,10 @@ import { marbles } from 'rxjs-marbles';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseFacade } from './active-case.facade';
 import { activeCaseFeature } from './active-case.reducer';
-import { getQuotationHasFNumberMaterials } from './active-case.selectors';
+import {
+  getQuotationDetailIsFNumber,
+  getQuotationHasFNumberMaterials,
+} from './active-case.selectors';
 
 describe('ActiveCaseFacade', () => {
   let facade: ActiveCaseFacade;
@@ -157,6 +160,18 @@ describe('ActiveCaseFacade', () => {
       marbles((m) => {
         mockStore.overrideSelector(getQuotationHasFNumberMaterials, true);
         m.expect(facade.quotationHasFNumberMaterials$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('quotationDetailIsFNumber$', () => {
+    test(
+      'should getQuotationDetailIsFNumber',
+      marbles((m) => {
+        mockStore.overrideSelector(getQuotationDetailIsFNumber, true);
+        m.expect(facade.quotationDetailIsFNumber$).toBeObservable(
           m.cold('a', { a: true })
         );
       })
