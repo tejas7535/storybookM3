@@ -1,24 +1,25 @@
 /* tslint:disable:no-unused-variable */
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatLegacyDialog as MatDialog,
   MatLegacyDialogModule as MatDialogModule,
 } from '@angular/material/legacy-dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import * as statusbarUtils from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
 import { UpdateCaseStatusButtonComponent } from '../update-case-status-button/update-case-status-button.component';
 import { UploadQuoteToSapButtonComponent } from './upload-quote-to-sap-button.component';
-
 describe('UploadQuoteToSapButtonComponent', () => {
   let component: UploadQuoteToSapButtonComponent;
   let spectator: Spectator<UploadQuoteToSapButtonComponent>;
@@ -65,6 +66,31 @@ describe('UploadQuoteToSapButtonComponent', () => {
       component.agInit(params as unknown as IStatusPanelParams);
       expect(component['params']).toEqual(params);
       expect(params.api.addEventListener).toHaveBeenCalledTimes(1);
+    });
+
+    test(
+      'should provide tooltipText$',
+      marbles((m) => {
+        jest
+          .spyOn(statusbarUtils, 'getTooltipTextKeyByQuotationStatus')
+          .mockReturnValue('anyFancyText');
+        component.agInit(params as unknown as IStatusPanelParams);
+        m.expect(component.tooltipText$).toBeObservable(
+          m.cold('a', { a: 'anyFancyText' })
+        );
+      })
+    );
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should emit', () => {
+      component['shutdown$$'].next = jest.fn();
+      component['shutdown$$'].unsubscribe = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['shutdown$$'].next).toHaveBeenCalled();
+      expect(component['shutdown$$'].unsubscribe).toHaveBeenCalled();
     });
   });
 

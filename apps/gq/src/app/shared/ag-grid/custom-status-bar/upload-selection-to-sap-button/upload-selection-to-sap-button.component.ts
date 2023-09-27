@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
-import { Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 
 import {
   ActiveCaseActions,
   getIsQuotationActive,
+  getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case';
+import { getTooltipTextKeyByQuotationStatus } from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
+import { QuotationStatus } from '@gq/shared/models';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
@@ -21,7 +24,7 @@ import { QuotationDetail } from '../../../models/quotation-detail';
   selector: 'gq-selection-to-sap',
   templateUrl: './upload-selection-to-sap-button.component.html',
 })
-export class UploadSelectionToSapButtonComponent {
+export class UploadSelectionToSapButtonComponent implements OnDestroy {
   sapId$: Observable<string>;
   selections: any[] = [];
   uploadDisabled = true;
@@ -29,9 +32,11 @@ export class UploadSelectionToSapButtonComponent {
   icon = 'cloud_upload';
   simulationModeEnabled$: Observable<boolean>;
   quotationActive$: Observable<boolean>;
+  tooltipText$: Observable<string>;
 
   private params: IStatusPanelParams;
   private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 1000;
+  private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly store: Store,
@@ -51,7 +56,14 @@ export class UploadSelectionToSapButtonComponent {
     );
 
     this.quotationActive$ = this.store.select(getIsQuotationActive);
+    this.tooltipText$ = this.getTooltipTextKey();
   }
+
+  ngOnDestroy(): void {
+    this.shutdown$$.next();
+    this.shutdown$$.unsubscribe();
+  }
+
   onGridReady(): void {
     this.selections = this.params.api.getSelectedRows();
   }
@@ -97,5 +109,18 @@ export class UploadSelectionToSapButtonComponent {
         this.selections = [];
       }
     });
+  }
+
+  private getTooltipTextKey(): Observable<string> {
+    return this.store.select(getQuotationStatus).pipe(
+      takeUntil(this.shutdown$$),
+      map((quotationStatus: QuotationStatus) =>
+        getTooltipTextKeyByQuotationStatus(
+          quotationStatus,
+          this.selections.length,
+          this.QUOTATION_POSITION_UPLOAD_LIMIT
+        )
+      )
+    );
   }
 }

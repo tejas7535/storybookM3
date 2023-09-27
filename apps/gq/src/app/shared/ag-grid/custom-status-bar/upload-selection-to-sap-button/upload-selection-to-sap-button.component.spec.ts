@@ -5,19 +5,20 @@ import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/lega
 import { of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import * as statusbarUtils from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { MockDirective } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
-
 describe('uploadSelectionToSapButtonComponent', () => {
   let component: UploadSelectionToSapButtonComponent;
   let spectator: Spectator<UploadSelectionToSapButtonComponent>;
@@ -70,7 +71,39 @@ describe('uploadSelectionToSapButtonComponent', () => {
       expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(2);
       expect(component.simulationModeEnabled$).toBeDefined();
     });
+
+    test(
+      'should provide tooltipText$',
+      marbles((m) => {
+        jest
+          .spyOn(statusbarUtils, 'getTooltipTextKeyByQuotationStatus')
+          .mockReturnValue('anyFancyText');
+        const statusPanelParams = {
+          api: {
+            addEventListener: jest.fn(),
+          },
+        } as any;
+
+        component.agInit(statusPanelParams);
+        m.expect(component.tooltipText$).toBeObservable(
+          m.cold('a', { a: 'anyFancyText' })
+        );
+      })
+    );
   });
+
+  describe('ngOnDestroy', () => {
+    test('should emit', () => {
+      component['shutdown$$'].next = jest.fn();
+      component['shutdown$$'].unsubscribe = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['shutdown$$'].next).toHaveBeenCalled();
+      expect(component['shutdown$$'].unsubscribe).toHaveBeenCalled();
+    });
+  });
+
   describe('onGridReady', () => {
     test('should set selections', () => {
       component['params'] = params;

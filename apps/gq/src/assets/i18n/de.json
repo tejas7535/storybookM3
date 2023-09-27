@@ -257,6 +257,7 @@
         "uploadSelectionToSapInfoText": "Aktualisierung aller ausgewählter Positionen im verknüpften SAP Angebot.",
         "uploadSelectionToSapInfoTextMaxPositions": "Selektieren Sie bis zu 1000 Positionen für den SAP Upload.",
         "disabledForDeletedCasesTooltip": "Bearbeitung nicht möglich, da Case gelöscht wurde; bitte zuerst wiederherstellen",
+        "disabledForActiveWorkflowTooltip": "Bearbeitung nicht möglich, da der Freigabeprozess gestartet wurde; bitte zuerst Freigabeprozess abbrechen",
         "uploadQuoteToSapPositionsInfoText": "Selektieren Sie Positionen für den SAP Upload des Cases.",
         "uploadQuoteToSapPositionsInfoTextMaxPositions": "Selektieren Sie bis zu 1000 Positionen für den SAP Upload.",
         "confirmSimulation": "Bestätigen",

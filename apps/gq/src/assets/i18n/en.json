@@ -257,6 +257,7 @@
         "uploadSelectionToSapInfoText": "Update the selected positions in the SAP quotation.",
         "uploadSelectionToSapInfoTexttMaxPositions": "Select up to 1000 positions to upload to SAP.",
         "disabledForDeletedCasesTooltip": "Deleted cases cannot be edited; for editing option please restore case",
+        "disabledForActiveWorkflowTooltip": "Cases in approval workflow cannot be edited; for editing option please cancel the approval workflow.",
         "uploadQuoteToSapPositionsInfoText": "Select positions to upload the quote to SAP.",
         "uploadQuoteToSapPositionsInfoTextMaxPositions": "Select up to 1000 positions to upload to SAP.",
         "confirmSimulation": "Confirm",

@@ -2,7 +2,12 @@
   <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     matTooltipPosition="above"
-    [matTooltip]="t('disabledForDeletedCasesTooltip')"
+    [matTooltip]="
+      (approvalFacade.workflowInProgress$ | ngrxPush) ||
+      (approvalFacade.quotationFullyApproved$ | ngrxPush)
+        ? t('disabledForActiveWorkflowTooltip')
+        : t('disabledForDeletedCasesTooltip')
+    "
     [matTooltipDisabled]="quotationActive$ | ngrxPush"
   >
     <button

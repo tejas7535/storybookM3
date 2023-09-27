@@ -3,9 +3,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -26,6 +28,7 @@ describe('AddItemsButtonComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      MockProvider(ApprovalFacade),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,

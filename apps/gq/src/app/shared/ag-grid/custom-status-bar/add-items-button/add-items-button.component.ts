@@ -7,6 +7,7 @@ import {
   getIsQuotationActive,
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case/active-case.selectors';
+import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { AddMaterialDialogComponent } from '@gq/process-case-view/add-material-dialog/add-material-dialog.component';
 import { Store } from '@ngrx/store';
 
@@ -20,6 +21,7 @@ export class AddItemsButtonComponent implements OnInit {
   quotationActive$: Observable<boolean>;
 
   constructor(
+    public readonly approvalFacade: ApprovalFacade,
     private readonly store: Store,
     private readonly dialog: MatDialog
   ) {}
