@@ -28,7 +28,7 @@ export const getMaterialCostUpdateAvl = createSelector(
     selectedQuotationDetail: QuotationDetail
   ): boolean =>
     materialCostDetails &&
-    (materialCostDetails.gpcYear !== selectedQuotationDetail?.gpcYear ||
+    (materialCostDetails.gpcDate !== selectedQuotationDetail?.gpcDate ||
       roundValue(
         materialCostDetails.gpc,
         getPriceUnit(selectedQuotationDetail)
