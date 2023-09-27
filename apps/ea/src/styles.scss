@@ -7,6 +7,14 @@
 * see https://material.angular.io
 */
 @import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+engineering-app {
+  /* 
+  * Fix for the cutoff form input labels when embedded in medias
+  */
+  label[matformfieldfloatinglabel] {
+    font-size: 16px !important;
+  }
+}
 
 /***************************************************************************************************
   * UTILITIES
