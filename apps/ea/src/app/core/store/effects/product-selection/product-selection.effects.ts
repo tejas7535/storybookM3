@@ -71,7 +71,11 @@ export class ProductSelectionEffects {
             catchError((err: HttpErrorResponse) => {
               return of(
                 ProductSelectionActions.setProductFetchFailure({
-                  error: err.toString(),
+                  error: {
+                    catalogApi: err.ok
+                      ? undefined
+                      : err.statusText || 'Unkown error',
+                  },
                 })
               );
             })

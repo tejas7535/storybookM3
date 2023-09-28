@@ -31,7 +31,7 @@ export const setCalculationModuleInfo = createAction(
 
 export const setProductFetchFailure = createAction(
   '[Product Selection] Set Product Fetch Failure',
-  props<{ error: string }>()
+  props<{ error: { catalogApi?: string; moduleInfoApi?: string } }>()
 );
 
 export const fetchLoadcaseTemplate = createAction(

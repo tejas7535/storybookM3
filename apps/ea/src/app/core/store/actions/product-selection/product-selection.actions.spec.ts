@@ -29,11 +29,13 @@ describe('Product Selection Actions', () => {
 
   describe('set fetch failure', () => {
     it('setProductFetchFailure', () => {
-      const action = setProductFetchFailure({ error: 'my-error' });
+      const action = setProductFetchFailure({
+        error: { moduleInfoApi: 'my-error' },
+      });
 
       expect(action).toEqual({
         type: '[Product Selection] Set Product Fetch Failure',
-        error: 'my-error',
+        error: { moduleInfoApi: 'my-error' },
       });
     });
   });

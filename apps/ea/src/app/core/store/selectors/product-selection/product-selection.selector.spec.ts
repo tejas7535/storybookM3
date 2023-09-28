@@ -47,6 +47,17 @@ describe('Product Selection Selector', () => {
         })
       ).toEqual(false);
     });
+    it('should say the bearing is supported when the API is unreachable', () => {
+      expect(
+        isBearingSupported({
+          ...mockState,
+          productSelection: {
+            ...PRODUCT_SELECTION_STATE_MOCK,
+            error: { catalogApi: 'failed to fetch' },
+          },
+        })
+      ).toEqual(true);
+    });
   });
 
   describe('getBearingId', () => {

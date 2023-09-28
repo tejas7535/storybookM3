@@ -85,6 +85,9 @@ describe('ProductSelectionReducer', () => {
           catalogueCalculation: true,
           frictionCalculation: false,
         },
+        error: {
+          frictionApi: undefined,
+        },
       });
     });
   });
@@ -93,17 +96,19 @@ describe('ProductSelectionReducer', () => {
     it('should set the error', () => {
       const originalState: ProductSelectionState = {
         ...initialState,
-        error: 'error',
+        error: { moduleInfoApi: 'error' },
       };
 
       const newState = productSelectionReducer(
         originalState,
-        ProductSelectionActions.setProductFetchFailure({ error: 'error 2' })
+        ProductSelectionActions.setProductFetchFailure({
+          error: { moduleInfoApi: 'error 2' },
+        })
       );
 
       expect(newState).toEqual({
         ...initialState,
-        error: 'error 2',
+        error: { moduleInfoApi: 'error 2' },
       });
     });
   });

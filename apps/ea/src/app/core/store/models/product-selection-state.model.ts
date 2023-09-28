@@ -11,7 +11,10 @@ export interface ProductSelectionState {
     frictionCalculation: boolean;
   };
   bearingProductClass?: CatalogServiceProductClass;
-  error?: string;
+  error?: {
+    catalogApi?: string;
+    moduleInfoApi?: string;
+  };
   loadcaseTemplate?: ProductSelectionTemplate[];
   operatingConditionsTemplate?: ProductSelectionTemplate[];
 }

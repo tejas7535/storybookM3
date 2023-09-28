@@ -14,9 +14,34 @@ export const getBearingProductClass = createSelector(
   (state) => state.bearingProductClass
 );
 
+export const getProductFetchError = createSelector(
+  getProductSelectionState,
+  (state) => state.error
+);
+
+export const getCatalogFetchErrors = createSelector(
+  getProductFetchError,
+  (error) => error?.catalogApi
+);
+
+export const getModuleInfoFetchErrors = createSelector(
+  getProductFetchError,
+  (error) => error?.moduleInfoApi
+);
+
 export const isBearingSupported = createSelector(
-  getBearingProductClass,
-  (productClass) => SUPPORTED_PRODUCT_CLASSES.includes(productClass)
+  getProductSelectionState,
+  getCatalogFetchErrors,
+  (productState, error) => {
+    if (
+      !SUPPORTED_PRODUCT_CLASSES.includes(productState.bearingProductClass) &&
+      !error
+    ) {
+      return false;
+    }
+
+    return true;
+  }
 );
 
 export const getBearingId = createSelector(
