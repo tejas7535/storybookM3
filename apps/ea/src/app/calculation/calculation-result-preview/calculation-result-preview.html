@@ -48,7 +48,7 @@
       <div
         class="result-data"
         *ngIf="overlayData$ | ngrxPush as overlayData"
-        class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 md:mx-0 overflow-x-auto max-w-full"
+        class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4"
       >
         <ng-container *ngFor="let item of overlayData">
           <div class="snap-center my-1 md:my-0 min-w-max">
