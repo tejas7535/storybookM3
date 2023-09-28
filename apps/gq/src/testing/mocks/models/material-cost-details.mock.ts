@@ -2,7 +2,7 @@ import { MaterialCostDetails } from '../../../app/shared/models/quotation-detail
 
 export const MATERIAL_COST_DETAILS_MOCK: MaterialCostDetails = {
   sqv: 123,
-  sqvDate: '2022-01-01',
+  sqvDate: '2022-01-01T00:00:00',
   gpc: 456,
-  gpcYear: 2022,
+  gpcDate: '2022-12-31T00:00:00',
 };

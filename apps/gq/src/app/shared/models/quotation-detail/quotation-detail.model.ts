@@ -33,7 +33,7 @@ export class QuotationDetail {
   lastCustomerPriceQuantity: number;
 
   gpc: number;
-  gpcYear: number;
+  gpcDate: string;
   sqv: number;
   sqvDate: string;
   rlt: number;

@@ -55,7 +55,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
 
   priceDiff: 17.65,
   gpc: 20,
-  gpcYear: 2022,
+  gpcDate: '2022-01-01T00:00:00',
   sqv: 30,
   sqvDate: '2022-03-01T00:00:00',
   rlt: 20,

@@ -29,6 +29,7 @@ export class MaterialCostDetailsEffects {
         this.materialService
           .getMaterialCostDetails(
             action.productionPlantId,
+            action.plantId,
             action.materialNumber15,
             currency
           )
@@ -56,11 +57,13 @@ export class MaterialCostDetailsEffects {
       map((quotationDetail: QuotationDetail) => {
         if (
           quotationDetail.material?.materialNumber15 &&
-          quotationDetail.productionPlant?.plantNumber !== undefined
+          quotationDetail.productionPlant?.plantNumber !== undefined &&
+          quotationDetail.plant?.plantNumber !== undefined
         ) {
           return loadMaterialCostDetails({
             materialNumber15: quotationDetail.material.materialNumber15,
             productionPlantId: quotationDetail.productionPlant.plantNumber,
+            plantId: quotationDetail.plant.plantNumber,
           });
         }
 

@@ -31,11 +31,14 @@ describe('Material Cost Details Selectors', () => {
     });
   });
   describe('getMaterialCostUpdateAvl', () => {
-    test('should return true if gpcYear differs', () => {
+    test('should return true if gpcDate differs', () => {
       expect(
         materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
           fakeState.materialCostDetails.materialCostDetails,
-          { gpcYear: 2023, sqvDate: '2022-01-01' } as QuotationDetail
+          {
+            gpcDate: '2023-01-01T00:00:00',
+            sqvDate: '2022-01-01T00:00:00',
+          } as QuotationDetail
         )
       ).toBeTruthy();
     });
@@ -43,16 +46,23 @@ describe('Material Cost Details Selectors', () => {
       expect(
         materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
           fakeState.materialCostDetails.materialCostDetails,
-          { gpcYear: 2022, sqvDate: '2022-01-05' } as QuotationDetail
+          {
+            gpcDate: '2022-12-31T00:00:00',
+            sqvDate: '2022-01-05T00:00:00',
+          } as QuotationDetail
         )
       ).toBeTruthy();
     });
 
-    test('should return false if sqvDate and gpcYear and gpc value match', () => {
+    test('should return false if sqvDate and gpcDate and gpc value match', () => {
       expect(
         materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
           fakeState.materialCostDetails.materialCostDetails,
-          { gpcYear: 2022, sqvDate: '2022-01-01', gpc: 456 } as QuotationDetail
+          {
+            gpcDate: '2022-12-31T00:00:00',
+            sqvDate: '2022-01-01T00:00:00',
+            gpc: 456,
+          } as QuotationDetail
         )
       ).toBeFalsy();
     });
@@ -61,7 +71,10 @@ describe('Material Cost Details Selectors', () => {
       expect(
         materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
           undefined,
-          { gpcYear: 2022, sqvDate: '2022-01-01' } as QuotationDetail
+          {
+            gpcDate: '2022-12-31T00:00:00',
+            sqvDate: '2022-01-01T00:00:00',
+          } as QuotationDetail
         )
       ).toBeFalsy();
     });
@@ -79,7 +92,11 @@ describe('Material Cost Details Selectors', () => {
       expect(
         materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
           fakeState.materialCostDetails.materialCostDetails,
-          { gpcYear: 2022, sqvDate: '2022-01-01', gpc: 432 } as QuotationDetail
+          {
+            gpcDate: '2022-12-31',
+            sqvDate: '2022-01-01',
+            gpc: 432,
+          } as QuotationDetail
         )
       ).toBeTruthy();
     });
