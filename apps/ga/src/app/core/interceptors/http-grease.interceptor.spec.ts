@@ -13,11 +13,9 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HttpGreaseInterceptor } from './http-grease.interceptor';
+import { environment } from '@ga/environments/environment';
 
-const environment = {
-  baseUrl: 'localhost:8000/api/v1',
-};
+import { HttpGreaseInterceptor } from './http-grease.interceptor';
 
 @Injectable()
 class ExampleService {
@@ -27,6 +25,10 @@ class ExampleService {
 
   public getPosts(): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/test`);
+  }
+
+  public getMessage(): Observable<string> {
+    return this.http.get<string>('someotherUrl/message');
   }
 }
 
@@ -64,6 +66,18 @@ describe(`HttpGreaseInterceptor`, () => {
   });
 
   describe('intercept', () => {
+    it('should not adjust header attributes', waitForAsync(() => {
+      translocoService.getActiveLang = jest.fn(() => 'en');
+      service.getMessage().subscribe((response: any) => {
+        expect(response).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne('someotherUrl/message');
+      expect(httpRequest.request.headers.get('x-bearinx-tenantid')).toBeNull();
+      expect(httpRequest.request.headers.get('x-bearinx-groupId')).toBeNull();
+      expect(httpRequest.request.headers.get('x-bearinx-language')).toBeNull();
+      expect(httpRequest.request.headers.get('x-bearinx-unitset')).toBeNull();
+    }));
+
     it('should adjust header attributes with default lang', waitForAsync(() => {
       translocoService.getActiveLang = jest.fn(() => 'not a language');
       service.getPosts().subscribe((response: any) => {

@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import { BannerModule } from '@schaeffler/banner';
 import {
   PERSON_RESPONSIBLE,
   PURPOSE,
@@ -46,6 +47,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     // ui modules
     AppShellModule,
     UserSettingsModule,
+    BannerModule,
   ],
   providers: [
     {

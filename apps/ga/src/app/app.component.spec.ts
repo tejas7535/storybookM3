@@ -9,6 +9,7 @@ import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { Store } from '@ngrx/store';
 import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -16,11 +17,13 @@ import {
   ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
+import { BannerModule } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { StorageMessagesActions } from './core/store';
 import { UserSettingsModule } from './shared/components/user-settings';
 import { EmbeddedGoogleAnalyticsService } from './shared/services';
 
@@ -32,6 +35,7 @@ describe('AppComponent', () => {
   let embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService;
   let metaService: Meta;
   let titleService: Title;
+  let store: Store;
   const eventSubject = new ReplaySubject<RouterEvent>(1);
   const routerMock = {
     navigate: jest.fn(),
@@ -48,6 +52,7 @@ describe('AppComponent', () => {
       MockModule(CoreModule),
       MockModule(AppShellModule),
       MockModule(UserSettingsModule),
+      MockModule(BannerModule),
       provideTranslocoTestingModule(
         { en: {} },
         { translocoConfig: { defaultLang: 'de' } }
@@ -83,6 +88,7 @@ describe('AppComponent', () => {
 
     metaService = spectator.inject(Meta);
     titleService = spectator.inject(Title);
+    store = spectator.inject(Store);
   });
 
   it('should create the app', () => {
@@ -107,6 +113,7 @@ describe('AppComponent', () => {
       translocoService.translate = jest.fn();
       metaService.updateTag = jest.fn();
       titleService.setTitle = jest.fn();
+      store.dispatch = jest.fn();
 
       component.ngOnInit();
 
@@ -120,6 +127,9 @@ describe('AppComponent', () => {
         expect(translocoService.translate).toHaveBeenCalledTimes(13);
         expect(metaService.updateTag).toHaveBeenCalledTimes(12);
         expect(titleService.setTitle).toHaveBeenCalledTimes(2);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          StorageMessagesActions.getStorageMessage()
+        );
 
         done();
       });

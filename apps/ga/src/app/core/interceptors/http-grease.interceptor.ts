@@ -24,6 +24,10 @@ export class HttpGreaseInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (!req.url.startsWith(environment.baseUrl)) {
+      return next.handle(req);
+    }
+
     let bearinxLanguage: string;
 
     switch (this.translocoService.getActiveLang()) {

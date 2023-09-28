@@ -3,6 +3,7 @@ export interface Environment {
   localDev: boolean;
   devToolsEnabled: boolean;
   baseUrl: string;
+  staticStorageUrl: string;
   tenantId: string;
   groupId: string;
   oneTrustId: string;

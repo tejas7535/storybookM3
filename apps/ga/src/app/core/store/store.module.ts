@@ -10,6 +10,7 @@ import { environment } from '@ga/environments/environment';
 
 import { BearingSelectionEffects } from './effects/bearing-selection/bearing-selection.effects';
 import { SettingsEffects } from './effects/settings/settings.effects';
+import { StorageMessagesEffects } from './effects/storage-messages/storage-messages.effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -31,7 +32,11 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
           maxAge: 50,
         })
       : /* istanbul ignore next: very difficult */ [],
-    EffectsModule.forRoot([BearingSelectionEffects, SettingsEffects]),
+    EffectsModule.forRoot([
+      BearingSelectionEffects,
+      SettingsEffects,
+      StorageMessagesEffects,
+    ]),
   ],
   exports: [],
 })

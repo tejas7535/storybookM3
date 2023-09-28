@@ -6,13 +6,14 @@ import { filter, startWith, Subject, takeUntil } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath } from '@schaeffler/legal-pages';
 
 import { getAppFooterLinks } from '@ga/core/helpers/app-config-helpers';
-import { SettingsFacade } from '@ga/core/store';
+import { SettingsFacade, StorageMessagesActions } from '@ga/core/store';
 
 import packageJson from '../../package.json';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly settingsFacade: SettingsFacade,
     private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly store: Store,
     @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
@@ -98,6 +100,8 @@ export class AppComponent implements OnInit, OnDestroy {
           );
         });
     }
+
+    this.store.dispatch(StorageMessagesActions.getStorageMessage());
   }
 
   public ngOnDestroy(): void {
