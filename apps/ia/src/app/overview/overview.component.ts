@@ -6,10 +6,14 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption, LineSeriesOption } from 'echarts';
 
-import { getSelectedDimension } from '../core/store/selectors/filter/filter.selector';
+import {
+  getBeautifiedFilterValues,
+  getSelectedDimension,
+} from '../core/store/selectors/filter/filter.selector';
 import { createFluctuationRateChartConfig } from '../shared/charts/line-chart/line-chart-utils';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
-import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
+import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, EmployeeWithAction } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,
@@ -77,7 +81,11 @@ export class OverviewComponent implements OnInit {
   externalExitEmployees$: Observable<EmployeeWithAction[]>;
   externalUnforcedExitEmployees$: Observable<EmployeeWithAction[]>;
 
-  employeeListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
+  leaversListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
+  newJoinersListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
+  unforcedLeaversListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
+  totalFluctuationListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
+  unforcedFluctuationListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
 
   attritionRateLoading$: Observable<boolean>;
   events$: Observable<Event[]>;
@@ -109,6 +117,8 @@ export class OverviewComponent implements OnInit {
   openApplicationsCount$: Observable<number>;
   openApplicationsCountLoading$: Observable<boolean>;
 
+  beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
+
   constructor(
     private readonly store: Store,
     private readonly translocoService: TranslocoService
@@ -121,14 +131,59 @@ export class OverviewComponent implements OnInit {
     this.loadOpenApplicationsData();
     this.loadAttritionRateData();
 
-    this.employeeListDialogMetaHeadings$ = this.translocoService
-      .selectTranslate('employeeListDialog.contentTitle', {}, 'overview')
+    this.totalFluctuationListDialogMetaHeadings$ = this.translocoService
+      .selectTranslate(
+        'employeeListDialog.title.totalFluctuation',
+        {},
+        'overview'
+      )
       .pipe(
         map(
-          (contentTitle: string) =>
-            new EmployeeListDialogMetaHeadings(undefined, contentTitle)
+          (title: string) =>
+            new EmployeeListDialogMetaHeadings(title, 'person_add_disabled')
         )
       );
+    this.unforcedFluctuationListDialogMetaHeadings$ = this.translocoService
+      .selectTranslate(
+        'employeeListDialog.title.unforcedFluctuation',
+        {},
+        'overview'
+      )
+      .pipe(
+        map(
+          (title: string) =>
+            new EmployeeListDialogMetaHeadings(title, 'person_add_disabled')
+        )
+      );
+    this.leaversListDialogMetaHeadings$ = this.translocoService
+      .selectTranslate('employeeListDialog.title.leavers', {}, 'overview')
+      .pipe(
+        map(
+          (title: string) =>
+            new EmployeeListDialogMetaHeadings(title, 'person_add_disabled')
+        )
+      );
+    this.unforcedLeaversListDialogMetaHeadings$ = this.translocoService
+      .selectTranslate(
+        'employeeListDialog.title.unforcedLeavers',
+        {},
+        'overview'
+      )
+      .pipe(
+        map(
+          (title: string) =>
+            new EmployeeListDialogMetaHeadings(title, 'person_add_disabled')
+        )
+      );
+    this.newJoinersListDialogMetaHeadings$ = this.translocoService
+      .selectTranslate('employeeListDialog.title.newJoiners', {}, 'overview')
+      .pipe(
+        map(
+          (title: string) =>
+            new EmployeeListDialogMetaHeadings(title, 'person_add')
+        )
+      );
+    this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
   }
 
   loadFluctuationData() {

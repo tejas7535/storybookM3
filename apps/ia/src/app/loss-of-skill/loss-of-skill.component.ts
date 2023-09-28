@@ -4,7 +4,13 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import {
+  getBeautifiedFilterValues,
+  getSelectedTimeRange,
+} from '../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../overview/models';
+import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
+import { IdValue } from '../shared/models';
 import { JobProfile, WorkforceResponse } from './models';
 import {
   loadLossOfSkillLeavers,
@@ -24,6 +30,8 @@ import {
   templateUrl: './loss-of-skill.component.html',
 })
 export class LossOfSkillComponent implements OnInit {
+  beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
+  timeRange$: Observable<IdValue>;
   lostJobProfilesLoading$: Observable<boolean>;
   lostJobProfilesData$: Observable<JobProfile[]>;
   lossOfSkillWorkforceData$: Observable<WorkforceResponse>;
@@ -34,6 +42,8 @@ export class LossOfSkillComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
+    this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
+    this.timeRange$ = this.store.select(getSelectedTimeRange);
     this.lostJobProfilesLoading$ = this.store.select(getJobProfilesLoading);
     this.lostJobProfilesData$ = this.store.select(getJobProfilesData);
     this.lossOfSkillWorkforceData$ = this.store.select(

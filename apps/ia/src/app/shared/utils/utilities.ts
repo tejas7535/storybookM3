@@ -1,4 +1,5 @@
 import { translate } from '@ngneat/transloco';
+import { ValueFormatterParams } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
 import { TimePeriod } from '../models';
@@ -77,3 +78,6 @@ export function getPercentageValueSigned(value: number): string {
     ? `${Number(getPercentageValue(value))}%`
     : undefined;
 }
+
+export const dateFormatter = (data: ValueFormatterParams) =>
+  data.value ? moment.utc(+data.value).format('D/MM/YYYY') : '';

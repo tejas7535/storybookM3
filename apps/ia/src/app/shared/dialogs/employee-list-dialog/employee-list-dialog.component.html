@@ -1,200 +1,59 @@
-<div mat-dialog-title class="!flex flex-row" *ngIf="data?.headings?.header">
-  <h6
-    class="!text-high-emphasis grow font-medium"
-    *transloco="let t; read: 'employeeListDialog'"
-  >
-    {{ data?.headings?.header }}
-  </h6>
-</div>
-<mat-dialog-content
-  class="!overflow-hidden"
-  *transloco="let t; read: 'employeeListDialog'"
->
-  <span
-    *ngIf="!data.enoughRightsToShowAllEmployees && !data.employeesLoading"
-    class="text-warning italic"
+<ng-container *transloco="let t; read: 'employeeListDialog'">
+  <div mat-dialog-title class="!flex flex-wrap" *ngIf="data?.headings?.header">
+    <div class="flex w-full">
+      <mat-icon class="text-medium-emphasis">{{
+        data?.headings.icon
+      }}</mat-icon>
+      <h5 class="mx-4 leading-6">
+        {{ data?.headings?.header }}
+      </h5>
+      <button mat-dialog-close class="ml-auto flex">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <ng-container
+      *ngrxLet="filters$ as filters"
+      [ngTemplateOutlet]="headings"
+      [ngTemplateOutletContext]="{
+        $implicit: data?.headings?.showDefaultFilters
+          ? filters
+          : data?.headings?.customFilters
+      }"
+    >
+    </ng-container>
+  </div>
+  <mat-dialog-content class="!overflow-hidden">
+    <ia-employee-list-table
+      [employees]="data.employees"
+      [type]="data.type"
+      [excludedColumns]="data.excludedColumns"
+    ></ia-employee-list-table>
+  </mat-dialog-content>
+  <mat-dialog-actions
+    *ngIf="!data.employeesLoading && !data.enoughRightsToShowAllEmployees"
+    class="text-warning !pt-0"
   >
     {{ t('enoughRightsToShowAllEmployees') }}
-  </span>
-  <h6
-    *ngIf="data?.headings?.contentTitle"
-    class="text-overline mb-2 ml-1 mr-0 mt-0 font-medium leading-3"
-  >
-    {{ data?.headings?.contentTitle }}
-  </h6>
-  <cdk-virtual-scroll-viewport
-    [itemSize]="data.listItemHeight"
-    [minBufferPx]="bufferPx"
-    [maxBufferPx]="bufferPx"
-    class="h-[450px] w-[590px]"
-  >
-    <mat-list *ngIf="!data.employeesLoading; else loading" class="!pt-0">
-      <ng-container
-        *cdkVirtualFor="
-          let employee of data.employees;
-          let last = last;
-          trackBy: trackByFn
-        "
-      >
-        <mat-list-item [ngStyle]="listItemStyle">
-          <img
-            matListAvatar
-            src="assets/images/dummy.png"
-            [alt]="employee.employeeName"
-          />
-          <div matLine class="!grid grid-cols-1 gap-2">
-            <div>{{ employee.employeeName }}</div>
-            <div class="flex">
-              <label
-                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
-                >{{ t('userId') }}:&nbsp;</label
-              >
-              <div class="text-high-emphasis text-[12px] leading-4">
-                {{ employee.userId }} ({{ employee.employeeKey }})
-              </div>
-            </div>
-            <div class="flex">
-              <label
-                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
-                >{{ t('orgUnit') }}:&nbsp;</label
-              >
-              <div class="text-high-emphasis text-[12px] leading-4">
-                {{ employee.orgUnit }}
-              </div>
-            </div>
-            <div class="flex">
-              <label
-                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
-                >{{ t('position') }}:&nbsp;</label
-              >
-              <div class="text-high-emphasis text-[12px] leading-4">
-                {{ employee.positionDescription }}
-              </div>
-            </div>
-            <div class="flex" *ngIf="employee.entryDate">
-              <label
-                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
-                >{{ t('entryDate') }}:&nbsp;</label
-              >
-              <div class="text-high-emphasis text-[12px] leading-4">
-                {{ employee.entryDate | date: 'dd/MM/yyyy' }}
-              </div>
-            </div>
-            <div class="flex" *ngIf="employee.exitDate">
-              <label
-                class="text-medium-emphasis h-4 text-[12px] uppercase leading-4"
-                >{{ t('exitDate') }}:&nbsp;</label
-              >
-              <div class="text-high-emphasis text-[12px] leading-4">
-                {{ employee.exitDate | date: 'dd/MM/yyyy' }}
-              </div>
-            </div>
-          </div>
-          <div class="!ml-auto !mr-0">
-            <mat-chip-listbox
-              *ngIf="
-                data.showFluctuationTypeOnTeamMemberDialog ||
-                employee.reasonForLeaving
-              "
-              class="mat-mdc-chip-set-stacked"
-            >
-              <mat-chip
-                *ngIf="
-                  employee.actionType === ACTION_TYPE.INTERNAL &&
-                  data.showFluctuationTypeOnTeamMemberDialog
-                "
-                disableRipple="true"
-                selectable="false"
-                class="!bg-lime text-caption !text-high-emphasis-dark-bg after:!bg-transparent !w-[250px] !ml-auto !mr-0"
-                [matTooltip]="t('fluctuationType.info')"
-                (click)="$event.stopPropagation()"
-              >
-                {{ t('fluctuationType.internal.label') }}
-              </mat-chip>
-              <mat-chip
-                *ngIf="
-                  employee.actionType === ACTION_TYPE.EXTERNAL &&
-                  data.showFluctuationTypeOnTeamMemberDialog
-                "
-                disableRipple="true"
-                selectable="false"
-                class="!bg-light-blue text-caption !text-high-emphasis-dark-bg after:!bg-transparent !w-[250px] !ml-auto !mr-0"
-                [matTooltip]="t('fluctuationType.info')"
-                (click)="$event.stopPropagation()"
-              >
-                {{ t('fluctuationType.external.label') }}
-              </mat-chip>
-              <mat-chip
-                *ngIf="employee.reasonForLeaving"
-                disableRipple="true"
-                selectable="false"
-                class="text-caption !text-high-emphasis-dark-bg !grid !h-auto !max-h-20 !grid-flow-col justify-center after:!bg-transparent !w-[250px] !ml-auto !mr-0"
-                [ngClass]="{
-                  '!bg-gray-blue':
-                    employee.reasonForLeaving === LEAVING_TYPE.FORCED,
-                  '!bg-sea-blue':
-                    employee.reasonForLeaving === LEAVING_TYPE.UNFORCED,
-                  '!bg-teal':
-                    employee.reasonForLeaving === LEAVING_TYPE.REMAINING
-                }"
-                [matTooltip]="t('reasonForLeaving')"
-                (click)="$event.stopPropagation()"
-              >
-                {{ employee.reasonForLeaving }}
-              </mat-chip>
-              <mat-chip
-                *ngIf="
-                  employee.previousDimensionValue || employee.nextDimensionValue
-                "
-                disableRipple="true"
-                selectable="false"
-                class="ia-mat-mdc-chip-path text-caption !text-high-emphasis-dark-bg !h-auto !w-[250px] !bg-[#8fb2ca] after:!bg-transparent !ml-auto !mr-0"
-                [matTooltip]="t('internalChangeTooltip')"
-                (click)="$event.stopPropagation()"
-              >
-                <span class="text-end">{{
-                  employee.previousDimensionValue
-                    ? employee.previousDimensionValue
-                    : employee.currentDimensionValue
-                }}</span>
-                <mat-icon>chevron_right</mat-icon>
-                <span class="text-start">{{
-                  employee.nextDimensionValue
-                    ? employee.nextDimensionValue
-                    : employee.currentDimensionValue
-                }}</span>
-              </mat-chip>
-            </mat-chip-listbox>
-          </div>
-        </mat-list-item>
-        <mat-divider *ngIf="!last"></mat-divider>
-      </ng-container>
-    </mat-list>
-    <ng-template #loading>
-      <schaeffler-loading-spinner
-        [relative]="true"
-        [diameter]="20"
-        [strokeWidth]="2"
-      ></schaeffler-loading-spinner>
-    </ng-template>
-  </cdk-virtual-scroll-viewport>
-</mat-dialog-content>
-<mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
-  <p
-    class="text-caption mr-auto"
-    [ngClass]="{
-      'text-low-emphasis': data.enoughRightsToShowAllEmployees,
-      'text-warning': !data.enoughRightsToShowAllEmployees
-    }"
-    *ngIf="!data.employeesLoading"
-  >
-    {{
-      t('total', {
-        total: data.employees?.length
-      })
-    }}
-  </p>
-  <button mat-button mat-dialog-close color="primary">
-    {{ t('close') | uppercase }}
-  </button>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-template #headings let-filters>
+  <div class="flex flex-row w-full ml-10 text-caption">
+    <span class="text-medium-emphasis">Dimension:&nbsp;</span>
+    <span class="text-high-emphasis">{{ filters.filterDimension }}</span>
+    <span class="ml-4 text-medium-emphasis"
+      >{{ filters.filterDimension }}:&nbsp;</span
+    >
+    <span class="text-high-emphasis">{{ filters.value }}</span>
+    <span class="ml-4 text-medium-emphasis">Timeframe:&nbsp;</span>
+    <span class="text-high-emphasis">{{ filters.timeRange }}</span>
+    <ng-container *ngIf="filters.manager">
+      <span class="ml-4 text-medium-emphasis">Manager:&nbsp;</span>
+      <span class="text-high-emphasis">{{ filters.manager }}</span>
+    </ng-container>
+    <ng-container *ngIf="filters.job">
+      <span class="ml-4 text-medium-emphasis">Job:&nbsp;</span>
+      <span class="text-high-emphasis">{{ filters.job }}</span>
+    </ng-container>
+  </div>
+</ng-template>

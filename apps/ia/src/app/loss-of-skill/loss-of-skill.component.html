@@ -6,6 +6,8 @@
     <h5 class="mb-5 font-bold">{{ t('lostJobProfiles.title') }}</h5>
     <ia-lost-job-profiles
       class="h-[390px]"
+      [filters]="beautifiedFilters$ | ngrxPush"
+      [timeRange]="timeRange$ | ngrxPush"
       [loading]="lostJobProfilesLoading$ | ngrxPush"
       [data]="lostJobProfilesData$ | ngrxPush"
       [workforceLoading]="lossOfSkillWorkforceLoading$ | ngrxPush"

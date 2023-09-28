@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { translate } from '@ngneat/transloco';
 import { EChartsOption } from 'echarts';
 import moment from 'moment';
 
@@ -14,10 +15,13 @@ import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
-import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import {
+  EmployeeListDialogMeta,
+  EmployeeListDialogMetaFilters,
+} from '../../shared/dialogs/employee-list-dialog/models';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
+import { EmployeeWithAction } from '../../shared/models';
 import { getTimeRangeFromDates } from '../../shared/utils/utilities';
 import { ExitEntryEmployeesResponse } from '../models';
 import { ChartSeries } from '../models/chart-series.model';
@@ -28,8 +32,13 @@ import { ChartSeries } from '../models/chart-series.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewChartComponent {
-  @Input() dataLoading: boolean;
   readonly SYMBOL_SIZE = 10;
+
+  employees: EmployeeWithAction[];
+
+  @Input() filters: { filterDimension: string; value: string };
+
+  @Input() dataLoading: boolean;
 
   private _data: {
     [seriesName: string]: {
@@ -51,7 +60,7 @@ export class OverviewChartComponent {
           name,
           data: data[name].attrition,
         }))
-      : [];
+      : undefined;
 
     this.options = {
       ...LINE_CHART_BASE_OPTIONS,
@@ -78,9 +87,6 @@ export class OverviewChartComponent {
         name: 'Number of Employees',
         nameLocation: 'middle',
         nameGap: 50,
-        nameTextStyle: {
-          fontFamily: 'Noto Sans',
-        },
         minInterval: 1,
       },
       series,
@@ -107,6 +113,10 @@ export class OverviewChartComponent {
   @Input() set attritionEmployeesLoading(attritionEmployeesLoading: boolean) {
     this._attritionEmployeesLoading = attritionEmployeesLoading;
     this.dialogData.employeesLoading = attritionEmployeesLoading;
+
+    this.dialogData.employees = attritionEmployeesLoading
+      ? undefined
+      : this.employees;
   }
 
   get attritionEmployeesLoading() {
@@ -119,11 +129,12 @@ export class OverviewChartComponent {
     attritionEmployeesData: ExitEntryEmployeesResponse
   ) {
     this._attritionEmployeesData = attritionEmployeesData;
-    if (this.attritionEmployeesData) {
-      this.dialogData.employees = attritionEmployeesData.employees;
-      this.dialogData.enoughRightsToShowAllEmployees =
-        !attritionEmployeesData.responseModified;
-    }
+    this.employees = attritionEmployeesData?.employees;
+    this.dialogData.employees = this.dialogData.employeesLoading
+      ? undefined
+      : attritionEmployeesData?.employees;
+    this.dialogData.enoughRightsToShowAllEmployees =
+      !attritionEmployeesData?.responseModified;
   }
 
   get attritionEmployeesData() {
@@ -134,11 +145,11 @@ export class OverviewChartComponent {
 
   dialogData = new EmployeeListDialogMeta(
     {} as EmployeeListDialogMetaHeadings,
-    [],
+    undefined,
     this.attritionEmployeesLoading,
     true,
-    EXTENDED_LIST_ITEM_HEIGHT,
-    false
+    'leavers',
+    ['reasonForLeaving']
   );
 
   options: EChartsOption;
@@ -164,9 +175,20 @@ export class OverviewChartComponent {
     const attrition = this.data[event.seriesName].attrition[event.dataIndex];
 
     if (attrition > 0) {
+      const timeframe = moment(
+        `${event.seriesName} ${event.name}`,
+        'YYYY MMM'
+      ).format('MMMM YYYY');
+
       this.dialogData.headings = new EmployeeListDialogMetaHeadings(
-        `${event.seriesName} - ${event.name}:`,
-        undefined
+        translate('overview.employeeListDialog.title.unforcedLeavers'),
+        'person_add_disabled',
+        false,
+        new EmployeeListDialogMetaFilters(
+          this.filters.filterDimension,
+          this.filters.value,
+          timeframe
+        )
       );
 
       this.dialog.open(EmployeeListDialogComponent, {

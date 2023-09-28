@@ -11,14 +11,17 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { OrgChart } from 'd3-org-chart';
+import moment from 'moment';
 
-import { BASIC_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { FilterDimension } from '../../shared/models';
+import {
+  EmployeeListDialogMeta,
+  EmployeeListDialogMetaFilters,
+} from '../../shared/dialogs/employee-list-dialog/models';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
+import { FilterDimension, IdValue } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartEmployee, OrgChartNode } from './models';
@@ -36,6 +39,8 @@ export class OrgChartComponent implements AfterViewInit {
   private _chartContainer: ElementRef;
   private _selectedNodeEmployees: OrgChartEmployee[];
   private _selectedNodeEmployeesLoading: boolean;
+
+  @Input() timeRange: IdValue;
 
   @Input() set orgChartData(orgChartData: OrgChartData) {
     const old = this._orgChartData;
@@ -109,8 +114,7 @@ export class OrgChartComponent implements AfterViewInit {
 
   constructor(
     private readonly orgChartService: OrgChartService,
-    private readonly dialog: MatDialog,
-    private readonly translocoService: TranslocoService
+    private readonly dialog: MatDialog
   ) {}
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
@@ -227,26 +231,42 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   createEmployeeListDialogMeta(): EmployeeListDialogMeta {
-    const title =
-      this.selectedDataNode.filterDimension === FilterDimension.ORG_UNIT
-        ? `${this.selectedDataNode.managerOfOrgUnit} (${this.selectedDataNode.dimension})`
-        : this.selectedDataNode.dimension;
+    const dimension = translate(
+      `filters.dimension.availableDimensions.${this.selectedDataNode.filterDimension}`
+    );
+    let value;
+    let manager;
+    if (this.selectedDataNode.filterDimension === FilterDimension.ORG_UNIT) {
+      value = `${this.selectedDataNode.dimensionLongName} (${this.selectedDataNode.dimension})`;
+      manager = this.selectedDataNode.managerOfOrgUnit;
+    } else {
+      value = this.selectedDataNode.dimension;
+    }
+    const timeframe = moment
+      .unix(+this.timeRange.id.split('|')[1])
+      .utc()
+      .format('MMMM YYYY');
+
+    const filters = new EmployeeListDialogMetaFilters(
+      dimension,
+      value,
+      timeframe,
+      manager
+    );
+    const headings = new EmployeeListDialogMetaHeadings(
+      translate('organizationalView.employeeListDialog.workforce'),
+      'people',
+      false,
+      filters
+    );
 
     return new EmployeeListDialogMeta(
-      new EmployeeListDialogMetaHeadings(
-        title,
-        this.translocoService.translate(
-          'employeeListDialog.contentTitle',
-          {},
-          'organizational-view'
-        )
-      ),
+      headings,
       this.selectedNodeEmployees,
       this.selectedNodeEmployeesLoading,
       this.selectedDataNode.directEmployees ===
         this.selectedNodeEmployees.length,
-      BASIC_LIST_ITEM_HEIGHT,
-      false
+      'workforce'
     );
   }
 

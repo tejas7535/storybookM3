@@ -12,6 +12,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared.module';
+import { EmployeeListTableModule } from '../../tables/employee-list-table/employee-list-table.module';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { EmployeeListDialogComponent } from './employee-list-dialog.component';
     SharedTranslocoModule,
     ScrollingModule,
     LoadingSpinnerModule,
+    EmployeeListTableModule,
   ],
   exports: [EmployeeListDialogComponent],
 })

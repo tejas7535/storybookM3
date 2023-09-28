@@ -1,0 +1,42 @@
+::ng-deep {
+  .mat-mdc-chip-action-label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+.chip-unforced {
+  background-color: rgb(206, 217, 227) !important;
+  ::ng-deep {
+    .mat-mdc-chip-action-label {
+      color: rgb(0, 36, 57) !important;
+    }
+  }
+}
+.chip-remaining {
+  background-color: rgb(232, 232, 232) !important;
+  ::ng-deep {
+    .mat-mdc-chip-action-label {
+      color: rgb(68, 68, 68) !important;
+    }
+  }
+}
+.chip-forced {
+  background-color: rgb(221, 230, 232) !important;
+  ::ng-deep {
+    .mat-mdc-chip-action-label {
+      color: rgb(21, 66, 72) !important;
+    }
+  }
+}
+.chip-internal {
+  background-color: rgb(231, 239, 230) !important;
+  ::ng-deep {
+    .mat-mdc-chip-action-label {
+      color: rgb(0, 59, 41) !important;
+    }
+  }
+}

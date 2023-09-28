@@ -47,9 +47,16 @@ button {
 
 .ag-theme-material {
   --ag-font-family: 'Noto sans';
+  --ag-font-size: 12px;
   .ag-column-panel {
     border-left: 1px solid ag-param(border-color);
     border-right: 1px solid ag-param(border-color);
+  }
+  .ag-status-bar {
+    padding: 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
   }
 }
 
@@ -77,15 +84,27 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   padding-top: 0;
 }
 
+.internal-tooltip .mdc-tooltip__surface {
+  max-width: unset !important;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  @apply py-2;
+  @apply px-4;
+}
+
 .mat-mdc-dialog-title {
   padding-top: 16px !important;
-  padding-bottom: 8px !important;
+  padding-bottom: 0 !important;
   padding-left: 16px !important;
   padding-right: 16px !important;
 }
 
 .mat-mdc-dialog-content {
-  padding: 8px 16px !important;
+  padding-top: 0 !important;
+  padding-bottom: 16px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
 }
 
 .mat-mdc-dialog-actions {
@@ -97,14 +116,6 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
 
 .mat-mdc-card {
   padding: 16px !important;
-}
-
-.mat-mdc-standard-chip {
-  --mdc-chip-label-text-color: #fff;
-}
-
-.mat-mdc-chip-action-label {
-  @apply flex items-center mx-auto;
 }
 
 // Custom Scrollbar

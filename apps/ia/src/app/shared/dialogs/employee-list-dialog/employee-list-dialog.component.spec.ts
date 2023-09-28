@@ -1,17 +1,13 @@
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { EmployeeWithAction } from '../../models';
+import { EmployeeListTableComponent } from '../../tables/employee-list-table/employee-list-table.component';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';
 
 describe('EmployeeListDialogComponent', () => {
@@ -20,18 +16,13 @@ describe('EmployeeListDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EmployeeListDialogComponent,
-    declarations: [EmployeeListDialogComponent],
-    imports: [
-      MatDialogModule,
-      MatButtonModule,
-      MatDividerModule,
-      MatListModule,
-      MatChipsModule,
-      MatTooltipModule,
-      provideTranslocoTestingModule({ en: {} }),
-      ScrollingModule,
+    declarations: [
+      EmployeeListDialogComponent,
+      MockComponent(EmployeeListTableComponent),
     ],
+    imports: [MatDialogModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
+      provideMockStore(),
       { provide: MAT_DIALOG_DATA, useValue: {} },
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
@@ -44,14 +35,5 @@ describe('EmployeeListDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const employee = { employeeId: '3' } as unknown as EmployeeWithAction;
-      const result = component.trackByFn(3, employee);
-
-      expect(result).toEqual(3);
-    });
   });
 });

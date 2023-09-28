@@ -10,12 +10,12 @@ import {
   EmployeeWithAction,
   FilterDimension,
   FilterKey,
+  LeavingType,
   TimePeriod,
 } from '../../../shared/models';
 import {
   FluctuationKpi,
   FluctuationRate,
-  LeavingType,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
 } from '../../models';

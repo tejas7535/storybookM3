@@ -3,6 +3,9 @@ import { EChartsOption } from 'echarts';
 import { Color } from '../../models/color.enum';
 
 export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
+  textStyle: {
+    fontFamily: 'Noto Sans',
+  },
   xAxis: {
     type: 'category',
     data: [],

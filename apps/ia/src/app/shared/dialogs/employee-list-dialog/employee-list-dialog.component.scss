@@ -1,27 +1,5 @@
 ::ng-deep {
-  .mat-list-text {
-    width: 100% !important;
-  }
-  .mat-mdc-chip-action-label {
-    padding: 8px !important;
-  }
-  .ia-mat-mdc-chip-path {
-    .mat-mdc-chip-action-label {
-      display: grid !important;
-      height: auto !important;
-      grid-auto-flow: column !important;
-      max-height: 5rem !important;
-      width: 250px !important;
-      white-space: initial !important;
-      justify-content: center !important;
-    }
-  }
-}
-
-::ng-deep {
-  .mat-mdc-list-item-unscoped-content {
-    display: flex !important;
-    align-items: center !important;
-    column-gap: 16px !important;
+  .mat-mdc-dialog-content {
+    max-height: initial;
   }
 }

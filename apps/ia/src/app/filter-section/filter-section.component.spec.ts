@@ -20,10 +20,10 @@ import {
   loadFilterDimensionData,
 } from '../core/store/actions';
 import {
+  getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
-  getSelectedFilterValues,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -203,8 +203,12 @@ describe('FilterSectionComponent', () => {
     test(
       'should set selectedFilterValues',
       marbles((m) => {
-        const result = ['Offenbach', '01.01.2019 - 01.03.2019'];
-        store.overrideSelector(getSelectedFilterValues, result);
+        const result = {
+          value: 'Offenbach',
+          timeRange: '01.01.2019 - 01.03.2019',
+          filterDimension: 'ORG UNIT',
+        };
+        store.overrideSelector(getBeautifiedFilterValues, result);
         component.ngOnInit();
 
         m.expect(component.selectedFilterValues$).toBeObservable(

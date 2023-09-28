@@ -1,5 +1,5 @@
-import { LeavingType } from '../../../overview/models';
 import { ActionType } from './action-type.enum';
+import { LeavingType } from './leaving-type.enum';
 
 export interface EmployeeWithAction {
   employeeName: string;

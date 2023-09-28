@@ -6,9 +6,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 import { EmployeeListDialogComponent } from '../dialogs/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../dialogs/employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogMeta } from '../dialogs/employee-list-dialog/models';
 import { EmployeeWithAction } from '../models';
 import { SharedModule } from '../shared.module';
 import { KpiComponent } from './kpi.component';
@@ -69,14 +69,13 @@ describe('KpiComponent', () => {
       expect(component['dialog'].open).toHaveBeenCalledWith(
         EmployeeListDialogComponent,
         {
-          data: {
-            headings: undefined,
-            employees: [employee],
-            employeeListType: undefined,
-            enoughRightsToShowAllEmployees: false,
-            showFluctuationTypeOnTeamMemberDialog: undefined,
-            listItemHeight: EXTENDED_LIST_ITEM_HEIGHT,
-          },
+          data: new EmployeeListDialogMeta(
+            undefined,
+            [employee],
+            undefined,
+            false,
+            undefined
+          ),
         }
       );
     });
@@ -137,13 +136,9 @@ describe('KpiComponent', () => {
 
       const result = component.createEmployeeListDialogMeta();
 
-      expect(result).toEqual({
-        headings: undefined,
-        employees,
-        employeesLoading: true,
-        enoughRightsToShowAllEmployees: false,
-        listItemHeight: EXTENDED_LIST_ITEM_HEIGHT,
-      });
+      expect(result).toEqual(
+        new EmployeeListDialogMeta(undefined, employees, true, false, undefined)
+      );
     });
   });
 

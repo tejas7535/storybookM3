@@ -1,6 +1,7 @@
 import { translate } from '@ngneat/transloco';
 import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
+import moment from 'moment';
 
 import {
   EmployeesRequest,
@@ -9,6 +10,7 @@ import {
   FilterKey,
   IdValue,
   SelectedFilter,
+  TimePeriod,
 } from '../../../../shared/models';
 import {
   RouterStateUrl,
@@ -216,16 +218,53 @@ export const getSelectedTimeRange = createSelector(
     filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
 );
 
-export const getSelectedFilterValues = createSelector(
+export const getBeautifiedFilterValues = createSelector(
   getAllSelectedFilters,
   getSelectedDimension,
-  (filters: SelectedFilter[], selectedDimension: FilterDimension) => [
-    ...filters
-      .filter(
-        (filter) =>
-          filter.name === FilterKey.TIME_RANGE ||
-          filter.name === selectedDimension
+  getSelectedTimePeriod,
+  (
+    filters: SelectedFilter[],
+    selectedDimension: string,
+    timePeriod: TimePeriod
+  ) => {
+    let timeframe: string;
+    const timeRange = moment
+      .unix(
+        +filters
+          .find((filter) => filter.name === FilterKey.TIME_RANGE)
+          ?.idValue.id.split('|')[1]
       )
-      .map((filter) => filter.idValue.value),
-  ]
+      .utc();
+    switch (timePeriod) {
+      case TimePeriod.LAST_12_MONTHS: {
+        timeframe = translate('filters.periodOfTime.last12Months');
+
+        break;
+      }
+      case TimePeriod.MONTH: {
+        timeframe = timeRange.format('MMMM YYYY');
+
+        break;
+      }
+      case TimePeriod.YEAR: {
+        timeframe = timeRange.format('YYYY');
+
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    return selectedDimension
+      ? {
+          timeRange: timeframe,
+          filterDimension: translate(
+            `filters.dimension.availableDimensions.${selectedDimension}`
+          ),
+          value: filters.find((filter) => filter.name === selectedDimension)
+            ?.idValue.value,
+        }
+      : undefined;
+  }
 );

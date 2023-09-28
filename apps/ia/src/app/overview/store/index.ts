@@ -281,6 +281,7 @@ export const overviewReducer = createReducer(
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
+        data: undefined,
         loading: true,
       },
     })
@@ -314,6 +315,7 @@ export const overviewReducer = createReducer(
       ...state,
       attritionOverTimeEmployees: {
         ...state.attritionOverTimeEmployees,
+        data: undefined,
         loading: true,
       },
     })
@@ -451,6 +453,7 @@ export const overviewReducer = createReducer(
       ...state,
       exitEmployees: {
         ...state.exitEmployees,
+        data: undefined,
         loading: true,
       },
     })
@@ -484,6 +487,7 @@ export const overviewReducer = createReducer(
       ...state,
       entryEmployees: {
         ...state.entryEmployees,
+        data: undefined,
         loading: true,
       },
     })
@@ -600,6 +604,7 @@ export const overviewReducer = createReducer(
       ...state,
       resignedEmployees: {
         ...state.resignedEmployees,
+        data: undefined,
         loading: true,
       },
     })

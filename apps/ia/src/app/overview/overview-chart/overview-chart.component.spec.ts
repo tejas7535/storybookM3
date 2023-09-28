@@ -11,10 +11,13 @@ import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
-import { EXTENDED_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.module';
-import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import {
+  EmployeeListDialogMeta,
+  EmployeeListDialogMetaFilters,
+} from '../../shared/dialogs/employee-list-dialog/models';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { Employee, EmployeeWithAction } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
@@ -81,9 +84,6 @@ describe('OverviewChartComponent', () => {
           name: 'Number of Employees',
           nameLocation: 'middle',
           nameGap: 50,
-          nameTextStyle: {
-            fontFamily: 'Noto Sans',
-          },
           minInterval: 1,
         },
         series: [
@@ -131,7 +131,9 @@ describe('OverviewChartComponent', () => {
 
     it('should open the dialog with correct data', () => {
       const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
-
+      const filterDimension = 'ORG UNIT';
+      const value = 'SH';
+      component.filters = { filterDimension, value };
       component['dialog'].open = jest.fn();
 
       component.data = data;
@@ -140,17 +142,23 @@ describe('OverviewChartComponent', () => {
       expect(component['dialog'].open).toHaveBeenCalledWith(
         EmployeeListDialogComponent,
         {
-          data: {
-            headings: new EmployeeListDialogMetaHeadings(
-              '2020 - Jan:',
-              undefined
+          data: new EmployeeListDialogMeta(
+            new EmployeeListDialogMetaHeadings(
+              'translate it',
+              'person_add_disabled',
+              false,
+              new EmployeeListDialogMetaFilters(
+                filterDimension,
+                value,
+                'January 2020'
+              )
             ),
-            employees: [],
-            enoughRightsToShowAllEmployees: true,
-            employeesLoading: component.attritionEmployeesData,
-            showFluctuationTypeOnTeamMemberDialog: false,
-            listItemHeight: EXTENDED_LIST_ITEM_HEIGHT,
-          },
+            undefined,
+            undefined,
+            true,
+            'leavers',
+            ['reasonForLeaving']
+          ),
         }
       );
     });

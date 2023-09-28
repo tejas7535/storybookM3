@@ -1,8 +1,15 @@
 <ng-container *transloco="let t; read: 'organizationalView.attritionDialog'">
   <ng-container *ngrxLet="meta$ as meta">
-    <h2 mat-dialog-title class="!text-high-emphasis">
-      {{ meta?.data?.title }}
-    </h2>
+    <div mat-dialog-title class="!flex flex-wrap" *ngIf="meta.data.title">
+      <div class="flex w-full">
+        <h5 class="leading-6">
+          {{ meta?.data?.title }}
+        </h5>
+        <button mat-dialog-close class="ml-auto flex">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
     <mat-dialog-content>
       <div class="flex h-full flex-col gap-4 lg:flex-row">
         <div class="flex">

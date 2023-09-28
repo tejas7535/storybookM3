@@ -12,13 +12,13 @@ import {
   AttritionOverTime,
   EmployeeWithAction,
   IdValue,
+  LeavingType,
 } from '../../../shared/models';
 import { getPercentageValueSigned } from '../../../shared/utils/utilities';
 import {
   FluctuationKpi,
   FluctuationRate,
   FluctuationRatesChartData,
-  LeavingType,
   OverviewWorkforceBalanceMeta,
 } from '../../models';
 import { OverviewState, selectOverviewState } from '..';

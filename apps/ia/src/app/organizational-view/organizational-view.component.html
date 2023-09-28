@@ -10,6 +10,7 @@
     <ia-org-chart
       *ngIf="selectedChart === chartType.ORG_CHART"
       [orgChartData]="orgChart$ | ngrxPush"
+      [timeRange]="selectedTimeRange$ | ngrxPush"
       [isLoading]="isLoadingOrgChart$ | ngrxPush"
       [selectedNodeEmployees]="orgChartEmployees$ | ngrxPush"
       [selectedNodeEmployeesLoading]="orgChartEmployeesLoading$ | ngrxPush"

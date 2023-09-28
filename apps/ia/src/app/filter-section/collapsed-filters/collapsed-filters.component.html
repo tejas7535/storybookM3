@@ -1,10 +1,13 @@
 <div *transloco="let t; read: 'filters'">
   <mat-chip-listbox
     [attr.aria-label]="t('globalFilters')"
-    *ngIf="filters?.length > 0; else noFilters"
+    *ngIf="filters; else noFilters"
   >
     <mat-chip
-      *ngFor="let filter of filters; trackBy: trackByFn"
+      *ngFor="
+        let filter of [filters.timeRange, filters.value];
+        trackBy: trackByFn
+      "
       selected
       disableRipple="true"
       selectable="false"

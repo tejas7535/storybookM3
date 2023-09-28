@@ -9,6 +9,7 @@
           >
             <div class="mb-4 pl-4">
               <ia-kpi
+                [type]="'leavers'"
                 [title]="(benchmarkFluctuationKpi$ | ngrxPush)?.name"
                 [value]="(benchmarkFluctuationKpi$ | ngrxPush)?.fluctuationRate"
                 [showTeamMemberDialog]="false"
@@ -17,12 +18,14 @@
             </div>
             <div class="mb-4 pl-4">
               <ia-kpi
+                [type]="'leavers'"
+                [showFluctuationType]="true"
                 [title]="(dimensionFluctuationKpi$ | ngrxPush)?.name"
                 [value]="(dimensionFluctuationKpi$ | ngrxPush)?.fluctuationRate"
                 [employees]="externalExitEmployees$ | ngrxPush"
                 [employeesLoading]="exitEmployeesLoading$ | ngrxPush"
                 [employeeListDialogMetaHeadings]="
-                  employeeListDialogMetaHeadings$ | ngrxPush
+                  totalFluctuationListDialogMetaHeadings$ | ngrxPush
                 "
                 [employeesCount]="
                   (dimensionFluctuationKpi$ | ngrxPush)?.realTotalLeaversCount
@@ -54,6 +57,7 @@
           >
             <div class="mb-4 pl-4">
               <ia-kpi
+                [type]="'leavers'"
                 [title]="(benchmarkFluctuationKpi$ | ngrxPush)?.name"
                 [value]="
                   (benchmarkFluctuationKpi$ | ngrxPush)?.unforcedFluctuationRate
@@ -64,6 +68,8 @@
             </div>
             <div class="mb-4 pl-4">
               <ia-kpi
+                [type]="'leavers'"
+                [showFluctuationType]="false"
                 [title]="(dimensionFluctuationKpi$ | ngrxPush)?.name"
                 [value]="
                   (dimensionFluctuationKpi$ | ngrxPush)?.unforcedFluctuationRate
@@ -71,7 +77,7 @@
                 [employees]="externalUnforcedExitEmployees$ | ngrxPush"
                 [employeesLoading]="exitEmployeesLoading$ | ngrxPush"
                 [employeeListDialogMetaHeadings]="
-                  employeeListDialogMetaHeadings$ | ngrxPush
+                  unforcedFluctuationListDialogMetaHeadings$ | ngrxPush
                 "
                 [employeesCount]="
                   (dimensionFluctuationKpi$ | ngrxPush)
@@ -108,8 +114,11 @@
           [exitEmployeesLoading]="exitEmployeesLoading$ | ngrxPush"
           [entryEmployees]="entryEmployees$ | ngrxPush"
           [entryEmployeesLoading]="entryEmployeesLoading$ | ngrxPush"
-          [employeeListDialogMetaHeadings]="
-            employeeListDialogMetaHeadings$ | ngrxPush
+          [leaversListDialogMetaHeadings]="
+            leaversListDialogMetaHeadings$ | ngrxPush
+          "
+          [newJoinersListDialogMetaHeadings]="
+            newJoinersListDialogMetaHeadings$ | ngrxPush
           "
           [totalEmployeesCount]="totalEmployeesCount$ | ngrxPush"
           [dimensionHint]="dimensionHint$ | ngrxPush"
@@ -154,6 +163,7 @@
       [data]="attritionData$ | ngrxPush"
       [attritionEmployeesData]="attritionEmployeesData$ | ngrxPush"
       [attritionEmployeesLoading]="attritionEmployeesLoading$ | ngrxPush"
+      [filters]="beautifiedFilters$ | ngrxPush"
       (leaversForTimeRangeRequested)="triggerAttritionOverTimeEmployees($event)"
     >
     </ia-overview-chart>

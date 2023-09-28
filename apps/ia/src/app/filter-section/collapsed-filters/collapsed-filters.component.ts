@@ -6,7 +6,18 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollapsedFiltersComponent {
-  @Input() filters: (string | number)[];
+  private _filters: {
+    timeRange: string;
+    value: string;
+  };
+
+  @Input() set filters(filters: { timeRange: string; value: string }) {
+    this._filters = filters;
+  }
+
+  get filters() {
+    return this._filters;
+  }
 
   trackByFn(index: number): number {
     return index;

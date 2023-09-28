@@ -16,6 +16,7 @@ import {
   timeRangeSelected,
 } from '../core/store/actions';
 import {
+  getBeautifiedFilterValues,
   getBenchmarkDimension,
   getBenchmarkDimensionDataLoading,
   getBenchmarkDimensionFilter,
@@ -24,7 +25,6 @@ import {
   getSelectedDimensionDataLoading,
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
-  getSelectedFilterValues,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -59,7 +59,10 @@ export class FilterSectionComponent implements OnInit {
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<IdValue>;
-  selectedFilterValues$: Observable<string[]>;
+  selectedFilterValues$: Observable<{
+    timeRange: string;
+    value: string;
+  }>;
   dimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
   benchmarkDimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
 
@@ -99,7 +102,7 @@ export class FilterSectionComponent implements OnInit {
     );
     this.benchmarkDimensionIdValue$ = this.store.select(getBenchmarkIdValue);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
-    this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
+    this.selectedFilterValues$ = this.store.select(getBeautifiedFilterValues);
     this.dimensionFilterTranslation$ =
       this.translocoService.selectTranslateObject('filters.dimension');
     this.benchmarkDimensionFilterTranslation$ =

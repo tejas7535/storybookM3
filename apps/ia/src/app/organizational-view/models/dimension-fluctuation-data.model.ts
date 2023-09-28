@@ -5,6 +5,7 @@ export interface DimensionFluctuationData {
   id: string;
   parentId: string;
   dimension: string;
+  dimensionLongName: string;
   dimensionKey: string;
   filterDimension: FilterDimension;
   managerOfOrgUnit: string;

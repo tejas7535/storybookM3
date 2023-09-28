@@ -49,6 +49,12 @@
     "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
   },
   "employeeListDialog": {
-    "contentTitle": "Staff"
+    "title": {
+      "leavers": "Leavers",
+      "unforcedLeavers": "Unforced Leavers",
+      "newJoiners": "New Joiners",
+      "totalFluctuation": "Total Fluctuation",
+      "unforcedFluctuation": "Unforced Fluctuation"
+    }
   }
 }

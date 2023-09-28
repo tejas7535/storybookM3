@@ -12,12 +12,14 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
-import { BASIC_LIST_ITEM_HEIGHT } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.module';
-import { EmployeeListDialogMeta } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { FilterDimension } from '../../shared/models';
+import {
+  EmployeeListDialogMeta,
+  EmployeeListDialogMetaFilters,
+} from '../../shared/dialogs/employee-list-dialog/models';
+import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
+import { FilterDimension, IdValue, TimePeriod } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartTranslation } from './models';
@@ -170,11 +172,11 @@ describe('OrgChartComponent', () => {
       const data: EmployeeListDialogMeta = {
         headings: {
           header: 'Hans (Schaeffler_IT)',
-          contentTitle: 'organizationalView.employeeListDialog.contentTitle',
+          icon: 'organizationalView.employeeListDialog.contentTitle',
         } as EmployeeListDialogMetaHeadings,
+        type: 'leavers',
         employees: [] as any[],
         employeesLoading: false,
-        listItemHeight: 140,
         enoughRightsToShowAllEmployees: true,
       };
 
@@ -312,28 +314,85 @@ describe('OrgChartComponent', () => {
   });
 
   describe('createEmployeeListDialogMeta', () => {
-    test('should return dialog data', () => {
+    test('should return dialog data for org unit', () => {
       const employees = [{} as any];
+      const manager = 'Karl Ziegler';
+      const dimension = 'HR';
+      const dimensionLongName = 'Human Resources';
       component.selectedNodeEmployees = employees;
       component.selectedNodeEmployeesLoading = true;
       component.selectedDataNode = {
+        filterDimension: FilterDimension.ORG_UNIT,
         directEmployees: 10,
-        dimension: FilterDimension.BOARD,
+        dimension,
+        dimensionLongName,
+        managerOfOrgUnit: manager,
       } as DimensionFluctuationData;
+      component.timeRange = new IdValue(
+        '1561990400|1593526399',
+        TimePeriod.LAST_12_MONTHS
+      );
+      const customFilteres = new EmployeeListDialogMetaFilters(
+        'translate it',
+        `${dimensionLongName} (${dimension})`,
+        'June 2020',
+        manager
+      );
 
       const result = component.createEmployeeListDialogMeta();
 
-      expect(result).toEqual({
-        headings: {
-          contentTitle: 'organizationalView.employeeListDialog.contentTitle',
-          header: FilterDimension.BOARD,
-        },
-        employees,
-        employeesLoading: true,
-        enoughRightsToShowAllEmployees: false,
-        listItemHeight: BASIC_LIST_ITEM_HEIGHT,
-        showFluctuationTypeOnTeamMemberDialog: false,
-      });
+      expect(result).toEqual(
+        new EmployeeListDialogMeta(
+          new EmployeeListDialogMetaHeadings(
+            'translate it',
+            'people',
+            false,
+            customFilteres
+          ),
+          employees,
+          true,
+          false,
+          'workforce'
+        )
+      );
+    });
+
+    test('should return dialog data for board', () => {
+      const employees = [{} as any];
+      const dimension = 'Automotive';
+      component.selectedNodeEmployees = employees;
+      component.selectedNodeEmployeesLoading = true;
+      component.selectedDataNode = {
+        filterDimension: FilterDimension.BOARD,
+        directEmployees: 10,
+        dimension,
+      } as DimensionFluctuationData;
+      component.timeRange = new IdValue(
+        '1561990400|1593526399',
+        TimePeriod.LAST_12_MONTHS
+      );
+      const customFilteres = new EmployeeListDialogMetaFilters(
+        'translate it',
+        dimension,
+        'June 2020'
+      );
+
+      const result = component.createEmployeeListDialogMeta();
+
+      expect(result).toEqual(
+        new EmployeeListDialogMeta(
+          new EmployeeListDialogMetaHeadings(
+            'translate it',
+            'people',
+            false,
+            customFilteres
+          ),
+          employees,
+          true,
+          false,
+          'workforce'
+        )
+      );
     });
   });
 

@@ -1,0 +1,16 @@
+<mat-chip
+  *ngIf="type"
+  class="text-caption leading-[8px] uppercase !text-high-emphasis-dark-bg after:!bg-transparent"
+  [ngClass]="chipClass"
+  selectable="false"
+  disableRipple="true"
+>
+  <span>{{ translatedType }}</span>
+  <mat-icon
+    *ngIf="type === 'INTERNAL'"
+    [matTooltip]="fromMessage + '&emsp;' + toMessage"
+    matTooltipClass="internal-tooltip"
+    class="!h-3.5 !w-3.5 !text-[14px] !leading-[14px] ml-1 cursor-pointer"
+    >info_outline</mat-icon
+  >
+</mat-chip>

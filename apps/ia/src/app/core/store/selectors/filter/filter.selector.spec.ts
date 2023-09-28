@@ -8,6 +8,7 @@ import {
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
+  getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
   getCurrentFilters,
   getCurrentRoute,
@@ -18,7 +19,6 @@ import {
   getSelectedDimensionIdValue,
   getSelectedDimensionValueShort,
   getSelectedFilters,
-  getSelectedFilterValues,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -75,6 +75,7 @@ describe('Filter Selector', () => {
       },
       selectedDimension: FilterDimension.ORG_UNIT,
       selectedBenchmark: FilterDimension.ORG_UNIT,
+      selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
     },
     router: {
       state: {
@@ -207,10 +208,14 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getSelectedFilterValues', () => {
+  describe('getBeautifiedFilterValues', () => {
     test('should return selected filter values', () => {
-      const expectedResult = ['Schaeffler_IT_1', '1/1/2020 - 12/31/2020'];
-      expect(getSelectedFilterValues(fakeState)).toEqual(expectedResult);
+      const expectedResult = {
+        timeRange: 'translate it',
+        value: 'Schaeffler_IT_1',
+        filterDimension: 'translate it',
+      };
+      expect(getBeautifiedFilterValues(fakeState)).toEqual(expectedResult);
     });
   });
 });

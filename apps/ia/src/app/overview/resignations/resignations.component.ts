@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-community';
-import moment from 'moment';
 
+import { dateFormatter } from '../../shared/utils/utilities';
 import { ResignedEmployee } from '../models';
 
 @Component({
@@ -34,8 +34,7 @@ export class ResignationsComponent {
       headerName: translate('overview.resignationsReceived.table.date'),
       filter: 'agDateColumnFilter',
       sort: 'desc',
-      valueFormatter: (data) =>
-        data.value ? moment.utc(+data.value).format('D/MM/YYYY') : '',
+      valueFormatter: dateFormatter,
     },
     {
       field: 'employeeName',

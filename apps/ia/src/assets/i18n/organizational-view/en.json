@@ -45,6 +45,7 @@
     "insufficientRights": "Fluctuation and Resignation Details are not displayed due to insufficient rights for the respective personnel areas."
   },
   "employeeListDialog": {
-    "contentTitle": "Staff"
+    "workforce": "Workforce",
+    "manager": "Manager {{manager}}"
   }
 }

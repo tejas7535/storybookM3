@@ -7,10 +7,9 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { EXTENDED_LIST_ITEM_HEIGHT } from '../constants';
 import { EmployeeListDialogComponent } from '../dialogs/employee-list-dialog/employee-list-dialog.component';
-import { EmployeeListDialogMeta } from '../dialogs/employee-list-dialog/employee-list-dialog-meta.model';
-import { EmployeeListDialogMetaHeadings } from '../dialogs/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMeta } from '../dialogs/employee-list-dialog/models';
+import { EmployeeListDialogMetaHeadings } from '../dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { EmployeeWithAction } from '../models';
 
 @Component({
@@ -28,10 +27,11 @@ export class KpiComponent {
   employeeLoadingDisabled = true;
   tooltip = '';
 
+  @Input() type: 'workforce' | 'leavers' | 'newJoiners';
   @Input() title: string;
   @Input() value: string | number;
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
-  @Input() showFluctuationType: boolean;
+  @Input() showFluctuationType = true;
   @Input() showTeamMemberDialog = true;
   @Input() showTooltip = false;
   @Input() isLoading: boolean;
@@ -85,13 +85,18 @@ export class KpiComponent {
   }
 
   createEmployeeListDialogMeta(): EmployeeListDialogMeta {
+    let excludedColumns;
+    if (!this.showFluctuationType) {
+      excludedColumns = ['reasonForLeaving'];
+    }
+
     return new EmployeeListDialogMeta(
       this.employeeListDialogMetaHeadings,
       this.employees,
       this.employeesLoading,
       this.employeesCount === this.employees?.length,
-      EXTENDED_LIST_ITEM_HEIGHT,
-      this.showFluctuationType
+      this.type,
+      excludedColumns
     );
   }
 

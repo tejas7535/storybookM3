@@ -2,7 +2,6 @@ export * from './chart-series.model';
 export * from './fluctuation-kpi.model';
 export * from './fluctuation-rate.model';
 export * from './fluctuation-rates-chart-data.model';
-export * from './leaving-type.enum';
 export * from './open-application.model';
 export * from './overview-exit-entry-employees-response.model';
 export * from './overview-workforce-balance-meta.model';

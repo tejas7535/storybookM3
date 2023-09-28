@@ -58,22 +58,22 @@
   "employeeListDialog": {
     "close": "Close",
     "total": "Total: {{total}}",
-    "orgUnit": "Organizational Unit",
-    "position": "Position",
-    "userId": "User Id",
+    "orgUnit": "Org Unit",
+    "positionDescription": "Job",
+    "name": "Name",
+    "userId": "User ID",
+    "employeeKey": "Employee Key",
     "entryDate": "Entry Date",
     "exitDate": "Exit Date",
+    "reasonForLeaving": "Fluctuation Type",
     "fluctuationType": {
-      "info": "Fluctuation type",
-      "internal": {
-        "label": "Internal"
-      },
-      "external": {
-        "label": "External"
-      }
+      "UNFORCED": "unforced",
+      "FORCED": "forced",
+      "REMAINING": "remaining",
+      "INTERNAL": "internal"
     },
-    "internalChangeTooltip": "Changed from > to",
-    "reasonForLeaving": "Reason for leaving",
+    "from": "From",
+    "to": "To",
     "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
   },
   "legal": {

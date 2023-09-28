@@ -96,6 +96,7 @@ export const lossOfSkillReducer = createReducer(
       ...state,
       workforce: {
         ...state.workforce,
+        data: undefined,
         loading: true,
       },
     })
