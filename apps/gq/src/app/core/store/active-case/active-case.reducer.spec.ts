@@ -823,5 +823,16 @@ describe('Active Case Reducer', () => {
       expect(state.attachmentsGetting).toEqual(false);
     });
   });
+
+  describe('download attachment', () => {
+    test('should set attachmentErrorMessage on downloadAttachmentFailure', () => {
+      const action = ActiveCaseActions.downloadAttachmentFailure({
+        errorMessage,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachmentErrorMessage).toEqual(errorMessage);
+    });
+  });
 });
 // eslint-disable-next-line max-lines

@@ -23,6 +23,7 @@
     <div class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis">
       <span
         class="text-high-emphasis text-body-2 hover:text-link hover:underline hover:cursor-pointer"
+        (click)="downloadFile(attachment)"
       >
         {{ attachment.fileName }}
       </span>

@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { ApiVersion } from '@gq/shared/models';
+import { ApiVersion, QuotationAttachment } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { QuotationPaths } from '../quotation/models/quotation-paths.enum';
@@ -54,6 +54,33 @@ describe('Service: Attachments', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush([]);
+    });
+  });
+
+  describe('downloadAttachment', () => {
+    test('should call downloadAttachment', () => {
+      const attachment: QuotationAttachment = {
+        gqId: 4600,
+        sapId: '456',
+        folderName: 'folder',
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+        fileName: 'test.jpg',
+      };
+
+      service.downloadAttachment(attachment).subscribe((result) => {
+        expect(result instanceof Blob).toBeTruthy();
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${attachment.gqId}/${QuotationPaths.PATH_ATTACHMENTS}/${QuotationPaths.PATH_ATTACHMENT_DOWNLOAD}?filename=${attachment.fileName}`
+      );
+
+      const blob = new Blob(['file content'], {
+        type: 'application/octet-stream',
+      });
+      expect(req.request.method).toBe('GET');
+      req.flush(blob);
     });
   });
 });

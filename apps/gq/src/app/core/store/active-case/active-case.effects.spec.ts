@@ -1388,5 +1388,79 @@ describe('ActiveCaseEffects', () => {
     });
   });
 
+  describe('downloadAttachment', () => {
+    test(
+      'should return downloadAttachmentSuccess when REST call is successful',
+      marbles((m) => {
+        const attachment: QuotationAttachment = {
+          gqId: 123,
+          sapId: '456',
+          folderName: 'folder',
+          uploadedAt: '2020-01-01',
+          uploadedBy: 'user',
+          fileName: 'test.jpg',
+        };
+        action = ActiveCaseActions.downloadAttachment({ attachment }); // Trigger the effect
+
+        global.URL.createObjectURL = jest.fn();
+
+        const expectedAction = ActiveCaseActions.downloadAttachmentSuccess({
+          fileName: 'test.jpg',
+        });
+
+        const downloadAttachmentMock = jest.spyOn(
+          attachmentService,
+          'downloadAttachment'
+        );
+        downloadAttachmentMock.mockReturnValue(
+          of(
+            new Blob(['file content'], {
+              type: 'application/octet-stream',
+            })
+          )
+        );
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = effects.downloadAttachment$;
+
+        m.expect(result).toBeObservable('-c', { c: expectedAction });
+      })
+    );
+
+    test(
+      'should dispatch downloadAttachmentFailure when REST call fails',
+      marbles((m) => {
+        const attachment: QuotationAttachment = {
+          gqId: 123,
+          sapId: '456',
+          folderName: 'folder',
+          uploadedAt: '2020-01-01',
+          uploadedBy: 'user',
+          fileName: 'test.jpg',
+        };
+        action = ActiveCaseActions.downloadAttachment({ attachment });
+
+        global.URL.createObjectURL = jest.fn();
+
+        const expectedAction = ActiveCaseActions.downloadAttachmentFailure({
+          errorMessage,
+        });
+
+        const downloadAttachmentMock = jest.spyOn(
+          attachmentService,
+          'downloadAttachment'
+        );
+        downloadAttachmentMock.mockReturnValue(throwError(errorMessage));
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = effects.downloadAttachment$;
+
+        m.expect(result).toBeObservable('-c', { c: expectedAction });
+      })
+    );
+  });
+
   // eslint-disable-next-line max-lines
 });

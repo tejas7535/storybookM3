@@ -30,6 +30,7 @@ import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
+import { saveAs } from 'file-saver';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { ApprovalActions } from '../approval/approval.actions';
@@ -576,6 +577,27 @@ export class ActiveCaseEffects {
               of(ActiveCaseActions.getAllAttachmentsFailure({ errorMessage }))
             )
           )
+      )
+    );
+  });
+
+  downloadAttachment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.downloadAttachment),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      mergeMap(([action]) =>
+        this.attachmentsService.downloadAttachment(action.attachment).pipe(
+          map((attachmentBlob: Blob) => {
+            saveAs(attachmentBlob, action.attachment.fileName);
+
+            return ActiveCaseActions.downloadAttachmentSuccess({
+              fileName: action.attachment.fileName,
+            });
+          }),
+          catchError((errorMessage) =>
+            of(ActiveCaseActions.downloadAttachmentFailure({ errorMessage }))
+          )
+        )
       )
     );
   });

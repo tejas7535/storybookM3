@@ -2,9 +2,11 @@
   "name": "gq",
   "version": "4.0.2",
   "dependencies": {
-    "jest-when": "3.5.2"
+    "jest-when": "3.5.2",
+    "file-saver": "2.0.5"
   },
   "devDependencies": {
-    "@types/jest-when": "3.5.2"
+    "@types/jest-when": "3.5.2",
+    "@types/file-saver": "2.0.5"
   }
 }

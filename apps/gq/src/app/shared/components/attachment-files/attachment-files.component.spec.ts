@@ -65,4 +65,25 @@ describe('AttachmentFilesComponent', () => {
       expect(result).toEqual(3);
     });
   });
+
+  describe('download attachment', () => {
+    test('should be called downloadFile', () => {
+      const attachment: QuotationAttachment = {
+        gqId: 123,
+        sapId: '456',
+        folderName: 'folder',
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+        fileName: 'test.jpg',
+      };
+
+      component.activeCaseFacade.downloadAttachment = jest.fn();
+
+      component.downloadFile(attachment);
+
+      expect(
+        component.activeCaseFacade.downloadAttachment
+      ).toHaveBeenCalledWith(attachment);
+    });
+  });
 });

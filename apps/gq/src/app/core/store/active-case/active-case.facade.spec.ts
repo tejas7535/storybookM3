@@ -212,4 +212,23 @@ describe('ActiveCaseFacade', () => {
       expect(spy).toHaveBeenCalledWith(action);
     });
   });
+
+  describe('downloadAttachment', () => {
+    test('should dispatch download attachment', () => {
+      const attachment: QuotationAttachment = {
+        gqId: 123,
+        sapId: '456',
+        folderName: 'folder',
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+        fileName: 'test.jpg',
+      };
+      const action = ActiveCaseActions.downloadAttachment({ attachment });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.downloadAttachment(attachment);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
 });

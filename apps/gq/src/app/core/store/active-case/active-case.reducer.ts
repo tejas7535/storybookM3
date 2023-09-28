@@ -39,6 +39,7 @@ export interface ActiveCaseState {
   attachmentsUploading: boolean;
   attachmentsGetting: boolean;
   attachments: QuotationAttachment[];
+  attachmentErrorMessage: string;
 }
 
 export const initialState: ActiveCaseState = {
@@ -59,6 +60,7 @@ export const initialState: ActiveCaseState = {
   updateCostsLoading: false,
   attachmentsUploading: false,
   attachmentsGetting: false,
+  attachmentErrorMessage: undefined,
   attachments: [],
 };
 
@@ -507,6 +509,13 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState): ActiveCaseState => ({
         ...state,
         attachmentsGetting: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.downloadAttachmentFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        attachmentErrorMessage: errorMessage,
       })
     )
   ),

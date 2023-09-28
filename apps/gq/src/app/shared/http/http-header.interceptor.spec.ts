@@ -39,6 +39,13 @@ class ExampleService {
       {}
     );
   }
+
+  public getAttachments(): Observable<string> {
+    return this.http.get<string>(
+      `${this.apiUrl}/quotations/12345/attachments/download`,
+      {}
+    );
+  }
 }
 
 describe(`HttpHeaderInterceptor`, () => {
@@ -83,6 +90,23 @@ describe(`HttpHeaderInterceptor`, () => {
         `${environment.baseUrl}/quotations/12345/attachments`
       );
       expect(httpRequest.request.method).toEqual('POST');
+
+      expect(
+        httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+      expect(
+        httpRequest.request.headers.keys().includes('content-type')
+      ).toBeFalsy();
+    });
+    test('should not add header-content to quotations/{gqId}/attachments/download when get', () => {
+      translocoService.getActiveLang = jest.fn(() => 'en');
+      service.getAttachments().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/quotations/12345/attachments/download`
+      );
+      expect(httpRequest.request.method).toEqual('GET');
 
       expect(
         httpRequest.request.headers.keys().includes('language')

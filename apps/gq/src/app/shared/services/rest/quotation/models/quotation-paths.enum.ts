@@ -8,4 +8,5 @@ export enum QuotationPaths {
   PATH_CURRENCIES = 'currencies',
   PATH_SAP_QUOTATION = 'quotation/create-sap-quotation',
   PATH_ATTACHMENTS = 'attachments',
+  PATH_ATTACHMENT_DOWNLOAD = 'download',
 }

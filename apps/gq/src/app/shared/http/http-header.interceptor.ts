@@ -33,7 +33,14 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
       request.url?.endsWith(`${QuotationPaths.PATH_ATTACHMENTS}`) &&
       request.method === 'POST';
 
-    if (isAttachmentUpload) {
+    const isDownloadAttachment =
+      request.url?.startsWith(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
+      ) &&
+      request.url?.endsWith(`${QuotationPaths.PATH_ATTACHMENT_DOWNLOAD}`) &&
+      request.method === 'GET';
+
+    if (isAttachmentUpload || isDownloadAttachment) {
       return next.handle(request);
     }
 

@@ -129,5 +129,8 @@ export const ActiveCaseActions = createActionGroup({
       attachments: QuotationAttachment[];
     }>(),
     'Get All Attachments Failure': props<{ errorMessage: string }>(),
+    'Download Attachment': props<{ attachment: QuotationAttachment }>(),
+    'Download Attachment Success': props<{ fileName: string }>(),
+    'Download Attachment Failure': props<{ errorMessage: string }>(),
   },
 });

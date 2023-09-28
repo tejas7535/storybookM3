@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -37,5 +37,23 @@ export class AttachmentsService {
     return this.http.get<QuotationAttachment[]>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_ATTACHMENTS}`
     );
+  }
+
+  public downloadAttachment(attachment: QuotationAttachment): Observable<Blob> {
+    const params = new HttpParams().set('filename', attachment.fileName);
+
+    const headers = new HttpHeaders({
+      responseType: 'blob',
+      Accept: '*/*',
+      observe: 'response',
+    });
+
+    const url = `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${attachment.gqId}/${QuotationPaths.PATH_ATTACHMENTS}/${QuotationPaths.PATH_ATTACHMENT_DOWNLOAD}`;
+
+    return this.http.get(url, {
+      params,
+      headers,
+      responseType: 'blob',
+    });
   }
 }

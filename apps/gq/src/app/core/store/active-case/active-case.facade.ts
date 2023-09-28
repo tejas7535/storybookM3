@@ -74,4 +74,8 @@ export class ActiveCaseFacade {
   getAllAttachments(): void {
     this.store.dispatch(ActiveCaseActions.getAllAttachments());
   }
+
+  downloadAttachment(attachment: QuotationAttachment): void {
+    this.store.dispatch(ActiveCaseActions.downloadAttachment({ attachment }));
+  }
 }

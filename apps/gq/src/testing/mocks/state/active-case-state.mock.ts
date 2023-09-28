@@ -20,4 +20,5 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   attachmentsUploading: false,
   attachmentsGetting: false,
   attachments: [],
+  attachmentErrorMessage: undefined,
 };
