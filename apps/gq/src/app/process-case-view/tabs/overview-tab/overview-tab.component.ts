@@ -151,7 +151,11 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
           },
           deviation: {
             value:
-              approvalInformation.priceDeviation ?? gqPricing.deviation.value,
+              // TODO: adjust as soon as SAP sends null for not existing priceDeviation, by now they send 0 instead of null
+              approvalInformation.priceDeviation &&
+              approvalInformation.priceDeviation > 0
+                ? approvalInformation.priceDeviation
+                : gqPricing.deviation.value,
             warning:
               gqPricing.deviation.value && !approvalInformation.priceDeviation,
           },
