@@ -21,12 +21,10 @@ describe('Material Cost Details Reducer', () => {
 
       const materialNumber15 = '123456789012345';
       const productionPlantId = '0251';
-      const plantId = '1234';
 
       const action = loadMaterialCostDetails({
         materialNumber15,
         productionPlantId,
-        plantId,
       });
 
       const state = materialCostDetailsReducer(fakeState, action);
@@ -88,7 +86,6 @@ describe('Material Cost Details Reducer', () => {
       const action: Action = loadMaterialCostDetails({
         materialNumber15: '1',
         productionPlantId: '2',
-        plantId: '3',
       });
       expect(reducer(MATERIAL_COST_DETAILS_STATE_MOCK, action)).toEqual(
         materialCostDetailsReducer(MATERIAL_COST_DETAILS_STATE_MOCK, action)

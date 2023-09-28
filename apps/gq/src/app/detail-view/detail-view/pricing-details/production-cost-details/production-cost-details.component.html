@@ -28,9 +28,13 @@
         <span label> {{ t('gpc') }}</span>
         <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
         <ng-container *ngIf="quotationDetail.gpc" text>
-          <ng-container *ngIf="quotationDetail.gpcDate; else gqCreatedDate">
+          <ng-container *ngIf="quotationDetail.gpcYear; else gqCreatedDate">
             <span>
-              {{ ' (' + (quotationDetail.gpcDate | translocoDate) + ')' }}
+              {{
+                ' (' +
+                  (quotationDetail.gpcYear | yearToDate | translocoDate) +
+                  ')'
+              }}
             </span>
           </ng-container>
         </ng-container>

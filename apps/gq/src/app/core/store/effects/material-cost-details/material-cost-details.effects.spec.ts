@@ -53,12 +53,7 @@ describe('MaterialCostDetails', () => {
   describe('loadMaterialCostDetails$', () => {
     const materialNumber15 = '123456789012345';
     const productionPlantId = '0215';
-    const plantId = '1234';
-    action = loadMaterialCostDetails({
-      materialNumber15,
-      productionPlantId,
-      plantId,
-    });
+    action = loadMaterialCostDetails({ materialNumber15, productionPlantId });
 
     const materialCostDetails = MATERIAL_COST_DETAILS_MOCK;
 
@@ -83,7 +78,6 @@ describe('MaterialCostDetails', () => {
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledTimes(1);
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledWith(
           productionPlantId,
-          plantId,
           materialNumber15,
           'EUR'
         );
@@ -108,7 +102,6 @@ describe('MaterialCostDetails', () => {
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledTimes(1);
         expect(materialService.getMaterialCostDetails).toHaveBeenCalledWith(
           productionPlantId,
-          plantId,
           materialNumber15,
           'EUR'
         );
@@ -131,7 +124,6 @@ describe('MaterialCostDetails', () => {
         const result = loadMaterialCostDetails({
           materialNumber15: QUOTATION_DETAIL_MOCK.material.materialNumber15,
           productionPlantId: QUOTATION_DETAIL_MOCK.productionPlant.plantNumber,
-          plantId: QUOTATION_DETAIL_MOCK.plant.plantNumber,
         });
 
         const expected = m.cold('-b', { b: result });
@@ -174,7 +166,6 @@ describe('MaterialCostDetails', () => {
         const result = loadMaterialCostDetails({
           materialNumber15: QUOTATION_DETAIL_MOCK.material.materialNumber15,
           productionPlantId: QUOTATION_DETAIL_MOCK.productionPlant.plantNumber,
-          plantId: QUOTATION_DETAIL_MOCK.plant.plantNumber,
         });
 
         const expected = m.cold('-b', { b: result });

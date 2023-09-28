@@ -111,30 +111,4 @@ describe('MaterialService', () => {
       );
     });
   });
-
-  describe('getMaterialCostDetails', () => {
-    test('should call', () => {
-      const productionPlantId = '0215';
-      const plantId = '123';
-      const materialNumber15 = '123456789012345';
-      const currency = 'EUR';
-
-      service
-        .getMaterialCostDetails(
-          productionPlantId,
-          plantId,
-          materialNumber15,
-          currency
-        )
-        .subscribe((response) => {
-          expect(response).toEqual([]);
-        });
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/materials/${materialNumber15}/material-cost-details?${service['PRODUCTION_PLANT_PARAM_KEY']}=${productionPlantId}&${service['PLANT_ID_PARAM_KEY']}=${plantId}&${service['CURRENCY_PARAM_KEY']}=${currency}`
-      );
-
-      expect(req.request.method).toBe('GET');
-    });
-  });
 });

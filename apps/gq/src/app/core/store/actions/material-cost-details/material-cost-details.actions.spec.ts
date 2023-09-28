@@ -9,17 +9,14 @@ describe('Material Cost Details Actions', () => {
   test('loadMaterialCostDetails', () => {
     const materialNumber15 = '000025437000011';
     const productionPlantId = '0200';
-    const plantId = '1234';
     const action = loadMaterialCostDetails({
       materialNumber15,
       productionPlantId,
-      plantId,
     });
 
     expect(action).toEqual({
       materialNumber15,
       productionPlantId,
-      plantId,
       type: '[Material Cost Details] Get Material Cost Details by Production Plant and Material Number',
     });
   });

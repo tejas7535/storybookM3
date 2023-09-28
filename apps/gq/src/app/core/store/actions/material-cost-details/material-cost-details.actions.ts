@@ -3,11 +3,7 @@ import { createAction, props, union } from '@ngrx/store';
 
 export const loadMaterialCostDetails = createAction(
   '[Material Cost Details] Get Material Cost Details by Production Plant and Material Number',
-  props<{
-    productionPlantId: string;
-    plantId: string;
-    materialNumber15: string;
-  }>()
+  props<{ productionPlantId: string; materialNumber15: string }>()
 );
 export const loadMaterialCostDetailsSuccess = createAction(
   '[Material Cost Details] Get Material Cost Details by Production Plant and Material Number Success',

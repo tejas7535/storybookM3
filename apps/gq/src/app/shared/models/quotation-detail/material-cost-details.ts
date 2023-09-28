@@ -1,6 +1,6 @@
 export interface MaterialCostDetails {
   gpc: number;
-  gpcDate: string;
+  gpcYear: number;
   sqv: number;
   sqvDate: string;
 }

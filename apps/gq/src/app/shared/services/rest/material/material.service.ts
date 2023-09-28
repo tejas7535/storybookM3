@@ -19,7 +19,6 @@ export class MaterialService {
   private readonly PATH_VALIDATION = 'materials/validation';
   private readonly PATH_MATERIAL_STOCK = 'materials/material-stock-status';
   private readonly PRODUCTION_PLANT_PARAM_KEY = 'production_plant_id';
-  private readonly PLANT_ID_PARAM_KEY = 'plant_id';
   private readonly CURRENCY_PARAM_KEY = 'currency';
   private readonly MATERIAL_NUMBER_PARAM_KEY = 'material_number_15';
 
@@ -64,13 +63,11 @@ export class MaterialService {
 
   public getMaterialCostDetails(
     productionPlantId: string,
-    plantId: string,
     materialNumber15: string,
     currency: string
   ): Observable<any> {
     const params = new HttpParams()
       .set(this.PRODUCTION_PLANT_PARAM_KEY, productionPlantId)
-      .append(this.PLANT_ID_PARAM_KEY, plantId)
       .append(this.CURRENCY_PARAM_KEY, currency);
 
     return this.http.get(
