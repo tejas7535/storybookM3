@@ -29,7 +29,11 @@ import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { SettingsFacade } from './core/store';
-import { ProductSelectionActions, SettingsActions } from './core/store/actions';
+import {
+  ProductSelectionActions,
+  SettingsActions,
+  StorageMessagesActions,
+} from './core/store/actions';
 import { setResultPreviewSticky } from './core/store/actions/settings/settings.actions';
 import {
   getBearingId,
@@ -166,6 +170,7 @@ export class AppComponent implements OnChanges, OnInit, OnDestroy {
       : FALLBACK_LANGUAGE.id;
 
     this.translocoService.setActiveLang(currentLanguage);
+    this.store.dispatch(StorageMessagesActions.getStorageMessage());
   }
 
   ngOnDestroy() {

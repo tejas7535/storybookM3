@@ -12,6 +12,7 @@ import {
   CO2UpstreamCalculationResultEffects,
 } from './effects';
 import { ProductSelectionEffects } from './effects/product-selection';
+import { StorageMessagesEffects } from './effects/storage-messages/storage-messages.effects';
 import { metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { metaReducers, reducers } from './reducers';
       CalculationParametersEffects,
       CO2UpstreamCalculationResultEffects,
       CatalogCalculationResultEffects,
+      StorageMessagesEffects,
     ]),
     environment.devToolsEnabled
       ? StoreDevtoolsModule.instrument({

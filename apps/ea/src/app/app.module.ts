@@ -9,6 +9,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import { BannerModule } from '@schaeffler/banner';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   PERSON_RESPONSIBLE,
@@ -69,6 +70,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
 
     // UI Modules
     AppShellModule,
+    BannerModule,
   ],
   providers: [
     { provide: OverlayContainer, useClass: AppOverlayContainer },

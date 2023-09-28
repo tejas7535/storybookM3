@@ -10,6 +10,8 @@
         (onContentScroll)="containerScrollEvent$.next($event)"
       >
         <ng-container mainContent>
+          <schaeffler-banner></schaeffler-banner>
+          <div class="border-t border-border"></div>
           <router-outlet></router-outlet>
         </ng-container>
       </schaeffler-app-shell>
@@ -37,6 +39,7 @@
 
 <ng-template #appInner>
   <!-- The max-w class forces the app to not overflow in medias. Paddings are taken from Medias. -->
+  <schaeffler-banner></schaeffler-banner>
   <div
     class="flex h-full w-full flex-1 flex-col items-center relative"
     *transloco="let t"
