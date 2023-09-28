@@ -1,4 +1,19 @@
 # Release Notes of Guided Quoting
+## [4.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.1...gq-v4.0.2) (2023-09-28)
+
+
+### Features
+
+* **gq:** Add Pricing Assitant Button to Details Page (GQUOTE-2982) ([#5640](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5640)) ([92ac66b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/92ac66bd736c59f3d694aab6763371cc02551268))
+* **gq:** change gpcYear to gpcDate (GQUOTE-3096) ([#5631](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5631)) ([56d225c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/56d225c163cbda042f308cbf3735bdd866d03c5c))
+* **gq:** update tooltip messages for SAP Buttons (GQUOTE-2982) ([#5649](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5649)) ([33ed630](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/33ed6301e5c319ee8612be7841b1c59081868ecf))
+* **gq:** use gq value for deviation when SAP sends 0 (GQUOTE-3173-fix) ([#5668](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5668)) ([0badc50](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0badc5049674c0796f2bc38e05c19135f4331383))
+
+
+### Reverts
+
+* Revert "feat(gq): change gpcYear to gpcDate (GQUOTE-3096) (#5631)" (#5667) ([70acc10](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/70acc10eede3fcb8834f45c9cb42b508b83194f5)), closes [#5631](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5631) [#5667](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5667)
+
 ## [4.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.0...gq-v4.0.1) (2023-09-26)
 
 
