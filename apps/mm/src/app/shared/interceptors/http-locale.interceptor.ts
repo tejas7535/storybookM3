@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { environment } from '@mm/environments/environment';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { locales, MMLocales } from '../../core/services/locale/locale.enum';
@@ -20,6 +21,10 @@ export class HttpLocaleInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (!req.url.startsWith(environment.baseUrl)) {
+      return next.handle(req);
+    }
+
     const modifiedReq = req.clone({
       headers: req.headers.set('Locale', this.getCurrentLongLocale()),
     });

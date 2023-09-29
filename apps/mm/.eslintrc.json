@@ -27,6 +27,20 @@
             "prefix": "mm",
             "style": "kebab-case"
           }
+        ],
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ],
+            "enforceBuildableLibDependency": true,
+            "allowCircularSelfDependency": true
+          }
         ]
       }
     },

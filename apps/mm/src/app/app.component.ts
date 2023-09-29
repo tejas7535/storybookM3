@@ -10,11 +10,13 @@ import {
   TranslocoEvents,
   TranslocoService,
 } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
+import { StorageMessagesActions } from './core/store/actions';
 
 @Component({
   selector: 'mm-root',
@@ -46,7 +48,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly router: Router,
     private readonly meta: Meta,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly store: Store
   ) {
     this.meta.addTags(this.metaTags);
   }
@@ -79,6 +82,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
+
+    this.store.dispatch(StorageMessagesActions.getStorageMessage());
   }
 
   public ngOnDestroy() {

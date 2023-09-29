@@ -14,6 +14,7 @@ import {
   ApplicationInsightsModule,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
+import { BannerModule } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -33,6 +34,7 @@ describe('AppComponent', () => {
       NoopAnimationsModule,
       MockModule(AppShellModule),
       MockModule(LanguageSelectModule),
+      MockModule(BannerModule),
       RouterTestingModule,
       PushModule,
       provideTranslocoTestingModule({ en: {} }),

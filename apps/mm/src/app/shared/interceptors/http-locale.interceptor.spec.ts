@@ -8,15 +8,12 @@ import { waitForAsync } from '@angular/core/testing';
 
 import { Observable } from 'rxjs';
 
+import { environment } from '@mm/environments/environment';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { HttpLocaleInterceptor } from './http-locale.interceptor';
-
-const environment = {
-  baseUrl: 'localhost:8000/api/v1',
-};
 
 @Injectable()
 class ExampleService {
@@ -26,6 +23,10 @@ class ExampleService {
 
   public getPosts(): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/test`);
+  }
+
+  public getMessage(): Observable<string> {
+    return this.http.get<string>('someOtherUrl/message');
   }
 }
 
@@ -77,6 +78,15 @@ describe(`HttpLocaleInterceptor`, () => {
   });
 
   describe('intercept', () => {
+    it('should not adjust header attributes for non based URLs', waitForAsync(() => {
+      service.getMessage().subscribe((response: any) => {
+        expect(response).toBeTruthy();
+      });
+
+      const httpRequest = httpMock.expectOne('someOtherUrl/message');
+      expect(httpRequest.request.headers.get('Locale')).toBeNull();
+    }));
+
     it('should change locale header attribute', waitForAsync(() => {
       service.getPosts().subscribe((response: any) => {
         expect(response).toBeTruthy();

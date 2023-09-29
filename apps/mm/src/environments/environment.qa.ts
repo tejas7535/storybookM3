@@ -5,6 +5,7 @@ export const environment: Environment = {
   localDev: false,
   devToolsEnabled: true,
   baseUrl: 'https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1',
+  staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   reportSelector: '.content',
   oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6',
   preflightPath: 'bearing-preflight',
