@@ -189,6 +189,7 @@
         "materialGroup": "Warengruppe",
         "materialGroupDescription": "Warengruppenbezeichnung",
         "itemCategory": "ITEM Kategorie",
+        "materialType": "Materialart",
         "partType": "Teileart",
         "partNumber": "Bauteilnummer",
         "pointVersion": "Punktvariante",

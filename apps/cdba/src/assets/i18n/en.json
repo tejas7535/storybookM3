@@ -189,6 +189,7 @@
         "materialGroup": "Material Group",
         "materialGroupDescription": "Material Group Description",
         "itemCategory": "ITEM Category",
+        "materialType": "Material Type",
         "partType": "Part type",
         "partNumber": "Part number",
         "pointVersion": "Point version",

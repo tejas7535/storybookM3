@@ -658,6 +658,11 @@ export class ColumnDefinitionService {
           headerName: translate('shared.bom.headers.itemCategory'),
           hide: true,
         },
+        {
+          field: 'materialCharacteristics.type',
+          headerName: translate('shared.bom.headers.materialType'),
+          hide: true,
+        },
       ],
     },
     {
