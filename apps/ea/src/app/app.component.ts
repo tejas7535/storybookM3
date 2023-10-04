@@ -1,5 +1,7 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnDestroy,
@@ -49,7 +51,9 @@ import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnChanges, OnInit, OnDestroy {
+export class AppComponent
+  implements OnChanges, OnInit, OnDestroy, AfterViewInit
+{
   @Input() bearingDesignation: string | undefined;
   @Input() standalone: string | undefined;
   @Input() language: string | undefined;
@@ -118,8 +122,14 @@ export class AppComponent implements OnChanges, OnInit, OnDestroy {
     private readonly settingsFacade: SettingsFacade,
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
-    private readonly sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer,
+    private readonly elementRef: ElementRef
   ) {}
+
+  ngAfterViewInit(): void {
+    const fakeScrollEvent = { target: this.elementRef.nativeElement } as Event;
+    this.containerScrollEvent$.next(fakeScrollEvent);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.bearingDesignation) {
