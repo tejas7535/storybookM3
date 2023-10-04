@@ -90,7 +90,14 @@ export class CatalogCalculationResultEffects {
                 this.calculationParametersFacade.getCalculationTypes$, // fetching an up-to-date state
               ]),
               switchMap(([calculationResult, currentCalculationTypes]) => {
-                this.trackingService.logCalculation(originalCalculationTypes);
+                if (calculationResult.calculationError) {
+                  this.trackingService.logCalculation(
+                    originalCalculationTypes,
+                    calculationResult.calculationError.error
+                  );
+                } else {
+                  this.trackingService.logCalculation(originalCalculationTypes);
+                }
 
                 // special case: sometimes bearings have no friction data available. In this case we need to disable the calculation option
                 const isFrictionAvailable =

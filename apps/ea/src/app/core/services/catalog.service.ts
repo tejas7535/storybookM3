@@ -178,6 +178,8 @@ export class CatalogService {
       },
     ];
 
+    let calculationError: string;
+
     return this.httpClient
       .post<CatalogServiceCalculationResult>(
         `${this.baseUrl}/product/calculate/${bearingId}`,
@@ -188,18 +190,18 @@ export class CatalogService {
       )
       .pipe(
         map((result) => {
-          // check for errors
           if (result.data?.errors?.length > 0) {
-            throw new Error(
+            calculationError =
               result.data.message?.replace('\n', ' ')?.trim() ||
-                'Unable to calculate'
-            );
+              'Unable to calculate';
           }
 
           return result;
         }),
         switchMap((result) => this.getCalculationResultReport(result)),
-        map((result) => convertCatalogCalculationResult(result))
+        map((result) =>
+          convertCatalogCalculationResult(result, calculationError)
+        )
       );
   }
 

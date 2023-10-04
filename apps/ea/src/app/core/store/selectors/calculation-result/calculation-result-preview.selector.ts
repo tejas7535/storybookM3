@@ -59,7 +59,7 @@ export const catalogCalculation = createSelector(
   (result, isLoading, error): ResultStateWithValue => ({
     value: result?.lh10?.value,
     unit: result?.lh10?.unit,
-    calculationError: error,
+    calculationError: error || result?.calculationError?.error,
     isLoading,
   })
 );
@@ -89,7 +89,7 @@ export const lubricationParameter = createSelector(
   (result, isLoading, error): ResultStateWithValue => ({
     value: result?.viscosityRatio?.value,
     unit: result?.viscosityRatio?.unit,
-    calculationError: error,
+    calculationError: error || result?.calculationError?.error,
     isLoading,
   })
 );
@@ -200,4 +200,10 @@ export const isCalculationResultReportAvailable = createSelector(
     anyLoading
   ): boolean =>
     !anyLoading && selectedCalculations.some((data) => data.resultAvailable)
+);
+
+export const isCalculationImpossible = createSelector(
+  catalogCalculationResult,
+
+  (result): boolean => result?.calculationError?.error !== undefined
 );

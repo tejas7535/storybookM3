@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   CatalogCalculationResult,
   ProductSelectionTemplate,
@@ -17,9 +18,12 @@ import {
 } from './catalog.service.interface';
 
 export const convertCatalogCalculationResult = (
-  originalResult: BearinxOnlineResult
+  originalResult: BearinxOnlineResult,
+  calcualtionError: string
 ): CatalogCalculationResult => {
   const result: CatalogCalculationResult = {};
+
+  extractCalculationError(calcualtionError, result);
 
   extractBearingBehaviour(originalResult, result);
 
@@ -35,6 +39,19 @@ export const convertCatalogCalculationResult = (
 
   return result;
 };
+
+function extractCalculationError(
+  calcualtionError: string | undefined,
+  result: CatalogCalculationResult
+): void {
+  if (!calcualtionError) {
+    return;
+  }
+
+  result.calculationError = {
+    error: calcualtionError,
+  };
+}
 
 function extractBearingBehaviour(
   originalResult: BearinxOnlineResult,

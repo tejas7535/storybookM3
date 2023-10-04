@@ -80,6 +80,10 @@ export interface CatalogCalculationResult {
     messages: ReportMessage[];
   };
 
+  calculationError?: {
+    error: string;
+  };
+
   speedDependentFrictionalTorque?: {
     // M0 (Speed-dependent frictional torque)
     value: number;

@@ -7,7 +7,10 @@ describe('Catalog Helper', () => {
   describe('convertCatalogCalculationResult', () => {
     it('Should convert a valid result', () => {
       expect(
-        convertCatalogCalculationResult(API_RESULT_MOCK as BearinxOnlineResult)
+        convertCatalogCalculationResult(
+          API_RESULT_MOCK as BearinxOnlineResult,
+          undefined
+        )
       ).toMatchSnapshot();
     });
 
@@ -23,8 +26,15 @@ describe('Catalog Helper', () => {
       };
 
       expect(
-        convertCatalogCalculationResult(resultMock as BearinxOnlineResult)
-      ).toEqual({});
+        convertCatalogCalculationResult(
+          resultMock as BearinxOnlineResult,
+          'calculation is not possible error msg'
+        )
+      ).toEqual({
+        calculationError: {
+          error: 'calculation is not possible error msg',
+        },
+      });
     });
   });
 });

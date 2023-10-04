@@ -139,6 +139,55 @@ describe('Catalog Calculation Result Effects', () => {
         m.expect(effects.fetchCalculationResult$).toBeObservable(expected);
         m.flush();
 
+        expect(trackingServiceMock.logCalculation).toHaveBeenCalledWith(
+          CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+        );
+        expect(fetchSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should log calculation error from result', () => {
+      const fetchSpy = jest
+        .spyOn(catalogServiceMock, 'getCalculationResult')
+        .mockImplementation(() =>
+          of({
+            calculationError: {
+              error: 'some calculation error',
+            },
+          })
+        );
+
+      return marbles((m) => {
+        action = CatalogCalculationResultActions.fetchCalculationResult();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bc)', {
+          b: CatalogCalculationResultActions.setCalculationResult({
+            calculationResult: {
+              calculationError: {
+                error: 'some calculation error',
+              },
+            } as any,
+          }),
+          c: CalculationTypesActions.setCalculationTypes({
+            calculationTypes: {
+              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+              frictionalPowerloss: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .frictionalPowerloss,
+                disabled: true,
+              },
+            },
+          }),
+        });
+
+        m.expect(effects.fetchCalculationResult$).toBeObservable(expected);
+        m.flush();
+
+        expect(trackingServiceMock.logCalculation).toHaveBeenCalledWith(
+          CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+          'some calculation error'
+        );
         expect(fetchSpy).toHaveBeenCalled();
       })();
     });

@@ -6,8 +6,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { of } from 'rxjs';
-
 import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { CalculationParametersFacade, SettingsFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
@@ -44,7 +42,8 @@ export class CalculationResultPreviewComponent {
     this.calculationResultFacade.isCalculationResultReportAvailable$;
   public isAnyServiceLoading$ =
     this.calculationParametersFacade.isAnyServiceLoading$;
-  public isCalculationImpossible$ = of(false);
+  public isCalculationImpossible$ =
+    this.calculationResultFacade.isCalculationImpossible$;
   public isCalculationMissingInput$ =
     this.calculationParametersFacade.isCalculationMissingInput$;
 
