@@ -35,9 +35,9 @@
     "rotatingCondition": {
       "title": "Bewegungseinflüsse",
       "typeOfMotion": "Art der Bewegung",
-      "relativeRotationalSpeed": "Rotationsgeschwindigkeit",
-      "shiftFrequency": "Hubfrequenz",
-      "shiftAngle": "Hubwinkel",
+      "relativeRotationalSpeed": "Drehzahl",
+      "shiftFrequency": "Schwenkwinkel",
+      "shiftAngle": "Schwenkfrequenz",
       "onePerMinute": "1/min",
       "degree": "°",
       "rpm": "U/min",
@@ -46,7 +46,7 @@
         "LB_OSCILLATING": "Oszillierend"
       },
       "tooltip": {
-        "rotationSpeed": "Relative Rotationsgeschwindigkeit zwischen dem Innen- und dem Außenring (als absoluter Wert anzugeben)",
+        "rotationSpeed": "relative Drehzahl zwischen Innen- und Außenring (als absoluter Wert anzugeben)",
         "shiftFrequency": "Anzahl der Oszillationsbewegungen pro Minute (volle Zyklus, Hin- und Rückbewegungen)",
         "shiftAngle": "Winkel zwischen den Wendepunkten bei Oszillationsbewegungen"
       }
@@ -58,13 +58,13 @@
         "grease": "Fett",
         "oilBath": "Ölbad-Schmierung",
         "oilMist": "Ölnebelschmierung",
-        "recirculatingOil": "Umlauföl-Schmierung"
+        "recirculatingOil": "Öl-Umlaufschmierung"
       },
       "grease": {
         "typeOfGrease": {
-          "label": "Art des Schmiermittels",
-          "description": "Wählen Sie die verwendete Art des Schmiermittels für Ihre Lagerberechnung aus.",
-          "tooltip": "Das Schmiermittel hat einen erheblichen Einfluss, da es Faktoren wie Reibung, Wärmeerzeugung, Verschleiß und allgemeine Lagerleistung beeinflusst."
+          "label": "Fettsorte",
+          "description": "Wählen Sie die verwendete Fettsorte für Ihre Lagerberechnung aus.",
+          "tooltip": "Die Fettsorte hat einen erheblichen Einfluss, da sie Faktoren wie Reibung, Wärmeerzeugung, Verschleiß und die Gesamtleistung des Lagers beeinflusst."
         },
         "isoVgClass": {
           "label": "ISO VG Klasse",
@@ -107,7 +107,7 @@
       "ambientTemperature": {
         "label": "Umgebungstemperatur",
         "unit": "°C",
-        "tooltip": "Temperatur der umgebenden Umgebung der Maschine"
+        "tooltip": "Temperatur der Umgebungskonstruktion"
       }
     },
     "externalHeatflow": {
@@ -130,16 +130,16 @@
     "calculationMissingInput": "Bitte fügen Sie die verbleibenden Bedingungen hinzu."
   },
   "calculationResult": {
-    "ratingLife": "Bemessungslebensdauer",
-    "ratingLifeSubtitle": "Gesamtbemessungslebensdauer (Lh10)",
+    "ratingLife": "Lebensdauer",
+    "ratingLifeSubtitle": "nominelle Lebensdauer (Lh10)",
     "lubrication": "Schmierparameter",
     "lubricationSubtitle": "Viskositätsverhältnis (kappa)",
     "emissions": "CO₂e-Emissionen",
     "emissionsTooltip": "Ein CO₂-Äquivalent (CO₂e) ist eine Einheit zur Standardisierung der Klimawirkungen verschiedener Treibhausgase. So können Emissionen verschiedener Treibhausgasgemische verglichen werden.",
-    "overrollingFrequency": "Überrollfrequenz",
+    "overrollingFrequency": "Überrollfrequenzen bei Betriebsdrehzahl",
     "overrollingFrequencySubtitle": "Frequenz am Innenring (BPFI)",
     "frictionalPowerloss": "Reibungsverlustleistung",
-    "frictionalPowerlossSubtitle": "Gesamte Reibungsdrehmoment (MR)",
+    "frictionalPowerlossSubtitle": "Gesamte Reibdrehmoment (MR)",
     "frictionalPowerlossUnavailable": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
     "production": "Für die Produktion",
     "productionTooltip": "Dies ist die Summe aller CO₂-Äquivalente, die für die Herstellung des Wälzlagers, einschließlich notwendiger Ressourcen und Energie, ausgestoßen wurden."
@@ -168,18 +168,18 @@
       "title": "Schmierparameter",
       "viscosityRatio": "Viskositätsverhältnis",
       "operatingViscosity": "Betriebsviskosität",
-      "referenceViscosity": "Referenzviskosität",
-      "lifeAdjustmentFactor": "Lebensdauer-Korrekturfaktor",
-      "lowerGuideInterval": "Untere Führungsgrenze für Nachschmierintervall",
-      "upperGuideInterval": "Obere Führungsgrenze für Nachschmierintervall"
+      "referenceViscosity": "Bezugsviskoksität lt. HR1",
+      "lifeAdjustmentFactor": "Lebensdauerbeiwert",
+      "lowerGuideInterval": "Unterer Richtwert für Nachschmierfrist",
+      "upperGuideInterval": "Oberer Richtwert für Nachschmierfrist"
     },
     "frictionalPowerloss": {
       "title": "Reibungsverluste",
-      "totalFrictionalTorque": "Gesamtes Reibungsdrehmoment",
+      "totalFrictionalTorque": "Gesamtes Reibdrehmoment",
       "totalFrictionalPowerLoss": "Gesamte Reibungsleistung",
-      "speedDependentFrictionalTorque": "Geschwindigkeitsabhängiges Reibungsdrehmoment",
-      "loadDependentFrictionalTorque": "Lastabhängiges Reibungsdrehmoment",
-      "thermallySafeOperatingSpeed": "Thermisch sichere Betriebsgeschwindigkeit"
+      "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibdrehmoment",
+      "loadDependentFrictionalTorque": "Lastabhängiges Reibdrehmoment",
+      "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl"
     },
     "calculationDisclaimer": {
       "title": "Disclaimer for PCF calculation",
@@ -187,9 +187,9 @@
     },
     "ratingLife": {
       "title": "Bemessungslebensdauer",
-      "lh10": "Gesamtbemessungslebensdauer in Stunden (nominal)",
+      "lh10": "Gesamtlebensdauer in Stunden (nominell)",
       "lh_nm_unavailable": "Bitte fügen Sie „Schmierparameter“ zu Ihrer Berechnung hinzu, um diesen Wert anzuzeigen.",
-      "lh_nm": "Geänderte Bemessungslebensdauer in Stunden",
+      "lh_nm": "modifizierte Lebensdauer in Stunden",
       "p": "Äquivalente dynamische Belastung",
       "n": "Äquivalente Drehzahl",
       "s0_min": "Statische Sicherheit",
@@ -200,7 +200,7 @@
       "BPFO": "Überrollfrequenz am Außenring",
       "BPFI": "Überrollfrequenz am Innenring",
       "BSF": "Überrollfrequenz am Wälzkörper",
-      "RPFB": "Ringpassfrequenz am Wälzkörper",
+      "RPFB": "Ringkontaktfrequenz am Wälzkörper",
       "FTF": "Drehzahl des Wälzkörpersatzes",
       "short": {
         "BPFO": "Am Außenring",
@@ -222,7 +222,7 @@
     "typeUnavailable": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
     "calculations": "Berechnungen",
     "calculationTypes": {
-      "ratingLife": "Bemessungslebensdauer",
+      "ratingLife": "Lebensdauer",
       "lubrication": "Schmierparameter",
       "frictionalPowerloss": "Reibungsverluste",
       "co2": "CO₂e-Emissionen für die Produktion",
