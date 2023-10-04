@@ -160,6 +160,17 @@ describe('ActiveCaseUtils', () => {
 
       expect(detail.sapGrossPrice).toEqual(5000);
     });
+
+    test('should convert relocationCosts', () => {
+      const detail = QUOTATION_DETAIL_MOCK;
+      detail.relocationCost = 500;
+      detail.sapPriceUnit = 100;
+      detail.material.priceUnit = 10;
+
+      processCaseUtils.calculatePriceUnitValues(detail);
+
+      expect(detail.relocationCost).toEqual(50_000);
+    });
   });
 
   describe('calculateMsp', () => {

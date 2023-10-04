@@ -197,6 +197,13 @@ export const calculatePriceUnitValues = (detail: QuotationDetail): void => {
     detail.sqv = multiplyAndRoundValues(detail.sqv, priceUnit);
   }
 
+  if (typeof detail.relocationCost === 'number') {
+    detail.relocationCost = multiplyAndRoundValues(
+      detail.relocationCost,
+      priceUnit
+    );
+  }
+
   if (typeof detail.lastCustomerPrice === 'number') {
     detail.lastCustomerPrice = multiplyAndRoundValues(
       detail.lastCustomerPrice,
