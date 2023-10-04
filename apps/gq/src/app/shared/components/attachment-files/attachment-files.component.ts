@@ -6,6 +6,7 @@ import { TRANSLOCO_DATE_PIPE_CONFIG } from '@gq/process-case-view/tabs/overview-
 import { QuotationAttachment } from '@gq/shared/models';
 
 import { AttachmentFilesUploadModalComponent } from '../modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
+import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-modal/delete-attachment-modal.component';
 @Component({
   selector: 'gq-attachment-files',
   templateUrl: './attachment-files.component.html',
@@ -15,6 +16,7 @@ export class AttachmentFilesComponent {
   @Input() marginBottom = true;
   @Input() modalVersion = false;
   @Input() tooltipText = '';
+  @Input() workflowInProgress: boolean;
 
   readonly translocoDatePipeConfig = TRANSLOCO_DATE_PIPE_CONFIG;
   constructor(
@@ -30,7 +32,15 @@ export class AttachmentFilesComponent {
     });
   }
 
-  downloadFile(attachment: QuotationAttachment): void {
+  openConfirmDeleteAttachmentDialog(attachment: QuotationAttachment): void {
+    this.dialog.open(DeletingAttachmentModalComponent, {
+      width: '634px',
+      disableClose: true,
+      data: { attachment },
+    });
+  }
+
+  downloadAttachment(attachment: QuotationAttachment): void {
     this.activeCaseFacade.downloadAttachment(attachment);
   }
 

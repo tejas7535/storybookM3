@@ -11,4 +11,5 @@ import { GeneralInformation } from './../../models';
 export class GeneralInformationComponent {
   @Input() info: GeneralInformation;
   @Input() attachments: QuotationAttachment[];
+  @Input() workflowInProgress: boolean;
 }

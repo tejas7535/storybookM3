@@ -13,6 +13,7 @@ import { PushPipe } from '@ngrx/component';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AttachmentFilesUploadModalComponent } from '../modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
+import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-modal/delete-attachment-modal.component';
 import { AttachmentFilesComponent } from './attachment-files.component';
 
 describe('AttachmentFilesComponent', () => {
@@ -58,6 +59,34 @@ describe('AttachmentFilesComponent', () => {
     });
   });
 
+  test('should open delete dialog', () => {
+    const attachment: QuotationAttachment = {
+      gqId: 123,
+      sapId: '456',
+      folderName: 'folder',
+      uploadedAt: '2020-01-01',
+      uploadedBy: 'user',
+      fileName: 'test.jpg',
+    };
+
+    const openMock = jest.fn(
+      () =>
+        ({
+          afterClosed: () => {},
+        } as any)
+    );
+    component['dialog'].open = openMock;
+
+    component.openConfirmDeleteAttachmentDialog(attachment);
+
+    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledWith(DeletingAttachmentModalComponent, {
+      width: '634px',
+      disableClose: true,
+      data: { attachment },
+    });
+  });
+
   describe('trackByFn', () => {
     test('should return index', () => {
       const result = component.trackByFn(3);
@@ -67,7 +96,7 @@ describe('AttachmentFilesComponent', () => {
   });
 
   describe('download attachment', () => {
-    test('should be called downloadFile', () => {
+    test('should be called downloadAttachment', () => {
       const attachment: QuotationAttachment = {
         gqId: 123,
         sapId: '456',
@@ -79,7 +108,7 @@ describe('AttachmentFilesComponent', () => {
 
       component.activeCaseFacade.downloadAttachment = jest.fn();
 
-      component.downloadFile(attachment);
+      component.downloadAttachment(attachment);
 
       expect(
         component.activeCaseFacade.downloadAttachment

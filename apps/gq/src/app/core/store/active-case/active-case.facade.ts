@@ -58,6 +58,14 @@ export class ActiveCaseFacade {
     getQuotationDetailIsFNumber
   );
 
+  deleteAttachmentSuccess$: Observable<void> = this.actions$.pipe(
+    ofType(ActiveCaseActions.deleteAttachmentSuccess)
+  );
+
+  deletionAttachmentInProgress$ = this.store.select(
+    activeCaseFeature.selectAttachmentDeletionInProgress
+  );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions
@@ -77,5 +85,9 @@ export class ActiveCaseFacade {
 
   downloadAttachment(attachment: QuotationAttachment): void {
     this.store.dispatch(ActiveCaseActions.downloadAttachment({ attachment }));
+  }
+
+  deleteAttachment(attachment: QuotationAttachment): void {
+    this.store.dispatch(ActiveCaseActions.deleteAttachment({ attachment }));
   }
 }

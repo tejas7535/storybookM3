@@ -23,7 +23,7 @@
     <div class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis">
       <span
         class="text-high-emphasis text-body-2 hover:text-link hover:underline hover:cursor-pointer"
-        (click)="downloadFile(attachment)"
+        (click)="downloadAttachment(attachment)"
       >
         {{ attachment.fileName }}
       </span>
@@ -36,14 +36,15 @@
         }}
       </span>
     </div>
-    <div class="ml-auto text-approval-status-grey">
-      <div class="group inline-block">
+    <div class="ml-auto text-approval-status-grey mt-1">
+      <div class="group inline-block" *ngIf="!workflowInProgress">
         <mat-icon
-          class="w-3 h-3 hover:text-approval-status-green relative text-approval-status-grey"
+          class="!w-5 !h-5 !text-[20px] hover:text-approval-status-green relative text-approval-status-grey"
         >
           <span class="group-hover:opacity-0"> delete </span>
           <mat-icon
-            class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 text-[8px] hover:cursor-pointer"
+            class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px] hover:cursor-pointer"
+            (click)="openConfirmDeleteAttachmentDialog(attachment)"
           >
             delete_forever
           </mat-icon>

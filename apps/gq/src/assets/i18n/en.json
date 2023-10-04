@@ -396,7 +396,8 @@
         "failed": "Failed to save the item selection in SAP"
       },
       "costsUpdated": "Costs updated successfully",
-      "attachmentsUploaded": "Attachments uploaded successfully"
+      "attachmentsUploaded": "Attachments uploaded successfully",
+      "attachmentsDeleted": "Attachment deleted"
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"
@@ -507,6 +508,12 @@
       "fileSizeExceedsTooltip": "File exceeds maximum size (2 MB).",
       "fileExitsTooltip": "File already exists.",
       "fileTypeNotSupportedTooltip": "File type not supported."
+    },
+    "deleteDialog": {
+      "title": "Delete Attachment",
+      "dialogInfo": "Are you sure you want to delete the attachment ?",
+      "deleteButton": "Delete",
+      "cancelButton": "Cancel"
     },
     "validation": {
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",

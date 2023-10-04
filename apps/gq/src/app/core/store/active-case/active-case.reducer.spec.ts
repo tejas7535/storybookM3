@@ -834,5 +834,40 @@ describe('Active Case Reducer', () => {
       expect(state.attachmentErrorMessage).toEqual(errorMessage);
     });
   });
+  describe('delete attachment', () => {
+    test('should set deleteAttachmentSuccess to true', () => {
+      const attachments: QuotationAttachment[] = [
+        {
+          gqId: 4001,
+          sapId: '456',
+          folderName: 'folder',
+          uploadedAt: '2020-01-01',
+          uploadedBy: 'user1',
+          fileName: 'open.jpg',
+        },
+        {
+          gqId: 4002,
+          sapId: '457',
+          folderName: 'folder',
+          uploadedAt: '2020-06-01',
+          uploadedBy: 'user2',
+          fileName: 'close.jpg',
+        },
+      ];
+      const action = ActiveCaseActions.deleteAttachmentSuccess({ attachments });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachments).toEqual(attachments);
+    });
+    test('should set attachmentDeletionInProgress to true', () => {
+      const attachment: QuotationAttachment = {
+        filename: '1',
+      } as unknown as QuotationAttachment;
+      const action = ActiveCaseActions.deleteAttachment({ attachment });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.attachmentDeletionInProgress).toEqual(true);
+    });
+  });
 });
 // eslint-disable-next-line max-lines

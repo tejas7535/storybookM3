@@ -231,4 +231,22 @@ describe('ActiveCaseFacade', () => {
       expect(spy).toHaveBeenCalledWith(action);
     });
   });
+  describe('deleteAttachment', () => {
+    test('should dispatch delete attachment', () => {
+      const attachment: QuotationAttachment = {
+        gqId: 123,
+        sapId: '456',
+        folderName: 'folder',
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+        fileName: 'test.jpg',
+      };
+      const action = ActiveCaseActions.deleteAttachment({ attachment });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.deleteAttachment(attachment);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
 });

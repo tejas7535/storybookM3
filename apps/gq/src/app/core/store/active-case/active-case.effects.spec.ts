@@ -1462,5 +1462,66 @@ describe('ActiveCaseEffects', () => {
     );
   });
 
+  describe('delete attachment', () => {
+    test(
+      'should return delete AttachmentsSuccess when REST call is successful',
+      marbles((m) => {
+        const attachment: QuotationAttachment = {
+          gqId: 123,
+          sapId: '456',
+          folderName: 'folder',
+          uploadedAt: '2020-01-01',
+          uploadedBy: 'user',
+          fileName: 'test.jpg',
+        };
+        action = ActiveCaseActions.deleteAttachment({ attachment });
+        const attachments: QuotationAttachment[] = [
+          { fileName: '1' } as QuotationAttachment,
+        ];
+        attachmentService.deleteAttachment = jest.fn(() => response);
+        snackBar.open = jest.fn();
+
+        const result = ActiveCaseActions.deleteAttachmentSuccess({
+          attachments,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: attachments });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.deleteAttachment$).toBeObservable(expected);
+        m.flush();
+        expect(attachmentService.deleteAttachment).toHaveBeenCalledTimes(1);
+        expect(attachmentService.deleteAttachment).toHaveBeenCalledWith(
+          attachment
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test('should return delete AttachmentsFailure on REST error', () => {
+      const attachment: QuotationAttachment = {
+        gqId: 123,
+        sapId: '456',
+        folderName: 'folder',
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+        fileName: 'test.jpg',
+      };
+      action = ActiveCaseActions.deleteAttachment({ attachment });
+      attachmentService.deleteAttachment = jest.fn(() => response);
+      const result = ActiveCaseActions.deleteAttachmentFailed({
+        errorMessage,
+      });
+
+      actions$ = of(action);
+      const response = throwError(errorMessage);
+
+      effects.deleteAttachment$.subscribe((res) => {
+        expect(res).toEqual(result);
+      });
+      expect(attachmentService.deleteAttachment).toHaveBeenCalledTimes(1);
+    });
+  });
   // eslint-disable-next-line max-lines
 });

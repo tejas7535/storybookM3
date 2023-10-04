@@ -601,7 +601,28 @@ export class ActiveCaseEffects {
       )
     );
   });
-
+  deleteAttachment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.deleteAttachment),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      mergeMap(([action]) =>
+        this.attachmentsService.deleteAttachment(action.attachment).pipe(
+          tap(() => {
+            const deletedSuccessfullyMessage = translate(
+              'shared.snackBarMessages.attachmentsDeleted'
+            );
+            this.snackBar.open(deletedSuccessfullyMessage);
+          }),
+          map((attachments: QuotationAttachment[]) =>
+            ActiveCaseActions.deleteAttachmentSuccess({ attachments })
+          ),
+          catchError((errorMessage) =>
+            of(ActiveCaseActions.deleteAttachmentFailed({ errorMessage }))
+          )
+        )
+      )
+    );
+  });
   constructor(
     private readonly actions$: Actions,
     private readonly customerService: CustomerService,

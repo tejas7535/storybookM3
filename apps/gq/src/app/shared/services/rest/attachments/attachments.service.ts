@@ -56,4 +56,15 @@ export class AttachmentsService {
       responseType: 'blob',
     });
   }
+
+  public deleteAttachment(
+    attachment: QuotationAttachment
+  ): Observable<QuotationAttachment[]> {
+    const params = new HttpParams().set('filename', attachment.fileName);
+
+    return this.http.delete<QuotationAttachment[]>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${attachment.gqId}/${QuotationPaths.PATH_ATTACHMENTS}`,
+      { params }
+    );
+  }
 }

@@ -1,0 +1,44 @@
+<div
+  class="flex h-full flex-col"
+  *transloco="let t; read: 'shared.deleteDialog'"
+>
+  <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+  </gq-dialog-header>
+
+  <ng-container
+    *ngIf="
+      !(activeCaseFacade.deletionAttachmentInProgress$ | ngrxPush);
+      else loading
+    "
+  >
+    <p class="text-body-1 mt-5">{{ t('dialogInfo') }}</p>
+
+    <div class="pt-8">
+      <button
+        class="!px-4"
+        color="primary"
+        mat-raised-button
+        (click)="confirmDelete()"
+      >
+        <span> {{ t('deleteButton') | uppercase }} </span>
+      </button>
+      <button
+        class="!ml-4 !px-4"
+        color="primary"
+        (click)="closeDialog()"
+        mat-stroked-button
+      >
+        <span> {{ t('cancelButton') | uppercase }} </span>
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="py-3">
+    <schaeffler-loading-spinner
+      class="h-full"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  </div>
+</ng-template>

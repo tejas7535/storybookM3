@@ -132,5 +132,10 @@ export const ActiveCaseActions = createActionGroup({
     'Download Attachment': props<{ attachment: QuotationAttachment }>(),
     'Download Attachment Success': props<{ fileName: string }>(),
     'Download Attachment Failure': props<{ errorMessage: string }>(),
+    'Delete Attachment': props<{ attachment: QuotationAttachment }>(),
+    'Delete Attachment Success': props<{
+      attachments: QuotationAttachment[];
+    }>(),
+    'Delete Attachment Failed': props<{ errorMessage: string }>(),
   },
 });

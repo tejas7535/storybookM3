@@ -83,4 +83,28 @@ describe('Service: Attachments', () => {
       req.flush(blob);
     });
   });
+
+  describe('delete attachment', () => {
+    test('should call delete attachment', () => {
+      const attachment: QuotationAttachment = {
+        gqId: 4600,
+        sapId: '456',
+        folderName: 'folder',
+        uploadedAt: '2020-01-01',
+        uploadedBy: 'user',
+        fileName: 'test.jpg',
+      };
+
+      service.deleteAttachment(attachment).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${attachment.gqId}/${QuotationPaths.PATH_ATTACHMENTS}?filename=${attachment.fileName}`
+      );
+
+      expect(req.request.method).toBe('DELETE');
+      req.flush([]);
+    });
+  });
 });

@@ -40,6 +40,7 @@ export interface ActiveCaseState {
   attachmentsGetting: boolean;
   attachments: QuotationAttachment[];
   attachmentErrorMessage: string;
+  attachmentDeletionInProgress: boolean;
 }
 
 export const initialState: ActiveCaseState = {
@@ -62,6 +63,7 @@ export const initialState: ActiveCaseState = {
   attachmentsGetting: false,
   attachmentErrorMessage: undefined,
   attachments: [],
+  attachmentDeletionInProgress: false,
 };
 
 export const activeCaseFeature = createFeature({
@@ -516,6 +518,22 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
         ...state,
         attachmentErrorMessage: errorMessage,
+        attachmentDeletionInProgress: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.deleteAttachment,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        attachmentDeletionInProgress: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.deleteAttachmentSuccess,
+      (state: ActiveCaseState, { attachments }): ActiveCaseState => ({
+        ...state,
+        attachments: [...attachments],
+        attachmentDeletionInProgress: false,
       })
     )
   ),
