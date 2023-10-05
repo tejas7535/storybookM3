@@ -1,157 +1,165 @@
 <mat-card
+  appearance="outlined"
   class="mat-elevation-z0 border-border w-full grow rounded border-[1px]"
   *transloco="let t; read: 'processCaseView.tabs.overview.approvalCockpit'"
 >
-  <div class="flex flex-col">
-    <div
-      class="mat-card-title text-high-emphasis text-[20px] leading-6 pb-5 !mb-[4px]"
-    >
-      {{ t('approvalOverview') }}
-    </div>
-    <gq-approval-workflow-history
-      class="pb-6"
-      [workflowEvents]="approvalFacade.getApprovalWorkflowEvents$ | ngrxPush"
-      [quotationAutoApprovedEvent]="
-        approvalFacade.quotationAutoApprovedEvent$ | ngrxPush
-      "
-      [quotationCancelledEvent]="
-        approvalFacade.quotationCancelledEvent$ | ngrxPush
-      "
-      [quotationRejectedEvent]="
-        approvalFacade.quotationRejectedEvent$ | ngrxPush
-      "
-      [quotationFinalReleaseEvent]="
-        approvalFacade.quotationFinalReleaseEvent$ | ngrxPush
-      "
-      [receivedApprovalsOfRequiredApprovals]="
-        approvalFacade.receivedApprovalsOfRequiredApprovals$ | ngrxPush
-      "
-      [quotationStatus]="approvalFacade.quotationStatus$ | ngrxPush"
-    ></gq-approval-workflow-history>
-
-    <div
-      class="my-2 bg-gradient-to-r from-low-emphasis from-50% to-secondary to-0% bg-[length:16px] bg-repeat-x bg-top h-[1px]"
-    ></div>
-
-    <ng-container
-      *ngIf="
-        !(approvalFacade.quotationAutoApprovedEvent$ | ngrxPush);
-        else quotationAutoApproved
-      "
-    >
-      <div class="flex items-center justify-between">
-        <div class="py-6 text-body-1 font-bold">
-          {{ t('approver') }}
-        </div>
-        <div>
-          <div
-            class="flex flex-row items-center gap-1 rounded-full px-2 py-1"
-            [ngClass]="
-              (approvalFacade.quotationFullyApproved$ | ngrxPush)
-                ? 'bg-primary'
-                : 'bg-gray-300'
-            "
-          >
-            <mat-icon
-              class="!w-[14px] !h-[auto] !flex items-center !text-[14px] font-normal"
-              [ngClass]="
-                (approvalFacade.quotationFullyApproved$ | ngrxPush)
-                  ? 'text-white'
-                  : 'text-low-emphasis'
-              "
-              >check_circle_outline</mat-icon
-            >
-            <span
-              class="text-[10px]"
-              [ngClass]="
-                (approvalFacade.quotationFullyApproved$ | ngrxPush)
-                  ? 'text-white'
-                  : 'text-low-emphasis'
-              "
-              >{{
-                approvalFacade.receivedApprovalsOfRequiredApprovals$ | ngrxPush
-              }}</span
-            >
-          </div>
-        </div>
+  <mat-card-content>
+    <div class="flex flex-col">
+      <div
+        class="mat-card-title text-high-emphasis text-[20px] leading-6 pb-5 !mb-[4px]"
+      >
+        {{ t('approvalOverview') }}
       </div>
+      <gq-approval-workflow-history
+        class="pb-6"
+        [workflowEvents]="approvalFacade.getApprovalWorkflowEvents$ | ngrxPush"
+        [quotationAutoApprovedEvent]="
+          approvalFacade.quotationAutoApprovedEvent$ | ngrxPush
+        "
+        [quotationCancelledEvent]="
+          approvalFacade.quotationCancelledEvent$ | ngrxPush
+        "
+        [quotationRejectedEvent]="
+          approvalFacade.quotationRejectedEvent$ | ngrxPush
+        "
+        [quotationFinalReleaseEvent]="
+          approvalFacade.quotationFinalReleaseEvent$ | ngrxPush
+        "
+        [receivedApprovalsOfRequiredApprovals]="
+          approvalFacade.receivedApprovalsOfRequiredApprovals$ | ngrxPush
+        "
+        [quotationStatus]="approvalFacade.quotationStatus$ | ngrxPush"
+      ></gq-approval-workflow-history>
+
+      <div
+        class="my-2 bg-gradient-to-r from-low-emphasis from-50% to-secondary to-0% bg-[length:16px] bg-repeat-x bg-top h-[1px]"
+      ></div>
+
       <ng-container
-        *ngFor="
-          let approvalStatus of approvalFacade.approvalStatusOfRequestedApprover$
-            | ngrxPush as approvalStatuses;
-          let i = index;
-          trackBy: trackByFn
+        *ngIf="
+          !(approvalFacade.quotationAutoApprovedEvent$ | ngrxPush);
+          else quotationAutoApproved
         "
       >
-        <gq-approval-workflow-approver
-          [approver]="approvalStatus.approver"
-          [workflowEvent]="approvalStatus.event"
-          [quotationStatus]="approvalFacade.quotationStatus$ | ngrxPush"
-          [workflowInProgress]="approvalFacade.workflowInProgress$ | ngrxPush"
-        ></gq-approval-workflow-approver>
-
-        <gq-horizontal-divider
-          *ngIf="!(approvalStatuses.length - 1 === i)"
-        ></gq-horizontal-divider>
-      </ng-container>
-    </ng-container>
-    <!--template when quotation has been automatically approved-->
-    <ng-template #quotationAutoApproved>
-      <div class="flex items-center justify-between">
-        <div class="py-4 !text-body-1 !font-bold">
-          {{ t('approver') }}
-        </div>
-        <div>
-          <div
-            class="flex flex-row bg-primary items-center gap-1 rounded-full px-2 py-1"
-          >
-            <mat-icon
-              class="!w-[14px] !h-[auto] text-white !flex items-center !text-[14px] font-normal"
-              >check_circle_outline</mat-icon
+        <div class="flex items-center justify-between">
+          <div class="py-6 text-body-1 font-bold">
+            {{ t('approver') }}
+          </div>
+          <div>
+            <div
+              class="flex flex-row items-center gap-1 rounded-full px-2 py-1"
+              [ngClass]="
+                (approvalFacade.quotationFullyApproved$ | ngrxPush)
+                  ? 'bg-primary'
+                  : 'bg-gray-300'
+              "
             >
-            <span class="text-[12px] text-white">1/1</span>
+              <mat-icon
+                class="!w-[14px] !h-[auto] !flex items-center !text-[14px] font-normal"
+                [ngClass]="
+                  (approvalFacade.quotationFullyApproved$ | ngrxPush)
+                    ? 'text-white'
+                    : 'text-low-emphasis'
+                "
+                >check_circle_outline</mat-icon
+              >
+              <span
+                class="text-[10px]"
+                [ngClass]="
+                  (approvalFacade.quotationFullyApproved$ | ngrxPush)
+                    ? 'text-white'
+                    : 'text-low-emphasis'
+                "
+                >{{
+                  approvalFacade.receivedApprovalsOfRequiredApprovals$
+                    | ngrxPush
+                }}</span
+              >
+            </div>
           </div>
         </div>
-      </div>
-      <gq-approval-workflow-approver
-        [approver]="
-          (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.user
-        "
-        [workflowEvent]="approvalFacade.quotationAutoApprovedEvent$ | ngrxPush"
-        [workflowInProgress]="false"
-      ></gq-approval-workflow-approver>
-    </ng-template>
+        <ng-container
+          *ngFor="
+            let approvalStatus of approvalFacade.approvalStatusOfRequestedApprover$
+              | ngrxPush as approvalStatuses;
+            let i = index;
+            trackBy: trackByFn
+          "
+        >
+          <gq-approval-workflow-approver
+            [approver]="approvalStatus.approver"
+            [workflowEvent]="approvalStatus.event"
+            [quotationStatus]="approvalFacade.quotationStatus$ | ngrxPush"
+            [workflowInProgress]="approvalFacade.workflowInProgress$ | ngrxPush"
+          ></gq-approval-workflow-approver>
 
-    <ng-container *ngIf="approvalFacade.shouldShowApprovalButtons$ | ngrxPush">
-      <gq-horizontal-divider class="mx-[-1rem] mt-4"></gq-horizontal-divider>
-      <div class="flex flex-row justify-between">
-        <button
-          mat-stroke-button
-          class="flex flex-col items-center gap-2 px-8"
-          (click)="openRejectionDialog()"
-        >
-          <mat-icon class="text-orange">clear</mat-icon>
-          <span class="text-orange text-[12px]">{{ t('rejectButton') }}</span>
-        </button>
-        <button
-          mat-stroke-button
-          class="flex flex-col items-center gap-2 px-8"
-          (click)="openForwardDialog()"
-        >
-          <mat-icon class="text-medium-emphasis">arrow_forward</mat-icon>
-          <span class="text-medium-emphasis text-[12px]">{{
-            t('forwardButton')
-          }}</span>
-        </button>
-        <button
-          mat-stroke-button
-          class="flex flex-col items-center gap-2 px-8"
-          (click)="openApprovalDialog()"
-        >
-          <mat-icon class="text-link">check</mat-icon
-          ><span class="text-link text-[12px]">{{ t('approveButton') }}</span>
-        </button>
-      </div></ng-container
-    >
-  </div>
+          <gq-horizontal-divider
+            *ngIf="!(approvalStatuses.length - 1 === i)"
+          ></gq-horizontal-divider>
+        </ng-container>
+      </ng-container>
+      <!--template when quotation has been automatically approved-->
+      <ng-template #quotationAutoApproved>
+        <div class="flex items-center justify-between">
+          <div class="py-4 !text-body-1 !font-bold">
+            {{ t('approver') }}
+          </div>
+          <div>
+            <div
+              class="flex flex-row bg-primary items-center gap-1 rounded-full px-2 py-1"
+            >
+              <mat-icon
+                class="!w-[14px] !h-[auto] text-white !flex items-center !text-[14px] font-normal"
+                >check_circle_outline</mat-icon
+              >
+              <span class="text-[12px] text-white">1/1</span>
+            </div>
+          </div>
+        </div>
+        <gq-approval-workflow-approver
+          [approver]="
+            (approvalFacade.quotationAutoApprovedEvent$ | ngrxPush)?.user
+          "
+          [workflowEvent]="
+            approvalFacade.quotationAutoApprovedEvent$ | ngrxPush
+          "
+          [workflowInProgress]="false"
+        ></gq-approval-workflow-approver>
+      </ng-template>
+
+      <ng-container
+        *ngIf="approvalFacade.shouldShowApprovalButtons$ | ngrxPush"
+      >
+        <gq-horizontal-divider class="mx-[-1rem] mt-4"></gq-horizontal-divider>
+        <div class="flex flex-row justify-between">
+          <button
+            mat-stroke-button
+            class="flex flex-col items-center gap-2 px-8"
+            (click)="openRejectionDialog()"
+          >
+            <mat-icon class="text-orange">clear</mat-icon>
+            <span class="text-orange text-[12px]">{{ t('rejectButton') }}</span>
+          </button>
+          <button
+            mat-stroke-button
+            class="flex flex-col items-center gap-2 px-8"
+            (click)="openForwardDialog()"
+          >
+            <mat-icon class="text-medium-emphasis">arrow_forward</mat-icon>
+            <span class="text-medium-emphasis text-[12px]">{{
+              t('forwardButton')
+            }}</span>
+          </button>
+          <button
+            mat-stroke-button
+            class="flex flex-col items-center gap-2 px-8"
+            (click)="openApprovalDialog()"
+          >
+            <mat-icon class="text-link">check</mat-icon
+            ><span class="text-link text-[12px]">{{ t('approveButton') }}</span>
+          </button>
+        </div></ng-container
+      >
+    </div>
+  </mat-card-content>
 </mat-card>

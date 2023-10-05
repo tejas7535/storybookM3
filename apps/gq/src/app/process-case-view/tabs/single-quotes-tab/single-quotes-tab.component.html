@@ -1,16 +1,18 @@
-<mat-card class="flex h-full">
-  <div class="w-full overflow-x-auto">
-    <schaeffler-view-toggle
-      [views]="customViews$ | ngrxPush"
-      (selectionChange)="onViewToggle($event)"
-      (iconClicked)="onViewToggleIconClicked($event)"
-      (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
-    ></schaeffler-view-toggle>
-  </div>
-  <gq-quotation-details-table
-    *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
-    [quotation]="quotation$ | ngrxPush"
-  ></gq-quotation-details-table>
+<mat-card appearance="outlined" class="flex h-full">
+  <mat-card-content class="h-full">
+    <div class="w-full overflow-x-auto">
+      <schaeffler-view-toggle
+        [views]="customViews$ | ngrxPush"
+        (selectionChange)="onViewToggle($event)"
+        (iconClicked)="onViewToggleIconClicked($event)"
+        (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
+      ></schaeffler-view-toggle>
+    </div>
+    <gq-quotation-details-table
+      *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
+      [quotation]="quotation$ | ngrxPush"
+    ></gq-quotation-details-table>
+  </mat-card-content>
 </mat-card>
 
 <ng-template #updateLoading>

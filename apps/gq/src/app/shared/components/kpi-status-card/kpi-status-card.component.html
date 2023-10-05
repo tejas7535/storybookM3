@@ -1,68 +1,70 @@
 <mat-card
+  appearance="outlined"
   class="mat-elevation-z0 border-x-border border-y-border w-full grow rounded border-[1px]"
   *transloco="let t; read: 'shared.kpiStatusCard'"
 >
-  <div class="align-center flex flex-row gap-2">
-    <div
-      *ngIf="rating"
-      class="relative mt-[-2px] h-5 w-5 rounded-full bg-opacity-20"
-      [ngClass]="{
-        'bg-[#00893D]': rating === ratingStatus.GOOD,
-        'bg-error': rating === ratingStatus.LOW,
-        'bg-[#FFA026]': rating === ratingStatus.MEDIUM
-      }"
-    >
+  <mat-card-content>
+    <div class="align-center items-center flex flex-row gap-2">
       <div
-        class="absolute left-1 top-1 h-3 w-3 rounded-full"
+        *ngIf="rating"
+        class="relative h-5 w-5 rounded-full bg-opacity-20"
         [ngClass]="{
           'bg-[#00893D]': rating === ratingStatus.GOOD,
           'bg-error': rating === ratingStatus.LOW,
           'bg-[#FFA026]': rating === ratingStatus.MEDIUM
         }"
-      ></div>
-    </div>
-    <mat-card-title class="text-high-emphasis text-[20px] leading-6">
-      {{ title
-      }}<mat-icon
-        *ngIf="warning"
-        [matTooltip]="warningInfo"
-        class="!text-caption !text-icon !text-orange ml-[5px] mt-[5px] cursor-help p-[1px] align-text-top"
-        >warning_amber</mat-icon
       >
-    </mat-card-title>
-  </div>
-  <div *ngIf="rating; else singleSubtitle" class="flow-row flex gap-2">
-    <span
-      class="mat-card-subtitle text-caption mt-[-4px]"
-      [ngClass]="{
-        'text-[#00893D]': rating === ratingStatus.GOOD,
-        'text-error': rating === ratingStatus.LOW,
-        'text-[#FFA026]': rating === ratingStatus.MEDIUM
-      }"
-      >{{ t('status.' + ratingText) }}
-    </span>
-    <span class="mat-card-subtitle text-caption mt-[-4px] opacity-[0.12]"
-      >|</span
-    >
-    <mat-card-subtitle class="text-caption" *ngIf="subtitle">
-      {{ subtitle }}
-    </mat-card-subtitle>
-  </div>
-  <ng-template #singleSubtitle>
-    <mat-card-subtitle class="text-caption" *ngIf="subtitle">
-      {{ subtitle }}
-    </mat-card-subtitle>
-  </ng-template>
-
-  <ng-container *ngIf="kpiValue; else customContent">
-    <mat-card-content class="text-h4 pt-6">
-      {{ kpiValue }}
-    </mat-card-content>
-  </ng-container>
-
-  <ng-template #customContent>
-    <div class="pt-2">
-      <ng-content></ng-content>
+        <div
+          class="absolute left-1 top-1 h-3 w-3 rounded-full"
+          [ngClass]="{
+            'bg-[#00893D]': rating === ratingStatus.GOOD,
+            'bg-error': rating === ratingStatus.LOW,
+            'bg-[#FFA026]': rating === ratingStatus.MEDIUM
+          }"
+        ></div>
+      </div>
+      <mat-card-title class="!text-high-emphasis !gq-text-5 !leading-6">
+        {{ title
+        }}<mat-icon
+          *ngIf="warning"
+          [matTooltip]="warningInfo"
+          matTooltipClass="whitespace-pre-line !text-caption"
+          class="!text-caption !text-icon !text-orange ml-[5px] mt-[5px] cursor-help p-[1px] align-text-top"
+          >warning_amber</mat-icon
+        >
+      </mat-card-title>
     </div>
-  </ng-template>
+    <div *ngIf="rating; else singleSubtitle" class="flow-row pt-2 flex gap-2">
+      <span
+        class="mat-mdc-card-subtitle !text-caption"
+        [ngClass]="{
+          '!text-[#00893D]': rating === ratingStatus.GOOD,
+          '!text-error': rating === ratingStatus.LOW,
+          '!text-[#FFA026]': rating === ratingStatus.MEDIUM
+        }"
+        >{{ t('status.' + ratingText) }}
+      </span>
+      <span class="mat-mdc-card-subtitle !text-caption !opacity-[0.12]">|</span>
+      <mat-card-subtitle class="!text-caption" *ngIf="subtitle">
+        {{ subtitle }}
+      </mat-card-subtitle>
+    </div>
+    <ng-template #singleSubtitle>
+      <mat-card-subtitle class="!text-caption" *ngIf="subtitle">
+        {{ subtitle }}
+      </mat-card-subtitle>
+    </ng-template>
+
+    <ng-container *ngIf="kpiValue; else customContent">
+      <mat-card-content class="!text-h4 !p-0 !pt-6">
+        {{ kpiValue }}
+      </mat-card-content>
+    </ng-container>
+
+    <ng-template #customContent>
+      <div class="!pt-2">
+        <ng-content></ng-content>
+      </div>
+    </ng-template>
+  </mat-card-content>
 </mat-card>

@@ -5,6 +5,7 @@ const { join } = require('path');
 const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   content: [
@@ -53,5 +54,21 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // we have inconsistencies with text-h6 so, we create this class until we
+    // figured which class is correct to use
+    plugin(function ({ addUtilities, theme }) {
+      addUtilities({
+        '.gq-text-5': {
+          fontWeight: theme('fontWeight.medium'),
+          letterSpacing: '0.25px',
+          lineHeight: '24px',
+          fontSize: '20px',
+        },
+        '.icon-5': {
+          fontSize: '20px',
+        },
+      });
+    }),
+  ],
 };

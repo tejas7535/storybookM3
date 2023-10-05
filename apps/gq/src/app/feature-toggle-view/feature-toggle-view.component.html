@@ -18,30 +18,35 @@
     <h5 class="leading-6">{{ t('titleDefaultConfig') }}</h5>
   </ng-template>
 
-  <mat-card class="mat-elevation-z0 mt-6 border border-solid border-border">
-    <div class="flex-col items-center">
-      <div *ngFor="let toggle of configs">
-        <div class="flex flex-row justify-center">
-          <mat-slide-toggle
-            color="primary"
-            labelPosition="before"
-            [checked]="toggle.value"
-            [disabled]="isDefaultConfig"
-            [name]="toggle.key"
-            (change)="featureToggleChanged($event)"
-          >
-            {{ toggle.key }}
-          </mat-slide-toggle>
+  <mat-card
+    appearance="outlined"
+    class="mat-elevation-z0 mt-6 border border-solid border-border"
+  >
+    <mat-card-content>
+      <div class="flex-col items-center">
+        <div *ngFor="let toggle of configs">
+          <div class="flex flex-row justify-center">
+            <mat-slide-toggle
+              color="primary"
+              labelPosition="before"
+              [checked]="toggle.value"
+              [disabled]="isDefaultConfig"
+              [name]="toggle.key"
+              (change)="featureToggleChanged($event)"
+            >
+              {{ toggle.key }}
+            </mat-slide-toggle>
+          </div>
         </div>
+        <button
+          *ngIf="!isDefaultConfig"
+          mat-raised-button
+          color="primary"
+          (click)="saveConfig()"
+        >
+          {{ t('submit') }}
+        </button>
       </div>
-      <button
-        *ngIf="!isDefaultConfig"
-        mat-raised-button
-        color="primary"
-        (click)="saveConfig()"
-      >
-        {{ t('submit') }}
-      </button>
-    </div>
+    </mat-card-content>
   </mat-card>
 </div>

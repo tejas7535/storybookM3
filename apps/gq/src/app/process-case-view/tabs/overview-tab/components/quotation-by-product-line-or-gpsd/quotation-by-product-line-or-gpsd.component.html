@@ -1,37 +1,40 @@
 <mat-card
+  appearance="outlined"
   class="mat-elevation-z0 w-full grow rounded border-[1px] border-x-border border-y-border"
   *transloco="
     let t;
     read: 'processCaseView.tabs.overview.quotationByProductionLineOrGPSD'
   "
 >
-  <mat-card-title class="truncate text-h6 text-high-emphasis">
-    {{ selectedChartType === chartType.GPSD ? t('titleGPSD') : t('titlePL') }}
-  </mat-card-title>
-  <mat-select [(value)]="selectedChartType" class="flex pb-4">
-    <mat-option [value]="chartType.GPSD">{{ t('dropDownGPSD') }}</mat-option>
-    <mat-option [value]="chartType.PL">{{ t('dropDownPL') }}</mat-option>
-  </mat-select>
-  <div class="flex flex-row items-center gap-5 pb-5">
-    <span class="text-h4 text-high-emphasis">{{
-      selectedChartType === chartType.GPSD
-        ? (gpsdBarChartData$ | ngrxPush)?.length
-        : (plBarChartData$ | ngrxPush)?.length
-    }}</span>
-    <span class="w-[120px] text-body-2 text-medium-emphasis">
-      {{
+  <mat-card-content>
+    <mat-card-title class="!truncate !gq-text-5 !text-high-emphasis">
+      {{ selectedChartType === chartType.GPSD ? t('titleGPSD') : t('titlePL') }}
+    </mat-card-title>
+    <mat-select [(value)]="selectedChartType" class="flex pb-4">
+      <mat-option [value]="chartType.GPSD">{{ t('dropDownGPSD') }}</mat-option>
+      <mat-option [value]="chartType.PL">{{ t('dropDownPL') }}</mat-option>
+    </mat-select>
+    <div class="flex flex-row items-center gap-5 pb-5">
+      <span class="text-h4 text-high-emphasis">{{
         selectedChartType === chartType.GPSD
-          ? t('differentGPSDLabel')
-          : t('differentProductLinesLabel')
-      }}
-    </span>
-  </div>
-  <gq-quotation-by-product-line-or-gpsd-bar-chart
-    [data]="
-      selectedChartType === chartType.GPSD
-        ? (gpsdBarChartData$ | ngrxPush)
-        : (plBarChartData$ | ngrxPush)
-    "
-    class="flex h-[120px] flex-col"
-  ></gq-quotation-by-product-line-or-gpsd-bar-chart>
+          ? (gpsdBarChartData$ | ngrxPush)?.length
+          : (plBarChartData$ | ngrxPush)?.length
+      }}</span>
+      <span class="w-[120px] text-body-2 text-medium-emphasis">
+        {{
+          selectedChartType === chartType.GPSD
+            ? t('differentGPSDLabel')
+            : t('differentProductLinesLabel')
+        }}
+      </span>
+    </div>
+    <gq-quotation-by-product-line-or-gpsd-bar-chart
+      [data]="
+        selectedChartType === chartType.GPSD
+          ? (gpsdBarChartData$ | ngrxPush)
+          : (plBarChartData$ | ngrxPush)
+      "
+      class="flex h-[120px] flex-col"
+    ></gq-quotation-by-product-line-or-gpsd-bar-chart>
+  </mat-card-content>
 </mat-card>

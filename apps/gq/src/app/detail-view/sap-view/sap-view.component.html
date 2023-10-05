@@ -26,19 +26,21 @@
       </ng-container>
     </schaeffler-subheader>
   </div>
-  <mat-card class="m-4 h-full">
-    <gq-sap-price-details-table
-      *ngIf="
-        (translationsLoaded$ | ngrxPush) &&
-          !(sapPriceDetailsLoading$ | ngrxPush);
-        else tableLoading
-      "
-      [rowData]="rowData$ | ngrxPush"
-      [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
-    ></gq-sap-price-details-table>
-    <ng-template #tableLoading>
-      <schaeffler-loading-spinner></schaeffler-loading-spinner>
-    </ng-template>
+  <mat-card appearance="outlined" class="m-4 h-full">
+    <mat-card-content class="h-full">
+      <gq-sap-price-details-table
+        *ngIf="
+          (translationsLoaded$ | ngrxPush) &&
+            !(sapPriceDetailsLoading$ | ngrxPush);
+          else tableLoading
+        "
+        [rowData]="rowData$ | ngrxPush"
+        [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
+      ></gq-sap-price-details-table>
+      <ng-template #tableLoading>
+        <schaeffler-loading-spinner></schaeffler-loading-spinner>
+      </ng-template>
+    </mat-card-content>
   </mat-card>
 </div>
 <ng-template #loading>

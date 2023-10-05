@@ -39,35 +39,43 @@
     <div class="flex flex-1 flex-col pt-4 pb-16 lg:flex-row">
       <div class="flex h-full w-full pl-4 pr-4 lg:w-1/2 lg:pr-2">
         <mat-card
+          appearance="outlined"
           class="flex-1 overflow-hidden border-[1px] border-border !shadow-none"
         >
-          <gq-transparency-graph
-            *ngIf="
-              (translationsLoaded$ | ngrxPush) &&
-                !(transactionsLoading$ | ngrxPush);
-              else loading
-            "
-            [transactions]="graphTransactions$ | ngrxPush"
-            [coefficients]="coefficients$ | ngrxPush"
-            [currency]="quotationCurrency$ | ngrxPush"
-            [customer]="customer$ | ngrxPush"
-            [userHasGpcRole]="hasGpcRole$ | ngrxPush"
-            [hideRolesHint]="hideRolesHint$ | ngrxPush"
-          ></gq-transparency-graph>
+          <mat-card-content class="h-full">
+            <gq-transparency-graph
+              *ngIf="
+                (translationsLoaded$ | ngrxPush) &&
+                  !(transactionsLoading$ | ngrxPush);
+                else loading
+              "
+              [transactions]="graphTransactions$ | ngrxPush"
+              [coefficients]="coefficients$ | ngrxPush"
+              [currency]="quotationCurrency$ | ngrxPush"
+              [customer]="customer$ | ngrxPush"
+              [userHasGpcRole]="hasGpcRole$ | ngrxPush"
+              [hideRolesHint]="hideRolesHint$ | ngrxPush"
+            ></gq-transparency-graph>
+          </mat-card-content>
         </mat-card>
       </div>
       <div class="flex h-full w-full pl-4 pr-4 pt-4 lg:w-1/2 lg:pl-2 lg:pt-0">
-        <mat-card class="flex-1 border-[1px] border-border !shadow-none">
-          <gq-comparable-transactions
-            *ngIf="
-              (translationsLoaded$ | ngrxPush) &&
-                !(transactionsLoading$ | ngrxPush);
-              else loading
-            "
-            [rowData]="transactions$ | ngrxPush"
-            [currency]="quotationCurrency$ | ngrxPush"
-            (filterChanged)="onFilterChanged($event)"
-          ></gq-comparable-transactions>
+        <mat-card
+          appearance="outlined"
+          class="flex-1 border-[1px] border-border !shadow-none"
+        >
+          <mat-card-content class="h-full">
+            <gq-comparable-transactions
+              *ngIf="
+                (translationsLoaded$ | ngrxPush) &&
+                  !(transactionsLoading$ | ngrxPush);
+                else loading
+              "
+              [rowData]="transactions$ | ngrxPush"
+              [currency]="quotationCurrency$ | ngrxPush"
+              (filterChanged)="onFilterChanged($event)"
+            ></gq-comparable-transactions>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>
