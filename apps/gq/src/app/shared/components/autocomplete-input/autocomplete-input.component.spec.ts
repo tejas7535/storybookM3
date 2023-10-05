@@ -4,7 +4,6 @@ import {
   MatLegacyAutocompleteModule as MatAutocompleteModule,
   MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
 } from '@angular/material/legacy-autocomplete';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MATERIAL_LEGACY_SANITY_CHECKS as MATERIAL_SANITY_CHECKS } from '@angular/material/legacy-core';
 import { MatLegacyFormField as MatFormField } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
@@ -32,7 +31,6 @@ describe('AutocompleteInputComponent', () => {
     declarations: [AutocompleteInputComponent, NoResultsFoundPipe],
     imports: [
       MatAutocompleteModule,
-      MatChipsModule,
       MatInputModule,
       MatSelectModule,
       MatInputModule,

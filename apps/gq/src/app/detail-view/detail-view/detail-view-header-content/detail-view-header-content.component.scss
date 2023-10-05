@@ -1,3 +1,28 @@
-::ng-deep .mat-chip-list-wrapper {
-  flex-wrap: nowrap !important;
+.mdc-evolution-chip-set__chips {
+  @apply flex-nowrap #{!important};
+}
+
+.mat-mdc-chip {
+  @apply text-[transparent];
+  @apply text-caption;
+  @apply font-bold #{!important};
+  @apply ml-4 #{!important};
+}
+
+.mat-mdc-chip.slow-mover {
+  // Apply tailwind class when monorepo styles are adjusted
+  --mdc-chip-label-text-color: #966c00;
+  @apply bg-[#FEF9EE] #{!important};
+}
+
+.mat-mdc-chip.excess-stock {
+  // Apply tailwind class when monorepo styles are adjusted
+  --mdc-chip-label-text-color: #007892;
+  @apply bg-[#F0F6FA] #{!important};
+}
+
+.mat-mdc-chip.loading {
+  @apply w-24;
+  @apply animate-pulse;
+  @apply bg-disabled-overlay #{!important};
 }
