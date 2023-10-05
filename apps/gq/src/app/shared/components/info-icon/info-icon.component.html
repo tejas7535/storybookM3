@@ -2,11 +2,7 @@
   class="flex cursor-help items-center text-medium-emphasis"
   [ngClass]="{ 'align-middle': displaySmall }"
 >
-  <mat-icon
-    [ngClass]="{ '!text-body-1': displaySmall }"
-    [matTooltip]="text"
-    matTooltipClass="whitespace-pre-line !bg-[#646464] !text-caption !text-high-emphasis-dark-bg !px-3 !py-1"
-  >
+  <mat-icon [ngClass]="{ '!text-body-1': displaySmall }" [matTooltip]="text">
     {{ showHelpIcon ? 'help_outline' : 'info_outline' }}
   </mat-icon>
 </span>
