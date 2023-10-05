@@ -182,13 +182,13 @@ export const getQuotationDetailsByPL = createSelector(
   }
 );
 
-export const getTabsForProcessCaseView = (featureEnabled: boolean) =>
+export const getTabsForProcessCaseView = () =>
   createSelector(
     activeCaseFeature.selectQuotation,
     (quotation: Quotation): Tab[] => {
       const tabs: Tab[] = [];
 
-      if (featureEnabled && quotation?.customer?.enabledForApprovalWorkflow) {
+      if (quotation?.customer?.enabledForApprovalWorkflow) {
         tabs.push({
           label: 'processCaseView.tabs.overview.title',
           link: ProcessCaseRoutePath.OverviewPath,

@@ -1,17 +1,15 @@
-<ng-container *featureToggle="'approvalWorkflow'">
-  <ng-container *transloco="let t; read: 'processCaseView'">
-    <button
-      *ngIf="
-        (quotationStatus === status.IN_APPROVAL ||
-          quotationStatus === status.APPROVED ||
-          quotationStatus === status.REJECTED) &&
-        isProcessCaseOverviewTabActive
-      "
-      mat-raised-button
-      class="text-error"
-      (click)="openDialog()"
-    >
-      {{ t('header.cancelWorkflow') }}
-    </button>
-  </ng-container>
+<ng-container *transloco="let t; read: 'processCaseView'">
+  <button
+    *ngIf="
+      (quotationStatus === status.IN_APPROVAL ||
+        quotationStatus === status.APPROVED ||
+        quotationStatus === status.REJECTED) &&
+      isProcessCaseOverviewTabActive
+    "
+    mat-raised-button
+    class="text-error"
+    (click)="openDialog()"
+  >
+    {{ t('header.cancelWorkflow') }}
+  </button>
 </ng-container>

@@ -25,7 +25,6 @@ import {
 } from '@gq/shared/models';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { Store } from '@ngrx/store';
 
@@ -51,8 +50,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store,
     private readonly approvalFacade: ApprovalFacade,
-    private readonly breadCrumbsService: BreadcrumbsService,
-    private readonly featureToggleService: FeatureToggleConfigService
+    private readonly breadCrumbsService: BreadcrumbsService
   ) {}
 
   ngOnInit(): void {
@@ -74,11 +72,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   }
 
   private initObservables(): void {
-    this.tabs$ = this.store.select(
-      getTabsForProcessCaseView(
-        this.featureToggleService.isEnabled('approvalWorkflow')
-      )
-    );
+    this.tabs$ = this.store.select(getTabsForProcessCaseView());
     this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
 
     this.sapStatus$ = this.store.select(getQuotationSapSyncStatus);

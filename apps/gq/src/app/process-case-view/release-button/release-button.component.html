@@ -1,14 +1,12 @@
-<ng-container *featureToggle="'approvalWorkflow'">
-  <ng-container *ngIf="quotation.customer.enabledForApprovalWorkflow">
-    <ng-container *transloco="let t; read: 'processCaseView'">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="openDialog()"
-        *ngIf="quotation?.sapId && quotation?.status === quotationStatus.ACTIVE"
-      >
-        {{ t('header.release') }}
-      </button>
-    </ng-container>
+<ng-container *ngIf="quotation.customer.enabledForApprovalWorkflow">
+  <ng-container *transloco="let t; read: 'processCaseView'">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openDialog()"
+      *ngIf="quotation?.sapId && quotation?.status === quotationStatus.ACTIVE"
+    >
+      {{ t('header.release') }}
+    </button>
   </ng-container>
 </ng-container>

@@ -441,7 +441,7 @@ describe('Active Case Selectors', () => {
         },
       ];
       expect(
-        activeCaseSelectors.getTabsForProcessCaseView(true)(fakeState)
+        activeCaseSelectors.getTabsForProcessCaseView()(fakeState)
       ).toEqual(expected);
     });
 
@@ -460,7 +460,7 @@ describe('Active Case Selectors', () => {
       ];
       fakeState.activeCase.customer.enabledForApprovalWorkflow = false;
       expect(
-        activeCaseSelectors.getTabsForProcessCaseView(true)(fakeState)
+        activeCaseSelectors.getTabsForProcessCaseView()(fakeState)
       ).toEqual(expected);
     });
     test('should not return overViewPath for disabled feature', () => {
@@ -477,7 +477,7 @@ describe('Active Case Selectors', () => {
         },
       ];
       expect(
-        activeCaseSelectors.getTabsForProcessCaseView(false)(fakeState)
+        activeCaseSelectors.getTabsForProcessCaseView()(fakeState)
       ).toEqual(expected);
     });
   });
