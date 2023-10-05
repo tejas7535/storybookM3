@@ -182,8 +182,8 @@
       "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl"
     },
     "calculationDisclaimer": {
-      "title": "Disclaimer for PCF calculation",
-      "disclaimerFile": "/disclaimers/calculation-en.html"
+      "title": "Allgemeine Beschreibung der Berechnungsmethode für Cradle-to-Gate",
+      "disclaimerFile": "/disclaimers/calculation-de.html"
     },
     "ratingLife": {
       "title": "Bemessungslebensdauer",

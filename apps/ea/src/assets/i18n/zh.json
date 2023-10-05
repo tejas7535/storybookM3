@@ -182,8 +182,8 @@
       "thermallySafeOperatingSpeed": "热安全工作速度"
     },
     "calculationDisclaimer": {
-      "title": "Disclaimer for PCF calculation",
-      "disclaimerFile": "/disclaimers/calculation-en.html"
+      "title": "“摇篮到工厂”PCF 计算方法概述",
+      "disclaimerFile": "/disclaimers/calculation-zh_cn.html"
     },
     "ratingLife": {
       "title": "额定寿命",

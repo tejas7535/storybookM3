@@ -182,8 +182,8 @@
       "thermallySafeOperatingSpeed": "Velocidad de operación térmicamente segura"
     },
     "calculationDisclaimer": {
-      "title": "Disclaimer for PCF calculation",
-      "disclaimerFile": "/disclaimers/calculation-en.html"
+      "title": "Descripción general de la metodología de cálculo del proceso completo de producción",
+      "disclaimerFile": "/disclaimers/calculation-es.html"
     },
     "ratingLife": {
       "title": "Vida nominal",

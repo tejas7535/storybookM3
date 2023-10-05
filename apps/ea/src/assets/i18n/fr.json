@@ -182,8 +182,8 @@
       "thermallySafeOperatingSpeed": "Vitesse de fonctionnement thermiquement sûre"
     },
     "calculationDisclaimer": {
-      "title": "Disclaimer for PCF calculation",
-      "disclaimerFile": "/disclaimers/calculation-en.html"
+      "title": "Description générale de la méthodologie de calcul ACV-A",
+      "disclaimerFile": "/disclaimers/calculation-fr.html"
     },
     "ratingLife": {
       "title": "Durée de vie nominale",

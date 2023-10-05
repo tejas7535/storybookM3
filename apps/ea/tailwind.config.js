@@ -42,7 +42,7 @@ module.exports = {
     },
   },
   important: 'engineering-app',
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
   corePlugins: {
     preflight: false,
   },

@@ -183,8 +183,8 @@
       "thermallySafeOperatingSpeed": "熱安全工作速度"
     },
     "calculationDisclaimer": {
-      "title": "Disclaimer for PCF calculation",
-      "disclaimerFile": "/disclaimers/calculation-en.html"
+      "title": "搖籃到大門的計算方法概述",
+      "disclaimerFile": "/disclaimers/calculation-zh_tw.html"
     },
     "ratingLife": {
       "title": "額定壽命",
