@@ -30,6 +30,9 @@ module.exports = {
         'sea-blue': '#2f799e', // used to show reason for leaving
         teal: '#41a9bc', // used to show reason for leaving
       },
+      backgroundColor: {
+        'gray-300': '#F0F0F0',
+      },
     },
   },
   plugins: [],

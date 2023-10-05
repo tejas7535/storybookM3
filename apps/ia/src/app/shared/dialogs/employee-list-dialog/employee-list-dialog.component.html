@@ -28,13 +28,13 @@
       [type]="data.type"
       [excludedColumns]="data.excludedColumns"
     ></ia-employee-list-table>
+    <span
+      *ngIf="!data.employeesLoading && !data.enoughRightsToShowAllEmployees"
+      class="text-warning !pt-0"
+    >
+      {{ t('enoughRightsToShowAllEmployees') }}
+    </span>
   </mat-dialog-content>
-  <mat-dialog-actions
-    *ngIf="!data.employeesLoading && !data.enoughRightsToShowAllEmployees"
-    class="text-warning !pt-0"
-  >
-    {{ t('enoughRightsToShowAllEmployees') }}
-  </mat-dialog-actions>
 </ng-container>
 
 <ng-template #headings let-filters>

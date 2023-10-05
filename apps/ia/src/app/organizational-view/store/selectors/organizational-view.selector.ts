@@ -64,9 +64,13 @@ export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
     const rates = state.orgChart.fluctuationRates.data?.find(
       (r) => r.value === employee?.dimensionKey && r.timeRange === timeRange?.id
     );
+    const title = employee.dimensionLongName
+      ? `${employee.dimension} (${employee.dimensionLongName})`
+      : employee.dimension;
 
     return {
       ...employeeMeta,
+      title,
       fluctuationRate: rates?.fluctuationRate,
       unforcedFluctuationRate: rates?.unforcedFluctuationRate,
       heatType: HeatType.NONE,

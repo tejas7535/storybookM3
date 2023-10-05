@@ -4,6 +4,7 @@ export interface OrgChartNode {
   expanded: boolean;
   name: string;
   organization: string;
+  organizationLongName: string;
   heatMapClass: string;
   directSubordinates: number;
   totalSubordinates: number;

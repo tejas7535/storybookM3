@@ -40,6 +40,7 @@ export class OrgChartService {
         const nodeId = elem.id;
         const name = elem.managerOfOrgUnit;
         const organization = elem.dimension;
+        const organizationLongName = elem.dimensionLongName;
         const expanded = false;
         const directSubordinates = elem.directEmployees;
         const totalSubordinates = elem.totalEmployees;
@@ -51,6 +52,7 @@ export class OrgChartService {
           parentNodeId,
           expanded,
           name,
+          organizationLongName,
           organization,
           heatMapClass,
           directSubordinates,
@@ -98,16 +100,16 @@ export class OrgChartService {
     height: number,
     dimension: FilterDimension
   ): string {
+    const isOrgUnit = dimension === FilterDimension.ORG_UNIT;
     const paddingTop = data.showUpperParentBtn ? '39' : '64';
-    const marginBottom = dimension === FilterDimension.ORG_UNIT ? '0.5' : '1.5';
+    const marginBottom = isOrgUnit ? '0.5' : '1.5';
     const upwardsButton = `
-            <div class="
-                pointer-events-auto cursor-pointer bg-surface text-low-emphasis
-                flex flex-col mx-auto
-                w-6 h-6 text-[24px]
-                hover:text-medium-emphasis">
+            <div class="pointer-events-auto cursor-pointer bg-surface text-low-emphasis
+                flex flex-col mx-auto w-6 h-6 text-[24px] hover:text-medium-emphasis">
               <span id="show-parent" data-id="${data.nodeId}" 
-                class="-mt-20 w-6 h-6 rounded-full before:content-['\\e5d8'] before:font-materiaIcons hover:ring-1 hover:ring-mediumEmphasis">
+                class="${
+                  isOrgUnit ? '-mt-24' : '-mt-20'
+                } w-6 h-6 rounded-full before:content-['\\e5d8'] before:font-materiaIcons hover:ring-1 hover:ring-mediumEmphasis">
               </span>
             </div>
           `;
@@ -118,18 +120,26 @@ export class OrgChartService {
     }px;height:${height}px">
             ${data.showUpperParentBtn ? upwardsButton : ''}
 
-              <div class="-ml-[70px] px-2 rounded-sm border border-border" style="height:${height}px;width:${width}px;margin-top:-64px;">
-                <div class="flex justify-center pt-2 pb-2 -mt-4 rounded-2xl bg-secondary-900" style="margin-bottom:${marginBottom}rem;">
-                  <span class="text-body-2 text-high-emphasis-dark-bg text-center">
+              <div class="-ml-[70px] px-2 border-2 border-border rounded-md" style="height:${height}px;width:${width}px;margin-top:-64px;">
+                <div class="-mt-8 py-2 rounded-full bg-gray-300 ${
+                  isOrgUnit ? '' : '-mt-4'
+                }"
+                   style="margin-bottom:${marginBottom}rem;">
+                  <span class="block text-body-2 text-high-emphasis text-center">
                     ${data.organization}
                   </span>
+                  <span class="${
+                    data.organizationLongName ? 'block' : 'hidden'
+                  } text-body-2 text-medium-emphasis text-center">
+                  ${data.organizationLongName}
+                </span>
                 </div>
               ${
-                dimension === FilterDimension.ORG_UNIT
+                isOrgUnit
                   ? this.getOrgUnitTable(data)
                   : this.getGeneralDimensionGrid(data)
               }
-                <div class="grid grid-cols-2 gap-2 text-center flex-1 mt-6">
+                <div class="grid grid-cols-2 gap-2 text-center flex-1 mt-3">
                   <span id="employee-node-people" data-id="${
                     data.nodeId
                   }" class="before:content-['people'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
