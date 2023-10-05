@@ -60,6 +60,7 @@ import { OptionTemplateDirective } from './option-template.directive';
 export class TabbedOptionsComponent implements AfterContentInit {
   @Input() formControl: FormControl | undefined;
 
+  @Input() simplifiedMobile = false;
   @Input() mobileStyleClass: string | undefined;
 
   @ContentChildren(OptionTemplateDirective)

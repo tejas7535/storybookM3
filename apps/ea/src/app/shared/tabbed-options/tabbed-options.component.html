@@ -1,8 +1,10 @@
 <div class="flex flex-col md:gap-6 gap-2" *ngIf="selectionOptions">
-  <ng-container *ngIf="isMediumScreen$ | async; else mobileView">
+  <ng-container
+    *ngIf="(isMediumScreen$ | async) || simplifiedMobile; else mobileView"
+  >
     <mat-radio-group [formControl]="control" class="flex flex-wrap">
       <div
-        class="flex"
+        class="flex mb-4 md:mb-0"
         *ngFor="let option of selectionOptions; let last = last"
         [matTooltip]="option.tooltip"
       >
@@ -29,25 +31,25 @@
 
 <!-- Mobile view -->
 <ng-template #mobileView>
-  <div
-    *ngFor="let option of selectionOptions"
-    class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
-    [ngClass]="mobileStyleClass"
-  >
-    <ea-radio-button
-      [label]="option.label"
-      [value]="option.value"
-      [formControl]="control"
-    ></ea-radio-button>
-
+  <ng-container *ngIf="!simplifiedMobile">
     <div
-      class="flex flex-col gap-2"
-      [ngClass]="templateMap[option.value].styleClass"
-      *ngIf="option.value === control?.value"
+      *ngFor="let option of selectionOptions"
+      class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
+      [ngClass]="mobileStyleClass"
     >
-      <ng-template
-        *ngTemplateOutlet="templateMap[option.value].ref"
-      ></ng-template>
-    </div>
-  </div>
+      <ea-radio-button
+        [label]="option.label"
+        [value]="option.value"
+        [formControl]="control"
+      ></ea-radio-button>
+      <div
+        class="flex flex-col gap-2"
+        [ngClass]="templateMap[option.value].styleClass"
+        *ngIf="option.value === control?.value"
+      >
+        <ng-template
+          *ngTemplateOutlet="templateMap[option.value].ref"
+        ></ng-template>
+      </div></div
+  ></ng-container>
 </ng-template>

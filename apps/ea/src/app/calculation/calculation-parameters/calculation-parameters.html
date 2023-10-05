@@ -175,6 +175,7 @@ Status: {{ operationConditionsForm.status }}</pre
     *transloco="let t; read: 'operationConditions.rotatingCondition'"
   >
     <ea-tabbed-options
+      [simplifiedMobile]="true"
       *ngIf="typeOfMotionsAvailable$ | ngrxPush as typeOfMotionsAvailable else loading"
       [formControl]="operationConditionsForm.controls.rotation.controls.typeOfMotion"
     >
