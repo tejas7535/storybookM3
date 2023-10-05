@@ -61,6 +61,7 @@ import {
   getOverviewFluctuationTotalEmployeesCount,
   getResignedEmployees,
   getResignedEmployeesCount,
+  getResignedEmployeesSyncOn,
   getWorkforceBalanceMeta,
 } from './overview.selector';
 
@@ -209,6 +210,7 @@ describe('Overview Selector', () => {
         data: {
           employees: [{ employeeName: 'Bastian' } as Employee],
           resignedEmployeesCount: 1,
+          synchronizedOn: '12345',
           responseModified: false,
         },
         loading: false,
@@ -684,6 +686,14 @@ describe('Overview Selector', () => {
     it('should return resigned employees count', () => {
       expect(getResignedEmployeesCount.projector(fakeState.overview)).toEqual(
         fakeState.overview.resignedEmployees.data?.resignedEmployeesCount
+      );
+    });
+  });
+
+  describe('getResignedEmployeesSyncOn', () => {
+    test('should return sync on', () => {
+      expect(getResignedEmployeesSyncOn.projector(fakeState.overview)).toEqual(
+        '12345'
       );
     });
   });

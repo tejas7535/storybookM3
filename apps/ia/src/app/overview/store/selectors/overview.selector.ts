@@ -294,6 +294,11 @@ export const getResignedEmployeesCount = createSelector(
   (state: OverviewState) => state.resignedEmployees.data?.resignedEmployeesCount
 );
 
+export const getResignedEmployeesSyncOn = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.resignedEmployees.data?.synchronizedOn
+);
+
 export const getOpenApplications = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.openApplications.data

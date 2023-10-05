@@ -4,9 +4,11 @@
 >
   <h5>{{ t('title') }}</h5>
   <div class="pl-4">
-    <span class="text-body-2 mt-4 flex flex-row">{{
-      t('totalResignations')
-    }}</span>
+    <span class="text-body-2 mt-4 flex flex-row"
+      >{{ t('totalResignations') }}&nbsp;({{
+        syncOn | date: 'dd/MM/yyyy'
+      }})</span
+    >
     <h4 class="mb-4 flex flex-row">{{ totalCount | defaultValue }}</h4>
   </div>
 

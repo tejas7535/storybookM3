@@ -60,6 +60,7 @@ import {
   getOverviewFluctuationTotalEmployeesCount,
   getResignedEmployees,
   getResignedEmployeesCount,
+  getResignedEmployeesSyncOn,
 } from './store/selectors/overview.selector';
 
 @Component({
@@ -109,6 +110,7 @@ export class OverviewComponent implements OnInit {
 
   resignedEmployees$: Observable<ResignedEmployee[]>;
   resignedEmployeesCount$: Observable<number>;
+  resignedEmployeesSyncOn$: Observable<string>;
   resignedEmployeesLoading$: Observable<boolean>;
 
   openApplications$: Observable<OpenApplication[]>;
@@ -279,6 +281,9 @@ export class OverviewComponent implements OnInit {
       getIsLoadingResignedEmployees
     );
     this.resignedEmployeesCount$ = this.store.select(getResignedEmployeesCount);
+    this.resignedEmployeesSyncOn$ = this.store.select(
+      getResignedEmployeesSyncOn
+    );
   }
 
   loadOpenApplicationsData() {

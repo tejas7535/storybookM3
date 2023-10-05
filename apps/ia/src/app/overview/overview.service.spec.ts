@@ -87,6 +87,7 @@ describe('OverviewService', () => {
         employees: [],
         resignedEmployeesCount: 5,
         responseModified: true,
+        synchronizedOn: '123',
       };
       const request: Partial<EmployeesRequest> = {
         filterDimension: FilterDimension.ORG_UNIT,

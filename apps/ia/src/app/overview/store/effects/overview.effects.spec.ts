@@ -819,6 +819,7 @@ describe('Overview Effects', () => {
           employees: [],
           resignedEmployeesCount: 0,
           responseModified: true,
+          synchronizedOn: '123',
         };
         store.overrideSelector(getCurrentFilters, request);
 

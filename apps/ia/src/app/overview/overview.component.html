@@ -146,6 +146,7 @@
         <div class="grow p-4 shadow">
           <ia-resignations
             [data]="resignedEmployees$ | ngrxPush"
+            [syncOn]="resignedEmployeesSyncOn$ | ngrxPush"
             [loading]="resignedEmployeesLoading$ | ngrxPush"
             [totalCount]="resignedEmployeesCount$ | ngrxPush"
           ></ia-resignations>

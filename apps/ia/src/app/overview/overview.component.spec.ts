@@ -33,6 +33,7 @@ import {
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
+  getResignedEmployeesSyncOn,
 } from './store/selectors/overview.selector';
 
 describe('OverviewComponent', () => {
@@ -253,6 +254,20 @@ describe('OverviewComponent', () => {
         store.overrideSelector(getOverviewExitEmployees, result);
         component.ngOnInit();
         m.expect(component.exitEmployees$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set resignedEmployeesSyncOn$',
+      marbles((m) => {
+        const result = '12334';
+        store.overrideSelector(getResignedEmployeesSyncOn, result);
+        component.ngOnInit();
+        m.expect(component.resignedEmployeesSyncOn$).toBeObservable(
           m.cold('a', {
             a: result,
           })

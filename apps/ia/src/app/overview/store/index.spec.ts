@@ -381,6 +381,7 @@ describe('Overview Reducer', () => {
         employees: [],
         resignedEmployeesCount: 5,
         responseModified: true,
+        synchronizedOn: '123',
       };
 
       const action = loadResignedEmployeesSuccess({ data });

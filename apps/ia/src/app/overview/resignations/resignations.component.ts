@@ -15,6 +15,7 @@ export class ResignationsComponent {
   @Input() loading: boolean; // not used at the moment
   @Input() data: ResignedEmployee[];
   @Input() totalCount: number;
+  @Input() syncOn: string;
 
   frameworkComponents = {};
 

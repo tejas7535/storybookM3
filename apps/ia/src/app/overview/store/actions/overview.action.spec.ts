@@ -253,6 +253,7 @@ describe('Overview Actions', () => {
       employees: [],
       resignedEmployeesCount: 5,
       responseModified: true,
+      synchronizedOn: '123',
     };
     const action = loadResignedEmployeesSuccess({ data });
 
