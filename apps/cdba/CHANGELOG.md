@@ -1,4 +1,11 @@
 # Release Notes of Cost Database Analytics
+## [4.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.1.0...cdba-v4.2.0) (2023-10-05)
+
+
+### Features
+
+* **cdba:** material type integration, added translations ([#5672](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5672)) ([227d951](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/227d9510d450e14198d96b43dadd4ceed780e559))
+
 ## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.0.1...cdba-v4.1.0) (2023-08-30)
 
 
