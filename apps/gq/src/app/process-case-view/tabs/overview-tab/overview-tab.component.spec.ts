@@ -9,9 +9,9 @@ import {
 } from '@gq/core/store/active-case';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
+import { Rating } from '@gq/shared/models/rating.enum';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as miscUtils from '@gq/shared/utils/misc.utils';

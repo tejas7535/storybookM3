@@ -7,5 +7,6 @@ import { Component, Input } from '@angular/core';
 export class LabelTextComponent {
   @Input() marginBottom = true;
   @Input() modalVersion = false;
+  @Input() modalFlexRow = false;
   @Input() tooltipText = '';
 }

@@ -64,10 +64,11 @@
         class="col-span-1 flex"
         [title]="t('tabs.overview.ratingCardTitle')"
         [subtitle]="t('tabs.overview.ratingCardSubtitle')"
-      >
-        <gq-quotation-rating
-          [rating]="(pricingInformation$ | ngrxPush)?.avgGqRating.value"
-        ></gq-quotation-rating>
+        ><div class="pt-6">
+          <gq-star-rating
+            [rating]="(pricingInformation$ | ngrxPush)?.avgGqRating.value"
+          ></gq-star-rating>
+        </div>
       </gq-kpi-status-card>
       <gq-kpi-status-card
         class="col-span-1"

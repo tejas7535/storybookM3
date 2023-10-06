@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {
@@ -25,6 +26,7 @@ import {
   getMaterialStockLoading,
   getPlantMaterialDetails,
 } from '@gq/core/store/selectors';
+import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
 import {
   ApprovalWorkflowInformation,
   Quotation,
@@ -74,7 +76,8 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly agGridService: AgGridStateService,
-    private readonly approvalFacade: ApprovalFacade
+    private readonly approvalFacade: ApprovalFacade,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -104,6 +107,16 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
     this.shutDown$$.next();
     this.shutDown$$.complete();
+  }
+
+  openPricingAssistant(quotationDetail: QuotationDetail): void {
+    this.dialog.open(PricingAssistantModalComponent, {
+      data: quotationDetail,
+      width: '1000px',
+      height: '1000px',
+      autoFocus: false,
+      panelClass: 'pricing-assistant-modal',
+    });
   }
 
   private initObservables(): void {

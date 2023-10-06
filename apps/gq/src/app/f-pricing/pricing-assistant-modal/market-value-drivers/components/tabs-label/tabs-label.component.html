@@ -1,0 +1,20 @@
+<ng-container *ngIf="!isOperator; else operator">
+  <div class="flex flex-col items-start justify-start pb-2 px-1">
+    <div class="flex flex-row items-center">
+      <mat-icon
+        *ngIf="icon"
+        class="icon-5 !h-5 !w5 items-center pr-1"
+        [ngClass]="iconColor"
+        >{{ icon }}</mat-icon
+      >
+      <span class="gq-text-5">{{ value }}</span>
+    </div>
+
+    <span class="text-caption normal-case pt-1">{{ title }}</span>
+  </div>
+</ng-container>
+<ng-template #operator>
+  <div class="flex items-start">
+    <span class="gq-text-5">{{ operatorText }}</span>
+  </div>
+</ng-template>

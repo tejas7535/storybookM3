@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'gq-quotation-rating',
-  templateUrl: './quotation-rating.component.html',
+  selector: 'gq-star-rating',
+  templateUrl: './star-rating.component.html',
 })
-export class QuotationRatingComponent {
+export class StarRatingComponent {
   @Input() rating: number;
+  @Input() iconClasses: string;
 
   public trackByFn(index: number): number {
     return index;

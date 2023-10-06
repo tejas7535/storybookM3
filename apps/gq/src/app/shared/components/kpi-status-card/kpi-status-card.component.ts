@@ -4,9 +4,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { Rating } from '@gq/shared/models/rating.enum';
+import { getRatingText } from '@gq/shared/utils/misc.utils';
 
-import { Rating } from './models/rating.enum';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-kpi-status-card',
@@ -31,6 +32,6 @@ export class KpiStatusCardComponent {
 
   public readonly ratingStatus = Rating;
   public get ratingText(): string {
-    return Rating[this.rating];
+    return getRatingText(this.rating);
   }
 }

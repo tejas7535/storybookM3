@@ -1,5 +1,5 @@
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { NumberCurrencyPipe } from './number-currency.pipe';
 
@@ -41,7 +41,8 @@ describe('NumberCurrencyPipe', () => {
     );
     expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
       10_000,
-      'EUR'
+      'EUR',
+      false
     );
   });
 });

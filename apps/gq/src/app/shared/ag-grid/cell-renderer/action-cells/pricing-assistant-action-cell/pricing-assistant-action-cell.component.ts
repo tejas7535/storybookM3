@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
+import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
 import { QuotationDetail } from '@gq/shared/models';
 import { quotationDetailIsFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { CellClassParams } from 'ag-grid-community';
@@ -12,12 +14,20 @@ export class PricingAssistantActionCellComponent {
   params: CellClassParams;
   isFNumber = false;
 
+  constructor(private readonly dialog: MatDialog) {}
+
   agInit(params: CellClassParams): void {
     this.params = params;
     this.isFNumber = quotationDetailIsFNumber(params.data as QuotationDetail);
   }
 
   openDialog(): void {
-    console.log('openDialog');
+    this.dialog.open(PricingAssistantModalComponent, {
+      data: this.params.data,
+      width: '1000px',
+      height: '1000px',
+      autoFocus: false,
+      panelClass: 'pricing-assistant-modal',
+    });
   }
 }

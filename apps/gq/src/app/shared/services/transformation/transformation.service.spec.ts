@@ -77,6 +77,12 @@ describe('TransformationService', () => {
 
       expect(result).toEqual(Keyboard.DASH);
     });
+
+    test('should return the value if keepValue is true', () => {
+      const result = service.transformNumberCurrency(0, 'EUR', true);
+
+      expect(result).toEqual('0 EUR');
+    });
   });
 
   describe('transformPercentage', () => {

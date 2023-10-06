@@ -2,6 +2,8 @@ import { LOCALE_DE } from '@gq/shared/constants';
 import { Duration, Keyboard } from '@gq/shared/models';
 import moment from 'moment';
 
+import { Rating } from '../models/rating.enum';
+
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
@@ -88,3 +90,7 @@ export const validateQuantityInputKeyPress = (event: KeyboardEvent): void => {
 
 const isPaste = (event: KeyboardEvent): boolean =>
   (event.ctrlKey && event.key === 'v') || (event.metaKey && event.key === 'v'); // support for macOs
+
+export function getRatingText(rating: number): string {
+  return Rating[rating];
+}

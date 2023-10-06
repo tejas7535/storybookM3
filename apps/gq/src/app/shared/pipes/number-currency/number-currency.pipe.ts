@@ -8,7 +8,15 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 export class NumberCurrencyPipe implements PipeTransform {
   constructor(private readonly transformationService: TransformationService) {}
 
-  transform(value: number, currency: string): string {
-    return this.transformationService.transformNumberCurrency(value, currency);
+  transform(
+    value: number,
+    currency: string,
+    keepValue: boolean = false
+  ): string {
+    return this.transformationService.transformNumberCurrency(
+      value,
+      currency,
+      keepValue
+    );
   }
 }

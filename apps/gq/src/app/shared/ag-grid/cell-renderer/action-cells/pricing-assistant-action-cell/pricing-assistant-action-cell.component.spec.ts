@@ -1,10 +1,10 @@
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { PricingAssistantActionCellComponent } from './pricing-assistant-action-cell.component';
-
 describe('pricing Assistant Action Cell Component', () => {
   let component: PricingAssistantActionCellComponent;
   let spectator: Spectator<PricingAssistantActionCellComponent>;
@@ -13,6 +13,7 @@ describe('pricing Assistant Action Cell Component', () => {
     component: PricingAssistantActionCellComponent,
     declarations: [PricingAssistantActionCellComponent],
     imports: [MatIconModule],
+    providers: [{ provide: MatDialog, useValue: {} }],
   });
 
   beforeEach(() => {

@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -8,7 +9,10 @@ import { activeCaseFeature } from '@gq/core/store/active-case';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ApprovalWorkflowInformation, Quotation } from '@gq/shared/models';
-import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail';
+import {
+  QuotationDetail,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetModule, PushModule } from '@ngrx/component';
@@ -61,6 +65,7 @@ describe('DetailViewComponent', () => {
       }),
       MockProvider(AgGridStateService),
       MockProvider(ApprovalFacade),
+      { provide: MatDialog, useValue: {} },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -297,6 +302,18 @@ describe('DetailViewComponent', () => {
       expect(component['shutDown$$'].next).toHaveBeenCalled();
       expect(component['shutDown$$'].complete).toHaveBeenCalled();
       expect(stopApprovalCockpitDataPolling).toHaveBeenCalled();
+    });
+  });
+
+  describe('openPricingAssistant', () => {
+    test('should open pricing assistant dialog', () => {
+      const openMock = jest.fn();
+      component['dialog'].open = openMock;
+      const detail = { gqPositionId: '1245' } as QuotationDetail;
+
+      component.openPricingAssistant(detail);
+
+      expect(openMock).toHaveBeenCalled();
     });
   });
 

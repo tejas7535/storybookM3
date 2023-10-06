@@ -16,7 +16,6 @@ import {
 } from '@gq/core/store/active-case';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
-import { Rating } from '@gq/shared/components/kpi-status-card/models/rating.enum';
 import { ApprovalWorkflowInformation } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import {
@@ -24,6 +23,7 @@ import {
   QuotationPricingOverview,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
+import { Rating } from '@gq/shared/models/rating.enum';
 import { calculateDuration } from '@gq/shared/utils/misc.utils';
 import { Store } from '@ngrx/store';
 

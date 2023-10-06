@@ -1,0 +1,50 @@
+<div *transloco="let t; read: 'fPricing.pricingAssistantModal'" class="">
+  <gq-dialog-header
+    [title]="t('title', { material: material.materialDescription })"
+    (closeDialog)="closeDialog.emit()"
+  >
+  </gq-dialog-header>
+  <div class="pt-2 text-caption flex flex-row gap-3">
+    <gq-label-text
+      *ngIf="material.materialNumber13"
+      [modalVersion]="true"
+      [modalFlexRow]="true"
+    >
+      <span label>
+        {{ t('materialNumberLabel') }}
+      </span>
+      <span text>
+        {{ material.materialDescription }}
+      </span>
+    </gq-label-text>
+    <span class="text-medium-emphasis"> | </span>
+    <gq-label-text
+      *ngIf="material.dimensions"
+      [modalVersion]="true"
+      [modalFlexRow]="true"
+    >
+      <span label>
+        {{ t('dimensionsLabel') }}
+      </span>
+      <span text>
+        {{ material.dimensions }}
+      </span>
+    </gq-label-text>
+    <span class="text-medium-emphasis"> | </span>
+    <gq-label-text
+      *ngIf="material.grossWeight"
+      [modalVersion]="true"
+      [modalFlexRow]="true"
+    >
+      <span label>
+        {{ t('weightLabel') }}
+      </span>
+      <span text> {{ material.grossWeight }} {{ material.baseUoM }} </span>
+    </gq-label-text>
+    <span class="text-medium-emphasis"> | </span>
+    <span class="text-link text-caption cursor-pointer">
+      {{ t('showMoreButtonLabel') }}
+    </span>
+  </div>
+  <div class="-mx-4 h-px bg-selected-overlay"></div>
+</div>

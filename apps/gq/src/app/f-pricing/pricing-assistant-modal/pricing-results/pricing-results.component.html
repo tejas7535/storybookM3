@@ -1,0 +1,47 @@
+<div
+  *transloco="let t; read: 'fPricing.pricingAssistantModal'"
+  class="flex flex-col px-4 pt-4"
+>
+  <span class="gq-text-5">{{ t('resultsLabel') }}</span>
+  <div class="flex flex-row w-full items-end justify-between pt-2">
+    <div class="flex flex-row gap-6 items-end">
+      <div class="flex flex-col">
+        <span class="text-h4 text-high-emphasis">
+          {{ price | numberCurrency: currency }}
+        </span>
+        <span class="text-caption text-medium-emphasis">{{
+          t('resultsPriceLabel')
+        }}</span>
+      </div>
+
+      <div class="flex flex-col">
+        <span class="gq-text-5">
+          {{ gpm | percentage }}
+        </span>
+        <span class="text-caption text-medium-emphasis">{{
+          t('resultsGpmLabel')
+        }}</span>
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <span class="text-body-2 text-medium-emphasis">{{
+        t('confidence.levelLabel')
+      }}</span>
+
+      <div class="flex flex-row items-center gap-2">
+        <gq-star-rating
+          class="pt-1"
+          [rating]="2"
+          [iconClasses]="'!icon-5 !w-5 !h-5'"
+        >
+        </gq-star-rating>
+        <mat-icon
+          class="text-medium-emphasis cursor-pointer !overflow-visible !h-4 !w-4 !text-[16px]"
+          [matTooltip]="t('confidence.tooltip')"
+          >info_outline</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+  <gq-horizontal-divider></gq-horizontal-divider>
+</div>

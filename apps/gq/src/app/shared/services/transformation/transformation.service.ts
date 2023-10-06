@@ -46,15 +46,24 @@ export class TransformationService {
     );
   }
 
-  transformNumberCurrency(number: number, currency: string): string {
+  transformNumberCurrency(
+    number: number,
+    currency: string,
+    keepValue: boolean = false
+  ): string {
     const locale = this.translocoLocaleService.getLocale();
+    // when function localizeNumber() returns falsy value (undefined, null, NaN, 0, '') then define if to return a dash or the falsy value
+    // in some places the '0' value is needed instead of the dash
+    const falsyValueReturn = keepValue
+      ? `${number} ${currency}`
+      : Keyboard.DASH;
 
     return number
       ? this.translocoLocaleService.localizeNumber(number, 'currency', locale, {
           currency,
           currencyDisplay: 'code',
         })
-      : Keyboard.DASH;
+      : falsyValueReturn;
   }
 
   transformPercentage(percentage: number): string {

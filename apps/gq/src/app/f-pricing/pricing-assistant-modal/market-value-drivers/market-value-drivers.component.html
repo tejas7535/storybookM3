@@ -1,0 +1,95 @@
+<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+  <mat-tab-group mat-stretch-tabs="false" class="h-full">
+    <mat-tab>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          [value]="referencePrice | numberCurrency: currency:true"
+          [title]="t('referencePricingLabel')"
+        ></gq-tabs-label
+      ></ng-template>
+      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
+        reference pricing content
+      </div>
+    </mat-tab>
+    <mat-tab disabled>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          class="h-full"
+          [isOperator]="true"
+          [operatorText]="'+'"
+        ></gq-tabs-label
+      ></ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          [value]="marketValueDriversValue | numberCurrency: currency:true"
+          [title]="t('marketValueDriversLabel')"
+          [icon]="'warning_amber'"
+          [iconColor]="'text-error'"
+        ></gq-tabs-label
+      ></ng-template>
+      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
+        market value drivers content
+      </div>
+    </mat-tab>
+    <mat-tab disabled>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          class="h-full"
+          [isOperator]="true"
+          [operatorText]="'+'"
+        ></gq-tabs-label
+      ></ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          [value]="technicalValueDriversValue | numberCurrency: currency:true"
+          [title]="t('technicalValueDriversLabel')"
+        ></gq-tabs-label
+      ></ng-template>
+      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
+        technical value drivers content
+      </div>
+    </mat-tab>
+    <mat-tab disabled>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          class="h-full"
+          [isOperator]="true"
+          [operatorText]="'-'"
+        ></gq-tabs-label
+      ></ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          [value]="sanityCheckValue | numberCurrency: currency:true"
+          [title]="t('sanityCheckLabel')"
+        ></gq-tabs-label
+      ></ng-template>
+      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
+        sanity check content
+      </div>
+    </mat-tab>
+
+    <mat-tab disabled>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          class="h-full"
+          [isOperator]="true"
+          [operatorText]="'='"
+        ></gq-tabs-label
+      ></ng-template>
+    </mat-tab>
+    <mat-tab disabled>
+      <ng-template mat-tab-label
+        ><gq-tabs-label
+          [value]="finalPrice | numberCurrency: currency:true"
+          [title]="t('finalPriceLabel')"
+        ></gq-tabs-label
+      ></ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>

@@ -1,0 +1,65 @@
+<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+  <div class="flex flex-col h-full">
+    <gq-pricing-assistant-header
+      [material]="material"
+      (closeDialog)="closeDialog()"
+    ></gq-pricing-assistant-header>
+    <div class="flex flex-row justify-between w-full gap-3 py-4">
+      <gq-price-button
+        class="w-full"
+        [priceLabelKey]="'gqPriceLabel'"
+        [priceValue]="45.12"
+        [currency]="'EUR'"
+        [gpmValue]="12.45"
+        [icon]="'warning_amber'"
+        [iconColor]="'text-error'"
+        [isSelected]="true"
+        [isActiveInDialog]="true"
+      ></gq-price-button>
+
+      <gq-price-button
+        class="w-full"
+        [isAddManualPriceButton]="true"
+        (manualPriceClicked)="manualPriceClicked()"
+      ></gq-price-button>
+    </div>
+    <mat-card appearance="outlined" class="h-full">
+      <div class="flex flex-col h-full">
+        <gq-pricing-results
+          [price]="24.23"
+          [currency]="'EUR'"
+          [gpm]="12.4"
+          [confidence]="2"
+        ></gq-pricing-results>
+        <gq-market-value-drivers
+          class="h-full"
+          [currency]="'EUR'"
+          [referencePrice]="1214.0"
+          [marketValueDriversValue]="63.23"
+          [technicalValueDriversValue]="12.23"
+          [sanityCheckValue]="0"
+          [finalPrice]="2013.45"
+        ></gq-market-value-drivers>
+      </div>
+    </mat-card>
+    <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
+    <div class="flex justify-start mt-4">
+      <button
+        color="primary"
+        class="!mr-4 text-button font-medium"
+        mat-raised-button
+        (click)="confirm()"
+      >
+        {{ t('confirmButton') }}
+      </button>
+      <button
+        color="primary"
+        class="text-button font-medium"
+        mat-stroked-button
+        (click)="closeDialog()"
+      >
+        {{ t('cancelButton') }}
+      </button>
+    </div>
+  </div>
+</ng-container>

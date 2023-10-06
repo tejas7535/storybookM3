@@ -1,8 +1,9 @@
-<div *ngIf="rating; else showdash" class="pt-6">
+<div *ngIf="rating; else showdash">
   <ng-container *ngFor="let i of [].constructor(rating); trackBy: trackByFn">
     <mat-icon
       color="primary"
-      class="!w-auto !overflow-visible align-text-top !text-[34px]"
+      class="!w-auto !overflow-visible align-text-top"
+      [ngClass]="iconClasses ? iconClasses : '!text-[34px]'"
       >star</mat-icon
     >
   </ng-container>
@@ -11,7 +12,8 @@
   >
     <mat-icon
       color="primary"
-      class="!w-auto !overflow-visible align-text-top !text-[34px]"
+      class="!w-auto !overflow-visible align-text-top"
+      [ngClass]="iconClasses ? iconClasses : '!text-[34px]'"
       >star_border</mat-icon
     >
   </ng-container>

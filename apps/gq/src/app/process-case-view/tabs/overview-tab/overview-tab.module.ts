@@ -15,6 +15,7 @@ import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kp
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { AttachmentFilesUploadModalModule } from '@gq/shared/components/modal/attachment-files-upload-modal/attachment-files-upload-modal.module';
 import { DeletingAttachmentModalModule } from '@gq/shared/components/modal/delete-attachment-modal/delete-attachment-modal.module';
+import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -30,7 +31,6 @@ import {
   GeneralInformationComponent,
   QuotationByProductLineOrGpsdBarChartComponent,
   QuotationByProductLineOrGpsdComponent,
-  QuotationRatingComponent,
 } from './components';
 import { ApproverDisplayPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/approver-display.pipe';
 import { UserInitialLettersPipe } from './components/approval-cockpit/approval-workflow-approver/pipes/user-initial-letters.pipe';
@@ -41,7 +41,6 @@ import { ApprovalDecisionModalComponent } from './components/approval-decision-m
 import { ForwardApprovalWorkflowModalComponent } from './components/forward-approval-workflow-modal/forward-approval-workflow-modal.component';
 import { OverviewTabComponent } from './overview-tab.component';
 import { OverviewTabRoutingModule } from './overview-tab.routing.module';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -70,11 +69,11 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     AttachmentFilesUploadModalModule,
     DeletingAttachmentModalModule,
     SharedDirectivesModule,
+    StarRatingModule,
   ],
   declarations: [
     OverviewTabComponent,
     GeneralInformationComponent,
-    QuotationRatingComponent,
     QuotationByProductLineOrGpsdComponent,
     QuotationByProductLineOrGpsdBarChartComponent,
     ApprovalCockpitComponent,
@@ -90,7 +89,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
   exports: [
     OverviewTabComponent,
     GeneralInformationComponent,
-    QuotationRatingComponent,
+
     QuotationByProductLineOrGpsdComponent,
     QuotationByProductLineOrGpsdBarChartComponent,
   ],

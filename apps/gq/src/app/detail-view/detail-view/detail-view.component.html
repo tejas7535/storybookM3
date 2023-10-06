@@ -47,7 +47,13 @@
             *ngIf="activeCaseFacade.quotationDetailIsFNumber$ | ngrxPush"
             class="flex justify-end md:mr-4"
           >
-            <button class="!mt-2 w-[250px]" mat-raised-button color="primary">
+            <button
+              *ngrxLet="quotationDetail$ as quotationDetail"
+              class="!mt-2 w-[250px]"
+              mat-raised-button
+              color="primary"
+              (click)="openPricingAssistant(quotationDetail)"
+            >
               {{ t('pricingAssistantButton') }}
             </button>
           </div>

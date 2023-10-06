@@ -553,5 +553,32 @@
     "gpiLabel": "GPI",
     "foundInOpenCases": "Found in open Cases",
     "showMore": "Show more"
+  },
+  "fPricing": {
+    "pricingAssistantModal": {
+      "title": "Pricing Assistant for {{ material }}",
+      "materialNumberLabel": "Material No.",
+      "dimensionsLabel": "Dimensions",
+      "weightLabel": "Weight",
+      "showMoreButtonLabel": "Show more",
+      "gqPriceLabel": " GQ Price",
+      "currentlySelected": "currently selected",
+      "gpmLabel": "GPM %",
+      "addManualPriceButton": "Add Manual Price",
+      "cancelButton": "Cancel",
+      "confirmButton": "Confirm",
+      "resultsLabel": "Results",
+      "resultsPriceLabel": "Proposed Selling Price",
+      "resultsGpmLabel": "GPM %",
+      "confidence": {
+        "levelLabel": "Confidence Level:",
+        "tooltip": "tooltiptext for confidence"
+      },
+      "referencePricingLabel": "Reference Pricing",
+      "marketValueDriversLabel": "Market Value Drivers",
+      "technicalValueDriversLabel": "Technical Value Drivers",
+      "sanityCheckLabel": "Sanity Check",
+      "finalPriceLabel": "Final Price"
+    }
   }
 }

@@ -81,3 +81,51 @@ button {
   @apply bg-secondary-900 #{!important};
   @apply text-caption #{!important};
 }
+
+.pricing-assistant-modal {
+  .mat-mdc-tab {
+    @apply px-0;
+    min-width: 60px;
+
+    &.mat-mdc-tab-disabled {
+      @apply opacity-100;
+      @apply pointer-events-none;
+      @apply cursor-default;
+    }
+
+    .mdc-tab-indicator__content--underline {
+      @apply rounded-t-3xl;
+      @apply border-t-4;
+    }
+  }
+
+  .mat-mdc-tab-labels {
+    @apply justify-between;
+    @apply flex;
+    @apply px-4;
+  }
+
+  .mat-mdc-tab-label {
+    @apply p-0;
+    @apply pb-3;
+    min-width: 60px;
+
+    span {
+      @apply text-medium-emphasis;
+    }
+  }
+
+  .mat-mdc-tab-label-content {
+    @apply h-full;
+  }
+
+  .mat-mdc-tab-label-active {
+    span {
+      @apply text-link;
+    }
+  }
+
+  .mat-mdc-tab-body-wrapper {
+    @apply h-full;
+  }
+}
