@@ -20,6 +20,7 @@
             ></gq-production-cost-details>
             <gq-material-comparable-cost-details
               [price]="quotationDetail.price"
+              [materialPriceUnit]="quotationDetail.material?.priceUnit"
               [currency]="currency"
               [sapPriceUnit]="quotationDetail.sapPriceUnit"
             ></gq-material-comparable-cost-details>

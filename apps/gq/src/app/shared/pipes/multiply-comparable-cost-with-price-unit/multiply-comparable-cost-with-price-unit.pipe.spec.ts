@@ -1,6 +1,6 @@
 import { Keyboard } from '@gq/shared/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-comparable-cost-with-price-unit.pipe';
 
@@ -39,7 +39,7 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
     const result = pipe.transform(1, 'EUR', 10, undefined as any);
 
     expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
-      1,
+      10,
       'EUR'
     );
     expect(result).toEqual('result');
@@ -49,7 +49,7 @@ describe('MultiplyComparableCostWithPriceUnitPipe', () => {
     const result = pipe.transform(50, 'EUR', 10, 100 as any);
 
     expect(transformationService.transformNumberCurrency).toHaveBeenCalledWith(
-      500,
+      5000,
       'EUR'
     );
     expect(result).toEqual('result');

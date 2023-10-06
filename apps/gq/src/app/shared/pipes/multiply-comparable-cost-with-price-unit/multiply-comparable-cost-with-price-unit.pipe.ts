@@ -11,11 +11,11 @@ export class MultiplyComparableCostWithPriceUnitPipe implements PipeTransform {
 
   /**
    * Transforms a comparable cost by given sapPrice Unit.
-   * A comparable cost is always saved on the factor of {@param materialPriceUnit}.
+   * A comparable cost is always saved on the factor of 1.
    *
    * @param cost the cost
    * @param currency the currency of the cost
-   * @param materialPriceUnit the price Unit of the material
+   * @param materialPriceUnit the price unit of the material
    * @param sapPriceUnit the price unit saved in SAP
    * @returns the transformed value as {@link string}
    */
@@ -30,9 +30,8 @@ export class MultiplyComparableCostWithPriceUnitPipe implements PipeTransform {
     }
 
     const adjustedValue = sapPriceUnit
-      ? (value / materialPriceUnit) * sapPriceUnit
-      : // value does not have to be multiplied with materialPriceUnit because it is already saved on that factor in the db
-        value;
+      ? value * sapPriceUnit
+      : value * materialPriceUnit;
 
     return this.transformationService.transformNumberCurrency(
       adjustedValue,
