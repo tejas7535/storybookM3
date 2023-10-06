@@ -3,9 +3,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import {
-  MatLegacySlideToggleChange as MatSlideToggleChange,
-  MatLegacySlideToggleModule as MatSlideToggleModule,
-} from '@angular/material/legacy-slide-toggle';
+  MatSlideToggleChange,
+  MatSlideToggleModule,
+} from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
