@@ -2,19 +2,17 @@
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
-import { AutocompleteSearch } from '@gq/shared/models/search';
-import { IdValue } from '@gq/shared/models/search';
-import { MaterialTableItem } from '@gq/shared/models/table';
-import { MaterialValidation } from '@gq/shared/models/table';
-import { ValidationDescription } from '@gq/shared/models/table';
+import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  ValidationDescription,
+} from '@gq/shared/models/table';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { CustomerSalesOrgsCurrenciesResponse } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';

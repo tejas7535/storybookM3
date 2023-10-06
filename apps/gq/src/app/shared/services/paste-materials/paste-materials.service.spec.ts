@@ -1,12 +1,12 @@
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { mockProvider } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

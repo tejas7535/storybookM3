@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -10,11 +10,15 @@ import { Quotation } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
-import { CustomerSalesOrgsCurrenciesResponse } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
-import { SalesOrgCurrency } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
+import {
+  CustomerSalesOrgsCurrenciesResponse,
+  SalesOrgCurrency,
+} from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
-import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
-import { MaterialValidationResponse } from '@gq/shared/services/rest/material/models';
+import {
+  MaterialValidationRequest,
+  MaterialValidationResponse,
+} from '@gq/shared/services/rest/material/models';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';

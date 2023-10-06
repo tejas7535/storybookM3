@@ -5,7 +5,7 @@ import {
   UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable } from 'rxjs';
 
@@ -33,26 +33,24 @@ import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete
   templateUrl: './add-entry.component.html',
 })
 export class AddEntryComponent implements OnInit, OnDestroy {
-  public materialNumber$: Observable<CaseFilterItem>;
-  public materialDesc$: Observable<CaseFilterItem>;
-  autoSelectMaterial$: Observable<CaseFilterItem>;
-  public materialNumberAutocompleteLoading$: Observable<boolean>;
-  public materialDescAutocompleteLoading$: Observable<boolean>;
-
-  public materialNumberInput: boolean;
-  public quantity: number;
-  public materialInputIsValid = false;
-  public quantityValid = false;
-  public addRowEnabled = false;
-  public quantityFormControl: UntypedFormControl = new UntypedFormControl();
-  public targetPriceFormControl: FormControl = new FormControl();
-
-  @Input() public readonly isCaseView: boolean;
-
+  @Input() readonly isCaseView: boolean;
   @ViewChild('materialNumberInput')
-  public matNumberInput: AutocompleteInputComponent;
+  matNumberInput: AutocompleteInputComponent;
   @ViewChild('materialDescInput')
-  public matDescInput: AutocompleteInputComponent;
+  matDescInput: AutocompleteInputComponent;
+
+  materialNumber$: Observable<CaseFilterItem>;
+  materialDesc$: Observable<CaseFilterItem>;
+  autoSelectMaterial$: Observable<CaseFilterItem>;
+  materialNumberAutocompleteLoading$: Observable<boolean>;
+  materialDescAutocompleteLoading$: Observable<boolean>;
+  materialNumberInput: boolean;
+  quantity: number;
+  materialInputIsValid = false;
+  quantityValid = false;
+  addRowEnabled = false;
+  quantityFormControl: UntypedFormControl = new UntypedFormControl();
+  targetPriceFormControl: FormControl = new FormControl();
 
   constructor(
     public readonly autoCompleteFacade: AutoCompleteFacade,

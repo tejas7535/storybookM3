@@ -129,3 +129,13 @@ button {
     @apply h-full;
   }
 }
+
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__label {
+    @apply text-body-2 #{!important};
+  }
+  .mdc-snackbar__surface {
+    @apply bg-high-emphasis #{!important};
+    @apply text-high-emphasis-dark-bg #{!important};
+  }
+}

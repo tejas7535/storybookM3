@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Component, OnInit } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
@@ -53,7 +53,6 @@ const typeNumber = 'Number';
   templateUrl: './export-to-excel-button.component.html',
 })
 export class ExportToExcelButtonComponent implements OnInit {
-  private params: IStatusPanelParams;
   simulationModeEnabled$: Observable<boolean>;
   transactions$: Observable<
     [ExtendedComparableLinkedTransaction[], ExtendedSapPriceConditionDetail[]]
@@ -73,6 +72,8 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.DATE_NEXT_FREE_ATP,
     ColumnFields.SAP_STATUS,
   ];
+
+  private params: IStatusPanelParams;
 
   constructor(
     private readonly matDialog: MatDialog,
@@ -194,25 +195,6 @@ export class ExportToExcelButtonComponent implements OnInit {
     }
 
     return sheets;
-  }
-
-  private getProcessCaseSheet(): string {
-    const columnKeys = this.params.columnApi
-      .getAllDisplayedColumns()
-      .map((col) => col.getColId());
-
-    const excelParams: ExcelExportParams = {
-      columnKeys,
-      allColumns: false,
-      sheetName: translate('shared.customStatusBar.excelExport.guidedQuoting'),
-      skipHeader: false,
-      processCellCallback: (params: ProcessCellForExportParams) =>
-        this.processCellCallback(params),
-      processHeaderCallback: (params: ProcessHeaderForExportParams) =>
-        this.processHeaderCallback(params),
-    };
-
-    return this.params.api.getSheetDataForExcel(excelParams);
   }
 
   processHeaderCallback(params: ProcessHeaderForExportParams): string {
@@ -869,5 +851,24 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   appendQuotationCurrency(key: string): string {
     return `${key} [${this.params.context.quotation.currency}]`;
+  }
+
+  private getProcessCaseSheet(): string {
+    const columnKeys = this.params.columnApi
+      .getAllDisplayedColumns()
+      .map((col) => col.getColId());
+
+    const excelParams: ExcelExportParams = {
+      columnKeys,
+      allColumns: false,
+      sheetName: translate('shared.customStatusBar.excelExport.guidedQuoting'),
+      skipHeader: false,
+      processCellCallback: (params: ProcessCellForExportParams) =>
+        this.processCellCallback(params),
+      processHeaderCallback: (params: ProcessHeaderForExportParams) =>
+        this.processHeaderCallback(params),
+    };
+
+    return this.params.api.getSheetDataForExcel(excelParams);
   }
 }

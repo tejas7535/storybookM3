@@ -8,7 +8,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { Observable, throwError } from 'rxjs';
@@ -28,6 +28,11 @@ export const BYPASS_DEFAULT_ERROR_HANDLING = new HttpContextToken(() => false);
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  private readonly navigateOnForbiddenPaths = [
+    `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`,
+    `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/`,
+  ];
+
   public constructor(
     private readonly snackbar: MatSnackBar,
     private readonly translocoService: TranslocoService,
@@ -36,11 +41,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
   }
-
-  private readonly navigateOnForbiddenPaths = [
-    `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`,
-    `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/`,
-  ];
 
   intercept(
     request: HttpRequest<any>,
