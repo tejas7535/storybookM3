@@ -46,8 +46,7 @@ export const disableTableHorizontalScrollbar = `
 
 export const statusBarSimulation = `
 :host::ng-deep ag-grid-angular {
-  .ag-status-bar-right {
-    width: 100%;
+  .ag-status-bar-right {   
     justify-content: end;
   }
 }

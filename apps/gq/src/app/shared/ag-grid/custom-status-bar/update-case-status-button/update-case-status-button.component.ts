@@ -9,7 +9,7 @@ import { ConfirmationModalData } from '../../../components/modal/confirmation-mo
 import { IdValue } from '../../../components/modal/confirmation-modal/models/id-value.model';
 import { ExtendedStatusPanelComponentParams } from '../../../models';
 import { QuotationStatus, ViewQuotation } from '../../../models/quotation';
-
+import { ButtonType } from './button-type.enum';
 @Component({
   selector: 'gq-update-case-status-button',
   templateUrl: './update-case-status-button.component.html',
@@ -21,10 +21,11 @@ export class UpdateCaseStatusButtonComponent {
   public panelIcon = '';
   public classes = '';
   public buttonColor = '';
-  public buttonType = '';
+  public buttonType: ButtonType = ButtonType.unset;
   public showDialog = false;
   public selections: ViewQuotation[] = [];
 
+  public readonly buttonDisplayType = ButtonType;
   private params: ExtendedStatusPanelComponentParams;
 
   constructor(
@@ -45,7 +46,7 @@ export class UpdateCaseStatusButtonComponent {
     this.panelIcon = this.params.panelIcon ?? '';
     this.classes = this.params.classes ?? '';
     this.buttonColor = this.params.buttonColor ?? 'primary';
-    this.buttonType = this.params.buttonType ?? 'mat-stroked-button';
+    this.buttonType = this.params.buttonType ?? ButtonType.matStrokeButton;
     this.showDialog = this.params.showDialog ?? false;
 
     this.params.api.addEventListener(
@@ -101,6 +102,7 @@ export class UpdateCaseStatusButtonComponent {
       maxHeight: '80%',
       width: '40%',
       data,
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

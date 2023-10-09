@@ -2,15 +2,39 @@
   [class]="classes"
   *transloco="let t; read: 'shared.customStatusBar.buttons'"
 >
-  <button
-    *ngIf="isOnlyVisibleOnSelection ? selections.length > 0 : true"
-    [disabled]="selections.length === 0"
-    mat-button
-    [ngClass]="buttonType"
-    [color]="buttonColor"
-    (click)="updateStatus()"
-  >
-    <mat-icon *ngIf="panelIcon">{{ panelIcon }}</mat-icon>
-    <ng-container *ngIf="hasPanelCaption">{{ panelCaption }}</ng-container>
-  </button>
+  <!-- Create template depending on input parameter-->
+  <ng-container *ngIf="buttonType === buttonDisplayType.matFab; else matButton">
+    <button
+      *ngIf="isOnlyVisibleOnSelection ? selections.length > 0 : true"
+      [disabled]="selections.length === 0"
+      mat-fab
+      [color]="buttonColor"
+      (click)="updateStatus()"
+    >
+      <ng-container *ngTemplateOutlet="matIconAndPanel"></ng-container>
+    </button>
+  </ng-container>
+
+  <ng-template #matButton>
+    <button
+      *ngIf="isOnlyVisibleOnSelection ? selections.length > 0 : true"
+      [disabled]="selections.length === 0"
+      mat-stroked-button
+      [color]="buttonColor"
+      (click)="updateStatus()"
+    >
+      <ng-container *ngTemplateOutlet="matIconAndPanel"></ng-container>
+    </button>
+  </ng-template>
+
+  <ng-template #matIconAndPanel>
+    <div class="flex flex-row items-center">
+      <mat-icon class="mdc-fab__icon" *ngIf="panelIcon">{{
+        panelIcon
+      }}</mat-icon>
+      <ng-container *ngIf="hasPanelCaption"
+        ><span>{{ panelCaption }}</span></ng-container
+      >
+    </div>
+  </ng-template>
 </div>

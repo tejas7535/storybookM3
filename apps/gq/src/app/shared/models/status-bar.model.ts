@@ -1,5 +1,6 @@
 import { IStatusPanelParams } from 'ag-grid-community';
 
+import { ButtonType } from '../ag-grid/custom-status-bar/update-case-status-button/button-type.enum';
 import { QuotationStatus } from './quotation';
 
 export class StatusBar {
@@ -24,7 +25,7 @@ export type ExtendedStatusPanelComponentParams = IStatusPanelParams & {
   hasPanelCaption?: boolean;
   isOnlyVisibleOnSelection?: boolean;
   buttonColor?: string;
-  buttonType?: string;
+  buttonType?: ButtonType;
   showDialog?: boolean;
   panelIcon?: string;
   classes?: string;

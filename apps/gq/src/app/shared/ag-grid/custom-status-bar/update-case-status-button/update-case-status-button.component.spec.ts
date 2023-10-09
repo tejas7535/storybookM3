@@ -21,6 +21,7 @@ import {
   QuotationStatus,
 } from '../../../models';
 import { UpdateCaseStatusButtonComponent } from '../update-case-status-button/update-case-status-button.component';
+import { ButtonType } from './button-type.enum';
 
 describe('UpdateCaseStatusButtonComponent', () => {
   let component: UpdateCaseStatusButtonComponent;
@@ -114,7 +115,7 @@ describe('UpdateCaseStatusButtonComponent', () => {
       expect(component.panelIcon).toEqual('');
       expect(component.classes).toEqual('');
       expect(component.buttonColor).toEqual('primary');
-      expect(component.buttonType).toEqual('mat-stroked-button');
+      expect(component.buttonType).toEqual(ButtonType.matStrokeButton);
     });
   });
 
