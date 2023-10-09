@@ -141,10 +141,24 @@ export const manualRelubricationQuantityTimeSpan = (
 export const greaseServiceLife = (
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): number | undefined => {
-  const min = itemValue(dataItems, SubordinateDataItemField.TFG_MIN);
-  const max = itemValue(dataItems, SubordinateDataItemField.TFG_MAX);
+  const minValue = itemValue(dataItems, SubordinateDataItemField.TFG_MIN);
+  const maxValue = itemValue(dataItems, SubordinateDataItemField.TFG_MAX);
+  const min = convertInputToNumberWithoutSpecialCharacters(minValue);
+  const max = convertInputToNumberWithoutSpecialCharacters(maxValue);
 
-  return min && max ? Math.round((+min + +max) / 2 / 24) : undefined;
+  return min && max ? Math.round((min + max) / 2 / 24) : undefined;
+};
+
+const convertInputToNumberWithoutSpecialCharacters = (
+  valueToFormat: string | number | undefined
+): number | undefined => {
+  if (!valueToFormat) {
+    return undefined;
+  }
+
+  const clearedText = valueToFormat.toString().replace(/[<>]/, '');
+
+  return +clearedText;
 };
 
 export const automaticRelubricationQuantityUnit = (

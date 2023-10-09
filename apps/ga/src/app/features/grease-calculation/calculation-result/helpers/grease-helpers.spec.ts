@@ -336,6 +336,21 @@ describe('Grease helpers', () => {
       expect(valueItemsUndefined).toBeUndefined();
       expect(valueFieldUnknown).toBeUndefined();
     });
+
+    it('should return result for input with special characters', () => {
+      const value = helpers.greaseServiceLife([
+        {
+          value: '> 39420',
+          field: SubordinateDataItemField.TFG_MIN,
+        },
+        {
+          value: '< 43800',
+          field: SubordinateDataItemField.TFG_MAX,
+        },
+      ]);
+
+      expect(value).toBe(1734);
+    });
   });
 
   describe('automaticRelubricationQuantityUnit', () => {
