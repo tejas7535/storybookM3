@@ -5,7 +5,6 @@ import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/lega
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
@@ -66,7 +65,6 @@ import { UserSelectComponent } from './user-select/user-select.component';
     BreadcrumbsModule,
     ShareButtonModule,
     ExportExcelModalModule,
-    MatTabsModule,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,

@@ -139,3 +139,7 @@ button {
     @apply text-high-emphasis-dark-bg #{!important};
   }
 }
+.mdc-tab__content {
+  @apply text-button;
+  @apply leading-4;
+}

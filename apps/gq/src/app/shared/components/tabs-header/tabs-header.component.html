@@ -1,5 +1,11 @@
 <div class="flex h-full flex-col">
-  <nav class="bg-surface" mat-tab-nav-bar mat-stretch-tabs *transloco="let t">
+  <nav
+    class="bg-surface"
+    mat-tab-nav-bar
+    mat-stretch-tabs
+    *transloco="let t"
+    [tabPanel]="tabPanel"
+  >
     <a
       *ngFor="let tab of tabs"
       mat-tab-link
@@ -13,9 +19,9 @@
       >{{ t(tab.label) | uppercase }}
     </a>
   </nav>
-  <div class="w-full grow">
+  <mat-tab-nav-panel #tabPanel class="grow">
     <router-outlet></router-outlet>
-  </div>
+  </mat-tab-nav-panel>
 </div>
 
 <div
