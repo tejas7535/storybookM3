@@ -143,3 +143,6 @@ button {
   @apply text-button;
   @apply leading-4;
 }
+.mat-mdc-menu-item {
+  @apply text-body-2 #{!important};
+}

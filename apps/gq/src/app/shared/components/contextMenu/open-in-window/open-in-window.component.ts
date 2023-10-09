@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatMenuItem } from '@angular/material/menu';
 
 import { openInNewWindowByUrl } from '../functions/context-menu-functions';
 
@@ -6,7 +7,7 @@ import { openInNewWindowByUrl } from '../functions/context-menu-functions';
   selector: 'gq-open-in-window',
   templateUrl: './open-in-window.component.html',
 })
-export class OpenInWindowComponent {
+export class OpenInWindowComponent extends MatMenuItem {
   /**
    * if url given with navigate to url
    * */

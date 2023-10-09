@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatMenuItem } from '@angular/material/menu';
 
 import { openInNewTabByUrl } from '../functions/context-menu-functions';
 
@@ -6,7 +7,7 @@ import { openInNewTabByUrl } from '../functions/context-menu-functions';
   selector: 'gq-open-in-tab',
   templateUrl: './open-in-tab.component.html',
 })
-export class OpenInTabComponent {
+export class OpenInTabComponent extends MatMenuItem {
   /**
    * if url given with navigate to url
    * */

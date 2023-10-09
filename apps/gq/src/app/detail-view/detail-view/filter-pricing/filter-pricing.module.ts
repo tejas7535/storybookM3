@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { ContextMenuModule } from '@gq/shared/components/contextMenu/context-menu.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';

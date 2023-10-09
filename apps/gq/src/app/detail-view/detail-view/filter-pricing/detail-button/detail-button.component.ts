@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -14,9 +14,9 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 export class DetailButtonComponent {
   @Input() text: string;
   @Input() path: string;
+  @ViewChild(MatMenuTrigger) public contextMenu: MatMenuTrigger;
 
   public contextMenuPosition: { x: number; y: number } = { x: 0, y: 0 };
-  @ViewChild(MatMenuTrigger) public contextMenu: MatMenuTrigger;
 
   constructor(
     private readonly router: Router,

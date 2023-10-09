@@ -4,7 +4,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Tab } from './tab.model';
 
@@ -15,8 +15,9 @@ import { Tab } from './tab.model';
 })
 export class TabsHeaderComponent {
   @Input() tabs: Tab[];
-  public contextMenuPosition: { x: number; y: number } = { x: 0, y: 0 };
   @ViewChild(MatMenuTrigger) public contextMenu: MatMenuTrigger;
+
+  public contextMenuPosition: { x: number; y: number } = { x: 0, y: 0 };
 
   public showContextMenu(event: MouseEvent, tab: Tab): void {
     event.preventDefault();
