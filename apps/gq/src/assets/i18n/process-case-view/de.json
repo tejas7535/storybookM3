@@ -121,7 +121,9 @@
         "commentLabel": "Kommentar",
         "attachments": {
           "title": "Anhänge",
-          "uploadInformation": "{{at}} von {{by}}"
+          "uploadInformation": "{{at}} von {{by}}",
+          "toolTipDeletedDrafts": "Löschen nicht möglich; Angebot befindet sich in gelöschten Entwürfen.",
+          "toolTipApprovalWorkFlowStarted": "Löschen nicht möglich; Freigabeprozess gestartet."
         }
       },
       "netValueCardTitle": "Nettowert",

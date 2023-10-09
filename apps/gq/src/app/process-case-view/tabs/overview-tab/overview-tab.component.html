@@ -11,6 +11,9 @@
           [info]="generalInformation$ | ngrxPush"
           [attachments]="activeCaseFacade.quotationAttachments$ | ngrxPush"
           [workflowInProgress]="approvalFacade.workflowInProgress$ | ngrxPush"
+          [quotationFullyApproved]="
+            approvalFacade.quotationFullyApproved$ | ngrxPush
+          "
         ></gq-general-information>
       </gq-kpi-status-card>
     </div>

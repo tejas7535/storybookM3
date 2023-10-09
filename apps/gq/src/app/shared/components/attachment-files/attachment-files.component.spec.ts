@@ -9,6 +9,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -26,6 +27,7 @@ describe('AttachmentFilesComponent', () => {
     providers: [
       { provide: MatDialog, useValue: {} },
       mockProvider(ActiveCaseFacade),
+      provideMockStore({ initialState: {} }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });

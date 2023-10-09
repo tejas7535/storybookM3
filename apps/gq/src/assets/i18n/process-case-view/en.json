@@ -121,7 +121,9 @@
         "commentLabel": "Comment",
         "attachments": {
           "title": "Attachments",
-          "uploadInformation": "{{at}} by {{by}}"
+          "uploadInformation": "{{at}} by {{by}}",
+          "toolTipDeletedDrafts": "Deletion not possible; case is in deleted drafts",
+          "toolTipApprovalWorkFlowStarted": "Deletion not possible; Approval Workflow started"
         }
       },
       "netValueCardTitle": "Net Value",

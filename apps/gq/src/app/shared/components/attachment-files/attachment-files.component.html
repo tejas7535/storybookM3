@@ -36,19 +36,43 @@
         }}
       </span>
     </div>
-    <div class="ml-auto text-approval-status-grey mt-1">
-      <div class="group inline-block" *ngIf="!workflowInProgress">
-        <mat-icon
-          class="!w-5 !h-5 !text-[20px] hover:text-approval-status-green relative text-approval-status-grey"
+    <div
+      class="ml-auto text-approval-status-grey mt-1"
+      *ngrxLet="quotationActive$ as buttonEnabled"
+    >
+      <div
+        class="group inline-block"
+        [matTooltip]="
+          workflowInProgress || quotationFullyApproved
+            ? t('toolTipApprovalWorkFlowStarted')
+            : t('toolTipDeletedDrafts')
+        "
+        [matTooltipDisabled]="buttonEnabled"
+      >
+        <button
+          (click)="openConfirmDeleteAttachmentDialog(attachment)"
+          [disabled]="!buttonEnabled"
         >
-          <span class="group-hover:opacity-0"> delete </span>
           <mat-icon
-            class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px] hover:cursor-pointer"
-            (click)="openConfirmDeleteAttachmentDialog(attachment)"
+            class="!w-5 !h-5 !text-[20px] relative text-approval-status-grey hover:!text-approval-status-green"
           >
-            delete_forever
+            <span
+              [ngClass]="
+                buttonEnabled
+                  ? 'group-hover:opacity-0'
+                  : 'text-approval-status-grey opacity-50'
+              "
+            >
+              delete
+            </span>
+            <mat-icon
+              *ngIf="buttonEnabled"
+              class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px] hover:cursor-pointer"
+            >
+              delete_forever
+            </mat-icon>
           </mat-icon>
-        </mat-icon>
+        </button>
       </div>
     </div>
   </div>
