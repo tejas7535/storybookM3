@@ -1,4 +1,52 @@
 # Release Notes of Engineering App
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.4...ea-v0.2.0) (2023-10-10)
+
+
+### Features
+
+* **ea:** add co2 upstream interceptor (UFTABI-6743) ([#5648](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5648)) ([dddf288](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dddf288fcb36cc8cea938fc2d90350a85d7c6eb0))
+* **ea:** add localized PCF disclaimer - UFTABI-6814 ([#5685](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5685)) ([56854db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/56854dbdc225909e80f0535392d0d2e06180355b))
+* **ea:** add maintenance banner in engineering app ([#5671](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5671)) ([7e5e0e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7e5e0e812684faa632403b2efaed581bcd12460f))
+* **ea:** hide co2 hint on production ([#5620](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5620)) ([38bf5da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38bf5da80de0e879c11575477e9636b66513cab1))
+* **ea:** Implement cross-validation for temperature fields - UFTABI-6723 ([#5638](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5638)) ([2686dd6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2686dd63108957a3bb3768689e75b961a933c60a))
+* **ea:** show error/warning and input section in case of calculation errors ([#5680](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5680)) ([0b02d14](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0b02d145d7c069345cb8994ee9779a2f4383e4b6))
+* **ea:** simplify motion influence inputs on mobile - UFTABI-6813 ([#5688](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5688)) ([65be2f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/65be2f6b7ab25a7ec9ff7bd05cc01dc3c3d82fe5))
+* **ea:** update web catalog api url in production config ([#5637](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5637)) ([c18d6df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c18d6df4b7e7c83bd0ba2811acc617e37f0995cb))
+* **ea:** updated Chinese translation ([#5660](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5660)) ([e3fe5df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e3fe5df90429b6a974519649f9de3f8ce8c92277))
+* **ea:** updated French translation ([#5652](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5652)) ([db9b057](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db9b0575d067dfafff2ffe6f6959e202104fc1fb))
+* **ea:** use api for supported bearings (UFTABI-6746) ([#5627](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5627)) ([89f44c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/89f44c424916348ff614106dd1e732133a1c5486))
+* **ea:** use capabilities endpoint for data fetching - UFTABI-6795 ([#5654](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5654)) ([da6e5b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da6e5b43f02ae9cd41a4f5fd981d4163d97f0fe2))
+
+
+### Bug Fixes
+
+* **ea:** add condition to check if app overlay container exist in AppOverlayContainer ([#5678](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5678)) ([afd829c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/afd829ce4bce72dbfbb2d441f9fc70dd8bd3963b))
+* **ea:** add loading status and block report button ([#5645](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5645)) ([062aec1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/062aec1065adbd88623e6c39cca990c50bb960e0))
+* **ea:** adjust italian translation ([#5690](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5690)) - UFTABI-6827 ([08d1954](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/08d19543248182807c02405c35ae53bbc39f1f8a))
+* **ea:** cropped labels in medias - UFTABI-6794 ([c7d3004](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c7d30048dd3dbd798ee4accdb8dc274c48d2b07b))
+* **ea:** design fixes - UFTABI-6805 ([#5673](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5673)) ([cb2c7fe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cb2c7fecd301d414ba122684790d4b30750ef444))
+* **ea:** fall back to new UI if catalog is not reachable - UFTABI-6817 ([#5665](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5665)) ([f3a5ba5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f3a5ba5e76a577c634d5afe52c823b77a256a23c))
+* **ea:** fix formatting of bearing names with number designator - UFTABI-6790 ([#5643](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5643)) ([8281942](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8281942bda1485011f0151db7bd18826f12b32b3))
+* **ea:** fix initial selected value on start of subscription (UFTABI-6748) ([#5623](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5623)) ([f633dc0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f633dc02cf78f0e9718d21c8b292c5918d11df5c))
+* **ea:** fix load error in medial when loading assets ([#5626](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5626)) ([5280e15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5280e15d81fd4f3472debc94a472d8ce4dcbb72f))
+* **ea:** fix loading issue ([#5628](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5628)) ([de3b8c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de3b8c6e10c3719dda6aacb23f85bcb5fab4f359))
+* **ea:** fix scoping of tailwind classes - UFTABI-6776 ([#5633](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5633)) ([688f4f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/688f4f368294c6d8daa58fe723ea85cbf343d07f))
+* **ea:** fix translations ([#5622](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5622)) ([4eec5db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4eec5dba732a509d4e50a93cfc0a9c071a157d64))
+* **ea:** form validation ([#5641](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5641)) ([d76c433](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d76c433922e258770525becc89845579df08df88))
+* **ea:** implement german translation feedback - UFTABI-6793 ([#5650](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5650)) ([676de97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/676de97c83e7809266d1f51fa96a350227f0f345))
+* **ea:** legal docs initially blurred - UFTABI-6799 ([#5681](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5681)) ([7d5bff6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7d5bff6d9918fd06e392cfb5b071b6e328cea212))
+* **ea:** medias max width ([#5639](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5639)) ([66fef1c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/66fef1cdc2461a450e0dc324aa98c3c0c5923ee5))
+* **ea:** medias related styling issues ([#5642](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5642)) ([48160b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/48160b98cf4523e242818f1cee610128af6e589b))
+* **ea:** page does not fully render on page load ([#5644](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5644)) ([eb407f1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/eb407f1e16fd2ec90a0224a2d3153d388d1ead87))
+* **ea:** remove fixed height in non-standalone version (UFTABI-6796) ([#5646](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5646)) ([af42070](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/af420703e6a3f8e0f993df9dd0b7f3f3e8e2121c))
+* **ea:** width jumping when enabling preset calculation ([#5664](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5664)) ([40af307](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/40af307460555b9971269d8ca029a07a830569cf))
+
+
+### Reverts
+
+* Revert "Revert "fix(ea): fix loading issue (#5628)" (#5629)" (#5634) ([939af53](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/939af53fffaeb3af7d649c1f287fa54ef15ef4ea)), closes [#5628](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5628) [#5629](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5629) [#5634](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5634)
+* Revert "fix(ea): fix loading issue (#5628)" (#5629) ([2467e73](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2467e739d3ded4743e580d206dff642fe0b2b6a1)), closes [#5628](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5628) [#5629](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5629)
+
 ## [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.3...ea-v0.1.4) (2023-09-15)
 
 
