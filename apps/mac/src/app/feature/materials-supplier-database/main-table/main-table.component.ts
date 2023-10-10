@@ -84,6 +84,8 @@ import { getStatus } from './util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  public readonly materialClass = MaterialClass;
+
   // master detail cell renderer
   public detailCellRenderer = DetailCellRendererComponent;
 
@@ -234,6 +236,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public openDialog(isResumeDialog?: boolean): void {
     this.dialogService.openDialog(isResumeDialog);
   }
+
+  public openSapMaterialsUploadDialog(): void {
+    this.dialogService.openSapMaterialsUploadDialog();
+  }
+
   public createServerSideDataSource(
     service: MsdAgGridReadyService
   ): IServerSideDatasource {

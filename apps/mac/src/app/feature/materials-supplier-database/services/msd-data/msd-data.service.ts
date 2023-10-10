@@ -24,6 +24,8 @@ import {
   MaterialStandardTableValue,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
+  SapMaterialsUpload,
+  SapMaterialsUploadResponse,
 } from '@mac/msd/models';
 
 import {
@@ -519,6 +521,21 @@ export class MsdDataService {
     return this.httpClient.post<SAPMaterialsResponse>(
       `${this.BASE_URL_SAP}/emissionfactor/query`,
       request
+    );
+  }
+
+  public uploadSapMaterials(
+    upload: SapMaterialsUpload
+  ): Observable<SapMaterialsUploadResponse> {
+    const formData = new FormData();
+    formData.append('owner', upload.owner);
+    formData.append('date', upload.date.format('YYYY-MM-DD'));
+    formData.append('maturity', upload.maturity.toString());
+    formData.append('file', upload.file);
+
+    return this.httpClient.post<SapMaterialsUploadResponse>(
+      `${this.BASE_URL_SAP}/emissionfactor/upload/file`,
+      formData
     );
   }
 

@@ -5,6 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import moment from 'moment';
 
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -23,6 +24,8 @@ import {
   PolymerMaterial,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
+  SapMaterialsUpload,
+  SapMaterialsUploadResponse,
   SteelManufacturerSupplier,
   SteelMaterial,
   SteelMaterialStandard,
@@ -1262,6 +1265,43 @@ describe('MsdDataService', () => {
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockResponse);
+    });
+  });
+
+  describe('uploadSapMaterials', () => {
+    it('should upload sap materials', (done) => {
+      const dateString = '1995-12-25';
+
+      const upload: SapMaterialsUpload = {
+        owner: 'Tester',
+        maturity: 10,
+        date: moment(dateString),
+        file: new File([''], 'test.xlsx'),
+      };
+
+      const response: SapMaterialsUploadResponse = {
+        uploadId: 'testUploadId',
+      };
+
+      service
+        .uploadSapMaterials(upload)
+        .subscribe((result: SapMaterialsUploadResponse) => {
+          expect(result).toEqual(response);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/upload/file`
+      );
+      const formData = req.request.body as FormData;
+
+      expect(req.request.method).toBe('POST');
+      expect(formData.get('owner')).toBe(upload.owner);
+      expect(formData.get('date')).toBe(dateString);
+      expect(formData.get('maturity')).toBe(upload.maturity.toString());
+      expect(formData.get('file')).toBe(upload.file);
+
+      req.flush(response);
     });
   });
 

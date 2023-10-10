@@ -19,7 +19,11 @@ export class HttpMSDInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!req.url.includes(this.includePattern) || req.method !== 'POST') {
+    if (
+      !req.url.includes(this.includePattern) ||
+      req.method !== 'POST' ||
+      req.body instanceof FormData // Content-Type should not be set manually for multipart/form-data requests!
+    ) {
       return next.handle(req);
     }
 

@@ -153,6 +153,7 @@ describe('MainTableComponent', () => {
         provide: MsdDialogService,
         useValue: {
           openDialog: jest.fn(),
+          openSapMaterialsUploadDialog: jest.fn(),
         },
       },
       {
@@ -1275,6 +1276,15 @@ describe('MainTableComponent', () => {
     it('should dispatch the edit dialog actions and dispatch fetch and minimize', () => {
       component.openDialog(true);
       expect(component['dialogService'].openDialog).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('openSapMaterialUploadDialog', () => {
+    it('should open SAP materials upload dialog', () => {
+      component.openSapMaterialsUploadDialog();
+      expect(
+        component['dialogService'].openSapMaterialsUploadDialog
+      ).toHaveBeenCalledTimes(1);
     });
   });
 

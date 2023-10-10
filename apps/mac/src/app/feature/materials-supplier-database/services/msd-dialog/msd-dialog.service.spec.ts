@@ -16,6 +16,7 @@ import { ManufacturerSupplierInputDialogComponent } from '../../main-table/mater
 import { MaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
 import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
+import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
@@ -220,6 +221,22 @@ describe('MsdDialogService', () => {
             mailToLink: 'test',
           },
           autoFocus: false,
+        }
+      );
+    });
+  });
+
+  describe('openSapMaterialsUploadDialog', () => {
+    it('should open the dialog', () => {
+      service.openSapMaterialsUploadDialog();
+
+      expect(service['dialog'].open).toBeCalledWith(
+        SapMaterialsUploadDialogComponent,
+        {
+          width: '600px',
+          autoFocus: false,
+          restoreFocus: false,
+          disableClose: true,
         }
       );
     });

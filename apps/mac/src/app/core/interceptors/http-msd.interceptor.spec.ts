@@ -43,6 +43,21 @@ describe('HttpMSDInterceptor', () => {
       expect(next.handle).toHaveBeenCalledWith(req);
     });
 
+    it('should to nothing to multipart/form-data requests', () => {
+      const req = {
+        url: '/materials-supplier-database/api/',
+        method: 'POST',
+        body: new FormData(),
+        headers: undefined,
+        clone: jest.fn(),
+      } as unknown as HttpRequest<any>;
+
+      interceptor.intercept(req, next);
+
+      expect(req.clone).not.toHaveBeenCalled();
+      expect(next.handle).toHaveBeenCalledWith(req);
+    });
+
     it('should do nothing to non post requests', () => {
       const req = {
         url: '/materials-supplier-database/api/',

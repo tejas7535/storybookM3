@@ -355,6 +355,7 @@
   },
   "materialsSupplierDatabase": {
     "addItem": "Add Item",
+    "upload": "Upload",
     "all": "All",
     "allClass": "All {{class}}:",
     "allSelected": "All selected",
@@ -458,6 +459,28 @@
 
         "failureDeleteEntity": "Error while deleting entry, changes not applied!",
         "successDeleteEntity": "Successfully deleted entry from database!"
+      },
+      "uploadDialog": {
+        "title": "Upload SAP materials",
+        "cancel": "Cancel",
+        "upload": "Upload",
+        "dataOwner": "Data owner",
+        "dataDate": "Data version date",
+        "dataSource": {
+          "label": "Data source",
+          "verified": "Primary data (verified)",
+          "plausibilised": "Primary data (plausibilised)",
+          "internal": "Secondary data (internal expertise)",
+          "externaldb": "Secondary data (external databases)",
+          "indirect": "Secondary data (indirectly derived)"
+        },
+        "template": {
+          "label": "Download the file template",
+          "button": "here"
+        },
+        "selectedFile": "Selected file: {{fileName}}",
+        "selectFile": "Select file",
+        "disclaimer": "Data is not checked for plausibility and that uploading user is responsible for the data."
       },
       "changeHistory": {
         "created": "First created:",

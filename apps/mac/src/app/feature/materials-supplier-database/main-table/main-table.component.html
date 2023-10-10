@@ -88,18 +88,25 @@
       <ng-container
         *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
       >
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="
-            !(hasEditorRole$ | ngrxPush) ||
-            !editableClass(navigation.materialClass)
+        <ng-container
+          *ngIf="
+            navigation.materialClass !== materialClass.SAP_MATERIAL;
+            else uploadButton
           "
-          (click)="openDialog(false)"
         >
-          <mat-icon class="material-icons-outlined">add</mat-icon>
-          <span>{{ t('addItem') }}</span>
-        </button>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="
+              !(hasEditorRole$ | ngrxPush) ||
+              !editableClass(navigation.materialClass)
+            "
+            (click)="openDialog(false)"
+          >
+            <mat-icon class="material-icons-outlined">add</mat-icon>
+            <span>{{ t('addItem') }}</span>
+          </button>
+        </ng-container>
         <button
           mat-raised-button
           class="!bg-nordic-blue"
@@ -124,6 +131,16 @@
         >
           <mat-icon class="text-white">play_arrow</mat-icon>
           <span class="text-white">{{ t('resume') }}</span>
+        </button>
+      </ng-template>
+      <ng-template #uploadButton>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openSapMaterialsUploadDialog()"
+        >
+          <mat-icon class="material-icons-outlined">upload</mat-icon>
+          <span>{{ t('upload') }}</span>
         </button>
       </ng-template>
 

@@ -18,6 +18,7 @@ import { CopperInputDialogComponent } from '@mac/msd/main-table/material-input-d
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult } from '@mac/msd/models';
 
+import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 
@@ -107,6 +108,15 @@ export class MsdDialogService {
         bottomTemplate,
       },
       autoFocus: false,
+    });
+  }
+
+  public openSapMaterialsUploadDialog(): void {
+    this.dialog.open(SapMaterialsUploadDialogComponent, {
+      width: '600px',
+      autoFocus: false,
+      restoreFocus: false,
+      disableClose: true,
     });
   }
 
