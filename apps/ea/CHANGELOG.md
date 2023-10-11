@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.1...ea-v0.2.2) (2023-10-11)
+
+
+### Bug Fixes
+
+* **ea:** private returned IP - UFTABI-6867 ([#5713](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5713)) ([850259f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/850259f628b25f95c2cd28351dd8bf80db736a6c))
+
 ## [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.0...ea-v0.2.1) (2023-10-11)
 
 
