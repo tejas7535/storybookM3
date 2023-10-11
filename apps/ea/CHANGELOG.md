@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.0...ea-v0.2.1) (2023-10-11)
+
+
+### Bug Fixes
+
+* **ea:** adjust api urls for production environment ([#5707](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5707)) ([1c82ff4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c82ff4aaf1f3cba33dcf202b7c0de48a06cce99))
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.1.4...ea-v0.2.0) (2023-10-10)
 
 
