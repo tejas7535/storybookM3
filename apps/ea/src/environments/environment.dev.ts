@@ -4,8 +4,7 @@ export const environment: Environment = {
   production: false,
   localDev: false,
   devToolsEnabled: true,
-  catalogApiBaseUrl:
-    'https://caeonlinecalculation.schaeffler.com/CatalogWebApi',
+  catalogApiBaseUrl: 'https://bearinx-d.schaeffler.com/catalogue/api',
   calculationModuleInfoApiBaseUrl:
     'https://bearinx-d.schaeffler.com/moduleinfo/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api',
