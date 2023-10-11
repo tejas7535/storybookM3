@@ -146,3 +146,7 @@ button {
 .mat-mdc-menu-item {
   @apply text-body-2 #{!important};
 }
+
+.mdc-button__label {
+  @apply whitespace-nowrap;
+}

@@ -29,7 +29,7 @@ export const statusBarStlye = `
     .ag-status-bar {
     border: none !important;
     padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-right: 0 !important;    
   }
 }`;
 
@@ -48,6 +48,7 @@ export const statusBarSimulation = `
 :host::ng-deep ag-grid-angular {
   .ag-status-bar-right {   
     justify-content: end;
+    width: 100%;   
   }
 }
 `;
