@@ -78,6 +78,7 @@
       "gpc": "KHK",
       "sqv": "SAW",
       "productionPlant": "Produktionswerk",
+      "deliveryPlant": "Lieferwerk",
       "productionSegment": "Produktionssegment",
       "updateCosts": {
         "tooltip": "Kosten aktualisieren",

@@ -78,6 +78,7 @@
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Production Plant",
+      "deliveryPlant": "Delivery Plant",
       "productionSegment": "Production Segment",
       "updateCosts": {
         "tooltip": "Refresh costs",

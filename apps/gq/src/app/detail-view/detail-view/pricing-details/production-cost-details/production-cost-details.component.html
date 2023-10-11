@@ -47,6 +47,10 @@
         </ng-container>
       </gq-label-text>
       <gq-label-text>
+        <span label>{{ t('deliveryPlant') }}</span>
+        <span text> {{ quotationDetail.plant | plantDisplay }}</span>
+      </gq-label-text>
+      <gq-label-text>
         <span label>{{ t('productionPlant') }}</span>
         <span text> {{ quotationDetail.productionPlant | plantDisplay }}</span>
       </gq-label-text>
