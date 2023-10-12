@@ -1,6 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ValueGetterParams } from 'ag-grid-community';
 
 import { ActionType, LeavingType } from '../../models';
 import { SharedModule } from '../../shared.module';
@@ -49,12 +49,16 @@ describe('EmployeeListTableComponent', () => {
         'positionDescription',
         'exitDate',
         'reasonForLeaving',
+        'from',
+        'to',
       ];
 
       const columnDefs = component.createColDefs();
 
-      expect(columnDefs.length).toEqual(7);
+      expect(columnDefs.length).toEqual(9);
       expect(columnDefs.map((col) => col.field)).toEqual(expectedColumnFields);
+      expect(columnDefs.find((col) => col.field === 'from')).toBeTruthy();
+      expect(columnDefs.find((col) => col.field === 'to')).toBeTruthy();
     });
 
     test('should create columns for leavers type with reason for leaving', () => {
@@ -67,12 +71,16 @@ describe('EmployeeListTableComponent', () => {
         'positionDescription',
         'exitDate',
         'reasonForLeaving',
+        'from',
+        'to',
       ];
 
       const columnDefs = component.createColDefs();
 
-      expect(columnDefs.length).toEqual(7);
+      expect(columnDefs.length).toEqual(9);
       expect(columnDefs.map((col) => col.field)).toEqual(expectedColumnFields);
+      expect(columnDefs.find((col) => col.field === 'from')).toBeTruthy();
+      expect(columnDefs.find((col) => col.field === 'to')).toBeTruthy();
     });
 
     test('should create columns for new joiners', () => {
@@ -85,12 +93,16 @@ describe('EmployeeListTableComponent', () => {
         'orgUnit',
         'positionDescription',
         'entryDate',
+        'from',
+        'to',
       ];
 
       const columnDefs = component.createColDefs();
 
-      expect(columnDefs.length).toEqual(6);
+      expect(columnDefs.length).toEqual(8);
       expect(columnDefs.map((col) => col.field)).toEqual(expectedColumnFields);
+      expect(columnDefs.find((col) => col.field === 'from')).toBeTruthy();
+      expect(columnDefs.find((col) => col.field === 'to')).toBeTruthy();
     });
 
     test('should create columns for new joiners with reason for leaving', () => {
@@ -103,12 +115,16 @@ describe('EmployeeListTableComponent', () => {
         'positionDescription',
         'entryDate',
         'reasonForLeaving',
+        'from',
+        'to',
       ];
 
       const columnDefs = component.createColDefs();
 
-      expect(columnDefs.length).toEqual(7);
+      expect(columnDefs.length).toEqual(9);
       expect(columnDefs.map((col) => col.field)).toEqual(expectedColumnFields);
+      expect(columnDefs.find((col) => col.field === 'from')).toBeTruthy();
+      expect(columnDefs.find((col) => col.field === 'to')).toBeTruthy();
     });
   });
 
@@ -151,6 +167,64 @@ describe('EmployeeListTableComponent', () => {
       const result = component.mapLeavingTypeToFluctuationType(toMap);
 
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('internalValueGetter', () => {
+    test('should return from as current dimension value (leavers)', () => {
+      const params: ValueGetterParams = {
+        data: {
+          exitDate: '123',
+          currentDimensionValue: 'ABC',
+          actionType: ActionType.INTERNAL,
+        },
+      } as any;
+
+      const result = component.internalValueGetter(params, 'from');
+
+      expect(result).toEqual('ABC');
+    });
+
+    test('should return from as previous dimension value (leavers)', () => {
+      const params: ValueGetterParams = {
+        data: {
+          exitDate: '123',
+          nextDimensionValue: 'ABC',
+          actionType: ActionType.INTERNAL,
+        },
+      } as any;
+
+      const result = component.internalValueGetter(params, 'to');
+
+      expect(result).toEqual('ABC');
+    });
+
+    test('should return from as previous dimension value (new joiners)', () => {
+      const params: ValueGetterParams = {
+        data: {
+          entryDate: '123',
+          previousDimensionValue: 'ABC',
+          actionType: ActionType.INTERNAL,
+        },
+      } as any;
+
+      const result = component.internalValueGetter(params, 'from');
+
+      expect(result).toEqual('ABC');
+    });
+
+    test('should return to as current dimension value (new joiners)', () => {
+      const params: ValueGetterParams = {
+        data: {
+          entryDate: '123',
+          currentDimensionValue: 'ABC',
+          actionType: ActionType.INTERNAL,
+        },
+      } as any;
+
+      const result = component.internalValueGetter(params, 'to');
+
+      expect(result).toEqual('ABC');
     });
   });
 });

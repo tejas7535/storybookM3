@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { ColDef } from 'ag-grid-community';
 
-import { dateFormatter } from '../../shared/utils/utilities';
+import { valueGetterDate } from '../../shared/utils/utilities';
 import { ResignedEmployee } from '../models';
 
 @Component({
@@ -35,7 +35,8 @@ export class ResignationsComponent {
       headerName: translate('overview.resignationsReceived.table.date'),
       filter: 'agDateColumnFilter',
       sort: 'desc',
-      valueFormatter: dateFormatter,
+      valueGetter: (params) =>
+        valueGetterDate<ResignedEmployee>(params, 'exitDate'),
     },
     {
       field: 'employeeName',

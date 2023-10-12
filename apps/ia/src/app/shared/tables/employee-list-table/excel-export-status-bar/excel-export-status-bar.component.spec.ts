@@ -1,0 +1,66 @@
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { IStatusPanelParams } from 'ag-grid-community';
+
+import { ExcelExportStatusBarComponent } from './excel-export-status-bar.component';
+
+describe('ExcelExportStatusBarComponent', () => {
+  let component: ExcelExportStatusBarComponent;
+  let spectator: Spectator<ExcelExportStatusBarComponent>;
+
+  const createComponent = createComponentFactory({
+    component: ExcelExportStatusBarComponent,
+    detectChanges: false,
+    imports: [],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+  });
+
+  test('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('agInit', () => {
+    test('should add rowDataUpdated event listener', () => {
+      const params = {
+        api: {
+          addEventListener(_eventType, _listener) {},
+        },
+      } as IStatusPanelParams;
+      params.api.addEventListener = jest.fn();
+
+      component.agInit(params);
+
+      expect(params.api.addEventListener).toHaveBeenCalled();
+    });
+  });
+
+  describe('exportToExcel', () => {
+    test('should export data to excel', () => {
+      component.api = {
+        exportDataAsExcel: jest.fn(),
+      } as any;
+
+      component.exportToExcel();
+
+      expect(component.api.exportDataAsExcel).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should remove event listener', () => {
+      component.api = {
+        removeEventListener: jest.fn(),
+      } as any;
+
+      component.ngOnDestroy();
+
+      expect(component.api.removeEventListener).toHaveBeenCalledWith(
+        'rowDataUpdated',
+        component.onGridReady
+      );
+    });
+  });
+});

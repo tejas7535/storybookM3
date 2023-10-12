@@ -31,7 +31,7 @@ export class KpiComponent {
   @Input() title: string;
   @Input() value: string | number;
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
-  @Input() showFluctuationType = true;
+  @Input() excludedColumns: string[];
   @Input() showTeamMemberDialog = true;
   @Input() showTooltip = false;
   @Input() isLoading: boolean;
@@ -85,18 +85,13 @@ export class KpiComponent {
   }
 
   createEmployeeListDialogMeta(): EmployeeListDialogMeta {
-    let excludedColumns;
-    if (!this.showFluctuationType) {
-      excludedColumns = ['reasonForLeaving'];
-    }
-
     return new EmployeeListDialogMeta(
       this.employeeListDialogMetaHeadings,
       this.employees,
       this.employeesLoading,
       this.employeesCount === this.employees?.length,
       this.type,
-      excludedColumns
+      this.excludedColumns
     );
   }
 

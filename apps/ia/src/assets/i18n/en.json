@@ -57,6 +57,7 @@
   },
   "employeeListDialog": {
     "close": "Close",
+    "exportToExcel": "Export To Excel",
     "total": "Total: {{total}}",
     "orgUnit": "Org Unit",
     "positionDescription": "Job",
@@ -74,7 +75,10 @@
     },
     "from": "From",
     "to": "To",
-    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
+    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights.",
+    "totalStatusBar": {
+      "total": "Total"
+    }
   },
   "legal": {
     "imprint": "Imprint",

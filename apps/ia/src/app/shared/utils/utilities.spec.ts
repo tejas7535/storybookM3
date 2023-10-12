@@ -1,16 +1,16 @@
-import { ValueFormatterParams } from 'ag-grid-community';
+import { ValueGetterParams } from 'ag-grid-community';
 import moment from 'moment';
 
 import { TimePeriod } from '../models';
 import {
   convertTimeRangeToUTC,
-  dateFormatter,
   getBeautifiedTimeRange,
   getMonth12MonthsAgo,
   getPercentageValue,
   getPercentageValueSigned,
   getTimeRangeFromDates,
   getTimeRangeHint,
+  valueGetterDate,
 } from './utilities';
 
 describe('utilities', () => {
@@ -128,21 +128,31 @@ describe('utilities', () => {
     });
   });
 
-  describe('dateFormatter', () => {
+  describe('valueGetterDate', () => {
     test('should format date', () => {
-      const dateToFormat = '1693440000000'; // 2023-08-31
+      const exitDate = '1693440000000'; // 2023-08-31
 
-      const result = dateFormatter({
-        value: dateToFormat,
-      } as ValueFormatterParams);
+      const result = valueGetterDate(
+        {
+          data: {
+            exitDate,
+          },
+        } as ValueGetterParams,
+        'exitDate'
+      );
 
       expect(result).toEqual('31/08/2023');
     });
 
     test('should return empty string when value undefined', () => {
-      const result = dateFormatter({
-        value: undefined,
-      } as ValueFormatterParams);
+      const result = valueGetterDate(
+        {
+          data: {
+            exitDate: undefined,
+          },
+        } as ValueGetterParams,
+        'exitDate'
+      );
 
       expect(result).toEqual('');
     });

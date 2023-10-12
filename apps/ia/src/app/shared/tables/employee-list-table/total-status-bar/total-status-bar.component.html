@@ -1,0 +1,11 @@
+<div
+  class="mx-6 self-center"
+  *transloco="let t; read: 'employeeListDialog.totalStatusBar'"
+>
+  <span class="text-caption text-low-emphasis tracking-[0.4px]"
+    >{{ t('total') }}:</span
+  >&nbsp;
+  <span class="text-caption text-high-emphasis tracking-[0.4px]">{{
+    total | number
+  }}</span>
+</div>

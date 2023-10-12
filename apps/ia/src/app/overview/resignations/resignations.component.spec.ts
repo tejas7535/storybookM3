@@ -1,4 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ValueGetterFunc, ValueGetterParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -49,12 +50,17 @@ describe('ResignationsComponent', () => {
       mockDate.mockRestore();
     });
 
-    test('should set col defs and correct formatters', () => {
-      const formatter: any = component.columnDefs[0].valueFormatter as unknown;
+    test('should set col defs and correct value getters', () => {
+      const getter: ValueGetterFunc = component.columnDefs[0]
+        .valueGetter as ValueGetterFunc;
 
       expect(component.columnDefs.length).toEqual(2);
-      expect(formatter({ value: '123321' })).toEqual(expectedDate);
-      expect(formatter({ value: undefined })).toEqual('');
+      expect(
+        getter({ data: { exitDate: '123321' } } as ValueGetterParams)
+      ).toEqual(expectedDate);
+      expect(
+        getter({ data: { exitDate: undefined } } as ValueGetterParams)
+      ).toEqual('');
     });
   });
 });

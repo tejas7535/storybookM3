@@ -208,6 +208,7 @@ describe('LostJobProfilesComponent', () => {
         value: 'SG',
         job: 'Developer',
       };
+      component.timeRange = { id: '123', value: '123|321' };
 
       component.openEmployeeListDialog('leavers', 'Developer');
 

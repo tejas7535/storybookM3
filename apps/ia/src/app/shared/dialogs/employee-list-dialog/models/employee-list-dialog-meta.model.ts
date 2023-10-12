@@ -8,6 +8,7 @@ export class EmployeeListDialogMeta {
     public employeesLoading: boolean,
     public enoughRightsToShowAllEmployees: boolean,
     public type: 'workforce' | 'leavers' | 'newJoiners',
-    public excludedColumns?: string[]
+    public excludedColumns?: string[],
+    public customExcelFileName?: string
   ) {}
 }

@@ -5,7 +5,10 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getBeautifiedFilterValues } from '../../../core/store/selectors';
+import {
+  getBeautifiedFilterValues,
+  getFiltersAsFileName,
+} from '../../../core/store/selectors';
 import {
   EmployeeListDialogMeta,
   EmployeeListDialogMetaFilters,
@@ -17,7 +20,8 @@ import {
   styleUrls: ['./employee-list-dialog.component.scss'],
 })
 export class EmployeeListDialogComponent implements OnInit {
-  filters$: Observable<EmployeeListDialogMetaFilters>;
+  beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
+  defaultExcelName$: Observable<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: EmployeeListDialogMeta,
@@ -25,6 +29,9 @@ export class EmployeeListDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.filters$ = this.store.select(getBeautifiedFilterValues);
+    this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
+    this.defaultExcelName$ = this.store.select(
+      getFiltersAsFileName(this.data.headings.header)
+    );
   }
 }

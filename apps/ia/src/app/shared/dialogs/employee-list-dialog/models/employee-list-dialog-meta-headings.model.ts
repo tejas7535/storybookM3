@@ -5,6 +5,7 @@ export class EmployeeListDialogMetaHeadings {
     public header: string,
     public icon: string,
     public showDefaultFilters = true,
-    public customFilters?: EmployeeListDialogMetaFilters
+    public customBeautifiedFilters?: EmployeeListDialogMetaFilters,
+    public customExcelFileName?: string
   ) {}
 }

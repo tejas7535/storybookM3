@@ -12,21 +12,25 @@
       </button>
     </div>
     <ng-container
-      *ngrxLet="filters$ as filters"
+      *ngrxLet="beautifiedFilters$ as beautifiedFilters"
       [ngTemplateOutlet]="headings"
       [ngTemplateOutletContext]="{
         $implicit: data?.headings?.showDefaultFilters
-          ? filters
-          : data?.headings?.customFilters
+          ? beautifiedFilters
+          : data?.headings?.customBeautifiedFilters
       }"
     >
     </ng-container>
   </div>
-  <mat-dialog-content class="!overflow-hidden">
+  <mat-dialog-content
+    class="!overflow-hidden"
+    *ngrxLet="defaultExcelName$ as defaultExcelName"
+  >
     <ia-employee-list-table
       [employees]="data.employees"
       [type]="data.type"
       [excludedColumns]="data.excludedColumns"
+      [excelName]="data.customExcelFileName ?? defaultExcelName"
     ></ia-employee-list-table>
     <span
       *ngIf="!data.employeesLoading && !data.enoughRightsToShowAllEmployees"
@@ -37,23 +41,25 @@
   </mat-dialog-content>
 </ng-container>
 
-<ng-template #headings let-filters>
+<ng-template #headings let-beautifiedFilters>
   <div class="flex flex-row w-full ml-10 text-caption">
     <span class="text-medium-emphasis">Dimension:&nbsp;</span>
-    <span class="text-high-emphasis">{{ filters.filterDimension }}</span>
+    <span class="text-high-emphasis">{{
+      beautifiedFilters.filterDimension
+    }}</span>
     <span class="ml-4 text-medium-emphasis"
-      >{{ filters.filterDimension }}:&nbsp;</span
+      >{{ beautifiedFilters.filterDimension }}:&nbsp;</span
     >
-    <span class="text-high-emphasis">{{ filters.value }}</span>
+    <span class="text-high-emphasis">{{ beautifiedFilters.value }}</span>
     <span class="ml-4 text-medium-emphasis">Timeframe:&nbsp;</span>
-    <span class="text-high-emphasis">{{ filters.timeRange }}</span>
-    <ng-container *ngIf="filters.manager">
+    <span class="text-high-emphasis">{{ beautifiedFilters.timeRange }}</span>
+    <ng-container *ngIf="beautifiedFilters.manager">
       <span class="ml-4 text-medium-emphasis">Manager:&nbsp;</span>
-      <span class="text-high-emphasis">{{ filters.manager }}</span>
+      <span class="text-high-emphasis">{{ beautifiedFilters.manager }}</span>
     </ng-container>
-    <ng-container *ngIf="filters.job">
+    <ng-container *ngIf="beautifiedFilters.job">
       <span class="ml-4 text-medium-emphasis">Job:&nbsp;</span>
-      <span class="text-high-emphasis">{{ filters.job }}</span>
+      <span class="text-high-emphasis">{{ beautifiedFilters.job }}</span>
     </ng-container>
   </div>
 </ng-template>

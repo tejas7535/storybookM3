@@ -157,7 +157,8 @@ describe('OverviewChartComponent', () => {
             undefined,
             true,
             'leavers',
-            ['reasonForLeaving']
+            ['reasonForLeaving', 'from', 'to'],
+            `translate it ${value} January 2020`
           ),
         }
       );

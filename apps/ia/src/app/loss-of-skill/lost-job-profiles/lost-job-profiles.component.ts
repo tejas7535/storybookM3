@@ -197,7 +197,7 @@ export class LostJobProfilesComponent {
     this.leaversLoading,
     true,
     'leavers',
-    ['positionDescription']
+    ['positionDescription', 'from', 'to']
   );
 
   constructor(private readonly dialog: MatDialog) {}
@@ -238,6 +238,7 @@ export class LostJobProfilesComponent {
     let icon: string;
     let data: EmployeeListDialogMeta;
     let timeframe: string;
+    let timeframeExcelName: string;
 
     if (key === 'workforce') {
       translationKey = 'titleWorkforce';
@@ -247,16 +248,19 @@ export class LostJobProfilesComponent {
         .unix(+this.timeRange.id.split('|')[1])
         .utc()
         .format('MMMM YYYY');
+      timeframeExcelName = timeframe;
     } else {
       translationKey = 'titleLeavers';
       icon = 'person_add_disabled';
       data = this.leaversDialogData;
       timeframe = this.filters.timeRange;
+      timeframeExcelName = this.timeRange.value;
     }
 
     const title = `${translate(
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     )}`;
+    const customExcelFileName = `${title} ${this.filters.value} ${timeframeExcelName} ${positionDescription}`;
     const filters = new EmployeeListDialogMetaFilters(
       this.filters.filterDimension,
       this.filters.value,
@@ -272,6 +276,7 @@ export class LostJobProfilesComponent {
       filters
     );
     data.headings = headings;
+    data.customExcelFileName = customExcelFileName;
 
     this.dialog.open(EmployeeListDialogComponent, {
       data,

@@ -6,13 +6,19 @@ import {
 } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
-import { ColDef, StatusPanelDef, ValueGetterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ExcelExportParams,
+  StatusPanelDef,
+  ValueGetterParams,
+} from 'ag-grid-community';
 
 import { ActionType, LeavingType } from '../../models';
-import { dateFormatter } from '../../utils/utilities';
-import { EmployeeListStatusBarComponent } from './employee-list-status-bar/employee-list-status-bar.component';
+import { valueGetterDate } from '../../utils/utilities';
+import { ExcelExportStatusBarComponent } from './excel-export-status-bar/excel-export-status-bar.component';
 import { FluctuationTypeCellRendererComponent } from './fluctuation-type-cell-renderer/fluctuation-type-cell-renderer.component';
 import { EmployeeTableEntry, FluctuationType } from './models';
+import { TotalStatusBarComponent } from './total-status-bar/total-status-bar.component';
 
 @Component({
   selector: 'ia-employee-list-table',
@@ -21,6 +27,21 @@ import { EmployeeTableEntry, FluctuationType } from './models';
 })
 export class EmployeeListTableComponent implements OnInit {
   readonly REASON_FOR_LEAVING_MIN_WIDTH = 170;
+
+  @Input()
+  employees: EmployeeTableEntry[] = undefined;
+
+  @Input()
+  type: 'workforce' | 'leavers' | 'newJoiners';
+
+  @Input()
+  excludedColumns: string[];
+
+  @Input()
+  set excelName(excelName: string) {
+    this.defaultExcelExportParams.fileName = excelName;
+    this.defaultExcelExportParams.sheetName = 'Insight Attrition';
+  }
 
   defaultColDef: ColDef = {
     sortable: true,
@@ -38,8 +59,12 @@ export class EmployeeListTableComponent implements OnInit {
   statusBar: { statusPanels: StatusPanelDef[] } = {
     statusPanels: [
       {
-        statusPanel: EmployeeListStatusBarComponent,
+        statusPanel: TotalStatusBarComponent,
         align: 'left',
+      },
+      {
+        statusPanel: ExcelExportStatusBarComponent,
+        align: 'right',
       },
     ],
   };
@@ -48,14 +73,12 @@ export class EmployeeListTableComponent implements OnInit {
 
   components = [FluctuationTypeCellRendererComponent];
 
-  @Input()
-  employees: EmployeeTableEntry[];
-
-  @Input()
-  type: 'workforce' | 'leavers' | 'newJoiners';
-
-  @Input()
-  excludedColumns: string[];
+  defaultExcelExportParams: ExcelExportParams = {
+    fileName: this.excelName,
+    sheetName: this.excelName,
+    author: 'Insight Attrition',
+    allColumns: true,
+  };
 
   ngOnInit(): void {
     this.columnDefs = this.createColDefs();
@@ -73,7 +96,8 @@ export class EmployeeListTableComponent implements OnInit {
           headerName: translate('employeeListDialog.exitDate'),
           filter: 'agDateColumnFilter',
           sort: 'desc',
-          valueFormatter: dateFormatter,
+          valueGetter: (params) =>
+            valueGetterDate<EmployeeTableEntry>(params, 'exitDate'),
         },
         {
           field: 'reasonForLeaving',
@@ -88,6 +112,18 @@ export class EmployeeListTableComponent implements OnInit {
                 )
               : this.mapLeavingTypeToFluctuationType(ActionType.INTERNAL),
           cellRenderer: FluctuationTypeCellRendererComponent,
+        },
+        {
+          field: 'from',
+          headerName: translate('employeeListDialog.from'),
+          hide: true,
+          valueGetter: (params) => this.internalValueGetter(params, 'from'),
+        },
+        {
+          field: 'to',
+          headerName: translate('employeeListDialog.to'),
+          hide: true,
+          valueGetter: (params) => this.internalValueGetter(params, 'to'),
         }
       );
     } else if (this.type === 'newJoiners') {
@@ -97,7 +133,8 @@ export class EmployeeListTableComponent implements OnInit {
           headerName: translate('employeeListDialog.entryDate'),
           filter: 'agDateColumnFilter',
           sort: 'desc',
-          valueFormatter: dateFormatter,
+          valueGetter: (params) =>
+            valueGetterDate<EmployeeTableEntry>(params, 'entryDate'),
         },
         {
           field: 'reasonForLeaving',
@@ -110,11 +147,38 @@ export class EmployeeListTableComponent implements OnInit {
               ? FluctuationType.INTERNAL
               : undefined,
           cellRenderer: FluctuationTypeCellRendererComponent,
+        },
+        {
+          field: 'from',
+          headerName: translate('employeeListDialog.from'),
+          hide: true,
+          valueGetter: (params) => this.internalValueGetter(params, 'from'),
+        },
+        {
+          field: 'to',
+          headerName: translate('employeeListDialog.to'),
+          hide: true,
+          valueGetter: (params) => this.internalValueGetter(params, 'to'),
         }
       );
     }
 
     return this.filterExcludedColumns(columns);
+  }
+
+  internalValueGetter(params: ValueGetterParams, key: 'from' | 'to') {
+    if (params.data.actionType !== ActionType.INTERNAL) {
+      return;
+    }
+    if (key === 'from') {
+      return params.data.exitDate
+        ? params.data.currentDimensionValue
+        : params.data.previousDimensionValue;
+    } else {
+      return params.data.exitDate
+        ? params.data.nextDimensionValue
+        : params.data.currentDimensionValue;
+    }
   }
 
   filterExcludedColumns(columns: ColDef[]): ColDef[] {

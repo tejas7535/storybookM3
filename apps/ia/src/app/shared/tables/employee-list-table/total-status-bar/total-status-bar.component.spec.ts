@@ -1,14 +1,14 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IRowModel, IStatusPanelParams } from 'ag-grid-community';
 
-import { EmployeeListStatusBarComponent } from './employee-list-status-bar.component';
+import { TotalStatusBarComponent } from './total-status-bar.component';
 
-describe('EmployeeListStatusBarComponent', () => {
-  let component: EmployeeListStatusBarComponent;
-  let spectator: Spectator<EmployeeListStatusBarComponent>;
+describe('TotalStatusBarComponent', () => {
+  let component: TotalStatusBarComponent;
+  let spectator: Spectator<TotalStatusBarComponent>;
 
   const createComponent = createComponentFactory({
-    component: EmployeeListStatusBarComponent,
+    component: TotalStatusBarComponent,
     detectChanges: false,
     imports: [],
   });
@@ -58,6 +58,23 @@ describe('EmployeeListStatusBarComponent', () => {
 
       expect(component.total).toEqual(total);
       expect(component['ref'].markForCheck).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should remove event listener', () => {
+      component.params = {
+        api: {
+          removeEventListener: jest.fn(),
+        },
+      } as any;
+
+      component.ngOnDestroy();
+
+      expect(component.params.api.removeEventListener).toHaveBeenCalledWith(
+        'rowDataUpdated',
+        component.onGridReady
+      );
     });
   });
 });

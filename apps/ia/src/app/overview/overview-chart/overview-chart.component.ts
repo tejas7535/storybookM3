@@ -149,7 +149,7 @@ export class OverviewChartComponent {
     this.attritionEmployeesLoading,
     true,
     'leavers',
-    ['reasonForLeaving']
+    ['reasonForLeaving', 'from', 'to']
   );
 
   options: EChartsOption;
@@ -180,8 +180,11 @@ export class OverviewChartComponent {
         'YYYY MMM'
       ).format('MMMM YYYY');
 
+      const title = translate(
+        'overview.employeeListDialog.title.unforcedLeavers'
+      );
       this.dialogData.headings = new EmployeeListDialogMetaHeadings(
-        translate('overview.employeeListDialog.title.unforcedLeavers'),
+        title,
         'person_add_disabled',
         false,
         new EmployeeListDialogMetaFilters(
@@ -190,6 +193,7 @@ export class OverviewChartComponent {
           timeframe
         )
       );
+      this.dialogData.customExcelFileName = `${title} ${this.filters.value} ${timeframe}`;
 
       this.dialog.open(EmployeeListDialogComponent, {
         data: this.dialogData,

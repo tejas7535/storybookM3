@@ -268,3 +268,18 @@ export const getBeautifiedFilterValues = createSelector(
       : undefined;
   }
 );
+
+export const getFiltersAsFileName = (title: string) =>
+  createSelector(
+    getAllSelectedFilters,
+    getSelectedDimension,
+    (filters: SelectedFilter[], selectedDimension: FilterDimension) => {
+      const value = filters.find((filter) => filter.name === selectedDimension)
+        .idValue.value;
+      const timeRange = filters.find(
+        (filter) => filter.name === FilterKey.TIME_RANGE
+      ).idValue.value;
+
+      return `${title} ${value} ${timeRange}`;
+    }
+  );

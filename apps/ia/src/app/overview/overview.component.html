@@ -19,7 +19,6 @@
             <div class="mb-4 pl-4">
               <ia-kpi
                 [type]="'leavers'"
-                [showFluctuationType]="true"
                 [title]="(dimensionFluctuationKpi$ | ngrxPush)?.name"
                 [value]="(dimensionFluctuationKpi$ | ngrxPush)?.fluctuationRate"
                 [employees]="externalExitEmployees$ | ngrxPush"
@@ -32,6 +31,7 @@
                 "
                 [showTooltip]="true"
                 [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
+                [excludedColumns]="['from', 'to']"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
@@ -69,7 +69,6 @@
             <div class="mb-4 pl-4">
               <ia-kpi
                 [type]="'leavers'"
-                [showFluctuationType]="false"
                 [title]="(dimensionFluctuationKpi$ | ngrxPush)?.name"
                 [value]="
                   (dimensionFluctuationKpi$ | ngrxPush)?.unforcedFluctuationRate
@@ -85,6 +84,7 @@
                 "
                 [showTooltip]="true"
                 [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
+                [excludedColumns]="['reasonForLeaving', 'from', 'to']"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>

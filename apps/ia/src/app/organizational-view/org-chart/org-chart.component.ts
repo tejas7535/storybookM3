@@ -238,7 +238,7 @@ export class OrgChartComponent implements AfterViewInit {
     let value;
     let manager;
     if (this.selectedDataNode.filterDimension === FilterDimension.ORG_UNIT) {
-      value = `${this.selectedDataNode.dimensionLongName} (${this.selectedDataNode.dimension})`;
+      value = `${this.selectedDataNode.dimension} (${this.selectedDataNode.dimensionLongName})`;
       manager = this.selectedDataNode.managerOfOrgUnit;
     } else {
       value = this.selectedDataNode.dimension;
@@ -254,12 +254,14 @@ export class OrgChartComponent implements AfterViewInit {
       timeframe,
       manager
     );
+    const title = translate('organizationalView.employeeListDialog.workforce');
     const headings = new EmployeeListDialogMetaHeadings(
-      translate('organizationalView.employeeListDialog.workforce'),
+      title,
       'people',
       false,
       filters
     );
+    const customExcelFileName = `${title} ${value} ${timeframe}`;
 
     return new EmployeeListDialogMeta(
       headings,
@@ -267,7 +269,9 @@ export class OrgChartComponent implements AfterViewInit {
       this.selectedNodeEmployeesLoading,
       this.selectedDataNode.directEmployees ===
         this.selectedNodeEmployees.length,
-      'workforce'
+      'workforce',
+      undefined,
+      customExcelFileName
     );
   }
 

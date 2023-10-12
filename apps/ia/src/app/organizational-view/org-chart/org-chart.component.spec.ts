@@ -334,7 +334,7 @@ describe('OrgChartComponent', () => {
       );
       const customFilteres = new EmployeeListDialogMetaFilters(
         'translate it',
-        `${dimensionLongName} (${dimension})`,
+        `${dimension} (${dimensionLongName})`,
         'June 2020',
         manager
       );
@@ -352,7 +352,9 @@ describe('OrgChartComponent', () => {
           employees,
           true,
           false,
-          'workforce'
+          'workforce',
+          undefined,
+          `translate it ${dimension} (${dimensionLongName}) ${customFilteres.timeRange}`
         )
       );
     });
@@ -390,7 +392,9 @@ describe('OrgChartComponent', () => {
           employees,
           true,
           false,
-          'workforce'
+          'workforce',
+          undefined,
+          `translate it ${dimension} ${customFilteres.timeRange}`
         )
       );
     });
