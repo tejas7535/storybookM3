@@ -142,26 +142,22 @@ export class GreaseReportService {
                   table1Items || [],
                   rho
                 ),
-                this.greaseResultDataSourceService.manualRelubricationQuantityInterval(
+                this.greaseResultDataSourceService.relubricationPer365Days(
                   table1Items || [],
                   rho
                 ),
-                this.greaseResultDataSourceService.automaticRelubricationQuantityPerDay(
+                this.greaseResultDataSourceService.relubricationQuantityPer1000OperatingHours(
                   table1Items || [],
                   rho
                 ),
                 this.greaseResultDataSourceService.greaseServiceLife(
                   table1Items || []
                 ),
-                this.greaseResultDataSourceService.automaticRelubricationPerWeek(
+                this.greaseResultDataSourceService.relubricationPer30Days(
                   table1Items || [],
                   rho
                 ),
-                this.greaseResultDataSourceService.automaticRelubricationPerMonth(
-                  table1Items || [],
-                  rho
-                ),
-                this.greaseResultDataSourceService.automaticRelubricationPerYear(
+                this.greaseResultDataSourceService.relubricationPer7Days(
                   table1Items || [],
                   rho
                 ),

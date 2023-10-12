@@ -9,8 +9,8 @@ const { origin, top, self } = window;
 describe('Settings helpers', () => {
   afterEach(() => {
     window.origin = origin;
-    window.top = top;
-    window.self = self;
+    Object.defineProperty(window, 'top', { ...top, writable: true });
+    Object.defineProperty(window, 'self', { ...self, writable: true });
   });
 
   describe('detectAppDelivery', () => {
@@ -20,6 +20,7 @@ describe('Settings helpers', () => {
 
     it('should return native', () => {
       delete window.origin;
+
       window.origin = 'capacitor://';
 
       expect(detectAppDelivery()).toBe('native');
@@ -29,12 +30,8 @@ describe('Settings helpers', () => {
       delete window.top;
       delete window.self;
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.top = {};
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.self = {};
+      window.top = {} as WindowProxy;
+      window.self = {} as Window & typeof globalThis;
 
       expect(detectAppDelivery()).toBe('embedded');
     });

@@ -212,25 +212,21 @@ describe('GreaseResultDataSourceService', () => {
     });
   });
 
-  describe('manualRelubricationQuantityInterval', () => {
+  describe('relubricationPer365Days', () => {
     it('should return the data source item', () => {
-      const item = service.manualRelubricationQuantityInterval(
+      const item = service.relubricationPer365Days(
         [
           {
             ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.QVRE_MAN_MIN,
+            field: SubordinateDataItemField.QVRE_AUT_MIN,
           },
           {
             ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.QVRE_MAN_MAX,
+            field: SubordinateDataItemField.QVRE_AUT_MAX,
           },
           {
             ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.TFR_MIN,
-          },
-          {
-            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.TFR_MAX,
+            field: SubordinateDataItemField.QVIN,
           },
         ],
         subordinateDataMock.rhoMock
@@ -245,7 +241,7 @@ describe('GreaseResultDataSourceService', () => {
     });
 
     it('should return undefined', () => {
-      const item = service.manualRelubricationQuantityInterval(
+      const item = service.relubricationPer365Days(
         [],
         subordinateDataMock.rhoMock
       );
@@ -254,9 +250,9 @@ describe('GreaseResultDataSourceService', () => {
     });
   });
 
-  describe('automaticRelubricationQuantityPerDay', () => {
+  describe('relubricationQuantityPer1000OperatingHours', () => {
     it('should return the data source item', () => {
-      const item = service.automaticRelubricationQuantityPerDay(
+      const item = service.relubricationQuantityPer1000OperatingHours(
         [
           {
             ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
@@ -283,7 +279,7 @@ describe('GreaseResultDataSourceService', () => {
     });
 
     it('should return undefined', () => {
-      const item = service.automaticRelubricationQuantityPerDay(
+      const item = service.relubricationQuantityPer1000OperatingHours(
         [],
         subordinateDataMock.rhoMock
       );
@@ -320,9 +316,9 @@ describe('GreaseResultDataSourceService', () => {
     });
   });
 
-  describe('automaticRelubricationPerWeek', () => {
+  describe('relubricationPer30days', () => {
     it('should return the data source item', () => {
-      const item = service.automaticRelubricationPerWeek(
+      const item = service.relubricationPer30Days(
         [
           {
             ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
@@ -349,7 +345,7 @@ describe('GreaseResultDataSourceService', () => {
     });
 
     it('should return undefined', () => {
-      const item = service.automaticRelubricationPerWeek(
+      const item = service.relubricationPer30Days(
         [],
         subordinateDataMock.rhoMock
       );
@@ -358,9 +354,9 @@ describe('GreaseResultDataSourceService', () => {
     });
   });
 
-  describe('automaticRelubricationPerMonth', () => {
+  describe('relubricationPer7days', () => {
     it('should return the data source item', () => {
-      const item = service.automaticRelubricationPerMonth(
+      const item = service.relubricationPer7Days(
         [
           {
             ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
@@ -387,45 +383,7 @@ describe('GreaseResultDataSourceService', () => {
     });
 
     it('should return undefined', () => {
-      const item = service.automaticRelubricationPerMonth(
-        [],
-        subordinateDataMock.rhoMock
-      );
-
-      expect(item).toBeUndefined();
-    });
-  });
-
-  describe('automaticRelubricationPerYear', () => {
-    it('should return the data source item', () => {
-      const item = service.automaticRelubricationPerYear(
-        [
-          {
-            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.QVRE_AUT_MIN,
-          },
-          {
-            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.QVRE_AUT_MAX,
-          },
-          {
-            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-            field: SubordinateDataItemField.QVIN,
-          },
-        ],
-        subordinateDataMock.rhoMock
-      );
-
-      expect(item).toStrictEqual(
-        greaseResultDataMock(
-          subordinateDataMock.dataItemValueNumberMock,
-          subordinateDataMock.dataItemUnitMock
-        )[6]
-      );
-    });
-
-    it('should return undefined', () => {
-      const item = service.automaticRelubricationPerYear(
+      const item = service.relubricationPer7Days(
         [],
         subordinateDataMock.rhoMock
       );
@@ -447,7 +405,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[7]
+        )[6]
       );
     });
 
@@ -471,7 +429,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[8]
+        )[7]
       );
     });
 
@@ -495,7 +453,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[9]
+        )[8]
       );
     });
 
@@ -519,7 +477,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[10]
+        )[9]
       );
     });
 
@@ -543,7 +501,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[11]
+        )[10]
       );
     });
 
@@ -554,7 +512,7 @@ describe('GreaseResultDataSourceService', () => {
         ...greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[11],
+        )[10],
         values: 'calculationResult.undefinedValue',
       });
     });
@@ -573,7 +531,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[12]
+        )[11]
       );
     });
 
@@ -584,7 +542,7 @@ describe('GreaseResultDataSourceService', () => {
         ...greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[12],
+        )[11],
         values: 'calculationResult.undefinedValue',
       });
     });
@@ -603,7 +561,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueNumberMock,
           subordinateDataMock.dataItemUnitMock
-        )[13]
+        )[12]
       );
     });
 
@@ -628,7 +586,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[14]
+        )[13]
       );
     });
 
@@ -639,7 +597,7 @@ describe('GreaseResultDataSourceService', () => {
         ...greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[14],
+        )[13],
         values: 'n.a.',
       });
     });
@@ -659,7 +617,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[15]
+        )[14]
       );
     });
 
@@ -670,7 +628,7 @@ describe('GreaseResultDataSourceService', () => {
         ...greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[15],
+        )[14],
         values: 'n.a.',
       });
     });
@@ -690,7 +648,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[16]
+        )[15]
       );
     });
 
@@ -701,7 +659,7 @@ describe('GreaseResultDataSourceService', () => {
         ...greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[16],
+        )[15],
         values: 'n.a.',
       });
     });
@@ -720,7 +678,7 @@ describe('GreaseResultDataSourceService', () => {
         greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[17]
+        )[16]
       );
     });
 
@@ -731,7 +689,7 @@ describe('GreaseResultDataSourceService', () => {
         ...greaseResultDataMock(
           subordinateDataMock.dataItemValueStringMock,
           subordinateDataMock.dataItemUnitMock
-        )[17],
+        )[16],
         values: 'calculationResult.undefinedValue',
       });
     });

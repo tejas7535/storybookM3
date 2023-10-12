@@ -120,24 +120,6 @@ export const mapSuitabilityLevel = (
  * extract and format specific table item properties
  */
 
-export const manualRelubricationQuantity = (
-  dataItems: GreaseReportSubordinateDataItem[] = []
-): number | undefined => {
-  const min = itemValue(dataItems, SubordinateDataItemField.QVRE_MAN_MIN);
-  const max = itemValue(dataItems, SubordinateDataItemField.QVRE_MAN_MAX);
-
-  return min && max ? (+min + +max) / 2 : undefined;
-};
-
-export const manualRelubricationQuantityTimeSpan = (
-  dataItems: GreaseReportSubordinateDataItem[] = []
-): number | undefined => {
-  const min = itemValue(dataItems, SubordinateDataItemField.TFR_MIN);
-  const max = itemValue(dataItems, SubordinateDataItemField.TFR_MAX);
-
-  return min && max ? Math.round((+min + +max) / 2 / 24) : undefined;
-};
-
 export const greaseServiceLife = (
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): number | undefined => {
@@ -161,39 +143,33 @@ const convertInputToNumberWithoutSpecialCharacters = (
   return +clearedText;
 };
 
-export const automaticRelubricationQuantityUnit = (
+export const relubricationQuantityUnit = (
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): string => `${itemUnit(dataItems, SubordinateDataItemField.QVIN)}`;
 
-export const automaticRelubricationQuantityPerDay = (
+const relubricationQuantityPerDay = (
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): number =>
   (+itemValue(dataItems, SubordinateDataItemField.QVRE_AUT_MIN) +
     +itemValue(dataItems, SubordinateDataItemField.QVRE_AUT_MAX)) /
   2;
 
-export const automaticRelubricationPerWeek = (
+export const relubricationPerDays = (
+  numberOfDays: number,
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): number | undefined => {
-  const quantity = automaticRelubricationQuantityPerDay(dataItems);
+  const quantity = relubricationQuantityPerDay(dataItems);
 
-  return quantity ? quantity * 7 : undefined;
+  return quantity ? quantity * numberOfDays : undefined;
 };
 
-export const automaticRelubricationPerMonth = (
+export const relubricationPerOperatingHours = (
+  numberOfOperatingHours: number,
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): number | undefined => {
-  const quantity = automaticRelubricationQuantityPerDay(dataItems);
+  const quantity = relubricationQuantityPerDay(dataItems);
 
-  return quantity ? quantity * 30 : undefined;
-};
-
-export const automaticRelubricationPerYear = (
-  dataItems: GreaseReportSubordinateDataItem[] = []
-): number | undefined => {
-  const quantity = automaticRelubricationQuantityPerDay(dataItems);
-
-  return quantity ? quantity * 365 : undefined;
+  return quantity ? (quantity / 24) * numberOfOperatingHours : undefined;
 };
 
 export const getConcept1Setting = (

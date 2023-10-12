@@ -126,68 +126,30 @@ export class GreaseResultDataSourceService {
       : undefined;
   }
 
-  public manualRelubricationQuantityInterval(
+  public relubricationQuantityPer1000OperatingHours(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    const manualRelubricationQuantity =
-      helpers.manualRelubricationQuantity(dataItems);
-    const manualRelubricationQuantityTimeSpan =
-      helpers.manualRelubricationQuantityTimeSpan(dataItems);
+    const numberOfHours = 1000;
+    const relubricationQuantityPerOperatingHours =
+      helpers.relubricationPerOperatingHours(numberOfHours, dataItems);
 
-    return manualRelubricationQuantity && manualRelubricationQuantityTimeSpan
+    return relubricationQuantityPerOperatingHours
       ? {
-          title: 'manualRelubricationQuantityInterval',
+          title: 'relubricationQuantityPer1000OperatingHours',
           values: `${this.massTemplate(
             rho,
-            manualRelubricationQuantity,
-            `${this.localeService.localizeNumber(
-              manualRelubricationQuantityTimeSpan,
-              'decimal'
-            )} ${translate('calculationResult.days')}`,
-            true
+            relubricationQuantityPerOperatingHours,
+            translate('calculationResult.hours', { hours: numberOfHours })
           )}<br>${helpers.secondaryValue(
             `${this.localeService.localizeNumber(
-              manualRelubricationQuantity,
-              'decimal',
-              undefined,
-              this.tinyNumberFormatOptions
-            )} ${helpers.itemUnit(
-              dataItems,
-              SubordinateDataItemField.QVRE_MAN_MIN
-            )}/${this.localeService.localizeNumber(
-              manualRelubricationQuantityTimeSpan,
+              relubricationQuantityPerOperatingHours,
               'decimal'
-            )} ${translate('calculationResult.days')}`
+            )} ${helpers.relubricationQuantityUnit(dataItems)}/${translate(
+              'calculationResult.hours',
+              { hours: numberOfHours }
+            )}`
           )}`,
-          tooltip: 'manualRelubricationQuantityIntervalTooltip',
-        }
-      : undefined;
-  }
-
-  public automaticRelubricationQuantityPerDay(
-    dataItems: GreaseReportSubordinateDataItem[],
-    rho: number
-  ): GreaseResultDataSourceItem {
-    const automaticRelubricationQuantityPerDayValue =
-      helpers.automaticRelubricationQuantityPerDay(dataItems);
-
-    return automaticRelubricationQuantityPerDayValue
-      ? {
-          title: 'automaticRelubricationQuantityPerDay',
-          values: `${this.massTemplate(
-            rho,
-            automaticRelubricationQuantityPerDayValue,
-            translate('calculationResult.day')
-          )}<br>${helpers.secondaryValue(
-            `${this.localeService.localizeNumber(
-              automaticRelubricationQuantityPerDayValue,
-              'decimal'
-            )} ${helpers.automaticRelubricationQuantityUnit(
-              dataItems
-            )}/${translate('calculationResult.day')}`
-          )}`,
-          tooltip: 'automaticRelubricationQuantityPerDayTooltip',
         }
       : undefined;
   }
@@ -208,88 +170,27 @@ export class GreaseResultDataSourceService {
       : undefined;
   }
 
-  public automaticRelubricationPerWeek(
+  public relubricationPer7Days(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    const automaticRelubricationPerWeekValue =
-      helpers.automaticRelubricationPerWeek(dataItems);
-
-    return automaticRelubricationPerWeekValue
-      ? {
-          title: 'automaticRelubricationPerWeek',
-          values: `${this.massTemplate(
-            rho,
-            automaticRelubricationPerWeekValue,
-            `7 ${translate('calculationResult.days')}`
-          )}<br>${helpers.secondaryValue(
-            `${this.localeService.localizeNumber(
-              automaticRelubricationPerWeekValue,
-              'decimal'
-            )} ${helpers.automaticRelubricationQuantityUnit(
-              dataItems
-            )}/7 ${translate('calculationResult.days')}`
-          )}`,
-        }
-      : undefined;
+    return this.getLubricationPerNumberOfDays(7, dataItems, rho);
   }
 
-  public automaticRelubricationPerMonth(
+  public relubricationPer30Days(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    const automaticRelubricationPerMonthValue =
-      helpers.automaticRelubricationPerMonth(dataItems);
-
-    return automaticRelubricationPerMonthValue
-      ? {
-          title: 'automaticRelubricationPerMonth',
-          values: `${this.massTemplate(
-            rho,
-            automaticRelubricationPerMonthValue,
-            `30 ${translate('calculationResult.days')}`,
-            true
-          )}<br>${helpers.secondaryValue(
-            `${this.localeService.localizeNumber(
-              automaticRelubricationPerMonthValue,
-              'decimal',
-              undefined,
-              this.tinyNumberFormatOptions
-            )} ${helpers.automaticRelubricationQuantityUnit(
-              dataItems
-            )}/30 ${translate('calculationResult.days')}`
-          )}`,
-        }
-      : undefined;
+    return this.getLubricationPerNumberOfDays(30, dataItems, rho);
   }
 
-  public automaticRelubricationPerYear(
+  public relubricationPer365Days(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    const automaticRelubricationPerYearValue =
-      helpers.automaticRelubricationPerYear(dataItems);
+    const tooltip = 'relubricationQuantityPer365daysTooltip';
 
-    return automaticRelubricationPerYearValue
-      ? {
-          title: 'automaticRelubricationPerYear',
-          values: `${this.massTemplate(
-            rho,
-            automaticRelubricationPerYearValue,
-            `365 ${translate('calculationResult.days')}`,
-            true
-          )}<br>${helpers.secondaryValue(
-            `${this.localeService.localizeNumber(
-              automaticRelubricationPerYearValue,
-              'decimal',
-              undefined,
-              this.tinyNumberFormatOptions
-            )} ${helpers.automaticRelubricationQuantityUnit(
-              dataItems
-            )}/365 ${translate('calculationResult.days')}`
-          )}`,
-        }
-      : undefined;
+    return this.getLubricationPerNumberOfDays(365, dataItems, rho, tooltip);
   }
 
   public viscosityRatio(
@@ -528,6 +429,44 @@ export class GreaseResultDataSourceService {
       ? overgreasingInfo
       : translate('calculationResult.concept1settings.sizeHint', { size: 60 });
   };
+
+  private getLubricationPerNumberOfDays(
+    numberOfDays: number,
+    dataItems: GreaseReportSubordinateDataItem[],
+    rho: number,
+    tooltip?: string
+  ): GreaseResultDataSourceItem | undefined {
+    const relubricationPerDays = helpers.relubricationPerDays(
+      numberOfDays,
+      dataItems
+    );
+
+    if (!relubricationPerDays) {
+      return undefined;
+    }
+
+    const result: GreaseResultDataSourceItem = {
+      title: `relubricationPer${numberOfDays}days`,
+      values: `${this.massTemplate(
+        rho,
+        relubricationPerDays,
+        `${numberOfDays} ${translate('calculationResult.days')}`
+      )}<br>${helpers.secondaryValue(
+        `${this.localeService.localizeNumber(
+          relubricationPerDays,
+          'decimal'
+        )} ${helpers.relubricationQuantityUnit(
+          dataItems
+        )}/${numberOfDays} ${translate('calculationResult.days')}`
+      )}`,
+    };
+
+    if (tooltip) {
+      result.tooltip = tooltip;
+    }
+
+    return result;
+  }
 
   private readonly get125mlHintNote = (
     c1_125: number | undefined,

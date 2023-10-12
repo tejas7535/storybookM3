@@ -74,17 +74,17 @@ describe('GreaseReportResultComponent', () => {
     it('should assign data', () => {
       component.ngOnInit();
 
-      expect(component.labelValues).toHaveLength(3);
+      expect(component.labelValues).toHaveLength(4);
     });
   });
 
   describe('toggleShowValues', () => {
     it('should switch data amount', () => {
       component.toggleShowValues();
-      expect(component.labelValues).toHaveLength(19);
+      expect(component.labelValues).toHaveLength(18);
 
       component.toggleShowValues();
-      expect(component.labelValues).toHaveLength(3);
+      expect(component.labelValues).toHaveLength(4);
     });
 
     it('should call the logInteractionEvent method', () => {

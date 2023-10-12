@@ -64,7 +64,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
 })
 export class GreaseReportResultComponent implements OnInit, OnDestroy {
   @Input() public greaseResult!: GreaseResult;
-  @Input() public valuesLimit = 3;
+  @Input() public valuesLimit = 4;
   @Input() public preferredGreaseResult: PreferredGreaseResult;
   @Input() public automaticLubrication = false;
 

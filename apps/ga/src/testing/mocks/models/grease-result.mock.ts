@@ -4,7 +4,6 @@ import {
   CONCEPT1,
   GreaseResult,
   GreaseResultData,
-  GreaseResultDataItem,
   GreaseResultDataSourceItem,
 } from '@ga/features/grease-calculation/calculation-result/models';
 
@@ -13,9 +12,6 @@ import {
   dataItemUnitMock,
   dataItemValueNumberMock,
 } from './grease-report-subordinate-data.mock';
-
-export const greaseResultDataItemTitleMock =
-  'manualRelubricationQuantityInterval';
 
 export const greaseResultDataItemValuesMock = (
   value: number | string,
@@ -27,18 +23,6 @@ export const greaseResultDataItemValuesMock = (
     +value / 24
   )} days</span>`;
 
-export const greaseResultDataItemTooltipMock =
-  'manualRelubricationQuantityIntervalTooltip';
-
-export const greaseResultDataItemMock = (
-  value: number | string,
-  unit?: string
-): GreaseResultDataItem => ({
-  title: greaseResultDataItemTitleMock,
-  values: greaseResultDataItemValuesMock(value, unit),
-  tooltip: greaseResultDataItemTooltipMock,
-});
-
 export const greaseResultDataMock = (
   value: number | string,
   unit?: string
@@ -47,26 +31,29 @@ export const greaseResultDataMock = (
     title: 'initialGreaseQuantity',
     values: `<span>${value} g</span></br><span class="text-low-emphasis">${value} ${unit}</span>`,
   },
-  greaseResultDataItemMock(value, unit),
   {
-    title: 'automaticRelubricationQuantityPerDay',
-    values: `<span>${value} g/day</span><br><span class="text-low-emphasis">${value} ${unit}/day</span>`,
-    tooltip: 'automaticRelubricationQuantityPerDayTooltip',
+    title: 'relubricationPer365days',
+    values: `<span>${
+      +value * 365
+    } g/365 days</span><br><span class="text-low-emphasis">${
+      +value * 365
+    } ${unit}/365 days</span>`,
+    tooltip: 'relubricationQuantityPer365daysTooltip',
+  },
+  {
+    title: 'relubricationQuantityPer1000OperatingHours',
+    values: `<span>${
+      (+value / 24) * 1000
+    } g/hours</span><br><span class="text-low-emphasis">${
+      (+value / 24) * 1000
+    } ${unit}/hours</span>`,
   },
   {
     title: 'greaseServiceLife',
     values: `~ ${Math.round(+value / 24)} days`,
   },
   {
-    title: 'automaticRelubricationPerWeek',
-    values: `<span>${
-      +value * 7
-    } g/7 days</span><br><span class="text-low-emphasis">${
-      +value * 7
-    } ${unit}/7 days</span>`,
-  },
-  {
-    title: 'automaticRelubricationPerMonth',
+    title: 'relubricationPer30days',
     values: `<span>${
       +value * 30
     } g/30 days</span><br><span class="text-low-emphasis">${
@@ -74,12 +61,12 @@ export const greaseResultDataMock = (
     } ${unit}/30 days</span>`,
   },
   {
-    title: 'automaticRelubricationPerYear',
+    title: 'relubricationPer7days',
     values: `<span>${
-      +value * 365
-    } g/365 days</span><br><span class="text-low-emphasis">${
-      +value * 365
-    } ${unit}/365 days</span>`,
+      +value * 7
+    } g/7 days</span><br><span class="text-low-emphasis">${
+      +value * 7
+    } ${unit}/7 days</span>`,
   },
   {
     title: 'viscosityRatio',

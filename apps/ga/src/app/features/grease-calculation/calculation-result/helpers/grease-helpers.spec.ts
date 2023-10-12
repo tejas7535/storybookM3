@@ -5,7 +5,6 @@ import { LabelValue } from '@schaeffler/label-value';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 import * as subordinateDataMock from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
 import { GreaseReportConcept1HintMock } from '@ga/testing/mocks/models/grease-report-subordinate-data.mock';
-import * as resultMock from '@ga/testing/mocks/models/grease-result.mock';
 import { greaseResultConcept1Mock } from '@ga/testing/mocks/models/grease-result.mock';
 
 import {
@@ -25,28 +24,6 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('Grease helpers', () => {
   describe('adaptLabelValuesFromGreaseResultData', () => {
-    it('should convert result data into a set of label-value pairs', () => {
-      const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
-        resultMock.greaseResultDataItemMock(
-          subordinateDataMock.dataItemValueNumberMock,
-          subordinateDataMock.dataItemUnitMock
-        ),
-      ]);
-
-      const labelValueFromValidResultData: LabelValue[] = [
-        {
-          label: `calculationResult.${resultMock.greaseResultDataItemTitleMock}`,
-          labelHint: `calculationResult.${resultMock.greaseResultDataItemTooltipMock}`,
-          value: resultMock.greaseResultDataItemValuesMock(
-            subordinateDataMock.dataItemValueNumberMock,
-            subordinateDataMock.dataItemUnitMock
-          ),
-        },
-      ];
-
-      expect(validResultData).toStrictEqual(labelValueFromValidResultData);
-    });
-
     it('should convert custom data with tooltip into a set of label-value pairs', () => {
       const validResultData = helpers.adaptLabelValuesFromGreaseResultData([
         greaseResultConcept1Mock,
@@ -257,60 +234,6 @@ describe('Grease helpers', () => {
     });
   });
 
-  describe('manualRelubricationQuantity', () => {
-    it('should return a value', () => {
-      const value = helpers.manualRelubricationQuantity([
-        {
-          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-          field: SubordinateDataItemField.QVRE_MAN_MIN,
-        },
-        {
-          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-          field: SubordinateDataItemField.QVRE_MAN_MAX,
-        },
-      ]);
-
-      expect(value).toBe(subordinateDataMock.dataItemValueNumberMock);
-    });
-
-    it('should return undefined', () => {
-      const valueItemsUndefined = helpers.manualRelubricationQuantity();
-      const valueFieldUnknown = helpers.manualRelubricationQuantity([
-        subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-      ]);
-
-      expect(valueItemsUndefined).toBeUndefined();
-      expect(valueFieldUnknown).toBeUndefined();
-    });
-  });
-
-  describe('manualRelubricationQuantityTimeSpan', () => {
-    it('should return a value', () => {
-      const value = helpers.manualRelubricationQuantityTimeSpan([
-        {
-          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-          field: SubordinateDataItemField.TFR_MIN,
-        },
-        {
-          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-          field: SubordinateDataItemField.TFR_MAX,
-        },
-      ]);
-
-      expect(value).toBe(51_440);
-    });
-
-    it('should return undefined', () => {
-      const valueItemsUndefined = helpers.manualRelubricationQuantityTimeSpan();
-      const valueFieldUnknown = helpers.manualRelubricationQuantityTimeSpan([
-        subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-      ]);
-
-      expect(valueItemsUndefined).toBeUndefined();
-      expect(valueFieldUnknown).toBeUndefined();
-    });
-  });
-
   describe('greaseServiceLife', () => {
     it('should return a value', () => {
       const value = helpers.greaseServiceLife([
@@ -353,9 +276,9 @@ describe('Grease helpers', () => {
     });
   });
 
-  describe('automaticRelubricationQuantityUnit', () => {
+  describe('relubricationQuantityUnit', () => {
     it('should return a unit', () => {
-      const unit = helpers.automaticRelubricationQuantityUnit([
+      const unit = helpers.relubricationQuantityUnit([
         {
           ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
           field: SubordinateDataItemField.QVIN,
@@ -366,8 +289,8 @@ describe('Grease helpers', () => {
     });
 
     it('should return an empty string', () => {
-      const unitItemsUndefined = helpers.automaticRelubricationQuantityUnit();
-      const unitFieldUnknown = helpers.automaticRelubricationQuantityUnit([
+      const unitItemsUndefined = helpers.relubricationQuantityUnit();
+      const unitFieldUnknown = helpers.relubricationQuantityUnit([
         subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
       ]);
 
@@ -376,37 +299,50 @@ describe('Grease helpers', () => {
     });
   });
 
-  describe('automaticRelubricationQuantityPerDay', () => {
+  describe('relubricationQuantityPer1000OperatingHours', () => {
     it('should return a value', () => {
-      const value = helpers.automaticRelubricationQuantityPerDay([
-        {
-          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-          field: SubordinateDataItemField.QVRE_AUT_MIN,
-        },
-        {
-          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-          field: SubordinateDataItemField.QVRE_AUT_MAX,
-        },
-      ]);
+      const numberOfOperatingHours = 1000;
+      const numberOfHoursInDay = 24;
+      const expected =
+        (subordinateDataMock.dataItemValueNumberMock / numberOfHoursInDay) *
+        numberOfOperatingHours;
+      const value = helpers.relubricationPerOperatingHours(
+        numberOfOperatingHours,
+        [
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            field: SubordinateDataItemField.QVRE_AUT_MIN,
+          },
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            field: SubordinateDataItemField.QVRE_AUT_MAX,
+          },
+        ]
+      );
 
-      expect(value).toBe(subordinateDataMock.dataItemValueNumberMock);
+      expect(value).toBe(expected);
     });
 
     it('should return 0', () => {
-      const valueItemsUndefined =
-        helpers.automaticRelubricationQuantityPerDay();
-      const valueFieldUnknown = helpers.automaticRelubricationQuantityPerDay([
-        subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-      ]);
+      const numberOfOperatingHours = 1000;
 
-      expect(valueItemsUndefined).toBe(0);
-      expect(valueFieldUnknown).toBe(0);
+      const valueItemsUndefined = helpers.relubricationPerOperatingHours(
+        numberOfOperatingHours
+      );
+      const valueFieldUnknown = helpers.relubricationPerOperatingHours(
+        numberOfOperatingHours,
+        [subordinateDataMock.greaseReportSubordinateDataItemNumberMock]
+      );
+
+      expect(valueItemsUndefined).toBeUndefined();
+      expect(valueFieldUnknown).toBeUndefined();
     });
   });
 
-  describe('automaticRelubricationPerWeek', () => {
+  describe('relubricationPer7days', () => {
     it('should return a value', () => {
-      const value = helpers.automaticRelubricationPerWeek([
+      const numberOfDays = 7;
+      const value = helpers.relubricationPerDays(numberOfDays, [
         {
           ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
           field: SubordinateDataItemField.QVRE_AUT_MIN,
@@ -421,8 +357,9 @@ describe('Grease helpers', () => {
     });
 
     it('should return undefined', () => {
-      const valueItemsUndefined = helpers.automaticRelubricationPerWeek();
-      const valueFieldUnknown = helpers.automaticRelubricationPerWeek([
+      const numberOfDays = 7;
+      const valueItemsUndefined = helpers.relubricationPerDays(numberOfDays);
+      const valueFieldUnknown = helpers.relubricationPerDays(numberOfDays, [
         subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
       ]);
 
@@ -431,9 +368,10 @@ describe('Grease helpers', () => {
     });
   });
 
-  describe('automaticRelubricationPerMonth', () => {
+  describe('relubricationPer30days', () => {
     it('should return a value', () => {
-      const value = helpers.automaticRelubricationPerMonth([
+      const nummberOfDays = 30;
+      const value = helpers.relubricationPerDays(nummberOfDays, [
         {
           ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
           field: SubordinateDataItemField.QVRE_AUT_MIN,
@@ -446,21 +384,12 @@ describe('Grease helpers', () => {
 
       expect(value).toBe(37_037_036.699_999_996);
     });
-
-    it('should return undefined', () => {
-      const valueItemsUndefined = helpers.automaticRelubricationPerMonth();
-      const valueFieldUnknown = helpers.automaticRelubricationPerMonth([
-        subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-      ]);
-
-      expect(valueItemsUndefined).toBeUndefined();
-      expect(valueFieldUnknown).toBeUndefined();
-    });
   });
 
-  describe('automaticRelubricationPerYear', () => {
+  describe('relubricationPer365days', () => {
     it('should return a value', () => {
-      const value = helpers.automaticRelubricationPerYear([
+      const numberOfDays = 365;
+      const value = helpers.relubricationPerDays(numberOfDays, [
         {
           ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
           field: SubordinateDataItemField.QVRE_AUT_MIN,
@@ -472,16 +401,6 @@ describe('Grease helpers', () => {
       ]);
 
       expect(value).toBe(450_617_279.849_999_96);
-    });
-
-    it('should return undefined', () => {
-      const valueItemsUndefined = helpers.automaticRelubricationPerYear();
-      const valueFieldUnknown = helpers.automaticRelubricationPerYear([
-        subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
-      ]);
-
-      expect(valueItemsUndefined).toBeUndefined();
-      expect(valueFieldUnknown).toBeUndefined();
     });
   });
 

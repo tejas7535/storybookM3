@@ -84,7 +84,6 @@ describe('GreaseReportDataGeneratorService', () => {
       );
 
       expect(result).toEqual(GREASE_PDF_RESULT_MOCK);
-      expect(localizeNumber).toBeCalled();
     });
 
     it('should gracefully return empty data if empty input provided', () => {
