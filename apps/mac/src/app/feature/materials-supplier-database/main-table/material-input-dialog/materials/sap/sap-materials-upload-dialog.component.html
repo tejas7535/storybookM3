@@ -28,26 +28,19 @@
           <mat-datepicker #dateDatePicker></mat-datepicker>
         </mat-form-field>
       </div>
-      <mat-label> {{ t('dataSource.label') }} </mat-label>
+      <mat-label> {{ t('dataSource') }} </mat-label>
       <mat-radio-group
         matInput
         class="flex flex-col"
         formControlName="maturity"
+        *transloco="let tr; read: 'materialsSupplierDatabase.dataSource'"
       >
-        <mat-radio-button color="primary" [value]="10">
-          <span> {{ t('dataSource.verified') }} </span>
-        </mat-radio-button>
-        <mat-radio-button color="primary" [value]="8">
-          <span> {{ t('dataSource.plausibilised') }} </span>
-        </mat-radio-button>
-        <mat-radio-button color="primary" [value]="7">
-          <span> {{ t('dataSource.internal') }} </span>
-        </mat-radio-button>
-        <mat-radio-button color="primary" [value]="5">
-          <span> {{ t('dataSource.externaldb') }} </span>
-        </mat-radio-button>
-        <mat-radio-button color="primary" [value]="2">
-          <span> {{ t('dataSource.indirect') }} </span>
+        <mat-radio-button
+          *ngFor="let maturity of possibleMaturity"
+          color="primary"
+          [value]="maturity"
+        >
+          <span> {{ tr(maturity) }} </span>
         </mat-radio-button>
       </mat-radio-group>
       <div>

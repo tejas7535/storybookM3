@@ -28,6 +28,7 @@ interface SapMaterialUploadDialogFormControl {
 export class SapMaterialsUploadDialogComponent implements OnInit {
   @ViewChild('fileChooser') fileChooserRef: ElementRef<HTMLInputElement>;
 
+  possibleMaturity = [10, 8, 7, 5, 2];
   formGroup: FormGroup<SapMaterialUploadDialogFormControl>;
   isLoading = false;
 
@@ -42,7 +43,10 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
       {
         owner: new FormControl(undefined, Validators.required),
         date: new FormControl(moment(), Validators.required),
-        maturity: new FormControl(10, Validators.required),
+        maturity: new FormControl(
+          this.possibleMaturity[0],
+          Validators.required
+        ),
         file: new FormControl(undefined, Validators.required),
       }
     );

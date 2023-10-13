@@ -12,7 +12,7 @@ import {
   MATERIAL_GROUP,
   MATERIAL_GROUP_TEXT,
   MATERIAL_NUMBER,
-  NAME,
+  MATURITY,
   OWNER,
   PLANT,
   PLANT_TEXT,
@@ -29,8 +29,11 @@ import {
 } from '@mac/msd/main-table/table-config';
 
 import { PcfMaturityCo2CellRendererComponent } from '../../../pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
+import { TRANSLATE_VALUE_FORMATTER_FACTORY } from '../../helpers';
+import { HISTORY_COLUMN_DEFINITION } from '../base';
 
 export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
+  HISTORY_COLUMN_DEFINITION,
   {
     field: MATERIAL_NUMBER,
     headerName: MATERIAL_NUMBER,
@@ -143,10 +146,13 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: TEXT_FILTER_PARAMS,
   },
   {
-    field: NAME,
-    headerName: NAME,
+    field: MATURITY,
+    headerName: MATURITY,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
+    valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
+      'materialsSupplierDatabase.dataSource'
+    ),
   },
   {
     field: OWNER,

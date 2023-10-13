@@ -431,9 +431,8 @@
         "supplierId": "Supplier ID",
         "emissionFactorKg": "CO₂ [kg / kg]",
         "emissionFactorPc": "CO₂ [kg / piece]",
-        "dataSourceId": "Data source",
         "owner": "Data owner",
-        "name": "Data Source",
+        "maturity": "Data Source",
         "materialDescription": "Description",
         "category": "Category",
         "plant": "Plant",
@@ -466,14 +465,7 @@
         "upload": "Upload",
         "dataOwner": "Data owner",
         "dataDate": "Data version date",
-        "dataSource": {
-          "label": "Data source",
-          "verified": "Primary data (verified)",
-          "plausibilised": "Primary data (plausibilised)",
-          "internal": "Secondary data (internal expertise)",
-          "externaldb": "Secondary data (external databases)",
-          "indirect": "Secondary data (indirectly derived)"
-        },
+        "dataSource": "Data source",
         "template": {
           "label": "Download the file template",
           "button": "here"
@@ -773,6 +765,13 @@
         }
       },
       "yes": "Yes"
+    },
+    "dataSource": {
+      "10": "Primary data (verified) (10)",
+      "8": "Primary data (plausibilised) (8)",
+      "7": "Secondary data (internal expertise) (7)",
+      "5": "Secondary data (external databases) (5)",
+      "2": "Secondary data (indirectly derived) (2)"
     },
     "materialClass": "Material Class",
     "materialClassValues": {

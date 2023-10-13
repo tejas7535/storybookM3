@@ -22,6 +22,8 @@ import {
   MaterialResponse,
   MaterialStandard,
   MaterialStandardTableValue,
+  SAPMaterial,
+  SAPMaterialHistoryValue,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
   SapMaterialsUpload,
@@ -524,6 +526,24 @@ export class MsdDataService {
     );
   }
 
+  public getHistoryForSAPMaterial(
+    materialNumber: string,
+    supplierId: string,
+    plant: string
+  ): Observable<SAPMaterialHistoryValue[]> {
+    return this.httpClient
+      .get<SAPMaterial[]>(
+        `${this.BASE_URL_SAP}/emissionfactor/history/${materialNumber}/${supplierId}/${plant}`
+      )
+      .pipe(
+        map((sapMaterials: SAPMaterial[]) =>
+          sapMaterials.map((material: SAPMaterial) =>
+            this.mapSapMaterial(material)
+          )
+        )
+      );
+  }
+
   public uploadSapMaterials(
     upload: SapMaterialsUpload
   ): Observable<SapMaterialsUploadResponse> {
@@ -680,5 +700,29 @@ export class MsdDataService {
       lastModified: std.timestamp,
       modifiedBy: std.modifiedBy,
     } as MaterialStandardTableValue;
+  }
+
+  private mapSapMaterial(sapMaterial: SAPMaterial): SAPMaterialHistoryValue {
+    return {
+      materialNumber: sapMaterial.materialNumber,
+      materialDescription: sapMaterial.materialDescription,
+      materialGroup: sapMaterial.materialGroup,
+      category: sapMaterial.category,
+      businessPartnerId: sapMaterial.businessPartnerId,
+      supplierId: sapMaterial.supplierId,
+      plant: sapMaterial.plant,
+      supplierCountry: sapMaterial.supplierCountry,
+      supplierRegion: sapMaterial.supplierRegion,
+      emissionFactorKg: sapMaterial.emissionFactorKg,
+      emissionFactorPc: sapMaterial.emissionFactorPc,
+      transportPc: sapMaterial.transportPc,
+      transportIncoterm: sapMaterial.transportIncoterm,
+      dataDate: new Date(sapMaterial.dataDate).toLocaleDateString('en-GB'),
+      dataComment: sapMaterial.dataComment,
+      owner: sapMaterial.owner,
+      maturity: sapMaterial.maturity,
+      modifiedBy: sapMaterial.modifiedBy,
+      lastModified: sapMaterial.timestamp,
+    };
   }
 }

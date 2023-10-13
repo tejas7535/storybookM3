@@ -64,6 +64,5 @@ export const TRANSPORT_PC = 'transportPc';
 export const TRANSPORT_INCOTERM = 'transportIncoterm';
 export const DATA_DATE = 'dataDate';
 export const DATA_COMMENT = 'dataComment';
-export const DATA_SOURCE_ID = 'dataSourceId';
 export const OWNER = 'owner';
-export const NAME = 'name';
+export const MATURITY = 'maturity';

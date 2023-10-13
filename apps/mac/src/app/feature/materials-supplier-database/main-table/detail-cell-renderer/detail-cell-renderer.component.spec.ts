@@ -25,6 +25,7 @@ describe('DetailCellRendererComponent', () => {
   const materialHistorySubject = new Subject<any[]>();
   const matStdHistorySubject = new Subject<any[]>();
   const supplierHistorySubject = new Subject<any[]>();
+  const sapMaterialHistorySubject = new Subject<any[]>();
   let navigationSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
   let store: MockStore;
 
@@ -45,6 +46,7 @@ describe('DetailCellRendererComponent', () => {
             () => supplierHistorySubject
           ),
           getHistoryForMaterial: jest.fn(() => materialHistorySubject),
+          getHistoryForSAPMaterial: jest.fn(() => sapMaterialHistorySubject),
           mapStandardsToTableView: jest.fn((std) => std),
           mapSuppliersToTableView: jest.fn((suppliers) => suppliers),
         },
@@ -136,17 +138,21 @@ describe('DetailCellRendererComponent', () => {
   describe('getObservable', () => {
     it('should call MaterialHistory as default', () => {
       setNavigation('a' as MaterialClass, 'b' as NavigationLevel);
-      expect(component['getObservable'](1)).toBe(materialHistorySubject);
+      expect(component['getObservable']({ id: 1 })).toBe(
+        materialHistorySubject
+      );
     });
     it('should call MaterialHistory', () => {
       setNavigation(MaterialClass.ALUMINUM, NavigationLevel.MATERIAL);
-      expect(component['getObservable'](2)).toBe(materialHistorySubject);
+      expect(component['getObservable']({ id: 2 })).toBe(
+        materialHistorySubject
+      );
     });
-    it('should call MaterialStandarHistory', (done) => {
+    it('should call MaterialStandardHistory', (done) => {
       setNavigation(MaterialClass.ALUMINUM, NavigationLevel.STANDARD);
 
       const expected = ['7'];
-      component['getObservable'](3).subscribe((result) => {
+      component['getObservable']({ id: 3 }).subscribe((result) => {
         expect(result).toStrictEqual(expected);
         done();
       });
@@ -155,12 +161,23 @@ describe('DetailCellRendererComponent', () => {
     it('should call SupplierHistory', (done) => {
       setNavigation(MaterialClass.ALUMINUM, NavigationLevel.SUPPLIER);
       const expected = ['44'];
-      component['getObservable'](4).subscribe((result) => {
+      component['getObservable']({ id: 4 }).subscribe((result) => {
         expect(result).toBe(expected);
         done();
       });
       supplierHistorySubject.next(expected);
     }, 1500);
+
+    it('should call SAPMaterialHistory', () => {
+      setNavigation(MaterialClass.SAP_MATERIAL, NavigationLevel.MATERIAL);
+      expect(
+        component['getObservable']({
+          materialNumber: '050919660-0000',
+          supplierId: 'S000283632',
+          plant: '0045',
+        })
+      ).toBe(sapMaterialHistorySubject);
+    });
   });
 
   describe('compare', () => {

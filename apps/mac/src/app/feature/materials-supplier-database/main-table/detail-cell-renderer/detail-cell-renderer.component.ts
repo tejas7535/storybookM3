@@ -25,7 +25,7 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
   public done$: Observable<any[]>;
 
   /*
-   * stell material specific: productCategory -> productCategoryText will be used
+   * steel material specific: productCategory -> productCategoryText will be used
    */
   private readonly IGNORE_COLUMNS = new Set([
     'lastModified',
@@ -55,8 +55,7 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
   }
 
   agInit(params: ICellRendererParams): void {
-    const id = params.data.id;
-    this.done$ = this.getObservable(id).pipe(
+    this.done$ = this.getObservable(params.data).pipe(
       take(1),
       tap((results) => {
         let current = results.shift();
@@ -77,7 +76,17 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
     );
   }
 
-  private getObservable(id: number): Observable<any[]> {
+  private getObservable(data: any): Observable<any[]> {
+    return this.materialClass === MaterialClass.SAP_MATERIAL
+      ? this.msdDataService.getHistoryForSAPMaterial(
+          data.materialNumber,
+          data.supplierId,
+          data.plant
+        )
+      : this.getHistory(data.id);
+  }
+
+  private getHistory(id: number): Observable<any[]> {
     switch (this.navigationLevel) {
       case NavigationLevel.STANDARD:
         return this.msdDataService

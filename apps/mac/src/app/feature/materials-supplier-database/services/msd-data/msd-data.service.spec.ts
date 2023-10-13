@@ -22,6 +22,7 @@ import {
   MaterialStandard,
   MaterialStandardTableValue,
   PolymerMaterial,
+  SAPMaterialHistoryValue,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
   SapMaterialsUpload,
@@ -1300,6 +1301,80 @@ describe('MsdDataService', () => {
       expect(formData.get('date')).toBe(dateString);
       expect(formData.get('maturity')).toBe(upload.maturity.toString());
       expect(formData.get('file')).toBe(upload.file);
+
+      req.flush(response);
+    });
+  });
+
+  describe('getSAPMaterialHistory', () => {
+    it('should get SAP material history', (done) => {
+      const materialNumber = '050919660-0000';
+      const supplierId = 'S000283632';
+      const plant = '0045';
+
+      const response = [
+        {
+          materialNumber,
+          materialDescription: 'F-234690-1912.SRG',
+          materialGroup: 'M36042',
+          category: 'M413',
+          businessPartnerId: '1069871',
+          supplierId,
+          plant,
+          supplierCountry: 'SK',
+          supplierRegion: 'EU',
+          emissionFactorKg: 2.32,
+          emissionFactorPc: 3.99,
+          transportPc: 'test transportPc',
+          transportIncoterm: 'test transportIncoterm',
+          dataDate: 1_562_191_200_000,
+          dataComment:
+            'Value for physical emission factor of same (category, material group, supplier country)',
+          owner: 'Test owner',
+          maturity: 1,
+          modifiedBy: 'Tester',
+          timestamp: 1_696_000_509.596_856,
+          historic: false,
+          uploadId: 'd289909b-2a30-4d3c-ba5a-79ae4cadd843',
+        },
+      ];
+
+      const expected = [
+        {
+          materialNumber: response[0].materialNumber,
+          materialDescription: response[0].materialDescription,
+          materialGroup: response[0].materialGroup,
+          category: response[0].category,
+          businessPartnerId: response[0].businessPartnerId,
+          supplierId: response[0].supplierId,
+          plant: response[0].plant,
+          supplierCountry: response[0].supplierCountry,
+          supplierRegion: response[0].supplierRegion,
+          emissionFactorKg: response[0].emissionFactorKg,
+          emissionFactorPc: response[0].emissionFactorPc,
+          transportPc: response[0].transportPc,
+          transportIncoterm: response[0].transportIncoterm,
+          dataDate: new Date(response[0].dataDate).toLocaleDateString('en-GB'),
+          dataComment: response[0].dataComment,
+          owner: response[0].owner,
+          maturity: response[0].maturity,
+          modifiedBy: response[0].modifiedBy,
+          lastModified: response[0].timestamp,
+        },
+      ];
+
+      service
+        .getHistoryForSAPMaterial(materialNumber, supplierId, plant)
+        .subscribe((result: SAPMaterialHistoryValue[]) => {
+          expect(result).toEqual(expected);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/history/${materialNumber}/${supplierId}/${plant}`
+      );
+
+      expect(req.request.method).toBe('GET');
 
       req.flush(response);
     });

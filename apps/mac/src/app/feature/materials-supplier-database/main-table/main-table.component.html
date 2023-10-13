@@ -51,6 +51,9 @@
           <ng-template #serverSideGrid>
             <ag-grid-angular
               class="ag-theme-material border-border h-full border"
+              [masterDetail]="true"
+              [detailCellRenderer]="detailCellRenderer"
+              [detailRowAutoHeight]="true"
               rowModelType="serverSide"
               [columnDefs]="columnDefs"
               [defaultColDef]="defaultColDef"
