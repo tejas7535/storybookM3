@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ShareResult } from '@capacitor/share';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import jsPDF from 'jspdf';
@@ -27,6 +29,7 @@ import {
 } from '../models';
 import { GreaseReportSubordinate } from '../models/grease-report-subordinate.model';
 import { GreaseReportDataGeneratorService } from './grease-report-data-generator.service';
+import { GreaseReportPdfFileSaveService } from './grease-report-pdf-file-save.service';
 
 @Injectable()
 export class GreaseReportPdfGeneratorService {
@@ -61,10 +64,13 @@ export class GreaseReportPdfGeneratorService {
 
   public constructor(
     private readonly dataGeneratorService: GreaseReportDataGeneratorService,
-    private readonly datePipe: TranslocoDatePipe
+    private readonly datePipe: TranslocoDatePipe,
+    private readonly greaseReportPdfFileSaveService: GreaseReportPdfFileSaveService
   ) {}
 
-  public generateReport(report: GreasePdfReportModel): Promise<void> {
+  public generateReport(
+    report: GreasePdfReportModel
+  ): Promise<ShareResult | void> {
     const currentDate = this.datePipe.transform(new Date());
     const fileName = `Grease App ${report.reportTitle} - ${currentDate}.pdf`;
 
@@ -85,7 +91,7 @@ export class GreaseReportPdfGeneratorService {
 
     this.generateHeaderAndFooterSectionsOnEveryPage(doc, report, currentDate);
 
-    return doc.save(fileName, { returnPromise: true });
+    return this.greaseReportPdfFileSaveService.saveAndOpenFile(doc, fileName);
   }
 
   private generateHeaderAndFooterSectionsOnEveryPage(

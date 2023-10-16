@@ -19,6 +19,7 @@ import {
 } from '../constants/pdf-report/report-fonts';
 import { schaefflerLogo } from '../constants/pdf-report/report-logo';
 import { GreaseReportDataGeneratorService } from './grease-report-data-generator.service';
+import { GreaseReportPdfFileSaveService } from './grease-report-pdf-file-save.service';
 import { GreaseReportPdfGeneratorService } from './grease-report-pdf-generator.service';
 
 const saveFile = jest.fn();
@@ -74,6 +75,7 @@ describe('GreaseReportPdfGeneratorService', () => {
   let spectator: SpectatorService<GreaseReportPdfGeneratorService>;
   let service: GreaseReportPdfGeneratorService;
   let dataServiceSpy: SpyObject<GreaseReportDataGeneratorService>;
+  let saveFileServiceSpy: SpyObject<GreaseReportPdfFileSaveService>;
   const pageMargin = 35;
   const REPORT_GENERATION_DATE = '2022-11-14T00:00:00Z';
 
@@ -82,6 +84,7 @@ describe('GreaseReportPdfGeneratorService', () => {
     providers: [
       mockProvider(GreaseReportDataGeneratorService),
       mockProvider(TranslocoDatePipe, { transform: () => '14.11.2022' }),
+      mockProvider(GreaseReportPdfFileSaveService),
     ],
   });
 
@@ -91,6 +94,7 @@ describe('GreaseReportPdfGeneratorService', () => {
     spectator = createService();
     service = spectator.service;
     dataServiceSpy = spectator.inject(GreaseReportDataGeneratorService);
+    saveFileServiceSpy = spectator.inject(GreaseReportPdfFileSaveService);
   });
 
   afterEach(() => {
@@ -188,11 +192,9 @@ describe('GreaseReportPdfGeneratorService', () => {
     });
 
     it('should save file to pdf', () => {
-      expect(saveFile).toHaveBeenCalledWith(
-        'Grease App report title - 14.11.2022.pdf',
-        {
-          returnPromise: true,
-        }
+      expect(saveFileServiceSpy.saveAndOpenFile).toHaveBeenCalledWith(
+        expect.any(Object),
+        'Grease App report title - 14.11.2022.pdf'
       );
     });
 

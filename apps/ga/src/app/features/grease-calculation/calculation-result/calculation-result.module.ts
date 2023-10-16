@@ -29,6 +29,7 @@ import {
   GreaseReportDataGeneratorService,
   GreaseReportPdfGeneratorService,
 } from './services';
+import { GreaseReportPdfFileSaveService } from './services/grease-report-pdf-file-save.service';
 
 @NgModule({
   declarations: [CalculationResultComponent],
@@ -63,6 +64,7 @@ import {
     CalculationParametersService,
     GreaseReportDataGeneratorService,
     GreaseReportPdfGeneratorService,
+    GreaseReportPdfFileSaveService,
     TranslocoDatePipe,
     {
       provide: ENV,

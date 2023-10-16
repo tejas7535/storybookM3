@@ -444,7 +444,20 @@ importers:
         specifier: ^0.5.10
         version: 0.5.10(tailwindcss@3.3.1)
 
-  apps/ga: {}
+  apps/ga:
+    dependencies:
+      '@capacitor-community/file-opener':
+        specifier: ^1.0.5
+        version: 1.0.5(@capacitor/core@5.4.2)
+      '@capacitor/core':
+        specifier: ^5.4.2
+        version: 5.4.2
+      '@capacitor/filesystem':
+        specifier: ^5.1.4
+        version: 5.1.4(@capacitor/core@5.4.2)
+      '@capacitor/share':
+        specifier: ^5.0.6
+        version: 5.0.6(@capacitor/core@5.4.2)
 
   apps/gq:
     dependencies:
@@ -4742,6 +4755,37 @@ packages:
       '@angular/forms': 16.0.4(@angular/common@16.0.4)(@angular/core@16.0.4)(@angular/platform-browser@16.0.4)(rxjs@7.8.1)
       standard-version: 9.1.1
       tslib: 2.4.0
+    dev: false
+
+  /@capacitor-community/file-opener@1.0.5(@capacitor/core@5.4.2):
+    resolution: {integrity: sha512-OYR0+MXkp81z9cAyRfFkwJdvRzklVzxWqSzDBkBL87fB2jTD7m2Z2N84m8enUxQ+v96ESf+GZ2S4JAwzLimM+A==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    peerDependencies:
+      '@capacitor/core': ^3.0.0 || ^4.0.0 || ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.4.2
+    dev: false
+
+  /@capacitor/core@5.4.2:
+    resolution: {integrity: sha512-XbR1vldJFzBWHeoGPpgfNy3Zhjf0NxXdHEaGNANWVBg0ZWG2gwFr1dcRALUUQtbwrEEkCCNiLYg4YiQPRk7SEQ==}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
+
+  /@capacitor/filesystem@5.1.4(@capacitor/core@5.4.2):
+    resolution: {integrity: sha512-10EM1KvFMs+pTzxkcflspzxBWcX9sOnS9nTP5Afjr5hn4OxLrwTFySw2Z12Uv6jdN4OnhY3jXtDKXPljXvXILg==}
+    peerDependencies:
+      '@capacitor/core': ^5.1.1
+    dependencies:
+      '@capacitor/core': 5.4.2
+    dev: false
+
+  /@capacitor/share@5.0.6(@capacitor/core@5.4.2):
+    resolution: {integrity: sha512-/dVOW7kcuuD7hWB9Z1drArIpEk+5JCoMnMrAs2c7CLp3q5PeaXNJjTkGr6RJ1OtMhsHyXc6DAFwQ4frFkmZsgw==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.4.2
     dev: false
 
   /@colors/colors@1.5.0:
