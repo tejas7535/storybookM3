@@ -30,6 +30,7 @@ import {
 })
 export class DataFacade {
   readonly EDITOR_ROLE = 'material-supplier-database-editor';
+  readonly MATNR_UPLOADER_ROLE = 'material-supplier-database-matnr-uploader';
 
   materialClassOptions$ = this.store.select(getMaterialClassOptions);
   optionsLoading$ = this.store.select(getOptionsLoading);
@@ -40,6 +41,9 @@ export class DataFacade {
   sapMaterialsRows$ = this.store.select(getSAPMaterialsRows);
 
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
+  hasMatnrUploaderRole$ = this.store.pipe(
+    hasIdTokenRole(this.MATNR_UPLOADER_ROLE)
+  );
 
   navigation$ = this.store.select(getNavigation);
   materialClass$ = this.store.select(getMaterialClass);

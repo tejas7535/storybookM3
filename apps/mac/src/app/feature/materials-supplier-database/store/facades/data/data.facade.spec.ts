@@ -241,6 +241,19 @@ describe('DataFacade', () => {
     );
   });
 
+  describe('hasMatnrUploaderRole$', () => {
+    it(
+      'should return false',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: false,
+        });
+
+        m.expect(facade.hasMatnrUploaderRole$).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('navigation$', () => {
     it(
       'should return the navigation',

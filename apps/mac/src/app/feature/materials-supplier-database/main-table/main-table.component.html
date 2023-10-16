@@ -139,6 +139,7 @@
       <ng-template #uploadButton>
         <button
           mat-raised-button
+          [disabled]="!(hasMatnrUploaderRole$ | ngrxPush)"
           color="primary"
           (click)="openSapMaterialsUploadDialog()"
         >

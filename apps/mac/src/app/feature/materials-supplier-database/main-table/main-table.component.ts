@@ -96,6 +96,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
 
   public hasEditorRole$ = this.dataFacade.hasEditorRole$;
+  public hasMatnrUploaderRole$ = this.dataFacade.hasMatnrUploaderRole$;
   public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
 
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
