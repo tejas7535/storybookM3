@@ -1,0 +1,122 @@
+@use '@angular/material' as mat;
+
+// LOGO
+$logoUrl: '/assets/images/partner-version-logos/schmeckthal-gruppe.png';
+
+// COLORS
+$schmeckthal-gruppe-primary: 86, 86, 86;
+$schmeckthal-gruppe-primary-variant: 255, 234, 239;
+
+// MATERIAL
+$mat-partner-version-schmeckthal-red: (
+  50: #ffeaef,
+  100: #ffcbd3,
+  200: #f5969a,
+  300: #ed6c73,
+  400: #f84550,
+  500: #fe2b35,
+  600: #ef1d34,
+  700: #dd0b2e,
+  // main
+  800: #d00026,
+  900: #c20019,
+  contrast: (
+    50: $dark-high-emphasis,
+    100: $dark-high-emphasis,
+    200: $dark-high-emphasis,
+    300: $dark-high-emphasis,
+    400: $dark-high-emphasis,
+    500: $dark-high-emphasis,
+    600: $dark-high-emphasis,
+    700: $light-high-emphasis,
+    800: $light-high-emphasis,
+    900: $light-high-emphasis,
+  ),
+);
+
+$mat-partner-version-schmeckthal-grey: (
+  50: #f8f8f8,
+  100: #f1f1f1,
+  200: #e7e7e7,
+  300: #d6d6d6,
+  // main
+  400: #b2b2b2,
+  500: #929292,
+  600: #6a6a6a,
+  700: #565656,
+  800: #383838,
+  900: #181818,
+  contrast: (
+    50: $dark-high-emphasis,
+    100: $dark-high-emphasis,
+    200: $dark-high-emphasis,
+    300: $dark-high-emphasis,
+    400: $dark-high-emphasis,
+    500: $dark-high-emphasis,
+    600: $dark-high-emphasis,
+    700: $light-high-emphasis,
+    800: $light-high-emphasis,
+    900: $light-high-emphasis,
+  ),
+);
+
+$mat-partner-version-schmeckthal-black: (
+  50: #ffffff,
+  // main
+  100: #fafafa,
+  200: #f5f5f5,
+  300: #f0f0f0,
+  400: #dedede,
+  500: #c2c2c2,
+  600: #979797,
+  700: #818181,
+  800: #606060,
+  900: #3c3c3c,
+  contrast: (
+    50: $dark-high-emphasis,
+    100: $dark-high-emphasis,
+    200: $dark-high-emphasis,
+    300: $dark-high-emphasis,
+    400: $dark-high-emphasis,
+    500: $dark-high-emphasis,
+    600: $dark-high-emphasis,
+    700: $light-high-emphasis,
+    800: $light-high-emphasis,
+    900: $light-high-emphasis,
+  ),
+);
+
+$partner-version-schmeckthal-red: mat.define-palette(
+  $mat-partner-version-schmeckthal-red,
+  700
+);
+
+$partner-version-schmeckthal-grey: mat.define-palette(
+  $mat-partner-version-schmeckthal-grey,
+  700
+);
+
+$partner-version-schmeckthal-black: mat.define-palette(
+  $mat-partner-version-schmeckthal-black,
+  50
+);
+
+$partner-version-schmeckthal-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $partner-version-schmeckthal-grey,
+      accent: $partner-version-schmeckthal-red,
+      warn: $schaeffler-warn,
+    ),
+  )
+);
+
+.partner-version-schmeckthal-gruppe {
+  @include mat.all-legacy-component-themes($partner-version-schmeckthal-theme);
+  @include mat.all-component-themes($partner-version-schmeckthal-theme);
+}
+
+:root.partner-version-schmeckthal-gruppe {
+  --primary: #{$schmeckthal-gruppe-primary};
+  --primary-variant: #{$schmeckthal-gruppe-primary-variant};
+}

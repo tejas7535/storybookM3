@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { filter, startWith, Subject, takeUntil } from 'rxjs';
+import { filter, startWith, Subject, take, takeUntil } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@ngneat/transloco';
@@ -17,6 +18,7 @@ import { SettingsFacade, StorageMessagesActions } from '@ga/core/store';
 
 import packageJson from '../../package.json';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
+import { PartnerVersion } from './shared/models';
 import { EmbeddedGoogleAnalyticsService } from './shared/services/embedded-google-analytics/embedded-google-analytics.service';
 
 @Component({
@@ -31,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public currentLanguage!: string;
   appVersion = packageJson.version;
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
+  public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   constructor(
     private readonly router: Router,
@@ -41,13 +44,22 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly settingsFacade: SettingsFacade,
     private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService,
     private readonly store: Store,
-    @Optional() private readonly oneTrustService: OneTrustService
+    @Optional() private readonly oneTrustService: OneTrustService,
+    @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
   public ngOnInit(): void {
     this.currentLanguage = this.translocoService.getActiveLang();
     this.assignMetaTags();
     this.assignFooterLinks();
+
+    this.partnerVersion$.pipe(take(1)).subscribe((partnerVersion) => {
+      this.applicationInsightsService.addCustomPropertyToTelemetryData(
+        'partnerVersion',
+        partnerVersion
+      );
+      this.assignPartnerVersionTheme(partnerVersion);
+    });
 
     this.translocoService.events$
       .pipe(
@@ -109,6 +121,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public getPartnerVersionLogoUrl(partnerVersion: string): string {
+    return `/assets/images/partner-version-logos/${partnerVersion}.png`;
+  }
+
   private trackLanguage(language: string): void {
     this.applicationInsightsService.logEvent(TRACKING_NAME_LANGUAGE, {
       value: language,
@@ -147,5 +163,21 @@ export class AppComponent implements OnInit, OnDestroy {
       name: 'twitter:description',
       content: translatedSDescription,
     });
+  }
+
+  private assignPartnerVersionTheme(partnerVersion: string): void {
+    this.document.documentElement.classList.remove(
+      'partner-version',
+      ...Object.values(PartnerVersion).map(
+        (value: string) => `partner-version-${value}`
+      )
+    );
+
+    if (partnerVersion) {
+      this.document.documentElement.classList.add(
+        'partner-version',
+        `partner-version-${partnerVersion}`
+      );
+    }
   }
 }

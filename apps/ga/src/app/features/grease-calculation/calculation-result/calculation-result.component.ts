@@ -39,6 +39,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   );
   public automaticLubrication$ = this.store.select(getAutomaticLubrication);
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
+  public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;

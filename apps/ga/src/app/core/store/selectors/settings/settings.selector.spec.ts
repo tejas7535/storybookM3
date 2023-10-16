@@ -5,6 +5,7 @@ import {
   CALCULATION_PARAMETERS_STATE_MOCK,
   EMBEDDED_FINISHED,
   INVALID_STEP_MOCK,
+  PARTNER_VERSION_MOCK,
   SETTINGS_STATE_MOCK,
   STEPS_MOCK,
 } from '@ga/testing/mocks';
@@ -13,6 +14,7 @@ import {
   getAppDelivery,
   getCurrentStep,
   getEnvironment,
+  getPartnerVersion,
   getStepperState,
   getSteps,
 } from './settings.selector';
@@ -66,6 +68,12 @@ describe('Settings Selector', () => {
   describe('getCurrentStep', () => {
     it('should return the index of the currentStep', () => {
       expect(getCurrentStep(mockState)).toEqual(0);
+    });
+  });
+
+  describe('getPartnerVersion', () => {
+    it('should return the partner version', () => {
+      expect(getPartnerVersion(mockState)).toEqual(PARTNER_VERSION_MOCK);
     });
   });
 });

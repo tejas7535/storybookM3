@@ -5,6 +5,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import {
   createComponentFactory,
   mockProvider,
@@ -24,6 +26,7 @@ import { getCalculation } from '@ga/core/store/actions/calculation-result/calcul
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
+import { PartnerVersion } from '@ga/shared/models';
 
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
 import { CalculationResultComponent } from './calculation-result.component';
@@ -80,6 +83,18 @@ describe('CalculationResultComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('qualtrics banner', () => {
+    it('should display qualtrics info banner', () => {
+      expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
+    });
+
+    it('should not display qualtrics info banner for partner versions', () => {
+      component.partnerVersion$ = of(PartnerVersion.Schmeckthal);
+      spectator.detectChanges();
+      expect(spectator.query('ga-qualtrics-info-banner')).toBeFalsy();
+    });
   });
 
   describe('ngOnInit', () => {

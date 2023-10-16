@@ -2,7 +2,9 @@
  * @jest-environment-options {"url": "http://other-than-localhost"}
  */
 
-import { detectAppDelivery } from './settings-helpers';
+import { PartnerVersion } from '@ga/shared/models';
+
+import { detectAppDelivery, detectPartnerVersion } from './settings-helpers';
 
 const { origin, top, self } = window;
 
@@ -34,6 +36,21 @@ describe('Settings helpers', () => {
       window.self = {} as Window & typeof globalThis;
 
       expect(detectAppDelivery()).toBe('embedded');
+    });
+  });
+
+  describe('detectpartnerVersion', () => {
+    it('should return undefined', () => {
+      expect(detectPartnerVersion()).toBe(undefined);
+    });
+
+    it('should return the partnerVersion', () => {
+      for (const partnerVersion of Object.values(PartnerVersion)) {
+        delete window.origin;
+        window.origin = `${partnerVersion}.greaseapp.com`;
+
+        expect(detectPartnerVersion()).toBe(partnerVersion);
+      }
     });
   });
 });

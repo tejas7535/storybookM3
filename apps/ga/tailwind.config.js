@@ -4,6 +4,22 @@ const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
 
+const generateColorClass = (variable) => {
+  return ({ opacityValue }) =>
+    opacityValue
+      ? `rgba(var(--${variable}), ${opacityValue})`
+      : `rgb(var(--${variable}))`;
+};
+
+const overwriteColors = {
+  primary: generateColorClass('primary'),
+  'primary-variant': generateColorClass('primary-variant'),
+};
+
+const overwriteTextColors = {
+  link: generateColorClass('primary'),
+};
+
 module.exports = {
   content: [
     join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
@@ -14,7 +30,22 @@ module.exports = {
   ],
   presets: [schaefflerTailwindPreset],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        ...overwriteColors,
+      },
+      textColor: {
+        ...overwriteTextColors,
+      },
+    },
   },
+  safelist: [
+    'partner-version',
+    'partner-version-schmeckthal-gruppe',
+    {
+      pattern: /text-.+/,
+      variants: ['partner-version-schmeckthal-gruppe'],
+    },
+  ],
   plugins: [],
 };

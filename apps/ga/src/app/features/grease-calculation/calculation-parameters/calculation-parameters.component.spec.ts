@@ -10,6 +10,8 @@ import {
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -117,8 +119,16 @@ describe('CalculationParametersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display qualtrics info banner', () => {
-    expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
+  describe('qualtrics banner', () => {
+    it('should not display qualtrics info banner for partner versions', () => {
+      expect(spectator.query('ga-qualtrics-info-banner')).toBeFalsy();
+    });
+
+    it('should display qualtrics info banner', () => {
+      component.partnerVersion$ = of(undefined);
+      spectator.detectChanges();
+      expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
+    });
   });
 
   describe('ngOnInit', () => {

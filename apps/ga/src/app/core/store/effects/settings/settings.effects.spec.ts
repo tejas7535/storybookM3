@@ -13,13 +13,16 @@ import {
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
+  setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
+import { PartnerVersion } from '@ga/shared/models';
 
 import { initialState } from '../../reducers/settings/settings.reducer';
 import { SettingsEffects } from './settings.effects';
 
 jest.mock('@ga/core/helpers/settings-helpers', () => ({
   detectAppDelivery: jest.fn(() => 'standalone'),
+  detectPartnerVersion: jest.fn(() => 'schmeckthal-gruppe'),
 }));
 
 describe('Settings Effects', () => {
@@ -58,11 +61,17 @@ describe('Settings Effects', () => {
       'should dispatch app delivery action',
       marbles((m) => {
         action = initSettingsEffects();
-        const result = setAppDelivery({ appDelivery: 'standalone' });
+        const resultAppDelivery = setAppDelivery({ appDelivery: 'standalone' });
+        const resultPartnerVersion = setPartnerVersion({
+          partnerVersion: PartnerVersion.Schmeckthal,
+        });
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected$ = m.cold('-b', { b: result });
+        const expected$ = m.cold('-(bc)', {
+          b: resultAppDelivery,
+          c: resultPartnerVersion,
+        });
 
         m.expect(effects.initEffects$).toBeObservable(expected$);
         m.flush();

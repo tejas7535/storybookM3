@@ -2,7 +2,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { AppDelivery } from '@ga/shared/models';
+import { AppDelivery, PartnerVersion } from '@ga/shared/models';
 import { SETTINGS_STATE_MOCK } from '@ga/testing/mocks';
 
 import { SettingsFacade } from './settings.facade';
@@ -56,6 +56,19 @@ describe('SettingsFacade', () => {
         });
 
         m.expect(facade.appIsEmbedded$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('partnerVersion$', () => {
+    it(
+      'should return schmeckthal',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: PartnerVersion.Schmeckthal,
+        });
+
+        m.expect(facade.partnerVersion$).toBeObservable(expected);
       })
     );
   });

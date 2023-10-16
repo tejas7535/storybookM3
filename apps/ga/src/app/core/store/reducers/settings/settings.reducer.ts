@@ -3,6 +3,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import {
   setAppDelivery,
   setCurrentStep,
+  setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { SettingsState } from '@ga/core/store/models';
 
@@ -34,6 +35,16 @@ export const settingsReducer = createReducer(
       stepper: {
         ...state.stepper,
         currentStep: step,
+      },
+    })
+  ),
+  on(
+    setPartnerVersion,
+    (state, { partnerVersion }): SettingsState => ({
+      ...state,
+      environment: {
+        ...state.environment,
+        partnerVersion,
       },
     })
   )

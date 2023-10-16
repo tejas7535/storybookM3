@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { LetDirective } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -22,6 +22,7 @@ import { AdvancedBearingSelectionModule } from './components/advanced-bearing-se
   imports: [
     // Angular
     CommonModule,
+    PushPipe,
     LetDirective,
 
     // Routing

@@ -1,6 +1,35 @@
-import { setCurrentStep } from './settings.actions';
+import { AppDelivery, PartnerVersion } from '@ga/shared/models';
+
+import {
+  initSettingsEffects,
+  setAppDelivery,
+  setCurrentStep,
+  setPartnerVersion,
+} from './settings.actions';
 
 describe('Settings Actions', () => {
+  describe('Init Settings Effects', () => {
+    it('initSettingsEffects', () => {
+      const action = initSettingsEffects();
+
+      expect(action).toEqual({
+        type: '[Settings] Init Settings Effects',
+      });
+    });
+  });
+
+  describe('Set App Delivery', () => {
+    it('setAppDelivery', () => {
+      const appDelivery = AppDelivery.Standalone;
+      const action = setAppDelivery({ appDelivery });
+
+      expect(action).toEqual({
+        appDelivery,
+        type: '[Settings] Set App Delivery',
+      });
+    });
+  });
+
   describe('Set Current Step', () => {
     it('setCurrentStep', () => {
       const step = 3;
@@ -9,6 +38,18 @@ describe('Settings Actions', () => {
       expect(action).toEqual({
         step,
         type: '[Settings] Set Current Step',
+      });
+    });
+  });
+
+  describe('Set Partner Version', () => {
+    it('setPartnerVersion', () => {
+      const partnerVersion = PartnerVersion.Schmeckthal;
+      const action = setPartnerVersion({ partnerVersion });
+
+      expect(action).toEqual({
+        partnerVersion,
+        type: '[Settings] Set Partner Version',
       });
     });
   });

@@ -3,12 +3,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { MockModule } from 'ng-mocks';
 
@@ -23,8 +23,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { StorageMessagesActions } from './core/store';
+import { SettingsFacade, StorageMessagesActions } from './core/store';
 import { UserSettingsModule } from './shared/components/user-settings';
+import { PartnerVersion } from './shared/models';
 import { EmbeddedGoogleAnalyticsService } from './shared/services';
 
 describe('AppComponent', () => {
@@ -48,7 +49,8 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       RouterTestingModule,
-      PushModule,
+      PushPipe,
+      LetDirective,
       MockModule(CoreModule),
       MockModule(AppShellModule),
       MockModule(UserSettingsModule),
@@ -67,11 +69,18 @@ describe('AppComponent', () => {
         provide: ApplicationInsightsService,
         useValue: {
           logEvent: jest.fn(),
+          addCustomPropertyToTelemetryData: jest.fn(),
         },
       },
       {
         provide: Router,
         useValue: routerMock,
+      },
+      {
+        provide: SettingsFacade,
+        useValue: {
+          partnerVersion$: of(undefined),
+        },
       },
     ],
     declarations: [AppComponent],
@@ -104,6 +113,35 @@ describe('AppComponent', () => {
 
       expect(component.destroy$.next).toHaveBeenCalled();
       expect(component.destroy$.complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('partnerVersion', () => {
+    it('should set the partner version telemetry data and call assignPartnerVersionTheme with undefined', () => {
+      component['assignPartnerVersionTheme'] = jest.fn();
+
+      component.ngOnInit();
+
+      expect(
+        applicationInsightsService.addCustomPropertyToTelemetryData
+      ).toHaveBeenCalledWith('partnerVersion', undefined);
+      expect(component['assignPartnerVersionTheme']).toHaveBeenCalledWith(
+        undefined
+      );
+    });
+
+    it('should set the partner version telemetry data and call assignPartnerVersionTheme with partnerVersion', () => {
+      component['assignPartnerVersionTheme'] = jest.fn();
+
+      component.partnerVersion$ = of(PartnerVersion.Schmeckthal);
+      component.ngOnInit();
+
+      expect(
+        applicationInsightsService.addCustomPropertyToTelemetryData
+      ).toHaveBeenCalledWith('partnerVersion', PartnerVersion.Schmeckthal);
+      expect(component['assignPartnerVersionTheme']).toHaveBeenCalledWith(
+        PartnerVersion.Schmeckthal
+      );
     });
   });
 
@@ -175,6 +213,14 @@ describe('AppComponent', () => {
 
         expect(trackingSpy).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('getPartnerVersionLogoUrl', () => {
+    it('should return a logo url with the given partner version', () => {
+      const url = component.getPartnerVersionLogoUrl('test');
+
+      expect(url).toEqual('/assets/images/partner-version-logos/test.png');
     });
   });
 
@@ -254,6 +300,51 @@ describe('AppComponent', () => {
           external: false,
         },
       ]);
+    });
+  });
+
+  describe('assignPartnerVersionTheme', () => {
+    let addSpy: jest.SpyInstance;
+    let removeSpy: jest.SpyInstance;
+
+    const partnerVersionValues = Object.values(PartnerVersion).map(
+      (value: string) => `partner-version-${value}`
+    );
+
+    beforeEach(() => {
+      addSpy = jest.spyOn(
+        component['document'].documentElement.classList,
+        'add'
+      );
+      removeSpy = jest.spyOn(
+        component['document'].documentElement.classList,
+        'remove'
+      );
+    });
+
+    it('should remove partner-version classes from the root if no partner version is set', () => {
+      component['assignPartnerVersionTheme'](undefined);
+
+      expect(removeSpy).toHaveBeenCalledWith(
+        'partner-version',
+        ...partnerVersionValues
+      );
+      expect(addSpy).not.toHaveBeenCalled();
+    });
+
+    it('should remove all partner-version classes and add the ones for the set partner version', () => {
+      for (const partnerVersion of Object.values(PartnerVersion)) {
+        component['assignPartnerVersionTheme'](partnerVersion);
+
+        expect(removeSpy).toHaveBeenCalledWith(
+          'partner-version',
+          ...partnerVersionValues
+        );
+        expect(addSpy).toHaveBeenCalledWith(
+          'partner-version',
+          `partner-version-${partnerVersion}`
+        );
+      }
     });
   });
 });

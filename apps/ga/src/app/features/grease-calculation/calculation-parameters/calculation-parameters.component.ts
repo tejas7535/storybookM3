@@ -146,6 +146,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public modelCreationSuccess$ = this.store.select(getModelCreationSuccess);
   public modelCreationLoading$ = this.store.select(getModelCreationLoading);
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
+  public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   public DEBOUNCE_TIME_DEFAULT = 500;
 

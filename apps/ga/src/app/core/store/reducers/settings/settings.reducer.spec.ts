@@ -1,7 +1,9 @@
 import {
   setAppDelivery,
   setCurrentStep,
+  setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
+import { PartnerVersion } from '@ga/shared/models';
 
 import { initialState, reducer } from './settings.reducer';
 
@@ -20,5 +22,15 @@ describe('Settings Reducer', () => {
     const state = reducer(initialState, setCurrentStep({ step: newStep }));
 
     expect(state.stepper.currentStep).toEqual(newStep);
+  });
+
+  it('should set partner version', () => {
+    const partnerVersion = PartnerVersion.Schmeckthal;
+    const state = reducer(
+      initialState,
+      setPartnerVersion({ partnerVersion: PartnerVersion.Schmeckthal })
+    );
+
+    expect(state.environment.partnerVersion).toEqual(partnerVersion);
   });
 });

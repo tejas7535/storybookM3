@@ -13,10 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { translate } from '@ngneat/transloco';
+import { PushPipe } from '@ngrx/component';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SettingsFacade } from '@ga/core/store';
 import { alternativeTable, generalHighTemperature } from '@ga/shared/constants';
 import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
 import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
@@ -57,6 +59,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
     GreaseReportConcept1DetailComponent,
     GreaseReportShopButtonsComponent,
     AutomaticLubricationPipe,
+    PushPipe,
   ],
   templateUrl: './grease-report-result.component.html',
   styleUrls: ['./grease-report-result.component.scss'],
@@ -67,6 +70,8 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   @Input() public valuesLimit = 4;
   @Input() public preferredGreaseResult: PreferredGreaseResult;
   @Input() public automaticLubrication = false;
+
+  public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;
@@ -81,7 +86,8 @@ export class GreaseReportResultComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly elementRef: ElementRef,
     private readonly changeDetector: ChangeDetectorRef,
-    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService
+    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly settingsFacade: SettingsFacade
   ) {
     this.htmlElement = this.elementRef.nativeElement;
   }

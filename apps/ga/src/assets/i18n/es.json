@@ -330,7 +330,8 @@
     "insufficientGreaseResultTooltip": "La idoneidad de la grasa lubricante ha sido calificada como insuficiente por la Grease App.\n\nSi tiene más dudas, póngase en contacto con el servicio técnico de Schaeffle.",
     "preferredGreaseHintSelected": "Preseleccionado",
     "preferredGreaseHintAlternative": "Alternativa",
-    "preferredGreaseHintAlternativeTooltip": "Se trata de un producto alternativo de la cartera de productos de Schaeffler basado en su información del paso 2."
+    "preferredGreaseHintAlternativeTooltip": "Se trata de un producto alternativo de la cartera de productos de Schaeffler basado en su información del paso 2.",
+    "poweredBy": "powered by"
   },
   "settings": {
     "stepper": {

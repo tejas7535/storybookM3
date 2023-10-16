@@ -7,13 +7,19 @@
 * see https://material.angular.io
 
 */
-
 @import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+
+/***************************************************************************************************
+* PARTNER VERSIONS
+*/
+/*
+* Add new partner versions in the partner-version-styles folder
+*/
+@import 'partner-version-styles/partner-versions.scss';
 
 /***************************************************************************************************
 * UTILITIES
 */
-
 /*
 * TailwindCSS, utility-first css framework
 * see https://tailwindcss.com/docs
@@ -21,6 +27,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+$logoUrl: '/assets/images/schaeffler-logo.png' !default;
+
+@layer base {
+  :root {
+    --primary: 0, 137, 61;
+    --primary-variant: 229, 244, 233;
+  }
+
+  :root.partner-version {
+    .schaeffler-header-logo {
+      background: unset !important;
+      @apply w-0 #{!important};
+    }
+    .schaeffler-footer-logo {
+      background: center/100% no-repeat url(#{$logoUrl}) !important;
+    }
+  }
+}
 
 .mat-button-base.mat-button .mat-button-focus-overlay {
   @apply hidden;

@@ -44,5 +44,15 @@
         </div>
       </div>
     </ng-container>
+    <ng-container
+      *ngrxLet="partnerVersion$ as partnerVersion"
+      headerInlineContent
+    >
+      <img
+        class="h-12"
+        [src]="getPartnerVersionLogoUrl(partnerVersion)"
+        *ngIf="partnerVersion"
+      />
+    </ng-container>
   </schaeffler-app-shell>
 </ng-template>

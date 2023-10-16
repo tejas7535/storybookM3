@@ -331,7 +331,8 @@
     "insufficientGreaseResultTooltip": "グリースの適合性は、Grease Appによってまったく適していないと判定されました。\n\n詳細は当社技術部門にご相談ください。",
     "preferredGreaseHintSelected": "事前選択",
     "preferredGreaseHintAlternative": "代替",
-    "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。"
+    "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。",
+    "poweredBy": "powered by"
   },
   "settings": {
     "stepper": {

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { AppDelivery } from '@ga/shared/models';
+import { AppDelivery, PartnerVersion } from '@ga/shared/models';
 
 export const initSettingsEffects = createAction(
   '[Settings] Init Settings Effects'
@@ -14,4 +14,9 @@ export const setAppDelivery = createAction(
 export const setCurrentStep = createAction(
   '[Settings] Set Current Step',
   props<{ step: number }>()
+);
+
+export const setPartnerVersion = createAction(
+  '[Settings] Set Partner Version',
+  props<{ partnerVersion: `${PartnerVersion}` }>()
 );

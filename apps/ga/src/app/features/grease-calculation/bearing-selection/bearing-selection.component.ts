@@ -8,6 +8,7 @@ import { AppRoutePath } from '@ga/app-route-path.enum';
 import {
   getBearingSelectionType,
   setBearingSelectionType,
+  SettingsFacade,
 } from '@ga/core/store';
 import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions';
 import { BearingSelectionType } from '@ga/shared/models';
@@ -20,10 +21,12 @@ export class BearingSelectionComponent implements OnInit {
   bearingSelectionType = BearingSelectionType;
 
   public bearingSelectionType$ = this.store.select(getBearingSelectionType);
+  public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   public constructor(
     private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly settingsFacade: SettingsFacade
   ) {}
 
   ngOnInit(): void {

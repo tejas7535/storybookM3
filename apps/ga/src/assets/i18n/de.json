@@ -330,7 +330,8 @@
     "insufficientGreaseResultTooltip": "Die Eignung des Fettes wurde durch die Grease App als ungeeignet bewertet.\n\nBitte kontaktieren Sie bei weiteren Fragen den Schaeffler Ingenieurdienst.",
     "preferredGreaseHintSelected": "Vorausgewählt",
     "preferredGreaseHintAlternative": "Alternativ",
-    "preferredGreaseHintAlternativeTooltip": "Dies ist ein alternatives Produkt aus dem Schaeffler Produktportfolio basierend auf ihren Eingaben aus Schritt 2."
+    "preferredGreaseHintAlternativeTooltip": "Dies ist ein alternatives Produkt aus dem Schaeffler Produktportfolio basierend auf ihren Eingaben aus Schritt 2.",
+    "poweredBy": "powered by"
   },
   "settings": {
     "stepper": {

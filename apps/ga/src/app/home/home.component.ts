@@ -14,6 +14,7 @@ import { homepageCards } from './constants';
 export class HomeComponent {
   public homepageCards = homepageCards;
   public appDelivery$ = this.settingsFacade.appDelivery$;
+  public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   constructor(
     private readonly settingsFacade: SettingsFacade,

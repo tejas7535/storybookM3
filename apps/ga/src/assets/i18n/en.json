@@ -330,7 +330,8 @@
     "insufficientGreaseResultTooltip": "The suitability of the lubricating grease was rated as insufficient by the Grease App.\n\nPlease contact the Schaeffler engineering service if you have any further questions.",
     "preferredGreaseHintSelected": "Preselected",
     "preferredGreaseHintAlternative": "Alternative",
-    "preferredGreaseHintAlternativeTooltip": "This is an alternative product from the Schaeffler product portfolio based on their input from step 2."
+    "preferredGreaseHintAlternativeTooltip": "This is an alternative product from the Schaeffler product portfolio based on their input from step 2.",
+    "poweredBy": "powered by"
   },
   "settings": {
     "stepper": {

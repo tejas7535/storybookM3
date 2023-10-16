@@ -20,6 +20,11 @@ export const getAppDelivery = createSelector(
   (environment) => environment.appDelivery
 );
 
+export const getPartnerVersion = createSelector(
+  getEnvironment,
+  (environment) => environment.partnerVersion
+);
+
 export const getAppIsEmbedded = createSelector(
   getEnvironment,
   (environment) => environment.appDelivery === AppDelivery.Embedded

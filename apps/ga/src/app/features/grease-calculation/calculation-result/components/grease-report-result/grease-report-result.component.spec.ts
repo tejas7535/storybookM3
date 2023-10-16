@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
@@ -43,7 +44,10 @@ describe('GreaseReportResultComponent', () => {
         domainScript: 'mockOneTrustId',
       }),
     ],
-    providers: [MockProvider(EmbeddedGoogleAnalyticsService)],
+    providers: [
+      provideMockStore(),
+      MockProvider(EmbeddedGoogleAnalyticsService),
+    ],
   });
 
   beforeEach(() => {

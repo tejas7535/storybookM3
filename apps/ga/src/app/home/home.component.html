@@ -11,6 +11,7 @@
   </div>
   <div class="container mx-auto px-4 md:max-w-screen-md">
     <ga-qualtrics-info-banner
+      *ngIf="!(partnerVersion$ | ngrxPush)"
       class="block mb-3 md:mb-6"
     ></ga-qualtrics-info-banner>
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -19,7 +20,10 @@
       </ng-container>
     </div>
     <div
-      *ngIf="(appDelivery$ | ngrxPush) === 'standalone'"
+      *ngIf="
+        (appDelivery$ | ngrxPush) === 'standalone' &&
+        !(partnerVersion$ | ngrxPush)
+      "
       class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:max-w-screen-md mt-8"
     >
       <div class="flex flex-row justify-center md:justify-end md:col-start-2">

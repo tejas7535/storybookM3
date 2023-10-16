@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 
-import { filter, map } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Action } from '@ngrx/store';
 
-import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
+import {
+  detectAppDelivery,
+  detectPartnerVersion,
+} from '@ga/core/helpers/settings-helpers';
 import {
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
+  setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { steps } from '@ga/shared/constants';
@@ -21,7 +25,10 @@ export class SettingsEffects implements OnInitEffects {
   initEffects$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(initSettingsEffects),
-      map(() => setAppDelivery({ appDelivery: detectAppDelivery() }))
+      mergeMap(() => [
+        setAppDelivery({ appDelivery: detectAppDelivery() }),
+        setPartnerVersion({ partnerVersion: detectPartnerVersion() }),
+      ])
     );
   });
 
