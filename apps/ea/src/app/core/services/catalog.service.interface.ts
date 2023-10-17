@@ -40,7 +40,6 @@ export interface CatalogServiceBaseOperatingConditions {
     | 'LB_AVERAGE_AMBIENT_INFLUENCE'
     | 'LB_HIGH_AMBIENT_INFLUENCE';
 
-  IDL_EXTERNAL_HEAT_FLOW: NumberString;
   IDL_CLEANESS_VALUE:
     | 'LB_EXTREM_CLEANLINESS'
     | 'LB_HIGH_CLEANLINESS'
@@ -69,6 +68,7 @@ export interface CatalogServiceBaseOperatingConditions {
   /** Only used for recirculating oil */
   IDL_OIL_FLOW: NumberString;
   IDL_OIL_TEMPERATURE_DIFFERENCE: NumberString;
+  IDL_EXTERNAL_HEAT_FLOW: NumberString;
 }
 
 export interface CatalogServiceOperatingConditionsISOClass {

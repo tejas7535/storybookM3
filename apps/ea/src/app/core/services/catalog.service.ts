@@ -104,7 +104,6 @@ export class CatalogService {
     const {
       lubrication: lubricationConditions,
       ambientTemperature,
-      externalHeatFlow,
       contamination,
       conditionOfRotation,
     } = operationConditions;
@@ -140,7 +139,6 @@ export class CatalogService {
     const operatingConditions: CatalogServiceOperatingConditions = {
       IDL_LUBRICATION_METHOD: lubricationMethod,
       IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
-      IDL_EXTERNAL_HEAT_FLOW: toNumberString(externalHeatFlow),
       IDL_CLEANESS_VALUE: contamination,
       IDSLC_TEMPERATURE: toNumberString(ambientTemperature),
       IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,
@@ -158,6 +156,9 @@ export class CatalogService {
       ),
       IDL_OIL_TEMPERATURE_DIFFERENCE: toNumberString(
         lubricationConditions.recirculatingOil.oilTemperatureDifference || 0
+      ),
+      IDL_EXTERNAL_HEAT_FLOW: toNumberString(
+        lubricationConditions.recirculatingOil.externalHeatFlow || 0
       ),
     };
 

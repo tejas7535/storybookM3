@@ -81,7 +81,8 @@
       },
       "recirculatingOil": {
         "oilFlow": "Flujo de aceite (dV/dt)",
-        "oilTemperatureDifference": "Aumento de la temperatura del aceite (delta T)"
+        "oilTemperatureDifference": "Aumento de la temperatura del aceite (delta T)",
+        "externalHeatFlow": "Flujo de calor externo (dQ/dt)"
       }
     },
     "contamination": {
@@ -109,12 +110,6 @@
         "unit": "°C",
         "tooltip": "Temperatura del entorno circundante de la máquina"
       }
-    },
-    "externalHeatflow": {
-      "title": "Flujo de calor externo",
-      "label": "Flujo de calor externo",
-      "unit": "KW",
-      "tooltip": "El flujo de calor externo"
     },
     "conditionOfRotation": {
       "title": "Condición de rotación",

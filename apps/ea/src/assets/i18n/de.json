@@ -81,7 +81,8 @@
       },
       "recirculatingOil": {
         "oilFlow": "Ölfluss (dV/dt)",
-        "oilTemperatureDifference": "Öltemperaturanstieg (delta T)"
+        "oilTemperatureDifference": "Öltemperaturanstieg (delta T)",
+        "externalHeatFlow": "Externer Wärmefluss (dQ/dt)"
       }
     },
     "contamination": {
@@ -109,12 +110,6 @@
         "unit": "°C",
         "tooltip": "Temperatur der Umgebungskonstruktion"
       }
-    },
-    "externalHeatflow": {
-      "title": "Externer Wärmefluss",
-      "label": "Externer Wärmefluss",
-      "unit": "KW",
-      "tooltip": "Der externe Wärmefluss"
     },
     "conditionOfRotation": {
       "title": "Drehzustand",

@@ -282,6 +282,9 @@ export class CalculationParametersComponent
           undefined,
           increaseInOilTempValidators
         ),
+        externalHeatFlow: new FormControl<number>(undefined, [
+          Validators.required,
+        ]),
       }),
     }),
     contamination: new FormControl<
@@ -300,11 +303,6 @@ export class CalculationParametersComponent
           'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
         ),
       ]
-    ),
-    externalHeatflow: new FormControl<number>(
-      undefined,
-      [],
-      this.productSelectionFacade.templateValidator('IDL_EXTERNAL_HEAT_FLOW')
     ),
     conditionOfRotation: new FormControl<
       CalculationParametersOperationConditions['conditionOfRotation']

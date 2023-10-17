@@ -471,7 +471,7 @@ Status: {{ operationConditionsForm.status }}</pre
           </ea-tabbed-suboption>
         </div>
 
-        <div class="grid grid-cols-1 mt-4 gap-0 md:grid-cols-2 md:gap-4">
+        <div class="grid grid-cols-1 mt-4 gap-0 md:grid-cols-3 md:gap-4">
           <ea-input-number
             formControlName="oilFlow"
             [label]="t('recirculatingOil.oilFlow')"
@@ -484,6 +484,13 @@ Status: {{ operationConditionsForm.status }}</pre
             [label]="t('recirculatingOil.oilTemperatureDifference')"
             [unit]="'K'"
             [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('recirculatingOil.oilTemperatureDifference')}"
+            [onlyPositive]="true"
+          ></ea-input-number>
+          <ea-input-number
+            formControlName="externalHeatFlow"
+            [label]="t('recirculatingOil.externalHeatFlow')"
+            [unit]="'KW'"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('recirculatingOil.externalHeatFlow')}"
             [onlyPositive]="true"
           ></ea-input-number>
         </div>
@@ -539,27 +546,6 @@ Status: {{ operationConditionsForm.status }}</pre
         [label]="t('label')"
         [options]="contaminationOptions$ | ngrxPush"
       ></ea-input-select>
-    </div>
-  </ea-input-group>
-</ng-template>
-
-<!-- EXTERNAL HEATFLOW -->
-<ng-template parameterTemplate="externalHeatflow">
-  <ea-input-group
-    [title]="t('title')"
-    svgIcon="air"
-    [isMandatory]="false"
-    *transloco="let t; read: 'operationConditions.externalHeatflow'"
-  >
-    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
-      <ea-input-number
-        [formControl]="operationConditionsForm.controls.externalHeatflow"
-        [label]="t('label')"
-        [unit]="t('unit')"
-        [tooltip]="t('tooltip')"
-        [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('label')}"
-        [onlyPositive]="true"
-      ></ea-input-number>
     </div>
   </ea-input-group>
 </ng-template>

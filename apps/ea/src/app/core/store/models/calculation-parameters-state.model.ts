@@ -73,10 +73,9 @@ export interface CalculationParametersOperationConditions {
       };
       oilFlow: number;
       oilTemperatureDifference: number;
+      externalHeatFlow: number;
     };
   };
-
-  externalHeatFlow: number;
 
   conditionOfRotation: 'innerring' | 'outerring';
 }

@@ -48,13 +48,13 @@ export const initialState: CalculationParametersState = {
         viscosity: { ny100: undefined, ny40: undefined },
         oilFlow: undefined,
         oilTemperatureDifference: 0,
+        externalHeatFlow: 0,
       },
     },
     ambientTemperature: 20,
     operatingTemperature: 70,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
-    externalHeatFlow: 0,
   },
 
   calculationTypes: {

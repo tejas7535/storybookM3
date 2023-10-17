@@ -82,7 +82,8 @@
       },
       "recirculatingOil": {
         "oilFlow": "油流量（dV/dt）",
-        "oilTemperatureDifference": "油溫升高（ΔT）"
+        "oilTemperatureDifference": "油溫升高（ΔT）",
+        "externalHeatFlow": "外部熱流 (dQ/dt)"
       }
     },
     "contamination": {
@@ -110,12 +111,6 @@
         "unit": "°C",
         "tooltip": "機器周圍環境的溫度"
       }
-    },
-    "externalHeatflow": {
-      "title": "外部熱流",
-      "label": "外部熱流",
-      "unit": "千瓦",
-      "tooltip": "外部熱流"
     },
     "conditionOfRotation": {
       "title": "旋轉狀態",
