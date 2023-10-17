@@ -1,4 +1,19 @@
 # Release Notes of Grease App
+## [1.4.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.2...ga-v1.4.3) (2023-10-17)
+
+
+### Features
+
+* **ga:** add maintenance banner in grease app ([#5670](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5670)) ([abb4584](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/abb458425d56638cffe8e049e401ac9470465d37))
+* **ga:** add partner version support (UFTABI-6702) ([#5715](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5715)) ([2cdb508](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2cdb508f1e671b8e0bfe46e7ace7188c6084385f))
+* **ga:** implement improved lubrication values (UFTABI-6819) ([#5710](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5710)) ([c91e2ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c91e2ff2ac6b4cdcc14500160ddbeb27ae4cd1a6))
+
+
+### Bug Fixes
+
+* **ga:** add support for mobile native devices (UFTABI-6816) ([#5691](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5691)) ([ce036de](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ce036de2b419b07a5372a420eb911f7d0c6223b6))
+* **ga:** handle grease service life with special signs (UFTABI-6818) ([#5697](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5697)) ([7ee7133](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7ee7133d3410ecc7b834db558c14aab020d85859))
+
 ## [1.4.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.1...ga-v1.4.2) (2023-09-27)
 
 
