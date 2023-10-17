@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.2...ea-v0.2.3) (2023-10-17)
+
+
+### Features
+
+* **ea:** adjust legal pages ([#5720](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5720)) ([35ea925](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35ea9257ce4396ce64e79922f701e658f19374ca))
+* **ea:** external heatflow field is missing (UFTABI-6820) ([#5716](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5716)) ([d921da1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d921da18e1f934c64fd9d0617db2949312489a97))
+
 ## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.1...ea-v0.2.2) (2023-10-11)
 
 
