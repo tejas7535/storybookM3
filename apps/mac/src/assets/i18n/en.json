@@ -465,6 +465,8 @@
         "upload": "Upload",
         "dataOwner": "Data owner",
         "dataDate": "Data version date",
+        "invalidDateError": "Please specify a valid date.",
+        "invalidDataOwnerError": "Please specify a data owner in the format <last name>, <first name> <department>",
         "dataSource": "Data source",
         "template": {
           "label": "Download the file template",

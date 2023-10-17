@@ -12,7 +12,8 @@
       <div class="flex flex-row gap-x-6">
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>{{ t('dataOwner') }}</mat-label>
-          <input matInput formControlName="owner" />
+          <input matInput required formControlName="owner" />
+          <mat-error>{{ t('invalidDataOwnerError') }}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>{{ t('dataDate') }}</mat-label>
@@ -22,6 +23,7 @@
             [matDatepicker]="dateDatePicker"
             formControlName="date"
           />
+          <mat-error>{{ t('invalidDateError') }}</mat-error>
           <mat-datepicker-toggle matSuffix [for]="dateDatePicker">
             <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
           </mat-datepicker-toggle>

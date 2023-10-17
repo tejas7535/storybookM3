@@ -41,7 +41,13 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group<SapMaterialUploadDialogFormControl>(
       {
-        owner: new FormControl(undefined, Validators.required),
+        owner: new FormControl(
+          undefined,
+          Validators.compose([
+            Validators.required,
+            Validators.pattern('\\w{2,},\\s\\w{2,}\\s{1,2}\\w{2}/\\w+(-.+)?'),
+          ])
+        ),
         date: new FormControl(moment(), Validators.required),
         maturity: new FormControl(
           this.possibleMaturity[0],

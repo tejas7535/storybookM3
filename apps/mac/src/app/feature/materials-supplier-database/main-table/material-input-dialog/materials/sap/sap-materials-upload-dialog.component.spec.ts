@@ -43,6 +43,36 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
       expect(component.formGroup).toBeDefined();
     });
+
+    test('owner should not be valid', () => {
+      component.ngOnInit();
+
+      const upload: SapMaterialsUpload = {
+        owner: 'Tester',
+        maturity: 8,
+        date: moment(),
+        file: new File([''], 'test.xlsx'),
+      };
+
+      component.formGroup.setValue(upload);
+
+      expect(component.formGroup.get('owner').valid).toBe(false);
+    });
+
+    test('owner should be valid', () => {
+      component.ngOnInit();
+
+      const upload: SapMaterialsUpload = {
+        owner: 'Mustermann, Max XX/YAZ-FF2B',
+        maturity: 8,
+        date: moment(),
+        file: new File([''], 'test.xlsx'),
+      };
+
+      component.formGroup.setValue(upload);
+
+      expect(component.formGroup.get('owner').valid).toBe(true);
+    });
   });
 
   describe('downloadDataTemplate', () => {
