@@ -25,6 +25,7 @@ import {
 import { CalculationResultFacade } from '@ea/core/store/facades';
 import { CalculationResultPreviewItem } from '@ea/core/store/models';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -46,6 +47,7 @@ const ANIMATION_UPDATE_INTERVAL = 2000;
     MeaningfulRoundPipe,
     PushPipe,
   ],
+  providers: [TranslocoDecimalPipe],
   animations: [
     trigger('enterExitAnimation', [
       transition(':enter', [

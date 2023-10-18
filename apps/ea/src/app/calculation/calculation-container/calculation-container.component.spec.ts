@@ -2,8 +2,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -31,6 +33,8 @@ describe('CalculationContainerComponent', () => {
           ...APP_STATE_MOCK,
         },
       }),
+      TranslocoDecimalPipe,
+      MeaningfulRoundPipe,
     ],
     schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   });

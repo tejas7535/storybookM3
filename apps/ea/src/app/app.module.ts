@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
 import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -18,6 +19,7 @@ import {
   TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
 import { AppComponent } from './app.component';
 import { AppOverlayContainer } from './app-overlay.container';
@@ -25,6 +27,7 @@ import { AppRoutePath } from './app-route-path.enum';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
+import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
 
 export const appRoutePaths: Routes = [
   {
@@ -71,8 +74,11 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     // UI Modules
     AppShellModule,
     BannerModule,
+    SettingsPanelComponent,
+    LanguageSelectModule,
   ],
   providers: [
+    TranslocoDecimalPipe,
     { provide: OverlayContainer, useClass: AppOverlayContainer },
     {
       provide: PERSON_RESPONSIBLE,

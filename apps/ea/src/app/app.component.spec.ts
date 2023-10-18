@@ -5,6 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { APP_STATE_MOCK } from '@ea/testing/mocks/store';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import {
+  LOCALE_CONFIG,
+  LOCALE_CURRENCY_MAPPING,
+  LOCALE_DEFAULT_CURRENCY,
+  LOCALE_DEFAULT_LOCALE,
+  LOCALE_LANG_MAPPING,
+  TRANSLOCO_DATE_TRANSFORMER,
+  TRANSLOCO_NUMBER_TRANSFORMER,
+} from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -35,6 +44,34 @@ describe('AppComponent', () => {
       provideMockStore({
         initialState: { ...APP_STATE_MOCK },
       }),
+      {
+        provide: LOCALE_LANG_MAPPING,
+        useValue: { en: 'en-US' },
+      },
+      {
+        provide: LOCALE_DEFAULT_LOCALE,
+        useValue: 'en',
+      },
+      {
+        provide: LOCALE_DEFAULT_CURRENCY,
+        useValue: 'usd',
+      },
+      {
+        provide: LOCALE_CONFIG,
+        useValue: {},
+      },
+      {
+        provide: LOCALE_CURRENCY_MAPPING,
+        useValue: undefined,
+      },
+      {
+        provide: TRANSLOCO_NUMBER_TRANSFORMER,
+        useValue: undefined,
+      },
+      {
+        provide: TRANSLOCO_DATE_TRANSFORMER,
+        useValue: undefined,
+      },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });

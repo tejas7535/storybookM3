@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialog,
@@ -24,6 +24,7 @@ import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -58,10 +59,9 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     CalculationResultReportLargeItemsComponent,
     QualtricsInfoBannerComponent,
   ],
+  providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
 export class CalculationResultReportComponent {
-  public meaingfulRoundPipe = new MeaningfulRoundPipe(this.locale);
-
   public co2ResultItem$ =
     this.calculationResultFacade.calculationReportCO2Emission$.pipe(
       map((result) => {
@@ -75,7 +75,7 @@ export class CalculationResultReportComponent {
 
         return [
           {
-            value: this.meaingfulRoundPipe.transform(result.co2_upstream),
+            value: this.meaningfulRoundPipe.transform(result.co2_upstream),
             unit: 'kg',
             short: unit,
             title: 'upstreamTitle',
@@ -90,8 +90,7 @@ export class CalculationResultReportComponent {
     public readonly productSelectionFacade: ProductSelectionFacade,
     public readonly calculationParametersFacade: CalculationParametersFacade,
     public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
-    @Inject(LOCALE_ID)
-    private readonly locale: string,
+    private readonly meaningfulRoundPipe: MeaningfulRoundPipe,
     private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService
   ) {}

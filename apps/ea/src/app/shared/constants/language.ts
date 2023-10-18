@@ -48,3 +48,25 @@ export const AVAILABLE_LANGUAGES: LangDefinition[] = [
 ];
 
 export const FALLBACK_LANGUAGE: LangDefinition = LANGUAGE_EN;
+
+const GERMAN_LOCALE = {
+  id: 'de-DE',
+  label: 'Deutsch (Deutschland)',
+};
+
+const ENGLISH_LOCALE = {
+  id: 'en-US',
+  label: 'English (United States)',
+};
+
+export const AVAILABLE_LOCALES: LangDefinition[] = [
+  GERMAN_LOCALE,
+  ENGLISH_LOCALE,
+];
+
+export const DEFAULT_LOCALE: LangDefinition = ENGLISH_LOCALE;
+
+export const getLocaleForLanguage = (code: string): LangDefinition =>
+  ['de', 'fr', 'es', 'it', 'zh', 'zh_TW'].includes(code)
+    ? GERMAN_LOCALE
+    : ENGLISH_LOCALE;

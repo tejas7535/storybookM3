@@ -4,6 +4,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -29,6 +30,7 @@ describe('CalculationResultPreviewItemComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
+      TranslocoDecimalPipe,
     ],
   });
 

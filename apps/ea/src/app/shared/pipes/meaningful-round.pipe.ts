@@ -1,5 +1,6 @@
-import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
+
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 
 import { roundToThreeSigFigs } from '../helper/number-helper';
 
@@ -12,22 +13,10 @@ const extractPrefix = (input: string): string | undefined => {
 };
 
 @Pipe({ name: 'meaningfulRound', standalone: true })
-export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
-  transform(
-    value: number | string,
-    digitsInfo?: string,
-    locale?: string
-  ): string | null;
-  transform(
-    value: null | undefined,
-    digitsInfo?: string,
-    locale?: string
-  ): null;
-  transform(
-    value: number | string | null | undefined,
-    digitsInfo?: string,
-    locale?: string
-  ): string | null {
+export class MeaningfulRoundPipe implements PipeTransform {
+  constructor(private readonly translocoDecimalPipe: TranslocoDecimalPipe) {}
+
+  transform(value: number | string | null | undefined): string | null {
     if (value === undefined || value === null) {
       // eslint-disable-next-line unicorn/no-null
       return null;
@@ -47,12 +36,8 @@ export class MeaningfulRoundPipe extends DecimalPipe implements PipeTransform {
       return value as string;
     }
 
-    const transformedResult = super.transform(
-      roundedNumber,
-      digitsInfo,
-      locale
-    );
+    const transformed = this.translocoDecimalPipe.transform(roundedNumber);
 
-    return `${prefix}${transformedResult}`;
+    return `${prefix}${transformed}`;
   }
 }

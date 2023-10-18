@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import resize_observer_polyfill from 'resize-observer-polyfill';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultReportInputItemComponent } from './calculation-result-report-input-item.component';
 
@@ -15,12 +14,11 @@ window.ResizeObserver = resize_observer_polyfill;
 describe('CalculationResultReportInputItemComponent', () => {
   let component: CalculationResultReportInputItemComponent;
   let spectator: Spectator<CalculationResultReportInputItemComponent>;
-  const localizeNumber = jest.fn((number) => `${number}`);
 
   const createComponent = createComponentFactory({
     component: CalculationResultReportInputItemComponent,
-    imports: [CommonModule],
-    providers: [mockProvider(TranslocoLocaleService, { localizeNumber })],
+    imports: [CommonModule, provideTranslocoTestingModule({ en: {} })],
+    providers: [MeaningfulRoundPipe, TranslocoDecimalPipe],
   });
 
   beforeEach(() => {

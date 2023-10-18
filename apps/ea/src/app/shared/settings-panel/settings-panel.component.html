@@ -1,0 +1,13 @@
+<ng-container *transloco="let t; read: 'sidebar'">
+  <div class="space-y-4">
+    <h3 class="text-subtitle-1 text-medium-emphasis">
+      {{ t('languageSettings') }}
+    </h3>
+    <schaeffler-language-select class="block"></schaeffler-language-select>
+    <schaeffler-locale-select
+      class="block"
+      [availableLocales]="availableLocales"
+      [defaultLocale]="defaultLocale"
+    ></schaeffler-locale-select>
+  </div>
+</ng-container>

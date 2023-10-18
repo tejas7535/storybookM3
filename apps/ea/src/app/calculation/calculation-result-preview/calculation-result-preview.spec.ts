@@ -8,6 +8,7 @@ import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-googl
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
@@ -53,6 +54,7 @@ describe('CalculationResultPreviewComponent', () => {
           },
         },
       }),
+      TranslocoDecimalPipe,
       {
         provide: translate,
         useValue: jest.fn(),

@@ -24,6 +24,7 @@ import {
 import { environment } from '@ea/environments/environment';
 import { isLanguageAvailable } from '@ea/shared/helper/language-helpers';
 import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
@@ -42,7 +43,10 @@ import {
   isBearingSupported,
 } from './core/store/selectors/product-selection/product-selection.selector';
 import { isStandalone } from './core/store/selectors/settings/settings.selector';
-import { FALLBACK_LANGUAGE } from './shared/constants/language';
+import {
+  FALLBACK_LANGUAGE,
+  getLocaleForLanguage,
+} from './shared/constants/language';
 import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
 @Component({
@@ -123,7 +127,8 @@ export class AppComponent
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
     private readonly sanitizer: DomSanitizer,
-    private readonly elementRef: ElementRef
+    private readonly elementRef: ElementRef,
+    private readonly localeService: TranslocoLocaleService
   ) {}
 
   ngAfterViewInit(): void {
@@ -142,6 +147,11 @@ export class AppComponent
 
     if (changes.standalone) {
       const isStandaloneVersion = changes.standalone.currentValue === 'true';
+
+      if (!isStandaloneVersion) {
+        this.localeService.setLocale(getLocaleForLanguage(this.language).id);
+      }
+
       this.store.dispatch(
         SettingsActions.setStandalone({
           isStandalone: isStandaloneVersion,

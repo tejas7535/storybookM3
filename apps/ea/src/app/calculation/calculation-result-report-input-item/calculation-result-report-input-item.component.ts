@@ -10,7 +10,10 @@ import {
 
 import { CalculationResultReportInput } from '@ea/core/store/models';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import {
+  TranslocoDecimalPipe,
+  TranslocoLocaleService,
+} from '@ngneat/transloco-locale';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -25,7 +28,13 @@ export const elementWidthSmall = 400;
 @Component({
   selector: 'ea-calculation-result-report-input-item',
   standalone: true,
-  imports: [CommonModule, SharedTranslocoModule, LabelValueModule],
+  imports: [
+    CommonModule,
+    SharedTranslocoModule,
+    LabelValueModule,
+    MeaningfulRoundPipe,
+  ],
+  providers: [TranslocoDecimalPipe],
   templateUrl: './calculation-result-report-input-item.component.html',
   styleUrls: ['./calculation-result-report-input-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,14 +48,12 @@ export class CalculationResultReportInputItemComponent implements OnInit {
 
   private readonly htmlElement!: HTMLElement;
   private observer!: ResizeObserver;
-  private readonly meaningFulRoundPipe = new MeaningfulRoundPipe(
-    this.localeService.getLocale()
-  );
 
   public constructor(
     private readonly localeService: TranslocoLocaleService,
     private readonly elementRef: ElementRef,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly meaningfulRoundPipe: MeaningfulRoundPipe
   ) {
     this.htmlElement = this.elementRef.nativeElement;
   }
@@ -92,20 +99,20 @@ export class CalculationResultReportInputItemComponent implements OnInit {
     subordinate?: CalculationResultReportInput
   ): string => {
     const unit = this.getUnit(subordinate);
-
     if (
       (this.reportInputItem.meaningfulRound || subordinate.meaningfulRound) &&
       !this.ignoreFormattingDesignations.includes(subordinate.designation)
     ) {
-      return `${this.meaningFulRoundPipe.transform(
+      const retval = `${this.meaningfulRoundPipe.transform(
         subordinate?.value
       )} ${unit}`.trim();
+
+      return retval;
     } else if (
       this.ignoreFormattingDesignations.includes(subordinate.designation)
     ) {
       return `${subordinate?.value} ${unit}`.trim();
     }
-
     const localizedNumberString = this.localeService.localizeNumber(
       subordinate?.value || '',
       'decimal'
