@@ -1380,6 +1380,24 @@ describe('MsdDataService', () => {
     });
   });
 
+  describe('getDistinctSapValues', () => {
+    it('should get distinct SAP values', (done) => {
+      const response = { values: ['1', '2', '3'] };
+      const expected = ['1', '2', '3'];
+
+      service.getDistinctSapValues('test').subscribe((result: string[]) => {
+        expect(result).toEqual(expected);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/distinct/test`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
+    });
+  });
+
   describe('fromJson', () => {
     it('should return undefined on empty array', () => {
       expect(service['fromJson']([])).toBeFalsy();

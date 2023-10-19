@@ -1,6 +1,9 @@
+import { of } from 'rxjs';
+
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   ColDef,
+  SetFilterValuesFuncParams,
   ValueFormatterParams,
   ValueGetterParams,
 } from 'ag-grid-community';
@@ -13,6 +16,7 @@ import {
   BOOLEAN_VALUE_GETTER,
   CUSTOM_DATE_FORMATTER,
   DATE_COMPARATOR,
+  DISTINCT_VALUE_GETTER,
   EMPTY_VALUE_FORMATTER,
   excludeColumn,
   lockColumns,
@@ -416,6 +420,24 @@ describe('helpers', () => {
     it('should not make a link', () => {
       const params = {} as ValueFormatterParams;
       expect(MATERIALSTOFFID_LINK_FORMATTER(params)).toBeFalsy();
+    });
+  });
+
+  describe('Distinct-value-getter', () => {
+    it('should return the distinct values', (done) => {
+      const mockParams = {
+        column: { getColId: () => 'columnId' },
+        context: {
+          dataService: {
+            getDistinctSapValues: () => of(['value1', 'value2']),
+          },
+        },
+        success: (values: string[]) => {
+          expect(values).toEqual(['value1', 'value2']);
+          done();
+        },
+      } as SetFilterValuesFuncParams;
+      DISTINCT_VALUE_GETTER(mockParams);
     });
   });
 });

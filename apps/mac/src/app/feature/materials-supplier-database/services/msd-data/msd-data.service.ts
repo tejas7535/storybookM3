@@ -559,6 +559,14 @@ export class MsdDataService {
     );
   }
 
+  public getDistinctSapValues(column: string): Observable<string[]> {
+    return this.httpClient
+      .get<{ values: string[] }>(
+        `${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`
+      )
+      .pipe(map((v: { values: string[] }) => v.values));
+  }
+
   private fromJson(json: string[]): string[] {
     return json?.length > 0 ? json : undefined;
   }

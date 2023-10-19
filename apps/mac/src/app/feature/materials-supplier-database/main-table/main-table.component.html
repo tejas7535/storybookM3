@@ -74,6 +74,7 @@
               [maxBlocksInCache]="4"
               [blockLoadDebounceMillis]="500"
               [maxConcurrentDatasourceRequests]="1"
+              [context]="{ dataService }"
               (gridReady)="onGridReady($event, true)"
               (filterChanged)="onFilterChange($event)"
               (columnVisible)="onColumnChange($event)"

@@ -63,6 +63,7 @@ import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
   MsdAgGridStateService,
+  MsdDataService,
   MsdDialogService,
 } from '@mac/msd/services';
 import {
@@ -148,6 +149,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly dialogService: MsdDialogService,
+    public readonly dataService: MsdDataService,
     private readonly agGridConfigService: MsdAgGridConfigService
   ) {}
 

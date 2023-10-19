@@ -24,6 +24,7 @@ import {
   TRANSPORT_PC,
 } from '@mac/feature/materials-supplier-database/constants';
 import {
+  DISTINCT_FILTER_PARAMS,
   NUMBER_FILTER_PARAMS,
   TEXT_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
@@ -49,8 +50,8 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: MATERIAL_GROUP,
     headerName: MATERIAL_GROUP,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
     tooltipField: MATERIAL_GROUP_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -59,8 +60,8 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: CATEGORY,
     headerName: CATEGORY,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
     tooltipField: CATEGORY_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -69,14 +70,14 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: BUSINESS_PARTNER_ID,
     headerName: BUSINESS_PARTNER_ID,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
   },
   {
     field: SUPPLIER_ID,
     headerName: SUPPLIER_ID,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
     tooltipField: SUPPLIER_ID_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -85,8 +86,8 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: PLANT,
     headerName: PLANT,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
     tooltipField: PLANT_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -95,14 +96,14 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: SUPPLIER_COUNTRY,
     headerName: SUPPLIER_COUNTRY,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
   },
   {
     field: SUPPLIER_REGION,
     headerName: SUPPLIER_REGION,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
   },
   {
     field: EMISSION_FACTOR_KG,
@@ -148,8 +149,14 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: MATURITY,
     headerName: MATURITY,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: {
+      ...DISTINCT_FILTER_PARAMS,
+      valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
+        'materialsSupplierDatabase.dataSource'
+      ),
+      suppressSorting: true,
+    },
     valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
       'materialsSupplierDatabase.dataSource'
     ),
@@ -157,7 +164,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: OWNER,
     headerName: OWNER,
-    filter: 'agTextColumnFilter',
-    filterParams: TEXT_FILTER_PARAMS,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
   },
 ];

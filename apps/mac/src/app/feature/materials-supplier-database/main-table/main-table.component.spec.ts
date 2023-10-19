@@ -55,6 +55,7 @@ import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
   MsdAgGridStateService,
+  MsdDataService,
   MsdDialogService,
 } from '@mac/msd/services';
 import {
@@ -155,6 +156,10 @@ describe('MainTableComponent', () => {
           openDialog: jest.fn(),
           openSapMaterialsUploadDialog: jest.fn(),
         },
+      },
+      {
+        provide: MsdDataService,
+        useValue: {},
       },
       {
         provide: MsdAgGridStateService,

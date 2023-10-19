@@ -1,4 +1,5 @@
 export * from './default-column-definitions';
+export * from './distinct-filter-params';
 export * from './filter-params';
 export * from './number-filter-params';
 export * from './sidebar-definition';
