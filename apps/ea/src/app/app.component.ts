@@ -74,7 +74,7 @@ export class AppComponent
   ]).pipe(
     map(([language, bearingId]) =>
       this.sanitizer.bypassSecurityTrustResourceUrl(
-        `https://catalogcalculations-cae.schaeffler.com/app/loadcases/${bearingId}/${language}/comma/metric/true`
+        `${environment.oldUIFallbackUrl}${bearingId}/${language}/comma/metric/true`
       )
     )
   );

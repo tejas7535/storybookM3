@@ -7,6 +7,7 @@ export interface Environment {
   co2UpstreamApiBaseUrl: string;
   calculationModuleInfoApiBaseUrl: string;
   staticStorageUrl: string;
+  oldUIFallbackUrl: string;
   tenantId: string;
   groupId: string;
   assetsPath: string;

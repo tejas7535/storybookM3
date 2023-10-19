@@ -10,6 +10,7 @@ export const environment: Environment = {
   calculationModuleInfoApiBaseUrl:
     'https://bearinx-d.schaeffler.com/moduleinfo/api',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
+  oldUIFallbackUrl: 'https://bearinx-d.schaeffler.com/catalogue/app/loadcases/',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: '/assets',
