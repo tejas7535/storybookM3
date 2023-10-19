@@ -276,6 +276,9 @@
   },
   "exportExcelModal": {
     "title": "Wählen Sie Ihr Download-Format",
+    "titleBasic": "Excel-Datei herunterladen",
+    "onlyBasicLine1": "Wollen Sie den aktuellen Case als Excel-Datei herunterladen?",
+    "onlyBasicLine2": "Der Download enthält eine Übersichtsseite sowie die Positionsdetails.",
     "chooseColumn": {
       "title": "Wählen Sie Ihren Download aus",
       "basicDownload": "Basis Download",

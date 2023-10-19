@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
+import { RolesFacade } from '@gq/core/store/facades';
 import {
   CalculationType,
   ExtendedComparableLinkedTransaction,
@@ -73,6 +74,8 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.SAP_STATUS,
   ];
 
+  extendedDownloadEnabled = true;
+
   private params: IStatusPanelParams;
 
   constructor(
@@ -80,7 +83,8 @@ export class ExportToExcelButtonComponent implements OnInit {
     private readonly store: Store,
     private readonly translocoService: TranslocoService,
     private readonly snackBar: MatSnackBar,
-    private readonly transformationService: TransformationService
+    private readonly transformationService: TransformationService,
+    private readonly rolesFacade: RolesFacade
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +92,8 @@ export class ExportToExcelButtonComponent implements OnInit {
       this.store.select(getExtendedComparableLinkedTransactions),
       this.store.select(getExtendedSapPriceConditionDetails),
     ]);
+
+    this.checkForUserRoles();
   }
 
   agInit(params: IStatusPanelParams): void {
@@ -95,13 +101,19 @@ export class ExportToExcelButtonComponent implements OnInit {
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
 
+  checkForUserRoles(): void {
+    this.rolesFacade.userHasAccessToComparableTransactions$.subscribe(
+      (hasAccessToComparableTransactions) =>
+        (this.extendedDownloadEnabled = hasAccessToComparableTransactions)
+    );
+  }
+
   openExportToExcelDialog(): void {
     this.matDialog
       .open(ExportExcelModalComponent, {
         width: '80%',
         maxWidth: '863px',
-        height: 'auto',
-        minHeight: '350px',
+        data: { extendedDownloadEnabled: this.extendedDownloadEnabled },
       })
       .afterClosed()
       .subscribe((exportExcel: ExportExcel) => {

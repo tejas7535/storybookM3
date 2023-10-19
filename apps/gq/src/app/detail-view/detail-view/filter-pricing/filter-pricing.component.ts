@@ -9,13 +9,11 @@ import {
   getQuotationCurrency,
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
+import { RolesFacade } from '@gq/core/store/facades';
 import {
-  userHasGPCRole,
-  userHasManualPriceRole,
-  userHasSQVRole,
-} from '@gq/core/store/selectors';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { UpdatePrice } from '@gq/shared/models/quotation-detail';
+  QuotationDetail,
+  UpdatePrice,
+} from '@gq/shared/models/quotation-detail';
 import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
@@ -24,22 +22,19 @@ import { Store } from '@ngrx/store';
   templateUrl: './filter-pricing.component.html',
 })
 export class FilterPricingComponent implements OnInit {
+  @Input() quotationDetail: QuotationDetail;
+
   public quotationCurrency$: Observable<string>;
-  public userHasManualPriceRole$: Observable<boolean>;
-  public userHasGPCRole$: Observable<boolean>;
-  public userHasSQVRole$: Observable<boolean>;
   public updateIsLoading$: Observable<boolean>;
   public quotationIsActive$: Observable<boolean>;
 
-  @Input() quotationDetail: QuotationDetail;
-
-  constructor(private readonly store: Store) {}
+  constructor(
+    public readonly rolesFacade: RolesFacade,
+    private readonly store: Store
+  ) {}
 
   public ngOnInit(): void {
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
-    this.userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
-    this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
-    this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
     this.updateIsLoading$ = this.store.select(
       activeCaseFeature.selectUpdateLoading
     );

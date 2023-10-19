@@ -75,7 +75,7 @@
     </div>
     <gq-detail-button
       link
-      *ngIf="!quotationDetail.strategicPrice"
+      *ngIf="!quotationDetail.strategicPrice && isDetailsButtonVisible"
       [text]="t('details')"
       [path]="DetailRoutePath.TransactionsPath"
     ></gq-detail-button>

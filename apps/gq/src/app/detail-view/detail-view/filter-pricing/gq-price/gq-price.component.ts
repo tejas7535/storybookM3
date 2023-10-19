@@ -14,19 +14,29 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
   templateUrl: './gq-price.component.html',
 })
 export class GqPriceComponent {
-  private _isLoading: boolean;
-  private _quotationDetail: QuotationDetail;
+  @Input() userHasGPCRole: boolean;
+  @Input() userHasSQVRole: boolean;
+  @Input() currency: string;
+  @Input() isDisabled: boolean;
+  @Input() isDetailsButtonVisible: boolean;
+  @Output() readonly selectGqPrice = new EventEmitter<UpdatePrice>();
 
   gpi: number;
   gpm: number;
   PriceSource = PriceSource;
   DetailRoutePath = DetailRoutePath;
 
-  @Input() userHasGPCRole: boolean;
-  @Input() userHasSQVRole: boolean;
-  @Input() currency: string;
-  @Input() isDisabled: boolean;
+  private _quotationDetail: QuotationDetail;
+  private _isLoading: boolean;
 
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   @Input() set quotationDetail(quotationDetail: QuotationDetail) {
     if (quotationDetail) {
       this.gpi = calculateMargin(
@@ -41,19 +51,10 @@ export class GqPriceComponent {
     this._quotationDetail = quotationDetail;
   }
 
-  get quotationDetail(): QuotationDetail {
-    return this._quotationDetail;
-  }
-
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
   }
-
-  get isLoading(): boolean {
-    return this._isLoading;
-  }
-
-  @Output() readonly selectGqPrice = new EventEmitter<UpdatePrice>();
 
   selectPrice(): void {
     this._isLoading = true;

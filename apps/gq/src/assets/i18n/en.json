@@ -247,7 +247,7 @@
         "createManualCase": "Create manual case",
         "createCustomerCase": "New case from customer",
         "addMaterial": "add items",
-        "exportToExcelTooltip": "Export to Excel file",
+        "exportToExcelTooltip": "Download Excel File",
         "addNewItem": "add new item",
         "addNewItemMobile": "add",
         "deleteCase": "delete case",

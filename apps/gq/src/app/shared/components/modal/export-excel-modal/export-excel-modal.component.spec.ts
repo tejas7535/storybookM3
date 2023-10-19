@@ -1,10 +1,11 @@
 import { FormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogModule as MatDialogModule,
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 
 import { from, of } from 'rxjs';
@@ -59,6 +60,12 @@ describe('ExportExcelModalComponent', () => {
         useValue: {},
       },
       {
+        provide: MAT_DIALOG_DATA,
+        useValue: {
+          onlyBasicDownload: false,
+        },
+      },
+      {
         provide: ApplicationInsightsService,
         useValue: {
           logEvent: jest.fn(),
@@ -95,6 +102,7 @@ describe('ExportExcelModalComponent', () => {
     beforeEach(() => {
       store.dispatch = jest.fn();
       component.closeDialog = jest.fn();
+      jest.resetAllMocks();
     });
 
     test('dispatch loadExtendedComparableLinkedTransaction', () => {
@@ -110,6 +118,14 @@ describe('ExportExcelModalComponent', () => {
     test('does not dispatch loadExtendedComparableLinkedTransaction', () => {
       component.exportExcelOption = ExportExcel.BASIC_DOWNLOAD;
 
+      component.fetchTransactions();
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(component.closeDialog).toHaveBeenCalled();
+    });
+
+    test('does not dispatch loadExtendedComparableLinkedTransaction when !extendedDownloadEnabled', () => {
+      component.extendedDownloadEnabled = false;
       component.fetchTransactions();
 
       expect(store.dispatch).not.toHaveBeenCalled();

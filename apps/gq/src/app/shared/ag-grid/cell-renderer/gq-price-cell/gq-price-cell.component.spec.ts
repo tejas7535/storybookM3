@@ -1,9 +1,12 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { RolesFacade } from '@gq/core/store/facades';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { DetailRoutePath } from '../../../../../app/detail-view/detail-route-path.enum';
@@ -16,7 +19,8 @@ describe('GqPriceCellComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GqPriceCellComponent,
-    imports: [RouterTestingModule, SharedPipesModule],
+    imports: [RouterTestingModule, SharedPipesModule, PushPipe],
+    providers: [MockProvider(RolesFacade)],
   });
 
   beforeEach(() => {

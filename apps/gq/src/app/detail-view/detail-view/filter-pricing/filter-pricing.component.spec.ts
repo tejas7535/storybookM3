@@ -94,15 +94,6 @@ describe('FilterPricingComponent', () => {
         m.expect(component.updateIsLoading$).toBeObservable('a', {
           a: ACTIVE_CASE_STATE_MOCK.updateLoading,
         });
-        m.expect(component.userHasGPCRole$).toBeObservable('a', {
-          a: true,
-        });
-        m.expect(component.userHasSQVRole$).toBeObservable('a', {
-          a: true,
-        });
-        m.expect(component.userHasManualPriceRole$).toBeObservable('a', {
-          a: true,
-        });
       })
     );
   });

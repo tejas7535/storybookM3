@@ -1,7 +1,17 @@
-<a
-  [href]="url"
-  (click)="navigate($event)"
-  class="text-link hover:underline"
-  [ngClass]="{ 'pointer-events-none': value | isDashOrEmptyString }"
-  >{{ value }}</a
+<ng-container
+  *ngIf="
+    rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush;
+    else simpleText
+  "
 >
+  <a
+    [href]="url"
+    (click)="navigate($event)"
+    class="text-link hover:underline"
+    [ngClass]="{ 'pointer-events-none': value | isDashOrEmptyString }"
+    >{{ value }}</a
+  >
+</ng-container>
+<ng-template #simpleText>
+  <span>{{ value }}</span>
+</ng-template>

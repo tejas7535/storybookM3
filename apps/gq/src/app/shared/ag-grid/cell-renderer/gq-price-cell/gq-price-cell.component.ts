@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
+import { RolesFacade } from '@gq/core/store/facades';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -16,7 +17,10 @@ export class GqPriceCellComponent {
   url: string;
   navigationExtras: NavigationExtras;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    public readonly rolesFacade: RolesFacade,
+    private readonly router: Router
+  ) {}
 
   agInit(params: ICellRendererParams): void {
     this.value = params.valueFormatted;

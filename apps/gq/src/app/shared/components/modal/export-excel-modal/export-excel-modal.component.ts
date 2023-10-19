@@ -1,5 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
@@ -27,11 +30,15 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   exportExcelOption = ExportExcel.DETAILED_DOWNLOAD;
   ExportExcel = ExportExcel;
   transactionsLoading$: Observable<boolean>;
+  extendedDownloadEnabled = true;
+
   private readonly subscription: Subscription = new Subscription();
 
   constructor(
     private readonly store: Store,
     private readonly insightsService: ApplicationInsightsService,
+    @Inject(MAT_DIALOG_DATA)
+    public dialogData: { extendedDownloadEnabled: boolean },
     public dialogRef: MatDialogRef<ExportExcelModalComponent>
   ) {}
 
@@ -48,6 +55,9 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.extendedDownloadEnabled =
+      this.dialogData?.extendedDownloadEnabled ?? true;
+
     this.transactionsLoading$ = this.store.select(
       getExtendedComparableLinkedTransactionsLoading
     );
@@ -83,12 +93,18 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   }
 
   fetchTransactions(): void {
+    if (
+      !this.extendedDownloadEnabled ||
+      this.exportExcelOption === ExportExcel.BASIC_DOWNLOAD
+    ) {
+      this.closeDialog();
+
+      return;
+    }
+
     if (this.exportExcelOption === ExportExcel.DETAILED_DOWNLOAD) {
       this.store.dispatch(loadExtendedComparableLinkedTransaction());
-
       this.store.dispatch(loadExtendedSapPriceConditionDetails());
-    } else if (this.exportExcelOption === ExportExcel.BASIC_DOWNLOAD) {
-      this.closeDialog();
     }
   }
 }

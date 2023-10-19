@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
+import { RolesFacade } from '@gq/core/store/facades';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
@@ -16,6 +17,7 @@ import {
   IStatusPanelParams,
   ProcessHeaderForExportParams,
 } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -72,6 +74,9 @@ describe('ExportToExcelButtonComponent', () => {
           transformNumberExcel: jest.fn().mockImplementation(() => 42),
         },
       },
+      MockProvider(RolesFacade, {
+        userHasAccessToComparableTransactions$: of(false),
+      }),
     ],
     imports: [
       MatButtonModule,
@@ -108,6 +113,13 @@ describe('ExportToExcelButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    test('should call checkForRoles', () => {
+      component.checkForUserRoles = jest.fn();
+      component.ngOnInit();
+      expect(component.checkForUserRoles).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('agInit', () => {
     test('should set params', () => {
       component['params'] = undefined;
@@ -118,6 +130,21 @@ describe('ExportToExcelButtonComponent', () => {
       expect(component.simulationModeEnabled$).toBeDefined();
     });
   });
+  describe('checkForUserRoles', () => {
+    test('should set extendedDownloadEnabled to true', () => {
+      component['rolesFacade'].userHasAccessToComparableTransactions$ =
+        of(true);
+      component.checkForUserRoles();
+      expect(component.extendedDownloadEnabled).toBe(true);
+    });
+    test('should set extendedDownloadEnabled to false', () => {
+      component['rolesFacade'].userHasAccessToComparableTransactions$ =
+        of(false);
+      component.checkForUserRoles();
+      expect(component.extendedDownloadEnabled).toBe(false);
+    });
+  });
+
   describe('exportToExcel', () => {
     test('should export to Excel', () => {
       component['params'] = mockParams;

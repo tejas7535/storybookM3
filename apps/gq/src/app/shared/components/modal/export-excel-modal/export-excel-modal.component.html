@@ -5,56 +5,59 @@
   <div *ngIf="!(transactionsLoading$ | ngrxPush); else loading" class="h-full">
     <div class="h-full">
       <gq-dialog-header
-        [title]="t('title')"
+        [title]="extendedDownloadEnabled ? t('title') : t('titleBasic')"
         (closeDialog)="cancelDownload()"
       ></gq-dialog-header>
-      <mat-radio-group
-        [(ngModel)]="exportExcelOption"
-        aria-labelledby="example-radio-group-label"
-        class="!divide-light grid grid-cols-1 divide-y text-[12px]"
-      >
-        <div class="mt-[60px] grid grid-cols-2 pb-[16px]">
-          <div class="ml-6 text-medium-emphasis">
-            {{ t('chooseColumn.title') }}
+      <ng-container *ngIf="extendedDownloadEnabled; else basicText">
+        <mat-radio-group
+          [(ngModel)]="exportExcelOption"
+          aria-labelledby="example-radio-group-label"
+          class="!divide-light grid grid-cols-1 divide-y text-[12px]"
+        >
+          <div class="mt-[60px] grid grid-cols-2 pb-[16px]">
+            <div class="ml-6 text-medium-emphasis">
+              {{ t('chooseColumn.title') }}
+            </div>
+            <div class="text-medium-emphasis">
+              {{ t('descriptionColumn.title') }}
+            </div>
           </div>
-          <div class="text-medium-emphasis">
-            {{ t('descriptionColumn.title') }}
+          <div class="grid grid-cols-2 py-3">
+            <div class="ml-6">
+              <mat-radio-button
+                color="primary"
+                [value]="ExportExcel.BASIC_DOWNLOAD"
+                data-cy="export-excel-modal_basic-download-radiobtn"
+              ></mat-radio-button>
+              <span class="!text-high-emphasis">
+                {{ t('chooseColumn.basicDownload') }}
+              </span>
+            </div>
+            <div class="text-high-emphasis">
+              {{ t('descriptionColumn.basicDownload') }}
+            </div>
           </div>
-        </div>
-        <div class="grid grid-cols-2 py-3">
-          <div class="ml-6">
-            <mat-radio-button
-              color="primary"
-              [value]="ExportExcel.BASIC_DOWNLOAD"
-              data-cy="export-excel-modal_basic-download-radiobtn"
-            ></mat-radio-button>
-            <span class="!text-high-emphasis">
-              {{ t('chooseColumn.basicDownload') }}
-            </span>
+          <div class="grid grid-cols-2 py-3">
+            <div class="ml-6">
+              <mat-radio-button
+                color="primary"
+                [value]="ExportExcel.DETAILED_DOWNLOAD"
+                data-cy="export-excel-modal_detailed-download-radiobtn"
+              ></mat-radio-button>
+              <span class="!text-high-emphasis">
+                {{ t('chooseColumn.detailedDownload') }}
+              </span>
+            </div>
+            <div class="text-high-emphasis">
+              {{ t('descriptionColumn.detailedDownload') }}
+            </div>
           </div>
-          <div class="text-high-emphasis">
-            {{ t('descriptionColumn.basicDownload') }}
-          </div>
-        </div>
-        <div class="grid grid-cols-2 py-3">
-          <div class="ml-6">
-            <mat-radio-button
-              color="primary"
-              [value]="ExportExcel.DETAILED_DOWNLOAD"
-              data-cy="export-excel-modal_detailed-download-radiobtn"
-            ></mat-radio-button>
-            <span class="!text-high-emphasis">
-              {{ t('chooseColumn.detailedDownload') }}
-            </span>
-          </div>
-          <div class="text-high-emphasis">
-            {{ t('descriptionColumn.detailedDownload') }}
-          </div>
-        </div>
-        <div></div>
-      </mat-radio-group>
+          <div></div>
+        </mat-radio-group>
+      </ng-container>
     </div>
-    <div class="mt-[75px]">
+
+    <div [ngClass]="{ 'mt-[75px]': extendedDownloadEnabled }">
       <button
         class="!mr-[16px]"
         mat-raised-button
@@ -75,6 +78,13 @@
       </button>
     </div>
   </div>
+
+  <ng-template #basicText>
+    <div class="flex flex-col py-8">
+      <span>{{ t('onlyBasicLine1') }}</span
+      ><span>{{ t('onlyBasicLine2') }}</span>
+    </div>
+  </ng-template>
   <ng-template #loading>
     <schaeffler-loading-spinner
       *ngIf="transactionsLoading$ | ngrxPush"

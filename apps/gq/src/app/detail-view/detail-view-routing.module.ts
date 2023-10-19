@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ComparableTransactionsGuard } from '@gq/core/guards';
+
 import { DetailRoutePath } from './detail-route-path.enum';
 
 const routes: Routes = [
@@ -17,6 +19,7 @@ const routes: Routes = [
       import('./transaction-view/transaction-view.module').then(
         (m) => m.TransactionViewModule
       ),
+    canActivateChild: [ComparableTransactionsGuard],
   },
   {
     path: DetailRoutePath.SapPath,

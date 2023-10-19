@@ -14,6 +14,7 @@ import {
   userHasGPCRole,
   userHasManualPriceRole,
   userHasRegionAmericasRole,
+  userHasRegionGreaterChinaRole,
   userHasRegionWorldRole,
   userHasRole,
   userHasSQVRole,
@@ -265,6 +266,53 @@ describe('shared selector', () => {
         const expected = m.cold('a', { a: false });
 
         const result = store.pipe(userHasRegionWorldRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('userHasRegionGreaterChinaRole', () => {
+    test(
+      'should return true',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_GREATER_CHINA],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: true });
+
+        const result = store.pipe(userHasRegionGreaterChinaRole);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+    test(
+      'should return false',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [
+                  UserRoles.BASIC,
+                  UserRoles.COST_GPC,
+                  UserRoles.REGION_AMERICAS,
+                  UserRoles.SECTOR_ALL,
+                  UserRoles.MANUAL_PRICE,
+                ],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: false });
+
+        const result = store.pipe(userHasRegionGreaterChinaRole);
 
         m.expect(result).toBeObservable(expected);
       })

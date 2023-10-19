@@ -247,7 +247,7 @@
         "createManualCase": "Manuellen Case erstellen",
         "createCustomerCase": "Case auf Kundenbasis erstellen",
         "addMaterial": "Positionen hinzufügen",
-        "exportToExcelTooltip": "Als Excel-Datei exportieren",
+        "exportToExcelTooltip": "Excel-Datei herunterladen",
         "addNewItem": "Neue Position hinzufügen",
         "addNewItemMobile": "Hinzufügen",
         "deleteCase": "case löschen",
