@@ -1,4 +1,6 @@
 # Release Notes of Guided Quoting
+## [4.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.1.0...gq-v4.1.1) (2023-10-19)
+
 ## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.2...gq-v4.1.0) (2023-10-19)
 
 
