@@ -1,4 +1,17 @@
 # Release Notes of Engineering App
+## [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.3...ea-v0.2.4) (2023-10-19)
+
+
+### Features
+
+* **ea:** change url for unsupported bearing fallback (UFTABI-6896) ([#5724](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5724)) ([7903211](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/79032113eac7b69838508bf26d7761896faad86e))
+* **ea:** Implement language and localization selection - UFTABI-6828 ([#5705](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5705)) ([b0d7280](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b0d7280a12aa2d64fcf443e8ca1322384a443988))
+
+
+### Bug Fixes
+
+* **ea:** fix height of single element ([#5726](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5726)) ([4acaff2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4acaff20cdce4f662ce24fc08db49bfc27706e16))
+
 ## [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.2...ea-v0.2.3) (2023-10-17)
 
 
