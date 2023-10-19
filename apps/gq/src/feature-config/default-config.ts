@@ -1,5 +1,5 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
-  attachments: false,
+  attachments: true,
   fPricing: false,
 };
 
