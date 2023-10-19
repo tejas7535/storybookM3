@@ -1,0 +1,15 @@
+<ag-grid-angular
+  oncontextmenu="return false;"
+  class="reference-pricing-table ag-theme-material h-full rounded-[4px] rounded-tl-none border border-border"
+  [rowData]="rowData"
+  [localeText]="localeText$ | ngrxPush"
+  [columnDefs]="columnDefs"
+  (columnMoved)="onColumnChange($event)"
+  (sortChanged)="onColumnChange($event)"
+  (columnResized)="onColumnChange($event)"
+  (gridReady)="onGridReady($event)"
+  rowSelection="single"
+  [components]="components"
+  [gridOptions]="gridOptions"
+>
+</ag-grid-angular>

@@ -32,6 +32,7 @@ import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
 import { PositionIdComponent } from './position-id/position-id.component';
 import { QuotationStatusCellComponent } from './quotation-status-cell/quotation-status-cell.component';
+import { ReferenceMaterialGroupCellComponent } from './reference-material-group-cell/reference-material-group-cell.component';
 import { SapPriceCellComponent } from './sap-price-cell/sap-price-cell.component';
 import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';
 @NgModule({
@@ -52,6 +53,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     QuotationStatusCellComponent,
     FreeStockCellComponent,
     SapPriceCellComponent,
+    ReferenceMaterialGroupCellComponent,
   ],
   imports: [
     CommonModule,
@@ -79,6 +81,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     GqIdComponent,
     EditCommentComponent,
     FreeStockCellComponent,
+    ReferenceMaterialGroupCellComponent,
   ],
 })
 export class CellRendererModule {}

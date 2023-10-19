@@ -2,19 +2,18 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { NoTabsDataComponent } from './no-tabs-data.component';
 
-import { MarketValueDriversComponent } from './market-value-drivers.component';
-
-describe('MarketValueDriversComponent', () => {
-  let component: MarketValueDriversComponent;
-  let spectator: Spectator<MarketValueDriversComponent>;
+describe('NoTabsDataComponent', () => {
+  let component: NoTabsDataComponent;
+  let spectator: Spectator<NoTabsDataComponent>;
 
   const createComponent = createComponentFactory({
-    component: MarketValueDriversComponent,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    component: NoTabsDataComponent,
+
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
+
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;

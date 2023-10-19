@@ -8,7 +8,22 @@
         ></gq-tabs-label
       ></ng-template>
       <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
-        reference pricing content
+        <ng-container [ngSwitch]="referenceDataVisible">
+          <ng-container *ngSwitchCase="referenceDataToShowType.noReferenceData">
+            <gq-no-tabs-data
+              [title]="t('referencePricingTable.noReferenceDataTitle')"
+              [subTitle]="t('referencePricingTable.noReferenceDataSubTitle')"
+            ></gq-no-tabs-data>
+          </ng-container>
+          <ng-container
+            *ngSwitchCase="referenceDataToShowType.referencePricingTable"
+          >
+            <gq-reference-pricing-table
+              [rowData]="referencePriceRowData"
+              (comparedMaterialClicked)="onComparedMaterialClicked($event)"
+            ></gq-reference-pricing-table>
+          </ng-container>
+        </ng-container>
       </div>
     </mat-tab>
     <mat-tab disabled>

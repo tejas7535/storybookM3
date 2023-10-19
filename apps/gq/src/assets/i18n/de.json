@@ -578,7 +578,16 @@
       "marketValueDriversLabel": "Marktwerttreiber",
       "technicalValueDriversLabel": "Technische Werttreiber",
       "sanityCheckLabel": "Plausibilitätsprüfung",
-      "finalPriceLabel": "Endpreis"
+      "finalPriceLabel": "Endpreis",
+      "referencePricingTable": {
+        "noReferenceDataTitle": "Keine vergleichbaren Transaktionen verfügbar",
+        "noReferenceDataSubTitle": "Der Referenzpreis wird durch Regression berechnet",
+        "customerName": "Kundenname",
+        "materialDescription": "Beschreibung",
+        "quantity": "Menge",
+        "price": "Preis",
+        "year": "Jahr"
+      }
     }
   }
 }

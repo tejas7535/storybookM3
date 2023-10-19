@@ -10,6 +10,7 @@ import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { OverlayToShow } from './models/overlay-to-show.enum';
 import { PricingAssistantModalComponent } from './pricing-assistant-modal.component';
 
 describe('PricingAssistant.modalComponent', () => {
@@ -36,5 +37,37 @@ describe('PricingAssistant.modalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('closeDialog', () => {
+    it('should close the dialog', () => {
+      component['dialogRef'].close = jest.fn();
+      component.closeDialog();
+      expect(component['dialogRef'].close).toHaveBeenCalled();
+    });
+  });
+
+  describe('manualPriceClicked', () => {
+    test('should set visibleOverlay to manualPricing', () => {
+      component.visibleOverlay = OverlayToShow.gqPricing;
+      component.manualPriceClicked();
+      expect(component.visibleOverlay).toBe('manualPricing');
+    });
+  });
+
+  describe('onComparedMaterialClicked', () => {
+    test('should set visibleOverlay to comparismScreen', () => {
+      component.visibleOverlay = OverlayToShow.gqPricing;
+      component.onComparedMaterialClicked('material');
+      expect(component.visibleOverlay).toBe('comparismScreen');
+    });
+  });
+
+  describe('closeOverlay', () => {
+    test('should set visibleOverlay to gqPricing', () => {
+      component.visibleOverlay = OverlayToShow.comparismScreen;
+      component.closeOverlay();
+      expect(component.visibleOverlay).toBe('gqPricing');
+    });
   });
 });

@@ -4,44 +4,20 @@
       [material]="material"
       (closeDialog)="closeDialog()"
     ></gq-pricing-assistant-header>
-    <div class="flex flex-row justify-between w-full gap-3 py-4">
-      <gq-price-button
-        class="w-full"
-        [priceLabelKey]="'gqPriceLabel'"
-        [priceValue]="45.12"
-        [currency]="'EUR'"
-        [gpmValue]="12.45"
-        [icon]="'warning_amber'"
-        [iconColor]="'text-error'"
-        [isSelected]="true"
-        [isActiveInDialog]="true"
-      ></gq-price-button>
+    <!-- content and possible overlays -->
+    <div class="flex flex-col w-full h-full relative">
+      <gq-overlay *ngIf="visibleOverlay === overlayToShowEnum.comparismScreen">
+        <ng-container [ngTemplateOutlet]="comparismScreenView"></ng-container>
+      </gq-overlay>
 
-      <gq-price-button
-        class="w-full"
-        [isAddManualPriceButton]="true"
-        (manualPriceClicked)="manualPriceClicked()"
-      ></gq-price-button>
+      <gq-overlay *ngIf="visibleOverlay === overlayToShowEnum.manualPricing">
+        <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
+      </gq-overlay>
+
+      <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
     </div>
-    <mat-card appearance="outlined" class="h-full">
-      <div class="flex flex-col h-full">
-        <gq-pricing-results
-          [price]="24.23"
-          [currency]="'EUR'"
-          [gpm]="12.4"
-          [confidence]="2"
-        ></gq-pricing-results>
-        <gq-market-value-drivers
-          class="h-full"
-          [currency]="'EUR'"
-          [referencePrice]="1214.0"
-          [marketValueDriversValue]="63.23"
-          [technicalValueDriversValue]="12.23"
-          [sanityCheckValue]="0"
-          [finalPrice]="2013.45"
-        ></gq-market-value-drivers>
-      </div>
-    </mat-card>
+
+    <!--footer-->
     <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
     <div class="flex justify-start mt-4">
       <button
@@ -63,3 +39,71 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #priceButtons>
+  <div class="flex flex-row justify-between w-full gap-3 py-4">
+    <gq-price-button
+      class="w-full"
+      [priceLabelKey]="'gqPriceLabel'"
+      [priceValue]="45.12"
+      [currency]="'EUR'"
+      [gpmValue]="12.45"
+      [icon]="'warning_amber'"
+      [iconColor]="'text-error'"
+      [isSelected]="true"
+      [isActiveInDialog]="true"
+    ></gq-price-button>
+
+    <gq-price-button
+      class="w-full"
+      [isAddManualPriceButton]="true"
+      (manualPriceClicked)="manualPriceClicked()"
+    ></gq-price-button>
+  </div>
+</ng-template>
+
+<ng-template #gqPricingView>
+  <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
+  <mat-card appearance="outlined" class="h-full">
+    <div class="flex flex-col h-full">
+      <gq-pricing-results
+        [price]="24.23"
+        [currency]="'EUR'"
+        [gpm]="12.4"
+        [confidence]="2"
+      ></gq-pricing-results>
+      <gq-pricing-tabs-wrapper
+        class="h-full"
+        [currency]="'EUR'"
+        [referencePrice]="1214.0"
+        [marketValueDriversValue]="63.23"
+        [technicalValueDriversValue]="12.23"
+        [sanityCheckValue]="0"
+        [finalPrice]="2013.45"
+        [referencePriceRowData]="referencePriceRowData"
+        (comparedMaterialClicked)="onComparedMaterialClicked($event)"
+      ></gq-pricing-tabs-wrapper>
+    </div>
+  </mat-card>
+</ng-template>
+
+<ng-template #comparismScreenView>
+  <div class="flex flex-col gap-6">
+    <span>this is the comparism screen</span>
+    <button mat-button (click)="closeOverlay()">
+      <mat-icon>close</mat-icon>
+      back to GQ Pricing View
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #manualPricingView>
+  <div class="flex flex-col">
+    <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
+    <span> manual Pricing content </span>
+    <button mat-button (click)="closeOverlay()">
+      <mat-icon>close</mat-icon>
+      back to GQ Pricing View
+    </button>
+  </div>
+</ng-template>

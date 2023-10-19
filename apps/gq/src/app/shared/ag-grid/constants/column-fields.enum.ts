@@ -78,6 +78,17 @@ export enum MaterialColumnFields {
   TARGET_PRICE = 'targetPrice',
 }
 
+export enum ReferencePricingColumnFields {
+  PARENT_MATERIAL_NUMBER = 'parentMaterialNumber',
+  PARENT_MATERIAL_DESCRIPTION = 'parentMaterialDescription',
+  CUSTOMER_NAME = 'customerName',
+  MATERIAL_NUMBER = 'materialNumber',
+  MATERIAL_DESCRIPTION = 'materialDescription',
+  QUANTITY = 'quantity',
+  PRICE = 'price',
+  YEAR = 'year',
+}
+
 export const PriceColumns = [
   ColumnFields.PRICE,
   ColumnFields.NET_VALUE,

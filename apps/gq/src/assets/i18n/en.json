@@ -578,7 +578,16 @@
       "marketValueDriversLabel": "Market Value Drivers",
       "technicalValueDriversLabel": "Technical Value Drivers",
       "sanityCheckLabel": "Sanity Check",
-      "finalPriceLabel": "Final Price"
+      "finalPriceLabel": "Final Price",
+      "referencePricingTable": {
+        "noReferenceDataTitle": "No comparable transactions could be found",
+        "noReferenceDataSubTitle": "The reference price is calculated by regression",
+        "customerName": "Customer Name",
+        "materialDescription": "Description",
+        "quantity": "Quantity",
+        "price": "Price",
+        "year": "Year"
+      }
     }
   }
 }

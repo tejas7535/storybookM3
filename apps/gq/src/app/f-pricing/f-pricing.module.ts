@@ -1,3 +1,4 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,17 +12,23 @@ import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divide
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { PushPipe } from '@ngrx/component';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { TabsLabelComponent } from './pricing-assistant-modal/market-value-drivers/components/tabs-label/tabs-label.component';
-import { MarketValueDriversComponent } from './pricing-assistant-modal/market-value-drivers/market-value-drivers.component';
+import { OverlayComponent } from './pricing-assistant-modal/overlay/overlay.component';
 import { PriceButtonComponent } from './pricing-assistant-modal/price-button/price-button.component';
 import { PricingAssistantHeaderComponent } from './pricing-assistant-modal/pricing-assistant-header/pricing-assistant-header.component';
 import { PricingAssistantModalComponent } from './pricing-assistant-modal/pricing-assistant-modal.component';
 import { PricingResultsComponent } from './pricing-assistant-modal/pricing-results/pricing-results.component';
+import { NoTabsDataComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/no-tabs-data/no-tabs-data.component';
+import { ReferencePricingTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/reference-pricing-table/reference-pricing-table.component';
+import { TabsLabelComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/tabs-label/tabs-label.component';
+import { PricingTabsWrapperComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/pricing-tabs-wrapper.component';
 @NgModule({
   imports: [
+    AgGridModule,
     CommonModule,
     DialogHeaderModule,
     SharedTranslocoModule,
@@ -34,14 +41,19 @@ import { PricingResultsComponent } from './pricing-assistant-modal/pricing-resul
     StarRatingModule,
     MatTooltipModule,
     MatTabsModule,
+    PushPipe,
+    OverlayModule,
   ],
   declarations: [
     PricingAssistantModalComponent,
     PricingAssistantHeaderComponent,
     PriceButtonComponent,
     PricingResultsComponent,
-    MarketValueDriversComponent,
+    PricingTabsWrapperComponent,
     TabsLabelComponent,
+    ReferencePricingTableComponent,
+    NoTabsDataComponent,
+    OverlayComponent,
   ],
   exports: [PricingAssistantModalComponent],
 })

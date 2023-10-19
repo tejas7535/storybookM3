@@ -4,16 +4,27 @@ import {
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 
+import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import { MaterialDetails } from '@gq/shared/models/quotation-detail/material-details.model';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 
+import { F_PRICING_COMPARABLE_MATERIALS_MOCK } from '../../../testing/mocks/models/f-pricing-comparable-materials.mock';
 import { MATERIAL_DETAILS_MOCK } from '../../../testing/mocks/models/material-details.mock';
-
+import { OverlayToShow } from './models/overlay-to-show.enum';
 @Component({
   selector: 'gq-pricing-assistant-modal',
   templateUrl: './pricing-assistant-modal.component.html',
+  // to have it as non-singleton in this class
+  // otherwise it will override the columnState on in backgrounds quotationSDetailsTable
+  providers: [AgGridStateService],
 })
 export class PricingAssistantModalComponent {
   material: MaterialDetails = MATERIAL_DETAILS_MOCK;
+  referencePriceRowData: ComparableLinkedTransaction[] =
+    F_PRICING_COMPARABLE_MATERIALS_MOCK;
+
+  overlayToShowEnum = OverlayToShow;
+  visibleOverlay: OverlayToShow = OverlayToShow.gqPricing;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -31,5 +42,15 @@ export class PricingAssistantModalComponent {
 
   manualPriceClicked(): void {
     console.log('manualPriceClicked');
+    this.visibleOverlay = OverlayToShow.manualPricing;
+  }
+
+  onComparedMaterialClicked(material: string): void {
+    console.log(`comparismScreen for ${material}`);
+    this.visibleOverlay = OverlayToShow.comparismScreen;
+  }
+
+  closeOverlay(): void {
+    this.visibleOverlay = OverlayToShow.gqPricing;
   }
 }
