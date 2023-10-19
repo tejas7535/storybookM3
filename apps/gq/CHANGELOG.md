@@ -1,4 +1,29 @@
 # Release Notes of Guided Quoting
+## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.2...gq-v4.1.0) (2023-10-19)
+
+
+### Features
+
+* **gq:**  hard delete of attachments (GQUOTE-3100) ([#5661](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5661)) ([c410dc5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c410dc5f96cbd2c9fb6a1e4bfe29a16c2d6e6794))
+* **gq:** call endpoint to download attachment(GQUOTE-3098) ([#5636](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5636)) ([35ed34d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35ed34dac116894790acdf4522fe1b7141d3755c))
+* **gq:** change translation for quote creation button (GQUOTE-3155) ([#5709](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5709)) ([e4e062b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e4e062b70df3a2c2f8a177e706784a21661aadd0))
+* **gq:** hard delete of attachments(GQUOTE-3100) ([#5698](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5698)) ([a265dd1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a265dd15b0c647b0866da8cdef186694b009161b))
+* **gq:** implement Pricing Assistant Modal incl. Results Display Component (GQUOTE-3104) ([#5666](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5666)) ([31a21d0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31a21d0b3213ab0b18592e6966d3590d76e94ceb)), closes [#5675](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5675)
+* **gq:** remove feature Toggle for Approval Workflow(GQUOTE-3152) ([#5676](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5676)) ([9bad08b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9bad08b54fa244d80be10cf69bd87dceff0ac4c2))
+* **gq:** show delivery plant in production and cost tile (GQUOTE-3230) ([#5708](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5708)) ([52bd912](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/52bd912b34ad0e9b7bac38ede63c0ffd80b62f95))
+
+
+### Bug Fixes
+
+* **gq:** consider price unit for relocation costs ([#5677](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5677)) ([61783ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/61783aed80b206eea345e69d212507486a2e99b5))
+* **gq:** fix tableStyles of ag-gridStatus bar ([#5711](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5711)) ([e52c287](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e52c287ac555715386243b7fe5290838849053a7))
+* **gq:** multiply comparable cost by priceUnit of material (GQUOTE-3216) ([#5694](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5694)) ([cf34ca6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cf34ca63c9b3cef761ca0c954bea5dfc100849d6))
+
+
+### Reverts
+
+* Revert "Revert "feat(gq): change gpcYear to gpcDate (GQUOTE-3096) (#5631)" (#5667)" (#5669) ([024f954](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/024f95465602c2515c78751d961b2712241d0aaf)), closes [#5631](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5631) [#5667](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5667) [#5669](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5669)
+
 ## [4.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.1...gq-v4.0.2) (2023-09-28)
 
 
