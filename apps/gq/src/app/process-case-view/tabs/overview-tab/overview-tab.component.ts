@@ -25,6 +25,7 @@ import {
 } from '@gq/shared/models/quotation';
 import { Rating } from '@gq/shared/models/rating.enum';
 import { calculateDuration } from '@gq/shared/utils/misc.utils';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { GeneralInformation } from './models';
@@ -45,6 +46,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   constructor(
     readonly approvalFacade: ApprovalFacade,
     readonly activeCaseFacade: ActiveCaseFacade,
+    protected translocoLocaleService: TranslocoLocaleService,
     private readonly store: Store
   ) {}
 
@@ -108,7 +110,11 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
           approvalLevel,
           validityFrom: quotation.sapCreated,
           validityTo: quotation.validTo,
-          duration: calculateDuration(quotation.sapCreated, quotation.validTo),
+          duration: calculateDuration(
+            quotation.sapCreated,
+            quotation.validTo,
+            this.translocoLocaleService.getLocale()
+          ),
           projectInformation: approvalGeneralInformation.projectInformation,
           customer,
           requestedQuotationDate: quotation.sapQuotationToDate,

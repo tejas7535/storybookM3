@@ -11,8 +11,11 @@ import { of } from 'rxjs';
 
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case';
 import { UserRoles } from '@gq/shared/constants';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { mockProvider } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

@@ -2,6 +2,71 @@ import { Keyboard } from '../models';
 import * as miscUtils from './misc.utils';
 
 describe('MiscUtils', () => {
+  describe('calculateDuration', () => {
+    test('should return undefined if startDate is undefined', (done) => {
+      expect(
+        miscUtils.calculateDuration(
+          undefined,
+          '2023-07-10T06:36:46.8018708Z',
+          'de-DE'
+        )
+      ).toBeUndefined();
+      done();
+    });
+
+    test('should return undefined if endDate is empty', (done) => {
+      expect(
+        miscUtils.calculateDuration(
+          '2023-07-10T06:36:46.8018708Z',
+          undefined,
+          'de-DE'
+        )
+      ).toBeUndefined();
+      done();
+    });
+
+    test('should return correct duration', (done) => {
+      expect(
+        miscUtils.calculateDuration(
+          '2021-02-28T00:00:00Z',
+          '2023-06-12T00:00:00Z',
+          'de-DE'
+        )
+      ).toEqual({ years: 2, months: 3, days: 12 });
+      done();
+    });
+    test('should return correct duration switch winter to summertime', (done) => {
+      expect(
+        miscUtils.calculateDuration(
+          '2022-02-28T00:00:00Z',
+          '2022-06-12T00:00:00Z',
+          'de-DE'
+        )
+      ).toEqual({ years: 0, months: 3, days: 12 });
+      done();
+    });
+
+    test('should return the correct duration (bug reported incl. summer to winter time switch)', (done) => {
+      expect(
+        miscUtils.calculateDuration(
+          '2023-09-20T00:00:00Z',
+          '2023-11-30T00:00:00Z',
+          'de-DE'
+        )
+      ).toEqual({ years: 0, months: 2, days: 10 });
+      done();
+    });
+    test('should return the correct duration both summer time', (done) => {
+      expect(
+        miscUtils.calculateDuration(
+          '2023-06-30T00:00:00Z',
+          '2023-09-20T00:00:00Z',
+          'de-DE'
+        )
+      ).toEqual({ years: 0, months: 2, days: 21 });
+      done();
+    });
+  });
   describe('getCurrentYear', () => {
     test('getCurrentYear', () => {
       Date.prototype.getFullYear = jest.fn(() => 2020);
@@ -159,37 +224,6 @@ describe('MiscUtils', () => {
           expect(result).toEqual(testCase.expectedOutputs[index]);
         });
       });
-    });
-  });
-
-  describe('calculateDuration', () => {
-    test('should return undefined if startDate is undefined', () => {
-      expect(
-        miscUtils.calculateDuration(undefined, '2023-07-10T06:36:46.8018708Z')
-      ).toBeUndefined();
-    });
-
-    test('should return undefined if endDate is empty', () => {
-      expect(
-        miscUtils.calculateDuration('2023-07-10T06:36:46.8018708Z', '')
-      ).toBeUndefined();
-    });
-
-    test('should return correct duration', () => {
-      expect(
-        miscUtils.calculateDuration(
-          '2021-02-28T00:00:00Z',
-          '2023-06-12T00:00:00Z'
-        )
-      ).toEqual({ years: 2, months: 3, days: 12 });
-    });
-    test('should cound commenced day as additional day', () => {
-      expect(
-        miscUtils.calculateDuration(
-          '2021-02-28T10:00:00Z',
-          '2023-06-12T00:00:00Z'
-        )
-      ).toEqual({ years: 2, months: 3, days: 12 });
     });
   });
 });

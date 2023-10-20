@@ -16,6 +16,7 @@ import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-curr
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockPipe, MockProvider } from 'ng-mocks';
@@ -58,6 +59,7 @@ describe('OverviewTabComponent', () => {
           'azure-auth': {},
         },
       }),
+      MockProvider(TranslocoLocaleService),
     ],
     detectChanges: false,
   });
@@ -167,7 +169,8 @@ describe('OverviewTabComponent', () => {
         m.flush();
         expect(calculateDurationSpy).toHaveBeenCalledWith(
           ACTIVE_CASE_STATE_MOCK.quotation.sapCreated,
-          ACTIVE_CASE_STATE_MOCK.quotation.validTo
+          ACTIVE_CASE_STATE_MOCK.quotation.validTo,
+          undefined
         );
       })
     );

@@ -10,6 +10,7 @@ export const getLastYear = (): number => getCurrentYear() - 1;
 
 /**
  * Calculate the duration between the given start and end date.
+ * time of the dates is ignored.
  *
  * @param startDate start date as ISO string
  * @param endDate end date as ISO string
@@ -17,22 +18,27 @@ export const getLastYear = (): number => getCurrentYear() - 1;
  */
 export const calculateDuration = (
   startDate: string,
-  endDate: string
+  endDate: string,
+  locale: string
 ): Duration => {
   if (!startDate || !endDate) {
     return undefined;
   }
+  moment.locale(locale);
 
-  const difference = moment(endDate).diff(moment(startDate));
+  const startDay = moment(
+    moment(startDate).locale(locale).format('YYYY-MM-DD')
+  );
+  const endDay = moment(moment(endDate).locale(locale).format('YYYY-MM-DD'));
+
+  const difference = endDay.diff(startDay);
   const duration = moment.duration(difference);
 
-  if (
-    duration.hours() > 0 ||
-    duration.minutes() > 0 ||
-    duration.seconds() > 0 ||
-    duration.milliseconds() > 0
-  ) {
-    // Commenced day counts as additional day
+  //
+  // when switch from summer to winter time, there's technically one hour "too much" for a complete day (expectedDays as expected  and duration.hours() => 1),
+  // => ****so we will ignore it****
+  // isDST => isDaylightSavingTime (summer time)
+  if (!startDay.isDST() && endDay.isDST()) {
     duration.add(1, 'day');
   }
 
