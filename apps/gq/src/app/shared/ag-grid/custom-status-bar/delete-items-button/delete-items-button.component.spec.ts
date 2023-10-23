@@ -5,11 +5,13 @@ import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/lega
 
 import { of } from 'rxjs';
 
+import { RolesFacade } from '@gq/core/store/facades';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -40,6 +42,7 @@ describe('DeleteItemsButtonComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      MockProvider(RolesFacade),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
@@ -66,6 +69,50 @@ describe('DeleteItemsButtonComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should call checkUserRoles method', () => {
+      component['checkUserRoles'] = jest.fn();
+      component.ngOnInit();
+      expect(component['checkUserRoles']).toHaveBeenCalled();
+    });
+    test(
+      'should return true for buttonVisible$ when user has general delete positions role but is not the creator of the quotation',
+      marbles((m) => {
+        component['rolesFacade'].userHasGeneralDeletePositionsRole$ = of(true);
+        component['rolesFacade'].loggedInUserId$ = of('aUser');
+        component.quotationCreatedBy = 'anotherUser';
+        component.ngOnInit();
+        m.expect(component.buttonVisible$).toBeObservable(
+          m.cold('(a|)', { a: true })
+        );
+      })
+    );
+    test(
+      'should return true for buttonVisible$ when user does NOT have general delete positions role  but is creator of the case',
+      marbles((m) => {
+        component['rolesFacade'].userHasGeneralDeletePositionsRole$ = of(false);
+        component['rolesFacade'].loggedInUserId$ = of('aUser');
+        component.quotationCreatedBy = 'aUser';
+        component.ngOnInit();
+        m.expect(component.buttonVisible$).toBeObservable(
+          m.cold('(a|)', { a: true })
+        );
+      })
+    );
+    test(
+      'should return false for buttonVisible$ when user does NOT have general delete positions role  and is not creator of the case',
+      marbles((m) => {
+        component['rolesFacade'].userHasGeneralDeletePositionsRole$ = of(false);
+        component['rolesFacade'].loggedInUserId$ = of('aUser');
+        component.quotationCreatedBy = 'anotherUser';
+        component.ngOnInit();
+        m.expect(component.buttonVisible$).toBeObservable(
+          m.cold('(a|)', { a: false })
+        );
+      })
+    );
   });
 
   describe('agInit', () => {

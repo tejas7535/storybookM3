@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
+import { combineLatest, map, Observable, of } from 'rxjs';
+
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { RolesFacade } from '@gq/core/store/facades';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -15,19 +18,28 @@ import { QuotationDetail } from '../../../models/quotation-detail';
   selector: 'gq-delete-items-button',
   templateUrl: './delete-items-button.component.html',
 })
-export class DeleteItemsButtonComponent {
+export class DeleteItemsButtonComponent implements OnInit {
   selections: any[] = [];
   toolPanelOpened: boolean;
   icon = 'delete';
-  private params: IStatusPanelParams;
-  isSapQuotation: boolean;
 
+  isSapQuotation: boolean;
   quotationStatus = QuotationStatus;
+  quotationCreatedBy: string;
+
+  buttonVisible$: Observable<boolean> = of(false);
+
+  private params: IStatusPanelParams;
 
   public constructor(
     private readonly store: Store,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly rolesFacade: RolesFacade
   ) {}
+
+  ngOnInit(): void {
+    this.checkUserRoles();
+  }
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -42,6 +54,10 @@ export class DeleteItemsButtonComponent {
       'toolPanelVisibleChanged',
       this.onToolPanelVisibleChanged.bind(this)
     );
+
+    this.quotationCreatedBy = (
+      params.context.quotation as Quotation
+    )?.gqCreatedByUser?.id;
   }
 
   onGridReady(): void {
@@ -96,5 +112,18 @@ export class DeleteItemsButtonComponent {
         this.selections = [];
       }
     });
+  }
+
+  private checkUserRoles(): void {
+    this.buttonVisible$ = combineLatest([
+      this.rolesFacade.userHasGeneralDeletePositionsRole$,
+      this.rolesFacade.loggedInUserId$,
+    ]).pipe(
+      map(
+        ([isAllowed, loggedInUser]) =>
+          // user can delete positions of any case when either having rolesFacade.userHasDeletePositions$ or when the case is created by the loggedInUser
+          isAllowed || loggedInUser === this.quotationCreatedBy
+      )
+    );
   }
 }
