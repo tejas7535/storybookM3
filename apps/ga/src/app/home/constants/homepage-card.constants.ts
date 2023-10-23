@@ -7,7 +7,7 @@ export const homepageCards: HomepageCard[] = [
   {
     mainTitle: 'calculator.title.main',
     subTitle: 'calculator.title.sub',
-    imagePath: 'calculator.svg',
+    templateId: 'calculatorLogo',
     routerPath: AppRoutePath.GreaseCalculationPath,
     utmParameters: UTM_PARAMS_DEFAULT,
     trackingId: 'greaseCalculation',
@@ -15,6 +15,7 @@ export const homepageCards: HomepageCard[] = [
   {
     mainTitle: 'greases.title.main',
     subTitle: 'greases.title.sub',
+    templateId: 'imageCard',
     imagePath: 'greases.jpg',
     externalLink: 'greases.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,
@@ -22,6 +23,7 @@ export const homepageCards: HomepageCard[] = [
   },
   {
     mainTitle: 'lubricators.title.main',
+    templateId: 'imageCard',
     imagePath: 'lubricators.jpg',
     externalLink: 'lubricators.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,
@@ -30,6 +32,7 @@ export const homepageCards: HomepageCard[] = [
   {
     mainTitle: 'maintenance.title.main',
     subTitle: 'maintenance.title.sub',
+    templateId: 'imageCard',
     imagePath: 'maintenance.jpg',
     externalLink: 'maintenance.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,
@@ -37,6 +40,7 @@ export const homepageCards: HomepageCard[] = [
   },
   {
     mainTitle: 'optime.title.main',
+    templateId: 'imageCard',
     imagePath: 'optime.jpg',
     externalLink: 'optime.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,
@@ -44,6 +48,7 @@ export const homepageCards: HomepageCard[] = [
   },
   {
     mainTitle: 'catalog.title.main',
+    templateId: 'imageCard',
     imagePath: 'catalog.jpg',
     externalLink: 'catalog.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,
@@ -51,12 +56,14 @@ export const homepageCards: HomepageCard[] = [
   },
   {
     mainTitle: 'contact.title.main',
+    templateId: 'imageCard',
     imagePath: 'contact.jpg',
     externalLink: 'contact.externalLink',
     trackingId: 'contactLink',
   },
   {
     mainTitle: 'faq.title.main',
+    templateId: 'imageCard',
     imagePath: 'faq.jpg',
     externalLink: 'faq.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,

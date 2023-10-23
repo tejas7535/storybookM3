@@ -5,6 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculatorLogoModule } from '@ga/shared/components/calculator-logo';
 import { HOMEPAGE_CARD_MOCK } from '@ga/testing/mocks/models/homepage-card.mock';
 
 import { HomepageCardComponent } from './homepage-card.component';
@@ -20,16 +21,19 @@ describe('HomepageCardComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HomepageCardComponent,
-    imports: [RouterTestingModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      RouterTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
+      CalculatorLogoModule,
+    ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
+    spectator.setInput({ homepageCard: HOMEPAGE_CARD_MOCK });
     component = spectator.component;
     router = spectator.inject(Router);
     router.navigate = jest.fn();
-
-    component.homepageCard = HOMEPAGE_CARD_MOCK;
   });
 
   it('should be created', () => {

@@ -14,8 +14,18 @@
       [innerHTML]="homepageCard?.subTitle ? t(homepageCard.subTitle) : '&nbsp;'"
     ></div>
   </div>
-  <div
-    class="mx-4 aspect-video rounded-b bg-cover"
-    [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
-  ></div>
+  <ng-container
+    *ngTemplateOutlet="{imageCard, calculatorLogo}[homepageCard?.templateId]"
+  ></ng-container>
+  <ng-template #imageCard>
+    <div
+      class="mx-4 aspect-video rounded-b bg-cover"
+      [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
+    ></div>
+  </ng-template>
+  <ng-template #calculatorLogo>
+    <div class="mx-4 aspect-video rounded-b bg-cover">
+      <ga-calculator-logo></ga-calculator-logo>
+    </div>
+  </ng-template>
 </div>
