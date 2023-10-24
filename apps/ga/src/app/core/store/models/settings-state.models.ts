@@ -4,6 +4,7 @@ export interface SettingsState {
   environment: {
     appDelivery: `${AppDelivery}`;
     partnerVersion?: `${PartnerVersion}`;
+    internalUser?: boolean;
   };
   stepper: {
     currentStep: number;

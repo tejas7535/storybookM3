@@ -34,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   appVersion = packageJson.version;
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
+  public internalUser$ = this.settingsFacade.internalUser$;
 
   constructor(
     private readonly router: Router,
@@ -60,6 +61,18 @@ export class AppComponent implements OnInit, OnDestroy {
       );
       this.assignPartnerVersionTheme(partnerVersion);
     });
+
+    this.internalUser$
+      .pipe(
+        filter((internalUser: boolean) => internalUser !== undefined),
+        take(1)
+      )
+      .subscribe((internalUser) => {
+        this.applicationInsightsService.addCustomPropertyToTelemetryData(
+          'internalUser',
+          internalUser.toString()
+        );
+      });
 
     this.translocoService.events$
       .pipe(

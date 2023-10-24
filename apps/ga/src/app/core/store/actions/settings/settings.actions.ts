@@ -20,3 +20,10 @@ export const setPartnerVersion = createAction(
   '[Settings] Set Partner Version',
   props<{ partnerVersion: `${PartnerVersion}` }>()
 );
+
+export const getInternalUser = createAction('[Settings] Get Internal User');
+
+export const setInternalUser = createAction(
+  '[Settings] Set Internal User',
+  props<{ internalUser: boolean }>()
+);

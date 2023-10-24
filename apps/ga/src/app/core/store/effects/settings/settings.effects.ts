@@ -10,10 +10,13 @@ import {
   detectAppDelivery,
   detectPartnerVersion,
 } from '@ga/core/helpers/settings-helpers';
+import { InternalDetectionService } from '@ga/core/services/internal-detection';
 import {
+  getInternalUser,
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
+  setInternalUser,
   setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
@@ -28,6 +31,7 @@ export class SettingsEffects implements OnInitEffects {
       mergeMap(() => [
         setAppDelivery({ appDelivery: detectAppDelivery() }),
         setPartnerVersion({ partnerVersion: detectPartnerVersion() }),
+        getInternalUser(),
       ])
     );
   });
@@ -59,7 +63,21 @@ export class SettingsEffects implements OnInitEffects {
     );
   });
 
-  constructor(private readonly actions$: Actions) {}
+  getInternalUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getInternalUser),
+      mergeMap(() =>
+        this.internalDetectionService
+          .getInternalHelloEndpoint()
+          .pipe(map((internalUser) => setInternalUser({ internalUser })))
+      )
+    );
+  });
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly internalDetectionService: InternalDetectionService
+  ) {}
 
   ngrxOnInitEffects(): Action {
     return initSettingsEffects();

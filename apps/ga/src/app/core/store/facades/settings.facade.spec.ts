@@ -73,6 +73,19 @@ describe('SettingsFacade', () => {
     );
   });
 
+  describe('internalUser$', () => {
+    it(
+      'should return true',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: true,
+        });
+
+        m.expect(facade.internalUser$).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('dispatch', () => {
     it('should dispatch each action', () => {
       store.dispatch = jest.fn();

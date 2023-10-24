@@ -6,6 +6,8 @@ export const environment: Environment = {
   devToolsEnabled: false,
   baseUrl: 'https://bearinx.schaeffler.com/grease_api/v1.3/greaseservice',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
+  internalDetectionUrl:
+    'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
   tenantId: '035a32aa-f517-4698-a818-e756af53c99e',
   groupId: 'c4c115f9-a73a-4761-a7d1-daa07e6deda1',
   oneTrustId: 'a3bfa9ba-5b96-461d-ab88-62efed434c87',

@@ -80,6 +80,7 @@ describe('AppComponent', () => {
         provide: SettingsFacade,
         useValue: {
           partnerVersion$: of(undefined),
+          internalUser$: of(true),
         },
       },
     ],
@@ -142,6 +143,16 @@ describe('AppComponent', () => {
       expect(component['assignPartnerVersionTheme']).toHaveBeenCalledWith(
         PartnerVersion.Schmeckthal
       );
+    });
+  });
+
+  describe('internalUser', () => {
+    it('should set the internaluser value in the telemetry data', () => {
+      component.ngOnInit();
+
+      expect(
+        applicationInsightsService.addCustomPropertyToTelemetryData
+      ).toHaveBeenCalledWith('internalUser', 'true');
     });
   });
 

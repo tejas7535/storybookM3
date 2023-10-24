@@ -4,6 +4,7 @@ import {
   BEARING_SELECTION_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
   EMBEDDED_FINISHED,
+  INTERNAL_USER_MOCK,
   INVALID_STEP_MOCK,
   PARTNER_VERSION_MOCK,
   SETTINGS_STATE_MOCK,
@@ -14,6 +15,7 @@ import {
   getAppDelivery,
   getCurrentStep,
   getEnvironment,
+  getInternalUser,
   getPartnerVersion,
   getStepperState,
   getSteps,
@@ -74,6 +76,12 @@ describe('Settings Selector', () => {
   describe('getPartnerVersion', () => {
     it('should return the partner version', () => {
       expect(getPartnerVersion(mockState)).toEqual(PARTNER_VERSION_MOCK);
+    });
+  });
+
+  describe('getInternalUser', () => {
+    it('should return the internal user value', () => {
+      expect(getInternalUser(mockState)).toBe(INTERNAL_USER_MOCK);
     });
   });
 });

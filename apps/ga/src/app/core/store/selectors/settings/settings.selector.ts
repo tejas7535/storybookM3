@@ -30,6 +30,11 @@ export const getAppIsEmbedded = createSelector(
   (environment) => environment.appDelivery === AppDelivery.Embedded
 );
 
+export const getInternalUser = createSelector(
+  getEnvironment,
+  (environment) => environment.internalUser
+);
+
 export const getStepperState = createSelector(
   getSettingsState,
   (state) => state.stepper

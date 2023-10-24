@@ -1,6 +1,7 @@
 import {
   setAppDelivery,
   setCurrentStep,
+  setInternalUser,
   setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { PartnerVersion } from '@ga/shared/models';
@@ -32,5 +33,14 @@ describe('Settings Reducer', () => {
     );
 
     expect(state.environment.partnerVersion).toEqual(partnerVersion);
+  });
+
+  it('should set internalUser', () => {
+    const state = reducer(
+      initialState,
+      setInternalUser({ internalUser: true })
+    );
+
+    expect(state.environment.internalUser).toBe(true);
   });
 });

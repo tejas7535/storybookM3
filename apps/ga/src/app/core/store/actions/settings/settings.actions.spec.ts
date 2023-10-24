@@ -1,9 +1,11 @@
 import { AppDelivery, PartnerVersion } from '@ga/shared/models';
 
 import {
+  getInternalUser,
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
+  setInternalUser,
   setPartnerVersion,
 } from './settings.actions';
 
@@ -50,6 +52,28 @@ describe('Settings Actions', () => {
       expect(action).toEqual({
         partnerVersion,
         type: '[Settings] Set Partner Version',
+      });
+    });
+  });
+
+  describe('Get Internal User', () => {
+    it('getInternalUser', () => {
+      const action = getInternalUser();
+
+      expect(action).toEqual({
+        type: '[Settings] Get Internal User',
+      });
+    });
+  });
+
+  describe('Set Internal User', () => {
+    it('setInternalUser', () => {
+      const internalUser = true;
+      const action = setInternalUser({ internalUser });
+
+      expect(action).toEqual({
+        internalUser,
+        type: '[Settings] Set Internal User',
       });
     });
   });

@@ -1,6 +1,8 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
@@ -9,10 +11,13 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { InternalDetectionService } from '@ga/core/services/internal-detection';
 import {
+  getInternalUser,
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
+  setInternalUser,
   setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { PartnerVersion } from '@ga/shared/models';
@@ -31,6 +36,7 @@ describe('Settings Effects', () => {
   let effects: SettingsEffects;
   let spectator: SpectatorService<SettingsEffects>;
   let router: Router;
+  let internalDetectionService: InternalDetectionService;
 
   const createService = createServiceFactory({
     service: SettingsEffects,
@@ -44,6 +50,12 @@ describe('Settings Effects', () => {
           },
         },
       }),
+      {
+        provide: InternalDetectionService,
+        useValue: {
+          getInternalHelloEndpoint: jest.fn(() => of(true)),
+        },
+      },
     ],
   });
 
@@ -52,6 +64,7 @@ describe('Settings Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(SettingsEffects);
     router = spectator.inject(Router);
+    internalDetectionService = spectator.inject(InternalDetectionService);
 
     router.navigate = jest.fn();
   });
@@ -65,12 +78,14 @@ describe('Settings Effects', () => {
         const resultPartnerVersion = setPartnerVersion({
           partnerVersion: PartnerVersion.Schmeckthal,
         });
+        const resultGetInternalUser = getInternalUser();
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected$ = m.cold('-(bc)', {
+        const expected$ = m.cold('-(bcd)', {
           b: resultAppDelivery,
           c: resultPartnerVersion,
+          d: resultGetInternalUser,
         });
 
         m.expect(effects.initEffects$).toBeObservable(expected$);
@@ -115,6 +130,45 @@ describe('Settings Effects', () => {
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('getInternalUser$', () => {
+    it(
+      'should return setInternalUser with true',
+      marbles((m) => {
+        action = getInternalUser();
+
+        actions$ = m.hot('-a', {
+          a: action,
+        });
+
+        const result = setInternalUser({ internalUser: true });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.getInternalUser$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should return setInternalUser with false',
+      marbles((m) => {
+        internalDetectionService.getInternalHelloEndpoint = jest.fn(() =>
+          of(false)
+        );
+        action = getInternalUser();
+
+        actions$ = m.hot('-a', {
+          a: action,
+        });
+
+        const result = setInternalUser({ internalUser: false });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.getInternalUser$).toBeObservable(expected);
         m.flush();
       })
     );
