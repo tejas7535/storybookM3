@@ -57,6 +57,9 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.extendedDownloadEnabled =
       this.dialogData?.extendedDownloadEnabled ?? true;
+    this.exportExcelOption = this.extendedDownloadEnabled
+      ? ExportExcel.DETAILED_DOWNLOAD
+      : ExportExcel.BASIC_DOWNLOAD;
 
     this.transactionsLoading$ = this.store.select(
       getExtendedComparableLinkedTransactionsLoading
@@ -93,10 +96,7 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
   }
 
   fetchTransactions(): void {
-    if (
-      !this.extendedDownloadEnabled ||
-      this.exportExcelOption === ExportExcel.BASIC_DOWNLOAD
-    ) {
+    if (this.exportExcelOption === ExportExcel.BASIC_DOWNLOAD) {
       this.closeDialog();
 
       return;

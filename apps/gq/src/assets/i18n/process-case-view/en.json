@@ -277,8 +277,8 @@
   "exportExcelModal": {
     "title": "Choose your download format",
     "titleBasic": "Download Excel File",
-    "onlyBasicLine1": "Do you want to this Case as a Excel File?",
-    "onlyBasicLine2": "It contains te Summary Page and the Quote Items.",
+    "onlyBasicLine1": "Do you want to download this Case as a Excel File?",
+    "onlyBasicLine2": "It contains the Summary Page and the Quote Items.",
     "chooseColumn": {
       "title": "Choose your download",
       "basicDownload": "Basic Download",

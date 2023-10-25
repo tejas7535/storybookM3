@@ -62,7 +62,7 @@ describe('ExportExcelModalComponent', () => {
       {
         provide: MAT_DIALOG_DATA,
         useValue: {
-          onlyBasicDownload: false,
+          extendedDownloadEnabled: true,
         },
       },
       {
@@ -123,14 +123,6 @@ describe('ExportExcelModalComponent', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
       expect(component.closeDialog).toHaveBeenCalled();
     });
-
-    test('does not dispatch loadExtendedComparableLinkedTransaction when !extendedDownloadEnabled', () => {
-      component.extendedDownloadEnabled = false;
-      component.fetchTransactions();
-
-      expect(store.dispatch).not.toHaveBeenCalled();
-      expect(component.closeDialog).toHaveBeenCalled();
-    });
   });
 
   describe('addSubscription', () => {
@@ -152,6 +144,13 @@ describe('ExportExcelModalComponent', () => {
       component.ngOnInit();
 
       expect(component.addSubscription).toHaveBeenCalled();
+    });
+    test('Should set to BASIC_DOWNLOAD when extendedDownLoadEnabled is false', () => {
+      component['dialogData'] = { extendedDownloadEnabled: false } as any;
+
+      component.ngOnInit();
+
+      expect(component.exportExcelOption).toEqual(ExportExcel.BASIC_DOWNLOAD);
     });
   });
 
