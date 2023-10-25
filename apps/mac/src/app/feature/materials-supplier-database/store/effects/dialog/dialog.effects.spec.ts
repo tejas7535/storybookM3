@@ -44,6 +44,9 @@ import {
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
+  fetchDataOwners,
+  fetchDataOwnersFailure,
+  fetchDataOwnersSuccess,
   fetchEditMaterialNameData,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
@@ -94,6 +97,7 @@ import {
   postMaterialStandard,
   resetDialogOptions,
   resetMaterialRecord,
+  sapMaterialsUploadDialogOpened,
   setMaterialFormValue,
 } from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -195,6 +199,23 @@ describe('Dialog Effects', () => {
         });
 
         m.expect(effects.manufacturersupplierDialogOpened$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+
+    it(
+      'should dispatch the fetch actions for Data Owners',
+      marbles((m) => {
+        action = sapMaterialsUploadDialogOpened();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: fetchDataOwners(),
+        });
+
+        m.expect(effects.sapMaterialUploadDialogOpened$).toBeObservable(
           expected
         );
         m.flush();
@@ -690,6 +711,82 @@ describe('Dialog Effects', () => {
 
         expect(msdDataService.getConditions).toHaveBeenCalledWith(
           MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('fetchDataOwners$', () => {
+    it(
+      'should fetch data owners, add user as a data owner and return success action on success',
+      marbles((m) => {
+        const username = ' test user';
+        msdDataFacade.username$ = of(username);
+        action = fetchDataOwners();
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: string[] = ['owner 1', 'owner 2'];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.getDistinctSapValues = jest.fn(() => response);
+
+        const result = fetchDataOwnersSuccess({
+          dataOwners: [...resultMock, username],
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchDataOwners$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.getDistinctSapValues).toHaveBeenCalledWith(
+          'owner'
+        );
+      })
+    );
+
+    it(
+      'should fetch data owners but not add user as a data owner and return success action on success',
+      marbles((m) => {
+        const username = 'test USER';
+        msdDataFacade.username$ = of(username);
+        action = fetchDataOwners();
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: string[] = ['owner 1', 'owner 2', 'test user'];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.getDistinctSapValues = jest.fn(() => response);
+
+        const result = fetchDataOwnersSuccess({
+          dataOwners: resultMock,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchDataOwners$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.getDistinctSapValues).toHaveBeenCalledWith(
+          'owner'
+        );
+      })
+    );
+
+    it(
+      'should fetch data owners and return failure action on failure',
+      marbles((m) => {
+        action = fetchDataOwners();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.getDistinctSapValues = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchDataOwnersFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchDataOwners$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.getDistinctSapValues).toHaveBeenCalledWith(
+          'owner'
         );
       })
     );

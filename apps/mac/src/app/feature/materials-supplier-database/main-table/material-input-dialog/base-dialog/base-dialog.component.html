@@ -2,7 +2,11 @@
   <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
     <div class="my-auto text-h6 text-high-emphasis">{{ txtTitle }}</div>
     <div class="flex flex-row">
-      <button mat-icon-button (click)="minimizeDialog()">
+      <button
+        *ngIf="minimizeEnabled"
+        mat-icon-button
+        (click)="minimizeDialog()"
+      >
         <mat-icon class="text-medium-emphasis">minimize</mat-icon>
       </button>
       <button mat-icon-button (click)="cancelDialog()">

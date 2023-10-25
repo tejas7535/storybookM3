@@ -1,0 +1,29 @@
+<ng-content></ng-content>
+
+<ng-template
+  #bottomTextTemplate
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.tooltip.maturity'
+  "
+>
+  <div class="max-w-2xl">
+    <ul class="p-0 m-0 pl-6 mb-4">
+      <li>
+        {{ t('primaryData') }}
+        <span class="italic">{{ t('primaryDataText') }}</span>
+      </li>
+      <li>
+        {{ t('secondaryData') }}
+        <span class="italic">{{ t('secondaryDataText') }}</span>
+      </li>
+    </ul>
+    <p>
+      {{ t('bottomText_prefix') }}
+      <a target="_blank" class="text-link" [href]="t('bottomText_link')">
+        {{ t('bottomText_linkText') }}
+      </a>
+      {{ t('bottomText_postfix') }}
+    </p>
+  </div>
+</ng-template>

@@ -60,6 +60,10 @@ export const manufacturerSupplierDialogConfirmed = createAction(
   }>()
 );
 
+export const sapMaterialsUploadDialogOpened = createAction(
+  '[MSD - Dialog] SAP Materials Dialog Opened'
+);
+
 export const fetchMaterialStandards = createAction(
   '[MSD - Dialog] Fetch Material Standards'
 );
@@ -249,6 +253,11 @@ export const addCustomSupplierBusinessPartnerId = createAction(
   props<{ supplierBusinessPartnerId: number }>()
 );
 
+export const addCustomDataOwner = createAction(
+  '[MSD - Dialog] Add Custom Data Owner',
+  props<{ dataOwner: string }>()
+);
+
 export const postMaterial = createAction(
   '[MSD - Dialog] Post Material',
   props<{ record: CreateMaterialRecord }>()
@@ -324,6 +333,17 @@ export const fetchEditMaterialSuppliersSuccess = createAction(
 
 export const fetchEditMaterialSuppliersFailure = createAction(
   '[MSD - Dialog] Fetch Edit Material Suppliers Failure'
+);
+
+export const fetchDataOwners = createAction('[MSD - Dialog] Fetch Data Owners');
+
+export const fetchDataOwnersSuccess = createAction(
+  '[MSD - Dialog] Fetch Data Owners Success',
+  props<{ dataOwners: string[] }>()
+);
+
+export const fetchDataOwnersFailure = createAction(
+  '[MSD - Dialog] Fetch Data Owners Failure'
 );
 
 export const editDialogLoadingFailure = createAction(

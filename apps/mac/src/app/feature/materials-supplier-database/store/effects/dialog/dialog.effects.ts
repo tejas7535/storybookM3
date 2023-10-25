@@ -78,10 +78,18 @@ export class DialogEffects {
       switchMap(() => [DialogActions.fetchMaterialStandards()])
     );
   });
+
   public manufacturersupplierDialogOpened$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.manufacturerSupplierDialogOpened),
       switchMap(() => [DialogActions.fetchManufacturerSuppliers()])
+    );
+  });
+
+  public sapMaterialUploadDialogOpened$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.sapMaterialsUploadDialogOpened),
+      switchMap(() => [DialogActions.fetchDataOwners()])
     );
   });
 
@@ -233,6 +241,33 @@ export class DialogEffects {
           catchError(() =>
             // TODO: implement proper error handling
             of(DialogActions.fetchConditionsFailure())
+          )
+        )
+      )
+    );
+  });
+
+  public fetchDataOwners$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchDataOwners),
+      concatLatestFrom(() => this.dataFacade.username$),
+      switchMap(([_action, username]) =>
+        this.msdDataService.getDistinctSapValues('owner').pipe(
+          map((owners: string[]) => {
+            const dataOwners = [...owners];
+            const isUserDataOwner = dataOwners.some(
+              (owner: string) => owner.toLowerCase() === username.toLowerCase()
+            );
+
+            if (!isUserDataOwner) {
+              dataOwners.push(username);
+            }
+
+            return DialogActions.fetchDataOwnersSuccess({ dataOwners });
+          }),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DialogActions.fetchDataOwnersFailure())
           )
         )
       )

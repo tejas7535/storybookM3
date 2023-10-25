@@ -55,6 +55,7 @@ describe('DialogFacade', () => {
                 co2ClassificationsLoading: false,
                 castingModesLoading: false,
                 conditionsLoading: false,
+                dataOwnersLoading: false,
                 ratings: ['rating'],
                 co2Classifications: [
                   {
@@ -94,6 +95,7 @@ describe('DialogFacade', () => {
                     co2Classification: undefined,
                   },
                 ],
+                dataOwners: ['owner 1', 'owner 2'],
               },
               createMaterial: {
                 createMaterialLoading: false,
@@ -499,6 +501,32 @@ describe('DialogFacade', () => {
         m.expect(facade.co2ValuesForSupplierSteelMakingProcess$).toBeObservable(
           expected
         );
+      })
+    );
+  });
+
+  describe('sapMaterialsDataOwners$', () => {
+    it(
+      'should provide data owners',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: [
+            {
+              id: 'owner 1',
+              title: 'owner 1',
+              tooltip: 'owner 1',
+              tooltipDelay: 1500,
+            },
+            {
+              id: 'owner 2',
+              title: 'owner 2',
+              tooltip: 'owner 2',
+              tooltipDelay: 1500,
+            },
+          ],
+        });
+
+        m.expect(facade.sapMaterialsDataOwners$).toBeObservable(expected);
       })
     );
   });

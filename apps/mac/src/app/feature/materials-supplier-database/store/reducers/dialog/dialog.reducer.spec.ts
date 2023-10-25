@@ -1105,6 +1105,57 @@ describe('dialogReducer', () => {
       });
     });
 
+    it('should set data owner if not defined', () => {
+      const dataOwner = 'test owner';
+      const action = DialogActions.addCustomDataOwner({
+        dataOwner,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwners: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          dataOwners: [dataOwner],
+        },
+      });
+    });
+
+    it('should add a custom data owner', () => {
+      const oldDataOwner = 'old data owner';
+      const dataOwner = 'new data owner';
+      const action = DialogActions.addCustomDataOwner({
+        dataOwner,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwners: [oldDataOwner],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          dataOwners: [dataOwner, oldDataOwner],
+        },
+      });
+    });
+
     it('should set the editMaterial', () => {
       const action = DialogActions.openEditDialog({
         row: {} as DataResult,
@@ -1734,6 +1785,82 @@ describe('dialogReducer', () => {
         ...state,
         selectedMaterial: {
           form: {},
+        },
+      });
+    });
+
+    it('should set loading flag for data owners', () => {
+      const action = DialogActions.fetchDataOwners();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwners: ['test owner'],
+            dataOwnersLoading: false,
+            error: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          dataOwners: undefined,
+          dataOwnersLoading: true,
+          error: false,
+        },
+      });
+    });
+
+    it('should set data owners on success', () => {
+      const dataOwners = ['owner 1', 'owner 2'];
+      const action = DialogActions.fetchDataOwnersSuccess({ dataOwners });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwnersLoading: true,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          dataOwners,
+          dataOwnersLoading: false,
+        },
+      });
+    });
+
+    it('should reset data owners on error', () => {
+      const action = DialogActions.fetchDataOwnersFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwnersLoading: true,
+            dataOwners: ['some owner'],
+            error: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          dataOwners: undefined,
+          dataOwnersLoading: undefined,
+          error: true,
         },
       });
     });

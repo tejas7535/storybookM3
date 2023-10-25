@@ -2,6 +2,8 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
+import { getUsername } from '@schaeffler/azure-auth';
+
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult, MaterialFormValue, SteelMaterial } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -427,6 +429,21 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.resumeDialogData$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('username$', () => {
+    it(
+      'should provide username',
+      marbles((m) => {
+        const username = 'tester';
+        store.overrideSelector(getUsername, username);
+        const expected = m.cold('a', {
+          a: username,
+        });
+
+        m.expect(facade.username$).toBeObservable(expected);
       })
     );
   });

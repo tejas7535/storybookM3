@@ -33,6 +33,14 @@ import { PcfMaturityCo2CellRendererComponent } from '../../../pcf-maturity-co2-c
 import { TRANSLATE_VALUE_FORMATTER_FACTORY } from '../../helpers';
 import { HISTORY_COLUMN_DEFINITION } from '../base';
 
+const maturityValueFormatter = (valueFormatterParams: ValueFormatterParams) => {
+  const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY(
+    'materialsSupplierDatabase.dataSource'
+  );
+
+  return `${formatter(valueFormatterParams)} (${valueFormatterParams.value})`;
+};
+
 export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   HISTORY_COLUMN_DEFINITION,
   {
@@ -152,14 +160,10 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agSetColumnFilter',
     filterParams: {
       ...DISTINCT_FILTER_PARAMS,
-      valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
-        'materialsSupplierDatabase.dataSource'
-      ),
+      valueFormatter: maturityValueFormatter,
       suppressSorting: true,
     },
-    valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
-      'materialsSupplierDatabase.dataSource'
-    ),
+    valueFormatter: maturityValueFormatter,
   },
   {
     field: OWNER,

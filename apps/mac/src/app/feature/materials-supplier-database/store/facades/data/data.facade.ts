@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
 
-import { hasIdTokenRole } from '@schaeffler/azure-auth';
+import { getUsername, hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import {
   getAgGridColumns,
@@ -59,6 +59,8 @@ export class DataFacade {
   hasMinimizedDialog$ = this.store.select(getHasMinimizedDialog);
   resumeDialogData$ = this.store.select(getResumeDialogData);
   isBulkEditAllowed$ = this.store.select(isBulkEditAllowed);
+
+  username$ = this.store.select(getUsername);
 
   constructor(private readonly store: Store) {}
 

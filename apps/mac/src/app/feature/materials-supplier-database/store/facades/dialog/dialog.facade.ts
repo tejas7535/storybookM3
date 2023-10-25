@@ -25,6 +25,7 @@ import {
   getMaterialStandardDocumentStringOptionsMerged,
   getProductCategories,
   getResumeDialogData,
+  getSapMaterialsDataOwners,
   getSteelMakingProcessesInUse,
   getStringOptions,
   getSupplierBusinessPartnerIdsStringOptionsMerged,
@@ -90,6 +91,10 @@ export class DialogFacade {
   steelMakingProcessesInUse$ = this.store.select(getSteelMakingProcessesInUse);
   co2ValuesForSupplierSteelMakingProcess$ =
     this.store.select(getHighestCo2Values);
+
+  sapMaterialsDataOwners$ = this.store.select(
+    getStringOptions(getSapMaterialsDataOwners)
+  );
 
   editMaterialInformation$ = this.store.pipe(getEditMaterialDataLoaded);
   editMaterial$ = this.store.select(getEditMaterialData);

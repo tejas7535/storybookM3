@@ -1,17 +1,10 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
-import { MsdDialogService } from '../../services';
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn((string) => string),
-}));
 
 describe('PcfMaturityCo2CellRendererComponent', () => {
   let component: PcfMaturityCo2CellRendererComponent;
@@ -20,15 +13,6 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: PcfMaturityCo2CellRendererComponent,
     imports: [provideTranslocoTestingModule({ en })],
-    providers: [
-      {
-        provide: MsdDialogService,
-        useValue: {
-          openDialog: jest.fn(),
-          openInfoDialog: jest.fn(),
-        },
-      },
-    ],
   });
 
   const mockparams = {
@@ -76,23 +60,6 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   describe('getMaturity', () => {
     it('should return set maturity', () => {
       expect(component.getMaturity()).toBe(9);
-    });
-  });
-
-  describe('openMoreInformation', () => {
-    it('should open the dialog', () => {
-      component.openMoreInformation();
-
-      expect(component['dialogService'].openInfoDialog).toHaveBeenCalledWith(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationTitle',
-        undefined,
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImg',
-        undefined,
-        undefined,
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContact',
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContactLink',
-        component.bottomTextTemplate
-      );
     });
   });
 });

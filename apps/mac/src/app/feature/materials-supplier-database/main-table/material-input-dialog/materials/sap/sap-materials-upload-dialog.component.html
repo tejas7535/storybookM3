@@ -4,73 +4,132 @@
     [txtTitle]="t('title')"
     [txtCancel]="t('cancel')"
     [txtConfirm]="t('upload')"
+    [minimizeEnabled]="false"
     [valid]="formGroup.valid"
     (cancel)="close()"
     (accept)="upload()"
   >
     <div class="flex flex-col gap-y-4" [formGroup]="formGroup">
-      <div class="flex flex-row gap-x-6">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('dataOwner') }}</mat-label>
-          <input matInput required formControlName="owner" />
-          <mat-error>{{ t('invalidDataOwnerError') }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('dataDate') }}</mat-label>
-          <input
-            matInput
-            autocomplete="off"
-            [matDatepicker]="dateDatePicker"
-            formControlName="date"
-          />
-          <mat-error>{{ t('invalidDateError') }}</mat-error>
-          <mat-datepicker-toggle matSuffix [for]="dateDatePicker">
-            <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #dateDatePicker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <mat-label> {{ t('dataSource') }} </mat-label>
-      <mat-radio-group
-        matInput
-        class="flex flex-col"
-        formControlName="maturity"
-        *transloco="let tr; read: 'materialsSupplierDatabase.dataSource'"
-      >
-        <mat-radio-button
-          *ngFor="let maturity of possibleMaturity"
-          color="primary"
-          [value]="maturity"
-        >
-          <span> {{ tr(maturity) }} </span>
-        </mat-radio-button>
-      </mat-radio-group>
-      <div>
-        <span>{{ t('template.label') }}</span>
-        <button mat-button color="primary" (click)="downloadDataTemplate()">
-          {{ t('template.button') }}
-        </button>
-      </div>
-      <div class="flex justify-between items-center gap-x-2">
-        <div *ngIf="formGroup.value.file" class="whitespace-nowrap">
-          {{
-            t('selectedFile', {
-              fileName: formGroup.value.file.name
-            })
-          }}
+      <div class="flex gap-x-4">
+        <div class="w-full flex flex-col gap-y-5">
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="dataOwners$ | ngrxPush"
+            [control]="formGroup.get('owner')"
+            [label]="t('dataOwner')"
+            [filterFn]="ownerFilterFnFactory"
+            [resetButton]="true"
+            [showTriggerTooltip]="true"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            addEntry="true"
+            name="owner"
+            (entryAdded)="addNewOwner($event)"
+          >
+            <div matErrorContent *ngIf="formGroup.get('owner').invalid">
+              {{ t('invalidDataOwnerError') }}
+            </div>
+          </schaeffler-select>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('dataDate') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              [matDatepicker]="dateDatePicker"
+              formControlName="date"
+            />
+            <mat-error>{{ t('invalidDateError') }}</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="dateDatePicker">
+              <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #dateDatePicker></mat-datepicker>
+          </mat-form-field>
         </div>
+        <div class="w-full flex flex-col gap-y-1">
+          <div class="ml-2 flex items-center gap-x-2">
+            <span class="text-[12px] text-[#00000099]">{{
+              t('dataSource')
+            }}</span>
+            <mac-maturity-info>
+              <button
+                mat-icon-button
+                class="!w-5 !h-5 !leading-5 !flex !justify-center !items-center"
+              >
+                <mat-icon
+                  class="!w-[18px] !h-[18px] !leading-[18px] !text-[18px] !text-[#00000099]"
+                  >info_outline</mat-icon
+                >
+              </button>
+            </mac-maturity-info>
+          </div>
+          <mat-radio-group
+            matInput
+            class="flex flex-col w-full"
+            formControlName="maturity"
+            *transloco="let tr; read: 'materialsSupplierDatabase.dataSource'"
+          >
+            <mat-radio-button
+              *ngFor="let maturity of possibleMaturity"
+              color="primary"
+              class="w-full"
+              [value]="maturity"
+            >
+              <div class="w-full flex justify-between items-center gap-x-1">
+                <span> {{ tr(maturity) }} </span>
+                <span
+                  class="bg-secondary-900 text-white text-[12px] rounded-[50%] text-center w-6 h-6 leading-4 p-1"
+                >
+                  {{ maturity }}
+                </span>
+              </div>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div
+        macSapMaterialsUploadDragAndDrop
+        [dragAndDropEnabled]="!formGroup.get('file').value"
+        class="w-full h-[57px] px-4 rounded-[5px] border-[1px] flex justify-between items-center"
+        (fileDropped)="setFile($event)"
+      >
+        <ng-container
+          *ngIf="formGroup.get('file').value; else fileChooserLabel"
+        >
+          <mac-sap-materials-upload-status-chip
+            [status]="uploadStatus"
+            [fileName]="formGroup.get('file').value.name"
+            (removed)="setFile(undefined)"
+          ></mac-sap-materials-upload-status-chip>
+        </ng-container>
+        <ng-template #fileChooserLabel>
+          <span class="text-[16px] text-[#00000099] cursor-default">{{
+            t('fileChooser.label')
+          }}</span>
+        </ng-template>
         <button
-          mat-raised-button
+          mat-button
           color="primary"
-          class="w-full"
+          [disabled]="formGroup.get('file').value"
           (click)="openFileChooser()"
         >
-          {{ t('selectFile') }}
+          {{ t('fileChooser.button') }}
         </button>
       </div>
-      <div class="p-2 bg-[#ff0000] text-white font-bold rounded">
-        {{ t('disclaimer') }}
+      <div>
+        <button mat-button color="primary" (click)="downloadDataTemplate()">
+          {{ t('downloadTemplate') }}
+          <mat-icon class="!ml-1">download</mat-icon>
+        </button>
       </div>
+      <div>
+        <mat-checkbox color="primary" formControlName="disclaimerAccepted">
+          <span class="text-[12px] !whitespace-normal">{{
+            t('disclaimer')
+          }}</span>
+        </mat-checkbox>
+      </div>
+      <div></div>
     </div>
   </mac-base-dialog>
 
@@ -79,7 +138,7 @@
     type="file"
     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
     class="hidden"
-    (change)="setFile()"
+    (change)="setFile($event.target.files[0])"
   />
 </ng-container>
 

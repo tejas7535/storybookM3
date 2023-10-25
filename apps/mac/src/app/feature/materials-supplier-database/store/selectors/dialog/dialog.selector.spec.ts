@@ -151,6 +151,7 @@ describe('DialogSelectors', () => {
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
       conditionsLoading: false,
+      dataOwnersLoading: false,
     };
 
     const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
@@ -216,6 +217,12 @@ describe('DialogSelectors', () => {
       },
       true,
     ],
+    [
+      {
+        dataOwnersLoading: true,
+      },
+      true,
+    ],
   ])(
     'should return true if at least one part of the options is loading',
     (replaceOptions, expected) => {
@@ -229,6 +236,7 @@ describe('DialogSelectors', () => {
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
         conditionsLoading: false,
+        dataOwnersLoading: false,
       };
 
       const result = DialogSelectors.getMaterialDialogOptionsLoading.projector({
@@ -1754,5 +1762,14 @@ describe('DialogSelectors', () => {
         m.expect(result).toBeObservable(expected);
       })
     );
+  });
+
+  it('should return data owners', () => {
+    const dataOwners = ['owner 1', 'owner 2'];
+    expect(
+      DialogSelectors.getSapMaterialsDataOwners.projector({
+        dataOwners,
+      } as any)
+    ).toEqual(dataOwners);
   });
 });

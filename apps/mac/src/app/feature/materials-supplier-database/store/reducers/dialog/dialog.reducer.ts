@@ -14,6 +14,7 @@ import {
 // TODO: clean import
 import {
   addCustomCastingDiameter,
+  addCustomDataOwner,
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
@@ -36,6 +37,9 @@ import {
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
+  fetchDataOwners,
+  fetchDataOwnersFailure,
+  fetchDataOwnersSuccess,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
   fetchEditMaterialSuppliersFailure,
@@ -122,6 +126,8 @@ export interface DialogState {
     castingDiameters: string[];
     castingDiametersLoading: boolean;
     customCastingDiameters: string[];
+    dataOwnersLoading: boolean;
+    dataOwners: string[];
     co2Values: {
       co2PerTon: number;
       co2Scope1: number;
@@ -190,6 +196,7 @@ export const dialogReducer = createReducer(
         castingModes: undefined,
         castingDiameters: undefined,
         referenceDocuments: undefined,
+        dataOwners: undefined,
         co2Values: undefined,
         steelMakingProcessesInUse: [],
         error: undefined,
@@ -579,6 +586,41 @@ export const dialogReducer = createReducer(
       },
     })
   ),
+  on(
+    fetchDataOwners,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        dataOwnersLoading: true,
+        dataOwners: undefined,
+        error: false,
+      },
+    })
+  ),
+  on(
+    fetchDataOwnersSuccess,
+    (state, { dataOwners }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        dataOwners,
+        dataOwnersLoading: false,
+      },
+    })
+  ),
+  on(
+    fetchDataOwnersFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        dataOwners: undefined,
+        dataOwnersLoading: undefined,
+        error: true,
+      },
+    })
+  ),
 
   on(
     materialDialogConfirmed,
@@ -779,6 +821,21 @@ export const dialogReducer = createReducer(
       };
     }
   ),
+
+  on(addCustomDataOwner, (state, { dataOwner }): DialogState => {
+    const dataOwners = state.dialogOptions.dataOwners
+      ? [...state.dialogOptions.dataOwners]
+      : [];
+    dataOwners.unshift(dataOwner);
+
+    return {
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        dataOwners,
+      },
+    };
+  }),
 
   on(
     openEditDialog,

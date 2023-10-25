@@ -32,6 +32,7 @@ import { LinkCellRendererComponent } from './link-cell-renderer/link-cell-render
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
+import { MaturityInfoComponent } from './maturity-info/maturity-info.component';
 import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
@@ -78,6 +79,7 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
     MatChipsModule,
     MatTooltipModule,
     OverlayModule,
+    MaturityInfoComponent,
   ],
   providers: [DatePipe, MsdDialogService],
 })

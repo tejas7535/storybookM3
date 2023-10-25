@@ -1,0 +1,15 @@
+::ng-deep mat-radio-button {
+  .mdc-form-field {
+    width: 100%;
+
+    label {
+      width: 100%;
+    }
+  }
+}
+
+::ng-deep mat-checkbox {
+  .mat-checkbox-label {
+    line-height: 16px !important;
+  }
+}

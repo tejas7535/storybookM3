@@ -11,6 +11,7 @@ import {
 
 import {
   addCustomCastingDiameter,
+  addCustomDataOwner,
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
   addCustomReferenceDocument,
@@ -35,6 +36,9 @@ import {
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
+  fetchDataOwners,
+  fetchDataOwnersFailure,
+  fetchDataOwnersSuccess,
   fetchEditMaterialNameData,
   fetchEditMaterialNameDataFailure,
   fetchEditMaterialNameDataSuccess,
@@ -90,6 +94,7 @@ import {
   resetDialogOptions,
   resetMaterialRecord,
   resetSteelMakingProcessInUse,
+  sapMaterialsUploadDialogOpened,
   setMaterialFormValue,
 } from './dialog.actions';
 
@@ -114,6 +119,14 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] ManufacturerSupplier Dialog Opened',
+      });
+    });
+
+    it('sapMaterialsUploadDialogOpened', () => {
+      const action = sapMaterialsUploadDialogOpened();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] SAP Materials Dialog Opened',
       });
     });
   });
@@ -597,6 +610,34 @@ describe('Dialog Actions', () => {
     });
   });
 
+  describe('Fetch Data Owners', () => {
+    it('fetchDataOwners', () => {
+      const action = fetchDataOwners();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Data Owners',
+      });
+    });
+
+    it('fetchDataOwnersSuccess', () => {
+      const dataOwners = ['owner 1', 'owner 2', 'owner 3'];
+      const action = fetchDataOwnersSuccess({ dataOwners });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Data Owners Success',
+        dataOwners,
+      });
+    });
+
+    it('fetchDataOwnersFailure', () => {
+      const action = fetchDataOwnersFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Data Owners Failure',
+      });
+    });
+  });
+
   describe('Add Custom Casting Diameter', () => {
     it('addCustomCastingDiameter', () => {
       const action = addCustomCastingDiameter({ castingDiameter: '200x200' });
@@ -671,6 +712,18 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Add Custom Supplier Business Partner ID',
         supplierBusinessPartnerId: 33,
+      });
+    });
+  });
+
+  describe('Add Custom Data Owner', () => {
+    it('addCustomDataOwner', () => {
+      const dataOwner = 'Tester';
+      const action = addCustomDataOwner({ dataOwner });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom Data Owner',
+        dataOwner,
       });
     });
   });

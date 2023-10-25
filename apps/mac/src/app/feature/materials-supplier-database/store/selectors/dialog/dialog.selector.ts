@@ -122,7 +122,8 @@ export const getMaterialDialogOptionsLoading = createSelector(
     dialogOptions.productionProcessesLoading ||
     dialogOptions.manufacturerSuppliersLoading ||
     dialogOptions.productCategoriesLoading ||
-    dialogOptions.conditionsLoading
+    dialogOptions.conditionsLoading ||
+    dialogOptions.dataOwnersLoading
 );
 
 export const getMaterialDialogOptionsLoadingError = createSelector(
@@ -729,6 +730,11 @@ export const getHighestCo2Values = createSelector(
       otherValues: 0,
     };
   }
+);
+
+export const getSapMaterialsDataOwners = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.dataOwners
 );
 
 export const getDialogError = pipe(

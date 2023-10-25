@@ -355,7 +355,7 @@
   },
   "materialsSupplierDatabase": {
     "addItem": "Add Item",
-    "upload": "Upload",
+    "uploadItem": "Upload Item",
     "all": "All",
     "allClass": "All {{class}}:",
     "allSelected": "All selected",
@@ -460,21 +460,20 @@
         "successDeleteEntity": "Successfully deleted entry from database!"
       },
       "uploadDialog": {
-        "title": "Upload SAP materials",
+        "title": "Upload item",
         "cancel": "Cancel",
         "upload": "Upload",
-        "dataOwner": "Data owner",
+        "dataOwner": "Name of Data Owner",
         "dataDate": "Data version date",
         "invalidDateError": "Please specify a valid date.",
         "invalidDataOwnerError": "Please specify a data owner in the format <last name>, <first name> <department>",
-        "dataSource": "Data source",
-        "template": {
-          "label": "Download the file template",
-          "button": "here"
+        "dataSource": "Data maturity",
+        "fileChooser": {
+          "label": "Choose file or drop file here",
+          "button": "Browse"
         },
-        "selectedFile": "Selected file: {{fileName}}",
-        "selectFile": "Select file",
-        "disclaimer": "Data is not checked for plausibility and that uploading user is responsible for the data."
+        "downloadTemplate": "Download Excel-File template here",
+        "disclaimer": "I am aware that the uploaded data will not be checked for plausibility and that I am responsible for the data."
       },
       "changeHistory": {
         "created": "First created:",
@@ -769,11 +768,11 @@
       "yes": "Yes"
     },
     "dataSource": {
-      "10": "Primary data (verified) (10)",
-      "8": "Primary data (plausibilised) (8)",
-      "7": "Secondary data (internal expertise) (7)",
-      "5": "Secondary data (external databases) (5)",
-      "2": "Secondary data (indirectly derived) (2)"
+      "10": "Primary Data (verified)",
+      "8": "Primary Data (plausible)",
+      "7": "Secondary Data (internal)",
+      "5": "Secondary Data (external)",
+      "2": "Secondary Data (indirect)"
     },
     "materialClass": "Material Class",
     "materialClassValues": {

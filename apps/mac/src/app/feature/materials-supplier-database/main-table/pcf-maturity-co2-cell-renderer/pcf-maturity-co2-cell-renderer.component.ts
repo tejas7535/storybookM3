@@ -1,10 +1,7 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
-
-import { MsdDialogService } from '../../services';
 
 @Component({
   selector: 'mac-pcf-maturity-co2-cell-renderer',
@@ -13,13 +10,8 @@ import { MsdDialogService } from '../../services';
 export class PcfMaturityCo2CellRendererComponent
   implements ICellRendererAngularComp
 {
-  @ViewChild('bottomTextTemplate')
-  bottomTextTemplate: TemplateRef<any>;
-
   public params: ICellRendererParams;
   public hovered = false;
-
-  constructor(protected readonly dialogService: MsdDialogService) {}
 
   public agInit(params: ICellRendererParams): void {
     this.params = params;
@@ -35,26 +27,5 @@ export class PcfMaturityCo2CellRendererComponent
 
   public getMaturity() {
     return this.params.data['maturity'];
-  }
-
-  public openMoreInformation() {
-    this.dialogService.openInfoDialog(
-      translate(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationTitle'
-      ),
-      undefined,
-      translate(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImg'
-      ),
-      undefined,
-      undefined,
-      translate(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContact'
-      ),
-      translate(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContactLink'
-      ),
-      this.bottomTextTemplate
-    );
   }
 }
