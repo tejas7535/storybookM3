@@ -26,7 +26,7 @@ import {
 import {
   getBenchmarkIdValue,
   getCurrentDimensionValue,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../selectors';
@@ -50,7 +50,7 @@ export class FilterEffects {
   benchmarkDimensionSelected$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(benchmarDimensionSelected),
-      concatLatestFrom(() => this.store.select(getSelectedBenchmarkValueShort)),
+      concatLatestFrom(() => this.store.select(getSelectedBenchmarkValue)),
       filter(([_action, dimensionFilter]) => !dimensionFilter),
       mergeMap(() => [clearOverviewBenchmarkData()])
     );

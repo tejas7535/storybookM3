@@ -1,5 +1,7 @@
 export enum FilterDimension {
   ORG_UNIT = 'ORG_UNIT',
+  HR_LOCATION = 'HR_LOCATION',
+  PERSONAL_AREA = 'PERSONAL_AREA',
   REGION = 'REGION',
   SUB_REGION = 'SUB_REGION',
   COUNTRY = 'COUNTRY',

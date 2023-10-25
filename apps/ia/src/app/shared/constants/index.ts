@@ -11,9 +11,11 @@ export const FILTER_DIMENSIONS: {
   level: number;
 }[] = [
   { dimension: FilterDimension.ORG_UNIT, level: 0 },
+  { dimension: FilterDimension.PERSONAL_AREA, level: 0 },
   { dimension: FilterDimension.REGION, level: 0 },
   { dimension: FilterDimension.SUB_REGION, level: 1 },
   { dimension: FilterDimension.COUNTRY, level: 2 },
+  { dimension: FilterDimension.HR_LOCATION, level: 3 },
   { dimension: FilterDimension.BOARD, level: 0 },
   { dimension: FilterDimension.SUB_BOARD, level: 1 },
   { dimension: FilterDimension.FUNCTION, level: 2 },

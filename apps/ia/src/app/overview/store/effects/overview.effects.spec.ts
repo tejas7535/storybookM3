@@ -13,7 +13,7 @@ import {
   getCurrentBenchmarkFilters,
   getCurrentDimensionValue,
   getCurrentFilters,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
 } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -508,7 +508,7 @@ describe('Overview Effects', () => {
         action = loadBenchmarkFluctuationRatesChartDataSuccess({
           data: {} as FluctuationRatesChartData,
         });
-        store.overrideSelector(getSelectedBenchmarkValueShort, value);
+        store.overrideSelector(getSelectedBenchmarkValue, value);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -525,10 +525,7 @@ describe('Overview Effects', () => {
         action = loadBenchmarkFluctuationRatesChartDataSuccess({
           data: {} as FluctuationRatesChartData,
         });
-        store.overrideSelector(
-          getSelectedBenchmarkValueShort,
-          undefined as string
-        );
+        store.overrideSelector(getSelectedBenchmarkValue, undefined as string);
 
         actions$ = m.hot('-a', { a: action });
         const result = clearOverviewBenchmarkData();

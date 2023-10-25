@@ -2,9 +2,9 @@ import { createSelector } from '@ngrx/store';
 
 import {
   getBenchmarkIdValue,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
   getSelectedDimensionIdValue,
-  getSelectedDimensionValueShort,
+  getSelectedDimensionValue,
 } from '../../../core/store/selectors';
 import { createFluctuationRateChartSerie } from '../../../shared/charts/line-chart/line-chart-utils';
 import {
@@ -225,7 +225,7 @@ export const getDimensionFluctuationRatesChart = createSelector(
 
 export const getDimensionFluctuationRatesForChart = createSelector(
   getDimensionFluctuationRatesChart,
-  getSelectedDimensionValueShort,
+  getSelectedDimensionValue,
   (chartData: FluctuationRatesChartData, dimensionName: string) =>
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
@@ -236,7 +236,7 @@ export const getDimensionFluctuationRatesForChart = createSelector(
 
 export const getDimensionUnforcedFluctuationRatesForChart = createSelector(
   getDimensionFluctuationRatesChart,
-  getSelectedDimensionValueShort,
+  getSelectedDimensionValue,
   (chartData: FluctuationRatesChartData, dimensionName: string) =>
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
@@ -252,7 +252,7 @@ export const getBenchmarkFluctuationRatesChart = createSelector(
 
 export const getBenchmarkFluctuationRatesForChart = createSelector(
   getBenchmarkFluctuationRatesChart,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
   (chartData: FluctuationRatesChartData, dimensionName: string) =>
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
@@ -263,7 +263,7 @@ export const getBenchmarkFluctuationRatesForChart = createSelector(
 
 export const getBenchmarkUnforcedFluctuationRatesForChart = createSelector(
   getBenchmarkFluctuationRatesChart,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
   (chartData: FluctuationRatesChartData, dimensionName: string) =>
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,

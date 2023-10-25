@@ -14,6 +14,8 @@ import { ApiVersion, FilterDimension, IdValue, Slice } from '../shared/models';
 export class FilterService {
   readonly FILTER_BASE_PATH = 'filters';
   readonly AUTOCOMPLETE_ORG_UNITS = 'org-units';
+  readonly HR_LOCATIONS = 'hr-locations';
+  readonly PERSONAL_AREAS = 'personal-areas';
   readonly REGIONS = 'regions';
   readonly SUB_REGIONS = 'sub-regions';
   readonly COUNTRIES = 'countries';
@@ -45,6 +47,30 @@ export class FilterService {
         }
       )
       .pipe(map((result) => result.content));
+  }
+
+  getHrLocations(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.HR_LOCATIONS}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getPersonalAreas(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.PERSONAL_AREAS}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 
   getRegions(timeRange: string): Observable<IdValue[]> {
@@ -175,6 +201,12 @@ export class FilterService {
     switch (filterDimension) {
       case FilterDimension.ORG_UNIT:
         return this.getOrgUnits(searchFor, timeRangeId);
+
+      case FilterDimension.HR_LOCATION:
+        return this.getHrLocations(timeRangeId);
+
+      case FilterDimension.PERSONAL_AREA:
+        return this.getPersonalAreas(timeRangeId);
 
       case FilterDimension.REGION:
         return this.getRegions(timeRangeId);

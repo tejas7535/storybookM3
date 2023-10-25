@@ -10,14 +10,15 @@ import {
   getAllSelectedFilters,
   getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
+  getCurrentDimensionValue,
   getCurrentFilters,
   getCurrentRoute,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
   getSelectedDimension,
   getSelectedDimensionDataLoading,
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
-  getSelectedDimensionValueShort,
+  getSelectedDimensionValue,
   getSelectedFilters,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -185,37 +186,164 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getSelectDimensionValueShort', () => {
-    test('should return selected org unit without the medium name', () => {
+  describe('getSelectedDimensionValue', () => {
+    test('should return selected dimension value', () => {
       const idVal = {
         id: 'Schaeffler_IT_1',
         value: 'Schaeffler_IT_1 (Best IT department)',
       };
-      const result = getSelectedDimensionValueShort.projector(idVal);
-      expect(result).toEqual('Schaeffler_IT_1');
+      const result = getSelectedDimensionValue.projector(idVal);
+      expect(result).toEqual('Schaeffler_IT_1 (Best IT department)');
     });
   });
 
-  describe('getSelectedBenchmarkValueShort', () => {
-    test('should return short string of selected dimension', () => {
+  describe('getSelectedBenchmarkValue', () => {
+    test('should return benchmark dimension value', () => {
       const idVal = {
         id: 'Schaeffler',
         value: 'Schaeffler (Best IT department)',
       };
-      expect(getSelectedBenchmarkValueShort.projector(idVal)).toEqual(
-        'Schaeffler'
+      expect(getSelectedBenchmarkValue.projector(idVal)).toEqual(
+        'Schaeffler (Best IT department)'
       );
     });
   });
 
   describe('getBeautifiedFilterValues', () => {
-    test('should return selected filter values', () => {
+    test('should return selected filter values when last 12 months', () => {
       const expectedResult = {
         timeRange: 'translate it',
         value: 'Schaeffler_IT_1',
         filterDimension: 'translate it',
       };
       expect(getBeautifiedFilterValues(fakeState)).toEqual(expectedResult);
+    });
+
+    test('should return selected filter values when month', () => {
+      const expectedResult = {
+        timeRange: 'March 2021',
+        value: 'Schaeffler_IT_1',
+        filterDimension: 'translate it',
+      };
+      const monthFakeState = {
+        ...fakeState,
+        filter: {
+          ...fakeState.filter,
+          selectedTimePeriod: TimePeriod.MONTH,
+          selectedFilters: {
+            ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
+            entities: {
+              [FilterDimension.ORG_UNIT]: {
+                name: FilterDimension.ORG_UNIT,
+                idValue: {
+                  id: 'Schaeffler_IT_1',
+                  value: 'Schaeffler_IT_1',
+                },
+              },
+              [FilterKey.TIME_RANGE]: {
+                name: FilterKey.TIME_RANGE,
+                idValue: {
+                  id: '1615161600|1615161600',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const result = getBeautifiedFilterValues(monthFakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    test('should return selected filter values when year', () => {
+      const expectedResult = {
+        timeRange: '2021',
+        value: 'Schaeffler_IT_1',
+        filterDimension: 'translate it',
+      };
+      const yearFakeState = {
+        ...fakeState,
+        filter: {
+          ...fakeState.filter,
+          selectedTimePeriod: TimePeriod.YEAR,
+          selectedFilters: {
+            ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
+            entities: {
+              [FilterDimension.ORG_UNIT]: {
+                name: FilterDimension.ORG_UNIT,
+                idValue: {
+                  id: 'Schaeffler_IT_1',
+                  value: 'Schaeffler_IT_1',
+                },
+              },
+              [FilterKey.TIME_RANGE]: {
+                name: FilterKey.TIME_RANGE,
+                idValue: {
+                  id: '1615161600|1615161600',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      expect(getBeautifiedFilterValues(yearFakeState)).toEqual(expectedResult);
+    });
+  });
+
+  describe('getCurrentDimensionValue', () => {
+    test('should get short name for org unit', () => {
+      const expectedResult = 'Schaeffler_IT_1';
+      const orgUnitFakeState = {
+        ...fakeState,
+        filter: {
+          ...fakeState.filter,
+          selectedFilters: {
+            ids: [FilterDimension.ORG_UNIT],
+            entities: {
+              [FilterDimension.ORG_UNIT]: {
+                name: FilterDimension.ORG_UNIT,
+                idValue: {
+                  id: 'Schaeffler_IT_1',
+                  value: 'Schaeffler_IT_1 (long text)',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const result = getCurrentDimensionValue(orgUnitFakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    test('should get name for other dimension', () => {
+      const expectedResult = 'Schaeffler_IT_1 (long text)';
+      const orgUnitFakeState = {
+        ...fakeState,
+        filter: {
+          ...fakeState.filter,
+          selectedFilters: {
+            ids: [FilterDimension.BOARD],
+            entities: {
+              [FilterDimension.BOARD]: {
+                name: FilterDimension.BOARD,
+                idValue: {
+                  id: 'Schaeffler_IT_1',
+                  value: 'Schaeffler_IT_1 (long text)',
+                },
+              },
+            },
+          },
+          selectedDimension: FilterDimension.BOARD,
+        },
+      };
+
+      const result = getCurrentDimensionValue(orgUnitFakeState);
+
+      expect(result).toEqual(expectedResult);
     });
   });
 });

@@ -18,7 +18,7 @@ import {
   getCurrentBenchmarkFilters,
   getCurrentDimensionValue,
   getCurrentFilters,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
 } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
@@ -172,7 +172,7 @@ export class OverviewEffects {
         loadBenchmarkFluctuationRatesChartDataSuccess,
         loadBenchmarkFluctuationRatesSuccess
       ),
-      concatLatestFrom(() => this.store.select(getSelectedBenchmarkValueShort)),
+      concatLatestFrom(() => this.store.select(getSelectedBenchmarkValue)),
       filter(([_action, dimensionFilter]) => !dimensionFilter),
       map(() => clearOverviewBenchmarkData())
     )

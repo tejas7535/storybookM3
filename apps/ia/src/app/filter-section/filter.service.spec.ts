@@ -61,6 +61,46 @@ describe('FilterService', () => {
     });
   });
 
+  describe('getHrLocations', () => {
+    test('should get regions', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getHrLocations(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/hr-locations?time_range=${encodeURIComponent(
+          timeRange
+        )}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getPersonalAreas', () => {
+    test('should get regions', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getPersonalAreas(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/personal-areas?time_range=${encodeURIComponent(
+          timeRange
+        )}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
   describe('getRegions', () => {
     test('should get regions', () => {
       const data: IdValue[] = [];

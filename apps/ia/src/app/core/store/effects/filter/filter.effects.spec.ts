@@ -25,7 +25,7 @@ import {
 import {
   getBenchmarkIdValue,
   getCurrentDimensionValue,
-  getSelectedBenchmarkValueShort,
+  getSelectedBenchmarkValue,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../selectors';
@@ -101,10 +101,7 @@ describe('Filter Effects', () => {
     test(
       'should return clearOverviewBenchmarkData when no dimension value selected',
       marbles((m) => {
-        store.overrideSelector(
-          getSelectedBenchmarkValueShort,
-          undefined as string
-        );
+        store.overrideSelector(getSelectedBenchmarkValue, undefined as string);
         action = benchmarkDimensionSelected();
         actions$ = m.hot('-a', { a: action });
 
@@ -120,7 +117,7 @@ describe('Filter Effects', () => {
       'should return nothing when dimension value selected',
       marbles((m) => {
         const value = 'ABC';
-        store.overrideSelector(getSelectedBenchmarkValueShort, value);
+        store.overrideSelector(getSelectedBenchmarkValue, value);
         action = benchmarkDimensionSelected();
         actions$ = m.hot('-a', { a: action });
 

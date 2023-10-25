@@ -6,6 +6,8 @@
       "hint": "Select a dimension",
       "availableDimensions": {
         "ORG_UNIT": "Organizational Unit",
+        "HR_LOCATION": "HR Location",
+        "PERSONAL_AREA": "Personal Area",
         "REGION": "Region",
         "SUB_REGION": "Sub Region",
         "COUNTRY": "Country",

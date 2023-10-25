@@ -184,7 +184,9 @@ export const getCurrentDimensionValue = createSelector(
       (filter) => filter.name === selectedDimension
     );
 
-    return selectedDimensionFilter?.idValue.value.replace(/\s+\(.*?\)$/g, '');
+    return selectedDimension === FilterDimension.ORG_UNIT
+      ? selectedDimensionFilter?.idValue.value.replace(/\s+\(.*?\)$/g, '')
+      : selectedDimensionFilter?.idValue.value;
   }
 );
 
@@ -202,14 +204,14 @@ export const getBenchmarkIdValue = createSelector(
     filters.find((filter) => filter.name === benchmarkDimension)?.idValue
 );
 
-export const getSelectedDimensionValueShort = createSelector(
+export const getSelectedDimensionValue = createSelector(
   getSelectedDimensionIdValue,
-  (val: IdValue) => val?.value?.split('(')[0].trim()
+  (val: IdValue) => val?.value
 );
 
-export const getSelectedBenchmarkValueShort = createSelector(
+export const getSelectedBenchmarkValue = createSelector(
   getBenchmarkIdValue,
-  (val: IdValue) => val?.value?.split('(')[0].trim()
+  (val: IdValue) => val?.value
 );
 
 export const getSelectedTimeRange = createSelector(
