@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [0.2.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.4...ea-v0.2.5) (2023-10-26)
+
+
+### Bug Fixes
+
+* **ea:** collection of quick fixes for engineering app ([#5733](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5733)) ([a94aa80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a94aa80fcc789f0217a1922b5b2e550620c0c3e7))
+
 ## [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.3...ea-v0.2.4) (2023-10-19)
 
 
