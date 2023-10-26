@@ -132,7 +132,7 @@
     "lubricationSubtitle": "黏度比（kappa）",
     "emissions": "CO₂e 排放",
     "emissionsTooltip": "CO₂ 的等效物（CO₂e）是一種用於標準化各種溫室氣體的氣候效應的單位。因此，可以比較不同溫室氣體排放的不同混合物。",
-    "overrollingFrequency": "滾動頻率",
+    "overrollingFrequency": "超过滚动频率",
     "overrollingFrequencySubtitle": "內圈上的頻率（BPFI）",
     "frictionalPowerloss": "摩擦功率損失",
     "frictionalPowerlossSubtitle": "總摩擦力矩（MR）",
@@ -222,7 +222,7 @@
       "lubrication": "潤滑參數",
       "frictionalPowerloss": "摩擦功率損失",
       "co2": "生產的 CO₂e 排放量",
-      "overrollingFrequency": "超過滾動頻率"
+      "overrollingFrequency": "超过滚动频率"
     },
     "basicFrequency": "基礎頻率",
     "saveAsPDF": "儲存為 pdf"

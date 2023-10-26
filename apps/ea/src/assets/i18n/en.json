@@ -131,7 +131,7 @@
     "lubricationSubtitle": "Viscosity ratio (kappa)",
     "emissions": "CO₂e emitted",
     "emissionsTooltip": "A CO₂ equivalent (CO₂e) is a unit to standardize the climate effects of various greenhouse gases. Thus, different mixtures of greenhouse gases emissions can be compared.",
-    "overrollingFrequency": "Overrolling frequency",
+    "overrollingFrequency": "Overrolling frequencies",
     "overrollingFrequencySubtitle": "Frequency on inner ring (BPFI)",
     "frictionalPowerloss": "Frictional power loss",
     "frictionalPowerlossSubtitle": "Total Frictional Torque (MR)",

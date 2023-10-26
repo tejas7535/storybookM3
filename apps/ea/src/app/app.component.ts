@@ -71,12 +71,16 @@ export class AppComponent
   public legacyAppUrl$: Observable<SafeResourceUrl> = combineLatest([
     this.translocoService.langChanges$,
     this.store.select(getBearingId),
+    this.localeService.localeChanges$,
   ]).pipe(
-    map(([language, bearingId]) =>
-      this.sanitizer.bypassSecurityTrustResourceUrl(
-        `${environment.oldUIFallbackUrl}${bearingId}/${language}/comma/metric/true`
-      )
-    )
+    map(([language, bearingId, localeChanges]) => {
+      const localization = getLocaleForLanguage(localeChanges);
+      const decimalSign = localization.id === 'de-DE' ? 'comma' : 'dot';
+
+      return this.sanitizer.bypassSecurityTrustResourceUrl(
+        `${environment.oldUIFallbackUrl}${bearingId}/${language}/${decimalSign}/metric/true`
+      );
+    })
   );
 
   public containerScrollEvent$ = new BehaviorSubject<Event>({} as Event);
@@ -147,7 +151,6 @@ export class AppComponent
 
     if (changes.standalone) {
       const isStandaloneVersion = changes.standalone.currentValue === 'true';
-
       if (!isStandaloneVersion) {
         this.localeService.setLocale(getLocaleForLanguage(this.language).id);
       }

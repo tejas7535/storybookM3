@@ -216,8 +216,32 @@ export const isOverrolingFrequenciesAvailable = createSelector(
 export const getResultInput = createSelector(
   catalogCalculationResult,
   isCatalogCalculationResultAvailable,
-  (catalog, isAvailable): CalculationResultReportInput[] =>
-    isAvailable ? catalog?.reportInputSuborinates.inputSubordinates : undefined
+  (catalog, isAvailable): CalculationResultReportInput[] => {
+    // This is a fix to hide bearing clearance group since it does not actually affect the calculation but could lead to confusion
+    // among users. The fix should be the responsibility of the backend, but due to this response being part of the bearinx calculation core
+    // fixing this takes a bit longer. This frontend fix should be removed once the proper backend fix is available
+    const filteredDesignation = new Set(['Clearance group', 'Lagerluftklasse']);
+
+    if (!isAvailable) {
+      return undefined;
+    }
+
+    const filteredInputValues =
+      catalog?.reportInputSuborinates.inputSubordinates.map((item) => {
+        if (!item.subItems || item.subItems.length === 0) {
+          return item;
+        }
+
+        const returnItem = { ...item };
+        returnItem.subItems = item.subItems.filter(
+          (subitem) => !filteredDesignation.has(subitem.designation)
+        );
+
+        return returnItem;
+      });
+
+    return filteredInputValues;
+  }
 );
 
 export const getReportMessages = createSelector(

@@ -170,10 +170,10 @@
     },
     "frictionalPowerloss": {
       "title": "Reibungsverluste",
-      "totalFrictionalTorque": "Gesamtes Reibdrehmoment",
-      "totalFrictionalPowerLoss": "Gesamte Reibungsleistung",
-      "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibdrehmoment",
-      "loadDependentFrictionalTorque": "Lastabhängiges Reibdrehmoment",
+      "totalFrictionalTorque": "Gesamtes Reibmoment",
+      "totalFrictionalPowerLoss": "Gesamte Reibleistung",
+      "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibmoment",
+      "loadDependentFrictionalTorque": "Lastabhängiges Reibmoment",
       "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl"
     },
     "calculationDisclaimer": {
@@ -181,7 +181,7 @@
       "disclaimerFile": "/disclaimers/calculation-de.html"
     },
     "ratingLife": {
-      "title": "Bemessungslebensdauer",
+      "title": "Lebensdauer",
       "lh10": "Gesamtlebensdauer in Stunden (nominell)",
       "lh_nm_unavailable": "Bitte fügen Sie „Schmierparameter“ zu Ihrer Berechnung hinzu, um diesen Wert anzuzeigen.",
       "lh_nm": "modifizierte Lebensdauer in Stunden",
@@ -201,7 +201,7 @@
         "BPFO": "Am Außenring",
         "BPFI": "Am Innenring",
         "BSF": "Am Wälzkörper",
-        "RPFB": "Ringpassfrequenz am Wälzkörper",
+        "RPFB": "Ringkontaktfrequenz am Wälzkörper",
         "FTF": "Drehzahl des Wälzkörpersatzes"
       }
     }
@@ -221,7 +221,7 @@
       "lubrication": "Schmierparameter",
       "frictionalPowerloss": "Reibungsverluste",
       "co2": "CO₂e-Emissionen für die Produktion",
-      "overrollingFrequency": "Überrollfrequenz"
+      "overrollingFrequency": "Überrollfrequenzen"
     },
     "basicFrequency": "Grundfrequenzen",
     "saveAsPDF": "Als pdf speichern"

@@ -67,6 +67,4 @@ export const AVAILABLE_LOCALES: LangDefinition[] = [
 export const DEFAULT_LOCALE: LangDefinition = ENGLISH_LOCALE;
 
 export const getLocaleForLanguage = (code: string): LangDefinition =>
-  ['de', 'fr', 'es', 'it', 'zh', 'zh_TW'].includes(code)
-    ? GERMAN_LOCALE
-    : ENGLISH_LOCALE;
+  ['en', 'en-US'].includes(code) ? ENGLISH_LOCALE : GERMAN_LOCALE;

@@ -10,6 +10,7 @@
       inputmode="decimal"
       [formControl]="control"
       [placeholder]="placeholder"
+      [step]="stepSize"
     />
     <div *ngIf="unit" class="relative" matSuffix>
       {{ unit }}

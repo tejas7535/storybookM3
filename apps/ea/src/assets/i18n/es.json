@@ -131,7 +131,7 @@
     "lubricationSubtitle": "Relación de viscosidad (kappa)",
     "emissions": "CO₂e emitidos",
     "emissionsTooltip": "Un equivalente de CO₂ (CO₂e) es una unidad para estandarizar los efectos del cambio climático de varios gases de efecto invernadero. De esta forma, pueden compararse emisiones de diferentes mezclas de gases de efecto invernadero.",
-    "overrollingFrequency": "Frecuencia de rodadura",
+    "overrollingFrequency": "Frecuencias de paso",
     "overrollingFrequencySubtitle": "Frecuencia en el anillo interior (BPFI)",
     "frictionalPowerloss": "Pérdida de energía por fricción",
     "frictionalPowerlossSubtitle": "Par de fricción total (MR)",

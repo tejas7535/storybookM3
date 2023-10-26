@@ -55,6 +55,8 @@ export class InputNumberComponent implements OnInit, OnDestroy {
   @Input() public onlyPositive? = false;
   @Input() public tooltip?: string;
   @Input() public customErrors?: { name: string; message?: string }[];
+  @Input() public stepSize?: number;
+
   destroy$ = new Subject<void>();
 
   constructor(@Self() @Optional() public ngControl: NgControl) {
