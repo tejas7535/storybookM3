@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 
 import { getPLsAndSeries } from '@gq/core/store/actions';

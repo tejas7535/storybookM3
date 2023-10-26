@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
 
 import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
@@ -22,7 +21,6 @@ import { ImportCaseComponent } from './import-case.component';
     MatButtonModule,
     LoadingSpinnerModule,
     DialogHeaderModule,
-    MatCheckboxModule,
   ],
   exports: [ImportCaseComponent],
 })
