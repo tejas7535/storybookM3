@@ -221,7 +221,7 @@
       "lubrication": "Lubrication parameter",
       "frictionalPowerloss": "Frictional power loss",
       "co2": "CO₂e emissions for production",
-      "overrollingFrequency": "Overrolling frequency"
+      "overrollingFrequency": "Overrolling frequencies"
     },
     "basicFrequency": "Basic Frequencies",
     "saveAsPDF": "Save as pdf"
