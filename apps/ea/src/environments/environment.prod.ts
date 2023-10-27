@@ -8,7 +8,7 @@ export const environment: Environment = {
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api', // TODO change to prod url once both bearinx systems are live and the app is about to be released
   co2UpstreamApiBaseUrl: 'https://co2-api.dp.schaeffler/api',
   calculationModuleInfoApiBaseUrl:
-    'https://bearinx-d.schaeffler.com/moduleinfo/api', // TODOD change to prod url once both bearinx systems are live and the app is about to be released
+    'https://bearinx.schaeffler.com/moduleinfo/api',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   oldUIFallbackUrl: 'https://bearinx.schaeffler.com/catalogue/app/loadcases/',
   tenantId: '035a32aa-f517-4698-a818-e756af53c99e',

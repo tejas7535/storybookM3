@@ -92,14 +92,24 @@ export class ProductSelectionEffects {
         return this.calculationModuleInfoService
           .getCalculationInfo(bearingDesignation)
           .pipe(
-            catchError((_error: HttpErrorResponse) =>
-              of(
+            catchError((_error: HttpErrorResponse) => {
+              if (_error.status === 404) {
+                // workaround for inconsistencies with PIM
+                // based on the assumption that all scenarios where a possibly legit 404 error
+                // is caught by medias before running into issues in the app
+                // NOTE: might break for standalone
+                return of({
+                  catalogueCalculation: true,
+                } as ModuleCalculationModuleInfoResult);
+              }
+
+              return of(
                 {} as Pick<
                   ModuleCalculationModuleInfoResult,
                   'catalogueCalculation' | 'frictionCalculation'
                 >
-              )
-            ),
+              );
+            }),
             concatLatestFrom(() => [
               this.calculationParametersFacade.getCalculationTypes$,
             ]),
