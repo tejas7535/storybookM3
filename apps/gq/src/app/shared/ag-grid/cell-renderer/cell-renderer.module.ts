@@ -35,6 +35,7 @@ import { QuotationStatusCellComponent } from './quotation-status-cell/quotation-
 import { ReferenceMaterialGroupCellComponent } from './reference-material-group-cell/reference-material-group-cell.component';
 import { SapPriceCellComponent } from './sap-price-cell/sap-price-cell.component';
 import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';
+import { ShowMoreRowsComponent } from './show-more-rows/show-more-rows.component';
 @NgModule({
   declarations: [
     ProcessCaseActionCellComponent,
@@ -54,6 +55,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     FreeStockCellComponent,
     SapPriceCellComponent,
     ReferenceMaterialGroupCellComponent,
+    ShowMoreRowsComponent,
   ],
   imports: [
     CommonModule,
@@ -82,6 +84,7 @@ import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-c
     EditCommentComponent,
     FreeStockCellComponent,
     ReferenceMaterialGroupCellComponent,
+    ShowMoreRowsComponent,
   ],
 })
 export class CellRendererModule {}

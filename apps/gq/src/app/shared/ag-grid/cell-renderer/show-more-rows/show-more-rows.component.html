@@ -1,0 +1,16 @@
+<div
+  *transloco="
+    let t;
+    read: 'fPricing.pricingAssistantModal.referencePricingTable'
+  "
+  class="flex w-full h-full items-center justify-end p-4"
+>
+  <button (click)="clickShowMoreRows($event)" class="gap-2 relative">
+    <div class="flex items-center gap-2">
+      <span class="text-link">{{
+        t('showMoreRows', { amount: amountToAdd })
+      }}</span>
+      <mat-icon class="text-medium-emphasis">keyboard_arrow_down</mat-icon>
+    </div>
+  </button>
+</div>

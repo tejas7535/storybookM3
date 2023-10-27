@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 
 import { ReferenceDataToShow } from '../models/reference-data-to-show.enum';
 
@@ -16,7 +16,7 @@ export class PricingTabsWrapperComponent implements OnInit {
   @Input() finalPrice: number;
   @Input() currency: string;
 
-  @Input() referencePriceRowData: ComparableLinkedTransaction[];
+  @Input() referencePriceRowData: ComparableMaterialsRowData[];
 
   @Output() comparedMaterialClicked = new EventEmitter<string>();
 

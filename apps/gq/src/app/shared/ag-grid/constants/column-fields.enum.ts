@@ -79,6 +79,7 @@ export enum MaterialColumnFields {
 }
 
 export enum ReferencePricingColumnFields {
+  IS_SHOW_MORE_ROW = 'isShowMoreRow',
   PARENT_MATERIAL_NUMBER = 'parentMaterialNumber',
   PARENT_MATERIAL_DESCRIPTION = 'parentMaterialDescription',
   CUSTOMER_NAME = 'customerName',

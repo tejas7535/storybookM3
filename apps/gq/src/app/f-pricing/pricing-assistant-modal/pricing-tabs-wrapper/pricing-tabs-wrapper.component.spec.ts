@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -36,8 +36,8 @@ describe('PricingTabsWrapperComponent', () => {
 
     test('should set referenceDataToShow to referencePricingTable', () => {
       component.referencePriceRowData = [
-        {} as ComparableLinkedTransaction,
-      ] as ComparableLinkedTransaction[];
+        {} as ComparableMaterialsRowData,
+      ] as ComparableMaterialsRowData[];
       component.ngOnInit();
       expect(component.referenceDataVisible).toEqual(
         ReferenceDataToShow.referencePricingTable

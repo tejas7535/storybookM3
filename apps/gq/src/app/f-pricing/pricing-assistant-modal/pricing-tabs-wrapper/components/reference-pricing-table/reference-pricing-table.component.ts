@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
+import { groupBy } from '@gq/shared/utils/misc.utils';
 import {
   ColumnState,
   GridOptions,
@@ -20,17 +21,28 @@ import { COMPONENTS } from './config/components';
   templateUrl: './reference-pricing-table.component.html',
 })
 export class ReferencePricingTableComponent implements OnInit {
-  @Input() rowData: ComparableLinkedTransaction[];
+  @Input() inputRowData: ComparableMaterialsRowData[];
   @Output() comparedMaterialClicked = new EventEmitter<string>();
 
   localeText$: Observable<AgGridLocale>;
   columnDefs = this.columnDefService.COLUMN_DEFS;
   components = COMPONENTS;
-  gridOptions: GridOptions = {
-    context: { componentParent: this },
-  };
+  gridOptions: GridOptions;
+
+  comparableMaterialsByMaterialDescription: Map<
+    string,
+    ComparableMaterialsRowData[]
+  > = new Map<string, ComparableMaterialsRowData[]>();
+
+  visibleRowData: ComparableMaterialsRowData[] = [];
+
+  private readonly rowsToDisplayByMaterial: Map<string, number> = new Map<
+    string,
+    number
+  >();
 
   private readonly TABLE_KEY = 'reference-pricing-table';
+
   constructor(
     private readonly localizationService: LocalizationService,
     private readonly columnDefService: ColumnDefinitionService,
@@ -38,8 +50,14 @@ export class ReferencePricingTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.gridOptions = {
+      ...this.columnDefService.GRID_OPTIONS,
+      context: { componentParent: this },
+    };
     this.localeText$ = this.localizationService.locale$;
     this.agGridStateService.init(this.TABLE_KEY);
+
+    this.setInitialRowData();
   }
 
   onGridReady(event: GridReadyEvent): void {
@@ -48,15 +66,114 @@ export class ReferencePricingTableComponent implements OnInit {
     if (state) {
       event.columnApi.applyColumnState({ state, applyOrder: true });
     }
+    this.gridOptions.api = event.api;
+    this.gridOptions.api.setRowData(this.visibleRowData);
   }
 
   onColumnChange(event: SortChangedEvent): void {
     const columnState: ColumnState[] = event.columnApi.getColumnState();
-
     this.agGridStateService.setColumnStateForCurrentView(columnState);
   }
 
   comparableMaterialClicked(value: string): void {
     this.comparedMaterialClicked.emit(value);
+  }
+
+  /**
+   * show more rows of a material
+   * fired when 'show more' button is clicked inside the full width row
+   */
+  showMoreRowsClicked(material: string): void {
+    this.addRowsOfMaterial(material);
+  }
+
+  // handle the logic to not show all rows of a group at once
+  private setInitialRowData(): void {
+    // for not rerendering the grid each time data is added, we need to have a unique identifier
+    // the optional showMoreRows also need an unique identifier, initially it's undefined
+    // the identifier is used for the getRowId() function of ColumnDefinitionService.gridOptions to identify the row
+
+    // get the max number of all identifier from the input data and add 1
+    // the new identifier value will be set to the showMoreRow and than incremented
+    const identifiers = this.inputRowData?.map((row) => row.identifier);
+    let maxIdentifier = Math.max(...identifiers) + 1;
+    this.comparableMaterialsByMaterialDescription = groupBy(
+      this.inputRowData,
+      (row) => row.parentMaterialDescription
+    );
+
+    this.comparableMaterialsByMaterialDescription.forEach((listOfMats, key) => {
+      this.rowsToDisplayByMaterial.set(key, 0);
+      this.addRowsOfMaterial(key);
+
+      if (
+        listOfMats.length >
+        this.columnDefService.INITIAL_NUMBER_OF_DISPLAYED_ROWS
+      ) {
+        // eslint-disable-next-line no-plusplus
+        this.addShowMoreRow(key, maxIdentifier++);
+      }
+    });
+  }
+
+  private addShowMoreRow(
+    parentMaterialDescription: string,
+    identifier: number
+  ): void {
+    this.visibleRowData.push({
+      identifier,
+      parentMaterialDescription,
+      isShowMoreRow: true,
+    } as ComparableMaterialsRowData);
+  }
+
+  private addRowsOfMaterial(material: string): void {
+    // when sliceStart is undefined, everything addable has been added
+    const sliceStart = this.rowsToDisplayByMaterial.get(material);
+    if (sliceStart === undefined) {
+      return;
+    }
+
+    const sliceEnd =
+      sliceStart + this.columnDefService.ROWS_TO_ADD_ON_SHOW_MORE;
+
+    const rowsToAdd = this.comparableMaterialsByMaterialDescription
+      .get(material)
+      .slice(sliceStart, sliceEnd);
+    // when rows to add is empty Array, everything addable has been added
+    // set the value to undefined to not add more rows
+    if (rowsToAdd.length === 0) {
+      this.rowsToDisplayByMaterial.set(material, undefined);
+
+      return;
+    }
+
+    this.visibleRowData.push(...rowsToAdd);
+    this.setRowsOfMaterialsToDisplay(material, sliceEnd);
+    this.gridOptions.api?.setRowData(this.visibleRowData);
+  }
+
+  private setRowsOfMaterialsToDisplay(
+    material: string,
+    displayAmount: number
+  ): void {
+    this.rowsToDisplayByMaterial.set(material, displayAmount);
+
+    if (
+      displayAmount >=
+      this.comparableMaterialsByMaterialDescription.get(material).length
+    ) {
+      this.rowsToDisplayByMaterial.set(material, undefined);
+      this.removeShowMoreRow(material);
+    }
+  }
+  // removes the helper row to display the 'show more' buttons
+  private removeShowMoreRow(material: string): void {
+    const indexOfShowMoreRow = this.visibleRowData.findIndex(
+      (row) => row.isShowMoreRow && row.parentMaterialDescription === material
+    );
+    if (indexOfShowMoreRow > -1) {
+      this.visibleRowData.splice(indexOfShowMoreRow, 1);
+    }
   }
 }

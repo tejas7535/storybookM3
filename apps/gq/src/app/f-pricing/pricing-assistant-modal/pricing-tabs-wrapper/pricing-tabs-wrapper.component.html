@@ -19,7 +19,7 @@
             *ngSwitchCase="referenceDataToShowType.referencePricingTable"
           >
             <gq-reference-pricing-table
-              [rowData]="referencePriceRowData"
+              [inputRowData]="referencePriceRowData"
               (comparedMaterialClicked)="onComparedMaterialClicked($event)"
             ></gq-reference-pricing-table>
           </ng-container>

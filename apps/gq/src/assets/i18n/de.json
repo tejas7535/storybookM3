@@ -586,7 +586,8 @@
         "materialDescription": "Beschreibung",
         "quantity": "Menge",
         "price": "Preis",
-        "year": "Jahr"
+        "year": "Jahr",
+        "showMoreRows": "mehr Transaktionen anzeigen (+{{amount}})"
       }
     }
   }

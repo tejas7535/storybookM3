@@ -16,6 +16,7 @@ import {
   quotationDetailIsFNumber,
   quotationDetailsHaveFNumberDetails,
 } from '@gq/shared/utils/f-pricing.utils';
+import { groupBy } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
@@ -222,16 +223,3 @@ export const getQuotationDetailIsFNumber = createSelector(
   getSelectedQuotationDetail,
   (detail: QuotationDetail): boolean => quotationDetailIsFNumber(detail)
 );
-
-function groupBy<T>(arr: T[], fn: (item: T) => any) {
-  const groupedBy = new Map();
-  for (const listItem of arr) {
-    if (!groupedBy.has(fn(listItem))) {
-      groupedBy.set(fn(listItem), [listItem]);
-    } else {
-      groupedBy.get(fn(listItem)).push(listItem);
-    }
-  }
-
-  return groupedBy;
-}

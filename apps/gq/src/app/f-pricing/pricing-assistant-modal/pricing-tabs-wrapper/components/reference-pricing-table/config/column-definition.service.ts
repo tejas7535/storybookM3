@@ -1,15 +1,37 @@
 import { Injectable } from '@angular/core';
 
+import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { ReferenceMaterialGroupCellComponent } from '@gq/shared/ag-grid/cell-renderer/reference-material-group-cell/reference-material-group-cell.component';
+import { ShowMoreRowsComponent } from '@gq/shared/ag-grid/cell-renderer/show-more-rows/show-more-rows.component';
 import { ReferencePricingColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
 import { translate } from '@ngneat/transloco';
-import { ColDef } from 'ag-grid-community';
+import {
+  ColDef,
+  GetRowIdParams,
+  GridOptions,
+  IsFullWidthRowParams,
+} from 'ag-grid-community';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
+  INITIAL_NUMBER_OF_DISPLAYED_ROWS = 2;
+  ROWS_TO_ADD_ON_SHOW_MORE = 2;
+
+  GRID_OPTIONS: GridOptions = {
+    isFullWidthRow: (params: IsFullWidthRowParams) =>
+      params.rowNode?.data?.isShowMoreRow,
+    fullWidthCellRenderer: ShowMoreRowsComponent,
+    fullWidthCellRendererParams: {
+      amountToAdd: this.ROWS_TO_ADD_ON_SHOW_MORE,
+    },
+    getRowId: (params: GetRowIdParams<ComparableMaterialsRowData>) =>
+      // value MUST be unique
+      params.data?.identifier.toString(),
+  };
+
   COLUMN_DEFS: ColDef[] = [
     {
       headerName: 'Group',
@@ -22,6 +44,13 @@ export class ColumnDefinitionService {
       rowGroup: true,
       hide: true,
       suppressColumnsToolPanel: true,
+      sortable: false,
+    },
+    {
+      field: ReferencePricingColumnFields.IS_SHOW_MORE_ROW,
+      hide: true,
+      suppressColumnsToolPanel: true,
+      sort: 'asc',
     },
     {
       headerName: translate(
@@ -34,13 +63,13 @@ export class ColumnDefinitionService {
           return { component: ReferenceMaterialGroupCellComponent };
         }
 
-        return {
-          component: 'agCellRenderer',
-        };
+        // eslint-disable-next-line unicorn/no-null
+        return null;
       },
-      minWidth: 300,
+      minWidth: 250,
       resizable: true,
       showRowGroup: true,
+      sortable: false,
     },
     {
       headerName: translate(
@@ -48,8 +77,8 @@ export class ColumnDefinitionService {
       ),
       field: ReferencePricingColumnFields.MATERIAL_DESCRIPTION,
       filterParams: FILTER_PARAMS,
-      sort: 'asc',
       resizable: true,
+      sortable: false,
     },
     {
       headerName: translate(
@@ -58,6 +87,7 @@ export class ColumnDefinitionService {
       field: ReferencePricingColumnFields.QUANTITY,
       filterParams: FILTER_PARAMS,
       resizable: true,
+      sortable: false,
     },
     {
       headerName: translate(
@@ -66,6 +96,7 @@ export class ColumnDefinitionService {
       field: ReferencePricingColumnFields.PRICE,
       filterParams: FILTER_PARAMS,
       resizable: true,
+      sortable: false,
     },
     {
       headerName: translate(
@@ -74,6 +105,7 @@ export class ColumnDefinitionService {
       field: ReferencePricingColumnFields.YEAR,
       filterParams: FILTER_PARAMS,
       resizable: true,
+      sortable: false,
     },
   ];
 }

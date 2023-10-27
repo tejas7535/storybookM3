@@ -15,4 +15,5 @@ export interface ComparableMaterialsRowData
   extends ComparableLinkedTransaction {
   parentMaterialDescription: string;
   parentMaterialNumber: string;
+  isShowMoreRow?: boolean;
 }

@@ -4,11 +4,11 @@ import {
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 
-import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { MaterialDetails } from '@gq/shared/models/quotation-detail/material-details.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 
-import { F_PRICING_COMPARABLE_MATERIALS_MOCK } from '../../../testing/mocks/models/f-pricing-comparable-materials.mock';
+import { COMPARABLE_MATERIALS_ROW_DATA_MOCK } from '../../../testing/mocks/models/f-pricing-comparable-materials.mock';
 import { MATERIAL_DETAILS_MOCK } from '../../../testing/mocks/models/material-details.mock';
 import { OverlayToShow } from './models/overlay-to-show.enum';
 @Component({
@@ -20,8 +20,8 @@ import { OverlayToShow } from './models/overlay-to-show.enum';
 })
 export class PricingAssistantModalComponent {
   material: MaterialDetails = MATERIAL_DETAILS_MOCK;
-  referencePriceRowData: ComparableLinkedTransaction[] =
-    F_PRICING_COMPARABLE_MATERIALS_MOCK;
+  referencePriceRowData: ComparableMaterialsRowData[] =
+    COMPARABLE_MATERIALS_ROW_DATA_MOCK;
 
   overlayToShowEnum = OverlayToShow;
   visibleOverlay: OverlayToShow = OverlayToShow.gqPricing;

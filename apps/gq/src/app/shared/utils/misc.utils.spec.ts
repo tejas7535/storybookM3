@@ -226,4 +226,36 @@ describe('MiscUtils', () => {
       });
     });
   });
+
+  describe('groupBy', () => {
+    test('should group array by item', () => {
+      const array = [
+        { id: 1, name: 'test1' },
+        { id: 2, name: 'test2' },
+        { id: 1, name: 'test3' },
+        { id: 2, name: 'test4' },
+      ];
+
+      const result = miscUtils.groupBy(array, (item) => item.id);
+
+      expect(result).toEqual(
+        new Map([
+          [
+            1,
+            [
+              { id: 1, name: 'test1' },
+              { id: 1, name: 'test3' },
+            ],
+          ],
+          [
+            2,
+            [
+              { id: 2, name: 'test2' },
+              { id: 2, name: 'test4' },
+            ],
+          ],
+        ])
+      );
+    });
+  });
 });

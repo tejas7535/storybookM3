@@ -100,3 +100,16 @@ const isPaste = (event: KeyboardEvent): boolean =>
 export function getRatingText(rating: number): string {
   return Rating[rating];
 }
+
+export function groupBy<T>(arr: T[], fn: (item: T) => any) {
+  const groupedBy = new Map();
+  for (const listItem of arr) {
+    if (!groupedBy.has(fn(listItem))) {
+      groupedBy.set(fn(listItem), [listItem]);
+    } else {
+      groupedBy.get(fn(listItem)).push(listItem);
+    }
+  }
+
+  return groupedBy;
+}
