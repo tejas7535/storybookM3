@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [0.2.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.5...ea-v0.2.6) (2023-10-27)
+
+
+### Features
+
+* **ea:** add final disclaimer (UFTABI-6921) ([#5745](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5745)) ([aeb5ca9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/aeb5ca9b1b9a64ce13a7dc232915cf853635b863))
+* **ea:** update production settings ([#5747](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5747)) ([ece10ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ece10ea7a7db164f26e5df566fb2d399f4276965))
+
 ## [0.2.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.4...ea-v0.2.5) (2023-10-26)
 
 
