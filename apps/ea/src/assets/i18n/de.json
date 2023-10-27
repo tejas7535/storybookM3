@@ -134,7 +134,7 @@
     "overrollingFrequency": "Überrollfrequenzen bei Betriebsdrehzahl",
     "overrollingFrequencySubtitle": "Frequenz am Innenring (BPFI)",
     "frictionalPowerloss": "Reibungsverlustleistung",
-    "frictionalPowerlossSubtitle": "Gesamte Reibdrehmoment (MR)",
+    "frictionalPowerlossSubtitle": "Gesamtes Reibmoment (MR)",
     "frictionalPowerlossUnavailable": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
     "production": "Für die Produktion",
     "productionTooltip": "Dies ist die Summe aller CO₂-Äquivalente, die für die Herstellung des Wälzlagers, einschließlich notwendiger Ressourcen und Energie, ausgestoßen wurden."
