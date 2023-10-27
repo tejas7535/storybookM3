@@ -9,7 +9,7 @@
     [ngClass]="{'md:inset-y-auto relative md:fixed': (isStandalone$ |ngrxPush) && !sticky, 'relative h-auto': !isStandalone$ | ngrxPush , 'fixed': isStandalone$ | ngrxPush}"
   >
     <div
-      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-2 pt-4 md:py-6 md:px-8 rounded-t-lg min-w-full md:min-w-[890px] md:max-w-[cal(100vw-350px)] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
+      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-2 pt-4 md:py-6 md:px-8 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
       [ngClass]="{'rounded-b-lg rounded-none drop-shadow-none md:rounded-lg md:drop-shadow-lg': 'sticky', 'mx-auto': !isStandalone$ | ngrxPush}"
     >
       <div class="user-hints flex items-center flex-grow-0 flex-shrink-0">

@@ -14,7 +14,7 @@
             [infoText]="t('prototypeWarning')"
           ></ea-info-banner>
         </div>
-        <div class="flex-row items-end w-full mb-4 flex md:hidden">
+        <div class="flex-row items-end w-full mb-4 flex min-[1100px]:hidden">
           <button
             (click)="onShowBasicFrequenciesDialogClick()"
             mat-button
@@ -25,7 +25,9 @@
           </button>
         </div>
 
-        <div class="flex flex-row items-center md:hidden justify-between mb-4">
+        <div
+          class="flex flex-row items-center min-[1100px]:hidden justify-between mb-4"
+        >
           <button
             mat-fab
             extended
