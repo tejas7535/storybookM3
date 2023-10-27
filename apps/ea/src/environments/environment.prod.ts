@@ -4,13 +4,13 @@ export const environment: Environment = {
   production: true,
   localDev: false,
   devToolsEnabled: false,
-  catalogApiBaseUrl: 'https://bearinx-q.schaeffler.com/catalogue/api',
+  catalogApiBaseUrl: 'https://bearinx.schaeffler.com/catalogue/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api', // TODO change to prod url once both bearinx systems are live and the app is about to be released
   co2UpstreamApiBaseUrl: 'https://co2-api.dp.schaeffler/api',
   calculationModuleInfoApiBaseUrl:
     'https://bearinx-d.schaeffler.com/moduleinfo/api', // TODOD change to prod url once both bearinx systems are live and the app is about to be released
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
-  oldUIFallbackUrl: 'https://bearinx-q.schaeffler.com/catalogue/app/loadcases/',
+  oldUIFallbackUrl: 'https://bearinx.schaeffler.com/catalogue/app/loadcases/',
   tenantId: '035a32aa-f517-4698-a818-e756af53c99e',
   groupId: 'c4c115f9-a73a-4761-a7d1-daa07e6deda1',
   assetsPath: 'https://engineeringapp.com/assets',
