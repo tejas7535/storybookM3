@@ -1,4 +1,13 @@
 # Release Notes of Engineering App
+## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.6...ea-v0.3.0) (2023-10-27)
+
+
+### Bug Fixes
+
+* **ea:** set catalog calculation to available on error - UFTABI-6938 ([#5751](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5751)) ([9c91e4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c91e4e678ea903cdf600636e548144727b6bf85))
+* **ea:** update overrolling frequencies label ([#5748](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5748)) ([89f379f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/89f379f7592f88f179d8d7e1deae0da77cb55ea3))
+* **ea:** update responsivnes on smaller screen sizes ([#5752](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5752)) ([6f9b2df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f9b2dfef523b32583f40f4379e2cb98456a5ba0))
+
 ## [0.2.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.2.5...ea-v0.2.6) (2023-10-27)
 
 
