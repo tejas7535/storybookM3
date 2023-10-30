@@ -16,9 +16,6 @@ describe('ExcelExportStatusBarComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.api = {
-      removeEventListener(_eventType: any, _listener: any) {},
-    } as any;
   });
 
   test('should create', () => {
@@ -30,7 +27,6 @@ describe('ExcelExportStatusBarComponent', () => {
       const params = {
         api: {
           addEventListener(_eventType, _listener) {},
-          removeEventListener(_eventType: any, _listener: any) {},
         },
       } as IStatusPanelParams;
       params.api.addEventListener = jest.fn();
@@ -45,7 +41,6 @@ describe('ExcelExportStatusBarComponent', () => {
     test('should export data to excel', () => {
       component.api = {
         exportDataAsExcel: jest.fn(),
-        removeEventListener(_eventType: any, _listener: any) {},
       } as any;
 
       component.exportToExcel();

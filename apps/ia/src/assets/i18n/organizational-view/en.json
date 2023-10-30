@@ -1,9 +1,10 @@
 {
   "orgChart": {
-    "node": {
-      "directOverall": "(direct/overall)",
-      "employees": "Employees",
-      "fluctuation": "Fluctuation"
+    "table": {
+      "columnDirect": "Direct",
+      "columnOverall": "Overall",
+      "rowEmployees": "Employees",
+      "rowAttrition": "Fluctuation"
     },
     "noData": "No Data Available."
   },

@@ -182,9 +182,10 @@ export class OrgChartComponent implements AfterViewInit {
 
     // wait until view is initiated
     setTimeout(() => {
-      const nodeWidth = 228;
+      const nodeWidth =
+        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 320 : 250;
       const nodeHeight =
-        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 135 : 100;
+        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 220 : 170;
 
       this.chart
         .container(this.chartContainer.nativeElement)
@@ -203,7 +204,7 @@ export class OrgChartComponent implements AfterViewInit {
         .nodeHeight(() => nodeHeight)
         .compact(false)
         .compactMarginBetween((_d: any) => 170)
-        .childrenMargin((_d: any) => 70)
+        .childrenMargin((_d: any) => 90)
         .nodeContent(
           (d: { data: OrgChartNode; width: number; height: number }) =>
             this.orgChartService.getNodeContent(

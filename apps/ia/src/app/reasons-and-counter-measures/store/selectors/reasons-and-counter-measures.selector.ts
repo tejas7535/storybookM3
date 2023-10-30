@@ -2,6 +2,11 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import {
+  ReasonsAndCounterMeasuresState,
+  selectAllComparedSelectedFilters,
+  selectReasonsAndCounterMeasuresState,
+} from '..';
+import {
   getSelectedTimePeriod,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
@@ -16,11 +21,6 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
-import {
-  ReasonsAndCounterMeasuresState,
-  selectAllComparedSelectedFilters,
-  selectReasonsAndCounterMeasuresState,
-} from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
 

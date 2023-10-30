@@ -16,9 +16,10 @@ export class OrgChartService {
     data: DimensionFluctuationData[],
     translations: any
   ): OrgChartNode[] {
-    const textDirectOverall = translations.directOverall;
-    const textEmployees = translations.employees;
-    const textFluctuation = translations.fluctuation;
+    const textColumnDirect = translations.columnDirect;
+    const textRowEmployees = translations.rowEmployees;
+    const textRowAttrition = translations.rowAttrition;
+    const textColumnOverall = translations.columnOverall;
 
     // TODO: calculate heat
     const heatMapClass = 'bg-secondary-900';
@@ -58,9 +59,10 @@ export class OrgChartService {
           totalSubordinates,
           directAttrition,
           totalAttrition,
-          textDirectOverall,
-          textEmployees,
-          textFluctuation,
+          textColumnDirect,
+          textColumnOverall,
+          textRowEmployees,
+          textRowAttrition,
           showUpperParentBtn:
             parentNodeId === undefined &&
             elem.parentId !== OrgChartService.ROOT_ID,
@@ -98,140 +100,109 @@ export class OrgChartService {
     height: number,
     dimension: FilterDimension
   ): string {
-    return dimension === FilterDimension.ORG_UNIT
-      ? this.getOrgUnitNodeContent(data, width, height)
-      : this.getGeneralNodeContent(data, width, height);
-  }
-
-  getOrgUnitNodeContent(
-    data: OrgChartNode,
-    width: number,
-    height: number
-  ): string {
-    const peopleNodeId = `id="employee-node-people" data-id="${data.nodeId}"`;
-    const fluctuationNodeId = `id="employee-node-attrition" data-id="${data.nodeId}"`;
-    const showParentId = `id="show-parent" data-id="${data.nodeId}"`;
-    const peopleIconSvg = this.getPeopleIconSvg(peopleNodeId);
-    const fluctuationIconSvg = this.getFluctuationIconSvg(fluctuationNodeId);
-
-    const parentArrow = data.showUpperParentBtn
-      ? `
-      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
-          style="position: absolute; margin-left: auto; margin-right: auto; right: 0; left: 0; text-align: center;"
-          class="-top-[48px] group" ${showParentId}>
-        <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" fill="rgba(0, 0, 0, 0.32)" 
-          class="group-hover:fill-primary" ${showParentId}/>
-      </svg>`
-      : '';
+    const isOrgUnit = dimension === FilterDimension.ORG_UNIT;
+    const paddingTop = data.showUpperParentBtn ? '39' : '64';
+    const marginBottom = isOrgUnit ? '0.5' : '1.5';
+    const upwardsButton = `
+            <div class="pointer-events-auto cursor-pointer bg-surface text-low-emphasis
+                flex flex-col mx-auto w-6 h-6 text-[24px] hover:text-medium-emphasis">
+              <span id="show-parent" data-id="${data.nodeId}" 
+                class="${
+                  isOrgUnit ? '-mt-24' : '-mt-20'
+                } w-6 h-6 rounded-full before:content-['\\e5d8'] before:font-materiaIcons hover:ring-1 hover:ring-mediumEmphasis">
+              </span>
+            </div>
+          `;
 
     return `
-      ${parentArrow}
-      <div style="height: ${height}px; width: ${width}px; border: 1px solid rgba(0, 0, 0, 0.32); border-radius: 6px;">
-        <div style="border-radius: 100px; background: #F0F0F0; padding-top: 4px; padding-bottom: 4px;
-         position: absolute; top: -20px; width: 95%; margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center;">
-          <div>
-            <span style="line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
+            <div style="padding-top:${paddingTop}px; padding-left:70px;width:${
+      width - 70
+    }px;height:${height}px">
+            ${data.showUpperParentBtn ? upwardsButton : ''}
+
+              <div class="-ml-[70px] px-2 border-2 border-border rounded-md" style="height:${height}px;width:${width}px;margin-top:-64px;">
+                <div class="-mt-8 py-2 rounded-full bg-gray-300 ${
+                  isOrgUnit ? '' : '-mt-4'
+                }"
+                   style="margin-bottom:${marginBottom}rem;">
+                  <span class="block text-body-2 text-high-emphasis text-center">
+                    ${data.organization}
+                  </span>
+                  <span class="${
+                    data.organizationLongName ? 'block' : 'hidden'
+                  } text-body-2 text-medium-emphasis text-center">
+                  ${data.organizationLongName}
+                </span>
+                </div>
+              ${
+                isOrgUnit
+                  ? this.getOrgUnitTable(data)
+                  : this.getGeneralDimensionGrid(data)
+              }
+                <div class="grid grid-cols-2 gap-2 text-center flex-1 mt-3">
+                  <span id="employee-node-people" data-id="${
+                    data.nodeId
+                  }" class="before:content-['people'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+                  <span id="employee-node-attrition" data-id="${
+                    data.nodeId
+                  }" class="before:content-['\\e24b'] before:font-materiaIcons self-center cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
+                </div>
+              </div>
+            </div>
+            `;
+  }
+
+  getGeneralDimensionGrid(data: OrgChartNode): string {
+    return `
+      <div class="grid grid-cols-2 gap-2 text-center flex-1">
+        <div class="flex flex-col gap-2 justify-center">
+          <div class="flex text-body-2 text-low-emphasis gap-1 items-center justify-center">
+            <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
+            <span>${data.textRowEmployees}</span>
           </div>
-          <div>
-            <span style="color: rgba(0, 0, 0, 0.6)">${data.organizationLongName}</span>
-          </div>
+          <div class="text-body-2">${data.directSubordinates}</div>
         </div>
-        <div style="padding-top: 32px; text-align: center;">
-          <span style="line-height: 20px; letter-spacing: 0.25px;">${data.name}<span/>
-        </div>
-        <div style="display: flex; justify-content: space-evenly; padding-top: 8px;">
-          <div ${peopleNodeId} style="display: flex; flex-direction: column; gap: 4px; padding-top: 4px; padding-bottom: 4px;
-              padding-left: 8px; padding-right: 8px;" class="hover:bg-gray-300 rounded group">
-            <span ${peopleNodeId} style="display: flex; align-items: center;">
-              ${peopleIconSvg}
-              <span ${peopleNodeId} style="margin-left: 4px;">${data.textEmployees}</span>
-            </span>
-            <span ${peopleNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
-              ${data.directSubordinates}&nbsp;/&nbsp;${data.totalSubordinates}
-            </span>
-            <span ${peopleNodeId} style="color: rgba(0, 0, 0, 0.6)">${data.textDirectOverall}</span>
+        <div class="flex flex-col gap-2 justify-center">
+          <div class="flex text-body-2 text-low-emphasis gap-1 items-center justify-center">
+            <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
+            <span>${data.textRowAttrition}</span>
           </div>
-          <div style="width: 1px; background-color: #F0F0F0;"></div>
-          <div ${fluctuationNodeId} style="display: flex; flex-direction: column; gap: 4px; padding-top: 4px; padding-bottom: 4px;
-              padding-left: 8px; padding-right: 8px;" class="hover:bg-gray-300 rounded group">
-            <span ${fluctuationNodeId} style="display: flex; align-items: center;">
-              ${fluctuationIconSvg}
-              <span ${fluctuationNodeId} style="margin-left: 4px;">${data.textFluctuation}</span>
-            </span>
-            <span ${fluctuationNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
-              ${data.directAttrition}&nbsp;/&nbsp;${data.totalAttrition}
-            </span>
-            <span ${fluctuationNodeId} style="color: rgba(0, 0, 0, 0.6)">${data.textDirectOverall}<span>
-          </div>
+          <div class="text-body-2">${data.directAttrition}</div>
         </div>
       </div>
     `;
   }
 
-  getGeneralNodeContent(
-    data: OrgChartNode,
-    width: number,
-    height: number
-  ): string {
-    const peopleNodeId = `id="employee-node-people" data-id="${data.nodeId}"`;
-    const fluctuationNodeId = `id="employee-node-attrition" data-id="${data.nodeId}"`;
-    const showParentId = `id="show-parent" data-id="${data.nodeId}"`;
-    const peopleIconSvg = this.getPeopleIconSvg(peopleNodeId);
-    const fluctuationIconSvg = this.getFluctuationIconSvg(fluctuationNodeId);
-
-    const parentArrow = data.showUpperParentBtn
-      ? `
-      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
-          style="position: absolute; margin-left: auto; margin-right: auto; right: 0; left: 0; text-align: center;"
-          class="-top-[40px] group" ${showParentId}>
-        <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" fill="rgba(0, 0, 0, 0.32)" 
-          class="group-hover:fill-primary" ${showParentId}/>
-      </svg>`
-      : '';
-
+  getOrgUnitTable(data: OrgChartNode): string {
     return `
-      ${parentArrow}
-      <div style="height: ${height}px; width: ${width}px; border: 1px solid rgba(0, 0, 0, 0.32); border-radius: 6px;">
-        <div style="border-radius: 100px; background: #F0F0F0; text-align: center; margin-left: 4px; margin-right: 4px; padding-top: 4px; padding-bottom: 4px;
-         position: absolute; top: -14px; width: 95%; margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center;">
-          <span style="line-height: 20px; letter-spacing: 0.25px">${data.organization}</span>
-        </div>
-        <div style="height: 100%; display: flex; justify-content: space-evenly; align-items: center; padding-top: 10px;">
-          <div ${peopleNodeId} style="display: flex; flex-direction: column; gap: 4px; padding-top: 4px; padding-bottom: 4px;
-              padding-left: 8px; padding-right: 8px;" class="hover:bg-gray-300 rounded group">
-            <span ${peopleNodeId} style="display: flex; align-items: center;">
-              ${peopleIconSvg}
-              <span ${peopleNodeId} style="margin-left: 4px;">${data.textEmployees}</span>
-            </span>
-            <span ${peopleNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">${data.totalSubordinates}</span>
-          </div>
-          <div style="height: 50%; width: 1px; background-color: #F0F0F0;"></div>
-          <div ${fluctuationNodeId} style="display: flex; flex-direction: column; gap: 4px; padding-top: 4px; padding-bottom: 4px;
-              padding-left: 8px; padding-right: 8px;" class="hover:bg-gray-300 rounded group">
-            <span ${fluctuationNodeId} style="display: flex; align-items: center;">
-              ${fluctuationIconSvg}
-              <span ${fluctuationNodeId} style="margin-left: 4px;">${data.textFluctuation}</span>
-            </span>
-            <span ${fluctuationNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">${data.totalAttrition}</span>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  getPeopleIconSvg(nodeId: string): string {
-    return `
-    <svg ${nodeId} xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-      <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M7.82663 5.33331C7.82663 6.43998 6.93996 7.33331 5.83329 7.33331C4.72663 7.33331 3.83329 6.43998 3.83329 5.33331C3.83329 4.22665 4.72663 3.33331 5.83329 3.33331C6.93996 3.33331 7.82663 4.22665 7.82663 5.33331ZM13.16 5.33331C13.16 6.43998 12.2733 7.33331 11.1666 7.33331C10.06 7.33331 9.16663 6.43998 9.16663 5.33331C9.16663 4.22665 10.06 3.33331 11.1666 3.33331C12.2733 3.33331 13.16 4.22665 13.16 5.33331ZM5.83329 8.66665C4.27996 8.66665 1.16663 9.44665 1.16663 11V12.6666H10.5V11C10.5 9.44665 7.38663 8.66665 5.83329 8.66665ZM10.52 8.69998C10.7533 8.67998 10.9733 8.66665 11.1666 8.66665C12.72 8.66665 15.8333 9.44665 15.8333 11V12.6666H11.8333V11C11.8333 10.0133 11.2933 9.25998 10.52 8.69998Z" fill="black"/>
-    </svg>
-    `;
-  }
-
-  getFluctuationIconSvg(nodeId: string): string {
-    return `
-    <svg ${nodeId} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 2H12.6667C13.4 2 14 2.6 14 3.33333V12.6667C14 13.4 13.4 14 12.6667 14H3.33333C2.6 14 2 13.4 2 12.6667V3.33333C2 2.6 2.6 2 3.33333 2ZM4.66667 11.3333H6V6.66667H4.66667V11.3333ZM8.66667 11.3333H7.33333V4.66667H8.66667V11.3333ZM10 11.3333H11.3333V8.66667H10V11.3333Z" fill="black" fill-opacity="0.6"/>
-    </svg>
+      <div class="text-high-emphasis text-body-1 mt-2 mb-2 text-center">${data.name}</div>
+      <table class="table-fixed">
+        <thead>
+          <tr class="font-semibold uppercase text-low-emphasis divide-x divide-border">
+            <th class="w-1/3">&nbsp;</th>
+            <th class="w-1/3 tracking-widest">${data.textColumnDirect}</th>
+            <th class="w-1/3 tracking-widest">${data.textColumnOverall}</th>
+          </tr>
+        </thead>
+      <tbody>
+        <tr class="text-center h-9 divide-x divide-border">
+          <td class="flex text-body-2 text-low-emphasis gap-1 mr-1 items-center h-full">
+            <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
+            <span>${data.textRowEmployees}</span>
+          </td>
+          <td class="text-body-2 h-9">${data.directSubordinates}</td>
+          <td class="text-body-2">${data.totalSubordinates}</td>
+        </tr>
+        <tr class="text-center h-9 divide-x divide-border">
+          <td class="flex text-body-2 text-low-emphasis gap-1 mr-1 items-center h-full">
+            <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
+            <span>${data.textRowAttrition}</span>
+          </td>
+          <td class="text-body-2">${data.directAttrition}</td> 
+          <td class="text-body-2">${data.totalAttrition}</td>
+        </tr>
+      </tbody>
+    </table>
     `;
   }
 }

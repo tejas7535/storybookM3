@@ -10,8 +10,9 @@ export interface OrgChartNode {
   totalSubordinates: number;
   directAttrition: number;
   totalAttrition: number;
-  textDirectOverall: string;
-  textEmployees: string;
-  textFluctuation: string;
+  textColumnDirect: string;
+  textColumnOverall: string;
+  textRowEmployees: string;
+  textRowAttrition: string;
   showUpperParentBtn: boolean;
 }

@@ -1,11 +1,9 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetDirective } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockComponent, MockDirective, MockModule } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -28,13 +26,7 @@ describe('EmployeeListDialogComponent', () => {
       EmployeeListDialogComponent,
       MockComponent(EmployeeListTableComponent),
     ],
-    imports: [
-      MatDialogModule,
-      provideTranslocoTestingModule({ en: {} }),
-      MockDirective(LetDirective),
-      MockModule(MatIconModule),
-    ],
-
+    imports: [MatDialogModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
       provideMockStore({}),
       {
