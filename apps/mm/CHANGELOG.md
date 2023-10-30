@@ -1,4 +1,6 @@
 # Release Notes of Mounting Manager
+## [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.2...mm-v0.2.3) (2023-10-30)
+
 ## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.1...mm-v0.2.2) (2023-10-30)
 
 
