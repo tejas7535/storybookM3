@@ -3,8 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { SpectatorService } from '@ngneat/spectator';
-import { createServiceFactory } from '@ngneat/spectator/jest';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { EmployeesRequest, FilterDimension } from '../shared/models';
 import { ReasonForLeavingStats } from './models/reason-for-leaving-stats.model';
