@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 

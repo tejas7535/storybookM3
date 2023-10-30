@@ -50,7 +50,7 @@
   }
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-surface {
   padding: 16px !important;
 }
 
@@ -62,11 +62,11 @@ button {
   vertical-align: -4px !important;
 }
 
-.global-search-modal .mat-dialog-container {
-  padding: 0 !important;
+.global-search-modal .mat-mdc-dialog-surface {
+  @apply px-0 #{!important};
 }
 
-.release-modal .mat-dialog-container {
+.release-modal .mat-mdc-dialog-surface {
   padding: 0 !important;
 }
 

@@ -1,5 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

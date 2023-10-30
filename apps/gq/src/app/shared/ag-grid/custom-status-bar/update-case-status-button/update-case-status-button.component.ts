@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
 import { translate } from '@ngneat/transloco';

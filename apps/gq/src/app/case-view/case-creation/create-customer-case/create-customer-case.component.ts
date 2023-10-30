@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
@@ -21,9 +21,11 @@ import {
 } from '@gq/core/store/selectors/create-case/create-case.selector';
 import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
-import { CASE_CREATION_TYPES } from '@gq/shared/models';
-import { CaseCreationEventParams } from '@gq/shared/models';
-import { EVENT_NAMES } from '@gq/shared/models';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '@gq/shared/models';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -36,6 +38,10 @@ import { MaterialSelectionComponent } from './material-selection/material-select
   templateUrl: './create-customer-case.component.html',
 })
 export class CreateCustomerCaseComponent implements OnInit {
+  @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
+  @ViewChild('autocompleteComponent')
+  autocompleteComponent: AutocompleteInputComponent;
+
   title$: Observable<string>;
   selectedSalesOrg$: Observable<SalesOrg>;
   selectedCustomerId$: Observable<string>;
@@ -43,11 +49,6 @@ export class CreateCustomerCaseComponent implements OnInit {
   plsAndSeriesLoading$: Observable<boolean>;
   createCaseDisabled$: Observable<boolean>;
   createCaseLoading$: Observable<boolean>;
-
-  @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
-  @ViewChild('autocompleteComponent')
-  autocompleteComponent: AutocompleteInputComponent;
-
   constructor(
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<CreateCustomerCaseComponent>,

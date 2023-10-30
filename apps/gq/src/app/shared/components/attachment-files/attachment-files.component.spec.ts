@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { QuotationAttachment } from '@gq/shared/models';

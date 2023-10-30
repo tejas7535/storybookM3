@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Params, Router } from '@angular/router';
 
 import {
@@ -40,7 +40,6 @@ import { ResultsListDisplay } from './models/results-list-display.enum';
   templateUrl: './global-search-modal.component.html',
 })
 export class GlobalSearchModalComponent implements OnInit, OnDestroy {
-  private readonly DEBOUNCE_TIME_DEFAULT = 500;
   public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
   public displayResultList: ResultsListDisplay =
@@ -49,11 +48,11 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
 
   public readonly resultsDisplayType = ResultsListDisplay;
   public readonly openIn = OpenIn;
+  public searchFormControl: FormControl;
+  public searchVal = '';
 
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
   private readonly unsubscribe$ = new Subject<boolean>();
-
-  searchFormControl: FormControl;
-  searchVal = '';
   private selectedMaterialNumber = '';
   private selectedMaterialDesc = '';
 
@@ -143,14 +142,6 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  private selectOnlySearchResult(results: Observable<IdValue[]>): void {
-    results.pipe(take(1)).subscribe((lastSearchResults: IdValue[]) => {
-      if (lastSearchResults.length === 1) {
-        this.onItemSelected(lastSearchResults[0]);
-      }
-    });
-  }
-
   onItemSelected(idValue: IdValue) {
     if (this.displayResultList === ResultsListDisplay.PREVIEW) {
       this.lastSearchResultsService.addLastResult(idValue, this.searchVal);
@@ -223,6 +214,14 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   clearInputField() {
     this.searchFormControl.patchValue('');
     this.displayResultList = ResultsListDisplay.LAST_RESULTS;
+  }
+
+  private selectOnlySearchResult(results: Observable<IdValue[]>): void {
+    results.pipe(take(1)).subscribe((lastSearchResults: IdValue[]) => {
+      if (lastSearchResults.length === 1) {
+        this.onItemSelected(lastSearchResults[0]);
+      }
+    });
   }
 
   /**

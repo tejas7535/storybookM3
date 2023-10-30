@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogModule as MatDialogModule,
-} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
