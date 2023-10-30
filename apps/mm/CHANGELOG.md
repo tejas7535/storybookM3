@@ -1,7 +1,29 @@
- Changelog
+# Release Notes of Mounting Manager
+## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.1...mm-v0.2.2) (2023-10-30)
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### Features
+
+* adjust overcast text style to be uppercase ([e1fd86c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e1fd86cfa257d3e82632c55c6fedd855d6328c5e))
+* **ea:** adjust person responsible for privacy policy - UFTABI-6715 ([#5577](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5577)) ([060e1c1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/060e1c1cffd97026eca9f230b82b0ca7014625bf))
+* **mm:** add app banner ([d185ea6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d185ea64fb6c5c387c5c0349a1580f95ea0ee6d0))
+* **mm:** add maintenance banner in mounting manager app ([#5674](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5674)) ([b8943bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b8943bc655250796ae7c7c6861f120fe41c305c2))
+* **mm:** adjust purpose to provided text ([d54a8d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d54a8d397e5c79ed73c8cb3f60489bb03700494f))
+* **mm:** extend storage period to one yearh ([76bb0cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76bb0cf76b38d01672a1f2c28e13444ad4f25308))
+* **mm:** migrate mounting manager to MDC based components - 5337 ([#5516](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5516)) ([b514cdf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b514cdf3b620cc5f1774d2c1ba31e2d2d538faad))
+* replace font styles with m3 standard ([#5211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5211)) ([0ef134c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ef134c2cb41319de679919be47c318f010ce6c5))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
+
+### Bug Fixes
+
+* adjust chinese translation ([afafac1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/afafac1ed24d53c9b6c7e2a3bc964aae4212d045))
+* **ga/mm:** fix skip ahead bug in stepper - UFTABI-6543 ([#5472](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5472)) ([8974ee4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8974ee47473d2ce56e14cd4af8b00739995d4eb6))
+* **mm:** adjust report selector ([#5346](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5346)) ([77c3c59](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/77c3c593c47d6aaf49926bae0b31b4c328f4dacc))
+* **mm:** select fields not working properly (UFTABI-6699) ([#5578](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5578)) ([d4531a5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4531a51e571e2981db0c0fabbed530faf1aa21a))
+* **mm:** update SharedTranslocoModule import to fix issues with language persisting ([22e0353](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/22e0353454ffa48c5e207770276eab420a7aeefd))
+* **mm:** updated previous Transloco Config to include local storage key for language ([bb47c15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb47c153a320e9df411aedf818fd3804cc25068e))
+* **workspace:** fix prettier formatting ([#4746](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4746)) ([6d09958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d099587562a9db04e311acb309235bc60e89ee4))
 
 ### [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.0...mm-v0.2.1) (2022-05-20)
 
