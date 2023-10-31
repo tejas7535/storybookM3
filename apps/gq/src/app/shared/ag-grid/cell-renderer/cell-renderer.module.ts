@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock-traffic-light/free-stock-traffic-light.component';
@@ -61,7 +60,6 @@ import { ShowMoreRowsComponent } from './show-more-rows/show-more-rows.component
     CommonModule,
     MatIconModule,
     MatTooltipModule,
-    MatInputModule,
     MatTooltipModule,
     MatButtonModule,
     ReactiveFormsModule,

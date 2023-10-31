@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,9 +13,13 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import {
@@ -30,6 +35,8 @@ import {
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { UserSelectComponent } from '@gq/process-case-view/user-select/user-select.component';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import {
   ActiveDirectoryUser,
   ApprovalLevel,
@@ -43,6 +50,10 @@ import { approversDifferValidator } from '@gq/shared/validators/approvers-differ
 import { specialCharactersValidator } from '@gq/shared/validators/special-characters-validator';
 import { userValidator } from '@gq/shared/validators/user-validator';
 import { TranslocoService } from '@ngneat/transloco';
+import { PushPipe } from '@ngrx/component';
+
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 interface ReleaseModalFormControl {
   approver1?: FormControl<Approver>;
@@ -54,6 +65,19 @@ interface ReleaseModalFormControl {
 }
 
 @Component({
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    SharedTranslocoModule,
+    MatInputModule,
+    CommonModule,
+    LoadingSpinnerModule,
+    PushPipe,
+    MatButtonModule,
+    UserSelectComponent,
+    DialogHeaderModule,
+    ReactiveFormsModule,
+  ],
   selector: 'gq-release-modal',
   templateUrl: './release-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

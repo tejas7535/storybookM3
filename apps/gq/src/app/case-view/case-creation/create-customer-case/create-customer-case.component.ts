@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -36,19 +41,20 @@ import { MaterialSelectionComponent } from './material-selection/material-select
 @Component({
   selector: 'gq-create-customer-case',
   templateUrl: './create-customer-case.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateCustomerCaseComponent implements OnInit {
   @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
-  @ViewChild('autocompleteComponent')
-  autocompleteComponent: AutocompleteInputComponent;
+  @ViewChild('autocompleteComponent') title$: Observable<string>;
 
-  title$: Observable<string>;
   selectedSalesOrg$: Observable<SalesOrg>;
   selectedCustomerId$: Observable<string>;
   plsAndSeries$: Observable<PLsAndSeries>;
   plsAndSeriesLoading$: Observable<boolean>;
   createCaseDisabled$: Observable<boolean>;
   createCaseLoading$: Observable<boolean>;
+  autocompleteComponent: AutocompleteInputComponent;
+
   constructor(
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<CreateCustomerCaseComponent>,

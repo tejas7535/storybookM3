@@ -3,6 +3,7 @@
   *transloco="let t; read: 'shared.editingModal'"
 >
   <gq-dialog-header
+    class="mb-4"
     [title]="
       t('title', {
         id: modalData?.quotationDetail?.quotationItemId,
@@ -15,17 +16,16 @@
 
   <form
     [formGroup]="editingFormGroup"
-    class="mt-6 flex h-full flex-col"
+    class="flex h-full flex-col"
     *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
   >
     <mat-radio-group
-      class="flex flex-col pb-8"
+      class="flex flex-col pb-4"
       [formControlName]="IS_RELATIVE_PRICE_CONTROL_NAME"
       *ngIf="isPriceChangeTypeAvailable"
     >
       <mat-radio-button
         [value]="true"
-        class="pb-4"
         color="primary"
         (change)="callPriceChangeTypeSwitchHandler(true)"
         [disabled]="isRelativePriceChangeDisabled"
@@ -47,7 +47,7 @@
       </mat-radio-button>
     </mat-radio-group>
 
-    <div class="flex h-full flex-row">
+    <div class="flex h-full flex-row mt-4">
       <mat-form-field class="w-2/3" appearance="outline">
         <mat-label>{{
           t(

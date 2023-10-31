@@ -10,7 +10,6 @@ import {
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MAT_MOMENT_DATE_FORMATS,
@@ -43,7 +42,6 @@ export const DATE_FORMATS = {
     SharedTranslocoModule,
     PushPipe,
     ReactiveFormsModule,
-    MatInputModule,
     MatDatepickerModule,
     SharedTranslocoModule,
     SharedDirectivesModule,

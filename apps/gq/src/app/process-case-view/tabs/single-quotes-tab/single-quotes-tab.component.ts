@@ -22,16 +22,15 @@ import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delet
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SingleQuotesTabComponent implements OnInit {
-  private readonly ADD_VIEW_ID = 9999;
+  quotation$: Observable<Quotation>;
+  updateLoading$: Observable<boolean>;
+  customViews$: Observable<ViewToggle[]>;
 
+  private readonly ADD_VIEW_ID = 9999;
   private readonly EDIT_ICON = 'edit';
   private readonly ADD_ICON = 'add';
   private readonly DELETE_ICON = 'delete';
   private routeSnapShot: ActivatedRouteSnapshot;
-
-  quotation$: Observable<Quotation>;
-  updateLoading$: Observable<boolean>;
-  customViews$: Observable<ViewToggle[]>;
 
   constructor(
     private readonly store: Store,

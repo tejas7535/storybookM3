@@ -1,7 +1,7 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import * as rxjs from 'rxjs';
 import { of } from 'rxjs';
@@ -10,7 +10,7 @@ import { ActiveDirectoryUser } from '@gq/shared/models';
 import { ApprovalLevel, Approver } from '@gq/shared/models/approval';
 import * as autocompleteSelectValidator from '@gq/shared/validators/autocomplete-value-selected-validator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles';
 
 import { APPROVAL_STATE_MOCK } from '../../../testing/mocks';
@@ -22,7 +22,7 @@ describe('UserSelectComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UserSelectComponent,
-    imports: [MatAutocompleteModule, PushModule, ReactiveFormsModule],
+    imports: [MatAutocompleteModule, PushPipe, ReactiveFormsModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });

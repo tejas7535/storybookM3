@@ -2,9 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
@@ -36,21 +33,19 @@ import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module
 import { ReleaseButtonComponent } from './release-button/release-button.component';
 import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
-import { UserSelectComponent } from './user-select/user-select.component';
 @NgModule({
   declarations: [
     ProcessCaseViewComponent,
     CalculationInProgressComponent,
     ReleaseButtonComponent,
-    ReleaseModalComponent,
     CancelWorkflowButtonComponent,
     CancelWorkflowModalComponent,
   ],
   imports: [
+    ReleaseModalComponent,
     CommonModule,
     MatSidenavModule,
     MatButtonModule,
-    MatInputModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     SharedPipesModule,
@@ -65,8 +60,6 @@ import { UserSelectComponent } from './user-select/user-select.component';
     BreadcrumbsModule,
     ShareButtonModule,
     ExportExcelModalModule,
-    MatFormFieldModule,
-    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     OverviewCasesModule,
@@ -75,7 +68,6 @@ import { UserSelectComponent } from './user-select/user-select.component';
     StatusCustomerInfoHeaderModule,
     SharedDirectivesModule,
     DialogHeaderModule,
-    UserSelectComponent,
     FPricingModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],

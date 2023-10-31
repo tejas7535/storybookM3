@@ -1,9 +1,11 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { mockProvider } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -22,7 +24,7 @@ describe('ColumnDefService', () => {
 
   const createService = createServiceFactory({
     service: ColumnDefService,
-    imports: [MatSnackBarModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

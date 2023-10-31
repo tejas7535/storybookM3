@@ -1,10 +1,7 @@
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  MatLegacySelectChange as MatSelectChange,
-  MatLegacySelectModule as MatSelectModule,
-} from '@angular/material/legacy-select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

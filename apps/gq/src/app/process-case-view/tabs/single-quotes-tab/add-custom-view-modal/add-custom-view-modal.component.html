@@ -9,7 +9,11 @@
   </gq-dialog-header>
   <form class="flex h-full flex-col pt-6" [formGroup]="formGroup">
     <div class="h-full">
-      <mat-form-field class="w-full" appearance="outline">
+      <mat-form-field
+        class="w-full"
+        appearance="outline"
+        [hintLabel]="t('inputFieldHint')"
+      >
         <mat-label> {{ t('inputFieldLabel') }} </mat-label>
         <input
           matInput
@@ -19,16 +23,9 @@
           [maxlength]="NAME_MAX_LENGTH"
           #nameInput
         />
-        <mat-hint align="start" class="w-full">
-          <div class="flex w-full justify-between">
-            <span>
-              {{ t('inputFieldHint') }}
-            </span>
-            <span>
-              {{ formGroup.controls?.name?.value?.length || 0 }} /
-              {{ NAME_MAX_LENGTH }}
-            </span>
-          </div>
+        <mat-hint align="end">
+          {{ formGroup.controls?.name?.value?.length }} /
+          {{ NAME_MAX_LENGTH }}
         </mat-hint>
       </mat-form-field>
       <mat-radio-group
@@ -38,12 +35,12 @@
         formControlName="createFromDefault"
         *ngIf="modalData.createNewView && modalData.showRadioButtons"
       >
-        <mat-radio-button checked color="primary" [value]="true" class="pb-4">
+        <mat-radio-button checked color="primary" [value]="true">
           <span class="pl-2 text-medium-emphasis">
             {{ t('createFromDefault') }}
           </span>
         </mat-radio-button>
-        <mat-radio-button color="primary" [value]="false" class="pb-4">
+        <mat-radio-button color="primary" [value]="false">
           <span class="pl-2 text-medium-emphasis">
             {{ t('createFromCurrent') }}
           </span>

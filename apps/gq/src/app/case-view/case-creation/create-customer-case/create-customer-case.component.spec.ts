@@ -21,7 +21,7 @@ import {
 } from '@gq/shared/models';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -44,7 +44,7 @@ describe('CreateCustomerCaseComponent', () => {
   const createComponent = createComponentFactory({
     component: CreateCustomerCaseComponent,
     imports: [
-      PushModule,
+      PushPipe,
       DialogHeaderModule,
       MatIconModule,
       MatCheckboxModule,

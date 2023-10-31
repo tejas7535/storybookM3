@@ -196,6 +196,28 @@ export abstract class EditingModalComponent
     );
   }
 
+  /**
+   * Check if the given value is relative and if yes, calculate the absolute value based on it and on the initial value.
+   * Otherwise, return the given value without changes.
+   * Needed, in order to be able to check if the initial value has been changed.
+   *
+   * @param value the current value
+   * @returns the absolute value
+   */
+  protected determineAbsoluteValue(value: number): number {
+    if (
+      this.isPriceChangeTypeAvailable &&
+      this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME).value
+    ) {
+      return multiplyAndRoundValues(
+        (this.modalData.quotationDetail as any)[this.modalData.field],
+        1 + value / 100
+      );
+    }
+
+    return value;
+  }
+
   private initPriceChangeRadioGroup(): void {
     this.editingFormGroup.addControl(
       this.IS_RELATIVE_PRICE_CONTROL_NAME,
@@ -265,28 +287,6 @@ export abstract class EditingModalComponent
           this.setAffectedKpis(parsedValue);
         })
     );
-  }
-
-  /**
-   * Check if the given value is relative and if yes, calculate the absolute value based on it and on the initial value.
-   * Otherwise, return the given value without changes.
-   * Needed, in order to be able to check if the initial value has been changed.
-   *
-   * @param value the current value
-   * @returns the absolute value
-   */
-  protected determineAbsoluteValue(value: number): number {
-    if (
-      this.isPriceChangeTypeAvailable &&
-      this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME).value
-    ) {
-      return multiplyAndRoundValues(
-        (this.modalData.quotationDetail as any)[this.modalData.field],
-        1 + value / 100
-      );
-    }
-
-    return value;
   }
 
   /**

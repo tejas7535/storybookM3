@@ -6,7 +6,7 @@ import { of, Subject } from 'rxjs';
 import { resetAllAutocompleteOptions } from '@gq/core/store/actions';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -28,7 +28,7 @@ describe('AddMaterialDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: AddMaterialDialogComponent,
     declarations: [AddMaterialDialogComponent],
-    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [
       provideMockStore({
         initialState: {

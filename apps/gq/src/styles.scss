@@ -150,3 +150,22 @@ button {
 .mdc-button__label {
   @apply whitespace-nowrap;
 }
+
+// This fixes an ui issue when the form field is opened with appearence outline
+// Note: class name is repeated to achieve sufficient specificity over the various MDC states.
+// (hover, focus, etc.
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field {
+  &.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right: 1px solid transparent;
+  }
+}
+
+mat-error,
+mat-hint {
+  @apply text-caption;
+  @apply text-medium-emphasis;
+}
+
+.mdc-menu-surface.mat-mdc-autocomplete-panel {
+  @apply py-0 #{!important};
+}

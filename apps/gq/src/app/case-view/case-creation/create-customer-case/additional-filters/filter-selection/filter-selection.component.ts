@@ -12,21 +12,22 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
-import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
+import { MatOption } from '@angular/material/core';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'gq-filter-selection',
   templateUrl: './filter-selection.component.html',
 })
 export class FilterSelectionComponent implements OnInit, OnChanges {
+  @Output() selection = new EventEmitter<string[]>();
   @Input() title: string;
   @Input() items: { value: string; selected: boolean; name?: string }[];
-  form: UntypedFormGroup;
 
-  @Output() selection = new EventEmitter<string[]>();
   // eslint-disable-next-line @typescript-eslint/prefer-readonly
   @ViewChild('allSelected') private allSelected: MatOption;
+
+  form: UntypedFormGroup;
 
   constructor(private readonly fb: UntypedFormBuilder) {}
 
