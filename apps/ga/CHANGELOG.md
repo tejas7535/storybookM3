@@ -1,4 +1,16 @@
 # Release Notes of Grease App
+## [1.4.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.3...ga-v1.4.4) (2023-11-02)
+
+
+### Features
+
+* **ga:** detect internal users (UFTABI-6900) ([#5728](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5728)) ([e563501](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e56350104ddd98240edc232f63aa300f4c31a575))
+
+
+### Bug Fixes
+
+* **ga:** adjust logos for mobile ([#5723](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5723)) ([2d08545](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d085458e521ef4ca401a036b4a1c135078192c9))
+
 ## [1.4.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.2...ga-v1.4.3) (2023-10-17)
 
 
