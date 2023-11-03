@@ -12,7 +12,8 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
       parentMaterialNumber: '016703529-0000-10',
 
       identifier: 1,
-      customerName: 'dsfsdfs sdf , S.A.',
+      customerName: 'customer Name 1',
+      materialNumber: '053541219-0000-02',
       materialDescription: '1_22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -23,7 +24,8 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
       parentMaterialNumber: '016703529-0000-10',
 
       identifier: 2,
-      customerName: 'sdf sdf sssdf hinery, S.A.',
+      customerName: 'customer Name 2',
+      materialNumber: '016735102-0000-02',
       materialDescription: '2_22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -35,7 +37,8 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
       parentMaterialNumber: '016703529-0000-10',
 
       identifier: 3,
-      customerName: 'vvvvvv inery, S.A.',
+      customerName: 'customer Name 3',
+      materialNumber: '016735102-0000-03',
       materialDescription: '3_22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -46,7 +49,8 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
       parentMaterialNumber: '016703529-0000-10',
 
       identifier: 4,
-      customerName: 'bbbbbbbbbbbbbbbbA.',
+      customerName: 'customer Name 4',
+      materialNumber: '016735103-0000-03',
       materialDescription: '4_22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -58,6 +62,7 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
 
       identifier: 5,
       customerName: 'Ibercisa Deck Machinery, S.A.',
+      materialNumber: '016735104-0000-04',
       materialDescription: '5_22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -70,6 +75,7 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
 
       identifier: 6,
       customerName: 'Ibercisa Deck Machinery, S.A.',
+      materialNumber: '013235105-0000-05',
       materialDescription: '2345345-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -81,6 +87,7 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
 
       identifier: 7,
       customerName: 'Ibercisa Deck Machinery, S.A.',
+      materialNumber: '016735104-0000-06',
       materialDescription: '225443210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -92,6 +99,7 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
 
       identifier: 8,
       customerName: 'Ibercisa Deck Machinery, S.A.',
+      materialNumber: '016735104-0000-15',
       materialDescription: '45453-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -103,6 +111,7 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
 
       identifier: 9,
       customerName: 'Ibercisa Deck Machinery, S.A.',
+      materialNumber: '016735208-0000-15',
       materialDescription: '22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,
@@ -114,6 +123,7 @@ export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
 
       identifier: 10,
       customerName: 'Ibercisa Deck Machinery, S.A.',
+      materialNumber: '014935208-0000-15',
       materialDescription: '22210-E1-XL#N1',
       price: 26.7138,
       quantity: 4,

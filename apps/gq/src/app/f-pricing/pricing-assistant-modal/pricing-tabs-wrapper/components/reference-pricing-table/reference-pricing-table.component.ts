@@ -26,6 +26,8 @@ export class ReferencePricingTableComponent implements OnInit {
 
   localeText$: Observable<AgGridLocale>;
   columnDefs = this.columnDefService.COLUMN_DEFS;
+  defaultColDef = this.columnDefService.DEFAULT_COL_DEF;
+  autoGroupColumnDef = this.columnDefService.ROW_GROUP_CONFIG;
   components = COMPONENTS;
   gridOptions: GridOptions;
 

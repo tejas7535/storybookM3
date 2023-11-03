@@ -7,6 +7,7 @@ export interface ComparableLinkedTransaction {
   customerName: string;
   customerId: string;
   country: string;
+  materialNumber?: string;
   materialDescription: string;
   price: number;
   quantity: number;

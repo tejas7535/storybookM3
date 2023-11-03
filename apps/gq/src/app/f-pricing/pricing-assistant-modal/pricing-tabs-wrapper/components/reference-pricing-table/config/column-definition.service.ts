@@ -20,6 +20,22 @@ export class ColumnDefinitionService {
   INITIAL_NUMBER_OF_DISPLAYED_ROWS = 2;
   ROWS_TO_ADD_ON_SHOW_MORE = 2;
 
+  DEFAULT_COL_DEF: ColDef = {
+    suppressMovable: true,
+    sortable: false,
+  };
+
+  ROW_GROUP_CONFIG: ColDef = {
+    headerName: translate(
+      'fPricing.pricingAssistantModal.referencePricingTable.item'
+    ),
+    field: ReferencePricingColumnFields.CUSTOMER_NAME,
+    cellRendererParams: {
+      suppressCount: true,
+    },
+    minWidth: 250,
+  };
+
   GRID_OPTIONS: GridOptions = {
     isFullWidthRow: (params: IsFullWidthRowParams) =>
       params.rowNode?.data?.isShowMoreRow,
@@ -34,17 +50,18 @@ export class ColumnDefinitionService {
 
   COLUMN_DEFS: ColDef[] = [
     {
-      headerName: 'Group',
-      hide: true,
-      suppressColumnsToolPanel: true,
-    },
-    {
-      headerName: ReferencePricingColumnFields.PARENT_MATERIAL_DESCRIPTION,
       field: ReferencePricingColumnFields.PARENT_MATERIAL_DESCRIPTION,
+      cellRendererSelector: (params: any) => {
+        if (!params.data) {
+          return { component: ReferenceMaterialGroupCellComponent };
+        }
+
+        // eslint-disable-next-line unicorn/no-null
+        return null;
+      },
       rowGroup: true,
       hide: true,
       suppressColumnsToolPanel: true,
-      sortable: false,
     },
     {
       field: ReferencePricingColumnFields.IS_SHOW_MORE_ROW,
@@ -54,31 +71,19 @@ export class ColumnDefinitionService {
     },
     {
       headerName: translate(
-        'fPricing.pricingAssistantModal.referencePricingTable.customerName'
-      ),
-      field: ReferencePricingColumnFields.CUSTOMER_NAME,
-      filterParams: FILTER_PARAMS,
-      cellRendererSelector: (params: any) => {
-        if (!params.data) {
-          return { component: ReferenceMaterialGroupCellComponent };
-        }
-
-        // eslint-disable-next-line unicorn/no-null
-        return null;
-      },
-      minWidth: 250,
-      resizable: true,
-      showRowGroup: true,
-      sortable: false,
-    },
-    {
-      headerName: translate(
         'fPricing.pricingAssistantModal.referencePricingTable.materialDescription'
       ),
       field: ReferencePricingColumnFields.MATERIAL_DESCRIPTION,
       filterParams: FILTER_PARAMS,
       resizable: true,
-      sortable: false,
+    },
+    {
+      headerName: translate(
+        'fPricing.pricingAssistantModal.referencePricingTable.materialNumber'
+      ),
+      field: ReferencePricingColumnFields.MATERIAL_NUMBER,
+      filterParams: FILTER_PARAMS,
+      resizable: true,
     },
     {
       headerName: translate(
@@ -87,7 +92,6 @@ export class ColumnDefinitionService {
       field: ReferencePricingColumnFields.QUANTITY,
       filterParams: FILTER_PARAMS,
       resizable: true,
-      sortable: false,
     },
     {
       headerName: translate(
@@ -96,7 +100,6 @@ export class ColumnDefinitionService {
       field: ReferencePricingColumnFields.PRICE,
       filterParams: FILTER_PARAMS,
       resizable: true,
-      sortable: false,
     },
     {
       headerName: translate(
@@ -105,7 +108,6 @@ export class ColumnDefinitionService {
       field: ReferencePricingColumnFields.YEAR,
       filterParams: FILTER_PARAMS,
       resizable: true,
-      sortable: false,
     },
   ];
 }

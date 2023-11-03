@@ -582,10 +582,11 @@
       "referencePricingTable": {
         "noReferenceDataTitle": "Keine vergleichbaren Transaktionen verfügbar",
         "noReferenceDataSubTitle": "Der Referenzpreis wird durch Regression berechnet",
-        "customerName": "Kundenname",
+        "item": "Item",
         "materialDescription": "Beschreibung",
+        "materialNumber": "Materialnummer",
         "quantity": "Menge",
-        "price": "Preis",
+        "price": "Nettopreis",
         "year": "Jahr",
         "showMoreRows": "mehr Transaktionen anzeigen (+{{amount}})"
       }

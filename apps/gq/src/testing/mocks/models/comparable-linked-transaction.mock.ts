@@ -8,6 +8,7 @@ export const COMPARABLE_LINKED_TRANSACTION_MOCK: ComparableLinkedTransaction = {
   customerId: 'customerId',
   country: 'DE',
   materialDescription: 'matDesc',
+  materialNumber: 'matNum',
   price: 10,
   profitMargin: 0.5,
   quantity: 100,

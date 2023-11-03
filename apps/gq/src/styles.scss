@@ -169,3 +169,12 @@ mat-hint {
 .mdc-menu-surface.mat-mdc-autocomplete-panel {
   @apply py-0 #{!important};
 }
+
+.ag-row-group-indent-1 {
+  @apply ml-4 #{!important};
+  @apply pl-4 #{!important};
+}
+.ag-group-contracted,
+.ag-group-expanded {
+  @apply mr-2 #{!important};
+}
