@@ -1,8 +1,23 @@
 /* eslint-disable max-lines */
-import { HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpEventType,
+  HttpProgressEvent,
+  HttpResponse,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  takeUntil,
+  timer,
+} from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -20,14 +35,20 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsUploadResponse,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
+import { DialogFacade } from '../../facades/dialog';
+
 @Injectable()
 export class DialogEffects {
+  readonly SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL = 5000;
+
   public materialDialogOpened$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.materialDialogOpened),
@@ -90,6 +111,17 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.sapMaterialsUploadDialogOpened),
       switchMap(() => [DialogActions.fetchDataOwners()])
+    );
+  });
+
+  public uploadSapMaterialsSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.uploadSapMaterialsSuccess),
+      switchMap(({ uploadId }) => [
+        DialogActions.startPollingSapMaterialsDatabaseUploadStatus({
+          uploadId,
+        }),
+      ])
     );
   });
 
@@ -1049,10 +1081,170 @@ export class DialogEffects {
     );
   });
 
+  public uploadSapMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.uploadSapMaterials),
+      switchMap(({ upload }) =>
+        this.msdDataService.uploadSapMaterials(upload).pipe(
+          mergeMap((httpEvent: HttpEvent<SapMaterialsUploadResponse>) => {
+            if (httpEvent.type === HttpEventType.UploadProgress) {
+              const progressEvent = httpEvent as HttpProgressEvent;
+              const fileUploadProgress = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+
+              return of(
+                DialogActions.setSapMaterialsFileUploadProgress({
+                  fileUploadProgress,
+                })
+              );
+            } else if (httpEvent.type === HttpEventType.Response) {
+              const uploadId = (
+                httpEvent as HttpResponse<SapMaterialsUploadResponse>
+              ).body.uploadId;
+
+              this.msdDataService.storeSapMaterialsUploadId(uploadId);
+
+              return of(
+                DialogActions.uploadSapMaterialsSuccess({
+                  uploadId,
+                })
+              );
+            }
+
+            return of();
+          }),
+          catchError(() => {
+            return of(
+              DataActions.errorSnackBar({
+                message: translate(
+                  'materialsSupplierDatabase.mainTable.uploadDialog.uploadFailure'
+                ),
+              }),
+              DialogActions.uploadSapMaterialsFailure()
+            );
+          })
+        )
+      )
+    );
+  });
+
+  startPollingSapMaterialsDatabaseUploadStatus$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.startPollingSapMaterialsDatabaseUploadStatus),
+      switchMap(({ uploadId }) =>
+        timer(
+          // we don't need to start the polling immediately as the data will not be saved in the DB immediately after the file has been uploaded.
+          this.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL,
+          this.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL
+        ).pipe(
+          takeUntil(
+            this.actions$.pipe(
+              ofType(DialogActions.stopPollingSapMaterialsDatabaseUploadStatus)
+            )
+          ),
+          switchMap(() =>
+            this.msdDataService
+              .getSapMaterialsDatabaseUploadStatus(uploadId)
+              .pipe(
+                map((databaseUploadStatus: SapMaterialsDatabaseUploadStatus) =>
+                  DialogActions.getSapMaterialsDatabaseUploadStatusSuccess({
+                    databaseUploadStatus,
+                  })
+                ),
+                catchError(() => {
+                  this.dataFacade.dispatch(
+                    DataActions.errorSnackBar({
+                      message: translate(
+                        'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
+                      ),
+                    })
+                  );
+
+                  return of(
+                    DialogActions.getSapMaterialsDatabaseUploadStatusFailure(),
+                    DialogActions.stopPollingSapMaterialsDatabaseUploadStatus() // stop polling on failure
+                  );
+                })
+              )
+          )
+        )
+      )
+    );
+  });
+
+  public getSapMaterialsDatabaseUploadStatusSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.getSapMaterialsDatabaseUploadStatusSuccess),
+      concatLatestFrom(
+        () => this.dialogFacade.isSapMaterialsUploadStatusDialogMinimized$
+      ),
+      filter(
+        ([{ databaseUploadStatus }]) =>
+          databaseUploadStatus !== SapMaterialsDatabaseUploadStatus.RUNNING
+      ),
+      switchMap(([{ databaseUploadStatus }, isDialogMinimized]) => {
+        if (isDialogMinimized) {
+          const message = translate(
+            `materialsSupplierDatabase.mainTable.uploadStatusDialog.statusInfo.${databaseUploadStatus}`
+          );
+
+          this.dataFacade.dispatch(
+            databaseUploadStatus === SapMaterialsDatabaseUploadStatus.DONE
+              ? DataActions.infoSnackBar({
+                  message,
+                })
+              : DataActions.errorSnackBar({
+                  message,
+                })
+          );
+
+          this.dialogFacade.dispatch(
+            DialogActions.sapMaterialsUploadStatusReset()
+          );
+        }
+
+        return of(DialogActions.stopPollingSapMaterialsDatabaseUploadStatus());
+      })
+    );
+  });
+
+  public sapMaterialsUploadStatusReset$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.sapMaterialsUploadStatusReset),
+      switchMap(() => {
+        this.msdDataService.removeSapMaterialsUploadId();
+
+        return [];
+      })
+    );
+  });
+
+  public sapMaterialsUploadStatusRestore$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.sapMaterialsUploadStatusRestore),
+      switchMap(() => {
+        const uploadId = this.msdDataService.getSapMaterialsUploadId();
+
+        if (uploadId) {
+          return of(
+            DialogActions.sapMaterialsUploadStatusDialogMinimized(),
+            DialogActions.startPollingSapMaterialsDatabaseUploadStatus({
+              uploadId,
+            })
+          );
+        }
+
+        return of();
+      })
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,
-    private readonly dataFacade: DataFacade
+    private readonly dataFacade: DataFacade,
+    private readonly dialogFacade: DialogFacade
   ) {}
 
   private parseBulkErrors(error: any, materials: MaterialRequest[]) {

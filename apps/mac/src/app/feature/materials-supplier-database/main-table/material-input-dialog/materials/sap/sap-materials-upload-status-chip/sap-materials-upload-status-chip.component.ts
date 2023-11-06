@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
+import { SapMaterialsUploadStatus } from '../sap-materials-upload-status.enum';
 
 interface ChipConfig {
   icon: string;
@@ -21,7 +21,7 @@ export class SapMaterialsUploadStatusChipComponent {
   config: ChipConfig;
 
   private readonly UPLOAD_STATUS_TO_CHIP_CONFIG: {
-    [status: number]: ChipConfig;
+    [status: string]: ChipConfig;
   } = {
     [SapMaterialsUploadStatus.IN_PROGRESS]: {
       icon: 'cloud_upload',
@@ -29,7 +29,7 @@ export class SapMaterialsUploadStatusChipComponent {
       textColor: '#00596E',
       backgroundColor: '#F0F6FA',
     },
-    [SapMaterialsUploadStatus.SUCCEED]: {
+    [SapMaterialsUploadStatus.SUCCEEDED]: {
       icon: 'check_circle_outline',
       color: '#A1C861',
       textColor: '#3C7029',

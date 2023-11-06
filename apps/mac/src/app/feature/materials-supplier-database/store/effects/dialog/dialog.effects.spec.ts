@@ -1,11 +1,18 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEventType,
+  HttpProgressEvent,
+  HttpResponse,
+  HttpSentEvent,
+} from '@angular/common/http';
 
 import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import moment from 'moment';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -19,6 +26,9 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsUpload,
+  SapMaterialsUploadResponse,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
@@ -80,6 +90,8 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  getSapMaterialsDatabaseUploadStatusFailure,
+  getSapMaterialsDatabaseUploadStatusSuccess,
   manufacturerSupplierDialogCanceled,
   manufacturerSupplierDialogConfirmed,
   manufacturerSupplierDialogOpened,
@@ -98,10 +110,20 @@ import {
   resetDialogOptions,
   resetMaterialRecord,
   sapMaterialsUploadDialogOpened,
+  sapMaterialsUploadStatusDialogMinimized,
+  sapMaterialsUploadStatusReset,
+  sapMaterialsUploadStatusRestore,
   setMaterialFormValue,
+  setSapMaterialsFileUploadProgress,
+  startPollingSapMaterialsDatabaseUploadStatus,
+  stopPollingSapMaterialsDatabaseUploadStatus,
+  uploadSapMaterials,
+  uploadSapMaterialsFailure,
+  uploadSapMaterialsSuccess,
 } from '@mac/msd/store/actions/dialog';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
+import { DialogFacade } from '../../facades/dialog';
 import { DialogEffects } from './dialog.effects';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -116,6 +138,7 @@ describe('Dialog Effects', () => {
   let spectator: SpectatorService<DialogEffects>;
   let msdDataService: MsdDataService;
   let msdDataFacade: DataFacade;
+  let msdDialogFacade: DialogFacade;
 
   const createService = createServiceFactory({
     service: DialogEffects,
@@ -134,6 +157,12 @@ describe('Dialog Effects', () => {
           materialClass$: of(MaterialClass.STEEL),
         },
       },
+      {
+        provide: DialogFacade,
+        useValue: {
+          dispatch: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -143,6 +172,7 @@ describe('Dialog Effects', () => {
     effects = spectator.inject(DialogEffects);
     msdDataService = spectator.inject(MsdDataService);
     msdDataFacade = spectator.inject(DataFacade);
+    msdDialogFacade = spectator.inject(DialogFacade);
     msdDataFacade.materialClass$ = of(MaterialClass.STEEL);
     msdDataFacade.navigation$ = of({
       materialClass: MaterialClass.STEEL,
@@ -2530,6 +2560,441 @@ describe('Dialog Effects', () => {
         expect(
           msdDataService.fetchCo2ValuesForSupplierPlantProcess
         ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF', 'brightBar');
+      })
+    );
+  });
+
+  describe('uploadSapMaterialsSuccess$', () => {
+    it(
+      'should dispatch the startPollingSapMaterialsDatabaseUploadStatus action on uploadSapMaterialsSuccess',
+      marbles((m) => {
+        const uploadId = 'testUploadId';
+        action = uploadSapMaterialsSuccess({ uploadId });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: startPollingSapMaterialsDatabaseUploadStatus({ uploadId }),
+        });
+
+        m.expect(effects.uploadSapMaterialsSuccess$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('uploadSapMaterials$', () => {
+    it(
+      'should dispatch the uploadSapMaterialsSuccess action on success',
+      marbles((m) => {
+        const upload: SapMaterialsUpload = {
+          owner: 'Tester',
+          maturity: 10,
+          date: moment(),
+          file: new File([''], 'test.xlsx'),
+        };
+        const uploadId = 'testId';
+        const uploadResponse = {
+          type: HttpEventType.Response,
+          body: {
+            uploadId,
+          },
+        } as HttpResponse<SapMaterialsUploadResponse>;
+        action = uploadSapMaterials({ upload });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: uploadResponse });
+        msdDataService.uploadSapMaterials = jest.fn(() => response);
+        msdDataService.storeSapMaterialsUploadId = jest.fn();
+
+        const result = uploadSapMaterialsSuccess({
+          uploadId: uploadResponse.body.uploadId,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.uploadSapMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.uploadSapMaterials).toHaveBeenCalledWith(upload);
+        expect(msdDataService.storeSapMaterialsUploadId).toHaveBeenCalledWith(
+          uploadId
+        );
+      })
+    );
+
+    it(
+      'should dispatch the setSapMaterialsFileUploadProgress action on upload progress',
+      marbles((m) => {
+        const upload: SapMaterialsUpload = {
+          owner: 'Tester',
+          maturity: 10,
+          date: moment(),
+          file: new File([''], 'test.xlsx'),
+        };
+        const uploadResponse = {
+          type: HttpEventType.UploadProgress,
+          loaded: 256,
+          total: 5589,
+        } as HttpProgressEvent;
+        action = uploadSapMaterials({ upload });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: uploadResponse });
+        msdDataService.uploadSapMaterials = jest.fn(() => response);
+        msdDataService.storeSapMaterialsUploadId = jest.fn();
+
+        const result = setSapMaterialsFileUploadProgress({
+          fileUploadProgress: 5,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.uploadSapMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.uploadSapMaterials).toHaveBeenCalledWith(upload);
+        expect(msdDataService.storeSapMaterialsUploadId).not.toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should do nothing if event is no UploadProgress and no Response',
+      marbles((m) => {
+        const upload: SapMaterialsUpload = {
+          owner: 'Tester',
+          maturity: 10,
+          date: moment(),
+          file: new File([''], 'test.xlsx'),
+        };
+        const uploadResponse = {
+          type: HttpEventType.Sent,
+        } as HttpSentEvent;
+        action = uploadSapMaterials({ upload });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: uploadResponse });
+        msdDataService.uploadSapMaterials = jest.fn(() => response);
+        msdDataService.storeSapMaterialsUploadId = jest.fn();
+
+        const expected = m.cold('', {});
+
+        m.expect(effects.uploadSapMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.uploadSapMaterials).toHaveBeenCalledWith(upload);
+        expect(msdDataService.storeSapMaterialsUploadId).not.toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should dispatch the uploadSapMaterialsFailure action on error',
+      marbles((m) => {
+        const upload: SapMaterialsUpload = {
+          owner: 'Tester',
+          maturity: 10,
+          date: moment(),
+          file: new File([''], 'test.xlsx'),
+        };
+
+        action = uploadSapMaterials({ upload });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.uploadSapMaterials = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-(bc)', {
+          b: errorSnackBar({
+            message: 'uploadFailure',
+          }),
+          c: uploadSapMaterialsFailure(),
+        });
+
+        m.expect(effects.uploadSapMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.uploadSapMaterials).toHaveBeenCalledWith(upload);
+      })
+    );
+  });
+
+  describe('sapMaterialsUploadStatusReset$', () => {
+    it(
+      'should remove upload ID from localStorage',
+      marbles((m) => {
+        action = sapMaterialsUploadStatusReset();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.removeSapMaterialsUploadId = jest.fn();
+
+        const expected = m.cold('', {});
+
+        m.expect(effects.sapMaterialsUploadStatusReset$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(msdDataService.removeSapMaterialsUploadId).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
+  });
+
+  describe('sapMaterialsUploadStatusRestore$', () => {
+    it(
+      'should do nothing if no upload ID found in localStorage',
+      marbles((m) => {
+        action = sapMaterialsUploadStatusRestore();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.getSapMaterialsUploadId = jest.fn();
+
+        const expected = m.cold('', {});
+
+        m.expect(effects.sapMaterialsUploadStatusRestore$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(msdDataService.getSapMaterialsUploadId).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    it(
+      'should restore polling if upload ID found in localStorage',
+      marbles((m) => {
+        const uploadId = 'testId';
+
+        action = sapMaterialsUploadStatusRestore();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.getSapMaterialsUploadId = jest.fn(() => uploadId);
+
+        const expected = m.cold('-(bc)', {
+          b: sapMaterialsUploadStatusDialogMinimized(),
+          c: startPollingSapMaterialsDatabaseUploadStatus({ uploadId }),
+        });
+
+        m.expect(effects.sapMaterialsUploadStatusRestore$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(msdDataService.getSapMaterialsUploadId).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('getSapMaterialsDatabaseUploadStatusSuccess$', () => {
+    it(
+      'should do nothing if upload status is RUNNING',
+      marbles((m) => {
+        msdDialogFacade.isSapMaterialsUploadStatusDialogMinimized$ = of(false);
+
+        action = getSapMaterialsDatabaseUploadStatusSuccess({
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('', {});
+
+        m.expect(
+          effects.getSapMaterialsDatabaseUploadStatusSuccess$
+        ).toBeObservable(expected);
+      })
+    );
+
+    it(
+      'should dispatch only stopPollingSapMaterialsDatabaseUploadStatus action on getSapMaterialsDatabaseUploadStatusSuccess if dialog is not minimized',
+      marbles((m) => {
+        msdDialogFacade.isSapMaterialsUploadStatusDialogMinimized$ = of(false);
+        msdDataFacade.dispatch = jest.fn();
+        msdDialogFacade.dispatch = jest.fn();
+
+        action = getSapMaterialsDatabaseUploadStatusSuccess({
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.DONE,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: stopPollingSapMaterialsDatabaseUploadStatus(),
+        });
+
+        m.expect(
+          effects.getSapMaterialsDatabaseUploadStatusSuccess$
+        ).toBeObservable(expected);
+        m.flush();
+        expect(msdDataFacade.dispatch).not.toHaveBeenCalled();
+        expect(msdDialogFacade.dispatch).not.toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should dispatch stopPollingSapMaterialsDatabaseUploadStatus, infoSnackBar and sapMaterialsUploadStatusReset actions if dialog is minimized and upload status is DONE',
+      marbles((m) => {
+        msdDialogFacade.isSapMaterialsUploadStatusDialogMinimized$ = of(true);
+        msdDataFacade.dispatch = jest.fn();
+        msdDialogFacade.dispatch = jest.fn();
+
+        action = getSapMaterialsDatabaseUploadStatusSuccess({
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.DONE,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: stopPollingSapMaterialsDatabaseUploadStatus(),
+        });
+
+        m.expect(
+          effects.getSapMaterialsDatabaseUploadStatusSuccess$
+        ).toBeObservable(expected);
+        m.flush();
+        expect(msdDataFacade.dispatch).toHaveBeenCalledWith(
+          infoSnackBar({
+            message: translate(
+              'materialsSupplierDatabase.mainTable.uploadStatusDialog.statusInfo.DONE'
+            ),
+          })
+        );
+        expect(msdDialogFacade.dispatch).toHaveBeenCalledWith(
+          sapMaterialsUploadStatusReset()
+        );
+      })
+    );
+
+    it(
+      'should dispatch stopPollingSapMaterialsDatabaseUploadStatus, errorSnackBar and sapMaterialsUploadStatusReset actions if dialog is minimized and upload status is FAILED',
+      marbles((m) => {
+        msdDialogFacade.isSapMaterialsUploadStatusDialogMinimized$ = of(true);
+        msdDataFacade.dispatch = jest.fn();
+        msdDialogFacade.dispatch = jest.fn();
+
+        action = getSapMaterialsDatabaseUploadStatusSuccess({
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.FAILED,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(b)', {
+          b: stopPollingSapMaterialsDatabaseUploadStatus(),
+        });
+
+        m.expect(
+          effects.getSapMaterialsDatabaseUploadStatusSuccess$
+        ).toBeObservable(expected);
+        m.flush();
+        expect(msdDataFacade.dispatch).toHaveBeenCalledWith(
+          errorSnackBar({
+            message: translate(
+              'materialsSupplierDatabase.mainTable.uploadStatusDialog.statusInfo.FAILED'
+            ),
+          })
+        );
+        expect(msdDialogFacade.dispatch).toHaveBeenCalledWith(
+          sapMaterialsUploadStatusReset()
+        );
+      })
+    );
+  });
+
+  describe('startPollingSapMaterialsDatabaseUploadStatus$', () => {
+    it(
+      'should start polling upload status and stop it when stopPollingSapMaterialsDatabaseUploadStatus is dispatched',
+      marbles((m) => {
+        const uploadId = 'testId';
+        const expectedPollingCycles = 3;
+
+        const response = m.cold('a', {
+          a: SapMaterialsDatabaseUploadStatus.RUNNING,
+        });
+        msdDataService.getSapMaterialsDatabaseUploadStatus = jest.fn(
+          () => response
+        );
+
+        const result = getSapMaterialsDatabaseUploadStatusSuccess({
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+        });
+        const expected = m.cold(
+          // subtract 1 ms from the time to progress because the marbles advance time 1 virtual frame themselves
+          // s. https://rxjs.dev/guide/testing/marble-testing#time-progression-syntax
+          `${
+            effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL
+          }ms a ${
+            effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL - 1
+          }ms b ${
+            effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL - 1
+          }ms c`,
+          { a: result, b: result, c: result }
+        );
+
+        actions$ = m.hot(
+          `a ${
+            expectedPollingCycles *
+              effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL +
+            5
+          }ms b`,
+          {
+            a: startPollingSapMaterialsDatabaseUploadStatus({ uploadId }),
+            b: stopPollingSapMaterialsDatabaseUploadStatus(),
+          }
+        );
+
+        m.expect(
+          effects.startPollingSapMaterialsDatabaseUploadStatus$
+        ).toBeObservable(expected);
+
+        m.flush();
+
+        expect(
+          msdDataService.getSapMaterialsDatabaseUploadStatus
+        ).toHaveBeenCalledWith(uploadId);
+        expect(
+          msdDataService.getSapMaterialsDatabaseUploadStatus
+        ).toHaveBeenCalledTimes(expectedPollingCycles);
+      })
+    );
+
+    it(
+      'should dispatch getSapMaterialsDatabaseUploadStatusFailure after first polling',
+      marbles((m) => {
+        const uploadId = 'testId';
+        const error = new Error('Test error');
+
+        const response = m.cold('#', undefined, error);
+        msdDataService.getSapMaterialsDatabaseUploadStatus = jest.fn(
+          () => response
+        );
+        msdDataFacade.dispatch = jest.fn();
+        const result = getSapMaterialsDatabaseUploadStatusFailure();
+        const expected = m.cold(
+          `${effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL}ms (ab)`,
+          { a: result, b: stopPollingSapMaterialsDatabaseUploadStatus() }
+        );
+
+        actions$ = m.hot(
+          `a ${
+            effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL + 5
+          }ms b`,
+          {
+            a: startPollingSapMaterialsDatabaseUploadStatus({ uploadId }),
+            b: stopPollingSapMaterialsDatabaseUploadStatus(),
+          }
+        );
+
+        m.expect(
+          effects.startPollingSapMaterialsDatabaseUploadStatus$
+        ).toBeObservable(expected);
+
+        m.flush();
+
+        expect(
+          msdDataService.getSapMaterialsDatabaseUploadStatus
+        ).toHaveBeenCalledWith(uploadId);
+
+        expect(
+          msdDataService.getSapMaterialsDatabaseUploadStatus
+        ).toHaveBeenCalledTimes(1);
+
+        expect(msdDataFacade.dispatch).toHaveBeenCalledWith(
+          errorSnackBar({
+            message: translate(
+              'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
+            ),
+          })
+        );
       })
     );
   });

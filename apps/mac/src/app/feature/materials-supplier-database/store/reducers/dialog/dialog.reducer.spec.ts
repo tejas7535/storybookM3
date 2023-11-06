@@ -6,6 +6,8 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsUpload,
 } from '@mac/msd/models';
 import * as DialogActions from '@mac/msd/store/actions/dialog';
 
@@ -1861,6 +1863,200 @@ describe('dialogReducer', () => {
           dataOwners: undefined,
           dataOwnersLoading: undefined,
           error: true,
+        },
+      });
+    });
+
+    it('should set uploadLoading to true on uploadSapMaterials', () => {
+      const action = DialogActions.uploadSapMaterials({
+        upload: {} as SapMaterialsUpload,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            uploadLoading: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          uploadLoading: true,
+        },
+      });
+    });
+
+    it('should set fileUploadProgress on setSapMaterialsFileUploadProgress', () => {
+      const fileUploadProgress = 57;
+      const action = DialogActions.setSapMaterialsFileUploadProgress({
+        fileUploadProgress,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            fileUploadProgress: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          fileUploadProgress,
+        },
+      });
+    });
+
+    it('should update loading flag and set upload status on uploadSapMaterialsSuccess', () => {
+      const action = DialogActions.uploadSapMaterialsSuccess({
+        uploadId: 'test',
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            uploadLoading: true,
+            databaseUploadStatus: undefined,
+            fileUploadProgress: 100,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          uploadLoading: false,
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+          fileUploadProgress: undefined,
+        },
+      });
+    });
+
+    it('should reset loading flag on uploadSapMaterialsFailure', () => {
+      const action = DialogActions.uploadSapMaterialsFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            uploadLoading: true,
+            fileUploadProgress: 90,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          uploadLoading: false,
+          fileUploadProgress: undefined,
+        },
+      });
+    });
+
+    it('should set databaseUploadStatus on getSapMaterialsDatabaseUploadStatusSuccess', () => {
+      const databaseUploadStatus = SapMaterialsDatabaseUploadStatus.DONE;
+      const action = DialogActions.getSapMaterialsDatabaseUploadStatusSuccess({
+        databaseUploadStatus,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          databaseUploadStatus,
+        },
+      });
+    });
+
+    it('should set minimized flag to false on sapMaterialsUploadStatusDialogOpened', () => {
+      const action = DialogActions.sapMaterialsUploadStatusDialogOpened();
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            isUploadStatusDialogMinimized: true,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          isUploadStatusDialogMinimized: false,
+        },
+      });
+    });
+
+    it('should set minimized flag to true on sapMaterialsUploadStatusDialogMinimized', () => {
+      const action = DialogActions.sapMaterialsUploadStatusDialogMinimized();
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            isUploadStatusDialogMinimized: false,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          isUploadStatusDialogMinimized: true,
+        },
+      });
+    });
+
+    it('should reset on sapMaterialsUploadStatusReset', () => {
+      const action = DialogActions.sapMaterialsUploadStatusReset();
+      const newState = dialogReducer(
+        {
+          ...state,
+          uploadSapMaterials: {
+            ...state.uploadSapMaterials,
+            databaseUploadStatus: SapMaterialsDatabaseUploadStatus.FAILED,
+            isUploadStatusDialogMinimized: true,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        uploadSapMaterials: {
+          ...state.uploadSapMaterials,
+          databaseUploadStatus: undefined,
+          isUploadStatusDialogMinimized: false,
         },
       });
     });

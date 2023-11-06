@@ -568,7 +568,9 @@ export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
 
 export const getCreateMaterialLoading = createSelector(
   getDialogState,
-  (materialDialog) => materialDialog.createMaterial?.createMaterialLoading
+  (materialDialog) =>
+    materialDialog.createMaterial?.createMaterialLoading ||
+    materialDialog.uploadSapMaterials?.uploadLoading
 );
 
 export const getCreateMaterialRecord = createSelector(
@@ -735,6 +737,24 @@ export const getHighestCo2Values = createSelector(
 export const getSapMaterialsDataOwners = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.dataOwners
+);
+
+export const getSapMaterialsDatabaseUploadStatus = createSelector(
+  getDialogState,
+  (dialogState) => dialogState.uploadSapMaterials?.databaseUploadStatus
+);
+
+export const isSapMaterialsUploadStatusDialogMinimized = createSelector(
+  getDialogState,
+  (dialogState) =>
+    dialogState.uploadSapMaterials?.isUploadStatusDialogMinimized === undefined
+      ? false
+      : dialogState.uploadSapMaterials.isUploadStatusDialogMinimized
+);
+
+export const getSapMaterialsFileUploadProgress = createSelector(
+  getDialogState,
+  (dialogState) => dialogState.uploadSapMaterials?.fileUploadProgress
 );
 
 export const getDialogError = pipe(

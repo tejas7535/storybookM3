@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { StringOption } from '@schaeffler/inputs';
 
 import {
@@ -7,6 +9,8 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsUpload,
 } from '@mac/msd/models';
 
 import {
@@ -72,6 +76,8 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  getSapMaterialsDatabaseUploadStatusFailure,
+  getSapMaterialsDatabaseUploadStatusSuccess,
   manufacturerSupplierDialogCanceled,
   manufacturerSupplierDialogConfirmed,
   manufacturerSupplierDialogOpened,
@@ -95,7 +101,17 @@ import {
   resetMaterialRecord,
   resetSteelMakingProcessInUse,
   sapMaterialsUploadDialogOpened,
+  sapMaterialsUploadStatusDialogMinimized,
+  sapMaterialsUploadStatusDialogOpened,
+  sapMaterialsUploadStatusReset,
+  sapMaterialsUploadStatusRestore,
   setMaterialFormValue,
+  setSapMaterialsFileUploadProgress,
+  startPollingSapMaterialsDatabaseUploadStatus,
+  stopPollingSapMaterialsDatabaseUploadStatus,
+  uploadSapMaterials,
+  uploadSapMaterialsFailure,
+  uploadSapMaterialsSuccess,
 } from './dialog.actions';
 
 describe('Dialog Actions', () => {
@@ -127,6 +143,14 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] SAP Materials Dialog Opened',
+      });
+    });
+
+    it('sapMaterialsUploadStatusDialogOpened', () => {
+      const action = sapMaterialsUploadStatusDialogOpened();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] SAP Materials Upload Status Dialog Opened',
       });
     });
   });
@@ -1091,6 +1115,115 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Open Dialog',
+      });
+    });
+  });
+
+  describe('Upload SAP materials', () => {
+    it('uploadSapMaterials', () => {
+      const upload: SapMaterialsUpload = {
+        owner: 'Tester',
+        maturity: 10,
+        date: moment('1995-12-25'),
+        file: new File([''], 'test.xlsx'),
+      };
+      const action = uploadSapMaterials({ upload });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Upload SAP Materials',
+        upload,
+      });
+    });
+
+    it('setSapMaterialsFileUploadProgress', () => {
+      const fileUploadProgress = 55;
+      const action = setSapMaterialsFileUploadProgress({ fileUploadProgress });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Set SAP Materials File Upload Progress',
+        fileUploadProgress,
+      });
+    });
+
+    it('uploadSapMaterialsSuccess', () => {
+      const uploadId = 'test';
+      const action = uploadSapMaterialsSuccess({ uploadId });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Upload SAP Materials Success',
+        uploadId,
+      });
+    });
+
+    it('uploadSapMaterialsFailure', () => {
+      const action = uploadSapMaterialsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Upload SAP Materials Failure',
+      });
+    });
+  });
+
+  describe('SAP materials database upload status', () => {
+    it('startPollingSapMaterialsDatabaseUploadStatus', () => {
+      const uploadId = 'test';
+      const action = startPollingSapMaterialsDatabaseUploadStatus({ uploadId });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Start Polling SAP Materials Database Upload Status',
+        uploadId,
+      });
+    });
+
+    it('stopPollingSapMaterialsDatabaseUploadStatus', () => {
+      const action = stopPollingSapMaterialsDatabaseUploadStatus();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Stop Polling SAP Materials Database Upload Status',
+      });
+    });
+
+    it('getSapMaterialsDatabaseUploadStatusSuccess', () => {
+      const databaseUploadStatus = SapMaterialsDatabaseUploadStatus.RUNNING;
+      const action = getSapMaterialsDatabaseUploadStatusSuccess({
+        databaseUploadStatus,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Get SAP Materials Database Upload Status Success',
+        databaseUploadStatus,
+      });
+    });
+
+    it('getSapMaterialsDatabaseUploadStatusFailure', () => {
+      const action = getSapMaterialsDatabaseUploadStatusFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Get SAP Materials Database Upload Status Failure',
+      });
+    });
+
+    it('sapMaterialsUploadStatusDialogMinimized', () => {
+      const action = sapMaterialsUploadStatusDialogMinimized();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] SAP Materials Upload Status Dialog Minimized',
+      });
+    });
+
+    it('sapMaterialsUploadStatusReset', () => {
+      const action = sapMaterialsUploadStatusReset();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] SAP Materials Upload Status Reset',
+      });
+    });
+
+    it('sapMaterialsUploadStatusRestore', () => {
+      const action = sapMaterialsUploadStatusRestore();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] SAP Materials Upload Status Restore',
       });
     });
   });

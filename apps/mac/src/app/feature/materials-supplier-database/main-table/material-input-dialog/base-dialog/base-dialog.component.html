@@ -9,7 +9,7 @@
       >
         <mat-icon class="text-medium-emphasis">minimize</mat-icon>
       </button>
-      <button mat-icon-button (click)="cancelDialog()">
+      <button *ngIf="closeEnabled" mat-icon-button (click)="cancelDialog()">
         <mat-icon class="text-medium-emphasis">close</mat-icon>
       </button>
     </div>
@@ -44,10 +44,16 @@
     >
       {{ t('createAnother') }}</mat-checkbox
     >
-    <button mat-stroked-button (click)="cancelDialog()" color="primary">
+    <button
+      *ngIf="txtCancel"
+      mat-stroked-button
+      (click)="cancelDialog()"
+      color="primary"
+    >
       {{ txtCancel }}
     </button>
     <button
+      *ngIf="txtConfirm"
       mat-raised-button
       color="primary"
       class="!ml-4"

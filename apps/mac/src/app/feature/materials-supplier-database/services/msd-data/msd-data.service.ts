@@ -1,9 +1,10 @@
 /* eslint-disable max-lines */
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -24,6 +25,8 @@ import {
   MaterialStandardTableValue,
   SAPMaterial,
   SAPMaterialHistoryValue,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
   SapMaterialsUpload,
@@ -44,9 +47,15 @@ export class MsdDataService {
   private readonly BASE_URL = `${environment.baseUrl}${this.MSD_URL}v3`;
   private readonly BASE_URL_SAP = `${environment.baseUrl}${this.MSD_URL}v1`;
 
+  private readonly SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY =
+    'MSD_SAP_MATERIALS_UPLOAD_ID';
+
   private readonly TOOLTIP_DELAY = 1500;
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    @Inject(LOCAL_STORAGE) private readonly localStorage: Storage
+  ) {}
 
   public getMaterialClasses() {
     return this.httpClient
@@ -546,7 +555,7 @@ export class MsdDataService {
 
   public uploadSapMaterials(
     upload: SapMaterialsUpload
-  ): Observable<SapMaterialsUploadResponse> {
+  ): Observable<HttpEvent<SapMaterialsUploadResponse>> {
     const formData = new FormData();
     formData.append('owner', upload.owner);
     formData.append('date', upload.date.format('YYYY-MM-DD'));
@@ -555,8 +564,24 @@ export class MsdDataService {
 
     return this.httpClient.post<SapMaterialsUploadResponse>(
       `${this.BASE_URL_SAP}/emissionfactor/upload/file`,
-      formData
+      formData,
+      { reportProgress: true, observe: 'events' }
     );
+  }
+
+  public getSapMaterialsDatabaseUploadStatus(
+    uploadId: string
+  ): Observable<SapMaterialsDatabaseUploadStatus> {
+    return this.httpClient
+      .get<SapMaterialsDatabaseUploadStatusResponse>(
+        `${this.BASE_URL_SAP}/emissionfactor/upload/status/${uploadId}`
+      )
+      .pipe(
+        map(
+          (response: SapMaterialsDatabaseUploadStatusResponse) =>
+            response.status
+        )
+      );
   }
 
   public getDistinctSapValues(column: string): Observable<string[]> {
@@ -565,6 +590,38 @@ export class MsdDataService {
         `${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`
       )
       .pipe(map((v: { values: string[] }) => v.values));
+  }
+
+  /**
+   * Store the given upload ID to local storage.
+   *
+   * @param uploadId ID of the SAP materials upload process
+   */
+  public storeSapMaterialsUploadId(uploadId: string): void {
+    this.localStorage.setItem(
+      this.SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY,
+      uploadId
+    );
+  }
+
+  /**
+   * Remove the stored upload ID from local storage.
+   */
+  public removeSapMaterialsUploadId(): void {
+    this.localStorage.removeItem(
+      this.SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY
+    );
+  }
+
+  /**
+   * Get ID of the currently running SAP materials upload process from local storage.
+   *
+   * @returns the upload ID or null
+   */
+  public getSapMaterialsUploadId(): string {
+    return this.localStorage.getItem(
+      this.SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY
+    );
   }
 
   private fromJson(json: string[]): string[] {

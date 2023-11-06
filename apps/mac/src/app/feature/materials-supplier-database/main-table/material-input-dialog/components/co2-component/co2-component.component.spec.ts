@@ -12,8 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -55,7 +58,7 @@ describe('Co2ComponentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: Co2ComponentComponent,
-    // required so we can set the inüuts
+    // required so we can set the inputs
     detectChanges: false,
     imports: [
       CommonModule,
@@ -69,7 +72,10 @@ describe('Co2ComponentComponent', () => {
       MatInputModule,
       provideTranslocoTestingModule({ en }),
     ],
-    providers: [provideMockStore({ initialState })],
+    providers: [
+      provideMockStore({ initialState }),
+      provideMockActions(() => of()),
+    ],
     declarations: [Co2ComponentComponent],
   });
 

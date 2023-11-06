@@ -6,10 +6,13 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { of } from 'rxjs';
+
 import {
   createDirectiveFactory,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -110,6 +113,7 @@ describe('MaterialDialogBasePartDirective', () => {
         useValue: mockCdRef,
       },
       provideMockStore({ initialState }),
+      provideMockActions(() => of()),
     ],
     template: `
         <mac-co2-component

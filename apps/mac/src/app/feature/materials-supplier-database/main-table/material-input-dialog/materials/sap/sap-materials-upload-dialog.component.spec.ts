@@ -1,30 +1,44 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AsyncValidatorFn,
+  FormBuilder,
+  ValidationErrors,
+} from '@angular/forms';
 import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import moment from 'moment';
 
 import { StringOption } from '@schaeffler/inputs';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MsdDataService } from '@mac/feature/materials-supplier-database/services';
+import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
   addCustomDataOwner,
   materialDialogCanceled,
   sapMaterialsUploadDialogOpened,
+  uploadSapMaterials,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
+import * as en from '../../../../../../../assets/i18n/en.json';
 import * as util from '../../util';
 import { SapMaterialsUploadDialogComponent } from './sap-materials-upload-dialog.component';
-import { SapMaterialsUploadStatus } from './sap-materials-upload-status-chip/sap-materials-upload-status.enum';
+import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
+import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('SapMaterialsUploadDialogComponent', () => {
   let component: SapMaterialsUploadDialogComponent;
@@ -32,18 +46,24 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapMaterialsUploadDialogComponent,
+    imports: [provideTranslocoTestingModule({ en })],
     declarations: [SapMaterialsUploadDialogComponent],
     providers: [
       { provide: MatDialogRef, useValue: { close: jest.fn() } },
       FormBuilder,
-      mockProvider(MsdDataService),
       mockProvider(DialogFacade, {
         dispatch: jest.fn(),
         sapMaterialsDataOwners$: of(),
+        uploadSapMaterialsSucceeded$: of(),
+        sapMaterialsFileUploadProgress$: of(),
       }),
       mockProvider(DataFacade, {
         username$: of(),
       }),
+      mockProvider(ExcelValidatorService, {
+        validate: jest.fn(() => of(undefined as any)),
+      }),
+      mockProvider(MsdDialogService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
@@ -62,6 +82,8 @@ describe('SapMaterialsUploadDialogComponent', () => {
     test('should dispatch sapMaterialsUploadDialogOpened', () => {
       component['initFormGroup'] = jest.fn();
       component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
 
       component.ngOnInit();
 
@@ -72,6 +94,8 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
     test('should init formGroup', () => {
       component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
 
       component.ngOnInit();
 
@@ -80,6 +104,8 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
     test('owner should not be valid', () => {
       component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
 
       component.ngOnInit();
 
@@ -98,6 +124,8 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
     test('owner should be valid', () => {
       component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
 
       component.ngOnInit();
 
@@ -116,6 +144,8 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
     test('file should be valid', () => {
       component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
 
       component.ngOnInit();
 
@@ -128,12 +158,13 @@ describe('SapMaterialsUploadDialogComponent', () => {
       };
 
       component.formGroup.setValue(uploadFormData);
-
       expect(component.formGroup.get('file').valid).toBe(true);
     });
 
     test('file should not be valid', () => {
       component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
 
       component.ngOnInit();
 
@@ -151,6 +182,9 @@ describe('SapMaterialsUploadDialogComponent', () => {
     });
 
     test('should set user as a default owner', () => {
+      component['handleUploadSucceeded'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
+
       const username = 'Mustermann, Max XX/YAZ-FF2B';
       const user: StringOption = { id: 1, title: username };
 
@@ -164,6 +198,67 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
       expect(component.formGroup.get('owner').value).toBe(user);
     });
+
+    test('should close dialog and open uploadStatusDialog on uploadSucceeded', () => {
+      component['initFormGroup'] = jest.fn();
+      component['setDefaultOwner'] = jest.fn();
+      component['handleFileUploadProgressChanges'] = jest.fn();
+      component['dialogService'].openSapMaterialsUploadStatusDialog = jest.fn();
+      component.close = jest.fn();
+      component['dialogFacade'].uploadSapMaterialsSucceeded$ = of(true as any);
+
+      component.ngOnInit();
+
+      expect(component.close).toHaveBeenCalledTimes(1);
+      expect(
+        component['dialogService'].openSapMaterialsUploadStatusDialog
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    test('should show file upload progress in upload button label', () => {
+      const fileUploadProgress = 25;
+
+      component.uploadButtonLabel = undefined;
+      component['initFormGroup'] = jest.fn();
+      component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['dialogFacade'].sapMaterialsFileUploadProgress$ =
+        of(fileUploadProgress);
+
+      component.ngOnInit();
+
+      expect(component.uploadButtonLabel).toBe(`upload ${fileUploadProgress}%`);
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.uploadDialog.upload'
+      );
+    });
+
+    test('should not show file upload progress in upload button label', () => {
+      component.uploadButtonLabel = undefined;
+      component['initFormGroup'] = jest.fn();
+      component['setDefaultOwner'] = jest.fn();
+      component['handleUploadSucceeded'] = jest.fn();
+      component['dialogFacade'].sapMaterialsFileUploadProgress$ = of(
+        undefined as any
+      );
+
+      component.ngOnInit();
+
+      expect(component.uploadButtonLabel).toBe('upload');
+      expect(translate).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.uploadDialog.upload'
+      );
+    });
+  });
+
+  test('should emit on destroy', () => {
+    component['destroy$'].next = jest.fn();
+    component['destroy$'].complete = jest.fn();
+
+    component.ngOnDestroy();
+
+    expect(component['destroy$'].next).toHaveBeenCalled();
+    expect(component['destroy$'].complete).toHaveBeenCalled();
   });
 
   describe('ownerFilterFnFactory', () => {
@@ -239,7 +334,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
       component.setFile(testFile);
 
       expect(component.formGroup.value.file).toBe(testFile);
-      expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.SUCCEED);
+      expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.SUCCEEDED);
     });
 
     test('should set the chosen invalid file', () => {
@@ -277,50 +372,22 @@ describe('SapMaterialsUploadDialogComponent', () => {
         file: new File([''], 'test.xlsx'),
         disclaimerAccepted: true,
       };
-      const uploadSapMaterialsMock = jest.fn();
-      uploadSapMaterialsMock.mockReturnValue(of());
 
-      component['dataService'].uploadSapMaterials = uploadSapMaterialsMock;
       component.ngOnInit();
       component.formGroup.setValue(uploadFormData);
 
       component.upload();
 
-      expect(uploadSapMaterialsMock).toHaveBeenCalledWith({
-        owner: uploadFormData.owner.title,
-        maturity: uploadFormData.maturity,
-        date: uploadFormData.date,
-        file: uploadFormData.file,
-      });
-    });
-
-    test('should reset loading and close dialog', () => {
-      component.formGroup = {
-        value: {
-          owner: { title: 'Mustermann, Max XX/YAZ-FF2B' } as StringOption,
-          maturity: 8,
-          date: moment(),
-          file: new File([''], 'test.xlsx'),
-          disclaimerAccepted: true,
-        },
-      } as unknown as FormGroup;
-
-      const testSubject = new Subject();
-      const uploadSapMaterialsMock = jest.fn();
-      uploadSapMaterialsMock.mockReturnValue(testSubject.asObservable());
-      component['dataService'].uploadSapMaterials = uploadSapMaterialsMock;
-
-      const closeMock = jest.fn();
-      component.close = closeMock;
-
-      expect(component.isLoading).toBe(false);
-
-      component.upload();
-
-      expect(component.isLoading).toBe(true);
-      testSubject.next({});
-      expect(component.isLoading).toBe(false);
-      expect(closeMock).toHaveBeenCalledTimes(1);
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        uploadSapMaterials({
+          upload: {
+            owner: uploadFormData.owner.title,
+            maturity: uploadFormData.maturity,
+            date: uploadFormData.date,
+            file: uploadFormData.file,
+          },
+        })
+      );
     });
   });
 
@@ -332,6 +399,58 @@ describe('SapMaterialsUploadDialogComponent', () => {
         materialDialogCanceled()
       );
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('determineUploadStatus', () => {
+    test('should init be valid', () => {
+      component.ngOnInit();
+      component.formGroup.get('file').setValue(new File([''], 'test.xlsx'));
+
+      expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.SUCCEEDED);
+    });
+
+    test('should init be invalid', () => {
+      component.ngOnInit();
+
+      const file = component.formGroup.get('file');
+      file.addAsyncValidators(() => of({ error: 1 }));
+      file.setValue(new File([''], 'test.xlsx'));
+
+      expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.FAILED);
+    });
+
+    test('should init be in progress', () => {
+      // creating an async validator that will just wait for two seconds to trigger 'in progress'
+      const asyncFkt: AsyncValidatorFn =
+        async (): Promise<ValidationErrors | null> => {
+          await new Promise((f) => setTimeout(f, 2000));
+
+          return of(undefined as any);
+        };
+
+      component.ngOnInit();
+      const file = component.formGroup.get('file');
+      file.addAsyncValidators(asyncFkt);
+      file.setValue(new File([''], 'test.xlsx'));
+
+      expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.IN_PROGRESS);
+    });
+  });
+
+  describe('getErrorMessage', () => {
+    it.each([
+      'required',
+      'missingColumn',
+      'invalidValue',
+      'invalidPcfValue',
+      'missingPcfValue',
+      'unsupportedFileFormat',
+      'generic',
+    ])('should init be valid', (value: string) => {
+      expect(component['getErrorMessage']({ [value]: true, params: {} })).toBe(
+        value
+      );
     });
   });
 });

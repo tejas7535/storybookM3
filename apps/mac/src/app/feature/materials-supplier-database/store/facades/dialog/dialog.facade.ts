@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
+import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
 import {
@@ -25,7 +26,9 @@ import {
   getMaterialStandardDocumentStringOptionsMerged,
   getProductCategories,
   getResumeDialogData,
+  getSapMaterialsDatabaseUploadStatus,
   getSapMaterialsDataOwners,
+  getSapMaterialsFileUploadProgress,
   getSteelMakingProcessesInUse,
   getStringOptions,
   getSupplierBusinessPartnerIdsStringOptionsMerged,
@@ -33,9 +36,15 @@ import {
   getSupplierNameStringOptionsMerged,
   getSupplierPlantsStringOptionsMerged,
   getUniqueStringOptions,
+  isSapMaterialsUploadStatusDialogMinimized,
   selectedHintData,
   validateCo2Scope,
 } from '@mac/msd/store/selectors';
+
+import {
+  getSapMaterialsDatabaseUploadStatusFailure,
+  uploadSapMaterialsSuccess,
+} from '../../actions/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -108,7 +117,30 @@ export class DialogFacade {
   dialogHintData$ = this.store.select(selectedHintData);
   dialogCo2Valid$ = this.store.select(validateCo2Scope);
 
-  constructor(private readonly store: Store) {}
+  uploadSapMaterialsSucceeded$ = this.actions$.pipe(
+    ofType(uploadSapMaterialsSuccess)
+  );
+
+  getSapMaterialsDatabaseUploadStatusFailed$ = this.actions$.pipe(
+    ofType(getSapMaterialsDatabaseUploadStatusFailure)
+  );
+
+  sapMaterialsDatabaseUploadStatus$ = this.store.select(
+    getSapMaterialsDatabaseUploadStatus
+  );
+
+  isSapMaterialsUploadStatusDialogMinimized$ = this.store.select(
+    isSapMaterialsUploadStatusDialogMinimized
+  );
+
+  sapMaterialsFileUploadProgress$ = this.store.select(
+    getSapMaterialsFileUploadProgress
+  );
+
+  constructor(
+    private readonly store: Store,
+    private readonly actions$: Actions
+  ) {}
 
   dispatch(action: Action) {
     this.store.dispatch(action);

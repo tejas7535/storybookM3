@@ -4,8 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -50,7 +53,7 @@ describe('MaterialStandardComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MaterialStandardComponent,
-    // required so we can set the inüuts
+    // required so we can set the inputs
     detectChanges: false,
     imports: [
       CommonModule,
@@ -63,7 +66,11 @@ describe('MaterialStandardComponent', () => {
       provideTranslocoTestingModule({ en }),
     ],
 
-    providers: [provideMockStore({ initialState }), DialogControlsService],
+    providers: [
+      provideMockStore({ initialState }),
+      provideMockActions(() => of()),
+      DialogControlsService,
+    ],
     declarations: [MaterialStandardComponent],
   });
 

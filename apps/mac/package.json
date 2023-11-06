@@ -2,6 +2,7 @@
   "name": "mac",
   "version": "1.13.0",
   "dependencies": {
-    "buffer": "6.0.3"
+    "buffer": "6.0.3",
+    "xlsx": "0.18.0"
   }
 }

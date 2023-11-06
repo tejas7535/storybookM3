@@ -1,5 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -8,7 +10,9 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
 } from '@mac/msd/models';
+import * as DialogActions from '@mac/msd/store/actions/dialog';
 import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
 import { DialogFacade } from '.';
@@ -22,6 +26,7 @@ describe('DialogFacade', () => {
   let spectator: SpectatorService<DialogFacade>;
   let facade: DialogFacade;
   let store: MockStore;
+  let actions$: Actions;
 
   const mockProductCategoryOptions = [{ id: 'tube', title: 'Tube' }];
   const mockMaterialStandard: MaterialStandard = {
@@ -41,6 +46,7 @@ describe('DialogFacade', () => {
   const createService = createServiceFactory({
     service: DialogFacade,
     providers: [
+      provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
           msd: {
@@ -113,6 +119,11 @@ describe('DialogFacade', () => {
                 supplierIdsLoading: false,
                 loadingComplete: true,
               },
+              uploadSapMaterials: {
+                databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+                isUploadStatusDialogMinimized: true,
+                fileUploadProgress: 25,
+              },
               minimizedDialog: {
                 id: undefined,
                 value: {} as MaterialFormValue,
@@ -131,6 +142,7 @@ describe('DialogFacade', () => {
     spectator = createService();
     facade = spectator.service;
     store = spectator.inject(MockStore);
+    actions$ = spectator.inject(Actions);
   });
 
   it('should create', () => {
@@ -527,6 +539,90 @@ describe('DialogFacade', () => {
         });
 
         m.expect(facade.sapMaterialsDataOwners$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('uploadSapMaterialsSucceeded$', () => {
+    it(
+      'should succeed',
+      marbles((m) => {
+        const action = DialogActions.uploadSapMaterialsSuccess({
+          uploadId: 'test',
+        });
+
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.uploadSapMaterialsSucceeded$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('getSapMaterialsDatabaseUploadStatusFailed$', () => {
+    it(
+      'should succeed',
+      marbles((m) => {
+        const action =
+          DialogActions.getSapMaterialsDatabaseUploadStatusFailure();
+
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(
+          facade.getSapMaterialsDatabaseUploadStatusFailed$
+        ).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('sapMaterialsDatabaseUploadStatus$', () => {
+    it(
+      'should provide sapMaterialsDatabaseUploadStatus',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: SapMaterialsDatabaseUploadStatus.RUNNING,
+        });
+
+        m.expect(facade.sapMaterialsDatabaseUploadStatus$).toBeObservable(
+          expected
+        );
+      })
+    );
+  });
+
+  describe('isSapMaterialsUploadStatusDialogMinimized$', () => {
+    it(
+      'should provide isSapMaterialsUploadStatusDialogMinimized',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: true,
+        });
+
+        m.expect(
+          facade.isSapMaterialsUploadStatusDialogMinimized$
+        ).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('sapMaterialsFileUploadProgress$', () => {
+    it(
+      'should provide sapMaterialsFileUploadProgress',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: 25,
+        });
+
+        m.expect(facade.sapMaterialsFileUploadProgress$).toBeObservable(
+          expected
+        );
       })
     );
   });

@@ -1,8 +1,10 @@
+import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import moment from 'moment';
@@ -23,6 +25,8 @@ import {
   MaterialStandardTableValue,
   PolymerMaterial,
   SAPMaterialHistoryValue,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
   SapMaterialsUpload,
@@ -58,18 +62,30 @@ describe('MsdDataService', () => {
   let spectator: SpectatorService<MsdDataService>;
   let service: MsdDataService;
   let httpMock: HttpTestingController;
+  let localStorage: Storage;
 
   const translatePrefix = 'materialsSupplierDatabase.';
 
   const createService = createServiceFactory({
     service: MsdDataService,
     imports: [HttpClientTestingModule, provideTranslocoTestingModule({ en })],
+    providers: [
+      {
+        provide: LOCAL_STORAGE,
+        useValue: {
+          setItem: jest.fn(),
+          removeItem: jest.fn(),
+          getItem: jest.fn(),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(MsdDataService);
     httpMock = spectator.inject(HttpTestingController);
+    localStorage = spectator.inject(LOCAL_STORAGE);
   });
 
   afterEach(() => {
@@ -1280,13 +1296,16 @@ describe('MsdDataService', () => {
         file: new File([''], 'test.xlsx'),
       };
 
-      const response: SapMaterialsUploadResponse = {
-        uploadId: 'testUploadId',
-      };
+      const response = {
+        type: HttpEventType.Response,
+        body: {
+          uploadId: 'testUploadId',
+        },
+      } as HttpResponse<SapMaterialsUploadResponse>;
 
       service
         .uploadSapMaterials(upload)
-        .subscribe((result: SapMaterialsUploadResponse) => {
+        .subscribe((result: HttpEvent<SapMaterialsUploadResponse>) => {
           expect(result).toEqual(response);
           done();
         });
@@ -1302,7 +1321,7 @@ describe('MsdDataService', () => {
       expect(formData.get('maturity')).toBe(upload.maturity.toString());
       expect(formData.get('file')).toBe(upload.file);
 
-      req.flush(response);
+      req.event(response);
     });
   });
 
@@ -1395,6 +1414,59 @@ describe('MsdDataService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(response);
+    });
+  });
+
+  describe('getSapMaterialsDatabaseUploadStatus', () => {
+    it('should get SAP materials database upload status', (done) => {
+      const uploadId = '3d75599c-90ee-4d26-b2fa-8b41d9c8786d';
+      const response: SapMaterialsDatabaseUploadStatusResponse = {
+        timestamp: new Date(),
+        status: SapMaterialsDatabaseUploadStatus.RUNNING,
+      };
+      const expected = response.status;
+
+      service
+        .getSapMaterialsDatabaseUploadStatus(uploadId)
+        .subscribe((result: SapMaterialsDatabaseUploadStatus) => {
+          expect(result).toEqual(expected);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/upload/status/${uploadId}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
+    });
+  });
+
+  describe('SAP materials upload ID localStorage', () => {
+    it('should store', () => {
+      const uploadId = 'test';
+
+      service.storeSapMaterialsUploadId(uploadId);
+
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        service['SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY'],
+        uploadId
+      );
+    });
+
+    it('should remove', () => {
+      service.removeSapMaterialsUploadId();
+
+      expect(localStorage.removeItem).toHaveBeenCalledWith(
+        service['SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY']
+      );
+    });
+
+    it('should get', () => {
+      service.getSapMaterialsUploadId();
+
+      expect(localStorage.getItem).toHaveBeenCalledWith(
+        service['SAP_MATERIALS_UPLOAD_ID_LOCAL_STORAGE_KEY']
+      );
     });
   });
 

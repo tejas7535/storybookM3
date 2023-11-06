@@ -17,11 +17,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { TypedAction } from '@ngrx/store/src/models';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -123,6 +124,7 @@ describe('MaterialInputDialogComponent', () => {
     ],
     providers: [
       provideMockStore({ initialState }),
+      provideMockActions(() => of()),
       {
         provide: MatDialogRef,
         useValue: {

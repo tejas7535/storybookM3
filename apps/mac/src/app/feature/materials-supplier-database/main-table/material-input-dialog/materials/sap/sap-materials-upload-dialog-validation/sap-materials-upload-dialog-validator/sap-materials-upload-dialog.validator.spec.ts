@@ -25,7 +25,10 @@ describe('sapMaterialsUploadDialogValidator', () => {
       const control = new FormControl(new File([''], 'test.json'));
       const result = sapMaterialsUploadFileValidator()(control);
 
-      expect(result).toStrictEqual({ unsupportedFileFormat: true });
+      expect(result).toStrictEqual({
+        unsupportedFileFormat: true,
+        params: { fileExtension: 'json' },
+      });
     });
   });
 

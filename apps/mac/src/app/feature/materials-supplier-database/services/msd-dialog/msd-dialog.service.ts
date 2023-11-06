@@ -19,6 +19,7 @@ import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-di
 import { DataResult } from '@mac/msd/models';
 
 import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
+import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 
@@ -113,6 +114,15 @@ export class MsdDialogService {
 
   public openSapMaterialsUploadDialog(): void {
     this.dialog.open(SapMaterialsUploadDialogComponent, {
+      width: '634px',
+      autoFocus: false,
+      restoreFocus: false,
+      disableClose: true,
+    });
+  }
+
+  public openSapMaterialsUploadStatusDialog(): void {
+    this.dialog.open(SapMaterialsUploadStatusDialogComponent, {
       width: '634px',
       autoFocus: false,
       restoreFocus: false,

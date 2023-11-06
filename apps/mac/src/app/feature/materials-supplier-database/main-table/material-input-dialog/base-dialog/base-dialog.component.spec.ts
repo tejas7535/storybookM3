@@ -11,8 +11,11 @@ import {
 } from '@angular/material/legacy-dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -60,7 +63,7 @@ describe('BaseDialogComponent', () => {
     ],
     providers: [
       provideMockStore({ initialState }),
-
+      provideMockActions(() => of()),
       {
         provide: MatDialogRef,
         useValue: {

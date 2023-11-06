@@ -10,6 +10,7 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
 } from '@mac/msd/models';
 // TODO: clean import
 import {
@@ -67,6 +68,7 @@ import {
   fetchSteelMakingProcessesInUseFailure,
   fetchSteelMakingProcessesInUseSuccess,
   fetchSteelMakingProcessesSuccess,
+  getSapMaterialsDatabaseUploadStatusSuccess,
   manufacturerSupplierDialogOpened,
   materialDialogCanceled,
   materialDialogConfirmed,
@@ -81,8 +83,15 @@ import {
   resetDialogOptions,
   resetMaterialRecord,
   resetSteelMakingProcessInUse,
+  sapMaterialsUploadStatusDialogMinimized,
+  sapMaterialsUploadStatusDialogOpened,
+  sapMaterialsUploadStatusReset,
   setMaterialFormValue,
+  setSapMaterialsFileUploadProgress,
   updateCreateMaterialDialogValues,
+  uploadSapMaterials,
+  uploadSapMaterialsFailure,
+  uploadSapMaterialsSuccess,
 } from '@mac/msd/store/actions/dialog';
 
 export interface DialogState {
@@ -143,6 +152,12 @@ export interface DialogState {
     createMaterialLoading: boolean;
     createMaterialRecord: CreateMaterialRecord;
   };
+  uploadSapMaterials: {
+    uploadLoading: boolean; // indicate that the file is being uploaded to the BE, not that the data is uploaded into the DB!
+    fileUploadProgress: number; // file upload progress in percent
+    databaseUploadStatus: SapMaterialsDatabaseUploadStatus;
+    isUploadStatusDialogMinimized: boolean;
+  };
   selectedMaterial?: {
     rows: DataResult[];
     combinedRows: DataResult;
@@ -173,6 +188,7 @@ export const initialState: DialogState = {
   materialStandard: undefined,
   dialogOptions: undefined,
   createMaterial: undefined,
+  uploadSapMaterials: undefined,
   editMaterial: undefined,
   selectedMaterial: undefined,
   minimizedDialog: undefined,
@@ -1066,6 +1082,90 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         co2Values: undefined,
+      },
+    })
+  ),
+  on(
+    uploadSapMaterials,
+    (state): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        uploadLoading: true,
+      },
+    })
+  ),
+  on(
+    setSapMaterialsFileUploadProgress,
+    (state, { fileUploadProgress }): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        fileUploadProgress,
+      },
+    })
+  ),
+  on(
+    uploadSapMaterialsSuccess,
+    (state): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        uploadLoading: false,
+        databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+        fileUploadProgress: undefined,
+      },
+    })
+  ),
+  on(
+    uploadSapMaterialsFailure,
+    (state): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        uploadLoading: false,
+        fileUploadProgress: undefined,
+      },
+    })
+  ),
+  on(
+    getSapMaterialsDatabaseUploadStatusSuccess,
+    (state, { databaseUploadStatus }): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        databaseUploadStatus,
+      },
+    })
+  ),
+  on(
+    sapMaterialsUploadStatusDialogOpened,
+    (state): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        isUploadStatusDialogMinimized: false,
+      },
+    })
+  ),
+  on(
+    sapMaterialsUploadStatusDialogMinimized,
+    (state): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        isUploadStatusDialogMinimized: true,
+      },
+    })
+  ),
+  on(
+    sapMaterialsUploadStatusReset,
+    (state): DialogState => ({
+      ...state,
+      uploadSapMaterials: {
+        ...state.uploadSapMaterials,
+        databaseUploadStatus: undefined,
+        isUploadStatusDialogMinimized: false,
       },
     })
   )

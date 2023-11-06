@@ -1,0 +1,59 @@
+<mac-base-dialog
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.uploadStatusDialog'
+  "
+  [txtTitle]="t('title')"
+  [minimizeEnabled]="config.minimizeEnabled"
+  [closeEnabled]="config.closeEnabled"
+  [txtCancel]="
+    config.cancelButtonTranslationKeySuffix
+      ? t(config.cancelButtonTranslationKeySuffix)
+      : undefined
+  "
+  [txtConfirm]="
+    config.confirmButtonTranslationKeySuffix
+      ? t(config.confirmButtonTranslationKeySuffix)
+      : undefined
+  "
+  [valid]="true"
+  (minimize)="config.minimize?.()"
+  (cancel)="config.cancel?.()"
+  (accept)="config.confirm?.()"
+>
+  <div class="h-[429px] px-8 flex flex-col gap-y-6 justify-center items-center">
+    <div
+      class="w-[100px] h-[100px] rounded-[90px] border-8 flex flex-col justify-center items-center"
+      [ngClass]="config.status.animationClass"
+      [ngStyle]="{ 'border-color': config.status.color }"
+    >
+      <mat-icon
+        [ngStyle]="{
+          color: config.status.color
+        }"
+        >{{ config.status.icon }}</mat-icon
+      >
+    </div>
+    <div class="text-[14px] leading-6 font-bold text-center">
+      {{ t('statusInfo.' + config.status.descriptionTranslationKeySuffix) }}
+    </div>
+    <div
+      *ngIf="config.infoTranslationKeySuffix"
+      class="w-full mt-8 px-3 py-2 border rounded-md border-[#1C98B5] bg-[#F0F6FA] text-center text-[12px] leading-4 font-medium text-[#00596E]"
+    >
+      {{ t(config.infoTranslationKeySuffix) }}
+    </div>
+    <div
+      *ngIf="config.warningTranslationKeySuffix"
+      class="w-full flex justify-center items-center gap-x-1 px-3 py-2 border rounded-[100px] border-[#E9B300] bg-[#FFFBEF]"
+    >
+      <mat-icon
+        class="!w-[16px] !h-[16px] !leading-4 !text-[16px] text-[#E9B300]"
+        >warning_outline</mat-icon
+      >
+      <span class="text-[14px] leading-6 font-medium text-[#814E00]">{{
+        t(config.warningTranslationKeySuffix)
+      }}</span>
+    </div>
+  </div>
+</mac-base-dialog>

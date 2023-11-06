@@ -25,8 +25,10 @@ import { BaseDialogModule } from '@mac/msd/main-table/material-input-dialog/base
 
 import { MaturityInfoComponent } from '../../../maturity-info/maturity-info.component';
 import { SapMaterialsUploadDialogComponent } from './sap-materials-upload-dialog.component';
-import { SapMaterialsUploadDragAndDropDirective } from './sap-materials-upload-drag-and-drop.directive';
+import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
+import { SapMaterialsUploadDragAndDropDirective } from './sap-materials-upload-drag-and-drop/sap-materials-upload-drag-and-drop.directive';
 import { SapMaterialsUploadStatusChipComponent } from './sap-materials-upload-status-chip/sap-materials-upload-status-chip.component';
+import { SapMaterialsUploadStatusDialogComponent } from './sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 
 const DATE_FORMATS = {
   parse: { dateInput: 'YYYY-MM-DD' },
@@ -38,6 +40,7 @@ const DATE_FORMATS = {
 @NgModule({
   declarations: [
     SapMaterialsUploadDialogComponent,
+    SapMaterialsUploadStatusDialogComponent,
     SapMaterialsUploadDragAndDropDirective,
     SapMaterialsUploadStatusChipComponent,
   ],
@@ -60,7 +63,13 @@ const DATE_FORMATS = {
     SelectModule,
     PushPipe,
   ],
-  exports: [SapMaterialsUploadDialogComponent],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }],
+  exports: [
+    SapMaterialsUploadDialogComponent,
+    SapMaterialsUploadStatusDialogComponent,
+  ],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+    ExcelValidatorService,
+  ],
 })
 export class SapMaterialsUploadDialogModule {}

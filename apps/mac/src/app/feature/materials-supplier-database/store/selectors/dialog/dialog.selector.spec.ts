@@ -12,6 +12,7 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
 } from '@mac/msd/models';
 import {
   DialogState,
@@ -1064,11 +1065,27 @@ describe('DialogSelectors', () => {
     expect(result).toEqual(expected);
   });
 
-  it('should return createMaterialLoading', () => {
+  it('createMaterialLoading should be true', () => {
     expect(
       DialogSelectors.getCreateMaterialLoading.projector({
         createMaterial: {
           createMaterialLoading: true,
+        },
+        uploadSapMaterials: {
+          uploadLoading: false,
+        },
+      } as DialogState)
+    ).toEqual(true);
+  });
+
+  it('createMaterialLoading should be true if uploadLoading for SAP materials is true', () => {
+    expect(
+      DialogSelectors.getCreateMaterialLoading.projector({
+        createMaterial: {
+          createMaterialLoading: false,
+        },
+        uploadSapMaterials: {
+          uploadLoading: true,
         },
       } as DialogState)
     ).toEqual(true);
@@ -1084,7 +1101,7 @@ describe('DialogSelectors', () => {
     ).toEqual({});
   });
 
-  it('shoudl return editMaterial', () => {
+  it('should return editMaterial', () => {
     expect(
       DialogSelectors.getEditMaterialData.projector({
         editMaterial: {
@@ -1771,5 +1788,49 @@ describe('DialogSelectors', () => {
         dataOwners,
       } as any)
     ).toEqual(dataOwners);
+  });
+
+  it('should return sapMaterialsDatabaseUploadStatus', () => {
+    expect(
+      DialogSelectors.getSapMaterialsDatabaseUploadStatus.projector({
+        uploadSapMaterials: {
+          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+        },
+      } as DialogState)
+    ).toBe(SapMaterialsDatabaseUploadStatus.RUNNING);
+  });
+
+  it('should return sapMaterialsFileUploadProgress', () => {
+    const fileUploadProgress = 65;
+
+    expect(
+      DialogSelectors.getSapMaterialsFileUploadProgress.projector({
+        uploadSapMaterials: {
+          fileUploadProgress,
+        },
+      } as DialogState)
+    ).toBe(fileUploadProgress);
+  });
+
+  describe('isSapMaterialsUploadStatusDialogMinimized', () => {
+    it('should return false if isUploadStatusDialogMinimized is undefined', () => {
+      expect(
+        DialogSelectors.isSapMaterialsUploadStatusDialogMinimized.projector({
+          uploadSapMaterials: {
+            isUploadStatusDialogMinimized: undefined,
+          },
+        } as DialogState)
+      ).toBe(false);
+    });
+
+    it('should return true if isUploadStatusDialogMinimized is true', () => {
+      expect(
+        DialogSelectors.isSapMaterialsUploadStatusDialogMinimized.projector({
+          uploadSapMaterials: {
+            isUploadStatusDialogMinimized: true,
+          },
+        } as DialogState)
+      ).toBe(true);
+    });
   });
 });

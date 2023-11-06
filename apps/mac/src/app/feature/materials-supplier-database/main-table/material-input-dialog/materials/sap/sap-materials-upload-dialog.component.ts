@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -7,27 +13,30 @@ import {
 } from '@angular/forms';
 import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
-import { combineLatest, filter, take } from 'rxjs';
+import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import moment, { Moment } from 'moment';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MsdDataService } from '@mac/feature/materials-supplier-database/services';
+import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
   addCustomDataOwner,
   materialDialogCanceled,
   sapMaterialsUploadDialogOpened,
+  uploadSapMaterials,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
 import * as util from '../../util';
+import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
 import {
   sapMaterialsUploadDataOwnerValidator,
   sapMaterialsUploadFileValidator,
-} from './sap-materials-upload-dialog.validator';
-import { SapMaterialsUploadStatus } from './sap-materials-upload-status-chip/sap-materials-upload-status.enum';
+} from './sap-materials-upload-dialog-validation/sap-materials-upload-dialog-validator/sap-materials-upload-dialog.validator';
+import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
 
 interface SapMaterialUploadDialogFormControl {
   owner: FormControl<StringOption>;
@@ -42,21 +51,26 @@ interface SapMaterialUploadDialogFormControl {
   templateUrl: './sap-materials-upload-dialog.component.html',
   styleUrls: ['./sap-materials-upload-dialog.component.scss'],
 })
-export class SapMaterialsUploadDialogComponent implements OnInit {
+export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   @ViewChild('fileChooser') fileChooserRef: ElementRef;
 
   possibleMaturity = [10, 8, 7, 5, 2];
   formGroup: FormGroup<SapMaterialUploadDialogFormControl>;
-  isLoading = false;
   uploadStatus: SapMaterialsUploadStatus;
+  uploadButtonLabel: string;
+  errorMessage: string;
   dataOwners$ = this.dialogFacade.sapMaterialsDataOwners$;
+  fileControl: FormControl<File>;
+
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly dialogRef: MatDialogRef<SapMaterialsUploadDialogComponent>,
     private readonly formBuilder: FormBuilder,
-    private readonly dataService: MsdDataService,
     private readonly dialogFacade: DialogFacade,
-    private readonly dataFacade: DataFacade
+    private readonly dataFacade: DataFacade,
+    private readonly excelValidatorService: ExcelValidatorService,
+    private readonly dialogService: MsdDialogService
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +78,13 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
 
     this.initFormGroup();
     this.setDefaultOwner();
+    this.handleFileUploadProgressChanges();
+    this.handleUploadSucceeded();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ownerFilterFnFactory = (option?: StringOption, value?: string) =>
@@ -82,8 +103,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
   }
 
   setFile(file: File): void {
-    this.formGroup.controls.file.setValue(file);
-    this.uploadStatus = this.determineUploadStatus();
+    this.fileControl.setValue(file);
 
     if (!file) {
       // Reset the input element value.
@@ -93,13 +113,10 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
   }
 
   upload(): void {
-    this.isLoading = true;
     const { owner, date, maturity, file } = this.formGroup.value;
-    this.dataService
-      .uploadSapMaterials({ owner: owner.title, date, maturity, file })
-      .pipe(take(1))
-      .subscribe(() => this.close())
-      .add(() => (this.isLoading = false));
+    const upload = { owner: owner.title, date, maturity, file };
+
+    this.dialogFacade.dispatch(uploadSapMaterials({ upload }));
   }
 
   close(): void {
@@ -107,7 +124,53 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  private getErrorMessage(errors: { [key: string]: any }): string {
+    if (!errors) {
+      return undefined;
+    }
+    if (errors.required) {
+      return this.getTranslatedError('required');
+    }
+    if (errors.missingColumn) {
+      return this.getTranslatedError('missingColumn', errors.params);
+    }
+    if (errors.invalidValue) {
+      return this.getTranslatedError('invalidValue', errors.params);
+    }
+    if (errors.invalidPcfValue) {
+      return this.getTranslatedError('invalidPcfValue', errors.params);
+    }
+    if (errors.missingPcfValue) {
+      return this.getTranslatedError('missingPcfValue', errors.params);
+    }
+    if (errors.unsupportedFileFormat) {
+      return this.getTranslatedError('unsupportedFileFormat', errors.params);
+    }
+
+    return this.getTranslatedError('generic');
+  }
+
+  private getTranslatedError(key: string, params = {}): string {
+    return translate(
+      `materialsSupplierDatabase.mainTable.uploadDialog.error.${key}`,
+      params
+    );
+  }
+
   private initFormGroup(): void {
+    this.fileControl = new FormControl(
+      undefined,
+      [Validators.required, sapMaterialsUploadFileValidator().bind(this)],
+      this.excelValidatorService.validate.bind(this.excelValidatorService)
+    );
+
+    this.fileControl.statusChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.uploadStatus = this.determineUploadStatus();
+        this.errorMessage = this.getErrorMessage(this.fileControl.errors);
+      });
+
     this.formGroup = this.formBuilder.group<SapMaterialUploadDialogFormControl>(
       {
         owner: new FormControl(undefined, [
@@ -119,10 +182,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
           this.possibleMaturity[0],
           Validators.required
         ),
-        file: new FormControl(undefined, [
-          Validators.required,
-          sapMaterialsUploadFileValidator().bind(this),
-        ]),
+        file: this.fileControl,
         disclaimerAccepted: new FormControl(false, Validators.requiredTrue),
       }
     );
@@ -151,15 +211,38 @@ export class SapMaterialsUploadDialogComponent implements OnInit {
       });
   }
 
+  private handleFileUploadProgressChanges(): void {
+    this.dialogFacade.sapMaterialsFileUploadProgress$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((progress: number) => {
+        const progressText = progress ? `${progress}%` : '';
+        this.uploadButtonLabel = `${translate(
+          'materialsSupplierDatabase.mainTable.uploadDialog.upload'
+        )} ${progressText}`.trim();
+      });
+  }
+
+  private handleUploadSucceeded(): void {
+    this.dialogFacade.uploadSapMaterialsSucceeded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.close();
+        this.dialogService.openSapMaterialsUploadStatusDialog();
+      });
+  }
+
   private determineUploadStatus(): SapMaterialsUploadStatus {
-    if (!this.formGroup.get('file').value) {
+    if (!this.fileControl.value) {
       return undefined;
     }
 
-    if (this.formGroup.get('file').valid) {
-      return SapMaterialsUploadStatus.SUCCEED;
+    switch (this.fileControl.status) {
+      case 'PENDING':
+        return SapMaterialsUploadStatus.IN_PROGRESS;
+      case 'VALID':
+        return SapMaterialsUploadStatus.SUCCEEDED;
+      default:
+        return SapMaterialsUploadStatus.FAILED;
     }
-
-    return SapMaterialsUploadStatus.FAILED;
   }
 }

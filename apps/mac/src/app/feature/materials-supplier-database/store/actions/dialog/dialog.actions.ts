@@ -10,6 +10,8 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsUpload,
 } from '@mac/msd/models';
 
 export const materialDialogOpened = createAction(
@@ -431,3 +433,62 @@ export const updateCreateMaterialDialogValues = createAction(
 );
 
 export const openDialog = createAction('[MSD - Dialog] Open Dialog');
+
+export const uploadSapMaterials = createAction(
+  '[MSD - Dialog] Upload SAP Materials',
+  props<{ upload: SapMaterialsUpload }>()
+);
+
+export const setSapMaterialsFileUploadProgress = createAction(
+  '[MSD - Dialog] Set SAP Materials File Upload Progress',
+  props<{ fileUploadProgress: number }>()
+);
+
+export const uploadSapMaterialsSuccess = createAction(
+  '[MSD - Dialog] Upload SAP Materials Success',
+  props<{
+    uploadId: string;
+  }>()
+);
+
+export const uploadSapMaterialsFailure = createAction(
+  '[MSD - Dialog] Upload SAP Materials Failure'
+);
+
+export const startPollingSapMaterialsDatabaseUploadStatus = createAction(
+  '[MSD - Dialog] Start Polling SAP Materials Database Upload Status',
+  props<{
+    uploadId: string;
+  }>()
+);
+
+export const stopPollingSapMaterialsDatabaseUploadStatus = createAction(
+  '[MSD - Dialog] Stop Polling SAP Materials Database Upload Status'
+);
+
+export const getSapMaterialsDatabaseUploadStatusSuccess = createAction(
+  '[MSD - Dialog] Get SAP Materials Database Upload Status Success',
+  props<{
+    databaseUploadStatus: SapMaterialsDatabaseUploadStatus;
+  }>()
+);
+
+export const getSapMaterialsDatabaseUploadStatusFailure = createAction(
+  '[MSD - Dialog] Get SAP Materials Database Upload Status Failure'
+);
+
+export const sapMaterialsUploadStatusDialogOpened = createAction(
+  '[MSD - Dialog] SAP Materials Upload Status Dialog Opened'
+);
+
+export const sapMaterialsUploadStatusDialogMinimized = createAction(
+  '[MSD - Dialog] SAP Materials Upload Status Dialog Minimized'
+);
+
+export const sapMaterialsUploadStatusReset = createAction(
+  '[MSD - Dialog] SAP Materials Upload Status Reset'
+);
+
+export const sapMaterialsUploadStatusRestore = createAction(
+  '[MSD - Dialog] SAP Materials Upload Status Restore'
+);

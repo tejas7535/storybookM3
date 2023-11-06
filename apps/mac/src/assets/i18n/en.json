@@ -356,6 +356,7 @@
   "materialsSupplierDatabase": {
     "addItem": "Add Item",
     "uploadItem": "Upload Item",
+    "uploadInProgress": "upload in progress",
     "all": "All",
     "allClass": "All {{class}}:",
     "allSelected": "All selected",
@@ -473,7 +474,31 @@
           "button": "Browse"
         },
         "downloadTemplate": "Download Excel-File template here",
-        "disclaimer": "I am aware that the uploaded data will not be checked for plausibility and that I am responsible for the data."
+        "disclaimer": "I am aware that the uploaded data will not be checked for plausibility and that I am responsible for the data.",
+        "uploadFailure": "Item upload failed!",
+        "error": {
+          "generic": "Value is not valid",
+          "required": "Input required",
+          "missingColumn": "Mandatory columns missing in Excel file: {{missing}}",
+          "invalidValue": "Invalid value [{{value}}] in column [{{column}}] row [{{rowIndex}}].",
+          "invalidPcfValue": "At least one PCF Value is not valid in row [{{rowIndex}}]: [{{valueKg}}] or [{{valuePc}}]!",
+          "missingPcfValue": "No PCF value found in row [{{rowIndex}}]",
+          "unsupportedFileFormat": "Unsupported file format [{{fileExtension}}]"
+        }
+      },
+      "uploadStatusDialog": {
+        "title": "Upload item",
+        "minimize": "minimize window",
+        "close": "close window",
+        "startNew": "start new upload",
+        "statusInfo": {
+          "RUNNING": "Your file is currently uploaded into the database. This can take a few minutes.",
+          "DONE": "Your file is successfully uploaded into the database.",
+          "FAILED": "An error occurred merging your data into the database."
+        },
+        "minimizeInfo": "This dialog can be minimized without interrupting the upload process. The upload will continue in the background.",
+        "browserTabWarning": "Please do not close the Material Supplier Database Browser tab.",
+        "getDatabaseUploadStatusFailure": "An error occurred while getting the database upload status of your data!"
       },
       "changeHistory": {
         "created": "First created:",

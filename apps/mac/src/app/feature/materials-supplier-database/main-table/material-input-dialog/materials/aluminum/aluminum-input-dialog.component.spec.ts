@@ -17,8 +17,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -115,6 +118,7 @@ describe('AluminumInputDialogComponent', () => {
     ],
     providers: [
       provideMockStore({ initialState }),
+      provideMockActions(() => of()),
       DialogControlsService,
       {
         provide: MatDialogRef,

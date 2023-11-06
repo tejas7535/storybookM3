@@ -50,7 +50,11 @@ import {
 } from '@mac/msd/constants';
 import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
-import { DataResult, SAPMaterial } from '@mac/msd/models';
+import {
+  DataResult,
+  SAPMaterial,
+  SapMaterialsDatabaseUploadStatus,
+} from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
@@ -68,6 +72,8 @@ import { initialState as initialDialogState } from '@mac/msd/store/reducers/dial
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
+import { DialogFacade } from '../store/facades/dialog';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
@@ -155,6 +161,7 @@ describe('MainTableComponent', () => {
         useValue: {
           openDialog: jest.fn(),
           openSapMaterialsUploadDialog: jest.fn(),
+          openSapMaterialsUploadStatusDialog: jest.fn(),
         },
       },
       {
@@ -175,6 +182,13 @@ describe('MainTableComponent', () => {
           }),
         },
       },
+      {
+        provide: DialogFacade,
+        useValue: {
+          dispatch: jest.fn(),
+          sapMaterialsDatabaseUploadStatus$: of(),
+        },
+      },
     ],
     declarations: [MainTableComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -193,7 +207,7 @@ describe('MainTableComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  describe('ngOnDestory', () => {
+  describe('ngOnDestroy', () => {
     it('should complete the observable', () => {
       component.destroy$.next = jest.fn();
       component.destroy$.complete = jest.fn();
@@ -1351,6 +1365,70 @@ describe('MainTableComponent', () => {
       expect(component['dialogService'].openBulkEditDialog).toBeCalledWith(
         selectedNodes
       );
+    });
+  });
+
+  describe('openSapMaterialsUploadStatusDialog', () => {
+    it('should open the dialog', () => {
+      component.openSapMaterialsUploadStatusDialog();
+
+      expect(
+        component['dialogService'].openSapMaterialsUploadStatusDialog
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('sapMaterialsUploadStatusRecover', () => {
+    beforeEach(() => jest.resetAllMocks());
+
+    it('should dispatch sapMaterialsUploadStatusRecover action if selected material class is SAP_MATERIAL', () => {
+      component.navigation$ = of({
+        materialClass: MaterialClass.SAP_MATERIAL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
+
+      component.ngOnInit();
+
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        sapMaterialsUploadStatusRestore()
+      );
+    });
+
+    it('should not dispatch sapMaterialsUploadStatusRecover action if selected material class is not SAP_MATERIAL', () => {
+      component.navigation$ = of({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      });
+
+      component.ngOnInit();
+
+      expect(component['dialogFacade'].dispatch).not.toHaveBeenCalledWith(
+        sapMaterialsUploadStatusRestore()
+      );
+    });
+  });
+
+  describe('sapMaterialsDatabaseUploadStatus', () => {
+    it('should reload SAP materials if database upload status is DONE', () => {
+      component.refreshServerSide = jest.fn();
+      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of(
+        SapMaterialsDatabaseUploadStatus.DONE
+      );
+
+      component.ngOnInit();
+
+      expect(component.refreshServerSide).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not reload SAP materials if database upload status is not DONE', () => {
+      component.refreshServerSide = jest.fn();
+      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of(
+        SapMaterialsDatabaseUploadStatus.RUNNING
+      );
+
+      component.ngOnInit();
+
+      expect(component.refreshServerSide).not.toHaveBeenCalled();
     });
   });
 });

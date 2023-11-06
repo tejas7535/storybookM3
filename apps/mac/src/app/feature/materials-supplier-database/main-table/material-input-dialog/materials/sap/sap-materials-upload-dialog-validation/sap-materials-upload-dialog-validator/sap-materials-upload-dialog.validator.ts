@@ -9,7 +9,9 @@ export function sapMaterialsUploadFileValidator(): ValidatorFn {
     // Only Excel files are supported
     const valid = fileExtension === 'xls' || fileExtension === 'xlsx';
 
-    return !valid ? { unsupportedFileFormat: true } : undefined;
+    return !!file && !valid
+      ? { unsupportedFileFormat: true, params: { fileExtension } }
+      : undefined;
   };
 }
 

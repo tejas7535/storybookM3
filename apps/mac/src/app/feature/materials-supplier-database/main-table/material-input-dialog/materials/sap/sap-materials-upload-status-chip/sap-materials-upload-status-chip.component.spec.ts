@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
+import { SapMaterialsUploadStatus } from '../sap-materials-upload-status.enum';
 import { SapMaterialsUploadStatusChipComponent } from './sap-materials-upload-status-chip.component';
 
 describe('SapMaterialsUploadStatusChipComponent', () => {
@@ -46,7 +46,7 @@ describe('SapMaterialsUploadStatusChipComponent', () => {
     });
 
     test('should set config for status SUCCEED', () => {
-      component.status = SapMaterialsUploadStatus.SUCCEED;
+      component.status = SapMaterialsUploadStatus.SUCCEEDED;
 
       expect(component.config).toStrictEqual({
         icon: 'check_circle_outline',

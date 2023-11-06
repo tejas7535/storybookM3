@@ -10,3 +10,14 @@ export interface SapMaterialsUpload {
 export interface SapMaterialsUploadResponse {
   uploadId: string;
 }
+
+export interface SapMaterialsDatabaseUploadStatusResponse {
+  timestamp: Date;
+  status: SapMaterialsDatabaseUploadStatus;
+}
+
+export enum SapMaterialsDatabaseUploadStatus {
+  RUNNING = 'RUNNING',
+  DONE = 'DONE',
+  FAILED = 'FAILED',
+}

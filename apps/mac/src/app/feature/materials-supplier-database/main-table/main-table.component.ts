@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import {
@@ -58,6 +58,7 @@ import {
   ActiveNavigationLevel,
   DataResult,
   SAPMaterial,
+  SapMaterialsDatabaseUploadStatus,
 } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
@@ -75,6 +76,8 @@ import {
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
+import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
+import { DialogFacade } from '../store/facades/dialog';
 import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
 import { getStatus } from './util';
 
@@ -101,6 +104,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
 
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
+  public isSapMaterialsUploadStatusDialogMinimized$ =
+    this.dialogFacade.isSapMaterialsUploadStatusDialogMinimized$;
 
   public selectedClass: string;
 
@@ -150,7 +155,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly dialogService: MsdDialogService,
     public readonly dataService: MsdDataService,
-    private readonly agGridConfigService: MsdAgGridConfigService
+    private readonly agGridConfigService: MsdAgGridConfigService,
+    private readonly dialogFacade: DialogFacade
   ) {}
 
   public ngOnInit(): void {
@@ -193,6 +199,19 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           );
         }
       });
+
+    this.navigation$
+      .pipe(
+        filter(
+          ({ materialClass }) => materialClass === MaterialClass.SAP_MATERIAL
+        ),
+        take(1)
+      )
+      .subscribe(() =>
+        this.dialogFacade.dispatch(sapMaterialsUploadStatusRestore())
+      );
+
+    this.reloadDataOnSapMaterialsDatabaseUploadSuccess();
   }
 
   public ngAfterViewInit(): void {
@@ -242,6 +261,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public openSapMaterialsUploadDialog(): void {
     this.dialogService.openSapMaterialsUploadDialog();
+  }
+
+  public openSapMaterialsUploadStatusDialog(): void {
+    this.dialogService.openSapMaterialsUploadStatusDialog();
   }
 
   public createServerSideDataSource(
@@ -578,5 +601,17 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       default:
         return value?.toString() || '';
     }
+  }
+
+  private reloadDataOnSapMaterialsDatabaseUploadSuccess(): void {
+    this.dialogFacade.sapMaterialsDatabaseUploadStatus$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(
+          (databaseUploadStatus: SapMaterialsDatabaseUploadStatus) =>
+            databaseUploadStatus === SapMaterialsDatabaseUploadStatus.DONE
+        )
+      )
+      .subscribe(() => this.refreshServerSide());
   }
 }

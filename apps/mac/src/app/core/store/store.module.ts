@@ -18,7 +18,11 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
       metaReducers,
       runtimeChecks: {
         strictStateSerializability: true,
-        strictActionSerializability: true,
+
+        // We need to turn off this check because we need to transfer a file via the action 'uploadSapMaterials' to the corresponding effect.
+        // The file is not stored in the state store!
+        // File objects are not serializable and we get the NGRX error 'Detected unserializable action' if we have strictActionSerializability set to true.
+        strictActionSerializability: false,
       },
     }),
     StoreRouterConnectingModule.forRoot({

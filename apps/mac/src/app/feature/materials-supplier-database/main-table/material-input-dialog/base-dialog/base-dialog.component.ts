@@ -20,6 +20,8 @@ export class BaseDialogComponent {
   public isAddDialog: boolean;
   @Input()
   public minimizeEnabled = true;
+  @Input()
+  public closeEnabled = true;
 
   @Input() public valid: boolean;
   @Output() public minimize = new EventEmitter<void>();

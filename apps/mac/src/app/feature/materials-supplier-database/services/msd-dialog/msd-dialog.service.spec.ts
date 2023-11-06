@@ -17,6 +17,7 @@ import { MaterialStandardInputDialogComponent } from '../../main-table/material-
 import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
+import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
@@ -232,6 +233,22 @@ describe('MsdDialogService', () => {
 
       expect(service['dialog'].open).toBeCalledWith(
         SapMaterialsUploadDialogComponent,
+        {
+          width: '634px',
+          autoFocus: false,
+          restoreFocus: false,
+          disableClose: true,
+        }
+      );
+    });
+  });
+
+  describe('openSapMaterialsUploadStatusDialog', () => {
+    it('should open the dialog', () => {
+      service.openSapMaterialsUploadStatusDialog();
+
+      expect(service['dialog'].open).toBeCalledWith(
+        SapMaterialsUploadStatusDialogComponent,
         {
           width: '634px',
           autoFocus: false,

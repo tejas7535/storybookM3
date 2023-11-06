@@ -6,8 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -54,7 +57,7 @@ describe('ManufacturerSupplierComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ManufacturerSupplierComponent,
-    // required so we can set the inüuts
+    // required so we can set the inputs
     detectChanges: false,
     imports: [
       CommonModule,
@@ -68,7 +71,10 @@ describe('ManufacturerSupplierComponent', () => {
       SelectModule,
       provideTranslocoTestingModule({ en }),
     ],
-    providers: [provideMockStore({ initialState })],
+    providers: [
+      provideMockStore({ initialState }),
+      provideMockActions(() => of()),
+    ],
     declarations: [ManufacturerSupplierComponent],
   });
 
