@@ -13,7 +13,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 import { debounceTime, filter, Subscription, tap } from 'rxjs';
 
