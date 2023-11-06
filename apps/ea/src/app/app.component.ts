@@ -151,9 +151,6 @@ export class AppComponent
 
     if (changes.standalone) {
       const isStandaloneVersion = changes.standalone.currentValue === 'true';
-      if (!isStandaloneVersion) {
-        this.localeService.setLocale(getLocaleForLanguage(this.language).id);
-      }
 
       this.store.dispatch(
         SettingsActions.setStandalone({
@@ -193,6 +190,7 @@ export class AppComponent
       : FALLBACK_LANGUAGE.id;
 
     this.translocoService.setActiveLang(currentLanguage);
+    this.localeService.setLocale(getLocaleForLanguage(currentLanguage).id);
     this.store.dispatch(StorageMessagesActions.getStorageMessage());
   }
 
