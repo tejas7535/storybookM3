@@ -30,16 +30,8 @@ import {
 } from '@mac/msd/main-table/table-config';
 
 import { PcfMaturityCo2CellRendererComponent } from '../../../pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
-import { TRANSLATE_VALUE_FORMATTER_FACTORY } from '../../helpers';
+import { EMISSION_FACTORS_FORMATTER, MATURITY_FORMATTER } from '../../helpers';
 import { HISTORY_COLUMN_DEFINITION } from '../base';
-
-const maturityValueFormatter = (valueFormatterParams: ValueFormatterParams) => {
-  const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY(
-    'materialsSupplierDatabase.dataSource'
-  );
-
-  return `${formatter(valueFormatterParams)} (${valueFormatterParams.value})`;
-};
 
 export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   HISTORY_COLUMN_DEFINITION,
@@ -119,6 +111,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
     cellRenderer: PcfMaturityCo2CellRendererComponent,
+    valueFormatter: EMISSION_FACTORS_FORMATTER,
   },
   {
     field: EMISSION_FACTOR_PC,
@@ -126,6 +119,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
     cellRenderer: PcfMaturityCo2CellRendererComponent,
+    valueFormatter: EMISSION_FACTORS_FORMATTER,
   },
   {
     field: TRANSPORT_PC,
@@ -160,10 +154,10 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agSetColumnFilter',
     filterParams: {
       ...DISTINCT_FILTER_PARAMS,
-      valueFormatter: maturityValueFormatter,
+      valueFormatter: MATURITY_FORMATTER,
       suppressSorting: true,
     },
-    valueFormatter: maturityValueFormatter,
+    valueFormatter: MATURITY_FORMATTER,
   },
   {
     field: OWNER,

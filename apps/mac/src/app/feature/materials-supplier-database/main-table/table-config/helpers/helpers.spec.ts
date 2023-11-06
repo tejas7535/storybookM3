@@ -9,7 +9,10 @@ import {
 } from 'ag-grid-community';
 
 import { Status } from '@mac/feature/materials-supplier-database/constants';
-import { DataResult } from '@mac/feature/materials-supplier-database/models';
+import {
+  DataResult,
+  SAPMaterial,
+} from '@mac/feature/materials-supplier-database/models';
 
 import { getStatus } from '../../util';
 import {
@@ -17,12 +20,14 @@ import {
   CUSTOM_DATE_FORMATTER,
   DATE_COMPARATOR,
   DISTINCT_VALUE_GETTER,
+  EMISSION_FACTORS_FORMATTER,
   EMPTY_VALUE_FORMATTER,
   excludeColumn,
   lockColumns,
   MANUFACTURER_VALUE_GETTER,
   MATERIALSTANDARD_LINK_FORMATTER,
   MATERIALSTOFFID_LINK_FORMATTER,
+  MATURITY_FORMATTER,
   RECYCLING_RATE_FILTER_VALUE_GETTER,
   RECYCLING_RATE_VALUE_GETTER,
   RELEASE_DATE_FORMATTER,
@@ -438,6 +443,73 @@ describe('helpers', () => {
         },
       } as SetFilterValuesFuncParams;
       DISTINCT_VALUE_GETTER(mockParams);
+    });
+  });
+
+  describe('MATURITY_FORMATTER', () => {
+    it('should return translation and value', () => {
+      const testMaturityValue = 10;
+      const mockParams = {
+        value: testMaturityValue,
+      } as ValueFormatterParams<SAPMaterial, number>;
+
+      const result = MATURITY_FORMATTER(mockParams);
+
+      expect(result).toEqual(
+        `materialsSupplierDatabase.dataSource.${testMaturityValue} (${testMaturityValue})`
+      );
+    });
+  });
+
+  describe('EMISSION_FACTORS_FORMATTER', () => {
+    it('should return undefined if value is undefined', () => {
+      const mockParams = {
+        value: undefined,
+      } as ValueFormatterParams<SAPMaterial, number>;
+
+      const result = EMISSION_FACTORS_FORMATTER(mockParams);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return integer', () => {
+      const mockParams = {
+        value: 2.000_193_939_393_9,
+      } as ValueFormatterParams<SAPMaterial, number>;
+
+      const result = EMISSION_FACTORS_FORMATTER(mockParams);
+
+      expect(result).toBe('2');
+    });
+
+    it('should return 3 decimal places', () => {
+      const mockParams = {
+        value: 0.000_599_937_273_2,
+      } as ValueFormatterParams<SAPMaterial, number>;
+
+      const result = EMISSION_FACTORS_FORMATTER(mockParams);
+
+      expect(result).toBe('0.001');
+    });
+
+    it('should return 2 decimal places', () => {
+      const mockParams = {
+        value: 5.200_009_989,
+      } as ValueFormatterParams<SAPMaterial, number>;
+
+      const result = EMISSION_FACTORS_FORMATTER(mockParams);
+
+      expect(result).toBe('5.2');
+    });
+
+    it('should return < 0.001', () => {
+      const mockParams = {
+        value: 0.000_497_736_272_376,
+      } as ValueFormatterParams<SAPMaterial, number>;
+
+      const result = EMISSION_FACTORS_FORMATTER(mockParams);
+
+      expect(result).toBe('< 0.001');
     });
   });
 });
