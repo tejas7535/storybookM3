@@ -133,7 +133,12 @@ export class AzureAuthService {
               account.accessToken
             ).roles;
 
-            return { ...activeAccount, department, backendRoles };
+            return {
+              ...activeAccount,
+              department,
+              backendRoles,
+              accessToken: account.accessToken,
+            };
           })
         );
     }

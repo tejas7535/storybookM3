@@ -33,6 +33,7 @@ This library provides the following (piped) selectors that can be used from with
 | `getIsLoggedIn` | get logged in status | ✅ | `this.store.select(getIsLoggedIn)` | |
 | `getAccountInfo` | get whole account information from user | ✅ | `this.store.select(getAccountInfo)` | |
 | `getProfileImage` | get url to load the profile image | ✅ | `this.store.select(getProfileImage)` | |
+| `getAccessToken` | get the base64 encoded access token of user | ✅  | `this.store.select(getAccessToken)` | |
 | `getBackendRoles` | get backend roles (accessToken) of user | ✅  | `this.store.select(getBackendRoles)` | These roles should not be used in AuthGuards or similar. Please only display them to give your user better transparency |
 | | | | | | 
 | `getRoles` | get id token roles of user | ❌ | `this.store.pipe(getRoles)` | only emits a value when user is logged in | 

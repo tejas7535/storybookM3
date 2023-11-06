@@ -268,13 +268,14 @@ describe('Azure Auth Service', () => {
         } as unknown as AzureAccountInfo;
         msalService.instance.getActiveAccount = jest.fn(() => activeAcc);
         msalService.acquireTokenSilent = jest.fn(() =>
-          of({} as AuthenticationResult)
+          of({ accessToken: 'token' } as AuthenticationResult)
         );
         service.decodeAccessToken = jest.fn(() => ({ roles: backendRoles }));
         const expectedAccountInfo = {
           ...activeAcc,
           department: 'SF/HZA',
           backendRoles,
+          accessToken: 'token',
         };
         const expected$ = m.cold('(a|)', { a: expectedAccountInfo });
 
@@ -293,13 +294,14 @@ describe('Azure Auth Service', () => {
           () => undefined as AccountInfo
         );
         msalService.acquireTokenSilent = jest.fn(() =>
-          of({} as AuthenticationResult)
+          of({ accessToken: 'token' } as AuthenticationResult)
         );
         service.decodeAccessToken = jest.fn(() => ({ roles: backendRoles }));
         const expectedAccountInfo = {
           ...accInfos[0],
           department: 'SF/HZA',
           backendRoles,
+          accessToken: 'token',
         };
         const expected$ = m.cold('(a|)', { a: expectedAccountInfo });
 

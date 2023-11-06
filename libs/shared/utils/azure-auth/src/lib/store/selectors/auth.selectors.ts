@@ -29,6 +29,11 @@ export const getBackendRoles = createSelector(
   (state): string[] => state.accountInfo?.backendRoles || []
 );
 
+export const getAccessToken = createSelector(
+  getAccountInfo,
+  (accountInfo) => accountInfo?.accessToken
+);
+
 export const getProfileImage = createSelector(
   getAuthState,
   (state) => state.profileImage.url

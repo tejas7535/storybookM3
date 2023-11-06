@@ -390,7 +390,7 @@ describe('Azure Auth selectors', () => {
     });
   });
 
-  describe('backend role selectors', () => {
+  describe('additional account properties', () => {
     describe('getBackendRoles', () => {
       test('should return backend roles', () => {
         const accountInfo = {
@@ -412,6 +412,26 @@ describe('Azure Auth selectors', () => {
             accountInfo,
           } as AuthState)
         ).toEqual([]);
+      });
+    });
+
+    describe('getAccessToken', () => {
+      test('should return accessToken', () => {
+        const accountInfo = {
+          accessToken: 'eyFooBarToken',
+        } as unknown as AccountInfo;
+
+        expect(fromAuthSelectors.getAccessToken.projector(accountInfo)).toEqual(
+          'eyFooBarToken'
+        );
+      });
+
+      test('should return undefined if no access token is present', () => {
+        const accountInfo = { name: 'Test' } as unknown as AccountInfo;
+
+        expect(
+          fromAuthSelectors.getAccessToken.projector(accountInfo)
+        ).toBeUndefined();
       });
     });
   });
