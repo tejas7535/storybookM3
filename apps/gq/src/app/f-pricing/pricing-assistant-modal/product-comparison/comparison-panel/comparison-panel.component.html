@@ -1,0 +1,76 @@
+<mat-accordion>
+  <mat-expansion-panel
+    class="border border-border"
+    [expanded]="numberOfDeltas > 0"
+    (expandedChange)="toggleExpandedWhenCollapsing($event)"
+    (afterExpand)="toggleExpand(true)"
+  >
+    <mat-expansion-panel-header
+      class="border-border !p-4"
+      [ngClass]="expanded ? 'border-b' : 'border-none'"
+    >
+      <mat-panel-title class="text-body-1 text-high-emphasis">{{
+        panelTitle
+      }}</mat-panel-title>
+      <gq-delta-amount
+        *ngIf="showDelta"
+        [amount]="numberOfDeltas"
+        class="pr-4 flex items-center"
+      >
+      </gq-delta-amount>
+    </mat-expansion-panel-header>
+
+    <!-- 
+         Grid Structure Overview:
+
+          With Delta Displayed:
+          - grid is divided into 15 parts.
+          - key column occupies 3/15 parts (20%).
+          - referenceValue and compareValue  each occupy 4.5/15 parts (30% each).
+          - delta section takes up 3/15 parts (20%).
+
+          Without Delta Displayed:
+          - grid is divided into 12 parts.
+          - key column occupies 3/12 parts (25%).
+          - referenceValue takes up 4.5 parts/12 parts (37,5%)
+          - compareValue occupies the remaining space.
+
+    Note: The width of the columns for 'key' and 'referenceValue ' needs to be set dynamically based on whether the Delta is displayed or not. The absolute width remains constant, but the relative distribution changes accordingly.
+    -->
+    <table mat-table [dataSource]="data">
+      <ng-container matColumnDef="key">
+        <mat-cell
+          *matCellDef="let key"
+          class="!bg-primary !bg-opacity-[0.07] border-border flex-none text-caption !pl-4"
+          [ngClass]="showDelta ? '!w-1/4' : '!w-[20%]'"
+        >
+          {{ key.key }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="referenceValue">
+        <mat-cell
+          *matCellDef="let reference"
+          class="!border-r !border-b border-border !bg-primary !bg-opacity-0 flex-none text-caption"
+          [ngClass]="showDelta ? '!w-[37.5%]' : '!w-[40%]'"
+        >
+          {{ reference.values[0].value }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="compareValue">
+        <mat-cell
+          *matCellDef="let compare"
+          class="text-caption"
+          [ngClass]="showDelta ? '!w-[37.5%]' : '!w-[40%]'"
+        >
+          {{ compare.values[1].value }}
+        </mat-cell>
+      </ng-container>
+      <mat-row
+        class="border-b border-border"
+        *matRowDef="let row; columns: ['key', 'referenceValue', 'compareValue']"
+      ></mat-row>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

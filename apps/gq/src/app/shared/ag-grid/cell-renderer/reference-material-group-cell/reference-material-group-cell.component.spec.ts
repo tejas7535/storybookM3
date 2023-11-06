@@ -54,7 +54,7 @@ describe('ReferenceMaterialGroupCellComponent', () => {
 
       expect(
         params.context.componentParent.comparableMaterialClicked
-      ).toHaveBeenCalledWith(`test: ${params.value}`);
+      ).toHaveBeenCalledWith(`${params.value}`);
     });
   });
 });

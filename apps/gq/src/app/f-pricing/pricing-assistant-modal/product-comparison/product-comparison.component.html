@@ -1,0 +1,75 @@
+<ng-container
+  *transloco="let t; read: 'fPricing.pricingAssistantModal.comparisonPanel'"
+>
+  <button
+    mat-button
+    color="primary"
+    (click)="closeView.emit()"
+    class="flex items-center"
+  >
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    {{ t('backButton') }}
+  </button>
+
+  <div class="px-4">
+    <div class="flex items-end pb-4">
+      <div class="w-1/5"></div>
+      <div class="gq-text-5" [ngClass]="showDelta ? '!w-[30%]' : '!w-2/5'">
+        <span class="text-high-emphasis pl-4">
+          {{ referenceMaterialDescription }}
+        </span>
+      </div>
+      <div class="!w-[30%]">
+        <span class="gq-text-5 text-high-emphasis pl-4">
+          {{ comparedMaterialDescription }}
+        </span>
+      </div>
+      <div class="flex-1">
+        <div
+          (click)="toggleIconVisibility()"
+          class="text-high-emphasis hover:text-link text-body-1 flex flex-col items-center justify-center text-center cursor-pointer"
+        >
+          <mat-icon class="icon-5">
+            {{ showDelta ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+          <span class="text-subtitle-2">
+            {{
+              showDelta
+                ? (t('hideDelta') | uppercase)
+                : (t('showDelta') | uppercase)
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex pb-4 items-end"
+      *ngFor="let materialInfo of materialInformation"
+    >
+      <gq-comparison-panel
+        [ngClass]="showDelta ? 'w-4/5' : 'flex-1'"
+        [panelTitle]="materialInfo.informationKey"
+        [data]="materialInfo.properties"
+        [numberOfDeltas]="materialInfo.countOfDelta"
+        [showDelta]="showDelta"
+        (togglePanelExpanded)="
+          onTogglePanelExpanded(materialInfo.informationKey, $event)
+        "
+      ></gq-comparison-panel>
+      <ng-container
+        *ngIf="
+          showDelta &&
+          materialInfo.countOfDelta > 0 &&
+          showDeltasByKey.get(materialInfo.informationKey)
+        "
+      >
+        <gq-comparison-delta
+          class="w-1/5"
+          [propertyDeltas]="materialInfo.deltaValues"
+        >
+        </gq-comparison-delta>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

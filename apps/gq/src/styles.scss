@@ -178,3 +178,16 @@ mat-hint {
 .ag-group-expanded {
   @apply mr-2 #{!important};
 }
+
+.delta-chip {
+  @apply flex items-center justify-center w-full overflow-hidden rounded-full px-3 py-1 uppercase;
+
+  span {
+    @apply text-[10px] font-bold whitespace-nowrap;
+  }
+}
+
+.mat-expansion-panel-header {
+  @apply h-auto #{!important};
+  @apply py-3 #{!important};
+}

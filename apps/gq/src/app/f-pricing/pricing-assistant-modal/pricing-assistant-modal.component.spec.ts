@@ -1,9 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockPipe } from 'ng-mocks';
+import { MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -19,6 +20,7 @@ describe('PricingAssistant.modalComponent', () => {
     imports: [provideTranslocoTestingModule({ en: {} })],
     declarations: [MockPipe(NumberCurrencyPipe)],
     providers: [
+      MockProvider(FPricingFacade),
       { provide: MatDialogRef, useValue: {} },
       {
         provide: MAT_DIALOG_DATA,
@@ -53,16 +55,16 @@ describe('PricingAssistant.modalComponent', () => {
   });
 
   describe('onComparedMaterialClicked', () => {
-    test('should set visibleOverlay to comparismScreen', () => {
+    test('should set visibleOverlay to comparisonScreen', () => {
       component.visibleOverlay = OverlayToShow.gqPricing;
       component.onComparedMaterialClicked('material');
-      expect(component.visibleOverlay).toBe('comparismScreen');
+      expect(component.visibleOverlay).toBe('comparisonScreen');
     });
   });
 
   describe('closeOverlay', () => {
     test('should set visibleOverlay to gqPricing', () => {
-      component.visibleOverlay = OverlayToShow.comparismScreen;
+      component.visibleOverlay = OverlayToShow.comparisonScreen;
       component.closeOverlay();
       expect(component.visibleOverlay).toBe('gqPricing');
     });

@@ -17,8 +17,6 @@ export class ReferenceMaterialGroupCellComponent {
 
   clickMaterial(event: MouseEvent): void {
     event.preventDefault();
-    this.params.context.componentParent.comparableMaterialClicked(
-      `test: ${this.value}`
-    );
+    this.params.context.componentParent.comparableMaterialClicked(this.value);
   }
 }

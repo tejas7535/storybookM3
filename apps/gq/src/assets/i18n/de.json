@@ -589,6 +589,15 @@
         "price": "Nettopreis",
         "year": "Jahr",
         "showMoreRows": "mehr Transaktionen anzeigen (+{{amount}})"
+      },
+      "comparisonPanel": {
+        "showDelta": "Delta zeigen",
+        "hideDelta": "Delta ausblenden",
+        "backButton": "Zurück",
+        "differentString": "Verschieden",
+        "positiveDelta": "+{{absolute}} ( +{{relative}} %)",
+        "negativeDelta": "{{absolute}} ( {{relative}} %)",
+        "amountOfDelta": "{{amount}} Deltas"
       }
     }
   }

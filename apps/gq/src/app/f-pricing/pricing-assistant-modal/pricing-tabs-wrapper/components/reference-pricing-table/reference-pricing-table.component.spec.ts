@@ -9,7 +9,7 @@ import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { COMPARABLE_MATERIALS_ROW_DATA_MOCK } from '../../../../../../../src/testing/mocks/models/f-pricing-comparable-materials.mock';
+import { COMPARABLE_MATERIALS_ROW_DATA_MOCK } from '../../../../../../testing/mocks/models/fpricing/f-pricing-comparable-materials.mock';
 import { ColumnDefinitionService } from './config/column-definition.service';
 import { ReferencePricingTableComponent } from './reference-pricing-table.component';
 

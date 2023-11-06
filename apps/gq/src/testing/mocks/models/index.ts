@@ -3,6 +3,7 @@ export * from './comparable-linked-transaction.mock';
 export * from './customer.mock';
 export * from './data-point.mock';
 export * from './extended-comparable-linked-transaction.mock';
+export * from './fpricing/material-information.mock';
 export * from './get-quotations-response.mock';
 export * from './last-offer-detail.mock';
 export * from './margin-detail.mock';

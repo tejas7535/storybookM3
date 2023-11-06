@@ -1,5 +1,5 @@
 export enum OverlayToShow {
-  comparismScreen = 'comparismScreen',
+  comparisonScreen = 'comparisonScreen',
   gqPricing = 'gqPricing',
   manualPricing = 'manualPricing',
 }

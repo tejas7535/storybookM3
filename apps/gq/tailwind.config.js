@@ -43,6 +43,7 @@ module.exports = {
         'approval-status-green': '#00893D',
         'approval-status-grey': '#666666',
         'quotation-status-green': '#517626',
+        'neutral-variant-20': '#154248',
       },
       backgroundColor: {
         'quotation-status-blue': '#E3F7FD',
@@ -51,6 +52,7 @@ module.exports = {
         'quotation-status-red': '#FCE3E6',
         'quotation-status-green': '#F8FBF4',
         'quotation-status-dark-green': '#517626',
+        'neutral-variant-95': '#EEF2F4',
       },
     },
   },
