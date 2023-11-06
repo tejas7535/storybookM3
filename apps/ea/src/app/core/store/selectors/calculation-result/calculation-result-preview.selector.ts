@@ -199,8 +199,18 @@ export const isCalculationResultReportAvailable = createSelector(
     selectedCalculations: CalculationResultReportCalculationTypeSelection,
     anyLoading
   ): boolean =>
-    !anyLoading && selectedCalculations.some((data) => data.resultAvailable)
+    !anyLoading &&
+    !isSomeOfSelectedCalculationsWithoutResult(selectedCalculations)
 );
+
+function isSomeOfSelectedCalculationsWithoutResult(
+  selectedCalculations: CalculationResultReportCalculationTypeSelection
+): boolean {
+  return (
+    selectedCalculations.length === 0 ||
+    selectedCalculations.some((data) => !data.resultAvailable)
+  );
+}
 
 export const isCalculationImpossible = createSelector(
   catalogCalculationResult,

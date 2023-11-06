@@ -2,6 +2,7 @@ import { APP_STATE_MOCK } from '@ea/testing/mocks';
 
 import { AppState } from '../../reducers';
 import {
+  getCalculationsWithResult,
   getCO2EmissionReport,
   getReportMessages,
   getResultInput,
@@ -48,6 +49,12 @@ describe('Calculation Result Selector', () => {
   describe('getCO2EmissionReport', () => {
     it('should return the co2 emission report data', () => {
       expect(getCO2EmissionReport(mockState)).toMatchSnapshot();
+    });
+  });
+
+  describe('getCalculationWithResult', () => {
+    it('should return the calculations with result', () => {
+      expect(getCalculationsWithResult(mockState)).toMatchSnapshot();
     });
   });
 

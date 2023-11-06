@@ -258,12 +258,12 @@
           <div
             class="flex pt-4 flex-col"
             *ngIf="
-              calculationResultFacade.getSelectedCalculations$
-                | ngrxPush as getSelectedCalculations
+              calculationResultFacade.getCalculationsWithResult$
+                | ngrxPush as getCalculationsWithResult
             "
           >
             <div
-              *ngFor="let config of getSelectedCalculations"
+              *ngFor="let config of getCalculationsWithResult"
               (click)="scrollIntoView(config.name)"
               class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
             >

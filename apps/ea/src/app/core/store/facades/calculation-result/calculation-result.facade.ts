@@ -52,8 +52,8 @@ export class CalculationResultFacade {
     CalculationResultReportSelector.isFrictionResultAvailable
   );
 
-  public readonly getSelectedCalculations$ = this.store.select(
-    CalculationResultReportSelector.getSelectedCalculations
+  public readonly getCalculationsWithResult$ = this.store.select(
+    CalculationResultReportSelector.getCalculationsWithResult
   );
 
   public readonly isRatingLifeResultAvailable$ = this.store.select(

@@ -267,7 +267,7 @@ export const isRatingLifeResultAvailable = createSelector(
   (report, isAvailable): boolean => isAvailable && report?.length > 0
 );
 
-export const getSelectedCalculations = createSelector(
+export const getCalculationsTypes = createSelector(
   getCalculationTypesConfig,
   isLubricationResultAvailable,
   isEmissionResultAvailable,
@@ -290,11 +290,42 @@ export const getSelectedCalculations = createSelector(
       overrollingFrequency: overrollingFreqAvailable,
     };
 
+    return config.map((item) => ({
+      ...item,
+      resultAvailable: resultAvailableMapping[item.name],
+    }));
+  }
+);
+
+export const getCalculationsWithResult = createSelector(
+  getCalculationsTypes,
+  (calculationTypes): CalculationResultReportCalculationTypeSelection =>
+    calculationTypes.filter((item) => item.resultAvailable)
+);
+
+/** gets selected calculation with response availability, can be data or error both are responses.*/
+export const getSelectedCalculations = createSelector(
+  getCalculationTypesConfig,
+  isCatalogCalculationResultAvailable,
+  isEmissionResultAvailable,
+  (
+    config,
+    isCatalogApiResponseAvailable,
+    emissionResultAvailable
+  ): CalculationResultReportCalculationTypeSelection => {
+    const responseAvailableMapping: Record<CalculationType, boolean> = {
+      ratingLife: isCatalogApiResponseAvailable,
+      lubrication: isCatalogApiResponseAvailable,
+      frictionalPowerloss: isCatalogApiResponseAvailable,
+      emission: emissionResultAvailable,
+      overrollingFrequency: isCatalogApiResponseAvailable,
+    };
+
     return config
       .map((item) => ({
         ...item,
-        resultAvailable: resultAvailableMapping[item.name],
+        resultAvailable: responseAvailableMapping[item.name],
       }))
-      .filter((item) => item.resultAvailable);
+      .filter((item) => item.selected);
   }
 );
