@@ -64,6 +64,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 import { getContaminationOptions } from './contamination.options';
+import { getEnvironmentalInfluenceOptions } from './environmental-influence.options';
 import {
   anyLoadGroupValidator,
   increaseInOilTempValidators,
@@ -183,13 +184,18 @@ export class CalculationParametersComponent
       grease: new FormGroup({
         selection: new FormControl<'typeOfGrease' | 'isoVgClass' | 'viscosity'>(
           'typeOfGrease',
-          [FormSelectValidatorSwitcher()]
+          [FormSelectValidatorSwitcher({ onlyFormGroups: true })]
         ),
         typeOfGrease: new FormGroup({
           typeOfGrease: new FormControl<`LB_${string}`>(undefined, [
             Validators.required,
           ]),
         }),
+        environmentalInfluence: new FormControl<
+          | 'LB_LOW_AMBIENT_INFLUENCE'
+          | 'LB_AVERAGE_AMBIENT_INFLUENCE'
+          | 'LB_HIGH_AMBIENT_INFLUENCE'
+        >(undefined, []),
         isoVgClass: new FormGroup({
           isoVgClass: new FormControl<number>(undefined, [Validators.required]),
         }),
@@ -337,6 +343,10 @@ export class CalculationParametersComponent
     | Observable<{ label: string; value: string }[]>
     | undefined;
 
+  public environmentalInfluenceOptions$:
+    | Observable<{ label: string; value: string }[]>
+    | undefined;
+
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -437,6 +447,9 @@ export class CalculationParametersComponent
       });
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
+    this.environmentalInfluenceOptions$ = getEnvironmentalInfluenceOptions(
+      this.translocoService
+    );
     this.typeOfMotionsAvailable$ = this.productSelectionFacade
       .getTemplateItem('IDSLC_TYPE_OF_MOVEMENT')
       .pipe(

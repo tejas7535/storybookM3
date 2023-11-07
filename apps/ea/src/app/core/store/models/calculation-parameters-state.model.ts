@@ -41,6 +41,10 @@ export interface CalculationParametersOperationConditions {
         ny40: number;
         ny100: number;
       };
+      environmentalInfluence:
+        | 'LB_LOW_AMBIENT_INFLUENCE'
+        | 'LB_AVERAGE_AMBIENT_INFLUENCE'
+        | 'LB_HIGH_AMBIENT_INFLUENCE';
     };
     oilBath: {
       selection: 'isoVgClass' | 'viscosity';

@@ -136,9 +136,14 @@ export class CatalogService {
         ? toNumberString(viscosity?.ny100 || 0)
         : '0';
 
+    const environmentalInfluence =
+      definitionOfViscosity === 'LB_ARCANOL_GREASE'
+        ? lubricationConditions.grease.environmentalInfluence
+        : 'LB_AVERAGE_AMBIENT_INFLUENCE';
+
     const operatingConditions: CatalogServiceOperatingConditions = {
       IDL_LUBRICATION_METHOD: lubricationMethod,
-      IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
+      IDL_INFLUENCE_OF_AMBIENT: environmentalInfluence,
       IDL_CLEANESS_VALUE: contamination,
       IDSLC_TEMPERATURE: toNumberString(ambientTemperature),
       IDL_DEFINITION_OF_VISCOSITY: definitionOfViscosity,

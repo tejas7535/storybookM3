@@ -31,6 +31,7 @@ export const initialState: CalculationParametersState = {
         isoVgClass: { isoVgClass: undefined },
         typeOfGrease: { typeOfGrease: 'LB_FAG_MULTI_2' },
         viscosity: { ny100: undefined, ny40: undefined },
+        environmentalInfluence: 'LB_AVERAGE_AMBIENT_INFLUENCE',
       },
       oilBath: {
         selection: 'isoVgClass',

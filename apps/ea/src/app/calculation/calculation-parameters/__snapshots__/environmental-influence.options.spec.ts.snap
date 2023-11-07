@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EnvironmentalInfluenceOptions getEnvironmentalInfluenceOptions 1`] = `
+Array [
+  Object {
+    "label": "operationConditions.lubrication.grease.environmentalInfluence.options.lowInfluence",
+    "value": "LB_LOW_AMBIENT_INFLUENCE",
+  },
+  Object {
+    "label": "operationConditions.lubrication.grease.environmentalInfluence.options.averageInfluence",
+    "value": "LB_AVERAGE_AMBIENT_INFLUENCE",
+  },
+  Object {
+    "label": "operationConditions.lubrication.grease.environmentalInfluence.options.heavyInfluence",
+    "value": "LB_HIGH_AMBIENT_INFLUENCE",
+  },
+]
+`;

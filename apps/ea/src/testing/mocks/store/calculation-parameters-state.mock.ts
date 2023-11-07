@@ -19,6 +19,7 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
         isoVgClass: { isoVgClass: undefined },
         typeOfGrease: { typeOfGrease: undefined },
         viscosity: { ny100: undefined, ny40: undefined },
+        environmentalInfluence: undefined,
       },
       oilBath: {
         selection: 'isoVgClass',

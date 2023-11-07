@@ -245,73 +245,86 @@ Status: {{ operationConditionsForm.status }}</pre
         optionTemplate="grease"
         [label]="t('options.grease')"
         formGroupName="grease"
+        [className]="'flex-col'"
         [disabled]="!lubricationMethodsAvailable.grease"
         [tooltip]="lubricationMethodsAvailable.grease ? undefined : t('notAvailable')"
       >
-        <!-- TYPE OF GREASE -->
-        <ea-tabbed-suboption
-          formControlName="selection"
-          [label]="t('grease.typeOfGrease.label')"
-          name="typeOfGrease"
-          class="grow shrink basis-0"
-          [description]="t('grease.typeOfGrease.description')"
-        >
-          <ng-container formGroupName="typeOfGrease">
-            <ea-input-select
-              formControlName="typeOfGrease"
-              [label]="t('grease.typeOfGrease.label')"
-              [options]="greases"
-              [tooltip]="t('grease.typeOfGrease.tooltip')"
-            ></ea-input-select>
-          </ng-container>
-        </ea-tabbed-suboption>
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- TYPE OF GREASE -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.typeOfGrease.label')"
+            name="typeOfGrease"
+            class="grow shrink basis-0"
+            [description]="t('grease.typeOfGrease.description')"
+          >
+            <ng-container formGroupName="typeOfGrease">
+              <ea-input-select
+                formControlName="typeOfGrease"
+                [label]="t('grease.typeOfGrease.label')"
+                [options]="greases"
+                [tooltip]="t('grease.typeOfGrease.tooltip')"
+              ></ea-input-select>
+            </ng-container>
+          </ea-tabbed-suboption>
 
-        <!-- ISO VG CLASS -->
-        <ea-tabbed-suboption
-          formControlName="selection"
-          [label]="t('grease.isoVgClass.label')"
-          name="isoVgClass"
-          class="grow shrink basis-0"
-          [description]="t('grease.isoVgClass.description')"
-        >
-          <ng-container formGroupName="isoVgClass">
-            <ea-input-select
-              formControlName="isoVgClass"
-              [label]="t('grease.isoVgClass.label')"
-              [options]="isoVgClasses"
-              [tooltip]="t('grease.isoVgClass.tooltip')"
-            ></ea-input-select>
-          </ng-container>
-        </ea-tabbed-suboption>
+          <!-- ISO VG CLASS -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.isoVgClass.label')"
+            name="isoVgClass"
+            class="grow shrink basis-0"
+            [description]="t('grease.isoVgClass.description')"
+          >
+            <ng-container formGroupName="isoVgClass">
+              <ea-input-select
+                formControlName="isoVgClass"
+                [label]="t('grease.isoVgClass.label')"
+                [options]="isoVgClasses"
+                [tooltip]="t('grease.isoVgClass.tooltip')"
+              ></ea-input-select>
+            </ng-container>
+          </ea-tabbed-suboption>
 
-        <!-- VISCOSITY -->
-        <ea-tabbed-suboption
-          formControlName="selection"
-          [label]="t('grease.viscosity.label')"
-          name="viscosity"
-          class="grow shrink basis-0"
-          [description]="t('grease.viscosity.description')"
-        >
-          <ng-container formGroupName="viscosity">
-            <ea-input-number
-              formControlName="ny40"
-              [label]="t('grease.viscosity.ny40')"
-              [unit]="t('grease.viscosity.unit')"
-              [onlyPositive]="true"
-              [customErrors]="[{name: 'viscosity'}]"
-              class="min-w-max"
-            ></ea-input-number>
+          <!-- VISCOSITY -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.viscosity.label')"
+            name="viscosity"
+            class="grow shrink basis-0"
+            [description]="t('grease.viscosity.description')"
+          >
+            <ng-container formGroupName="viscosity">
+              <ea-input-number
+                formControlName="ny40"
+                [label]="t('grease.viscosity.ny40')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{name: 'viscosity'}]"
+                class="min-w-max"
+              ></ea-input-number>
 
-            <ea-input-number
-              formControlName="ny100"
-              [label]="t('grease.viscosity.ny100')"
-              [unit]="t('grease.viscosity.unit')"
-              [onlyPositive]="true"
-              [customErrors]="[{name: 'viscosity'}]"
-              class="min-w-max"
-            ></ea-input-number>
-          </ng-container>
-        </ea-tabbed-suboption>
+              <ea-input-number
+                formControlName="ny100"
+                [label]="t('grease.viscosity.ny100')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{name: 'viscosity'}]"
+                class="min-w-max"
+              ></ea-input-number>
+            </ng-container>
+          </ea-tabbed-suboption>
+        </div>
+
+        <div class="grid grid-cols-1 mt-4 gap-0 md:grid-cols-2 md:gap-4">
+          <ea-input-select
+            formControlName="environmentalInfluence"
+            [label]="t('grease.environmentalInfluence.label')"
+            [options]="environmentalInfluenceOptions$ | ngrxPush"
+            [hidden]=" this.operationConditionsForm.controls.lubrication.controls.grease
+            .controls.selection.value !== 'typeOfGrease'"
+          ></ea-input-select>
+        </div>
       </ng-template>
 
       <ng-template

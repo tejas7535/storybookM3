@@ -77,6 +77,14 @@
           "ny40": "Viscosity at 40°C",
           "ny100": "Viscosity at 100°C",
           "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "Environmental influence",
+          "options": {
+            "lowInfluence": "1.0 (slight)",
+            "averageInfluence": "0.8 (moderate)",
+            "heavyInfluence": "0.5 (heavy)"
+          }
         }
       },
       "recirculatingOil": {

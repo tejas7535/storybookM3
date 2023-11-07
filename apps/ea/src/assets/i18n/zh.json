@@ -77,6 +77,14 @@
           "ny40": "40°C下的粘度",
           "ny100": "100°C下的粘度",
           "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "環境影響",
+          "options": {
+            "lowInfluence": "1.0（わずか）",
+            "averageInfluence": "0.8（中程度）",
+            "heavyInfluence": "0.5（大きい）"
+          }
         }
       },
       "recirculatingOil": {
