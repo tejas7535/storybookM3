@@ -5,5 +5,5 @@
   },
   "exclude": ["../src/test.ts", "../**/*.spec.ts"],
   "include": ["../src/**/*"],
-  "files": ["../../../../../apps/helloworld-azure/src/polyfills.ts"]
+  "files": ["../../../../../apps/cdba/src/polyfills.ts"]
 }

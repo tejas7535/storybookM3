@@ -58,7 +58,6 @@
     },
     "packageManager": "pnpm"
   },
-  "defaultProject": "helloworld-azure",
   "generators": {
     "@nx/angular:application": {
       "style": "scss",
