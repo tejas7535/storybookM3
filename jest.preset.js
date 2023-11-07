@@ -4,7 +4,7 @@ module.exports = {
   cacheDirectory: process.env.MONO_AGENT
     ? '/home/adp-jenkins/temp/jest-cache'
     : '/tmp/jest_rs',
-  coverageReporters: ['lcov', 'cobertura'],
+  coverageReporters: ['html', 'cobertura'],
   coverageThreshold: {
     global: {
       branches: 80,

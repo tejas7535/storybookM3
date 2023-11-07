@@ -156,7 +156,7 @@ def mapAffectedStringToArray(String input) {
 
 def defineAffectedAppsAndLibs() {
     apps = sh (
-        script: "npx nx show projects --affected --base=${buildBase} --exclude *-e2e,shared-*,eslint-rules", 
+        script: "npx nx show projects --affected --base=${buildBase} --exclude *-e2e,shared-*,eslint-rules",
         returnStdout: true
     )
 
@@ -274,7 +274,7 @@ pipeline {
             steps {
                 script {
                     echo 'Install NPM Dependencies'
-                    
+
                     sh 'pnpm install'
                 }
             }
@@ -290,7 +290,7 @@ pipeline {
                     if (isAppRelease()) {
                         def deployments = readJSON file: 'deployments.json'
                         def apps = deployments.keySet()
-                        env.RELEASE_SCOPE = params.RELEASE_SCOPE  
+                        env.RELEASE_SCOPE = params.RELEASE_SCOPE
                     }
                 }
 
@@ -487,12 +487,14 @@ pipeline {
 
                         script {
                             sh "pnpm run affected:test --base=${buildBase} --parallel=2 ${getNxRunnerConfig()}"
+                            // merge reports
+                            sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files=coverage/**/cobertura-coverage.xml"
                         }
                     }
                     post {
                         success {
                             // Unit tests results
-                            publishCoverage adapters: [istanbulCoberturaAdapter(mergeToOneReport: true, path: 'coverage/**/*cobertura-coverage.xml')], sourceFileResolver: sourceFiles('NEVER_STORE')
+                            recordCoverage sourceCodeRetention: 'NEVER', tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']]
                         }
                         always {
                             junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
