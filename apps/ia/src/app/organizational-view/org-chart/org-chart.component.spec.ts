@@ -102,6 +102,56 @@ describe('OrgChartComponent', () => {
     });
   });
 
+  describe('selectedNodeEmployeesLoading', () => {
+    test('should set employees as undefined when loading and dialog opened', () => {
+      component['_dialogRef'] = {
+        componentInstance: {
+          data: {
+            employees: [{ employeeKey: '123' }],
+          } as EmployeeListDialogMeta,
+        },
+      } as any;
+
+      component.selectedNodeEmployeesLoading = true;
+
+      expect(
+        component['_dialogRef'].componentInstance.data.employees
+      ).toBeUndefined();
+    });
+
+    test('should do nothing when loading and dialog closed', () => {
+      component['_dialogRef'] = undefined;
+
+      component.selectedNodeEmployeesLoading = true;
+
+      expect(component['_dialogRef']).toBeUndefined();
+    });
+
+    test('should not set employees as undefined when not loading and dialog opened', () => {
+      component['_dialogRef'] = {
+        componentInstance: {
+          data: {
+            employees: [{ employeeKey: '123' }],
+          } as EmployeeListDialogMeta,
+        },
+      } as any;
+
+      component.selectedNodeEmployeesLoading = false;
+
+      expect(
+        component['_dialogRef'].componentInstance.data.employees
+      ).not.toBeUndefined();
+    });
+
+    test('should do nothing when not loading and dialog closed', () => {
+      component['_dialogRef'] = undefined;
+
+      component.selectedNodeEmployeesLoading = false;
+
+      expect(component['_dialogRef']).toBeUndefined();
+    });
+  });
+
   describe('set chartContainer', () => {
     test('should set container and update chart if elementRef', () => {
       component.updateChart = jest.fn();
@@ -351,7 +401,7 @@ describe('OrgChartComponent', () => {
           ),
           employees,
           true,
-          false,
+          true,
           'workforce',
           undefined,
           `translate it ${dimension} (${dimensionLongName}) ${customFilteres.timeRange}`
@@ -391,7 +441,7 @@ describe('OrgChartComponent', () => {
           ),
           employees,
           true,
-          false,
+          true,
           'workforce',
           undefined,
           `translate it ${dimension} ${customFilteres.timeRange}`

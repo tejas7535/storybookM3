@@ -196,5 +196,22 @@ describe('DimensionFilterComponent', () => {
       expect(component.dimensionFilter.options.length).toBe(1);
       expect(component.dimensionFilter.options[0]).toEqual(europe);
     });
+
+    test('should search by part of text when sync mode', () => {
+      const searchFor = '1020';
+      component.asyncMode = false;
+      const hamburg = { value: 'Hamburg (1030)', id: '1' };
+      const warsaw = { value: 'Warsaw (1020)', id: '2' };
+      const newYork = { value: 'New York (1040)', id: '3' };
+      component.dimensionFilter = {
+        name: FilterDimension.PERSONAL_AREA,
+        options: [],
+      };
+      component.options = [hamburg, warsaw, newYork];
+
+      component.onAutoCompleteInputChange(searchFor);
+
+      expect(component.dimensionFilter.options).toEqual([warsaw]);
+    });
   });
 });

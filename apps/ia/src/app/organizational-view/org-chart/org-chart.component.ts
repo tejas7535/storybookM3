@@ -68,7 +68,9 @@ export class OrgChartComponent implements AfterViewInit {
 
   @Input() isLoading = false;
 
-  @Input() set selectedNodeEmployees(selectedNodeEmployees: any[]) {
+  @Input() set selectedNodeEmployees(
+    selectedNodeEmployees: OrgChartEmployee[]
+  ) {
     this._selectedNodeEmployees = selectedNodeEmployees;
     this.updateDialogData();
   }
@@ -81,7 +83,10 @@ export class OrgChartComponent implements AfterViewInit {
     selectedNodeEmployeesLoading: boolean
   ) {
     this._selectedNodeEmployeesLoading = selectedNodeEmployeesLoading;
-    this.updateDialogData();
+
+    if (this._dialogRef && selectedNodeEmployeesLoading) {
+      this._dialogRef.componentInstance.data.employees = undefined;
+    }
   }
 
   get selectedNodeEmployeesLoading(): boolean {
@@ -267,8 +272,7 @@ export class OrgChartComponent implements AfterViewInit {
       headings,
       this.selectedNodeEmployees,
       this.selectedNodeEmployeesLoading,
-      this.selectedDataNode.directEmployees ===
-        this.selectedNodeEmployees.length,
+      true,
       'workforce',
       undefined,
       customExcelFileName

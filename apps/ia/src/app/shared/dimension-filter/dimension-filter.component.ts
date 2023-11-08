@@ -114,7 +114,7 @@ export class DimensionFilterComponent {
       this.dimensionFilter.options =
         searchFor.length > 0
           ? this.options?.filter((option) =>
-              option.value?.toUpperCase().startsWith(searchFor.toUpperCase())
+              option.value?.toUpperCase().includes(searchFor.toUpperCase())
             )
           : this.options;
     }
