@@ -32,17 +32,41 @@
         </div>
         <ng-content select="[errorContent]" *ngIf="error"></ng-content>
         <div *ngIf="!loading && !error">
-          <mat-option
-            *ngFor="let option of filteredOptions; trackBy: trackByFn"
-            [value]="option"
-            [innerHTML]="option.title"
-            [disabled]="option.disabled"
-            class="!h-10 !text-caption"
-          ></mat-option>
+          <!-- Current implementation pass html into option string, implementation could be simplified if we use just {{title}} value in standard template, possible future improvement -->
+          <ng-container *ngIf="!customOptionsRef">
+            <mat-option
+              *ngFor="let option of filteredOptions; trackBy: trackByFn"
+              [value]="option"
+              [innerHTML]="option.title"
+              [disabled]="option.disabled"
+              class="!h-10 !text-caption"
+            >
+            </mat-option>
+          </ng-container>
+
+          <!-- custom template implementation which gives more control on inserted html -->
+          <ng-container *ngIf="customOptionsRef">
+            <mat-option
+              *ngFor="let option of filteredOptions; trackBy: trackByFn"
+              [value]="option"
+              [disabled]="option.disabled"
+              class="!text-caption"
+            >
+              <ng-container
+                [ngTemplateOutletContext]="{ option: option }"
+                [ngTemplateOutlet]="customOptionsRef"
+              >
+              </ng-container>
+            </mat-option>
+          </ng-container>
         </div>
       </ng-template>
+      <mat-option #dummyOption class="!hidden !h-0"></mat-option>
     </div>
   </mat-autocomplete>
+  <div matTextPrefix *ngIf="isRoundedSearchComponent">
+    <mat-icon class="align-middle" *ngIf="searchControl.value">search</mat-icon>
+  </div>
   <div matSuffix>
     <mat-icon *ngIf="!searchControl.value; else clearButtonTemplate"
       >search</mat-icon

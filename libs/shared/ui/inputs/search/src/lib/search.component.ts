@@ -1,10 +1,13 @@
 import {
   Component,
+  ContentChild,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import {
@@ -22,6 +25,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 @Component({
   selector: 'schaeffler-search',
+  styleUrls: ['./search.component.scss'],
   templateUrl: './search.component.html',
 })
 export class SearchComponent
@@ -38,6 +42,7 @@ export class SearchComponent
   @Input() public error?: boolean;
   @Input() public noResultsText: string = undefined;
   @Input() public displayWith: 'id' | 'title' = 'title';
+  @Input() public isRoundedSearchComponent = false;
 
   @Output() public readonly searchUpdated = new EventEmitter<string>();
   @Output() public readonly optionSelected = new EventEmitter<StringOption>();
@@ -46,12 +51,17 @@ export class SearchComponent
 
   @Input() public filterFn?: (option: StringOption, value: string) => boolean;
 
+  @ContentChild('customOptions') public customOptionsRef: TemplateRef<any>;
+
   @ViewChild(MatAutocompleteTrigger)
   private readonly autocomplete: MatAutocompleteTrigger;
-
   public searchControl = new FormControl();
-
   private readonly subscription = new Subscription();
+
+  @HostBinding('class.schaeffler-search--rounded')
+  public get hasItemRoundedBorderDesign() {
+    return this.isRoundedSearchComponent;
+  }
 
   public get filteredOptions(): StringOption[] {
     const value =

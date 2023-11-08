@@ -1,0 +1,65 @@
+$roundedBorderRadius: 30px;
+$leadingElementMinWidth: 100px;
+
+::ng-deep .schaeffler-search--rounded .mdc-text-field--outlined {
+  --mdc-theme-primary: #00000061;
+
+  .mdc-notched-outline {
+    .mdc-notched-outline__leading {
+      min-width: $leadingElementMinWidth;
+      border-width: 1px;
+
+      border-top-left-radius: $roundedBorderRadius;
+      border-bottom-left-radius: $roundedBorderRadius;
+    }
+
+    .mdc-notched-outline__trailing {
+      border-width: 1px;
+      border-top-right-radius: $roundedBorderRadius;
+      border-bottom-right-radius: $roundedBorderRadius;
+    }
+  }
+}
+
+::ng-deep
+  :has(.mat-mdc-autocomplete-visible)
+  .schaeffler-search--rounded
+  .mdc-text-field--outlined {
+  .mdc-notched-outline__leading {
+    min-width: $leadingElementMinWidth;
+
+    border-top-left-radius: $roundedBorderRadius;
+    border-bottom-left-radius: 0;
+  }
+
+  .mdc-notched-outline__trailing {
+    border-top-right-radius: $roundedBorderRadius;
+    border-bottom-right-radius: 0;
+  }
+}
+
+::ng-deep :has(.schaeffler-search--rounded) .searchOverlay {
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #999494;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #5e5858;
+  }
+
+  .mat-mdc-autocomplete-panel.mdc-menu-surface.mdc-menu-surface--open {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}

@@ -3,6 +3,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import {
   applicationConfig,
+  ArgTypes,
   Meta,
   moduleMetadata,
   StoryFn,
@@ -18,10 +19,18 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StringOption } from '@schaeffler/inputs';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'wrapper',
-  template: `<div style="width: 300px">
+  template: `
+    <style>
+      mat-chip {
+        color: transparent;
+      }
+    </style>
+
+    <div class="w-1/2">
       <schaeffler-search
         [stringOptions]="stringOptions"
         [appearance]="appearance"
@@ -34,9 +43,33 @@ import { Component } from '@angular/core';
         [displayWith]="displayWith"
         [control]="control"
         [filterFn]="filterFn"
+        [isRoundedSearchComponent]="isRoundedSearchComponent"
         (searchUpdated)="onSearchUpdated($event)"
         (optionSelected)="onOptionSelected($event)"
       >
+        <ng-template
+          *ngIf="includeCustomOptions"
+          #customOptions
+          let-option="option"
+        >
+          <div class="flex items-center flex-col min-[850px]:flex-row">
+            <span> {{ option.title }} some additional template text </span>
+
+            <mat-chip class="ml-1">
+              <mat-icon
+                class="!h-4 !w-4 cursor-pointer !text-[16px] !mr-1 align-sub"
+                >animation</mat-icon
+              >
+              Catalog Calculation</mat-chip
+            >
+            <mat-chip class="ml-1">
+              <mat-icon
+                class="!h-4 !w-4 cursor-pointer !text-[16px] !mr-1 align-sub"
+                >home</mat-icon
+              >CO2 Emission</mat-chip
+            >
+          </div>
+        </ng-template>
         <div
           loadingContent
           class="flex w-full flex-row content-center gap-4 p-4"
@@ -54,9 +87,12 @@ import { Component } from '@angular/core';
     <div class="mt-10 flex flex-row gap-4">
       <div>Current Value:</div>
       <div>{{ control.value | json }}</div>
-    </div> `,
+    </div>
+  `,
 })
-class WrapperComponentForSearch extends SearchComponent {}
+class WrapperComponentForSearch extends SearchComponent {
+  public includeCustomOptions: boolean = false;
+}
 
 export default {
   title: 'Atomic/Organisms/Search',
@@ -69,6 +105,7 @@ export default {
         SearchModule,
         MatProgressSpinnerModule,
         MatIconModule,
+        MatChipsModule,
       ],
     }),
     applicationConfig({
@@ -96,8 +133,7 @@ const Template: StoryFn<WrapperComponentForSearch> = (
   },
 });
 
-export const Primary = Template.bind({});
-Primary.args = {
+let args: Partial<WrapperComponentForSearch> = {
   stringOptions: [
     {
       id: 0,
@@ -134,7 +170,7 @@ Primary.args = {
   },
 };
 
-Primary.argTypes = {
+const argTypes: Partial<ArgTypes<WrapperComponentForSearch>> = {
   control: {
     options: ['Default', 'Required'],
     control: 'radio',
@@ -171,5 +207,25 @@ Primary.argTypes = {
       },
     },
     defaultValue: 'No Filter',
+  },
+};
+
+export const Primary = Template.bind({});
+Primary.args = { ...args, includeCustomOptions: false };
+Primary.argTypes = argTypes;
+
+export const WithRoundedBorders = Template.bind({});
+WithRoundedBorders.args = {
+  ...args,
+  isRoundedSearchComponent: true,
+  label: '',
+  appearance: 'outline',
+  includeCustomOptions: true,
+};
+
+WithRoundedBorders.argTypes = {
+  ...argTypes,
+  isRoundedSearchComponent: {
+    defaultValue: 'true',
   },
 };
