@@ -3,7 +3,7 @@
     <ng-container>
       <mat-nav-list
         *ngrxLet="navigation$ as navigation"
-        class="!pt-0 transition-all duration-1000"
+        class="!pt-0 transition-all duration-1000 overflow-auto"
         [ngClass]="{
           'max-w-0 opacity-0': minimized,
           'max-w-xl opacity-100': !minimized
@@ -94,7 +94,7 @@
         <button
           (click)="setActive(materialClass, navigationLevel)"
           mat-list-item
-          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !px-2 !pr-10"
+          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !pl-8 !pr-10 text-start !cursor-pointer"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay':
@@ -114,7 +114,7 @@
         <button
           (click)="setActive(materialClass)"
           mat-list-item
-          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !pr-10"
+          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !pr-10 text-start !cursor-pointer"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay': navigation.materialClass === materialClass

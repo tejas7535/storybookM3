@@ -4,8 +4,10 @@
     read: 'materialsSupplierDatabase.mainTable.quickfilter.dialog'
   "
 >
-  <div mat-dialog-title class="!-mx-6 !-mt-2">
-    <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+  <div mat-dialog-title class="!px-0">
+    <div
+      class="inline-flex w-full flex-row content-around justify-between pl-4 pb-3 pr-2"
+    >
       <div class="my-auto text-h6 text-high-emphasis" *ngIf="add">
         {{ t('title_add') }}
       </div>
@@ -53,8 +55,8 @@
     </div>
   </mat-dialog-content>
 
-  <mat-dialog-actions align="end" class="-mx-6">
-    <div class="px-4 pb-2">
+  <mat-dialog-actions align="end">
+    <div class="px-2 pb-2">
       <button mat-stroked-button (click)="closeDialog()" color="primary">
         {{ t('cancel') }}
       </button>

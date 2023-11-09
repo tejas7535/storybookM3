@@ -1,9 +1,9 @@
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Column, RowNode } from 'ag-grid-community';
 
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
@@ -44,7 +44,7 @@ describe('EditCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EditCellRendererComponent,
-    imports: [PushModule],
+    imports: [PushPipe],
     providers: [
       {
         provide: DataFacade,

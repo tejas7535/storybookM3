@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { MsdDialogService } from '@mac/msd/services';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -13,7 +13,7 @@ describe('LinkCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LinkCellRendererComponent,
-    imports: [PushModule],
+    imports: [PushPipe],
     providers: [
       {
         provide: DataFacade,

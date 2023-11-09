@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -65,7 +65,7 @@ describe('Co2ComponentComponent', () => {
       MatButtonModule,
       MatFormFieldModule,
       MatIconModule,
-      PushModule,
+      PushPipe,
       ReactiveFormsModule,
       MatTooltipModule,
       SelectModule,

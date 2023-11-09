@@ -8,8 +8,6 @@
   }
 }
 
-::ng-deep mat-checkbox {
-  .mat-checkbox-label {
-    line-height: 16px !important;
-  }
+::ng-deep mat-checkbox .mdc-form-field .mdc-checkbox .mdc-checkbox__background {
+  scale: 0.75;
 }

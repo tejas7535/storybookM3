@@ -1,16 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -31,10 +28,10 @@ describe('ConfirmDeleteDialogComponent', () => {
       CommonModule,
       MatDialogModule,
       MatIconModule,
-      PushModule,
+      PushPipe,
       MatButtonModule,
       ReactiveFormsModule,
-      LetModule,
+      LetDirective,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

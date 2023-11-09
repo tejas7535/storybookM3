@@ -1,50 +1,40 @@
-<div class="flex h-full min-h-[46px] w-full flex-row justify-center">
-  <div class="h-full">
-    <button
-      class="my-auto"
-      mat-icon-button
-      (click)="onSelectClick()"
-      *ngIf="isBulkEditAllowed$ | ngrxPush"
-    >
+<div class="flex h-[46px] w-full flex-row">
+  <ng-container *ngIf="isBulkEditAllowed$ | ngrxPush">
+    <div class="p-2">
       <mat-icon
-        class="text-medium-emphasis !text-[16px]"
-        *ngIf="isSelected(); else blank"
-        >check_box</mat-icon
+        (click)="onSelectClick()"
+        class="text-medium-emphasis !text-[16px] p-1 cursor-pointer"
+        >{{ isSelected() ? 'check_box' : 'check_box_outline_blank' }}</mat-icon
       >
-      <ng-template #blank
-        ><mat-icon class="text-medium-emphasis !text-[16px]"
-          >check_box_outline_blank</mat-icon
-        ></ng-template
-      >
-    </button>
+    </div>
+  </ng-container>
 
-    <button
-      class="my-auto"
-      mat-icon-button
-      (click)="onCopyClick()"
-      [disabled]="activeSelectionOnGrid()"
-    >
-      <mat-icon
-        [ngClass]="{
+  <button
+    class="my-auto !w-10 !h-10"
+    mat-icon-button
+    (click)="onCopyClick()"
+    [disabled]="activeSelectionOnGrid()"
+  >
+    <mat-icon
+      [ngClass]="{
           'line-through': activeSelectionOnGrid(),
         }"
-        class="text-medium-emphasis !text-[16px]"
-        >content_copy</mat-icon
-      >
-    </button>
-    <button
-      class="my-auto"
-      [disabled]="activeSelectionOnGrid()"
-      mat-icon-button
-      (click)="onDeleteClick()"
+      class="text-medium-emphasis !text-[16px] pr-2"
+      >content_copy</mat-icon
     >
-      <mat-icon
-        [ngClass]="{
-          'line-through': activeSelectionOnGrid()
-        }"
-        class="text-medium-emphasis !text-[16px]"
-        >delete_forever</mat-icon
-      >
-    </button>
-  </div>
+  </button>
+  <button
+    class="my-auto !w-10 !h-10"
+    [disabled]="activeSelectionOnGrid()"
+    mat-icon-button
+    (click)="onDeleteClick()"
+  >
+    <mat-icon
+      [ngClass]="{
+        'line-through': activeSelectionOnGrid()
+      }"
+      class="text-medium-emphasis !text-[16px] pr-2"
+      >delete_forever</mat-icon
+    >
+  </button>
 </div>

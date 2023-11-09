@@ -2,8 +2,10 @@
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.confirmDialog'"
 >
   <ng-container *ngrxLet="navigation$ as navigation">
-    <div mat-dialog-title class="!-mx-6 !-mt-2">
-      <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+    <div mat-dialog-title class="!px-0">
+      <div
+        class="inline-flex w-full flex-row content-around justify-between pl-4 pb-3 pr-2"
+      >
         <div class="my-auto text-h6 text-high-emphasis">
           {{ t('title_delete_' + navigation.navigationLevel) }}
         </div>

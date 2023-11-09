@@ -11,7 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
 
@@ -104,6 +104,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
 
   setFile(file: File): void {
     this.fileControl.setValue(file);
+    this.fileControl.markAsTouched();
 
     if (!file) {
       // Reset the input element value.

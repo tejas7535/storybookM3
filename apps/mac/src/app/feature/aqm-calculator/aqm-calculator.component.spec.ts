@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SelectModule } from '@schaeffler/inputs/select';
@@ -56,8 +56,8 @@ describe('AqmCalculatorComponent', () => {
       MatChipsModule,
       MatIconModule,
       SharedModule,
-      PushModule,
-      LetModule,
+      PushPipe,
+      LetDirective,
       SelectModule,
       provideTranslocoTestingModule({ en }),
     ],

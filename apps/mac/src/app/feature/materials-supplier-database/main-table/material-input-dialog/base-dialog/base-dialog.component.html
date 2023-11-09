@@ -1,5 +1,7 @@
-<div mat-dialog-title class="!-mx-6 !-mt-4">
-  <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+<div mat-dialog-title class="!px-0">
+  <div
+    class="inline-flex w-full flex-row content-around justify-between pl-4 pb-2 pr-2"
+  >
     <div class="my-auto text-h6 text-high-emphasis">{{ txtTitle }}</div>
     <div class="flex flex-row">
       <button
@@ -17,7 +19,7 @@
   <mat-divider></mat-divider>
 </div>
 
-<mat-dialog-content class="!px-4">
+<mat-dialog-content class="!px-4 !pt-4">
   <div *ngIf="!(isLoading$ | ngrxPush); else dialogLoadingTemplate">
     <ng-content></ng-content>
   </div>
@@ -31,7 +33,7 @@
 
 <mat-dialog-actions
   align="end"
-  class="-mx-6"
+  class="!px-0"
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
   <mat-divider class="w-full pb-4"></mat-divider>

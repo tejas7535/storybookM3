@@ -3,7 +3,7 @@
   *transloco="let t; read: 'aqmCalculator'"
 >
   <div class="flex flex-col">
-    <mat-card class="aqm-calculator-card">
+    <mat-card appearance="outlined" class="aqm-calculator-card">
       <mac-breadcrumbs
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
       ></mac-breadcrumbs>
@@ -142,23 +142,27 @@
                 "
               >
                 <p class="mt-0">{{ t('sumLimitsReachedFor') }}</p>
-                <mat-chip-list>
-                  <mat-chip
+                <mat-chip-listbox>
+                  <mat-chip-option
                     *ngFor="
                       let item of (aqmCalculationResult | ngrxPush)?.limits
                         | keyvalue;
                       trackBy: trackByFn
                     "
-                    class="flex flex-row items-center justify-between gap-1"
+                    [selectable]="false"
                   >
-                    <mat-icon [color]="item.value ? 'primary' : 'error'">{{
-                      item.value ? 'check_circle' : 'error'
-                    }}</mat-icon>
-                    <p>
-                      {{ item.key }}
-                    </p>
-                  </mat-chip>
-                </mat-chip-list>
+                    <div
+                      class="flex flex-row items-center justify-between gap-1"
+                    >
+                      <mat-icon [color]="item.value ? 'primary' : 'error'">{{
+                        item.value ? 'check_circle' : 'error'
+                      }}</mat-icon>
+                      <p>
+                        {{ item.key }}
+                      </p>
+                    </div>
+                  </mat-chip-option>
+                </mat-chip-listbox>
               </ng-container>
             </div>
           </div>

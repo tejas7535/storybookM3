@@ -50,7 +50,7 @@
                   type="number"
                   [step]="step"
                 />
-                <mat-error *ngIf="inputValue.invalid"
+                <mat-error class="text-caption" *ngIf="inputValue.invalid"
                   >{{ t('negativeValueError') }}
                 </mat-error>
               </mat-form-field>
@@ -80,7 +80,7 @@
                     [step]="step"
                     type="number"
                   />
-                  <mat-error *ngIf="inputGroup.get('0')"
+                  <mat-error class="text-caption" *ngIf="inputGroup.get('0')"
                     >{{ t('negativeValueError') }}
                   </mat-error>
                 </mat-form-field>
@@ -92,7 +92,7 @@
                     [step]="step"
                     type="number"
                   />
-                  <mat-error *ngIf="inputGroup.get('1')"
+                  <mat-error class="text-caption" *ngIf="inputGroup.get('1')"
                     >{{ t('negativeValueError') }}
                   </mat-error>
                 </mat-form-field>

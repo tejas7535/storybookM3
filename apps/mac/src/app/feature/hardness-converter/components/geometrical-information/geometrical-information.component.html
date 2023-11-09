@@ -12,7 +12,9 @@
       <mat-form-field appearance="outline" class="md:w-72" (click)="setFocus()">
         <mat-label>{{ t('controls.value') }}</mat-label>
         <input matInput [formControl]="valueControl" type="number" readonly />
-        <mat-error>{{ getErrorMessage(valueControl.errors) }}</mat-error>
+        <mat-error class="text-caption">{{
+          getErrorMessage(valueControl.errors)
+        }}</mat-error>
       </mat-form-field>
 
       <mat-form-field
@@ -27,7 +29,9 @@
           type="number"
           step="0.5"
         />
-        <mat-error>{{ getErrorMessage(diameterControl.errors) }}</mat-error>
+        <mat-error class="text-caption">{{
+          getErrorMessage(diameterControl.errors)
+        }}</mat-error>
       </mat-form-field>
 
       <mat-form-field
@@ -42,7 +46,9 @@
           <mat-option [value]="5.0">5.0 mm</mat-option>
           <mat-option [value]="10.0">10.0 mm</mat-option>
         </mat-select>
-        <mat-error>{{ getErrorMessage(diameterBallControl.errors) }}</mat-error>
+        <mat-error class="text-caption">{{
+          getErrorMessage(diameterBallControl.errors)
+        }}</mat-error>
       </mat-form-field>
 
       <mat-form-field
@@ -52,7 +58,9 @@
       >
         <mat-label>{{ t('controls.load') }}</mat-label>
         <input matInput [formControl]="loadControl" type="number" step="0.5" />
-        <mat-error>{{ getErrorMessage(loadControl.errors) }}</mat-error>
+        <mat-error class="text-caption">{{
+          getErrorMessage(loadControl.errors)
+        }}</mat-error>
       </mat-form-field>
 
       <mat-form-field
@@ -67,7 +75,9 @@
           type="number"
           step="0.5"
         />
-        <mat-error>{{ getErrorMessage(thicknessControl.errors) }}</mat-error>
+        <mat-error class="text-caption">{{
+          getErrorMessage(thicknessControl.errors)
+        }}</mat-error>
       </mat-form-field>
 
       <mat-form-field
@@ -81,7 +91,9 @@
             t('material.' + mat)
           }}</mat-option>
         </mat-select>
-        <mat-error>{{ getErrorMessage(materialControl.errors) }}</mat-error>
+        <mat-error class="text-caption">{{
+          getErrorMessage(materialControl.errors)
+        }}</mat-error>
       </mat-form-field>
     </div>
 

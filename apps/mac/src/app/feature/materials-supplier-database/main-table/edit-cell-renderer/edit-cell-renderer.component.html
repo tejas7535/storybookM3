@@ -7,13 +7,12 @@
     params?.valueFormatted ?? params?.value
   }}</span>
   <div class="h-full" *ngIf="isEnabled(materialClass$ | ngrxPush)">
-    <button
-      class="my-auto"
+    <mat-icon
       mat-icon-button
       [ngClass]="{ '!hidden': !hovered }"
       (click)="onEditClick()"
+      class="!text-[12px] text-medium-emphasis mt-4 cursor-pointer"
+      >edit</mat-icon
     >
-      <mat-icon class="!text-[12px] text-medium-emphasis">edit</mat-icon>
-    </button>
   </div>
 </div>

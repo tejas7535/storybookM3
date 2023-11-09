@@ -1,7 +1,7 @@
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { IHeaderParams, RowNode } from 'ag-grid-community';
 
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -16,7 +16,7 @@ describe('ActionHeaderComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ActionHeaderComponent,
-    imports: [PushModule, MatIconModule],
+    imports: [PushPipe, MatIconModule],
     providers: [
       {
         provide: DataFacade,

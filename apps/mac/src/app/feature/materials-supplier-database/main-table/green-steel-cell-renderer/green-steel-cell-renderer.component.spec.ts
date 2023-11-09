@@ -1,6 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -22,7 +22,7 @@ describe('GreenSteelCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GreenSteelCellRendererComponent,
-    imports: [PushModule, provideTranslocoTestingModule({ en })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en })],
     providers: [
       {
         provide: DataFacade,

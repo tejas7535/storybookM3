@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -35,7 +35,7 @@ describe('DetailCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DetailCellRendererComponent,
-    imports: [PushModule, provideTranslocoTestingModule({ en })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en })],
     providers: [
       provideMockStore({ initialState }),
       {

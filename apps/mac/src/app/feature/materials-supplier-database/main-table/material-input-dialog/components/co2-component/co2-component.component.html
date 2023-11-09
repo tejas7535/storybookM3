@@ -3,7 +3,7 @@
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
   <!-- gap-x-6 did not work out with 4 input fields so i used pr-6 3 times.-->
-  <div class="mb-4 flex flex-row">
+  <div class="flex flex-row">
     <mat-form-field appearance="outline" class="w-1/4 pr-6">
       <mat-label>{{ t('scope1') }}</mat-label>
       <input
@@ -13,11 +13,11 @@
         name="co2Scope1"
         #dialogControl
       />
-      <span matSuffix class="text-caption relative -top-1 pl-1">{{
+      <span matSuffix class="text-caption !block !w-16 pt-1">{{
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2Scope1Hint }}</mat-hint>
-      <mat-error *ngIf="co2Scope1Control.invalid">{{
+      <mat-error class="text-caption" *ngIf="co2Scope1Control.invalid">{{
         getErrorMessage(co2Scope1Control.errors)
       }}</mat-error>
     </mat-form-field>
@@ -30,11 +30,11 @@
         name="co2Scope2"
         #dialogControl
       />
-      <span matSuffix class="text-caption relative -top-1 pl-1">{{
+      <span matSuffix class="text-caption !block !w-16 pt-1">{{
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2Scope2Hint }}</mat-hint>
-      <mat-error *ngIf="co2Scope2Control.invalid">{{
+      <mat-error class="text-caption" *ngIf="co2Scope2Control.invalid">{{
         getErrorMessage(co2Scope2Control.errors)
       }}</mat-error>
     </mat-form-field>
@@ -47,11 +47,11 @@
         name="co2Scope3"
         #dialogControl
       />
-      <span matSuffix class="text-caption relative -top-1 pl-1">{{
+      <span matSuffix class="text-caption !block !w-16 pt-1">{{
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2Scope3Hint }}</mat-hint>
-      <mat-error *ngIf="co2Scope3Control.invalid">{{
+      <mat-error class="text-caption" *ngIf="co2Scope3Control.invalid">{{
         getErrorMessage(co2Scope3Control.errors)
       }}</mat-error>
     </mat-form-field>
@@ -64,12 +64,12 @@
         name="co2PerTon"
         #dialogControl
       />
-      <span matSuffix class="text-caption relative -top-1 pl-1">{{
+      <span matSuffix class="text-caption !block !w-16 pt-1">{{
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2TotalHint }}</mat-hint>
       <mat-error
-        class="cursor-help"
+        class="text-caption"
         *ngIf="co2TotalControl.invalid"
         [matTooltip]="
           co2TotalControl.errors?.scopeTotalLowerThanSingleScopes
@@ -78,7 +78,9 @@
         "
       >
         {{ getErrorMessage(co2TotalControl.errors) }}
-        <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
+        <mat-icon inline="true" class="!leading-3 cursor-help"
+          >info_outline</mat-icon
+        >
       </mat-error>
     </mat-form-field>
   </div>

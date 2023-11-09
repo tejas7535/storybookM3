@@ -5,7 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -29,9 +29,9 @@ describe('EditCellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: ReleaseStatusCellRendererComponent,
     imports: [
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en }),
-      LetModule,
+      LetDirective,
       MatIconModule,
       MatChipsModule,
       MatTooltipModule,

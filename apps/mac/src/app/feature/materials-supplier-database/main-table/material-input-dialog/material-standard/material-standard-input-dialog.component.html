@@ -39,6 +39,7 @@
             #dialogControl
           />
           <mat-error
+            class="text-caption"
             *ngIf="materialNumberControl.invalid"
             [matTooltip]="t('error.' + getMaterialNumberTranslationKey())"
             class="cursor-help"

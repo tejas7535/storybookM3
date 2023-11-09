@@ -47,6 +47,7 @@
               #dialogControl
             />
             <mat-error
+              class="text-caption"
               *ngIf="materialNumberControl.invalid"
               [matTooltip]="t('error.copperNumber')"
               class="cursor-help"
@@ -116,9 +117,11 @@
             <mat-hint>
               {{ getHint(hintData, 'castingMode') }}
             </mat-hint>
-            <mat-error *ngIf="castingModesControl.invalid">{{
-              getErrorMessage(castingModesControl.errors)
-            }}</mat-error>
+            <mat-error
+              class="text-caption"
+              *ngIf="castingModesControl.invalid"
+              >{{ getErrorMessage(castingModesControl.errors) }}</mat-error
+            >
           </mat-form-field>
           <schaeffler-select
             appearance="outline"
@@ -165,7 +168,7 @@
             <mat-hint>
               {{ getHint(hintData, 'maxDimension') }}
             </mat-hint>
-            <mat-error *ngIf="maxDimControl.invalid">{{
+            <mat-error class="text-caption" *ngIf="maxDimControl.invalid">{{
               getErrorMessage(maxDimControl.errors)
             }}</mat-error>
           </mat-form-field>
@@ -207,6 +210,7 @@
           macMaterialDialogBasePart
         >
           <mat-error
+            class="text-caption"
             afterCo2Scope
             class="text-caption text-center"
             *ngIf="isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)"

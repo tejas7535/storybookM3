@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -66,7 +66,7 @@ describe('ManufacturerSupplierComponent', () => {
       MatInputModule,
       MatIconModule,
       MatSelectModule,
-      PushModule,
+      PushPipe,
       ReactiveFormsModule,
       SelectModule,
       provideTranslocoTestingModule({ en }),

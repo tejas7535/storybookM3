@@ -10,7 +10,7 @@ import { of, Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -44,7 +44,7 @@ describe('LearnMoreComponent', () => {
       SharedTranslocoModule,
       StoreModule,
       SubheaderModule,
-      PushModule,
+      PushPipe,
       RouterTestingModule,
       MatIconTestingModule,
       provideTranslocoTestingModule({ en }),

@@ -20,9 +20,9 @@ export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
     suppressMovable: true,
     sortable: false,
     lockVisible: true,
-    cellClass: 'px-0',
+    cellClass: 'px-2',
     checkboxSelection: false,
-    headerClass: 'text-caption leading-6 font-medium px-0',
+    headerClass: 'text-caption leading-6 font-medium px-2',
     headerComponent: ActionHeaderComponent,
   },
 ];

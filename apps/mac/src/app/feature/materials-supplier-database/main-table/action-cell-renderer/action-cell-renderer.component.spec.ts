@@ -1,10 +1,10 @@
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import {
   Column,
   GridApi,
@@ -35,7 +35,7 @@ describe('ActionCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ActionCellRendererComponent,
-    imports: [PushModule, MatIconModule],
+    imports: [PushPipe, MatIconModule],
     providers: [
       {
         provide: DataFacade,

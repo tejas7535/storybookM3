@@ -10,7 +10,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -39,8 +39,8 @@ describe('MsdNavigationComponent', () => {
       MatExpansionModule,
       MatButtonModule,
       MatIconModule,
-      PushModule,
-      LetModule,
+      PushPipe,
+      LetDirective,
       provideTranslocoTestingModule({ en }),
     ],
     detectChanges: false,
