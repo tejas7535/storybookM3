@@ -36,8 +36,6 @@ import { SharedModule } from '../../../shared.module';
 export class ExcelExportStatusBarComponent
   implements IStatusPanelAngularComp, OnDestroy
 {
-  // eslint-disable-next-line unicorn/no-null
-  total: number | null = null;
   api!: GridApi;
   disabled = true;
 

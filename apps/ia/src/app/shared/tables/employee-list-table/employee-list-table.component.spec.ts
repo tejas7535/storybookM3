@@ -1,6 +1,10 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, ValueGetterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ProcessCellForExportParams,
+  ValueGetterParams,
+} from 'ag-grid-community';
 
 import { ActionType, LeavingType } from '../../models';
 import { SharedModule } from '../../shared.module';
@@ -225,6 +229,38 @@ describe('EmployeeListTableComponent', () => {
       const result = component.internalValueGetter(params, 'to');
 
       expect(result).toEqual('ABC');
+    });
+  });
+
+  describe('getFormattedValue', () => {
+    test('should use value formatter when defined', () => {
+      const params: ProcessCellForExportParams = {
+        column: {
+          getColDef: () => ({
+            valueFormatter: () => 'formatted',
+          }),
+        },
+        node: {
+          data: {},
+        },
+      } as any;
+
+      const result = component.getFormattedValue(params);
+
+      expect(result).toEqual('formatted');
+    });
+
+    test('should return value when formatter not defined', () => {
+      const params: ProcessCellForExportParams = {
+        value: 'value 11',
+        column: {
+          getColDef: () => ({}),
+        },
+      } as any;
+
+      const result = component.getFormattedValue(params);
+
+      expect(result).toEqual('value 11');
     });
   });
 });

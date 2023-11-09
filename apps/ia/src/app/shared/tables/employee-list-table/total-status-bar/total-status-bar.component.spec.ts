@@ -10,7 +10,6 @@ describe('TotalStatusBarComponent', () => {
   const createComponent = createComponentFactory({
     component: TotalStatusBarComponent,
     detectChanges: false,
-    imports: [],
   });
 
   beforeEach(() => {
@@ -37,7 +36,7 @@ describe('TotalStatusBarComponent', () => {
     });
   });
 
-  describe('onGridReady', () => {
+  describe('onRowDataUpdated', () => {
     test('should set total count', () => {
       const total = 578_123;
       const model = {
@@ -54,7 +53,7 @@ describe('TotalStatusBarComponent', () => {
       } as IStatusPanelParams;
       component['ref'].markForCheck = jest.fn();
 
-      component.onGridReady();
+      component.onRowDataUpdated();
 
       expect(component.total).toEqual(total);
       expect(component['ref'].markForCheck).toHaveBeenCalled();
@@ -62,7 +61,7 @@ describe('TotalStatusBarComponent', () => {
   });
 
   describe('ngOnDestroy', () => {
-    test('should remove event listener', () => {
+    test('should remove event listeners', () => {
       component.params = {
         api: {
           removeEventListener: jest.fn(),
@@ -73,8 +72,45 @@ describe('TotalStatusBarComponent', () => {
 
       expect(component.params.api.removeEventListener).toHaveBeenCalledWith(
         'rowDataUpdated',
-        component.onGridReady
+        component.onRowDataUpdated
       );
+      expect(component.params.api.removeEventListener).toHaveBeenCalledWith(
+        'filterChanged',
+        component.onFilterChanged
+      );
+    });
+  });
+
+  describe('onFilterChanged', () => {
+    test('should set filtered count when filter is applied', () => {
+      const filtered = 578_123;
+      component.params = {
+        api: {
+          getDisplayedRowCount: () => filtered,
+          isAnyFilterPresent: () => true,
+        },
+      } as IStatusPanelParams;
+      component['ref'].markForCheck = jest.fn();
+
+      component.onFilterChanged();
+
+      expect(component.filtered).toEqual(filtered);
+      expect(component['ref'].markForCheck).toHaveBeenCalled();
+    });
+
+    test('should set filtered count as undefined when filter is not applied', () => {
+      component.params = {
+        api: {
+          getDisplayedRowCount: () => 31,
+          isAnyFilterPresent: () => false,
+        },
+      } as IStatusPanelParams;
+      component['ref'].markForCheck = jest.fn();
+
+      component.onFilterChanged();
+
+      expect(component.filtered).toBeUndefined();
+      expect(component['ref'].markForCheck).toHaveBeenCalled();
     });
   });
 });

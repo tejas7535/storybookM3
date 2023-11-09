@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ValueGetterFunc, ValueGetterParams } from 'ag-grid-community';
+import { ValueFormatterFunc, ValueFormatterParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -37,7 +37,7 @@ describe('ResignationsComponent', () => {
   });
 
   describe('columnDefs', () => {
-    const expectedDate = '1/01/1970';
+    const expectedDate = '01/01/1970';
     let mockDate: SpyInstance;
 
     beforeAll(() => {
@@ -50,16 +50,16 @@ describe('ResignationsComponent', () => {
       mockDate.mockRestore();
     });
 
-    test('should set col defs and correct value getters', () => {
-      const getter: ValueGetterFunc = component.columnDefs[0]
-        .valueGetter as ValueGetterFunc;
+    test('should set col defs and correct value formatters', () => {
+      const formatter: ValueFormatterFunc = component.columnDefs[0]
+        .valueFormatter as ValueFormatterFunc;
 
       expect(component.columnDefs.length).toEqual(2);
       expect(
-        getter({ data: { exitDate: '123321' } } as ValueGetterParams)
+        formatter({ data: { exitDate: '123321' } } as ValueFormatterParams)
       ).toEqual(expectedDate);
       expect(
-        getter({ data: { exitDate: undefined } } as ValueGetterParams)
+        formatter({ data: { exitDate: undefined } } as ValueFormatterParams)
       ).toEqual('');
     });
   });

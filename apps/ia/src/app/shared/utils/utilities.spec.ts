@@ -1,4 +1,4 @@
-import { ValueGetterParams } from 'ag-grid-community';
+import { ValueFormatterParams } from 'ag-grid-community';
 import moment from 'moment';
 
 import { TimePeriod } from '../models';
@@ -10,7 +10,7 @@ import {
   getPercentageValueSigned,
   getTimeRangeFromDates,
   getTimeRangeHint,
-  valueGetterDate,
+  valueFormatterDate,
 } from './utilities';
 
 describe('utilities', () => {
@@ -128,29 +128,44 @@ describe('utilities', () => {
     });
   });
 
-  describe('valueGetterDate', () => {
-    test('should format date', () => {
+  describe('valueFormatterDate', () => {
+    test('should format date after 9th', () => {
       const exitDate = '1693440000000'; // 2023-08-31
 
-      const result = valueGetterDate(
+      const result = valueFormatterDate(
         {
           data: {
             exitDate,
           },
-        } as ValueGetterParams,
+        } as ValueFormatterParams,
         'exitDate'
       );
 
       expect(result).toEqual('31/08/2023');
     });
 
+    test('should format date before 9th', () => {
+      const exitDate = '1691539200000'; // 2023-08-09
+
+      const result = valueFormatterDate(
+        {
+          data: {
+            exitDate,
+          },
+        } as ValueFormatterParams,
+        'exitDate'
+      );
+
+      expect(result).toEqual('09/08/2023');
+    });
+
     test('should return empty string when value undefined', () => {
-      const result = valueGetterDate(
+      const result = valueFormatterDate(
         {
           data: {
             exitDate: undefined,
           },
-        } as ValueGetterParams,
+        } as ValueFormatterParams,
         'exitDate'
       );
 

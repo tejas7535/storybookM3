@@ -32,6 +32,8 @@ export class TotalStatusBarComponent
 {
   // eslint-disable-next-line unicorn/no-null
   total: number | null = null;
+  // eslint-disable-next-line unicorn/no-null
+  filtered: number | null = null;
   params!: IStatusPanelParams;
 
   constructor(private readonly ref: ChangeDetectorRef) {}
@@ -41,16 +43,32 @@ export class TotalStatusBarComponent
 
     this.params.api.addEventListener(
       'rowDataUpdated',
-      this.onGridReady.bind(this)
+      this.onRowDataUpdated.bind(this)
+    );
+
+    this.params.api.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
     );
   }
 
-  onGridReady(): void {
+  onRowDataUpdated(): void {
     this.total = this.params.api.getModel().getRowCount();
     this.ref.markForCheck();
   }
 
+  onFilterChanged(): void {
+    this.filtered = this.params.api.isAnyFilterPresent()
+      ? this.params.api.getDisplayedRowCount()
+      : undefined;
+    this.ref.markForCheck();
+  }
+
   ngOnDestroy(): void {
-    this.params.api.removeEventListener('rowDataUpdated', this.onGridReady);
+    this.params.api.removeEventListener(
+      'rowDataUpdated',
+      this.onRowDataUpdated
+    );
+    this.params.api.removeEventListener('filterChanged', this.onFilterChanged);
   }
 }

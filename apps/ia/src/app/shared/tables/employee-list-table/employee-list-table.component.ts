@@ -9,12 +9,14 @@ import { translate } from '@ngneat/transloco';
 import {
   ColDef,
   ExcelExportParams,
+  ProcessCellForExportParams,
   StatusPanelDef,
+  ValueFormatterParams,
   ValueGetterParams,
 } from 'ag-grid-community';
 
 import { ActionType, LeavingType } from '../../models';
-import { valueGetterDate } from '../../utils/utilities';
+import { valueFormatterDate } from '../../utils/utilities';
 import { ExcelExportStatusBarComponent } from './excel-export-status-bar/excel-export-status-bar.component';
 import { FluctuationTypeCellRendererComponent } from './fluctuation-type-cell-renderer/fluctuation-type-cell-renderer.component';
 import { EmployeeTableEntry, FluctuationType } from './models';
@@ -27,6 +29,7 @@ import { TotalStatusBarComponent } from './total-status-bar/total-status-bar.com
 })
 export class EmployeeListTableComponent implements OnInit {
   readonly REASON_FOR_LEAVING_MIN_WIDTH = 170;
+  readonly APP_NAME = 'Insight Attrition';
 
   @Input()
   employees: EmployeeTableEntry[] = undefined;
@@ -76,8 +79,10 @@ export class EmployeeListTableComponent implements OnInit {
   defaultExcelExportParams: ExcelExportParams = {
     fileName: this.excelName,
     sheetName: this.excelName,
-    author: 'Insight Attrition',
+    author: this.APP_NAME,
     allColumns: true,
+    processCellCallback: (params: ProcessCellForExportParams) =>
+      this.getFormattedValue(params),
   };
 
   ngOnInit(): void {
@@ -96,8 +101,8 @@ export class EmployeeListTableComponent implements OnInit {
           headerName: translate('employeeListDialog.exitDate'),
           filter: 'agDateColumnFilter',
           sort: 'desc',
-          valueGetter: (params) =>
-            valueGetterDate<EmployeeTableEntry>(params, 'exitDate'),
+          valueFormatter: (params) =>
+            valueFormatterDate<EmployeeTableEntry>(params, 'exitDate'),
         },
         {
           field: 'reasonForLeaving',
@@ -133,8 +138,8 @@ export class EmployeeListTableComponent implements OnInit {
           headerName: translate('employeeListDialog.entryDate'),
           filter: 'agDateColumnFilter',
           sort: 'desc',
-          valueGetter: (params) =>
-            valueGetterDate<EmployeeTableEntry>(params, 'entryDate'),
+          valueFormatter: (params) =>
+            valueFormatterDate<EmployeeTableEntry>(params, 'entryDate'),
         },
         {
           field: 'reasonForLeaving',
@@ -238,6 +243,27 @@ export class EmployeeListTableComponent implements OnInit {
       default:
         // eslint-disable-next-line unicorn/no-useless-undefined
         return undefined;
+    }
+  }
+
+  getFormattedValue(params: ProcessCellForExportParams): string {
+    const column = params.column.getColDef();
+
+    if (column.valueFormatter) {
+      const valueFormatterParams: ValueFormatterParams = {
+        ...params,
+        data: params.node.data,
+        node: params.node,
+        colDef: params.column.getColDef(),
+      };
+
+      return (
+        params.column.getColDef().valueFormatter as (
+          params: ValueFormatterParams
+        ) => string
+      )(valueFormatterParams);
+    } else {
+      return params.value;
     }
   }
 }

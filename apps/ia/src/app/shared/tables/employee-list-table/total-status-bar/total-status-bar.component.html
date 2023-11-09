@@ -5,7 +5,10 @@
   <span class="text-caption text-low-emphasis tracking-[0.4px]"
     >{{ t('total') }}:</span
   >&nbsp;
-  <span class="text-caption text-high-emphasis tracking-[0.4px]">{{
-    total | number
-  }}</span>
+  <span class="text-caption text-high-emphasis tracking-[0.4px]">
+    <span *ngIf="filtered && filtered >= 0"
+      >{{ filtered | number }}&nbsp;/&nbsp;</span
+    >
+    <span>{{ total | number }}</span>
+  </span>
 </div>
