@@ -101,28 +101,26 @@ export class OrgChartService {
     dimension: FilterDimension
   ): string {
     const isOrgUnit = dimension === FilterDimension.ORG_UNIT;
-    const paddingTop = data.showUpperParentBtn ? '39' : '64';
     const marginBottom = isOrgUnit ? '0.5' : '1.5';
+    const arrowMarginTopClass = isOrgUnit ? '-mt-14' : '-mt-12';
     const upwardsButton = `
-            <div class="pointer-events-auto cursor-pointer bg-surface text-low-emphasis
-                flex flex-col mx-auto w-6 h-6 text-[24px] hover:text-medium-emphasis">
+            <div class="pointer-events-auto cursor-pointer text-low-emphasis group
+                absolute mx-auto right-0 left-0 w-6 h-6 text-[24px] ${arrowMarginTopClass}">
               <span id="show-parent" data-id="${data.nodeId}" 
-                class="${
-                  isOrgUnit ? '-mt-24' : '-mt-20'
-                } w-6 h-6 rounded-full before:content-['\\e5d8'] before:font-materiaIcons hover:ring-1 hover:ring-mediumEmphasis">
+                class="w-6 h-6 rounded-full before:content-['\\e5d8'] before:font-materiaIcons group-hover:text-[#00893d]">
               </span>
             </div>
           `;
 
     return `
-            <div style="padding-top:${paddingTop}px; padding-left:70px;width:${
-      width - 70
-    }px;height:${height}px">
+            <div style="padding-left:70px;width:${
+              width - 70
+            }px;height:${height}px">
             ${data.showUpperParentBtn ? upwardsButton : ''}
 
-              <div class="-ml-[70px] px-2 border-2 border-border rounded-md" style="height:${height}px;width:${width}px;margin-top:-64px;">
-                <div class="-mt-8 py-2 rounded-full bg-gray-300 ${
-                  isOrgUnit ? '' : '-mt-4'
+              <div class="-ml-[70px] px-2 border-2 border-border rounded-md" style="height:${height}px;width:${width}px;">
+                <div class="py-2 rounded-full bg-gray-300 ${
+                  isOrgUnit ? '-mt-8' : '-mt-5'
                 }"
                    style="margin-bottom:${marginBottom}rem;">
                   <span class="block text-body-2 text-high-emphasis text-center">

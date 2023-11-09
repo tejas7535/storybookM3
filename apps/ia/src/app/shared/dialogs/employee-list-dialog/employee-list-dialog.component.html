@@ -1,16 +1,14 @@
 <ng-container *transloco="let t; read: 'employeeListDialog'">
-  <div mat-dialog-title class="!flex flex-wrap" *ngIf="data?.headings?.header">
-    <div class="flex w-full">
-      <mat-icon class="text-medium-emphasis">{{
-        data?.headings.icon
-      }}</mat-icon>
-      <h5 class="mx-4 leading-6">
-        {{ data?.headings?.header }}
-      </h5>
-      <button mat-dialog-close class="ml-auto flex">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+  <div class="p-4" *ngIf="data?.headings?.header">
+    <mat-icon class="inline text-medium-emphasis">{{
+      data?.headings.icon
+    }}</mat-icon>
+    <h5 class="inline align-top mx-2 leading-6">
+      {{ data?.headings?.header }}
+    </h5>
+    <button mat-dialog-close class="inline float-right">
+      <mat-icon>close</mat-icon>
+    </button>
     <ng-container
       *ngrxLet="beautifiedFilters$ as beautifiedFilters"
       [ngTemplateOutlet]="headings"
@@ -42,7 +40,7 @@
 </ng-container>
 
 <ng-template #headings let-beautifiedFilters>
-  <div class="flex flex-row w-full ml-10 text-caption">
+  <div class="flex flex-row ml-10 text-caption">
     <span class="text-medium-emphasis">Dimension:&nbsp;</span>
     <span class="text-high-emphasis">{{
       beautifiedFilters.filterDimension
