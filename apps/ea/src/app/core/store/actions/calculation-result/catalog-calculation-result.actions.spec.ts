@@ -1,6 +1,7 @@
 import {
   downloadBasicFrequencies,
   fetchBasicFrequencies,
+  resetCalculationResult,
   setBasicFrequenciesResult,
   setCalculationFailure,
 } from './catalog-calculation-result.actions';
@@ -52,6 +53,16 @@ describe('Catalog Calculation Result Actions', () => {
 
       expect(action).toEqual({
         type: '[Catalog Calculation Result] Download Basic Frequencies',
+      });
+    });
+  });
+
+  describe('Reset calculation Result', () => {
+    it('reset calculation result', () => {
+      const action = resetCalculationResult();
+
+      expect(action).toEqual({
+        type: '[Catalog Calculation Result] Reset Calculation Result',
       });
     });
   });

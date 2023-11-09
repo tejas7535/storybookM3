@@ -1,7 +1,11 @@
 import { Action, createAction, props } from '@ngrx/store';
 
 import { CatalogCalculationResultActions } from '../../actions';
-import { BasicFrequenciesResult, CatalogCalculationResult } from '../../models';
+import {
+  BasicFrequenciesResult,
+  CatalogCalculationResult,
+  CatalogCalculationResultState,
+} from '../../models';
 import {
   catalogCalculationResultReducer,
   initialState,
@@ -102,6 +106,31 @@ describe('catalogCalculationResultReducer', () => {
         isLoading: false,
         result: { abc: '123' },
         calculationError: undefined,
+      });
+    });
+  });
+
+  describe('Reset calculation result', () => {
+    it('should reset calculation result', () => {
+      const calculatedState = {
+        ...initialState,
+        isLoading: false,
+        result: {
+          BPFI: 1,
+        } as unknown as CatalogCalculationResult,
+        calculationError: 'some error',
+      } as CatalogCalculationResultState;
+
+      const newState = catalogCalculationResultReducer(
+        calculatedState,
+        CatalogCalculationResultActions.resetCalculationResult()
+      );
+
+      expect(newState).toEqual({
+        ...calculatedState,
+        isLoading: false,
+        result: undefined,
+        calculationError: 'some error',
       });
     });
   });

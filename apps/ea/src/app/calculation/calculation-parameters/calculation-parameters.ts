@@ -4,7 +4,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  isDevMode,
   OnDestroy,
   OnInit,
   QueryList,
@@ -36,8 +35,14 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { CalculationParametersFacade } from '@ea/core/store';
-import { CalculationParametersActions } from '@ea/core/store/actions';
+import {
+  CalculationParametersFacade,
+  CalculationResultFacade,
+} from '@ea/core/store';
+import {
+  CalculationParametersActions,
+  CatalogCalculationResultActions,
+} from '@ea/core/store/actions';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import {
   CalculationParameterGroup,
@@ -57,11 +62,12 @@ import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-templa
 import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
 import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
 import { TranslocoService } from '@ngneat/transloco';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
+import { CalculationParametersFormDevDebugComponent } from '../calculation-parameters-form-dev-debug/calculation-parameters-form-dev-debug.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 import { getContaminationOptions } from './contamination.options';
 import { getEnvironmentalInfluenceOptions } from './environmental-influence.options';
@@ -97,12 +103,12 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     TabbedOptionsComponent,
     TabbedSuboptionComponent,
     OptionTemplateDirective,
-    LetDirective,
     PushPipe,
     InfoBannerComponent,
     QualtricsInfoBannerComponent,
     SharedTranslocoModule,
     MatProgressSpinnerModule,
+    CalculationParametersFormDevDebugComponent,
   ],
 })
 export class CalculationParametersComponent
@@ -112,8 +118,6 @@ export class CalculationParametersComponent
   public templates!: QueryList<ParameterTemplateDirective>;
 
   public DEBOUNCE_TIME_DEFAULT = 200;
-
-  public readonly isDev = isDevMode();
   public readonly isProduction = environment.production;
 
   public parameterTemplates$:
@@ -351,6 +355,7 @@ export class CalculationParametersComponent
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly calculationResultFacade: CalculationResultFacade,
     private readonly productSelectionFacade: ProductSelectionFacade,
     public readonly matDialog: MatDialog,
     private readonly translocoService: TranslocoService,
@@ -395,6 +400,7 @@ export class CalculationParametersComponent
             })
           );
         } else {
+          this.resetCatalogCalculationResults();
           this.calculationParametersFacade.dispatch(
             CalculationParametersActions.setIsInputInvalid({
               isInputInvalid: true,
@@ -471,6 +477,7 @@ export class CalculationParametersComponent
     this.calculationParametersFacade.dispatch(
       CalculationParametersActions.resetCalculationParameters()
     );
+    this.resetCatalogCalculationResults();
   }
 
   public onShowBasicFrequenciesDialogClick(): void {
@@ -479,5 +486,11 @@ export class CalculationParametersComponent
 
   public onShowCalculationTypesClick(): void {
     this.matDialog.open(CalculationTypesSelectionComponent);
+  }
+
+  private resetCatalogCalculationResults(): void {
+    this.calculationResultFacade.dispatch(
+      CatalogCalculationResultActions.resetCalculationResult()
+    );
   }
 }

@@ -28,3 +28,7 @@ export const setCalculationResult = createAction(
   '[Catalog Calculation Result] Set Calculation Result',
   props<{ calculationResult: CatalogCalculationResult }>()
 );
+
+export const resetCalculationResult = createAction(
+  '[Catalog Calculation Result] Reset Calculation Result'
+);

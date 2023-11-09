@@ -6,6 +6,6 @@ export const setStandalone = createAction(
 );
 
 export const setResultPreviewSticky = createAction(
-  '[Settings]: Set result preview sticky',
+  '[Settings] Set result preview sticky',
   props<{ isResultPreviewSticky: boolean }>()
 );

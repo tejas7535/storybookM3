@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { firstValueFrom, of } from 'rxjs';
 
 import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import { resetCalculationResult } from '@ea/core/store/actions/calculation-result/catalog-calculation-result.actions';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -84,6 +85,7 @@ describe('CalculationParametersComponent', () => {
       component.onResetButtonClick();
 
       expect(store.dispatch).toHaveBeenCalledWith(resetCalculationParameters());
+      expect(store.dispatch).toHaveBeenCalledWith(resetCalculationResult());
     });
   });
 

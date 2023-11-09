@@ -1,0 +1,44 @@
+<!-- DEV STUFF -->
+<div *ngIf="isDev" class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+  <div class="flex flex-col">
+    <mat-slide-toggle
+      [checked]="false"
+      #showRawErrors
+      class="text-body-1 m-2"
+      color="primary"
+      labelPosition="after"
+    >
+      Show form errors
+    </mat-slide-toggle>
+
+    <ng-container *ngIf="showRawErrors.checked">
+      <pre class="bg-surface border-border border rounded-md mt-2 p-2">
+Status: {{ operationConditionsForm.status }}</pre
+      >
+
+      <pre
+        *ngIf="operationConditionsForm.invalid"
+        class="bg-surface border-border border rounded-md mt-2 p-2"
+        >{{ validationErrors | json }}</pre
+      >
+    </ng-container>
+  </div>
+
+  <div class="flex flex-col">
+    <mat-slide-toggle
+      [checked]="false"
+      #showFormValue
+      class="text-body-1 m-2"
+      color="primary"
+      labelPosition="after"
+    >
+      Show form value
+    </mat-slide-toggle>
+
+    <pre
+      class="bg-surface border-border border rounded-md mt-2 p-2"
+      *ngIf="showFormValue.checked"
+      >{{ operationConditionsForm.value | json }}</pre
+    >
+  </div>
+</div>

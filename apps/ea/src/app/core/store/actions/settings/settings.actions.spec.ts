@@ -17,7 +17,7 @@ describe('Settings Actions', () => {
       const action = setResultPreviewSticky({ isResultPreviewSticky: true });
 
       expect(action).toEqual({
-        type: '[Settings]: Set result preview sticky',
+        type: '[Settings] Set result preview sticky',
         isResultPreviewSticky: true,
       });
     });

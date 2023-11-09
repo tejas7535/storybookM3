@@ -52,6 +52,14 @@ export const catalogCalculationResultReducer = createReducer(
       isLoading: false,
       calculationError: error,
     })
+  ),
+
+  on(
+    CatalogCalculationResultActions.resetCalculationResult,
+    (state): CatalogCalculationResultState => ({
+      ...state,
+      result: undefined,
+    })
   )
 );
 
