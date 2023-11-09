@@ -1,6 +1,10 @@
-<h2 mat-dialog-title *transloco="let t; read: 'user.userSettings'">
+<span
+  mat-dialog-title
+  class="!text-h5"
+  *transloco="let t; read: 'user.userSettings'"
+>
   {{ t('title') }}
-</h2>
+</span>
 <mat-dialog-content
   class="h-[300px]"
   *transloco="let t; read: 'user.userSettings.dialog'"
