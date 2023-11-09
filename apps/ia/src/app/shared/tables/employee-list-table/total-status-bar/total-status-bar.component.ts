@@ -34,6 +34,7 @@ export class TotalStatusBarComponent
   total: number | null = null;
   // eslint-disable-next-line unicorn/no-null
   filtered: number | null = null;
+  isAnyFilterPresent = false;
   params!: IStatusPanelParams;
 
   constructor(private readonly ref: ChangeDetectorRef) {}
@@ -58,7 +59,8 @@ export class TotalStatusBarComponent
   }
 
   onFilterChanged(): void {
-    this.filtered = this.params.api.isAnyFilterPresent()
+    this.isAnyFilterPresent = this.params.api.isAnyFilterPresent();
+    this.filtered = this.isAnyFilterPresent
       ? this.params.api.getDisplayedRowCount()
       : undefined;
     this.ref.markForCheck();

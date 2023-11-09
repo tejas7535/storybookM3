@@ -95,6 +95,7 @@ describe('TotalStatusBarComponent', () => {
       component.onFilterChanged();
 
       expect(component.filtered).toEqual(filtered);
+      expect(component.isAnyFilterPresent).toBeTruthy();
       expect(component['ref'].markForCheck).toHaveBeenCalled();
     });
 
@@ -110,6 +111,7 @@ describe('TotalStatusBarComponent', () => {
       component.onFilterChanged();
 
       expect(component.filtered).toBeUndefined();
+      expect(component.isAnyFilterPresent).toBeFalsy();
       expect(component['ref'].markForCheck).toHaveBeenCalled();
     });
   });
