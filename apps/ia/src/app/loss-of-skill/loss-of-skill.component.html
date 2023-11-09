@@ -8,6 +8,7 @@
       class="h-[390px]"
       [filters]="beautifiedFilters$ | ngrxPush"
       [timeRange]="timeRange$ | ngrxPush"
+      [openPositionsAvailable]="areOpenPositionsAvailable$ | ngrxPush"
       [loading]="lostJobProfilesLoading$ | ngrxPush"
       [data]="lostJobProfilesData$ | ngrxPush"
       [workforceLoading]="lossOfSkillWorkforceLoading$ | ngrxPush"

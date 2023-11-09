@@ -113,6 +113,21 @@
       >people_outlined</mat-icon
     >
     <div class="flex text-medium-emphasis">{{ t('openPositions') }}:</div>
-    <span class="ml-2 text-high-emphasis">{{ meta.data.openPositions }}</span>
+    <span
+      *ngIf="meta.data.openPositionsAvailable; else openPositionsUnavailable"
+      class="ml-2 text-high-emphasis"
+      >{{ meta.data.openPositions }}</span
+    >
   </div>
 </div>
+
+<ng-template #openPositionsUnavailable>
+  <mat-icon
+    *transloco="let t; read: 'openPositions'"
+    class="ml-2 text-icon-warning"
+    inline="true"
+    [matTooltip]="t('dataUnavailable')"
+    matTooltipClass="!text-warning"
+    >warning_amber</mat-icon
+  >
+</ng-template>

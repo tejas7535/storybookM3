@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { EChartsOption, LineSeriesOption } from 'echarts';
 
 import {
+  getAreOpenApplicationsAvailable,
   getBeautifiedFilterValues,
   getSelectedDimension,
 } from '../core/store/selectors/filter/filter.selector';
@@ -112,6 +113,8 @@ export class OverviewComponent implements OnInit {
   resignedEmployeesCount$: Observable<number>;
   resignedEmployeesSyncOn$: Observable<string>;
   resignedEmployeesLoading$: Observable<boolean>;
+
+  areOpenApplicationsAvailable$: Observable<boolean>;
 
   openApplications$: Observable<OpenApplication[]>;
   openApplicationsLoading$: Observable<boolean>;
@@ -287,6 +290,9 @@ export class OverviewComponent implements OnInit {
   }
 
   loadOpenApplicationsData() {
+    this.areOpenApplicationsAvailable$ = this.store.select(
+      getAreOpenApplicationsAvailable
+    );
     this.openApplications$ = this.store.select(getOpenApplications);
     this.openApplicationsLoading$ = this.store.select(
       getIsLoadingOpenApplications

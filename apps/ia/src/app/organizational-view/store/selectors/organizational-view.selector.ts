@@ -7,6 +7,7 @@ import {
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
+import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../shared/constants';
 import {
   AttritionSeries,
   FilterDimension,
@@ -57,16 +58,19 @@ export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
   selectOrganizationalViewState,
   getSelectedTimeRange,
   (state: OrganizationalViewState, timeRange: IdValue) => {
-    const employee = state.orgChart.data?.find(
+    const node = state.orgChart.data?.find(
       (e) => e.id === state.orgChart.fluctuationRates.selectedEmployeeId
     );
-    const employeeMeta = employee?.attritionMeta;
+    const employeeMeta = node?.attritionMeta;
     const rates = state.orgChart.fluctuationRates.data?.find(
-      (r) => r.value === employee?.dimensionKey && r.timeRange === timeRange?.id
+      (r) => r.value === node?.dimensionKey && r.timeRange === timeRange?.id
     );
-    const title = employee.dimensionLongName
-      ? `${employee.dimension} (${employee.dimensionLongName})`
-      : employee.dimension;
+    const title = node.dimensionLongName
+      ? `${node.dimension} (${node.dimensionLongName})`
+      : node.dimension;
+
+    const openPositionsAvailable =
+      !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(node.filterDimension);
 
     return {
       ...employeeMeta,
@@ -75,6 +79,7 @@ export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
       unforcedFluctuationRate: rates?.unforcedFluctuationRate,
       heatType: HeatType.NONE,
       hideDetailedLeaverStats: employeeMeta.responseModified,
+      openPositionsAvailable,
     };
   }
 );

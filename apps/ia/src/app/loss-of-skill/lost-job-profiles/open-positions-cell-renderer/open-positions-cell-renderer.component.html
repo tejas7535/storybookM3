@@ -1,0 +1,15 @@
+<div class="flex h-full content-center">
+  <span *ngIf="available; else openPositionsUnavailable">
+    {{ count }}
+  </span>
+</div>
+
+<ng-template #openPositionsUnavailable>
+  <mat-icon
+    *transloco="let t; read: 'openPositions'"
+    [matTooltip]="t('dataUnavailable')"
+    matTooltipClass="!text-warning"
+    class="text-icon-warning self-center"
+    >warning_amber</mat-icon
+  >
+</ng-template>

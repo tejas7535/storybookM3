@@ -4,8 +4,9 @@ import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { getAreOpenApplicationsAvailable } from '../core/store/selectors';
 import { DoughnutConfig } from '../shared/charts/models';
-import { FluctuationKpi } from './models';
+import { FluctuationKpi, OpenApplication } from './models';
 import { OverviewComponent } from './overview.component';
 import {
   loadOpenApplications,
@@ -23,6 +24,10 @@ import {
   getIsLoadingDimensionFluctuationRates,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
+  getIsLoadingOpenApplications,
+  getIsLoadingOpenApplicationsCount,
+  getOpenApplications,
+  getOpenApplicationsCount,
   getOverviewEntryEmployees,
   getOverviewEntryEmployeesLoading,
   getOverviewExitEmployees,
@@ -388,6 +393,83 @@ describe('OverviewComponent', () => {
         );
       })
     );
+
+    describe('loadOpenApplicationsData', () => {
+      test('should set areOpenApplicationsAvailable$', () => {
+        marbles((m) => {
+          const result = false as any;
+          store.overrideSelector(getAreOpenApplicationsAvailable, result);
+
+          component.ngOnInit();
+
+          m.expect(component.areOpenApplicationsAvailable$).toBeObservable(
+            m.cold('a', {
+              a: result,
+            })
+          );
+        });
+      });
+
+      test('should set openApplications$', () => {
+        marbles((m) => {
+          const result = [] as OpenApplication[];
+          store.overrideSelector(getOpenApplications, result);
+
+          component.ngOnInit();
+
+          m.expect(component.openApplications$).toBeObservable(
+            m.cold('a', {
+              a: result,
+            })
+          );
+        });
+      });
+
+      test('should set openApplicationsLoading$', () => {
+        marbles((m) => {
+          const result = false as any;
+          store.overrideSelector(getIsLoadingOpenApplications, result);
+
+          component.ngOnInit();
+
+          m.expect(component.openApplicationsLoading$).toBeObservable(
+            m.cold('a', {
+              a: result,
+            })
+          );
+        });
+      });
+
+      test('should set openApplicationsCount$', () => {
+        marbles((m) => {
+          const result = 95;
+          store.overrideSelector(getOpenApplicationsCount, result);
+
+          component.ngOnInit();
+
+          m.expect(component.openApplicationsCount$).toBeObservable(
+            m.cold('a', {
+              a: result,
+            })
+          );
+        });
+      });
+
+      test('should set openApplicationsCountLoading$', () => {
+        marbles((m) => {
+          const result = false;
+          store.overrideSelector(getIsLoadingOpenApplicationsCount, result);
+
+          component.ngOnInit();
+
+          m.expect(component.openApplicationsCountLoading$).toBeObservable(
+            m.cold('a', {
+              a: result,
+            })
+          );
+        });
+      });
+    });
   });
 
   describe('triggerLoadExitEmployees', () => {

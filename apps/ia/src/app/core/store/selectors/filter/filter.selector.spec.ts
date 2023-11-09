@@ -8,6 +8,7 @@ import {
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
+  getAreOpenApplicationsAvailable,
   getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
   getCurrentDimensionValue,
@@ -344,6 +345,40 @@ describe('Filter Selector', () => {
       const result = getCurrentDimensionValue(orgUnitFakeState);
 
       expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getAreOpenApplicationsAvailable', () => {
+    test('should return false when open applications not available for function', () => {
+      const result = getAreOpenApplicationsAvailable.projector(
+        FilterDimension.FUNCTION
+      );
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when open applications not available for hr location', () => {
+      const result = getAreOpenApplicationsAvailable.projector(
+        FilterDimension.HR_LOCATION
+      );
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when open applications not available for personal area', () => {
+      const result = getAreOpenApplicationsAvailable.projector(
+        FilterDimension.PERSONAL_AREA
+      );
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return true when open applications available for org unit', () => {
+      const result = getAreOpenApplicationsAvailable.projector(
+        FilterDimension.ORG_UNIT
+      );
+
+      expect(result).toBeTruthy();
     });
   });
 });

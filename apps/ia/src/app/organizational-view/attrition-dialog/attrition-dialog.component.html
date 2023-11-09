@@ -34,16 +34,10 @@
         </div>
       </div>
     </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <p
-        *ngIf="meta.data.hideDetailedLeaverStats"
-        class="italic text-warning text-start"
-      >
+    <mat-dialog-actions *ngIf="meta.data.hideDetailedLeaverStats" align="end">
+      <p class="italic text-warning text-start">
         {{ t('insufficientRights') }}
       </p>
-      <button mat-button mat-dialog-close color="primary">
-        {{ t('close') }}
-      </button>
     </mat-dialog-actions>
   </ng-container>
 </ng-container>

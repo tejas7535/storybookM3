@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 
 import { TranslocoService } from '@ngneat/transloco';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'ia-amount-cell-renderer',
   templateUrl: './amount-cell-renderer.component.html',
 })
-export class AmountCellRendererComponent {
+export class AmountCellRendererComponent implements ICellRendererAngularComp {
   amount: number;
   restrictedAccess: boolean;
   tooltip = '';
@@ -26,5 +27,9 @@ export class AmountCellRendererComponent {
       : this.translocoService.translate(
           'accessRights.showTeamMembersPartially'
         );
+  }
+
+  refresh(): boolean {
+    return false;
   }
 }

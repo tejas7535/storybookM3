@@ -26,6 +26,7 @@ import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-li
 import { EmployeeWithAction, IdValue } from '../../shared/models';
 import { JobProfile, Workforce, WorkforceResponse } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
+import { OpenPositionsCellRendererComponent } from './open-positions-cell-renderer/open-positions-cell-renderer.component';
 
 type CellType = 'workforce' | 'leavers';
 
@@ -55,6 +56,7 @@ export class LostJobProfilesComponent {
   }
 
   @Input() data: JobProfile[];
+  @Input() openPositionsAvailable: boolean;
 
   @Output() workforceRequested = new EventEmitter<string>();
   @Output() leaversRequested = new EventEmitter<string>();
@@ -122,7 +124,10 @@ export class LostJobProfilesComponent {
 
   gridApi: GridApi;
 
-  components = [AmountCellRendererComponent];
+  components = [
+    AmountCellRendererComponent,
+    OpenPositionsCellRendererComponent,
+  ];
 
   defaultColDef: ColDef = {
     sortable: true,
@@ -178,7 +183,11 @@ export class LostJobProfilesComponent {
       }),
       filter: 'agNumberColumnFilter',
       flex: 1,
-      valueGetter: (params) => params.data.openPositionsCount,
+      cellRenderer: OpenPositionsCellRendererComponent,
+      valueGetter: (params) => ({
+        count: params.data.openPositionsCount,
+        available: this.openPositionsAvailable,
+      }),
     },
   ];
 

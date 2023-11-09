@@ -82,6 +82,9 @@
       "total": "Total"
     }
   },
+  "openPositions": {
+    "dataUnavailable": "Data unavailable for filter selection \"Function\", \"HR Location\" or \"Personal Area\""
+  },
   "legal": {
     "imprint": "Imprint",
     "dataPrivacy": "Data Privacy",

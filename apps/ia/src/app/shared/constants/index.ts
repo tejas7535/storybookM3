@@ -25,6 +25,12 @@ export const FILTER_DIMENSIONS: {
   { dimension: FilterDimension.SEGMENT_UNIT, level: 2 },
 ];
 
+export const DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS = [
+  FilterDimension.HR_LOCATION,
+  FilterDimension.PERSONAL_AREA,
+  FilterDimension.FUNCTION,
+];
+
 /** for autocomplete */
 export const ASYNC_SEARCH_MIN_CHAR_LENGTH = 2;
 export const LOCAL_SEARCH_MIN_CHAR_LENGTH = 0;

@@ -18,6 +18,7 @@ export class OpenPositionsComponent {
   @Input() openApplicationsLoading: boolean;
   @Input() openApplicationsCount: number;
   @Input() openApplicationsCountLoading: boolean;
+  @Input() available: boolean;
 
   @Output() openApplicationsRequested = new EventEmitter<void>();
 

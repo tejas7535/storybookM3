@@ -133,6 +133,7 @@
       <div class="flex flex-1 flex-col gap-4">
         <div class="p-4 shadow">
           <ia-open-positions
+            [available]="areOpenApplicationsAvailable$ | ngrxPush"
             [openApplicationsCount]="openApplicationsCount$ | ngrxPush"
             [openApplicationsCountLoading]="
               openApplicationsCountLoading$ | ngrxPush

@@ -11,6 +11,7 @@ export interface AttritionDialogFluctuationMeta {
   resignationsReceived: number;
   employeesAdded: number;
   openPositions: number;
+  openPositionsAvailable: boolean;
   heatType: HeatType;
   hideDetailedLeaverStats: boolean;
 }

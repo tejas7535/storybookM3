@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
+  getAreOpenApplicationsAvailable,
   getBeautifiedFilterValues,
   getSelectedTimeRange,
 } from '../core/store/selectors';
@@ -32,6 +33,7 @@ import {
 export class LossOfSkillComponent implements OnInit {
   beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
   timeRange$: Observable<IdValue>;
+  areOpenPositionsAvailable$: Observable<boolean>;
   lostJobProfilesLoading$: Observable<boolean>;
   lostJobProfilesData$: Observable<JobProfile[]>;
   lossOfSkillWorkforceData$: Observable<WorkforceResponse>;
@@ -44,6 +46,9 @@ export class LossOfSkillComponent implements OnInit {
   ngOnInit(): void {
     this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
     this.timeRange$ = this.store.select(getSelectedTimeRange);
+    this.areOpenPositionsAvailable$ = this.store.select(
+      getAreOpenApplicationsAvailable
+    );
     this.lostJobProfilesLoading$ = this.store.select(getJobProfilesLoading);
     this.lostJobProfilesData$ = this.store.select(getJobProfilesData);
     this.lossOfSkillWorkforceData$ = this.store.select(

@@ -78,6 +78,7 @@ import {
   loadWorkforceBalanceMetaFailure,
   loadWorkforceBalanceMetaSuccess,
 } from '../actions/overview.action';
+import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../shared/constants';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
@@ -405,6 +406,12 @@ export class OverviewEffects {
     return this.actions$.pipe(
       ofType(loadOpenApplicationsCount),
       map((action) => action.request),
+      filter(
+        (request) =>
+          !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(
+            request.filterDimension
+          )
+      ),
       switchMap((request: EmployeesRequest) =>
         this.overviewService.getOpenApplicationsCount(request).pipe(
           map((openApplicationsCount) =>

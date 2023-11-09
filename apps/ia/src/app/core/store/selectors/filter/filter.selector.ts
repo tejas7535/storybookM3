@@ -3,6 +3,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 import moment from 'moment';
 
+import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../../shared/constants';
 import {
   EmployeesRequest,
   Filter,
@@ -269,6 +270,12 @@ export const getBeautifiedFilterValues = createSelector(
         }
       : undefined;
   }
+);
+
+export const getAreOpenApplicationsAvailable = createSelector(
+  getSelectedDimension,
+  (selectedDimension: FilterDimension) =>
+    !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(selectedDimension)
 );
 
 export const getFiltersAsFileName = (title: string) =>

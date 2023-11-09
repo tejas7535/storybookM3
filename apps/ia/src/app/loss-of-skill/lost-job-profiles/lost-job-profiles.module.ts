@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -11,10 +12,14 @@ import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dia
 import { SharedModule } from '../../shared/shared.module';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { OpenPositionsCellRendererComponent } from './open-positions-cell-renderer/open-positions-cell-renderer.component';
 
 @NgModule({
-  declarations: [LostJobProfilesComponent, AmountCellRendererComponent],
+  declarations: [
+    LostJobProfilesComponent,
+    AmountCellRendererComponent,
+    OpenPositionsCellRendererComponent,
+  ],
   imports: [
     SharedModule,
     MatIconModule,
