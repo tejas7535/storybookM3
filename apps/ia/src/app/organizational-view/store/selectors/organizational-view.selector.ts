@@ -131,6 +131,7 @@ const getWorldMapFluctuationDialogRegionMetaData = (
     resignationsReceived,
     employeesAdded,
     openPositions,
+    openPositionsAvailable: true,
     hideDetailedLeaverStats,
   } as AttritionDialogFluctuationMeta;
 };
@@ -143,7 +144,11 @@ const getWorldMapFluctuationDialogCountryMetaData = (
   )?.attritionMeta;
 
   return temp
-    ? { ...temp, hideDetailedLeaverStats: temp?.responseModified }
+    ? {
+        ...temp,
+        hideDetailedLeaverStats: temp?.responseModified,
+        openPositionsAvailable: true,
+      }
     : (undefined as any);
 };
 

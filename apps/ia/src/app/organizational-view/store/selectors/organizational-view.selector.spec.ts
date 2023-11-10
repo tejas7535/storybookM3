@@ -447,6 +447,7 @@ describe('Organizational View Selector', () => {
         resignationsReceived: 108,
         title: 'Europe',
         unforcedFluctuation: 18,
+        openPositionsAvailable: true,
       });
     });
 
@@ -470,6 +471,7 @@ describe('Organizational View Selector', () => {
         openPositions: 400,
         resignationsReceived: 99,
         unforcedFluctuation: 14,
+        openPositionsAvailable: true,
       });
     });
   });
