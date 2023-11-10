@@ -12,7 +12,7 @@ import { withDesign } from 'storybook-addon-designs';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import READMEMd from './input/README.md';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatInputModule } from '@angular/material/input';
 
 enum PrefixIcons {
   None = '',

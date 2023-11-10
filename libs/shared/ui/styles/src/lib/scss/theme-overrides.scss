@@ -178,6 +178,11 @@
     @apply #{$prefix}text-[75%];
   }
 
+  .mat-mdc-form-field-hint {
+    @apply #{$prefix}text-caption;
+    @apply #{$prefix}text-medium-emphasis;
+  }
+
   /*
   weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
   in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust

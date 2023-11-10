@@ -1,6 +1,6 @@
 <div class="relative h-full">
   <mat-card
-    class="h-full"
+    class="h-full p-4"
     (click)="isClickable ? toggle(false, true) : undefined"
   >
     <img mat-card-image [src]="img" class="max-w-none" />
@@ -24,7 +24,7 @@
       "
     ></div>
     <mat-card-actions
-      class="absolute bottom-4"
+      class="absolute bottom-0 !p-0"
       *ngIf="!hideActionsOnActive || (hideActionsOnActive && !active)"
     >
       <ng-content select="[card-actions]"></ng-content>

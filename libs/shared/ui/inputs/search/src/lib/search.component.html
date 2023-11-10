@@ -23,7 +23,7 @@
       ></ng-content>
       <ng-template #searchOptionsTemplate>
         <div
-          *ngIf="stringOptions?.length === 0 && noResultsText"
+          *ngIf="filteredOptions?.length === 0 && noResultsText"
           class="flex h-12 w-full flex-col content-around"
         >
           <div class="relative my-auto text-center text-high-emphasis">
@@ -61,7 +61,13 @@
           </ng-container>
         </div>
       </ng-template>
-      <mat-option #dummyOption class="!hidden !h-0"></mat-option>
+      <ng-container
+        *ngIf="
+          loading || error || (filteredOptions?.length === 0 && noResultsText)
+        "
+      >
+        <mat-option #dummyOption class="!hidden !h-0"></mat-option>
+      </ng-container>
     </div>
   </mat-autocomplete>
   <div matTextPrefix *ngIf="isRoundedSearchComponent">

@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       schaefflerShareButton
       matTooltip="{{ t('tooltipMessage') }}"
     >
-      <mat-icon>group</mat-icon>
+      <mat-icon class="pt-[1px]">group</mat-icon>
       {{ t('button') }}
     </button>
   </ng-container>`,

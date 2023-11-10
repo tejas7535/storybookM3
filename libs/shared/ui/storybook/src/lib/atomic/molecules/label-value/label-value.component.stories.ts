@@ -11,7 +11,7 @@ import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import READMEMd from '../../../../../../label-value/README.md';
 import { Badges } from '../../../../../.storybook/storybook-badges.constants';
 import { Component } from '@angular/core';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 
 const mockLabelValuesSingle: LabelValue[] = [
   {

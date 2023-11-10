@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import {
   applicationConfig,
