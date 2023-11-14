@@ -38,6 +38,43 @@ export class AutocompleteInputComponent
 {
   @Input() autocompleteLoading = false;
 
+  @Input() filterName: string;
+
+  /**
+   * If true, the autocomplete panel will dynamically increase its width,
+   * in order to display the content completely until the max. allowed width of the panel is reached.
+   */
+  @Input() fitContent = false;
+
+  @Output() readonly unselected: EventEmitter<any> = new EventEmitter();
+
+  @Output() readonly added: EventEmitter<IdValue> = new EventEmitter();
+
+  @Output() readonly isValid: EventEmitter<boolean> = new EventEmitter(true);
+
+  @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
+    true
+  );
+
+  @ViewChild('formField') formFieldReference: MatFormField;
+  @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement>;
+  @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
+
+  @Output()
+  private readonly autocomplete: EventEmitter<AutocompleteSearch> = new EventEmitter();
+
+  debounceIsActive = false;
+
+  readonly subscription: Subscription = new Subscription();
+
+  selectedIdValue: IdValue;
+  unselectedOptions: IdValue[];
+  searchFormControl: UntypedFormControl = new UntypedFormControl();
+
+  private readonly ONE_CHAR_LENGTH = 1;
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '100%';
+
   @Input() set isDisabled(isDisabled: boolean) {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isDisabled
@@ -59,43 +96,6 @@ export class AutocompleteInputComponent
       this.setFormControlValue();
     }
   }
-
-  @Input() filterName: string;
-
-  /**
-   * If true, the autocomplete panel will dynamically increase its width,
-   * in order to display the content completely until the max. allowed width of the panel is reached.
-   */
-  @Input() fitContent = false;
-
-  @Output()
-  private readonly autocomplete: EventEmitter<AutocompleteSearch> = new EventEmitter();
-
-  @Output() readonly unselected: EventEmitter<any> = new EventEmitter();
-
-  @Output() readonly added: EventEmitter<IdValue> = new EventEmitter();
-
-  @Output() readonly isValid: EventEmitter<boolean> = new EventEmitter(true);
-
-  @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
-    true
-  );
-
-  @ViewChild('formField') formFieldReference: MatFormField;
-  @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement>;
-  @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
-
-  private readonly ONE_CHAR_LENGTH = 1;
-  private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '420px';
-
-  debounceIsActive = false;
-
-  readonly subscription: Subscription = new Subscription();
-
-  selectedIdValue: IdValue;
-  unselectedOptions: IdValue[];
-  searchFormControl: UntypedFormControl = new UntypedFormControl();
 
   @HostListener('window:resize')
   handleWindowResize() {
@@ -171,24 +171,6 @@ export class AutocompleteInputComponent
     this.searchFormControl.setValue(formValue, { emitEvent: false });
     this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
     this.inputContent.emit(true);
-  }
-
-  private transformFormValue(
-    id: string,
-    value: string,
-    value2?: string
-  ): string {
-    let string = `${id}`;
-
-    if (value) {
-      string += ` | ${value}`;
-    }
-
-    if (value2) {
-      string += ` | ${value2}`;
-    }
-
-    return string;
   }
 
   sliceMaterialString(text: string): string {
@@ -287,5 +269,23 @@ export class AutocompleteInputComponent
       this.autocompleteReference.panel.nativeElement.style.maxWidth =
         this.AUTOCOMPLETE_PANEL_MAX_WIDTH;
     });
+  }
+
+  private transformFormValue(
+    id: string,
+    value: string,
+    value2?: string
+  ): string {
+    let string = `${id}`;
+
+    if (value) {
+      string += ` | ${value}`;
+    }
+
+    if (value2) {
+      string += ` | ${value2}`;
+    }
+
+    return string;
   }
 }
