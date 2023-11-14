@@ -1,4 +1,24 @@
 # Release Notes of Guided Quoting
+## [4.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.1.1...gq-v4.2.0) (2023-11-14)
+
+
+### Features
+
+* **gq:** adjust calculation of duration, time is ignored (GQUOTE-3115) ([#5717](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5717)) ([8f03e4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8f03e4efb193f6af1cff5a53f4794c4d01cb2eb6))
+* **gq:** implement 'show more rows' logic to referenceTable on PricingAssistant (GQUOTE-3245) ([#5732](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5732)) ([85cd482](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85cd482baf8070ed76aa42947cac83bffc0eff7d))
+* **gq:** implement ProductComparisonScreen (GQUOTE-3246) ([#5744](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5744)) ([5428533](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5428533645e3cc4ae89fde9d359b69061a994b28)), closes [#5760](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5760)
+* **gq:** implement ReferencePricingTable in PricingAssistant Modal (GQUOTE-3243) ([#5719](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5719)) ([9596caf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9596cafa4a1ec094d18653059cea6abf9e4924d8))
+* **gq:** remove attachments feature toggle (GQUOTE-3299) ([#5736](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5736)) ([7c7b5bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c7b5bc4ccf02dc14aaf5d08626be555691b6f9d))
+* **gq:** restrict comparable transactions when region_Greater_china (GQUOTE-3238) ([#5712](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5712)) ([275efbc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/275efbcb736e931b8f3c1330c2fb2dd6ca638a82))
+* **gq:** restrict delete Positions to CaseCreator or REGION_AMERICAS (GQUOTE-3242) ([#5730](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5730)) ([237b50e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/237b50e1446e11a2f39e56b6ac9f5946fa67a67d))
+
+
+### Bug Fixes
+
+* **gq:** add tooltip component for reference pricing table ([#5765](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5765)) ([a4c5fba](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a4c5fba3f94ee355ea3b92c2f57fa4d8a0609ac2))
+* **gq:** reference pricing table adjustments (GQUOTE-3243) ([#5762](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5762)) ([f1a09b6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f1a09b6bcfabbe8e022d054ecccbaec880922fc8))
+* **gq:** typo when download excel file for users without cost roles(GQUOTE-3310) ([#5759](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5759)) ([e41531b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e41531b8941af77d474ddcbc06c4c9bab7367b41))
+
 ## [4.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.1.0...gq-v4.1.1) (2023-10-19)
 
 ## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.0.2...gq-v4.1.0) (2023-10-19)
