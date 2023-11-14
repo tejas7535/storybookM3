@@ -140,4 +140,58 @@ describe('RestService', () => {
       req.flush(LOAD_OPTIONS_RESPONSE_MOCK);
     });
   });
+
+  describe('#getPdfReportResponse', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should return true on success', (done) => {
+      service.getPdfReportRespone('testUrl').subscribe((result) => {
+        expect(result).toBe(true);
+        done();
+      });
+
+      const req = httpMock.expectOne('testUrl');
+      expect(req.request.method).toBe('GET');
+      req.flush(new Blob());
+    });
+
+    it('should retry on error', (done) => {
+      service.getPdfReportRespone('testUrl').subscribe((result) => {
+        expect(result).toBe(true);
+        done();
+      });
+
+      const reqError = httpMock.expectOne('testUrl');
+      expect(reqError.request.method).toBe('GET');
+      reqError.error(new ProgressEvent('Not Found'));
+
+      jest.advanceTimersByTime(500);
+
+      httpMock.expectNone('testUrl');
+
+      jest.advanceTimersByTime(2500);
+
+      for (let i = 0; i < 10; i = i + 1) {
+        const reqErrorWaiting = httpMock.expectOne('testUrl');
+        expect(reqErrorWaiting.request.method).toBe('GET');
+        reqErrorWaiting.error(new ProgressEvent('Not Found'));
+
+        if (i > 8) {
+          httpMock.expectNone('testUrl');
+          jest.advanceTimersByTime(7000);
+        }
+        jest.advanceTimersByTime(3000);
+      }
+
+      const req = httpMock.expectOne('testUrl');
+      expect(req.request.method).toBe('GET');
+      req.flush(new Blob());
+    });
+  });
 });

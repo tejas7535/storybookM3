@@ -14,8 +14,16 @@
           color="primary"
           class="m-2 grow uppercase"
           [href]="result.pdfReportUrl"
+          [disabled]="!(pdfReportReady$ | ngrxPush)"
         >
-          {{ t('downloadReport') }}
+          <div class="flex-row flex items-center justify-center">
+            <span>
+              {{ t('downloadReport') }}
+            </span>
+            <div class="pl-2" *ngIf="!(pdfReportReady$ | ngrxPush)">
+              <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+          </div>
         </a>
         <button
           mat-button

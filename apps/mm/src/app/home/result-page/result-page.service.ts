@@ -40,6 +40,10 @@ export class ResultPageService {
     );
   }
 
+  public getPdfReportReady(pdfDownloadUrl: string): Observable<boolean> {
+    return this.restService.getPdfReportRespone(pdfDownloadUrl);
+  }
+
   public trackProperties(properties: any): void {
     this.applicationInsightsService.logEvent(PROPERTIES, properties);
   }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -16,6 +17,7 @@ import { ResultPageComponent } from './result-page.component';
     ReportModule,
     LoadingSpinnerModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   exports: [ResultPageComponent],
 })

@@ -41,6 +41,7 @@ describe('ResultPageService testing', () => {
         provide: RestService,
         useValue: {
           getBearingCalculationResult: jest.fn(() => of(mockResponse)),
+          getPdfReportRespone: jest.fn(() => of(true)),
         },
       },
       {
@@ -82,7 +83,7 @@ describe('ResultPageService testing', () => {
         ],
       };
 
-      spectator.service.getResult(mockFormProperties).subscribe((response) => {
+      service.getResult(mockFormProperties).subscribe((response) => {
         expect(trackPropertiesSpy).toHaveBeenCalledWith(mockFormProperties);
 
         expect(response).toEqual({
@@ -92,6 +93,18 @@ describe('ResultPageService testing', () => {
         expect(
           service['restService'].getBearingCalculationResult
         ).toHaveBeenCalledWith(mockFormProperties);
+        done();
+      });
+    });
+  });
+
+  describe('#getPdfReportReady', () => {
+    it('should getPdfReportResponse from rest service', (done) => {
+      service.getPdfReportReady('testUrl').subscribe((response) => {
+        expect(response).toBe(true);
+        expect(service['restService'].getPdfReportRespone).toHaveBeenCalledWith(
+          'testUrl'
+        );
         done();
       });
     });

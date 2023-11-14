@@ -4,17 +4,17 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { filter, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { ReportModule } from '@schaeffler/report';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { environment } from '../../../environments/environment';
-import { BEARING_CALCULATION_RESULT_MOCK } from '../../../testing/mocks/rest.service.mock';
+import { BEARING_CALCULATION_REPORT_RESULT_MOCK } from '../../../testing/mocks/result-page.service.mock';
 import { ResultPageComponent } from './result-page.component';
 import { ResultPageService } from './result-page.service';
 
@@ -27,26 +27,17 @@ describe('ResultPageComponent', () => {
   const createComponent = createComponentFactory({
     component: ResultPageComponent,
     imports: [
-      PushModule,
       HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       ReportModule,
+      PushPipe,
       MatSnackBarModule,
       RouterTestingModule,
       ApplicationInsightsModule.forRoot(environment.applicationInsights),
     ],
     declarations: [ResultPageComponent],
     providers: [
-      {
-        provide: ResultPageService,
-        useValue: {
-          getResult: jest.fn((testVal) =>
-            testVal['errorBait']
-              ? throwError(() => new Error('sometext'))
-              : of(BEARING_CALCULATION_RESULT_MOCK)
-          ),
-        },
-      },
+      ResultPageService,
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
@@ -73,6 +64,14 @@ describe('ResultPageComponent', () => {
   });
 
   describe('#send', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     it('should call getResult fn of restPageService', () => {
       const mockForm = {
         getRawValue() {
@@ -91,15 +90,30 @@ describe('ResultPageComponent', () => {
         },
       };
 
+      component['resultPageService'].getResult = jest.fn(() =>
+        of(BEARING_CALCULATION_REPORT_RESULT_MOCK)
+      );
+      component['resultPageService'].getPdfReportReady = jest.fn(() =>
+        of(true)
+      );
+
       component.send(mockForm as FormGroup);
-      // resultPageService.getResult({});
 
-      // expect(resultPageService.getResult).toHaveBeenCalledTimes(1);
-      // expect(resultPageService.getResult).toHaveBeenCalledWith({
-      //   mockName: 'mockValue',
-      // });
+      jest.advanceTimersByTime(3000);
 
-      expect(component.result$).toBeDefined();
+      expect(component['resultPageService'].getResult).toHaveBeenCalledWith({
+        mockName: 'mockValue',
+      });
+
+      expect(component.result$.value).toEqual(
+        BEARING_CALCULATION_REPORT_RESULT_MOCK
+      );
+      expect(
+        component['resultPageService'].getPdfReportReady
+      ).toHaveBeenCalledWith(
+        BEARING_CALCULATION_REPORT_RESULT_MOCK.pdfReportUrl
+      );
+      expect(component.pdfReportReady$.value).toEqual(true);
     });
 
     it('should display a snackbar error msg if the restPageService throws an error', () => {
@@ -119,14 +133,29 @@ describe('ResultPageComponent', () => {
           };
         },
       };
-      const resultSpy = jest.spyOn(component['resultPageService'], 'getResult');
+      component['resultPageService'].getResult = jest.fn(() =>
+        throwError(() => new Error('sometext'))
+      );
+      component['resultPageService'].getPdfReportReady = jest.fn(() =>
+        of(true)
+      );
+      component['snackbar'].open = jest.fn();
 
       component.send(mockForm as FormGroup);
 
-      component.error$.pipe(filter((val) => val)).subscribe(() => {
-        expect(snackBar.open).toBeCalledTimes(1);
+      jest.advanceTimersByTime(3000);
+      expect(snackBar.open).toBeCalledTimes(1);
+
+      expect(component['resultPageService'].getResult).toHaveBeenCalledWith({
+        errorBait: 'properlyBadValue',
       });
-      expect(resultSpy).toHaveBeenCalled();
+
+      expect(component.result$.value).toEqual(undefined);
+      expect(
+        component['resultPageService'].getPdfReportReady
+      ).not.toHaveBeenCalled();
+      expect(component.pdfReportReady$.value).toEqual(false);
+      expect(component.error$.value).toBeDefined();
     });
   });
 

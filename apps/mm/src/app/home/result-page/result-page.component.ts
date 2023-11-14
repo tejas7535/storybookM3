@@ -12,7 +12,7 @@ import {
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -33,6 +33,7 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
   public result$ = new BehaviorSubject<Result>(undefined);
+  public pdfReportReady$ = new BehaviorSubject<boolean>(false);
   public error$ = new BehaviorSubject<boolean>(false);
   private readonly inactive$ = new Subject<void>();
   private readonly destroy$ = new Subject<void>();
@@ -120,6 +121,17 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
               this.send(form);
             });
         },
+      });
+
+    this.result$
+      .pipe(
+        filter((result) => !!result?.pdfReportUrl),
+        take(1)
+      )
+      .subscribe((result) => {
+        this.resultPageService
+          .getPdfReportReady(result.pdfReportUrl)
+          .subscribe((ready) => this.pdfReportReady$.next(ready));
       });
   }
 

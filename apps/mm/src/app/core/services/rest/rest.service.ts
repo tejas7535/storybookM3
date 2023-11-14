@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable, retry, take, timer } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
@@ -79,5 +79,15 @@ export class RestService {
     return this.httpClient.get<MMResponseVariants>(requestUrl, {
       context: withCache({ version: this.currentLanguage }),
     });
+  }
+
+  public getPdfReportRespone(pdfDownloadUrl: string): Observable<boolean> {
+    return this.httpClient.get(pdfDownloadUrl, { responseType: 'blob' }).pipe(
+      take(1),
+      map(() => true),
+      retry({
+        delay: (_error, count) => timer(count <= 10 ? 3000 : 10_000),
+      })
+    );
   }
 }
