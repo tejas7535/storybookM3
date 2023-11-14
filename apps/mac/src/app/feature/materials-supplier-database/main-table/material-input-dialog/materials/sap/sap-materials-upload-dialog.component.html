@@ -58,7 +58,7 @@
               class="!w-5 !h-5 !leading-5 !flex !justify-center !items-center"
             >
               <mat-icon
-                class="!w-[18px] !h-[18px] !leading-[18px] !text-[18px] !text-[#00000099]"
+                class="!w-[18px] !h-[18px] !leading-[18px] !text-[18px] !text-[#00000099] absolute"
                 >info_outline</mat-icon
               >
             </button>
@@ -131,8 +131,12 @@
       </button>
     </div>
     <div>
-      <mat-checkbox color="primary" formControlName="disclaimerAccepted">
-        <span class="text-[12px] !whitespace-normal">{{
+      <mat-checkbox
+        color="primary"
+        formControlName="disclaimerAccepted"
+        class="-ml-2"
+      >
+        <span class="!whitespace-normal text-caption block">{{
           t('disclaimer')
         }}</span>
       </mat-checkbox>
