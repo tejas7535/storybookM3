@@ -71,6 +71,10 @@
     "poissonRatio": "Коэффициент Пуассона",
     "report": "Отчет"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Обратная связь",
+    "feedbackText": "Ваша обратная связь помогает нам непрерывно улучшать наш продукт."
+  },
   "result": {
     "title": "Отчёт",
     "downloadReport": "Скачать отчёт",

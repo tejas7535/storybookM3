@@ -71,6 +71,10 @@
     "poissonRatio": "Poisson ratio",
     "report": "Report"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
   "result": {
     "title": "Report",
     "downloadReport": "Download Report",

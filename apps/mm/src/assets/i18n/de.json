@@ -71,6 +71,10 @@
     "poissonRatio": "Querkontraktionszahl",
     "report": "Bericht"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Feedback",
+    "feedbackText": "Ihr Feedback hilft uns, unser Produkt kontinuierlich zu verbessern."
+  },
   "result": {
     "title": "Bericht",
     "downloadReport": "Bericht herunterladen",

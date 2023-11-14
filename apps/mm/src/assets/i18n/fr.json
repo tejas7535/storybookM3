@@ -71,6 +71,10 @@
     "poissonRatio": "Coefficient de Poisson",
     "report": "Rapport"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Commentaires",
+    "feedbackText": "Votre feedback nous aide à améliorer continuellement notre produit."
+  },
   "result": {
     "title": "Rapport",
     "downloadReport": "Télécharger le rapport",

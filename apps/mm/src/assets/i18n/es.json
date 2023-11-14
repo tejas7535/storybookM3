@@ -71,6 +71,10 @@
     "poissonRatio": "Coeficiente de contracción transversal",
     "report": "Informe"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Comentarios",
+    "feedbackText": "Su retroalimentación nos ayuda a mejorar continuamente nuestro producto."
+  },
   "result": {
     "title": "Informe",
     "downloadReport": "Descargar el informe",

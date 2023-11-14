@@ -71,6 +71,10 @@
     "poissonRatio": "泊松比",
     "report": "报告"
   },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "反馈",
+    "feedbackText": "您的反馈可以帮助我们不断改进我们的产品。"
+  },
   "result": {
     "title": "报告",
     "downloadReport": "下载报告",
