@@ -30,7 +30,7 @@
         <div class="flex flex-col px-4">
           <div class="flex h-20 flex-row">
             <mat-form-field
-              class="border-primary w-full h-20 [&>div]:pl-0 [&>div>.mat-mdc-form-field-hint-wrapper]:pl-0"
+              class="border-primary [&>div.mdc-text-field--filled:not(.mdc-text-field--disabled)]:bg-transparent w-full h-20 [&>div]:pl-0 [&>div>.mat-mdc-form-field-hint-wrapper]:pl-0"
               (keydown.Tab)="$event.preventDefault()"
             >
               <input
