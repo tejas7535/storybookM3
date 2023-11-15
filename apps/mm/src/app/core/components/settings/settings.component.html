@@ -1,5 +1,5 @@
 <div *transloco="let t; read: 'sidebar'">
-  <div class="w-full px-4 md:w-80" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
+  <div class="w-full px-4" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
     <div class="mb-1 text-subtitle-1 text-medium-emphasis">
       {{ t('language.title.main') }}
     </div>
@@ -11,7 +11,11 @@
       class="mb-3 block"
     ></schaeffler-language-select>
     <mat-form-field appearance="outline" class="w-full">
-      <mat-label>{{ t('decimalSeparatorSelectLabel') }}</mat-label>
+      <mat-label class="!min-w-fit !w-fit pr-1 !block"
+        ><span class="!min-w-fit !w-fit pr-1 !block">{{
+          t('decimalSeparatorSelectLabel')
+        }}</span></mat-label
+      >
       <mat-select
         class="hover:outline-green focus:outline-green"
         [formControl]="separatorSelectControl"
