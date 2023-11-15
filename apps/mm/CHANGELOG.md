@@ -1,4 +1,16 @@
 # Release Notes of Mounting Manager
+## [0.2.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.4...mm-v0.2.5) (2023-11-15)
+
+
+### Features
+
+* **mm:** add qualtrics survey into mm ([#5790](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5790)) ([4c06f78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c06f78ceb1e18773bdb604985c2b18355e78c5b))
+
+
+### Bug Fixes
+
+* **mm:** add loading state for pdf download button (UFTABI-6983) ([#5785](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5785)) ([e1b2958](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e1b295812f97869005c4327848b9307ca81dc8f5))
+
 ## [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.3...mm-v0.2.4) (2023-10-30)
 
 ## [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.2...mm-v0.2.3) (2023-10-30)
