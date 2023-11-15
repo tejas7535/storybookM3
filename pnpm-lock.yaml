@@ -4904,7 +4904,7 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
   /@caeonline/dynamic-forms@1.1.0(@angular/common@16.0.4)(@angular/core@16.0.4)(@angular/forms@16.0.4)(standard-version@9.1.1):
-    resolution: {integrity: sha1-+r2BTFAdldjhrAlhSreiCjhvI0w=, tarball: https://artifactory.schaeffler.com/artifactory/api/npm/npm/@caeonline/dynamic-forms/-/@caeonline/production/dynamic-forms-1.1.0.tgz}
+    resolution: {integrity: sha1-+r2BTFAdldjhrAlhSreiCjhvI0w=, tarball: https://artifactory.schaeffler.com/artifactory/api/npm/npm/%40caeonline/dynamic-forms/-/%40caeonline/production/dynamic-forms-1.1.0.tgz}
     peerDependencies:
       '@angular/common': ~15.2.3
       '@angular/core': ~15.2.3
