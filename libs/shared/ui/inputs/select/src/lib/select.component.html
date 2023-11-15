@@ -13,7 +13,7 @@
     [placeholder]="placeholder"
     [formControl]="control"
     [multiple]="multiple"
-    panelClass="!overflow-hidden !max-h-min w-96 mt-[30px]"
+    panelClass="!overflow-hidden !max-h-min !pb-0 !min-w-min !w-96 !max-w-fit"
     (openedChange)="onOpenedChange($event)"
     #selectInput
     [required]="formControlRequired"
@@ -25,14 +25,13 @@
       >{{ currentValue }}
     </mat-select-trigger>
     <div (keydown)="$event.stopPropagation()">
-      <mat-option #dummyOption class="!h-0"></mat-option>
+      <mat-option #dummyOption class="!h-0 !hidden"></mat-option>
       <div class="flex flex-col">
         <div class="flex flex-col px-4">
           <div class="flex h-20 flex-row">
             <mat-form-field
-              class="border-primary w-full"
+              class="border-primary w-full h-20 [&>div]:pl-0 [&>div>.mat-mdc-form-field-hint-wrapper]:pl-0"
               (keydown.Tab)="$event.preventDefault()"
-              floatLabel="never"
             >
               <input
                 type="text"
@@ -41,20 +40,26 @@
                 [placeholder]="searchPlaceholder"
                 #searchInput
               />
-              <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+              <mat-hint *ngIf="hint" class="my-auto">{{ hint }}</mat-hint>
               <div matSuffix class="-mr-1 flex flex-row gap-1">
                 <button
                   mat-button
                   [disabled]="!searchInput.value"
                   (click)="searchControl.reset('')"
                   color="primary"
-                  class="!text-caption !min-w-0 !px-1 !font-normal !normal-case"
+                  class="!text-caption !min-w-0 !px-1 !font-normal !normal-case my-auto !h-6"
                 >
                   {{ t('clear') }}
                 </button>
                 <div class="border-medium-emphasis my-1 border-r"></div>
-                <button mat-icon-button (click)="selectInput.close()">
-                  <mat-icon class="!text-h6-mobile">close</mat-icon>
+                <button
+                  mat-icon-button
+                  (click)="selectInput.close()"
+                  class="!h-6 !w-6"
+                >
+                  <mat-icon class="!scale-75 !absolute !-ml-3 !-mt-3"
+                    >close</mat-icon
+                  >
                 </button>
               </div>
             </mat-form-field>
@@ -90,7 +95,9 @@
                   [disabled]="loading"
                   class="!h-6 !w-6"
                 >
-                  <mat-icon class="text-error !block">close</mat-icon>
+                  <mat-icon class="text-error !block !absolute !-ml-3 !-mt-3"
+                    >close</mat-icon
+                  >
                 </button>
                 <button
                   mat-icon-button
@@ -99,7 +106,7 @@
                   class="!h-6 !w-6"
                 >
                   <mat-icon
-                    class="!block"
+                    class="!block !absolute !-ml-3 !-mt-3"
                     [ngClass]="
                       addEntryInput.value ? 'text-link' : 'text-low-emphasis'
                     "
@@ -109,8 +116,8 @@
               </div>
             </ng-template>
           </div>
-          <div *ngIf="multiple" class="border-border my-0.5 border-b pb-3 pt-2">
-            <div class="flex flex-row content-between">
+          <div *ngIf="multiple" class="border-border my-0.5 border-b py-2">
+            <div class="-ml-3 flex flex-row content-between">
               <mat-checkbox
                 color="primary"
                 class="flex-1"
@@ -127,7 +134,7 @@
                 </div>
               </mat-checkbox>
               <div
-                class="text-caption text-low-emphasis mt-auto pb-1 align-text-bottom"
+                class="text-caption text-low-emphasis my-auto align-text-bottom"
               >
                 {{ control.value?.length ?? 0 }} {{ t('selected') }}
               </div>
@@ -162,20 +169,21 @@
                 [ngClass]="{
                   'mat-selected': option === control.value
                 }"
-                class="text-high-emphasis flex-1"
+                class="text-high-emphasis [&>span]:w-full"
                 [matTooltip]="option.tooltip ? option.tooltip : ''"
                 [matTooltipShowDelay]="option.tooltipDelay"
                 [matTooltipPosition]="tooltipPosition ?? 'below'"
               >
-                <div class="flex w-full flex-row justify-center">
-                  <div class="max-w-full flex-1 truncate">
+                <div
+                  class="flex w-full flex-grow flex-row justify-center content-between"
+                >
+                  <div class="max-w-full flex-1 truncate my-auto">
                     {{ option.title }}
                   </div>
                   <button
                     mat-icon-button
                     *ngIf="option.removable"
                     (click)="onOptionRemoved(option); $event.stopPropagation()"
-                    class="!mt-1"
                   >
                     <mat-icon class="text-medium-emphasis !mx-0"
                       >delete_outline</mat-icon
@@ -192,7 +200,7 @@
             [disabled]="!control.value"
             (click)="control.reset()"
             color="primary"
-            class="w-full !text-start"
+            class="!w-full !h-full !text-start !block !px-4"
           >
             {{ t('reset') }}
           </button>
@@ -200,8 +208,10 @@
       </div>
     </div>
   </mat-select>
-  <mat-error>
+  <mat-error class="flex">
     <ng-content select="[matErrorContent]"></ng-content>
   </mat-error>
-  <mat-hint *ngIf="formFieldHint">{{ formFieldHint }}</mat-hint>
+  <mat-hint *ngIf="formFieldHint" class="flex items-end h-6">{{
+    formFieldHint
+  }}</mat-hint>
 </mat-form-field>

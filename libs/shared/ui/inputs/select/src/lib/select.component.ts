@@ -10,7 +10,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, Validators } from '@angular/forms';
-import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
+import { MatOption } from '@angular/material/core';
 
 import { debounceTime, Subscription } from 'rxjs';
 
