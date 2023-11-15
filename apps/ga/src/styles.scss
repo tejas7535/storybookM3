@@ -63,3 +63,7 @@ $logoUrl: '/assets/images/schaeffler-logo.png' !default;
 button {
   outline: none !important;
 }
+
+mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  @apply bg-transparent;
+}
