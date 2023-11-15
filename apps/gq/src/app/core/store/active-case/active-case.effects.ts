@@ -22,6 +22,7 @@ import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models/quotation-detail';
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
@@ -32,6 +33,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { saveAs } from 'file-saver';
 
+import { RFQ_DATA_MOCK } from '../../../../testing/mocks/models/rfq-data-mock';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { ApprovalActions } from '../approval/approval.actions';
 import { getAddQuotationDetailsRequest } from '../process-case';
@@ -87,6 +89,15 @@ export class ActiveCaseEffects {
               (a, b) => a.quotationItemId - b.quotationItemId
             );
             addCalculationsForDetails(item.quotationDetails);
+
+            // TODO:  remove when real data is coming from BE
+            if (item.gqId === 46_775) {
+              item.quotationDetails[0].rfqData = RFQ_DATA_MOCK;
+              item.quotationDetails[1].rfqData = {
+                ...RFQ_DATA_MOCK,
+                status: RfqStatus.CLOSED,
+              };
+            }
           }),
           mergeMap((item: Quotation) => {
             // quotation not fully loaded (async still in progress)

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { translate } from '@ngneat/transloco';
 import { CellClassParams } from 'ag-grid-enterprise';
 
@@ -14,13 +15,28 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 export class PositionIdComponent {
   itemId: string;
   gqPositionId: string;
+  isRfq = false;
   url: string;
   navigationExtras: NavigationExtras;
+  imagePath: string;
+  toolTipText: string;
 
   constructor(private readonly router: Router) {}
   agInit(params: CellClassParams): void {
     this.itemId = translate('shared.itemId', { id: params.value });
     this.gqPositionId = params.data.gqPositionId;
+    if (params.data.rfqData !== undefined) {
+      this.isRfq = true;
+      this.toolTipText =
+        params.data.rfqData.status === RfqStatus.OPEN
+          ? translate('shared.rfqOpen')
+          : translate('shared.rfqClosed');
+
+      this.imagePath =
+        params.data.rfqData.status === RfqStatus.OPEN
+          ? 'assets/png/rfq_open.png'
+          : 'assets/png/rfq_closed.png';
+    }
     this.navigationExtras = {
       queryParamsHandling: 'merge',
       queryParams: { gqPositionId: this.gqPositionId },

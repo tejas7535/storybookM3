@@ -1,9 +1,11 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { CellClassParams } from 'ag-grid-community';
+import { when } from 'jest-when';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { PositionIdComponent } from './position-id.component';
@@ -40,9 +42,52 @@ describe('PositionIdComponent', () => {
       component.agInit(params as any);
 
       expect(component.gqPositionId).toEqual(params.data.gqPositionId);
+      expect(component.isRfq).toBe(false);
       expect(component.itemId).toEqual('translate it');
       expect(translate).toHaveBeenCalledTimes(1);
       expect(translate).toBeCalledWith('shared.itemId', { id: 10 });
+    });
+
+    test('should set imagePath and Tooltip when position is an open RFQ', () => {
+      const params = {
+        value: 10,
+        data: {
+          gqPositionId: '123',
+          rfqData: {
+            id: '123',
+            status: RfqStatus.OPEN,
+          },
+        },
+      };
+
+      when(translate).calledWith('shared.rfqOpen').mockReturnValue('Open RFQ');
+
+      component.agInit(params as any);
+
+      expect(component.imagePath).toEqual('assets/png/rfq_open.png');
+      expect(component.toolTipText).toEqual('Open RFQ');
+    });
+
+    test('should set imagePath and Tooltip when position is an closed RFQ', () => {
+      const params = {
+        value: 10,
+        data: {
+          gqPositionId: '123',
+          rfqData: {
+            id: '123',
+            status: RfqStatus.CLOSED,
+          },
+        },
+      };
+
+      when(translate)
+        .calledWith('shared.rfqClosed')
+        .mockReturnValue('Closed RFQ');
+
+      component.agInit(params as any);
+
+      expect(component.imagePath).toEqual('assets/png/rfq_closed.png');
+      expect(component.toolTipText).toEqual('Closed RFQ');
     });
   });
 

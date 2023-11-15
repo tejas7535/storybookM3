@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +35,7 @@ import { ReferenceMaterialGroupCellComponent } from './reference-material-group-
 import { SapPriceCellComponent } from './sap-price-cell/sap-price-cell.component';
 import { SapStatusCellComponent } from './sap-sync-status-cell/sap-sync-status-cell.component';
 import { ShowMoreRowsComponent } from './show-more-rows/show-more-rows.component';
+
 @NgModule({
   declarations: [
     ProcessCaseActionCellComponent,
@@ -69,6 +70,7 @@ import { ShowMoreRowsComponent } from './show-more-rows/show-more-rows.component
     EditCaseMaterialComponent,
     SharedDirectivesModule,
     SharedPipesModule,
+    NgOptimizedImage,
   ],
   exports: [
     ProcessCaseActionCellComponent,

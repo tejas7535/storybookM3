@@ -222,6 +222,8 @@
       }
     },
     "itemId": "Position {{id}}",
+    "rfqOpen": "Offener RFQ für diese Position",
+    "rfqClosed": "Abgeschlossener RFQ für diese Position",
     "quotationStatusLabels": {
       "IN_APPROVAL": "In Genehmigung",
       "APPROVED": "Genehmigt",
