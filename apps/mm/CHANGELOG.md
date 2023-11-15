@@ -1,4 +1,11 @@
 # Release Notes of Mounting Manager
+## [0.2.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.5...mm-v0.2.6) (2023-11-15)
+
+
+### Bug Fixes
+
+* **mm:** adjust seperator select label ([#5796](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5796)) ([9425c29](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9425c2956db5669e855030346916af301a525635))
+
 ## [0.2.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.4...mm-v0.2.5) (2023-11-15)
 
 
