@@ -6,6 +6,7 @@
       "title": "Manual Pricing",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Quantity",
       "priceUnit": "Price Unit"
     },
@@ -15,6 +16,7 @@
       "rating": "GQ-Rating",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Quantity",
       "details": "Details",
       "source": "Source",
@@ -26,6 +28,7 @@
       "priceCondition": "Price Condition",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Quantity",
       "details": "Details"
     },
@@ -34,6 +37,7 @@
       "priceLabel": "Net price",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Quantity",
       "priceUnit": "Price Unit"
     },
@@ -89,6 +93,25 @@
         "cancelButton": "Cancel"
       },
       "costsUpToDate": "Costs are up to date"
+    },
+    "rfqPositionDetails": {
+      "title": "RFQ Information",
+      "rfqNumber": "RFQ Number",
+      "rfqType": {
+        "title": "RFQ Type",
+        "2": "Type 2",
+        "3": "Type 3",
+        "4": "Type 4"
+      },
+      "rfqStatus": {
+        "title": "RFQ Status",
+        "OPEN": "open",
+        "CLOSED": "closed"
+      },
+      "rfqCreatedOn": "Created on",
+      "rfqCreatedBy": "Created by",
+      "rfqPlant": "Production Plant",
+      "rfqSqv": "SQV (RFQ)"
     },
     "materialComparableCostDetails": {
       "title": "Comparable Cost #{{number}}",

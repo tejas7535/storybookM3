@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { PriceSource } from '@gq/shared/models/quotation-detail';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { SapPriceCondition } from '@gq/shared/models/quotation-detail';
-import { UpdatePrice } from '@gq/shared/models/quotation-detail';
+import {
+  PriceSource,
+  QuotationDetail,
+  SapPriceCondition,
+  UpdatePrice,
+} from '@gq/shared/models/quotation-detail';
 import { calculateMargin } from '@gq/shared/utils/pricing.utils';
 
 import { DetailRoutePath } from '../../../detail-route-path.enum';
@@ -13,25 +15,36 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
   templateUrl: './sap-price.component.html',
 })
 export class SapPriceComponent {
-  private _isLoading: boolean;
-  private _quotationDetail: QuotationDetail;
-
-  gpi: number;
-  gpm: number;
-  isSelected: boolean;
-
-  PriceSource = PriceSource;
-  DetailRoutePath = DetailRoutePath;
-
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
   @Input() currency: string;
   @Input() isDisabled: boolean;
 
+  @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
+
+  gpi: number;
+  gpm: number;
+  gpmRfq: number;
+  isSelected: boolean;
+
+  PriceSource = PriceSource;
+  DetailRoutePath = DetailRoutePath;
+
+  private _isLoading: boolean;
+  private _quotationDetail: QuotationDetail;
+
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
+
   @Input() set quotationDetail(quotationDetail: QuotationDetail) {
     if (quotationDetail) {
       this.gpi = calculateMargin(quotationDetail.sapPrice, quotationDetail.gpc);
       this.gpm = calculateMargin(quotationDetail.sapPrice, quotationDetail.sqv);
+      this.gpmRfq = calculateMargin(
+        quotationDetail.sapPrice,
+        quotationDetail.rfqData?.sqv
+      );
       this.isSelected = [
         PriceSource.SAP_STANDARD,
         PriceSource.SAP_SPECIAL,
@@ -41,19 +54,13 @@ export class SapPriceComponent {
     this._quotationDetail = quotationDetail;
   }
 
-  get quotationDetail(): QuotationDetail {
-    return this._quotationDetail;
-  }
-
-  @Input() set isLoading(value: boolean) {
-    this._isLoading = this.isLoading && value;
-  }
-
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   get isLoading(): boolean {
     return this._isLoading;
   }
-
-  @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
+  @Input() set isLoading(value: boolean) {
+    this._isLoading = this.isLoading && value;
+  }
 
   selectPrice(): void {
     this._isLoading = true;
@@ -64,6 +71,11 @@ export class SapPriceComponent {
       )
     );
   }
+
+  public trackByFn(index: number): number {
+    return index;
+  }
+
   private getSapPriceSource(sapPriceCondition: SapPriceCondition): PriceSource {
     if (sapPriceCondition === SapPriceCondition.STANDARD) {
       return PriceSource.SAP_STANDARD;
@@ -73,8 +85,5 @@ export class SapPriceComponent {
     }
 
     return PriceSource.SAP_SPECIAL;
-  }
-  public trackByFn(index: number): number {
-    return index;
   }
 }

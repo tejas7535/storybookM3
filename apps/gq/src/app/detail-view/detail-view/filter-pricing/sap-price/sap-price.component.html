@@ -28,6 +28,14 @@
           <span class="font-bold">{{ gpm | percentage }}</span>
         </div>
       </div>
+      <div class="min-w-[8rem] pt-2" *ngIf="gpmRfq">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          {{ t('gpmRfq') }}:
+        </div>
+        <div>
+          <span class="font-bold">{{ gpmRfq | percentage }}</span>
+        </div>
+      </div>
       <div class="min-w-[8rem] pt-2">
         <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('quantity') }}:

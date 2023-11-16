@@ -18,6 +18,12 @@
               [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
               [materialCostUpdateAvl]="materialCostUpdateAvl"
             ></gq-production-cost-details>
+            <gq-rfq-position-details
+              *ngIf="quotationDetail.rfqData"
+              [currency]="currency"
+              [rfqData]="quotationDetail.rfqData"
+            >
+            </gq-rfq-position-details>
             <gq-material-comparable-cost-details
               [price]="quotationDetail.price"
               [materialPriceUnit]="quotationDetail.material?.priceUnit"

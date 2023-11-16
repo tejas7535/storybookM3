@@ -23,6 +23,7 @@ export class GqPriceComponent {
 
   gpi: number;
   gpm: number;
+  gpmRfq: number;
   PriceSource = PriceSource;
   DetailRoutePath = DetailRoutePath;
 
@@ -46,6 +47,10 @@ export class GqPriceComponent {
       this.gpm = calculateMargin(
         quotationDetail.recommendedPrice,
         quotationDetail.sqv
+      );
+      this.gpmRfq = calculateMargin(
+        quotationDetail.recommendedPrice,
+        quotationDetail.rfqData?.sqv
       );
     }
     this._quotationDetail = quotationDetail;

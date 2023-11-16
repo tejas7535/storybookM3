@@ -1,9 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { PriceSource } from '@gq/shared/models/quotation-detail';
-import { SapPriceCondition } from '@gq/shared/models/quotation-detail';
-import { UpdatePrice } from '@gq/shared/models/quotation-detail';
+import {
+  PriceSource,
+  SapPriceCondition,
+  UpdatePrice,
+} from '@gq/shared/models/quotation-detail';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
@@ -52,7 +54,8 @@ describe('SapPriceComponent', () => {
 
       expect(component.gpi).toEqual(5);
       expect(component.gpm).toEqual(5);
-      expect(pricingUtils.calculateMargin).toBeCalledTimes(2);
+      expect(component.gpmRfq).toEqual(5);
+      expect(pricingUtils.calculateMargin).toBeCalledTimes(3);
     });
 
     test('should set isSelected', () => {

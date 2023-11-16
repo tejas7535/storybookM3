@@ -1,3 +1,4 @@
+import { Plant } from '@gq/shared/models';
 import { RfqData } from '@gq/shared/models/quotation-detail/rfq-data.interface';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
@@ -5,7 +6,14 @@ import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
 export const RFQ_DATA_MOCK: RfqData = {
   id: 'rfq-1245',
   materialNumber15: '123456789',
-  productionPlantId: '1234',
+  productionPlant: {
+    address: 'RfqAddress',
+    city: 'RfqCity',
+    country: 'rfqCountry',
+    plantNumber: '1234',
+    designation: 'designationRfq',
+    postalCode: 'rfqPostalCode',
+  } as Plant,
   sqv: 35,
   status: RfqStatus.OPEN,
   type: RfqType.TYPE_3,

@@ -23,6 +23,7 @@ import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
 import { UpdateCostsConfirmModalComponent } from './production-cost-details/update-costs-confirm-modal/update-costs-confirm-modal.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
+import { RfqPositionDetailsComponent } from './rfq-position-details/rfq-position-details.component';
 import { StockAvailabilityDetailsComponent } from './stock-availability-details/stock-availability-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 @NgModule({
@@ -35,6 +36,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     StockAvailabilityDetailsComponent,
     LastCustomerPriceInformationDetailsComponent,
     UpdateCostsConfirmModalComponent,
+    RfqPositionDetailsComponent,
   ],
   imports: [
     CommonModule,

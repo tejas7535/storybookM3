@@ -6,6 +6,7 @@
       "hint": "Geben Sie einen manuellen Preis ein",
       "gpi": "GPI% (KHK)",
       "gpm": "GPM% (SAW)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Menge",
       "priceUnit": "Preiseinheit"
     },
@@ -15,6 +16,7 @@
       "rating": "GQ-Rating",
       "gpi": "GPI% (KHK)",
       "gpm": "GPM% (SAW)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Menge",
       "details": "Details",
       "source": "Preisquelle",
@@ -26,6 +28,7 @@
       "priceCondition": "Preiskondition",
       "gpi": "GPI% (KHK)",
       "gpm": "GPM% (SAW)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Menge",
       "details": "Details"
     },
@@ -34,6 +37,7 @@
       "priceLabel": "Nettopreis",
       "gpi": "GPI% (KHK)",
       "gpm": "GPM% (SAW)",
+      "gpmRfq": "GPM% (RFQ)",
       "quantity": "Menge",
       "priceUnit": "Preiseinheit"
     },
@@ -89,6 +93,25 @@
         "cancelButton": "Abbrechen"
       },
       "costsUpToDate": "Die Kosten sind aktuell"
+    },
+    "rfqPositionDetails": {
+      "title": "RFQ Informationen",
+      "rfqNumber": "RFQ Nummer",
+      "rfqType": {
+        "title": "RFQ Typ",
+        "2": "Typ 2",
+        "3": "Typ 3",
+        "4": "Typ 4"
+      },
+      "rfqStatus": {
+        "title": "RFQ Status",
+        "OPEN": "offen",
+        "CLOSED": "geschlossen"
+      },
+      "rfqCreatedOn": "Erstellt am",
+      "rfqCreatedBy": "Erstellt von",
+      "rfqPlant": "Produktionswerk",
+      "rfqSqv": "SAW (RFQ)"
     },
     "materialComparableCostDetails": {
       "title": "Vergleichbare Kosten #{{number}}",

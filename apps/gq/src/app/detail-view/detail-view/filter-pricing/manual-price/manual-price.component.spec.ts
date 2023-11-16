@@ -75,6 +75,7 @@ describe('ManualPriceComponent', () => {
         recommendedPrice: 20,
         gpi: 0.5,
         gpm: 0.6,
+        gpmRfq: 0.7,
         priceSource: PriceSource.SAP_SPECIAL,
       } as any;
 
@@ -83,6 +84,7 @@ describe('ManualPriceComponent', () => {
       expect(component.price).toEqual(undefined);
       expect(component.gpi).toEqual(undefined);
       expect(component.gpm).toEqual(undefined);
+      expect(component.gpmRfq).toEqual(undefined);
     });
     test('should set manual price kpis to quotationDetail values', () => {
       component.quotationDetail = {
@@ -90,6 +92,7 @@ describe('ManualPriceComponent', () => {
         recommendedPrice: 20,
         gpi: 0.5,
         gpm: 0.6,
+        gpmRfq: 0.7,
         priceSource: PriceSource.MANUAL,
       } as any;
 
@@ -98,6 +101,7 @@ describe('ManualPriceComponent', () => {
       expect(component.price).toBe(20);
       expect(component.gpi).toBe(0.5);
       expect(component.gpm).toBe(0.6);
+      expect(component.gpmRfq).toBe(0.7);
     });
   });
 
@@ -133,6 +137,7 @@ describe('ManualPriceComponent', () => {
 
   describe('set isLoading', () => {
     test('should set isLoading true', () => {
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
       component['_isLoading'] = true;
       spectator.setInput('isLoading', true);
 
@@ -140,6 +145,7 @@ describe('ManualPriceComponent', () => {
     });
 
     test('should set isLoading false', () => {
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
       component['_isLoading'] = true;
       spectator.setInput('isLoading', false);
 

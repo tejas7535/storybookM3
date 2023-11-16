@@ -15,21 +15,31 @@ import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
   templateUrl: './manual-price.component.html',
 })
 export class ManualPriceComponent {
-  private _isLoading: boolean;
-  private _quotationDetail: QuotationDetail;
+  @Input() userHasGPCRole: boolean;
+  @Input() userHasSQVRole: boolean;
+  @Input() currency: string;
+  @Input() userHasManualPriceRole: boolean;
+
+  @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
   price: number;
   priceUnit: number;
   gpi: number;
   gpm: number;
+  gpmRfq: number;
+
   PriceSource = PriceSource;
   ColumnFields = ColumnFields;
   quotationStatus = QuotationStatus;
 
-  @Input() userHasGPCRole: boolean;
-  @Input() userHasSQVRole: boolean;
-  @Input() currency: string;
-  @Input() userHasManualPriceRole: boolean;
+  private _isLoading: boolean;
+  private _quotationDetail: QuotationDetail;
+
+  constructor(private readonly editingModalService: EditingModalService) {}
+
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
 
   @Input() set quotationDetail(quotationDetail: QuotationDetail) {
     this._quotationDetail = quotationDetail;
@@ -39,30 +49,25 @@ export class ManualPriceComponent {
     this.setPrice();
   }
 
-  get quotationDetail(): QuotationDetail {
-    return this._quotationDetail;
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  get isLoading(): boolean {
+    return this._isLoading;
   }
 
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
   }
 
-  get isLoading(): boolean {
-    return this._isLoading;
-  }
-
-  @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
-
-  constructor(private readonly editingModalService: EditingModalService) {}
-
   setPrice(): void {
     if (this.quotationDetail.priceSource === PriceSource.MANUAL) {
       this.price = this.quotationDetail.price;
       this.gpm = this.quotationDetail.gpm;
+      this.gpmRfq = this.quotationDetail.gpmRfq;
       this.gpi = this.quotationDetail.gpi;
     } else {
       this.price = undefined;
       this.gpm = undefined;
+      this.gpmRfq = undefined;
       this.gpi = undefined;
     }
   }

@@ -92,7 +92,42 @@ describe('TargetPriceComponent', () => {
       quotationDetail.targetPrice,
       quotationDetail.sqv
     );
-    expect(pricingUtils.calculateMargin).toBeCalledTimes(2);
+    expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+      quotationDetail.targetPrice,
+      undefined
+    );
+    expect(pricingUtils.calculateMargin).toBeCalledTimes(3);
+  });
+
+  test('should set gpmRfq when RFQ data is present', () => {
+    jest.resetAllMocks();
+    const quotationDetail = {
+      targetPrice: 10,
+      gpc: 12,
+      sqv: 20,
+      rfqData: {
+        sqv: 35,
+      },
+    } as unknown as QuotationDetail;
+
+    jest.spyOn(pricingUtils, 'calculateMargin');
+
+    component.quotationDetail = quotationDetail;
+
+    expect(component.quotationDetail).toEqual(quotationDetail);
+    expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+      quotationDetail.targetPrice,
+      quotationDetail.gpc
+    );
+    expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+      quotationDetail.targetPrice,
+      quotationDetail.sqv
+    );
+    expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+      quotationDetail.targetPrice,
+      quotationDetail.rfqData.sqv
+    );
+    expect(pricingUtils.calculateMargin).toBeCalledTimes(3);
   });
 
   describe('set isLoading', () => {

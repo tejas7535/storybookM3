@@ -2,9 +2,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PriceSource } from '@gq/shared/models/quotation-detail';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { UpdatePrice } from '@gq/shared/models/quotation-detail';
+import {
+  PriceSource,
+  QuotationDetail,
+  UpdatePrice,
+} from '@gq/shared/models/quotation-detail';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
@@ -60,6 +62,48 @@ describe('GqPriceComponent', () => {
       expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
         detail.recommendedPrice,
         detail.gpc
+      );
+      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+        detail.recommendedPrice,
+        detail.sqv
+      );
+    });
+
+    test('should set gpmRfq when RFQ data is present', () => {
+      const detail = {
+        recommendedPrice: 10,
+        gpc: 12,
+        sqv: 20,
+        rfqData: {
+          sqv: 30,
+        },
+      } as unknown as QuotationDetail;
+
+      jest.spyOn(pricingUtils, 'calculateMargin');
+
+      component.quotationDetail = detail;
+
+      expect(component.quotationDetail).toEqual(detail);
+      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+        detail.recommendedPrice,
+        detail.rfqData.sqv
+      );
+    });
+    test('should set gpmRfq to undefined when RFQ data is not present', () => {
+      const detail = {
+        recommendedPrice: 10,
+        gpc: 12,
+        sqv: 20,
+      } as unknown as QuotationDetail;
+
+      jest.spyOn(pricingUtils, 'calculateMargin');
+
+      component.quotationDetail = detail;
+
+      expect(component.quotationDetail).toEqual(detail);
+      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
+        detail.recommendedPrice,
+        undefined
       );
     });
   });

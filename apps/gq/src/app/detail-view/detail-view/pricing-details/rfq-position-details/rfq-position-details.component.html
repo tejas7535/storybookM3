@@ -1,0 +1,36 @@
+<div *transloco="let t; read: 'detailView.pricingDetails.rfqPositionDetails'">
+  <ng-container *ngIf="rfqData">
+    <div class="mt-4">
+      <gq-kpi-status-card [title]="t('title')">
+        <gq-label-text>
+          <span label>{{ t('rfqNumber') }}</span>
+          <span text>{{ rfqData.materialNumber15 }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('rfqType.title') }}</span>
+          <span text>{{ t('rfqType.' + rfqData.type) }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('rfqStatus.title') }}</span>
+          <span text>{{ t('rfqStatus.' + rfqData.status) }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('rfqCreatedOn') }}</span>
+          <span text>{{ rfqData.createdOn | translocoDate }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('rfqCreatedBy') }}</span>
+          <span text>{{ rfqData.createdBy }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('rfqPlant') }}</span>
+          <span text>{{ rfqData.productionPlant | plantDisplay }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('rfqSqv') }}</span>
+          <span text>{{ rfqData.sqv | numberCurrency: currency }}</span>
+        </gq-label-text>
+      </gq-kpi-status-card>
+    </div>
+  </ng-container>
+</div>
