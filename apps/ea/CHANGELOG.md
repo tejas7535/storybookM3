@@ -1,4 +1,20 @@
 # Release Notes of Engineering App
+## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.0.1...ea-v1.1.0) (2023-11-16)
+
+
+### Features
+
+* **ea:** add environmental influence factor into calculation (UFTABI-6899) ([#5770](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5770)) ([5a1edac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5a1edac071318bcde7d53c64133e27015819624f))
+* **ea:** add pdf report download to engineering app - UFTABI-6873 ([#5731](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5731)) ([8e3406a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8e3406ab3ca23cff76f7fbf2881b7fe1024b7181))
+
+
+### Bug Fixes
+
+* **ea:** apply correct number formatting on component load ([#5763](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5763)) ([f95f6aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f95f6aa41301d6066b280e86fce2556a97db5fc0))
+* **ea:** delete result after imput modification ([#5778](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5778)) ([65dbaab](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/65dbaabcb72d5d406981f21d05624d6c179b6404))
+* **ea:** fix labels for German ([#5793](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5793)) ([9eb6683](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9eb66838349e41dc9dc3fc120c96198b588860c4))
+* **ea:** result button is not being disabled ([#5766](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5766)) ([9f5e315](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f5e315e6b340761f2f8f72acc6e2c68e2d61391))
+
 ## [1.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.0.0...ea-v1.0.1) (2023-10-27)
 
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v0.3.0...ea-v1.0.0) (2023-10-27)
