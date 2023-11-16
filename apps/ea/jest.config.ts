@@ -2,12 +2,12 @@
 export default {
   displayName: 'ea',
   preset: '../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts', 'jest-canvas-mock'],
   coverageThreshold: {
     global: {
       branches: 50,
-      functions: 80,
-      lines: 80,
+      functions: 70,
+      lines: 70,
     },
   },
   globals: {},

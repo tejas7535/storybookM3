@@ -9,6 +9,8 @@ import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ResultReportLargeItem } from './result-report-large-item';
+
 @Component({
   selector: 'ea-calculation-result-report-large-items',
   standalone: true,
@@ -25,19 +27,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 })
 export class CalculationResultReportLargeItemsComponent {
   @Input() translocoRoot = '';
-  @Input() items: {
-    /** Value of this item */
-    value?: string | number;
-    /** Unit of the value */
-    unit: string;
-    /** Scientific name, displayed in tag */
-    short?: string;
-    /** Transloco key */
-    title: string;
-    /** Optional tooltip */
-    titleTooltip?: string;
-    /** Optional warning for this item */
-    warning?: string;
-  }[];
+  @Input() items: ResultReportLargeItem[];
+
   @Input() firstItemLarge = true;
 }

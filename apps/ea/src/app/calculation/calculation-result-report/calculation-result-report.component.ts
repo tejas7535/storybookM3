@@ -12,6 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { map } from 'rxjs';
 
+import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
+import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
@@ -92,7 +94,9 @@ export class CalculationResultReportComponent {
     public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
     private readonly meaningfulRoundPipe: MeaningfulRoundPipe,
     private readonly dialog: MatDialog,
-    private readonly translocoSevice: TranslocoService
+    private readonly translocoSevice: TranslocoService,
+    private readonly trackingService: EmbeddedGoogleAnalyticsService,
+    private readonly reportService: PDFReportService
   ) {}
 
   closeDialog() {
@@ -113,5 +117,18 @@ export class CalculationResultReportComponent {
       block: 'start',
     };
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
+  }
+
+  isDownloadButtonVisible() {
+    const disabledLanguages = new Set(['zh', 'zh_TW']);
+
+    return !disabledLanguages.has(this.translocoSevice.getActiveLang());
+  }
+
+  async downloadPdfReport() {
+    this.trackingService.logDownloadReport();
+    const report = await this.reportService.generate();
+    const reportName = await this.reportService.generateFilename();
+    report.document.save(reportName);
   }
 }

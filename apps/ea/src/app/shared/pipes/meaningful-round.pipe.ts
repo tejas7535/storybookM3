@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 
@@ -13,6 +13,7 @@ const extractPrefix = (input: string): string | undefined => {
 };
 
 @Pipe({ name: 'meaningfulRound', standalone: true })
+@Injectable({ providedIn: 'root' })
 export class MeaningfulRoundPipe implements PipeTransform {
   constructor(private readonly translocoDecimalPipe: TranslocoDecimalPipe) {}
 

@@ -329,3 +329,10 @@ export const getSelectedCalculations = createSelector(
       .filter((item) => item.selected);
   }
 );
+
+export const pdfReportAvailable = createSelector(
+  getSelectedCalculations,
+  (selectedCalculations): boolean =>
+    selectedCalculations.filter((calculation) => calculation.selected).length >
+    0
+);

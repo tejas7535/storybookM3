@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { discardPeriodicTasks, fakeAsync } from '@angular/core/testing';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { CalculationResultPreviewItem } from '@ea/core/store/models';
 import { EXPECTED_RESULT } from '@ea/testing/mocks/catalog-helper-mocks';
@@ -17,7 +18,11 @@ describe('OverrollingFrequenciesPreviewItemComponent', () => {
 
   const createComponent = createComponentFactory({
     component: OverrollingFrequenciesPreviewItemComponent,
-    imports: [CommonModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      CommonModule,
+      provideTranslocoTestingModule({ en: {} }),
+      MatIconTestingModule,
+    ],
     providers: [
       provideMockStore({
         initialState: {

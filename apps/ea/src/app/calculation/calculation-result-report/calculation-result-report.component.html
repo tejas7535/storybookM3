@@ -237,6 +237,22 @@
             </ea-calculation-result-message>
           </div>
         </ea-expansion-panel>
+        <!-- Mobile PDF Button --->
+        <ng-container *transloco="let t; read: 'calculationSelection'">
+          <button
+            (click)="downloadPdfReport()"
+            *ngIf="isDownloadButtonVisible()"
+            [disabled]="
+              (calculationResultFacade.isPDFReportAvailable$ | async) === false
+            "
+            class="hover:bg-secondary-100 mx-auto max-w-sm md:hidden hover:text-primary text-center mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+          >
+            <mat-icon class="shrink-0 aspect-square">download</mat-icon>
+            <span class="uppercase block w-full flex-grow">{{
+              t('saveAsPDF')
+            }}</span>
+          </button>
+        </ng-container>
       </div>
 
       <!-- Right Hand Navigation -->
@@ -246,8 +262,25 @@
       >
         <mat-divider [vertical]="true"></mat-divider>
         <div
-          class="my-2 ml-8 mr-4 w-full md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:pr-4"
+          class="mb-2 ml-8 mr-4 w-full md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:pr-4"
         >
+          <div class="mb-4">
+            <button
+              (click)="downloadPdfReport()"
+              *ngIf="isDownloadButtonVisible()"
+              [disabled]="
+                (calculationResultFacade.isPDFReportAvailable$ | async) ===
+                false
+              "
+              class="hover:bg-secondary-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+            >
+              <mat-icon class="shrink-0 aspect-square">download</mat-icon>
+              <span class="uppercase block w-full flex-grow">{{
+                t('saveAsPDF')
+              }}</span>
+            </button>
+          </div>
+
           <div class="mb-2">
             <div class="flex items-center justify-center">
               <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>

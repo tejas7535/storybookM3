@@ -6,7 +6,11 @@ import {
   CalculationResultPreviewSelector,
   CalculationResultReportSelector,
 } from '../../selectors/calculation-result';
-import { isOverrolingFrequenciesAvailable } from '../../selectors/calculation-result/calculation-result-report.selector';
+import {
+  getSelectedCalculations,
+  isOverrolingFrequenciesAvailable,
+  pdfReportAvailable,
+} from '../../selectors/calculation-result/calculation-result-report.selector';
 import {
   getError as getCatalogCalculationError,
   isLoading,
@@ -84,6 +88,12 @@ export class CalculationResultFacade {
 
   public readonly getCatalogCalculationError$ = this.store.select(
     getCatalogCalculationError
+  );
+
+  public readonly isPDFReportAvailable$ = this.store.select(pdfReportAvailable);
+
+  public readonly getSelectedCalculations$ = this.store.select(
+    getSelectedCalculations
   );
 
   constructor(private readonly store: Store) {}

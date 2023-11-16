@@ -7,6 +7,7 @@ import {
   getReportMessages,
   getResultInput,
   getSelectedCalculations,
+  pdfReportAvailable,
 } from './calculation-result-report.selector';
 
 describe('Calculation Result Selector', () => {
@@ -73,6 +74,12 @@ describe('Calculation Result Selector', () => {
   describe('getReportMessages', () => {
     it('should return report messages', () => {
       expect(getReportMessages(mockState)).toMatchSnapshot();
+    });
+  });
+
+  describe('pdfReportAvailable', () => {
+    it('should be truthy if something is selected', () => {
+      expect(pdfReportAvailable(mockState)).toBeTruthy();
     });
   });
 });
