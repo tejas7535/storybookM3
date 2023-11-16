@@ -70,6 +70,7 @@ export class QuotationDetail {
   gpi: number;
   lastCustomerPriceGpi: number;
   gpm: number;
+  gpmRfq: number;
   lastCustomerPriceGpm: number;
   rlm: number;
   discount: number;

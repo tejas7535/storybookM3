@@ -387,6 +387,14 @@ export class ColumnDefService {
       },
     },
     {
+      headerName: translate('shared.quotationDetailsTable.sqvRfq'),
+      field: ColumnFields.SQV_RFQ,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.relocCost'),
       field: ColumnFields.RELOCATION_COST,
       valueFormatter: (params) =>
@@ -435,6 +443,19 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gpmInfoText'
         ),
         editableColumn: true,
+      },
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.gpmRfq'),
+      field: ColumnFields.GPM_RFQ,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.gpmRfqInfoText'
+        ),
       },
     },
     {

@@ -13,8 +13,8 @@ import {
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { PriceUnitForQuotationItemId } from '@gq/shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
 import {
+  checkStartsWithFOrZ,
   quotationDetailIsFNumber,
-  quotationDetailsHaveFNumberDetails,
 } from '@gq/shared/utils/f-pricing.utils';
 import { groupBy } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
@@ -216,10 +216,16 @@ export const getTabsForProcessCaseView = () =>
 export const getQuotationHasFNumberMaterials = createSelector(
   getQuotationDetails,
   (details: QuotationDetail[]): boolean =>
-    quotationDetailsHaveFNumberDetails(details)
+    details?.some((singleDetail) => checkStartsWithFOrZ(singleDetail)) ?? false
 );
 
 export const getQuotationDetailIsFNumber = createSelector(
   getSelectedQuotationDetail,
   (detail: QuotationDetail): boolean => quotationDetailIsFNumber(detail)
+);
+
+export const getQuotationHasRfqMaterials = createSelector(
+  getQuotationDetails,
+  (details: QuotationDetail[]): boolean =>
+    details?.some((singleDetail) => !!singleDetail.rfqData?.id) ?? false
 );

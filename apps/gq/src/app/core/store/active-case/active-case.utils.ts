@@ -87,6 +87,8 @@ export const addCalculationsForDetail = (detail: QuotationDetail): void => {
     detail.gpc
   );
   detail.gpm = calculateMargin(detail.price, detail.sqv);
+  detail.gpmRfq = calculateMargin(detail.price, detail.rfqData?.sqv);
+
   detail.lastCustomerPriceGpm = calculateMargin(
     detail.lastCustomerPrice,
     detail.sqv

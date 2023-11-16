@@ -88,8 +88,6 @@ export class ActiveCaseEffects {
             item.quotationDetails.sort(
               (a, b) => a.quotationItemId - b.quotationItemId
             );
-            addCalculationsForDetails(item.quotationDetails);
-
             // TODO:  remove when real data is coming from BE
             if (item.gqId === 46_775) {
               item.quotationDetails[0].rfqData = RFQ_DATA_MOCK;
@@ -98,6 +96,7 @@ export class ActiveCaseEffects {
                 status: RfqStatus.CLOSED,
               };
             }
+            addCalculationsForDetails(item.quotationDetails);
           }),
           mergeMap((item: Quotation) => {
             // quotation not fully loaded (async still in progress)

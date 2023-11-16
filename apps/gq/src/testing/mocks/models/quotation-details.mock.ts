@@ -66,6 +66,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   priceSource: PriceSource.GQ,
   gpi: 90,
   gpm: 85,
+  gpmRfq: 80,
   customerMaterial: 'mockCustomerMaterial',
   coefficient1: 0.88,
   coefficient2: 2.5,

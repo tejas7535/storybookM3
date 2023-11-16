@@ -78,6 +78,12 @@ describe('ActiveCaseUtils', () => {
         expect(detail.sqv).toEqual(testCase.roundedValue);
       });
     });
+
+    test('should calculate gpmRfq', () => {
+      const detail = QUOTATION_DETAIL_MOCK;
+      processCaseUtils.addCalculationsForDetail(detail);
+      expect(detail.gpmRfq).toEqual(82.5); // calculate margin from price (200) and rfqSqv (35)
+    });
   });
 
   describe('calculateSapPriceValues', () => {

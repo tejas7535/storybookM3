@@ -1,10 +1,5 @@
 import { QuotationDetail } from '@gq/shared/models';
 
-export const quotationDetailsHaveFNumberDetails = (
-  details: QuotationDetail[]
-): boolean =>
-  details?.some((singleDetail) => checkStartsWithFOrZ(singleDetail)) ?? false;
-
 export const quotationDetailIsFNumber = (
   quotationDetail: QuotationDetail
 ): boolean => {
@@ -19,7 +14,7 @@ export const quotationDetailIsFNumber = (
   return false;
 };
 
-function checkStartsWithFOrZ(quotationDetail: QuotationDetail): boolean {
+export function checkStartsWithFOrZ(quotationDetail: QuotationDetail): boolean {
   return (
     quotationDetail?.material?.materialDescription?.startsWith('F-') ||
     quotationDetail?.material?.materialDescription?.startsWith('Z-')

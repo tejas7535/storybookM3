@@ -276,6 +276,24 @@ describe('CreateColumnService', () => {
       ]);
     });
   });
+
+  describe('filterRFQColumns', () => {
+    const colDefs: ColDef[] = [
+      { field: ColumnFields.MATERIAL_NUMBER_15 },
+      { field: ColumnFields.GPM_RFQ },
+      { field: ColumnFields.SQV_RFQ },
+      { field: ColumnFields.STRATEGIC_MATERIAL },
+    ];
+    test('should remove RFQ Columns', () => {
+      const res = ColumnUtilityService.filterRfqColumns(colDefs);
+
+      expect(res).toEqual([
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.STRATEGIC_MATERIAL },
+      ]);
+    });
+  });
+
   describe('createColumnDefs', () => {
     test('should return all cols', () => {
       ColumnUtilityService.filterGpc = jest.fn().mockReturnValue(true);

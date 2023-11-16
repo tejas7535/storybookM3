@@ -73,7 +73,10 @@ describe('QuotationDetailsTableComponent', () => {
       MockProvider(ColumnDefService),
       MockProvider(LocalizationService),
       mockProvider(TransformationService),
-      MockProvider(ActiveCaseFacade),
+      MockProvider(ActiveCaseFacade, {
+        quotationHasFNumberMaterials$: of(true),
+        quotationHasRfqMaterials$: of(true),
+      }),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
@@ -248,16 +251,97 @@ describe('QuotationDetailsTableComponent', () => {
             },
           },
         });
-        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(false);
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: mockColDefs,
+          })
+        );
+      })
+    );
+
+    test(
+      'should remove RFQ Columns if quotation has no RFQ materials',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SQV_RFQ,
+          },
+          {
+            field: ColumnFields.GPM_RFQ,
+          },
+          {
+            field: ColumnFields.PRICING_ASSISTANT,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasRfqMaterials$ = of(false);
+
         component.ngOnInit();
 
         m.expect(component.columnDefs$).toBeObservable(
           m.cold('a', {
             a: [
               {
+                field: ColumnFields.PRICING_ASSISTANT,
+              },
+              {
                 field: ColumnFields.DATE_NEXT_FREE_ATP,
               },
             ],
+          })
+        );
+      })
+    );
+
+    test(
+      'should NOT remove RFQ Columns if quotation has  RFQ materials',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SQV_RFQ,
+          },
+          {
+            field: ColumnFields.GPM_RFQ,
+          },
+          {
+            field: ColumnFields.PRICING_ASSISTANT,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasRfqMaterials$ = of(true);
+
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: mockColDefs,
           })
         );
       })

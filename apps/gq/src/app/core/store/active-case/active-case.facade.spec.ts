@@ -11,6 +11,7 @@ import { activeCaseFeature } from './active-case.reducer';
 import {
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
+  getQuotationHasRfqMaterials,
 } from './active-case.selectors';
 
 describe('ActiveCaseFacade', () => {
@@ -159,6 +160,18 @@ describe('ActiveCaseFacade', () => {
       'should select quotationHasF-numbers',
       marbles((m) => {
         mockStore.overrideSelector(getQuotationHasFNumberMaterials, true);
+        m.expect(facade.quotationHasFNumberMaterials$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('quotationHasRFQMaterials$', () => {
+    test(
+      'should select quotationHasF-numbers',
+      marbles((m) => {
+        mockStore.overrideSelector(getQuotationHasRfqMaterials, true);
         m.expect(facade.quotationHasFNumberMaterials$).toBeObservable(
           m.cold('a', { a: true })
         );

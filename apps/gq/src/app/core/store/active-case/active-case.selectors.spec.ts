@@ -6,6 +6,7 @@ import {
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { RfqData } from '@gq/shared/models/quotation-detail/rfq-data.interface';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 
 import {
@@ -513,6 +514,7 @@ describe('Active Case Selectors', () => {
       ).toEqual(true);
     });
   });
+
   describe('getQuotationDetailIsFNumber', () => {
     test('should return false when description does not starts with F- || Z-', () => {
       expect(
@@ -544,6 +546,31 @@ describe('Active Case Selectors', () => {
           },
         })
       ).toEqual(true);
+    });
+  });
+
+  describe('getQuotationHasRfqMaterials', () => {
+    test('should return false if quotation has no QuotationDetails', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasRfqMaterials.projector([])
+      ).toEqual(false);
+    });
+    test('should return true if quotations has RFQ Materails', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasRfqMaterials.projector([
+          { rfqData: { id: 1 } as unknown as RfqData } as QuotationDetail,
+          { material: { materialDescription: 'test' } } as QuotationDetail,
+        ])
+      ).toEqual(true);
+    });
+
+    test('should return false if quotations has no RFQ Materails', () => {
+      expect(
+        activeCaseSelectors.getQuotationHasRfqMaterials.projector([
+          { material: { materialDescription: 'test' } } as QuotationDetail,
+          { material: { materialDescription: 'test' } } as QuotationDetail,
+        ])
+      ).toEqual(false);
     });
   });
 });

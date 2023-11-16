@@ -11,6 +11,7 @@ import { activeCaseFeature } from './active-case.reducer';
 import {
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
+  getQuotationHasRfqMaterials,
 } from './active-case.selectors';
 import { QuotationIdentifier } from './models';
 
@@ -48,6 +49,10 @@ export class ActiveCaseFacade {
 
   attachmentsGettingSuccess$: Observable<void> = this.actions$.pipe(
     ofType(ActiveCaseActions.getAllAttachmentsSuccess)
+  );
+
+  quotationHasRfqMaterials$: Observable<boolean> = this.store.select(
+    getQuotationHasRfqMaterials
   );
 
   quotationHasFNumberMaterials$: Observable<boolean> = this.store.select(

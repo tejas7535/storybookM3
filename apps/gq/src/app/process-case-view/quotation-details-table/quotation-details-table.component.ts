@@ -133,15 +133,20 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         )
       ),
       this.activeCaseFacade.quotationHasFNumberMaterials$,
+      this.activeCaseFacade.quotationHasRfqMaterials$,
     ]).pipe(
-      map(([columnDefs, hasFNumberMaterials]) => {
-        const columnDef = ColumnUtilityService.filterSAPColumns(
+      map(([columnDefs, hasFNumberMaterials, hasRfqMaterials]) => {
+        let columnDef = ColumnUtilityService.filterSAPColumns(
           columnDefs,
           this.tableContext.quotation
         );
 
-        return !hasFNumberMaterials
+        columnDef = !hasFNumberMaterials
           ? ColumnUtilityService.filterPricingAssistantColumns(columnDef)
+          : columnDef;
+
+        return !hasRfqMaterials
+          ? ColumnUtilityService.filterRfqColumns(columnDef)
           : columnDef;
       })
     );
