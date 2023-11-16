@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import {
   userHasGPCRole,
@@ -8,11 +8,13 @@ import {
   userHasRegionAmericasRole,
   userHasRegionGreaterChinaRole,
   userHasRegionWorldRole,
+  userHasRole,
   userHasSQVRole,
 } from '@gq/core/store/selectors';
+import { UserRoles } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
 
-import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+import { getRoles, getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
 @Injectable({
   providedIn: 'root',
@@ -53,5 +55,30 @@ export class RolesFacade {
     )
   );
 
+  // if user has the regional role GREATER_CHINA, the role PRICE_MANUAL is needed in addition to be allowed to change the priceSource
+  // see: https://confluence.schaeffler.com/display/PARS/Restrictions+for+User+Roles
+  userHasEditPriceSourceRole$ = combineLatest([
+    this.userHasRegionGreaterChinaRole$,
+    this.userHasManualPriceRole$,
+  ]).pipe(
+    map(([hasRegionGreaterChina, hasManualPrice]) =>
+      !hasRegionGreaterChina ? true : hasManualPrice
+    )
+  );
+
   constructor(private readonly store: Store) {}
+
+  userHasRole$(role: UserRoles): Observable<boolean> {
+    return this.store.pipe(userHasRole(role));
+  }
+
+  userHasRoles$(roles: UserRoles[]): Observable<boolean> {
+    return this.store
+      .pipe(getRoles)
+      .pipe(
+        map((rolesFromStore) =>
+          roles.every((role) => rolesFromStore.includes(role))
+        )
+      );
+  }
 }

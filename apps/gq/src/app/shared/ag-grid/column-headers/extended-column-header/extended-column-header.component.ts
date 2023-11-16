@@ -7,13 +7,21 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
-import { filter, map, Observable, pairwise, Subscription, take } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  pairwise,
+  Subscription,
+  take,
+} from 'rxjs';
 
 import {
   activeCaseFeature,
   getIsQuotationStatusActive,
 } from '@gq/core/store/active-case';
-import { userHasManualPriceRole, userHasRole } from '@gq/core/store/selectors';
+import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -36,11 +44,12 @@ import { PriceSourceOptions } from './models/price-source-options.enum';
 export class ExtendedColumnHeaderComponent
   implements IHeaderAngularComp, OnInit, OnDestroy
 {
-  private readonly subscription: Subscription = new Subscription();
+  @ViewChild('menuButton', { read: ElementRef }) menuButton!: ElementRef;
+  @ViewChild('inputField', { static: false }) inputField!: ElementRef;
 
-  public params!: ExtendedColumnHeaderComponentParams;
+  params!: ExtendedColumnHeaderComponentParams;
 
-  public sort: 'asc' | 'desc';
+  sort: 'asc' | 'desc';
 
   editMode = false;
   value = 0;
@@ -49,21 +58,19 @@ export class ExtendedColumnHeaderComponent
 
   editFormControl: UntypedFormControl = new UntypedFormControl();
   // price source header dependent values
-  isPriceSource = false;
+  isPriceSourceColumn = false;
   selectedPriceSource: PriceSourceOptions;
-
-  @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
-  @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
 
   quotationStatus$: Observable<boolean>;
 
-  private userHasManualPriceRole$: Observable<boolean>;
   private availablePriceSourceOptions: PriceSourceOptions[] = [];
+  private readonly subscription: Subscription = new Subscription();
 
   constructor(
     private readonly store: Store,
     private readonly insightsService: ApplicationInsightsService,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly rolesFacade: RolesFacade
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +82,6 @@ export class ExtendedColumnHeaderComponent
 
     // quotation is not available in case-view
     this.quotationStatus$ = this.store.select(getIsQuotationStatusActive);
-    this.userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
   }
 
   addSubscriptions(): void {
@@ -125,7 +131,8 @@ export class ExtendedColumnHeaderComponent
     ]);
 
     this.params = params;
-    this.isPriceSource = params.column.getId() === ColumnFields.PRICE_SOURCE;
+    this.isPriceSourceColumn =
+      params.column.getId() === ColumnFields.PRICE_SOURCE;
 
     params.column.addEventListener(
       'sortChanged',
@@ -148,60 +155,28 @@ export class ExtendedColumnHeaderComponent
     }
 
     if (this.params.editingRole) {
-      this.store
-        .pipe(userHasRole(this.params.editingRole))
+      this.rolesFacade
+        .userHasRole$(this.params.editingRole)
         .pipe(take(1))
         .subscribe((userHasNeededRole: boolean) =>
           this.shouldShowEditIcon(userHasNeededRole)
         );
+    } else if (this.params.regionalRestrictions) {
+      combineLatest([
+        this.rolesFacade.userHasRole$(
+          this.params.regionalRestrictions.regionRole
+        ),
+        this.rolesFacade.userHasRoles$(
+          this.params.regionalRestrictions.editingRoles
+        ),
+      ])
+        .pipe(take(1))
+        .subscribe(([hasRegionRole, hasEditingRoles]) =>
+          this.shouldShowEditIcon(!hasRegionRole ? true : hasEditingRoles)
+        );
     } else {
       this.shouldShowEditIcon(true);
     }
-  }
-
-  private shouldShowEditIcon(userHasNeededEditingRole: boolean): void {
-    this.showEditIcon =
-      userHasNeededEditingRole &&
-      this.params.api.getSelectedRows()?.length > 0 &&
-      (this.isPriceSource // We do not need to check if there is data available in the column priceSource
-        ? true
-        : this.isDataAvailable(this.params.column.getId())) &&
-      this.isPriceSourceEditingEnabled();
-
-    if (!this.showEditIcon) {
-      this.editMode = false;
-      this.value = 0;
-    }
-  }
-
-  private isPriceSourceEditingEnabled() {
-    return this.isPriceSource
-      ? this.params.api
-          .getSelectedRows()
-          .some(
-            (detail: QuotationDetail) =>
-              (detail.recommendedPrice &&
-                detail.priceSource !== PriceSource.GQ) ||
-              (detail.strategicPrice &&
-                detail.priceSource !== PriceSource.STRATEGIC) ||
-              (detail.sapPrice &&
-                ![
-                  PriceSource.SAP_SPECIAL,
-                  PriceSource.SAP_STANDARD,
-                  PriceSource.CAP_PRICE,
-                ].includes(detail.priceSource)) ||
-              (detail.targetPrice &&
-                detail.priceSource !== PriceSource.TARGET_PRICE)
-          )
-      : true;
-  }
-
-  private isDataAvailable(columName: string): boolean {
-    return this.params.api
-      .getSelectedRows()
-      .some(
-        (detail: QuotationDetail) => detail[columName as keyof QuotationDetail]
-      );
   }
 
   onSortChanged() {
@@ -249,7 +224,7 @@ export class ExtendedColumnHeaderComponent
       this.inputField?.nativeElement.focus();
     });
 
-    if (this.isPriceSource) {
+    if (this.isPriceSourceColumn) {
       this.switchPriceSource();
     }
 
@@ -268,23 +243,6 @@ export class ExtendedColumnHeaderComponent
   submitValue(e: Event) {
     e.stopPropagation();
     this.updateMaterialSimulation(this.editFormControl.value);
-  }
-
-  private updateMaterialSimulation(value: number) {
-    this.value = value;
-    this.params.context.onMultipleMaterialSimulation(
-      this.params.column.getId(),
-      value,
-      this.editFormControl.invalid
-    );
-
-    if (this.editFormControl.valid) {
-      this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_UPDATED, {
-        type: this.params.column.getId(),
-        simulatedValue: value,
-        numberOfSimulatedRows: this.params.api.getSelectedRows()?.length,
-      } as MassSimulationParams);
-    }
   }
 
   getSelectedPriceSourceTranslationKey(): string {
@@ -317,6 +275,64 @@ export class ExtendedColumnHeaderComponent
     this.params.context.onPriceSourceSimulation(this.selectedPriceSource);
   }
 
+  private shouldShowEditIcon(userHasNeededEditingRole: boolean): void {
+    this.showEditIcon =
+      userHasNeededEditingRole &&
+      this.params.api.getSelectedRows()?.length > 0 &&
+      (this.isPriceSourceColumn // We do not need to check if there is data available in the column priceSource
+        ? this.isPriceSourceChangePossible()
+        : this.isDataAvailable(this.params.column.getId()));
+
+    if (!this.showEditIcon) {
+      this.editMode = false;
+      this.value = 0;
+    }
+  }
+
+  private isPriceSourceChangePossible() {
+    return this.params.api
+      .getSelectedRows()
+      .some(
+        (detail: QuotationDetail) =>
+          (detail.recommendedPrice && detail.priceSource !== PriceSource.GQ) ||
+          (detail.strategicPrice &&
+            detail.priceSource !== PriceSource.STRATEGIC) ||
+          (detail.sapPrice &&
+            ![
+              PriceSource.SAP_SPECIAL,
+              PriceSource.SAP_STANDARD,
+              PriceSource.CAP_PRICE,
+            ].includes(detail.priceSource)) ||
+          (detail.targetPrice &&
+            detail.priceSource !== PriceSource.TARGET_PRICE)
+      );
+  }
+
+  private isDataAvailable(columName: string): boolean {
+    return this.params.api
+      .getSelectedRows()
+      .some(
+        (detail: QuotationDetail) => detail[columName as keyof QuotationDetail]
+      );
+  }
+
+  private updateMaterialSimulation(value: number) {
+    this.value = value;
+    this.params.context.onMultipleMaterialSimulation(
+      this.params.column.getId(),
+      value,
+      this.editFormControl.invalid
+    );
+
+    if (this.editFormControl.valid) {
+      this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_UPDATED, {
+        type: this.params.column.getId(),
+        simulatedValue: value,
+        numberOfSimulatedRows: this.params.api.getSelectedRows()?.length,
+      } as MassSimulationParams);
+    }
+  }
+
   private setAvailablePriceSourceOptions(): void {
     this.availablePriceSourceOptions = [];
     const selectedRows = this.params.api.getSelectedRows();
@@ -334,7 +350,7 @@ export class ExtendedColumnHeaderComponent
       this.availablePriceSourceOptions.push(PriceSourceOptions.SAP);
     }
 
-    this.userHasManualPriceRole$
+    this.rolesFacade.userHasManualPriceRole$
       .pipe(take(1))
       .subscribe((manualPriceRoleAvailable: boolean) => {
         if (manualPriceRoleAvailable) {

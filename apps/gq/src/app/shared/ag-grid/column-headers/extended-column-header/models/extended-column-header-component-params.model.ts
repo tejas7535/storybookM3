@@ -5,4 +5,10 @@ export type ExtendedColumnHeaderComponentParams = IHeaderParams & {
   tooltipText: string;
   editableColumn: boolean;
   editingRole?: UserRoles;
+  regionalRestrictions?: RegionalRestrictionRoles;
 };
+
+export interface RegionalRestrictionRoles {
+  regionRole: UserRoles;
+  editingRoles: UserRoles[];
+}

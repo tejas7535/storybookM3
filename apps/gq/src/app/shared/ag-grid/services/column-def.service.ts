@@ -180,6 +180,10 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.priceSourceInfoText'
         ),
         editableColumn: true,
+        regionalRestrictions: {
+          regionRole: UserRoles.REGION_GREATER_CHINA,
+          editingRoles: [UserRoles.MANUAL_PRICE],
+        },
       },
     },
     {

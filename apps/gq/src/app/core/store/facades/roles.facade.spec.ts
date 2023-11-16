@@ -225,4 +225,115 @@ describe('RolesFacade', () => {
       })
     );
   });
+
+  describe('userHasEditPriceSourceRole', () => {
+    test(
+      'should provide true when NOT GREATER_CHINA',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_AMERICAS],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasEditPriceSourceRole$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should provide true when GREATER_CHINA and MANUAL_PRICE_ROLE',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_GREATER_CHINA, UserRoles.MANUAL_PRICE],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasEditPriceSourceRole$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should provide false when GREATER_CHINA and ##NOT## MANUAL_PRICE_ROLE',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_GREATER_CHINA],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasEditPriceSourceRole$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+  });
+
+  describe('methods', () => {
+    test(
+      'should provide userHasRole',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.BASIC],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasRole$(UserRoles.BASIC)).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should provide userHasRoles true when user has all roles',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.BASIC, UserRoles.COST_GPC],
+              },
+            },
+          },
+        });
+        m.expect(
+          service.userHasRoles$([UserRoles.BASIC, UserRoles.COST_GPC])
+        ).toBeObservable(m.cold('a', { a: true }));
+      })
+    );
+    test(
+      'should provide userHasRoles true when user has not all roles',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.BASIC],
+              },
+            },
+          },
+        });
+        m.expect(
+          service.userHasRoles$([UserRoles.BASIC, UserRoles.COST_GPC])
+        ).toBeObservable(m.cold('a', { a: false }));
+      })
+    );
+  });
 });

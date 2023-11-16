@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { of } from 'rxjs';
 
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case';
+import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { UserRoles } from '@gq/shared/constants';
 import {
   createComponentFactory,
@@ -19,6 +20,7 @@ import {
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -33,7 +35,10 @@ import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { ExtendedColumnHeaderComponent } from './extended-column-header.component';
-import { ExtendedColumnHeaderComponentParams } from './models/extended-column-header-component-params.model';
+import {
+  ExtendedColumnHeaderComponentParams,
+  RegionalRestrictionRoles,
+} from './models/extended-column-header-component-params.model';
 import { PriceSourceOptions } from './models/price-source-options.enum';
 
 describe('ExtendedColumnHeaderComponent', () => {
@@ -99,6 +104,7 @@ describe('ExtendedColumnHeaderComponent', () => {
           activeCase: ACTIVE_CASE_STATE_MOCK,
         },
       }),
+      MockProvider(RolesFacade),
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -413,6 +419,8 @@ describe('ExtendedColumnHeaderComponent', () => {
         .fn()
         .mockReturnValue([{ price: 10 } as QuotationDetail]);
 
+      component['rolesFacade'].userHasRole$ = jest.fn(() => of(true));
+
       component.agInit({
         ...DEFAULT_PARAMS,
         editingRole: UserRoles.BASIC,
@@ -428,7 +436,7 @@ describe('ExtendedColumnHeaderComponent', () => {
       component.params.api.getSelectedRows = jest
         .fn()
         .mockReturnValue([{ price: 10 } as QuotationDetail]);
-
+      component['rolesFacade'].userHasRole$ = jest.fn(() => of(false));
       component.agInit({
         ...DEFAULT_PARAMS,
         editingRole: UserRoles.MANUAL_PRICE,
@@ -439,9 +447,60 @@ describe('ExtendedColumnHeaderComponent', () => {
       expect(component.showEditIcon).toBe(false);
     });
 
+    test('should show edit Icon, RegionalRestrictions are set, user has RegionRole and editingRoles', () => {
+      component['rolesFacade'].userHasRole$ = jest.fn(() => of(true));
+      component['rolesFacade'].userHasRoles$ = jest.fn(() => of(true));
+      spectator.detectChanges();
+      component.params.api.getSelectedRows = jest
+        .fn()
+        .mockReturnValue([{ price: 10 } as QuotationDetail]);
+
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        regionalRestrictions: {} as RegionalRestrictionRoles,
+      });
+      component.updateShowEditIcon();
+
+      expect(component.showEditIcon).toBe(true);
+    });
+
+    test('should NOT show edit Icon, RegionalRestrictions are set, user has RegionRole but no editingRoles', () => {
+      component['rolesFacade'].userHasRole$ = jest.fn(() => of(true));
+      component['rolesFacade'].userHasRoles$ = jest.fn(() => of(false));
+      spectator.detectChanges();
+      component.params.api.getSelectedRows = jest
+        .fn()
+        .mockReturnValue([{ price: 10 } as QuotationDetail]);
+
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        regionalRestrictions: {} as RegionalRestrictionRoles,
+      });
+      component.updateShowEditIcon();
+
+      expect(component.showEditIcon).toBe(false);
+    });
+
+    test('should show edit Icon RegionalRestrictions are set, user has NOT RegionRole', () => {
+      component['rolesFacade'].userHasRole$ = jest.fn(() => of(false));
+      component['rolesFacade'].userHasRoles$ = jest.fn(() => of(true));
+      spectator.detectChanges();
+      component.params.api.getSelectedRows = jest
+        .fn()
+        .mockReturnValue([{ price: 10 } as QuotationDetail]);
+
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        regionalRestrictions: {} as RegionalRestrictionRoles,
+      });
+      component.updateShowEditIcon();
+
+      expect(component.showEditIcon).toBe(true);
+    });
+
     describe('priceSource edge cases', () => {
       it('should not show edit icon if only gq price available', () => {
-        component.isPriceSource = true;
+        component.isPriceSourceColumn = true;
         spectator.detectChanges();
 
         component.params.api.getSelectedRows = jest.fn().mockReturnValue([
@@ -456,7 +515,7 @@ describe('ExtendedColumnHeaderComponent', () => {
         expect(component.showEditIcon).toBe(false);
       });
       it('should not show edit icon if only strategic price available', () => {
-        component.isPriceSource = true;
+        component.isPriceSourceColumn = true;
         spectator.detectChanges();
 
         component.params.api.getSelectedRows = jest.fn().mockReturnValue([
@@ -471,7 +530,7 @@ describe('ExtendedColumnHeaderComponent', () => {
         expect(component.showEditIcon).toBe(false);
       });
       it('should not show edit icon if only sap price available', () => {
-        component.isPriceSource = true;
+        component.isPriceSourceColumn = true;
         spectator.detectChanges();
 
         component.params.api.getSelectedRows = jest.fn().mockReturnValue([
@@ -486,7 +545,7 @@ describe('ExtendedColumnHeaderComponent', () => {
         expect(component.showEditIcon).toBe(false);
       });
       it('should not show edit icon if only cap_price available', () => {
-        component.isPriceSource = true;
+        component.isPriceSourceColumn = true;
         spectator.detectChanges();
 
         component.params.api.getSelectedRows = jest.fn().mockReturnValue([
@@ -501,7 +560,7 @@ describe('ExtendedColumnHeaderComponent', () => {
         expect(component.showEditIcon).toBe(false);
       });
       it('should not show edit icon if only target price available', () => {
-        component.isPriceSource = true;
+        component.isPriceSourceColumn = true;
         spectator.detectChanges();
 
         component.params.api.getSelectedRows = jest.fn().mockReturnValue([
@@ -516,7 +575,7 @@ describe('ExtendedColumnHeaderComponent', () => {
         expect(component.showEditIcon).toBe(false);
       });
       it('should show edit icon if target price is set but no price source is available', () => {
-        component.isPriceSource = true;
+        component.isPriceSourceColumn = true;
         spectator.detectChanges();
 
         component.params.api.getSelectedRows = jest.fn().mockReturnValue([
@@ -576,7 +635,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     it('should set isPriceSource to false', () => {
       component.agInit(DEFAULT_PARAMS);
 
-      expect(component.isPriceSource).toBeFalsy();
+      expect(component.isPriceSourceColumn).toBeFalsy();
     });
 
     it('should set isPriceSource to true', () => {
@@ -588,7 +647,7 @@ describe('ExtendedColumnHeaderComponent', () => {
         },
       } as ExtendedColumnHeaderComponentParams);
 
-      expect(component.isPriceSource).toBeTruthy();
+      expect(component.isPriceSourceColumn).toBeTruthy();
     });
   });
 
@@ -604,7 +663,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('should set selectedPriceSource to GQ', () => {
-      component['userHasManualPriceRole$'] = of(true);
+      component['rolesFacade'].userHasManualPriceRole$ = of(true);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           strategicPrice: 50,
@@ -624,7 +683,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('should set selectedPriceSource to SAP', () => {
-      component['userHasManualPriceRole$'] = of(true);
+      component['rolesFacade'].userHasManualPriceRole$ = of(true);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           sapPrice: 20,
@@ -644,7 +703,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('should set selectedPriceSource to TARGET_PRICE', () => {
-      component['userHasManualPriceRole$'] = of(true);
+      component['rolesFacade'].userHasManualPriceRole$ = of(true);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           targetPrice: 20,
@@ -666,7 +725,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('TARGET_PRICE should not be available as a price source if user does not have the role PRICE.MANUAL', () => {
-      component['userHasManualPriceRole$'] = of(false);
+      component['rolesFacade'].userHasManualPriceRole$ = of(false);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           recommendedPrice: 50,
@@ -685,7 +744,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('TARGET_PRICE should not be available as a price source if target price is not set', () => {
-      component['userHasManualPriceRole$'] = of(true);
+      component['rolesFacade'].userHasManualPriceRole$ = of(true);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           sapPrice: 1,
@@ -704,7 +763,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('GQ should not be available as a price source if recommended price and strategic price are not set', () => {
-      component['userHasManualPriceRole$'] = of(true);
+      component['rolesFacade'].userHasManualPriceRole$ = of(true);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           sapPrice: 1,
@@ -726,7 +785,7 @@ describe('ExtendedColumnHeaderComponent', () => {
     });
 
     test('SAP should not be available as a price source if SAP price is not set', () => {
-      component['userHasManualPriceRole$'] = of(true);
+      component['rolesFacade'].userHasManualPriceRole$ = of(true);
       component.params.api.getSelectedRows = jest.fn().mockReturnValue([
         {
           sapPrice: undefined,
