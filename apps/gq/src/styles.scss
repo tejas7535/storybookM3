@@ -160,6 +160,11 @@ button {
   }
 }
 
+.mat-mdc-form-field-type-mat-select.mat-form-field-appearance-outline
+  .mdc-notched-outline__notch {
+  @apply max-w-full #{!important};
+}
+
 mat-error,
 mat-hint {
   @apply text-caption;

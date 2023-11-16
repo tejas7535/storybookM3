@@ -84,7 +84,7 @@ describe('HeaderContentComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditCaseModalComponent,
         {
-          width: '480px',
+          width: '550px',
           data: {
             caseName: 'case-name',
             bindingPeriodValidityEndDate: undefined,
@@ -113,7 +113,7 @@ describe('HeaderContentComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditCaseModalComponent,
         {
-          width: '480px',
+          width: '550px',
           data: {
             caseName: 'case-name',
             bindingPeriodValidityEndDate: undefined,

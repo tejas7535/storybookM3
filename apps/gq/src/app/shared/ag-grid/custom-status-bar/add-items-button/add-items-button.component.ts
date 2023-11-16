@@ -35,7 +35,7 @@ export class AddItemsButtonComponent implements OnInit {
 
   showAddDialog(): void {
     this.dialog.open(AddMaterialDialogComponent, {
-      width: '70%',
+      width: '71%',
       height: '75%',
     });
   }

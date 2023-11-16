@@ -15,6 +15,8 @@ import { TranslocoService } from '@ngneat/transloco';
   templateUrl: './header-content.component.html',
 })
 export class HeaderContentComponent {
+  @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
+
   public gqHeader$: Observable<string>;
   public sapHeader$: Observable<string>;
   public editCaseNameMode = false;
@@ -31,7 +33,11 @@ export class HeaderContentComponent {
 
   public quotationStatus = QuotationStatus;
 
-  @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly matDialog: MatDialog,
+    private readonly transformationService: TransformationService
+  ) {}
 
   @Input() set quotation(value: Quotation) {
     if (value) {
@@ -89,16 +95,10 @@ export class HeaderContentComponent {
     }
   }
 
-  constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly matDialog: MatDialog,
-    private readonly transformationService: TransformationService
-  ) {}
-
   public openCaseEditingModal(): void {
     this.matDialog
       .open(EditCaseModalComponent, {
-        width: '480px',
+        width: '550px',
         data: {
           caseName: this.caseName,
           currency: this.currency,
