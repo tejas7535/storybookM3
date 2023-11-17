@@ -227,5 +227,5 @@ export const getQuotationDetailIsFNumber = createSelector(
 export const getQuotationHasRfqMaterials = createSelector(
   getQuotationDetails,
   (details: QuotationDetail[]): boolean =>
-    details?.some((singleDetail) => !!singleDetail.rfqData?.id) ?? false
+    details?.some((singleDetail) => !!singleDetail.rfqData?.rfqId) ?? false
 );

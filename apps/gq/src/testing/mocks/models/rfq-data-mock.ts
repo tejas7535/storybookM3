@@ -4,7 +4,7 @@ import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
 
 export const RFQ_DATA_MOCK: RfqData = {
-  id: 'rfq-1245',
+  rfqId: 'rfq-1245',
   materialNumber15: '123456789',
   productionPlant: {
     address: 'RfqAddress',

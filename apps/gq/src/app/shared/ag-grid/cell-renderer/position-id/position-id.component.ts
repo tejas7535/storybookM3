@@ -25,7 +25,7 @@ export class PositionIdComponent {
   agInit(params: CellClassParams): void {
     this.itemId = translate('shared.itemId', { id: params.value });
     this.gqPositionId = params.data.gqPositionId;
-    if (params.data.rfqData !== undefined) {
+    if (params.data.rfqData) {
       this.isRfq = true;
       this.toolTipText =
         params.data.rfqData.status === RfqStatus.OPEN

@@ -54,7 +54,7 @@ describe('PositionIdComponent', () => {
         data: {
           gqPositionId: '123',
           rfqData: {
-            id: '123',
+            rfqId: '123',
             status: RfqStatus.OPEN,
           },
         },
@@ -74,7 +74,7 @@ describe('PositionIdComponent', () => {
         data: {
           gqPositionId: '123',
           rfqData: {
-            id: '123',
+            rfqId: '123',
             status: RfqStatus.CLOSED,
           },
         },

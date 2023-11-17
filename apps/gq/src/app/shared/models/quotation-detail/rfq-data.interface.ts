@@ -3,7 +3,7 @@ import { RfqStatus } from './rfq-status.enum';
 import { RfqType } from './rfq-type.enum';
 
 export interface RfqData {
-  id: string;
+  rfqId: string;
   materialNumber15: string;
   sqv: number;
   productionPlant: Plant;

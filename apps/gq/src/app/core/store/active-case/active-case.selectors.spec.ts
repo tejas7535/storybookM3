@@ -558,7 +558,7 @@ describe('Active Case Selectors', () => {
     test('should return true if quotations has RFQ Materails', () => {
       expect(
         activeCaseSelectors.getQuotationHasRfqMaterials.projector([
-          { rfqData: { id: 1 } as unknown as RfqData } as QuotationDetail,
+          { rfqData: { rfqId: 1 } as unknown as RfqData } as QuotationDetail,
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
       ).toEqual(true);
