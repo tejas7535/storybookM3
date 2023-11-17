@@ -13,7 +13,7 @@
     "gqPrice": {
       "title": "GQ Pricing",
       "priceLabel": "Net Price",
-      "rating": "GQ-Rating",
+      "rating": "GQ Rating",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
       "gpmRfq": "GPM% (RFQ)",
