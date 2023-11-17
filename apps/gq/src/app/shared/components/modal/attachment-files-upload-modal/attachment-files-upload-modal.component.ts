@@ -79,8 +79,10 @@ export class AttachmentFilesUploadModalComponent {
               attachment.fileName.toLocaleLowerCase() ===
               fileList.item(i).name.toLocaleLowerCase()
           ),
-          unsupportedFileType: !SUPPORTED_FILE_TYPES.includes(
-            this.getFileExtension(fileList.item(i).name)
+          unsupportedFileType: !SUPPORTED_FILE_TYPES.some(
+            (type) =>
+              type.toLocaleLowerCase() ===
+              this.getFileExtension(fileList.item(i).name)
           ),
         };
         if (file) {
@@ -99,6 +101,6 @@ export class AttachmentFilesUploadModalComponent {
   }
 
   private getFileExtension(fileName: string): string {
-    return fileName.split('.').pop();
+    return fileName.split('.').pop().toLocaleLowerCase();
   }
 }

@@ -186,6 +186,31 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
       expect(component.filesToUpload).toEqual(expected);
     });
+
+    test('should add file and set unsupportedFileType to false if file type is uppercase', () => {
+      const mockFile: File[] = [{ name: 'file1.PDF', size: 2_000_000 } as File];
+      const expected: FilesToUploadDisplay[] = [
+        {
+          file: mockFile[0],
+          exists: false,
+          sizeExceeded: false,
+          unsupportedFileType: false,
+        },
+      ];
+      const mockEvent = {
+        target: {
+          files: {
+            length: 1,
+            item: (index: number) => mockFile[index],
+          },
+        },
+        preventDefault: jest.fn(),
+      } as any;
+
+      component.handleFileInput(mockEvent);
+
+      expect(component.filesToUpload).toEqual(expected);
+    });
   });
 
   describe('upload', () => {
