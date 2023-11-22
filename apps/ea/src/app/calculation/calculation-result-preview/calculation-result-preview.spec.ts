@@ -1,5 +1,4 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -16,6 +15,7 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultPreviewComponent } from './calculation-result-preview';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 const analyticsServiceMock = {
   logShowReport: jest.fn(),
@@ -40,7 +40,7 @@ describe('CalculationResultPreviewComponent', () => {
       MatIconTestingModule,
       MockModule(MatTooltipModule),
       MockModule(MatDividerModule),
-      MockModule(MatDialogModule),
+      MockModule(DialogModule),
 
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -59,7 +59,7 @@ describe('CalculationResultPreviewComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
-      { provide: MatDialog, useValue: dialogMock },
+      { provide: Dialog, useValue: dialogMock },
       {
         provide: EmbeddedGoogleAnalyticsService,
         useValue: analyticsServiceMock,

@@ -111,6 +111,30 @@ engineering-app {
     }
   }
 
+  #result-report {
+    max-width: 90vw;
+    min-height: 100svh;
+    @apply flex flex-col-reverse outline-none;
+    justify-content: start;
+    animation: upslide 0.25s forwards;
+    .dialog-parent {
+      background: #fff;
+      min-height: 95svh;
+      max-height: 95svh;
+      @apply px-6 pt-6 rounded-md shadow-lg flex flex-col justify-start;
+
+      .dialog-title {
+        @apply flex-shrink-0 flex-grow-0;
+      }
+
+      .dialog-body {
+        max-height: calc(82svh - 24px);
+        height: calc(82svh - 24px);
+        @apply overflow-y-auto;
+      }
+    }
+  }
+
   .mat-mdc-dialog-title {
     @apply py-0;
   }

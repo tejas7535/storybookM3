@@ -1,11 +1,8 @@
+import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -17,6 +14,7 @@ import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
+  SettingsFacade,
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
@@ -45,7 +43,6 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     PushPipe,
     MatIconModule,
     MatDividerModule,
-    MatDialogModule,
     MatButtonModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
@@ -60,6 +57,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     ExpansionPanelComponent,
     CalculationResultReportLargeItemsComponent,
     QualtricsInfoBannerComponent,
+    DialogModule,
   ],
   providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
@@ -86,12 +84,12 @@ export class CalculationResultReportComponent {
         ];
       })
     );
-
   constructor(
     public readonly calculationResultFacade: CalculationResultFacade,
     public readonly productSelectionFacade: ProductSelectionFacade,
     public readonly calculationParametersFacade: CalculationParametersFacade,
-    public readonly dialogRef: MatDialogRef<CalculationResultReportComponent>,
+    public readonly dialogRef: DialogRef<CalculationResultReportComponent>,
+    public readonly settingsFacade: SettingsFacade,
     private readonly meaningfulRoundPipe: MeaningfulRoundPipe,
     private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService,

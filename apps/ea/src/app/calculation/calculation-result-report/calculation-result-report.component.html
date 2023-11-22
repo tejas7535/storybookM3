@@ -1,270 +1,247 @@
-<ng-container *transloco="let t; read: 'calculationResultReport'">
-  <div mat-dialog-title class="flex flex-col gap-4 md:gap-8">
-    <div class="flex flex-row content-around justify-between pb-2 pr-2">
-      <button (click)="closeDialog()" mat-button color="primary">
-        <mat-icon class="!mr-0">arrow_back</mat-icon>
-        {{ 'general.back' | transloco }}
-      </button>
+<div class="dialog-parent">
+  <ng-container *transloco="let t; read: 'calculationResultReport'">
+    <div class="flex flex-col dialog-title justify-between">
+      <div class="flex flex-row content-around justify-between pb-2 pr-2">
+        <button (click)="closeDialog()" mat-button color="primary">
+          <mat-icon class="!mr-0">arrow_back</mat-icon>
+          {{ 'general.back' | transloco }}
+        </button>
+      </div>
+      <div class="text-h6 text-high-emphasis mb-4">
+        {{
+          t('dialogTitle', {
+            bearingDesignation:
+              productSelectionFacade.bearingDesignation$ | ngrxPush
+          })
+        }}
+      </div>
     </div>
-    <ea-qualtrics-info-banner class="md:mr-[255px]"> </ea-qualtrics-info-banner>
-    <div class="text-h6 text-high-emphasis mb-4 md:mb-8">
-      {{
-        t('dialogTitle', {
-          bearingDesignation:
-            productSelectionFacade.bearingDesignation$ | ngrxPush
-        })
-      }}
-    </div>
-  </div>
 
-  <mat-dialog-content class="h-full md:px-6 px-2">
-    <div class="flex h-full flex-row justify-between">
-      <div
-        class="md:overflow-y-auto md:overflow-x-hidden w-full md:pr-4 md:max-w-[80vw] md:w-full"
-      >
-        <!-- CO2 input notes -->
-        <ea-expansion-panel
-          *ngIf="
-            calculationResultFacade.calculationReportInput$
-              | ngrxPush as calculationInput
-          "
-          [title]="t('reportSectionInput')"
+    <div class="h-full px-2 dialog-body">
+      <div class="flex h-full flex-row justify-between">
+        <div
+          class="md:overflow-y-auto md:overflow-x-hidden w-full md:pr-4 md:max-w-[80vw] md:w-full"
         >
-          <ea-calculation-result-report-input
-            [ignoreFormattingDesignation]="['Designation']"
-            [reportInput]="calculationInput"
-          >
-          </ea-calculation-result-report-input>
-        </ea-expansion-panel>
-
-        <!-- Rating life -->
-        <ng-container
-          *transloco="let t; read: 'calculationResultReport.ratingLife'"
-        >
+          <ea-qualtrics-info-banner class="md:mr-[255px]">
+          </ea-qualtrics-info-banner>
+          <span class="block w-full h-4"></span>
+          <!-- CO2 input notes -->
           <ea-expansion-panel
             *ngIf="
-              calculationResultFacade.isRatingLifeResultAvailable$ | ngrxPush
+              calculationResultFacade.calculationReportInput$
+                | ngrxPush as calculationInput
             "
-            id="ratingLife"
-            icon="animation"
-            [title]="t('title')"
-            [expanded]="
-              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
-                ?.ratingLife.selected === true
-            "
+            [title]="t('reportSectionInput')"
           >
-            <ea-calculation-result-report-large-items
-              *ngIf="
-                calculationResultFacade.calculationReportRatingLife$
-                  | ngrxPush as ratingLife
-              "
-              [items]="ratingLife"
-              translocoRoot="calculationResultReport.ratingLife"
-            ></ea-calculation-result-report-large-items>
+            <ea-calculation-result-report-input
+              [ignoreFormattingDesignation]="['Designation']"
+              [reportInput]="calculationInput"
+            >
+            </ea-calculation-result-report-input>
           </ea-expansion-panel>
-        </ng-container>
 
-        <!-- Frictional power loss -->
-        <ng-container
-          *transloco="
-            let t;
-            read: 'calculationResultReport.frictionalPowerloss'
-          "
-        >
-          <ea-expansion-panel
-            *ngIf="
-              calculationResultFacade.isFrictionResultAvailable$ | ngrxPush
-            "
-            id="frictionalPowerloss"
-            icon="compress"
-            [title]="t('title')"
-            [expanded]="
-              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
-                ?.frictionalPowerloss.selected === true
-            "
+          <!-- Rating life -->
+          <ng-container
+            *transloco="let t; read: 'calculationResultReport.ratingLife'"
           >
-            <ea-calculation-result-report-large-items
+            <ea-expansion-panel
               *ngIf="
-                calculationResultFacade.calculationReportFrictionalPowerloss$
-                  | ngrxPush as frictionalPowerloss;
-                else calculationNotAvailable
+                calculationResultFacade.isRatingLifeResultAvailable$ | ngrxPush
               "
-              [items]="frictionalPowerloss"
-              translocoRoot="calculationResultReport.frictionalPowerloss"
-            ></ea-calculation-result-report-large-items>
-          </ea-expansion-panel>
-        </ng-container>
-
-        <!-- Lubrication Parameters -->
-        <ng-container
-          *transloco="let t; read: 'calculationResultReport.lubrication'"
-        >
-          <ea-expansion-panel
-            *ngIf="
-              calculationResultFacade.isLubricationResultAvailable$ | ngrxPush
-            "
-            id="lubrication"
-            svgIcon="water_drop"
-            [title]="t('title')"
-            [expanded]="
-              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
-                ?.lubrication.selected === true
-            "
-          >
-            <ea-calculation-result-report-large-items
-              *ngIf="
-                calculationResultFacade.calculationReportLubrication$
-                  | ngrxPush as ratingLife
-              "
-              [items]="ratingLife"
-              translocoRoot="calculationResultReport.lubrication"
-            ></ea-calculation-result-report-large-items>
-          </ea-expansion-panel>
-        </ng-container>
-
-        <!-- CO2 Emissions -->
-        <ng-container
-          *transloco="let t; read: 'calculationResultReport.co2Emissions'"
-        >
-          <ea-expansion-panel
-            *ngIf="
-              calculationResultFacade.isEmissionResultAvailable$ | ngrxPush
-            "
-            id="emission"
-            svgIcon="co2"
-            [title]="t('title')"
-            [titleTooltip]="'calculationResult.emissionsTooltip' | transloco"
-            [expanded]="
-              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
-                ?.emission.selected === true
-            "
-          >
-            <div
-              class="text-body-2 border-border flex w-full flex-col border-t"
-              *ngIf="
-                calculationResultFacade.calculationReportCO2Emission$
-                  | ngrxPush as co2Emissions
+              id="ratingLife"
+              icon="animation"
+              [title]="t('title')"
+              [expanded]="
+                (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                  ?.ratingLife.selected === true
               "
             >
               <ea-calculation-result-report-large-items
-                class="w-full"
-                translocoRoot="calculationResultReport.co2Emissions"
-                [items]="co2ResultItem$ | ngrxPush"
+                *ngIf="
+                  calculationResultFacade.calculationReportRatingLife$
+                    | ngrxPush as ratingLife
+                "
+                [items]="ratingLife"
+                translocoRoot="calculationResultReport.ratingLife"
               ></ea-calculation-result-report-large-items>
-              <div class="text-medium-emphasis py-4 px-4 md:px-8">
-                <div class="md:mx-2">
-                  {{ t('upstreamHint') }} -
+            </ea-expansion-panel>
+          </ng-container>
+
+          <!-- Frictional power loss -->
+          <ng-container
+            *transloco="
+              let t;
+              read: 'calculationResultReport.frictionalPowerloss'
+            "
+          >
+            <ea-expansion-panel
+              *ngIf="
+                calculationResultFacade.isFrictionResultAvailable$ | ngrxPush
+              "
+              id="frictionalPowerloss"
+              icon="compress"
+              [title]="t('title')"
+              [expanded]="
+                (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                  ?.frictionalPowerloss.selected === true
+              "
+            >
+              <ea-calculation-result-report-large-items
+                *ngIf="
+                  calculationResultFacade.calculationReportFrictionalPowerloss$
+                    | ngrxPush as frictionalPowerloss;
+                  else calculationNotAvailable
+                "
+                [items]="frictionalPowerloss"
+                translocoRoot="calculationResultReport.frictionalPowerloss"
+              ></ea-calculation-result-report-large-items>
+            </ea-expansion-panel>
+          </ng-container>
+
+          <!-- Lubrication Parameters -->
+          <ng-container
+            *transloco="let t; read: 'calculationResultReport.lubrication'"
+          >
+            <ea-expansion-panel
+              *ngIf="
+                calculationResultFacade.isLubricationResultAvailable$ | ngrxPush
+              "
+              id="lubrication"
+              svgIcon="water_drop"
+              [title]="t('title')"
+              [expanded]="
+                (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                  ?.lubrication.selected === true
+              "
+            >
+              <ea-calculation-result-report-large-items
+                *ngIf="
+                  calculationResultFacade.calculationReportLubrication$
+                    | ngrxPush as ratingLife
+                "
+                [items]="ratingLife"
+                translocoRoot="calculationResultReport.lubrication"
+              ></ea-calculation-result-report-large-items>
+            </ea-expansion-panel>
+          </ng-container>
+
+          <!-- CO2 Emissions -->
+          <ng-container
+            *transloco="let t; read: 'calculationResultReport.co2Emissions'"
+          >
+            <ea-expansion-panel
+              *ngIf="
+                calculationResultFacade.isEmissionResultAvailable$ | ngrxPush
+              "
+              id="emission"
+              svgIcon="co2"
+              [title]="t('title')"
+              [titleTooltip]="'calculationResult.emissionsTooltip' | transloco"
+              [expanded]="
+                (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                  ?.emission.selected === true
+              "
+            >
+              <div
+                class="text-body-2 border-border flex w-full flex-col border-t"
+                *ngIf="
+                  calculationResultFacade.calculationReportCO2Emission$
+                    | ngrxPush as co2Emissions
+                "
+              >
+                <ea-calculation-result-report-large-items
+                  class="w-full"
+                  translocoRoot="calculationResultReport.co2Emissions"
+                  [items]="co2ResultItem$ | ngrxPush"
+                ></ea-calculation-result-report-large-items>
+                <div class="text-medium-emphasis py-4 px-4 md:px-8">
+                  <div class="md:mx-2">
+                    {{ t('upstreamHint') }} -
+                    <a
+                      class="text-primary"
+                      (click)="showCalculationDisclaimerDialog()"
+                      role="button"
+                      >{{ t('upstreamHintLinkText') }}</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <div
+                class="border-border flex flex-row items-center border-t px-4 py-2"
+              >
+                <div class="mr-2 flex-shrink-0">
+                  <mat-icon color="primary">info_outline</mat-icon>
+                </div>
+                <div class="text-body-2 text-medium-emphasis">
+                  {{ t('calculationHint') }} -
                   <a
                     class="text-primary"
-                    (click)="showCalculationDisclaimerDialog()"
+                    [href]="t('calculationHintLink')"
                     role="button"
-                    >{{ t('upstreamHintLinkText') }}</a
+                    target="_blank"
+                    >{{ t('calculationHintLinkText') }}</a
                   >
                 </div>
               </div>
-            </div>
-            <div
-              class="border-border flex flex-row items-center border-t px-4 py-2"
-            >
-              <div class="mr-2 flex-shrink-0">
-                <mat-icon color="primary">info_outline</mat-icon>
-              </div>
-              <div class="text-body-2 text-medium-emphasis">
-                {{ t('calculationHint') }} -
-                <a
-                  class="text-primary"
-                  [href]="t('calculationHintLink')"
-                  role="button"
-                  target="_blank"
-                  >{{ t('calculationHintLinkText') }}</a
-                >
-              </div>
-            </div>
-          </ea-expansion-panel>
-        </ng-container>
+            </ea-expansion-panel>
+          </ng-container>
 
-        <!--- Overrolling frequencies -->
-        <ng-container
-          *transloco="
-            let t;
-            read: 'calculationResultReport.overrollingFrequencies'
-          "
-        >
-          <ea-expansion-panel
-            id="overrollingFrequency"
-            svgIcon="airwaves"
-            *ngIf="
-              calculationResultFacade.isOverrollingFrequenciesAvailable$
-                | ngrxPush
-            "
-            [title]="t('title')"
-            [expanded]="
-              (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
-                ?.overrollingFrequency.selected
+          <!--- Overrolling frequencies -->
+          <ng-container
+            *transloco="
+              let t;
+              read: 'calculationResultReport.overrollingFrequencies'
             "
           >
-            <ea-calculation-result-report-large-items
+            <ea-expansion-panel
+              id="overrollingFrequency"
+              svgIcon="airwaves"
               *ngIf="
-                calculationResultFacade.getOverrollingFrequencies$
-                  | ngrxPush as overrollingFrequencies
+                calculationResultFacade.isOverrollingFrequenciesAvailable$
+                  | ngrxPush
               "
-              [items]="overrollingFrequencies"
-              translocoRoot="calculationResultReport.overrollingFrequencies"
-              [firstItemLarge]="false"
-            ></ea-calculation-result-report-large-items>
-          </ea-expansion-panel>
-        </ng-container>
-
-        <!-- Errors, Warnings and notes -->
-        <ea-expansion-panel
-          *ngIf="
-            calculationResultFacade.calculationReportMessages$
-              | ngrxPush as reportMessages
-          "
-          [title]="t('reportSectionWarnings')"
-          icon="report_problem"
-          [iconClassName]="'!text-icon-warning'"
-          [expanded]="
-            !!(calculationResultFacade.getCatalogCalculationError$ | ngrxPush)
-          "
-        >
-          <div class="px-4 md:px-8 py-4">
-            <ea-calculation-result-message
-              *ngFor="let message of reportMessages"
-              [title]="message.title"
-              [item]="message.item"
+              [title]="t('title')"
+              [expanded]="
+                (calculationParametersFacade.getCalculationTypes$ | ngrxPush)
+                  ?.overrollingFrequency.selected
+              "
             >
-            </ea-calculation-result-message>
-          </div>
-        </ea-expansion-panel>
-        <!-- Mobile PDF Button --->
-        <ng-container *transloco="let t; read: 'calculationSelection'">
-          <button
-            (click)="downloadPdfReport()"
-            *ngIf="isDownloadButtonVisible()"
-            [disabled]="
-              (calculationResultFacade.isPDFReportAvailable$ | async) === false
-            "
-            class="hover:bg-secondary-100 mx-auto max-w-sm md:hidden hover:text-primary text-center mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
-          >
-            <mat-icon class="shrink-0 aspect-square">download</mat-icon>
-            <span class="uppercase block w-full flex-grow">{{
-              t('saveAsPDF')
-            }}</span>
-          </button>
-        </ng-container>
-      </div>
+              <ea-calculation-result-report-large-items
+                *ngIf="
+                  calculationResultFacade.getOverrollingFrequencies$
+                    | ngrxPush as overrollingFrequencies
+                "
+                [items]="overrollingFrequencies"
+                translocoRoot="calculationResultReport.overrollingFrequencies"
+                [firstItemLarge]="false"
+              ></ea-calculation-result-report-large-items>
+            </ea-expansion-panel>
+          </ng-container>
 
-      <!-- Right Hand Navigation -->
-      <div
-        class="text-medium-emphasis ml-8 md:flex md:min-w-[250px] h-full mb-auto flex-row hidden"
-        *transloco="let t; read: 'calculationSelection'"
-      >
-        <mat-divider [vertical]="true"></mat-divider>
-        <div
-          class="mb-2 ml-8 mr-4 w-full md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:pr-4"
-        >
-          <div class="mb-4">
+          <!-- Errors, Warnings and notes -->
+          <ea-expansion-panel
+            *ngIf="
+              calculationResultFacade.calculationReportMessages$
+                | ngrxPush as reportMessages
+            "
+            [title]="t('reportSectionWarnings')"
+            icon="report_problem"
+            [iconClassName]="'!text-icon-warning'"
+            [expanded]="
+              !!(calculationResultFacade.getCatalogCalculationError$ | ngrxPush)
+            "
+          >
+            <div class="px-4 md:px-8 py-4">
+              <ea-calculation-result-message
+                *ngFor="let message of reportMessages"
+                [title]="message.title"
+                [item]="message.item"
+              >
+              </ea-calculation-result-message>
+            </div>
+          </ea-expansion-panel>
+          <!-- Mobile PDF Button --->
+          <ng-container *transloco="let t; read: 'calculationSelection'">
             <button
               (click)="downloadPdfReport()"
               *ngIf="isDownloadButtonVisible()"
@@ -272,76 +249,113 @@
                 (calculationResultFacade.isPDFReportAvailable$ | async) ===
                 false
               "
-              class="hover:bg-secondary-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+              class="hover:bg-secondary-100 mx-auto max-w-sm md:hidden hover:text-primary text-center mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
             >
               <mat-icon class="shrink-0 aspect-square">download</mat-icon>
               <span class="uppercase block w-full flex-grow">{{
                 t('saveAsPDF')
               }}</span>
             </button>
-          </div>
+            <span
+              class="block w-full"
+              [ngClass]="{
+                'h-9': settingsFacade.isResultPreviewSticky$ | ngrxPush,
+                'h-32': (settingsFacade.isStandalone$ | ngrxPush) === false
+              }"
+            ></span>
+          </ng-container>
+        </div>
 
-          <div class="mb-2">
-            <div class="flex items-center justify-center">
-              <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
-              <div>{{ t('calculations') }}</div>
-            </div>
-          </div>
-          <mat-divider></mat-divider>
+        <!-- Right Hand Navigation -->
+        <div
+          class="text-medium-emphasis ml-8 md:flex md:min-w-[250px] h-full mb-auto flex-row hidden"
+          *transloco="let t; read: 'calculationSelection'"
+        >
+          <mat-divider [vertical]="true"></mat-divider>
           <div
-            class="flex pt-4 flex-col"
-            *ngIf="
-              calculationResultFacade.getCalculationsWithResult$
-                | ngrxPush as getCalculationsWithResult
-            "
+            class="mb-2 ml-8 mr-4 w-full md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:pr-4"
           >
+            <div class="mb-4">
+              <button
+                (click)="downloadPdfReport()"
+                *ngIf="isDownloadButtonVisible()"
+                [disabled]="
+                  (calculationResultFacade.isPDFReportAvailable$ | async) ===
+                  false
+                "
+                class="hover:bg-secondary-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+              >
+                <mat-icon class="shrink-0 aspect-square">download</mat-icon>
+                <span class="uppercase block w-full flex-grow">{{
+                  t('saveAsPDF')
+                }}</span>
+              </button>
+            </div>
+
+            <div class="mb-2">
+              <div class="flex items-center justify-center">
+                <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
+                <div>{{ t('calculations') }}</div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
             <div
-              *ngFor="let config of getCalculationsWithResult"
-              (click)="scrollIntoView(config.name)"
-              class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
+              class="flex pt-4 flex-col"
+              *ngIf="
+                calculationResultFacade.getCalculationsWithResult$
+                  | ngrxPush as getCalculationsWithResult
+              "
             >
-              <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon">{{
-                config.icon
-              }}</mat-icon>
-              <div class="text-subtitle-2 whitespace-normal">
-                {{ t(config.label) }}
+              <div
+                *ngFor="let config of getCalculationsWithResult"
+                (click)="scrollIntoView(config.name)"
+                class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
+              >
+                <mat-icon
+                  class="mr-2 flex-shrink-0"
+                  [svgIcon]="config.svgIcon"
+                  >{{ config.icon }}</mat-icon
+                >
+                <div class="text-subtitle-2 whitespace-normal">
+                  {{ t(config.label) }}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </mat-dialog-content>
 
-  <ng-template #loadingTemplate>
-    <div class="item-center flex content-center p-8">
-      <div class="ml-auto mr-auto">
-        <mat-spinner diameter="20"></mat-spinner>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template #calculationNotAvailable>
-    <div
-      class="item-center flex content-center p-4 md:p-8 w-full border-border border-t"
-    >
-      <ea-info-banner [className]="'w-full'">
-        <div class="flex w-full flex-col">
-          <div>{{ t('calculationNotAvailable.line1') }}</div>
-          <div>
-            {{ t('calculationNotAvailable.line2') }}
-            <a
-              [href]="t('calculationNotAvailable.link')"
-              class="underline"
-              target="_blank"
-              >{{ t('calculationNotAvailable.linkText') }}
-              <mat-icon class="align-middle" [inline]="true"
-                >open_in_new</mat-icon
-              >
-            </a>
-          </div>
+    <ng-template #loadingTemplate>
+      <div class="item-center flex content-center p-8">
+        <div class="ml-auto mr-auto">
+          <mat-spinner diameter="20"></mat-spinner>
         </div>
-      </ea-info-banner>
-    </div>
-  </ng-template>
-</ng-container>
+      </div>
+    </ng-template>
+
+    <ng-template #calculationNotAvailable>
+      <div
+        class="item-center flex content-center p-4 md:p-8 w-full border-border border-t"
+      >
+        <ea-info-banner [className]="'w-full'">
+          <div class="flex w-full flex-col">
+            <div>{{ t('calculationNotAvailable.line1') }}</div>
+            <div>
+              {{ t('calculationNotAvailable.line2') }}
+              <a
+                [href]="t('calculationNotAvailable.link')"
+                class="underline"
+                target="_blank"
+                >{{ t('calculationNotAvailable.linkText') }}
+                <mat-icon class="align-middle" [inline]="true"
+                  >open_in_new</mat-icon
+                >
+              </a>
+            </div>
+          </div>
+        </ea-info-banner>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

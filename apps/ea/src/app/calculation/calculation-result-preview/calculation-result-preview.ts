@@ -1,7 +1,7 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -54,18 +54,11 @@ export class CalculationResultPreviewComponent {
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly analyticsService: EmbeddedGoogleAnalyticsService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly dialog: MatDialog
+    private readonly dialog: Dialog
   ) {}
 
   showReport() {
     this.analyticsService.logShowReport();
-    this.dialog.open(CalculationResultReportComponent, {
-      autoFocus: false,
-      hasBackdrop: true,
-      panelClass: 'dialog-upwards-animation',
-      enterAnimationDuration: '0s',
-      width: '90vw',
-      maxWidth: '90vw',
-    });
+    this.dialog.open(CalculationResultReportComponent, { id: 'result-report' });
   }
 }

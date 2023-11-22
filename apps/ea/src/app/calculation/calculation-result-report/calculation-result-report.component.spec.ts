@@ -1,5 +1,4 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -14,6 +13,7 @@ import resize_observer_polyfill from 'resize-observer-polyfill';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultReportComponent } from './calculation-result-report.component';
+import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 
 window.ResizeObserver = resize_observer_polyfill;
 
@@ -32,7 +32,7 @@ describe('CalculationResultReportComponent', () => {
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
-
+      MockModule(DialogModule),
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
@@ -47,7 +47,7 @@ describe('CalculationResultReportComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
-      { provide: MatDialogRef, useValue: dialogRefMock },
+      { provide: DialogRef, useValue: dialogRefMock },
     ],
   });
 

@@ -22,6 +22,7 @@
     "e2e": "ng e2e",
     "embed-app:iframe": "http-server tools/embedded/iframe",
     "embed-app:webcomponent": "http-server tools/embedded/webcomponent",
+    "embed-app:ea": "npm run embed-app:webcomponent & nx run ea:build:local --watch & http-server --cors --c-1 --port 8000 dist/apps/ea",
     "force-resolutions": "npx npm-force-resolutions && npx nx format:write --files=package-lock.json",
     "format:check": "nx format:check",
     "format:write": "nx format:write",
