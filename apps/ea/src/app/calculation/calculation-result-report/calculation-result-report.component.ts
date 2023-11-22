@@ -75,7 +75,7 @@ export class CalculationResultReportComponent {
 
         return [
           {
-            value: this.meaningfulRoundPipe.transform(result.co2_upstream),
+            value: result.co2_upstream,
             unit: 'kg',
             short: unit,
             title: 'upstreamTitle',
@@ -90,7 +90,6 @@ export class CalculationResultReportComponent {
     public readonly calculationParametersFacade: CalculationParametersFacade,
     public readonly dialogRef: DialogRef<CalculationResultReportComponent>,
     public readonly settingsFacade: SettingsFacade,
-    private readonly meaningfulRoundPipe: MeaningfulRoundPipe,
     private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService,
     private readonly trackingService: EmbeddedGoogleAnalyticsService,
