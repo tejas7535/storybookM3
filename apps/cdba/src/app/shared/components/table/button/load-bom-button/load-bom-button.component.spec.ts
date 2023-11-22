@@ -1,6 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -95,7 +95,7 @@ describe('LoadBomButtonComponent', () => {
       component['gridApi'] = params.api;
 
       expect(spectator.query('button')).toBeDisabled();
-      expect(spectator.query('div')).toHaveClass('mat-tooltip-trigger');
+      expect(spectator.query('div')).toHaveClass('mat-mdc-tooltip-trigger');
     });
   });
 });

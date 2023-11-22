@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  LegacyTextOnlySnackBar as TextOnlySnackBar,
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarRef as MatSnackBarRef,
-} from '@angular/material/legacy-snack-bar';
+  TextOnlySnackBar,
+  MatSnackBar,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 
 import { TranslocoService } from '@ngneat/transloco';
 

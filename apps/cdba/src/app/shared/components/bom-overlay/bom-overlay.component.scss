@@ -3,10 +3,9 @@
   height: 100%;
 
   ::ng-deep {
-    .mat-tab-group {
+    .mat-mdc-tab-group {
       height: calc(100% - 50px);
-
-      .mat-tab-body-wrapper {
+      .mat-mdc-tab-body-wrapper {
         height: 100%;
       }
     }

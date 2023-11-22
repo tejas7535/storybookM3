@@ -5,7 +5,7 @@ import {
   MatExpansionModule,
   MatExpansionPanelDefaultOptions,
 } from '@angular/material/expansion';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 
 import { PushPipe } from '@ngrx/component';
 

@@ -1,5 +1,11 @@
 <div class="flex h-full flex-col">
-  <nav class="bg-surface" mat-tab-nav-bar mat-stretch-tabs *transloco="let t">
+  <nav
+    class="bg-surface"
+    mat-tab-nav-bar
+    mat-stretch-tabs
+    [tabPanel]="tabPanel"
+    *transloco="let t"
+  >
     <a
       *ngFor="let tab of tabs; trackBy: trackByFn"
       mat-tab-link
@@ -13,6 +19,8 @@
     </a>
   </nav>
   <div class="w-full grow">
-    <router-outlet></router-outlet>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
   </div>
 </div>

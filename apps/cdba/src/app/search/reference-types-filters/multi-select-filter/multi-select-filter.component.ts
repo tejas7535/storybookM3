@@ -21,7 +21,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Subscription } from 'rxjs';
 
@@ -94,8 +93,6 @@ export class MultiSelectFilterComponent
             ({
               id: x.id,
               title: x.title,
-              tooltip: x.tooltip,
-              tooltipDelay: x.tooltipDelay,
             } as StringOption)
         )
         .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id));
@@ -159,8 +156,6 @@ export class MultiSelectFilterComponent
             ({
               id: x.id,
               title: x.title,
-              tooltip: x.tooltip,
-              tooltipDelay: x.tooltipDelay,
             } as StringOption)
         );
 
@@ -265,7 +260,6 @@ export class MultiSelectFilterComponent
     PushModule,
     MatSliderModule,
     MatCheckboxModule,
-    MatTooltipModule,
     MatProgressSpinnerModule,
     MaterialNumberModule,
     TranslocoModule,

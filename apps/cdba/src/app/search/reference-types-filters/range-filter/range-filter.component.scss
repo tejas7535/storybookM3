@@ -2,10 +2,32 @@
   margin-left: 4px;
   margin-top: 30px;
   min-width: 233px !important;
-  width: 233px !important;
+  // width: 233px !important;
+
+  max-height: fit-content !important;
 
   &.ng-animating {
     visibility: hidden;
+  }
+}
+
+::ng-deep .range-menu {
+  .mat-mdc-text-field-wrapper {
+    background: transparent !important;
+    padding: unset;
+  }
+
+  .mat-mdc-form-field-infix {
+    width: fit-content;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+    display: none;
+  }
+
+  .mat-mdc-form-field-flex {
+    height: 35px;
+    align-items: center;
   }
 }
 
@@ -19,13 +41,26 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-::ng-deep .mat-slider-wrapper {
-  .mat-slider-thumb-container {
-    .mat-slider-thumb-label {
-      height: 40px;
-      right: -22px;
-      top: -52px;
-      width: 40px;
-    }
-  }
+mat-option {
+  @apply hidden;
+}
+
+.label-form-field {
+  @apply grid;
+  @apply grid-cols-2;
+  @apply items-center;
+  @apply gap-1;
+  @apply h-min;
+}
+
+.label-form-field input {
+  text-align: right;
+}
+
+.form-field {
+  width: 100% !important;
+}
+
+.slider-icon {
+  @apply flex items-center gap-4 px-3 pt-3;
 }

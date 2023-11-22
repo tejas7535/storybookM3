@@ -21,75 +21,97 @@
     </mat-select-trigger>
     <mat-option class="!h-0" value="selected"></mat-option>
     <div class="flex flex-col p-2">
-      <div class="grid grid-cols-2 items-center gap-1">
+      <div class="label-form-field">
         <div class="text-caption">Min. {{ t('names.' + filter?.name) }}</div>
-        <div>
-          <mat-form-field class="h-[42px] !w-full !text-right">
-            <input
-              #minInput
-              matInput
-              autocomplete="off"
-              [value]="
-                filter.minSelected
-                  ? (filter.minSelected | translocoDecimal: decimalNumberFormat)
-                  : (filter.min | translocoDecimal: decimalNumberFormat)
-              "
-              [max]="filter.max"
-              [min]="filter.min"
-              (change)="update(inputType.Min, minInput.value)"
-            />
-            <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
-          </mat-form-field>
-        </div>
+        <mat-form-field class="form-field">
+          <input
+            #minInput
+            matInput
+            autocomplete="off"
+            [value]="
+              filter.minSelected
+                ? (filter.minSelected | translocoDecimal: decimalNumberFormat)
+                : (filter.min | translocoDecimal: decimalNumberFormat)
+            "
+            [max]="filter.max"
+            [min]="filter.min"
+            (change)="update(inputType.Min, minInput.value)"
+          />
+          <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
+        </mat-form-field>
       </div>
-      <div class="flex items-center gap-1">
+      <div class="slider-icon pb-3">
         <mat-slider
-          thumbLabel
+          #minSlider
+          discrete
           color="primary"
           class="flex-1"
-          [value]="filter.minSelected ? filter.minSelected : filter.min"
           [max]="filter.max"
           [min]="filter.min"
           [displayWith]="formatSliderThumbLabel"
-          (change)="update(inputType.Min, $event.value)"
-        >
+          ><input
+            #minSliderThumb
+            matSliderThumb
+            [value]="filter.minSelected ? filter.minSelected : filter.min"
+            (change)="
+              update(
+                inputType.Min,
+                {
+                  source: minSliderThumb,
+                  parent: minSlider,
+                  value: minSliderThumb.value
+                }.value
+              )
+            "
+          />
         </mat-slider>
         <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Min)"
           >restore</mat-icon
         >
       </div>
-      <div class="grid grid-cols-2 items-center gap-1">
+      <div class="label-form-field">
         <div class="text-caption">Max. {{ t('names.' + filter?.name) }}</div>
-        <div>
-          <mat-form-field class="h-[42px] !w-full !text-right">
-            <input
-              #maxInput
-              matInput
-              autocomplete="off"
-              [value]="
-                filter.maxSelected
-                  ? (filter.maxSelected | translocoDecimal: decimalNumberFormat)
-                  : (filter.max | translocoDecimal: decimalNumberFormat)
-              "
-              [max]="filter.max"
-              [min]="filter.min"
-              (change)="update(inputType.Max, maxInput.value)"
-            />
-            <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
-          </mat-form-field>
-        </div>
+        <mat-form-field class="form-field">
+          <input
+            #maxInput
+            matInput
+            autocomplete="off"
+            [value]="
+              filter.maxSelected
+                ? (filter.maxSelected | translocoDecimal: decimalNumberFormat)
+                : (filter.max | translocoDecimal: decimalNumberFormat)
+            "
+            [max]="filter.max"
+            [min]="filter.min"
+            (change)="update(inputType.Max, maxInput.value)"
+          />
+          <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
+        </mat-form-field>
       </div>
-      <div class="flex items-center gap-1">
+      <div class="slider-icon">
         <mat-slider
-          thumbLabel
+          #maxSlider
+          discrete
           color="primary"
           class="flex-1"
-          [value]="filter.maxSelected ? filter.maxSelected : filter.max"
           [max]="filter.max"
           [min]="filter.min"
           [displayWith]="formatSliderThumbLabel"
-          (change)="update(inputType.Max, $event.value)"
-        >
+          ><input
+            #maxSliderThumb
+            matSliderThumb
+            [value]="filter.maxSelected ? filter.maxSelected : filter.max"
+            (change)="
+              update(
+                inputType.Max,
+                {
+                  source: maxSliderThumb,
+                  parent: maxSlider,
+                  value: maxSliderThumb.value
+                }.value
+              )
+            "
+          />
         </mat-slider>
         <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Max)"
           >restore</mat-icon

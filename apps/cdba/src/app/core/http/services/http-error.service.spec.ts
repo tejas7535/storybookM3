@@ -1,8 +1,5 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 

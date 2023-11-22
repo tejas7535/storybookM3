@@ -48,17 +48,31 @@ button {
   outline: none !important;
 }
 
+// disable focus ripple effect
+.mdc-checkbox__ripple {
+  @apply hidden;
+}
+
+// set theme color for sliders
+.mdc-slider__value-indicator {
+  background-color: var(--mdc-theme-primary, #00893e) !important;
+  opacity: 1 !important;
+}
+
 // custom overrides for ag grid
 .ag-theme-material {
   --ag-font-family: 'Noto sans';
+
   .ag-row {
     border-color: rgba($color: #000000, $alpha: 0.12);
     border-top: none;
     border-width: 0.5px;
   }
+
   .ag-row-hover::before {
     opacity: 0.15;
   }
+
   .ag-column-panel {
     border-left: 1px solid ag-param(border-color);
     border-right: 1px solid ag-param(border-color);
