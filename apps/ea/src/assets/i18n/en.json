@@ -12,9 +12,24 @@
     "title": "Operating conditions for bearing {{bearingDesignation}}",
     "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
     "showPresetCalculationParameters": "Show preset calculation parameters",
+    "addLoadCase": "Add loadcase",
     "loads": "Load",
     "radialLoad": "Radial load",
     "axialLoad": "Axial load",
+    "totalAmountOfTime": "Total Amount of time:",
+    "loadCaseName": "Loadcase {{number}}",
+    "generalInputsTitle": "General Inputs",
+    "generalInputsTitleTooltip": "This applies to all loadcases",
+    "operatingTime": {
+      "title": "Operating time",
+      "label": "Percentage"
+    },
+    "confirmationDialog": {
+      "title": "Confirm deletion",
+      "description": "Are you sure you want to delete loadcase?",
+      "cancelAction": "Cancel",
+      "confirmationAction": "Confirm"
+    },
     "resetInputs": "Reset inputs",
     "pleaseEnter": "Enter {{label}}",
     "tooltip": {
@@ -30,6 +45,7 @@
       "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required",
       "viscosity": "ny40 must be greater than ny100",
+      "operatingTimeValueTotal": "Total amount of loadcases cannot exceed 100%",
       "tmpBoundViolation": "Operating temperature must be higher than ambient temperature"
     },
     "rotatingCondition": {

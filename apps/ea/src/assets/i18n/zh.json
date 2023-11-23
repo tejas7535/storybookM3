@@ -12,9 +12,24 @@
     "title": "{{bearingDesignation}} 轴承的工作条件",
     "prototypeWarning": "该开发原型中所示的数值是假设值，不能用于生产",
     "showPresetCalculationParameters": "显示预设的计算参数",
+    "addLoadCase": "新增载荷案例",
     "loads": "负载",
     "radialLoad": "径向负载",
     "axialLoad": "轴向负载",
+    "totalAmountOfTime": "总时间:",
+    "loadCaseName": "荷载情境 {{number}}",
+    "generalInputsTitle": "一般输入",
+    "generalInputsTitleTooltip": "适用于所有负载案例",
+    "operatingTime": {
+      "title": "操作时间",
+      "label": "百分比"
+    },
+    "confirmationDialog": {
+      "title": "确认删除",
+      "description": "您确定要删除负载吗？",
+      "cancelAction": "取消",
+      "confirmationAction": "确认"
+    },
     "resetInputs": "重置输入",
     "pleaseEnter": "请输入 {{label}}",
     "tooltip": {
@@ -30,6 +45,7 @@
       "minMaxInconsistent": "最小值必须小于最大值",
       "anyLoad": "至少需要一个负载",
       "viscosity": "ny40 必须大于 ny100",
+      "operatingTimeValueTotal": "负载案例的总数不能超过100%。",
       "tmpBoundViolation": "工作温度必须高于环境温度"
     },
     "rotatingCondition": {

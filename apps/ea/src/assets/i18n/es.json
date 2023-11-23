@@ -12,9 +12,24 @@
     "title": "Condiciones de funcionamiento para el rodamiento {{bearingDesignation}}",
     "prototypeWarning": "Los valores que se muestran en este prototipo de desarrollo son hipotéticos y no deben usarse en la producción",
     "showPresetCalculationParameters": "Mostrar parámetros de cálculo preestablecidos",
+    "addLoadCase": "Agregar caso de carga",
     "loads": "Carga",
     "radialLoad": "Carga radial",
     "axialLoad": "Carga axial",
+    "totalAmountOfTime": "Tiempo total:",
+    "loadCaseName": "Caso de carga {{number}}",
+    "generalInputsTitle": "Entradas Generales",
+    "generalInputsTitleTooltip": "Esto se aplica a todos los casos de carga",
+    "operatingTime": {
+      "title": "Tiempo de operación",
+      "label": "Porcentaje"
+    },
+    "confirmationDialog": {
+      "title": "Confirmar eliminación",
+      "description": "¿Está seguro de que desea eliminar el caso de carga?",
+      "cancelAction": "Cancelar",
+      "confirmationAction": "Confirmar"
+    },
     "resetInputs": "Restablecer las entradas",
     "pleaseEnter": "Introducir {{label}}",
     "tooltip": {
@@ -30,6 +45,7 @@
       "minMaxInconsistent": "El valor mínimo debe ser menor que el valor máximo",
       "anyLoad": "Se requiere una carga",
       "viscosity": "ny40 debe ser mayor que ny100",
+      "operatingTimeValueTotal": "El número total de casos de carga no puede exceder el 100%.",
       "tmpBoundViolation": "La temperatura de funcionamiento debe ser superior a la temperatura ambiente"
     },
     "rotatingCondition": {

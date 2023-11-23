@@ -12,9 +12,24 @@
     "title": "Condizioni di funzionamento del cuscinetto {{bearingDesignation}}",
     "prototypeWarning": "I valori presentati su questo prototipo di sviluppo sono ipotetici e non devono essere utilizzati in produzione",
     "showPresetCalculationParameters": "Mostra modalità di calcolo preimpostate",
+    "addLoadCase": "Aggiungi carico di caso",
     "loads": "Carichi",
     "radialLoad": "Carico radiale",
     "axialLoad": "Carico assiale",
+    "totalAmountOfTime": "Tempo totale:",
+    "loadCaseName": "Carico di prova {{number}}",
+    "generalInputsTitle": "Ingressi generali",
+    "generalInputsTitleTooltip": "Questo si applica a tutti i casi di carico",
+    "operatingTime": {
+      "title": "Tempo di funzionamento",
+      "label": "Percentuale"
+    },
+    "confirmationDialog": {
+      "title": "Conferma cancellazione",
+      "description": "Sei sicuro di voler cancellare il caso di carico?",
+      "cancelAction": "Annulla",
+      "confirmationAction": "Confermare"
+    },
     "resetInputs": "Ripristina valori iniziali",
     "pleaseEnter": "Inserisci {{label}}",
     "tooltip": {
@@ -30,6 +45,7 @@
       "minMaxInconsistent": "Il valore minimo deve essere inferiore al valore massimo",
       "anyLoad": "È richiesto almeno un carico",
       "viscosity": "ny40 deve essere maggiore di ny100",
+      "operatingTimeValueTotal": "Il numero totale di casi di carico non può superare il 100%.",
       "tmpBoundViolation": "La temperatura di esercizio deve essere superiore alla temperatura ambiente"
     },
     "rotatingCondition": {

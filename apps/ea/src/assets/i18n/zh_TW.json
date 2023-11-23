@@ -13,9 +13,24 @@
     "title": "{{bearingDesignation}} 軸承的工作條件",
     "prototypeWarning": "該開發原型中所示的數值是假想的，不能用於生產",
     "showPresetCalculationParameters": "顯示預設的計算參數",
+    "addLoadCase": "新增荷載案例",
     "loads": "負載",
     "radialLoad": "徑向負載",
     "axialLoad": "軸向負載",
+    "totalAmountOfTime": "總時間:",
+    "loadCaseName": "荷载情境 {{number}}",
+    "generalInputsTitle": "一般輸入",
+    "generalInputsTitleTooltip": "這適用於所有負載案例",
+    "operatingTime": {
+      "title": "操作時間",
+      "label": "百分比"
+    },
+    "confirmationDialog": {
+      "title": "確認刪除",
+      "description": "您確定要刪除荷載情況嗎？",
+      "cancelAction": "取消",
+      "confirmationAction": "確認"
+    },
     "resetInputs": "重置輸入",
     "pleaseEnter": "請輸入 {{label}}",
     "tooltip": {
@@ -31,6 +46,7 @@
       "minMaxInconsistent": "最小值必須小於最大值",
       "anyLoad": "至少需要一個負載",
       "viscosity": "ny40 必須大於 ny100",
+      "operatingTimeValueTotal": "負載案例的總數不能超過100%。",
       "tmpBoundViolation": "操作溫度必須高於環境溫度。"
     },
     "rotatingCondition": {

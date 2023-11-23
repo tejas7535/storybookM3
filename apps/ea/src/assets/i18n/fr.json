@@ -12,9 +12,24 @@
     "title": "Conditions de fonctionnement pour le roulement {{bearingDesignation}}",
     "prototypeWarning": "Les valeurs présentées dans ce prototype de développement sont hypothétiques et ne doivent pas être utilisées en production",
     "showPresetCalculationParameters": "Afficher les paramètres de calcul prédéfinis",
+    "addLoadCase": "Ajouter un cas de charge",
     "loads": "Charge",
     "radialLoad": "Charge radiale",
     "axialLoad": "Charge axiale",
+    "totalAmountOfTime": "Temps total:",
+    "loadCaseName": "Cas de charge {{number}}",
+    "generalInputsTitle": "Entrées Générales",
+    "generalInputsTitleTooltip": "Ceci s'applique à tous les cas de charge",
+    "operatingTime": {
+      "title": "Temps de fonctionnement",
+      "label": "Pourcentage"
+    },
+    "confirmationDialog": {
+      "title": "Confirmer la suppression",
+      "description": "Êtes-vous sûr de vouloir supprimer le cas de charge?",
+      "cancelAction": "Annuler",
+      "confirmationAction": "Confirmer"
+    },
     "resetInputs": "Réinitialiser les entrées",
     "pleaseEnter": "Entrer {{label}}",
     "tooltip": {
@@ -30,6 +45,7 @@
       "minMaxInconsistent": "La valeur minimale doit être inférieure à la valeur maximale",
       "anyLoad": "Au moins une charge est requise",
       "viscosity": "ny40 doit être supérieur à ny100",
+      "operatingTimeValueTotal": "Le nombre total de cas de charge ne peut dépasser 100%.",
       "tmpBoundViolation": "La température de fonctionnement doit être supérieure à la température ambiante"
     },
     "rotatingCondition": {

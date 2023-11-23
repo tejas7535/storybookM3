@@ -11,19 +11,9 @@ export interface CalculationParametersState {
 }
 
 export interface CalculationParametersOperationConditions {
-  operatingTemperature: number;
   ambientTemperature: number;
 
-  load: {
-    axialLoad: number;
-    radialLoad: number;
-  };
-  rotation: {
-    typeOfMotion: CatalogServiceLoadCaseData['IDSLC_TYPE_OF_MOVEMENT'];
-    rotationalSpeed: number;
-    shiftFrequency: number;
-    shiftAngle: number;
-  };
+  loadCaseData: LoadCaseData[];
 
   contamination: CatalogServiceOperatingConditions['IDL_CLEANESS_VALUE'];
 
@@ -95,6 +85,22 @@ export type CalculationParametersCalculationTypes = Record<
   CalculationType,
   { selected: boolean; visible: boolean; disabled: boolean }
 >;
+
+export interface LoadCaseData {
+  load: {
+    axialLoad: number;
+    radialLoad: number;
+  };
+  rotation: {
+    typeOfMotion: CatalogServiceLoadCaseData['IDSLC_TYPE_OF_MOVEMENT'];
+    rotationalSpeed: number;
+    shiftFrequency: number;
+    shiftAngle: number;
+  };
+  operatingTemperature: number;
+  operatingTime: number;
+  loadCaseName: string;
+}
 
 export interface CalculationParametersCalculationTypeConfig {
   name: CalculationType;

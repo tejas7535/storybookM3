@@ -14,16 +14,24 @@ import { setCalculationTypes } from '../../actions/calculation-parameters/calcul
 
 export const initialState: CalculationParametersState = {
   operationConditions: {
-    rotation: {
-      rotationalSpeed: undefined,
-      typeOfMotion: 'LB_ROTATING',
-      shiftAngle: undefined,
-      shiftFrequency: undefined,
-    },
-    load: {
-      axialLoad: undefined,
-      radialLoad: undefined,
-    },
+    loadCaseData: [
+      {
+        load: {
+          axialLoad: undefined,
+          radialLoad: undefined,
+        },
+        rotation: {
+          rotationalSpeed: undefined,
+          typeOfMotion: 'LB_ROTATING',
+          shiftAngle: undefined,
+          shiftFrequency: undefined,
+        },
+        operatingTemperature: 70,
+        operatingTime: undefined,
+        loadCaseName: 'Workload',
+      },
+    ],
+
     lubrication: {
       lubricationSelection: 'grease',
       grease: {
@@ -53,7 +61,6 @@ export const initialState: CalculationParametersState = {
       },
     },
     ambientTemperature: 20,
-    operatingTemperature: 70,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
   },

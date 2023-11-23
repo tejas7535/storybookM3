@@ -48,7 +48,101 @@
 
         <!-- INPUT PARAMETERS -->
         <ng-container *ngIf="parameterTemplates">
+          <!-- LOAD CASES-->
+          <!-- single load cases-->
+          <ng-container *ngIf="isSingleLoadCaseForm">
+            <ng-container
+              *ngFor="let loadDataItem of operationConditionsForm.controls.loadCaseData.controls"
+            >
+              <!--TODO remove !isProduction flag when feature will be fully completed-->
+              <div
+                *ngIf="!isProduction"
+                class="flex-row items-start w-full mb-4 flex"
+              >
+                <button
+                  (click)="onAddLoadCaseClick()"
+                  mat-button
+                  color="primary"
+                >
+                  <mat-icon>add</mat-icon>
+                  {{ 'operationConditions.addLoadCase' | transloco }}
+                </button>
+              </div>
+
+              <ng-container
+                *ngFor="let parameterTemplate of parameterTemplates.loadCases"
+                [ngTemplateOutlet]="parameterTemplate"
+                [ngTemplateOutletContext]="{ t: t , loadCase: loadDataItem}"
+              >
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+          <!-- Multiple load cases -->
+          <div *ngIf="!isSingleLoadCaseForm">
+            <div class="flex-row w-full mb-4 flex items-center">
+              <button (click)="onAddLoadCaseClick()" mat-button color="primary">
+                <mat-icon>add</mat-icon>
+                {{ t('addLoadCase')}}
+              </button>
+              <p class="ml-auto text-right">
+                {{ t('totalAmountOfTime') }}
+                <span
+                  [ngClass]="{ 'text-icon-warning': totalOperatingTime > 100  }"
+                  >{{totalOperatingTime}}%</span
+                >
+              </p>
+            </div>
+            <mat-tab-group class="w-[95vw] lg:w-[850px]">
+              <mat-tab
+                class="bg-warning p-1"
+                *ngFor="let loadDataItem of operationConditionsForm.controls.loadCaseData.controls; index as i"
+              >
+                <ng-template mat-tab-label>
+                  <p>{{loadDataItem.controls.loadCaseName.value}}</p>
+                </ng-template>
+                <div
+                  class="p-4 mt-2 flex flex-col gap-0 w-full rounded-xl sm:gap-6 lg:grid bg-background-dark"
+                >
+                  <div class="flex">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        [formControl]="loadDataItem.controls.loadCaseName"
+                      />
+                    </mat-form-field>
+                    <button
+                      mat-icon-button
+                      (click)="onRemoveLoadCaseClick(i)"
+                      class="ml-auto !text-medium-emphasis"
+                      color="secondary"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                  <ng-container
+                    *ngFor="let parameterTemplate of parameterTemplates.loadCases"
+                    [ngTemplateOutlet]="parameterTemplate"
+                    [ngTemplateOutletContext]="{ t: t , loadCase: loadDataItem}"
+                  >
+                  </ng-container>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+
           <!-- MANDATORY PARAMETERS -->
+          <div
+            *ngIf="!isSingleLoadCaseForm"
+            class="flex-row w-full mt-2 sm:mt-0 mb-4 px-3 flex"
+          >
+            <p>{{t('generalInputsTitle')}}</p>
+            <ea-info-button
+              class="pl-2"
+              [tooltip]="t('generalInputsTitleTooltip')"
+            ></ea-info-button>
+          </div>
+
           <ng-container
             *ngFor="let parameterTemplate of parameterTemplates.mandatory"
             [ngTemplateOutlet]="parameterTemplate"
@@ -95,7 +189,7 @@
 </ng-container>
 
 <!-- LOAD -->
-<ng-template parameterTemplate="load" let-t="t">
+<ng-template parameterTemplate="load" let-t="t" let-loadCase="loadCase">
   <ea-input-group [title]="t('loads')" icon="compress" [isMandatory]="true">
     <div
       class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4"
@@ -103,7 +197,7 @@
     >
       <ea-input-number
         *ngIf="loadAvailable.radialLoad"
-        [formControl]="operationConditionsForm.controls.load.controls.radialLoad"
+        [formControl]="loadCase.controls.load.controls.radialLoad"
         [label]="t('radialLoad')"
         [unit]="'N'"
         [tooltip]="t('tooltip.radialLoad')"
@@ -114,7 +208,7 @@
       ></ea-input-number>
       <ea-input-number
         *ngIf="loadAvailable.axialLoad"
-        [formControl]="operationConditionsForm.controls.load.controls.axialLoad"
+        [formControl]="loadCase.controls.load.controls.axialLoad"
         [label]="t('axialLoad')"
         [unit]="'N'"
         [tooltip]="t('tooltip.axialLoad')"
@@ -128,7 +222,11 @@
 </ng-template>
 
 <!-- MOTION -->
-<ng-template parameterTemplate="rotatingCondition" let-t="t">
+<ng-template
+  parameterTemplate="rotatingCondition"
+  let-t="t"
+  let-loadCase="loadCase"
+>
   <ea-input-group
     [title]="t('title')"
     icon="animation"
@@ -138,7 +236,7 @@
     <ea-tabbed-options
       [simplifiedMobile]="true"
       *ngIf="typeOfMotionsAvailable$ | ngrxPush as typeOfMotionsAvailable else loading"
-      [formControl]="operationConditionsForm.controls.rotation.controls.typeOfMotion"
+      [formControl]="loadCase.controls.rotation.controls.typeOfMotion"
     >
       <ng-template
         optionTemplate="LB_ROTATING"
@@ -147,7 +245,7 @@
       >
         <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
           <ea-input-number
-            [formControl]="operationConditionsForm.controls.rotation.controls.rotationalSpeed"
+            [formControl]="loadCase.controls.rotation.controls.rotationalSpeed"
             [label]="t('relativeRotationalSpeed')"
             [unit]="t('onePerMinute')"
             [tooltip]="t('tooltip.rotationSpeed')"
@@ -164,7 +262,7 @@
       >
         <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
           <ea-input-number
-            [formControl]="operationConditionsForm.controls.rotation.controls.shiftFrequency"
+            [formControl]="loadCase.controls.rotation.controls.shiftFrequency"
             [label]="t('shiftFrequency')"
             [unit]="t('rpm')"
             [tooltip]="t('tooltip.shiftFrequency')"
@@ -172,7 +270,7 @@
             [onlyPositive]="true"
           ></ea-input-number>
           <ea-input-number
-            [formControl]="operationConditionsForm.controls.rotation.controls.shiftAngle"
+            [formControl]="loadCase.controls.rotation.controls.shiftAngle"
             [label]="t('shiftAngle')"
             [unit]="t('degree')"
             [tooltip]="t('tooltip.shiftAngle')"
@@ -183,6 +281,53 @@
       </ng-template>
     </ea-tabbed-options>
   </ea-input-group>
+</ng-template>
+
+<ng-template
+  [parameterTemplate]="['operatingTimeAndTemperature' ]"
+  let-loadCase="loadCase"
+>
+  <ng-container *ngIf="!isSingleLoadCaseForm">
+    <div class="flex gap-4 flex-col sm:flex-row">
+      <ea-input-group
+        [title]="t('title')"
+        svgIcon="acute"
+        [isMandatory]="true"
+        class="sm:w-1/2"
+        *transloco="let t; read: 'operationConditions.operatingTime'"
+      >
+        <div class="grid grid-cols-1 gap-0">
+          <ea-input-number
+            [formControl]="loadCase.controls.operatingTime"
+            [label]="t('label')"
+            [unit]="'%'"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('label')}"
+            [onlyPositive]="true"
+            [customErrors]="[{name: 'operatingTimeValueTotal'}]"
+          ></ea-input-number>
+        </div>
+      </ea-input-group>
+      <ea-input-group
+        [title]="t('title')"
+        svgIcon="device_thermostat"
+        [isMandatory]="true"
+        class="sm:w-1/2"
+        *transloco="let t; read: 'operationConditions.temperature'"
+      >
+        <div class="grid grid-cols-1 gap-0">
+          <ea-input-number
+            [formControl]="loadCase.controls.operatingTemperature"
+            [label]="t('operatingTemperature.label')"
+            [unit]="t('operatingTemperature.unit')"
+            [tooltip]="t('operatingTemperature.tooltip')"
+            [placeholder]="'operationConditions.pleaseEnter' | transloco:{ label: t('operatingTemperature.label')}"
+            [onlyPositive]="true"
+            [customErrors]="[{name: 'tmpBoundViolation'}]"
+          ></ea-input-number>
+        </div>
+      </ea-input-group>
+    </div>
+  </ng-container>
 </ng-template>
 
 <!-- LUBRICATION -->
@@ -478,14 +623,15 @@
   [parameterTemplate]="['operatingTemperature', 'ambientTemperature']"
 >
   <ea-input-group
-    [title]="t('title')"
+    [title]="isSingleLoadCaseForm? t('title'): t('ambientTemperature.label')"
     svgIcon="device_thermostat"
     [isMandatory]="true"
     *transloco="let t; read: 'operationConditions.temperature'"
   >
     <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
       <ea-input-number
-        [formControl]="operationConditionsForm.controls.operatingTemperature"
+        *ngIf="isSingleLoadCaseForm"
+        [formControl]="operatingTemperature"
         [label]="t('operatingTemperature.label')"
         [unit]="t('operatingTemperature.unit')"
         [tooltip]="t('operatingTemperature.tooltip')"

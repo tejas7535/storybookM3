@@ -10,6 +10,7 @@ import {
   BasicFrequenciesResult,
   CalculationParametersOperationConditions,
   CatalogCalculationResult,
+  LoadCaseData,
   ProductCapabilitiesResult,
 } from '../store/models';
 import { BearinxOnlineResult } from './bearinx-result.interface';
@@ -106,6 +107,7 @@ export class CatalogService {
       ambientTemperature,
       contamination,
       conditionOfRotation,
+      loadCaseData,
     } = operationConditions;
 
     const lubricationMethod = this.convertLubricationMethod(
@@ -167,22 +169,8 @@ export class CatalogService {
       ),
     };
 
-    const { load, rotation, operatingTemperature } = operationConditions;
-
-    const loadcaseData: CatalogServiceLoadCaseData[] = [
-      {
-        IDCO_DESIGNATION: 'Workload',
-        IDSLC_TIME_PORTION: '100',
-        IDSLC_AXIAL_LOAD: toNumberString(load?.axialLoad || 0),
-        IDSLC_RADIAL_LOAD: toNumberString(load?.radialLoad || 0),
-        IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE:
-          toNumberString(operatingTemperature),
-        IDSLC_TYPE_OF_MOVEMENT: rotation.typeOfMotion,
-        IDLC_SPEED: toNumberString(rotation.rotationalSpeed || 0),
-        IDSLC_MOVEMENT_FREQUENCY: toNumberString(rotation.shiftFrequency || 0),
-        IDSLC_OPERATING_ANGLE: toNumberString(rotation.shiftAngle || 0),
-      },
-    ];
+    const loadcaseData: CatalogServiceLoadCaseData[] =
+      this.getLoadCasesData(loadCaseData);
 
     let calculationError: string;
 
@@ -260,6 +248,30 @@ export class CatalogService {
         `${this.baseUrl}/product/operatingconditonstemplate/${bearingId}`
       )
       .pipe(map((result) => convertTemplateResult(result)));
+  }
+
+  private getLoadCasesData(
+    loadCaseData: LoadCaseData[]
+  ): CatalogServiceLoadCaseData[] {
+    return loadCaseData.map((loadCase) => ({
+      IDCO_DESIGNATION:
+        loadCaseData.length === 1 ? 'Workload' : loadCase.loadCaseName,
+      IDSLC_TIME_PORTION:
+        loadCaseData.length === 1
+          ? '100'
+          : toNumberString(loadCase.operatingTime || 0),
+      IDSLC_AXIAL_LOAD: toNumberString(loadCase.load?.axialLoad || 0),
+      IDSLC_RADIAL_LOAD: toNumberString(loadCase.load?.radialLoad || 0),
+      IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE: toNumberString(
+        loadCase.operatingTemperature
+      ),
+      IDSLC_TYPE_OF_MOVEMENT: loadCase.rotation.typeOfMotion,
+      IDLC_SPEED: toNumberString(loadCase.rotation.rotationalSpeed || 0),
+      IDSLC_MOVEMENT_FREQUENCY: toNumberString(
+        loadCase.rotation.shiftFrequency || 0
+      ),
+      IDSLC_OPERATING_ANGLE: toNumberString(loadCase.rotation.shiftAngle || 0),
+    }));
   }
 
   private convertLubricationMethod(

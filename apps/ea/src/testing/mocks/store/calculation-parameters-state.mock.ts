@@ -2,16 +2,23 @@ import { CalculationParametersState } from '@ea/core/store/models';
 
 export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
   operationConditions: {
-    rotation: {
-      rotationalSpeed: 0,
-      shiftAngle: 0,
-      shiftFrequency: undefined,
-      typeOfMotion: 'LB_ROTATING',
-    },
-    load: {
-      axialLoad: 0,
-      radialLoad: undefined,
-    },
+    loadCaseData: [
+      {
+        load: {
+          axialLoad: 0,
+          radialLoad: undefined,
+        },
+        rotation: {
+          rotationalSpeed: 0,
+          shiftAngle: 0,
+          shiftFrequency: undefined,
+          typeOfMotion: 'LB_ROTATING',
+        },
+        operatingTemperature: 70,
+        operatingTime: undefined,
+        loadCaseName: 'Workload',
+      },
+    ],
     lubrication: {
       lubricationSelection: 'grease',
       grease: {
@@ -40,7 +47,7 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
         externalHeatFlow: 0,
       },
     },
-    operatingTemperature: 70,
+
     ambientTemperature: 20,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',

@@ -28,10 +28,14 @@ describe('calculationParametersReducer', () => {
     it('should update parameters', () => {
       const mockParameters: CalculationParametersState = {
         operationConditions: {
-          load: {
-            axialLoad: 1,
-            radialLoad: 123,
-          },
+          loadCaseData: [
+            {
+              load: {
+                axialLoad: 1,
+                radialLoad: 123,
+              },
+            },
+          ],
         },
         isInputInvalid: true,
         calculationTypes: {},
@@ -59,10 +63,14 @@ describe('calculationParametersReducer', () => {
     it('should set missing input', () => {
       const mockParameters: CalculationParametersState = {
         operationConditions: {
-          load: {
-            axialLoad: 1,
-            radialLoad: 123,
-          },
+          loadCaseData: [
+            {
+              load: {
+                axialLoad: 1,
+                radialLoad: 123,
+              },
+            },
+          ],
         },
         isInputInvalid: false,
         calculationTypes: {},

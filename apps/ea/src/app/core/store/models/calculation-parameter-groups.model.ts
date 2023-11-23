@@ -6,4 +6,5 @@ export type CalculationParameterGroup =
   | 'ambientTemperature'
   | 'rotatingCondition'
   | 'externalHeatflow'
-  | 'conditionOfRotation';
+  | 'conditionOfRotation'
+  | 'operatingTimeAndTemperature';

@@ -12,9 +12,24 @@
     "title": "Betriebsbedingungen für Lager {{bearingDesignation}}",
     "prototypeWarning": "Die in diesem Entwicklungsprototyp gezeigten Werte sind hypothetisch und dürfen nicht in der Produktion verwendet werden",
     "showPresetCalculationParameters": "Voreingestellte Berechnungsparameter anzeigen",
+    "addLoadCase": "Lastfall hinzufügen",
     "loads": "Belastung",
     "radialLoad": "Radiallast",
     "axialLoad": "Axiallast",
+    "totalAmountOfTime": "Gesamtzeit:",
+    "loadCaseName": "Lastfall {{number}}",
+    "generalInputsTitle": "Allgemeine Eingaben",
+    "generalInputsTitleTooltip": "Dies gilt für alle Lastfälle",
+    "operatingTime": {
+      "title": "Betriebszeit",
+      "label": "Prozentsatz"
+    },
+    "confirmationDialog": {
+      "title": "Löschen bestätigen",
+      "description": "Sind Sie sicher, dass Sie die Lastfälle löschen möchten?",
+      "cancelAction": "Abbrechen",
+      "confirmationAction": "Bestätigen"
+    },
     "resetInputs": "Eingaben zurücksetzen",
     "pleaseEnter": "{{label}} eingeben",
     "tooltip": {
@@ -30,6 +45,7 @@
       "minMaxInconsistent": "Der Mindestwert muss kleiner als der Höchstwert sein",
       "anyLoad": "Eine Belastung ist erforderlich",
       "viscosity": "ny40 muss größer als ny100 sein",
+      "operatingTimeValueTotal": "Die Gesamtzahl der Lastfälle darf 100% nicht überschreiten.",
       "tmpBoundViolation": "Die Betriebstemperatur muss über der Umgebungstemperatur liegen"
     },
     "rotatingCondition": {

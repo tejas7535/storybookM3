@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-null */
 import {
   AbstractControl,
+  FormArray,
   FormControl,
   FormGroup,
   ValidationErrors,
@@ -8,8 +9,11 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { CalculationParametersOperationConditions } from '@ea/core/store/models';
+import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
+import { LoadCaseData } from '@ea/core/store/models';
 import { addValidators, removeValidators } from '@ea/shared/helper';
+
+import { LoadCaseDataFormGroupModel } from './loadcase-data-form-group.interface';
 
 export const anyLoadGroupValidator =
   () =>
@@ -43,7 +47,7 @@ export const rotationValidator =
     const group = control as FormGroup;
 
     const typeOfMotionControl = group.controls['typeOfMotion'] as FormControl<
-      CalculationParametersOperationConditions['rotation']['typeOfMotion']
+      LoadCaseData['rotation']['typeOfMotion']
     >;
 
     const { rotationalSpeed, shiftFrequency, shiftAngle } = group.controls;
@@ -116,6 +120,51 @@ export const viscosityGroupValidators = (): ValidatorFn[] => [
       }
       if (ny100.hasError(errorKey)) {
         ny100.setErrors(null);
+      }
+    }
+
+    return null;
+  },
+];
+
+export const loadCasesOperatingTimeValidators = (
+  calculationParametersFormHelperService: CalculationParametersFormHelperService
+): ValidatorFn[] => [
+  (control: AbstractControl): ValidationErrors | null => {
+    const errorKey = 'operatingTimeValueTotal';
+    const formGroups: FormGroup<LoadCaseDataFormGroupModel>[] = (
+      control as FormArray<FormGroup<LoadCaseDataFormGroupModel>>
+    ).controls;
+
+    // do not add validation to the single load case scenario
+    if (formGroups.length === 1) {
+      const operatingTime: FormControl<LoadCaseData['operatingTime']> =
+        formGroups[0].controls.operatingTime;
+
+      removeValidators(operatingTime, [Validators.required]);
+
+      return null;
+    }
+
+    const total =
+      calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
+        formGroups
+      );
+
+    const requiredTotalValue = 100;
+
+    for (const formGroup of formGroups) {
+      const operatingTime: FormControl<LoadCaseData['operatingTime']> =
+        formGroup.controls.operatingTime;
+      addValidators(operatingTime, [Validators.required]);
+      if (total > requiredTotalValue) {
+        if (!operatingTime.hasError(errorKey)) {
+          operatingTime.setErrors({ [errorKey]: true });
+        }
+      } else {
+        if (operatingTime.hasError(errorKey)) {
+          operatingTime.setErrors(null);
+        }
       }
     }
 

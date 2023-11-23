@@ -2,6 +2,9 @@
 
 exports[`CalculationParametersComponent ngAfterViewInit should setup parameterTemplates after view init 1`] = `
 Object {
+  "loadCases": Array [
+    undefined,
+  ],
   "mandatory": Array [
     undefined,
   ],

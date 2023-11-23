@@ -11,6 +11,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -18,23 +19,30 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   Observable,
   startWith,
   Subject,
+  take,
   takeUntil,
 } from 'rxjs';
 
+import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
@@ -47,6 +55,7 @@ import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection
 import {
   CalculationParameterGroup,
   CalculationParametersOperationConditions,
+  LoadCaseData,
 } from '@ea/core/store/models';
 import { environment } from '@ea/environments/environment';
 import { Greases } from '@ea/shared/constants/greases';
@@ -54,6 +63,7 @@ import { ISOVgClasses } from '@ea/shared/constants/iso-vg-classes';
 import { extractNestedErrors } from '@ea/shared/helper/form.helper';
 import { FormSelectValidatorSwitcher } from '@ea/shared/helper/form-select-validation-switcher';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
+import { InfoButtonComponent } from '@ea/shared/info-button/info-button.component';
 import { InputGroupComponent } from '@ea/shared/input-group/input-group.component';
 import { InputNumberComponent } from '@ea/shared/input-number/input-number.component';
 import { InputSelectComponent } from '@ea/shared/input-select/input-select.component';
@@ -74,6 +84,7 @@ import { getEnvironmentalInfluenceOptions } from './environmental-influence.opti
 import {
   anyLoadGroupValidator,
   increaseInOilTempValidators,
+  loadCasesOperatingTimeValidators,
   loadValidators,
   relativeValidatorFactory,
   rotationalSpeedValidators,
@@ -82,6 +93,7 @@ import {
   shiftFrequencyValidators,
   viscosityGroupValidators,
 } from './form-validators';
+import { LoadCaseDataFormGroupModel } from './loadcase-data-form-group.interface';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 
 @Component({
@@ -108,7 +120,12 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     QualtricsInfoBannerComponent,
     SharedTranslocoModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     CalculationParametersFormDevDebugComponent,
+    MatChipsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    InfoButtonComponent,
   ],
 })
 export class CalculationParametersComponent
@@ -124,6 +141,7 @@ export class CalculationParametersComponent
     | Observable<{
         mandatory: TemplateRef<unknown>[];
         preset: TemplateRef<unknown>[];
+        loadCases: TemplateRef<unknown>[];
       }>
     | undefined;
 
@@ -131,6 +149,7 @@ export class CalculationParametersComponent
     | {
         mandatory: TemplateRef<unknown>[];
         preset: TemplateRef<unknown>[];
+        loadCases: TemplateRef<unknown>[];
       }
     | undefined;
 
@@ -145,41 +164,11 @@ export class CalculationParametersComponent
     this.productSelectionFacade.availableLubricationMethods$;
 
   public operationConditionsForm = new FormGroup({
-    load: new FormGroup(
-      {
-        radialLoad: new FormControl<number>(
-          undefined,
-          loadValidators,
-          this.productSelectionFacade.templateValidator('IDSLC_RADIAL_LOAD')
-        ),
-        axialLoad: new FormControl<number>(
-          undefined,
-          loadValidators,
-          this.productSelectionFacade.templateValidator('IDSLC_AXIAL_LOAD')
-        ),
-      },
-      [anyLoadGroupValidator()]
-    ),
-    rotation: new FormGroup(
-      {
-        typeOfMotion: new FormControl<
-          CalculationParametersOperationConditions['rotation']['typeOfMotion']
-        >('LB_ROTATING', Validators.required),
-        rotationalSpeed: new FormControl<number>(
-          undefined,
-          rotationalSpeedValidators,
-          this.productSelectionFacade.templateValidator('IDLC_SPEED')
-        ),
-        shiftFrequency: new FormControl<number>(
-          undefined,
-          shiftFrequencyValidators,
-          this.productSelectionFacade.templateValidator(
-            'IDSLC_MOVEMENT_FREQUENCY'
-          )
-        ),
-        shiftAngle: new FormControl<number>(undefined, shiftAngleValidators),
-      },
-      [rotationValidator()]
+    loadCaseData: new FormArray(
+      [this.createLoadCaseDataFormGroup('load case')],
+      loadCasesOperatingTimeValidators(
+        this.calculationParametersFormHelperService
+      )
     ),
     lubrication: new FormGroup({
       lubricationSelection: new FormControl<
@@ -305,15 +294,6 @@ export class CalculationParametersComponent
       [Validators.required],
       [this.productSelectionFacade.templateValidator('IDSLC_TEMPERATURE')]
     ),
-    operatingTemperature: new FormControl<number>(
-      undefined,
-      [Validators.required],
-      [
-        this.productSelectionFacade.templateValidator(
-          'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
-        ),
-      ]
-    ),
     conditionOfRotation: new FormControl<
       CalculationParametersOperationConditions['conditionOfRotation']
     >(undefined, [Validators.required]),
@@ -333,9 +313,7 @@ export class CalculationParametersComponent
   public readonly isoVgClasses = ISOVgClasses;
   public readonly greases = Greases;
   public typeOfMotionsAvailable$:
-    | Observable<
-        CalculationParametersOperationConditions['rotation']['typeOfMotion'][]
-      >
+    | Observable<LoadCaseData['rotation']['typeOfMotion'][]>
     | undefined;
   public contaminationOptions$:
     | Observable<{ label: string; value: string }[]>
@@ -352,6 +330,7 @@ export class CalculationParametersComponent
     | undefined;
 
   private readonly destroy$ = new Subject<void>();
+  private loadCaseCount = 1;
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
@@ -359,13 +338,30 @@ export class CalculationParametersComponent
     private readonly productSelectionFacade: ProductSelectionFacade,
     public readonly matDialog: MatDialog,
     private readonly translocoService: TranslocoService,
+    private readonly calculationParametersFormHelperService: CalculationParametersFormHelperService,
     private readonly changeDetectionRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    const operatingTmpControl = this.operationConditionsForm.get(
-      'operatingTemperature'
+  get operatingTemperature(): FormControl {
+    return this.operationConditionsForm.controls['loadCaseData'].controls[0]
+      .controls.operatingTemperature;
+  }
+
+  get isSingleLoadCaseForm(): boolean {
+    return (
+      this.operationConditionsForm.controls['loadCaseData'].controls.length ===
+      1
     );
+  }
+
+  get totalOperatingTime(): number {
+    return this.calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
+      this.operationConditionsForm.controls['loadCaseData'].controls
+    );
+  }
+
+  ngOnInit() {
+    const operatingTmpControl = this.operatingTemperature;
 
     const ambientTempControl =
       this.operationConditionsForm.get('ambientTemperature');
@@ -431,7 +427,17 @@ export class CalculationParametersComponent
           return templateRef.template;
         };
 
+        const operatingTimeAndTemperature: CalculationParameterGroup =
+          'operatingTimeAndTemperature';
+
+        const loadTemplatesFields = new Set([
+          operatingTimeAndTemperature,
+          'load',
+          'rotatingCondition',
+        ]);
+
         const mandatory: TemplateRef<unknown>[] = fieldConfig.required
+          .filter((element) => !loadTemplatesFields.has(element))
           .map((element) => convertConfig(element))
           .filter((value, index, self) => self.indexOf(value) === index);
 
@@ -439,9 +445,17 @@ export class CalculationParametersComponent
           .map((element) => convertConfig(element))
           .filter((value, index, self) => self.indexOf(value) === index);
 
+        const loadCases: TemplateRef<unknown>[] = [
+          operatingTimeAndTemperature,
+          ...fieldConfig.required,
+        ]
+          .filter((element) => loadTemplatesFields.has(element))
+          .map((element) => convertConfig(element))
+          .filter((value, index, self) => self.indexOf(value) === index);
+
         this.changeDetectionRef.detectChanges();
 
-        return { mandatory, preset };
+        return { mandatory, preset, loadCases };
       })
     );
 
@@ -461,8 +475,7 @@ export class CalculationParametersComponent
       .pipe(
         map((template) =>
           (template?.options || []).map(
-            ({ value }) =>
-              value as CalculationParametersOperationConditions['rotation']['typeOfMotion']
+            ({ value }) => value as LoadCaseData['rotation']['typeOfMotion']
           )
         )
       );
@@ -484,13 +497,107 @@ export class CalculationParametersComponent
     this.matDialog.open(BasicFrequenciesComponent);
   }
 
+  public onRemoveLoadCaseClick(index: number): void {
+    const dialogRef =
+      this.calculationParametersFormHelperService.openConfirmDeleteDialog();
+    dialogRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean))
+      .subscribe(() => {
+        this.operationConditionsForm.controls['loadCaseData'].removeAt(index);
+      });
+  }
+
   public onShowCalculationTypesClick(): void {
     this.matDialog.open(CalculationTypesSelectionComponent);
+  }
+
+  public onAddLoadCaseClick(): void {
+    this.updateFirstLoadCaseName();
+    this.loadCaseCount += 1;
+    const operatingTemperatureValue = 70;
+    const loadCaseName =
+      this.calculationParametersFormHelperService.getLocalizedLoadCaseName(
+        this.loadCaseCount
+      );
+
+    this.operationConditionsForm.controls['loadCaseData'].push(
+      this.createLoadCaseDataFormGroup(loadCaseName, operatingTemperatureValue)
+    );
+  }
+
+  private updateFirstLoadCaseName(): void {
+    if (this.isSingleLoadCaseForm) {
+      this.loadCaseCount = 1;
+      const firstLoadCaseName =
+        this.calculationParametersFormHelperService.getLocalizedLoadCaseName(
+          this.loadCaseCount
+        );
+
+      this.operationConditionsForm.controls[
+        'loadCaseData'
+      ].controls[0].controls.loadCaseName.setValue(firstLoadCaseName);
+    }
   }
 
   private resetCatalogCalculationResults(): void {
     this.calculationResultFacade.dispatch(
       CatalogCalculationResultActions.resetCalculationResult()
     );
+  }
+
+  private createLoadCaseDataFormGroup(
+    loadCaseName: string,
+    operatingTemperatureValue?: number
+  ): FormGroup<LoadCaseDataFormGroupModel> {
+    return new FormGroup<LoadCaseDataFormGroupModel>({
+      load: new FormGroup(
+        {
+          radialLoad: new FormControl<number>(
+            undefined,
+            loadValidators,
+            this.productSelectionFacade.templateValidator('IDSLC_RADIAL_LOAD')
+          ),
+          axialLoad: new FormControl<number>(
+            undefined,
+            loadValidators,
+            this.productSelectionFacade.templateValidator('IDSLC_AXIAL_LOAD')
+          ),
+        },
+        [anyLoadGroupValidator()]
+      ),
+      rotation: new FormGroup(
+        {
+          typeOfMotion: new FormControl<
+            LoadCaseData['rotation']['typeOfMotion']
+          >('LB_ROTATING', Validators.required),
+          rotationalSpeed: new FormControl<number>(
+            undefined,
+            rotationalSpeedValidators,
+            this.productSelectionFacade.templateValidator('IDLC_SPEED')
+          ),
+          shiftFrequency: new FormControl<number>(
+            undefined,
+            shiftFrequencyValidators,
+            this.productSelectionFacade.templateValidator(
+              'IDSLC_MOVEMENT_FREQUENCY'
+            )
+          ),
+          shiftAngle: new FormControl<number>(undefined, shiftAngleValidators),
+        },
+        [rotationValidator()]
+      ),
+      operatingTime: new FormControl<number>(undefined, Validators.max(100)),
+      operatingTemperature: new FormControl<number>(
+        operatingTemperatureValue,
+        [Validators.required],
+        [
+          this.productSelectionFacade.templateValidator(
+            'IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE'
+          ),
+        ]
+      ),
+      loadCaseName: new FormControl<string>(loadCaseName),
+    });
   }
 }
