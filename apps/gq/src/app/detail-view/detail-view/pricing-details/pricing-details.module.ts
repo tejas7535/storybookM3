@@ -9,6 +9,7 @@ import { FreeStockTrafficLightComponent } from '@gq/shared/components/free-stock
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -45,6 +46,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     SharedTranslocoModule,
     PushPipe,
     SharedPipesModule,
+    SharedDirectivesModule,
     LoadingSpinnerModule,
     LabelTextModule,
     FreeStockTrafficLightComponent,

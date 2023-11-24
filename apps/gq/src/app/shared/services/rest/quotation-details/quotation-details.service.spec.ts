@@ -189,6 +189,22 @@ describe('QuotationDetailsService', (): void => {
     });
   });
 
+  describe('getRfqData', () => {
+    test('should call', () => {
+      const sapId = '1234';
+      const quotationItemId = 1234;
+      const currency = 'EUR';
+      service
+        .getRfqData(sapId, quotationItemId, currency)
+        .subscribe((res) => expect(res).toEqual([]));
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATION_DETAILS']}/${service['PATH_RFQ_DATA']}?sap-id=1234&quotation-item-id=1234&currency=EUR`
+      );
+      req.flush(sapId);
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
+
   describe('updateCostData', () => {
     test('should call', () => {
       const gqPositionId = '1234';

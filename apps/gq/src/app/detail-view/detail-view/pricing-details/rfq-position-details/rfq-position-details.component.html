@@ -2,6 +2,23 @@
   <ng-container *ngIf="rfqData">
     <div class="mt-4">
       <gq-kpi-status-card [title]="t('title')">
+        <span *featureToggle="'refreshRfqData'" class="absolute right-4 top-5">
+          <mat-icon
+            *ngIf="rfqDataUpdateAvl; else isUpToDate"
+            (click)="updateRfqData()"
+            class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-link"
+            [matTooltip]="t('updateRfqData.tooltip')"
+          >
+            refresh</mat-icon
+          >
+          <ng-template #isUpToDate>
+            <mat-icon
+              class="!w-4 !h-4 !text-[16px] text-link"
+              [matTooltip]="t('rfqDataUpToDate')"
+              >check_circle</mat-icon
+            >
+          </ng-template>
+        </span>
         <gq-label-text>
           <span label>{{ t('rfqNumber') }}</span>
           <span text>{{ rfqData.rfqId }}</span>

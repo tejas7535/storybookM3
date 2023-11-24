@@ -111,7 +111,11 @@
       "rfqCreatedOn": "Created on",
       "rfqCreatedBy": "Created by",
       "rfqPlant": "Production Plant",
-      "rfqSqv": "SQV (RFQ)"
+      "rfqSqv": "SQV (RFQ)",
+      "updateRfqData": {
+        "tooltip": "Refresh RFQ Information"
+      },
+      "rfqDataUpToDate": "RFQ information up to date"
     },
     "materialComparableCostDetails": {
       "title": "Comparable Cost #{{number}}",

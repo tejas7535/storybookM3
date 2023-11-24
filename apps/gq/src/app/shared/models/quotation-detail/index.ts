@@ -10,6 +10,7 @@ export * from './plant.model';
 export * from './plant-material-detail.model';
 export * from './price-source.enum';
 export * from './quotation-detail.model';
+export * from './quotation-rfq-data.interface';
 export * from './sap-error-message-code.enum';
 export * from './sap-price-condition.enum';
 export * from './sap-sync-status.enum';

@@ -1,9 +1,9 @@
 import { Plant } from '@gq/shared/models';
-import { RfqData } from '@gq/shared/models/quotation-detail/rfq-data.interface';
+import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
 
-export const RFQ_DATA_MOCK: RfqData = {
+export const QUOTATION_RFQ_DATA_MOCK: QuotationRfqData = {
   rfqId: 'rfq-1245',
   materialNumber15: '123456789',
   productionPlant: {

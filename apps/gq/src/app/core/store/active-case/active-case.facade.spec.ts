@@ -9,9 +9,11 @@ import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseFacade } from './active-case.facade';
 import { activeCaseFeature } from './active-case.reducer';
 import {
+  getQuotationCurrency,
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
   getQuotationHasRfqMaterials,
+  getSapId,
 } from './active-case.selectors';
 
 describe('ActiveCaseFacade', () => {
@@ -34,6 +36,34 @@ describe('ActiveCaseFacade', () => {
 
   test('should be created', () => {
     expect(facade).toBeTruthy();
+  });
+
+  describe('quotationSapId$', () => {
+    test(
+      'should select the sapId of the quotation',
+      marbles((m) => {
+        const sapId = '123';
+        mockStore.overrideSelector(getSapId, sapId);
+
+        m.expect(facade.quotationSapId$).toBeObservable(
+          m.cold('a', { a: sapId })
+        );
+      })
+    );
+  });
+
+  describe('quotationCurrency$', () => {
+    test(
+      'shall select the currency of the quotation',
+      marbles((m) => {
+        const currency = 'EUR';
+        mockStore.overrideSelector(getQuotationCurrency, currency);
+
+        m.expect(facade.quotationCurrency$).toBeObservable(
+          m.cold('a', { a: currency })
+        );
+      })
+    );
   });
 
   describe('costsUpdating$', () => {

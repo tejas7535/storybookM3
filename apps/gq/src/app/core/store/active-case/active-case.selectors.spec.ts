@@ -6,7 +6,7 @@ import {
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
-import { RfqData } from '@gq/shared/models/quotation-detail/rfq-data.interface';
+import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 
 import {
@@ -558,7 +558,9 @@ describe('Active Case Selectors', () => {
     test('should return true if quotations has RFQ Materails', () => {
       expect(
         activeCaseSelectors.getQuotationHasRfqMaterials.projector([
-          { rfqData: { rfqId: 1 } as unknown as RfqData } as QuotationDetail,
+          {
+            rfqData: { rfqId: 1 } as unknown as QuotationRfqData,
+          } as QuotationDetail,
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
       ).toEqual(true);

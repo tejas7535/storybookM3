@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { QuotationAttachment } from '@gq/shared/models';
+import { QuotationAttachment, QuotationDetail } from '@gq/shared/models';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import {
+  getQuotationCurrency,
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
   getQuotationHasRfqMaterials,
+  getSapId,
+  getSelectedQuotationDetail,
 } from './active-case.selectors';
 import { QuotationIdentifier } from './models';
 
@@ -22,6 +25,15 @@ export class ActiveCaseFacade {
   quotationIdentifier$: Observable<QuotationIdentifier> = this.store.select(
     activeCaseFeature.selectQuotationIdentifier
   );
+
+  selectedQuotationDetail$: Observable<QuotationDetail> = this.store.select(
+    getSelectedQuotationDetail
+  );
+
+  quotationSapId$: Observable<string> = this.store.select(getSapId);
+
+  quotationCurrency$: Observable<string> =
+    this.store.select(getQuotationCurrency);
 
   costsUpdating$ = this.store.select(
     activeCaseFeature.selectUpdateCostsLoading

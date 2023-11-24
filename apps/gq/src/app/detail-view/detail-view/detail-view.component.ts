@@ -20,6 +20,7 @@ import {
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { MaterialStock } from '@gq/core/store/reducers/models';
+import { RfqDataFacade } from '@gq/core/store/rfq-data/rfq-data.facade';
 import {
   getMaterialCostUpdateAvl,
   getMaterialStock,
@@ -71,6 +72,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   constructor(
     public readonly activeCaseFacade: ActiveCaseFacade,
+    public readonly rfqDataFacade: RfqDataFacade,
     private readonly store: Store,
     private readonly breadCrumbsService: BreadcrumbsService,
     private readonly router: Router,

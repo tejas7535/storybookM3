@@ -111,7 +111,11 @@
       "rfqCreatedOn": "Erstellt am",
       "rfqCreatedBy": "Erstellt von",
       "rfqPlant": "Produktionswerk",
-      "rfqSqv": "SAW (RFQ)"
+      "rfqSqv": "SAW (RFQ)",
+      "updateRfqData": {
+        "tooltip": "RFQ Information aktualisieren"
+      },
+      "rfqDataUpToDate": "RFQ Information aktuell"
     },
     "materialComparableCostDetails": {
       "title": "Vergleichbare Kosten #{{number}}",

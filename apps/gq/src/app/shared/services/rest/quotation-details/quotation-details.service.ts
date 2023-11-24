@@ -1,4 +1,9 @@
-import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContext,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -15,7 +20,7 @@ import {
 } from '@gq/core/store/reducers/models';
 
 import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/http-error.interceptor';
-import { ApiVersion, Quotation } from '../../../models';
+import { ApiVersion, Quotation, RfqData } from '../../../models';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '../../../models/quotation-detail/material-sales-org.model';
 
@@ -32,8 +37,13 @@ export class QuotationDetailsService {
     'material-sap-price-condition-details';
   private readonly PATH_EXTENDED_SAP_PRICE_DETAILS =
     'sap-price-condition-details';
+  private readonly PATH_RFQ_DATA = 'rfq-data';
 
   private readonly PATH_UPDATE_COST_DATA = 'update-cost-data';
+
+  private readonly SAP_ID_PARAM_KEY = 'sap-id';
+  private readonly QUOTATION_ITEM_ID_PARAM_KEY = 'quotation-item-id';
+  private readonly CURRENCY_PARAM_KEY = 'currency';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -109,6 +119,22 @@ export class QuotationDetailsService {
   getExtendedSapPriceConditionDetails(quotationNumber: number) {
     return this.http.get<ExtendedSapPriceConditionDetail[]>(
       `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${quotationNumber}/${this.PATH_EXTENDED_SAP_PRICE_DETAILS}`
+    );
+  }
+
+  getRfqData(
+    sapId: string,
+    quotationItemId: number,
+    currency: string
+  ): Observable<RfqData> {
+    const params = new HttpParams()
+      .set(this.SAP_ID_PARAM_KEY, sapId)
+      .set(this.QUOTATION_ITEM_ID_PARAM_KEY, quotationItemId)
+      .set(this.CURRENCY_PARAM_KEY, currency);
+
+    return this.http.get<RfqData>(
+      `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}/${this.PATH_RFQ_DATA}`,
+      { params }
     );
   }
 

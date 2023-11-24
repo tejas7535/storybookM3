@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
+import { RfqDataModule } from '@gq/core/store/rfq-data/rfq-data.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -25,7 +26,6 @@ import { DetailViewNavigationBarModule } from './detail-view-navigation-bar/deta
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
-
 @NgModule({
   declarations: [DetailViewComponent],
   imports: [
@@ -52,6 +52,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     EditingModalModule,
     ApprovalModule,
     SharedDirectivesModule,
+    RfqDataModule,
   ],
 })
 export class DetailViewModule {}

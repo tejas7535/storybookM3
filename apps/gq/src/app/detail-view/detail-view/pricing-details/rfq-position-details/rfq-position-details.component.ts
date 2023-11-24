@@ -1,6 +1,6 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { RfqData } from '@gq/shared/models/quotation-detail/rfq-data.interface';
+import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
 
 @Component({
   selector: 'gq-rfq-position-details',
@@ -8,6 +8,9 @@ import { RfqData } from '@gq/shared/models/quotation-detail/rfq-data.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RfqPositionDetailsComponent {
+  @Input() rfqData: QuotationRfqData;
   @Input() currency: string;
-  @Input() rfqData: RfqData;
+  @Input() rfqDataUpdateAvl: boolean;
+
+  updateRfqData(): void {}
 }
