@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { combineLatest, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { RolesFacade } from '@gq/core/store/facades';
@@ -12,23 +12,34 @@ import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { Quotation, QuotationStatus } from '../../../models';
-import { QuotationDetail } from '../../../models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models';
 
 @Component({
   selector: 'gq-delete-items-button',
   templateUrl: './delete-items-button.component.html',
 })
-export class DeleteItemsButtonComponent implements OnInit {
+export class DeleteItemsButtonComponent {
   selections: any[] = [];
-  toolPanelOpened: boolean;
   icon = 'delete';
-
   isSapQuotation: boolean;
   quotationStatus = QuotationStatus;
   quotationCreatedBy: string;
 
-  buttonVisible$: Observable<boolean> = of(false);
-
+  buttonVisible$: Observable<boolean> = combineLatest([
+    this.rolesFacade.userHasGeneralDeletePositionsRole$,
+    this.rolesFacade.loggedInUserId$,
+  ]).pipe(
+    map(
+      ([isAllowed, loggedInUser]) =>
+        // user can delete positions of any case when either having rolesFacade.userHasDeletePositions$ or when the case is created by the loggedInUser
+        isAllowed || loggedInUser === this.quotationCreatedBy
+    )
+  );
+  private readonly toolPanelOpened$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  deleteButtonClass$: Observable<string> = this.toolPanelOpened$$.pipe(
+    map((isOpen) => (isOpen ? 'right-64' : 'right-8'))
+  );
   private params: IStatusPanelParams;
 
   public constructor(
@@ -36,10 +47,6 @@ export class DeleteItemsButtonComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly rolesFacade: RolesFacade
   ) {}
-
-  ngOnInit(): void {
-    this.checkUserRoles();
-  }
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -69,7 +76,7 @@ export class DeleteItemsButtonComponent implements OnInit {
   }
 
   onToolPanelVisibleChanged(): void {
-    this.toolPanelOpened = !!this.params.api.getOpenedToolPanel();
+    this.toolPanelOpened$$.next(!!this.params.api.getOpenedToolPanel());
   }
 
   deletePositions(): void {
@@ -112,18 +119,5 @@ export class DeleteItemsButtonComponent implements OnInit {
         this.selections = [];
       }
     });
-  }
-
-  private checkUserRoles(): void {
-    this.buttonVisible$ = combineLatest([
-      this.rolesFacade.userHasGeneralDeletePositionsRole$,
-      this.rolesFacade.loggedInUserId$,
-    ]).pipe(
-      map(
-        ([isAllowed, loggedInUser]) =>
-          // user can delete positions of any case when either having rolesFacade.userHasDeletePositions$ or when the case is created by the loggedInUser
-          isAllowed || loggedInUser === this.quotationCreatedBy
-      )
-    );
   }
 }

@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { RolesFacade } from '@gq/core/store/facades';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -28,6 +28,10 @@ describe('DeleteItemsButtonComponent', () => {
   let spectator: Spectator<DeleteItemsButtonComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
+  const userHasGeneralDeletePositionsRole$$ = new BehaviorSubject<boolean>(
+    false
+  );
+  const loggedInUserId$$ = new BehaviorSubject<string>('');
 
   const createComponent = createComponentFactory({
     component: DeleteItemsButtonComponent,
@@ -42,7 +46,11 @@ describe('DeleteItemsButtonComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
-      MockProvider(RolesFacade),
+      MockProvider(RolesFacade, {
+        userHasGeneralDeletePositionsRole$:
+          userHasGeneralDeletePositionsRole$$.asObservable(),
+        loggedInUserId$: loggedInUserId$$.asObservable(),
+      }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
@@ -58,10 +66,7 @@ describe('DeleteItemsButtonComponent', () => {
     params = {
       api: {
         getSelectedRows: jest.fn(),
-        getOpenedToolPanel: jest
-          .fn()
-          .mockReturnValueOnce(true)
-          .mockReturnValueOnce(false),
+        getOpenedToolPanel: jest.fn(),
       },
     } as unknown as IStatusPanelParams;
     store = spectator.inject(MockStore);
@@ -71,48 +76,66 @@ describe('DeleteItemsButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    test('should call checkUserRoles method', () => {
-      component['checkUserRoles'] = jest.fn();
-      component.ngOnInit();
-      expect(component['checkUserRoles']).toHaveBeenCalled();
+  describe('observables', () => {
+    describe('buttonVisible$', () => {
+      test(
+        'should return true for buttonVisible$ when user has general delete positions role but is not the creator of the quotation',
+        marbles((m) => {
+          userHasGeneralDeletePositionsRole$$.next(true);
+          loggedInUserId$$.next('aUser');
+          component.quotationCreatedBy = 'anotherUser';
+          m.expect(component.buttonVisible$).toBeObservable(
+            m.cold('a', { a: true })
+          );
+        })
+      );
+      test(
+        'should return true for buttonVisible$ when user does NOT have general delete positions role  but is creator of the case',
+        marbles((m) => {
+          userHasGeneralDeletePositionsRole$$.next(false);
+          loggedInUserId$$.next('aUser');
+          component.quotationCreatedBy = 'aUser';
+          m.expect(component.buttonVisible$).toBeObservable(
+            m.cold('a', { a: true })
+          );
+        })
+      );
+      test(
+        'should return false for buttonVisible$ when user does NOT have general delete positions role  and is not creator of the case',
+        marbles((m) => {
+          userHasGeneralDeletePositionsRole$$.next(false);
+          loggedInUserId$$.next('aUser');
+          component.quotationCreatedBy = 'anotherUser';
+          m.expect(component.buttonVisible$).toBeObservable(
+            m.cold('a', { a: false })
+          );
+        })
+      );
     });
-    test(
-      'should return true for buttonVisible$ when user has general delete positions role but is not the creator of the quotation',
-      marbles((m) => {
-        component['rolesFacade'].userHasGeneralDeletePositionsRole$ = of(true);
-        component['rolesFacade'].loggedInUserId$ = of('aUser');
-        component.quotationCreatedBy = 'anotherUser';
-        component.ngOnInit();
-        m.expect(component.buttonVisible$).toBeObservable(
-          m.cold('(a|)', { a: true })
-        );
-      })
-    );
-    test(
-      'should return true for buttonVisible$ when user does NOT have general delete positions role  but is creator of the case',
-      marbles((m) => {
-        component['rolesFacade'].userHasGeneralDeletePositionsRole$ = of(false);
-        component['rolesFacade'].loggedInUserId$ = of('aUser');
-        component.quotationCreatedBy = 'aUser';
-        component.ngOnInit();
-        m.expect(component.buttonVisible$).toBeObservable(
-          m.cold('(a|)', { a: true })
-        );
-      })
-    );
-    test(
-      'should return false for buttonVisible$ when user does NOT have general delete positions role  and is not creator of the case',
-      marbles((m) => {
-        component['rolesFacade'].userHasGeneralDeletePositionsRole$ = of(false);
-        component['rolesFacade'].loggedInUserId$ = of('aUser');
-        component.quotationCreatedBy = 'anotherUser';
-        component.ngOnInit();
-        m.expect(component.buttonVisible$).toBeObservable(
-          m.cold('(a|)', { a: false })
-        );
-      })
-    );
+
+    describe('deleteButtonClass$', () => {
+      test(
+        'should return right-64 class when tool panel is opened',
+        marbles((m) => {
+          component['toolPanelOpened$$'].next(true);
+
+          m.expect(component.deleteButtonClass$).toBeObservable(
+            m.cold('a', { a: 'right-64' })
+          );
+        })
+      );
+
+      test(
+        'should return right-8 class when tool panel is closed',
+        marbles((m) => {
+          component['toolPanelOpened$$'].next(false);
+
+          m.expect(component.deleteButtonClass$).toBeObservable(
+            m.cold('a', { a: 'right-8' })
+          );
+        })
+      );
+    });
   });
 
   describe('agInit', () => {
@@ -150,17 +173,34 @@ describe('DeleteItemsButtonComponent', () => {
   });
 
   describe('onToolPanelVisibleChanged', () => {
-    test('should set toolPanelOpened', () => {
-      component['params'] = params;
+    test(
+      'should toolPanelOpened$$ return true',
+      marbles((m) => {
+        params.api.getOpenedToolPanel = jest.fn(() => 'value');
+        component['params'] = params;
 
-      component.onToolPanelVisibleChanged();
-      expect(params.api.getOpenedToolPanel).toHaveBeenCalled();
-      expect(component.toolPanelOpened).toBeTruthy();
+        component.onToolPanelVisibleChanged();
 
-      component.onToolPanelVisibleChanged();
-      expect(params.api.getOpenedToolPanel).toHaveBeenCalled();
-      expect(component.toolPanelOpened).toBeFalsy();
-    });
+        expect(params.api.getOpenedToolPanel).toHaveBeenCalled();
+        m.expect(component['toolPanelOpened$$']).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+    test(
+      'should toolPanelOpened$$ return false',
+      marbles((m) => {
+        params.api.getOpenedToolPanel = jest.fn(() => undefined);
+        component['params'] = params;
+
+        component.onToolPanelVisibleChanged();
+
+        expect(params.api.getOpenedToolPanel).toHaveBeenCalled();
+        m.expect(component['toolPanelOpened$$']).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
   });
 
   describe('deletePositions', () => {
