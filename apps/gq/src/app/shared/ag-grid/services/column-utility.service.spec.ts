@@ -558,7 +558,7 @@ describe('CreateColumnService', () => {
 
   describe('buildMaterialInfoTooltipText', () => {
     test('should set the tooltip text to errorCode', () => {
-      const result = service.buildMaterialInfoTooltipText(
+      const result = service.buildMaterialInfoText(
         [ValidationDescription.Not_Validated],
         [SAP_ERROR_MESSAGE_CODE.SDG1000]
       );

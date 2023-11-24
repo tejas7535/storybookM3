@@ -25,9 +25,9 @@ export class InputTableColumnDefService {
       sortable: true,
       filterParams: FILTER_PARAMS,
       filterValueGetter: (params) =>
-        this.columnUtilityService.buildMaterialInfoTooltipText(
+        this.columnUtilityService.buildMaterialInfoText(
           params.data.info.description,
-          params.data.info.errorCode
+          params.data.info.errorCodes
         ),
       comparator: ColumnUtilityService.infoComparator,
     },

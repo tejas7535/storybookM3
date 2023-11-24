@@ -22,7 +22,7 @@ export class InfoCellComponent {
       ValidationDescription.Not_Validated
     );
     this.valid = params.value.valid;
-    this.toolTipText = this.columnUtilityService.buildMaterialInfoTooltipText(
+    this.toolTipText = this.columnUtilityService.buildMaterialInfoText(
       params.data.info.description,
       params.data.info.errorCodes
     );

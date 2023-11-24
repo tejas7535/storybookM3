@@ -403,7 +403,7 @@ export class ColumnUtilityService {
     }
   }
 
-  buildMaterialInfoTooltipText(
+  buildMaterialInfoText(
     description: ValidationDescription[],
     errorCodes?: string[]
   ): string {
