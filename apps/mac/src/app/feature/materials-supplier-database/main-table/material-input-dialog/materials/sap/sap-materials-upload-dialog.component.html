@@ -124,6 +124,14 @@
         {{ errorMessage }}
       </mat-error>
     </div>
+    <div class="text-caption">
+      {{ t('rawMaterialInfo_1') }}<br />
+      {{ t('rawMaterialInfo_2') }}<br />
+      {{ t('rawMaterialInfo_contact') }}
+      <a [href]="'mailto:' + t('rawMaterialInfo_email')" class="text-link">
+        {{ t('rawMaterialInfo_email') }}
+      </a>
+    </div>
     <div>
       <button mat-button color="primary" (click)="downloadDataTemplate()">
         <mat-icon class="!absolute !right-0">download</mat-icon>

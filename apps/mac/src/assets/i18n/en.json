@@ -475,6 +475,10 @@
         },
         "downloadTemplate": "Download Excel-File template here",
         "disclaimer": "I am aware that the uploaded data will not be checked for plausibility and that I am responsible for the data.",
+        "rawMaterialInfo_1": "Raw materials are currently excluded from upload, entries will be ignored.",
+        "rawMaterialInfo_2": "Please Contact Raw-Material editors to upload that data.",
+        "rawMaterialInfo_contact": "Contact",
+        "rawMaterialInfo_email": "materials-app-center@schaeffler.com",
         "uploadFailure": "Item upload failed!",
         "error": {
           "generic": "Value is not valid",
