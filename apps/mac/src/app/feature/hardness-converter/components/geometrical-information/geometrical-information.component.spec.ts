@@ -1,6 +1,5 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ElementRef } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,14 +16,20 @@ import { BehaviorSubject, filter, of, take } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '@mac/shared/shared.module';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { HB, HRA, HV, MPA } from '../../constants';
+import {
+  INDENTATION_CONFIG,
+  IndentationConfigColumn,
+} from '../../constants/indentation-config';
 import { IndentationResponse } from '../../models';
 import { HardnessConverterApiService } from '../../services/hardness-converter-api.service';
+import { InternalUserCheckService } from '../../services/internal-user-check.service';
 import { GeometricalInformationComponent } from './geometrical-information.component';
 
 describe('GeometricalInformationComponent', () => {
@@ -39,21 +44,19 @@ describe('GeometricalInformationComponent', () => {
     minimum_thickness: 6,
   };
 
-  let showError = false;
-
   const hardnessService = {
     getInfo: jest.fn(),
     getUnits: jest.fn(),
     getConversion: jest.fn(),
-    getIndentation: jest.fn((_a, _b, handler) =>
-      showError ? of(handler()) : of(HC_INDENTATION_MOCK)
-    ),
+    getIndentation: jest.fn((_a, _b) => of(HC_INDENTATION_MOCK)),
   };
   const inputElement = { nativeElement: { focus: jest.fn() } } as ElementRef;
   const activeConversion = new BehaviorSubject<{
     value: number;
     unit: string;
   }>({ value: undefined, unit: HV });
+
+  const toSo = (i: number) => ({ id: i, title: i.toString() } as StringOption);
 
   const createComponent = createComponentFactory({
     component: GeometricalInformationComponent,
@@ -81,6 +84,12 @@ describe('GeometricalInformationComponent', () => {
           ...hardnessService,
         },
       },
+      {
+        provide: InternalUserCheckService,
+        useValue: {
+          isInternalUser: jest.fn(() => of(true)),
+        },
+      },
     ],
     detectChanges: false,
   });
@@ -93,9 +102,8 @@ describe('GeometricalInformationComponent', () => {
     component = spectator.debugElement.componentInstance;
     component.ngOnInit();
     // initialize inputs
-    showError = false;
     activeConversion.next({ value: undefined, unit: HV });
-    component.isEnabled = true;
+    component.enabledControl.setValue(true);
   });
 
   it('should create', () => {
@@ -107,22 +115,22 @@ describe('GeometricalInformationComponent', () => {
       component['setValidators'] = jest.fn();
     });
     it('should reset controls on unit change', (done) => {
-      component.loadControl.setValue(5);
+      component.loadControl.setValue(toSo(5));
       activeConversion.next({ value: 7, unit: HRA });
 
       expect(component.valueControl.value).toEqual(7);
-      expect(component.loadControl.value).toBeFalsy();
+      expect(component.loadControl.value).toStrictEqual(toSo(10)); // reset to default
       expect(component['conversionUnit']).toEqual(HRA);
       expect(component['setValidators']).toBeCalled();
       done();
     });
 
     it('should NOT reset controls without unit change', () => {
-      component.loadControl.setValue(5);
+      component.loadControl.setValue(toSo(5));
       activeConversion.next({ value: 4, unit: HV });
 
       expect(component.valueControl.value).toEqual(4);
-      expect(component.loadControl.value).toEqual(5);
+      expect(component.loadControl.value).toStrictEqual(toSo(5));
       expect(component['conversionUnit']).toEqual(HV);
       expect(component['setValidators']).not.toBeCalled();
     });
@@ -131,7 +139,6 @@ describe('GeometricalInformationComponent', () => {
   describe('should react to changes of input control', () => {
     beforeEach(() => {
       // resulting in only 'value' (20 - 90) and 'diameter' (3-19) will be active
-      showError = false;
       component['reset']();
       activeConversion.next({ value: 21, unit: HRA });
       hardnessService.getIndentation.mockClear();
@@ -140,9 +147,14 @@ describe('GeometricalInformationComponent', () => {
       // diameter is only valid for 3-19
       component.diameterControl.setValue(5);
       expect(hardnessService.getIndentation).toBeCalledWith(
-        { value: 21, diameter: 5 },
-        HRA,
-        expect.anything()
+        {
+          value: 21,
+          diameter: 5,
+          thickness: 0,
+          material: undefined,
+          load: undefined,
+        },
+        HRA
       );
 
       // verify value of observable resultLoading
@@ -156,12 +168,10 @@ describe('GeometricalInformationComponent', () => {
     });
     it('should call hardness service for indentation values with diameterBall value', (done) => {
       activeConversion.next({ value: 23, unit: HB });
-      component.loadControl.setValue(2);
-      component.diameterBallControl.setValue(17);
+      component.diameterBallControl.setValue({ diameter: 17, load: 2 });
       expect(hardnessService.getIndentation).toBeCalledWith(
-        { value: 23, diameter: 17, load: 2 },
-        HB,
-        expect.anything()
+        { value: 23, diameter: 17, load: 2, material: undefined, thickness: 0 },
+        HB
       );
 
       // verify value of observable resultLoading
@@ -174,25 +184,13 @@ describe('GeometricalInformationComponent', () => {
         });
     });
 
-    it('should call error handler on service failure', () => {
-      component['errorHandler'] = jest.fn();
-      showError = true;
-
-      activeConversion.next({ value: 23, unit: HB });
-      component.loadControl.setValue(2);
-      component.diameterBallControl.setValue(17);
-
-      expect(component['errorHandler']).toBeCalled();
-      expect(hardnessService.getIndentation).toBeCalled();
-    });
-
     it('should not call hardness service for indentation values on invalid input', () => {
       // diameter is only valid for 3-19
       component.diameterControl.setValue(2);
       expect(hardnessService.getIndentation).not.toBeCalled();
     });
     it('should not call hardness service for indentation values if geoinformation is disabled', () => {
-      component.isEnabled = false;
+      component.enabledControl.setValue(false);
       component.diameterControl.setValue(5);
       expect(hardnessService.getIndentation).not.toBeCalled();
     });
@@ -231,20 +229,29 @@ describe('GeometricalInformationComponent', () => {
 
   describe('get value', () => {
     it('should return the formated string for numbers', () => {
-      const key = 'width';
+      const item: IndentationConfigColumn = {
+        name: 'width',
+        format: '1.3',
+        unit: 'kw',
+      };
       const response = {
-        [key]: 12.1234,
+        width: 12.1234,
       } as IndentationResponse;
 
-      expect(component.get(response, key)).toEqual('12.123');
+      expect(component.get(response, item)).toEqual('12.123');
     });
-    it('should return the string for other types', () => {
-      const key = 'valid';
+
+    it('should return "-" for null values', () => {
+      const item: IndentationConfigColumn = {
+        name: 'width',
+        format: '1.3',
+        unit: 'kw',
+      };
       const response = {
-        [key]: true,
+        width: undefined,
       } as IndentationResponse;
 
-      expect(component.get(response, key)).toEqual(response[key]);
+      expect(component.get(response, item)).toEqual('-');
     });
   });
 
@@ -253,46 +260,22 @@ describe('GeometricalInformationComponent', () => {
       component['conversionUnit'] = HV;
     });
     it('should return geo keys', () => {
-      expect(component.getGeoKeys()).toContain('width');
-      expect(component.getGeoKeys()).toContain('depth');
-      expect(component.getGeoKeys()).toContain('edge_distance');
-      expect(component.getGeoKeys()).toContain('indentation_distance');
-      expect(component.getGeoKeys()).toContain('minimum_thickness');
-    });
-    it('should return geo keys unit', () => {
-      expect(component.getGeoKeysUnit()).toBe('mm');
+      expect(component.getGeoKeys()).toEqual(INDENTATION_CONFIG[HV].geometry);
     });
     it('should return corrected keys', () => {
-      expect(component.getCorrectedKeys()).toContain('hardness_convex_sphere');
-      expect(component.getCorrectedKeys()).toContain(
-        'hardness_concave_cylinder_0'
-      );
-      expect(component.getCorrectedKeys()).toContain(
-        'hardness_concave_cylinder_45'
-      );
-      expect(component.getCorrectedKeys()).toContain('hardness_concave_sphere');
-      expect(component.getCorrectedKeys()).toContain(
-        'hardness_convex_cylinder_0'
-      );
-      expect(component.getCorrectedKeys()).toContain(
-        'hardness_convex_cylinder_45'
+      expect(component.getCorrectedKeys()).toEqual(
+        INDENTATION_CONFIG[HV].correction
       );
     });
 
     it('should return that corrected keys exist', () => {
       expect(component.hasCorrectedKeys()).toBeTruthy();
     });
-    it('should return corrected keys unit', () => {
-      expect(component.getCorrectedKeysUnit()).toBe('hv');
-    });
     it('should return other keys', () => {
-      expect(component.getOther()).toContain('test_force');
+      expect(component.getOther()).toStrictEqual(INDENTATION_CONFIG[HV].other);
     });
     it('should return that other keys exist', () => {
       expect(component.hasOther()).toBeTruthy();
-    });
-    it('should return other keys unit', () => {
-      expect(component.getOtherUnit()).toBe('kp');
     });
   });
 
@@ -318,19 +301,5 @@ describe('GeometricalInformationComponent', () => {
       tick(100);
       expect(inputElement.nativeElement.focus).toHaveBeenCalled();
     }));
-  });
-
-  describe('errorHandler', () => {
-    it('should open snackbar', () => {
-      component['snackbar'].open = jest.fn();
-      const err = { status: 400 } as HttpErrorResponse;
-
-      component['errorHandler'](err);
-      expect(component['snackbar'].open).toHaveBeenCalledWith(
-        expect.any(String),
-        'X',
-        { duration: 5000 }
-      );
-    });
   });
 });

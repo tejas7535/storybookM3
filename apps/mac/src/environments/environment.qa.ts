@@ -21,4 +21,6 @@ export const environment: Environment = {
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*', 'Auth\b*', '.*\\[ai_ignore\\].*'],
   },
+  internalUserCheckURL:
+    'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
 };

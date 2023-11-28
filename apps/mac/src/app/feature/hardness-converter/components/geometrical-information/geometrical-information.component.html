@@ -1,14 +1,29 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div *transloco="let t; read: 'hardnessConverter.geometricalInformation'">
   <div class="pb-6 pl-4">
     <mat-slide-toggle
       color="primary"
-      [(ngModel)]="isEnabled"
+      [formControl]="enabledControl"
       labelPosition="before"
       >{{ t('control') }}</mat-slide-toggle
     >
   </div>
-  <div class="pb-6" *ngIf="isEnabled">
-    <div class="grid grid-cols-1 gap-4 md:!grid-cols-2">
+  <div class="pb-6" *ngIf="enabledControl.value">
+    <div
+      class="p-4 border border-warning bg-warning rounded text-caption text-warning"
+      *ngIf="!isValidUnit()"
+    >
+      <div>
+        {{ t('error.mpa') }}
+      </div>
+      <div *ngIf="isInternal$ | ngrxPush">
+        {{ t('error.mpa_prelink') }}
+        <a class="text-link" [href]="t('error.mpa_href')" target="_blank">
+          {{ t('error.mpa_link') }}</a
+        >
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-4 md:!grid-cols-2" *ngIf="isValidUnit()">
       <mat-form-field appearance="outline" class="md:w-72" (click)="setFocus()">
         <mat-label>{{ t('controls.value') }}</mat-label>
         <input matInput [formControl]="valueControl" type="number" readonly />
@@ -41,25 +56,41 @@
       >
         <mat-label>{{ t('controls.diameterBall') }}</mat-label>
         <mat-select [formControl]="diameterBallControl">
-          <mat-option [value]="1.0">1.0 mm</mat-option>
-          <mat-option [value]="2.5">2.5 mm</mat-option>
-          <mat-option [value]="5.0">5.0 mm</mat-option>
-          <mat-option [value]="10.0">10.0 mm</mat-option>
+          <mat-option *ngFor="let entry of diameterBallOptions" [value]="entry">
+            {{ entry.diameter }} mm / {{ entry.load }} kp
+          </mat-option>
         </mat-select>
         <mat-error class="text-caption">{{
           getErrorMessage(diameterBallControl.errors)
         }}</mat-error>
       </mat-form-field>
 
-      <mat-form-field
+      <!--  allow adding of new entries implementation  -->
+      <schaeffler-select
         appearance="outline"
         class="md:w-72"
         *ngIf="loadControl.enabled"
+        [label]="t('controls.load')"
+        [stringOptions]="loadOptions"
+        [control]="loadControl"
+        [addEntry]="true"
+        (entryAdded)="onEntryAdded($event)"
+        [filterFn]="filterFn"
+      ></schaeffler-select>
+
+      <mat-form-field
+        appearance="outline"
+        class="md:w-72"
+        *ngIf="materialControl.enabled"
       >
-        <mat-label>{{ t('controls.load') }}</mat-label>
-        <input matInput [formControl]="loadControl" type="number" step="0.5" />
+        <mat-label>{{ t('controls.material') }}</mat-label>
+        <mat-select [formControl]="materialControl">
+          <mat-option *ngFor="let mat of getMaterials()" [value]="mat">{{
+            t('material.' + mat)
+          }}</mat-option>
+        </mat-select>
         <mat-error class="text-caption">{{
-          getErrorMessage(loadControl.errors)
+          getErrorMessage(materialControl.errors)
         }}</mat-error>
       </mat-form-field>
 
@@ -79,124 +110,113 @@
           getErrorMessage(thicknessControl.errors)
         }}</mat-error>
       </mat-form-field>
-
-      <mat-form-field
-        appearance="outline"
-        class="md:w-72"
-        *ngIf="materialControl.enabled"
-      >
-        <mat-label>{{ t('controls.material') }}</mat-label>
-        <mat-select [formControl]="materialControl">
-          <mat-option *ngFor="let mat of getMaterials()" [value]="mat">{{
-            t('material.' + mat)
-          }}</mat-option>
-        </mat-select>
-        <mat-error class="text-caption">{{
-          getErrorMessage(materialControl.errors)
-        }}</mat-error>
-      </mat-form-field>
     </div>
 
-    <div
+    <ng-container
       *ngIf="
         !(resultLoading$ | ngrxPush) && (indentationResult$ | ngrxPush);
         else noResult
       "
     >
-      <table class="w-full" *ngrxLet="indentationResult$ as response">
-        <colgroup>
-          <col class="w-1/2" />
-          <col class="w-1/4" />
-          <col class="w-1/6" />
-          <col />
-        </colgroup>
-        <tr>
-          <td colspan="4" class="pb-4 pt-4 text-center text-subtitle-1">
-            {{ t('geometry') }}
-          </td>
-        </tr>
+      <ng-container *ngrxLet="indentationResult$ as response">
+        <div
+          class="p-4 border border-warning bg-warning rounded text-caption text-warning"
+          *ngIf="response.error"
+        >
+          {{ t('error.' + response.error) }}
+        </div>
+        <table class="w-full">
+          <colgroup>
+            <col class="w-1/2" />
+            <col class="w-1/4" />
+            <col class="w-1/6" />
+            <col />
+          </colgroup>
+          <tr>
+            <td colspan="4" class="pb-4 pt-4 text-center text-subtitle-1">
+              {{ t('geometry') }}
+            </td>
+          </tr>
 
-        <tr class="border-b border-border" *ngFor="let item of getGeoKeys()">
-          <td>{{ t('prop.' + item) }}</td>
-          <td class="text-center text-h6 font-medium">
-            {{ get(response, item) }}
-          </td>
-          <td class="text-center">{{ t('unit.' + getGeoKeysUnit()) }}</td>
-          <td>
-            <button
-              mat-button
-              (click)="
-                onCopyButtonClick(
-                  get(response, item),
-                  t('unit.' + getGeoKeysUnit())
-                )
-              "
+          <tr class="border-b border-border" *ngFor="let item of getGeoKeys()">
+            <td>{{ t('prop.' + item.name) }}</td>
+            <td class="text-center text-h6 font-medium">
+              {{ get(response, item) }}
+            </td>
+            <td class="text-center">{{ t('unit.' + item.unit) }}</td>
+            <td>
+              <button
+                mat-button
+                (click)="
+                  onCopyButtonClick(get(response, item), t('unit.' + item.unit))
+                "
+              >
+                <mat-icon class="!m-0" color="primary">content_copy</mat-icon>
+              </button>
+            </td>
+          </tr>
+          <ng-container *ngIf="hasCorrectedKeys()">
+            <tr>
+              <td colspan="4" class="pb-4 pt-8 text-center text-subtitle-1">
+                {{ t('corrections') }}
+              </td>
+            </tr>
+            <tr
+              class="border-b border-border"
+              *ngFor="let item of getCorrectedKeys()"
             >
-              <mat-icon class="!m-0" color="primary">content_copy</mat-icon>
-            </button>
-          </td>
-        </tr>
-        <ng-container *ngIf="hasCorrectedKeys()">
-          <tr>
-            <td colspan="4" class="pb-4 pt-8 text-center text-subtitle-1">
-              {{ t('corrections') }}
-            </td>
-          </tr>
-          <tr
-            class="border-b border-border"
-            *ngFor="let item of getCorrectedKeys()"
-          >
-            <td>{{ t('prop.' + item) }}</td>
-            <td class="text-center text-h6 font-medium">
-              {{ get(response, item) }}
-            </td>
-            <td class="text-center">
-              {{ t('unit.' + getCorrectedKeysUnit()) }}
-            </td>
-            <td>
-              <button
-                mat-button
-                (click)="
-                  onCopyButtonClick(
-                    get(response, item),
-                    t('unit.' + getCorrectedKeysUnit())
-                  )
-                "
-              >
-                <mat-icon class="!m-0" color="primary">content_copy</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="hasOther()">
-          <tr>
-            <td colspan="4" class="pb-4 pt-8 text-center text-subtitle-1">
-              {{ t('others') }}
-            </td>
-          </tr>
-          <tr class="border-b border-border" *ngFor="let item of getOther()">
-            <td>{{ t('prop.' + item) }}</td>
-            <td class="text-center text-h6 font-medium">
-              {{ get(response, item) }}
-            </td>
-            <td class="text-center">{{ t('unit.' + getOtherUnit()) }}</td>
-            <td>
-              <button
-                mat-button
-                (click)="
-                  onCopyButtonClick(
-                    get(response, item),
-                    t('unit.' + getOtherUnit())
-                  )
-                "
-              >
-                <mat-icon class="!m-0" color="primary">content_copy</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </ng-container>
-      </table>
-    </div>
+              <td>{{ t('prop.' + item.name) }}</td>
+              <td class="text-center text-h6 font-medium">
+                {{ get(response, item) }}
+              </td>
+              <td class="text-center">
+                {{ t('unit.' + item.unit) }}
+              </td>
+              <td>
+                <button
+                  mat-button
+                  (click)="
+                    onCopyButtonClick(
+                      get(response, item),
+                      t('unit.' + item.unit)
+                    )
+                  "
+                >
+                  <mat-icon class="!m-0" color="primary">content_copy</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="hasOther()">
+            <tr>
+              <td colspan="4" class="pb-4 pt-8 text-center text-subtitle-1">
+                {{ t('others') }}
+              </td>
+            </tr>
+            <tr class="border-b border-border" *ngFor="let item of getOther()">
+              <td>{{ t('prop.' + item.name) }}</td>
+              <td class="text-center text-h6 font-medium">
+                {{ get(response, item) }}
+              </td>
+              <td class="text-center">{{ t('unit.' + item.unit) }}</td>
+              <td>
+                <button
+                  mat-button
+                  (click)="
+                    onCopyButtonClick(
+                      get(response, item),
+                      t('unit.' + item.unit)
+                    )
+                  "
+                >
+                  <mat-icon class="!m-0" color="primary">content_copy</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </table>
+      </ng-container>
+    </ng-container>
     <ng-template #noResult>
       <div
         *ngIf="resultLoading$ | ngrxPush"

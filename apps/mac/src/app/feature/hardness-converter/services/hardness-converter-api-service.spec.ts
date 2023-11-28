@@ -102,19 +102,17 @@ describe('HardnessConverterApiService', () => {
     it('should fetch the indentation', (done) => {
       const request: IndentationRequest = { value: 3 };
       const unit = HB;
-      const errorHandler = jest.fn();
       const expected = {
         depth: 9,
         width: 82,
       } as IndentationResponse;
       service
-        .getIndentation(request, unit, errorHandler)
-        .subscribe((result: ConversionResponse) => {
+        .getIndentation(request, unit)
+        .subscribe((result: IndentationResponse) => {
           expect(
             service['applicationInsightService'].logEvent
           ).toHaveBeenCalled();
           expect(result).toEqual(expected);
-          expect(errorHandler).not.toBeCalled();
           done();
         });
 
@@ -123,28 +121,6 @@ describe('HardnessConverterApiService', () => {
       );
       expect(req.request.method).toBe('POST');
       req.flush(expected);
-    });
-    it('should call the error handler', (done) => {
-      const request: IndentationRequest = { value: 3 };
-      const unit = HB;
-      const errorHandler = jest.fn(() => ['error response']);
-      const expected = 'error response';
-      service
-        .getIndentation(request, unit, errorHandler)
-        .subscribe((result: ConversionResponse) => {
-          expect(
-            service['applicationInsightService'].logEvent
-          ).toHaveBeenCalled();
-          expect(result).toEqual(expected);
-          expect(errorHandler).toBeCalled();
-          done();
-        });
-
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/indentation/${unit}`
-      );
-      expect(req.request.method).toBe('POST');
-      req.flush('', { status: 400, statusText: '' });
     });
   });
 });

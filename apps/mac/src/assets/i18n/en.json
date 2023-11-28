@@ -86,14 +86,24 @@
     },
     "geometricalInformation": {
       "error": {
-        "400": "Calculation cannot be processed with given parameters!"
+        "400": "parameters out-of-range!",
+        "mpa": "Calculation of geometrical parameters or indentation properties is not available for unit MPa (UTS)!",
+        "mpa_prelink": "For such calculations, please use the",
+        "mpa_link": "Material Properties Estimator - LINK",
+        "mpa_href": "https://matlab-web-app:9988/webapps/home/login.html?afterlogin=%2Fwebapps%2Fhome%2Fsession.html%3Fapp%3DSchaeffler%252FMaterialparameterestimation",
+        "invalid_hv_force": "Maximum allowed test force is higher than applied test force!",
+        "invalid_hb_ratio": "Indentation-indenter ratio is out of range, needs to be within 24 % and 60 %!",
+        "invalid_parameter": "Unable to calculate values, parameters out-of-range!",
+        "invalid_ball_diameter": "Invalid ball diameter!"
       },
       "control": "Geometrical Parameters and Indentation Properties",
-      "geometry": "Identational geometrical parameter",
-      "corrections": "Corrected values",
+      "geometry": "Geometric Indentation Parameters",
+      "corrections": "Corrected hardness values",
       "others": "Others",
       "unit": {
+        "none": " ",
         "mm": "mm",
+        "ppt": "%",
         "kp": "kp",
         "boolean": " ",
         "hv": "HV",
@@ -108,7 +118,7 @@
         "edge_distance": "Edge indentation spacing",
         "indentation_distance": "Inter-indentation spacing",
         "minimum_thickness": "Min. sample thickness",
-        "indenter_ratio": "Indenter ratio",
+        "indenter_ratio": "Indentation-indenter ratio",
         "force_diameter_index": "Force diameter index",
         "hardness_convex_sphere": "Correction convex sphere",
         "hardness_concave_sphere": "Correction concave sphere",
@@ -133,9 +143,9 @@
       },
       "controls": {
         "diameter": "Sample diameter [mm]",
-        "diameterBall": "Sample ball diameter",
+        "diameterBall": "Sample ball diameter / Indentation load",
         "load": "Indentation load [kp]",
-        "thickness": "Thickneess [mm]",
+        "thickness": "Thickness [mm]",
         "material": "Material",
         "value": "Value to be converted (readonly)"
       }

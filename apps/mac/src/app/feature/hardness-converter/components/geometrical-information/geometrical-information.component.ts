@@ -1,6 +1,5 @@
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule, formatNumber } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -28,7 +27,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   BehaviorSubject,
   filter,
-  ObservableInput,
+  Observable,
   ReplaySubject,
   Subject,
   take,
@@ -39,6 +38,8 @@ import {
 import { translate } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { StringOption } from '@schaeffler/inputs';
+import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import * as util from '@mac/feature/hardness-converter/util';
@@ -46,6 +47,10 @@ import { SharedModule } from '@mac/shared/shared.module';
 
 import {
   INDENTATION_CONFIG,
+  IndentationConfigColumn,
+  IndentationResetValues,
+  IntendationDiameterBallValues,
+  IntendationLoadValues,
   SupportedFormFields,
   SupportedUnits,
 } from '../../constants/indentation-config';
@@ -55,6 +60,7 @@ import {
   IndentationResponse,
 } from '../../models';
 import { HardnessConverterApiService } from '../../services/hardness-converter-api.service';
+import { InternalUserCheckService } from '../../services/internal-user-check.service';
 
 @Component({
   selector: 'mac-geometrical-information',
@@ -62,6 +68,7 @@ import { HardnessConverterApiService } from '../../services/hardness-converter-a
   imports: [
     CommonModule,
     MatIconModule,
+    SelectModule,
     MatFormFieldModule,
     FormsModule,
     MatSelectModule,
@@ -71,6 +78,7 @@ import { HardnessConverterApiService } from '../../services/hardness-converter-a
     PushPipe,
     LetDirective,
     MatSnackBarModule,
+    MatIconModule,
     ClipboardModule,
     ReactiveFormsModule,
     SharedModule,
@@ -92,11 +100,14 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
     undefined,
     Validators.required
   );
-  public diameterBallControl = new FormControl<number>(
+  public diameterBallControl = new FormControl<{
+    diameter: number;
+    load: number;
+  }>(undefined, Validators.required);
+  public loadControl = new FormControl<StringOption>(
     undefined,
     Validators.required
   );
-  public loadControl = new FormControl<number>(undefined, Validators.required);
   public valueControl = new FormControl<number>(undefined, Validators.required);
   public thicknessControl = new FormControl<number>(
     undefined,
@@ -107,10 +118,18 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
     Validators.required
   );
 
-  public isEnabled = false;
+  public enabledControl = new FormControl<boolean>(
+    false,
+    Validators.requiredTrue
+  );
+
   public indentationResult$ = new ReplaySubject<IndentationResponse>();
   public resultLoading$ = new BehaviorSubject<boolean>(false);
+  public isInternal$: Observable<boolean>;
   public getErrorMessage = util.getErrorMessage;
+
+  public loadOptions = IntendationLoadValues;
+  public diameterBallOptions = IntendationDiameterBallValues;
 
   private inputs: FormGroup<IndentationRequestForm>;
   private conversionUnit: string;
@@ -120,11 +139,13 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
     private readonly clipboard: Clipboard,
     private readonly snackbar: MatSnackBar,
     private readonly hardnessService: HardnessConverterApiService,
+    private readonly internalUserService: InternalUserCheckService,
     @Inject(LOCALE_ID) private readonly locale: string
   ) {}
 
   ngOnInit(): void {
     this.inputs = new FormGroup<IndentationRequestForm>({
+      enabled: this.enabledControl,
       value: this.valueControl,
       diameter: this.diameterControl,
       diameterBall: this.diameterBallControl,
@@ -133,21 +154,27 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
       material: this.materialControl,
     });
 
+    this.isInternal$ = this.internalUserService.isInternalUser();
     // react to changes of the conversion unit and value
-    this.activeConversion.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      if (this.conversionUnit !== data.unit) {
-        SupportedFormFields.forEach((field) =>
-          this.setValidators(data.unit, field as keyof IndentationRequestForm)
-        );
+    this.activeConversion
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((data) => !!data.unit)
+      )
+      .subscribe((data) => {
+        if (this.conversionUnit !== data.unit) {
+          SupportedFormFields.forEach((field) =>
+            this.setValidators(data.unit, field as keyof IndentationRequestForm)
+          );
 
-        this.conversionUnit = data.unit;
-        this.reset();
-      }
-      // set value on control, update all fields and mark value as touched (to (un)trigger error message)
-      this.valueControl.setValue(data.value);
-      this.inputs.updateValueAndValidity();
-      this.valueControl.markAsTouched();
-    });
+          this.conversionUnit = data.unit;
+          this.reset();
+        }
+        // set value on control, update all fields and mark value as touched (to (un)trigger error message)
+        this.valueControl.setValue(data.value);
+        this.inputs.updateValueAndValidity();
+        this.valueControl.markAsTouched();
+      });
 
     // react to changes of properties
     this.inputs.valueChanges
@@ -156,9 +183,7 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
         tap(() => this.resetResult()),
         filter(
           () =>
-            this.isEnabled &&
-            this.inputs.valid &&
-            SupportedUnits.includes(this.conversionUnit)
+            this.inputs.valid && SupportedUnits.includes(this.conversionUnit)
         )
       )
       .subscribe((data) => {
@@ -166,14 +191,13 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
         this.hardnessService
           .getIndentation(
             {
-              diameter: data.diameter || data.diameterBall,
-              load: data.load,
+              diameter: data.diameter || data.diameterBall?.diameter,
+              load: (data.load?.id as number) || data.diameterBall?.load,
               material: data.material,
-              thickness: data.thickness,
+              thickness: data.thickness || 0,
               value: data.value,
             },
-            this.conversionUnit,
-            (err) => this.errorHandler(err)
+            this.conversionUnit
           )
           .pipe(take(1))
           .subscribe((response) => {
@@ -206,37 +230,31 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
     );
   }
 
-  public get(response: IndentationResponse, key: keyof IndentationResponse) {
-    const val = response[key];
+  public get(response: IndentationResponse, item: IndentationConfigColumn) {
+    const val = response[item.name];
 
-    return typeof val === 'number'
-      ? formatNumber(val as number, this.locale, '1.2')
-      : val;
+    return !val ? '-' : formatNumber(val as number, this.locale, item.format);
+  }
+
+  // verify that selected unit has a configuration (not for MPa)
+  public isValidUnit() {
+    return !!INDENTATION_CONFIG[this.conversionUnit];
   }
 
   public getGeoKeys() {
-    return INDENTATION_CONFIG[this.conversionUnit]?.geometry.columns;
-  }
-  public getGeoKeysUnit() {
-    return INDENTATION_CONFIG[this.conversionUnit]?.geometry.unit;
+    return INDENTATION_CONFIG[this.conversionUnit]?.geometry;
   }
   public hasCorrectedKeys() {
     return !!INDENTATION_CONFIG[this.conversionUnit]?.correction;
   }
   public getCorrectedKeys() {
-    return INDENTATION_CONFIG[this.conversionUnit]?.correction?.columns;
-  }
-  public getCorrectedKeysUnit() {
-    return INDENTATION_CONFIG[this.conversionUnit]?.correction?.unit;
+    return INDENTATION_CONFIG[this.conversionUnit]?.correction;
   }
   public hasOther() {
     return !!INDENTATION_CONFIG[this.conversionUnit]?.other;
   }
   public getOther() {
-    return INDENTATION_CONFIG[this.conversionUnit]?.other?.columns;
-  }
-  public getOtherUnit() {
-    return INDENTATION_CONFIG[this.conversionUnit]?.other?.unit;
+    return INDENTATION_CONFIG[this.conversionUnit]?.other;
   }
 
   public onCopyButtonClick(value: any, unit: any): void {
@@ -253,20 +271,21 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  private errorHandler(err: HttpErrorResponse): ObservableInput<any> {
-    this.snackbar.open(
-      translate(`hardnessConverter.geometricalInformation.error.${err.status}`),
-      'X',
-      {
-        duration: 5000,
-      }
-    );
+  public onEntryAdded(value: number): void {
+    const newOption: StringOption = { id: value, title: value.toString() };
+    this.loadOptions.push(newOption);
+  }
 
-    return [];
+  public filterFn(option?: StringOption, value?: string) {
+    return value ? option?.title?.includes(value) : true;
   }
 
   private reset() {
-    this.inputs.reset({}, { emitEvent: false });
+    const resetValues = {
+      ...IndentationResetValues,
+      enabled: this.enabledControl.value,
+    };
+    this.inputs.reset(resetValues, { emitEvent: false });
     this.resetResult();
   }
 

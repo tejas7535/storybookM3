@@ -16,5 +16,5 @@ export interface IndentationResponse {
   test_force?: number;
   force_diameter_index?: number;
   indenter_ratio?: number;
-  valid?: boolean;
+  error?: string;
 }
