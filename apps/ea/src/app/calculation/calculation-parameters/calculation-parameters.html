@@ -101,32 +101,34 @@
                 <ng-template mat-tab-label>
                   <p>{{loadDataItem.controls.loadCaseName.value}}</p>
                 </ng-template>
-                <div
-                  class="p-4 mt-2 flex flex-col gap-0 w-full rounded-xl sm:gap-6 lg:grid bg-background-dark"
-                >
-                  <div class="flex">
-                    <mat-form-field>
-                      <input
-                        matInput
-                        [formControl]="loadDataItem.controls.loadCaseName"
-                      />
-                    </mat-form-field>
-                    <button
-                      mat-icon-button
-                      (click)="onRemoveLoadCaseClick(i)"
-                      class="ml-auto !text-medium-emphasis"
-                      color="secondary"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
-                  <ng-container
-                    *ngFor="let parameterTemplate of parameterTemplates.loadCases"
-                    [ngTemplateOutlet]="parameterTemplate"
-                    [ngTemplateOutletContext]="{ t: t , loadCase: loadDataItem}"
+                <ng-template matTabContent>
+                  <div
+                    class="p-4 mt-2 flex flex-col gap-0 w-full rounded-xl sm:gap-6 lg:grid bg-background-dark"
                   >
-                  </ng-container>
-                </div>
+                    <div class="flex">
+                      <mat-form-field>
+                        <input
+                          matInput
+                          [formControl]="loadDataItem.controls.loadCaseName"
+                        />
+                      </mat-form-field>
+                      <button
+                        mat-icon-button
+                        (click)="onRemoveLoadCaseClick(i)"
+                        class="ml-auto !text-medium-emphasis"
+                        color="secondary"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <ng-container
+                      *ngFor="let parameterTemplate of parameterTemplates.loadCases"
+                      [ngTemplateOutlet]="parameterTemplate"
+                      [ngTemplateOutletContext]="{ t: t , loadCase: loadDataItem}"
+                    >
+                    </ng-container>
+                  </div>
+                </ng-template>
               </mat-tab>
             </mat-tab-group>
           </div>
