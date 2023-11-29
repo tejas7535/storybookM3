@@ -5,7 +5,7 @@
       <div class="flex flex-col gap-0 w-full sm:gap-6 lg:grid">
         <ea-qualtrics-info-banner></ea-qualtrics-info-banner>
 
-        <div class="text-medium-emphasis px-1 text-h6">
+        <div class="text-medium-emphasis end-to-end-test-element px-1 text-h6">
           {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
         </div>
         <div class="py-2 flex flex-col gap-y-2" *ngIf="!isProduction">

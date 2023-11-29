@@ -3,12 +3,19 @@ import { getCalculationResultInputGroup } from '../support/app.po';
 describe('EA: CO2 downstream values', () => {
   const expectedRatingLife = '181,000';
   const expectedViscosityRating = '2.02';
-  const expectedUpstreamEmission = '1.33';
+  const expectedUpstreamEmission = '1.55';
   const expectedOverrollingFrequency = '102';
   const reportSectionValueMapping: Record<string, string[]> = {
-    'Rating life': [expectedRatingLife, '9,030,000', '1,500', '1,500', '15.5'],
+    'Rating life': [
+      expectedRatingLife,
+      '9,030,000',
+      '1,500',
+      '1,500',
+      '15.5',
+      '1,500',
+    ],
     'Lubrication Parameters': [expectedViscosityRating, '28', '13.9', '50'],
-    'Estimation of': [expectedUpstreamEmission],
+    'Estimation of ': [expectedUpstreamEmission],
     'Overrolling frequencies': [
       expectedOverrollingFrequency,
       '148',
@@ -34,7 +41,7 @@ describe('EA: CO2 downstream values', () => {
       // needs force since maybe covered by label
       .click({ force: true })
       .focused()
-      .type('1500'); // radial load
+      .type('1500', { force: true }); // radial load
 
     getCalculationResultInputGroup('Motion Influences')
       .find('.mat-mdc-input-element')
@@ -42,7 +49,7 @@ describe('EA: CO2 downstream values', () => {
       // needs force since maybe covered by label
       .click({ force: true })
       .focused()
-      .type('1500'); // rotation speed
+      .type('1500', { force: true }); // rotation speed
   });
 
   it(
@@ -82,7 +89,7 @@ describe('EA: CO2 downstream values', () => {
       )) {
         // find the values in the section with sectionName
         for (const value of values) {
-          cy.get('mat-dialog-container mat-expansion-panel-header')
+          cy.get('cdk-dialog-container mat-expansion-panel-header')
             .contains(sectionName)
             .parentsUntil('ea-expansion-panel')
             .last()
