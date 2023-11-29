@@ -1,4 +1,26 @@
 # Release Notes of Guided Quoting
+## [4.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.2.0...gq-v4.3.0) (2023-11-29)
+
+
+### Features
+
+* **gq:** add SQV (RFQ) and GPM (RFQ) columns (GQUOTE-3385) ([#5788](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5788)) ([47d8585](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47d858517321e04892ce5262ee730a991280087f))
+* **gq:** adjust autocomplete's panel width to 100% of parent container (GQUOTE-3382) ([#5786](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5786)) ([6781490](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6781490c0ccbbed6f67afa644c84e68d284ccbf2))
+* **gq:** create RFQ Tile and display GPM (RFQ) values for Price Tiles (GQUOTE-3202) ([#5795](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5795)) ([9cff7ec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9cff7ecac8da0292382a2d3a8c27c436f479b24c))
+* **gq:** display Icon for RFQ Data Update available (GQUOTE-3435) ([#5809](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5809)) ([08af9ee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/08af9ee38d3ad5bb92bab3ac6ddd121714a849a7))
+* **gq:** highlight RFQ Positions in quotationDetails table (GQUOTE-3376) ([#5781](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5781)) ([f8217fe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f8217fe093c294ca0f001d0bc0b7a0200a918992))
+* **gq:** remove mockData, adjust due to BE (GQUOTE-3381) ([#5802](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5802)) ([b0bad1a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b0bad1ae06ad7d82ff0ee702c06bf9fd211bb13e))
+* **gq:** restrict GREATER_CHINA price source change (GQUOTE-3374) ([#5783](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5783)) ([c547d1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c547d1f7fb072c487cb87e90f5ec1d87dabb9f74))
+
+
+### Bug Fixes
+
+* **gq:** cast file types and file extension during unsupported file type check (GQUOTE-3189) ([#5798](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5798)) ([71d11ce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/71d11ce0cf30dfc13d7ce12a7120ed81f98d6446))
+* **gq:** change delete button class on tool panel toggle (GQUOTE-2307) ([#5801](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5801)) ([db0addd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db0addda4a56f940f400900d83320feac48d780d))
+* **gq:** matFormField label got cut when containing matSelect (GQUOTE-3356) ([#5784](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5784)) ([607b5c2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/607b5c22b60cff49fdc3d8bc19eae388da13b9fa))
+* **gq:** pass errorCodes to status filters (GQUOTE-3219) ([#5803](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5803)) ([f8a1864](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f8a1864f4d2c64355cf29e8c45ec00ef8e8281cb))
+* **gq:** remove dash from gq rating label (GQUOTE-3178) ([#5800](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5800)) ([7f1bea9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7f1bea97094931aec6ddfa3ac7449873e8cd89ff))
+
 ## [4.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.1.1...gq-v4.2.0) (2023-11-14)
 
 
