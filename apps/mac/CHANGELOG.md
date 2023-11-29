@@ -1,4 +1,27 @@
 # Release Notes of Material App Center
+## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.13.0...mac-v1.14.0) (2023-11-29)
+
+
+### Features
+
+* **mac:** add a set filter for certain MATNR columns - UFTABI-6891 ([#5725](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5725)) ([1ae6f8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ae6f8e676bccfd44c4f09d6c01842277f94ed85))
+* **mac:** add validation for data owner in upload dialog (UFTABI-6829) ([#5721](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5721)) ([d7b61a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d7b61a11359105397e28435baf26bc5fa47a1b04))
+* **mac:** adding infotext to MatNr upload dialog ([#5804](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5804)) ([7ee6e0f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7ee6e0f60060af8a408ab20b5ab1975ffbf7d6e3))
+* **mac:** disable upload button if user does not have the needed role ([#5718](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5718)) ([d09bd9a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d09bd9a045c60e67345da38a7e9bc80c7435d375))
+* **mac:** display history for SAP materials (UFTABI-6822) ([#5714](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5714)) ([b346f09](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b346f095f23cebeed6892e0a2acf49f58d7a2abc))
+* **mac:** migrate to mdc components ([#5776](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5776)) ([5685a29](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5685a29547b3643787b0be3ac76213d1fccb807d))
+* **mac:** sap materials upload dialog mvp (UFTABI-6371) ([#5699](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5699)) ([d9f5e8a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9f5e8a7f62cfe3e78e45907dad20585368d1743))
+* **mac:** sap materials upload dialog v2 (UFTABI-6862) ([#5734](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5734)) ([c5ec2d5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5ec2d5b54488805032f4027e4fc08df2359d081))
+* **mac:** validate sap materials excel, sap materials upload status dialog and file upload progress (UFTABI-6823, UFTABI-6863, UFTABI-6826) ([#5764](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5764)) ([57e71df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/57e71df6541666aa2735343cecefd67ce6df1814))
+
+
+### Bug Fixes
+
+* **mac:** adjust matnr upload dialog ([#5789](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5789)) ([3cfe7ca](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3cfe7ca062f4431d80a606298611d11bad8322f3))
+* **mac:** enable html as tooltip value ([#5630](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5630)) ([fc084ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc084efb471e7f5f0941ee87eed0b092daf89c7a))
+* **mac:** format emission factor values (UFTABI-6934) ([#5768](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5768)) ([fee6e52](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fee6e524883ba6fcb62ab3306c13727d2d53aaa6))
+* **mac:** HC - submit requested changes from Owner - UFTABI-6710 ([#5706](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5706)) ([10986c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/10986c4f5abcf8d9762730da34dbfc25660c0d35))
+
 ## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.12.1...mac-v1.13.0) (2023-09-18)
 
 
