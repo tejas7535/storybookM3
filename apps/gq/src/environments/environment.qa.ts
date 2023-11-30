@@ -20,6 +20,7 @@ export const environment: Environment = {
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
+    trackPageViewUsingUriAsName: true,
   },
   environment: EnvironmentEnum.qa,
 };

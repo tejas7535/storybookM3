@@ -19,6 +19,7 @@ export interface Environment {
     enableGlobalErrorHandler: boolean;
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
+    trackPageViewUsingUriAsName: boolean;
   };
   environment: EnvironmentEnum;
 }
