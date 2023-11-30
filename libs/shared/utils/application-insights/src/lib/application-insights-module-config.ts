@@ -8,6 +8,7 @@ export interface ApplicationInsightsModuleConfig {
   enableNgrxMetaReducer?: boolean;
   ngrxIgnorePattern?: string[];
   consent?: boolean;
+  trackPageViewUsingUriAsName?: boolean;
 }
 
 export const APPLICATION_INSIGHTS_CONFIG =

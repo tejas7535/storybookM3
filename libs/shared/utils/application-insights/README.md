@@ -27,6 +27,7 @@ Make sure, you have them installed via `npm` properly.
             enableGlobalErrorHandler: false|true, // optional - default is false
             enableNgrxMetaReducer: false|true, // optional - default is false
             ngrxIgnorePattern: ['@ngrx/*'], // optional - default is undefined, but it is recommened to exclude `@ngrx/*` actions
+            trackPageViewUsingUriAsName: false|true, // optional - default is false, but it is recommended to switch to true for production builds as the default component names are minified and not readable in prod builds
         },
     };
    ```

@@ -26,6 +26,9 @@ import { AI_COOKIES } from './cookie-groups';
   providedIn: 'root',
 })
 export class ApplicationInsightsService {
+  private readonly appInsights!: ApplicationInsights;
+  private readonly destroy$ = new Subject<void>();
+
   public constructor(
     @Optional()
     @Inject(APPLICATION_INSIGHTS_CONFIG)
@@ -46,9 +49,6 @@ export class ApplicationInsightsService {
       }
     }
   }
-
-  private readonly appInsights!: ApplicationInsights;
-  private readonly destroy$ = new Subject<void>();
 
   private static getActivatedComponent(snapshot: ActivatedRouteSnapshot): any {
     return snapshot.firstChild !== null && snapshot.firstChild !== undefined
@@ -132,6 +132,10 @@ export class ApplicationInsightsService {
     this.appInsights?.trackTrace({ message }, properties);
   }
 
+  public trackInitalPageView(): void {
+    this.trackPageView(this.route.snapshot, this.router.url);
+  }
+
   private createRouterSubscription(): void {
     this.router.events
       .pipe(
@@ -146,14 +150,15 @@ export class ApplicationInsightsService {
   }
 
   private trackPageView(snapshot: ActivatedRouteSnapshot, uri?: string) {
-    const activatedComponent =
-      ApplicationInsightsService.getActivatedComponent(snapshot);
+    // only use the path withouth query parameters as a name
+    let name = uri?.split('?')[0];
 
-    if (activatedComponent) {
-      this.logPageView(activatedComponent.name, uri);
+    if (!this.moduleConfig.trackPageViewUsingUriAsName) {
+      name =
+        ApplicationInsightsService.getActivatedComponent(snapshot)?.name ??
+        name;
     }
-  }
-  public trackInitalPageView(): void {
-    this.trackPageView(this.route.snapshot, this.router.url);
+
+    this.logPageView(name, uri);
   }
 }

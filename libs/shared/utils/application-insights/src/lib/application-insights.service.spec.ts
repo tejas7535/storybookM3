@@ -288,38 +288,19 @@ describe('ApplicationInsightService', () => {
         '/foo/bar'
       );
     }));
-
-    it('should NOT call logPageView', waitForAsync(() => {
-      const snapshot: RouterStateSnapshot = {
-        root: {
-          component: undefined,
-        },
-      } as unknown as RouterStateSnapshot;
-      const resolveEndEvent = new ResolveEnd(
-        1,
-        '/foo/bar',
-        '/foo/bar',
-        snapshot
-      );
-
-      eventSubject.next(resolveEndEvent);
-
-      service['createRouterSubscription']();
-
-      expect(service.logPageView).not.toHaveBeenCalled();
-    }));
   });
 
   describe('trackPageView', () => {
     beforeEach(() => {
       service.logPageView = jest.fn();
     });
-    it('should call logPageView', () => {
+    it('should call logPageView with component name', () => {
       const snapshot = {
         url: '/legal',
         component: { name: 'MockComponent' },
         firstChild: undefined,
       } as unknown as ActivatedRouteSnapshot;
+      service['moduleConfig'].trackPageViewUsingUriAsName = false;
 
       service['trackPageView'](snapshot, '/foo/bar');
 
@@ -327,6 +308,32 @@ describe('ApplicationInsightService', () => {
         'MockComponent',
         '/foo/bar'
       );
+    });
+
+    it('should call logPageView with URI', () => {
+      const snapshot = {
+        url: '/legal',
+        component: { name: 'MockComponent' },
+        firstChild: undefined,
+      } as unknown as ActivatedRouteSnapshot;
+      service['moduleConfig'].trackPageViewUsingUriAsName = true;
+
+      service['trackPageView'](snapshot, '/foo/bar');
+
+      expect(service.logPageView).toHaveBeenCalledWith('/foo/bar', '/foo/bar');
+    });
+
+    it('should call logPageView with URI if component undefined', () => {
+      const snapshot = {
+        url: '/legal',
+        component: undefined,
+        firstChild: undefined,
+      } as unknown as ActivatedRouteSnapshot;
+      service['moduleConfig'].trackPageViewUsingUriAsName = false;
+
+      service['trackPageView'](snapshot, '/foo/bar');
+
+      expect(service.logPageView).toHaveBeenCalledWith('/foo/bar', '/foo/bar');
     });
   });
 
