@@ -507,7 +507,7 @@
     "uploadDialog": {
       "title": "Upload Documents",
       "dialogOptionInfo": "or Drop Files",
-      "dialogInfo": "Max file size 2MB + supported File Types <br> [pdf, eml, png, jpeg, jpg, tiff, txt, xls, xlsx, csv]",
+      "dialogInfo": "Max file size 2MB",
       "uploadButton": "Upload",
       "cancelButton": "Cancel",
       "fileSizeExceedsTooltip": "File exceeds maximum size (2 MB).",

@@ -507,7 +507,7 @@
     "uploadDialog": {
       "title": "Dokumente hochladen",
       "dialogOptionInfo": "oder Dateien hier ablegen",
-      "dialogInfo": "Max Dateigröße 2MB + untersütze Dateitypen <br> [pdf, eml, png, jpeg, jpg, tiff, txt, xls, xlsx, csv]",
+      "dialogInfo": "Max Dateigröße 2MB",
       "uploadButton": "Hochladen",
       "cancelButton": "Abbrechen",
       "fileSizeExceedsTooltip": "Datei überschreitet maximale Dateigröße (2 MB).",

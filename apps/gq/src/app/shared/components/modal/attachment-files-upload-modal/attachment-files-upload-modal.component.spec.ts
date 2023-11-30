@@ -156,7 +156,7 @@ describe('AttachmentFilesUploadModalComponent', () => {
     test('should add files and set unsupportedFileType to true if file type is not supported', () => {
       const mockFile: File[] = [
         { name: 'file1.jpeg', size: 2_000_000 } as File,
-        { name: 'file2.xyz', size: 2_000_000 } as File,
+        { name: 'file2.exe', size: 2_000_000 } as File,
       ];
       const expected: FilesToUploadDisplay[] = [
         {

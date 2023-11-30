@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { QuotationAttachment } from '@gq/shared/models';
 
-import { SUPPORTED_FILE_TYPES } from './models/file-types.const';
+import { UNSUPPORTED_FILE_TYPES } from './models/file-types.const';
 import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 
 @Component({
@@ -79,7 +79,7 @@ export class AttachmentFilesUploadModalComponent {
               attachment.fileName.toLocaleLowerCase() ===
               fileList.item(i).name.toLocaleLowerCase()
           ),
-          unsupportedFileType: !SUPPORTED_FILE_TYPES.some(
+          unsupportedFileType: UNSUPPORTED_FILE_TYPES.some(
             (type) =>
               type.toLocaleLowerCase() ===
               this.getFileExtension(fileList.item(i).name)
