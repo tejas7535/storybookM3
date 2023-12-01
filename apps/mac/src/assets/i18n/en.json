@@ -673,24 +673,49 @@
       "no": "No",
       "productCategories": "Product Categories",
       "quickfilter": {
-        "defaultfilters": {
-          "co2": "CO2e emissions",
-          "default": "All view",
-          "rating": "SupplierRating"
-        },
         "dialog": {
           "cancel": "Cancel",
           "confirm_add": "Add view",
+          "confirm_publish": "Publish view",
           "confirm_delete": "Confirm deletion",
           "confirm_edit": "Update view",
-          "name": "View name:",
+          "name": "View name",
           "name_hint": "Please give your view a name",
+          "description": "Description",
+          "description_hint": "Please give your quickfilter a short description",
           "radio_current": "Save current view as",
-          "radio_default": "Create new view from standard",
+          "radio_default": "Create new local view from standard",
+          "radio_public": "Create new public quickfilter",
           "text_delete": "Are you sure you want to delete this custom view with all applied filters?",
           "title_add": "Create new view",
           "title_delete": "Confirm deletion",
           "title_edit": "Edit view name"
+        },
+        "management": {
+          "title": "Quickfilter library for {{materialClass}}",
+          "help": "help",
+          "ownQuickFilters": "Manage own quickfilters",
+          "subscribedQuickFilters": "Manage subscribed quickfilters",
+          "browseQuickFilters": "Browse quickfilters",
+          "searchPlaceholder": "Search by title, description or maintainer name",
+          "table": {
+            "title": "Title",
+            "description": "Description",
+            "actions": "Actions",
+            "buttons": {
+              "edit": "Edit filter",
+              "delete": "Delete filter",
+              "subscribe": "Add to favorites",
+              "unsubscribe": "Unsubscribe"
+            }
+          },
+          "error": {
+            "delete": "Error while deleting quick filter!",
+            "subscribe": "Error while subscribing quick filter!",
+            "unsubscribe": "Error while unsubscribing quick filter!",
+            "publish": "Error while publishing quick filter!",
+            "update": "Error while updating quick filter!"
+          }
         }
       },
       "dataSourceValues": {

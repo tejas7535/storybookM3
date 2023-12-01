@@ -13,80 +13,89 @@
     *ngrxLet="navigation$ as navigation"
   >
     <ng-container>
-      <mac-quick-filter></mac-quick-filter>
+      <mac-quick-filter
+        (managementTabSelected)="quickFilterManagementTabActive = $event"
+      ></mac-quick-filter>
 
-      <div class="flex w-full flex-1">
+      <div class="flex w-full h-[calc(100%-33px)] flex-1">
         <div class="h-full w-full">
-          <ng-container
-            *ngIf="navigation.materialClass !== 'sap'; else serverSideGrid"
-          >
-            <ag-grid-angular
-              class="ag-theme-material border-border h-full border"
-              [masterDetail]="true"
-              [detailCellRenderer]="detailCellRenderer"
-              [detailRowAutoHeight]="true"
-              [suppressCellFocus]="true"
-              [columnDefs]="columnDefs"
-              [defaultColDef]="defaultColDef"
-              [sideBar]="sidebar"
-              [enableCellTextSelection]="true"
-              [rowData]="result$ | ngrxPush"
-              [tooltipShowDelay]="agGridTooltipDelay"
-              rowSelection="multiple"
-              [suppressRowClickSelection]="true"
-              (gridReady)="onGridReady($event)"
-              (filterChanged)="onFilterChange($event)"
-              (firstDataRendered)="setAgGridFilter($event)"
-              [rowClass]="['!border-l-0', '!border-t-0']"
-              [rowClassRules]="{
-                '!bg-opacity-5 !bg-error': isBlockedRow,
-                '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
-              }"
-              (columnVisible)="onColumnChange($event)"
-              (columnMoved)="onColumnChange($event)"
-              (columnResized)="onColumnChange($event)"
-              (sortChanged)="onColumnChange($event)"
-            ></ag-grid-angular>
-          </ng-container>
-          <ng-template #serverSideGrid>
-            <ag-grid-angular
-              class="ag-theme-material border-border h-full border"
-              [masterDetail]="true"
-              [detailCellRenderer]="detailCellRenderer"
-              [detailRowAutoHeight]="true"
-              rowModelType="serverSide"
-              [columnDefs]="columnDefs"
-              [defaultColDef]="defaultColDef"
-              [serverSideInfiniteScroll]="true"
-              [serverSideFilterOnServer]="true"
-              [serverSideSortOnServer]="true"
-              [suppressCellFocus]="true"
-              [sideBar]="sidebar"
-              [rowData]="serverSideRowData"
-              [enableCellTextSelection]="true"
-              [tooltipShowDelay]="agGridTooltipDelay"
-              [rowClass]="['!border-l-0', '!border-t-0']"
-              [rowClassRules]="{
-                '!bg-opacity-5 !bg-error': isBlockedRow,
-                '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
-              }"
-              [cacheBlockSize]="100"
-              [maxBlocksInCache]="4"
-              [blockLoadDebounceMillis]="500"
-              [maxConcurrentDatasourceRequests]="1"
-              [context]="{ dataService }"
-              (gridReady)="onGridReady($event, true)"
-              (filterChanged)="onFilterChange($event)"
-              (columnVisible)="onColumnChange($event)"
-              (columnMoved)="onColumnChange($event)"
-              (columnResized)="onColumnChange($event)"
-              (sortChanged)="onColumnChange($event)"
-            ></ag-grid-angular>
-          </ng-template>
+          <mac-quick-filter-management
+            *ngIf="quickFilterManagementTabActive"
+            [activeNavigationLevel]="navigation"
+          ></mac-quick-filter-management>
+          <div [hidden]="quickFilterManagementTabActive" class="h-full w-full">
+            <ng-container
+              *ngIf="navigation.materialClass !== 'sap'; else serverSideGrid"
+            >
+              <ag-grid-angular
+                class="ag-theme-material border-border h-full border"
+                [masterDetail]="true"
+                [detailCellRenderer]="detailCellRenderer"
+                [detailRowAutoHeight]="true"
+                [suppressCellFocus]="true"
+                [columnDefs]="columnDefs"
+                [defaultColDef]="defaultColDef"
+                [sideBar]="sidebar"
+                [enableCellTextSelection]="true"
+                [rowData]="result$ | ngrxPush"
+                [tooltipShowDelay]="agGridTooltipDelay"
+                rowSelection="multiple"
+                [suppressRowClickSelection]="true"
+                (gridReady)="onGridReady($event)"
+                (filterChanged)="onFilterChange($event)"
+                (firstDataRendered)="setAgGridFilter($event)"
+                [rowClass]="['!border-l-0', '!border-t-0']"
+                [rowClassRules]="{
+                  '!bg-opacity-5 !bg-error': isBlockedRow,
+                  '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
+                }"
+                (columnVisible)="onColumnChange($event)"
+                (columnMoved)="onColumnChange($event)"
+                (columnResized)="onColumnChange($event)"
+                (sortChanged)="onColumnChange($event)"
+              ></ag-grid-angular>
+            </ng-container>
+            <ng-template #serverSideGrid>
+              <ag-grid-angular
+                class="ag-theme-material border-border h-full border"
+                [masterDetail]="true"
+                [detailCellRenderer]="detailCellRenderer"
+                [detailRowAutoHeight]="true"
+                rowModelType="serverSide"
+                [columnDefs]="columnDefs"
+                [defaultColDef]="defaultColDef"
+                [serverSideInfiniteScroll]="true"
+                [serverSideFilterOnServer]="true"
+                [serverSideSortOnServer]="true"
+                [suppressCellFocus]="true"
+                [sideBar]="sidebar"
+                [rowData]="serverSideRowData"
+                [enableCellTextSelection]="true"
+                [tooltipShowDelay]="agGridTooltipDelay"
+                [rowClass]="['!border-l-0', '!border-t-0']"
+                [rowClassRules]="{
+                  '!bg-opacity-5 !bg-error': isBlockedRow,
+                  '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
+                }"
+                [cacheBlockSize]="100"
+                [maxBlocksInCache]="4"
+                [blockLoadDebounceMillis]="500"
+                [maxConcurrentDatasourceRequests]="1"
+                [context]="{ dataService }"
+                (gridReady)="onGridReady($event, true)"
+                (filterChanged)="onFilterChange($event)"
+                (columnVisible)="onColumnChange($event)"
+                (columnMoved)="onColumnChange($event)"
+                (columnResized)="onColumnChange($event)"
+                (sortChanged)="onColumnChange($event)"
+              ></ag-grid-angular>
+            </ng-template>
+          </div>
         </div>
       </div>
     </ng-container>
     <div
+      *ngIf="!quickFilterManagementTabActive"
       class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
     >
       <ng-container
@@ -239,7 +248,11 @@
     </div>
   </div>
   <ng-container
-    *ngIf="(optionsLoading$ | ngrxPush) || (resultLoading$ | ngrxPush)"
+    *ngIf="
+      (optionsLoading$ | ngrxPush) ||
+      (resultLoading$ | ngrxPush) ||
+      (quickFiltersLoading$ | ngrxPush)
+    "
   >
     <div class="fixed flex h-full w-full flex-col items-center md:pt-[10%]">
       <mat-spinner></mat-spinner>

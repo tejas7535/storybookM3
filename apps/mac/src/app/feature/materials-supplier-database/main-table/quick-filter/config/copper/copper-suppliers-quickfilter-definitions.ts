@@ -9,7 +9,7 @@ import {
 
 export const COPPER_SUPPLIERS_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MANUFACTURER_SUPPLIER_NAME,
@@ -18,6 +18,5 @@ export const COPPER_SUPPLIERS_STATIC_QUICKFILTERS: QuickFilter[] = [
       MANUFACTURER,
       LAST_MODIFIED,
     ],
-    custom: false,
   },
 ];

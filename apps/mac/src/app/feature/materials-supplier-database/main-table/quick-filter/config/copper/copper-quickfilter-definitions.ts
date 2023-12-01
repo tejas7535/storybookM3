@@ -1,7 +1,5 @@
 import { QuickFilter } from '@mac/feature/materials-supplier-database/models';
 import {
-  CASTING_DIAMETER,
-  CASTING_MODE,
   CO2_PER_TON,
   LAST_MODIFIED,
   MANUFACTURER_SUPPLIER_COUNTRY,
@@ -12,14 +10,13 @@ import {
   MATERIAL_STANDARD_STANDARD_DOCUMENT,
   MAX_DIMENSION,
   PRODUCT_CATEGORY,
-  PRODUCTION_PROCESS,
   RATING,
   RELEASE_RESTRICTIONS,
 } from '@mac/msd/constants';
 
 export const COPPER_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MATERIAL_STANDARD_MATERIAL_NAME,
@@ -35,28 +32,5 @@ export const COPPER_STATIC_QUICKFILTERS: QuickFilter[] = [
       LAST_MODIFIED,
       CO2_PER_TON,
     ],
-    custom: false,
-  },
-  {
-    title: 'co2',
-    filter: {
-      [CO2_PER_TON]: {
-        filterType: 'number',
-        type: 'greaterThan',
-        filter: 0,
-      },
-    },
-    columns: [
-      MATERIAL_STANDARD_MATERIAL_NAME,
-      MATERIAL_STANDARD_STANDARD_DOCUMENT,
-      MANUFACTURER_SUPPLIER_NAME,
-      MANUFACTURER_SUPPLIER_PLANT,
-      CASTING_MODE,
-      CASTING_DIAMETER,
-      PRODUCTION_PROCESS,
-      CO2_PER_TON,
-      PRODUCT_CATEGORY,
-    ],
-    custom: false,
   },
 ];

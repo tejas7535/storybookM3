@@ -15,7 +15,7 @@ import {
 
 export const POLYMER_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MATERIAL_STANDARD_MATERIAL_NAME,
@@ -30,25 +30,5 @@ export const POLYMER_STATIC_QUICKFILTERS: QuickFilter[] = [
       LAST_MODIFIED,
       RELEASE_DATE,
     ],
-    custom: false,
-  },
-  {
-    title: 'co2',
-    filter: {
-      [CO2_PER_TON]: {
-        filterType: 'number',
-        type: 'greaterThan',
-        filter: 0,
-      },
-    },
-    columns: [
-      MATERIAL_STANDARD_MATERIAL_NAME,
-      MATERIAL_STANDARD_STANDARD_DOCUMENT,
-      MANUFACTURER_SUPPLIER_NAME,
-      MANUFACTURER_SUPPLIER_PLANT,
-      CO2_PER_TON,
-      PRODUCT_CATEGORY,
-    ],
-    custom: false,
   },
 ];

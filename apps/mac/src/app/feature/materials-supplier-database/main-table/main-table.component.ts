@@ -78,6 +78,7 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
 import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
 import { DialogFacade } from '../store/facades/dialog';
+import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
 import { getStatus } from './util';
 
@@ -95,6 +96,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public optionsLoading$ = this.dataFacade.optionsLoading$;
   public resultLoading$ = this.dataFacade.resultLoading$;
+  public quickFiltersLoading$ = this.quickFilterFacade.isLoading$;
+
   public result$ = this.dataFacade.result$;
   public resultCount$ = this.dataFacade.resultCount$;
   public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
@@ -122,6 +125,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public agGridTooltipDelay = 500;
 
   public serverSideRowData!: SAPMaterial[];
+
+  public quickFilterManagementTabActive = false;
 
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
@@ -156,7 +161,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly dialogService: MsdDialogService,
     public readonly dataService: MsdDataService,
     private readonly agGridConfigService: MsdAgGridConfigService,
-    private readonly dialogFacade: DialogFacade
+    private readonly dialogFacade: DialogFacade,
+    private readonly quickFilterFacade: QuickFilterFacade
   ) {}
 
   public ngOnInit(): void {

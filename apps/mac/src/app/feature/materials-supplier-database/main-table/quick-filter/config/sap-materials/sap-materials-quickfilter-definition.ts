@@ -10,7 +10,7 @@ import { QuickFilter } from '@mac/msd/models';
 
 export const SAP_MATERIALS_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MATERIAL_NUMBER,
@@ -20,6 +20,5 @@ export const SAP_MATERIALS_STATIC_QUICKFILTERS: QuickFilter[] = [
       MATURITY,
       OWNER,
     ],
-    custom: false,
   },
 ];

@@ -1,39 +1,30 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import {
-  MatButtonToggleChange,
-  MatButtonToggleModule,
-} from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
 
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, map, Observable, Subject, take, takeUntil } from 'rxjs';
 
-import { PushPipe } from '@ngrx/component';
 import { ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
-import {} from 'ag-grid-community/dist/lib/events';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   ACTION,
   HISTORY,
+  MaterialClass,
+  NavigationLevel,
   RECENT_STATUS,
   RELEASED_STATUS,
 } from '@mac/msd/constants';
-import { QuickFilter } from '@mac/msd/models';
+import { QuickFilter, QuickFilterType } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
   MsdAgGridReadyService,
 } from '@mac/msd/services';
-import {
-  addCustomQuickfilter,
-  removeCustomQuickfilter,
-  updateCustomQuickfilter,
-} from '@mac/msd/store/actions/quickfilter/quickfilter.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
 
@@ -41,28 +32,25 @@ import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dia
 
 @Component({
   selector: 'mac-quick-filter',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatButtonToggleModule,
-
-    PushPipe,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    SharedTranslocoModule,
-  ],
   templateUrl: './quick-filter.component.html',
 })
 export class QuickFilterComponent implements OnDestroy, OnInit {
+  @Output() managementTabSelected = new EventEmitter<boolean>();
+
+  isManagementTabSelected = false;
+
   // stores currently selected element (bound to ToggleComponent)
-  public active: QuickFilter;
-  // list of predifined filters
-  public staticFilters: QuickFilter[];
-  // list of custom user filters
-  public customFilters$: Observable<QuickFilter[]>;
+  active: QuickFilter;
+
+  // list of default filters, defined statically in frontend
+  staticFilters: QuickFilter[];
+
+  // list of own user filters (local and published)
+  ownFilters$: Observable<QuickFilter[]>;
+
+  subscribedFilters$: Observable<QuickFilter[]>;
+
+  readonly hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
   private agGridApi: GridApi;
   private agGridColumnApi: ColumnApi;
@@ -77,21 +65,79 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   ]);
 
   private activeEdit: QuickFilter = undefined;
+  private materialClass: MaterialClass;
+  private navigationLevel: NavigationLevel;
 
   constructor(
     private readonly qfFacade: QuickFilterFacade,
     private readonly dataFacade: DataFacade,
     private readonly msdAgGridReadyService: MsdAgGridReadyService,
     private readonly msdAgGridConfigService: MsdAgGridConfigService,
-    public dialog: MatDialog
+    private readonly dialog: MatDialog
   ) {}
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
   ngOnInit(): void {
+    this.ownFilters$ = this.qfFacade.ownQuickFilters$;
+    this.subscribedFilters$ = this.qfFacade.subscribedQuickFilters$;
+
+    this.handleNavigationChanges();
+    this.handleQuickFilterPublished();
+    this.handleQuickFilterActivated();
+
+    this.msdAgGridReadyService.agGridApi
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ gridApi, columnApi }) =>
+        this.onAgGridReady(gridApi, columnApi)
+      );
+  }
+
+  // event triggered on selection of button group
+  onQuickfilterSelect(event: MatButtonToggleChange) {
+    const selected = event.value as QuickFilter;
+    this.setManagementTabSelected(!selected);
+    this.applyQuickFilter(selected);
+  }
+
+  // add a custom quickfilter
+  add() {
+    this.openDialog();
+  }
+
+  // edit title of an existing quickfilter and also description if the filter is public
+  edit(quickFilter: QuickFilter): void {
+    this.openDialog(quickFilter);
+  }
+
+  // remove custom quickfilter
+  remove(quickFilter: QuickFilter): void {
+    this.openDialog(quickFilter, true);
+  }
+
+  openDialog(selected?: QuickFilter, deleted: boolean = false): void {
+    this.activeEdit = selected;
+    const dialogRef = this.dialog.open(QuickfilterDialogComponent, {
+      width: '500px',
+      autoFocus: false,
+      data: {
+        quickFilter: selected,
+        edit: !!selected,
+        delete: deleted,
+      },
+    });
+
+    // this version will still provide type inference with current component, otherwise "this" would be the event object.
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => this.onDialogClose(result));
+  }
+
+  private handleNavigationChanges(): void {
     // create a copy of the static filters to modify first item
     this.dataFacade.navigation$
       .pipe(
@@ -102,55 +148,28 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         )
       )
       .subscribe(({ materialClass, navigationLevel }) => {
+        this.materialClass = materialClass;
+        this.navigationLevel = navigationLevel;
+
+        this.qfFacade.fetchPublishedQuickFilters(
+          materialClass,
+          navigationLevel
+        );
+        this.qfFacade.fetchSubscribedQuickFilters(
+          materialClass,
+          navigationLevel
+        );
+
         this.staticFilters = this.msdAgGridConfigService.getStaticQuickFilters(
           materialClass,
           navigationLevel
         );
-        this.customFilters$ = this.qfFacade.quickFilter$;
         this.active = this.staticFilters[0];
+        this.setManagementTabSelected(false);
       });
-
-    this.msdAgGridReadyService.agGridApi
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ gridApi, columnApi }) =>
-        this.onAgGridReady(gridApi, columnApi)
-      );
   }
 
-  // event triggered on selection of button group
-  public onQuickfilterSelect(event: MatButtonToggleChange) {
-    const selected = event.value as QuickFilter;
-    this.applyQuickFilter(selected);
-  }
-
-  // add a custom quickfilter
-  public add() {
-    this.openDialog();
-  }
-
-  // edit title of an existing quickfilter
-  public edit(quickFilter: QuickFilter): void {
-    this.openDialog(quickFilter);
-  }
-
-  // remove custom quickfilter
-  public remove(quickFilter: QuickFilter): void {
-    this.openDialog(quickFilter, true);
-  }
-
-  openDialog(selected?: QuickFilter, deleted: boolean = false): void {
-    this.activeEdit = selected;
-    const dialogRef = this.dialog.open(QuickfilterDialogComponent, {
-      width: '500px',
-      autoFocus: false,
-      data: { title: selected?.title, edit: !!selected, delete: deleted },
-    });
-
-    // this version will still provide type inference with current component, otherwise "this" would be the event object.
-    dialogRef.afterClosed().subscribe((result) => this.onDialogClose(result));
-  }
-
-  // event propagated when agGrid table has bin initialized
+  // event propagated when agGrid table has been initialized
   private onAgGridReady(gridApi: GridApi, columnApi: ColumnApi) {
     this.agGridApi = gridApi;
     this.agGridColumnApi = columnApi;
@@ -158,6 +177,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     // subscribe to updates of visible columns and update active quickfilter
     this.dataFacade.agGridColumns$
       .pipe(
+        takeUntil(this.destroy$),
         // verify only modified filter will result in an update - and not the change itself
         filter(
           () =>
@@ -175,9 +195,11 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         )
       )
       .subscribe(() => this.onChange());
+
     // subscribe to updates of applied filters and update active quickfilter
     this.dataFacade.agGridFilter$
       .pipe(
+        takeUntil(this.destroy$),
         // verify only modified columns will result in an update - and not the change itself
         filter(
           (json) =>
@@ -190,22 +212,36 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
   // apply changes to columns and filters to active element
   private onChange(): void {
-    if (this.active.custom) {
-      // update quickfilter in store
-      const oldFilter = this.active;
-      const newFilter = this.agGridToFilter(this.active.title);
-      this.qfFacade.dispatch(updateCustomQuickfilter({ oldFilter, newFilter }));
-      this.active = newFilter;
-    } else {
-      // reset selection on predefined items after modification
-      this.reset();
-    }
+    this.isOwnFilter(this.active)
+      .pipe(take(1))
+      .subscribe((isOwn: boolean) => {
+        if (isOwn) {
+          // update quickfilter in store
+          const oldFilter = this.active;
+          const newFilter = {
+            ...oldFilter,
+            ...this.agGridToFilter(this.active.title, this.active.description),
+          };
+          this.qfFacade.updateQuickFilter(
+            oldFilter,
+            newFilter,
+            this.dataFacade.hasEditorRole$
+          );
+          this.active = newFilter;
+        } else {
+          // reset selection on predefined items after modification
+          this.reset();
+        }
+      });
   }
 
   // apply selected quickfilter
   private applyQuickFilter(selected: QuickFilter): void {
     this.active = selected;
-    const visible = selected.columns;
+
+    // If quick filter management tab is selected, the value of 'selected' is undefined and the active quick filter is set the the default one.
+    const activeFilter = selected ?? this.staticFilters[0];
+    const visible = activeFilter.columns;
     // setup visibility and order of columns based on selected elements
     const state: ColumnState[] = this.agGridColumnApi
       .getColumns()
@@ -218,7 +254,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       }))
       .sort((a, b) => visible.indexOf(a.colId) - visible.indexOf(b.colId));
     // set filter and columns in agGrid api
-    this.agGridApi.setFilterModel(selected.filter);
+    this.agGridApi.setFilterModel(activeFilter.filter);
     this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
   }
 
@@ -238,7 +274,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   // triggered by close event of dialog
   private onDialogClose(result?: {
     title: string;
-    fromCurrent: string;
+    description: string;
+    quickFilterType: QuickFilterType;
     edit: boolean;
     delete: boolean;
   }) {
@@ -250,35 +287,48 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
           this.reset();
         }
         const oldFilter = this.activeEdit;
-        this.qfFacade.dispatch(removeCustomQuickfilter({ filter: oldFilter }));
+        this.qfFacade.deleteQuickFilter(oldFilter);
       } else if (result.edit) {
         // edit filter name
         const oldFilter = this.activeEdit;
-        const newFilter = { ...oldFilter, title: result.title };
-        this.qfFacade.dispatch(
-          updateCustomQuickfilter({ oldFilter, newFilter })
+        const newFilter = {
+          ...oldFilter,
+          title: result.title,
+          description: result.description,
+        };
+        this.qfFacade.updateQuickFilter(
+          oldFilter,
+          newFilter,
+          this.dataFacade.hasEditorRole$
         );
       } else {
         const title = result.title;
+        const description = result.description;
         // add new filter
-        const fromCurrent: boolean = result.fromCurrent === 'true';
+        const fromCurrent: boolean =
+          result.quickFilterType === QuickFilterType.LOCAL_FROM_CURRENT_VIEW ||
+          result.quickFilterType === QuickFilterType.PUBLIC;
         const newFilter: QuickFilter = fromCurrent
-          ? this.agGridToFilter(title)
+          ? this.agGridToFilter(title, description)
           : this.copyDefaultFilter(title);
+
         this.applyQuickFilter(newFilter);
-        this.qfFacade.dispatch(addCustomQuickfilter({ filter: newFilter }));
+        this.qfFacade.createQuickFilter(newFilter);
+        this.setManagementTabSelected(false);
       }
     }
     this.activeEdit = undefined;
   }
 
   // get current aggrid configuration to a Quickfilter
-  private agGridToFilter(title: string): QuickFilter {
+  private agGridToFilter(title: string, description: string): QuickFilter {
     return {
-      columns: this.getCurrentColumns(),
-      filter: this.agGridApi.getFilterModel(),
+      materialClass: this.materialClass,
+      navigationLevel: this.navigationLevel,
       title,
-      custom: true,
+      description,
+      filter: this.agGridApi.getFilterModel(),
+      columns: this.getCurrentColumns(),
     };
   }
 
@@ -287,7 +337,41 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     return {
       ...this.staticFilters[0],
       title,
-      custom: true,
     };
+  }
+
+  private setManagementTabSelected(isManagementTabSelected: boolean): void {
+    this.isManagementTabSelected = isManagementTabSelected;
+    this.managementTabSelected.emit(isManagementTabSelected);
+  }
+
+  private isOwnFilter(quickFilter: QuickFilter): Observable<boolean> {
+    return this.ownFilters$.pipe(
+      map((ownQuickFilters: QuickFilter[]) =>
+        quickFilter.id !== undefined
+          ? ownQuickFilters.some(
+              (ownQuickFilter: QuickFilter) =>
+                ownQuickFilter.id === quickFilter.id
+            )
+          : ownQuickFilters.includes(quickFilter)
+      )
+    );
+  }
+
+  private handleQuickFilterPublished(): void {
+    this.qfFacade.publishQuickFilterSucceeded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        ({ publishedQuickFilter }) => (this.active = publishedQuickFilter)
+      );
+  }
+
+  private handleQuickFilterActivated(): void {
+    this.qfFacade.quickFilterActivated$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ quickFilter }) => {
+        this.applyQuickFilter(quickFilter);
+        this.setManagementTabSelected(false);
+      });
   }
 }

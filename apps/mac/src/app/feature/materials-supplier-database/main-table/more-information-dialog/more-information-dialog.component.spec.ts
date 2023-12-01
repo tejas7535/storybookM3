@@ -6,8 +6,11 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import * as en from '../../../../../assets/i18n/en.json';
 import { MoreInformationDialogComponent } from './more-information-dialog.component';
 
 describe('MoreInformationDialogComponent', () => {
@@ -16,7 +19,12 @@ describe('MoreInformationDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MoreInformationDialogComponent,
-    imports: [CommonModule, MatIconModule, MatDialogModule],
+    imports: [
+      CommonModule,
+      MatIconModule,
+      MatDialogModule,
+      provideTranslocoTestingModule({ en }),
+    ],
     providers: [
       {
         provide: MatDialogRef,

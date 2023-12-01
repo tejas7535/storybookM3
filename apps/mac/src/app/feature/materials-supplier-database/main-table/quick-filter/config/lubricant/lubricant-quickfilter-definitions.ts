@@ -14,7 +14,7 @@ import {
 
 export const LUBRICANT_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MATERIAL_STANDARD_MATERIAL_NAME,
@@ -28,6 +28,5 @@ export const LUBRICANT_STATIC_QUICKFILTERS: QuickFilter[] = [
       RATING_REMARK,
       LAST_MODIFIED,
     ],
-    custom: false,
   },
 ];

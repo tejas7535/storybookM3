@@ -1,7 +1,8 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColumnState } from 'ag-grid-community';
 
@@ -28,7 +29,6 @@ import { initialState as initialDataState } from '@mac/msd/store/reducers/data/d
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import { STEEL_STATIC_QUICKFILTERS } from '../../main-table/quick-filter/config/steel';
-import { setCustomQuickfilter } from '../../store/actions/quickfilter';
 import { MsdAgGridStateService } from './msd-ag-grid-state.service';
 
 class LocalStorageMock {
@@ -72,6 +72,7 @@ describe('MsdAgGridStateService', () => {
           },
         },
       }),
+      provideMockActions(() => of()),
     ],
   });
 
@@ -109,12 +110,12 @@ describe('MsdAgGridStateService', () => {
         navigationLevel: NavigationLevel.MATERIAL,
       });
 
-      service['quickFilterFacade'].dispatch = jest.fn();
+      service['quickFilterFacade'].setLocalQuickFilters = jest.fn();
       service['dataFacade'].navigation$ = subject;
       service['init']();
 
-      expect(service['quickFilterFacade'].dispatch).toBeCalledWith(
-        setCustomQuickfilter({ filters: STEEL_STATIC_QUICKFILTERS })
+      expect(service['quickFilterFacade'].setLocalQuickFilters).toBeCalledWith(
+        STEEL_STATIC_QUICKFILTERS
       );
     });
     it('should ignore empty navigation', () => {
@@ -125,11 +126,13 @@ describe('MsdAgGridStateService', () => {
         navigationLevel: undefined,
       });
 
-      service['quickFilterFacade'].dispatch = jest.fn();
+      service['quickFilterFacade'].setLocalQuickFilters = jest.fn();
       service['dataFacade'].navigation$ = subject;
       service['init']();
 
-      expect(service['quickFilterFacade'].dispatch).not.toBeCalled();
+      expect(
+        service['quickFilterFacade'].setLocalQuickFilters
+      ).not.toBeCalled();
     });
   });
 
@@ -467,7 +470,6 @@ describe('MsdAgGridStateService', () => {
             title: 'test',
             filter: { [columns[0]]: 33 },
             columns,
-            custom: true,
           },
         ],
       });

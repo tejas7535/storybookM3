@@ -7,7 +7,7 @@ import {
 
 export const POLYMER_MATERIAL_STANDARDS_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MATERIAL_STANDARD_MATERIAL_NAME,
@@ -15,6 +15,5 @@ export const POLYMER_MATERIAL_STANDARDS_STATIC_QUICKFILTERS: QuickFilter[] = [
 
       LAST_MODIFIED,
     ],
-    custom: false,
   },
 ];

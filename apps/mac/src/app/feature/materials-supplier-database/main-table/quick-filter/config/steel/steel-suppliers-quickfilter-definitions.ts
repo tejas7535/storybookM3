@@ -10,7 +10,7 @@ import {
 
 export const STEEL_SUPPLIERS_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MANUFACTURER_SUPPLIER_NAME,
@@ -20,6 +20,5 @@ export const STEEL_SUPPLIERS_STATIC_QUICKFILTERS: QuickFilter[] = [
       MANUFACTURER_SUPPLIER_SAPID,
       LAST_MODIFIED,
     ],
-    custom: false,
   },
 ];

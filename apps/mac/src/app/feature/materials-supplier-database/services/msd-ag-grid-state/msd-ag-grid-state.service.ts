@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Inject, Injectable } from '@angular/core';
 
-import { filter } from 'rxjs';
+import { filter, skip } from 'rxjs';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { ColumnState } from 'ag-grid-enterprise';
@@ -26,7 +26,6 @@ import {
   QuickFilter,
   ViewState,
 } from '@mac/msd/models';
-import { setCustomQuickfilter } from '@mac/msd/store/actions/quickfilter';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
 
@@ -194,10 +193,11 @@ export class MsdAgGridStateService {
         this.materialClass = materialClass;
         this.navigationLevel = navigationLevel;
         const filters = this.getQuickFilterState();
-        this.quickFilterFacade.dispatch(setCustomQuickfilter({ filters }));
+        this.quickFilterFacade.setLocalQuickFilters(filters);
       });
-    this.quickFilterFacade.quickFilter$
-      .pipe(filter((filters) => filters.length > 0))
+
+    this.quickFilterFacade.localQuickFilters$
+      .pipe(skip(1)) // skip store initialization
       .subscribe((filters) => this.setQuickFilterState(filters));
   }
 

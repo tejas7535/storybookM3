@@ -1,84 +1,89 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { PushPipe } from '@ngrx/component';
+import { Subject, takeUntil } from 'rxjs';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import {
+  QuickFilter,
+  QuickFilterType,
+} from '@mac/feature/materials-supplier-database/models';
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 
 @Component({
   selector: 'mac-quickfilter-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatIconModule,
-    FormsModule,
-    MatInputModule,
-    MatRadioModule,
-    PushPipe,
-    MatButtonModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    SharedTranslocoModule,
-  ],
   templateUrl: './quickfilter-dialog.component.html',
 })
-export class QuickfilterDialogComponent implements OnInit {
+export class QuickfilterDialogComponent implements OnInit, OnDestroy {
   // set quickfilter title
-  public titleControl = new FormControl<string>(undefined, [
+  titleControl = new FormControl<string>(undefined, [Validators.required]);
+
+  // set quickfilter description. Needed only for public filters!
+  descriptionControl = new FormControl<string>(undefined, [
     Validators.required,
   ]);
-  // decide between fromCurrent or fromDefault
-  public radioControl = new FormControl<string>('true', [Validators.required]);
+
+  // Needed to choose the quick filter type
+  radioControl = new FormControl<QuickFilterType>(
+    QuickFilterType.LOCAL_FROM_CURRENT_VIEW,
+    [Validators.required]
+  );
+
   // form group
-  public formGroup: FormGroup<{
+  formGroup: FormGroup<{
     title: FormControl<string>;
-    fromCurrent: FormControl<string>;
+    quickFilterType: FormControl<QuickFilterType>;
+    description?: FormControl<string>;
   }>;
-  public add = false;
-  public edit = false;
-  public delete = false;
+
+  add = false;
+  edit = false;
+  delete = false;
+
+  operationButtonTranslationKeySuffix: string;
+
+  readonly quickFilterType = QuickFilterType;
+  readonly hasEditorRole$ = this.dataFacade.hasEditorRole$;
+
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
-    public dialogRef: MatDialogRef<QuickfilterDialogComponent>,
+    readonly dialogRef: MatDialogRef<QuickfilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: string; edit: boolean; delete: boolean }
+    public data: {
+      quickFilter: QuickFilter;
+      edit: boolean;
+      delete: boolean;
+    },
+    private readonly dataFacade: DataFacade
   ) {}
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       title: this.titleControl,
-      fromCurrent: this.radioControl,
+      quickFilterType: this.radioControl,
     });
 
-    this.titleControl.setValue(this.data.title);
-    this.radioControl.setValue('true');
+    this.titleControl.setValue(this.data.quickFilter?.title);
+    this.descriptionControl.setValue(this.data.quickFilter?.description);
+    this.radioControl.setValue(QuickFilterType.LOCAL_FROM_CURRENT_VIEW);
+
     if (this.data.delete) {
       this.delete = true;
       this.radioControl.disable();
     } else if (this.data.edit) {
       this.edit = true;
       this.radioControl.disable();
+
+      if (this.data.quickFilter?.id) {
+        this.formGroup.addControl('description', this.descriptionControl); // Description is available only for published filters
+      }
     } else {
       this.add = true;
     }
+
+    this.determineOperationButtonTranslationKeySuffix();
+    this.handleQuickFilterTypeChanges();
   }
 
   // on cancel dialog
@@ -96,9 +101,40 @@ export class QuickfilterDialogComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.formGroup.valid) {
       this.applyDialog();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private handleQuickFilterTypeChanges(): void {
+    this.radioControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((quickFilterType: QuickFilterType) => {
+        this.determineOperationButtonTranslationKeySuffix();
+
+        if (quickFilterType === QuickFilterType.PUBLIC) {
+          this.formGroup.addControl('description', this.descriptionControl);
+        } else {
+          this.formGroup.removeControl('description');
+        }
+      });
+  }
+
+  private determineOperationButtonTranslationKeySuffix(): void {
+    if (this.radioControl.value === QuickFilterType.PUBLIC) {
+      this.operationButtonTranslationKeySuffix = 'confirm_publish';
+    } else if (this.edit) {
+      this.operationButtonTranslationKeySuffix = 'confirm_edit';
+    } else if (this.add) {
+      this.operationButtonTranslationKeySuffix = 'confirm_add';
+    } else if (this.delete) {
+      this.operationButtonTranslationKeySuffix = 'confirm_delete';
     }
   }
 }

@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <mat-dialog-content class="!px-4">
+  <mat-dialog-content class="!px-4 !pt-2">
     <div>
       <form (ngSubmit)="onSubmit()" *ngIf="add || edit">
         <div>
@@ -34,17 +34,49 @@
             <mat-hint>{{ t('name_hint') }}</mat-hint>
             <input matInput name="title" [formControl]="titleControl" />
           </mat-form-field>
+          <mat-form-field
+            *ngIf="
+              radioControl.value === quickFilterType.PUBLIC ||
+              data.quickFilter?.id
+            "
+            appearance="outline"
+            class="w-full pb-6"
+          >
+            <mat-label>{{ t('description') }}</mat-label>
+            <mat-hint>{{ t('description_hint') }}</mat-hint>
+            <input
+              matInput
+              name="description"
+              [formControl]="descriptionControl"
+            />
+          </mat-form-field>
         </div>
         <div *ngIf="add">
           <mat-radio-group
             [formControl]="radioControl"
             class="text-body-1 text-medium-emphasis"
           >
-            <mat-radio-button class="w-full pb-2" color="primary" value="true">
+            <mat-radio-button
+              class="w-full pb-2"
+              color="primary"
+              [value]="quickFilterType.LOCAL_FROM_CURRENT_VIEW"
+            >
               {{ t('radio_current') }}
             </mat-radio-button>
-            <mat-radio-button class="w-full pb-4" color="primary" value="false">
+            <mat-radio-button
+              class="w-full pb-2"
+              color="primary"
+              [value]="quickFilterType.LOCAL_FROM_STANDARD"
+            >
               {{ t('radio_default') }}
+            </mat-radio-button>
+            <mat-radio-button
+              class="w-full pb-4"
+              color="primary"
+              [value]="quickFilterType.PUBLIC"
+              [disabled]="!(hasEditorRole$ | ngrxPush)"
+            >
+              {{ t('radio_public') }}
             </mat-radio-button>
           </mat-radio-group>
         </div>
@@ -67,7 +99,7 @@
         (click)="applyDialog()"
         [disabled]="!formGroup.valid"
       >
-        {{ t(edit ? 'confirm_edit' : add ? 'confirm_add' : 'confirm_delete') }}
+        {{ t(operationButtonTranslationKeySuffix) }}
       </button>
     </div>
   </mat-dialog-actions>

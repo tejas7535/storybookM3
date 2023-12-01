@@ -13,9 +13,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Observable, of, Subject } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { Column, ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -26,24 +30,19 @@ import {
   MaterialClass,
   NavigationLevel,
 } from '@mac/msd/constants';
-import { QuickFilter } from '@mac/msd/models';
-import {
-  addCustomQuickfilter,
-  removeCustomQuickfilter,
-  updateCustomQuickfilter,
-} from '@mac/msd/store/actions/quickfilter';
+import { QuickFilter, QuickFilterType } from '@mac/msd/models';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState as qfInitialState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { MsdAgGridConfigService } from '../../services/msd-ag-grid-state/msd-ag-grid-config.service';
+import { QuickFilterFacade } from '../../store/facades/quickfilter';
 import { STEEL_STATIC_QUICKFILTERS } from './config/steel';
 import { QuickFilterComponent } from './quick-filter.component';
 
 describe('QuickFilterComponent', () => {
   let component: QuickFilterComponent;
   let spectator: Spectator<QuickFilterComponent>;
-  let store: MockStore;
 
   const initialState = {
     msd: {
@@ -93,15 +92,16 @@ describe('QuickFilterComponent', () => {
           getStaticQuickFilters: jest.fn(() => []),
         },
       },
+      mockProvider(QuickFilterFacade, {
+        publishQuickFilterSucceeded$: of(),
+        quickFilterActivated$: of(),
+      }),
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
-
-    store.dispatch = jest.fn();
   });
 
   it('should create', () => {
@@ -122,15 +122,18 @@ describe('QuickFilterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should init the quickfilters when a navigation takes place', () => {
-      const mockQuickFilter = {} as QuickFilter;
+      const mockStaticQuickFilter = {} as QuickFilter;
       const mockSubject = new Subject<{
         materialClass: MaterialClass;
         navigationLevel: NavigationLevel;
       }>();
       component['dataFacade'].navigation$ = mockSubject;
       component['msdAgGridConfigService'].getStaticQuickFilters = jest.fn(
-        () => [mockQuickFilter]
+        () => [mockStaticQuickFilter]
       );
+      component['qfFacade'].fetchPublishedQuickFilters = jest.fn();
+      component['qfFacade'].fetchSubscribedQuickFilters = jest.fn();
+      component.managementTabSelected.emit = jest.fn();
 
       component.ngOnInit();
       mockSubject.next({
@@ -138,10 +141,18 @@ describe('QuickFilterComponent', () => {
         navigationLevel: NavigationLevel.MATERIAL,
       });
 
-      expect(component.active).toEqual(mockQuickFilter);
+      expect(component.active).toEqual(mockStaticQuickFilter);
       expect(
         component['msdAgGridConfigService'].getStaticQuickFilters
       ).toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
+      expect(
+        component['qfFacade'].fetchPublishedQuickFilters
+      ).toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
+      expect(
+        component['qfFacade'].fetchSubscribedQuickFilters
+      ).toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
+      expect(component.isManagementTabSelected).toBe(false);
+      expect(component.managementTabSelected.emit).toHaveBeenCalledWith(false);
     });
 
     it('should init localStoreage and subscribe to agGrid event', () => {
@@ -158,6 +169,41 @@ describe('QuickFilterComponent', () => {
       sub.next({ gridApi, columnApi });
       expect(component['onAgGridReady']).toBeCalledWith(gridApi, columnApi);
     });
+
+    it('should set active filter on publishQuickFilterSucceeded', () => {
+      const publishedQuickFilter = {
+        id: 1,
+        title: 'test',
+        description: 'filter for test',
+      } as QuickFilter;
+      component.active = {} as QuickFilter;
+      component['qfFacade'].publishQuickFilterSucceeded$ = of({
+        publishedQuickFilter,
+      } as any);
+
+      component.ngOnInit();
+
+      expect(component.active).toBe(publishedQuickFilter);
+    });
+
+    it('should apply activated filter', () => {
+      const quickFilter = {
+        id: 1,
+        title: 'test',
+        description: 'filter for test',
+      } as QuickFilter;
+      component['applyQuickFilter'] = jest.fn();
+      component.managementTabSelected.emit = jest.fn();
+      component['qfFacade'].quickFilterActivated$ = of({
+        quickFilter,
+      } as any);
+
+      component.ngOnInit();
+
+      expect(component['applyQuickFilter']).toHaveBeenCalledWith(quickFilter);
+      expect(component.isManagementTabSelected).toBe(false);
+      expect(component.managementTabSelected.emit).toHaveBeenCalledWith(false);
+    });
   });
 
   describe('onAgGridReady', () => {
@@ -165,7 +211,6 @@ describe('QuickFilterComponent', () => {
       title: 'test',
       filter: {},
       columns: ['a', 'b'],
-      custom: false,
     };
     const gridApi = {} as undefined as GridApi;
     const columnApi = {} as undefined as ColumnApi;
@@ -242,8 +287,8 @@ describe('QuickFilterComponent', () => {
         title: 'test',
         filter: {},
         columns: ['a', 'b'],
-        custom: false,
       };
+      component['isOwnFilter'] = jest.fn(() => of(false));
       component.staticFilters = [{ title: 'default' } as QuickFilter];
       component.active = quickfilter;
       component['onChange']();
@@ -256,29 +301,27 @@ describe('QuickFilterComponent', () => {
         title: 'old',
         filter: {},
         columns: ['a', 'b'],
-        custom: true,
       };
       const quickfilterNew: QuickFilter = {
         title: 'new',
         filter: {},
         columns: ['a', 'b'],
-        custom: true,
       };
       component.active = quickfilterOld;
       component['agGridToFilter'] = jest.fn(() => quickfilterNew);
-      component['qfFacade'].dispatch = jest.fn();
+      component['qfFacade'].updateQuickFilter = jest.fn();
+      component['isOwnFilter'] = jest.fn(() => of(true));
 
       component['onChange']();
 
-      expect(component.active).toBe(quickfilterNew);
-      expect(component['qfFacade'].dispatch).toBeCalled();
+      expect(component.active).toStrictEqual(quickfilterNew);
+      expect(component['qfFacade'].updateQuickFilter).toBeCalled();
     });
   });
 
   describe('onQuickfilterSelect', () => {
     const quickfilter: QuickFilter = {
       columns: ['col1', 'col4'],
-      custom: false,
       filter: { '1': 2 },
       title: 'title',
     };
@@ -390,7 +433,7 @@ describe('QuickFilterComponent', () => {
       const filter = { title: 'title' } as QuickFilter;
       const ref = {} as MatDialogRef<any>;
       const sub = new Subject();
-      component.dialog.open = jest.fn(() => ref);
+      component['dialog'].open = jest.fn(() => ref);
       ref.afterClosed = jest.fn(() => sub);
       component['onDialogClose'] = jest.fn();
       const result = {
@@ -401,9 +444,15 @@ describe('QuickFilterComponent', () => {
       sub.next(result);
 
       expect(component['activeEdit']).toBe(filter);
-      expect(component.dialog.open).toBeCalledWith(
+      expect(component['dialog'].open).toBeCalledWith(
         expect.anything(),
-        expect.objectContaining(result)
+        expect.objectContaining({
+          data: {
+            quickFilter: filter,
+            edit: true,
+            delete: false,
+          },
+        })
       );
       expect(ref.afterClosed).toBeCalled();
       expect(component['onDialogClose']).toBeCalledWith(result);
@@ -412,7 +461,7 @@ describe('QuickFilterComponent', () => {
     it('should open dialog in normal mode', () => {
       const ref = {} as MatDialogRef<any>;
       const sub = new Subject();
-      component.dialog.open = jest.fn(() => ref);
+      component['dialog'].open = jest.fn(() => ref);
       ref.afterClosed = jest.fn(() => sub);
       component['onDialogClose'] = jest.fn();
       const result = { data: { edit: false, delete: false } };
@@ -421,7 +470,7 @@ describe('QuickFilterComponent', () => {
       sub.next(result);
 
       expect(component['activeEdit']).toBe(undefined);
-      expect(component.dialog.open).toBeCalledWith(
+      expect(component['dialog'].open).toBeCalledWith(
         expect.anything(),
         expect.objectContaining(result)
       );
@@ -434,64 +483,65 @@ describe('QuickFilterComponent', () => {
     it('should remove a quickfilter after confirmation', () => {
       const result = {
         title: '',
-        fromCurrent: '',
+        description: '',
+        quickFilterType: QuickFilterType.LOCAL_FROM_CURRENT_VIEW,
         edit: false,
         delete: true,
       };
       component['reset'] = jest.fn();
+      component['qfFacade'].deleteQuickFilter = jest.fn();
       const filter = {} as QuickFilter;
       component.active = undefined;
       component['activeEdit'] = filter;
 
       component['onDialogClose'](result);
-      expect(store.dispatch).toBeCalledWith(
-        removeCustomQuickfilter({ filter })
-      );
+      expect(component['qfFacade'].deleteQuickFilter).toBeCalledWith(filter);
       expect(component['reset']).not.toBeCalled();
     });
-    it('remove should dipatch event and reset', () => {
+    it('remove should dispatch event and reset', () => {
       const result = {
         title: '',
-        fromCurrent: '',
+        description: '',
+        quickFilterType: QuickFilterType.LOCAL_FROM_CURRENT_VIEW,
         edit: false,
         delete: true,
       };
       component['reset'] = jest.fn();
+      component['qfFacade'].deleteQuickFilter = jest.fn();
       const filter = {} as QuickFilter;
       component.active = filter;
       component['activeEdit'] = filter;
 
       component['onDialogClose'](result);
-      expect(store.dispatch).toBeCalledWith(
-        removeCustomQuickfilter({ filter })
-      );
+      expect(component['qfFacade'].deleteQuickFilter).toBeCalledWith(filter);
       expect(component['reset']).toBeCalled();
     });
 
     it('should update quickfilter after edit', () => {
       const oldFilter: QuickFilter = {
         title: 'oldTitle',
+        description: 'test',
         columns: ['1'],
         filter: { a: 2 },
-        custom: false,
       };
       const newFilter: QuickFilter = { ...oldFilter, title: 'newTitle' };
 
       const obj = {
         title: newFilter.title,
-        fromCurrent: 'true',
+        description: oldFilter.description,
+        quickFilterType: QuickFilterType.PUBLIC,
         edit: true,
         delete: false,
       };
       component['activeEdit'] = oldFilter;
       component['applyQuickFilter'] = jest.fn();
+      component['qfFacade'].updateQuickFilter = jest.fn();
 
       component['onDialogClose'](obj);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        updateCustomQuickfilter({
-          oldFilter,
-          newFilter,
-        })
+      expect(component['qfFacade'].updateQuickFilter).toHaveBeenCalledWith(
+        oldFilter,
+        newFilter,
+        component.hasEditorRole$
       );
       expect(component['applyQuickFilter']).not.toHaveBeenCalled();
       expect(component['activeEdit']).toBeFalsy();
@@ -499,7 +549,8 @@ describe('QuickFilterComponent', () => {
     it('should add quickfilter from current after close - no edit', () => {
       const obj = {
         title: 'title',
-        fromCurrent: 'true',
+        description: '',
+        quickFilterType: QuickFilterType.LOCAL_FROM_CURRENT_VIEW,
         edit: false,
         delete: false,
       };
@@ -507,32 +558,35 @@ describe('QuickFilterComponent', () => {
       component['applyQuickFilter'] = jest.fn();
       component['agGridToFilter'] = jest.fn(() => quickFilter);
       component['copyDefaultFilter'] = jest.fn(() => quickFilter);
+      component['qfFacade'].createQuickFilter = jest.fn();
 
       component['onDialogClose'](obj);
       expect(component['agGridToFilter']).toBeCalled();
       expect(component['copyDefaultFilter']).not.toBeCalled();
-      expect(store.dispatch).toBeCalledWith(
-        addCustomQuickfilter({ filter: quickFilter })
+      expect(component['qfFacade'].createQuickFilter).toBeCalledWith(
+        quickFilter
       );
       expect(component['applyQuickFilter']).toBeCalledWith(quickFilter);
     });
     it('should add quickfilter from default after close - no edit', () => {
       const obj = {
         title: 'title',
-        fromCurrent: 'false',
+        description: '',
+        quickFilterType: QuickFilterType.LOCAL_FROM_STANDARD,
         edit: false,
         delete: false,
       };
       const quickFilter = {} as QuickFilter;
       component['applyQuickFilter'] = jest.fn();
+      component['qfFacade'].createQuickFilter = jest.fn();
       component['agGridToFilter'] = jest.fn(() => quickFilter);
       component['copyDefaultFilter'] = jest.fn(() => quickFilter);
 
       component['onDialogClose'](obj);
       expect(component['agGridToFilter']).not.toBeCalled();
       expect(component['copyDefaultFilter']).toBeCalled();
-      expect(store.dispatch).toBeCalledWith(
-        addCustomQuickfilter({ filter: quickFilter })
+      expect(component['qfFacade'].createQuickFilter).toBeCalledWith(
+        quickFilter
       );
       expect(component['applyQuickFilter']).toBeCalledWith(quickFilter);
     });
@@ -545,15 +599,15 @@ describe('QuickFilterComponent', () => {
 
   it('agGirdToFilter should return a filter from current agGrid config', () => {
     const title = 'abc';
+    const description = '';
     const columns = ['1', '2', '3'];
     const filter = { a: 23 };
     component['getCurrentColumns'] = jest.fn(() => columns);
     component['agGridApi'] = {} as GridApi;
     component['agGridApi'].getFilterModel = jest.fn(() => filter);
 
-    const result = component['agGridToFilter'](title);
+    const result = component['agGridToFilter'](title, description);
     expect(result.title).toBe(title);
-    expect(result.custom).toBeTruthy();
     expect(result.filter).toBe(filter);
     expect(result.columns).toBe(columns);
     expect(component['getCurrentColumns']).toBeCalled();
@@ -566,7 +620,6 @@ describe('QuickFilterComponent', () => {
     const origin = STEEL_STATIC_QUICKFILTERS[0];
     const result = component['copyDefaultFilter'](title);
     expect(result.title).toBe(title);
-    expect(result.custom).toBeTruthy();
     expect(result.columns).toBe(origin.columns);
     expect(result.filter).toBe(origin.filter);
   });
@@ -593,6 +646,59 @@ describe('QuickFilterComponent', () => {
 
       component.remove(filter);
       expect(component['openDialog']).toBeCalledWith(filter, true);
+    });
+  });
+
+  describe('isOwnFilter', () => {
+    it('should return true for published filters', (done) => {
+      component.ownFilters$ = of([
+        { id: 1, title: 'test' },
+        { id: 2 },
+      ] as QuickFilter[]);
+
+      component['isOwnFilter']({ id: 1 } as QuickFilter).subscribe(
+        (isOwn: boolean) => {
+          expect(isOwn).toBe(true);
+          done();
+        }
+      );
+    });
+
+    it('should return false for published filters', (done) => {
+      component.ownFilters$ = of([
+        { id: 1, title: 'test' },
+        { id: 2 },
+      ] as QuickFilter[]);
+
+      component['isOwnFilter']({
+        id: 3,
+        title: 'test',
+      } as QuickFilter).subscribe((isOwn: boolean) => {
+        expect(isOwn).toBe(false);
+        done();
+      });
+    });
+
+    it('should return true for local filters', (done) => {
+      const filters = [{ title: 'test' }, { title: 'test 2' }] as QuickFilter[];
+      component.ownFilters$ = of(filters);
+
+      component['isOwnFilter'](filters[0]).subscribe((isOwn: boolean) => {
+        expect(isOwn).toBe(true);
+        done();
+      });
+    });
+
+    it('should return false for local filters', (done) => {
+      const filters = [{ title: 'test' }, { title: 'test 2' }] as QuickFilter[];
+      component.ownFilters$ = of(filters);
+
+      component['isOwnFilter']({ title: 'test 2' } as QuickFilter).subscribe(
+        (isOwn: boolean) => {
+          expect(isOwn).toBe(false);
+          done();
+        }
+      );
     });
   });
 });

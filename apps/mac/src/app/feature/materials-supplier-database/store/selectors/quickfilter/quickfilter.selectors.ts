@@ -7,7 +7,30 @@ export const getQuickFilterState = createSelector(
   (msdState) => msdState.quickfilter
 );
 
-export const getQuickFilter = createSelector(
+export const getLocalQuickFilters = createSelector(
   getQuickFilterState,
-  (qfState) => qfState.customFilters
+  (qfState) => qfState.localFilters
+);
+
+export const getOwnQuickFilters = createSelector(
+  getQuickFilterState,
+  (qfState) => [...qfState.localFilters, ...qfState.publishedFilters]
+);
+
+export const getSubscribedQuickFilters = createSelector(
+  getQuickFilterState,
+  (qfState) => qfState.subscribedFilters
+);
+
+export const getQueriedQuickFilters = createSelector(
+  getQuickFilterState,
+  (qfState) => qfState.queriedFilters
+);
+
+export const isLoading = createSelector(
+  getQuickFilterState,
+  (qfState) =>
+    qfState.arePublishedFiltersLoading ||
+    qfState.areSubscribedFiltersLoading ||
+    qfState.isLoading
 );

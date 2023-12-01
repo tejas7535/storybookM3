@@ -1,0 +1,323 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { of } from 'rxjs';
+
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import {
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/feature/materials-supplier-database/constants';
+import {
+  ActiveNavigationLevel,
+  QuickFilter,
+} from '@mac/feature/materials-supplier-database/models';
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
+import { QuickFilterFacade } from '@mac/feature/materials-supplier-database/store/facades/quickfilter';
+
+import * as en from '../../../../../../assets/i18n/en.json';
+import { QuickfilterDialogComponent } from '../quickfilter-dialog/quickfilter-dialog.component';
+import { QuickFilterManagementComponent } from './quick-filter-management.component';
+
+describe('QuickFilterManagementComponent', () => {
+  let component: QuickFilterManagementComponent;
+  let spectator: Spectator<QuickFilterManagementComponent>;
+  let router: Router;
+
+  const createComponent = createComponentFactory({
+    component: QuickFilterManagementComponent,
+    declarations: [QuickFilterManagementComponent],
+    imports: [
+      provideTranslocoTestingModule({ en }),
+      RouterTestingModule,
+      MatDialogModule,
+    ],
+    providers: [
+      mockProvider(DataFacade),
+      mockProvider(QuickFilterFacade),
+      mockProvider(MatDialog),
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    router = spectator.inject(Router);
+  });
+
+  test('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  test('should open learn more page in a new tab', () => {
+    const testFullUrl =
+      'http://www.test.de/learn-more/materials-supplier-database';
+
+    router.serializeUrl = jest.fn(() => testFullUrl);
+    router.createUrlTree = jest.fn();
+
+    Object.defineProperty(window, 'open', {
+      value: jest.fn(),
+    });
+
+    component.openLearnMorePage();
+
+    expect(window.open).toHaveBeenCalledWith(testFullUrl, '_blank');
+    expect(router.createUrlTree).toHaveBeenCalledWith([
+      '/learn-more/materials-supplier-database',
+    ]);
+  });
+
+  test('should reset queried quick filters on destroy', () => {
+    component.quickFilterFacade.resetQueriedQuickFilters = jest.fn();
+
+    component.ngOnDestroy();
+
+    expect(
+      component.quickFilterFacade.resetQueriedQuickFilters
+    ).toHaveBeenCalledTimes(1);
+  });
+
+  test('should activate quick filter on edit', () => {
+    const quickFilter: QuickFilter = {
+      id: 500,
+      title: 'Test',
+      description: 'Test filter',
+      filter: {
+        co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+      },
+      columns: [],
+    };
+
+    component.quickFilterFacade.activateQuickFilter = jest.fn();
+
+    component['edit'](quickFilter);
+
+    expect(
+      component.quickFilterFacade.activateQuickFilter
+    ).toHaveBeenCalledWith(quickFilter);
+  });
+
+  test('should subscribe quick filter', () => {
+    const quickFilter: QuickFilter = {
+      id: 999,
+      title: 'Test',
+      description: 'Test filter',
+      filter: {
+        co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+      },
+      columns: [],
+    };
+
+    component.quickFilterFacade.subscribeQuickFilter = jest.fn();
+
+    component['subscribe'](quickFilter);
+
+    expect(
+      component.quickFilterFacade.subscribeQuickFilter
+    ).toHaveBeenCalledWith(quickFilter);
+  });
+
+  test('should unsubscribe quick filter', () => {
+    const quickFilter: QuickFilter = {
+      id: 888,
+      title: 'Test',
+      description: 'Test filter',
+      filter: {
+        co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+      },
+      columns: [],
+    };
+
+    component.quickFilterFacade.unsubscribeQuickFilter = jest.fn();
+
+    component['unsubscribe'](quickFilter);
+
+    expect(
+      component.quickFilterFacade.unsubscribeQuickFilter
+    ).toHaveBeenCalledWith(quickFilter.id);
+  });
+
+  describe('shouldDisableWriteOperation', () => {
+    test('should not disable if quick filter is local', (done) => {
+      const quickFilter: QuickFilter = {
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['shouldDisableWriteOperation'](quickFilter).subscribe(
+        (shouldDisable: boolean) => {
+          expect(shouldDisable).toBe(false);
+          done();
+        }
+      );
+    });
+
+    test('should disable if quick filter is public and user does not have the EDITOR role', (done) => {
+      const quickFilter: QuickFilter = {
+        id: 100,
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['dataFacade'].hasEditorRole$ = of(false);
+
+      component['shouldDisableWriteOperation'](quickFilter).subscribe(
+        (shouldDisable: boolean) => {
+          expect(shouldDisable).toBe(true);
+          done();
+        }
+      );
+    });
+
+    test('should not disable if quick filter is public and user has the EDITOR role', (done) => {
+      const quickFilter: QuickFilter = {
+        id: 100,
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['dataFacade'].hasEditorRole$ = of(true);
+
+      component['shouldDisableWriteOperation'](quickFilter).subscribe(
+        (shouldDisable: boolean) => {
+          expect(shouldDisable).toBe(false);
+          done();
+        }
+      );
+    });
+  });
+
+  describe('search', () => {
+    test('should trigger search if search expression length is >= 2', () => {
+      const searchExpression = 'test';
+      const activateNavigation: ActiveNavigationLevel = {
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      };
+
+      component.quickFilterFacade.queryQuickFilters = jest.fn();
+      component.quickFilterFacade.resetQueriedQuickFilters = jest.fn();
+      component.activeNavigationLevel = activateNavigation;
+
+      component['search'](searchExpression);
+
+      expect(
+        component.quickFilterFacade.queryQuickFilters
+      ).toHaveBeenCalledWith(
+        activateNavigation.materialClass,
+        activateNavigation.navigationLevel,
+        searchExpression
+      );
+
+      expect(
+        component.quickFilterFacade.resetQueriedQuickFilters
+      ).not.toHaveBeenCalled();
+    });
+
+    test('should reset queried filters if search expression length is < 2', () => {
+      component.quickFilterFacade.queryQuickFilters = jest.fn();
+      component.quickFilterFacade.resetQueriedQuickFilters = jest.fn();
+
+      component['search']('');
+
+      expect(
+        component.quickFilterFacade.queryQuickFilters
+      ).not.toHaveBeenCalled();
+      expect(
+        component.quickFilterFacade.resetQueriedQuickFilters
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('delete', () => {
+    test('should trigger delete', () => {
+      const quickFilter: QuickFilter = {
+        id: 100,
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: () => of({ delete: true }),
+          } as MatDialogRef<any>)
+      );
+
+      component.quickFilterFacade.deleteQuickFilter = jest.fn();
+
+      component['delete'](quickFilter);
+
+      expect(component['dialog'].open).toBeCalledWith(
+        QuickfilterDialogComponent,
+        {
+          width: '500px',
+          autoFocus: false,
+          data: { quickFilter, edit: false, delete: true },
+        }
+      );
+      expect(
+        component.quickFilterFacade.deleteQuickFilter
+      ).toHaveBeenCalledWith(quickFilter);
+    });
+
+    test('should not trigger delete', () => {
+      const quickFilter: QuickFilter = {
+        id: 100,
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: () => of({ delete: false }),
+          } as MatDialogRef<any>)
+      );
+
+      component.quickFilterFacade.deleteQuickFilter = jest.fn();
+
+      component['delete'](quickFilter);
+
+      expect(
+        component.quickFilterFacade.deleteQuickFilter
+      ).not.toHaveBeenCalled();
+    });
+  });
+});

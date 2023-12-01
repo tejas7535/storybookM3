@@ -1,5 +1,6 @@
 <div
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.quickfilter'"
+  class="h-[33px]"
 >
   <mat-button-toggle-group
     (change)="onQuickfilterSelect($event)"
@@ -8,40 +9,66 @@
   >
     <mat-button-toggle
       class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
+      [value]="undefined"
+      [ngClass]="{
+        '!bg-secondary text-high-emphasis': item === active
+      }"
+    >
+      <mat-icon class="!h-4 !w-4 !text-[16px]">folder_shared</mat-icon>
+    </mat-button-toggle>
+
+    <mat-button-toggle
+      class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
       *ngFor="let item of staticFilters; let i = index"
       [value]="item"
       [ngClass]="{
         '!bg-secondary text-high-emphasis': item === active
       }"
     >
-      {{ t('defaultfilters.' + item.title) }}
-      <mat-icon *ngIf="i !== 0" class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
-        >lock_outline</mat-icon
-      >
+      {{ item.title }}
     </mat-button-toggle>
 
     <mat-button-toggle
       class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
-      *ngFor="let item of customFilters$ | ngrxPush"
+      *ngFor="let item of ownFilters$ | ngrxPush"
+      [value]="item"
+      [ngClass]="{
+        '!bg-secondary !text-high-emphasis':
+          item === active || (item?.id !== undefined && item?.id === active?.id)
+      }"
+    >
+      {{ item.title }}
+      <ng-container
+        *ngIf="item.id !== undefined ? (hasEditorRole$ | ngrxPush) : true"
+      >
+        <mat-icon
+          class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
+          (click)="edit(item); $event.stopPropagation()"
+          >edit</mat-icon
+        >
+        <mat-icon
+          class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
+          (click)="remove(item); $event.stopPropagation()"
+          >close</mat-icon
+        >
+      </ng-container>
+    </mat-button-toggle>
+
+    <mat-button-toggle
+      class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
+      *ngFor="let item of subscribedFilters$ | ngrxPush"
       [value]="item"
       [ngClass]="{
         '!bg-secondary text-high-emphasis': item === active
       }"
     >
       {{ item.title }}
-      <mat-icon
-        class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
-        (click)="edit(item); $event.stopPropagation()"
-        >edit</mat-icon
-      >
-      <mat-icon
-        class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]"
-        (click)="remove(item); $event.stopPropagation()"
-        >close</mat-icon
-      >
+      <mat-icon class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]">star</mat-icon>
     </mat-button-toggle>
+
     <button
-      class="flex items-center justify-center w-14 outline-none border-l-[0.8px] border-l-[#e0e0e0] !text-caption text-medium-emphasis hover:text-high-emphasis !bg-[#fafafa] !px-1 !font-medium"
+      class="flex items-center justify-center w-14 outline-none border-l-[0.8px] border-l-[#e0e0e0] !text-caption text-medium-emphasis enabled:hover:text-high-emphasis !bg-[#fafafa] !px-1 !font-medium"
+      [disabled]="isManagementTabSelected"
       (click)="add()"
     >
       <mat-icon class="!h-3 !text-[12px]">add</mat-icon>

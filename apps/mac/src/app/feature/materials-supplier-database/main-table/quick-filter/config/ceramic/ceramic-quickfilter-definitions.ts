@@ -18,7 +18,7 @@ import {
 
 export const CERAMIC_STATIC_QUICKFILTERS: QuickFilter[] = [
   {
-    title: 'default',
+    title: 'All view',
     filter: {},
     columns: [
       MATERIAL_STANDARD_MATERIAL_NAME,
@@ -37,6 +37,5 @@ export const CERAMIC_STATIC_QUICKFILTERS: QuickFilter[] = [
 
       CO2_PER_TON,
     ],
-    custom: false,
   },
 ];

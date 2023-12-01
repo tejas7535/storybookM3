@@ -1,23 +1,19 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { BehaviorSubject, of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   Column,
@@ -36,7 +32,6 @@ import {
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -48,7 +43,6 @@ import {
   RELEASED_STATUS,
   Status,
 } from '@mac/msd/constants';
-import { QuickFilterComponent } from '@mac/msd/main-table/quick-filter/quick-filter.component';
 import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
 import {
   DataResult,
@@ -74,8 +68,8 @@ import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers
 import * as en from '../../../../assets/i18n/en.json';
 import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
 import { DialogFacade } from '../store/facades/dialog';
+import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MainTableComponent } from './main-table.component';
-import { MainTableRoutingModule } from './main-table-routing.module';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
 import { getStatus } from './util';
 
@@ -88,6 +82,11 @@ jest.mock('./util', () => ({
   ...jest.requireActual('./util'),
   getStatus: jest.fn(),
 }));
+
+// Mock cell renderers.
+// Otherwise following error is thrown: "Class extends value undefined is not a constructor or null"
+jest.mock('./link-cell-renderer/link-cell-renderer.component');
+jest.mock('./green-steel-cell-renderer/green-steel-cell-renderer.component');
 
 describe('MainTableComponent', () => {
   let component: MainTableComponent;
@@ -126,21 +125,9 @@ describe('MainTableComponent', () => {
   const createComponent = createComponentFactory({
     component: MainTableComponent,
     imports: [
-      MatDialogModule,
-      CommonModule,
-      MainTableRoutingModule,
       RouterTestingModule,
-      AgGridModule,
-      ReactiveFormsModule,
-      MatFormFieldModule,
-      MatSelectModule,
-      LetDirective,
       PushPipe,
-      MatButtonModule,
-      LoadingSpinnerModule,
-      MatCheckboxModule,
-      MatIconModule,
-      QuickFilterComponent,
+      LetDirective,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -189,6 +176,7 @@ describe('MainTableComponent', () => {
           sapMaterialsDatabaseUploadStatus$: of(),
         },
       },
+      mockProvider(QuickFilterFacade),
     ],
     declarations: [MainTableComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

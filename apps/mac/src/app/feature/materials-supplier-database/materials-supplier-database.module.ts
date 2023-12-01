@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { EffectsModule } from '@ngrx/effects';
@@ -13,7 +13,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialsSupplierDatabaseComponent } from '@mac/msd/materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from '@mac/msd/materials-supplier-database-routing.module';
-import { DataEffects, DialogEffects } from '@mac/msd/store/effects';
+import {
+  DataEffects,
+  DialogEffects,
+  QuickFilterEffects,
+} from '@mac/msd/store/effects';
 import { reducers } from '@mac/msd/store/reducers';
 
 @NgModule({
@@ -22,7 +26,7 @@ import { reducers } from '@mac/msd/store/reducers';
     CommonModule,
     MaterialsSupplierDatabaseRoutingModule,
     NgrxStoreModule.forFeature('msd', reducers),
-    EffectsModule.forFeature([DataEffects, DialogEffects]),
+    EffectsModule.forFeature([DataEffects, DialogEffects, QuickFilterEffects]),
     SubheaderModule,
     HttpClientModule,
     MatButtonModule,

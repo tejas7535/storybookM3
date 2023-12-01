@@ -1,0 +1,68 @@
+<div
+  class="w-full flex flex-col pb-6 border-t border-[#0000001f]"
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.quickfilter.management'
+  "
+>
+  <div
+    class="flex items-center gap-x-[10px] px-6 py-3 border-b border-[#0000001f]"
+  >
+    <mat-icon class="!w-4 !h-4 !leading-4 !text-[16px]">{{
+      config.icon
+    }}</mat-icon>
+    <span class="text-caption text-[#000]">{{
+      t(config.titleTranslationKeySuffix)
+    }}</span>
+  </div>
+  <div
+    *ngIf="config.searchable"
+    class="w-full px-6 py-2 border-y border-[#9e9e9e] flex items-center gap-x-2"
+  >
+    <mat-icon class="!w-6 !h-6 !leading-6 !text-[24px] text-[#00000099]"
+      >search</mat-icon
+    >
+    <input
+      #searchField
+      class="w-full focus:outline-none text-[12px] font-normal text-high-emphasis"
+      [placeholder]="t('searchPlaceholder')"
+    />
+  </div>
+  <div class="grid grid-cols-[4fr_12fr_2fr]">
+    <span
+      *ngFor="
+        let headerTranslationKeySuffix of tableConfig.headersTranslationKeySuffixes
+      "
+      class="px-6 py-3 border-b border-[#9e9e9e] text-caption text-medium-emphasis"
+      >{{ t('table.' + headerTranslationKeySuffix) }}</span
+    >
+    <ng-container *ngrxLet="config.quickFilters$ as quickFilters">
+      <ng-container *ngFor="let quickFilter of quickFilters">
+        <span
+          *ngFor="let dataField of tableConfig.dataFields"
+          class="px-6 py-3 border-b border-[#0000001f] text-[12px] font-normal text-high-emphasis"
+          >{{ quickFilter[dataField] }}</span
+        >
+        <div
+          class="px-6 border-b border-[#0000001f] flex items-center justify-end gap-x-3"
+        >
+          <button
+            *ngFor="let action of config.actions"
+            mat-icon-button
+            class="!w-8 !h-8 !leading-8 !flex !justify-center !items-center"
+            [matTooltip]="
+              t('table.buttons.' + action.tooltipTranslationKeySuffix)
+            "
+            [disabled]="action.shouldDisable(quickFilter) | ngrxPush"
+            (click)="action.onClick(quickFilter)"
+          >
+            <mat-icon
+              class="!w-6 !h-6 !leading-6 !text-[24px] enabled:text-[#00000099] absolute"
+              >{{ action.icon }}</mat-icon
+            >
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

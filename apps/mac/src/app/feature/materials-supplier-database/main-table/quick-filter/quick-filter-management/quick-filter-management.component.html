@@ -1,0 +1,44 @@
+<div
+  class="w-full h-full overflow-y-auto flex flex-col border border-[#0000001f]"
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.quickfilter.management'
+  "
+>
+  <div
+    class="w-full h-[68px] flex items-center gap-x-3 justify-between px-6 py-4"
+  >
+    <span
+      class="text-subtitle-2 text-[#00000099]"
+      *transloco="let tr; read: 'materialsSupplierDatabase'"
+      >{{
+        t('title', {
+          materialClass: tr(
+            'materialClassValuesNavigation.' +
+              activeNavigationLevel.materialClass
+          )
+        }) +
+          (activeNavigationLevel.materialClass !== materialClass.SAP_MATERIAL
+            ? ' - ' + tr(activeNavigationLevel.navigationLevel)
+            : '')
+      }}</span
+    >
+    <button
+      mat-button
+      color="primary"
+      class="!px-3"
+      (click)="openLearnMorePage()"
+    >
+      <mat-icon>help_outlined</mat-icon>
+      <span>{{ t('help') }}</span>
+    </button>
+  </div>
+  <div
+    class="w-full h-[calc(100%-68px)] overflow-y-auto flex flex-col gap-y-6 mt-4"
+  >
+    <mac-quick-filters-list
+      *ngFor="let config of quickFiltersListConfigs"
+      [config]="config"
+    ></mac-quick-filters-list>
+  </div>
+</div>

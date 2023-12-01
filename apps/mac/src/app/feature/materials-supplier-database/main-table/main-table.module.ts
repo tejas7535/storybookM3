@@ -2,12 +2,12 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -36,7 +36,7 @@ import { MaturityInfoComponent } from './maturity-info/maturity-info.component';
 import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
-import { QuickFilterComponent } from './quick-filter/quick-filter.component';
+import { QuickFilterModule } from './quick-filter/quick-filter.module';
 import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from './release-status-cell-renderer/release-status-cell-renderer.component';
 
@@ -71,7 +71,6 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
     MatCheckboxModule,
     MatIconModule,
     SharedTranslocoModule,
-    QuickFilterComponent,
     MatDialogModule,
     MaterialDialogsModule,
     MsdNavigationModule,
@@ -80,6 +79,7 @@ import { ReleaseStatusCellRendererComponent } from './release-status-cell-render
     MatTooltipModule,
     OverlayModule,
     MaturityInfoComponent,
+    QuickFilterModule,
   ],
   providers: [DatePipe, MsdDialogService],
 })
