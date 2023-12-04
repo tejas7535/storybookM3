@@ -202,7 +202,7 @@
     "rotating": "การหมุน",
     "oscillating": "การแกว่ง",
     "relativeRotationalSpeed": "ความเร็วการหมุน",
-    "onePerMinute": "รอบต่อนาที (RPM)",
+    "onePerMinute": "rpm",
     "shiftFrequency": "ความถี่การเปลี่ยนเกียร์",
     "shiftAngle": "มุมการเปลี่ยนเกียร์",
     "degree": "°",
