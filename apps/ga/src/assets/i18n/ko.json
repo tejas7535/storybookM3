@@ -1,0 +1,356 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "그리스 계산기",
+          "sub": "Bearinx 제공"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "ARCANOL 그리스",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.kr/ko/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "윤활기"
+        },
+        "externalLink": "https://medias.schaeffler.kr/ko/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "유지보수 공구",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.kr/ko/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "OPTIME"
+        },
+        "externalLink": "https://medias.schaeffler.kr/ko/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "제품 카탈로그"
+        },
+        "externalLink": "https://medias.schaeffler.kr/ko"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler 전문가"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "FAQ"
+        },
+        "externalLink": "https://medias.schaeffler.kr/ko/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Grease App을 사용하면 초기 윤활 및 재윤활 시 베어링에 필요한 최적의 윤활유 양을 빠르고 쉽게 계산할 수 있습니다. 또한 특정 작동 조건을 고려하여 재윤활 주기 및 그리스 작동 수명에 대한 권장 사항을 얻을 수 있습니다.</br>Schaeffler 윤활기를 사용하여 수동 또는 자동으로 재윤활할 수 있습니다.</br>또한 Arcanol 윤활 그리스의 특성에 대한 개요도 제공됩니다. 재윤활 주기가 긴 그리스는 강조 표시됩니다."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "언어 설정"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "단위계",
+        "sub": "무게 및 온도 사양에 영향을 미침"
+      },
+      "label": "단위계",
+      "options": {
+        "metric": "미터 단위",
+        "imperial": "야드 단위"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "랜딩 페이지",
+      "greaseCalculator": "그리스 계산기"
+    },
+    "button": {
+      "close": "닫기"
+    },
+    "label": {
+      "defaultSet": "{{label}} 설정",
+      "defaultSelect": "{{label}} 선택"
+    },
+    "hint": {
+      "applicationReload": "응용 프로그램이 다시 로드됩니다."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "최소",
+    "max": "최대",
+    "mediasButton": "{{bearing}} 베어링 Medias에서 보기",
+    "feedbackButton": "의견 보내기",
+    "feedbackText": "귀하의 의견은 제품을 지속적으로 개선하는 데 도움이 됩니다."
+  },
+  "bearing": {
+    "title": {
+      "main": "베어링 선택",
+      "sub": "윤활 장치 계산을 수행할 베어링을 선택하십시오."
+    },
+    "label": {
+      "bearingType": "베어링 유형",
+      "boreDiameter": "내경",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "외경",
+      "outsideDiameterShort": "D",
+      "width": "폭",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "직접 베어링 선택",
+        "advancedSelection": "고급 베어링 선택"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "베어링 명칭 입력(예: 6226)",
+        "selectButton": "베어링 선택",
+        "selectOption": "<span class=\"text-medium-emphasis\">베어링</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}의 윤활 계산",
+        "disabledOption": "<span class=\"text-medium-emphasis\"></span><strong>{{bearing}}</strong>{{disabled}}의 윤활을 계산할 수 없음",
+        "noResults": "검색 결과가 없음"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "필터 기준",
+          "intro": "베어링 선택을 최대 {{tooManyResultsThreshold}}개 결과로 좁힘",
+          "action": {
+            "nextStep": "베어링 선택으로 이동"
+          }
+        },
+        "bearingsList": {
+          "heading": "베어링 선택",
+          "intro": "베어링을 선택하십시오.",
+          "selectOption": "베어링용 그리스 계산",
+          "disabledOption": "베어링에 대해 계산할 수 없음",
+          "action": {
+            "previousStep": "필터 기준 조정"
+          }
+        },
+        "error": {
+          "modelCreation": "현재 {{bearing}} 베어링에 대해 계산을 수행할 수 없습니다."
+        },
+        "tooManyResults": {
+          "message": "너무 많은 결과({{resultsCount}})",
+          "hint": "데이터베이스에서 너무 많은 항목을 찾았습니다. 필터를 사용하여 결과 수를 최대 {{tooManyResultsThreshold}}개까지 줄이십시오."
+        },
+        "noResults": {
+          "message": "검색 결과가 없음",
+          "hint": "적용된 필터에 대한 베어링을 찾을 수 없습니다. 필터 설정에서 올바른 선택을 사용하고 있는지 확인하십시오."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "레이디얼 앵귤러 콘택트 볼 베어링",
+      "IDO_RADIAL_BALL_BEARING": "레이디얼 깊은 홈 볼 베어링",
+      "IDO_RADIAL_ROLLER_BEARING": "레이디얼 롤러 베어링",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "자동 조심 볼 베어링",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "레이디얼 구형 롤러 베어링",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "레이디얼 테이퍼 롤러 베어링",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "스러스트 앵귤러 콘택트 볼 베어링",
+      "IDO_THRUST_BALL_BEARING": "스러스트 볼 베어링",
+      "IDO_THRUST_ROLLER_BEARING": "스러스트 롤러 베어링"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "작동 조건",
+      "backButton": "베어링 선택 변경"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "신규: 제품 사전 선택(옵션)"
+      },
+      "grease": {
+        "label": "그리스",
+        "defaultOption": "모든 그리스",
+        "tooltip": "선택한 그리스는 계산 보고서에서 우선 순위가 부여됩니다. 선택한 그리스가 적합하지 않으면 대체 그리스가 표시됩니다.",
+        "schaefflerGreases": "Schaeffler 그리스",
+        "nonSchaefflerMultiPurposeGreases": "비 Schaeffler 다목적 그리스",
+        "nonSchaefflerHighTempGreases": "비 Schaeffler 고온 그리스"
+      },
+      "concept1": {
+        "label": "카트리지 설정 계산(CONCEPT1)",
+        "tooltip": "카트리지 설정 계산이 활성화되면 가능한 경우 CONCEPT1 설정이 추가로 계산되어 표시됩니다. 비활성화되면 CONCEPT1 설정이 표시되지 않습니다."
+      }
+    },
+    "requiredInformation": "* 필수 정보",
+    "loads": "하중",
+    "load": "예상 하중",
+    "radialLoad": "경방향 하중",
+    "axialLoad": "축방향 하중",
+    "loadsUnknown": "정확한 하중을 알 수 없습니까?",
+    "enterRadialAndAxialLoad": "경방향 및 축방향 하중 입력",
+    "motionInfluences": "모션 영향",
+    "kindOfMotion": "모션 유형",
+    "rotating": "회전",
+    "oscillating": "진동",
+    "relativeRotationalSpeed": "회전 속도",
+    "onePerMinute": "rpm",
+    "shiftFrequency": "이동 주파수",
+    "shiftAngle": "이동 각도",
+    "degree": "°",
+    "otherInfluences": "환경적 요인",
+    "operatingTemperature": "작동 온도",
+    "environmentTemperature": "주변 온도",
+    "environmentalImpactOnGreaseDuration": "작동 조건",
+    "low": "낮음",
+    "moderate": "중간",
+    "high": "높음",
+    "greaseSelection": "그리스 선택",
+    "selectGrease": "그리스 선택",
+    "showResults": "결과 표시",
+    "resetInputs": "입력 재설정",
+    "pleaseEnter": "{{label}} 입력",
+    "errors": {
+      "min": "값이 너무 낮습니다.",
+      "max": "값이 너무 높습니다.",
+      "required": "이 필드는 필수입니다.",
+      "lowerThanEnvironmentTemperature": "주변 온도보다 낮을 수 없습니다.",
+      "innerOuterInconsistent": "내경은 외경보다 작아야 합니다.",
+      "minMaxInconsistent": "최소값은 최대값보다 작아야 합니다.",
+      "anyLoad": "하나의 하중이 필요합니다."
+    },
+    "loadLevel": {
+      "veryLow": "매우 낮음(C0/P 약 30)",
+      "low": "낮음(C0/P 약 15)",
+      "moderate": "중간(C0/P 약 10)",
+      "high": "높음(C0/P 약 5)",
+      "veryHigh": "매우 높음(C0/P 약 2)"
+    },
+    "tooltip": {
+      "radialLoad": "경방향의 하중(절대값으로 지정)",
+      "axialLoad": "축방향의 하중(절대값으로 지정)",
+      "rotationSpeed": "내측 및 외측 링 사이의 상대 회전 속도(절대값으로 지정)",
+      "operatingTemperature": "베어링 작동 온도(필요한 경우 추정치 사용) 그리스 작동 수명에 미치는 영향에 대한 정보는 FAQ를 참조하십시오.",
+      "environmentTemperature": "기계의 주변 환경 온도",
+      "otherInfluences": "그리스 작동 수명에 대한 습기, 진동 및 충격 부하의 영향 요인",
+      "shiftFrequency": "분당 진동 모션 수(전체 주기, 앞뒤)",
+      "shiftAngle": "진동 모션의 전환점 사이의 각도(FAQ 참조)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "보고 대상:",
+      "backButton": "작동 조건 변경",
+      "247hint": "모든 결과는 연중무휴 연속 작동을 나타냅니다."
+    },
+    "showCompactView": "간략한 보기 표시",
+    "reportSectionInput": "입력",
+    "shopLinkText": "사용 가능한 제품",
+    "shopBaseUrl": "https://medias.schaeffler.kr/ko",
+    "snackbarError": "유감스럽게도 오류가 발생했습니다. 나중에 시도해 주십시오.",
+    "snackbarRetry": "다시 시도",
+    "allValues": "모든 값 보기",
+    "hideValues": "추가 값 숨기기",
+    "limitResults": "처음 {{ results }}개 결과 표시",
+    "remainingResults": "기타 {{ results }}개 결과",
+    "resultsDefault": "재윤활 주기별로 결과 정렬({{ amount }}/{{ complete }} 그리스)",
+    "resultsWithPreferred": "재윤활 주기별로 정렬된 선택 및 대체 그리스에 대한 결과",
+    "guideValues": "* 참고치",
+    "errorsWarningsNotes": "오류, 경고 및 메모",
+    "concept1": "CONCEPT1 카트리지 설정",
+    "concept1Impossible": "CONCEPT1을 사용하여 자동 윤활할 수 없습니다. 특정 상황에서 윤활량이 너무 많거나 적습니다. 작동 매개 변수가 변경되면 사용이 가능할 수 있습니다.",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }}개월<span>({{size}}ml)</span>",
+      "details": "세부정보",
+      "why": "왜?",
+      "adjustConditions": "이 그리스는 CONCEPT1 및 일반적인 용도에 적합하지만 작동 조건에 따라 CONCEPT1의 윤활 계산이 높거나 낮습니다.",
+      "SUITED": "적합",
+      "NOT_SUITED": "적합하지 않음",
+      "UNSUITED": "부적합",
+      "CONDITIONAL": "조건부",
+      "UNKNOWN": "적합성 알 수 없음",
+      "detailsConcept1": "CONCEPT1 세부정보",
+      "concept1Size": "{{ size }}ml 카트리지",
+      "emptyDuration": "{{ duration }}개월 내 언로딩용",
+      "arrowSetting": "화살표를 {{ setting }}(으)로 설정",
+      "setArrowSetting": "설정: 화살표를 {{ setting }}로 설정",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "{{ size }}ml의 CONCEPT1을 사용하여 선택한 작동 조건은 적합하지 않습니다.",
+      "size60PossibleHint": "결정된 CONCEPT 60 카트리지 설정 값이 설정할 수 있는 최대 값보다 큽니다. 그러나 설정값으로 윤활기를 작동시킬 수 있습니다.",
+      "size125PossibleHint": "결정된 CONCEPT 125 카트리지 설정 값이 설정할 수 있는 최대 값보다 큽니다. 더 작은 CONCEPT 윤활기 사용을 권장합니다.",
+      "unsuitableHint": "결정된 CONCEPT 카트리지 설정 값이 설정할 수 있는 최대 값보다 크게 나타납니다. 이러한 재윤활 양과 함께 CONCEPT 윤활기 사용은 권장되지 않습니다.",
+      "concept1ShopTitle": "CONCEPT1({{ title }} {{ size }}ml)"
+    },
+    "previouslySelected": "계산은 &quot;{{ grease }}&quot;와(과) 같이 {{ type }}에 대해 수행되었습니다. 당사는 그리스 품질에 대해 책임지지 않습니다.",
+    "compatibilityCheck": "호환성을 확인해야 합니다.",
+    "initialGreaseQuantity": "초기 그리스 양 *",
+    "relubricationQuantityPer1000OperatingHours": "1000 시간 운전당 재윤활 양 *",
+    "relubricationPer7days": "7 일간 재윤활 양 *",
+    "relubricationPer30days": "30 일간 재윤활 양 *",
+    "relubricationPer365days": "365 일간 재윤활 양 *",
+    "relubricationQuantityPer365daysTooltip": "특히 큰 수동 재윤활 양의 경우, 재윤활 기간 동안 윤활 공정을 여러 번 분할하는 것이 권장됩니다.",
+    "greaseServiceLife": "그리스 사용 수명 *",
+    "additiveRequired": "첨가제 필요",
+    "additiveRequiredTooltip": "일반적인 작동 조건(하중 및 점도비 카파)에 대한 평가는 FAQ 또한 참조하십시오.",
+    "effectiveEpAdditivation": "효과적인 EP 첨가",
+    "baseOilViscosityAt40": "40°C에서 베이스 오일 점도",
+    "viscosityRatio": "점도비",
+    "lowerTemperatureLimit": "하한 온도",
+    "lowerTemperatureLimitTooltip": "베어링의 모션 시작 시 하한 온도는 FAQ 또한 참조하십시오.",
+    "upperTemperatureLimit": "상한 온도",
+    "upperTemperatureLimitTooltip": "이 온도를 초과하여 작동하면 그리스 작동 수명이 매우 짧아집니다(FAQ).",
+    "density": "밀도",
+    "lowFriction": "저마찰",
+    "suitableForVibrations": "진동에 적합",
+    "supportForSeals": "씰링 지원",
+    "h1Registration": "H1 등록(NSF-H1 코셔 및 할랄 인증)",
+    "errors": "오류",
+    "warnings": "경고",
+    "notes": "메모",
+    "day": "일",
+    "days": "일",
+    "hours": "{{ hours }} hours",
+    "grams": "그램",
+    "undefinedValue": "해당 없음",
+    "suitabilityLevelExtremelySuitable": "극도로 적합",
+    "suitabilityLevelHighlySuitable": "매우 적합",
+    "suitabilityLevelSuitable": "적합",
+    "suitabilityLevelLessSuitable": "덜 적합",
+    "suitabilityLevelNotSuitable": "적합하지 않음",
+    "insufficientGreaseResultHint": "불충분",
+    "insufficientGreaseResultTooltip": "Grease App에서는 윤활 그리스의 적합성이 불충분하다고 평가되었습니다. 추가 질문이 있는 경우 Schaeffler 엔지니어링 서비스에 문의하십시오.",
+    "preferredGreaseHintSelected": "사전 선택됨",
+    "preferredGreaseHintAlternative": "대체품",
+    "preferredGreaseHintAlternativeTooltip": "이는 2단계의 입력을 기반으로 하는 Schaeffler 제품 포트폴리오의 대체 제품입니다.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "베어링 선택",
+      "parameters": "작동 조건",
+      "report": "보고서"
+    }
+  },
+  "legal": {
+    "imprint": "각인",
+    "dataPrivacy": "데이터 개인정보보호",
+    "disclaimer": "면책 조항",
+    "termsOfUse": "이용 약관",
+    "cookiePolicy": "쿠키 정책",
+    "cookieSettings": "쿠키 설정"
+  },
+  "error": {
+    "content": "유감스럽게도 오류가 발생했습니다. 나중에 시도해 주십시오.",
+    "confirm": "확인",
+    "retry": "다시 시도"
+  }
+}

@@ -1,0 +1,356 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "Calculateur de graisse",
+          "sub": "Développé par Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Graisses ARCANOL",
+          "sub": " "
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Lubrificateurs"
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr/lubricate/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Outils d’entretien",
+          "sub": " "
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catalogue de produits"
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr"
+      },
+      "contact": {
+        "title": {
+          "main": "Experts Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "FAQ"
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Avec l’application Grease, vous pouvez rapidement et facilement calculer la quantité optimale de lubrifiant adaptée à votre roulement pour la lubrification initiale et la relubrification. En outre, vous obtenez des recommandations sur les intervalles de relubrification et les durées d’utilisation de la graisse en fonction des conditions d’utilisation spécifiques. La relubrification peut être effectuée manuellement ou automatiquement avec les lubrificateurs Schaeffler. Vous obtiendrez également un aperçu des propriétés des graisses lubrifiantes Arcanol. Les graisses ayant un intervalle de relubrification élevé sont mises en évidence."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Paramètres de langue"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Système d’unités",
+        "sub": "Affecte les spécifications de poids et de température"
+      },
+      "label": "système d’unités",
+      "options": {
+        "metric": "Unités métriques",
+        "imperial": "Unités impériales"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Page d’accueil",
+      "greaseCalculator": "Calculateur de graisse"
+    },
+    "button": {
+      "close": "Fermer"
+    },
+    "label": {
+      "defaultSet": "Définir {{label}}",
+      "defaultSelect": "Sélectionner {{label}}"
+    },
+    "hint": {
+      "applicationReload": "L’application va être rechargée."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min.",
+    "max": "Max.",
+    "mediasButton": "Afficher le cap {{bearing}} dans les Medias",
+    "feedbackButton": "Commentaires",
+    "feedbackText": "Vos commentaires nous aident à améliorer continuellement notre produit."
+  },
+  "bearing": {
+    "title": {
+      "main": "Sélection des roulements",
+      "sub": "Veuillez sélectionner un roulement pour effectuer un calcul de lubrification"
+    },
+    "label": {
+      "bearingType": "Type de roulement",
+      "boreDiameter": "Diamètre de forage",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Diamètre extérieur",
+      "outsideDiameterShort": "D",
+      "width": "Largeur",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Sélection directe des roulements",
+        "advancedSelection": "Sélection avancée des roulements"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Saisir une désignation du roulement, par exemple 6226",
+        "selectButton": "Sélectionner le roulement",
+        "selectOption": "Calcul de lubrification pour le roulement  {{bearing}}{{disabled}}",
+        "disabledOption": "Calcul de lubrification impossible pour  {{bearing}}{{disabled}}",
+        "noResults": "Aucun résultat n’a été trouvé"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Critères de filtre",
+          "intro": "Restreindre la sélection de roulements à {{tooManyResultsThreshold}} résultats maximum",
+          "action": {
+            "nextStep": "Accéder à Sélection des roulements"
+          }
+        },
+        "bearingsList": {
+          "heading": "Sélection des roulements",
+          "intro": "Veuillez sélectionner un roulement",
+          "selectOption": "Calcul de la graisse pour le roulement",
+          "disabledOption": "Pas de calcul possible sur le roulement",
+          "action": {
+            "previousStep": "Modifier les critères de filtre"
+          }
+        },
+        "error": {
+          "modelCreation": "Aucun calcul ne peut actuellement être effectué pour le roulement {{bearing}}."
+        },
+        "tooManyResults": {
+          "message": "Trop de résultats ({{resultsCount}})",
+          "hint": "Nous avons trouvé trop d’entrées dans notre base de données. Veuillez utiliser les filtres pour réduire le nombre de résultats à un maximum de {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Aucun résultat n’a été trouvé",
+          "hint": "Impossible de trouver un roulement avec les filtres appliqués. Veuillez vérifier les paramètres de vos filtres pour vous assurer que vous utilisez une sélection valide."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Roulement à billes radial à contact oblique",
+      "IDO_RADIAL_BALL_BEARING": "Roulement à billes radial à gorge profonde",
+      "IDO_RADIAL_ROLLER_BEARING": "Roulement à rouleaux radial",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Roulement à billes auto-aligneur",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Roulement à rouleaux sphérique radial",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Roulement à rouleaux conique radial",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Roulement à billes de butée à contact oblique",
+      "IDO_THRUST_BALL_BEARING": "Roulement à billes de butée",
+      "IDO_THRUST_ROLLER_BEARING": "Roulement de butée à rouleaux"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Conditions de fonctionnement pour",
+      "backButton": "Modifier la sélection des roulements"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "NOUVEAU : Présélection de produit (en option)"
+      },
+      "grease": {
+        "label": "Graisse",
+        "defaultOption": "Toutes les graisses",
+        "tooltip": "La graisse sélectionnée sera prioritaire dans le rapport de calcul. Si la graisse sélectionnée n’est pas adaptée, des alternatives s’affichent.",
+        "schaefflerGreases": "Graisses Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Graisse multi-usage qui n’est pas de la marque Schaeffler",
+        "nonSchaefflerHighTempGreases": "Graisse haute température qui n’est pas de la marque Schaeffler"
+      },
+      "concept1": {
+        "label": "Calcul du réglage de la cartouche (CONCEPT1)",
+        "tooltip": "Si le calcul du réglage de la cartouche est activé, le réglage CONCEPT1 est également calculé et affiché, si possible. Désactiver indique qu’il n’y a pas de réglage CONCEPT1"
+      }
+    },
+    "requiredInformation": "* informations requises",
+    "loads": "Charges",
+    "load": "Charge attendue",
+    "radialLoad": "Charge radiale",
+    "axialLoad": "Charge axiale",
+    "loadsUnknown": "Charges exactes inconnues ?",
+    "enterRadialAndAxialLoad": "Saisir la charge radiale et axiale",
+    "motionInfluences": "Influences du mouvement",
+    "kindOfMotion": "Type de mouvement",
+    "rotating": "rotatif",
+    "oscillating": "oscillant",
+    "relativeRotationalSpeed": "Vitesse de rotation",
+    "onePerMinute": "tr/min",
+    "shiftFrequency": "Fréquence de décalage",
+    "shiftAngle": "Angle de décalage",
+    "degree": "°",
+    "otherInfluences": "Facteurs environnementaux",
+    "operatingTemperature": "Température de fonctionnement",
+    "environmentTemperature": "Température ambiante",
+    "environmentalImpactOnGreaseDuration": "Conditions de fonctionnement",
+    "low": "faible",
+    "moderate": "modérée",
+    "high": "élevé",
+    "greaseSelection": "Sélection de la graisse",
+    "selectGrease": "Sélectionner la graisse",
+    "showResults": "Montrer les résultats",
+    "resetInputs": "Réinitialisation des entrées",
+    "pleaseEnter": "Saisir {{label}}",
+    "errors": {
+      "min": "La valeur est trop basse",
+      "max": "La valeur est trop élevée",
+      "required": "Ce champ est obligatoire",
+      "lowerThanEnvironmentTemperature": "Ne peut pas être inférieure à la température ambiante",
+      "innerOuterInconsistent": "Le diamètre de l’alésage doit être inférieur au diamètre extérieur",
+      "minMaxInconsistent": "La valeur minimale doit être inférieure à la valeur maximale",
+      "anyLoad": "Une charge est requise"
+    },
+    "loadLevel": {
+      "veryLow": "très faible (C0/P env. 30)",
+      "low": "faible (C0/P env. 15)",
+      "moderate": "modérée (C0/P environ 10)",
+      "high": "élevée (C0/P env. 5)",
+      "veryHigh": "très élevée (C0/P env. 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Charge dans la direction radiale (à spécifier comme valeur absolue)",
+      "axialLoad": "Charge dans la direction axiale (à spécifier comme valeur absolue)",
+      "rotationSpeed": "Vitesse de rotation relative entre la bague intérieure et la bague extérieure (à spécifier comme valeur absolue)",
+      "operatingTemperature": "Température de fonctionnement du roulement (si nécessaire, veuillez estimer). Veuillez consulter les FAQ pour obtenir des informations relatives à l’impact sur la durée de vie de la graisse.",
+      "environmentTemperature": "Température de l’environnement de la machine.",
+      "otherInfluences": "Facteur d’influence de l’humidité, des vibrations et des chocs sur la durée de vie de la graisse.",
+      "shiftFrequency": "Nombre de mouvements d’oscillation par minute (cycle complet, avant et arrière)",
+      "shiftAngle": "Angle entre les points de rotation pour les mouvements oscillants (voir aussi FAQ)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Rapport pour",
+      "backButton": "Modifier les conditions de fonctionnement",
+      "247hint": "Tous les résultats correspondent à un fonctionnement continu 24 heures sur 24 et 7 jours sur 7."
+    },
+    "showCompactView": "Afficher la vue compacte",
+    "reportSectionInput": "Entrée",
+    "shopLinkText": "Produits disponibles",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Malheureusement, une erreur s’est produite. Veuillez réessayer ultérieurement.",
+    "snackbarRetry": "Réessayer",
+    "allValues": "Afficher toutes les valeurs",
+    "hideValues": "Masquer les valeurs supplémentaires",
+    "limitResults": "Afficher les premiers résultats {{ results }}",
+    "remainingResults": "autres résultats {{ results }}",
+    "resultsDefault": "Résultats triés par intervalle de relubrification ({{ amount }}/{{ complete }} greases)",
+    "resultsWithPreferred": "Résultats pour les graisses sélectionnées et alternatives triés par intervalle de relubrification",
+    "guideValues": "* valeurs-guides",
+    "errorsWarningsNotes": "Erreurs, avertissements et remarques",
+    "concept1": "Réglage de la cartouche CONCEPT1",
+    "concept1Impossible": "La lubrification automatique avec CONCEPT1 n’est pas possible. Dans certaines circonstances, la quantité de lubrifiant est trop élevée ou trop faible. L’utilisation peut être possible en cas de modification des paramètres de fonctionnement",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} mois ({{size}} ml)",
+      "details": "Détails",
+      "why": "Pourquoi ?",
+      "adjustConditions": "Cette graisse est adaptée à CONCEPT1 et à l’application en général, mais les conditions de fonctionnement aboutissent à un calcul de lubrification trop élevé ou trop faible pour CONCEPT1",
+      "SUITED": "adapté",
+      "NOT_SUITED": "non adapté",
+      "UNSUITED": "inadapté",
+      "CONDITIONAL": "conditionnel",
+      "UNKNOWN": "adéquation inconnue",
+      "detailsConcept1": "Détails pour CONCEPT1",
+      "concept1Size": "{{ size }} ml cartouche",
+      "emptyDuration": "pour un déchargement dans {{ duration }} mois",
+      "arrowSetting": "régler la flèche sur {{ setting}}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }} ml",
+      "sizeHint": "L’utilisation de CONCEPT1 avec {{ size }} ml n’est pas adaptée aux conditions d’utilisation que vous avez sélectionnées",
+      "size60PossibleHint": "Le réglage de la cartouche CONCEPT 60 déterminé est supérieur à la valeur maximale qui peut être réglée. Toutefois, le lubrificateur peut être utilisé avec le réglage affiché.",
+      "size125PossibleHint": "Le réglage de la cartouche CONCEPT 125 déterminé est supérieur à la valeur maximale qui peut être réglée. Nous recommandons l'utilisation d'un lubrificateur CONCEPT de taille inférieure.",
+      "unsuitableHint": "Le réglage de la cartouche CONCEPT déterminé est significativement supérieur à la valeur maximale qui peut être réglée. L'utilisation d'un lubrificateur CONCEPT n'est pas recommandée avec ces quantités de relubrification.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} ml)"
+    },
+    "previouslySelected": "Le calcul a été effectué pour {{ type }}, par exemple « {{ Grease }} ». Nous ne sommes pas responsables de la qualité de la graisse",
+    "compatibilityCheck": "Il convient de vérifier la compatibilité",
+    "initialGreaseQuantity": "Quantité initiale de graisse *",
+    "relubricationQuantityPer1000OperatingHours": "Quantité de relubrification pour 1000 heures de fonctionnement *",
+    "relubricationPer7days": "Quantité de relubrification pour 7 jours *",
+    "relubricationPer30days": "Quantité de relubrification pour 30 jours *",
+    "relubricationPer365days": "Quantité de relubrification pour 365 jours *",
+    "relubricationQuantityPer365daysTooltip": "Il est recommandé - en particulier pour de grandes quantités de relubrification manuelle - de répartir la quantité de relubrification sur plusieurs processus de lubrification pendant la période de relubrification.",
+    "greaseServiceLife": "Durée de vie de la graisse *",
+    "additiveRequired": "Additif requis",
+    "additiveRequiredTooltip": "Évaluation des conditions de fonctionnement (charge et rapport de viscosité kappa), voir aussi la FAQ.",
+    "effectiveEpAdditivation": "Additivation efficace de l’EP",
+    "baseOilViscosityAt40": "Viscosité de l’huile de base à 40 °C",
+    "viscosityRatio": "Rapport de viscosité",
+    "lowerTemperatureLimit": "Limite de température inférieure",
+    "lowerTemperatureLimitTooltip": "Limite inférieure de la température lors de la mise en mouvement du roulement, voir aussi les FAQ.",
+    "upperTemperatureLimit": "Limite de température supérieure",
+    "upperTemperatureLimitTooltip": "Une utilisation au-delà de cette température réduit considérablement la durée de vie de la graisse, FAQ.",
+    "density": "Densité",
+    "lowFriction": "Faibles frottements",
+    "suitableForVibrations": "Adapté aux vibrations",
+    "supportForSeals": "Support d’étanchéité",
+    "h1Registration": "Homologation H1 (certification NSF-H1 casher et halal)",
+    "errors": "Erreurs",
+    "warnings": "Avertissements",
+    "notes": "Remarques",
+    "day": "jour",
+    "days": "jours",
+    "hours": "{{ hours }} hours",
+    "grams": "Gramm",
+    "undefinedValue": "n.a.",
+    "suitabilityLevelExtremelySuitable": "extrêmement adapté",
+    "suitabilityLevelHighlySuitable": "parfaitement adapté",
+    "suitabilityLevelSuitable": "adapté",
+    "suitabilityLevelLessSuitable": "moins adapté",
+    "suitabilityLevelNotSuitable": "non adapté",
+    "insufficientGreaseResultHint": "Insuffisant",
+    "insufficientGreaseResultTooltip": "La graisse lubrifiante a été jugée insuffisamment adaptée par l’application Grease. Veuillez contacter le service d’ingénierie de Schaeffler si vous avez d’autres questions.",
+    "preferredGreaseHintSelected": "Présélectionné",
+    "preferredGreaseHintAlternative": "Alternative",
+    "preferredGreaseHintAlternativeTooltip": "Il s’agit d’un produit alternatif de la gamme de produits Schaeffler, basé sur les données de l’étape 2.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Sélection des roulements",
+      "parameters": "Conditions de fonctionnement",
+      "report": "Rapport"
+    }
+  },
+  "legal": {
+    "imprint": "Impression",
+    "dataPrivacy": "Confidentialité des données",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Conditions d’utilisation",
+    "cookiePolicy": "Politique en matière de cookies",
+    "cookieSettings": "Paramètres des cookies"
+  },
+  "error": {
+    "content": "Malheureusement, une erreur s’est produite. Veuillez réessayer ultérieurement.",
+    "confirm": "Confirmer",
+    "retry": "Réessayer"
+  }
+}

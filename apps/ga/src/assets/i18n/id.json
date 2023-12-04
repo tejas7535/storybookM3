@@ -1,0 +1,356 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "Kalkulator Grease",
+          "sub": "Didukung oleh Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Grease ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Pelumas"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/lubricate/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Peralatan Perawatan",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Katalog Produk"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Ahli Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "FAQ"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Dengan Grease App, Anda dapat dengan cepat dan mudah menghitung jumlah pelumas yang optimal untuk bantalan Anda untuk pelumasan awal dan pelumasan ulang. Selain itu, Anda akan memperoleh rekomendasi untuk interval pelumasan ulang dan masa pakai grease dengan mempertimbangkan kondisi operasi tertentu. </ br> Pelumasan ulang dapat dilakukan secara manual atau otomatis dengan pelumas Schaeffler. </ br> Anda juga akan menerima gambaran tentang sifat-sifat pelumas Arcanol. Pelumas dengan interval pelumasan ulang yang tinggi disorot."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Pengaturan Bahasa"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Sistem satuan",
+        "sub": "Mempengaruhi spesifikasi berat dan suhu"
+      },
+      "label": "sistem satuan",
+      "options": {
+        "metric": "Satuan metrik",
+        "imperial": "Satuan imperial"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Halaman Utama",
+      "greaseCalculator": "Kalkulator Grease"
+    },
+    "button": {
+      "close": "Tutup"
+    },
+    "label": {
+      "defaultSet": "Set {{label}}",
+      "defaultSelect": "Pilih {{label}}"
+    },
+    "hint": {
+      "applicationReload": "Aplikasi akan dimuat ulang."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min.",
+    "max": "Maks.",
+    "mediasButton": "Tampilkan bantalan {{bearing}} di Medias",
+    "feedbackButton": "Umpan Balik",
+    "feedbackText": "Umpan balik Anda membantu kami untuk terus meningkatkan produk kami."
+  },
+  "bearing": {
+    "title": {
+      "main": "Pemilihan Bantalan",
+      "sub": "Silakan pilih bantalan untuk melakukan perhitungan pelumasan"
+    },
+    "label": {
+      "bearingType": "Jenis Bantalan",
+      "boreDiameter": "Diameter alur bor",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Diameter Luar",
+      "outsideDiameterShort": "D",
+      "width": "Lebar",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Pemilihan bantalan langsung",
+        "advancedSelection": "Pemilihan bantalan lanjutan"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Masukkan desain bantalan, misalnya 6226",
+        "selectButton": "Pilih bantalan",
+        "selectOption": "<span class=\"text-medium-emphasis\"> Perhitungan pelumasan untuk bantalan </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\"> Tidak ada perhitungan pelumasan yang dapat dilakukan untuk </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "Tidak ada hasil yang ditemukan"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Kriteria Filter",
+          "intro": "Persempit pemilihan bantalan hingga maksimum {{tooManyResultsThreshold}} hasil",
+          "action": {
+            "nextStep": "Beralih ke Pemilihan Bantalan"
+          }
+        },
+        "bearingsList": {
+          "heading": "Pemilihan Bantalan",
+          "intro": "Silahkan pilih bantalan",
+          "selectOption": "Perhitungan pelumasan bantalan",
+          "disabledOption": "Tidak ada perhitungan yang mungkin di bantalan",
+          "action": {
+            "previousStep": "Sesuaikan kriteria filter"
+          }
+        },
+        "error": {
+          "modelCreation": "Tidak ada perhitungan yang dapat dilakukan untuk bantalan {{bearing}} saat ini."
+        },
+        "tooManyResults": {
+          "message": "Terlalu banyak hasil ({{resultsCount}})",
+          "hint": "Kami menemukan terlalu banyak entri di database kami. </br>Silakan gunakan filter untuk mengurangi jumlah hasil hingga maksimum {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Tidak ada hasil yang ditemukan",
+          "hint": "Kami tidak dapat menemukan bantalan untuk filter yang diterapkan. </br>Periksa pengaturan filter Anda untuk memastikan Anda menggunakan seleksi yang valid."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Bantalan bola sudut radial",
+      "IDO_RADIAL_BALL_BEARING": "Bantalan bola deep groove radial",
+      "IDO_RADIAL_ROLLER_BEARING": "Bantalan roller radial",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Bantalan bola self-aligning",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Bantalan roller self-aligning radial",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Bantalan roller tapered radial",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Bantalan bola thrust angular contact",
+      "IDO_THRUST_BALL_BEARING": "Bantalan bola thrust",
+      "IDO_THRUST_ROLLER_BEARING": "Bantalan roller thrust"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Kondisi Operasi untuk",
+      "backButton": "Ubah pemilihan bantalan"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "Pra-Pemilihan Produk (Opsional)"
+      },
+      "grease": {
+        "label": "Grease",
+        "defaultOption": "Semua Grease",
+        "tooltip": "Grease yang dipilih akan diprioritaskan dalam laporan perhitungan. Jika grease yang dipilih tidak cocok, alternatif akan ditampilkan.",
+        "schaefflerGreases": "Grease Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Grease Multi-Fungsi Non-Schaeffler",
+        "nonSchaefflerHighTempGreases": "Grease Tahan Suhu Tinggi Non-Schaeffler"
+      },
+      "concept1": {
+        "label": "Hitung pengaturan kartrid (CONCEPT1)",
+        "tooltip": "Jika perhitungan pengaturan kartrid diaktifkan, pengaturan CONCEPT1 akan dihitung dan ditampilkan, jika memungkinkan. Matikan untuk melihat tidak ada pengaturan CONCEPT1."
+      }
+    },
+    "requiredInformation": "* informasi yang dibutuhkan",
+    "loads": "Pemuatan",
+    "load": "Muatan yang diharapkan",
+    "radialLoad": "Muatan radial",
+    "axialLoad": "Muatan aksial",
+    "loadsUnknown": "Beban pasti tidak diketahui?",
+    "enterRadialAndAxialLoad": "Masukkan muatan radial dan aksial",
+    "motionInfluences": "Pengaruh Gerakan",
+    "kindOfMotion": "Jenis Gerakan",
+    "rotating": "berputar",
+    "oscillating": "siklikal",
+    "relativeRotationalSpeed": "Kecepatan rotasi relatif",
+    "onePerMinute": "rpm",
+    "shiftFrequency": "Frekuensi pergeseran",
+    "shiftAngle": "Sudut geser",
+    "degree": "°",
+    "otherInfluences": "Faktor lingkungan",
+    "operatingTemperature": "Suhu operasi",
+    "environmentTemperature": "Suhu lingkungan",
+    "environmentalImpactOnGreaseDuration": "Kondisi operasi",
+    "low": "rendah",
+    "moderate": "sedang",
+    "high": "tinggi",
+    "greaseSelection": "Pilihan Pelumas",
+    "selectGrease": "Pilih grease",
+    "showResults": "Tampilkan hasil",
+    "resetInputs": "Reset input",
+    "pleaseEnter": "Masukkan {{label}}",
+    "errors": {
+      "min": "Nilai terlalu rendah",
+      "max": "Nilai terlalu tinggi",
+      "required": "Bagian ini wajib diisi",
+      "lowerThanEnvironmentTemperature": "Tidak dapat kurang dari suhu lingkungan",
+      "innerOuterInconsistent": "Diameter alur bor harus lebih kecil dari diameter luar",
+      "minMaxInconsistent": "Nilai minimum harus lebih kecil dari nilai maksimum",
+      "anyLoad": "Satu muatan diharuskan"
+    },
+    "loadLevel": {
+      "veryLow": "sangat rendah (C0/P sekitar 30)",
+      "low": "rendah (C0/P sekitar 15)",
+      "moderate": "sedang (C0/P sekitar 10)",
+      "high": "tinggi (C0/P sekitar 5)",
+      "veryHigh": "sangat tinggi (C0/P sekitar 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Muatan dalam arah radial (yang harus ditentukan sebagai nilai absolut)",
+      "axialLoad": "Muatan dalam arah aksial (yang harus ditentukan sebagai nilai absolut)",
+      "rotationSpeed": "Kecepatan rotasi relatif antara cincin dalam dan luar (yang harus ditentukan sebagai nilai absolut)",
+      "operatingTemperature": "Suhu operasi bantalan (jika perlu, tolong estimasikan). Silakan lihat FAQ untuk informasi tentang pengaruh pada umur kerja grease.",
+      "environmentTemperature": "Suhu lingkungan mesin",
+      "otherInfluences": "Faktor pengaruh kelembaban, getaran, dan pemuatan kejut pada umur kerja grease.",
+      "shiftFrequency": "Jumlah gerakan osilasi per menit (siklus penuh, mundur-maju)",
+      "shiftAngle": "Sudut antara titik balik untuk gerakan osilasi (lihat juga FAQ)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Laporan untuk",
+      "backButton": "Ubah kondisi operasi",
+      "247hint": "Semua hasil merujuk pada operasi berkelanjutan 24/7."
+    },
+    "showCompactView": "Tampilkan tampilan kompak",
+    "reportSectionInput": "Input",
+    "shopLinkText": "Produk yang tersedia",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Sayangnya terjadi kesalahan. Silakan coba lagi nanti.",
+    "snackbarRetry": "Coba lagi",
+    "allValues": "Tampilkan semua nilai",
+    "hideValues": "Sembunyikan nilai tambahan",
+    "limitResults": "Tampilkan {{ results }} Hasil Pertama",
+    "remainingResults": "{{ results }} Hasil Lainnya",
+    "resultsDefault": "Hasil diurutkan berdasarkan interval pelumasan ulang ({{amount}}/{{complete}} grease)",
+    "resultsWithPreferred": "Hasil untuk grease terpilih dan alternatif diurutkan berdasarkan interval pelumasan ulang",
+    "guideValues": "*) Nilai panduan",
+    "errorsWarningsNotes": "Kesalahan, Peringatan & Catatan",
+    "concept1": "Pengaturan kartrid CONCEPT1",
+    "concept1Impossible": "Pelumasan otomatis dengan CONCEPT1 tidak mungkin. Dalam beberapa situasi, jumlah pelumasan terlalu tinggi atau terlalu rendah. Jika parameter operasi diubah, penggunaan mungkin terjadi",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} bulan <span> ({{size}} ml) </span>",
+      "details": "Rincian",
+      "why": "Mengapa?",
+      "adjustConditions": "Grease ini cocok untuk CONCEPT1 dan aplikasi secara umum tetapi kondisi operasi menyebabkan perhitungan pelumasan yang terlalu tinggi atau rendah untuk CONCEPT1",
+      "SUITED": "sesuai",
+      "NOT_SUITED": "tidak sesuai",
+      "UNSUITED": "tidak cocok",
+      "CONDITIONAL": "bersyarat",
+      "UNKNOWN": "kesesuaian tidak diketahui",
+      "detailsConcept1": "Rincian untuk CONCEPT1",
+      "concept1Size": "Kartrid {{ size }}ml",
+      "emptyDuration": "untuk bongkar muat dalam waktu {{ duration }} bulan",
+      "arrowSetting": "atur panah ke {{setting}}",
+      "setArrowSetting": "Pengaturan: atur panah ke {{setting}}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Untuk kondisi operasi yang Anda pilih dengan CONCEPT1 dengan {{ size }} ml tidak cocok",
+      "size60PossibleHint": "Pengaturan kartrid CONCEPT 60 yang ditentukan lebih besar dari nilai maksimum yang dapat diatur. Namun, pelumas dapat dioperasikan dengan pengaturan yang ditampilkan.",
+      "size125PossibleHint": "Pengaturan kartrid CONCEPT 125 yang ditentukan lebih besar dari nilai maksimum yang dapat diatur. Kami menyarankan penggunaan pelumas yang lebih kecil.",
+      "unsuitableHint": "Pengaturan CONCEPT cartridge yang ditentukan jauh lebih besar dari nilai maksimum yang dapat diatur. Penggunaan pelumas CONCEPT tidak disarankan dengan jumlah pelumasan ulang yang semacam itu.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
+    },
+    "previouslySelected": "Perhitungan dilakukan untuk {{ type }}, misalnya \"{{grease}}\". Kami tidak bertanggung jawab atas kualitas grease",
+    "compatibilityCheck": "Kompatibilitas harus diperiksa",
+    "initialGreaseQuantity": "Jumlah grease awal *",
+    "relubricationQuantityPer1000OperatingHours": "Jumlah pelumasan ulang per 1000 jam operasi *",
+    "relubricationPer7days": "Jumlah pelumasan ulang per 7 hari *",
+    "relubricationPer30days": "Jumlah pelumasan ulang per 30 hari *",
+    "relubricationPer365days": "Jumlah pelumasan ulang per 365 hari *",
+    "relubricationQuantityPer365daysTooltip": "Disarankan - terutama untuk jumlah pelumasan ulang manual yang besar - untuk mendistribusikan jumlah pelumasan ulang pada beberapa proses pelumasan selama periode pelumasan ulang.",
+    "greaseServiceLife": "Umur kerja grease *",
+    "additiveRequired": "Tambahan dibutuhkan",
+    "additiveRequiredTooltip": "Penilaian untuk kondisi operasi yang berlaku (beban dan rasio viskositas kappa), lihat juga FAQ.",
+    "effectiveEpAdditivation": "Efektif sekali aditivasi EP",
+    "baseOilViscosityAt40": "Viskositas minyak dasar pada 40°C",
+    "viscosityRatio": "Rasio viskositas",
+    "lowerTemperatureLimit": "Batas suhu rendah",
+    "lowerTemperatureLimitTooltip": "Batas bawah untuk suhu pada awal gerakan pada bantalan, lihat juga FAQs.",
+    "upperTemperatureLimit": "Batas suhu atas",
+    "upperTemperatureLimitTooltip": "Operasi di luar suhu ini menyebabkan umur operasi pelumas yang sangat singkat, FAQs.",
+    "density": "Kepadatan",
+    "lowFriction": "Gesekan rendah",
+    "suitableForVibrations": "Cocok untuk getaran",
+    "supportForSeals": "Dukungan untuk penyegelan",
+    "h1Registration": "Registrasi H1 (sertifikasi NSF-H1 kosher dan halal)",
+    "errors": "Kesalahan",
+    "warnings": "Peringatan",
+    "notes": "Catatan",
+    "day": "hari",
+    "days": "hari",
+    "hours": "{{ hours}} jam",
+    "grams": "Gram",
+    "undefinedValue": "tidak tersedia",
+    "suitabilityLevelExtremelySuitable": "sangat cocok",
+    "suitabilityLevelHighlySuitable": "sangat cocok",
+    "suitabilityLevelSuitable": "cocok",
+    "suitabilityLevelLessSuitable": "kurang cocok",
+    "suitabilityLevelNotSuitable": "tidak cocok",
+    "insufficientGreaseResultHint": "Tidak mencukupi",
+    "insufficientGreaseResultTooltip": "Kesesuaian pelumas pelumasan dinilai kurang oleh Grease App.\n\nSilakan hubungi layanan teknis Schaeffler jika Anda memiliki pertanyaan lebih lanjut.",
+    "preferredGreaseHintSelected": "Terpilih",
+    "preferredGreaseHintAlternative": "Alternatif",
+    "preferredGreaseHintAlternativeTooltip": "Ini adalah produk alternatif dari portofolio produk Schaeffler berdasarkan masukan mereka dari tahap 2.",
+    "poweredBy": "ditenagai oleh"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Pemilihan Bantalan",
+      "parameters": "Kondisi operasi",
+      "report": "Laporan"
+    }
+  },
+  "legal": {
+    "imprint": "Cap",
+    "dataPrivacy": "Privasi data",
+    "disclaimer": "Penyangkalan",
+    "termsOfUse": "Syarat Penggunaan",
+    "cookiePolicy": "Kebijakan cookie",
+    "cookieSettings": "Pengaturan cookie"
+  },
+  "error": {
+    "content": "Maaf, terjadi kesalahan. Silakan coba lagi nanti.",
+    "confirm": "Konfirmasi",
+    "retry": "Coba lagi"
+  }
+}

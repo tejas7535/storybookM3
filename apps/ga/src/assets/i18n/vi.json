@@ -1,0 +1,356 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "Máy tính mỡ",
+          "sub": "Được cung cấp bởi Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Mỡ ARCANOL",
+          "sub": " "
+        },
+        "externalLink": "https://medias.schaeffler.vn/vn/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Dụng cụ tra mỡ"
+        },
+        "externalLink": "https://medias.schaeffler.vn/vn/lubricate/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Dụng cụ bảo trì",
+          "sub": " "
+        },
+        "externalLink": "https://medias.schaeffler.vn/vn/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.vn/vn/monitor/optime-condition-monitoring"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catalog sản phẩm"
+        },
+        "externalLink": "https://medias.schaeffler.vn/vn"
+      },
+      "contact": {
+        "title": {
+          "main": "Chuyên gia Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "Câu hỏi thường gặp"
+        },
+        "externalLink": "https://medias.schaeffler.vn/vn/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Với Grease App, bạn có thể tính nhanh và dễ dàng lượng chất bôi trơn tối ưu cho vòng bi của bạn cho lần bôi đầu tiên và bôi trơn lại. Ngoài ra, bạn sẽ nhận đề xuất về chu kỳ bôi trơn lại và thời gian hoạt động của mỡ cân nhắc đến các điệu kiện vận hành cụ thể. Có thể thực hiện bôi trơn lại bằng cách thủ công hoặc tự động bằng dụng cụ bôi trơn của Schaeffler. Bạn cũng sẽ nhận thông tin tổng quan về các thuộc tính của mỡ bôi trơn Arcanol. Mỡ có chu kỳ bôi trơn lại cao được tô sáng."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Cài đặt ngôn ngữ"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Hệ thống đơn vị",
+        "sub": "Ảnh hưởng đến thông số kỹ thuật nhiệt độ và trọng lượng "
+      },
+      "label": "hệ thống đơn vị",
+      "options": {
+        "metric": "Đơn vị hệ mét",
+        "imperial": "Đơn vị hệ Anh"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Trang chủ",
+      "greaseCalculator": "Máy tính mỡ"
+    },
+    "button": {
+      "close": "Đóng"
+    },
+    "label": {
+      "defaultSet": "Đặt {{label}}",
+      "defaultSelect": "Chọn {{label}}"
+    },
+    "hint": {
+      "applicationReload": "Ứng dụng sẽ được tải lại."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Tối thiểu",
+    "max": "Tối đa",
+    "mediasButton": "Hiển thị vòng bi {{bearing}} trong Medias",
+    "feedbackButton": "Phản hồi",
+    "feedbackText": "Phản hồi của bạn giúp chúng tôi liên tục cải tiến sản phẩm của mình."
+  },
+  "bearing": {
+    "title": {
+      "main": "Lựa chọn vòng bi",
+      "sub": "Vui lòng chọn vòng bi để thực hiện tính chất bôi trơn"
+    },
+    "label": {
+      "bearingType": "Loại vòng bi",
+      "boreDiameter": "Đường kính lỗ",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Đường kính ngoài",
+      "outsideDiameterShort": "D",
+      "width": "Chiều rộng",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Lựa chọn vòng bi trực tiếp",
+        "advancedSelection": "Lựa chọn vòng bi nâng cao"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Nhập ký hiệu vòng bi, ví dụ: 6226",
+        "selectButton": "Chọn vòng bi",
+        "selectOption": "Tính chất bôi trơn cho vòng bi  {{bearing}}{{disabled}}",
+        "disabledOption": "Không có tính chất bôi trơn nào có thể cho  {{bearing}}{{disabled}}",
+        "noResults": "Không tìm thấy kết quả nào"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Tiêu chí bộ lọc",
+          "intro": "Thu hẹp lựa chọn vòng bi xuống tối thiểu {{tooManyResultsThreshold}} kết quả",
+          "action": {
+            "nextStep": "Đi đến Lựa chọn vòng bi"
+          }
+        },
+        "bearingsList": {
+          "heading": "Lựa chọn vòng bi",
+          "intro": "Vui lòng chọn một vòng bi",
+          "selectOption": "Tính mỡ cho vòng bi",
+          "disabledOption": "Không thể tính toán trên vòng bi",
+          "action": {
+            "previousStep": "Điều chỉnh tiêu chí bộ lọc"
+          }
+        },
+        "error": {
+          "modelCreation": "Hiện tại, không thể thực hiện tính toán cho vòng bi {{bearing}}."
+        },
+        "tooManyResults": {
+          "message": "Quá nhiều kết quả ({{resultsCount}})",
+          "hint": "Chúng tôi tìm thấy quá nhiều mục nhập trong cơ sở dữ liệu của chúng tôi. Vui lòng sử dụng bộ lọc để giảm số kết quả đến tối đa {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Không tìm thấy kết quả nào",
+          "hint": "Chúng tôi không thể tìm thấy bất kỳ vòng bi nào cho bộ lọc đã áp dụng. Vui lòng kiểm tra cài đặt bộ lọc để đảm bảo bạn đang sử dụng lựa chọn hợp lệ."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Vòng bi cầu tiếp xúc góc dọc hướng tâm",
+      "IDO_RADIAL_BALL_BEARING": "Vòng bi cầu rãnh sâu hướng tâm",
+      "IDO_RADIAL_ROLLER_BEARING": "Vòng bi lăn hướng tâm",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Vòng bi tự lựa",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Vòng bi tang trống hướng tâm",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Vòng bi con lăn côn hướng tâm",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Vòng bi cầu tiếp xúc góc chặn",
+      "IDO_THRUST_BALL_BEARING": "Vòng bi cầu chặn",
+      "IDO_THRUST_ROLLER_BEARING": "Vòng bi lăn chặn"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Điều kiện vận hành cho",
+      "backButton": "Thay đổi lựa chọn vòng bi"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "MỚI: Lựa chọn trước sản phẩm (tùy chọn)"
+      },
+      "grease": {
+        "label": "Mỡ",
+        "defaultOption": "Tất cả mỡ",
+        "tooltip": "Mỡ đã chọn sẽ được ưu tiên trong báo cáo tính toán. Nếu mỡ đã chọn không phù hợp, sản phẩm thay thế sẽ hiển thị.",
+        "schaefflerGreases": "Mỡ của Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Mỡ đa mục đích không phải của Schaeffler",
+        "nonSchaefflerHighTempGreases": "Mỡ nhiệt độ cao không phải của Schaeffler"
+      },
+      "concept1": {
+        "label": "Tính cài đặt ổ (CONCEPT1)",
+        "tooltip": "Nếu tính cài đặt ổ được kích hoạt, cài đặt CONCEPT1 được tính và hiển thị bổ sung, nếu có thể. Hủy kích hoạt sẽ không hiện cài đặt CONCEPT1"
+      }
+    },
+    "requiredInformation": "* thông tin bắt buộc",
+    "loads": "Tải",
+    "load": "Tải dự kiến",
+    "radialLoad": "Tải hướng tâm",
+    "axialLoad": "Tải hướng trục",
+    "loadsUnknown": "Tải chính xác không xác định?",
+    "enterRadialAndAxialLoad": "Nhập tải hướng trục và hướng tâm",
+    "motionInfluences": "Ảnh hưởng chuyển động",
+    "kindOfMotion": "Loại chuyển động",
+    "rotating": "xoay",
+    "oscillating": "dao động",
+    "relativeRotationalSpeed": "Tốc độ xoay",
+    "onePerMinute": "rpm",
+    "shiftFrequency": "Tần suất dịch chuyển",
+    "shiftAngle": "Góc dịch chuyển",
+    "degree": "°",
+    "otherInfluences": "Yếu tố môi trường",
+    "operatingTemperature": "Nhiệt độ hoạt động",
+    "environmentTemperature": "Nhiệt độ xung quanh",
+    "environmentalImpactOnGreaseDuration": "Điều kiện vận hành",
+    "low": "thấp",
+    "moderate": "vừa",
+    "high": "cao",
+    "greaseSelection": "Lựa chọn mỡ",
+    "selectGrease": "Chọn mỡ",
+    "showResults": "Hiển thị kết quả",
+    "resetInputs": "Đặt lại thông tin đầu vào",
+    "pleaseEnter": "Nhập {{label}}",
+    "errors": {
+      "min": "Giá trị quá thấp",
+      "max": "Giá trị quá cao",
+      "required": "Trường thông tin này là bắt buộc",
+      "lowerThanEnvironmentTemperature": "Không thể nhỏ hơn nhiệt độ xung quanh",
+      "innerOuterInconsistent": "Đường kính lỗ phải nhỏ hơn đường kính ngoài",
+      "minMaxInconsistent": "Giá trị tối thiểu phải nhỏ hơn giá trị tối đa",
+      "anyLoad": "Phải có một tải"
+    },
+    "loadLevel": {
+      "veryLow": "rất thấp (C0/P xấp xỉ 30)",
+      "low": "thấp (C0/P xấp xỉ 15)",
+      "moderate": "vừa (C0/P xấp xỉ 10)",
+      "high": "cao (C0/P xấp xỉ 5)",
+      "veryHigh": "rất cao (C0/P xấp xỉ 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Tải hướng tâm (sẽ được xác định làm giá trị tuyệt đối)",
+      "axialLoad": "Tải hướng trục (sẽ được xác định làm giá trị tuyệt đối)",
+      "rotationSpeed": "Tốc độ xoay tương đối giữa vòng trong và vòng ngoài (sẽ được xác định làm giá trị tuyệt đối)",
+      "operatingTemperature": "Nhiệt độ hoạt động của vòng bi (nếu cần, vui lòng ước tính). Vui lòng xem Câu hỏi thường gặp để biết thông tin về tác động lên tuổi thọ hoạt động của mỡ.",
+      "environmentTemperature": "Nhiệt độ của môi trường xung quanh máy.",
+      "otherInfluences": "Yếu tố ảnh hưởng của tải hơi ẩm, rung và sốc lên tuổi thọ hoạt động của mỡ.",
+      "shiftFrequency": "Số dao động mỗi phút (toàn chu kỳ, tiến và lùi)",
+      "shiftAngle": "Góc giữa điểm xoay cho chuyển động dao động (xem Câu hỏi thường gặp)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Báo cáo cho",
+      "backButton": "Thay đổi điều kiện vận hành",
+      "247hint": "Tất cả kết quả tham chiếu hoạt động 24/7 liên tục."
+    },
+    "showCompactView": "Hiển thị dạng xem nhỏ gọn",
+    "reportSectionInput": "Thông tin đầu vào",
+    "shopLinkText": "Sản phẩm có sẵn",
+    "shopBaseUrl": "https://medias.schaeffler.vn/vn",
+    "snackbarError": "Rất tiếc, đã xảy ra lỗi. Xin hãy thử lại sau.",
+    "snackbarRetry": "Thử lại",
+    "allValues": "Hiện tất cả giá trị",
+    "hideValues": "Ẩn giá trị bổ sung",
+    "limitResults": "Hiển thị {{ results }} kết quả đầu tiên",
+    "remainingResults": "{{ results }} kết quả khác",
+    "resultsDefault": "Kết quả được sắp xếp theo chu kỳ bôi trơn lại ({{ amount }}/{{ complete }} mỡ)",
+    "resultsWithPreferred": "Kết quả cho mỡ đã chọn và thay thế được sắp xếp theo chu kỳ bôi trơn lại",
+    "guideValues": "* giá trị hướng dẫn",
+    "errorsWarningsNotes": "Lỗi, cảnh báo và ghi chú",
+    "concept1": "Cài đặt ổ CONCEPT1",
+    "concept1Impossible": "Không thể tự động bôi trơn với CONCEPT1. Trong một số tình huống, lượng chất bôi trơn quá cao hoặc quá thấp. Nếu thông số vận hành thay đổi, có thể sử dụng",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} tháng ({{size}} ml)",
+      "details": "Chi tiết",
+      "why": "Lý do?",
+      "adjustConditions": "Mỡ này phù hợp cho CONCEPT1 và ứng dụng nói chung nhưng điều kiện vận hành dẫn đến tính toán bôi trơn cao hoặc thấp cho CONCEPT1",
+      "SUITED": "phù hợp",
+      "NOT_SUITED": "không phù hợp",
+      "UNSUITED": "không thích hợp",
+      "CONDITIONAL": "với điều kiện",
+      "UNKNOWN": "tính phù hợp không xác định",
+      "detailsConcept1": "Chi tiết cho CONCEPT1",
+      "concept1Size": "Ổ {{ size }}ml",
+      "emptyDuration": "để bỏ tải trong {{ duration }} tháng",
+      "arrowSetting": "đặt mũi tên đến {{ setting }}",
+      "setArrowSetting": "Cài đặt: đặt mũi tên đến {{setting}}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Đối với điều kiện vận hành bạn đã chọn sử dụng CONCEPT1 với {{ size }}ml không thích hợp",
+      "size60PossibleHint": "Cài đặt bộ lọc CONCEPT 60 xác định được là lớn hơn giá trị tối đa có thể thiết lập. Tuy nhiên, hộp bôi trơn vẫn có thể hoạt động với cài đặt hiển thị.",
+      "size125PossibleHint": "Cài đặt bộ lọc CONCEPT 125 xác định được là lớn hơn giá trị tối đa có thể thiết lập. Chúng tôi khuyến nghị sử dụng bôi trơn CONCEPT nhỏ hơn.",
+      "unsuitableHint": "Cài đặt bộ lọc CONCEPT xác định được lớn hơn rất nhiều so với giá trị tối đa có thể thiết lập. Không khuyến nghị sử dụng hộp bôi trơn CONCEPT với số lượng bôi trơn lại này.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
+    },
+    "previouslySelected": "Tính toán được thực hiện cho {{ type }} ví dụ: \"{{ grease }}\". Chúng tôi không chịu trách nhiệm cho chất lượng mỡ",
+    "compatibilityCheck": "Phải kiểm tra tính tương thích",
+    "initialGreaseQuantity": "Số lượng mỡ ban đầu *",
+    "relubricationQuantityPer1000OperatingHours": "Số lượng bôi trơn lại cho mỗi 1000 giờ vận hành *",
+    "relubricationPer7days": "Số lượng bôi trơn lại cho mỗi 7 ngày *",
+    "relubricationPer30days": "Số lượng bôi trơn lại cho mỗi 30 ngày *",
+    "relubricationPer365days": "Số lượng bôi trơn lại cho mỗi 365 ngày *",
+    "relubricationQuantityPer365daysTooltip": "Được khuyến nghị – đặc biệt là đối với số lượng bôi trơn lại lớn thủ công – phân phối số lượng bôi trơn lại trên một số quá trình bôi trơn khác nhau trong suốt giai đoạn bôi trơn lại.",
+    "greaseServiceLife": "Tuổi thọ sử dụng mỡ *",
+    "additiveRequired": "Phải có phụ gia",
+    "additiveRequiredTooltip": "Đánh giá điều kiện vận hành ưu tiên (tải và độ nhớt kappa), cũng hãy xem Câu hỏi thường gặp.",
+    "effectiveEpAdditivation": "Phụ gia EP hiệu quả",
+    "baseOilViscosityAt40": "Độ nhớt dầu gốc ở 40°C",
+    "viscosityRatio": "Tỷ lệ độ nhớt",
+    "lowerTemperatureLimit": "Giới hạn nhiệt độ dưới",
+    "lowerTemperatureLimitTooltip": "Giới hạn dưới cho nhiệt độ lúc bắt đầu chuyển động cho vòng bi, cũng hãy xem Câu hỏi thường gặp.",
+    "upperTemperatureLimit": "Giới hạn nhiệt độ trên",
+    "upperTemperatureLimitTooltip": "Hoạt động ngoài nhiệt độ này dẫn đến tuổi thọ hoạt động của mỡ rất ngắn, Câu hỏi thường gặp.",
+    "density": "Mật độ",
+    "lowFriction": "Ma sát thấp",
+    "suitableForVibrations": "Phù hợp cho rung",
+    "supportForSeals": "Hỗ trợ bít kín",
+    "h1Registration": "Đăng ký H1 (chứng nhận NSF-H1 kosher và halal)",
+    "errors": "Lỗi",
+    "warnings": "Cảnh báo",
+    "notes": "Ghi chú",
+    "day": "ngày",
+    "days": "ngày",
+    "hours": "{{ hours }} hours",
+    "grams": "Gramm",
+    "undefinedValue": "không áp dụng",
+    "suitabilityLevelExtremelySuitable": "cực kỳ phù hợp",
+    "suitabilityLevelHighlySuitable": "rất phù hợp",
+    "suitabilityLevelSuitable": "phù hợp",
+    "suitabilityLevelLessSuitable": "không phù hợp lắm",
+    "suitabilityLevelNotSuitable": "không phù hợp",
+    "insufficientGreaseResultHint": "Không đủ",
+    "insufficientGreaseResultTooltip": "Tính phù hợp của mỡ bôi trơn được Grease App định mức là không đủ, Vui lòng liên hệ với dịch vụ kỹ thuật của Schaeffler nếu bạn có thêm bất kỳ câu hỏi nào.",
+    "preferredGreaseHintSelected": "Đã chọn trước",
+    "preferredGreaseHintAlternative": "Sản phẩm thay thế",
+    "preferredGreaseHintAlternativeTooltip": "Đây là sản phẩm thay thế từ danh mục sản phẩm của Schaeffler dựa trên thông tin đầu vào từ bước 2.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Lựa chọn vòng bi",
+      "parameters": "Điều kiện vận hành",
+      "report": "Báo cáo"
+    }
+  },
+  "legal": {
+    "imprint": "Dấu in",
+    "dataPrivacy": "Quyền riêng tư dữ liệu",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Điều khoản sử dụng",
+    "cookiePolicy": "Chính sách cookie",
+    "cookieSettings": "Cài đặt cookie"
+  },
+  "error": {
+    "content": "Rất tiếc, đã xảy ra lỗi. Xin hãy thử lại sau.",
+    "confirm": "Xác nhận",
+    "retry": "Thử lại"
+  }
+}

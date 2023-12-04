@@ -1,5 +1,5 @@
 {
-  "appTitle": "润滑脂计算器",
+  "appTitle": "Grease App",
   "homepage": {
     "cards": {
       "calculator": {
@@ -55,7 +55,7 @@
     }
   },
   "meta": {
-    "title": "润滑脂应用程序",
+    "title": "Grease App",
     "description": "使用润滑脂应用程序，您可以快速轻松地计算轴承的最佳润滑量，以便进行初始润滑和再润滑。此外，您还可以根据具体的工况获得有关润滑间隔和润滑脂使用寿命的建议。</br>润滑可以手动完成，或使用 Schaeffler 注脂器自动完成。</br>您还将收到 Arcanol 润滑脂特性的概览。突出显示具有较长润滑间隔的润滑脂。"
   },
   "userSettings": {

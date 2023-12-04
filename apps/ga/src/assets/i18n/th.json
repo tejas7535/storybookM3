@@ -1,0 +1,356 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "เครื่องคำนวณจาระบี",
+          "sub": "สนับสนุนโดย Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "จาระบี ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.co.th/th/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "เครื่องจ่ายสารหล่อลื่น"
+        },
+        "externalLink": "https://medias.schaeffler.co.th/th/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "เครื่องมือบำรุงรักษา",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.co.th/th/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.co.th/th/monitor/optime-condition-monitoring"
+      },
+      "catalog": {
+        "title": {
+          "main": "แคตตาล็อกผลิตภัณฑ์"
+        },
+        "externalLink": "https://medias.schaeffler.co.th/th"
+      },
+      "contact": {
+        "title": {
+          "main": "ผู้เชี่ยวชาญของ Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "คำถามที่พบบ่อย"
+        },
+        "externalLink": "https://medias.schaeffler.co.th/th/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "เมื่อใช้ Grease App คุณสามารถคำนวณปริมาณสารหล่อลื่นที่เหมาะสมที่สุดได้อย่างรวดเร็วและง่ายดายสำหรับตลับลูกปืนของคุณทั้งในการหล่อลื่นครั้งแรกและการเติมสารหล่อหลื่น นอกจากนี้ คุณยังจะได้รับคำแนะนำสำหรับช่วงเวลาระหว่างรอบการเติมสารหล่อลื่นและรอบอายุการทำงานของจาระบีโดยพิจารณาจากสภาวะในการทำงานที่เฉพาะเจาะจง</br>การเติมสารหล่อลื่นสามารถทำได้ทั้งแบบด้วยตัวเองหรือแบบอัตโนมัติด้วยเครื่องจ่ายสารหล่อลื่นของแชฟฟ์เลอร์</br>และคุณยังจะได้รับภาพรวมเกี่ยวกับคุณสมบัติของจาระบีหล่อลื่น Arcanol จาระบีที่มีช่วงเวลาระหว่างรอบการเติมสารหล่อลื่นสั้นถูกไฮไลต์"
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "การตั้งค่าภาษา"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "ระบบของหน่วย",
+        "sub": "มีผลต่อน้ำหนักและข้อมูลจำเพาะด้านอุณหภูมิ"
+      },
+      "label": "ระบบของหน่วย",
+      "options": {
+        "metric": "หน่วยวัดแบบเมตริก",
+        "imperial": "หน่วยวัดแบบอิมพีเรียล"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "หน้าเป้าหมาย",
+      "greaseCalculator": "เครื่องคำนวณจาระบี"
+    },
+    "button": {
+      "close": "ปิด"
+    },
+    "label": {
+      "defaultSet": "ตั้ง {{label}}",
+      "defaultSelect": "เลือก {{label}}"
+    },
+    "hint": {
+      "applicationReload": "แอปพลิเคชันจะถูกโหลดใหม่"
+    },
+    "unit": {
+      "millimeterShort": "มม."
+    },
+    "min": "ขั้นต่ำ",
+    "max": "สูงสุด",
+    "mediasButton": "แสดงแบริ่ง {{bearing}} ใน Medias",
+    "feedbackButton": "ข้อเสนอแนะ",
+    "feedbackText": "ข้อเสนอแนะของคุณช่วยให้เราพัฒนาผลิตภัณฑ์ของเราอย่างต่อเนื่องได้"
+  },
+  "bearing": {
+    "title": {
+      "main": "การเลือกตลับลูกปืน",
+      "sub": "โปรดเลือกตลับลูกปืนเพื่อทำการคำนวณการหล่อลื่น"
+    },
+    "label": {
+      "bearingType": "ประเภทตลับลูกปืน",
+      "boreDiameter": "เส้นผ่านศูนย์กลางวงใน",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "เส้นผ่าศูนย์กลางวงนอก",
+      "outsideDiameterShort": "D",
+      "width": "ความกว้าง",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "การเลือกตลับลูกปืนแบบตรง",
+        "advancedSelection": "การเลือกตลับลูกปืนขั้นสูง"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "ป้อนรหัสตลับลูกปืน เช่น 6226",
+        "selectButton": "เลือกตลับลูกปืน",
+        "selectOption": "<span class=\"text-medium-emphasis\">การคำนวณการหล่อลื่นสำหรับตลับลูกปืน</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">ไม่มีการคำนวณการหล่อลื่นที่เป็นไปได้สำหรับ</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "ไม่พบผลลัพธ์"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "เกณฑ์ตัวกรอง",
+          "intro": "จำกัดวงการเลือกตลับลูกปืนเป็นไม่เกิน {{tooManyResultsThreshold}} ผลลัพธ์",
+          "action": {
+            "nextStep": "ไปที่การเลือกตลับลูกปืน"
+          }
+        },
+        "bearingsList": {
+          "heading": "การเลือกตลับลูกปืน",
+          "intro": "โปรดเลือกตลับลูกปืน",
+          "selectOption": "การคำนวณจาระบีสำหรับตลับลูกปืน",
+          "disabledOption": "ไม่มีการคำนวณที่เป็นไปได้สำหรับตลับลูกปืน",
+          "action": {
+            "previousStep": "ปรับเกณฑ์ตัวกรอง"
+          }
+        },
+        "error": {
+          "modelCreation": "ไม่มีสามารถทำการคำนวณสำหรับตลับลูกปืน {{bearing}} ได้ในขณะนี้"
+        },
+        "tooManyResults": {
+          "message": "ผลลัพธ์มากเกินไป ({{resultsCount}})",
+          "hint": "เราพบรายการจำนวนมากเกินไปในฐานข้อมูลของเรา โปรดใช้ตัวกรองเพื่อลดจำนวนผลลัพธ์เป็นไม่เกิน {{tooManyResultsThreshold}} รายการ"
+        },
+        "noResults": {
+          "message": "ไม่พบผลลัพธ์",
+          "hint": "เราไม่พบตลับลูกปืนใดสำหรับตัวกรองที่ใช้ โปรดตรวจสอบการตั้งค่าตัวกรองเพื่อให้มั่นใจว่าคุณกำลังใช้การเลือกที่ถูกต้อง"
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "ตลับลูกปืนเม็ดกลมสัมผัสเชิงมุมแนวรัศมี",
+      "IDO_RADIAL_BALL_BEARING": "ตลับลูกปืนเม็ดกลมร่องลึกแนวรัศมี",
+      "IDO_RADIAL_ROLLER_BEARING": "ตลับลูกปืนเม็ดทรงกระบอกแนวรัศมี",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "ตลับลูกปืนเม็ดกลมชนิดปรับแนวเอง",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "ตลับลูกปืนเม็ดโค้งแนวรัศมี",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "ตลับลูกปืนเม็ดเรียวแนวรัศมี",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "ตลับลูกปืนกันรุนเม็ดกลมสัมผัสเชิงมุม",
+      "IDO_THRUST_BALL_BEARING": "ตลับลูกปืนกันรุนเม็ดกลม",
+      "IDO_THRUST_ROLLER_BEARING": "ตลับลูกปืนกันรุนเม็ดทรงกระบอก"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "สภาวะในการทำงานสำหรับ",
+      "backButton": "เปลี่ยนการเลือกตลับลูกปืน"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "ใหม่: การเลือกผลิตภัณฑ์ล่วงหน้า (ไม่บังคับ)"
+      },
+      "grease": {
+        "label": "จาระบี",
+        "defaultOption": "จาระบีทั้งหมด",
+        "tooltip": "จาระบีที่เลือกจะถูกจัดให้มีความสำคัญในรายงานผลการคำนวณ หากจาระบีที่เลือกไม่เข้ากัน ระบบจะแสดงทางเลือกอื่นๆ",
+        "schaefflerGreases": "จาระบีของแชฟฟ์เลอร์",
+        "nonSchaefflerMultiPurposeGreases": "จาระบีอเนกประสงค์ที่ไม่ใช่ของแชฟฟ์เลอร์",
+        "nonSchaefflerHighTempGreases": "จาระบีอุณหภูมิสูงที่ไม่ใช่ของแชฟฟ์เลอร์"
+      },
+      "concept1": {
+        "label": "คำนวณการตั้งค่าหลอดจาระบี (CONCEPT1)",
+        "tooltip": "หากเปิดใช้การคำนวณการตั้งค่าหลอดจาระบี การตั้งค่าของ CONCEPT1 จะถูกคำนวณและแสดงให้เห็นเพิ่มเติม (หากสามารถทำได้) การปิดใช้งานจะทำให้การตั้งค่าของ CONCEPT1 ไม่ปรากฏ"
+      }
+    },
+    "requiredInformation": "* ข้อมูลจำเป็น",
+    "loads": "โหลด",
+    "load": "โหลดที่คาดไว้",
+    "radialLoad": "โหลดแนวรัศมี",
+    "axialLoad": "โหลดเชิงแกน",
+    "loadsUnknown": "ไม่รู้โหลดที่แม่นยำใช่ไหม",
+    "enterRadialAndAxialLoad": "ป้อนโหลดแนวรัศมีและเชิงแกน",
+    "motionInfluences": "อิทธิพลต่อแรงขับเคลื่อน",
+    "kindOfMotion": "ประเภทการเคลื่อนไหว",
+    "rotating": "การหมุน",
+    "oscillating": "การแกว่ง",
+    "relativeRotationalSpeed": "ความเร็วการหมุน",
+    "onePerMinute": "รอบต่อนาที (RPM)",
+    "shiftFrequency": "ความถี่การเปลี่ยนเกียร์",
+    "shiftAngle": "มุมการเปลี่ยนเกียร์",
+    "degree": "°",
+    "otherInfluences": "ปัจจัยด้านสิ่งแวดล้อม",
+    "operatingTemperature": "อุณหภูมิในการทำงาน",
+    "environmentTemperature": "อุณหภูมิรอบข้าง",
+    "environmentalImpactOnGreaseDuration": "สภาวะในการทำงาน",
+    "low": "ต่ำ",
+    "moderate": "ปานกลาง",
+    "high": "สูง",
+    "greaseSelection": "การเลือกจาระบี",
+    "selectGrease": "เลือกจาระบี",
+    "showResults": "แสดงผลลัพธ์",
+    "resetInputs": "รีเซ็ตอินพุต",
+    "pleaseEnter": "ป้อน {{label}}",
+    "errors": {
+      "min": "ค่าต่ำเกินไป",
+      "max": "ค่าสูงเกินไป",
+      "required": "จำเป็นต้องระบุข้อมูลในช่องนี้",
+      "lowerThanEnvironmentTemperature": "ต้องไม่ต่ำกว่าอุณหภูมิรอบข้าง",
+      "innerOuterInconsistent": "เส้นผ่านศูนย์กลางวงในต้องสั้นกว่าเส้นผ่านศูนย์กลางวงนอก",
+      "minMaxInconsistent": "ค่าขั้นต่ำต้องต่ำกว่าค่าสูงสุด",
+      "anyLoad": "ต้องมีหนึ่งโหลด"
+    },
+    "loadLevel": {
+      "veryLow": "ต่ำมาก (C0/P ประมาณ 30)",
+      "low": "ต่ำ (C0/P ประมาณ 15)",
+      "moderate": "ปานกลาง (C0/P ประมาณ 10)",
+      "high": "สูง (C0/P ประมาณ 5)",
+      "veryHigh": "สูงมาก (C0/P ประมาณ 2)"
+    },
+    "tooltip": {
+      "radialLoad": "โหลดในทิศทางแนวรัศมี (ที่ต้องระบุเป็นค่าที่แน่นอน)",
+      "axialLoad": "โหลดในทิศทางเชิงแกน (ที่ต้องระบุเป็นค่าที่แน่นอน)",
+      "rotationSpeed": "ความเร็วการหมุนสัมพัทธ์ระหว่างแหวนวงในและวงนอก (ที่ต้องระบุเป็นค่าที่แน่นอน)",
+      "operatingTemperature": "อุณหภูมิในการทำงานของตลับลูกปืน (โปรดระบุเป็นค่าโดยประมาณหากจำเป็น) โปรดดูข้อมูลเกี่ยวกับผลกระทบต่ออายุการใช้งานของจาระบีในคำถามที่พบบ่อย",
+      "environmentTemperature": "อุณหภูมิของสภาพแวดล้อมรอบข้างเครื่องจักร",
+      "otherInfluences": "ปัจจัยสำหรับอิทธิพลของความชื้น แรงสั่นสะเทือน และแรงกระแทกในการโหลดต่ออายุการใช้งานของจาระบี",
+      "shiftFrequency": "จำนวนการเคลื่อนไหวแบบแกว่ง (เต็มวง ไปกลับ)",
+      "shiftAngle": "มุมระหว่างจุดวกกลับสำหรับการเคลื่อนไหวแบบแกว่ง (ดูในคำถามที่พบบ่อยได้เช่นกัน)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "รายงานสำหรับ",
+      "backButton": "เปลี่ยนสภาวะในการทำงาน",
+      "247hint": "ผลลัพธ์ทั้งหมดอ้างอิงจากการใช้งานต่อเนื่องทุกวันตลอด 24 ชั่วโมง"
+    },
+    "showCompactView": "แสดงมุมมองแบบกระชับ",
+    "reportSectionInput": "อินพุต",
+    "shopLinkText": "ผลิตภัณฑ์ที่มีอยู่",
+    "shopBaseUrl": "https://medias.schaeffler.co.th/th",
+    "snackbarError": "ขออภัย เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง",
+    "snackbarRetry": "ลองอีกครั้ง",
+    "allValues": "แสดงค่าทั้งหมด",
+    "hideValues": "ซ่อนค่าเพิ่มเติม",
+    "limitResults": "แสดง {{ results }} ผลลัพธ์แรก",
+    "remainingResults": "{{ results }} ผลลัพธ์อื่นๆ",
+    "resultsDefault": "ผลลัพธ์เรียงลำดับตามช่วงเวลาระหว่างรอบการเติมสารหล่อลื่น ({{ amount }}/{{ complete }} จาระบี)",
+    "resultsWithPreferred": "ผลลัพธ์สำหรับจาระบีที่เลือกและจาระบีทางเลือกถูกเรียงลำดับตามช่วงเวลาระหว่างรอบการเติมสารหล่อลื่น",
+    "guideValues": "* ค่าที่แนะนำ",
+    "errorsWarningsNotes": "ข้อผิดพลาด คำเตือน และหมายเหตุ",
+    "concept1": "การตั้งค่าหลอดจาระบีของ CONCEPT1",
+    "concept1Impossible": "ไม่สามารถทำการหล่อลื่นอัตโนมัติกับ CONCEPT1 ได้ ภายใต้สถานการณ์บางอย่าง ปริมาณในการหล่อลื่นจะสูงเกินไปหรือต่ำเกินไป อาจจะใช้ได้ หากพารามิเตอร์การทำงานถูกเปลี่ยนแปลง",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} เดือน <span>({{size}} มล.)</span>",
+      "details": "รายละเอียด",
+      "why": "เพราะเหตุใด",
+      "adjustConditions": "จาระบีนี้เหมาะสมกับ CONCEPT1 และการใช้งานทั่วไป แต่สภาวะในการทำงานที่นำไปใช้คำนวณการหล่อลื่นสูงเกินไปหรือต่ำเกินไปสำหรับ CONCEPT1",
+      "SUITED": "เหมาะสม",
+      "NOT_SUITED": "ไม่เหมาะสม",
+      "UNSUITED": "เข้ากันได้ไม่",
+      "CONDITIONAL": "มีเงื่อนไข",
+      "UNKNOWN": "ไม่รู้จักความเข้ากันได้",
+      "detailsConcept1": "รายละเอียดสำหรับ CONCEPT1",
+      "concept1Size": "หลอดจาระบี {{ size }} มล.",
+      "emptyDuration": "สำหรับถ่ายออกใน {{ duration }} เดือน",
+      "arrowSetting": "ตั้งค่าลูกศรเป็น {{ setting }}",
+      "setArrowSetting": "การตั้งค่า: ตั้งลูกศรเป็น {{ setting }}",
+      "ml": "{{ ml }} มล.",
+      "sizeHint": "สภาวะในการทำงานที่คุณเลือกจะใช้กับ CONCEPT1 ขนาด {{ size }} มล. ไม่เข้ากัน",
+      "size60PossibleHint": "การตั้งค่าแบบเป็นลูกศรของแคร์ตริดชนิด CONCEPT 60 ที่กำหนดไว้มีค่าที่ใหญ่กว่าค่าสูงสุดที่สามารถตั้งค่าได้ อย่างไรก็ตามสามารถทำงานได้ด้วยค่าที่แสดงอยู่",
+      "size125PossibleHint": "การตั้งค่าแบบเป็นลูกศรของแคร์ตริดชนิด CONCEPT 125 ที่กำหนดไว้มีค่าที่ใหญ่กว่าค่าสูงสุดที่สามารถตั้งค่าได้ เราขอแนะนำให้ใช้เครื่องปรับอุณหภูมิขนาดเล็กกว่า",
+      "unsuitableHint": "การตั้งค่าแบบเป็นลูกศรของแคร์ตริด CONCEPT ที่กำหนดไว้มีค่าที่ใหญ่กว่าค่าสูงสุดที่สามารถตั้งค่าได้อย่างมีนัยสำคัญ ไม่แนะนำให้ใช้เครื่องปรับอุณหภูมิ CONCEPT บนปริมาณการทำน้ำมันเครื่องเหล่านี้",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} มล.)"
+    },
+    "previouslySelected": "การคำนวณเสร็จสิ้นสำหรับ {{ type }} เช่น &ldquo;{{ grease }}&rdquo; เราไม่มีหน้าที่รับผิดต่อคุณภาพของจาระบี",
+    "compatibilityCheck": "ต้องตรวจสอบความเข้ากันได้",
+    "initialGreaseQuantity": "ปริมาณจาระบีเริ่มต้น *",
+    "relubricationQuantityPer1000OperatingHours": "ปริมาณการใช้น้ำมันเครื่องในการทำน้ำมันเครื่องครั้งละ 1000 ชั่วโมง *",
+    "relubricationPer7days": "ปริมาณการใช้น้ำมันเครื่องต่อ 7 วัน *",
+    "relubricationPer30days": "ปริมาณการใช้น้ำมันเครื่องต่อ 30 วัน *",
+    "relubricationPer365days": "ปริมาณการใช้น้ำมันเครื่องต่อ 365 วัน *",
+    "relubricationQuantityPer365daysTooltip": "แนะนำให้กระจายปริมาณน้ำมันเครื่องในการทำน้ำมันเครื่องในกระบวนการหลายๆ รอบบริหารเวลาการทำน้ำมันเครื่องช่วงการทำน้ำมันเครื่อง - โดยเฉพาะอย่างยิ่งสำหรับปริมาณน้ำมันเครื่องที่ใหญ่ในการทำน้ำมันเครื่องแบบกึ่งอัตโนมัติ",
+    "greaseServiceLife": "อายุการใช้งานของจาระบี *",
+    "additiveRequired": "ต้องเพิ่มปริมาณ",
+    "additiveRequiredTooltip": "การประเมินสภาวะในการทำงานทั่วไป (โหลดและค่า Kappa ของอัตราความหนืด) โปรดดูคำถามที่พบบ่อย",
+    "effectiveEpAdditivation": "ปริมาณการเพิ่ม EP ที่ได้ผล",
+    "baseOilViscosityAt40": "ความหนืดของน้ำมันพื้นฐานที่ 40°C",
+    "viscosityRatio": "อัตราความหนืด",
+    "lowerTemperatureLimit": "ขีดจำกัดอุณหภูมิขั้นต่ำ",
+    "lowerTemperatureLimitTooltip": "ขีดจำกัดขั้นต่ำสำหรับอุณหภูมิขณะเริ่มเคลื่อนที่ของตลับลูกปืน โปรดดูคำถามที่พบบ่อย",
+    "upperTemperatureLimit": "ขีดจำกัดอุณหภูมิสูงสุด",
+    "upperTemperatureLimitTooltip": "การทำงานในอุณหภูมิที่สูงจากนี้จะทำให้อายุการทำงานของจาระบีสั้นลงอย่างมาก โปรดดูคำถามที่พบบ่อย",
+    "density": "ความหนาแน่น",
+    "lowFriction": "การเสียดสีต่ำ",
+    "suitableForVibrations": "เหมาะสมสำหรับแรงสั่นสะเทือน",
+    "supportForSeals": "รองรับการซีล",
+    "h1Registration": "การจดทะเบียน H1 (ใบรับรองโคเชอร์และฮาลาล NSF-H1)",
+    "errors": "ข้อผิดพลาด",
+    "warnings": "คำเตือน",
+    "notes": "หมายเหตุ",
+    "day": "วัน",
+    "days": "วัน",
+    "hours": "{{ hours }} hours",
+    "grams": "กรัม",
+    "undefinedValue": "ไม่เกี่ยวข้อง",
+    "suitabilityLevelExtremelySuitable": "เหมาะสมที่สุด",
+    "suitabilityLevelHighlySuitable": "เหมาะสมมาก",
+    "suitabilityLevelSuitable": "เหมาะสม",
+    "suitabilityLevelLessSuitable": "ไม่ค่อยเหมาะสม",
+    "suitabilityLevelNotSuitable": "ไม่เหมาะสม",
+    "insufficientGreaseResultHint": "ไม่เพียงพอ",
+    "insufficientGreaseResultTooltip": "ความเหมาะสมของจาระบีหล่อลื่นถูกประเมินว่าไม่เพียงพอโดย Grease App โปรดติดต่อบริการวิศกรรมของแชฟฟ์เลอร์หากคุณมีคำถามเพิ่มเติม",
+    "preferredGreaseHintSelected": "ถูกเลือกไว้ล่วงหน้า",
+    "preferredGreaseHintAlternative": "ทางเลือก",
+    "preferredGreaseHintAlternativeTooltip": "นี่คือผลิตภัณฑ์ทางเลือกจากแฟ้มผลิตภัณฑ์ของแชฟฟ์เลอร์ ซึ่งอ้างอิงตามอินพุตจากขั้นตอนที่ 2",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "การเลือกตลับลูกปืน",
+      "parameters": "สภาวะในการทำงาน",
+      "report": "รายงาน"
+    }
+  },
+  "legal": {
+    "imprint": "ประทับตรา",
+    "dataPrivacy": "ความเป็นส่วนตัวของข้อมูล",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "ข้อกำหนดการใช้งาน",
+    "cookiePolicy": "นโยบายคุกกี้",
+    "cookieSettings": "การตั้งค่าคุกกี้"
+  },
+  "error": {
+    "content": "ขออภัย เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง",
+    "confirm": "ยืนยัน",
+    "retry": "ลองอีกครั้ง"
+  }
+}

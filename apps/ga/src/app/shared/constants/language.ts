@@ -22,9 +22,34 @@ export const AVAILABLE_LANGUAGE_ES: LangDefinition = {
   label: 'Español',
 };
 
+export const LANGUAGE_FRENCH: LangDefinition = {
+  id: 'fr',
+  label: 'Français',
+};
+
 export const AVAILABLE_LANGUAGE_JA: LangDefinition = {
   id: 'ja',
   label: '日本語',
+};
+
+export const LANGUAGE_KOREAN: LangDefinition = {
+  id: 'ko',
+  label: '한국인',
+};
+
+export const LANGUAGE_VIETNAMESE: LangDefinition = {
+  id: 'vi',
+  label: 'Tiếng Việt',
+};
+
+export const LANGUAGE_INDONESIAN_BAHASA: LangDefinition = {
+  id: 'id',
+  label: 'Bahasa Indonesia',
+};
+
+export const LANGUAGE_THAI: LangDefinition = {
+  id: 'th',
+  label: 'ไทย',
 };
 
 export const AVAILABLE_LANGUAGES: LangDefinition[] = [
@@ -32,7 +57,12 @@ export const AVAILABLE_LANGUAGES: LangDefinition[] = [
   AVAILABLE_LANGUAGE_EN,
   AVAILABLE_LANGUAGE_ZH,
   AVAILABLE_LANGUAGE_ES,
+  LANGUAGE_FRENCH,
   AVAILABLE_LANGUAGE_JA,
+  LANGUAGE_KOREAN,
+  LANGUAGE_VIETNAMESE,
+  LANGUAGE_INDONESIAN_BAHASA,
+  LANGUAGE_THAI,
 ];
 
 export const FALLBACK_LANGUAGE: LangDefinition = AVAILABLE_LANGUAGE_EN;

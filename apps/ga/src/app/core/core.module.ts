@@ -3,7 +3,6 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import { TranslocoService } from '@ngneat/transloco';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
@@ -25,11 +24,6 @@ import {
 } from '@ga/shared/constants/language';
 import { AppDelivery } from '@ga/shared/models';
 
-import deJson from '../../assets/i18n/de.json';
-import enJson from '../../assets/i18n/en.json';
-import esJson from '../../assets/i18n/es.json';
-import jaJson from '../../assets/i18n/ja.json';
-import zhJson from '../../assets/i18n/zh.json';
 import { detectAppDelivery } from './helpers/settings-helpers';
 import { HttpGreaseInterceptor } from './interceptors/http-grease.interceptor';
 import { StoreModule } from './store/store.module';
@@ -116,12 +110,4 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
   providers,
   exports: [StoreModule, SharedTranslocoModule],
 })
-export class CoreModule {
-  public constructor(private readonly translocoService: TranslocoService) {
-    this.translocoService.setTranslation(deJson, 'de');
-    this.translocoService.setTranslation(enJson, 'en');
-    this.translocoService.setTranslation(esJson, 'es');
-    this.translocoService.setTranslation(jaJson, 'ja');
-    this.translocoService.setTranslation(zhJson, 'zh');
-  }
-}
+export class CoreModule {}
