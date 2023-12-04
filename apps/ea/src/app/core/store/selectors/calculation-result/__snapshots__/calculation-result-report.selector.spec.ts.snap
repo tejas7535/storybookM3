@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Calculation Result Selector getCO2EmissionReport should return the co2 emission report data 1`] = `
+exports[`Calculation Result Selector emptry result getCO2EmissionReport should return the co2 emission report data 1`] = `
 Object {
   "co2_upstream": 5,
 }
 `;
 
-exports[`Calculation Result Selector getCalculationWithResult should return the calculations with result 1`] = `
+exports[`Calculation Result Selector emptry result getCalculationWithResult should return the calculations with result 1`] = `
 Array [
   Object {
     "disabled": false,
@@ -29,7 +29,7 @@ Array [
 ]
 `;
 
-exports[`Calculation Result Selector getReportMessages should return report messages 1`] = `
+exports[`Calculation Result Selector emptry result getReportMessages should return report messages 1`] = `
 Array [
   Object {
     "title": "Errors",
@@ -40,7 +40,7 @@ Array [
 ]
 `;
 
-exports[`Calculation Result Selector getResultInput should return result input 1`] = `
+exports[`Calculation Result Selector emptry result getResultInput should return result input 1`] = `
 Array [
   Object {
     "hasNestedStructure": true,
@@ -49,7 +49,624 @@ Array [
 ]
 `;
 
-exports[`Calculation Result Selector getSelectedCalculations should return the selected calculations 1`] = `
+exports[`Calculation Result Selector emptry result getSelectedCalculations should return the selected calculations 1`] = `
+Array [
+  Object {
+    "disabled": false,
+    "icon": "compress",
+    "label": "calculationTypes.frictionalPowerloss",
+    "name": "frictionalPowerloss",
+    "resultAvailable": true,
+    "selected": true,
+    "visible": true,
+  },
+  Object {
+    "disabled": true,
+    "label": "calculationTypes.co2",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getCO2EmissionReport should return the co2 emission report data 1`] = `
+Object {
+  "co2_upstream": 5,
+}
+`;
+
+exports[`Calculation Result Selector full result getCalculationWithResult should return the calculations with result 1`] = `
+Array [
+  Object {
+    "disabled": false,
+    "icon": "compress",
+    "label": "calculationTypes.frictionalPowerloss",
+    "name": "frictionalPowerloss",
+    "resultAvailable": true,
+    "selected": true,
+    "visible": true,
+  },
+  Object {
+    "disabled": true,
+    "label": "calculationTypes.co2",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getReportMessages should return report messages 1`] = `
+Array [
+  Object {
+    "item": Object {
+      "subItems": Array [
+        Object {
+          "item": Object {
+            "messages": Array [
+              " ",
+            ],
+          },
+        },
+        Object {
+          "item": Object {
+            "subItems": Array [
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "The total of the load case time portions is less than 100%. The missing time portion is assumed to be a stationary period.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · Sum of time proportions = 90.000 %",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "Please note the miscibility of greases in the chapter on grease lubrication.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · 2303-TVH: Type of grease   = Arcanol MULTI2",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "For the following load cases the operating viscosity is less than the nominal viscosity:",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · Loadcase 1",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "Do not overspecify the bearing - A rating life (to ISO 281) greater than 60000 hours usually leads to overspecified bearing arrangements.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "The life adjustment factor a_ISO is less than 1 in the following load cases:",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · Loadcase 1",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · Check the usage of a lubricant with a higher viscosity.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · Improve the cleanliness of the lubricant.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "A grease service life >3 years must be agreed with the lubricant supplier with regard to the respective application. The guide value issued in Bearinx for the grease service life is limited to 5 years. In individual cases, grease usage durations greater than 5 years are also possible. If necessary, please contact the Schaeffler engineering service, that can advise you on the basis of the practical experience. ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "  · 2303-TVH",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "The grease operating life is lower than the rating life. The grease operating life limits the operating life of the bearing unless it is relubricated.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    "Relubrication should be carried out once a year.",
+                  ],
+                },
+              },
+              Object {
+                "item": Object {
+                  "messages": Array [
+                    " ",
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+    "title": "Warnings",
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getResultInput should return result input 1`] = `
+Array [
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "designation": "Designation",
+        "hasNestedStructure": false,
+        "value": "2303-TVH",
+      },
+      Object {
+        "abbreviation": "d",
+        "designation": "Inside diameter",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": "17.000",
+      },
+      Object {
+        "abbreviation": "D",
+        "designation": "Outside diameter",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": "47.000",
+      },
+      Object {
+        "abbreviation": "B",
+        "designation": "Width",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": "19.000",
+      },
+      Object {
+        "abbreviation": "C",
+        "designation": "Basic dynamic load rating",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": "13900",
+      },
+      Object {
+        "abbreviation": "C0",
+        "designation": "Basic static load rating",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": "3200",
+      },
+      Object {
+        "abbreviation": "Cu",
+        "designation": "Fatigue limit load",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": "203",
+      },
+      Object {
+        "abbreviation": "n_ref",
+        "designation": "Reference speed",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": "14900.0",
+      },
+      Object {
+        "abbreviation": "n_lim",
+        "designation": "Limiting speed",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": "17000.0",
+      },
+      Object {
+        "abbreviation": "n_lim_o",
+        "designation": "Limiting speed, oil",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": "17000.0",
+      },
+      Object {
+        "abbreviation": "n_lim_g",
+        "designation": "Limiting speed, grease",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": "14400.0",
+      },
+    ],
+    "title": "Bearing",
+    "titleID": "STRING_OUTP_BEARING",
+  },
+  Object {
+    "hasNestedStructure": false,
+    "meaningfulRound": true,
+    "subItems": Array [
+      Object {
+        "abbreviation": "BPFFO",
+        "designation": "Overrolling frequency factor on outer ring",
+        "hasNestedStructure": false,
+        "value": "3.4222",
+      },
+      Object {
+        "abbreviation": "BPFFI",
+        "designation": "Overrolling frequency factor on inner ring",
+        "hasNestedStructure": false,
+        "value": "5.5778",
+      },
+      Object {
+        "abbreviation": "BSFF",
+        "designation": "Overrolling frequency factor on rolling element",
+        "hasNestedStructure": false,
+        "value": "1.8561",
+      },
+      Object {
+        "abbreviation": "RPFFB",
+        "designation": "Ring pass frequency factor on rolling element",
+        "hasNestedStructure": false,
+        "value": "3.7122",
+      },
+      Object {
+        "abbreviation": "FTFF_i",
+        "designation": "Speed factor of rolling element set for rotating inner ring",
+        "hasNestedStructure": false,
+        "value": "0.3802",
+      },
+      Object {
+        "abbreviation": "FTFF_o",
+        "designation": "Speed factor of rolling element set for rotating outer ring",
+        "hasNestedStructure": false,
+        "value": "0.6198",
+      },
+    ],
+    "title": "Basic frequency factors related to 1/s",
+    "titleID": "STRING_OUTP_BASIC_FREQUENCIES_FACTOR",
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "designation": "Permitted lubricants",
+        "hasNestedStructure": false,
+        "value": "Oil or grease",
+      },
+      Object {
+        "designation": "Type of lubrication",
+        "hasNestedStructure": false,
+        "value": "grease",
+      },
+      Object {
+        "designation": "Type of grease",
+        "hasNestedStructure": false,
+        "value": "Arcanol MULTI2",
+      },
+      Object {
+        "abbreviation": "ny 40",
+        "designation": "Viscosity at 40°C",
+        "hasNestedStructure": false,
+        "unit": "mm²/s",
+        "value": "110.0",
+      },
+      Object {
+        "abbreviation": "ny 100",
+        "designation": "Viscosity at 100°C",
+        "hasNestedStructure": false,
+        "unit": "mm²/s",
+        "value": "11.0",
+      },
+      Object {
+        "designation": "Contamination",
+        "hasNestedStructure": false,
+        "value": "normal cleanliness",
+      },
+      Object {
+        "abbreviation": "dQ/dt",
+        "designation": "External heat flow",
+        "hasNestedStructure": false,
+        "unit": "kW",
+        "value": "0.0",
+      },
+    ],
+    "title": "Lubrication data",
+    "titleID": "STRING_OUTP_LUBRICATING_DATA",
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": "t",
+        "designation": "Ambient temperature",
+        "hasNestedStructure": false,
+        "unit": "°C",
+        "value": "20.0",
+      },
+      Object {
+        "designation": "Environmental influence",
+        "hasNestedStructure": false,
+        "value": "0.8 (moderate)",
+      },
+      Object {
+        "designation": "Requisite reliability",
+        "hasNestedStructure": false,
+        "value": "90 %",
+      },
+      Object {
+        "designation": "Condition of rotation",
+        "hasNestedStructure": false,
+        "value": "rotating inner ring",
+      },
+    ],
+    "title": "Other conditions",
+    "titleID": "STRING_OUTP_MISCELLANEOUS_DATA",
+  },
+  Object {
+    "hasNestedStructure": true,
+    "subItems": Array [
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "designation": "Time portion (q)",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": "60.000",
+          },
+          Object {
+            "designation": "Type of motion",
+            "hasNestedStructure": false,
+            "value": "rotating",
+          },
+          Object {
+            "designation": "Speed (n_i)",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": "200.00",
+          },
+          Object {
+            "designation": "Mean operating temperature (T)",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": "70",
+          },
+          Object {
+            "designation": "Radial load (Fr)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "200.0",
+          },
+          Object {
+            "designation": "Axial load (Fa)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "0.0",
+          },
+        ],
+        "title": "Loadcase 1",
+      },
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "designation": "Time portion (q)",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": "10.000",
+          },
+          Object {
+            "designation": "Type of motion",
+            "hasNestedStructure": false,
+            "value": "rotating",
+          },
+          Object {
+            "designation": "Speed (n_i)",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": "500.00",
+          },
+          Object {
+            "designation": "Mean operating temperature (T)",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": "50",
+          },
+          Object {
+            "designation": "Radial load (Fr)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "500.0",
+          },
+          Object {
+            "designation": "Axial load (Fa)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "500.0",
+          },
+        ],
+        "title": "Loadcase 2",
+      },
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "designation": "Time portion (q)",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": "10.000",
+          },
+          Object {
+            "designation": "Type of motion",
+            "hasNestedStructure": false,
+            "value": "rotating",
+          },
+          Object {
+            "designation": "Speed (n_i)",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": "500.00",
+          },
+          Object {
+            "designation": "Mean operating temperature (T)",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": "50",
+          },
+          Object {
+            "designation": "Radial load (Fr)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "500.0",
+          },
+          Object {
+            "designation": "Axial load (Fa)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "500.0",
+          },
+        ],
+        "title": "Loadcase 3",
+      },
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "designation": "Time portion (q)",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": "10.000",
+          },
+          Object {
+            "designation": "Type of motion",
+            "hasNestedStructure": false,
+            "value": "rotating",
+          },
+          Object {
+            "designation": "Speed (n_i)",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": "500.00",
+          },
+          Object {
+            "designation": "Mean operating temperature (T)",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": "50",
+          },
+          Object {
+            "designation": "Radial load (Fr)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "500.0",
+          },
+          Object {
+            "designation": "Axial load (Fa)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "500.0",
+          },
+        ],
+        "title": "Loadcase 4",
+      },
+    ],
+    "title": "Load",
+    "titleID": "STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES",
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getSelectedCalculations should return the selected calculations 1`] = `
 Array [
   Object {
     "disabled": false,

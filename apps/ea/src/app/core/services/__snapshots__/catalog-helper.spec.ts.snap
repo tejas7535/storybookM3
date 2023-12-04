@@ -2,30 +2,46 @@
 
 exports[`Catalog Helper convertCatalogCalculationResult Should convert a valid result 1`] = `
 Object {
-  "BPFI": Object {
-    "unit": "1/s",
-    "value": "123.45",
+  "bearingBehaviour": Object {
+    "lh10": Object {
+      "unit": "h",
+      "value": "123.45",
+    },
   },
-  "BPFO": Object {
-    "unit": "1/s",
-    "value": "123.45",
-  },
-  "BSF": Object {
-    "unit": "1/s",
-    "value": "123.45",
-  },
-  "FTF": Object {
-    "unit": "1/s",
-    "value": "123.45",
-  },
-  "RPFB": Object {
-    "unit": "1/s",
-    "value": "123.45",
-  },
-  "lh10": Object {
-    "unit": "h",
-    "value": "123.45",
-  },
+  "loadcaseOverrollingFrequencies": Array [
+    Object {
+      "BPFI": Object {
+        "loadcaseName": "",
+        "title": "BPFI",
+        "unit": "1/s",
+        "value": "123.45",
+      },
+      "BPFO": Object {
+        "loadcaseName": "",
+        "title": "BPFO",
+        "unit": "1/s",
+        "value": "123.45",
+      },
+      "BSF": Object {
+        "loadcaseName": "",
+        "title": "BSF",
+        "unit": "1/s",
+        "value": "123.45",
+      },
+      "FTF": Object {
+        "loadcaseName": "",
+        "title": "FTF",
+        "unit": "1/s",
+        "value": "123.45",
+      },
+      "RPFB": Object {
+        "loadcaseName": "",
+        "title": "RPFB",
+        "unit": "1/s",
+        "value": "123.45",
+      },
+    },
+  ],
   "reportInputSuborinates": Object {
     "inputSubordinates": Array [
       Object {

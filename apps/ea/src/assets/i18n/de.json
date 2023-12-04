@@ -8,6 +8,10 @@
   "inputs": {
     "pleaseSelect": "Bitte auswählen"
   },
+  "resultValues": {
+    "designation": "Bez",
+    "loadcase": "Lastfall"
+  },
   "operationConditions": {
     "title": "Betriebsbedingungen für Lager {{bearingDesignation}}",
     "prototypeWarning": "Die in diesem Entwicklungsprototyp gezeigten Werte sind hypothetisch und dürfen nicht in der Produktion verwendet werden",
@@ -212,7 +216,9 @@
       "p": "Äquivalente dynamische Belastung",
       "n": "Äquivalente Drehzahl",
       "s0_min": "Statische Sicherheit",
-      "p0_max": "Maximale äquivalente statische Belastung"
+      "p0_max": "Maximale äquivalente statische Belastung",
+      "p0": "Äquivalente statische Belastung pro Lastfall",
+      "p_i": "Äquivalente dynamische Belastung pro Lastfall"
     },
     "overrollingFrequencies": {
       "title": "Überrollfrequenzen",

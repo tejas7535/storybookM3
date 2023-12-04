@@ -27,4 +27,9 @@ export interface BearinxOnlineResultSubordinate {
     unitFields: { unit: string }[];
     items: { field: string; value: string; unit?: string }[][];
   };
+  description?: {
+    identifier: string;
+    title: string;
+    entries: [string, string][];
+  };
 }

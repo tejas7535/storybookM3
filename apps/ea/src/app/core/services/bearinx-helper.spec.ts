@@ -1,3 +1,5 @@
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
@@ -10,6 +12,11 @@ import {
   BearinxOnlineResult,
   BearinxOnlineResultSubordinate,
 } from './bearinx-result.interface';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((translateKey) => translateKey),
+}));
 
 describe('Bearinx Helper', () => {
   describe('matchItem', () => {
@@ -97,15 +104,28 @@ describe('Bearinx Helper', () => {
             [
               { field: 'abc', unit: 'm', value: '1' },
               { field: 'def', unit: 'm', value: '2' },
+              { field: 'resultValues.loadcase', value: 'loadcase' },
             ],
           ],
         },
       };
 
-      expect(extractTableFromSubordinate(input)).toEqual({
-        abc: { unit: 'm', value: '1' },
-        def: { unit: 'm', value: '2' },
-      });
+      expect(extractTableFromSubordinate(input)).toEqual([
+        {
+          abc: {
+            unit: 'm',
+            value: '1',
+            short: 'abc',
+            loadcaseName: 'loadcase',
+          },
+          def: {
+            unit: 'm',
+            value: '2',
+            short: 'def',
+            loadcaseName: 'loadcase',
+          },
+        },
+      ]);
     });
 
     it('handles an empty input gracefully', () => {
@@ -283,9 +303,22 @@ describe('Bearinx Helper', () => {
                           field: 'tomato',
                           value: 'some cherry tomatoes',
                         },
+                        {
+                          field: 'resultValues.designation',
+                          value: 'designation',
+                        },
                       ],
                     ],
                     unitFields: [],
+                  },
+                  description: {
+                    identifier: 'textPairList',
+                    title: 'Table Explanations:',
+                    entries: [
+                      ['apple: ', 'apple'],
+                      ['bannana: ', 'bannana'],
+                      ['tomato: ', 'tomato'],
+                    ],
                   },
                 },
               ],
@@ -315,25 +348,32 @@ describe('Bearinx Helper', () => {
               hasNestedStructure: true,
               subItems: [
                 {
-                  hasNestedStructure: false,
+                  hasNestedStructure: true,
                   subItems: [
                     {
                       hasNestedStructure: false,
-                      designation: 'apple',
-                      value: 'delicious apple',
-                      unit: 'kg',
-                    },
-                    {
-                      hasNestedStructure: false,
-                      designation: 'bannana',
-                      value: 'delicious bannana',
-                      unit: 'qt',
-                    },
-                    {
-                      hasNestedStructure: false,
-                      designation: 'tomato',
-                      value: 'some cherry tomatoes',
-                      unit: undefined,
+                      titleID: '0',
+                      title: 'designation',
+                      subItems: [
+                        {
+                          hasNestedStructure: false,
+                          designation: 'apple (apple)',
+                          value: 'delicious apple',
+                          unit: 'kg',
+                        },
+                        {
+                          hasNestedStructure: false,
+                          designation: 'bannana (bannana)',
+                          value: 'delicious bannana',
+                          unit: 'qt',
+                        },
+                        {
+                          hasNestedStructure: false,
+                          designation: 'tomato (tomato)',
+                          value: 'some cherry tomatoes',
+                          unit: undefined,
+                        },
+                      ],
                     },
                   ],
                   title: undefined,

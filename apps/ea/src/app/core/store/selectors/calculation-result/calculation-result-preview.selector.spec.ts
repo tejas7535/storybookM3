@@ -1,6 +1,7 @@
 import {
   APP_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
+  CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
 } from '@ea/testing/mocks';
 
 import { AppState } from '../../reducers';
@@ -25,6 +26,52 @@ describe('Calculation Result Selector', () => {
     describe('when all selected calculation result are available', () => {
       it('should return true if calculation result is available', () => {
         expect(isCalculationResultReportAvailable(mockState)).toBe(true);
+      });
+
+      describe('when all calculations are selected', () => {
+        let state: AppState;
+        beforeEach(() => {
+          state = {
+            ...mockState,
+            calculationParameters: {
+              ...mockState.calculationParameters,
+              calculationTypes: {
+                emission: {
+                  disabled: true,
+                  selected: true,
+                  visible: true,
+                },
+                frictionalPowerloss: {
+                  disabled: true,
+                  selected: true,
+                  visible: true,
+                },
+                lubrication: {
+                  disabled: true,
+                  selected: true,
+                  visible: true,
+                },
+                overrollingFrequency: {
+                  disabled: true,
+                  selected: true,
+                  visible: true,
+                },
+                ratingLife: {
+                  disabled: true,
+                  selected: true,
+                  visible: true,
+                },
+              },
+            },
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          };
+        });
+
+        it('should return preview data for all calculation types', () => {
+          expect(getCalculationResultPreviewData(state)).toMatchSnapshot();
+        });
       });
     });
 

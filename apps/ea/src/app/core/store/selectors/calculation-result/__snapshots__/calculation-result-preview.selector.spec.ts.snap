@@ -22,6 +22,7 @@ exports[`Calculation Result Selector getCalculationResultPreviewData should retu
 Array [
   Object {
     "icon": "compress",
+    "loadcaseName": "Workload",
     "title": "frictionalPowerloss",
     "values": Array [
       Object {
@@ -46,6 +47,156 @@ Array [
         "titleTooltip": "productionTooltip",
         "unit": "kg",
         "value": 2,
+      },
+    ],
+  },
+]
+`;
+
+exports[`Calculation Result Selector isCalculationResultReportAvailable when all selected calculation result are available when all calculations are selected should return preview data for all calculation types 1`] = `
+Array [
+  Object {
+    "icon": "animation",
+    "title": "ratingLife",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "title": "ratingLifeSubtitle",
+        "unit": "h",
+        "value": "152277",
+      },
+    ],
+  },
+  Object {
+    "icon": "compress",
+    "loadcaseName": "Workload",
+    "title": "frictionalPowerloss",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "calculationWarning": "frictionalPowerlossUnavailable",
+        "isLoading": false,
+        "title": undefined,
+        "unit": "N mm",
+        "value": 3.4,
+      },
+    ],
+  },
+  Object {
+    "loadcaseName": "Workload",
+    "svgIcon": "water_drop",
+    "title": "lubrication",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "title": "lubricationSubtitle",
+        "unit": undefined,
+        "value": 0.29,
+      },
+    ],
+  },
+  Object {
+    "svgIcon": "co2",
+    "title": "emissions",
+    "titleTooltip": "emissionsTooltip",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "title": "production",
+        "titleTooltip": "productionTooltip",
+        "unit": "kg",
+        "value": 2,
+      },
+    ],
+  },
+  Object {
+    "loadcaseName": "Workload",
+    "svgIcon": "airwaves",
+    "title": "overrollingFrequency",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "loadcaseValues": Array [
+          Object {
+            "loadcaseName": "Loadcase 1",
+            "value": "18.5926",
+          },
+          Object {
+            "loadcaseName": "Loadcase 2",
+            "value": "46.4816",
+          },
+          Object {
+            "loadcaseName": "Loadcase 3",
+            "value": "46.4816",
+          },
+          Object {
+            "loadcaseName": "Loadcase 4",
+            "value": "46.4816",
+          },
+        ],
+        "short": "BPFI",
+        "title": "short.BPFI",
+        "unit": "1/s",
+        "value": "18.5926",
+        "warning": undefined,
+      },
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "loadcaseValues": Array [
+          Object {
+            "loadcaseName": "Loadcase 1",
+            "value": "11.4074",
+          },
+          Object {
+            "loadcaseName": "Loadcase 2",
+            "value": "28.5184",
+          },
+          Object {
+            "loadcaseName": "Loadcase 3",
+            "value": "28.5184",
+          },
+          Object {
+            "loadcaseName": "Loadcase 4",
+            "value": "28.5184",
+          },
+        ],
+        "short": "BPFO",
+        "title": "short.BPFO",
+        "unit": "1/s",
+        "value": "11.4074",
+        "warning": undefined,
+      },
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "loadcaseValues": Array [
+          Object {
+            "loadcaseName": "Loadcase 1",
+            "value": "6.1871",
+          },
+          Object {
+            "loadcaseName": "Loadcase 2",
+            "value": "15.4676",
+          },
+          Object {
+            "loadcaseName": "Loadcase 3",
+            "value": "15.4676",
+          },
+          Object {
+            "loadcaseName": "Loadcase 4",
+            "value": "15.4676",
+          },
+        ],
+        "short": "BSF",
+        "title": "short.BSF",
+        "unit": "1/s",
+        "value": "6.1871",
+        "warning": undefined,
       },
     ],
   },

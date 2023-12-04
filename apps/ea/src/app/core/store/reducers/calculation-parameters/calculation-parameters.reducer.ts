@@ -4,7 +4,10 @@ import {
 } from '@ea/core/store/models';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { CalculationTypesActions } from '../../actions';
+import {
+  CalculationParametersActions,
+  CalculationTypesActions,
+} from '../../actions';
 import {
   operatingParameters,
   resetCalculationParameters,
@@ -28,7 +31,7 @@ export const initialState: CalculationParametersState = {
         },
         operatingTemperature: 70,
         operatingTime: undefined,
-        loadCaseName: 'Workload',
+        loadCaseName: '',
       },
     ],
 
@@ -63,6 +66,7 @@ export const initialState: CalculationParametersState = {
     ambientTemperature: 20,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
+    selectedLoadcase: 0,
   },
 
   calculationTypes: {
@@ -169,6 +173,17 @@ export const calculationParametersReducer = createReducer(
             ? state.calculationTypes[calculationType].selected
             : select,
         },
+      },
+    })
+  ),
+
+  on(
+    CalculationParametersActions.setSelectedLoadcase,
+    (state, { selectedLoadcase }): CalculationParametersState => ({
+      ...state,
+      operationConditions: {
+        ...state.operationConditions,
+        selectedLoadcase,
       },
     })
   )

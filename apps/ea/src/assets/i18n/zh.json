@@ -8,6 +8,10 @@
   "inputs": {
     "pleaseSelect": "请选择"
   },
+  "resultValues": {
+    "designation": "+ 代号",
+    "loadcase": "载荷步"
+  },
   "operationConditions": {
     "title": "{{bearingDesignation}} 轴承的工作条件",
     "prototypeWarning": "该开发原型中所示的数值是假设值，不能用于生产",
@@ -212,7 +216,9 @@
       "p": "等效动载荷",
       "n": "等效转速",
       "s0_min": "静态安全性",
-      "p0_max": "最大等效静载荷"
+      "p0_max": "最大等效静载荷",
+      "p0": "每个工况的等效静载荷",
+      "p_i": "每个工况的等效动载荷"
     },
     "overrollingFrequencies": {
       "title": "超滚频率",

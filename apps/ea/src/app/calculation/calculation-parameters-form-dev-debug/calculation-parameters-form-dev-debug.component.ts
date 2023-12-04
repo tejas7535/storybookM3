@@ -5,13 +5,22 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+import { PushPipe } from '@ngrx/component';
 
 @Component({
   templateUrl: './calculation-parameters-form-dev-debug.component.html',
   selector: 'ea-calculation-parameters-form-dev-debug',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatSlideToggleModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PushPipe,
+    MatSlideToggleModule,
+    MatButtonModule,
+  ],
 })
 export class CalculationParametersFormDevDebugComponent {
   @Input() operationConditionsForm: FormGroup;

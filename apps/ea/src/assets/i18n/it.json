@@ -8,6 +8,10 @@
   "inputs": {
     "pleaseSelect": "Si prega di selezionare"
   },
+  "resultValues": {
+    "designation": "Des",
+    "loadcase": "Load case"
+  },
   "operationConditions": {
     "title": "Condizioni di funzionamento del cuscinetto {{bearingDesignation}}",
     "prototypeWarning": "I valori presentati su questo prototipo di sviluppo sono ipotetici e non devono essere utilizzati in produzione",
@@ -212,7 +216,9 @@
       "p": "Carico dinamico equivalente",
       "n": "Velocità equivalente",
       "s0_min": "Sicurezza statica",
-      "p0_max": "Carico statico equivalente massimo"
+      "p0_max": "Carico statico equivalente massimo",
+      "p0": "Carico statico equivalente per caso di carico",
+      "p_i": "Carico dinamico equivalente per caso di carico"
     },
     "overrollingFrequencies": {
       "title": "Frequenze di rollover",

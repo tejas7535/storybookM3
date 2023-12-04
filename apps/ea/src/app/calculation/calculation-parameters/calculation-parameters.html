@@ -93,7 +93,10 @@
                 >
               </p>
             </div>
-            <mat-tab-group class="w-[95vw] lg:w-[850px]">
+            <mat-tab-group
+              class="w-[95vw] lg:w-[850px]"
+              (selectedIndexChange)="onSelectedLoadCaseChange($event)"
+            >
               <mat-tab
                 class="bg-warning p-1"
                 *ngFor="let loadDataItem of operationConditionsForm.controls.loadCaseData.controls; index as i"

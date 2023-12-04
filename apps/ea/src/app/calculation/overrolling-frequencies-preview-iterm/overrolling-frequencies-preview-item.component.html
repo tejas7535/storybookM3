@@ -2,7 +2,7 @@
   *transloco="let t; read: 'calculationResultReport.overrollingFrequencies'"
 >
   <div
-    class="flex flex-shrink-0 flex-col items-center justify-between disabled-border border-border min-h-[6rem] md:border-0 md:w-auto py-2 h-full disabled-bg-surface md:bg-transparent rounded-lg"
+    class="flex flex-shrink-0 flex-col items-center justify-between disabled-border border-border min-h-[6rem] md:border-0 md:w-auto pt-2 h-full disabled-bg-surface md:bg-transparent rounded-lg"
     [ngClass]="styleClass"
     *ngIf="_item"
   >
@@ -16,6 +16,12 @@
     </div>
     <ng-container *ngIf="isLoading$ | ngrxPush; then loading; else display">
     </ng-container>
+    <div
+      class="text-caption text-medium-emphasis py-2"
+      *ngIf="_item.loadcaseName && _item.loadcaseName !== ''"
+    >
+      {{ _item.loadcaseName }}
+    </div>
 
     <ng-template #display>
       <ng-container *ngIf="resultUnavailable$ | ngrxPush">

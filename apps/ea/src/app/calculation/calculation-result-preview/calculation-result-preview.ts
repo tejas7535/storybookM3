@@ -46,6 +46,9 @@ export class CalculationResultPreviewComponent {
     this.calculationResultFacade.isCalculationImpossible$;
   public isCalculationMissingInput$ =
     this.calculationParametersFacade.isCalculationMissingInput$;
+  public loadcaseCount$ = this.calculationParametersFacade.getLoadcaseCount$;
+  public selectedLoadcase$ =
+    this.calculationParametersFacade.getSelectedLoadcase$;
 
   public isStandalone$ = this.settingsFacade.isStandalone$;
 

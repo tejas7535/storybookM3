@@ -7,6 +7,10 @@ import {
   OverrollingPreviewKeys,
 } from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
+import {
+  getSelectedLoadcase,
+  getSelectedLoadcaseId,
+} from '../calculation-parameters/calculation-parameters.selector';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
 import {
   getOverrollingFrequencies,
@@ -44,9 +48,13 @@ export const friction = createSelector(
   catalogCalculationResult,
   catalogCalculationIsLoading,
   catalogCalculationError,
-  (result, isLoading, error): ResultStateWithValue => ({
-    value: result?.totalFrictionalTorque?.value,
-    unit: result?.totalFrictionalTorque?.unit,
+  getSelectedLoadcaseId,
+  (result, isLoading, error, selectedLoadcase): ResultStateWithValue => ({
+    value:
+      result?.loadcaseFriction?.[selectedLoadcase]?.totalFrictionalTorque
+        ?.value,
+    unit: result?.loadcaseFriction?.[selectedLoadcase]?.totalFrictionalTorque
+      ?.unit,
     calculationError: error,
     isLoading,
   })
@@ -57,8 +65,8 @@ export const catalogCalculation = createSelector(
   catalogCalculationIsLoading,
   catalogCalculationError,
   (result, isLoading, error): ResultStateWithValue => ({
-    value: result?.lh10?.value,
-    unit: result?.lh10?.unit,
+    value: result?.bearingBehaviour?.lh10?.value,
+    unit: result?.bearingBehaviour?.lh10?.unit,
     calculationError: error || result?.calculationError?.error,
     isLoading,
   })
@@ -68,11 +76,18 @@ export const overrollingFrequencies = createSelector(
   getOverrollingFrequencies,
   catalogCalculationIsLoading,
   catalogCalculationError,
-  (result, isLoading, error): ({ title: string } & ResultStateWithValue)[] => {
+  getSelectedLoadcaseId,
+  (
+    result,
+    isLoading,
+    error,
+    selectedLoadcase
+  ): ({ title: string } & ResultStateWithValue)[] => {
     const overrollingValues: ({ title: string } & ResultStateWithValue)[] = [];
     for (const overrollingObject of result) {
       overrollingValues.push({
         ...overrollingObject,
+        value: overrollingObject.loadcaseValues[selectedLoadcase]?.value,
         isLoading,
         calculationError: error,
       });
@@ -86,9 +101,11 @@ export const lubricationParameter = createSelector(
   catalogCalculationResult,
   catalogCalculationIsLoading,
   catalogCalculationError,
-  (result, isLoading, error): ResultStateWithValue => ({
-    value: result?.viscosityRatio?.value,
-    unit: result?.viscosityRatio?.unit,
+  getSelectedLoadcaseId,
+  (result, isLoading, error, selectedLoadcase): ResultStateWithValue => ({
+    value:
+      result?.loadcaseLubrication?.[selectedLoadcase]?.viscosityRatio?.value,
+    unit: result?.loadcaseLubrication?.[selectedLoadcase]?.viscosityRatio?.unit,
     calculationError: error || result?.calculationError?.error,
     isLoading,
   })
@@ -101,15 +118,18 @@ export const getCalculationResultPreviewData = createSelector(
   friction,
   overrollingFrequencies,
   lubricationParameter,
+  getSelectedLoadcase,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
     co2UpstreamResult,
     frictionResult,
     overrollingResult,
-    lubricationParameterResult
+    lubricationParameterResult,
+    loadcase
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
+    const loadcaseName = loadcase?.loadCaseName;
 
     if (calculationTypes.ratingLife.selected) {
       previewData.push({
@@ -139,6 +159,7 @@ export const getCalculationResultPreviewData = createSelector(
             ...frictionResult,
           },
         ],
+        loadcaseName,
       });
     }
 
@@ -149,6 +170,7 @@ export const getCalculationResultPreviewData = createSelector(
         values: [
           { title: 'lubricationSubtitle', ...lubricationParameterResult },
         ],
+        loadcaseName,
       });
     }
 
@@ -178,6 +200,7 @@ export const getCalculationResultPreviewData = createSelector(
             OverrollingPreviewKeys.includes(valueItem.title)
           )
           .map((item) => ({ ...item, title: `short.${item.title}` })),
+        loadcaseName,
       });
     }
 

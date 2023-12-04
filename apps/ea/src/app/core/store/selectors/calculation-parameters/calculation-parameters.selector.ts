@@ -12,3 +12,28 @@ export const isCalculationMissingInput = createSelector(
   getCalculationParametersState,
   (state): boolean => state.isInputInvalid
 );
+
+export const getSelectedLoadcaseId = createSelector(
+  getOperationConditions,
+  (operationConditions) => operationConditions.selectedLoadcase
+);
+
+export const getLoadcases = createSelector(
+  getOperationConditions,
+  (operationConditions) =>
+    operationConditions.loadCaseData.map(({ loadCaseName }, index) => ({
+      index,
+      loadCaseName,
+    }))
+);
+
+export const getLoadcaseCount = createSelector(
+  getLoadcases,
+  (loadcases) => loadcases.length
+);
+
+export const getSelectedLoadcase = createSelector(
+  getLoadcases,
+  getSelectedLoadcaseId,
+  (loadcases, selectedLoadcase) => loadcases[selectedLoadcase]
+);

@@ -182,6 +182,11 @@ export interface CatalogServiceTemplateCondition {
   matchOperator: string;
 }
 
+export interface SubordinatePathElement {
+  titleID: string;
+  identifier: string;
+}
+
 export type CatalogServiceProductClass =
   | 'IDO_CATALOGUE_BEARING'
   | 'IDO_ELGES_BEARING'

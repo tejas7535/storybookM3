@@ -193,9 +193,15 @@ export class CatalogService {
           return result;
         }),
         switchMap((result) => this.getCalculationResultReport(result)),
-        map((result) =>
-          convertCatalogCalculationResult(result, calculationError)
-        )
+        map((result) => {
+          const res = convertCatalogCalculationResult(
+            result,
+            calculationError,
+            loadcaseData.length > 1
+          );
+
+          return res;
+        })
       );
   }
 
@@ -254,8 +260,7 @@ export class CatalogService {
     loadCaseData: LoadCaseData[]
   ): CatalogServiceLoadCaseData[] {
     return loadCaseData.map((loadCase) => ({
-      IDCO_DESIGNATION:
-        loadCaseData.length === 1 ? 'Workload' : loadCase.loadCaseName,
+      IDCO_DESIGNATION: loadCaseData.length === 1 ? '' : loadCase.loadCaseName,
       IDSLC_TIME_PORTION:
         loadCaseData.length === 1
           ? '100'

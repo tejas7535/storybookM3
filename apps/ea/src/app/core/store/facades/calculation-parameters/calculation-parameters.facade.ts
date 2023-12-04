@@ -4,7 +4,11 @@ import { Action, Store } from '@ngrx/store';
 
 import { getCalculationFieldsConfig } from '../../selectors/calculation-parameters/calculation-fields.selector';
 import {
+  getLoadcaseCount,
+  getLoadcases,
   getOperationConditions,
+  getSelectedLoadcase,
+  getSelectedLoadcaseId,
   isCalculationMissingInput,
 } from '../../selectors/calculation-parameters/calculation-parameters.selector';
 import {
@@ -41,6 +45,11 @@ export class CalculationParametersFacade {
   );
 
   public isAnyServiceLoading$ = this.store.select(isAnyServiceLoading);
+
+  public getSelectedLoadcaseId$ = this.store.select(getSelectedLoadcaseId);
+  public getLoadcaseCount$ = this.store.select(getLoadcaseCount);
+  public getLoadcases$ = this.store.select(getLoadcases);
+  public getSelectedLoadcase$ = this.store.select(getSelectedLoadcase);
 
   constructor(private readonly store: Store) {}
 

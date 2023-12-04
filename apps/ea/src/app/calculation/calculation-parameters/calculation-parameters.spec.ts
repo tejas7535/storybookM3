@@ -1,4 +1,5 @@
 import { QueryList } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
@@ -7,7 +8,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { firstValueFrom, of } from 'rxjs';
 
-import { resetCalculationParameters } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
+import {
+  resetCalculationParameters,
+  setSelectedLoadcase,
+} from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { resetCalculationResult } from '@ea/core/store/actions/calculation-result/catalog-calculation-result.actions';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -19,6 +23,7 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationParametersComponent } from './calculation-parameters';
+import { LoadCaseDataFormGroupModel } from './loadcase-data-form-group.interface';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 
 describe('CalculationParametersComponent', () => {
@@ -107,6 +112,57 @@ describe('CalculationParametersComponent', () => {
     });
   });
 
+  describe('onAddLoadCaseClick', () => {
+    it('should add a loadcase', () => {
+      component['updateFirstLoadCaseName'] = jest.fn();
+      component['createLoadCaseDataFormGroup'] = jest.fn(
+        () => ({} as FormGroup<LoadCaseDataFormGroupModel>)
+      );
+      component.operationConditionsForm.controls['loadCaseData'].push =
+        jest.fn();
+
+      expect(component['loadCaseCount']).toEqual(1);
+
+      component.onAddLoadCaseClick();
+
+      expect(component['updateFirstLoadCaseName']).toHaveBeenCalled();
+      expect(component['createLoadCaseDataFormGroup']).toHaveBeenCalled();
+      expect(
+        component.operationConditionsForm.controls['loadCaseData'].push
+      ).toHaveBeenCalledWith({} as FormGroup<LoadCaseDataFormGroupModel>);
+      expect(component['loadCaseCount']).toEqual(2);
+    });
+  });
+
+  describe('onSelectedLoadCaseChange', () => {
+    it('should dispatch loadcase selection action', () => {
+      component.onSelectedLoadCaseChange(2);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setSelectedLoadcase({ selectedLoadcase: 2 })
+      );
+    });
+  });
+
+  describe('updateFirstLoadCaseName', () => {
+    it('should update the first loadcase name', () => {
+      component[
+        'calculationParametersFormHelperService'
+      ].getLocalizedLoadCaseName = jest.fn(() => 'loadcase test');
+      component['loadCaseCount'] = 2;
+      component.operationConditionsForm.controls[
+        'loadCaseData'
+      ].controls[0].controls.loadCaseName.setValue = jest.fn();
+
+      component['updateFirstLoadCaseName']();
+
+      expect(component['loadCaseCount']).toEqual(1);
+      expect(
+        component.operationConditionsForm.controls['loadCaseData'].controls[0]
+          .controls.loadCaseName.setValue
+      ).toHaveBeenCalledWith('loadcase test');
+    });
+  });
   describe('ngAfterViewInit', () => {
     it('should setup parameterTemplates after view init', async () => {
       component.templates = {

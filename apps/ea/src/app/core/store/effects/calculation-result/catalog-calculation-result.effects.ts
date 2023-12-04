@@ -101,8 +101,16 @@ export class CatalogCalculationResultEffects {
 
                 // special case: sometimes bearings have no friction data available. In this case we need to disable the calculation option
                 const isFrictionAvailable =
-                  !!calculationResult?.totalFrictionalPowerLoss &&
-                  !!calculationResult?.totalFrictionalTorque;
+                  (!!calculationResult?.loadcaseFriction?.some(
+                    (frictionItem) => frictionItem.totalFrictionalPowerLoss
+                  ) &&
+                    !!calculationResult?.loadcaseFriction?.some(
+                      (frictionItem) => frictionItem.totalFrictionalTorque
+                    )) ||
+                  (calculationResult?.loadcaseFriction?.[0]
+                    .totalFrictionalPowerLoss &&
+                    calculationResult?.loadcaseFriction?.[0]
+                      .totalFrictionalTorque);
                 const updatedCalculationTypes: CalculationParametersCalculationTypes =
                   {
                     ...currentCalculationTypes,

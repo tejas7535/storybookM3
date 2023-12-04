@@ -1,9 +1,12 @@
+/* eslint-disable max-lines */
 import { createSelector } from '@ngrx/store';
 
 import {
+  BearingBehaviour,
   CalculationResultReportInput,
   CalculationType,
-  OverrollingFrequencyKeys,
+  LoadcaseResultItem,
+  lubricationBearingBehaviourItems,
 } from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
@@ -18,6 +21,18 @@ export interface CO2EmissionResult {
   co2_upstream: number;
   co2_downstream?: number;
 }
+
+export const combineLoadcaseResultItemValuesByKey = (
+  resultItems: { [designation: string]: LoadcaseResultItem }[],
+  key: string
+): {
+  value?: string | number;
+  loadcaseName: string;
+}[] =>
+  resultItems.map((item) => ({
+    value: item[key]?.value,
+    loadcaseName: item[key]?.loadcaseName,
+  }));
 
 export const getCO2EmissionReport = createSelector(
   co2UpstreamCalculationResult,
@@ -36,40 +51,32 @@ export const getFrictionalalPowerlossReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
     const result: {
-      value?: number | string;
+      loadcaseValues?: {
+        value?: string | number;
+        loadcaseName: string;
+      }[];
       warning?: string;
       unit: string;
       title: string;
-      short: string;
-    }[] = [
-      {
-        ...calculationResult?.totalFrictionalTorque,
-        short: 'MR',
-        title: 'totalFrictionalTorque',
-      },
-      {
-        ...calculationResult?.totalFrictionalPowerLoss,
-        short: 'NR',
-        title: 'totalFrictionalPowerLoss',
-      },
-      {
-        ...calculationResult?.speedDependentFrictionalTorque,
-        short: 'M0',
-        title: 'speedDependentFrictionalTorque',
-      },
-      {
-        ...calculationResult?.loadDependentFrictionalTorque,
-        short: 'M1',
-        title: 'loadDependentFrictionalTorque',
-      },
-      {
-        ...calculationResult?.thermallySafeOperatingSpeed,
-        short: 'n_theta',
-        title: 'thermallySafeOperatingSpeed',
-      },
-    ];
+      short?: string;
+    }[] =
+      // taking first result for basic structure
+      Object.entries(calculationResult?.loadcaseFriction?.[0] || {}).map(
+        ([key, item]) => ({
+          loadcaseValues: combineLoadcaseResultItemValuesByKey(
+            calculationResult?.loadcaseFriction,
+            key
+          ),
+          warning: item.warning,
+          unit: item.unit,
+          title: item.title,
+          short: item.short,
+        })
+      );
 
-    const resultItems = result.filter((item) => item.value !== undefined);
+    const resultItems = result.filter(
+      (item) => item.loadcaseValues !== undefined
+    );
     if (resultItems.length === 0) {
       // eslint-disable-next-line unicorn/no-null
       return null;
@@ -84,44 +91,35 @@ export const getLubricationReport = createSelector(
   (calculationResult) => {
     const result: {
       value?: number | string;
+      loadcaseValues?: {
+        value?: string | number;
+        loadcaseName: string;
+      }[];
       warning?: string;
       unit: string;
       title: string;
-      short: string;
-    }[] = [
-      {
-        ...calculationResult?.viscosityRatio,
-        short: 'kappa',
-        title: 'viscosityRatio',
-      },
-      {
-        ...calculationResult?.operatingViscosity,
-        short: 'ny',
-        title: 'operatingViscosity',
-      },
-      {
-        ...calculationResult?.referenceViscosity,
-        short: 'ny1',
-        title: 'referenceViscosity',
-      },
-      {
-        ...calculationResult?.lifeAdjustmentFactor,
-        short: 'a_ISO',
-        title: 'lifeAdjustmentFactor',
-      },
-      {
-        ...calculationResult?.lowerGuideInterval,
-        short: 'tfR_min',
-        title: 'lowerGuideInterval',
-      },
-      {
-        ...calculationResult?.upperGuideInterval,
-        short: 'tfR_max',
-        title: 'upperGuideInterval',
-      },
-    ];
+      short?: string;
+    }[] = Object.entries(calculationResult.loadcaseLubrication?.[0] || {})
+      .map(([_key, item]) => ({ ...item }))
+      .map((item) => ({
+        loadcaseValues: combineLoadcaseResultItemValuesByKey(
+          calculationResult.loadcaseLubrication,
+          item.title
+        ),
+        warning: item.warning,
+        unit: item.unit,
+        title: item.title,
+        short: item.short,
+      }));
 
-    return result.filter((item) => item.value !== undefined);
+    return [
+      ...result,
+      ...lubricationBearingBehaviourItems.map(({ key, short }) => ({
+        ...calculationResult?.bearingBehaviour?.[key as keyof BearingBehaviour],
+        short,
+        title: key,
+      })),
+    ].filter((item) => item.value !== undefined);
   }
 );
 
@@ -129,48 +127,51 @@ export const getRatingLifeResultReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
     const result: {
-      value: number | string;
+      value?: number | string;
+      loadcaseValues?: {
+        value?: string | number;
+        loadcaseName: string;
+      }[];
       unit: string;
       title: string;
       short: string;
       warning?: string;
-    }[] = [
-      {
-        ...calculationResult?.lh10,
-        short: 'Lh10',
-        title: 'lh10',
-      },
-      {
-        ...calculationResult?.lh_nm,
-        // warning: 'lh_nm_unavailable', // show warning if result could not be calculated
-        short: 'Lh_nm',
-        title: 'lh_nm',
-      },
-      {
-        ...calculationResult?.p,
-        short: 'P',
-        title: 'p',
-      },
-      {
-        ...calculationResult?.n,
-        short: 'n',
-        title: 'n',
-      },
-      {
-        ...calculationResult?.S0_min,
-        short: 'SO_min',
-        title: 's0_min',
-      },
-      {
-        ...calculationResult?.P0_max,
-        short: 'P0_max',
-        title: 'p0_max',
-      },
-    ];
+    }[] = Object.entries(calculationResult?.bearingBehaviour || {})
+      .filter(
+        ([key, _value]) =>
+          !lubricationBearingBehaviourItems.some((item) => item.key === key)
+      )
+      .map(([key, value]) => ({
+        ...value,
+        short: key,
+        title: key.toLowerCase(),
+      }));
+
+    if (calculationResult?.loadcaseFactorsAndEquivalentLoads) {
+      result.push(
+        ...Object.entries(
+          calculationResult.loadcaseFactorsAndEquivalentLoads?.[0] || {}
+        )
+          .map(([_key, item]) => ({ ...item }))
+          .map((item) => ({
+            loadcaseValues: combineLoadcaseResultItemValuesByKey(
+              calculationResult.loadcaseFactorsAndEquivalentLoads,
+              item.title
+            ),
+            warning: item.warning,
+            unit: item.unit,
+            title: item.title,
+            short: item.short,
+          }))
+      );
+    }
 
     return result.filter(
       (item) =>
-        item.value !== undefined || (item.value === undefined && item.warning)
+        item.value !== undefined ||
+        item.loadcaseValues?.length > 0 ||
+        ((item.value === undefined || item.loadcaseValues?.length < 1) &&
+          item.warning)
     );
   }
 );
@@ -179,25 +180,31 @@ export const getOverrollingFrequencies = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
     const result: {
-      value: number | string;
+      loadcaseValues?: {
+        value?: string | number;
+        loadcaseName: string;
+      }[];
       unit: string;
       title: string;
       short: string;
       warning?: string;
-    }[] = [];
+    }[] = Object.entries(
+      calculationResult?.loadcaseOverrollingFrequencies?.[0] || {}
+    )
+      .map(([_key, item]) => ({ ...item }))
+      .map((item) => ({
+        loadcaseValues: combineLoadcaseResultItemValuesByKey(
+          calculationResult.loadcaseOverrollingFrequencies,
+          item.title
+        ),
+        warning: item.warning,
+        unit: item.unit,
+        title: item.title,
+        short: item.short,
+      }));
 
     if (!calculationResult) {
       return result;
-    }
-    for (const [key, value] of Object.entries(calculationResult)) {
-      if (!OverrollingFrequencyKeys.includes(key)) {
-        continue;
-      }
-      result.push({
-        ...value,
-        short: key,
-        title: key,
-      });
     }
 
     return result.filter(
@@ -333,6 +340,5 @@ export const getSelectedCalculations = createSelector(
 export const pdfReportAvailable = createSelector(
   getSelectedCalculations,
   (selectedCalculations): boolean =>
-    selectedCalculations.filter((calculation) => calculation.selected).length >
-    0
+    selectedCalculations.some((calculation) => calculation.selected)
 );

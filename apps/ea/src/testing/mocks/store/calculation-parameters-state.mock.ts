@@ -51,6 +51,7 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     ambientTemperature: 20,
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
+    selectedLoadcase: 0,
   },
 
   calculationTypes: {

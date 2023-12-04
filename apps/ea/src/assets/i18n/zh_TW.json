@@ -5,9 +5,12 @@
     "poweredBy": "由 {{ name }}提供支援",
     "back": "返回"
   },
-
   "inputs": {
     "pleaseSelect": "請選擇"
+  },
+  "resultValues": {
+    "designation": "Des",
+    "loadcase": "Load case"
   },
   "operationConditions": {
     "title": "{{bearingDesignation}} 軸承的工作條件",
@@ -213,7 +216,9 @@
       "p": "等效動載荷",
       "n": "等效轉速",
       "s0_min": "靜態安全性",
-      "p0_max": "最大等效靜載荷"
+      "p0_max": "最大等效靜載荷",
+      "p0": "每個工況的等效靜載重",
+      "p_i": "每個工況的等效動載重"
     },
     "overrollingFrequencies": {
       "title": "超滾頻率",

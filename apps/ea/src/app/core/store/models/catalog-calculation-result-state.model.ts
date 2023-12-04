@@ -15,62 +15,6 @@ export interface BasicFrequenciesResult {
 }
 
 export interface CatalogCalculationResult {
-  /** Rating Life (nominal) */
-  lh10?: {
-    value: string;
-    unit: string;
-  };
-  /** Modified Rating Life in hours */
-  lh_nm?: {
-    value: string;
-    unit: string;
-  };
-  /** Equivalent Dynamic Load */
-  p?: {
-    value: string;
-    unit: string;
-  };
-  /** Equivalent Speed */
-  n?: {
-    value: string;
-    unit: string;
-  };
-  /** Static Safety */
-  S0_min?: {
-    value: string;
-    unit: string;
-  };
-  /** Maximum Equivalent Static Load */
-  P0_max?: {
-    value: string;
-    unit: string;
-  };
-
-  BPFO?: {
-    value: string;
-    unit: string;
-  };
-
-  BPFI?: {
-    value: string;
-    unit: string;
-  };
-
-  BSF?: {
-    value: string;
-    unit: string;
-  };
-
-  RPFB?: {
-    value: string;
-    unit: string;
-  };
-
-  FTF?: {
-    value: string;
-    unit: string;
-  };
-
   reportInputSuborinates?: {
     inputSubordinates: CalculationResultReportInput[];
   };
@@ -84,61 +28,24 @@ export interface CatalogCalculationResult {
     error: string;
   };
 
-  speedDependentFrictionalTorque?: {
-    // M0 (Speed-dependent frictional torque)
-    value: number;
-    unit: string;
-  };
-  loadDependentFrictionalTorque?: {
-    // M1 (Load-dependent frictional torque)
-    value: number;
-    unit: string;
-  };
-  totalFrictionalTorque?: {
-    // MR (Total frictional torque)
-    value: number;
-    unit: string;
-  };
-  totalFrictionalPowerLoss?: {
-    // NR (Total frictional power loss)
-    value: number;
-    unit: string;
-  };
-  thermallySafeOperatingSpeed?: {
-    // n_theta (Thermally safe operating speed)
-    value: number;
-    unit: string;
-  };
-  operatingViscosity?: {
-    // ny (operating viscosity)
-    value: number;
-    unit: string;
-  };
-  referenceViscosity?: {
-    // ny1 (reference viscosity)
-    value: number;
-    unit: string;
-  };
-  viscosityRatio?: {
-    // kappa (Viscosity ratio)
-    value: number;
-    unit: string;
-  };
-  lifeAdjustmentFactor?: {
-    // a_ISO (Life adjustment factor)
-    value: number;
-    unit: string;
-  };
-  lowerGuideInterval?: {
-    // tfR_min (Lower guide value for relubrication interval)
-    value: string;
-    unit: string;
-  };
-  upperGuideInterval?: {
-    // tfR_max (Upper guide value for relubrication interval)
-    value: string;
-    unit: string;
-  };
+  bearingBehaviour?: BearingBehaviour;
+
+  // P0 and P_i values only for multiple loadcases
+  loadcaseFactorsAndEquivalentLoads?: {
+    [key: string]: LoadcaseNumberResultItem;
+  }[];
+
+  loadcaseOverrollingFrequencies?: {
+    [key: string]: LoadcaseStringResultItem;
+  }[];
+
+  loadcaseLubrication?: {
+    [key: string]: LoadcaseNumberResultItem;
+  }[];
+
+  loadcaseFriction?: {
+    [key: string]: LoadcaseResultItem;
+  }[];
 }
 
 export const OverrollingFrequencyKeys: string[] = [
@@ -149,6 +56,64 @@ export const OverrollingFrequencyKeys: string[] = [
   'RPFB',
 ];
 export const OverrollingPreviewKeys: string[] = ['BPFI', 'BPFO', 'BSF', 'RPFB'];
+
+export const factorsAndEquivalentsKeys: string[] = ['P0', 'P_i'];
+
+export const lubricationBearingBehaviourItems: {
+  key: string;
+  short: string;
+}[] = [
+  {
+    key: 'lowerGuideInterval',
+    short: 'tfR_min',
+  },
+  {
+    key: 'upperGuideInterval',
+    short: 'tfR_max',
+  },
+];
+
+export interface ResultItem {
+  value: string;
+  unit?: string;
+  warning?: string;
+}
+
+export interface LoadcaseResultItem {
+  value: number | string;
+  unit?: string;
+  short?: string;
+  loadcaseName: string;
+  title: string;
+  warning?: string;
+}
+
+export interface LoadcaseStringResultItem extends LoadcaseResultItem {
+  value: string;
+}
+
+export interface LoadcaseNumberResultItem extends LoadcaseResultItem {
+  value: number;
+}
+
+export interface BearingBehaviour {
+  /** Rating Life (nominal) */
+  lh10?: ResultItem;
+  /** Modified Rating Life in hours */
+  lh_nm?: ResultItem;
+  /** Equivalent Dynamic Load */
+  p?: ResultItem;
+  /** Equivalent Speed */
+  n?: ResultItem;
+  /** Static Safety */
+  S0_min?: ResultItem;
+  /** Maximum Equivalent Static Load */
+  P0_max?: ResultItem;
+  // tfR_min (Lower guide value for relubrication interval)
+  lowerGuideInterval?: ResultItem;
+  // tfR_max (Upper guide value for relubrication interval)
+  upperGuideInterval?: ResultItem;
+}
 
 export interface BasicFrequency {
   id: string;

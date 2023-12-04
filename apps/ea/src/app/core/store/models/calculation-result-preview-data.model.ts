@@ -21,6 +21,8 @@ export interface CalculationResultPreviewItem {
    */
   icon?: string;
 
+  loadcaseName?: string;
+
   /**
    * Value(s) to display
    */

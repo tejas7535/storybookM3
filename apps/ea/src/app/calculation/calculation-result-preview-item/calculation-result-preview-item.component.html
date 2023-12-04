@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div
-    class="flex flex-shrink-0 flex-col items-center justify-between md:justify-center disabled-border border-border md:border-0 md:w-auto py-2 md:h-auto h-full disabled-bg-surface md:bg-transparent rounded-lg"
+    class="flex flex-shrink-0 flex-col items-center justify-between md:justify-center disabled-border border-border md:border-0 md:w-auto pt-2 md:h-auto h-full disabled-bg-surface md:bg-transparent rounded-lg"
     [ngClass]="styleClass"
     *ngIf="_item"
   >
@@ -28,7 +28,7 @@
     <div class="flex flex-row">
       <ng-container *ngFor="let value of _item.values; let last = last">
         <div
-          class="flex flex-col md:py-2 px-4"
+          class="flex flex-col md:pt-2 px-4"
           [class.items-center]="isSingleItem"
         >
           <div
@@ -96,6 +96,12 @@
                 </div>
               </div>
             </ng-template>
+          </div>
+          <div
+            class="text-caption text-medium-emphasis py-2"
+            *ngIf="_item.loadcaseName && _item.loadcaseName !== ''"
+          >
+            {{ _item.loadcaseName }}
           </div>
         </div>
         <mat-divider [vertical]="true" *ngIf="!last"></mat-divider>

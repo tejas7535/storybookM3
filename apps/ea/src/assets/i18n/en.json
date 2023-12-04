@@ -8,6 +8,10 @@
   "inputs": {
     "pleaseSelect": "Please select"
   },
+  "resultValues": {
+    "designation": "Des",
+    "loadcase": "Load case"
+  },
   "operationConditions": {
     "title": "Operating conditions for bearing {{bearingDesignation}}",
     "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
@@ -212,7 +216,9 @@
       "p": "Equivalent dynamic load",
       "n": "Equivalent speed",
       "s0_min": "Static safety",
-      "p0_max": "Maximum equivalent static load"
+      "p0_max": "Maximum equivalent static load",
+      "p0": "Equivalent static load per loadcase",
+      "p_i": "Equivalent dynamic load per loadcase"
     },
     "overrollingFrequencies": {
       "title": "Overrolling frequencies",

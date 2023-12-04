@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import { InfoButtonComponent } from '@ea/shared/info-button/info-button.component';
@@ -21,6 +22,7 @@ import { ResultReportLargeItem } from './result-report-large-item';
     MatIconModule,
     InfoButtonComponent,
     MeaningfulRoundPipe,
+    MatDividerModule,
   ],
   providers: [TranslocoDecimalPipe],
   templateUrl: './calculation-result-report-large-items.component.html',

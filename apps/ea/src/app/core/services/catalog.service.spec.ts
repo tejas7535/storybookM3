@@ -4,17 +4,31 @@ import {
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
+import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   CalculationParametersOperationConditions,
+  CatalogCalculationResult,
   ProductCapabilitiesResult,
 } from '../store/models';
+import { BearinxOnlineResult } from './bearinx-result.interface';
 import { CatalogService } from './catalog.service';
-import { CatalogServiceBasicFrequenciesResult } from './catalog.service.interface';
+import {
+  CatalogServiceBasicFrequenciesResult,
+  CatalogServiceLoadCaseData,
+} from './catalog.service.interface';
+import { convertCatalogCalculationResult } from './catalog-helper';
+
+jest.mock('./catalog-helper', () => ({
+  ...jest.requireActual('./catalog-helper'),
+  convertCatalogCalculationResult: jest.fn(
+    () => ({} as CatalogCalculationResult)
+  ),
+}));
 
 describe('CatalogService', () => {
   let catalogService: CatalogService;
@@ -211,5 +225,72 @@ describe('CatalogService', () => {
 
       expect(result).toEqual('LB_ISO_VG_1223');
     });
+  });
+
+  describe('getCalculationResult', () => {
+    it('should call calculate endpoint', waitForAsync(() => {
+      catalogService['getCalculationResultReport'] = jest.fn(() =>
+        of({} as BearinxOnlineResult)
+      );
+
+      const bearing = 'test';
+      const operationConditions =
+        APP_STATE_MOCK.calculationParameters.operationConditions;
+      const loadcaseData: CatalogServiceLoadCaseData[] = [
+        {
+          IDCO_DESIGNATION: '',
+          IDSLC_TIME_PORTION: '60',
+          IDSLC_AXIAL_LOAD: `${operationConditions.loadCaseData?.[0].load?.axialLoad}`,
+          IDSLC_RADIAL_LOAD: '0',
+          IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE: `${operationConditions.loadCaseData?.[0].operatingTemperature}`,
+          IDSLC_TYPE_OF_MOVEMENT: 'LB_ROTATING',
+          IDLC_SPEED: `${operationConditions.loadCaseData?.[0].rotation.rotationalSpeed}`,
+          IDSLC_MOVEMENT_FREQUENCY: '0',
+          IDSLC_OPERATING_ANGLE: `${operationConditions.loadCaseData?.[0].rotation.shiftAngle}`,
+        },
+      ];
+      catalogService['getLoadCasesData'] = jest.fn(() => loadcaseData);
+      const expectedBody = {
+        operatingConditions: {
+          IDL_LUBRICATION_METHOD: 'LB_GREASE_LUBRICATION',
+          IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
+          IDL_CLEANESS_VALUE: operationConditions.contamination,
+          IDSLC_TEMPERATURE: `${operationConditions.ambientTemperature}`,
+          IDL_DEFINITION_OF_VISCOSITY: 'LB_ISO_VG_CLASS',
+          IDL_ISO_VG_CLASS: 'LB_ISO_VG_undefined',
+          IDL_GREASE: 'LB_PLEASE_SELECT',
+          IDL_NY_40: '0',
+          IDL_NY_100: '0',
+          IDL_CONDITION_OF_ROTATION: 'LB_ROTATING_INNERRING',
+
+          IDL_OIL_FLOW: '0',
+          IDL_OIL_TEMPERATURE_DIFFERENCE: `${operationConditions.lubrication.recirculatingOil.oilTemperatureDifference}`,
+          IDL_EXTERNAL_HEAT_FLOW: `${operationConditions.lubrication.recirculatingOil.externalHeatFlow}`,
+        },
+        loadcaseData,
+      };
+
+      catalogService
+        .getCalculationResult(bearing, operationConditions)
+        .subscribe((result) => {
+          expect(result).toBeTruthy();
+          expect(
+            catalogService['getCalculationResultReport']
+          ).toHaveBeenCalledWith('result');
+          expect(convertCatalogCalculationResult).toHaveBeenCalledWith(
+            {} as BearinxOnlineResult,
+            undefined,
+            false
+          );
+          expect(result).toEqual({} as CatalogCalculationResult);
+        });
+      const req = httpMock.expectOne(
+        `${catalogService['baseUrl']}/product/calculate/${bearing}`
+      );
+      expect(req.request.body).toEqual(expectedBody);
+      expect(req.request.method).toBe('POST');
+
+      req.flush('result');
+    }));
   });
 });

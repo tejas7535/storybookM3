@@ -72,6 +72,8 @@ export interface CalculationParametersOperationConditions {
   };
 
   conditionOfRotation: 'innerring' | 'outerring';
+
+  selectedLoadcase: number;
 }
 
 export type CalculationType =

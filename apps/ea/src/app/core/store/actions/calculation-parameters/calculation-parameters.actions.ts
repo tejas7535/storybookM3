@@ -6,6 +6,7 @@ export const operatingParameters = createAction(
   '[Calculation Parameters] Operating Parameters',
   props<{
     operationConditions: Partial<CalculationParametersOperationConditions>;
+    isValid?: boolean;
   }>()
 );
 
@@ -18,4 +19,11 @@ export const setIsInputInvalid = createAction(
 
 export const resetCalculationParameters = createAction(
   '[Calculation Parameters] Reset Operating Parameters'
+);
+
+export const setSelectedLoadcase = createAction(
+  '[Calculation Parameters] Set Selected Loadcase',
+  props<{
+    selectedLoadcase: number;
+  }>()
 );

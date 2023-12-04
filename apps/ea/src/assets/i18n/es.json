@@ -8,6 +8,10 @@
   "inputs": {
     "pleaseSelect": "Seleccione una opción"
   },
+  "resultValues": {
+    "designation": "Den",
+    "loadcase": "Caso de carga"
+  },
   "operationConditions": {
     "title": "Condiciones de funcionamiento para el rodamiento {{bearingDesignation}}",
     "prototypeWarning": "Los valores que se muestran en este prototipo de desarrollo son hipotéticos y no deben usarse en la producción",
@@ -212,7 +216,9 @@
       "p": "Carga dinámica equivalente",
       "n": "Velocidad equivalente",
       "s0_min": "Seguridad estática",
-      "p0_max": "Carga estática equivalente máxima"
+      "p0_max": "Carga estática equivalente máxima",
+      "p0": "Carga estática equivalente por caso de carga",
+      "p_i": "Carga dinámica equivalente por caso de carga"
     },
     "overrollingFrequencies": {
       "title": "Frecuencias de sobrerodadura",

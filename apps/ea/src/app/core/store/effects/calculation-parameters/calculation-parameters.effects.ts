@@ -16,8 +16,10 @@ export class CalculationParametersEffects {
     return this.actions$.pipe(
       ofType(CalculationParametersActions.operatingParameters),
       debounceTime(250),
-      switchMap((_action) =>
-        of(CatalogCalculationResultActions.fetchCalculationResult())
+      switchMap(({ isValid }) =>
+        isValid
+          ? of(CatalogCalculationResultActions.fetchCalculationResult())
+          : []
       )
     );
   });

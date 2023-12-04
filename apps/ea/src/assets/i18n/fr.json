@@ -8,6 +8,10 @@
   "inputs": {
     "pleaseSelect": "Veuillez sélectionner"
   },
+  "resultValues": {
+    "designation": "Désignation",
+    "loadcase": "Cas de charge"
+  },
   "operationConditions": {
     "title": "Conditions de fonctionnement pour le roulement {{bearingDesignation}}",
     "prototypeWarning": "Les valeurs présentées dans ce prototype de développement sont hypothétiques et ne doivent pas être utilisées en production",
@@ -212,7 +216,9 @@
       "p": "Charge dynamique équivalente",
       "n": "Vitesse équivalente",
       "s0_min": "Sécurité statique",
-      "p0_max": "Charge statique équivalente maximale"
+      "p0_max": "Charge statique équivalente maximale",
+      "p0": "Charge statique équivalente par cas de charge",
+      "p_i": "Charge dynamique équivalente par cas de charge"
     },
     "overrollingFrequencies": {
       "title": "Fréquences de passage",

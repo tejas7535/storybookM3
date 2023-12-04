@@ -1,25 +1,51 @@
-/* eslint-disable max-lines */
 import {
+  BearingBehaviour,
   CatalogCalculationResult,
+  LoadcaseStringResultItem,
+  OverrollingFrequencyKeys,
   ProductSelectionTemplate,
   ReportMessage,
 } from '../store/models';
 import {
   extractErrorsWarningsAndNotesFromResult,
   extractSubordinatesFromPath,
+  extractTableFromSubordinate,
   extractValues,
   formatErrorsWarningsAndNotesResult,
   formatReportInputResult,
 } from './bearinx-helper';
+import {
+  BEARING_BEHAVIOUR_ABBREVIATIONS,
+  BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING,
+  BLOCK,
+  FACTORS_AND_EQUIVALENT_LOADS_KEY_MAPPING,
+  FRICTION_ABBREVIATIONS_KEY_MAPPING,
+  LoadcaseValueType,
+  LUBRICATION_ABBREVIATIONS_KEY_MAPPING,
+  OVERROLLING_FREQUENCIES_ABBREVIATIONS,
+  STRING_OUTP_BASIC_FREQUENCIES_FACTOR,
+  STRING_OUTP_BEARING_BEHAVIOUR,
+  STRING_OUTP_FRICTION_AND_THERMALLY_PERMISSABLE_SPEED,
+  STRING_OUTP_INPUT,
+  STRING_OUTP_LOAD_FACTORS_AND_EQUIVALENT_LOADS,
+  STRING_OUTP_LUBRICATION,
+  STRING_OUTP_RESULTS,
+  STRING_OUTP_RESULTS_OF_LOADCASES,
+  STRING_OUTP_ROLLOVER_FREQUENCIES,
+  TABLE,
+  VARIABLE_BLOCK,
+} from './bearinx-result.constant';
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import {
   CatalogServiceTemplateField,
   CatalogServiceTemplateResult,
+  SubordinatePathElement,
 } from './catalog.service.interface';
 
 export const convertCatalogCalculationResult = (
   originalResult: BearinxOnlineResult,
-  calcualtionError: string
+  calcualtionError: string,
+  hasMultipleLoadCases: boolean
 ): CatalogCalculationResult => {
   const result: CatalogCalculationResult = {};
 
@@ -27,18 +53,38 @@ export const convertCatalogCalculationResult = (
 
   extractBearingBehaviour(originalResult, result);
 
-  extractOverrolling(originalResult, result);
+  extractOverrolling(originalResult, result, hasMultipleLoadCases);
 
   extractReportInput(originalResult, result);
 
   extractErrorsWarnings(originalResult, result);
 
-  extractFriction(originalResult, result);
+  extractFriction(originalResult, result, hasMultipleLoadCases);
 
-  extractLubrication(originalResult, result);
+  extractLubrication(originalResult, result, hasMultipleLoadCases);
 
   return result;
 };
+
+function getSubordinatePath(
+  hasMultipleLoadCases: boolean,
+  suffix: SubordinatePathElement[]
+): SubordinatePathElement[] {
+  const basePath = hasMultipleLoadCases
+    ? [
+        {
+          titleID: STRING_OUTP_RESULTS,
+          identifier: BLOCK,
+        },
+        {
+          titleID: STRING_OUTP_RESULTS_OF_LOADCASES,
+          identifier: BLOCK,
+        },
+      ]
+    : [{ titleID: STRING_OUTP_RESULTS, identifier: BLOCK }];
+
+  return [...basePath, ...suffix];
+}
 
 function extractCalculationError(
   calcualtionError: string | undefined,
@@ -60,171 +106,108 @@ function extractBearingBehaviour(
   const bearingBeahiourSubordinate = extractSubordinatesFromPath(
     originalResult,
     [
-      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
-      { titleID: 'STRING_OUTP_BEARING_BEHAVIOUR', identifier: 'variableBlock' },
+      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
+      { titleID: STRING_OUTP_BEARING_BEHAVIOUR, identifier: VARIABLE_BLOCK },
     ]
   );
 
   if (!bearingBeahiourSubordinate) {
+    result.bearingBehaviour = undefined;
+
+    return;
+  }
+  result.bearingBehaviour = {};
+
+  for (const abbreviation of BEARING_BEHAVIOUR_ABBREVIATIONS) {
+    const extractedValue = extractSubordinatesFromPath(
+      bearingBeahiourSubordinate,
+      [{ abbreviation }]
+    );
+    if (extractedValue) {
+      result.bearingBehaviour[
+        BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING.get(
+          abbreviation
+        ) as keyof BearingBehaviour
+      ] = {
+        unit: extractedValue.unit,
+        value: extractedValue.value,
+      };
+    }
+  }
+
+  const loadFactorsSubordinate = extractSubordinatesFromPath(originalResult, [
+    { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
+    { titleID: STRING_OUTP_RESULTS_OF_LOADCASES, identifier: BLOCK },
+    {
+      titleID: STRING_OUTP_LOAD_FACTORS_AND_EQUIVALENT_LOADS,
+      identifier: TABLE,
+    },
+  ]);
+
+  if (!loadFactorsSubordinate) {
     return;
   }
 
-  const ratingLifeSubordinate = extractSubordinatesFromPath(
-    bearingBeahiourSubordinate,
-    [{ abbreviation: 'Lh10' }]
+  extractValues(
+    result as Record<string, LoadcaseStringResultItem>,
+    loadFactorsSubordinate,
+    FACTORS_AND_EQUIVALENT_LOADS_KEY_MAPPING,
+    LoadcaseValueType.FACTORS_AND_EQUIVALENT_LOADS
   );
-  if (ratingLifeSubordinate) {
-    result.lh10 = {
-      unit: ratingLifeSubordinate.unit,
-      value: ratingLifeSubordinate.value,
-    };
-  }
-
-  const modifiedRatingLifeSubordinate = extractSubordinatesFromPath(
-    bearingBeahiourSubordinate,
-    [{ abbreviation: 'Lh_nm' }]
-  );
-  if (modifiedRatingLifeSubordinate) {
-    result.lh_nm = {
-      unit: modifiedRatingLifeSubordinate.unit,
-      value: modifiedRatingLifeSubordinate.value,
-    };
-  }
-
-  const dynamicLoadSubordinate = extractSubordinatesFromPath(
-    bearingBeahiourSubordinate,
-    [{ abbreviation: 'P' }]
-  );
-  if (dynamicLoadSubordinate) {
-    result.p = {
-      unit: dynamicLoadSubordinate.unit,
-      value: dynamicLoadSubordinate.value,
-    };
-  }
-
-  const speedSubordinate = extractSubordinatesFromPath(
-    bearingBeahiourSubordinate,
-    [{ abbreviation: 'n' }]
-  );
-  if (speedSubordinate) {
-    result.n = {
-      unit: speedSubordinate.unit,
-      value: speedSubordinate.value,
-    };
-  }
-
-  const staticSafetySubordinate = extractSubordinatesFromPath(
-    bearingBeahiourSubordinate,
-    [{ abbreviation: 'S0_min' }]
-  );
-  if (staticSafetySubordinate) {
-    result.S0_min = {
-      unit: staticSafetySubordinate.unit,
-      value: staticSafetySubordinate.value,
-    };
-  }
-
-  const maximumStaticLoadSuboardinate = extractSubordinatesFromPath(
-    bearingBeahiourSubordinate,
-    [{ abbreviation: 'P0_max' }]
-  );
-  if (maximumStaticLoadSuboardinate) {
-    result.P0_max = {
-      unit: maximumStaticLoadSuboardinate.unit,
-      value: maximumStaticLoadSuboardinate.value,
-    };
-  }
 }
 
 function extractOverrolling(
   originalResult: BearinxOnlineResult,
-  result: CatalogCalculationResult
+  result: CatalogCalculationResult,
+  hasMultipleLoadCases: boolean
 ): void {
   const basicOverrollingFrequenciesSubordinate = extractSubordinatesFromPath(
     originalResult,
-    [
-      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
+    getSubordinatePath(hasMultipleLoadCases, [
       {
-        titleID: 'STRING_OUTP_ROLLOVER_FREQUENCIES',
-        identifier: 'variableBlock',
+        titleID: STRING_OUTP_ROLLOVER_FREQUENCIES,
+        identifier: hasMultipleLoadCases ? TABLE : VARIABLE_BLOCK,
       },
-    ]
+    ])
   );
 
   if (!basicOverrollingFrequenciesSubordinate) {
     return;
   }
+  if (!hasMultipleLoadCases) {
+    const loadcaseResult: { [key: string]: LoadcaseStringResultItem } = {};
 
-  const overrollingOuterRing = extractSubordinatesFromPath(
-    basicOverrollingFrequenciesSubordinate,
-    [{ abbreviation: 'BPFO' }]
-  );
-  if (overrollingOuterRing) {
-    result.BPFO = {
-      unit: overrollingOuterRing.unit,
-      value: overrollingOuterRing.value,
-    };
-  }
-
-  const overrollingInnerRing = extractSubordinatesFromPath(
-    basicOverrollingFrequenciesSubordinate,
-    [
-      {
-        abbreviation: 'BPFI',
-      },
-    ]
-  );
-  if (overrollingInnerRing) {
-    result.BPFI = {
-      unit: overrollingInnerRing.unit,
-      value: overrollingInnerRing.value,
-    };
-  }
-
-  const overrollingRollingElement = extractSubordinatesFromPath(
-    basicOverrollingFrequenciesSubordinate,
-    [
-      {
-        abbreviation: 'BSF',
-      },
-    ]
-  );
-  if (overrollingRollingElement) {
-    result.BSF = {
-      value: overrollingRollingElement.value,
-      unit: overrollingRollingElement.unit,
-    };
-  }
-
-  const ringPassFrequency = extractSubordinatesFromPath(
-    basicOverrollingFrequenciesSubordinate,
-    [
-      {
-        abbreviation: 'RPFB',
-      },
-    ]
-  );
-  if (ringPassFrequency) {
-    result.RPFB = {
-      value: ringPassFrequency.value,
-      unit: ringPassFrequency.unit,
-    };
-  }
-
-  const rollingElementSetSpeed = extractSubordinatesFromPath(
-    basicOverrollingFrequenciesSubordinate,
-    [
-      {
-        abbreviation: 'FTF',
-      },
-    ]
-  );
-
-  if (rollingElementSetSpeed) {
-    result.FTF = {
-      value: rollingElementSetSpeed.value,
-      unit: rollingElementSetSpeed.unit,
-    };
+    for (const abbreviation of OVERROLLING_FREQUENCIES_ABBREVIATIONS) {
+      const extractedValue = extractSubordinatesFromPath(
+        basicOverrollingFrequenciesSubordinate,
+        [{ abbreviation }]
+      );
+      if (extractedValue) {
+        loadcaseResult[abbreviation] = {
+          unit: extractedValue.unit,
+          value: extractedValue.value,
+          title: abbreviation,
+          loadcaseName: '',
+        };
+      }
+    }
+    result.loadcaseOverrollingFrequencies = [loadcaseResult];
+  } else {
+    result.loadcaseOverrollingFrequencies = extractTableFromSubordinate(
+      basicOverrollingFrequenciesSubordinate
+    ).map((tableRow) =>
+      Object.fromEntries(
+        OverrollingFrequencyKeys.filter((key) => tableRow[key]).map(
+          (overrollingFrequencyKey) => [
+            overrollingFrequencyKey,
+            {
+              ...tableRow[overrollingFrequencyKey],
+              title: overrollingFrequencyKey,
+            },
+          ]
+        )
+      )
+    );
   }
 }
 
@@ -233,7 +216,7 @@ function extractReportInput(
   result: CatalogCalculationResult
 ): void {
   const inputData = extractSubordinatesFromPath(originalResult, [
-    { titleID: 'STRING_OUTP_INPUT', identifier: 'block' },
+    { titleID: STRING_OUTP_INPUT, identifier: BLOCK },
   ]);
 
   if (!inputData) {
@@ -244,7 +227,7 @@ function extractReportInput(
 
   // format basic frequencies
   const basicFrequencies = formattedInputData.find(
-    (item) => item.titleID === 'STRING_OUTP_BASIC_FREQUENCIES_FACTOR'
+    (item) => item.titleID === STRING_OUTP_BASIC_FREQUENCIES_FACTOR
   );
   if (basicFrequencies) {
     basicFrequencies.meaningfulRound = true;
@@ -279,17 +262,17 @@ function extractErrorsWarnings(
 
 function extractFriction(
   originalResult: BearinxOnlineResult,
-  result: CatalogCalculationResult
+  result: CatalogCalculationResult,
+  hasMultipleLoadCases: boolean
 ): void {
   const frictionResultSubordinate = extractSubordinatesFromPath(
     originalResult,
-    [
-      { identifier: 'block', titleID: 'STRING_OUTP_RESULTS' },
+    getSubordinatePath(hasMultipleLoadCases, [
       {
-        identifier: 'variableBlock',
-        titleID: 'STRING_OUTP_FRICTION_AND_THERMALLY_PERMISSABLE_SPEED',
+        identifier: hasMultipleLoadCases ? TABLE : VARIABLE_BLOCK,
+        titleID: STRING_OUTP_FRICTION_AND_THERMALLY_PERMISSABLE_SPEED,
       },
-    ]
+    ])
   );
 
   if (!frictionResultSubordinate) {
@@ -297,59 +280,27 @@ function extractFriction(
   }
 
   extractValues(
-    result as Record<string, { unit: string; value: string }>,
+    result as Record<string, LoadcaseStringResultItem>,
     frictionResultSubordinate,
-    {
-      speedDependentFrictionalTorque: 'M0',
-      loadDependentFrictionalTorque: 'M1',
-      totalFrictionalTorque: 'MR',
-      totalFrictionalPowerLoss: 'NR',
-      thermallySafeOperatingSpeed: 'n_theta',
-    }
+    FRICTION_ABBREVIATIONS_KEY_MAPPING,
+    LoadcaseValueType.FRICTION
   );
-
-  const lowerGuideIntervalSubordinate = extractSubordinatesFromPath(
-    originalResult,
-    [
-      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
-      { titleID: 'STRING_OUTP_BEARING_BEHAVIOUR', identifier: 'variableBlock' },
-      { abbreviation: 'tfR_min' },
-    ]
-  );
-  if (lowerGuideIntervalSubordinate) {
-    result.lowerGuideInterval = {
-      unit: lowerGuideIntervalSubordinate.unit,
-      value: lowerGuideIntervalSubordinate.value,
-    };
-  }
-
-  const upperGuideIntervalSubordinate = extractSubordinatesFromPath(
-    originalResult,
-    [
-      { titleID: 'STRING_OUTP_RESULTS', identifier: 'block' },
-      { titleID: 'STRING_OUTP_BEARING_BEHAVIOUR', identifier: 'variableBlock' },
-      { abbreviation: 'tfR_max' },
-    ]
-  );
-  if (upperGuideIntervalSubordinate) {
-    result.upperGuideInterval = {
-      unit: upperGuideIntervalSubordinate.unit,
-      value: upperGuideIntervalSubordinate.value,
-    };
-  }
 }
 
 function extractLubrication(
   originalResult: BearinxOnlineResult,
-  result: CatalogCalculationResult
+  result: CatalogCalculationResult,
+  hasMultipleLoadCases: boolean
 ): void {
-  const resultSubordinate = extractSubordinatesFromPath(originalResult, [
-    { identifier: 'block', titleID: 'STRING_OUTP_RESULTS' },
-    {
-      identifier: 'variableBlock',
-      titleID: 'STRING_OUTP_LUBRICATION',
-    },
-  ]);
+  const resultSubordinate = extractSubordinatesFromPath(
+    originalResult,
+    getSubordinatePath(hasMultipleLoadCases, [
+      {
+        identifier: hasMultipleLoadCases ? TABLE : VARIABLE_BLOCK,
+        titleID: STRING_OUTP_LUBRICATION,
+      },
+    ])
+  );
 
   if (!resultSubordinate) {
     return;
@@ -362,14 +313,11 @@ function extractLubrication(
    * Life adjustment factor (symbol: a_ISO, no unit)
    */
   extractValues(
-    result as Record<string, { unit: string; value: string }>,
+    result as Record<string, LoadcaseStringResultItem> &
+      CatalogCalculationResult,
     resultSubordinate,
-    {
-      operatingViscosity: 'ny',
-      referenceViscosity: 'ny1',
-      viscosityRatio: 'kappa',
-      lifeAdjustmentFactor: 'a_ISO',
-    }
+    LUBRICATION_ABBREVIATIONS_KEY_MAPPING,
+    LoadcaseValueType.LUBRICATION
   );
 }
 

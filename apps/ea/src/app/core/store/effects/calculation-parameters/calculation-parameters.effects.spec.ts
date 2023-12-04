@@ -32,12 +32,26 @@ describe('Calculation Parameters Effects', () => {
       marbles((m) => {
         action = CalculationParametersActions.operatingParameters({
           operationConditions: {},
+          isValid: true,
         });
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('- 250ms c', {
           c: CatalogCalculationResultActions.fetchCalculationResult(),
         });
+
+        m.expect(effects.operatingParameters$).toBeObservable(expected);
+        m.flush();
+      })());
+
+    it('should not dispatch calculation actions if operating parameters are being set but invalid', () =>
+      marbles((m) => {
+        action = CalculationParametersActions.operatingParameters({
+          operationConditions: {},
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('');
 
         m.expect(effects.operatingParameters$).toBeObservable(expected);
         m.flush();

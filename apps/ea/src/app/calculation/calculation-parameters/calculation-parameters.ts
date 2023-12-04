@@ -51,6 +51,7 @@ import {
   CalculationParametersActions,
   CatalogCalculationResultActions,
 } from '@ea/core/store/actions';
+import { setSelectedLoadcase } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import {
   CalculationParameterGroup,
@@ -388,20 +389,20 @@ export class CalculationParametersComponent
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
       )
       .subscribe((formValue) => {
-        if (this.form.valid) {
-          this.calculationParametersFacade.dispatch(
-            CalculationParametersActions.operatingParameters({
-              ...formValue,
-              operationConditions: this.form.getRawValue().operationConditions,
-            })
-          );
-        } else {
+        this.calculationParametersFacade.dispatch(
+          CalculationParametersActions.operatingParameters({
+            ...formValue,
+            operationConditions: this.form.getRawValue().operationConditions,
+            isValid: this.form.valid,
+          })
+        );
+        this.calculationParametersFacade.dispatch(
+          CalculationParametersActions.setIsInputInvalid({
+            isInputInvalid: this.form.valid,
+          })
+        );
+        if (!this.form.valid) {
           this.resetCatalogCalculationResults();
-          this.calculationParametersFacade.dispatch(
-            CalculationParametersActions.setIsInputInvalid({
-              isInputInvalid: true,
-            })
-          );
         }
       });
   }
@@ -505,6 +506,11 @@ export class CalculationParametersComponent
       .pipe(take(1), filter(Boolean))
       .subscribe(() => {
         this.operationConditionsForm.controls['loadCaseData'].removeAt(index);
+        if (this.isSingleLoadCaseForm) {
+          this.calculationParametersFacade.dispatch(
+            setSelectedLoadcase({ selectedLoadcase: 0 })
+          );
+        }
       });
   }
 
@@ -523,6 +529,12 @@ export class CalculationParametersComponent
 
     this.operationConditionsForm.controls['loadCaseData'].push(
       this.createLoadCaseDataFormGroup(loadCaseName, operatingTemperatureValue)
+    );
+  }
+
+  public onSelectedLoadCaseChange(selectedLoadcase: number): void {
+    this.calculationParametersFacade.dispatch(
+      setSelectedLoadcase({ selectedLoadcase })
     );
   }
 
