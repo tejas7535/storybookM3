@@ -1,4 +1,5 @@
 {
-  "localeSelectLabel": "选择语言",
-  "localeSelectHint": "请选择应用程序的语言"
+  "localeSelectLabel": "选择地区",
+  "localeSelectHint": "影响数字分隔符号和日期格式",
+  "localeSelectTooltip": "德国地区示例：\n日期：22.01.2021，数字：2,893.32\n\n美国地区示例：\n日期：01/22/2021，数字：2,893.32"
 }

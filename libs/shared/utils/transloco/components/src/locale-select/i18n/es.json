@@ -1,4 +1,5 @@
 {
-  "localeSelectLabel": "Seleccione el idioma",
-  "localeSelectHint": "Seleccione el idioma de la solicitud"
+  "localeSelectLabel": "Seleccionar localización",
+  "localeSelectHint": "Influye en los separadores de números y el formato de la fecha",
+  "localeSelectTooltip": "Ejemplo de localización alemana:\nFecha: 22.01.2021, Números: 2.893,32\n\nEjemplo de localización estadounidense:\nFecha: 01/22/2021, Números: 2,893.32"
 }

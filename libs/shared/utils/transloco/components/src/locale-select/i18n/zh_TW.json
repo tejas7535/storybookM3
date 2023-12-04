@@ -1,0 +1,5 @@
+{
+  "localeSelectLabel": "選擇地區",
+  "localeSelectHint": "影響數字分隔符號和日期格式",
+  "localeSelectTooltip": "德國地區範例：\n日期：22.01.2021，數字：2,893.32\n\n美國地區範例：\n日期：01/22/2021，數字：2,893.32"
+}

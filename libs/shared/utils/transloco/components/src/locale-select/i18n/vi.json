@@ -1,0 +1,5 @@
+{
+  "localeSelectLabel": "Chọn địa phương",
+  "localeSelectHint": "Ảnh hưởng đến các ký tự phân cách số và định dạng ngày tháng",
+  "localeSelectTooltip": "Ví dụ địa phương Đức:\nNgày: 22.01.2021, Số: 2.893,32\n\nVí dụ địa phương Mỹ:\nNgày: 01/22/2021, Số: 2,893.32"
+}

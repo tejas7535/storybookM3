@@ -1,4 +1,5 @@
 {
-  "localeSelectLabel": "Sélectionner la langue",
-  "localeSelectHint": "Sélectionnez la langue de l'application"
+  "localeSelectLabel": "Sélectionnez la localisation",
+  "localeSelectHint": "Influence les séparateurs de chiffres et le format de la date",
+  "localeSelectTooltip": "Exemple de localisation allemande :\nDate : 22.01.2021, Chiffres : 2 893,32\n\nExemple de localisation américaine :\nDate : 01/22/2021, Chiffres : 2,893.32"
 }

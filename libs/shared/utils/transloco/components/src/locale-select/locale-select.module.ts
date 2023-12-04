@@ -11,13 +11,19 @@ import { TranslocoService } from '@ngneat/transloco';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import deJson from './i18n/de.json';
-import enJson from './i18n/en.json';
-import esJson from './i18n/es.json';
-import frJson from './i18n/fr.json';
-import jaJson from './i18n/ja.json';
-import ruJson from './i18n/ru.json';
-import zhJson from './i18n/zh.json';
+import deutsch from './i18n/de.json';
+import english from './i18n/en.json';
+import spanish from './i18n/es.json';
+import french from './i18n/fr.json';
+import indoenesianBahasa from './i18n/id.json';
+import italian from './i18n/it.json';
+import japanese from './i18n/ja.json';
+import korean from './i18n/ko.json';
+import russian from './i18n/ru.json';
+import thai from './i18n/th.json';
+import vietnamese from './i18n/vi.json';
+import chineseSimplified from './i18n/zh.json';
+import chineseTraditional from './i18n/zh_TW.json';
 import { LocaleSelectComponent } from './locale-select.component';
 
 @NgModule({
@@ -40,12 +46,18 @@ import { LocaleSelectComponent } from './locale-select.component';
 })
 export class LocaleSelectModule {
   public constructor(private readonly translocoService: TranslocoService) {
-    this.translocoService.setTranslation(deJson, 'de');
-    this.translocoService.setTranslation(enJson, 'en');
-    this.translocoService.setTranslation(esJson, 'es');
-    this.translocoService.setTranslation(frJson, 'fr');
-    this.translocoService.setTranslation(jaJson, 'ja');
-    this.translocoService.setTranslation(ruJson, 'ru');
-    this.translocoService.setTranslation(zhJson, 'zh');
+    this.translocoService.setTranslation(deutsch, 'de');
+    this.translocoService.setTranslation(english, 'en');
+    this.translocoService.setTranslation(spanish, 'es');
+    this.translocoService.setTranslation(french, 'fr');
+    this.translocoService.setTranslation(italian, 'it');
+    this.translocoService.setTranslation(japanese, 'ja');
+    this.translocoService.setTranslation(russian, 'ru');
+    this.translocoService.setTranslation(chineseSimplified, 'zh');
+    this.translocoService.setTranslation(chineseTraditional, 'zh_TW');
+    this.translocoService.setTranslation(indoenesianBahasa, 'id');
+    this.translocoService.setTranslation(korean, 'ko');
+    this.translocoService.setTranslation(thai, 'th');
+    this.translocoService.setTranslation(vietnamese, 'vi');
   }
 }

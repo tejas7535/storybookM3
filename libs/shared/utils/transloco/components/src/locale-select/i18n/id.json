@@ -1,0 +1,5 @@
+{
+  "localeSelectLabel": "Pilih lokalisasi",
+  "localeSelectHint": "Mempengaruhi pemisah angka dan format tanggal",
+  "localeSelectTooltip": "Contoh lokalisasi Jerman:\nTanggal: 22.01.2021, Angka: 2.893,32\n\nContoh lokalisasi AS:\nTanggal: 01/22/2021, Angka: 2,893.32"
+}
