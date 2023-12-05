@@ -101,6 +101,421 @@ Array [
 ]
 `;
 
+exports[`Calculation Result Selector full result getFrictionalPowerlossReport should return frictionalPowerloss 1`] = `
+Array [
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 2.8,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 9,
+      },
+    ],
+    "short": "M0",
+    "title": "speedDependentFrictionalTorque",
+    "unit": "N mm",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 0.6,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 7.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 7.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 7.9,
+      },
+    ],
+    "short": "M1",
+    "title": "loadDependentFrictionalTorque",
+    "unit": "N mm",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 3.4,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 16.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 16.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 16.9,
+      },
+    ],
+    "short": "MR",
+    "title": "totalFrictionalTorque",
+    "unit": "N mm",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 0,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 0,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 0,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 0,
+      },
+    ],
+    "short": "NR",
+    "title": "totalFrictionalPowerLoss",
+    "unit": "kW",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 13000,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 6000,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 6000,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 6000,
+      },
+    ],
+    "short": "n_theta",
+    "title": "thermallySafeOperatingSpeed",
+    "unit": "1/min",
+    "warning": undefined,
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getLubricationReport should return lubrication 1`] = `
+Array [
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 28,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 65.4,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 65.4,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 65.4,
+      },
+    ],
+    "short": "ny",
+    "title": "operatingViscosity",
+    "unit": "mm²/s",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 97.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 45.8,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 45.8,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 45.8,
+      },
+    ],
+    "short": "ny1",
+    "title": "referenceViscosity",
+    "unit": "mm²/s",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 0.29,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 1.43,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 1.43,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 1.43,
+      },
+    ],
+    "short": "kappa",
+    "title": "viscosityRatio",
+    "unit": undefined,
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 0.53,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 2.77,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 2.77,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 2.77,
+      },
+    ],
+    "short": "a_ISO",
+    "title": "lifeAdjustmentFactor",
+    "unit": undefined,
+    "warning": undefined,
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getOverrollingFrequencies should return overrollingFrequencies 1`] = `
+Array [
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": "18.5926",
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": "46.4816",
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": "46.4816",
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": "46.4816",
+      },
+    ],
+    "short": "BPFI",
+    "title": "BPFI",
+    "unit": "1/s",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": "11.4074",
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": "28.5184",
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": "28.5184",
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": "28.5184",
+      },
+    ],
+    "short": "BPFO",
+    "title": "BPFO",
+    "unit": "1/s",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": "6.1871",
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": "15.4676",
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": "15.4676",
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": "15.4676",
+      },
+    ],
+    "short": "BSF",
+    "title": "BSF",
+    "unit": "1/s",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": "1.2675",
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": "3.1687",
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": "3.1687",
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": "3.1687",
+      },
+    ],
+    "short": "FTF",
+    "title": "FTF",
+    "unit": "1/s",
+    "warning": undefined,
+  },
+]
+`;
+
+exports[`Calculation Result Selector full result getRatingLifeResultReport should return ratingLife 1`] = `
+Array [
+  Object {
+    "short": "lh10",
+    "title": "lh10",
+    "unit": "h",
+    "value": "152277",
+  },
+  Object {
+    "short": "lh_nm",
+    "title": "lh_nm",
+    "unit": "h",
+    "value": "415307",
+  },
+  Object {
+    "short": "p",
+    "title": "p",
+    "unit": "N",
+    "value": "1028.71",
+  },
+  Object {
+    "short": "n",
+    "title": "n",
+    "unit": "1/min",
+    "value": "270.0",
+  },
+  Object {
+    "short": "S0_min",
+    "title": "s0_min",
+    "value": "2.844",
+  },
+  Object {
+    "short": "P0_max",
+    "title": "p0_max",
+    "unit": "N",
+    "value": "1125.00",
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 200,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 1125,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 1125,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 1125,
+      },
+    ],
+    "short": "P0",
+    "title": "p0",
+    "unit": "N",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 200,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 1250,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 1250,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 1250,
+      },
+    ],
+    "short": "P_i",
+    "title": "p_i",
+    "unit": "N",
+    "warning": undefined,
+  },
+]
+`;
+
 exports[`Calculation Result Selector full result getReportMessages should return report messages 1`] = `
 Array [
   Object {

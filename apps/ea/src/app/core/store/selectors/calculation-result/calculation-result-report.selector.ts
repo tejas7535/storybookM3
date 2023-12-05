@@ -2,13 +2,15 @@
 import { createSelector } from '@ngrx/store';
 
 import {
-  BearingBehaviour,
   CalculationResultReportInput,
   CalculationType,
   LoadcaseResultItem,
   lubricationBearingBehaviourItems,
 } from '../../models';
-import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
+import {
+  CalculationResultReportCalculationTypeSelection,
+  LoadcaseResultCombinedItem,
+} from '../../models/calculation-result-report.model';
 import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
 import {
@@ -50,16 +52,7 @@ export const isEmissionResultAvailable = createSelector(
 export const getFrictionalalPowerlossReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
-    const result: {
-      loadcaseValues?: {
-        value?: string | number;
-        loadcaseName: string;
-      }[];
-      warning?: string;
-      unit: string;
-      title: string;
-      short?: string;
-    }[] =
+    const result: LoadcaseResultCombinedItem[] =
       // taking first result for basic structure
       Object.entries(calculationResult?.loadcaseFriction?.[0] || {}).map(
         ([key, item]) => ({
@@ -89,17 +82,9 @@ export const getFrictionalalPowerlossReport = createSelector(
 export const getLubricationReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
-    const result: {
-      value?: number | string;
-      loadcaseValues?: {
-        value?: string | number;
-        loadcaseName: string;
-      }[];
-      warning?: string;
-      unit: string;
-      title: string;
-      short?: string;
-    }[] = Object.entries(calculationResult.loadcaseLubrication?.[0] || {})
+    const result: LoadcaseResultCombinedItem[] = Object.entries(
+      calculationResult.loadcaseLubrication?.[0] || {}
+    )
       .map(([_key, item]) => ({ ...item }))
       .map((item) => ({
         loadcaseValues: combineLoadcaseResultItemValuesByKey(
@@ -112,31 +97,18 @@ export const getLubricationReport = createSelector(
         short: item.short,
       }));
 
-    return [
-      ...result,
-      ...lubricationBearingBehaviourItems.map(({ key, short }) => ({
-        ...calculationResult?.bearingBehaviour?.[key as keyof BearingBehaviour],
-        short,
-        title: key,
-      })),
-    ].filter((item) => item.value !== undefined);
+    const res = result.filter((item) => item.loadcaseValues?.length > 0);
+
+    return res;
   }
 );
 
 export const getRatingLifeResultReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
-    const result: {
-      value?: number | string;
-      loadcaseValues?: {
-        value?: string | number;
-        loadcaseName: string;
-      }[];
-      unit: string;
-      title: string;
-      short: string;
-      warning?: string;
-    }[] = Object.entries(calculationResult?.bearingBehaviour || {})
+    const result: LoadcaseResultCombinedItem[] = Object.entries(
+      calculationResult?.bearingBehaviour || {}
+    )
       .filter(
         ([key, _value]) =>
           !lubricationBearingBehaviourItems.some((item) => item.key === key)
@@ -179,16 +151,7 @@ export const getRatingLifeResultReport = createSelector(
 export const getOverrollingFrequencies = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
-    const result: {
-      loadcaseValues?: {
-        value?: string | number;
-        loadcaseName: string;
-      }[];
-      unit: string;
-      title: string;
-      short: string;
-      warning?: string;
-    }[] = Object.entries(
+    const result: LoadcaseResultCombinedItem[] = Object.entries(
       calculationResult?.loadcaseOverrollingFrequencies?.[0] || {}
     )
       .map(([_key, item]) => ({ ...item }))

@@ -8,6 +8,10 @@ import {
   combineLoadcaseResultItemValuesByKey,
   getCalculationsWithResult,
   getCO2EmissionReport,
+  getFrictionalalPowerlossReport,
+  getLubricationReport,
+  getOverrollingFrequencies,
+  getRatingLifeResultReport,
   getReportMessages,
   getResultInput,
   getSelectedCalculations,
@@ -169,6 +173,58 @@ describe('Calculation Result Selector', () => {
       it('should return the selected calculations', () => {
         expect(
           getSelectedCalculations({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getFrictionalPowerlossReport', () => {
+      it('should return frictionalPowerloss', () => {
+        expect(
+          getFrictionalalPowerlossReport({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getLubricationReport', () => {
+      it('should return lubrication', () => {
+        expect(
+          getLubricationReport({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getRatingLifeResultReport', () => {
+      it('should return ratingLife', () => {
+        expect(
+          getRatingLifeResultReport({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getOverrollingFrequencies', () => {
+      it('should return overrollingFrequencies', () => {
+        expect(
+          getOverrollingFrequencies({
             ...mockState,
             catalogCalculationResult: {
               ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
