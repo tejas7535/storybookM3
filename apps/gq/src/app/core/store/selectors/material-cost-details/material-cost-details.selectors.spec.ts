@@ -78,6 +78,24 @@ describe('Material Cost Details Selectors', () => {
         )
       ).toBeFalsy();
     });
+    test('should return false if cost details empty', () => {
+      expect(
+        materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
+          {
+            gpc: undefined,
+            gpcDate: undefined,
+            sqvDate: undefined,
+            sqv: undefined,
+          },
+          {
+            gpcDate: undefined,
+            sqvDate: undefined,
+            gpc: undefined,
+            sqv: undefined,
+          } as QuotationDetail
+        )
+      ).toBeFalsy();
+    });
 
     test('should return true if selected detail not fully defined', () => {
       expect(
@@ -85,7 +103,7 @@ describe('Material Cost Details Selectors', () => {
           fakeState.materialCostDetails.materialCostDetails,
           undefined as unknown as QuotationDetail
         )
-      ).toBeTruthy();
+      ).toBeFalsy();
     });
 
     test('should return true if gpc value differs', () => {

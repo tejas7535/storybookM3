@@ -26,12 +26,30 @@ export const getMaterialCostUpdateAvl = createSelector(
   (
     materialCostDetails: MaterialCostDetails,
     selectedQuotationDetail: QuotationDetail
-  ): boolean =>
-    materialCostDetails &&
-    (materialCostDetails.gpcDate !== selectedQuotationDetail?.gpcDate ||
-      roundValue(
-        materialCostDetails.gpc,
-        getPriceUnit(selectedQuotationDetail)
-      ) !== selectedQuotationDetail?.gpc || // for GPC the year might be the same but the value could differ -> value is rounded
-      materialCostDetails.sqvDate !== selectedQuotationDetail?.sqvDate)
+  ): boolean => {
+    if (!selectedQuotationDetail || !materialCostDetails) {
+      return false;
+    }
+
+    const roundedMaterialCostGpc = materialCostDetails?.gpc
+      ? roundValue(
+          materialCostDetails.gpc,
+          getPriceUnit(selectedQuotationDetail)
+        )
+      : undefined;
+    const isGpcDifferent =
+      roundedMaterialCostGpc !== selectedQuotationDetail?.gpc;
+
+    const isGpcDateDifferent =
+      materialCostDetails?.gpcDate !== selectedQuotationDetail?.gpcDate;
+
+    const sqvDateDifferent =
+      materialCostDetails?.sqvDate !== selectedQuotationDetail?.sqvDate;
+
+    return (
+      isGpcDateDifferent ||
+      isGpcDifferent || // for GPC the year might be the same but the value could differ -> value is rounded
+      sqvDateDifferent
+    );
+  }
 );
