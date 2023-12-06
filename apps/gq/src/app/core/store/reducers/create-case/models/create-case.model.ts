@@ -6,4 +6,5 @@ export class CreateCase {
     salesOrg: string;
   };
   materialQuantities: MaterialQuantities[];
+  purchaseOrderTypeId?: string;
 }

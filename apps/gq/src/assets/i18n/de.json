@@ -605,5 +605,9 @@
         "amountOfDelta": "{{amount}} Deltas"
       }
     }
+  },
+  "purchaseOrderType": {
+    "label": "Bestellart",
+    "emptyValue": "Kein Eintrag"
   }
 }

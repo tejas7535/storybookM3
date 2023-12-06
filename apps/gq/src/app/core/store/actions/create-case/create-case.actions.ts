@@ -1,9 +1,8 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
-import { AutocompleteSearch } from '@gq/shared/models/search';
-import { IdValue } from '@gq/shared/models/search';
-import { MaterialTableItem } from '@gq/shared/models/table';
-import { MaterialValidation } from '@gq/shared/models/table';
+import { PurchaseOrderType } from '@gq/shared/models';
+import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
+import { MaterialTableItem, MaterialValidation } from '@gq/shared/models/table';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { createAction, props, union } from '@ngrx/store';
 
@@ -191,6 +190,11 @@ export const resetAutocompleteMaterials = createAction(
   '[Create Case] Reset all autocomplete material options'
 );
 
+export const selectPurchaseOrderType = createAction(
+  '[Create Case] Select Purchase Order Type',
+  props<{ purchaseOrderType: PurchaseOrderType }>()
+);
+
 const all = union({
   addRowDataItems,
   duplicateRowDataItem,
@@ -213,6 +217,7 @@ const all = union({
   getSalesOrgsSuccess,
   getSalesOrgsFailure,
   selectSalesOrg,
+  selectPurchaseOrderType,
 });
 
 export type createCaseActions = typeof all;

@@ -1,5 +1,6 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { PurchaseOrderType } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
 import {
   MaterialTableItem,
@@ -38,6 +39,7 @@ import {
   resetProductLineAndSeries,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
+  selectPurchaseOrderType,
   selectSalesOrg,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
@@ -51,9 +53,12 @@ import {
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { SalesIndication } from '../transactions/models/sales-indication.enum';
-import { CreateCaseResponse, SalesOrg } from './models';
-import { CaseFilterItem } from './models/case-filter-item.model';
-import { PLsAndSeries } from './models/pls-and-series.model';
+import {
+  CaseFilterItem,
+  CreateCaseResponse,
+  PLsAndSeries,
+  SalesOrg,
+} from './models';
 /* eslint-disable max-lines */
 export interface CreateCaseState {
   autocompleteLoading: string;
@@ -76,6 +81,7 @@ export interface CreateCaseState {
     };
     historicalDataLimitInYear: number;
   };
+  purchaseOrderType: PurchaseOrderType;
   createdCase: CreateCaseResponse;
   createCaseLoading: boolean;
   errorMessage: string;
@@ -128,6 +134,7 @@ export const initialState: CreateCaseState = {
     },
     historicalDataLimitInYear: undefined,
   },
+  purchaseOrderType: undefined,
   createdCase: undefined,
   createCaseLoading: false,
   errorMessage: undefined,
@@ -409,6 +416,7 @@ export const createCaseReducer = createReducer(
       autocompleteItems: initialState.autocompleteItems,
       customer: initialState.customer,
       rowData: initialState.rowData,
+      purchaseOrderType: initialState.purchaseOrderType,
     })
   ),
   on(
@@ -490,6 +498,13 @@ export const createCaseReducer = createReducer(
           ),
       };
     }
+  ),
+  on(
+    selectPurchaseOrderType,
+    (state: CreateCaseState, { purchaseOrderType }): CreateCaseState => ({
+      ...state,
+      purchaseOrderType,
+    })
   ),
   on(
     clearCustomer,

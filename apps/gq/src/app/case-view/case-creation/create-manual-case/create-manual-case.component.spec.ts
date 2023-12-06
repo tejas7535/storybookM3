@@ -9,6 +9,7 @@ import {
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { PurchaseOrderTypeFacade } from '@gq/core/store/purchase-order-type/purchase-order-type.facade';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -37,6 +38,7 @@ describe('CreateManualCaseComponent', () => {
     imports: [provideTranslocoTestingModule({}), PushModule],
     providers: [
       MockProvider(AutoCompleteFacade),
+      MockProvider(PurchaseOrderTypeFacade),
       provideMockStore({
         initialState: {
           case: {
@@ -104,6 +106,21 @@ describe('CreateManualCaseComponent', () => {
         EVENT_NAMES.CASE_CREATION_CANCELLED,
         { type: CASE_CREATION_TYPES.MANUAL } as CaseCreationEventParams
       );
+    });
+  });
+
+  describe('purchaseOrderTypeChanged', () => {
+    test('should call selectPurchaseOrderTypeForCaseCreation', () => {
+      component[
+        'purchaseOrderTypeFacade'
+      ].selectPurchaseOrderTypeForCaseCreation = jest.fn();
+      const purchaseOrderType = { id: 'test', name: 'test' };
+      component.purchaseOrderTypeChanged(purchaseOrderType);
+
+      expect(
+        component['purchaseOrderTypeFacade']
+          .selectPurchaseOrderTypeForCaseCreation
+      ).toHaveBeenCalledWith(purchaseOrderType);
     });
   });
 

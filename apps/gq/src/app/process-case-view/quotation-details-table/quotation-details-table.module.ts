@@ -20,6 +20,7 @@ import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-mo
 import { EditingMaterialModalComponent } from '@gq/shared/components/modal/editing-material-modal/editing-material-modal.component';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { StatusBarModalModule } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.module';
+import { PurchaseOrderTypeSelectComponent } from '@gq/shared/components/purchase-order-type-select/purchase-order-type-select.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -65,6 +66,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     EditingModalModule,
+    PurchaseOrderTypeSelectComponent,
   ],
   exports: [QuotationDetailsTableComponent],
 })

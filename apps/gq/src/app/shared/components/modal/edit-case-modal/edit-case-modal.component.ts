@@ -44,19 +44,19 @@ import { FilterNames } from '../../autocomplete-input/filter-names.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCaseModalComponent implements OnInit, OnDestroy {
-  private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
+  readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
   NAME_MAX_LENGTH = 20;
 
   options: IdValue[] = [];
 
-  public caseModalForm: UntypedFormGroup;
-  public poDateLessThanToday: boolean;
-  public salesOrg: string;
-  public filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
+  caseModalForm: UntypedFormGroup;
+  poDateLessThanToday: boolean;
+  salesOrg: string;
+  filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
 
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
 
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
   private readonly now: Date = new Date(Date.now());
   // eslint-disable-next-line @typescript-eslint/prefer-readonly
   private today: Date = new Date(this.now.setHours(0, 0, 0, 0));
@@ -139,6 +139,8 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         },
         [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
       ),
+      // TODO: insert with GQUOTE-3316
+      // purchaseOrderType: new FormControl(),
     });
 
     this.subscribeToChanges();
@@ -253,6 +255,8 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
             salesOrg: this.salesOrg,
           } as ShipToParty)
         : undefined,
+      // insert when implementation is to be made with GQUOTE-3316
+      // purchaseOrderType: this.caseModalForm.controls.purchaseOrderType.value,
     };
     this.dialogRef.close(returnUpdateQuotationRequest);
   }

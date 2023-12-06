@@ -19,6 +19,7 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
     materialSelection: { includeQuotationHistory: false, salesIndications: [] },
     historicalDataLimitInYear: 2,
   },
+  purchaseOrderType: undefined,
   createdCase: undefined,
   createCaseLoading: false,
   errorMessage: undefined,

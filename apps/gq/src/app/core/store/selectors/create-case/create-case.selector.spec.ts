@@ -53,6 +53,7 @@ describe('Create Case Selector', () => {
           },
         },
       ],
+      purchaseOrderType: { type: 'ZOR', name: 'ZOR_name' },
     } as unknown as CreateCaseState,
   };
 
@@ -335,6 +336,16 @@ describe('Create Case Selector', () => {
       expect(
         createSelectors.getCreateCustomerCasePayload.projector(mockState)
       ).toEqual(expected);
+    });
+  });
+
+  describe('getSelectedPurchaseOrderTypeFromCreateCase', () => {
+    test('should return purchaseOrderType', () => {
+      expect(
+        createSelectors.getSelectedPurchaseOrderTypeFromCreateCase.projector(
+          fakeState.case
+        )
+      ).toEqual(fakeState.case.purchaseOrderType);
     });
   });
 });

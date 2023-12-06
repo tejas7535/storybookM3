@@ -1,10 +1,11 @@
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
-import { AutocompleteSearch } from '@gq/shared/models/search';
-import { IdValue } from '@gq/shared/models/search';
-import { MaterialTableItem } from '@gq/shared/models/table';
-import { MaterialValidation } from '@gq/shared/models/table';
-import { ValidationDescription } from '@gq/shared/models/table';
+import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  ValidationDescription,
+} from '@gq/shared/models/table';
 import { Action } from '@ngrx/store';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
@@ -37,6 +38,7 @@ import {
   resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
+  selectPurchaseOrderType,
   selectSalesOrg,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
@@ -913,6 +915,20 @@ describe('Create Case Reducer', () => {
       expect(state.rowData).toEqual(rowDataExpected);
     });
   });
+
+  describe('selectPurchaseOrderType', () => {
+    test('should set the purchaseOrderType', () => {
+      const action = selectPurchaseOrderType({
+        purchaseOrderType: { id: 'ZOR', name: 'ZOR Name' },
+      });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.purchaseOrderType).toEqual({
+        id: 'ZOR',
+        name: 'ZOR Name',
+      });
+    });
+  });
+
   describe('clearCustomer', () => {
     test('should clearCustomer', () => {
       const action = clearCustomer();

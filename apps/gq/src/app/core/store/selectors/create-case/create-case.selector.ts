@@ -1,8 +1,8 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { PurchaseOrderType } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
-import { MaterialQuantities } from '@gq/shared/models/table';
-import { MaterialTableItem } from '@gq/shared/models/table';
+import { MaterialQuantities, MaterialTableItem } from '@gq/shared/models/table';
 import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
 import { TableService } from '@gq/shared/services/table/table.service';
 import { createSelector } from '@ngrx/store';
@@ -151,6 +151,7 @@ export const getCreateCaseData = createSelector(
   (state: CreateCaseState): CreateCase => {
     const { customerId, salesOrgs } = state.customer;
     const salesOrg = salesOrgs.find((org) => org.selected)?.id;
+    const purchaseOrderType = state.purchaseOrderType;
 
     const materialQuantities: MaterialQuantities[] =
       TableService.createMaterialQuantitiesFromTableItems(state.rowData, 0);
@@ -161,6 +162,7 @@ export const getCreateCaseData = createSelector(
         customerId,
         salesOrg,
       },
+      purchaseOrderTypeId: purchaseOrderType.id,
     };
   }
 );
@@ -245,4 +247,9 @@ export const getCreateCustomerCasePayload = createSelector(
       .map((el) => el.value),
     historicalDataLimitInYear: state.plSeries.historicalDataLimitInYear,
   })
+);
+
+export const getSelectedPurchaseOrderTypeFromCreateCase = createSelector(
+  getCaseState,
+  (state: CreateCaseState): PurchaseOrderType => state.purchaseOrderType
 );

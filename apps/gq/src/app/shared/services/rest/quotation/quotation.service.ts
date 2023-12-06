@@ -11,7 +11,7 @@ import {
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { QuotationSearchResult } from '@gq/shared/models/quotation';
 
-import { ApiVersion, Quotation } from '../../../models';
+import { ApiVersion, PurchaseOrderType, Quotation } from '../../../models';
 import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
 import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { GetQuotationsResponse } from './models/get-quotations-response.interface';
@@ -184,6 +184,12 @@ export class QuotationService {
       {
         params: httpParams,
       }
+    );
+  }
+
+  public getPurchaseOrderTypes(): Observable<PurchaseOrderType[]> {
+    return this.http.get<PurchaseOrderType[]>(
+      `${ApiVersion.V1}/${QuotationPaths.PURCHASE_ORDER_TYPES}`
     );
   }
 }

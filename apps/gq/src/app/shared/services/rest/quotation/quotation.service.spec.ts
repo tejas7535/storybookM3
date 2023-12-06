@@ -275,4 +275,17 @@ describe('QuotationService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
+
+  describe('getPurchaseOrderTypes', () => {
+    test('should call the service', () => {
+      service
+        .getPurchaseOrderTypes()
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PURCHASE_ORDER_TYPES}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
 });

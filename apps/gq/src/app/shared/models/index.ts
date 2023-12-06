@@ -5,6 +5,7 @@ export * from './duration.model';
 export * from './environment.enum';
 export * from './keyboard.enum';
 export * from './language.model';
+export * from './purchase-order-type.interface';
 export * from './query-params.model';
 export * from './quotation/quotation.model';
 export * from './quotation/quotation-attachment.model';
