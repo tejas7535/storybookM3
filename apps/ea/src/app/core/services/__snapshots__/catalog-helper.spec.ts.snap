@@ -12,30 +12,35 @@ Object {
     Object {
       "BPFI": Object {
         "loadcaseName": "",
+        "short": "BPFI",
         "title": "BPFI",
         "unit": "1/s",
         "value": "123.45",
       },
       "BPFO": Object {
         "loadcaseName": "",
+        "short": "BPFO",
         "title": "BPFO",
         "unit": "1/s",
         "value": "123.45",
       },
       "BSF": Object {
         "loadcaseName": "",
+        "short": "BSF",
         "title": "BSF",
         "unit": "1/s",
         "value": "123.45",
       },
       "FTF": Object {
         "loadcaseName": "",
+        "short": "FTF",
         "title": "FTF",
         "unit": "1/s",
         "value": "123.45",
       },
       "RPFB": Object {
         "loadcaseName": "",
+        "short": "RPFB",
         "title": "RPFB",
         "unit": "1/s",
         "value": "123.45",

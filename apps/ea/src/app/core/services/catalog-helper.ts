@@ -187,6 +187,7 @@ function extractOverrolling(
           unit: extractedValue.unit,
           value: extractedValue.value,
           title: abbreviation,
+          short: abbreviation,
           loadcaseName: '',
         };
       }
