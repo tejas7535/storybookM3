@@ -88,7 +88,7 @@
         "tooltip": "Refresh costs",
         "confirmDialogTitle": "Refresh costs?",
         "confirmDialogMessage": "Do you really want to refresh the costs?",
-        "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> und <b>GQ-Price</b>.",
+        "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> and <b>GQ-Price</b>.",
         "confirmButton": "Confirm",
         "cancelButton": "Cancel"
       },
@@ -113,7 +113,12 @@
       "rfqPlant": "Production Plant",
       "rfqSqv": "SQV (RFQ)",
       "updateRfqData": {
-        "tooltip": "Refresh RFQ Information"
+        "tooltip": "Refresh RFQ Information",
+        "confirmDialogTitle": "Refresh RFQ Information?",
+        "confirmDialogMessage": "Do you really want to refresh the RFQ information? ",
+        "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> and <b>GQ-Price</b> as well potentially to an adjustment of the Production & Cost tile due to a change of the production plant.",
+        "confirmButton": "Confirm",
+        "cancelButton": "Cancel"
       },
       "rfqDataUpToDate": "RFQ information up to date"
     },

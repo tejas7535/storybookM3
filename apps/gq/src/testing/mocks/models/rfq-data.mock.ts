@@ -9,6 +9,7 @@ export const RFQ_DATA_MOCK: RfqData = {
   materialNumber15: '009547-15-00',
   productionPlantNumber: '123',
   rfqId: '8512-12',
+  gqPositionId: '123',
   sqv: 34.12,
   status: RfqStatus.OPEN,
   type: RfqType.TYPE_2,

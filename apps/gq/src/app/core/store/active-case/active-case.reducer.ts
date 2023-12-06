@@ -36,6 +36,7 @@ export interface ActiveCaseState {
   selectedQuotationDetails: string[];
   removeQuotationDetailsIds: string[];
   updateCostsLoading: boolean;
+  updateRfqInformationLoading: boolean;
   attachmentsUploading: boolean;
   attachmentsGetting: boolean;
   attachments: QuotationAttachment[];
@@ -59,6 +60,7 @@ export const initialState: ActiveCaseState = {
   selectedQuotationDetails: [],
   removeQuotationDetailsIds: [],
   updateCostsLoading: false,
+  updateRfqInformationLoading: false,
   attachmentsUploading: false,
   attachmentsGetting: false,
   attachmentErrorMessage: undefined,
@@ -467,6 +469,29 @@ export const activeCaseFeature = createFeature({
         ...state,
         quotationLoadingErrorMessage: errorMessage,
         updateCostsLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateRFQInformation,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        updateRfqInformationLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateRFQInformationSuccess,
+      (state: ActiveCaseState, { updatedQuotation }): ActiveCaseState => ({
+        ...state,
+        quotation: { ...updatedQuotation },
+        updateRfqInformationLoading: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.updateRFQInformationFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationLoadingErrorMessage: errorMessage,
+        updateRfqInformationLoading: false,
       })
     ),
     on(

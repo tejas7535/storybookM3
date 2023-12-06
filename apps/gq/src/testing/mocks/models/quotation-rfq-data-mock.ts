@@ -5,6 +5,7 @@ import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
 
 export const QUOTATION_RFQ_DATA_MOCK: QuotationRfqData = {
   rfqId: 'rfq-1245',
+  gqPositionId: '123',
   materialNumber15: '123456789',
   productionPlant: {
     address: 'RfqAddress',

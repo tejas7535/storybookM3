@@ -401,6 +401,7 @@
         "failed": "Failed to save the item selection in SAP"
       },
       "costsUpdated": "Costs updated successfully",
+      "rfqInformationUpdated": "RFQ Information updated successfully",
       "attachmentsUploaded": "Attachments uploaded successfully",
       "attachmentsDeleted": "Attachment deleted"
     },

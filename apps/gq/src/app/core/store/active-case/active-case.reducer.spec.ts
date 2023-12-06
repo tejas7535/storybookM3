@@ -754,6 +754,34 @@ describe('Active Case Reducer', () => {
     });
   });
 
+  describe('updateRfqInformation', () => {
+    test('should set updateRfqInformationLoading to true', () => {
+      const action = ActiveCaseActions.updateRFQInformation({
+        gqPosId: '1234',
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.updateRfqInformationLoading).toEqual(true);
+    });
+    test('should set updateRfqInformationLoading to false', () => {
+      const action = ActiveCaseActions.updateRFQInformationSuccess({
+        updatedQuotation: QUOTATION_MOCK,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.updateRfqInformationLoading).toEqual(false);
+    });
+    test('should set updateRfqInformationLoading and set errorMessage', () => {
+      const action = ActiveCaseActions.updateRFQInformationFailure({
+        errorMessage,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.updateRfqInformationLoading).toEqual(false);
+      expect(state.quotationLoadingErrorMessage).toEqual(errorMessage);
+    });
+  });
+
   describe('uploadAttachments', () => {
     test('should set attachmentsUploading to true', () => {
       const action = ActiveCaseActions.uploadAttachments({ files: [] });

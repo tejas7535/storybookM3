@@ -4,6 +4,7 @@ import { RfqType } from './rfq-type.enum';
 
 export interface QuotationRfqData {
   rfqId: string;
+  gqPositionId: string;
   materialNumber15: string;
   sqv: number;
   productionPlant: Plant;

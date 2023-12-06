@@ -113,7 +113,12 @@
       "rfqPlant": "Produktionswerk",
       "rfqSqv": "SAW (RFQ)",
       "updateRfqData": {
-        "tooltip": "RFQ Information aktualisieren"
+        "tooltip": "RFQ Information aktualisieren",
+        "confirmDialogTitle": "RFQ Information aktualisieren?",
+        "confirmDialogMessage": "Möchten Sie die RFQ Informationen aktualisieren?",
+        "confirmDialogWarning": "Dies führt zu einer Neuberechnung von <b>KHK, SAW </b> und <b>GQ-Preis</b> sowie möglicherweise zu einer Anpassung der Kachel Produktion und Kosten durch Änderung des Produktionswerks.",
+        "confirmButton": "Bestätigen",
+        "cancelButton": "Abbrechen"
       },
       "rfqDataUpToDate": "RFQ Information aktuell"
     },

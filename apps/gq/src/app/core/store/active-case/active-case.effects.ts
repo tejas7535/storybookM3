@@ -539,6 +539,39 @@ export class ActiveCaseEffects {
       )
     );
   });
+  updateRfqInformation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.updateRFQInformation),
+      concatMap(
+        (action: ReturnType<typeof ActiveCaseActions.updateRFQInformation>) =>
+          this.quotationDetailsService
+            .updateRfqInformation(action.gqPosId)
+            .pipe(
+              tap((item: Quotation) =>
+                addCalculationsForDetails(item.quotationDetails)
+              ),
+              tap(() => {
+                const successMessage = translate(
+                  'shared.snackBarMessages.rfqInformationUpdated'
+                );
+                this.snackBar.open(successMessage);
+              }),
+              map((updatedQuotation: Quotation) =>
+                ActiveCaseActions.updateRFQInformationSuccess({
+                  updatedQuotation,
+                })
+              ),
+              catchError((errorMessage) =>
+                of(
+                  ActiveCaseActions.updateRFQInformationFailure({
+                    errorMessage,
+                  })
+                )
+              )
+            )
+      )
+    );
+  });
   uploadAttachments$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.uploadAttachments),

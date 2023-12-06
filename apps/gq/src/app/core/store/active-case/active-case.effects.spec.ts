@@ -1292,6 +1292,51 @@ describe('ActiveCaseEffects', () => {
     });
   });
 
+  describe('uploadRfqInformation$', () => {
+    test(
+      'should return updateRfqInformationSuccess when REST call is successful',
+      marbles((m) => {
+        action = ActiveCaseActions.updateRFQInformation({ gqPosId: '123' });
+        quotationDetailsService.updateRfqInformation = jest.fn(() => response);
+        snackBar.open = jest.fn();
+
+        const quotation = QUOTATION_MOCK;
+        const result = ActiveCaseActions.updateRFQInformationSuccess({
+          updatedQuotation: quotation,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: quotation });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.updateRfqInformation$).toBeObservable(expected);
+        m.flush();
+        expect(
+          quotationDetailsService.updateRfqInformation
+        ).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test('should return updateRfqInformationFailure on REST error', () => {
+      action = ActiveCaseActions.updateRFQInformation({ gqPosId: '123' });
+      quotationDetailsService.updateRfqInformation = jest.fn(() => response);
+      const result = ActiveCaseActions.updateRFQInformationFailure({
+        errorMessage,
+      });
+
+      actions$ = of(action);
+      const response = throwError(() => new Error(errorMessage));
+
+      effects.updateRfqInformation$.subscribe((res) => {
+        expect(res).toEqual(result);
+      });
+      expect(
+        quotationDetailsService.updateRfqInformation
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('uploadAttachments', () => {
     test(
       'should return uploadAttachmentsSuccess when REST call is successful',

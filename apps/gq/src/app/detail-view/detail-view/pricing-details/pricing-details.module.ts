@@ -27,6 +27,7 @@ import { RelocationCostDetailsComponent } from './relocation-cost-details/reloca
 import { RfqPositionDetailsComponent } from './rfq-position-details/rfq-position-details.component';
 import { StockAvailabilityDetailsComponent } from './stock-availability-details/stock-availability-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
+import { UpdateRfqPositionDetailsComponent } from './rfq-position-details/update-rfq-position-details/update-rfq-position-details.component';
 @NgModule({
   declarations: [
     PricingDetailsComponent,
@@ -38,6 +39,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     LastCustomerPriceInformationDetailsComponent,
     UpdateCostsConfirmModalComponent,
     RfqPositionDetailsComponent,
+    UpdateRfqPositionDetailsComponent,
   ],
   imports: [
     CommonModule,

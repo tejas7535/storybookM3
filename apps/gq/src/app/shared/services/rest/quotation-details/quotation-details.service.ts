@@ -144,4 +144,11 @@ export class QuotationDetailsService {
       {}
     );
   }
+
+  updateRfqInformation(gqPositionId: string): Observable<Quotation> {
+    return this.http.put<Quotation>(
+      `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_RFQ_DATA}`,
+      {}
+    );
+  }
 }

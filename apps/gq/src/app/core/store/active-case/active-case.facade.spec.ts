@@ -97,6 +97,39 @@ describe('ActiveCaseFacade', () => {
     );
   });
 
+  describe('rfqInformationUpdating$', () => {
+    test(
+      'should select update rfq information loading',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          activeCaseFeature.selectUpdateRfqInformationLoading,
+          true
+        );
+        m.expect(facade.rfqInformationUpdating$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('updateRfqInformationSuccess$', () => {
+    test(
+      'should dispatch update rfq information success',
+      marbles((m) => {
+        const action = ActiveCaseActions.updateRFQInformationSuccess({} as any);
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.updateRfqInformationSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+  });
+
   describe('attachmentsUploading$', () => {
     test(
       'should select attachments uploading',

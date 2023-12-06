@@ -43,6 +43,14 @@ export class ActiveCaseFacade {
     ofType(ActiveCaseActions.updateCostsSuccess)
   );
 
+  rfqInformationUpdating$ = this.store.select(
+    activeCaseFeature.selectUpdateRfqInformationLoading
+  );
+
+  updateRfqInformationSuccess$: Observable<void> = this.actions$.pipe(
+    ofType(ActiveCaseActions.updateRFQInformationSuccess)
+  );
+
   attachmentsUploading$ = this.store.select(
     activeCaseFeature.selectAttachmentsUploading
   );
@@ -90,6 +98,10 @@ export class ActiveCaseFacade {
 
   updateCosts(gqPosId: string): void {
     this.store.dispatch(ActiveCaseActions.updateCosts({ gqPosId }));
+  }
+
+  updateRfqInformation(gqPosId: string): void {
+    this.store.dispatch(ActiveCaseActions.updateRFQInformation({ gqPosId }));
   }
 
   uploadAttachments(files: File[]) {

@@ -401,6 +401,7 @@
         "failed": "Update in SAP fehlgeschlagen"
       },
       "costsUpdated": "Kosten erfolgreich aktualisiert",
+      "rfqInformationUpdated": "RFQ Information erfolgreich aktualisiert",
       "attachmentsUploaded": "Anhänge erfolgreich hochgeladen",
       "attachmentsDeleted": "Anhang gelöscht"
     },

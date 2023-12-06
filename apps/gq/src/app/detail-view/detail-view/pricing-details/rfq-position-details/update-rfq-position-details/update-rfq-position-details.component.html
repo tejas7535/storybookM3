@@ -1,0 +1,42 @@
+<ng-container
+  *transloco="
+    let t;
+    read: 'detailView.pricingDetails.rfqPositionDetails.updateRfqData'
+  "
+>
+  <gq-dialog-header
+    [title]="t('confirmDialogTitle')"
+    (closeDialog)="closeDialog()"
+  >
+  </gq-dialog-header>
+
+  <ng-container *ngIf="!(rfqInformationUpdating$ | ngrxPush); else loading">
+    <div class="py-4">
+      <p
+        class="text-body-2 text-medium-emphasis"
+        [innerHTML]="t('confirmDialogMessage')"
+      ></p>
+      <p
+        class="text-body-2 text-medium-emphasis"
+        [innerHTML]="t('confirmDialogWarning')"
+      ></p>
+    </div>
+
+    <div class="flex w-full gap-4">
+      <button mat-raised-button color="primary" (click)="confirm()">
+        {{ t('confirmButton') }}
+      </button>
+      <button mat-stroked-button (click)="closeDialog()" color="primary">
+        {{ t('cancelButton') }}
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="py-3">
+      <schaeffler-loading-spinner
+        class="h-full"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  </ng-template>
+</ng-container>

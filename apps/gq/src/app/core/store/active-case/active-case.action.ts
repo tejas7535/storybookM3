@@ -118,6 +118,10 @@ export const ActiveCaseActions = createActionGroup({
     'Update Costs Success': props<{ updatedQuotation: Quotation }>(),
     'Update Costs Failure': props<{ errorMessage: string }>(),
 
+    'Update RFQ Information': props<{ gqPosId: string }>(),
+    'Update RFQ Information Success': props<{ updatedQuotation: Quotation }>(),
+    'Update RFQ Information Failure': props<{ errorMessage: string }>(),
+
     'Upload Attachments': props<{ files: File[] }>(),
     'Upload Attachments Success': props<{
       attachments: QuotationAttachment[];

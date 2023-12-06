@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateRfqPositionDetailsComponent } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/update-rfq-position-details/update-rfq-position-details.component';
+import { RfqModalData } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/models/rfq-modal-data.model';
 
 @Component({
   selector: 'gq-rfq-position-details',
@@ -12,5 +20,15 @@ export class RfqPositionDetailsComponent {
   @Input() currency: string;
   @Input() rfqDataUpdateAvl: boolean;
 
-  updateRfqData(): void {}
+  private readonly matDialog = inject(MatDialog);
+
+  updateRfqData(): void {
+    this.matDialog.open(UpdateRfqPositionDetailsComponent, {
+      width: '550px',
+      autoFocus: false,
+      data: {
+        gqPositionId: this.rfqData.gqPositionId,
+      } as RfqModalData,
+    });
+  }
 }
