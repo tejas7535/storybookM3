@@ -162,7 +162,7 @@ export const getCreateCaseData = createSelector(
         customerId,
         salesOrg,
       },
-      purchaseOrderTypeId: purchaseOrderType.id,
+      purchaseOrderTypeId: purchaseOrderType?.id,
     };
   }
 );
