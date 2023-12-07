@@ -124,11 +124,22 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
           .map((value) => Math.max(value || 0, 0))
           // create sum of all scope values
           .reduce((sum, value) => sum + value);
+        const max = values.value
+          // replace negative and unfilled values with MAX
+          .map((value) => Math.min(value || 0, Number.MAX_VALUE))
+          // create sum of all scope values
+          .reduce((sum, value) => sum + value);
 
         // return error if total value is less than sum of scopes
-        return current < min
-          ? { scopeTotalLowerThanSingleScopes: { min, current } }
-          : undefined;
+        if (current < min) {
+          return { scopeTotalLowerThanSingleScopes: { min, current } };
+        }
+        // return error if total value is more than sum of all 3 scopes (all 3 need to be filled out)
+        if (current > max) {
+          return { scopeTotalHigherThanSingleScopes: { max, current } };
+        }
+
+        return undefined;
       }
 
       return undefined;

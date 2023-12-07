@@ -73,6 +73,11 @@ export const getErrorMessage = (errors: { [key: string]: any }): string => {
       min: errors.scopeTotalLowerThanSingleScopes.min,
     });
   }
+  if (errors.scopeTotalHigherThanSingleScopes) {
+    return getTranslatedError('co2TooHighShort', {
+      max: errors.scopeTotalHigherThanSingleScopes.max,
+    });
+  }
   if (errors.invalidBusinessPartnerId) {
     return getTranslatedError('invalidBusinessPartnerId');
   }

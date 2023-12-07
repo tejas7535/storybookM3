@@ -72,8 +72,9 @@
         class="text-caption"
         *ngIf="co2TotalControl.invalid"
         [matTooltip]="
-          co2TotalControl.errors?.scopeTotalLowerThanSingleScopes
-            ? t('error.co2TooLow')
+          co2TotalControl.errors?.scopeTotalLowerThanSingleScopes ||
+          co2TotalControl.errors?.scopeTotalHigherThanSingleScopes
+            ? t('error.co2Scopes')
             : ''
         "
       >

@@ -217,15 +217,17 @@ describe('Co2ComponentComponent', () => {
   describe('scopeTotalValidatorFn', () => {
     const mockScope1 = new FormControl<number>(undefined);
     const mockScope2 = new FormControl<number>(undefined);
+    const mockScope3 = new FormControl<number>(undefined);
     const testControl = new FormControl<number>(undefined);
     const rand = (max: number) => (Math.random() * 1000) % max;
     let validator: ValidatorFn;
     beforeEach(() => {
       validator = component['scopeTotalValidatorFn'](
-        new FormArray([mockScope1, mockScope2])
+        new FormArray([mockScope1, mockScope2, mockScope3])
       );
       mockScope1.reset();
       mockScope2.reset();
+      mockScope3.reset();
       testControl.reset();
     });
     it('should return undefined without value', () => {
@@ -280,6 +282,19 @@ describe('Co2ComponentComponent', () => {
       testControl.setValue(current);
       expect(validator(testControl)).toEqual({
         scopeTotalLowerThanSingleScopes: { min: scope1 + scope2, current },
+      });
+    });
+    it('should return error with to high total value', () => {
+      const scope1 = 1;
+      const scope2 = 2;
+      const scope3 = 3;
+      const current = scope1 + scope2 + scope3 + 1;
+      mockScope1.setValue(scope1);
+      mockScope2.setValue(scope2);
+      mockScope3.setValue(scope3);
+      testControl.setValue(current);
+      expect(validator(testControl)).toEqual({
+        scopeTotalHigherThanSingleScopes: { max: current - 1, current },
       });
     });
   });

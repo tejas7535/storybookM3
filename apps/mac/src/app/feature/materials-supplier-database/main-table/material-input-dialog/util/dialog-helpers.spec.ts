@@ -196,11 +196,17 @@ describe('Dialog Helpers', () => {
       expect(result).toEqual('min1234');
     });
 
-    it('should give error message with co2', () => {
+    it('should give error message with co2 to low', () => {
       const result = getErrorMessage({
         scopeTotalLowerThanSingleScopes: { min: 6, current: 12 },
       });
       expect(result).toEqual('co2TooLowShort6');
+    });
+    it('should give error message with co2 to high', () => {
+      const result = getErrorMessage({
+        scopeTotalHigherThanSingleScopes: { max: 12, current: 6 },
+      });
+      expect(result).toEqual('co2TooHighShort12');
     });
     it('should give error message with generic', () => {
       const result = getErrorMessage({ nothing: true });
