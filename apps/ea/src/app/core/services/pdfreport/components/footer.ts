@@ -6,12 +6,14 @@ import { resetFont } from '../util';
 export const generateFooter = (
   doc: jsPDF,
   page: number,
+  totalPages: number,
   settings: DocumentData,
   props = DefaultComponentRenderProps
 ): number => {
+  resetFont(doc);
   doc.setFontSize(props.dimensions.disclaimerFontSize);
   const blockMargin = props.dimensions.blockSpacing;
-  const pageText = `Page ${page}`;
+  const pageText = `${settings.page} ${page}/${totalPages}`;
   const pageCounterWidth = doc.getStringUnitWidth(pageText) * doc.getFontSize();
   const disclaimerWidth =
     doc.internal.pageSize.getWidth() -

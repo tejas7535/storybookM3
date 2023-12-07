@@ -11,6 +11,7 @@ export interface DocumentData {
   calculationMethodsHeading: string;
   co2disclaimer: string;
   noticeHeading: string;
+  page: string;
 }
 
 export interface GeneratedDocument {
@@ -93,5 +94,5 @@ export interface ResultReport {
   lubricationInfo?: ResultBlock<ResultReportLargeItem[]>;
   overrollingFrequency?: ResultBlock<ResultReportLargeItem[]>;
   ratingLife?: ResultBlock<ResultReportLargeItem[]>;
-  notices: CalculationResultReportMessage[];
+  notices: ResultBlock<CalculationResultReportMessage[]>;
 }

@@ -1,61 +1,69 @@
 import jsPDF from 'jspdf';
 
-import { DefaultComponentRenderProps, DocumentData } from '../data';
 import { getRealLineHeight, resetFont } from '../util';
+import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
 export const renderCalculationMethods = (
   doc: jsPDF,
-  methods: string[],
-  yPosition: number,
-  docSettings: DocumentData,
-  props = DefaultComponentRenderProps
-): number => {
-  const calculations = methods;
+  block: LayoutBlock<string[]>
+) => {
+  const calculations = block.data;
   const verticalPadding = 8;
   const horizontalPadding = 17;
   const blockMargin = 8;
+  const pageMargin = block.constraints.pageMargin;
 
-  let xCursor = props.dimensions.pageMargin;
-  let yPos = yPosition;
-  resetFont(doc);
-  doc.setFontSize(11);
-  doc.text(
-    docSettings.calculationMethodsHeading,
-    xCursor,
-    yPos + doc.getFontSize() / 4
-  );
-  yPos += getRealLineHeight(doc) + props.dimensions.blockSpacing / 3;
+  let xCursor = block.constraints.pageMargin;
+  let yPos = block.yStart;
 
+  if (!block.dryRun) {
+    resetFont(doc);
+    doc.setFontSize(11);
+    const lineHeight = doc.getLineHeight();
+    doc.text([`${block.heading || 'Error'}`], xCursor, yPos + lineHeight);
+    yPos += getRealLineHeight(doc) + blockMargin / 3;
+  }
   doc.setFontSize(9);
+  const rectHeight = doc.getFontSize() + verticalPadding;
+  const methodLineHeight = doc.getLineHeight();
   for (const item of calculations) {
     const anticipatedWidth = doc.getStringUnitWidth(item) * doc.getFontSize();
     const containerWidth = anticipatedWidth + horizontalPadding;
-    const rectHeight = doc.getFontSize() + verticalPadding;
     if (
       xCursor + containerWidth >
-      doc.internal.pageSize.getWidth() - props.dimensions.pageMargin
+      doc.internal.pageSize.getWidth() - pageMargin
     ) {
       xCursor = 21;
       yPos += rectHeight + blockMargin;
     }
 
     const x = xCursor;
-    doc.roundedRect(
-      x,
-      yPos,
-      containerWidth,
-      rectHeight,
-      rectHeight / 2,
-      rectHeight
-    );
-    doc.text(
-      item,
-      x + horizontalPadding / 2,
-      yPos + rectHeight / 2 + doc.getFontSize() / 4
-    );
+    if (!block.dryRun) {
+      doc.roundedRect(
+        x,
+        yPos + methodLineHeight,
+        containerWidth,
+        rectHeight,
+        rectHeight / 2,
+        rectHeight
+      );
+      doc.text(
+        item,
+        x + horizontalPadding / 2,
+        yPos + rectHeight / 2 + methodLineHeight * doc.getLineHeightFactor()
+      );
+    }
     xCursor += anticipatedWidth + horizontalPadding + blockMargin;
   }
   resetFont(doc);
 
-  return yPos - yPosition + verticalPadding + doc.getFontSize();
+  const ret: LayoutEvaluationResult<typeof block.data>[] = [
+    {
+      canFit: true,
+      verticalShift: yPos + rectHeight + verticalPadding + doc.getFontSize(),
+      data: block.data,
+    },
+  ];
+
+  return ret;
 };

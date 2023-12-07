@@ -3,7 +3,6 @@ import jsPDF from 'jspdf';
 
 import {
   DefaultComponentRenderProps,
-  DocumentData,
   ResultBlock,
   ResultTableAttributes,
 } from '../data';
@@ -14,6 +13,7 @@ import {
   resetFont,
 } from '../util';
 import { renderChip } from './chip';
+import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
 const DefaultUpstreamResultOptions: ResultTableAttributes = {
   headerSpacing: { top: 8, bottom: 8, left: 8, right: 8 },
@@ -23,79 +23,111 @@ const DefaultUpstreamResultOptions: ResultTableAttributes = {
   divierSpacing: { left: 9, right: 9, top: 10, bottom: 10 },
 };
 
-export const renderUpstreamResult = (
+export const renderUpstream = (
   doc: jsPDF,
-  result: ResultBlock<ResultReportLargeItem>,
-  startX: number,
-  startY: number,
-  docSettings: DocumentData,
-  props = DefaultComponentRenderProps,
-  options = DefaultUpstreamResultOptions
-): number => {
-  const chipMarginBottom = 12;
-  const blockMargin = 12;
+  block: LayoutBlock<ResultBlock<ResultReportLargeItem>>
+): LayoutEvaluationResult<ResultBlock<ResultReportLargeItem>>[] => {
+  const options = DefaultUpstreamResultOptions;
+  const style = DefaultComponentRenderProps;
   const width = getRealPageWidth(doc);
   const imageSize = 16;
+  const y = block.yStart;
+  const blockMargin = 12;
   const headerDivierY =
-    startY +
-    imageSize +
-    options.headerSpacing.top +
-    options.headerSpacing.bottom;
-
-  let y = startY;
-  doc.setFont(props.fonts.family, props.fonts.style.bold);
+    y + imageSize + options.headerSpacing.top + options.headerSpacing.bottom;
+  const startX = block.constraints.pageMargin;
+  const headerHeight = headerDivierY - y;
+  doc.setFont(style.fonts.family, style.fonts.style.bold);
   doc.setFontSize(10);
-  doc.addImage(
-    result.icon,
-    'png',
-    startX + options.headerSpacing.left,
-    startY + options.headerSpacing.top,
-    imageSize,
-    imageSize
-  );
-  doc.text(
-    result.header,
-    startX + imageSize + 8 + options.headerSpacing.left,
-    startY + 1.5 * getRealLineHeight(doc) + imageSize / 2
-  );
-  doc.setDrawColor(props.colors.tableBorderTextColor);
-  doc.line(
-    props.dimensions.pageMargin,
-    headerDivierY,
-    props.dimensions.pageMargin + width,
-    headerDivierY
-  );
-  y = headerDivierY + options.cellPadding.top;
-  const canvasX = startX + options.cellPadding.left;
-  y =
-    y +
-    chipMarginBottom +
-    blockMargin +
-    renderChip(doc, result.data.short, canvasX, y, {
-      background: props.colors.chipColor,
-      text: props.colors.chipTextColor,
-    });
+  if (!block.dryRun) {
+    doc.addImage(
+      block.data.icon,
+      'png',
+      startX + options.headerSpacing.left,
+      y + options.headerSpacing.top,
+      imageSize,
+      imageSize
+    );
+    doc.text(
+      block.data.header,
+      startX + imageSize + 8 + options.headerSpacing.left,
+      y + 1.5 * getRealLineHeight(doc) + imageSize / 2
+    );
 
-  doc.setFontSize(14);
-  doc.setFont(props.fonts.family, props.fonts.style.bold);
-  const [valueWidth, valueHeight] = estimateTextDimensions(
+    doc.setDrawColor(style.colors.tableBorderTextColor);
+    doc.line(
+      style.dimensions.pageMargin,
+      headerDivierY,
+      style.dimensions.pageMargin + width,
+      headerDivierY
+    );
+  }
+
+  let bodyHeight = options.cellPadding.top + options.cellPadding.bottom;
+
+  const [_valueWidth, valueHeight] = estimateTextDimensions(
     doc,
-    `${result.data.value}`,
+    `${block.data.data.value}`,
     { fontSize: 14 }
   );
-  doc.text(`${result.data.value}`, canvasX, y);
-  resetFont(doc);
-  doc.text(result.data.unit, canvasX + valueWidth + 6, y);
-  y += valueHeight + blockMargin;
-  doc.text(result.data.title, canvasX, y);
+  bodyHeight += valueHeight;
 
-  y += getRealLineHeight(doc) + blockMargin;
-  doc.text(docSettings.co2disclaimer, canvasX, y);
-  y += getRealLineHeight(doc) + blockMargin + options.cellPadding.bottom;
+  const [_tw, titleHeight] = estimateTextDimensions(
+    doc,
+    `${block.data.data.title}`,
+    { fontSize: doc.getFontSize() }
+  );
+  const [_dw, disclaimerHeight] = estimateTextDimensions(
+    doc,
+    `${block.data.data.title}`,
+    { fontSize: doc.getFontSize() }
+  ); // TODO change to the right value
 
-  doc.setDrawColor(props.colors.tableBorderTextColor);
+  const chipHeight = renderChip(
+    doc,
+    block.data.data.short,
+    startX + options.cellPadding.left,
+    headerDivierY + options.cellPadding.top,
+    {
+      background: style.colors.chipColor,
+      text: style.colors.chipTextColor,
+    },
+    block.dryRun
+  );
 
-  doc.roundedRect(startX, startY, width, y - startY, 6, 6, 'S');
+  bodyHeight +=
+    valueHeight + titleHeight + disclaimerHeight + chipHeight + 4 * blockMargin;
 
-  return y - startY;
+  const blockHeight = headerHeight + bodyHeight;
+  if (!block.dryRun) {
+    let printY = headerDivierY + chipHeight + 3 * blockMargin;
+    const canvasX = startX + options.cellPadding.left;
+    doc.setFontSize(14);
+    const valueDimen = doc.getTextDimensions(`${block.data.data.value}`).w;
+    doc.setFont(style.fonts.family, style.fonts.style.bold);
+    doc.text(`${block.data.data.value}`, canvasX, printY);
+    resetFont(doc);
+    doc.text(`${block.data.data.unit}`, canvasX + valueDimen + 4, printY);
+    printY += valueHeight + blockMargin;
+    doc.text(`${block.data.data.title}`, canvasX, printY);
+    printY += titleHeight + blockMargin;
+    doc.text(`${block.blockProps.disclaimer}`, canvasX, printY);
+    resetFont(doc);
+    doc.setDrawColor(style.colors.tableBorderTextColor);
+    doc.roundedRect(startX, y, width, blockHeight, 6, 6, 'S');
+  }
+
+  const ret: LayoutEvaluationResult<ResultBlock<ResultReportLargeItem>> =
+    blockHeight <= block.maxHeight
+      ? {
+          canFit: true,
+          verticalShift: block.yStart + headerHeight + bodyHeight,
+          data: block.data,
+        }
+      : {
+          canFit: false,
+          data: block.data,
+        };
+
+  return [ret];
 };

@@ -4,10 +4,11 @@ import jsPDF from 'jspdf';
 
 import {
   DefaultComponentRenderProps,
-  DocumentData,
+  ResultBlock,
   ResultTableAttributes,
 } from '../data';
 import { estimateTextDimensions, getRealLineHeight, resetFont } from '../util';
+import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
 const RenderNoticesDefaultOptions: ResultTableAttributes = {
   headerSpacing: { top: 8, bottom: 8, left: 8, right: 8 },
@@ -19,40 +20,37 @@ const RenderNoticesDefaultOptions: ResultTableAttributes = {
 
 export const renderNotices = (
   doc: jsPDF,
-  notices: CalculationResultReportMessage[],
-  startY: number,
-  dryRun: boolean = false,
-  docSettings: DocumentData,
-  props = DefaultComponentRenderProps,
-  options = RenderNoticesDefaultOptions
-): number => {
+  block: LayoutBlock<ResultBlock<CalculationResultReportMessage[]>>
+) => {
+  const props = DefaultComponentRenderProps;
+  const options = RenderNoticesDefaultOptions;
   const width =
     doc.internal.pageSize.getWidth() - 2 * props.dimensions.pageMargin;
   const innerWidth =
     width - options.cellPadding.left - options.cellPadding.right;
   const imageSize = 16;
   const headerDivierY =
-    startY +
+    block.yStart +
     imageSize +
     options.headerSpacing.top +
     options.headerSpacing.bottom;
-  let y = startY;
+  let y = block.yStart;
 
-  if (!dryRun) {
+  if (!block.dryRun) {
     doc.setFont(props.fonts.family, props.fonts.style.bold);
     doc.setFontSize(10);
     doc.addImage(
       WarningIcon,
       'png',
       props.dimensions.pageMargin + options.headerSpacing.left,
-      startY + options.headerSpacing.top,
+      block.yStart + options.headerSpacing.top,
       imageSize,
       imageSize
     );
     doc.text(
-      docSettings.noticeHeading,
+      block.data.header,
       props.dimensions.pageMargin + imageSize + 8 + options.headerSpacing.left,
-      startY + 1.5 * getRealLineHeight(doc) + imageSize / 2
+      block.yStart + 1.5 * getRealLineHeight(doc) + imageSize / 2
     );
     doc.line(
       props.dimensions.pageMargin,
@@ -82,8 +80,7 @@ export const renderNotices = (
 
     return result;
   };
-
-  const flattened = flattenNotices(notices);
+  const flattened = flattenNotices(block.data.data);
   const lines = flattened.flatMap((item) => {
     const dimensions = estimateTextDimensions(doc, item, {
       fontSize: doc.getFontSize(),
@@ -106,14 +103,14 @@ export const renderNotices = (
 
   const borderHeight =
     headerDivierY -
-    startY +
+    block.yStart +
     2 * options.cellPadding.top +
     totalHeight +
     options.cellPadding.bottom;
-  if (!dryRun) {
+  if (!block.dryRun) {
     doc.roundedRect(
       props.dimensions.pageMargin,
-      startY,
+      block.yStart,
       width,
       borderHeight,
       6,
@@ -121,6 +118,14 @@ export const renderNotices = (
     );
     doc.text(lines, props.dimensions.pageMargin + options.cellPadding.left, y);
   }
+  const r: LayoutEvaluationResult<typeof block.data> =
+    borderHeight <= block.maxHeight
+      ? {
+          canFit: true,
+          verticalShift: block.yStart + borderHeight,
+          data: block.data,
+        }
+      : { canFit: false, data: block.data };
 
-  return borderHeight;
+  return [r];
 };

@@ -147,7 +147,6 @@ function extractBearingBehaviour(
   if (!loadFactorsSubordinate) {
     return;
   }
-
   extractValues(
     result as Record<string, LoadcaseStringResultItem>,
     loadFactorsSubordinate,

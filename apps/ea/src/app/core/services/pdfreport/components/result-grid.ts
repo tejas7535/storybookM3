@@ -3,16 +3,14 @@ import jsPDF from 'jspdf';
 
 import {
   DefaultComponentRenderProps,
+  DefaultDocumentColors,
+  DocumentFonts,
   ResultBlock,
   ResultTableAttributes,
 } from '../data';
-import {
-  estimateTextDimensions,
-  getRealLineHeight,
-  getRealPageWidth,
-  resetFont,
-} from '../util';
+import { getRealLineHeight, resetFont, resetFontStyle } from '../util';
 import { renderChip } from './chip';
+import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
 const DefaultResultGridOptions: ResultTableAttributes = {
   headerSpacing: { top: 8, bottom: 8, left: 8, right: 8 },
@@ -22,161 +20,296 @@ const DefaultResultGridOptions: ResultTableAttributes = {
   divierSpacing: { left: 9, right: 9, top: 10, bottom: 10 },
 };
 
-export const renderResultGrid = (
+const getLoadcaseValueWidth = (
   doc: jsPDF,
-  data: ResultBlock<ResultReportLargeItem[]>,
+  loadcase: ResultReportLargeItem['loadcaseValues'][0],
+  unit?: string
+) => {
+  const unitWidth = unit ? doc.getTextDimensions(`${unit}`).w : 0;
+  const valueWidth = doc.getTextDimensions(`${loadcase.value}`, {
+    fontSize: 12,
+  }).w;
+  const nameWidth = doc.getTextDimensions(loadcase.loadcaseName).w;
+
+  return Math.max(valueWidth + unitWidth + 4, nameWidth);
+};
+
+const singleLoadcaseRender = (
+  doc: jsPDF,
+  data: ResultReportLargeItem,
   startX: number,
   startY: number,
-  props = DefaultComponentRenderProps,
-  options = DefaultResultGridOptions
-): number => {
-  const width = getRealPageWidth(doc);
+  _width: number,
+  dryRun = false
+): [number, number] => {
+  const cellY = startY + DefaultResultGridOptions.cellPadding.top;
+  const cellX = startX + DefaultResultGridOptions.cellPadding.left;
+  let counterY = cellY;
+  const chipHeight = renderChip(
+    doc,
+    data.short,
+    cellX,
+    cellY,
+    {
+      background: DefaultDocumentColors.chipColor,
+      text: DefaultDocumentColors.chipTextColor,
+    },
+    dryRun
+  );
+  counterY += chipHeight + 6;
+
+  doc.setFont(DocumentFonts.family, DocumentFonts.style.bold);
+  doc.setFontSize(14);
+  const headerLineHeight = doc.getLineHeight();
+  const valueDimensions = doc.getTextDimensions(`${data.value}`);
+  if (!dryRun) {
+    doc.text(`${data.value}`, cellX, counterY + headerLineHeight);
+  }
+  doc.setFontSize(10);
+  const unitWidth = data.unit ? doc.getTextDimensions(data.unit).w : 0;
+  if (data.unit && !dryRun) {
+    doc.text(
+      data.unit,
+      cellX + valueDimensions.w + 4,
+      counterY + headerLineHeight
+    );
+  }
+
+  resetFontStyle(doc);
+  resetFont(doc);
+
+  counterY += valueDimensions.h + 6;
+  const titleLine = doc.getLineHeight();
+  const titleDimensions = doc.getTextDimensions(data.title);
+  if (!dryRun) {
+    doc.text(data.title, cellX, counterY + titleLine);
+  }
+  counterY += titleLine + DefaultResultGridOptions.cellPadding.bottom;
+  const totalWidth = Math.max(valueDimensions.w + unitWidth, titleDimensions.w);
+
+  return [totalWidth, counterY - startY];
+};
+
+const multiLoadcaseRender = (
+  doc: jsPDF,
+  data: ResultReportLargeItem,
+  startX: number,
+  startY: number,
+  width: number,
+  dryRun = false
+): [number, number] => {
+  const cellY = startY + DefaultResultGridOptions.cellPadding.top;
+  const cellX = startX + DefaultResultGridOptions.cellPadding.left;
+  const chipHeight = renderChip(
+    doc,
+    data.short,
+    cellX,
+    cellY,
+    {
+      background: DefaultDocumentColors.chipColor,
+      text: DefaultDocumentColors.chipTextColor,
+    },
+    dryRun
+  );
+
+  doc.setFontSize(8);
+
+  const loadcases = data.loadcaseValues.map((lc) => ({
+    ...lc,
+    width: getLoadcaseValueWidth(doc, lc, data.unit),
+  }));
+
+  const lcWidths = loadcases.map((lc) => lc.width);
+  const largestWidth = Math.max(...lcWidths);
+
+  const calculatedNumberOfCols = Math.floor(width / largestWidth);
+  const numberOfColumns =
+    calculatedNumberOfCols > 3 ? 3 : calculatedNumberOfCols;
+
+  const loadcaseCellPadding = 8;
+  const loadcaseHeadingLineHeight = doc.getLineHeight();
+  const loadcaseTitleLineHeight = doc.getTextDimensions('T', {
+    fontSize: 10,
+  }).h;
+  const loadcaseBlockSpacing = 4;
+
+  for (const [i, lc] of loadcases.entries()) {
+    const col = i % numberOfColumns;
+    const row = Math.floor(i / numberOfColumns);
+    const colX = cellX + col * (largestWidth + loadcaseCellPadding);
+    const colY = cellY + chipHeight + 6 + row * 34;
+
+    if (!dryRun) {
+      doc.text(lc.loadcaseName, colX, colY + loadcaseHeadingLineHeight);
+    }
+    doc.setFontSize(12);
+    const valueLine = doc.getTextDimensions(`${lc.value}`);
+    if (!dryRun) {
+      doc.text(
+        `${lc.value}`,
+        colX,
+        colY + loadcaseHeadingLineHeight + valueLine.h + loadcaseBlockSpacing
+      );
+    }
+    resetFont(doc);
+    if (!dryRun && data.unit) {
+      doc.text(
+        `${data.unit}`,
+        colX + valueLine.w,
+        colY + loadcaseHeadingLineHeight + valueLine.h + loadcaseBlockSpacing
+      );
+    }
+  }
+  resetFont(doc);
+  resetFontStyle(doc);
+  const numberOfRows = Math.ceil(loadcases.length / numberOfColumns);
+  const dummyValueLine = doc.getTextDimensions('t', { fontSize: 12 }).h;
+
+  const loadcaseHeight =
+    loadcaseTitleLineHeight + loadcaseBlockSpacing + dummyValueLine;
+
+  const titleBaseline =
+    cellY +
+    chipHeight +
+    6 * numberOfRows +
+    loadcaseHeight * numberOfRows +
+    (loadcaseTitleLineHeight * numberOfRows + 4);
+  if (!dryRun) {
+    doc.text(data.title, cellX, titleBaseline);
+  }
+
+  return [
+    -1,
+    titleBaseline + DefaultResultGridOptions.cellPadding.bottom - startY,
+  ];
+};
+
+export const renderResultGrid = (
+  doc: jsPDF,
+  block: LayoutBlock<ResultBlock<ResultReportLargeItem[]>>
+) => {
+  const startY = block.yStart;
+  const maxYCoordinate = block.yStart + block.maxHeight;
+  const startX = block.constraints.pageMargin;
+  const width =
+    doc.internal.pageSize.getWidth() - 2 * block.constraints.pageMargin;
+  const rawColWidth = width / 2;
   const imageSize = 16;
   const headerDivierY =
     startY +
     imageSize +
-    options.headerSpacing.top +
-    options.headerSpacing.bottom;
-  const itemCols = [...data.data]
-    // eslint-disable-next-line unicorn/no-array-reduce
-    .reduce(
-      (acc, curr) => {
-        const lastIndex = acc.length - 1;
-        acc[lastIndex].push(curr);
-        if (acc[lastIndex].length === 2) {
-          acc.push([]);
-        }
+    DefaultResultGridOptions.headerSpacing.top +
+    DefaultResultGridOptions.headerSpacing.bottom;
+  const evaluations: LayoutEvaluationResult<typeof block.data>[] = [];
 
-        return acc;
-      },
-      [[]]
-    )
-    .filter((item) => item.length > 0);
+  const blockData = block.data.data.map((entry) =>
+    entry.loadcaseValues?.length === 1
+      ? { ...entry, value: entry.loadcaseValues[0].value }
+      : entry
+  );
 
-  doc.setFont(props.fonts.family, props.fonts.style.bold);
+  doc.setDrawColor(DefaultDocumentColors.tableBorderTextColor);
+  doc.setFont(DocumentFonts.family, DocumentFonts.style.bold);
   doc.setFontSize(10);
 
-  const renderResultBlock = (
-    item: ResultReportLargeItem,
-    x: number,
-    y: number,
-    _canvasWidth: number,
-    dryRun = false
-  ): number => {
-    // NOTE: No need to care about spacing, x,y and width are the actually usabble part of the canvas
-    const chipMarginBottom = 6;
-    const valueMarginBottom = 6;
-    const titleMarginBottom = 6;
-    const chipShift =
-      renderChip(doc, item.short, x, y, {
-        background: props.colors.chipColor,
-        text: props.colors.chipTextColor,
-      }) + chipMarginBottom;
-    doc.setFont(props.fonts.family, props.fonts.style.bold);
-    doc.setFontSize(14);
-    const [valueWidth, valueHeight] = estimateTextDimensions(
-      doc,
-      `${item.value}`,
-      { fontSize: 14 }
-    );
-    doc.text(`${item.value}`, x, y + chipShift + valueHeight);
-    resetFont(doc);
-    if (item.unit) {
-      doc.setFontSize(10);
-      if (!dryRun) {
-        doc.text(item.unit, x + valueWidth + 6, y + chipShift + valueHeight);
-      }
-      resetFont(doc);
-    }
-    const titleYAxis =
-      y + chipShift + valueHeight + getRealLineHeight(doc) + valueMarginBottom;
-
-    if (!dryRun) {
-      doc.text(item.title, x, titleYAxis); // TODO make proper spacing handling
-    }
-
-    return titleYAxis + titleMarginBottom - y;
-  };
-
-  if (!!data && !!data.icon) {
+  if (!block.dryRun) {
     doc.addImage(
-      data.icon,
+      block.data.icon,
       'png',
-      startX + options.headerSpacing.left,
-      startY + options.headerSpacing.top,
+      startX + DefaultResultGridOptions.headerSpacing.left,
+      startY + DefaultResultGridOptions.headerSpacing.top,
       imageSize,
       imageSize
     );
+    doc.text(
+      block.data.header,
+      startX + imageSize + 8 + DefaultResultGridOptions.headerSpacing.left,
+      startY + 1.5 * getRealLineHeight(doc) + imageSize / 2
+    );
+    doc.line(startX, headerDivierY, startX + width, headerDivierY);
   }
-  doc.text(
-    data.header,
-    startX + imageSize + 8 + options.headerSpacing.left,
-    startY + 1.5 * getRealLineHeight(doc) + imageSize / 2
-  );
-  doc.line(
-    props.dimensions.pageMargin,
-    headerDivierY,
-    props.dimensions.pageMargin + width,
-    headerDivierY
-  );
-  const rawColumnWidth = width / 2;
-  const columnWidth =
-    rawColumnWidth - options.cellPadding.left - options.cellPadding.right;
-
-  const rowHeights: number[] = [];
-  itemCols.forEach((row, cellY) => {
-    const cellHeights: number[] = [];
-    row.forEach((col, cellX) => {
-      const xCellCoord =
-        startX +
-        (cellX + 1) * options.cellPadding.left +
-        cellX * (columnWidth + options.cellPadding.right);
-      const baseCellY =
-        headerDivierY +
-        (cellY + 1) * options.cellPadding.top +
-        cellY * options.cellPadding.bottom;
-      const resultRowHeights = rowHeights
-        .slice(undefined, cellY)
-        .reduce((acc, curr) => acc + curr, 0);
-      const cellHeight = renderResultBlock(
-        col,
-        xCellCoord,
-        baseCellY + resultRowHeights,
-        columnWidth
-      );
-
-      cellHeights.push(cellHeight);
-    });
-    rowHeights.push(Math.max(...cellHeights));
-  });
-  doc.setDrawColor(props.colors.tableBorderTextColor);
-
-  const totalHeight =
-    rowHeights.reduce((acc, val) => acc + val, 0) +
-    rowHeights.length * (options.cellPadding.top + options.cellPadding.bottom) +
-    (headerDivierY - startY);
-  doc.line(
-    startX + rawColumnWidth,
-    headerDivierY + options.divierSpacing.top,
-    startX + rawColumnWidth,
-    startY + totalHeight - options.divierSpacing.bottom
-  );
-  rowHeights.forEach((_height, idx) => {
-    if (idx !== 0) {
-      const offset =
-        rowHeights.slice(undefined, idx).reduce((acc, curr) => acc + curr, 0) +
-        idx * (options.cellPadding.bottom + options.cellPadding.top);
-      doc.line(
-        startX + options.divierSpacing.left,
-        headerDivierY + offset,
-        startX + width - options.divierSpacing.right,
-        headerDivierY + offset
-      );
-    }
-  });
-
-  doc.roundedRect(startX, startY, width, totalHeight, 4, 4);
+  resetFontStyle(doc);
   resetFont(doc);
 
-  return totalHeight;
+  const colX = [
+    block.constraints.pageMargin,
+    block.constraints.pageMargin + rawColWidth,
+  ];
+  const colY = [headerDivierY, headerDivierY];
+  const successfulFits: ResultReportLargeItem[] = [];
+  const failedFits: ResultReportLargeItem[] = [];
+
+  const rowHeights: number[] = [];
+  let currentRowHeights: number[] = [];
+  let failedOnce = false;
+
+  for (const [i, item] of blockData.entries()) {
+    if (failedOnce) {
+      failedFits.push(item);
+      continue;
+    }
+
+    const cellIndex = i % 2;
+    const cellY = colY[cellIndex];
+    const cellX = colX[cellIndex];
+
+    const isSingleLoadcase = item.value !== undefined && item.value !== null;
+    const renderer = isSingleLoadcase
+      ? singleLoadcaseRender
+      : multiLoadcaseRender;
+
+    const [_rWidth, rHeight] = renderer(
+      doc,
+      item,
+      cellX,
+      cellY,
+      rawColWidth,
+      block.dryRun
+    );
+    const newYCol = colY[cellIndex] + rHeight;
+    if (newYCol <= maxYCoordinate) {
+      currentRowHeights.push(rHeight);
+      successfulFits.push(item);
+      colY[cellIndex] = newYCol;
+      if (currentRowHeights.length === 2) {
+        rowHeights.push(Math.max(...currentRowHeights));
+        currentRowHeights = [];
+      }
+    } else {
+      failedOnce = true;
+      failedFits.push(item);
+    }
+  }
+
+  if (currentRowHeights.length > 0) {
+    rowHeights.push(Math.max(...currentRowHeights));
+    currentRowHeights = [];
+  }
+
+  let height = 0;
+  for (const h of rowHeights) {
+    height += h;
+  }
+
+  height += headerDivierY - startY;
+  doc.setDrawColor(DefaultDocumentColors.tableBorderTextColor);
+  if (!block.dryRun) {
+    doc.roundedRect(startX, startY, width, height, 6, 6, 'S');
+  }
+
+  if (successfulFits.length > 0) {
+    const resultblock = { ...block.data, data: successfulFits };
+    evaluations.push({
+      verticalShift: block.yStart + height,
+      canFit: true,
+      data: resultblock,
+    });
+  }
+
+  if (failedFits.length > 0) {
+    const resultblock = { ...block.data, data: failedFits };
+    evaluations.push({ canFit: false, data: resultblock });
+  }
+
+  return evaluations;
 };

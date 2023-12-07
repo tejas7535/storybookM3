@@ -1,3 +1,4 @@
+// ts
 import { Injectable } from '@angular/core';
 
 import { firstValueFrom, map } from 'rxjs';
@@ -34,6 +35,7 @@ export class PDFReportService {
     const data = await this.fetchResultData(languageCode);
 
     const documentSettings: DocumentData = {
+      page: this.translocoService.translate('pdfReport.page'),
       reportHeading: this.translocoService.translate(
         'pdfReport.reportHeading',
         { bearingDesignation: data.designation }
@@ -93,10 +95,20 @@ export class PDFReportService {
     const designation = await firstValueFrom(
       this.selectionFacade.bearingDesignation$
     );
+
     const calculationInput = await this.loadInputData();
-    const notices = await firstValueFrom(
+    const noticesData = await firstValueFrom(
       this.resultFacade.calculationReportMessages$
     );
+
+    const notices: ResultBlock<typeof noticesData> = {
+      header: this.translocoService.translate(
+        'calculationResultReport.reportSectionWarnings',
+        undefined,
+        languageCode
+      ),
+      data: noticesData,
+    };
     const data: ResultReport = {
       designation,
       calculationMethods,
@@ -225,43 +237,54 @@ export class PDFReportService {
   }
 
   private async loadInputData() {
-    return firstValueFrom(
-      this.resultFacade.calculationReportInput$.pipe(
-        map((inputs) =>
-          !inputs
-            ? undefined
-            : inputs.map((inputset) => ({
-                ...inputset,
-                subItems: inputset.subItems.map((inputItem) => {
-                  const doNotFormat = [
-                    'Designation',
-                    'Bezeichnung',
-                    'Denominación',
-                    'Désignation',
-                    '型号',
-                  ];
-                  let formattedValue = doNotFormat.includes(
-                    inputItem.designation
-                  )
-                    ? inputItem.value
-                    : this.roundPipe.transform(inputItem.value);
-                  if (inputItem.unit) {
-                    formattedValue = `${formattedValue} ${inputItem.unit}`;
-                  }
-
-                  return { ...inputItem, value: formattedValue };
-                }),
-              }))
-        )
-      )
+    const inputItems = await firstValueFrom(
+      this.resultFacade.calculationReportInput$
     );
+
+    if (!inputItems) {
+      return [];
+    }
+
+    const doNotFormat = new Set([
+      'Designation',
+      'Bezeichnung',
+      'Denominación',
+      'Désignation',
+      '型号',
+    ]);
+
+    return inputItems.map((items) => {
+      const flatten = (nestedItem: any): typeof items => {
+        if (!nestedItem.hasNestedStructure) {
+          let formattedValue = doNotFormat.has(nestedItem.designation)
+            ? nestedItem.value
+            : this.roundPipe.transform(nestedItem.value);
+          if (nestedItem.unit) {
+            formattedValue = `${formattedValue} ${nestedItem.unit}`;
+          }
+
+          return { ...nestedItem, value: formattedValue };
+        }
+
+        return nestedItem.subItems.map((nest: any) => flatten(nest));
+      };
+
+      return flatten(items);
+    });
   }
 
   private localizeNumberFormats(data: ResultBlock<ResultReportLargeItem[]>) {
     data.data = data.data.map((item) => {
       const roundedValue = this.roundPipe.transform(item.value);
+      const hasLoadcase = item.loadcaseValues !== undefined;
+      const loadcaseValues = !hasLoadcase
+        ? undefined
+        : item.loadcaseValues.map((lc) => ({
+            ...lc,
+            value: this.roundPipe.transform(lc.value),
+          }));
 
-      return { ...item, value: roundedValue };
+      return { ...item, value: roundedValue, loadcaseValues };
     });
   }
 

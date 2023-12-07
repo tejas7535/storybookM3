@@ -9,6 +9,7 @@ export const renderChip = (
   startX: number,
   startY: number,
   colors: { background: string; text: string },
+  dryRun = false,
   props = DefaultComponentRenderProps,
   spacing = { left: 9, right: 9, top: 8, bottom: 9 } as Spacing
 ) => {
@@ -16,28 +17,32 @@ export const renderChip = (
   doc.setFontSize(7);
   doc.setFont(props.fonts.family, props.fonts.style.bold);
   doc.setTextColor(colors.text);
+
   const chipHeight = spacing.top + spacing.bottom + getRealLineHeight(doc);
   const chipWidth =
     spacing.left +
     spacing.right +
     doc.getStringUnitWidth(text) * doc.getFontSize();
-
   doc.setDrawColor(colors.text);
   doc.setFillColor(colors.background);
-  doc.roundedRect(
-    startX,
-    startY,
-    chipWidth,
-    chipHeight,
-    chipHeight / 2,
-    chipHeight / 2,
-    'FD'
-  );
-  doc.text(
-    text,
-    startX + spacing.left,
-    startY + getRealLineHeight(doc) + spacing.top
-  );
+
+  if (!dryRun) {
+    doc.roundedRect(
+      startX,
+      startY,
+      chipWidth,
+      chipHeight,
+      chipHeight / 2,
+      chipHeight / 2,
+      'FD'
+    );
+    doc.text(
+      text,
+      startX + spacing.left,
+      startY + getRealLineHeight(doc) + spacing.top
+    );
+  }
+
   resetFont(doc);
   doc.setTextColor(props.colors.secondaryTextColor);
 
