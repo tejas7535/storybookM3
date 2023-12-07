@@ -33,6 +33,7 @@ import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calcul
 import { CalculationResultMessageComponent } from '../calculation-result-information/calculation-result-message.component';
 import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
+import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
 
 @Component({
@@ -58,6 +59,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     CalculationResultReportLargeItemsComponent,
     QualtricsInfoBannerComponent,
     DialogModule,
+    CalculationResultReportSelectionComponent,
   ],
   providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
@@ -116,10 +118,10 @@ export class CalculationResultReportComponent {
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
   }
 
-  isDownloadButtonVisible() {
+  isDownloadButtonHidden() {
     const disabledLanguages = new Set(['zh', 'zh_TW']);
 
-    return !disabledLanguages.has(this.translocoSevice.getActiveLang());
+    return disabledLanguages.has(this.translocoSevice.getActiveLang());
   }
 
   async downloadPdfReport() {

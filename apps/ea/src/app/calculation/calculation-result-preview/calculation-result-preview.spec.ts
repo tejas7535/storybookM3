@@ -1,3 +1,4 @@
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
@@ -15,7 +16,6 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultPreviewComponent } from './calculation-result-preview';
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 const analyticsServiceMock = {
   logShowReport: jest.fn(),

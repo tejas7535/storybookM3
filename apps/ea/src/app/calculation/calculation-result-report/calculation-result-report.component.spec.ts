@@ -1,3 +1,4 @@
+import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,8 +13,8 @@ import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
 import { CalculationResultReportComponent } from './calculation-result-report.component';
-import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 
 window.ResizeObserver = resize_observer_polyfill;
 
@@ -28,7 +29,6 @@ describe('CalculationResultReportComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationResultReportComponent,
     imports: [
-      // Material Modules
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
@@ -65,5 +65,42 @@ describe('CalculationResultReportComponent', () => {
   it('should close the dialog', () => {
     component.closeDialog();
     expect(dialogRefMock.close).toHaveBeenCalled();
+  });
+
+  describe('should display calculation result report selection component', () => {
+    let selectionComponent: CalculationResultReportSelectionComponent;
+    beforeEach(() => {
+      selectionComponent = spectator.query(
+        CalculationResultReportSelectionComponent
+      );
+    });
+    it('should display component', () => {
+      expect(selectionComponent).toBeTruthy();
+    });
+
+    describe('when calculation type is clicked', () => {
+      let scrollingSpy: any;
+      const itemName = 'ratingLife';
+
+      beforeEach(() => {
+        scrollingSpy = {
+          scrollIntoView: jest.fn(),
+        } as unknown as any;
+
+        jest
+          .spyOn(document, 'querySelector')
+          .mockImplementation(() => scrollingSpy);
+      });
+
+      it('should scroll to the correct section', () => {
+        selectionComponent['calculationTypeClicked'].emit(itemName);
+
+        expect(document.querySelector).toBeCalledWith(`#${itemName}`);
+        expect(scrollingSpy.scrollIntoView).toBeCalledWith({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      });
+    });
   });
 });
