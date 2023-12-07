@@ -1,30 +1,27 @@
 <div
-  class="flex h-[46px] w-full flex-row"
-  *transloco="
-    let t;
-    read: 'materialsSupplierDatabase.mainTable.tooltip.greensteel'
-  "
+  class="flex h-full min-h-[46px] w-full flex-row justify-center"
+  (mouseover)="setHovered(true)"
+  (mouseout)="setHovered(false)"
 >
-  <div
-    class="mr-2 flex-1"
-    (mouseover)="setHovered(true)"
-    (mouseout)="setHovered(false)"
-  >
-    <span>{{ params?.valueFormatted ?? params?.value }}</span>
-
-    <button
-      class="my-auto"
+  <span class="flex-1 truncate">{{
+    params?.valueFormatted ?? params?.value
+  }}</span>
+  <div class="h-full" *ngIf="isEnabled(materialClass$ | ngrxPush)">
+    <mat-icon
       mat-icon-button
       [ngClass]="{ '!hidden': !hovered }"
       (click)="onEditClick()"
-      *ngIf="isEnabled(materialClass$ | ngrxPush)"
+      class="!text-[12px] text-medium-emphasis mt-4 cursor-pointer"
+      >edit</mat-icon
     >
-      <mat-icon class="text-medium-emphasis !text-[12px]">edit</mat-icon>
-    </button>
   </div>
-
-  <div class="flex-1 align-baseline" *ngIf="isValid()">
-    <ng-container>
+  <div *ngIf="isValid()">
+    <ng-container
+      *transloco="
+        let t;
+        read: 'materialsSupplierDatabase.mainTable.tooltip.greensteel'
+      "
+    >
       <mac-indicator
         icon="eco"
         [val]="getRating()"
