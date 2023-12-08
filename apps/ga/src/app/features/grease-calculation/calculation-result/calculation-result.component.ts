@@ -17,16 +17,10 @@ import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calcu
 import { Environment } from '@ga/environments/environment.model';
 import { ENV } from '@ga/environments/environments.provider';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
-import {
-  AVAILABLE_LANGUAGE_JA,
-  AVAILABLE_LANGUAGE_ZH,
-  LANGUAGE_KOREAN,
-  LANGUAGE_THAI,
-} from '@ga/shared/constants/language';
 import { ReportUrls } from '@ga/shared/models';
 
 import { GreaseReportComponent } from './components/grease-report';
-import { GreaseReportPdfGeneratorService } from './services/grease-report-pdf-generator.service';
+import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
 
 @Component({
   selector: 'ga-calculation-result',
@@ -46,15 +40,6 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   public automaticLubrication$ = this.store.select(getAutomaticLubrication);
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
-
-  // temporary solution to hide generation button for languages that are not correctly displayed in the report.
-  public isPDFGenerationButtonHidden = true;
-  private readonly languagesThatAreNotSupportedByPDFImplementation: string[] = [
-    AVAILABLE_LANGUAGE_ZH.id,
-    AVAILABLE_LANGUAGE_JA.id,
-    LANGUAGE_KOREAN.id,
-    LANGUAGE_THAI.id,
-  ];
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;
@@ -85,10 +70,6 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
 
     this.languageChangeSubscription =
       this.translocoService.langChanges$.subscribe((language) => {
-        this.isPDFGenerationButtonHidden =
-          this.languagesThatAreNotSupportedByPDFImplementation.includes(
-            language
-          );
         if (language !== this.currentLanguage) {
           this.currentLanguage = language;
           this.resetReportUrls();

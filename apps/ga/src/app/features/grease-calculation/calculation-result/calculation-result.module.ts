@@ -29,7 +29,8 @@ import {
   GreaseReportDataGeneratorService,
   GreaseReportPdfGeneratorService,
 } from './services';
-import { GreaseReportPdfFileSaveService } from './services/grease-report-pdf-file-save.service';
+import { FontsLoaderService } from './services/pdf/fonts-loader.service';
+import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf-file-save.service';
 
 @NgModule({
   declarations: [CalculationResultComponent],
@@ -65,6 +66,7 @@ import { GreaseReportPdfFileSaveService } from './services/grease-report-pdf-fil
     GreaseReportDataGeneratorService,
     GreaseReportPdfGeneratorService,
     GreaseReportPdfFileSaveService,
+    FontsLoaderService,
     TranslocoDatePipe,
     {
       provide: ENV,
