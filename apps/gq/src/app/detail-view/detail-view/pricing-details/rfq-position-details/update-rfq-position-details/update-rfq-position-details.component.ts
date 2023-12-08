@@ -1,7 +1,8 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RfqModalData } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/models/rfq-modal-data.model';
 
 @Component({
