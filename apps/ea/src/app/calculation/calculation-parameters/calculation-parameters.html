@@ -54,11 +54,7 @@
             <ng-container
               *ngFor="let loadDataItem of operationConditionsForm.controls.loadCaseData.controls"
             >
-              <!--TODO remove !isProduction flag when feature will be fully completed-->
-              <div
-                *ngIf="!isProduction"
-                class="flex-row items-start w-full mb-4 flex"
-              >
+              <div class="flex-row items-start w-full mb-4 flex">
                 <button
                   (click)="onAddLoadCaseClick()"
                   mat-button

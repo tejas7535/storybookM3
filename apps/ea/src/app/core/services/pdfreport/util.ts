@@ -1,14 +1,6 @@
-import { NotoSansBold, NotoSansRegular } from '@ea/shared/constants/fonts';
 import jsPDF from 'jspdf';
 
 import { DefaultComponentRenderProps } from './data';
-
-export const loadNotoSansFonts = (doc: jsPDF): void => {
-  doc.addFileToVFS('NotoSans-Regular.ttf', NotoSansRegular);
-  doc.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal');
-  doc.addFileToVFS('NotoSans-Bold.ttf', NotoSansBold);
-  doc.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold');
-};
 
 export const getRealLineHeight = (doc: jsPDF): number =>
   doc.getFontSize() / doc.getLineHeightFactor();

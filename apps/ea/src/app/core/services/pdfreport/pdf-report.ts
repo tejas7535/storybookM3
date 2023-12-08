@@ -1,19 +1,20 @@
 import jsPDF from 'jspdf';
 
+import { FontsLoaderService } from '../fonts-loader.service';
 import { generateFooter } from './components/footer';
 import { generateHeader } from './components/header';
 import { VerticalLayout } from './components/vertical-layouter';
 import { DocumentData, GeneratedDocument, ResultReport } from './data';
-import { loadNotoSansFonts } from './util';
 export class PDFREport {
   constructor(
     private readonly docSettings: DocumentData,
-    private readonly data: ResultReport
+    private readonly data: ResultReport,
+    private readonly fontsLoaderService: FontsLoaderService
   ) {}
 
   async generate(): Promise<GeneratedDocument> {
     const doc = new jsPDF({ unit: 'pt' });
-    loadNotoSansFonts(doc);
+    this.fontsLoaderService.loadFonts(doc);
     const verticalLayout = new VerticalLayout(doc, {
       offsetTop: 85,
       offsetBottom: 90,

@@ -16,6 +16,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { CalculationResultFacade, ProductSelectionFacade } from '../store';
+import { FontsLoaderService } from './fonts-loader.service';
 import { DocumentData, ResultBlock, ResultReport } from './pdfreport/data';
 import { PDFREport } from './pdfreport/pdf-report';
 
@@ -26,11 +27,12 @@ export class PDFReportService {
     private readonly localeService: TranslocoLocaleService,
     private readonly resultFacade: CalculationResultFacade,
     private readonly selectionFacade: ProductSelectionFacade,
-    private readonly roundPipe: MeaningfulRoundPipe
+    private readonly roundPipe: MeaningfulRoundPipe,
+    private readonly fontsLoaderService: FontsLoaderService
   ) {}
 
   async generate() {
-    const [_, languageCode] = this.handleLanguageFallbackMapping();
+    const languageCode = this.translocoService.getActiveLang();
 
     const data = await this.fetchResultData(languageCode);
 
@@ -63,7 +65,11 @@ export class PDFReportService {
         languageCode
       ),
     };
-    const report = new PDFREport(documentSettings, data);
+    const report = new PDFREport(
+      documentSettings,
+      data,
+      this.fontsLoaderService
+    );
 
     return report.generate();
   }
@@ -307,15 +313,5 @@ export class PDFReportService {
     }));
 
     return data;
-  }
-
-  private handleLanguageFallbackMapping(): [boolean, string] {
-    const active = this.translocoService.getActiveLang();
-    const fallbackLanguages = new Set(['zh', 'zh_TW']);
-
-    return [
-      fallbackLanguages.has(active),
-      fallbackLanguages.has(active) ? 'en' : active,
-    ];
   }
 }

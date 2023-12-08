@@ -118,12 +118,6 @@ export class CalculationResultReportComponent {
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
   }
 
-  isDownloadButtonHidden() {
-    const disabledLanguages = new Set(['zh', 'zh_TW']);
-
-    return disabledLanguages.has(this.translocoSevice.getActiveLang());
-  }
-
   async downloadPdfReport() {
     this.trackingService.logDownloadReport();
     const report = await this.reportService.generate();

@@ -3,8 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
@@ -48,6 +53,7 @@ describe('CalculationResultReportComponent', () => {
         useValue: jest.fn(),
       },
       { provide: DialogRef, useValue: dialogRefMock },
+      mockProvider(PDFReportService),
     ],
   });
 
