@@ -35,12 +35,12 @@
         <ea-tag
           *ngIf="!item.warning"
           [value]="item.short"
-          styleClass="text-info bg-info"
+          styleClass="text-info bg-info border-info"
         ></ea-tag>
         <ea-tag
           *ngIf="item.warning"
           [value]="item.short"
-          styleClass="text-warning bg-warning"
+          styleClass="text-warning bg-warning border-warning"
         ></ea-tag>
       </div>
       <div
