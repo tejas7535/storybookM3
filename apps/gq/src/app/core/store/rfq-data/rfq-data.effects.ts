@@ -45,7 +45,8 @@ export class RfqDataEffects {
         this.activeCaseFacade.quotationSapId$,
       ]),
       filter(
-        ([_action, quotationDetail, _sapId]) => quotationDetail !== undefined
+        ([_action, quotationDetail, _sapId]) =>
+          quotationDetail?.rfqData !== null
       ),
       map(([_action, quotationDetail, sapId]) =>
         RfqDataActions.getRfqData({
