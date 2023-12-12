@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.2.0...ea-v1.2.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* **ea:** fix assets path ([#5854](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5854)) ([47cce66](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47cce66f3181f46617d634e505ef27e3b43d9dca))
+
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.1.0...ea-v1.2.0) (2023-12-12)
 
 
