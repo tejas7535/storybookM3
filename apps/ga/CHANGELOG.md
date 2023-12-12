@@ -1,4 +1,19 @@
 # Release Notes of Grease App
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.4...ga-v1.5.0) (2023-12-12)
+
+
+### Features
+
+* **ga:** hide report generation functionality for non supported languages ([#5829](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5829)) ([e83f43e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e83f43ed05ab8aab417d1b4e7149bb041d5dee8a))
+* **ga:** implement new languages in grease app (UFTABI-6503) ([#5826](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5826)) ([1c8abac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c8abacda42d343419c01da84c7741cb0d521769))
+
+
+### Bug Fixes
+
+* **ga:** add support for special sign languages ([#5841](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5841)) ([76582b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76582b547ff4b72a5b739aa736584421389394cc))
+* **ga:** add transparent background for filled inputs ([053c6d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/053c6d3a5b3b6324c2ff5a0c4896e09c61f25e04))
+* **ga:** fix pdf typo (UFTABI-7067) ([#5851](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5851)) ([ab88fb3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ab88fb3890f43ef78a7140bc5eada8bb192a02e0))
+
 ## [1.4.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.3...ga-v1.4.4) (2023-11-02)
 
 
