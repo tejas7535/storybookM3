@@ -64,7 +64,7 @@ import { getDimensionKeyForWorldMap } from '../selectors/organizational-view.sel
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
 export class OrganizationalViewEffects {
-  readonly ORGANIZATIONAL_VIEW_URL = `/${AppRoutePath.OrganizationalViewPath}`;
+  readonly ORGANIZATIONAL_VIEW_URL = `/${AppRoutePath.DrillDownPath}`;
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(

@@ -52,7 +52,7 @@
   },
   "tabs": {
     "overview": "Overview",
-    "organizationalView": "Organizational View",
+    "drillDown": "Drill Down",
     "lossOfSkill": "Loss Of Skill",
     "reasonsAndCounterMeasures": "Reasons for Leaving",
     "fluctuationAnalytics": "Fluctuation Analytics"

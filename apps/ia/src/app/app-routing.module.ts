@@ -19,7 +19,7 @@ export const appRoutePaths: Routes = [
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
       {
-        path: AppRoutePath.OrganizationalViewPath,
+        path: AppRoutePath.DrillDownPath,
         loadChildren: () =>
           import('./organizational-view/organizational-view.module').then(
             (m) => m.OrganizationalViewModule

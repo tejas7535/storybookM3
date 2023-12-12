@@ -1,7 +1,7 @@
 export enum AppRoutePath {
   BasePath = '',
   OverviewPath = 'overview',
-  OrganizationalViewPath = 'organizational-view',
+  DrillDownPath = 'drill-down',
   LossOfSkillPath = 'loss-of-skill',
   ReasonsAndCounterMeasuresPath = 'reasons-for-leaving',
   FluctuationAnalyticsPath = 'fluctuation-analytics',

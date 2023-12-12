@@ -48,8 +48,8 @@ export class AppComponent implements OnInit {
       disabled: false,
     },
     {
-      label: 'organizationalView',
-      path: AppRoutePath.OrganizationalViewPath,
+      label: 'drillDown',
+      path: AppRoutePath.DrillDownPath,
       disabled: false,
     },
     {
