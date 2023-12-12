@@ -1,4 +1,29 @@
 # Release Notes of Engineering App
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.1.0...ea-v1.2.0) (2023-12-12)
+
+
+### Features
+
+* **ea:**  add PDF loadcase report - UFTABI-6988 ([#5815](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5815)) ([d15f09e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d15f09ebbfcb850c0f23eda62562759097cfb128))
+* **ea:** adjust result report and preview for multiple loadcases ([#5825](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5825)) ([6b16490](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6b16490a9179f06a1f19cd84df376058b05a89e8))
+* **ea:** enhance engineering app pdf report with chinese variations ([#5848](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5848)) ([10e8816](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/10e8816d92e62903ab24cd316c9d36c1dff8830a))
+* **ea:** fix end to end tests ([#5818](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5818)) ([0bbef2f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0bbef2f836f84d461fe0ff20aa823a5be476aa44))
+* **ea:** hide unselected section in reports (UFTABI-7017) ([#5835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5835)) ([ee308d9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee308d914a612f1a6df3feab0ae26a763462de7c))
+* **ea:** improve badge design ([#5849](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5849)) ([2df2a0f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2df2a0f5d82a7b88d44c78d436f7aa8af1341e90))
+* **ea:** loadcase operating conditions (UFTABI-6985) ([#5807](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5807)) ([418bf38](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/418bf388d61e059db875733e68794ab2c5ea8726))
+* **ea:** update co2 landing page url ([#5817](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5817)) ([05a1ff5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/05a1ff50a08473c7a834ff03a379a691a7449cfc))
+
+
+### Bug Fixes
+
+* **ea:** add overrolling frequency shorts for single loadcase ([#5838](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5838)) ([b45374a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b45374ae41e7cca3d5038d62e09a970325c1a0e3))
+* **ea:** adjust bearing behaviour labels ([#5853](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5853)) ([3088c01](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3088c019372efabe85c6b7a14116272afca616d5))
+* **ea:** fix cropped labels ([#5814](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5814)) ([0d32fb3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0d32fb377b385533f4840e867b5fb1395801bada))
+* **ea:** fix lubrication result ([#5830](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5830)) ([34176ab](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/34176ab628ca9546b6e904e7613d767e4c6ba233))
+* **ea:** fix medias display issue - UFTABI-7000 ([#5805](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5805)) ([00b7ba9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/00b7ba9f6edf8108c6686c812b644b196e5801a3))
+* **ea:** remove duplicate rounding of co2 upstream result causing misleading results ([#5806](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5806)) ([35d146a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35d146a6abe52e3deb9eef3965a05b819f173162))
+* **ea:** remove redundant check ([#5852](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5852)) ([070c7c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/070c7c5f3ead072efd436ad39a82952f4b83d976))
+
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.0.1...ea-v1.1.0) (2023-11-16)
 
 
