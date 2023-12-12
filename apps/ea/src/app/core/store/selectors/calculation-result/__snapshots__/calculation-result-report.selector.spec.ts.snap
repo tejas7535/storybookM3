@@ -431,19 +431,19 @@ Array [
 exports[`Calculation Result Selector full result getRatingLifeResultReport should return ratingLife 1`] = `
 Array [
   Object {
-    "short": "lh10",
+    "short": "Lh10",
     "title": "lh10",
     "unit": "h",
     "value": "152277",
   },
   Object {
-    "short": "lh_nm",
+    "short": "Lh_nm",
     "title": "lh_nm",
     "unit": "h",
     "value": "415307",
   },
   Object {
-    "short": "p",
+    "short": "P",
     "title": "p",
     "unit": "N",
     "value": "1028.71",

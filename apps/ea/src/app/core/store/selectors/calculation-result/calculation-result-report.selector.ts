@@ -18,6 +18,7 @@ import {
   isCalculationResultAvailable as isCatalogCalculationResultAvailable,
 } from './catalog-calculation-result.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
+import { BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING } from '@ea/core/services/bearinx-result.constant';
 
 export interface CO2EmissionResult {
   co2_upstream: number;
@@ -115,7 +116,10 @@ export const getRatingLifeResultReport = createSelector(
       )
       .map(([key, value]) => ({
         ...value,
-        short: key,
+        short:
+          [...BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING].find(
+            ([_abbreviation, matchKey]) => matchKey === key
+          )?.[0] ?? key,
         title: key.toLowerCase(),
       }));
 
