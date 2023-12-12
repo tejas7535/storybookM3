@@ -21,15 +21,7 @@ export class PDFREport {
     }).add('methods', this.data.calculationMethods, {
       header: this.docSettings.calculationMethodsHeading,
     });
-    const hasBearinxCalculation =
-      this.data.frictionalPowerloss ||
-      this.data.overrollingFrequency ||
-      this.data.frictionalPowerloss ||
-      this.data.lubricationInfo;
-
-    if (hasBearinxCalculation) {
-      verticalLayout.add('inputs', this.data.calculationInput);
-    }
+    verticalLayout.add('inputs', this.data.calculationInput);
 
     if (
       this.data.upstreamEmissions &&
@@ -56,9 +48,7 @@ export class PDFREport {
       verticalLayout.add('resultgrid', this.data.frictionalPowerloss);
     }
 
-    if (hasBearinxCalculation) {
-      verticalLayout.add('notices', this.data.notices);
-    }
+    verticalLayout.add('notices', this.data.notices);
 
     verticalLayout.loop();
 
