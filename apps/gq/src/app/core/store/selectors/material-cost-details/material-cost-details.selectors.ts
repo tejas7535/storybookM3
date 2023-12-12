@@ -36,7 +36,9 @@ export const getMaterialCostUpdateAvl = createSelector(
           materialCostDetails.gpc,
           getPriceUnit(selectedQuotationDetail)
         )
-      : undefined;
+      : // gpc can be null, so setting it to undefined would cause problem in value comparison
+        // eslint-disable-next-line unicorn/no-null
+        null;
     const isGpcDifferent =
       roundedMaterialCostGpc !== selectedQuotationDetail?.gpc;
 

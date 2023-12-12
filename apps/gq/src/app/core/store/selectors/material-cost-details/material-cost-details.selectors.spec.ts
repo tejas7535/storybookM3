@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-null */
 import { QuotationDetail } from '@gq/shared/models';
 
 import { MATERIAL_COST_DETAILS_MOCK } from '../../../../../testing/mocks';
@@ -82,16 +83,16 @@ describe('Material Cost Details Selectors', () => {
       expect(
         materialCostDetailsSelectors.getMaterialCostUpdateAvl.projector(
           {
-            gpc: undefined,
-            gpcDate: undefined,
-            sqvDate: undefined,
-            sqv: undefined,
+            gpc: null,
+            gpcDate: null,
+            sqvDate: null,
+            sqv: null,
           },
           {
-            gpcDate: undefined,
-            sqvDate: undefined,
-            gpc: undefined,
-            sqv: undefined,
+            gpcDate: null,
+            sqvDate: null,
+            gpc: null,
+            sqv: null,
           } as QuotationDetail
         )
       ).toBeFalsy();
