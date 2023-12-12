@@ -39,4 +39,8 @@ export const QUOTATION_MOCK: Quotation = {
       salesOrg: '67890',
     },
   } as Customer,
+  purchaseOrderType: {
+    id: 'test',
+    name: 'purchase order type',
+  },
 };

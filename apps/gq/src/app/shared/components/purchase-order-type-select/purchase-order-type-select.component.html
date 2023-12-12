@@ -10,7 +10,7 @@
       (selectionChange)="selectionChange($event)"
       [compareWith]="compareFn"
     >
-      <mat-option [value]="emptyValue"> {{ t('emptyValue') }}</mat-option>
+      <mat-option [value]="NO_ENTRY"> {{ t('emptyValue') }}</mat-option>
       <mat-option
         *ngFor="let type of purchaseOrderTypes; trackBy: trackByFn"
         [value]="type"

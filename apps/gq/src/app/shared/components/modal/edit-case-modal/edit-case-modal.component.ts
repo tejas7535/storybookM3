@@ -33,10 +33,12 @@ import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-p
 import { specialCharactersValidator } from '@gq/shared/validators/special-characters-validator';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
+import moment, { isMoment, Moment } from 'moment';
 
 import { UpdateQuotationRequest } from '../../../services/rest/quotation/models/update-quotation-request.model';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import { EditCaseModalData } from './edit-case-modal-data.model';
 
 @Component({
   selector: 'gq-edit-case-modal',
@@ -50,30 +52,18 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   options: IdValue[] = [];
 
   caseModalForm: UntypedFormGroup;
-  poDateLessThanToday: boolean;
+  hasCaseModalFormChange: boolean;
   salesOrg: string;
   filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
 
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
 
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  private readonly now: Date = new Date(Date.now());
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly
-  private today: Date = new Date(this.now.setHours(0, 0, 0, 0));
+  private readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public modalData: {
-      caseName: string;
-      currency: string;
-      enableSapFieldEditing: boolean;
-      shipToParty?: IdValue;
-      quotationToDate?: string;
-      requestedDeliveryDate?: string;
-      customerPurchaseOrderDate?: string;
-      bindingPeriodValidityEndDate?: string;
-      salesOrg?: string;
-    },
+    public modalData: EditCaseModalData,
     private readonly dialogRef: MatDialogRef<EditCaseModalComponent>,
     private readonly store: Store,
     private readonly adapter: DateAdapter<any>,
@@ -112,35 +102,40 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       quotationToDate: new FormControl(
         {
           value: this.modalData?.quotationToDate
-            ? new Date(this.modalData?.quotationToDate)
+            ? moment(this.modalData.quotationToDate)
             : undefined,
           disabled: !this.modalData?.enableSapFieldEditing,
         },
         [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
       ),
-      requestedDeliveryDate: new FormControl({
-        value: this.modalData?.requestedDeliveryDate
-          ? new Date(this.modalData?.requestedDeliveryDate)
-          : undefined,
-        disabled: !this.modalData?.enableSapFieldEditing,
-      }),
+      requestedDeliveryDate: new FormControl(
+        {
+          value: this.modalData?.requestedDeliveryDate
+            ? moment(this.modalData.requestedDeliveryDate)
+            : undefined,
+          disabled: !this.modalData?.enableSapFieldEditing,
+        },
+        [this.validateDateGreaterOrEqualToday]
+      ),
       customerPurchaseOrderDate: new FormControl({
         value: this.modalData?.customerPurchaseOrderDate
-          ? new Date(this.modalData?.customerPurchaseOrderDate)
+          ? moment(this.modalData?.customerPurchaseOrderDate)
           : undefined,
         disabled: !this.modalData?.enableSapFieldEditing,
       }),
       bindingPeriodValidityEndDate: new FormControl(
         {
           value: this.modalData?.bindingPeriodValidityEndDate
-            ? new Date(this.modalData?.bindingPeriodValidityEndDate)
+            ? moment(this.modalData?.bindingPeriodValidityEndDate)
             : undefined,
           disabled: !this.modalData?.enableSapFieldEditing,
         },
         [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
       ),
-      // TODO: insert with GQUOTE-3316
-      // purchaseOrderType: new FormControl(),
+      purchaseOrderType: new FormControl({
+        value: this.modalData?.purchaseOrderType,
+        disabled: false,
+      }),
     });
 
     this.subscribeToChanges();
@@ -151,25 +146,43 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     this.unsubscribe$$.complete();
   }
 
-  public subscribeToChanges(): void {
-    this.caseModalForm
-      .get('requestedDeliveryDate')
-      .valueChanges.pipe(takeUntil(this.unsubscribe$$))
-      .subscribe(
-        (value) =>
-          (this.poDateLessThanToday = this.checkValueGreaterOrEqualToday(value))
-      );
+  subscribeToChanges(): void {
+    this.caseModalForm.valueChanges
+      .pipe(takeUntil(this.unsubscribe$$))
+      .subscribe((formValues) => {
+        let customPurchaseOrderDateChanged = false;
 
-    this.caseModalForm
-      .get('customerPurchaseOrderDate')
-      .valueChanges.pipe(takeUntil(this.unsubscribe$$))
-      .subscribe(() => {
-        Object.keys(this.caseModalForm.controls).forEach((field) => {
-          if (field !== 'customerPurchaseOrderDate') {
-            const control = this.caseModalForm.get(field);
-            control.updateValueAndValidity();
+        this.hasCaseModalFormChange = Object.keys(formValues).some((key) => {
+          const value = formValues[key];
+          const refValue = this.modalData[key as keyof EditCaseModalData];
+
+          let hasChanged = false;
+
+          // check if dates changed
+          if (isMoment(value)) {
+            hasChanged = !this.isTheSameDay(value, refValue as string);
+
+            // validate other fields that depend on the purchase order date
+            if (hasChanged && key === 'customerPurchaseOrderDate') {
+              customPurchaseOrderDateChanged = true;
+            }
+          } else {
+            hasChanged =
+              value !== refValue &&
+              JSON.stringify(value) !== JSON.stringify(refValue); // use stringify for object comparison
           }
+
+          if (hasChanged && refValue === undefined) {
+            // ensure that  null = undefined (selects with undefined is resulting in null) & undefined = '' (e.g. removing the case name is resulting in an empty string)
+            hasChanged = value !== null && value !== '';
+          }
+
+          return hasChanged;
         });
+
+        if (customPurchaseOrderDateChanged) {
+          this.validatePurchaseOrderDateDependentDates();
+        }
       });
 
     this.caseModalForm
@@ -224,56 +237,58 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
 
   submitDialog(): void {
     const returnUpdateQuotationRequest: UpdateQuotationRequest = {
-      caseName: this.caseModalForm.controls.caseName.value
-        ? this.caseModalForm.controls.caseName.value.trim()
-        : undefined,
+      caseName: this.caseModalForm.controls.caseName.value?.trim(),
       currency: this.caseModalForm.controls.currency.value,
-      quotationToDate: this.caseModalForm.controls.quotationToDate.value
-        ? new Date(
-            this.caseModalForm.controls.quotationToDate.value
-          ).toISOString()
-        : undefined,
-      requestedDelDate: this.caseModalForm.controls.requestedDeliveryDate.value
-        ? new Date(
-            this.caseModalForm.controls.requestedDeliveryDate.value
-          ).toISOString()
-        : undefined,
-      customerPurchaseOrderDate: this.caseModalForm.controls
-        .customerPurchaseOrderDate.value
-        ? new Date(
-            this.caseModalForm.controls.customerPurchaseOrderDate.value
-          ).toISOString()
-        : undefined,
-      validTo: this.caseModalForm.controls.bindingPeriodValidityEndDate.value
-        ? new Date(
-            this.caseModalForm.controls.bindingPeriodValidityEndDate.value
-          ).toISOString()
-        : undefined,
-      shipToParty: this.caseModalForm.controls.shipToParty.value
+      quotationToDate:
+        this.caseModalForm.controls.quotationToDate.value.toISOString(),
+      requestedDelDate:
+        this.caseModalForm.controls.requestedDeliveryDate.value.toISOString(),
+      customerPurchaseOrderDate:
+        this.caseModalForm.controls.customerPurchaseOrderDate.value.toISOString(),
+      validTo:
+        this.caseModalForm.controls.bindingPeriodValidityEndDate.value.toISOString(),
+      shipToParty: this.caseModalForm.controls.shipToParty.value?.id
         ? ({
             customerId: this.caseModalForm.controls.shipToParty.value.id,
             salesOrg: this.salesOrg,
           } as ShipToParty)
         : undefined,
-      // insert when implementation is to be made with GQUOTE-3316
-      // purchaseOrderType: this.caseModalForm.controls.purchaseOrderType.value,
+      purchaseOrderTypeId:
+        this.caseModalForm.controls.purchaseOrderType.value?.id,
     };
+
     this.dialogRef.close(returnUpdateQuotationRequest);
   }
 
-  public checkValueGreaterOrEqualToday(value: Date): boolean {
-    if (!value) {
+  validateDateGreaterOrEqualToday: ValidatorFn = (
+    control: AbstractControl
+  ): ValidationErrors | null => {
+    if (!control.value) {
       return undefined;
     }
 
-    if (value.valueOf() < this.today.valueOf()) {
-      return true;
+    if (control.value.valueOf() < this.today.valueOf()) {
+      return { smallerThanToday: true };
     }
 
     return undefined;
-  }
+  };
 
-  public validateDateGreaterOrEqualThanPurchaseOrderDate: ValidatorFn = (
+  validatePurchaseOrderDateDependentDates = () => {
+    const quotationToDateControl = this.caseModalForm.get('quotationToDate');
+    quotationToDateControl?.updateValueAndValidity({ emitEvent: false });
+    quotationToDateControl?.markAsTouched();
+
+    const bindingPeriodValidityEndDateControl = this.caseModalForm.get(
+      'bindingPeriodValidityEndDate'
+    );
+    bindingPeriodValidityEndDateControl?.updateValueAndValidity({
+      emitEvent: false,
+    });
+    bindingPeriodValidityEndDateControl?.markAsTouched();
+  };
+
+  validateDateGreaterOrEqualThanPurchaseOrderDate: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
     if (!control.value) {
@@ -283,7 +298,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     if (this.caseModalForm) {
       const poDate = this.caseModalForm.get('customerPurchaseOrderDate');
 
-      if (poDate && new Date(control.value).valueOf() <= poDate.value) {
+      if (poDate && control.value.isSameOrBefore(moment(poDate.value))) {
         return { smallerThanPoDate: true };
       }
     }
@@ -291,15 +306,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     return undefined;
   };
 
-  public datesAreEqual(date1: Date | string, date2: string): boolean {
-    if (!date1 && !date2) {
-      return true;
-    }
-
-    return new Date(date1).getTime() === new Date(date2).getTime();
-  }
-
-  public formatAutocompleteResult(value: IdValue) {
+  formatAutocompleteResult(value: IdValue) {
     if (!value?.id || !value?.value) {
       return '';
     }
@@ -307,6 +314,19 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     return `${value.id} | ${value.value} ${
       value.value2 ? `| ${value.value2}` : ''
     }`;
+  }
+
+  private isTheSameDay(date1: Moment, date2: string): boolean {
+    if (!date1 && !date2) {
+      return true;
+    }
+
+    // moment(undefined) would create a today date -> prevent that
+    if (!date2) {
+      return false;
+    }
+
+    return date1.isSame(moment(date2), 'day');
   }
 
   private dispatchResetActions(): void {

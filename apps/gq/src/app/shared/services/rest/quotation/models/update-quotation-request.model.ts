@@ -8,6 +8,5 @@ export interface UpdateQuotationRequest {
   customerPurchaseOrderDate?: string;
   validTo?: string;
   shipToParty?: ShipToParty;
-  // TODO: insert when implemented with GQUOTE-3316
-  // purchaseOrderType?: string;
+  purchaseOrderTypeId?: string;
 }

@@ -4,7 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { Quotation, QuotationStatus } from '@gq/shared/models';
+import {
+  PurchaseOrderType,
+  Quotation,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -17,21 +21,22 @@ import { TranslocoService } from '@ngneat/transloco';
 export class HeaderContentComponent {
   @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
 
-  public gqHeader$: Observable<string>;
-  public sapHeader$: Observable<string>;
-  public editCaseNameMode = false;
-  public caseName: string;
-  public saveCaseNameEnabled = false;
-  public currency: string;
-  public enableSapFieldEditing = false;
-  public quotationToDate: string;
-  public requestedDeliveryDate: string;
-  public customerPurchaseOrderDate: string;
-  public bindingPeriodValidityEndDate: string;
-  public showEditIcon: boolean;
-  public shipToParty: Customer;
+  gqHeader$: Observable<string>;
+  sapHeader$: Observable<string>;
+  editCaseNameMode = false;
+  caseName: string;
+  saveCaseNameEnabled = false;
+  currency: string;
+  enableSapFieldEditing = false;
+  quotationToDate: string;
+  requestedDeliveryDate: string;
+  customerPurchaseOrderDate: string;
+  bindingPeriodValidityEndDate: string;
+  showEditIcon: boolean;
+  shipToParty: Customer;
+  purchaseOrderType: PurchaseOrderType;
 
-  public quotationStatus = QuotationStatus;
+  quotationStatus = QuotationStatus;
 
   constructor(
     private readonly translocoService: TranslocoService,
@@ -92,10 +97,12 @@ export class HeaderContentComponent {
 
         this.enableSapFieldEditing = false;
       }
+
+      this.purchaseOrderType = value.purchaseOrderType;
     }
   }
 
-  public openCaseEditingModal(): void {
+  openCaseEditingModal(): void {
     this.matDialog
       .open(EditCaseModalComponent, {
         width: '550px',
@@ -113,33 +120,13 @@ export class HeaderContentComponent {
             value2: this.shipToParty?.country,
           },
           salesOrg: this.shipToParty?.identifier?.salesOrg,
+          purchaseOrderType: this.purchaseOrderType,
         },
       })
       .afterClosed()
       .subscribe((result?: UpdateQuotationRequest) => {
-        if (
-          result &&
-          (result.caseName !== this.caseName ||
-            result.currency !== this.currency ||
-            result.quotationToDate !== this.quotationToDate ||
-            result.requestedDelDate !== this.requestedDeliveryDate ||
-            result.customerPurchaseOrderDate !==
-              this.customerPurchaseOrderDate ||
-            result.validTo !== this.bindingPeriodValidityEndDate ||
-            result.shipToParty?.customerId !==
-              this.shipToParty?.identifier?.customerId)
-        ) {
-          this.updateQuotation.emit({
-            caseName: result.caseName,
-            currency: result.currency,
-            quotationToDate: result.quotationToDate,
-            requestedDelDate: result.requestedDelDate,
-            customerPurchaseOrderDate: result.customerPurchaseOrderDate,
-            validTo: result.validTo,
-            shipToParty: result.shipToParty?.customerId
-              ? result.shipToParty
-              : undefined,
-          });
+        if (result) {
+          this.updateQuotation.emit(result);
         }
       });
   }

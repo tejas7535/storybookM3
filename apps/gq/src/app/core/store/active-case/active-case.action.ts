@@ -5,7 +5,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
-import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
@@ -31,17 +31,7 @@ export const ActiveCaseActions = createActionGroup({
     }>(),
     'Update Quotation Details Failure': props<{ errorMessage: string }>(),
 
-    'Update Quotation': props<
-      Partial<{
-        caseName: string;
-        currency: string;
-        quotationToDate: string;
-        requestedDelDate: string;
-        customerPurchaseOrderDate: string;
-        validTo: string;
-        shipToParty: ShipToParty;
-      }>
-    >(),
+    'Update Quotation': props<UpdateQuotationRequest>(),
     'Update Quotation Success': props<{ quotation: Quotation }>(),
     'Update Quotation Failure': props<{ errorMessage: string }>(),
 

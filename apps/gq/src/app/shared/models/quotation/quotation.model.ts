@@ -1,4 +1,5 @@
 import { Customer } from '../customer';
+import { PurchaseOrderType } from '../purchase-order-type.interface';
 import { QuotationDetail } from '../quotation-detail';
 import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
 import { GQUser } from '../user.model';
@@ -33,4 +34,5 @@ export class Quotation {
   public sapCustomerPurchaseOrderDate: string;
   public origin: CASE_ORIGIN;
   public shipToParty: Customer;
+  public purchaseOrderType: PurchaseOrderType;
 }

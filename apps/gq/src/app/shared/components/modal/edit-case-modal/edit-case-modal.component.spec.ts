@@ -7,11 +7,16 @@ import {
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MatMomentDateModule,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
 
 import { of } from 'rxjs';
 
@@ -24,8 +29,9 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import moment from 'moment';
 import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -33,6 +39,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
+import { PurchaseOrderTypeSelectComponent } from '../../purchase-order-type-select/purchase-order-type-select.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
 describe('EditCaseModalComponent', () => {
   let component: EditCaseModalComponent;
@@ -42,20 +49,21 @@ describe('EditCaseModalComponent', () => {
   const createComponent = createComponentFactory({
     component: EditCaseModalComponent,
     imports: [
+      MockComponent(PurchaseOrderTypeSelectComponent),
       MatFormFieldModule,
+      MatDatepickerModule,
+      MatMomentDateModule,
       MatSelectModule,
       MatInputModule,
       FormsModule,
       ReactiveFormsModule,
-      PushModule,
+      PushPipe,
       MatAutocompleteModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    declarations: [
-      EditCaseModalComponent,
-      MockComponent(DialogHeaderComponent),
-    ],
+    declarations: [MockComponent(DialogHeaderComponent)],
     providers: [
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
       {
         provide: MatDialogRef,
         useValue: {
@@ -71,6 +79,8 @@ describe('EditCaseModalComponent', () => {
           requestedDeliveryDate: '2022-12-31T00:00:00.000Z',
           customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
           bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
+          purchaseOrderType: { id: 1, name: 'ZOR' },
+          enableSapFieldEditing: true,
         },
       },
       provideMockStore({
@@ -106,11 +116,11 @@ describe('EditCaseModalComponent', () => {
         },
       },
     ],
-    detectChanges: false,
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: true,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   });
 
-  beforeEach(async () => {
+  beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
@@ -122,34 +132,29 @@ describe('EditCaseModalComponent', () => {
 
   describe('ngOnInit', () => {
     test('should create FormGroup and fill in caseName and currency', () => {
-      expect(component.caseModalForm).toBeFalsy();
-
-      spectator.detectChanges();
-
       expect(component.caseModalForm.controls.caseName.value).toBe('case-name');
       expect(component.caseModalForm.controls.currency.value).toBe('EUR');
       expect(
         component.caseModalForm.controls.quotationToDate.value
-      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
       expect(
         component.caseModalForm.controls.requestedDeliveryDate.value
-      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
       expect(
         component.caseModalForm.controls.customerPurchaseOrderDate.value
-      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
       expect(
         component.caseModalForm.controls.bindingPeriodValidityEndDate.value
-      ).toStrictEqual(new Date('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
     });
 
     test('should set salesOrg from array', () => {
-      expect(component.salesOrg).toBeUndefined();
-
       store.overrideSelector(getSalesOrgs, [
         { id: '0267', selected: false },
         { id: '0268', selected: false },
       ]);
-      spectator.detectChanges();
+
+      component.ngOnInit();
 
       expect(component.salesOrg).toEqual('0267');
     });
@@ -160,9 +165,57 @@ describe('EditCaseModalComponent', () => {
       } as any;
 
       store.overrideSelector(getSalesOrgs, []);
-      spectator.detectChanges();
+
+      component.ngOnInit();
 
       expect(component.salesOrg).toEqual('0269');
+    });
+  });
+
+  describe('subscribeToChanges', () => {
+    test('should set hasCaseModalForm to true for caseName', () => {
+      expect(component.hasCaseModalFormChange).toBeFalsy();
+      component.caseModalForm.get('caseName').setValue('testCase');
+      expect(component.hasCaseModalFormChange).toBeTruthy();
+    });
+
+    test('Should set hasCaseModalForm to true for customerPurchaseOrderDate', () => {
+      expect(component.hasCaseModalFormChange).toBeFalsy();
+      component.validatePurchaseOrderDateDependentDates = jest.fn();
+      component.caseModalForm
+        .get('customerPurchaseOrderDate')
+        .setValue(moment('01.01.2019'));
+      expect(component.hasCaseModalFormChange).toBeTruthy();
+      expect(
+        component.validatePurchaseOrderDateDependentDates
+      ).toHaveBeenCalled();
+    });
+    test('should handle autocomplete resetAutocompleteMaterials', () => {
+      Object.defineProperty(component, 'autocomplete', {
+        value: {
+          autocomplete: jest.fn(),
+          resetAutocompleteMaterials: jest.fn(),
+        },
+      });
+
+      component.caseModalForm.get('shipToParty').setValue('s');
+      expect(
+        component.autocomplete.resetAutocompleteMaterials
+      ).toHaveBeenCalled();
+    });
+
+    test('should handle autocomplete empty string', () => {
+      Object.defineProperty(component, 'autocomplete', {
+        value: {
+          autocomplete: jest.fn(),
+          resetAutocompleteMaterials: jest.fn(),
+        },
+      });
+
+      component.caseModalForm.get('shipToParty').setValue('');
+      expect(
+        component.autocomplete.resetAutocompleteMaterials
+      ).toHaveBeenCalled();
     });
   });
 
@@ -185,16 +238,16 @@ describe('EditCaseModalComponent', () => {
       component.caseModalForm.controls.caseName.setValue('new-case-name');
       component.caseModalForm.controls.currency.setValue('USD');
       component.caseModalForm.controls.quotationToDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
       component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
       component.caseModalForm.controls.requestedDeliveryDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
 
       component.submitDialog();
@@ -207,6 +260,7 @@ describe('EditCaseModalComponent', () => {
         requestedDelDate: '2022-12-31T00:00:00.000Z',
         customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
         validTo: '2022-12-31T00:00:00.000Z',
+        purchaseOrderTypeId: 1,
       });
     });
 
@@ -218,16 +272,16 @@ describe('EditCaseModalComponent', () => {
       component.caseModalForm.controls.caseName.setValue('   new whitespace ');
       component.caseModalForm.controls.currency.setValue('USD');
       component.caseModalForm.controls.quotationToDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
       component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
       component.caseModalForm.controls.requestedDeliveryDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
-        '2022-12-31T00:00:00.000Z'
+        moment('2022-12-31T00:00:00.000Z')
       );
 
       component.submitDialog();
@@ -240,6 +294,7 @@ describe('EditCaseModalComponent', () => {
         requestedDelDate: '2022-12-31T00:00:00.000Z',
         customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
         validTo: '2022-12-31T00:00:00.000Z',
+        purchaseOrderTypeId: 1,
       });
     });
   });
@@ -281,28 +336,74 @@ describe('EditCaseModalComponent', () => {
     });
   });
 
-  describe('checkValueGreaterOrEqualToday', () => {
+  describe('validateDateGreaterOrEqualToday', () => {
     beforeEach(() => {
-      component['today'] = new Date('01.01.2019');
+      Object.defineProperty(component, 'today', {
+        value: new Date('01.01.2019'),
+      });
     });
 
-    it('Should return undefined as Error', () => {
-      const result = component.checkValueGreaterOrEqualToday(
-        new Date('02.01.2019')
+    it('should return undefined as Error', () => {
+      const control: FormControl = new FormControl(
+        moment({ year: 2019, month: 1, day: 2 })
       );
+      const result = component['validateDateGreaterOrEqualToday'](control);
       expect(result).toBeUndefined();
     });
 
-    it('Should return an error as Error', () => {
-      const result = component.checkValueGreaterOrEqualToday(
-        new Date('01.01.2018')
+    it('should return an error as Error', () => {
+      const control: FormControl = new FormControl(
+        moment({ year: 2018, month: 1, day: 1 })
       );
-      expect(result).toEqual(true);
+      const result = component['validateDateGreaterOrEqualToday'](control);
+      expect(result).toEqual({ smallerThanToday: true });
     });
     it('should return undefined if control has no value', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      const result = component.checkValueGreaterOrEqualToday(undefined);
+      const control: FormControl = new FormControl(undefined);
+      const result = component['validateDateGreaterOrEqualToday'](control);
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('validatePurchaseOrderDateDependentDates', () => {
+    test('should update validity of dependent dates when customPurchaseOrder Date has changed', () => {
+      component.ngOnInit();
+      component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
+        moment('01.01.2019')
+      );
+
+      component.caseModalForm.controls.quotationToDate.setValue(
+        moment('02.01.2019')
+      );
+      component.caseModalForm.controls.quotationToDate.updateValueAndValidity =
+        jest.fn();
+      component.caseModalForm.controls.quotationToDate.markAsTouched =
+        jest.fn();
+
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
+        moment('02.01.2019')
+      );
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.updateValueAndValidity =
+        jest.fn();
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.markAsTouched =
+        jest.fn();
+
+      component.validatePurchaseOrderDateDependentDates();
+
+      expect(
+        component.caseModalForm.controls.quotationToDate.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(
+        component.caseModalForm.controls.quotationToDate.markAsTouched
+      ).toHaveBeenCalled();
+      expect(
+        component.caseModalForm.controls.bindingPeriodValidityEndDate
+          .updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(
+        component.caseModalForm.controls.bindingPeriodValidityEndDate
+          .markAsTouched
+      ).toHaveBeenCalled();
     });
   });
 
@@ -311,18 +412,18 @@ describe('EditCaseModalComponent', () => {
       component.ngOnInit();
       component.caseModalForm
         .get('customerPurchaseOrderDate')
-        .setValue(new Date('01.01.2019'));
+        .setValue(moment('01.01.2019'));
     });
 
     it('Should return undefined as Error', () => {
-      const control: FormControl = new FormControl(new Date('02.01.2019'));
+      const control: FormControl = new FormControl(moment('02.01.2019'));
       const result: ValidationErrors | null =
         component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
       expect(result).toBeUndefined();
     });
 
     it('Should return an error as Error', () => {
-      const control: FormControl = new FormControl(new Date('01.01.2018'));
+      const control: FormControl = new FormControl(moment('01.01.2018'));
       const expectedError: ValidationErrors = { smallerThanPoDate: true };
 
       const result: ValidationErrors | null =
@@ -330,7 +431,7 @@ describe('EditCaseModalComponent', () => {
       expect(result).toEqual(expectedError);
     });
     it('Should return an error as Error when values equal', () => {
-      const control: FormControl = new FormControl(new Date('01.01.2019'));
+      const control: FormControl = new FormControl(moment('01.01.2019'));
       const expectedError: ValidationErrors = { smallerThanPoDate: true };
 
       const result: ValidationErrors | null =
@@ -342,6 +443,32 @@ describe('EditCaseModalComponent', () => {
       const result: ValidationErrors | null =
         component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('isTheSameDay', () => {
+    test('should return true if dates are the same day', () => {
+      const date1 = moment('01.01.2019');
+      const date2 = '01.01.2019';
+      expect(component['isTheSameDay'](date1, date2)).toEqual(true);
+    });
+
+    test('should return false if dates are not the same day', () => {
+      const date1 = moment('01.01.2019');
+      const date2 = '02.01.2019';
+      expect(component['isTheSameDay'](date1, date2)).toEqual(false);
+    });
+
+    test('should return false if second date is undefined', () => {
+      const date1 = moment('01.01.2019');
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(component['isTheSameDay'](date1, undefined)).toEqual(false);
+    });
+
+    test('should return true if both dates are undefined', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(component['isTheSameDay'](undefined, undefined)).toEqual(true);
     });
   });
 });

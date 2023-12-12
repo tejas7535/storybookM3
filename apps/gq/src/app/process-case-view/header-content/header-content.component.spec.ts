@@ -8,7 +8,6 @@ import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { Keyboard } from '@gq/shared/models';
-import { Customer } from '@gq/shared/models/customer';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -180,26 +179,6 @@ describe('HeaderContentComponent', () => {
 
       expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
     });
-    test('should not emit output on same caseName', () => {
-      component.caseName = 'caseName';
-      matDialogSpyObject.open.andReturn({
-        afterClosed: jest.fn(() => of({ caseName: 'caseName' })),
-      });
-
-      component.openCaseEditingModal();
-
-      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
-    });
-    test('should not emit output on same currency', () => {
-      component.currency = 'EUR';
-      matDialogSpyObject.open.andReturn({
-        afterClosed: jest.fn(() => of({ currency: 'EUR' })),
-      });
-
-      component.openCaseEditingModal();
-
-      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
-    });
 
     test('should set shipToParty', () => {
       component.shipToParty = undefined;
@@ -218,37 +197,6 @@ describe('HeaderContentComponent', () => {
         caseName: '12',
         shipToParty: { customerId: '125', salesOrg: '0815' },
       });
-    });
-
-    test('should set undefined for empty ship to party object', () => {
-      component.shipToParty = {
-        identifier: { customerId: '15' },
-      } as unknown as Customer;
-      matDialogSpyObject.open.andReturn({
-        afterClosed: jest.fn(() =>
-          // eslint-disable-next-line unicorn/no-null
-          of({ caseName: '12', shipToParty: { customer: null } })
-        ),
-      });
-
-      component.openCaseEditingModal();
-
-      expect(component.updateQuotation.emit).toHaveBeenCalledWith({
-        caseName: '12',
-      });
-    });
-
-    test('should not emit on same shipToPartyCustomer', () => {
-      component.shipToParty = {
-        identifier: { customerId: '15' },
-      } as unknown as Customer;
-      matDialogSpyObject.open.andReturn({
-        afterClosed: jest.fn(() => of({ shipToParty: { customerId: '15' } })),
-      });
-
-      component.openCaseEditingModal();
-
-      expect(component.updateQuotation.emit).not.toHaveBeenCalled();
     });
   });
 

@@ -435,6 +435,7 @@ export class ActiveCaseEffects {
               customerPurchaseOrderDate: action.customerPurchaseOrderDate,
               requestedDelDate: action.requestedDelDate,
               shipToParty: action.shipToParty,
+              purchaseOrderTypeId: action.purchaseOrderTypeId,
             },
             gqId
           )
