@@ -7,6 +7,7 @@ import { waitForAsync } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 
+import { environment } from '@ea/environments/environment';
 import {
   createServiceFactory,
   mockProvider,
@@ -24,6 +25,7 @@ describe('FontsLoaderService', () => {
   let spectator: SpectatorService<FontsLoaderService>;
   let service: FontsLoaderService;
   let httpMock: HttpTestingController;
+  const assetBasePath = environment.assetsPath;
 
   const langChanges$ = new BehaviorSubject<string>('zh');
   const langChangesObservable$: Observable<string> =
@@ -63,10 +65,10 @@ describe('FontsLoaderService', () => {
 
   describe('when created', () => {
     it('should load inital fonts', () => {
-      const regularFontUrl = '/assets/fonts/NotoSans-Regular.ttf';
-      const boldFontUrl = '/assets/fonts/NotoSans-Bold.ttf';
-      const chineseRegularFontUrl = '/assets/fonts/NotoSansSC-Regular.ttf';
-      const chineseBoldFontUrl = '/assets/fonts/NotoSansSC-Bold.ttf';
+      const regularFontUrl = `${assetBasePath}/fonts/NotoSans-Regular.ttf`;
+      const boldFontUrl = `${assetBasePath}/fonts/NotoSans-Bold.ttf`;
+      const chineseRegularFontUrl = `${assetBasePath}/fonts/NotoSansSC-Regular.ttf`;
+      const chineseBoldFontUrl = `${assetBasePath}/fonts/NotoSansSC-Bold.ttf`;
 
       const regularFontRequest = httpMock.expectOne(regularFontUrl);
       expect(regularFontRequest.request.method).toBe('GET');
@@ -142,8 +144,8 @@ describe('FontsLoaderService', () => {
     });
 
     it('should load additional font', waitForAsync(() => {
-      const regularFontUrl = '/assets/fonts/NotoSansTC-Regular.ttf';
-      const boldFontUrl = '/assets/fonts/NotoSansTC-Bold.ttf';
+      const regularFontUrl = `${assetBasePath}/fonts/NotoSansTC-Regular.ttf`;
+      const boldFontUrl = `${assetBasePath}/fonts/NotoSansTC-Bold.ttf`;
 
       const regularFontRequest = httpMock.expectOne(regularFontUrl);
       expect(regularFontRequest.request.method).toBe('GET');

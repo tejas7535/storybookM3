@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
+import { environment } from '@ea/environments/environment';
 import { LANGUAGE_ZH, LANGUAGE_ZH_TW } from '@ea/shared/constants/language';
 import { TranslocoService } from '@ngneat/transloco';
 import jsPDF from 'jspdf';
@@ -134,7 +135,7 @@ export class FontsLoaderService implements OnDestroy {
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   private getFontFromAssetsByName(fontName: string): Observable<Object> {
-    return this.httpClient.get(`/assets/fonts/${fontName}`, {
+    return this.httpClient.get(`${environment.assetsPath}/fonts/${fontName}`, {
       responseType: 'blob' as 'json',
     });
   }
