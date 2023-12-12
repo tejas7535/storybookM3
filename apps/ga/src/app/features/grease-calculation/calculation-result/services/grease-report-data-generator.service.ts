@@ -118,9 +118,11 @@ export class GreaseReportDataGeneratorService {
         let returnItem;
 
         if (dataSource && 'values' in dataSource) {
+          const title: string = dataSource.title;
+
           return {
-            itemTitle: this.getTranslatedTitle(dataSource.title),
-            items: this.encodeTextAndSplitOnNewLine(dataSource.values),
+            itemTitle: this.getTranslatedTitle(title),
+            items: this.encodeTextAndSplitOnNewLine(dataSource.values, title),
           };
         }
 
@@ -199,15 +201,20 @@ export class GreaseReportDataGeneratorService {
   }
 
   private encodeTextAndSplitOnNewLine(
-    dataSourceValueWithHtml: string | undefined
+    dataSourceValueWithHtml: string | undefined,
+    dataSourceTitle: string
   ): string[] {
     const regex = /(<([^>]+)>)/gi;
-    const result: string[] = [];
+    let result: string[] = [];
 
     if (dataSourceValueWithHtml) {
       dataSourceValueWithHtml.split('<br>').forEach((value) => {
         result.push(value.replace(regex, ''));
       });
+
+      if (dataSourceTitle === 'initialGreaseQuantity') {
+        result = [result.join('/')];
+      }
     }
 
     return result;

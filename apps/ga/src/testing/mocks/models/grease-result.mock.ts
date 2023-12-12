@@ -29,7 +29,7 @@ export const greaseResultDataMock = (
 ): GreaseResultData => [
   {
     title: 'initialGreaseQuantity',
-    values: `<span>${value} g</span></br><span class="text-low-emphasis">${value} ${unit}</span>`,
+    values: `<span>${value} g</span><br><span class="text-low-emphasis">${value} ${unit}</span>`,
   },
   {
     title: 'relubricationPer365days',

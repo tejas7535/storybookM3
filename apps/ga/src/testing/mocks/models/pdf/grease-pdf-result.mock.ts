@@ -22,7 +22,7 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',
-          items: ['1234567.89 g1234567.89 mock_unit'],
+          items: ['1234567.89 g/1234567.89 mock_unit'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer365days',
@@ -122,7 +122,7 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',
-          items: ['1234567.89 g1234567.89 mock_unit'],
+          items: ['1234567.89 g/1234567.89 mock_unit'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer365days',
@@ -209,7 +209,7 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',
-          items: ['1234567.89 g1234567.89 mock_unit'],
+          items: ['1234567.89 g/1234567.89 mock_unit'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer365days',

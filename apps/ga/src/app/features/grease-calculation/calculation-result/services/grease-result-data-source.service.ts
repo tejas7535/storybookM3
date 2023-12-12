@@ -116,7 +116,7 @@ export class GreaseResultDataSourceService {
             +initialGreaseQuantityValue,
             '',
             true
-          )}</br>${helpers.secondaryValue(
+          )}<br>${helpers.secondaryValue(
             `${this.localeService.localizeNumber(
               initialGreaseQuantityValue,
               'decimal'
