@@ -92,7 +92,7 @@
         "confirmButton": "Confirm",
         "cancelButton": "Cancel"
       },
-      "costsUpToDate": "Costs are up to date"
+      "costsUpToDate": "Costs up to date"
     },
     "rfqPositionDetails": {
       "title": "RFQ Information",
@@ -120,7 +120,7 @@
         "confirmButton": "Confirm",
         "cancelButton": "Cancel"
       },
-      "rfqDataUpToDate": "RFQ information up to date"
+      "rfqDataUpToDate": "RFQ Information up to date"
     },
     "materialComparableCostDetails": {
       "title": "Comparable Cost #{{number}}",
