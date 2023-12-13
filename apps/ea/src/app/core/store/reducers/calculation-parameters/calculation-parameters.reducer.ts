@@ -71,7 +71,7 @@ export const initialState: CalculationParametersState = {
 
   calculationTypes: {
     ratingLife: {
-      selected: false,
+      selected: true,
       visible: true,
       disabled: false,
     },
