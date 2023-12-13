@@ -53,13 +53,14 @@ describe('EmployeeListTableComponent', () => {
         'positionDescription',
         'exitDate',
         'reasonForLeaving',
+        'actionReason',
         'from',
         'to',
       ];
 
       const columnDefs = component.createColDefs();
 
-      expect(columnDefs.length).toEqual(9);
+      expect(columnDefs.length).toEqual(10);
       expect(columnDefs.map((col) => col.field)).toEqual(expectedColumnFields);
       expect(columnDefs.find((col) => col.field === 'from')).toBeTruthy();
       expect(columnDefs.find((col) => col.field === 'to')).toBeTruthy();
@@ -75,13 +76,14 @@ describe('EmployeeListTableComponent', () => {
         'positionDescription',
         'exitDate',
         'reasonForLeaving',
+        'actionReason',
         'from',
         'to',
       ];
 
       const columnDefs = component.createColDefs();
 
-      expect(columnDefs.length).toEqual(9);
+      expect(columnDefs.length).toEqual(10);
       expect(columnDefs.map((col) => col.field)).toEqual(expectedColumnFields);
       expect(columnDefs.find((col) => col.field === 'from')).toBeTruthy();
       expect(columnDefs.find((col) => col.field === 'to')).toBeTruthy();

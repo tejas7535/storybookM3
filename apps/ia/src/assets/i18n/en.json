@@ -69,6 +69,7 @@
     "entryDate": "Entry Date",
     "exitDate": "Exit Date",
     "reasonForLeaving": "Fluctuation Type",
+    "actionReason": "Action Reason",
     "fluctuationType": {
       "UNFORCED": "unforced",
       "FORCED": "forced",

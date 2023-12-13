@@ -119,6 +119,11 @@ export class EmployeeListTableComponent implements OnInit {
           cellRenderer: FluctuationTypeCellRendererComponent,
         },
         {
+          field: 'actionReason',
+          headerName: translate('employeeListDialog.actionReason'),
+          tooltipField: 'actionReason',
+        },
+        {
           field: 'from',
           headerName: translate('employeeListDialog.from'),
           hide: true,

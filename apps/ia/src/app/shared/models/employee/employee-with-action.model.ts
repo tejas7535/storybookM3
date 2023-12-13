@@ -8,6 +8,7 @@ export interface EmployeeWithAction {
   exitDate: string;
   entryDate: string;
   reasonForLeaving: LeavingType;
+  actionReason: string;
   positionDescription: string;
   orgUnit: string;
   actionType: ActionType;
