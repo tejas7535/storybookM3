@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Empty States
+## [2.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.5.1...empty-states-v2.6.0) (2023-12-14)
+
+
+### Features
+
+* **empty-states:** migrate to mdc based components ([#5836](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5836)) ([070eac6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/070eac6bc73a6a57d174259ef43b72680f013396))
+
 ## [2.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.5.0...empty-states-v2.5.1) (2023-09-25)
 
 ## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.4.4...empty-states-v2.5.0) (2023-09-22)

@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/empty-states",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "peerDependencies": {
     "@angular/common": ">=16.0.0 <17.0.0",
     "@angular/core": ">=16.0.0 <17.0.0",
