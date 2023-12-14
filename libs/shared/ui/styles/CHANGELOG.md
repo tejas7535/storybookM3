@@ -1,4 +1,17 @@
 # Release Notes of Library Shared UI Styles
+## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.8.1...styles-v1.9.0) (2023-12-14)
+
+
+### Features
+
+* **inputs:** migrate search and label value to mdc based components ([#5769](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5769)) ([e9dd6ee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e9dd6ee8573f947c10db6fabbad93628ad090bf7))
+* **picture-card:** migrate components to mdc base version (5337) ([#5782](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5782)) ([0c8076c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0c8076c04d769ab53b29480293301e7c4a9ce7c7))
+
+
+### Bug Fixes
+
+* **styles:** remove global select bg setting ([cceef6d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cceef6d7ec3b93e5ff0ce7e64ac31c0789301234))
+
 ## [1.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.8.0...styles-v1.8.1) (2023-09-25)
 
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.7.4...styles-v1.8.0) (2023-09-22)
