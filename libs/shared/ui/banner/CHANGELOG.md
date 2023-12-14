@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Banner
+## [3.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.4.1...banner-v3.5.0) (2023-12-14)
+
+
+### Features
+
+* **picture-card:** migrate components to mdc base version (5337) ([#5782](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5782)) ([0c8076c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0c8076c04d769ab53b29480293301e7c4a9ce7c7))
+
 ## [3.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.4.0...banner-v3.4.1) (2023-09-25)
 
 ## [3.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.3.6...banner-v3.4.0) (2023-09-22)
