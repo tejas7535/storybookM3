@@ -297,6 +297,36 @@ describe('EditCaseModalComponent', () => {
         purchaseOrderTypeId: 1,
       });
     });
+
+    test('should update case name with missing dates', () => {
+      component['dialogRef'].close = jest.fn();
+
+      spectator.detectChanges();
+
+      component.caseModalForm.controls.caseName.setValue('   new whitespace ');
+      component.caseModalForm.controls.currency.setValue('USD');
+      component.caseModalForm.controls.quotationToDate.setValue(
+        undefined as any
+      );
+      component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
+        undefined as any
+      );
+      component.caseModalForm.controls.requestedDeliveryDate.setValue(
+        undefined as any
+      );
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
+        undefined as any
+      );
+
+      component.submitDialog();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        caseName: 'new whitespace',
+        currency: 'USD',
+        purchaseOrderTypeId: 1,
+      });
+    });
   });
 
   describe('show hint', () => {

@@ -236,25 +236,31 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   }
 
   submitDialog(): void {
+    const {
+      caseName,
+      currency,
+      quotationToDate,
+      requestedDeliveryDate,
+      customerPurchaseOrderDate,
+      bindingPeriodValidityEndDate,
+      shipToParty,
+      purchaseOrderType,
+    } = this.caseModalForm.controls;
+
     const returnUpdateQuotationRequest: UpdateQuotationRequest = {
-      caseName: this.caseModalForm.controls.caseName.value?.trim(),
-      currency: this.caseModalForm.controls.currency.value,
-      quotationToDate:
-        this.caseModalForm.controls.quotationToDate.value.toISOString(),
-      requestedDelDate:
-        this.caseModalForm.controls.requestedDeliveryDate.value.toISOString(),
-      customerPurchaseOrderDate:
-        this.caseModalForm.controls.customerPurchaseOrderDate.value.toISOString(),
-      validTo:
-        this.caseModalForm.controls.bindingPeriodValidityEndDate.value.toISOString(),
-      shipToParty: this.caseModalForm.controls.shipToParty.value?.id
+      caseName: caseName.value?.trim(),
+      currency: currency.value,
+      quotationToDate: quotationToDate.value?.toISOString(),
+      requestedDelDate: requestedDeliveryDate.value?.toISOString(),
+      customerPurchaseOrderDate: customerPurchaseOrderDate.value?.toISOString(),
+      validTo: bindingPeriodValidityEndDate.value?.toISOString(),
+      shipToParty: shipToParty.value?.id
         ? ({
-            customerId: this.caseModalForm.controls.shipToParty.value.id,
+            customerId: shipToParty.value.id,
             salesOrg: this.salesOrg,
           } as ShipToParty)
         : undefined,
-      purchaseOrderTypeId:
-        this.caseModalForm.controls.purchaseOrderType.value?.id,
+      purchaseOrderTypeId: purchaseOrderType.value?.id,
     };
 
     this.dialogRef.close(returnUpdateQuotationRequest);
