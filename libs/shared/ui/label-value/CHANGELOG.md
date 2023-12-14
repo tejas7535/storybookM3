@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Label Value
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v1.1.1...label-value-v1.2.0) (2023-12-14)
+
+
+### Features
+
+* **inputs:** migrate search and label value to mdc based components ([#5769](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5769)) ([e9dd6ee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e9dd6ee8573f947c10db6fabbad93628ad090bf7))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v1.1.0...label-value-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v1.0.2...label-value-v1.1.0) (2023-09-22)
