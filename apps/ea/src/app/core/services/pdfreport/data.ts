@@ -9,6 +9,7 @@ export interface DocumentData {
   marketingText: string;
   documentDisclaimer: string;
   calculationMethodsHeading: string;
+  inputSectionHeading: string;
   co2disclaimer: string;
   noticeHeading: string;
   page: string;
@@ -38,6 +39,7 @@ export const DocumentFonts = {
 export const DefaultDocumentDimensions = {
   pageMargin: 21,
   reportTitleFontSize: 16,
+  sectionTitleFontSize: 11,
   textFontSize: 9,
   disclaimerFontSize: 7,
   blockSpacing: 12,

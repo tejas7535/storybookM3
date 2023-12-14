@@ -1,8 +1,12 @@
 import { CalculationResultReportInput } from '@ea/core/store/models';
 import jsPDF from 'jspdf';
 
-import { DefaultDocumentColors, Spacing } from '../data';
-import { estimateTextDimensions, resetFont } from '../util';
+import {
+  DefaultDocumentColors,
+  DefaultDocumentDimensions,
+  Spacing,
+} from '../data';
+import { estimateTextDimensions, getRealLineHeight, resetFont } from '../util';
 import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
 interface tableItem {
@@ -144,10 +148,25 @@ export const renderInputTable = (
   doc: jsPDF,
   block: LayoutBlock<CalculationResultReportInput[]>
 ) => {
-  const startY = block.yStart;
+  resetFont(doc);
+  doc.setFontSize(DefaultDocumentDimensions.sectionTitleFontSize);
+  const lineHeight = doc.getLineHeight();
+
+  doc.text(
+    [`${block.heading || 'Input'}`],
+    block.constraints.pageMargin,
+    block.yStart + lineHeight
+  );
+  doc.setFontSize(DefaultDocumentDimensions.textFontSize);
+  const startY =
+    block.yStart +
+    getRealLineHeight(doc) +
+    DefaultDocumentDimensions.blockSpacing;
+
   const colYs = [startY, startY];
   const width =
     doc.internal.pageSize.getWidth() - 2 * block.constraints.pageMargin - 12;
+
   const colWidth = width / 2;
   const colX = [
     block.constraints.pageMargin,

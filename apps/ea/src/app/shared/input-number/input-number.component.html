@@ -2,7 +2,11 @@
   class="flex w-full items-baseline gap-2"
   *transloco="let t; read: 'operationConditions.errors'"
 >
-  <mat-form-field appearance="outline" class="flex w-full grow-0 flex-col pb-3">
+  <mat-form-field
+    appearance="outline"
+    class="flex w-full grow-0 flex-col pb-3"
+    [subscriptSizing]="'dynamic'"
+  >
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <input
       matInput

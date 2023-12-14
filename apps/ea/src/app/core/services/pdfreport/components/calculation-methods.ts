@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 
+import { DefaultDocumentDimensions } from '../data';
 import { getRealLineHeight, resetFont } from '../util';
 import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
@@ -18,12 +19,12 @@ export const renderCalculationMethods = (
 
   if (!block.dryRun) {
     resetFont(doc);
-    doc.setFontSize(11);
+    doc.setFontSize(DefaultDocumentDimensions.sectionTitleFontSize);
     const lineHeight = doc.getLineHeight();
     doc.text([`${block.heading || 'Error'}`], xCursor, yPos + lineHeight);
     yPos += getRealLineHeight(doc) + blockMargin / 3;
   }
-  doc.setFontSize(9);
+  doc.setFontSize(DefaultDocumentDimensions.textFontSize);
   const rectHeight = doc.getFontSize() + verticalPadding;
   const methodLineHeight = doc.getLineHeight();
   for (const item of calculations) {

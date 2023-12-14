@@ -21,7 +21,9 @@ export class PDFREport {
     }).add('methods', this.data.calculationMethods, {
       header: this.docSettings.calculationMethodsHeading,
     });
-    verticalLayout.add('inputs', this.data.calculationInput);
+    verticalLayout.add('inputs', this.data.calculationInput, {
+      header: this.docSettings.inputSectionHeading,
+    });
 
     if (
       this.data.upstreamEmissions &&

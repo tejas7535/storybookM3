@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+import { BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING } from '@ea/core/services/bearinx-result.constant';
 import { createSelector } from '@ngrx/store';
 
 import {
@@ -18,7 +18,6 @@ import {
   isCalculationResultAvailable as isCatalogCalculationResultAvailable,
 } from './catalog-calculation-result.selector';
 import { getCalculationResult as co2UpstreamCalculationResult } from './co2-upstream-calculation-result.selector';
-import { BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING } from '@ea/core/services/bearinx-result.constant';
 
 export interface CO2EmissionResult {
   co2_upstream: number;

@@ -17,7 +17,8 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { CalculationResultFacade, ProductSelectionFacade } from '../store';
 import { FontsLoaderService } from './fonts-loader.service';
-import { DocumentData, ResultBlock, ResultReport } from './pdfreport/data';
+import { ResultBlock, ResultReport } from './pdfreport/data';
+import { PDFDocumentSettingsService } from './pdfreport/pdf-document-settings.service';
 import { PDFREport } from './pdfreport/pdf-report';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +29,8 @@ export class PDFReportService {
     private readonly resultFacade: CalculationResultFacade,
     private readonly selectionFacade: ProductSelectionFacade,
     private readonly roundPipe: MeaningfulRoundPipe,
-    private readonly fontsLoaderService: FontsLoaderService
+    private readonly fontsLoaderService: FontsLoaderService,
+    private readonly documentSettingsService: PDFDocumentSettingsService
   ) {}
 
   async generate() {
@@ -36,37 +38,8 @@ export class PDFReportService {
 
     const data = await this.fetchResultData(languageCode);
 
-    const documentSettings: DocumentData = {
-      page: this.translocoService.translate('pdfReport.page'),
-      reportHeading: this.translocoService.translate(
-        'pdfReport.reportHeading',
-        { bearingDesignation: data.designation }
-      ),
-      generationDate: this.localeService.localizeDate(Date.now()),
-      marketingText: '',
-      documentDisclaimer: this.translocoService.translate(
-        'pdfReport.disclaimer',
-        {},
-        languageCode
-      ),
-      calculationMethodsHeading: this.translocoService.translate(
-        'pdfReport.selectedMethods',
-        {},
-        languageCode
-      ),
-      co2disclaimer: this.translocoService.translate(
-        'calculationResultReport.co2Emissions.upstreamHint',
-        {},
-        languageCode
-      ),
-      noticeHeading: this.translocoService.translate(
-        'calculationResultReport.reportSectionWarnings',
-        {},
-        languageCode
-      ),
-    };
     const report = new PDFREport(
-      documentSettings,
+      this.documentSettingsService.generateDocumentSettings(data),
       data,
       this.fontsLoaderService
     );
