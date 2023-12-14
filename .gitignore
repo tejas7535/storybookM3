@@ -50,3 +50,6 @@ Thumbs.db
 # i18n checksum files
 **/i18n-checksums.json
 .angular
+
+
+.nx/cache
