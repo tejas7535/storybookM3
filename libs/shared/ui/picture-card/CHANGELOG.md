@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Picture Card
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/picture-card-v1.1.1...picture-card-v1.2.0) (2023-12-14)
+
+
+### Features
+
+* **picture-card:** migrate components to mdc base version (5337) ([#5782](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5782)) ([0c8076c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0c8076c04d769ab53b29480293301e7c4a9ce7c7))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/picture-card-v1.1.0...picture-card-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/picture-card-v1.0.2...picture-card-v1.1.0) (2023-09-22)
