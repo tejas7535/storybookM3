@@ -1,4 +1,19 @@
 # Release Notes of Library Shared UI Inputs
+## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.2.1...inputs-v1.3.0) (2023-12-14)
+
+
+### Features
+
+* **inputs:** migrate search and label value to mdc based components ([#5769](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5769)) ([e9dd6ee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e9dd6ee8573f947c10db6fabbad93628ad090bf7))
+* **inputs:** migrate select component to mdc ([#5779](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5779)) ([093ef15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/093ef15f0d92144b93ff7c422801384c7683b1ea))
+* **inputs:** update search component to support rounded design (UFTABI-6901) ([#5775](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5775)) ([80aee2b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/80aee2bd352ae082431ad844f29d64120d812da5))
+* **picture-card:** migrate components to mdc base version (5337) ([#5782](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5782)) ([0c8076c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0c8076c04d769ab53b29480293301e7c4a9ce7c7))
+
+
+### Bug Fixes
+
+* **inputs:** add transparent background for inner form field ([2acb8b6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2acb8b6b8ca59489bdbddfa07ecd0015fa6ac2e9))
+
 ## [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.2.0...inputs-v1.2.1) (2023-09-25)
 
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.1.1...inputs-v1.2.0) (2023-09-22)
