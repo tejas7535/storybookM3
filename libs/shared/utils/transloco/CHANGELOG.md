@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Transloco
+## [4.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.1.1...transloco-v4.2.0) (2023-12-14)
+
+
+### Features
+
+* **transloco:** add translations to localization components ([#5827](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5827)) ([e776740](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7767400b66341b7cd2a806e267e815dc76db229))
+
 ## [4.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.1.0...transloco-v4.1.1) (2023-09-25)
 
 ## [4.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.0.4...transloco-v4.1.0) (2023-09-22)
