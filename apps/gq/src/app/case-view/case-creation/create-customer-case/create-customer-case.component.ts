@@ -45,7 +45,8 @@ import { MaterialSelectionComponent } from './material-selection/material-select
 })
 export class CreateCustomerCaseComponent implements OnInit {
   @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
-  @ViewChild('autocompleteComponent') title$: Observable<string>;
+  @ViewChild('autocompleteComponent')
+  autocompleteComponent: AutocompleteInputComponent;
 
   selectedSalesOrg$: Observable<SalesOrg>;
   selectedCustomerId$: Observable<string>;
@@ -53,7 +54,7 @@ export class CreateCustomerCaseComponent implements OnInit {
   plsAndSeriesLoading$: Observable<boolean>;
   createCaseDisabled$: Observable<boolean>;
   createCaseLoading$: Observable<boolean>;
-  autocompleteComponent: AutocompleteInputComponent;
+  title$: Observable<string>;
 
   constructor(
     private readonly store: Store,
