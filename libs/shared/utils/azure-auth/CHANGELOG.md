@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Azure Auth
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.1.1...azure-auth-v1.2.0) (2023-12-14)
+
+
+### Features
+
+* **azure-auth:** add access token to auth state ([ab03847](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ab03847f9c8cd8ca197ca0f06f498849b011cb36))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.1.0...azure-auth-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.0.4...azure-auth-v1.1.0) (2023-09-22)
