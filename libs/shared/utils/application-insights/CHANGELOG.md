@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Application Insights
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.1.1...application-insights-v1.2.0) (2023-12-14)
+
+
+### Features
+
+* **application-insights:** allow to use URI for page visits ([#5812](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5812)) ([5a206f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5a206f95c4e8c3667db4418f719679c62006f0d5))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.1.0...application-insights-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.0.2...application-insights-v1.1.0) (2023-09-22)
