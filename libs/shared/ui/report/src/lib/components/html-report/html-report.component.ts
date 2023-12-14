@@ -1,10 +1,9 @@
-/* eslint-disable max-lines */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  LegacyTextOnlySnackBar as TextOnlySnackBar,
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarRef as MatSnackBarRef,
-} from '@angular/material/legacy-snack-bar';
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
 
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
@@ -31,8 +30,8 @@ export class HtmlReportComponent implements OnInit, OnDestroy {
   public htmlResult$: ReplaySubject<Subordinate[]> = new ReplaySubject<
     Subordinate[]
   >();
-  private readonly destroy$ = new Subject<void>();
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
+  private readonly destroy$ = new Subject<void>();
 
   public constructor(
     private readonly reportService: ReportService,

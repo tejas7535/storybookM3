@@ -1,16 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarModule as MatSnackBarModule,
-} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -30,7 +27,7 @@ describe('HtmlReportComponent', () => {
       HttpClientModule,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
-      PushModule,
+      PushPipe,
       MatExpansionModule,
       MatSnackBarModule,
     ],
@@ -114,8 +111,9 @@ describe('HtmlReportComponent', () => {
       const showSnackBarErrorSpy = jest.spyOn(component, 'showSnackBarError');
       component['reportService'].getHtmlReport = jest
         .fn()
-        .mockImplementation((_url: string) => throwError('someerror'));
-
+        .mockImplementation((_url: string) =>
+          throwError(() => new Error('someerror'))
+        );
       component.getHtmlReport();
 
       expect(showSnackBarErrorSpy).toBeCalledTimes(1);
