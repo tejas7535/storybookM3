@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Report
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.1.1...report-v1.2.0) (2023-12-14)
+
+
+### Features
+
+* **report:** migrate to mdc based components ([#5857](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5857)) ([47a516c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47a516cf87401d46f54f5a9d38a2ac16dfe19940))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.1.0...report-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.0.2...report-v1.1.0) (2023-09-22)
