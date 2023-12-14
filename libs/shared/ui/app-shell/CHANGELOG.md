@@ -1,4 +1,16 @@
 # Release Notes of Library Shared UI App Shell
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.1.1...app-shell-v1.2.0) (2023-12-14)
+
+
+### Features
+
+* **app-shell:** add additional translations to app shell ([#5828](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5828)) ([9a7a125](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a7a125f72b64285afeaf4139c2dfda449a66258))
+
+
+### Bug Fixes
+
+* **app-shell:** user icon shrinks with long name ([#5739](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5739)) ([d360926](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d360926060c272e7357e3b9afa22632452d61125))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.1.0...app-shell-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.0.2...app-shell-v1.1.0) (2023-09-22)
