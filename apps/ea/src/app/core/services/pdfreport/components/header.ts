@@ -1,7 +1,18 @@
 import { schaefflerlogo } from '@ea/shared/constants/schaefflerlogo';
 import jsPDF from 'jspdf';
 
-import { DefaultComponentRenderProps, DocumentData } from '../data';
+import {
+  ComponentRenderProps,
+  DefaultComponentRenderProps,
+  DefaultDocumentColors,
+  DocumentData,
+} from '../data';
+import { getStringContentWidth } from '../util';
+
+interface Coordinates {
+  x: number;
+  y: number;
+}
 
 export const generateHeader = (
   doc: jsPDF,
@@ -19,28 +30,13 @@ export const generateHeader = (
     logoHeight
   );
 
-  doc.setFontSize(7.3);
+  doc.setFontSize(8);
+  const linkResult = generateBearingLink(doc, docSettings, props, logoHeight);
 
-  const marketingText = docSettings.marketingText;
-  const marketingTextWidth =
-    doc.getStringUnitWidth(marketingText) * doc.getFontSize();
+  const date = docSettings.generationDate;
+  const xCoordinate = getRightSideElementX(doc, date, props);
 
-  const yMarketingText =
-    props.dimensions.pageMargin + logoHeight / 2 - doc.getFontSize() / 2;
-  doc.text(
-    marketingText,
-    doc.internal.pageSize.getWidth() -
-      marketingTextWidth -
-      props.dimensions.pageMargin,
-    yMarketingText
-  );
-  const dateWidth =
-    doc.getStringUnitWidth(docSettings.generationDate) * doc.getFontSize();
-  doc.text(
-    docSettings.generationDate,
-    doc.internal.pageSize.getWidth() - dateWidth - props.dimensions.pageMargin,
-    yMarketingText + 20
-  );
+  doc.text(docSettings.generationDate, xCoordinate, linkResult.y + 20);
 
   const reportHeadingY =
     logoHeight + props.dimensions.pageMargin + doc.getFontSize() + 25;
@@ -51,4 +47,42 @@ export const generateHeader = (
   doc.text(reportHeading, 21, reportHeadingY);
 
   return reportHeadingY - doc.getFontSize(); // TODO fix inconsistent spacing from bottom edge
+};
+
+const generateBearingLink = (
+  doc: jsPDF,
+  docSettings: DocumentData,
+  props: ComponentRenderProps,
+  logoHeight: number
+): Coordinates => {
+  const documentColor = doc.getTextColor();
+  const text = docSettings.bearingLink.text;
+  const link = docSettings.bearingLink.link;
+
+  const xCoordinate = getRightSideElementX(doc, text, props);
+  const yCoordinate =
+    props.dimensions.pageMargin + logoHeight / 2 - doc.getFontSize() / 2;
+
+  doc.setTextColor(DefaultDocumentColors.darkGreenColor);
+  doc.textWithLink(text, xCoordinate, yCoordinate, { url: link });
+  doc.setTextColor(documentColor);
+
+  return {
+    x: xCoordinate,
+    y: yCoordinate,
+  };
+};
+
+const getRightSideElementX = (
+  doc: jsPDF,
+  content: string,
+  props: ComponentRenderProps
+): number => {
+  const contentWidth = getStringContentWidth(doc, content);
+  const xCoordinate =
+    doc.internal.pageSize.getWidth() -
+    contentWidth -
+    props.dimensions.pageMargin;
+
+  return xCoordinate;
 };

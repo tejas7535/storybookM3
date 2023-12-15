@@ -3,6 +3,7 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -13,6 +14,8 @@ import { PDFDocumentSettingsService } from './pdf-document-settings.service';
 describe('PDFDocumentSettingsService', () => {
   let service: PDFDocumentSettingsService;
   let spectator: SpectatorService<PDFDocumentSettingsService>;
+  let translocoService: TranslocoService;
+  let translocoServiceSpy: jest.SpyInstance;
   const localizeDate = jest.fn();
 
   const createService = createServiceFactory({
@@ -24,6 +27,8 @@ describe('PDFDocumentSettingsService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    translocoService = spectator.inject(TranslocoService);
+    translocoServiceSpy = jest.spyOn(translocoService, 'translate');
   });
 
   it('should create service', () => {
@@ -32,8 +37,9 @@ describe('PDFDocumentSettingsService', () => {
 
   describe('when generating document settings', () => {
     it('should generate settings', () => {
+      const designationId = '1234';
       const data: ResultReport = {
-        designation: '',
+        designation: designationId,
         calculationMethods: [],
         calculationInput: [],
         notices: {
@@ -47,14 +53,28 @@ describe('PDFDocumentSettingsService', () => {
       expect(result).toEqual({
         page: 'pdfReport.page',
         reportHeading: 'pdfReport.reportHeading',
+        bearingLink: {
+          link: 'pdfReport.mediasBearingLink.link',
+          text: 'pdfReport.mediasBearingLink.text',
+        },
         generationDate: undefined,
-        marketingText: '',
         documentDisclaimer: 'pdfReport.disclaimer',
         calculationMethodsHeading: 'pdfReport.selectedMethods',
         inputSectionHeading: 'pdfReport.inputHeading',
         co2disclaimer: 'calculationResultReport.co2Emissions.upstreamHint',
         noticeHeading: 'calculationResultReport.reportSectionWarnings',
       });
+
+      expect(translocoServiceSpy).toBeCalledWith('pdfReport.reportHeading', {
+        bearingDesignation: designationId,
+      });
+
+      expect(translocoServiceSpy).toBeCalledWith(
+        'pdfReport.mediasBearingLink.link',
+        {
+          bearingDesignation: designationId,
+        }
+      );
 
       expect(localizeDate).toHaveBeenCalled();
     });

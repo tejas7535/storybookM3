@@ -6,14 +6,24 @@ import {
   DefaultDocumentDimensions,
   Spacing,
 } from '../data';
-import { estimateTextDimensions, getRealLineHeight, resetFont } from '../util';
+import {
+  estimateTextDimensions,
+  getRealLineHeight,
+  getStringContentWidth,
+  resetFont,
+} from '../util';
 import { LayoutBlock, LayoutEvaluationResult } from './render-types';
 
-interface tableItem {
+interface TableItem {
   label: string;
   value: string;
   labelWidth: number;
   valueWidth: number;
+}
+
+interface TableConfiguration {
+  heading: string;
+  items: TableItem[];
 }
 
 const wrapOrReturn = (doc: jsPDF, text: string, maxWidth: number) => {
@@ -26,7 +36,7 @@ const wrapOrReturn = (doc: jsPDF, text: string, maxWidth: number) => {
 
 const renderTable = (
   doc: jsPDF,
-  items: tableItem[],
+  items: TableItem[],
   header: string,
   canvasX: number,
   canvasY: number,
@@ -65,7 +75,8 @@ const renderTable = (
 
   for (const item of items) {
     const labelText = wrapOrReturn(doc, item.label, targetLabelWidth);
-    const valueText = wrapOrReturn(doc, item.value, targetValueWidth);
+    const nonNullValue = item.value ?? '';
+    const valueText = wrapOrReturn(doc, nonNullValue, targetValueWidth);
     const labelDimen = doc.getTextDimensions(labelText);
     const valueDimen = doc.getTextDimensions(valueText);
 
@@ -132,9 +143,9 @@ const flattenItems = (doc: jsPDF, items: CalculationResultReportInput[]) =>
   items.map((item) => {
     const key = item.designation;
     const value = item.value;
-    const labelWidth = doc.getStringUnitWidth(key) * doc.getFontSize();
+    const labelWidth = getStringContentWidth(doc, key);
 
-    const valueWidth = doc.getStringUnitWidth(`${value}`) * doc.getFontSize();
+    const valueWidth = getStringContentWidth(doc, `${value}`);
 
     return {
       label: key,
@@ -149,21 +160,16 @@ export const renderInputTable = (
   block: LayoutBlock<CalculationResultReportInput[]>
 ) => {
   resetFont(doc);
-  doc.setFontSize(DefaultDocumentDimensions.sectionTitleFontSize);
-  const lineHeight = doc.getLineHeight();
 
-  doc.text(
-    [`${block.heading || 'Input'}`],
-    block.constraints.pageMargin,
-    block.yStart + lineHeight
-  );
-  doc.setFontSize(DefaultDocumentDimensions.textFontSize);
+  renderInputHeading(doc, block);
+
   const startY =
     block.yStart +
     getRealLineHeight(doc) +
     DefaultDocumentDimensions.blockSpacing;
 
   const colYs = [startY, startY];
+
   const width =
     doc.internal.pageSize.getWidth() - 2 * block.constraints.pageMargin - 12;
 
@@ -173,13 +179,14 @@ export const renderInputTable = (
     block.constraints.pageMargin + colWidth + 12,
   ];
   const maxY = block.yStart + block.maxHeight;
-  const tableConfiguration = block.data
-    .filter((item) => !Array.isArray(item))
-    .map((input) => ({
-      heading: input.title,
-      items: flattenItems(doc, input.subItems),
-    }));
-  const nestedItems = block.data.filter((item) => Array.isArray(item));
+
+  const tableInputData: CalculationResultReportInput[] =
+    prepareInputData(block);
+  const tableConfiguration = mapInputDataToTableConfiguration(
+    doc,
+    tableInputData
+  );
+
   const widestLabel = Math.max(
     ...tableConfiguration
       .flatMap((table) => table.items)
@@ -202,6 +209,7 @@ export const renderInputTable = (
     );
 
     const newY = colYs[colIndex] + tableShift;
+
     if (newY <= maxY) {
       colYs[colIndex] = colYs[colIndex] + tableShift + 10;
       dataThatCanFit.push(block.data[index]);
@@ -213,10 +221,8 @@ export const renderInputTable = (
 
   const results: LayoutEvaluationResult<typeof block.data>[] = [];
   const highestCol = Math.max(...colYs);
-  const succesfulFits = block.data.slice(undefined, lastSuccesfulFit + 1);
-  const failedFits = block.data
-    .slice(lastSuccesfulFit + 1)
-    .filter((a) => !Array.isArray(a));
+  const succesfulFits = tableInputData.slice(undefined, lastSuccesfulFit + 1);
+  const failedFits = tableInputData.slice(lastSuccesfulFit + 1);
 
   if (dataThatCanFit.length > 0) {
     results.push({
@@ -226,20 +232,51 @@ export const renderInputTable = (
     });
   }
 
-  const remainingData = [];
-
-  if (nestedItems.length > 0) {
-    remainingData.push(nestedItems.flat(2));
-  }
   if (failedFits.length > 0) {
-    remainingData.push(failedFits);
-  }
-  if (remainingData.length > 0) {
     results.push({
       canFit: false,
-      data: remainingData.flat(),
+      data: failedFits,
     });
   }
 
   return results;
 };
+
+const renderInputHeading = (
+  doc: jsPDF,
+  block: LayoutBlock<CalculationResultReportInput[]>
+): void => {
+  doc.setFontSize(DefaultDocumentDimensions.sectionTitleFontSize);
+  const lineHeight = doc.getLineHeight();
+
+  if (!block.dryRun) {
+    doc.text(
+      [`${block.heading || 'Input'}`],
+      block.constraints.pageMargin,
+      block.yStart + lineHeight
+    );
+  }
+
+  doc.setFontSize(DefaultDocumentDimensions.textFontSize);
+};
+
+const prepareInputData = (
+  block: LayoutBlock<CalculationResultReportInput[]>
+): CalculationResultReportInput[] => {
+  const regularItems = block.data.filter((item) => !Array.isArray(item));
+  const nestedItems = block.data.filter((item) => Array.isArray(item));
+  const flattenedNestedItems = nestedItems.flat(2);
+
+  const combinedInputData = [...regularItems, ...flattenedNestedItems];
+
+  return combinedInputData;
+};
+
+const mapInputDataToTableConfiguration = (
+  doc: jsPDF,
+  data: CalculationResultReportInput[]
+): TableConfiguration[] =>
+  data.map((input) => ({
+    heading: input.title,
+    items: flattenItems(doc, input.subItems),
+  }));

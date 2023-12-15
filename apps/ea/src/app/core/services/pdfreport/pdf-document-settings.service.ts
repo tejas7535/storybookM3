@@ -20,7 +20,6 @@ export class PDFDocumentSettingsService {
         { bearingDesignation: data.designation }
       ),
       generationDate: this.localeService.localizeDate(Date.now()),
-      marketingText: '',
       documentDisclaimer: this.translocoService.translate(
         'pdfReport.disclaimer'
       ),
@@ -36,6 +35,15 @@ export class PDFDocumentSettingsService {
       noticeHeading: this.translocoService.translate(
         'calculationResultReport.reportSectionWarnings'
       ),
+      bearingLink: {
+        text: this.translocoService.translate(
+          'pdfReport.mediasBearingLink.text'
+        ),
+        link: this.translocoService.translate(
+          'pdfReport.mediasBearingLink.link',
+          { bearingDesignation: data.designation }
+        ),
+      },
     };
 
     return documentSettings;

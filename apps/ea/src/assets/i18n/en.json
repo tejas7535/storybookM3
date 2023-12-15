@@ -276,8 +276,11 @@
   },
   "pdfReport": {
     "reportHeading": "Medias Calculation Report for bearing {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "View in Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
     "inputHeading": "Input",
-    "marketingText": "Created with engineeringapp.com",
     "selectedMethods": "Selected calculation methods",
     "disclaimer": "All rights are reserved with regard to this document, even in the event that a patent should be granted or a utility model registered. The document must be treated confidentially. Without our written consent, neither the document itself, nor copies thereof or any other renderings of the complete contents or of extracts therefrom may be made available to third parties or put to improper use by the recipient in any other way. The document has been prepared on the basis of your requirements as set forth above and our own assumptions. Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The document has been prepared solely in connection with the purchase of our products. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products. We shall be liable for the details provided in the document only in the event of willful intent or negligence. If the document is part of a supply agreement, the liability provisions agreed there shall apply.",
     "filename": "Medias Calculation Report for {{designation}} - {{date}}",

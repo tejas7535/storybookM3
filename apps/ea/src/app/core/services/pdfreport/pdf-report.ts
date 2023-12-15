@@ -4,7 +4,12 @@ import { FontsLoaderService } from '../fonts-loader.service';
 import { generateFooter } from './components/footer';
 import { generateHeader } from './components/header';
 import { VerticalLayout } from './components/vertical-layouter';
-import { DocumentData, GeneratedDocument, ResultReport } from './data';
+import {
+  DocumentData,
+  GeneratedDocument,
+  ResultBlock,
+  ResultReport,
+} from './data';
 export class PDFREport {
   constructor(
     private readonly docSettings: DocumentData,
@@ -21,9 +26,14 @@ export class PDFREport {
     }).add('methods', this.data.calculationMethods, {
       header: this.docSettings.calculationMethodsHeading,
     });
-    verticalLayout.add('inputs', this.data.calculationInput, {
-      header: this.docSettings.inputSectionHeading,
-    });
+
+    const hasBearinxCalculation = this.hasCatalogCalculationResults();
+
+    if (hasBearinxCalculation) {
+      verticalLayout.add('inputs', this.data.calculationInput, {
+        header: this.docSettings.inputSectionHeading,
+      });
+    }
 
     if (
       this.data.upstreamEmissions &&
@@ -42,7 +52,10 @@ export class PDFREport {
       verticalLayout.add('resultgrid', this.data.overrollingFrequency);
     }
 
-    if (this.data.lubricationInfo) {
+    if (
+      this.data.lubricationInfo &&
+      this.data.lubricationInfo.data.length > 0
+    ) {
       verticalLayout.add('resultgrid', this.data.lubricationInfo);
     }
 
@@ -50,7 +63,9 @@ export class PDFREport {
       verticalLayout.add('resultgrid', this.data.frictionalPowerloss);
     }
 
-    verticalLayout.add('notices', this.data.notices);
+    if (hasBearinxCalculation) {
+      verticalLayout.add('notices', this.data.notices);
+    }
 
     verticalLayout.loop();
 
@@ -73,5 +88,15 @@ export class PDFREport {
       generateHeader(doc, this.docSettings);
       generateFooter(doc, currentPage, totalPages, this.docSettings);
     }
+  }
+
+  private hasCatalogCalculationResults(): ResultBlock<any> {
+    const hasBearinxCalculation =
+      this.data.ratingLife ||
+      this.data.frictionalPowerloss ||
+      this.data.lubricationInfo ||
+      this.data.overrollingFrequency;
+
+    return hasBearinxCalculation;
   }
 }

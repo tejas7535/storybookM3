@@ -6,13 +6,16 @@ import jsPDF from 'jspdf';
 export interface DocumentData {
   reportHeading: string;
   generationDate: string;
-  marketingText: string;
   documentDisclaimer: string;
   calculationMethodsHeading: string;
   inputSectionHeading: string;
   co2disclaimer: string;
   noticeHeading: string;
   page: string;
+  bearingLink: {
+    text: string;
+    link: string;
+  };
 }
 
 export interface GeneratedDocument {
@@ -24,6 +27,7 @@ export const DefaultDocumentColors = {
   chipColor: '#f0f6fa',
   chipTextColor: '#3198b5',
   mainGreenColor: '#EDF7F1', // light green
+  darkGreenColor: '#00893D',
   secondaryTextColor: '#000000',
   tableBorderTextColor: '#C9C5C4',
 } as const;

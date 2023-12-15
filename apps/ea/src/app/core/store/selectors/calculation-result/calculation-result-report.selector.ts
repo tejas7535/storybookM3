@@ -83,7 +83,7 @@ export const getLubricationReport = createSelector(
   catalogCalculationResult,
   (calculationResult) => {
     const result: LoadcaseResultCombinedItem[] = Object.entries(
-      calculationResult.loadcaseLubrication?.[0] || {}
+      calculationResult?.loadcaseLubrication?.[0] || {}
     )
       .map(([_key, item]) => ({ ...item }))
       .map((item) => ({

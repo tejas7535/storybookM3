@@ -14,6 +14,9 @@ export const getRealPageWidth = (
   props = DefaultComponentRenderProps
 ) => doc.internal.pageSize.getWidth() - 2 * props.dimensions.pageMargin;
 
+export const getStringContentWidth = (doc: jsPDF, content: string) =>
+  doc.getStringUnitWidth(content) * doc.getFontSize();
+
 export const resetFontStyle = (
   doc: jsPDF,
   props = DefaultComponentRenderProps
@@ -42,7 +45,7 @@ export const estimateTextDimensions = (
 
   doc.setFontSize(option.fontSize);
   doc.setFont(option.fontFamily, option.fontStyle);
-  const width = doc.getStringUnitWidth(text) * doc.getFontSize();
+  const width = getStringContentWidth(doc, text);
   const height = getRealLineHeight(doc);
 
   doc.setFont(oldFont.fontName, oldFont.fontStyle);
