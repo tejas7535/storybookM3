@@ -40,8 +40,9 @@ import {
   TextSearch,
 } from '../../reducers/search/models';
 import {
+  getFiltersForRequest,
   getSelectedFilterIdValueOptionsByFilterName,
-  getSelectedFilters,
+  getTooManyResultsThreshold,
 } from '../../selectors';
 import { SearchEffects } from './search.effects';
 
@@ -77,7 +78,8 @@ describe('Search Effects', () => {
     effects = spectator.inject(SearchEffects);
     searchService = spectator.inject(SearchService);
 
-    store.overrideSelector(getSelectedFilters, []);
+    store.overrideSelector(getFiltersForRequest, []);
+    store.overrideSelector(getTooManyResultsThreshold, 500);
     store.overrideSelector(getSelectedFilterIdValueOptionsByFilterName, []);
   });
 
@@ -136,32 +138,40 @@ describe('Search Effects', () => {
   });
 
   describe('search$', () => {
+    let filterIdValue: FilterItemIdValue;
+    let filterRange: FilterItemRange;
+
     beforeEach(() => {
+      jest.resetAllMocks();
+
       action = search();
+
+      filterIdValue = new FilterItemIdValue(
+        'plant',
+        [{ id: '23', title: 'Best plant' } as StringOption],
+        [],
+        false,
+        false
+      );
+
+      filterRange = new FilterItemRange(
+        'length',
+        0,
+        200,
+        0,
+        200,
+        'kg',
+        false,
+        false
+      );
     });
 
     test(
-      'should return searchSuccess action and navigate to results when REST call is successful',
+      'should return searchSuccess action when REST call is successful and navigate to results',
       marbles((m) => {
-        const filterItemIdVal = new FilterItemIdValue(
-          'plant',
-          [{ id: '23', title: 'Best plant' } as StringOption],
-          [],
-          false,
-          false
-        );
-        const filterItemRange = new FilterItemRange(
-          'length',
-          0,
-          200,
-          0,
-          200,
-          'kg'
-        );
-
         const ref = REFERENCE_TYPE_MOCK;
         const searchResult = new SearchResult(
-          [filterItemIdVal, filterItemRange],
+          [filterIdValue, filterRange],
           [ref],
           2
         );
@@ -187,28 +197,11 @@ describe('Search Effects', () => {
     );
 
     test(
-      'should return searchSuccess action when REST call is successful',
+      'should return searchSuccess action when REST call is successful and not navigate to results due to exceeded results limit',
       marbles((m) => {
-        jest.resetAllMocks();
-        const filterItemIdVal = new FilterItemIdValue(
-          'plant',
-          [{ id: '23', title: 'Best plant' } as StringOption],
-          [],
-          false,
-          false
-        );
-        const filterItemRange = new FilterItemRange(
-          'length',
-          0,
-          200,
-          0,
-          200,
-          'kg'
-        );
-
         const ref = REFERENCE_TYPE_MOCK;
         const searchResult = new SearchResult(
-          [filterItemIdVal, filterItemRange],
+          [filterIdValue, filterRange],
           [ref],
           750
         );
@@ -276,7 +269,9 @@ describe('Search Effects', () => {
           200,
           0,
           200,
-          'kg'
+          'kg',
+          false,
+          false
         );
 
         const ref = REFERENCE_TYPE_MOCK;

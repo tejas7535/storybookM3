@@ -1,6 +1,7 @@
 import { Dictionary } from '@ngrx/entity';
 import { createSelector } from '@ngrx/store';
 
+import { FILTER_NAME_LIMIT } from '@cdba/shared/constants/filter-names';
 import { ProductCostAnalysis, ReferenceType } from '@cdba/shared/models';
 
 import { getSearchState } from '../../reducers';
@@ -27,7 +28,18 @@ const getFiltersEntityState = createSelector(
 
 export const getFilters = createSelector(getFiltersEntityState, selectAll);
 
-export const getSelectedFilters = createSelector(
+export const getFiltersWithoutLimit = createSelector(
+  getFilters,
+  (filters: FilterItem[]) =>
+    filters.filter((filter) => filter.name !== FILTER_NAME_LIMIT)
+);
+
+export const getFilterByName = (filterName: string) =>
+  createSelector(getFilters, (filters: FilterItem[]) =>
+    filters.find((item) => item.name === filterName)
+  );
+
+export const getChangedFilters = createSelector(
   getFilters,
   (filters: FilterItem[]) =>
     filters
@@ -38,29 +50,35 @@ export const getSelectedFilters = createSelector(
               ? filter
               : undefined;
           }
-
           case FilterItemType.RANGE: {
-            return (filter as FilterItemRange).minSelected !== undefined &&
-              (filter as FilterItemRange).minSelected !== null &&
-              (filter as FilterItemRange).maxSelected !== undefined &&
-              (filter as FilterItemRange).maxSelected !== null
+            return !(filter as FilterItemRange).disabled &&
+              (filter as FilterItemRange).touched
               ? filter
               : undefined;
           }
-          default: {
+          default:
             return undefined;
-          }
         }
       })
       .filter((item) => item !== undefined)
 );
 
-export const getSelectedIdValueFilters = createSelector(
-  getSelectedFilters,
+export const getChangedIdValueFilters = createSelector(
+  getChangedFilters,
   (selectedFilters: FilterItem[]) =>
     selectedFilters.filter(
       (filter: FilterItem) => filter.type === FilterItemType.ID_VALUE
     )
+);
+
+export const getFiltersForRequest = createSelector(
+  getChangedFilters,
+  // Limit filter will be added by default after it leaves the BetaFeature
+  getFilterByName(FILTER_NAME_LIMIT),
+  (filters: FilterItem[], limitFilter: FilterItem) =>
+    filters.some((item) => item.name === FILTER_NAME_LIMIT)
+      ? filters
+      : [...filters, limitFilter]
 );
 
 const getSelectedOptionsByName = (
@@ -107,6 +125,11 @@ export const getReferenceTypesLoading = createSelector(
 export const getTooManyResults = createSelector(
   getSearchState,
   (state: SearchState) => state.referenceTypes.tooManyResults
+);
+
+export const getTooManyResultsThreshold = createSelector(
+  getSearchState,
+  (state: SearchState) => state.referenceTypes.tooManyResultsThreshold
 );
 
 export const getNoResultsFound = createSelector(

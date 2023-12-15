@@ -16,10 +16,17 @@ import {
 import { ColumnApi, GridApi } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
+import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
-import { CALCULATIONS_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
+import {
+  CALCULATIONS_MOCK,
+  REFERENCE_TYPE_MOCK,
+  SEARCH_STATE_MOCK,
+} from '@cdba/testing/mocks';
 
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
@@ -29,17 +36,28 @@ describe('ReferenceTypesTableComponent', () => {
   let component: ReferenceTypesTableComponent;
   let spectator: Spectator<ReferenceTypesTableComponent>;
   let stateService: AgGridStateService;
+  let paginationConstrolsService: PaginationControlsService;
 
   const createComponent = createComponentFactory({
     component: ReferenceTypesTableComponent,
     imports: [MockModule(AgGridModule), MockModule(ResultsStatusBarModule)],
     declarations: [ReferenceTypesTableComponent],
+    detectChanges: false,
     providers: [
       mockProvider(ColumnDefinitionService, {
         COLUMN_DEFINITIONS: jest.fn(() => ''),
       }),
       mockProvider(AgGridStateService),
       TableStore,
+      mockProvider(BetaFeatureService, {
+        getBetaFeature: jest.fn(
+          (feature: BetaFeature) => feature === BetaFeature.LIMIT_FILTER
+        ),
+      }),
+      mockProvider(PaginationControlsService, {
+        setPageSize: jest.fn(),
+        getPageSize: jest.fn(() => 100),
+      }),
       provideMockStore({
         initialState: {
           search: SEARCH_STATE_MOCK,
@@ -56,10 +74,27 @@ describe('ReferenceTypesTableComponent', () => {
     component = spectator.component;
 
     stateService = spectator.inject(AgGridStateService);
+    paginationConstrolsService = spectator.inject(PaginationControlsService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      spectator.setInput('rowData', []);
+    });
+
+    it('should set values in pagination service', () => {
+      paginationConstrolsService.setPageSize(100);
+      spectator.setInput('rowData', [REFERENCE_TYPE_MOCK, REFERENCE_TYPE_MOCK]);
+
+      component.ngOnInit();
+
+      expect(component['paginationControlsService'].range).toEqual(2);
+      expect(component['paginationControlsService'].pages).toEqual(1);
+    });
   });
 
   describe('ngOnChanges', () => {

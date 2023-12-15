@@ -108,19 +108,21 @@ describe('Search Actions', () => {
 
   describe('Update Filter Action', () => {
     test('updateFilter', () => {
-      const item: FilterItemRange = new FilterItemRange(
+      const filter: FilterItemRange = new FilterItemRange(
         'width',
         100,
         200,
         100,
         200,
-        'cm'
+        'cm',
+        false,
+        false
       );
 
-      const action = updateFilter({ item });
+      const action = updateFilter({ filter });
 
       expect(action).toEqual({
-        item,
+        filter,
         type: '[Search] Update Filter',
       });
     });

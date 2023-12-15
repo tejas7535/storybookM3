@@ -32,7 +32,7 @@ export const searchFailure = createAction(
 
 export const updateFilter = createAction(
   '[Search] Update Filter',
-  props<{ item: FilterItem }>()
+  props<{ filter: FilterItem }>()
 );
 
 export const applyTextSearch = createAction(

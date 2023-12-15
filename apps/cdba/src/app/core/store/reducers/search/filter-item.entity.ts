@@ -5,6 +5,9 @@ import {
   EntityState,
 } from '@ngrx/entity';
 
+import { FILTER_NAME_LIMIT } from '@cdba/shared/constants/filter-names';
+import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
+
 import {
   FilterItem,
   FilterItemIdValue,
@@ -23,14 +26,22 @@ export const resetFilterItems: EntityMap<FilterItem> = (
       items: [],
       selectedItems: [],
     } as FilterItemIdValue;
+  } else if (
+    filterItem.type === FilterItemType.RANGE &&
+    filterItem.name === FILTER_NAME_LIMIT
+  ) {
+    return {
+      ...filterItem,
+      maxSelected: DEFAULT_RESULTS_THRESHOLD,
+    };
+  } else {
+    // then it must be range
+    return {
+      ...filterItem,
+      minSelected: (filterItem as FilterItemRange).min,
+      maxSelected: (filterItem as FilterItemRange).max,
+    };
   }
-
-  // then it must be range
-  return {
-    ...filterItem,
-    minSelected: (filterItem as FilterItemRange).min,
-    maxSelected: (filterItem as FilterItemRange).max,
-  };
 };
 
 export const selectFilterItemId = (f: FilterItem): string =>

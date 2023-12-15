@@ -10,7 +10,11 @@ import {
 } from '../../reducers/search/models';
 import { initialState } from '../../reducers/search/search.reducer';
 import {
+  getChangedFilters,
+  getChangedIdValueFilters,
+  getFilterByName,
   getFilters,
+  getFiltersWithoutLimit,
   getInitialFiltersLoading,
   getIsDirty,
   getMaterialDesignationOfSelectedRefType,
@@ -20,8 +24,6 @@ import {
   getResultCount,
   getSearchText,
   getSelectedFilterIdValueOptionsByFilterName,
-  getSelectedFilters,
-  getSelectedIdValueFilters,
   getSelectedRefTypeNodeIds,
   getTooManyResults,
 } from './search.selector';
@@ -46,42 +48,60 @@ describe('Search Selector', () => {
     },
   };
 
+  let customer: FilterItemIdValue;
+  let plant: FilterItemIdValue;
+  let limit: FilterItemRange;
+
+  beforeEach(() => {
+    customer = new FilterItemIdValue(
+      'customer',
+      [
+        { id: 'vw', title: 'VW' } as StringOption,
+        { id: 'vw2', title: 'VW 2' } as StringOption,
+        { id: 'vw3', title: 'VW 3' } as StringOption,
+      ],
+      [],
+      true,
+      false
+    );
+    plant = new FilterItemIdValue(
+      'plant',
+      [
+        { id: '32', title: '32 | Nice Plant' } as StringOption,
+        { id: '33', title: '33 | Nicer Plant' } as StringOption,
+      ],
+      [],
+      false,
+      false
+    );
+    limit = new FilterItemRange(
+      'limit',
+      undefined,
+      1000,
+      undefined,
+      500,
+      '',
+      false,
+      false
+    );
+  });
+
   describe('getInitialFiltersLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getInitialFiltersLoading(fakeState)).toBeFalsy();
     });
   });
 
   describe('getFilters', () => {
     it('should return all filters', () => {
-      const customer = new FilterItemIdValue(
-        'customer',
-        [
-          { id: 'vw', title: 'VW' } as StringOption,
-          { id: 'vw2', title: 'VW 2' } as StringOption,
-          { id: 'vw3', title: 'VW 3' } as StringOption,
-        ],
-        [],
-        true,
-        false
-      );
-      const plant = new FilterItemIdValue(
-        'plant',
-        [
-          { id: '32', title: '32 | Nice Plant' } as StringOption,
-          { id: '33', title: '33 | Nicer Plant' } as StringOption,
-        ],
-        [],
-        false,
-        false
-      );
-      const items = [customer, plant];
+      const items = [customer, plant, limit];
 
       const entityState = {
-        ids: ['customer', 'plant'],
+        ids: ['customer', 'plant', 'limit'],
         entities: {
           customer,
           plant,
+          limit,
         },
       };
 
@@ -89,35 +109,114 @@ describe('Search Selector', () => {
     });
   });
 
-  describe('getSelectedFilters', () => {
-    test('should return selected filters', () => {
-      const customer = new FilterItemIdValue(
-        'customer',
-        [{ id: 'id', title: 'VW' } as StringOption],
-        [],
-        false,
-        true
-      );
-      const plant = new FilterItemIdValue(
-        'plant',
-        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
-        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
-        false,
+  describe('getFiltersWithoutLimit', () => {
+    it('should return filters without the limit filter', () => {
+      const weigth = new FilterItemRange(
+        'weigth',
+        0,
+        100,
+        10,
+        80,
+        'kg',
+        true,
         false
       );
-      const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
-      const items = [customer, plant, range];
+
+      const items = [customer, plant, weigth, limit];
 
       const expectedFilters = [
+        {
+          autocomplete: true,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: 'vw', title: 'VW' } as StringOption,
+            { id: 'vw2', title: 'VW 2' } as StringOption,
+            { id: 'vw3', title: 'VW 3' } as StringOption,
+          ],
+          name: 'customer',
+          selectedItems: [],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
         {
           autocomplete: false,
           autocompleteLoading: false,
           disabled: false,
           items: [
-            {
-              id: '32',
-              title: '32 | Nice Plant',
-            } as StringOption,
+            { id: '32', title: '32 | Nice Plant' } as StringOption,
+            { id: '33', title: '33 | Nicer Plant' } as StringOption,
+          ],
+          name: 'plant',
+          selectedItems: [],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          name: 'weigth',
+          min: 0,
+          max: 100,
+          minSelected: 10,
+          maxSelected: 80,
+          unit: 'kg',
+          touched: true,
+          disabled: false,
+          type: 'RANGE',
+        } as FilterItemRange,
+      ];
+
+      expect(getFiltersWithoutLimit.projector(items)).toEqual(expectedFilters);
+    });
+  });
+
+  describe('getChangedFilters', () => {
+    it('should return selected filters', () => {
+      const mockedCustomer = {
+        ...customer,
+        selectedItems: [{ id: 'id', title: 'VW' } as StringOption],
+      } as FilterItemIdValue;
+
+      const mockedPlant = {
+        ...plant,
+        selectedItems: [
+          {
+            id: '32',
+            title: '32 | Nice Plant',
+          } as StringOption,
+        ],
+      } as FilterItemIdValue;
+
+      const range = new FilterItemRange(
+        'length',
+        0,
+        200,
+        0,
+        200,
+        'kg',
+        false,
+        false
+      );
+      const items = [mockedCustomer, mockedPlant, range];
+
+      const expectedFilters = [
+        {
+          autocomplete: true,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: 'vw', title: 'VW' } as StringOption,
+            { id: 'vw2', title: 'VW 2' } as StringOption,
+            { id: 'vw3', title: 'VW 3' } as StringOption,
+          ],
+          name: 'customer',
+          selectedItems: [{ id: 'id', title: 'VW' } as StringOption],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          autocomplete: false,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: '32', title: '32 | Nice Plant' } as StringOption,
+            { id: '33', title: '33 | Nicer Plant' } as StringOption,
           ],
           name: 'plant',
           selectedItems: [
@@ -128,42 +227,40 @@ describe('Search Selector', () => {
           ],
           type: 'ID_VALUE',
         } as FilterItemIdValue,
-        {
-          disabled: false,
-          max: 200,
-          maxSelected: 200,
-          min: 0,
-          minSelected: 0,
-          name: 'length',
-          type: 'RANGE',
-          unit: 'kg',
-        } as FilterItemRange,
       ];
 
-      expect(getSelectedFilters.projector(items)).toEqual(expectedFilters);
+      expect(getChangedFilters.projector(items)).toEqual(expectedFilters);
     });
   });
 
-  describe('getSelectedIdValueFilters', () => {
-    test('should return selected IdValue filters', () => {
-      const plant = new FilterItemIdValue(
-        'plant',
-        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
-        [],
+  describe('getChangedIdValueFilters', () => {
+    it('should return changed (selected) IdValue filters', () => {
+      const range = new FilterItemRange(
+        'length',
+        0,
+        200,
+        0,
+        200,
+        'kg',
         false,
         false
       );
-      const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
       const items = [plant, range];
 
       expect(
-        getSelectedIdValueFilters.projector(
+        getChangedIdValueFilters.projector(
           items as unknown as FilterItemIdValueUpdate[]
         )
       ).toEqual([
         new FilterItemIdValue(
           'plant',
-          [{ id: '32', title: '32 | Nice Plant' } as StringOption],
+          [
+            { id: '32', title: '32 | Nice Plant' } as StringOption,
+            {
+              id: '33',
+              title: '33 | Nicer Plant',
+            } as StringOption,
+          ],
           [],
           false,
           false
@@ -173,7 +270,7 @@ describe('Search Selector', () => {
   });
 
   describe('getResultCount', () => {
-    test('should return provided result count', () => {
+    it('should return provided result count', () => {
       fakeState.search.referenceTypes.resultCount = 32;
 
       expect(getResultCount(fakeState)).toEqual(
@@ -182,39 +279,44 @@ describe('Search Selector', () => {
     });
   });
 
+  describe('getFilterByName', () => {
+    it('should return filter by name', () => {
+      const filterName = 'limit';
+      const expectedFilter = limit;
+
+      const fakeFiltersState = [customer, plant, limit];
+
+      expect(getFilterByName(filterName).projector(fakeFiltersState)).toEqual(
+        expectedFilter
+      );
+    });
+  });
+
   describe('getSelectedFilterIdValueOptionsByFilterName', () => {
-    test('should return filter by name', () => {
-      const customer = new FilterItemIdValue(
-        'customer',
-        [{ id: 'vw', title: 'VW' } as StringOption],
-        [{ id: 'vw', title: 'VW' } as StringOption],
-        true,
-        false
-      );
-      const plant = new FilterItemIdValue(
-        'plant',
-        [{ id: '32', title: '32 | Nice Plant' } as StringOption],
-        [],
-        false,
-        false
-      );
+    it('should return selected filter options by filter name', () => {
+      const mockedCustomer = {
+        ...customer,
+        selectedItems: [{ id: 'vw', title: 'VW' } as StringOption],
+      } as FilterItemIdValue;
+
       const items = {
-        ids: ['customer', 'plant'],
+        ids: ['mockedCustomer', 'plant'],
         entities: {
-          customer,
+          mockedCustomer,
           plant,
         },
       };
+
       expect(
         getSelectedFilterIdValueOptionsByFilterName.projector(items.entities, {
-          name: 'customer',
+          name: 'mockedCustomer',
         })
       ).toEqual([{ id: 'vw', title: 'VW' } as StringOption]);
     });
   });
 
   describe('getSearchText', () => {
-    test('should return searchText', () => {
+    it('should return searchText', () => {
       expect(getSearchText(fakeState)).toEqual(
         fakeState.search.filters.searchText
       );
@@ -222,7 +324,7 @@ describe('Search Selector', () => {
   });
 
   describe('getReferenceTypes', () => {
-    test('should return ref types', () => {
+    it('should return ref types', () => {
       expect(getReferenceTypes(fakeState)).toEqual(
         fakeState.search.referenceTypes.items
       );
@@ -230,19 +332,19 @@ describe('Search Selector', () => {
   });
 
   describe('getReferenceTypesLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getReferenceTypesLoading(fakeState)).toBeFalsy();
     });
   });
 
   describe('getTooManyResults', () => {
-    test('should return info about too many results found', () => {
+    it('should return info about too many results found', () => {
       expect(getTooManyResults(fakeState)).toBeFalsy();
     });
   });
 
   describe('getNoResultsFound', () => {
-    test('should return true if result count 0 and items are not undefined', () => {
+    it('should return true if result count 0 and items are not undefined', () => {
       const items: ReferenceType[] = [];
       const mockState = {
         ...fakeState,
@@ -259,25 +361,25 @@ describe('Search Selector', () => {
       expect(getNoResultsFound(mockState)).toBeTruthy();
     });
 
-    test('should return false when reftype items are defined', () => {
+    it('should return false when reftype items are defined', () => {
       expect(getNoResultsFound(fakeState)).toBeFalsy();
     });
   });
 
   describe('getIsDirty', () => {
-    test('should return true after updateFilter', () => {
+    it('should return true after updateFilter', () => {
       expect(getIsDirty(fakeState)).toBeTruthy();
     });
   });
 
   describe('getSelectedRefTypeNodeIds', () => {
-    test('should return string array', () => {
+    it('should return string array', () => {
       expect(getSelectedRefTypeNodeIds(fakeState)).toEqual(['2', '3']);
     });
   });
 
   describe('getMaterialDesignationOfSelectedRefType', () => {
-    test('should return undefined, if no ref type is selected', () => {
+    it('should return undefined, if no ref type is selected', () => {
       expect(
         getMaterialDesignationOfSelectedRefType.projector(
           fakeState.search.referenceTypes.items,
@@ -286,7 +388,7 @@ describe('Search Selector', () => {
       ).toBeUndefined();
     });
 
-    test('should return undefined, if multiple ref types are selected', () => {
+    it('should return undefined, if multiple ref types are selected', () => {
       expect(
         getMaterialDesignationOfSelectedRefType.projector(
           fakeState.search.referenceTypes.items,
@@ -295,7 +397,7 @@ describe('Search Selector', () => {
       ).toBeUndefined();
     });
 
-    test('should return materialdesignation of selected reftype', () => {
+    it('should return materialdesignation of selected reftype', () => {
       expect(
         getMaterialDesignationOfSelectedRefType.projector(
           fakeState.search.referenceTypes.items,

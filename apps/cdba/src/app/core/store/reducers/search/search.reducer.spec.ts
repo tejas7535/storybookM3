@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import {
@@ -34,14 +35,33 @@ import {
 import { initialState, reducer, searchReducer } from './search.reducer';
 
 describe('Search Reducer', () => {
-  const filterItemIdVal = new FilterItemIdValue(
+  const filterItemIdValueStub = new FilterItemIdValue(
     'plant',
     [{ id: '23', title: '23 | Best Plant' } as StringOption],
     [],
     false,
     false
   );
-  const filterItemRange = new FilterItemRange('length', 0, 200, 0, 200, 'cm');
+  const filterItemRangeStub = new FilterItemRange(
+    'length',
+    0,
+    200,
+    0,
+    200,
+    'cm',
+    false,
+    false
+  );
+  const filterItemRangeLimitStub = new FilterItemRange(
+    'limit',
+    undefined,
+    undefined,
+    1000,
+    777,
+    undefined,
+    false,
+    false
+  );
   const errorMessage = 'An error occured';
 
   describe('loadInitialFilters', () => {
@@ -55,11 +75,11 @@ describe('Search Reducer', () => {
 
   describe('loadInitialFiltersSuccess', () => {
     test('should unset loading and set possible filters', () => {
-      const items = [filterItemIdVal, filterItemRange];
+      const items = [filterItemIdValueStub, filterItemRangeStub];
 
       const expected = {
-        plant: filterItemIdVal,
-        length: filterItemRange,
+        plant: filterItemIdValueStub,
+        length: filterItemRangeStub,
       };
       const action = loadInitialFiltersSuccess({ items });
 
@@ -96,19 +116,22 @@ describe('Search Reducer', () => {
       const state = searchReducer(initialState, action);
 
       expect(state.referenceTypes.loading).toBeTruthy();
+      expect(state.referenceTypes.tooManyResultsThreshold).toEqual(
+        initialState.referenceTypes.tooManyResultsThreshold
+      );
     });
   });
 
   describe('searchSuccess', () => {
     test('should unset loading and set ref types', () => {
       const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
+        [filterItemIdValueStub, filterItemRangeStub],
         [REFERENCE_TYPE_MOCK],
         2
       );
       const expectedEntities = {
-        plant: filterItemIdVal,
-        length: filterItemRange,
+        plant: filterItemIdValueStub,
+        length: filterItemRangeStub,
       };
 
       const action = searchSuccess({ searchResult });
@@ -130,7 +153,7 @@ describe('Search Reducer', () => {
 
     test('should unset loading and keep old filter if searchCount is zero', () => {
       const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
+        [filterItemIdValueStub, filterItemRangeStub],
         [REFERENCE_TYPE_MOCK],
         0
       );
@@ -152,15 +175,15 @@ describe('Search Reducer', () => {
       expect(state.filters.items).toEqual(fakeState.filters.items);
     });
 
-    test('should unset loading and tooManyResults if too many results', () => {
+    test('should unset loading and set tooManyResults if too many results', () => {
       const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
+        [filterItemIdValueStub, filterItemRangeStub],
         [],
         501
       );
       const expectedEntities = {
-        plant: filterItemIdVal,
-        length: filterItemRange,
+        plant: filterItemIdValueStub,
+        length: filterItemRangeStub,
       };
 
       const action = searchSuccess({ searchResult });
@@ -176,6 +199,36 @@ describe('Search Reducer', () => {
 
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeTruthy();
+      expect(state.referenceTypes.items).toEqual(searchResult.results);
+      expect(state.filters.items.entities).toEqual(expectedEntities);
+    });
+
+    test('should unset loading and set update tooManyResults based on results and changed threshold', () => {
+      const searchResult = new SearchResult(
+        [filterItemIdValueStub, filterItemRangeStub, filterItemRangeLimitStub],
+        [],
+        123
+      );
+      const expectedEntities = {
+        plant: filterItemIdValueStub,
+        length: filterItemRangeStub,
+        limit: filterItemRangeLimitStub,
+      };
+
+      const action = searchSuccess({ searchResult });
+
+      const fakeState = {
+        ...initialState,
+        referenceTypes: {
+          ...initialState.referenceTypes,
+          loading: true,
+          tooManyResultsThreshold: 1000,
+        },
+      };
+      const state = searchReducer(fakeState, action);
+
+      expect(state.referenceTypes.loading).toBeFalsy();
+      expect(state.referenceTypes.tooManyResults).toBeFalsy();
       expect(state.referenceTypes.items).toEqual(searchResult.results);
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
@@ -212,13 +265,13 @@ describe('Search Reducer', () => {
   describe('applyTextSearchSuccess', () => {
     test('should unset loading and set ref types', () => {
       const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
+        [filterItemIdValueStub, filterItemRangeStub],
         [REFERENCE_TYPE_MOCK],
         2
       );
       const expectedEntities = {
-        plant: filterItemIdVal,
-        length: filterItemRange,
+        plant: filterItemIdValueStub,
+        length: filterItemRangeStub,
       };
 
       const action = applyTextSearchSuccess({ searchResult });
@@ -240,13 +293,13 @@ describe('Search Reducer', () => {
 
     test('should unset loading and tooManyResults if results undefined', () => {
       const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
+        [filterItemIdValueStub, filterItemRangeStub],
         undefined,
         2
       );
       const expectedEntities = {
-        plant: filterItemIdVal,
-        length: filterItemRange,
+        plant: filterItemIdValueStub,
+        length: filterItemRangeStub,
       };
 
       const action = applyTextSearchSuccess({ searchResult });
@@ -286,7 +339,7 @@ describe('Search Reducer', () => {
 
   describe('updateFilter', () => {
     test('should update filter', () => {
-      const item = new FilterItemIdValue(
+      const filter = new FilterItemIdValue(
         'customer',
         [
           { id: 'audi', title: 'Audi' } as StringOption,
@@ -315,14 +368,35 @@ describe('Search Reducer', () => {
         },
       };
 
-      const action = updateFilter({ item });
+      const action = updateFilter({ filter });
       const state = searchReducer(fakeState, action);
 
-      expect(state.filters.items.entities.customer).toEqual(item);
+      expect(state.filters.items.entities.customer).toEqual(filter);
+    });
+
+    test('should update tooManyResultsThreshold if limit filter was changed', () => {
+      const filter = { ...filterItemRangeLimitStub, maxSelected: 777 };
+
+      const fakeState = {
+        ...initialState,
+        filters: {
+          ...initialState.filters,
+          referenceTypes: {
+            tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
+          },
+        },
+      };
+
+      const action = updateFilter({ filter });
+      const state = searchReducer(fakeState, action);
+
+      expect(state.referenceTypes.tooManyResultsThreshold).toEqual(
+        filter.maxSelected
+      );
     });
 
     test('should set dirty flag to true', () => {
-      const item = new FilterItemIdValue(
+      const filter = new FilterItemIdValue(
         'customer',
         [
           { id: 'audi', title: 'Audi' } as StringOption,
@@ -336,7 +410,7 @@ describe('Search Reducer', () => {
         ...initialState,
       };
 
-      const action = updateFilter({ item });
+      const action = updateFilter({ filter });
       const state = searchReducer(fakeState, action);
 
       expect(state.filters.dirty).toBeTruthy();
@@ -361,7 +435,16 @@ describe('Search Reducer', () => {
         false
       );
 
-      const length = new FilterItemRange('length', 1, 20, 2, 19, 'min');
+      const length = new FilterItemRange(
+        'length',
+        1,
+        20,
+        2,
+        19,
+        'min',
+        false,
+        false
+      );
 
       const fakeState = {
         ...initialState,
@@ -469,7 +552,10 @@ describe('Search Reducer', () => {
 
   describe('autocompleteSuccess', () => {
     test('should upsert possible filters', () => {
-      const preparedItem = { ...filterItemIdVal, autocompleteLoading: true };
+      const preparedItem = {
+        ...filterItemIdValueStub,
+        autocompleteLoading: true,
+      };
 
       const action = autocompleteSuccess({ item: preparedItem });
       const state = searchReducer(initialState, action);

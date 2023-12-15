@@ -4,13 +4,12 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { TOO_MANY_RESULTS_THRESHOLD } from '@cdba/core/store/reducers/search/search.reducer';
-
 import {
   getNoResultsFound,
   getReferenceTypesLoading,
   getResultCount,
   getTooManyResults,
+  getTooManyResultsThreshold,
 } from '../core/store';
 
 @Component({
@@ -22,7 +21,7 @@ export class SearchComponent implements OnInit {
   tooManyResults$: Observable<boolean>;
   noResultsFound$: Observable<boolean>;
   resultCount$: Observable<number>;
-  tooManyResultsThreshold: number = TOO_MANY_RESULTS_THRESHOLD;
+  tooManyResultsThreshold$: Observable<number>;
 
   public constructor(private readonly store: Store) {}
 
@@ -31,5 +30,8 @@ export class SearchComponent implements OnInit {
     this.tooManyResults$ = this.store.select(getTooManyResults);
     this.noResultsFound$ = this.store.select(getNoResultsFound);
     this.resultCount$ = this.store.select(getResultCount);
+    this.tooManyResultsThreshold$ = this.store.select(
+      getTooManyResultsThreshold
+    );
   }
 }

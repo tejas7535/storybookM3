@@ -48,6 +48,11 @@
       "purchasePriceValidFrom": "Kaufpreis gültig von",
       "purchasePriceValidUntil": "Kaufpreis gültig bis"
     },
+    "pagination": {
+      "itemsPerPage": "Ergebnisse pro Seite",
+      "pages": "{{pagesStartIndex}} von {{pagesEndIndex}} Seite(n)",
+      "range": "{{rangeStartIndex}} - {{rangeEndIndex}} von {{totalRange}}"
+    },
     "tooltips": {
       "materialDesignation": "Zeigt die interne Produktidentifikation in Form einer eindeutigen Bezeichnung an.",
       "pcmRow": "Zeigt an, ob es sich um eine PCM Kalkulation handelt",

@@ -26,8 +26,10 @@ import {
   searchSuccess,
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
-import { TOO_MANY_RESULTS_THRESHOLD } from '../../reducers/search/search.reducer';
-import { getSelectedFilters } from '../../selectors';
+import {
+  getFiltersForRequest,
+  getTooManyResultsThreshold,
+} from '../../selectors';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -57,15 +59,15 @@ export class SearchEffects {
   search$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(search),
-      concatLatestFrom(() => this.store.select(getSelectedFilters)),
-      map(([_action, items]) => items),
-      mergeMap((items) =>
+      concatLatestFrom(() => [
+        this.store.select(getFiltersForRequest),
+        this.store.select(getTooManyResultsThreshold),
+      ]),
+      map(([_action, items, threshold]) => ({ items, threshold })),
+      mergeMap(({ items, threshold }) =>
         this.searchService.search(items).pipe(
           tap((searchResult) => {
-            if (
-              searchResult.count > 0 &&
-              searchResult.count <= TOO_MANY_RESULTS_THRESHOLD
-            ) {
+            if (searchResult.count > 0 && searchResult.count <= threshold) {
               this.router.navigateByUrl(AppRoutePath.ResultsPath);
             }
           }),

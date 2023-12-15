@@ -2,8 +2,6 @@
   margin-left: 4px;
   margin-top: 30px;
   min-width: 233px !important;
-  // width: 233px !important;
-
   max-height: fit-content !important;
 
   &.ng-animating {
@@ -31,6 +29,10 @@
   }
 }
 
+mat-option {
+  @apply hidden;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -41,8 +43,16 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-mat-option {
-  @apply hidden;
+.warning-card {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.warning-card-content {
+  text-align: justify;
 }
 
 .label-form-field {

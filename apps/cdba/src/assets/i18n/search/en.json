@@ -13,7 +13,8 @@
       "width": "Main Dimension 2",
       "height": "Main Dimension 3",
       "project_name": "Project Name",
-      "rfq": "RFQ"
+      "rfq": "RFQ",
+      "limit": "Limit"
     },
     "units": {
       "mm": "mm",
@@ -43,10 +44,13 @@
   },
   "tooManyResults": {
     "message": "Too many results ({{resultCount}})",
-    "hint": "We found too many entries in our database.\nPlease use filters below to reduce the number of results to {{tooManyResultsThreshold}}."
+    "hint": "We found too many entries in our database.\nPlease use filters below to reduce the number of results to the selected limit."
   },
   "noResults": {
     "message": "No results found",
     "hint": "We couldn’t find any materials for the applied filters.\nPlease check your settings below to make sure you are using a valid selection."
+  },
+  "limit": {
+    "warning": "Please be advised that increasing the limit above {{ stableThreshold }} results may significantly impact the CDBA's stability. Your browser may use more resources than usually."
   }
 }

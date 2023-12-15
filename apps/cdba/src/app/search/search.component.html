@@ -15,7 +15,11 @@
         }}
       </h4>
       <h6 class="whitespace-pre-line text-subtitle-1 text-medium-emphasis">
-        {{ t('hint', { tooManyResultsThreshold: tooManyResultsThreshold }) }}
+        {{
+          t('hint', {
+            tooManyResultsThreshold: tooManyResultsThreshold$ | ngrxPush
+          })
+        }}
       </h6>
     </div>
   </ng-container>

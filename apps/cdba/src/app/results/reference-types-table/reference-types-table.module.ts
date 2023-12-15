@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { AgGridModule } from 'ag-grid-angular';
@@ -8,6 +7,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
+import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
 
 import { MaterialDesignationCellRenderComponent } from './material-designation-cell-render/material-designation-cell-render.component';
@@ -25,12 +25,11 @@ import { TableStore } from './table.store';
     CommonModule,
     AgGridModule,
     MatButtonModule,
-    MatIconModule,
     PcmBadgeModule,
     ResultsStatusBarModule,
     SharedTranslocoModule,
   ],
-  providers: [TableStore],
+  providers: [TableStore, PaginationControlsService],
   exports: [ReferenceTypesTableComponent],
 })
 export class ReferenceTypesTableModule {}

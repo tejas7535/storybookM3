@@ -1,5 +1,6 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
@@ -9,8 +10,11 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
   templateUrl: './beta-feature-settings.component.html',
   styleUrls: ['./beta-feature-settings.component.scss'],
 })
-export class BetaFeatureSettingsComponent {
+export class BetaFeatureSettingsComponent implements OnInit {
   @ViewChild('highFiveDialog') highFiveDialogTemplate: TemplateRef<any>;
+
+  public showLimitFilterToggle = true;
+  public limitFilterActivated = false;
 
   public disableToggles = false;
   private highFiveTimeout: number;
@@ -20,6 +24,24 @@ export class BetaFeatureSettingsComponent {
     private readonly dialog: MatDialog,
     private readonly betaFeatureService: BetaFeatureService
   ) {}
+
+  public ngOnInit(): void {
+    // LimitFilter
+    this.limitFilterActivated = this.betaFeatureService.getBetaFeature(
+      BetaFeature.LIMIT_FILTER
+    );
+  }
+
+  // LimitFilter
+  public onLimitFilterFeatureToggleChange(
+    matSlideToggleChange: MatSlideToggleChange
+  ): void {
+    this.handleFeatureToggleChange(
+      BetaFeature.LIMIT_FILTER,
+      matSlideToggleChange.checked,
+      true
+    );
+  }
 
   public handleFeatureToggleChange(
     betaFeature: `${BetaFeature}`,

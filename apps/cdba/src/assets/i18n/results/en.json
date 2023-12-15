@@ -48,6 +48,11 @@
       "purchasePriceValidFrom": "Purchase Price valid from",
       "purchasePriceValidUntil": "Purchase Price valid until"
     },
+    "pagination": {
+      "itemsPerPage": "Items per page:",
+      "pages": "{{pagesStartIndex}} of {{pagesEndIndex}} page(s)",
+      "range": "{{rangeStartIndex}} - {{rangeEndIndex}} of {{totalRange}}"
+    },
     "tooltips": {
       "materialDesignation": "Description of the product with material short text and point version",
       "pcmRow": "Indicates wether this row is a PCM calculation",

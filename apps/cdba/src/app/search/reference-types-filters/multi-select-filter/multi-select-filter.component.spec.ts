@@ -6,7 +6,6 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -14,6 +13,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
@@ -43,7 +43,7 @@ describe('MultiSelectFilterComponent', () => {
       MatCheckboxModule,
       MatTooltipModule,
       MatIconModule,
-      MatProgressSpinnerModule,
+      LoadingSpinnerModule,
     ],
     declarations: [MultiSelectValuePipe, NoResultsFoundPipe, FormatValuePipe],
     providers: [

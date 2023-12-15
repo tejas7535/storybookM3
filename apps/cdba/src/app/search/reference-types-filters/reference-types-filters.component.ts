@@ -7,15 +7,20 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
+
 import {
   autocomplete,
+  getChangedFilters,
+  getChangedIdValueFilters,
   getFilters,
-  getSelectedFilters,
-  getSelectedIdValueFilters,
+  getFiltersWithoutLimit,
+  getTooManyResultsThreshold,
   loadInitialFilters,
   resetFilters,
   search,
@@ -25,7 +30,6 @@ import {
   FilterItem,
   FilterItemType,
 } from '../../core/store/reducers/search/models';
-import { TOO_MANY_RESULTS_THRESHOLD } from '../../core/store/reducers/search/search.reducer';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 
@@ -40,18 +44,33 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   @ViewChildren(RangeFilterComponent)
   rangeFilters: QueryList<RangeFilterComponent>;
 
+  LIMIT_FILTER_ENABLED = false;
+
   filtersSubscription: Subscription;
 
-  filters$ = this.store.select(getFilters);
-  selectedFilters$ = this.store.select(getSelectedFilters);
-  selectedIdValueFilters$ = this.store.select(getSelectedIdValueFilters);
+  filters$: Observable<FilterItem[]>;
+  selectedFilters$ = this.store.select(getChangedFilters);
+  selectedIdValueFilters$ = this.store.select(getChangedIdValueFilters);
 
-  tooManyResultsThreshold: number = TOO_MANY_RESULTS_THRESHOLD;
+  tooManyResultsThreshold$: Observable<number> = this.store.select(
+    getTooManyResultsThreshold
+  );
   filterType = FilterItemType;
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly betaFeatureService: BetaFeatureService
+  ) {}
 
   public ngOnInit(): void {
+    this.LIMIT_FILTER_ENABLED = this.betaFeatureService.getBetaFeature(
+      BetaFeature.LIMIT_FILTER
+    );
+
+    this.filters$ = this.LIMIT_FILTER_ENABLED
+      ? this.store.select(getFilters)
+      : this.store.select(getFiltersWithoutLimit);
+
     this.filtersSubscription = this.filters$.subscribe((filters) => {
       if (!filters || filters.length === 0) {
         this.store.dispatch(loadInitialFilters());
@@ -69,7 +88,7 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
    * Updates the given filter
    */
   public updateFilter(filter: FilterItem): void {
-    this.store.dispatch(updateFilter({ item: filter }));
+    this.store.dispatch(updateFilter({ filter }));
   }
 
   /**

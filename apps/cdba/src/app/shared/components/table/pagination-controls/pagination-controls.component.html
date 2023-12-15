@@ -1,0 +1,110 @@
+<div
+  *transloco="let t; read: 'results.referenceTypesTable.pagination'"
+  class="flex items-center grid-cols-2 p-2 gap-1"
+>
+  <cdba-beta-feature-badge></cdba-beta-feature-badge>
+  <div class="flex flex-col gap-2">
+    <div class="flex gap-3 items-center grid-auto-columns: min-content">
+      <div>
+        {{
+        t('pages', {
+          pagesStartIndex: this.gridApi.paginationGetCurrentPage() + 1,
+          pagesEndIndex: totalPages,
+        })
+        }}
+      </div>
+      <div class="flex gap-1 items-center">
+        <div>
+          <label> {{ t('itemsPerPage') }}</label>
+        </div>
+        <button
+          mat-raised-button
+          [matMenuTriggerFor]="menu"
+          [disabled]="disabled"
+          [ngClass]="disabled ? 'icon-disabled' : 'icon-enabled'"
+        >
+          {{ pageSize }}
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            *ngFor="let pageSizeOption of pageSizeOptions"
+            (click)="onPageSizeChange(pageSizeOption)"
+          >
+            {{ pageSizeOption }}
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    <div class="flex gap-3 items-center grid-auto-columns: min-content">
+      <div>
+        {{
+          t('range', {
+            rangeStartIndex: rangeStartIndex,
+            rangeEndIndex: rangeEndIndex,
+            totalRange: totalRange
+          })
+        }}
+      </div>
+      <div class="flex gap-1 items-center">
+        <button
+          mat-icon-button
+          [disabled]="disabled || this.gridApi.paginationGetCurrentPage() === 0"
+          (click)="onPageChange(paginationType.FIRST)"
+          [ngClass]="
+            disabled || this.gridApi.paginationGetCurrentPage() === 0
+              ? 'icon-disabled'
+              : 'icon-enabled'
+          "
+        >
+          <mat-icon>skip_previous</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [disabled]="disabled || this.gridApi.paginationGetCurrentPage() <= 0"
+          (click)="onPageChange(paginationType.PREVIOUS)"
+          [ngClass]="
+            disabled || this.gridApi.paginationGetCurrentPage() <= 0
+              ? 'icon-disabled'
+              : 'icon-enabled'
+          "
+        >
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [disabled]="
+            disabled ||
+            this.gridApi.paginationGetCurrentPage() + 1 >= totalPages
+          "
+          (click)="onPageChange(paginationType.NEXT)"
+          [ngClass]="
+            disabled ||
+            this.gridApi.paginationGetCurrentPage() + 1 >= totalPages
+              ? 'icon-disabled'
+              : 'icon-enabled'
+          "
+        >
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [disabled]="
+            disabled ||
+            this.gridApi.paginationGetCurrentPage() + 1 === totalPages
+          "
+          (click)="onPageChange(paginationType.LAST)"
+          [ngClass]="
+            disabled ||
+            this.gridApi.paginationGetCurrentPage() + 1 === totalPages
+              ? 'icon-disabled'
+              : 'icon-enabled'
+          "
+        >
+          <mat-icon>skip_next</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

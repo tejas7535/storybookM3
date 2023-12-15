@@ -24,8 +24,8 @@ import {
   loadRoleDescriptionsSuccess,
 } from '../../actions';
 import {
+  getChangedFilters,
   getSelectedFilterIdValueOptionsByFilterName,
-  getSelectedFilters,
 } from '../../selectors';
 import { RolesEffects } from './roles.effects';
 
@@ -53,7 +53,7 @@ describe('RolesEffects', () => {
     effects = spectator.inject(RolesEffects);
     roleDescriptionsService = spectator.inject(RoleDescriptionsService);
 
-    store.overrideSelector(getSelectedFilters, []);
+    store.overrideSelector(getChangedFilters, []);
     store.overrideSelector(getSelectedFilterIdValueOptionsByFilterName, []);
   });
 

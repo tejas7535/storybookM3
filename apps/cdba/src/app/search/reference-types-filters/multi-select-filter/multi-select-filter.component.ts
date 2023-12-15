@@ -36,6 +36,7 @@ import { SearchUtilityService } from '@cdba/search/services/search-utility.servi
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
 import { MaterialNumberModule } from '@cdba/shared/pipes/material-number/material-number.module';
 
+import { Filter } from '../filter';
 import { FormatValuePipe } from '../multi-select-filter/pipes/format-value.pipe';
 import { MultiSelectValuePipe } from '../multi-select-filter/pipes/multi-select-value.pipe';
 
@@ -46,7 +47,7 @@ import { MultiSelectValuePipe } from '../multi-select-filter/pipes/multi-select-
   providers: [MaterialNumberPipe],
 })
 export class MultiSelectFilterComponent
-  implements OnInit, OnChanges, OnDestroy
+  implements OnInit, OnChanges, OnDestroy, Filter
 {
   @Output()
   private readonly autocomplete: EventEmitter<{

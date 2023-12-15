@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
 import { ReferenceType } from '@cdba/shared/models';
 
 import {
@@ -26,9 +27,13 @@ import {
   FilterItemState,
   resetFilterItems,
 } from './filter-item.entity';
-import { FilterItem, FilterItemIdValue, FilterItemType } from './models';
+import {
+  FilterItem,
+  FilterItemIdValue,
+  FilterItemRange,
+  FilterItemType,
+} from './models';
 
-export const TOO_MANY_RESULTS_THRESHOLD = 500;
 export interface SearchState {
   filters: {
     dirty: boolean;
@@ -45,6 +50,7 @@ export interface SearchState {
     items: ReferenceType[];
     selectedNodeIds: string[];
     tooManyResults: boolean;
+    tooManyResultsThreshold: number;
     resultCount: number;
     errorMessage: string;
   };
@@ -66,6 +72,7 @@ export const initialState: SearchState = {
     items: undefined,
     selectedNodeIds: undefined,
     tooManyResults: false,
+    tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
     resultCount: 0,
     errorMessage: undefined,
   },
@@ -125,6 +132,7 @@ export const searchReducer = createReducer(
       referenceTypes: {
         ...initialState.referenceTypes,
         loading: true,
+        tooManyResultsThreshold: state.referenceTypes.tooManyResultsThreshold,
       },
     })
   ),
@@ -146,7 +154,8 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         items: searchResult.results,
         loading: false,
-        tooManyResults: searchResult.count > TOO_MANY_RESULTS_THRESHOLD,
+        tooManyResults:
+          searchResult.count > state.referenceTypes.tooManyResultsThreshold,
         resultCount: searchResult.count,
       },
     })
@@ -209,12 +218,19 @@ export const searchReducer = createReducer(
   // entity changes
   on(
     updateFilter,
-    (state: SearchState, { item }): SearchState => ({
+    (state: SearchState, { filter }): SearchState => ({
       ...state,
       filters: {
         ...state.filters,
         dirty: true,
-        items: filterItemAdapter.upsertOne(item, state.filters.items),
+        items: filterItemAdapter.upsertOne(filter, state.filters.items),
+      },
+      referenceTypes: {
+        ...state.referenceTypes,
+        tooManyResultsThreshold:
+          filter.name === 'limit'
+            ? (filter as FilterItemRange).maxSelected
+            : state.referenceTypes.tooManyResultsThreshold,
       },
     })
   ),

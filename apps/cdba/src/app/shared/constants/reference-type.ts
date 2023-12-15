@@ -1,0 +1,1 @@
+export const DEFAULT_RESULTS_THRESHOLD = 500;

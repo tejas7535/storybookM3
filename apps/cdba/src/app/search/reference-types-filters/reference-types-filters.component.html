@@ -24,7 +24,7 @@
     <div
       [matTooltip]="
         t('searchButtonTooltip', {
-          tooManyResultsThreshold: tooManyResultsThreshold
+          tooManyResultsThreshold: tooManyResultsThreshold$ | ngrxPush
         })
       "
       [matTooltipDisabled]="(selectedIdValueFilters$ | ngrxPush).length > 0"

@@ -13,7 +13,8 @@
       "width": "Hauptabmessung 2",
       "height": "Hauptabmessung 3",
       "project_name": "Projektname",
-      "rfq": "RFQ"
+      "rfq": "RFQ",
+      "limit": "Limit"
     },
     "units": {
       "mm": "mm",
@@ -43,10 +44,13 @@
   },
   "tooManyResults": {
     "message": "Zu viele Ergebnisse ({{resultCount}})",
-    "hint": "Ihre Suchanfrage liefert zu viele Ergebnisse.\nBitte verwenden Sie die Filter unten, um die Anzahl der Ergebnisse auf maximal {{tooManyResultsThreshold}} zu reduzieren."
+    "hint": "Ihre Suchanfrage liefert zu viele Ergebnisse.\nBitte verwenden Sie die Filter unten, um die Anzahl der Ergebnisse auf maximal ausgewählte Nummer zu reduzieren."
   },
   "noResults": {
     "message": "Keine Ergebnisse gefunden",
     "hint": "Wir konnten keine Produkte für die angewandten Filter finden.\nBitte überprüfen Sie Ihre Einstellungen unten, um sicherzustellen, dass Sie eine gültige Auswahl verwenden."
+  },
+  "limit": {
+    "warning": "Bitte beachten Sie, dass eine Erhöhung des Grenzwerts über {{ stableThreshold }} Ergebnisse erhebliche Auswirkungen auf die Stabilität des CDBA haben kann. Ihr Browser verbraucht möglicherweise mehr Ressourcen als gewöhnlich."
   }
 }

@@ -4,6 +4,7 @@ import {
   FilterItemType,
 } from '@cdba/core/store/reducers/search/models';
 import { SearchState } from '@cdba/core/store/reducers/search/search.reducer';
+import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
 import {
   REFERENCE_TYPE_MOCK,
   REFERENCE_TYPE_MOCK_WITHOUT_SALES_INFORMATION,
@@ -250,6 +251,7 @@ export const SEARCH_STATE_MOCK: SearchState = {
   referenceTypes: {
     loading: false,
     tooManyResults: false,
+    tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
     resultCount: 10,
     selectedNodeIds: ['1'],
     errorMessage: undefined,

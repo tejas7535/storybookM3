@@ -3,13 +3,19 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import {
   autocomplete,
@@ -24,8 +30,9 @@ import {
   FilterItemType,
 } from '../../core/store/reducers/search/models';
 import {
+  getChangedFilters,
   getFilters,
-  getSelectedFilters,
+  getFiltersWithoutLimit,
   getTooManyResults,
 } from '../../core/store/selectors/search/search.selector';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
@@ -55,13 +62,23 @@ const filters = [
     false,
     false
   ),
-  new FilterItemRange('filter1', 0, 500, undefined, undefined, 'xy'),
+  new FilterItemRange(
+    'filter1',
+    0,
+    500,
+    undefined,
+    undefined,
+    'xy',
+    false,
+    false
+  ),
 ];
 
 describe('ReferenceTypesFiltersComponent', () => {
   let component: ReferenceTypesFiltersComponent;
   let spectator: Spectator<ReferenceTypesFiltersComponent>;
   let mockStore: MockStore;
+  let betaFeatureService: BetaFeatureService;
 
   const createComponent = createComponentFactory({
     component: ReferenceTypesFiltersComponent,
@@ -77,14 +94,16 @@ describe('ReferenceTypesFiltersComponent', () => {
       MockComponent(MultiSelectFilterComponent),
     ],
     providers: [
+      mockProvider(BetaFeatureService),
       provideMockStore({
         initialState: {
           search: {},
         },
         selectors: [
           { selector: getFilters, value: filters },
+          { selector: getFiltersWithoutLimit, value: filters },
           { selector: getTooManyResults, value: false },
-          { selector: getSelectedFilters, value: [] },
+          { selector: getChangedFilters, value: [] },
         ],
       }),
       {
@@ -99,6 +118,7 @@ describe('ReferenceTypesFiltersComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     mockStore = spectator.inject(MockStore);
+    betaFeatureService = spectator.inject(BetaFeatureService);
   });
 
   it('should create', () => {
@@ -106,13 +126,28 @@ describe('ReferenceTypesFiltersComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should get filters based on BetaFeature.LIMIT_FILTER state', () => {
+      jest.spyOn(mockStore, 'select');
+      betaFeatureService.getBetaFeature = jest.fn(() => true);
+
+      component.ngOnInit();
+
+      expect(mockStore.select).toHaveBeenCalledWith(getFilters);
+
+      betaFeatureService.getBetaFeature = jest.fn(() => false);
+      component.ngOnInit();
+
+      expect(mockStore.select).toHaveBeenCalledWith(getFiltersWithoutLimit);
+    });
+
     it('should dispatch action loadInitialFilters when filters are empty', () => {
       mockStore.dispatch = jest.fn();
+      component.LIMIT_FILTER_ENABLED = false;
 
       component.ngOnInit();
       expect(mockStore.dispatch).not.toHaveBeenCalledWith(loadInitialFilters());
 
-      mockStore.overrideSelector(getFilters, []);
+      mockStore.overrideSelector(getFiltersWithoutLimit, []);
       component.ngOnInit();
       expect(mockStore.dispatch).toHaveBeenCalledWith(loadInitialFilters());
     });
@@ -127,14 +162,14 @@ describe('ReferenceTypesFiltersComponent', () => {
         100,
         20,
         80,
-        'mm'
+        'mm',
+        false,
+        false
       );
 
       component.updateFilter(filter);
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        updateFilter({ item: filter })
-      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(updateFilter({ filter }));
     });
   });
 

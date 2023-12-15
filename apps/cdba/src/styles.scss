@@ -103,6 +103,7 @@ button {
   .ag-status-bar {
     @apply border-0 #{!important};
     @apply p-0 #{!important};
+    @apply items-center #{!important};
   }
 
   &.tree-view-table {

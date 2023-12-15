@@ -38,7 +38,9 @@ describe('RangeFilterValuePipe', () => {
       100,
       undefined,
       undefined,
-      mockUnit
+      mockUnit,
+      false,
+      false
     );
   });
 
