@@ -3,8 +3,5 @@ export interface HomepageCard {
   templateId: string;
   subTitle?: string;
   imagePath?: string;
-  routerPath?: string;
-  externalLink?: string;
-  utmParameters?: string;
-  trackingId?: string;
+  cardAction: () => void;
 }

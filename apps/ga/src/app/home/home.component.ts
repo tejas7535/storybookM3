@@ -5,20 +5,20 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SettingsFacade } from '@ga/core/store';
 import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
 
-import { homepageCards } from './constants';
+import { HomeCardsService } from './services/home-cards.service';
 
 @Component({
   selector: 'ga-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  public homepageCards = homepageCards;
   public appDelivery$ = this.settingsFacade.appDelivery$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
   constructor(
     private readonly settingsFacade: SettingsFacade,
-    private readonly appInsightService: ApplicationInsightsService
+    private readonly appInsightService: ApplicationInsightsService,
+    public readonly homeCardsService: HomeCardsService
   ) {}
 
   sendClickEvent(storeName: string) {

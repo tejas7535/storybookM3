@@ -1,1 +1,1 @@
-export * from './homepage-card.module';
+export * from './homepage-card.component';

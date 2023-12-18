@@ -3,7 +3,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
@@ -13,9 +17,11 @@ import { AppLogoModule } from '@ga/shared/components/app-logo';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
+import { HOMEPAGE_CARD_MOCK } from '@ga/testing/mocks/models/homepage-card.mock';
 
-import { HomepageCardModule } from './components';
+import { HomepageCardComponent } from './components';
 import { HomeComponent } from './home.component';
+import { HomeCardsService } from './services/home-cards.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -25,8 +31,8 @@ describe('HomeComponent', () => {
     component: HomeComponent,
     declarations: [HomeComponent],
     imports: [
-      MockModule(HomepageCardModule),
       MockModule(AppLogoModule),
+      MockComponent(HomepageCardComponent),
       MockComponent(QuickBearingSelectionComponent),
       MockComponent(QualtricsInfoBannerComponent),
       RouterTestingModule,
@@ -46,20 +52,25 @@ describe('HomeComponent', () => {
           queryParamMap: of(convertToParamMap({ bearing: 'some bearing' })),
         },
       },
+      mockProvider(HomeCardsService, {
+        getHomeCards: () => [HOMEPAGE_CARD_MOCK, HOMEPAGE_CARD_MOCK],
+      }),
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    spectator.detectChanges();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should provide homepage cards', () => {
-    expect(component.homepageCards).toHaveLength(8);
+  it('should provide given number of homepage cards', () => {
+    expect(spectator.queryAll(HomepageCardComponent).length).toBe(2);
   });
 
   it('should send application insights events for store clicks', () => {

@@ -15,7 +15,9 @@
       class="block mb-3 md:mb-6"
     ></ga-qualtrics-info-banner>
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-      <ng-container *ngFor="let card of homepageCards">
+      <ng-container
+        *ngFor="let card of homeCardsService.getHomeCards() | ngrxPush"
+      >
         <ga-homepage-card [homepageCard]="card"></ga-homepage-card>
       </ng-container>
     </div>

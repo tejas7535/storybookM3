@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeCardsService when in Schmeckthal partner version setting when getting home cards should get home cards for production 1`] = `
+Array [
+  Object {
+    "cardAction": [Function],
+    "mainTitle": "homepage.cards.calculator.title.main",
+    "subTitle": "homepage.cards.calculator.title.sub",
+    "templateId": "calculatorLogo",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/greases.jpg",
+    "mainTitle": "homepage.cards.greases.title.main",
+    "subTitle": "homepage.cards.greases.title.sub",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/lubricators.jpg",
+    "mainTitle": "homepage.cards.lubricators.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/maintenance.jpg",
+    "mainTitle": "homepage.cards.maintenance.title.main",
+    "subTitle": "homepage.cards.maintenance.title.sub",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/optime.jpg",
+    "mainTitle": "homepage.cards.optime.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/catalog.jpg",
+    "mainTitle": "homepage.cards.catalog.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/contact.jpg",
+    "mainTitle": "homepage.cards.contact.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/faq.jpg",
+    "mainTitle": "homepage.cards.faq.title.main",
+    "templateId": "imageCard",
+  },
+]
+`;
+
+exports[`HomeCardsService when in production settings when getting home cards should get home cards for production 1`] = `
+Array [
+  Object {
+    "cardAction": [Function],
+    "mainTitle": "homepage.cards.calculator.title.main",
+    "subTitle": "homepage.cards.calculator.title.sub",
+    "templateId": "calculatorLogo",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/greases.jpg",
+    "mainTitle": "homepage.cards.greases.title.main",
+    "subTitle": "homepage.cards.greases.title.sub",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/lubricators.jpg",
+    "mainTitle": "homepage.cards.lubricators.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/maintenance.jpg",
+    "mainTitle": "homepage.cards.maintenance.title.main",
+    "subTitle": "homepage.cards.maintenance.title.sub",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/optime.jpg",
+    "mainTitle": "homepage.cards.optime.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/catalog.jpg",
+    "mainTitle": "homepage.cards.catalog.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/contact.jpg",
+    "mainTitle": "homepage.cards.contact.title.main",
+    "templateId": "imageCard",
+  },
+  Object {
+    "cardAction": [Function],
+    "imagePath": "assets/images/homepage/cards/faq.jpg",
+    "mainTitle": "homepage.cards.faq.title.main",
+    "templateId": "imageCard",
+  },
+]
+`;
