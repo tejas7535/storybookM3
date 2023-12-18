@@ -1,7 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, RouterEvent } from '@angular/router';
@@ -17,6 +16,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppShellModule } from '../../app-shell.module';
 import { AppShellFooterLink } from '../../models';
 import { AppShellComponent } from './app-shell.component';
+import { MatButtonModule } from '@angular/material/button';
 
 describe('AppShellComponent', () => {
   let spectator: Spectator<AppShellComponent>;
