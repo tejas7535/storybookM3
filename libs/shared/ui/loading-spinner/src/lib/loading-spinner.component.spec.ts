@@ -1,9 +1,9 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { LoadingSpinnerComponent } from './loading-spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 describe('LoadingSpinnerComponent', () => {
   let component: LoadingSpinnerComponent;
