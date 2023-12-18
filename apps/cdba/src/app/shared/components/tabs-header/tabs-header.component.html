@@ -8,6 +8,8 @@
   >
     <a
       *ngFor="let tab of tabs; trackBy: trackByFn"
+      class="tab-link"
+      [style.--numberOfTabs]="tabs.length"
       mat-tab-link
       queryParamsHandling="merge"
       routerLinkActive
