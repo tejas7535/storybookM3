@@ -1,4 +1,26 @@
 # Release Notes of Guided Quoting
+## [4.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.3.0...gq-v4.4.0) (2023-12-19)
+
+
+### Features
+
+* **gq:** add option to change purchase order type in case header (GQUOTE-3443) ([#5843](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5843)) ([52d3a67](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/52d3a67e61af9cc0d71304d94d8bb664f16d6477))
+* **gq:** allow all data types for attachment upload (GQUOTE-3392) ([#5811](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5811)) ([a1f7f2d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a1f7f2d9c81e1c77450488342e9ecd1f463678e4))
+* **gq:** changes in translations (GQUOTE-3530) ([#5855](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5855)) ([cd80243](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cd802438af73e911ed01916b6c27fc1ee9c7db61))
+* **gq:** enable feature toggle for rfq data ([#5869](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5869)) ([e15b345](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e15b34585d1ad4b70a56a8c4c17969789925185e))
+* **gq:** implement update rfq information modal (GQUOTE-3436) ([#5839](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5839)) ([d3c63d2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d3c63d2ba52412e1368df263e8c7df26116b6fc3))
+* **gq:** select purchase order type on manual case creation (GQUOTE-3442) ([#5813](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5813)) ([07b48e5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/07b48e56e4c384b79cf4398d5708009cd9938ff9))
+
+
+### Bug Fixes
+
+* **gq:** adjust cost update available selector (GQUOTE-3437) ([#5822](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5822)) ([8b18413](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b1841307e3752de598281764b111534bbed5d07))
+* **gq:** create case for empty purchase order type ([#5840](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5840)) ([e80ef8b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e80ef8bb0f6e94c8ee07b1d90a7b4d4a31b18269))
+* **gq:** do not request rfqData for details without rfq (GQUOTE-3516) ([#5847](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5847)) ([3d53848](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d5384800c0ae946d71278c1adf73dd3ea926c67))
+* **gq:** fix create customer case translation (GQUOTE-3440) ([#5860](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5860)) ([b87dc74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b87dc7459ed136f946d81c5057e84661e5d3557b))
+* **gq:** fix error on missing quotation dates (GQUOTE-3565) ([#5858](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5858)) ([0eaa5a2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0eaa5a229b045da22f7acceb8acc02503bfa1cfd))
+* **gq:** resolve error on empty gpc ([#5850](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5850)) ([93f0f2a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93f0f2adfb2f2a368bb5cb08a5a1c38c3a9ef91b))
+
 ## [4.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.2.0...gq-v4.3.0) (2023-11-29)
 
 
