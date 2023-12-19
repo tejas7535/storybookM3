@@ -5,6 +5,7 @@ export class QuotationSearchResult {
   customerName: string;
   customerId: string;
   customerSalesOrg: string;
+  createdByUserName: string;
   currency: string;
   materialNumber: string;
   materialPrice: number;

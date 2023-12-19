@@ -4,5 +4,5 @@ export enum FilterNames {
   SAP_QUOTATION = 'sap-quotation',
   MATERIAL_NUMBER = 'materialNumber',
   MATERIAL_DESCRIPTION = 'materialDescription',
-  MATERIAL_NUMBER_OR_DESCRIPTION = 'materialNumberOrDescriptionByUserQuotations',
+  MATERIAL_NUMBER_OR_DESCRIPTION = 'materialNumberOrDescriptionByQuotations',
 }

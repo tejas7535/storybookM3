@@ -13,10 +13,17 @@
       - {{ t('openCaseHint') }}
     </p>
   </div>
-  <div class="grid w-full grid-cols-4 gap-8">
+  <div
+    class="grid w-full gap-4"
+    style="grid-template-columns: repeat(2, 2fr) repeat(3, 1fr)"
+  >
     <div class="text-body-2 flex whitespace-nowrap">
       <p class="text-medium-emphasis">{{ t('customerNumberLabel') }}:</p>
       <p class="ml-1">{{ quotationSummary.customerId }}</p>
+    </div>
+    <div class="text-body-2 flex whitespace-nowrap">
+      <p class="text-medium-emphasis">{{ t('createdByUserName') }}:</p>
+      <p class="ml-1">{{ quotationSummary.createdByUserName }}</p>
     </div>
     <div class="text-body-2 flex whitespace-nowrap">
       <p class="text-medium-emphasis">{{ t('priceLabel') }}:</p>

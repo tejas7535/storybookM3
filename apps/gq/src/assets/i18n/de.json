@@ -554,6 +554,7 @@
     "openCaseHint": "Case öffnen",
     "customerNameLabel": "Kundenname",
     "customerNumberLabel": "Kundennummer",
+    "createdByUserName": "Erstellt von",
     "priceLabel": "Preis",
     "quantityLabel": "Menge",
     "gpiLabel": "GPI",
