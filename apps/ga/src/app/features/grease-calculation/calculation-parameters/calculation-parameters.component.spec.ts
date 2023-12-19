@@ -34,7 +34,12 @@ import { initialState } from '@ga/core/store/reducers/calculation-parameters/cal
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
-import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
+import {
+  EnvironmentImpact,
+  LoadLevels,
+  Movement,
+  PartnerVersion,
+} from '@ga/shared/models';
 import {
   AUTOMATIC_LUBRICATON_MOCK,
   BEARING_SELECTION_STATE_MOCK,
@@ -128,6 +133,19 @@ describe('CalculationParametersComponent', () => {
       component.partnerVersion$ = of(undefined);
       spectator.detectChanges();
       expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
+    });
+  });
+
+  describe('when partner version is available', () => {
+    beforeEach(() => {
+      component.partnerVersion$ = of(PartnerVersion.Schmeckthal);
+    });
+
+    it('should provide value to medias button component', () => {
+      spectator.detectChanges();
+      expect(spectator.query(MediasButtonComponent).partnerVersion).toBe(
+        PartnerVersion.Schmeckthal
+      );
     });
   });
 

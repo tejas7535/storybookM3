@@ -19,6 +19,7 @@
         <ga-medias-button
           class="max-sm:w-full"
           [bearing]="selectedBearing"
+          [partnerVersion]="partnerVersion$ | ngrxPush"
         ></ga-medias-button>
       </ng-container>
     </schaeffler-subheader>

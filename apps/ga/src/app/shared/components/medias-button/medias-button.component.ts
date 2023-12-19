@@ -15,6 +15,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MEDIASBEARING } from '@ga/features/grease-calculation/calculation-result/constants';
 import { mediasBearings } from '@ga/shared/constants';
+import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-medias-button',
@@ -30,6 +31,7 @@ import { mediasBearings } from '@ga/shared/constants';
 })
 export class MediasButtonComponent implements OnInit {
   @Input() bearing: string;
+  @Input() partnerVersion?: `${PartnerVersion}`;
 
   bearingInMedias: boolean;
 
@@ -42,9 +44,11 @@ export class MediasButtonComponent implements OnInit {
   }
 
   public getBearingShopUrl(): string {
+    const code = this.getPatnerVersionAffiliateCode();
+
     return `${translate('calculationResult.shopBaseUrl')}/p/${
       this.bearing
-    }?utm_source=grease-app`;
+    }?utm_source=grease-app${code}`;
   }
 
   public checkBearingInMedias = (): boolean => this.bearing in mediasBearings;
@@ -53,5 +57,11 @@ export class MediasButtonComponent implements OnInit {
     this.applicationInsightsService.logEvent(MEDIASBEARING, {
       bearing: this.bearing,
     });
+  }
+
+  private getPatnerVersionAffiliateCode(): string {
+    const code: string = PartnerAfiliateCode[this.partnerVersion];
+
+    return code ? `&${code}` : '';
   }
 }

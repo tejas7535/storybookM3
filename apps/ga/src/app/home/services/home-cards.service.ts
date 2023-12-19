@@ -15,7 +15,7 @@ import {
   TRACKING_NAME_HOMECARD,
   UTM_PARAMS_DEFAULT,
 } from '@ga/shared/constants';
-import { PartnerVersion } from '@ga/shared/models';
+import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 
 import { HomepageCard } from '../models';
 import { HomeCardsTrackingIds } from './home-cards-tracking-ids.enum';
@@ -23,7 +23,6 @@ import { HomeCardsTrackingIds } from './home-cards-tracking-ids.enum';
 @Injectable()
 export class HomeCardsService {
   private readonly isProduction;
-  private readonly translationKeyBase = 'homepage.cards';
   private readonly imagePathBase = 'assets/images/homepage/cards';
 
   constructor(
@@ -42,7 +41,9 @@ export class HomeCardsService {
     );
   }
 
-  private mapToHomeCards(partnerVersion: string): HomepageCard[] {
+  private mapToHomeCards(partnerVersion: `${PartnerVersion}`): HomepageCard[] {
+    const affiliateCode = this.getPatnerVersionAffiliateCode(partnerVersion);
+
     return [
       {
         mainTitle: this.translateText('calculator.title.main'),
@@ -60,8 +61,8 @@ export class HomeCardsService {
         imagePath: this.getCardImageUrl('greases.jpg'),
         cardAction: this.getExternalLinkAction(
           'greases.externalLink',
-          HomeCardsTrackingIds.Sources,
-          UTM_PARAMS_DEFAULT
+          affiliateCode,
+          HomeCardsTrackingIds.Sources
         ),
       },
       {
@@ -70,8 +71,8 @@ export class HomeCardsService {
         imagePath: this.getCardImageUrl('lubricators.jpg'),
         cardAction: this.getExternalLinkAction(
           'lubricators.externalLink',
-          HomeCardsTrackingIds.LubricatorsLink,
-          UTM_PARAMS_DEFAULT
+          affiliateCode,
+          HomeCardsTrackingIds.LubricatorsLink
         ),
       },
       {
@@ -81,8 +82,8 @@ export class HomeCardsService {
         imagePath: this.getCardImageUrl('maintenance.jpg'),
         cardAction: this.getExternalLinkAction(
           'maintenance.externalLink',
-          HomeCardsTrackingIds.MaintenanceLink,
-          UTM_PARAMS_DEFAULT
+          affiliateCode,
+          HomeCardsTrackingIds.MaintenanceLink
         ),
       },
       {
@@ -91,8 +92,8 @@ export class HomeCardsService {
         imagePath: this.getCardImageUrl('optime.jpg'),
         cardAction: this.getExternalLinkAction(
           'optime.externalLink',
-          HomeCardsTrackingIds.OptimeLink,
-          UTM_PARAMS_DEFAULT
+          affiliateCode,
+          HomeCardsTrackingIds.OptimeLink
         ),
       },
       {
@@ -101,8 +102,8 @@ export class HomeCardsService {
         imagePath: this.getCardImageUrl('catalog.jpg'),
         cardAction: this.getExternalLinkAction(
           'catalog.externalLink',
-          HomeCardsTrackingIds.CatalogLink,
-          UTM_PARAMS_DEFAULT
+          affiliateCode,
+          HomeCardsTrackingIds.CatalogLink
         ),
       },
       {
@@ -117,8 +118,8 @@ export class HomeCardsService {
         imagePath: this.getCardImageUrl('faq.jpg'),
         cardAction: this.getExternalLinkAction(
           'faq.externalLink',
-          HomeCardsTrackingIds.FaqLink,
-          UTM_PARAMS_DEFAULT
+          affiliateCode,
+          HomeCardsTrackingIds.FaqLink
         ),
       },
     ];
@@ -129,10 +130,16 @@ export class HomeCardsService {
       return this.createSchmeckthalContactAction();
     }
 
-    return this.getExternalLinkAction(
-      'contact.externalLink',
-      HomeCardsTrackingIds.ContactLink
-    );
+    return this.getDefaultContactLinkAction();
+  }
+
+  private getDefaultContactLinkAction(): () => void {
+    return (): void => {
+      this.logCardClick(HomeCardsTrackingIds.ContactLink);
+
+      const url = this.translateText('contact.externalLink');
+      this.openLink(url);
+    };
   }
 
   private getCardImageUrl(imagePath: string): string {
@@ -166,17 +173,18 @@ export class HomeCardsService {
 
   private getExternalLinkAction(
     externalLink: string,
-    trackingId: HomeCardsTrackingIds,
-    utmParameters?: string
+    affiliateCode: string,
+    trackingId: HomeCardsTrackingIds
   ): () => void {
     return (): void => {
       this.logCardClick(trackingId);
 
       const externalLinkUrl = this.getExternalLinkUrl(
         externalLink,
-        utmParameters
+        affiliateCode
       );
-      window.open(externalLinkUrl, '_blank');
+
+      this.openLink(externalLinkUrl);
     };
   }
 
@@ -186,18 +194,28 @@ export class HomeCardsService {
     });
   }
 
+  private openLink(link: string): void {
+    window.open(link, '_blank');
+  }
+
   private getExternalLinkUrl(
     externalLink: string,
-    utmParameters?: string
+    affiliateCode: string
   ): string {
-    let url = this.translocoService.translate(
-      `${this.translationKeyBase}.${externalLink}`
-    );
+    let url = this.translateText(externalLink);
 
-    if (this.isProduction && utmParameters) {
-      url += `?${utmParameters}`;
+    if (this.isProduction) {
+      url += `?${UTM_PARAMS_DEFAULT}${affiliateCode}`;
     }
 
     return url;
+  }
+
+  private getPatnerVersionAffiliateCode(
+    partnerVersion: `${PartnerVersion}`
+  ): string {
+    const code: string = PartnerAfiliateCode[partnerVersion];
+
+    return code ? `&${code}` : '';
   }
 }

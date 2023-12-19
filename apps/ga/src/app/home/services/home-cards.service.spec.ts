@@ -13,7 +13,7 @@ import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store/facades';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { TRACKING_NAME_HOMECARD } from '@ga/shared/constants';
-import { PartnerVersion } from '@ga/shared/models';
+import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 
 import { HomepageCard } from '../models';
 import { HomeCardsService } from './home-cards.service';
@@ -175,6 +175,25 @@ describe('HomeCardsService', () => {
 
           expect(window.open).toBeCalledWith(
             'mailto:technik@schmeckthal-gruppe.de?subject=Schmeckthal Grease App Anfrage',
+            '_blank'
+          );
+        }));
+      });
+
+      describe('when performing any action with an external link', () => {
+        it('should open a link with affiliate code', waitForAsync(() => {
+          const affiliateCode = PartnerAfiliateCode[PartnerVersion.Schmeckthal];
+          result[1].cardAction();
+
+          expect(applicationInsightsService.logEvent).toBeCalledWith(
+            TRACKING_NAME_HOMECARD,
+            {
+              card: HomeCardsTrackingIds.Sources,
+            }
+          );
+
+          expect(window.open).toBeCalledWith(
+            `homepage.cards.greases.externalLink?utm_source=grease-app&utm_medium=app&${affiliateCode}`,
             '_blank'
           );
         }));

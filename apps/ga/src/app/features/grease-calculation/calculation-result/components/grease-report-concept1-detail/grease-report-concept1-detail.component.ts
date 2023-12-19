@@ -21,6 +21,8 @@ import {
 } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { PartnerVersion } from '@ga/shared/models';
+
 import { availableMonths } from '../../helpers/grease-helpers';
 import {
   CONCEPT1_SIZES,
@@ -49,6 +51,7 @@ import { GreaseReportShopButtonsComponent } from '../grease-report-shop-buttons/
 export class GreaseReportConcept1DetailComponent implements OnInit {
   @Input() public greaseResult: GreaseResult;
   @Input() public settings: GreaseConcep1Suitablity;
+  @Input() partnerVersion?: `${PartnerVersion}`;
 
   @Output() readonly hideDetails: EventEmitter<void> = new EventEmitter();
 

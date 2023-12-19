@@ -1,16 +1,20 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
 
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { setBearingSelectionType } from '@ga/core/store';
+import { setBearingSelectionType, SettingsFacade } from '@ga/core/store';
 import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions';
+import { initialState } from '@ga/core/store/reducers/bearing-selection/bearing-selection.reducer';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 import { BearingSelectionType } from '@ga/shared/models';
@@ -27,14 +31,33 @@ describe('BearingSelectionComponent', () => {
   const createComponent = createComponentFactory({
     component: BearingSelectionComponent,
     imports: [
+      LetDirective,
+      PushPipe,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      AdvancedBearingSelectionModule,
-      QuickBearingSelectionComponent,
+      MockModule(AdvancedBearingSelectionModule),
+      MockModule(SubheaderModule),
+      MockComponent(QuickBearingSelectionComponent),
       MockComponent(QualtricsInfoBannerComponent),
       MockModule(MatButtonModule),
+      MockModule(MatSlideToggleModule),
     ],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore({
+        initialState: {
+          bearingSelection: {
+            ...initialState,
+          },
+        },
+      }),
+      {
+        provide: SettingsFacade,
+        useValue: {
+          partnerVersion$: of(undefined),
+          internalUser$: of(true),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {

@@ -105,6 +105,7 @@
       <ga-grease-report-concept1-detail
         [greaseResult]="greaseResult"
         [settings]="getSettings(labelValues)"
+        [partnerVersion]="partnerVersion$ | ngrxPush"
         (hideDetails)="toggleShowConcept1Details()"
       >
       </ga-grease-report-concept1-detail>
@@ -129,6 +130,7 @@
         [greaseResult]="greaseResult"
         [settings]="getSettings(labelValues)"
         [showConcept1Button]="automaticLubrication"
+        [partnerVersion]="partnerVersion$ | ngrxPush"
       ></ga-grease-report-shop-buttons>
     </div>
   </div>

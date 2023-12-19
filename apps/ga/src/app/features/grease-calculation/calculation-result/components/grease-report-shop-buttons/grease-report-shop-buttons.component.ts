@@ -18,6 +18,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { RotaryControlComponent } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
 
 import { MEDIASGREASE } from '../../constants';
@@ -56,6 +57,7 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   @Input() public greaseResult: GreaseResult;
   @Input() public settings: GreaseConcep1Suitablity;
   @Input() public showConcept1Button = false;
+  @Input() partnerVersion?: `${PartnerVersion}`;
 
   public concept1Selection: CONCEPT1_SIZES;
   public concept1UnSuitable = false;
@@ -90,10 +92,12 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   public getConcept1ShopUrl(): string {
+    const affiliateCode = this.getPatnerVersionAffiliateCode();
+
     return `${translate('calculationResult.shopBaseUrl')}/p/${concept1ShopQuery(
       this.greaseResult?.mainTitle,
       this.concept1Selection
-    )}?utm_source=grease-app`;
+    )}?utm_source=grease-app${affiliateCode}`;
   }
 
   public trackConcept1Selection(): void {
@@ -106,9 +110,11 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   public getShopUrl(): string {
+    const affiliateCode = this.getPatnerVersionAffiliateCode();
+
     return `${translate('calculationResult.shopBaseUrl')}/p/${greaseShopQuery(
       this.greaseResult?.mainTitle
-    )}?utm_source=grease-app`;
+    )}?utm_source=grease-app${affiliateCode}`;
   }
 
   public getLinkText(): string {
@@ -122,5 +128,11 @@ export class GreaseReportShopButtonsComponent implements OnInit {
     this.applicationInsightsService.logEvent(MEDIASGREASE, {
       grease: this.greaseResult?.mainTitle,
     });
+  }
+
+  private getPatnerVersionAffiliateCode(): string {
+    const code: string = PartnerAfiliateCode[this.partnerVersion];
+
+    return code ? `&${code}` : '';
   }
 }

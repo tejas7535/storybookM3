@@ -97,6 +97,19 @@ describe('CalculationResultComponent', () => {
     });
   });
 
+  describe('when partner version is available', () => {
+    beforeEach(() => {
+      component.partnerVersion$ = of(PartnerVersion.Schmeckthal);
+    });
+
+    it('should provide value to medias button component', () => {
+      spectator.detectChanges();
+      expect(spectator.query(MediasButtonComponent).partnerVersion).toBe(
+        PartnerVersion.Schmeckthal
+      );
+    });
+  });
+
   describe('ngOnInit', () => {
     it('should dispatch action', () => {
       component.ngOnInit();
@@ -128,10 +141,6 @@ describe('CalculationResultComponent', () => {
         `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
       ]);
     });
-  });
-
-  it('should display qualtrics info banner', () => {
-    expect(spectator.query('ga-qualtrics-info-banner')).toBeTruthy();
   });
 
   describe('when generate pdf report', () => {
