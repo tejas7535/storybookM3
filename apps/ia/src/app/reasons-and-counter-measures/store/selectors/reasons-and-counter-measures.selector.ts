@@ -2,11 +2,6 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import {
-  ReasonsAndCounterMeasuresState,
-  selectAllComparedSelectedFilters,
-  selectReasonsAndCounterMeasuresState,
-} from '..';
-import {
   getSelectedTimePeriod,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
@@ -21,6 +16,11 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import {
+  ReasonsAndCounterMeasuresState,
+  selectAllComparedSelectedFilters,
+  selectReasonsAndCounterMeasuresState,
+} from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
 
@@ -212,14 +212,6 @@ export const getReasonsCombinedLegend = createSelector(
     }
   }
 );
-
-export const getPercentageValue = (part: number, total: number) => {
-  if (part === 0 || total === 0) {
-    return 0;
-  }
-
-  return Number.parseFloat(((part / total) * 100).toFixed(1));
-};
 
 const getTimeRangeTitle = (timePeriod: TimePeriod, timeRange: string): string =>
   timePeriod === TimePeriod.LAST_12_MONTHS

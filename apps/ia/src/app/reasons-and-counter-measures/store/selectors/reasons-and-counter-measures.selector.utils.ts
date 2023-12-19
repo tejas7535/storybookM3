@@ -5,7 +5,6 @@ import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-
 import { Color } from '../../../shared/models/color.enum';
 import { ReasonForLeavingRank } from '../../models/reason-for-leaving-rank.model';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
-import { getPercentageValue } from './reasons-and-counter-measures.selector';
 
 export function mapReasonsToTableData(data: ReasonForLeavingStats[]) {
   const totalLeavers = data
@@ -133,3 +132,11 @@ export function getUniqueChartLegendItemsFromComparedLegend(
       !legend.some((legendItem) => legendItem.name === comparedItem.name)
   );
 }
+
+export const getPercentageValue = (part: number, total: number) => {
+  if (part === 0 || total === 0) {
+    return 0;
+  }
+
+  return Number.parseFloat(((part / total) * 100).toFixed(1));
+};
