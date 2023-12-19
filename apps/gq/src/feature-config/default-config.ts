@@ -1,6 +1,6 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   fPricing: false,
-  refreshRfqData: false,
+  refreshRfqData: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
