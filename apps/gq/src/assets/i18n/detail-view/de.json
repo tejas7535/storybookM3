@@ -98,10 +98,10 @@
       "title": "RFQ Informationen",
       "rfqNumber": "RFQ Nummer",
       "rfqType": {
-        "title": "RFQ Typ",
         "2": "Typ 2",
         "3": "Typ 3",
-        "4": "Typ 4"
+        "4": "Typ 4",
+        "title": "RFQ Typ"
       },
       "rfqStatus": {
         "title": "RFQ Status",

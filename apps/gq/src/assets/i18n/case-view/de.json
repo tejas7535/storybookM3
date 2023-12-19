@@ -71,17 +71,14 @@
   "confirmDialog": {
     "displayText": {
       "archived": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases löschen ({{variable}})?}}",
-      "active": "",
       "deleted": "{variable, plural, =1 {Möchten Sie wirklich folgenden Case unwiderruflich löschen ({{variable}})?} other {Möchten Sie wirklich folgende Cases unwiderruflich löschen ({{variable}})?}}"
     },
     "confirmButton": {
       "archived": "löschen",
-      "active": "",
       "deleted": "löschen"
     },
     "cancelButton": {
       "archived": "abbrechen",
-      "active": "",
       "deleted": "abbrechen"
     }
   },

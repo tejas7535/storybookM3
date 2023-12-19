@@ -71,17 +71,14 @@
   "confirmDialog": {
     "displayText": {
       "archived": "{variable, plural, =1 {Do you really want to delete this case ({{variable}})?} other {Do you really want to delete these cases ({{variable}})?}}",
-      "active": "",
       "deleted": "{variable, plural, =1 {Do you really want to permanently delete this case ({{variable}})?} other {Do you really want to permanently delete these cases ({{variable}})?}}"
     },
     "confirmButton": {
       "archived": "delete",
-      "active": "",
       "deleted": "delete"
     },
     "cancelButton": {
       "archived": "cancel",
-      "active": "",
       "deleted": "cancel"
     }
   },

@@ -300,7 +300,6 @@
         "total": "Gesamt"
       },
       "excelExport": {
-        "guidedQuoting": "Guided Quoting",
         "summary": "Zusammenfassung",
         "gqCreated": "Erstellt am",
         "comparableTransactions": "Vergleichbare Transaktionen",
@@ -357,7 +356,7 @@
           "title": "Kundenübersicht",
           "keyAccount": "Key-Account",
           "subKeyAccount": "Sub-Key-Account",
-          "customerClassification": "Umsatzklassifizierung",
+          "netSalesClassification": "Umsatzklassifizierung",
           "netSales": "Fakturierter Wert",
           "gpi": "GPI%",
           "country": "Land",
@@ -396,7 +395,7 @@
         "failed": "Anlage des SAP Angebots fehlgeschlagen"
       },
       "uploadToSapSync": {
-        "sync": "Die ausgewählten Positionen wurden in SAP gespeichert",
+        "full": "Die ausgewählten Positionen wurden in SAP gespeichert",
         "partially": "Die ausgewählten Positionen wurden terilweise in SAP gespeichert",
         "failed": "Update in SAP fehlgeschlagen"
       },

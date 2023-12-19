@@ -11,8 +11,8 @@
       "REGION_WORLD": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Regionen.",
       "REGION_EMEA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Europa.",
       "REGION_AMERICAS": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Amerikas.",
-      "REGION_ASIA.PACIFIC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Asien Pazifik.",
-      "REGION_GREATER.CHINA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region China."
+      "REGION_ASIA_PACIFIC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Asien Pazifik.",
+      "REGION_GREATER_CHINA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region China."
     },
     "sectoralRoles": {
       "title": "Sektor Rollen",

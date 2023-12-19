@@ -873,7 +873,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     const excelParams: ExcelExportParams = {
       columnKeys,
       allColumns: false,
-      sheetName: translate('shared.customStatusBar.excelExport.guidedQuoting'),
+      sheetName: 'Guided Quoting',
       skipHeader: false,
       processCellCallback: (params: ProcessCellForExportParams) =>
         this.processCellCallback(params),
