@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
@@ -39,7 +38,6 @@ export class RfqDataEffects {
         ActiveCaseActions.setSelectedQuotationDetail,
         ActiveCaseActions.getQuotationSuccess
       ),
-      filter(() => this.featureToggleService.isEnabled('refreshRfqData')),
       concatLatestFrom(() => [
         this.activeCaseFacade.selectedQuotationDetail$,
         this.activeCaseFacade.quotationSapId$,
@@ -60,7 +58,6 @@ export class RfqDataEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService,
-    private readonly activeCaseFacade: ActiveCaseFacade,
-    private readonly featureToggleService: FeatureToggleConfigService
+    private readonly activeCaseFacade: ActiveCaseFacade
   ) {}
 }
