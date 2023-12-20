@@ -14,6 +14,7 @@ import { translate } from '@ngneat/transloco';
 
 import {
   CUSTOM_DATA_PRIVACY,
+  CUSTOM_IMPRINT_DATA,
   DATA_SOURCE,
   PERSON_RESPONSIBLE,
   PURPOSE,
@@ -41,6 +42,9 @@ export class LegalComponent implements OnInit {
     public customDataPrivacy$: Observable<string>,
     @Optional() @Inject(DATA_SOURCE) public dataSource$: Observable<any>,
     @Optional() @Inject(STORAGE_PERIOD) public storagePeriod$: Observable<any>,
+    @Optional()
+    @Inject(CUSTOM_IMPRINT_DATA)
+    public customImprintData$: Observable<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -56,6 +60,10 @@ export class LegalComponent implements OnInit {
       mergeMap((path) => {
         if (path === LegalPath.DataprivacyPath && this.customDataPrivacy$) {
           return this.customDataPrivacy$;
+        }
+
+        if (path === LegalPath.ImprintPath && this.customImprintData$) {
+          return this.customImprintData$;
         }
 
         const defaultTranslateOptions = {

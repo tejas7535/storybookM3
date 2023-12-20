@@ -11,7 +11,7 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoTestingModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -22,6 +22,7 @@ import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
 import {
   CUSTOM_DATA_PRIVACY,
+  CUSTOM_IMPRINT_DATA,
   DATA_SOURCE,
   PERSON_RESPONSIBLE,
   PURPOSE,
@@ -36,6 +37,7 @@ const routerMock = {
   url: 'someUrl',
 };
 const customDataPrivacy = 'Custom data privacy';
+const customImprintData = 'some custom imprint data';
 
 describe('LegalComponent', () => {
   let component: LegalComponent;
@@ -48,7 +50,7 @@ describe('LegalComponent', () => {
       RouterTestingModule,
       TranslocoTestingModule,
       SubheaderModule,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ 'forbidden/en': en }),
     ],
     providers: [
@@ -92,6 +94,10 @@ describe('LegalComponent', () => {
       {
         provide: STORAGE_PERIOD,
         useValue: of('eternity'),
+      },
+      {
+        provide: CUSTOM_IMPRINT_DATA,
+        useValue: of(customImprintData),
       },
       {
         provide: MATERIAL_SANITY_CHECKS,
@@ -145,8 +151,29 @@ describe('LegalComponent', () => {
 
         m.expect(component.translationContent$).toBeObservable(
           m.cold('(ab)', {
-            a: LegalPath.ImprintPath,
+            a: customImprintData,
             b: customDataPrivacy,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set translationContent$ to customImprintData',
+      marbles((m) => {
+        component.ngOnInit();
+
+        const newEvent = new NavigationEnd(
+          0,
+          `${LegalRoute}/${LegalPath.ImprintPath}`,
+          `${LegalRoute}/${LegalPath.ImprintPath}`
+        );
+        eventSubject.next(newEvent);
+
+        m.expect(component.translationContent$).toBeObservable(
+          m.cold('(ab)', {
+            a: customImprintData,
+            b: customImprintData,
           })
         );
       })
@@ -165,7 +192,7 @@ describe('LegalComponent', () => {
 
         m.expect(component.translationContent$).toBeObservable(
           m.cold('(ab)', {
-            a: LegalPath.ImprintPath,
+            a: customImprintData,
             b: LegalPath.CookiePath,
           })
         );
@@ -188,6 +215,8 @@ describe('LegalComponent', () => {
         component.purpose$ = undefined as unknown as Observable<string>;
         component.dataSource$ = undefined as unknown as Observable<string>;
         component.storagePeriod$ = undefined as unknown as Observable<string>;
+        component.customImprintData$ =
+          undefined as unknown as Observable<string>;
         component.ngOnInit();
 
         const newEvent = new NavigationEnd(
