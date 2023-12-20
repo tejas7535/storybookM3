@@ -157,7 +157,7 @@ describe('Search Selector', () => {
           minSelected: 10,
           maxSelected: 80,
           unit: 'kg',
-          touched: true,
+          validated: true,
           disabled: false,
           type: 'RANGE',
         } as FilterItemRange,

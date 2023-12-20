@@ -80,16 +80,17 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     if (this.filter.name === FILTER_NAME_LIMIT) {
       this.form.setValue('showRangeLabel');
     }
+
+    if (!this.filter.validated) {
+      this.validateFilter(this.filter);
+    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.minSectionValue = changes.filter?.currentValue.minSelected;
     this.maxSectionValue = changes.filter?.currentValue.maxSelected;
 
-    const showRangeLabel = !!(
-      changes.filter?.currentValue.minSelected ||
-      changes.filter?.currentValue.maxSelected
-    );
+    const showRangeLabel = !!(this.minSectionValue || this.maxSectionValue);
 
     // mat-select-trigger displays the label only when at least one mat-option is available
     // the value for this option is then ignored and overwritten by the pipe
@@ -101,33 +102,24 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   }
 
   /**
-   * Update filter on closing the dropdown
-   * @param change - openedChange event var
-   */
-  public onOpenedChange(change: boolean): void {
-    if (!change) {
-      this.updateFilter.emit(this.filter);
-    }
-  }
-
-  /**
    * Reset input and emit update.
    */
   public resetInput(input: InputType): void {
     const toUpdate = `${input}Selected`;
 
-    this.filter =
-      this.filter.name === FILTER_NAME_LIMIT
-        ? ({
-            ...this.filter,
-            touched: false,
-            maxSelected: DEFAULT_RESULTS_THRESHOLD,
-          } as FilterItemRange)
-        : ({
-            ...this.filter,
-            touched: false,
-            [toUpdate]: this.filter[input],
-          } as FilterItemRange);
+    if (this.filter.name === FILTER_NAME_LIMIT) {
+      this.updateFilter.emit({
+        ...this.filter,
+        validated: false,
+        maxSelected: DEFAULT_RESULTS_THRESHOLD,
+      } as FilterItemRange);
+    } else {
+      this.updateFilter.emit({
+        ...this.filter,
+        validated: false,
+        [toUpdate]: this.filter[input],
+      } as FilterItemRange);
+    }
   }
 
   /**
@@ -141,34 +133,26 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
         if (value < DEFAULT_RESULTS_THRESHOLD || value > this.filter.max) {
           this.resetInput(input);
         } else {
-          this.filter = {
+          this.validateFilter({
             ...this.filter,
-            touched: true,
             maxSelected: value,
-          } as FilterItemRange;
+          } as FilterItemRange);
         }
         break;
       }
-      default: {
-        if (value < this.filter.min || value > this.filter.max) {
-          this.resetInput(input);
-        } else {
-          if (input === InputType.Min) {
-            if (value === this.filter.min) {
-              this.resetInput(input);
-            } else {
-              this.updateMinInput(value);
-            }
+      default:
+        {
+          if (value <= this.filter.min || value >= this.filter.max) {
+            this.resetInput(input);
           } else {
-            if (value === this.filter.max) {
-              this.resetInput(input);
+            if (input === InputType.Min) {
+              this.updateMinInput(value);
             } else {
               this.updateMaxInput(value);
             }
           }
         }
         break;
-      }
     }
   }
 
@@ -215,20 +199,11 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
       }
     }
 
-    this.filter =
-      this.filter.name === FILTER_NAME_LIMIT
-        ? ({
-            ...this.filter,
-            touched: true,
-            maxSelected,
-            minSelected: value,
-          } as FilterItemRange)
-        : ({
-            ...this.filter,
-            touched: true,
-            maxSelected,
-            minSelected: value,
-          } as FilterItemRange);
+    this.validateFilter({
+      ...this.filter,
+      minSelected: value,
+      maxSelected,
+    } as FilterItemRange);
   }
 
   /**
@@ -254,20 +229,11 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
       }
     }
 
-    this.filter =
-      this.filter.name === FILTER_NAME_LIMIT
-        ? ({
-            ...this.filter,
-            touched: true,
-            minSelected,
-            maxSelected: value,
-          } as FilterItemRange)
-        : ({
-            ...this.filter,
-            touched: true,
-            minSelected,
-            maxSelected: value,
-          } as FilterItemRange);
+    this.validateFilter({
+      ...this.filter,
+      minSelected,
+      maxSelected: value,
+    } as FilterItemRange);
   }
 
   /**
@@ -281,5 +247,39 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     this.maxSectionValue = this.filter.maxSelected;
     this.maxSectionMin = this.filter.min;
     this.maxSectionMax = this.filter.max;
+  }
+
+  private validateFilter(filter: FilterItemRange): void {
+    let validationResult = false;
+
+    switch (filter.name) {
+      case FILTER_NAME_LIMIT: {
+        if (
+          !filter.disabled &&
+          filter.maxSelected !== null &&
+          filter.maxSelected !== undefined
+        ) {
+          validationResult = true;
+        }
+        break;
+      }
+      default: {
+        if (
+          !filter.disabled &&
+          filter.minSelected !== null &&
+          filter.minSelected !== undefined &&
+          filter.maxSelected !== null &&
+          filter.maxSelected !== undefined
+        ) {
+          validationResult = true;
+        }
+        break;
+      }
+    }
+
+    this.updateFilter.emit({
+      ...filter,
+      validated: validationResult,
+    } as FilterItemRange);
   }
 }

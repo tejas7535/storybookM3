@@ -16,7 +16,6 @@
     matTooltipPosition="below"
     [matTooltip]="disabledFilterHint"
     [matTooltipDisabled]="!filter?.disabled"
-    (openedChange)="onOpenedChange($event)"
   >
     <mat-select-trigger>
       {{ filter | rangeFilterValue }}

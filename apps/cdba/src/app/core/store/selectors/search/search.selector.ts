@@ -52,7 +52,7 @@ export const getChangedFilters = createSelector(
           }
           case FilterItemType.RANGE: {
             return !(filter as FilterItemRange).disabled &&
-              (filter as FilterItemRange).touched
+              (filter as FilterItemRange).validated
               ? filter
               : undefined;
           }
