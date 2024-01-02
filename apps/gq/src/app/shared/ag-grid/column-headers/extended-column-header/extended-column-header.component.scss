@@ -1,22 +1,28 @@
 :host {
-  display: block;
-  width: 100%;
-
   ::ng-deep {
-    .mat-form-field-wrapper {
+    .mat-mdc-text-field-wrapper {
       padding: 0 !important;
 
-      > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .mat-mdc-form-field-flex {
+        padding: 0 0 0 0.75em;
       }
     }
+    .mat-mdc-form-field-infix {
+      display: flex;
+      width: 75px;
+      min-height: 0;
+      padding: 1em 4px 1em 0 !important;
+    }
 
-    .mat-form-field-infix {
-      width: 60px;
-      border-top-width: 4px;
-      padding: 1em 4px 1em 0;
+    .mdc-text-field:not(.mdc-text-field--disabled)
+      .mdc-text-field__input::placeholder,
+    .mat-mdc-form-field-icon-suffix {
+      color: rgba(0, 0, 0, 0.42);
+      font-weight: 400;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
     }
   }
 }
