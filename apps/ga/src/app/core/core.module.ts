@@ -20,11 +20,15 @@ import { environment } from '@ga/environments/environment';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
+  LANGUAGE_DEUSTCH,
   LANGUAGE_STORAGE_KEY,
 } from '@ga/shared/constants/language';
-import { AppDelivery } from '@ga/shared/models';
+import { AppDelivery, PartnerVersion } from '@ga/shared/models';
 
-import { detectAppDelivery } from './helpers/settings-helpers';
+import {
+  detectAppDelivery,
+  detectPartnerVersion,
+} from './helpers/settings-helpers';
 import { HttpGreaseInterceptor } from './interceptors/http-grease.interceptor';
 import { StoreModule } from './store/store.module';
 
@@ -74,6 +78,17 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
   providers = providers.slice(1); // Removes OneTrust Provider
 }
 
+// check for partner version languages
+let availableLanguages = AVAILABLE_LANGUAGES;
+let fallbackLanguageId = FALLBACK_LANGUAGE.id;
+let defaultLang; // default -> undefined would lead to browser detection
+
+if (detectPartnerVersion() === PartnerVersion.Schmeckthal) {
+  availableLanguages = [LANGUAGE_DEUSTCH];
+  fallbackLanguageId = LANGUAGE_DEUSTCH.id;
+  defaultLang = LANGUAGE_DEUSTCH.id;
+}
+
 @NgModule({
   imports: [
     StoreModule,
@@ -84,9 +99,9 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      AVAILABLE_LANGUAGES,
-      undefined, // default -> undefined would lead to browser detection
-      FALLBACK_LANGUAGE.id,
+      availableLanguages,
+      defaultLang, // default -> undefined would lead to browser detection
+      fallbackLanguageId,
       LANGUAGE_STORAGE_KEY,
       true,
       !environment.localDev
