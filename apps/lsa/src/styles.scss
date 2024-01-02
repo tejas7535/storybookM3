@@ -1,0 +1,38 @@
+/***************************************************************************************************
+* COMPONENTS AND THEMES
+*/
+
+/*
+* Angular Material, material design components
+* see https://material.angular.io
+*/
+@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+
+/***************************************************************************************************
+  * UTILITIES
+  */
+
+/*
+  * TailwindCSS, utility-first css framework
+  * see https://tailwindcss.com/docs
+  */
+@tailwind base;
+
+/*
+ *  Officially nesting layers like this is not suported by tailwind and results in an error upon generation of the CSS files by PostCSS
+ *  As of now, inspecting the source and testing the UI, this officially unsupported syntax hasn't caused any issues (yet).
+ *  The prefix is required to prevent tailwind styles leaking into the global scope of the embedding site. If this behavior would cause
+ *  problems down the road, we cannot simply remove the prefix
+ *
+ *  @see https://github.com/tailwindlabs/tailwindcss/issues/5521
+ * ========
+ */
+lubricator-selection-assistant {
+  @tailwind components;
+}
+@tailwind utilities;
+
+/*
+ * Tailwind preflight modified with application scope only
+ */
+@import './preflight';

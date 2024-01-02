@@ -1,0 +1,307 @@
+{
+  "name": "lsa",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/lsa/src",
+  "prefix": "lsa",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/lsa",
+        "index": "apps/lsa/src/index.html",
+        "main": "apps/lsa/src/main.ts",
+        "polyfills": "apps/lsa/src/polyfills.ts",
+        "tsConfig": "apps/lsa/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/lsa/src/favicon.ico",
+          "apps/lsa/src/assets",
+          "apps/lsa/src/browserconfig.xml",
+          "apps/lsa/src/robots.txt"
+        ],
+        "styles": [
+          "apps/lsa/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css",
+          "node_modules/@fontsource/noto-sans/400.css",
+          "node_modules/@fontsource/noto-sans/500.css"
+        ],
+        "scripts": [],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "10kb"
+          }
+        ],
+        "buildLibsFromSource": false
+      },
+      "configurations": {
+        "default": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "assets": [
+            "apps/lsa/src/favicon.ico",
+            "apps/lsa/src/assets",
+            "apps/lsa/src/browserconfig.xml",
+            {
+              "input": "apps/lsa/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "deployUrl": "http://localhost:8000/",
+          "fileReplacements": [
+            {
+              "replace": "apps/lsa/src/environments/environment.ts",
+              "with": "apps/lsa/src/environments/environment.local.ts"
+            }
+          ],
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "9000mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
+          "assets": [
+            "apps/lsa/src/favicon.ico",
+            "apps/lsa/src/assets",
+            "apps/lsa/src/browserconfig.xml",
+            {
+              "input": "apps/lsa/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            },
+            {
+              "input": "apps/lsa/webcomponent-bundle",
+              "output": "/",
+              "glob": "lsa-webcomponent.js"
+            }
+          ]
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "deployUrl": "https://lubricator-selection-assistant.dev.dp.schaeffler/",
+
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": false
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/lsa/src/environments/environment.ts",
+              "with": "apps/lsa/src/environments/environment.dev.ts"
+            }
+          ],
+          "assets": [
+            "apps/lsa/src/favicon.ico",
+            "apps/lsa/src/assets",
+            "apps/lsa/src/browserconfig.xml",
+            {
+              "input": "apps/lsa/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "deployUrl": "https://lubricator-selection-assistant.dev.dp.schaeffler/",
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": false
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/lsa/src/environments/environment.ts",
+              "with": "apps/lsa/src/environments/environment.qa.ts"
+            }
+          ],
+          "assets": [
+            "apps/lsa/src/favicon.ico",
+            "apps/lsa/src/assets",
+            "apps/lsa/src/browserconfig.xml",
+            {
+              "input": "apps/lsa/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "deployUrl": "https://lubricator-selection-assistant.dp.schaeffler/",
+          "optimization": {
+            "scripts": true,
+            "styles": {
+              "minify": true,
+              "inlineCritical": false
+            },
+            "fonts": false
+          },
+          "fileReplacements": [
+            {
+              "replace": "apps/lsa/src/environments/environment.ts",
+              "with": "apps/lsa/src/environments/environment.prod.ts"
+            }
+          ],
+          "assets": [
+            "apps/lsa/src/favicon.ico",
+            "apps/lsa/src/assets",
+            "apps/lsa/src/browserconfig.xml",
+            {
+              "input": "apps/lsa/robots/prod",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/angular:webpack-dev-server",
+      "configurations": {
+        "default": {
+          "browserTarget": "lsa:build:default"
+        },
+        "local": {
+          "browserTarget": "lsa:build:local"
+        },
+        "dev": {
+          "browserTarget": "lsa:build:dev"
+        },
+        "qa": {
+          "browserTarget": "lsa:build:qa"
+        },
+        "production": {
+          "browserTarget": "lsa:build:production"
+        },
+        "e2e": {
+          "browserTarget": "lsa:build:default",
+          "host": "0.0.0.0"
+        }
+      },
+      "defaultConfiguration": "default"
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/lsa/src/**/*.ts", "apps/lsa/src/**/*.html"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/lsa/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/lsa"],
+      "options": {
+        "jestConfig": "apps/lsa/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Lubricator selection assistant",
+        "commitMessageFormat": "chore(${projectName}): 🧈 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["lsa:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/lsa/.storybook",
+        "browserTarget": "lsa:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/lsa",
+        "configDir": "apps/lsa/.storybook",
+        "browserTarget": "lsa:build-storybook",
+        "compodoc": false,
+        "styles": [
+          "apps/lsa/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css",
+          "node_modules/@fontsource/noto-sans/400.css",
+          "node_modules/@fontsource/noto-sans/500.css"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

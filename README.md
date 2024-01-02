@@ -137,4 +137,5 @@ Made with ❤️ by
 - [Stefan Spieker](https://github.com/SPIEKSEF_SGGIT) 🏸
 - [Benjamin Geissler](https://github.com/geissbnj_SGGIT) 🧬
 - [Maciej Przybysz](https://github.com/przybmci_SGGIT) 🐙
+- [Damian Grzegorzewski](https://github.com/grzegdmi_SGGIT) 🚴
 

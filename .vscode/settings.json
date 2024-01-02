@@ -3,7 +3,7 @@
   "eslint.format.enable": false,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "eslint.validate": ["javascript", "typescript"],
   "editor.defaultFormatter": "esbenp.prettier-vscode"
