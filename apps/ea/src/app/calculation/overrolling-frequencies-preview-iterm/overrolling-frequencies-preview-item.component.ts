@@ -89,16 +89,13 @@ export class OverrollingFrequenciesPreviewItemComponent
     this.currentIndex$$,
     this.dataFields$$,
   ]).pipe(
-    map(([currentlyActiveIndex, dataItems]) => {
-      const items = [];
-      for (const [i, dataItem] of dataItems.entries()) {
-        const animationState =
-          i === currentlyActiveIndex ? 'active' : 'inactive';
-        items.push({ value: dataItem, index: i, animationState });
-      }
-
-      return items;
-    })
+    map(([currentlyActiveIndex, dataItems]) =>
+      dataItems.map((dataItem, i) => ({
+        value: dataItem,
+        index: i,
+        animationState: i === currentlyActiveIndex ? 'active' : 'inactive',
+      }))
+    )
   );
 
   public readonly isLoading$ =
@@ -142,7 +139,7 @@ export class OverrollingFrequenciesPreviewItemComponent
   async nextPage() {
     const currentIndex = await firstValueFrom(this.currentIndex$$);
     const dataItems = await firstValueFrom(this.dataFields$$);
-    const next = currentIndex + 1 >= dataItems.length ? 0 : currentIndex + 1;
+    const next = (currentIndex + 1) % dataItems.length;
     this.currentIndex$$.next(next);
   }
 }

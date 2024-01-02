@@ -155,6 +155,7 @@
   "calculationResult": {
     "ratingLife": "额定寿命",
     "ratingLifeSubtitle": "总额定寿命（Lh10）",
+    "staticSafetySubtitle": "静态安全（S0)",
     "lubrication": "润滑参数",
     "lubricationSubtitle": "黏度比（kappa）",
     "emissions": "CO₂e 排放",

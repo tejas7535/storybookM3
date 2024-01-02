@@ -51,25 +51,29 @@
         class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4"
       >
         <ng-container *ngFor="let item of overlayData">
-          <div class="snap-center my-1 md:my-0 min-w-max">
-            <ng-container
-              *ngIf="
+          <ng-container
+            *ngIf="
                   !item.title.includes('overrolling');
                   else overrollingFrequenciesPreview
                 "
-            >
+          >
+            <div class="snap-center my-1 md:my-0 min-w-max">
               <ea-calculation-result-preview-item
-                styleClass="w-[50vw]"
+                styleClass="w-[70vw] sm:w-[50vw]"
                 [item]="item"
-              ></ea-calculation-result-preview-item>
-            </ng-container>
-            <ng-template #overrollingFrequenciesPreview>
+              />
+            </div>
+          </ng-container>
+
+          <ng-template #overrollingFrequenciesPreview>
+            <div class="snap-center my-1 md:my-0 min-w-[220px]">
               <ea-overrolling-frequencies-preview-item
                 [item]="item"
-                styleClass="w-[50vw]"
-              ></ea-overrolling-frequencies-preview-item>
-            </ng-template>
-          </div>
+                styleClass="w-[70vw] sm:w-[50vw]"
+              />
+            </div>
+          </ng-template>
+
           <mat-divider class="hidden md:block" [vertical]="true"></mat-divider>
         </ng-container>
       </div>

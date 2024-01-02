@@ -64,12 +64,22 @@ export const catalogCalculation = createSelector(
   catalogCalculationResult,
   catalogCalculationIsLoading,
   catalogCalculationError,
-  (result, isLoading, error): ResultStateWithValue => ({
-    value: result?.bearingBehaviour?.lh10?.value,
-    unit: result?.bearingBehaviour?.lh10?.unit,
-    calculationError: error || result?.calculationError?.error,
-    isLoading,
-  })
+  (result, isLoading, error): ({ title: string } & ResultStateWithValue)[] => [
+    {
+      title: 'ratingLifeSubtitle',
+      value: result?.bearingBehaviour?.lh10?.value,
+      unit: result?.bearingBehaviour?.lh10?.unit,
+      calculationError: error || result?.calculationError?.error,
+      isLoading,
+    },
+    {
+      title: 'staticSafetySubtitle',
+      value: result?.bearingBehaviour?.S0_min?.value,
+      unit: result?.bearingBehaviour?.S0_min?.unit,
+      calculationError: error || result?.calculationError?.error,
+      isLoading,
+    },
+  ]
 );
 
 export const overrollingFrequencies = createSelector(
@@ -135,12 +145,7 @@ export const getCalculationResultPreviewData = createSelector(
       previewData.push({
         title: 'ratingLife',
         icon: 'animation',
-        values: [
-          {
-            title: 'ratingLifeSubtitle',
-            ...catalogCalculationPreviewResult,
-          },
-        ],
+        values: [...catalogCalculationPreviewResult],
       });
     }
 

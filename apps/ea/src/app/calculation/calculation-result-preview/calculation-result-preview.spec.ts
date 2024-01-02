@@ -9,7 +9,7 @@ import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -32,8 +32,8 @@ describe('CalculationResultPreviewComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationResultPreviewComponent,
     imports: [
-      PushModule,
-      LetModule,
+      PushPipe,
+      LetDirective,
 
       // Material Modules
       MockModule(MatButtonModule),

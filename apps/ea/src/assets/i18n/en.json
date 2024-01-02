@@ -155,6 +155,7 @@
   "calculationResult": {
     "ratingLife": "Rating life",
     "ratingLifeSubtitle": "Total Rating Life (Lh10)",
+    "staticSafetySubtitle": "Static safety (S0)",
     "lubrication": "Lubrication Parameters",
     "lubricationSubtitle": "Viscosity ratio (kappa)",
     "emissions": "CO₂e emitted",

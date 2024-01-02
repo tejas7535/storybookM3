@@ -17,8 +17,6 @@ import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
-import * as echarts from 'echarts';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -50,10 +48,6 @@ import { StoreModule } from './store/store.module';
         provide: TRANSLOCO_PERSIST_LANG_STORAGE,
         useValue: localStorage,
       },
-    }),
-
-    NgxEchartsModule.forRoot({
-      echarts,
     }),
   ],
 

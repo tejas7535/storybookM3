@@ -1,7 +1,5 @@
 import { DialogModule, DialogRef } from '@angular/cdk/dialog';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
@@ -13,15 +11,11 @@ import {
 import { translate } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
-import { NgxEchartsModule } from 'ngx-echarts';
-import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
 import { CalculationResultReportComponent } from './calculation-result-report.component';
-
-window.ResizeObserver = resize_observer_polyfill;
 
 describe('CalculationResultReportComponent', () => {
   let component: CalculationResultReportComponent;
@@ -34,14 +28,8 @@ describe('CalculationResultReportComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationResultReportComponent,
     imports: [
-      MockModule(MatButtonModule),
       MatIconTestingModule,
-      MockModule(MatTooltipModule),
       MockModule(DialogModule),
-      NgxEchartsModule.forRoot({
-        echarts: async () => import('echarts'),
-      }),
-
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

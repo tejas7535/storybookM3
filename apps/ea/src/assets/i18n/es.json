@@ -155,6 +155,7 @@
   "calculationResult": {
     "ratingLife": "Vida útil nominal",
     "ratingLifeSubtitle": "Vida útil nominal total (Lh10)",
+    "staticSafetySubtitle": "Seguridad estática (S0)",
     "lubrication": "Parámetros de lubricación",
     "lubricationSubtitle": "Relación de viscosidad (kappa)",
     "emissions": "CO₂e emitidos",

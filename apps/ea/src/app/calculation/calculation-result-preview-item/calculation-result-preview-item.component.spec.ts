@@ -1,30 +1,19 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
-import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultPreviewItemComponent } from './calculation-result-preview-item.component';
 
 describe('CalculationResultPreviewItemComponent', () => {
-  let component: CalculationResultPreviewItemComponent;
   let spectator: Spectator<CalculationResultPreviewItemComponent>;
 
   const createComponent = createComponentFactory({
     component: CalculationResultPreviewItemComponent,
-    imports: [
-      // Material Modules
-      MockModule(MatButtonModule),
-      MatIconTestingModule,
-      MockModule(MatTooltipModule),
-
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [MatIconTestingModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
         provide: translate,
@@ -35,32 +24,34 @@ describe('CalculationResultPreviewItemComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
-
-    spectator.detectChanges();
+    spectator = createComponent({ detectChanges: false });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    spectator.detectChanges();
+    expect(spectator.component).toBeTruthy();
   });
 
-  it('should show different result items', () => {
-    component.item = {
-      icon: 'abc',
-      title: 'abc',
-      values: [
-        { unit: 'abc', title: 'abc', value: 1, isLoading: false },
-        { unit: 'abc', title: 'abc', value: 2, isLoading: false },
-      ],
-    };
+  describe('data display', () => {
+    beforeEach(() => {
+      spectator.setInput('item', {
+        icon: 'abc',
+        title: 'abc',
+        values: [
+          { unit: 'abc', title: 'abc', value: 1, isLoading: false },
+          { unit: 'abc', title: 'abc', value: 2, isLoading: false },
+        ],
+      });
+    });
 
-    spectator.detectComponentChanges();
+    it('should show the main icon', () => {
+      spectator.detectChanges();
+      expect(spectator.queryAll('mat-icon').length).toBe(1);
+    });
 
-    // one main icon
-    expect(spectator.queryAll('mat-icon').length).toBe(1);
-
-    // two values + one title
-    expect(spectator.queryAll('.text-caption').length).toBe(3);
+    it('should show two values and one title', () => {
+      spectator.detectChanges();
+      expect(spectator.queryAll('.text-caption').length).toBe(3);
+    });
   });
 });

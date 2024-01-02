@@ -66,6 +66,13 @@ Array [
         "unit": "h",
         "value": "152277",
       },
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "title": "staticSafetySubtitle",
+        "unit": undefined,
+        "value": "2.844",
+      },
     ],
   },
   Object {
