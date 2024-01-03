@@ -3,7 +3,8 @@
     "gqHeader": "Created in GQ by:\n{{gqCreationName}}\non {{gqCreationDate}}\n\nLast Updated in GQ by:\n{{gqUpdatedName}}\non {{gqUpdatedDate}}",
     "sapHeader": "\n\nCreated in SAP by:\n{{sapCreationName}}\non {{sapCreationDate}}\n\nLast Updated in SAP on:\n{{sapUpdatedDate}}",
     "caseNamePlaceholder": "Enter a case name (max. 20 characters)",
-    "release": "Release",
+    "releaseButton": "Release",
+    "releaseButtonTooltip": "Status needs to be \"Synced with SAP\". Please update SAP quotation or remove not synced items.",
     "releaseModal": {
       "title": "Quotation Release Workflow",
       "summary": "Summary",

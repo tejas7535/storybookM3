@@ -1,12 +1,18 @@
-<ng-container *ngIf="quotation.customer.enabledForApprovalWorkflow">
-  <ng-container *transloco="let t; read: 'processCaseView'">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="openDialog()"
-      *ngIf="quotation?.sapId && quotation?.status === quotationStatus.ACTIVE"
+<ng-container *ngIf="displayReleaseButton">
+  <ng-container *transloco="let t; read: 'processCaseView.header'">
+    <div
+      [matTooltip]="
+        disableReleaseButton ? t('releaseButtonTooltip') : undefined
+      "
     >
-      {{ t('header.release') }}
-    </button>
+      <button
+        [disabled]="disableReleaseButton"
+        mat-raised-button
+        color="primary"
+        (click)="openDialog()"
+      >
+        {{ t('releaseButton') }}
+      </button>
+    </div>
   </ng-container>
 </ng-container>

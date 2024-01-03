@@ -31,18 +31,16 @@ import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ReleaseButtonComponent } from './release-button/release-button.component';
-import { ReleaseModalComponent } from './release-button/release-modal/release-modal.component';
 import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calculation-in-progress/calculation-in-progress.component';
 @NgModule({
   declarations: [
     ProcessCaseViewComponent,
     CalculationInProgressComponent,
-    ReleaseButtonComponent,
     CancelWorkflowButtonComponent,
     CancelWorkflowModalComponent,
   ],
   imports: [
-    ReleaseModalComponent,
+    ReleaseButtonComponent,
     CommonModule,
     MatSidenavModule,
     MatButtonModule,
