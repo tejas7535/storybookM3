@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -36,18 +36,17 @@ import {
   styles: [basicTableStyle, statusBarStlye, disableTableHorizontalScrollbar],
 })
 export class InputTableComponent implements OnInit {
-  constructor(
-    private readonly columnDefinitionService: InputTableColumnDefService,
-    private readonly localizationService: LocalizationService
-  ) {}
-  public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
-  public columnDefs: ColDef[];
-  public statusBar: StatusBarConfig;
-  public components = COMPONENTS;
-  public localeText$: Observable<AgGridLocale>;
-
   @Input() isCaseView: boolean;
   @Input() rowData: any[];
+
+  defaultColumnDefs = DEFAULT_COLUMN_DEFS;
+  columnDefs: ColDef[];
+  statusBar: StatusBarConfig;
+  components = COMPONENTS;
+  localeText$: Observable<AgGridLocale>;
+
+  columnDefinitionService = inject(InputTableColumnDefService);
+  localizationService = inject(LocalizationService);
 
   ngOnInit(): void {
     this.columnDefs = this.initColDef(
