@@ -10,8 +10,7 @@
       <div class="text-h6 text-high-emphasis mb-4">
         {{
           t('dialogTitle', {
-            bearingDesignation:
-              productSelectionFacade.bearingDesignation$ | ngrxPush
+            bearingDesignation: bearingDesignation$ | ngrxPush
           })
         }}
       </div>
@@ -26,8 +25,10 @@
           "
           class="md:overflow-y-auto md:overflow-x-hidden w-full md:pr-4 md:max-w-[80vw] md:w-full"
         >
-          <ea-qualtrics-info-banner class="md:mr-[255px]">
-          </ea-qualtrics-info-banner>
+          <ea-qualtrics-info-banner
+            [bearingDesingation]="bearingDesignation$ | ngrxPush"
+            class="md:mr-[255px]"
+          ></ea-qualtrics-info-banner>
           <span class="block w-full h-4"></span>
           <!-- CO2 input notes -->
           <ea-expansion-panel

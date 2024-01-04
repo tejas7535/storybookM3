@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -9,8 +9,14 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   templateUrl: './qualtrics-info-banner.component.html',
   imports: [FeedbackBannerComponent, SharedTranslocoModule],
 })
-export class QualtricsInfoBannerComponent {
+export class QualtricsInfoBannerComponent implements OnInit {
+  @Input({ required: true })
+  bearingDesingation: string;
+
   public readonly providedLanguages: string[] = ['de', 'en'];
-  public readonly surveyUrl =
-    'https://schaefflertech.qualtrics.com/jfe/form/SV_8BQzm549jixUDyu?Q_Language=';
+  public surveyUrl: string;
+
+  ngOnInit(): void {
+    this.surveyUrl = `https://schaefflertech.qualtrics.com/jfe/form/SV_8BQzm549jixUDyu?bearingDesignation=${this.bearingDesingation}&Q_Language=`;
+  }
 }

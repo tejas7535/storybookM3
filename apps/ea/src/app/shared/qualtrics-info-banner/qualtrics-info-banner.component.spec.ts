@@ -22,7 +22,9 @@ describe('QualtricsInfoBannerComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: { bearingDesingation: 'test-id-6226' },
+    });
     component = spectator.component;
     spectator.detectChanges();
   });
@@ -54,7 +56,7 @@ describe('QualtricsInfoBannerComponent', () => {
 
     it('should provide survey url', () => {
       expect(feedbackBanner.surveyUrl).toBe(
-        'https://schaefflertech.qualtrics.com/jfe/form/SV_8BQzm549jixUDyu?Q_Language='
+        'https://schaefflertech.qualtrics.com/jfe/form/SV_8BQzm549jixUDyu?bearingDesignation=test-id-6226&Q_Language='
       );
     });
   });

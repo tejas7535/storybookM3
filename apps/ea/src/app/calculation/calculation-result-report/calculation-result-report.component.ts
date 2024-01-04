@@ -86,6 +86,8 @@ export class CalculationResultReportComponent {
         ];
       })
     );
+
+  public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
   constructor(
     public readonly calculationResultFacade: CalculationResultFacade,
     public readonly productSelectionFacade: ProductSelectionFacade,
