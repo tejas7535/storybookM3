@@ -1,21 +1,27 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+import { combineLatest } from 'rxjs';
+import { take } from 'rxjs/internal/operators/take';
+import { map } from 'rxjs/operators';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ShareResult } from '@capacitor/share';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import jsPDF from 'jspdf';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import autoTable, {
   CellDef,
+  CellHook,
   CellInput,
   LineWidths,
   MarginPaddingInput,
   RowInput,
 } from 'jspdf-autotable';
 
-import { schaefflerLogo } from '../../constants/pdf-report/report-logo';
+import { SettingsFacade } from '@ga/core/store/facades/settings.facade';
+import { PartnerVersion } from '@ga/shared/models/settings/partner-version.model';
+
 import {
   GreasePdfConcept1Result,
   GreasePdfMessage,
@@ -28,10 +34,13 @@ import { GreaseReportDataGeneratorService } from '../grease-report-data-generato
 import { fontFamily, fontSize, fontType } from './fonts.constants';
 import { FontsLoaderService } from './fonts-loader.service';
 import { GreaseReportPdfFileSaveService } from './grease-report-pdf-file-save.service';
+import { ImageLoaderService } from './image-loader.service';
+import { getCellHook } from './partner-version-helpers';
 
 @Injectable()
 export class GreaseReportPdfGeneratorService {
   private readonly mainGreenColor = '#EDF7F1'; // light green
+  private readonly mainGreyColor = '#f2f2f2';
   private readonly secondaryTextColor = '#000000';
   private readonly lowEmphasisTextColor = '#7D7D7D';
   private readonly tableBorderTextColor = '#C9C5C4';
@@ -46,21 +55,46 @@ export class GreaseReportPdfGeneratorService {
 
   private currentYPosition = 0;
 
-  private readonly yPageContentStartPosition = 135;
+  private readonly yPageContentStartPosition = 125;
   private readonly yPageRegularContentEndPosition = 722;
+
+  private partnerVersion: `${PartnerVersion}`;
+  private partnerLogo: string;
+  private schaefflerLogo: string;
+
+  private readonly schaefflerLogo$ =
+    this.imageLoaderService.schaefflerLogo$.pipe(
+      map((logo) => (this.schaefflerLogo = logo)),
+      take(1)
+    );
+  private readonly partnerStaticContent$ = combineLatest([
+    this.settingsFacade.partnerVersion$,
+    this.imageLoaderService.partnerVersionlogo$,
+  ]).pipe(
+    map(([partnerVersion, logoImage]) => {
+      this.partnerVersion = partnerVersion;
+      this.partnerLogo = logoImage;
+    }),
+    take(1)
+  );
 
   public constructor(
     private readonly dataGeneratorService: GreaseReportDataGeneratorService,
     private readonly datePipe: TranslocoDatePipe,
     private readonly greaseReportPdfFileSaveService: GreaseReportPdfFileSaveService,
-    private readonly fontsLoaderService: FontsLoaderService
-  ) {}
+    private readonly fontsLoaderService: FontsLoaderService,
+    private readonly settingsFacade: SettingsFacade,
+    private readonly imageLoaderService: ImageLoaderService
+  ) {
+    this.schaefflerLogo$.subscribe();
+    this.partnerStaticContent$.subscribe();
+  }
 
   public generateReport(
     report: GreasePdfReportModel
   ): Promise<ShareResult | void> {
     const currentDate = this.datePipe.transform(new Date());
-    const fileName = `Grease App ${report.reportTitle} - ${currentDate}.pdf`;
+    const fileName = this.getFileName(report.reportTitle, currentDate);
 
     this.setCurrentLinePosition(this.standardLineSpacing);
     const doc = new jsPDF({
@@ -80,6 +114,15 @@ export class GreaseReportPdfGeneratorService {
     this.generateHeaderAndFooterSectionsOnEveryPage(doc, report, currentDate);
 
     return this.greaseReportPdfFileSaveService.saveAndOpenFile(doc, fileName);
+  }
+
+  private getFileName(reportTitle: string, date: string): string {
+    const partnerPrefix =
+      this.partnerVersion === PartnerVersion.Schmeckthal
+        ? 'Schmeckthal Gruppe '
+        : '';
+
+    return `${partnerPrefix}Grease App ${reportTitle} - ${date}.pdf`;
   }
 
   private generateHeaderAndFooterSectionsOnEveryPage(
@@ -121,17 +164,15 @@ export class GreaseReportPdfGeneratorService {
     report: GreasePdfReportModel,
     currentDate: string
   ): void {
-    this.generateImage(
-      doc,
-      schaefflerLogo,
-      'png',
-      21,
-      this.pageMargin + 1,
-      160,
-      47
-    );
+    const width = this.partnerVersion ? 280 : 130;
+    const height = this.partnerVersion ? 28 : 16;
+    const x = this.pageMargin + 1;
+    const y = this.pageMargin + 1;
+    const logo = this.partnerVersion ? this.partnerLogo : this.schaefflerLogo;
 
-    const titleYPosition = 110;
+    this.generateImage(doc, logo, x, y, width, height);
+
+    const titleYPosition = 100;
 
     doc.setFontSize(fontSize.ReportTitle);
     doc.setFont(fontFamily, fontType.Bold);
@@ -143,27 +184,34 @@ export class GreaseReportPdfGeneratorService {
       this.standardLineSpacing;
 
     this.setRegularTextStyle(doc);
-    doc.text(report.sectionSubTitle, subTitleXPosition, titleYPosition);
+    const subtitleSize =
+      doc.internal.pageSize.getWidth() - subTitleXPosition - this.pageMargin;
+    const subTitle = this.splitTextToSize(
+      doc,
+      report.sectionSubTitle,
+      subtitleSize
+    );
+    doc.text(subTitle, subTitleXPosition, titleYPosition);
 
     const xPositionDateOffset = 18;
+    const yPostionDateOffset = 20;
 
     doc.text(
       currentDate,
       this.getMaximumPageWidthIncludingMargins(doc) - xPositionDateOffset,
-      titleYPosition
+      titleYPosition - yPostionDateOffset
     );
   }
 
   private generateImage(
     doc: jsPDF,
     image: string,
-    type: string,
     xPosition: number,
     yPosition: number,
     width: number,
     height: number
   ): void {
-    doc.addImage(image, type, xPosition, yPosition, width, height);
+    doc.addImage(image, 'png', xPosition, yPosition, width, height);
   }
 
   private getElementWidth(doc: jsPDF, text: string): number {
@@ -231,7 +279,11 @@ export class GreaseReportPdfGeneratorService {
       const head = this.getMultiLineTableTitles(result.title, result.subTitle);
       const body = this.getMultiLinesDataRowForResult(result);
 
-      this.printTwoColumnLayoutTable(index, doc, head, body, true);
+      const cellHook: CellHook = this.partnerVersion
+        ? getCellHook(doc, this.schaefflerLogo)
+        : undefined;
+
+      this.printTwoColumnLayoutTable(index, doc, head, body, true, cellHook);
     });
 
     this.setCurrentLinePosition(
@@ -243,6 +295,24 @@ export class GreaseReportPdfGeneratorService {
     result: GreasePdfResultTable
   ): RowInput[] {
     const resultData: RowInput[] = [];
+
+    if (this.partnerVersion) {
+      const poweredBySection: RowInput[] = [
+        [
+          {
+            content: 'powered by ',
+            styles: {
+              fillColor: this.getMainColor(),
+              textColor: this.secondaryTextColor,
+              fontStyle: fontType.Normal,
+              cellWidth: 140,
+            },
+            colSpan: 2,
+          } as CellDef,
+        ],
+      ];
+      resultData.push(...poweredBySection);
+    }
 
     if (result.concept1) {
       resultData.push(...this.getConcept1DataRow(result.concept1));
@@ -522,12 +592,15 @@ export class GreaseReportPdfGeneratorService {
       tableRows.push(...this.getInputTableDataRows(row));
     });
 
+    const didDrawCell: CellHook = undefined;
+
     this.printTwoColumnLayoutTable(
       index,
       doc,
       [[this.getTableHeaderRow(tableTitle)]],
       tableRows,
-      true
+      true,
+      didDrawCell
     );
   }
 
@@ -548,7 +621,7 @@ export class GreaseReportPdfGeneratorService {
     return {
       content: value,
       styles: {
-        fillColor: this.mainGreenColor,
+        fillColor: this.getMainColor(),
         textColor: this.secondaryTextColor,
         fontStyle: fontType.Normal,
         cellWidth: 140,
@@ -581,12 +654,21 @@ export class GreaseReportPdfGeneratorService {
     doc: jsPDF,
     head: RowInput[],
     body: RowInput[],
-    showHead = false
+    showHead = false,
+    didDrawCell: CellHook
   ): void {
     const yPosition =
       this.getCurrentLinePosition(doc) + this.standardLineSpacing;
     const marginValue = this.getTableMarginBasedOnIndex(index);
-    this.generateTable(doc, yPosition, head, body, marginValue, showHead);
+    this.generateTable(
+      doc,
+      yPosition,
+      head,
+      body,
+      marginValue,
+      showHead,
+      didDrawCell
+    );
   }
 
   private isEven(index: number): boolean {
@@ -615,7 +697,8 @@ export class GreaseReportPdfGeneratorService {
     head: RowInput[],
     body: RowInput[],
     margin: MarginPaddingInput,
-    showHead = false
+    showHead = false,
+    didDrawCell: CellHook
   ): void {
     autoTable(doc, {
       theme: 'grid',
@@ -629,6 +712,7 @@ export class GreaseReportPdfGeneratorService {
       head,
       body,
       margin,
+      didDrawCell,
     });
   }
 
@@ -674,13 +758,24 @@ export class GreaseReportPdfGeneratorService {
   }
 
   private splitTextToPageSize(doc: jsPDF, text: string): string[] {
-    return doc.splitTextToSize(
+    return this.splitTextToSize(
+      doc,
       text,
       this.getMaximumPageWidthIncludingMargins(doc)
     );
   }
 
+  private splitTextToSize(doc: jsPDF, text: string, size: number): string[] {
+    return doc.splitTextToSize(text, size);
+  }
+
   private getMaximumPageWidthIncludingMargins(doc: jsPDF): number {
     return doc.internal.pageSize.getWidth() - 2 * this.pageMargin;
+  }
+
+  private getMainColor(): string {
+    return this.partnerVersion === PartnerVersion.Schmeckthal
+      ? this.mainGreyColor
+      : this.mainGreenColor;
   }
 }

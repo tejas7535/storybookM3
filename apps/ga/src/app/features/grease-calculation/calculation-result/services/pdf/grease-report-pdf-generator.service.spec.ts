@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+import { of } from 'rxjs';
+
 import {
   createServiceFactory,
   mockProvider,
@@ -7,18 +9,19 @@ import {
 } from '@ngneat/spectator/jest';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 
+import { SettingsFacade } from '@ga/core/store/facades/settings.facade';
 import {
   GREASE_PDF_INPUT_MOCK,
   GREASE_PDF_MESSAGE,
   GREASE_PDF_RESULT_MOCK,
 } from '@ga/testing/mocks';
 
-import { schaefflerLogo } from '../../constants/pdf-report/report-logo';
 import { GreaseReportDataGeneratorService } from '../grease-report-data-generator.service';
 import { fontFamily, fontType } from './fonts.constants';
 import { FontsLoaderService } from './fonts-loader.service';
 import { GreaseReportPdfFileSaveService } from './grease-report-pdf-file-save.service';
 import { GreaseReportPdfGeneratorService } from './grease-report-pdf-generator.service';
+import { ImageLoaderService } from './image-loader.service';
 
 const saveFile = jest.fn();
 const textSpy = jest.fn();
@@ -81,6 +84,19 @@ describe('GreaseReportPdfGeneratorService', () => {
       mockProvider(TranslocoDatePipe, { transform: () => '14.11.2022' }),
       mockProvider(GreaseReportPdfFileSaveService),
       mockProvider(FontsLoaderService),
+      {
+        provide: ImageLoaderService,
+        useValue: {
+          schaefflerLogo$: of('schaefflerLogo'),
+          partnerLogo$: of('partnerLogo'),
+        },
+      },
+      {
+        provide: SettingsFacade,
+        useValue: {
+          partnerVersion$: of(undefined),
+        },
+      },
     ],
   });
 
@@ -124,11 +140,11 @@ describe('GreaseReportPdfGeneratorService', () => {
     });
 
     it('should print report title', () => {
-      expect(textSpy).toHaveBeenCalledWith(
-        'report title',
-        pageMargin,
-        expect.any(Number)
-      );
+      const reportTitle = 'report title';
+      const expectedX = pageMargin;
+      const expectedY = expect.any(Number);
+
+      expect(textSpy).toHaveBeenCalledWith(reportTitle, expectedX, expectedY);
     });
 
     it('should set document font style', () => {
@@ -190,12 +206,12 @@ describe('GreaseReportPdfGeneratorService', () => {
 
     it('should load image for every page', () => {
       expect(addImageSpy).toHaveBeenCalledWith(
-        schaefflerLogo,
+        'schaefflerLogo',
         'png',
-        21,
+        36,
         pageMargin + 1,
-        160,
-        47
+        130,
+        16
       );
     });
   });
