@@ -6,7 +6,7 @@
   ></div>
   <div
     class="left-0 flex w-full items-center justify-center box-border bottom-0 md:bottom-9 z-20 transition-all duration-150"
-    [ngClass]="{'md:inset-y-auto relative md:fixed': (isStandalone$ |ngrxPush) && !sticky, 'relative h-auto': !isStandalone$ | ngrxPush , 'fixed': isStandalone$ | ngrxPush}"
+    [ngClass]="{'md:inset-y-auto relative md:fixed max-w-[100vw]': (isStandalone$ |ngrxPush) && !sticky, 'relative h-auto': !isStandalone$ | ngrxPush , 'fixed': isStandalone$ | ngrxPush}"
   >
     <div
       class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-2 pt-4 md:py-6 md:px-8 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
@@ -14,14 +14,12 @@
     >
       <div class="user-hints flex items-center flex-grow-0 flex-shrink-0">
         <ng-container *ngIf="isCalculationMissingInput$ | ngrxPush">
-          <div
-            class="flex md:flex-shrink-0 flex-row items-center justify-center"
-          >
+          <div class="flex max-w-[180px] flex-row items-center justify-center">
             <div class="flex flex-shrink-0">
               <mat-icon color="primary">info_outline</mat-icon>
             </div>
             <div
-              class="text-caption text-high-emphasis ml-2 text-center md:text-left md:flex-shrink-0"
+              class="text-caption text-high-emphasis ml-2 text-center md:text-left"
             >
               {{ t('calculationMissingInput') }}
             </div>
