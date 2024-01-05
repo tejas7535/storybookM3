@@ -55,3 +55,25 @@
 .mat-menu-width {
   max-width: 600px !important;
 }
+
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__label {
+    @apply text-body-2 #{!important};
+  }
+  .mdc-snackbar__surface {
+    @apply bg-high-emphasis #{!important};
+    @apply text-high-emphasis-dark-bg #{!important};
+  }
+}
+
+.mat-mdc-menu-item {
+  @apply text-body-2 #{!important};
+}
+
+.mdc-tooltip__surface {
+  @apply py-2 #{!important};
+  @apply px-4 #{!important};
+  @apply text-left #{!important};
+  @apply bg-secondary-900 #{!important};
+  @apply text-caption #{!important};
+}

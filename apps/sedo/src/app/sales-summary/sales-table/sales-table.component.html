@@ -26,7 +26,7 @@
     </div>
     <a
       mat-button
-      class="!mb-2 text-button text-link"
+      class="!mb-2 text-button !text-link"
       href="https://sconnect.schaeffler.com/docs/DOC-382363"
       target="_blank"
       >Support/Documentation</a
@@ -43,7 +43,7 @@
     [detailCellRenderer]="detailCellRenderer"
     [detailCellRendererParams]="detailCellRendererParams"
     [masterDetail]="true"
-    [detailRowHeight]="240"
+    [detailRowHeight]="256"
     [enableCellTextSelection]="true"
     (rowClicked)="onRowClicked($event)"
     (firstDataRendered)="onFirstDataRendered($event)"

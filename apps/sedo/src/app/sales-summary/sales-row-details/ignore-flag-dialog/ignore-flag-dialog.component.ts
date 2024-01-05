@@ -1,8 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { IGNORE_FLAG_DESCRIPTIONS } from '../../sales-table/constants/ignore-flag-descriptions.const';
 import { IgnoreFlag } from '../enums/ignore-flag.enum';

@@ -1,29 +1,39 @@
 <div *ngIf="rowData" class="flex flex-row flex-wrap">
   <mat-list>
     <mat-list-item>
-      <div mat-line>{{ rowData.combinedKey }}</div>
-      <div mat-line>Combined Key</div>
+      <span matListItemTitle class="!text-body-1">{{
+        rowData.combinedKey
+      }}</span>
+      <span matListItemLine class="!text-body-2">Combined Key</span>
     </mat-list-item>
     <mat-list-item>
-      <div mat-line>{{ rowData.socoCustomerNumberGlobalKey }}</div>
-      <div mat-line>Customer Key</div>
+      <span matListItemTitle class="!text-body-1">{{
+        rowData.socoCustomerNumberGlobalKey
+      }}</span>
+      <span matListItemLine class="!text-body-2">Customer Key</span>
     </mat-list-item>
   </mat-list>
 
   <mat-list>
     <mat-list-item>
-      <div mat-line>{{ rowData.socoArticleNumberGlobalName }}</div>
-      <div mat-line>Material Short Description</div>
+      <span matListItemTitle class="!text-body-1">{{
+        rowData.socoArticleNumberGlobalName
+      }}</span>
+      <span matListItemLine class="!text-body-2"
+        >Material Short Description</span
+      >
     </mat-list-item>
     <mat-list-item>
-      <div mat-line>{{ rowData.socoCustomerNumberGlobalName }}</div>
-      <div mat-line>Customer Name</div>
+      <span matListItemTitle class="!text-body-1">{{
+        rowData.socoCustomerNumberGlobalName
+      }}</span>
+      <span matListItemLine class="!text-body-2">Customer Name</span>
     </mat-list-item>
   </mat-list>
 
   <div class="flex flex-col items-start" [formGroup]="datesFormGroup">
     <div>
-      <mat-form-field class="!m-4 !mb-0" appearance="fill">
+      <mat-form-field class="!mt-4 !mx-4" appearance="fill">
         <mat-label>Choose EOP</mat-label>
         <input
           matInput
@@ -72,7 +82,7 @@
         </mat-menu>
       </span>
     </div>
-    <mat-form-field class="!m-4 !mb-0" appearance="fill">
+    <mat-form-field class="!mt-4 !mx-4" appearance="fill">
       <mat-label>Choose EDO</mat-label>
       <input
         matInput
@@ -98,7 +108,7 @@
         >EDO before EOP is not allowed.</mat-error
       >
     </mat-form-field>
-    <div>
+    <div class="flex gap-4 !m-4">
       <button
         *ngIf="!datesFormGroup.disabled"
         mat-raised-button

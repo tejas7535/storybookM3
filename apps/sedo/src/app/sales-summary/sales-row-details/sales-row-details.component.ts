@@ -5,9 +5,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -237,6 +237,10 @@ export class SalesRowDetailsComponent
       )
     ).getTime();
 
-    return edoTimestamp < eopTimestamp ? { disallowedEdo: true } : undefined;
+    // a null value for EdoDate would return 0 for edoTimestamp
+    // the required Validator will catch this
+    return edoTimestamp > 0 && edoTimestamp < eopTimestamp
+      ? { disallowedEdo: true }
+      : undefined;
   }
 }
