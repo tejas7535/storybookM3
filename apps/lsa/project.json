@@ -113,7 +113,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "deployUrl": "https://lubricator-selection-assistant.dev.dp.schaeffler/",
+          "deployUrl": "https://lubricator-selection-assistant-d.dev.dp.schaeffler/",
 
           "optimization": {
             "scripts": true,
@@ -143,7 +143,7 @@
         "qa": {
           "outputHashing": "bundles",
           "statsJson": true,
-          "deployUrl": "https://lubricator-selection-assistant.dev.dp.schaeffler/",
+          "deployUrl": "https://lubricator-selection-assistant-q.dev.dp.schaeffler/",
           "optimization": {
             "scripts": true,
             "styles": {
