@@ -35,7 +35,8 @@ export const isBearingSupported = createSelector(
   (productState, error) => {
     if (
       !SUPPORTED_PRODUCT_CLASSES.includes(productState.bearingProductClass) &&
-      !error
+      !error &&
+      !!productState.bearingProductClass
     ) {
       return false;
     }

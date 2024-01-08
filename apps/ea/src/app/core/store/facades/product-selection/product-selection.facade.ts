@@ -18,6 +18,7 @@ import {
   getBearingId,
   getCalculationModuleInfo,
   getTemplateItem,
+  isBearingSupported,
 } from '../../selectors/product-selection/product-selection.selector';
 
 @Injectable({
@@ -33,6 +34,7 @@ export class ProductSelectionFacade {
   public availableLubricationMethods$ = this.store.select(
     getAvailableLubricationMethods
   );
+  public isBearingSupported$ = this.store.select(isBearingSupported);
 
   constructor(private readonly store: Store) {}
 

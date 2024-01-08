@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, filter, mergeMap, of, switchMap } from 'rxjs';
 
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -14,8 +14,12 @@ export class CO2UpstreamCalculationResultEffects {
   public fetchResult$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CO2UpstreamCalculationResultActions.fetchResult),
-      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
-      switchMap(([_action, bearingDesignation]) =>
+      concatLatestFrom(() => [
+        this.productSelectionFacade.bearingDesignation$,
+        this.productSelectionFacade.isBearingSupported$,
+      ]),
+      filter(([_action, _designation, _supported]) => _supported),
+      switchMap(([_action, bearingDesignation, _supported]) =>
         this.co2UpstreamService
           .getCO2UpstreamForDesignation(bearingDesignation)
           .pipe(

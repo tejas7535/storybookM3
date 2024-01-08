@@ -14,6 +14,7 @@ import { marbles } from 'rxjs-marbles';
 
 import {
   CalculationTypesActions,
+  CO2UpstreamCalculationResultActions,
   ProductSelectionActions,
 } from '../../actions';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
@@ -213,14 +214,15 @@ describe('Product Selection Effects', () => {
       return marbles((m) => {
         action = ProductSelectionActions.fetchBearingCapabilities();
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcdef)', {
+        const expected = m.cold('-(bcdefg)', {
           b: ProductSelectionActions.setBearingId({ bearingId: 'abc' }),
           c: ProductSelectionActions.setBearingProductClass({
             productClass: 'IDO_CATALOGUE_BEARING',
           }),
           d: ProductSelectionActions.fetchLoadcaseTemplate(),
-          e: ProductSelectionActions.fetchOperatingConditionsTemplate(),
-          f: CalculationTypesActions.setCalculationTypes({
+          e: CO2UpstreamCalculationResultActions.fetchResult(),
+          f: ProductSelectionActions.fetchOperatingConditionsTemplate(),
+          g: CalculationTypesActions.setCalculationTypes({
             calculationTypes: calculationOptions,
           }),
         });

@@ -25,7 +25,6 @@ export class ProductSelectionEffects {
       mergeMap(() => [
         ProductSelectionActions.fetchBearingCapabilities(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
-        CO2UpstreamCalculationResultActions.fetchResult(),
       ])
     );
   });
@@ -62,6 +61,7 @@ export class ProductSelectionEffects {
                   productClass: capabilities.productInfo.bearinxClass,
                 }),
                 ProductSelectionActions.fetchLoadcaseTemplate(),
+                CO2UpstreamCalculationResultActions.fetchResult(),
                 ProductSelectionActions.fetchOperatingConditionsTemplate(),
                 CalculationTypesActions.setCalculationTypes({
                   calculationTypes: newCalculationTypes,

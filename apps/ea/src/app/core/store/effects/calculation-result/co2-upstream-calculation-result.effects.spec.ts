@@ -38,6 +38,7 @@ describe('CO2 Upstream Calculation Result Effects', () => {
         provide: ProductSelectionFacade,
         useValue: {
           bearingDesignation$: of('bearing-123'),
+          isBearingSupported$: of(true),
         },
       },
     ],
@@ -53,7 +54,7 @@ describe('CO2 Upstream Calculation Result Effects', () => {
     beforeEach(() => {
       co2UpstreamServiceMock.getCO2UpstreamForDesignation.mockReset();
     });
-    it('should fetch the result', () => {
+    it('should fetch the result for a supported bearing', () => {
       const fetchSpy = jest
         .spyOn(co2UpstreamServiceMock, 'getCO2UpstreamForDesignation')
         .mockImplementation(() => of('result-from-service'));
