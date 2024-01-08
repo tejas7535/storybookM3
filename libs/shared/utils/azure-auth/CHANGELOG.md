@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Azure Auth
+## [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.2.0...azure-auth-v1.2.1) (2024-01-08)
+
+
+### Bug Fixes
+
+* **azure-auth:** add missing export of selector for access token ([#5891](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5891)) ([f78fbe2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f78fbe2e9711506bf78d3bf0398a7d88107da0b5))
+
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.1.1...azure-auth-v1.2.0) (2023-12-14)
 
 
