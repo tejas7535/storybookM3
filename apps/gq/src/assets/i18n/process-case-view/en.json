@@ -47,7 +47,9 @@
       "confirmationQuestion": "Are you sure you want to cancel the approval workflow?",
       "cancelWorkflow": "Cancel Workflow",
       "backToOverview": "Back to Overview"
-    }
+    },
+    "save": "Save Case",
+    "delete": "Discard Case"
   },
   "tabs": {
     "singleQuotes": {

@@ -14,6 +14,7 @@ export * from './quotation/quotation-status.enum';
 export * from './quotation-detail';
 export * from './rfq-data.interface';
 export * from './role-group.model';
+export * from './shared-quotation/shared-quotation.model';
 export * from './simulated-quotation';
 export * from './status-bar.model';
 export * from './tracking/gq-events';

@@ -47,7 +47,9 @@
       "confirmationQuestion": "Sind Sie sich sicher, dass Sie den Freigabeprozess abbrechen möchten?",
       "cancelWorkflow": "Freigabe abbrechen",
       "backToOverview": "Zurück zur Übersicht"
-    }
+    },
+    "save": "Case speichern",
+    "delete": "Case verwerfen"
   },
   "tabs": {
     "singleQuotes": {

@@ -9,6 +9,7 @@ import { CurrencyModule } from '@gq/core/store/currency/currency.module';
 import { OverviewCasesModule } from '@gq/core/store/overview-cases/overview-cases.module';
 import { ProcessCaseModule } from '@gq/core/store/process-case';
 import { FPricingModule } from '@gq/f-pricing/f-pricing.module';
+import { SharedQuotationButtonComponent } from '@gq/process-case-view/shared-quotation-button/shared-quotation-button.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { ExportExcelModalModule } from '@gq/shared/components/modal/export-excel-modal/export-excel-modal.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -67,6 +68,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     SharedDirectivesModule,
     DialogHeaderModule,
     FPricingModule,
+    SharedQuotationButtonComponent,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })

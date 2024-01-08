@@ -403,7 +403,9 @@
       "costsUpdated": "Kosten erfolgreich aktualisiert",
       "rfqInformationUpdated": "RFQ Information erfolgreich aktualisiert",
       "attachmentsUploaded": "Anhänge erfolgreich hochgeladen",
-      "attachmentsDeleted": "Anhang gelöscht"
+      "attachmentsDeleted": "Anhang gelöscht",
+      "sharedQuotationSaved": "Dieser Case wurde in dem Reiter \"Geteilte Cases\" gespeichert.",
+      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Cases\" entfernt."
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"

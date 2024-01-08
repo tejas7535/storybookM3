@@ -403,7 +403,9 @@
       "costsUpdated": "Costs updated successfully",
       "rfqInformationUpdated": "RFQ Information updated successfully",
       "attachmentsUploaded": "Attachments uploaded successfully",
-      "attachmentsDeleted": "Attachment deleted"
+      "attachmentsDeleted": "Attachment deleted",
+      "sharedQuotationSaved": "This case was saved to the \"Shared Cases\" tab.",
+      "sharedQuotationUnsaved": "This case was removed from the \"Shared Cases\" tab."
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"

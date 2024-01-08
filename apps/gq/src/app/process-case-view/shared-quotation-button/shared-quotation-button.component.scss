@@ -1,0 +1,11 @@
+.gq-shared-quotation-button {
+  @apply flex flex-col items-center justify-center uppercase text-medium-emphasis text-subtitle-2;
+
+  .mat-icon {
+    @apply text-[18px] pt-[1px];
+  }
+
+  &:hover {
+    @apply text-icon-link opacity-100;
+  }
+}

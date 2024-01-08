@@ -17,6 +17,7 @@ import {
   getTabsForProcessCaseView,
 } from '@gq/core/store/active-case';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   ApprovalWorkflowInformation,
@@ -44,13 +45,15 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
 
   readonly sapSyncStatus = SAP_SYNC_STATUS;
   readonly quotationStatus = QuotationStatus;
+  readonly loggedInUserId$ = this.rolesFacade.loggedInUserId$;
 
   private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(
     private readonly store: Store,
     private readonly approvalFacade: ApprovalFacade,
-    private readonly breadCrumbsService: BreadcrumbsService
+    private readonly breadCrumbsService: BreadcrumbsService,
+    private readonly rolesFacade: RolesFacade
   ) {}
 
   ngOnInit(): void {
