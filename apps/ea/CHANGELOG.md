@@ -1,4 +1,22 @@
 # Release Notes of Engineering App
+## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.2.1...ea-v1.3.0) (2024-01-08)
+
+
+### Features
+
+* **ea:** add bearing desingation to qualtrics survey (UFTABI-7139) ([#5883](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5883)) ([8b9c1e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b9c1e8bdf4e068fcbfd447c6c6a506715c6a7b6))
+* **ea:** add rating life preselection in initial state ([#5856](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5856)) ([7a7d145](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7a7d1456df4a96c4499ba330ae0e9cb2a3431e14))
+* **ea:** add static safety to preview ([#5877](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5877)) ([1dbdfe2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1dbdfe252bd913f9760b84258e1421fc898d907c))
+* **ea:** change app loading order to load new app first - UFTABI-7130 ([#5886](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5886)) ([4de2298](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4de22984c9dc375362e691ab21e34eb56feea402))
+* **ea:** pdf report improvements ([#5861](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5861)) ([f4cece3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f4cece340eb32b6e82fa3434df376ee52d437277))
+* **ea:** pdf report improvements and medias link in report ([#5864](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5864)) ([fcdd47d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fcdd47d4b2f5eb9eb018338d2503603f0a1dbbeb))
+
+
+### Bug Fixes
+
+* **ea:** fix external heatflow label ([#5893](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5893)) ([9f31ac5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f31ac59c8731ccefeb47916d6b3c38f0c6769b5))
+* **ea:** reduce max width of user hint in empty state - UFTABI-6982 ([#5884](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5884)) ([ce016e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ce016e2a4c97b9718025b01fe4b155cfca71ca05))
+
 ## [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.2.0...ea-v1.2.1) (2023-12-12)
 
 
