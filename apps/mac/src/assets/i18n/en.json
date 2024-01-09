@@ -91,7 +91,7 @@
         "mpa_prelink": "For such calculations, please use the",
         "mpa_link": "Material Properties Estimator - LINK",
         "mpa_href": "https://matlab-web-app:9988/webapps/home/login.html?afterlogin=%2Fwebapps%2Fhome%2Fsession.html%3Fapp%3DSchaeffler%252FMaterialparameterestimation",
-        "invalid_hv_force": "Maximum allowed test force is higher than applied test force!",
+        "invalid_hv_force": "Applied test force is higher than maximum allowed test force!",
         "invalid_hb_ratio": "Indentation-indenter ratio is out of range, needs to be within 24 % and 60 %!",
         "invalid_parameter": "Unable to calculate values, parameters out-of-range!",
         "invalid_ball_diameter": "Invalid ball diameter!"
