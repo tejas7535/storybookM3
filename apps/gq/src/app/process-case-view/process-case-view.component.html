@@ -34,11 +34,13 @@
       </div>
     </ng-container>
     <ng-container subheaderInlineContent>
-      <gq-shared-quotation-button
-        *ngIf="(loggedInUserId$ | ngrxPush) !== quotation.gqCreatedByUser.id"
-        class="pr-3"
-        [quotationId]="quotation.gqId"
-      ></gq-shared-quotation-button>
+      <ng-container *featureToggle="'sharedQuotation'">
+        <gq-shared-quotation-button
+          *ngIf="(loggedInUserId$ | ngrxPush) !== quotation.gqCreatedByUser.id"
+          class="pr-3"
+          [quotationId]="quotation.gqId"
+        ></gq-shared-quotation-button>
+      </ng-container>
       <schaeffler-share-button></schaeffler-share-button>
       <gq-release-button [quotation]="quotation"></gq-release-button>
       <gq-cancel-workflow-button
