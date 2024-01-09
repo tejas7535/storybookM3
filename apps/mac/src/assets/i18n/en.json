@@ -846,7 +846,6 @@
       "px": "Polymer",
       "cu": "Copper",
       "ce": "Ceramic",
-      "hm": "Hardmagnet",
       "lu": "Lubricants",
       "sap": "SAP Materials"
     },
@@ -856,7 +855,6 @@
       "px": "Polymers",
       "cu": "Copper alloys",
       "ce": "Ceramics",
-      "hm": "Hardmagnets",
       "lu": "Lubricants",
       "sap": "SAP material numbers"
     },
@@ -922,22 +920,12 @@
         "drawing": "Drawing",
         "machining": "Machining",
         "unknown": "Unknown"
-      },
-      "hm": {
-        "spray": "Spray cast",
-        "other": "Other"
       }
     },
     "condition": {
       "ce": {
         "semiFin": "Semi Finished",
         "fin": "Finished"
-      }
-    },
-    "coating": {
-      "hm": {
-        "galvanized": "Galvanized",
-        "other": "Other"
       }
     },
     "reload": "Reload",

@@ -234,6 +234,12 @@ describe('Co2ComponentComponent', () => {
       expect(validator(testControl)).toBe(undefined);
     });
 
+    it('should return undefined with valid total value - empty scopes', () => {
+      const val = rand(99);
+      testControl.setValue(val);
+      expect(validator(testControl)).toBe(undefined);
+    });
+
     it('should return undefined with valid total value - scope 1', () => {
       const val = rand(99);
       mockScope1.setValue(val);

@@ -120,13 +120,13 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
       if (control.value) {
         const current = control.value || 0;
         const min = values.value
-          // replace negative and unfilled values with 0
-          .map((value) => Math.max(value || 0, 0))
+          // replace unfilled values with 0
+          .map((value) => value || 0)
           // create sum of all scope values
           .reduce((sum, value) => sum + value);
         const max = values.value
-          // replace negative and unfilled values with MAX
-          .map((value) => Math.min(value || 0, Number.MAX_VALUE))
+          // replace unfilled values with MAX
+          .map((value) => value || Number.MAX_VALUE)
           // create sum of all scope values
           .reduce((sum, value) => sum + value);
 
