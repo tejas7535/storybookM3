@@ -64,3 +64,8 @@ export const getCalculationTypesConfig = createSelector(
       },
     ].filter((item) => item.visible)
 );
+
+export const hasCalculationsSelected = createSelector(
+  getCalculationTypesConfig,
+  (state) => state.some((calc) => calc.selected)
+);

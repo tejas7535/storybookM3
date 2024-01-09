@@ -24,6 +24,7 @@
     "loadCaseName": "荷载情境 {{number}}",
     "generalInputsTitle": "一般输入",
     "generalInputsTitleTooltip": "适用于所有负载案例",
+    "emptyState": "请从可用计算列表中选择要执行的计算。",
     "operatingTime": {
       "title": "操作时间",
       "label": "百分比"

@@ -24,6 +24,7 @@
     "loadCaseName": "Loadcase {{number}}",
     "generalInputsTitle": "General Inputs",
     "generalInputsTitleTooltip": "This applies to all loadcases",
+    "emptyState": "Please select the calculation you want to perform from the list of available calculations",
     "operatingTime": {
       "title": "Operating time",
       "label": "Percentage"

@@ -29,6 +29,17 @@
         <div
           class="flex flex-row items-center min-[1100px]:hidden justify-between mb-4"
         >
+          <!-- Mobile Empty state-->
+          <div
+            class="text-left py-11 flex-row items-center justify-center space-x-2 flex"
+            *ngIf="!(hasSelection$ | ngrxPush)"
+          >
+            <mat-icon color="primary" class="flex-shrink-0"
+              >info_outline</mat-icon
+            >
+            <span class="max-w-2xl flex-grow-0">{{t("emptyState")}}</span>
+          </div>
+
           <button
             mat-fab
             extended
@@ -47,8 +58,19 @@
         >
         </ea-calculation-parameters-form-dev-debug>
 
+        <!-- Desktop Empty state-->
+        <div
+          class="text-center py-11 flex-row items-center justify-center space-x-2 hidden md:flex"
+          *ngIf="!(hasSelection$ | ngrxPush)"
+        >
+          <mat-icon color="primary" class="flex-shrink-0"
+            >info_outline</mat-icon
+          >
+          <span class="max-w-2xl flex-grow-0">{{t("emptyState")}}</span>
+        </div>
+
         <!-- INPUT PARAMETERS -->
-        <ng-container *ngIf="parameterTemplates">
+        <ng-container *ngIf="parameterTemplates && hasSelection$ | ngrxPush">
           <!-- LOAD CASES-->
           <!-- single load cases-->
           <ng-container *ngIf="isSingleLoadCaseForm">
@@ -174,7 +196,7 @@
           </div>
         </ng-container>
 
-        <div class="flex">
+        <div class="flex" *ngIf="hasSelection$ | ngrxPush">
           <button
             mat-button
             color="primary"

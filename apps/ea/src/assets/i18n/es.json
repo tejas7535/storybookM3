@@ -24,6 +24,7 @@
     "loadCaseName": "Caso de carga {{number}}",
     "generalInputsTitle": "Entradas Generales",
     "generalInputsTitleTooltip": "Esto se aplica a todos los casos de carga",
+    "emptyState": "Seleccione el cálculo que desea realizar de la lista de cálculos disponibles.",
     "operatingTime": {
       "title": "Tiempo de operación",
       "label": "Porcentaje"

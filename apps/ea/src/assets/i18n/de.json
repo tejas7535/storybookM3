@@ -24,6 +24,7 @@
     "loadCaseName": "Lastfall {{number}}",
     "generalInputsTitle": "Allgemeine Eingaben",
     "generalInputsTitleTooltip": "Dies gilt für alle Lastfälle",
+    "emptyState": "Bitte wählen Sie die gewünschten Berechnungen aus der Liste der verfügbaren Berechnungsmethoden aus.",
     "operatingTime": {
       "title": "Betriebszeit",
       "label": "Prozentsatz"

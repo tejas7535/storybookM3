@@ -15,6 +15,7 @@ import {
   getCalculationTypes,
   getCalculationTypesConfig,
   getCalculationTypesGlobalSelectionState,
+  hasCalculationsSelected,
 } from '../../selectors/calculation-parameters/calculation-types.selector';
 import { isAnyServiceLoading } from '../../selectors/calculation-result/calculation-result-preview.selector';
 
@@ -35,6 +36,8 @@ export class CalculationParametersFacade {
   );
 
   public getCalculationTypes$ = this.store.select(getCalculationTypes);
+
+  public hasCalculation$ = this.store.select(hasCalculationsSelected);
 
   public getCalculationTypesGlobalSelection$ = this.store.select(
     getCalculationTypesGlobalSelectionState

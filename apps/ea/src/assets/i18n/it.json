@@ -24,6 +24,7 @@
     "loadCaseName": "Carico di prova {{number}}",
     "generalInputsTitle": "Ingressi generali",
     "generalInputsTitleTooltip": "Questo si applica a tutti i casi di carico",
+    "emptyState": "Selezionare il calcolo che si desidera eseguire dall'elenco dei calcoli disponibili.",
     "operatingTime": {
       "title": "Tempo di funzionamento",
       "label": "Percentuale"

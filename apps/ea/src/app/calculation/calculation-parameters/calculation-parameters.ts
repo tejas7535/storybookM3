@@ -160,6 +160,9 @@ export class CalculationParametersComponent
   public readonly bearingDesignation$ =
     this.productSelectionFacade.bearingDesignation$;
 
+  public readonly hasSelection$ =
+    this.calculationParametersFacade.hasCalculation$;
+
   public readonly loadAvailable$ = this.productSelectionFacade.availableLoads$;
   public readonly lubricationMethodsAvailable$ =
     this.productSelectionFacade.availableLubricationMethods$;
