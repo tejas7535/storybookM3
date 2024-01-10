@@ -28,6 +28,7 @@ import { CalculationContainerComponent } from './calculation/calculation-contain
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
 import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
+import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
 
 export const appRoutePaths: Routes = [
   {
@@ -62,21 +63,6 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    CoreModule,
-    PushPipe,
-    BrowserAnimationsModule,
-    CalculationContainerComponent,
-    SharedTranslocoModule,
-    RouterModule.forRoot(appRoutePaths, { enableTracing: false }),
-
-    // UI Modules
-    AppShellModule,
-    BannerModule,
-    SettingsPanelComponent,
-    LanguageSelectModule,
-  ],
   providers: [
     TranslocoDecimalPipe,
     { provide: OverlayContainer, useClass: AppOverlayContainer },
@@ -99,6 +85,21 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
       useFactory: DynamicStoragePeriod,
       deps: [TranslocoService],
     },
+  ],
+  imports: [
+    BrowserModule,
+    CoreModule,
+    PushPipe,
+    BrowserAnimationsModule,
+    CalculationContainerComponent,
+    SharedTranslocoModule,
+    RouterModule.forRoot(appRoutePaths, { enableTracing: false }),
+    // UI Modules
+    AppShellModule,
+    BannerModule,
+    SettingsPanelComponent,
+    LanguageSelectModule,
+    QualtricsInfoBannerComponent,
   ],
 })
 export class AppModule implements DoBootstrap {

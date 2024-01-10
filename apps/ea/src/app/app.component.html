@@ -34,6 +34,15 @@
 
 <!-- adjust language code accordingly in the url-->
 <ng-template #legacyApp>
+  <div class="min-w-full py-8 px-2 bg-[#dde3e6]">
+    <div class="max-w-[1200px] mx-auto">
+      <ea-qualtrics-info-banner
+        class="max-w-xl mx-auto"
+        survey="legacy"
+        [bearingDesingation]="bearingDesignation | ngrxPush"
+      ></ea-qualtrics-info-banner>
+    </div>
+  </div>
   <iframe
     *ngIf="legacyAppUrl$ | ngrxPush as legacyAppUrl"
     class="w-full h-[100vh]"
