@@ -107,7 +107,8 @@ export class HomeCardsService {
         ),
       },
       {
-        mainTitle: this.translateText('contact.title.main'),
+        mainTitle: this.getSchaefflerExpertsCardTitle(partnerVersion),
+        subTitle: this.getSchaefflerExpertsCardSubTitle(partnerVersion),
         templateId: 'imageCard',
         imagePath: this.getCardImageUrl('contact.jpg'),
         cardAction: this.getSchaefflerExpertsCardAction(partnerVersion),
@@ -125,12 +126,37 @@ export class HomeCardsService {
     ];
   }
 
+  private getSchaefflerExpertsCardTitle(partnerVersion: string): string {
+    const key = 'contact.title.main';
+    if (this.isSchmeckthalVersion(partnerVersion)) {
+      return this.translocoService.translate(
+        `partnerVersion.${partnerVersion}.cards.${key}`
+      );
+    }
+
+    return this.translateText(key);
+  }
+
+  private getSchaefflerExpertsCardSubTitle(partnerVersion: string): string {
+    if (!this.isSchmeckthalVersion(partnerVersion)) {
+      return undefined;
+    }
+
+    return this.translocoService.translate(
+      `partnerVersion.${partnerVersion}.cards.contact.title.sub`
+    );
+  }
+
   private getSchaefflerExpertsCardAction(partnerVersion: string): () => void {
-    if (partnerVersion === PartnerVersion.Schmeckthal) {
+    if (this.isSchmeckthalVersion(partnerVersion)) {
       return this.createSchmeckthalContactAction();
     }
 
     return this.getDefaultContactLinkAction();
+  }
+
+  private isSchmeckthalVersion(partnerVersion: string): boolean {
+    return partnerVersion === PartnerVersion.Schmeckthal;
   }
 
   private getDefaultContactLinkAction(): () => void {

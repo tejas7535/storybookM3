@@ -43,7 +43,8 @@ Array [
   Object {
     "cardAction": [Function],
     "imagePath": "assets/images/homepage/cards/contact.jpg",
-    "mainTitle": "homepage.cards.contact.title.main",
+    "mainTitle": "partnerVersion.schmeckthal-gruppe.cards.contact.title.main",
+    "subTitle": "partnerVersion.schmeckthal-gruppe.cards.contact.title.sub",
     "templateId": "imageCard",
   },
   Object {
@@ -99,6 +100,7 @@ Array [
     "cardAction": [Function],
     "imagePath": "assets/images/homepage/cards/contact.jpg",
     "mainTitle": "homepage.cards.contact.title.main",
+    "subTitle": undefined,
     "templateId": "imageCard",
   },
   Object {
