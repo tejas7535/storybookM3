@@ -186,6 +186,62 @@ export class QuickFilterEffects {
     );
   });
 
+  enableQuickFilterNotification$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(QuickFilterActions.enableQuickFilterNotification),
+      switchMap(({ quickFilterId, isSubscribedQuickFilter }) =>
+        this.msdQuickFilterService
+          .enableQuickFilterNotification(quickFilterId)
+          .pipe(
+            map(() =>
+              QuickFilterActions.enableQuickFilterNotificationSuccess({
+                quickFilterId,
+                isSubscribedQuickFilter,
+              })
+            ),
+            catchError(() =>
+              of(
+                DataActions.errorSnackBar({
+                  message: translate(
+                    'materialsSupplierDatabase.mainTable.quickfilter.management.error.enableNotification'
+                  ),
+                }),
+                QuickFilterActions.enableQuickFilterNotificationFailure()
+              )
+            )
+          )
+      )
+    );
+  });
+
+  disableQuickFilterNotification$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(QuickFilterActions.disableQuickFilterNotification),
+      switchMap(({ quickFilterId, isSubscribedQuickFilter }) =>
+        this.msdQuickFilterService
+          .disableQuickFilterNotification(quickFilterId)
+          .pipe(
+            map(() =>
+              QuickFilterActions.disableQuickFilterNotificationSuccess({
+                quickFilterId,
+                isSubscribedQuickFilter,
+              })
+            ),
+            catchError(() =>
+              of(
+                DataActions.errorSnackBar({
+                  message: translate(
+                    'materialsSupplierDatabase.mainTable.quickfilter.management.error.disableNotification'
+                  ),
+                }),
+                QuickFilterActions.disableQuickFilterNotificationFailure()
+              )
+            )
+          )
+      )
+    );
+  });
+
   queryQuickFilters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(QuickFilterActions.queryQuickFilters),

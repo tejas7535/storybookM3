@@ -243,6 +243,26 @@ describe('MsdQuickFilterService', () => {
     req.flush('');
   });
 
+  test('enableQuickFilterNotification', (done) => {
+    const id = 999;
+
+    service.enableQuickFilterNotification(id).subscribe(() => done());
+
+    const req = httpMock.expectOne(`${service['BASE_URL']}/${id}/notification`);
+    expect(req.request.method).toBe('POST');
+    req.flush('');
+  });
+
+  test('disableQuickFilterNotification', (done) => {
+    const id = 999;
+
+    service.disableQuickFilterNotification(id).subscribe(() => done());
+
+    const req = httpMock.expectOne(`${service['BASE_URL']}/${id}/notification`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush('');
+  });
+
   test('queryQuickFilters', (done) => {
     const response: QuickFilter[] = [
       {

@@ -234,6 +234,54 @@ export const quickFilterReducer = createReducer(
     })
   ),
   on(
+    QuickFilterActions.enableQuickFilterNotification,
+    (state): QuickFilterState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on(
+    QuickFilterActions.enableQuickFilterNotificationSuccess,
+    (state, { quickFilterId, isSubscribedQuickFilter }): QuickFilterState =>
+      getStateAfterQuickFilterNotificationSuccess(
+        state,
+        quickFilterId,
+        isSubscribedQuickFilter,
+        true
+      )
+  ),
+  on(
+    QuickFilterActions.enableQuickFilterNotificationFailure,
+    (state): QuickFilterState => ({
+      ...state,
+      isLoading: false,
+    })
+  ),
+  on(
+    QuickFilterActions.disableQuickFilterNotification,
+    (state): QuickFilterState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on(
+    QuickFilterActions.disableQuickFilterNotificationSuccess,
+    (state, { quickFilterId, isSubscribedQuickFilter }): QuickFilterState =>
+      getStateAfterQuickFilterNotificationSuccess(
+        state,
+        quickFilterId,
+        isSubscribedQuickFilter,
+        false
+      )
+  ),
+  on(
+    QuickFilterActions.disableQuickFilterNotificationFailure,
+    (state): QuickFilterState => ({
+      ...state,
+      isLoading: false,
+    })
+  ),
+  on(
     QuickFilterActions.queryQuickFilters,
     (state): QuickFilterState => ({
       ...state,
@@ -279,4 +327,41 @@ function sortQuickFiltersByTimestamp(
     (quickFilter1, quickFilter2) =>
       quickFilter1.timestamp - quickFilter2.timestamp
   );
+}
+
+function getStateAfterQuickFilterNotificationSuccess(
+  currentState: QuickFilterState,
+  quickFilterId: number,
+  isSubscribedQuickFilter: boolean,
+  notificationEnabled: boolean
+): QuickFilterState {
+  let publishedFilters = currentState.publishedFilters;
+  let subscribedFilters = currentState.subscribedFilters;
+  let updatedFilters = isSubscribedQuickFilter
+    ? subscribedFilters
+    : publishedFilters;
+
+  updatedFilters = updatedFilters.map((quickFilter: QuickFilter) => {
+    if (quickFilter.id === quickFilterId) {
+      return {
+        ...quickFilter,
+        notificationEnabled,
+      };
+    }
+
+    return quickFilter;
+  });
+
+  if (isSubscribedQuickFilter) {
+    subscribedFilters = updatedFilters;
+  } else {
+    publishedFilters = updatedFilters;
+  }
+
+  return {
+    ...currentState,
+    publishedFilters,
+    subscribedFilters,
+    isLoading: false,
+  };
 }

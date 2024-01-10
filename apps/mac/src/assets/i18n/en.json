@@ -707,7 +707,9 @@
               "edit": "Edit filter",
               "delete": "Delete filter",
               "subscribe": "Add to favorites",
-              "unsubscribe": "Unsubscribe"
+              "unsubscribe": "Unsubscribe",
+              "enableNotification": "Enable email notification for quick filter data changes",
+              "disableNotification": "Disable email notification for quick filter data changes"
             }
           },
           "error": {
@@ -715,7 +717,9 @@
             "subscribe": "Error while subscribing quick filter!",
             "unsubscribe": "Error while unsubscribing quick filter!",
             "publish": "Error while publishing quick filter!",
-            "update": "Error while updating quick filter!"
+            "update": "Error while updating quick filter!",
+            "enableNotification": "Error while enabling email notification for quick filter data changes!",
+            "disableNotification": "Error while disabling email notification for quick filter data changes!"
           }
         }
       },

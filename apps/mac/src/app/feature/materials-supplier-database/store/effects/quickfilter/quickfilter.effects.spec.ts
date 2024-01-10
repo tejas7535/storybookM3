@@ -484,6 +484,142 @@ describe('QuickFilterEffects', () => {
     );
   });
 
+  describe('enableQuickFilterNotification$', () => {
+    it(
+      'should dispatch enableQuickFilterNotificationSuccess',
+      marbles((m) => {
+        const quickFilterId = 100;
+        const isSubscribedQuickFilter = false;
+
+        action = QuickFilterActions.enableQuickFilterNotification({
+          quickFilterId,
+          isSubscribedQuickFilter,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|');
+        quickFilterService.enableQuickFilterNotification = jest.fn(
+          () => response
+        );
+
+        const result = QuickFilterActions.enableQuickFilterNotificationSuccess({
+          quickFilterId,
+          isSubscribedQuickFilter,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.enableQuickFilterNotification$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          quickFilterService.enableQuickFilterNotification
+        ).toHaveBeenCalledWith(quickFilterId);
+      })
+    );
+
+    it(
+      'should dispatch enableQuickFilterNotificationFailure and errorSnackBar',
+      marbles((m) => {
+        const quickFilterId = 55;
+
+        action = QuickFilterActions.enableQuickFilterNotification({
+          quickFilterId,
+          isSubscribedQuickFilter: false,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        quickFilterService.enableQuickFilterNotification = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-(bc)', {
+          b: DataActions.errorSnackBar({
+            message: 'enableNotification',
+          }),
+          c: QuickFilterActions.enableQuickFilterNotificationFailure(),
+        });
+
+        m.expect(effects.enableQuickFilterNotification$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          quickFilterService.enableQuickFilterNotification
+        ).toHaveBeenCalledWith(quickFilterId);
+      })
+    );
+  });
+
+  describe('disableQuickFilterNotification$', () => {
+    it(
+      'should dispatch disableQuickFilterNotificationSuccess',
+      marbles((m) => {
+        const quickFilterId = 100;
+        const isSubscribedQuickFilter = false;
+
+        action = QuickFilterActions.disableQuickFilterNotification({
+          quickFilterId,
+          isSubscribedQuickFilter,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|');
+        quickFilterService.disableQuickFilterNotification = jest.fn(
+          () => response
+        );
+
+        const result = QuickFilterActions.disableQuickFilterNotificationSuccess(
+          {
+            quickFilterId,
+            isSubscribedQuickFilter,
+          }
+        );
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.disableQuickFilterNotification$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          quickFilterService.disableQuickFilterNotification
+        ).toHaveBeenCalledWith(quickFilterId);
+      })
+    );
+
+    it(
+      'should dispatch disableQuickFilterNotificationFailure and errorSnackBar',
+      marbles((m) => {
+        const quickFilterId = 55;
+
+        action = QuickFilterActions.disableQuickFilterNotification({
+          quickFilterId,
+          isSubscribedQuickFilter: false,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        quickFilterService.disableQuickFilterNotification = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-(bc)', {
+          b: DataActions.errorSnackBar({
+            message: 'disableNotification',
+          }),
+          c: QuickFilterActions.disableQuickFilterNotificationFailure(),
+        });
+
+        m.expect(effects.disableQuickFilterNotification$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          quickFilterService.disableQuickFilterNotification
+        ).toHaveBeenCalledWith(quickFilterId);
+      })
+    );
+  });
+
   describe('queryQuickFilters$', () => {
     it(
       'should dispatch queryQuickFiltersSuccess',

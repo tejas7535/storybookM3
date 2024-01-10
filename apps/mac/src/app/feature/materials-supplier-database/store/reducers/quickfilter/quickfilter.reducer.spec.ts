@@ -681,6 +681,240 @@ describe('quickfilterReducer', () => {
       });
     });
 
+    describe('enableQuickFilterNotification', () => {
+      it('should set isLoading to true on enableQuickFilterNotification', () => {
+        const action = QuickfilterActions.enableQuickFilterNotification({
+          quickFilterId: 999,
+          isSubscribedQuickFilter: false,
+        });
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            isLoading: false,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          isLoading: true,
+        });
+      });
+
+      it('should set isLoading to false and update the corresponding published filter on enableQuickFilterNotificationSuccess', () => {
+        const publishedFilters = [
+          { id: 1, notificationEnabled: false },
+          { id: 2, notificationEnabled: false },
+        ] as QuickFilter[];
+
+        const subscribedFilters = [
+          {
+            id: 100,
+            notificationEnabled: false,
+          },
+        ] as QuickFilter[];
+
+        const action = QuickfilterActions.enableQuickFilterNotificationSuccess({
+          quickFilterId: publishedFilters[1].id,
+          isSubscribedQuickFilter: false,
+        });
+
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            publishedFilters,
+            subscribedFilters,
+            isLoading: true,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          publishedFilters: [
+            publishedFilters[0],
+            { ...publishedFilters[1], notificationEnabled: true },
+          ],
+          subscribedFilters,
+          isLoading: false,
+        });
+      });
+
+      it('should set isLoading to false and update the corresponding subscribed filter on enableQuickFilterNotificationSuccess', () => {
+        const publishedFilters = [
+          { id: 1, notificationEnabled: false },
+          { id: 2, notificationEnabled: false },
+        ] as QuickFilter[];
+
+        const subscribedFilters = [
+          {
+            id: 100,
+            notificationEnabled: false,
+          },
+        ] as QuickFilter[];
+
+        const action = QuickfilterActions.enableQuickFilterNotificationSuccess({
+          quickFilterId: subscribedFilters[0].id,
+          isSubscribedQuickFilter: true,
+        });
+
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            publishedFilters,
+            subscribedFilters,
+            isLoading: true,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          publishedFilters,
+          subscribedFilters: [
+            { ...subscribedFilters[0], notificationEnabled: true },
+          ],
+          isLoading: false,
+        });
+      });
+
+      it('should set isLoading to false on enableQuickFilterNotificationFailure', () => {
+        const action =
+          QuickfilterActions.enableQuickFilterNotificationFailure();
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            isLoading: true,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          isLoading: false,
+        });
+      });
+    });
+
+    describe('disableQuickFilterNotification', () => {
+      it('should set isLoading to true on disableQuickFilterNotification', () => {
+        const action = QuickfilterActions.disableQuickFilterNotification({
+          quickFilterId: 999,
+          isSubscribedQuickFilter: false,
+        });
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            isLoading: false,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          isLoading: true,
+        });
+      });
+
+      it('should set isLoading to false and update the corresponding published filter on disableQuickFilterNotificationSuccess', () => {
+        const publishedFilters = [
+          { id: 1, notificationEnabled: false },
+          { id: 2, notificationEnabled: true },
+        ] as QuickFilter[];
+
+        const subscribedFilters = [
+          {
+            id: 100,
+            notificationEnabled: false,
+          },
+        ] as QuickFilter[];
+
+        const action = QuickfilterActions.disableQuickFilterNotificationSuccess(
+          {
+            quickFilterId: publishedFilters[1].id,
+            isSubscribedQuickFilter: false,
+          }
+        );
+
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            publishedFilters,
+            subscribedFilters,
+            isLoading: true,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          publishedFilters: [
+            publishedFilters[0],
+            { ...publishedFilters[1], notificationEnabled: false },
+          ],
+          subscribedFilters,
+          isLoading: false,
+        });
+      });
+
+      it('should set isLoading to false and update the corresponding subscribed filter on disableQuickFilterNotificationSuccess', () => {
+        const publishedFilters = [
+          { id: 1, notificationEnabled: false },
+          { id: 2, notificationEnabled: true },
+        ] as QuickFilter[];
+
+        const subscribedFilters = [
+          {
+            id: 100,
+            notificationEnabled: true,
+          },
+        ] as QuickFilter[];
+
+        const action = QuickfilterActions.disableQuickFilterNotificationSuccess(
+          {
+            quickFilterId: subscribedFilters[0].id,
+            isSubscribedQuickFilter: true,
+          }
+        );
+
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            publishedFilters,
+            subscribedFilters,
+            isLoading: true,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          publishedFilters,
+          subscribedFilters: [
+            { ...subscribedFilters[0], notificationEnabled: false },
+          ],
+          isLoading: false,
+        });
+      });
+
+      it('should set isLoading to false on disableQuickFilterNotificationFailure', () => {
+        const action =
+          QuickfilterActions.disableQuickFilterNotificationFailure();
+        const newState = quickFilterReducer(
+          {
+            ...state,
+            isLoading: true,
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          isLoading: false,
+        });
+      });
+    });
+
     describe('queryQuickFilters', () => {
       it('should set isLoading to true and reset queried filters on queryQuickFilters', () => {
         const action = QuickfilterActions.queryQuickFilters({

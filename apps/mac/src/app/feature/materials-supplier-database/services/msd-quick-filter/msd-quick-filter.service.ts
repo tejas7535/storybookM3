@@ -65,6 +65,19 @@ export class MsdQuickFilterService {
     );
   }
 
+  enableQuickFilterNotification(quickFilterId: number): Observable<void> {
+    return this.httpClient.post<void>(
+      `${this.BASE_URL}/${quickFilterId}/notification`,
+      {}
+    );
+  }
+
+  disableQuickFilterNotification(quickFilterId: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${this.BASE_URL}/${quickFilterId}/notification`
+    );
+  }
+
   queryQuickFilters(
     materialClass: MaterialClass,
     navigationLevel: NavigationLevel,

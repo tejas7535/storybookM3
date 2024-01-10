@@ -35,13 +35,33 @@ export class QuickFilterManagementComponent implements OnDestroy {
           tooltipTranslationKeySuffix: 'edit',
           shouldDisable: (quickFilter: QuickFilter) =>
             this.shouldDisableWriteOperation(quickFilter),
+          shouldHide: () => of(false),
           onClick: (quickFilter: QuickFilter) => this.edit(quickFilter),
+        },
+        {
+          icon: 'notifications',
+          tooltipTranslationKeySuffix: 'enableNotification',
+          shouldDisable: () => of(false),
+          shouldHide: (quickFilter: QuickFilter) =>
+            this.shouldHideEnableNotification(quickFilter),
+          onClick: (quickFilter: QuickFilter) =>
+            this.enableNotification(quickFilter, false),
+        },
+        {
+          icon: 'notifications_off',
+          tooltipTranslationKeySuffix: 'disableNotification',
+          shouldDisable: () => of(false),
+          shouldHide: (quickFilter: QuickFilter) =>
+            this.shouldHideDisableNotification(quickFilter),
+          onClick: (quickFilter: QuickFilter) =>
+            this.disableNotification(quickFilter, false),
         },
         {
           icon: 'delete_forever',
           tooltipTranslationKeySuffix: 'delete',
           shouldDisable: (quickFilter: QuickFilter) =>
             this.shouldDisableWriteOperation(quickFilter),
+          shouldHide: () => of(false),
           onClick: (quickFilter: QuickFilter) => this.delete(quickFilter),
         },
       ],
@@ -53,9 +73,28 @@ export class QuickFilterManagementComponent implements OnDestroy {
       searchable: false,
       actions: [
         {
+          icon: 'notifications',
+          tooltipTranslationKeySuffix: 'enableNotification',
+          shouldDisable: () => of(false),
+          shouldHide: (quickFilter: QuickFilter) =>
+            this.shouldHideEnableNotification(quickFilter),
+          onClick: (quickFilter: QuickFilter) =>
+            this.enableNotification(quickFilter, true),
+        },
+        {
+          icon: 'notifications_off',
+          tooltipTranslationKeySuffix: 'disableNotification',
+          shouldDisable: () => of(false),
+          shouldHide: (quickFilter: QuickFilter) =>
+            this.shouldHideDisableNotification(quickFilter),
+          onClick: (quickFilter: QuickFilter) =>
+            this.disableNotification(quickFilter, true),
+        },
+        {
           icon: 'star',
           tooltipTranslationKeySuffix: 'unsubscribe',
           shouldDisable: () => of(false),
+          shouldHide: () => of(false),
           onClick: (quickFilter: QuickFilter) => this.unsubscribe(quickFilter),
         },
       ],
@@ -71,6 +110,7 @@ export class QuickFilterManagementComponent implements OnDestroy {
           icon: 'star_outlined',
           tooltipTranslationKeySuffix: 'subscribe',
           shouldDisable: () => of(false),
+          shouldHide: () => of(false),
           onClick: (quickFilter: QuickFilter) => this.subscribe(quickFilter),
         },
       ],
@@ -126,6 +166,26 @@ export class QuickFilterManagementComponent implements OnDestroy {
     this.quickFilterFacade.unsubscribeQuickFilter(quickFilter.id);
   }
 
+  private enableNotification(
+    quickFilter: QuickFilter,
+    isSubscribedQuickFilter: boolean
+  ): void {
+    this.quickFilterFacade.enableQuickFilterNotification(
+      quickFilter.id,
+      isSubscribedQuickFilter
+    );
+  }
+
+  private disableNotification(
+    quickFilter: QuickFilter,
+    isSubscribedQuickFilter: boolean
+  ): void {
+    this.quickFilterFacade.disableQuickFilterNotification(
+      quickFilter.id,
+      isSubscribedQuickFilter
+    );
+  }
+
   private search(searchExpression: string): void {
     if (searchExpression.length >= this.SEARCH_EXPRESSION_MIN_LENGTH) {
       this.quickFilterFacade.queryQuickFilters(
@@ -148,5 +208,17 @@ export class QuickFilterManagementComponent implements OnDestroy {
     return this.dataFacade.hasEditorRole$.pipe(
       map((hasEditorRole: boolean) => !hasEditorRole)
     );
+  }
+
+  private shouldHideEnableNotification(
+    quickFilter: QuickFilter
+  ): Observable<boolean> {
+    return of(quickFilter.id === undefined || quickFilter.notificationEnabled);
+  }
+
+  private shouldHideDisableNotification(
+    quickFilter: QuickFilter
+  ): Observable<boolean> {
+    return of(quickFilter.id === undefined || !quickFilter.notificationEnabled);
   }
 }

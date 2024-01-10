@@ -139,6 +139,30 @@ export class QuickFilterFacade {
     );
   }
 
+  enableQuickFilterNotification(
+    quickFilterId: number,
+    isSubscribedQuickFilter: boolean
+  ): void {
+    this.store.dispatch(
+      QuickFilterActions.enableQuickFilterNotification({
+        quickFilterId,
+        isSubscribedQuickFilter,
+      })
+    );
+  }
+
+  disableQuickFilterNotification(
+    quickFilterId: number,
+    isSubscribedQuickFilter: boolean
+  ): void {
+    this.store.dispatch(
+      QuickFilterActions.disableQuickFilterNotification({
+        quickFilterId,
+        isSubscribedQuickFilter,
+      })
+    );
+  }
+
   queryQuickFilters(
     materialClass: MaterialClass,
     navigationLevel: NavigationLevel,

@@ -46,21 +46,23 @@
         <div
           class="px-6 border-b border-[#0000001f] flex items-center justify-end gap-x-3"
         >
-          <button
-            *ngFor="let action of config.actions"
-            mat-icon-button
-            class="!w-8 !h-8 !leading-8 !flex !justify-center !items-center"
-            [matTooltip]="
-              t('table.buttons.' + action.tooltipTranslationKeySuffix)
-            "
-            [disabled]="action.shouldDisable(quickFilter) | ngrxPush"
-            (click)="action.onClick(quickFilter)"
-          >
-            <mat-icon
-              class="!w-6 !h-6 !leading-6 !text-[24px] enabled:text-[#00000099] absolute"
-              >{{ action.icon }}</mat-icon
+          <ng-container *ngFor="let action of config.actions">
+            <button
+              *ngIf="!(action.shouldHide(quickFilter) | ngrxPush)"
+              mat-icon-button
+              class="!w-8 !h-8 !leading-8 !flex !justify-center !items-center"
+              [matTooltip]="
+                t('table.buttons.' + action.tooltipTranslationKeySuffix)
+              "
+              [disabled]="action.shouldDisable(quickFilter) | ngrxPush"
+              (click)="action.onClick(quickFilter)"
             >
-          </button>
+              <mat-icon
+                class="!w-6 !h-6 !leading-6 !text-[24px] enabled:text-[#00000099] absolute"
+                >{{ action.icon }}</mat-icon
+              >
+            </button>
+          </ng-container>
         </div>
       </ng-container>
     </ng-container>

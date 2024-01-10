@@ -13,6 +13,7 @@ export interface QuickFilter {
   maintainerId?: string;
   maintainerName?: string;
   timestamp?: number;
+  notificationEnabled?: boolean;
 }
 
 export type NewQuickFilterRequest = Required<

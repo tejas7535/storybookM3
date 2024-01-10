@@ -343,6 +343,28 @@ describe('QuickfilterFacade', () => {
     );
   });
 
+  it('should enableQuickFilterNotification', () => {
+    facade.enableQuickFilterNotification(queriedFilters[0].id, false);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      QuickFilterActions.enableQuickFilterNotification({
+        quickFilterId: queriedFilters[0].id,
+        isSubscribedQuickFilter: false,
+      })
+    );
+  });
+
+  it('should disableQuickFilterNotification', () => {
+    facade.disableQuickFilterNotification(queriedFilters[0].id, true);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      QuickFilterActions.disableQuickFilterNotification({
+        quickFilterId: queriedFilters[0].id,
+        isSubscribedQuickFilter: true,
+      })
+    );
+  });
+
   it('should queryQuickFilters', () => {
     const materialClass = MaterialClass.COPPER;
     const navigationLevel = NavigationLevel.SUPPLIER;

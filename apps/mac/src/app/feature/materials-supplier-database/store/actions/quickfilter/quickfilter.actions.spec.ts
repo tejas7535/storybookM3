@@ -9,6 +9,10 @@ import {
   addLocalQuickFilter,
   deletePublishedQuickFilter,
   deletePublishedQuickFilterSuccess,
+  disableQuickFilterNotification,
+  disableQuickFilterNotificationSuccess,
+  enableQuickFilterNotification,
+  enableQuickFilterNotificationSuccess,
   fetchPublishedQuickFilters,
   fetchSubscribedQuickFilters,
   fetchSubscribedQuickFiltersSuccess,
@@ -174,5 +178,53 @@ describe('Quickfilter Actions', () => {
 
   it('activateQuickFilter should include a filter', () => {
     expect(activateQuickFilter({ quickFilter }).quickFilter).toBe(quickFilter);
+  });
+
+  it('enableQuickFilterNotification should include a filterId and isSubscribedQuickFilter', () => {
+    const quickFilterId = 999;
+    const isSubscribedQuickFilter = false;
+    const action = enableQuickFilterNotification({
+      quickFilterId,
+      isSubscribedQuickFilter,
+    });
+
+    expect(action.quickFilterId).toBe(quickFilterId);
+    expect(action.isSubscribedQuickFilter).toBe(isSubscribedQuickFilter);
+  });
+
+  it('enableQuickFilterNotificationSuccess should include a filterId and isSubscribedQuickFilter', () => {
+    const quickFilterId = 999;
+    const isSubscribedQuickFilter = true;
+    const action = enableQuickFilterNotificationSuccess({
+      quickFilterId,
+      isSubscribedQuickFilter,
+    });
+
+    expect(action.quickFilterId).toBe(quickFilterId);
+    expect(action.isSubscribedQuickFilter).toBe(isSubscribedQuickFilter);
+  });
+
+  it('disableQuickFilterNotification should include a filterId and isSubscribedQuickFilter', () => {
+    const quickFilterId = 999;
+    const isSubscribedQuickFilter = true;
+    const action = disableQuickFilterNotification({
+      quickFilterId,
+      isSubscribedQuickFilter,
+    });
+
+    expect(action.quickFilterId).toBe(quickFilterId);
+    expect(action.isSubscribedQuickFilter).toBe(isSubscribedQuickFilter);
+  });
+
+  it('disableQuickFilterNotificationSuccess should include a filterId and isSubscribedQuickFilter', () => {
+    const quickFilterId = 999;
+    const isSubscribedQuickFilter = false;
+    const action = disableQuickFilterNotificationSuccess({
+      quickFilterId,
+      isSubscribedQuickFilter,
+    });
+
+    expect(action.quickFilterId).toBe(quickFilterId);
+    expect(action.isSubscribedQuickFilter).toBe(isSubscribedQuickFilter);
   });
 });

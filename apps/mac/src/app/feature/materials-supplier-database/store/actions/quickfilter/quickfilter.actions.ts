@@ -124,6 +124,34 @@ export const unsubscribeQuickFilterFailure = createAction(
   '[MSD - QuickFilter] Unsubscribe quick filter failure'
 );
 
+export const enableQuickFilterNotification = createAction(
+  '[MSD - QuickFilter] Enable quick filter notification',
+  props<{ quickFilterId: number; isSubscribedQuickFilter: boolean }>()
+);
+
+export const enableQuickFilterNotificationSuccess = createAction(
+  '[MSD - QuickFilter] Enable quick filter notification success',
+  props<{ quickFilterId: number; isSubscribedQuickFilter: boolean }>()
+);
+
+export const enableQuickFilterNotificationFailure = createAction(
+  '[MSD - QuickFilter] Enable quick filter notification failure'
+);
+
+export const disableQuickFilterNotification = createAction(
+  '[MSD - QuickFilter] Disable quick filter notification',
+  props<{ quickFilterId: number; isSubscribedQuickFilter: boolean }>()
+);
+
+export const disableQuickFilterNotificationSuccess = createAction(
+  '[MSD - QuickFilter] Disable quick filter notification success',
+  props<{ quickFilterId: number; isSubscribedQuickFilter: boolean }>()
+);
+
+export const disableQuickFilterNotificationFailure = createAction(
+  '[MSD - QuickFilter] Disable quick filter notification failure'
+);
+
 export const queryQuickFilters = createAction(
   '[MSD - QuickFilter] Query quick filters',
   props<{

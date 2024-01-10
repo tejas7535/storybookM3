@@ -15,5 +15,6 @@ interface QuickFiltersListAction {
   icon: string;
   tooltipTranslationKeySuffix: string;
   shouldDisable: (quickFilter: QuickFilter) => Observable<boolean>;
+  shouldHide: (quickFilter: QuickFilter) => Observable<boolean>;
   onClick: (quickFilter: QuickFilter) => void;
 }

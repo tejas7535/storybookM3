@@ -153,6 +153,34 @@ describe('QuickFilterManagementComponent', () => {
     ).toHaveBeenCalledWith(quickFilter.id);
   });
 
+  test('should enable quick filter notification', () => {
+    const quickFilter = {
+      id: 888,
+    } as QuickFilter;
+
+    component.quickFilterFacade.enableQuickFilterNotification = jest.fn();
+
+    component['enableNotification'](quickFilter, false);
+
+    expect(
+      component.quickFilterFacade.enableQuickFilterNotification
+    ).toHaveBeenCalledWith(quickFilter.id, false);
+  });
+
+  test('should disable quick filter notification', () => {
+    const quickFilter = {
+      id: 888,
+    } as QuickFilter;
+
+    component.quickFilterFacade.disableQuickFilterNotification = jest.fn();
+
+    component['disableNotification'](quickFilter, true);
+
+    expect(
+      component.quickFilterFacade.disableQuickFilterNotification
+    ).toHaveBeenCalledWith(quickFilter.id, true);
+  });
+
   describe('shouldDisableWriteOperation', () => {
     test('should not disable if quick filter is local', (done) => {
       const quickFilter: QuickFilter = {
@@ -318,6 +346,102 @@ describe('QuickFilterManagementComponent', () => {
       expect(
         component.quickFilterFacade.deleteQuickFilter
       ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('shouldHideEnableNotification', () => {
+    test('should hide for local filters', (done) => {
+      const quickFilter: QuickFilter = {
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['shouldHideEnableNotification'](quickFilter).subscribe(
+        (shouldHide: boolean) => {
+          expect(shouldHide).toBe(true);
+          done();
+        }
+      );
+    });
+
+    test('should hide if notification already enabled', (done) => {
+      const quickFilter = {
+        id: 20,
+        notificationEnabled: true,
+      } as QuickFilter;
+
+      component['shouldHideEnableNotification'](quickFilter).subscribe(
+        (shouldHide: boolean) => {
+          expect(shouldHide).toBe(true);
+          done();
+        }
+      );
+    });
+
+    test('should not hide if notification not enabled', (done) => {
+      const quickFilter = {
+        id: 20,
+        notificationEnabled: false,
+      } as QuickFilter;
+
+      component['shouldHideEnableNotification'](quickFilter).subscribe(
+        (shouldHide: boolean) => {
+          expect(shouldHide).toBe(false);
+          done();
+        }
+      );
+    });
+  });
+
+  describe('shouldHideDisableNotification', () => {
+    test('should hide for local filters', (done) => {
+      const quickFilter: QuickFilter = {
+        title: 'Test',
+        description: 'Test filter',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+        columns: [],
+      };
+
+      component['shouldHideDisableNotification'](quickFilter).subscribe(
+        (shouldHide: boolean) => {
+          expect(shouldHide).toBe(true);
+          done();
+        }
+      );
+    });
+
+    test('should hide if notification not enabled', (done) => {
+      const quickFilter = {
+        id: 20,
+        notificationEnabled: false,
+      } as QuickFilter;
+
+      component['shouldHideDisableNotification'](quickFilter).subscribe(
+        (shouldHide: boolean) => {
+          expect(shouldHide).toBe(true);
+          done();
+        }
+      );
+    });
+
+    test('should not hide if notification enabled', (done) => {
+      const quickFilter = {
+        id: 20,
+        notificationEnabled: true,
+      } as QuickFilter;
+
+      component['shouldHideDisableNotification'](quickFilter).subscribe(
+        (shouldHide: boolean) => {
+          expect(shouldHide).toBe(false);
+          done();
+        }
+      );
     });
   });
 });
