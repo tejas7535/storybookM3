@@ -47,5 +47,5 @@ module.exports = {
       variants: ['partner-version-schmeckthal-gruppe'],
     },
   ],
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };

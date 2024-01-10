@@ -219,3 +219,7 @@ schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {
   mask: linear-gradient(transparent, rgba(0, 0, 0, 0.9) 20%, black);
   z-index: 1;
 }
+
+#legal-pages {
+  @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
+}
