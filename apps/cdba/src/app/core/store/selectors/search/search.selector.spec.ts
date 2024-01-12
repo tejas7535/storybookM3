@@ -81,7 +81,6 @@ describe('Search Selector', () => {
       undefined,
       500,
       '',
-      false,
       false
     );
   });
@@ -111,16 +110,7 @@ describe('Search Selector', () => {
 
   describe('getFiltersWithoutLimit', () => {
     it('should return filters without the limit filter', () => {
-      const weigth = new FilterItemRange(
-        'weigth',
-        0,
-        100,
-        10,
-        80,
-        'kg',
-        true,
-        false
-      );
+      const weigth = new FilterItemRange('weigth', 0, 100, 10, 80, 'kg', false);
 
       const items = [customer, plant, weigth, limit];
 
@@ -157,7 +147,6 @@ describe('Search Selector', () => {
           minSelected: 10,
           maxSelected: 80,
           unit: 'kg',
-          validated: true,
           disabled: false,
           type: 'RANGE',
         } as FilterItemRange,
@@ -168,13 +157,18 @@ describe('Search Selector', () => {
   });
 
   describe('getChangedFilters', () => {
-    it('should return selected filters', () => {
-      const mockedCustomer = {
+    let mockedCustomer: FilterItemIdValue;
+    let mockedPlant: FilterItemIdValue;
+    let mockedLength: FilterItemRange;
+    let mockedLimit: FilterItemRange;
+
+    beforeAll(() => {
+      mockedCustomer = {
         ...customer,
         selectedItems: [{ id: 'id', title: 'VW' } as StringOption],
       } as FilterItemIdValue;
 
-      const mockedPlant = {
+      mockedPlant = {
         ...plant,
         selectedItems: [
           {
@@ -184,17 +178,162 @@ describe('Search Selector', () => {
         ],
       } as FilterItemIdValue;
 
-      const range = new FilterItemRange(
-        'length',
-        0,
-        200,
-        0,
-        200,
-        'kg',
-        false,
+      mockedLength = new FilterItemRange('length', 0, 200, 0, 200, 'kg', false);
+
+      mockedLimit = new FilterItemRange(
+        'limit',
+        undefined,
+        1000,
+        undefined,
+        500,
+        undefined,
         false
       );
-      const items = [mockedCustomer, mockedPlant, range];
+    });
+    it('should return selected filters when dimension is enabled', () => {
+      const items = [mockedCustomer, mockedPlant, mockedLength];
+
+      const expectedFilters = [
+        {
+          autocomplete: true,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: 'vw', title: 'VW' } as StringOption,
+            { id: 'vw2', title: 'VW 2' } as StringOption,
+            { id: 'vw3', title: 'VW 3' } as StringOption,
+          ],
+          name: 'customer',
+          selectedItems: [{ id: 'id', title: 'VW' } as StringOption],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          autocomplete: false,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: '32', title: '32 | Nice Plant' } as StringOption,
+            { id: '33', title: '33 | Nicer Plant' } as StringOption,
+          ],
+          name: 'plant',
+          selectedItems: [
+            {
+              id: '32',
+              title: '32 | Nice Plant',
+            } as StringOption,
+          ],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          name: 'length',
+          type: 'RANGE',
+          min: 0,
+          max: 200,
+          minSelected: 0,
+          maxSelected: 200,
+          unit: 'kg',
+          disabled: false,
+        } as FilterItemRange,
+      ];
+
+      expect(getChangedFilters.projector(items)).toEqual(expectedFilters);
+    });
+    it('should return selected filters when dimension is disabled', () => {
+      const items = [
+        mockedCustomer,
+        mockedPlant,
+        { ...mockedLength, disabled: true },
+      ];
+
+      const expectedFilters = [
+        {
+          autocomplete: true,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: 'vw', title: 'VW' } as StringOption,
+            { id: 'vw2', title: 'VW 2' } as StringOption,
+            { id: 'vw3', title: 'VW 3' } as StringOption,
+          ],
+          name: 'customer',
+          selectedItems: [{ id: 'id', title: 'VW' } as StringOption],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          autocomplete: false,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: '32', title: '32 | Nice Plant' } as StringOption,
+            { id: '33', title: '33 | Nicer Plant' } as StringOption,
+          ],
+          name: 'plant',
+          selectedItems: [
+            {
+              id: '32',
+              title: '32 | Nice Plant',
+            } as StringOption,
+          ],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+      ];
+
+      expect(getChangedFilters.projector(items)).toEqual(expectedFilters);
+    });
+    it('should return selected filters when limit is changed', () => {
+      const items = [
+        mockedCustomer,
+        mockedPlant,
+        { ...mockedLimit, maxSelected: 800 },
+      ];
+
+      const expectedFilters = [
+        {
+          autocomplete: true,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: 'vw', title: 'VW' } as StringOption,
+            { id: 'vw2', title: 'VW 2' } as StringOption,
+            { id: 'vw3', title: 'VW 3' } as StringOption,
+          ],
+          name: 'customer',
+          selectedItems: [{ id: 'id', title: 'VW' } as StringOption],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          autocomplete: false,
+          autocompleteLoading: false,
+          disabled: false,
+          items: [
+            { id: '32', title: '32 | Nice Plant' } as StringOption,
+            { id: '33', title: '33 | Nicer Plant' } as StringOption,
+          ],
+          name: 'plant',
+          selectedItems: [
+            {
+              id: '32',
+              title: '32 | Nice Plant',
+            } as StringOption,
+          ],
+          type: 'ID_VALUE',
+        } as FilterItemIdValue,
+        {
+          name: 'limit',
+          type: 'RANGE',
+          min: undefined,
+          max: 1000,
+          minSelected: undefined,
+          maxSelected: 800,
+          unit: undefined,
+          disabled: false,
+        } as FilterItemRange,
+      ];
+
+      expect(getChangedFilters.projector(items)).toEqual(expectedFilters);
+    });
+    it('should return selected filters when limit is not changed', () => {
+      const items = [mockedCustomer, mockedPlant, mockedLimit];
 
       const expectedFilters = [
         {
@@ -235,16 +374,7 @@ describe('Search Selector', () => {
 
   describe('getChangedIdValueFilters', () => {
     it('should return changed (selected) IdValue filters', () => {
-      const range = new FilterItemRange(
-        'length',
-        0,
-        200,
-        0,
-        200,
-        'kg',
-        false,
-        false
-      );
+      const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg', false);
       const items = [plant, range];
 
       expect(

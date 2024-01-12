@@ -154,16 +154,7 @@ describe('Search Effects', () => {
         false
       );
 
-      filterRange = new FilterItemRange(
-        'length',
-        0,
-        200,
-        0,
-        200,
-        'kg',
-        false,
-        false
-      );
+      filterRange = new FilterItemRange('length', 0, 200, 0, 200, 'kg', false);
     });
 
     test(
@@ -270,7 +261,6 @@ describe('Search Effects', () => {
           0,
           200,
           'kg',
-          false,
           false
         );
 

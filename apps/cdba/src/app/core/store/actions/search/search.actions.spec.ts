@@ -115,7 +115,6 @@ describe('Search Actions', () => {
         100,
         200,
         'cm',
-        false,
         false
       );
 

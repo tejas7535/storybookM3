@@ -2,6 +2,7 @@ import { Dictionary } from '@ngrx/entity';
 import { createSelector } from '@ngrx/store';
 
 import { FILTER_NAME_LIMIT } from '@cdba/shared/constants/filter-names';
+import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
 import { ProductCostAnalysis, ReferenceType } from '@cdba/shared/models';
 
 import { getSearchState } from '../../reducers';
@@ -46,15 +47,24 @@ export const getChangedFilters = createSelector(
       .filter((filter) => {
         switch (filter.type) {
           case FilterItemType.ID_VALUE: {
-            return (filter as FilterItemIdValue).selectedItems?.length > 0
+            return !(filter as FilterItemIdValue).disabled &&
+              (filter as FilterItemIdValue).selectedItems?.length > 0
               ? filter
               : undefined;
           }
           case FilterItemType.RANGE: {
-            return !(filter as FilterItemRange).disabled &&
-              (filter as FilterItemRange).validated
-              ? filter
-              : undefined;
+            switch (filter.name) {
+              case FILTER_NAME_LIMIT:
+                return !(filter as FilterItemRange).disabled &&
+                  (filter as FilterItemRange).maxSelected !==
+                    DEFAULT_RESULTS_THRESHOLD
+                  ? filter
+                  : undefined;
+              default:
+                return !(filter as FilterItemRange).disabled
+                  ? filter
+                  : undefined;
+            }
           }
           default:
             return undefined;

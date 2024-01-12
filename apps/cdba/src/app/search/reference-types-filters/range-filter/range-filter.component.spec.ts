@@ -77,13 +77,7 @@ describe('RangeFilterComponent', () => {
         10,
         90,
         'pc',
-        false,
         false
-      );
-
-      component['validateFilter'] = jest.fn(
-        (item: FilterItemRange) =>
-          ({ ...item, validated: true } as FilterItemRange)
       );
 
       setupDefaultRangeValuesSpy = jest.spyOn(
@@ -159,28 +153,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component.form.setValue).toHaveBeenCalledWith('showRangeLabel');
     });
-
-    it('should validate filter on first run', () => {
-      const budgetFilter = filter;
-      component.filter = budgetFilter;
-
-      component.ngOnInit();
-
-      expect(component['validateFilter']).toHaveBeenCalledTimes(1);
-      expect(component['validateFilter']).toHaveBeenCalledWith(budgetFilter);
-    });
-
-    it('should not validate filter whe filter was validated run', () => {
-      const budgetFilter = filter;
-      component.filter = {
-        ...budgetFilter,
-        validated: true,
-      } as FilterItemRange;
-
-      component.ngOnInit();
-
-      expect(component['validateFilter']).toHaveBeenCalledTimes(0);
-    });
   });
 
   describe('ngOnChanges', () => {
@@ -195,7 +167,6 @@ describe('RangeFilterComponent', () => {
         undefined,
         undefined,
         'xy',
-        false,
         false
       );
     });
@@ -255,7 +226,7 @@ describe('RangeFilterComponent', () => {
     let filter: FilterItemRange;
 
     beforeEach(() => {
-      filter = new FilterItemRange('name', 0, 100, 20, 80, 'xy', true, false);
+      filter = new FilterItemRange('name', 0, 100, 20, 80, 'xy', true);
       component['updateFilter'].emit = jest.fn();
     });
 
@@ -274,7 +245,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: false,
         maxSelected: DEFAULT_RESULTS_THRESHOLD,
       } as FilterItemRange);
     });
@@ -286,7 +256,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: false,
         minSelected: 0,
       });
     });
@@ -298,7 +267,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: false,
         maxSelected: 100,
       } as FilterItemRange);
     });
@@ -317,13 +285,12 @@ describe('RangeFilterComponent', () => {
         undefined,
         undefined,
         'xy',
-        false,
         false
       );
 
       component['updateMinInput'] = jest.fn();
       component['updateMaxInput'] = jest.fn();
-      component['validateFilter'] = jest.fn();
+
       component.resetInput = jest.fn();
     });
 
@@ -356,10 +323,11 @@ describe('RangeFilterComponent', () => {
         max: 1000,
       } as FilterItemRange;
       component.filter = limitFilter;
+      const updateFilterSpy = jest.spyOn(component['updateFilter'], 'emit');
 
       component.update(input, value);
 
-      expect(component['validateFilter']).toHaveBeenCalledWith({
+      expect(updateFilterSpy).toHaveBeenCalledWith({
         ...limitFilter,
         maxSelected: value,
       } as FilterItemRange);
@@ -420,7 +388,6 @@ describe('RangeFilterComponent', () => {
         undefined,
         undefined,
         'xy',
-        false,
         false
       );
       component['updateFilter'].emit = jest.fn();
@@ -434,7 +401,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: true,
         minSelected: 20,
         maxSelected: filter.max,
       } as FilterItemRange);
@@ -449,7 +415,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: true,
         minSelected: 50,
         maxSelected: 51,
       } as FilterItemRange);
@@ -464,7 +429,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: true,
         minSelected: 99,
         maxSelected: 100,
       } as FilterItemRange);
@@ -483,7 +447,6 @@ describe('RangeFilterComponent', () => {
         undefined,
         undefined,
         'xy',
-        false,
         false
       );
       component['updateFilter'].emit = jest.fn();
@@ -497,7 +460,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: true,
         maxSelected: 80,
         minSelected: filter.min,
       } as FilterItemRange);
@@ -512,7 +474,6 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: true,
         minSelected: 39,
         maxSelected: 40,
       } as FilterItemRange);
@@ -527,140 +488,8 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toBeCalledWith({
         ...filter,
-        validated: true,
         minSelected: 0,
         maxSelected: 1,
-      } as FilterItemRange);
-    });
-  });
-
-  describe('validateFilter', () => {
-    let updateFilterEmitSpy: jest.SpyInstance;
-    let filter: FilterItemRange;
-
-    beforeEach(() => {
-      updateFilterEmitSpy = jest.spyOn(component['updateFilter'], 'emit');
-
-      filter = new FilterItemRange(
-        'name',
-        0,
-        1000,
-        undefined,
-        undefined,
-        'xy',
-        false,
-        false
-      );
-    });
-
-    it('should emit update when Limit filter is valid', () => {
-      const mockedLimitFilter = {
-        ...filter,
-        name: 'limit',
-        maxSelected: 700,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedLimitFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedLimitFilter,
-        validated: true,
-      } as FilterItemRange);
-    });
-
-    it('should emit update when Limit filter is disabled', () => {
-      const mockedLimitFilter = {
-        ...filter,
-        name: 'limit',
-        disabled: true,
-        maxSelected: 700,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedLimitFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedLimitFilter,
-        validated: false,
-      } as FilterItemRange);
-    });
-
-    it('should emit update when Limit filter has undefined values', () => {
-      const mockedLimitFilter = {
-        ...filter,
-        name: 'limit',
-        maxSelected: undefined,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedLimitFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedLimitFilter,
-        validated: false,
-      } as FilterItemRange);
-    });
-
-    it('should emit update when other filter is valid', () => {
-      const mockedFilter = {
-        ...filter,
-        name: 'name',
-        minSelected: 10,
-        maxSelected: 700,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedFilter,
-        validated: true,
-      } as FilterItemRange);
-    });
-
-    it('should emit update when other filter is disabled', () => {
-      const mockedFilter = {
-        ...filter,
-        name: 'name',
-        disabled: true,
-        minSelected: 10,
-        maxSelected: 700,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedFilter,
-        validated: false,
-      } as FilterItemRange);
-    });
-
-    it('should emit update when other filter has undefined minSelected', () => {
-      const mockedFilter = {
-        ...filter,
-        name: 'name',
-        minSelected: undefined,
-        maxSelected: 700,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedFilter,
-        validated: false,
-      } as FilterItemRange);
-    });
-
-    it('should emit update when other filter has undefined maxSelected', () => {
-      const mockedFilter = {
-        ...filter,
-        name: 'name',
-        minSelected: 10,
-        maxSelected: undefined,
-      } as FilterItemRange;
-
-      component['validateFilter'](mockedFilter);
-
-      expect(updateFilterEmitSpy).toHaveBeenCalledWith({
-        ...mockedFilter,
-        validated: false,
       } as FilterItemRange);
     });
   });

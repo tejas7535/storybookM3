@@ -223,7 +223,7 @@
         "hint": "PCM-Materialien sind nur Kalkulationen ohne relevante Produktionsinformationen"
       },
       "table": {
-        "calculationDate": "Kalulationsdatum",
+        "calculationDate": "Kalkulationsdatum",
         "costType": "Kostentyp",
         "price": "Kosten",
         "currency": "Währung",
@@ -231,7 +231,7 @@
         "plant": "Werk",
         "quantity": "Stückzahl",
         "lotSize": "Losgröße",
-        "costingVersion": "Kalukationsversion",
+        "costingVersion": "Kalkulationsversion",
         "rfqNumber": "RFQ Nummer"
       },
       "excludedCalculations": {

@@ -62,16 +62,7 @@ const filters = [
     false,
     false
   ),
-  new FilterItemRange(
-    'filter1',
-    0,
-    500,
-    undefined,
-    undefined,
-    'xy',
-    false,
-    false
-  ),
+  new FilterItemRange('filter1', 0, 500, undefined, undefined, 'xy', false),
 ];
 
 describe('ReferenceTypesFiltersComponent', () => {
@@ -163,7 +154,6 @@ describe('ReferenceTypesFiltersComponent', () => {
         20,
         80,
         'mm',
-        false,
         false
       );
 

@@ -9,7 +9,6 @@ export class FilterItemRange extends FilterItem {
     public minSelected: number,
     public maxSelected: number,
     public unit: string,
-    public validated: boolean,
     public disabled: boolean
   ) {
     super(name, FilterItemType.RANGE);

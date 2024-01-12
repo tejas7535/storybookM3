@@ -80,10 +80,6 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     if (this.filter.name === FILTER_NAME_LIMIT) {
       this.form.setValue('showRangeLabel');
     }
-
-    if (!this.filter.validated) {
-      this.validateFilter(this.filter);
-    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -110,13 +106,11 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     if (this.filter.name === FILTER_NAME_LIMIT) {
       this.updateFilter.emit({
         ...this.filter,
-        validated: false,
         maxSelected: DEFAULT_RESULTS_THRESHOLD,
       } as FilterItemRange);
     } else {
       this.updateFilter.emit({
         ...this.filter,
-        validated: false,
         [toUpdate]: this.filter[input],
       } as FilterItemRange);
     }
@@ -133,7 +127,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
         if (value < DEFAULT_RESULTS_THRESHOLD || value > this.filter.max) {
           this.resetInput(input);
         } else {
-          this.validateFilter({
+          this.updateFilter.emit({
             ...this.filter,
             maxSelected: value,
           } as FilterItemRange);
@@ -199,7 +193,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
       }
     }
 
-    this.validateFilter({
+    this.updateFilter.emit({
       ...this.filter,
       minSelected: value,
       maxSelected,
@@ -229,7 +223,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
       }
     }
 
-    this.validateFilter({
+    this.updateFilter.emit({
       ...this.filter,
       minSelected,
       maxSelected: value,
@@ -247,39 +241,5 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     this.maxSectionValue = this.filter.maxSelected;
     this.maxSectionMin = this.filter.min;
     this.maxSectionMax = this.filter.max;
-  }
-
-  private validateFilter(filter: FilterItemRange): void {
-    let validationResult = false;
-
-    switch (filter.name) {
-      case FILTER_NAME_LIMIT: {
-        if (
-          !filter.disabled &&
-          filter.maxSelected !== null &&
-          filter.maxSelected !== undefined
-        ) {
-          validationResult = true;
-        }
-        break;
-      }
-      default: {
-        if (
-          !filter.disabled &&
-          filter.minSelected !== null &&
-          filter.minSelected !== undefined &&
-          filter.maxSelected !== null &&
-          filter.maxSelected !== undefined
-        ) {
-          validationResult = true;
-        }
-        break;
-      }
-    }
-
-    this.updateFilter.emit({
-      ...filter,
-      validated: validationResult,
-    } as FilterItemRange);
   }
 }

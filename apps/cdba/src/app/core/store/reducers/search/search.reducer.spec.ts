@@ -49,7 +49,6 @@ describe('Search Reducer', () => {
     0,
     200,
     'cm',
-    false,
     false
   );
   const filterItemRangeLimitStub = new FilterItemRange(
@@ -59,7 +58,6 @@ describe('Search Reducer', () => {
     1000,
     777,
     undefined,
-    false,
     false
   );
   const errorMessage = 'An error occured';
@@ -435,16 +433,7 @@ describe('Search Reducer', () => {
         false
       );
 
-      const length = new FilterItemRange(
-        'length',
-        1,
-        20,
-        2,
-        19,
-        'min',
-        false,
-        false
-      );
+      const length = new FilterItemRange('length', 1, 20, 2, 19, 'min', false);
 
       const fakeState = {
         ...initialState,
