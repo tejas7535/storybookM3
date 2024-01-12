@@ -1,4 +1,19 @@
 # Release Notes of Cost Database Analytics
+## [4.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.2.0...cdba-v4.3.0) (2024-01-12)
+
+
+### Features
+
+* **cdba:** mdc migration ([#5792](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5792)) ([68daa8f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/68daa8f4a07597e169ee712ed797961f010905d3))
+* **cdba:** pagination ([#5753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5753)) ([7690f8b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7690f8b4e12abf5cdbfbabc1b0c4a6b9fedefc8a))
+
+
+### Bug Fixes
+
+* **cdba:** fixed filters not being sent to BE ([#5872](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5872)) ([9bc5e56](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9bc5e56f1e6e42ccc488d1e21a2a2b93e86df4b8))
+* **cdba:** fixes for found styling issues ([#5867](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5867)) ([d6ba004](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6ba004cfab37f97021dfd95e7978c2ade0e29e8))
+* **cdba:** new approach for range filters change check ([#5903](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5903)) ([6daffd7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6daffd7ab7852b75c85c2e77fde9d8e36600c0c6))
+
 ## [4.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.1.0...cdba-v4.2.0) (2023-10-05)
 
 
