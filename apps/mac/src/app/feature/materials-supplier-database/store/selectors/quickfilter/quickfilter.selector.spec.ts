@@ -84,6 +84,35 @@ describe('QuickfilterSelectors', () => {
     ).toEqual([...localFilters, ...publishedFilters]);
   });
 
+  it('should get published filters', () => {
+    const publishedFilters = [
+      {
+        id: 100,
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+        title: 'public 1',
+        description: 'test public filter 1',
+        filter: {
+          co2PerTon: {
+            filterType: 'number',
+            type: 'greaterThan',
+            filter: 5,
+          },
+        },
+        columns: ['action', 'history'],
+        maintainerId: '00000000-0000-0000-0000-000000000000',
+        maintainerName: 'tester',
+        timestamp: 170_076_440_445,
+      },
+    ];
+
+    expect(
+      QuickFilterSelectors.getPublishedQuickFilters.projector({
+        publishedFilters,
+      } as unknown as QuickFilterState)
+    ).toEqual(publishedFilters);
+  });
+
   it('should get subscribed filters', () => {
     const subscribedFilters = [
       {

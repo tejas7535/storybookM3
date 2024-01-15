@@ -721,7 +721,9 @@
             "enableNotification": "Error while enabling email notification for quick filter data changes!",
             "disableNotification": "Error while disabling email notification for quick filter data changes!"
           }
-        }
+        },
+        "applyChanges": "Do you want to apply your changes to the shared filter: ",
+        "updateFilter": "update filter"
       },
       "dataSourceValues": {
         "systain": "Secondary data from I/O model by Systain"

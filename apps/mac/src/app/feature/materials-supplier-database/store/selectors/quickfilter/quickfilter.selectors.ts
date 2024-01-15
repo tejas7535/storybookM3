@@ -12,6 +12,11 @@ export const getLocalQuickFilters = createSelector(
   (qfState) => qfState.localFilters
 );
 
+export const getPublishedQuickFilters = createSelector(
+  getQuickFilterState,
+  (qfState) => qfState.publishedFilters
+);
+
 export const getOwnQuickFilters = createSelector(
   getQuickFilterState,
   (qfState) => [...qfState.localFilters, ...qfState.publishedFilters]

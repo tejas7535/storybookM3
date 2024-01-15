@@ -133,6 +133,17 @@ describe('QuickfilterFacade', () => {
   );
 
   it(
+    'should provide published quick filters',
+    marbles((m) => {
+      const expected = m.cold('a', {
+        a: publishedFilters,
+      });
+
+      m.expect(facade.publishedQuickFilters$).toBeObservable(expected);
+    })
+  );
+
+  it(
     'should provide own quick filters',
     marbles((m) => {
       const expected = m.cold('a', {
@@ -194,6 +205,25 @@ describe('QuickfilterFacade', () => {
   );
 
   it(
+    'update quick filter should succeed',
+    marbles((m) => {
+      const action = QuickFilterActions.updatePublicQuickFilterSuccess({
+        updatedQuickFilter: queriedFilters[0],
+      });
+
+      const expected = m.cold('b', {
+        b: action,
+      });
+
+      actions$ = m.hot('a', { a: action });
+
+      m.expect(facade.updatePublicQuickFilterSucceeded$).toBeObservable(
+        expected
+      );
+    })
+  );
+
+  it(
     'should activate quick filter',
     marbles((m) => {
       const action = QuickFilterActions.activateQuickFilter({
@@ -238,23 +268,22 @@ describe('QuickfilterFacade', () => {
     });
   });
 
-  describe('updateQuickFilter', () => {
-    it('should update a local quick filter', () => {
-      const oldFilter = localFilters[0];
-      const newFilter = { ...localFilters[0], columns: ['a', 'b', 'z'] };
+  it('should update a local quick filter', () => {
+    const oldFilter = localFilters[0];
+    const newFilter = { ...localFilters[0], columns: ['a', 'b', 'z'] };
 
-      facade.updateQuickFilter(oldFilter, newFilter, of(true));
+    facade.updateLocalQuickFilter(oldFilter, newFilter);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        QuickFilterActions.updateLocalQuickFilter({ oldFilter, newFilter })
-      );
-    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      QuickFilterActions.updateLocalQuickFilter({ oldFilter, newFilter })
+    );
+  });
 
+  describe('updatePublicQuickFilter', () => {
     it('should update a public quick filter', () => {
-      const oldFilter = publishedFilters[0];
       const newFilter = { ...publishedFilters[0], columns: ['a', 'b', 'z'] };
 
-      facade.updateQuickFilter(oldFilter, newFilter, of(true));
+      facade.updatePublicQuickFilter(newFilter, of(true));
 
       expect(store.dispatch).toHaveBeenCalledWith(
         QuickFilterActions.updatePublicQuickFilter({
@@ -264,12 +293,49 @@ describe('QuickfilterFacade', () => {
     });
 
     it('should not update a public quick filter if user does not have the EDITOR role', () => {
-      const oldFilter = publishedFilters[0];
       const newFilter = { ...publishedFilters[0], columns: ['a', 'b', 'z'] };
 
-      facade.updateQuickFilter(oldFilter, newFilter, of(false));
+      facade.updatePublicQuickFilter(newFilter, of(false));
 
       expect(store.dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('updateQuickFilter', () => {
+    beforeEach(() => jest.resetAllMocks());
+
+    it('should update a public quick filter', () => {
+      const oldFilter = publishedFilters[0];
+      const newFilter = { ...publishedFilters[0], columns: ['a', 'b', 'z'] };
+      const hasEditorRole$ = of(true);
+
+      facade.updatePublicQuickFilter = jest.fn();
+      facade.updateLocalQuickFilter = jest.fn();
+
+      facade.updateQuickFilter(oldFilter, newFilter, hasEditorRole$);
+
+      expect(facade.updatePublicQuickFilter).toHaveBeenCalledWith(
+        newFilter,
+        hasEditorRole$
+      );
+      expect(facade.updateLocalQuickFilter).not.toHaveBeenCalled();
+    });
+
+    it('should update a local quick filter', () => {
+      const oldFilter = localFilters[0];
+      const newFilter = { ...localFilters[0], columns: ['a', 'b', 'z'] };
+      const hasEditorRole$ = of(true);
+
+      facade.updatePublicQuickFilter = jest.fn();
+      facade.updateLocalQuickFilter = jest.fn();
+
+      facade.updateQuickFilter(oldFilter, newFilter, hasEditorRole$);
+
+      expect(facade.updateLocalQuickFilter).toHaveBeenCalledWith(
+        oldFilter,
+        newFilter
+      );
+      expect(facade.updatePublicQuickFilter).not.toHaveBeenCalled();
     });
   });
 

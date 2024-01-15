@@ -13,6 +13,7 @@ import { QuickFilter } from '@mac/feature/materials-supplier-database/models';
 import {
   getLocalQuickFilters,
   getOwnQuickFilters,
+  getPublishedQuickFilters,
   getQueriedQuickFilters,
   getSubscribedQuickFilters,
   isLoading,
@@ -25,6 +26,8 @@ import * as QuickFilterActions from '@mac/msd/store/actions/quickfilter/quickfil
 export class QuickFilterFacade {
   localQuickFilters$ = this.store.select(getLocalQuickFilters);
 
+  publishedQuickFilters$ = this.store.select(getPublishedQuickFilters);
+
   ownQuickFilters$ = this.store.select(getOwnQuickFilters); // local and published
 
   subscribedQuickFilters$ = this.store.select(getSubscribedQuickFilters);
@@ -35,6 +38,10 @@ export class QuickFilterFacade {
 
   publishQuickFilterSucceeded$ = this.actions$.pipe(
     ofType(QuickFilterActions.publishQuickFilterSuccess)
+  );
+
+  updatePublicQuickFilterSucceeded$ = this.actions$.pipe(
+    ofType(QuickFilterActions.updatePublicQuickFilterSuccess)
   );
 
   quickFilterActivated$ = this.actions$.pipe(
@@ -70,23 +77,34 @@ export class QuickFilterFacade {
     hasEditorRole$: Observable<boolean>
   ): void {
     if (newFilter.id) {
-      hasEditorRole$
-        .pipe(
-          take(1),
-          filter((hasEditorRole: boolean) => hasEditorRole)
-        )
-        .subscribe(() =>
-          this.store.dispatch(
-            QuickFilterActions.updatePublicQuickFilter({
-              quickFilter: newFilter,
-            })
-          )
-        );
+      this.updatePublicQuickFilter(newFilter, hasEditorRole$);
     } else {
-      this.store.dispatch(
-        QuickFilterActions.updateLocalQuickFilter({ oldFilter, newFilter })
-      );
+      this.updateLocalQuickFilter(oldFilter, newFilter);
     }
+  }
+
+  updateLocalQuickFilter(oldFilter: QuickFilter, newFilter: QuickFilter): void {
+    this.store.dispatch(
+      QuickFilterActions.updateLocalQuickFilter({ oldFilter, newFilter })
+    );
+  }
+
+  updatePublicQuickFilter(
+    quickFilter: QuickFilter,
+    hasEditorRole$: Observable<boolean>
+  ): void {
+    hasEditorRole$
+      .pipe(
+        take(1),
+        filter((hasEditorRole: boolean) => hasEditorRole)
+      )
+      .subscribe(() =>
+        this.store.dispatch(
+          QuickFilterActions.updatePublicQuickFilter({
+            quickFilter,
+          })
+        )
+      );
   }
 
   deleteQuickFilter(quickFilter: QuickFilter): void {

@@ -94,6 +94,7 @@ describe('QuickFilterComponent', () => {
       },
       mockProvider(QuickFilterFacade, {
         publishQuickFilterSucceeded$: of(),
+        updatePublicQuickFilterSucceeded$: of(),
         quickFilterActivated$: of(),
       }),
     ],
@@ -184,6 +185,22 @@ describe('QuickFilterComponent', () => {
       component.ngOnInit();
 
       expect(component.active).toBe(publishedQuickFilter);
+    });
+
+    it('should set active filter on updatePublicQuickFilterSucceeded', () => {
+      const updatedQuickFilter = {
+        id: 1,
+        title: 'test',
+        description: 'filter for test',
+      } as QuickFilter;
+      component.active = {} as QuickFilter;
+      component['qfFacade'].updatePublicQuickFilterSucceeded$ = of({
+        updatedQuickFilter,
+      } as any);
+
+      component.ngOnInit();
+
+      expect(component.active).toBe(updatedQuickFilter);
     });
 
     it('should apply activated filter', () => {
@@ -296,7 +313,7 @@ describe('QuickFilterComponent', () => {
       expect(component.active).toBe(component.staticFilters[0]);
     });
 
-    it('should save changes to custom filters', () => {
+    it('should save changes to local custom filters', () => {
       const quickfilterOld: QuickFilter = {
         title: 'old',
         filter: {},
@@ -309,13 +326,53 @@ describe('QuickFilterComponent', () => {
       };
       component.active = quickfilterOld;
       component['agGridToFilter'] = jest.fn(() => quickfilterNew);
-      component['qfFacade'].updateQuickFilter = jest.fn();
+      component['qfFacade'].updateLocalQuickFilter = jest.fn();
       component['isOwnFilter'] = jest.fn(() => of(true));
 
       component['onChange']();
 
       expect(component.active).toStrictEqual(quickfilterNew);
-      expect(component['qfFacade'].updateQuickFilter).toBeCalled();
+      expect(component['qfFacade'].updateLocalQuickFilter).toHaveBeenCalledWith(
+        quickfilterOld,
+        quickfilterNew
+      );
+    });
+
+    it('should check for changes on published filter', (done) => {
+      const quickfilterOld: QuickFilter = {
+        id: 1,
+        title: 'old',
+        filter: {},
+        columns: ['a', 'b'],
+      };
+      const quickfilterNew: QuickFilter = {
+        id: 1,
+        title: 'new',
+        filter: {},
+        columns: ['a', 'b'],
+      };
+      component.active = quickfilterOld;
+      component.activePublishedFilterChanged$ = of(false);
+      component['agGridToFilter'] = jest.fn(() => quickfilterNew);
+      component['qfFacade'].updateLocalQuickFilter = jest.fn();
+      component['isOwnFilter'] = jest.fn(() => of(true));
+      component['hasActivePublishedFilterChanged'] = jest.fn(() => of(true));
+
+      component['onChange']();
+
+      expect(component.active).toStrictEqual(quickfilterNew);
+      expect(
+        component['qfFacade'].updateLocalQuickFilter
+      ).not.toHaveBeenCalled();
+      expect(
+        component['hasActivePublishedFilterChanged']
+      ).toHaveBeenCalledTimes(1);
+      component.activePublishedFilterChanged$.subscribe(
+        (activePublishedFilterChanged: boolean) => {
+          expect(activePublishedFilterChanged).toBe(true);
+          done();
+        }
+      );
     });
   });
 
@@ -696,6 +753,100 @@ describe('QuickFilterComponent', () => {
       component['isOwnFilter']({ title: 'test 2' } as QuickFilter).subscribe(
         (isOwn: boolean) => {
           expect(isOwn).toBe(false);
+          done();
+        }
+      );
+    });
+  });
+
+  describe('hasActivePublishedFilterChanged', () => {
+    it('should return false if the active filter is not public', (done) => {
+      component.qfFacade.publishedQuickFilters$ = of([
+        { id: 1, title: 'test' },
+        { id: 2 },
+      ] as QuickFilter[]);
+      component.active = {
+        title: 'test',
+      } as QuickFilter;
+
+      component['hasActivePublishedFilterChanged']().subscribe(
+        (hasActivePublishedFilterChanged: boolean) => {
+          expect(hasActivePublishedFilterChanged).toBe(false);
+          done();
+        }
+      );
+    });
+
+    it('should return true if columns have been changed', (done) => {
+      component.qfFacade.publishedQuickFilters$ = of([
+        { id: 1, title: 'test', columns: ['a', 'b'] },
+        { id: 2 },
+      ] as QuickFilter[]);
+      component.active = {
+        id: 1,
+        title: 'test',
+        columns: ['a', 'b', 'c'],
+      } as QuickFilter;
+
+      component['hasActivePublishedFilterChanged']().subscribe(
+        (hasActivePublishedFilterChanged: boolean) => {
+          expect(hasActivePublishedFilterChanged).toBe(true);
+          done();
+        }
+      );
+    });
+
+    it('should return true if filter has been changed', (done) => {
+      component.qfFacade.publishedQuickFilters$ = of([
+        {
+          id: 1,
+          title: 'test',
+          filter: {
+            co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+          },
+        },
+        { id: 2 },
+      ] as QuickFilter[]);
+      component.active = {
+        id: 1,
+        title: 'test',
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 2 },
+        },
+      } as unknown as QuickFilter;
+
+      component['hasActivePublishedFilterChanged']().subscribe(
+        (hasActivePublishedFilterChanged: boolean) => {
+          expect(hasActivePublishedFilterChanged).toBe(true);
+          done();
+        }
+      );
+    });
+
+    it('should return false if nothing has been changed', (done) => {
+      component.qfFacade.publishedQuickFilters$ = of([
+        {
+          id: 1,
+          title: 'test',
+          columns: ['a', 'b', 'c'],
+          filter: {
+            co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+          },
+        },
+        { id: 2 },
+      ] as QuickFilter[]);
+      component.active = {
+        id: 1,
+        title: 'test',
+        columns: ['a', 'b', 'c'],
+        filter: {
+          co2PerTon: { filterType: 'number', type: 'greaterThan', filter: 0 },
+        },
+      } as unknown as QuickFilter;
+
+      component['hasActivePublishedFilterChanged']().subscribe(
+        (hasActivePublishedFilterChanged: boolean) => {
+          expect(hasActivePublishedFilterChanged).toBe(false);
           done();
         }
       );

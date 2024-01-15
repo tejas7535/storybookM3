@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   Component,
   EventEmitter,
@@ -8,7 +9,7 @@ import {
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 
-import { filter, map, Observable, Subject, take, takeUntil } from 'rxjs';
+import { filter, map, Observable, of, Subject, take, takeUntil } from 'rxjs';
 
 import { ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
 
@@ -50,6 +51,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
   subscribedFilters$: Observable<QuickFilter[]>;
 
+  activePublishedFilterChanged$ = of(false);
+
   readonly hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
   private agGridApi: GridApi;
@@ -69,7 +72,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   private navigationLevel: NavigationLevel;
 
   constructor(
-    private readonly qfFacade: QuickFilterFacade,
+    readonly qfFacade: QuickFilterFacade,
     private readonly dataFacade: DataFacade,
     private readonly msdAgGridReadyService: MsdAgGridReadyService,
     private readonly msdAgGridConfigService: MsdAgGridConfigService,
@@ -87,6 +90,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
     this.handleNavigationChanges();
     this.handleQuickFilterPublished();
+    this.handlePublicQuickFilterUpdated();
     this.handleQuickFilterActivated();
 
     this.msdAgGridReadyService.agGridApi
@@ -100,6 +104,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   onQuickfilterSelect(event: MatButtonToggleChange) {
     const selected = event.value as QuickFilter;
     this.setManagementTabSelected(!selected);
+    this.activePublishedFilterChanged$ = of(false);
     this.applyQuickFilter(selected);
   }
 
@@ -165,6 +170,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
           navigationLevel
         );
         this.active = this.staticFilters[0];
+        this.activePublishedFilterChanged$ = of(false);
         this.setManagementTabSelected(false);
       });
   }
@@ -216,18 +222,20 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .pipe(take(1))
       .subscribe((isOwn: boolean) => {
         if (isOwn) {
-          // update quickfilter in store
+          // update quickfilter
           const oldFilter = this.active;
           const newFilter = {
             ...oldFilter,
             ...this.agGridToFilter(this.active.title, this.active.description),
           };
-          this.qfFacade.updateQuickFilter(
-            oldFilter,
-            newFilter,
-            this.dataFacade.hasEditorRole$
-          );
           this.active = newFilter;
+
+          if (newFilter.id) {
+            this.activePublishedFilterChanged$ =
+              this.hasActivePublishedFilterChanged();
+          } else {
+            this.qfFacade.updateLocalQuickFilter(oldFilter, newFilter);
+          }
         } else {
           // reset selection on predefined items after modification
           this.reset();
@@ -296,10 +304,11 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
           title: result.title,
           description: result.description,
         };
+
         this.qfFacade.updateQuickFilter(
           oldFilter,
           newFilter,
-          this.dataFacade.hasEditorRole$
+          this.hasEditorRole$
         );
       } else {
         const title = result.title;
@@ -366,6 +375,14 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       );
   }
 
+  private handlePublicQuickFilterUpdated(): void {
+    this.qfFacade.updatePublicQuickFilterSucceeded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        ({ updatedQuickFilter }) => (this.active = updatedQuickFilter)
+      );
+  }
+
   private handleQuickFilterActivated(): void {
     this.qfFacade.quickFilterActivated$
       .pipe(takeUntil(this.destroy$))
@@ -373,5 +390,32 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         this.applyQuickFilter(quickFilter);
         this.setManagementTabSelected(false);
       });
+  }
+
+  /**
+   * Check if the active filter is public and has any local changes, which have not been published yet.
+   *
+   * @returns Observable<true> if the active filter is public with not published local changes, otherwise Observable<false>
+   */
+  private hasActivePublishedFilterChanged(): Observable<boolean> {
+    return this.qfFacade.publishedQuickFilters$.pipe(
+      map((publishedQuickFilters: QuickFilter[]) => {
+        const publishedQuickFilter = publishedQuickFilters.find(
+          (quickFilter: QuickFilter) => quickFilter.id === this.active.id
+        );
+
+        if (
+          publishedQuickFilter &&
+          (JSON.stringify(this.active.columns) !==
+            JSON.stringify(publishedQuickFilter.columns) ||
+            JSON.stringify(this.active.filter) !==
+              JSON.stringify(publishedQuickFilter.filter))
+        ) {
+          return true;
+        }
+
+        return false;
+      })
+    );
   }
 }
