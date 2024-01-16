@@ -71,7 +71,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
 
     it('should push logCalculation to data layer', async () => {
       const payload = { a: { selected: true }, b: { selected: false } } as any;
-      await service.logCalculation(payload);
+      await service.logCalculation(payload, 15);
       expect(document.defaultView.dataLayer.push).toBeCalledWith({
         action: 'Calculate',
         status: 'successful',
@@ -79,12 +79,13 @@ describe('EmbeddedGoogleAnalyticsService', () => {
         message: 'successful',
         version: service['version'],
         event: 'Engineering-App',
+        numberOfLoadcases: 15,
       });
     });
 
     it('should push logCalculation to data layer on error', async () => {
       const payload = { a: { selected: true }, b: { selected: false } } as any;
-      await service.logCalculation(payload, 'A serious error');
+      await service.logCalculation(payload, -1, 'A serious error');
       expect(document.defaultView.dataLayer.push).toBeCalledWith({
         action: 'Calculate',
         status: 'unsuccessful',
@@ -92,6 +93,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
         message: 'A serious error',
         version: service['version'],
         event: 'Engineering-App',
+        numberOfLoadcases: -1,
       });
     });
 
@@ -114,7 +116,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
     });
 
     it('should not interact with dataLayer when all possible logging calls are made', async () => {
-      await service.logCalculation({} as any);
+      await service.logCalculation({} as any, -1);
       await service.logDownloadReport();
       await service.logShowReport();
       await service.logToggleCalculationType(true, {});

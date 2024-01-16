@@ -15,6 +15,7 @@ export interface CalculationEvent extends BasicEvent {
   message: 'successful' | string;
   version: string;
   methods: Record<string, boolean>;
+  numberOfLoadcases: number;
 }
 
 export interface ShowReportEvent extends BasicEvent {
@@ -23,4 +24,10 @@ export interface ShowReportEvent extends BasicEvent {
 
 export interface DownloadReportEvent extends BasicEvent {
   action: 'Download Report';
+}
+
+export interface LoadCaseEvent extends BasicEvent {
+  action: 'Load Case Changed';
+  event: 'Added' | 'Removed';
+  numberOfLoadcases?: number;
 }

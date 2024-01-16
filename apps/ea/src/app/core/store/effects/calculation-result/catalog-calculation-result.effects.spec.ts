@@ -64,6 +64,7 @@ describe('Catalog Calculation Result Effects', () => {
           getCalculationTypes$: of(
             CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
           ),
+          getLoadcaseCount$: of(5),
         },
       },
       {
@@ -140,7 +141,8 @@ describe('Catalog Calculation Result Effects', () => {
         m.flush();
 
         expect(trackingServiceMock.logCalculation).toHaveBeenCalledWith(
-          CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+          CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+          5
         );
         expect(fetchSpy).toHaveBeenCalled();
       })();
@@ -186,6 +188,7 @@ describe('Catalog Calculation Result Effects', () => {
 
         expect(trackingServiceMock.logCalculation).toHaveBeenCalledWith(
           CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+          5,
           'some calculation error'
         );
         expect(fetchSpy).toHaveBeenCalled();

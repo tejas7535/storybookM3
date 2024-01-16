@@ -43,6 +43,7 @@ import {
 } from 'rxjs';
 
 import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
+import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
@@ -343,7 +344,8 @@ export class CalculationParametersComponent
     public readonly matDialog: MatDialog,
     private readonly translocoService: TranslocoService,
     private readonly calculationParametersFormHelperService: CalculationParametersFormHelperService,
-    private readonly changeDetectionRef: ChangeDetectorRef
+    private readonly changeDetectionRef: ChangeDetectorRef,
+    private readonly analyticsService: EmbeddedGoogleAnalyticsService
   ) {}
 
   get operatingTemperature(): FormControl {
@@ -509,6 +511,8 @@ export class CalculationParametersComponent
       .pipe(take(1), filter(Boolean))
       .subscribe(() => {
         this.operationConditionsForm.controls['loadCaseData'].removeAt(index);
+        this.loadCaseCount -= 1;
+        this.analyticsService.logLoadcaseEvent('Removed', this.loadCaseCount);
         if (this.isSingleLoadCaseForm) {
           this.calculationParametersFacade.dispatch(
             setSelectedLoadcase({ selectedLoadcase: 0 })
@@ -524,6 +528,7 @@ export class CalculationParametersComponent
   public onAddLoadCaseClick(): void {
     this.updateFirstLoadCaseName();
     this.loadCaseCount += 1;
+    this.analyticsService.logLoadcaseEvent('Added', this.loadCaseCount);
     const operatingTemperatureValue = 70;
     const loadCaseName =
       this.calculationParametersFormHelperService.getLocalizedLoadCaseName(

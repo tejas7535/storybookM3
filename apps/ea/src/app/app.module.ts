@@ -27,8 +27,8 @@ import { AppRoutePath } from './app-route-path.enum';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
-import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
 import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
+import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
 
 export const appRoutePaths: Routes = [
   {

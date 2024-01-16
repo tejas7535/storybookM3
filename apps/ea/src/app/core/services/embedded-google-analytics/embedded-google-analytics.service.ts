@@ -11,6 +11,7 @@ import {
   CalculationEvent,
   CalculationTypeChangeEvent,
   DownloadReportEvent,
+  LoadCaseEvent,
   ShowReportEvent,
 } from './event-types';
 
@@ -50,6 +51,7 @@ export class EmbeddedGoogleAnalyticsService {
 
   public async logCalculation(
     calculationTypes: CalculationParametersCalculationTypes,
+    loadcaseCount: number,
     error?: string
   ): Promise<void> {
     const methods: CalculationEvent['methods'] = {};
@@ -68,6 +70,18 @@ export class EmbeddedGoogleAnalyticsService {
       methods,
       message: error || 'successful',
       version: this.version,
+      numberOfLoadcases: loadcaseCount,
+    });
+  }
+
+  public async logLoadcaseEvent(
+    event: LoadCaseEvent['event'],
+    numberOfLoadcases?: LoadCaseEvent['numberOfLoadcases']
+  ) {
+    return this.logEvent({
+      action: 'Load Case Changed',
+      event,
+      numberOfLoadcases,
     });
   }
 
@@ -85,6 +99,7 @@ export class EmbeddedGoogleAnalyticsService {
       | ShowReportEvent
       | DownloadReportEvent
       | CalculationEvent
+      | LoadCaseEvent
   ): Promise<void> {
     if (!(await this.isAppEmbedded())) {
       return;

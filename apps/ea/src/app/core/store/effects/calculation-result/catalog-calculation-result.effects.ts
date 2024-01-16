@@ -74,9 +74,16 @@ export class CatalogCalculationResultEffects {
         this.productSelectionFacade.bearingId$,
         this.calculationParametersFacade.operationConditions$,
         this.calculationParametersFacade.getCalculationTypes$,
+        this.calculationParametersFacade.getLoadcaseCount$,
       ]),
       switchMap(
-        ([_action, bearingId, operatingConditions, originalCalculationTypes]) =>
+        ([
+          _action,
+          bearingId,
+          operatingConditions,
+          originalCalculationTypes,
+          loadcaseCount,
+        ]) =>
           this.catalogService
             .getCalculationResult(bearingId, operatingConditions)
             .pipe(
@@ -93,10 +100,14 @@ export class CatalogCalculationResultEffects {
                 if (calculationResult.calculationError) {
                   this.trackingService.logCalculation(
                     originalCalculationTypes,
+                    loadcaseCount,
                     calculationResult.calculationError.error
                   );
                 } else {
-                  this.trackingService.logCalculation(originalCalculationTypes);
+                  this.trackingService.logCalculation(
+                    originalCalculationTypes,
+                    loadcaseCount
+                  );
                 }
 
                 // special case: sometimes bearings have no friction data available. In this case we need to disable the calculation option
@@ -132,6 +143,7 @@ export class CatalogCalculationResultEffects {
               catchError((error: HttpErrorResponse) => {
                 this.trackingService.logCalculation(
                   originalCalculationTypes,
+                  -1,
                   error.message
                 );
 
