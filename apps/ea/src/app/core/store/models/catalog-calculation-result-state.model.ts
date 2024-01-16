@@ -65,11 +65,11 @@ export const lubricationBearingBehaviourItems: {
 }[] = [
   {
     key: 'lowerGuideInterval',
-    short: 'tfR_min',
+    short: 'tfG_min',
   },
   {
     key: 'upperGuideInterval',
-    short: 'tfR_max',
+    short: 'tfG_max',
   },
 ];
 

@@ -2,6 +2,7 @@ import { BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING } from '@ea/core/services/b
 import { createSelector } from '@ngrx/store';
 
 import {
+  BearingBehaviour,
   CalculationResultReportInput,
   CalculationType,
   LoadcaseResultItem,
@@ -96,8 +97,29 @@ export const getLubricationReport = createSelector(
         title: item.title,
         short: item.short,
       }));
+    const bearingBehavior = calculationResult.bearingBehaviour || {};
+    const behaviorItems = lubricationBearingBehaviourItems
+      .map((item) => ({
+        ...item,
+        value:
+          (item.key as keyof BearingBehaviour) in bearingBehavior
+            ? bearingBehavior[item.key as keyof BearingBehaviour]
+            : undefined,
+      }))
+      .filter((item) => item.value)
+      .map((resultItem) => {
+        const res: LoadcaseResultCombinedItem = {
+          unit: resultItem.value.unit,
+          title: resultItem.key,
+          short: resultItem.short,
+          value: resultItem.value.value,
+        };
+
+        return res;
+      });
 
     const res = result.filter((item) => item.loadcaseValues?.length > 0);
+    res.push(...behaviorItems);
 
     return res;
   }

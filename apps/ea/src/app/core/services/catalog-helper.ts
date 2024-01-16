@@ -123,6 +123,7 @@ function extractBearingBehaviour(
       bearingBeahiourSubordinate,
       [{ abbreviation }]
     );
+
     if (extractedValue) {
       result.bearingBehaviour[
         BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING.get(
@@ -147,6 +148,7 @@ function extractBearingBehaviour(
   if (!loadFactorsSubordinate) {
     return;
   }
+
   extractValues(
     result as Record<string, LoadcaseStringResultItem>,
     loadFactorsSubordinate,

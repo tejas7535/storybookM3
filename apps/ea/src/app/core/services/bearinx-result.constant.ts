@@ -15,8 +15,8 @@ export const P = 'P';
 export const N = 'n';
 export const S0_MIN = 'S0_min';
 export const P0_MAX = 'P0_max';
-export const TFR_MIN = 'tfR_min';
-export const TFR_MAX = 'tfR_max';
+export const TFR_MIN = 'tfG_min';
+export const TFR_MAX = 'tfG_max';
 // Load Factors and equivalent loads
 export const P0 = 'P0';
 export const P_I = 'P_i';
@@ -90,8 +90,8 @@ export const BEARING_BEHAVIOUR_ABBREVIATIONS_KEY_MAPPING = new Map<
   ['n', 'n'],
   ['S0_min', 'S0_min'],
   ['P0_max', 'P0_max'],
-  ['tfR_min', 'lowerGuideInterval'],
-  ['tfR_max', 'upperGuideInterval'],
+  ['tfG_min', 'lowerGuideInterval'],
+  ['tfG_max', 'upperGuideInterval'],
 ]);
 
 export const OVERROLLING_FREQUENCIES_ABBREVIATIONS = [
