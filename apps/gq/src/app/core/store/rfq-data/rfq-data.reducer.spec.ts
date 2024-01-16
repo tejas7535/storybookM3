@@ -54,6 +54,15 @@ describe('RfqDataReducer', () => {
         rfqDataLoading: false,
       });
     });
+
+    test('should reset state', () => {
+      const action = RfqDataActions.resetRfqData();
+      const state = rfqDataFeature.reducer(
+        { ...initialState, rfqData: { gqPositionId: '1234' } as RfqData },
+        action
+      );
+      expect(state).toEqual(initialState);
+    });
   });
 
   describe('ExtraSelectors', () => {

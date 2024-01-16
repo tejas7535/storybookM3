@@ -131,5 +131,28 @@ describe('RfqDataEffects', () => {
         m.expect(effects.triggerLoadRfqData$).toBeObservable(expected);
       })
     );
+    test('should dispatch resetRfqData action when quotation is undefined', () => {
+      action = ActiveCaseActions.getQuotationSuccess({
+        item: undefined,
+      });
+
+      actions$ = of(action);
+
+      effects.triggerLoadRfqData$.subscribe((result) => {
+        expect(result).toEqual(RfqDataActions.resetRfqData());
+      });
+    });
+
+    test('should dispatch resetRfqData action when quotation.rfqData is undefined', () => {
+      action = ActiveCaseActions.getQuotationSuccess({
+        item: { rfqData: undefined } as unknown as Quotation,
+      });
+
+      actions$ = of(action);
+
+      effects.triggerLoadRfqData$.subscribe((result) => {
+        expect(result).toEqual(RfqDataActions.resetRfqData());
+      });
+    });
   });
 });

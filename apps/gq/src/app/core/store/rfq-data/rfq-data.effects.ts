@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -42,15 +42,15 @@ export class RfqDataEffects {
         this.activeCaseFacade.selectedQuotationDetail$,
         this.activeCaseFacade.quotationSapId$,
       ]),
-      filter(
-        ([_action, quotationDetail, _sapId]) => !!quotationDetail?.rfqData
-      ),
-      map(([_action, quotationDetail, sapId]) =>
-        RfqDataActions.getRfqData({
-          sapId,
-          quotationItemId: quotationDetail.quotationItemId,
-        })
-      )
+      map(([_action, quotationDetail, sapId]) => {
+        // when rfqData is present fetch data from backend otherwise reset the state
+        return quotationDetail?.rfqData
+          ? RfqDataActions.getRfqData({
+              sapId,
+              quotationItemId: quotationDetail.quotationItemId,
+            })
+          : RfqDataActions.resetRfqData();
+      })
     );
   });
 

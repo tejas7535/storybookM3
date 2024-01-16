@@ -45,6 +45,12 @@ export const rfqDataFeature = createFeature({
         errorMessage,
         rfqDataLoading: false,
       })
+    ),
+    on(
+      RfqDataActions.resetRfqData,
+      (): RfqDataState => ({
+        ...initialState,
+      })
     )
   ),
   extraSelectors: ({ selectRfqData }) => {
