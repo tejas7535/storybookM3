@@ -1,6 +1,7 @@
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import {
+  ProductType,
   Quotation,
   QuotationDetail,
   QuotationStatus,
@@ -500,7 +501,12 @@ describe('Active Case Selectors', () => {
     test('should return true if quotation  has f-number materials', () => {
       expect(
         activeCaseSelectors.getQuotationHasFNumberMaterials.projector([
-          { material: { materialDescription: 'F-test' } } as QuotationDetail,
+          {
+            material: {
+              materialDescription: 'F-test',
+              productType: ProductType.CRB,
+            },
+          } as QuotationDetail,
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
       ).toEqual(true);
@@ -508,7 +514,12 @@ describe('Active Case Selectors', () => {
     test('should return false if quotation  no f-number materials', () => {
       expect(
         activeCaseSelectors.getQuotationHasFNumberMaterials.projector([
-          { material: { materialDescription: 'Z-test' } } as QuotationDetail,
+          {
+            material: {
+              materialDescription: 'Z-test',
+              productType: ProductType.TRB,
+            },
+          } as QuotationDetail,
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
       ).toEqual(true);
@@ -516,7 +527,7 @@ describe('Active Case Selectors', () => {
   });
 
   describe('getQuotationDetailIsFNumber', () => {
-    test('should return false when description does not starts with F- || Z-', () => {
+    test('should return false when quotationDetail is not F-Number Material', () => {
       expect(
         activeCaseSelectors.getQuotationDetailIsFNumber.projector(
           QUOTATION_DETAIL_MOCK
@@ -524,25 +535,14 @@ describe('Active Case Selectors', () => {
       ).toEqual(false);
     });
 
-    test('should return true when description does  starts with F-', () => {
+    test('should return true when IS F-Number Material', () => {
       expect(
         activeCaseSelectors.getQuotationDetailIsFNumber.projector({
           ...QUOTATION_DETAIL_MOCK,
           material: {
             ...QUOTATION_DETAIL_MOCK.material,
             materialDescription: 'F-123',
-          },
-        })
-      ).toEqual(true);
-    });
-
-    test('should return true when description does  starts with Z-', () => {
-      expect(
-        activeCaseSelectors.getQuotationDetailIsFNumber.projector({
-          ...QUOTATION_DETAIL_MOCK,
-          material: {
-            ...QUOTATION_DETAIL_MOCK.material,
-            materialDescription: 'Z-123',
+            productType: ProductType.SRB,
           },
         })
       ).toEqual(true);
@@ -555,7 +555,7 @@ describe('Active Case Selectors', () => {
         activeCaseSelectors.getQuotationHasRfqMaterials.projector([])
       ).toEqual(false);
     });
-    test('should return true if quotations has RFQ Materails', () => {
+    test('should return true if quotations has RFQ Materials', () => {
       expect(
         activeCaseSelectors.getQuotationHasRfqMaterials.projector([
           {
@@ -566,7 +566,7 @@ describe('Active Case Selectors', () => {
       ).toEqual(true);
     });
 
-    test('should return false if quotations has no RFQ Materails', () => {
+    test('should return false if quotations has no RFQ Materials', () => {
       expect(
         activeCaseSelectors.getQuotationHasRfqMaterials.projector([
           { material: { materialDescription: 'test' } } as QuotationDetail,

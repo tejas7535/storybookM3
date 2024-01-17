@@ -1,3 +1,4 @@
+import { ProductType } from './product-type.enum';
 export class MaterialDetails {
   baseUoM: string;
   dimensions: string;
@@ -22,6 +23,7 @@ export class MaterialDetails {
   series: string;
   weightUnit: string;
   width: string;
+  productType?: ProductType;
 
   // strategic hierarchy is only relevant for greater china
   strategicHierarchy: string;

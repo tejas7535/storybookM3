@@ -27,9 +27,7 @@ describe('pricing Assistant Action Cell Component', () => {
 
   describe('agInit', () => {
     beforeEach(() => {
-      jest
-        .spyOn(fPricingUtils, 'quotationDetailIsFNumber')
-        .mockReturnValue(true);
+      jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
     });
     test('should set params', () => {
       const params: any = {

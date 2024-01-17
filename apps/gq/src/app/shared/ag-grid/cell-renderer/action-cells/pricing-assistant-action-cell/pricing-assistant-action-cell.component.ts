@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
 import { QuotationDetail } from '@gq/shared/models';
-import { quotationDetailIsFNumber } from '@gq/shared/utils/f-pricing.utils';
+import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { CellClassParams } from 'ag-grid-community';
 
 @Component({
@@ -18,7 +18,7 @@ export class PricingAssistantActionCellComponent {
 
   agInit(params: CellClassParams): void {
     this.params = params;
-    this.isFNumber = quotationDetailIsFNumber(params.data as QuotationDetail);
+    this.isFNumber = isFNumber(params.data as QuotationDetail);
   }
 
   openDialog(): void {

@@ -1,13 +1,14 @@
 import { QuotationDetail } from '@gq/shared/models';
 
-export const quotationDetailIsFNumber = (
-  quotationDetail: QuotationDetail
-): boolean => {
+export const isFNumber = (quotationDetail: QuotationDetail): boolean => {
   if (!quotationDetail) {
     return false;
   }
 
-  if (checkStartsWithFOrZ(quotationDetail)) {
+  if (
+    hasMaterialFNumberProductType(quotationDetail) &&
+    checkStartsWithFOrZ(quotationDetail)
+  ) {
     return true;
   }
 
@@ -19,4 +20,16 @@ export function checkStartsWithFOrZ(quotationDetail: QuotationDetail): boolean {
     quotationDetail?.material?.materialDescription?.startsWith('F-') ||
     quotationDetail?.material?.materialDescription?.startsWith('Z-')
   );
+}
+
+/**
+ * Checks if productType is defined. Only F Number materials have productType defined, otherwise it is undefined.
+ *
+ * @param quotationDetail the quotation detail to check if productType is defined
+ * @returns true if productType is defined, false otherwise
+ */
+export function hasMaterialFNumberProductType(
+  quotationDetail: QuotationDetail
+): boolean {
+  return !!quotationDetail?.material?.productType;
 }
