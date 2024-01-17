@@ -159,6 +159,7 @@
     "staticSafetySubtitle": "Static safety (S0)",
     "lubrication": "Lubrication Parameters",
     "lubricationSubtitle": "Viscosity ratio (kappa)",
+    "relubGuideInterval": "Relubrication guide Interval (tfG)",
     "emissions": "CO₂e emitted",
     "emissionsTooltip": "A CO₂ equivalent (CO₂e) is a unit to standardize the climate effects of various greenhouse gases. Thus, different mixtures of greenhouse gases emissions can be compared.",
     "overrollingFrequency": "Overrolling frequencies",
@@ -196,7 +197,8 @@
       "referenceViscosity": "Reference viscosity",
       "lifeAdjustmentFactor": "Life adjustment factor",
       "lowerGuideInterval": "Lower guide value for relubrication interval",
-      "upperGuideInterval": "Upper guide value for relubrication interval"
+      "upperGuideInterval": "Upper guide value for relubrication interval",
+      "relubGuideInterval": "Guide value for relubrication interval"
     },
     "frictionalPowerloss": {
       "title": "Frictional power loss",

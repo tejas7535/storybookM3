@@ -1,4 +1,4 @@
-import { roundToThreeSigFigs } from './number-helper';
+import { extractNumber, roundToThreeSigFigs } from './number-helper';
 
 describe('roundToThreeSigFigs', () => {
   test('should round large numbers to three significant figures', () => {
@@ -28,5 +28,11 @@ describe('roundToThreeSigFigs', () => {
     expect(roundToThreeSigFigs(-0.9999)).toBe('-1.00');
     expect(roundToThreeSigFigs(-0.9994)).toBe('-0.999');
     expect(roundToThreeSigFigs(1.332)).toBe('1.33');
+  });
+});
+
+describe('extractFormattedNumber', () => {
+  test('should handle formatting', () => {
+    expect(extractNumber('> 300000')).toBe('300000');
   });
 });

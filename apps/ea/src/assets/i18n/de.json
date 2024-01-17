@@ -159,6 +159,7 @@
     "staticSafetySubtitle": "Statische Sicherheit (S0)",
     "lubrication": "Schmierparameter",
     "lubricationSubtitle": "Viskositätsverhältnis (kappa)",
+    "relubGuideInterval": "Richtwert für Nachschmierfrist (tfG)",
     "emissions": "CO₂e-Emissionen",
     "emissionsTooltip": "Ein CO₂-Äquivalent (CO₂e) ist eine Einheit zur Standardisierung der Klimawirkungen verschiedener Treibhausgase. So können Emissionen verschiedener Treibhausgasgemische verglichen werden.",
     "overrollingFrequency": "Überrollfrequenzen bei Betriebsdrehzahl",
@@ -196,7 +197,8 @@
       "referenceViscosity": "Bezugsviskoksität lt. HR1",
       "lifeAdjustmentFactor": "Lebensdauerbeiwert",
       "lowerGuideInterval": "Unterer Richtwert für Nachschmierfrist",
-      "upperGuideInterval": "Oberer Richtwert für Nachschmierfrist"
+      "upperGuideInterval": "Oberer Richtwert für Nachschmierfrist",
+      "relubGuideInterval": "Richtwert für Nachschmierfrist"
     },
     "frictionalPowerloss": {
       "title": "Reibungsverluste",

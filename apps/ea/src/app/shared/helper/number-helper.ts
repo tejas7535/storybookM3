@@ -34,3 +34,12 @@ export type NumberString = `${number}`;
 export function toNumberString(input: number): NumberString {
   return input.toString() as NumberString;
 }
+
+export function extractNumber(formatted: string): string {
+  const numberSubstr = formatted.match(/[\d,.]+/g);
+  if (numberSubstr.length !== 1) {
+    throw new Error(`Unexpected length for format ${numberSubstr.length}`);
+  }
+
+  return numberSubstr[0];
+}

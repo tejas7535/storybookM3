@@ -18,9 +18,11 @@ import {
 } from './calculation-result-report.selector';
 import {
   getCalculationResult as catalogCalculationResult,
+  getCalculationResult,
   getError as catalogCalculationError,
   isLoading as catalogCalculationIsLoading,
 } from './catalog-calculation-result.selector';
+import { getLubricationDataFromBehavior } from './catalog-result-helper';
 import {
   getCalculationResult as co2UpstreamCalculationResult,
   getError as co2UpstreamError,
@@ -129,6 +131,7 @@ export const getCalculationResultPreviewData = createSelector(
   overrollingFrequencies,
   lubricationParameter,
   getSelectedLoadcase,
+  getCalculationResult,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
@@ -136,7 +139,8 @@ export const getCalculationResultPreviewData = createSelector(
     frictionResult,
     overrollingResult,
     lubricationParameterResult,
-    loadcase
+    loadcase,
+    result
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
     const loadcaseName = loadcase?.loadCaseName;
@@ -169,14 +173,29 @@ export const getCalculationResultPreviewData = createSelector(
     }
 
     if (calculationTypes.lubrication.selected) {
-      previewData.push({
-        title: 'lubrication',
-        svgIcon: 'water_drop',
-        values: [
-          { title: 'lubricationSubtitle', ...lubricationParameterResult },
-        ],
-        loadcaseName,
-      });
+      if (
+        result &&
+        result.bearingBehaviour &&
+        !lubricationParameterResult.isLoading &&
+        !lubricationParameterResult.value
+      ) {
+        const [_, r] = getLubricationDataFromBehavior(result);
+        previewData.push({
+          title: 'lubrication',
+          svgIcon: 'water_drop',
+          values: [{ ...r, isLoading: false }],
+          loadcaseName,
+        });
+      } else {
+        previewData.push({
+          title: 'lubrication',
+          svgIcon: 'water_drop',
+          values: [
+            { title: 'lubricationSubtitle', ...lubricationParameterResult },
+          ],
+          loadcaseName,
+        });
+      }
     }
 
     if (calculationTypes.emission.selected) {

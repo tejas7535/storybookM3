@@ -325,16 +325,10 @@ Array [
     "warning": undefined,
   },
   Object {
-    "short": "tfG_min",
-    "title": "lowerGuideInterval",
+    "short": "tfG",
+    "title": "relubGuideInterval",
     "unit": "h",
-    "value": "8920",
-  },
-  Object {
-    "short": "tfG_max",
-    "title": "upperGuideInterval",
-    "unit": "h",
-    "value": "13800",
+    "value": "~ 11360",
   },
 ]
 `;
