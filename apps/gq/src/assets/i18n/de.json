@@ -107,6 +107,7 @@
       "materialStatus": "Materialstatus",
       "freeStock": "Freier Bestand",
       "freeStockInfoText": "Information zu freiem Bestand über eine Live-Schnittstelle aus SAP abgerufen",
+      "nextFreeAtp": "freie ATP",
       "dateNextFreeAtp": "Termin freie ATP",
       "dateNextFreeAtpInfoText": "Datum der nächsten freien Bestandsverfügbarkeit, über eine Live-Schnittstelle aus SAP abgerufen",
       "sidebar": {

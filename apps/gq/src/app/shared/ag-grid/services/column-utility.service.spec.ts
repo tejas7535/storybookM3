@@ -86,6 +86,7 @@ describe('CreateColumnService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    jest.clearAllMocks();
   });
 
   beforeAll(() => {
@@ -438,6 +439,21 @@ describe('CreateColumnService', () => {
       } as unknown as ValueFormatterParams);
 
       expect(result).toEqual('10 %');
+    });
+  });
+
+  describe('uomFormatter', () => {
+    test('should return Dash when value falsy', () => {
+      const result = service.uomFormatter(undefined, 'ST');
+      expect(result).toEqual(Keyboard.DASH);
+    });
+
+    test('should the value and uom', () => {
+      const result = service.uomFormatter(
+        { value: 10 } as ValueFormatterParams,
+        'ST'
+      );
+      expect(result).toEqual('10  translate it');
     });
   });
 

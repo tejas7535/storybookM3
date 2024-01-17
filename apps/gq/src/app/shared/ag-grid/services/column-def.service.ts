@@ -11,8 +11,7 @@ import {
 import { timestampRegex, UserRoles } from '../../constants';
 import { Keyboard } from '../../models';
 import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
-import { FreeStockCellComponent } from '../cell-renderer/free-stock/free-stock-cell/free-stock-cell.component';
-import { FreeStockCellParams } from '../cell-renderer/free-stock/free-stock-cell/model/free-stock-cell-params.model';
+import { FreeStockCellComponent, FreeStockCellParams } from '../cell-renderer';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
 import { EditCellData } from '../cell-renderer/models/edit-cell-class-params.model';
 import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
@@ -682,6 +681,17 @@ export class ColumnDefService {
       filter: NUMBER_COLUMN_FILTER,
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.nextFreeAtp'),
+      field: ColumnFields.NEXT_FREE_ATP,
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
+      valueFormatter: (params) =>
+        this.columnUtilityService.uomFormatter(
+          params as ValueFormatterParams,
+          params.data.material.baseUoM
+        ),
     },
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),

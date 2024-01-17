@@ -330,6 +330,15 @@ export class ColumnUtilityService {
     );
   }
 
+  uomFormatter(data: ValueFormatterParams, uom: string): string {
+    if (!data?.value) {
+      return this.numberDashFormatter(data?.value);
+    }
+
+    const uomPipe = new UomPipe();
+
+    return `${data.value}  ${uomPipe.transform(uom)}`;
+  }
   sapConditionAmountFormatter(params: ValueFormatterParams): string {
     if (params.data.calculationType === CalculationType.ABSOLUT) {
       return this.numberCurrencyFormatter(params);
