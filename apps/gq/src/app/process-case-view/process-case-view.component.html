@@ -41,7 +41,9 @@
           [quotationId]="quotation.gqId"
         ></gq-shared-quotation-button>
       </ng-container>
-      <schaeffler-share-button></schaeffler-share-button>
+      <schaeffler-share-button
+        class="pr-1 !text-medium-emphasis"
+      ></schaeffler-share-button>
       <gq-release-button [quotation]="quotation"></gq-release-button>
       <gq-cancel-workflow-button
         [quotationStatus]="quotation?.status"
