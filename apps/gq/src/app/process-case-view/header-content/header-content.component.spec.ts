@@ -74,6 +74,7 @@ describe('HeaderContentComponent', () => {
   describe('case editing modal', () => {
     beforeEach(() => {
       component.updateQuotation.emit = jest.fn();
+      component.showEditIcon = true;
     });
     test('should pass caseName to Modal', () => {
       component.caseName = 'case-name';
@@ -98,6 +99,7 @@ describe('HeaderContentComponent', () => {
               value: undefined,
               value2: undefined,
             },
+            disabled: false,
           },
         }
       );
@@ -127,6 +129,7 @@ describe('HeaderContentComponent', () => {
               value: CUSTOMER_MOCK.name,
               value2: CUSTOMER_MOCK.country,
             },
+            disabled: false,
           },
         }
       );

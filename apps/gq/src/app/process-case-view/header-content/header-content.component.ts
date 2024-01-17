@@ -121,6 +121,7 @@ export class HeaderContentComponent {
           },
           salesOrg: this.shipToParty?.identifier?.salesOrg,
           purchaseOrderType: this.purchaseOrderType,
+          disabled: !this.showEditIcon,
         },
       })
       .afterClosed()

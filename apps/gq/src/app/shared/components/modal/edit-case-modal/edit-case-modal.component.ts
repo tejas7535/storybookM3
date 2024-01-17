@@ -137,6 +137,9 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         disabled: false,
       }),
     });
+    if (this.modalData?.disabled) {
+      this.caseModalForm.disable();
+    }
 
     this.subscribeToChanges();
   }

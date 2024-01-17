@@ -1,4 +1,4 @@
-<div *ngIf="purchaseOrderTypes$ | ngrxPush as purchaseOrderTypes">
+<div *ngrxLet="purchaseOrderTypes$ | ngrxPush as purchaseOrderTypes">
   <mat-form-field
     class="w-full"
     [appearance]="appearance"

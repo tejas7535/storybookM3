@@ -19,7 +19,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { PurchaseOrderTypeFacade } from '@gq/core/store/purchase-order-type/purchase-order-type.facade';
 import { PurchaseOrderTypeModule } from '@gq/core/store/purchase-order-type/purchase-order-type.module';
 import { PurchaseOrderType } from '@gq/shared/models';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -32,6 +32,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     PushPipe,
     ReactiveFormsModule,
     PurchaseOrderTypeModule,
+    LetDirective,
   ],
   selector: 'gq-purchase-order-type-select',
   templateUrl: './purchase-order-type-select.component.html',
@@ -118,5 +119,18 @@ export class PurchaseOrderTypeSelectComponent implements ControlValueAccessor {
    */
   registerOnTouched(callback: () => void): void {
     this.onTouched = callback;
+  }
+
+  /**
+   * Implementation of ControlValueAccessor
+   *
+   * @param isDisabled value to set the disabled state of the formControl
+   */
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.purchaseOrderTypeControl.disable();
+    } else {
+      this.purchaseOrderTypeControl.enable();
+    }
   }
 }

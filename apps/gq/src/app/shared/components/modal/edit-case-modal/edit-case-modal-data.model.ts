@@ -12,4 +12,5 @@ export interface EditCaseModalData {
   bindingPeriodValidityEndDate?: string;
   salesOrg?: string;
   purchaseOrderType?: PurchaseOrderType;
+  disabled?: boolean;
 }

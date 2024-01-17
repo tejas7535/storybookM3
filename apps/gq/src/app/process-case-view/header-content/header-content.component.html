@@ -3,10 +3,10 @@
     <mat-icon
       class="ml-4 cursor-pointer text-medium-emphasis"
       (click)="openCaseEditingModal()"
-      *ngIf="showEditIcon"
     >
-      mode_edit
+      {{ showEditIcon ? 'mode_edit' : 'edit_off' }}
     </mat-icon>
+
     <gq-info-icon
       class="ml-4"
       *transloco="let t; read: 'processCaseView.header'"

@@ -118,5 +118,14 @@ describe('PurchaseOrderTypeSelectComponent', () => {
       component.registerOnTouched(onTouched);
       expect(component['onTouched']).toEqual(onTouched);
     });
+
+    test('setDisabledState should set the disabled state to true of the formControl', () => {
+      component.setDisabledState(true);
+      expect(component.purchaseOrderTypeControl.disabled).toEqual(true);
+    });
+    test('setDisabledState should set the disabled state to false of the formControl', () => {
+      component.setDisabledState(false);
+      expect(component.purchaseOrderTypeControl.disabled).toEqual(false);
+    });
   });
 });
