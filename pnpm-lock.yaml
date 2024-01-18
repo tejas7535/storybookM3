@@ -135,12 +135,6 @@ importers:
       echarts:
         specifier: 5.4.0
         version: 5.4.0
-      jspdf:
-        specifier: ^2.5.1
-        version: 2.5.1
-      jspdf-autotable:
-        specifier: ^3.5.31
-        version: 3.5.31(jspdf@2.5.1)
       jwt-decode:
         specifier: 3.1.2
         version: 3.1.2
@@ -458,6 +452,10 @@ importers:
   apps/cdba: {}
 
   apps/ea:
+    dependencies:
+      jspdf:
+        specifier: ^2.5.1
+        version: 2.5.1
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.10
@@ -477,6 +475,12 @@ importers:
       '@capacitor/share':
         specifier: ^5.0.6
         version: 5.0.6(@capacitor/core@5.4.2)
+      jspdf:
+        specifier: ^2.5.1
+        version: 2.5.1
+      jspdf-autotable:
+        specifier: ^3.8.1
+        version: 3.8.1(jspdf@2.5.1)
 
   apps/gq:
     dependencies:
@@ -10040,8 +10044,8 @@ packages:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
     dev: true
 
-  /@types/raf@3.4.0:
-    resolution: {integrity: sha512-taW5/WYqo36N7V39oYyHP9Ipfd5pNFvGTIQsNGj86xV88YQ7GnI30/yMfKDF7Zgin0m3e+ikX88FvImnK4RjGw==}
+  /@types/raf@3.4.3:
+    resolution: {integrity: sha512-c4YAvMedbPZ5tEyxzQdMoOhhJ4RD3rngZIdwC2/qDN3d7JpEhB6fiBRKVY1lg5B7Wk+uPBjn5f39j1/2MY1oOw==}
     requiresBuild: true
     dev: false
     optional: true
@@ -11833,7 +11837,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@babel/runtime': 7.22.5
-      '@types/raf': 3.4.0
+      '@types/raf': 3.4.3
       core-js: 3.26.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
@@ -15115,7 +15119,7 @@ packages:
     hasBin: true
     dependencies:
       meow: 8.1.2
-      semver: 6.3.1
+      semver: 7.5.4
 
   /gitconfiglocal@1.0.0:
     resolution: {integrity: sha512-spLUXeTAVHxDtKsJc8FkFVgFtMdEN9qPGpL23VfSHx4fP4+Ds097IXLvymbnDH8FnmxX5Nr9bPw3A+AQ6mWEaQ==}
@@ -17318,8 +17322,8 @@ packages:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
 
-  /jspdf-autotable@3.5.31(jspdf@2.5.1):
-    resolution: {integrity: sha512-Lc1KuLGDQWW/5t57Z/+c2E94XQV3jV2QVU3xMRiwvcm/nMx79aCkpPCsxLzJZVFneZvz4XoA8+egQR1QajYiWw==}
+  /jspdf-autotable@3.8.1(jspdf@2.5.1):
+    resolution: {integrity: sha512-UjJqo80Z3/WUzDi4JipTGp0pAvNvR3Gsm38inJ5ZnwsJH0Lw4pEbssRSH6zMWAhR1ZkTrsDpQo5p6rZk987/AQ==}
     peerDependencies:
       jspdf: ^2.5.1
     dependencies:
