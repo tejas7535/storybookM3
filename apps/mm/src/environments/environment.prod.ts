@@ -7,7 +7,7 @@ export const environment: Environment = {
   baseUrl: 'https://mountingmanager-cae.schaeffler.com/api/v1',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   reportSelector: '.content',
-  oneTrustId: '3496b347-7944-4e06-acdf-6d1daa0eb70b',
+  oneTrustId: '56bbef2e-9bc2-43ca-bcd8-edf6d40aa44f',
   preflightPath: 'bearing-preflight',
   materialsPath: 'materialdata/id/',
   bearingRelationsPath: 'bearing-relations/',
