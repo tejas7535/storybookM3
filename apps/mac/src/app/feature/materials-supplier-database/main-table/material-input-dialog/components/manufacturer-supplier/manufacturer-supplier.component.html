@@ -89,9 +89,13 @@
         name="manufacturerSupplierName"
         #dialogControl
       >
-        <div matErrorContent *ngIf="supplierControl.invalid">
+        <span
+          matErrorContent
+          class="text-caption"
+          *ngIf="supplierControl.invalid"
+        >
           {{ getErrorMessage(supplierControl.errors) }}
-        </div>
+        </span>
       </schaeffler-select>
       <schaeffler-select
         appearance="outline"
@@ -110,9 +114,13 @@
         name="manufacturerSupplierPlant"
         #dialogControl
       >
-        <div matErrorContent *ngIf="supplierPlantControl.invalid">
+        <span
+          matErrorContent
+          class="text-caption"
+          *ngIf="supplierPlantControl.invalid"
+        >
           {{ getErrorMessage(supplierPlantControl.errors) }}
-        </div>
+        </span>
       </schaeffler-select>
       <schaeffler-select
         *ngIf="!supplierPlantControl.value?.data; else readOnlyCountry"
@@ -128,9 +136,13 @@
         name="manufacturerSupplierCountry"
         #dialogControl
       >
-        <div matErrorContent *ngIf="supplierCountryControl.invalid">
+        <span
+          matErrorContent
+          class="text-caption"
+          *ngIf="supplierCountryControl.invalid"
+        >
           {{ getErrorMessage(supplierCountryControl.errors) }}
-        </div>
+        </span>
       </schaeffler-select>
       <ng-template #readOnlyCountry>
         <mat-form-field appearance="outline" class="w-full">

@@ -10,7 +10,7 @@
 >
   <div class="flex flex-col gap-y-4 pb-2" [formGroup]="formGroup">
     <div class="flex gap-x-4">
-      <div class="w-full flex flex-col gap-y-5">
+      <div class="w-full flex flex-col gap-y-9">
         <schaeffler-select
           appearance="outline"
           class="w-full"
@@ -26,9 +26,13 @@
           name="owner"
           (entryAdded)="addNewOwner($event)"
         >
-          <div matErrorContent *ngIf="formGroup.get('owner').invalid">
+          <span
+            matErrorContent
+            class="text-caption leading-none"
+            *ngIf="formGroup.get('owner').invalid"
+          >
             {{ t('invalidDataOwnerError') }}
-          </div>
+          </span>
         </schaeffler-select>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>{{ t('dataDate') }}</mat-label>

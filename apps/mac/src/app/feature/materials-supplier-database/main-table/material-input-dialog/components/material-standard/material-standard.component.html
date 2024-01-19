@@ -68,9 +68,13 @@
         name="materialStandardStandardDocument"
         #dialogControl
       >
-        <div matErrorContent *ngIf="standardDocumentsControl.invalid">
+        <span
+          matErrorContent
+          class="text-caption"
+          *ngIf="standardDocumentsControl.invalid"
+        >
           {{ getErrorMessage(standardDocumentsControl.errors) }}
-        </div>
+        </span>
       </schaeffler-select>
       <schaeffler-select
         appearance="outline"
@@ -87,9 +91,13 @@
         name="materialStandardMaterialName"
         #dialogControl
       >
-        <div matErrorContent *ngIf="materialNamesControl.invalid">
+        <span
+          matErrorContent
+          class="text-caption"
+          *ngIf="materialNamesControl.invalid"
+        >
           {{ getErrorMessage(materialNamesControl.errors) }}
-        </div>
+        </span>
       </schaeffler-select>
     </ng-container>
   </div>

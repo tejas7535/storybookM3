@@ -65,9 +65,13 @@
             name="conditionText"
             #dialogControl
           >
-            <div matErrorContent *ngIf="conditionControl.invalid">
+            <span
+              matErrorContent
+              class="text-caption"
+              *ngIf="conditionControl.invalid"
+            >
               {{ getErrorMessage(conditionControl.errors) }}
-            </div>
+            </span>
           </schaeffler-select>
           <schaeffler-select
             appearance="outline"
@@ -84,9 +88,13 @@
             name="productCategoryText"
             #dialogControl
           >
-            <div matErrorContent *ngIf="categoriesControl.invalid">
+            <span
+              matErrorContent
+              class="text-caption"
+              *ngIf="categoriesControl.invalid"
+            >
               {{ getErrorMessage(categoriesControl.errors) }}
-            </div>
+            </span>
           </schaeffler-select>
         </div>
         <mac-co2-component

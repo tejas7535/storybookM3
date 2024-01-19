@@ -54,12 +54,13 @@
           name="businessPartnerIds"
           #dialogControl
         >
-          <div
+          <span
             matErrorContent
+            class="text-caption"
             *ngIf="supplierBusinessPartnerIdsControl.invalid"
           >
             {{ getErrorMessage(supplierBusinessPartnerIdsControl.errors) }}
-          </div>
+          </span>
         </schaeffler-select>
       </div>
     </ng-container>

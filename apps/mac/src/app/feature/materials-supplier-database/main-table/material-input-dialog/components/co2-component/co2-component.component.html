@@ -106,9 +106,13 @@
         name="co2Classification"
         #dialogControl
       >
-        <div matErrorContent *ngIf="co2ClassificationControl.invalid">
+        <span
+          matErrorContent
+          class="text-caption"
+          *ngIf="co2ClassificationControl.invalid"
+        >
           {{ getErrorMessage(co2ClassificationControl.errors) }}
-        </div>
+        </span>
       </schaeffler-select>
       <span mat-icon class="mb-4 self-center pl-4">
         <mat-icon

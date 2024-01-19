@@ -143,9 +143,13 @@
             name="castingDiameter"
             #dialogControl
           >
-            <div matErrorContent *ngIf="castingDiameterControl.invalid">
+            <span
+              matErrorContent
+              class="text-caption"
+              *ngIf="castingDiameterControl.invalid"
+            >
               {{ getErrorMessage(castingDiameterControl.errors) }}
-            </div>
+            </span>
           </schaeffler-select>
         </div>
         <div class="flex flex-row gap-x-6">
@@ -299,9 +303,13 @@
             name="productCategoryText"
             #dialogControl
           >
-            <div matErrorContent *ngIf="categoriesControl.invalid">
+            <span
+              matErrorContent
+              class="text-caption"
+              *ngIf="categoriesControl.invalid"
+            >
               {{ getErrorMessage(categoriesControl.errors) }}
-            </div>
+            </span>
           </schaeffler-select>
           <schaeffler-select
             preCo2Classification
