@@ -260,6 +260,12 @@
         "deleteCase": "delete case",
         "refreshSapDataTooltip": "Refresh SAP price settings and stock & availability information",
         "resetAll": "Reset All",
+        "resetAllFiltered": {
+          "buttonLabel": "Remove all filtered",
+          "removeButton": "Remove",
+          "cancelButton": "Cancel",
+          "confirmationText": "Are you sure you want to remove all filtered items?"
+        },
         "uploadSelectionToSap": "Update SAP Quotation",
         "uploadSelectionToSapInfoText": "Update the selected positions in the SAP quotation.",
         "uploadSelectionToSapInfoTextMaxPositions": "Select up to 1000 positions to upload to SAP.",

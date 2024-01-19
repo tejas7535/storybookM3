@@ -16,6 +16,7 @@ import { AddMaterialButtonComponent } from './case-material-table/add-material-b
 import { CreateCaseButtonComponent } from './case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from './case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from './case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
+import { RemoveAllFilteredButtonComponent } from './case-material-table/remove-all-filtered-button/remove-all-filtered-button.component';
 import { CreateCustomerCaseButtonComponent } from './case-view/create-customer-case-button/create-customer-case-button.component';
 import { CreateManualCaseButtonComponent } from './case-view/create-manual-case-button/create-manual-case-button.component';
 import { ImportCaseButtonComponent } from './case-view/import-case-button/import-case-button.component';
@@ -42,6 +43,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     DeleteItemsButtonComponent,
     MaterialValidationStatusComponent,
     CreateCaseResetAllButtonComponent,
+    RemoveAllFilteredButtonComponent,
     ProcessCaseResetAllButtonComponent,
     ImportCaseButtonComponent,
     CreateManualCaseButtonComponent,
@@ -75,6 +77,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     DeleteItemsButtonComponent,
     MaterialValidationStatusComponent,
     CreateCaseResetAllButtonComponent,
+    RemoveAllFilteredButtonComponent,
     ProcessCaseResetAllButtonComponent,
     ImportCaseButtonComponent,
     CreateManualCaseButtonComponent,

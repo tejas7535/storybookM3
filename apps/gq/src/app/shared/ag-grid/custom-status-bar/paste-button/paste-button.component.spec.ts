@@ -8,8 +8,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { isCaseViewParams } from '../../models/is-case-view-params.model';
 import { PasteButtonComponent } from './paste-button.component';
-import { PasteButtonParams } from './paste-button-params.model';
 
 describe('PasteButtonComponent', () => {
   let component: PasteButtonComponent;
@@ -47,7 +47,7 @@ describe('PasteButtonComponent', () => {
     test('should set isCaseView', () => {
       const params = {
         isCaseView: true,
-      } as PasteButtonParams;
+      } as isCaseViewParams;
       component.isCaseView = false;
 
       component.agInit(params);

@@ -1,0 +1,11 @@
+<ng-container *ngIf="filterSet">
+  <button
+    *transloco="let t; read: 'shared.customStatusBar.buttons'"
+    class="!mt-4 !mr-4"
+    mat-stroked-button
+    color="primary"
+    (click)="openConfirmDialog()"
+  >
+    {{ t('resetAllFiltered.buttonLabel') }}
+  </button>
+</ng-container>

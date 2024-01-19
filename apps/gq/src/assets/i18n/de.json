@@ -260,6 +260,12 @@
         "deleteCase": "case löschen",
         "refreshSapDataTooltip": "Aktualisierung der SAP-Preisstellungen und der Bestands- und Verfügbarkeitsinformationen",
         "resetAll": "Zurücksetzen",
+        "resetAllFiltered": {
+          "buttonLabel": "Gefilterte Positionen löschen",
+          "removeButton": "Löschen",
+          "cancelButton": "Abbrechen",
+          "confirmationText": "Möchten Sie wirklich alle gefilterten Positionen löschen?"
+        },
         "uploadSelectionToSap": "SAP Angebot aktualisieren",
         "uploadSelectionToSapInfoText": "Aktualisierung aller ausgewählter Positionen im verknüpften SAP Angebot.",
         "uploadSelectionToSapInfoTextMaxPositions": "Selektieren Sie bis zu 1000 Positionen für den SAP Upload.",

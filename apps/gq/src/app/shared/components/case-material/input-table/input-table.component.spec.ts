@@ -11,12 +11,13 @@ import { AddMaterialButtonComponent } from '@gq/shared/ag-grid/custom-status-bar
 import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
+import { RemoveAllFilteredButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/remove-all-filtered-button/remove-all-filtered-button.component';
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
 import { StatusBarConfig } from '@gq/shared/models/table';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColDef } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
@@ -61,7 +62,7 @@ describe('InputTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: InputTableComponent,
-    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [
       provideMockStore({
         initialState: {
@@ -112,6 +113,13 @@ describe('InputTableComponent', () => {
             },
           },
           {
+            statusPanel: RemoveAllFilteredButtonComponent,
+            align: 'right',
+            statusPanelParams: {
+              isCaseView: true,
+            },
+          },
+          {
             statusPanel: CreateCaseResetAllButtonComponent,
             align: 'right',
           },
@@ -132,6 +140,13 @@ describe('InputTableComponent', () => {
           {
             statusPanel: PasteButtonComponent,
             align: 'left',
+            statusPanelParams: {
+              isCaseView: false,
+            },
+          },
+          {
+            statusPanel: RemoveAllFilteredButtonComponent,
+            align: 'right',
             statusPanelParams: {
               isCaseView: false,
             },

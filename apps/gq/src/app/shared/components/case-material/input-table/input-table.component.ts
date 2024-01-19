@@ -12,6 +12,7 @@ import { AddMaterialButtonComponent } from '@gq/shared/ag-grid/custom-status-bar
 import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
+import { RemoveAllFilteredButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/remove-all-filtered-button/remove-all-filtered-button.component';
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { ColDef, StatusPanelDef } from 'ag-grid-enterprise';
 
@@ -86,6 +87,13 @@ export class InputTableComponent implements OnInit {
         : AddMaterialButtonComponent,
       align: 'left',
     };
+    const resetAllFilteredPanel: StatusPanelDef = {
+      statusPanel: RemoveAllFilteredButtonComponent,
+      align: 'right',
+      statusPanelParams: {
+        isCaseView,
+      },
+    };
     const resetPanel: StatusPanelDef = {
       statusPanel: isCaseView
         ? CreateCaseResetAllButtonComponent
@@ -105,6 +113,7 @@ export class InputTableComponent implements OnInit {
         ...statusBar.statusPanels,
         addPanel,
         pastePanel,
+        resetAllFilteredPanel,
         resetPanel,
       ],
     };

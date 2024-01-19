@@ -8,7 +8,7 @@ import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
-import { PasteButtonParams } from './paste-button-params.model';
+import { isCaseViewParams } from '../../models/is-case-view-params.model';
 
 @Component({
   selector: 'gq-paste-button',
@@ -30,7 +30,7 @@ export class PasteButtonComponent {
     private readonly matSnackBar: MatSnackBar
   ) {}
 
-  agInit(params: PasteButtonParams): void {
+  agInit(params: isCaseViewParams): void {
     this.isCaseView = params.isCaseView;
   }
 
