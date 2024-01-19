@@ -44,7 +44,7 @@
   },
   "tooManyResults": {
     "message": "Too many results ({{resultCount}})",
-    "hint": "We found too many entries in our database.\nPlease use filters below to reduce the number of results to the selected limit."
+    "hint": "We found too many entries in our database.\nPlease use filters below to reduce the number of results to {{tooManyResultsThreshold}}."
   },
   "noResults": {
     "message": "No results found",

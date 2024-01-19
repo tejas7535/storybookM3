@@ -44,7 +44,7 @@
   },
   "tooManyResults": {
     "message": "Zu viele Ergebnisse ({{resultCount}})",
-    "hint": "Ihre Suchanfrage liefert zu viele Ergebnisse.\nBitte verwenden Sie die Filter unten, um die Anzahl der Ergebnisse auf maximal ausgewählte Nummer zu reduzieren."
+    "hint": "Ihre Suchanfrage liefert zu viele Ergebnisse.\nBitte verwenden Sie die Filter unten, um die Anzahl der Ergebnisse auf {{tooManyResultsThreshold}} zu reduzieren."
   },
   "noResults": {
     "message": "Keine Ergebnisse gefunden",

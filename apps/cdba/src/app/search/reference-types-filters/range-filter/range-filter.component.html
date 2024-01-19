@@ -1,140 +1,147 @@
-<mat-form-field
-  appearance="fill"
-  class="!w-full"
-  *transloco="let t; read: 'search.referenceTypesFilters'"
+<div
+  class="w-full h-[70%]"
+  matTooltipPosition="below"
+  [matTooltip]="disabledFilterHint"
+  [matTooltipDisabled]="!filter?.disabled"
 >
-  <mat-label>
-    <mat-icon *ngIf="filter?.disabled">help_outline</mat-icon>
-    {{ t('names.' + filter?.name) }}
-  </mat-label>
-
-  <mat-select
-    [formControl]="form"
-    [disabled]="filter?.disabled"
-    panelClass="range-menu"
-    disableOptionCentering
-    matTooltipPosition="below"
-    [matTooltip]="disabledFilterHint"
-    [matTooltipDisabled]="!filter?.disabled"
+  <mat-form-field
+    appearance="fill"
+    class="!w-full"
+    *transloco="let t; read: 'search.referenceTypesFilters'"
   >
-    <mat-select-trigger>
-      {{ filter | rangeFilterValue }}
-    </mat-select-trigger>
-    <mat-option class="!h-0" value="showRangeLabel"></mat-option>
-    <div class="flex flex-col p-2">
-      <div *ngIf="filter?.name !== FILTER_NAME_LIMIT">
+    <mat-label>
+      <mat-icon *ngIf="filter?.disabled">help_outline</mat-icon>
+      {{ t('names.' + filter?.name) }}
+    </mat-label>
+    <mat-select
+      [formControl]="form"
+      [disabled]="filter?.disabled"
+      panelClass="range-menu"
+      disableOptionCentering
+    >
+      <mat-select-trigger>
+        {{ filter | rangeFilterValue }}
+      </mat-select-trigger>
+      <mat-option class="!h-0" value="showRangeLabel"></mat-option>
+      <div class="flex flex-col p-2">
+        <div *ngIf="filter?.name !== FILTER_NAME_LIMIT">
+          <div class="label-form-field">
+            <div class="text-caption">
+              Min. {{ t('names.' + filter?.name) }}
+            </div>
+            <mat-form-field class="form-field">
+              <input
+                #minInput
+                matInput
+                autocomplete="off"
+                [value]="
+                  filter.minSelected | translocoDecimal: decimalNumberFormat
+                "
+                [min]="minSectionMin"
+                [max]="minSectionMax"
+                (change)="update(inputType.Min, minInput.value)"
+              />
+              <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
+            </mat-form-field>
+          </div>
+          <div class="slider-icon pb-3">
+            <mat-slider
+              #minSlider
+              discrete
+              color="primary"
+              class="flex-1"
+              [min]="minSectionMin"
+              [max]="minSectionMax"
+              [displayWith]="formatSliderThumbLabel"
+              ><input
+                #minSliderThumb
+                matSliderThumb
+                [value]="filter.minSelected ? filter.minSelected : filter.min"
+                (change)="
+                  update(
+                    inputType.Min,
+                    {
+                      source: minSliderThumb,
+                      parent: minSlider,
+                      value: minSliderThumb.value
+                    }.value
+                  )
+                "
+              />
+            </mat-slider>
+            <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Min)"
+              >restore</mat-icon
+            >
+          </div>
+        </div>
         <div class="label-form-field">
-          <div class="text-caption">Min. {{ t('names.' + filter?.name) }}</div>
-          <mat-form-field class="form-field">
+          <div class="text-caption">Max. {{ t('names.' + filter?.name) }}</div>
+          <mat-form-field class="h-[42px] !w-full !text-right">
             <input
-              #minInput
+              #maxInput
               matInput
               autocomplete="off"
               [value]="
-                filter.minSelected | translocoDecimal: decimalNumberFormat
+                filter.maxSelected | translocoDecimal: decimalNumberFormat
               "
-              [min]="minSectionMin"
-              [max]="minSectionMax"
-              (change)="update(inputType.Min, minInput.value)"
+              [min]="maxSectionMin"
+              [max]="maxSectionMax"
+              (change)="update(inputType.Max, maxInput.value)"
             />
             <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
           </mat-form-field>
         </div>
-        <div class="slider-icon pb-3">
+        <div class="slider-icon">
           <mat-slider
-            #minSlider
+            #maxSlider
             discrete
             color="primary"
             class="flex-1"
-            [min]="minSectionMin"
-            [max]="minSectionMax"
+            [min]="maxSectionMin"
+            [max]="maxSectionMax"
             [displayWith]="formatSliderThumbLabel"
             ><input
-              #minSliderThumb
+              #maxSliderThumb
               matSliderThumb
-              [value]="filter.minSelected ? filter.minSelected : filter.min"
+              [value]="filter.maxSelected ? filter.maxSelected : filter.max"
               (change)="
                 update(
-                  inputType.Min,
+                  inputType.Max,
                   {
-                    source: minSliderThumb,
-                    parent: minSlider,
-                    value: minSliderThumb.value
+                    source: maxSliderThumb,
+                    parent: maxSlider,
+                    value: maxSliderThumb.value
                   }.value
                 )
               "
             />
           </mat-slider>
-          <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Min)"
+          <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Max)"
             >restore</mat-icon
           >
         </div>
-      </div>
-      <div class="label-form-field">
-        <div class="text-caption">Max. {{ t('names.' + filter?.name) }}</div>
-        <mat-form-field class="h-[42px] !w-full !text-right">
-          <input
-            #maxInput
-            matInput
-            autocomplete="off"
-            [value]="filter.maxSelected | translocoDecimal: decimalNumberFormat"
-            [min]="maxSectionMin"
-            [max]="maxSectionMax"
-            (change)="update(inputType.Max, maxInput.value)"
-          />
-          <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
-        </mat-form-field>
-      </div>
-      <div class="slider-icon">
-        <mat-slider
-          #maxSlider
-          discrete
-          color="primary"
-          class="flex-1"
-          [min]="maxSectionMin"
-          [max]="maxSectionMax"
-          [displayWith]="formatSliderThumbLabel"
-          ><input
-            #maxSliderThumb
-            matSliderThumb
-            [value]="filter.maxSelected ? filter.maxSelected : filter.max"
-            (change)="
-              update(
-                inputType.Max,
-                {
-                  source: maxSliderThumb,
-                  parent: maxSlider,
-                  value: maxSliderThumb.value
-                }.value
-              )
-            "
-          />
-        </mat-slider>
-        <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Max)"
-          >restore</mat-icon
-        >
-      </div>
-      <div
-        *ngIf="
-          filter?.name === FILTER_NAME_LIMIT &&
-          filter.maxSelected > STABLE_THRESHOLD
-        "
-      >
         <div
-          clas="flex items-center justify-center"
-          *transloco="let t; read: 'search.limit'"
+          *ngIf="
+            filter?.name === FILTER_NAME_LIMIT &&
+            filter.maxSelected > STABLE_THRESHOLD
+          "
         >
-          <mat-divider></mat-divider>
-          <mat-card>
-            <mat-card-content class="warning-card">
-              <mat-icon>warning</mat-icon>
-              <h1 class="warning-card-content text-medium-emphasis">
-                {{ t('warning', { stableThreshold: STABLE_THRESHOLD }) }}
-              </h1>
-            </mat-card-content>
-          </mat-card>
+          <div
+            clas="flex items-center justify-center"
+            *transloco="let t; read: 'search.limit'"
+          >
+            <mat-divider></mat-divider>
+            <mat-card>
+              <mat-card-content class="warning-card">
+                <mat-icon>warning</mat-icon>
+                <h1 class="warning-card-content text-medium-emphasis">
+                  {{ t('warning', { stableThreshold: STABLE_THRESHOLD }) }}
+                </h1>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </div>
-    </div>
-  </mat-select>
-</mat-form-field>
+    </mat-select>
+  </mat-form-field>
+</div>
