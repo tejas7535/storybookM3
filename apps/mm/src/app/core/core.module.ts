@@ -3,13 +3,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { of } from 'rxjs';
-
-import {
-  CookiesGroups,
-  OneTrustModule,
-  OneTrustService,
-} from '@altack/ngx-onetrust';
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 import {
@@ -53,8 +47,7 @@ export function appInitializer(
   };
 
   applicationInsightsService.initTracking(
-    // oneTrustService.consentChanged$(),
-    of(new Map([[CookiesGroups.PerformanceCookies, true]])),
+    oneTrustService.consentChanged$(),
     customProps
   );
 
