@@ -244,7 +244,14 @@ describe('QuickFilterManagementComponent', () => {
   });
 
   describe('search', () => {
-    test('should trigger search if search expression length is >= 2', () => {
+    test('should trigger search on ngOnInit', () => {
+      component['search'] = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component['search']).toHaveBeenCalledWith('');
+    });
+    test('should trigger search', () => {
       const searchExpression = 'test';
       const activateNavigation: ActiveNavigationLevel = {
         materialClass: MaterialClass.STEEL,
@@ -252,7 +259,6 @@ describe('QuickFilterManagementComponent', () => {
       };
 
       component.quickFilterFacade.queryQuickFilters = jest.fn();
-      component.quickFilterFacade.resetQueriedQuickFilters = jest.fn();
       component.activeNavigationLevel = activateNavigation;
 
       component['search'](searchExpression);
@@ -264,24 +270,6 @@ describe('QuickFilterManagementComponent', () => {
         activateNavigation.navigationLevel,
         searchExpression
       );
-
-      expect(
-        component.quickFilterFacade.resetQueriedQuickFilters
-      ).not.toHaveBeenCalled();
-    });
-
-    test('should reset queried filters if search expression length is < 2', () => {
-      component.quickFilterFacade.queryQuickFilters = jest.fn();
-      component.quickFilterFacade.resetQueriedQuickFilters = jest.fn();
-
-      component['search']('');
-
-      expect(
-        component.quickFilterFacade.queryQuickFilters
-      ).not.toHaveBeenCalled();
-      expect(
-        component.quickFilterFacade.resetQueriedQuickFilters
-      ).toHaveBeenCalledTimes(1);
     });
   });
 

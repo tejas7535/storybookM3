@@ -81,8 +81,8 @@ export class MsdQuickFilterService {
   queryQuickFilters(
     materialClass: MaterialClass,
     navigationLevel: NavigationLevel,
-    resultMaxSize: number,
-    searchExpression: string
+    searchExpression: string,
+    resultMaxSize: number = 99
   ): Observable<QuickFilter[]> {
     const params = new HttpParams()
       .set('resultMaxSize', resultMaxSize)

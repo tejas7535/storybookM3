@@ -247,12 +247,7 @@ export class QuickFilterEffects {
       ofType(QuickFilterActions.queryQuickFilters),
       switchMap(({ materialClass, navigationLevel, searchExpression }) =>
         this.msdQuickFilterService
-          .queryQuickFilters(
-            materialClass,
-            navigationLevel,
-            10,
-            searchExpression
-          )
+          .queryQuickFilters(materialClass, navigationLevel, searchExpression)
           .pipe(
             map((queriedFilters: QuickFilter[]) =>
               QuickFilterActions.queryQuickFiltersSuccess({

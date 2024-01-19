@@ -310,8 +310,8 @@ describe('MsdQuickFilterService', () => {
       .queryQuickFilters(
         MaterialClass.STEEL,
         NavigationLevel.MATERIAL,
-        resultMaxSize,
-        searchExpression
+        searchExpression,
+        resultMaxSize
       )
       .subscribe((result) => {
         expect(result).toEqual(response);

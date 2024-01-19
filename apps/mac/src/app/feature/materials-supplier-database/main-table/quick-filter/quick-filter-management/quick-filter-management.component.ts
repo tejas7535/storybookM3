@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ import { QuickFiltersListConfig } from './quick-filters-list/quick-filters-list-
   selector: 'mac-quick-filter-management',
   templateUrl: './quick-filter-management.component.html',
 })
-export class QuickFilterManagementComponent implements OnDestroy {
+export class QuickFilterManagementComponent implements OnInit, OnDestroy {
   @Input() activeNavigationLevel: ActiveNavigationLevel;
 
   readonly materialClass = MaterialClass;
@@ -118,8 +118,6 @@ export class QuickFilterManagementComponent implements OnDestroy {
     },
   ];
 
-  private readonly SEARCH_EXPRESSION_MIN_LENGTH = 2;
-
   constructor(
     readonly quickFilterFacade: QuickFilterFacade,
     private readonly dataFacade: DataFacade,
@@ -127,15 +125,19 @@ export class QuickFilterManagementComponent implements OnDestroy {
     private readonly dialog: MatDialog
   ) {}
 
+  ngOnInit(): void {
+    this.search('');
+  }
+
+  ngOnDestroy(): void {
+    this.quickFilterFacade.resetQueriedQuickFilters();
+  }
+
   openLearnMorePage(): void {
     const fullUrl = this.router.serializeUrl(
       this.router.createUrlTree(['/learn-more/materials-supplier-database'])
     );
     window.open(fullUrl, '_blank');
-  }
-
-  ngOnDestroy(): void {
-    this.quickFilterFacade.resetQueriedQuickFilters();
   }
 
   private edit(quickFilter: QuickFilter): void {
@@ -187,15 +189,11 @@ export class QuickFilterManagementComponent implements OnDestroy {
   }
 
   private search(searchExpression: string): void {
-    if (searchExpression.length >= this.SEARCH_EXPRESSION_MIN_LENGTH) {
-      this.quickFilterFacade.queryQuickFilters(
-        this.activeNavigationLevel.materialClass,
-        this.activeNavigationLevel.navigationLevel,
-        searchExpression
-      );
-    } else {
-      this.quickFilterFacade.resetQueriedQuickFilters();
-    }
+    this.quickFilterFacade.queryQuickFilters(
+      this.activeNavigationLevel.materialClass,
+      this.activeNavigationLevel.navigationLevel,
+      searchExpression
+    );
   }
 
   private shouldDisableWriteOperation(

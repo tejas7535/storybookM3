@@ -649,7 +649,6 @@ describe('QuickFilterEffects', () => {
         expect(quickFilterService.queryQuickFilters).toHaveBeenCalledWith(
           materialClass,
           navigationLevel,
-          10,
           searchExpression
         );
       })
@@ -682,7 +681,6 @@ describe('QuickFilterEffects', () => {
         expect(quickFilterService.queryQuickFilters).toHaveBeenCalledWith(
           materialClass,
           navigationLevel,
-          10,
           searchExpression
         );
       })
