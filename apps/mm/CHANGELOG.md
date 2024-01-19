@@ -1,4 +1,16 @@
 # Release Notes of Mounting Manager
+## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.6...mm-v0.3.0) (2024-01-19)
+
+
+### Features
+
+* **mm:** adjust onetrust id ([#5923](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5923)) ([9d27112](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d2711265c0cd6ac883e8c8732e26d63c1ca5392))
+
+
+### Bug Fixes
+
+* **mm:** fix label visibility - UFTABI-6971 ([#5887](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5887)) ([c90dc4f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c90dc4fe76c9c5192b0f2b7427ef9c315083a121))
+
 ## [0.2.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.5...mm-v0.2.6) (2023-11-15)
 
 
