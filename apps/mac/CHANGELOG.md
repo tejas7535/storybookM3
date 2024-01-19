@@ -1,4 +1,24 @@
 # Release Notes of Material App Center
+## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.14.0...mac-v1.15.0) (2024-01-19)
+
+
+### Features
+
+* **mac:** add buttons to enable and disable quick filter email notifications ([#5901](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5901)) ([44a0f8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/44a0f8ebd1f0c79810bcd644f82d5c1a875a039e))
+* **mac:** manual update process for published quick filters ([#5906](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5906)) ([3db4831](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3db48315362a16801d7439126b48a06dc0738670))
+* **mac:** quick filter management panel (UFTABI-6309) ([#5819](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5819)) ([0a46c6e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0a46c6ee9b06e40def9eb50f0695343d7cab370f))
+
+
+### Bug Fixes
+
+* co2Total verifies relative to entered scopes - UFTABI-7016 ([#5823](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5823)) ([9c098ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c098adb46b49609a11f585280765204f3b9e063))
+* **mac:** change link to SAMS Service ([#5842](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5842)) ([5f9e18a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5f9e18ae941eec88f4e38259b770a250108df2f9))
+* **mac:** fix co2-validation with empty scopes - UFTABI-7145 ([#5889](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5889)) ([26499c2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26499c2ab10cf6ea52b61ef10ceb3f4275962ebf))
+* **mac:** fix position and size of error messages ([#5919](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5919)) ([d9b7551](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9b7551c7828e2d38586ff6b03fac034e174fa41))
+* **mac:** initially display all quickfilters in search result - UFTABI-7191 ([#5917](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5917)) ([31dd369](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31dd36992baade4dc87c2bafcb5085d09f0216ec))
+* **mac:** replaced error message ([#5900](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5900)) ([5588e88](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5588e885ac05144887cca742826f1a249fcbddb8))
+* **mac:** resolved layout issue with edit-button - UFTABI-7072 ([#5824](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5824)) ([5f87fde](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5f87fde44ad2e29b4c6e0d432ae2c516f344f748))
+
 ## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.13.0...mac-v1.14.0) (2023-11-29)
 
 
