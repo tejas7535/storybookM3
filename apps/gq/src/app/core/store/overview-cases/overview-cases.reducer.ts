@@ -1,5 +1,4 @@
 import { ViewQuotation } from '@gq/shared/models/quotation';
-import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { createFeature, createReducer, on } from '@ngrx/store';
 
@@ -8,6 +7,7 @@ import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 
 export interface OverviewCasesState {
+  quotationsCountLoading: boolean;
   quotationsLoading: boolean;
   errorMessage: string;
   quotations: OverviewCasesStateQuotations;
@@ -16,6 +16,7 @@ export interface OverviewCasesState {
 }
 
 export const initialState: OverviewCasesState = {
+  quotationsCountLoading: false,
   quotationsLoading: false,
   errorMessage: undefined,
   quotations: {
@@ -44,6 +45,10 @@ export const initialState: OverviewCasesState = {
       quotations: [],
       count: undefined,
     },
+    shared: {
+      quotations: [],
+      count: undefined,
+    },
   },
   deleteLoading: false,
   selectedCases: [],
@@ -52,6 +57,82 @@ export const overviewCasesFeature = createFeature({
   name: 'overviewCases',
   reducer: createReducer(
     initialState,
+    on(
+      OverviewCasesActions.getCasesCount,
+      (state: OverviewCasesState): OverviewCasesState => ({
+        ...state,
+        quotationsCountLoading: true,
+      })
+    ),
+    on(
+      OverviewCasesActions.getCasesCountFailure,
+      (state: OverviewCasesState, { errorMessage }): OverviewCasesState => ({
+        ...state,
+        errorMessage,
+        quotationsCountLoading: false,
+      })
+    ),
+    on(
+      OverviewCasesActions.getCasesCountSuccess,
+      (state: OverviewCasesState, { response }): OverviewCasesState => {
+        const {
+          activeCount,
+          inApprovalCount,
+          toApproveCount,
+          approvedCount,
+          rejectedCount,
+          archivedCount,
+          sharedCount,
+        } = response;
+        const {
+          active,
+          approved,
+          archived,
+          toApprove,
+          inApproval,
+          rejected,
+          shared,
+        } = state.quotations;
+
+        const quotations: OverviewCasesStateQuotations = {
+          ...state.quotations,
+          active: {
+            ...active,
+            count: activeCount,
+          },
+          inApproval: {
+            ...inApproval,
+            count: inApprovalCount,
+          },
+          toApprove: {
+            ...toApprove,
+            count: toApproveCount,
+          },
+          approved: {
+            ...approved,
+            count: approvedCount,
+          },
+          rejected: {
+            ...rejected,
+            count: rejectedCount,
+          },
+          archived: {
+            ...archived,
+            count: archivedCount,
+          },
+          shared: {
+            ...shared,
+            count: sharedCount,
+          },
+        };
+
+        return {
+          ...state,
+          quotations,
+          quotationsCountLoading: false,
+        };
+      }
+    ),
     on(
       OverviewCasesActions.loadCases,
       (state: OverviewCasesState, { tab }): OverviewCasesState => ({
@@ -71,69 +152,87 @@ export const overviewCasesFeature = createFeature({
         quotationsLoading: false,
       })
     ),
+    // loadCasesSuccess is called when the user switches between tabs
+    // on each response it is walked through all possible tabs and check whether the response is for the selected tab,
+    // => if so, the quotations of the tab are updated, otherwise the current quotations are returned
+    // the count of the cases in the tab is NOT updated
     on(
       OverviewCasesActions.loadCasesSuccess,
       (state: OverviewCasesState, { response }): OverviewCasesState => {
         const {
-          activeCount,
-          inApprovalCount,
-          approvedCount,
-          archivedCount,
-          toApproveCount,
-          rejectedCount,
-          statusTypeOfListedQuotation,
-        } = response;
-        const { active, approved, archived, toApprove, activeTab, rejected } =
-          state.quotations;
+          active,
+          approved,
+          archived,
+          toApprove,
+          inApproval,
+          activeTab,
+          rejected,
+          shared,
+        } = state.quotations;
 
         const quotations: OverviewCasesStateQuotations = {
           ...state.quotations,
           active: {
-            count: activeCount,
-            quotations: getQuotationsFromResponse(
+            ...active,
+            quotations: getQuotationsForSelectedTab(
               response,
               active.quotations,
-              QuotationStatus.ACTIVE
+              activeTab,
+              QuotationTab.ACTIVE
             ),
           },
           inApproval: {
-            count: inApprovalCount,
-            quotations:
-              statusTypeOfListedQuotation === QuotationStatus.IN_APPROVAL &&
-              activeTab === QuotationTab.IN_APPROVAL
-                ? response.quotations
-                : toApprove.quotations,
+            ...inApproval,
+            quotations: getQuotationsForSelectedTab(
+              response,
+              inApproval.quotations,
+              activeTab,
+              QuotationTab.IN_APPROVAL
+            ),
           },
           toApprove: {
-            count: toApproveCount,
-            quotations:
-              statusTypeOfListedQuotation === QuotationStatus.IN_APPROVAL &&
-              activeTab === QuotationTab.TO_APPROVE
-                ? response.quotations
-                : toApprove.quotations,
+            ...toApprove,
+            quotations: getQuotationsForSelectedTab(
+              response,
+              inApproval.quotations,
+              activeTab,
+              QuotationTab.TO_APPROVE
+            ),
           },
           approved: {
-            count: approvedCount,
-            quotations: getQuotationsFromResponse(
+            ...approved,
+            quotations: getQuotationsForSelectedTab(
               response,
               approved.quotations,
-              QuotationStatus.APPROVED
+              activeTab,
+              QuotationTab.APPROVED
             ),
           },
           rejected: {
-            count: rejectedCount,
-            quotations: getQuotationsFromResponse(
+            ...rejected,
+            quotations: getQuotationsForSelectedTab(
               response,
               rejected.quotations,
-              QuotationStatus.REJECTED
+              activeTab,
+              QuotationTab.REJECTED
             ),
           },
           archived: {
-            count: archivedCount,
-            quotations: getQuotationsFromResponse(
+            ...archived,
+            quotations: getQuotationsForSelectedTab(
               response,
               archived.quotations,
-              QuotationStatus.ARCHIVED
+              activeTab,
+              QuotationTab.ARCHIVED
+            ),
+          },
+          shared: {
+            ...shared,
+            quotations: getQuotationsForSelectedTab(
+              response,
+              shared.quotations,
+              activeTab,
+              QuotationTab.SHARED
             ),
           },
         };
@@ -188,18 +287,18 @@ export const overviewCasesFeature = createFeature({
 });
 
 /**
- * If the status matches to the quotations status in the response, return the responseQuotations, otherwise return the current Quotations.
+ * If the active tab matches given one, return the quotations from response, otherwise return the current quotations.
  * @param response            the http response
  * @param currentQuotations   the current quotations
- * @param currentStatus              the currentStatus
+ * @param selectedTab         the selected tab the request has been made tab
+ * @param tabToCheck          the tab to compare with selected one (the given tab)
  * @returns
  */
-function getQuotationsFromResponse(
+function getQuotationsForSelectedTab(
   response: GetQuotationsResponse,
   currentQuotations: ViewQuotation[],
-  currentStatus: QuotationStatus
+  selectedTab: QuotationTab,
+  tabToCheck: QuotationTab
 ) {
-  return response.statusTypeOfListedQuotation === currentStatus
-    ? response.quotations
-    : currentQuotations;
+  return tabToCheck === selectedTab ? response.quotations : currentQuotations;
 }

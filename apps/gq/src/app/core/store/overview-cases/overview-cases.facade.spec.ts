@@ -166,5 +166,11 @@ describe('OverviewCasesFacade', () => {
         })
       );
     });
+
+    it('should dispatch getCasesCount', () => {
+      mockStore.dispatch = jest.fn();
+      facade.getCasesCount();
+      expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
+    });
   });
 });

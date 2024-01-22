@@ -851,6 +851,26 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('filterSharedQuotationsColumns', () => {
+    test('should return true if column field is  GQ_CREATED_BY and tab is SHARED', () => {
+      expect(
+        service.filterSharedQuotationsColumns(
+          { field: CaseTableColumnFields.GQ_CREATED_BY } as ColDef,
+          QuotationTab.SHARED
+        )
+      ).toBe(true);
+    });
+
+    test('should return false if column field is GQ_CREATED_BY and tab is not shared', () => {
+      expect(
+        service.filterSharedQuotationsColumns(
+          { field: CaseTableColumnFields.GQ_CREATED_BY } as ColDef,
+          QuotationTab.ACTIVE
+        )
+      ).toBe(false);
+    });
+  });
+
   describe('determineCaseNavigationPath', () => {
     test('should return ProcessCaseViewPath if status is non-approval', () => {
       expect(

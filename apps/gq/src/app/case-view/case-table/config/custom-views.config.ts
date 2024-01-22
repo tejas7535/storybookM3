@@ -8,6 +8,7 @@ export const IN_APPROVAL_TABS_VIEW_ID = 2;
 export const APPROVED_TABS_VIEW_ID = 3;
 export const REJECTED_TABS_VIEW_ID = 4;
 export const ARCHIVED_TABS_VIEW_ID = 5;
+export const SHARED_TABS_VIEW_ID = 6;
 
 export const customViewIdByQuotationTab = new Map<QuotationTab, number>([
   [QuotationTab.TO_APPROVE, TO_APPROVE_TABS_VIEW_ID],
@@ -15,6 +16,7 @@ export const customViewIdByQuotationTab = new Map<QuotationTab, number>([
   [QuotationTab.APPROVED, APPROVED_TABS_VIEW_ID],
   [QuotationTab.REJECTED, REJECTED_TABS_VIEW_ID],
   [QuotationTab.ARCHIVED, ARCHIVED_TABS_VIEW_ID],
+  [QuotationTab.SHARED, SHARED_TABS_VIEW_ID],
 ]);
 
 export const CASE_TABLE_CUSTOM_VIEWS_CONFIG: CustomView[] = [
@@ -41,6 +43,11 @@ export const CASE_TABLE_CUSTOM_VIEWS_CONFIG: CustomView[] = [
   {
     id: ARCHIVED_TABS_VIEW_ID,
     title: QuotationTab.ARCHIVED,
+    state: { columnState: [], filterState: [] },
+  },
+  {
+    id: SHARED_TABS_VIEW_ID,
+    title: QuotationTab.SHARED,
     state: { columnState: [], filterState: [] },
   },
 ];

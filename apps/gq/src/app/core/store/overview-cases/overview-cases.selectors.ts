@@ -31,6 +31,8 @@ export const getQuotations = createSelector(
         return state.quotations.toApprove.quotations;
       case QuotationTab.REJECTED:
         return state.quotations.rejected.quotations;
+      case QuotationTab.SHARED:
+        return state.quotations.shared.quotations;
       default:
         return undefined;
     }
@@ -100,6 +102,15 @@ export const getViewToggles = createSelector(
     },
     {
       id: 5,
+      tab: QuotationTab.SHARED,
+      active: state.quotations.activeTab === QuotationTab.SHARED,
+      title: translate('caseView.caseTable.viewToggle.shared', {
+        variable: state.quotations.shared?.count || 0,
+      }),
+      disabled: state.quotations.shared?.count === 0,
+    },
+    {
+      id: 6,
       tab: QuotationTab.ARCHIVED,
       active: state.quotations.activeTab === QuotationTab.ARCHIVED,
       title: translate('caseView.caseTable.viewToggle.deletedDrafts', {

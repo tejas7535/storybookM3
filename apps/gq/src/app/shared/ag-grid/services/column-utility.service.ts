@@ -292,6 +292,17 @@ export class ColumnUtilityService {
     return true;
   }
 
+  filterSharedQuotationsColumns(colDef: ColDef, tab: QuotationTab): boolean {
+    if (
+      tab !== QuotationTab.SHARED &&
+      colDef.field === CaseTableColumnFields.GQ_CREATED_BY
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   mapLastUpdateDateOnColumn(colDef: ColDef, activeTab: QuotationTab) {
     if (colDef.field === CaseTableColumnFields.LAST_UPDATED) {
       return {

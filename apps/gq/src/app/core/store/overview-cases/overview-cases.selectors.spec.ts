@@ -106,23 +106,40 @@ describe('Overview Cases Selector', () => {
         overviewCasesSelectors.getQuotations.projector(approvedFakeState)
       ).toEqual(approvedFakeState.quotations.approved.quotations);
     });
-  });
 
-  test('should return rejected quotations', () => {
-    const rejectedFakeState: OverviewCasesState = {
-      ...VIEW_CASE_STATE_MOCK,
-      quotations: {
-        ...VIEW_CASE_STATE_MOCK.quotations,
-        activeTab: QuotationTab.REJECTED,
-        rejected: {
-          quotations: [VIEW_QUOTATION_MOCK],
-          count: 1,
+    test('should return rejected quotations', () => {
+      const rejectedFakeState: OverviewCasesState = {
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          activeTab: QuotationTab.REJECTED,
+          rejected: {
+            quotations: [VIEW_QUOTATION_MOCK],
+            count: 1,
+          },
         },
-      },
-    };
-    expect(
-      overviewCasesSelectors.getQuotations.projector(rejectedFakeState)
-    ).toEqual(rejectedFakeState.quotations.rejected.quotations);
+      };
+      expect(
+        overviewCasesSelectors.getQuotations.projector(rejectedFakeState)
+      ).toEqual(rejectedFakeState.quotations.rejected.quotations);
+    });
+
+    test('should return shared quotations', () => {
+      const sharedFakeState: OverviewCasesState = {
+        ...VIEW_CASE_STATE_MOCK,
+        quotations: {
+          ...VIEW_CASE_STATE_MOCK.quotations,
+          activeTab: QuotationTab.SHARED,
+          shared: {
+            quotations: [VIEW_QUOTATION_MOCK],
+            count: 1,
+          },
+        },
+      };
+      expect(
+        overviewCasesSelectors.getQuotations.projector(sharedFakeState)
+      ).toEqual(sharedFakeState.quotations.shared.quotations);
+    });
   });
 
   test('should return undefined', () => {
@@ -199,6 +216,13 @@ describe('Overview Cases Selector', () => {
         },
         {
           id: 5,
+          tab: QuotationTab.SHARED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: 6,
           tab: QuotationTab.ARCHIVED,
           active: false,
           title: 'translate it',
@@ -209,7 +233,7 @@ describe('Overview Cases Selector', () => {
         overviewCasesSelectors.getViewToggles.projector(VIEW_CASE_STATE_MOCK)
       ).toEqual(expectedViewToggles);
 
-      expect(translate).toHaveBeenCalledTimes(6);
+      expect(translate).toHaveBeenCalledTimes(7);
       expect(translate).toHaveBeenCalledWith(
         'caseView.caseTable.viewToggle.openCases',
         { variable: 1 }
@@ -257,6 +281,13 @@ describe('Overview Cases Selector', () => {
         },
         {
           id: 5,
+          tab: QuotationTab.SHARED,
+          active: false,
+          title: 'translate it',
+          disabled: false,
+        },
+        {
+          id: 6,
           tab: QuotationTab.ARCHIVED,
           active: false,
           title: 'translate it',
@@ -276,7 +307,7 @@ describe('Overview Cases Selector', () => {
         })
       ).toEqual(expectedViewToggles);
 
-      expect(translate).toHaveBeenCalledTimes(6);
+      expect(translate).toHaveBeenCalledTimes(7);
       expect(translate).toHaveBeenCalledWith(
         'caseView.caseTable.viewToggle.openCases',
         { variable: 1 }

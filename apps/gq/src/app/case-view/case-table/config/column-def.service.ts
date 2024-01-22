@@ -70,6 +70,11 @@ export class ColumnDefService {
       filterParams: this.DATE_FILTER_PARAMS,
     },
     {
+      headerName: translate('caseView.caseTable.gqCreatedBy'),
+      field: CaseTableColumnFields.GQ_CREATED_BY,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('caseView.caseTable.origin.title'),
       field: CaseTableColumnFields.CASE_ORIGIN,
       filterParams: {

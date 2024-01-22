@@ -63,4 +63,8 @@ export class OverviewCasesFacade {
       OverviewCasesActions.updateCasesStatus({ gqIds, status })
     );
   }
+
+  getCasesCount() {
+    this.store.dispatch(OverviewCasesActions.getCasesCount());
+  }
 }

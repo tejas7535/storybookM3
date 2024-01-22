@@ -2,12 +2,11 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { filter, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, concatMap, map, tap } from 'rxjs/operators';
 
 import { SharedQuotationActions } from '@gq/core/store/shared-quotation/shared-quotation.actions';
 import { SharedQuotation } from '@gq/shared/models';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { SharedQuotationService } from '@gq/shared/services/rest/shared-quotation/shared-quotation.service';
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -17,11 +16,11 @@ export class SharedQuotationEffects {
   readonly #actions$ = inject(Actions);
   readonly #snackBar = inject(MatSnackBar);
   readonly #sharedQuotationService = inject(SharedQuotationService);
-  readonly #featureToggleService = inject(FeatureToggleConfigService);
+
   getSharedQuotation$ = createEffect(() => {
     return this.#actions$.pipe(
       ofType(SharedQuotationActions.getSharedQuotation),
-      filter(() => this.#featureToggleService.isEnabled('sharedQuotation')),
+
       concatMap(
         (
           action: ReturnType<typeof SharedQuotationActions.getSharedQuotation>
@@ -47,7 +46,7 @@ export class SharedQuotationEffects {
   saveSharedQuotation$ = createEffect(() => {
     return this.#actions$.pipe(
       ofType(SharedQuotationActions.saveSharedQuotation),
-      filter(() => this.#featureToggleService.isEnabled('sharedQuotation')),
+
       concatMap(
         (
           action: ReturnType<typeof SharedQuotationActions.saveSharedQuotation>
@@ -79,7 +78,6 @@ export class SharedQuotationEffects {
   deleteSharedQuotation$ = createEffect(() => {
     return this.#actions$.pipe(
       ofType(SharedQuotationActions.deleteSharedQuotation),
-      filter(() => this.#featureToggleService.isEnabled('sharedQuotation')),
       concatMap(
         (
           action: ReturnType<

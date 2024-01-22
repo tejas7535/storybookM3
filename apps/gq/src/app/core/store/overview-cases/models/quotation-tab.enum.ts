@@ -7,6 +7,7 @@ export enum QuotationTab {
   ARCHIVED = 'ARCHIVED',
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
+  SHARED = 'SHARED',
 }
 
 export const QuotationStatusByQuotationTab = new Map<

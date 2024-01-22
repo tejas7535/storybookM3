@@ -62,6 +62,7 @@ export enum SapPriceDetailsColumnFields {
 export enum CaseTableColumnFields {
   GQ_ID = 'gqId',
   GQ_CREATED = 'gqCreated',
+  GQ_CREATED_BY = 'gqCreatedByUser.name',
   SAP_SYNC_STATUS = 'sapSyncStatus',
   STATUS = 'status',
   CASE_NAME = 'caseName',

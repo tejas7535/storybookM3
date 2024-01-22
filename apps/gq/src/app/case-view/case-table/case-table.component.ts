@@ -86,6 +86,10 @@ export class CaseTableComponent implements OnInit, OnDestroy {
         this.columnUtilityService.filterQuotationStatusColumns(
           colDef,
           this.activeTab
+        ) &&
+        this.columnUtilityService.filterSharedQuotationsColumns(
+          colDef,
+          this.activeTab
         )
     ).map((colDef) =>
       this.columnUtilityService.mapLastUpdateDateOnColumn(

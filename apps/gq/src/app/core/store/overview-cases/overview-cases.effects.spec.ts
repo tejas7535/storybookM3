@@ -4,6 +4,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
+import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -168,6 +169,65 @@ describe('Overview Cases Effects', () => {
       })
     );
   });
+
+  describe('getCasesCounts$', () => {
+    beforeEach(() => {
+      action = OverviewCasesActions.getCasesCount();
+    });
+
+    test(
+      'should return getCasesCount Success',
+      marbles((m) => {
+        const getQuotationsCountResponse = {
+          active: 1,
+          approved: 2,
+          archived: 3,
+          toApprove: 4,
+          inApproval: 5,
+          rejected: 6,
+          shared: 7,
+        } as unknown as GetQuotationsCountResponse;
+        const result = OverviewCasesActions.getCasesCountSuccess({
+          response: getQuotationsCountResponse,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: getQuotationsCountResponse,
+        });
+        quotationService.getQuotationsCount = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.getCasesCounts$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.getQuotationsCount).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return getCasesCountFailure',
+      marbles((m) => {
+        const errorMessage = 'new Error';
+        actions$ = m.hot('-a', { a: action });
+
+        const result = OverviewCasesActions.getCasesCountFailure({
+          errorMessage,
+        });
+
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.getQuotationsCount = jest.fn(() => response);
+
+        m.expect(effects.getCasesCounts$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.getQuotationsCount).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
   describe('loadCases', () => {
     const locationMock = jest.fn();
 
@@ -203,7 +263,8 @@ describe('Overview Cases Effects', () => {
         expect(quotationService.getCases).toHaveBeenCalledTimes(1);
         expect(quotationService.getCases).toHaveBeenCalledWith(
           QuotationTab.ACTIVE,
-          'userId'
+          'userId',
+          QuotationStatus.ACTIVE
         );
         expect(locationMock).toHaveBeenCalledTimes(1);
       })

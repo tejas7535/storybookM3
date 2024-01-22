@@ -12,19 +12,19 @@
     <schaeffler-view-toggle
       [views]="caseViews$ | ngrxPush"
       (selectionChange)="onViewToggle($event)"
-      [displayBorderBottom]="overviewCasesFacade.quotationsLoading$ | ngrxPush"
+      [displayBorderBottom]="quotationsLoading$ | ngrxPush"
     >
     </schaeffler-view-toggle
     ><gq-case-table
       *ngIf="
-        (overviewCasesFacade.quotationsLoading$ | ngrxPush) === false &&
-          (overviewCasesFacade.deleteLoading$ | ngrxPush) === false;
+        (quotationsLoading$ | ngrxPush) === false &&
+          (deleteLoading$ | ngrxPush) === false;
         else loading
       "
       class="h-full"
-      [rowData]="overviewCasesFacade.quotations$ | ngrxPush"
-      [statusBar]="overviewCasesFacade.statusBarForQuotationStatus$ | ngrxPush"
-      [activeTab]="overviewCasesFacade.activeTab$ | ngrxPush"
+      [rowData]="quotations$ | ngrxPush"
+      [statusBar]="statusBarForQuotationStatus$ | ngrxPush"
+      [activeTab]="activeTab$ | ngrxPush"
     ></gq-case-table>
   </div>
 </div>

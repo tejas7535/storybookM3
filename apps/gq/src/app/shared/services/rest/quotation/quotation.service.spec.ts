@@ -109,7 +109,7 @@ describe('QuotationService', () => {
   describe('getCases', () => {
     test('should call', () => {
       service
-        .getCases(QuotationTab.ACTIVE, 'userId')
+        .getCases(QuotationTab.ACTIVE, 'userId', QuotationStatus.ACTIVE)
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
@@ -120,7 +120,11 @@ describe('QuotationService', () => {
 
     test('should call with nextApprover', () => {
       service
-        .getCases(QuotationTab.TO_APPROVE, 'userId')
+        .getCases(
+          QuotationTab.TO_APPROVE,
+          'userId',
+          QuotationStatus.IN_APPROVAL
+        )
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(

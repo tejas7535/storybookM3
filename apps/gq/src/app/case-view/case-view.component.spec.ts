@@ -7,7 +7,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
-import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -24,6 +23,8 @@ describe('CaseViewComponent', () => {
       provideMockStore(),
       MockProvider(OverviewCasesFacade, {
         viewToggles$: of([]),
+        getCasesCount: jest.fn(),
+        loadCasesForView: jest.fn(),
       }),
     ],
 
@@ -37,26 +38,6 @@ describe('CaseViewComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    test(
-      'should set caseViews$',
-      marbles((m) => {
-        const overviewCasesFacadeMock: OverviewCasesFacade = {
-          viewToggles$: of([]),
-        } as unknown as OverviewCasesFacade;
-        Object.defineProperty(component, 'overviewCasesFacade', {
-          value: overviewCasesFacadeMock,
-        });
-
-        component.ngOnInit();
-
-        m.expect(component.caseViews$).toBeObservable(
-          m.cold('(a|)', { a: [] })
-        );
-      })
-    );
   });
 
   describe('onViewToggle', () => {

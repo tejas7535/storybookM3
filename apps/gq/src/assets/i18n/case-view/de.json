@@ -8,7 +8,8 @@
       "toApprove": "Zu genehmigende Angebote ({{variable}})",
       "inApproval": "Meine Angebote in Genehmigung ({{variable}})",
       "approved": "Genehmigte Angebote ({{variable}})",
-      "rejected": "Abgelehnte Angebote ({{variable}})"
+      "rejected": "Abgelehnte Angebote ({{variable}})",
+      "shared": "Geteilte Angebote ({{variable}})"
     },
     "customerNumber": "Kundennummer",
     "customerName": "Kundenname",
@@ -17,6 +18,7 @@
     "lastUpdatedDate": "Case zuletzt aktualisiert am",
     "deletedOnDate": "Case gelöscht am",
     "gqId": "GQ Case",
+    "gqCreatedBy": "Case erstellt von",
     "sapId": "SAP Angebotsnummer",
     "caseName": "Case Bezeichnung",
     "syncStatus": "Sync Status",

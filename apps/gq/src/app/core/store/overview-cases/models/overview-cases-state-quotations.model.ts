@@ -9,4 +9,5 @@ export interface OverviewCasesStateQuotations {
   inApproval: OverviewCasesStateQuotation;
   approved: OverviewCasesStateQuotation;
   rejected: OverviewCasesStateQuotation;
+  shared: OverviewCasesStateQuotation;
 }

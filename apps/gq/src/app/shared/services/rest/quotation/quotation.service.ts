@@ -4,12 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import {
-  QuotationStatusByQuotationTab,
-  QuotationTab,
-} from '@gq/core/store/overview-cases/models/quotation-tab.enum';
+import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { QuotationSearchResult } from '@gq/shared/models/quotation';
+import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 
 import { ApiVersion, PurchaseOrderType, Quotation } from '../../../models';
 import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
@@ -22,6 +20,7 @@ import { UpdateQuotationRequest } from './models/update-quotation-request.model'
   providedIn: 'root',
 })
 export class QuotationService {
+  private readonly PARAM_SHARED = 'shared';
   private readonly PARAM_STATUS = 'status';
   private readonly PARAM_NEXT_APPROVER = 'next_approver';
 
@@ -37,6 +36,7 @@ export class QuotationService {
       }
     );
   }
+
   public refreshSapPricing(gqId: number): Observable<Quotation> {
     return this.http.get<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_REFRESH_SAP_PRICING}`
@@ -64,14 +64,26 @@ export class QuotationService {
     );
   }
 
+  getQuotationsCount() {
+    return this.http.get<GetQuotationsCountResponse>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${QuotationPaths.PATH_QUOTATIONS_COUNT}`
+    );
+  }
+
   getCases(
     tab: QuotationTab,
-    nextApprover: string
+    nextApprover: string,
+    status: QuotationStatus
   ): Observable<GetQuotationsResponse> {
-    let httpParams = new HttpParams().set(
-      this.PARAM_STATUS,
-      QuotationStatusByQuotationTab.get(tab)
-    );
+    let httpParams = new HttpParams();
+
+    if (status) {
+      httpParams = httpParams.set(this.PARAM_STATUS, status);
+    }
+
+    if (tab === QuotationTab.SHARED) {
+      httpParams = httpParams.set(this.PARAM_SHARED, true);
+    }
 
     if (tab === QuotationTab.TO_APPROVE) {
       httpParams = httpParams.set(this.PARAM_NEXT_APPROVER, nextApprover);
