@@ -43,7 +43,8 @@
             "allowCircularSelfDependency": true
           }
         ],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "unicorn/no-null": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",
