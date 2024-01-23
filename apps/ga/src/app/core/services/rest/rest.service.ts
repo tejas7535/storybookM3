@@ -5,6 +5,7 @@ import { map, Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
+import { detectPartnerVersion } from '@ga/core/helpers/settings-helpers';
 import { environment } from '@ga/environments/environment';
 import {
   AdvancedBearingSelectionFilters,
@@ -19,17 +20,18 @@ import {
   providedIn: 'root',
 })
 export class RestService {
+  private readonly baseUrl = detectPartnerVersion()
+    ? environment.partnerUrl
+    : environment.baseUrl;
+
   public constructor(private readonly httpClient: HttpClient) {}
 
   public getBearingSearch(query: string): Observable<string[]> {
-    return this.httpClient.get<string[]>(
-      `${environment.baseUrl}/bearings/search`,
-      {
-        params: {
-          pattern: query,
-        },
-      }
-    );
+    return this.httpClient.get<string[]>(`${this.baseUrl}/bearings/search`, {
+      params: {
+        pattern: query,
+      },
+    });
   }
 
   public getBearingExtendedSearch(
@@ -38,7 +40,7 @@ export class RestService {
     const params = this.getBearingExtendedSearchParams(selectionFilters);
 
     return this.httpClient.get<string[]>(
-      `${environment.baseUrl}/bearings/extendedsearch?${params}`
+      `${this.baseUrl}/bearings/extendedsearch?${params}`
     );
   }
 
@@ -48,19 +50,19 @@ export class RestService {
     const params = this.getBearingExtendedSearchParams(selectionFilters);
 
     return this.httpClient.get<number>(
-      `${environment.baseUrl}/bearings/extendedsearch/count?${params}`
+      `${this.baseUrl}/bearings/extendedsearch/count?${params}`
     );
   }
 
   public getProperties(modelId: string): Observable<Property[]> {
     return this.httpClient.get<Property[]>(
-      `${environment.baseUrl}/${modelId}/properties`
+      `${this.baseUrl}/${modelId}/properties`
     );
   }
 
   public putModelCreate(bearing: string): Observable<string> {
     return this.httpClient.put<string>(
-      `${environment.baseUrl}/create?designation=${bearing}`,
+      `${this.baseUrl}/create?designation=${bearing}`,
       {}
     );
   }
@@ -70,20 +72,20 @@ export class RestService {
     options: CalculationParameters
   ): Observable<string> {
     return this.httpClient.put<string>(
-      `${environment.baseUrl}/${modelId}/update`,
+      `${this.baseUrl}/${modelId}/update`,
       options
     );
   }
 
   public getGreaseCalculation(modelId: string): Observable<string> {
     return this.httpClient
-      .get<Result>(`${environment.baseUrl}/${modelId}/calculate`)
+      .get<Result>(`${this.baseUrl}/${modelId}/calculate`)
       .pipe(map((res: Result) => res._links[1].href.split('/').pop()));
   }
 
   public getDialog(modelId: string) {
     return this.httpClient.get<DialogResponse>(
-      `${environment.baseUrl}/${modelId}/dialog`,
+      `${this.baseUrl}/${modelId}/dialog`,
       {
         context: withCache(),
       }
