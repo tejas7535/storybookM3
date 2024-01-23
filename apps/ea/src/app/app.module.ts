@@ -27,6 +27,7 @@ import { AppRoutePath } from './app-route-path.enum';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
+import { BearingDesignationProvidedGuard } from './guards/bearing-designation-provided.guard';
 import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
 
@@ -35,11 +36,19 @@ export const appRoutePaths: Routes = [
     path: AppRoutePath.BasePath,
     component: CalculationViewComponent,
     pathMatch: 'full',
+    canActivate: [BearingDesignationProvidedGuard],
   },
   {
     path: AppRoutePath.LegalPath,
     loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
+  },
+  {
+    path: AppRoutePath.HomePath,
+    loadComponent: () =>
+      import('./home/home-page/home-page.component').then(
+        (m) => m.HomePageComponent
+      ),
   },
   {
     path: '**',

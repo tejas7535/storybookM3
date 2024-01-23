@@ -94,6 +94,8 @@ export class CoreModule {
       lubrication_parameters: 'icon_lubrication_parameters.svg',
       rating_life: 'icon_rpm_rating_life.svg',
       water_drop: 'icon_water_drop.svg',
+      grease_app: 'icon_grease_app.svg',
+      mounting_manager: 'icon_mounting_manager.svg',
     };
     for (const [name, url] of Object.entries(iconSet)) {
       const setUrl = this.sanitizer.bypassSecurityTrustResourceUrl(

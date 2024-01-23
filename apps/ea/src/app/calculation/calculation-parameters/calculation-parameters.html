@@ -6,9 +6,23 @@
         <ea-qualtrics-info-banner
           [bearingDesingation]="bearingDesignation$ | ngrxPush"
         ></ea-qualtrics-info-banner>
-        <div class="text-medium-emphasis end-to-end-test-element px-1 text-h6">
-          {{t('title', {bearingDesignation: bearingDesignation$ | ngrxPush } )}}
-        </div>
+        <schaeffler-subheader
+          *ngrxLet="bearingDesignation$ as selectedBearing"
+          [hideLine]="true"
+          [breakTitle]="true"
+          [showBackButton]="isStandalone"
+          (backButtonClicked)="navigateBack()"
+        >
+          <ng-container subheaderTitleContent>
+            <span
+              class="hidden sm:block end-to-end-test-element text-medium-emphasis"
+              >{{ t('title') }}&nbsp;</span
+            >
+            <span class="truncate text-medium-emphasis"
+              >{{ selectedBearing }}</span
+            >
+          </ng-container>
+        </schaeffler-subheader>
         <div class="py-2 flex flex-col gap-y-2" *ngIf="!isProduction">
           <ea-info-banner
             [isWarning]="true"

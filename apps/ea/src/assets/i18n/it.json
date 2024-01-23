@@ -5,6 +5,50 @@
     "poweredBy": "Offerto da {{ name }}",
     "back": "Indietro"
   },
+  "breadcrumbs": {
+    "landingPage": "Pagina iniziale",
+    "calculation": "Calcolo"
+  },
+  "homePage": {
+    "description": "Inserire una denominazione di cuscinetto per calcolare la durata nominale, la perdita di potenza per attrito, i parametri di lubrificazione, le frequenze di sovralimentazione e le emissioni di CO₂e.",
+    "search": {
+      "placeholder": "Inserisci una designazione di cuscinetto, ad esempio 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Vuoi conoscere di più sulla sostenibilità presso Schaeffler?",
+      "action": {
+        "title": "Clicca qui",
+        "url": "https://medias.schaeffler.it/it/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catalogo dei prodotti di Medias"
+        },
+        "externalLink": "https://medias.schaeffler.it/it"
+      },
+      "contact": {
+        "title": {
+          "main": "Esperti di Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.it/it/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "Si prega di selezionare"
   },
@@ -13,7 +57,7 @@
     "loadcase": "Load case"
   },
   "operationConditions": {
-    "title": "Condizioni di funzionamento del cuscinetto {{bearingDesignation}}",
+    "title": "Condizioni di funzionamento del cuscinetto",
     "prototypeWarning": "I valori presentati su questo prototipo di sviluppo sono ipotetici e non devono essere utilizzati in produzione",
     "showPresetCalculationParameters": "Mostra modalità di calcolo preimpostate",
     "addLoadCase": "Aggiungi carico di caso",

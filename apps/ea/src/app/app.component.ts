@@ -42,12 +42,10 @@ import {
   getBearingId,
   isBearingSupported,
 } from './core/store/selectors/product-selection/product-selection.selector';
-import { isStandalone } from './core/store/selectors/settings/settings.selector';
 import {
   FALLBACK_LANGUAGE,
   getLocaleForLanguage,
 } from './shared/constants/language';
-import { DEFAULT_BEARING_DESIGNATION } from './shared/constants/products';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -63,7 +61,7 @@ export class AppComponent
   @Input() language: string | undefined;
 
   public title = 'Engineering App';
-  public isStandalone$ = this.store.select(isStandalone);
+  public isStandalone$ = this.settingsFacade.isStandalone$;
   public isBearingSupported$ = this.store.select(isBearingSupported);
 
   public isProduction = environment.production;
@@ -175,15 +173,6 @@ export class AppComponent
           setResultPreviewSticky({ isResultPreviewSticky: !thresholdMet })
         );
       });
-
-    if (!this.bearingDesignation) {
-      // trigger calculations with default bearing
-      this.store.dispatch(
-        ProductSelectionActions.setBearingDesignation({
-          bearingDesignation: DEFAULT_BEARING_DESIGNATION,
-        })
-      );
-    }
 
     const currentLanguage = isLanguageAvailable(this.language)
       ? this.language

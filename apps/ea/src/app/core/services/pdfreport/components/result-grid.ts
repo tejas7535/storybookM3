@@ -1,5 +1,5 @@
 import { ResultReportLargeItem } from '@ea/calculation/calculation-result-report-large-items/result-report-large-item';
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import {
   DefaultComponentRenderProps,

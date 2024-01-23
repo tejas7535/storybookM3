@@ -1,0 +1,33 @@
+<div
+  *transloco="let t"
+  class="overflow-hidden rounded-2xl border border-border bg-surface py-4 cursor-pointer transition-shadow hover:shadow-lg"
+  (click)="onCardClick()"
+>
+  <div class="flex">
+    <div
+      *ngIf="card?.imagePath"
+      class="mx-4 aspect-video rounded-lg bg-cover w-36"
+      [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
+    ></div>
+
+    <div *ngIf="card?.svgIcon" class="aspect-video rounded-lg bg-cover w-28">
+      <div class="aspect-video rounded-lg bg-cover w-28">
+        <mat-icon
+          class="!m-auto w-full h-full"
+          color="primary"
+          svgIcon="{{ card.svgIcon }}"
+        ></mat-icon>
+      </div>
+    </div>
+
+    <div class="px-2 text-center flex gap-2 items-center flex-col self-center">
+      <div class="truncate mr-auto text-body-2 leading-6 font-medium">
+        {{ t(card.mainTitle) }}
+      </div>
+      <div
+        class="truncate text-caption text-medium-emphasis mr-auto"
+        [innerHTML]="card?.subTitle ? t(card.subTitle) : ''"
+      ></div>
+    </div>
+  </div>
+</div>

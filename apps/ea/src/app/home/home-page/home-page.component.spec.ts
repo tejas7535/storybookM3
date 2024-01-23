@@ -1,0 +1,65 @@
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+
+import { of } from 'rxjs';
+
+import { HomeCardsService } from '@ea/core/services/home/home-cards.service';
+import { ProductSelectionFacade } from '@ea/core/store/facades';
+import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockComponent } from 'ng-mocks';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { QuickBearingSelectionComponent } from '../quick-bearing-selection';
+import { HomePageComponent } from './home-page.component';
+
+describe('HomePageComponent', () => {
+  let spectator: Spectator<HomePageComponent>;
+
+  const createComponent = createComponentFactory({
+    component: HomePageComponent,
+    imports: [
+      MatIconTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
+      MockComponent(QuickBearingSelectionComponent),
+    ],
+    providers: [
+      {
+        provide: HomeCardsService,
+        useValue: {
+          homeCards$: of([]),
+          sustainabilityCard$: of({}),
+        },
+      },
+      {
+        provide: ProductSelectionFacade,
+        useValue: {
+          bearingDesignation$: of('bearing-123'),
+          bearingDesignationResultList$: of([]),
+          dispatch: jest.fn(),
+        },
+      },
+    ],
+    mocks: [],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+  });
+
+  it('should create', () => {
+    expect(spectator.component).toBeTruthy();
+  });
+
+  it('should have a title in the template', () => {
+    spectator.detectChanges();
+    expect(spectator.query('h1')).toBeTruthy();
+  });
+
+  it('should have QualtricsInfoBanner', () => {
+    spectator.detectChanges();
+    const banner = spectator.query(QualtricsInfoBannerComponent);
+    expect(banner).toBeTruthy();
+    expect(banner.bearingDesingation).toBe(undefined);
+  });
+});

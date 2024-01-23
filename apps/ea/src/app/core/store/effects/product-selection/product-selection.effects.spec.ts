@@ -22,6 +22,7 @@ import { ProductCapabilitiesResult } from '../../models';
 import { ProductSelectionEffects } from './product-selection.effects';
 
 const catalogServiceMock = {
+  getBearingSearch: jest.fn(),
   getBearingIdFromDesignation: jest.fn(),
   getBasicFrequencies: jest.fn(),
   getBasicFrequenciesPdf: jest.fn(),
@@ -142,6 +143,34 @@ describe('Product Selection Effects', () => {
         expect(serviceSpy).toHaveBeenCalled();
       })();
     });
+  });
+
+  describe('bearingSearch$', () => {
+    it(
+      'should fetch the bearing list',
+      marbles((m) => {
+        action = ProductSelectionActions.searchBearing({ query: 'the query' });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const resultList = ['bearing', 'bear', 'ring', 'ringbear'];
+
+        const response = m.cold('-a|', { a: resultList });
+        catalogServiceMock.getBearingSearch = jest.fn(() => response);
+
+        const result = ProductSelectionActions.bearingSearchSuccess({
+          resultList,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.bearingSearch$).toBeObservable(expected);
+        m.flush();
+
+        expect(catalogServiceMock.getBearingSearch).toHaveBeenCalledWith(
+          'the query'
+        );
+      })
+    );
   });
 
   describe('fetchOperatingConditionsTemplate$', () => {

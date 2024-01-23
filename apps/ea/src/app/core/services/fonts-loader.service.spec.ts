@@ -14,7 +14,7 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

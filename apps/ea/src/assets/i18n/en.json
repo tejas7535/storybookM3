@@ -5,6 +5,50 @@
     "poweredBy": "Powered by {{ name }}",
     "back": "Back"
   },
+  "breadcrumbs": {
+    "landingPage": "Landing Page",
+    "calculation": "Calculation"
+  },
+  "homePage": {
+    "description": "Please enter a bearing designation to calculate rating life, frictional powerloss, lubrication parameters, overrolling frequencies and CO₂e emissions",
+    "search": {
+      "placeholder": "Enter a bearing designation, e.g. 6226"
+    },
+    "sustainabilityCard": {
+      "title": "You want to learn more about sustainability at Schaeffler?",
+      "action": {
+        "title": "Click here",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias Product Catalog"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler Experts"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "Please select"
   },
@@ -13,7 +57,7 @@
     "loadcase": "Load case"
   },
   "operationConditions": {
-    "title": "Operating conditions for bearing {{bearingDesignation}}",
+    "title": "Operating conditions for bearing",
     "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
     "showPresetCalculationParameters": "Show preset calculation parameters",
     "addLoadCase": "Add loadcase",

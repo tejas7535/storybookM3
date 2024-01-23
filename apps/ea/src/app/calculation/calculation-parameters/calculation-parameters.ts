@@ -4,6 +4,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
   QueryList,
@@ -28,6 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 
 import {
   combineLatest,
@@ -42,6 +44,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { AppRoutePath } from '@ea/app-route-path.enum';
 import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
 import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import {
@@ -74,8 +77,9 @@ import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-templa
 import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
 import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
 import { TranslocoService } from '@ngneat/transloco';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
@@ -128,6 +132,8 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     MatInputModule,
     MatFormFieldModule,
     InfoButtonComponent,
+    SubheaderModule,
+    LetDirective,
   ],
 })
 export class CalculationParametersComponent
@@ -135,6 +141,9 @@ export class CalculationParametersComponent
 {
   @ViewChildren(ParameterTemplateDirective)
   public templates!: QueryList<ParameterTemplateDirective>;
+
+  @Input()
+  public isStandalone: boolean;
 
   public DEBOUNCE_TIME_DEFAULT = 200;
   public readonly isProduction = environment.production;
@@ -344,8 +353,9 @@ export class CalculationParametersComponent
     public readonly matDialog: MatDialog,
     private readonly translocoService: TranslocoService,
     private readonly calculationParametersFormHelperService: CalculationParametersFormHelperService,
-    private readonly changeDetectionRef: ChangeDetectorRef,
-    private readonly analyticsService: EmbeddedGoogleAnalyticsService
+    private readonly router: Router,
+    private readonly analyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly changeDetectionRef: ChangeDetectorRef
   ) {}
 
   get operatingTemperature(): FormControl {
@@ -490,6 +500,10 @@ export class CalculationParametersComponent
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public navigateBack(): void {
+    this.router.navigate([`${AppRoutePath.HomePath}`]);
   }
 
   public onResetButtonClick(): void {

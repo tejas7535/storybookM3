@@ -3,10 +3,31 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { ProductSelectionActions } from '../../actions';
 import { ProductSelectionState } from '../../models';
 
-export const initialState: ProductSelectionState = {};
+export const initialState: ProductSelectionState = {
+  bearingResultList: [],
+};
 
 export const productSelectionReducer = createReducer(
   initialState,
+  on(
+    ProductSelectionActions.resetBearing,
+    (): ProductSelectionState => ({ ...initialState })
+  ),
+  on(
+    ProductSelectionActions.searchBearing,
+    (state): ProductSelectionState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    ProductSelectionActions.bearingSearchSuccess,
+    (state, { resultList }): ProductSelectionState => ({
+      ...state,
+      bearingResultList: resultList,
+      loading: false,
+    })
+  ),
   on(
     ProductSelectionActions.setBearingDesignation,
     (state, { bearingDesignation }): ProductSelectionState => ({

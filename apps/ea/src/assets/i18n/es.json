@@ -5,6 +5,50 @@
     "poweredBy": "Powered by {{ name }}",
     "back": "Atrás"
   },
+  "breadcrumbs": {
+    "landingPage": "Página de inicio",
+    "calculation": "Cálculo"
+  },
+  "homePage": {
+    "description": "Por favor, ingrese una designación de rodamiento para calcular la vida útil, la pérdida de potencia friccional, los parámetros de lubricación, las frecuencias de sobre-rodadura y las emisiones de CO₂e.",
+    "search": {
+      "placeholder": "Introduzca una designación de rodamiento, p. ej.: 6226"
+    },
+    "sustainabilityCard": {
+      "title": "¿Quieres aprender más acerca de la sostenibilidad en Schaeffler?",
+      "action": {
+        "title": "Haz clic aquí",
+        "url": "https://medias.schaeffler.es/es/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catálogo de productos de Medias"
+        },
+        "externalLink": "https://medias.schaeffler.es/es"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler Expertos"
+        },
+        "externalLink": "https://medias.schaeffler.es/es/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "Seleccione una opción"
   },
@@ -13,7 +57,7 @@
     "loadcase": "Caso de carga"
   },
   "operationConditions": {
-    "title": "Condiciones de funcionamiento para el rodamiento {{bearingDesignation}}",
+    "title": "Condiciones de funcionamiento para el rodamiento",
     "prototypeWarning": "Los valores que se muestran en este prototipo de desarrollo son hipotéticos y no deben usarse en la producción",
     "showPresetCalculationParameters": "Mostrar parámetros de cálculo preestablecidos",
     "addLoadCase": "Agregar caso de carga",

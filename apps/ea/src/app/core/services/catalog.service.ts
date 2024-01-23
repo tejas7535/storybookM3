@@ -16,6 +16,7 @@ import {
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import {
   CatalogServiceBasicFrequenciesResult,
+  CatalogServiceBearingSearchResult,
   CatalogServiceCalculationResult,
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
@@ -32,6 +33,30 @@ export class CatalogService {
   readonly baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
 
   constructor(private readonly httpClient: HttpClient) {}
+
+  public getBearingSearch(query: string): Observable<string[]> {
+    const singlePageResultSizeToIncludeAllBearing = '15000';
+
+    return this.httpClient
+      .get<CatalogServiceBearingSearchResult>(
+        `${this.baseUrl}/product/search`,
+        {
+          params: {
+            pattern: query,
+            size: singlePageResultSizeToIncludeAllBearing,
+          },
+        }
+      )
+      .pipe(
+        map((searchResult: CatalogServiceBearingSearchResult) => {
+          const bearingDesignations = searchResult.data.map(
+            (item) => item.data.title
+          );
+
+          return bearingDesignations;
+        })
+      );
+  }
 
   public getBearingCapabilities(
     designation: string

@@ -1,6 +1,6 @@
 import { CalculationResultReportMessage } from '@ea/core/store/models/calculation-result-report-message.model';
 import { WarningIcon } from '@ea/shared/constants/pdf-icons';
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import {
   DefaultComponentRenderProps,

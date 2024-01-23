@@ -6,6 +6,8 @@ import {
 export interface ProductSelectionState {
   bearingDesignation?: string;
   bearingId?: string;
+  bearingResultList: string[];
+  loading?: boolean;
   calculationModuleInfo?: {
     catalogueCalculation: boolean;
     frictionCalculation: boolean;

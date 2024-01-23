@@ -65,6 +65,16 @@ export const getOperatingConditionsTemplate = createSelector(
   (state) => state.operatingConditionsTemplate
 );
 
+export const getBearingSelectionResultList = createSelector(
+  getProductSelectionState,
+  (state) => state.bearingResultList
+);
+
+export const getBearingSelectionLoading = createSelector(
+  getProductSelectionState,
+  (state): boolean => state.loading
+);
+
 export const getTemplateItem = (props: { itemId: string }) =>
   createSelector(
     getLoadcaseTemplate,

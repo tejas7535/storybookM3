@@ -1,4 +1,4 @@
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import { DefaultDocumentDimensions } from '../data';
 import { getRealLineHeight, resetFont } from '../util';

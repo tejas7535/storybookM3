@@ -5,6 +5,50 @@
     "poweredBy": "由 {{ name }}提供支持",
     "back": "返回"
   },
+  "breadcrumbs": {
+    "landingPage": "登录页面",
+    "calculation": "计算"
+  },
+  "homePage": {
+    "description": "请输入轴承设计代号以计算额定寿命、摩擦功率损失、润滑参数、超负荷频率和CO₂e排放量。",
+    "search": {
+      "placeholder": "输入轴承名称，例如 6226"
+    },
+    "sustainabilityCard": {
+      "title": "您想更了解舍弗勒公司的可持续发展吗？",
+      "action": {
+        "title": "请点击这里。",
+        "url": "https://medias.schaeffler.cn/zh/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "迈德斯Medias产品目录。"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh"
+      },
+      "contact": {
+        "title": {
+          "main": "舍弗勒专家。"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "请选择"
   },
@@ -13,7 +57,7 @@
     "loadcase": "载荷步"
   },
   "operationConditions": {
-    "title": "{{bearingDesignation}} 轴承的工作条件",
+    "title": "轴承的工作条件",
     "prototypeWarning": "该开发原型中所示的数值是假设值，不能用于生产",
     "showPresetCalculationParameters": "显示预设的计算参数",
     "addLoadCase": "新增载荷案例",

@@ -5,6 +5,50 @@
     "poweredBy": "Powered by {{ name }}",
     "back": "Zurück"
   },
+  "breadcrumbs": {
+    "landingPage": "Startseite",
+    "calculation": "Berechnung"
+  },
+  "homePage": {
+    "description": "Bitte geben Sie eine Lagerbezeichnung ein, um Lebensdauer, Reibungsverluste, Schmierparameter, Überrollfrequenzen sowie CO₂e-Emissionen zu berechnen.",
+    "search": {
+      "placeholder": "Eingabe Lagerbezeichnung, z.B. 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Du möchtest mehr über Nachhaltigkeit bei Schaeffler erfahren?",
+      "action": {
+        "title": "Klicken Sie hier",
+        "url": "https://medias.schaeffler.de/de/co2-tool"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias Produktkatalog"
+        },
+        "externalLink": "https://medias.schaeffler.de"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler Expert:innen"
+        },
+        "externalLink": "https://medias.schaeffler.de/de/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "Bitte auswählen"
   },
@@ -13,7 +57,7 @@
     "loadcase": "Lastfall"
   },
   "operationConditions": {
-    "title": "Betriebsbedingungen für Lager {{bearingDesignation}}",
+    "title": "Betriebsbedingungen für Lager",
     "prototypeWarning": "Die in diesem Entwicklungsprototyp gezeigten Werte sind hypothetisch und dürfen nicht in der Produktion verwendet werden",
     "showPresetCalculationParameters": "Voreingestellte Berechnungsparameter anzeigen",
     "addLoadCase": "Lastfall hinzufügen",

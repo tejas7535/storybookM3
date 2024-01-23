@@ -112,4 +112,48 @@ describe('ProductSelectionReducer', () => {
       });
     });
   });
+
+  describe('resetBearing', () => {
+    it('should reset the bearing-related state to initial values', () => {
+      const originalState: ProductSelectionState = {
+        ...initialState,
+        bearingResultList: ['bearing-1', 'bearing-2'],
+        loading: true,
+      };
+      const newState = productSelectionReducer(
+        originalState,
+        ProductSelectionActions.resetBearing()
+      );
+      expect(newState).toEqual(initialState);
+    });
+  });
+
+  describe('searchBearing', () => {
+    it('should set loading to true', () => {
+      const originalState: ProductSelectionState = {
+        ...initialState,
+      };
+      const newState = productSelectionReducer(
+        originalState,
+        ProductSelectionActions.searchBearing({ query: 'bearing' })
+      );
+      expect(newState.loading).toBe(true);
+    });
+  });
+
+  describe('bearingSearchSuccess', () => {
+    it('should update bearingResultList and set loading to false', () => {
+      const originalState: ProductSelectionState = {
+        ...initialState,
+        loading: true,
+      };
+      const resultList: string[] = ['bearing-1', 'bearing-2', 'bearing-3'];
+      const newState = productSelectionReducer(
+        originalState,
+        ProductSelectionActions.bearingSearchSuccess({ resultList })
+      );
+      expect(newState.loading).toBe(false);
+      expect(newState.bearingResultList).toEqual(resultList);
+    });
+  });
 });

@@ -5,6 +5,50 @@
     "poweredBy": "由 {{ name }}提供支援",
     "back": "返回"
   },
+  "breadcrumbs": {
+    "landingPage": "登陸頁面",
+    "calculation": "計算"
+  },
+  "homePage": {
+    "description": "請輸入軸承設計代號以計算額定壽命、摩擦功率損失、潤滑參數、超負荷頻率和CO₂e排放量。",
+    "search": {
+      "placeholder": "輸入軸承型號，例如6226"
+    },
+    "sustainabilityCard": {
+      "title": "你想了解更多關於舍弗勒公司的可持續發展嗎？",
+      "action": {
+        "title": "點擊這裡。",
+        "url": "https://medias.schaeffler.cn/zh_TW/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias 產品目錄。"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW"
+      },
+      "contact": {
+        "title": {
+          "main": "舍弗勒（Schaeffler）專家"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "請選擇"
   },
@@ -13,7 +57,7 @@
     "loadcase": "Load case"
   },
   "operationConditions": {
-    "title": "{{bearingDesignation}} 軸承的工作條件",
+    "title": "軸承的工作條件",
     "prototypeWarning": "該開發原型中所示的數值是假想的，不能用於生產",
     "showPresetCalculationParameters": "顯示預設的計算參數",
     "addLoadCase": "新增荷載案例",

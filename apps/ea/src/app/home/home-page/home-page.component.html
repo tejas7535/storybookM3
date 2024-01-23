@@ -1,0 +1,47 @@
+<div
+  *transloco="let t; read: 'homePage'"
+  class="flex min-h-full flex-col justify-center bg-surface py-4 md:py-8"
+>
+  <div class="container mx-auto px-4 md:max-w-screen-md">
+    <div class="mb-6 md:mb-12">
+      <div class="flex flex-col md:flex-row items-center justify-center mb-8">
+        <div>
+          <mat-icon class="w-16 h-16 text-primary">engineering_app</mat-icon>
+        </div>
+        <div>
+          <h1
+            class="mt-4 mb-1 mr-3 text-h4 text-medium-emphasis md:mt-5 md:mr-5 md:text-h3"
+          >
+            Engineering App
+          </h1>
+          <p class="text-body-2 text-medium-emphasis">
+            {{ t('cards.poweredBy') }}
+          </p>
+        </div>
+      </div>
+      <p class="text-body-2">
+        {{ t('description') }}
+      </p>
+    </div>
+    <div class="mb-8 md:mb-16">
+      <ea-quick-bearing-selection></ea-quick-bearing-selection>
+    </div>
+  </div>
+  <div class="container mx-auto px-4 md:max-w-screen-md md:w-[800px]">
+    <div class="grid grid-cols-1 gap-y-6 gap-x-10 md:grid-cols-2">
+      <ea-home-page-sustainability-card
+        class="md:col-span-2"
+        [card]="sustainbilityCard$ | ngrxPush"
+      >
+      </ea-home-page-sustainability-card>
+      <ng-container *ngFor="let card of homeCards$ | ngrxPush">
+        <ea-home-page-card [card]="card"></ea-home-page-card>
+      </ng-container>
+    </div>
+    <div class="mt-4 sm:mt-8">
+      <ea-qualtrics-info-banner
+        [bearingDesingation]="undefined"
+      ></ea-qualtrics-info-banner>
+    </div>
+  </div>
+</div>

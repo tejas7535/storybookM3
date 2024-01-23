@@ -1,5 +1,16 @@
 import { NumberString } from '@ea/shared/helper';
 
+export interface CatalogServiceBearingSearchResult {
+  data: [
+    {
+      data: {
+        id: string; // eg. old id "6f609926c66e403da0cce73858b252df"
+        title: string; // eg. bearing designation "6200"
+      };
+    }
+  ];
+}
+
 export interface CatalogServiceBasicFrequenciesResult {
   data: {
     status: string;

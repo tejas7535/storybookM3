@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { catchError, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
+import { AppRoutePath } from '@ea/app-route-path.enum';
 import { ModuleCalculationModuleInfoResult } from '@ea/core/services/calculation-module-info.interface';
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
@@ -22,6 +24,11 @@ export class ProductSelectionEffects {
   public setBearingDesignation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.setBearingDesignation),
+      tap((action) => {
+        if (action.shouldNavigateToCalculationPage) {
+          this.router.navigate([AppRoutePath.BasePath]);
+        }
+      }),
       mergeMap(() => [
         ProductSelectionActions.fetchBearingCapabilities(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
@@ -160,6 +167,22 @@ export class ProductSelectionEffects {
     );
   });
 
+  public bearingSearch$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.searchBearing),
+      map((action) => action.query),
+      mergeMap((query: string) =>
+        this.catalogService
+          .getBearingSearch(query)
+          .pipe(
+            map((resultList: string[]) =>
+              ProductSelectionActions.bearingSearchSuccess({ resultList })
+            )
+          )
+      )
+    );
+  });
+
   public fetchLoadcaseTemplate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.fetchLoadcaseTemplate),
@@ -215,6 +238,7 @@ export class ProductSelectionEffects {
     private readonly catalogService: CatalogService,
     private readonly calculationModuleInfoService: CalculationModuleInfoService,
     private readonly productSelectionFacade: ProductSelectionFacade,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly router: Router
   ) {}
 }

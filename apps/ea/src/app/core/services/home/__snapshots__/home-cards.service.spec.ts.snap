@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeCardsService when getting home cards should get home cards 1`] = `
+Array [
+  Object {
+    "action": [Function],
+    "mainTitle": "homePage.cards.greaseApp.title.main",
+    "subTitle": "homePage.cards.poweredBy",
+    "svgIcon": "grease_app",
+  },
+  Object {
+    "action": [Function],
+    "mainTitle": "homePage.cards.mountingManager.title.main",
+    "subTitle": "homePage.cards.poweredBy",
+    "svgIcon": "mounting_manager",
+  },
+  Object {
+    "action": [Function],
+    "imagePath": "/assets/images/homepage/catalog.jpg",
+    "mainTitle": "homePage.cards.catalog.title.main",
+  },
+  Object {
+    "action": [Function],
+    "imagePath": "/assets/images/homepage/contact.jpg",
+    "mainTitle": "homePage.cards.contact.title.main",
+  },
+]
+`;
+
+exports[`HomeCardsService when getting sustainability card should get sustainability card 1`] = `
+Object {
+  "action": [Function],
+  "actionTitle": "homePage.sustainabilityCard.action.title",
+  "mainTitle": "homePage.sustainabilityCard.title",
+}
+`;

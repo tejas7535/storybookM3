@@ -12,7 +12,9 @@
       'md:mb-24 md:pb-6': isStandalone$ | ngrxPush,
     }"
   >
-    <ea-calculation-parameters></ea-calculation-parameters>
+    <ea-calculation-parameters
+      [isStandalone]="isStandalone$ | ngrxPush"
+    ></ea-calculation-parameters>
   </div>
 
   <div class="hidden flex-row min-[1100px]:flex md:pr-4">

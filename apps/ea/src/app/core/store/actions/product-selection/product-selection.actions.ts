@@ -5,7 +5,10 @@ import { ProductSelectionState } from '../../models/product-selection-state.mode
 
 export const setBearingDesignation = createAction(
   '[Product Selection] Set Bearing Designation',
-  props<{ bearingDesignation: string }>()
+  props<{
+    bearingDesignation: string;
+    shouldNavigateToCalculationPage?: boolean;
+  }>()
 );
 
 export const setBearingId = createAction(
@@ -28,6 +31,18 @@ export const setCalculationModuleInfo = createAction(
     calculationModuleInfo: ProductSelectionState['calculationModuleInfo'];
   }>()
 );
+
+export const searchBearing = createAction(
+  '[Product Selection] Search Bearing',
+  props<{ query: string }>()
+);
+
+export const bearingSearchSuccess = createAction(
+  '[Product Selection] Search Bearing Success',
+  props<{ resultList: string[] }>()
+);
+
+export const resetBearing = createAction('[Product Selection] Reset Bearing');
 
 export const setProductFetchFailure = createAction(
   '[Product Selection] Set Product Fetch Failure',

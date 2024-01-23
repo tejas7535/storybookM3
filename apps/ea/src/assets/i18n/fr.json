@@ -5,6 +5,50 @@
     "poweredBy": "Powered by {{ name }}",
     "back": "Retour"
   },
+  "breadcrumbs": {
+    "landingPage": "Page d'accueil",
+    "calculation": "Calcul"
+  },
+  "homePage": {
+    "description": "Veuillez entrer une désignation de roulement pour calculer la durée de vie nominale, la perte de puissance par frottement, les paramètres de lubrification, les fréquences de survitesse et les émissions de CO₂e.",
+    "search": {
+      "placeholder": "Saisir une désignation du roulement, par exemple 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Voulez-vous en savoir plus sur la durabilité chez Schaeffler ?",
+      "action": {
+        "title": "Cliquez ici",
+        "url": "https://medias.schaeffler.fr/fr/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "powered by Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catalogue de produits de Medias"
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr"
+      },
+      "contact": {
+        "title": {
+          "main": "Experts Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.fr/fr/stc"
+      }
+    }
+  },
   "inputs": {
     "pleaseSelect": "Veuillez sélectionner"
   },
@@ -13,7 +57,7 @@
     "loadcase": "Cas de charge"
   },
   "operationConditions": {
-    "title": "Conditions de fonctionnement pour le roulement {{bearingDesignation}}",
+    "title": "Conditions de fonctionnement pour le roulement",
     "prototypeWarning": "Les valeurs présentées dans ce prototype de développement sont hypothétiques et ne doivent pas être utilisées en production",
     "showPresetCalculationParameters": "Afficher les paramètres de calcul prédéfinis",
     "addLoadCase": "Ajouter un cas de charge",

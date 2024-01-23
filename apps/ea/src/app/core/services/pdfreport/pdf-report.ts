@@ -1,4 +1,4 @@
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import { FontsLoaderService } from '../fonts-loader.service';
 import { generateFooter } from './components/footer';

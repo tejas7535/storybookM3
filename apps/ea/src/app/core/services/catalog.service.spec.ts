@@ -34,6 +34,7 @@ describe('CatalogService', () => {
   let catalogService: CatalogService;
   let spectator: SpectatorService<CatalogService>;
   let httpMock: HttpTestingController;
+  const baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
 
   const createService = createServiceFactory({
     service: CatalogService,
@@ -51,9 +52,44 @@ describe('CatalogService', () => {
     expect(catalogService).toBeDefined();
   });
 
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  describe('getBearingSearch', () => {
+    it('should return an observable of bearingDesignations', () => {
+      const url = `${baseUrl}/product/search?pattern=bearing&size=15000`;
+
+      const mockData = {
+        data: [
+          {
+            data: {
+              title: 'Bearing 1',
+            },
+          },
+          {
+            data: {
+              title: 'Bearing 2',
+            },
+          },
+        ],
+      };
+      const query = 'bearing';
+      catalogService
+        .getBearingSearch(query)
+        .subscribe((bearingDesignations) => {
+          expect(bearingDesignations).toEqual(['Bearing 1', 'Bearing 2']);
+        });
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockData);
+    });
+  });
+
   describe('getBearingCapabilities', () => {
     it('should call the service to fetch the product capabilities', () => {
-      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/capabilities?designation=6226`;
+      const url = `${baseUrl}/product/capabilities?designation=6226`;
 
       const mockResponse: ProductCapabilitiesResult = {
         productInfo: {
@@ -66,12 +102,9 @@ describe('CatalogService', () => {
         },
       };
 
-      // eslint-disable-next-line jest/valid-expect-in-promise
-      firstValueFrom(catalogService.getBearingCapabilities('6226')).then(
-        (res) => {
-          expect(res).toEqual(mockResponse);
-        }
-      );
+      catalogService.getBearingCapabilities('6226').subscribe((res) => {
+        expect(res).toEqual(mockResponse);
+      });
 
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('GET');
@@ -102,7 +135,7 @@ describe('CatalogService', () => {
           ],
         },
       };
-      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/basicfrequencies/my-id`;
+      const url = `${baseUrl}/product/basicfrequencies/my-id`;
 
       firstValueFrom(catalogService.getBasicFrequencies('my-id')).then(
         (res) => {
@@ -133,7 +166,7 @@ describe('CatalogService', () => {
     });
 
     it('should call the service to get basic frequencies as PDF', waitForAsync(() => {
-      const url = `${environment.catalogApiBaseUrl}/v1/CatalogBearing/product/basicfrequencies/pdf/my-id`;
+      const url = `${baseUrl}/product/basicfrequencies/pdf/my-id`;
       const mockResult = new Blob();
 
       firstValueFrom(catalogService.getBasicFrequenciesPdf('my-id')).then(

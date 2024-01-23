@@ -16,6 +16,8 @@ import {
   getAvailableLubricationMethods,
   getBearingDesignation,
   getBearingId,
+  getBearingSelectionLoading,
+  getBearingSelectionResultList,
   getCalculationModuleInfo,
   getTemplateItem,
   isBearingSupported,
@@ -28,6 +30,14 @@ export class ProductSelectionFacade {
   public readonly bearingDesignation$ = this.store.select(
     getBearingDesignation
   );
+  public readonly bearingDesignationResultList$ = this.store.select(
+    getBearingSelectionResultList
+  );
+
+  public readonly isBearingSelectionLoading$ = this.store.select(
+    getBearingSelectionLoading
+  );
+
   public bearingId$ = this.store.select(getBearingId);
   public calcualtionModuleInfo$ = this.store.select(getCalculationModuleInfo);
   public availableLoads$ = this.store.select(getAvailableLoads);

@@ -1,4 +1,7 @@
 import {
+  bearingSearchSuccess,
+  resetBearing,
+  searchBearing,
   setBearingDesignation,
   setBearingId,
   setProductFetchFailure,
@@ -38,5 +41,30 @@ describe('Product Selection Actions', () => {
         error: { moduleInfoApi: 'my-error' },
       });
     });
+  });
+
+  it('should create the Search Bearing action', () => {
+    const query = '6226';
+    const expectedAction = {
+      type: '[Product Selection] Search Bearing',
+      query,
+    };
+    expect(searchBearing({ query })).toEqual(expectedAction);
+  });
+
+  it('should create the Search Bearing Success action', () => {
+    const resultList = ['6226', '6000', '608'];
+    const expectedAction = {
+      type: '[Product Selection] Search Bearing Success',
+      resultList,
+    };
+    expect(bearingSearchSuccess({ resultList })).toEqual(expectedAction);
+  });
+
+  it('should create the Reset Bearing action', () => {
+    const expectedAction = {
+      type: '[Product Selection] Reset Bearing',
+    };
+    expect(resetBearing()).toEqual(expectedAction);
   });
 });
