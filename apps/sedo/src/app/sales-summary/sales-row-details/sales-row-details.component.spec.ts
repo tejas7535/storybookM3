@@ -138,6 +138,8 @@ describe('SalesRowDetailsComponent', () => {
     it('should set formcontrol values with eopDateTemp', () => {
       component.rowData = {
         eopDateTemp: salesSummaryMock.eopDateTemp,
+        // eslint-disable-next-line unicorn/no-null
+        eopDateVerified: null,
         edoDate: salesSummaryMock.edoDate,
       } as unknown as SalesSummary;
 
@@ -153,7 +155,23 @@ describe('SalesRowDetailsComponent', () => {
 
     it('should set formcontrol values with eopDateVerified', () => {
       component.rowData = {
-        // Values are comming as null from API
+        eopDateTemp: salesSummaryMock.eopDateTemp,
+        eopDateVerified: salesSummaryMock.eopDateVerified,
+        edoDate: salesSummaryMock.edoDate,
+      } as unknown as SalesSummary;
+
+      component['setInitialFormValues']();
+
+      expect(component.datesFormGroup.get('eopDateControl').value).toEqual(
+        salesSummaryMock.eopDateTemp
+      );
+      expect(component.datesFormGroup.get('edoDateControl').value).toEqual(
+        salesSummaryMock.edoDate
+      );
+    });
+
+    it('should set formcontrol values with eopDateVerified when eopDateTemp is null', () => {
+      component.rowData = {
         // eslint-disable-next-line unicorn/no-null
         eopDateTemp: null,
         eopDateVerified: salesSummaryMock.eopDateVerified,
@@ -163,7 +181,7 @@ describe('SalesRowDetailsComponent', () => {
       component['setInitialFormValues']();
 
       expect(component.datesFormGroup.get('eopDateControl').value).toEqual(
-        salesSummaryMock.eopDateTemp
+        salesSummaryMock.eopDateVerified
       );
       expect(component.datesFormGroup.get('edoDateControl').value).toEqual(
         salesSummaryMock.edoDate

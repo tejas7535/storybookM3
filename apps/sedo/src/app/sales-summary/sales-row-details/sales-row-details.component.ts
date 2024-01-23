@@ -178,12 +178,13 @@ export class SalesRowDetailsComponent
     this.datesFormGroup
       .get('edoDateControl')
       .addValidators(this.edoValidator.bind(this));
-
+    // either eopTemp or eopVerified can be null, not both.
+    // eopVerified is preferred value
     this.datesFormGroup.setValue({
       eopDateControl:
-        this.rowData.eopDateTemp !== null
-          ? this.rowData.eopDateTemp
-          : this.rowData.eopDateVerified,
+        this.rowData.eopDateVerified !== null
+          ? this.rowData.eopDateVerified
+          : this.rowData.eopDateTemp,
       edoDateControl: this.rowData.edoDate,
     });
 
