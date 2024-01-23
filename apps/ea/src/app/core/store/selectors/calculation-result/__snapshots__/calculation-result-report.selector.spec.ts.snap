@@ -107,54 +107,6 @@ Array [
     "loadcaseValues": Array [
       Object {
         "loadcaseName": "Loadcase 1",
-        "value": 2.8,
-      },
-      Object {
-        "loadcaseName": "Loadcase 2",
-        "value": 9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 9,
-      },
-    ],
-    "short": "M0",
-    "title": "speedDependentFrictionalTorque",
-    "unit": "N mm",
-    "warning": undefined,
-  },
-  Object {
-    "loadcaseValues": Array [
-      Object {
-        "loadcaseName": "Loadcase 1",
-        "value": 0.6,
-      },
-      Object {
-        "loadcaseName": "Loadcase 2",
-        "value": 7.9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 7.9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 7.9,
-      },
-    ],
-    "short": "M1",
-    "title": "loadDependentFrictionalTorque",
-    "unit": "N mm",
-    "warning": undefined,
-  },
-  Object {
-    "loadcaseValues": Array [
-      Object {
-        "loadcaseName": "Loadcase 1",
         "value": 3.4,
       },
       Object {
@@ -197,6 +149,54 @@ Array [
     "short": "NR",
     "title": "totalFrictionalPowerLoss",
     "unit": "kW",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 2.8,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 9,
+      },
+    ],
+    "short": "M0",
+    "title": "speedDependentFrictionalTorque",
+    "unit": "N mm",
+    "warning": undefined,
+  },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 0.6,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 7.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 3",
+        "value": 7.9,
+      },
+      Object {
+        "loadcaseName": "Loadcase 4",
+        "value": 7.9,
+      },
+    ],
+    "short": "M1",
+    "title": "loadDependentFrictionalTorque",
+    "unit": "N mm",
     "warning": undefined,
   },
   Object {

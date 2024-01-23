@@ -4,6 +4,7 @@ import { createSelector } from '@ngrx/store';
 import {
   CalculationResultReportInput,
   CalculationType,
+  FrictionKeys,
   LoadcaseResultItem,
   lubricationBearingBehaviourItems,
 } from '../../models';
@@ -68,9 +69,11 @@ export const getFrictionalalPowerlossReport = createSelector(
         })
       );
 
-    const resultItems = result.filter(
-      (item) => item.loadcaseValues !== undefined
-    );
+    const resultItems = result
+      .filter((item) => item.loadcaseValues !== undefined)
+      .sort(
+        (a, b) => FrictionKeys.indexOf(a.short) - FrictionKeys.indexOf(b.short)
+      );
     if (resultItems.length === 0) {
       // eslint-disable-next-line unicorn/no-null
       return null;
