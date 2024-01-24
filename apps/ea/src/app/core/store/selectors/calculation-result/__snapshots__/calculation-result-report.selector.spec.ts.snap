@@ -325,8 +325,8 @@ Array [
     "warning": undefined,
   },
   Object {
-    "short": "tfG",
-    "title": "relubGuideInterval",
+    "short": "tfR",
+    "title": "guideIntervalRelubrication",
     "unit": "h",
     "value": "~ 11360",
   },

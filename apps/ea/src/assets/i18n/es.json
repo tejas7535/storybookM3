@@ -203,7 +203,8 @@
     "staticSafetySubtitle": "Seguridad estática (S0)",
     "lubrication": "Parámetros de lubricación",
     "lubricationSubtitle": "Relación de viscosidad (kappa)",
-    "relubGuideInterval": "Valor guía para el período de relubricación (tfG)",
+    "guideIntervalRelubrication": "Valor guía para el período de relubricación (tfR)",
+    "guideIntervalServiceLife": "Valor orientativo para la vida útil de la grasa (tfG)",
     "emissions": "CO₂e emitidos",
     "emissionsTooltip": "Un equivalente de CO₂ (CO₂e) es una unidad para estandarizar los efectos del cambio climático de varios gases de efecto invernadero. De esta forma, pueden compararse emisiones de diferentes mezclas de gases de efecto invernadero.",
     "overrollingFrequency": "Frecuencias de paso",
@@ -240,9 +241,12 @@
       "operatingViscosity": "Viscosidad de operación",
       "referenceViscosity": "Viscosidad de referencia",
       "lifeAdjustmentFactor": "Factor de ajuste de vida útil",
-      "lowerGuideInterval": "Valor inferior de guía para el intervalo de relubricación",
-      "upperGuideInterval": "Valor superior de guía para el intervalo de relubricación",
-      "relubGuideInterval": "Valor guía para el período de relubricación"
+      "lowerGuideIntervalRelubrication": "Valor inferior de guía para el intervalo de relubricación",
+      "upperGuideIntervalRelubrication": "Valor superior de guía para el intervalo de relubricación",
+      "lowerGuideIntervalServiceLife": "Valor inferior orientativo para la vida útil de la grasa",
+      "upperGuideIntervalServiceLife": "Valor superior orientativo para la vida útil de la grasa",
+      "guideIntervalRelubrication": "Valor guía para el período de relubricación",
+      "guideIntervalServiceLife": "Valor orientativo para la vida útil de la grasa"
     },
     "frictionalPowerloss": {
       "title": "Pérdida de potencia por fricción",

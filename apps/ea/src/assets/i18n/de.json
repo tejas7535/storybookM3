@@ -203,7 +203,8 @@
     "staticSafetySubtitle": "Statische Sicherheit (S0)",
     "lubrication": "Schmierparameter",
     "lubricationSubtitle": "Viskositätsverhältnis (kappa)",
-    "relubGuideInterval": "Richtwert für Nachschmierfrist (tfG)",
+    "guideIntervalServiceLife": "Richtwert für die Fettgebrauchsdauer (tfG)",
+    "guideIntervalRelubrication": "Richtwert für die Nachschmierfrist (tfR)",
     "emissions": "CO₂e-Emissionen",
     "emissionsTooltip": "Ein CO₂-Äquivalent (CO₂e) ist eine Einheit zur Standardisierung der Klimawirkungen verschiedener Treibhausgase. So können Emissionen verschiedener Treibhausgasgemische verglichen werden.",
     "overrollingFrequency": "Überrollfrequenzen bei Betriebsdrehzahl",
@@ -240,9 +241,12 @@
       "operatingViscosity": "Betriebsviskosität",
       "referenceViscosity": "Bezugsviskoksität lt. HR1",
       "lifeAdjustmentFactor": "Lebensdauerbeiwert",
-      "lowerGuideInterval": "Unterer Richtwert für Nachschmierfrist",
-      "upperGuideInterval": "Oberer Richtwert für Nachschmierfrist",
-      "relubGuideInterval": "Richtwert für Nachschmierfrist"
+      "lowerGuideIntervalServiceLife": "Unterer Richtwert für die Fettgebrauchsdauer",
+      "upperGuideIntervalServiceLife": "Oberer Richtwert für die Fettgebrauchsdauer",
+      "lowerGuideIntervalRelubrication": "Unterer Richtwert für die Nachschmierfrist",
+      "upperGuideIntervalRelubrication": "Oberer Richtwert für die Nachschmierfrist",
+      "guideIntervalServiceLife": "Richtwert für die Fettgebrauchsdauer",
+      "guideIntervalRelubrication": "Richtwert für die Nachschmierfrist"
     },
     "frictionalPowerloss": {
       "title": "Reibungsverluste",

@@ -203,7 +203,8 @@
     "staticSafetySubtitle": "静态安全（S0)",
     "lubrication": "润滑参数",
     "lubricationSubtitle": "黏度比（kappa）",
-    "relubGuideInterval": "再润滑间隔指导值 (tfG)",
+    "guideIntervalRelubrication": "再润滑间隔指导值 (tfR)",
+    "guideIntervalServiceLife": "润滑脂使用寿命指导值 (tfG)",
     "emissions": "CO₂e 排放",
     "emissionsTooltip": "CO₂ 的等效物（CO₂e）是一种用于标准化各种温室气体的气候效应的单位。因此，可以比较不同温室气体排放的不同混合物。",
     "overrollingFrequency": "滚过频率",
@@ -240,9 +241,12 @@
       "operatingViscosity": "工作粘度",
       "referenceViscosity": "参考粘度",
       "lifeAdjustmentFactor": "寿命调整因子",
-      "lowerGuideInterval": "再润滑间隔的下限",
-      "upperGuideInterval": "再润滑间隔的上限",
-      "relubGuideInterval": "再润滑间隔指导值"
+      "lowerGuideIntervalRelubrication": "再润滑间隔的下限",
+      "upperGuideIntervalRelubrication": "再润滑间隔的上限",
+      "lowerGuideIntervalServiceLife": "润滑脂使用寿命较低指导值",
+      "upperGuideIntervalServiceLife": "润滑脂使用寿命上限指导值",
+      "guideIntervalRelubrication": "再润滑间隔指导值",
+      "guideIntervalServiceLife": "润滑脂使用寿命指导值"
     },
     "frictionalPowerloss": {
       "title": "摩擦功率损失",

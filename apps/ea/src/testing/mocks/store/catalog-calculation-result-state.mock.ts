@@ -68,11 +68,11 @@ export const CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK: CatalogCalculationResul
           unit: 'N',
           value: '1125.00',
         },
-        lowerGuideInterval: {
+        lowerGuideIntervalRelubrication: {
           unit: 'h',
           value: '8920',
         },
-        upperGuideInterval: {
+        upperGuideIntervalRelubrication: {
           unit: 'h',
           value: '13800',
         },

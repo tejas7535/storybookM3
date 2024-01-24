@@ -66,12 +66,20 @@ export const lubricationBearingBehaviourItems: {
   short: string;
 }[] = [
   {
-    key: 'lowerGuideInterval',
+    key: 'lowerGuideIntervalServiceLife',
     short: 'tfG_min',
   },
   {
-    key: 'upperGuideInterval',
+    key: 'upperGuideIntervalServiceLife',
     short: 'tfG_max',
+  },
+  {
+    key: 'lowerGuideIntervalRelubrication',
+    short: 'tfR_min',
+  },
+  {
+    key: 'upperGuideIntervalRelubrication',
+    short: 'tfR_max',
   },
 ];
 
@@ -111,10 +119,14 @@ export interface BearingBehaviour {
   S0_min?: ResultItem;
   /** Maximum Equivalent Static Load */
   P0_max?: ResultItem;
+  // tfG_min (Lower guide value for grease service life)
+  lowerGuideIntervalServiceLife?: ResultItem;
+  // tfG_max (Upper guide value for grease service life)
+  upperGuideIntervalServiceLife?: ResultItem;
   // tfR_min (Lower guide value for relubrication interval)
-  lowerGuideInterval?: ResultItem;
+  lowerGuideIntervalRelubrication?: ResultItem;
   // tfR_max (Upper guide value for relubrication interval)
-  upperGuideInterval?: ResultItem;
+  upperGuideIntervalRelubrication?: ResultItem;
 }
 
 export interface BasicFrequency {
