@@ -1,4 +1,25 @@
 # Release Notes of Engineering App
+## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.3.0...ea-v1.4.0) (2024-01-25)
+
+
+### Features
+
+* **ea:** add empty state - UFTABI-7143 ([#5897](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5897)) ([bb5c6b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb5c6b4cc832d12b40ff13d41988aacfbd391776))
+* **ea:** add standalone landing page (UFTABI:6526 ) ([#5930](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5930)) ([ba9708b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba9708bdd48d9d0f85b0c7822bd647cc11fea988))
+* **ea:** add survey for legacy UI - UFTABI-7142 ([#5904](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5904)) ([1136e8f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1136e8f193376fedce4be194d487a3e160e7eb17))
+* **ea:** add tags for preset input values - UFTABI-7086 ([#5890](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5890)) ([2dddb79](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2dddb79df2f60bf021950e6ea60c03803ebf1271))
+* **ea:** enhance GA tracking with loadcase events - UFTABI-7136 ([#5910](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5910)) ([f42e9ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f42e9aef9fea3dbbe86aa685c8bb93fc05c63414))
+
+
+### Bug Fixes
+
+* **ea:** add formatting for legal pages - UFTABI-6925 ([#5899](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5899)) ([b19f568](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b19f5688face1c677daa69a5fdc2bbe6e18f3b5f))
+* **ea:** add relubrication interval to report - UFTABI-7168 ([#5913](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5913)) ([a1bdc28](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a1bdc28348b0604042a756a74a2761197635979a))
+* **ea:** adjust friction result order ([#5927](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5927)) ([adeaa3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/adeaa3ab81c628988078c41f2947af442b9dd2ba))
+* **ea:** distinguish grease service life and relubrication interval ([#5935](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5935)) ([1feef53](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1feef53571462fca8f8c8ea1c43c4752d100aa12))
+* **ea:** fix duplicate empty state and visible preset params ([#5940](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5940)) ([76d242d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76d242de5608994d6dc52c50a66fe485de6e774f))
+* **ea:** Oscillating lubrication results - UFTABI-7172 ([#5914](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5914)) ([ac21d8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ac21d8eb32ad498f3f3758ef257a946f448f9c86))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.2.1...ea-v1.3.0) (2024-01-08)
 
 
