@@ -45,7 +45,7 @@
         >
           <!-- Mobile Empty state-->
           <div
-            class="text-left py-11 flex-row items-center justify-center space-x-2 flex"
+            class="text-left py-11 flex-row items-center justify-center space-x-2 flex md:hidden"
             *ngIf="!(hasSelection$ | ngrxPush)"
           >
             <mat-icon color="primary" class="flex-shrink-0"
@@ -210,7 +210,7 @@
 
             <!---- Preset calculation chips ----->
             <div
-              [hidden]="showPresetParameters || !(hasCalculationSelected$ | ngrxPush)"
+              [ngClass]="{'!hidden': showPresetParameters || !(hasCalculationSelected$ | ngrxPush)}"
               class="w-full md:flex grid grid-cols-2 min-w-full flex-row justify-start md:border-b border-border py-2 flex-nowrap"
             >
               <div
