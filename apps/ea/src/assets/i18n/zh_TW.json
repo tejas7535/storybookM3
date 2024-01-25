@@ -73,6 +73,11 @@
       "title": "操作時間",
       "label": "百分比"
     },
+    "presetParameters": {
+      "headline": "預設計算參數",
+      "hide": "隱藏",
+      "edit": "編輯"
+    },
     "confirmationDialog": {
       "title": "確認刪除",
       "description": "您確定要刪除荷載情況嗎？",

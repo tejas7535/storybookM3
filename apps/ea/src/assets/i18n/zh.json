@@ -73,6 +73,11 @@
       "title": "操作时间",
       "label": "百分比"
     },
+    "presetParameters": {
+      "headline": "预设计算参数",
+      "hide": "隐藏值",
+      "edit": "编辑"
+    },
     "confirmationDialog": {
       "title": "确认删除",
       "description": "您确定要删除负载吗？",

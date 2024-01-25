@@ -73,6 +73,11 @@
       "title": "Betriebszeit",
       "label": "Prozentsatz"
     },
+    "presetParameters": {
+      "headline": "Voreingestellte Parameter",
+      "hide": "Verstecken",
+      "edit": "Bearbeiten"
+    },
     "confirmationDialog": {
       "title": "Löschen bestätigen",
       "description": "Sind Sie sicher, dass Sie die Lastfälle löschen möchten?",

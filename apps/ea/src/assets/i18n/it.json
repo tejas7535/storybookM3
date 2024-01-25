@@ -73,6 +73,11 @@
       "title": "Tempo di funzionamento",
       "label": "Percentuale"
     },
+    "presetParameters": {
+      "headline": "Parametri di calcolo preimpostati",
+      "hide": "Nascondere",
+      "edit": "Modifica"
+    },
     "confirmationDialog": {
       "title": "Conferma cancellazione",
       "description": "Sei sicuro di voler cancellare il caso di carico?",

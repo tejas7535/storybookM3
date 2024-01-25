@@ -73,6 +73,11 @@
       "title": "Temps de fonctionnement",
       "label": "Pourcentage"
     },
+    "presetParameters": {
+      "headline": "Paramètres de calcul prédéfinis",
+      "hide": "Cacher",
+      "edit": "Editer"
+    },
     "confirmationDialog": {
       "title": "Confirmer la suppression",
       "description": "Êtes-vous sûr de vouloir supprimer le cas de charge?",

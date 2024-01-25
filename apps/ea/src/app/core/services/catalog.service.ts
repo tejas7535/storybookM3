@@ -243,25 +243,6 @@ export class CatalogService {
 
     const formattedUrl = new URL(jsonReportUrl);
 
-    const re = new RegExp(
-      '(^127.)|(^10.)|(^172.1[6-9].)|(^172.2\\d.)|(^172.3[0-1].)|(^192.168.)'
-    );
-    if (re.test(formattedUrl.hostname)) {
-      // the url returned is within a private ip range due to a bug in the backend
-      // so we will naively replace it with the hostname we initially requested for the catalog url
-      // this is a naive approach and is only intended as a **temporary** fix while the backend is working
-      // on their proper implementation
-      //
-      // TODO: remove once the backend bug is gone
-
-      const catalogUrl = new URL(environment.catalogApiBaseUrl);
-      formattedUrl.port = catalogUrl.port;
-      formattedUrl.protocol = catalogUrl.protocol;
-      formattedUrl.hostname = catalogUrl.hostname;
-      formattedUrl.host = catalogUrl.host;
-      formattedUrl.pathname = `/catalogue${formattedUrl.pathname}`;
-    }
-
     return this.httpClient.get<BearinxOnlineResult>(formattedUrl.toString());
   }
 

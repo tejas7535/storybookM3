@@ -76,6 +76,7 @@ import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/q
 import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-template.directive';
 import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
 import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
+import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -132,6 +133,8 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     MatInputModule,
     MatFormFieldModule,
     InfoButtonComponent,
+    TagComponent,
+    MatTooltipModule,
     SubheaderModule,
     LetDirective,
   ],
@@ -147,6 +150,7 @@ export class CalculationParametersComponent
 
   public DEBOUNCE_TIME_DEFAULT = 200;
   public readonly isProduction = environment.production;
+  public showPresetParameters = false;
 
   public parameterTemplates$:
     | Observable<{
@@ -177,6 +181,9 @@ export class CalculationParametersComponent
   public readonly lubricationMethodsAvailable$ =
     this.productSelectionFacade.availableLubricationMethods$;
 
+  public presetChips$:
+    | Observable<{ text: string; label?: string; icon: string }[]>
+    | undefined;
   public operationConditionsForm = new FormGroup({
     loadCaseData: new FormArray(
       [this.createLoadCaseDataFormGroup('load case')],
@@ -343,6 +350,9 @@ export class CalculationParametersComponent
     | Observable<{ label: string; value: string }[]>
     | undefined;
 
+  public readonly hasCalculationSelected$ =
+    this.calculationParametersFacade.hasCalculation$;
+
   private readonly destroy$ = new Subject<void>();
   private loadCaseCount = 1;
 
@@ -495,6 +505,106 @@ export class CalculationParametersComponent
           )
         )
       );
+
+    this.presetChips$ = combineLatest([
+      this.operationConditionsForm.valueChanges.pipe(
+        startWith(this.operationConditionsForm.value)
+      ),
+      this.calculationParametersFacade.getCalculationFieldsConfig$,
+      this.contaminationOptions$,
+    ]).pipe(
+      takeUntil(this.destroy$),
+      map(([changes, { preset }, contaminationOptions]) => {
+        const chips = [...preset];
+        if (preset.includes('operatingTemperature')) {
+          chips.push('ambientTemperature');
+        }
+
+        const valueMappers: {
+          [Key: string]: () => { text?: string; label?: string; icon: string };
+        } = {
+          contamination: () => ({
+            text: contaminationOptions.find(
+              (opt) => opt.value === changes.contamination
+            ).label,
+            label: this.translocoService.translate(
+              'operationConditions.contamination.title'
+            ),
+            icon: 'mop',
+          }),
+
+          conditionOfRotation: () => ({
+            text: this.translocoService.translate(
+              `operatingConditions.rotatingCondition.options.${changes.conditionOfRotation}`
+            ),
+            icon: 'flip_camera_android',
+          }),
+          ambientTemperature: () => ({
+            text: `${changes.ambientTemperature}°C`,
+            label: this.translocoService.translate(
+              'operationConditions.temperature.ambientTemperature.label'
+            ),
+            icon: 'device_thermostat',
+          }),
+          operatingTemperature: () => ({
+            label: this.translocoService.translate(
+              'operationConditions.temperature.operatingTemperature.label'
+            ),
+            text:
+              changes.loadCaseData.length === 1
+                ? `${changes.loadCaseData[0].operatingTemperature}°C`
+                : undefined,
+            icon: 'device_thermostat',
+          }),
+          lubrication: () => {
+            let text;
+            const data = changes.lubrication;
+            const sel = changes.lubrication.lubricationSelection;
+            const greasing = data[sel];
+            const greaseSelection = greasing.selection;
+
+            const [title, value] = Object.entries(greasing).find(
+              ([key, _]) => key === greaseSelection
+            );
+
+            const label = this.translocoService.translate(
+              `operationConditions.lubrication.options.${sel}`
+            );
+
+            // eslint-disable-next-line default-case
+            switch (title) {
+              case 'viscosity':
+                text = 'Custom viscosity';
+                break;
+
+              case 'isoVgClass':
+                text = value.isoVgClass
+                  ? `ISO VG ${value.isoVgClass}`
+                  : undefined;
+                break;
+
+              case 'typeOfGrease':
+                text = Greases.find(
+                  (g) => g.value === value.typeOfGrease
+                ).label;
+                break;
+            }
+
+            return { text, label, icon: 'water_drop' };
+          },
+        };
+
+        return chips
+          .map((key) => ({ key, func: valueMappers[key] }))
+          .filter((obj) => obj.func)
+          .map((b) => ({ ...b.func() }))
+          .filter((a) => a.text) as {
+          text: string;
+          label: string;
+          icon: string;
+        }[];
+      })
+    );
   }
 
   public ngOnDestroy(): void {

@@ -189,18 +189,62 @@
           </ng-container>
 
           <!-- PRESET PARAMETERS -->
-          <div class="flex w-full justify-end items-center">
-            <mat-slide-toggle
-              [checked]="false"
-              #showPresets
-              class="text-body-1"
-              color="primary"
-              labelPosition="before"
+          <div [hidden]="(presetChips$ | ngrxPush)?.length === 0">
+            <div class="flex w-full justify-between items-center mb-3">
+              <div
+                class="text-subtitle-2 text-body-2 text-medium-emphasis py-2"
+              >
+                {{ t('presetParameters.headline') }}
+              </div>
+              <div>
+                <button
+                  mat-button
+                  *ngIf="showPresetParameters"
+                  color="primary"
+                  (click)="showPresetParameters = false"
+                >
+                  {{ t('presetParameters.hide') }}
+                </button>
+              </div>
+            </div>
+
+            <!---- Preset calculation chips ----->
+            <div
+              [hidden]="showPresetParameters || !(hasCalculationSelected$ | ngrxPush)"
+              class="w-full md:flex grid grid-cols-2 min-w-full flex-row justify-start md:border-b border-border py-2 flex-nowrap"
             >
-              {{ t('showPresetCalculationParameters') }}
-            </mat-slide-toggle>
+              <div
+                class="w-auto border-r chip flex flex-col space-y-2 border-b md:border-b-0 border-border px-3 py-2 md:py-0"
+                *ngFor="let chip of presetChips$ | ngrxPush; last as isLast; odd as isOdd"
+                [ngClass]="{'md:border-r-0': isLast, 'border-r-0 md:border-r': isOdd}"
+              >
+                <mat-icon
+                  class="hidden md:block !text-medium-emphasis"
+                  [svgIcon]="chip.icon"
+                  >{{ chip.icon }}</mat-icon
+                >
+                <span class="font-bold text-subtitle-2 text-medium-emphasis"
+                  >{{ chip.text }}</span
+                >
+                <span class="text-low-emphasis text-body-2"
+                  >{{ chip.label }}</span
+                >
+              </div>
+              <div
+                class="md:w-auto flex items-center col-span-2 px-3 border-b md:border-b-0 md:border-l border-border"
+              >
+                <button
+                  mat-button
+                  color="primary"
+                  class="w-full md:w-auto"
+                  (click)="showPresetParameters = true"
+                >
+                  {{ t('presetParameters.edit') }}
+                </button>
+              </div>
+            </div>
           </div>
-          <div *ngIf="showPresets.checked" class="flex flex-col gap-4">
+          <div *ngIf="showPresetParameters" class="flex flex-col gap-4">
             <ng-container
               *ngFor="let parameterTemplate of parameterTemplates.preset"
               [ngTemplateOutlet]="parameterTemplate"
@@ -694,7 +738,8 @@
 <ng-template parameterTemplate="contamination">
   <ea-input-group
     [title]="t('title')"
-    icon="flip_camera_android"
+    icon="mop"
+    svgIcon="mop"
     [isMandatory]="true"
     *transloco="let t; read: 'operationConditions.contamination'"
   >

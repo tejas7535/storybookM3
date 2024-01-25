@@ -73,6 +73,11 @@
       "title": "Tiempo de operación",
       "label": "Porcentaje"
     },
+    "presetParameters": {
+      "headline": "Parámetros de cálculo preestablecidos",
+      "hide": "Ocultar valores",
+      "edit": "Editar"
+    },
     "confirmationDialog": {
       "title": "Confirmar eliminación",
       "description": "¿Está seguro de que desea eliminar el caso de carga?",

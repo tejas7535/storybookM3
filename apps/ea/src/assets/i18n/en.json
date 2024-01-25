@@ -73,6 +73,11 @@
       "title": "Operating time",
       "label": "Percentage"
     },
+    "presetParameters": {
+      "headline": "Preset calculation parameters",
+      "hide": "Hide Values",
+      "edit": "Edit"
+    },
     "confirmationDialog": {
       "title": "Confirm deletion",
       "description": "Are you sure you want to delete loadcase?",
