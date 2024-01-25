@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 1/25/2024
+* ea: [1.4.0](./apps/ea/CHANGELOG.md)
+
 ## 1/19/2024
 * mm: [0.3.2](./apps/mm/CHANGELOG.md)
 
