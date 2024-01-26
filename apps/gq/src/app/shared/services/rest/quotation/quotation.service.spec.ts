@@ -270,11 +270,11 @@ describe('QuotationService', () => {
   describe('getCasesByMaterialNumber', () => {
     test('should call the service', () => {
       service
-        .getCasesByMaterialNumber('123456')
+        .getCasesByMaterialNumber('123456', true)
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}?${service['PARAM_MATERIAL_NUMBER']}=123456`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}?${service['PARAM_MATERIAL_NUMBER']}=123456&${service['PARAM_USER_CASES_ONLY']}=true`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });

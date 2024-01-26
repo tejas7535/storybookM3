@@ -12,7 +12,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -37,7 +37,7 @@ describe('GlobalSearchModalComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       ReactiveFormsModule,
-      PushModule,
+      PushPipe,
       RouterTestingModule,
     ],
     providers: [
@@ -86,8 +86,8 @@ describe('GlobalSearchModalComponent', () => {
     test('should init', () => {
       component.ngOnInit();
       component.searchFormControl.setValue('value');
-      expect(component.autocomplete.resetView).toHaveBeenCalled();
-      expect(component.autocomplete.initFacade).toHaveBeenCalled();
+      expect(component['autocomplete'].resetView).toHaveBeenCalled();
+      expect(component['autocomplete'].initFacade).toHaveBeenCalled();
       expect(component.displayResultList).toBe(ResultsListDisplay.LAST_RESULTS);
     });
     test('should autocomplete', (done) => {
@@ -95,7 +95,7 @@ describe('GlobalSearchModalComponent', () => {
       component.searchFormControl.setValue('value');
 
       setTimeout(() => {
-        expect(component.autocomplete.autocomplete).toHaveBeenCalled();
+        expect(component['autocomplete'].autocomplete).toHaveBeenCalled();
         done();
       }, component['DEBOUNCE_TIME_DEFAULT']);
     });
@@ -122,7 +122,7 @@ describe('GlobalSearchModalComponent', () => {
       expect(true).toBeTruthy();
     });
     test("should save in localStorage if the 'PREVIEW' list is displayed", () => {
-      component.lastSearchResultsService.addLastResult = jest.fn();
+      component['lastSearchResultsService'].addLastResult = jest.fn();
       component.displayResultList = ResultsListDisplay.PREVIEW;
       component.searchVal = '12345';
 
@@ -135,15 +135,15 @@ describe('GlobalSearchModalComponent', () => {
       component.onItemSelected(selectedMaterial);
 
       expect(
-        component.lastSearchResultsService.addLastResult
+        component['lastSearchResultsService'].addLastResult
       ).toHaveBeenCalledTimes(1);
       expect(
-        component.lastSearchResultsService.addLastResult
+        component['lastSearchResultsService'].addLastResult
       ).toHaveBeenCalledWith(selectedMaterial, '12345');
     });
 
     test("should NOT save in localStorage if the 'LAST_RESULTS' list is displayed", () => {
-      component.lastSearchResultsService.addLastResult = jest.fn();
+      component['lastSearchResultsService'].addLastResult = jest.fn();
       component.displayResultList = ResultsListDisplay.LAST_RESULTS;
       component.searchVal = '12345';
 
@@ -156,7 +156,7 @@ describe('GlobalSearchModalComponent', () => {
       component.onItemSelected(selectedMaterial);
 
       expect(
-        component.lastSearchResultsService.addLastResult
+        component['lastSearchResultsService'].addLastResult
       ).not.toHaveBeenCalled();
     });
   });
@@ -311,7 +311,7 @@ describe('GlobalSearchModalComponent', () => {
 
       component.onItemSelected = jest.fn();
       component.displayResultList = ResultsListDisplay.PREVIEW;
-      component.autocomplete.materialNumberOrDescForGlobalSearch$ = of({
+      component['autocomplete'].materialNumberOrDescForGlobalSearch$ = of({
         filter: undefined,
         options: idValues,
       } as CaseFilterItem);
@@ -336,7 +336,7 @@ describe('GlobalSearchModalComponent', () => {
 
       component.onItemSelected = jest.fn();
       component.displayResultList = ResultsListDisplay.PREVIEW;
-      component.autocomplete.materialNumberOrDescForGlobalSearch$ = of({
+      component['autocomplete'].materialNumberOrDescForGlobalSearch$ = of({
         filter: undefined,
         options: idValues,
       } as CaseFilterItem);
@@ -356,7 +356,7 @@ describe('GlobalSearchModalComponent', () => {
 
       component.onItemSelected = jest.fn();
       component.displayResultList = ResultsListDisplay.LAST_RESULTS;
-      component.lastSearchResultsService.lastSearchResults$ = of(idValues);
+      component['lastSearchResultsService'].lastSearchResults$ = of(idValues);
 
       component.selectTopItem();
 
@@ -378,7 +378,7 @@ describe('GlobalSearchModalComponent', () => {
 
       component.onItemSelected = jest.fn();
       component.displayResultList = ResultsListDisplay.LAST_RESULTS;
-      component.lastSearchResultsService.lastSearchResults$ = of(idValues);
+      component['lastSearchResultsService'].lastSearchResults$ = of(idValues);
 
       component.selectTopItem();
 

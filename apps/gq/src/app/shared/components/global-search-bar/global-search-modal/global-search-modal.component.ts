@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+/* eslint-disable @typescript-eslint/member-ordering */
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Params, Router } from '@angular/router';
@@ -17,6 +18,7 @@ import {
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
@@ -40,32 +42,37 @@ import { ResultsListDisplay } from './models/results-list-display.enum';
   templateUrl: './global-search-modal.component.html',
 })
 export class GlobalSearchModalComponent implements OnInit, OnDestroy {
-  public readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
+  private readonly lastSearchResultsService = inject(
+    GlobalSearchLastResultsService
+  );
+  private readonly autocomplete = inject(AutoCompleteFacade);
+  private readonly dialogRef = inject(MatDialogRef<GlobalSearchModalComponent>);
+  private readonly quotationService = inject(QuotationService);
+  private readonly router = inject(Router);
+  private readonly materialNumberService = inject(MaterialNumberService);
+  private readonly featureToggleService = inject(FeatureToggleConfigService);
 
-  public displayResultList: ResultsListDisplay =
-    ResultsListDisplay.LAST_RESULTS;
-  public searchResult: QuotationSearchResult[] = [];
+  readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
-  public readonly resultsDisplayType = ResultsListDisplay;
-  public readonly openIn = OpenIn;
-  public searchFormControl: FormControl;
-  public searchVal = '';
+  displayResultList: ResultsListDisplay = ResultsListDisplay.LAST_RESULTS;
+  searchResult: QuotationSearchResult[] = [];
+
+  readonly resultsDisplayType = ResultsListDisplay;
+  readonly openIn = OpenIn;
+  searchFormControl: FormControl = new FormControl();
+  searchVal = '';
+
+  materialNumberOrDescAutocompleteLoading$ =
+    this.autocomplete.materialNumberOrDescAutocompleteLoading$;
+  materialNumberOrDescForGlobalSearch$ =
+    this.autocomplete.materialNumberOrDescForGlobalSearch$;
+  lastSearchResults$ = this.lastSearchResultsService.lastSearchResults$;
+  lastSearchTerms$ = this.lastSearchResultsService.lastSearchTerms$;
 
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
   private readonly unsubscribe$ = new Subject<boolean>();
   private selectedMaterialNumber = '';
   private selectedMaterialDesc = '';
-
-  constructor(
-    private readonly dialogRef: MatDialogRef<GlobalSearchModalComponent>,
-    private readonly quotationService: QuotationService,
-    private readonly router: Router,
-    private readonly materialNumberService: MaterialNumberService,
-    public readonly lastSearchResultsService: GlobalSearchLastResultsService,
-    public readonly autocomplete: AutoCompleteFacade
-  ) {
-    this.searchFormControl = new FormControl();
-  }
 
   ngOnInit(): void {
     this.autocomplete.resetView();
@@ -157,7 +164,10 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
     this.setFilter(idValue);
 
     this.quotationService
-      .getCasesByMaterialNumber(idValue.value)
+      .getCasesByMaterialNumber(
+        idValue.value,
+        !this.featureToggleService.isEnabled('extendedSearchbar')
+      )
       .pipe(
         take(1),
         tap(() => {

@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -25,11 +25,12 @@ export class QuotationService {
   private readonly PARAM_NEXT_APPROVER = 'next_approver';
 
   private readonly PARAM_MATERIAL_NUMBER = 'material-number';
+  private readonly PARAM_USER_CASES_ONLY = 'userCasesOnly';
 
-  constructor(private readonly http: HttpClient) {}
+  readonly #http = inject(HttpClient);
 
   public uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
-    return this.http.post<Quotation>(
+    return this.#http.post<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
       {
         gqPositionIds,
@@ -38,7 +39,7 @@ export class QuotationService {
   }
 
   public refreshSapPricing(gqId: number): Observable<Quotation> {
-    return this.http.get<Quotation>(
+    return this.#http.get<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_REFRESH_SAP_PRICING}`
     );
   }
@@ -52,20 +53,20 @@ export class QuotationService {
       gqIds,
     };
 
-    return this.http.put(
+    return this.#http.put(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_STATUS}`,
       requestBody
     );
   }
 
   public getQuotation(gqId: number): Observable<Quotation> {
-    return this.http.get<Quotation>(
+    return this.#http.get<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
     );
   }
 
   getQuotationsCount() {
-    return this.http.get<GetQuotationsCountResponse>(
+    return this.#http.get<GetQuotationsCountResponse>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${QuotationPaths.PATH_QUOTATIONS_COUNT}`
     );
   }
@@ -89,7 +90,7 @@ export class QuotationService {
       httpParams = httpParams.set(this.PARAM_NEXT_APPROVER, nextApprover);
     }
 
-    return this.http.get<GetQuotationsResponse>(
+    return this.#http.get<GetQuotationsResponse>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
       {
         params: httpParams,
@@ -100,7 +101,7 @@ export class QuotationService {
   public createCase(
     createCaseData: CreateCase
   ): Observable<CreateCaseResponse> {
-    return this.http
+    return this.#http
       .post<CreateCaseResponse>(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
         createCaseData
@@ -119,7 +120,7 @@ export class QuotationService {
   }
 
   public importCase(importCase: string): Observable<Quotation> {
-    return this.http.put<Quotation>(
+    return this.#http.put<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
       importCase
     );
@@ -128,7 +129,7 @@ export class QuotationService {
   public createCustomerCase(
     requestPayload: CreateCustomerCase
   ): Observable<CreateCaseResponse> {
-    return this.http
+    return this.#http
       .post(
         `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`,
         requestPayload
@@ -150,20 +151,20 @@ export class QuotationService {
     updateQuotationRequest: UpdateQuotationRequest,
     gqId: number
   ): Observable<Quotation> {
-    return this.http.put<Quotation>(
+    return this.#http.put<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`,
       updateQuotationRequest
     );
   }
 
   public getCurrencies(): Observable<{ currency: string }[]> {
-    return this.http.get<{ currency: string }[]>(
+    return this.#http.get<{ currency: string }[]>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
     );
   }
 
   public getExchangeRateForCurrency(fromCurrency: string, toCurrency: string) {
-    return this.http.get(
+    return this.#http.get(
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
     );
   }
@@ -177,21 +178,21 @@ export class QuotationService {
       gqPositionIds,
     };
 
-    return this.http.post<Quotation>(
+    return this.#http.post<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_SAP_QUOTATION}`,
       requestBody
     );
   }
 
   public getCasesByMaterialNumber(
-    materialNumber: string
+    materialNumber: string,
+    userCaseOnly: boolean
   ): Observable<QuotationSearchResult[]> {
-    const httpParams = new HttpParams().set(
-      this.PARAM_MATERIAL_NUMBER,
-      materialNumber
-    );
+    const httpParams = new HttpParams()
+      .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
+      .append(this.PARAM_USER_CASES_ONLY, userCaseOnly);
 
-    return this.http.get<QuotationSearchResult[]>(
+    return this.#http.get<QuotationSearchResult[]>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}`,
       {
         params: httpParams,
@@ -200,7 +201,7 @@ export class QuotationService {
   }
 
   public getPurchaseOrderTypes(): Observable<PurchaseOrderType[]> {
-    return this.http.get<PurchaseOrderType[]>(
+    return this.#http.get<PurchaseOrderType[]>(
       `${ApiVersion.V1}/${QuotationPaths.PURCHASE_ORDER_TYPES}`
     );
   }

@@ -14,7 +14,7 @@
     <div class="px-2">
       <mat-spinner
         *ngIf="
-          (autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
+          (materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
           displayResultList === resultsDisplayType.LOADING
         "
         matSuffix
@@ -44,7 +44,7 @@
   </div>
   <ng-container
     *ngIf="
-      !(autocomplete.materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
+      !(materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
         displayResultList !== resultsDisplayType.LOADING;
       else loading
     "
@@ -52,9 +52,7 @@
     <gq-global-search-results-preview-list
       *ngIf="displayResultList === resultsDisplayType.PREVIEW"
       [title]="'suggestions'"
-      [idValues]="
-        (autocomplete.materialNumberOrDescForGlobalSearch$ | ngrxPush).options
-      "
+      [idValues]="(materialNumberOrDescForGlobalSearch$ | ngrxPush).options"
       [searchVal]="searchVal"
       [resultsAreFromLocalStorage]="false"
       (itemSelected)="onItemSelected($event)"
@@ -63,8 +61,8 @@
     <gq-global-search-results-preview-list
       *ngIf="displayResultList === resultsDisplayType.LAST_RESULTS"
       [title]="'lastResults'"
-      [idValues]="lastSearchResultsService.lastSearchResults$ | ngrxPush"
-      [searchVal]="lastSearchResultsService.lastSearchTerms$ | ngrxPush"
+      [idValues]="lastSearchResults$ | ngrxPush"
+      [searchVal]="lastSearchTerms$ | ngrxPush"
       [resultsAreFromLocalStorage]="true"
       (itemSelected)="onItemSelected($event)"
     ></gq-global-search-results-preview-list>
