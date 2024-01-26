@@ -21,6 +21,8 @@ import { ReportUrls } from '@ga/shared/models';
 
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 
 @Component({
   selector: 'ga-calculation-result',
@@ -51,6 +53,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService,
     private readonly settingsFacade: SettingsFacade,
     private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService,
+    private readonly appInsightsService: ApplicationInsightsService,
     @Inject(ENV) private readonly env: Environment
   ) {
     this.isProduction = this.env.production;
@@ -110,6 +113,9 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
       data: this.greaseReport.subordinates,
       legalNote: this.greaseReport.legalNote,
       automaticLubrication: this.greaseReport.automaticLubrication,
+    });
+    this.appInsightsService.logEvent(TRACKING_PDF_DOWNLOAD, {
+      selectedBearing,
     });
   }
 
