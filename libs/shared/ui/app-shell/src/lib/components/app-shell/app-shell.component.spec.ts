@@ -1,7 +1,8 @@
+import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,7 +17,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppShellModule } from '../../app-shell.module';
 import { AppShellFooterLink } from '../../models';
 import { AppShellComponent } from './app-shell.component';
-import { MatButtonModule } from '@angular/material/button';
 
 describe('AppShellComponent', () => {
   let spectator: Spectator<AppShellComponent>;
@@ -136,5 +136,52 @@ describe('AppShellComponent', () => {
     expect(internalSpyHandler).toHaveBeenCalledWith(expect.any(MouseEvent));
     expect(externalSpyHandler).toBeCalledTimes(1);
     expect(externalSpyHandler).toHaveBeenCalledWith(expect.any(MouseEvent));
+  });
+
+  it('closes mat sidenav on component property change', () => {
+    expect(spectator.query(MatSidenav).opened).toBe(false);
+
+    spectator.setInput('showSideNav', true);
+    spectator.detectChanges();
+
+    expect(spectator.query(MatSidenav).opened).toBe(true);
+  });
+
+  it('should emit change when component changes sideNav state', () => {
+    const emitSpy = jest.spyOn(component.sidenavOpenChange, 'emit');
+    component.sidenavOpen = true;
+
+    expect(emitSpy).toHaveBeenCalledWith(true);
+  });
+
+  it('should not emit anything when input changes sideNav state', () => {
+    const emitSpy = jest.spyOn(component.sidenavOpenChange, 'emit');
+    spectator.setInput('showSideNav', true);
+
+    expect(emitSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it('should emit event when closing sidebar with the burger menu', () => {
+    component.sidenavOpen = true;
+    component.hasSidebarLeft = true;
+    spectator.detectChanges();
+
+    const emitSpy = jest.spyOn(component.sidenavOpenChange, 'emit');
+    const burgerMenu = spectator.query('button');
+    spectator.click(burgerMenu);
+
+    expect(emitSpy).toHaveBeenCalledWith(false);
+  });
+
+  it('should emit event when opening the sidebar with the burger menu', () => {
+    component.sidenavOpen = false;
+    component.hasSidebarLeft = true;
+    spectator.detectChanges();
+
+    const emitSpy = jest.spyOn(component.sidenavOpenChange, 'emit');
+    const burgerMenu = spectator.query('button');
+    spectator.click(burgerMenu);
+
+    expect(emitSpy).toHaveBeenCalledWith(true);
   });
 });

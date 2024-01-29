@@ -9,7 +9,7 @@
     mat-icon-button
     disableRipple
     class="text-medium-emphasis"
-    (click)="drawer.toggle()"
+    (click)="drawer.toggle(); sidenavOpen = !sidenavOpen"
   >
     <mat-icon *ngIf="sidenavOpen; else menuIcon" [@sidenavToggleAnimation]>
       arrow_back

@@ -117,8 +117,10 @@ export class AppComponent {
 
 ### API
 
+**Inputs**
+
 | Name           | Description                                                                                                      |
-| ---------------| -----------------------------------------------------------------------------------------------------------------|
+|----------------| -----------------------------------------------------------------------------------------------------------------|
 | appTitle       | app title to be displayed in the top header                                                                      |
 | appTitleLink   | (optional) Angular Router Link path on the title                                                                 |
 | hasSidebarLeft | (optional) (default: false) Whether there should be a left sidebar                                               |
@@ -128,7 +130,17 @@ export class AppComponent {
 | footerLinks    | (optional) array of typed (internal and external) links, displayed in the footer. Overrides `hasFooter: false`   |
 | footerFixed    | (optional) (default: true) Whether the footer should be fixed on the bottom of the window                        |
 | appVersion     | (optional) String with your app's version number, display next to the footer links                               |
-| scrollToTop     | (optional) (default: false) Wheater the content should scroll to the top on navigation
+| scrollToTop    | (optional) (default: false) Whether the content should scroll to the top on navigation
+| showSideNav    | (optional) (default: false) Whether the sidebar should be openend
+
+
+**Outputs**
+
+| Name            | Value   | Descriptions                                                                                        |
+|-----------------|---------|-----------------------------------------------------------------------------------------------------|
+| onContentScroll | -       | fires when the content is scrolled                                                                  |
+| sidenavOpenChange | boolean | Fires when the sidebar is closed or openend.<br/> True: Sidebar is open <br/> False: Side is closed |
+
 
 ### i18n
 

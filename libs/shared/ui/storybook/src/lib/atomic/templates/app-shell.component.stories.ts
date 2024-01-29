@@ -79,6 +79,7 @@ const TemplateDefault: StoryFn<
   [appTitle]="appTitle"
   [appTitleLink]="appTitleLink"
   [hasSidebarLeft]="hasSidebarLeft"
+  [showSideNav]="showSideNav"
   [userName]="userName"
   [userImageUrl]="userImageUrl"
   [hasFooter]="hasFooter"
@@ -115,6 +116,7 @@ Default.args = {
   appTitle: 'Hello World App',
   appTitleLink: '/',
   hasSidebarLeft: true,
+  showSideNav: false,
   userName: 'Frank Abagnale junior',
   userImageUrl: '../avatar.png',
   headerContent: 'Hello Header Content',

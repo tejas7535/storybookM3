@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -23,7 +24,6 @@ import thai from './i18n/th.json';
 import vietnamese from './i18n/vi.json';
 import chineseSimplified from './i18n/zh.json';
 import chineseTraditional from './i18n/zh_TW.json';
-import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [

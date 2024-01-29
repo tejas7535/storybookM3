@@ -42,13 +42,24 @@ export class AppShellComponent implements OnInit {
   @Input() public footerFixed? = true;
   @Input() public appVersion?: string;
   @Input() public scrollToTop? = false;
+  @Input() set showSideNav(value: boolean) {
+    this._sideNavOpen = value;
+  }
 
   @Output() public onContentScroll = new EventEmitter();
+  @Output() public sidenavOpenChange = new EventEmitter<boolean>();
 
   @ViewChild('sidenavContent')
   private readonly sidenavContent: MatSidenavContent;
 
-  public sidenavOpen = false;
+  private _sideNavOpen = false;
+  public get sidenavOpen(): boolean {
+    return this._sideNavOpen;
+  }
+  public set sidenavOpen(value: boolean) {
+    this._sideNavOpen = value;
+    this.sidenavOpenChange.emit(value);
+  }
 
   public constructor(
     private readonly translocoService: TranslocoService,
