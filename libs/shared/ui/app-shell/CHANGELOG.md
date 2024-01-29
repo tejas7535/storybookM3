@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI App Shell
+## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.2.0...app-shell-v1.3.0) (2024-01-29)
+
+
+### Features
+
+* **app-shell:** add input field to show or hide the sidenav ([#5929](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5929)) ([af0dea4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/af0dea4d952b5e33f382db88889f838d496a030e))
+* **app-shell:** migrate to mdc components ([#5834](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5834)) ([195db90](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/195db903eb0c82978e7a43f0861c1c909d4b2aee))
+
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.1.1...app-shell-v1.2.0) (2023-12-14)
 
 
