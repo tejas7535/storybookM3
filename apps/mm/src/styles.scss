@@ -56,7 +56,7 @@ mat-dialog-container {
 }
 
 mat-horizontal-stepper.primary-stepper
-  mat-step-header[ng-reflect-selected='false']
+  mat-step-header[aria-selected='false']
   .mat-step-label {
   @apply hidden md:block;
 }
