@@ -21,7 +21,10 @@
       <p class="text-medium-emphasis">{{ t('customerNumberLabel') }}:</p>
       <p class="ml-1">{{ quotationSummary.customerId }}</p>
     </div>
-    <div class="text-body-2 flex whitespace-nowrap">
+    <div
+      *featureToggle="'extendedSearchbar'"
+      class="text-body-2 flex whitespace-nowrap"
+    >
       <p class="text-medium-emphasis">{{ t('createdByUserName') }}:</p>
       <p class="ml-1">{{ quotationSummary.createdByUserName }}</p>
     </div>
