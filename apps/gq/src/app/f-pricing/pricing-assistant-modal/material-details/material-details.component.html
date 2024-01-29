@@ -1,0 +1,37 @@
+<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+  <ng-container *ngrxLet="quotationDetail.material as material">
+    <gq-dialog-header
+      [title]="
+        t('materialDetailsDialogTitle', {
+          materialDescription: material.materialDescription
+        })
+      "
+      (closeDialog)="closeDialog()"
+    ></gq-dialog-header>
+    <mat-card appearance="outlined" class="mt-4 p-4">
+      <div class="flex flex-row gap-6">
+        <div class="w-1/2">
+          <gq-material-basic
+            [quotationDetail]="quotationDetail"
+            [isDetailView]="false"
+          ></gq-material-basic>
+          <gq-horizontal-divider></gq-horizontal-divider>
+          <gq-product-details
+            [quotationDetail]="quotationDetail"
+          ></gq-product-details>
+        </div>
+
+        <div class="w-1/2">
+          <gq-dimension-details
+            [materialDetails]="material"
+          ></gq-dimension-details>
+          <gq-horizontal-divider></gq-horizontal-divider>
+          <gq-material-additional
+            [quotationDetail]="quotationDetail"
+            [isDetailView]="false"
+          ></gq-material-additional>
+        </div>
+      </div>
+    </mat-card>
+  </ng-container>
+</ng-container>

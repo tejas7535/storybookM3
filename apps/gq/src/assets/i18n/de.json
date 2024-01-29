@@ -573,6 +573,7 @@
   "fPricing": {
     "pricingAssistantModal": {
       "title": "Preis Assistent für {{ material }}",
+      "materialDetailsDialogTitle": "Informationen zu {{materialDescription}}",
       "materialNumberLabel": "Materialnr.",
       "dimensionsLabel": "Dimensionen",
       "weightLabel": "Gewicht",
@@ -620,5 +621,29 @@
   "purchaseOrderType": {
     "label": "Bestellart",
     "emptyValue": "Kein Eintrag"
+  },
+  "pricingDetails": {
+    "materialDetails": {
+      "materialNumber": "Materialnummer (15-stellig)",
+      "baseUoM": "Mengeneinheit",
+      "deliveryUnit": "Liefereinheit",
+      "customerMaterial": "Kundenmaterialnummer",
+      "dimensions": "Dimensionen",
+      "ean11": "EAN Code",
+      "followingType": "Folgetype",
+      "gpsdGroup": "GPSD-Gruppe",
+      "grossWeight": "Bruttogewicht",
+      "innerDiameter": "Innendurchmesser",
+      "materialDescription": "Materialbeschreibung",
+      "materialType": "Materialtyp",
+      "materialStatus": "Materialstatus Werk",
+      "outerDiameter": "Außendurchmesser",
+      "productHierarchy": "Produkthierarchie",
+      "productLine": "Produktlinie",
+      "series": "Serie",
+      "width": "Breite",
+      "materialClassificationSOP": "S&OP Material Klassifizierung",
+      "abcxClassification": "ABCX Klassifizierung"
+    }
   }
 }

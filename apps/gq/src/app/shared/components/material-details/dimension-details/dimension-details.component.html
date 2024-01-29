@@ -1,0 +1,28 @@
+<ng-container *transloco="let t; read: 'pricingDetails.materialDetails'">
+  <div>
+    <gq-label-text>
+      <span label>{{ t('dimensions') }}</span>
+      <span text>{{ materialDetails.dimensions | nullableString }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('outerDiameter') }}</span>
+      <span text>{{ materialDetails.outerDiameter | millimeterUnit }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('innerDiameter') }}</span>
+      <span text>{{ materialDetails.innerDiameter | millimeterUnit }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('width') }}</span>
+      <span text>{{ materialDetails.width | millimeterUnit }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('grossWeight') }}</span>
+      <span text
+        >{{ materialDetails.grossWeight }} [{{
+          materialDetails.weightUnit
+        }}]</span
+      >
+    </gq-label-text>
+  </div>
+</ng-container>

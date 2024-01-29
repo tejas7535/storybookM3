@@ -1,13 +1,19 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
+import { QuotationDetail } from '@gq/shared/models';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { OverlayToShow } from './models/overlay-to-show.enum';
 import { PricingAssistantModalComponent } from './pricing-assistant-modal.component';
 
@@ -21,6 +27,7 @@ describe('PricingAssistant.modalComponent', () => {
     declarations: [MockPipe(NumberCurrencyPipe)],
     providers: [
       MockProvider(FPricingFacade),
+      MockProvider(MatDialog),
       { provide: MatDialogRef, useValue: {} },
       {
         provide: MAT_DIALOG_DATA,
@@ -43,6 +50,22 @@ describe('PricingAssistant.modalComponent', () => {
       component['dialogRef'].close = jest.fn();
       component.closeDialog();
       expect(component['dialogRef'].close).toHaveBeenCalled();
+    });
+  });
+
+  describe('showMore', () => {
+    test('should open a dialog', () => {
+      component.dialogData = { gqPositionId: '12345' } as QuotationDetail;
+      component['dialog'].open = jest.fn();
+      component.showMore();
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        MaterialDetailsComponent,
+        {
+          width: '792px',
+          data: component.dialogData,
+          autoFocus: false,
+        }
+      );
     });
   });
 

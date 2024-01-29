@@ -1,131 +1,30 @@
-<div *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
-  <gq-kpi-status-card [title]="t('title')">
-    <div *ngIf="materialDetails">
-      <div>
-        <gq-label-text>
-          <span label>{{ t('materialDescription') }}</span>
-          <span text
-            >{{ materialDetails.materialDescription | nullableString }}
-          </span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('materialNumber') }}</span>
-          <span text
-            >{{ materialDetails.materialNumber15 | materialTransform }}
-          </span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('materialStatus') }}</span>
-          <span text>{{
-            materialDetails.materialStatus | nullableString
-          }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('materialClassificationSOP') }}</span>
-          <span text>{{
-            materialClassificationSOP | materialClassificationSOP
-          }}</span>
-        </gq-label-text>
-        <gq-label-text [marginBottom]="false">
-          <span label>{{ t('abcxClassification') }}</span>
-          <span text>{{
-            usageRestriction
-              ? ('shared.quotationDetailsTable.abcxClassification.' +
-                  usageRestriction | transloco)
-              : '-'
-          }}</span>
-        </gq-label-text>
+<ng-container *ngrxLet="quotationDetail.material as materialDetails">
+  <ng-container
+    *transloco="let t; read: 'detailView.pricingDetails.materialDetails'"
+  >
+    <gq-kpi-status-card [title]="t('title')">
+      <ng-container *ngIf="materialDetails">
+        <gq-material-basic
+          [quotationDetail]="quotationDetail"
+        ></gq-material-basic>
         <gq-horizontal-divider></gq-horizontal-divider>
-      </div>
-      <div>
-        <gq-label-text>
-          <span label>{{ t('productHierarchy') }}</span>
-          <span text
-            >{{ materialDetails.productHierarchy }} |
-            {{ materialDetails.productHierarchyId }}
-          </span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('productLine') }}</span>
-          <span text
-            >{{ materialDetails.productLine }} |
-            {{ materialDetails.productLineId }}
-          </span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('gpsdGroup') }}</span>
-          <span text>
-            <span *ngIf="materialDetails.gpsdGroup"
-              >{{ materialDetails.gpsdGroup }} |</span
-            >
-            <span>{{ materialDetails.gpsdGroupId | nullableString }}</span>
-          </span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('series') }}</span>
-          <span text>
-            {{ materialDetails.series | nullableString }}
-          </span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('followingType') }}</span>
-          <span text>
-            {{ materialDetails.followingType | materialTransform }}</span
-          >
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('customerMaterial') }}</span>
-          <span text>{{ customerMaterial | nullableString }}</span>
-        </gq-label-text>
+
+        <gq-product-details [quotationDetail]="quotationDetail">
+        </gq-product-details>
         <gq-horizontal-divider></gq-horizontal-divider>
-      </div>
-      <div>
-        <gq-label-text>
-          <span label>{{ t('dimensions') }}</span>
-          <span text>{{ materialDetails.dimensions | nullableString }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('outerDiameter') }}</span>
-          <span text>{{ materialDetails.outerDiameter | millimeterUnit }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('innerDiameter') }}</span>
-          <span text>{{ materialDetails.innerDiameter | millimeterUnit }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('width') }}</span>
-          <span text>{{ materialDetails.width | millimeterUnit }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('grossWeight') }}</span>
-          <span text
-            >{{ materialDetails.grossWeight }} [{{
-              materialDetails.weightUnit
-            }}]</span
-          >
-        </gq-label-text>
+
+        <gq-dimension-details
+          [materialDetails]="materialDetails"
+        ></gq-dimension-details>
         <gq-horizontal-divider></gq-horizontal-divider>
-      </div>
-      <div>
-        <gq-label-text>
-          <span label>{{ t('baseUoM') }}</span>
-          <span text>{{ materialDetails.baseUoM | uom | nullableString }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('deliveryUnit') }}</span>
-          <span text>{{ deliveryUnit?.toString() | nullableString }}</span>
-        </gq-label-text>
-        <gq-label-text>
-          <span label>{{ t('materialType') }}</span>
-          <span text>{{ materialDetails.materialType | nullableString }}</span>
-        </gq-label-text>
-        <gq-label-text [marginBottom]="false">
-          <span label>{{ t('ean11') }}</span>
-          <span text>{{ materialDetails.ean11 | nullableString }}</span>
-        </gq-label-text>
+
+        <gq-material-additional
+          [quotationDetail]="quotationDetail"
+        ></gq-material-additional>
         <gq-horizontal-divider></gq-horizontal-divider>
-      </div>
-      <gq-material-sales-org-details></gq-material-sales-org-details>
-    </div>
-  </gq-kpi-status-card>
-</div>
+
+        <gq-material-sales-org-details></gq-material-sales-org-details>
+      </ng-container>
+    </gq-kpi-status-card>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,41 @@
+<ng-container *transloco="let t; read: 'pricingDetails.materialDetails'">
+  <div *ngrxLet="quotationDetail.material as materialDetails">
+    <gq-label-text>
+      <span label>{{ t('productHierarchy') }}</span>
+      <span text
+        >{{ materialDetails.productHierarchy }} |
+        {{ materialDetails.productHierarchyId }}
+      </span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('productLine') }}</span>
+      <span text
+        >{{ materialDetails.productLine }} |
+        {{ materialDetails.productLineId }}
+      </span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('gpsdGroup') }}</span>
+      <span text>
+        <span *ngIf="materialDetails.gpsdGroup"
+          >{{ materialDetails.gpsdGroup }} |</span
+        >
+        <span>{{ materialDetails.gpsdGroupId | nullableString }}</span>
+      </span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('series') }}</span>
+      <span text>
+        {{ materialDetails.series | nullableString }}
+      </span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('followingType') }}</span>
+      <span text> {{ materialDetails.followingType | materialTransform }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('customerMaterial') }}</span>
+      <span text>{{ quotationDetail.customerMaterial | nullableString }}</span>
+    </gq-label-text>
+  </div>
+</ng-container>

@@ -52,30 +52,10 @@
   },
   "pricingDetails": {
     "materialDetails": {
-      "materialNumber": "Materialnummer (15-stellig)",
-      "baseUoM": "Mengeneinheit",
-      "deliveryUnit": "Liefereinheit",
-      "customerMaterial": "Kundenmaterialnummer",
-      "dimensions": "Dimensionen",
-      "ean11": "EAN Code",
-      "followingType": "Folgetype",
-      "gpsdGroup": "GPSD-Gruppe",
-      "grossWeight": "Bruttogewicht",
-      "innerDiameter": "Innendurchmesser",
-      "materialDescription": "Materialbeschreibung",
-      "materialType": "Materialtyp",
-      "materialStatus": "Materialstatus Werk",
-      "outerDiameter": "Außendurchmesser",
-      "productHierarchy": "Produkthierarchie",
-      "productLine": "Produktlinie",
-      "series": "Serie",
       "title": "Materialbeschreibung",
-      "width": "Breite",
       "encodedInSalesOrg": "In Sales Org. verfügbar",
       "dchainMaterialStatus": "VkOrg. spez. Status",
-      "minimumOrderQuantity": "Min. Auftragsmenge",
-      "materialClassificationSOP": "S&OP Material Klassifizierung",
-      "abcxClassification": "ABCX Klassifizierung"
+      "minimumOrderQuantity": "Min. Auftragsmenge"
     },
     "productionCostDetails": {
       "title": "Produktion und Kosten",

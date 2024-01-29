@@ -1,0 +1,37 @@
+<ng-container *transloco="let t; read: 'pricingDetails.materialDetails'">
+  <div *ngrxLet="quotationDetail.material as materialDetails">
+    <gq-label-text>
+      <span label>{{ t('materialDescription') }}</span>
+      <span text
+        >{{ materialDetails.materialDescription | nullableString }}
+      </span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('materialNumber') }}</span>
+      <span text
+        >{{ materialDetails.materialNumber15 | materialTransform }}
+      </span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('materialStatus') }}</span>
+      <span text>{{ materialDetails.materialStatus | nullableString }}</span>
+    </gq-label-text>
+    <ng-container *ngIf="isDetailView">
+      <gq-label-text>
+        <span label>{{ t('materialClassificationSOP') }}</span>
+        <span text>{{
+          quotationDetail.materialClassificationSOP | materialClassificationSOP
+        }}</span>
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('abcxClassification') }}</span>
+        <span text>{{
+          quotationDetail.abcxClassification
+            ? ('shared.quotationDetailsTable.abcxClassification.' +
+                quotationDetail.abcxClassification | transloco)
+            : '-'
+        }}</span>
+      </gq-label-text>
+    </ng-container>
+  </div>
+</ng-container>

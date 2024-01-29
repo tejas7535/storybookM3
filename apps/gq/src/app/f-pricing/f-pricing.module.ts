@@ -13,6 +13,10 @@ import { fPricingStoreModule } from '@gq/core/store/f-pricing/f-pricing-store.mo
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
+import { DimensionDetailsComponent } from '@gq/shared/components/material-details/dimension-details/dimension-details.component';
+import { MaterialAdditionalComponent } from '@gq/shared/components/material-details/material-additional/material-additional.component';
+import { MaterialBasicComponent } from '@gq/shared/components/material-details/material-basic/material-basic.component';
+import { ProductDetailsComponent } from '@gq/shared/components/material-details/product-details/product-details.component';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -20,6 +24,7 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { MaterialDetailsComponent } from './pricing-assistant-modal/material-details/material-details.component';
 import { OverlayComponent } from './pricing-assistant-modal/overlay/overlay.component';
 import { PriceButtonComponent } from './pricing-assistant-modal/price-button/price-button.component';
 import { PricingAssistantHeaderComponent } from './pricing-assistant-modal/pricing-assistant-header/pricing-assistant-header.component';
@@ -34,6 +39,7 @@ import { DeltaValueComponent } from './pricing-assistant-modal/product-compariso
 import { ComparisonPanelComponent } from './pricing-assistant-modal/product-comparison/comparison-panel/comparison-panel.component';
 import { DeltaAmountComponent } from './pricing-assistant-modal/product-comparison/comparison-panel/delta-amount/delta-amount.component';
 import { ProductComparisonModalComponent } from './pricing-assistant-modal/product-comparison/product-comparison.component';
+
 @NgModule({
   imports: [
     AgGridModule,
@@ -55,6 +61,10 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     MatExpansionModule,
     MatTableModule,
     DeltaValueComponent,
+    ProductDetailsComponent,
+    DimensionDetailsComponent,
+    MaterialBasicComponent,
+    MaterialAdditionalComponent,
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
   ],
@@ -72,6 +82,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     ComparisonPanelComponent,
     ComparisonDeltaComponent,
     DeltaAmountComponent,
+    MaterialDetailsComponent,
   ],
   exports: [PricingAssistantModalComponent],
 })

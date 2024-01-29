@@ -52,30 +52,10 @@
   },
   "pricingDetails": {
     "materialDetails": {
-      "materialNumber": "Material Number (15-Digit)",
-      "baseUoM": "Base UoM",
-      "deliveryUnit": "Delivery Unit",
-      "customerMaterial": "Customer Material",
-      "dimensions": "Dimensions",
-      "ean11": "EAN Code",
-      "followingType": "Following Type",
-      "gpsdGroup": "GPSD-Group",
-      "grossWeight": "Gross Weight",
-      "innerDiameter": "Inner Diameter (d)",
-      "materialDescription": "Material  Description",
-      "materialType": "Material Type",
-      "materialStatus": "X-Plant-Material Status",
-      "outerDiameter": "Outer Diameter (D)",
-      "productHierarchy": "Product Hierarchy",
-      "productLine": "Product Line",
-      "series": "Series",
       "title": "Material Description",
-      "width": "Overall width (B)",
       "encodedInSalesOrg": "Encoded in sales org.",
       "dchainMaterialStatus": "DChain-Material-Status",
-      "minimumOrderQuantity": "Minimum Order Quantity",
-      "materialClassificationSOP": "S&OP Material Classification",
-      "abcxClassification": "ABCX Classification"
+      "minimumOrderQuantity": "Minimum Order Quantity"
     },
     "productionCostDetails": {
       "title": "Production & Cost",

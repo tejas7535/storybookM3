@@ -1,13 +1,20 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+/* eslint-disable @typescript-eslint/member-ordering */
+import { Component, inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { QuotationDetail } from '@gq/shared/models';
 import { MaterialDetails } from '@gq/shared/models/quotation-detail/material-details.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 
 import { COMPARABLE_MATERIALS_ROW_DATA_MOCK } from '../../../testing/mocks/models/fpricing/f-pricing-comparable-materials.mock';
 import { MATERIAL_DETAILS_MOCK } from '../../../testing/mocks/models/material-details.mock';
+import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { OverlayToShow } from './models/overlay-to-show.enum';
 @Component({
   selector: 'gq-pricing-assistant-modal',
@@ -17,6 +24,14 @@ import { OverlayToShow } from './models/overlay-to-show.enum';
   providers: [AgGridStateService],
 })
 export class PricingAssistantModalComponent {
+  dialogData: QuotationDetail = inject(MAT_DIALOG_DATA);
+  fPricingFacade = inject(FPricingFacade);
+
+  private readonly dialog = inject(MatDialog);
+  private readonly dialogRef = inject(
+    MatDialogRef<PricingAssistantModalComponent>
+  );
+
   material: MaterialDetails = MATERIAL_DETAILS_MOCK;
   materialToCompare: string;
   referencePriceRowData: ComparableMaterialsRowData[] =
@@ -25,15 +40,16 @@ export class PricingAssistantModalComponent {
   overlayToShowEnum = OverlayToShow;
   visibleOverlay: OverlayToShow = OverlayToShow.gqPricing;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public dialogData: any, // tbd
-    public fPricingFacade: FPricingFacade,
-    private readonly dialogRef: MatDialogRef<PricingAssistantModalComponent>
-  ) {}
-
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  showMore(): void {
+    this.dialog.open(MaterialDetailsComponent, {
+      width: '792px',
+      data: this.dialogData,
+      autoFocus: false,
+    });
   }
 
   backToGqPricingPage(): void {

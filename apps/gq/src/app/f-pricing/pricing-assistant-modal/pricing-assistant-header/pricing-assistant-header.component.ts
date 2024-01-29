@@ -9,4 +9,5 @@ import { MaterialDetails } from '@gq/shared/models/quotation-detail/material-det
 export class PricingAssistantHeaderComponent {
   @Input() material: MaterialDetails;
   @Output() closeDialog = new EventEmitter<void>();
+  @Output() showMore = new EventEmitter<void>();
 }

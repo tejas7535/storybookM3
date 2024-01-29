@@ -42,9 +42,11 @@
       <span text> {{ material.grossWeight }} {{ material.baseUoM }} </span>
     </gq-label-text>
     <span class="text-medium-emphasis"> | </span>
-    <span class="text-link text-caption cursor-pointer">
-      {{ t('showMoreButtonLabel') }}
-    </span>
+    <div (click)="showMore.emit()">
+      <span class="text-link text-caption cursor-pointer">
+        {{ t('showMoreButtonLabel') }}
+      </span>
+    </div>
   </div>
   <div class="-mx-4 h-px bg-selected-overlay"></div>
 </div>

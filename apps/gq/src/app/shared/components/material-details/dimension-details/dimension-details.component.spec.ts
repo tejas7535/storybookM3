@@ -4,25 +4,24 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MaterialDetailsComponent } from './material-details.component';
+import { DimensionDetailsComponent } from './dimension-details.component';
 
-describe('MaterialDetailsComponent', () => {
-  let component: MaterialDetailsComponent;
-  let spectator: Spectator<MaterialDetailsComponent>;
+describe('DimensionDetailsComponent', () => {
+  let component: DimensionDetailsComponent;
+  let spectator: Spectator<DimensionDetailsComponent>;
 
   const createComponent = createComponentFactory({
-    component: MaterialDetailsComponent,
+    component: DimensionDetailsComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
-
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
