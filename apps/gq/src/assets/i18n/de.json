@@ -411,8 +411,8 @@
       "rfqInformationUpdated": "RFQ Information erfolgreich aktualisiert",
       "attachmentsUploaded": "Anhänge erfolgreich hochgeladen",
       "attachmentsDeleted": "Anhang gelöscht",
-      "sharedQuotationSaved": "Dieser Case wurde in dem Reiter \"Geteilte Cases\" gespeichert.",
-      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Cases\" entfernt."
+      "sharedQuotationSaved": "Dieser Case wurde in dem Reiter \"Geteilte Angebote\" gespeichert.",
+      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Angebote\" entfernt."
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
