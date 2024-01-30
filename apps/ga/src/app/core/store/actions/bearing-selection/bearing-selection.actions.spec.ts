@@ -27,7 +27,10 @@ describe('Bearing Actions', () => {
 
   describe('Search Bearing Success', () => {
     it('bearingSearchSuccess', () => {
-      const resultList = ['bearing 1', 'bearing 2'];
+      const resultList = [
+        { designation: 'bearing 1', isValid: true },
+        { designation: 'bearing 2', isValid: true },
+      ];
       const action = bearingSearchSuccess({ resultList });
 
       expect(action).toEqual({
@@ -56,7 +59,10 @@ describe('Bearing Actions', () => {
 
   describe('Search Bearing For Advanced Selection Success', () => {
     it('advancedBearingSelectionSuccess', () => {
-      const resultList = ['advanced bearing 1', 'advanced bearing 2'];
+      const resultList = [
+        { designation: 'advanced bearing 1', isValid: true },
+        { designation: 'advanced bearing 2', isValid: true },
+      ];
       const action = advancedBearingSelectionSuccess({ resultList });
 
       expect(action).toEqual({

@@ -3,7 +3,6 @@ import { createSelector } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { bearings } from '@ga/shared/constants';
 import {
   AdvancedBearingSelectionFilters,
   BearingSelectionTypeUnion,
@@ -52,22 +51,22 @@ export const getQuickBearingSelectionResultList = createSelector(
   (state): StringOption[] =>
     state?.quickBearingSelection?.resultList
       .map((bearing) => {
-        const disabled = !bearings.includes(bearing);
+        const disabled = !bearing.isValid;
 
         return {
-          id: bearing,
+          id: bearing.designation,
           disabled,
           title: disabled
             ? translate(
                 'bearing.bearingSelection.quickSelection.disabledOption',
                 {
-                  bearing,
+                  bearing: bearing.designation,
                 }
               )
             : translate(
                 'bearing.bearingSelection.quickSelection.selectOption',
                 {
-                  bearing,
+                  bearing: bearing.designation,
                 }
               ),
         };
@@ -80,9 +79,9 @@ export const getAdvancedBearingSelectionResultList = createSelector(
   (state): StringOption[] =>
     state?.advancedBearingSelection?.resultList
       ?.map((bearing) => ({
-        id: bearing,
-        title: bearing,
-        disabled: !bearings.includes(bearing),
+        id: bearing.designation,
+        title: bearing.designation,
+        disabled: !bearing.isValid,
       }))
       .sort(({ disabled: a }, { disabled: b }) => +a - +b)
 );

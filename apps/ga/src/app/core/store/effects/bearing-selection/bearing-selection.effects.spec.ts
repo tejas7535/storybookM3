@@ -81,7 +81,12 @@ describe('BearingSelectionEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const resultList = ['bearing', 'bear', 'ring', 'ringbear'];
+        const resultList = [
+          { designation: 'bearing', isValid: true },
+          { designation: 'bear', isValid: true },
+          { designation: 'ring', isValid: true },
+          { designation: 'ringbear', isValid: true },
+        ];
 
         const response = m.cold('-a|', { a: resultList });
         restService.getBearingSearch = jest.fn(() => response);
@@ -107,7 +112,13 @@ describe('BearingSelectionEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const resultList = ['bear', 'grylls', 'drinks', 'pi$$'];
+        const resultList = [
+          { designation: 'bear', isValid: true },
+          { designation: 'grylls', isValid: true },
+          { designation: 'drinks', isValid: true },
+          { designation: 'pi$$', isValid: true },
+          // all valid
+        ];
 
         const response = m.cold('-a|', { a: resultList });
         restService.getBearingExtendedSearch = jest.fn(() => response);

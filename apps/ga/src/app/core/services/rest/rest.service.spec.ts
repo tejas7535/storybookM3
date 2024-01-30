@@ -6,6 +6,7 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { environment } from '@ga/environments/environment';
+import { BearingInfo } from '@ga/shared/models';
 import {
   ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
   BEARING_SEARCH_RESULT_MOCK,
@@ -42,13 +43,15 @@ describe('RestService', () => {
 
   describe('#getBearingSearch', () => {
     it('should send a bearing search request with given query', (done) => {
-      service.getBearingSearch('theQuery').subscribe((result: string[]) => {
-        expect(result).toEqual(BEARING_SEARCH_RESULT_MOCK);
-        done();
-      });
+      service
+        .getBearingSearch('theQuery')
+        .subscribe((result: BearingInfo[]) => {
+          expect(result).toEqual(BEARING_SEARCH_RESULT_MOCK);
+          done();
+        });
 
       const req = httpMock.expectOne(
-        `${environment.baseUrl}/bearings/search?pattern=theQuery`
+        `${environment.baseUrl}/bearings/getinfo?pattern=theQuery`
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
@@ -59,13 +62,13 @@ describe('RestService', () => {
     it('should send a extended bearing search request with params', (done) => {
       service
         .getBearingExtendedSearch(ADVANCED_BEARING_SELECTION_FILTERS_MOCK)
-        .subscribe((result: string[]) => {
+        .subscribe((result: BearingInfo[]) => {
           expect(result).toEqual(BEARING_SEARCH_RESULT_MOCK);
           done();
         });
 
       const req = httpMock.expectOne(
-        `${environment.baseUrl}/bearings/extendedsearch?bearingType=IDO_RADIAL_BALL_BEARING&minDi=123&maxDi=456&minDa=789&maxDa=1011&minB=1213&maxB=1415`
+        `${environment.baseUrl}/bearings/getinfo/extended?bearingType=IDO_RADIAL_BALL_BEARING&minDi=123&maxDi=456&minDa=789&maxDa=1011&minB=1213&maxB=1415`
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);

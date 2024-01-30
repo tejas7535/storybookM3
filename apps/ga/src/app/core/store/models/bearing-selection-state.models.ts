@@ -1,16 +1,17 @@
 import {
   AdvancedBearingSelectionFilters,
+  BearingInfo,
   BearingSelectionTypeUnion,
 } from '@ga/shared/models';
 
 export interface BearingSelectionState {
   quickBearingSelection: {
     query: string;
-    resultList: string[];
+    resultList: BearingInfo[];
   };
   advancedBearingSelection: {
     filters: AdvancedBearingSelectionFilters;
-    resultList: string[];
+    resultList: BearingInfo[];
     resultsCount: number;
   };
   bearingSelectionType: BearingSelectionTypeUnion;

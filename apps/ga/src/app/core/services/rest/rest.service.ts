@@ -9,6 +9,7 @@ import { detectPartnerVersion } from '@ga/core/helpers/settings-helpers';
 import { environment } from '@ga/environments/environment';
 import {
   AdvancedBearingSelectionFilters,
+  BearingInfo,
   CalculationParameters,
   DialogResponse,
   ExtendedSearchQueryParams,
@@ -26,12 +27,15 @@ export class RestService {
 
   public constructor(private readonly httpClient: HttpClient) {}
 
-  public getBearingSearch(query: string): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${this.baseUrl}/bearings/search`, {
-      params: {
-        pattern: query,
-      },
-    });
+  public getBearingSearch(query: string): Observable<BearingInfo[]> {
+    return this.httpClient.get<BearingInfo[]>(
+      `${environment.baseUrl}/bearings/getinfo`,
+      {
+        params: {
+          pattern: query,
+        },
+      }
+    );
   }
 
   public getBearingExtendedSearch(
@@ -39,8 +43,8 @@ export class RestService {
   ) {
     const params = this.getBearingExtendedSearchParams(selectionFilters);
 
-    return this.httpClient.get<string[]>(
-      `${this.baseUrl}/bearings/extendedsearch?${params}`
+    return this.httpClient.get<BearingInfo[]>(
+      `${environment.baseUrl}/bearings/getinfo/extended?${params}`
     );
   }
 

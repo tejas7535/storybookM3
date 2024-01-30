@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 import {
   AdvancedBearingSelectionFilters,
+  BearingInfo,
   BearingSelectionTypeUnion,
 } from '@ga/shared/models';
 
@@ -17,7 +18,7 @@ export const searchBearing = createAction(
 
 export const bearingSearchSuccess = createAction(
   '[Bearing Selection] Search Bearing Success',
-  props<{ resultList: string[] }>()
+  props<{ resultList: BearingInfo[] }>()
 );
 
 // todo bearingSearchFailure
@@ -29,7 +30,7 @@ export const searchBearingForAdvancedSelection = createAction(
 
 export const advancedBearingSelectionSuccess = createAction(
   '[Bearing Selection] Search Bearing For Advanced Selection Success',
-  props<{ resultList: string[] }>()
+  props<{ resultList: BearingInfo[] }>()
 );
 
 export const advancedBearingSelectionFailure = createAction(

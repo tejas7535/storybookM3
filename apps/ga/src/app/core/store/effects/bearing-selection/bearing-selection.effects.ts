@@ -24,7 +24,10 @@ import {
   selectBearing,
 } from '@ga/core/store/actions';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
-import { AdvancedBearingSelectionFilters } from '@ga/shared/models';
+import {
+  AdvancedBearingSelectionFilters,
+  BearingInfo,
+} from '@ga/shared/models';
 
 import { getSelectedBearing } from '../../selectors/bearing-selection/bearing-selection.selector';
 
@@ -39,7 +42,7 @@ export class BearingSelectionEffects {
           this.restService
             .getBearingSearch(query)
             .pipe(
-              map((resultList: string[]) =>
+              map((resultList: BearingInfo[]) =>
                 bearingSearchSuccess({ resultList })
               )
             )
@@ -54,7 +57,7 @@ export class BearingSelectionEffects {
       map((action) => action.selectionFilters),
       mergeMap((selectionFilters: AdvancedBearingSelectionFilters) =>
         this.restService.getBearingExtendedSearch(selectionFilters).pipe(
-          map((resultList: string[]) =>
+          map((resultList: BearingInfo[]) =>
             advancedBearingSelectionSuccess({ resultList })
           ),
           catchError((_e) => of(advancedBearingSelectionFailure()))

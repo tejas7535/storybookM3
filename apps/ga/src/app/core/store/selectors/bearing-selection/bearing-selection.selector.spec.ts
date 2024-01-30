@@ -32,11 +32,17 @@ describe('Bearing Selection Selector', () => {
       ...initialState,
       quickBearingSelection: {
         ...initialState.quickBearingSelection,
-        resultList: ['mockValidBearing', 'mockInvalidBearing'],
+        resultList: [
+          { designation: 'mockValidBearing', isValid: true },
+          { designation: 'mockInvalidBearing', isValid: false },
+        ],
       },
       advancedBearingSelection: {
         ...initialState.advancedBearingSelection,
-        resultList: ['mockValidAdvancedBearing', 'mockInvalidAdvancedBearing'],
+        resultList: [
+          { designation: 'mockValidAdvancedBearing', isValid: true },
+          { designation: 'mockInvalidAdvancedBearing', isValid: false },
+        ],
         resultsCount: 3,
       },
       bearingSelectionType: 'QUICK_SELECTION',

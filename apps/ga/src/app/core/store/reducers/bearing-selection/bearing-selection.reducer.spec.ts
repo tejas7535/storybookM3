@@ -67,7 +67,10 @@ describe('bearingSelectionReducer', () => {
 
   describe('on bearingSearchSuccess', () => {
     it('should set resultList and loading', () => {
-      const mockResultList = ['bearing 1', 'bearing 2'];
+      const mockResultList = [
+        { designation: 'bearing 1', isValid: true },
+        { designation: 'bearing 2', isValid: true },
+      ];
       const action: Action = bearingSearchSuccess({
         resultList: mockResultList,
       });
@@ -102,7 +105,10 @@ describe('bearingSelectionReducer', () => {
 
   describe('on advancedBearingSelectionSuccess', () => {
     it('should set advanced selection resultList and loading', () => {
-      const mockResultList = ['bearing 1', 'bearing 2'];
+      const mockResultList = [
+        { designation: 'bearing 1', isValid: true },
+        { designation: 'bearing 2', isValid: true },
+      ];
       const action: Action = advancedBearingSelectionSuccess({
         resultList: mockResultList,
       });
