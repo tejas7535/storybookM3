@@ -135,6 +135,9 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     if (errors.missingColumn) {
       return this.getTranslatedError('missingColumn', errors.params);
     }
+    if (errors.missingValue) {
+      return this.getTranslatedError('missingValue', errors.params);
+    }
     if (errors.invalidValue) {
       return this.getTranslatedError('invalidValue', errors.params);
     }

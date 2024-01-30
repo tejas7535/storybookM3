@@ -1,3 +1,4 @@
+export * from './boolean-value-formatter';
 export * from './boolean-value-getter';
 export * from './column-def-exclude';
 export * from './column-def-lock-columns';
@@ -10,6 +11,7 @@ export * from './empty-value-formatter';
 export * from './link-value-formatter';
 export * from './manufacturer-value-getter';
 export * from './maturity-value-formatter';
+export * from './percent-formatter';
 export * from './recycling-rate-value-getter';
 export * from './release-date-formatter';
 export * from './release-date-value-getter';

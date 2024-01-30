@@ -16,6 +16,7 @@ import {
 
 import { getStatus } from '../../util';
 import {
+  BOOLEAN_VALUE_FORMATTER,
   BOOLEAN_VALUE_GETTER,
   CUSTOM_DATE_FORMATTER,
   DATE_COMPARATOR,
@@ -33,6 +34,7 @@ import {
   RELEASE_DATE_FORMATTER,
   RELEASE_DATE_VALUE_GETTER,
   replaceColumn,
+  SAP_MATERIALS_DATE_FORMATTER,
   SELF_CERTIFIED_VALUE_GETTER,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
@@ -510,6 +512,58 @@ describe('helpers', () => {
       const result = EMISSION_FACTORS_FORMATTER(mockParams);
 
       expect(result).toBe('< 0.001');
+    });
+  });
+
+  describe('BOOLEAN_VALUE_FORMATTER', () => {
+    it('should return undefined if value is undefined', () => {
+      expect(
+        BOOLEAN_VALUE_FORMATTER({ value: undefined } as ValueFormatterParams)
+      ).toBeUndefined();
+    });
+
+    it('should return Yes if boolean value is true', () => {
+      expect(
+        BOOLEAN_VALUE_FORMATTER({ value: true } as ValueFormatterParams)
+      ).toBe('materialsSupplierDatabase.mainTable.yes');
+    });
+
+    it('should return No if boolean value is false', () => {
+      expect(
+        BOOLEAN_VALUE_FORMATTER({ value: false } as ValueFormatterParams)
+      ).toBe('materialsSupplierDatabase.mainTable.no');
+    });
+
+    it('should return Yes if string value is true', () => {
+      expect(
+        BOOLEAN_VALUE_FORMATTER({ value: 'true' } as ValueFormatterParams)
+      ).toBe('materialsSupplierDatabase.mainTable.yes');
+    });
+
+    it('should return No if string value is false', () => {
+      expect(
+        BOOLEAN_VALUE_FORMATTER({ value: 'false' } as ValueFormatterParams)
+      ).toBe('materialsSupplierDatabase.mainTable.no');
+    });
+  });
+
+  describe('SAP_MATERIALS_DATE_FORMATTER', () => {
+    it('should return undefined if value is undefined', () => {
+      expect(
+        SAP_MATERIALS_DATE_FORMATTER({
+          value: undefined,
+        } as ValueFormatterParams)
+      ).toBeUndefined();
+    });
+
+    it('should format the date', () => {
+      const value = 1_672_527_600_000;
+
+      expect(
+        SAP_MATERIALS_DATE_FORMATTER({
+          value,
+        } as ValueFormatterParams)
+      ).toBe(new Date(value).toLocaleDateString('en-GB'));
     });
   });
 });

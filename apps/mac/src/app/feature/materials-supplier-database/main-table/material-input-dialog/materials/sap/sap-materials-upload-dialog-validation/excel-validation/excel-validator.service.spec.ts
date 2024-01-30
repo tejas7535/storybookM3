@@ -1,10 +1,19 @@
 import { AbstractControl } from '@angular/forms';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import * as XLSX from 'xlsx';
 
 import { ExcelValidatorService } from './excel-validator.service';
-import { MANDATORY_COLUMNS } from './excel-validator-config';
+import {
+  COLUMN_HEADER_FIELD,
+  MANDATORY_COLUMNS,
+} from './excel-validator-config';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('ExcelValidatorService', () => {
   let spectator: SpectatorService<ExcelValidatorService>;
@@ -47,8 +56,10 @@ describe('ExcelValidatorService', () => {
       const file = createFile();
       const control = { value: file } as AbstractControl<File>;
       service['validateColumns'] = jest.fn();
+      service['checkForMissingValues'] = jest.fn();
       service['validateValues'] = jest.fn();
       service['validatePcfValues'] = jest.fn();
+      service['validateMaterialUtilizationFactor'] = jest.fn();
 
       service.validate(control).subscribe((result) => {
         if (result) {
@@ -64,18 +75,17 @@ describe('ExcelValidatorService', () => {
   });
 
   describe('validateColumns', () => {
-    const json = [
-      // eslint-disable-next-line unicorn/no-array-reduce
-      MANDATORY_COLUMNS.reduce((a, b) => ({ ...a, [b]: b }), {}) as {
-        [id: string]: string;
-      },
-    ];
     it('should pass', () => {
-      expect(() => service['validateColumns'](json)).not.toThrow();
+      expect(() =>
+        service['validateColumns'](COLUMN_HEADER_FIELD)
+      ).not.toThrow();
     });
     it('should throw error if mandatory columns are missing', () => {
-      delete json[0]['plant'];
-      expect(() => service['validateColumns'](json)).toThrow();
+      const columns: string[] = COLUMN_HEADER_FIELD.filter(
+        (column) => column !== MANDATORY_COLUMNS[0]
+      );
+
+      expect(() => service['validateColumns'](columns)).toThrow();
     });
   });
 
@@ -140,5 +150,44 @@ describe('ExcelValidatorService', () => {
       const json = createJson(kg, pc);
       expect(() => service['validatePcfValues'](json)).toThrow();
     });
+  });
+
+  describe('validateMaterialUtilizationFactor', () => {
+    const toJson = (factor?: any) => [{ materialUtilizationFactor: factor }];
+    it.each([0.4, 0.000_01, 0.999_999_999_99, 1, 0, undefined])(
+      'should pass for MaterialUtilizationFactor [%p]',
+      (factor: number) => {
+        expect(() =>
+          service['validateMaterialUtilizationFactor'](toJson(factor))
+        ).not.toThrow();
+      }
+    );
+    it.each([-0.1, 1.000_000_1, -0.000_000_000_1, 'test'])(
+      'should fail for MaterialUtilizationFactor [%p]',
+      (factor: any) => {
+        expect(() =>
+          service['validateMaterialUtilizationFactor'](toJson(factor))
+        ).toThrow();
+      }
+    );
+  });
+
+  describe('checkForMissingValues', () => {
+    // eslint-disable-next-line unicorn/no-array-reduce
+    const json = MANDATORY_COLUMNS.reduce(
+      (acc, cur) => ({ ...acc, [cur]: 1 }),
+      {}
+    );
+    it('should pass', () => {
+      expect(() => service['checkForMissingValues']([json])).not.toThrow();
+    });
+    it.each(MANDATORY_COLUMNS)(
+      'should not pass for missing [%p]',
+      (column: string) => {
+        const invalid: any = { ...json };
+        delete invalid[column];
+        expect(() => service['checkForMissingValues']([invalid])).toThrow();
+      }
+    );
   });
 });

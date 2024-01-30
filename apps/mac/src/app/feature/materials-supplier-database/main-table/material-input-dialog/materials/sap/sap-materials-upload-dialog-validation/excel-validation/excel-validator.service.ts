@@ -3,9 +3,13 @@ import { AbstractControl, AsyncValidator } from '@angular/forms';
 
 import { from, Observable } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import * as XLSX from 'xlsx';
 
+import { MATERIAL_UTILIZATION_FACTOR } from '@mac/feature/materials-supplier-database/constants';
+
 import {
+  COLUMN_HEADER_FIELD,
   COLUMN_RULES,
   ErrorCode,
   MANDATORY_COLUMNS,
@@ -14,6 +18,20 @@ import {
 
 @Injectable()
 export class ExcelValidatorService implements AsyncValidator {
+  private columnHeaderFormattedToDataField: {
+    [columnHeader: string]: string;
+  };
+
+  private dataFieldToColumnHeader: {
+    [dataField: string]: string;
+  };
+
+  private readonly EXCEL_DATA_ROW_START = 3; // 1 + 1 + 1, exclude header and hint row and display the physical row number, not index-based
+
+  constructor() {
+    this.initMappings();
+  }
+
   validate(control: AbstractControl<File>): Observable<any | null> {
     return from(this.handleFileAsync(control.value));
   }
@@ -21,12 +39,20 @@ export class ExcelValidatorService implements AsyncValidator {
   private async handleFileAsync(file: File): Promise<any> {
     const data = await file.arrayBuffer();
     const wb: XLSX.WorkBook = XLSX.read(data);
+    const columnHeaders = XLSX.utils.sheet_to_json(
+      wb.Sheets[wb.SheetNames[0]],
+      { header: 1 }
+    )[0] as string[];
     const wbJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const dataObjects = this.mapExcelJsonList(wbJson);
+
     // validation methods:
     try {
-      this.validateColumns(wbJson);
-      this.validateValues(wbJson);
-      this.validatePcfValues(wbJson);
+      this.validateColumns(columnHeaders);
+      this.checkForMissingValues(dataObjects);
+      this.validateValues(dataObjects);
+      this.validatePcfValues(dataObjects);
+      this.validateMaterialUtilizationFactor(dataObjects);
     } catch (error) {
       const valEr: ValidationError = error as ValidationError;
 
@@ -36,19 +62,112 @@ export class ExcelValidatorService implements AsyncValidator {
     return undefined;
   }
 
-  private validateColumns(json: any[]) {
-    // get list of columns in excel file
-    const excelColumns = Object.keys(json[0]);
+  /**
+   * Map the given Excel JSON objects list, so that the objects have the correct data field name and not the header label as a key/field name.
+   *
+   * @param excelJsonList List of Excel JSON objects with key: column header label and value: cell value
+   * @returns mapped JSON objects with the correct data fields names
+   */
+  private mapExcelJsonList(excelJsonList: any[]): any[] {
+    const excelJsonListCopy: any[] = JSON.parse(JSON.stringify(excelJsonList));
+    // Remove the first object, representing the hints row in the Excel file
+    excelJsonListCopy.shift();
+
+    return excelJsonListCopy.map((excelJson) => this.mapExcelJson(excelJson));
+  }
+
+  /**
+   * Map the given Excel JSON to a JSON object with the correct data fields names, defined in the ColumnsHeaderToDataFieldMapping
+   *
+   * @param excelJson JSON object, delivered from the XLSX lib
+   * @returns mapped JSON object with the correct data fields names
+   */
+  private mapExcelJson(excelJson: any): any {
+    const newExcelJson: any = {};
+
+    for (const [key, value] of Object.entries(excelJson)) {
+      newExcelJson[
+        this.columnHeaderFormattedToDataField[this.formatHeaderLabel(key)]
+      ] = value;
+    }
+
+    return newExcelJson;
+  }
+
+  private initMappings(): void {
+    this.columnHeaderFormattedToDataField = {};
+    this.dataFieldToColumnHeader = {};
+
+    COLUMN_HEADER_FIELD.map((dataField) => ({
+      dataField,
+      columnHeader: translate(
+        `materialsSupplierDatabase.mainTable.columns.${dataField}`
+      ),
+    })).forEach(({ dataField, columnHeader }) => {
+      this.columnHeaderFormattedToDataField[
+        this.formatHeaderLabel(columnHeader)
+      ] = dataField;
+      this.dataFieldToColumnHeader[dataField] = columnHeader;
+    });
+  }
+
+  /**
+   * Remove mandatory column sign and all whitespaces from the given column header label and transform it to lower case
+   *
+   * @param headerLabel column header label to be formatted
+   * @return formatted column header label
+   */
+  private formatHeaderLabel(headerLabel: string): string {
+    return headerLabel.replace('(*)', '').replaceAll(/\s/g, '').toLowerCase();
+  }
+
+  private validateColumns(columnHeaders: string[]) {
+    // map list of columns in excel to data fields
+    const excelColumns = new Set(
+      columnHeaders.map(
+        (excelColumn: string) =>
+          this.columnHeaderFormattedToDataField[
+            this.formatHeaderLabel(excelColumn)
+          ]
+      )
+    );
 
     // check if mandatory columns are present
     const missingColumns = MANDATORY_COLUMNS.filter(
-      (column) => !excelColumns.includes(column)
+      (column) => !excelColumns.has(column)
     );
+
     if (missingColumns.length > 0) {
       throw new ValidationError(ErrorCode.MISSING_MANDATORY_COLUMN, {
-        missing: missingColumns.join(', '),
+        missing: missingColumns
+          .map(
+            (missingColumn: string) =>
+              this.dataFieldToColumnHeader[missingColumn]
+          )
+          .join(', '),
       });
     }
+  }
+
+  private checkForMissingValues(json: any[]) {
+    json.forEach((row: any, rowIndex: number) => {
+      const keys = Object.keys(row);
+      const missingColumns = MANDATORY_COLUMNS.filter(
+        (mandatoryColumn) => !keys.includes(mandatoryColumn)
+      );
+
+      if (missingColumns.length > 0) {
+        throw new ValidationError(ErrorCode.MISSING_MANDATORY_VALUE, {
+          column: missingColumns
+            .map(
+              (missingColumn: string) =>
+                this.dataFieldToColumnHeader[missingColumn]
+            )
+            .join(', '),
+          rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
+        });
+      }
+    });
   }
 
   private validateValues(json: any[]) {
@@ -61,12 +180,12 @@ export class ExcelValidatorService implements AsyncValidator {
         const value = row[column];
         const rule = COLUMN_RULES[column];
 
-        // null is not allowed
-        if (!value || !rule.test(value)) {
+        // check only if value is set
+        if (value && !rule.test(value)) {
           throw new ValidationError(ErrorCode.INVALID_VALUE, {
-            column,
+            column: this.dataFieldToColumnHeader[column],
             value,
-            rowIndex,
+            rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
           });
         }
       });
@@ -82,7 +201,7 @@ export class ExcelValidatorService implements AsyncValidator {
       // at least one pcf value is required
       if (valueKg === undefined && valuePc === undefined) {
         throw new ValidationError(ErrorCode.NO_PCF_VALUE, {
-          rowIndex,
+          rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
         });
       }
 
@@ -97,7 +216,26 @@ export class ExcelValidatorService implements AsyncValidator {
         throw new ValidationError(ErrorCode.INVALID_PCF_VALUE, {
           valueKg,
           valuePc,
-          rowIndex,
+          rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
+        });
+      }
+    });
+  }
+
+  private validateMaterialUtilizationFactor(json: any[]) {
+    // check each data row
+    json.forEach((row: any, rowIndex: number) => {
+      const value = row.materialUtilizationFactor;
+
+      // value needs to be numeric and less than or equals 1 if it is available
+      if (
+        value !== undefined &&
+        (Number.isNaN(Number(value)) || value > 1 || value < 0)
+      ) {
+        throw new ValidationError(ErrorCode.INVALID_VALUE, {
+          column: this.dataFieldToColumnHeader[MATERIAL_UTILIZATION_FACTOR],
+          value,
+          rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
         });
       }
     });

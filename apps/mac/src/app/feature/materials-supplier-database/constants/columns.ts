@@ -60,9 +60,40 @@ export const SUPPLIER_COUNTRY = 'supplierCountry';
 export const SUPPLIER_REGION = 'supplierRegion';
 export const EMISSION_FACTOR_KG = 'emissionFactorKg';
 export const EMISSION_FACTOR_PC = 'emissionFactorPc';
-export const TRANSPORT_PC = 'transportPc';
-export const TRANSPORT_INCOTERM = 'transportIncoterm';
 export const DATA_DATE = 'dataDate';
 export const DATA_COMMENT = 'dataComment';
 export const OWNER = 'owner';
 export const MATURITY = 'maturity';
+export const RECYCLED_MATERIAL_SHARE = 'recycledMaterialShare';
+export const SECONDARY_MATERIAL_SHARE = 'secondaryMaterialShare';
+export const RAW_MATERIAL_MANUFACTURER = 'rawMaterialManufacturer';
+export const INCOTERMS = 'incoterms';
+export const SUPPLIER_LOCATION = 'supplierLocation';
+export const FOSSIL_ENERGY_SHARE = 'fossilEnergyShare';
+export const NUCLEAR_ENERGY_SHARE = 'nuclearEnergyShare';
+export const RENEWABLE_ENERGY_SHARE = 'renewableEnergyShare';
+export const ONLY_RENEWABLE_ELECTRICITY = 'onlyRenewableElectricity';
+export const VALID_FROM = 'validFrom';
+export const VALID_UNTIL = 'validUntil';
+export const PRIMARY_DATA_SHARE = 'primaryDataShare';
+export const DQR_PRIMARY = 'dqrPrimary';
+export const DQR_SECONDARY = 'dqrSecondary';
+export const SECONDARY_DATA_SOURCES = 'secondaryDataSources';
+export const CROSS_SECTORAL_STANDARDS_USED = 'crossSectoralStandardsUsed';
+export const CUSTOMER_CALCULATION_METHOD_APPLIED =
+  'customerCalculationMethodApplied';
+export const LINK_TO_CUSTOMER_CALCULATION_METHOD =
+  'linkToCustomerCalculationMethod';
+export const CALCULATION_METHOD_VERIFIED_BY_3RD_PARTY =
+  'calculationMethodVerifiedBy3rdParty';
+export const LINK_TO_3RD_PARTY_VERIFICATION_PROOF =
+  'linkTo3rdPartyVerificationProof';
+export const PCF_VERIFIED_BY_3RD_PARTY = 'pcfVerifiedBy3rdParty';
+export const PCF_LOGISTICS = 'pcfLogistics';
+export const SERVICE_INPUT_GROSS_WEIGHT = 'serviceInputGrossWeight';
+export const NET_WEIGHT = 'netWeight';
+export const WEIGHT_DATA_SOURCE = 'weightDataSource';
+export const MATERIAL_UTILIZATION_FACTOR = 'materialUtilizationFactor';
+export const MATERIAL_GROUP_OF_RAW_MATERIAL = 'materialGroupOfRawMaterial';
+export const RAW_MATERIAL_EMISSION_FACTOR = 'rawMaterialEmissionFactor';
+export const PROCESS_SURCHARGE = 'processSurcharge';

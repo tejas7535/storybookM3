@@ -780,14 +780,69 @@ export class MsdDataService {
       supplierRegion: sapMaterial.supplierRegion,
       emissionFactorKg: sapMaterial.emissionFactorKg,
       emissionFactorPc: sapMaterial.emissionFactorPc,
-      transportPc: sapMaterial.transportPc,
-      transportIncoterm: sapMaterial.transportIncoterm,
-      dataDate: new Date(sapMaterial.dataDate).toLocaleDateString('en-GB'),
+      dataDate: this.mapDateNumberToString(sapMaterial.dataDate),
       dataComment: sapMaterial.dataComment,
+      recycledMaterialShare: sapMaterial.recycledMaterialShare,
+      secondaryMaterialShare: sapMaterial.secondaryMaterialShare,
+      rawMaterialManufacturer: sapMaterial.rawMaterialManufacturer,
+      incoterms: sapMaterial.incoterms,
+      supplierLocation: sapMaterial.supplierLocation,
+      fossilEnergyShare: sapMaterial.fossilEnergyShare,
+      nuclearEnergyShare: sapMaterial.nuclearEnergyShare,
+      renewableEnergyShare: sapMaterial.renewableEnergyShare,
+      onlyRenewableElectricity: this.mapBooleanToString(
+        sapMaterial.onlyRenewableElectricity
+      ),
+      validFrom: this.mapDateNumberToString(sapMaterial.validFrom),
+      validUntil: this.mapDateNumberToString(sapMaterial.validUntil),
+      primaryDataShare: sapMaterial.primaryDataShare,
+      dqrPrimary: sapMaterial.dqrPrimary,
+      dqrSecondary: sapMaterial.dqrSecondary,
+      secondaryDataSources: sapMaterial.secondaryDataSources,
+      crossSectoralStandardsUsed: sapMaterial.crossSectoralStandardsUsed,
+      customerCalculationMethodApplied: this.mapBooleanToString(
+        sapMaterial.customerCalculationMethodApplied
+      ),
+      linkToCustomerCalculationMethod:
+        sapMaterial.linkToCustomerCalculationMethod,
+      calculationMethodVerifiedBy3rdParty: this.mapBooleanToString(
+        sapMaterial.calculationMethodVerifiedBy3rdParty
+      ),
+      linkTo3rdPartyVerificationProof:
+        sapMaterial.linkTo3rdPartyVerificationProof,
+      pcfVerifiedBy3rdParty: this.mapBooleanToString(
+        sapMaterial.pcfVerifiedBy3rdParty
+      ),
+      pcfLogistics: sapMaterial.pcfLogistics,
+      serviceInputGrossWeight: sapMaterial.serviceInputGrossWeight,
+      netWeight: sapMaterial.netWeight,
+      weightDataSource: sapMaterial.weightDataSource,
+      materialUtilizationFactor: sapMaterial.materialUtilizationFactor,
+      materialGroupOfRawMaterial: sapMaterial.materialGroupOfRawMaterial,
+      rawMaterialEmissionFactor: sapMaterial.rawMaterialEmissionFactor,
+      processSurcharge: sapMaterial.processSurcharge,
       owner: sapMaterial.owner,
       maturity: sapMaterial.maturity,
       modifiedBy: sapMaterial.modifiedBy,
       lastModified: sapMaterial.timestamp,
     };
+  }
+
+  private mapBooleanToString(value: boolean): string {
+    if (value !== undefined) {
+      return value
+        ? translate('materialsSupplierDatabase.mainTable.yes')
+        : translate('materialsSupplierDatabase.mainTable.no');
+    }
+
+    return undefined;
+  }
+
+  private mapDateNumberToString(date: number): string {
+    if (date) {
+      return new Date(date).toLocaleDateString('en-GB');
+    }
+
+    return undefined;
   }
 }

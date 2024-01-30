@@ -39,12 +39,14 @@ import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-ren
 import { QuickFilterModule } from './quick-filter/quick-filter.module';
 import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from './release-status-cell-renderer/release-status-cell-renderer.component';
+import { UrlCellRendererComponent } from './url-cell-renderer/url-cell-renderer.component';
 
 @NgModule({
   declarations: [
     MainTableComponent,
     EditCellRendererComponent,
     LinkCellRendererComponent,
+    UrlCellRendererComponent,
     GreenSteelCellRendererComponent,
     PcfMaturityCo2CellRendererComponent,
     RecentStatusCellRendererComponent,
