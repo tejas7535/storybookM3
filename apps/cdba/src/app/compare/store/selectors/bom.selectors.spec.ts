@@ -1,4 +1,4 @@
-import { BomItem } from '@cdba/shared/models';
+import { BomItem, RawMaterialAnalysis } from '@cdba/shared/models';
 import { UnitOfMeasure } from '@cdba/shared/models/unit-of-measure.model';
 import {
   BOM_ITEM_MOCK,
@@ -344,8 +344,9 @@ describe('BoM Selectors', () => {
           totalCosts: 1234.567,
           totalPrice: 1234.567,
           unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          unrecognisedUOM: 'mock-baseUnitOfMeasure',
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
@@ -357,8 +358,9 @@ describe('BoM Selectors', () => {
           totalCosts: 1234.567,
           totalPrice: 1234.567,
           unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          unrecognisedUOM: 'mock-baseUnitOfMeasure',
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
       ];
 
       result = getRawMaterialAnalysisForSelectedBomItem(0).projector(

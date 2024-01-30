@@ -40,6 +40,11 @@ export const mapBomItemsToRawMaterialAnalyses = (
         currency: bomItem.costing.costAreaCurrency,
       };
 
+      rawMaterialAnalysis.unrecognisedUOM =
+        rawMaterialAnalysis.unitOfMeasure === UnitOfMeasure.UNRECOGNISED
+          ? bomItem.quantities.baseUnitOfMeasure
+          : '';
+
       aggregatedRawMaterials.set(
         rawMaterialAnalysis.materialDesignation,
         rawMaterialAnalysis
@@ -79,6 +84,8 @@ const calculatePricePerUnit = (
     case UnitOfMeasure.KG:
       return operatingUnit !== 0 ? totalCosts / operatingUnit : 0;
     case UnitOfMeasure.M:
+      return totalPrice * uomBaseToPriceFactor;
+    case UnitOfMeasure.MM:
       return totalPrice * uomBaseToPriceFactor;
     default:
       return 0;

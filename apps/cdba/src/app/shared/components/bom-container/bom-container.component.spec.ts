@@ -1,9 +1,12 @@
+import { fakeAsync, tick } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
+
+import { of } from 'rxjs/internal/observable/of';
 
 import {
   createComponentFactory,
@@ -24,6 +27,7 @@ import * as compareActions from '@cdba/compare/store/actions';
 import * as detailActions from '@cdba/core/store/actions/detail';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { ResizeModule } from '@cdba/shared/directives/resize/index';
+import { UnitOfMeasure } from '@cdba/shared/models/unit-of-measure.model';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
   BOM_MOCK,
@@ -32,7 +36,11 @@ import {
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
 
-import { Calculation, CostComponentSplit } from '../../models';
+import {
+  Calculation,
+  CostComponentSplit,
+  RawMaterialAnalysis,
+} from '../../models';
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
 import { BomOverlayModule } from '../bom-overlay/bom-overlay.module';
@@ -45,6 +53,7 @@ describe('BomContainerComponent', () => {
   let component: BomContainerComponent;
   let spectator: Spectator<BomContainerComponent>;
   let store: MockStore;
+  let applicationInsights: ApplicationInsightsService;
 
   const index = 0;
 
@@ -90,6 +99,7 @@ describe('BomContainerComponent', () => {
     component = spectator.component;
 
     store = spectator.inject(MockStore);
+    applicationInsights = spectator.inject(ApplicationInsightsService);
   });
 
   test('should create', () => {
@@ -119,6 +129,43 @@ describe('BomContainerComponent', () => {
       expect(component['initializeWithDetailSelectors']).not.toHaveBeenCalled();
       expect(component['initializeWithCompareSelectors']).toHaveBeenCalled();
     });
+
+    test('should track unrecognised units of measure', fakeAsync(() => {
+      component.selectedCalculation = {
+        costType: 'test',
+        calculationDate: '2024-01-25T00:00:00',
+      } as Calculation;
+
+      const item = [
+        {
+          unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          unrecognisedUOM: 'invalidUOM',
+          materialDesignation: 'test material',
+          materialNumber: '1234',
+        },
+        {
+          unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          unrecognisedUOM: 'invalidUOM',
+          materialDesignation: 'test material 2',
+          materialNumber: '5678',
+        },
+      ] as RawMaterialAnalysis[];
+
+      component.rawMaterialAnalysis$ = of(item);
+      applicationInsights.logTrace = jest.fn();
+
+      spectator.setInput({ index: undefined });
+
+      const expectedTraceMsg = `Unrecognised unit of measure ${item[0].unrecognisedUOM} in MaterialDesignation ${item[0].materialDesignation} MaterialNumber ${item[0].materialNumber} Calculation Type ${component.selectedCalculation.costType} Calculation Date ${component.selectedCalculation.calculationDate}`;
+
+      component.rawMaterialAnalysis$.subscribe();
+
+      tick();
+      expect(applicationInsights.logTrace).toHaveBeenCalledWith(
+        expectedTraceMsg
+      );
+      expect(applicationInsights.logTrace).toHaveBeenCalledTimes(1);
+    }));
   });
 
   describe('initializeWithDetailSelectors', () => {

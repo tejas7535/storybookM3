@@ -16,6 +16,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
+import { UnitOfMeasure } from '@cdba/shared/models/unit-of-measure.model';
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
 
 import {
@@ -59,7 +60,7 @@ export class BomContainerComponent implements OnInit {
   costComponentSplitSummary$: Observable<CostComponentSplit[]>;
 
   // RawMaterialAnalysis
-  rawMaterialAnalysis$: Observable<RawMaterialAnalysis[]>;
+  _rawMaterialAnalysis$: Observable<RawMaterialAnalysis[]>;
   rawMaterialAnalysisSummary$: Observable<RawMaterialAnalysis[]>;
 
   public selectedBomItem: BomItem;
@@ -72,6 +73,31 @@ export class BomContainerComponent implements OnInit {
     private readonly applicationInsights: ApplicationInsightsService,
     private readonly localeService: TranslocoLocaleService
   ) {}
+
+  get rawMaterialAnalysis$(): Observable<RawMaterialAnalysis[]> {
+    return this._rawMaterialAnalysis$;
+  }
+
+  set rawMaterialAnalysis$(
+    rawMaterialAnalysis$: Observable<RawMaterialAnalysis[]>
+  ) {
+    this._rawMaterialAnalysis$ = rawMaterialAnalysis$.pipe(
+      tap((analysis: RawMaterialAnalysis[]) => {
+        const unrecognisedUOMMap = new Map<string, string>();
+        analysis?.forEach((item: RawMaterialAnalysis) => {
+          // Log only first occurence
+          if (
+            item.unitOfMeasure === UnitOfMeasure.UNRECOGNISED &&
+            !unrecognisedUOMMap.has(item.unrecognisedUOM)
+          ) {
+            const traceMsg = `Unrecognised unit of measure ${item.unrecognisedUOM} in MaterialDesignation ${item.materialDesignation} MaterialNumber ${item.materialNumber} Calculation Type ${this.selectedCalculation.costType} Calculation Date ${this.selectedCalculation.calculationDate}`;
+            this.applicationInsights.logTrace(traceMsg);
+            unrecognisedUOMMap.set(item.unrecognisedUOM, traceMsg);
+          }
+        });
+      })
+    );
+  }
 
   public ngOnInit(): void {
     if (this.index !== undefined) {

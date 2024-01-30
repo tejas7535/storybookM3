@@ -39,8 +39,6 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
 
-  public odataFeatureEnabled: boolean;
-
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[];
 

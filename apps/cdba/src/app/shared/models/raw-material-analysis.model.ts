@@ -6,6 +6,7 @@ export interface RawMaterialAnalysis {
   supplier: string;
   operatingUnit: number;
   unitOfMeasure: UnitOfMeasure;
+  unrecognisedUOM?: string;
   uomBaseToPriceFactor: number;
   price: number;
   totalCosts: number;

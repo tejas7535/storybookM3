@@ -270,9 +270,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          unrecognisedUOM: 'mock-baseUnitOfMeasure',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
@@ -283,9 +284,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.UNRECOGNISED,
+          unrecognisedUOM: 'mock-baseUnitOfMeasure',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
       ];
 
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(
@@ -320,9 +322,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.G,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
@@ -333,9 +336,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.G,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
       ];
 
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(
@@ -369,9 +373,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.KG,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
@@ -382,9 +387,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.KG,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
       ];
 
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(
@@ -418,9 +424,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.G,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
@@ -431,9 +438,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.G,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
       ];
 
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(
@@ -467,9 +475,10 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.M,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
         {
           costShare: 1,
           currency: 'mock-costAreaCurrency',
@@ -480,9 +489,61 @@ describe('Bom Selectors', () => {
           supplier: 'mock-vendorDescription',
           totalCosts: 1234.567,
           unitOfMeasure: UnitOfMeasure.M,
+          unrecognisedUOM: '',
           totalPrice: 1234.567,
           uomBaseToPriceFactor: 1.234,
-        },
+        } as RawMaterialAnalysis,
+      ];
+
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        BOM_ITEM_MOCK,
+        preparedBomItems
+      );
+
+      expect(result).toEqual(expected);
+    });
+    it('should return raw material analysis of selected bom item with MM as unit of measure', () => {
+      const preparedBomItems = bomItems.map((item) =>
+        item.itemCategory === 'M' && item.materialCharacteristics.type === 'ROH'
+          ? {
+              ...item,
+              quantities: {
+                ...item.quantities,
+                baseUnitOfMeasure: 'MM',
+              },
+            }
+          : item
+      );
+
+      const expected = [
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2314',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1523.455_678,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.MM,
+          unrecognisedUOM: '',
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        } as RawMaterialAnalysis,
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2311',
+          materialNumber: 'mock-materialNumber',
+          operatingUnit: 1234.567,
+          price: 1523.455_678,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfMeasure: UnitOfMeasure.MM,
+          unrecognisedUOM: '',
+          totalPrice: 1234.567,
+          uomBaseToPriceFactor: 1.234,
+        } as RawMaterialAnalysis,
       ];
 
       const result = getRawMaterialAnalysisForSelectedBomItem.projector(

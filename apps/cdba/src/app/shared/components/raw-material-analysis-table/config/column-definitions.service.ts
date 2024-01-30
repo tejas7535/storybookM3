@@ -97,6 +97,8 @@ export class ColumnDefinitionService {
         headerName: translate(
           'shared.bom.additionalInformation.rawMaterialAnalysis.headers.uomBaseToPriceFactor'
         ),
+        filter: 'agNumberColumnFilter',
+        type: 'numericColumn',
         valueFormatter: (params) =>
           this.columnUtilsService.formatNumber(params, {
             maximumFractionDigits: 4,
