@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
+import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
 import { ExcelCell, ExcelRow, GridApi } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -134,8 +135,8 @@ export class BomContainerComponent implements OnInit {
     }
   }
 
-  onGridReady(gridApi: GridApi): void {
-    this.gridApi = gridApi;
+  onGridReady(gridReadyEvent: GridReadyEvent): void {
+    this.gridApi = gridReadyEvent.api;
   }
 
   public expandAll(): void {

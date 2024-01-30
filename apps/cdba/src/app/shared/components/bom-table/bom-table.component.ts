@@ -14,7 +14,8 @@ import { translate } from '@ngneat/transloco';
 import {
   CellRange,
   ColumnMovedEvent,
-  ColumnVisibleEvent,
+  ColumnPinnedEvent,
+  ColumnState,
   FirstDataRenderedEvent,
   GridReadyEvent,
   RowClickedEvent,
@@ -48,7 +49,8 @@ export class BomTableComponent implements OnChanges {
   @Input() errorMessage: string;
 
   @Output() readonly rowSelected: EventEmitter<BomItem> = new EventEmitter();
-  @Output() readonly gridReady: EventEmitter<GridApi> = new EventEmitter();
+  @Output() readonly gridReady: EventEmitter<GridReadyEvent> =
+    new EventEmitter();
 
   // select first row initially for coloring
   currentSelectedRow = {
@@ -112,25 +114,27 @@ export class BomTableComponent implements OnChanges {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
-    params.api.addEventListener(
-      'rowGroupOpened',
-      this.onRowGroupOpened.bind(this)
-    );
-
+    // !!(DSCDA-3228)
     const customColumnsState = this.loadCustomColumnsOrder(
       this.customColumnsOrderKey
     );
 
     if (customColumnsState) {
-      params.columnApi.applyColumnState({
+      this.gridColumnApi.applyColumnState({
         state: customColumnsState,
         applyOrder: true,
       });
     } else {
       this.organizeColumns();
     }
+    // (DSCDA-3228)!!
 
-    this.gridReady.emit(this.gridApi);
+    params.api.addEventListener(
+      'rowGroupOpened',
+      this.onRowGroupOpened.bind(this)
+    );
+
+    this.gridReady.emit(params);
   }
 
   onFirstDataRendered(params: FirstDataRenderedEvent): void {
@@ -162,8 +166,12 @@ export class BomTableComponent implements OnChanges {
     this.gridApi.redrawRows();
   }
 
-  onColumnTouched(evt: ColumnVisibleEvent | ColumnMovedEvent): void {
-    this.saveCustomColumnsOrder(evt);
+  onColumnMoved(evt: ColumnMovedEvent): void {
+    this.saveCustomColumnsState(evt.columnApi.getColumnState());
+  }
+
+  onColumnPinned(evt: ColumnPinnedEvent): void {
+    this.saveCustomColumnsState(evt.columnApi.getColumnState());
   }
 
   updateNonLevel2Children(node: RowNode): void {
@@ -219,9 +227,9 @@ export class BomTableComponent implements OnChanges {
     this.gridColumnApi?.moveColumn('procurement.plant', 4);
   }
 
-  private saveCustomColumnsOrder(evt: any): void {
-    const columnState = JSON.stringify(evt.columnApi.getColumnState());
-    this.localStorage.setItem(this.customColumnsOrderKey, columnState);
+  private saveCustomColumnsState(columnState: ColumnState[]): void {
+    const columnStateJSON = JSON.stringify(columnState);
+    this.localStorage.setItem(this.customColumnsOrderKey, columnStateJSON);
   }
 
   private loadCustomColumnsOrder(key: string): any {

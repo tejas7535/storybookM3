@@ -16,6 +16,7 @@ import {
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { GridReadyEvent } from 'ag-grid-community';
 import { GridApi } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -383,23 +384,28 @@ describe('BomContainerComponent', () => {
 
   describe('onGridReady', () => {
     test('should initialize passed gridApi', () => {
-      const gridApi = {
-        exportDataAsExcel: jest.fn(),
-        getColumnDefs: jest.fn(() => [{}, {}]),
-      } as unknown as GridApi;
+      const mockedGridReadyEvent = {
+        api: {
+          exportDataAsExcel: jest.fn(),
+          getColumnDefs: jest.fn(() => [{}, {}]),
+        },
+      } as unknown as GridReadyEvent;
 
-      component.onGridReady(gridApi);
+      component.onGridReady(mockedGridReadyEvent);
 
-      expect(component['gridApi']).toEqual(gridApi);
+      expect(component['gridApi']).toEqual(mockedGridReadyEvent.api);
     });
   });
 
   describe('collapseAll', () => {
     it('should call grid api to collapse all rows', () => {
-      const gridApi = {
-        collapseAll: jest.fn(),
-      } as unknown as GridApi;
-      component.onGridReady(gridApi);
+      const mockedGridReadyEvent = {
+        api: {
+          collapseAll: jest.fn(),
+        },
+      } as unknown as GridReadyEvent;
+
+      component.onGridReady(mockedGridReadyEvent);
 
       component.collapseAll();
 
@@ -409,10 +415,13 @@ describe('BomContainerComponent', () => {
 
   describe('expandAll', () => {
     it('should call grid api to expand all rows', () => {
-      const gridApi = {
-        expandAll: jest.fn(),
-      } as unknown as GridApi;
-      component.onGridReady(gridApi);
+      const mockedGridReadyEvent = {
+        api: {
+          expandAll: jest.fn(),
+        },
+      } as unknown as GridReadyEvent;
+
+      component.onGridReady(mockedGridReadyEvent);
 
       component.expandAll();
 

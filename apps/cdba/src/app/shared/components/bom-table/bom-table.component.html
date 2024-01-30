@@ -23,10 +23,10 @@
   rowSelection="multiple"
   [suppressCellFocus]="true"
   [suppressCsvExport]="true"
+  (firstDataRendered)="onFirstDataRendered($event)"
   (gridReady)="onGridReady($event)"
   (rowClicked)="onRowClicked($event)"
-  (firstDataRendered)="onFirstDataRendered($event)"
-  (columnVisible)="onColumnTouched($event)"
-  (columnMoved)="onColumnTouched($event)"
+  (columnMoved)="onColumnMoved($event)"
+  (columnPinned)="onColumnPinned($event)"
 >
 </ag-grid-angular>

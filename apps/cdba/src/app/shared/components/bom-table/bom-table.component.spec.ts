@@ -8,6 +8,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColumnMovedEvent,
+  ColumnPinnedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   RowClickedEvent,
@@ -120,7 +121,7 @@ describe('BomTableComponent', () => {
     });
 
     it('should set api and event listener', () => {
-      const params: GridReadyEvent = {
+      const mockedGridReadyEvent: GridReadyEvent = {
         api: {
           addEventListener: jest.fn(),
           showLoadingOverlay: jest.fn(),
@@ -131,15 +132,17 @@ describe('BomTableComponent', () => {
       };
       component.isLoading = true;
 
-      component.onGridReady(params);
+      component.onGridReady(mockedGridReadyEvent);
 
-      expect(component['gridApi']).toEqual(params.api);
-      expect(component['gridColumnApi']).toEqual(params.columnApi);
-      expect(params.api.addEventListener).toHaveBeenCalled();
+      expect(component['gridApi']).toEqual(mockedGridReadyEvent.api);
+      expect(component['gridColumnApi']).toEqual(
+        mockedGridReadyEvent.columnApi
+      );
+      expect(mockedGridReadyEvent.api.addEventListener).toHaveBeenCalled();
     });
 
     it('should emit event to expose GridApi', () => {
-      const params = {
+      const mockedGridReadyEvent = {
         api: {
           addEventListener: jest.fn(),
           showNoRowsOverlay: jest.fn(),
@@ -147,9 +150,11 @@ describe('BomTableComponent', () => {
       } as unknown as GridReadyEvent;
       component.isLoading = false;
 
-      component.onGridReady(params);
+      component.onGridReady(mockedGridReadyEvent);
 
-      expect(component.gridReady.emit).toHaveBeenCalledWith(params.api);
+      expect(component.gridReady.emit).toHaveBeenCalledWith(
+        mockedGridReadyEvent
+      );
     });
   });
 
@@ -336,11 +341,17 @@ describe('BomTableComponent', () => {
         colId: 'bar',
       },
     ];
-    const evt = {
+    const columnKey = 'custom_columns_order';
+    const mockedColumnMovedEvt = {
       columnApi: {
         getColumnState: jest.fn().mockReturnValue(columnsState),
       },
     } as unknown as ColumnMovedEvent;
+    const mockedColumnPinnedEvt = {
+      columnApi: {
+        getColumnState: jest.fn().mockReturnValue(columnsState),
+      },
+    } as unknown as ColumnPinnedEvent;
 
     beforeEach(() => {
       component.localStorage.clear();
@@ -355,12 +366,27 @@ describe('BomTableComponent', () => {
 
       expect(customColumnsOrder).toBeUndefined();
     });
-    it('should save custom columns order', () => {
-      const onDragStoppedSpy = jest.spyOn(component, 'onColumnTouched');
-      component.onColumnTouched(evt);
+    it('should save custom columns order when moving column', () => {
+      const onColumnMovedSpy = jest.spyOn(component, 'onColumnMoved');
 
-      expect(onDragStoppedSpy).toHaveBeenCalled();
-      expect(component.localStorage.setItem).toHaveBeenCalled();
+      component.onColumnMoved(mockedColumnMovedEvt);
+
+      expect(onColumnMovedSpy).toHaveBeenCalled();
+      expect(component.localStorage.setItem).toHaveBeenCalledWith(
+        columnKey,
+        JSON.stringify(columnsState)
+      );
+    });
+    it('should save custom columns order when pinning column', () => {
+      const onColumnPinnedSpy = jest.spyOn(component, 'onColumnPinned');
+
+      component.onColumnPinned(mockedColumnPinnedEvt);
+
+      expect(onColumnPinnedSpy).toHaveBeenCalled();
+      expect(component.localStorage.setItem).toHaveBeenCalledWith(
+        columnKey,
+        JSON.stringify(columnsState)
+      );
     });
   });
 
