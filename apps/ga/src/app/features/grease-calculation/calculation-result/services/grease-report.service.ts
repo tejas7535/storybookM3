@@ -12,7 +12,7 @@ import { alternativeTable, marketGreases } from '@ga/shared/constants';
 import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
 import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
 
-import { WARNINGSOPENED } from '../constants';
+import { greaseResultExceptions, WARNINGSOPENED } from '../constants';
 import { itemValue } from '../helpers/grease-helpers';
 import {
   GreaseReport,
@@ -196,7 +196,15 @@ export class GreaseReportService {
             };
           }
         ) as GreaseReportSubordinate[]),
-      ];
+      ]
+        // exclude grease which are available within the API, but should not be shown in the result because of certain limitations.
+        // e.g. Arcanol XTRA3 is only for the Indian market
+        .filter(
+          (subordinate) =>
+            !greaseResultExceptions.includes(
+              subordinate.greaseResult?.mainTitle
+            )
+        );
 
       // fix order by index just in case
       formattedSubordinates = [...formattedSubordinates].sort(
