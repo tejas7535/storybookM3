@@ -1,4 +1,24 @@
 # Release Notes of Grease App
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.5.0...ga-v1.6.0) (2024-01-30)
+
+
+### Features
+
+* **ga:** add affiliate partner codes to the external links (UFTABI-6920) ([#5870](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5870)) ([8d2b5fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8d2b5fbbca43dda7c957eb283df7fa05f8a3c779))
+* **ga:** add AI event for grease pdf report download ([#5943](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5943)) ([c0809dd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0809dd545b0c4a90f5cca7e78a72fbc224f79ae))
+* **ga:** add schmeckthal legal pages (UFTABI-7035) ([#5874](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5874)) ([5babbbb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5babbbbe38734b5c8c26a2dbb29cd9a0e101eee5))
+* **ga:** adjust partner version pdf (uftabi-7137 ) ([#5882](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5882)) ([df859e3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/df859e3ef0abacd3a4c86fe8069a6a81eee21f48))
+* **ga:** change action on contact card for schmeckthal gruppe partner ([#5866](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5866)) ([59148e4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59148e492b6ce5248a861a615bbd981e6fbe4ae8))
+* **ga:** switch to new getinfo endpoint ([#5916](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5916)) ([97661bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/97661bc1d2e152309784a3a70c0b930ec24268c0))
+
+
+### Bug Fixes
+
+* **ea:** add formatting for legal pages - UFTABI-6925 ([#5899](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5899)) ([b19f568](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b19f5688face1c677daa69a5fdc2bbe6e18f3b5f))
+* **ga:** adjust contact card title ([#5902](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5902)) ([399c530](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/399c53092e7fd8cec86ada8d4e8806042b13cbbe))
+* **ga:** hide xtra3 grease ([#5953](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5953)) ([20ae9e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/20ae9e0cab252ef08aac06e79c43d0af8cc5520b))
+* **ga:** update api urls ([#5931](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5931)) ([5ce15fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5ce15fb0afe8472855fad0dcc8229b281ae3491d))
+
 ## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.4.4...ga-v1.5.0) (2023-12-12)
 
 
