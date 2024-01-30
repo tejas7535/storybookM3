@@ -49,7 +49,7 @@
       class="w-full"
       [priceLabelKey]="'gqPriceLabel'"
       [priceValue]="45.12"
-      [currency]="'EUR'"
+      [currency]="(fPricingData$ | ngrxPush)?.currency"
       [gpmValue]="12.45"
       [icon]="'warning_amber'"
       [iconColor]="'text-error'"
@@ -67,18 +67,18 @@
 
 <ng-template #gqPricingView>
   <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
-  <mat-card appearance="outlined" class="h-full">
+  <mat-card appearance="outlined" class="h-full lg:pl-4">
     <div class="flex flex-col h-full">
       <gq-pricing-results
         [price]="24.23"
-        [currency]="'EUR'"
+        [currency]="(fPricingData$ | ngrxPush)?.currency"
         [gpm]="12.4"
         [confidence]="2"
       ></gq-pricing-results>
       <gq-pricing-tabs-wrapper
         class="h-full"
-        [currency]="'EUR'"
-        [referencePrice]="1214.0"
+        [currency]="(fPricingData$ | ngrxPush)?.currency"
+        [referencePrice]="(fPricingData$ | ngrxPush)?.referencePrice"
         [marketValueDriversValue]="63.23"
         [technicalValueDriversValue]="12.23"
         [sanityCheckValue]="0"

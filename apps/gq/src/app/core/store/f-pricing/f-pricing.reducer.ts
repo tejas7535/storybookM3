@@ -1,25 +1,64 @@
 import {
+  FPricingData,
   MaterialInformation,
   PropertyValue,
 } from '@gq/shared/models/f-pricing';
-import { createFeature, createReducer, createSelector } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { MATERIAL_INFORMATION_MOCK } from '../../../../testing/mocks';
+import { FPricingActions } from './f-pricing.actions';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
-export interface FPricingState {
+export interface FPricingState extends FPricingData {
+  fPricingDataLoading: boolean;
+  error: Error;
   materialInformation: MaterialInformation[];
 }
 
 export const initialState: FPricingState = {
+  fPricingDataLoading: false,
+  error: null,
   materialInformation: MATERIAL_INFORMATION_MOCK,
+  gqPositionId: null,
+  referencePrice: null,
 };
 
-export const F_PRICING_KEY = 'FPricing';
+export const F_PRICING_KEY = 'fPricing';
 
 export const fPricingFeature = createFeature({
   name: F_PRICING_KEY,
-  reducer: createReducer(initialState),
+  reducer: createReducer(
+    initialState,
+    on(
+      FPricingActions.resetFPricingData,
+      (): FPricingState => ({
+        ...initialState,
+      })
+    ),
+    on(
+      FPricingActions.loadFPricingData,
+      (state: FPricingState): FPricingState => ({
+        ...state,
+        fPricingDataLoading: true,
+      })
+    ),
+    on(
+      FPricingActions.loadFPricingDataSuccess,
+      (_state: FPricingState, { data }): FPricingState => ({
+        ...initialState,
+        ...data,
+      })
+    ),
+    on(
+      FPricingActions.loadFPricingDataFailure,
+      (_state: FPricingState, { error }): FPricingState => ({
+        ...initialState,
+        fPricingDataLoading: false,
+        error,
+      })
+    )
+  ),
+
   extraSelectors: ({ selectMaterialInformation }) => ({
     getMaterialInformationExtended: createSelector(
       selectMaterialInformation,

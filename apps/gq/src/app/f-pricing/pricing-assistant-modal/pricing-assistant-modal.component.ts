@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -23,9 +23,10 @@ import { OverlayToShow } from './models/overlay-to-show.enum';
   // otherwise it will override the columnState on in backgrounds quotationSDetailsTable
   providers: [AgGridStateService],
 })
-export class PricingAssistantModalComponent {
+export class PricingAssistantModalComponent implements OnInit {
   dialogData: QuotationDetail = inject(MAT_DIALOG_DATA);
   fPricingFacade = inject(FPricingFacade);
+  fPricingData$ = this.fPricingFacade.fPricingDataComplete$;
 
   private readonly dialog = inject(MatDialog);
   private readonly dialogRef = inject(
@@ -36,9 +37,14 @@ export class PricingAssistantModalComponent {
   materialToCompare: string;
   referencePriceRowData: ComparableMaterialsRowData[] =
     COMPARABLE_MATERIALS_ROW_DATA_MOCK;
-
   overlayToShowEnum = OverlayToShow;
   visibleOverlay: OverlayToShow = OverlayToShow.gqPricing;
+
+  ngOnInit(): void {
+    this.fPricingFacade.loadDataForPricingAssistant(
+      this.dialogData.gqPositionId
+    );
+  }
 
   closeDialog(): void {
     this.dialogRef.close();

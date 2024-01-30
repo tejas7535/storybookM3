@@ -2,14 +2,67 @@ import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
 } from '../../../../testing/mocks/models/fpricing/material-information.mock';
+import { FPricingActions } from './f-pricing.actions';
 import {
   fPricingFeature,
   getDeltaByInformationKeyAndPropertyKey,
   getNumberOfDeltasByInformationKey,
+  initialState,
 } from './f-pricing.reducer';
 import { PropertyDelta } from './models/property-delta.interface';
 
 describe('fPricingReducer', () => {
+  describe('ons', () => {
+    test('should reset state', () => {
+      const result = fPricingFeature.reducer(
+        { ...initialState, error: new Error('test') },
+        FPricingActions.resetFPricingData()
+      );
+
+      expect(result).toEqual(initialState);
+    });
+    test('should set loading state', () => {
+      const result = fPricingFeature.reducer(
+        initialState,
+        FPricingActions.loadFPricingData({ gqPositionId: 'test' })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        fPricingDataLoading: true,
+      });
+    });
+    test('should set data', () => {
+      const result = fPricingFeature.reducer(
+        initialState,
+        FPricingActions.loadFPricingDataSuccess({
+          data: {
+            gqPositionId: 'test',
+            referencePrice: 100_000,
+          },
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        gqPositionId: 'test',
+        referencePrice: 100_000,
+      });
+    });
+    test('should set error', () => {
+      const result = fPricingFeature.reducer(
+        initialState,
+        FPricingActions.loadFPricingDataFailure({
+          error: new Error('test'),
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        error: new Error('test'),
+      });
+    });
+  });
   describe('getMaterialInformation', () => {
     test('should return the base material information and calculate data for the deltas', () => {
       const result = fPricingFeature.getMaterialInformationExtended.projector(

@@ -9,6 +9,7 @@ import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { QuotationDetail } from '@gq/shared/models';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 import { MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -23,7 +24,7 @@ describe('PricingAssistant.modalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PricingAssistantModalComponent,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     declarations: [MockPipe(NumberCurrencyPipe)],
     providers: [
       MockProvider(FPricingFacade),
@@ -43,6 +44,16 @@ describe('PricingAssistant.modalComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should call the facades method', () => {
+      component['fPricingFacade'].loadDataForPricingAssistant = jest.fn();
+      component.ngOnInit();
+      expect(
+        component['fPricingFacade'].loadDataForPricingAssistant
+      ).toHaveBeenCalled();
+    });
   });
 
   describe('closeDialog', () => {
