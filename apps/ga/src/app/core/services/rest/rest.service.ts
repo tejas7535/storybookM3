@@ -29,7 +29,7 @@ export class RestService {
 
   public getBearingSearch(query: string): Observable<BearingInfo[]> {
     return this.httpClient.get<BearingInfo[]>(
-      `${environment.baseUrl}/bearings/getinfo`,
+      `${this.baseUrl}/bearings/getinfo`,
       {
         params: {
           pattern: query,
@@ -44,7 +44,7 @@ export class RestService {
     const params = this.getBearingExtendedSearchParams(selectionFilters);
 
     return this.httpClient.get<BearingInfo[]>(
-      `${environment.baseUrl}/bearings/getinfo/extended?${params}`
+      `${this.baseUrl}/bearings/getinfo/extended?${params}`
     );
   }
 
