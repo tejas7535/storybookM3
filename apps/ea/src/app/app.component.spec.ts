@@ -14,7 +14,7 @@ import {
   TRANSLOCO_DATE_TRANSFORMER,
   TRANSLOCO_NUMBER_TRANSFORMER,
 } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -35,7 +35,7 @@ describe('AppComponent', () => {
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
-      PushModule,
+      PushPipe,
       RouterTestingModule,
       MatIconTestingModule,
       provideTranslocoTestingModule({ en: {} }),

@@ -60,7 +60,6 @@ export class AppComponent
   @Input() standalone: string | undefined;
   @Input() language: string | undefined;
 
-  public title = 'Engineering App';
   public isStandalone$ = this.settingsFacade.isStandalone$;
   public isBearingSupported$ = this.store.select(isBearingSupported);
 

@@ -3,7 +3,7 @@
     <ng-container *ngIf="!isProduction; else standaloneProdPlaceholder">
       <schaeffler-app-shell
         [hasSidebarLeft]="true"
-        [appTitle]="title"
+        [appTitle]="'appTitle' | transloco"
         appTitleLink="/"
         [footerFixed]="false"
         [footerLinks]="footerLinks$ | ngrxPush"
