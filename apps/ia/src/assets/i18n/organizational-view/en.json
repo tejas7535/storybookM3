@@ -1,10 +1,15 @@
 {
   "orgChart": {
-    "table": {
-      "columnDirect": "Direct",
-      "columnOverall": "Overall",
-      "rowEmployees": "Employees",
-      "rowAttrition": "Fluctuation"
+    "type": {
+      "total": "Total",
+      "unforced": "Unforced",
+      "forced": "Forced",
+      "remaining": "Remaining"
+    },
+    "node": {
+      "directOverall": "(direct/overall)",
+      "employees": "Employees",
+      "fluctuation": "Fluctuation"
     },
     "noData": "No Data Available."
   },

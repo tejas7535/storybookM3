@@ -2,6 +2,24 @@
   class="flex h-full grow flex-col overflow-hidden"
   *transloco="let t; read: 'organizationalView.orgChart'"
 >
+  <mat-button-toggle-group
+    class="fluctuation-tab-group max-w-max mx-auto mt-2 mb-4 p-[2px] !rounded-md !bg-gray-300 !border-gray-300"
+    [value]="fluctuationType"
+    (change)="changeFluctuationType($event)"
+  >
+    <mat-button-toggle [value]="fluctuationTypeEnum.TOTAL">{{
+      t('type.total') | uppercase
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="fluctuationTypeEnum.UNFORCED">{{
+      t('type.unforced') | uppercase
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="fluctuationTypeEnum.FORCED">{{
+      t('type.forced') | uppercase
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="fluctuationTypeEnum.REMAINING">{{
+      t('type.remaining') | uppercase
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
   <div
     #chartContainer
     id="chartContainer"

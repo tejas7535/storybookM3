@@ -5,6 +5,8 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 import {
+  autocompleteBenchmarkDimensionData,
+  autocompleteDimensionData,
   benchmarDimensionSelected,
   benchmarkFilterSelected,
   dimensionSelected,
@@ -36,6 +38,20 @@ describe('Filter Actions', () => {
       });
     });
 
+    test('autocompleteBenchmarkDimensionData', () => {
+      const searchFor = 'search';
+      const action = autocompleteBenchmarkDimensionData({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+      });
+
+      expect(action).toEqual({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+        type: '[Fitler] Trigger Benchmark Dimension Autocomplete',
+      });
+    });
+
     test('loadFilterDimenstionData', () => {
       const searchFor = 'search';
       const action = loadFilterDimensionData({
@@ -47,6 +63,20 @@ describe('Filter Actions', () => {
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
         type: '[Filter] Load Filter Dimension Data',
+      });
+    });
+
+    test('autocompleteDimensionData', () => {
+      const searchFor = 'search';
+      const action = autocompleteDimensionData({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+      });
+
+      expect(action).toEqual({
+        filterDimension: FilterDimension.ORG_UNIT,
+        searchFor,
+        type: '[Fitler] Trigger Dimension Autocomplete',
       });
     });
 

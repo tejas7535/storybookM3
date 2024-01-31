@@ -121,25 +121,38 @@ describe('Organizational View Selector', () => {
   describe('getOrgChart', () => {
     test('should return org chart data with dimension information', () => {
       const idValue = new IdValue('test', 'val');
+      const data: DimensionFluctuationData[] = [{} as DimensionFluctuationData];
       expect(
-        getOrgChart.projector(
-          fakeState.organizationalView,
-          FilterDimension.BOARD,
-          idValue
-        )
+        getOrgChart.projector(false, data, FilterDimension.BOARD, idValue)
       ).toEqual({
-        data: fakeState.organizationalView.orgChart.data,
+        data,
         dimension: FilterDimension.BOARD,
       });
     });
 
     test('should return empty org chart if no dimension value is set', () => {
+      const data: DimensionFluctuationData[] = [];
       expect(
         getOrgChart.projector(
-          fakeState.organizationalView,
+          false,
+          data,
           FilterDimension.BOARD,
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          undefined
+          undefined as undefined
+        )
+      ).toEqual({
+        data: [],
+        dimension: FilterDimension.BOARD,
+      });
+    });
+
+    test('should return empty org chart if loading is true', () => {
+      const data: DimensionFluctuationData[] = [{} as DimensionFluctuationData];
+      expect(
+        getOrgChart.projector(
+          true,
+          data,
+          FilterDimension.BOARD,
+          undefined as undefined
         )
       ).toEqual({
         data: [],

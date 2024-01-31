@@ -74,9 +74,7 @@ export function getPercentageValue(rate: number): number {
 }
 
 export function getPercentageValueSigned(value: number): string {
-  return value !== undefined
-    ? `${Number(getPercentageValue(value))}%`
-    : undefined;
+  return value !== undefined ? `${Number(value)}%` : undefined;
 }
 
 export const valueFormatterDate = <T>(

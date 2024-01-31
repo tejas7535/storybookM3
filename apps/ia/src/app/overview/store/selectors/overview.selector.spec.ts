@@ -159,16 +159,16 @@ describe('Overview Selector', () => {
       fluctuationRates: {
         dimension: {
           data: {
-            fluctuationRate: 0.023,
-            unforcedFluctuationRate: 0.065,
+            fluctuationRate: 2.3,
+            unforcedFluctuationRate: 6.5,
           },
           loading: false,
           errorMessage: undefined,
         },
         benchmark: {
           data: {
-            fluctuationRate: 0.041,
-            unforcedFluctuationRate: 0.081,
+            fluctuationRate: 4.1,
+            unforcedFluctuationRate: 8.1,
           },
           loading: true,
           errorMessage: undefined,
@@ -191,16 +191,16 @@ describe('Overview Selector', () => {
       fluctuationRatesChart: {
         dimension: {
           data: {
-            fluctuationRates: [0.018, 0.014],
-            unforcedFluctuationRates: [0.013, 0.03],
+            fluctuationRates: [1.8, 1.4],
+            unforcedFluctuationRates: [1.3, 3],
           },
           loading: false,
           errorMessage: undefined,
         },
         benchmark: {
           data: {
-            fluctuationRates: [0.025, 0.035],
-            unforcedFluctuationRates: [0.02, 0.04],
+            fluctuationRates: [2.5, 3.5],
+            unforcedFluctuationRates: [2, 4],
           },
           loading: false,
           errorMessage: undefined,
@@ -317,8 +317,8 @@ describe('Overview Selector', () => {
   describe('getDimensionFluctuationRates', () => {
     it('should return actual fluctuation data', () => {
       expect(getDimensionFluctuationRates(fakeState)).toEqual({
-        fluctuationRate: 0.023,
-        unforcedFluctuationRate: 0.065,
+        fluctuationRate: 2.3,
+        unforcedFluctuationRate: 6.5,
       });
     });
   });
@@ -326,8 +326,8 @@ describe('Overview Selector', () => {
   describe('getBenchmarkFluctuationRates', () => {
     it('should return actual benchmark fluctuation data', () => {
       expect(getBenchmarkFluctuationRates(fakeState)).toEqual({
-        fluctuationRate: 0.041,
-        unforcedFluctuationRate: 0.081,
+        fluctuationRate: 4.1,
+        unforcedFluctuationRate: 8.1,
       });
     });
   });
@@ -469,8 +469,8 @@ describe('Overview Selector', () => {
     test('should return chart fluctuation rates for dimension', () => {
       const result = getDimensionFluctuationRatesChart(fakeState);
 
-      expect(result.fluctuationRates).toEqual([0.018, 0.014]);
-      expect(result.unforcedFluctuationRates).toEqual([0.013, 0.03]);
+      expect(result.fluctuationRates).toEqual([1.8, 1.4]);
+      expect(result.unforcedFluctuationRates).toEqual([1.3, 3]);
     });
   });
 
@@ -494,8 +494,8 @@ describe('Overview Selector', () => {
     test('should return chart fluctuation rates for benchmark', () => {
       const result = getBenchmarkFluctuationRatesChart(fakeState);
 
-      expect(result.fluctuationRates).toEqual([0.025, 0.035]);
-      expect(result.unforcedFluctuationRates).toEqual([0.02, 0.04]);
+      expect(result.fluctuationRates).toEqual([2.5, 3.5]);
+      expect(result.unforcedFluctuationRates).toEqual([2, 4]);
     });
   });
 

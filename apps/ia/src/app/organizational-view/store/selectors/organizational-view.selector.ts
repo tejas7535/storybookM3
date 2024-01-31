@@ -15,6 +15,7 @@ import {
   IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
+import { DimensionFluctuationData } from '../../models';
 import { CountryDataAttrition } from '../../world-map/models';
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 
@@ -26,19 +27,31 @@ export const getSelectedChartType = createSelector(
   (state: OrganizationalViewState) => state.selectedChart
 );
 
-export const getOrgChart = createSelector(
+export const getOrgChartData = createSelector(
   selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.orgChart.data
+);
+
+export const getIsLoadingOrgChartData = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.orgChart.loading
+);
+
+export const getOrgChart = createSelector(
+  getIsLoadingOrgChartData,
+  getOrgChartData,
   getSelectedDimension,
   getSelectedDimensionIdValue,
   (
-    state: OrganizationalViewState,
+    isLoading: boolean,
+    state: DimensionFluctuationData[],
     dimension: FilterDimension,
     selectedDimensionIdValue: IdValue
   ) => {
     const hideOrgChart = selectedDimensionIdValue === undefined;
 
     return {
-      data: hideOrgChart ? [] : state.orgChart.data,
+      data: hideOrgChart || isLoading ? [] : state,
       dimension,
     };
   }

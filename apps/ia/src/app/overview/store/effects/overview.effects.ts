@@ -21,6 +21,7 @@ import {
   getSelectedBenchmarkValue,
 } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
+import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../shared/constants';
 import {
   AttritionOverTime,
   EmployeesRequest,
@@ -78,7 +79,6 @@ import {
   loadWorkforceBalanceMetaFailure,
   loadWorkforceBalanceMetaSuccess,
 } from '../actions/overview.action';
-import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../shared/constants';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()

@@ -17,7 +17,7 @@
         class="ml-2 text-high-emphasis"
         *ngIf="!fluctuationLoading; else loadingFluct"
       >
-        {{ meta.data.fluctuationRate | percent: '1.0-2' | defaultValue }}
+        {{ meta.data.fluctuationRate | defaultValue }}%
       </span>
       <ng-template #loadingFluct>
         <schaeffler-loading-spinner
@@ -41,9 +41,7 @@
         class="ml-2 text-high-emphasis"
         *ngIf="!fluctuationLoading; else loadingUnforcedFluct"
       >
-        {{
-          meta.data.unforcedFluctuationRate | percent: '1.0-2' | defaultValue
-        }}
+        {{ meta.data.unforcedFluctuationRate | defaultValue }}%
       </span>
       <ng-template #loadingUnforcedFluct>
         <schaeffler-loading-spinner

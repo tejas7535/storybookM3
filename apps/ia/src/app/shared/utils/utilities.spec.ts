@@ -114,7 +114,7 @@ describe('utilities', () => {
 
   describe('getPercentageValueSigned', () => {
     test('should return value multiplied by 100 with percentage sign', () => {
-      const value = 0.043_21;
+      const value = 4.3;
 
       const result = getPercentageValueSigned(value);
 

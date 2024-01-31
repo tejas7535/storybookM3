@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,6 +18,8 @@ import { OrgChartComponent } from './org-chart.component';
     LoadingSpinnerModule,
     EmployeeListDialogModule,
     SharedTranslocoModule,
+    MatButtonModule,
+    MatButtonToggleModule,
   ],
   exports: [OrgChartComponent],
 })

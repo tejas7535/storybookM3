@@ -13,6 +13,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
 import {
+  autocompleteBenchmarkDimensionData,
+  autocompleteDimensionData,
   benchmarkFilterSelected,
   dimensionSelected,
   filterSelected,
@@ -268,14 +270,14 @@ describe('FilterSectionComponent', () => {
   });
 
   describe('onDimensionAutocompleteInput', () => {
-    test('should dispatch loadFilterDimensionData action', () => {
+    test('should dispatch autocompleteDimensionData action', () => {
       store.dispatch = jest.fn();
       const searchFor = 'search';
 
       component.onDimensionAutocompleteInput(searchFor);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        loadFilterDimensionData({
+        autocompleteDimensionData({
           filterDimension: FilterDimension.ORG_UNIT,
           searchFor,
         })
@@ -301,7 +303,7 @@ describe('FilterSectionComponent', () => {
   });
 
   describe('onBenchmarkAutocompleteInput', () => {
-    test('should dispatch loadFilterBenchmarkDimensionData action', () => {
+    test('should dispatch autocompleteBenchmarkDimensionData action', () => {
       store.dispatch = jest.fn();
       const filterDimension = FilterDimension.ORG_UNIT;
       const searchFor = 'abc';
@@ -309,7 +311,7 @@ describe('FilterSectionComponent', () => {
       component.onBenchmarkAutocompleteInput(searchFor);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        loadFilterBenchmarkDimensionData({ filterDimension, searchFor })
+        autocompleteBenchmarkDimensionData({ filterDimension, searchFor })
       );
     });
   });

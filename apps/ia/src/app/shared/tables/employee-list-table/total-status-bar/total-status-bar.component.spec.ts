@@ -15,9 +15,15 @@ describe('TotalStatusBarComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    component.params = {
+      api: { removeEventListener(_eventType: any, _listener: any) {} },
+    } as any;
   });
 
   test('should create', () => {
+    component.params = {
+      api: { removeEventListener(_eventType: any, _listener: any) {} },
+    } as any;
     expect(component).toBeTruthy();
   });
 
@@ -26,6 +32,7 @@ describe('TotalStatusBarComponent', () => {
       const params = {
         api: {
           addEventListener(_eventType, _listener) {},
+          removeEventListener(_eventType, _listener) {},
         },
       } as IStatusPanelParams;
       params.api.addEventListener = jest.fn();
@@ -49,6 +56,7 @@ describe('TotalStatusBarComponent', () => {
           getModel() {
             return model;
           },
+          removeEventListener(_eventType, _listener) {},
         },
       } as IStatusPanelParams;
       component['ref'].markForCheck = jest.fn();

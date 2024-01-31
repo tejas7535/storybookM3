@@ -27,7 +27,7 @@
         <nav
           mat-tab-nav-bar
           *transloco="let t; read: 'tabs'"
-          class="shadow-md"
+          class="bg-secondary"
           [tabPanel]="tabPanel"
         >
           <ng-container *ngFor="let tab of tabs; trackBy: trackByFn">
@@ -45,7 +45,9 @@
         </nav>
       </ng-container>
 
-      <div class="flex grow flex-col overflow-y-auto border-border p-4">
+      <div
+        class="flex grow flex-col overflow-y-auto border-border p-4 bg-surface"
+      >
         <div class="flex-1">
           <mat-tab-nav-panel #tabPanel>
             <router-outlet></router-outlet>

@@ -1,6 +1,9 @@
+import { OrgChartFluctuationRate } from '../../models';
+
 export interface OrgChartNode {
   nodeId: string;
   parentNodeId: string;
+  dimensionKey: string;
   expanded: boolean;
   name: string;
   organization: string;
@@ -8,11 +11,12 @@ export interface OrgChartNode {
   heatMapClass: string;
   directSubordinates: number;
   totalSubordinates: number;
-  directAttrition: number;
-  totalAttrition: number;
-  textColumnDirect: string;
-  textColumnOverall: string;
-  textRowEmployees: string;
-  textRowAttrition: string;
+  displayedDirectFluctuationRate: number;
+  displayedTotalFluctuationRate: number;
+  fluctuationRate: OrgChartFluctuationRate;
+  directFluctuationRate: OrgChartFluctuationRate;
+  textDirectOverall: string;
+  textEmployees: string;
+  textFluctuation: string;
   showUpperParentBtn: boolean;
 }

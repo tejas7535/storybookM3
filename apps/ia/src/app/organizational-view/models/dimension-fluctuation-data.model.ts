@@ -1,5 +1,6 @@
 import { FilterDimension } from '../../shared/models';
 import { EmployeeAttritionMeta } from '../../shared/models/employee';
+import { OrgChartFluctuationRate } from './org-chart-fluctuation-rate.model';
 
 export interface DimensionFluctuationData {
   id: string;
@@ -12,6 +13,7 @@ export interface DimensionFluctuationData {
   directEmployees: number;
   totalEmployees: number;
   directAttrition: number;
-  totalAttrition: number;
+  fluctuationRate: OrgChartFluctuationRate;
+  directFluctuationRate: OrgChartFluctuationRate;
   attritionMeta: EmployeeAttritionMeta;
 }

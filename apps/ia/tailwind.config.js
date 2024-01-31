@@ -33,6 +33,9 @@ module.exports = {
       backgroundColor: {
         'gray-300': '#F0F0F0',
       },
+      borderColor: {
+        'gray-300': '#F0F0F0',
+      },
     },
   },
   plugins: [],

@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { translate } from '@ngneat/transloco';
@@ -22,6 +23,7 @@ import {
 } from '../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { FilterDimension, IdValue } from '../../shared/models';
+import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartEmployee, OrgChartNode } from './models';
@@ -31,6 +33,7 @@ import { OrgChartService } from './org-chart.service';
 @Component({
   selector: 'ia-org-chart',
   templateUrl: './org-chart.component.html',
+  styleUrls: ['./org-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
@@ -40,25 +43,21 @@ export class OrgChartComponent implements AfterViewInit {
   private _selectedNodeEmployees: OrgChartEmployee[];
   private _selectedNodeEmployeesLoading: boolean;
 
+  fluctuationTypeEnum = FluctuationType;
+  fluctuationType: FluctuationType = FluctuationType.TOTAL;
+
   @Input() timeRange: IdValue;
 
   @Input() set orgChartData(orgChartData: OrgChartData) {
-    const old = this._orgChartData;
     this._orgChartData = orgChartData;
 
     if (orgChartData) {
       this.chartData = this.orgChartService.mapDimensionDataToNodes(
         orgChartData.data,
-        orgChartData.translation
+        orgChartData.translation,
+        this.fluctuationType
       );
-
-      if (old) {
-        const shouldUpdateChart = this.orgChartNodesChanged(orgChartData, old);
-
-        if (shouldUpdateChart) {
-          this.updateChart();
-        }
-      }
+      this.updateChart();
     }
   }
 
@@ -114,7 +113,7 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   chart: any;
-  chartData: any[];
+  chartData: OrgChartNode[];
   selectedDataNode: DimensionFluctuationData;
 
   constructor(
@@ -187,10 +186,9 @@ export class OrgChartComponent implements AfterViewInit {
 
     // wait until view is initiated
     setTimeout(() => {
-      const nodeWidth =
-        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 320 : 250;
+      const nodeWidth = 298;
       const nodeHeight =
-        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 220 : 170;
+        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 136 : 100;
 
       this.chart
         .container(this.chartContainer.nativeElement)
@@ -204,12 +202,12 @@ export class OrgChartComponent implements AfterViewInit {
             376
         ) // default width
         .backgroundColor('white')
-        .initialZoom(0.8)
+        .initialZoom(1)
         .nodeWidth(() => nodeWidth)
         .nodeHeight(() => nodeHeight)
         .compact(false)
         .compactMarginBetween((_d: any) => 170)
-        .childrenMargin((_d: any) => 90)
+        .childrenMargin((_d: any) => 70)
         .nodeContent(
           (d: { data: OrgChartNode; width: number; height: number }) =>
             this.orgChartService.getNodeContent(
@@ -279,12 +277,22 @@ export class OrgChartComponent implements AfterViewInit {
     );
   }
 
-  orgChartNodesChanged = (a: any, b: any) => {
-    const differences = Object.fromEntries(
-      Object.entries(b).filter(([key, val]) => key in a && a[key] !== val)
-    );
+  changeFluctuationType(change: MatButtonToggleChange) {
+    const type = change.value;
 
-    // org chart changed only when new data has been loaded
-    return differences.data !== undefined;
-  };
+    this.chartData.forEach((node) => {
+      const totalFluctuationRate = this.orgChartService.getDisplayedValues(
+        type,
+        node.fluctuationRate
+      );
+      const directFluctuationRate = this.orgChartService.getDisplayedValues(
+        type,
+        node.directFluctuationRate
+      );
+      node.displayedTotalFluctuationRate = totalFluctuationRate;
+      node.displayedDirectFluctuationRate = directFluctuationRate;
+    });
+    this.fluctuationType = type;
+    this.chart.data(this.chartData).render();
+  }
 }

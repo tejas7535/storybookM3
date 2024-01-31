@@ -1,6 +1,5 @@
 import { EChartsOption, LineSeriesOption } from 'echarts';
 
-import { getPercentageValue } from '../../utils/utilities';
 import { SMOOTH_LINE_SERIES_OPTIONS } from './line-chart.config';
 
 export function createFluctuationRateChartConfig(
@@ -34,9 +33,7 @@ export function createFluctuationRateChartSerie(
   label: string,
   ratesChartData: number[]
 ): LineSeriesOption {
-  const data = ratesChartData
-    ? ratesChartData.map((rate) => getPercentageValue(rate))
-    : [];
+  const data = ratesChartData ?? [];
 
   return {
     ...SMOOTH_LINE_SERIES_OPTIONS,

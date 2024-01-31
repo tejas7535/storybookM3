@@ -14,6 +14,8 @@ import {
 import { IdValue, SelectedFilter } from '../../../../shared/models';
 import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
 import {
+  autocompleteBenchmarkDimensionData,
+  autocompleteDimensionData,
   benchmarDimensionSelected,
   benchmarkFilterSelected,
   dimensionSelected,
@@ -60,6 +62,8 @@ export class FilterEffects {
     return this.actions$.pipe(
       ofType(
         loadFilterDimensionData,
+        autocompleteDimensionData,
+        autocompleteBenchmarkDimensionData,
         loadFilterBenchmarkDimensionData,
         loadUserSettingsDimensionData
       ),

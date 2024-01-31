@@ -98,7 +98,7 @@ export class OrganizationalViewComponent implements OnInit {
     return this.store.select(getOrgChart).pipe(
       concatLatestFrom(() => [
         this.translocoService
-          .selectTranslateObject('orgChart.table', {}, 'organizational-view')
+          .selectTranslateObject('orgChart.node', {}, 'organizational-view')
           .pipe(take(1)),
       ]),
       // eslint-disable-next-line ngrx/avoid-mapping-selectors

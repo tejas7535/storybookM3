@@ -6,7 +6,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
-  benchmarDimensionSelected,
+  autocompleteBenchmarkDimensionData,
+  autocompleteDimensionData,
   benchmarkFilterSelected,
   dimensionSelected,
   filterSelected,
@@ -115,7 +116,6 @@ export class FilterSectionComponent implements OnInit {
     )?.[1];
 
     this.store.dispatch(loadFilterDimensionData({ filterDimension }));
-    this.store.dispatch(dimensionSelected());
   }
 
   onBenchmarkDimensionSelected(dimension: IdValue): void {
@@ -124,7 +124,6 @@ export class FilterSectionComponent implements OnInit {
     )?.[1];
 
     this.store.dispatch(loadFilterBenchmarkDimensionData({ filterDimension }));
-    this.store.dispatch(benchmarDimensionSelected());
   }
 
   filterSelected(filter: SelectedFilter): void {
@@ -145,7 +144,7 @@ export class FilterSectionComponent implements OnInit {
 
   onDimensionAutocompleteInput(searchFor: string): void {
     this.store.dispatch(
-      loadFilterDimensionData({
+      autocompleteDimensionData({
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })
@@ -154,7 +153,7 @@ export class FilterSectionComponent implements OnInit {
 
   onBenchmarkAutocompleteInput(searchFor: string): void {
     this.store.dispatch(
-      loadFilterBenchmarkDimensionData({
+      autocompleteBenchmarkDimensionData({
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
       })

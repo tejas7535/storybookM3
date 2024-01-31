@@ -20,9 +20,10 @@ import {
 } from '../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { FilterDimension, IdValue, TimePeriod } from '../../shared/models';
+import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType, DimensionFluctuationData } from '../models';
-import { OrgChartData, OrgChartTranslation } from './models';
+import { OrgChartData, OrgChartNode, OrgChartTranslation } from './models';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
@@ -74,12 +75,11 @@ describe('OrgChartComponent', () => {
   });
 
   describe('set orgChartData', () => {
-    test('should set org chart data and update chart if data changed', () => {
+    test('should set org chart data', () => {
       component.updateChart = jest.fn();
       const obj: any = {};
       transloco.translateObject = jest.fn(() => obj);
       component['orgChartService'].mapDimensionDataToNodes = jest.fn();
-      component.orgChartNodesChanged = jest.fn(() => true);
       const employees = [{ id: '123' } as unknown as DimensionFluctuationData];
 
       const input: OrgChartData = {
@@ -89,16 +89,11 @@ describe('OrgChartComponent', () => {
       };
 
       component.orgChartData = input;
-      component.orgChartData = {
-        ...input,
-        dimension: FilterDimension.BOARD,
-      };
 
       expect(component.updateChart).toHaveBeenCalled();
-      expect(component.orgChartNodesChanged).toHaveBeenCalled();
       expect(
         component['orgChartService'].mapDimensionDataToNodes
-      ).toHaveBeenCalledWith(employees, translation);
+      ).toHaveBeenCalledWith(employees, translation, FluctuationType.TOTAL);
     });
   });
 
@@ -180,13 +175,15 @@ describe('OrgChartComponent', () => {
     beforeEach(() => {
       component['dialog'].open = jest.fn();
 
-      const input = {
+      const input: OrgChartData = {
         data: [
           {
             id: '123',
             parentId: '321',
             dimension: 'Schaeffler_IT',
             managerOfOrgUnit: 'Hans',
+            fluctuationRate: {},
+            directFluctuationRate: {},
           } as DimensionFluctuationData,
         ],
         dimension: FilterDimension.ORG_UNIT,
@@ -305,16 +302,68 @@ describe('OrgChartComponent', () => {
   });
 
   describe('updateChart', () => {
-    test('should do nothing when chart is not initialized yet', (done) => {
+    test('should do nothing when chart is not initialized yet', fakeAsync(() => {
       component.updateChart();
 
+      tick();
       expect(component.chart).toBeUndefined();
+    }));
 
-      setTimeout(() => {
-        expect(component.chart).toBeUndefined();
-        done();
-      }, 200);
-    });
+    test('should do nothing when chart container is not available', fakeAsync(() => {
+      component.chart = {} as any;
+      component.updateChart();
+
+      tick();
+      expect(component.chart).toBeDefined();
+    }));
+
+    test('should do nothing when chart data is not available', fakeAsync(() => {
+      component.chart = {} as any;
+      component.chartContainer = {} as any;
+
+      component.updateChart();
+
+      tick();
+      expect(component.chart).toBeDefined();
+      expect(component.chartContainer).toBeDefined();
+    }));
+
+    test('should do nothing when chart data is empty', fakeAsync(() => {
+      component.chart = {} as any;
+      component.chartContainer = {} as any;
+      component['_orgChartData'] = { data: [] } as OrgChartData;
+
+      component.updateChart();
+
+      tick();
+      expect(component.chart).toBeDefined();
+      expect(component.chartContainer).toBeDefined();
+    }));
+
+    test('should update chart', fakeAsync(() => {
+      component.chart = {} as any;
+      component.chartContainer = {} as any;
+      component['_orgChartData'] = {
+        data: [
+          {
+            id: '123',
+            parentId: '321',
+            dimension: 'Schaeffler_IT',
+            managerOfOrgUnit: 'Hans',
+            fluctuationRate: {},
+            directFluctuationRate: {},
+          } as DimensionFluctuationData,
+        ],
+        dimension: FilterDimension.ORG_UNIT,
+        translation,
+      } as OrgChartData;
+
+      component.updateChart();
+
+      tick();
+      expect(component.chart).toBeDefined();
+      expect(component.chartContainer).toBeDefined();
+    }));
   });
 
   describe('updateDialogData', () => {
@@ -450,21 +499,80 @@ describe('OrgChartComponent', () => {
     });
   });
 
-  describe('orgChartNodesChanged', () => {
-    test('should return true if data of org chart node has changed', () => {
-      const old = {
-        data: [] as any,
-        dimension: FilterDimension.BOARD,
-      };
+  describe('changeFluctuationType', () => {
+    beforeEach(() => {
+      component.chart = {
+        data: jest.fn().mockReturnValue({ render: jest.fn() }),
+      } as any;
 
-      const temp = {
-        data: [{}],
-        dimension: FilterDimension.BOARD,
-      };
+      component.chartData = [
+        {
+          fluctuationRate: {
+            fluctuationRate: 123,
+            unforcedFluctuationRate: 234,
+            forcedFluctuationRate: 345,
+            remainingFluctuationRate: 456,
+          },
+          directFluctuationRate: {
+            fluctuationRate: 321,
+            unforcedFluctuationRate: 432,
+            forcedFluctuationRate: 543,
+            remainingFluctuationRate: 654,
+          },
+        },
+      ] as OrgChartNode[];
+    });
 
-      const result = component.orgChartNodesChanged(old, temp);
+    test('should set fluctuation type and render data', () => {
+      component.fluctuationType = FluctuationType.REMAINING;
 
-      expect(result).toBeTruthy();
+      component.changeFluctuationType({ value: FluctuationType.TOTAL } as any);
+
+      expect(component.fluctuationType).toEqual(FluctuationType.TOTAL);
+      expect(component.chart.data).toHaveBeenCalledWith(component.chartData);
+      expect(
+        component.chart.data(component.chartData).render
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    test('should set total as displayed fluctuation rate', () => {
+      component.changeFluctuationType({ value: FluctuationType.TOTAL } as any);
+
+      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(123);
+      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
+        321
+      );
+    });
+
+    test('should set unforced as displayed fluctuation rate', () => {
+      component.changeFluctuationType({
+        value: FluctuationType.UNFORCED,
+      } as any);
+
+      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(234);
+      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
+        432
+      );
+    });
+
+    test('should set forced as displayed fluctuation rate', () => {
+      component.changeFluctuationType({ value: FluctuationType.FORCED } as any);
+
+      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(345);
+      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
+        543
+      );
+    });
+
+    test('should set remaining as displayed fluctuation rate', () => {
+      component.changeFluctuationType({
+        value: FluctuationType.REMAINING,
+      } as any);
+
+      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(456);
+      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
+        654
+      );
     });
   });
 });
