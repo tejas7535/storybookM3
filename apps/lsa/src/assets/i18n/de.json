@@ -1,0 +1,17 @@
+{
+  "appTitle": "Lubricator Selection Assistant",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Schmierstellen"
+    },
+    "lubricant": {
+      "title": "Schmiermittel"
+    },
+    "application": {
+      "title": "Anwendung"
+    },
+    "result": {
+      "title": "Ergebnis"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LsaAppService should return pages 1`] = `
+Array [
+  Object {
+    "completed": false,
+    "name": "lubricationPoints",
+  },
+  Object {
+    "completed": false,
+    "name": "lubricant",
+  },
+  Object {
+    "completed": false,
+    "name": "application",
+  },
+  Object {
+    "completed": false,
+    "name": "result",
+  },
+]
+`;

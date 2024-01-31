@@ -1,0 +1,17 @@
+{
+  "appTitle": "Lubricator Selection Assistant",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Lubrication Points"
+    },
+    "lubricant": {
+      "title": "Lubricant"
+    },
+    "application": {
+      "title": "Application"
+    },
+    "result": {
+      "title": "Result"
+    }
+  }
+}

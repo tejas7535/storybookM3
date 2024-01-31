@@ -1,0 +1,15 @@
+.completed {
+  border: 1px solid #3c7029;
+  @apply bg-success;
+  @apply text-completed-green #{!important};
+}
+
+.active {
+  @apply bg-secondary-100;
+  @apply text-link #{!important};
+  @apply block;
+}
+
+.active-fab {
+  @apply hidden;
+}

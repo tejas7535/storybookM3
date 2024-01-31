@@ -36,3 +36,7 @@ lubricator-selection-assistant {
  * Tailwind preflight modified with application scope only
  */
 @import './preflight';
+
+.mat-mdc-mini-fab .mat-mdc-button-ripple {
+  @apply hidden;
+}

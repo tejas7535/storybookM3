@@ -1,3 +1,22 @@
-<div class="flex h-screen w-screen justify-center">
-  <h1 class="self-center" id="title">{{ title }}</h1>
+<div *transloco="let t" class="flex h-screen w-screen justify-center">
+  <div class="w-screen m-5">
+    <h1 class="font-normal text-h6 sm:text-h5 text-carbon-grey mb-3">
+      {{ t('appTitle') }}
+    </h1>
+    <mat-divider class="mb-3 sm:mb-9"></mat-divider>
+    <lsa-stepper (selectionChange)="selectionChanged($event)">
+      <ng-container *ngFor="let page of pages">
+        <cdk-step
+          [label]="t('pages.' + page.name + '.title')"
+          [completed]="page.completed"
+        >
+          <div class="h-96">
+            <p>
+              This is any content of "{{ t('pages.' + page.name + '.title') }}"
+            </p>
+          </div>
+        </cdk-step>
+      </ng-container>
+    </lsa-stepper>
+  </div>
 </div>

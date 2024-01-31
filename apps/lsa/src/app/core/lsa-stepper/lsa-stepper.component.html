@@ -1,0 +1,70 @@
+<nav class="mt-4">
+  <div class="flex items-center gap-1 sm:gap-2">
+    <ng-container *ngFor="let step of steps; let i = index; let isLast = last">
+      <button
+        mat-stroked-button
+        class="hidden md:block rounded-3xl !h-fit normal-case py-2 flex-grow bg-medias-grey-background !text-carbon-grey"
+        [class.active]="selectedIndex === i"
+        [class.completed]="step.completed"
+        (click)="selectStepByIndex(i)"
+      >
+        {{ i + 1 + '. ' + step.label }}
+        <mat-icon
+          *ngIf="step.completed && selectedIndex !== i"
+          iconPositionEnd
+          fontIcon="edit"
+          aria-hidden="true"
+          class="!ml-1 !mr-0"
+        ></mat-icon>
+      </button>
+
+      <!-- Mobile resolution button  -->
+      <button
+        disableRipple="true"
+        mat-mini-fab
+        class="md:hidden default"
+        [class.active-fab]="selectedIndex === i"
+        [class.completed]="step.completed"
+        (click)="selectStepByIndex(i)"
+      >
+        {{ i + 1 }}
+        <mat-icon
+          *ngIf="step.completed"
+          iconPositionEnd
+          aria-hidden="true"
+          fontIcon="edit"
+          class="!ml-1 !mr-0 hidden md:block"
+        ></mat-icon>
+      </button>
+      <div
+        *ngIf="!isLast"
+        class="border-t border-solid border-border flex-auto"
+      ></div>
+    </ng-container>
+  </div>
+
+  <div [ngTemplateOutlet]="selected ? selected.content : null"></div>
+
+  <footer class="flex flex-col-reverse sm:flex-row justify-end gap-2">
+    <button
+      *ngIf="!isFirstItem && !isLastItem"
+      mat-stroked-button
+      cdkStepperPrevious
+      color="primary"
+    >
+      {{ previousItemLabel }}
+      <mat-icon aria-hidden="true" fontIcon="chevron_left"></mat-icon>
+    </button>
+
+    <button *ngIf="!isLastItem" mat-flat-button color="primary" cdkStepperNext>
+      {{ nextItemLabel }}
+
+      <mat-icon
+        iconPositionEnd
+        aria-hidden="true"
+        fontIcon="chevron_right"
+        class="!ml-1"
+      ></mat-icon>
+    </button>
+  </footer>
+</nav>
