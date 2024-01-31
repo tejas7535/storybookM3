@@ -60,3 +60,7 @@ mat-horizontal-stepper.primary-stepper
   .mat-step-label {
   @apply hidden md:block;
 }
+
+schaeffler-html-report .mat-expansion-panel-content h2 {
+  @apply text-h6 sm:text-h5;
+}
