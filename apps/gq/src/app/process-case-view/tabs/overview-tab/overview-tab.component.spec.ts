@@ -9,6 +9,7 @@ import {
 } from '@gq/core/store/active-case';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { Rating } from '@gq/shared/models/rating.enum';
@@ -17,7 +18,7 @@ import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockPipe, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -47,12 +48,13 @@ describe('OverviewTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: OverviewTabComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
       MockProvider(ApprovalFacade),
       MockProvider(ActiveCaseFacade),
+      MockProvider(RolesFacade),
       provideMockStore({
         initialState: {
           activeCase: { ...ACTIVE_CASE_STATE_MOCK },
@@ -75,13 +77,15 @@ describe('OverviewTabComponent', () => {
   describe('ngOnInit', () => {
     test('should call methods', () => {
       component['initializeObservables'] = jest.fn();
-      component.approvalFacade.getApprovers = jest.fn();
-      component.activeCaseFacade.getAllAttachments = jest.fn();
+      component['approvalFacade'].getApprovers = jest.fn();
+      component['activeCaseFacade'].getAllAttachments = jest.fn();
 
       component.ngOnInit();
 
-      expect(component.approvalFacade.getApprovers).toHaveBeenCalled();
-      expect(component.activeCaseFacade.getAllAttachments).toHaveBeenCalled();
+      expect(component['approvalFacade'].getApprovers).toHaveBeenCalled();
+      expect(
+        component['activeCaseFacade'].getAllAttachments
+      ).toHaveBeenCalled();
       expect(component['initializeObservables']).toHaveBeenCalled();
     });
 

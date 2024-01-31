@@ -2,18 +2,14 @@
   class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start"
   *transloco="let t; read: 'processCaseView'"
 >
-  <ng-container
-    *ngIf="!(approvalFacade.allApproversLoading$ | ngrxPush); else loading"
-  >
+  <ng-container *ngIf="!(allApproversLoading$ | ngrxPush); else loading">
     <div class="gap-4 md:w-1/2 lg:w-full">
       <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
         <gq-general-information
           [info]="generalInformation$ | ngrxPush"
-          [attachments]="activeCaseFacade.quotationAttachments$ | ngrxPush"
-          [workflowInProgress]="approvalFacade.workflowInProgress$ | ngrxPush"
-          [quotationFullyApproved]="
-            approvalFacade.quotationFullyApproved$ | ngrxPush
-          "
+          [attachments]="quotationAttachments$ | ngrxPush"
+          [workflowInProgress]="workflowInProgress$ | ngrxPush"
+          [quotationFullyApproved]="quotationFullyApproved$ | ngrxPush"
         ></gq-general-information>
       </gq-kpi-status-card>
     </div>
@@ -21,9 +17,7 @@
     <div
       class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full"
       [ngClass]="
-        (approvalFacade.hasAnyApprovalEvent$ | ngrxPush)
-          ? 'col-span-2'
-          : 'col-span-3'
+        (hasAnyApprovalEvent$ | ngrxPush) ? 'col-span-2' : 'col-span-3'
       "
     >
       <gq-kpi-status-card
@@ -45,8 +39,14 @@
       <div class="col-span-2">
         <gq-quotation-by-product-line-or-gpsd></gq-quotation-by-product-line-or-gpsd>
       </div>
+      <!-- when we have either SQV or GPC Role the remaining tile while be stretched-->
       <gq-kpi-status-card
-        class="col-span-1"
+        *ngIf="hasSqvRole$ | ngrxPush"
+        [ngClass]="
+          (hasSqvRole$ | ngrxPush) && !(hasGpcRole$ | ngrxPush)
+            ? 'col-span-2'
+            : 'col-span-1'
+        "
         [title]="t('tabs.overview.gpmCardTitle')"
         [subtitle]="t('tabs.overview.gpmCardSubtitle')"
         [kpiValue]="(pricingInformation$ | ngrxPush)?.gpm.value | percentage"
@@ -56,13 +56,19 @@
       >
       </gq-kpi-status-card>
       <gq-kpi-status-card
-        class="col-span-1"
+        *ngIf="hasGpcRole$ | ngrxPush"
+        [ngClass]="
+          (hasGpcRole$ | ngrxPush) && !(hasSqvRole$ | ngrxPush)
+            ? 'col-span-2'
+            : 'col-span-1'
+        "
         [title]="t('tabs.overview.gpiCardTitle')"
         [subtitle]="t('tabs.overview.gpiCardSubtitle')"
         [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi.value | percentage"
         [rating]="getRating((pricingInformation$ | ngrxPush)?.gpi.value)"
       >
       </gq-kpi-status-card>
+
       <gq-kpi-status-card
         class="col-span-1 flex"
         [title]="t('tabs.overview.ratingCardTitle')"
@@ -87,7 +93,7 @@
     </div>
 
     <div
-      *ngIf="approvalFacade.hasAnyApprovalEvent$ | ngrxPush"
+      *ngIf="hasAnyApprovalEvent$ | ngrxPush"
       class="gap-4 md:w-1/2 lg:w-full"
     >
       <gq-approval-cockpit></gq-approval-cockpit>

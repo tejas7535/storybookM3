@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+/* eslint-disable @typescript-eslint/member-ordering */
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 
 import {
   combineLatest,
@@ -16,6 +17,7 @@ import {
 } from '@gq/core/store/active-case';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import {
@@ -35,20 +37,26 @@ import { GeneralInformation } from './models';
   templateUrl: './overview-tab.component.html',
 })
 export class OverviewTabComponent implements OnInit, OnDestroy {
+  private readonly approvalFacade = inject(ApprovalFacade);
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
+  private readonly rolesFacade = inject(RolesFacade);
+  private readonly store = inject(Store);
+  protected translocoLocaleService = inject(TranslocoLocaleService);
+
   generalInformation$: Observable<GeneralInformation> = NEVER;
   pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
   quotationCurrency$: Observable<string> = NEVER;
 
+  allApproversLoading$ = this.approvalFacade.allApproversLoading$;
+  workflowInProgress$ = this.approvalFacade.workflowInProgress$;
+  quotationFullyApproved$ = this.approvalFacade.quotationFullyApproved$;
+  hasAnyApprovalEvent$ = this.approvalFacade.hasAnyApprovalEvent$;
+  quotationAttachments$ = this.activeCaseFacade.quotationAttachments$;
+  hasGpcRole$ = this.rolesFacade.userHasGPCRole$;
+  hasSqvRole$ = this.rolesFacade.userHasSQVRole$;
+
   readonly quotationStatus = QuotationStatus;
-
   private readonly shutDown$$: Subject<void> = new Subject();
-
-  constructor(
-    readonly approvalFacade: ApprovalFacade,
-    readonly activeCaseFacade: ActiveCaseFacade,
-    protected translocoLocaleService: TranslocoLocaleService,
-    private readonly store: Store
-  ) {}
 
   ngOnInit(): void {
     this.approvalFacade.getApprovers();
