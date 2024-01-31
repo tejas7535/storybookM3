@@ -13,13 +13,9 @@ import { TranslocoService } from '@ngneat/transloco';
 import { environment } from '@ga/environments/environment';
 import { MeasurementUnitsService } from '@ga/shared/services';
 
-import { detectPartnerVersion } from '../helpers/settings-helpers';
-
 @Injectable()
 export class HttpGreaseInterceptor implements HttpInterceptor {
-  private readonly baseUrl = detectPartnerVersion()
-    ? environment.partnerUrl
-    : environment.baseUrl;
+  private readonly baseUrl = environment.baseUrl;
 
   constructor(
     private readonly translocoService: TranslocoService,

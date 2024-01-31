@@ -5,7 +5,6 @@ import { map, Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { detectPartnerVersion } from '@ga/core/helpers/settings-helpers';
 import { environment } from '@ga/environments/environment';
 import {
   AdvancedBearingSelectionFilters,
@@ -21,9 +20,7 @@ import {
   providedIn: 'root',
 })
 export class RestService {
-  private readonly baseUrl = detectPartnerVersion()
-    ? environment.partnerUrl
-    : environment.baseUrl;
+  private readonly baseUrl = environment.baseUrl;
 
   public constructor(private readonly httpClient: HttpClient) {}
 

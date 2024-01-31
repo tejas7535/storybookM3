@@ -3,7 +3,6 @@ export interface Environment {
   localDev: boolean;
   devToolsEnabled: boolean;
   baseUrl: string;
-  partnerUrl: string;
   staticStorageUrl: string;
   internalDetectionUrl: string;
   tenantId: string;
