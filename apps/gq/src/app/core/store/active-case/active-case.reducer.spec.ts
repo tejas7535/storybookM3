@@ -13,6 +13,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
+  SIMULATED_QUOTATION_MOCKS_WITH_RFQ,
 } from '../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { ActiveCaseActions } from './active-case.action';
@@ -374,7 +375,7 @@ describe('Active Case Reducer', () => {
         expect(state.updateLoading).toBeFalsy();
       });
 
-      test('should update only updatedQuoationDetails', () => {
+      test('should update only updated QuoationDetails', () => {
         const mockState = {
           ...ACTIVE_CASE_STATE_MOCK,
           quotation: {
@@ -531,9 +532,14 @@ describe('Active Case Reducer', () => {
 
   describe('SimulatedQuotation', () => {
     test('should add new simulated quotation', () => {
+      const quotationDetail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        gpmRfq: null,
+        rfqData: null,
+      };
       const action: Action = ActiveCaseActions.addSimulatedQuotation({
         gqId: 1234,
-        quotationDetails: [QUOTATION_DETAIL_MOCK],
+        quotationDetails: [quotationDetail],
       });
       const state = activeCaseFeature.reducer(
         {
@@ -548,7 +554,36 @@ describe('Active Case Reducer', () => {
         action
       );
 
-      expect(state.simulatedItem).toEqual(SIMULATED_QUOTATION_MOCK);
+      expect(state.simulatedItem).toEqual({
+        ...SIMULATED_QUOTATION_MOCK,
+        previousStatusBar: {
+          ...SIMULATED_QUOTATION_MOCK.previousStatusBar,
+          gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+        },
+        quotationDetails: [quotationDetail],
+      });
+    });
+
+    test('should add new simulated quotation when RFQ-Data is present', () => {
+      const action: Action = ActiveCaseActions.addSimulatedQuotation({
+        gqId: 1234,
+        quotationDetails: [{ ...QUOTATION_DETAIL_MOCK }],
+      });
+      const state = activeCaseFeature.reducer(
+        {
+          ...ACTIVE_CASE_STATE_MOCK,
+          simulatedItem: {
+            ...SIMULATED_QUOTATION_MOCK,
+
+            quotationDetails: [],
+            previousStatusBar: undefined,
+            simulatedStatusBar: undefined,
+          },
+        },
+        action
+      );
+
+      expect(state.simulatedItem).toEqual(SIMULATED_QUOTATION_MOCKS_WITH_RFQ);
     });
 
     test('should reset the simulated quotation', () => {

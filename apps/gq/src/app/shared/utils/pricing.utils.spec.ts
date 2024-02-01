@@ -129,7 +129,13 @@ describe('PricingUtils', () => {
 
   describe('calculateStatusBarValues should', () => {
     test('return calculatedValues', () => {
-      const details = [QUOTATION_DETAIL_MOCK];
+      const details = [
+        {
+          ...QUOTATION_DETAIL_MOCK,
+          rfqData: null,
+          gpmRfq: null,
+        } as QuotationDetail,
+      ];
 
       const result = pricingUtils.calculateStatusBarValues(details);
 
@@ -138,6 +144,22 @@ describe('PricingUtils', () => {
           QUOTATION_DETAIL_MOCK.netValue,
           QUOTATION_DETAIL_MOCK.gpi,
           QUOTATION_DETAIL_MOCK.gpm,
+          QUOTATION_DETAIL_MOCK.priceDiff,
+          details.length
+        )
+      );
+    });
+
+    test('return calculatedValues, when RFQ available this one is used', () => {
+      const details = [QUOTATION_DETAIL_MOCK];
+
+      const result = pricingUtils.calculateStatusBarValues(details);
+
+      expect(result).toEqual(
+        new StatusBarProperties(
+          QUOTATION_DETAIL_MOCK.netValue,
+          QUOTATION_DETAIL_MOCK.gpi,
+          QUOTATION_DETAIL_MOCK.gpmRfq,
           QUOTATION_DETAIL_MOCK.priceDiff,
           details.length
         )

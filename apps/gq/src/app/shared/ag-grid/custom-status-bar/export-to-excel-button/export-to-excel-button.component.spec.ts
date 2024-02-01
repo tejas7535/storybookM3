@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -524,7 +524,12 @@ describe('ExportToExcelButtonComponent', () => {
 
   describe('addQuotationSummary', () => {
     test('should return quotation summary', () => {
-      const result = component.addQuotationSummary(QUOTATION_MOCK);
+      const result = component.addQuotationSummary({
+        ...QUOTATION_MOCK,
+        quotationDetails: [
+          { ...QUOTATION_DETAIL_MOCK, rfqData: null, gpmRfq: null },
+        ],
+      });
       const type = 'String';
 
       const expected: ExcelRow[] = [
@@ -606,6 +611,152 @@ describe('ExportToExcelButtonComponent', () => {
               data: {
                 type,
                 value: `85 %`,
+              },
+              styleId: excelStyleObjects.excelTextBorderBold.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: `90 %`,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: `${QUOTATION_DETAIL_MOCK.priceDiff} %`,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.currency,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        { cells: [] },
+      ];
+      expect(result).toEqual(expected);
+    });
+    test('should return quotation summary with RFQ Data', () => {
+      const result = component.addQuotationSummary(QUOTATION_MOCK);
+      const type = 'String';
+
+      const expected: ExcelRow[] = [
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelTextBold.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.customer.identifier.customerId,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.customer.name,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: '2,000.00 EUR',
+              },
+              styleId: excelStyleObjects.excelTextBorderBold.id,
+            },
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: `80 %`,
               },
               styleId: excelStyleObjects.excelTextBorderBold.id,
             },

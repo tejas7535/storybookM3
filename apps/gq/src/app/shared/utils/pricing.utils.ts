@@ -62,9 +62,12 @@ export const calculateStatusBarValues = (
       if (row.gpi) {
         sumGPINetValue += row.gpi * row.netValue;
       }
-      if (row.gpm) {
+      if (row.gpm || row.gpmRfq) {
+        // when there's and RFQ the total Avg GPM is calculated with the GPM of the RFQ
+        const gpmToCalculateWith = row.gpmRfq || row.gpm;
+
         netValueGPM += row.netValue;
-        sumGPMNetValue += row.gpm * row.netValue;
+        sumGPMNetValue += gpmToCalculateWith * row.netValue;
       }
       if (row.priceDiff) {
         sumPriceDiff += row.netValue * row.priceDiff;

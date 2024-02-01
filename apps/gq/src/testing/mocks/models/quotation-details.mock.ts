@@ -137,3 +137,16 @@ export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
   previousStatusBar: STATUS_BAR_PROPERTIES_MOCK,
   simulatedStatusBar: STATUS_BAR_PROPERTIES_MOCK,
 };
+
+export const SIMULATED_QUOTATION_MOCKS_WITH_RFQ: SimulatedQuotation = {
+  gqId: 1234,
+  quotationDetails: [QUOTATION_DETAIL_MOCK],
+  previousStatusBar: {
+    ...STATUS_BAR_PROPERTIES_MOCK,
+    gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+  },
+  simulatedStatusBar: {
+    ...STATUS_BAR_PROPERTIES_MOCK,
+    gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+  },
+};
