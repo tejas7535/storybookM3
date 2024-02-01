@@ -23,6 +23,7 @@ import {
   Approver,
 } from '@gq/shared/models/approval';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
+import { convertToBase64 } from '@gq/shared/utils/misc.utils';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -93,6 +94,16 @@ export class ApprovalEffects {
   triggerApprovalWorkflow$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.triggerApprovalWorkflow),
+      map((action) => ({
+        ...action,
+        approvalWorkflowData: {
+          ...action.approvalWorkflowData,
+          comment: convertToBase64(action.approvalWorkflowData.comment),
+          projectInformation: convertToBase64(
+            action.approvalWorkflowData.projectInformation
+          ),
+        },
+      })),
       concatLatestFrom(() => [
         this.store.select(getSapId),
         this.store.select(activeCaseFeature.selectQuotationIdentifier),
@@ -115,7 +126,7 @@ export class ApprovalEffects {
             .triggerApprovalWorkflow(sapId, {
               ...action.approvalWorkflowData,
               gqId: quotationIdentifier.gqId,
-              gqLinkBase64Encoded: window.btoa(gqLink), // needs to be encoded as base64, otherwise the request is blocked by the gateway
+              gqLinkBase64Encoded: convertToBase64(gqLink), // needs to be encoded as base64, otherwise the request is blocked by the gateway
               approvalLevel: approvalWorkflowInformation.approvalLevel,
               currency: approvalWorkflowInformation.currency,
               autoApproval: approvalWorkflowInformation.autoApproval,
@@ -152,6 +163,16 @@ export class ApprovalEffects {
   saveApprovalWorkflowInformation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.saveApprovalWorkflowInformation),
+      map((action) => ({
+        ...action,
+        approvalWorkflowInformation: {
+          ...action.approvalWorkflowInformation,
+          comment: convertToBase64(action.approvalWorkflowInformation.comment),
+          projectInformation: convertToBase64(
+            action.approvalWorkflowInformation.projectInformation
+          ),
+        },
+      })),
       concatLatestFrom(() => [
         this.store.select(getSapId),
         this.store.select(activeCaseFeature.selectQuotationIdentifier),
@@ -195,10 +216,18 @@ export class ApprovalEffects {
   updateApprovalWorkflow$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ApprovalActions.updateApprovalWorkflow),
+      map((action) => ({
+        ...action,
+        updateApprovalWorkflowData: {
+          ...action.updateApprovalWorkflowData,
+          comment: convertToBase64(action.updateApprovalWorkflowData.comment),
+        },
+      })),
       concatLatestFrom(() => [
         this.store.select(getSapId),
         this.store.select(activeCaseFeature.selectQuotationIdentifier),
       ]),
+
       mergeMap(
         ([action, sapId, quotationIdentifier]: [
           ReturnType<typeof ApprovalActions.updateApprovalWorkflow>,

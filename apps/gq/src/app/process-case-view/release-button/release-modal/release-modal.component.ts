@@ -223,9 +223,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     const formGroupValue = this.formGroup.value;
 
     this.approvalFacade.triggerApprovalWorkflow({
-      comment: formGroupValue.comment?.trim() || undefined,
-      projectInformation:
-        formGroupValue.projectInformation?.trim() || undefined,
+      comment: formGroupValue.comment?.trim(),
+      projectInformation: formGroupValue.projectInformation?.trim(),
     });
   }
 
@@ -256,9 +255,8 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
       secondApprover: formGroupValue.approver2?.userId,
       thirdApprover: formGroupValue.approver3?.userId,
       infoUser: formGroupValue.approverCC?.userId,
-      comment: formGroupValue.comment?.trim() || undefined,
-      projectInformation:
-        formGroupValue.projectInformation?.trim() || undefined,
+      comment: formGroupValue.comment?.trim(),
+      projectInformation: formGroupValue.projectInformation?.trim(),
     };
   }
 

@@ -86,7 +86,7 @@ export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
           this.modalData.type === ApprovalModalType.APPROVE_CASE
             ? UpdateFunction.APPROVE_QUOTATION
             : UpdateFunction.REJECT_QUOTATION,
-        comment: this.formGroup.value.comment?.trim() || undefined,
+        comment: this.formGroup.value.comment?.trim(),
       });
     }
   }

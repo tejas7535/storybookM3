@@ -15,7 +15,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { EditingCommentModalComponent } from './editing-comment-modal.component';
-
 describe('EditingCommentModalComponent', () => {
   let component: EditingCommentModalComponent;
   let spectator: Spectator<EditingCommentModalComponent>;
@@ -90,6 +89,7 @@ describe('EditingCommentModalComponent', () => {
   describe('confirmComment', () => {
     test('should dispatch store', () => {
       store.dispatch = jest.fn();
+
       component.modalData = QUOTATION_DETAIL_MOCK;
       component.commentFormControl = { value: 'test' } as any;
 

@@ -1,9 +1,10 @@
 import { LOCALE_DE } from '@gq/shared/constants';
 import { Duration, Keyboard } from '@gq/shared/models';
+// eslint-disable-next-line unicorn/prefer-node-protocol
+import { Buffer } from 'buffer';
 import moment from 'moment';
 
 import { Rating } from '../models/rating.enum';
-
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
@@ -112,4 +113,14 @@ export function groupBy<T>(arr: T[], fn: (item: T) => any) {
   }
 
   return groupedBy;
+}
+
+/**
+ * Converts a string to base64
+ *
+ * @param value value to be converted to base64
+ * @returns the converted value or null if value is falsy
+ */
+export function convertToBase64(value: string): string {
+  return value ? Buffer.from(value.trim(), 'utf8').toString('base64') : null;
 }

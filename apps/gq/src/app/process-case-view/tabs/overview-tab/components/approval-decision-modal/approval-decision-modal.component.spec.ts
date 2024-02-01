@@ -14,7 +14,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ApprovalModalType } from '../../models';
 import { ApprovalDecisionModalComponent } from './approval-decision-modal.component';
-
 describe('ApprovalDecisionModalComponent', () => {
   let component: ApprovalDecisionModalComponent;
   let spectator: Spectator<ApprovalDecisionModalComponent>;
@@ -141,7 +140,7 @@ describe('ApprovalDecisionModalComponent', () => {
 
       expect(updateApprovalWorkflowSpy).toHaveBeenCalledWith({
         updateFunction: UpdateFunction.REJECT_QUOTATION,
-        comment: formValue.comment.trim(),
+        comment: 'test comment',
       });
     });
 

@@ -17,6 +17,7 @@ import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachm
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import * as miscs from '@gq/shared/utils/misc.utils';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
@@ -605,9 +606,22 @@ describe('ActiveCaseEffects', () => {
   });
 
   describe('updateMaterials$', () => {
+    let convertSpy: jest.SpyInstance<string, [value: string]>;
+    beforeEach(() => {
+      convertSpy = jest
+        .spyOn(miscs, 'convertToBase64')
+        .mockImplementation((value) => {
+          if (!value) {
+            return null;
+          }
+
+          return 'convertedBase64String';
+        });
+    });
     const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+        comment: null,
         price: 20,
       },
     ];
@@ -634,6 +648,7 @@ describe('ActiveCaseEffects', () => {
         expect(
           quotationDetailsService.updateQuotationDetail
         ).toHaveBeenCalledTimes(1);
+        expect(convertSpy).toHaveBeenCalled();
         expect(
           quotationDetailsService.updateQuotationDetail
         ).toHaveBeenCalledWith(updateQuotationDetailList);
@@ -665,6 +680,7 @@ describe('ActiveCaseEffects', () => {
         expect(
           quotationDetailsService.updateQuotationDetail
         ).toHaveBeenCalledTimes(1);
+        expect(convertSpy).toHaveBeenCalled();
         expect(
           quotationDetailsService.updateQuotationDetail
         ).toHaveBeenCalledWith(updateQuotationDetailList);

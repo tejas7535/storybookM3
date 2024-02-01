@@ -26,6 +26,7 @@ import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachm
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import { convertToBase64 } from '@gq/shared/utils/misc.utils';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -327,6 +328,12 @@ export class ActiveCaseEffects {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.updateQuotationDetails),
       map((action: any) => action.updateQuotationDetailList),
+      map((quotationDetails: QuotationDetail[]) =>
+        quotationDetails.map((item) => ({
+          ...item,
+          comment: convertToBase64(item.comment),
+        }))
+      ),
       mergeMap((updateQuotationDetailList: UpdateQuotationDetail[]) =>
         this.quotationDetailsService
           .updateQuotationDetail(updateQuotationDetailList)

@@ -16,6 +16,7 @@ import {
 import { QuotationStatus } from '@gq/shared/models/quotation';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import * as miscs from '@gq/shared/utils/misc.utils';
 import {
   createServiceFactory,
   mockProvider,
@@ -194,6 +195,7 @@ describe('ApprovalEffects', () => {
           salesOrg: '7895',
         };
         const queryParams = `quotation_number=${quotationIdentifier.gqId}&customer_number=${quotationIdentifier.customerNumber}&sales_org=${quotationIdentifier.salesOrg}`;
+
         const approvalWorkflowData = {
           firstApprover: 'APPR1',
           secondApprover: 'APPR2',
@@ -204,8 +206,12 @@ describe('ApprovalEffects', () => {
         };
         const protocol = 'https';
         const hostname = 'guided-quoting-test.dev.dp.schaeffler';
-        const gqLinkBase64Encoded =
+        const gqConvertedString =
           'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy';
+
+        const convertSpy = jest
+          .spyOn(miscs, 'convertToBase64')
+          .mockReturnValue(gqConvertedString);
 
         const approvalInformation: ApprovalCockpitData = {
           approvalGeneral: {
@@ -251,9 +257,6 @@ describe('ApprovalEffects', () => {
           queryParams
         );
 
-        const btoaSpy = jest.spyOn(window, 'btoa');
-        btoaSpy.mockReturnValue(gqLinkBase64Encoded);
-
         const triggerApprovalWorkflowSpy = jest.spyOn(
           approvalService,
           'triggerApprovalWorkflow'
@@ -279,14 +282,16 @@ describe('ApprovalEffects', () => {
           mapQuotationIdentifierToQueryParamsStringSpy
         ).toHaveBeenCalledWith(quotationIdentifier);
 
-        expect(btoaSpy).toBeCalledWith(
+        expect(convertSpy).toBeCalledWith(
           `${protocol}//${hostname}/${AppRoutePath.ProcessCaseViewPath}/${ProcessCaseRoutePath.OverviewPath}?${queryParams}`
         );
 
         expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith(sapId, {
           ...approvalWorkflowData,
+          comment: gqConvertedString,
+          projectInformation: gqConvertedString,
           gqId: quotationIdentifier.gqId,
-          gqLinkBase64Encoded,
+          gqLinkBase64Encoded: gqConvertedString,
           approvalLevel:
             APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.approvalLevel,
           currency:
@@ -716,7 +721,7 @@ describe('ApprovalEffects', () => {
           comment: 'test',
           updateFunction: UpdateFunction.APPROVE_QUOTATION,
         };
-
+        jest.spyOn(miscs, 'convertToBase64').mockReturnValue('encodedText');
         const approvalInformation: ApprovalCockpitData = {
           approvalGeneral: {
             gqId: 999,
@@ -760,6 +765,7 @@ describe('ApprovalEffects', () => {
 
         expect(updateApprovalWorkflowSpy).toHaveBeenCalledWith(sapId, {
           ...updateApprovalWorkflowData,
+          comment: 'encodedText',
           gqId: quotationIdentifier.gqId,
         });
 
@@ -853,6 +859,8 @@ describe('ApprovalEffects', () => {
           gqId: 999,
         } as any;
 
+        jest.spyOn(miscs, 'convertToBase64').mockReturnValue('encodedText');
+
         const approvalWorkflowInformation = {
           firstApprover: 'APPR1',
           secondApprover: 'APPR2',
@@ -908,6 +916,8 @@ describe('ApprovalEffects', () => {
 
         expect(saveApprovalWorkflowInformationSpy).toHaveBeenCalledWith(sapId, {
           ...approvalWorkflowInformation,
+          comment: 'encodedText',
+          projectInformation: 'encodedText',
           gqId: quotationIdentifier.gqId,
         });
 

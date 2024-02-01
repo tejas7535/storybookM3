@@ -551,8 +551,8 @@ describe('ReleaseModalComponent', () => {
         secondApprover: formValue.approver2.userId,
         thirdApprover: formValue.approver3.userId,
         infoUser: formValue.approverCC.userId,
-        comment: formValue.comment,
-        projectInformation: formValue.projectInformation,
+        comment: 'test comment',
+        projectInformation: 'test project info',
       });
     });
 
@@ -581,8 +581,8 @@ describe('ReleaseModalComponent', () => {
       component.triggerAutoApproval();
 
       expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith({
-        comment: formValue.comment.trim(),
-        projectInformation: formValue.projectInformation,
+        comment: 'test comment',
+        projectInformation: 'test project info',
       });
     });
 
@@ -618,8 +618,8 @@ describe('ReleaseModalComponent', () => {
         secondApprover: formValue.approver2.userId,
         thirdApprover: formValue.approver3.userId,
         infoUser: formValue.approverCC.userId,
-        comment: formValue.comment,
-        projectInformation: formValue.projectInformation,
+        comment: 'test comment',
+        projectInformation: 'test project info',
       });
     });
   });

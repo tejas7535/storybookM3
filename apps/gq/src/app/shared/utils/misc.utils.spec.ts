@@ -258,4 +258,20 @@ describe('MiscUtils', () => {
       );
     });
   });
+
+  describe('convertToBase64', () => {
+    test('should return null if value is falsy', () => {
+      expect(miscUtils.convertToBase64('')).toBeNull();
+    });
+
+    test('should return base64 string', () => {
+      expect(miscUtils.convertToBase64('test')).toEqual('dGVzdA==');
+    });
+
+    test('should call the Buffer.from method', () => {
+      const spy = jest.spyOn(Buffer, 'from');
+      miscUtils.convertToBase64('test');
+      expect(spy).toHaveBeenCalledWith('test', 'utf8');
+    });
+  });
 });
