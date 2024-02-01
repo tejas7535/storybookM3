@@ -4,14 +4,12 @@
       <span label>{{ t('baseUoM') }}</span>
       <span text>{{ materialDetails.baseUoM | uom | nullableString }}</span>
     </gq-label-text>
-    <ng-container *ngIf="isDetailView">
-      <gq-label-text>
-        <span label>{{ t('deliveryUnit') }}</span>
-        <span text>{{
-          quotationDetail.deliveryUnit?.toString() | nullableString
-        }}</span>
-      </gq-label-text></ng-container
-    >
+    <gq-label-text>
+      <span label>{{ t('deliveryUnit') }}</span>
+      <span text>{{
+        quotationDetail.deliveryUnit?.toString() | nullableString
+      }}</span>
+    </gq-label-text>
     <gq-label-text>
       <span label>{{ t('materialType') }}</span>
       <span text>{{ materialDetails.materialType | nullableString }}</span>

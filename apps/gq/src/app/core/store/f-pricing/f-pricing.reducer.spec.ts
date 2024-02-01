@@ -63,13 +63,15 @@ describe('fPricingReducer', () => {
       });
     });
   });
-  describe('getMaterialInformation', () => {
-    test('should return the base material information and calculate data for the deltas', () => {
-      const result = fPricingFeature.getMaterialInformationExtended.projector(
-        MATERIAL_INFORMATION_MOCK
-      );
+  describe('extraSelectors', () => {
+    describe('getMaterialInformation', () => {
+      test('should return the base material information and calculate data for the deltas', () => {
+        const result = fPricingFeature.getMaterialInformationExtended.projector(
+          MATERIAL_INFORMATION_MOCK
+        );
 
-      expect(result).toEqual(MATERIAL_INFORMATION_EXTENDED_MOCK);
+        expect(result).toEqual(MATERIAL_INFORMATION_EXTENDED_MOCK);
+      });
     });
   });
 

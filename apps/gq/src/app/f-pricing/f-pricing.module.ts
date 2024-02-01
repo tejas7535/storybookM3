@@ -16,6 +16,7 @@ import { LabelTextModule } from '@gq/shared/components/label-text/label-text.mod
 import { DimensionDetailsComponent } from '@gq/shared/components/material-details/dimension-details/dimension-details.component';
 import { MaterialAdditionalComponent } from '@gq/shared/components/material-details/material-additional/material-additional.component';
 import { MaterialBasicComponent } from '@gq/shared/components/material-details/material-basic/material-basic.component';
+import { MaterialSalesOrgDetailsComponent } from '@gq/shared/components/material-details/material-sales-org-details/material-sales-org-details.component';
 import { ProductDetailsComponent } from '@gq/shared/components/material-details/product-details/product-details.component';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
@@ -65,6 +66,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     DimensionDetailsComponent,
     MaterialBasicComponent,
     MaterialAdditionalComponent,
+    MaterialSalesOrgDetailsComponent,
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
   ],

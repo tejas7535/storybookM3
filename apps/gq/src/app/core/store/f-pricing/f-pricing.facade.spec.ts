@@ -1,9 +1,15 @@
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { MATERIAL_INFORMATION_EXTENDED_MOCK } from '../../../../testing/mocks/models/fpricing/material-information.mock';
+import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import { getQuotationCurrency } from '../active-case';
+import {
+  getMaterialSalesOrg,
+  getMaterialSalesOrgDataAvailable,
+} from '../selectors/material-sales-org/material-sales-org.selector';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingFacade } from './f-pricing.facade';
 import { fPricingFeature, initialState } from './f-pricing.reducer';
@@ -40,6 +46,10 @@ describe('Service: FPricingFacade', () => {
         });
 
         mockStore.overrideSelector(getQuotationCurrency, 'EUR');
+        mockStore.overrideSelector(getMaterialSalesOrg, {
+          materialStatus: 'f',
+        } as MaterialSalesOrg);
+        mockStore.overrideSelector(getMaterialSalesOrgDataAvailable, true);
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
             a: {
@@ -47,6 +57,8 @@ describe('Service: FPricingFacade', () => {
               gqPositionId: '1234',
               referencePrice: 100_000,
               currency: 'EUR',
+              materialSalesOrg: { materialStatus: 'f' } as MaterialSalesOrg,
+              materialSalesOrgAvailable: true,
             },
           })
         );
@@ -65,7 +77,7 @@ describe('Service: FPricingFacade', () => {
       })
     );
     test(
-      'should provide allApproversLoading',
+      'should provide materialInformation',
       marbles((m) => {
         mockStore.overrideSelector(
           fPricingFeature.getMaterialInformationExtended,
@@ -73,6 +85,25 @@ describe('Service: FPricingFacade', () => {
         );
         m.expect(service.materialInformation$).toBeObservable(
           m.cold('a', { a: MATERIAL_INFORMATION_EXTENDED_MOCK })
+        );
+      })
+    );
+
+    test(
+      'should provide materialSalesOrg$',
+      marbles((m) => {
+        mockStore.overrideSelector(getMaterialSalesOrg, {} as MaterialSalesOrg);
+        m.expect(service.materialSalesOrg$).toBeObservable(
+          m.cold('a', { a: {} as MaterialSalesOrg })
+        );
+      })
+    );
+    test(
+      'should provide materialSalesOrgDataAvailable$',
+      marbles((m) => {
+        mockStore.overrideSelector(getMaterialSalesOrgDataAvailable, true);
+        m.expect(service.materialSalesOrgDataAvailable$).toBeObservable(
+          m.cold('a', { a: true })
         );
       })
     );
@@ -85,10 +116,14 @@ describe('Service: FPricingFacade', () => {
     test('should dispatch loadFPricingData', () => {
       const gqPositionId = '1234';
       const action = FPricingActions.loadFPricingData({ gqPositionId });
+      const salesOrgAction = loadMaterialSalesOrg({
+        gqPositionId,
+      });
 
       service.loadDataForPricingAssistant(gqPositionId);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(salesOrgAction);
     });
   });
 });

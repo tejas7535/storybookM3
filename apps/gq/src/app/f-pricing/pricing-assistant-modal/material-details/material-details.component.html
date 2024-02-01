@@ -13,7 +13,6 @@
         <div class="w-1/2">
           <gq-material-basic
             [quotationDetail]="quotationDetail"
-            [isDetailView]="false"
           ></gq-material-basic>
           <gq-horizontal-divider></gq-horizontal-divider>
           <gq-product-details
@@ -28,8 +27,14 @@
           <gq-horizontal-divider></gq-horizontal-divider>
           <gq-material-additional
             [quotationDetail]="quotationDetail"
-            [isDetailView]="false"
           ></gq-material-additional>
+          <gq-horizontal-divider></gq-horizontal-divider>
+          <gq-material-sales-org-details
+            [materialSalesOrg]="materialSalesOrg$ | ngrxPush"
+            [materialSalesOrgDataAvailable]="
+              materialSalesOrgDataAvailable$ | ngrxPush
+            "
+          ></gq-material-sales-org-details>
         </div>
       </div>
     </mat-card>

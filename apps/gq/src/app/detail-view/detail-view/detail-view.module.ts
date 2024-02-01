@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { ApprovalModule } from '@gq/core/store/approval/approval.module';
 import { RfqDataModule } from '@gq/core/store/rfq-data/rfq-data.module';
+import { FPricingModule } from '@gq/f-pricing/f-pricing.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -53,6 +54,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     ApprovalModule,
     SharedDirectivesModule,
     RfqDataModule,
+    FPricingModule,
   ],
 })
 export class DetailViewModule {}

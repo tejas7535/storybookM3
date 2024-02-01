@@ -13,7 +13,7 @@ export class FPricingEffects {
   private readonly actions = inject(Actions);
   private readonly fPricingService = inject(FPricingService);
 
-  getAllFPricingData$ = createEffect(() => {
+  getFPricingData$ = createEffect(() => {
     return this.actions.pipe(
       ofType(FPricingActions.loadFPricingData),
       mergeMap(({ gqPositionId }) =>

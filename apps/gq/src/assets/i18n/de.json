@@ -643,7 +643,10 @@
       "series": "Serie",
       "width": "Breite",
       "materialClassificationSOP": "S&OP Material Klassifizierung",
-      "abcxClassification": "ABCX Klassifizierung"
+      "abcxClassification": "ABCX Klassifizierung",
+      "encodedInSalesOrg": "In Sales Org. verfügbar",
+      "dchainMaterialStatus": "VkOrg. spez. Status",
+      "minimumOrderQuantity": "Min. Auftragsmenge"
     }
   }
 }

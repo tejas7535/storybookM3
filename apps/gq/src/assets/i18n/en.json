@@ -644,7 +644,10 @@
       "title": "Material Description",
       "width": "Overall width (B)",
       "materialClassificationSOP": "S&OP Material Classification",
-      "abcxClassification": "ABCX Classification"
+      "abcxClassification": "ABCX Classification",
+      "encodedInSalesOrg": "Encoded in sales org.",
+      "dchainMaterialStatus": "DChain-Material-Status",
+      "minimumOrderQuantity": "Minimum Order Quantity"
     }
   }
 }

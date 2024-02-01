@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserRoles } from '@gq/shared/constants';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -31,7 +31,7 @@ describe('PricingDetailsComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       SharedPipesModule,
-      PushModule,
+      PushPipe,
     ],
     providers: [
       provideMockStore({
@@ -92,6 +92,12 @@ describe('PricingDetailsComponent', () => {
 
         m.expect(component.userHasSQVRole$).toBeObservable('a', {
           a: true,
+        });
+        m.expect(component.materialSalesOrg$).toBeObservable('a', {
+          a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrg,
+        });
+        m.expect(component.materialSalesOrgDataAvailable$).toBeObservable('a', {
+          a: false,
         });
       })
     );

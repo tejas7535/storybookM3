@@ -35,7 +35,7 @@ describe('FPricingEffects', () => {
     expect(effects).toBeTruthy();
   });
 
-  describe('getAllFPricingData$', () => {
+  describe('getFPricingData$', () => {
     test(
       'should dispatch loadFPricingDataSuccess',
       marbles((m) => {
@@ -55,7 +55,7 @@ describe('FPricingEffects', () => {
         const expected = m.cold('b', { b: result });
 
         actions$ = m.hot('a', { a: action });
-        m.expect(effects.getAllFPricingData$).toBeObservable(expected);
+        m.expect(effects.getFPricingData$).toBeObservable(expected);
         m.flush();
       })
     );
@@ -77,7 +77,7 @@ describe('FPricingEffects', () => {
         const expected = m.cold('--b', { b: result });
 
         actions$ = m.hot('-a', { a: action });
-        m.expect(effects.getAllFPricingData$).toBeObservable(expected);
+        m.expect(effects.getFPricingData$).toBeObservable(expected);
         m.flush();
       })
     );

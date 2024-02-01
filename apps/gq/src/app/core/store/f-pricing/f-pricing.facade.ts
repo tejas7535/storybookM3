@@ -3,9 +3,15 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Store } from '@ngrx/store';
 
+import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import { getQuotationCurrency } from '../active-case/active-case.selectors';
+import {
+  getMaterialSalesOrg,
+  getMaterialSalesOrgDataAvailable,
+} from '../selectors/material-sales-org/material-sales-org.selector';
 import { FPricingActions } from './f-pricing.actions';
 import { fPricingFeature, FPricingState } from './f-pricing.reducer';
 import { FPricingPositionData } from './models/f-pricing-position-data.interface';
@@ -19,11 +25,22 @@ export class FPricingFacade {
   fPricingDataComplete$: Observable<FPricingPositionData> = combineLatest([
     this.#store.select(fPricingFeature.selectFPricingState),
     this.#store.select(getQuotationCurrency),
+    this.#store.select(getMaterialSalesOrg),
+    this.#store.select(getMaterialSalesOrgDataAvailable),
   ]).pipe(
-    map(([fPricingState, currency]: [FPricingState, string]) => ({
-      ...fPricingState,
-      currency,
-    }))
+    map(
+      ([
+        fPricingState,
+        currency,
+        materialSalesOrg,
+        materialSalesOrgDataAvailable,
+      ]: [FPricingState, string, MaterialSalesOrg, boolean]) => ({
+        ...fPricingState,
+        currency,
+        materialSalesOrg,
+        materialSalesOrgAvailable: materialSalesOrgDataAvailable,
+      })
+    )
   );
 
   referencePrice$: Observable<number> = this.#store.select(
@@ -33,11 +50,18 @@ export class FPricingFacade {
   materialInformation$: Observable<MaterialInformationExtended[]> =
     this.#store.select(fPricingFeature.getMaterialInformationExtended);
 
+  materialSalesOrg$: Observable<MaterialSalesOrg> =
+    this.#store.select(getMaterialSalesOrg);
+  materialSalesOrgDataAvailable$: Observable<boolean> = this.#store.select(
+    getMaterialSalesOrgDataAvailable
+  );
+
   // #########################################
   // ##########     methods     ##############
   // #########################################
 
   loadDataForPricingAssistant(gqPositionId: string): void {
     this.#store.dispatch(FPricingActions.loadFPricingData({ gqPositionId }));
+    this.#store.dispatch(loadMaterialSalesOrg({ gqPositionId }));
   }
 }

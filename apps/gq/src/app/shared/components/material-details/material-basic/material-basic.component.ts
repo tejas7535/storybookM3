@@ -23,5 +23,4 @@ import { LabelTextModule } from '../../label-text/label-text.module';
 })
 export class MaterialBasicComponent {
   @Input() quotationDetail: QuotationDetail;
-  @Input() isDetailView = true;
 }

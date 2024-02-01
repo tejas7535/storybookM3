@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialComparableCostsLoading,
+  getMaterialSalesOrg,
+  getMaterialSalesOrgDataAvailable,
   getMaterialSalesOrgLoading,
   getPlantMaterialDetailsLoading,
   userHasGPCRole,
@@ -14,6 +16,7 @@ import {
   PlantMaterialDetail,
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -33,6 +36,9 @@ export class PricingDetailsComponent implements OnInit {
   supplyPlantStochasticType: string;
   userHasGPCRole$: Observable<boolean>;
   userHasSQVRole$: Observable<boolean>;
+
+  materialSalesOrg$: Observable<MaterialSalesOrg>;
+  materialSalesOrgDataAvailable$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
 
@@ -65,5 +71,10 @@ export class PricingDetailsComponent implements OnInit {
 
     this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
     this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
+
+    this.materialSalesOrg$ = this.store.select(getMaterialSalesOrg);
+    this.materialSalesOrgDataAvailable$ = this.store.select(
+      getMaterialSalesOrgDataAvailable
+    );
   }
 }

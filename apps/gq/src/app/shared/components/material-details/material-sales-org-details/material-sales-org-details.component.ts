@@ -1,26 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { QuotationDetail } from '@gq/shared/models';
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LabelTextModule } from '../../label-text/label-text.module';
 
 @Component({
-  selector: 'gq-material-additional',
-  templateUrl: './material-additional.component.html',
+  selector: 'gq-material-sales-org-details',
   standalone: true,
   imports: [
-    LabelTextModule,
     CommonModule,
     SharedPipesModule,
     SharedTranslocoModule,
-    LetDirective,
+    LabelTextModule,
   ],
+  templateUrl: './material-sales-org-details.component.html',
 })
-export class MaterialAdditionalComponent {
-  @Input() quotationDetail: QuotationDetail;
+export class MaterialSalesOrgDetailsComponent {
+  @Input() materialSalesOrg: MaterialSalesOrg;
+  @Input() materialSalesOrgDataAvailable: boolean;
 }

@@ -23,7 +23,10 @@
         ></gq-material-additional>
         <gq-horizontal-divider></gq-horizontal-divider>
 
-        <gq-material-sales-org-details></gq-material-sales-org-details>
+        <gq-material-sales-org-details
+          [materialSalesOrg]="materialSalesOrg"
+          [materialSalesOrgDataAvailable]="materialSalesOrgDataAvailable"
+        ></gq-material-sales-org-details>
       </ng-container>
     </gq-kpi-status-card>
   </ng-container>

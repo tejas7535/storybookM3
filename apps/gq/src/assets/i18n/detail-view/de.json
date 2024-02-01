@@ -52,10 +52,7 @@
   },
   "pricingDetails": {
     "materialDetails": {
-      "title": "Materialbeschreibung",
-      "encodedInSalesOrg": "In Sales Org. verfügbar",
-      "dchainMaterialStatus": "VkOrg. spez. Status",
-      "minimumOrderQuantity": "Min. Auftragsmenge"
+      "title": "Materialbeschreibung"
     },
     "productionCostDetails": {
       "title": "Produktion und Kosten",
