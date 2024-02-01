@@ -617,6 +617,7 @@ export class CalculationParametersComponent
   }
 
   public onResetButtonClick(): void {
+    this.resetLoadcasesArray();
     this.calculationParametersFacade.dispatch(
       CalculationParametersActions.resetCalculationParameters()
     );
@@ -634,14 +635,7 @@ export class CalculationParametersComponent
       .afterClosed()
       .pipe(take(1), filter(Boolean))
       .subscribe(() => {
-        this.operationConditionsForm.controls['loadCaseData'].removeAt(index);
-        this.loadCaseCount -= 1;
-        this.analyticsService.logLoadcaseEvent('Removed', this.loadCaseCount);
-        if (this.isSingleLoadCaseForm) {
-          this.calculationParametersFacade.dispatch(
-            setSelectedLoadcase({ selectedLoadcase: 0 })
-          );
-        }
+        this.removeLoadcase(index);
       });
   }
 
@@ -670,6 +664,25 @@ export class CalculationParametersComponent
     );
   }
 
+  private resetLoadcasesArray(): void {
+    while (this.operationConditionsForm.controls['loadCaseData'].length > 1) {
+      this.removeLoadcase(1);
+    }
+  }
+
+  private removeLoadcase(index: number): void {
+    this.operationConditionsForm.controls['loadCaseData'].removeAt(index);
+    this.loadCaseCount -= 1;
+    this.analyticsService.logLoadcaseEvent('Removed', this.loadCaseCount);
+    if (this.isSingleLoadCaseForm) {
+      this.calculationParametersFacade.dispatch(
+        setSelectedLoadcase({ selectedLoadcase: 0 })
+      );
+
+      this.setFirstLoadcaseName('');
+    }
+  }
+
   private updateFirstLoadCaseName(): void {
     if (this.isSingleLoadCaseForm) {
       this.loadCaseCount = 1;
@@ -678,10 +691,14 @@ export class CalculationParametersComponent
           this.loadCaseCount
         );
 
-      this.operationConditionsForm.controls[
-        'loadCaseData'
-      ].controls[0].controls.loadCaseName.setValue(firstLoadCaseName);
+      this.setFirstLoadcaseName(firstLoadCaseName);
     }
+  }
+
+  private setFirstLoadcaseName(name: string): void {
+    this.operationConditionsForm.controls[
+      'loadCaseData'
+    ].controls[0].controls.loadCaseName.setValue(name);
   }
 
   private resetCatalogCalculationResults(): void {

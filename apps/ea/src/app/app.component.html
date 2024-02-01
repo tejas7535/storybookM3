@@ -4,7 +4,7 @@
       <schaeffler-app-shell
         [hasSidebarLeft]="true"
         [appTitle]="'appTitle' | transloco"
-        appTitleLink="/"
+        [appTitleLink]="'/home'"
         [footerFixed]="false"
         [footerLinks]="footerLinks$ | ngrxPush"
         (onContentScroll)="containerScrollEvent$.next($event)"
