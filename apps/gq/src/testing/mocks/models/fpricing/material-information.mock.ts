@@ -7,14 +7,14 @@ export const MATERIAL_INFORMATION_MOCK: MaterialInformation[] = [
     informationKey: 'innerRing',
     properties: [
       {
-        key: 'raceawayDiameter',
+        key: 'racewayDiameter',
         values: [
           { materialNumber15: 12_345, value: 90 },
           { materialNumber15: 45_678, value: 120 },
         ],
       },
       {
-        key: 'raceawayDiameter2',
+        key: 'racewayDiameter2',
         values: [
           { materialNumber15: 12_345, value: 120 },
           { materialNumber15: 45_678, value: 90 },

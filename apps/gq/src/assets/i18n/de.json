@@ -612,9 +612,46 @@
         "hideDelta": "Delta ausblenden",
         "backButton": "Zurück",
         "differentString": "Verschieden",
-        "positiveDelta": "+{{absolute}} ( +{{relative}} %)",
-        "negativeDelta": "{{absolute}} ( {{relative}} %)",
-        "amountOfDelta": "{{amount}} Deltas"
+        "amountOfDelta": "{{amount}} Deltas",
+        "comparableProperties": {
+          "general": {
+            "title": "Allgemein",
+            "bearingRows": "Bearing rows",
+            "size": "Size"
+          },
+          "outerRing": {
+            "title": "Außenring",
+            "outerDiameter": "Außendurchmesser",
+            "materialCat": "Außenringmaterial",
+            "width": "Breite",
+            "racewayDiameter": "Laufbahndurchmesser",
+            "crossSection": "Querschnitt"
+          },
+          "innerRing": {
+            "title": "Innenring",
+            "innerDiameter": "Innendurchmesser",
+            "materialCat": "Innenringmaterial",
+            "width": "Breite",
+            "racewayDiameter": "Laufbahndurchmesser",
+            "crossSection": "Querschnitt"
+          },
+          "cage": {
+            "title": "Käfig",
+            "rollingElements": "Wälzkörper",
+            "designCat": "Design",
+            "materialCat": "Käfigmaterial",
+            "width": "Breite",
+            "diameter": "Käfigdurchmesser",
+            "rows": "Reihenanzahl"
+          },
+          "roller": {
+            "title": "Käfig",
+            "length": "Länge",
+            "diameter": "Wälzkörperdurchmesser",
+            "materialCat": "Wälzkörpermaterial",
+            "angle": "Rollenwinkel"
+          }
+        }
       }
     }
   },

@@ -14,7 +14,7 @@ import { PropertyComparison } from '@gq/shared/models/f-pricing/property-compari
   templateUrl: './comparison-panel.component.html',
 })
 export class ComparisonPanelComponent implements OnChanges {
-  @Input() panelTitle: string;
+  @Input() panelKey: string;
   @Input() data: PropertyComparison[];
   @Input() numberOfDeltas: number;
   @Input() showDelta = false;

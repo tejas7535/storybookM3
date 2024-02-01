@@ -97,7 +97,7 @@ describe('fPricingReducer', () => {
     test("should return numeric delta for 'innerRing' and 'raceawayDiameter'", () => {
       const delta = getDeltaByInformationKeyAndPropertyKey(
         MATERIAL_INFORMATION_MOCK[0],
-        'raceawayDiameter'
+        'racewayDiameter'
       );
 
       const expected: PropertyDelta = {

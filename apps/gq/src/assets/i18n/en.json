@@ -612,9 +612,46 @@
         "hideDelta": "hide delta",
         "backButton": "Back",
         "differentString": "different",
-        "positiveDelta": "+{{absolute}} ( +{{relative}} %)",
-        "negativeDelta": "{{absolute}} ( {{relative}} %)",
-        "amountOfDelta": "{{amount}} Deltas"
+        "amountOfDelta": "{{amount}} Deltas",
+        "comparableProperties": {
+          "general": {
+            "title": "General",
+            "bearingRows": "Bearing rows",
+            "size": "Size"
+          },
+          "outerRing": {
+            "title": "Outer ring",
+            "outerDiameter": "Outer diameter",
+            "materialCat": "Outer ring material",
+            "width": "Width",
+            "racewayDiameter": "Raceway diameter",
+            "crossSection": "Cross section"
+          },
+          "innerRing": {
+            "title": "Inner ring",
+            "innerDiameter": "Inner diameter",
+            "materialCat": "Inner ring material",
+            "width": "Width",
+            "racewayDiameter": "Raceway diameter",
+            "crossSection": "Cross section"
+          },
+          "cage": {
+            "title": "Cage",
+            "rollingElements": "Rolling elements",
+            "designCat": "Design",
+            "materialCat": "Cage material",
+            "width": "Width",
+            "diameter": "Cage diameter",
+            "rows": "Number of rows"
+          },
+          "roller": {
+            "title": "Roller",
+            "length": "Length",
+            "diameter": "Roller diameter",
+            "materialCat": "Roller material",
+            "angle": "Angle"
+          }
+        }
       }
     }
   },
@@ -641,7 +678,6 @@
       "productHierarchy": "Product Hierarchy",
       "productLine": "Product Line",
       "series": "Series",
-      "title": "Material Description",
       "width": "Overall width (B)",
       "materialClassificationSOP": "S&OP Material Classification",
       "abcxClassification": "ABCX Classification",

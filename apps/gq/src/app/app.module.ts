@@ -5,7 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
-import { TranslocoService } from '@ngneat/transloco';
+import { CustomMissingTranslationHandler } from '@gq/shared/custom-missing-translation-handler';
+import { TRANSLOCO_MISSING_HANDLER, TranslocoService } from '@ngneat/transloco';
 import {
   TranslocoCurrencyPipe,
   TranslocoDatePipe,
@@ -37,7 +38,6 @@ import { AgGridStateService } from './shared/services/ag-grid-state/ag-grid-stat
 import { FeatureToggleConfigService } from './shared/services/feature-toggle/feature-toggle-config.service';
 import { FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE_KEY } from './shared/services/feature-toggle/feature-toggle-config-localstorage-key.injection-token';
 import { FEATURE_TOGGLE_DEFAULT_CONFIG } from './shared/services/feature-toggle/feature-toggle-default-config.injection-token';
-
 export function DynamicDataPrivacy(
   translocoService: TranslocoService
 ): Observable<string> {
@@ -103,6 +103,10 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
       provide: CUSTOM_DATA_PRIVACY,
       useFactory: DynamicDataPrivacy,
       deps: [TranslocoService],
+    },
+    {
+      provide: TRANSLOCO_MISSING_HANDLER,
+      useClass: CustomMissingTranslationHandler,
     },
     TranslocoCurrencyPipe,
     TranslocoDatePipe,

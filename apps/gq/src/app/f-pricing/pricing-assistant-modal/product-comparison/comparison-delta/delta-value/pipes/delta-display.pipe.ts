@@ -18,18 +18,10 @@ export class DeltaDisplayPipe implements PipeTransform {
 
     if (delta.absolute === undefined || delta.relative === undefined) {
       return translate(`${this.TRANSLATE_PREFIX}.differentString`);
-    } else {
-      const translationParams = {
-        absolute: delta.absolute,
-        relative: delta.relative,
-      };
-      const translationKey =
-        delta.absolute >= 0 ? `positiveDelta` : `negativeDelta`;
-
-      return translate(
-        `${this.TRANSLATE_PREFIX}.${translationKey}`,
-        translationParams
-      );
     }
+
+    return delta.absolute >= 0
+      ? `+${delta.absolute} (+${delta.relative})`
+      : `${delta.absolute} (${delta.relative})`;
   }
 }
