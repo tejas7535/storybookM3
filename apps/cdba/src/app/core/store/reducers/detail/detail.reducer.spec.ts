@@ -346,7 +346,7 @@ describe('Detail Reducer', () => {
       const action = loadCostComponentSplit({ bomIdentifier });
       const state = detailReducer(initialState, action);
 
-      expect(state.costComponentSplit.items).toBeUndefined();
+      expect(state.costComponentSplit.items).toEqual([]);
       expect(state.costComponentSplit.errorMessage).toBeUndefined();
     });
   });

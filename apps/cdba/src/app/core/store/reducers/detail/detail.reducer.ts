@@ -325,6 +325,7 @@ export const detailReducer = createReducer(
       costComponentSplit: {
         ...initialState.costComponentSplit,
         loading: true,
+        items: [],
       },
     })
   ),

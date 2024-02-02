@@ -6,6 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { TranslocoService } from '@ngneat/transloco';
 import {
   ColDef,
   GridApi,
@@ -27,7 +28,6 @@ import { DEFAULT_COLUMN_DEFINITION } from './config/default-column-definition';
 @Component({
   selector: 'cdba-raw-material-analysis-table',
   templateUrl: './raw-material-analysis-table.component.html',
-  styles: [],
 })
 export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   @Input() materialDesignation: string;
@@ -60,7 +60,8 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   private gridApi: GridApi;
 
   constructor(
-    private readonly columnDefinitionService: ColumnDefinitionService
+    private readonly columnDefinitionService: ColumnDefinitionService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -81,15 +82,27 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
        */
       setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
     } else {
-      this.gridApi.showNoRowsOverlay();
+      if (changes.rawMaterialAnalysisData?.currentValue.length === 0) {
+        this.showNoDataOverlay();
+      } else {
+        this.errorMessage = '';
+        this.gridApi.hideOverlay();
+      }
     }
   }
 
   public onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
 
-    if (!this.isLoading) {
+    if (!this.isLoading && this.rawMaterialAnalysisData.length === 0) {
       this.gridApi.showNoRowsOverlay();
     }
+  }
+
+  private showNoDataOverlay(): void {
+    this.errorMessage = this.translocoService.translate(
+      `shared.table.noDataToDisplay`
+    );
+    this.gridApi.showNoRowsOverlay();
   }
 }

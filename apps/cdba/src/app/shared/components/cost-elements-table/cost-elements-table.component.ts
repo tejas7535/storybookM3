@@ -6,7 +6,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { GridReadyEvent } from 'ag-grid-community';
+import { TranslocoService } from '@ngneat/transloco';
+import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
 import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-enterprise';
 
 import { BomItem, Calculation, CostComponentSplit } from '@cdba/shared/models';
@@ -36,8 +37,6 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
 
   @Input() index: number;
 
-  public odataFeatureEnabled: boolean;
-
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[];
 
@@ -59,7 +58,8 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
   private gridApi: GridApi;
 
   constructor(
-    private readonly columnDefinitionService: ColumnDefinitionService
+    private readonly columnDefinitionService: ColumnDefinitionService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   ngOnInit(): void {
@@ -80,15 +80,27 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
        */
       setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
     } else {
-      this.gridApi.showNoRowsOverlay();
+      if (changes.costElementsData?.currentValue.length === 0) {
+        this.showNoDataOverlay();
+      } else {
+        this.errorMessage = '';
+        this.gridApi.hideOverlay();
+      }
     }
   }
 
   public onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
 
-    if (!this.isLoading) {
-      this.gridApi.showNoRowsOverlay();
+    if (!this.isLoading && this.costElementsData.length === 0) {
+      this.showNoDataOverlay();
     }
+  }
+
+  private showNoDataOverlay(): void {
+    this.errorMessage = this.translocoService.translate(
+      `shared.table.noDataToDisplay`
+    );
+    this.gridApi.showNoRowsOverlay();
   }
 }

@@ -37,7 +37,8 @@
       "sidebar": {
         "columns": "Spalten",
         "filters": "Filter"
-      }
+      },
+      "noDataToDisplay": "Keine Daten zum Anzeigen"
     },
     "undefinedAttribute": "n. v.",
     "bom": {

@@ -13,8 +13,10 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CostComponentSplit } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
+import * as sharedEnJson from '../../../../assets/i18n/en.json';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { CostElementsStatusBarModule } from '../table/status-bar/cost-elements-status-bar';
 import { ColumnDefinitionService } from './config';
@@ -31,7 +33,7 @@ describe('CostElementsTableComponent', () => {
       MockModule(AgGridModule),
       MockModule(CustomOverlayModule),
       MockModule(CostElementsStatusBarModule),
-      provideTranslocoTestingModule({ en: {} }),
+      provideTranslocoTestingModule({ en: sharedEnJson }),
     ],
     providers: [
       mockProvider(ColumnDefinitionService, {
@@ -60,11 +62,17 @@ describe('CostElementsTableComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should showLoadingOverlay if grid loaded and isLoading active', () => {
-      jest.spyOn(window, 'setTimeout');
+    let mockedCostComponentSplit: CostComponentSplit;
+    beforeEach(() => {
       component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
+        showNoRowsOverlay: jest.fn(),
+        hideOverlay: jest.fn(),
       } as unknown as GridApi;
+    });
+
+    it('should showLoadingOverlay if grid loaded and isLoading active', () => {
+      jest.spyOn(window, 'setTimeout');
 
       component.ngOnChanges({
         isLoading: {
@@ -77,19 +85,41 @@ describe('CostElementsTableComponent', () => {
     });
 
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
-      component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
-        showNoRowsOverlay: jest.fn(),
-      } as unknown as GridApi;
+      component.ngOnChanges({
+        isLoading: {
+          currentValue: false,
+        } as unknown as SimpleChange,
+        costElementsData: { currentValue: [] } as unknown as SimpleChange,
+      });
+
+      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
+      expect(component.errorMessage).toEqual('No data to display');
+    });
+
+    it('should hide loading spinner and show data when loading is done', () => {
+      mockedCostComponentSplit = {
+        description: 'description',
+        costComponent: 'costComponent',
+        splitType: 'MAIN',
+        totalValue: 0,
+        fixedValue: 0,
+        variableValue: 0,
+        currency: 'EUR',
+      } as CostComponentSplit;
 
       component.ngOnChanges({
         isLoading: {
           currentValue: false,
         } as unknown as SimpleChange,
+        costElementsData: {
+          currentValue: [mockedCostComponentSplit],
+        } as unknown as SimpleChange,
       });
 
       expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
-      expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
+      expect(component['gridApi'].hideOverlay).toHaveBeenCalled();
+      expect(component.errorMessage).toEqual('');
     });
   });
 

@@ -12,8 +12,11 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { RawMaterialAnalysis } from '@cdba/shared/models/raw-material-analysis.model';
+import { UnitOfMeasure } from '@cdba/shared/models/unit-of-measure.model';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
+import * as sharedEnJson from '../../../../assets/i18n/en.json';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { ColumnDefinitionService } from './config';
 import { RawMaterialAnalysisTableComponent } from './raw-material-analysis-table.component';
@@ -27,7 +30,7 @@ describe('RawMaterialAnalysisTableComponent', () => {
       MatIconModule,
       MockModule(AgGridModule),
       MockModule(CustomOverlayModule),
-      provideTranslocoTestingModule({ en: {} }),
+      provideTranslocoTestingModule({ en: sharedEnJson }),
     ],
     providers: [
       mockProvider(ColumnDefinitionService, {
@@ -58,11 +61,17 @@ describe('RawMaterialAnalysisTableComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should showLoadingOverlay if grid loaded and isLoading active', () => {
-      jest.spyOn(window, 'setTimeout');
+    let mockedRawMaterialAnalysis: RawMaterialAnalysis;
+    beforeEach(() => {
       component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
+        showNoRowsOverlay: jest.fn(),
+        hideOverlay: jest.fn(),
       } as unknown as GridApi;
+    });
+
+    it('should showLoadingOverlay if grid loaded and isLoading active', () => {
+      jest.spyOn(window, 'setTimeout');
 
       component.ngOnChanges({
         isLoading: {
@@ -75,19 +84,47 @@ describe('RawMaterialAnalysisTableComponent', () => {
     });
 
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
-      component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
-        showNoRowsOverlay: jest.fn(),
-      } as unknown as GridApi;
-
       component.ngOnChanges({
         isLoading: {
           currentValue: false,
+        } as unknown as SimpleChange,
+        rawMaterialAnalysisData: {
+          currentValue: [],
         } as unknown as SimpleChange,
       });
 
       expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
       expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
+      expect(component.errorMessage).toEqual('No data to display');
+    });
+
+    it('should hide loading spinner and show data when loading is done', () => {
+      mockedRawMaterialAnalysis = {
+        materialDesignation: 'materialDesignation',
+        materialNumber: 'materialNumber',
+        costShare: 0,
+        supplier: 'supplier',
+        operatingUnit: 0,
+        unitOfMeasure: UnitOfMeasure.KG,
+        uomBaseToPriceFactor: 1,
+        price: 1,
+        totalCosts: 1,
+        totalPrice: 1,
+        currency: 'EUR',
+      } as RawMaterialAnalysis;
+
+      component.ngOnChanges({
+        isLoading: {
+          currentValue: false,
+        } as unknown as SimpleChange,
+        rawMaterialAnalysisData: {
+          currentValue: [mockedRawMaterialAnalysis],
+        } as unknown as SimpleChange,
+      });
+
+      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].hideOverlay).toHaveBeenCalled();
+      expect(component.errorMessage).toEqual('');
     });
   });
 
