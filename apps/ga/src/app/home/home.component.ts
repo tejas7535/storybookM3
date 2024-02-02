@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -10,6 +10,7 @@ import { HomeCardsService } from './services/home-cards.service';
 @Component({
   selector: 'ga-home',
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   public appDelivery$ = this.settingsFacade.appDelivery$;
