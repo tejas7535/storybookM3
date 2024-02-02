@@ -28,6 +28,8 @@ describe('ProductSelectionReducer', () => {
       const originalState: ProductSelectionState = {
         ...initialState,
         bearingDesignation: 'abc',
+        loadcaseTemplate: [],
+        operatingConditionsTemplate: [],
       };
 
       const newState = productSelectionReducer(

@@ -35,6 +35,8 @@ export const productSelectionReducer = createReducer(
       bearingDesignation,
       bearingId: undefined, // reset bearing id
       error: undefined,
+      loadcaseTemplate: undefined,
+      operatingConditionsTemplate: undefined,
     })
   ),
   on(

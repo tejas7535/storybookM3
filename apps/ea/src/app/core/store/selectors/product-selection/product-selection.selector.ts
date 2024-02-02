@@ -75,6 +75,15 @@ export const getBearingSelectionLoading = createSelector(
   (state): boolean => state.loading
 );
 
+export const getTemplates = createSelector(
+  getLoadcaseTemplate,
+  getOperatingConditionsTemplate,
+  (loadcaseTemplate, operatingConditionsTemplate) => ({
+    loadcaseTemplate,
+    operatingConditionsTemplate,
+  })
+);
+
 export const getTemplateItem = (props: { itemId: string }) =>
   createSelector(
     getLoadcaseTemplate,

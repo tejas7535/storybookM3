@@ -58,6 +58,23 @@ describe('CalculationResult', () => {
     );
   });
 
+  describe('templates$', () => {
+    it(
+      'should provide the templates',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            loadcaseTemplate: PRODUCT_SELECTION_STATE_MOCK.loadcaseTemplate,
+            operatingConditionsTemplate:
+              PRODUCT_SELECTION_STATE_MOCK.operatingConditionsTemplate,
+          },
+        });
+
+        m.expect(facade.templates$).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('dispatch', () => {
     it('should dispatch each action', () => {
       store.dispatch = jest.fn();

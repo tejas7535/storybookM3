@@ -7,6 +7,7 @@ import {
   getLoadcaseTemplate,
   getOperatingConditionsTemplate,
   getTemplateItem,
+  getTemplates,
   isBearingSupported,
 } from './product-selection.selector';
 
@@ -89,6 +90,16 @@ describe('Product Selection Selector', () => {
       expect(getOperatingConditionsTemplate(mockState)).toEqual(
         PRODUCT_SELECTION_STATE_MOCK.operatingConditionsTemplate
       );
+    });
+  });
+
+  describe('getTemplates', () => {
+    it('should return the templates', () => {
+      expect(getTemplates(mockState)).toEqual({
+        loadcaseTemplate: PRODUCT_SELECTION_STATE_MOCK.loadcaseTemplate,
+        operatingConditionsTemplate:
+          PRODUCT_SELECTION_STATE_MOCK.operatingConditionsTemplate,
+      });
     });
   });
 

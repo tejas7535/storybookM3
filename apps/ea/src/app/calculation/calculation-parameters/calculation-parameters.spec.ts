@@ -6,13 +6,15 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, of, Subject } from 'rxjs';
 
+import { LocalStorageService } from '@ea/core/local-storage';
 import {
   resetCalculationParameters,
   setSelectedLoadcase,
 } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { resetCalculationResult } from '@ea/core/store/actions/calculation-result/catalog-calculation-result.actions';
+import { ProductSelectionTemplate } from '@ea/core/store/models';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -30,6 +32,7 @@ describe('CalculationParametersComponent', () => {
   let component: CalculationParametersComponent;
   let spectator: Spectator<CalculationParametersComponent>;
   let store: MockStore;
+  let storageService: LocalStorageService;
 
   const createComponent = createComponentFactory({
     component: CalculationParametersComponent,
@@ -56,6 +59,12 @@ describe('CalculationParametersComponent', () => {
         provide: translate,
         useValue: jest.fn(),
       },
+      {
+        provide: LocalStorageService,
+        useValue: {
+          restoreStoredSession: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -65,6 +74,7 @@ describe('CalculationParametersComponent', () => {
 
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
+    storageService = spectator.inject(LocalStorageService);
   });
 
   it('should create', () => {
@@ -161,6 +171,26 @@ describe('CalculationParametersComponent', () => {
         component.operationConditionsForm.controls['loadCaseData'].controls[0]
           .controls.loadCaseName.setValue
       ).toHaveBeenCalledWith('loadcase test');
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should restore parameters after templates have been loaded', () => {
+      const mockTemplates = new Subject<{
+        loadcaseTemplate: ProductSelectionTemplate[];
+        operatingConditionsTemplate: ProductSelectionTemplate[];
+      }>();
+
+      component['productSelectionFacade'].templates$ = mockTemplates;
+
+      component.ngOnInit();
+
+      mockTemplates.next({
+        loadcaseTemplate: [],
+        operatingConditionsTemplate: [],
+      });
+
+      expect(storageService.restoreStoredSession).toHaveBeenCalled();
     });
   });
   describe('ngAfterViewInit', () => {

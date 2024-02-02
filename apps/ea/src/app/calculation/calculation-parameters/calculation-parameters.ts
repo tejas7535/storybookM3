@@ -42,9 +42,11 @@ import {
   Subject,
   take,
   takeUntil,
+  tap,
 } from 'rxjs';
 
 import { AppRoutePath } from '@ea/app-route-path.enum';
+import { LocalStorageService } from '@ea/core/local-storage';
 import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
 import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import {
@@ -353,6 +355,8 @@ export class CalculationParametersComponent
   public readonly hasCalculationSelected$ =
     this.calculationParametersFacade.hasCalculation$;
 
+  private readonly templates$ = this.productSelectionFacade.templates$;
+
   private readonly destroy$ = new Subject<void>();
   private loadCaseCount = 1;
 
@@ -365,7 +369,8 @@ export class CalculationParametersComponent
     private readonly calculationParametersFormHelperService: CalculationParametersFormHelperService,
     private readonly router: Router,
     private readonly analyticsService: EmbeddedGoogleAnalyticsService,
-    private readonly changeDetectionRef: ChangeDetectorRef
+    private readonly changeDetectionRef: ChangeDetectorRef,
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   get operatingTemperature(): FormControl {
@@ -401,19 +406,53 @@ export class CalculationParametersComponent
 
     // update form from store
     this.operationConditions$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        map((operationConditions) => {
+          const {
+            selectedLoadcase: _,
+            ...operationConditionsWithoutSelectedLoadcase
+          } = operationConditions;
+
+          return operationConditionsWithoutSelectedLoadcase;
+        }),
+        distinctUntilChanged(
+          (previous, current) =>
+            JSON.stringify(previous) === JSON.stringify(current)
+        ),
+        tap((operationConditions) => {
+          if (
+            this.form.getRawValue().operationConditions.loadCaseData.length <
+            operationConditions.loadCaseData.length
+          ) {
+            for (const loadCaseData of operationConditions.loadCaseData.slice(
+              1
+            )) {
+              this.operationConditionsForm.controls['loadCaseData'].push(
+                this.createLoadCaseDataFormGroup(
+                  loadCaseData.loadCaseName,
+                  loadCaseData.operatingTemperature
+                )
+              );
+            }
+            this.loadCaseCount = operationConditions.loadCaseData.length;
+          }
+        })
+      )
       .subscribe((parametersState) => {
         this.form.patchValue({ operationConditions: parametersState });
       });
 
     // update store from form
-    this.form.valueChanges
+    combineLatest([this.form.valueChanges, this.form.statusChanges])
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(this.DEBOUNCE_TIME_DEFAULT),
+        map(([formValue, _status]) => formValue),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
       )
       .subscribe((formValue) => {
+        // this.form.updateValueAndValidity();
         this.calculationParametersFacade.dispatch(
           CalculationParametersActions.operatingParameters({
             ...formValue,
@@ -423,13 +462,40 @@ export class CalculationParametersComponent
         );
         this.calculationParametersFacade.dispatch(
           CalculationParametersActions.setIsInputInvalid({
-            isInputInvalid: this.form.valid,
+            isInputInvalid: !this.form.valid,
           })
         );
         if (!this.form.valid) {
           this.resetCatalogCalculationResults();
         }
       });
+
+    combineLatest([
+      this.calculationParametersFacade.getCalculationTypes$,
+      this.templates$,
+    ])
+      .pipe(
+        distinctUntilChanged(
+          (
+            [_calculationTypesOld, templatesOld],
+            [_calculationTypesNew, templatesNew]
+          ) => JSON.stringify(templatesOld) === JSON.stringify(templatesNew)
+        ),
+        filter(
+          ([calculationTypes, templates]) =>
+            !!calculationTypes &&
+            !!templates.loadcaseTemplate &&
+            !!templates.operatingConditionsTemplate
+        ),
+        take(1)
+      )
+      .subscribe(([calculationTypes, templates]) =>
+        this.localStorageService.restoreStoredSession(
+          calculationTypes,
+          templates.loadcaseTemplate,
+          templates.operatingConditionsTemplate
+        )
+      );
   }
 
   ngAfterViewInit() {

@@ -20,6 +20,7 @@ import {
   getBearingSelectionResultList,
   getCalculationModuleInfo,
   getTemplateItem,
+  getTemplates,
   isBearingSupported,
 } from '../../selectors/product-selection/product-selection.selector';
 
@@ -45,6 +46,7 @@ export class ProductSelectionFacade {
     getAvailableLubricationMethods
   );
   public isBearingSupported$ = this.store.select(isBearingSupported);
+  public templates$ = this.store.select(getTemplates);
 
   constructor(private readonly store: Store) {}
 
