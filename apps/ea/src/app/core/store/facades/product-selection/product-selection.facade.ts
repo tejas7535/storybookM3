@@ -76,7 +76,15 @@ export class ProductSelectionFacade {
         return null;
       }
 
-      // add validators
+      /**
+       * in case of synchronous form group validation errors eg. viscosityGroupValidators, return errors
+       * synchronous form control validators are handled automatically by Angular executed before asyncronous eg. Validators.required
+       * It seems like it does not work like this with form group validators, as result from synchronous form group validators do not stop async validation
+       */
+      if (control.errors) {
+        return control.errors;
+      }
+
       if (templateItem.maximum !== null || defaultValues?.maximum !== null) {
         const error = Validators.max(
           templateItem.maximum ?? defaultValues.maximum
