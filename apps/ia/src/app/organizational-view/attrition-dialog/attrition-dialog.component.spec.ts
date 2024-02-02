@@ -13,17 +13,13 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';
-import { ChartType } from '../models';
 import {
   getChildDimensionName,
-  getOrgUnitFluctuationDialogMeta,
   getParentAttritionOverTimeOrgChartData,
   getParentIsLoadingAttritionOverTimeOrgChart,
-  getWorldMapFluctuationDialogMeta,
 } from '../store/selectors/organizational-view.selector';
 import { AttritionDialogComponent } from './attrition-dialog.component';
 import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
-import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
 
 describe('AttritionDialogComponent', () => {
   let component: AttritionDialogComponent;
@@ -93,40 +89,6 @@ describe('AttritionDialogComponent', () => {
         m.expect(
           component.parentFluctuationOverTimeDataLoading$
         ).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
-      })
-    );
-
-    test(
-      'should set meta to org unit if chart type org chart',
-      marbles((m) => {
-        component.data = ChartType.ORG_CHART;
-        const result = {} as AttritionDialogMeta;
-        store.overrideSelector(getOrgUnitFluctuationDialogMeta, result);
-
-        component.ngOnInit();
-
-        m.expect(component.meta$).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
-      })
-    );
-
-    test(
-      'should set meta to world map if chart type world map',
-      marbles((m) => {
-        component.data = ChartType.WORLD_MAP;
-        const result = {} as AttritionDialogMeta;
-        store.overrideSelector(getWorldMapFluctuationDialogMeta, result);
-
-        component.ngOnInit();
-
-        m.expect(component.meta$).toBeObservable(
           m.cold('a', {
             a: result,
           })

@@ -1,9 +1,7 @@
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import {
-  AttritionOverTime,
   EmployeeAttritionMeta,
   FilterDimension,
-  HeatType,
   IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
@@ -16,13 +14,10 @@ import {
   getChildIsLoadingAttritionOverTimeOrgChart,
   getDimensionKeyForWorldMap,
   getIsLoadingOrgChart,
-  getIsLoadingOrgUnitFluctuationRate,
   getIsLoadingWorldMap,
   getOrgChart,
   getOrgChartEmployees,
   getOrgChartEmployeesLoading,
-  getOrgUnitFluctuationDialogEmployeeData,
-  getOrgUnitFluctuationDialogMeta,
   getParentAttritionOverTimeOrgChartData,
   getParentIsLoadingAttritionOverTimeOrgChart,
   getRegions,
@@ -46,12 +41,6 @@ describe('Organizational View Selector', () => {
         ],
         loading: true,
         errorMessage: undefined,
-        fluctuationRates: {
-          selectedEmployeeId: '432433',
-          data: [],
-          loading: false,
-          errorMessage: undefined,
-        },
         employees: {
           data: [
             {
@@ -174,157 +163,6 @@ describe('Organizational View Selector', () => {
       expect(
         getOrgChartEmployeesLoading.projector(fakeState.organizationalView)
       ).toEqual(fakeState.organizationalView.orgChart.employees.loading);
-    });
-  });
-
-  describe('getOrgUnitFluctuationDialogEmployeeData', () => {
-    test('should return attrition dialog fluctuation meta', () => {
-      const timeRange = {
-        id: '1577863715000|1609399715000',
-        value: '01.01.2020 - 31.12.2020',
-      };
-      const state = {
-        orgChart: {
-          fluctuationRates: {
-            selectedEmployeeId: '123',
-            data: [
-              {
-                value: '432432',
-                timeRange: '1577863715000|1609399715000',
-                fluctuationRate: 0.1,
-                unforcedFluctuationRate: 0.01,
-              },
-            ],
-            loading: false,
-            errorMessage: '',
-          },
-          data: [
-            {
-              id: '123',
-              parentId: '321',
-              dimensionKey: '432432',
-              attritionMeta: {
-                employeesLost: 4,
-              },
-            } as DimensionFluctuationData,
-          ],
-        },
-        attritionOverTime: {
-          parent: {
-            data: {} as AttritionOverTime,
-            loading: false,
-            errorMessage: '',
-          },
-          child: {
-            data: {} as AttritionOverTime,
-            loading: false,
-            errorMessage: '',
-          },
-        },
-      };
-
-      const result = getOrgUnitFluctuationDialogEmployeeData.projector(
-        state as OrganizationalViewState,
-        timeRange
-      );
-
-      expect(result).toEqual({
-        fluctuationRate: 0.1,
-        unforcedFluctuationRate: 0.01,
-        heatType: HeatType.NONE,
-        employeesLost: 4,
-        openPositionsAvailable: true,
-      });
-    });
-
-    test('should return attrition dialog fluctuation meta with unavailable open positions', () => {
-      const timeRange = {
-        id: '1577863715000|1609399715000',
-        value: '01.01.2020 - 31.12.2020',
-      };
-      const state = {
-        orgChart: {
-          fluctuationRates: {
-            selectedEmployeeId: '123',
-            data: [
-              {
-                value: '432432',
-                timeRange: '1577863715000|1609399715000',
-                fluctuationRate: 0.1,
-                unforcedFluctuationRate: 0.01,
-              },
-            ],
-            loading: false,
-            errorMessage: '',
-          },
-          data: [
-            {
-              id: '123',
-              parentId: '321',
-              dimensionKey: '432432',
-              attritionMeta: {
-                employeesLost: 4,
-              },
-              filterDimension: FilterDimension.HR_LOCATION,
-            } as DimensionFluctuationData,
-          ],
-        },
-        attritionOverTime: {
-          parent: {
-            data: {} as AttritionOverTime,
-            loading: false,
-            errorMessage: '',
-          },
-          child: {
-            data: {} as AttritionOverTime,
-            loading: false,
-            errorMessage: '',
-          },
-        },
-      };
-
-      const result = getOrgUnitFluctuationDialogEmployeeData.projector(
-        state as OrganizationalViewState,
-        timeRange
-      );
-
-      expect(result).toEqual({
-        fluctuationRate: 0.1,
-        unforcedFluctuationRate: 0.01,
-        heatType: HeatType.NONE,
-        employeesLost: 4,
-        openPositionsAvailable: false,
-      });
-    });
-  });
-
-  describe('getOrgUnitFluctuationDialogMeta', () => {
-    test('should return meta data', () => {
-      const timeRange = {
-        id: '1577863715000|1609399715000',
-        value: '01.01.2020 - 31.12.2020',
-      };
-      const data = {};
-      const result = getOrgUnitFluctuationDialogMeta.projector(
-        timeRange,
-        data as any
-      );
-
-      expect(result).toEqual({
-        selectedTimeRange: '01.01.2020 - 31.12.2020',
-        data,
-        showAttritionRates: true,
-      });
-    });
-  });
-
-  describe('getIsLoadingOrgUnitFluctuationRate', () => {
-    test('should return loading', () => {
-      const result = getIsLoadingOrgUnitFluctuationRate.projector(
-        fakeState.organizationalView
-      );
-
-      expect(result).toBeFalsy();
     });
   });
 

@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 
 import * as d3Selection from 'd3-selection';
 
-import { FilterDimension } from '../../shared/models';
+import { FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
+import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { DimensionFluctuationData, OrgChartFluctuationRate } from '../models';
 import { OrgChartNode } from './models/org-chart-node.model';
 
@@ -12,6 +13,34 @@ import { OrgChartNode } from './models/org-chart-node.model';
 })
 export class OrgChartService {
   public static readonly ROOT_ID = 'ROOT';
+
+  createAttritionDialogMeta(
+    node: DimensionFluctuationData,
+    timeRange: string,
+    openPositionsAvailable: boolean
+  ): AttritionDialogMeta {
+    return {
+      data: {
+        fluctuationRate: node.fluctuationRate.fluctuationRate,
+        unforcedFluctuationRate: node.fluctuationRate.unforcedFluctuationRate,
+        forcedFluctuationRate: node.fluctuationRate.forcedFluctuationRate,
+        remainingFluctuationRate: node.fluctuationRate.remainingFluctuationRate,
+        employeesLost: node.attritionMeta.employeesLost,
+        unforcedFluctuation: node.attritionMeta.unforcedFluctuation,
+        forcedFluctuation: node.attritionMeta.forcedFluctuation,
+        remainingFluctuation: node.attritionMeta.remainingFluctuation,
+        resignationsReceived: node.attritionMeta.resignationsReceived,
+        employeesAdded: node.attritionMeta.employeesAdded,
+        openPositions: node.attritionMeta.openPositions,
+        title: node.dimension,
+        hideDetailedLeaverStats: node.attritionMeta.responseModified,
+        openPositionsAvailable,
+        heatType: HeatType.NONE,
+      },
+      showAttritionRates: true,
+      selectedTimeRange: timeRange,
+    };
+  }
 
   mapDimensionDataToNodes(
     data: DimensionFluctuationData[],

@@ -16,7 +16,7 @@
       [selectedNodeEmployeesLoading]="orgChartEmployeesLoading$ | ngrxPush"
       (showOrgChartEmployees)="loadOrgChartEmployees($event)"
       (showParent)="loadParent($event)"
-      (loadMeta)="loadFluctuationMeta($event)"
+      (loadChildAttritionOverTime)="loadChildAttritionOverTime($event)"
     ></ia-org-chart>
     <ia-world-map
       *ngIf="selectedChart === chartType.WORLD_MAP"

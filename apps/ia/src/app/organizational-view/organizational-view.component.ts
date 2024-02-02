@@ -16,7 +16,6 @@ import {
   loadChildAttritionOverTimeForWorldMap,
   loadChildAttritionOverTimeOrgChart,
   loadOrgChartEmployees,
-  loadOrgChartFluctuationMeta,
   loadParent,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMapFluctuationRegionMeta,
@@ -54,6 +53,7 @@ export class OrganizationalViewComponent implements OnInit {
   worldMap$: Observable<CountryDataAttrition[]>;
   regions$: Observable<string[]>;
   selectedTimeRange$: Observable<IdValue>;
+  openPositionsAvailable$: Observable<boolean>;
 
   chartLegendItems = [
     new ChartLegendItem(
@@ -118,8 +118,7 @@ export class OrganizationalViewComponent implements OnInit {
     this.store.dispatch(loadParent({ data }));
   }
 
-  loadFluctuationMeta(data: DimensionFluctuationData): void {
-    this.store.dispatch(loadOrgChartFluctuationMeta({ data }));
+  loadChildAttritionOverTime(data: DimensionFluctuationData): void {
     this.store.dispatch(
       loadChildAttritionOverTimeOrgChart({
         filterDimension: data.filterDimension,

@@ -131,10 +131,46 @@ describe('WorldMapComponent', () => {
     test('should emit country and open dialog', () => {
       component.openDialog = jest.fn();
       component.loadCountryMeta.emit = jest.fn();
+      component.selectedTimeRange = '2022';
+      component.data = [
+        {
+          name: 'Italy',
+          attritionMeta: {
+            employeesLost: 1,
+            remainingFluctuation: 2,
+            forcedFluctuation: 3,
+            unforcedFluctuation: 4,
+            resignationsReceived: 5,
+            employeesAdded: 6,
+            openPositions: 7,
+            responseModified: false,
+          },
+        } as any,
+      ];
 
       component.openDialogWithCountryData('Italy');
 
       expect(component.openDialog).toHaveBeenCalledTimes(1);
+      expect(component.openDialog).toHaveBeenCalledWith({
+        type: ChartType.WORLD_MAP,
+        meta: {
+          data: {
+            title: 'Italy',
+            employeesLost: 1,
+            remainingFluctuation: 2,
+            forcedFluctuation: 3,
+            unforcedFluctuation: 4,
+            resignationsReceived: 5,
+            employeesAdded: 6,
+            openPositions: 7,
+            hideDetailedLeaverStats: false,
+            heatType: HeatType.NONE,
+            openPositionsAvailable: true,
+          },
+          selectedTimeRange: '2022',
+          showAttritionRates: false,
+        },
+      });
       expect(component.loadCountryMeta.emit).toHaveBeenCalledWith('Italy');
     });
   });
@@ -143,6 +179,7 @@ describe('WorldMapComponent', () => {
     test('should emit continent and open dialog', () => {
       component.openDialog = jest.fn();
       component.loadRegionMeta.emit = jest.fn();
+      component.data = [];
 
       component.openDialogWithRegionData('Europe');
 
@@ -155,12 +192,13 @@ describe('WorldMapComponent', () => {
     test('should open dialog', () => {
       component['dialog'].open = jest.fn();
 
-      component.openDialog();
+      const meta = { type: ChartType.WORLD_MAP, meta: {} as any };
+      component.openDialog(meta);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,
         {
-          data: ChartType.WORLD_MAP,
+          data: meta,
           maxWidth: '750px',
           width: '90%',
         }

@@ -9,7 +9,6 @@ import { ChartType, DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
-  OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 
@@ -34,26 +33,6 @@ export const loadOrgChartSuccess = createAction(
 
 export const loadOrgChartFailure = createAction(
   '[Organizational View] Load Org Chart Failure',
-  props<{ errorMessage: string }>()
-);
-
-export const loadOrgChartFluctuationMeta = createAction(
-  '[Organizational View] Load Org Chart Fluctuation Meta',
-  props<{ data: DimensionFluctuationData }>()
-);
-
-export const loadOrgChartFluctuationRate = createAction(
-  '[Organizational View] Load Org Chart Fluctuation Rate',
-  props<{ request: EmployeesRequest }>()
-);
-
-export const loadOrgChartFluctuationRateSuccess = createAction(
-  '[Organizational View] Load Org Chart Fluctuation Rate Success',
-  props<{ rate: OrgUnitFluctuationRate }>()
-);
-
-export const loadOrgChartFluctuationRateFailure = createAction(
-  '[Organizational View] Load Org Chart Fluctuation Rate Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -159,10 +138,6 @@ const all = union({
   loadOrgChart,
   loadOrgChartSuccess,
   loadOrgChartFailure,
-  loadOrgChartFluctuationMeta,
-  loadOrgChartFluctuationRate,
-  loadOrgChartFluctuationRateSuccess,
-  loadOrgChartFluctuationRateFailure,
   loadWorldMapFluctuationRegionMeta,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMap,

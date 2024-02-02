@@ -18,9 +18,7 @@ import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
   loadChildAttritionOverTimeForWorldMap,
-  loadChildAttritionOverTimeOrgChart,
   loadOrgChartEmployees,
-  loadOrgChartFluctuationMeta,
   loadParent,
   loadWorldMapFluctuationCountryMeta,
   loadWorldMapFluctuationRegionMeta,
@@ -131,31 +129,7 @@ describe('OrganizationalViewComponent', () => {
     });
   });
 
-  describe('loadFluctuationMeta', () => {
-    test('should dispatch loadOrgUnitFluctuationMeta and loadChildAttritionOverTimeOrgChart', () => {
-      component['store'].dispatch = jest.fn();
-      const dimension = '321';
-      const orgUnit = {
-        id: '123',
-        filterDimension: FilterDimension.ORG_UNIT,
-        dimension,
-      } as DimensionFluctuationData;
-
-      component.loadFluctuationMeta(orgUnit);
-
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        loadOrgChartFluctuationMeta({ data: orgUnit })
-      );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        loadChildAttritionOverTimeOrgChart({
-          filterDimension: orgUnit.filterDimension,
-          dimensionKey: orgUnit.dimensionKey,
-          dimensionName: orgUnit.dimension,
-        })
-      );
-    });
-  });
-  describe('loadRegionMeta', () => {
+  describe('loadChildAttritionOverTime', () => {
     test('should dispatch loadWorldMapFluctuationRegionMeta and loadChildAttritionOverTimeForWorldMap', () => {
       component['store'].dispatch = jest.fn();
       const region = 'Europe';

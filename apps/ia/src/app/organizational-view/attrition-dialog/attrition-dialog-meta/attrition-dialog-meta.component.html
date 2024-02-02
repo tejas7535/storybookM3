@@ -5,60 +5,53 @@
   <h6
     class="mt-0 mr-0 mb-2 text-overline font-medium leading-4 text-medium-emphasis"
   >
-    {{ t('metaTitle') }} ({{ meta.selectedTimeRange }})
+    {{ t('metaTitle') }} ({{ meta?.selectedTimeRange }})
   </h6>
-  <ng-container *ngIf="meta.showAttritionRates">
+  <ng-container *ngIf="meta?.showAttritionRates">
     <div class="flex items-center text-body-1 leading-8">
       <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">
         insert_chart
       </mat-icon>
-      <div class="flex text-medium-emphasis">{{ t('attritionRate') }}:</div>
-      <span
-        class="ml-2 text-high-emphasis"
-        *ngIf="!fluctuationLoading; else loadingFluct"
-      >
+      <span [innerHTML]="t('fluctuationRate') + ':'"></span>
+      <span class="ml-2 text-high-emphasis">
         {{ meta.data.fluctuationRate | defaultValue }}%
       </span>
-      <ng-template #loadingFluct>
-        <schaeffler-loading-spinner
-          class="ml-2"
-          [relative]="true"
-          [diameter]="20"
-          [strokeWidth]="2"
-        >
-        </schaeffler-loading-spinner>
-      </ng-template>
     </div>
-    <div class="flex items-center text-body-1 leading-8">
-      <mat-icon class="!min-w-6 mr-1.5 !h-6 !w-6 text-medium-emphasis">
-        insert_chart
-      </mat-icon>
-      <div
-        class="flex text-medium-emphasis"
-        [innerHTML]="t('unforcedAttritionRate') + ':'"
-      ></div>
-      <span
-        class="ml-2 text-high-emphasis"
-        *ngIf="!fluctuationLoading; else loadingUnforcedFluct"
-      >
-        {{ meta.data.unforcedFluctuationRate | defaultValue }}%
-      </span>
-      <ng-template #loadingUnforcedFluct>
-        <schaeffler-loading-spinner
-          class="ml-2"
-          [diameter]="20"
-          [strokeWidth]="2"
-          [relative]="true"
-        >
-        </schaeffler-loading-spinner>
-      </ng-template>
+    <div class="flex text-body-1 leading-8">
+      <mat-divider
+        class="!-mt-1 !mr-[calc(1rem+1px)] !mb-3 !ml-3 flex"
+        [vertical]="true"
+      ></mat-divider>
+      <div class="flex flex-col">
+        <div class="flex text-medium-emphasis">
+          <span [innerHTML]="t('unforcedFluctuationRate') + ':'"></span>
+          <span class="ml-2 text-high-emphasis"
+            >{{ meta.data.unforcedFluctuationRate | defaultValue }}%</span
+          >
+        </div>
+        <div class="flex text-medium-emphasis">
+          <span [innerHTML]="t('forcedFluctuationRate') + ':'">:</span>
+          <span class="ml-2 text-high-emphasis"
+            >{{ meta.data.forcedFluctuationRate | defaultValue }}%</span
+          >
+        </div>
+        <div class="flex text-medium-emphasis">
+          <span [innerHTML]="t('remainingFluctuationRate') + ':'">:</span>
+          <span class="ml-2 text-high-emphasis"
+            >{{ meta.data.remainingFluctuationRate | defaultValue }}%</span
+          >
+        </div>
+      </div>
     </div>
   </ng-container>
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >person_outline</mat-icon
     >
-    <div class="flex text-medium-emphasis">{{ t('employeesLost') }}:</div>
+    <span
+      class="flex text-medium-emphasis"
+      [innerHTML]="t('employeesLost') + ':'"
+    ></span>
     <span class="ml-2 text-high-emphasis">{{ meta.data.employeesLost }}</span>
   </div>
   <div
@@ -71,19 +64,19 @@
     ></mat-divider>
     <div class="flex flex-col">
       <div class="flex text-medium-emphasis">
-        {{ t('unforcedFluctuation') }}:
+        <span [innerHTML]="t('unforcedFluctuation') + ':'"></span>
         <span class="ml-2 text-high-emphasis">{{
           meta.data.unforcedFluctuation
         }}</span>
       </div>
       <div class="flex text-medium-emphasis">
-        {{ t('forcedFluctuation') }}:
+        <span [innerHTML]="t('forcedFluctuation') + ':'"></span>
         <span class="ml-2 text-high-emphasis">{{
           meta.data.forcedFluctuation
         }}</span>
       </div>
       <div class="flex text-medium-emphasis">
-        {{ t('remainingFluctuation') }}:
+        <span [innerHTML]="t('remainingFluctuation') + ':'"></span>
         <span class="ml-2 text-high-emphasis">{{
           meta.data.remainingFluctuation
         }}</span>
@@ -93,7 +86,10 @@
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">block</mat-icon>
     <div class="flex text-medium-emphasis">
-      {{ t('resignationsReceived') }}:
+      <span
+        class="flex text-medium-emphasis"
+        [innerHTML]="t('resignationsReceived') + ':'"
+      ></span>
     </div>
     <span class="ml-2 text-high-emphasis">{{
       meta.data.resignationsReceived
@@ -103,14 +99,20 @@
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >person_add</mat-icon
     >
-    <div class="flex text-medium-emphasis">{{ t('employeesAdded') }}:</div>
+    <span
+      class="flex text-medium-emphasis"
+      [innerHTML]="t('employeesAdded') + ':'"
+    ></span>
     <span class="ml-2 text-high-emphasis">{{ meta.data.employeesAdded }}</span>
   </div>
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >people_outlined</mat-icon
     >
-    <div class="flex text-medium-emphasis">{{ t('openPositions') }}:</div>
+    <span
+      class="flex text-medium-emphasis"
+      [innerHTML]="t('openPositions') + ':'"
+    ></span>
     <span
       *ngIf="meta.data.openPositionsAvailable; else openPositionsUnavailable"
       class="ml-2 text-high-emphasis"

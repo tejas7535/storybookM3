@@ -1,7 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import d3Selection from 'd3-selection';
 
-import { FilterDimension } from '../../shared/models';
+import { FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { DimensionFluctuationData } from '../models';
 import { OrgChartNode } from './models';
@@ -28,6 +28,53 @@ describe('OrgChartService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+  });
+
+  describe('createAttritionDialogMeta', () => {
+    test('should create meta', () => {
+      const node: DimensionFluctuationData = {
+        fluctuationRate: {
+          fluctuationRate: 32,
+          forcedFluctuationRate: 10,
+          remainingFluctuationRate: 8,
+          unforcedFluctuationRate: 22,
+        },
+        attritionMeta: {
+          employeesLost: 20,
+          unforcedFluctuation: 2,
+          forcedFluctuation: 10,
+          remainingFluctuation: 1,
+          resignationsReceived: 1,
+          employeesAdded: 33,
+          openPositions: 12,
+          responseModified: false,
+        },
+        dimension: 'Europe',
+      } as DimensionFluctuationData;
+      const timeRange = '2023 May';
+
+      const result = service.createAttritionDialogMeta(node, timeRange, true);
+
+      expect(result.data).toEqual({
+        fluctuationRate: node.fluctuationRate.fluctuationRate,
+        unforcedFluctuationRate: node.fluctuationRate.unforcedFluctuationRate,
+        forcedFluctuationRate: node.fluctuationRate.forcedFluctuationRate,
+        remainingFluctuationRate: node.fluctuationRate.remainingFluctuationRate,
+        employeesLost: node.attritionMeta.employeesLost,
+        unforcedFluctuation: node.attritionMeta.unforcedFluctuation,
+        forcedFluctuation: node.attritionMeta.forcedFluctuation,
+        remainingFluctuation: node.attritionMeta.remainingFluctuation,
+        resignationsReceived: node.attritionMeta.resignationsReceived,
+        employeesAdded: node.attritionMeta.employeesAdded,
+        openPositions: node.attritionMeta.openPositions,
+        title: node.dimension,
+        hideDetailedLeaverStats: node.attritionMeta.responseModified,
+        openPositionsAvailable: true,
+        heatType: HeatType.NONE,
+      });
+      expect(result.showAttritionRates).toBeTruthy();
+      expect(result.selectedTimeRange).toEqual(timeRange);
+    });
   });
 
   describe('mapDimensionDataToNodes', () => {

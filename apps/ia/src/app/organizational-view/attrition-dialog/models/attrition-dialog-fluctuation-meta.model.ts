@@ -2,8 +2,10 @@ import { HeatType } from '../../../shared/models/employee/heat-type.enum';
 
 export interface AttritionDialogFluctuationMeta {
   title: string;
-  fluctuationRate: number;
-  unforcedFluctuationRate: number;
+  fluctuationRate?: number;
+  unforcedFluctuationRate?: number;
+  forcedFluctuationRate?: number;
+  remainingFluctuationRate?: number;
   employeesLost: number;
   remainingFluctuation: number;
   forcedFluctuation: number;

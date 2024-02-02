@@ -6,11 +6,7 @@ import {
   FilterDimension,
 } from '../../shared/models';
 import { ChartType, DimensionFluctuationData } from '../models';
-import {
-  DimensionParentResponse,
-  OrgChartEmployee,
-  OrgUnitFluctuationRate,
-} from '../org-chart/models';
+import { DimensionParentResponse, OrgChartEmployee } from '../org-chart/models';
 import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
 import { initialState, organizationalViewReducer, reducer } from '.';
 import {
@@ -22,10 +18,6 @@ import {
   loadOrgChartEmployeesFailure,
   loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
-  loadOrgChartFluctuationMeta,
-  loadOrgChartFluctuationRate,
-  loadOrgChartFluctuationRateFailure,
-  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
   loadParentAttritionOverTimeOrgChart,
@@ -94,43 +86,6 @@ describe('Organization View Reducer', () => {
     });
   });
 
-  describe('loadOrgUnitFluctuationRate', () => {
-    test('should set loading', () => {
-      const action = loadOrgChartFluctuationRate({
-        request: {} as unknown as EmployeesRequest,
-      });
-      const state = organizationalViewReducer(initialState, action);
-
-      expect(state.orgChart.fluctuationRates.loading).toBeTruthy();
-    });
-  });
-
-  describe('loadOrgUnitFluctuationRateSuccess', () => {
-    test('should unset loading and add rate', () => {
-      const rate = {} as OrgUnitFluctuationRate;
-
-      const action = loadOrgChartFluctuationRateSuccess({ rate });
-
-      const state = organizationalViewReducer(initialState, action);
-
-      expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
-      expect(state.orgChart.fluctuationRates.data).toContain(rate);
-    });
-  });
-
-  describe('loadOrgUnitFluctuationRateFailure', () => {
-    test('should unset loading / set error message', () => {
-      const action = loadOrgChartFluctuationRateFailure({ errorMessage });
-
-      const state = organizationalViewReducer(initialState, action);
-
-      expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
-      expect(state.orgChart.fluctuationRates.errorMessage).toEqual(
-        errorMessage
-      );
-    });
-  });
-
   describe('loadWorldMapFluctuationRegionMeta', () => {
     test('should toggle selected country/continent', () => {
       const region = 'Europe';
@@ -152,21 +107,6 @@ describe('Organization View Reducer', () => {
 
       expect(state.worldMap.selectedCountry).toEqual(country);
       expect(state.worldMap.selectedRegion).toBeUndefined();
-    });
-  });
-
-  describe('loadOrgChartFluctuationMeta', () => {
-    test('should unset loading and set employee id', () => {
-      const data = { id: '123' } as unknown as DimensionFluctuationData;
-      const action = loadOrgChartFluctuationMeta({
-        data,
-      });
-      const state = organizationalViewReducer(initialState, action);
-
-      expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
-      expect(state.orgChart.fluctuationRates.selectedEmployeeId).toEqual(
-        data.id
-      );
     });
   });
 

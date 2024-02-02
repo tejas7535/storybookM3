@@ -48,7 +48,7 @@ describe('Filter Actions', () => {
       expect(action).toEqual({
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
-        type: '[Fitler] Trigger Benchmark Dimension Autocomplete',
+        type: '[Filter] Trigger Benchmark Dimension Autocomplete',
       });
     });
 
@@ -76,7 +76,7 @@ describe('Filter Actions', () => {
       expect(action).toEqual({
         filterDimension: FilterDimension.ORG_UNIT,
         searchFor,
-        type: '[Fitler] Trigger Dimension Autocomplete',
+        type: '[Filter] Trigger Dimension Autocomplete',
       });
     });
 

@@ -7,7 +7,6 @@ import { ChartType, DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
-  OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
@@ -21,10 +20,6 @@ import {
   loadOrgChartEmployeesFailure,
   loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
-  loadOrgChartFluctuationMeta,
-  loadOrgChartFluctuationRate,
-  loadOrgChartFluctuationRateFailure,
-  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
   loadParentAttritionOverTimeOrgChart,
@@ -76,54 +71,6 @@ describe('Organizational View Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Organizational View] Load Org Chart Failure',
-    });
-  });
-
-  test('loadOrgUnitFluctuationMeta', () => {
-    const data = {
-      dimension: 'SH/ZHZ',
-      id: '1',
-    } as DimensionFluctuationData;
-    const action = loadOrgChartFluctuationMeta({ data });
-
-    expect(action).toEqual({
-      data,
-      type: '[Organizational View] Load Org Chart Fluctuation Meta',
-    });
-  });
-
-  test('loadOrgUnitFluctuationRate', () => {
-    const request = {} as unknown as EmployeesRequest;
-    const action = loadOrgChartFluctuationRate({ request });
-
-    expect(action).toEqual({
-      request,
-      type: '[Organizational View] Load Org Chart Fluctuation Rate',
-    });
-  });
-
-  test('loadOrgUnitFluctuationRateSuccess', () => {
-    const rate: OrgUnitFluctuationRate = {
-      value: '123',
-      timeRange: '123|456',
-      fluctuationRate: 0.1,
-      unforcedFluctuationRate: 0.01,
-    };
-
-    const action = loadOrgChartFluctuationRateSuccess({ rate });
-
-    expect(action).toEqual({
-      rate,
-      type: '[Organizational View] Load Org Chart Fluctuation Rate Success',
-    });
-  });
-
-  test('loadOrgUnitFluctuationRateFailure', () => {
-    const action = loadOrgChartFluctuationRateFailure({ errorMessage });
-
-    expect(action).toEqual({
-      errorMessage,
-      type: '[Organizational View] Load Org Chart Fluctuation Rate Failure',
     });
   });
 

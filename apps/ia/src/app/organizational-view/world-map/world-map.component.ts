@@ -11,8 +11,10 @@ import { MatDialog } from '@angular/material/dialog';
 import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
+import { HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { ChartType } from '../models';
 import { CountryDataAttrition } from './models/country-data-attrition.model';
 
@@ -116,19 +118,81 @@ export class WorldMapComponent implements OnInit {
 
   openDialogWithRegionData(region: string): void {
     this.loadRegionMeta.emit(region);
+    const data = this.data.filter((country) => country.region === region);
+    const meta: AttritionDialogMeta = {
+      data: {
+        title: region,
+        employeesLost: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.employeesLost,
+          0
+        ),
+        remainingFluctuation: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.remainingFluctuation,
+          0
+        ),
+        forcedFluctuation: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.forcedFluctuation,
+          0
+        ),
+        unforcedFluctuation: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.unforcedFluctuation,
+          0
+        ),
+        resignationsReceived: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.resignationsReceived,
+          0
+        ),
+        employeesAdded: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.employeesAdded,
+          0
+        ),
+        openPositions: data.reduce(
+          (acc, curr) => acc + curr.attritionMeta.openPositions,
+          0
+        ),
+        openPositionsAvailable: true,
+        hideDetailedLeaverStats: data.some(
+          (country) => country.attritionMeta.responseModified
+        ),
+        heatType: HeatType.NONE,
+      },
+      selectedTimeRange: this.selectedTimeRange,
+      showAttritionRates: false,
+    };
 
-    this.openDialog();
+    this.openDialog({ type: ChartType.WORLD_MAP, meta } as any);
   }
 
   openDialogWithCountryData(name: string): void {
     this.loadCountryMeta.emit(name);
+    const data = this.data.find((country) => country.name === name);
 
-    this.openDialog();
+    const meta: { type: ChartType; meta: AttritionDialogMeta } = {
+      type: ChartType.WORLD_MAP,
+      meta: {
+        data: {
+          title: name,
+          employeesLost: data.attritionMeta.employeesLost,
+          remainingFluctuation: data.attritionMeta.remainingFluctuation,
+          forcedFluctuation: data.attritionMeta.forcedFluctuation,
+          unforcedFluctuation: data.attritionMeta.unforcedFluctuation,
+          resignationsReceived: data.attritionMeta.resignationsReceived,
+          employeesAdded: data.attritionMeta.employeesAdded,
+          openPositions: data.attritionMeta.openPositions,
+          openPositionsAvailable: true,
+          hideDetailedLeaverStats: data.attritionMeta.responseModified,
+          heatType: HeatType.NONE,
+        },
+        selectedTimeRange: this.selectedTimeRange,
+        showAttritionRates: false,
+      },
+    };
+    this.openDialog(meta);
   }
 
-  openDialog(): void {
+  openDialog(data: { type: ChartType; meta: AttritionDialogMeta }): void {
     this.dialog.open(AttritionDialogComponent, {
-      data: ChartType.WORLD_MAP,
+      data: { ...data, type: ChartType.WORLD_MAP },
       width: '90%',
       maxWidth: '750px',
     });

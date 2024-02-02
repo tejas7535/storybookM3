@@ -22,6 +22,7 @@ import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-li
 import { FilterDimension, IdValue, TimePeriod } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartNode, OrgChartTranslation } from './models';
 import { OrgChartComponent } from './org-chart.component';
@@ -39,6 +40,7 @@ describe('OrgChartComponent', () => {
   let spectator: Spectator<OrgChartComponent>;
   let transloco: TranslocoService;
   let translation: OrgChartTranslation;
+  let orgChartService: OrgChartService;
 
   const createComponent = createComponentFactory({
     component: OrgChartComponent,
@@ -61,6 +63,7 @@ describe('OrgChartComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     transloco = spectator.inject(TranslocoService);
+    orgChartService = spectator.inject(OrgChartService);
 
     translation = {
       columnDirect: 'Direct',
@@ -193,7 +196,12 @@ describe('OrgChartComponent', () => {
       component.orgChartData = input;
     });
     test('should open dialog with attrition data when attrition icon is clicked', () => {
-      component.loadMeta.emit = jest.fn();
+      const meta: AttritionDialogMeta = {} as any;
+      component.timeRange = new IdValue('123', 'June 2020');
+      component.loadChildAttritionOverTime.emit = jest.fn();
+      orgChartService.createAttritionDialogMeta = jest
+        .fn()
+        .mockReturnValue(meta);
       component.clickout({
         target: {
           id: 'employee-node-attrition',
@@ -203,13 +211,13 @@ describe('OrgChartComponent', () => {
         },
       });
 
-      expect(component.loadMeta.emit).toHaveBeenCalledWith(
+      expect(component.loadChildAttritionOverTime.emit).toHaveBeenCalledWith(
         component.orgChartData.data[0]
       );
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,
         {
-          data: ChartType.ORG_CHART,
+          data: { type: ChartType.ORG_CHART, meta },
           width: '90%',
           maxWidth: '750px',
         }

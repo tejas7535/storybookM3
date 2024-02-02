@@ -29,6 +29,7 @@ import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartEmployee, OrgChartNode } from './models';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
+import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../shared/constants';
 
 @Component({
   selector: 'ia-org-chart',
@@ -99,7 +100,8 @@ export class OrgChartComponent implements AfterViewInit {
   readonly showOrgChartEmployees: EventEmitter<DimensionFluctuationData> = new EventEmitter();
 
   @Output()
-  readonly loadMeta: EventEmitter<DimensionFluctuationData> = new EventEmitter();
+  readonly loadChildAttritionOverTime: EventEmitter<DimensionFluctuationData> =
+    new EventEmitter();
 
   @ViewChild('chartContainer') set chartContainer(chartContainer: ElementRef) {
     if (chartContainer) {
@@ -140,10 +142,22 @@ export class OrgChartComponent implements AfterViewInit {
       }
       case OrgChartConfig.BUTTON_CSS.attrition: {
         this.selectedDataNode = this.getDimensionFluctuationDataById(id);
+        this.loadChildAttritionOverTime.emit(this.selectedDataNode);
+        const openPositionsAvailable =
+          !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(
+            this.selectedDataNode.filterDimension
+          );
+        const data = {
+          type: ChartType.ORG_CHART,
+          meta: this.orgChartService.createAttritionDialogMeta(
+            this.selectedDataNode,
+            this.timeRange.value,
+            openPositionsAvailable
+          ),
+        };
 
-        this.loadMeta.emit(this.selectedDataNode);
         this.dialog.open(AttritionDialogComponent, {
-          data: ChartType.ORG_CHART,
+          data,
           width: '90%',
           maxWidth: '750px',
         });

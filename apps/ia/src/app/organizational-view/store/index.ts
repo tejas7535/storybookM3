@@ -3,7 +3,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
 import { ChartType, DimensionFluctuationData } from '../models';
-import { OrgChartEmployee, OrgUnitFluctuationRate } from '../org-chart/models';
+import { OrgChartEmployee } from '../org-chart/models';
 import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
 import {
   chartTypeSelected,
@@ -15,10 +15,6 @@ import {
   loadOrgChartEmployeesFailure,
   loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
-  loadOrgChartFluctuationMeta,
-  loadOrgChartFluctuationRate,
-  loadOrgChartFluctuationRateFailure,
-  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
   loadParentAttritionOverTimeOrgChart,
@@ -40,12 +36,6 @@ export interface OrganizationalViewState {
     data: DimensionFluctuationData[];
     loading: boolean;
     errorMessage: string;
-    fluctuationRates: {
-      selectedEmployeeId: string;
-      data: OrgUnitFluctuationRate[];
-      loading: boolean;
-      errorMessage: string;
-    };
     employees: {
       data: OrgChartEmployee[];
       loading: boolean;
@@ -81,12 +71,6 @@ export const initialState: OrganizationalViewState = {
     data: [],
     loading: false,
     errorMessage: undefined,
-    fluctuationRates: {
-      selectedEmployeeId: undefined,
-      data: [],
-      loading: false,
-      errorMessage: undefined,
-    },
     employees: {
       data: [],
       loading: false,
@@ -163,65 +147,6 @@ export const organizationalViewReducer = createReducer(
         errorMessage,
         data: [],
         loading: false,
-      },
-    })
-  ),
-  on(
-    loadOrgChartFluctuationMeta,
-    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
-      ...state,
-      orgChart: {
-        ...state.orgChart,
-        fluctuationRates: {
-          ...state.orgChart.fluctuationRates,
-          loading: false,
-          selectedEmployeeId: data.id,
-        },
-      },
-    })
-  ),
-  on(
-    loadOrgChartFluctuationRate,
-    (state: OrganizationalViewState): OrganizationalViewState => ({
-      ...state,
-      orgChart: {
-        ...state.orgChart,
-        fluctuationRates: {
-          ...state.orgChart.fluctuationRates,
-          loading: true,
-        },
-      },
-    })
-  ),
-  on(
-    loadOrgChartFluctuationRateSuccess,
-    (state: OrganizationalViewState, { rate }): OrganizationalViewState => ({
-      ...state,
-      orgChart: {
-        ...state.orgChart,
-        fluctuationRates: {
-          ...state.orgChart.fluctuationRates,
-          data: [...state.orgChart.fluctuationRates.data, rate],
-          loading: false,
-        },
-      },
-    })
-  ),
-  on(
-    loadOrgChartFluctuationRateFailure,
-    (
-      state: OrganizationalViewState,
-      { errorMessage }
-    ): OrganizationalViewState => ({
-      ...state,
-      orgChart: {
-        ...state.orgChart,
-        fluctuationRates: {
-          ...state.orgChart.fluctuationRates,
-          errorMessage,
-          loading: false,
-          selectedEmployeeId: undefined,
-        },
       },
     })
   ),

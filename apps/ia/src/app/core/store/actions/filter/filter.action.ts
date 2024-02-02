@@ -13,7 +13,7 @@ export const loadFilterBenchmarkDimensionData = createAction(
 );
 
 export const autocompleteBenchmarkDimensionData = createAction(
-  '[Fitler] Trigger Benchmark Dimension Autocomplete',
+  '[Filter] Trigger Benchmark Dimension Autocomplete',
   props<{ filterDimension: FilterDimension; searchFor: string }>()
 );
 
@@ -23,7 +23,7 @@ export const loadFilterDimensionData = createAction(
 );
 
 export const autocompleteDimensionData = createAction(
-  '[Fitler] Trigger Dimension Autocomplete',
+  '[Filter] Trigger Dimension Autocomplete',
   props<{ filterDimension: FilterDimension; searchFor: string }>()
 );
 

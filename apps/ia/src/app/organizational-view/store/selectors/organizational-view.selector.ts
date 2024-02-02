@@ -7,11 +7,9 @@ import {
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
-import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../shared/constants';
 import {
   AttritionSeries,
   FilterDimension,
-  HeatType,
   IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
@@ -65,46 +63,6 @@ export const getOrgChartEmployees = createSelector(
 export const getOrgChartEmployeesLoading = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) => state.orgChart.employees.loading
-);
-
-export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
-  selectOrganizationalViewState,
-  getSelectedTimeRange,
-  (state: OrganizationalViewState, timeRange: IdValue) => {
-    const node = state.orgChart.data?.find(
-      (e) => e.id === state.orgChart.fluctuationRates.selectedEmployeeId
-    );
-    const employeeMeta = node?.attritionMeta;
-    const rates = state.orgChart.fluctuationRates.data?.find(
-      (r) => r.value === node?.dimensionKey && r.timeRange === timeRange?.id
-    );
-    const title = node.dimensionLongName
-      ? `${node.dimension} (${node.dimensionLongName})`
-      : node.dimension;
-
-    const openPositionsAvailable =
-      !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(node.filterDimension);
-
-    return {
-      ...employeeMeta,
-      title,
-      fluctuationRate: rates?.fluctuationRate,
-      unforcedFluctuationRate: rates?.unforcedFluctuationRate,
-      heatType: HeatType.NONE,
-      hideDetailedLeaverStats: employeeMeta.responseModified,
-      openPositionsAvailable,
-    };
-  }
-);
-
-export const getOrgUnitFluctuationDialogMeta = createSelector(
-  getSelectedTimeRange,
-  getOrgUnitFluctuationDialogEmployeeData,
-  (timeRange: IdValue, data: AttritionDialogFluctuationMeta) => ({
-    selectedTimeRange: timeRange?.value,
-    data,
-    showAttritionRates: true,
-  })
 );
 
 const getWorldMapFluctuationDialogRegionMetaData = (
@@ -184,11 +142,6 @@ export const getWorldMapFluctuationDialogMeta = createSelector(
     data,
     showAttritionRates: false,
   })
-);
-
-export const getIsLoadingOrgUnitFluctuationRate = createSelector(
-  selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.orgChart.fluctuationRates.loading
 );
 
 export const getIsLoadingOrgChart = createSelector(

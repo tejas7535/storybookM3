@@ -29,7 +29,6 @@ import { DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
-  OrgUnitFluctuationRate,
 } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
@@ -44,10 +43,6 @@ import {
   loadOrgChartEmployeesFailure,
   loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
-  loadOrgChartFluctuationMeta,
-  loadOrgChartFluctuationRate,
-  loadOrgChartFluctuationRateFailure,
-  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
   loadParentAttritionOverTimeOrgChart,
@@ -115,44 +110,6 @@ export class OrganizationalViewEffects {
           ),
           catchError((error) =>
             of(loadOrgChartFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    );
-  });
-
-  loadOrgChartFluctuationMeta$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadOrgChartFluctuationMeta),
-      concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
-      map(([action, timeRange]) => {
-        return {
-          filterDimension: action.data.filterDimension,
-          value: action.data.dimensionKey,
-          timeRange: timeRange.id,
-        };
-      }),
-      switchMap((request: EmployeesRequest) =>
-        of(loadOrgChartFluctuationRate({ request }))
-      )
-    );
-  });
-
-  loadOrgChartFluctuationRate$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadOrgChartFluctuationRate),
-      map((action) => action.request),
-      switchMap((request: EmployeesRequest) =>
-        this.organizationalViewService.getOrgUnitFluctuationRate(request).pipe(
-          map((rate: OrgUnitFluctuationRate) =>
-            loadOrgChartFluctuationRateSuccess({ rate })
-          ),
-          catchError((error) =>
-            of(
-              loadOrgChartFluctuationRateFailure({
-                errorMessage: error.message,
-              })
-            )
           )
         )
       )

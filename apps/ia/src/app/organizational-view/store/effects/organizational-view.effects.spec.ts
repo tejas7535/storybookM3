@@ -46,10 +46,6 @@ import {
   loadOrgChartEmployeesFailure,
   loadOrgChartEmployeesSuccess,
   loadOrgChartFailure,
-  loadOrgChartFluctuationMeta,
-  loadOrgChartFluctuationRate,
-  loadOrgChartFluctuationRateFailure,
-  loadOrgChartFluctuationRateSuccess,
   loadOrgChartSuccess,
   loadParent,
   loadParentAttritionOverTimeOrgChart,
@@ -196,44 +192,6 @@ describe('Organizational View Effects', () => {
     );
   });
 
-  describe('loadOrgChartFluctuationMeta$', () => {
-    test(
-      'should load org chart rates',
-      marbles((m) => {
-        const orgUnitFluctuationData = {
-          dimensionKey: '123',
-          id: '32',
-          parentId: '23',
-          filterDimension: FilterDimension.ORG_UNIT,
-        } as DimensionFluctuationData;
-
-        const timeRange = {
-          id: '1234|4567',
-          value: '1.1.2020 - 31.1.2022',
-        } as IdValue;
-        const request = {
-          value: orgUnitFluctuationData.dimensionKey,
-          timeRange: timeRange.id,
-          filterDimension: FilterDimension.ORG_UNIT,
-        };
-
-        action = loadOrgChartFluctuationMeta({ data: orgUnitFluctuationData });
-        store.overrideSelector(getSelectedTimeRange, {
-          id: timeRange.id,
-          value: timeRange.value,
-        });
-        const result = loadOrgChartFluctuationRate({ request });
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', {
-          b: result,
-        });
-
-        m.expect(effects.loadOrgChartFluctuationMeta$).toBeObservable(expected);
-      })
-    );
-  });
-
   describe('loadOrgChart$', () => {
     let request: EmployeesRequest;
 
@@ -293,70 +251,6 @@ describe('Organizational View Effects', () => {
         expect(organizationalViewService.getOrgChart).toHaveBeenCalledWith(
           request
         );
-      })
-    );
-  });
-
-  describe('loadOrgChartFluctuationRate$', () => {
-    let request: EmployeesRequest;
-
-    beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
-      action = loadOrgChartFluctuationRate({ request });
-    });
-
-    test(
-      'should return loadOrgChartFluctuationRateSuccess action when REST call is successful',
-      marbles((m) => {
-        const rate = {
-          value: '123',
-          timeRange: '123|456',
-          fluctuationRate: 0.1,
-          unforcedFluctuationRate: 0.02,
-        };
-        const result = loadOrgChartFluctuationRateSuccess({
-          rate,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: rate,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        organizationalViewService.getOrgUnitFluctuationRate = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadOrgChartFluctuationRate$).toBeObservable(expected);
-        m.flush();
-        expect(
-          organizationalViewService.getOrgUnitFluctuationRate
-        ).toHaveBeenCalledWith(request);
-      })
-    );
-
-    test(
-      'should return loadOrgChartFluctuationRateFailure on REST error',
-      marbles((m) => {
-        const result = loadOrgChartFluctuationRateFailure({
-          errorMessage: error.message,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, error);
-        const expected = m.cold('--b', { b: result });
-
-        organizationalViewService.getOrgUnitFluctuationRate = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadOrgChartFluctuationRate$).toBeObservable(expected);
-        m.flush();
-        expect(
-          organizationalViewService.getOrgUnitFluctuationRate
-        ).toHaveBeenCalledWith(request);
       })
     );
   });

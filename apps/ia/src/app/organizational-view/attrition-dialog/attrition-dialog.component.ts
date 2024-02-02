@@ -12,11 +12,8 @@ import {
   getChildAttritionOverTimeOrgChartSeries,
   getChildDimensionName,
   getChildIsLoadingAttritionOverTimeOrgChart,
-  getIsLoadingOrgUnitFluctuationRate,
-  getOrgUnitFluctuationDialogMeta,
   getParentAttritionOverTimeOrgChartData,
   getParentIsLoadingAttritionOverTimeOrgChart,
-  getWorldMapFluctuationDialogMeta,
 } from '../store/selectors/organizational-view.selector';
 import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
 
@@ -31,15 +28,18 @@ export class AttritionDialogComponent implements OnInit {
   childFluctuationOverTimeData$: Observable<LineSeriesOption>;
   childFluctuationOverTimeDataLoading$: Observable<boolean>;
 
-  meta$: Observable<AttritionDialogMeta>;
   fluctuationLoading$: Observable<boolean>;
   childDimensionName$: Observable<string>;
   fluctuationChartConfig: EChartsOption;
+  meta: AttritionDialogMeta;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ChartType,
+    @Inject(MAT_DIALOG_DATA)
+    public data: { type: ChartType; meta: AttritionDialogMeta },
     private readonly store: Store
-  ) {}
+  ) {
+    this.meta = data.meta;
+  }
 
   public ngOnInit(): void {
     this.fluctuationChartConfig = createFluctuationRateChartConfig('', 1);
@@ -56,15 +56,5 @@ export class AttritionDialogComponent implements OnInit {
       getChildIsLoadingAttritionOverTimeOrgChart
     );
     this.childDimensionName$ = this.store.select(getChildDimensionName);
-
-    this.meta$ =
-      this.data === ChartType.ORG_CHART
-        ? this.store.select(getOrgUnitFluctuationDialogMeta)
-        : this.store.select(getWorldMapFluctuationDialogMeta);
-
-    // TODO: consider also world map loading as soon as this is implemented
-    this.fluctuationLoading$ = this.store.select(
-      getIsLoadingOrgUnitFluctuationRate
-    );
   }
 }

@@ -3,7 +3,7 @@
     *ngIf="title"
     class="text-overline text-medium-emphasis mb-2 ml-1 mr-0 mt-0 font-medium leading-4"
   >
-    {{ title }}
+    <span [innerHTML]="title"></span>
   </h6>
   <div
     echarts
