@@ -72,6 +72,11 @@ describe('CatalogService', () => {
               title: 'Bearing 2',
             },
           },
+          {
+            data: {
+              title: '694-2Z-HLC-C3',
+            },
+          },
         ],
       };
       const query = 'bearing';

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, switchMap, throwError } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
+import { NON_CO2_BEARINGS } from '@ea/shared/constants/non-co2-bearings';
 import { toNumberString } from '@ea/shared/helper';
 
 import {
@@ -49,9 +50,9 @@ export class CatalogService {
       )
       .pipe(
         map((searchResult: CatalogServiceBearingSearchResult) => {
-          const bearingDesignations = searchResult.data.map(
-            (item) => item.data.title
-          );
+          const bearingDesignations = searchResult.data
+            .map((item) => item.data.title)
+            .filter((designation) => !NON_CO2_BEARINGS.includes(designation));
 
           return bearingDesignations;
         })
