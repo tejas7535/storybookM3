@@ -38,7 +38,7 @@
       },
       "catalog": {
         "title": {
-          "main": "Medias 產品目錄。"
+          "main": "medias 產品目錄。"
         },
         "externalLink": "https://medias.schaeffler.cn/zh_TW"
       },
@@ -333,9 +333,9 @@
     "languageSettings": "語言設定"
   },
   "pdfReport": {
-    "reportHeading": "Medias 軸承計算報告 {{bearingDesignation}}",
+    "reportHeading": "medias 軸承計算報告 {{bearingDesignation}}",
     "mediasBearingLink": {
-      "text": "在Medias中查看",
+      "text": "在medias中查看",
       "link": "https://medias.schaeffler.cn/zh_TW/p/{{bearingDesignation}}?utm_source=engineering-app"
     },
     "inputHeading": "輸入",

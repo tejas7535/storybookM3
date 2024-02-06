@@ -38,7 +38,7 @@
       },
       "catalog": {
         "title": {
-          "main": "迈德斯Medias产品目录。"
+          "main": "迈德斯medias产品目录。"
         },
         "externalLink": "https://medias.schaeffler.cn/zh"
       },
@@ -333,9 +333,9 @@
     "languageSettings": "语言设定"
   },
   "pdfReport": {
-    "reportHeading": "Medias 轴承计算报告 {{bearingDesignation}}",
+    "reportHeading": "medias 轴承计算报告 {{bearingDesignation}}",
     "mediasBearingLink": {
-      "text": "在Medias中查看",
+      "text": "在medias中查看",
       "link": "https://medias.schaeffler.cn/zh/p/{{bearingDesignation}}?utm_source=engineering-app"
     },
     "inputHeading": "输入",

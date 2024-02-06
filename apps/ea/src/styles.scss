@@ -46,7 +46,7 @@ engineering-app {
 @import './preflight';
 
 engineering-app {
-  /** fix font size for Medias integration */
+  /** fix font size for medias integration */
   @apply text-body-1 #{!important};
 
   * {

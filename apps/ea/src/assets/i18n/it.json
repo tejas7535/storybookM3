@@ -38,7 +38,7 @@
       },
       "catalog": {
         "title": {
-          "main": "Catalogo dei prodotti di Medias"
+          "main": "Catalogo dei prodotti di medias"
         },
         "externalLink": "https://medias.schaeffler.it/it"
       },
@@ -332,9 +332,9 @@
     "languageSettings": "Impostazioni della lingua"
   },
   "pdfReport": {
-    "reportHeading": "Rapporto di calcolo Medias per cuscinetti {{bearingDesignation}}",
+    "reportHeading": "Rapporto di calcolo medias per cuscinetti {{bearingDesignation}}",
     "mediasBearingLink": {
-      "text": "Visualizza in Medias",
+      "text": "Visualizza in medias",
       "link": "https://medias.schaeffler.it/it/p/{{bearingDesignation}}?utm_source=engineering-app"
     },
     "inputHeading": "Input",

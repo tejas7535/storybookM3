@@ -38,7 +38,7 @@
       },
       "catalog": {
         "title": {
-          "main": "Catálogo de productos de Medias"
+          "main": "Catálogo de productos de medias"
         },
         "externalLink": "https://medias.schaeffler.es/es"
       },
@@ -333,9 +333,9 @@
     "languageSettings": "Ajustes de idioma"
   },
   "pdfReport": {
-    "reportHeading": "Informe de cálculo Medias para rodamientos {{bearingDesignation}}",
+    "reportHeading": "Informe de cálculo medias para rodamientos {{bearingDesignation}}",
     "mediasBearingLink": {
-      "text": "Ver en Medias",
+      "text": "Ver en medias",
       "link": "https://medias.schaeffler.es/es/p/{{bearingDesignation}}?utm_source=engineering-app"
     },
     "inputHeading": "Entrada",
