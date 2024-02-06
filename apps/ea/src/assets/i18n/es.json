@@ -12,7 +12,8 @@
   "homePage": {
     "description": "Por favor, ingrese una designación de rodamiento para calcular la vida útil, la pérdida de potencia friccional, los parámetros de lubricación, las frecuencias de sobre-rodadura y las emisiones de CO₂e.",
     "search": {
-      "placeholder": "Introduzca una designación de rodamiento, p. ej.: 6226"
+      "placeholder": "Introduzca una designación de rodamiento, p. ej.: 6226",
+      "noResults": "No se han encontrado resultados"
     },
     "sustainabilityCard": {
       "title": "¿Quieres aprender más acerca de la sostenibilidad en Schaeffler?",

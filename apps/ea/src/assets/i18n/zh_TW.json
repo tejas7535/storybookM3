@@ -12,7 +12,8 @@
   "homePage": {
     "description": "請輸入軸承設計代號以計算額定壽命、摩擦功率損失、潤滑參數、超負荷頻率和CO₂e排放量。",
     "search": {
-      "placeholder": "輸入軸承型號，例如6226"
+      "placeholder": "輸入軸承型號，例如6226",
+      "noResults": "未找到結果"
     },
     "sustainabilityCard": {
       "title": "你想了解更多關於舍弗勒公司的可持續發展嗎？",

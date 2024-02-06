@@ -12,7 +12,8 @@
   "homePage": {
     "description": "Please enter a bearing designation to calculate rating life, frictional powerloss, lubrication parameters, overrolling frequencies and CO₂e emissions",
     "search": {
-      "placeholder": "Enter a bearing designation, e.g. 6226"
+      "placeholder": "Enter a bearing designation, e.g. 6226",
+      "noResults": "No results found"
     },
     "sustainabilityCard": {
       "title": "You want to learn more about sustainability at Schaeffler?",

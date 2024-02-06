@@ -4,14 +4,16 @@ import { ProductSelectionActions } from '../../actions';
 import { ProductSelectionState } from '../../models';
 
 export const initialState: ProductSelectionState = {
-  bearingResultList: [],
+  bearingResultList: undefined,
 };
 
 export const productSelectionReducer = createReducer(
   initialState,
   on(
     ProductSelectionActions.resetBearing,
-    (): ProductSelectionState => ({ ...initialState })
+    (): ProductSelectionState => ({
+      ...initialState,
+    })
   ),
   on(
     ProductSelectionActions.searchBearing,

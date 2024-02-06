@@ -11,6 +11,7 @@
           ? { id: selectedBearing, title: selectedBearing }
           : undefined
       "
+      [noResultsText]="t('noResults')"
       (searchUpdated)="onSearchUpdated($event)"
       (optionSelected)="onOptionSelected($event)"
     >

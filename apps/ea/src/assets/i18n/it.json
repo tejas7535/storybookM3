@@ -12,7 +12,8 @@
   "homePage": {
     "description": "Inserire una denominazione di cuscinetto per calcolare la durata nominale, la perdita di potenza per attrito, i parametri di lubrificazione, le frequenze di sovralimentazione e le emissioni di CO₂e.",
     "search": {
-      "placeholder": "Inserisci una designazione di cuscinetto, ad esempio 6226"
+      "placeholder": "Inserisci una designazione di cuscinetto, ad esempio 6226",
+      "noResults": "Nessun risultato trovato"
     },
     "sustainabilityCard": {
       "title": "Vuoi conoscere di più sulla sostenibilità presso Schaeffler?",

@@ -12,7 +12,8 @@
   "homePage": {
     "description": "Bitte geben Sie eine Lagerbezeichnung ein, um Lebensdauer, Reibungsverluste, Schmierparameter, Überrollfrequenzen sowie CO₂e-Emissionen zu berechnen.",
     "search": {
-      "placeholder": "Eingabe Lagerbezeichnung, z.B. 6226"
+      "placeholder": "Eingabe Lagerbezeichnung, z.B. 6226",
+      "noResults": "Keine Ergebnisse gefunden"
     },
     "sustainabilityCard": {
       "title": "Du möchtest mehr über Nachhaltigkeit bei Schaeffler erfahren?",

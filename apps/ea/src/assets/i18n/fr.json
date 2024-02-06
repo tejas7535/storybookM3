@@ -12,7 +12,8 @@
   "homePage": {
     "description": "Veuillez entrer une désignation de roulement pour calculer la durée de vie nominale, la perte de puissance par frottement, les paramètres de lubrification, les fréquences de survitesse et les émissions de CO₂e.",
     "search": {
-      "placeholder": "Saisir une désignation du roulement, par exemple 6226"
+      "placeholder": "Saisir une désignation du roulement, par exemple 6226",
+      "noResults": "Aucun résultat n’a été trouvé"
     },
     "sustainabilityCard": {
       "title": "Voulez-vous en savoir plus sur la durabilité chez Schaeffler ?",

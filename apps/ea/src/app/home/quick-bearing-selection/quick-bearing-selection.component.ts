@@ -55,6 +55,10 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   public bearingResultList$: Observable<StringOption[]> =
     this.productSelectionFacade.bearingDesignationResultList$.pipe(
       map((bearingDesignation) => {
+        if (!bearingDesignation) {
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          return undefined;
+        }
         const options: StringOption[] = bearingDesignation.map(
           (designation) => ({
             id: designation,
