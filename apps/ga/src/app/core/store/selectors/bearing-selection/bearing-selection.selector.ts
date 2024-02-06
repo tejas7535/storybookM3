@@ -50,7 +50,7 @@ export const getQuickBearingSelectionResultList = createSelector(
   getBearingSelectionState,
   (state): StringOption[] =>
     state?.quickBearingSelection?.resultList
-      .map((bearing) => {
+      ?.map((bearing) => {
         const disabled = !bearing.isValid;
 
         return {

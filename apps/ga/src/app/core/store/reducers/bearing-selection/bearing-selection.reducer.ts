@@ -21,7 +21,7 @@ import { BearingSelectionType } from '@ga/shared/models';
 export const initialState: BearingSelectionState = {
   quickBearingSelection: {
     query: undefined,
-    resultList: [],
+    resultList: undefined,
   },
   advancedBearingSelection: {
     filters: {
