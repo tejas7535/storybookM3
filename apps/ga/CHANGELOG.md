@@ -1,4 +1,19 @@
 # Release Notes of Grease App
+## [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.0...ga-v1.6.1) (2024-02-06)
+
+
+### Features
+
+* **ga:** remove partner version custom config ([#5959](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5959)) ([8e4a69a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8e4a69a556c6adf87ff27aed88cf45229ac2b230))
+
+
+### Bug Fixes
+
+* **ga:** add no results text to search ([155a119](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/155a11998955b42c59e05adc414ab5869c0c34e3))
+* **ga:** fix overflow clipping on mobile with font scaling - UFTABI-7251 ([#5968](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5968)) ([fa7e5b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fa7e5b9119a170df0f5e01117c64d3392370d1dc))
+* **ga:** fix selection not working on mobile - UFTABI-7260 ([#5966](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5966)) ([93ab40a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93ab40ae50049898157e517f4ec598e3619522b8))
+* **ga:** use correct base url for partner version ([#5954](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5954)) ([1e840be](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e840be9123d123c73c4be225a3d397b4cbafbd8))
+
 ## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.5.0...ga-v1.6.0) (2024-01-30)
 
 
