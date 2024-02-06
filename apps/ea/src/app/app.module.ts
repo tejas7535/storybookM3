@@ -28,6 +28,7 @@ import { CalculationContainerComponent } from './calculation/calculation-contain
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
 import { BearingDesignationProvidedGuard } from './guards/bearing-designation-provided.guard';
+import { LegacyAppComponent } from './legacy-app/legacy-app.component';
 import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
 
@@ -109,6 +110,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     SettingsPanelComponent,
     LanguageSelectModule,
     QualtricsInfoBannerComponent,
+    LegacyAppComponent,
   ],
 })
 export class AppModule implements DoBootstrap {

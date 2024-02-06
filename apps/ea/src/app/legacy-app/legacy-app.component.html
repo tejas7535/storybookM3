@@ -1,0 +1,17 @@
+<div class="border-t border-border"></div>
+<div class="min-w-full py-8 px-2 bg-[#dde3e6]">
+  <div class="max-w-[1200px] mx-auto">
+    <ea-qualtrics-info-banner
+      class="max-w-xl mx-auto"
+      survey="legacy"
+      [bearingDesingation]="bearingDesignation"
+    ></ea-qualtrics-info-banner>
+  </div>
+</div>
+
+<div
+  class="relative overflow-hidden w-full aspect-video"
+  *ngIf="safeLegacyAppUrl"
+>
+  <iframe class="w-full h-full" [attr.src]="safeLegacyAppUrl"> </iframe>
+</div>

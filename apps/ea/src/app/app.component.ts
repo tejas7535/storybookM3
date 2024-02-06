@@ -8,7 +8,6 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import {
@@ -38,10 +37,7 @@ import {
   StorageMessagesActions,
 } from './core/store/actions';
 import { setResultPreviewSticky } from './core/store/actions/settings/settings.actions';
-import {
-  getBearingId,
-  isBearingSupported,
-} from './core/store/selectors/product-selection/product-selection.selector';
+import { isBearingSupported } from './core/store/selectors/product-selection/product-selection.selector';
 import {
   FALLBACK_LANGUAGE,
   getLocaleForLanguage,
@@ -64,21 +60,6 @@ export class AppComponent
   public isBearingSupported$ = this.store.select(isBearingSupported);
 
   public isProduction = environment.production;
-
-  public legacyAppUrl$: Observable<SafeResourceUrl> = combineLatest([
-    this.translocoService.langChanges$,
-    this.store.select(getBearingId),
-    this.localeService.localeChanges$,
-  ]).pipe(
-    map(([language, bearingId, localeChanges]) => {
-      const localization = getLocaleForLanguage(localeChanges);
-      const decimalSign = localization.id === 'de-DE' ? 'comma' : 'dot';
-
-      return this.sanitizer.bypassSecurityTrustResourceUrl(
-        `${environment.oldUIFallbackUrl}${bearingId}/${language}/${decimalSign}/metric/true`
-      );
-    })
-  );
 
   public containerScrollEvent$ = new BehaviorSubject<Event>({} as Event);
 
@@ -127,7 +108,6 @@ export class AppComponent
     private readonly settingsFacade: SettingsFacade,
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
-    private readonly sanitizer: DomSanitizer,
     private readonly elementRef: ElementRef,
     private readonly localeService: TranslocoLocaleService
   ) {}

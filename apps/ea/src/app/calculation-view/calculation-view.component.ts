@@ -5,7 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 
 import { AppRoutePath } from '@ea/app-route-path.enum';
 import { CalculationContainerComponent } from '@ea/calculation/calculation-container/calculation-container.component';
-import { SettingsFacade } from '@ea/core/store';
+import { ProductSelectionFacade, SettingsFacade } from '@ea/core/store/facades';
+import { LegacyAppComponent } from '@ea/legacy-app/legacy-app.component';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
@@ -16,11 +17,21 @@ import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
   selector: 'ea-calculation-view',
   templateUrl: './calculation-view.component.html',
   standalone: true,
-  imports: [CalculationContainerComponent, BreadcrumbsModule, PushPipe, NgIf],
+  imports: [
+    CalculationContainerComponent,
+    BreadcrumbsModule,
+    PushPipe,
+    NgIf,
+    LegacyAppComponent,
+  ],
   providers: [TranslocoDecimalPipe],
 })
 export class CalculationViewComponent {
   public readonly isStandalone$ = this.settingsFacade.isStandalone$;
+
+  public isBearingSupported$ = this.productSelectionFacade.isBearingSupported$;
+  public readonly bearingDesignation$ =
+    this.productSelectionFacade.bearingDesignation$;
 
   public breadcrumbs$: BehaviorSubject<Breadcrumb[]> = new BehaviorSubject(
     this.getBreadcrumbs()
@@ -28,7 +39,8 @@ export class CalculationViewComponent {
 
   constructor(
     private readonly translocoService: TranslocoService,
-    private readonly settingsFacade: SettingsFacade
+    private readonly settingsFacade: SettingsFacade,
+    private readonly productSelectionFacade: ProductSelectionFacade
   ) {}
 
   private getBreadcrumbs(): Breadcrumb[] {
