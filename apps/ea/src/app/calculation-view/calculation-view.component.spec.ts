@@ -1,4 +1,3 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { By } from '@angular/platform-browser';
@@ -10,6 +9,8 @@ import { CalculationContainerComponent } from '@ea/calculation/calculation-conta
 import { CalculationContainerStubComponent } from '@ea/calculation/calculation-container/calculation-container.component.stub';
 import { ProductSelectionFacade, SettingsFacade } from '@ea/core/store/facades';
 import { LegacyAppComponent } from '@ea/legacy-app/legacy-app.component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import {
   BreadcrumbsComponent,
@@ -20,58 +21,65 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { CalculationViewComponent } from './calculation-view.component';
 
 describe('CalculationViewComponent', () => {
-  const component = CalculationViewComponent;
-  let fixture: ComponentFixture<CalculationViewComponent>;
+  let component = CalculationViewComponent;
+  let spectator: Spectator<CalculationViewComponent>;
 
   const standaloneChanges$ = new BehaviorSubject<boolean>(true);
   const standalone$ = standaloneChanges$.asObservable();
   const isBearingSupportedChanges = new BehaviorSubject<boolean>(true);
   const isBearingSupported$ = isBearingSupportedChanges.asObservable();
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
+  const createComponent = createComponentFactory({
+    component: CalculationViewComponent,
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      MatIconTestingModule,
+      MockModule(MatDividerModule),
+      MockModule(BreadcrumbsModule),
+      CalculationContainerStubComponent,
+      MockComponent(LegacyAppComponent),
+    ],
+    providers: [
+      {
+        provide: ActivatedRoute,
+        useValue: {
+          paramMap: of(new Map()),
+        },
+      },
+      {
+        provide: SettingsFacade,
+        useValue: {
+          isStandalone$: standalone$,
+        },
+      },
+      {
+        provide: ProductSelectionFacade,
+        useValue: {
+          isBearingSupported$,
+          bearingDesignation$: of('123'),
+        },
+      },
+    ],
+    detectChanges: false,
+    overrideComponents: [
+      [
         CalculationViewComponent,
-        provideTranslocoTestingModule({ en: {} }),
-        MatIconTestingModule,
-        MatDividerModule,
-        BreadcrumbsModule,
-        CalculationContainerStubComponent,
-      ],
-      providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            paramMap: of(new Map()),
+          add: {
+            imports: [CalculationContainerStubComponent],
           },
-        },
-        {
-          provide: SettingsFacade,
-          useValue: {
-            isStandalone$: standalone$,
-          },
-        },
-        {
-          provide: ProductSelectionFacade,
-          useValue: {
-            isBearingSupported$,
-            bearingDesignation$: of('123'),
+          remove: {
+            imports: [CalculationContainerComponent],
           },
         },
       ],
-    });
+    ],
+  });
 
-    TestBed.overrideComponent(CalculationViewComponent, {
-      add: {
-        imports: [CalculationContainerStubComponent],
-      },
-      remove: {
-        imports: [CalculationContainerComponent],
-      },
-    });
-
-    fixture = TestBed.createComponent(CalculationViewComponent);
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    spectator.detectChanges();
   });
 
   it('should create', () => {
@@ -79,9 +87,7 @@ describe('CalculationViewComponent', () => {
   });
 
   it('should have breadcrumbs in the template', () => {
-    const breadcrumbs = fixture.debugElement.query(
-      By.directive(BreadcrumbsComponent)
-    ).componentInstance;
+    const breadcrumbs = spectator.query(BreadcrumbsComponent);
     expect(breadcrumbs).toBeTruthy();
     expect(breadcrumbs.breadcrumbs).toMatchSnapshot();
   });
@@ -89,11 +95,11 @@ describe('CalculationViewComponent', () => {
   describe('when not a standalone version', () => {
     beforeEach(() => {
       standaloneChanges$.next(false);
-      fixture.detectChanges();
+      spectator.detectChanges();
     });
 
     it('should not have breadcrumbs in the template', () => {
-      const breadcrumbs = fixture.debugElement.query(
+      const breadcrumbs = spectator.debugElement.query(
         By.directive(BreadcrumbsComponent)
       );
 
@@ -104,11 +110,11 @@ describe('CalculationViewComponent', () => {
   describe('when bearing is not supported', () => {
     beforeEach(() => {
       isBearingSupportedChanges.next(false);
-      fixture.detectChanges();
+      spectator.detectChanges();
     });
 
     it('should display legacy app', () => {
-      const legacyApp = fixture.debugElement.query(
+      const legacyApp = spectator.debugElement.query(
         By.directive(LegacyAppComponent)
       ).componentInstance;
 
