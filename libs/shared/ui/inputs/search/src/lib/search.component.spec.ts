@@ -185,12 +185,18 @@ describe('SearchComponent', () => {
       component.onSearchReset();
 
       expect(component.searchControl.setValue).toHaveBeenCalledWith('');
-      expect(component.stringOptions).toStrictEqual([]);
+      expect(component.stringOptions).toBe(undefined);
       expect(component.control.reset).toHaveBeenCalled();
     });
   });
 
   describe('get filteredOptions', () => {
+    it('should return undefined if options are not defined', () => {
+      component.stringOptions = undefined;
+
+      expect(component.filteredOptions).toBe(undefined);
+    });
+
     it('should call filterOptions', () => {
       const mockOptionYes = {
         id: 'yes',

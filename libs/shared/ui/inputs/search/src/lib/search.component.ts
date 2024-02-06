@@ -37,7 +37,7 @@ export class SearchComponent
   @Input() public hint = '';
   @Input() public initialValue: StringOption = undefined;
 
-  @Input() public stringOptions!: StringOption[];
+  @Input() public stringOptions: StringOption[];
   @Input() public loading?: boolean;
   @Input() public error?: boolean;
   @Input() public noResultsText: string = undefined;
@@ -68,6 +68,10 @@ export class SearchComponent
       typeof this.searchControl.value === 'string'
         ? this.searchControl.value
         : '';
+
+    if (!this.stringOptions) {
+      return undefined;
+    }
 
     return this.stringOptions.filter((option) =>
       this.filterOptions(option, value)
@@ -139,7 +143,7 @@ export class SearchComponent
 
   public onSearchReset(): void {
     this.autocomplete.closePanel();
-    this.stringOptions = [];
+    this.stringOptions = undefined;
     this.searchControl.setValue('');
     this.control.reset();
   }
