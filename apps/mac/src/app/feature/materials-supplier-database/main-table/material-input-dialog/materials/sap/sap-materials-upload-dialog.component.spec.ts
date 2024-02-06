@@ -14,12 +14,16 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { ColDef, ColumnApi, GridApi } from 'ag-grid-community';
 import moment from 'moment';
 
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
+import {
+  MsdAgGridReadyService,
+  MsdDialogService,
+} from '@mac/feature/materials-supplier-database/services';
 import {
   addCustomDataOwner,
   materialDialogCanceled,
@@ -33,6 +37,10 @@ import * as en from '../../../../../../../assets/i18n/en.json';
 import * as util from '../../util';
 import { SapMaterialsUploadDialogComponent } from './sap-materials-upload-dialog.component';
 import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
+import {
+  COLUMN_HEADER_FIELD,
+  MANDATORY_COLUMNS,
+} from './sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
 import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -64,6 +72,9 @@ describe('SapMaterialsUploadDialogComponent', () => {
         validate: jest.fn(() => of(undefined as any)),
       }),
       mockProvider(MsdDialogService),
+      mockProvider(MsdAgGridReadyService, {
+        agGridApi$: of({ gridApi: {}, columnApi: {} }),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
@@ -292,15 +303,28 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
   describe('downloadDataTemplate', () => {
     test('should download template', () => {
-      Object.defineProperty(window, 'open', {
-        value: jest.fn(),
-      });
+      const hidden: ColDef = { hide: true, colId: '1' };
+      const other: ColDef = { hide: false, colId: '2' };
+      const mandatory: ColDef = { hide: false, colId: MANDATORY_COLUMNS[0] };
+      const optional: ColDef = { hide: false, colId: 'incoterms' };
+
+      const mockGridApi = {
+        getColumnDef: jest.fn((key) => ({ headerTooltip: key } as ColDef)),
+        exportDataAsExcel: jest.fn(),
+      } as unknown as GridApi;
+      const mockColumnApi = {
+        getColumnState: jest.fn(() => [hidden, other, mandatory, optional]),
+      } as unknown as ColumnApi;
+      component['agGridApi'] = mockGridApi;
+      component['columnApi'] = mockColumnApi;
 
       component.downloadDataTemplate();
 
-      expect(window.open).toHaveBeenCalledWith(
-        '/assets/templates/matnr_upload_template.xlsx',
-        '_blank'
+      expect(mockGridApi.exportDataAsExcel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          columnKeys: expect.arrayContaining(COLUMN_HEADER_FIELD),
+          appendContent: expect.any(Object),
+        })
       );
     });
   });

@@ -20,6 +20,7 @@ import {
   ColumnState,
   ExcelCell,
   ExcelRow,
+  ExcelStyle,
   GridApi,
   IServerSideDatasource,
   IServerSideGetRowsParams,
@@ -80,6 +81,7 @@ import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
+import { excelStyles } from './table-config/materials/sap-materials/sap-excel-styles';
 import { getStatus } from './util';
 
 /* eslint-disable max-lines */
@@ -125,6 +127,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public agGridTooltipDelay = 500;
 
   public serverSideRowData!: SAPMaterial[];
+  public excelStyles: ExcelStyle[] = excelStyles;
 
   public quickFilterManagementTabActive = false;
 

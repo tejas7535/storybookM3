@@ -93,8 +93,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     this.handlePublicQuickFilterUpdated();
     this.handleQuickFilterActivated();
 
-    this.msdAgGridReadyService.agGridApi
-      .pipe(takeUntil(this.destroy$))
+    this.msdAgGridReadyService.agGridApi$
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe(({ gridApi, columnApi }) =>
         this.onAgGridReady(gridApi, columnApi)
       );

@@ -60,7 +60,7 @@ describe('MsdAgGridStateService', () => {
 
   it('subscribe should subscribe to updates', () => {
     let fail = true;
-    service.agGridApi.subscribe(() => (fail = false));
+    service.agGridApi$.subscribe(() => (fail = false));
     service.agGridApiready({} as GridApi, {} as ColumnApi);
     expect(fail).toBe(false);
   });

@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
 import {
   createComponentFactory,
@@ -159,11 +159,11 @@ describe('QuickFilterComponent', () => {
     it('should init localStoreage and subscribe to agGrid event', () => {
       const gridApi = {} as GridApi;
       const columnApi = {} as ColumnApi;
-      const sub = new Subject<{
+      const sub = new BehaviorSubject<{
         gridApi: GridApi;
         columnApi: ColumnApi;
-      }>();
-      component['msdAgGridReadyService'].agGridApi = sub;
+      }>(undefined);
+      component['msdAgGridReadyService'].agGridApi$ = sub;
       component['onAgGridReady'] = jest.fn();
 
       component.ngOnInit();

@@ -16,11 +16,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
+import {
+  ColumnApi,
+  ColumnState,
+  ExcelCell,
+  ExcelRow,
+  GridApi,
+} from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
+import {
+  MsdAgGridReadyService,
+  MsdDialogService,
+} from '@mac/feature/materials-supplier-database/services';
 import {
   addCustomDataOwner,
   materialDialogCanceled,
@@ -32,6 +42,10 @@ import { DialogFacade } from '@mac/feature/materials-supplier-database/store/fac
 
 import * as util from '../../util';
 import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
+import {
+  COLUMN_HEADER_FIELD,
+  MANDATORY_COLUMNS,
+} from './sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
 import {
   sapMaterialsUploadDataOwnerValidator,
   sapMaterialsUploadFileValidator,
@@ -62,6 +76,8 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   dataOwners$ = this.dialogFacade.sapMaterialsDataOwners$;
   fileControl: FormControl<File>;
 
+  private agGridApi: GridApi;
+  private columnApi: ColumnApi;
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -70,7 +86,8 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     private readonly dialogFacade: DialogFacade,
     private readonly dataFacade: DataFacade,
     private readonly excelValidatorService: ExcelValidatorService,
-    private readonly dialogService: MsdDialogService
+    private readonly dialogService: MsdDialogService,
+    private readonly agGridService: MsdAgGridReadyService
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +97,12 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     this.setDefaultOwner();
     this.handleFileUploadProgressChanges();
     this.handleUploadSucceeded();
+    this.agGridService.agGridApi$
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(({ gridApi, columnApi }) => {
+        this.agGridApi = gridApi;
+        this.columnApi = columnApi;
+      });
   }
 
   ngOnDestroy(): void {
@@ -95,7 +118,70 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   }
 
   downloadDataTemplate(): void {
-    window.open('/assets/templates/matnr_upload_template.xlsx', '_blank');
+    // get list of visible columns in the order they are displayed
+    const visibleColumns = this.columnApi
+      .getColumnState()
+      .filter((columnState: ColumnState) => !columnState.hide)
+      .map((columnState: ColumnState) => columnState.colId);
+
+    // remove all columns that are not intended for upload
+    const columns = visibleColumns.filter((columnName) =>
+      COLUMN_HEADER_FIELD.includes(columnName)
+    );
+    // find mandatory columns that are not displayed
+    const missingMandatory = MANDATORY_COLUMNS.filter(
+      (column) => !columns.includes(column)
+    );
+    // get list of optional columns that are not displayed
+    const missingOptional = COLUMN_HEADER_FIELD.filter(
+      (column) => !MANDATORY_COLUMNS.includes(column)
+    ).filter((column) => !columns.includes(column));
+    // add missing columns to the end of the list
+    columns.push(...missingMandatory, ...missingOptional);
+
+    // prepare hint row - mandatory columns have a special prefix
+    const mandatoryPrefix = translate(
+      `materialsSupplierDatabase.mainTable.tooltip.mandatory`
+    );
+
+    const cells = columns
+      .map((column) => {
+        // prefix hintText with mandatory if neccessary
+        const mand = MANDATORY_COLUMNS.includes(column)
+          ? mandatoryPrefix
+          : undefined;
+        // translate tooltip text
+        let tooltip = this.agGridApi.getColumnDef(column)?.headerTooltip;
+        tooltip = tooltip
+          ? translate(`materialsSupplierDatabase.mainTable.tooltip.${tooltip}`)
+          : undefined;
+        // combine prefix and tooltip
+        if (mand && tooltip) {
+          return `${mand} - ${tooltip}`;
+        }
+
+        return mand || tooltip;
+      })
+      // transform text to ExcelCell Objects
+      .map(
+        (value) =>
+          ({
+            data: { type: 'String', value },
+            styleId: 'hint',
+          } as ExcelCell)
+      );
+    const hintRow = [{ cells } as ExcelRow];
+
+    this.agGridApi.exportDataAsExcel({
+      author: translate(
+        'materialsSupplierDatabase.mainTable.excelExport.author'
+      ),
+      fileName: 'matnr_upload_template.xlsx',
+      sheetName: 'template',
+      columnKeys: columns,
+      appendContent: hintRow,
+      shouldRowBeSkipped: () => true,
+    });
   }
 
   openFileChooser(): void {

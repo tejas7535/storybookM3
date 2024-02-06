@@ -76,6 +76,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: MATERIAL_NUMBER,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
+    headerTooltip: MATERIAL_NUMBER,
   },
   {
     field: MATERIAL_DESCRIPTION,
@@ -89,7 +90,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
     valueFormatter: PERCENT_FORMATTER,
     filterParams: NUMBER_FILTER_PARAMS,
-    headerTooltip: RECYCLED_MATERIAL_SHARE,
+    headerTooltip: 'percent',
     hide: true,
   },
   {
@@ -98,7 +99,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
     valueFormatter: PERCENT_FORMATTER,
     filterParams: NUMBER_FILTER_PARAMS,
-    headerTooltip: SECONDARY_MATERIAL_SHARE,
+    headerTooltip: 'percent',
     hide: true,
   },
   {
@@ -152,7 +153,6 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: RAW_MATERIAL_MANUFACTURER,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
-    headerTooltip: RAW_MATERIAL_MANUFACTURER,
     hide: true,
   },
   {
@@ -161,6 +161,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agSetColumnFilter',
     filterParams: DISTINCT_FILTER_PARAMS,
     hide: true,
+    headerTooltip: INCOTERMS,
   },
   {
     field: SUPPLIER_LOCATION,
@@ -179,18 +180,21 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     tooltipComponentParams: {
       translate: false,
     },
+    headerTooltip: PLANT,
   },
   {
     field: SUPPLIER_COUNTRY,
     headerName: SUPPLIER_COUNTRY,
     filter: 'agSetColumnFilter',
     filterParams: DISTINCT_FILTER_PARAMS,
+    headerTooltip: SUPPLIER_COUNTRY,
   },
   {
     field: SUPPLIER_REGION,
     headerName: SUPPLIER_REGION,
     filter: 'agSetColumnFilter',
     filterParams: DISTINCT_FILTER_PARAMS,
+    headerTooltip: SUPPLIER_REGION,
   },
   {
     field: FOSSIL_ENERGY_SHARE,
@@ -199,6 +203,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     valueFormatter: PERCENT_FORMATTER,
     filterParams: NUMBER_FILTER_PARAMS,
     hide: true,
+    headerTooltip: 'productionLocationsShare',
   },
   {
     field: NUCLEAR_ENERGY_SHARE,
@@ -207,6 +212,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     valueFormatter: PERCENT_FORMATTER,
     filterParams: NUMBER_FILTER_PARAMS,
     hide: true,
+    headerTooltip: 'productionLocationsShare',
   },
   {
     field: RENEWABLE_ENERGY_SHARE,
@@ -215,6 +221,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     valueFormatter: PERCENT_FORMATTER,
     filterParams: NUMBER_FILTER_PARAMS,
     hide: true,
+    headerTooltip: 'productionLocationsShare',
   },
   {
     field: ONLY_RENEWABLE_ELECTRICITY,
@@ -225,7 +232,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
       ...DISTINCT_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
-    headerTooltip: ONLY_RENEWABLE_ELECTRICITY,
+    headerTooltip: 'boolean',
     hide: true,
   },
   {
@@ -233,6 +240,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: VALID_FROM,
     filter: 'agDateColumnFilter',
     valueFormatter: SAP_MATERIALS_DATE_FORMATTER,
+    headerTooltip: 'date',
     hide: true,
   },
   {
@@ -240,6 +248,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: VALID_UNTIL,
     filter: 'agDateColumnFilter',
     valueFormatter: SAP_MATERIALS_DATE_FORMATTER,
+    headerTooltip: 'date',
     hide: true,
   },
   {
@@ -249,6 +258,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     valueFormatter: PERCENT_FORMATTER,
     filterParams: NUMBER_FILTER_PARAMS,
     hide: true,
+    headerTooltip: 'percent',
   },
   {
     field: DQR_PRIMARY,
@@ -269,7 +279,6 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: SECONDARY_DATA_SOURCES,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
-    headerTooltip: SECONDARY_DATA_SOURCES,
     hide: true,
   },
   {
@@ -277,7 +286,6 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: CROSS_SECTORAL_STANDARDS_USED,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
-    headerTooltip: CROSS_SECTORAL_STANDARDS_USED,
     hide: true,
   },
   {
@@ -289,7 +297,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
       ...DISTINCT_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
-    headerTooltip: CUSTOMER_CALCULATION_METHOD_APPLIED,
+    headerTooltip: 'boolean',
     hide: true,
   },
   {
@@ -298,7 +306,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
     cellRenderer: UrlCellRendererComponent,
-    headerTooltip: LINK_TO_CUSTOMER_CALCULATION_METHOD,
+    headerTooltip: 'url',
     hide: true,
   },
   {
@@ -310,7 +318,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
       ...DISTINCT_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
-    headerTooltip: CALCULATION_METHOD_VERIFIED_BY_3RD_PARTY,
+    headerTooltip: 'boolean',
     hide: true,
   },
   {
@@ -319,7 +327,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
     cellRenderer: UrlCellRendererComponent,
-    headerTooltip: LINK_TO_3RD_PARTY_VERIFICATION_PROOF,
+    headerTooltip: 'url',
     hide: true,
   },
   {
@@ -331,7 +339,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
       ...DISTINCT_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
-    headerTooltip: PCF_VERIFIED_BY_3RD_PARTY,
+    headerTooltip: 'boolean',
     hide: true,
   },
   {
@@ -365,7 +373,6 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: SERVICE_INPUT_GROSS_WEIGHT,
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
-    headerTooltip: SERVICE_INPUT_GROSS_WEIGHT,
     hide: true,
   },
   {
@@ -381,6 +388,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: WEIGHT_DATA_SOURCE,
     filter: 'agSetColumnFilter',
     filterParams: DISTINCT_FILTER_PARAMS,
+    headerTooltip: WEIGHT_DATA_SOURCE,
     hide: true,
   },
   {
@@ -404,7 +412,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: RAW_MATERIAL_EMISSION_FACTOR,
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
-    headerTooltip: RAW_MATERIAL_EMISSION_FACTOR,
+    headerTooltip: 'co2perkg',
     hide: true,
   },
   {
@@ -412,6 +420,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: PROCESS_SURCHARGE,
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
+    headerTooltip: 'co2perkg',
     hide: true,
   },
 

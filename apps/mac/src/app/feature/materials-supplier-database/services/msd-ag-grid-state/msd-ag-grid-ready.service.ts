@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { filter, Subject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 
 import {
   ColumnApi,
@@ -21,10 +21,10 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 })
 // service to access ag Grid API
 export class MsdAgGridReadyService {
-  public agGridApi = new Subject<{
+  public agGridApi$ = new BehaviorSubject<{
     gridApi: GridApi;
     columnApi: ColumnApi;
-  }>();
+  }>(undefined);
 
   private readonly serverSideParamsStore = new Map<
     number,
@@ -46,7 +46,7 @@ export class MsdAgGridReadyService {
 
   // needs to be run by agGrid component
   public agGridApiready(gridApi: GridApi, columnApi: ColumnApi) {
-    this.agGridApi.next({ gridApi, columnApi });
+    this.agGridApi$.next({ gridApi, columnApi });
   }
 
   public setParams(params: IServerSideGetRowsParams) {
