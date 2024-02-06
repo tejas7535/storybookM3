@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "Parámetros de cálculo preestablecidos",
       "hide": "Ocultar valores",
-      "edit": "Editar"
+      "edit": "Editar",
+      "explanation": "Los parámetros de cálculo preestablecidos se basan en condiciones operativas típicas y el usuario puede ajustarlos para proporcionar resultados aún más precisos para su aplicación específica."
     },
     "confirmationDialog": {
       "title": "Confirmar eliminación",

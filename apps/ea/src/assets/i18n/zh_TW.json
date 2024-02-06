@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "預設計算參數",
       "hide": "隱藏",
-      "edit": "編輯"
+      "edit": "編輯",
+      "explanation": "預設計算參數基於典型的操作條件，使用者可以進行調整，以為其特定應用提供更準確的結果。"
     },
     "confirmationDialog": {
       "title": "確認刪除",

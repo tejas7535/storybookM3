@@ -11,5 +11,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class InfoButtonComponent {
   @Input() tooltip: string | undefined;
+  @Input() tooltipPosition:
+    | 'left'
+    | 'right'
+    | 'above'
+    | 'below'
+    | 'before'
+    | 'after' = 'below';
+  @Input() tooltipClass = '';
   @Input() inline = false;
 }

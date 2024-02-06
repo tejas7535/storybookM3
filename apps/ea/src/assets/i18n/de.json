@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "Voreingestellte Parameter",
       "hide": "Verstecken",
-      "edit": "Bearbeiten"
+      "edit": "Bearbeiten",
+      "explanation": "Voreingestellte Berechnungsparameter basieren auf typischen Betriebsbedingungen und können vom Benutzer angepasst werden, um noch genauere Ergebnisse für seine spezifische Anwendung zu liefern."
     },
     "confirmationDialog": {
       "title": "Löschen bestätigen",

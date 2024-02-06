@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "预设计算参数",
       "hide": "隐藏值",
-      "edit": "编辑"
+      "edit": "编辑",
+      "explanation": "预设计算参数基于典型的操作条件，用户可以进行调整，以为其特定应用提供更准确的结果。"
     },
     "confirmationDialog": {
       "title": "确认删除",

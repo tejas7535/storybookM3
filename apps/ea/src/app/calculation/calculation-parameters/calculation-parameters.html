@@ -191,10 +191,18 @@
           <!-- PRESET PARAMETERS -->
           <div [hidden]="(presetChips$ | ngrxPush)?.length === 0">
             <div class="flex w-full justify-between items-center mb-3">
-              <div
-                class="text-subtitle-2 text-body-2 text-medium-emphasis py-2"
-              >
-                {{ t('presetParameters.headline') }}
+              <div class="flex flex-row">
+                <div
+                  class="text-subtitle-2 text-body-2 text-medium-emphasis py-2"
+                >
+                  {{ t('presetParameters.headline') }}
+                </div>
+                <ea-info-button
+                  class="pl-2 my-auto max-w"
+                  [tooltip]="t('presetParameters.explanation')"
+                  tooltipPosition="after"
+                  tooltipClass="md:max-w-lg md:[&>div]:max-w-lg"
+                ></ea-info-button>
               </div>
               <div>
                 <button

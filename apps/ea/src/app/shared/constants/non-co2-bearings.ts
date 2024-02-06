@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 export const NON_CO2_BEARINGS = [
   '30224-A',
   '6000-C-2BRS-C3',

@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "Parametri di calcolo preimpostati",
       "hide": "Nascondere",
-      "edit": "Modifica"
+      "edit": "Modifica",
+      "explanation": "I parametri di calcolo preimpostati si basano su condizioni operative tipiche e possono essere regolati dall'utente per fornire risultati ancora più accurati per la propria applicazione specifica."
     },
     "confirmationDialog": {
       "title": "Conferma cancellazione",

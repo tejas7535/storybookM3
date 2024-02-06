@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "Preset calculation parameters",
       "hide": "Hide Values",
-      "edit": "Edit"
+      "edit": "Edit",
+      "explanation": "Preset calculation parameters are based on typical operating conditions and can be adjusted by the user to provide even more accurate results for their specific application."
     },
     "confirmationDialog": {
       "title": "Confirm deletion",

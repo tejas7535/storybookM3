@@ -77,7 +77,8 @@
     "presetParameters": {
       "headline": "Paramètres de calcul prédéfinis",
       "hide": "Cacher",
-      "edit": "Editer"
+      "edit": "Editer",
+      "explanation": "Les paramètres de calcul prédéfinis sont basés sur des conditions de fonctionnement typiques et peuvent être ajustés par l'utilisateur pour fournir des résultats encore plus précis pour leur application spécifique."
     },
     "confirmationDialog": {
       "title": "Confirmer la suppression",
