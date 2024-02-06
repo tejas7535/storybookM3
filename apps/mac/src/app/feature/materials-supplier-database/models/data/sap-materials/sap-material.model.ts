@@ -45,6 +45,7 @@ export interface SAPMaterial {
   materialGroupOfRawMaterial: string;
   rawMaterialEmissionFactor: number;
   processSurcharge: number;
+  stoffId: string;
   owner: string;
   maturity: number;
   modifiedBy: string;
@@ -96,6 +97,7 @@ export interface SAPMaterialHistoryValue {
   materialGroupOfRawMaterial: string;
   rawMaterialEmissionFactor: number;
   processSurcharge: number;
+  stoffId: string;
   owner: string;
   maturity: number;
   modifiedBy: string;

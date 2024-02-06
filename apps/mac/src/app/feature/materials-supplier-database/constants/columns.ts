@@ -97,3 +97,4 @@ export const MATERIAL_UTILIZATION_FACTOR = 'materialUtilizationFactor';
 export const MATERIAL_GROUP_OF_RAW_MATERIAL = 'materialGroupOfRawMaterial';
 export const RAW_MATERIAL_EMISSION_FACTOR = 'rawMaterialEmissionFactor';
 export const PROCESS_SURCHARGE = 'processSurcharge';
+export const STOFF_ID = 'stoffId';

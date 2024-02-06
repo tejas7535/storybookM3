@@ -481,7 +481,8 @@
         "materialGroupOfRawMaterial": "Material group of raw material",
         "rawMaterialEmissionFactor": "Raw material emission factor",
         "processSurcharge": "Process surcharge",
-        "link": "Link"
+        "link": "Link",
+        "stoffId": "StoffId"
       },
       "confirmDialog": {
         "cancel": "Cancel",

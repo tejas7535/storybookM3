@@ -821,6 +821,7 @@ export class MsdDataService {
       materialGroupOfRawMaterial: sapMaterial.materialGroupOfRawMaterial,
       rawMaterialEmissionFactor: sapMaterial.rawMaterialEmissionFactor,
       processSurcharge: sapMaterial.processSurcharge,
+      stoffId: sapMaterial.stoffId,
       owner: sapMaterial.owner,
       maturity: sapMaterial.maturity,
       modifiedBy: sapMaterial.modifiedBy,

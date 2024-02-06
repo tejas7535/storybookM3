@@ -43,6 +43,7 @@ import {
   SECONDARY_DATA_SOURCES,
   SECONDARY_MATERIAL_SHARE,
   SERVICE_INPUT_GROSS_WEIGHT,
+  STOFF_ID,
   SUPPLIER_COUNTRY,
   SUPPLIER_ID,
   SUPPLIER_ID_TEXT,
@@ -423,7 +424,13 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerTooltip: 'co2perkg',
     hide: true,
   },
-
+  {
+    field: STOFF_ID,
+    headerName: STOFF_ID,
+    filter: 'agTextColumnFilter',
+    filterParams: TEXT_FILTER_PARAMS,
+    hide: true,
+  },
   {
     field: DATA_DATE,
     headerName: DATA_DATE,
