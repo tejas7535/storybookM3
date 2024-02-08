@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { APP_STATE_MOCK } from '@ea/testing/mocks/store';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
   LOCALE_CONFIG,
   LOCALE_CURRENCY_MAPPING,
@@ -31,6 +31,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
   let store: any;
+  let translocoService: TranslocoService;
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -74,19 +75,23 @@ describe('AppComponent', () => {
       },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(Store);
+    translocoService = spectator.inject(TranslocoService);
   });
 
   it('should create the app', () => {
+    spectator.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should dispatch store actions on changing inputs', () => {
+    spectator.detectChanges();
     store.dispatch = jest.fn();
 
     component.ngOnChanges({
@@ -103,5 +108,26 @@ describe('AppComponent', () => {
     });
 
     expect(store.dispatch).toHaveBeenCalledTimes(2);
+  });
+
+  describe('when language is not provided via component input', () => {
+    it('should use the active language from transloco including page reload', () => {
+      jest.spyOn(translocoService, 'getActiveLang').mockReturnValue('fr');
+      const setActiveLang = jest.spyOn(translocoService, 'setActiveLang');
+
+      spectator.detectChanges();
+      expect(setActiveLang).toHaveBeenCalledWith('fr');
+    });
+  });
+
+  describe('when language is provided via component input', () => {
+    it('should use the language from component input', () => {
+      component.language = 'es';
+      jest.spyOn(translocoService, 'getActiveLang').mockReturnValue('fr');
+      const setActiveLang = jest.spyOn(translocoService, 'setActiveLang');
+
+      spectator.detectChanges();
+      expect(setActiveLang).toHaveBeenCalledWith('es');
+    });
   });
 });

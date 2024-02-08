@@ -38,10 +38,7 @@ import {
 } from './core/store/actions';
 import { setResultPreviewSticky } from './core/store/actions/settings/settings.actions';
 import { isBearingSupported } from './core/store/selectors/product-selection/product-selection.selector';
-import {
-  FALLBACK_LANGUAGE,
-  getLocaleForLanguage,
-} from './shared/constants/language';
+import { getLocaleForLanguage } from './shared/constants/language';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -155,7 +152,7 @@ export class AppComponent
 
     const currentLanguage = isLanguageAvailable(this.language)
       ? this.language
-      : FALLBACK_LANGUAGE.id;
+      : this.translocoService.getActiveLang();
 
     this.translocoService.setActiveLang(currentLanguage);
     this.localeService.setLocale(getLocaleForLanguage(currentLanguage).id);
