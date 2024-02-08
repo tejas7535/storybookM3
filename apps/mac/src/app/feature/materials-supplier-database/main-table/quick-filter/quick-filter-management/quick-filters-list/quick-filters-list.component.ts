@@ -11,7 +11,7 @@ import { debounceTime, fromEvent, Subject, takeUntil } from 'rxjs';
 
 import { QuickFiltersListConfig } from './quick-filters-list-config.model';
 
-interface TableConfig {
+export interface TableConfig {
   headersTranslationKeySuffixes: string[];
   dataFields: string[];
 }
@@ -23,9 +23,9 @@ interface TableConfig {
 export class QuickFiltersListComponent implements AfterViewInit, OnDestroy {
   @ViewChild('searchField') searchField: ElementRef<HTMLInputElement>;
 
-  @Input() config: QuickFiltersListConfig;
+  private _config: QuickFiltersListConfig;
 
-  readonly tableConfig: TableConfig = {
+  private readonly defaultTableConfig: TableConfig = {
     headersTranslationKeySuffixes: ['title', 'description', 'actions'],
     dataFields: ['title', 'description'],
   };
@@ -33,6 +33,20 @@ export class QuickFiltersListComponent implements AfterViewInit, OnDestroy {
   private readonly SEARCH_DEBOUNCE_TIME = 500;
 
   private readonly destroy$ = new Subject<void>();
+
+  get config(): QuickFiltersListConfig {
+    return this._config;
+  }
+
+  @Input()
+  set config(config: QuickFiltersListConfig) {
+    this._config = !config.tableConfig
+      ? {
+          ...config,
+          tableConfig: this.defaultTableConfig,
+        }
+      : config;
+  }
 
   ngAfterViewInit(): void {
     if (this.config.searchable) {

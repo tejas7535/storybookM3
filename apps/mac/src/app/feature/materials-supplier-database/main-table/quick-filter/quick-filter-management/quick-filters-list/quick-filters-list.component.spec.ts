@@ -77,4 +77,35 @@ describe('QuickFiltersListComponent', () => {
       expect(component.config.search).not.toHaveBeenCalled();
     });
   });
+
+  describe('set config', () => {
+    test('should use default table config', () => {
+      const config = {
+        icon: 'test_icon',
+        titleTranslationKeySuffix: 'test',
+      } as unknown as QuickFiltersListConfig;
+
+      component.config = config;
+
+      expect(component.config).toEqual({
+        ...config,
+        tableConfig: component['defaultTableConfig'],
+      });
+    });
+
+    test('should use custom table config', () => {
+      const config = {
+        icon: 'test_icon',
+        titleTranslationKeySuffix: 'test',
+        tableConfig: {
+          headersTranslationKeySuffixes: ['sa', 'sb', 'sc'],
+          dataFields: ['a', 'b', 'c'],
+        },
+      } as unknown as QuickFiltersListConfig;
+
+      component.config = config;
+
+      expect(component.config).toEqual(config);
+    });
+  });
 });

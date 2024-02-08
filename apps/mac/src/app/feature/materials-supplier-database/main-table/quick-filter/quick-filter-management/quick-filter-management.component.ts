@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { map, Observable, of, take } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
+
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {
   ActiveNavigationLevel,
@@ -28,6 +30,15 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
     {
       icon: 'person',
       titleTranslationKeySuffix: 'ownQuickFilters',
+      tableConfig: {
+        headersTranslationKeySuffixes: [
+          'title',
+          'description',
+          'type',
+          'actions',
+        ],
+        dataFields: ['title', 'description', 'type'],
+      },
       searchable: false,
       actions: [
         {
@@ -40,21 +51,21 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
         },
         {
           icon: 'notifications',
-          tooltipTranslationKeySuffix: 'enableNotification',
-          shouldDisable: () => of(false),
-          shouldHide: (quickFilter: QuickFilter) =>
-            this.shouldHideEnableNotification(quickFilter),
-          onClick: (quickFilter: QuickFilter) =>
-            this.enableNotification(quickFilter, false),
-        },
-        {
-          icon: 'notifications_off',
           tooltipTranslationKeySuffix: 'disableNotification',
           shouldDisable: () => of(false),
           shouldHide: (quickFilter: QuickFilter) =>
             this.shouldHideDisableNotification(quickFilter),
           onClick: (quickFilter: QuickFilter) =>
             this.disableNotification(quickFilter, false),
+        },
+        {
+          icon: 'notifications_off',
+          tooltipTranslationKeySuffix: 'enableNotification',
+          shouldDisable: () => of(false),
+          shouldHide: (quickFilter: QuickFilter) =>
+            this.shouldHideEnableNotification(quickFilter),
+          onClick: (quickFilter: QuickFilter) =>
+            this.enableNotification(quickFilter, false),
         },
         {
           icon: 'delete_forever',
@@ -65,7 +76,21 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
           onClick: (quickFilter: QuickFilter) => this.delete(quickFilter),
         },
       ],
-      quickFilters$: this.quickFilterFacade.ownQuickFilters$,
+      quickFilters$: this.quickFilterFacade.ownQuickFilters$.pipe(
+        map((quickFilters: QuickFilter[]) =>
+          quickFilters.map((quickFilter: QuickFilter) => ({
+            ...quickFilter,
+            type:
+              quickFilter.id !== undefined
+                ? translate(
+                    `${this.QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX}.public`
+                  )
+                : translate(
+                    `${this.QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX}.local`
+                  ),
+          }))
+        )
+      ),
     },
     {
       icon: 'public',
@@ -73,7 +98,7 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
       searchable: false,
       actions: [
         {
-          icon: 'notifications',
+          icon: 'notifications_off',
           tooltipTranslationKeySuffix: 'enableNotification',
           shouldDisable: () => of(false),
           shouldHide: (quickFilter: QuickFilter) =>
@@ -82,7 +107,7 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
             this.enableNotification(quickFilter, true),
         },
         {
-          icon: 'notifications_off',
+          icon: 'notifications',
           tooltipTranslationKeySuffix: 'disableNotification',
           shouldDisable: () => of(false),
           shouldHide: (quickFilter: QuickFilter) =>
@@ -117,6 +142,9 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
       quickFilters$: this.quickFilterFacade.queriedQuickFilters$,
     },
   ];
+
+  private readonly QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX =
+    'materialsSupplierDatabase.mainTable.quickfilter.management.table.quickFilterType';
 
   constructor(
     readonly quickFilterFacade: QuickFilterFacade,

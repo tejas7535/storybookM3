@@ -14,6 +14,7 @@ export interface QuickFilter {
   maintainerName?: string;
   timestamp?: number;
   notificationEnabled?: boolean;
+  type?: string;
 }
 
 export type NewQuickFilterRequest = Required<

@@ -732,7 +732,12 @@
           "table": {
             "title": "Title",
             "description": "Description",
+            "type": "Type",
             "actions": "Actions",
+            "quickFilterType": {
+              "local": "Local",
+              "public": "Public"
+            },
             "buttons": {
               "edit": "Edit filter",
               "delete": "Delete filter",

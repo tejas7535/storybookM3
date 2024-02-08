@@ -47,7 +47,7 @@ describe('QuickFilterManagementComponent', () => {
     ],
     providers: [
       mockProvider(DataFacade),
-      mockProvider(QuickFilterFacade),
+      mockProvider(QuickFilterFacade, { ownQuickFilters$: of() }),
       mockProvider(MatDialog),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
