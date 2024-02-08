@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.6.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.1...ga-v1.6.2) (2024-02-08)
+
+
+### Bug Fixes
+
+* **ga:** add alternate locale URLs for local GA versions - UFTABI-6455 ([#5982](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5982)) ([675fe7f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/675fe7f4931f67f64d4a3b6dc3282f02460987b8))
+
 ## [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.0...ga-v1.6.1) (2024-02-06)
 
 
