@@ -53,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currentLanguage = this.translocoService.getActiveLang();
     this.assignMetaTags();
     this.assignFooterLinks();
+    this.updateLangAttribute(this.currentLanguage);
 
     this.partnerVersion$.pipe(take(1)).subscribe((partnerVersion) => {
       this.applicationInsightsService.addCustomPropertyToTelemetryData(
@@ -98,6 +99,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (language !== this.currentLanguage) {
           this.currentLanguage = language;
           this.trackLanguage(language);
+          this.updateLangAttribute(language);
         }
       });
 
@@ -192,5 +194,9 @@ export class AppComponent implements OnInit, OnDestroy {
         `partner-version-${partnerVersion}`
       );
     }
+  }
+
+  private updateLangAttribute(lang: string) {
+    this.document.documentElement.lang = lang;
   }
 }
