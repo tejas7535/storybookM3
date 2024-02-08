@@ -1,4 +1,12 @@
 # Release Notes of Mounting Manager
+## [0.3.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.2...mm-v0.3.3) (2024-02-08)
+
+
+### Bug Fixes
+
+* **mm:**  fix headers sizing ([#5960](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5960)) ([26b48f4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26b48f4e639dd9ee44d2d3f9e349dada2627a4b3))
+* **mm:** fix mounting manager stepper ([#5952](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5952)) ([0999d28](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0999d283a0f6465f14eb5a11797b85ab896a485f))
+
 ## [0.3.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.1...mm-v0.3.2) (2024-01-19)
 
 ## [0.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.0...mm-v0.3.1) (2024-01-19)
