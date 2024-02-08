@@ -146,7 +146,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
 
     const cells = columns
       .map((column) => {
-        // prefix hintText with mandatory if neccessary
+        // prefix hintText with mandatory if necessary
         const mand = MANDATORY_COLUMNS.includes(column)
           ? mandatoryPrefix
           : undefined;
@@ -268,10 +268,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
           sapMaterialsUploadDataOwnerValidator().bind(this),
         ]),
         date: new FormControl(moment(), Validators.required),
-        maturity: new FormControl(
-          this.possibleMaturity[0],
-          Validators.required
-        ),
+        maturity: new FormControl(undefined, Validators.required),
         file: this.fileControl,
         disclaimerAccepted: new FormControl(false, Validators.requiredTrue),
       }
