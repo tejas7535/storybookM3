@@ -11,8 +11,10 @@
 
     <div class="flex gap-4">
       <mat-form-field class="grow" appearance="outline">
-        <mat-label>{{ t('favoriteDimension') }}</mat-label>
-        <input matInput [value]="favoriteDimension$ | ngrxPush" disabled />
+        <mat-label class="!min-w-fit !w-fit pr-3 !block">{{
+          t('favoriteDimension')
+        }}</mat-label>
+        <input matInput [value]="favoriteDimension$ | ngrxPush" />
         <button
           mat-icon-button
           [attr.aria-label]="t('editUserSettings')"
