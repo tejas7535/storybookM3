@@ -42,6 +42,7 @@ export const LINE_SERIES_BASE_OPTIONS = {
     width: 4,
   },
   type: 'line',
+  smooth: false,
 };
 
 export const SMOOTH_LINE_SERIES_OPTIONS = {

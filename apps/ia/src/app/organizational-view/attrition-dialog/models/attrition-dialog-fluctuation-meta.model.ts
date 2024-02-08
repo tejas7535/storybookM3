@@ -16,4 +16,5 @@ export interface AttritionDialogFluctuationMeta {
   openPositionsAvailable: boolean;
   heatType: HeatType;
   hideDetailedLeaverStats: boolean;
+  avgHeadcount?: number;
 }

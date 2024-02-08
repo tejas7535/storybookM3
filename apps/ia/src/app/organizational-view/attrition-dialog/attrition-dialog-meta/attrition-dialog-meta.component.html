@@ -97,6 +97,16 @@
   </div>
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
+      >groups_outlined</mat-icon
+    >
+    <span
+      class="flex text-medium-emphasis"
+      [innerHTML]="t('avgHeadcount') + ':'"
+    ></span>
+    <span class="ml-2 text-high-emphasis">{{ meta.data.avgHeadcount }}</span>
+  </div>
+  <div class="flex items-center text-body-1 leading-8">
+    <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >person_add</mat-icon
     >
     <span

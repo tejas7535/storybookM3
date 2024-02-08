@@ -47,31 +47,24 @@ describe('LineChartComponent', () => {
 
   describe('set series', () => {
     test('should merge series contain benchmark and series when both defined', () => {
-      const series = { id: 'A' };
-      const benchmarkSeries = { id: 'B' };
+      const series = [{ id: 'A' }];
+      const benchmarkSeries = [{ id: 'B' }];
       component['_banchmarkSeries'] = benchmarkSeries;
 
       component.series = series;
 
-      expect(component.mergeOptions.series).toEqual([benchmarkSeries, series]);
-    });
-
-    test('should merge series contain benchmark only when series undefined', () => {
-      const series = undefined as LineSeriesOption;
-      const benchmarkSeries = { id: 'B' };
-      component['_banchmarkSeries'] = benchmarkSeries;
-
-      component.series = series;
-
-      expect(component.mergeOptions.series).toEqual([benchmarkSeries]);
+      expect(component.mergeOptions.series).toEqual([
+        ...benchmarkSeries,
+        ...series,
+      ]);
     });
 
     test('should merge series contain series only when benchmark series undefined', () => {
       component['_banchmarkSeries'] = undefined;
-      const series = { id: 'B' };
+      const series = [{ id: 'B' }];
       component.series = series;
 
-      expect(component.mergeOptions.series).toEqual([series]);
+      expect(component.mergeOptions.series).toEqual([...series]);
     });
 
     test('should merge series be empty when both undefined', () => {
@@ -83,31 +76,34 @@ describe('LineChartComponent', () => {
 
   describe('set benchmarkSeries', () => {
     test('should merge series contain benchmark and series when both defined', () => {
-      const series = { id: 'A' };
-      const benchmarkSeries = { id: 'B' };
+      const series = [{ id: 'A' }];
+      const benchmarkSeries = [{ id: 'B' }];
       component['_series'] = series;
 
       component.benchmarkSeries = benchmarkSeries;
 
-      expect(component.mergeOptions.series).toEqual([benchmarkSeries, series]);
+      expect(component.mergeOptions.series).toEqual([
+        ...benchmarkSeries,
+        ...series,
+      ]);
     });
 
     test('should merge series contain benchmark only when series undefined', () => {
-      const series = undefined as LineSeriesOption;
-      const benchmarkSeries = { id: 'B' };
+      const series = undefined as LineSeriesOption[];
+      const benchmarkSeries = [{ id: 'B' }];
       component['_series'] = series;
 
       component.benchmarkSeries = benchmarkSeries;
 
-      expect(component.mergeOptions.series).toEqual([benchmarkSeries]);
+      expect(component.mergeOptions.series).toEqual([...benchmarkSeries]);
     });
 
     test('should merge series contain benchmark series only when series undefined', () => {
       component['_series'] = undefined;
-      const benchmarkSeries = { id: 'B' };
+      const benchmarkSeries = [{ id: 'B' }];
       component.series = benchmarkSeries;
 
-      expect(component.mergeOptions.series).toEqual([benchmarkSeries]);
+      expect(component.mergeOptions.series).toEqual([...benchmarkSeries]);
     });
 
     test('should merge series be empty when both undefined', () => {

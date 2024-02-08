@@ -48,8 +48,14 @@
     "unforcedFluctuation": "Unforced&nbsp;Fluctuation",
     "resignationsReceived": "Resignations&nbsp;received",
     "employeesAdded": "Employees&nbsp;Added",
+    "avgHeadcount": "Avg.&nbsp;Headcount",
     "openPositions": "Open&nbsp;Positions",
-    "insufficientRights": "Fluctuation and Resignation Details are not displayed due to insufficient rights for the respective personnel areas."
+    "insufficientRights": "Fluctuation and Resignation Details are not displayed due to insufficient rights for the respective personnel areas.",
+    "tooltip": {
+      "totalUnforcedLeavers": "Total Unforced Leavers",
+      "unforcedFluctuation": "Unforced Fluctuation",
+      "monthlyHeadcount": "Monthly Headcount"
+    }
   },
   "employeeListDialog": {
     "workforce": "Workforce",

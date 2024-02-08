@@ -477,16 +477,16 @@ describe('Overview Selector', () => {
   describe('getDimensionFluctuationRatesForChart', () => {
     it('should return config for chart', () => {
       const result = getDimensionFluctuationRatesForChart(fakeState);
-      expect(result.name).toEqual('Schaeffler_IT');
-      expect(result.data).toEqual([1.8, 1.4]);
+      expect(result[0].name).toEqual('Schaeffler_IT');
+      expect(result[0].data).toEqual([1.8, 1.4]);
     });
   });
 
   describe('getDimensionUnforcedFluctuationRatesForChart', () => {
     it('should return config for chart', () => {
       const result = getDimensionUnforcedFluctuationRatesForChart(fakeState);
-      expect(result.name).toEqual('Schaeffler_IT');
-      expect(result.data).toEqual([1.3, 3]);
+      expect(result[0].name).toEqual('Schaeffler_IT');
+      expect(result[0].data).toEqual([1.3, 3]);
     });
   });
 
@@ -502,16 +502,16 @@ describe('Overview Selector', () => {
   describe('getBenchmarkFluctuationRatesForChart', () => {
     it('should return config for chart', () => {
       const result = getBenchmarkFluctuationRatesForChart(fakeState);
-      expect(result.name).toEqual('Schaeffler');
-      expect(result.data).toEqual([2.5, 3.5]);
+      expect(result[0].name).toEqual('Schaeffler');
+      expect(result[0].data).toEqual([2.5, 3.5]);
     });
   });
 
   describe('getBenchmarkUnforcedFluctuationRatesForChart', () => {
     it('should return config for chart', () => {
       const result = getBenchmarkUnforcedFluctuationRatesForChart(fakeState);
-      expect(result.name).toEqual('Schaeffler');
-      expect(result.data).toEqual([2, 4]);
+      expect(result[0].name).toEqual('Schaeffler');
+      expect(result[0].data).toEqual([2, 4]);
     });
   });
 

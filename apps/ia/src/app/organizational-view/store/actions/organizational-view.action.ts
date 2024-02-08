@@ -5,7 +5,7 @@ import {
   EmployeesRequest,
   FilterDimension,
 } from '../../../shared/models';
-import { ChartType, DimensionFluctuationData } from '../../models';
+import { ChartType, DimensionFluctuationData, SeriesType } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
@@ -108,6 +108,11 @@ export const loadChildAttritionOverTimeOrgChartSuccess = createAction(
 export const loadChildAttritionOverTimeOrgChartFailure = createAction(
   '[Organizational View] Load Child AttritionOverTime for plus minus three months Failure',
   props<{ errorMessage: string }>()
+);
+
+export const changeAttritionOverTimeSeries = createAction(
+  '[Organizational View] Change Attrition Over Time Series',
+  props<{ serie: SeriesType }>()
 );
 
 export const loadChildAttritionOverTimeForWorldMap = createAction(

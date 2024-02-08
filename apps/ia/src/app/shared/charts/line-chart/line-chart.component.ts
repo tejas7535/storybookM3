@@ -21,14 +21,23 @@ export class LineChartComponent {
   };
   echartsInstance: ECharts;
   options: EChartsOption;
-  mergeOptions: EChartsOption = {
+
+  _mergeOptions: EChartsOption = {
     series: [],
     color: [Color.GREEN, Color.DARK_GREY],
   };
 
+  get mergeOptions() {
+    return this._mergeOptions;
+  }
+
+  @Input() set mergeOptions(mergeOptions: EChartsOption) {
+    this._mergeOptions = { ...this.mergeOptions, ...mergeOptions };
+  }
+
   private _config: EChartsOption;
-  private _banchmarkSeries: LineSeriesOption;
-  private _series: LineSeriesOption;
+  private _banchmarkSeries: LineSeriesOption[];
+  private _series: LineSeriesOption[];
   private _isDataLoading = true;
 
   @Input() set isDataLoading(isDataLoading: boolean) {
@@ -54,15 +63,15 @@ export class LineChartComponent {
     return this._series;
   }
 
-  @Input() set series(series: LineSeriesOption) {
+  @Input() set series(series: LineSeriesOption[]) {
     this._series = series;
 
     let mergeSeries: LineSeriesOption[];
 
     if (this.benchmarkSeries) {
-      mergeSeries = [this.benchmarkSeries, this.series];
+      mergeSeries = [...this.benchmarkSeries, ...this.series];
     } else {
-      mergeSeries = this.series ? [this.series] : [];
+      mergeSeries = this.series ? [...this.series] : [];
     }
 
     this.mergeOptions = {
@@ -74,15 +83,15 @@ export class LineChartComponent {
     return this._banchmarkSeries;
   }
 
-  @Input() set benchmarkSeries(benchmarkSeries: LineSeriesOption) {
+  @Input() set benchmarkSeries(benchmarkSeries: LineSeriesOption[]) {
     this._banchmarkSeries = benchmarkSeries;
 
     let mergeSeries: LineSeriesOption[];
 
     if (this.series) {
-      mergeSeries = [this.benchmarkSeries, this.series];
+      mergeSeries = [...this.benchmarkSeries, ...this.series];
     } else {
-      mergeSeries = this.benchmarkSeries ? [this.benchmarkSeries] : [];
+      mergeSeries = this.benchmarkSeries ? [...this.benchmarkSeries] : [];
     }
 
     this.mergeOptions = {

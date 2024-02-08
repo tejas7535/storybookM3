@@ -13,8 +13,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';
+import { SeriesType } from '../models';
+import { changeAttritionOverTimeSeries } from '../store/actions/organizational-view.action';
 import {
-  getChildDimensionName,
+  getChildAttritionOverTimeOrgChartSeries,
+  getChildIsLoadingAttritionOverTimeOrgChart,
   getParentAttritionOverTimeOrgChartData,
   getParentIsLoadingAttritionOverTimeOrgChart,
 } from '../store/selectors/organizational-view.selector';
@@ -60,7 +63,7 @@ describe('AttritionDialogComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should set fluctuation over time data',
+      'should set parent fluctuation over time data',
       marbles((m) => {
         const result = 'a' as any;
         store.overrideSelector(getParentAttritionOverTimeOrgChartData, result);
@@ -76,7 +79,7 @@ describe('AttritionDialogComponent', () => {
     );
 
     test(
-      'should set fluctuationOverTimeDataLoading',
+      'should set parentFluctuationOverTimeDataLoading',
       marbles((m) => {
         const result = true as any;
         store.overrideSelector(
@@ -97,19 +100,87 @@ describe('AttritionDialogComponent', () => {
     );
 
     test(
-      'should set child dimension name',
+      'should set child fluctuation over time data',
       marbles((m) => {
-        const result = 'child';
-        store.overrideSelector(getChildDimensionName, result);
+        const result = 'a' as any;
+        store.overrideSelector(getChildAttritionOverTimeOrgChartSeries, result);
 
         component.ngOnInit();
 
-        m.expect(component.childDimensionName$).toBeObservable(
+        m.expect(component.parentFluctuationOverTimeData$).toBeObservable(
           m.cold('a', {
             a: result,
           })
         );
       })
     );
+
+    test(
+      'should set childFluctuationOverTimeDataLoading',
+      marbles((m) => {
+        const result = true as any;
+        store.overrideSelector(
+          getChildIsLoadingAttritionOverTimeOrgChart,
+          result
+        );
+
+        component.ngOnInit();
+
+        m.expect(
+          component.parentFluctuationOverTimeDataLoading$
+        ).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+  });
+
+  describe('AttritionDialogComponent', () => {
+    describe('onSeriesTypeChange', () => {
+      test('should dispatch changeAttritionOverTimeSeries action', () => {
+        const serie = SeriesType.UNFORCED_FLUCTUATION;
+        const dispatchSpy = (store.dispatch = jest.fn());
+
+        component.onSeriesTypeChange(serie);
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          changeAttritionOverTimeSeries({ serie })
+        );
+      });
+
+      test('should update mergeOptions yAxis for UNFORCED_FLUCTUATION series type', () => {
+        const serie = SeriesType.UNFORCED_FLUCTUATION;
+
+        component.onSeriesTypeChange(serie);
+
+        expect(component.mergeOptions).toEqual({
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: '{value}%',
+            },
+            minInterval: undefined,
+          },
+        });
+      });
+
+      test('should update mergeOptions yAxis for other series types', () => {
+        const serie = SeriesType.UNFORCED_LEAVERS;
+
+        component.onSeriesTypeChange(serie);
+
+        expect(component.mergeOptions).toEqual({
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              formatter: undefined,
+            },
+            minInterval: 1,
+          },
+        });
+      });
+    });
   });
 });

@@ -1,3 +1,4 @@
+import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 import { LineSeriesOption } from 'echarts';
 
@@ -6,14 +7,17 @@ import {
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
-import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
+import {
+  LINE_SERIES_BASE_OPTIONS,
+  SMOOTH_LINE_SERIES_OPTIONS,
+} from '../../../shared/charts/line-chart/line-chart.config';
 import {
   AttritionSeries,
   FilterDimension,
   IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
-import { DimensionFluctuationData } from '../../models';
+import { DimensionFluctuationData, SeriesType } from '../../models';
 import { CountryDataAttrition } from '../../world-map/models';
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 
@@ -165,7 +169,8 @@ export const getParentAttritionOverTimeOrgChartData = createSelector(
     mapDataToLineSerie(
       PARENT_SERIE_ID,
       state.attritionOverTime?.parent?.data?.data,
-      state.attritionOverTime?.parent?.dimensionName
+      state.attritionOverTime?.parent?.dimensionName,
+      state.attritionOverTime.selectedSeries
     )
 );
 
@@ -180,7 +185,8 @@ export const getChildAttritionOverTimeOrgChartSeries = createSelector(
     mapDataToLineSerie(
       CHILD_SERIE_ID,
       state.attritionOverTime?.child?.data?.data,
-      state.attritionOverTime?.child?.dimensionName
+      state.attritionOverTime?.child?.dimensionName,
+      state.attritionOverTime.selectedSeries
     )
 );
 
@@ -193,6 +199,11 @@ export const getChildDimensionName = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
     state.attritionOverTime.child?.dimensionName
+);
+
+export const getSelectedSeriesType = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.attritionOverTime.selectedSeries
 );
 
 export const getRegions = createSelector(
@@ -222,12 +233,55 @@ export const getDimensionKeyForWorldMap = (
 export function mapDataToLineSerie(
   id: string,
   data: AttritionSeries,
-  seriesName: string
-): LineSeriesOption {
-  return {
-    ...LINE_SERIES_BASE_OPTIONS,
-    id,
-    name: data ? seriesName : '',
-    data: data ? data[Object.keys(data)[0]].attrition : [],
-  } as LineSeriesOption;
+  seriesName: string,
+  selectedSeriesType: SeriesType
+): LineSeriesOption[] {
+  const selectedData =
+    selectedSeriesType === SeriesType.UNFORCED_LEAVERS
+      ? data?.[SeriesType.UNFORCED_LEAVERS].attrition
+      : data?.[SeriesType.UNFORCED_FLUCTUATION]?.attrition;
+  const lineStyle =
+    selectedSeriesType === SeriesType.UNFORCED_LEAVERS
+      ? LINE_SERIES_BASE_OPTIONS
+      : SMOOTH_LINE_SERIES_OPTIONS;
+
+  return [
+    {
+      ...lineStyle,
+      id,
+      name: data ? seriesName : '',
+      data: data ? selectedData : [],
+      tooltip: {
+        formatter: (params: any) => `<table>
+          <tr>
+            <td class="pr-4">${translate(
+              'organizationalView.attritionDialog.tooltip.monthlyHeadcount'
+            )}:</td>
+              <td><b>${
+                data[SeriesType.HEADCOUNTS]?.attrition[params.dataIndex]
+              }</b>
+            </td>
+          </tr>
+            <td class="pr-4">${translate(
+              'organizationalView.attritionDialog.tooltip.unforcedFluctuation'
+            )}:</td>
+              <td><b>${
+                data[SeriesType.UNFORCED_FLUCTUATION]?.attrition[
+                  params.dataIndex
+                ]
+              }%</b>
+            </td>
+          </tr>
+          <tr>
+            <td class="pr-4">${translate(
+              'organizationalView.attritionDialog.tooltip.totalUnforcedLeavers'
+            )}:</td>
+            <td><b>${
+              data[SeriesType.UNFORCED_LEAVERS]?.attrition[params.dataIndex]
+            }</b></td>
+          </tr>
+          </table>`,
+      },
+    } as LineSeriesOption,
+  ];
 }

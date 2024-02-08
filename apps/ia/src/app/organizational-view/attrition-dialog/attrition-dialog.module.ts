@@ -13,6 +13,7 @@ import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogComponent } from './attrition-dialog.component';
 import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [AttritionDialogComponent, AttritionDialogMetaComponent],
@@ -20,6 +21,7 @@ import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-
     SharedModule,
     MatDialogModule,
     MatButtonModule,
+    MatButtonToggleModule,
     SharedTranslocoModule,
     SharedPipesModule,
     MatIconModule,

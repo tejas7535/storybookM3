@@ -16,6 +16,7 @@ import { translate } from '@ngneat/transloco';
 import { OrgChart } from 'd3-org-chart';
 import moment from 'moment';
 
+import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
 import {
   EmployeeListDialogMeta,
@@ -29,7 +30,6 @@ import { ChartType, DimensionFluctuationData } from '../models';
 import { OrgChartData, OrgChartEmployee, OrgChartNode } from './models';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
-import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../shared/constants';
 
 @Component({
   selector: 'ia-org-chart',

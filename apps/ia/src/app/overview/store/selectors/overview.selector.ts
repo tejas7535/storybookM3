@@ -226,23 +226,25 @@ export const getDimensionFluctuationRatesChart = createSelector(
 export const getDimensionFluctuationRatesForChart = createSelector(
   getDimensionFluctuationRatesChart,
   getSelectedDimensionValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+  (chartData: FluctuationRatesChartData, dimensionName: string) => [
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
       dimensionName,
       chartData?.fluctuationRates
-    )
+    ),
+  ]
 );
 
 export const getDimensionUnforcedFluctuationRatesForChart = createSelector(
   getDimensionFluctuationRatesChart,
   getSelectedDimensionValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+  (chartData: FluctuationRatesChartData, dimensionName: string) => [
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
       dimensionName,
       chartData?.unforcedFluctuationRates
-    )
+    ),
+  ]
 );
 
 export const getBenchmarkFluctuationRatesChart = createSelector(
@@ -253,23 +255,25 @@ export const getBenchmarkFluctuationRatesChart = createSelector(
 export const getBenchmarkFluctuationRatesForChart = createSelector(
   getBenchmarkFluctuationRatesChart,
   getSelectedBenchmarkValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+  (chartData: FluctuationRatesChartData, dimensionName: string) => [
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
       dimensionName,
       chartData?.fluctuationRates
-    )
+    ),
+  ]
 );
 
 export const getBenchmarkUnforcedFluctuationRatesForChart = createSelector(
   getBenchmarkFluctuationRatesChart,
   getSelectedBenchmarkValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) =>
+  (chartData: FluctuationRatesChartData, dimensionName: string) => [
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
       dimensionName,
       chartData?.unforcedFluctuationRates
-    )
+    ),
+  ]
 );
 
 export const getIsLoadingFluctuationRatesForChart = createSelector(

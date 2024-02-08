@@ -9,4 +9,5 @@ export interface EmployeeAttritionMeta extends RestResponse {
   resignationsReceived: number;
   employeesAdded: number;
   openPositions: number;
+  avgHeadcount: number;
 }

@@ -71,10 +71,10 @@ import {
 export class OverviewComponent implements OnInit {
   fluctuationRatesChartConfig: EChartsOption;
   unforcedFluctuationRatesChartConfig: EChartsOption;
-  fluctuationChartData$: Observable<LineSeriesOption>;
-  benchmarkfluctuationChartData$: Observable<LineSeriesOption>;
-  benchmarkUnforcedFluctuationChartData$: Observable<LineSeriesOption>;
-  unforcedFluctuationChartData$: Observable<LineSeriesOption>;
+  fluctuationChartData$: Observable<LineSeriesOption[]>;
+  benchmarkfluctuationChartData$: Observable<LineSeriesOption[]>;
+  benchmarkUnforcedFluctuationChartData$: Observable<LineSeriesOption[]>;
+  unforcedFluctuationChartData$: Observable<LineSeriesOption[]>;
   isFluctuationChartLoading$: Observable<boolean>;
   dimensionFluctuationKpi$: Observable<FluctuationKpi>;
   isDimensionFluctuationKpiLoading$: Observable<boolean>;

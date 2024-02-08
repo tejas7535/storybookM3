@@ -1,11 +1,18 @@
+import { LineSeriesOption } from 'echarts';
+
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import {
+  LINE_SERIES_BASE_OPTIONS,
+  SMOOTH_LINE_SERIES_OPTIONS,
+} from '../../../shared/charts/line-chart/line-chart.config';
+import {
+  AttritionSeries,
   EmployeeAttritionMeta,
   FilterDimension,
   IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
-import { ChartType, DimensionFluctuationData } from '../../models';
+import { ChartType, DimensionFluctuationData, SeriesType } from '../../models';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import { initialState, OrganizationalViewState } from '..';
 import {
@@ -25,6 +32,7 @@ import {
   getWorldMap,
   getWorldMapFluctuationDialogMeta,
   getWorldMapFluctuationDialogMetaData,
+  mapDataToLineSerie,
 } from './organizational-view.selector';
 
 describe('Organizational View Selector', () => {
@@ -375,56 +383,22 @@ describe('Organizational View Selector', () => {
   });
 
   describe('getParentAttritionOverTimeOrgChartData', () => {
-    test('should return data', () => {
-      const state = {
-        attritionOverTime: {
-          parent: {
-            dimensionName: 'SLK',
-            data: {
-              data: {
-                ['SLK']: {
-                  attrition: 0.2,
-                },
-              },
-            },
-            loading: false,
-            errorMessage: '',
-          },
-        },
-      };
-
+    test('should return parent attrition over time org chart data', () => {
       const result = getParentAttritionOverTimeOrgChartData.projector(
-        state as unknown as OrganizationalViewState
+        fakeState.organizationalView
       );
 
-      expect(result).toEqual({
-        data: 0.2,
-        lineStyle: { width: 4 },
-        id: 'parent',
-        name: 'SLK',
-        showSymbol: false,
-        type: 'line',
-      });
+      expect(result.length).toEqual(1);
     });
+  });
 
-    test('should return empty data if parent attrition over time not available', () => {
-      const data = {};
-      const expected = {
-        data: [] as number[],
-        id: 'parent',
-        lineStyle: {
-          width: 4,
-        },
-        name: '',
-        showSymbol: false,
-        type: 'line',
-      };
-
-      const result = getParentAttritionOverTimeOrgChartData.projector(
-        data as unknown as OrganizationalViewState
+  describe('getChildAttritionOverTimeOrgChartSeries', () => {
+    test('should return parent attrition over time org chart data', () => {
+      const result = getChildAttritionOverTimeOrgChartSeries.projector(
+        fakeState.organizationalView
       );
 
-      expect(result).toEqual(expected);
+      expect(result.length).toEqual(1);
     });
   });
 
@@ -438,72 +412,6 @@ describe('Organizational View Selector', () => {
     });
   });
 
-  describe('getChildAttritionOverTimeOrgChartSeries', () => {
-    test('should return series', () => {
-      const state = {
-        attritionOverTime: {
-          child: {
-            dimensionName: 'SLK',
-            data: {
-              data: {
-                ['SLK']: {
-                  attrition: 0.2,
-                },
-              },
-            },
-            loading: false,
-            errorMessage: '',
-          },
-        },
-      };
-
-      const result = getChildAttritionOverTimeOrgChartSeries.projector(
-        state as unknown as OrganizationalViewState
-      );
-
-      expect(result).toEqual({
-        data: 0.2,
-        lineStyle: { width: 4 },
-        name: 'SLK',
-        id: 'child',
-        showSymbol: false,
-        type: 'line',
-      });
-    });
-
-    test('should return empty data when child attrition over time not available', () => {
-      const state = {
-        attritionOverTime: {
-          child: {
-            dimensionName: 'SLK',
-            data: {
-              data: {
-                ['SLK']: {
-                  attrition: 0.2,
-                },
-              },
-            },
-            loading: false,
-            errorMessage: '',
-          },
-        },
-      };
-
-      const result = getChildAttritionOverTimeOrgChartSeries.projector(
-        state as unknown as OrganizationalViewState
-      );
-
-      expect(result).toEqual({
-        data: 0.2,
-        lineStyle: { width: 4 },
-        name: 'SLK',
-        id: 'child',
-        showSymbol: false,
-        type: 'line',
-      });
-    });
-  });
-
   describe('getChildIsLoadingAttritionOverTimeOrgChart', () => {
     test('should return loading State', () => {
       expect(
@@ -511,6 +419,69 @@ describe('Organizational View Selector', () => {
           fakeState.organizationalView
         )
       ).toBeTruthy();
+    });
+  });
+
+  describe('mapDataToLineSerie', () => {
+    const id = '123';
+    const seriesName = 'Test Series';
+    const data: AttritionSeries = {
+      [SeriesType.UNFORCED_LEAVERS]: {
+        attrition: [1, 2, 3, 4, 5],
+      },
+      [SeriesType.UNFORCED_FLUCTUATION]: {
+        attrition: [10, 20, 30, 40, 50],
+      },
+    };
+
+    test('should return line series option with selected data is unforced leavers', () => {
+      const selectedSeriesType = SeriesType.UNFORCED_LEAVERS;
+
+      const expected: LineSeriesOption[] = [
+        {
+          ...LINE_SERIES_BASE_OPTIONS,
+          id,
+          name: seriesName,
+          data: data[SeriesType.UNFORCED_LEAVERS].attrition,
+          tooltip: {
+            formatter: expect.any(Function),
+          },
+        },
+      ] as unknown as LineSeriesOption[];
+
+      const result = mapDataToLineSerie(
+        id,
+        data,
+        seriesName,
+        selectedSeriesType
+      );
+
+      expect(result).toEqual(expected);
+    });
+
+    test('should return line series option with selected data when data is unforced fluctuation', () => {
+      const selectedSeriesType = SeriesType.UNFORCED_FLUCTUATION;
+
+      const expected: LineSeriesOption[] = [
+        {
+          ...SMOOTH_LINE_SERIES_OPTIONS,
+          id,
+          name: seriesName,
+          data: data[SeriesType.UNFORCED_FLUCTUATION].attrition,
+          tooltip: {
+            formatter: expect.any(Function),
+          },
+        },
+      ] as unknown as LineSeriesOption[];
+
+      const result = mapDataToLineSerie(
+        id,
+        data,
+        seriesName,
+        selectedSeriesType
+      );
+
+      expect(result).toEqual(expected);
     });
   });
 });

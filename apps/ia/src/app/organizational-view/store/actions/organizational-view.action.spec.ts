@@ -3,13 +3,14 @@ import {
   EmployeesRequest,
   FilterDimension,
 } from '../../../shared/models';
-import { ChartType, DimensionFluctuationData } from '../../models';
+import { ChartType, DimensionFluctuationData, SeriesType } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
 } from '../../org-chart/models';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
+  changeAttritionOverTimeSeries,
   chartTypeSelected,
   loadChildAttritionOverTimeForWorldMap,
   loadChildAttritionOverTimeOrgChart,
@@ -212,6 +213,16 @@ describe('Organizational View Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Organizational View] Load Child AttritionOverTime for plus minus three months Failure',
+    });
+  });
+
+  test('changeAttritionOverTimeSeries', () => {
+    const serie = SeriesType.UNFORCED_LEAVERS;
+    const action = changeAttritionOverTimeSeries({ serie });
+
+    expect(action).toEqual({
+      serie,
+      type: '[Organizational View] Change Attrition Over Time Series',
     });
   });
 

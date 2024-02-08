@@ -19,13 +19,46 @@
       <div class="invisible lg:visible w-6">
         <mat-divider class="h-full" [vertical]="true"></mat-divider>
       </div>
-      <div class="grow">
+      <div class="flex flex-col w-full">
+        <div class="flex w-full">
+          <h6
+            *ngIf="childDimensionName$ | ngrxPush"
+            class="text-overline text-medium-emphasis mb-2 ml-1 mr-0 mt-0 font-medium leading-4"
+          >
+            <span
+              [innerHTML]="
+                (childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')
+              "
+            ></span>
+          </h6>
+          <mat-button-toggle-group
+            class="fluctuation-details-tab-group ml-auto mt-auto max-w-max max-h-max !rounded-md !bg-gray-300 !border-gray-300"
+            name="chartType"
+            [value]="selectedSeriesType$ | ngrxPush"
+            (valueChange)="onSeriesTypeChange($event)"
+          >
+            <mat-button-toggle
+              class="rounded-l-sm"
+              [value]="seriesType.UNFORCED_LEAVERS"
+              [matTooltip]="t('tooltip.totalUnforcedLeavers')"
+            >
+              <mat-icon>directions_run</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle
+              class="rounded-r-sm"
+              [value]="seriesType.UNFORCED_FLUCTUATION"
+              [matTooltip]="t('tooltip.unforcedFluctuation')"
+            >
+              <mat-icon>groups</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
         <ia-line-chart
           [config]="fluctuationChartConfig"
           [isDataLoading]="childFluctuationOverTimeDataLoading$ | ngrxPush"
-          [title]="(childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')"
           [series]="childFluctuationOverTimeData$ | ngrxPush"
           [benchmarkSeries]="parentFluctuationOverTimeData$ | ngrxPush"
+          [mergeOptions]="mergeOptions"
         ></ia-line-chart>
       </div>
     </div>

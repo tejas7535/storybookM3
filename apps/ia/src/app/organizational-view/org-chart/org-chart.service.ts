@@ -34,6 +34,7 @@ export class OrgChartService {
         openPositions: node.attritionMeta.openPositions,
         title: node.dimension,
         hideDetailedLeaverStats: node.attritionMeta.responseModified,
+        avgHeadcount: node.attritionMeta.avgHeadcount,
         openPositionsAvailable,
         heatType: HeatType.NONE,
       },

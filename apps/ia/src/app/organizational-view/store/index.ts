@@ -2,10 +2,11 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
-import { ChartType, DimensionFluctuationData } from '../models';
+import { ChartType, DimensionFluctuationData, SeriesType } from '../models';
 import { OrgChartEmployee } from '../org-chart/models';
 import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
 import {
+  changeAttritionOverTimeSeries,
   chartTypeSelected,
   loadChildAttritionOverTimeOrgChart,
   loadChildAttritionOverTimeOrgChartFailure,
@@ -63,6 +64,7 @@ export interface OrganizationalViewState {
       loading: boolean;
       errorMessage: string;
     };
+    selectedSeries: SeriesType;
   };
 }
 
@@ -98,6 +100,7 @@ export const initialState: OrganizationalViewState = {
       loading: false,
       errorMessage: undefined,
     },
+    selectedSeries: SeriesType.UNFORCED_LEAVERS,
   },
 };
 
@@ -337,6 +340,16 @@ export const organizationalViewReducer = createReducer(
           data: undefined,
           loading: false,
         },
+      },
+    })
+  ),
+  on(
+    changeAttritionOverTimeSeries,
+    (state, { serie: series }): OrganizationalViewState => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        selectedSeries: series,
       },
     })
   ),
