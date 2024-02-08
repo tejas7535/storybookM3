@@ -1,4 +1,23 @@
 # Release Notes of Engineering App
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.4.0...ea-v1.5.0) (2024-02-08)
+
+
+### Features
+
+* **ea:** add preset parameters tooltip (UFTABI-7288) ([#5973](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5973)) ([28d3fd5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/28d3fd5fba006de569f492e161fab8b1a74ac421))
+* **ea:** change name of ea to medias easy calc (UFTABI-7252 ) ([#5958](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5958)) ([9b1764d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b1764d54598865b01bc115132f52db0611f6f64))
+* **ea:** restore input values ([#5965](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5965)) ([d3b5e8b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d3b5e8bf5e4ad757927d7a2328dd2753007dd1e4))
+
+
+### Bug Fixes
+
+* **ea:** add no results text to search ([b9c0ac1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b9c0ac1365690c55fff98fa741ef0e85b4312847))
+* **ea:** fix manual viscosity validation ([#5964](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5964)) ([339c442](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/339c44200c38472fb54d75cc76ac1ad7db8cc88a))
+* **ea:** handle legacy UI fallback (UFTABI-7245) ([#5972](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5972)) ([166210e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/166210ede5fdb9f7099cab737cd196422761929a))
+* **ea:** hide bearings without co2 value ([#5969](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5969)) ([e397203](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e3972030184148824106ac170dd220cbed39bcc3))
+* **ea:** reset loadcases (UFTABI-7270) ([#5962](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5962)) ([c235463](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2354635aaac8bae6d7403f0f5585b25eff7ea45))
+* **ea:** updated medias name ([#5976](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5976)) ([ef7816f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ef7816f410de774511dab6b8576964f1a64978f3))
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.3.0...ea-v1.4.0) (2024-01-25)
 
 
