@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bearinx Helper when getting errors, warnings and notes when getting errors from result when formatting errors should format it 1`] = `
+Array [
+  "main error",
+  "nested error 1",
+  "nested error 2",
+  "nested error 2.1",
+  "nested error 2.2",
+  "nested error 3",
+]
+`;
+
+exports[`Bearinx Helper when getting errors, warnings and notes when getting notes from result when formatting notes should format it 1`] = `
+Array [
+  "some note",
+  "note",
+  "nested note 1",
+  "nested note 2",
+  "nested note 3",
+]
+`;
+
+exports[`Bearinx Helper when getting errors, warnings and notes when getting warnings from result when formatting warnings should format it 1`] = `
+Array [
+  "some text",
+]
+`;

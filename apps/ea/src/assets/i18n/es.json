@@ -226,6 +226,9 @@
     "dialogTitle": "Informe del rodamiento {{bearingDesignation}}",
     "reportSectionInput": "Entrada",
     "reportSectionWarnings": "Errores/Advertencias/Notas",
+    "errors": "Errores",
+    "warnings": "Advertencias",
+    "notes": "Notas",
     "calculationNotAvailable": {
       "line1": "Para el rodamiento seleccionado no es posible realizar este cálculo.",
       "line2": "Para obtener más información, por favor, contacte con nuestro",

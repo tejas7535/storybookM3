@@ -1,4 +1,3 @@
-import { CalculationResultReportMessage } from '@ea/core/store/models/calculation-result-report-message.model';
 import { WarningIcon } from '@ea/shared/constants/pdf-icons';
 import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
@@ -20,7 +19,7 @@ const RenderNoticesDefaultOptions: ResultTableAttributes = {
 
 export const renderNotices = (
   doc: jsPDF,
-  block: LayoutBlock<ResultBlock<CalculationResultReportMessage[]>>
+  block: LayoutBlock<ResultBlock<string[]>>
 ) => {
   const props = DefaultComponentRenderProps;
   const options = RenderNoticesDefaultOptions;
@@ -63,25 +62,8 @@ export const renderNotices = (
   y = headerDivierY + options.cellPadding.top;
   resetFont(doc);
 
-  const flattenNotices = (
-    toFlatten: CalculationResultReportMessage[]
-  ): string[] => {
-    let result: string[] = [];
-    toFlatten.forEach((notice) => {
-      if (notice.item) {
-        if (notice.item.messages) {
-          result = [...result, ...notice.item.messages];
-        }
-        if (notice.item.subItems) {
-          result = flattenNotices(notice.item.subItems);
-        }
-      }
-    });
-
-    return result;
-  };
-  const flattened = flattenNotices(block.data.data);
-  const lines = flattened.flatMap((item) => {
+  const notices = block.data.data;
+  const lines = notices.flatMap((item) => {
     const dimensions = estimateTextDimensions(doc, item, {
       fontSize: doc.getFontSize(),
     });

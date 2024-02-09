@@ -95,20 +95,9 @@ Object {
     ],
   },
   "reportMessages": Object {
-    "messages": Array [
-      Object {
-        "item": Object {
-          "subItems": Array [],
-        },
-        "title": "Error title",
-      },
-      Object {
-        "item": Object {
-          "subItems": Array [],
-        },
-        "title": "Warning title",
-      },
-    ],
+    "errors": Array [],
+    "notes": Array [],
+    "warnings": Array [],
   },
 }
 `;

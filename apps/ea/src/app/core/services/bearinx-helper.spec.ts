@@ -1,13 +1,21 @@
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
+  extractErrorsFromResult,
   extractErrorsWarningsAndNotesFromResult,
+  extractNotesFromResult,
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
-  formatErrorsWarningsAndNotesResult,
+  extractWarningsFromResult,
+  formatMessageSubordinates,
   formatReportInputResult,
   matchItem,
 } from './bearinx-helper';
+import {
+  STRING_ERROR_BLOCK,
+  STRING_NOTE_BLOCK,
+  STRING_WARNING_BLOCK,
+} from './bearinx-result.constant';
 import {
   BearinxOnlineResult,
   BearinxOnlineResultSubordinate,
@@ -169,106 +177,139 @@ describe('Bearinx Helper', () => {
     });
   });
 
-  describe('formatErrorsWarningsAndNotesResult', () => {
+  describe('when getting errors, warnings and notes', () => {
     let items: BearinxOnlineResultSubordinate[];
+    let result: BearinxOnlineResultSubordinate;
 
-    describe('when report messages are provided', () => {
-      it('should extract report messages data', () => {
-        items = [
-          {
-            identifier: 'block',
-            title: 'Warnings',
-            subordinates: [
-              {
-                text: ['some text'],
-                identifier: 'text',
-              },
-            ],
-          },
-          {
-            identifier: 'block',
-            title: 'Errors',
-            subordinates: [
-              {
-                text: ['main error'],
-                identifier: 'text',
-              },
-              {
-                identifier: 'block',
-                subordinates: [
-                  {
-                    text: ['nested error 1'],
-                    identifier: 'text',
-                  },
-                  {
-                    text: [
-                      'nested error 2',
-                      'nested error 2.1',
-                      'nested error 2.2',
-                    ],
-                    identifier: 'text',
-                  },
-                  {
-                    text: ['nested error 3'],
-                    identifier: 'text',
-                  },
-                ],
-              },
-            ],
-          },
-        ];
-
-        expect(formatErrorsWarningsAndNotesResult(items)).toEqual([
-          {
-            title: 'Warnings',
-            item: {
-              subItems: [
+    beforeAll(() => {
+      items = [
+        {
+          identifier: 'block',
+          title: 'Warnings',
+          titleID: STRING_WARNING_BLOCK,
+          subordinates: [
+            {
+              text: ['some text'],
+              identifier: 'text',
+            },
+          ],
+        },
+        {
+          identifier: 'block',
+          title: 'Errors',
+          titleID: STRING_ERROR_BLOCK,
+          subordinates: [
+            {
+              text: ['main error'],
+              identifier: 'text',
+            },
+            {
+              identifier: 'block',
+              subordinates: [
                 {
-                  item: {
-                    messages: ['some text'],
-                  },
+                  text: ['nested error 1'],
+                  identifier: 'text',
+                },
+                {
+                  text: [
+                    'nested error 2',
+                    'nested error 2.1',
+                    'nested error 2.2',
+                  ],
+                  identifier: 'text',
+                },
+                {
+                  text: ['nested error 3'],
+                  identifier: 'text',
                 },
               ],
             },
-          },
-          {
-            title: 'Errors',
-            item: {
-              subItems: [
+          ],
+        },
+        {
+          identifier: 'block',
+          title: 'Notes',
+          titleID: STRING_NOTE_BLOCK,
+          subordinates: [
+            {
+              text: ['some note'],
+              identifier: 'text',
+            },
+            {
+              identifier: 'block',
+              subordinates: [
                 {
-                  item: {
-                    messages: ['main error'],
-                  },
+                  text: ['note'],
+                  identifier: 'text',
                 },
                 {
-                  item: {
-                    subItems: [
-                      {
-                        item: {
-                          messages: ['nested error 1'],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'nested error 2',
-                            'nested error 2.1',
-                            'nested error 2.2',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: ['nested error 3'],
-                        },
-                      },
-                    ],
-                  },
+                  text: ['nested note 1', '    ', 'nested note 2', '    '],
+                  identifier: 'text',
+                },
+                {
+                  text: ['nested note 3'],
+                  identifier: 'text',
                 },
               ],
             },
-          },
-        ]);
+          ],
+        },
+      ];
+
+      result = {
+        identifier: 'outputDescription',
+        subordinates: items,
+      };
+    });
+
+    describe('when getting errors from result', () => {
+      let errors: BearinxOnlineResultSubordinate[];
+      beforeAll(() => {
+        errors = extractErrorsFromResult(result);
+      });
+
+      it('should extract errors', () => {
+        expect(errors).toEqual([items[1]]);
+      });
+
+      describe('when formatting errors', () => {
+        it('should format it', () => {
+          expect(formatMessageSubordinates(errors)).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('when getting warnings from result', () => {
+      let warnings: BearinxOnlineResultSubordinate[];
+      beforeAll(() => {
+        warnings = extractWarningsFromResult(result);
+      });
+
+      it('should extract warnings', () => {
+        expect(warnings).toEqual([items[0]]);
+      });
+
+      describe('when formatting warnings', () => {
+        it('should format it', () => {
+          expect(formatMessageSubordinates(warnings)).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('when getting notes from result', () => {
+      let notes: BearinxOnlineResultSubordinate[];
+      beforeAll(() => {
+        notes = extractNotesFromResult(result);
+      });
+
+      it('should extract notes', () => {
+        expect(notes).toEqual([items[2]]);
+      });
+
+      describe('when formatting notes', () => {
+        it('should format it', () => {
+          expect(formatMessageSubordinates(notes)).toMatchSnapshot();
+        });
       });
     });
   });

@@ -226,6 +226,9 @@
     "dialogTitle": "Rapport pour le roulement {{bearingDesignation}}",
     "reportSectionInput": "Entrée",
     "reportSectionWarnings": "Erreurs/Avertissements/Notes",
+    "errors": "Erreurs",
+    "warnings": "Avertissements",
+    "notes": "Notes",
     "calculationNotAvailable": {
       "line1": "Pour le roulement sélectionné, ce calcul n'est pas possible.",
       "line2": "Pour plus d'informations, veuillez contacter notre",

@@ -24,14 +24,9 @@ export const CATALOG_CALCULATION_RESULT_STATE_MOCK: CatalogCalculationResultStat
         ],
       },
       reportMessages: {
-        messages: [
-          {
-            title: 'Errors',
-          },
-          {
-            title: 'Warnings',
-          },
-        ],
+        errors: ['Errors'],
+        warnings: ['Warnings'],
+        notes: [],
       },
     },
   };
@@ -646,162 +641,14 @@ export const CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK: CatalogCalculationResul
         ],
       },
       reportMessages: {
-        messages: [
-          {
-            title: 'Warnings',
-            item: {
-              subItems: [
-                {
-                  item: {
-                    messages: [' '],
-                  },
-                },
-                {
-                  item: {
-                    subItems: [
-                      {
-                        item: {
-                          messages: [
-                            'The total of the load case time portions is less than 100%. The missing time portion is assumed to be a stationary period.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: ['  · Sum of time proportions = 90.000 %'],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'Please note the miscibility of greases in the chapter on grease lubrication.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            '  · 2303-TVH: Type of grease   = Arcanol MULTI2',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'For the following load cases the operating viscosity is less than the nominal viscosity:',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: ['  · Loadcase 1'],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'Do not overspecify the bearing - A rating life (to ISO 281) greater than 60000 hours usually leads to overspecified bearing arrangements.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'The life adjustment factor a_ISO is less than 1 in the following load cases:',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: ['  · Loadcase 1'],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            '  · Check the usage of a lubricant with a higher viscosity.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            '  · Improve the cleanliness of the lubricant.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'A grease service life >3 years must be agreed with the lubricant supplier with regard to the respective application. The guide value issued in Bearinx for the grease service life is limited to 5 years. In individual cases, grease usage durations greater than 5 years are also possible. If necessary, please contact the Schaeffler engineering service, that can advise you on the basis of the practical experience. ',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: ['  · 2303-TVH'],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'The grease operating life is lower than the rating life. The grease operating life limits the operating life of the bearing unless it is relubricated.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [
-                            'Relubrication should be carried out once a year.',
-                          ],
-                        },
-                      },
-                      {
-                        item: {
-                          messages: [' '],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
+        errors: ['Calculation failed for some of the reason'],
+        warnings: [
+          'The total of the load case time portions is less than 100%. The missing time portion is assumed to be a stationary period.',
+          '  · Sum of time proportions = 90.000 %',
+          'Please note the miscibility of greases in the chapter on grease lubrication.',
+        ],
+        notes: [
+          'Please note that operating temperature needs to meet conditions...',
         ],
       },
       loadcaseFriction: [

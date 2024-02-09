@@ -76,17 +76,27 @@ export class PDFReportService {
     );
 
     const calculationInput = await this.loadInputData();
-    const noticesData = await firstValueFrom(
-      this.resultFacade.calculationReportMessages$
+    const errors = await firstValueFrom(
+      this.resultFacade.calculationReportErrors$
     );
 
-    const notices: ResultBlock<typeof noticesData> = {
+    const warnings = await firstValueFrom(
+      this.resultFacade.calculationReportWarnings$
+    );
+
+    const notes = await firstValueFrom(
+      this.resultFacade.calculationReportNotes$
+    );
+
+    const combinedErrorsAndWarningsList = [...errors, ...warnings, ...notes];
+
+    const notices: ResultBlock<typeof combinedErrorsAndWarningsList> = {
       header: this.translocoService.translate(
         'calculationResultReport.reportSectionWarnings',
         undefined,
         languageCode
       ),
-      data: noticesData,
+      data: combinedErrorsAndWarningsList,
     };
     const data: ResultReport = {
       designation,

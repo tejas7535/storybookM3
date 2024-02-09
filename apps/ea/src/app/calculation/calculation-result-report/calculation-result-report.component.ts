@@ -30,7 +30,7 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
-import { CalculationResultMessageComponent } from '../calculation-result-information/calculation-result-message.component';
+import { CalculationResultMessagesComponent } from '../calculation-result-messages/calculation-result-messages.component';
 import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
@@ -53,7 +53,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     TranslocoModule,
     CalculationTypesSelectionComponent,
     CalculationResultReportInputComponent,
-    CalculationResultMessageComponent,
+    CalculationResultMessagesComponent,
     InfoBannerComponent,
     ExpansionPanelComponent,
     CalculationResultReportLargeItemsComponent,

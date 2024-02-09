@@ -226,6 +226,9 @@
     "dialogTitle": "Bericht für Lager {{bearingDesignation}}",
     "reportSectionInput": "Eingabe",
     "reportSectionWarnings": "Fehler/Warnungen/Hinweise",
+    "errors": "Fehler",
+    "warnings": "Warnungen",
+    "notes": "Hinweise",
     "calculationNotAvailable": {
       "line1": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
       "line2": "Für weitere Informationen kontaktieren Sie bitte unseren",

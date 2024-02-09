@@ -226,6 +226,9 @@
     "dialogTitle": "Rapporto per il cuscinetto {{bearingDesignation}}",
     "reportSectionInput": "input",
     "reportSectionWarnings": "Errori/Avvisi/Note",
+    "errors": "Errori",
+    "warnings": "Avvisi",
+    "notes": "Note",
     "calculationNotAvailable": {
       "line1": "Per il cuscinetto selezionato questo calcolo non è possibile.",
       "line2": "Per ulteriori informazioni si prega di contattare il nostro",

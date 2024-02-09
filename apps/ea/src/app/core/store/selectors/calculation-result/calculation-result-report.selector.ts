@@ -12,7 +12,6 @@ import {
   CalculationResultReportCalculationTypeSelection,
   LoadcaseResultCombinedItem,
 } from '../../models/calculation-result-report.model';
-import { CalculationResultReportMessage } from '../../models/calculation-result-report-message.model';
 import { getCalculationTypesConfig } from '../calculation-parameters/calculation-types.selector';
 import {
   getCalculationResult as catalogCalculationResult,
@@ -227,10 +226,19 @@ export const getResultInput = createSelector(
   }
 );
 
-export const getReportMessages = createSelector(
+export const getReportErrors = createSelector(
   catalogCalculationResult,
-  (friction): CalculationResultReportMessage[] =>
-    friction?.reportMessages?.messages
+  (friction): string[] => friction?.reportMessages.errors
+);
+
+export const getReportWarnings = createSelector(
+  catalogCalculationResult,
+  (friction): string[] => friction?.reportMessages.warnings
+);
+
+export const getReportNotes = createSelector(
+  catalogCalculationResult,
+  (friction): string[] => friction?.reportMessages.notes
 );
 
 export const isFrictionResultAvailable = createSelector(

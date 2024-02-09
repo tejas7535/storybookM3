@@ -40,8 +40,16 @@ export class CalculationResultFacade {
     CalculationResultReportSelector.getResultInput
   );
 
-  public readonly calculationReportMessages$ = this.store.select(
-    CalculationResultReportSelector.getReportMessages
+  public readonly calculationReportErrors$ = this.store.select(
+    CalculationResultReportSelector.getReportErrors
+  );
+
+  public readonly calculationReportWarnings$ = this.store.select(
+    CalculationResultReportSelector.getReportWarnings
+  );
+
+  public readonly calculationReportNotes$ = this.store.select(
+    CalculationResultReportSelector.getReportNotes
   );
 
   public readonly isEmissionResultAvailable$ = this.store.select(

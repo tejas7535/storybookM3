@@ -226,6 +226,9 @@
     "dialogTitle": "Report for bearing {{bearingDesignation}}",
     "reportSectionInput": "Input",
     "reportSectionWarnings": "Errors/Warnings/Notes",
+    "errors": "Errors",
+    "warnings": "Warnings",
+    "notes": "Notes",
     "calculationNotAvailable": {
       "line1": "For the selected bearing this calculation is not possible.",
       "line2": "For further information please contact our",

@@ -226,6 +226,9 @@
     "dialogTitle": "{{bearingDesignation}} 輪毂報告",
     "reportSectionInput": "輸入",
     "reportSectionWarnings": "錯誤/警告/說明",
+    "errors": "錯誤",
+    "warnings": "警告",
+    "notes": "說明",
     "calculationNotAvailable": {
       "line1": "對於所選軸承，當前無法進行此計算。",
       "line2": "如需獲取更多信息，請聯繫我們的",

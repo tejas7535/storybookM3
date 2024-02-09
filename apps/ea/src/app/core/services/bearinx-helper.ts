@@ -3,7 +3,6 @@ import { translate } from '@ngneat/transloco';
 import {
   CalculationResultReportInput,
   CatalogCalculationResult,
-  ReportMessage,
 } from '../store/models';
 import {
   BLOCK,
@@ -11,9 +10,12 @@ import {
   LOADCASE_NAME_FIELD_NAME_TRANSLATION_KEY,
   LOADCASE_TYPE_OF_MOTION_TRANSLATION_KEY,
   LoadcaseValueType,
+  STRING_ERROR_BLOCK,
+  STRING_NOTE_BLOCK,
   STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES,
   STRING_OUTP_LOAD,
   STRING_OUTP_LOADCASE_DATA,
+  STRING_WARNING_BLOCK,
   TABLE,
   TEXT,
   VARIABLE_BLOCK,
@@ -119,30 +121,41 @@ export const extractErrorsWarningsAndNotesFromResult = (
       subordinate.titleID === undefined && subordinate.identifier === BLOCK
   );
 
-export const formatErrorsWarningsAndNotesResult = (
-  input: BearinxOnlineResultSubordinate[]
-): ReportMessage[] => input.map((message) => getItemValue(message));
+export const extractErrorsFromResult = (
+  input: BearinxOnlineResultSubordinate
+): BearinxOnlineResultSubordinate[] =>
+  input.subordinates.filter(
+    (subordinate) => subordinate.titleID === STRING_ERROR_BLOCK
+  );
 
-const getItemValue = (input: BearinxOnlineResultSubordinate): ReportMessage => {
-  const result: ReportMessage = {};
+export const extractWarningsFromResult = (
+  input: BearinxOnlineResultSubordinate
+): BearinxOnlineResultSubordinate[] =>
+  input.subordinates.filter(
+    (subordinate) => subordinate.titleID === STRING_WARNING_BLOCK
+  );
 
-  if (input.title) {
-    result.title = input.title;
-  }
+export const extractNotesFromResult = (
+  input: BearinxOnlineResultSubordinate
+): BearinxOnlineResultSubordinate[] =>
+  input.subordinates.filter(
+    (subordinate) => subordinate.titleID === STRING_NOTE_BLOCK
+  );
 
-  if (input.identifier === BLOCK) {
-    result.item = {
-      subItems: formatErrorsWarningsAndNotesResult(input.subordinates),
-    };
-  }
+export const formatMessageSubordinates = (
+  rawSubordinates: BearinxOnlineResultSubordinate[]
+): string[] => {
+  const result: string[] = [];
+  rawSubordinates.forEach((subordinate) => {
+    if (subordinate.identifier === TEXT) {
+      result.push(...subordinate.text);
+    }
+    if (subordinate.identifier === BLOCK) {
+      result.push(...formatMessageSubordinates(subordinate.subordinates));
+    }
+  });
 
-  if (input.identifier === TEXT) {
-    result.item = {
-      messages: input.text,
-    };
-  }
-
-  return result;
+  return result.filter((e) => String(e).trim());
 };
 
 export const formatReportInputResult = (

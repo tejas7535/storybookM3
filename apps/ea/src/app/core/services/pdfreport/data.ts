@@ -1,6 +1,5 @@
 import { ResultReportLargeItem } from '@ea/calculation/calculation-result-report-large-items/result-report-large-item';
 import { CalculationResultReportInput } from '@ea/core/store/models';
-import { CalculationResultReportMessage } from '@ea/core/store/models/calculation-result-report-message.model';
 import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 export interface DocumentData {
@@ -100,5 +99,5 @@ export interface ResultReport {
   lubricationInfo?: ResultBlock<ResultReportLargeItem[]>;
   overrollingFrequency?: ResultBlock<ResultReportLargeItem[]>;
   ratingLife?: ResultBlock<ResultReportLargeItem[]>;
-  notices: ResultBlock<CalculationResultReportMessage[]>;
+  notices: ResultBlock<string[]>;
 }

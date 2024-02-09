@@ -29,14 +29,21 @@ Array [
 ]
 `;
 
-exports[`Calculation Result Selector emptry result getReportMessages should return report messages 1`] = `
+exports[`Calculation Result Selector emptry result getReportErrors should return report errors 1`] = `
 Array [
-  Object {
-    "title": "Errors",
-  },
-  Object {
-    "title": "Warnings",
-  },
+  "Errors",
+]
+`;
+
+exports[`Calculation Result Selector emptry result getReportNotes should return report notes 1`] = `
+Array [
+  "Notes",
+]
+`;
+
+exports[`Calculation Result Selector emptry result getReportWarnings should return report warnings 1`] = `
+Array [
+  "Warnings",
 ]
 `;
 
@@ -522,189 +529,23 @@ Array [
 ]
 `;
 
-exports[`Calculation Result Selector full result getReportMessages should return report messages 1`] = `
+exports[`Calculation Result Selector full result getReportErrors should return report errors 1`] = `
 Array [
-  Object {
-    "item": Object {
-      "subItems": Array [
-        Object {
-          "item": Object {
-            "messages": Array [
-              " ",
-            ],
-          },
-        },
-        Object {
-          "item": Object {
-            "subItems": Array [
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "The total of the load case time portions is less than 100%. The missing time portion is assumed to be a stationary period.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · Sum of time proportions = 90.000 %",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "Please note the miscibility of greases in the chapter on grease lubrication.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · 2303-TVH: Type of grease   = Arcanol MULTI2",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "For the following load cases the operating viscosity is less than the nominal viscosity:",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · Loadcase 1",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "Do not overspecify the bearing - A rating life (to ISO 281) greater than 60000 hours usually leads to overspecified bearing arrangements.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "The life adjustment factor a_ISO is less than 1 in the following load cases:",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · Loadcase 1",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · Check the usage of a lubricant with a higher viscosity.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · Improve the cleanliness of the lubricant.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "A grease service life >3 years must be agreed with the lubricant supplier with regard to the respective application. The guide value issued in Bearinx for the grease service life is limited to 5 years. In individual cases, grease usage durations greater than 5 years are also possible. If necessary, please contact the Schaeffler engineering service, that can advise you on the basis of the practical experience. ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "  · 2303-TVH",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "The grease operating life is lower than the rating life. The grease operating life limits the operating life of the bearing unless it is relubricated.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    "Relubrication should be carried out once a year.",
-                  ],
-                },
-              },
-              Object {
-                "item": Object {
-                  "messages": Array [
-                    " ",
-                  ],
-                },
-              },
-            ],
-          },
-        },
-      ],
-    },
-    "title": "Warnings",
-  },
+  "Calculation failed for some of the reason",
+]
+`;
+
+exports[`Calculation Result Selector full result getReportNotes should return report notes 1`] = `
+Array [
+  "Please note that operating temperature needs to meet conditions...",
+]
+`;
+
+exports[`Calculation Result Selector full result getReportWarnings should return report warnings 1`] = `
+Array [
+  "The total of the load case time portions is less than 100%. The missing time portion is assumed to be a stationary period.",
+  "  · Sum of time proportions = 90.000 %",
+  "Please note the miscibility of greases in the chapter on grease lubrication.",
 ]
 `;
 

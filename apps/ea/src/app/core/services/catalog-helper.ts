@@ -4,14 +4,15 @@ import {
   LoadcaseStringResultItem,
   OverrollingFrequencyKeys,
   ProductSelectionTemplate,
-  ReportMessage,
 } from '../store/models';
 import {
-  extractErrorsWarningsAndNotesFromResult,
+  extractErrorsFromResult,
+  extractNotesFromResult,
   extractSubordinatesFromPath,
   extractTableFromSubordinate,
   extractValues,
-  formatErrorsWarningsAndNotesResult,
+  extractWarningsFromResult,
+  formatMessageSubordinates,
   formatReportInputResult,
 } from './bearinx-helper';
 import {
@@ -246,20 +247,19 @@ function extractErrorsWarnings(
   originalResult: BearinxOnlineResult,
   result: CatalogCalculationResult
 ): void {
-  const messages = extractErrorsWarningsAndNotesFromResult(originalResult);
+  const errors = extractErrorsFromResult(originalResult);
+  const warnings = extractWarningsFromResult(originalResult);
+  const notes = extractNotesFromResult(originalResult);
 
-  if (!messages) {
-    return;
-  }
+  const formattedErrors = formatMessageSubordinates(errors);
+  const formattedWarnings = formatMessageSubordinates(warnings);
+  const formattedNotes = formatMessageSubordinates(notes);
 
-  const formattedMessages: ReportMessage[] =
-    formatErrorsWarningsAndNotesResult(messages);
-
-  if (formattedMessages?.length) {
-    result.reportMessages = {
-      messages: formattedMessages,
-    };
-  }
+  result.reportMessages = {
+    errors: formattedErrors,
+    warnings: formattedWarnings,
+    notes: formattedNotes,
+  };
 }
 
 function extractFriction(

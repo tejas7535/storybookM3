@@ -12,7 +12,9 @@ import {
   getLubricationReport,
   getOverrollingFrequencies,
   getRatingLifeResultReport,
-  getReportMessages,
+  getReportErrors,
+  getReportNotes,
+  getReportWarnings,
   getResultInput,
   getSelectedCalculations,
   pdfReportAvailable,
@@ -41,14 +43,9 @@ describe('Calculation Result Selector', () => {
           ],
         },
         reportMessages: {
-          messages: [
-            {
-              title: 'Errors',
-            },
-            {
-              title: 'Warnings',
-            },
-          ],
+          errors: ['Errors'],
+          warnings: ['Warnings'],
+          notes: ['Notes'],
         },
       },
       isLoading: false,
@@ -135,9 +132,21 @@ describe('Calculation Result Selector', () => {
       });
     });
 
-    describe('getReportMessages', () => {
-      it('should return report messages', () => {
-        expect(getReportMessages(mockState)).toMatchSnapshot();
+    describe('getReportErrors', () => {
+      it('should return report errors', () => {
+        expect(getReportErrors(mockState)).toMatchSnapshot();
+      });
+    });
+
+    describe('getReportWarnings', () => {
+      it('should return report warnings', () => {
+        expect(getReportWarnings(mockState)).toMatchSnapshot();
+      });
+    });
+
+    describe('getReportNotes', () => {
+      it('should return report notes', () => {
+        expect(getReportNotes(mockState)).toMatchSnapshot();
       });
     });
   });
@@ -247,10 +256,36 @@ describe('Calculation Result Selector', () => {
       });
     });
 
-    describe('getReportMessages', () => {
-      it('should return report messages', () => {
+    describe('getReportErrors', () => {
+      it('should return report errors', () => {
         expect(
-          getReportMessages({
+          getReportErrors({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getReportWarnings', () => {
+      it('should return report warnings', () => {
+        expect(
+          getReportWarnings({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getReportNotes', () => {
+      it('should return report notes', () => {
+        expect(
+          getReportNotes({
             ...mockState,
             catalogCalculationResult: {
               ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,

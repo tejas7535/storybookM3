@@ -218,27 +218,50 @@
           </ng-container>
 
           <!-- Errors, Warnings and notes -->
-          <ea-expansion-panel
-            *ngIf="
-              calculationResultFacade.calculationReportMessages$
-                | ngrxPush as reportMessages
-            "
-            [title]="t('reportSectionWarnings')"
-            icon="report_problem"
-            [iconClassName]="'!text-icon-warning'"
-            [expanded]="
-              !!(calculationResultFacade.getCatalogCalculationError$ | ngrxPush)
-            "
+          <ng-container
+            *ngrxLet="{
+              errors:
+                calculationResultFacade.calculationReportErrors$ | ngrxPush,
+              warnings:
+                calculationResultFacade.calculationReportWarnings$ | ngrxPush,
+              notes: calculationResultFacade.calculationReportNotes$ | ngrxPush
+            } as messages"
           >
-            <div class="px-4 md:px-8 py-4">
-              <ea-calculation-result-message
-                *ngFor="let message of reportMessages"
-                [title]="message.title"
-                [item]="message.item"
-              >
-              </ea-calculation-result-message>
-            </div>
-          </ea-expansion-panel>
+            <ea-expansion-panel
+              *ngIf="
+                messages.errors.length > 0 ||
+                messages.warnings.length > 0 ||
+                messages.notes.length > 0
+              "
+              [title]="t('reportSectionWarnings')"
+              icon="report_problem"
+              [iconClassName]="'!text-icon-warning'"
+              [expanded]="
+                !!(
+                  calculationResultFacade.getCatalogCalculationError$ | ngrxPush
+                )
+              "
+            >
+              <div class="px-4 md:px-8 pb-4">
+                <ea-calculation-result-messages
+                  [title]="t('errors')"
+                  [messages]="messages.errors"
+                >
+                </ea-calculation-result-messages>
+                <ea-calculation-result-messages
+                  [title]="t('warnings')"
+                  [messages]="messages.warnings"
+                >
+                </ea-calculation-result-messages>
+                <ea-calculation-result-messages
+                  [title]="t('notes')"
+                  [messages]="messages.notes"
+                >
+                </ea-calculation-result-messages>
+              </div>
+            </ea-expansion-panel>
+          </ng-container>
+
           <!-- Mobile PDF Button --->
           <ng-container *transloco="let t; read: 'calculationSelection'">
             <button

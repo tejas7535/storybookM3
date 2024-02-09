@@ -48,7 +48,10 @@ export class PDFREport {
       verticalLayout.add('resultgrid', this.data.ratingLife);
     }
 
-    if (this.data.overrollingFrequency) {
+    if (
+      this.data.overrollingFrequency &&
+      this.data.overrollingFrequency.data.length > 0
+    ) {
       verticalLayout.add('resultgrid', this.data.overrollingFrequency);
     }
 

@@ -1339,20 +1339,9 @@ export const EXPECTED_RESULT_MULTIPLE_LOADCASES: CatalogCalculationResult = {
     ],
   },
   reportMessages: {
-    messages: [
-      {
-        item: {
-          subItems: [],
-        },
-        title: 'Error title',
-      },
-      {
-        item: {
-          subItems: [],
-        },
-        title: 'Warning title',
-      },
-    ],
+    errors: [],
+    warnings: [],
+    notes: [],
   },
   bearingBehaviour: {
     lh10: { value: '123.45', unit: 'h' },

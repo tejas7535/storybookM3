@@ -20,8 +20,9 @@ export interface CatalogCalculationResult {
   };
 
   reportMessages?: {
-    // messages contains Erros, Warnings and Notes if available
-    messages: ReportMessage[];
+    warnings: string[];
+    errors: string[];
+    notes: string[];
   };
 
   calculationError?: {

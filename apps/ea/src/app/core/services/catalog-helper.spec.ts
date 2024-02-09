@@ -69,6 +69,11 @@ describe('Catalog Helper', () => {
         calculationError: {
           error: 'calculation is not possible error msg',
         },
+        reportMessages: {
+          errors: [],
+          notes: [],
+          warnings: [],
+        },
       });
     });
   });
