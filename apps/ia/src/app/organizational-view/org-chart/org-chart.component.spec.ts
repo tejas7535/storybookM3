@@ -24,17 +24,15 @@ import { FluctuationType } from '../../shared/tables/employee-list-table/models'
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { ChartType, DimensionFluctuationData } from '../models';
-import { OrgChartData, OrgChartNode, OrgChartTranslation } from './models';
+import {
+  BUTTON_CSS,
+  OrgChartData,
+  OrgChartNode,
+  OrgChartTranslation,
+} from './models';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
-const mock: any = {
-  attr: jest.fn(() => mock),
-};
-
-jest.mock('d3-selection', () => ({
-  select: jest.fn(() => mock),
-}));
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
@@ -204,7 +202,7 @@ describe('OrgChartComponent', () => {
         .mockReturnValue(meta);
       component.clickout({
         target: {
-          id: 'employee-node-attrition',
+          id: BUTTON_CSS.attrition,
           dataset: {
             id: '123',
           },
@@ -239,7 +237,7 @@ describe('OrgChartComponent', () => {
 
       component.clickout({
         target: {
-          id: 'employee-node-people',
+          id: BUTTON_CSS.people,
           dataset: {
             id: '123',
           },
@@ -259,7 +257,7 @@ describe('OrgChartComponent', () => {
 
       component.clickout({
         target: {
-          id: 'show-parent',
+          id: BUTTON_CSS.showUpArrow,
           dataset: {
             id: '123',
           },
@@ -269,6 +267,103 @@ describe('OrgChartComponent', () => {
       expect(component.showParent.emit).toHaveBeenCalledWith(
         component.orgChartData.data[0]
       );
+    });
+
+    test('should clear highlights and set highlights to the children when expand button is clicked', () => {
+      component.chart = {
+        clearHighlighting: jest.fn(),
+        setUpToTheRootHighlighted: jest.fn(),
+        render: jest.fn(),
+      } as any;
+      const id = '123';
+      const childId = '1234';
+      component.chartData = [
+        {
+          nodeId: childId,
+          parentNodeId: id,
+        } as any,
+      ];
+
+      component.clickout({
+        target: {
+          id: BUTTON_CSS.expand,
+          dataset: {
+            id,
+          },
+        },
+      });
+
+      expect(component.chart.clearHighlighting).toHaveBeenCalled();
+      expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalledWith(
+        childId
+      );
+      expect(component.chart.render).toHaveBeenCalled();
+    });
+
+    test('should clear highlights and set highlights to clicked node when collapse button is clicked', () => {
+      component.chart = {
+        clearHighlighting: jest.fn(),
+        setUpToTheRootHighlighted: jest.fn(),
+        render: jest.fn(),
+      } as any;
+      const id = '123';
+
+      component.clickout({
+        target: {
+          id: BUTTON_CSS.collapse,
+          dataset: {
+            id,
+          },
+        },
+      });
+
+      expect(component.chart.clearHighlighting).toHaveBeenCalled();
+      expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalledWith(
+        id
+      );
+      expect(component.chart.render).toHaveBeenCalled();
+    });
+
+    test('should clear highlights and set highlights to clicked node up to the root when header is clicked', () => {
+      component.chart = {
+        clearHighlighting: jest.fn(),
+        setUpToTheRootHighlighted: jest.fn(),
+        render: jest.fn(),
+      } as any;
+      const id = '123';
+      component.chartData = [
+        {
+          nodeId: id,
+        } as any,
+      ];
+
+      component.clickout({
+        target: {
+          classList: [`org-chart-header-${id}`],
+          dataset: {},
+        },
+      });
+
+      expect(component.chart.clearHighlighting).toHaveBeenCalled();
+      expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalled();
+      expect(component.chart.render).toHaveBeenCalled();
+    });
+
+    test('should clear highlights when no button is clicked', () => {
+      component.chart = {
+        clearHighlighting: jest.fn(),
+      } as any;
+
+      component.clickout({
+        target: {
+          id: '123',
+          dataset: {
+            id: '123',
+          },
+        },
+      });
+
+      expect(component.chart.clearHighlighting).toHaveBeenCalled();
     });
   });
 

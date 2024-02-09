@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import * as d3Selection from 'd3-selection';
-
 import { FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { DimensionFluctuationData, OrgChartFluctuationRate } from '../models';
+import { BUTTON_CSS } from './models';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrgChartService {
-  public static readonly ROOT_ID = 'ROOT';
+  readonly ROOT_ID = 'ROOT';
+  readonly HIGHLIGHT_COLOR = 'rgba(0, 0, 0, 0.87)';
 
   createAttritionDialogMeta(
     node: DimensionFluctuationData,
@@ -123,8 +123,7 @@ export class OrgChartService {
           textEmployees,
           textFluctuation,
           showUpperParentBtn:
-            parentNodeId === undefined &&
-            elem.parentId !== OrgChartService.ROOT_ID,
+            parentNodeId === undefined && elem.parentId !== this.ROOT_ID,
         };
       })
       .sort((a, b) => (a.organization > b.organization ? 1 : -1)); // sort alphabetically to ensure same order on every reload
@@ -152,27 +151,34 @@ export class OrgChartService {
     }
   }
 
-  updateLinkStyles(): void {
-    d3Selection
-      .select('.svg-chart-container')
-      .attr('stroke', 'rgba(0,0,0,0.11)')
-      .attr('stroke-width', 1);
+  updateLinkStyles(links: any[]): void {
+    links.forEach((elem: any) => {
+      if (elem.__data__.data._upToTheRootHighlighted) {
+        elem.setAttribute('stroke', this.HIGHLIGHT_COLOR);
+        elem.setAttribute('stroke-width', '2px');
+      } else {
+        elem.setAttribute('stroke', 'rgba(0,0,0,0.11)');
+        elem.setAttribute('stroke-width', '1px');
+      }
+    });
   }
 
   getButtonContent(node: any): string {
+    const expand = node.children
+      ? `id="${BUTTON_CSS.collapse}" data-id="${node.data.nodeId}"`
+      : `id="${BUTTON_CSS.expand}" data-id="${node.data.nodeId}"`;
+
     return `
-    <div class="pointer-events-auto cursor-pointer w-full group
+    <div ${expand} class="pointer-events-auto cursor-pointer w-full group
               bg-surface border border-border hover:ring-1 hover:ring-primary
                 rounded-full flex flex-col items-center justify-center
               text-low-emphasis ">
-      <span class="group-hover:text-high-emphasis">${
-        node.data._directSubordinates
-      }</span>
-      <span class="${
-        node.children
-          ? "before:content-['\\e313']"
-          : "before:content-['\\e316']"
-      } before:font-materiaIcons group-hover:text-link"></span>
+      <span ${expand} class="group-hover:text-high-emphasis">${
+      node.data._directSubordinates
+    }</span>
+      <span ${expand} class="${
+      node.children ? "before:content-['\\e313']" : "before:content-['\\e316']"
+    } before:font-materiaIcons group-hover:text-link"></span>
     </div>
   `;
   }
@@ -193,11 +199,14 @@ export class OrgChartService {
     width: number,
     height: number
   ): string {
-    const peopleNodeId = `id="employee-node-people" data-id="${data.nodeId}"`;
-    const fluctuationNodeId = `id="employee-node-attrition" data-id="${data.nodeId}"`;
-    const showParentId = `id="show-parent" data-id="${data.nodeId}"`;
+    const peopleNodeId = `id="${BUTTON_CSS.people}" data-id="${data.nodeId}"`;
+    const fluctuationNodeId = `id="${BUTTON_CSS.attrition}" data-id="${data.nodeId}"`;
+    const showParentId = `id="${BUTTON_CSS.showUpArrow}" data-id="${data.nodeId}"`;
     const peopleIconSvg = this.getPeopleIconSvg(peopleNodeId);
     const fluctuationIconSvg = this.getFluctuationIconSvg(fluctuationNodeId);
+    const rectBorder = this.getRectBorderStyles(data);
+    const headerBorder = this.getHeaderBorderStyles(data);
+    const headerClass = `org-chart-header-${data.nodeId}`;
 
     const parentArrow = data.showUpperParentBtn
       ? `
@@ -211,14 +220,17 @@ export class OrgChartService {
 
     return `
       ${parentArrow}
-      <div style="font-family: Noto sans; height: ${height}px; width: ${width}px; border: 1px solid rgba(0, 0, 0, 0.32); border-radius: 6px; cursor: default;">
-        <div style="border-radius: 100px; background: #F0F0F0; padding-top: 4px; padding-bottom: 4px;
-         position: absolute; bottom: 83%; width: 95%; margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center;">
-          <div>
-            <span style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
+      <div style="font-family: Noto sans; height: ${height}px; width: ${width}px; ${rectBorder}; border-radius: 6px; cursor: default;">
+        <div class="${headerClass} !cursor-pointer" style="border-radius: 100px; background: #F0F0F0; padding-top: 4px; padding-bottom: 4px;
+            ${headerBorder}; position: absolute; bottom: 83%; width: 95%; margin-left: auto; margin-right: auto; left: 0; right: 0;
+            text-align: center;">
+          <div class="${headerClass}">
+            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
           </div>
-          <div>
-            <span style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">${data.organizationLongName}</span>
+          <div class="${headerClass}">
+            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">
+              ${data.organizationLongName}
+            </span>
           </div>
         </div>
         <div style="padding-top: 30px; padding-bottom: 8px; text-align: center;">
@@ -256,11 +268,14 @@ export class OrgChartService {
     width: number,
     height: number
   ): string {
-    const peopleNodeId = `id="employee-node-people" data-id="${data.nodeId}"`;
-    const fluctuationNodeId = `id="employee-node-attrition" data-id="${data.nodeId}"`;
-    const showParentId = `id="show-parent" data-id="${data.nodeId}"`;
+    const peopleNodeId = `id="${BUTTON_CSS.people}" data-id="${data.nodeId}"`;
+    const fluctuationNodeId = `id="${BUTTON_CSS.attrition}" data-id="${data.nodeId}"`;
+    const showParentId = `id="${BUTTON_CSS.showUpArrow}" data-id="${data.nodeId}"`;
     const peopleIconSvg = this.getPeopleIconSvg(peopleNodeId);
     const fluctuationIconSvg = this.getFluctuationIconSvg(fluctuationNodeId);
+    const rectBorder = this.getRectBorderStyles(data);
+    const headerBorder = this.getHeaderBorderStyles(data);
+    const headerClass = `org-chart-header-${data.nodeId}`;
 
     const parentArrow = data.showUpperParentBtn
       ? `
@@ -274,14 +289,17 @@ export class OrgChartService {
 
     return `
       ${parentArrow}
-      <div style="font-family: Noto sans; height: ${height}px; width: ${width}px; border: 1px solid rgba(0, 0, 0, 0.32); border-radius: 6px; cursor: default;">
-        <div style="border-radius: 100px; background: #F0F0F0; text-align: center; margin-left: 4px; margin-right: 4px; padding-top: 4px; padding-bottom: 4px;
-         position: absolute; bottom: 77%; width: 95%; margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center;">
-          <div>
-            <span style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
+      <div style="font-family: Noto sans; height: ${height}px; width: ${width}px; ${rectBorder}; border-radius: 6px; cursor: default;">
+        <div class="${headerClass} !cursor-pointer" style="${headerBorder}; border-radius: 100px; background: #F0F0F0;
+            text-align: center; padding-top: 4px; padding-bottom: 4px; position: absolute; bottom: 77%; width: 95%;
+            margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center;">
+          <div class="${headerClass}">
+            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
           </div> 
-          <div>
-            <span style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">${data.dimensionKey}</span>
+          <div class="${headerClass}">
+            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">
+              ${data.dimensionKey}
+            </span>
           </div>
         </div>
         <div style="display: flex; justify-content: space-evenly; padding: 8px; margin-top: 22px;">
@@ -310,6 +328,16 @@ export class OrgChartService {
       </div>
     `;
   }
+
+  getRectBorderStyles = (data: any) =>
+    data._upToTheRootHighlighted || data._highlighted
+      ? `border: 2px solid ${this.HIGHLIGHT_COLOR}`
+      : 'border: 1px solid rgba(0, 0, 0, 0.32)';
+
+  getHeaderBorderStyles = (data: any) =>
+    data._upToTheRootHighlighted || data._highlighted
+      ? `border: 1px solid ${this.HIGHLIGHT_COLOR}`
+      : 'border: none';
 
   getPeopleIconSvg(nodeId: string): string {
     return `

@@ -38,3 +38,7 @@
     }
   }
 }
+
+::ng-deep rect {
+  stroke: none !important;
+}

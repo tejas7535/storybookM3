@@ -125,11 +125,23 @@ export class OrgChartComponent implements AfterViewInit {
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
     const node: HTMLElement = event.target;
-    const id = node.dataset.id;
+    const headerClassPrefix = 'org-chart-header-';
+    let datasetId = node.dataset.id;
+    let id = node.id;
 
-    switch (node.id) {
+    if (!datasetId) {
+      const classList = node.classList;
+      classList.forEach((className: string) => {
+        if (className.includes(headerClassPrefix)) {
+          datasetId = className.split(headerClassPrefix)[1];
+          id = headerClassPrefix;
+        }
+      });
+    }
+
+    switch (id) {
       case OrgChartConfig.BUTTON_CSS.people: {
-        this.selectedDataNode = this.getDimensionFluctuationDataById(id);
+        this.selectedDataNode = this.getDimensionFluctuationDataById(datasetId);
 
         this.showOrgChartEmployees.emit(this.selectedDataNode);
 
@@ -141,37 +153,70 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       case OrgChartConfig.BUTTON_CSS.attrition: {
-        this.selectedDataNode = this.getDimensionFluctuationDataById(id);
-        this.loadChildAttritionOverTime.emit(this.selectedDataNode);
-        const openPositionsAvailable =
-          !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(
-            this.selectedDataNode.filterDimension
-          );
-        const data = {
-          type: ChartType.ORG_CHART,
-          meta: this.orgChartService.createAttritionDialogMeta(
-            this.selectedDataNode,
-            this.timeRange.value,
-            openPositionsAvailable
-          ),
-        };
+        this.selectedDataNode = this.getDimensionFluctuationDataById(datasetId);
+        if (this.selectedDataNode) {
+          this.loadChildAttritionOverTime.emit(this.selectedDataNode);
+          const openPositionsAvailable =
+            !DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS.includes(
+              this.selectedDataNode.filterDimension
+            );
+          const data = {
+            type: ChartType.ORG_CHART,
+            meta: this.orgChartService.createAttritionDialogMeta(
+              this.selectedDataNode,
+              this.timeRange.value,
+              openPositionsAvailable
+            ),
+          };
 
-        this.dialog.open(AttritionDialogComponent, {
-          data,
-          width: '90%',
-          maxWidth: '750px',
-        });
+          this.dialog.open(AttritionDialogComponent, {
+            data,
+            width: '90%',
+            maxWidth: '750px',
+          });
+        }
 
         break;
       }
       case OrgChartConfig.BUTTON_CSS.showUpArrow: {
-        this.selectedDataNode = this.getDimensionFluctuationDataById(id);
+        this.selectedDataNode = this.getDimensionFluctuationDataById(datasetId);
 
         this.showParent.emit(this.selectedDataNode);
 
         break;
       }
-      // No default
+      case OrgChartConfig.BUTTON_CSS.expand: {
+        this.chart.clearHighlighting();
+
+        this.chartData
+          .filter((data) => data.parentNodeId === datasetId)
+          .forEach((data) => this.chart.setUpToTheRootHighlighted(data.nodeId));
+
+        this.chart.render();
+        break;
+      }
+      case headerClassPrefix: {
+        this.chart.clearHighlighting();
+
+        const ids = this.chartData.find(
+          (data) => data.nodeId === datasetId
+        ).nodeId;
+        this.chart.setUpToTheRootHighlighted(ids);
+
+        this.chart.render();
+        break;
+      }
+      case OrgChartConfig.BUTTON_CSS.collapse: {
+        this.chart.clearHighlighting();
+        this.chart.setUpToTheRootHighlighted(datasetId);
+        this.chart.render();
+
+        break;
+      }
+      default: {
+        this.chart.clearHighlighting();
+        break;
+      }
     }
   }
 
@@ -234,7 +279,9 @@ export class OrgChartComponent implements AfterViewInit {
         .buttonContent(({ node }: any) =>
           this.orgChartService.getButtonContent(node)
         )
-        .linkUpdate(() => this.orgChartService.updateLinkStyles())
+        .linkUpdate((_d: any, _i: any, links: any[]) => {
+          this.orgChartService.updateLinkStyles(links);
+        })
         .render();
 
       this.chart.fit();

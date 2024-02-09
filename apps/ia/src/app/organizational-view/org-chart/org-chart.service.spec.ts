@@ -1,19 +1,14 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import d3Selection from 'd3-selection';
 
 import { FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { DimensionFluctuationData } from '../models';
-import { OrgChartNode } from './models';
+import { BUTTON_CSS, OrgChartNode } from './models';
 import { OrgChartService } from './org-chart.service';
 
 const mock: any = {
   attr: jest.fn(() => mock),
 };
-
-jest.mock('d3-selection', () => ({
-  select: jest.fn(() => mock),
-}));
 
 describe('OrgChartService', () => {
   let service: OrgChartService;
@@ -21,7 +16,6 @@ describe('OrgChartService', () => {
 
   const createService = createServiceFactory({
     service: OrgChartService,
-    imports: [],
     providers: [OrgChartService],
   });
 
@@ -91,7 +85,7 @@ describe('OrgChartService', () => {
           dimension: 'Hans',
           attritionMeta: {},
           managerOfOrgUnit: 'Helmut',
-          parentId: OrgChartService.ROOT_ID,
+          parentId: service.ROOT_ID,
           directFluctuationRate: {
             fluctuationRate: 10,
             forcedFluctuationRate: 4,
@@ -234,7 +228,7 @@ describe('OrgChartService', () => {
           id: '123',
           dimension: 'Hans',
           attritionMeta: {},
-          parentId: OrgChartService.ROOT_ID,
+          parentId: service.ROOT_ID,
           directFluctuationRate: {
             fluctuationRate: 10,
             forcedFluctuationRate: 4,
@@ -294,11 +288,31 @@ describe('OrgChartService', () => {
 
   describe('updateLinkStyles', () => {
     test('should set stroke', () => {
-      service.updateLinkStyles();
+      const highlightedLink = {
+        __data__: { data: { _upToTheRootHighlighted: true } },
+        setAttribute: jest.fn(),
+      };
+      const link = {
+        __data__: { data: { _upToTheRootHighlighted: false } },
+        setAttribute: jest.fn(),
+      };
+      const links = [highlightedLink, link];
 
-      expect(d3Selection.select).toHaveBeenCalledWith('.svg-chart-container');
-      expect(mock.attr).toHaveBeenCalledWith('stroke', 'rgba(0,0,0,0.11)');
-      expect(mock.attr).toHaveBeenCalledWith('stroke-width', 1);
+      service.updateLinkStyles(links);
+
+      expect(highlightedLink.setAttribute).toHaveBeenCalledWith(
+        'stroke',
+        service.HIGHLIGHT_COLOR
+      );
+      expect(highlightedLink.setAttribute).toHaveBeenCalledWith(
+        'stroke-width',
+        '2px'
+      );
+      expect(link.setAttribute).toHaveBeenCalledWith(
+        'stroke',
+        'rgba(0,0,0,0.11)'
+      );
+      expect(link.setAttribute).toHaveBeenCalledWith('stroke-width', '1px');
     });
   });
 
@@ -513,8 +527,8 @@ describe('OrgChartService', () => {
       expect(result).toContain(`${data.directSubordinates}`);
       expect(result).toContain(data.textFluctuation);
       expect(result).toContain(`${data.directAttrition}`);
-      expect(result).toContain(`id="employee-node-people"`);
-      expect(result).toContain(`id="employee-node-attrition"`);
+      expect(result).toContain(`id="${BUTTON_CSS.people}"`);
+      expect(result).toContain(`id="${BUTTON_CSS.attrition}"`);
     });
   });
 
@@ -550,8 +564,60 @@ describe('OrgChartService', () => {
       expect(result).toContain(data.textFluctuation);
       expect(result).toContain(`${data.directFluctuationRate.fluctuationRate}`);
       expect(result).toContain(`${data.fluctuationRate.fluctuationRate}`);
-      expect(result).toContain(`id="employee-node-people"`);
-      expect(result).toContain(`id="employee-node-attrition"`);
+      expect(result).toContain(`id="${BUTTON_CSS.people}"`);
+      expect(result).toContain(`id="${BUTTON_CSS.attrition}"`);
+    });
+  });
+
+  describe('getRectBorderStyles', () => {
+    test('should get highlighted border when node is highlighted up to the root', () => {
+      const data = { _upToTheRootHighlighted: true };
+
+      const result = service.getRectBorderStyles(data);
+
+      expect(result).toEqual(`border: 2px solid ${service.HIGHLIGHT_COLOR}`);
+    });
+
+    test('should get highlighted border when single node is highlighted', () => {
+      const data = { _highlighted: true };
+
+      const result = service.getRectBorderStyles(data);
+
+      expect(result).toEqual(`border: 2px solid ${service.HIGHLIGHT_COLOR}`);
+    });
+
+    test('should get normal border when node is not highlighted', () => {
+      const data = { _upToTheRootHighlighted: false };
+
+      const result = service.getRectBorderStyles(data);
+
+      expect(result).toEqual(`border: 1px solid rgba(0, 0, 0, 0.32)`);
+    });
+  });
+
+  describe('getHeaderBorderStyles', () => {
+    test('should get highlighted border when node is highlighted up to the root', () => {
+      const data = { _upToTheRootHighlighted: true };
+
+      const result = service.getHeaderBorderStyles(data);
+
+      expect(result).toEqual(`border: 1px solid ${service.HIGHLIGHT_COLOR}`);
+    });
+
+    test('should get highlighted border when single node is highlighted', () => {
+      const data = { _highlighted: true };
+
+      const result = service.getHeaderBorderStyles(data);
+
+      expect(result).toEqual(`border: 1px solid ${service.HIGHLIGHT_COLOR}`);
+    });
+
+    test('should unset border when node is not highlighted', () => {
+      const data = { _upToTheRootHighlighted: false };
+
+      const result = service.getHeaderBorderStyles(data);
+
+      expect(result).toEqual(`border: none`);
     });
   });
 

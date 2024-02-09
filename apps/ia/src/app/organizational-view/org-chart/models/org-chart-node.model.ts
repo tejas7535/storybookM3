@@ -19,4 +19,6 @@ export interface OrgChartNode {
   textEmployees: string;
   textFluctuation: string;
   showUpperParentBtn: boolean;
+  _upToTheRootHighlighted?: boolean;
+  _highlighted?: boolean;
 }

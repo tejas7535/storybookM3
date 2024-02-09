@@ -1,5 +1,7 @@
 export const BUTTON_CSS = {
-  people: 'employee-node-people',
-  attrition: 'employee-node-attrition',
-  showUpArrow: 'show-parent',
+  people: 'org-chart-node-people',
+  attrition: 'org-chart-node-attrition',
+  showUpArrow: 'org-chart-node-show-parent',
+  expand: 'org-chart-node-expand',
+  collapse: 'org-chart-node-collapse',
 };
