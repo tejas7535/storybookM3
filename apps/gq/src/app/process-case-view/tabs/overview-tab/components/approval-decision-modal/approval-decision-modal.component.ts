@@ -18,7 +18,6 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { UpdateFunction } from '@gq/shared/models';
-import { specialCharactersValidator } from '@gq/shared/validators/special-characters-validator';
 
 import { ApprovalModalType } from '../../models';
 
@@ -51,10 +50,10 @@ export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group<ApprovalDecisionModalFormControl>({
-      comment: new FormControl(undefined, [
-        specialCharactersValidator(),
-        Validators.maxLength(this.INPUT_MAX_LENGTH),
-      ]),
+      comment: new FormControl(
+        undefined,
+        Validators.maxLength(this.INPUT_MAX_LENGTH)
+      ),
     });
 
     if (this.modalData.type === ApprovalModalType.REJECT_CASE) {

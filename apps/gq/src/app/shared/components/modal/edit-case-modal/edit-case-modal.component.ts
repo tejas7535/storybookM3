@@ -30,7 +30,6 @@ import { SalesOrg } from '@gq/core/store/reducers/models';
 import { getSalesOrgs } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
-import { specialCharactersValidator } from '@gq/shared/validators/special-characters-validator';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 import moment, { isMoment, Moment } from 'moment';
@@ -88,7 +87,6 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         [
           Validators.pattern('\\s*\\S.*'),
           Validators.maxLength(this.NAME_MAX_LENGTH),
-          specialCharactersValidator(),
         ]
       ),
       currency: new FormControl(this.modalData.currency, [Validators.required]),

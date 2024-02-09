@@ -11,7 +11,6 @@ import {
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { specialCharactersValidator } from '@gq/shared/validators/special-characters-validator';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -36,10 +35,7 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    this.commentFormControl = new UntypedFormControl(
-      this.modalData.comment,
-      specialCharactersValidator()
-    );
+    this.commentFormControl = new UntypedFormControl(this.modalData.comment);
 
     this.updateLoading$ = this.store.select(
       activeCaseFeature.selectUpdateLoading

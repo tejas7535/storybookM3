@@ -857,6 +857,7 @@ describe('ActiveCaseEffects', () => {
   });
 
   describe('updateQuotation$', () => {
+    let convertSpy: jest.SpyInstance<string, [value: string]>;
     beforeEach(() => {
       const caseName = 'caseName';
       const currency = 'EUR';
@@ -868,6 +869,16 @@ describe('ActiveCaseEffects', () => {
         quotationToDate: '',
         requestedDelDate: '',
       });
+
+      convertSpy = jest
+        .spyOn(miscs, 'convertToBase64')
+        .mockImplementation((value) => {
+          if (!value) {
+            return null;
+          }
+
+          return 'convertedBase64String';
+        });
     });
     test(
       'should return updateQuotationSuccess',
@@ -885,6 +896,7 @@ describe('ActiveCaseEffects', () => {
         m.expect(effects.updateQuotation$).toBeObservable(expected);
         m.flush();
         expect(quotationService.updateQuotation).toHaveBeenCalledTimes(1);
+        expect(convertSpy).toHaveBeenCalled();
       })
     );
     test(
@@ -904,6 +916,7 @@ describe('ActiveCaseEffects', () => {
         m.expect(effects.updateQuotation$).toBeObservable(expected);
         m.flush();
         expect(quotationService.updateQuotation).toHaveBeenCalledTimes(1);
+        expect(convertSpy).toHaveBeenCalled();
       })
     );
   });

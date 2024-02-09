@@ -143,11 +143,6 @@
             <mat-hint align="end">
               {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
             >
-            <mat-error
-              *ngIf="formGroup.get('comment').errors?.invalidCharacters"
-            >
-              {{ t('forbiddenSpecialCharacters') }}
-            </mat-error>
           </mat-form-field>
           <mat-form-field class="w-full pt-2" appearance="outline">
             <mat-label>{{ t('projectInformation') }}</mat-label>
@@ -163,13 +158,6 @@
               {{ projectInformation.value.length }} /
               {{ INPUT_MAX_LENGTH }}</mat-hint
             >
-            <mat-error
-              *ngIf="
-                formGroup.get('projectInformation').errors?.invalidCharacters
-              "
-            >
-              {{ t('forbiddenSpecialCharacters') }}
-            </mat-error>
           </mat-form-field>
         </div>
       </div>

@@ -430,6 +430,10 @@ export class ActiveCaseEffects {
   updateQuotation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.updateQuotation),
+      map((action) => ({
+        ...action,
+        caseName: convertToBase64(action.caseName),
+      })),
       concatLatestFrom(() => this.store.select(getGqId)),
       mergeMap(([action, gqId]) =>
         this.quotationService

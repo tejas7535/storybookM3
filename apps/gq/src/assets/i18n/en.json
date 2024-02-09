@@ -496,8 +496,7 @@
       "customerPurchaseOrderDateLabel": "PO Date",
       "bindingPeriodValidityEndDateLabel": "Valid to",
       "dateBeforeTodayValidationMessage": "Date is in the past, please check.",
-      "smallerThanPoDateValidationMessage": "Date must be greater than purchase order date.",
-      "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
+      "smallerThanPoDateValidationMessage": "Date must be greater than purchase order date."
     },
     "customMainMenuItems": {
       "resetAllFiltersOfAllColumns": "Reset All Filtered Columns"

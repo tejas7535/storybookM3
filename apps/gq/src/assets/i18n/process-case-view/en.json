@@ -28,7 +28,6 @@
       "invalidUserError": "Invalid User",
       "invalidSelectionApproverError": "Invalid Approver selected",
       "exceededCharactersError": "The pasted text exceeds 200 characters",
-      "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed.",
       "snackbar": {
         "startWorkflow": "Approval workflow was started",
         "startWorkflowAutoApproval": "Quotation was auto approved",
@@ -170,8 +169,7 @@
           "sendBack": "Send Back",
           "confirmApproval": "Confirm Approval",
           "cancel": "Cancel",
-          "exceededCharactersError": "The pasted text exceeds 200 characters",
-          "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
+          "exceededCharactersError": "The pasted text exceeds 200 characters"
         },
         "forwardApprovalWorkflowModal": {
           "title": "Forward Approval Workflow",
@@ -274,8 +272,7 @@
   "editingCommentModal": {
     "title": "Edit comment for Item {{id}}",
     "confirm": "Confirm",
-    "cancel": "Cancel",
-    "forbiddenSpecialCharacters": "Special characters <, >, / are not allowed."
+    "cancel": "Cancel"
   },
   "exportExcelModal": {
     "title": "Choose your download format",

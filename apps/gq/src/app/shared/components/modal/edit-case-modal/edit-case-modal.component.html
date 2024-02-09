@@ -25,11 +25,6 @@
                 ' / ' +
                 NAME_MAX_LENGTH.toString()
             }}</mat-hint>
-            <mat-error
-              *ngIf="caseModalForm.get('caseName')?.errors?.invalidCharacters"
-            >
-              {{ t('forbiddenSpecialCharacters') }}
-            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
