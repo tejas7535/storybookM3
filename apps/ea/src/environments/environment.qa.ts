@@ -13,6 +13,6 @@ export const environment: Environment = {
   oldUIFallbackUrl: 'https://bearinx-q.schaeffler.com/catalogue/app/loadcases/',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
-  assetsPath: 'https://engineeringapp-q.dev.dp.schaeffler/assets',
+  assetsPath: 'https://medias-easycalc-q.dev.dp.schaeffler/assets',
   oneTrustId: '3a469db6-83fa-4b5f-9231-f96928c037b5',
 };
