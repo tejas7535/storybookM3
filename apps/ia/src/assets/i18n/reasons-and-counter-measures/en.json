@@ -10,7 +10,7 @@
     },
     "table": {
       "position": "#",
-      "detailedReason": "Reason",
+      "actionReason": "Reason",
       "percentage": "%",
       "leavers": "Leavers"
     },

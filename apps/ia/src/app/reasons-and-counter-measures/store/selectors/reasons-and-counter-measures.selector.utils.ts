@@ -17,7 +17,7 @@ export function mapReasonsToTableData(data: ReasonForLeavingStats[]) {
     (reason) =>
       new ReasonForLeavingRank(
         rankList.indexOf(reason.leavers) + 1,
-        reason.detailedReason,
+        reason.actionReason,
         getPercentageValue(reason.leavers, totalLeavers),
         reason.leavers
       )
@@ -33,7 +33,7 @@ export function getTop5ReasonsForChart(
   const dataOrderedDescending = [...data].sort((a, b) => b.leavers - a.leavers);
   const top5Reasons = dataOrderedDescending
     .slice(0, 5)
-    .map((reason) => ({ value: reason.leavers, name: reason.detailedReason }));
+    .map((reason) => ({ value: reason.leavers, name: reason.actionReason }));
 
   if (dataOrderedDescending.length > 5) {
     const otherCount = dataOrderedDescending

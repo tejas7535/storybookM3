@@ -1,4 +1,4 @@
 export interface ReasonForLeavingStats {
-  detailedReason: string;
+  actionReason: string;
   leavers: number;
 }

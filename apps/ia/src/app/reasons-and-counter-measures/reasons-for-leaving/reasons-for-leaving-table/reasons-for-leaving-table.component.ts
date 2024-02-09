@@ -41,9 +41,9 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         floatingFilter: false,
       },
       {
-        field: 'detailedReason',
+        field: 'actionReason',
         headerName: translate(
-          'reasonsAndCounterMeasures.topFiveReasons.table.detailedReason'
+          'reasonsAndCounterMeasures.topFiveReasons.table.actionReason'
         ),
       },
       {
