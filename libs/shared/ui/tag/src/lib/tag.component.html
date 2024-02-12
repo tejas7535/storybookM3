@@ -1,0 +1,14 @@
+<div
+  class="flex items-center rounded-full px-3 py-1 min-h-[1rem] min-w-[1.5rem] w-fit leading-4 whitespace-nowrap"
+  [class]="
+    size === 'small' ? 'text-[8px] font-bold ' : 'text-[12px] font-medium'
+  "
+  [ngClass]="tagClassName"
+>
+  <div *ngIf="withDot" class="w-2 h-2 rounded-full mr-1 tag-dot"></div>
+  <div>
+    {{ value }}
+  </div>
+
+  <ng-content></ng-content>
+</div>

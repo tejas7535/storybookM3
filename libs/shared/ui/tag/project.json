@@ -1,0 +1,71 @@
+{
+  "name": "shared-ui-tag",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/ui/tag/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "options": {
+        "tsConfig": "libs/shared/ui/tag/tsconfig.lib.json",
+        "project": "libs/shared/ui/tag/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/tag/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/tag/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/tag/src/**/*.ts",
+          "libs/shared/ui/tag/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/tag/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/tag"],
+      "options": {
+        "jestConfig": "libs/shared/ui/tag/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "pnpm publish dist/libs/shared/ui/tag --tag latest"
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "tag-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Tag",
+        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": []
+}

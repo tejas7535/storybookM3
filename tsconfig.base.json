@@ -82,6 +82,7 @@
       "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],
       "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],
       "@schaeffler/subheader": ["libs/shared/ui/subheader/src/index.ts"],
+      "@schaeffler/tag": ["libs/shared/ui/tag/src/index.ts"],
       "@schaeffler/transloco": ["libs/shared/utils/transloco/src/index.ts"],
       "@schaeffler/transloco/components": [
         "libs/shared/utils/transloco/components/src/index.ts"

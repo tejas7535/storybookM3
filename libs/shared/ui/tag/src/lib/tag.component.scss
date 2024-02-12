@@ -1,0 +1,107 @@
+.tag-info {
+  @apply text-info bg-info;
+
+  .tag-dot {
+    @apply bg-[#1c98b5];
+  }
+}
+
+.tag-info.tag-border {
+  @apply border border-info;
+}
+
+.tag-success {
+  @apply text-success bg-success;
+
+  .tag-dot {
+    @apply bg-[#a1c861];
+  }
+}
+
+.tag-success.tag-border {
+  @apply border border-success;
+}
+
+.tag-warning {
+  @apply text-warning bg-warning;
+
+  .tag-dot {
+    @apply bg-[#e9b300];
+  }
+}
+
+.tag-warning.tag-border {
+  @apply border border-warning;
+}
+
+.tag-error {
+  @apply text-error bg-error;
+
+  .tag-dot {
+    @apply bg-[#cb0b15];
+  }
+}
+
+.tag-error.tag-border {
+  @apply border border-error;
+}
+
+.tag-neutral {
+  @apply text-[#646464] bg-[#F4F4F4];
+
+  .tag-dot {
+    @apply bg-[#646464];
+  }
+}
+
+.tag-neutral.tag-border {
+  @apply border border-[#646464];
+}
+
+.tag-primary {
+  @apply text-[#00893d] bg-[#f3f7f3];
+
+  .tag-dot {
+    @apply bg-primary;
+  }
+}
+
+.tag-primary.tag-border {
+  @apply border border-primary;
+}
+
+.tag-category1 {
+  @apply text-[#005e46] bg-[#e8f0ed];
+
+  .tag-dot {
+    @apply bg-[#005e46];
+  }
+}
+
+.tag-category1.tag-border {
+  @apply border border-[#00445F];
+}
+
+.tag-category2 {
+  @apply text-[#476e75] bg-[#eef2f4];
+
+  .tag-dot {
+    @apply bg-[#476e75];
+  }
+}
+
+.tag-category2.tag-border {
+  @apply border border-[#476e75];
+}
+
+.tag-category3 {
+  @apply text-[#00445f] bg-[#e6ecf2];
+
+  .tag-dot {
+    @apply bg-[#00445f];
+  }
+}
+
+.tag-category3.tag-border {
+  @apply border border-[#00445f];
+}
