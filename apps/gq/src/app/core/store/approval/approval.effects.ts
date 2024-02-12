@@ -127,14 +127,6 @@ export class ApprovalEffects {
               ...action.approvalWorkflowData,
               gqId: quotationIdentifier.gqId,
               gqLinkBase64Encoded: convertToBase64(gqLink), // needs to be encoded as base64, otherwise the request is blocked by the gateway
-              approvalLevel: approvalWorkflowInformation.approvalLevel,
-              currency: approvalWorkflowInformation.currency,
-              autoApproval: approvalWorkflowInformation.autoApproval,
-              thirdApproverRequired:
-                approvalWorkflowInformation.thirdApproverRequired,
-              totalNetValue: approvalWorkflowInformation.totalNetValue,
-              gpm: approvalWorkflowInformation.gpm,
-              priceDeviation: approvalWorkflowInformation.priceDeviation,
             })
             .pipe(
               tap(() => {

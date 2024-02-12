@@ -292,20 +292,6 @@ describe('ApprovalEffects', () => {
           projectInformation: gqConvertedString,
           gqId: quotationIdentifier.gqId,
           gqLinkBase64Encoded: gqConvertedString,
-          approvalLevel:
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.approvalLevel,
-          currency:
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
-          autoApproval:
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.autoApproval,
-          thirdApproverRequired:
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
-              .thirdApproverRequired,
-          totalNetValue:
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.totalNetValue,
-          gpm: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.gpm,
-          priceDeviation:
-            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.priceDeviation,
         });
 
         const translationKey =

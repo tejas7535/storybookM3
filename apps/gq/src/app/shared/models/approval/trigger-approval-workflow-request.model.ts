@@ -1,6 +1,6 @@
-import { ApprovalWorkflowInformation } from './approval-cockpit-data.model';
+import { ApprovalWorkflowBaseInformation } from './approval-workflow-base-information.model';
 
 export interface TriggerApprovalWorkflowRequest
-  extends Omit<ApprovalWorkflowInformation, 'sapId'> {
+  extends ApprovalWorkflowBaseInformation {
   gqLinkBase64Encoded: string;
 }
