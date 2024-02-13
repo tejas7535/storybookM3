@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.6.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.2...ga-v1.6.3) (2024-02-13)
+
+
+### Bug Fixes
+
+* **ga:** SEO Tags not localized - UFTABI-6455 ([#5996](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5996)) ([f50ef9a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f50ef9a2c4ceadd887532bdcab39c5425b2b951f))
+
 ## [1.6.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.1...ga-v1.6.2) (2024-02-08)
 
 
