@@ -54,4 +54,44 @@ describe('PricingTabsWrapperComponent', () => {
       );
     });
   });
+
+  describe('onTechnicalValueDriversChange', () => {
+    test('should update the dataSource for tech Value drivers', () => {
+      const dataSource = [
+        {
+          id: 1,
+          description: 'description',
+          editableValue: 20,
+          value: '20%',
+          additionalDescription: 'additionalDescription',
+        },
+        {
+          id: 2,
+          description: 'description',
+          editableValue: 20,
+          value: '20%',
+          additionalDescription: 'additionalDescription',
+        },
+      ];
+      const changedDataSource = [
+        {
+          id: 1,
+          description: 'description',
+          editableValue: 10,
+          value: '20%',
+          additionalDescription: 'additionalDescription',
+        },
+        {
+          id: 2,
+          description: 'description',
+          editableValue: 20,
+          value: '20%',
+          additionalDescription: 'additionalDescription',
+        },
+      ];
+      component.techValueDriverDataSource = dataSource;
+      component.onTechnicalValueDriversChange(changedDataSource);
+      expect(component.techValueDriverDataSource).toEqual(changedDataSource);
+    });
+  });
 });

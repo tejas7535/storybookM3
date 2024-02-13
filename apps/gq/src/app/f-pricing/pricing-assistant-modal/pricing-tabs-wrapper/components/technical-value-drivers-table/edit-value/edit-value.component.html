@@ -1,0 +1,22 @@
+<!-- Design how it should look like in edit Mode-->
+<input
+  *ngIf="isEditMode"
+  class="text-overline !leading-7 text-high-emphasis w-12"
+  autocomplete="off"
+  type="number"
+  cdkTextareaAutosize
+  matInput
+  [value]="value ?? 0"
+  (change)="valueHasChanged($event.target)"
+/>
+
+<div *ngIf="!isEditMode" class="flex flex-row items-center gap-4">
+  <span>
+    {{ value ?? 0 | percentage }}
+  </span>
+  <mat-icon
+    class="text-medium-emphasis cursor-pointer !icon-5"
+    (click)="toggleEditMode()"
+    >edit</mat-icon
+  >
+</div>

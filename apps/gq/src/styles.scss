@@ -127,6 +127,7 @@ button {
 
   .mat-mdc-tab-body-wrapper {
     @apply h-full;
+    @apply bg-secondary-900 bg-opacity-5;
   }
 }
 

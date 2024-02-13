@@ -1,0 +1,14 @@
+<gq-simple-table
+  [dataSource]="dataSource"
+  [translationKey]="translationKey.TECHNICAL_VALUE_DRIVER"
+  [columnsToDisplay]="columns"
+  [valueTemplate]="technicalValueDriversValueTemplate"
+>
+</gq-simple-table>
+
+<ng-template #technicalValueDriversValueTemplate let-id="id" let-value="value">
+  <gq-edit-value
+    [value]="value"
+    (valueChanged)="onTechnicalValueDriversValueChange($event, id)"
+  ></gq-edit-value>
+</ng-template>

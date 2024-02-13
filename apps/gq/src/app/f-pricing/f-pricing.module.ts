@@ -19,6 +19,7 @@ import { MaterialBasicComponent } from '@gq/shared/components/material-details/m
 import { MaterialSalesOrgDetailsComponent } from '@gq/shared/components/material-details/material-sales-org-details/material-sales-org-details.component';
 import { ProductDetailsComponent } from '@gq/shared/components/material-details/product-details/product-details.component';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
@@ -33,14 +34,17 @@ import { PricingAssistantModalComponent } from './pricing-assistant-modal/pricin
 import { PricingResultsComponent } from './pricing-assistant-modal/pricing-results/pricing-results.component';
 import { NoTabsDataComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/no-tabs-data/no-tabs-data.component';
 import { ReferencePricingTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/reference-pricing-table/reference-pricing-table.component';
+import { SanityChecksTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/sanity-checks-table/sanity-checks-table.component';
+import { SimpleTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/simple-table/simple-table.component';
 import { TabsLabelComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/tabs-label/tabs-label.component';
+import { EditValueComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/technical-value-drivers-table/edit-value/edit-value.component';
+import { TechnicalValueDriversTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/technical-value-drivers-table/technical-value-drivers-table.component';
 import { PricingTabsWrapperComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/pricing-tabs-wrapper.component';
 import { ComparisonDeltaComponent } from './pricing-assistant-modal/product-comparison/comparison-delta/comparison-delta.component';
 import { DeltaValueComponent } from './pricing-assistant-modal/product-comparison/comparison-delta/delta-value/delta-value.component';
 import { ComparisonPanelComponent } from './pricing-assistant-modal/product-comparison/comparison-panel/comparison-panel.component';
 import { DeltaAmountComponent } from './pricing-assistant-modal/product-comparison/comparison-panel/delta-amount/delta-amount.component';
 import { ProductComparisonModalComponent } from './pricing-assistant-modal/product-comparison/product-comparison.component';
-
 @NgModule({
   imports: [
     AgGridModule,
@@ -69,6 +73,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     MaterialSalesOrgDetailsComponent,
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
+    SharedDirectivesModule,
   ],
   declarations: [
     PricingAssistantModalComponent,
@@ -85,6 +90,10 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     ComparisonDeltaComponent,
     DeltaAmountComponent,
     MaterialDetailsComponent,
+    SimpleTableComponent,
+    SanityChecksTableComponent,
+    TechnicalValueDriversTableComponent,
+    EditValueComponent,
   ],
   exports: [PricingAssistantModalComponent],
 })

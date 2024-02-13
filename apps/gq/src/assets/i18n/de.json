@@ -651,6 +651,18 @@
             "angle": "Rollenwinkel"
           }
         }
+      },
+      "tableColumnHeader": {
+        "sanityChecks": {
+          "description": "Beschreibung",
+          "value": "Wert"
+        },
+        "technicalValueDriver": {
+          "description": "Technische Werttreiber",
+          "selectedValue": "Ausgewählter Wert",
+          "value": "GQ vorgeschlagener Wert",
+          "additionalDescription": "Beschreibung"
+        }
       }
     }
   },

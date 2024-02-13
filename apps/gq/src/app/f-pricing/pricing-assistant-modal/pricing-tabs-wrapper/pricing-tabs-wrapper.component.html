@@ -7,7 +7,7 @@
           [title]="t('referencePricingLabel')"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
+      <div class="p-2 h-full">
         <ng-container [ngSwitch]="referenceDataVisible">
           <ng-container *ngSwitchCase="referenceDataToShowType.noReferenceData">
             <gq-no-tabs-data
@@ -44,9 +44,7 @@
           [iconColor]="'text-error'"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
-        market value drivers content
-      </div>
+      <div class="p-2 h-full">market value drivers content</div>
     </mat-tab>
     <mat-tab disabled>
       <ng-template mat-tab-label
@@ -64,8 +62,11 @@
           [title]="t('technicalValueDriversLabel')"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
-        technical value drivers content
+      <div class="p-2 w-full absolute">
+        <gq-technical-value-drivers-table
+          [dataSource]="techValueDriverDataSource"
+          (technicalValueDriversChange)="onTechnicalValueDriversChange($event)"
+        ></gq-technical-value-drivers-table>
       </div>
     </mat-tab>
     <mat-tab disabled>
@@ -84,8 +85,9 @@
           [title]="t('sanityCheckLabel')"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 h-full bg-secondary-900 bg-opacity-5">
-        sanity check content
+      <div class="p-2 w-full absolute">
+        <gq-sanity-checks-table [dataSource]="sanityChecksDataSource">
+        </gq-sanity-checks-table>
       </div>
     </mat-tab>
 

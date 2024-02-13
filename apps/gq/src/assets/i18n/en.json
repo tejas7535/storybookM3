@@ -651,6 +651,18 @@
             "angle": "Angle"
           }
         }
+      },
+      "tableColumnHeader": {
+        "sanityChecks": {
+          "description": "Description",
+          "value": "Value"
+        },
+        "technicalValueDriver": {
+          "description": "Technical Value Driver",
+          "selectedValue": "Selected Value",
+          "value": "GQ Proposed Value",
+          "additionalDescription": "Description"
+        }
       }
     }
   },
