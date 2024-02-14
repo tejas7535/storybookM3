@@ -302,7 +302,7 @@
     "additiveRequired": "Additivierung erforderlich",
     "additiveRequiredTooltip": "Bewertung für die vorliegenden Betriebsbedingungen (Last und Viskositätsverhältnis kappa), s. FAQ.",
     "effectiveEpAdditivation": "Wirksame EP-Additivierung",
-    "viscosityRatio": "Viskositätsverhältnis",
+    "viscosityRatio": "Viskositätsverhältnis [κ]",
     "baseOilViscosityAt40": "Grundölviskosität bei 40°C",
     "lowerTemperatureLimit": "Untere Gebrauchstemperatur",
     "lowerTemperatureLimitTooltip": " Unteres Limit für die Temperatur beim Anlaufen des Lagers, siehe FAQs.",

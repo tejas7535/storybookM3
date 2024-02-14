@@ -303,7 +303,7 @@
     "additiveRequiredTooltip": "การประเมินสภาวะในการทำงานทั่วไป (โหลดและค่า Kappa ของอัตราความหนืด) โปรดดูคำถามที่พบบ่อย",
     "effectiveEpAdditivation": "ปริมาณการเพิ่ม EP ที่ได้ผล",
     "baseOilViscosityAt40": "ความหนืดของน้ำมันพื้นฐานที่ 40°C",
-    "viscosityRatio": "อัตราความหนืด",
+    "viscosityRatio": "อัตราความหนืด [κ]",
     "lowerTemperatureLimit": "ขีดจำกัดอุณหภูมิขั้นต่ำ",
     "lowerTemperatureLimitTooltip": "ขีดจำกัดขั้นต่ำสำหรับอุณหภูมิขณะเริ่มเคลื่อนที่ของตลับลูกปืน โปรดดูคำถามที่พบบ่อย",
     "upperTemperatureLimit": "ขีดจำกัดอุณหภูมิสูงสุด",

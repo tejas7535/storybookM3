@@ -313,7 +313,7 @@
     "additiveRequiredTooltip": "主要工况（载荷和粘度比 κ）的评估，另请参阅常见问题。",
     "effectiveEpAdditivation": "有效 EP 添加剂",
     "baseOilViscosityAt40": "40°C 时的基础油粘度",
-    "viscosityRatio": "粘度比",
+    "viscosityRatio": "粘度比 [κ]",
     "lowerTemperatureLimit": "温度下限",
     "lowerTemperatureLimitTooltip": "轴承运动开始时的温度下限，另请参阅常见问题。",
     "upperTemperatureLimit": "温度上限",

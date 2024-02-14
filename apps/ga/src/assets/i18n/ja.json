@@ -304,7 +304,7 @@
     "additiveRequiredTooltip": "運転条件（荷重および粘度比κ）の評価については、FAQも参照ください",
     "effectiveEpAdditivation": "効果的なEP添加剤",
     "baseOilViscosityAt40": "40℃における基油粘度",
-    "viscosityRatio": "粘度比",
+    "viscosityRatio": "粘度比 [κ]",
     "lowerTemperatureLimit": "下限温度t",
     "lowerTemperatureLimitTooltip": "軸受起動時の温度の下限。FAQを参照ください。",
     "upperTemperatureLimit": "上限温度",

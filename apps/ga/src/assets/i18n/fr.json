@@ -303,7 +303,7 @@
     "additiveRequiredTooltip": "Évaluation des conditions de fonctionnement (charge et rapport de viscosité kappa), voir aussi la FAQ.",
     "effectiveEpAdditivation": "Additivation efficace de l’EP",
     "baseOilViscosityAt40": "Viscosité de l’huile de base à 40 °C",
-    "viscosityRatio": "Rapport de viscosité",
+    "viscosityRatio": "Rapport de viscosité [κ]",
     "lowerTemperatureLimit": "Limite de température inférieure",
     "lowerTemperatureLimitTooltip": "Limite inférieure de la température lors de la mise en mouvement du roulement, voir aussi les FAQ.",
     "upperTemperatureLimit": "Limite de température supérieure",

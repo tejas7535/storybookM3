@@ -303,7 +303,7 @@
     "additiveRequiredTooltip": "Penilaian untuk kondisi operasi yang berlaku (beban dan rasio viskositas kappa), lihat juga FAQ.",
     "effectiveEpAdditivation": "Efektif sekali aditivasi EP",
     "baseOilViscosityAt40": "Viskositas minyak dasar pada 40°C",
-    "viscosityRatio": "Rasio viskositas",
+    "viscosityRatio": "Rasio viskositas [κ]",
     "lowerTemperatureLimit": "Batas suhu rendah",
     "lowerTemperatureLimitTooltip": "Batas bawah untuk suhu pada awal gerakan pada bantalan, lihat juga FAQs.",
     "upperTemperatureLimit": "Batas suhu atas",

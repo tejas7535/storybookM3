@@ -303,7 +303,7 @@
     "additiveRequiredTooltip": "Evaluación de las condiciones de funcionamiento predominantes (índice de carga e índice de viscosidad kappa); consulte también las preguntas frecuentes.",
     "effectiveEpAdditivation": "Aditivación EP eficaz",
     "baseOilViscosityAt40": "Viscosidad base del aceite a 40 °C",
-    "viscosityRatio": "Índice de viscosidad",
+    "viscosityRatio": "Índice de viscosidad [κ]",
     "lowerTemperatureLimit": "Límite inferior de temperatura",
     "lowerTemperatureLimitTooltip": "Límite inferior de temperatura al comenzar el movimiento del rodamiento; consulte también las preguntas frecuentes.",
     "upperTemperatureLimit": "Límite superior de temperatura",

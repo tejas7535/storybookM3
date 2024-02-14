@@ -303,7 +303,7 @@
     "additiveRequiredTooltip": "일반적인 작동 조건(하중 및 점도비 카파)에 대한 평가는 FAQ 또한 참조하십시오.",
     "effectiveEpAdditivation": "효과적인 EP 첨가",
     "baseOilViscosityAt40": "40°C에서 베이스 오일 점도",
-    "viscosityRatio": "점도비",
+    "viscosityRatio": "점도비 [κ]",
     "lowerTemperatureLimit": "하한 온도",
     "lowerTemperatureLimitTooltip": "베어링의 모션 시작 시 하한 온도는 FAQ 또한 참조하십시오.",
     "upperTemperatureLimit": "상한 온도",

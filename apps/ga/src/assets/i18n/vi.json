@@ -303,7 +303,7 @@
     "additiveRequiredTooltip": "Đánh giá điều kiện vận hành ưu tiên (tải và độ nhớt kappa), cũng hãy xem Câu hỏi thường gặp.",
     "effectiveEpAdditivation": "Phụ gia EP hiệu quả",
     "baseOilViscosityAt40": "Độ nhớt dầu gốc ở 40°C",
-    "viscosityRatio": "Tỷ lệ độ nhớt",
+    "viscosityRatio": "Tỷ lệ độ nhớt [κ]",
     "lowerTemperatureLimit": "Giới hạn nhiệt độ dưới",
     "lowerTemperatureLimitTooltip": "Giới hạn dưới cho nhiệt độ lúc bắt đầu chuyển động cho vòng bi, cũng hãy xem Câu hỏi thường gặp.",
     "upperTemperatureLimit": "Giới hạn nhiệt độ trên",
