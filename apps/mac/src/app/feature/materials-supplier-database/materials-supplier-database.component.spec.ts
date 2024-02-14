@@ -9,7 +9,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -23,6 +27,7 @@ import * as en from '../../../assets/i18n/en.json';
 import { MaterialClass, NavigationLevel } from './constants';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
+import { MsdDialogService } from './services';
 
 jest.mock('@mac/shared/change-favicon', () => ({
   changeFavicon: jest.fn(() => {}),
@@ -58,6 +63,9 @@ describe('MaterialsSupplierDatabaseComponent', () => {
           logEvent: jest.fn(),
         },
       },
+      mockProvider(MsdDialogService, {
+        openContactDialog: jest.fn(),
+      }),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
@@ -159,6 +167,14 @@ describe('MaterialsSupplierDatabaseComponent', () => {
       ).toHaveBeenCalledWith('[MAC - MSD] Share link copied', {
         tooLong: true,
       });
+    });
+  });
+
+  describe('contactButtonFn', () => {
+    it('should open the contact dialog', () => {
+      component.contactButtonFn();
+
+      expect(component['dialogService'].openContactDialog).toHaveBeenCalled();
     });
   });
 });

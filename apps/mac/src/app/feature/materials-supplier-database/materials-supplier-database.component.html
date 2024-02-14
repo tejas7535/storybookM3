@@ -21,6 +21,14 @@
               </div>
             </div>
           </div>
+          <button
+            mat-raised-button
+            (click)="contactButtonFn()"
+            class="!my-auto"
+          >
+            <mat-icon class="material-icons-outline">contact_mail</mat-icon>
+            {{ t('contact') }}
+          </button>
           <button mat-raised-button (click)="shareButtonFn()" class="!my-auto">
             {{ t('share') }}
           </button>

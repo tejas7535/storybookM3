@@ -13,6 +13,8 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { changeFavicon } from '@mac/shared/change-favicon';
 
+import { MsdDialogService } from './services';
+
 @Component({
   selector: 'mac-materials-supplier-database',
   templateUrl: './materials-supplier-database.component.html',
@@ -20,14 +22,15 @@ import { changeFavicon } from '@mac/shared/change-favicon';
 export class MaterialsSupplierDatabaseComponent implements OnInit {
   public breadcrumbs: Breadcrumb[];
 
-  public constructor(
+  constructor(
     private readonly dataFacade: DataFacade,
     private readonly router: Router,
     private readonly urlSerializer: UrlSerializer,
     private readonly clipboard: Clipboard,
     private readonly snackbar: MatSnackBar,
     private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly dialogService: MsdDialogService
   ) {
     this.breadcrumbs = [
       { label: this.translocoService.translate('title'), url: '/overview' },
@@ -39,7 +42,7 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
     ];
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.applicationInsightsService.logEvent('[MAC - MSD] opened');
     changeFavicon(
       '../assets/favicons/msd.ico',
@@ -47,7 +50,7 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
     );
   }
 
-  public shareButtonFn(): void {
+  shareButtonFn(): void {
     this.dataFacade.shareQueryParams$.pipe(take(1)).subscribe((params) => {
       const tree = this.router.parseUrl(this.router.url);
       tree.queryParams = params;
@@ -74,5 +77,9 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
         );
       }
     });
+  }
+
+  contactButtonFn(): void {
+    this.dialogService.openContactDialog();
   }
 }

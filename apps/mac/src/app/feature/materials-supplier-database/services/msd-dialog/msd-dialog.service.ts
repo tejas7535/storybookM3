@@ -15,6 +15,7 @@ import { CopperInputDialogComponent } from '@mac/msd/main-table/material-input-d
 import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult } from '@mac/msd/models';
 
+import { ContactDialogComponent } from '../../main-table/contact-dialog/contact-dialog.component';
 import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
@@ -37,7 +38,7 @@ export class MsdDialogService {
     );
   }
 
-  public openDialog(
+  openDialog(
     isResumeDialog?: boolean,
     editDialogInformation?: {
       row: DataResult;
@@ -58,7 +59,7 @@ export class MsdDialogService {
     });
   }
 
-  public openConfirmDeleteDialog(): MatDialogRef<
+  openConfirmDeleteDialog(): MatDialogRef<
     ConfirmDeleteDialogComponent,
     { apply: boolean }
   > {
@@ -68,7 +69,7 @@ export class MsdDialogService {
     });
   }
 
-  public openBulkEditDialog(
+  openBulkEditDialog(
     selectedRows: any[],
     column?: string
   ): MatDialogRef<MaterialInputDialogComponent, { action?: TypedAction<any> }> {
@@ -84,7 +85,7 @@ export class MsdDialogService {
     });
   }
 
-  public openInfoDialog(
+  openInfoDialog(
     title?: string,
     topText?: string,
     imageSrc?: string,
@@ -109,7 +110,7 @@ export class MsdDialogService {
     });
   }
 
-  public openSapMaterialsUploadDialog(): void {
+  openSapMaterialsUploadDialog(): void {
     this.dialog.open(SapMaterialsUploadDialogComponent, {
       width: '634px',
       autoFocus: false,
@@ -118,12 +119,19 @@ export class MsdDialogService {
     });
   }
 
-  public openSapMaterialsUploadStatusDialog(): void {
+  openSapMaterialsUploadStatusDialog(): void {
     this.dialog.open(SapMaterialsUploadStatusDialogComponent, {
       width: '634px',
       autoFocus: false,
       restoreFocus: false,
       disableClose: true,
+    });
+  }
+
+  openContactDialog(): MatDialogRef<ContactDialogComponent> {
+    return this.dialog.open(ContactDialogComponent, {
+      width: '600px',
+      autoFocus: false,
     });
   }
 
