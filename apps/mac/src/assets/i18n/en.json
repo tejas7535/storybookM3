@@ -498,7 +498,7 @@
         "rawMaterialEmissionFactor": "Raw material emission factor",
         "processSurcharge": "Process surcharge",
         "link": "Link",
-        "stoffId": "StoffId"
+        "stoffId": "Schaeffler Material ID"
       },
       "confirmDialog": {
         "cancel": "Cancel",
@@ -830,6 +830,7 @@
         },
         "moreInformationContactLabel": "Contact:",
         "materialStandardStoffId": "Schaeffler Material ID (SSID) used in WIAM and Windchill",
+        "stoffId": "Schaeffler Material ID (SSID) used in WIAM and Windchill",
         "standardLink": "View Standard Document in SAP DMS (might not be available)",
         "wiamLink": "Show in Schaeffler Material Database WIAM",
         "country": {

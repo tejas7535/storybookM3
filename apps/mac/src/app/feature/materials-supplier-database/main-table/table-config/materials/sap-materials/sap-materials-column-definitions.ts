@@ -427,6 +427,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: STOFF_ID,
     headerName: STOFF_ID,
+    headerTooltip: STOFF_ID,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
     hide: true,
