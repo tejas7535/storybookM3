@@ -1,0 +1,32 @@
+{
+  "theme_color": "#319245",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/?utm_source=pwa-standalone&utm_medium=pwa&utm_campaign=standalone",
+  "name": "Schaeffler Medias EasyCalc",
+  "short_name": "EasyCalc",
+  "description": "Please enter a bearing designation to calculate rating life, frictional powerloss, lubrication parameters, overrolling frequencies and CO\u2082e emissions",
+  "icons": [
+    {
+      "src": "/assets/pwa/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/pwa/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/pwa/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/pwa/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

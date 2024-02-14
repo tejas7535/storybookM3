@@ -1,9 +1,10 @@
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { of } from 'rxjs';
 
 import { HomeCardsService } from '@ea/core/services/home/home-cards.service';
-import { ProductSelectionFacade } from '@ea/core/store/facades';
+import { ProductSelectionFacade, SettingsFacade } from '@ea/core/store/facades';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
@@ -22,6 +23,7 @@ describe('HomePageComponent', () => {
       MatIconTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MockComponent(QuickBearingSelectionComponent),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       {
@@ -37,6 +39,24 @@ describe('HomePageComponent', () => {
           bearingDesignation$: of('bearing-123'),
           bearingDesignationResultList$: of([]),
           dispatch: jest.fn(),
+        },
+      },
+      {
+        provide: SettingsFacade,
+        useValue: {
+          isStandalone$: of(true),
+        },
+      },
+      {
+        provide: Meta,
+        useValue: {
+          updateTag: jest.fn(),
+        },
+      },
+      {
+        provide: Title,
+        useValue: {
+          setTitle: jest.fn(),
         },
       },
     ],
@@ -61,5 +81,11 @@ describe('HomePageComponent', () => {
     const banner = spectator.query(QualtricsInfoBannerComponent);
     expect(banner).toBeTruthy();
     expect(banner.bearingDesingation).toBe(undefined);
+  });
+
+  it('should update the meta tags on load', () => {
+    expect(spectator.component).toBeTruthy();
+    expect(spectator.component['titleService'].setTitle).toHaveBeenCalled();
+    expect(spectator.component['metaService'].updateTag).toHaveBeenCalled();
   });
 });
