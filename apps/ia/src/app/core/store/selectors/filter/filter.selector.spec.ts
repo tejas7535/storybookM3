@@ -11,6 +11,7 @@ import {
   getAreOpenApplicationsAvailable,
   getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
+  getBenchmarkDimensionFilter,
   getCurrentDimensionValue,
   getCurrentFilters,
   getCurrentRoute,
@@ -95,6 +96,23 @@ describe('Filter Selector', () => {
   describe('getSelectedDimensionFilter', () => {
     test('should return organization units filter', () => {
       expect(getSelectedDimensionFilter(fakeState).options.length).toEqual(1);
+    });
+  });
+
+  describe('getBenchmarkDimensionFilter', () => {
+    test('should return benchmark dimension filter', () => {
+      const result = getBenchmarkDimensionFilter(fakeState);
+      expect(result.name).toEqual('ORG_UNIT');
+      expect(result.options.length).toEqual(1);
+    });
+  });
+
+  describe('getCurrentFilters', () => {
+    test('should return current filters', () => {
+      const result = getCurrentFilters(fakeState);
+      expect(result.filterDimension).toEqual(FilterDimension.ORG_UNIT);
+      expect(result.value).toEqual('Schaeffler_IT_1');
+      expect(result.timeRange).toEqual('1577863715000|1609399715000');
     });
   });
 

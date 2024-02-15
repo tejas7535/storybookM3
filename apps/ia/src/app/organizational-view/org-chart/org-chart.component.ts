@@ -14,6 +14,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { translate } from '@ngneat/transloco';
 import { OrgChart } from 'd3-org-chart';
+import * as d3Selection from 'd3-selection';
 import moment from 'moment';
 
 import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../shared/constants';
@@ -44,6 +45,7 @@ export class OrgChartComponent implements AfterViewInit {
   private _selectedNodeEmployees: OrgChartEmployee[];
   private _selectedNodeEmployeesLoading: boolean;
 
+  d3s = d3Selection;
   fluctuationTypeEnum = FluctuationType;
   fluctuationType: FluctuationType = FluctuationType.TOTAL;
 
@@ -118,10 +120,33 @@ export class OrgChartComponent implements AfterViewInit {
   chartData: OrgChartNode[];
   selectedDataNode: DimensionFluctuationData;
 
+  lastMouseOver: string;
+
   constructor(
     private readonly orgChartService: OrgChartService,
     private readonly dialog: MatDialog
   ) {}
+
+  @HostListener('document:mouseover', ['$event']) onMouseOver(
+    event: any
+  ): void {
+    if (event.target.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
+      const parent = this.findParentSVG(event);
+      if (parent) {
+        this.d3s.select(parent).raise();
+      }
+    }
+  }
+
+  @HostListener('document:mouseout', ['$event']) onMouseOut(event: any): void {
+    if (event.target.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
+      const parent = this.findParentSVG(event);
+      if (parent) {
+        const expandCollapseBtn = 'g .node-button-g';
+        this.d3s.select(parent).select(expandCollapseBtn).raise();
+      }
+    }
+  }
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
     const node: HTMLElement = event.target;
@@ -338,20 +363,34 @@ export class OrgChartComponent implements AfterViewInit {
     );
   }
 
+  // Find the parent node (SVG element) of the event target
+  findParentSVG(event: Event) {
+    let node = this.d3s.select(event.target).node();
+    while (node && node.classList && !node.classList.contains('node')) {
+      node = node.parentNode;
+    }
+
+    return node?.classList?.contains('node') ? node : undefined;
+  }
+
   changeFluctuationType(change: MatButtonToggleChange) {
     const type = change.value;
 
     this.chartData.forEach((node) => {
-      const totalFluctuationRate = this.orgChartService.getDisplayedValues(
-        type,
-        node.fluctuationRate
-      );
-      const directFluctuationRate = this.orgChartService.getDisplayedValues(
-        type,
-        node.directFluctuationRate
-      );
-      node.displayedTotalFluctuationRate = totalFluctuationRate;
-      node.displayedDirectFluctuationRate = directFluctuationRate;
+      node.displayedTotalFluctuationRate =
+        this.orgChartService.getDisplayedValues(type, node.fluctuationRate);
+      node.displayedDirectFluctuationRate =
+        this.orgChartService.getDisplayedValues(
+          type,
+          node.directFluctuationRate
+        );
+      node.displayedAbsoluteFluctuation =
+        this.orgChartService.getDisplayedValues(type, node.absoluteFluctuation);
+      node.displayedDirectAbsoluteFluctuation =
+        this.orgChartService.getDisplayedValues(
+          type,
+          node.directAbsoluteFluctuation
+        );
     });
     this.fluctuationType = type;
     this.chart.data(this.chartData).render();

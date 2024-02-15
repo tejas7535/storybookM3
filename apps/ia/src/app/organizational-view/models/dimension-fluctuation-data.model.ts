@@ -15,5 +15,7 @@ export interface DimensionFluctuationData {
   directAttrition: number;
   fluctuationRate: OrgChartFluctuationRate;
   directFluctuationRate: OrgChartFluctuationRate;
+  absoluteFluctuation: OrgChartFluctuationRate;
+  directAbsoluteFluctuation: OrgChartFluctuationRate;
   attritionMeta: EmployeeAttritionMeta;
 }

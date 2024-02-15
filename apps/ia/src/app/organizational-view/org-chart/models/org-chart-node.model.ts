@@ -15,9 +15,15 @@ export interface OrgChartNode {
   displayedTotalFluctuationRate: number;
   fluctuationRate: OrgChartFluctuationRate;
   directFluctuationRate: OrgChartFluctuationRate;
+  absoluteFluctuation: OrgChartFluctuationRate;
+  directAbsoluteFluctuation: OrgChartFluctuationRate;
+  displayedAbsoluteFluctuation: number;
+  displayedDirectAbsoluteFluctuation: number;
   textDirectOverall: string;
   textEmployees: string;
   textFluctuation: string;
+  textRelativeFluctuation: string;
+  textAbsoluteFluctuation: string;
   showUpperParentBtn: boolean;
   _upToTheRootHighlighted?: boolean;
   _highlighted?: boolean;

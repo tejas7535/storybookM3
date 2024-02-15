@@ -9,7 +9,9 @@
     "node": {
       "directOverall": "(direct/overall)",
       "employees": "Employees",
-      "fluctuation": "Fluctuation"
+      "fluctuation": "Fluctuation",
+      "relativeFluctuation": "Relative fluctuation (direct/overall)",
+      "absoluteFluctuation": "Absolute fluctuation in HCO (direct/overall)"
     },
     "noData": "No Data Available."
   },

@@ -2,7 +2,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
-import { DimensionFluctuationData } from '../models';
+import { DimensionFluctuationData, OrgChartFluctuationRate } from '../models';
 import { BUTTON_CSS, OrgChartNode } from './models';
 import { OrgChartService } from './org-chart.service';
 
@@ -76,6 +76,8 @@ describe('OrgChartService', () => {
       directOverall: 'directOverall',
       employees: 'employees',
       fluctuation: 'fluctuation',
+      relativeFluctuation: 'relativeFluctuation',
+      absoluteFluctuation: 'absoluteFluctuation',
     };
 
     test('should map org unit data', () => {
@@ -97,6 +99,18 @@ describe('OrgChartService', () => {
             forcedFluctuationRate: 3,
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
+          },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
           },
         } as DimensionFluctuationData,
       ];
@@ -127,13 +141,29 @@ describe('OrgChartService', () => {
           remainingFluctuationRate: 1,
           unforcedFluctuationRate: 7,
         },
+        absoluteFluctuation: {
+          fluctuationRate: 12,
+          forcedFluctuationRate: 3,
+          remainingFluctuationRate: 1,
+          unforcedFluctuationRate: 7,
+        },
+        directAbsoluteFluctuation: {
+          fluctuationRate: 10,
+          forcedFluctuationRate: 4,
+          remainingFluctuationRate: 2,
+          unforcedFluctuationRate: 6,
+        },
         textDirectOverall: 'directOverall',
         textEmployees: 'employees',
         textFluctuation: 'fluctuation',
+        textRelativeFluctuation: 'relativeFluctuation',
+        textAbsoluteFluctuation: 'absoluteFluctuation',
         heatMapClass: 'bg-secondary-900',
         showUpperParentBtn: false,
         displayedDirectFluctuationRate: 6,
         displayedTotalFluctuationRate: 7,
+        displayedAbsoluteFluctuation: 7,
+        displayedDirectAbsoluteFluctuation: 6,
       });
     });
 
@@ -155,6 +185,18 @@ describe('OrgChartService', () => {
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
           },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
+          },
         } as DimensionFluctuationData,
         {
           id: '1234',
@@ -171,6 +213,18 @@ describe('OrgChartService', () => {
             forcedFluctuationRate: 3,
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
+          },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
           },
         } as unknown as DimensionFluctuationData,
         {
@@ -189,6 +243,18 @@ describe('OrgChartService', () => {
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
           },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
+          },
         } as unknown as DimensionFluctuationData,
         {
           id: '123456',
@@ -205,6 +271,18 @@ describe('OrgChartService', () => {
             forcedFluctuationRate: 3,
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
+          },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
           },
         } as unknown as DimensionFluctuationData,
       ];
@@ -241,6 +319,18 @@ describe('OrgChartService', () => {
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
           },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
+          },
         } as unknown as DimensionFluctuationData,
       ];
 
@@ -272,6 +362,18 @@ describe('OrgChartService', () => {
             remainingFluctuationRate: 1,
             unforcedFluctuationRate: 7,
           },
+          absoluteFluctuation: {
+            fluctuationRate: 12,
+            forcedFluctuationRate: 3,
+            remainingFluctuationRate: 1,
+            unforcedFluctuationRate: 7,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 10,
+            forcedFluctuationRate: 4,
+            remainingFluctuationRate: 2,
+            unforcedFluctuationRate: 6,
+          },
         } as unknown as DimensionFluctuationData,
       ];
 
@@ -283,6 +385,26 @@ describe('OrgChartService', () => {
 
       expect(result[0].showUpperParentBtn).toBeTruthy();
       expect(result[0].parentNodeId).toBeUndefined();
+    });
+  });
+
+  describe('createOrgChartFluctuationRate', () => {
+    test('should create fluctuation rate', () => {
+      const data: OrgChartFluctuationRate = {
+        fluctuationRate: 32,
+        forcedFluctuationRate: 10,
+        remainingFluctuationRate: 8,
+        unforcedFluctuationRate: 22,
+      };
+
+      const result = service.createOrgChartFluctuationRate(data);
+
+      expect(result).toEqual({
+        fluctuationRate: 32,
+        forcedFluctuationRate: 10,
+        remainingFluctuationRate: 8,
+        unforcedFluctuationRate: 22,
+      });
     });
   });
 
@@ -364,6 +486,22 @@ describe('OrgChartService', () => {
           remainingFluctuationRate: 1,
           unforcedFluctuationRate: 7,
         },
+        absoluteFluctuation: {
+          fluctuationRate: 12,
+          forcedFluctuationRate: 3,
+          remainingFluctuationRate: 1,
+          unforcedFluctuationRate: 7,
+        },
+        directAbsoluteFluctuation: {
+          fluctuationRate: 10,
+          forcedFluctuationRate: 4,
+          remainingFluctuationRate: 2,
+          unforcedFluctuationRate: 6,
+        },
+        displayedAbsoluteFluctuation: 12,
+        displayedDirectAbsoluteFluctuation: 10,
+        textAbsoluteFluctuation: 'Test5',
+        textRelativeFluctuation: 'Test6',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,
@@ -407,6 +545,22 @@ describe('OrgChartService', () => {
           remainingFluctuationRate: 1,
           unforcedFluctuationRate: 7,
         },
+        absoluteFluctuation: {
+          fluctuationRate: 12,
+          forcedFluctuationRate: 3,
+          remainingFluctuationRate: 1,
+          unforcedFluctuationRate: 7,
+        },
+        directAbsoluteFluctuation: {
+          fluctuationRate: 10,
+          forcedFluctuationRate: 4,
+          remainingFluctuationRate: 2,
+          unforcedFluctuationRate: 6,
+        },
+        displayedAbsoluteFluctuation: 12,
+        displayedDirectAbsoluteFluctuation: 10,
+        textAbsoluteFluctuation: 'Test5',
+        textRelativeFluctuation: 'Test6',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,
@@ -450,6 +604,22 @@ describe('OrgChartService', () => {
           remainingFluctuationRate: 1,
           unforcedFluctuationRate: 7,
         },
+        absoluteFluctuation: {
+          fluctuationRate: 12,
+          forcedFluctuationRate: 3,
+          remainingFluctuationRate: 1,
+          unforcedFluctuationRate: 7,
+        },
+        directAbsoluteFluctuation: {
+          fluctuationRate: 10,
+          forcedFluctuationRate: 4,
+          remainingFluctuationRate: 2,
+          unforcedFluctuationRate: 6,
+        },
+        displayedAbsoluteFluctuation: 12,
+        displayedDirectAbsoluteFluctuation: 10,
+        textAbsoluteFluctuation: 'Test5',
+        textRelativeFluctuation: 'Test6',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,
@@ -493,6 +663,22 @@ describe('OrgChartService', () => {
           remainingFluctuationRate: 1,
           unforcedFluctuationRate: 7,
         },
+        absoluteFluctuation: {
+          fluctuationRate: 12,
+          forcedFluctuationRate: 3,
+          remainingFluctuationRate: 1,
+          unforcedFluctuationRate: 7,
+        },
+        directAbsoluteFluctuation: {
+          fluctuationRate: 10,
+          forcedFluctuationRate: 4,
+          remainingFluctuationRate: 2,
+          unforcedFluctuationRate: 6,
+        },
+        displayedAbsoluteFluctuation: 12,
+        displayedDirectAbsoluteFluctuation: 10,
+        textAbsoluteFluctuation: 'Test5',
+        textRelativeFluctuation: 'Test6',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,

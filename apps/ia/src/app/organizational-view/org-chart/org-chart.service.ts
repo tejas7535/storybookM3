@@ -5,6 +5,7 @@ import { FluctuationType } from '../../shared/tables/employee-list-table/models'
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { DimensionFluctuationData, OrgChartFluctuationRate } from '../models';
 import { BUTTON_CSS } from './models';
+import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
@@ -51,6 +52,8 @@ export class OrgChartService {
     const textDirectOverall = translations.directOverall;
     const textEmployees = translations.employees;
     const textFluctuation = translations.fluctuation;
+    const textRelativeFluctuation = translations.relativeFluctuation;
+    const textAbsoluteFluctuation = translations.absoluteFluctuation;
 
     // TODO: calculate heat
     const heatMapClass = 'bg-secondary-900';
@@ -76,23 +79,18 @@ export class OrgChartService {
         const expanded = false;
         const directSubordinates = elem.directEmployees;
         const totalSubordinates = elem.totalEmployees;
-        const directAttrition = elem.directAttrition;
-        const fluctuationRate: OrgChartFluctuationRate = {
-          fluctuationRate: elem.fluctuationRate.fluctuationRate,
-          unforcedFluctuationRate: elem.fluctuationRate.unforcedFluctuationRate,
-          forcedFluctuationRate: elem.fluctuationRate.forcedFluctuationRate,
-          remainingFluctuationRate:
-            elem.fluctuationRate.remainingFluctuationRate,
-        };
-        const directFluctuationRate: OrgChartFluctuationRate = {
-          fluctuationRate: elem.directFluctuationRate.fluctuationRate,
-          unforcedFluctuationRate:
-            elem.directFluctuationRate.unforcedFluctuationRate,
-          forcedFluctuationRate:
-            elem.directFluctuationRate.forcedFluctuationRate,
-          remainingFluctuationRate:
-            elem.directFluctuationRate.remainingFluctuationRate,
-        };
+        const fluctuationRate = this.createOrgChartFluctuationRate(
+          elem.fluctuationRate
+        );
+        const directFluctuationRate = this.createOrgChartFluctuationRate(
+          elem.directFluctuationRate
+        );
+        const absoluteFluctuation = this.createOrgChartFluctuationRate(
+          elem.absoluteFluctuation
+        );
+        const directAbsoluteFluctuation = this.createOrgChartFluctuationRate(
+          elem.directAbsoluteFluctuation
+        );
 
         const displayedTotalFluctuationRate = this.getDisplayedValues(
           fluctuationType,
@@ -101,6 +99,14 @@ export class OrgChartService {
         const displayedDirectFluctuationRate = this.getDisplayedValues(
           fluctuationType,
           directFluctuationRate
+        );
+        const displayedAbsoluteFluctuation = this.getDisplayedValues(
+          fluctuationType,
+          absoluteFluctuation
+        );
+        const displayedDirectAbsoluteFluctuation = this.getDisplayedValues(
+          fluctuationType,
+          directAbsoluteFluctuation
         );
 
         return {
@@ -114,19 +120,33 @@ export class OrgChartService {
           heatMapClass,
           directSubordinates,
           totalSubordinates,
-          directAttrition,
           fluctuationRate,
           directFluctuationRate,
+          absoluteFluctuation,
+          directAbsoluteFluctuation,
           displayedTotalFluctuationRate,
           displayedDirectFluctuationRate,
+          displayedAbsoluteFluctuation,
+          displayedDirectAbsoluteFluctuation,
           textDirectOverall,
           textEmployees,
           textFluctuation,
+          textRelativeFluctuation,
+          textAbsoluteFluctuation,
           showUpperParentBtn:
             parentNodeId === undefined && elem.parentId !== this.ROOT_ID,
         };
       })
       .sort((a, b) => (a.organization > b.organization ? 1 : -1)); // sort alphabetically to ensure same order on every reload
+  }
+
+  createOrgChartFluctuationRate(elem: OrgChartFluctuationRate) {
+    return {
+      fluctuationRate: elem.fluctuationRate,
+      unforcedFluctuationRate: elem.unforcedFluctuationRate,
+      forcedFluctuationRate: elem.forcedFluctuationRate,
+      remainingFluctuationRate: elem.remainingFluctuationRate,
+    };
   }
 
   getDisplayedValues(
@@ -218,6 +238,24 @@ export class OrgChartService {
       </svg>`
       : '';
 
+    const tooltip = `
+      <div id="org-chart-tooltip" class="absolute left-[290px] hidden group-hover:block w-max 
+          mt-6 px-4 py-2 rounded tracking-wide bg-secondary-900">
+        <div>
+          <span class="text-medium-emphasis-dark-bg">${data.textRelativeFluctuation}:</span>
+          <span class="text-high-emphasis-dark-bg">
+            ${data.displayedDirectFluctuationRate}% / ${data.displayedTotalFluctuationRate}%
+          </span>
+        </div>
+        <div>
+          <span class="text-medium-emphasis-dark-bg">${data.textAbsoluteFluctuation}:</span>
+          <span class="text-high-emphasis-dark-bg">
+            ${data.displayedDirectAbsoluteFluctuation} / ${data.displayedAbsoluteFluctuation}
+          </span>
+        </div>
+      </div>
+      `;
+
     return `
       ${parentArrow}
       <div style="font-family: Noto sans; height: ${height}px; width: ${width}px; ${rectBorder}; border-radius: 6px; cursor: default;">
@@ -249,14 +287,16 @@ export class OrgChartService {
           </div>
           <div style="width: 1px; background-color: #F0F0F0;"></div>
           <div ${fluctuationNodeId} style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px; padding-bottom: 4px;
-              padding-right: 8px; margin-left: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
+                padding-right: 8px; margin-left: 8px; width: 100%; cursor: pointer;" 
+              class="${OrgChartConfig.BUTTON_CSS.attrition} hover:bg-gray-300 rounded group">
             <span ${fluctuationNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
               ${fluctuationIconSvg}
-              <span ${fluctuationNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
+              <span ${fluctuationNodeId} class="${OrgChartConfig.BUTTON_CSS.attrition}" style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
             </span>
-            <span ${fluctuationNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
+            <span ${fluctuationNodeId} class="${OrgChartConfig.BUTTON_CSS.attrition}" style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
               ${data.displayedDirectFluctuationRate}%&nbsp;/&nbsp;${data.displayedTotalFluctuationRate}%
             </span>
+            ${tooltip}
           </div>
         </div>
       </div>
@@ -303,28 +343,28 @@ export class OrgChartService {
           </div>
         </div>
         <div style="display: flex; justify-content: space-evenly; padding: 8px; margin-top: 22px;">
-        <div ${peopleNodeId} style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px; padding-bottom: 4px;
-            padding-left: 8px; margin-right: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
-          <span ${peopleNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
-            ${peopleIconSvg}
-            <span ${peopleNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textEmployees}</span>
-          </span>
-          <span ${peopleNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
-            ${data.directSubordinates}
-          </span>
+          <div ${peopleNodeId} style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px; padding-bottom: 4px;
+              padding-left: 8px; margin-right: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
+            <span ${peopleNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
+              ${peopleIconSvg}
+              <span ${peopleNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textEmployees}</span>
+            </span>
+            <span ${peopleNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
+              ${data.directSubordinates}
+            </span>
+          </div>
+          <div style="width: 1px; background-color: #F0F0F0;"></div>
+          <div ${fluctuationNodeId} style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px; padding-bottom: 4px;
+              padding-right: 8px; margin-left: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
+            <span ${fluctuationNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
+              ${fluctuationIconSvg}
+              <span ${fluctuationNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
+            </span>
+            <span ${fluctuationNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
+              ${data.displayedTotalFluctuationRate}%
+            </span>
+          </div>
         </div>
-        <div style="width: 1px; background-color: #F0F0F0;"></div>
-        <div ${fluctuationNodeId} style="display: flex; flex-direction: column; gap: 8px; padding-top: 4px; padding-bottom: 4px;
-            padding-right: 8px; margin-left: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
-          <span ${fluctuationNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
-            ${fluctuationIconSvg}
-            <span ${fluctuationNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
-          </span>
-          <span ${fluctuationNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
-            ${data.displayedTotalFluctuationRate}%
-          </span>
-        </div>
-      </div>
       </div>
     `;
   }

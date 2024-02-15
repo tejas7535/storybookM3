@@ -33,6 +33,10 @@ import {
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
+jest.mock('d3-selection', () => ({
+  select: jest.fn(() => {}),
+}));
+
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
@@ -172,6 +176,102 @@ describe('OrgChartComponent', () => {
     });
   });
 
+  describe('onMouseOver', () => {
+    test('should raise parent SVG element when mouse over attrition button', () => {
+      const event = {
+        target: {
+          classList: {
+            contains: jest.fn().mockReturnValue(true),
+          },
+        },
+      };
+
+      const parent = {
+        raise: jest.fn(),
+      };
+      component.d3s = {
+        select: jest.fn().mockReturnValue(parent),
+      };
+
+      const findParentSVGSpy = jest
+        .spyOn(component, 'findParentSVG')
+        .mockReturnValue(parent);
+
+      component.onMouseOver(event);
+
+      expect(findParentSVGSpy).toHaveBeenCalledWith(event);
+      expect(component.d3s.select).toHaveBeenCalledWith(parent);
+      expect(parent.raise).toHaveBeenCalledWith();
+    });
+
+    test('should not raise parent SVG element when mouse out non-attrition button', () => {
+      const event = {
+        target: {
+          classList: {
+            contains: jest.fn().mockReturnValue(false),
+          },
+        },
+      };
+
+      const findParentSVGSpy = jest
+        .spyOn(component, 'findParentSVG')
+        .mockReturnValue(undefined as unknown);
+
+      component.onMouseOver(event);
+
+      expect(findParentSVGSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onMouseOut', () => {
+    test('should raise node button SVG element when mouse out attrition button', () => {
+      const event = {
+        target: {
+          classList: {
+            contains: jest.fn().mockReturnValue(true),
+          },
+        },
+      };
+
+      const button = { raise: jest.fn() } as any;
+      const parent = {
+        select: jest.fn().mockReturnValue(button),
+      };
+      component.d3s = {
+        select: jest.fn().mockReturnValue(parent),
+      };
+
+      const findParentSVGSpy = jest
+        .spyOn(component, 'findParentSVG')
+        .mockReturnValue(parent);
+
+      component.onMouseOut(event);
+
+      expect(findParentSVGSpy).toHaveBeenCalledWith(event);
+      expect(component.d3s.select).toHaveBeenCalledWith(parent);
+      expect(parent.select).toHaveBeenCalledWith('g .node-button-g');
+      expect(button.raise).toHaveBeenCalled();
+    });
+
+    test('should not raise parent SVG element when mouse out non-attrition button', () => {
+      const event = {
+        target: {
+          classList: {
+            contains: jest.fn().mockReturnValue(false),
+          },
+        },
+      };
+
+      const findParentSVGSpy = jest
+        .spyOn(component, 'findParentSVG')
+        .mockReturnValue(undefined as unknown);
+
+      component.onMouseOut(event);
+
+      expect(findParentSVGSpy).not.toHaveBeenCalled();
+    });
+  });
+
   describe('clickout', () => {
     beforeEach(() => {
       component['dialog'].open = jest.fn();
@@ -185,6 +285,8 @@ describe('OrgChartComponent', () => {
             managerOfOrgUnit: 'Hans',
             fluctuationRate: {},
             directFluctuationRate: {},
+            absoluteFluctuation: {},
+            directAbsoluteFluctuation: {},
           } as DimensionFluctuationData,
         ],
         dimension: FilterDimension.ORG_UNIT,
@@ -622,6 +724,18 @@ describe('OrgChartComponent', () => {
             forcedFluctuationRate: 543,
             remainingFluctuationRate: 654,
           },
+          absoluteFluctuation: {
+            fluctuationRate: 789,
+            unforcedFluctuationRate: 890,
+            forcedFluctuationRate: 901,
+            remainingFluctuationRate: 902,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 903,
+            unforcedFluctuationRate: 904,
+            forcedFluctuationRate: 905,
+            remainingFluctuationRate: 906,
+          },
         },
       ] as OrgChartNode[];
     });
@@ -645,6 +759,10 @@ describe('OrgChartComponent', () => {
       expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
         321
       );
+      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(789);
+      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
+        903
+      );
     });
 
     test('should set unforced as displayed fluctuation rate', () => {
@@ -656,6 +774,10 @@ describe('OrgChartComponent', () => {
       expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
         432
       );
+      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(890);
+      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
+        904
+      );
     });
 
     test('should set forced as displayed fluctuation rate', () => {
@@ -664,6 +786,10 @@ describe('OrgChartComponent', () => {
       expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(345);
       expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
         543
+      );
+      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(901);
+      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
+        905
       );
     });
 
@@ -676,6 +802,60 @@ describe('OrgChartComponent', () => {
       expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
         654
       );
+      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(902);
+      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
+        906
+      );
+    });
+  });
+
+  describe('findParentSVG', () => {
+    test('should find parent SVG element', () => {
+      const parent = {
+        classList: {
+          contains: jest.fn().mockReturnValue(true),
+        },
+        parentNode: {},
+      };
+      const node = {
+        classList: {
+          contains: jest.fn().mockReturnValue(false),
+        },
+        parentNode: parent,
+      };
+      const target = { parentNode: node };
+      const event: Event = { target } as unknown as Event;
+
+      component.d3s = {
+        select: jest.fn().mockReturnValue({
+          node: () => node,
+        }),
+      };
+
+      const result = component.findParentSVG(event);
+
+      expect(result).toEqual(parent);
+    });
+
+    test('should return undefined when no parent SVG element found', () => {
+      const node = {
+        classList: {
+          contains: jest.fn().mockReturnValue(false),
+        },
+        parentNode: {},
+      };
+      const target = { parentNode: node };
+      const event: Event = { target } as unknown as Event;
+
+      component.d3s = {
+        select: jest.fn().mockReturnValue({
+          node: () => node,
+        }),
+      };
+
+      const result = component.findParentSVG(event);
+
+      expect(result).toBeUndefined();
     });
   });
 });
