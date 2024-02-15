@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 
+import { MarketValueDriverDisplayItem } from '../models/market-value-driver-display-item.interface';
 import { ReferenceDataToShow } from '../models/reference-data-to-show.enum';
 import { TableItem } from '../models/table-item';
-import { TranslationKey } from './components/models/translation-key.enum';
 
 @Component({
   selector: 'gq-pricing-tabs-wrapper',
@@ -13,16 +13,16 @@ import { TranslationKey } from './components/models/translation-key.enum';
 export class PricingTabsWrapperComponent implements OnInit {
   @Input() referencePrice: number;
   @Input() marketValueDriversValue: number;
+  @Input() marketValueDriverWarning: boolean;
   @Input() technicalValueDriversValue: number;
   @Input() sanityCheckValue: number;
   @Input() finalPrice: number;
   @Input() currency: string;
 
   @Input() referencePriceRowData: ComparableMaterialsRowData[];
+  @Input() marketValueDriverData: MarketValueDriverDisplayItem[];
 
   @Output() comparedMaterialClicked = new EventEmitter<string>();
-
-  readonly tableType = TranslationKey;
 
   referenceDataVisible: ReferenceDataToShow;
   sanityChecksDataSource: TableItem[] = [
@@ -124,5 +124,10 @@ export class PricingTabsWrapperComponent implements OnInit {
   onTechnicalValueDriversChange(changedSource: TableItem[]): void {
     console.log('changedSource', changedSource);
     this.techValueDriverDataSource = changedSource;
+  }
+
+  marketValueDriverSelectionChanged(data: MarketValueDriverDisplayItem): void {
+    // when a selection of a question has changed it is fired here
+    console.log(data);
   }
 }

@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -32,6 +33,8 @@ import { PriceButtonComponent } from './pricing-assistant-modal/price-button/pri
 import { PricingAssistantHeaderComponent } from './pricing-assistant-modal/pricing-assistant-header/pricing-assistant-header.component';
 import { PricingAssistantModalComponent } from './pricing-assistant-modal/pricing-assistant-modal.component';
 import { PricingResultsComponent } from './pricing-assistant-modal/pricing-results/pricing-results.component';
+import { MarketValueDriverItemComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/market-value-driver/components/market-value-driver-item/market-value-driver-item.component';
+import { MarketValueDriverComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/market-value-driver/market-value-driver.component';
 import { NoTabsDataComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/no-tabs-data/no-tabs-data.component';
 import { ReferencePricingTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/reference-pricing-table/reference-pricing-table.component';
 import { SanityChecksTableComponent } from './pricing-assistant-modal/pricing-tabs-wrapper/components/sanity-checks-table/sanity-checks-table.component';
@@ -71,6 +74,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     MaterialBasicComponent,
     MaterialAdditionalComponent,
     MaterialSalesOrgDetailsComponent,
+    MatRadioModule,
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
     SharedDirectivesModule,
@@ -94,6 +98,8 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     SanityChecksTableComponent,
     TechnicalValueDriversTableComponent,
     EditValueComponent,
+    MarketValueDriverComponent,
+    MarketValueDriverItemComponent,
   ],
   exports: [PricingAssistantModalComponent],
 })

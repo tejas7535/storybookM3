@@ -663,6 +663,51 @@
           "value": "GQ Proposed Value",
           "additionalDescription": "Description"
         }
+      },
+      "marketValueDriver": {
+        "information": "This information will improve price recommendation accuracy.",
+        "unknownTooltip": "Unknown pre-selected automatically. Please confirm the market value drivers.",
+        "questions": {
+          "1": {
+            "title": "Number of available competitors",
+            "subtitle": "Refers to the number of competitors that have the capability to offer the requested solution.",
+            "option1": "Low (>2)",
+            "option2": "Medium (3-5)",
+            "option3": "High (<6)",
+            "option4": "Unknown"
+          },
+          "2": {
+            "title": "Size of competitors",
+            "subtitle": "Please provide rough estimate about the competitors' past annual revenue size (in EUR).",
+            "option1": "Large (>1bn EUR)",
+            "option2": "Medium",
+            "option3": "Small (<1bn EUR)",
+            "option4": "Unknown"
+          },
+          "3": {
+            "title": "Products with components/ features specific to Schaeffler",
+            "subtitle": "Which competitors can create components/ features of the inquired bearing",
+            "option1": "Any Competitor",
+            "option2": "Only Premium Producer",
+            "option3": "Only Schaeffler",
+            "option4": "Unknown"
+          },
+          "4": {
+            "title": "Criticality for customer",
+            "subtitle": "What is the degree of criticality for the customer?",
+            "option1": "Low",
+            "option2": "Medium",
+            "option3": "High",
+            "option4": "Unknown"
+          },
+          "5": {
+            "title": "X-Life",
+            "subtitle": "Are we confident that the customer would draw significant advantage from X-Life feature on this bearing?",
+            "option1": "Yes",
+            "option2": "No",
+            "option3": "Unknown"
+          }
+        }
       }
     }
   },

@@ -663,6 +663,51 @@
           "value": "GQ vorgeschlagener Wert",
           "additionalDescription": "Beschreibung"
         }
+      },
+      "marketValueDriver": {
+        "information": "Diese Information verbessert die Genauigkeit der Preisempfehlung.",
+        "unknownTooltip": "Unbekannt wird automatisch ausgwählt. Bitte bestätigen Sie die Marktwerttreiber.",
+        "questions": {
+          "1": {
+            "title": " Anzahl verfügbarer Wettbewerber",
+            "subtitle": "Bezieht sich auf die Anzahl der Wettbewerber, die die angefragte Lösung anbieten können.",
+            "option1": "Niedrig (>2)",
+            "option2": "Mittle (3-5)",
+            "option3": "Hoch (<6)",
+            "option4": "Unbekannt"
+          },
+          "2": {
+            "title": "Größe der Wettbewerber",
+            "subtitle": "Geben Sie bitte eine ungefähre Schätzung zu dem letzten Jahresumsatz des Wettbewerber ab (in EUR).",
+            "option1": "Groß (>1 Mrd. EUR)",
+            "option2": "Mittel",
+            "option3": "Klein (<1 Mrd. EUR)",
+            "option4": "Unbekannt"
+          },
+          "3": {
+            "title": "Products with components/ features specific to Schaeffler",
+            "subtitle": "Which competitors can create components/ features of the inquired bearing",
+            "option1": "Jeder Wettbewerber",
+            "option2": "Nur Premiumhersteller",
+            "option3": "Nur Schaeffler",
+            "option4": "Unbekannt"
+          },
+          "4": {
+            "title": "Bedeutung für den Kunden",
+            "subtitle": "Was ist der Grad der Wichtigkeit für den Kunden?",
+            "option1": "Niedrig",
+            "option2": "Mittel",
+            "option3": "Hoch",
+            "option4": "Unbekannt"
+          },
+          "5": {
+            "title": "X-Life",
+            "subtitle": "Sind Sie sicher, dass der Kunde einen signifikanten Vorteil durch die X-Life Eigenschaft dieses Lagers ziehen würde?",
+            "option1": "Ja",
+            "option2": "Nein",
+            "option3": "Unbekannt"
+          }
+        }
       }
     }
   },

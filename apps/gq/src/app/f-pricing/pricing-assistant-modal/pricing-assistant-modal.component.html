@@ -20,24 +20,26 @@
 
     <!--footer-->
     <ng-container *ngIf="visibleOverlay !== overlayToShowEnum.comparisonScreen">
-      <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
-      <div class="flex justify-start">
-        <button
-          color="primary"
-          class="!mr-4 text-button font-medium"
-          mat-raised-button
-          (click)="confirm()"
-        >
-          {{ t('confirmButton') }}
-        </button>
-        <button
-          color="primary"
-          class="text-button font-medium"
-          mat-stroked-button
-          (click)="closeDialog()"
-        >
-          {{ t('cancelButton') }}
-        </button>
+      <div class="flex flex-col">
+        <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
+        <div class="flex justify-start">
+          <button
+            color="primary"
+            class="!mr-4 text-button font-medium"
+            mat-raised-button
+            (click)="confirm()"
+          >
+            {{ t('confirmButton') }}
+          </button>
+          <button
+            color="primary"
+            class="text-button font-medium"
+            mat-stroked-button
+            (click)="closeDialog()"
+          >
+            {{ t('cancelButton') }}
+          </button>
+        </div>
       </div>
     </ng-container>
   </div>
@@ -80,10 +82,16 @@
         [currency]="(fPricingData$ | ngrxPush)?.currency"
         [referencePrice]="(fPricingData$ | ngrxPush)?.referencePrice"
         [marketValueDriversValue]="63.23"
+        [marketValueDriverWarning]="
+          !(fPricingData$ | ngrxPush)?.anyMarketValueDriverSelection
+        "
         [technicalValueDriversValue]="12.23"
         [sanityCheckValue]="0"
         [finalPrice]="2013.45"
         [referencePriceRowData]="referencePriceRowData"
+        [marketValueDriverData]="
+          (fPricingData$ | ngrxPush)?.marketValueDriversDisplay
+        "
         (comparedMaterialClicked)="onComparedMaterialClicked($event)"
       ></gq-pricing-tabs-wrapper>
     </div>

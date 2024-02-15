@@ -1,3 +1,4 @@
+import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 
 // eslint-disable-next-line @nx/workspace/gq-scoped-import
@@ -13,4 +14,6 @@ export interface FPricingPositionData
   currency: string;
   materialSalesOrg: MaterialSalesOrg;
   materialSalesOrgAvailable: boolean;
+  marketValueDriversDisplay: MarketValueDriverDisplayItem[];
+  anyMarketValueDriverSelection: boolean;
 }

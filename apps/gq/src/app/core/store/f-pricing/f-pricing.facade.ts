@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Store } from '@ngrx/store';
 
@@ -27,6 +28,8 @@ export class FPricingFacade {
     this.#store.select(getQuotationCurrency),
     this.#store.select(getMaterialSalesOrg),
     this.#store.select(getMaterialSalesOrgDataAvailable),
+    this.#store.select(fPricingFeature.getMarketValueDriverForDisplay),
+    this.#store.select(fPricingFeature.getAnyMarketValueDriverSelected),
   ]).pipe(
     map(
       ([
@@ -34,11 +37,22 @@ export class FPricingFacade {
         currency,
         materialSalesOrg,
         materialSalesOrgDataAvailable,
-      ]: [FPricingState, string, MaterialSalesOrg, boolean]) => ({
+        marketValueDriversDisplay,
+        anyMarketValueDriverSelection,
+      ]: [
+        FPricingState,
+        string,
+        MaterialSalesOrg,
+        boolean,
+        MarketValueDriverDisplayItem[],
+        boolean
+      ]) => ({
         ...fPricingState,
         currency,
         materialSalesOrg,
         materialSalesOrgAvailable: materialSalesOrgDataAvailable,
+        marketValueDriversDisplay,
+        anyMarketValueDriverSelection,
       })
     )
   );

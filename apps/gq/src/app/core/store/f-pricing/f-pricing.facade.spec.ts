@@ -3,6 +3,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK } from '../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import { MATERIAL_INFORMATION_EXTENDED_MOCK } from '../../../../testing/mocks/models/fpricing/material-information.mock';
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import { getQuotationCurrency } from '../active-case';
@@ -50,6 +51,14 @@ describe('Service: FPricingFacade', () => {
           materialStatus: 'f',
         } as MaterialSalesOrg);
         mockStore.overrideSelector(getMaterialSalesOrgDataAvailable, true);
+        mockStore.overrideSelector(
+          fPricingFeature.getMarketValueDriverForDisplay,
+          MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK
+        );
+        mockStore.overrideSelector(
+          fPricingFeature.getAnyMarketValueDriverSelected,
+          false
+        );
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
             a: {
@@ -59,6 +68,8 @@ describe('Service: FPricingFacade', () => {
               currency: 'EUR',
               materialSalesOrg: { materialStatus: 'f' } as MaterialSalesOrg,
               materialSalesOrgAvailable: true,
+              marketValueDriversDisplay: MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
+              anyMarketValueDriverSelection: false,
             },
           })
         );

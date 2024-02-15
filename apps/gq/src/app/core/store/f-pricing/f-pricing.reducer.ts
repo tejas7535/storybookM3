@@ -1,5 +1,7 @@
+import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import {
   FPricingData,
+  MarketValueDriver,
   MaterialInformation,
   PropertyValue,
 } from '@gq/shared/models/f-pricing';
@@ -21,6 +23,8 @@ export const initialState: FPricingState = {
   materialInformation: MATERIAL_INFORMATION_MOCK,
   gqPositionId: null,
   referencePrice: null,
+  productType: null,
+  marketValueDrivers: null,
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -59,7 +63,10 @@ export const fPricingFeature = createFeature({
     )
   ),
 
-  extraSelectors: ({ selectMaterialInformation }) => ({
+  extraSelectors: ({
+    selectMaterialInformation,
+    selectMarketValueDrivers,
+  }) => ({
     getMaterialInformationExtended: createSelector(
       selectMaterialInformation,
       (
@@ -86,6 +93,36 @@ export const fPricingFeature = createFeature({
 
         return materialInformationDisplay;
       }
+    ),
+    getMarketValueDriverForDisplay: createSelector(
+      selectMarketValueDrivers,
+      (
+        marketValueDriver: MarketValueDriver[]
+      ): MarketValueDriverDisplayItem[] => {
+        if (!marketValueDriver) {
+          return [];
+        }
+
+        return marketValueDriver.map((item) => {
+          const displayItem: MarketValueDriverDisplayItem = {
+            questionId: item.questionId,
+            options: item.options.map((option) => ({
+              optionId: option.optionId,
+              selected: item.selectedOptionId === option.optionId,
+            })),
+          };
+
+          return displayItem;
+        });
+      }
+    ),
+    // is there any selection made that is not the last option, then a selection other than default is made
+    getAnyMarketValueDriverSelected: createSelector(
+      selectMarketValueDrivers,
+      (marketValueDriver: MarketValueDriver[]): boolean =>
+        marketValueDriver?.some(
+          (item) => item.selectedOptionId !== item.options.length
+        )
     ),
   }),
 });

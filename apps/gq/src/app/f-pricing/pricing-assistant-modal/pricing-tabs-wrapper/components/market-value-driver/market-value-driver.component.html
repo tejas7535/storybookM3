@@ -1,0 +1,29 @@
+<ng-container
+  *transloco="let t; read: 'fPricing.pricingAssistantModal.marketValueDriver'"
+>
+  <mat-card appearance="outlined" class="p-4 mb-3">
+    <div class="flex flex-row items-center gap-4">
+      <mat-icon class="text-info !overflow-visible !icon-5 !h-5 !w-5"
+        >info_outline</mat-icon
+      >
+      <span class="text-subtitle-2 text-medium-emphasis">
+        {{ t('information') }}</span
+      >
+    </div>
+  </mat-card>
+  <mat-card appearance="outlined" class="p-4">
+    <gq-market-value-driver-item
+      *ngFor="
+        let item of marketValueDriverItems;
+        trackBy: trackByFn;
+        index as i
+      "
+      [item]="item"
+      (optionChange)="questionsSelectionChanged.emit($event)"
+    >
+      <gq-horizontal-divider
+        *ngIf="i < marketValueDriverItems.length - 1"
+      ></gq-horizontal-divider
+    ></gq-market-value-driver-item>
+  </mat-card>
+</ng-container>

@@ -1,0 +1,49 @@
+<ng-container
+  *transloco="let t; read: 'fPricing.pricingAssistantModal.marketValueDriver'"
+>
+  <div class="flex flex-col">
+    <span class="text-subtitle-2 text-high-emphasis wei">{{
+      t('questions.' + item.questionId + '.title')
+    }}</span>
+    <span class="text-subtitle-2 text-medium-emphasis mb-3">{{
+      t('questions.' + item.questionId + '.subtitle')
+    }}</span>
+    <mat-radio-group class="-ml-3 flex flex-row gap-3">
+      <ng-container
+        *ngFor="let option of item.options; index as i; trackBy: trackByFn"
+      >
+        <mat-radio-button
+          color="primary"
+          [checked]="option.selected"
+          [value]="option.optionId"
+          class="text-subtitle-2"
+          disableRipple
+          labelPosition="after"
+          (change)="onOptionChange(option)"
+        >
+          <div class="flex flex-row items-center gap-3">
+            <span
+              class="-ml-2"
+              [ngClass]="
+                option.selected && i !== item.options?.length - 1
+                  ? 'text-link'
+                  : 'text-medium-emphasis'
+              "
+              >{{
+                t('questions.' + item.questionId + '.option' + option.optionId)
+              }}
+            </span>
+            <ng-container *ngIf="i === item.options?.length - 1">
+              <mat-icon
+                class="text-medium-emphasis cursor-pointer !overflow-visible !h-4 !w-4 !text-[16px]"
+                [matTooltip]="t('unknownTooltip')"
+                >info_outline</mat-icon
+              >
+            </ng-container>
+          </div>
+        </mat-radio-button>
+      </ng-container>
+    </mat-radio-group>
+    <ng-content></ng-content>
+  </div>
+</ng-container>

@@ -1,3 +1,9 @@
+import { ProductType } from '@gq/shared/models';
+
+import {
+  MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
+  MARKET_VALUE_DRIVERS_MOCK,
+} from '../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
@@ -39,6 +45,8 @@ describe('fPricingReducer', () => {
           data: {
             gqPositionId: 'test',
             referencePrice: 100_000,
+            productType: ProductType.CRB,
+            marketValueDrivers: null,
           },
         })
       );
@@ -47,6 +55,8 @@ describe('fPricingReducer', () => {
         ...initialState,
         gqPositionId: 'test',
         referencePrice: 100_000,
+        productType: ProductType.CRB,
+        marketValueDrivers: null,
       });
     });
     test('should set error', () => {
@@ -71,6 +81,49 @@ describe('fPricingReducer', () => {
         );
 
         expect(result).toEqual(MATERIAL_INFORMATION_EXTENDED_MOCK);
+      });
+    });
+
+    describe('getMarketValueDriverForDisplay', () => {
+      test('should return the market value drivers for display', () => {
+        const result = fPricingFeature.getMarketValueDriverForDisplay.projector(
+          MARKET_VALUE_DRIVERS_MOCK
+        );
+        expect(result).toEqual(MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
+      });
+    });
+
+    describe('getAnyMarketValueDriverSelected', () => {
+      test('should return true if any market value driver is selected other than the last option', () => {
+        const result =
+          fPricingFeature.getAnyMarketValueDriverSelected.projector(
+            MARKET_VALUE_DRIVERS_MOCK
+          );
+        expect(result).toBe(true);
+      });
+      test('should return false if the last option is selected', () => {
+        const result =
+          fPricingFeature.getAnyMarketValueDriverSelected.projector([
+            {
+              productType: ProductType.CRB,
+              selectedOptionId: 2,
+              questionId: 1,
+              options: [
+                { optionId: 1, surcharge: 10 },
+                { optionId: 2, surcharge: 10 },
+              ],
+            },
+            {
+              productType: ProductType.CRB,
+              selectedOptionId: 2,
+              questionId: 2,
+              options: [
+                { optionId: 1, surcharge: 10 },
+                { optionId: 2, surcharge: 10 },
+              ],
+            },
+          ]);
+        expect(result).toBe(false);
       });
     });
   });

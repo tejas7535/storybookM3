@@ -40,11 +40,18 @@
         ><gq-tabs-label
           [value]="marketValueDriversValue | numberCurrency: currency:true"
           [title]="t('marketValueDriversLabel')"
-          [icon]="'warning_amber'"
-          [iconColor]="'text-error'"
+          [icon]="marketValueDriverWarning ? 'warning_amber' : ''"
+          [iconColor]="'text-orange'"
         ></gq-tabs-label
       ></ng-template>
-      <div class="p-2 h-full">market value drivers content</div>
+      <div class="p-2 w-full absolute">
+        <gq-market-value-driver
+          [marketValueDriverItems]="marketValueDriverData"
+          (questionsSelectionChanged)="
+            marketValueDriverSelectionChanged($event)
+          "
+        ></gq-market-value-driver>
+      </div>
     </mat-tab>
     <mat-tab disabled>
       <ng-template mat-tab-label

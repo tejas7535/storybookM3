@@ -10,6 +10,10 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
+import {
+  MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK,
+  MARKET_VALUE_DRIVERS_MOCK,
+} from '../../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import { FPricingService } from './f-pricing.service';
 
 describe('FPricingService', () => {
@@ -44,6 +48,18 @@ describe('FPricingService', () => {
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqPositionId);
+    });
+
+    test('should map marketValueDrivers', () => {
+      const response = MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK;
+      service
+        .getFPricingData('1234')
+        .subscribe((res) => expect(res).toEqual(MARKET_VALUE_DRIVERS_MOCK));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/quotation-details/1234/f-pricing`
+      );
+      req.flush(response);
     });
   });
 });

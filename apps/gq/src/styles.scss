@@ -129,6 +129,11 @@ button {
     @apply h-full;
     @apply bg-secondary-900 bg-opacity-5;
   }
+
+  // radio Button/ Group
+  .mdc-radio {
+    @apply scale-[0.7];
+  }
 }
 
 .mat-mdc-snack-bar-container {

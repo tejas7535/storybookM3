@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
-import { ApiVersion } from '../../../models';
+import { MarketValueDriver } from '@gq/shared/models/f-pricing';
+
+import { ApiVersion, ProductType } from '../../../models';
 import { FPricingData } from '../../../models/f-pricing/f-pricing-data.interface';
 
 @Injectable({
@@ -22,10 +24,22 @@ export class FPricingService {
    * @returns the complete data set for f-pricing and pricing assistant
    */
   getFPricingData(gqPositionId: string): Observable<FPricingData> {
-    return this.#http.get<FPricingData>(
-      `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
-        this.#Path_F_PRICING
-      }`
-    );
+    return this.#http
+      .get<FPricingData>(
+        `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
+          this.#Path_F_PRICING
+        }`
+      )
+      .pipe(
+        map((data: FPricingData) => ({
+          ...data,
+          marketValueDrivers: [
+            ...data.marketValueDrivers.map((mvd: MarketValueDriver) => ({
+              ...mvd,
+              productType: ProductType[mvd.productType],
+            })),
+          ],
+        }))
+      );
   }
 }
