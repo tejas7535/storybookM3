@@ -1,4 +1,17 @@
 # Release Notes of Grease App
+## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.3...ga-v1.7.0) (2024-02-16)
+
+
+### Features
+
+* **ga:** add kappa sign to viscosity value - UFTABI-7273 ([#6000](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6000)) ([d8be4e9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d8be4e9f00952b5d155257562f7d121065ba6438))
+* **ga:** update social media preview image ([#6001](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6001)) ([970299e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/970299efaa87df260495285822539f4394866c89))
+
+
+### Bug Fixes
+
+* **ga:** update social media meta tags for twitter and opengraph ([#5998](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5998)) ([666c27a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/666c27aee2e3428117eb42ebd4002af053c9f904))
+
 ## [1.6.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.2...ga-v1.6.3) (2024-02-13)
 
 
