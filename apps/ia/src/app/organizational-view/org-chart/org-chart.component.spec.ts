@@ -858,4 +858,16 @@ describe('OrgChartComponent', () => {
       expect(result).toBeUndefined();
     });
   });
+
+  describe('exportImg', () => {
+    test('should export image', () => {
+      component.chart = {
+        exportImg: jest.fn(),
+      };
+
+      component.exportImg();
+
+      expect(component.chart.exportImg).toHaveBeenCalled();
+    });
+  });
 });

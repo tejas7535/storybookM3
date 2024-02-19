@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { map, Observable, take } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model
 import { FilterDimension, IdValue, TailwindColor } from '../shared/models';
 import { ChartType, DimensionFluctuationData } from './models';
 import { OrgChartData, OrgChartEmployee } from './org-chart/models';
+import { OrgChartComponent } from './org-chart/org-chart.component';
 import {
   chartTypeSelected,
   loadChildAttritionOverTimeForWorldMap,
@@ -26,6 +27,7 @@ import {
   getOrgChart,
   getOrgChartEmployees,
   getOrgChartEmployeesLoading,
+  getOrgChartLoading,
   getRegions,
   getSelectedChartType,
   getWorldMap,
@@ -45,6 +47,7 @@ import { CountryDataAttrition } from './world-map/models/country-data-attrition.
 })
 export class OrganizationalViewComponent implements OnInit {
   orgChart$: Observable<OrgChartData>;
+  orgChartLoading$: Observable<boolean>;
   orgChartEmployees$: Observable<OrgChartEmployee[]>;
   orgChartEmployeesLoading$: Observable<boolean>;
   isLoadingOrgChart$: Observable<boolean>;
@@ -75,6 +78,8 @@ export class OrganizationalViewComponent implements OnInit {
 
   chartType = ChartType;
 
+  @ViewChild(OrgChartComponent) orgChartComponent: OrgChartComponent;
+
   constructor(
     private readonly store: Store,
     private readonly translocoService: TranslocoService
@@ -82,6 +87,7 @@ export class OrganizationalViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgChart$ = this.selectOrgChartWithTranslation();
+    this.orgChartLoading$ = this.store.select(getOrgChartLoading);
     this.orgChartEmployees$ = this.store.select(getOrgChartEmployees);
     this.orgChartEmployeesLoading$ = this.store.select(
       getOrgChartEmployeesLoading
@@ -150,5 +156,9 @@ export class OrganizationalViewComponent implements OnInit {
 
   loadOrgChartEmployees(data: DimensionFluctuationData): void {
     this.store.dispatch(loadOrgChartEmployees({ data }));
+  }
+
+  exportImg(): void {
+    this.orgChartComponent.exportImg();
   }
 }

@@ -25,6 +25,7 @@ import {
   getOrgChart,
   getOrgChartEmployees,
   getOrgChartEmployeesLoading,
+  getOrgChartLoading,
   getParentAttritionOverTimeOrgChartData,
   getParentIsLoadingAttritionOverTimeOrgChart,
   getRegions,
@@ -155,6 +156,14 @@ describe('Organizational View Selector', () => {
         data: [],
         dimension: FilterDimension.BOARD,
       });
+    });
+  });
+
+  describe('getOrgChartLoading', () => {
+    test('should get org chart loading', () => {
+      expect(
+        getOrgChartLoading.projector(fakeState.organizationalView)
+      ).toBeTruthy();
     });
   });
 

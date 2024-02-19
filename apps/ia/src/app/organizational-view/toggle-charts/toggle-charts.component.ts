@@ -6,13 +6,7 @@ import { ChartType } from '../models';
 @Component({
   selector: 'ia-toggle-charts',
   templateUrl: './toggle-charts.component.html',
-  styles: [
-    `
-      .mat-button-toggle-checked mat-icon {
-        @apply text-link;
-      }
-    `,
-  ],
+  styleUrls: ['./toggle-charts.component.scss'],
 })
 export class ToggleChartsComponent {
   @Output() readonly changed: EventEmitter<ChartType> = new EventEmitter();

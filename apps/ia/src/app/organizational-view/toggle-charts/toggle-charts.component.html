@@ -1,7 +1,7 @@
 <mat-button-toggle-group
   name="chartType"
   aria-label="Chart Type"
-  class="!absolute right-[39px] top-1.5 z-10 w-[120px] !rounded-3xl"
+  class="small-toggle-group"
   [value]="selectedChart"
   (change)="valueChanged($event)"
   *transloco="let t; read: 'organizationalView.overviewChartToggleButtons'"
@@ -9,15 +9,17 @@
   <mat-button-toggle
     [value]="possibleChartTypes.ORG_CHART"
     [matTooltip]="t('orgChart')"
-    class="w-1/2 text-center"
   >
-    <mat-icon>people</mat-icon>
+    <mat-icon class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
+      >people</mat-icon
+    >
   </mat-button-toggle>
   <mat-button-toggle
     [value]="possibleChartTypes.WORLD_MAP"
     [matTooltip]="t('worldMap')"
-    class="w-1/2 text-center"
   >
-    <mat-icon>public</mat-icon>
+    <mat-icon class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
+      >public</mat-icon
+    >
   </mat-button-toggle>
 </mat-button-toggle-group>

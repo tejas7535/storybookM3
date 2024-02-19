@@ -13,6 +13,7 @@
       "relativeFluctuation": "Relative fluctuation (direct/overall)",
       "absoluteFluctuation": "Absolute fluctuation in HCO (direct/overall)"
     },
+    "export": "Export",
     "noData": "No Data Available."
   },
   "worldMap": {

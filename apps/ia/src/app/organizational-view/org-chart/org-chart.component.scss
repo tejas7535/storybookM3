@@ -1,17 +1,15 @@
 ::ng-deep .fluctuation-tab-group {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  border: none;
+
   .mat-button-toggle {
     @apply border-l-0 #{!important};
-    @apply bg-gray-300;
-    @apply rounded-md;
+    @apply bg-gray-300 rounded-md;
 
-    &.mat-button-toggle-checked {
-      @apply bg-surface #{!important};
-
-      .mat-button-toggle-label-content {
-        color: rgba(0, 0, 0, 0.87);
-      }
-    }
-
+    &.mat-button-toggle-checked,
     &:hover {
       @apply bg-surface #{!important};
 

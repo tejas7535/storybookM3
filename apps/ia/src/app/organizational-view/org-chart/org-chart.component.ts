@@ -272,7 +272,7 @@ export class OrgChartComponent implements AfterViewInit {
     setTimeout(() => {
       const nodeWidth = 298;
       const nodeHeight =
-        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 136 : 100;
+        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 140 : 100;
 
       this.chart
         .container(this.chartContainer.nativeElement)
@@ -394,5 +394,9 @@ export class OrgChartComponent implements AfterViewInit {
     });
     this.fluctuationType = type;
     this.chart.data(this.chartData).render();
+  }
+
+  exportImg(): void {
+    this.chart.exportImg();
   }
 }

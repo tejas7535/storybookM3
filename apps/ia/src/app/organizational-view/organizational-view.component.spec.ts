@@ -26,6 +26,10 @@ import {
 import { getOrgChart } from './store/selectors/organizational-view.selector';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
 
+jest.mock('d3-selection', () => ({
+  select: jest.fn(() => mock),
+}));
+
 describe('OrganizationalViewComponent', () => {
   let component: OrganizationalViewComponent;
   let spectator: Spectator<OrganizationalViewComponent>;

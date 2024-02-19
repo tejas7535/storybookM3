@@ -29,6 +29,11 @@ export const getSelectedChartType = createSelector(
   (state: OrganizationalViewState) => state.selectedChart
 );
 
+export const getOrgChartLoading = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.orgChart.loading
+);
+
 export const getOrgChartData = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) => state.orgChart.data

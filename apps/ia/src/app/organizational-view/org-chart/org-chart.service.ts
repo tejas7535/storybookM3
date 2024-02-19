@@ -192,7 +192,7 @@ export class OrgChartService {
     <div ${expand} class="pointer-events-auto cursor-pointer w-full group
               bg-surface border border-border hover:ring-1 hover:ring-primary
                 rounded-full flex flex-col items-center justify-center
-              text-low-emphasis ">
+              text-low-emphasis !visible" style="visibility: hidden">
       <span ${expand} class="group-hover:text-high-emphasis">${
       node.data._directSubordinates
     }</span>
@@ -232,7 +232,7 @@ export class OrgChartService {
       ? `
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
           style="position: absolute; margin-left: auto; margin-right: auto; right: 0; left: 0; text-align: center; cursor: default; cursor: pointer;"
-          class="-top-[48px] group" ${showParentId}>
+          class="bottom-[180px] group" ${showParentId}>
         <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" fill="rgba(0, 0, 0, 0.32)" 
           class="group-hover:fill-primary" ${showParentId}/>
       </svg>`
@@ -321,7 +321,7 @@ export class OrgChartService {
       ? `
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
           style="position: absolute; margin-left: auto; margin-right: auto; right: 0; left: 0; text-align: center;"
-          class="bottom-[126px] group" ${showParentId}>
+          class="bottom-[150px] group" ${showParentId}>
         <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" fill="rgba(0, 0, 0, 0.32)" 
           class="group-hover:fill-primary" ${showParentId}/>
       </svg>`

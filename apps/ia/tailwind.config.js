@@ -28,6 +28,7 @@ module.exports = {
         'light-blue': '#78909C', // used in entries & exits
         'gray-blue': '#8fb2ca', // used to show reason for leaving
         'sea-blue': '#2f799e', // used to show reason for leaving
+        'light-gray': 'rgba(0, 0, 0, 0.32)', // used on org chart
         teal: '#41a9bc', // used to show reason for leaving
         'light-gray': 'rgba(0, 0, 0, 0.32)', // used on org chart
       },
