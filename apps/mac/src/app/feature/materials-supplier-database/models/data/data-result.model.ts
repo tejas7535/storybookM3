@@ -11,9 +11,9 @@ export interface DataResult {
   manufacturerSupplierName: string;
   manufacturerSupplierPlant: string;
   manufacturerSupplierCountry: string;
+  manufacturerSupplierBusinessPartnerIds?: number[];
+  manufacturerSupplierSapSupplierIds?: string[];
   selfCertified: boolean;
-  sapSupplierIds?: string[];
-  businessPartnerIds?: number[];
   productCategory: string;
   productCategoryText: string;
   referenceDoc?: string[];
