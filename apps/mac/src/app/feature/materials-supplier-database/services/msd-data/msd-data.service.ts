@@ -276,7 +276,7 @@ export class MsdDataService {
       distinct: true,
     };
 
-    return this.httpClient.post<string[]>(
+    return this.httpClient.post<string[][]>(
       `${this.BASE_URL}/materials/${materialClass}/query`,
       body
     );

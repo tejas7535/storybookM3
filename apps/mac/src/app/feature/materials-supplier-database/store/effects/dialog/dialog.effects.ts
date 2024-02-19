@@ -675,9 +675,7 @@ export class DialogEffects {
             for (const documents of referenceDocuments) {
               // fetch will return some 'null' elements
               if (documents) {
-                JSON.parse(documents).map((document: string) =>
-                  parsedDocuments.push(document)
-                );
+                parsedDocuments.push(...documents);
               }
             }
 

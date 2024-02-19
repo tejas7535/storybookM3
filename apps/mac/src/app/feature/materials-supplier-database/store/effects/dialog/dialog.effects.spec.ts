@@ -1852,11 +1852,11 @@ describe('Dialog Effects', () => {
         action = fetchReferenceDocuments();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: string[] = [
+        const resultMock: string[][] = [
           undefined,
-          '["reference"]',
-          '["document"]',
-          '["as json", "document"]',
+          ['reference'],
+          ['document'],
+          ['as json', 'document'],
         ];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.fetchReferenceDocuments = jest.fn(() => response);
