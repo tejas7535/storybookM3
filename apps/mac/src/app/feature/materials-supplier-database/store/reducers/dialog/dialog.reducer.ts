@@ -22,6 +22,9 @@ import {
   addCustomSupplierBusinessPartnerId,
   addCustomSupplierName,
   addCustomSupplierPlant,
+  bulkEditMaterials,
+  bulkEditMaterialsFailure,
+  bulkEditMaterialsSuccess,
   cleanMinimizeDialog,
   createMaterialComplete,
   editDialogLoadingComplete,
@@ -152,6 +155,9 @@ export interface DialogState {
     createMaterialLoading: boolean;
     createMaterialRecord: CreateMaterialRecord;
   };
+  bulkEditMaterials: {
+    updateLoading: boolean;
+  };
   uploadSapMaterials: {
     uploadLoading: boolean; // indicate that the file is being uploaded to the BE, not that the data is uploaded into the DB!
     fileUploadProgress: number; // file upload progress in percent
@@ -188,6 +194,7 @@ export const initialState: DialogState = {
   materialStandard: undefined,
   dialogOptions: undefined,
   createMaterial: undefined,
+  bulkEditMaterials: undefined,
   uploadSapMaterials: undefined,
   editMaterial: undefined,
   selectedMaterial: undefined,
@@ -1166,6 +1173,36 @@ export const dialogReducer = createReducer(
         ...state.uploadSapMaterials,
         databaseUploadStatus: undefined,
         isUploadStatusDialogMinimized: false,
+      },
+    })
+  ),
+  on(
+    bulkEditMaterials,
+    (state): DialogState => ({
+      ...state,
+      bulkEditMaterials: {
+        ...state.bulkEditMaterials,
+        updateLoading: true,
+      },
+    })
+  ),
+  on(
+    bulkEditMaterialsSuccess,
+    (state): DialogState => ({
+      ...state,
+      bulkEditMaterials: {
+        ...state.bulkEditMaterials,
+        updateLoading: false,
+      },
+    })
+  ),
+  on(
+    bulkEditMaterialsFailure,
+    (state): DialogState => ({
+      ...state,
+      bulkEditMaterials: {
+        ...state.bulkEditMaterials,
+        updateLoading: false,
       },
     })
   )

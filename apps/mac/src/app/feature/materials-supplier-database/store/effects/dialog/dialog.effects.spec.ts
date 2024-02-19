@@ -37,6 +37,9 @@ import {
   infoSnackBar,
 } from '@mac/msd/store/actions/data';
 import {
+  bulkEditMaterials,
+  bulkEditMaterialsFailure,
+  bulkEditMaterialsSuccess,
   createMaterialComplete,
   editDialogLoadingComplete,
   fetchCastingDiameters,
@@ -2994,6 +2997,61 @@ describe('Dialog Effects', () => {
               'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
             ),
           })
+        );
+      })
+    );
+  });
+
+  describe('bulkEditMaterials$', () => {
+    it(
+      'should dispatch bulkEditMaterialsSuccess and fetchResult',
+      marbles((m) => {
+        const materials = [{ id: 1 }, { id: 2 }] as MaterialRequest[];
+
+        action = bulkEditMaterials({ materials });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|');
+        msdDataService.bulkEditMaterial = jest.fn(() => response);
+
+        const expected = m.cold('--(bc)', {
+          b: bulkEditMaterialsSuccess(),
+          c: fetchResult(),
+        });
+
+        m.expect(effects.bulkEditMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.bulkEditMaterial).toHaveBeenCalledWith(
+          materials,
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should dispatch the bulkEditMaterialsFailure action on error',
+      marbles((m) => {
+        const materials = [{ id: 1 }, { id: 2 }] as MaterialRequest[];
+
+        action = bulkEditMaterials({ materials });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.bulkEditMaterial = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const expected = m.cold('-(bc)', {
+          b: errorSnackBar({
+            message: 'failure',
+          }),
+          c: bulkEditMaterialsFailure(),
+        });
+
+        m.expect(effects.bulkEditMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.bulkEditMaterial).toHaveBeenCalledWith(
+          materials,
+          MaterialClass.STEEL
         );
       })
     );

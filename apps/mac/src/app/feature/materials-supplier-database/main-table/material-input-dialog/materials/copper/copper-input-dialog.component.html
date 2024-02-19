@@ -83,6 +83,15 @@
                 >info_outline</mat-icon
               >
             </span>
+            <button
+              *ngIf="dialogData.editDialogInformation?.selectedRows?.length > 1"
+              mat-icon-button
+              color="primary"
+              class="mt-1 ml-1"
+              (click)="openReferenceDocumentBulkEditDialog()"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
           </div>
         </div>
 

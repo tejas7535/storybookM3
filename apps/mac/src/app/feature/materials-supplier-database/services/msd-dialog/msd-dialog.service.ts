@@ -18,6 +18,7 @@ import { DataResult } from '@mac/msd/models';
 import { ContactDialogComponent } from '../../main-table/contact-dialog/contact-dialog.component';
 import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
+import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 
@@ -42,6 +43,7 @@ export class MsdDialogService {
     isResumeDialog?: boolean,
     editDialogInformation?: {
       row: DataResult;
+      selectedRows?: DataResult[];
       column: string;
       isCopy?: boolean;
       isBulkEdit?: boolean;
@@ -79,9 +81,22 @@ export class MsdDialogService {
 
     return this.openDialog(false, {
       row: combinedRows,
+      selectedRows: rows,
       column,
       isCopy: false,
       isBulkEdit: true,
+    });
+  }
+
+  openReferenceDocumentBulkEditDialog(selectedRows: DataResult[]): void {
+    this.dialog.open(ReferenceDocumentBulkEditDialogComponent, {
+      width: '863px',
+      autoFocus: false,
+      restoreFocus: false,
+      disableClose: true,
+      data: {
+        selectedRows,
+      },
     });
   }
 

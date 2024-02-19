@@ -10,7 +10,7 @@ import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
-import { MaterialClass } from '../../constants';
+import { MaterialClass, REFERENCE_DOCUMENT } from '../../constants';
 import { EditCellRendererComponent } from './edit-cell-renderer.component';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 
@@ -57,6 +57,7 @@ describe('EditCellRendererComponent', () => {
         useValue: {
           openDialog: jest.fn(() => mockDialogRef),
           openBulkEditDialog: jest.fn(),
+          openReferenceDocumentBulkEditDialog: jest.fn(),
         },
       },
     ],
@@ -184,6 +185,22 @@ describe('EditCellRendererComponent', () => {
         mockparams.api.getSelectedNodes(),
         mockColumn.getColId()
       );
+    });
+
+    it('should call the dialog service for reference documents', () => {
+      mockparams.column.getColId = () => REFERENCE_DOCUMENT;
+
+      mockparams.api.getSelectedNodes = () => [
+        { data: { id: 1 } } as RowNode,
+        { data: { id: 2 } } as RowNode,
+        { data: { id: 3 } } as RowNode,
+      ];
+
+      component.onEditClick();
+
+      expect(
+        component['dialogService'].openReferenceDocumentBulkEditDialog
+      ).toHaveBeenCalledWith([{ id: 1 }, { id: 2 }, { id: 3 }]);
     });
   });
 });

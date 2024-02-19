@@ -26,6 +26,7 @@ import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent } from '@schaeffler/inputs/select';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import {
   addCustomCastingDiameter,
@@ -144,9 +145,14 @@ export class SteelInputDialogComponent
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
-      editDialogInformation?: { row: DataResult; column: string };
+      editDialogInformation?: {
+        row: DataResult;
+        selectedRows?: DataResult[];
+        column: string;
+      };
       isResumeDialog: boolean;
-    }
+    },
+    private readonly dialogService: MsdDialogService
   ) {
     super(
       controlsService,
@@ -378,6 +384,10 @@ export class SteelInputDialogComponent
         updateCreateMaterialDialogValues({ form: val })
       );
     });
+
+    if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
+      this.referenceDocumentControl.disable();
+    }
   }
 
   public ngAfterViewInit(): void {
@@ -466,6 +476,13 @@ export class SteelInputDialogComponent
       this.castingDiameterControl.enable();
       this.co2ClassificationControl.enable();
     }
+  }
+
+  openReferenceDocumentBulkEditDialog(): void {
+    this.dialogRef.close();
+    this.dialogService.openReferenceDocumentBulkEditDialog(
+      this.dialogData.editDialogInformation.selectedRows
+    );
   }
 
   // validator for both recycling rate input fields

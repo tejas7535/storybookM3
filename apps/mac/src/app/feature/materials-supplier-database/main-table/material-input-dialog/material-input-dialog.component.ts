@@ -129,6 +129,7 @@ export class MaterialInputDialogComponent
     readonly dialogData: {
       editDialogInformation?: {
         row: DataResult;
+        selectedRows?: DataResult[];
         column: string;
         isCopy?: boolean;
         isBulkEdit?: boolean;

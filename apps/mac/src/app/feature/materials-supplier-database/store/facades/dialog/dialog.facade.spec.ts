@@ -9,6 +9,7 @@ import {
   DataResult,
   ManufacturerSupplier,
   MaterialFormValue,
+  MaterialRequest,
   MaterialStandard,
   SapMaterialsDatabaseUploadStatus,
 } from '@mac/msd/models';
@@ -143,6 +144,8 @@ describe('DialogFacade', () => {
     facade = spectator.service;
     store = spectator.inject(MockStore);
     actions$ = spectator.inject(Actions);
+
+    store.dispatch = jest.fn();
   });
 
   it('should create', () => {
@@ -713,9 +716,37 @@ describe('DialogFacade', () => {
     );
   });
 
+  describe('bulkEditMaterialsSucceeded$', () => {
+    it(
+      'should succeed',
+      marbles((m) => {
+        const action = DialogActions.bulkEditMaterialsSuccess();
+
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.bulkEditMaterialsSucceeded$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('bulkEditMaterials', () => {
+    it('should bulkEditMaterials', () => {
+      const materials = [{ id: 1 }, { id: 2 }] as MaterialRequest[];
+
+      facade.bulkEditMaterials(materials);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.bulkEditMaterials({ materials })
+      );
+    });
+  });
+
   describe('dispatch', () => {
     it('should dispatch each action', () => {
-      store.dispatch = jest.fn();
       facade.dispatch({ type: 'mock action' });
 
       expect(store.dispatch).toHaveBeenCalledWith({ type: 'mock action' });

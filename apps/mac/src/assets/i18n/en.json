@@ -515,6 +515,19 @@
         "failureDeleteEntity": "Error while deleting entry, changes not applied!",
         "successDeleteEntity": "Successfully deleted entry from database!"
       },
+      "referenceDocumentBulkEditDialog": {
+        "title": "Manage Reference Doc ({{materialsCount}} selected)",
+        "selectedDocuments": "Selected reference documents:",
+        "editDocuments": "Edit reference documents:",
+        "searchPlaceholder": "Search...",
+        "searchHint": "Example: AS 003569",
+        "addEntry": "Add New Entry",
+        "clear": "Clear",
+        "entriesCount": "{{count}} entries",
+        "cancel": "Cancel",
+        "update": "Update Materials",
+        "failure": "An error occurred while updating the reference documents of the selected materials!"
+      },
       "uploadDialog": {
         "title": "Upload item",
         "cancel": "Cancel",

@@ -492,3 +492,16 @@ export const sapMaterialsUploadStatusReset = createAction(
 export const sapMaterialsUploadStatusRestore = createAction(
   '[MSD - Dialog] SAP Materials Upload Status Restore'
 );
+
+export const bulkEditMaterials = createAction(
+  '[MSD - Dialog] Bulk Edit Materials',
+  props<{ materials: MaterialRequest[] }>()
+);
+
+export const bulkEditMaterialsSuccess = createAction(
+  '[MSD - Dialog] Bulk Edit Materials Success'
+);
+
+export const bulkEditMaterialsFailure = createAction(
+  '[MSD - Dialog] Bulk Edit Materials Failure'
+);

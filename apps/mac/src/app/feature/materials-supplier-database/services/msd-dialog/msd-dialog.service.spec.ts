@@ -15,6 +15,7 @@ import { CeramicInputDialogComponent } from '../../main-table/material-input-dia
 import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
 import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
+import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
 import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
@@ -190,6 +191,7 @@ describe('MsdDialogService', () => {
         column: undefined,
         isCopy: false,
         isBulkEdit: true,
+        selectedRows: [dr, dr],
       });
     });
   });
@@ -251,6 +253,27 @@ describe('MsdDialogService', () => {
           autoFocus: false,
           restoreFocus: false,
           disableClose: true,
+        }
+      );
+    });
+  });
+
+  describe('openReferenceDocumentBulkEditDialog', () => {
+    it('should open the dialog', () => {
+      const selectedRows = [{ id: 1 }, { id: 2 }] as DataResult[];
+
+      service.openReferenceDocumentBulkEditDialog(selectedRows);
+
+      expect(service['dialog'].open).toHaveBeenCalledWith(
+        ReferenceDocumentBulkEditDialogComponent,
+        {
+          width: '863px',
+          autoFocus: false,
+          restoreFocus: false,
+          disableClose: true,
+          data: {
+            selectedRows,
+          },
         }
       );
     });

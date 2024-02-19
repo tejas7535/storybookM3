@@ -29,6 +29,7 @@ import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.c
 import { CeramicInputDialogComponent } from './ceramic/ceramic-input-dialog.component';
 import { CopperInputDialogComponent } from './copper/copper-input-dialog.component';
 import { SapMaterialsUploadDialogModule } from './sap/sap-materials-upload-dialog.module';
+import { ReferenceDocumentBulkEditDialogComponent } from './steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { SteelInputDialogComponent } from './steel/steel-input-dialog.component';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     SteelInputDialogComponent,
     CopperInputDialogComponent,
     CeramicInputDialogComponent,
+    ReferenceDocumentBulkEditDialogComponent,
   ],
   imports: [
     CommonModule,

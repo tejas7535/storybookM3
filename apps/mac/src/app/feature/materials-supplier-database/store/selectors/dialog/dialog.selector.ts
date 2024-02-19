@@ -114,16 +114,17 @@ export const getCustomMaterialStandardDocuments = createSelector(
 export const getMaterialDialogOptionsLoading = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) =>
-    dialogOptions.ratingsLoading ||
-    dialogOptions.castingModesLoading ||
-    dialogOptions.materialStandardsLoading ||
-    dialogOptions.co2ClassificationsLoading ||
-    dialogOptions.steelMakingProcessesLoading ||
-    dialogOptions.productionProcessesLoading ||
-    dialogOptions.manufacturerSuppliersLoading ||
-    dialogOptions.productCategoriesLoading ||
-    dialogOptions.conditionsLoading ||
-    dialogOptions.dataOwnersLoading
+    dialogOptions &&
+    (dialogOptions.ratingsLoading ||
+      dialogOptions.castingModesLoading ||
+      dialogOptions.materialStandardsLoading ||
+      dialogOptions.co2ClassificationsLoading ||
+      dialogOptions.steelMakingProcessesLoading ||
+      dialogOptions.productionProcessesLoading ||
+      dialogOptions.manufacturerSuppliersLoading ||
+      dialogOptions.productCategoriesLoading ||
+      dialogOptions.conditionsLoading ||
+      dialogOptions.dataOwnersLoading)
 );
 
 export const getMaterialDialogOptionsLoadingError = createSelector(
@@ -570,7 +571,8 @@ export const getCreateMaterialLoading = createSelector(
   getDialogState,
   (materialDialog) =>
     materialDialog.createMaterial?.createMaterialLoading ||
-    materialDialog.uploadSapMaterials?.uploadLoading
+    materialDialog.uploadSapMaterials?.uploadLoading ||
+    materialDialog.bulkEditMaterials?.updateLoading
 );
 
 export const getCreateMaterialRecord = createSelector(

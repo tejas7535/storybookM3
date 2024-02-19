@@ -19,7 +19,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
@@ -30,6 +34,7 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
@@ -125,6 +130,7 @@ describe('CopperInputDialogComponent', () => {
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
       DialogControlsService,
+      mockProvider(MsdDialogService),
       {
         provide: MatDialogRef,
         useValue: {
@@ -159,6 +165,23 @@ describe('CopperInputDialogComponent', () => {
       component.ngOnInit();
 
       expect(component.createMaterialForm).toBeTruthy();
+    });
+
+    it('should disable referenceDocumentControl', () => {
+      expect(component.referenceDocumentControl.disabled).toBe(false);
+
+      const dialogData = {
+        editDialogInformation: {
+          selectedRows: [{ id: 1 }, { id: 2 }],
+        },
+      };
+      Object.defineProperty(component, 'dialogData', {
+        value: dialogData,
+      });
+
+      component.ngOnInit();
+
+      expect(component.referenceDocumentControl.disabled).toBe(true);
     });
 
     it('should enable casting Mode', () => {
@@ -344,6 +367,26 @@ describe('CopperInputDialogComponent', () => {
       // backend response
       update(true);
       expect(component['closeDialog']).not.toBeCalled();
+    });
+  });
+
+  describe('openReferenceDocumentBulkEditDialog', () => {
+    it('should close steel dialog and open reference document dialog', () => {
+      const dialogData = {
+        editDialogInformation: {
+          selectedRows: [{ id: 1 }, { id: 2 }],
+        },
+      };
+      Object.defineProperty(component, 'dialogData', {
+        value: dialogData,
+      });
+
+      component.openReferenceDocumentBulkEditDialog();
+
+      expect(component.dialogRef.close).toHaveBeenCalled();
+      expect(
+        component['dialogService'].openReferenceDocumentBulkEditDialog
+      ).toHaveBeenCalledWith(dialogData.editDialogInformation.selectedRows);
     });
   });
 });

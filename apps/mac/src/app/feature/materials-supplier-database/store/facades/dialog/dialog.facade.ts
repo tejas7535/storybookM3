@@ -4,6 +4,8 @@ import { translate } from '@ngneat/transloco';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
+import { MaterialRequest } from '@mac/feature/materials-supplier-database/models';
+import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import {
   getConditions,
   getCreateMaterialLoading,
@@ -137,10 +139,18 @@ export class DialogFacade {
     getSapMaterialsFileUploadProgress
   );
 
+  bulkEditMaterialsSucceeded$ = this.actions$.pipe(
+    ofType(DialogActions.bulkEditMaterialsSuccess)
+  );
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions
   ) {}
+
+  bulkEditMaterials(materials: MaterialRequest[]): void {
+    this.store.dispatch(DialogActions.bulkEditMaterials({ materials }));
+  }
 
   dispatch(action: Action) {
     this.store.dispatch(action);

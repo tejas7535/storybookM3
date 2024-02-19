@@ -1,0 +1,141 @@
+<mac-base-dialog
+  *transloco="
+    let t;
+    read: 'materialsSupplierDatabase.mainTable.referenceDocumentBulkEditDialog'
+  "
+  [txtTitle]="t('title', { materialsCount: dialogData.selectedRows.length })"
+  [txtCancel]="t('cancel')"
+  [txtConfirm]="t('update')"
+  [minimizeEnabled]="false"
+  [valid]="true"
+  (cancel)="close()"
+  (accept)="updateMaterials()"
+>
+  <div class="pb-6">
+    <div class="text-subtitle-2 text-high-emphasis">
+      {{ t('selectedDocuments') }}
+    </div>
+    <div class="mt-7 flex flex-wrap gap-6">
+      <ng-container
+        *ngFor="
+          let selectedReferenceDocument of selectedReferenceDocuments;
+          last as isLast
+        "
+      >
+        <span class="text-caption text-medium-emphasis whitespace-nowrap">{{
+          selectedReferenceDocument
+        }}</span>
+        <mat-divider *ngIf="!isLast" [vertical]="true"></mat-divider>
+      </ng-container>
+    </div>
+  </div>
+
+  <mat-divider class="!mx-[-16px]"></mat-divider>
+
+  <div class="mt-5 text-subtitle-2 text-high-emphasis">
+    {{ t('editDocuments') }}
+  </div>
+  <div class="flex items-center justify-between gap-x-8">
+    <div class="flex-grow">
+      <mat-form-field
+        class="border-primary [&>div.mdc-text-field--filled:not(.mdc-text-field--disabled)]:bg-transparent w-full h-[70px] [&>div]:pl-0 [&>div>.mat-mdc-form-field-hint-wrapper]:pl-0"
+        (keydown.Tab)="$event.preventDefault()"
+      >
+        <input
+          type="text"
+          matInput
+          [formControl]="searchControl"
+          [placeholder]="t('searchPlaceholder')"
+        />
+        <mat-hint class="my-auto">{{ t('searchHint') }}</mat-hint>
+        <div matSuffix class="-mr-1 flex flex-row gap-1">
+          <button
+            mat-button
+            [disabled]="!searchControl.value"
+            color="primary"
+            class="!text-caption !min-w-0 !px-1 !font-normal !normal-case my-auto !h-6"
+            (click)="searchControl.reset('')"
+          >
+            {{ t('clear') }}
+          </button>
+        </div>
+      </mat-form-field>
+    </div>
+    <div [ngClass]="{ 'pb-4': !addingEntry }">
+      <button
+        *ngIf="!addingEntry; else addingEntryTemplate"
+        mat-button
+        color="primary"
+        class="!text-body-1 text-medium-emphasis flex !min-w-0 flex-row !px-1 !font-normal !normal-case"
+        (click)="addingEntry = true"
+      >
+        <div class="flex flex-row justify-center">
+          <mat-icon class="!text-icon !my-auto !h-6 !w-6">add</mat-icon>
+          <div>{{ t('addEntry') }}</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-7">
+    <div
+      *ngFor="let referenceDocument of allReferenceDocumentsFiltered"
+      class="-ml-3 flex justify-between items-center"
+    >
+      <mat-checkbox
+        color="primary"
+        class="flex-1"
+        [checked]="
+          dialogData.selectedRows.length ===
+          selectedReferenceDocumentToEntriesCount[referenceDocument]
+        "
+        [indeterminate]="
+          selectedReferenceDocumentToEntriesCount[referenceDocument] > 0 &&
+          selectedReferenceDocumentToEntriesCount[referenceDocument] <
+            dialogData.selectedRows.length
+        "
+        (change)="handleCheckboxChange($event.checked, referenceDocument)"
+      >
+        <span class="text-body-1 text-high-emphasis">{{
+          referenceDocument
+        }}</span>
+      </mat-checkbox>
+      <span class="text-caption text-low-emphasis">{{
+        selectedReferenceDocumentToEntriesCount[referenceDocument] > 0
+          ? t('entriesCount', {
+              count: selectedReferenceDocumentToEntriesCount[referenceDocument]
+            })
+          : ''
+      }}</span>
+    </div>
+  </div>
+</mac-base-dialog>
+
+<ng-template #addingEntryTemplate>
+  <div class="flex flex-row justify-center gap-4">
+    <div class="border-primary flex-1 rounded border px-4">
+      <input
+        type="text"
+        class="text-caption w-full focus:outline-none"
+        #addEntryInput
+      />
+    </div>
+    <button mat-icon-button class="!h-6 !w-6" (click)="addingEntry = false">
+      <mat-icon class="text-error !block !absolute !-ml-3 !-mt-3"
+        >close</mat-icon
+      >
+    </button>
+    <button
+      mat-icon-button
+      [disabled]="!addEntryInput.value"
+      class="!h-6 !w-6"
+      (click)="onConfirmAddEntry(addEntryInput.value)"
+    >
+      <mat-icon
+        class="!block !absolute !-ml-3 !-mt-3"
+        [ngClass]="addEntryInput.value ? 'text-link' : 'text-low-emphasis'"
+        >check</mat-icon
+      >
+    </button>
+  </div>
+</ng-template>

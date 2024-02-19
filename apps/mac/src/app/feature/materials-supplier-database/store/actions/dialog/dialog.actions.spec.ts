@@ -22,6 +22,9 @@ import {
   addCustomSupplierBusinessPartnerId,
   addCustomSupplierName,
   addCustomSupplierPlant,
+  bulkEditMaterials,
+  bulkEditMaterialsFailure,
+  bulkEditMaterialsSuccess,
   createMaterialComplete,
   editDialogLoadingComplete,
   editDialogLoadingFailure,
@@ -1224,6 +1227,34 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] SAP Materials Upload Status Restore',
+      });
+    });
+  });
+
+  describe('Bulk edit materials', () => {
+    it('bulkEditMaterials', () => {
+      const materials = [{ id: 1 }, { id: 2 }] as MaterialRequest[];
+      const action = bulkEditMaterials({ materials });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Bulk Edit Materials',
+        materials,
+      });
+    });
+
+    it('bulkEditMaterialsSuccess', () => {
+      const action = bulkEditMaterialsSuccess();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Bulk Edit Materials Success',
+      });
+    });
+
+    it('bulkEditMaterialsFailure', () => {
+      const action = bulkEditMaterialsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Bulk Edit Materials Failure',
       });
     });
   });

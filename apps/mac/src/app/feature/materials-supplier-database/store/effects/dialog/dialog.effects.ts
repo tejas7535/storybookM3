@@ -1240,6 +1240,33 @@ export class DialogEffects {
     );
   });
 
+  public bulkEditMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.bulkEditMaterials),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ materials }, materialClass]) =>
+        this.msdDataService.bulkEditMaterial(materials, materialClass).pipe(
+          mergeMap(() =>
+            of(
+              DialogActions.bulkEditMaterialsSuccess(),
+              DataActions.fetchResult()
+            )
+          ),
+          catchError(() => {
+            return of(
+              DataActions.errorSnackBar({
+                message: translate(
+                  'materialsSupplierDatabase.mainTable.referenceDocumentBulkEditDialog.failure'
+                ),
+              }),
+              DialogActions.bulkEditMaterialsFailure()
+            );
+          })
+        )
+      )
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,

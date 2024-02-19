@@ -8,6 +8,7 @@ import { BehaviorSubject, takeUntil } from 'rxjs';
 import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import {
   addCustomCastingDiameter,
@@ -68,9 +69,14 @@ export class CopperInputDialogComponent
     readonly cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     readonly dialogData: {
-      editDialogInformation?: { row: DataResult; column: string };
+      editDialogInformation?: {
+        row: DataResult;
+        selectedRows?: DataResult[];
+        column: string;
+      };
       isResumeDialog: boolean;
-    }
+    },
+    private readonly dialogService: MsdDialogService
   ) {
     super(
       controlsService,
@@ -151,6 +157,10 @@ export class CopperInputDialogComponent
         updateCreateMaterialDialogValues({ form: val })
       );
     });
+
+    if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
+      this.referenceDocumentControl.disable();
+    }
   }
 
   public addReferenceDocument(referenceDocument: string): void {
@@ -161,5 +171,12 @@ export class CopperInputDialogComponent
 
   public addCastingDiameter(castingDiameter: string): void {
     this.dialogFacade.dispatch(addCustomCastingDiameter({ castingDiameter }));
+  }
+
+  openReferenceDocumentBulkEditDialog(): void {
+    this.dialogRef.close();
+    this.dialogService.openReferenceDocumentBulkEditDialog(
+      this.dialogData.editDialogInformation.selectedRows
+    );
   }
 }
