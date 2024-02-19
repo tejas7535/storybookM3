@@ -265,41 +265,6 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
-    },
-    "storybook": {
-      "executor": "@storybook/angular:start-storybook",
-      "options": {
-        "port": 4400,
-        "configDir": "apps/ea/.storybook",
-        "browserTarget": "ea:build-storybook",
-        "compodoc": false
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
-        }
-      }
-    },
-    "build-storybook": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputDir}"],
-      "options": {
-        "outputDir": "dist/storybook/ea",
-        "configDir": "apps/ea/.storybook",
-        "browserTarget": "ea:build-storybook",
-        "compodoc": false,
-        "styles": [
-          "apps/ea/src/styles.scss",
-          "node_modules/@fontsource/material-icons/400.css",
-          "node_modules/@fontsource/noto-sans/400.css",
-          "node_modules/@fontsource/noto-sans/500.css"
-        ]
-      },
-      "configurations": {
-        "ci": {
-          "quiet": true
-        }
-      }
     }
   },
   "tags": []
