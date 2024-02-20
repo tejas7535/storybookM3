@@ -52,3 +52,17 @@
     }
   }
 }
+
+.partner-version-schmeckthal-gruppe {
+  :host {
+    ::ng-deep {
+      .mat-step-header .mat-step-icon-selected,
+      .mat-step-header .mat-step-icon-state-edit {
+        background-color: #f8fbf4;
+        color: #3c7029;
+        border-color: #a1c861;
+        border-width: 1px;
+      }
+    }
+  }
+}
