@@ -1,0 +1,11 @@
+{
+  "name": "@schaeffler/rich-tooltip",
+  "version": "0.1.0",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=16.0.0 <17.0.0",
+    "@angular/core": ">=16.0.0 <17.0.0"
+  }
+}
