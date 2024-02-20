@@ -1,6 +1,6 @@
 import { CdkStepper, CdkStepperModule } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
+
+import { LsaFormService } from '../services/lsa-form.service';
 
 @Component({
   selector: 'lsa-stepper',
@@ -29,12 +31,19 @@ import { MatStepperModule } from '@angular/material/stepper';
   ],
 })
 export class LsaStepperComponent extends CdkStepper {
+  formService = inject(LsaFormService);
+  form = this.formService.getRecommendationForm();
+
   get isLastItem(): boolean {
     return this.selectedIndex === this.steps.length - 1;
   }
 
   get isFirstItem(): boolean {
     return this.selectedIndex === 0;
+  }
+
+  get isSecondLastItem(): boolean {
+    return this.selectedIndex === this.steps.length - 2;
   }
 
   get nextItemLabel(): string {

@@ -56,7 +56,13 @@
       <mat-icon aria-hidden="true" fontIcon="chevron_left"></mat-icon>
     </button>
 
-    <button *ngIf="!isLastItem" mat-flat-button color="primary" cdkStepperNext>
+    <button
+      *ngIf="!isLastItem"
+      [disabled]="isSecondLastItem && !form.valid"
+      mat-flat-button
+      color="primary"
+      cdkStepperNext
+    >
       {{ nextItemLabel }}
 
       <mat-icon

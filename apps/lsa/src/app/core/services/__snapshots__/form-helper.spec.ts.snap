@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formHelper should transform the form value into a recommendationRequest 1`] = `
+Object {
+  "battery": 0,
+  "greaseId": "ARCANOL_MULTI2",
+  "lubricationInterval": "year",
+  "lubricationPoints": "2-4",
+  "lubricationQty": 60,
+  "maxTemp": 15,
+  "medium": "Grease",
+  "minTemp": 5,
+  "optime": 0,
+  "pipeLength": 3,
+}
+`;

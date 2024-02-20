@@ -12,8 +12,10 @@ import { Component } from '@angular/core';
 class TestComponent {}
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
+import { LsaFormService } from '../services/lsa-form.service';
 import { LsaStepperComponent } from './lsa-stepper.component';
 
 describe('LsaStepperComponent', () => {
@@ -23,6 +25,19 @@ describe('LsaStepperComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CdkStepperModule, LsaStepperComponent],
+      providers: [
+        {
+          provide: LsaFormService,
+          useValue: {
+            getRecommendationForm: jest.fn(
+              () =>
+                ({
+                  getRawValue: jest.fn(),
+                } as unknown as FormGroup)
+            ),
+          },
+        },
+      ],
       declarations: [TestComponent],
     }).compileComponents();
   });
@@ -64,6 +79,10 @@ describe('LsaStepperComponent', () => {
 
       it('should indicate that item is first', () => {
         expect(stepper.isFirstItem).toBe(true);
+      });
+
+      it('should indicate that item is second last', () => {
+        expect(stepper.isSecondLastItem).toBe(true);
       });
 
       it('should not have a previousItemLabel', () => {

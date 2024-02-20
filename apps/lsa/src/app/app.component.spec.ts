@@ -1,4 +1,5 @@
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { FormGroup } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -10,10 +11,18 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppComponent } from './app.component';
 import { LsaStepperComponent } from './core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from './core/services/lsa-app.service';
+import { LsaFormService } from './core/services/lsa-form.service';
+import { RestService } from './core/services/rest.service';
+
+jest.mock('./core/services/form-helper', () => ({
+  transformFormValue: jest.fn(),
+}));
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
+  let component: AppComponent;
   let lsaAppService: LsaAppService;
+  let restService: RestService;
   let translocoService: TranslocoService;
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -23,18 +32,40 @@ describe('AppComponent', () => {
       MockComponent(LsaStepperComponent),
       provideTranslocoTestingModule({ en: {} }),
     ],
+    providers: [
+      {
+        provide: RestService,
+        useValue: {
+          getGreases: jest.fn(),
+          getLubricatorRecommendation: jest.fn(),
+        },
+      },
+      {
+        provide: LsaFormService,
+        useValue: {
+          getRecommendationForm: jest.fn(
+            () =>
+              ({
+                getRawValue: jest.fn(),
+              } as unknown as FormGroup)
+          ),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createComponent({
       detectChanges: false,
     });
+    component = spectator.debugElement.componentInstance;
     lsaAppService = spectator.inject(LsaAppService);
+    restService = spectator.inject(RestService);
     translocoService = spectator.inject(TranslocoService);
   });
 
   it('should create the app', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should render title', () => {
@@ -51,7 +82,7 @@ describe('AppComponent', () => {
 
     describe('when language is available', () => {
       beforeEach(() => {
-        spectator.component.language = 'de';
+        component.language = 'de';
       });
 
       it('should set provided language', () => {
@@ -65,6 +96,14 @@ describe('AppComponent', () => {
         spectator.detectChanges();
         expect(languageSelectionSpy).toHaveBeenCalledWith('en');
       });
+    });
+
+    it('should fetch greases', () => {
+      component.fetchGreases = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.fetchGreases).toHaveBeenCalled();
     });
   });
 
@@ -103,6 +142,26 @@ describe('AppComponent', () => {
       it('should complete previous step', () => {
         expect(completedStepSpy).toHaveBeenCalledWith(0);
       });
+    });
+  });
+
+  describe('fetchGreases', () => {
+    it('should call fetchGreases', () => {
+      component.fetchGreases();
+
+      expect(restService.getGreases).toHaveBeenCalled();
+    });
+  });
+
+  describe('fetchResult', () => {
+    it('should call getLubricatorRecommendation', () => {
+      component.form.getRawValue = jest.fn();
+      component.fetchResult();
+
+      expect(component.form.getRawValue).toHaveBeenCalled();
+      expect(restService.getLubricatorRecommendation).toHaveBeenCalledWith(
+        component.form.getRawValue()
+      );
     });
   });
 });

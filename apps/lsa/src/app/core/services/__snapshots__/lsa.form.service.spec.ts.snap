@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LsaFormService init should init the form with defaults 1`] = `
+Object {
+  "lubricationInterval": null,
+  "lubricationPoints": null,
+  "lubricationQty": 60,
+  "optime": null,
+  "pipeLength": null,
+}
+`;
+
+exports[`LsaFormService init should init the form with defaults 2`] = `
+Object {
+  "grease": null,
+  "lubricantType": "Arcanol",
+}
+`;
+
+exports[`LsaFormService init should init the form with defaults 3`] = `
+Object {
+  "battery": null,
+  "temperature": null,
+}
+`;
+
+exports[`LsaFormService init should init the form with defaults 4`] = `
+Object {
+  "application": Object {
+    "battery": null,
+    "temperature": null,
+  },
+  "lubricant": Object {
+    "grease": null,
+    "lubricantType": "Arcanol",
+  },
+  "lubricationPoints": Object {
+    "lubricationInterval": null,
+    "lubricationPoints": null,
+    "lubricationQty": 60,
+    "optime": null,
+    "pipeLength": null,
+  },
+}
+`;

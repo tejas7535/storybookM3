@@ -5,8 +5,9 @@
     </h1>
     <mat-divider class="mb-3 sm:mb-9"></mat-divider>
     <lsa-stepper (selectionChange)="selectionChanged($event)">
-      <ng-container *ngFor="let page of pages">
+      <ng-container *ngFor="let page of pages; let index = index">
         <cdk-step
+          lsaStep
           [label]="t('pages.' + page.name + '.title')"
           [completed]="page.completed"
         >
@@ -14,9 +15,35 @@
             <p>
               This is any content of "{{ t('pages.' + page.name + '.title') }}"
             </p>
+            <div
+              class="flex flex-row justify-around gap-10"
+              *ngIf="index !== 3; else result"
+            >
+              <div class="flex flex-col gap-10">
+                <h3>Form value</h3>
+                <pre>
+                  {{ form.value | json }}
+                </pre>
+                <p>valid: {{ form.valid }}</p>
+              </div>
+              <div class="flex flex-col gap-10">
+                <h3>Greases</h3>
+                <pre>
+                  {{ greases$ | async | json }}
+                </pre>
+              </div>
+            </div>
           </div>
         </cdk-step>
       </ng-container>
     </lsa-stepper>
   </div>
 </div>
+
+<ng-template #result>
+  <h3>Result</h3>
+  <pre *ngIf="result$ | async">
+      {{ result$ | async | json }}
+    </pre
+  >
+</ng-template>

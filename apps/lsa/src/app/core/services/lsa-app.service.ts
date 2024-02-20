@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Pages } from '@lsa/shared/constants/pages.enum';
-import { Page } from '@lsa/shared/models/page.model';
+import { Page } from '@lsa/shared/models';
 
 export interface LsaAppComponentState {
   pages: Page[];
