@@ -202,7 +202,11 @@
   "calculation": {
     "showReport": "Afficher le rapport",
     "calculationImpossible": "Pour les paramètres que vous avez spécifiés, aucun calcul n'est possible.",
-    "calculationMissingInput": "Veuillez ajouter les conditions restantes."
+    "calculationMissingInput": "Veuillez ajouter les conditions restantes.",
+    "co2Emissions": {
+      "upstreamHint": "Valeur estimée basée sur des hypothèses pendant la production",
+      "upstreamHintLinkText": "Plus d'informations."
+    }
   },
   "calculationResult": {
     "ratingLife": "Durée de vie nominale",

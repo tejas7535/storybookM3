@@ -13,6 +13,7 @@ import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationResultPreviewEmissionsTooltipComponent } from '../calculation-result-preview-emissions-tooltip/calculation-result-preview-emissions-tooltip.component';
 import { CalculationResultPreviewItemComponent } from '../calculation-result-preview-item/calculation-result-preview-item.component';
 import { CalculationResultReportComponent } from '../calculation-result-report/calculation-result-report.component';
 import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequencies-preview-iterm/overrolling-frequencies-preview-item.component';
@@ -31,6 +32,7 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
     OverrollingFrequenciesPreviewItemComponent,
     SharedTranslocoModule,
     MatProgressSpinnerModule,
+    CalculationResultPreviewEmissionsTooltipComponent,
   ],
 })
 export class CalculationResultPreviewComponent {

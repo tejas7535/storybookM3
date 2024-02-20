@@ -202,7 +202,11 @@
   "calculation": {
     "showReport": "Show Report",
     "calculationImpossible": "For the parameters you have specified no calculation is possible.",
-    "calculationMissingInput": "Please add the remaining conditions."
+    "calculationMissingInput": "Please add the remaining conditions.",
+    "co2Emissions": {
+      "upstreamHint": "Estimated value based on assumptions during production",
+      "upstreamHintLinkText": "More information."
+    }
   },
   "calculationResult": {
     "ratingLife": "Rating life",

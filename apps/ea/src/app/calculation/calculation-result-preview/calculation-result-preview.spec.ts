@@ -1,5 +1,6 @@
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -60,6 +61,7 @@ describe('CalculationResultPreviewComponent', () => {
         useValue: jest.fn(),
       },
       { provide: Dialog, useValue: dialogMock },
+      { provide: MatDialog, useValue: dialogMock },
       {
         provide: EmbeddedGoogleAnalyticsService,
         useValue: analyticsServiceMock,

@@ -202,7 +202,11 @@
   "calculation": {
     "showReport": "Bericht anzeigen",
     "calculationImpossible": "Für die von Ihnen angegebenen Parameter ist keine Berechnung möglich.",
-    "calculationMissingInput": "Bitte fügen Sie die verbleibenden Bedingungen hinzu."
+    "calculationMissingInput": "Bitte fügen Sie die verbleibenden Bedingungen hinzu.",
+    "co2Emissions": {
+      "upstreamHint": "Geschätzter Wert basierend auf Annahmen während der Produktion",
+      "upstreamHintLinkText": "Mehr Informationen."
+    }
   },
   "calculationResult": {
     "ratingLife": "Lebensdauer",

@@ -202,7 +202,11 @@
   "calculation": {
     "showReport": "显示报告",
     "calculationImpossible": "对于您指定的参数，无法进行计算。",
-    "calculationMissingInput": "请添加其余条件。"
+    "calculationMissingInput": "请添加其余条件。",
+    "co2Emissions": {
+      "upstreamHint": "根据生产环节假设的估算值",
+      "upstreamHintLinkText": "更多信息。"
+    }
   },
   "calculationResult": {
     "ratingLife": "额定寿命",

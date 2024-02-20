@@ -1,0 +1,26 @@
+<ng-container *transloco="let t; read: 'calculation.co2Emissions'">
+  <div class="flex ml-1 flex-shrink-0">
+    <mat-icon
+      cdkOverlayOrigin
+      #infoIcon="cdkOverlayOrigin"
+      [inline]="true"
+      color="inherit"
+      class="cursor-help"
+      >info_outline</mat-icon
+    >
+  </div>
+
+  <schaeffler-rich-tooltip
+    [tooltipOrigin]="infoIcon"
+    [tooltipShowDelay]="200"
+    [tooltipHideDelay]="200"
+  >
+    {{ t('upstreamHint') }}
+    <a
+      class="hover:cursor-pointer hover:underline ml-1"
+      (click)="openMoreInformation()"
+      >{{ t('upstreamHintLinkText')
+      }}<mat-icon [inline]="true" class="ml-0.5 !h-3">open_in_new</mat-icon></a
+    ></schaeffler-rich-tooltip
+  >
+</ng-container>

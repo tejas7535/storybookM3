@@ -59,7 +59,12 @@
               <ea-calculation-result-preview-item
                 styleClass="w-[70vw] sm:w-[50vw]"
                 [item]="item"
-              />
+              >
+                <ea-calculation-result-preview-emissions-tooltip
+                  *ngIf="item.title.includes('emissions')"
+                >
+                </ea-calculation-result-preview-emissions-tooltip>
+              </ea-calculation-result-preview-item>
             </div>
           </ng-container>
 
