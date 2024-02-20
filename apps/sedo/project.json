@@ -149,6 +149,31 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/sedo",
+          "cd dist/apps/sedo && zip -r ../../zips/sedo/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/sedo/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/sedo/stats.json --mode static --report dist/webpack/sedo/bundle-report.html --title 'SEDO Bundle Report' --no-open || true"
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/sedo/assests/i18n"
+      }
     }
   },
   "tags": [],

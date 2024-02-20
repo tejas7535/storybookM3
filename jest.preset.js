@@ -1,9 +1,7 @@
 const nxPreset = require('@nx/jest/preset').default;
 module.exports = {
   ...nxPreset,
-  cacheDirectory: process.env.MONO_AGENT
-    ? '/home/adp-jenkins/temp/jest-cache'
-    : '/tmp/jest_rs',
+  cacheDirectory: '/tmp/.project-cache/jest',
   coverageReporters: ['html', 'cobertura'],
   coverageThreshold: {
     global: {

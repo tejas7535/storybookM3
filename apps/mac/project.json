@@ -168,6 +168,31 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/mac",
+          "cd dist/apps/mac && zip -r ../../zips/mac/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/mac/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/mac/stats.json --mode static --report dist/webpack/mac/bundle-report.html --title 'MAC Bundle Report' --no-open || true"
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/mac/assests/i18n"
+      }
     }
   },
   "tags": [],

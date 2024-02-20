@@ -154,6 +154,31 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/ia",
+          "cd dist/apps/ia && zip -r ../../zips/ia/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/ia/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/ia/stats.json --mode static --report dist/webpack/ia/bundle-report.html --title 'IA Bundle Report' --no-open || true"
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/ia/assests/i18n"
+      }
     }
   },
   "tags": [],

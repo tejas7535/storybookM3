@@ -16,19 +16,6 @@
         ],
         "parallel": 1
       }
-    },
-    "ci": {
-      "runner": "@nx/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e",
-          "build-storybook"
-        ],
-        "cacheDirectory": "/home/adp-jenkins/temp/nx-cache"
-      }
     }
   },
   "targetDependencies": {

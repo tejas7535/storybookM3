@@ -36,15 +36,15 @@
       "@ga/environments/*": ["apps/ga/src/environments/*"],
       "@ga/testing/*": ["apps/ga/src/testing/*"],
       "@gq/*": ["apps/gq/src/app/*"],
+      "@lsa/*": ["apps/lsa/src/app/*"],
+      "@lsa/environments/*": ["apps/lsa/src/environments/*"],
+      "@lsa/testing/*": ["apps/lsa/src/testing/*"],
       "@mac/*": ["apps/mac/src/app/*"],
       "@mac/environments/*": ["apps/mac/src/environments/*"],
       "@mac/msd/*": ["apps/mac/src/app/feature/materials-supplier-database/*"],
       "@mac/testing/*": ["apps/mac/src/testing/*"],
       "@mm/*": ["apps/mm/src/app/*"],
       "@mm/environments/*": ["apps/mm/src/environments/*"],
-      "@lsa/*": ["apps/lsa/src/app/*"],
-      "@lsa/environments/*": ["apps/lsa/src/environments/*"],
-      "@lsa/testing/*": ["apps/lsa/src/testing/*"],
       "@schaeffler/app-shell": ["libs/shared/ui/app-shell/src/index.ts"],
       "@schaeffler/application-insights": [
         "libs/shared/utils/application-insights/src/index.ts"

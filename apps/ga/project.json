@@ -193,6 +193,31 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/ga",
+          "cd dist/apps/ga && zip -r ../../zips/ga/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/ga/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/ga/stats.json --mode static --report dist/webpack/ga/bundle-report.html --title 'GA Bundle Report' --no-open || true"
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/ga/assests/i18n"
+      }
     }
   },
   "tags": []

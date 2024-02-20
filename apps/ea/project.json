@@ -265,6 +265,31 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/ea",
+          "cd dist/apps/ea && zip -r ../../zips/ea/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/ea/assests/i18n"
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/ea/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/ea/stats.json --mode static --report dist/webpack/ea/bundle-report.html --title 'EA Bundle Report' --no-open || true"
+      }
     }
   },
   "tags": []

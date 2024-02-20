@@ -154,6 +154,31 @@
         "tag": "${tag}",
         "notes": "${notes}"
       }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/zips/cdba/next.zip"],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/cdba",
+          "cd dist/apps/cdba && zip -r ../../zips/cdba/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/cdba/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/cdba/stats.json --mode static --report dist/webpack/cdba/bundle-report.html --title 'CDBA Bundle Report' --no-open || true"
+      }
+    },
+    "transloco:optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/cdba/assests/i18n"
+      }
     }
   },
   "tags": [],

@@ -114,7 +114,6 @@
           "sourceMap": true,
           "namedChunks": true,
           "deployUrl": "https://lubricator-selection-assistant-d.dev.dp.schaeffler/",
-
           "optimization": {
             "scripts": true,
             "styles": {
@@ -265,6 +264,31 @@
       "options": {
         "tag": "${tag}",
         "notes": "${notes}"
+      }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/lsa",
+          "cd dist/apps/lsa && zip -r ../../zips/lsa/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/lsa/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/lsa/stats.json --mode static --report dist/webpack/lsa/bundle-report.html --title 'LSA Bundle Report' --no-open || true"
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/lsa/assests/i18n"
       }
     }
   },

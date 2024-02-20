@@ -1,114 +1,110 @@
 #!/usr/bin/env groovy
-@Library('adp-shared-library@1.5.0')
-
-// Imports from shared library above
-import adp.github.Github
+@Library('adp-shared-library@1.31.0')
 
 // Imports
 import groovy.transform.Field
 import java.text.SimpleDateFormat
 
-/****************************************************************/
+// Imports from shared library above
+import adp.github.Github
+import adp.util.Util
 
 // Variables
-def github = new Github(this)
-def artifactoryBasePath = 'generic-local/schaeffler-frontend'
+Github github = new Github(this)
+Util util = new Util(this)
 
+boolean isMain = util.isMain()
+boolean isNightly = util.isStartedByTimer() && isMain
+String sanitizedBranchName = util.getSanitizedBranchName(env.BRANCH_NAME)
+
+env.PROJECT_NAME = 'frontend-schaeffler'
+
+def artifactoryBasePath = 'generic-local/schaeffler-frontend'
 def customVersionDefault = 'No custom version'
+
 @Field
 def buildBase
-
 @Field
 def affectedApps
-
 @Field
 def affectedLibs
-
+@Field
+boolean isRelease = false
+@Field
+boolean isAppRelease = false
+@Field
+boolean isLibsRelease = false
+@Field
+boolean runQualityStage = true
+@Field
+boolean buildStorybook = false
+@Field
+boolean publishStorybook = false
+@Field
+boolean triggerAppDeployments = false
 @Field
 boolean storybookAffected = false
-
 @Field
 boolean skipBuild = false
-
 @Field
-def releasableApps = ['cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea']
-
-/****************************************************************/
+def releasableApps = ['cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa']
 
 // Functions
-boolean isBugfix() {
-    return "${BRANCH_NAME}".startsWith('bugfix/')
-}
-
 boolean isDepUpdate() {
     return "${BRANCH_NAME}".startsWith('dependabot/') || "${BRANCH_NAME}".startsWith('renovate/')
 }
 
-boolean isMaster() {
-    return "${BRANCH_NAME}" == 'master'
-}
-
-boolean isAppRelease() {
+void defineIsAppRelease(isMain) {
     // releases only allowed on master
-    if(!isMaster()) {
+    if(!isMain){
         return false;
     }
 
-    return releasableApps.any { app -> app.contains(params.RELEASE_SCOPE)}
+    isAppRelease = releasableApps.any { app -> app.contains(params.RELEASE_SCOPE)}
 }
 
-boolean isLibsRelease() {
-    return params.RELEASE_SCOPE == 'LIBS' && isMaster()
+void defineIsLibsRelease(isMain) {
+    isLibsRelease = params.RELEASE_SCOPE == 'LIBS' && isMain
 }
 
-boolean isNightly() {
-    def buildCauses = "${currentBuild.buildCauses}"
-    boolean isStartedByTimer = false
-    if (buildCauses != null && buildCauses.contains('Started by timer')) {
-        isStartedByTimer = true
-    }
-
-    return isStartedByTimer && isMaster()
+void defineBuildStorybook(isRelease) {
+    buildStorybook = !skipBuild && !isRelease
 }
 
-boolean buildStorybook() {
-    return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
-}
-
-boolean publishStorybook() {
+void definePublishStorybook(isMain) {
     // should only run if
     // pipeline runs on master branch
     // storybook project is affected
     // buildStorybook returns true
 
-    return isMaster () && buildStorybook() && storybookAffected
+    publishStorybook = isMain && storybookAffected && buildStorybook
 }
 
-boolean runQualityStage() {
+void defineRunQualityStage(isRelease) {
     // should always run except in these scenarios:
     // skipBuild flag is set
     // nightly pipeline run
     // libs or app release
 
-    return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
+    runQualityStage = !skipBuild && !isRelease
 }
 
-boolean runDeliverAppsStage() {
-    return !isLibsRelease() && !isDepUpdate()
+boolean runDeliverAppsStage(isMain) {
+    return !isLibsRelease && !isDepUpdate()
 }
 
-boolean runTriggerAppDeploymentsStage() {
+void defineRunTriggerAppDeploymentsStage(isNightly) {
     // the stage trigger app deployments should only run if the following conditions are met
     // skipBuild flag is not present
     // it is not a nightly pipeline run
     // it is not a libs release
     // it is not a dep update branch
 
-    return !skipBuild && !isNightly() && !isLibsRelease() && !isDepUpdate()
+    triggerAppDeployments = !skipBuild && !isNightly && !isLibsRelease && !isDepUpdate()
 }
 
-void defineBuildBase() {
-    if (isAppRelease() || isLibsRelease()) {
+void defineBuildBase(isMain) {
+    if (isRelease) {
         latestTag = getLatestGitTag("${env.RELEASE_SCOPE}")
 
         buildBase = sh (
@@ -156,12 +152,12 @@ def mapAffectedStringToArray(String input) {
 
 def defineAffectedAppsAndLibs() {
     apps = sh (
-        script: "npx nx show projects --affected --base=${buildBase} --exclude *-e2e,shared-*,eslint-rules",
+        script: "pnpm --silent nx show projects --affected --base=${buildBase} --exclude '*-e2e,shared-*,eslint-rules'",
         returnStdout: true
     )
 
     libs = sh (
-        script: "npx nx show projects --affected --base=${buildBase} --projects shared-*",
+        script: "pnpm --silent nx show projects --affected --base=${buildBase} --projects 'shared-*'",
         returnStdout: true
     )
 
@@ -176,10 +172,10 @@ def defineAffectedAppsAndLibs() {
     affectedLibs -= 'shared-ui-storybook'
 }
 
-boolean ciSkip() {
+boolean ciSkip(isMain, isRelease) {
     Integer ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
 
-    if ((ciSkip == 0 && isMaster() && !(isAppRelease() || isLibsRelease())) || "${BRANCH_NAME}" == 'gh-pages') {
+    if ((ciSkip == 0 && isMain && !isRelease) || "${BRANCH_NAME}" == 'gh-pages') {
         currentBuild.description = 'CI SKIP'
         currentBuild.result = 'SUCCESS'
         skipBuild = true
@@ -199,10 +195,6 @@ def getPackageVersion(app = null) {
     return packageJSON.version
 }
 
-def getAgentLabel() {
-    return 'monorepo'
-}
-
 void deployArtifact(target, uploadFile, checksum) {
     withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
         sh "curl --http1.1 -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target};build.commit=${GIT_COMMIT}\" -T ${uploadFile}"
@@ -219,33 +211,26 @@ boolean artifactoryFileCanBeRemoved(artifactoryFile) {
     return !artifactoryFile.folder && !artifactoryFile.uri.contains('release/') && !artifactoryFile.uri.contains('latest.zip') && !artifactoryFile.uri.contains('next.zip')
 }
 
-// remove @ because frontend deployment pipelines add docker tags with BRANCH_NAME as value and '@' is not allowed in docker tags
-// example: depeendency update branch 'renovate/@nrwlnx' will get a docker tag of 'renovate-@nrwlnx' -> remove the @
-def getFilteredBranchName() {
-    return "${BRANCH_NAME}".replace('@', '')
-}
-
-def getNxRunnerConfig() {
-    return '--runner=ci'
-}
-
-void cleanWorkspace() {
-    sh 'rm -rf checkstyle coverage dist node_modules reports apps/**/node_modules'
-}
-
 /****************************************************************/
 pipeline {
     agent {
-        label getAgentLabel()
+        docker {
+            image 'artifactory.schaeffler.com/docker/adp/jenkinsbaseimage:1'
+            label 'monorepo-docker'
+            alwaysPull true
+            args '-u root:root -v cache:/tmp/.cache -v $PROJECT_NAME:/tmp/.project-cache  -v $PROJECT_NAME-angular:$WORKSPACE/.angular/cache -v /var/run/docker.sock:/var/run/docker.sock -e https_proxy -e http_proxy -e no_proxy'
+        }
     }
 
     environment {
-        NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
+        CYPRESS_CACHE_FOLDER = '/tmp/.cache/Cypress'
+        NX_CACHE_DIRECTORY = '/tmp/.project-cache/nx-cache'
+        PNPM_HOME = '/tmp/.cache/pnpm'
     }
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        disableConcurrentBuilds (abortPrevious: !isMaster())
+        disableConcurrentBuilds (abortPrevious: isMain)
         timeout(time: 1, unit: 'HOURS')
         timestamps()
         ansiColor('xterm')
@@ -253,7 +238,7 @@ pipeline {
     }
 
     triggers {
-        cron(isMaster() ? '@midnight' : '')
+        cron(isMain ? '@midnight' : '')
     }
 
     parameters {
@@ -270,236 +255,161 @@ pipeline {
     }
 
     stages {
-         stage('Install') {
-            steps {
-                script {
-                    echo 'Install NPM Dependencies'
-
-                    sh 'pnpm install'
-                }
-            }
-        }
-
         stage('Preparation') {
             steps {
                 echo 'Preparation of some variables'
 
-                ciSkip()
+                script {
+                    script {
+                        util.addWorkspaceToGitGlobalSafeDirectory()
+                        defineIsAppRelease(isMain)
+                        defineIsLibsRelease(isMain)
+                        isRelease = isAppRelease || isLibsRelease
+                        if (isAppRelease) {
+                            def deployments = readJSON file: 'deployments.json'
+                            def apps = deployments.keySet()
+                            env.RELEASE_SCOPE = params.RELEASE_SCOPE
+                        }
+                        ciSkip(isMain, isRelease)
+                        defineRunQualityStage(isRelease)
+                        defineBuildStorybook(isRelease)
+                        definePublishStorybook(isMain)
+                        defineRunTriggerAppDeploymentsStage(isNightly)
+
+                        sh "pnpm config set store-dir $PNPM_HOME/.pnpm-store"
+                        sh 'pnpm install'
+
+                        defineBuildBase(isMain)
+                        defineAffectedAppsAndLibs()
+                        setGitUser()
+                    }
+                }
+            }
+        }
+
+        stage('Audit') {
+            when {
+                expression {
+                    return runQualityStage
+                }
+            }
+            steps {
+                echo 'Run PNPM Audit'
+                script {
+                    def result = sh (returnStatus: true, script: '''
+                        mkdir -p reports
+                        pnpm audit --json > reports/pnpm-audit.json
+                    ''') as int
+
+                    recordIssues tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit')
+
+                    if (result != 0) {
+                        unstable 'PNPM audit failed'
+                    }
+                }
+            }
+        }
+
+        stage('Format:Check') {
+            when {
+                expression {
+                    return runQualityStage
+                }
+            }
+            steps {
+                echo 'Run Format Check with prettier'
 
                 script {
-                    if (isAppRelease()) {
-                        def deployments = readJSON file: 'deployments.json'
-                        def apps = deployments.keySet()
-                        env.RELEASE_SCOPE = params.RELEASE_SCOPE
-                    }
-                }
-
-                defineBuildBase()
-                defineAffectedAppsAndLibs()
-                setGitUser()
-            }
-        }
-
-        stage('Nightly') {
-            when {
-                expression {
-                    isNightly()
-                }
-            }
-            failFast true
-            parallel {
-                stage('OWASP') {
-                    steps {
-                        echo 'Run OWASP Dependency Check'
-                    }
-                }
-
-                // TODO migrate for github
-                stage('Renovate') {
-                    when {
-                        expression {
-                            return false
-                        }
-                    }
-                    steps {
-                        echo 'Run Renovate for dependency updates'
-
-                        script {
-                            withCredentials([string(credentialsId: 'GITLAB_API_TOKEN', variable: 'ACCESS_TOKEN')]) {
-                                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_COM_TOKEN')]) {
-                                    sh "pnpm renovate --token=${ACCESS_TOKEN} --platform=gitlab --endpoint=https://gitlab.schaeffler.com/api/v4 frontend-schaeffler/schaeffler-frontend"
-                                }
-                            }
-                        }
-                    }
-                }
-
-                stage('Audit') {
-                    steps {
-                        echo 'Run PNPM Audit'
-						script {
-                            def result = sh (returnStatus: true, script: '''
-                                mkdir -p reports
-                                pnpm audit --json > reports/pnpm-audit.json
-                            ''') as int
-
-                            recordIssues tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit')
-
-                            if (result != 0) {
-                                unstable 'PNPM audit failed'
-                            }
-                        }
-                    }
-                }
-
-                stage('Cleanup Artifactory') {
-                    steps {
-                        script {
-                            withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-                                def jsonString = sh (
-                                    script: "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
-                                    returnStdout: true
-                                )
-                                def artifactoryResponse = readJSON text: jsonString
-
-                                def dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
-                                def currentDate = new Date()
-
-                                for (artifactoryFile in artifactoryResponse.files) {
-                                    if (artifactoryFileCanBeRemoved(artifactoryFile)) {
-                                        def lastModifiedDate = dateFormat.parse(artifactoryFile.lastModified)
-                                        def daysBetween = currentDate - lastModifiedDate
-                                        if (daysBetween > 60) {
-                                            echo "${artifactoryFile}"
-                                            echo 'IS GOING TO GET DELETED'
-                                            sh "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                stage('Cleanup Nx-Cache') {
-                    steps {
-                        script {
-                            // get disk space used
-                            def diskUsagePercentString = sh (
-                                script: """df -h --output=pcent /dev/sdb1  | awk 'NR>1 {print \$1 | "sort -r -k3 -n"}' | awk '{print substr(\$1, 1, length(\$1)-1)}'""",
-                                returnStdout: true
-                            )
-
-                            // delete nx-cache only when disk usage is over 75%
-                            if (diskUsagePercentString.toInteger() > 75) {
-                                sh 'rm -rf /home/adp-jenkins/temp/angular-cache'
-                                sh 'mkdir /home/adp-jenkins/temp/angular-cache'
-
-                                sh 'rm -rf /home/adp-jenkins/temp/nx-cache'
-                                sh 'mkdir /home/adp-jenkins/temp/nx-cache'
-
-                                sh 'rm -rf /home/adp-jenkins/temp/jest-cache'
-                                sh 'mkdir /home/adp-jenkins/temp/jest-cache'
-                            }
-                        }
-                    }
-                }
-
-                stage('Test:E2E') {
-                    environment {
-                        NO_PROXY="localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com,.schaeffler"
-                    }
-                    steps {
-                        // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
-                        lock(resource: "lock-cypress-${env.NODE_NAME}", quantity: 1) {
-                            echo 'Run E2E Tests'
-
-                            script {
-                                sh "printenv"
-                                def result = sh(returnStatus: true, script: "pnpm install && pnpm cypress install && pnpm run affected:e2e --base=${buildBase} ${getNxRunnerConfig()}")
-
-                                if (result != 0) {
-                                    unstable 'E2E tests failed'
-                                }
-                            }
-                        }
-                    }
-                    post {
-                        always {
-                            junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
-                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false, allowEmptyArchive: true
-                        }
-                        failure {
-                            archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
-                        }
-                    }
+                    sh "pnpm nx format:check --base=${buildBase}"
                 }
             }
         }
 
-        stage('Quality') {
+        stage('Lint:HTML') {
             when {
                 expression {
-                    return runQualityStage()
+                    return runQualityStage
                 }
             }
-            failFast true
-            parallel {
-                stage('Format:Check') {
-                    steps {
-                        echo 'Run Format Check with prettier'
+            steps {
+                echo 'Run HTML Lint'
 
-                        script {
-                            sh "pnpm run format:check --base=${buildBase}"
-                        }
+                script {
+                    sh 'pnpm run lint:html'
+                }
+            }
+        }
+
+        stage('Lint:TS') {
+            when {
+                expression {
+                    return runQualityStage
+                }
+            }
+            steps {
+                echo 'Run TS Lint'
+
+                script {
+                    sh "pnpm nx affected:lint --base=${buildBase} --configuration=ci --parallel=3"
+                }
+            }
+            post {
+                always {
+                    recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
+                }
+            }
+        }
+
+        stage('Test:Unit') {
+            when {
+                expression {
+                    return runQualityStage
+                }
+            }
+            steps {
+                echo 'Run Unit Tests'
+
+                script {
+                    sh "pnpm nx affected:test --base=${buildBase} --parallel=3 --runInBand"
+                    // merge reports
+                    sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files='coverage/**/cobertura-coverage.xml'"
+                }
+            }
+            post {
+                always {
+                    recordCoverage sourceCodeRetention: 'NEVER', tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']]
+                    junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
+                }
+            }
+        }
+
+        stage('Test:E2E') {
+            when {
+                expression {
+                    return isNightly
+                }
+            }
+            environment {
+                NO_PROXY="localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com,.schaeffler"
+            }
+            steps {
+                echo 'Run E2E Tests'
+
+                script {
+                    def result = sh(returnStatus: true, script: "pnpm run affected:e2e --base=${buildBase}")
+
+                    if (result != 0) {
+                        unstable 'E2E tests failed'
                     }
                 }
-
-                stage('Lint:TS') {
-                    steps {
-                        echo 'Run TS Lint'
-
-                        script {
-                            sh "pnpm run affected:lint --base=${buildBase} --configuration=ci --parallel=2 ${getNxRunnerConfig()}"
-                        }
-                    }
-                    post {
-                        always {
-                            recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
-                        }
-                    }
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
+                    archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false, allowEmptyArchive: true
                 }
-
-                stage('Lint:HTML') {
-                    steps {
-                        echo 'Run HTML Lint'
-
-                        // no checkstyle output
-                        script {
-                            sh 'pnpm run lint:html'
-                        }
-                    }
-                }
-
-                stage('Test:Unit') {
-                    steps {
-                        echo 'Run Unit Tests'
-
-                        script {
-                            sh "pnpm run affected:test --base=${buildBase} --parallel=2 ${getNxRunnerConfig()}"
-                            // merge reports
-                            sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files=coverage/**/cobertura-coverage.xml"
-                        }
-                    }
-                    post {
-                        success {
-                            // Unit tests results
-                            recordCoverage sourceCodeRetention: 'NEVER', tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']]
-                        }
-                        always {
-                            junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
-                        }
-                    }
+                failure {
+                    archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
                 }
             }
         }
@@ -507,7 +417,7 @@ pipeline {
         stage('Pre-Release') {
             when {
                 expression {
-                    return !skipBuild && (isAppRelease() || isLibsRelease())
+                    return !skipBuild && isRelease
                 }
             }
             steps {
@@ -529,13 +439,13 @@ pipeline {
                     def standardVersionCommand = ""
 
                     // generate project specific changelog
-                    if (isAppRelease()) {
+                    if (isAppRelease) {
                         standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version"
 
                         if (params.CUSTOM_VERSION != "${customVersionDefault}") {
                             standardVersionCommand += " --releaseAs=${params.CUSTOM_VERSION}"
                         }
-                    } else if (isLibsRelease()) {
+                    } else if (isLibsRelease) {
                         standardVersionCommand = "pnpm nx run-many --target=version --projects=${affectedLibs.join(',')}"
                     }
 
@@ -551,9 +461,9 @@ pipeline {
                     sh 'pnpm run generate-readme'
 
                     // generate root changelog
-                    if (isAppRelease()) {
+                    if (isAppRelease) {
                         sh "pnpm run generate-changelog --app ${env.RELEASE_SCOPE}"
-                    } else if (isLibsRelease()) {
+                    } else if (isLibsRelease) {
                         sh 'pnpm run generate-changelog --libs'
                     }
 
@@ -566,59 +476,58 @@ pipeline {
         stage('Build:Storybook') {
             when {
                 expression {
-                    return buildStorybook()
+                    return buildStorybook
                 }
             }
             steps {
                 echo 'Build Storybooks for Shared Libraries'
 
                 script {
-                    sh "pnpm nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
+                    sh "pnpm nx affected --base=${buildBase} --target=build-storybook"
 
                     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
                 }
             }
         }
 
-        stage('Build Projects') {
+        stage('Build:Apps') {
             when {
                 expression {
-                    return !skipBuild && !isNightly()
+                    return !skipBuild && !isLibsRelease
                 }
             }
             steps {
-                echo 'Build Projects'
+                echo 'Build Apps'
 
                 script {
-                    lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
-                        if (isAppRelease()) {
-                            sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=production"
-                            try {
-                                sh "pnpm run transloco:optimize dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
-                            } catch (error) {
-                                echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
-                            }
-                        } else if (isLibsRelease()) {
-                            sh "pnpm nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
+                    if (isAppRelease) {
+                        sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=production"
+                        sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
+                    } else {
+                        if (isMain) {
+                            sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa  --parallel=3"
                         } else {
-                            if (isMaster()) {
-                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=3"
-                            } else {
-                                sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=3"
-                            }
-
-                            for (app in affectedApps) {
-                                try {
-                                    sh "pnpm run transloco:optimize dist/apps/${app}/assets/i18n"
-                               } catch (error) {
-                                    echo "No translations found to optimize in app ${app}"
-                                }
-
-                                sh "pnpm webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
-                                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
-                            }
+                            sh "pnpm nx affected --base=${buildBase} --target=build --configuration=dev  --parallel=3"
                         }
+                        sh "pnpm nx affected --base=${buildBase} --target=transloco-optimize --parallel=3"
+
+                        sh "pnpm nx affected --base=${buildBase} --target=analyze-bundle --parallel=3"
+                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "**/bundle-report.html", reportName: "bundle-reports", reportTitles: "bundle-report"])
                     }
+                }
+            }
+        }
+        stage ('Build:Packages') {
+            when {
+                expression {
+                    return isLibsRelease
+                }
+            }
+            steps {
+                echo 'Build Libraries as npm packages'
+
+                script {
+                    sh "pnpm nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
                 }
             }
         }
@@ -626,7 +535,7 @@ pipeline {
         stage('Deliver') {
             when {
                 expression {
-                    return !skipBuild && !isNightly()
+                    return !skipBuild && !isNightly
                 }
             }
             failFast true
@@ -634,7 +543,7 @@ pipeline {
                 stage('Deliver:Apps') {
                     when {
                         expression {
-                            return runDeliverAppsStage()
+                            return runDeliverAppsStage(isMain)
                         }
                     }
                     steps {
@@ -642,20 +551,20 @@ pipeline {
 
                         script {
                             sh 'mkdir -p dist/zips'
-                            def appsToDeploy = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+                            def appsToDeploy = isAppRelease ? [env.RELEASE_SCOPE] : affectedApps
 
                             // loop over apps and publish them
                             for (app in appsToDeploy) {
                                 echo "publish ${app} to Artifactory"
 
-                                zip dir: "dist/apps/${app}",  glob: '', zipFile: "dist/zips/${app}/next.zip"
+                                sh "pnpm nx run ${app}:zip"
                                 uploadFile = "dist/zips/${app}/next.zip"
                                 checksum = sh (
                                     script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
                                     returnStdout: true
                                 ).trim()
 
-                                if (isAppRelease()) {
+                                if (isAppRelease) {
                                     def version = getPackageVersion(app)
 
                                     target1 = "${artifactoryBasePath}/${app}/latest.zip"
@@ -663,13 +572,12 @@ pipeline {
 
                                     target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
                                     deployArtifact(target2, uploadFile, checksum)
-                                } else if (isMaster()) {
+                                } else if (isMain) {
                                     target = "${artifactoryBasePath}/${app}/next.zip"
 
                                     deployArtifact(target, uploadFile, checksum)
-                                } else if (!isNightly()) {
-                                    def fileName = getFilteredBranchName()
-                                    target = "${artifactoryBasePath}/${app}/${fileName}.zip"
+                                } else if (!isNightly) {
+                                    target = "${artifactoryBasePath}/${app}/${sanitizedBranchName}.zip"
 
                                     deployArtifact(target, uploadFile, checksum)
                                 }
@@ -681,7 +589,7 @@ pipeline {
                 stage('Deliver:Packages') {
                     when {
                         expression {
-                            return isLibsRelease()
+                            return isLibsRelease
                         }
                     }
                     steps {
@@ -696,7 +604,7 @@ pipeline {
                 stage('Deliver:Storybook') {
                     when {
                         expression {
-                            return publishStorybook()
+                            return publishStorybook
                         }
                     }
                     steps {
@@ -720,7 +628,7 @@ pipeline {
             post {
                 success {
                     script {
-                        def version = isAppRelease() ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
+                        def version = isAppRelease ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
                         currentBuild.description = "Version: ${version}"
                     }
                 }
@@ -730,7 +638,7 @@ pipeline {
         stage('Release') {
             when {
                 expression {
-                    return !skipBuild && (isAppRelease() || isLibsRelease())
+                    return !skipBuild && isRelease
                 }
             }
             steps {
@@ -745,22 +653,22 @@ pipeline {
         stage('Trigger App Deployments') {
             when {
                 expression {
-                    return runTriggerAppDeploymentsStage()
+                    return triggerAppDeployments
                 }
             }
             steps {
                 script {
                     def deployments = readJSON file: 'deployments.json'
-                    def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+                    def appsToBuild = isAppRelease ? [env.RELEASE_SCOPE] : affectedApps
 
                     for (app in appsToBuild) {
                         def url = deployments[app]
 
                         def version = getPackageVersion(app)
-                        def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
+                        def configuration = isAppRelease ? 'PROD' : (isMain ? 'QA' : 'DEV')
 
                         // prod/release = latest, master = next, feature build = branch name
-                        def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
+                        def fileName = isAppRelease ? 'latest' : isMain ? 'next' : sanitizedBranchName
                         def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
                         try {
@@ -782,7 +690,7 @@ pipeline {
         stage ('Storybook Deployment') {
             when {
                 expression {
-                    return publishStorybook()
+                    return publishStorybook
                 }
             }
             steps {
@@ -819,13 +727,47 @@ pipeline {
                 }
             }
         }
+
+         stage('Cleanup Artifactory') {
+            when {
+                expression {
+                    return isNightly
+                }
+            }
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
+                        def jsonString = sh (
+                            script: "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
+                            returnStdout: true
+                        )
+                        def artifactoryResponse = readJSON text: jsonString
+
+                        def dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
+                        def currentDate = new Date()
+
+                        for (artifactoryFile in artifactoryResponse.files) {
+                            if (artifactoryFileCanBeRemoved(artifactoryFile)) {
+                                def lastModifiedDate = dateFormat.parse(artifactoryFile.lastModified)
+                                def daysBetween = currentDate - lastModifiedDate
+                                if (daysBetween > 60) {
+                                    echo "${artifactoryFile}"
+                                    echo 'IS GOING TO GET DELETED'
+                                    sh "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     post {
         always {
-            script {
-                cleanWorkspace()
-            }
+            // perform general clean up
+            sh "chmod -R 777 ." // set rights so that the cleanup job can do its work
+            cleanWs(deleteDirs: true, disableDeferredWipeout: true)
         }
     }
 }
