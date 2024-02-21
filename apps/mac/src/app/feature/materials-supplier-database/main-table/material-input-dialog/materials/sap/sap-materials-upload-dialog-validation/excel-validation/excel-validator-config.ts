@@ -84,7 +84,7 @@ const URL_REG_EXP =
 // List of column rules
 export const COLUMN_RULES: { [id: string]: RegExp } = {
   [columns.MATERIAL_NUMBER]: /^\d{9}(-\d{4}(-\d{2})?)?$/,
-  [columns.PLANT]: /^\d{4}$/,
+  [columns.PLANT]: /^\d{1,4}$/,
   [columns.CATEGORY]: /^\w{4}$/,
   [columns.MATERIAL_GROUP]: /^M?\d+$/,
   [columns.BUSINESS_PARTNER_ID]: /^\d{5,7}$/,

@@ -913,7 +913,7 @@
         "supplierRegion": "EU / AM / AP / GC",
         "productionLocationsShare": "production locations [%] (0.01 = 1%)",
         "boolean": "Yes / No",
-        "date": "Date",
+        "date": "Date field or 'YYYY-MM-DD'",
         "url": "URI to sharepoint / etc.",
         "emissionFactorKg": "Product Carbon Footprint in [kg CO2e per kg] - one pcf value is mandatory",
         "emissionFactorPc": "Product Carbon Footprint in [kg CO2e per part] - one pcf value is mandatory",
