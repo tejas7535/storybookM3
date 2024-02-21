@@ -1,4 +1,26 @@
 # Release Notes of Material App Center
+## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.15.0...mac-v1.16.0) (2024-02-21)
+
+
+### Features
+
+* **mac:** adapt to changes from UFTABI-7120 ([#6004](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6004)) ([3bd0d06](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3bd0d061bb597aabd21080625653703df7840069))
+* **mac:** add contact data dialog (UFTABI-7192) ([#5970](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5970)) ([4be90d9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4be90d9b9fdaf54fd15ad629409a2b4f244a968c))
+* **mac:** add egypt ([#5986](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5986)) ([cd60b23](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cd60b236a21451b0523d998581292ee582b06f71))
+* **mac:** add stoffid in sap materials table ([#5975](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5975)) ([b93aad2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b93aad2b66a4b95f37c1eb8a26c34e52ae5fd8bc))
+* **mac:** dynamic template for matNr upload ([#5963](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5963)) ([3527ed6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3527ed6a28e06b93bb5290d6523ba7b14d194e8a))
+* **mac:** reference document bulk edit dialog (UFTABI-7313) ([#6005](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6005)) ([d95911c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d95911cff5616b7c439949d4b157560437f9d09a))
+* **mac:** remove preselection of maturity ([#5987](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5987)) ([1db86c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1db86c4aade97b2125fa42beb11cc2603af90377))
+* **mac:** rename column and add tooltip for stoffid in sap materials table ([#5999](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5999)) ([8176b25](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8176b25cb85f24f43fda0d7a9b1d0d5443cfb957))
+* **mac:** update regex for plant and hint text for date in upload template ([#6017](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6017)) ([4c49403](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c49403e8db9e746a9a03aaa1eeb231e4af1c7d4))
+* **mac:** use new sap materials upload template (UFTABI-6999) ([#5937](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5937)) ([51e193e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/51e193ed21848441e7291b580e9075d6033bfdba))
+
+
+### Bug Fixes
+
+* **mac:** fix prefilling of business partner id (UFTABI-7061) ([#6009](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6009)) ([53aeb01](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53aeb0110c6ecb5214c538b4d151d87c65234919))
+* **mac:** show quick filter type, swap notifications icons ([#5983](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5983)) ([73641b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/73641b44312ad57eaad3612b4925f9245eac65cd))
+
 ## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.14.0...mac-v1.15.0) (2024-01-19)
 
 
