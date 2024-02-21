@@ -49,6 +49,9 @@ boolean skipBuild = false
 @Field
 def releasableApps = ['cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa']
 
+// build should be unstable if any issues are found in master branch. In feature/bugfix branch, it should be red if new issues are introduced.
+qualityGate = !isMain ? [threshold: 1, type: 'NEW', unstable: false] : [threshold: 1, type: 'TOTAL', unstable: true]
+
 // Functions
 boolean isDepUpdate() {
     return "${BRANCH_NAME}".startsWith('dependabot/') || "${BRANCH_NAME}".startsWith('renovate/')
@@ -296,16 +299,11 @@ pipeline {
             steps {
                 echo 'Run PNPM Audit'
                 script {
-                    def result = sh (returnStatus: true, script: '''
+                     sh returnStatus: true, script:'''
                         mkdir -p reports
                         pnpm audit --json > reports/pnpm-audit.json
-                    ''') as int
-
-                    recordIssues tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit')
-
-                    if (result != 0) {
-                        unstable 'PNPM audit failed'
-                    }
+                    '''
+                    recordIssues(ignoreQualityGate: util.isPullRequest(), qualityGates: [qualityGate], tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit'))
                 }
             }
         }
