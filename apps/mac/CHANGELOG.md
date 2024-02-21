@@ -1,4 +1,6 @@
 # Release Notes of Material App Center
+## [1.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.16.0...mac-v1.17.0) (2024-02-21)
+
 ## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.15.0...mac-v1.16.0) (2024-02-21)
 
 
