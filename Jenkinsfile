@@ -215,7 +215,7 @@ boolean artifactoryFileCanBeRemoved(artifactoryFile) {
 pipeline {
     agent {
         docker {
-            image 'artifactory.schaeffler.com/docker/adp/jenkinsbaseimage:1'
+            image 'artifactory.schaeffler.com/docker/adp/jenkinsbaseimage:2'
             label 'monorepo-docker'
             alwaysPull true
             args '-u root:root -v cache:/tmp/.cache -v $PROJECT_NAME:/tmp/.project-cache  -v $PROJECT_NAME-angular:$WORKSPACE/.angular/cache -v /var/run/docker.sock:/var/run/docker.sock -e https_proxy -e http_proxy -e no_proxy'
