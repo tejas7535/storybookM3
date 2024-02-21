@@ -191,7 +191,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "pnpm transloco-optimize dist/apps/mac/assests/i18n"
+        "command": "pnpm transloco-optimize dist/apps/mac/assets/i18n"
       }
     }
   },

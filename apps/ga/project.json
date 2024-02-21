@@ -216,7 +216,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "pnpm transloco-optimize dist/apps/ga/assests/i18n"
+        "command": "pnpm transloco-optimize dist/apps/ga/assets/i18n"
       }
     }
   },

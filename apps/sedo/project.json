@@ -172,7 +172,7 @@
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
-        "command": "pnpm transloco-optimize dist/apps/sedo/assests/i18n"
+        "command": "pnpm transloco-optimize dist/apps/sedo/assets/i18n"
       }
     }
   },
