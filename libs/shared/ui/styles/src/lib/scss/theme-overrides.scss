@@ -1,54 +1,6 @@
 @use '@angular/material' as mat;
 
 @mixin schaeffler-theme-overrides($theme, $prefix) {
-  // button overrides
-  .mat-button-base {
-    @apply #{$prefix}text-button;
-    @apply #{$prefix}uppercase;
-
-    &.mat-stroked-button.mat-button-disabled {
-      @apply #{$prefix}border-border;
-    }
-  }
-
-  .mat-button-base:not(.mat-fab):not(.mat-mini-fab):not(.mat-icon-button) {
-    mat-icon {
-      @apply #{$prefix}-ml-1.5 #{$prefix}mr-2 #{$prefix}h-[18px] #{$prefix}w-[18px] #{$prefix}text-[18px];
-    }
-  }
-
-  // snackbar overrides
-  .mat-snack-bar-container {
-    @apply #{$prefix}bg-high-emphasis;
-    @apply #{$prefix}text-high-emphasis-dark-bg;
-    @apply #{$prefix}py-0 #{!important};
-
-    .mat-simple-snackbar {
-      @apply #{$prefix}flex-wrap;
-
-      > span {
-        @apply #{$prefix}pt-4;
-        @apply #{$prefix}pb-4;
-        min-width: 58%;
-      }
-
-      &-action {
-        @apply #{$prefix}flex;
-        @apply #{$prefix}grow;
-        @apply #{$prefix}justify-end;
-        @apply #{$prefix}mt-2;
-        @apply #{$prefix}mb-2;
-        @apply #{$prefix}text-high-emphasis-dark-bg;
-      }
-    }
-  }
-
-  // tooltip overrides
-  mat-tooltip-component .mat-tooltip {
-    @apply #{$prefix}text-caption #{$prefix}whitespace-pre-line #{$prefix}px-4 #{$prefix}py-2;
-    @apply #{$prefix}bg-secondary-900;
-  }
-
   // expansion panel overrides
   mat-accordion.mat-accordion {
     mat-expansion-panel.mat-expansion-panel {
@@ -80,38 +32,6 @@
     }
   }
 
-  // tabs overrides
-  .mat-tab-labels > .mat-tab-label,
-  .mat-tab-links > .mat-tab-link {
-    @apply #{$prefix}opacity-100;
-    @apply #{$prefix}h-auto;
-    @apply #{$prefix}min-h-[48px];
-    @apply #{$prefix}pb-4;
-    @apply #{$prefix}pt-3;
-  }
-
-  .mat-tab-labels > .mat-tab-label {
-    @apply #{$prefix}items-end;
-  }
-
-  .mat-tab-links > .mat-tab-link {
-    @apply #{$prefix}justify-end;
-  }
-
-  .mat-tab-label-active > .mat-tab-label-content,
-  .mat-tab-links > .mat-tab-label-active {
-    @apply #{$prefix}text-link;
-  }
-
-  .mat-tab-label-content,
-  .mat-tab-link {
-    @apply #{$prefix}text-button;
-    @apply #{$prefix}uppercase;
-    @apply #{$prefix}text-medium-emphasis;
-    @apply #{$prefix}flex;
-    @apply #{$prefix}flex-col;
-  }
-
   // input overrides
   .mat-form-field-appearance-outline .mat-form-field-outline {
     @apply #{$prefix}bg-surface;
@@ -126,9 +46,30 @@
   .mat-form-field-prefix {
     @apply #{$prefix}mr-2;
   }
-}
 
-@mixin schaeffler-theme-overrides-mdc($theme, $prefix) {
+  // input fields
+  .mat-mdc-form-field-focus-overlay {
+    @apply #{$prefix}bg-transparent;
+  }
+
+  .mat-mdc-form-field-icon-prefix,
+  .mat-mdc-form-field-icon-suffix {
+    @apply #{$prefix}text-medium-emphasis;
+  }
+
+  .mat-mdc-form-field-icon-suffix {
+    @apply #{$prefix}mr-2;
+  }
+
+  .mat-form-field-subscript-wrapper {
+    @apply #{$prefix}text-[75%];
+  }
+
+  .mat-mdc-form-field-hint {
+    @apply #{$prefix}text-caption;
+    @apply #{$prefix}text-medium-emphasis;
+  }
+
   // button overrides
   .mat-mdc-button-base {
     @apply #{$prefix}text-button;
@@ -156,34 +97,11 @@
     @apply #{$prefix}hidden;
   }
 
-  // input fields
-  .mat-mdc-form-field-focus-overlay {
-    @apply #{$prefix}bg-transparent;
-  }
-
-  .mat-mdc-form-field-icon-prefix,
-  .mat-mdc-form-field-icon-suffix {
-    @apply #{$prefix}text-medium-emphasis;
-  }
-
-  .mat-mdc-form-field-icon-suffix {
-    @apply #{$prefix}mr-2;
-  }
-
-  .mat-form-field-subscript-wrapper {
-    @apply #{$prefix}text-[75%];
-  }
-
-  .mat-mdc-form-field-hint {
-    @apply #{$prefix}text-caption;
-    @apply #{$prefix}text-medium-emphasis;
-  }
-
   /*
-  weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
-  in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
-  preflight, which can case other issues for tailwind
-  */
+    weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
+    in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
+    preflight, which can case other issues for tailwind
+    */
   .mdc-notched-outline__notch {
     border-right: none !important;
   }
