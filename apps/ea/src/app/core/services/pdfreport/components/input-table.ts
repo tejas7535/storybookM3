@@ -142,7 +142,7 @@ const renderTable = (
 const flattenItems = (doc: jsPDF, items: CalculationResultReportInput[]) =>
   items.map((item) => {
     const key = item.designation;
-    const value = item.value;
+    const value = item.unit ? `${item.value} ${item.unit}` : item.value;
     const labelWidth = getStringContentWidth(doc, key);
 
     const valueWidth = getStringContentWidth(doc, `${value}`);

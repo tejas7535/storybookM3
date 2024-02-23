@@ -2,7 +2,7 @@ import { ResultReportLargeItem } from '@ea/calculation/calculation-result-report
 import { CalculationResultReportInput } from '@ea/core/store/models';
 import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
-import { ResultBlock } from '../data';
+import { Notices, ResultBlock } from '../data';
 import { renderCalculationMethods } from './calculation-methods';
 import { renderNotices } from './calculation-notices';
 import { renderInputTable } from './input-table';
@@ -61,7 +61,7 @@ export interface ReportRenderers {
   inputs: ReportRenderFn<CalculationResultReportInput[]>;
   resultgrid: ReportRenderFn<ResultBlock<ResultReportLargeItem[]>>;
   upstream: ReportRenderFn<ResultBlock<ResultReportLargeItem>>;
-  notices: ReportRenderFn<ResultBlock<string[]>>;
+  notices: ReportRenderFn<ResultBlock<Notices>>;
   methods: ReportRenderFn<string[]>;
 }
 

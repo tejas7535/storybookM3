@@ -77,6 +77,21 @@ export interface ResultTableAttributes {
   borderColor: string;
 }
 
+export interface Notices {
+  errors: {
+    header: string;
+    data: string[];
+  };
+  warnings: {
+    header: string;
+    data: string[];
+  };
+  notes: {
+    header: string;
+    data: string[];
+  };
+}
+
 export interface Spacing {
   left: number;
   right: number;
@@ -99,5 +114,5 @@ export interface ResultReport {
   lubricationInfo?: ResultBlock<ResultReportLargeItem[]>;
   overrollingFrequency?: ResultBlock<ResultReportLargeItem[]>;
   ratingLife?: ResultBlock<ResultReportLargeItem[]>;
-  notices: ResultBlock<string[]>;
+  notices: ResultBlock<Notices>;
 }

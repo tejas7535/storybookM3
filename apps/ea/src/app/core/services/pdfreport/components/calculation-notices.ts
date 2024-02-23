@@ -3,6 +3,7 @@ import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependenc
 
 import {
   DefaultComponentRenderProps,
+  Notices,
   ResultBlock,
   ResultTableAttributes,
 } from '../data';
@@ -17,9 +18,12 @@ const RenderNoticesDefaultOptions: ResultTableAttributes = {
   divierSpacing: { left: 9, right: 9, top: 10, bottom: 10 },
 };
 
+const headerSpacing = 4;
+const headingSize = 10;
+
 export const renderNotices = (
   doc: jsPDF,
-  block: LayoutBlock<ResultBlock<string[]>>
+  block: LayoutBlock<ResultBlock<Notices>>
 ) => {
   const props = DefaultComponentRenderProps;
   const options = RenderNoticesDefaultOptions;
@@ -62,33 +66,20 @@ export const renderNotices = (
   y = headerDivierY + options.cellPadding.top;
   resetFont(doc);
 
-  const notices = block.data.data;
-  const lines = notices.flatMap((item) => {
-    const dimensions = estimateTextDimensions(doc, item, {
-      fontSize: doc.getFontSize(),
-    });
-    if (dimensions[0] > innerWidth) {
-      return doc.splitTextToSize(item, innerWidth);
-    }
+  const errors = getItemLines(doc, block.data.data.errors.data, innerWidth);
+  const warnings = getItemLines(doc, block.data.data.warnings.data, innerWidth);
+  const notices = getItemLines(doc, block.data.data.notes.data, innerWidth);
 
-    return [item];
-  });
-
-  const totalHeight = lines
-    .map((l) => doc.getTextDimensions(l).h)
-    // eslint-disable-next-line unicorn/no-array-reduce
-    .reduce((acc, curr) => {
-      const ret = acc + curr;
-
-      return ret;
-    }, 0);
+  const totalHeight = getLinesHeight(doc, [...errors, ...warnings, ...notices]);
+  const headersHeight = getHeadersHeight(block.data.data);
 
   const borderHeight =
     headerDivierY -
     block.yStart +
     2 * options.cellPadding.top +
     totalHeight +
-    options.cellPadding.bottom;
+    options.cellPadding.bottom +
+    headersHeight;
   if (!block.dryRun) {
     doc.roundedRect(
       props.dimensions.pageMargin,
@@ -98,7 +89,10 @@ export const renderNotices = (
       6,
       6
     );
-    doc.text(lines, props.dimensions.pageMargin + options.cellPadding.left, y);
+
+    y = processNotices(doc, errors, block.data.data.errors.header, y);
+    y = processNotices(doc, warnings, block.data.data.warnings.header, y);
+    processNotices(doc, notices, block.data.data.notes.header, y);
   }
   const r: LayoutEvaluationResult<typeof block.data> =
     borderHeight <= block.maxHeight
@@ -110,4 +104,74 @@ export const renderNotices = (
       : { canFit: false, data: block.data };
 
   return [r];
+};
+
+const getLinesHeight = (doc: jsPDF, lines: string[]): number =>
+  lines
+    .map((line) => doc.getTextDimensions(line).h)
+    .reduce((total, current) => total + current, 0);
+
+const getItemLines = (doc: jsPDF, data: string[], innerWidth: number) => {
+  if (data.length > 0) {
+    return data.flatMap((item) => {
+      const dimensions = estimateTextDimensions(doc, item, {
+        fontSize: doc.getFontSize(),
+      });
+      if (dimensions[0] > innerWidth) {
+        return doc.splitTextToSize(item, innerWidth);
+      }
+
+      return [item];
+    });
+  }
+
+  return [];
+};
+
+const getHeadersHeight = (notices: Notices) => {
+  const keys: (keyof Notices)[] = ['errors', 'warnings', 'notes'];
+  const headers = keys
+    .filter((key) => notices[key].data.length > 0)
+    .map((key) => notices[key].header);
+
+  return headers.length * (headingSize + headerSpacing) + headingSize;
+};
+
+const setHeaderFontStyle = (doc: jsPDF) => {
+  const props = DefaultComponentRenderProps;
+  doc.setFont(props.fonts.family, props.fonts.style.bold);
+  doc.setFontSize(headingSize);
+};
+
+const processNotices = (
+  doc: jsPDF,
+  notices: string[],
+  header: string,
+  y: number
+): number => {
+  const props = DefaultComponentRenderProps;
+  const options = RenderNoticesDefaultOptions;
+  let yPosition = y;
+
+  if (notices.length > 0) {
+    setHeaderFontStyle(doc);
+    doc.text(
+      header,
+      props.dimensions.pageMargin + options.cellPadding.left,
+      yPosition
+    );
+    const headerHeight = doc.getTextDimensions(header).h + headerSpacing;
+    yPosition += headerHeight;
+    resetFont(doc);
+
+    doc.text(
+      notices,
+      props.dimensions.pageMargin + options.cellPadding.left,
+      yPosition
+    );
+
+    yPosition += getLinesHeight(doc, notices) + headerHeight;
+  }
+
+  return yPosition + headingSize;
 };

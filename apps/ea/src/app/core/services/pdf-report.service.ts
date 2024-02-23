@@ -17,7 +17,7 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { CalculationResultFacade, ProductSelectionFacade } from '../store';
 import { FontsLoaderService } from './fonts-loader.service';
-import { ResultBlock, ResultReport } from './pdfreport/data';
+import { Notices, ResultBlock, ResultReport } from './pdfreport/data';
 import { PDFDocumentSettingsService } from './pdfreport/pdf-document-settings.service';
 import { PDFREport } from './pdfreport/pdf-report';
 
@@ -88,15 +88,41 @@ export class PDFReportService {
       this.resultFacade.calculationReportNotes$
     );
 
-    const combinedErrorsAndWarningsList = [...errors, ...warnings, ...notes];
+    const combinedNotices: Notices = {
+      errors: {
+        header: this.translocoService.translate(
+          'calculationResultReport.errors',
+          undefined,
+          languageCode
+        ),
+        data: errors,
+      },
 
-    const notices: ResultBlock<typeof combinedErrorsAndWarningsList> = {
+      warnings: {
+        header: this.translocoService.translate(
+          'calculationResultReport.warnings',
+          undefined,
+          languageCode
+        ),
+        data: warnings,
+      },
+      notes: {
+        header: this.translocoService.translate(
+          'calculationResultReport.notes',
+          undefined,
+          languageCode
+        ),
+        data: notes,
+      },
+    };
+
+    const notices: ResultBlock<typeof combinedNotices> = {
       header: this.translocoService.translate(
         'calculationResultReport.reportSectionWarnings',
         undefined,
         languageCode
       ),
-      data: combinedErrorsAndWarningsList,
+      data: combinedNotices,
     };
     const data: ResultReport = {
       designation,

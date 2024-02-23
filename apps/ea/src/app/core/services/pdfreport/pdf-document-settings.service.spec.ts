@@ -44,7 +44,20 @@ describe('PDFDocumentSettingsService', () => {
         calculationInput: [],
         notices: {
           header: 'errors',
-          data: [],
+          data: {
+            errors: {
+              header: 'errors',
+              data: [],
+            },
+            warnings: {
+              header: 'warnings',
+              data: [],
+            },
+            notes: {
+              header: 'notes',
+              data: [],
+            },
+          },
         },
       };
 
