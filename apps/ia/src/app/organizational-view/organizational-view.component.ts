@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
 import { FilterDimension, IdValue, TailwindColor } from '../shared/models';
+import { FluctuationType } from '../shared/tables/employee-list-table/models';
 import { ChartType, DimensionFluctuationData } from './models';
 import { OrgChartData, OrgChartEmployee } from './org-chart/models';
 import { OrgChartComponent } from './org-chart/org-chart.component';
@@ -57,6 +58,7 @@ export class OrganizationalViewComponent implements OnInit {
   regions$: Observable<string[]>;
   selectedTimeRange$: Observable<IdValue>;
   openPositionsAvailable$: Observable<boolean>;
+  selectedFluctuationType: FluctuationType = FluctuationType.TOTAL;
 
   chartLegendItems = [
     new ChartLegendItem(
@@ -120,6 +122,10 @@ export class OrganizationalViewComponent implements OnInit {
     this.store.dispatch(chartTypeSelected({ chartType }));
   }
 
+  fluctuationTypeChanged(fluctuationTypChanged: FluctuationType): void {
+    this.selectedFluctuationType = fluctuationTypChanged;
+  }
+
   loadParent(data: DimensionFluctuationData): void {
     this.store.dispatch(loadParent({ data }));
   }
@@ -160,5 +166,13 @@ export class OrganizationalViewComponent implements OnInit {
 
   exportImg(): void {
     this.orgChartComponent.exportImg();
+  }
+
+  expandAll(): void {
+    this.orgChartComponent.expandAll();
+  }
+
+  collapseAll(): void {
+    this.orgChartComponent.collapseAll();
   }
 }

@@ -15,7 +15,7 @@ import { OrganizationalViewComponent } from './organizational-view.component';
 import { OrganizationalViewRoutingModule } from './organizational-view-routing.module';
 import * as fromOrganizationalView from './store';
 import { OrganizationalViewEffects } from './store/effects/organizational-view.effects';
-import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
+import { DrillDownToolPanelModule } from './drill-down-tool-panel/drill-down-tool-panel.module';
 import { WorldMapModule } from './world-map/world-map.module';
 
 @NgModule({
@@ -25,7 +25,7 @@ import { WorldMapModule } from './world-map/world-map.module';
     SharedModule,
     SharedTranslocoModule,
     OrgChartModule,
-    ToggleChartsModule,
+    DrillDownToolPanelModule,
     WorldMapModule,
     ChartLegendModule,
     StoreModule.forFeature(

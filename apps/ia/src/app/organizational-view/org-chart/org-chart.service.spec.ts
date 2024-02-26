@@ -755,83 +755,77 @@ describe('OrgChartService', () => {
     });
   });
 
-  describe('getRectBorderStyles', () => {
-    test('should get highlighted border when node is highlighted up to the root', () => {
-      const data = { _upToTheRootHighlighted: true };
+  describe('setFluctuationRatesToDisplay', () => {
+    let chartData: OrgChartNode[];
 
-      const result = service.getRectBorderStyles(data);
-
-      expect(result).toEqual(`border: 2px solid ${service.HIGHLIGHT_COLOR}`);
+    beforeEach(() => {
+      chartData = [
+        {
+          fluctuationRate: {
+            fluctuationRate: 123,
+            unforcedFluctuationRate: 234,
+            forcedFluctuationRate: 345,
+            remainingFluctuationRate: 456,
+          },
+          directFluctuationRate: {
+            fluctuationRate: 321,
+            unforcedFluctuationRate: 432,
+            forcedFluctuationRate: 543,
+            remainingFluctuationRate: 654,
+          },
+          absoluteFluctuation: {
+            fluctuationRate: 789,
+            unforcedFluctuationRate: 890,
+            forcedFluctuationRate: 901,
+            remainingFluctuationRate: 902,
+          },
+          directAbsoluteFluctuation: {
+            fluctuationRate: 903,
+            unforcedFluctuationRate: 904,
+            forcedFluctuationRate: 905,
+            remainingFluctuationRate: 906,
+          },
+        },
+      ] as OrgChartNode[];
     });
 
-    test('should get highlighted border when single node is highlighted', () => {
-      const data = { _highlighted: true };
+    test('should set total as displayed fluctuation rate', () => {
+      service.setFluctuationRatesToDisplay(chartData, FluctuationType.TOTAL);
 
-      const result = service.getRectBorderStyles(data);
-
-      expect(result).toEqual(`border: 2px solid ${service.HIGHLIGHT_COLOR}`);
+      expect(chartData[0].displayedTotalFluctuationRate).toEqual(123);
+      expect(chartData[0].displayedDirectFluctuationRate).toEqual(321);
+      expect(chartData[0].displayedAbsoluteFluctuation).toEqual(789);
+      expect(chartData[0].displayedDirectAbsoluteFluctuation).toEqual(903);
     });
 
-    test('should get normal border when node is not highlighted', () => {
-      const data = { _upToTheRootHighlighted: false };
+    test('should set unforced as displayed fluctuation rate', () => {
+      service.setFluctuationRatesToDisplay(chartData, FluctuationType.UNFORCED);
 
-      const result = service.getRectBorderStyles(data);
-
-      expect(result).toEqual(`border: 1px solid rgba(0, 0, 0, 0.32)`);
-    });
-  });
-
-  describe('getHeaderBorderStyles', () => {
-    test('should get highlighted border when node is highlighted up to the root', () => {
-      const data = { _upToTheRootHighlighted: true };
-
-      const result = service.getHeaderBorderStyles(data);
-
-      expect(result).toEqual(`border: 1px solid ${service.HIGHLIGHT_COLOR}`);
+      expect(chartData[0].displayedTotalFluctuationRate).toEqual(234);
+      expect(chartData[0].displayedDirectFluctuationRate).toEqual(432);
+      expect(chartData[0].displayedAbsoluteFluctuation).toEqual(890);
+      expect(chartData[0].displayedDirectAbsoluteFluctuation).toEqual(904);
     });
 
-    test('should get highlighted border when single node is highlighted', () => {
-      const data = { _highlighted: true };
+    test('should set forced as displayed fluctuation rate', () => {
+      service.setFluctuationRatesToDisplay(chartData, FluctuationType.FORCED);
 
-      const result = service.getHeaderBorderStyles(data);
-
-      expect(result).toEqual(`border: 1px solid ${service.HIGHLIGHT_COLOR}`);
+      expect(chartData[0].displayedTotalFluctuationRate).toEqual(345);
+      expect(chartData[0].displayedDirectFluctuationRate).toEqual(543);
+      expect(chartData[0].displayedAbsoluteFluctuation).toEqual(901);
+      expect(chartData[0].displayedDirectAbsoluteFluctuation).toEqual(905);
     });
 
-    test('should unset border when node is not highlighted', () => {
-      const data = { _upToTheRootHighlighted: false };
-
-      const result = service.getHeaderBorderStyles(data);
-
-      expect(result).toEqual(`border: none`);
-    });
-  });
-
-  describe('getPeopleIconSvg', () => {
-    test('should get people icon svg', () => {
-      const nodeId = 'people-icon';
-
-      const result = service.getPeopleIconSvg(nodeId);
-
-      expect(result).toContain(
-        `d="M7.82663 5.33331C7.82663 6.43998 6.93996 7.33331 5.83329 7.33331C4.72663 7.33331 3.83329 6.43998 3.83329 5.33331C3.83329 4.22665 4.72663 3.33331 5.83329 3.33331C6.93996 3.33331 7.82663 4.22665 7.82663 5.33331ZM13.16 5.33331C13.16 6.43998 12.2733 7.33331 11.1666 7.33331C10.06 7.33331 9.16663 6.43998 9.16663 5.33331C9.16663 4.22665 10.06 3.33331 11.1666 3.33331C12.2733 3.33331 13.16 4.22665 13.16 5.33331ZM5.83329 8.66665C4.27996 8.66665 1.16663 9.44665 1.16663 11V12.6666H10.5V11C10.5 9.44665 7.38663 8.66665 5.83329 8.66665ZM10.52 8.69998C10.7533 8.67998 10.9733 8.66665 11.1666 8.66665C12.72 8.66665 15.8333 9.44665 15.8333 11V12.6666H11.8333V11C11.8333 10.0133 11.2933 9.25998 10.52 8.69998Z"`
+    test('should set remaining as displayed fluctuation rate', () => {
+      service.setFluctuationRatesToDisplay(
+        chartData,
+        FluctuationType.REMAINING
       );
-      expect(result).toContain(nodeId);
-      expect(result).toContain('group-hover:fill-primary');
-    });
-  });
 
-  describe('getFluctuationIconSvg', () => {
-    test('should get fluctuation icon svg', () => {
-      const nodeId = 'fluctuation-icon';
-
-      const result = service.getFluctuationIconSvg(nodeId);
-
-      expect(result).toContain(
-        `d="M3.33333 2H12.6667C13.4 2 14 2.6 14 3.33333V12.6667C14 13.4 13.4 14 12.6667 14H3.33333C2.6 14 2 13.4 2 12.6667V3.33333C2 2.6 2.6 2 3.33333 2ZM4.66667 11.3333H6V6.66667H4.66667V11.3333ZM8.66667 11.3333H7.33333V4.66667H8.66667V11.3333ZM10 11.3333H11.3333V8.66667H10V11.3333Z"`
-      );
-      expect(result).toContain(nodeId);
-      expect(result).toContain('group-hover:fill-primary');
+      expect(chartData[0].displayedTotalFluctuationRate).toEqual(456);
+      expect(chartData[0].displayedDirectFluctuationRate).toEqual(654);
+      expect(chartData[0].displayedAbsoluteFluctuation).toEqual(902);
+      expect(chartData[0].displayedDirectAbsoluteFluctuation).toEqual(906);
     });
   });
 });

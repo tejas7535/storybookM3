@@ -12,6 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import * as en from '../../assets/i18n/en.json';
 import { FilterDimension } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
+import { DrillDownToolPanelModule } from './drill-down-tool-panel/drill-down-tool-panel.module';
 import { ChartType, DimensionFluctuationData } from './models';
 import { OrgChartTranslation } from './org-chart/models';
 import { OrganizationalViewComponent } from './organizational-view.component';
@@ -24,7 +25,6 @@ import {
   loadWorldMapFluctuationRegionMeta,
 } from './store/actions/organizational-view.action';
 import { getOrgChart } from './store/selectors/organizational-view.selector';
-import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
 
 jest.mock('d3-selection', () => ({
   select: jest.fn(() => mock),
@@ -41,7 +41,7 @@ describe('OrganizationalViewComponent', () => {
     detectChanges: false,
     imports: [
       SharedModule,
-      ToggleChartsModule,
+      DrillDownToolPanelModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -120,6 +120,16 @@ describe('OrganizationalViewComponent', () => {
     });
   });
 
+  describe('fluctuationTypeChanged', () => {
+    test('should set selectedFluctuationType', () => {
+      const fluctuationType = 'test' as any;
+
+      component.fluctuationTypeChanged(fluctuationType);
+
+      expect(component.selectedFluctuationType).toBe(fluctuationType);
+    });
+  });
+
   describe('loadParent', () => {
     test('should dispatch loadParent', () => {
       component['store'].dispatch = jest.fn();
@@ -181,6 +191,42 @@ describe('OrganizationalViewComponent', () => {
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadOrgChartEmployees({ data })
       );
+    });
+  });
+
+  describe('exportImg', () => {
+    test('should call orgChartComponent.exportImg', () => {
+      component.orgChartComponent = {
+        exportImg: jest.fn(),
+      } as any;
+
+      component.exportImg();
+
+      expect(component.orgChartComponent.exportImg).toHaveBeenCalled();
+    });
+  });
+
+  describe('expandAll', () => {
+    test('should call orgChartComponent.expandAll', () => {
+      component.orgChartComponent = {
+        expandAll: jest.fn(),
+      } as any;
+
+      component.expandAll();
+
+      expect(component.orgChartComponent.expandAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('collapseAll', () => {
+    test('should call orgChartComponent.collapseAll', () => {
+      component.orgChartComponent = {
+        collapseAll: jest.fn(),
+      } as any;
+
+      component.collapseAll();
+
+      expect(component.orgChartComponent.collapseAll).toHaveBeenCalled();
     });
   });
 });

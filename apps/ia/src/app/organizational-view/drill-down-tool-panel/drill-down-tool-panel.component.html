@@ -1,0 +1,74 @@
+<div
+  class="grid grid-cols-3 mt-2 mb-4"
+  *transloco="let t; read: 'organizationalView'"
+>
+  <mat-button-toggle-group
+    *ngIf="selectedChart === possibleChartTypes.ORG_CHART"
+    class="fluctuation-tab-group col-start-2 max-w-max mx-auto p-[2px] !rounded-md !bg-gray-300 !border-gray-300"
+    [value]="fluctuationType"
+    (change)="onFluctuationTypeChange($event)"
+  >
+    <mat-button-toggle [value]="fluctuationTypeEnum.TOTAL">{{
+      t('orgChart.type.total') | uppercase
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="fluctuationTypeEnum.UNFORCED">{{
+      t('orgChart.type.unforced') | uppercase
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="fluctuationTypeEnum.FORCED">{{
+      t('orgChart.type.forced') | uppercase
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="fluctuationTypeEnum.REMAINING">{{
+      t('orgChart.type.remaining') | uppercase
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
+  <div class="col-start-3 ml-auto flex gap-4">
+    <button
+      *ngIf="selectedChart === possibleChartTypes.ORG_CHART"
+      mat-icon-button
+      class="flex self-center"
+      color="primary"
+      [matTooltip]="t('orgChart.additionalFunctionality.tooltip')"
+      [matMenuTriggerFor]="additionalFunctionality"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #additionalFunctionality="matMenu">
+      <button mat-menu-item (click)="onExportBtnClick()">
+        <mat-icon>file_download</mat-icon>
+        <span>{{ t('orgChart.additionalFunctionality.export') }}</span>
+      </button>
+      <button mat-menu-item (click)="onExpandBtnClick()">
+        <mat-icon>expand_more</mat-icon>
+        <span>{{ t('orgChart.additionalFunctionality.expandAll') }}</span>
+      </button>
+      <button mat-menu-item (click)="onCollapseBtnClick()">
+        <mat-icon>expand_less</mat-icon>
+        <span>{{ t('orgChart.additionalFunctionality.collapseAll') }}</span>
+      </button>
+    </mat-menu>
+    <mat-button-toggle-group
+      name="chartType"
+      aria-label="Chart Type"
+      class="small-toggle-group self-center my-0.5"
+      [value]="selectedChart"
+      (change)="onChartTypeChange($event)"
+    >
+      <mat-button-toggle
+        [value]="possibleChartTypes.ORG_CHART"
+        [matTooltip]="t('overviewChartToggleButtons.orgChart')"
+      >
+        <mat-icon class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
+          >people</mat-icon
+        >
+      </mat-button-toggle>
+      <mat-button-toggle
+        [value]="possibleChartTypes.WORLD_MAP"
+        [matTooltip]="t('overviewChartToggleButtons.worldMap')"
+      >
+        <mat-icon class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
+          >public</mat-icon
+        >
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>

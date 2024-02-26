@@ -67,10 +67,15 @@ export class TotalStatusBarComponent
   }
 
   ngOnDestroy(): void {
-    this.params.api.removeEventListener(
-      'rowDataUpdated',
-      this.onRowDataUpdated
-    );
-    this.params.api.removeEventListener('filterChanged', this.onFilterChanged);
+    if (this.params.api.removeEventListener) {
+      this.params.api.removeEventListener(
+        'rowDataUpdated',
+        this.onRowDataUpdated
+      );
+      this.params.api.removeEventListener(
+        'filterChanged',
+        this.onFilterChanged
+      );
+    }
   }
 }

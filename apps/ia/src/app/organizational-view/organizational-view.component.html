@@ -2,28 +2,19 @@
   class="bg-surface relative flex h-full min-h-[400px] flex-col"
   *ngrxLet="selectedChartType$ as selectedChart"
 >
-  <div class="flex items-center self-end mt-3 mb-4 px-4 gap-4">
-    <div *transloco="let t; read: 'organizationalView.orgChart'">
-      <button
-        *ngIf="selectedChart === chartType.ORG_CHART"
-        mat-stroked-button
-        color="primary"
-        class="!bg-surface"
-        [disabled]="orgChartLoading$ | ngrxPush"
-        (click)="exportImg()"
-      >
-        <mat-icon>download</mat-icon>{{ t('export') }}
-      </button>
-    </div>
-    <ia-toggle-charts
-      [chartType]="selectedChart"
-      (changed)="chartTypeChanged($event)"
-    ></ia-toggle-charts>
-  </div>
+  <ia-drill-down-tool-panel
+    [selectedChart]="selectedChartType$ | ngrxPush"
+    (chartTypeChanged)="chartTypeChanged($event)"
+    (fluctuationTypeChanged)="fluctuationTypeChanged($event)"
+    (exportBtn)="exportImg()"
+    (expandBtn)="expandAll()"
+    (collapseBtn)="collapseAll()"
+  ></ia-drill-down-tool-panel>
   <div class="grow">
     <ia-org-chart
       *ngIf="selectedChart === chartType.ORG_CHART"
       [orgChartData]="orgChart$ | ngrxPush"
+      [fluctuationType]="selectedFluctuationType"
       [timeRange]="selectedTimeRange$ | ngrxPush"
       [isLoading]="isLoadingOrgChart$ | ngrxPush"
       [selectedNodeEmployees]="orgChartEmployees$ | ngrxPush"

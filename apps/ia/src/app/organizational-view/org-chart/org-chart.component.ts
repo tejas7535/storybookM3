@@ -9,7 +9,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { translate } from '@ngneat/transloco';
@@ -44,10 +43,19 @@ export class OrgChartComponent implements AfterViewInit {
   private _chartContainer: ElementRef;
   private _selectedNodeEmployees: OrgChartEmployee[];
   private _selectedNodeEmployeesLoading: boolean;
+  private _fluctuationType: FluctuationType;
+
+  @Input() set fluctuationType(fluctuationType: FluctuationType) {
+    this.changeFluctuationType(fluctuationType);
+    this._fluctuationType = fluctuationType;
+  }
+
+  get fluctuationType(): FluctuationType {
+    return this._fluctuationType;
+  }
 
   d3s = d3Selection;
   fluctuationTypeEnum = FluctuationType;
-  fluctuationType: FluctuationType = FluctuationType.TOTAL;
 
   @Input() timeRange: IdValue;
 
@@ -119,8 +127,6 @@ export class OrgChartComponent implements AfterViewInit {
   chart: any;
   chartData: OrgChartNode[];
   selectedDataNode: DimensionFluctuationData;
-
-  lastMouseOver: string;
 
   constructor(
     private readonly orgChartService: OrgChartService,
@@ -239,7 +245,9 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       default: {
-        this.chart.clearHighlighting();
+        if (node.parentElement.id === 'chartContainer') {
+          this.chart.clearHighlighting();
+        }
         break;
       }
     }
@@ -307,6 +315,9 @@ export class OrgChartComponent implements AfterViewInit {
         .linkUpdate((_d: any, _i: any, links: any[]) => {
           this.orgChartService.updateLinkStyles(links);
         })
+        .nodeUpdate(() => {
+          // needed to disable default behavior because of overriding node styles on export
+        })
         .render();
 
       this.chart.fit();
@@ -373,30 +384,16 @@ export class OrgChartComponent implements AfterViewInit {
     return node?.classList?.contains('node') ? node : undefined;
   }
 
-  changeFluctuationType(change: MatButtonToggleChange) {
-    const type = change.value;
-
-    this.chartData.forEach((node) => {
-      node.displayedTotalFluctuationRate =
-        this.orgChartService.getDisplayedValues(type, node.fluctuationRate);
-      node.displayedDirectFluctuationRate =
-        this.orgChartService.getDisplayedValues(
-          type,
-          node.directFluctuationRate
-        );
-      node.displayedAbsoluteFluctuation =
-        this.orgChartService.getDisplayedValues(type, node.absoluteFluctuation);
-      node.displayedDirectAbsoluteFluctuation =
-        this.orgChartService.getDisplayedValues(
-          type,
-          node.directAbsoluteFluctuation
-        );
-    });
-    this.fluctuationType = type;
-    this.chart.data(this.chartData).render();
+  changeFluctuationType(fluctuationType: FluctuationType) {
+    this.orgChartService.setFluctuationRatesToDisplay(
+      this.chartData,
+      fluctuationType
+    );
+    this.chart.data(this.chartData);
+    this.chart.render();
   }
 
-  exportImg(): void {
-    this.chart.exportImg();
-  }
+  exportImg = (): void => this.chart.exportImg();
+  expandAll = (): void => this.chart.expandAll().fit();
+  collapseAll = (): void => this.chart.collapseAll().fit();
 }

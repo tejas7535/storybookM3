@@ -24,12 +24,7 @@ import { FluctuationType } from '../../shared/tables/employee-list-table/models'
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { ChartType, DimensionFluctuationData } from '../models';
-import {
-  BUTTON_CSS,
-  OrgChartData,
-  OrgChartNode,
-  OrgChartTranslation,
-} from './models';
+import { BUTTON_CSS, OrgChartData, OrgChartTranslation } from './models';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
@@ -79,6 +74,36 @@ describe('OrgChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('fluctuationType', () => {
+    test('should set fluctuation type', () => {
+      component.changeFluctuationType = jest.fn();
+      const type = FluctuationType.UNFORCED;
+
+      component.fluctuationType = type;
+
+      expect(component['_fluctuationType']).toEqual(type);
+      expect(component.changeFluctuationType).toHaveBeenCalledWith(type);
+    });
+  });
+
+  describe('changeFluctuationType', () => {
+    test('should set fluctuation to display and render', () => {
+      orgChartService.setFluctuationRatesToDisplay = jest.fn();
+      component.chart = {
+        data: jest.fn().mockReturnValue(component.chart),
+        render: jest.fn(),
+      } as any;
+
+      component.changeFluctuationType(FluctuationType.FORCED);
+
+      expect(component.chart.render).toHaveBeenCalled();
+      expect(orgChartService.setFluctuationRatesToDisplay).toHaveBeenCalledWith(
+        component.chartData,
+        FluctuationType.FORCED
+      );
+    });
+  });
+
   describe('set orgChartData', () => {
     test('should set org chart data', () => {
       component.updateChart = jest.fn();
@@ -86,6 +111,7 @@ describe('OrgChartComponent', () => {
       transloco.translateObject = jest.fn(() => obj);
       component['orgChartService'].mapDimensionDataToNodes = jest.fn();
       const employees = [{ id: '123' } as unknown as DimensionFluctuationData];
+      component['_fluctuationType'] = FluctuationType.TOTAL;
 
       const input: OrgChartData = {
         data: employees,
@@ -451,7 +477,7 @@ describe('OrgChartComponent', () => {
       expect(component.chart.render).toHaveBeenCalled();
     });
 
-    test('should clear highlights when no button is clicked', () => {
+    test('should clear highlights when no button on chart is clicked', () => {
       component.chart = {
         clearHighlighting: jest.fn(),
       } as any;
@@ -462,10 +488,33 @@ describe('OrgChartComponent', () => {
           dataset: {
             id: '123',
           },
+          parentElement: {
+            id: 'chartContainer',
+          },
         },
       });
 
       expect(component.chart.clearHighlighting).toHaveBeenCalled();
+    });
+
+    test('should not clear highlights when element outside clicked', () => {
+      component.chart = {
+        clearHighlighting: jest.fn(),
+      } as any;
+
+      component.clickout({
+        target: {
+          id: '123',
+          dataset: {
+            id: '123',
+          },
+          parentElement: {
+            id: 'navigation',
+          },
+        },
+      });
+
+      expect(component.chart.clearHighlighting).not.toHaveBeenCalled();
     });
   });
 
@@ -700,111 +749,6 @@ describe('OrgChartComponent', () => {
           undefined,
           `translate it ${dimension} ${customFilteres.timeRange}`
         )
-      );
-    });
-  });
-
-  describe('changeFluctuationType', () => {
-    beforeEach(() => {
-      component.chart = {
-        data: jest.fn().mockReturnValue({ render: jest.fn() }),
-      } as any;
-
-      component.chartData = [
-        {
-          fluctuationRate: {
-            fluctuationRate: 123,
-            unforcedFluctuationRate: 234,
-            forcedFluctuationRate: 345,
-            remainingFluctuationRate: 456,
-          },
-          directFluctuationRate: {
-            fluctuationRate: 321,
-            unforcedFluctuationRate: 432,
-            forcedFluctuationRate: 543,
-            remainingFluctuationRate: 654,
-          },
-          absoluteFluctuation: {
-            fluctuationRate: 789,
-            unforcedFluctuationRate: 890,
-            forcedFluctuationRate: 901,
-            remainingFluctuationRate: 902,
-          },
-          directAbsoluteFluctuation: {
-            fluctuationRate: 903,
-            unforcedFluctuationRate: 904,
-            forcedFluctuationRate: 905,
-            remainingFluctuationRate: 906,
-          },
-        },
-      ] as OrgChartNode[];
-    });
-
-    test('should set fluctuation type and render data', () => {
-      component.fluctuationType = FluctuationType.REMAINING;
-
-      component.changeFluctuationType({ value: FluctuationType.TOTAL } as any);
-
-      expect(component.fluctuationType).toEqual(FluctuationType.TOTAL);
-      expect(component.chart.data).toHaveBeenCalledWith(component.chartData);
-      expect(
-        component.chart.data(component.chartData).render
-      ).toHaveBeenCalledTimes(1);
-    });
-
-    test('should set total as displayed fluctuation rate', () => {
-      component.changeFluctuationType({ value: FluctuationType.TOTAL } as any);
-
-      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(123);
-      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
-        321
-      );
-      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(789);
-      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
-        903
-      );
-    });
-
-    test('should set unforced as displayed fluctuation rate', () => {
-      component.changeFluctuationType({
-        value: FluctuationType.UNFORCED,
-      } as any);
-
-      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(234);
-      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
-        432
-      );
-      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(890);
-      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
-        904
-      );
-    });
-
-    test('should set forced as displayed fluctuation rate', () => {
-      component.changeFluctuationType({ value: FluctuationType.FORCED } as any);
-
-      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(345);
-      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
-        543
-      );
-      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(901);
-      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
-        905
-      );
-    });
-
-    test('should set remaining as displayed fluctuation rate', () => {
-      component.changeFluctuationType({
-        value: FluctuationType.REMAINING,
-      } as any);
-
-      expect(component.chartData[0].displayedTotalFluctuationRate).toEqual(456);
-      expect(component.chartData[0].displayedDirectFluctuationRate).toEqual(
-        654
-      );
-      expect(component.chartData[0].displayedAbsoluteFluctuation).toEqual(902);
-      expect(component.chartData[0].displayedDirectAbsoluteFluctuation).toEqual(
-        906
       );
     });
   });
