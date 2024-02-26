@@ -1,5 +1,5 @@
-import { CdkStepperModule } from '@angular/cdk/stepper';
-import { FormGroup } from '@angular/forms';
+import { CdkStepperModule, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -11,12 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppComponent } from './app.component';
 import { LsaStepperComponent } from './core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from './core/services/lsa-app.service';
-import { LsaFormService } from './core/services/lsa-form.service';
 import { RestService } from './core/services/rest.service';
-
-jest.mock('./core/services/form-helper', () => ({
-  transformFormValue: jest.fn(),
-}));
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
@@ -37,21 +32,10 @@ describe('AppComponent', () => {
         provide: RestService,
         useValue: {
           getGreases: jest.fn(),
-          getLubricatorRecommendation: jest.fn(),
-        },
-      },
-      {
-        provide: LsaFormService,
-        useValue: {
-          getRecommendationForm: jest.fn(
-            () =>
-              ({
-                getRawValue: jest.fn(),
-              } as unknown as FormGroup)
-          ),
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -145,23 +129,32 @@ describe('AppComponent', () => {
     });
   });
 
+  describe('selectionChanged', () => {
+    it('should call setSelectedPage and setCompletedStep and emit currentStep', () => {
+      component['lsaAppService'].setSelectedPage = jest.fn();
+      component['lsaAppService'].setCompletedStep = jest.fn();
+      component.currentStep$.next = jest.fn();
+
+      component.selectionChanged({
+        selectedIndex: 2,
+        previouslySelectedIndex: 1,
+      } as StepperSelectionEvent);
+
+      expect(component['lsaAppService'].setSelectedPage).toHaveBeenCalledWith(
+        2
+      );
+      expect(component['lsaAppService'].setCompletedStep).toHaveBeenCalledWith(
+        1
+      );
+      expect(component.currentStep$.next).toHaveBeenCalledWith(2);
+    });
+  });
+
   describe('fetchGreases', () => {
     it('should call fetchGreases', () => {
       component.fetchGreases();
 
       expect(restService.getGreases).toHaveBeenCalled();
-    });
-  });
-
-  describe('fetchResult', () => {
-    it('should call getLubricatorRecommendation', () => {
-      component.form.getRawValue = jest.fn();
-      component.fetchResult();
-
-      expect(component.form.getRawValue).toHaveBeenCalled();
-      expect(restService.getLubricatorRecommendation).toHaveBeenCalledWith(
-        component.form.getRawValue()
-      );
     });
   });
 });

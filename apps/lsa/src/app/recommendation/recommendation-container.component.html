@@ -1,0 +1,29 @@
+<ng-container *ngrxLet="currentStep$ as currentStep">
+  <div class="md:px-8 px-2 pt-8">
+    <ng-container [ngSwitch]="currentStep">
+      <ng-container *ngSwitchCase="0">
+        <lsa-lubrication-points
+          [lubricationPointsForm]="lubricationPointsForm"
+        ></lsa-lubrication-points>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <div class="flex flex-row gap-10 justify-around">
+          <div class="flex flex-col">
+            <span>Greases:</span>
+            <pre>{{ greases$ | ngrxPush | json }}</pre>
+          </div>
+          <div class="flex flex-col">
+            <span>Form:</span>
+            <pre>{{ form.getRawValue() | json }}</pre>
+            <span>Valid: {{ form.valid }}</span>
+          </div>
+          <div class="flex flex-col">
+            <span>Result:</span>
+            <pre>{{ recommendation$ | ngrxPush | json }}</pre>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>
+<!-- <pre>{{ form.value | json }}</pre> -->

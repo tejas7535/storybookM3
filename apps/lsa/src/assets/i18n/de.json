@@ -13,5 +13,16 @@
     "result": {
       "title": "Ergebnis"
     }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionRelubricationQuantity": "Wie hoch ist die Nachschmiermenge pro Schmierstelle?",
+      "perRelubricationInterval": "pro {{ interval }}",
+      "year": "Jahr",
+      "month": "Monat",
+      "day": "Tag",
+      "lubricationQuantityValue": "< {{ value }} ccm",
+      "lubricationQuantity": "Nachschmiermenge"
+    }
   }
 }

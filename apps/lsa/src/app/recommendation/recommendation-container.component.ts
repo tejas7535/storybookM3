@@ -1,0 +1,82 @@
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { transformFormValue } from '@lsa/core/services/form-helper';
+import { LsaFormService } from '@lsa/core/services/lsa-form.service';
+import { RestService } from '@lsa/core/services/rest.service';
+import { RecommendationForm } from '@lsa/shared/models';
+import {
+  mockApplicationInput,
+  mockLubricantInput,
+} from '@lsa/testing/mocks/input.mock';
+import { LetDirective, PushPipe } from '@ngrx/component';
+
+import { LubricationPointsComponent } from './lubrication-points/lubrication-points.component';
+
+@Component({
+  selector: 'lsa-recommendation-container',
+  standalone: true,
+  imports: [CommonModule, LetDirective, PushPipe, LubricationPointsComponent],
+  templateUrl: './recommendation-container.component.html',
+})
+export class RecommendationContainerComponent implements OnInit, OnDestroy {
+  @Input() currentStep$: Observable<number>;
+
+  public readonly form: FormGroup<RecommendationForm> =
+    this.formService.getRecommendationForm();
+  public readonly lubricationPointsForm =
+    this.formService.getLubricationPointsForm();
+
+  greases$ = this.restService.greases$;
+  recommendation$ = this.restService.recommendation$;
+
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(
+    private readonly formService: LsaFormService,
+    private readonly restService: RestService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentStep$.pipe(takeUntil(this.destroy$)).subscribe((step) => {
+      this.dispatchDelayedInput(step);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  dispatchDelayedInput(index: number): void {
+    if (index === 3) {
+      this.fetchResult();
+
+      return;
+    }
+
+    setTimeout(() => {
+      switch (index) {
+        case 0:
+          break;
+        case 1:
+          this.formService.updateLubricantForm(mockLubricantInput);
+          break;
+        case 2:
+          this.formService.updateApplicationForm(mockApplicationInput);
+          break;
+        default:
+          break;
+      }
+    }, 2000);
+  }
+
+  fetchResult(): void {
+    this.restService.getLubricatorRecommendation(
+      transformFormValue(this.form.getRawValue())
+    );
+  }
+}

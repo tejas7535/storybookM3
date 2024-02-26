@@ -1,9 +1,9 @@
+import { RecommendationFormValue } from '@lsa/shared/models';
 import {
   mockApplicationInput,
   mockLubricantInput,
   mockLubricationPointsInput,
-} from '@lsa/mock-form-input';
-import { RecommendationFormValue } from '@lsa/shared/models';
+} from '@lsa/testing/mocks/input.mock';
 
 import { transformFormValue } from './form-helper';
 

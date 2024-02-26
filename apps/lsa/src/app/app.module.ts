@@ -10,6 +10,7 @@ import {
 import { createCustomElement } from '@angular/elements';
 import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -17,6 +18,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LsaStepperComponent } from './core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from './core/services/lsa-app.service';
+import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
 
 export const APP_ROOT = 'lubricator-selection-assistant';
 
@@ -25,12 +27,14 @@ export const APP_ROOT = 'lubricator-selection-assistant';
   providers: [LsaAppService],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     CoreModule,
     SharedTranslocoModule,
     forwardRef(() => LsaStepperComponent),
     CdkStepperModule,
     MatDividerModule,
     CommonModule,
+    RecommendationContainerComponent,
   ],
 })
 export class AppModule implements DoBootstrap {

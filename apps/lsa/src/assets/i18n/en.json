@@ -13,5 +13,16 @@
     "result": {
       "title": "Result"
     }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionRelubricationQuantity": "How high is the relubrication quantity per lubrication point?",
+      "perRelubricationInterval": "per {{ interval }}",
+      "year": "year",
+      "month": "month",
+      "day": "day",
+      "lubricationQuantityValue": "< {{ value }} ccm",
+      "lubricationQuantity": "Relubrication quantity"
+    }
   }
 }

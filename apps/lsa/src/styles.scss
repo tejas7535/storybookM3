@@ -37,6 +37,49 @@ lubricator-selection-assistant {
  */
 @import './preflight';
 
-.mat-mdc-mini-fab .mat-mdc-button-ripple {
-  @apply hidden;
+lubricator-selection-assistant {
+  .mat-mdc-mini-fab .mat-mdc-button-ripple {
+    @apply hidden;
+  }
+
+  //radio button overrides
+  .mat-mdc-radio-button.mat-primary {
+    --mat-radio-checked-ripple-color: none;
+  }
+
+  .mat-mdc-radio-button {
+    @apply text-subtitle-2;
+
+    .mdc-radio {
+      transform: scale(0.7);
+      @apply pr-1;
+    }
+
+    .mdc-form-field {
+      height: 28px;
+      @apply pr-2;
+    }
+
+    .mdc-label {
+      @apply pr-1;
+      @apply cursor-pointer;
+      @apply text-medium-emphasis;
+    }
+
+    // green background
+    &.mat-mdc-radio-checked {
+      .mdc-form-field {
+        @apply rounded-full;
+        @apply bg-secondary-50;
+      }
+
+      .mdc-label {
+        @apply text-primary #{!important};
+      }
+    }
+
+    &:not(.mat-mdc-radio-checked) {
+      @apply text-medium-emphasis;
+    }
+  }
 }

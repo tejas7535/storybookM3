@@ -2,11 +2,15 @@
 
 exports[`LsaFormService init should init the form with defaults 1`] = `
 Object {
-  "lubricationInterval": null,
-  "lubricationPoints": null,
+  "lubricationInterval": "year",
+  "lubricationPoints": "2-4",
   "lubricationQty": 60,
-  "optime": null,
-  "pipeLength": null,
+  "optime": 0,
+  "pipeLength": Object {
+    "max": 3,
+    "min": 1,
+    "title": "1 - 3m",
+  },
 }
 `;
 
@@ -35,11 +39,15 @@ Object {
     "lubricantType": "Arcanol",
   },
   "lubricationPoints": Object {
-    "lubricationInterval": null,
-    "lubricationPoints": null,
+    "lubricationInterval": "year",
+    "lubricationPoints": "2-4",
     "lubricationQty": 60,
-    "optime": null,
-    "pipeLength": null,
+    "optime": 0,
+    "pipeLength": Object {
+      "max": 3,
+      "min": 1,
+      "title": "1 - 3m",
+    },
   },
 }
 `;

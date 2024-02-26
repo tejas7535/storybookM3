@@ -4,12 +4,12 @@ import {
   Optime,
   PowerSupply,
   RelubricationInterval,
-} from './shared/constants';
+} from '@lsa/shared/constants';
 import {
   ApplicationFormValue,
   LubricantFormValue,
   LubricationPointsFormValue,
-} from './shared/models';
+} from '@lsa/shared/models';
 
 export const mockLubricationPointsInput: LubricationPointsFormValue = {
   lubricationPoints: LubricationPoints.TwoToFour,
