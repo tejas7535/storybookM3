@@ -6,6 +6,12 @@
           [lubricationPointsForm]="lubricationPointsForm"
         ></lsa-lubrication-points>
       </ng-container>
+      <ng-container *ngSwitchCase="1">
+        <lsa-lubricant
+          [lubricantForm]="lubricantForm"
+          [greases]="greases$ | ngrxPush"
+        ></lsa-lubricant>
+      </ng-container>
       <ng-container *ngSwitchDefault>
         <div class="flex flex-row gap-10 justify-around">
           <div class="flex flex-col">

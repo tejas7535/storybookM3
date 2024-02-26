@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import {
@@ -15,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
+import { AppOverlayContainer } from './app-overlay.container';
 import { CoreModule } from './core/core.module';
 import { LsaStepperComponent } from './core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from './core/services/lsa-app.service';
@@ -24,7 +26,10 @@ export const APP_ROOT = 'lubricator-selection-assistant';
 
 @NgModule({
   declarations: [AppComponent],
-  providers: [LsaAppService],
+  providers: [
+    { provide: OverlayContainer, useClass: AppOverlayContainer },
+    LsaAppService,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

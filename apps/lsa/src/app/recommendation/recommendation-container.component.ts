@@ -8,18 +8,22 @@ import { transformFormValue } from '@lsa/core/services/form-helper';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { RestService } from '@lsa/core/services/rest.service';
 import { RecommendationForm } from '@lsa/shared/models';
-import {
-  mockApplicationInput,
-  mockLubricantInput,
-} from '@lsa/testing/mocks/input.mock';
+import { mockApplicationInput } from '@lsa/testing/mocks/input.mock';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { LubricantComponent } from './lubricant/lubricant.component';
 import { LubricationPointsComponent } from './lubrication-points/lubrication-points.component';
 
 @Component({
   selector: 'lsa-recommendation-container',
   standalone: true,
-  imports: [CommonModule, LetDirective, PushPipe, LubricationPointsComponent],
+  imports: [
+    CommonModule,
+    LetDirective,
+    PushPipe,
+    LubricationPointsComponent,
+    LubricantComponent,
+  ],
   templateUrl: './recommendation-container.component.html',
 })
 export class RecommendationContainerComponent implements OnInit, OnDestroy {
@@ -29,6 +33,7 @@ export class RecommendationContainerComponent implements OnInit, OnDestroy {
     this.formService.getRecommendationForm();
   public readonly lubricationPointsForm =
     this.formService.getLubricationPointsForm();
+  public readonly lubricantForm = this.formService.getLubricantForm();
 
   greases$ = this.restService.greases$;
   recommendation$ = this.restService.recommendation$;
@@ -63,7 +68,6 @@ export class RecommendationContainerComponent implements OnInit, OnDestroy {
         case 0:
           break;
         case 1:
-          this.formService.updateLubricantForm(mockLubricantInput);
           break;
         case 2:
           this.formService.updateApplicationForm(mockApplicationInput);

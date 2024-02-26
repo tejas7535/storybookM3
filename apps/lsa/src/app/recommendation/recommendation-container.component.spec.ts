@@ -36,6 +36,7 @@ describe('RecommendationContainerComponent', () => {
               } as unknown as FormGroup)
           ),
           getLubricationPointsForm: jest.fn(() => ({} as unknown as FormGroup)),
+          getLubricantForm: jest.fn(() => ({} as unknown as FormGroup)),
         },
       },
     ],
@@ -46,7 +47,7 @@ describe('RecommendationContainerComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
 
-    component.currentStep$ = of(1);
+    component.currentStep$ = of(3);
 
     spectator.detectChanges();
 

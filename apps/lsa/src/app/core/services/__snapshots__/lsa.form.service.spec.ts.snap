@@ -16,7 +16,10 @@ Object {
 
 exports[`LsaFormService init should init the form with defaults 2`] = `
 Object {
-  "grease": null,
+  "grease": Object {
+    "id": "ARCANOL_MULTI2",
+    "title": "Arcanol MULTI2",
+  },
   "lubricantType": "Arcanol",
 }
 `;
@@ -35,7 +38,10 @@ Object {
     "temperature": null,
   },
   "lubricant": Object {
-    "grease": null,
+    "grease": Object {
+      "id": "ARCANOL_MULTI2",
+      "title": "Arcanol MULTI2",
+    },
     "lubricantType": "Arcanol",
   },
   "lubricationPoints": Object {

@@ -1,4 +1,4 @@
 export interface Grease {
-  name: string;
+  title: string;
   id: string;
 }

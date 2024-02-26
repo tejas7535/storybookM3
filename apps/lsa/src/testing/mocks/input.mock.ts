@@ -25,7 +25,7 @@ export const mockLubricationPointsInput: LubricationPointsFormValue = {
 
 export const mockLubricantInput: LubricantFormValue = {
   lubricantType: LubricantType.Arcanol,
-  grease: { id: 'ARCANOL_MULTI2', name: 'Arcanol MULTI2' },
+  grease: { id: 'ARCANOL_MULTI2', title: 'Arcanol MULTI2' },
 };
 
 export const mockApplicationInput: ApplicationFormValue = {

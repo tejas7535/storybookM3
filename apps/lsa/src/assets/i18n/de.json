@@ -23,6 +23,17 @@
       "day": "Tag",
       "lubricationQuantityValue": "< {{ value }} ccm",
       "lubricationQuantity": "Nachschmiermenge"
+    },
+    "lubrication": {
+      "questionLubricantType": "Verwenden Sie ein Schaeffler Arcanol Schmiermittel?",
+      "options": {
+        "arcanol": "Ja",
+        "grease": "Nicht-Schaeffler-Fett",
+        "oil": "Nicht-Schaeffler-Öl"
+      },
+      "questionSchaefflerArcanol": "Welches Schaeffler Arcanol Schmiermittel verwenden Sie?",
+      "searchHint": "Beispielwert: Arcanol MULTI2",
+      "label": "Arcanol Typ"
     }
   }
 }

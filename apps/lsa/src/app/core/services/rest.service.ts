@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { ReplaySubject, take } from 'rxjs';
+import { map, ReplaySubject, take } from 'rxjs';
 
 import { environment } from '@lsa/environments/environment';
 import {
@@ -9,6 +9,7 @@ import {
   RecommendationRequest,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { GreaseRequest } from '@lsa/shared/models/grease-request.model';
 
 @Injectable({ providedIn: 'root' })
 export class RestService {
@@ -21,8 +22,16 @@ export class RestService {
 
   public getGreases(): void {
     this.http
-      .get<Grease[]>(`${this.BASE_URL}/greases`)
-      .pipe(take(1))
+      .get<GreaseRequest[]>(`${this.BASE_URL}/greases`)
+      .pipe(
+        take(1),
+        map((greases: GreaseRequest[]) =>
+          greases.map((grease) => ({
+            id: grease.id,
+            title: grease.name,
+          }))
+        )
+      )
       .subscribe((greases) => this.greases$.next(greases));
   }
 

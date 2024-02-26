@@ -98,7 +98,10 @@ export class LsaFormService {
         LubricantType.Arcanol,
         true
       ),
-      grease: this.createFormControl<Grease>(undefined, true),
+      grease: this.createFormControl<Grease>(
+        { id: 'ARCANOL_MULTI2', title: 'Arcanol MULTI2' },
+        true
+      ),
     });
 
     this.applicationForm = new FormGroup<ApplicationForm>({

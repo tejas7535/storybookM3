@@ -30,7 +30,10 @@ export const mockLubricationPointsForm = new FormGroup<LubricationPointsForm>({
 
 export const mockLubricantForm = new FormGroup<LubricantForm>({
   lubricantType: new FormControl<LubricantType>(LubricantType.Arcanol),
-  grease: new FormControl<Grease>(undefined),
+  grease: new FormControl<Grease>({
+    id: 'ARCANOL_MULTI2',
+    title: 'Arcanol MULTI2',
+  }),
 });
 
 export const mockApplicationForm = new FormGroup<ApplicationForm>({
