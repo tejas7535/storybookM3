@@ -18,6 +18,7 @@ import { FPricingData } from '../../../models/f-pricing/f-pricing-data.interface
   providedIn: 'root',
 })
 export class FPricingService {
+  // TODO: create enum for paths
   readonly #PATH_QUOTATION_DETAILS = 'quotation-details';
   readonly #Path_F_PRICING = 'f-pricing';
   readonly #PATH_COMPARABLE_K_NUMBER_TRANSACTIONS =

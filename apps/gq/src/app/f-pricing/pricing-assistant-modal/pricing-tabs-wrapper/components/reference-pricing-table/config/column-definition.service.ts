@@ -17,8 +17,8 @@ import {
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
-  INITIAL_NUMBER_OF_DISPLAYED_ROWS = 2;
-  ROWS_TO_ADD_ON_SHOW_MORE = 2;
+  INITIAL_NUMBER_OF_DISPLAYED_ROWS = 5;
+  ROWS_TO_ADD_ON_SHOW_MORE = 10;
 
   DEFAULT_COL_DEF: ColDef = {
     suppressMovable: true,

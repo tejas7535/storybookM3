@@ -106,7 +106,10 @@ export class ReferencePricingTableComponent implements OnInit {
 
     this.comparableMaterialsByMaterialDescription.forEach((listOfMats, key) => {
       this.rowsToDisplayByMaterial.set(key, 0);
-      this.addRowsOfMaterial(key);
+      this.addRowsOfMaterial(
+        key,
+        this.columnDefService.INITIAL_NUMBER_OF_DISPLAYED_ROWS
+      );
 
       if (
         listOfMats.length >
@@ -129,15 +132,17 @@ export class ReferencePricingTableComponent implements OnInit {
     } as ComparableMaterialsRowData);
   }
 
-  private addRowsOfMaterial(material: string): void {
+  private addRowsOfMaterial(
+    material: string,
+    numberOfRowsToAdd: number = this.columnDefService.ROWS_TO_ADD_ON_SHOW_MORE
+  ): void {
     // when sliceStart is undefined, everything addable has been added
     const sliceStart = this.rowsToDisplayByMaterial.get(material);
     if (sliceStart === undefined) {
       return;
     }
 
-    const sliceEnd =
-      sliceStart + this.columnDefService.ROWS_TO_ADD_ON_SHOW_MORE;
+    const sliceEnd = sliceStart + +numberOfRowsToAdd;
 
     const rowsToAdd = this.comparableMaterialsByMaterialDescription
       .get(material)
