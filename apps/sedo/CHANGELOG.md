@@ -1,4 +1,12 @@
 # Release Notes of Series Delivery Obligation
+## [1.18.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.18.0...sedo-v1.18.1) (2024-02-27)
+
+
+### Features
+
+* **sedo:** do mdc migration ([#5885](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5885)) ([6329241](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63292416e9a94e33c8308b2b9672d8998df65ee2))
+* **sedo:** prefer eop verified over eopTemp (SEDO-3) ([#5888](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5888)) ([91aa1d6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/91aa1d64f04692d28dbe9695083433b1b8f3ed2f))
+
 ## [1.18.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.17.0...sedo-v1.18.0) (2023-08-29)
 
 
