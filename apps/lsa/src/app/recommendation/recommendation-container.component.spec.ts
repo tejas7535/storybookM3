@@ -37,6 +37,7 @@ describe('RecommendationContainerComponent', () => {
           ),
           getLubricationPointsForm: jest.fn(() => ({} as unknown as FormGroup)),
           getLubricantForm: jest.fn(() => ({} as unknown as FormGroup)),
+          getApplicationForm: jest.fn(() => ({} as unknown as FormGroup)),
         },
       },
     ],

@@ -26,7 +26,7 @@ Object {
 
 exports[`LsaFormService init should init the form with defaults 3`] = `
 Object {
-  "battery": null,
+  "battery": 2,
   "temperature": null,
 }
 `;
@@ -34,7 +34,7 @@ Object {
 exports[`LsaFormService init should init the form with defaults 4`] = `
 Object {
   "application": Object {
-    "battery": null,
+    "battery": 2,
     "temperature": null,
   },
   "lubricant": Object {

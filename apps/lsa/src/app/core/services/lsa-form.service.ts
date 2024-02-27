@@ -106,7 +106,10 @@ export class LsaFormService {
 
     this.applicationForm = new FormGroup<ApplicationForm>({
       temperature: this.createFormControl<LSAInterval>(undefined, true),
-      battery: this.createFormControl<PowerSupply>(undefined, true),
+      battery: this.createFormControl<PowerSupply>(
+        PowerSupply.NoPreference,
+        true
+      ),
     });
 
     this.recommendationForm = new FormGroup<RecommendationForm>({

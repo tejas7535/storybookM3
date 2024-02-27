@@ -8,9 +8,9 @@ import { transformFormValue } from '@lsa/core/services/form-helper';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { RestService } from '@lsa/core/services/rest.service';
 import { RecommendationForm } from '@lsa/shared/models';
-import { mockApplicationInput } from '@lsa/testing/mocks/input.mock';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { ApplicationComponent } from './application/application.component';
 import { LubricantComponent } from './lubricant/lubricant.component';
 import { LubricationPointsComponent } from './lubrication-points/lubrication-points.component';
 
@@ -23,6 +23,7 @@ import { LubricationPointsComponent } from './lubrication-points/lubrication-poi
     PushPipe,
     LubricationPointsComponent,
     LubricantComponent,
+    ApplicationComponent,
   ],
   templateUrl: './recommendation-container.component.html',
 })
@@ -34,6 +35,7 @@ export class RecommendationContainerComponent implements OnInit, OnDestroy {
   public readonly lubricationPointsForm =
     this.formService.getLubricationPointsForm();
   public readonly lubricantForm = this.formService.getLubricantForm();
+  public readonly applicationForm = this.formService.getApplicationForm();
 
   greases$ = this.restService.greases$;
   recommendation$ = this.restService.recommendation$;
@@ -62,20 +64,6 @@ export class RecommendationContainerComponent implements OnInit, OnDestroy {
 
       return;
     }
-
-    setTimeout(() => {
-      switch (index) {
-        case 0:
-          break;
-        case 1:
-          break;
-        case 2:
-          this.formService.updateApplicationForm(mockApplicationInput);
-          break;
-        default:
-          break;
-      }
-    }, 2000);
   }
 
   fetchResult(): void {

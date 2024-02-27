@@ -33,6 +33,12 @@ describe('LsaFormService', () => {
 
       expect(service.isValid).toBe(true);
     });
+
+    it('should return form invalid', () => {
+      service.recommendationForm = { valid: false } as FormGroup;
+
+      expect(service.isValid).toBe(false);
+    });
   });
 
   describe('getLubricationPointsForm', () => {

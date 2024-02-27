@@ -34,6 +34,14 @@
       "questionSchaefflerArcanol": "Welches Schaeffler Arcanol Schmiermittel verwenden Sie?",
       "searchHint": "Beispielwert: Arcanol MULTI2",
       "label": "Arcanol Typ"
+    },
+    "application": {
+      "questionPowerType": "Wie möchten Sie Ihr Schmiersystem mit Strom versorgen?",
+      "powerOptions": {
+        "external": "24V externe Stromversorgung",
+        "battery": "Batterie",
+        "noPreference": "Ich weiß es noch nicht"
+      }
     }
   }
 }

@@ -34,6 +34,14 @@
       "questionSchaefflerArcanol": "Which Schaeffler Arcanol lubricant are you using?",
       "searchHint": "Example value: Arcanol MULTI2",
       "label": "Arcanol type"
+    },
+    "application": {
+      "questionPowerType": "How would you like to power your lubrication system?",
+      "powerOptions": {
+        "external": "24V external powersupply",
+        "battery": "Battery",
+        "noPreference": "I don`t know yet"
+      }
     }
   }
 }
