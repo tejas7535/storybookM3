@@ -1,4 +1,48 @@
 # Release Notes of Guided Quoting
+## [4.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.4.0...gq-v4.5.0) (2024-02-27)
+
+
+### Features
+
+* **gq:** add created by to quotation search results (GQUOTE-3588) ([#5865](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5865)) ([433bab7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/433bab7eb84dd2d9360f72abae68d81464aba263))
+* **gq:** add featureToggle for extendedSearchBar (GQUOTE-3795) ([#5934](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5934)) ([90ebcaf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/90ebcaf90baef3bd2504063f340a1e3a41c68593))
+* **gq:** add next atp column to quotationDetailTable (GQUOTE-3444) ([#5915](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5915)) ([901a22b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/901a22bbd7b271cd922bad66be1bf7f31ec0ec63))
+* **gq:** adjust translations for refreshCosts confirmDialog (GQUOTE-3847) ([#5979](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5979)) ([c5fd8b0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5fd8b05e93f9c5d474eaedb694430d542b10e94))
+* **gq:** change DE translation (GQUOTE-3444) ([#5921](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5921)) ([9a148f4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a148f48f123ee6d95229161c7fe392785320e75))
+* **gq:** change translations for snackbar when shared cases saved/discarded (GQUOTE-3824) ([#5945](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5945)) ([77aa4c1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/77aa4c1189739f97cfecb28b33c5159cb1095240))
+* **gq:** check for ProductType for F-Number (GQUOTE-3640) ([#5907](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5907)) ([c4f54bd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c4f54bdc0ce68bdade339e2ced555fd2490bb927))
+* **gq:** consider rfq GPM when present in statusBar and ExcelExport (GQUOTE-3067) ([#5955](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5955)) ([967ab4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/967ab4e491dca22e7b449bd551032c94e241804a))
+* **gq:** Display disabled editCase Dialog for Cases <> ACTIVE (GQUOTE-3591)  ([#5911](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5911)) ([287b412](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/287b412e6775c95d60f90ce9567704f69ad3f067))
+* **gq:** display GPC/SQV Tiles depneding on CostRoles (GQUOTE-3830) ([#5948](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5948)) ([b7d4d68](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b7d4d68b35dfa3f61f7423115bed80109b3566a4))
+* **gq:** display market Value drivers (GQUOTE-3044) ([#5995](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5995)) ([96273d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/96273d849557e019420d06356fec7abe2345ba15))
+* **gq:** display saved quotations in the new tab (GQUOTE-3571) ([#5908](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5908)) ([fddfdaa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fddfdaa2d5a6d74e3117f4720a2df30919205e09))
+* **gq:** enable approval workflow start only for synced quotations (GQUOTE-3496) ([#5880](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5880)) ([71679ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/71679aeae28b6dbfe7bbd7c774e7fc3bcdf7efa2))
+* **gq:** encode textFields to base64 String (GQUOTE-3798) ([#5946](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5946)) ([00abdf8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/00abdf88b889c22d01a7fd365157384c9e5fbda3))
+* **gq:** implement logic to save/discard shared quotation (gquote-3567) ([#5881](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5881)) ([ce5b327](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ce5b327c00184335ebd01fb7a18a72d1fdd33fcd))
+* **gq:** implement materialDetails of PricingAssistant (GQUOTE-2882) ([#5941](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5941)) ([2d07fbf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d07fbf5fc21cbe0b1c4d35a433bc42e7d6414f6))
+* **gq:** implement remove all Filtered Items in addMaterialTable (GQUOTE-3070) ([#5922](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5922)) ([f45aa77](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f45aa7743e6f504a8d98845f61ef32cfcdec938b))
+* **gq:** implement sharedQuotation feature toggle (GQUOTE-3567) ([#5895](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5895)) ([9ae1271](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ae127107d3b16db4bc272da395b7d17de49b650))
+* **gq:** implement tables to display Data on SanityChecks and techn.Value Driver (GQUOTE-3879) ([#5978](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5978)) ([7f2bb70](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7f2bb705417701dd610fa7c7e6b7ccb3478e8a2f))
+* **gq:** integrate dynamic translations for comparison screen (GQUOTE-3042) ([#5949](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5949)) ([d839b32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d839b322060217b9952370ed339b786e34b31094))
+* **gq:** migrate matinput legacy component to related mdc component (GQUOTE-3360) ([#5875](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5875)) ([5a0a86f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5a0a86f7a57dee89148b910171f5293c04b351c9))
+* **gq:** remove input Restirction for textFields and encode CaseName (GQUOTE-3913) ([#5989](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5989)) ([9d84751](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d84751094c011ece73869b7a2fb2fac8d117c72))
+* **gq:** request referencePrice for Pricing Assistant (GQUOTE-3673) ([#5933](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5933)) ([8658ca6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8658ca6718dcc3c2ec43f51cf49cd66798b3ec2b))
+* **gq:** show discontinued materials as invalid (GQUOTE-3573) ([#5879](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5879)) ([339b664](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/339b664554fa52dcba7af80c2091995793ebb4d8))
+* **gq:** show material details in f-pricing assistant modal (GQUOTE-2882) ([#5957](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5957)) ([354e073](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/354e07320c217ba8137febdf2517b532ab2c7983))
+
+
+### Bug Fixes
+
+* **gq:** add word break for approval workflow started comments (GQUOTE-3558) ([#5863](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5863)) ([625c222](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/625c2229227019ff4cefe76c7eb0735d7c4e4547))
+* **gq:** adjust http request for starting approval workflow (GQUOTE-3876) ([#5988](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5988)) ([53e0e24](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53e0e2495aef57675704a0d83e7e77f4be7b1506))
+* **gq:** adjust styling for comment cell (GQUOTE-3701) ([#5993](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5993)) ([78fadee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/78fadee5f992ecc8a3b6b8c60489fd793b03eca4))
+* **gq:** adjust styling of Share button for GQ (GQUOTE-3630) ([#5898](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5898)) ([b97e4eb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b97e4ebf45d4cfba16d930a8009326d2c91b1f60))
+* **gq:** check RFQdata for falsy values (GQUOTE-3680) ([#5909](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5909)) ([02676ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/02676edc05839279decf41d48e67217a23b9598d))
+* **gq:** correct translations ([#5862](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5862)) ([87a31cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/87a31cfbb4bbda714691ab8416e349f213b54cea))
+* **gq:** display line breaks for approval comments ([#5878](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5878)) ([0940823](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0940823f687df391d6ed28b5c42608c818d8a332))
+* **gq:** hide createdBy via FeatureToggle (GQUOTE-3765) ([#5947](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5947)) ([94534c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/94534c779d61dec2306514bf3a3c6762dd5573b2))
+* **gq:** reset rfqState when no RfqData data present in quotationDetail (GQUOTE-3699) ([#5912](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5912)) ([9c22af1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c22af1c5d8d1664d32f6eb2f179981b217d4675))
+
 ## [4.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.3.0...gq-v4.4.0) (2023-12-19)
 
 
