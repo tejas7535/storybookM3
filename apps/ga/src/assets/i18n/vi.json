@@ -331,7 +331,8 @@
     "preferredGreaseHintSelected": "Đã chọn trước",
     "preferredGreaseHintAlternative": "Sản phẩm thay thế",
     "preferredGreaseHintAlternativeTooltip": "Đây là sản phẩm thay thế từ danh mục sản phẩm của Schaeffler dựa trên thông tin đầu vào từ bước 2.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "pdfDownload": "Tải xuống bản PDF"
   },
   "settings": {
     "stepper": {

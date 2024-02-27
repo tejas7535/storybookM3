@@ -31,6 +31,7 @@ import {
 } from './services';
 import { FontsLoaderService } from './services/pdf/fonts-loader.service';
 import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf-file-save.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [CalculationResultComponent],
@@ -53,6 +54,7 @@ import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatTooltipModule,
+    MatButtonModule,
 
     // Components
     SubheaderModule,

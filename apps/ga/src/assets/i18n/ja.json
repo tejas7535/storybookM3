@@ -332,7 +332,8 @@
     "preferredGreaseHintSelected": "事前選択",
     "preferredGreaseHintAlternative": "代替",
     "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "pdfDownload": "pdfダウンロード"
   },
   "settings": {
     "stepper": {

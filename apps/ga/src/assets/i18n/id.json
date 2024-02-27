@@ -331,7 +331,8 @@
     "preferredGreaseHintSelected": "Terpilih",
     "preferredGreaseHintAlternative": "Alternatif",
     "preferredGreaseHintAlternativeTooltip": "Ini adalah produk alternatif dari portofolio produk Schaeffler berdasarkan masukan mereka dari tahap 2.",
-    "poweredBy": "ditenagai oleh"
+    "poweredBy": "ditenagai oleh",
+    "pdfDownload": "unduhan PDF"
   },
   "settings": {
     "stepper": {

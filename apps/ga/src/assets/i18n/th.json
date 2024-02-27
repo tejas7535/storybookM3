@@ -331,7 +331,8 @@
     "preferredGreaseHintSelected": "ถูกเลือกไว้ล่วงหน้า",
     "preferredGreaseHintAlternative": "ทางเลือก",
     "preferredGreaseHintAlternativeTooltip": "นี่คือผลิตภัณฑ์ทางเลือกจากแฟ้มผลิตภัณฑ์ของแชฟฟ์เลอร์ ซึ่งอ้างอิงตามอินพุตจากขั้นตอนที่ 2",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "pdfDownload": "ดาวน์โหลด PDF"
   },
   "settings": {
     "stepper": {

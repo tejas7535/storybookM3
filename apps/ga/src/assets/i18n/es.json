@@ -331,7 +331,8 @@
     "preferredGreaseHintSelected": "Preseleccionado",
     "preferredGreaseHintAlternative": "Alternativa",
     "preferredGreaseHintAlternativeTooltip": "Se trata de un producto alternativo de la cartera de productos de Schaeffler basado en su información del paso 2.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "pdfDownload": "descargar PDF"
   },
   "settings": {
     "stepper": {

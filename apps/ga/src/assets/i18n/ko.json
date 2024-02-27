@@ -331,7 +331,8 @@
     "preferredGreaseHintSelected": "사전 선택됨",
     "preferredGreaseHintAlternative": "대체품",
     "preferredGreaseHintAlternativeTooltip": "이는 2단계의 입력을 기반으로 하는 Schaeffler 제품 포트폴리오의 대체 제품입니다.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "pdfDownload": "PDF 다운로드"
   },
   "settings": {
     "stepper": {

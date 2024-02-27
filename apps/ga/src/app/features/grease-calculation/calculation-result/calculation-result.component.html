@@ -22,19 +22,20 @@
         >
           info_outline
         </mat-icon>
+      </ng-container>
+      <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
         <button
-          class="hover:bg-sky-700 hover:text-link ml-1"
-          mat-fab
-          color="accent"
+          class="ml-auto w-full sm:w-auto"
+          mat-raised-button
+          color="basic"
           aria-label="generate report"
           (click)="generateReport(selectedBearing)"
         >
+          {{ t('pdfDownload') }}
           <mat-icon class="align-middle">download</mat-icon>
         </button>
-      </ng-container>
-      <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
         <ga-medias-button
-          class="max-sm:w-full"
+          class="max-sm:w-full ml-auto"
           [bearing]="selectedBearing"
           [partnerVersion]="partnerVersion$ | ngrxPush"
         ></ga-medias-button>

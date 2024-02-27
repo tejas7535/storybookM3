@@ -331,7 +331,8 @@
     "preferredGreaseHintSelected": "Présélectionné",
     "preferredGreaseHintAlternative": "Alternative",
     "preferredGreaseHintAlternativeTooltip": "Il s’agit d’un produit alternatif de la gamme de produits Schaeffler, basé sur les données de l’étape 2.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "pdfDownload": "télécharger le PDF"
   },
   "settings": {
     "stepper": {
