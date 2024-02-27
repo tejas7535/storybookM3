@@ -62,4 +62,19 @@ describe('FPricingService', () => {
       req.flush(response);
     });
   });
+
+  describe('getComparableTransactions', () => {
+    test('should call GET', () => {
+      const gqPositionId = '1234';
+      service
+        .getComparableTransactions(gqPositionId)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/quotation-details/${gqPositionId}/f-pricing/comparable-k-number-transactions`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(gqPositionId);
+    });
+  });
 });

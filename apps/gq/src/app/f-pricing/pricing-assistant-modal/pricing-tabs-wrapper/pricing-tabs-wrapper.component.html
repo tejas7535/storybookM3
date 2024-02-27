@@ -8,22 +8,30 @@
         ></gq-tabs-label
       ></ng-template>
       <div class="p-2 h-full">
-        <ng-container [ngSwitch]="referenceDataVisible">
-          <ng-container *ngSwitchCase="referenceDataToShowType.noReferenceData">
-            <gq-no-tabs-data
-              [title]="t('referencePricingTable.noReferenceDataTitle')"
-              [subTitle]="t('referencePricingTable.noReferenceDataSubTitle')"
-            ></gq-no-tabs-data>
-          </ng-container>
-          <ng-container
-            *ngSwitchCase="referenceDataToShowType.referencePricingTable"
-          >
-            <gq-reference-pricing-table
-              [inputRowData]="referencePriceRowData"
-              (comparedMaterialClicked)="onComparedMaterialClicked($event)"
-            ></gq-reference-pricing-table>
-          </ng-container>
+        <ng-container *ngIf="comparableTransactionsLoading"
+          ><ng-template [ngTemplateOutlet]="loadingSpinner"></ng-template>
         </ng-container>
+        <ng-container
+          *ngIf="
+            !comparableTransactionsLoading && !comparableTransactionsAvailable
+          "
+        >
+          <gq-no-tabs-data
+            [title]="t('referencePricingTable.noReferenceDataTitle')"
+            [subTitle]="t('referencePricingTable.noReferenceDataSubTitle')"
+          ></gq-no-tabs-data>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            !comparableTransactionsLoading && comparableTransactionsAvailable
+          "
+        >
+          <gq-reference-pricing-table
+            [inputRowData]="referencePriceRowData"
+            (comparedMaterialClicked)="onComparedMaterialClicked($event)"
+          ></gq-reference-pricing-table
+        ></ng-container>
       </div>
     </mat-tab>
     <mat-tab disabled>
@@ -117,3 +125,7 @@
     </mat-tab>
   </mat-tab-group>
 </ng-container>
+
+<ng-template #loadingSpinner>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+</ng-template>

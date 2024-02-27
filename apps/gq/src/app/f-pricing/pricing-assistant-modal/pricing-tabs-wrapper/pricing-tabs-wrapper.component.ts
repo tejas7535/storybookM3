@@ -1,17 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 
 import { MarketValueDriverDisplayItem } from '../models/market-value-driver-display-item.interface';
-import { ReferenceDataToShow } from '../models/reference-data-to-show.enum';
 import { TableItem } from '../models/table-item';
 
 @Component({
   selector: 'gq-pricing-tabs-wrapper',
   templateUrl: './pricing-tabs-wrapper.component.html',
 })
-export class PricingTabsWrapperComponent implements OnInit {
+export class PricingTabsWrapperComponent {
   @Input() referencePrice: number;
+
   @Input() marketValueDriversValue: number;
   @Input() marketValueDriverWarning: boolean;
   @Input() technicalValueDriversValue: number;
@@ -22,9 +22,11 @@ export class PricingTabsWrapperComponent implements OnInit {
   @Input() referencePriceRowData: ComparableMaterialsRowData[];
   @Input() marketValueDriverData: MarketValueDriverDisplayItem[];
 
+  @Input() comparableTransactionsLoading = true;
+  @Input() comparableTransactionsAvailable: boolean;
+
   @Output() comparedMaterialClicked = new EventEmitter<string>();
 
-  referenceDataVisible: ReferenceDataToShow;
   sanityChecksDataSource: TableItem[] = [
     {
       id: 1,
@@ -101,21 +103,6 @@ export class PricingTabsWrapperComponent implements OnInit {
       additionalDescription: 'Evaluation of engineering effort',
     },
   ];
-
-  readonly referenceDataToShowType = ReferenceDataToShow;
-
-  ngOnInit(): void {
-    if (
-      !this.referencePriceRowData ||
-      this.referencePriceRowData.length === 0
-    ) {
-      this.referenceDataVisible = ReferenceDataToShow.noReferenceData;
-
-      return;
-    }
-
-    this.referenceDataVisible = ReferenceDataToShow.referencePricingTable;
-  }
 
   onComparedMaterialClicked(material: string): void {
     this.comparedMaterialClicked.emit(material);

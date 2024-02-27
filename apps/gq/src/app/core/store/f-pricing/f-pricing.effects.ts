@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { inject, Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 
 import { FPricingService } from '@gq/shared/services/rest/f-pricing/f-pricing.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -21,6 +21,25 @@ export class FPricingEffects {
           map((data) => FPricingActions.loadFPricingDataSuccess({ data })),
           catchError((error) =>
             of(FPricingActions.loadFPricingDataFailure({ error }))
+          )
+        )
+      )
+    );
+  });
+
+  getComparableTransactions$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(FPricingActions.loadComparableTransactions),
+      switchMap(({ gqPositionId }) =>
+        this.fPricingService.getComparableTransactions(gqPositionId).pipe(
+          // if needed at some point, check if received gqPositionId is the same as requested
+          map((data) =>
+            FPricingActions.loadComparableTransactionsSuccess({
+              data: data.fPricingComparableMaterials,
+            })
+          ),
+          catchError((error) =>
+            of(FPricingActions.loadComparableTransactionsFailure({ error }))
           )
         )
       )

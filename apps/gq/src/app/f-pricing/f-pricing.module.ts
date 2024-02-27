@@ -25,6 +25,7 @@ import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialDetailsComponent } from './pricing-assistant-modal/material-details/material-details.component';
@@ -48,6 +49,7 @@ import { DeltaValueComponent } from './pricing-assistant-modal/product-compariso
 import { ComparisonPanelComponent } from './pricing-assistant-modal/product-comparison/comparison-panel/comparison-panel.component';
 import { DeltaAmountComponent } from './pricing-assistant-modal/product-comparison/comparison-panel/delta-amount/delta-amount.component';
 import { ProductComparisonModalComponent } from './pricing-assistant-modal/product-comparison/product-comparison.component';
+
 @NgModule({
   imports: [
     AgGridModule,
@@ -75,6 +77,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     MaterialAdditionalComponent,
     MaterialSalesOrgDetailsComponent,
     MatRadioModule,
+    LoadingSpinnerModule,
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
     SharedDirectivesModule,

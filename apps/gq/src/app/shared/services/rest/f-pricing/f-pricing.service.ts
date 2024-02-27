@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { MarketValueDriver } from '@gq/shared/models/f-pricing';
 
 import { ApiVersion, ProductType } from '../../../models';
+import { ComparableKNumbers } from '../../../models/f-pricing/comparable-k-numbers.interface';
 import { FPricingData } from '../../../models/f-pricing/f-pricing-data.interface';
 
 @Injectable({
@@ -14,6 +15,8 @@ import { FPricingData } from '../../../models/f-pricing/f-pricing-data.interface
 export class FPricingService {
   readonly #PATH_QUOTATION_DETAILS = 'quotation-details';
   readonly #Path_F_PRICING = 'f-pricing';
+  readonly #PATH_COMPARABLE_K_NUMBER_TRANSACTIONS =
+    'comparable-k-number-transactions';
 
   readonly #http = inject(HttpClient);
 
@@ -41,5 +44,15 @@ export class FPricingService {
           ],
         }))
       );
+  }
+
+  getComparableTransactions(
+    gqPositionId: string
+  ): Observable<ComparableKNumbers> {
+    return this.#http.get<ComparableKNumbers>(
+      `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
+        this.#Path_F_PRICING
+      }/${this.#PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
+    );
   }
 }

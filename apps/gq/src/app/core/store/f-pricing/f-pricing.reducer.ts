@@ -8,23 +8,31 @@ import {
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { MATERIAL_INFORMATION_MOCK } from '../../../../testing/mocks';
+import {
+  ComparableMaterialsRowData,
+  FPricingComparableMaterials,
+} from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
 export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
+  comparableTransactionsLoading: boolean;
   error: Error;
   materialInformation: MaterialInformation[];
+  comparableTransactions: FPricingComparableMaterials[];
 }
 
 export const initialState: FPricingState = {
   fPricingDataLoading: false,
+  comparableTransactionsLoading: false,
   error: null,
   materialInformation: MATERIAL_INFORMATION_MOCK,
   gqPositionId: null,
   referencePrice: null,
   productType: null,
   marketValueDrivers: null,
+  comparableTransactions: null,
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -48,16 +56,40 @@ export const fPricingFeature = createFeature({
     ),
     on(
       FPricingActions.loadFPricingDataSuccess,
-      (_state: FPricingState, { data }): FPricingState => ({
-        ...initialState,
+      (state: FPricingState, { data }): FPricingState => ({
+        ...state,
         ...data,
+        fPricingDataLoading: false,
       })
     ),
     on(
       FPricingActions.loadFPricingDataFailure,
-      (_state: FPricingState, { error }): FPricingState => ({
-        ...initialState,
+      (state: FPricingState, { error }): FPricingState => ({
+        ...state,
         fPricingDataLoading: false,
+        error,
+      })
+    ),
+    on(
+      FPricingActions.loadComparableTransactions,
+      (state: FPricingState): FPricingState => ({
+        ...state,
+        comparableTransactionsLoading: true,
+      })
+    ),
+    on(
+      FPricingActions.loadComparableTransactionsSuccess,
+      (state: FPricingState, { data }): FPricingState => ({
+        ...state,
+        comparableTransactionsLoading: false,
+        comparableTransactions: data,
+      })
+    ),
+    on(
+      FPricingActions.loadComparableTransactionsFailure,
+      (state: FPricingState, { error }): FPricingState => ({
+        ...state,
+        comparableTransactionsLoading: false,
         error,
       })
     )
@@ -66,6 +98,7 @@ export const fPricingFeature = createFeature({
   extraSelectors: ({
     selectMaterialInformation,
     selectMarketValueDrivers,
+    selectComparableTransactions,
   }) => ({
     getMaterialInformationExtended: createSelector(
       selectMaterialInformation,
@@ -123,6 +156,34 @@ export const fPricingFeature = createFeature({
         marketValueDriver?.some(
           (item) => item.selectedOptionId !== item.options.length
         )
+    ),
+    getComparableTransactionsForDisplaying: createSelector(
+      selectComparableTransactions,
+      (
+        comparableTransactions: FPricingComparableMaterials[]
+      ): ComparableMaterialsRowData[] => {
+        const displayComparableTransactions: ComparableMaterialsRowData[] = [];
+        let count = 1;
+        comparableTransactions?.map((item) => {
+          item.transactions.map((transaction) => {
+            const displayItem: ComparableMaterialsRowData = {
+              ...transaction,
+              // eslint-disable-next-line no-plusplus
+              identifier: count++,
+              parentMaterialDescription: item.material.materialDescription,
+              parentMaterialNumber: item.material.materialNumber,
+            };
+            displayComparableTransactions.push(displayItem);
+          });
+        });
+
+        return displayComparableTransactions;
+      }
+    ),
+    getComparableTransactionsAvailable: createSelector(
+      selectComparableTransactions,
+      (comparableTransactions: FPricingComparableMaterials[]): boolean =>
+        comparableTransactions?.length > 0
     ),
   }),
 });

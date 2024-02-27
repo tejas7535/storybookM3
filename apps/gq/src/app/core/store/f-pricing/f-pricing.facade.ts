@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import { getQuotationCurrency } from '../active-case/active-case.selectors';
+import { ComparableMaterialsRowData } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import {
   getMaterialSalesOrg,
   getMaterialSalesOrgDataAvailable,
@@ -30,6 +31,8 @@ export class FPricingFacade {
     this.#store.select(getMaterialSalesOrgDataAvailable),
     this.#store.select(fPricingFeature.getMarketValueDriverForDisplay),
     this.#store.select(fPricingFeature.getAnyMarketValueDriverSelected),
+    this.#store.select(fPricingFeature.getComparableTransactionsForDisplaying),
+    this.#store.select(fPricingFeature.getComparableTransactionsAvailable),
   ]).pipe(
     map(
       ([
@@ -39,12 +42,16 @@ export class FPricingFacade {
         materialSalesOrgDataAvailable,
         marketValueDriversDisplay,
         anyMarketValueDriverSelection,
+        comparableTransactionsForDisplay,
+        comparableTransactionsAvailable,
       ]: [
         FPricingState,
         string,
         MaterialSalesOrg,
         boolean,
         MarketValueDriverDisplayItem[],
+        boolean,
+        ComparableMaterialsRowData[],
         boolean
       ]) => ({
         ...fPricingState,
@@ -53,6 +60,8 @@ export class FPricingFacade {
         materialSalesOrgAvailable: materialSalesOrgDataAvailable,
         marketValueDriversDisplay,
         anyMarketValueDriverSelection,
+        comparableTransactionsForDisplay,
+        comparableTransactionsAvailable,
       })
     )
   );
@@ -66,8 +75,16 @@ export class FPricingFacade {
 
   materialSalesOrg$: Observable<MaterialSalesOrg> =
     this.#store.select(getMaterialSalesOrg);
+
   materialSalesOrgDataAvailable$: Observable<boolean> = this.#store.select(
     getMaterialSalesOrgDataAvailable
+  );
+
+  comparableTransactionsLoading$: Observable<boolean> = this.#store.select(
+    fPricingFeature.selectComparableTransactionsLoading
+  );
+  fPricingDataLoading$: Observable<boolean> = this.#store.select(
+    fPricingFeature.selectFPricingDataLoading
   );
 
   // #########################################
@@ -77,5 +94,12 @@ export class FPricingFacade {
   loadDataForPricingAssistant(gqPositionId: string): void {
     this.#store.dispatch(FPricingActions.loadFPricingData({ gqPositionId }));
     this.#store.dispatch(loadMaterialSalesOrg({ gqPositionId }));
+    this.#store.dispatch(
+      FPricingActions.loadComparableTransactions({ gqPositionId })
+    );
+  }
+
+  resetDataForPricingAssistant(): void {
+    this.#store.dispatch(FPricingActions.resetFPricingData());
   }
 }

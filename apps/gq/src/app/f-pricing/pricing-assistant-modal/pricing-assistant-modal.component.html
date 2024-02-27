@@ -1,121 +1,145 @@
-<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
-  <div class="flex flex-col h-full">
-    <gq-pricing-assistant-header
-      [material]="material"
-      (closeDialog)="closeDialog()"
-      (showMore)="showMore()"
-    ></gq-pricing-assistant-header>
-    <!-- content and possible overlays -->
-    <div class="flex flex-col w-full h-full relative">
-      <gq-overlay *ngIf="visibleOverlay === overlayToShowEnum.comparisonScreen">
-        <ng-container [ngTemplateOutlet]="comparisonScreenView"></ng-container>
-      </gq-overlay>
-
-      <gq-overlay *ngIf="visibleOverlay === overlayToShowEnum.manualPricing">
-        <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
-      </gq-overlay>
-
-      <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
-    </div>
-
-    <!--footer-->
-    <ng-container *ngIf="visibleOverlay !== overlayToShowEnum.comparisonScreen">
-      <div class="flex flex-col">
-        <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
-        <div class="flex justify-start">
-          <button
-            color="primary"
-            class="!mr-4 text-button font-medium"
-            mat-raised-button
-            (click)="confirm()"
+<ng-container *ngrxLet="fPricingData$ | ngrxPush as fPricingData">
+  <ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+    <div class="flex flex-col h-full">
+      <gq-pricing-assistant-header
+        [material]="material"
+        (closeDialog)="closeDialog()"
+        (showMore)="showMore()"
+      ></gq-pricing-assistant-header>
+      <ng-container *ngIf="!(fPricingDataLoading$ | ngrxPush); else loading">
+        <!-- content and possible overlays -->
+        <div class="flex flex-col w-full h-full relative">
+          <gq-overlay
+            *ngIf="visibleOverlay === overlayToShowEnum.comparisonScreen"
           >
-            {{ t('confirmButton') }}
-          </button>
-          <button
-            color="primary"
-            class="text-button font-medium"
-            mat-stroked-button
-            (click)="closeDialog()"
+            <ng-container
+              [ngTemplateOutlet]="comparisonScreenView"
+            ></ng-container>
+          </gq-overlay>
+
+          <gq-overlay
+            *ngIf="visibleOverlay === overlayToShowEnum.manualPricing"
           >
-            {{ t('cancelButton') }}
-          </button>
+            <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
+          </gq-overlay>
+
+          <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
         </div>
+
+        <!--footer-->
+        <ng-container
+          *ngIf="visibleOverlay !== overlayToShowEnum.comparisonScreen"
+        >
+          <div class="flex flex-col">
+            <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
+            <div class="flex justify-start">
+              <button
+                color="primary"
+                class="!mr-4 text-button font-medium"
+                mat-raised-button
+                (click)="confirm()"
+              >
+                {{ t('confirmButton') }}
+              </button>
+              <button
+                color="primary"
+                class="text-button font-medium"
+                mat-stroked-button
+                (click)="closeDialog()"
+              >
+                {{ t('cancelButton') }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-template #priceButtons>
+    <div class="flex flex-row justify-between w-full gap-3 py-4">
+      <gq-price-button
+        class="w-full"
+        [priceLabelKey]="'gqPriceLabel'"
+        [priceValue]="45.12"
+        [currency]="fPricingData?.currency"
+        [gpmValue]="12.45"
+        [icon]="'warning_amber'"
+        [iconColor]="'text-error'"
+        [isSelected]="true"
+        [isActiveInDialog]="true"
+      ></gq-price-button>
+
+      <gq-price-button
+        class="w-full"
+        [isAddManualPriceButton]="true"
+        (manualPriceClicked)="manualPriceClicked()"
+      ></gq-price-button>
+    </div>
+  </ng-template>
+
+  <ng-template #gqPricingView>
+    <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
+    <mat-card appearance="outlined" class="h-full">
+      <div class="flex flex-col h-full">
+        <gq-pricing-results
+          [price]="24.23"
+          [currency]="fPricingData?.currency"
+          [gpm]="12.4"
+          [confidence]="2"
+        ></gq-pricing-results>
+        <gq-pricing-tabs-wrapper
+          class="h-full"
+          [currency]="fPricingData?.currency"
+          [referencePrice]="fPricingData?.referencePrice"
+          [marketValueDriversValue]="63.23"
+          [marketValueDriverWarning]="
+            !(fPricingData$ | ngrxPush)?.anyMarketValueDriverSelection
+          "
+          [marketValueDriverData]="
+            (fPricingData$ | ngrxPush)?.marketValueDriversDisplay
+          "
+          [technicalValueDriversValue]="12.23"
+          [sanityCheckValue]="0"
+          [finalPrice]="2013.45"
+          [referencePriceRowData]="
+            fPricingData?.comparableTransactionsForDisplay
+          "
+          [comparableTransactionsLoading]="
+            comparableTransactionsLoading$ | ngrxPush
+          "
+          [comparableTransactionsAvailable]="
+            fPricingData?.comparableTransactionsAvailable
+          "
+          (comparedMaterialClicked)="onComparedMaterialClicked($event)"
+        ></gq-pricing-tabs-wrapper>
       </div>
-    </ng-container>
-  </div>
+    </mat-card>
+  </ng-template>
+
+  <ng-template #comparisonScreenView>
+    <div class="pt-3">
+      <gq-product-comparison
+        [referenceMaterialDescription]="material?.materialDescription"
+        [comparedMaterialDescription]="materialToCompare"
+        [materialInformation]="fPricingFacade.materialInformation$ | ngrxPush"
+        (closeView)="backToGqPricingPage()"
+      ></gq-product-comparison>
+    </div>
+  </ng-template>
+
+  <ng-template #manualPricingView>
+    <div class="flex flex-col">
+      <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
+      <span> manual Pricing content </span>
+      <button mat-button (click)="closeOverlay()">
+        <mat-icon>close</mat-icon>
+        back to GQ Pricing View
+      </button>
+    </div>
+  </ng-template>
 </ng-container>
 
-<ng-template #priceButtons>
-  <div class="flex flex-row justify-between w-full gap-3 py-4">
-    <gq-price-button
-      class="w-full"
-      [priceLabelKey]="'gqPriceLabel'"
-      [priceValue]="45.12"
-      [currency]="(fPricingData$ | ngrxPush)?.currency"
-      [gpmValue]="12.45"
-      [icon]="'warning_amber'"
-      [iconColor]="'text-error'"
-      [isSelected]="true"
-      [isActiveInDialog]="true"
-    ></gq-price-button>
-
-    <gq-price-button
-      class="w-full"
-      [isAddManualPriceButton]="true"
-      (manualPriceClicked)="manualPriceClicked()"
-    ></gq-price-button>
-  </div>
-</ng-template>
-
-<ng-template #gqPricingView>
-  <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
-  <mat-card appearance="outlined" class="h-full">
-    <div class="flex flex-col h-full">
-      <gq-pricing-results
-        [price]="24.23"
-        [currency]="(fPricingData$ | ngrxPush)?.currency"
-        [gpm]="12.4"
-        [confidence]="2"
-      ></gq-pricing-results>
-      <gq-pricing-tabs-wrapper
-        class="h-full"
-        [currency]="(fPricingData$ | ngrxPush)?.currency"
-        [referencePrice]="(fPricingData$ | ngrxPush)?.referencePrice"
-        [marketValueDriversValue]="63.23"
-        [marketValueDriverWarning]="
-          !(fPricingData$ | ngrxPush)?.anyMarketValueDriverSelection
-        "
-        [technicalValueDriversValue]="12.23"
-        [sanityCheckValue]="0"
-        [finalPrice]="2013.45"
-        [referencePriceRowData]="referencePriceRowData"
-        [marketValueDriverData]="
-          (fPricingData$ | ngrxPush)?.marketValueDriversDisplay
-        "
-        (comparedMaterialClicked)="onComparedMaterialClicked($event)"
-      ></gq-pricing-tabs-wrapper>
-    </div>
-  </mat-card>
-</ng-template>
-
-<ng-template #comparisonScreenView>
-  <div class="pt-3">
-    <gq-product-comparison
-      [referenceMaterialDescription]="material?.materialDescription"
-      [comparedMaterialDescription]="materialToCompare"
-      [materialInformation]="fPricingFacade.materialInformation$ | ngrxPush"
-      (closeView)="backToGqPricingPage()"
-    ></gq-product-comparison>
-  </div>
-</ng-template>
-
-<ng-template #manualPricingView>
-  <div class="flex flex-col">
-    <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
-    <span> manual Pricing content </span>
-    <button mat-button (click)="closeOverlay()">
-      <mat-icon>close</mat-icon>
-      back to GQ Pricing View
-    </button>
-  </div>
+<ng-template #loading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

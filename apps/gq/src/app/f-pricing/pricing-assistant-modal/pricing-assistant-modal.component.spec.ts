@@ -59,8 +59,14 @@ describe('PricingAssistant.modalComponent', () => {
   describe('closeDialog', () => {
     it('should close the dialog', () => {
       component['dialogRef'].close = jest.fn();
+      component['fPricingFacade'].resetDataForPricingAssistant = jest.fn();
+
       component.closeDialog();
+
       expect(component['dialogRef'].close).toHaveBeenCalled();
+      expect(
+        component['fPricingFacade'].resetDataForPricingAssistant
+      ).toHaveBeenCalled();
     });
   });
 

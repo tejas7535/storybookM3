@@ -59,6 +59,15 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getAnyMarketValueDriverSelected,
           false
         );
+
+        mockStore.overrideSelector(
+          fPricingFeature.getComparableTransactionsForDisplaying,
+          []
+        );
+        mockStore.overrideSelector(
+          fPricingFeature.getComparableTransactionsAvailable,
+          false
+        );
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
             a: {
@@ -70,6 +79,8 @@ describe('Service: FPricingFacade', () => {
               materialSalesOrgAvailable: true,
               marketValueDriversDisplay: MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
               anyMarketValueDriverSelection: false,
+              comparableTransactionsForDisplay: [],
+              comparableTransactionsAvailable: false,
             },
           })
         );
@@ -118,6 +129,23 @@ describe('Service: FPricingFacade', () => {
         );
       })
     );
+    test('comparableTransactionsLoading$', () => {
+      mockStore.overrideSelector(
+        fPricingFeature.selectComparableTransactionsLoading,
+        true
+      );
+      service.comparableTransactionsLoading$.subscribe((res) =>
+        expect(res).toBe(true)
+      );
+    });
+
+    test('fPricingDataLoading$', () => {
+      mockStore.overrideSelector(
+        fPricingFeature.selectFPricingDataLoading,
+        true
+      );
+      service.fPricingDataLoading$.subscribe((res) => expect(res).toBe(true));
+    });
   });
 
   // #########################################
@@ -130,11 +158,25 @@ describe('Service: FPricingFacade', () => {
       const salesOrgAction = loadMaterialSalesOrg({
         gqPositionId,
       });
+      const action2 = FPricingActions.loadComparableTransactions({
+        gqPositionId,
+      });
 
       service.loadDataForPricingAssistant(gqPositionId);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
       expect(mockStore.dispatch).toHaveBeenCalledWith(salesOrgAction);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action2);
+    });
+  });
+
+  describe('resetDataForPricingAssistant', () => {
+    test('should dispatch resetFPricingData', () => {
+      const action = FPricingActions.resetFPricingData();
+
+      service.resetDataForPricingAssistant();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });
   });
 });

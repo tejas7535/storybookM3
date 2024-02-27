@@ -1,11 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { ReferenceDataToShow } from '../models/reference-data-to-show.enum';
 import { PricingTabsWrapperComponent } from './pricing-tabs-wrapper.component';
 
 describe('PricingTabsWrapperComponent', () => {
@@ -24,25 +22,6 @@ describe('PricingTabsWrapperComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    test('should set referenceDataToShow to noReferenceData', () => {
-      component.ngOnInit();
-      expect(component.referenceDataVisible).toEqual(
-        ReferenceDataToShow.noReferenceData
-      );
-    });
-
-    test('should set referenceDataToShow to referencePricingTable', () => {
-      component.referencePriceRowData = [
-        {} as ComparableMaterialsRowData,
-      ] as ComparableMaterialsRowData[];
-      component.ngOnInit();
-      expect(component.referenceDataVisible).toEqual(
-        ReferenceDataToShow.referencePricingTable
-      );
-    });
   });
 
   describe('onComparedMaterialClicked', () => {
