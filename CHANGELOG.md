@@ -3,6 +3,9 @@
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
 ## 2/27/2024
+* sedo: [1.18.1](./apps/sedo/CHANGELOG.md)
+
+## 2/27/2024
 * gq: [4.5.0](./apps/gq/CHANGELOG.md)
 
 ## 2/21/2024
