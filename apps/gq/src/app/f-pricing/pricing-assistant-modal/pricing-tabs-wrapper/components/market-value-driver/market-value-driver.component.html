@@ -19,7 +19,7 @@
         index as i
       "
       [item]="item"
-      (optionChange)="questionsSelectionChanged.emit($event)"
+      (optionChange)="onOptionChange($event)"
     >
       <gq-horizontal-divider
         *ngIf="i < marketValueDriverItems.length - 1"

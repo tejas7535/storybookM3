@@ -1,4 +1,8 @@
-import { FPricingData } from '@gq/shared/models/f-pricing';
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+import {
+  FPricingData,
+  UpdateFPricingDataResponse,
+} from '@gq/shared/models/f-pricing';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { FPricingComparableMaterials } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
@@ -16,5 +20,17 @@ export const FPricingActions = createActionGroup({
       data: FPricingComparableMaterials[];
     }>(),
     'Load Comparable Transactions Failure': props<{ error: Error }>(),
+
+    'Update FPricing': props<{
+      gqPositionId: string;
+    }>(),
+    'Update FPricing Success': props<{
+      response: UpdateFPricingDataResponse;
+    }>(),
+    'Update FPricing Failure': props<{ error: Error }>(),
+
+    'Set Market Value Driver Selection': props<{
+      selection: MarketValueDriverSelection;
+    }>(),
   },
 });

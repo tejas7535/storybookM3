@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { inject, Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { switchMap, withLatestFrom } from 'rxjs/operators';
 
+import { fPricingFeature } from '@gq/core/store/f-pricing/f-pricing.reducer';
 import { FPricingService } from '@gq/shared/services/rest/f-pricing/f-pricing.service';
+import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 
 import { FPricingActions } from './f-pricing.actions';
 
@@ -12,6 +17,8 @@ import { FPricingActions } from './f-pricing.actions';
 export class FPricingEffects {
   private readonly actions = inject(Actions);
   private readonly fPricingService = inject(FPricingService);
+  private readonly snackBar = inject(MatSnackBar);
+  readonly #store = inject(Store);
 
   getFPricingData$ = createEffect(() => {
     return this.actions.pipe(
@@ -42,6 +49,37 @@ export class FPricingEffects {
             of(FPricingActions.loadComparableTransactionsFailure({ error }))
           )
         )
+      )
+    );
+  });
+  updateFPricingData$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(FPricingActions.updateFPricing),
+      withLatestFrom(
+        this.#store.select(fPricingFeature.getDataForUpdateFPricing)
+      ),
+      mergeMap(([action, request]) =>
+        this.fPricingService
+          .updateFPricingData(action.gqPositionId, request)
+          .pipe(
+            tap(() => {
+              const successMessage = translate(
+                'fPricing.pricingAssistantModal.confirm.success'
+              );
+              this.snackBar.open(successMessage);
+            }),
+            map((response) =>
+              FPricingActions.updateFPricingSuccess({ response })
+            ),
+            catchError((error) => {
+              const failureMessage = translate(
+                'fPricing.pricingAssistantModal.confirm.failure'
+              );
+              this.snackBar.open(failureMessage);
+
+              return of(FPricingActions.updateFPricingFailure({ error }));
+            })
+          )
       )
     );
   });

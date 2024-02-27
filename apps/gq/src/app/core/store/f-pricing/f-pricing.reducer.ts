@@ -1,9 +1,11 @@
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import {
   FPricingData,
   MarketValueDriver,
   MaterialInformation,
   PropertyValue,
+  UpdateFPricingDataRequest,
 } from '@gq/shared/models/f-pricing';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
@@ -15,12 +17,14 @@ import {
 import { FPricingActions } from './f-pricing.actions';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
+
 export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
   comparableTransactionsLoading: boolean;
   error: Error;
   materialInformation: MaterialInformation[];
   comparableTransactions: FPricingComparableMaterials[];
+  marketValueDriversSelections: MarketValueDriverSelection[];
 }
 
 export const initialState: FPricingState = {
@@ -33,6 +37,7 @@ export const initialState: FPricingState = {
   productType: null,
   marketValueDrivers: null,
   comparableTransactions: null,
+  marketValueDriversSelections: [],
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -92,6 +97,40 @@ export const fPricingFeature = createFeature({
         comparableTransactionsLoading: false,
         error,
       })
+    ),
+    on(
+      FPricingActions.updateFPricing,
+      (state: FPricingState): FPricingState => ({
+        ...state,
+        fPricingDataLoading: true,
+      })
+    ),
+    on(
+      FPricingActions.updateFPricingSuccess,
+      (state: FPricingState, { response }): FPricingState => ({
+        ...state,
+        marketValueDriversSelections: response.marketValueDriverSelections,
+      })
+    ),
+    on(
+      FPricingActions.updateFPricingFailure,
+      (state: FPricingState, { error }): FPricingState => ({
+        ...state,
+        fPricingDataLoading: false,
+        error,
+      })
+    ),
+    on(
+      FPricingActions.setMarketValueDriverSelection,
+      (state: FPricingState, { selection }): FPricingState => ({
+        ...state,
+        marketValueDriversSelections: [
+          ...state.marketValueDriversSelections.filter(
+            (element) => element.questionId !== selection.questionId
+          ),
+          selection,
+        ],
+      })
     )
   ),
 
@@ -99,6 +138,7 @@ export const fPricingFeature = createFeature({
     selectMaterialInformation,
     selectMarketValueDrivers,
     selectComparableTransactions,
+    selectMarketValueDriversSelections,
   }) => ({
     getMaterialInformationExtended: createSelector(
       selectMaterialInformation,
@@ -184,6 +224,14 @@ export const fPricingFeature = createFeature({
       selectComparableTransactions,
       (comparableTransactions: FPricingComparableMaterials[]): boolean =>
         comparableTransactions?.length > 0
+    ),
+    getDataForUpdateFPricing: createSelector(
+      selectMarketValueDriversSelections,
+      (
+        selections: MarketValueDriverSelection[]
+      ): UpdateFPricingDataRequest => ({
+        marketValueDriverSelections: selections,
+      })
     ),
   }),
 });

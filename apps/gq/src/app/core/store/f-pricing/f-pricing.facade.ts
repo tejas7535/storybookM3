@@ -3,8 +3,10 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
@@ -18,11 +20,17 @@ import { FPricingActions } from './f-pricing.actions';
 import { fPricingFeature, FPricingState } from './f-pricing.reducer';
 import { FPricingPositionData } from './models/f-pricing-position-data.interface';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
+
 @Injectable({
   providedIn: 'root',
 })
 export class FPricingFacade {
   readonly #store = inject(Store);
+  readonly #actions$ = inject(Actions);
+
+  updateFPricingDataSuccess$: Observable<void> = this.#actions$.pipe(
+    ofType(FPricingActions.updateFPricingSuccess)
+  );
 
   fPricingDataComplete$: Observable<FPricingPositionData> = combineLatest([
     this.#store.select(fPricingFeature.selectFPricingState),
@@ -101,5 +109,15 @@ export class FPricingFacade {
 
   resetDataForPricingAssistant(): void {
     this.#store.dispatch(FPricingActions.resetFPricingData());
+  }
+
+  updateFPricingData(gqPositionId: string) {
+    this.#store.dispatch(FPricingActions.updateFPricing({ gqPositionId }));
+  }
+
+  setMarketValueDriverSelection(selection: MarketValueDriverSelection) {
+    this.#store.dispatch(
+      FPricingActions.setMarketValueDriverSelection({ selection })
+    );
   }
 }

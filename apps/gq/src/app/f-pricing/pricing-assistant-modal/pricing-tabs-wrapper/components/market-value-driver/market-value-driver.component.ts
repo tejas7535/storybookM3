@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+
 import { MarketValueDriverDisplayItem } from './../../../models/market-value-driver-display-item.interface';
 
 @Component({
@@ -9,9 +11,13 @@ import { MarketValueDriverDisplayItem } from './../../../models/market-value-dri
 export class MarketValueDriverComponent {
   @Input() marketValueDriverItems: MarketValueDriverDisplayItem[];
   @Output() questionsSelectionChanged =
-    new EventEmitter<MarketValueDriverDisplayItem>();
+    new EventEmitter<MarketValueDriverSelection>();
 
   trackByFn(_index: number, item: MarketValueDriverDisplayItem): number {
     return item.questionId;
+  }
+
+  onOptionChange(selection: MarketValueDriverSelection) {
+    this.questionsSelectionChanged.emit(selection);
   }
 }

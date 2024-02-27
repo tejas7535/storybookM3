@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 
 import {
   MarketValueDriverDisplayItem,
@@ -9,17 +11,25 @@ import {
   selector: 'gq-market-value-driver-item',
   templateUrl: './market-value-driver-item.component.html',
 })
-export class MarketValueDriverItemComponent {
+export class MarketValueDriverItemComponent implements OnInit {
   @Input() item: MarketValueDriverDisplayItem;
-  @Output() optionChange = new EventEmitter<MarketValueDriverDisplayItem>();
+  @Output() optionChange = new EventEmitter<MarketValueDriverSelection>();
+  selectedOptionId: number;
+
+  ngOnInit() {
+    this.selectedOptionId = this.item.options.find(
+      (item) => item.selected
+    ).optionId;
+  }
 
   onOptionChange(option: MarketValueDriverOptionItem): void {
-    this.item.options = this.item.options.map((o) => ({
-      selected: o.optionId === option.optionId,
-      optionId: o.optionId,
-    }));
+    const selectedOption: MarketValueDriverSelection = {
+      questionId: this.item.questionId,
+      selectedOptionId: option.optionId,
+    };
+    this.selectedOptionId = option.optionId;
 
-    this.optionChange.emit(this.item);
+    this.optionChange.emit(selectedOption);
   }
 
   trackByFn(index: number): number {

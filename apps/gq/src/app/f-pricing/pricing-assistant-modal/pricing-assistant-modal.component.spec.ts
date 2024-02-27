@@ -5,6 +5,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
+import { of } from 'rxjs';
+
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { QuotationDetail } from '@gq/shared/models';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
@@ -86,6 +88,38 @@ describe('PricingAssistant.modalComponent', () => {
     });
   });
 
+  describe('confirm', () => {
+    test('should call the facades method', () => {
+      component.dialogData = { gqPositionId: '12345' } as QuotationDetail;
+      component['fPricingFacade'].updateFPricingData = jest.fn();
+      component['fPricingFacade'].updateFPricingDataSuccess$ = of();
+
+      component.confirm();
+
+      expect(
+        component['fPricingFacade'].updateFPricingData
+      ).toHaveBeenCalledWith('12345');
+    });
+
+    test('should close the dialog', () => {
+      jest.resetAllMocks();
+      const closeDialogSpy = jest.spyOn(component, 'closeDialog');
+      closeDialogSpy.mockImplementation();
+
+      const facadeMock: FPricingFacade = {
+        updateFPricingData: jest.fn(),
+        updateFPricingDataSuccess$: of(true),
+      } as unknown as FPricingFacade;
+
+      Object.defineProperty(component, 'fPricingFacade', {
+        value: facadeMock,
+      });
+
+      component.confirm();
+
+      expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('manualPriceClicked', () => {
     test('should set visibleOverlay to manualPricing', () => {
       component.visibleOverlay = OverlayToShow.gqPricing;

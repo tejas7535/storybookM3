@@ -1,6 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { FPricingData } from '@gq/shared/models/f-pricing';
+import {
+  FPricingData,
+  UpdateFPricingDataResponse,
+} from '@gq/shared/models/f-pricing';
 import { ComparableKNumbers } from '@gq/shared/models/f-pricing/comparable-k-numbers.interface';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -20,10 +24,11 @@ describe('FPricingEffects', () => {
   let actions$: any;
   let spectator: SpectatorService<FPricingEffects>;
   let effects: FPricingEffects;
+  let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
     service: FPricingEffects,
-    imports: [HttpClientTestingModule],
+    imports: [HttpClientTestingModule, MatSnackBarModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { fPricing: initialState } }),
@@ -34,6 +39,7 @@ describe('FPricingEffects', () => {
     spectator = createService();
     effects = spectator.service;
     actions$ = spectator.inject(Actions);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   it('should be created', () => {
@@ -145,6 +151,59 @@ describe('FPricingEffects', () => {
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.getComparableTransactions$).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
+
+  describe('updateFPricingData', () => {
+    test(
+      'should dispatch updateFPricingSuccess',
+      marbles((m) => {
+        snackBar.open = jest.fn();
+        const gqPositionId = '1234';
+        const response = {
+          gqPositionId,
+          marketValueDriverSelections: [],
+        } as UpdateFPricingDataResponse;
+        const action = FPricingActions.updateFPricing({ gqPositionId });
+
+        effects['fPricingService'].updateFPricingData = () =>
+          m.cold('a', { a: response });
+
+        const result = FPricingActions.updateFPricingSuccess({
+          response,
+        });
+
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.updateFPricingData$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalled();
+      })
+    );
+
+    test(
+      'should dispatch updateFPricingFailure',
+      marbles((m) => {
+        snackBar.open = jest.fn();
+        const gqPositionId = '1234';
+        const error = new Error('Error');
+
+        const action = FPricingActions.updateFPricing({ gqPositionId });
+        const result = FPricingActions.updateFPricingFailure({ error });
+
+        actions$ = new Actions(m.cold('a', { a: action }));
+
+        effects['fPricingService'].updateFPricingData = () =>
+          m.cold('-#', {}, error);
+
+        const expected = m.cold('--b', { b: result });
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.updateFPricingData$).toBeObservable(expected);
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalled();
       })
     );
   });

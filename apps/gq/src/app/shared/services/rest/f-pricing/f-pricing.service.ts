@@ -1,9 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { MarketValueDriver } from '@gq/shared/models/f-pricing';
+import { BYPASS_DEFAULT_ERROR_HANDLING } from '@gq/shared/http/http-error.interceptor';
+import {
+  MarketValueDriver,
+  UpdateFPricingDataRequest,
+  UpdateFPricingDataResponse,
+} from '@gq/shared/models/f-pricing';
 
 import { ApiVersion, ProductType } from '../../../models';
 import { ComparableKNumbers } from '../../../models/f-pricing/comparable-k-numbers.interface';
@@ -53,6 +58,21 @@ export class FPricingService {
       `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
         this.#Path_F_PRICING
       }/${this.#PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
+    );
+  }
+
+  updateFPricingData(
+    gqPositionId: string,
+    data: UpdateFPricingDataRequest
+  ): Observable<UpdateFPricingDataResponse> {
+    return this.#http.post<UpdateFPricingDataResponse>(
+      `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
+        this.#Path_F_PRICING
+      }`,
+      data,
+      {
+        context: new HttpContext().set(BYPASS_DEFAULT_ERROR_HANDLING, true),
+      }
     );
   }
 }

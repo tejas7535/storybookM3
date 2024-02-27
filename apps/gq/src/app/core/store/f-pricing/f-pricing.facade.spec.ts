@@ -1,5 +1,8 @@
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -19,16 +22,18 @@ describe('Service: FPricingFacade', () => {
   let service: FPricingFacade;
   let spectator: SpectatorService<FPricingFacade>;
   let mockStore: MockStore;
+  let actions$: Actions;
 
   const createService = createServiceFactory({
     service: FPricingFacade,
-    providers: [provideMockStore({})],
+    providers: [provideMockStore({}), provideMockActions(() => actions$)],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
     mockStore = spectator.inject(MockStore);
+    actions$ = spectator.inject(Actions);
     mockStore.dispatch = jest.fn();
     jest.resetAllMocks();
   });
@@ -175,6 +180,47 @@ describe('Service: FPricingFacade', () => {
       const action = FPricingActions.resetFPricingData();
 
       service.resetDataForPricingAssistant();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('update FPricing data', () => {
+    test('should dispatch updateFPricing', () => {
+      const gqPositionId = '1234';
+      const action = FPricingActions.updateFPricing({ gqPositionId });
+
+      service.updateFPricingData(gqPositionId);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+    });
+
+    test(
+      'should dispatch update FPricing success',
+      marbles((m) => {
+        const action = FPricingActions.updateFPricingSuccess({} as any);
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(service.updateFPricingDataSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+
+    test('should dispatch setMarketValueDriverSelection', () => {
+      const selection: MarketValueDriverSelection = {
+        questionId: 1,
+        selectedOptionId: 1,
+      };
+      const action = FPricingActions.setMarketValueDriverSelection({
+        selection,
+      });
+
+      service.setMarketValueDriverSelection(selection);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });

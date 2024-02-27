@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -13,6 +14,7 @@ import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-st
 
 import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { OverlayToShow } from './models/overlay-to-show.enum';
+
 @Component({
   selector: 'gq-pricing-assistant-modal',
   templateUrl: './pricing-assistant-modal.component.html',
@@ -28,12 +30,14 @@ export class PricingAssistantModalComponent implements OnInit {
     this.fPricingFacade.comparableTransactionsLoading$;
   fPricingDataLoading$ = this.fPricingFacade.fPricingDataLoading$;
 
+  private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
   private readonly dialogRef = inject(
     MatDialogRef<PricingAssistantModalComponent>
   );
 
   material: MaterialDetails = this.dialogData.material;
+
   materialToCompare: string;
 
   overlayToShowEnum = OverlayToShow;
@@ -63,7 +67,10 @@ export class PricingAssistantModalComponent implements OnInit {
   }
 
   confirm(): void {
-    console.log('confirm');
+    this.fPricingFacade.updateFPricingData(this.dialogData.gqPositionId);
+    this.fPricingFacade.updateFPricingDataSuccess$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.closeDialog());
   }
 
   manualPriceClicked(): void {

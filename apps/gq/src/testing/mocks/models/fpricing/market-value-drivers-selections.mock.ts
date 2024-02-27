@@ -1,0 +1,25 @@
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+
+export const MARKET_VALUE_DRIVERS_SELECTIONS_MOCK: MarketValueDriverSelection[] =
+  [
+    {
+      questionId: 1,
+      selectedOptionId: 1,
+    },
+    {
+      questionId: 2,
+      selectedOptionId: 3,
+    },
+    {
+      questionId: 3,
+      selectedOptionId: 1,
+    },
+    {
+      questionId: 4,
+      selectedOptionId: 2,
+    },
+    {
+      questionId: 5,
+      selectedOptionId: 4,
+    },
+  ];

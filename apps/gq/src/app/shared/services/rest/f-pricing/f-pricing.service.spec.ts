@@ -5,6 +5,10 @@ import {
 
 import { ApiVersion } from '@gq/shared/models';
 import {
+  UpdateFPricingDataRequest,
+  UpdateFPricingDataResponse,
+} from '@gq/shared/models/f-pricing';
+import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
@@ -14,6 +18,7 @@ import {
   MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK,
   MARKET_VALUE_DRIVERS_MOCK,
 } from '../../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
+import { MARKET_VALUE_DRIVERS_SELECTIONS_MOCK } from '../../../../../testing/mocks/models/fpricing/market-value-drivers-selections.mock';
 import { FPricingService } from './f-pricing.service';
 
 describe('FPricingService', () => {
@@ -74,6 +79,29 @@ describe('FPricingService', () => {
         `${ApiVersion.V1}/quotation-details/${gqPositionId}/f-pricing/comparable-k-number-transactions`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
+
+  describe('updateFPricingData', () => {
+    test('should call POST', () => {
+      const gqPositionId = '1234';
+      const data: UpdateFPricingDataRequest = {
+        marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+      };
+
+      const response: UpdateFPricingDataResponse = {
+        gqPositionId,
+        marketValueDriverSelections: data.marketValueDriverSelections,
+      };
+
+      service
+        .updateFPricingData(gqPositionId, data)
+        .subscribe((res) => expect(res).toEqual(response));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/quotation-details/${gqPositionId}/f-pricing`
+      );
+      expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(gqPositionId);
     });
   });

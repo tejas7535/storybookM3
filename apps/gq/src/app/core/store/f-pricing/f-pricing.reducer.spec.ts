@@ -1,4 +1,5 @@
 import { ProductType } from '@gq/shared/models';
+import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
 
 import {
   F_PRICING_COMPARABLE_MATERIALS_MOCK,
@@ -8,10 +9,12 @@ import {
   MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
   MARKET_VALUE_DRIVERS_MOCK,
 } from '../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
+import { MARKET_VALUE_DRIVERS_SELECTIONS_MOCK } from '../../../../testing/mocks/models/fpricing/market-value-drivers-selections.mock';
 import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
 } from '../../../../testing/mocks/models/fpricing/material-information.mock';
+import { F_PRICING_STATE_MOCK } from '../../../../testing/mocks/state/f-pricing-state.mock';
 import {
   FPricingComparableMaterials,
   Material,
@@ -19,6 +22,7 @@ import {
 import { FPricingActions } from './f-pricing.actions';
 import {
   fPricingFeature,
+  FPricingState,
   getDeltaByInformationKeyAndPropertyKey,
   getNumberOfDeltasByInformationKey,
   initialState,
@@ -128,6 +132,19 @@ describe('fPricingReducer', () => {
         error: new Error('test'),
       });
     });
+    test('should set update FPricing state', () => {
+      const state: FPricingState = F_PRICING_STATE_MOCK;
+
+      const result = fPricingFeature.reducer(
+        state,
+        FPricingActions.updateFPricing({ gqPositionId: '1234' })
+      );
+
+      expect(result).toEqual({
+        ...state,
+        fPricingDataLoading: true,
+      });
+    });
   });
 
   describe('extraSelectors', () => {
@@ -138,119 +155,135 @@ describe('fPricingReducer', () => {
 
       expect(result).toEqual(MATERIAL_INFORMATION_EXTENDED_MOCK);
     });
-  });
 
-  describe('getMarketValueDriverForDisplay', () => {
-    test('should return the market value drivers for display', () => {
-      const result = fPricingFeature.getMarketValueDriverForDisplay.projector(
-        MARKET_VALUE_DRIVERS_MOCK
-      );
-      expect(result).toEqual(MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
+    describe('getMarketValueDriverForDisplay', () => {
+      test('should return the market value drivers for display', () => {
+        const result = fPricingFeature.getMarketValueDriverForDisplay.projector(
+          MARKET_VALUE_DRIVERS_MOCK
+        );
+        expect(result).toEqual(MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
+      });
+
+      describe('getAnyMarketValueDriverSelected', () => {
+        test('should return true if any market value driver is selected other than the last option', () => {
+          const result =
+            fPricingFeature.getAnyMarketValueDriverSelected.projector(
+              MARKET_VALUE_DRIVERS_MOCK
+            );
+          expect(result).toBe(true);
+        });
+        test('should return false if the last option is selected', () => {
+          const result =
+            fPricingFeature.getAnyMarketValueDriverSelected.projector([
+              {
+                productType: ProductType.CRB,
+                selectedOptionId: 2,
+                questionId: 1,
+                options: [
+                  { optionId: 1, surcharge: 10 },
+                  { optionId: 2, surcharge: 10 },
+                ],
+              },
+              {
+                productType: ProductType.CRB,
+                selectedOptionId: 2,
+                questionId: 2,
+                options: [
+                  { optionId: 1, surcharge: 10 },
+                  { optionId: 2, surcharge: 10 },
+                ],
+              },
+            ]);
+          expect(result).toBe(false);
+        });
+      });
+
+      test('getComparableTransactionsForDisplaying', () => {
+        const result =
+          fPricingFeature.getComparableTransactionsForDisplaying.projector(
+            F_PRICING_COMPARABLE_MATERIALS_MOCK
+          );
+        expect(result).toEqual(
+          F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING
+        );
+      });
+      test('getComparableTransactionsAvailable', () => {
+        const result =
+          fPricingFeature.getComparableTransactionsAvailable.projector(
+            F_PRICING_COMPARABLE_MATERIALS_MOCK
+          );
+        expect(result).toEqual(true);
+      });
+
+      describe('getDataForUpdateFPricing', () => {
+        test('should return the data for update FPricing', () => {
+          const result = fPricingFeature.getDataForUpdateFPricing.projector(
+            MARKET_VALUE_DRIVERS_SELECTIONS_MOCK
+          );
+          const expected: UpdateFPricingDataRequest = {
+            marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+          };
+          expect(result).toEqual(expected);
+        });
+      });
     });
   });
 
-  describe('getAnyMarketValueDriverSelected', () => {
-    test('should return true if any market value driver is selected other than the last option', () => {
-      const result = fPricingFeature.getAnyMarketValueDriverSelected.projector(
-        MARKET_VALUE_DRIVERS_MOCK
+  describe('getNumberOfDeltasByInformationKey', () => {
+    test("should return 2 for 'innerRing'", () => {
+      const numberOfDeltas = getNumberOfDeltasByInformationKey(
+        'innerRing',
+        MATERIAL_INFORMATION_MOCK
       );
-      expect(result).toBe(true);
+
+      expect(numberOfDeltas).toBe(2);
     });
-    test('should return false if the last option is selected', () => {
-      const result = fPricingFeature.getAnyMarketValueDriverSelected.projector([
-        {
-          productType: ProductType.CRB,
-          selectedOptionId: 2,
-          questionId: 1,
-          options: [
-            { optionId: 1, surcharge: 10 },
-            { optionId: 2, surcharge: 10 },
-          ],
-        },
-        {
-          productType: ProductType.CRB,
-          selectedOptionId: 2,
-          questionId: 2,
-          options: [
-            { optionId: 1, surcharge: 10 },
-            { optionId: 2, surcharge: 10 },
-          ],
-        },
-      ]);
-      expect(result).toBe(false);
+    test('should return 0 for unknown key', () => {
+      const numberOfDeltas = getNumberOfDeltasByInformationKey(
+        'unknown',
+        MATERIAL_INFORMATION_MOCK
+      );
+
+      expect(numberOfDeltas).toBe(0);
     });
   });
-
-  test('getComparableTransactionsForDisplaying', () => {
-    const result =
-      fPricingFeature.getComparableTransactionsForDisplaying.projector(
-        F_PRICING_COMPARABLE_MATERIALS_MOCK
+  describe('getDeltaByInformationKeyAndPropertyKey', () => {
+    test("should return numeric delta for 'innerRing' and 'raceawayDiameter'", () => {
+      const delta = getDeltaByInformationKeyAndPropertyKey(
+        MATERIAL_INFORMATION_MOCK[0],
+        'racewayDiameter'
       );
-    expect(result).toEqual(F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING);
-  });
 
-  test('getComparableTransactionsAvailable', () => {
-    const result = fPricingFeature.getComparableTransactionsAvailable.projector(
-      F_PRICING_COMPARABLE_MATERIALS_MOCK
-    );
-    expect(result).toEqual(true);
-  });
-});
+      const expected: PropertyDelta = {
+        isDelta: true,
+        absolute: 30,
+        relative: 33,
+      };
+      expect(delta).toEqual(expected);
+    });
 
-describe('getNumberOfDeltasByInformationKey', () => {
-  test("should return 2 for 'innerRing'", () => {
-    const numberOfDeltas = getNumberOfDeltasByInformationKey(
-      'innerRing',
-      MATERIAL_INFORMATION_MOCK
-    );
+    test("should return numeric isDelta false for 'innerRing' and 'materialCat'", () => {
+      const delta = getDeltaByInformationKeyAndPropertyKey(
+        MATERIAL_INFORMATION_MOCK[0],
+        'materialCat'
+      );
 
-    expect(numberOfDeltas).toBe(2);
-  });
-  test('should return 0 for unknown key', () => {
-    const numberOfDeltas = getNumberOfDeltasByInformationKey(
-      'unknown',
-      MATERIAL_INFORMATION_MOCK
-    );
+      const expected: PropertyDelta = {
+        isDelta: false,
+      };
+      expect(delta).toEqual(expected);
+    });
 
-    expect(numberOfDeltas).toBe(0);
-  });
-});
-describe('getDeltaByInformationKeyAndPropertyKey', () => {
-  test("should return numeric delta for 'innerRing' and 'raceawayDiameter'", () => {
-    const delta = getDeltaByInformationKeyAndPropertyKey(
-      MATERIAL_INFORMATION_MOCK[0],
-      'racewayDiameter'
-    );
+    test("should return isDelta true for 'outerRing' and 'cageMaterial'", () => {
+      const delta = getDeltaByInformationKeyAndPropertyKey(
+        MATERIAL_INFORMATION_MOCK[1],
+        'cageMaterial'
+      );
 
-    const expected: PropertyDelta = {
-      isDelta: true,
-      absolute: 30,
-      relative: 33,
-    };
-    expect(delta).toEqual(expected);
-  });
-
-  test("should return numeric isDelta false for 'innerRing' and 'materialCat'", () => {
-    const delta = getDeltaByInformationKeyAndPropertyKey(
-      MATERIAL_INFORMATION_MOCK[0],
-      'materialCat'
-    );
-
-    const expected: PropertyDelta = {
-      isDelta: false,
-    };
-    expect(delta).toEqual(expected);
-  });
-
-  test("should return isDelta true for 'outerRing' and 'cageMaterial'", () => {
-    const delta = getDeltaByInformationKeyAndPropertyKey(
-      MATERIAL_INFORMATION_MOCK[1],
-      'cageMaterial'
-    );
-
-    const expected: PropertyDelta = {
-      isDelta: true,
-    };
-    expect(delta).toEqual(expected);
+      const expected: PropertyDelta = {
+        isDelta: true,
+      };
+      expect(delta).toEqual(expected);
+    });
   });
 });

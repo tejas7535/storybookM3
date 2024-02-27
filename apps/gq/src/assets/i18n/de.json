@@ -708,6 +708,10 @@
             "option3": "Unbekannt"
           }
         }
+      },
+      "confirm": {
+        "success": "Ihre Auswahl wurde gespeichert",
+        "failure": "Ihre Auswahl konnte nicht gespeichert werden"
       }
     }
   },

@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
+import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 
 import { MarketValueDriverDisplayItem } from '../models/market-value-driver-display-item.interface';
+import { ReferenceDataToShow } from '../models/reference-data-to-show.enum';
 import { TableItem } from '../models/table-item';
 
 @Component({
@@ -27,6 +30,9 @@ export class PricingTabsWrapperComponent {
 
   @Output() comparedMaterialClicked = new EventEmitter<string>();
 
+  readonly fPricingFacade = inject(FPricingFacade);
+
+  referenceDataVisible: ReferenceDataToShow;
   sanityChecksDataSource: TableItem[] = [
     {
       id: 1,
@@ -113,8 +119,9 @@ export class PricingTabsWrapperComponent {
     this.techValueDriverDataSource = changedSource;
   }
 
-  marketValueDriverSelectionChanged(data: MarketValueDriverDisplayItem): void {
-    // when a selection of a question has changed it is fired here
-    console.log(data);
+  marketValueDriverSelectionChanged(
+    selection: MarketValueDriverSelection
+  ): void {
+    this.fPricingFacade.setMarketValueDriverSelection(selection);
   }
 }

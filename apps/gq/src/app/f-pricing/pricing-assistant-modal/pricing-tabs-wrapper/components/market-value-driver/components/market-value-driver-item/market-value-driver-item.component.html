@@ -25,7 +25,7 @@
             <span
               class="-ml-2"
               [ngClass]="
-                option.selected && i !== item.options?.length - 1
+                selectedOptionId === i + 1 && i !== item.options?.length - 1
                   ? 'text-link'
                   : 'text-medium-emphasis'
               "

@@ -708,6 +708,10 @@
             "option3": "Unknown"
           }
         }
+      },
+      "confirm": {
+        "success": "Your selection has been saved",
+        "failure": "Your selection could not be saved"
       }
     }
   },

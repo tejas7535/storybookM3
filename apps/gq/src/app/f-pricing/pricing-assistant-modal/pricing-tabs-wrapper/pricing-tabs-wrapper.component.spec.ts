@@ -1,6 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -14,6 +17,7 @@ describe('PricingTabsWrapperComponent', () => {
     component: PricingTabsWrapperComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [MockProvider(FPricingFacade)],
   });
   beforeEach(() => {
     spectator = createComponent();
@@ -71,6 +75,27 @@ describe('PricingTabsWrapperComponent', () => {
       component.techValueDriverDataSource = dataSource;
       component.onTechnicalValueDriversChange(changedDataSource);
       expect(component.techValueDriverDataSource).toEqual(changedDataSource);
+    });
+  });
+  describe('marketValueDriverSelectionChanged', () => {
+    test('should fPricingFacade be called', () => {
+      const selection: MarketValueDriverSelection = {
+        questionId: 1,
+        selectedOptionId: 1,
+      };
+
+      const facadeMock: FPricingFacade = {
+        setMarketValueDriverSelection: jest.fn(),
+      } as unknown as FPricingFacade;
+
+      Object.defineProperty(component, 'fPricingFacade', {
+        value: facadeMock,
+      });
+
+      component.marketValueDriverSelectionChanged(selection);
+      expect(
+        component.fPricingFacade.setMarketValueDriverSelection
+      ).toHaveBeenCalledWith(selection);
     });
   });
 });
