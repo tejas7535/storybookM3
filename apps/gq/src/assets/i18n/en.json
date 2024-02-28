@@ -672,9 +672,9 @@
           "1": {
             "title": "Number of available competitors",
             "subtitle": "Refers to the number of competitors that have the capability to offer the requested solution.",
-            "option1": "Low (>2)",
+            "option1": "Low (<=2)",
             "option2": "Medium (3-5)",
-            "option3": "High (<6)",
+            "option3": "High (>=6)",
             "option4": "Unknown"
           },
           "2": {
