@@ -35,7 +35,7 @@ import { saveAs } from 'file-saver';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { ApprovalActions } from '../approval/approval.actions';
-import { getAddQuotationDetailsRequest } from '../process-case';
+import { getAddQuotationDetailsRequest } from '../process-case/process-case.selectors';
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import { getGqId } from './active-case.selectors';

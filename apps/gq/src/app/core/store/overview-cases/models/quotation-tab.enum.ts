@@ -1,4 +1,4 @@
-import { QuotationStatus } from '@gq/shared/models';
+import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 
 export enum QuotationTab {
   ACTIVE = 'QUOTATION',

@@ -8,7 +8,8 @@ import { Customer } from '@gq/shared/models/customer';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { QuotationIdentifier, UpdateQuotationDetail } from './models';
+import { QuotationIdentifier } from './models/quotation-identifier.model';
+import { UpdateQuotationDetail } from './models/update-quotation-detail.model';
 
 export const ActiveCaseActions = createActionGroup({
   source: 'Active Case',
