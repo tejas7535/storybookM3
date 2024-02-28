@@ -43,6 +43,10 @@ export const COLUMN_HEADER_FIELD = [
   columns.MATERIAL_GROUP_OF_RAW_MATERIAL,
   columns.RAW_MATERIAL_EMISSION_FACTOR,
   columns.PROCESS_SURCHARGE,
+  columns.RAW_MATERIAL,
+  columns.DIRECT_SUPPLIER_EMISSIONS,
+  columns.INDIRECT_SUPPLIER_EMISSIONS,
+  columns.UPSTREAM_EMISSIONS,
 ];
 
 // list of error codes
@@ -52,6 +56,7 @@ export enum ErrorCode {
   INVALID_VALUE = 'invalidValue',
   INVALID_PCF_VALUE = 'invalidPcfValue',
   NO_PCF_VALUE = 'missingPcfValue',
+  INVALID_PCF_SUPPLIER_EMISSIONS = 'invalidPcfSupplierEmissions',
 }
 
 // Validation result

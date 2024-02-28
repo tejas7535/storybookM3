@@ -498,7 +498,11 @@
         "rawMaterialEmissionFactor": "Raw material emission factor",
         "processSurcharge": "Process surcharge",
         "link": "Link",
-        "stoffId": "Schaeffler Material ID"
+        "stoffId": "Schaeffler Material ID",
+        "rawMaterial": "Raw material",
+        "directSupplierEmissions": "Direct supplier emissions ",
+        "indirectSupplierEmissions": "Indirect supplier emissions",
+        "upstreamEmissions": "Upstream emissions"
       },
       "confirmDialog": {
         "cancel": "Cancel",
@@ -556,6 +560,7 @@
           "invalidValue": "Invalid value [{{value}}] in column [{{column}}] row [{{rowNumber}}].",
           "invalidPcfValue": "At least one PCF Value is not valid in row [{{rowNumber}}]: [{{valueKg}}] or [{{valuePc}}]!",
           "missingPcfValue": "No PCF value found in row [{{rowNumber}}]",
+          "invalidPcfSupplierEmissions": "PCF Supplier Emissions of [{{pcfSupplierEmissions}}] in row [{{rowNumber}}] are not valid for PCF value of [{{emissionFactorKg}}].",
           "unsupportedFileFormat": "Unsupported file format [{{fileExtension}}]"
         }
       },

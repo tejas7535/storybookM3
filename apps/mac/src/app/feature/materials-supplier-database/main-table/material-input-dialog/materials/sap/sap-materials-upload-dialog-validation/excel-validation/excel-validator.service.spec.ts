@@ -60,6 +60,7 @@ describe('ExcelValidatorService', () => {
       service['validateValues'] = jest.fn();
       service['validatePcfValues'] = jest.fn();
       service['validateMaterialUtilizationFactor'] = jest.fn();
+      service['validatePcfSupplierEmissions'] = jest.fn();
 
       service.validate(control).subscribe((result) => {
         if (result) {
@@ -168,6 +169,74 @@ describe('ExcelValidatorService', () => {
         expect(() =>
           service['validateMaterialUtilizationFactor'](toJson(factor))
         ).toThrow();
+      }
+    );
+  });
+
+  describe('validatePcfSupplierEmissions', () => {
+    const createJson = (
+      emissionFactorKg?: any,
+      directSupplierEmissions?: any,
+      indirectSupplierEmissions?: any,
+      upstreamEmissions?: any
+    ) => [
+      {
+        emissionFactorKg,
+        directSupplierEmissions,
+        indirectSupplierEmissions,
+        upstreamEmissions,
+      },
+    ];
+    it.each([
+      [25.5, 10.5, 5, 10],
+      [5.25, undefined, 2.5, 2],
+      [5.25, 2.5, undefined, 2],
+      [5.25, 2.5, 2, undefined],
+      [5.25, 5.24, undefined, undefined],
+      [5.25, undefined, undefined, undefined],
+      [undefined, undefined, undefined, undefined],
+    ])(
+      'should pass for emissionFactorKg [%p], directSupplierEmissions [%p], indirectSupplierEmissions [%p], upstreamEmissions [%p]',
+      (
+        emissionFactorKg,
+        directSupplierEmissions,
+        indirectSupplierEmissions,
+        upstreamEmissions
+      ) => {
+        const json = createJson(
+          emissionFactorKg,
+          directSupplierEmissions,
+          indirectSupplierEmissions,
+          upstreamEmissions
+        );
+        expect(() =>
+          service['validatePcfSupplierEmissions'](json)
+        ).not.toThrow();
+      }
+    );
+
+    it.each([
+      [25.5, 10, 5.5, 15.5],
+      [25.5, 25.5, undefined, undefined],
+      [25.5, undefined, 25.6, undefined],
+      [25.5, undefined, undefined, 30],
+      [undefined, 10, 5.5, 15.5],
+      [undefined, undefined, 5.5, undefined],
+    ])(
+      'should fail for emissionFactorKg [%p], directSupplierEmissions [%p], indirectSupplierEmissions [%p], upstreamEmissions [%p]',
+      (
+        emissionFactorKg,
+        directSupplierEmissions,
+        indirectSupplierEmissions,
+        upstreamEmissions
+      ) => {
+        const json = createJson(
+          emissionFactorKg,
+          directSupplierEmissions,
+          indirectSupplierEmissions,
+          upstreamEmissions
+        );
+        expect(() => service['validatePcfSupplierEmissions'](json)).toThrow();
       }
     );
   });

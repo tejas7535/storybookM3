@@ -6,7 +6,13 @@ import { from, Observable } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import * as XLSX from 'xlsx';
 
-import { MATERIAL_UTILIZATION_FACTOR } from '@mac/feature/materials-supplier-database/constants';
+import {
+  DIRECT_SUPPLIER_EMISSIONS,
+  EMISSION_FACTOR_KG,
+  INDIRECT_SUPPLIER_EMISSIONS,
+  MATERIAL_UTILIZATION_FACTOR,
+  UPSTREAM_EMISSIONS,
+} from '@mac/feature/materials-supplier-database/constants';
 
 import {
   COLUMN_HEADER_FIELD,
@@ -53,6 +59,7 @@ export class ExcelValidatorService implements AsyncValidator {
       this.validateValues(dataObjects);
       this.validatePcfValues(dataObjects);
       this.validateMaterialUtilizationFactor(dataObjects);
+      this.validatePcfSupplierEmissions(dataObjects);
     } catch (error) {
       const valEr: ValidationError = error as ValidationError;
 
@@ -237,6 +244,54 @@ export class ExcelValidatorService implements AsyncValidator {
           value,
           rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
         });
+      }
+    });
+  }
+
+  private validatePcfSupplierEmissions(json: any[]) {
+    json.forEach((row: any, rowIndex: number) => {
+      const emissionFactorKgValue = row[EMISSION_FACTOR_KG] || 0;
+      const directSupplierEmissions = row[DIRECT_SUPPLIER_EMISSIONS];
+      const indirectSupplierEmissions = row[INDIRECT_SUPPLIER_EMISSIONS];
+      const upstreamEmissions = row[UPSTREAM_EMISSIONS];
+      let pcfSupplierEmissions = 0;
+
+      if (directSupplierEmissions) {
+        pcfSupplierEmissions += directSupplierEmissions;
+      }
+
+      if (indirectSupplierEmissions) {
+        pcfSupplierEmissions += indirectSupplierEmissions;
+      }
+
+      if (upstreamEmissions) {
+        pcfSupplierEmissions += upstreamEmissions;
+      }
+
+      const exception = new ValidationError(
+        ErrorCode.INVALID_PCF_SUPPLIER_EMISSIONS,
+        {
+          pcfSupplierEmissions,
+          emissionFactorKg: row[EMISSION_FACTOR_KG] || 'undefined',
+          rowNumber: rowIndex + this.EXCEL_DATA_ROW_START,
+        }
+      );
+
+      if (
+        directSupplierEmissions &&
+        indirectSupplierEmissions &&
+        upstreamEmissions
+      ) {
+        if (pcfSupplierEmissions !== emissionFactorKgValue) {
+          throw exception;
+        }
+      } else if (
+        (directSupplierEmissions ||
+          indirectSupplierEmissions ||
+          upstreamEmissions) &&
+        pcfSupplierEmissions >= emissionFactorKgValue
+      ) {
+        throw exception;
       }
     });
   }

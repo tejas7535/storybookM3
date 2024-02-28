@@ -233,6 +233,12 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     if (errors.missingPcfValue) {
       return this.getTranslatedError('missingPcfValue', errors.params);
     }
+    if (errors.invalidPcfSupplierEmissions) {
+      return this.getTranslatedError(
+        'invalidPcfSupplierEmissions',
+        errors.params
+      );
+    }
     if (errors.unsupportedFileFormat) {
       return this.getTranslatedError('unsupportedFileFormat', errors.params);
     }
