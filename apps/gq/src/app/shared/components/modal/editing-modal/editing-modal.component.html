@@ -3,6 +3,7 @@
   *transloco="let t; read: 'shared.editingModal'"
 >
   <gq-dialog-header
+    *ngIf="isDialog"
     class="mb-4"
     [title]="
       t('title', {
@@ -48,7 +49,7 @@
     </mat-radio-group>
 
     <div class="flex h-full flex-row mt-4">
-      <mat-form-field class="w-2/3" appearance="outline">
+      <mat-form-field class="w-full" appearance="outline">
         <mat-label>{{
           t(
             'labels.' +
@@ -102,8 +103,14 @@
       ></gq-kpi-list>
     </ng-container>
 
-    <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
-    <div class="pt-8">
+    <ng-container
+      *ngTemplateOutlet="warningTemplate || defaultTemplate"
+    ></ng-container>
+    <ng-template #defaultTemplate>
+      <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
+    </ng-template>
+
+    <div *ngIf="isDialog" class="pt-8">
       <button
         class="!pl-4 !pr-4"
         color="primary"

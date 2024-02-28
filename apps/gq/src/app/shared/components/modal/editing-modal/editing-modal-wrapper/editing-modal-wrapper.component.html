@@ -1,0 +1,26 @@
+<ng-container [ngSwitch]="modalData.field">
+  <ng-container *ngSwitchCase="columnFields.GPI">
+    <gq-gpi-editing-modal [modalData]="modalData"></gq-gpi-editing-modal>
+  </ng-container>
+  <ng-container *ngSwitchCase="columnFields.GPM">
+    <gq-gpm-editing-modal [modalData]="modalData"></gq-gpm-editing-modal>
+  </ng-container>
+  <ng-container *ngSwitchCase="columnFields.DISCOUNT">
+    <gq-discount-editing-modal
+      [modalData]="modalData"
+    ></gq-discount-editing-modal>
+  </ng-container>
+  <ng-container *ngSwitchCase="columnFields.PRICE">
+    <gq-price-editing-modal [modalData]="modalData"></gq-price-editing-modal>
+  </ng-container>
+  <ng-container *ngSwitchCase="columnFields.TARGET_PRICE">
+    <gq-target-price-editing-modal
+      [modalData]="modalData"
+    ></gq-target-price-editing-modal>
+  </ng-container>
+  <ng-container *ngSwitchCase="columnFields.ORDER_QUANTITY">
+    <gq-quantity-editing-modal
+      [modalData]="modalData"
+    ></gq-quantity-editing-modal>
+  </ng-container>
+</ng-container>

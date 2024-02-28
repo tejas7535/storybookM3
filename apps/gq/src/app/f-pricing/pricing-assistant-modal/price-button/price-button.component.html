@@ -1,8 +1,9 @@
 <ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
-  <ng-container *ngIf="!isAddManualPriceButton; else addManualPrice">
+  <ng-container *ngIf="!isAddPriceButton; else addPrice">
     <div
-      class="border box-border border-border border-solid rounded-md p-4 flex flex-col w-full h-20"
+      class="border box-border border-border border-solid rounded-md p-4 flex flex-col w-full h-20 cursor-pointer"
       [ngClass]="{ 'border-b-4 border-b-primary': isActiveInDialog }"
+      (click)="priceButtonClicked.emit()"
     >
       <div class="flex flex-row justify-between w-full">
         <span class="text-caption text-medium-emphasis">{{
@@ -10,9 +11,12 @@
         }}</span>
         <ng-container *ngIf="isSelected; then currentlySelected"></ng-container>
       </div>
-      <div class="flex flex-row gap-4 items-end">
+      <div
+        class="flex flex-row gap-4 items-end"
+        [ngClass]="{ 'py-3': !isSelected }"
+      >
         <div class="flex items-center gap-2">
-          <mat-icon [ngClass]="iconColor">{{ icon }}</mat-icon>
+          <mat-icon *ngIf="icon" [ngClass]="iconColor">{{ icon }}</mat-icon>
           <span class="gq-text-5 text-high-emphasis"
             >{{ priceValue | numberCurrency: currency }}
           </span>
@@ -27,10 +31,10 @@
     </div>
   </ng-container>
 
-  <ng-template #addManualPrice>
+  <ng-template #addPrice>
     <div
       class="border box-border border-border border-dashed rounded-md p-4 h-20 flex flex-col w-full items-center cursor-pointer"
-      (click)="manualPriceClicked.emit()"
+      (click)="addPriceButtonClicked.emit()"
     >
       <mat-icon class="text-medium-emphasis">add</mat-icon>
       <span class="text-body-2 text-medium-emphasis"

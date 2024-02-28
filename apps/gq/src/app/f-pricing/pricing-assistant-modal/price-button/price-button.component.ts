@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './price-button.component.html',
 })
 export class PriceButtonComponent {
-  @Input() isAddManualPriceButton = false;
+  @Input() isAddPriceButton = false;
   @Input() priceLabelKey: string;
   @Input() priceValue: number;
   @Input() currency: string;
@@ -14,5 +14,6 @@ export class PriceButtonComponent {
   @Input() iconColor: string;
   @Input() isSelected: boolean;
   @Input() isActiveInDialog = false;
-  @Output() manualPriceClicked = new EventEmitter<void>();
+  @Output() addPriceButtonClicked = new EventEmitter<void>();
+  @Output() priceButtonClicked = new EventEmitter<void>();
 }

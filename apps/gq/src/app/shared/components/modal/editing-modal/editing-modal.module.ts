@@ -17,6 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { InfoBannerComponent } from '../../info-banner/info-banner.component';
+import { EditingModalWrapperComponent } from './editing-modal-wrapper/editing-modal-wrapper.component';
 import { KpiListComponent } from './kpi-list/kpi-list.component';
 import { DiscountEditingModalComponent } from './modals/discount-editing-modal.component';
 import { GpiEditingModalComponent } from './modals/gpi-editing-modal.component';
@@ -34,6 +35,7 @@ import { TargetPriceEditingModalComponent } from './modals/target-price-editing-
     GpmEditingModalComponent,
     GpiEditingModalComponent,
     TargetPriceEditingModalComponent,
+    EditingModalWrapperComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,16 @@ import { TargetPriceEditingModalComponent } from './modals/target-price-editing-
     FormsModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+  ],
+  exports: [
+    KpiListComponent,
+    QuantityEditingModalComponent,
+    DiscountEditingModalComponent,
+    PriceEditingModalComponent,
+    GpmEditingModalComponent,
+    GpiEditingModalComponent,
+    TargetPriceEditingModalComponent,
+    EditingModalWrapperComponent,
   ],
 })
 export class EditingModalModule {}

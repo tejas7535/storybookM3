@@ -3,9 +3,12 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  Inject,
+  EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
+  Output,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import {
@@ -15,7 +18,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
@@ -40,6 +43,12 @@ import { KpiValue } from './models/kpi-value.model';
 export abstract class EditingModalComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  @Input() modalData: EditingModal;
+  @Input() isDialog = true;
+  @Input() warningTemplate: TemplateRef<any>;
+
+  @Output() affectedKpiOutput: EventEmitter<KpiValue[]> = new EventEmitter();
+
   @ViewChild('editInputField') editInputField: ElementRef;
 
   readonly VALUE_FORM_CONTROL_NAME = 'valueInput';
@@ -75,7 +84,6 @@ export abstract class EditingModalComponent
   protected readonly subscription: Subscription = new Subscription();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public modalData: EditingModal,
     protected translocoLocaleService: TranslocoLocaleService,
     protected transformationService: TransformationService,
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
@@ -285,6 +293,7 @@ export abstract class EditingModalComponent
 
           // trigger dynamic kpi simulation
           this.setAffectedKpis(parsedValue);
+          this.affectedKpiOutput.emit(this.affectedKpis);
         })
     );
   }

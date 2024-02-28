@@ -577,7 +577,8 @@
       "dimensionsLabel": "Dimensions",
       "weightLabel": "Weight",
       "showMoreButtonLabel": "Show more",
-      "gqPriceLabel": " GQ Price",
+      "gqPriceLabel": "GQ Price",
+      "manualPriceLabel": "Manual Price",
       "currentlySelected": "currently selected",
       "gpmLabel": "GPM %",
       "addManualPriceButton": "Add Manual Price",
@@ -712,6 +713,10 @@
       "confirm": {
         "success": "Your selection has been saved",
         "failure": "Your selection could not be saved"
+      },
+      "manualPrice": {
+        "warningText": "There is an opportunity to earn an additional {{value}} {{currency}} following the GQ algorithm.",
+        "commentLabel": "Comment on Manual Price"
       }
     }
   },

@@ -578,6 +578,7 @@
       "weightLabel": "Gewicht",
       "showMoreButtonLabel": "weitere Anzeigen",
       "gqPriceLabel": " GQ Preis",
+      "manualPriceLabel": "Manueller Preis",
       "currentlySelected": "Aktuell ausgewählt",
       "gpmLabel": "GPM %",
       "addManualPriceButton": "Manuellen Preis hinzufügen",
@@ -712,6 +713,10 @@
       "confirm": {
         "success": "Ihre Auswahl wurde gespeichert",
         "failure": "Ihre Auswahl konnte nicht gespeichert werden"
+      },
+      "manualPrice": {
+        "warningText": "Durch Berücksichtigung der GQ Preisempfehlung besteht die Möglichkeit zusätzliche {{value}} {{currency}}  zu generieren.",
+        "commentLabel": "Kommentar zum manuellen Preis"
       }
     }
   },

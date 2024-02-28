@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import {
   ActiveCaseActions,
@@ -90,13 +90,6 @@ describe('TestEditingModalComponent', () => {
       }),
       mockProvider(TranslocoLocaleService),
       {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
-          quotationDetail: QUOTATION_DETAIL_MOCK,
-          field: ColumnFields.DISCOUNT,
-        },
-      },
-      {
         provide: MatDialogRef,
         useValue: {},
       },
@@ -112,6 +105,7 @@ describe('TestEditingModalComponent', () => {
         },
       },
     ],
+    detectChanges: false,
   });
 
   const updateFormValue = (value: string) => {
@@ -123,6 +117,11 @@ describe('TestEditingModalComponent', () => {
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
     transformationService = spectator.inject(TransformationService);
+    spectator.setInput('modalData', {
+      quotationDetail: QUOTATION_DETAIL_MOCK,
+      field: ColumnFields.DISCOUNT,
+    });
+    spectator.detectChanges();
   });
 
   test('should create', () => {
@@ -131,9 +130,11 @@ describe('TestEditingModalComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should initalize observables',
+      'should initialize observables',
       marbles((m) => {
         component['subscribeLoadingStopped'] = jest.fn();
+        spectator.detectChanges();
+
         component.ngOnInit();
 
         m.expect(component.updateLoading$).toBeObservable('a', {
@@ -198,7 +199,9 @@ describe('TestEditingModalComponent', () => {
           focus: jest.fn(),
         },
       };
+      spectator.detectComponentChanges();
       component.ngAfterViewInit();
+
       expect(component['value']).toEqual(QUOTATION_DETAIL_MOCK.gpi);
       expect(component['setAffectedKpis']).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.gpi
