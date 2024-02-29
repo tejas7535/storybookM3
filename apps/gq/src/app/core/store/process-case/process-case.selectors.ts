@@ -1,13 +1,13 @@
+import {
+  activeCaseFeature,
+  ActiveCaseState,
+} from '@gq/core/store/active-case/active-case.reducer';
+import { AddQuotationDetailsRequest } from '@gq/core/store/active-case/models';
 import { Customer } from '@gq/shared/models';
 import { MaterialQuantities, MaterialTableItem } from '@gq/shared/models/table';
 import { TableService } from '@gq/shared/services/table/table.service';
 import { createSelector } from '@ngrx/store';
 
-import {
-  activeCaseFeature,
-  ActiveCaseState,
-} from '../active-case/active-case.reducer';
-import { AddQuotationDetailsRequest } from '../active-case/models';
 import { processCaseFeature, ProcessCaseState } from './process-case.reducer';
 
 export const getAddMaterialRowData = createSelector(

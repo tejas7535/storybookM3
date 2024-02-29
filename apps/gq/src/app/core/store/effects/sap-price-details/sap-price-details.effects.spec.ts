@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
+import { getGqId } from '@gq/core/store/active-case/active-case.selectors';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -24,7 +25,6 @@ import {
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../../actions';
-import { getGqId } from '../../active-case/active-case.selectors';
 import { SapPriceDetailsEffects } from './sap-price-details.effects';
 
 describe('SapPriceDetailsEffects', () => {

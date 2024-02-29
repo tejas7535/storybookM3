@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Customer } from '@gq/shared/models/customer';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
@@ -15,7 +16,6 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
-import { activeCaseFeature } from '../active-case';
 import { CurrencyFacade } from '../currency/currency.facade';
 import { ProcessCaseActions } from './process-case.action';
 import { getAddMaterialRowData } from './process-case.selectors';

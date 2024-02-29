@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { getIsQuotationActive } from '@gq/core/store/active-case';
+import { getIsQuotationActive } from '@gq/core/store/active-case/active-case.selectors';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import {

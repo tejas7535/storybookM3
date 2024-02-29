@@ -1,5 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import {
+  getQuotationCurrency,
+  getSelectedQuotationDetail,
+} from '@gq/core/store/active-case/active-case.selectors';
 import { Quotation } from '@gq/shared/models';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -19,11 +24,6 @@ import {
   loadMaterialCostDetailsSuccess,
   resetMaterialCostDetails,
 } from '../../actions';
-import { ActiveCaseActions } from '../../active-case/active-case.action';
-import {
-  getQuotationCurrency,
-  getSelectedQuotationDetail,
-} from '../../active-case/active-case.selectors';
 import { MaterialCostDetailsEffects } from './material-cost-details.effects';
 
 describe('MaterialCostDetails', () => {

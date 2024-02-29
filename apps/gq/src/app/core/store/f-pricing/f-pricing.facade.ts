@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
@@ -10,7 +11,6 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
-import { getQuotationCurrency } from '../active-case/active-case.selectors';
 import { ComparableMaterialsRowData } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import {
   getMaterialSalesOrg,

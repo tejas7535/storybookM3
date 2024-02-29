@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -16,7 +17,6 @@ import {
   loadMaterialSalesOrgFailure,
   loadMaterialSalesOrgSuccess,
 } from '../../actions';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { MaterialSalesOrgEffect } from './material-sales-org.effects';
 
 describe('materialSalesOrg Effect', () => {

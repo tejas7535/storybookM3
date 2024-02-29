@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case';
+import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

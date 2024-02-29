@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { take } from 'rxjs';
 
-import { getQuotationCurrency } from '@gq/core/store/active-case';
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';

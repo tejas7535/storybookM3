@@ -15,6 +15,14 @@ import {
 } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import {
+  getQuotationStatus,
+  getSapId,
+} from '@gq/core/store/active-case/active-case.selectors';
+import { mapQuotationIdentifierToQueryParamsString } from '@gq/core/store/active-case/active-case.utils';
+import { QuotationIdentifier } from '@gq/core/store/active-case/models';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { ActiveDirectoryUser, QuotationStatus } from '@gq/shared/models';
 import {
@@ -28,14 +36,6 @@ import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import {
-  ActiveCaseActions,
-  activeCaseFeature,
-  getQuotationStatus,
-  getSapId,
-  QuotationIdentifier,
-} from '../active-case';
-import { mapQuotationIdentifierToQueryParamsString } from '../active-case/active-case.utils';
 import { ApprovalActions } from './approval.actions';
 import { approvalFeature } from './approval.reducer';
 

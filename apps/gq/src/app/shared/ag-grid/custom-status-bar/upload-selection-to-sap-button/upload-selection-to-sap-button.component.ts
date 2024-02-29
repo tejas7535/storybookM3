@@ -3,13 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import {
-  ActiveCaseActions,
   getIsQuotationActive,
   getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
-} from '@gq/core/store/active-case';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { getTooltipTextKeyByQuotationStatus } from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { QuotationStatus } from '@gq/shared/models';

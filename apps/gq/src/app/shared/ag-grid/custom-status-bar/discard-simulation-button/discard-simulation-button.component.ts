@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import {
-  ActiveCaseActions,
-  getSimulationModeEnabled,
-} from '@gq/core/store/active-case';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 

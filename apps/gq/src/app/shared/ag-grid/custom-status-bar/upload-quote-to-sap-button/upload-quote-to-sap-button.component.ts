@@ -2,13 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import {
-  ActiveCaseActions,
   getIsQuotationActive,
   getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
-} from '@gq/core/store/active-case';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { getTooltipTextKeyByQuotationStatus } from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { QuotationStatus } from '@gq/shared/models';
 import { Store } from '@ngrx/store';

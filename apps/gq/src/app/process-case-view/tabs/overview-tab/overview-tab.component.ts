@@ -10,12 +10,12 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  activeCaseFeature,
   getQuotationCurrency,
   getQuotationOverviewInformation,
-} from '@gq/core/store/active-case';
-import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation } from '@gq/shared/models';

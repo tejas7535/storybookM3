@@ -3,6 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
@@ -18,7 +19,6 @@ import { marbles } from 'rxjs-marbles';
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
 import { GET_QUOTATIONS_RESPONSE_MOCK } from '../../../../testing/mocks';
-import { ActiveCaseActions } from '../active-case';
 import { QuotationTab } from './models/quotation-tab.enum';
 import { OverviewCasesActions } from './overview-cases.actions';
 import { OverviewCasesEffects } from './overview-cases.effects';

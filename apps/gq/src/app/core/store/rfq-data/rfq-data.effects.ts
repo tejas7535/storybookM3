@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { catchError, map, mergeMap, of } from 'rxjs';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import { ActiveCaseActions } from '../active-case';
-import { ActiveCaseFacade } from '../active-case/active-case.facade';
 import { RfqDataActions } from './rfq-data.actions';
 
 @Injectable()

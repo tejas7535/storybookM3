@@ -4,6 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { of } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Customer } from '@gq/shared/models/customer';
 import {
   MaterialTableItem,
@@ -19,7 +20,6 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { activeCaseFeature } from '../active-case';
 import { CurrencyFacade } from '../currency/currency.facade';
 import { ProcessCaseActions } from './process-case.action';
 import { ProcessCaseEffects } from './process-case.effects';

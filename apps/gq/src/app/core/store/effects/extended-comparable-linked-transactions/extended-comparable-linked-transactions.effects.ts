@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import {
+  getGqId,
+  getPriceUnitsForQuotationItemIds,
+} from '@gq/core/store/active-case/active-case.selectors';
 import { PriceUnitForQuotationItemId } from '@gq/shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
@@ -14,10 +18,6 @@ import {
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions';
-import {
-  getGqId,
-  getPriceUnitsForQuotationItemIds,
-} from '../../active-case/active-case.selectors';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
 
 @Injectable()

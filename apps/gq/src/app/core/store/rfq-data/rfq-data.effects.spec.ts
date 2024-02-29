@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { Quotation, RfqData } from '@gq/shared/models';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -15,8 +17,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { ActiveCaseActions } from '../active-case';
-import { ActiveCaseFacade } from '../active-case/active-case.facade';
 import { RfqDataActions } from './rfq-data.actions';
 import { RfqDataEffects } from './rfq-data.effects';
 import { initialState } from './rfq-data.reducer';

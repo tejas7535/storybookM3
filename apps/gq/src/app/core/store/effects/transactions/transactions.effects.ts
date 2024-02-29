@@ -9,6 +9,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
+import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import {
@@ -25,7 +26,6 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { RouterStateUrl } from '../../reducers';
 import { ComparableLinkedTransaction } from '../../reducers/models';
 

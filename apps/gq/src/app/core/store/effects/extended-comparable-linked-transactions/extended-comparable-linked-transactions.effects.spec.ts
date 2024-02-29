@@ -1,5 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import {
+  getGqId,
+  getPriceUnitsForQuotationItemIds,
+} from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -13,10 +17,6 @@ import {
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions';
-import {
-  getGqId,
-  getPriceUnitsForQuotationItemIds,
-} from '../../active-case/active-case.selectors';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
 import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions.effects';
 

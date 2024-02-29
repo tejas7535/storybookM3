@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 
 import { combineLatest, map, Observable, Subject, take, takeUntil } from 'rxjs';
 
-import {
-  ActiveCaseActions,
-  activeCaseFeature,
-} from '@gq/core/store/active-case';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { getColumnDefsForRoles } from '@gq/core/store/selectors';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';

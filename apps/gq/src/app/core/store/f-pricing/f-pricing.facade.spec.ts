@@ -1,3 +1,4 @@
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -9,7 +10,6 @@ import { marbles } from 'rxjs-marbles';
 import { MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK } from '../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import { MATERIAL_INFORMATION_EXTENDED_MOCK } from '../../../../testing/mocks/models/fpricing/material-information.mock';
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
-import { getQuotationCurrency } from '../active-case';
 import {
   getMaterialSalesOrg,
   getMaterialSalesOrgDataAvailable,

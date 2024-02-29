@@ -9,7 +9,7 @@ import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { SearchPaths } from '../search/models/search-paths.enum';

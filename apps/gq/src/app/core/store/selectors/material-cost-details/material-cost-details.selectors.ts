@@ -1,3 +1,4 @@
+import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import {
   MaterialCostDetails,
   QuotationDetail,
@@ -5,7 +6,6 @@ import {
 import { getPriceUnit, roundValue } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
-import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { getMaterialCostDetailsState } from '../../reducers';
 import { MaterialCostDetailsState } from '../../reducers/material-cost-details/material-cost-details.reducer';
 

@@ -17,10 +17,8 @@ import {
   take,
 } from 'rxjs';
 
-import {
-  activeCaseFeature,
-  getIsQuotationStatusActive,
-} from '@gq/core/store/active-case';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';

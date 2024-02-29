@@ -3,11 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import {
-  ActiveCaseActions,
-  activeCaseFeature,
-} from '@gq/core/store/active-case';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {

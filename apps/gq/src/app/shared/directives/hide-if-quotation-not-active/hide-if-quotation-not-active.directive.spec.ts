@@ -1,5 +1,8 @@
 import { getQuotationStatus } from '@gq/core/store/active-case/active-case.selectors';
-import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
+import {
+  createDirectiveFactory,
+  SpectatorDirective,
+} from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { QuotationStatus } from '../../models';

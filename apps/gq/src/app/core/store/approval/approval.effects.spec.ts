@@ -2,6 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import {
+  getQuotationStatus,
+  getSapId,
+} from '@gq/core/store/active-case/active-case.selectors';
+import * as activeCaseUtils from '@gq/core/store/active-case/active-case.utils';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import {
   ActiveDirectoryUser,
@@ -29,13 +36,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
-import {
-  ActiveCaseActions,
-  activeCaseFeature,
-  getQuotationStatus,
-  getSapId,
-} from '../active-case';
-import * as activeCaseUtils from '../active-case/active-case.utils';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalEffects } from './approval.effects';
 import { approvalFeature, initialState } from './approval.reducer';

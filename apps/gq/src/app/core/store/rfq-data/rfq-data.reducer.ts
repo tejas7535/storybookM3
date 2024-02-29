@@ -1,8 +1,8 @@
+import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetail } from '@gq/shared/models';
 import { RfqData } from '@gq/shared/models/rfq-data.interface';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
-import * as fromActiveCaseSelectors from '../active-case';
 import { RfqDataActions } from './rfq-data.actions';
 
 const RFQ_DATA_DETAILS_KEY = 'rfqData';

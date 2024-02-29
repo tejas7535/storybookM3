@@ -1,3 +1,4 @@
+import { ActiveCaseState } from '@gq/core/store/active-case/active-case.reducer';
 import { Customer } from '@gq/shared/models';
 
 import {
@@ -5,7 +6,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { ActiveCaseState } from '../active-case';
 import { initialState, ProcessCaseState } from './process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 

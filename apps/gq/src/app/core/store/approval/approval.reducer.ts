@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
   ActiveDirectoryUser,
   ApprovalCockpitData,
@@ -11,7 +12,6 @@ import {
 } from '@gq/shared/models';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
-import { activeCaseFeature } from '../active-case';
 import { ApprovalActions } from './approval.actions';
 import {
   approvalLevelOfQuotationLogic,

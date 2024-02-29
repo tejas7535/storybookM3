@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { Quotation } from '@gq/shared/models';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -19,8 +21,6 @@ import {
   loadPlantMaterialDetailsSuccess,
   resetPlantMaterialDetails,
 } from '../../actions';
-import { ActiveCaseActions } from '../../active-case/active-case.action';
-import { getSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { PlantMaterialDetailsEffects } from './plant-material-details.effects';
 
 describe('PlantMaterialDetailsEffects', () => {

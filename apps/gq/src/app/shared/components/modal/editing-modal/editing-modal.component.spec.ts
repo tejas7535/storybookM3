@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import {
-  ActiveCaseActions,
-  UpdateQuotationDetail,
-} from '@gq/core/store/active-case';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { PriceSource } from '@gq/shared/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';

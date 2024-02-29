@@ -9,13 +9,13 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  ActiveCaseActions,
-  activeCaseFeature,
   getGqId,
   getQuotationSapSyncStatus,
   getTabsForProcessCaseView,
-} from '@gq/core/store/active-case';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';

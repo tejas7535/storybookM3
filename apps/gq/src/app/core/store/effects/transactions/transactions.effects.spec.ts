@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -16,7 +17,6 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../active-case/active-case.selectors';
 import { ComparableLinkedTransaction } from '../../reducers/models';
 import { TransactionsEffect } from './transactions.effects';
 

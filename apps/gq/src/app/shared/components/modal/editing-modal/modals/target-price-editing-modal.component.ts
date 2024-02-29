@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { UpdateQuotationDetail } from '@gq/core/store/active-case';
+import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { getCurrencyRegex, getPercentageRegex } from '@gq/shared/constants';
 import {
   getPriceUnit,

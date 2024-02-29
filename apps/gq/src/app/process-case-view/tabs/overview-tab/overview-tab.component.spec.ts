@@ -2,12 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs/internal/observable/of';
 
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  activeCaseFeature,
   getQuotationDetails,
   getQuotationOverviewInformation,
-} from '@gq/core/store/active-case';
-import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';

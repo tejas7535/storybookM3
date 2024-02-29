@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  activeCaseFeature,
   getCoefficients,
   getDetailViewQueryParams,
   getQuotationCurrency,
   getSelectedQuotationDetail,
-} from '@gq/core/store/active-case';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import {
   getGraphTransactions,

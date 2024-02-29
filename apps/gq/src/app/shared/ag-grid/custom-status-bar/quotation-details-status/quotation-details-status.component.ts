@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  activeCaseFeature,
   getQuotationCurrency,
   getSimulationModeEnabled,
-} from '@gq/core/store/active-case';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { StatusBarModalComponent } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';

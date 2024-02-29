@@ -2,12 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
 
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  ActiveCaseActions,
-  activeCaseFeature,
   getGqId,
   getQuotationSapSyncStatus,
-} from '@gq/core/store/active-case';
+} from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ApprovalWorkflowInformation, Quotation } from '@gq/shared/models';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';

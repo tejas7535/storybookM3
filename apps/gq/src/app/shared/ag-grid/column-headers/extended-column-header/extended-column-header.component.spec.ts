@@ -9,7 +9,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
-import { getIsQuotationStatusActive } from '@gq/core/store/active-case';
+import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { UserRoles } from '@gq/shared/constants';
 import {

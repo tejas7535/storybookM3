@@ -1,18 +1,20 @@
-import { UpdateRfqPositionDetailsComponent } from './update-rfq-position-details.component';
-
-import { of } from 'rxjs';
-
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MockProvider } from 'ng-mocks';
+
+import { of } from 'rxjs';
+
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { UpdateRfqPositionDetailsComponent } from './update-rfq-position-details.component';
 
 describe('UpdateRfqPositionDetailsComponent', () => {
   let component: UpdateRfqPositionDetailsComponent;

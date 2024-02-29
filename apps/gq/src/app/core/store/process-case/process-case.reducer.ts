@@ -1,3 +1,4 @@
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import {
   MaterialTableItem,
   ValidationDescription,
@@ -5,7 +6,6 @@ import {
 import { TableService } from '@gq/shared/services/table/table.service';
 import { createFeature, createReducer, on } from '@ngrx/store';
 
-import { ActiveCaseActions } from '../active-case/active-case.action';
 import { ProcessCaseActions } from './process-case.action';
 
 export interface ProcessCaseState {

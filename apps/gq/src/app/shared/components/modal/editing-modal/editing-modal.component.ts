@@ -22,11 +22,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
-import {
-  ActiveCaseActions,
-  activeCaseFeature,
-  UpdateQuotationDetail,
-} from '@gq/core/store/active-case';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import {

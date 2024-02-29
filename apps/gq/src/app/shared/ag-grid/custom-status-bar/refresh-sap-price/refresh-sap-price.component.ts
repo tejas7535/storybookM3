@@ -3,10 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import {
-  ActiveCaseActions,
-  getSimulationModeEnabled,
-} from '@gq/core/store/active-case';
+import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
