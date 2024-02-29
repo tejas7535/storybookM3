@@ -120,4 +120,8 @@ export class FPricingFacade {
       FPricingActions.setMarketValueDriverSelection({ selection })
     );
   }
+
+  changePrice(price: number): void {
+    this.#store.dispatch(FPricingActions.changePrice({ price }));
+  }
 }

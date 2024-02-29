@@ -25,6 +25,8 @@ export interface FPricingState extends FPricingData {
   materialInformation: MaterialInformation[];
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
+  // the price could either be the reference price or the manual price
+  priceSelected: number;
 }
 
 export const initialState: FPricingState = {
@@ -38,6 +40,7 @@ export const initialState: FPricingState = {
   marketValueDrivers: null,
   comparableTransactions: null,
   marketValueDriversSelections: [],
+  priceSelected: null,
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -131,6 +134,13 @@ export const fPricingFeature = createFeature({
           selection,
         ],
       })
+    ),
+    on(
+      FPricingActions.changePrice,
+      (state: FPricingState, { price }): FPricingState => ({
+        ...state,
+        priceSelected: price,
+      })
     )
   ),
 
@@ -139,6 +149,7 @@ export const fPricingFeature = createFeature({
     selectMarketValueDrivers,
     selectComparableTransactions,
     selectMarketValueDriversSelections,
+    selectPriceSelected,
   }) => ({
     getMaterialInformationExtended: createSelector(
       selectMaterialInformation,
@@ -227,10 +238,13 @@ export const fPricingFeature = createFeature({
     ),
     getDataForUpdateFPricing: createSelector(
       selectMarketValueDriversSelections,
+      selectPriceSelected,
       (
-        selections: MarketValueDriverSelection[]
+        marketValueDriverSelections,
+        selectedPrice
       ): UpdateFPricingDataRequest => ({
-        marketValueDriverSelections: selections,
+        marketValueDriverSelections,
+        selectedPrice,
       })
     ),
   }),

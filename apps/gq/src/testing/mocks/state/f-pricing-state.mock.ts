@@ -16,4 +16,5 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   marketValueDriversSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
   referencePrice: 10,
   materialInformation: MATERIAL_INFORMATION_MOCK,
+  priceSelected: 14.45,
 };

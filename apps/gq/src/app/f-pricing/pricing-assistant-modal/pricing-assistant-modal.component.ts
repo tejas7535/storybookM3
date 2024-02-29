@@ -41,21 +41,30 @@ export class PricingAssistantModalComponent implements OnInit {
   );
 
   material: MaterialDetails = this.dialogData.material;
-
   materialToCompare: string;
 
-  overlayToShowEnum = OverlayToShow;
-  visibleOverlay: OverlayToShow = OverlayToShow.gqPricing;
   priceSourceEnum = PriceSource;
+  overlayToShowEnum = OverlayToShow;
+  isInitiallyManualPrice =
+    this.dialogData.priceSource === PriceSource.MANUAL ||
+    this.dialogData.priceSource === PriceSource.TARGET_PRICE;
 
-  manualPriceComponentData: EditingModal = {
+  visibleOverlay: OverlayToShow = this.isInitiallyManualPrice
+    ? OverlayToShow.manualPricing
+    : OverlayToShow.gqPricing;
+
+  showAddManualPriceButton = !this.isInitiallyManualPrice;
+
+  manualPriceData: EditingModal = {
     field: ColumnFields.PRICE,
-    quotationDetail: this.dialogData,
+    // When the priceSource is targetPrice, we use this value to initialize the price (ManualPrice)
+    // the targetPrice itself will not be touched
+    quotationDetail: {
+      ...this.dialogData,
+      price: this.getInitialPriceValue(),
+    },
   };
 
-  showAddManualPriceButton = this.dialogData.priceSource !== PriceSource.MANUAL;
-  manualPrice: number;
-  manuelPriceGpm: number;
   comment: string;
 
   formGroup: FormGroup = new FormGroup({
@@ -67,7 +76,7 @@ export class PricingAssistantModalComponent implements OnInit {
       this.dialogData.gqPositionId
     );
     // only show addManualPriceButton if the price is not already set
-    this.initManualPriceValue();
+    this.getInitialPriceValue();
   }
 
   closeDialog(): void {
@@ -98,27 +107,31 @@ export class PricingAssistantModalComponent implements OnInit {
     // first time the 'Add Manual Price' button is clicked, the button should be hidden
     this.showAddManualPriceButton = false;
     this.visibleOverlay = OverlayToShow.manualPricing;
-    if (!this.manualPrice) {
-      this.initManualPriceValue();
-    }
+    this.fPricingFacade.changePrice(this.manualPriceData.quotationDetail.price);
   }
 
   manualPriceChanged(kpis: KpiValue[]): void {
-    this.manualPrice = kpis.find((kpi) => kpi.key === 'price').value;
-    this.manuelPriceGpm = kpis.find((kpi) => kpi.key === 'gpm').value;
     // change the modalData so that the new Price will be displayed in the PriceButton
-    this.manualPriceComponentData = {
-      ...this.manualPriceComponentData,
+    this.manualPriceData = {
+      ...this.manualPriceData,
       quotationDetail: {
-        ...this.manualPriceComponentData.quotationDetail,
-        price: this.manualPrice,
-        gpm: this.manuelPriceGpm,
+        ...this.manualPriceData.quotationDetail,
+        price: kpis.find((kpi) => kpi.key === 'price').value,
+        gpm: kpis.find((kpi) => kpi.key === 'gpm').value,
       },
     };
+
+    this.fPricingFacade.changePrice(this.manualPriceData.quotationDetail.price);
   }
 
   gqPriceClicked(): void {
     this.visibleOverlay = OverlayToShow.gqPricing;
+    // TODO: replace with the reference Price Value
+    this.fPricingFacade.changePrice(null);
+    // check if manualPriceData has been net, if not display button 'Add Manual Price'
+    if (!this.manualPriceData.quotationDetail.price) {
+      this.showAddManualPriceButton = true;
+    }
   }
 
   onComparedMaterialClicked(material: string): void {
@@ -130,15 +143,9 @@ export class PricingAssistantModalComponent implements OnInit {
     this.visibleOverlay = OverlayToShow.gqPricing;
   }
 
-  private initManualPriceValue() {
-    this.manualPrice =
-      this.dialogData.priceSource === PriceSource.MANUAL
-        ? this.dialogData.price
-        : null;
-
-    this.manuelPriceGpm =
-      this.dialogData.priceSource === PriceSource.MANUAL
-        ? this.dialogData.gpm
-        : null;
+  private getInitialPriceValue(): number {
+    return this.dialogData.priceSource === PriceSource.TARGET_PRICE
+      ? this.dialogData.targetPrice
+      : this.dialogData.price;
   }
 }

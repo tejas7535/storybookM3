@@ -217,11 +217,14 @@ describe('fPricingReducer', () => {
 
       describe('getDataForUpdateFPricing', () => {
         test('should return the data for update FPricing', () => {
+          const SELECTED_PRICE = 12.4;
           const result = fPricingFeature.getDataForUpdateFPricing.projector(
-            MARKET_VALUE_DRIVERS_SELECTIONS_MOCK
+            MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+            SELECTED_PRICE
           );
           const expected: UpdateFPricingDataRequest = {
             marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+            selectedPrice: SELECTED_PRICE,
           };
           expect(result).toEqual(expected);
         });

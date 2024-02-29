@@ -225,4 +225,15 @@ describe('Service: FPricingFacade', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });
   });
+
+  describe('changePrice', () => {
+    test('should dispatch changePrice', () => {
+      const price = 100_000;
+      const action = FPricingActions.changePrice({ price });
+
+      service.changePrice(price);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
 });

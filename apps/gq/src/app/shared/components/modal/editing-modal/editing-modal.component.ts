@@ -202,6 +202,7 @@ export abstract class EditingModalComponent
         (this.isPriceChangeTypeAvailable &&
           this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME).value)
     );
+    this.affectedKpiOutput.emit(this.affectedKpis);
   }
 
   /**
@@ -293,7 +294,6 @@ export abstract class EditingModalComponent
 
           // trigger dynamic kpi simulation
           this.setAffectedKpis(parsedValue);
-          this.affectedKpiOutput.emit(this.affectedKpis);
         })
     );
   }

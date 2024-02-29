@@ -62,7 +62,7 @@
           class="w-full"
           [priceLabelKey]="'gqPriceLabel'"
           [priceValue]="45.12"
-          [currency]="(fPricingData$ | ngrxPush)?.currency"
+          [currency]="fPricingData?.currency"
           [gpmValue]="12.45"
           [icon]="'warning_amber'"
           [iconColor]="'text-error'"
@@ -82,10 +82,10 @@
           <gq-price-button
             class="w-full"
             [priceLabelKey]="'manualPriceLabel'"
-            [priceValue]="manualPrice"
-            [gpmValue]="manuelPriceGpm"
-            [currency]="(fPricingData$ | ngrxPush)?.currency"
-            [isSelected]="dialogData.priceSource === priceSourceEnum.MANUAL"
+            [priceValue]="manualPriceData.quotationDetail.price"
+            [gpmValue]="manualPriceData.quotationDetail.gpm"
+            [currency]="fPricingData?.currency"
+            [isSelected]="isInitiallyManualPrice"
             [isActiveInDialog]="
               visibleOverlay === overlayToShowEnum.manualPricing
             "
@@ -148,7 +148,7 @@
         <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
         <gq-price-editing-modal
           class="px-2"
-          [modalData]="manualPriceComponentData"
+          [modalData]="manualPriceData"
           [isDialog]="false"
           (affectedKpiOutput)="manualPriceChanged($event)"
           [warningTemplate]="warningTemplate"
@@ -165,8 +165,8 @@
         <gq-info-banner
           [infoText]="
             t('manualPrice.warningText', {
-              value: manualPrice,
-              currency: (fPricingData$ | ngrxPush)?.currency
+              value: manualPriceData.quotationDetail.price,
+              currency: fPricingData?.currency
             })
           "
         ></gq-info-banner>

@@ -32,5 +32,7 @@ export const FPricingActions = createActionGroup({
     'Set Market Value Driver Selection': props<{
       selection: MarketValueDriverSelection;
     }>(),
+
+    'Change Price': props<{ price: number }>(),
   },
 });
