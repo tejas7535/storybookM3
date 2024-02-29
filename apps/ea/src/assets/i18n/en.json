@@ -202,6 +202,7 @@
   "calculation": {
     "showReport": "Show Report",
     "calculationImpossible": "For the parameters you have specified no calculation is possible.",
+    "generalError": "A network error occured. Try again later.",
     "calculationMissingInput": "Please add the remaining conditions.",
     "co2Emissions": {
       "upstreamHint": "Estimated value based on assumptions during production",

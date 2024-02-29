@@ -1,0 +1,46 @@
+<ng-container *transloco="let t; read: 'calculationResult'">
+  <div
+    class="flex flex-col w-[62vw] sm:w-[70vw] md:w-auto gap-1 md:gap-3 flex-shrink-0 items-center justify-between md:justify-center md:h-auto h-full"
+    [class.expanded-container]="expanded"
+  >
+    <div class="flex flex-row flex-wrap gap-1 md:gap-4 justify-center">
+      <ng-container *ngFor="let item of catalogCalculationData; last as isLast">
+        <div class="flex gap-1 md:gap-3 text-medium-emphasis text-caption">
+          <span>
+            {{ t(item.title) }}
+          </span>
+          <mat-divider
+            class="md:block"
+            [class.!hidden]="isLast"
+            [vertical]="true"
+          ></mat-divider>
+        </div>
+      </ng-container>
+    </div>
+    <div
+      class="flex items-center max-w-[95vw] md:max-w-[38vw] xl:max-w-[44vw] transition-all duration-500 ease-in-out"
+      [class.expanded-errors]="expanded"
+    >
+      <div class="flex flex-shrink-0 mr-3">
+        <mat-icon color="error">warning</mat-icon>
+      </div>
+      <div
+        class="text-body-2 text-high-emphasis flex max-h-12 overflow-hidden transition-all duration-500 ease-in-out"
+        [class.expanded-errors-content]="expanded"
+        *ngIf="inlineErrors"
+      >
+        {{ inlineErrors }}
+      </div>
+      <button (click)="toggleErrors()" mat-icon-button color="primary">
+        <mat-icon class="hidden md:block" *ngIf="!expanded"
+          >chevron_right</mat-icon
+        >
+        <mat-icon class="md:hidden" *ngIf="!expanded"> expand_more</mat-icon>
+        <mat-icon class="hidden md:block" *ngIf="expanded"
+          >chevron_left</mat-icon
+        >
+        <mat-icon class="md:hidden" *ngIf="expanded"> expand_less</mat-icon>
+      </button>
+    </div>
+  </div>
+</ng-container>

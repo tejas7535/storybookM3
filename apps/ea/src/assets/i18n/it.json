@@ -202,6 +202,7 @@
   "calculation": {
     "showReport": "Mostra rapporto",
     "calculationImpossible": "Per i parametri specificati non è possibile effettuare il calcolo.",
+    "generalError": "Si è verificato un errore di rete. Riprova più tardi.",
     "calculationMissingInput": "Si prega di aggiungere le condizioni rimanenti.",
     "co2Emissions": {
       "upstreamHint": "Valore stimato sulla base di presupposti durante la produzione",

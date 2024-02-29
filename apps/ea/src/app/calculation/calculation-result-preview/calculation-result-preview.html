@@ -9,7 +9,12 @@
     [ngClass]="{'md:inset-y-auto relative md:fixed max-w-[100vw]': (isStandalone$ |ngrxPush) && !sticky, 'relative h-auto': !isStandalone$ | ngrxPush , 'fixed': isStandalone$ | ngrxPush}"
   >
     <div
-      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-2 pt-4 md:py-6 md:px-8 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
+      *ngrxLet="{
+      errors: calculationErrors$ | ngrxPush,
+      isCalculationImpossible: isCalculationImpossible$ | ngrxPush,
+      isCalculationGeneralError: calculationGeneralError$ | ngrxPush,
+    } as calculationFailureData"
+      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-6 pt-4 md:py-6 md:px-6 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
       [ngClass]="{'rounded-b-lg rounded-none drop-shadow-none md:rounded-lg md:drop-shadow-lg': 'sticky', 'mx-auto': !isStandalone$ | ngrxPush}"
     >
       <div class="user-hints flex items-center flex-grow-0 flex-shrink-0">
@@ -28,58 +33,87 @@
         </ng-container>
 
         <!-- Calculation Impossible -->
-        <ng-container *ngIf="isCalculationImpossible$ | ngrxPush">
+        <ng-container
+          *ngIf="calculationFailureData.isCalculationImpossible || calculationFailureData.isCalculationGeneralError"
+        >
           <div class="flex flex-shrink-0 flex-row items-center">
-            <div class="flex flex-shrink-0">
+            <div
+              class="flex flex-shrink-0"
+              *ngIf="calculationFailureData?.errors?.length === 0"
+            >
               <mat-icon color="error">warning</mat-icon>
             </div>
             <div
               class="text-caption text-high-emphasis ml-2 flex-shrink-0"
               [style]="{ 'max-width': '220px' }"
             >
-              {{ t('calculationImpossible') }}
+              <span *ngIf="calculationFailureData?.errors?.length === 0">
+                {{ t('calculationImpossible') }}
+              </span>
+              <span *ngIf="calculationFailureData.isCalculationGeneralError">
+                {{ t('generalError') }}
+              </span>
             </div>
           </div>
           <mat-divider [vertical]="true"></mat-divider>
         </ng-container>
       </div>
-      <div
-        class="result-data"
-        *ngIf="overlayData$ | ngrxPush as overlayData"
-        class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4"
-      >
-        <ng-container *ngFor="let item of overlayData">
-          <ng-container
-            *ngIf="
+      <ng-container>
+        <div
+          class="result-data"
+          *ngIf="overlayData$ | ngrxPush as overlayData"
+          class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4"
+        >
+          <ng-container *ngIf="calculationFailureData?.errors?.length > 0">
+            <div class="snap-center my-1 md:my-0 min-w-max">
+              <ea-calculation-result-preview-errors
+                [errors]="calculationFailureData.errors"
+                [overlayData]="overlayData$ | ngrxPush"
+                [(expanded)]="errorsExpanded"
+              ></ea-calculation-result-preview-errors>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let item of overlayData">
+            <div
+              [class.hidden]="calculationFailureData?.errors?.length > 0 && !item.title.includes('emissions') || 
+              (calculationFailureData?.errors?.length && errorsExpanded )"
+            >
+              <ng-container
+                *ngIf="
                   !item.title.includes('overrolling');
                   else overrollingFrequenciesPreview
                 "
-          >
-            <div class="snap-center my-1 md:my-0 min-w-max">
-              <ea-calculation-result-preview-item
-                styleClass="w-[70vw] sm:w-[50vw]"
-                [item]="item"
               >
-                <ea-calculation-result-preview-emissions-tooltip
-                  *ngIf="item.title.includes('emissions')"
-                >
-                </ea-calculation-result-preview-emissions-tooltip>
-              </ea-calculation-result-preview-item>
+                <div class="snap-center my-1 md:my-0 min-w-max">
+                  <ea-calculation-result-preview-item
+                    styleClass="w-[70vw] sm:w-[50vw]"
+                    [item]="item"
+                  >
+                    <ea-calculation-result-preview-emissions-tooltip
+                      *ngIf="item.title.includes('emissions')"
+                    >
+                    </ea-calculation-result-preview-emissions-tooltip>
+                  </ea-calculation-result-preview-item>
+                </div>
+              </ng-container>
+
+              <ng-template #overrollingFrequenciesPreview>
+                <div class="snap-center my-1 md:my-0 min-w-[220px]">
+                  <ea-overrolling-frequencies-preview-item
+                    [item]="item"
+                    styleClass="w-[70vw] sm:w-[50vw]"
+                  />
+                </div>
+              </ng-template>
+
+              <mat-divider
+                class="hidden md:block"
+                [vertical]="true"
+              ></mat-divider>
             </div>
           </ng-container>
-
-          <ng-template #overrollingFrequenciesPreview>
-            <div class="snap-center my-1 md:my-0 min-w-[220px]">
-              <ea-overrolling-frequencies-preview-item
-                [item]="item"
-                styleClass="w-[70vw] sm:w-[50vw]"
-              />
-            </div>
-          </ng-template>
-
-          <mat-divider class="hidden md:block" [vertical]="true"></mat-divider>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
       <div
         class="result-button w-full md:w-auto flex flex-shrink-0 flex-grow md:flex-grow-0 md:justify-end items-center md:ml-auto md:mr-0"
       >
@@ -87,6 +121,7 @@
           mat-raised-button
           color="primary"
           class="grow md:mx-0 mx-4"
+          [class.hidden]="calculationFailureData?.errors?.length > 0 && errorsExpanded"
           [disabled]="
               (isCalculationResultReportAvailable$ | ngrxPush) === false
             "

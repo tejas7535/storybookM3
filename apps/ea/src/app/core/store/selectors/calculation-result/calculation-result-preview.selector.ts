@@ -20,6 +20,7 @@ import {
   getCalculationResult as catalogCalculationResult,
   getCalculationResult,
   getError as catalogCalculationError,
+  getError,
   isLoading as catalogCalculationIsLoading,
 } from './catalog-calculation-result.selector';
 import { getLubricationDataFromBehavior } from './catalog-result-helper';
@@ -263,4 +264,9 @@ export const isCalculationImpossible = createSelector(
   catalogCalculationResult,
 
   (result): boolean => result?.calculationError?.error !== undefined
+);
+
+export const isCalculationGeneralError = createSelector(
+  getError,
+  (error): boolean => error !== undefined
 );

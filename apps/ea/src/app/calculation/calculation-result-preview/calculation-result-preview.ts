@@ -9,11 +9,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { CalculationParametersFacade, SettingsFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultPreviewEmissionsTooltipComponent } from '../calculation-result-preview-emissions-tooltip/calculation-result-preview-emissions-tooltip.component';
+import { CalculationResultPreviewErrorsComponent } from '../calculation-result-preview-errors/calculation-result-preview-errors.component';
 import { CalculationResultPreviewItemComponent } from '../calculation-result-preview-item/calculation-result-preview-item.component';
 import { CalculationResultReportComponent } from '../calculation-result-report/calculation-result-report.component';
 import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequencies-preview-iterm/overrolling-frequencies-preview-item.component';
@@ -33,13 +34,17 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
     SharedTranslocoModule,
     MatProgressSpinnerModule,
     CalculationResultPreviewEmissionsTooltipComponent,
+    LetDirective,
+    CalculationResultPreviewErrorsComponent,
   ],
 })
 export class CalculationResultPreviewComponent {
   @Input() sticky = true;
+  public errorsExpanded = false;
 
   public overlayData$ =
     this.calculationResultFacade.getCalculationResultPreviewData$;
+
   public isCalculationResultReportAvailable$ =
     this.calculationResultFacade.isCalculationResultReportAvailable$;
   public isAnyServiceLoading$ =
@@ -51,6 +56,10 @@ export class CalculationResultPreviewComponent {
   public loadcaseCount$ = this.calculationParametersFacade.getLoadcaseCount$;
   public selectedLoadcase$ =
     this.calculationParametersFacade.getSelectedLoadcase$;
+  public calculationErrors$ =
+    this.calculationResultFacade.calculationReportErrors$;
+  public calculationGeneralError$ =
+    this.calculationResultFacade.isCalculationGeneralError$;
 
   public isStandalone$ = this.settingsFacade.isStandalone$;
 

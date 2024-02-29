@@ -452,7 +452,6 @@ export class CalculationParametersComponent
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
       )
       .subscribe((formValue) => {
-        // this.form.updateValueAndValidity();
         this.calculationParametersFacade.dispatch(
           CalculationParametersActions.operatingParameters({
             ...formValue,
@@ -460,14 +459,20 @@ export class CalculationParametersComponent
             isValid: this.form.valid,
           })
         );
+
+        if (!this.form.valid) {
+          this.resetCatalogCalculationResults();
+        }
+      });
+
+    this.form.statusChanges
+      .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
+      .subscribe(() => {
         this.calculationParametersFacade.dispatch(
           CalculationParametersActions.setIsInputInvalid({
             isInputInvalid: !this.form.valid,
           })
         );
-        if (!this.form.valid) {
-          this.resetCatalogCalculationResults();
-        }
       });
 
     combineLatest([

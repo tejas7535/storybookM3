@@ -202,6 +202,7 @@
   "calculation": {
     "showReport": "顯示報告",
     "calculationImpossible": "對於您指定的參數，無法進行計算。",
+    "generalError": " 网络错误。请稍后再试。",
     "calculationMissingInput": "請添加其餘條件。",
     "co2Emissions": {
       "upstreamHint": "根據生產環節假設的估算值",

@@ -32,6 +32,10 @@ export class CalculationResultFacade {
     CalculationResultPreviewSelector.isCalculationImpossible
   );
 
+  public readonly isCalculationGeneralError$ = this.store.select(
+    CalculationResultPreviewSelector.isCalculationGeneralError
+  );
+
   public readonly calculationReportCO2Emission$ = this.store.select(
     CalculationResultReportSelector.getCO2EmissionReport
   );

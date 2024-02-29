@@ -202,6 +202,7 @@
   "calculation": {
     "showReport": "Mostrar informe",
     "calculationImpossible": "Para los parámetros que ha especificado, no es posible realizar el cálculo.",
+    "generalError": "Ha ocurrido un error de red. Intente de nuevo más tarde.",
     "calculationMissingInput": "Por favor añada las condiciones restantes.",
     "co2Emissions": {
       "upstreamHint": "Valor estimado basado en suposiciones durante la producción",

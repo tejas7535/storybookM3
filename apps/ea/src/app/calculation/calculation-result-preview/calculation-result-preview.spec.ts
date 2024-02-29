@@ -77,11 +77,11 @@ describe('CalculationResultPreviewComponent', () => {
   });
 
   it('should display the "show report" button', () => {
-    expect(spectator.query('button')).toBeTruthy();
+    const button = spectator.queryLast('button');
+
+    expect(button).toBeTruthy();
     // with title
-    expect(spectator.query('button').textContent).toContain(
-      'calculation.showReport'
-    );
+    expect(button.textContent).toContain('calculation.showReport');
   });
 
   it('should show info if calculation is missing inputs', () => {
