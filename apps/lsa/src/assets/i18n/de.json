@@ -22,7 +22,13 @@
       "month": "Monat",
       "day": "Tag",
       "lubricationQuantityValue": "< {{ value }} ccm",
-      "lubricationQuantity": "Nachschmiermenge"
+      "lubricationQuantity": "Nachschmiermenge",
+      "questionOptime": "Möchten Sie OPTIME in ihr Schmiersystem integrieren?",
+      "optime": {
+        "1": "Ja",
+        "0": "Nein",
+        "2": "Ich weiß es noch nicht"
+      }
     },
     "lubrication": {
       "questionLubricantType": "Verwenden Sie ein Schaeffler Arcanol Schmiermittel?",

@@ -90,7 +90,7 @@ export class LsaFormService {
         { min: 1, max: 3, title: '1 - 3m' },
         true
       ),
-      optime: this.createFormControl<Optime>(0, true),
+      optime: this.createFormControl<Optime>(Optime.Yes, true),
     });
 
     this.lubricantForm = new FormGroup<LubricantForm>({

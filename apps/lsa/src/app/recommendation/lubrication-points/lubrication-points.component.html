@@ -53,7 +53,10 @@
   <mat-divider></mat-divider>
 
   <div class="flex flex-col gap-6">
-    <span class="text-h6 text-medium-emphasis">optime</span>
-    <span>{{ lubricationPointsForm.controls.optime.value }}</span>
+    <span class="text-h6 text-medium-emphasis">{{ t('questionOptime') }}</span>
+    <lsa-radio-button-group
+      [options]="optimeOptions"
+      [control]="lubricationPointsForm.controls.optime"
+    ></lsa-radio-button-group>
   </div>
 </div>

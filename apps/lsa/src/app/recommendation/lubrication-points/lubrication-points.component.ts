@@ -6,7 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { RadioOptionContentDirective } from '@lsa/shared/components/radio-button-group/radio-option-content.directive';
-import { RelubricationInterval } from '@lsa/shared/constants';
+import { Optime, RelubricationInterval } from '@lsa/shared/constants';
 import { LubricationPointsForm } from '@lsa/shared/models';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
@@ -61,5 +61,23 @@ export class LubricationPointsComponent {
 
   public readonly lubricationQuantityOptions: number[] = [
     10, 25, 50, 60, 100, 125,
+  ];
+
+  public readonly optimeOptions: {
+    value: Optime;
+    name: string;
+  }[] = [
+    {
+      value: Optime.Yes,
+      name: translate(`${translatePath}.optime.${Optime.Yes}`),
+    },
+    {
+      value: Optime.No,
+      name: translate(`${translatePath}.optime.${Optime.No}`),
+    },
+    {
+      value: Optime.NoPreference,
+      name: translate(`${translatePath}.optime.${Optime.NoPreference}`),
+    },
   ];
 }

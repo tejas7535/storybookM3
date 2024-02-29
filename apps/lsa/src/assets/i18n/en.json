@@ -22,7 +22,13 @@
       "month": "month",
       "day": "day",
       "lubricationQuantityValue": "< {{ value }} ccm",
-      "lubricationQuantity": "Relubrication quantity"
+      "lubricationQuantity": "Relubrication quantity",
+      "questionOptime": "Do you want to integrate OPTIME in your lubrication system?",
+      "optime": {
+        "1": "Yes",
+        "0": "No",
+        "2": "I don`t know yet"
+      }
     },
     "lubrication": {
       "questionLubricantType": "Are you using a Schaeffler Arcanol lubricant?",

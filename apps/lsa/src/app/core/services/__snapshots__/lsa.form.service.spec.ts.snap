@@ -5,7 +5,7 @@ Object {
   "lubricationInterval": "year",
   "lubricationPoints": "2-4",
   "lubricationQty": 60,
-  "optime": 0,
+  "optime": 1,
   "pipeLength": Object {
     "max": 3,
     "min": 1,
@@ -48,7 +48,7 @@ Object {
     "lubricationInterval": "year",
     "lubricationPoints": "2-4",
     "lubricationQty": 60,
-    "optime": 0,
+    "optime": 1,
     "pipeLength": Object {
       "max": 3,
       "min": 1,
