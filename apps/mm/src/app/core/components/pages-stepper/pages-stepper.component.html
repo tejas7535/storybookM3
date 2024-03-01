@@ -1,3 +1,6 @@
+<mm-qualtrics-info-banner
+  class="block m-6 mb-3 mr-2"
+></mm-qualtrics-info-banner>
 <mat-horizontal-stepper
   (selectionChange)="activate($event)"
   #stepper
@@ -24,7 +27,6 @@
     "
   >
     <ng-template matStepLabel>{{ t(page.page.text) }}</ng-template>
-    <mm-qualtrics-info-banner class="block mb-3"></mm-qualtrics-info-banner>
     <h5>{{ t(page.page.text) }}</h5>
   </mat-step>
   <ng-template matStepperIcon="done" let-index="index">
