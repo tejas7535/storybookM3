@@ -91,7 +91,6 @@ export const COLUMN_RULES: { [id: string]: RegExp } = {
   [columns.MATERIAL_NUMBER]: /^\d{9}(-\d{4}(-\d{2})?)?$/,
   [columns.PLANT]: /^\d{1,4}$/,
   [columns.CATEGORY]: /^\w{4}$/,
-  [columns.MATERIAL_GROUP]: /^M?\d+$/,
   [columns.BUSINESS_PARTNER_ID]: /^\d{5,7}$/,
   [columns.SUPPLIER_ID]: /^S\d{9}$/,
   [columns.SUPPLIER_COUNTRY]: /^\w{2}$/,

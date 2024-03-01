@@ -188,7 +188,7 @@ export class ExcelValidatorService implements AsyncValidator {
         const rule = COLUMN_RULES[column];
 
         // check only if value is set
-        if (value && !rule.test(value)) {
+        if ((value || value === 0) && !rule.test(value)) {
           throw new ValidationError(ErrorCode.INVALID_VALUE, {
             column: this.dataFieldToColumnHeader[column],
             value,
