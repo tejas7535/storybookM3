@@ -1,7 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 import { of } from 'rxjs';
 
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
+import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import {
   APP_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -18,7 +21,7 @@ import {
   ProductSelectionActions,
 } from '../../actions';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
-import { ProductCapabilitiesResult } from '../../models';
+import { Co2ApiSearchResult, ProductCapabilitiesResult } from '../../models';
 import { ProductSelectionEffects } from './product-selection.effects';
 
 const catalogServiceMock = {
@@ -30,6 +33,10 @@ const catalogServiceMock = {
   getLoadcaseTemplate: jest.fn(),
   getOperatingConditionsTemplate: jest.fn(),
   getBearingCapabilities: jest.fn(),
+};
+
+const co2upstreamServiceMock = {
+  findBearings: jest.fn(),
 };
 
 const calculationModuleInfoServiceMock = {
@@ -44,6 +51,7 @@ describe('Product Selection Effects', () => {
 
   const createService = createServiceFactory({
     service: ProductSelectionEffects,
+    imports: [HttpClientTestingModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({
@@ -54,6 +62,10 @@ describe('Product Selection Effects', () => {
       {
         provide: CatalogService,
         useValue: catalogServiceMock,
+      },
+      {
+        provide: CO2UpstreamService,
+        useValue: co2upstreamServiceMock,
       },
       {
         provide: CalculationModuleInfoService,
@@ -153,10 +165,13 @@ describe('Product Selection Effects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const resultList = ['bearing', 'bear', 'ring', 'ringbear'];
+        const resultList: Co2ApiSearchResult[] = [
+          { bearinxId: 'abcd', epimId: '12345', designation: 'abcd' },
+          { bearinxId: 'xyz', epimId: '9876', designation: 'xyz' },
+        ];
 
         const response = m.cold('-a|', { a: resultList });
-        catalogServiceMock.getBearingSearch = jest.fn(() => response);
+        co2upstreamServiceMock.findBearings = jest.fn(() => response);
 
         const result = ProductSelectionActions.bearingSearchSuccess({
           resultList,
@@ -166,7 +181,7 @@ describe('Product Selection Effects', () => {
         m.expect(effects.bearingSearch$).toBeObservable(expected);
         m.flush();
 
-        expect(catalogServiceMock.getBearingSearch).toHaveBeenCalledWith(
+        expect(co2upstreamServiceMock.findBearings).toHaveBeenCalledWith(
           'the query'
         );
       })

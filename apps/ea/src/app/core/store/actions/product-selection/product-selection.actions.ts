@@ -1,6 +1,7 @@
 import { CatalogServiceProductClass } from '@ea/core/services/catalog.service.interface';
 import { createAction, props } from '@ngrx/store';
 
+import { Co2ApiSearchResult } from '../../models';
 import { ProductSelectionState } from '../../models/product-selection-state.model';
 
 export const setBearingDesignation = createAction(
@@ -39,7 +40,7 @@ export const searchBearing = createAction(
 
 export const bearingSearchSuccess = createAction(
   '[Product Selection] Search Bearing Success',
-  props<{ resultList: string[] }>()
+  props<{ resultList: Co2ApiSearchResult[] }>()
 );
 
 export const resetBearing = createAction('[Product Selection] Reset Bearing');

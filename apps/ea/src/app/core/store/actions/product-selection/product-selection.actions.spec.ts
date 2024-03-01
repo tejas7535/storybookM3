@@ -1,3 +1,4 @@
+import { Co2ApiSearchResult } from '../../models';
 import {
   bearingSearchSuccess,
   resetBearing,
@@ -53,7 +54,10 @@ describe('Product Selection Actions', () => {
   });
 
   it('should create the Search Bearing Success action', () => {
-    const resultList = ['6226', '6000', '608'];
+    const resultList: Co2ApiSearchResult[] = [
+      { bearinxId: 'abcd', epimId: '123123', designation: 'abcdef' },
+      { bearinxId: 'xyz', epimId: '123123', designation: 'xyz' },
+    ];
     const expectedAction = {
       type: '[Product Selection] Search Bearing Success',
       resultList,

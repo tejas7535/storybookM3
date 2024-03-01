@@ -8,6 +8,7 @@ import { AppRoutePath } from '@ea/app-route-path.enum';
 import { ModuleCalculationModuleInfoResult } from '@ea/core/services/calculation-module-info.interface';
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
+import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import {
@@ -172,10 +173,10 @@ export class ProductSelectionEffects {
       ofType(ProductSelectionActions.searchBearing),
       map((action) => action.query),
       mergeMap((query: string) =>
-        this.catalogService
-          .getBearingSearch(query)
+        this.co2Service
+          .findBearings(query)
           .pipe(
-            map((resultList: string[]) =>
+            map((resultList) =>
               ProductSelectionActions.bearingSearchSuccess({ resultList })
             )
           )
@@ -239,6 +240,7 @@ export class ProductSelectionEffects {
     private readonly calculationModuleInfoService: CalculationModuleInfoService,
     private readonly productSelectionFacade: ProductSelectionFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly co2Service: CO2UpstreamService
   ) {}
 }

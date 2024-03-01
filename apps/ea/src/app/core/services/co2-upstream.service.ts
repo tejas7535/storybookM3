@@ -5,7 +5,10 @@ import { Observable, throwError } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
 
-import { CO2UpstreamCalculationResult } from '../store/models';
+import {
+  Co2ApiSearchResult,
+  CO2UpstreamCalculationResult,
+} from '../store/models';
 
 @Injectable({ providedIn: 'root' })
 export class CO2UpstreamService {
@@ -29,5 +32,14 @@ export class CO2UpstreamService {
       designation: bearingDesignation,
       unitSet: 'SI',
     });
+  }
+
+  public findBearings(pattern: string): Observable<Co2ApiSearchResult[]> {
+    return this.httpClient.post<Co2ApiSearchResult[]>(
+      `${environment.co2UpstreamApiBaseUrl}/v2/public/search/constant`,
+      {
+        pattern,
+      }
+    );
   }
 }

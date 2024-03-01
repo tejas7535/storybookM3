@@ -11,3 +11,9 @@ export interface CO2UpstreamCalculationResult {
   upstreamEmissionTotal: number;
   unit: string;
 }
+
+export interface Co2ApiSearchResult {
+  bearinxId: string;
+  epimId: string;
+  designation: string;
+}

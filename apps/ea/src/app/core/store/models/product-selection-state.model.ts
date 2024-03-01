@@ -3,10 +3,12 @@ import {
   CatalogServiceTemplateCondition,
 } from '@ea/core/services/catalog.service.interface';
 
+import { Co2ApiSearchResult } from './co2-upstream-calculation-result-state.model';
+
 export interface ProductSelectionState {
   bearingDesignation?: string;
   bearingId?: string;
-  bearingResultList: string[];
+  bearingResultList: Co2ApiSearchResult[];
   loading?: boolean;
   calculationModuleInfo?: {
     catalogueCalculation: boolean;

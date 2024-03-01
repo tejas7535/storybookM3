@@ -1,12 +1,17 @@
 import { Action, createAction, props } from '@ngrx/store';
 
 import { ProductSelectionActions } from '../../actions';
-import { ProductSelectionState } from '../../models';
+import { Co2ApiSearchResult, ProductSelectionState } from '../../models';
 import {
   initialState,
   productSelectionReducer,
   reducer,
 } from './product-selection.reducer';
+
+const MOCK_CO2_API_SEARCH_RESULT: Co2ApiSearchResult[] = [
+  { bearinxId: 'abcd', epimId: '12345', designation: 'abcd' },
+  { bearinxId: 'xyz', epimId: '9876', designation: 'xyz' },
+];
 
 describe('ProductSelectionReducer', () => {
   describe('Reducer function', () => {
@@ -119,7 +124,7 @@ describe('ProductSelectionReducer', () => {
     it('should reset the bearing-related state to initial values', () => {
       const originalState: ProductSelectionState = {
         ...initialState,
-        bearingResultList: ['bearing-1', 'bearing-2'],
+        bearingResultList: MOCK_CO2_API_SEARCH_RESULT,
         loading: true,
       };
       const newState = productSelectionReducer(
@@ -149,7 +154,7 @@ describe('ProductSelectionReducer', () => {
         ...initialState,
         loading: true,
       };
-      const resultList: string[] = ['bearing-1', 'bearing-2', 'bearing-3'];
+      const resultList = MOCK_CO2_API_SEARCH_RESULT;
       const newState = productSelectionReducer(
         originalState,
         ProductSelectionActions.bearingSearchSuccess({ resultList })

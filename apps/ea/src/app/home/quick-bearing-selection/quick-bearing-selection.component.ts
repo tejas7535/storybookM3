@@ -59,12 +59,10 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
           // eslint-disable-next-line unicorn/no-useless-undefined
           return undefined;
         }
-        const options: StringOption[] = bearingDesignation.map(
-          (designation) => ({
-            id: designation,
-            title: designation,
-          })
-        );
+        const options: StringOption[] = bearingDesignation.map((result) => ({
+          id: result.bearinxId,
+          title: result.designation,
+        }));
 
         return options;
       })

@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { environment } from '@ea/environments/environment';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { Co2ApiSearchResult } from '../store/models';
 import { CO2UpstreamService } from './co2-upstream.service';
 
 describe('CO2UpstreamService', () => {
@@ -59,5 +60,24 @@ describe('CO2UpstreamService', () => {
           co2UpstreamService.getCO2UpstreamForDesignation(undefined)
         )
       ).rejects.toThrow());
+  });
+
+  describe('findBearings', () => {
+    it('should find all bearings from the api that match a given pattern', waitForAsync(() => {
+      const url = `${environment.co2UpstreamApiBaseUrl}/v2/public/search/constant`;
+      const searchPattern = '622';
+      const mockResult: Co2ApiSearchResult[] = [
+        { bearinxId: '6226', designation: '6226', epimId: '1234' },
+      ];
+
+      firstValueFrom(co2UpstreamService.findBearings(searchPattern)).then(
+        (res) => expect(res).toEqual(mockResult)
+      );
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(
+        expect.objectContaining({ pattern: searchPattern })
+      );
+    }));
   });
 });
