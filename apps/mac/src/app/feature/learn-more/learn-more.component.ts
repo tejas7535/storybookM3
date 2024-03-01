@@ -100,7 +100,13 @@ export class LearnMoreComponent implements OnInit {
   }
 
   public isImage(s: string): boolean {
-    return s.startsWith('../') || s.startsWith('http');
+    return (
+      s.startsWith('../') || s.startsWith('http') || s.startsWith('%ASSETS')
+    );
+  }
+
+  public getAssetPath(s: string): string {
+    return s.replaceAll('%ASSETS', '/assets');
   }
 
   public getTruncatedOverview(content: string[], size = 400): string[] {

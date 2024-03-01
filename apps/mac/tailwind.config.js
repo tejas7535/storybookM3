@@ -16,4 +16,5 @@ module.exports = {
   theme: {
     extend: {},
   },
+  safelist: ['table-auto'],
 };

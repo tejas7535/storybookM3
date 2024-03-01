@@ -48,6 +48,41 @@
   }
 }
 
+.table-learnmore {
+  tr {
+    @apply even:bg-secondary odd:bg-hover-overlay min-w-full w-full;
+
+    td,
+    th {
+      @apply px-1 py-2;
+    }
+    th {
+      @apply py-4;
+    }
+  }
+}
+.learn-more-contents.hardnessConverter {
+  img.learnmore-image {
+    @apply w-full max-w-3xl;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold;
+  }
+  h1 {
+    @apply text-subtitle-1;
+  }
+  h2 {
+    @apply text-subtitle-2;
+  }
+}
+
+.table-learnmore.table-compact {
+  @apply max-w-3xl;
+}
+
 /***************************************************************************************************
   * OVERRIDES
   */
