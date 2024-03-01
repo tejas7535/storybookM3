@@ -1,12 +1,22 @@
 <div
-  class="flex h-[46px] w-full flex-row"
+  class="flex h-[46px] w-full flex-row items-center"
   *transloco="
     let t;
     read: 'materialsSupplierDatabase.mainTable.tooltip.maturity'
   "
 >
   <div class="mr-2 flex-1">
-    <span>{{ params?.valueFormatted ?? params?.value }}</span>
+    <ng-container *ngIf="showMaterialEmissionClassification; else simpleView">
+      <!-- The emissions value is expected to be per ton but the value in SAP Materials is PCF per kg.
+      Therefore, we need the factor 1000 in this case! -->
+      <mac-material-emission-classification
+        [value]="params.value ? params.value * 1000 : undefined"
+        [displayValue]="params.valueFormatted"
+      ></mac-material-emission-classification>
+    </ng-container>
+    <ng-template #simpleView
+      ><span>{{ params?.valueFormatted ?? params?.value }}</span></ng-template
+    >
   </div>
   <div class="flex-1 align-baseline text-right" *ngIf="hasValue()">
     <ng-container>

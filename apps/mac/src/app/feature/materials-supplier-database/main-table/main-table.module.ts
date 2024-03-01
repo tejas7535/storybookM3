@@ -31,6 +31,7 @@ import { HeaderTooltipComponent } from './header-tooltip/header-tooltip.componen
 import { LinkCellRendererComponent } from './link-cell-renderer/link-cell-renderer.component';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { MaterialEmissionClassificationComponent } from './material-emission-classification/material-emission-classification.component';
 import { MaterialDialogsModule } from './material-input-dialog/materials/materials.module';
 import { MaturityInfoComponent } from './maturity-info/maturity-info.component';
 import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
@@ -56,6 +57,7 @@ import { UrlCellRendererComponent } from './url-cell-renderer/url-cell-renderer.
     DetailCellRendererComponent,
     HeaderTooltipComponent,
     MoreInformationDialogComponent,
+    MaterialEmissionClassificationComponent,
   ],
   imports: [
     CustomSnackbarComponent,

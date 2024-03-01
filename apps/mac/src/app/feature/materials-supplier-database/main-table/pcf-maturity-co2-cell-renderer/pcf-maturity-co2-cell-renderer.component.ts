@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { CATEGORY, EMISSION_FACTOR_KG } from '../../constants';
+
 @Component({
   selector: 'mac-pcf-maturity-co2-cell-renderer',
   templateUrl: './pcf-maturity-co2-cell-renderer.component.html',
@@ -10,22 +12,43 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class PcfMaturityCo2CellRendererComponent
   implements ICellRendererAngularComp
 {
-  public params: ICellRendererParams;
-  public hovered = false;
+  params: ICellRendererParams;
+  hovered = false;
+  showMaterialEmissionClassification = false;
 
-  public agInit(params: ICellRendererParams): void {
+  // The material emission classification will be displayed only for these categories.
+  private readonly categoriesForMaterialEmissionClassification = [
+    'M013',
+    'M018',
+    'M412',
+    'M422',
+  ];
+
+  agInit(params: ICellRendererParams): void {
     this.params = params;
+    this.showMaterialEmissionClassification =
+      this.shouldShowMaterialEmissionClassification();
   }
 
-  public refresh(): boolean {
+  refresh(): boolean {
     return false;
   }
 
-  public hasValue(): boolean {
+  hasValue(): boolean {
     return !!(this.params?.value === 0 || this.params?.value);
   }
 
-  public getMaturity() {
+  getMaturity() {
     return this.params.data['maturity'];
+  }
+
+  private shouldShowMaterialEmissionClassification(): boolean {
+    return (
+      this.params.column.getColId() === EMISSION_FACTOR_KG &&
+      this.categoriesForMaterialEmissionClassification.some(
+        (category: string) =>
+          category.toLowerCase() === this.params.data[CATEGORY]?.toLowerCase()
+      )
+    );
   }
 }

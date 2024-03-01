@@ -1,5 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -10,11 +11,6 @@ import * as en from '../../../../../assets/i18n/en.json';
 import { MsdDialogService } from '../../services';
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { GreenSteelCellRendererComponent } from './green-steel-cell-renderer.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn((string) => string),
-}));
 
 describe('GreenSteelCellRendererComponent', () => {
   let component: GreenSteelCellRendererComponent;
@@ -38,16 +34,13 @@ describe('GreenSteelCellRendererComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   const mockparams = {
     value: 77,
     hasEditorRole: false,
   } as EditCellRendererParams;
-
-  const setValue = (value?: number) => {
-    component.agInit({ value } as EditCellRendererParams);
-  };
 
   beforeEach(() => {
     spectator = createComponent();
@@ -70,58 +63,6 @@ describe('GreenSteelCellRendererComponent', () => {
   describe('refresh', () => {
     it('should return false', () => {
       expect(component.refresh()).toBe(false);
-    });
-  });
-
-  describe('getClassification', () => {
-    it.each([
-      [0, 3],
-      [200, 3],
-      [400, 3],
-      [800, 2],
-      [1000, 2],
-      [1200, 1],
-      [1750, 1],
-      [1800, 0],
-      [undefined, 0],
-    ])('should classify co2Value of <%p> as [%p]', (co2Value, expected) => {
-      setValue(co2Value);
-      expect(component.getRating()).toBe(expected);
-    });
-  });
-
-  describe('isValid', () => {
-    it('negative values are "valid"', () => {
-      setValue(-1);
-      expect(component.isValid()).toBeTruthy();
-    });
-    it('zero values are "valid"', () => {
-      setValue(0);
-      expect(component.isValid()).toBeTruthy();
-    });
-    it('positive values are "valid"', () => {
-      setValue(1);
-      expect(component.isValid()).toBeTruthy();
-    });
-    it('null values are "invalid"', () => {
-      setValue();
-      expect(component.isValid()).toBeFalsy();
-    });
-  });
-
-  describe('openMoreInformation', () => {
-    it('should open the dialog', () => {
-      component.openMoreInformation();
-
-      expect(component['dialogService'].openInfoDialog).toHaveBeenCalledWith(
-        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationTitle',
-        undefined,
-        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationImg',
-        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationImgCaption',
-        undefined,
-        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationContact',
-        'materialsSupplierDatabase.mainTable.tooltip.greensteel.moreInformationContactLink'
-      );
     });
   });
 });

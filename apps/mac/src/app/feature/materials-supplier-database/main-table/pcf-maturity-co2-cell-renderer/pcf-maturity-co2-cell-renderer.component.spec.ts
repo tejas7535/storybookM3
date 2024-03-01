@@ -3,6 +3,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
+import {
+  CATEGORY,
+  EMISSION_FACTOR_KG,
+  EMISSION_FACTOR_PC,
+} from '../../constants';
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer.component';
 
@@ -23,7 +28,7 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.agInit(mockparams);
+    component.params = mockparams;
   });
 
   describe('create', () => {
@@ -60,6 +65,50 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   describe('getMaturity', () => {
     it('should return set maturity', () => {
       expect(component.getMaturity()).toBe(9);
+    });
+  });
+
+  describe('shouldShowMaterialEmissionClassification', () => {
+    it('should return true if column is emissionFactorKg and the category is part of the defined list', () => {
+      component.params = {
+        column: {
+          getColId: () => EMISSION_FACTOR_KG,
+        },
+        data: {
+          [CATEGORY]: 'm018',
+        },
+      } as EditCellRendererParams;
+      expect(component['shouldShowMaterialEmissionClassification']()).toBe(
+        true
+      );
+    });
+
+    it('should return false if column is emissionFactorKg but the category is not part of the defined list', () => {
+      component.params = {
+        column: {
+          getColId: () => EMISSION_FACTOR_KG,
+        },
+        data: {
+          [CATEGORY]: 'M000',
+        },
+      } as EditCellRendererParams;
+      expect(component['shouldShowMaterialEmissionClassification']()).toBe(
+        false
+      );
+    });
+
+    it('should return false if column is not emissionFactorKg but the category is part of the defined list', () => {
+      component.params = {
+        column: {
+          getColId: () => EMISSION_FACTOR_PC,
+        },
+        data: {
+          [CATEGORY]: 'M018',
+        },
+      } as EditCellRendererParams;
+      expect(component['shouldShowMaterialEmissionClassification']()).toBe(
+        false
+      );
     });
   });
 });
