@@ -1,5 +1,9 @@
+import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { ProductType } from '@gq/shared/models';
-import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
+import {
+  MarketValueDriver,
+  UpdateFPricingDataRequest,
+} from '@gq/shared/models/f-pricing';
 
 import {
   F_PRICING_COMPARABLE_MATERIALS_MOCK,
@@ -25,12 +29,14 @@ import {
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import {
+  createAggregatedList,
   fPricingFeature,
   FPricingState,
   getDeltaByInformationKeyAndPropertyKey,
   getNumberOfDeltasByInformationKey,
   initialState,
 } from './f-pricing.reducer';
+import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 import { PropertyDelta } from './models/property-delta.interface';
 
 describe('fPricingReducer', () => {
@@ -189,6 +195,23 @@ describe('fPricingReducer', () => {
       expect(result).toEqual(MATERIAL_INFORMATION_EXTENDED_MOCK);
     });
 
+    test('getComparableTransactionsForDisplaying', () => {
+      const result =
+        fPricingFeature.getComparableTransactionsForDisplaying.projector(
+          F_PRICING_COMPARABLE_MATERIALS_MOCK
+        );
+      expect(result).toEqual(
+        F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING
+      );
+    });
+    test('getComparableTransactionsAvailable', () => {
+      const result =
+        fPricingFeature.getComparableTransactionsAvailable.projector(
+          F_PRICING_COMPARABLE_MATERIALS_MOCK
+        );
+      expect(result).toEqual(true);
+    });
+
     describe('getMarketValueDriverForDisplay', () => {
       test('should return the market value drivers for display', () => {
         const result = fPricingFeature.getMarketValueDriverForDisplay.projector(
@@ -196,71 +219,161 @@ describe('fPricingReducer', () => {
         );
         expect(result).toEqual(MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
       });
-
-      describe('getAnyMarketValueDriverSelected', () => {
-        test('should return true if any market value driver is selected other than the last option', () => {
-          const result =
-            fPricingFeature.getAnyMarketValueDriverSelected.projector(
-              MARKET_VALUE_DRIVERS_MOCK
-            );
-          expect(result).toBe(true);
-        });
-        test('should return false if the last option is selected', () => {
-          const result =
-            fPricingFeature.getAnyMarketValueDriverSelected.projector([
-              {
-                productType: ProductType.CRB,
-                selectedOptionId: 2,
-                questionId: 1,
-                options: [
-                  { optionId: 1, surcharge: 10 },
-                  { optionId: 2, surcharge: 10 },
-                ],
-              },
-              {
-                productType: ProductType.CRB,
-                selectedOptionId: 2,
-                questionId: 2,
-                options: [
-                  { optionId: 1, surcharge: 10 },
-                  { optionId: 2, surcharge: 10 },
-                ],
-              },
-            ]);
-          expect(result).toBe(false);
-        });
+    });
+    describe('getAggregatedMarketValueDrivers', () => {
+      test('should return only dbValues when user selections are empty', () => {
+        const expectedAggregateList = [
+          {
+            questionId: 1,
+            unknown: false,
+          },
+          {
+            questionId: 2,
+            unknown: false,
+          },
+          {
+            questionId: 3,
+            unknown: false,
+          },
+          {
+            questionId: 4,
+            unknown: true,
+          },
+          {
+            questionId: 5,
+            unknown: true,
+          },
+        ];
+        const result =
+          fPricingFeature.getAggregatedMarketValueDrivers.projector(
+            MARKET_VALUE_DRIVERS_MOCK,
+            []
+          );
+        expect(result).toEqual(expectedAggregateList);
       });
 
-      test('getComparableTransactionsForDisplaying', () => {
+      test('should return the aggregated list of market value drivers and userSelections', () => {
+        const expectedAggregateList = [
+          {
+            questionId: 1,
+            unknown: false,
+          },
+          {
+            questionId: 2,
+            unknown: false,
+          },
+          {
+            questionId: 3,
+            unknown: false,
+          },
+          {
+            questionId: 4,
+            unknown: false,
+          },
+          {
+            questionId: 5,
+            unknown: false,
+          },
+        ];
         const result =
-          fPricingFeature.getComparableTransactionsForDisplaying.projector(
-            F_PRICING_COMPARABLE_MATERIALS_MOCK
+          fPricingFeature.getAggregatedMarketValueDrivers.projector(
+            MARKET_VALUE_DRIVERS_MOCK,
+            [
+              {
+                questionId: 4,
+                selectedOptionId: 2,
+              },
+              {
+                questionId: 5,
+                selectedOptionId: 2,
+              },
+            ]
           );
-        expect(result).toEqual(
-          F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING
+        expect(result).toEqual(expectedAggregateList);
+      });
+    });
+
+    describe('getAnyMarketValueDriverSelected', () => {
+      test('should return true if any market value driver is selected other than the last option (only initial Values)', () => {
+        const result =
+          fPricingFeature.getAnyMarketValueDriverSelected.projector([
+            { questionId: 1, unknown: false },
+          ]);
+        expect(result).toBe(true);
+      });
+      test('should return false if the last option is selected (only initial Values)', () => {
+        const result =
+          fPricingFeature.getAnyMarketValueDriverSelected.projector([
+            { questionId: 1, unknown: true },
+          ]);
+        expect(result).toBe(false);
+      });
+
+      test('should return true, if any initial value is selected and and userSelections are present', () => {
+        const result =
+          fPricingFeature.getAnyMarketValueDriverSelected.projector([
+            { questionId: 1, unknown: false },
+          ]);
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('getAllMarketValueDriverSelected', () => {
+      test('should return false if not all initialValues are not set to unkown=false', () => {
+        const result =
+          fPricingFeature.getAllMarketValueDriverSelected.projector([
+            { questionId: 1, unknown: true },
+          ]);
+        expect(result).toBe(false);
+      });
+      test('should return true if all initialValues are set to unkown=false', () => {
+        const result =
+          fPricingFeature.getAllMarketValueDriverSelected.projector([
+            { questionId: 1, unknown: false },
+          ]);
+        expect(result).toBe(true);
+      });
+    });
+
+    describe('getMarketValueDriverWarningLevel', () => {
+      test('Should return COMPLETE if all market value drivers are selected', () => {
+        const result =
+          fPricingFeature.getMarketValueDriverWarningLevel.projector(
+            true,
+            true
+          );
+        expect(result).toBe(MarketValueDriverWarningLevel.COMPLETE);
+      });
+      test('Should return INCOMPLETE if some  market value drivers are selected', () => {
+        const result =
+          fPricingFeature.getMarketValueDriverWarningLevel.projector(
+            true,
+            false
+          );
+        expect(result).toBe(MarketValueDriverWarningLevel.INCOMPLETE);
+      });
+      test('Should return UNSET if no market value drivers are selected', () => {
+        const result =
+          fPricingFeature.getMarketValueDriverWarningLevel.projector(
+            false,
+            false
+          );
+        expect(result).toBe(MarketValueDriverWarningLevel.UNSET);
+      });
+    });
+
+    describe('getDataForUpdateFPricing', () => {
+      test('should return the data for update FPricing', () => {
+        const SELECTED_PRICE = 12.4;
+        const result = fPricingFeature.getDataForUpdateFPricing.projector(
+          MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+          SELECTED_PRICE
         );
-      });
-      test('getComparableTransactionsAvailable', () => {
-        const result =
-          fPricingFeature.getComparableTransactionsAvailable.projector(
-            F_PRICING_COMPARABLE_MATERIALS_MOCK
-          );
-        expect(result).toEqual(true);
-      });
-
-      describe('getDataForUpdateFPricing', () => {
-        test('should return the data for update FPricing', () => {
-          const SELECTED_PRICE = 12.4;
-          const result = fPricingFeature.getDataForUpdateFPricing.projector(
-            MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-            SELECTED_PRICE
-          );
-          const expected: UpdateFPricingDataRequest = {
-            marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-            selectedPrice: SELECTED_PRICE,
-          };
-          expect(result).toEqual(expected);
-        });
+        const expected: UpdateFPricingDataRequest = {
+          marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+          selectedPrice: SELECTED_PRICE,
+        };
+        expect(result).toEqual(expected);
       });
     });
 
@@ -331,6 +444,205 @@ describe('fPricingReducer', () => {
         isDelta: true,
       };
       expect(delta).toEqual(expected);
+    });
+  });
+
+  describe('createAggregatedList', () => {
+    test('Should aggregate the list of market value drivers and userSelections', () => {
+      const mvd_DB = [
+        {
+          questionId: 1,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 2,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 3,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 4,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 5,
+          selectedOptionId: 3,
+          options: [{}, {}, {}],
+        } as MarketValueDriver,
+      ];
+      const mvd_user = [
+        {
+          questionId: 1,
+          selectedOptionId: 2,
+        },
+        {
+          questionId: 2,
+          selectedOptionId: 2,
+        },
+      ];
+      const expectedAggregatedList = [
+        {
+          questionId: 1,
+          unknown: false,
+        },
+        {
+          questionId: 2,
+          unknown: false,
+        },
+        {
+          questionId: 3,
+          unknown: true,
+        },
+        {
+          questionId: 4,
+          unknown: true,
+        },
+        {
+          questionId: 5,
+          unknown: true,
+        },
+      ];
+
+      const result = createAggregatedList(mvd_DB, mvd_user);
+      expect(result).toEqual(expectedAggregatedList);
+    });
+
+    test('should return the DB list, if no userSelections are present', () => {
+      const mvd_DB = [
+        {
+          questionId: 1,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 2,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 3,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 4,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 5,
+          selectedOptionId: 3,
+          options: [{}, {}, {}],
+        } as MarketValueDriver,
+      ];
+      const mvd_user: MarketValueDriverSelection[] = [];
+      const expectedAggregatedList = [
+        {
+          questionId: 1,
+          unknown: true,
+        },
+        {
+          questionId: 2,
+          unknown: true,
+        },
+        {
+          questionId: 3,
+          unknown: true,
+        },
+        {
+          questionId: 4,
+          unknown: true,
+        },
+        {
+          questionId: 5,
+          unknown: true,
+        },
+      ];
+      const result = createAggregatedList(mvd_DB, mvd_user);
+      expect(result).toEqual(expectedAggregatedList);
+    });
+
+    test('should return the userSelections, if for each DB item there a userSelection item', () => {
+      const mvd_DB = [
+        {
+          questionId: 1,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 2,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 3,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 4,
+          selectedOptionId: 4,
+          options: [{}, {}, {}, {}],
+        } as MarketValueDriver,
+        {
+          questionId: 5,
+          selectedOptionId: 3,
+          options: [{}, {}, {}],
+        } as MarketValueDriver,
+      ];
+      const mvd_user = [
+        {
+          questionId: 1,
+          selectedOptionId: 2,
+        },
+        {
+          questionId: 2,
+          selectedOptionId: 2,
+        },
+        {
+          questionId: 3,
+          selectedOptionId: 4,
+        },
+        {
+          questionId: 4,
+          selectedOptionId: 4,
+        },
+        {
+          questionId: 5,
+          selectedOptionId: 3,
+        },
+      ];
+      const expectedResult = [
+        {
+          questionId: 1,
+          unknown: false,
+        },
+        {
+          questionId: 2,
+          unknown: false,
+        },
+        {
+          questionId: 3,
+          unknown: true,
+        },
+        {
+          questionId: 4,
+          unknown: true,
+        },
+        {
+          questionId: 5,
+          unknown: true,
+        },
+      ];
+
+      const result = createAggregatedList(mvd_DB, mvd_user);
+      expect(result).toEqual(expectedResult);
     });
   });
 });

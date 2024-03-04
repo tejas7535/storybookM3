@@ -22,6 +22,7 @@ import {
   FPricingComparableMaterials,
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
+import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
 
@@ -180,8 +181,8 @@ export const fPricingFeature = createFeature({
     selectPriceSelected,
     selectTechnicalValueDrivers,
     selectTechnicalValueDriversToUpdate,
-  }) => ({
-    getMaterialInformationExtended: createSelector(
+  }) => {
+    const getMaterialInformationExtended = createSelector(
       selectMaterialInformation,
       (
         materialInformation: MaterialInformation[]
@@ -207,38 +208,8 @@ export const fPricingFeature = createFeature({
 
         return materialInformationDisplay;
       }
-    ),
-    getMarketValueDriverForDisplay: createSelector(
-      selectMarketValueDrivers,
-      (
-        marketValueDriver: MarketValueDriver[]
-      ): MarketValueDriverDisplayItem[] => {
-        if (!marketValueDriver) {
-          return [];
-        }
-
-        return marketValueDriver.map((item) => {
-          const displayItem: MarketValueDriverDisplayItem = {
-            questionId: item.questionId,
-            options: item.options.map((option) => ({
-              optionId: option.optionId,
-              selected: item.selectedOptionId === option.optionId,
-            })),
-          };
-
-          return displayItem;
-        });
-      }
-    ),
-    // is there any selection made that is not the last option, then a selection other than default is made
-    getAnyMarketValueDriverSelected: createSelector(
-      selectMarketValueDrivers,
-      (marketValueDriver: MarketValueDriver[]): boolean =>
-        marketValueDriver?.some(
-          (item) => item.selectedOptionId !== item.options.length
-        )
-    ),
-    getComparableTransactionsForDisplaying: createSelector(
+    );
+    const getComparableTransactionsForDisplaying = createSelector(
       selectComparableTransactions,
       (
         comparableTransactions: FPricingComparableMaterials[]
@@ -260,24 +231,74 @@ export const fPricingFeature = createFeature({
 
         return displayComparableTransactions;
       }
-    ),
-    getComparableTransactionsAvailable: createSelector(
+    );
+    const getComparableTransactionsAvailable = createSelector(
       selectComparableTransactions,
       (comparableTransactions: FPricingComparableMaterials[]): boolean =>
         comparableTransactions?.length > 0
-    ),
-    getDataForUpdateFPricing: createSelector(
-      selectMarketValueDriversSelections,
-      selectPriceSelected,
+    );
+    const getMarketValueDriverForDisplay = createSelector(
+      selectMarketValueDrivers,
       (
-        marketValueDriverSelections,
-        selectedPrice
-      ): UpdateFPricingDataRequest => ({
-        marketValueDriverSelections,
-        selectedPrice,
-      })
-    ),
-    getTechnicalValueDriversForDisplay: createSelector(
+        marketValueDriver: MarketValueDriver[]
+      ): MarketValueDriverDisplayItem[] => {
+        if (!marketValueDriver) {
+          return [];
+        }
+
+        return marketValueDriver.map((item) => {
+          const displayItem: MarketValueDriverDisplayItem = {
+            questionId: item.questionId,
+            options: item.options.map((option) => ({
+              optionId: option.optionId,
+              selected: item.selectedOptionId === option.optionId,
+            })),
+          };
+
+          return displayItem;
+        });
+      }
+    );
+    // aggregate both lists of market Value driver selections (db values and userSelections)
+    const getAggregatedMarketValueDrivers = createSelector(
+      selectMarketValueDrivers,
+      selectMarketValueDriversSelections,
+      (
+        marketValueDriver: MarketValueDriver[],
+        mvdUserSelection: MarketValueDriverSelection[]
+      ): AggregateList[] =>
+        createAggregatedList(marketValueDriver, mvdUserSelection)
+    );
+    // is there any selection made that is not the last option, then a selection other than default is made
+    const getAnyMarketValueDriverSelected = createSelector(
+      getAggregatedMarketValueDrivers,
+      (aggrList: AggregateList[]): boolean =>
+        aggrList?.some((item) => !item.unknown)
+    );
+    // check if all the selections are made and not the last option
+    const getAllMarketValueDriverSelected = createSelector(
+      getAggregatedMarketValueDrivers,
+      (aggrList: AggregateList[]): boolean =>
+        aggrList?.every((item) => !item.unknown)
+    );
+
+    const getMarketValueDriverWarningLevel = createSelector(
+      getAnyMarketValueDriverSelected,
+      getAllMarketValueDriverSelected,
+
+      (some: boolean, all: boolean): MarketValueDriverWarningLevel => {
+        if (all) {
+          return MarketValueDriverWarningLevel.COMPLETE;
+        }
+        if (some) {
+          return MarketValueDriverWarningLevel.INCOMPLETE;
+        }
+
+        return MarketValueDriverWarningLevel.UNSET;
+      }
+    );
+
+    const getTechnicalValueDriversForDisplay = createSelector(
       selectTechnicalValueDrivers,
       selectTechnicalValueDriversToUpdate,
       (
@@ -345,8 +366,33 @@ export const fPricingFeature = createFeature({
 
         return list;
       }
-    ),
-  }),
+    );
+
+    const getDataForUpdateFPricing = createSelector(
+      selectMarketValueDriversSelections,
+      selectPriceSelected,
+      (
+        marketValueDriverSelections,
+        selectedPrice
+      ): UpdateFPricingDataRequest => ({
+        marketValueDriverSelections,
+        selectedPrice,
+      })
+    );
+
+    return {
+      getMaterialInformationExtended,
+      getComparableTransactionsForDisplaying,
+      getComparableTransactionsAvailable,
+      getMarketValueDriverForDisplay,
+      getAggregatedMarketValueDrivers,
+      getAnyMarketValueDriverSelected,
+      getAllMarketValueDriverSelected,
+      getMarketValueDriverWarningLevel,
+      getTechnicalValueDriversForDisplay,
+      getDataForUpdateFPricing,
+    };
+  },
 });
 
 /**
@@ -397,6 +443,31 @@ export function getDeltaByInformationKeyAndPropertyKey(
 }
 
 /**
+ * aggregate the market value drivers from db and the user selections.
+ * it is checked for unknown selection.
+ * when user selection has been made it is taken into account for this list, otherwise the db selection is taken into account.
+ *
+ * @param marketValueDriver the market value driver from db
+ * @param userSelections the selections the user has made
+ * @returns aggregated list of market value drivers and user selections
+ */
+export function createAggregatedList(
+  marketValueDriver: MarketValueDriver[],
+  userSelections: MarketValueDriverSelection[]
+): AggregateList[] {
+  return marketValueDriver?.map(({ questionId, options, selectedOptionId }) => {
+    const userSelection = userSelections.find(
+      (selection) => selection.questionId === questionId
+    );
+    const unknown = userSelection
+      ? userSelection.selectedOptionId === options.length
+      : selectedOptionId === options.length;
+
+    return { questionId, unknown };
+  });
+}
+
+/**
  * Checks if a delta exists for the given property values.
  * @param propertyValues the property values to compare
  * @returns if a delta exists
@@ -433,4 +504,9 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
   }
 
   return delta;
+}
+
+interface AggregateList {
+  questionId: number;
+  unknown: boolean;
 }

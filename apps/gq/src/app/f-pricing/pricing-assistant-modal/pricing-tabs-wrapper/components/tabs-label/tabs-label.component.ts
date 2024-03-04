@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 export class TabsLabelComponent {
   @Input() icon: string;
   @Input() iconColor: string;
+  @Input() iconTooltip: string;
   @Input() value: string;
   @Input() title: string;
   @Input() isOperator = false;

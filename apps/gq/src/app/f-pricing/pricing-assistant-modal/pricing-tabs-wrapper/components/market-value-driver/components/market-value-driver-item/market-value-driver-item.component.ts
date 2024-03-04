@@ -19,7 +19,7 @@ export class MarketValueDriverItemComponent implements OnInit {
   ngOnInit() {
     this.selectedOptionId = this.item.options.find(
       (item) => item.selected
-    ).optionId;
+    )?.optionId;
   }
 
   onOptionChange(option: MarketValueDriverOptionItem): void {

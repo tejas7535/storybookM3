@@ -5,9 +5,10 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
+import { FPricingPositionData } from '@gq/core/store/f-pricing/models/f-pricing-position-data.interface';
 import { EditingModal } from '@gq/shared/components/modal/editing-modal/models/editing-modal.model';
 import { QuotationDetail } from '@gq/shared/models';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
@@ -24,13 +25,17 @@ import { PricingAssistantModalComponent } from './pricing-assistant-modal.compon
 describe('PricingAssistant.modalComponent', () => {
   let component: PricingAssistantModalComponent;
   let spectator: Spectator<PricingAssistantModalComponent>;
+  const fPricingDataCompleteMock: BehaviorSubject<FPricingPositionData> =
+    new BehaviorSubject({} as FPricingPositionData);
 
   const createComponent = createComponentFactory({
     component: PricingAssistantModalComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     declarations: [MockPipe(NumberCurrencyPipe)],
     providers: [
-      MockProvider(FPricingFacade),
+      MockProvider(FPricingFacade, {
+        fPricingDataComplete$: fPricingDataCompleteMock.asObservable(),
+      }),
       MockProvider(MatDialog),
       { provide: MatDialogRef, useValue: {} },
       {
@@ -43,6 +48,7 @@ describe('PricingAssistant.modalComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    fPricingDataCompleteMock.next({} as FPricingPositionData);
   });
 
   it('should create', () => {

@@ -52,8 +52,27 @@
         ><gq-tabs-label
           [value]="marketValueDriversValue | numberCurrency: currency:true"
           [title]="t('marketValueDriversLabel')"
-          [icon]="marketValueDriverWarning ? 'warning_amber' : ''"
-          [iconColor]="'text-orange'"
+          [icon]="
+            marketValueDriverWarning !== marketValueDriverWarningLevel.COMPLETE
+              ? 'warning_amber'
+              : ''
+          "
+          [iconColor]="
+            marketValueDriverWarning ===
+            marketValueDriverWarningLevel.INCOMPLETE
+              ? 'text-orange'
+              : marketValueDriverWarning === marketValueDriverWarningLevel.UNSET
+              ? 'text-error'
+              : ''
+          "
+          [iconTooltip]="
+            marketValueDriverWarning ===
+            marketValueDriverWarningLevel.INCOMPLETE
+              ? t('marketValueDriversWarningTooltip')
+              : marketValueDriverWarning === marketValueDriverWarningLevel.UNSET
+              ? t('marketValueDriversErrorTooltip')
+              : ''
+          "
         ></gq-tabs-label
       ></ng-template>
       <div class="p-2 w-full absolute">

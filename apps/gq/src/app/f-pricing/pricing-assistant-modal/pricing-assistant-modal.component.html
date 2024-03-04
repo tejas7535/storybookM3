@@ -112,10 +112,13 @@
             [referencePrice]="fPricingData?.referencePrice"
             [marketValueDriversValue]="63.23"
             [marketValueDriverWarning]="
-              !fPricingData?.anyMarketValueDriverSelected
+              fPricingData.marketValueDriverWarningLevel
             "
             [marketValueDriverData]="fPricingData?.marketValueDriversDisplay"
             [technicalValueDriversValue]="12.23"
+            [technicalValueDriversTableItems]="
+              fPricingData?.technicalValueDriversForDisplay
+            "
             [sanityCheckValue]="0"
             [finalPrice]="2013.45"
             [referencePriceRowData]="

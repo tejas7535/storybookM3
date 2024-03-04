@@ -593,6 +593,8 @@
       },
       "referencePricingLabel": "Reference Pricing",
       "marketValueDriversLabel": "Market Value Drivers",
+      "marketValueDriversWarningTooltip": "If possible, please complete your evaluation of the market value drivers.",
+      "marketValueDriversErrorTooltip": " Please verify market value drivers.",
       "technicalValueDriversLabel": "Technical Value Drivers",
       "sanityCheckLabel": "Sanity Check",
       "finalPriceLabel": "Final Price",

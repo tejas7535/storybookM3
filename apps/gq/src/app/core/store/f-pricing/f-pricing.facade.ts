@@ -20,6 +20,7 @@ import {
 import { FPricingActions } from './f-pricing.actions';
 import { fPricingFeature, FPricingState } from './f-pricing.reducer';
 import { FPricingPositionData } from './models/f-pricing-position-data.interface';
+import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 
 @Injectable({
@@ -42,6 +43,8 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getComparableTransactionsAvailable),
     this.#store.select(fPricingFeature.getMarketValueDriverForDisplay),
     this.#store.select(fPricingFeature.getAnyMarketValueDriverSelected),
+    this.#store.select(fPricingFeature.getAllMarketValueDriverSelected),
+    this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
   ]).pipe(
     map(
@@ -54,6 +57,8 @@ export class FPricingFacade {
         comparableTransactionsAvailable,
         marketValueDriversDisplay,
         anyMarketValueDriverSelected,
+        allMarketValueDriverSelected,
+        marketValueDriverWarningLevel,
         technicalValueDriversForDisplay,
       ]: [
         FPricingState,
@@ -64,6 +69,8 @@ export class FPricingFacade {
         boolean,
         MarketValueDriverDisplayItem[],
         boolean,
+        boolean,
+        MarketValueDriverWarningLevel,
         TableItem[]
       ]) => ({
         ...fPricingState,
@@ -74,6 +81,8 @@ export class FPricingFacade {
         comparableTransactionsAvailable,
         marketValueDriversDisplay,
         anyMarketValueDriverSelected,
+        allMarketValueDriverSelected,
+        marketValueDriverWarningLevel,
         technicalValueDriversForDisplay,
       })
     )

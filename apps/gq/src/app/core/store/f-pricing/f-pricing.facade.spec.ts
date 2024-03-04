@@ -18,6 +18,7 @@ import {
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingFacade } from './f-pricing.facade';
 import { fPricingFeature, initialState } from './f-pricing.reducer';
+import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 
 describe('Service: FPricingFacade', () => {
   let service: FPricingFacade;
@@ -65,7 +66,10 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getAnyMarketValueDriverSelected,
           false
         );
-
+        mockStore.overrideSelector(
+          fPricingFeature.getAllMarketValueDriverSelected,
+          false
+        );
         mockStore.overrideSelector(
           fPricingFeature.getComparableTransactionsForDisplaying,
           []
@@ -94,6 +98,9 @@ describe('Service: FPricingFacade', () => {
               comparableTransactionsAvailable: false,
               technicalValueDriversForDisplay:
                 TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
+              allMarketValueDriverSelected: false,
+              marketValueDriverWarningLevel:
+                MarketValueDriverWarningLevel.UNSET,
             },
           })
         );

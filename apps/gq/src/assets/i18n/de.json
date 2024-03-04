@@ -593,6 +593,8 @@
       },
       "referencePricingLabel": "Referenzpreis",
       "marketValueDriversLabel": "Marktwerttreiber",
+      "marketValueDriversWarningTooltip": "Bitte vervollständigen Sie nach Möglichkeit Ihre Bewertung der Marktwerttreiber.",
+      "marketValueDriversErrorTooltip": "Bitte überprüfen Sie die Marktwerttreiber.",
       "technicalValueDriversLabel": "Technische Werttreiber",
       "sanityCheckLabel": "Plausibilitätsprüfung",
       "finalPriceLabel": "Endpreis",

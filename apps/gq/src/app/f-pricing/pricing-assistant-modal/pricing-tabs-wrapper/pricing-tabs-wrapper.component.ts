@@ -2,11 +2,11 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
+import { MarketValueDriverWarningLevel } from '@gq/core/store/f-pricing/models/market-value-driver-warning-level.enum';
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 
 import { MarketValueDriverDisplayItem } from '../models/market-value-driver-display-item.interface';
-import { ReferenceDataToShow } from '../models/reference-data-to-show.enum';
 import { TableItem } from '../models/table-item';
 
 @Component({
@@ -17,7 +17,7 @@ export class PricingTabsWrapperComponent {
   @Input() referencePrice: number;
 
   @Input() marketValueDriversValue: number;
-  @Input() marketValueDriverWarning: boolean;
+  @Input() marketValueDriverWarning: MarketValueDriverWarningLevel;
   @Input() technicalValueDriversValue: number;
   @Input() sanityCheckValue: number;
   @Input() finalPrice: number;
@@ -33,9 +33,9 @@ export class PricingTabsWrapperComponent {
   @Output() comparedMaterialClicked = new EventEmitter<string>();
   @Output() marketValueDriverTabActivated = new EventEmitter<void>();
 
+  readonly marketValueDriverWarningLevel = MarketValueDriverWarningLevel;
   readonly fPricingFacade = inject(FPricingFacade);
 
-  referenceDataVisible: ReferenceDataToShow;
   sanityChecksDataSource: TableItem[] = [
     {
       id: 1,

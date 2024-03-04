@@ -5,6 +5,7 @@ import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sa
 import { ComparableMaterialsRowData } from '../../reducers/transactions/models/f-pricing-comparable-materials.interface';
 // eslint-disable-next-line @nx/workspace/gq-scoped-import
 import { FPricingState } from '../f-pricing.reducer';
+import { MarketValueDriverWarningLevel } from './market-value-driver-warning-level.enum';
 
 /**
  * contains all related f-pricing data of a position (QuotationDetail)
@@ -24,5 +25,7 @@ export interface FPricingPositionData
   comparableTransactionsAvailable: boolean;
   marketValueDriversDisplay: MarketValueDriverDisplayItem[];
   anyMarketValueDriverSelected: boolean;
+  allMarketValueDriverSelected: boolean;
+  marketValueDriverWarningLevel: MarketValueDriverWarningLevel;
   technicalValueDriversForDisplay: TableItem[];
 }
