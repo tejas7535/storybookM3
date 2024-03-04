@@ -1,4 +1,12 @@
 # Release Notes of Mounting Manager
+## [0.3.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.3...mm-v0.3.4) (2024-03-04)
+
+
+### Bug Fixes
+
+* **mm:** adjust base urls ([#6050](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6050)) ([6b988f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6b988f3af64fbe1ccd570dedbdf4e9fa283cb220))
+* **mm:** move feedback banner above stepper ([#6049](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6049)) ([30fe9cd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/30fe9cd2ec4caf5707a05287989682c4284f42c3))
+
 ## [0.3.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.2...mm-v0.3.3) (2024-02-08)
 
 
