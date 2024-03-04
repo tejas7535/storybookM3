@@ -312,7 +312,11 @@ export class PDFReportService {
     data: ResultBlock<ResultReportLargeItem[]>,
     languageCode: string
   ) {
-    data.data = data.data.map((reportitem) => ({
+    if (!data.data) {
+      data.data = [];
+    }
+
+    data.data = data.data?.map((reportitem) => ({
       ...reportitem,
       title: this.translocoService.translate(
         `calculationResultReport.${scope}.${reportitem.title}`,

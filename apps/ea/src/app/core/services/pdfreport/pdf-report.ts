@@ -62,7 +62,7 @@ export class PDFREport {
       verticalLayout.add('resultgrid', this.data.lubricationInfo);
     }
 
-    if (this.data.frictionalPowerloss) {
+    if (this.data.frictionalPowerloss.data.length > 0) {
       verticalLayout.add('resultgrid', this.data.frictionalPowerloss);
     }
 
