@@ -207,7 +207,7 @@ describe('fPricingReducer', () => {
     test('getComparableTransactionsAvailable', () => {
       const result =
         fPricingFeature.getComparableTransactionsAvailable.projector(
-          F_PRICING_COMPARABLE_MATERIALS_MOCK
+          F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING
         );
       expect(result).toEqual(true);
     });

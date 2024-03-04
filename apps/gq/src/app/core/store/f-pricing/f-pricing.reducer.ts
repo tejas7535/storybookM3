@@ -233,8 +233,8 @@ export const fPricingFeature = createFeature({
       }
     );
     const getComparableTransactionsAvailable = createSelector(
-      selectComparableTransactions,
-      (comparableTransactions: FPricingComparableMaterials[]): boolean =>
+      getComparableTransactionsForDisplaying,
+      (comparableTransactions: ComparableMaterialsRowData[]): boolean =>
         comparableTransactions?.length > 0
     );
     const getMarketValueDriverForDisplay = createSelector(
