@@ -1,4 +1,27 @@
 # Release Notes of Engineering App
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.5.0...ea-v1.6.0) (2024-03-04)
+
+
+### Features
+
+* **ea:** add disclaimer in result preview (UFTABI-7179) ([#6016](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6016)) ([c34b287](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c34b287ef14eb2aa97bb98711a3136fb0e8c799a))
+* **ea:** add dynamic result preview (UFTABI-6525) ([#6042](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6042)) ([9a9b328](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a9b328055b0f31d9c7929cd0e9ec61d59d72eda))
+* **ea:** add static meta tags to html markup - UFTABI-6523 ([#5994](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5994)) ([e7a939f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7a939fb365caf7c8886b4c61bbf4188d3a50bef))
+* **ea:** adjust bearinx version ([#5981](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5981)) ([848ca32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/848ca32fc471861e6d42256e09c72ea0711c7b23))
+* **ea:** remove storybook config from easyCalc ([#6011](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6011)) ([e8173b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8173b78df58ccc33580248d2889830b0c20b475))
+* **ea:** switch to medias-easycalc ([#5984](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5984)) ([3caa050](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3caa05082c38cbed4d2228340bf1659eca3bface))
+* **ea:** use co2 api for bearing search - UFTABI-7267 ([#6048](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6048)) ([460df7c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/460df7ccd15a70c50f336d0541435048cdf5a041))
+* **ea:** use new icons ([#6047](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6047)) ([029e637](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/029e6372db1c030ce03dc417984ec72df7be9bd8))
+
+
+### Bug Fixes
+
+* **ea:** add german terms of use ([#6013](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6013)) ([e267129](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e26712932f51a35dc0941ea1d497ca84726f9dc5))
+* **ea:** add missing errors/warnings/notes section (UFTABI-7341) ([#6024](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6024)) ([4eb8535](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4eb853591c48316b451ce38170d620104cb4bb91))
+* **ea:** adjust bearinx api response codes for error warning notes (UFTABI-7322) ([#5990](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5990)) ([6e16de8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6e16de821b6afeb0a0b5a76e80290600aba3661c))
+* **ea:** fix issue in pdf in case of error for frictional powerloss ([#6055](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6055)) ([c31ce6c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c31ce6cd13f19c6eefefd45ad0b229f67bfc71b7))
+* **ea:** store language setting ([#5985](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5985)) ([ed301bd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ed301bd2d32ea3bb6514e7af98c375143f0acbe8))
+
 ## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.4.0...ea-v1.5.0) (2024-02-08)
 
 
