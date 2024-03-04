@@ -1,4 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
@@ -30,6 +31,7 @@ export class PricingTabsWrapperComponent {
   @Input() comparableTransactionsAvailable: boolean;
 
   @Output() comparedMaterialClicked = new EventEmitter<string>();
+  @Output() marketValueDriverTabActivated = new EventEmitter<void>();
 
   readonly fPricingFacade = inject(FPricingFacade);
 
@@ -79,5 +81,11 @@ export class PricingTabsWrapperComponent {
     selection: MarketValueDriverSelection
   ): void {
     this.fPricingFacade.setMarketValueDriverSelection(selection);
+  }
+
+  selectedTabChanged(tabChangedEvent: MatTabChangeEvent): void {
+    if (tabChangedEvent.index === 2) {
+      this.marketValueDriverTabActivated.emit();
+    }
   }
 }

@@ -200,6 +200,13 @@ describe('PricingAssistant.modalComponent', () => {
     });
   });
 
+  describe('mvdTabClicked', () => {
+    test('should set mvdTabActivated to true', () => {
+      component.mvdTabActivated = false;
+      component.mvdTabClicked();
+      expect(component.mvdTabActivated).toBe(true);
+    });
+  });
   describe('getInitialPriceValue', () => {
     test('should return value from TargetPrice', () => {
       component.dialogData = {

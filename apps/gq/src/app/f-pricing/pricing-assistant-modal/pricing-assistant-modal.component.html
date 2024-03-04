@@ -38,6 +38,7 @@
                 color="primary"
                 class="!mr-4 text-button font-medium"
                 mat-raised-button
+                [disabled]="!mvdTabActivated"
                 (click)="confirm()"
               >
                 {{ t('confirmButton') }}
@@ -127,6 +128,7 @@
               fPricingData?.comparableTransactionsAvailable
             "
             (comparedMaterialClicked)="onComparedMaterialClicked($event)"
+            (marketValueDriverTabActivated)="mvdTabClicked()"
           ></gq-pricing-tabs-wrapper>
         </div>
       </mat-card>

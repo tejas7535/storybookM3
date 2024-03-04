@@ -71,6 +71,8 @@ export class PricingAssistantModalComponent implements OnInit {
     comment: new FormControl(undefined, Validators.maxLength(200)),
   });
 
+  mvdTabActivated = false;
+
   ngOnInit(): void {
     this.fPricingFacade.loadDataForPricingAssistant(
       this.dialogData.gqPositionId
@@ -141,6 +143,10 @@ export class PricingAssistantModalComponent implements OnInit {
 
   closeOverlay(): void {
     this.visibleOverlay = OverlayToShow.gqPricing;
+  }
+
+  mvdTabClicked(): void {
+    this.mvdTabActivated = true;
   }
 
   private getInitialPriceValue(): number {

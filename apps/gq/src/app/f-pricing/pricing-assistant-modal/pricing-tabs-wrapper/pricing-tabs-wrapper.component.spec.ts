@@ -1,4 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
@@ -76,6 +77,31 @@ describe('PricingTabsWrapperComponent', () => {
       expect(
         component.fPricingFacade.setMarketValueDriverSelection
       ).toHaveBeenCalledWith(selection);
+    });
+  });
+  describe('selectedTabChanged', () => {
+    test('Should emit marketValueDriverTabActivated', () => {
+      const tabChangedEvent = {
+        index: 2,
+      } as unknown as MatTabChangeEvent;
+
+      component.marketValueDriverTabActivated.emit = jest.fn();
+
+      component.selectedTabChanged(tabChangedEvent);
+      expect(component.marketValueDriverTabActivated.emit).toHaveBeenCalled();
+    });
+
+    test('should not emit marketValueDriverTabActivated', () => {
+      const tabChangedEvent = {
+        index: 1,
+      } as unknown as MatTabChangeEvent;
+
+      component.marketValueDriverTabActivated.emit = jest.fn();
+
+      component.selectedTabChanged(tabChangedEvent);
+      expect(
+        component.marketValueDriverTabActivated.emit
+      ).not.toHaveBeenCalled();
     });
   });
 });
