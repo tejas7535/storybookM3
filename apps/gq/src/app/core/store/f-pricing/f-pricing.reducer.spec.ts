@@ -14,6 +14,10 @@ import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
 } from '../../../../testing/mocks/models/fpricing/material-information.mock';
+import {
+  TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
+  TECHNICAL_VALUE_DRIVERS_MOCK,
+} from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
 import { F_PRICING_STATE_MOCK } from '../../../../testing/mocks/state/f-pricing-state.mock';
 import {
   FPricingComparableMaterials,
@@ -59,6 +63,7 @@ describe('fPricingReducer', () => {
             referencePrice: 100_000,
             productType: ProductType.CRB,
             marketValueDrivers: null,
+            technicalValueDrivers: null,
           },
         })
       );
@@ -69,6 +74,7 @@ describe('fPricingReducer', () => {
         referencePrice: 100_000,
         productType: ProductType.CRB,
         marketValueDrivers: null,
+        technicalValueDrivers: null,
       });
     });
     test('should set error for fPricing data', () => {
@@ -143,6 +149,33 @@ describe('fPricingReducer', () => {
       expect(result).toEqual({
         ...state,
         fPricingDataLoading: true,
+      });
+    });
+    test('should set technicalValueDriversToUpdate', () => {
+      const result = fPricingFeature.reducer(
+        initialState,
+        FPricingActions.updateTechnicalValueDriver({
+          technicalValueDriver: {
+            description: 'test',
+            id: 1,
+            value: '5%',
+            editableValue: 5,
+            editableValueUnit: '%',
+          },
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        technicalValueDriversToUpdate: [
+          {
+            description: 'test',
+            id: 1,
+            value: '5%',
+            editableValue: 5,
+            editableValueUnit: '%',
+          },
+        ],
       });
     });
   });
@@ -228,6 +261,17 @@ describe('fPricingReducer', () => {
           };
           expect(result).toEqual(expected);
         });
+      });
+    });
+
+    describe('getTechnicalValueDriverForDisplay', () => {
+      test('should return the technical value drivers for display', () => {
+        const result =
+          fPricingFeature.getTechnicalValueDriversForDisplay.projector(
+            TECHNICAL_VALUE_DRIVERS_MOCK,
+            TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK
+          );
+        expect(result).toEqual(TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
       });
     });
   });

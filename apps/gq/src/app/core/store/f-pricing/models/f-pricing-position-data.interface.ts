@@ -1,4 +1,5 @@
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
+import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 
 import { ComparableMaterialsRowData } from '../../reducers/transactions/models/f-pricing-comparable-materials.interface';
@@ -19,9 +20,9 @@ export interface FPricingPositionData
   currency: string;
   materialSalesOrg: MaterialSalesOrg;
   materialSalesOrgAvailable: boolean;
-  marketValueDriversDisplay: MarketValueDriverDisplayItem[];
-  anyMarketValueDriverSelection: boolean;
-
   comparableTransactionsForDisplay: ComparableMaterialsRowData[];
   comparableTransactionsAvailable: boolean;
+  marketValueDriversDisplay: MarketValueDriverDisplayItem[];
+  anyMarketValueDriverSelected: boolean;
+  technicalValueDriversForDisplay: TableItem[];
 }

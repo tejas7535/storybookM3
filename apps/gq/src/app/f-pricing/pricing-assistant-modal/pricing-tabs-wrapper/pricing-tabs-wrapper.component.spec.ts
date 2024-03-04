@@ -7,6 +7,7 @@ import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { TableItem } from '../models/table-item';
 import { PricingTabsWrapperComponent } from './pricing-tabs-wrapper.component';
 
 describe('PricingTabsWrapperComponent', () => {
@@ -39,42 +40,21 @@ describe('PricingTabsWrapperComponent', () => {
   });
 
   describe('onTechnicalValueDriversChange', () => {
-    test('should update the dataSource for tech Value drivers', () => {
-      const dataSource = [
-        {
-          id: 1,
-          description: 'description',
-          editableValue: 20,
-          value: '20%',
-          additionalDescription: 'additionalDescription',
-        },
-        {
-          id: 2,
-          description: 'description',
-          editableValue: 20,
-          value: '20%',
-          additionalDescription: 'additionalDescription',
-        },
-      ];
-      const changedDataSource = [
-        {
-          id: 1,
-          description: 'description',
-          editableValue: 10,
-          value: '20%',
-          additionalDescription: 'additionalDescription',
-        },
-        {
-          id: 2,
-          description: 'description',
-          editableValue: 20,
-          value: '20%',
-          additionalDescription: 'additionalDescription',
-        },
-      ];
-      component.techValueDriverDataSource = dataSource;
-      component.onTechnicalValueDriversChange(changedDataSource);
-      expect(component.techValueDriverDataSource).toEqual(changedDataSource);
+    test('should dispatch updateTechnicalValueDriver', () => {
+      const changedValue = {
+        id: 1,
+        description: 'description',
+        editableValue: 20,
+        value: '20%',
+        additionalDescription: 'additionalDescription',
+      } as TableItem;
+
+      component.fPricingFacade.updateTechnicalValueDriver = jest.fn();
+
+      component.onTechnicalValueDriversChange(changedValue);
+      expect(
+        component.fPricingFacade.updateTechnicalValueDriver
+      ).toHaveBeenCalledWith(changedValue);
     });
   });
   describe('marketValueDriverSelectionChanged', () => {

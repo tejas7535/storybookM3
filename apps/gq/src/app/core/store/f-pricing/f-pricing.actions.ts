@@ -1,4 +1,5 @@
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import {
   FPricingData,
   UpdateFPricingDataResponse,
@@ -34,5 +35,8 @@ export const FPricingActions = createActionGroup({
     }>(),
 
     'Change Price': props<{ price: number }>(),
+    'Update Technical Value Driver': props<{
+      technicalValueDriver: TableItem;
+    }>(),
   },
 });

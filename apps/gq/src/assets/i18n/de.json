@@ -665,6 +665,15 @@
           "additionalDescription": "Beschreibung"
         }
       },
+      "tableRows": {
+        "technicalValueDriver": {
+          "heatTreatment": "Wärmebehandlung",
+          "toleranceClass": "Toleranzklasse",
+          "radialClearance": "Radialluft",
+          "axialClearance": "Axialluft",
+          "engineeringEffort": "Entwicklungsaufwand"
+        }
+      },
       "marketValueDriver": {
         "information": "Diese Information verbessert die Genauigkeit der Preisempfehlung.",
         "unknownTooltip": "Unbekannt wird automatisch ausgwählt. Bitte bestätigen Sie die Marktwerttreiber.",

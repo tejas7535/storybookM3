@@ -6,6 +6,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
+import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -37,10 +38,11 @@ export class FPricingFacade {
     this.#store.select(getQuotationCurrency),
     this.#store.select(getMaterialSalesOrg),
     this.#store.select(getMaterialSalesOrgDataAvailable),
-    this.#store.select(fPricingFeature.getMarketValueDriverForDisplay),
-    this.#store.select(fPricingFeature.getAnyMarketValueDriverSelected),
     this.#store.select(fPricingFeature.getComparableTransactionsForDisplaying),
     this.#store.select(fPricingFeature.getComparableTransactionsAvailable),
+    this.#store.select(fPricingFeature.getMarketValueDriverForDisplay),
+    this.#store.select(fPricingFeature.getAnyMarketValueDriverSelected),
+    this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
   ]).pipe(
     map(
       ([
@@ -48,28 +50,31 @@ export class FPricingFacade {
         currency,
         materialSalesOrg,
         materialSalesOrgDataAvailable,
-        marketValueDriversDisplay,
-        anyMarketValueDriverSelection,
         comparableTransactionsForDisplay,
         comparableTransactionsAvailable,
+        marketValueDriversDisplay,
+        anyMarketValueDriverSelected,
+        technicalValueDriversForDisplay,
       ]: [
         FPricingState,
         string,
         MaterialSalesOrg,
         boolean,
+        ComparableMaterialsRowData[],
+        boolean,
         MarketValueDriverDisplayItem[],
         boolean,
-        ComparableMaterialsRowData[],
-        boolean
+        TableItem[]
       ]) => ({
         ...fPricingState,
         currency,
         materialSalesOrg,
         materialSalesOrgAvailable: materialSalesOrgDataAvailable,
-        marketValueDriversDisplay,
-        anyMarketValueDriverSelection,
         comparableTransactionsForDisplay,
         comparableTransactionsAvailable,
+        marketValueDriversDisplay,
+        anyMarketValueDriverSelected,
+        technicalValueDriversForDisplay,
       })
     )
   );
@@ -123,5 +128,13 @@ export class FPricingFacade {
 
   changePrice(price: number): void {
     this.#store.dispatch(FPricingActions.changePrice({ price }));
+  }
+
+  updateTechnicalValueDriver(technicalValueDriver: TableItem): void {
+    this.#store.dispatch(
+      FPricingActions.updateTechnicalValueDriver({
+        technicalValueDriver,
+      })
+    );
   }
 }

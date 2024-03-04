@@ -665,6 +665,15 @@
           "additionalDescription": "Description"
         }
       },
+      "tableRows": {
+        "technicalValueDriver": {
+          "heatTreatment": "Heat Treatment",
+          "toleranceClass": "Tolerance Class",
+          "radialClearance": "Radial Clearance",
+          "axialClearance": "Axial Clearance",
+          "engineeringEffort": "Engineering Effort"
+        }
+      },
       "marketValueDriver": {
         "information": "This information will improve price recommendation accuracy.",
         "unknownTooltip": "Unknown pre-selected automatically. Please confirm the market value drivers.",

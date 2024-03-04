@@ -13,7 +13,7 @@ import { TableColumns } from '../simple-table/models/table-columns.enum';
 })
 export class TechnicalValueDriversTableComponent {
   @Input() dataSource: TableItem[];
-  @Output() technicalValueDriversChange = new EventEmitter<TableItem[]>();
+  @Output() technicalValueDriversChange = new EventEmitter<TableItem>();
 
   private readonly featureToggleService = inject(FeatureToggleConfigService);
 
@@ -28,15 +28,15 @@ export class TechnicalValueDriversTableComponent {
   readonly translationKey = TranslationKey;
 
   onTechnicalValueDriversValueChange(changedValue: number, id: number): void {
-    // change the data Source
-    const changedSource = this.dataSource.map((item) => {
-      if (item.id === id) {
-        return { ...item, editableValue: changedValue };
-      }
+    const changedTechnicalValueDriver = this.dataSource.find(
+      (item) => item.id === id
+    );
 
-      return item;
-    });
-
-    this.technicalValueDriversChange.emit(changedSource);
+    if (changedTechnicalValueDriver) {
+      this.technicalValueDriversChange.emit({
+        ...changedTechnicalValueDriver,
+        editableValue: changedValue,
+      });
+    }
   }
 }

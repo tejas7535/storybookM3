@@ -6,8 +6,11 @@
   type="number"
   cdkTextareaAutosize
   matInput
+  min="1"
+  max="100"
   [value]="value ?? 0"
   (change)="valueHasChanged($event.target)"
+  (focusout)="toggleEditMode()"
 />
 
 <div *ngIf="!isEditMode" class="flex flex-row items-center gap-4">

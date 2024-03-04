@@ -45,22 +45,13 @@ describe('TechnicalValueDriversTableComponent', () => {
           additionalDescription: 'additionalDescription',
         },
       ];
-      const emittedData = [
-        {
-          id: 1,
-          description: 'description',
-          editableValue: 10,
-          value: '20%',
-          additionalDescription: 'additionalDescription',
-        },
-        {
-          id: 2,
-          description: 'description',
-          editableValue: 20,
-          value: '20%',
-          additionalDescription: 'additionalDescription',
-        },
-      ];
+      const emittedData = {
+        id: 1,
+        description: 'description',
+        editableValue: 10,
+        value: '20%',
+        additionalDescription: 'additionalDescription',
+      };
       component.technicalValueDriversChange.emit = jest.fn();
 
       component.dataSource = dataSource;

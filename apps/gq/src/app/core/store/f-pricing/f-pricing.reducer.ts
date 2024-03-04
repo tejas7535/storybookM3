@@ -1,5 +1,9 @@
+/* eslint-disable max-lines */
+import { PercentPipe } from '@angular/common';
+
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
+import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import {
   FPricingData,
   MarketValueDriver,
@@ -7,9 +11,12 @@ import {
   PropertyValue,
   UpdateFPricingDataRequest,
 } from '@gq/shared/models/f-pricing';
+import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-value-driver.interface';
+import { translate } from '@ngneat/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { MATERIAL_INFORMATION_MOCK } from '../../../../testing/mocks';
+import { TECHNICAL_VALUE_DRIVERS_MOCK } from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
 import {
   ComparableMaterialsRowData,
   FPricingComparableMaterials,
@@ -17,6 +24,11 @@ import {
 import { FPricingActions } from './f-pricing.actions';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
+
+const TRANSLATION_KEY =
+  'fPricing.pricingAssistantModal.tableRows.technicalValueDriver';
+
+const percentPipe = new PercentPipe('en-US');
 
 export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
@@ -27,6 +39,7 @@ export interface FPricingState extends FPricingData {
   marketValueDriversSelections: MarketValueDriverSelection[];
   // the price could either be the reference price or the manual price
   priceSelected: number;
+  technicalValueDriversToUpdate: TableItem[];
 }
 
 export const initialState: FPricingState = {
@@ -41,6 +54,8 @@ export const initialState: FPricingState = {
   comparableTransactions: null,
   marketValueDriversSelections: [],
   priceSelected: null,
+  technicalValueDrivers: TECHNICAL_VALUE_DRIVERS_MOCK,
+  technicalValueDriversToUpdate: [],
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -141,6 +156,19 @@ export const fPricingFeature = createFeature({
         ...state,
         priceSelected: price,
       })
+    ),
+
+    on(
+      FPricingActions.updateTechnicalValueDriver,
+      (state: FPricingState, { technicalValueDriver }): FPricingState => ({
+        ...state,
+        technicalValueDriversToUpdate: [
+          ...state.technicalValueDriversToUpdate.filter(
+            (item) => item.id !== technicalValueDriver.id
+          ),
+          technicalValueDriver,
+        ],
+      })
     )
   ),
 
@@ -150,6 +178,8 @@ export const fPricingFeature = createFeature({
     selectComparableTransactions,
     selectMarketValueDriversSelections,
     selectPriceSelected,
+    selectTechnicalValueDrivers,
+    selectTechnicalValueDriversToUpdate,
   }) => ({
     getMaterialInformationExtended: createSelector(
       selectMaterialInformation,
@@ -246,6 +276,75 @@ export const fPricingFeature = createFeature({
         marketValueDriverSelections,
         selectedPrice,
       })
+    ),
+    getTechnicalValueDriversForDisplay: createSelector(
+      selectTechnicalValueDrivers,
+      selectTechnicalValueDriversToUpdate,
+      (
+        technicalValueDriver: TechnicalValueDriver,
+        technicalValueDriverUpdated: TableItem[]
+      ): TableItem[] => {
+        const list = [
+          {
+            id: 1,
+            description: translate(`${TRANSLATION_KEY}.heatTreatment`),
+
+            value: percentPipe.transform(
+              technicalValueDriver.heatTreatmentSurcharge
+            ),
+            editableValueUnit: '%',
+            editableValue: technicalValueDriverUpdated.find(
+              (item) => item.id === 1
+            )?.editableValue,
+          } as TableItem,
+          {
+            id: 2,
+            description: translate(`${TRANSLATION_KEY}.toleranceClass`),
+            value: percentPipe.transform(
+              technicalValueDriver.toleranceClassSurcharge
+            ),
+            editableValueUnit: '%',
+            editableValue: technicalValueDriverUpdated.find(
+              (item) => item.id === 2
+            )?.editableValue,
+          },
+          {
+            id: 3,
+            description: translate(`${TRANSLATION_KEY}.radialClearance`),
+            value: percentPipe.transform(
+              technicalValueDriver.clearanceRadialSurcharge
+            ),
+            editableValueUnit: '%',
+            editableValue: technicalValueDriverUpdated.find(
+              (item) => item.id === 3
+            )?.editableValue,
+          },
+          {
+            id: 4,
+            description: translate(`${TRANSLATION_KEY}.axialClearance`),
+            value: percentPipe.transform(
+              technicalValueDriver.clearanceAxialSurcharge
+            ),
+            editableValueUnit: '%',
+            editableValue: technicalValueDriverUpdated.find(
+              (item) => item.id === 4
+            )?.editableValue,
+          },
+          {
+            id: 5,
+            description: translate(`${TRANSLATION_KEY}.engineeringEffort`),
+            value: percentPipe.transform(
+              technicalValueDriver.engineeringEffortSurcharge
+            ),
+            editableValueUnit: '%',
+            editableValue: technicalValueDriverUpdated.find(
+              (item) => item.id === 5
+            )?.editableValue,
+          },
+        ];
+
+        return list;
+      }
     ),
   }),
 });

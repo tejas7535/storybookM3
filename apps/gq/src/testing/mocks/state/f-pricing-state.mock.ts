@@ -4,6 +4,7 @@ import { ProductType } from '@gq/shared/models';
 import { MATERIAL_INFORMATION_MOCK } from '../models';
 import { MARKET_VALUE_DRIVERS_MOCK } from '../models/fpricing/market-value-drivers.mock';
 import { MARKET_VALUE_DRIVERS_SELECTIONS_MOCK } from '../models/fpricing/market-value-drivers-selections.mock';
+import { TECHNICAL_VALUE_DRIVERS_MOCK } from '../models/fpricing/technical-value-drivers.mock';
 
 export const F_PRICING_STATE_MOCK: FPricingState = {
   fPricingDataLoading: false,
@@ -17,4 +18,6 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   referencePrice: 10,
   materialInformation: MATERIAL_INFORMATION_MOCK,
   priceSelected: 14.45,
+  technicalValueDrivers: TECHNICAL_VALUE_DRIVERS_MOCK,
+  technicalValueDriversToUpdate: [],
 };

@@ -9,6 +9,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK } from '../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import { MATERIAL_INFORMATION_EXTENDED_MOCK } from '../../../../testing/mocks/models/fpricing/material-information.mock';
+import { TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK } from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import {
   getMaterialSalesOrg,
@@ -73,6 +74,11 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getComparableTransactionsAvailable,
           false
         );
+        mockStore.overrideSelector(
+          fPricingFeature.getTechnicalValueDriversForDisplay,
+          TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK
+        );
+
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
             a: {
@@ -83,9 +89,11 @@ describe('Service: FPricingFacade', () => {
               materialSalesOrg: { materialStatus: 'f' } as MaterialSalesOrg,
               materialSalesOrgAvailable: true,
               marketValueDriversDisplay: MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
-              anyMarketValueDriverSelection: false,
+              anyMarketValueDriverSelected: false,
               comparableTransactionsForDisplay: [],
               comparableTransactionsAvailable: false,
+              technicalValueDriversForDisplay:
+                TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
             },
           })
         );
@@ -232,6 +240,25 @@ describe('Service: FPricingFacade', () => {
       const action = FPricingActions.changePrice({ price });
 
       service.changePrice(price);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('updateTechnicalValueDriverForDisplay', () => {
+    test('should dispatch updateTechnicalValueDriver', () => {
+      const technicalValueDriver = {
+        description: 'translate it',
+        id: 1,
+        value: '5%',
+        editableValue: 5,
+        editableValueUnit: '%',
+      };
+      const action = FPricingActions.updateTechnicalValueDriver({
+        technicalValueDriver,
+      });
+
+      service.updateTechnicalValueDriver(technicalValueDriver);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });

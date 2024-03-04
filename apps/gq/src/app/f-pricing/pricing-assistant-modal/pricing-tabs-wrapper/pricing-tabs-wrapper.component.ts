@@ -24,6 +24,7 @@ export class PricingTabsWrapperComponent {
 
   @Input() referencePriceRowData: ComparableMaterialsRowData[];
   @Input() marketValueDriverData: MarketValueDriverDisplayItem[];
+  @Input() technicalValueDriversTableItems: TableItem[];
 
   @Input() comparableTransactionsLoading = true;
   @Input() comparableTransactionsAvailable: boolean;
@@ -66,57 +67,12 @@ export class PricingTabsWrapperComponent {
     },
   ];
 
-  techValueDriverDataSource: TableItem[] = [
-    {
-      id: 1,
-      description: 'Heat Treatment',
-      editableValue: 15,
-      editableValueUnit: '%',
-      value: '15 %',
-      additionalDescription: 'At least one component is heat treated (e.g. S1)',
-    },
-    {
-      id: 2,
-      description: 'Tolerance Class',
-      value: '3 %',
-      editableValue: 3,
-      editableValueUnit: '%',
-      additionalDescription:
-        'Identification of special tolerance class (e.g. P5)',
-    },
-    {
-      id: 3,
-      description: 'Radial Clearance',
-      value: '0 %',
-      editableValue: 0,
-      editableValueUnit: '%',
-      additionalDescription: 'Bearing has special radial clearance',
-    },
-    {
-      id: 4,
-      description: 'Axial Clearance',
-      value: '0 %',
-      editableValue: 5,
-      editableValueUnit: '%',
-      additionalDescription: 'Bearing has special axial clearance',
-    },
-    {
-      id: 5,
-      description: 'Engineering effort',
-      value: '0 %',
-      editableValue: 0,
-      editableValueUnit: '%',
-      additionalDescription: 'Evaluation of engineering effort',
-    },
-  ];
-
   onComparedMaterialClicked(material: string): void {
     this.comparedMaterialClicked.emit(material);
   }
 
-  onTechnicalValueDriversChange(changedSource: TableItem[]): void {
-    console.log('changedSource', changedSource);
-    this.techValueDriverDataSource = changedSource;
+  onTechnicalValueDriversChange(changedTechnicalValueDriver: TableItem): void {
+    this.fPricingFacade.updateTechnicalValueDriver(changedTechnicalValueDriver);
   }
 
   marketValueDriverSelectionChanged(
