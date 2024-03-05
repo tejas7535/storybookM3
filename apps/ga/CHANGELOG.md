@@ -1,4 +1,16 @@
 # Release Notes of Grease App
+## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.7.1...ga-v1.8.0) (2024-03-05)
+
+
+### Features
+
+* **ga:** highlight PDF download button in GA - UFTABI-7361 ([#6033](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6033)) ([1fe073a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1fe073ad079ef552f68548e68a868a68e5c690a6))
+
+
+### Bug Fixes
+
+* **ga:** adjust partner version step styles ([#6014](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6014)) ([c5d8a5a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5d8a5a5cb5f2041fc93befbd822e181ec881c53))
+
 ## [1.7.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.7.0...ga-v1.7.1) (2024-02-20)
 
 ## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.6.3...ga-v1.7.0) (2024-02-16)
