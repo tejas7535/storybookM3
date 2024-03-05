@@ -814,7 +814,7 @@ describe('MainTableComponent', () => {
     });
   });
 
-  describe('exportExcel', () => {
+  describe('exportExcelRawMaterials', () => {
     it('should call export function with current timestamp', () => {
       component['datePipe'].transform = jest.fn().mockReturnValue('1234-13-44');
       component['agGridApi'] = {} as unknown as GridApi;
@@ -832,7 +832,7 @@ describe('MainTableComponent', () => {
 
       component['visibleColumns'] = [MANUFACTURER_SUPPLIER_SAPID];
 
-      component.exportExcel();
+      component.exportExcelRawMaterials();
 
       expect(component['datePipe'].transform).toHaveBeenCalledWith(
         expect.any(Date),
@@ -859,7 +859,7 @@ describe('MainTableComponent', () => {
 
       component['visibleColumns'] = [];
 
-      component.exportExcel();
+      component.exportExcelRawMaterials();
 
       expect(component['datePipe'].transform).toHaveBeenCalledWith(
         expect.any(Date),
@@ -883,9 +883,53 @@ describe('MainTableComponent', () => {
       component['agGridApi'] = undefined;
       component['datePipe'].transform = jest.fn();
 
-      component.exportExcel();
+      component.exportExcelRawMaterials();
 
       expect(component['datePipe'].transform).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('exportExcelSapMaterials', () => {
+    const toColDef = (s: string | Column): ColDef =>
+      ({
+        field: s,
+        headerName: s,
+        headerTooltip: s,
+      } as ColDef);
+    it('should register the event Listener', () => {
+      const colDefs = [toColDef('a'), toColDef('b'), toColDef('c')];
+
+      component['agGridApi'] = {} as unknown as GridApi;
+      component['agGridApi'].setCacheBlockSize = jest.fn();
+      component['agGridApi'].addEventListener = jest.fn((_str, fct) => fct());
+      component['agGridApi'].removeEventListener = jest.fn();
+      component['agGridApi'].getColumnDef = jest.fn((s) => toColDef(s));
+      component['agGridApi'].getColumnDefs = jest.fn(() => colDefs);
+      component['agGridApi'].exportDataAsExcel = jest.fn();
+      component['visibleColumns'] = ['history', 'test'];
+
+      component.exportExcelSapMaterials();
+
+      expect(component['agGridApi'].setCacheBlockSize).toHaveBeenCalledWith(
+        100_000
+      );
+      expect(component['agGridApi'].addEventListener).toHaveBeenCalledWith(
+        expect.stringMatching('modelUpdated'),
+        expect.any(Function)
+      );
+      expect(component['agGridApi'].removeEventListener).toHaveBeenCalled();
+      expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalled();
+      expect(component['agGridApi'].setCacheBlockSize).toHaveBeenCalledWith(
+        100
+      );
+    });
+
+    it('should do nothing if ag grid api is not defined', () => {
+      component['agGridApi'] = undefined;
+
+      component.exportExcelSapMaterials();
+      // expect no exception
+      expect(true).toBeTruthy();
     });
   });
 

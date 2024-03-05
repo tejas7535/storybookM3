@@ -92,6 +92,8 @@ import { getStatus } from './util';
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly materialClass = MaterialClass;
+  public readonly DEFAULT_BLOCK_SIZE = 100;
+  public readonly EXPORT_BLOCK_SIZE = 100_000;
 
   // master detail cell renderer
   public detailCellRenderer = DetailCellRendererComponent;
@@ -423,7 +425,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  public exportExcel(): void {
+  public exportExcelRawMaterials(): void {
     if (!this.agGridApi) {
       return;
     }
@@ -456,6 +458,75 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         ? this.excelExportProcessCellCallbackFactory(this.getCellValue)
         : undefined,
     });
+  }
+
+  public exportExcelSapMaterials(): void {
+    if (!this.agGridApi) {
+      return;
+    }
+    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
+    // event handler function to create the excel file
+    const eventHandler = () => {
+      this.agGridApi.removeEventListener('modelUpdated', eventHandler);
+      // get a sorted list of all columns, starting with visible columns
+      const columnList: ColDef[] = [
+        ...this.visibleColumns.map((col) => this.agGridApi.getColumnDef(col)),
+        ...this.agGridApi
+          .getColumnDefs()
+          .filter(
+            (column: ColDef) => !this.visibleColumns.includes(column.field)
+          ),
+      ].filter((column: ColDef) => !this.NON_EXCEL_COLUMNS.has(column.field));
+
+      // list of columns to add to export
+      const columnKeys = columnList.map((column) => column.field);
+      // get list of column headers (translated)
+      const headerCells = columnList
+        .map((column) => column.headerName)
+        .map(this.toExcelCell('header'));
+      // get second header row, column descriptions
+      const descriptionCells = columnList
+        .map((column) =>
+          column.headerTooltip
+            ? translate(
+                `materialsSupplierDatabase.mainTable.tooltip.${column.headerTooltip}`
+              )
+            : undefined
+        )
+        .map(this.toExcelCell('hint'));
+
+      // Create the excel file
+      const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      this.agGridApi.exportDataAsExcel({
+        columnKeys,
+        prependContent: [{ cells: headerCells }, { cells: descriptionCells }],
+        skipColumnHeaders: true,
+        author: translate(
+          'materialsSupplierDatabase.mainTable.excelExport.author'
+        ),
+        fileName: `${dateString}${translate(
+          'materialsSupplierDatabase.mainTable.excelExport.matNrFileNameSuffix'
+        )}`,
+        sheetName: translate(
+          'materialsSupplierDatabase.mainTable.excelExport.matNrSheetName'
+        ),
+      });
+      // reset default block size
+      this.agGridApi.setCacheBlockSize(this.DEFAULT_BLOCK_SIZE);
+    };
+    // increasing block size, forcing a data reload
+    this.agGridApi.setCacheBlockSize(this.EXPORT_BLOCK_SIZE);
+    // once data is available, create the excel file
+    this.agGridApi.addEventListener('modelUpdated', eventHandler);
+  }
+
+  private toExcelCell(style: string): (value: string) => ExcelCell {
+    // transform text to ExcelCell Objects
+    return (value: string) =>
+      ({
+        data: { type: 'String', value },
+        styleId: style,
+      } as ExcelCell);
   }
 
   private parseQueryParams(): void {

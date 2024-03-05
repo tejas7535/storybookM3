@@ -78,7 +78,7 @@
                   '!bg-opacity-5 !bg-error': isBlockedRow,
                   '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
                 }"
-                [cacheBlockSize]="100"
+                [cacheBlockSize]="DEFAULT_BLOCK_SIZE"
                 [maxBlocksInCache]="4"
                 [blockLoadDebounceMillis]="500"
                 [maxConcurrentDatasourceRequests]="1"
@@ -100,13 +100,13 @@
       class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
     >
       <ng-container
-        *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
+        *ngIf="
+          navigation.materialClass !== materialClass.SAP_MATERIAL;
+          else upload
+        "
       >
         <ng-container
-          *ngIf="
-            navigation.materialClass !== materialClass.SAP_MATERIAL;
-            else upload
-          "
+          *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
         >
           <button
             mat-raised-button
@@ -120,33 +120,37 @@
             <mat-icon class="material-icons-outlined">add</mat-icon>
             <span>{{ t('addItem') }}</span>
           </button>
+          <button
+            mat-raised-button
+            class="!bg-nordic-blue"
+            (click)="openDialogMultiEdit()"
+            *ngIf="countSelectedNodes() >= 2"
+          >
+            <mat-icon class="material-icons-outlined">edit</mat-icon>
+            <span class="text-white">{{
+              t('multiEdit', { count: countSelectedNodes() })
+            }}</span>
+          </button>
         </ng-container>
-        <button
-          mat-raised-button
-          class="!bg-nordic-blue"
-          (click)="openDialogMultiEdit()"
-          *ngIf="countSelectedNodes() >= 2"
-        >
-          <mat-icon class="material-icons-outlined">edit</mat-icon>
-          <span class="text-white">{{
-            t('multiEdit', { count: countSelectedNodes() })
-          }}</span>
+        <ng-template #resumeButton>
+          <button
+            mat-raised-button
+            class="!bg-nordic-blue"
+            [disabled]="
+              !(hasEditorRole$ | ngrxPush) ||
+              !editableClass(navigation.materialClass)
+            "
+            (click)="resumeDialog()"
+          >
+            <mat-icon class="text-white">play_arrow</mat-icon>
+            <span class="text-white">{{ t('resume') }}</span>
+          </button>
+        </ng-template>
+        <button mat-button color="primary" (click)="exportExcelRawMaterials()">
+          <mat-icon class="material-icons-outlined">download</mat-icon>
+          <span>{{ t('export') }}</span>
         </button>
       </ng-container>
-      <ng-template #resumeButton>
-        <button
-          mat-raised-button
-          class="!bg-nordic-blue"
-          [disabled]="
-            !(hasEditorRole$ | ngrxPush) ||
-            !editableClass(navigation.materialClass)
-          "
-          (click)="resumeDialog()"
-        >
-          <mat-icon class="text-white">play_arrow</mat-icon>
-          <span class="text-white">{{ t('resume') }}</span>
-        </button>
-      </ng-template>
       <ng-template #upload>
         <ng-container
           *ngIf="
@@ -167,6 +171,21 @@
           <mat-icon class="material-icons-outlined">add</mat-icon>
           <span>{{ t('uploadItem') }}</span>
         </button>
+        <button
+          class="!pointer-events-auto"
+          *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
+          mat-button
+          color="primary"
+          (click)="exportExcelSapMaterials()"
+          [matTooltip]="t('mainTable.excelExport.matNrTooltip')"
+          [disabled]="
+            !(hasMatnrUploaderRole$ | ngrxPush) ||
+            sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
+          "
+        >
+          <mat-icon class="material-icons-outlined">download</mat-icon>
+          <span>{{ t('export') }}</span>
+        </button>
       </ng-template>
       <ng-template #uploadInProgressButton>
         <button
@@ -184,16 +203,6 @@
           </div>
         </button>
       </ng-template>
-
-      <button
-        mat-button
-        color="primary"
-        (click)="exportExcel()"
-        [disabled]="navigation.materialClass === 'sap'"
-      >
-        <mat-icon class="material-icons-outlined">download</mat-icon>
-        <span>{{ t('export') }}</span>
-      </button>
       <button
         mat-button
         color="primary"

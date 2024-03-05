@@ -759,7 +759,10 @@
       "excelExport": {
         "author": "MSD (Materials Supplier Database)",
         "fileNameSuffix": "-MSD-export.xlsx",
-        "sheetName": "MSD-Export"
+        "sheetName": "MSD-Export",
+        "matNrFileNameSuffix": "-MATNR-export.xlsx",
+        "matNrSheetName": "MSD-Export",
+        "matNrTooltip": "Only enabled with 100.000 or less materials"
       },
       "no": "No",
       "productCategories": "Product Categories",
