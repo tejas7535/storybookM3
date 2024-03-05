@@ -88,7 +88,7 @@ export class RadioButtonGroupComponent<T> implements AfterContentInit {
       map(
         (value) =>
           this.templateMap[
-            this.options.find((option) => option.value === value).templateRef
+            this.options.find((option) => option.value === value)?.templateRef
           ]
       )
     );

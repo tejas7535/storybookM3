@@ -4,18 +4,6 @@
       {{ t('appTitle') }}
     </h1>
     <mat-divider class="mb-3 sm:mb-9"></mat-divider>
-    <lsa-stepper (selectionChange)="selectionChanged($event)">
-      <ng-container *ngFor="let page of pages; let index = index">
-        <cdk-step
-          lsaStep
-          [label]="t('pages.' + page.name + '.title')"
-          [completed]="page.completed"
-        >
-          <lsa-recommendation-container
-            [currentStep$]="currentStep$"
-          ></lsa-recommendation-container>
-        </cdk-step>
-      </ng-container>
-    </lsa-stepper>
+    <lsa-recommendation-container></lsa-recommendation-container>
   </div>
 </div>

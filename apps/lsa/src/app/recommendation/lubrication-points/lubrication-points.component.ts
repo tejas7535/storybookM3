@@ -6,11 +6,20 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { RadioOptionContentDirective } from '@lsa/shared/components/radio-button-group/radio-option-content.directive';
-import { Optime, RelubricationInterval } from '@lsa/shared/constants';
-import { LubricationPointsForm } from '@lsa/shared/models';
+import {
+  LubricationPoints,
+  Optime,
+  RelubricationInterval,
+} from '@lsa/shared/constants';
+import { LSAInterval, LubricationPointsForm } from '@lsa/shared/models';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 const translatePath = 'recommendation.lubricationPoints';
+
+interface PipeOption {
+  value: LSAInterval;
+  name: string;
+}
 
 @Component({
   selector: 'lsa-lubrication-points',
@@ -30,6 +39,28 @@ const translatePath = 'recommendation.lubricationPoints';
 export class LubricationPointsComponent {
   @Input()
   public readonly lubricationPointsForm: FormGroup<LubricationPointsForm>;
+
+  public readonly lubricationPointsOptions: {
+    value: LubricationPoints;
+    name: string;
+  }[] = [
+    {
+      value: LubricationPoints.One,
+      name: LubricationPoints.One,
+    },
+    {
+      value: LubricationPoints.TwoToFour,
+      name: LubricationPoints.TwoToFour,
+    },
+    {
+      value: LubricationPoints.FiveToEight,
+      name: LubricationPoints.FiveToEight,
+    },
+    {
+      value: LubricationPoints.NineOrMore,
+      name: LubricationPoints.NineOrMore,
+    },
+  ];
 
   public readonly lubricationIntervalOptions: {
     value: RelubricationInterval;
@@ -80,4 +111,35 @@ export class LubricationPointsComponent {
       name: translate(`${translatePath}.optime.${Optime.NoPreference}`),
     },
   ];
+
+  public readonly pipeLengthOptions: PipeOption[] = [
+    { min: 0, max: 0 },
+    { min: 0, max: 0.5 },
+    { min: 0, max: 1 },
+    { min: 1, max: 3 },
+    { min: 3, max: 5 },
+    { min: 5, max: 10 },
+  ].map(({ min, max }) => this.createPipeOption(min, max));
+
+  private createPipeOption(min: number, max: number): PipeOption {
+    const path = `${translatePath}.pipeLengthOptions`;
+    let title = '';
+
+    if (max === 0) {
+      title = translate(`${path}.directMontage`);
+    } else if (min === 0) {
+      title = translate(`${path}.lessThan`, { value: max });
+    } else {
+      title = translate(`${path}.between`, { from: min, to: max });
+    }
+
+    return {
+      value: {
+        min,
+        max,
+        title,
+      },
+      name: title,
+    };
+  }
 }

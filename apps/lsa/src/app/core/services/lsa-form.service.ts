@@ -78,7 +78,7 @@ export class LsaFormService {
   private initForm() {
     this.lubricationPointsForm = new FormGroup<LubricationPointsForm>({
       lubricationPoints: this.createFormControl<LubricationPoints>(
-        LubricationPoints.TwoToFour,
+        undefined,
         true
       ),
       lubricationInterval: this.createFormControl<RelubricationInterval>(
@@ -86,10 +86,7 @@ export class LsaFormService {
         true
       ),
       lubricationQty: this.createFormControl<number>(60),
-      pipeLength: this.createFormControl<LSAInterval>(
-        { min: 1, max: 3, title: '1 - 3m' },
-        true
-      ),
+      pipeLength: this.createFormControl<LSAInterval>(undefined, true),
       optime: this.createFormControl<Optime>(Optime.Yes, true),
     });
 
@@ -105,7 +102,10 @@ export class LsaFormService {
     });
 
     this.applicationForm = new FormGroup<ApplicationForm>({
-      temperature: this.createFormControl<LSAInterval>(undefined, true),
+      temperature: this.createFormControl<LSAInterval>(
+        { min: 5, max: 15, title: '' },
+        true
+      ),
       battery: this.createFormControl<PowerSupply>(
         PowerSupply.NoPreference,
         true

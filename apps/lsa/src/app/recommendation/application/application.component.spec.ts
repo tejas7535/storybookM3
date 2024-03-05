@@ -1,3 +1,5 @@
+import { MatSlider, MatSliderRangeThumb } from '@angular/material/slider';
+
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { mockApplicationForm } from '@lsa/testing/mocks/form.mock';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -38,5 +40,29 @@ describe('ApplicationComponent', () => {
     const radioButton = spectator.query(RadioButtonGroupComponent);
     expect(radioButton).toBeTruthy();
     expect(radioButton.options).toMatchSnapshot();
+  });
+
+  describe('when initialized', () => {
+    let matSlider: MatSlider;
+    let rangeThumbs: MatSliderRangeThumb[];
+    beforeEach(() => {
+      spectator.detectChanges();
+      matSlider = spectator.query(MatSlider);
+      rangeThumbs = spectator.queryAll(MatSliderRangeThumb);
+    });
+    it('should have the correct form values', () => {
+      expect(matSlider).toBeTruthy();
+    });
+
+    it('should have min and max values defined', () => {
+      expect(matSlider.max).toBe(35);
+      expect(matSlider.min).toBe(-15);
+    });
+
+    it('should have values thumbs defined', () => {
+      expect(rangeThumbs.length).toBe(2);
+      expect(rangeThumbs[0].value).toBe(5);
+      expect(rangeThumbs[1].value).toBe(15);
+    });
   });
 });

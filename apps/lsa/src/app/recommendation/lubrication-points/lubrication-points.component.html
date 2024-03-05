@@ -3,8 +3,13 @@
   *transloco="let t; read: 'recommendation.lubricationPoints'"
 >
   <div class="py-8 flex flex-col gap-6">
-    <span class="text-h6 text-medium-emphasis">how many points</span>
-    <span>{{ lubricationPointsForm.controls.lubricationPoints.value }}</span>
+    <span class="text-h6 text-medium-emphasis">{{
+      t('questionLubricationPoints')
+    }}</span>
+    <lsa-radio-button-group
+      [options]="lubricationPointsOptions"
+      [control]="lubricationPointsForm.controls.lubricationPoints"
+    ></lsa-radio-button-group>
   </div>
 
   <mat-divider></mat-divider>
@@ -46,8 +51,13 @@
   <mat-divider></mat-divider>
 
   <div class="flex flex-col gap-6">
-    <span class="text-h6 text-medium-emphasis">pipe length</span>
-    <span>{{ lubricationPointsForm.controls.pipeLength.value?.title }}</span>
+    <span class="text-h6 text-medium-emphasis">{{
+      t('questionPipeLength')
+    }}</span>
+    <lsa-radio-button-group
+      [options]="pipeLengthOptions"
+      [control]="lubricationPointsForm.controls.pipeLength"
+    ></lsa-radio-button-group>
   </div>
 
   <mat-divider></mat-divider>

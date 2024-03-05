@@ -16,6 +16,7 @@
   },
   "recommendation": {
     "lubricationPoints": {
+      "questionLubricationPoints": "How many lubrication points would you like to lubricate?",
       "questionRelubricationQuantity": "How high is the relubrication quantity per lubrication point?",
       "perRelubricationInterval": "per {{ interval }}",
       "year": "year",
@@ -28,6 +29,12 @@
         "1": "Yes",
         "0": "No",
         "2": "I don`t know yet"
+      },
+      "questionPipeLength": "What is the maximum pipe length?",
+      "pipeLengthOptions": {
+        "directMontage": "Direct montage",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} m"
       }
     },
     "lubrication": {
@@ -42,6 +49,11 @@
       "label": "Arcanol type"
     },
     "application": {
+      "questionAmbientTemperature": "How high is the ambient temperature in the application?",
+      "labels": {
+        "min": "Min",
+        "max": "Max"
+      },
       "questionPowerType": "How would you like to power your lubrication system?",
       "powerOptions": {
         "external": "24V external powersupply",

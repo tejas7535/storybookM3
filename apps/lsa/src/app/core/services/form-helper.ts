@@ -10,7 +10,7 @@ export const transformFormValue = (
   lubricationPoints: formValue.lubricationPoints.lubricationPoints,
   lubricationInterval: formValue.lubricationPoints.lubricationInterval,
   lubricationQty: formValue.lubricationPoints.lubricationQty,
-  pipeLength: formValue.lubricationPoints.pipeLength.max,
+  pipeLength: formValue.lubricationPoints.pipeLength?.max,
   optime: formValue.lubricationPoints.optime,
   medium:
     formValue.lubricant.lubricantType === LubricantType.Oil

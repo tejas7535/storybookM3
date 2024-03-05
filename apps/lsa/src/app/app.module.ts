@@ -1,13 +1,6 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import {
-  ApplicationRef,
-  DoBootstrap,
-  forwardRef,
-  Injector,
-  NgModule,
-} from '@angular/core';
+import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,7 +11,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AppComponent } from './app.component';
 import { AppOverlayContainer } from './app-overlay.container';
 import { CoreModule } from './core/core.module';
-import { LsaStepperComponent } from './core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from './core/services/lsa-app.service';
 import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
 
@@ -35,8 +27,6 @@ export const APP_ROOT = 'lubricator-selection-assistant';
     BrowserAnimationsModule,
     CoreModule,
     SharedTranslocoModule,
-    forwardRef(() => LsaStepperComponent),
-    CdkStepperModule,
     MatDividerModule,
     CommonModule,
     RecommendationContainerComponent,

@@ -3,14 +3,10 @@
 exports[`LsaFormService init should init the form with defaults 1`] = `
 Object {
   "lubricationInterval": "year",
-  "lubricationPoints": "2-4",
+  "lubricationPoints": null,
   "lubricationQty": 60,
   "optime": 1,
-  "pipeLength": Object {
-    "max": 3,
-    "min": 1,
-    "title": "1 - 3m",
-  },
+  "pipeLength": null,
 }
 `;
 
@@ -27,7 +23,11 @@ Object {
 exports[`LsaFormService init should init the form with defaults 3`] = `
 Object {
   "battery": 2,
-  "temperature": null,
+  "temperature": Object {
+    "max": 15,
+    "min": 5,
+    "title": "",
+  },
 }
 `;
 
@@ -35,7 +35,11 @@ exports[`LsaFormService init should init the form with defaults 4`] = `
 Object {
   "application": Object {
     "battery": 2,
-    "temperature": null,
+    "temperature": Object {
+      "max": 15,
+      "min": 5,
+      "title": "",
+    },
   },
   "lubricant": Object {
     "grease": Object {
@@ -46,14 +50,10 @@ Object {
   },
   "lubricationPoints": Object {
     "lubricationInterval": "year",
-    "lubricationPoints": "2-4",
+    "lubricationPoints": null,
     "lubricationQty": 60,
     "optime": 1,
-    "pipeLength": Object {
-      "max": 3,
-      "min": 1,
-      "title": "1 - 3m",
-    },
+    "pipeLength": null,
   },
 }
 `;

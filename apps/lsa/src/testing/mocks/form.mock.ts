@@ -37,7 +37,7 @@ export const mockLubricantForm = new FormGroup<LubricantForm>({
 });
 
 export const mockApplicationForm = new FormGroup<ApplicationForm>({
-  temperature: new FormControl<LSAInterval>(undefined),
+  temperature: new FormControl<LSAInterval>({ min: 5, max: 15, title: '' }),
   battery: new FormControl<PowerSupply>(undefined),
 });
 

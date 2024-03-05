@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { PowerSupply } from '@lsa/shared/constants';
@@ -18,7 +22,13 @@ const translatePath = 'recommendation.application';
     RadioButtonGroupComponent,
     TranslocoModule,
     MatDividerModule,
+    MatSliderModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSliderModule,
+    FormsModule,
   ],
   templateUrl: './application.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,6 +36,9 @@ const translatePath = 'recommendation.application';
 export class ApplicationComponent {
   @Input()
   public applicationForm: FormGroup<ApplicationForm>;
+
+  public readonly minTemperature = -15;
+  public readonly maxTemperature = 35;
 
   public readonly powerSupplyRadioOptions: {
     value: PowerSupply;

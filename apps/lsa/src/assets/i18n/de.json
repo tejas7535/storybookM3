@@ -16,6 +16,7 @@
   },
   "recommendation": {
     "lubricationPoints": {
+      "questionLubricationPoints": "Wie viele Schmierstellen möchten Sie schmieren?",
       "questionRelubricationQuantity": "Wie hoch ist die Nachschmiermenge pro Schmierstelle?",
       "perRelubricationInterval": "pro {{ interval }}",
       "year": "Jahr",
@@ -28,6 +29,12 @@
         "1": "Ja",
         "0": "Nein",
         "2": "Ich weiß es noch nicht"
+      },
+      "questionPipeLength": "Wie lang ist die längste Schmierstoffleitung?",
+      "pipeLengthOptions": {
+        "directMontage": "Direktmontage",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} m"
       }
     },
     "lubrication": {
@@ -42,6 +49,11 @@
       "label": "Arcanol Typ"
     },
     "application": {
+      "questionAmbientTemperature": "Wie hoch ist die Umgebungstemperatur in der Anwendung?",
+      "labels": {
+        "min": "Min",
+        "max": "Max"
+      },
       "questionPowerType": "Wie möchten Sie Ihr Schmiersystem mit Strom versorgen?",
       "powerOptions": {
         "external": "24V externe Stromversorgung",
