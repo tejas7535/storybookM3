@@ -370,6 +370,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: PCF_LOGISTICS,
     filter: 'agNumberColumnFilter',
     filterParams: NUMBER_FILTER_PARAMS,
+    valueFormatter: EMISSION_FACTORS_FORMATTER,
     headerTooltip: PCF_LOGISTICS,
     hide: true,
   },
