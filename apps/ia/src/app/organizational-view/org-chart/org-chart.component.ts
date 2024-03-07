@@ -113,6 +113,9 @@ export class OrgChartComponent implements AfterViewInit {
   readonly loadChildAttritionOverTime: EventEmitter<DimensionFluctuationData> =
     new EventEmitter();
 
+  @Output()
+  readonly changeDimension: EventEmitter<DimensionFluctuationData> = new EventEmitter();
+
   @ViewChild('chartContainer') set chartContainer(chartContainer: ElementRef) {
     if (chartContainer) {
       this._chartContainer = chartContainer;
@@ -137,7 +140,7 @@ export class OrgChartComponent implements AfterViewInit {
     event: any
   ): void {
     if (event.target.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
-      const parent = this.findParentSVG(event);
+      const parent = this.orgChartService.findParentSVG(this.d3s, event);
       if (parent) {
         this.d3s.select(parent).raise();
       }
@@ -146,7 +149,7 @@ export class OrgChartComponent implements AfterViewInit {
 
   @HostListener('document:mouseout', ['$event']) onMouseOut(event: any): void {
     if (event.target.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
-      const parent = this.findParentSVG(event);
+      const parent = this.orgChartService.findParentSVG(this.d3s, event);
       if (parent) {
         const expandCollapseBtn = 'g .node-button-g';
         this.d3s.select(parent).select(expandCollapseBtn).raise();
@@ -241,6 +244,13 @@ export class OrgChartComponent implements AfterViewInit {
         this.chart.clearHighlighting();
         this.chart.setUpToTheRootHighlighted(datasetId);
         this.chart.render();
+
+        break;
+      }
+      case OrgChartConfig.BUTTON_CSS.switchDimension: {
+        const dataNode = this.getDimensionFluctuationDataById(datasetId);
+
+        this.changeDimension.emit(dataNode);
 
         break;
       }
@@ -372,16 +382,6 @@ export class OrgChartComponent implements AfterViewInit {
       undefined,
       customExcelFileName
     );
-  }
-
-  // Find the parent node (SVG element) of the event target
-  findParentSVG(event: Event) {
-    let node = this.d3s.select(event.target).node();
-    while (node && node.classList && !node.classList.contains('node')) {
-      node = node.parentNode;
-    }
-
-    return node?.classList?.contains('node') ? node : undefined;
   }
 
   changeFluctuationType(fluctuationType: FluctuationType) {

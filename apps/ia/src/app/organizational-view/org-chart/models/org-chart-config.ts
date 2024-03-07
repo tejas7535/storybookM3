@@ -4,4 +4,5 @@ export const BUTTON_CSS = {
   showUpArrow: 'org-chart-node-show-parent',
   expand: 'org-chart-node-expand',
   collapse: 'org-chart-node-collapse',
+  switchDimension: 'org-chart-node-switch-dimension',
 };

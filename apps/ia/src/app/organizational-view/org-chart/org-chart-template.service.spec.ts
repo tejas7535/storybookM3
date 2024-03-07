@@ -153,7 +153,7 @@ describe('OrgChartTemplateService', () => {
 
       const result = service.getParrentArrow(data, 200);
 
-      expect(result).toContain('bottom-[200px]');
+      expect(result).toContain('bottom: 200px;');
       expect(result).toContain('id="org-chart-node-show-parent" data-id="abc"');
       expect(result).toContain(
         'd="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"'

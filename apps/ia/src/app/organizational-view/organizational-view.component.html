@@ -22,6 +22,7 @@
       (showOrgChartEmployees)="loadOrgChartEmployees($event)"
       (showParent)="loadParent($event)"
       (loadChildAttritionOverTime)="loadChildAttritionOverTime($event)"
+      (changeDimension)="changeSelectedDimensionFilter($event)"
     ></ia-org-chart>
     <ia-world-map
       *ngIf="selectedChart === chartType.WORLD_MAP"

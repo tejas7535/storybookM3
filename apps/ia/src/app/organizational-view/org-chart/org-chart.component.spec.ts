@@ -220,12 +220,12 @@ describe('OrgChartComponent', () => {
       };
 
       const findParentSVGSpy = jest
-        .spyOn(component, 'findParentSVG')
+        .spyOn(orgChartService, 'findParentSVG')
         .mockReturnValue(parent);
 
       component.onMouseOver(event);
 
-      expect(findParentSVGSpy).toHaveBeenCalledWith(event);
+      expect(findParentSVGSpy).toHaveBeenCalledWith(component.d3s, event);
       expect(component.d3s.select).toHaveBeenCalledWith(parent);
       expect(parent.raise).toHaveBeenCalledWith();
     });
@@ -240,7 +240,7 @@ describe('OrgChartComponent', () => {
       };
 
       const findParentSVGSpy = jest
-        .spyOn(component, 'findParentSVG')
+        .spyOn(orgChartService, 'findParentSVG')
         .mockReturnValue(undefined as unknown);
 
       component.onMouseOver(event);
@@ -268,12 +268,12 @@ describe('OrgChartComponent', () => {
       };
 
       const findParentSVGSpy = jest
-        .spyOn(component, 'findParentSVG')
+        .spyOn(orgChartService, 'findParentSVG')
         .mockReturnValue(parent);
 
       component.onMouseOut(event);
 
-      expect(findParentSVGSpy).toHaveBeenCalledWith(event);
+      expect(findParentSVGSpy).toHaveBeenCalledWith(component.d3s, event);
       expect(component.d3s.select).toHaveBeenCalledWith(parent);
       expect(parent.select).toHaveBeenCalledWith('g .node-button-g');
       expect(button.raise).toHaveBeenCalled();
@@ -289,7 +289,7 @@ describe('OrgChartComponent', () => {
       };
 
       const findParentSVGSpy = jest
-        .spyOn(component, 'findParentSVG')
+        .spyOn(orgChartService, 'findParentSVG')
         .mockReturnValue(undefined as unknown);
 
       component.onMouseOut(event);
@@ -475,6 +475,27 @@ describe('OrgChartComponent', () => {
       expect(component.chart.clearHighlighting).toHaveBeenCalled();
       expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalled();
       expect(component.chart.render).toHaveBeenCalled();
+    });
+
+    test('should emit changeDimension when switch dimension clicked', () => {
+      component.changeDimension.emit = jest.fn();
+      const node = { id: '123' };
+      component['_orgChartData'] = {
+        data: [node] as DimensionFluctuationData[],
+        dimension: FilterDimension.SUB_BOARD,
+        translation: {} as any,
+      };
+
+      component.clickout({
+        target: {
+          id: 'org-chart-node-switch-dimension',
+          dataset: {
+            id: '123',
+          },
+        },
+      });
+
+      expect(component.changeDimension.emit).toHaveBeenCalledWith(node);
     });
 
     test('should clear highlights when no button on chart is clicked', () => {
@@ -776,7 +797,7 @@ describe('OrgChartComponent', () => {
         }),
       };
 
-      const result = component.findParentSVG(event);
+      const result = orgChartService.findParentSVG(component.d3s, event);
 
       expect(result).toEqual(parent);
     });
@@ -797,7 +818,7 @@ describe('OrgChartComponent', () => {
         }),
       };
 
-      const result = component.findParentSVG(event);
+      const result = orgChartService.findParentSVG(component.d3s, event);
 
       expect(result).toBeUndefined();
     });

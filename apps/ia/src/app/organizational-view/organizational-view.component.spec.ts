@@ -10,6 +10,7 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
+import { filterSelected } from '../core/store/actions';
 import { FilterDimension } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { DrillDownToolPanelModule } from './drill-down-tool-panel/drill-down-tool-panel.module';
@@ -190,6 +191,55 @@ describe('OrganizationalViewComponent', () => {
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadOrgChartEmployees({ data })
+      );
+    });
+  });
+
+  describe('changeSelectedDimensionFilter', () => {
+    test('should dispatch filterSelected when dimension org unit', () => {
+      component['store'].dispatch = jest.fn();
+      const data = {
+        dimension: 'A',
+        dimensionKey: '1',
+        dimensionLongName: 'B',
+        filterDimension: FilterDimension.ORG_UNIT,
+      } as unknown as DimensionFluctuationData;
+
+      component.changeSelectedDimensionFilter(data);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        filterSelected({
+          filter: {
+            idValue: {
+              id: '1',
+              value: 'A (B)',
+            },
+            name: FilterDimension.ORG_UNIT,
+          },
+        })
+      );
+    });
+
+    test('should dispatch filterSelected when dimension country', () => {
+      component['store'].dispatch = jest.fn();
+      const data = {
+        dimension: 'A',
+        dimensionKey: '1',
+        filterDimension: FilterDimension.COUNTRY,
+      } as unknown as DimensionFluctuationData;
+
+      component.changeSelectedDimensionFilter(data);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        filterSelected({
+          filter: {
+            idValue: {
+              id: '1',
+              value: 'A',
+            },
+            name: FilterDimension.COUNTRY,
+          },
+        })
       );
     });
   });

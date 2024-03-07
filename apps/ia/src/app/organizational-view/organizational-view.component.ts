@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { filterSelected } from '../core/store/actions';
 import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
 import { FilterDimension, IdValue, TailwindColor } from '../shared/models';
@@ -162,6 +163,25 @@ export class OrganizationalViewComponent implements OnInit {
 
   loadOrgChartEmployees(data: DimensionFluctuationData): void {
     this.store.dispatch(loadOrgChartEmployees({ data }));
+  }
+
+  changeSelectedDimensionFilter(data: DimensionFluctuationData): void {
+    const value =
+      data.filterDimension === FilterDimension.ORG_UNIT
+        ? `${data.dimension} (${data.dimensionLongName})`
+        : data.dimension;
+
+    this.store.dispatch(
+      filterSelected({
+        filter: {
+          idValue: {
+            id: data.dimensionKey,
+            value,
+          },
+          name: data.filterDimension,
+        },
+      })
+    );
   }
 
   exportImg(): void {

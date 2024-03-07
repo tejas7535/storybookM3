@@ -246,4 +246,14 @@ export class OrgChartService {
       );
     });
   }
+
+  // Find the parent node (SVG element) of the event target
+  findParentSVG(d3Selection: any, event: Event) {
+    let node = d3Selection.select(event.target).node();
+    while (node && node.classList && !node.classList.contains('node')) {
+      node = node.parentNode;
+    }
+
+    return node?.classList?.contains('node') ? node : undefined;
+  }
 }

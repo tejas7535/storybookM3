@@ -177,6 +177,19 @@ describe('Filter Reducer', () => {
         [FilterKey.TIME_RANGE]: update,
       });
     });
+
+    test('should update selectedDimension', () => {
+      const filter = new SelectedFilter('BOARD', {
+        id: '1',
+        value: '1',
+      });
+
+      const action = filterSelected({ filter });
+
+      const state = filterReducer(initialState, action);
+
+      expect(state.selectedDimension).toEqual(FilterDimension.BOARD);
+    });
   });
 
   describe('timePeriodSelected', () => {

@@ -19,6 +19,7 @@ export class OrgChartTemplateService {
     const rectBorder = this.getRectBorderStyles(data, highlightColor);
     const headerBorder = this.getHeaderBorderStyles(data, highlightColor);
     const headerClass = this.getHeaderClass(data);
+    const switchDimension = `id="${BUTTON_CSS.switchDimension}" data-id="${data.nodeId}"`;
 
     const parentArrow = data.showUpperParentBtn
       ? this.getParrentArrow(data, 150)
@@ -31,7 +32,7 @@ export class OrgChartTemplateService {
                 text-align: center; padding-top: 4px; padding-bottom: 4px; position: absolute; bottom: 77%; width: 95%;
                 margin-left: auto; margin-right: auto; left: 0; right: 0; text-align: center;">
               <div class="${headerClass}">
-                <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
+                <span ${switchDimension} class="hover:text-link" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
               </div> 
               <div class="${headerClass}">
                 <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">
@@ -79,6 +80,7 @@ export class OrgChartTemplateService {
     const rectBorder = this.getRectBorderStyles(data, highlightColor);
     const headerBorder = this.getHeaderBorderStyles(data, highlightColor);
     const headerClass = this.getHeaderClass(data);
+    const switchDimension = `id="${BUTTON_CSS.switchDimension}" data-id="${data.nodeId}"`;
 
     const parentArrow = data.showUpperParentBtn
       ? this.getParrentArrow(data, 180)
@@ -103,13 +105,15 @@ export class OrgChartTemplateService {
       `;
 
     return `
+    <div>
       ${parentArrow}
+    </div>
       <div style="font-family: Noto sans; height: ${height}px; width: ${width}px; ${rectBorder}; border-radius: 6px; cursor: default;">
         <div class="${headerClass} !cursor-pointer" style="border-radius: 100px; background: #F0F0F0; padding-top: 4px; padding-bottom: 4px;
             ${headerBorder}; position: absolute; bottom: 83%; width: 95%; margin-left: auto; margin-right: auto; left: 0; right: 0;
             text-align: center;">
           <div class="${headerClass}">
-            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
+            <span ${switchDimension} class="hover:text-link" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
           </div>
           <div class="${headerClass}">
             <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">
@@ -174,8 +178,9 @@ export class OrgChartTemplateService {
 
     return `
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
-        style="position: absolute; margin-left: auto; margin-right: auto; right: 0; left: 0; text-align: center; cursor: default; cursor: pointer;"
-        class="bottom-[${bottomPx}px] group" ${showParentId}>
+        style="visibility: hidden; position: absolute; margin-left: auto; margin-right: auto;
+          right: 0; left: 0; bottom: ${bottomPx}px; cursor: pointer;"
+        class="group !visible" ${showParentId}>
       <path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z" fill="rgba(0, 0, 0, 0.32)" 
         class="group-hover:fill-primary" ${showParentId}/>
     </svg>`;
