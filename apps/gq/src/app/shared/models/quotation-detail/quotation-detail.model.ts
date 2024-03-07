@@ -8,6 +8,7 @@ import { MaterialStockByPlant } from './material-stock-by-plant.model';
 import { MrpData } from './mrp-data.model';
 import { Plant } from './plant.model';
 import { PriceSource } from './price-source.enum';
+import { QuotationFPricingData } from './quotation-f-pricing-data.interface';
 import { QuotationRfqData } from './quotation-rfq-data.interface';
 import { SAP_ERROR_MESSAGE_CODE } from './sap-error-message-code.enum';
 import { SapPriceCondition } from './sap-price-condition.enum';
@@ -63,6 +64,7 @@ export class QuotationDetail {
   targetPrice: number;
   mrpData: MrpData;
   rfqData: QuotationRfqData;
+  fPricing: QuotationFPricingData;
 
   // properties added in GQ application
   priceDiff: number;

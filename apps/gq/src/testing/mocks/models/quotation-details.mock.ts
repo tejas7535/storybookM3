@@ -13,6 +13,7 @@ import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
 import { MRP_DATA_MOCK } from './mrp-data.mock';
 import { PLANT_MOCK } from './plant.mock';
+import { QUOTATION_F_PRICING_MOCK } from './quotation-f-pricing.mock';
 import { QUOTATION_RFQ_DATA_MOCK } from './quotation-rfq-data-mock';
 import {
   SAP_PRICE_DETAIL_ZEVO_MOCK,
@@ -54,6 +55,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   targetPrice: 90.55,
   mrpData: MRP_DATA_MOCK,
   rfqData: QUOTATION_RFQ_DATA_MOCK,
+  fPricing: QUOTATION_F_PRICING_MOCK,
 
   priceDiff: 17.65,
   gpc: 20,

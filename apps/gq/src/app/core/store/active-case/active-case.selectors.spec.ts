@@ -506,6 +506,9 @@ describe('Active Case Selectors', () => {
               materialDescription: 'F-test',
               productType: ProductType.CRB,
             },
+            fPricing: {
+              referencePrice: 123,
+            },
           } as QuotationDetail,
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
@@ -522,7 +525,7 @@ describe('Active Case Selectors', () => {
           } as QuotationDetail,
           { material: { materialDescription: 'test' } } as QuotationDetail,
         ])
-      ).toEqual(true);
+      ).toEqual(false);
     });
   });
 

@@ -7,6 +7,7 @@ export const isFNumber = (quotationDetail: QuotationDetail): boolean => {
 
   if (
     hasMaterialFNumberProductType(quotationDetail) &&
+    hasReferencePrice(quotationDetail) &&
     checkStartsWithFOrZ(quotationDetail)
   ) {
     return true;
@@ -32,4 +33,14 @@ export function hasMaterialFNumberProductType(
   quotationDetail: QuotationDetail
 ): boolean {
   return !!quotationDetail?.material?.productType;
+}
+
+/**
+ * checks if the quotation detail has a reference price
+ *
+ * @param quotationDetail the quotation detail to check if it has a reference price
+ * @returns true if the quotation detail has a reference price, false otherwise
+ */
+export function hasReferencePrice(quotationDetail: QuotationDetail): boolean {
+  return !!quotationDetail?.fPricing?.referencePrice;
 }
