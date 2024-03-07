@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.6.0...ea-v1.6.1) (2024-03-07)
+
+
+### Bug Fixes
+
+* **ea:** fix issue with pdf generation ([#6065](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6065)) ([3fe0cdb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3fe0cdbd5e56c651e042dffb6d96661fb49c9d1b))
+
 ## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.5.0...ea-v1.6.0) (2024-03-04)
 
 
