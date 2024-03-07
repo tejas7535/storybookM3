@@ -277,19 +277,23 @@ export class ExcelValidatorService implements AsyncValidator {
         }
       );
 
+      // round to 4 decimal places
+      const pcfse = Math.round(pcfSupplierEmissions * 10_000);
+      const efkv = Math.round(emissionFactorKgValue * 10_000);
+
       if (
         directSupplierEmissions &&
         indirectSupplierEmissions &&
         upstreamEmissions
       ) {
-        if (pcfSupplierEmissions !== emissionFactorKgValue) {
+        if (pcfse !== efkv) {
           throw exception;
         }
       } else if (
         (directSupplierEmissions ||
           indirectSupplierEmissions ||
           upstreamEmissions) &&
-        pcfSupplierEmissions >= emissionFactorKgValue
+        pcfse >= efkv
       ) {
         throw exception;
       }

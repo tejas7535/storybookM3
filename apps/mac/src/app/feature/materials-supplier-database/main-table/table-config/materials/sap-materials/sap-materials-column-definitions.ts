@@ -163,8 +163,8 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: INCOTERMS,
     headerName: INCOTERMS,
-    filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filter: 'agTextColumnFilter',
+    filterParams: TEXT_FILTER_PARAMS,
     hide: true,
     headerTooltip: INCOTERMS,
   },
