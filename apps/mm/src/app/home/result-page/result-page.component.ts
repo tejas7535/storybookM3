@@ -28,6 +28,7 @@ import { ResultPageService } from './result-page.service';
 export class ResultPageComponent implements OnDestroy, OnChanges {
   @Input() public active? = false;
   @Input() public bearing? = '';
+  @Input() public form: UntypedFormGroup;
 
   public reportSelector = environment.reportSelector;
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
@@ -58,8 +59,13 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
       this.inactive$.next();
       this.snackBarRef?.dismiss();
     }
-    if (changes.active?.currentValue && this.error$.value) {
-      this.send(this.lastFormData);
+    if (
+      changes.active?.currentValue &&
+      (this.error$.value ||
+        !this.lastFormData ||
+        this.lastFormData?.getRawValue() !== this.form.getRawValue())
+    ) {
+      this.send(this.lastFormData || this.form);
     }
   }
 

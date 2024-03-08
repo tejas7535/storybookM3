@@ -35,7 +35,10 @@
       </div>
     </schaeffler-html-report>
 
-    <div *ngIf="!((result$ | ngrxPush) || (error$ | ngrxPush))">
+    <div
+      *ngIf="!((result$ | ngrxPush) || (error$ | ngrxPush))"
+      class="w-full h-full flex flex-row justify-around items-center relative flex-1 flex-grow mt-[20%]"
+    >
       <schaeffler-loading-spinner></schaeffler-loading-spinner>
     </div>
   </ng-container>

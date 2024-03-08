@@ -192,6 +192,7 @@
         <mm-result-page
           [active]="!stepper.hasNext"
           [bearing]="activeBearing$ | ngrxPush"
+          [form]="form"
           #resultPage
         ></mm-result-page>
       </div>
