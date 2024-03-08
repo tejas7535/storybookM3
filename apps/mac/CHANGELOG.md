@@ -1,4 +1,23 @@
 # Release Notes of Material App Center
+## [1.18.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.17.0...mac-v1.18.0) (2024-03-08)
+
+
+### Features
+
+* **mac:** add material emission classification for steel and sap materials (UFTABI-7384) ([#6043](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6043)) ([d64e530](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d64e5300731cff7e450fca79044a14802109199d))
+* **mac:** add new fields in sap materials upload with validation ([#6035](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6035)) ([a714c1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a714c1f5c33edd0bb46eef063cde101af47f9cb5))
+* **mac:** enable export for sap materials (UFTABI-7350) ([#6046](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6046)) ([de03f9a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de03f9a13c24a279aaa1e262dabcca11bc86c6b7))
+* **mac:** make learn more layout mobile friendly - UFTABI-6029 ([#6037](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6037)) ([3eadc32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3eadc32c5682dd82a68579a4c4ada970b6cecdcc))
+
+
+### Bug Fixes
+
+* **mac:** extend incoterms descrition ([#6061](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6061)) ([cca2e32](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cca2e323394b27081a233d3d048f743f00d727bc))
+* **mac:** fix double comparision for emissions ([#6064](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6064)) ([b4029e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b4029e2acff0489e2f8f34f6468a40a361a372f3))
+* **mac:** fixing formatter and disable context-menue ([#6060](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6060)) ([933e5ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/933e5ad1955efaa9e9ff78d4a1784f8e451d6014))
+* **mac:** make learn more headings for HC in MAC larger ([#6053](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6053)) ([e1aa61e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e1aa61efaffb5822cda1dea4573ecc23bc09dbd2))
+* **mac:** update validation rules for matnr upload (UFTABI-7385) ([#6041](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6041)) ([9c932e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c932e1f9a85c8fdfdcb945013ed2172d0d6a02c))
+
 ## [1.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.16.0...mac-v1.17.0) (2024-02-21)
 
 ## [1.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.15.0...mac-v1.16.0) (2024-02-21)
