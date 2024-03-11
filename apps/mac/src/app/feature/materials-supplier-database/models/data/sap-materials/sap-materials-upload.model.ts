@@ -12,8 +12,10 @@ export interface SapMaterialsUploadResponse {
 }
 
 export interface SapMaterialsDatabaseUploadStatusResponse {
-  timestamp: Date;
+  timestamp?: Date;
   status: SapMaterialsDatabaseUploadStatus;
+  rejectedCount?: number;
+  uploadedCount?: number;
 }
 
 export enum SapMaterialsDatabaseUploadStatus {

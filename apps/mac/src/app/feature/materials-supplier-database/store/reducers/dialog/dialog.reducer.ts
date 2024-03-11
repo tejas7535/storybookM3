@@ -11,6 +11,7 @@ import {
   MaterialFormValue,
   MaterialStandard,
   SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
 } from '@mac/msd/models';
 // TODO: clean import
 import {
@@ -161,7 +162,7 @@ export interface DialogState {
   uploadSapMaterials: {
     uploadLoading: boolean; // indicate that the file is being uploaded to the BE, not that the data is uploaded into the DB!
     fileUploadProgress: number; // file upload progress in percent
-    databaseUploadStatus: SapMaterialsDatabaseUploadStatus;
+    databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse;
     isUploadStatusDialogMinimized: boolean;
   };
   selectedMaterial?: {
@@ -1119,7 +1120,9 @@ export const dialogReducer = createReducer(
       uploadSapMaterials: {
         ...state.uploadSapMaterials,
         uploadLoading: false,
-        databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+        databaseUploadStatus: {
+          status: SapMaterialsDatabaseUploadStatus.RUNNING,
+        },
         fileUploadProgress: undefined,
       },
     })

@@ -10,7 +10,7 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
-  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
   SapMaterialsUpload,
 } from '@mac/msd/models';
 
@@ -469,7 +469,7 @@ export const stopPollingSapMaterialsDatabaseUploadStatus = createAction(
 export const getSapMaterialsDatabaseUploadStatusSuccess = createAction(
   '[MSD - Dialog] Get SAP Materials Database Upload Status Success',
   props<{
-    databaseUploadStatus: SapMaterialsDatabaseUploadStatus;
+    databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse;
   }>()
 );
 
@@ -491,6 +491,30 @@ export const sapMaterialsUploadStatusReset = createAction(
 
 export const sapMaterialsUploadStatusRestore = createAction(
   '[MSD - Dialog] SAP Materials Upload Status Restore'
+);
+
+export const downloadRejectedSapMaterials = createAction(
+  '[MSD - Dialog] Download Rejected SAP Materials'
+);
+
+export const downloadRejectedSapMaterialsSuccess = createAction(
+  '[MSD - Dialog] Download Rejected SAP Materials Success'
+);
+
+export const downloadRejectedSapMaterialsFailure = createAction(
+  '[MSD - Dialog] Download Rejected SAP Materials Failure'
+);
+
+export const clearRejectedSapMaterials = createAction(
+  '[MSD - Dialog] Clear Rejected SAP Materials'
+);
+
+export const clearRejectedSapMaterialsSuccess = createAction(
+  '[MSD - Dialog] Clear Rejected SAP Materials Success'
+);
+
+export const clearRejectedSapMaterialsFailure = createAction(
+  '[MSD - Dialog] Clear Rejected SAP Materials Failure'
 );
 
 export const bulkEditMaterials = createAction(

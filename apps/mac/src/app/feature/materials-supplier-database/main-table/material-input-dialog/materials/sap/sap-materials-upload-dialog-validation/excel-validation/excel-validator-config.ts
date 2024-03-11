@@ -1,7 +1,7 @@
 import * as columns from '@mac/feature/materials-supplier-database/constants';
 
-// Mapping: Excel header labels to data fields
-export const COLUMN_HEADER_FIELD = [
+// Excel header fields
+export const COLUMN_HEADER_FIELDS = [
   columns.MATERIAL_NUMBER,
   columns.MATERIAL_DESCRIPTION,
   columns.RECYCLED_MATERIAL_SHARE,

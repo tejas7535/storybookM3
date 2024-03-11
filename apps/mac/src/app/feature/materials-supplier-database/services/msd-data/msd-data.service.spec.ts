@@ -24,6 +24,7 @@ import {
   MaterialStandard,
   MaterialStandardTableValue,
   PolymerMaterial,
+  SAPMaterial,
   SAPMaterialHistoryValue,
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsDatabaseUploadStatusResponse,
@@ -1494,14 +1495,15 @@ describe('MsdDataService', () => {
       const uploadId = '3d75599c-90ee-4d26-b2fa-8b41d9c8786d';
       const response: SapMaterialsDatabaseUploadStatusResponse = {
         timestamp: new Date(),
-        status: SapMaterialsDatabaseUploadStatus.RUNNING,
+        status: SapMaterialsDatabaseUploadStatus.DONE,
+        rejectedCount: 10,
+        uploadedCount: 50,
       };
-      const expected = response.status;
 
       service
         .getSapMaterialsDatabaseUploadStatus(uploadId)
-        .subscribe((result: SapMaterialsDatabaseUploadStatus) => {
-          expect(result).toEqual(expected);
+        .subscribe((result: SapMaterialsDatabaseUploadStatusResponse) => {
+          expect(result).toEqual(response);
           done();
         });
 
@@ -1510,6 +1512,97 @@ describe('MsdDataService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(response);
+    });
+  });
+
+  describe('getRejectedSapMaterials', () => {
+    it('should get rejected SAP materials', (done) => {
+      const uploadId = '3d75599c-90ee-4d26-b2fa-8b41d9c8786d';
+      const response = [
+        {
+          materialNumber: '111122222-1111',
+          materialDescription: 'F-234690-1912.SRG',
+          materialGroup: 'M36042',
+          category: 'M413',
+          businessPartnerId: '1069871',
+          supplierId: 'S000000001',
+          plant: '0046',
+          supplierCountry: 'SK',
+          supplierRegion: 'EU',
+          emissionFactorKg: 2.32,
+          emissionFactorPc: 3.99,
+          dataDate: 1_562_191_200_000,
+          dataComment:
+            'Value for physical emission factor of same (category, material group, supplier country)',
+          recycledMaterialShare: 0.25,
+          secondaryMaterialShare: 0.04,
+          rawMaterialManufacturer: 'test manufacturer',
+          incoterms: 'FCA',
+          supplierLocation: 'Berlin',
+          fossilEnergyShare: 0.25,
+          nuclearEnergyShare: 0.4,
+          renewableEnergyShare: 0.25,
+          onlyRenewableElectricity: true,
+          validFrom: 1_672_527_600_000,
+          validUntil: 1_862_175_600_000,
+          primaryDataShare: 0.77,
+          dqrPrimary: 8.1,
+          dqrSecondary: 1.1,
+          secondaryDataSources: 'secondary4',
+          crossSectoralStandardsUsed: 'Std3',
+          customerCalculationMethodApplied: false,
+          linkToCustomerCalculationMethod: 'http://test.de',
+          calculationMethodVerifiedBy3rdParty: true,
+          linkTo3rdPartyVerificationProof: 'https://www.google.de',
+          pcfVerifiedBy3rdParty: false,
+          pcfLogistics: 99,
+          serviceInputGrossWeight: 13,
+          netWeight: 23,
+          weightDataSource: 'Master data',
+          materialUtilizationFactor: 0.369,
+          materialGroupOfRawMaterial: 'M032',
+          rawMaterialEmissionFactor: 3.2,
+          processSurcharge: 1.1,
+          rawMaterial: 'RM',
+          directSupplierEmissions: 1,
+          indirectSupplierEmissions: 1,
+          upstreamEmissions: 0.32,
+          stoffId: 'testStoffId',
+          owner: 'Test owner',
+          maturity: 1,
+          modifiedBy: 'Tester',
+          timestamp: 1_696_000_509.596_856,
+          historic: false,
+          uploadId,
+        },
+      ];
+
+      service
+        .getRejectedSapMaterials(uploadId)
+        .subscribe((result: SAPMaterial[]) => {
+          expect(result).toEqual(response);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/upload/rejected/${uploadId}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
+    });
+  });
+
+  describe('deleteRejectedSapMaterials', () => {
+    test('should delete rejected SAP materials', (done) => {
+      const uploadId = '3d75599c-90ee-4d26-b2fa-8b41d9c8786d';
+
+      service.deleteRejectedSapMaterials(uploadId).subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/upload/rejected/${uploadId}`
+      );
+      expect(req.request.method).toBe('DELETE');
+      req.flush('');
     });
   });
 

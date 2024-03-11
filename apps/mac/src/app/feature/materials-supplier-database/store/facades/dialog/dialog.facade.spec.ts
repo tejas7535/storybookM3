@@ -121,7 +121,9 @@ describe('DialogFacade', () => {
                 loadingComplete: true,
               },
               uploadSapMaterials: {
-                databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+                databaseUploadStatus: {
+                  status: SapMaterialsDatabaseUploadStatus.RUNNING,
+                },
                 isUploadStatusDialogMinimized: true,
                 fileUploadProgress: 25,
               },
@@ -590,7 +592,7 @@ describe('DialogFacade', () => {
       'should provide sapMaterialsDatabaseUploadStatus',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: SapMaterialsDatabaseUploadStatus.RUNNING,
+          a: { status: SapMaterialsDatabaseUploadStatus.RUNNING },
         });
 
         m.expect(facade.sapMaterialsDatabaseUploadStatus$).toBeObservable(

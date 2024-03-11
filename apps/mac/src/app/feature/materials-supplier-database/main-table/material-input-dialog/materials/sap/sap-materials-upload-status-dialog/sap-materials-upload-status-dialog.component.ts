@@ -3,9 +3,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { filter, Subject, take, takeUntil } from 'rxjs';
 
-import { SapMaterialsDatabaseUploadStatus } from '@mac/feature/materials-supplier-database/models';
+import {
+  SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
+} from '@mac/feature/materials-supplier-database/models';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
+  clearRejectedSapMaterials,
+  downloadRejectedSapMaterials,
   sapMaterialsUploadStatusDialogMinimized,
   sapMaterialsUploadStatusDialogOpened,
   sapMaterialsUploadStatusReset,
@@ -20,6 +25,18 @@ interface UploadStatusDialogConfig {
     icon: string;
     animationClass?: string;
     descriptionTranslationKeySuffix: string;
+  };
+  statusAction?: {
+    infos: {
+      translationKeySuffix: string;
+      shouldShow: () => boolean;
+    }[];
+    button: {
+      translationKeySuffix: string;
+      icon: string;
+      action: () => void;
+      shouldShow: () => boolean;
+    };
   };
   infoTranslationKeySuffix?: string;
   warningTranslationKeySuffix?: string;
@@ -39,6 +56,7 @@ export class SapMaterialsUploadStatusDialogComponent
   implements OnInit, OnDestroy
 {
   config: UploadStatusDialogConfig;
+  currentDatabaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse;
 
   private readonly DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG: {
     [status: string]: UploadStatusDialogConfig;
@@ -67,6 +85,28 @@ export class SapMaterialsUploadStatusDialogComponent
         icon: 'check_circle_outline',
         descriptionTranslationKeySuffix: SapMaterialsDatabaseUploadStatus.DONE,
       },
+      statusAction: {
+        infos: [
+          {
+            translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.DONE}_1`,
+            shouldShow: () => true,
+          },
+          {
+            translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.DONE}_2`,
+            shouldShow: () => true,
+          },
+          {
+            translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.DONE}_3`,
+            shouldShow: () => this.shouldShowDownloadRejected(),
+          },
+        ],
+        button: {
+          translationKeySuffix: 'downloadRejected',
+          icon: 'download_outlined',
+          action: () => this.downloadRejected(),
+          shouldShow: () => this.shouldShowDownloadRejected(),
+        },
+      },
       confirmButtonTranslationKeySuffix: 'close',
       cancel: () => this.close(),
       confirm: () => this.close(),
@@ -80,12 +120,36 @@ export class SapMaterialsUploadStatusDialogComponent
         descriptionTranslationKeySuffix:
           SapMaterialsDatabaseUploadStatus.FAILED,
       },
+      statusAction: {
+        infos: [
+          {
+            translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.FAILED}_1`,
+            shouldShow: () => true,
+          },
+          {
+            translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.FAILED}_2`,
+            shouldShow: () => true,
+          },
+          {
+            translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.FAILED}_3`,
+            shouldShow: () => true,
+          },
+        ],
+        button: {
+          translationKeySuffix: 'sendSupportEmail',
+          icon: 'mail_outlined',
+          action: () => this.sendSupportEmail(),
+          shouldShow: () => true,
+        },
+      },
       cancelButtonTranslationKeySuffix: 'close',
       confirmButtonTranslationKeySuffix: 'startNew',
       cancel: () => this.close(),
       confirm: () => this.startNewUpload(),
     },
   };
+
+  private readonly SUPPORT_EMAIL = 'or-hza-msd-notification@schaeffler.com';
 
   private readonly destroy$ = new Subject<void>();
 
@@ -97,6 +161,12 @@ export class SapMaterialsUploadStatusDialogComponent
 
   ngOnInit(): void {
     this.dialogFacade.dispatch(sapMaterialsUploadStatusDialogOpened());
+
+    this.config =
+      this.DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG[
+        SapMaterialsDatabaseUploadStatus.RUNNING
+      ];
+
     this.handleUploadStatusChanges();
     this.handleGetUploadStatusFailure();
   }
@@ -110,15 +180,21 @@ export class SapMaterialsUploadStatusDialogComponent
     this.dialogFacade.sapMaterialsDatabaseUploadStatus$
       .pipe(
         filter(
-          (databaseUploadStatus: SapMaterialsDatabaseUploadStatus) =>
+          (databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse) =>
             !!databaseUploadStatus
         ),
         takeUntil(this.destroy$)
       )
       .subscribe(
-        (databaseUploadStatus: SapMaterialsDatabaseUploadStatus) =>
-          (this.config =
-            this.DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG[databaseUploadStatus])
+        (databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse) => {
+          if (databaseUploadStatus) {
+            this.currentDatabaseUploadStatus = databaseUploadStatus;
+            this.config =
+              this.DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG[
+                databaseUploadStatus.status
+              ];
+          }
+        }
       );
   }
 
@@ -134,6 +210,7 @@ export class SapMaterialsUploadStatusDialogComponent
   }
 
   private close(): void {
+    this.dialogFacade.dispatch(clearRejectedSapMaterials());
     this.dialogRef.close();
     this.dialogFacade.dispatch(sapMaterialsUploadStatusReset());
   }
@@ -142,5 +219,17 @@ export class SapMaterialsUploadStatusDialogComponent
     this.close();
     // Delay opening the upload dialog in order to prevent ExpressionChangedAfterItHasBeenCheckedError
     setTimeout(() => this.dialogService.openSapMaterialsUploadDialog(), 120);
+  }
+
+  private shouldShowDownloadRejected(): boolean {
+    return this.currentDatabaseUploadStatus?.rejectedCount > 0;
+  }
+
+  private sendSupportEmail(): void {
+    window.open(`mailto:${this.SUPPORT_EMAIL}`);
+  }
+
+  private downloadRejected(): void {
+    this.dialogFacade.dispatch(downloadRejectedSapMaterials());
   }
 }

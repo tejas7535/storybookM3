@@ -12,6 +12,8 @@ import {
 import { SapMaterialsDatabaseUploadStatus } from '@mac/feature/materials-supplier-database/models';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
+  clearRejectedSapMaterials,
+  downloadRejectedSapMaterials,
   sapMaterialsUploadStatusDialogMinimized,
   sapMaterialsUploadStatusDialogOpened,
   sapMaterialsUploadStatusReset,
@@ -61,31 +63,35 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
     });
 
     test('should set config on database upload status change', () => {
-      const status = SapMaterialsDatabaseUploadStatus.DONE;
+      const dbStatus = { status: SapMaterialsDatabaseUploadStatus.DONE };
 
       component['handleGetUploadStatusFailure'] = jest.fn();
       component.config = undefined;
-      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of(status);
+      component.currentDatabaseUploadStatus = undefined;
+      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ =
+        of(dbStatus);
 
       component.ngOnInit();
 
       expect(component.config).toBe(
-        component['DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG'][status]
+        component['DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG'][dbStatus.status]
       );
+      expect(component.currentDatabaseUploadStatus).toBe(dbStatus);
     });
 
     test('should not set config on database upload status change if status is undefined', () => {
-      const config = {} as any;
-
       component['handleGetUploadStatusFailure'] = jest.fn();
-      component.config = config;
       component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of(
         undefined as any
       );
 
       component.ngOnInit();
 
-      expect(component.config).toBe(config);
+      expect(component.config).toBe(
+        component['DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG'][
+          SapMaterialsDatabaseUploadStatus.RUNNING
+        ]
+      );
     });
 
     test('should close dialog on getUploadStatusFailure', () => {
@@ -129,6 +135,60 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
       expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
         sapMaterialsUploadStatusReset()
+      );
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        clearRejectedSapMaterials()
+      );
+    });
+  });
+
+  describe('downloadRejected', () => {
+    test('should dispatch downloadRejectedSapMaterials', () => {
+      component['downloadRejected']();
+
+      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+        downloadRejectedSapMaterials()
+      );
+    });
+  });
+
+  describe('shouldShowDownloadRejected', () => {
+    test('should return true if rejectedCount > 0', () => {
+      component.currentDatabaseUploadStatus = {
+        rejectedCount: 10,
+        status: SapMaterialsDatabaseUploadStatus.DONE,
+      };
+
+      expect(component['shouldShowDownloadRejected']()).toBe(true);
+    });
+
+    test('should return false if rejectedCount = 0', () => {
+      component.currentDatabaseUploadStatus = {
+        rejectedCount: 0,
+        status: SapMaterialsDatabaseUploadStatus.DONE,
+      };
+
+      expect(component['shouldShowDownloadRejected']()).toBe(false);
+    });
+
+    test('should return false if rejectedCount is undefined', () => {
+      component.currentDatabaseUploadStatus = {
+        rejectedCount: undefined,
+        status: SapMaterialsDatabaseUploadStatus.RUNNING,
+      };
+
+      expect(component['shouldShowDownloadRejected']()).toBe(false);
+    });
+  });
+
+  describe('sendSupportEmail', () => {
+    test('should open mailto link', () => {
+      const openSpy = jest.spyOn(window, 'open');
+
+      component['sendSupportEmail']();
+
+      expect(openSpy).toHaveBeenCalledWith(
+        `mailto:${component['SUPPORT_EMAIL']}`
       );
     });
   });

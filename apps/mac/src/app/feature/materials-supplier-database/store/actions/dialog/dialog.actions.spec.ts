@@ -25,7 +25,13 @@ import {
   bulkEditMaterials,
   bulkEditMaterialsFailure,
   bulkEditMaterialsSuccess,
+  clearRejectedSapMaterials,
+  clearRejectedSapMaterialsFailure,
+  clearRejectedSapMaterialsSuccess,
   createMaterialComplete,
+  downloadRejectedSapMaterials,
+  downloadRejectedSapMaterialsFailure,
+  downloadRejectedSapMaterialsSuccess,
   editDialogLoadingComplete,
   editDialogLoadingFailure,
   fetchCastingDiameters,
@@ -1187,7 +1193,9 @@ describe('Dialog Actions', () => {
     });
 
     it('getSapMaterialsDatabaseUploadStatusSuccess', () => {
-      const databaseUploadStatus = SapMaterialsDatabaseUploadStatus.RUNNING;
+      const databaseUploadStatus = {
+        status: SapMaterialsDatabaseUploadStatus.RUNNING,
+      };
       const action = getSapMaterialsDatabaseUploadStatusSuccess({
         databaseUploadStatus,
       });
@@ -1255,6 +1263,58 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Bulk Edit Materials Failure',
+      });
+    });
+  });
+
+  describe('Download rejected materials', () => {
+    it('downloadRejectedSapMaterials', () => {
+      const action = downloadRejectedSapMaterials();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Download Rejected SAP Materials',
+      });
+    });
+
+    it('downloadRejectedSapMaterialsSuccess', () => {
+      const action = downloadRejectedSapMaterialsSuccess();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Download Rejected SAP Materials Success',
+      });
+    });
+
+    it('downloadRejectedSapMaterialsFailure', () => {
+      const action = downloadRejectedSapMaterialsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Download Rejected SAP Materials Failure',
+      });
+    });
+  });
+
+  describe('Clear rejected materials', () => {
+    it('clearRejectedSapMaterials', () => {
+      const action = clearRejectedSapMaterials();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Clear Rejected SAP Materials',
+      });
+    });
+
+    it('clearRejectedSapMaterialsSuccess', () => {
+      const action = clearRejectedSapMaterialsSuccess();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Clear Rejected SAP Materials Success',
+      });
+    });
+
+    it('clearRejectedSapMaterialsFailure', () => {
+      const action = clearRejectedSapMaterialsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Clear Rejected SAP Materials Failure',
       });
     });
   });

@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 
 import { ExcelValidatorService } from './excel-validator.service';
 import {
-  COLUMN_HEADER_FIELD,
+  COLUMN_HEADER_FIELDS,
   MANDATORY_COLUMNS,
 } from './excel-validator-config';
 
@@ -78,11 +78,11 @@ describe('ExcelValidatorService', () => {
   describe('validateColumns', () => {
     it('should pass', () => {
       expect(() =>
-        service['validateColumns'](COLUMN_HEADER_FIELD)
+        service['validateColumns'](COLUMN_HEADER_FIELDS)
       ).not.toThrow();
     });
     it('should throw error if mandatory columns are missing', () => {
-      const columns: string[] = COLUMN_HEADER_FIELD.filter(
+      const columns: string[] = COLUMN_HEADER_FIELDS.filter(
         (column) => column !== MANDATORY_COLUMNS[0]
       );
 

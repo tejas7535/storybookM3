@@ -600,9 +600,25 @@
           "DONE": "Your file is successfully uploaded into the database.",
           "FAILED": "An error occurred merging your data into the database."
         },
+        "statusAction": {
+          "info": {
+            "DONE_1": "{{uploadedCount}} material(s) from your upload have been uploaded.",
+            "DONE_2": "{{rejectedCount}} material(s) from your upload have been rejected.",
+            "DONE_3": "You can download the list of rejected items here:",
+            "FAILED_1": "This should not have happened!",
+            "FAILED_2": "To fix this, we need your help.",
+            "FAILED_3": "Please send an e-mail with your uploaded file here:"
+          },
+          "button": {
+            "sendSupportEmail": "send e-mail",
+            "downloadRejected": "download rejected"
+          }
+        },
         "minimizeInfo": "This dialog can be minimized without interrupting the upload process. The upload will continue in the background.",
         "browserTabWarning": "Please do not close the Material Supplier Database Browser tab.",
-        "getDatabaseUploadStatusFailure": "An error occurred while getting the database upload status of your data!"
+        "getDatabaseUploadStatusFailure": "An error occurred while getting the database upload status of your data!",
+        "downloadRejectedSapMaterialsFailure": "An error occurred while downloading the rejected materials!",
+        "clearRejectedSapMaterialsFailure": "An error occurred while removing the rejected materials from the database!"
       },
       "changeHistory": {
         "created": "First created:",
@@ -763,6 +779,10 @@
         "matNrFileNameSuffix": "-MATNR-export.xlsx",
         "matNrSheetName": "MSD-Export",
         "matNrTooltip": "Only enabled with 100.000 or less materials"
+      },
+      "rejectedExcelDownload": {
+        "matNrFileNameSuffix": "-MATNR-rejected.xlsx",
+        "sheetName": "MSD-Rejected"
       },
       "no": "No",
       "productCategories": "Product Categories",

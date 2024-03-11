@@ -38,7 +38,7 @@ import * as util from '../../util';
 import { SapMaterialsUploadDialogComponent } from './sap-materials-upload-dialog.component';
 import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
 import {
-  COLUMN_HEADER_FIELD,
+  COLUMN_HEADER_FIELDS,
   MANDATORY_COLUMNS,
 } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
 import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
@@ -322,7 +322,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
       expect(mockGridApi.exportDataAsExcel).toHaveBeenCalledWith(
         expect.objectContaining({
-          columnKeys: expect.arrayContaining(COLUMN_HEADER_FIELD),
+          columnKeys: expect.arrayContaining(COLUMN_HEADER_FIELDS),
           appendContent: expect.any(Object),
         })
       );

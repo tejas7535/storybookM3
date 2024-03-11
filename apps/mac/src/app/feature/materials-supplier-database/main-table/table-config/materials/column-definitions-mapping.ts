@@ -1,6 +1,7 @@
 import { ColDef } from 'ag-grid-community';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { SAP_MATERIALS_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/sap-materials';
 
 import {
   ALUMINUM_COLUMN_DEFINITIONS,
@@ -27,7 +28,6 @@ import {
   POLYMER_MATERIAL_STANDARDS_COLUMN_DEFINITIONS,
   POLYMER_SUPPLIERS_COLUMN_DEFINITIONS,
 } from './polymer';
-import { SAP_MATERIALS_COLUMN_DEFINITIONS } from './sap-materials';
 import {
   STEEL_COLUMN_DEFINITIONS,
   STEEL_MATERIAL_STANDARDS_COLUMN_DEFINITIONS,

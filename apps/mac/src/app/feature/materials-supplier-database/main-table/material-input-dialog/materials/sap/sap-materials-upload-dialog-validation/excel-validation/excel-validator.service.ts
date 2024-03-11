@@ -15,7 +15,7 @@ import {
 } from '@mac/feature/materials-supplier-database/constants';
 
 import {
-  COLUMN_HEADER_FIELD,
+  COLUMN_HEADER_FIELDS,
   COLUMN_RULES,
   ErrorCode,
   MANDATORY_COLUMNS,
@@ -105,7 +105,7 @@ export class ExcelValidatorService implements AsyncValidator {
     this.columnHeaderFormattedToDataField = {};
     this.dataFieldToColumnHeader = {};
 
-    COLUMN_HEADER_FIELD.map((dataField) => ({
+    COLUMN_HEADER_FIELDS.map((dataField) => ({
       dataField,
       columnHeader: translate(
         `materialsSupplierDatabase.mainTable.columns.${dataField}`

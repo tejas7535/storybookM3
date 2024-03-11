@@ -1443,9 +1443,9 @@ describe('MainTableComponent', () => {
   describe('sapMaterialsDatabaseUploadStatus', () => {
     it('should reload SAP materials if database upload status is DONE', () => {
       component.refreshServerSide = jest.fn();
-      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of(
-        SapMaterialsDatabaseUploadStatus.DONE
-      );
+      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of({
+        status: SapMaterialsDatabaseUploadStatus.DONE,
+      });
 
       component.ngOnInit();
 
@@ -1454,9 +1454,9 @@ describe('MainTableComponent', () => {
 
     it('should not reload SAP materials if database upload status is not DONE', () => {
       component.refreshServerSide = jest.fn();
-      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of(
-        SapMaterialsDatabaseUploadStatus.RUNNING
-      );
+      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of({
+        status: SapMaterialsDatabaseUploadStatus.RUNNING,
+      });
 
       component.ngOnInit();
 

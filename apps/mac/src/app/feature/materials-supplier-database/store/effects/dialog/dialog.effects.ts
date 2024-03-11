@@ -35,10 +35,12 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  SAPMaterial,
   SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
   SapMaterialsUploadResponse,
 } from '@mac/msd/models';
-import { MsdDataService } from '@mac/msd/services';
+import { MsdDataService, MsdSapMaterialsExcelService } from '@mac/msd/services';
 import * as DataActions from '@mac/msd/store/actions/data/data.actions';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import { DataFacade } from '@mac/msd/store/facades/data';
@@ -1146,10 +1148,13 @@ export class DialogEffects {
             this.msdDataService
               .getSapMaterialsDatabaseUploadStatus(uploadId)
               .pipe(
-                map((databaseUploadStatus: SapMaterialsDatabaseUploadStatus) =>
-                  DialogActions.getSapMaterialsDatabaseUploadStatusSuccess({
-                    databaseUploadStatus,
-                  })
+                map(
+                  (
+                    databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse
+                  ) =>
+                    DialogActions.getSapMaterialsDatabaseUploadStatusSuccess({
+                      databaseUploadStatus,
+                    })
                 ),
                 catchError(() => {
                   this.dataFacade.dispatch(
@@ -1180,16 +1185,18 @@ export class DialogEffects {
       ),
       filter(
         ([{ databaseUploadStatus }]) =>
-          databaseUploadStatus !== SapMaterialsDatabaseUploadStatus.RUNNING
+          databaseUploadStatus.status !==
+          SapMaterialsDatabaseUploadStatus.RUNNING
       ),
       switchMap(([{ databaseUploadStatus }, isDialogMinimized]) => {
         if (isDialogMinimized) {
           const message = translate(
-            `materialsSupplierDatabase.mainTable.uploadStatusDialog.statusInfo.${databaseUploadStatus}`
+            `materialsSupplierDatabase.mainTable.uploadStatusDialog.statusInfo.${databaseUploadStatus.status}`
           );
 
           this.dataFacade.dispatch(
-            databaseUploadStatus === SapMaterialsDatabaseUploadStatus.DONE
+            databaseUploadStatus.status ===
+              SapMaterialsDatabaseUploadStatus.DONE
               ? DataActions.infoSnackBar({
                   message,
                 })
@@ -1239,6 +1246,71 @@ export class DialogEffects {
     );
   });
 
+  downloadRejectedSapMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.downloadRejectedSapMaterials),
+      switchMap(() =>
+        this.msdDataService
+          .getRejectedSapMaterials(
+            this.msdDataService.getSapMaterialsUploadId()
+          )
+          .pipe(
+            mergeMap((rejectedSapMaterials: SAPMaterial[]) => {
+              this.msdSapMaterialsExcelService.downloadRejectedSapMaterialsAsExcel(
+                rejectedSapMaterials
+              );
+
+              return of(DialogActions.downloadRejectedSapMaterialsSuccess());
+            }),
+            catchError(() => {
+              return of(
+                DataActions.errorSnackBar({
+                  message: translate(
+                    'materialsSupplierDatabase.mainTable.uploadStatusDialog.downloadRejectedSapMaterialsFailure'
+                  ),
+                }),
+                DialogActions.downloadRejectedSapMaterialsFailure()
+              );
+            })
+          )
+      )
+    );
+  });
+
+  clearRejectedSapMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.clearRejectedSapMaterials),
+      concatLatestFrom(
+        () => this.dialogFacade.sapMaterialsDatabaseUploadStatus$
+      ),
+      switchMap(([_, { rejectedCount }]) => {
+        if (rejectedCount) {
+          return this.msdDataService
+            .deleteRejectedSapMaterials(
+              this.msdDataService.getSapMaterialsUploadId()
+            )
+            .pipe(
+              mergeMap(() =>
+                of(DialogActions.clearRejectedSapMaterialsSuccess())
+              ),
+              catchError(() => {
+                return of(
+                  DataActions.errorSnackBar({
+                    message: translate(
+                      'materialsSupplierDatabase.mainTable.uploadStatusDialog.clearRejectedSapMaterialsFailure'
+                    ),
+                  }),
+                  DialogActions.clearRejectedSapMaterialsFailure()
+                );
+              })
+            );
+        }
+
+        return of();
+      })
+    );
+  });
+
   public bulkEditMaterials$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.bulkEditMaterials),
@@ -1270,7 +1342,8 @@ export class DialogEffects {
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,
     private readonly dataFacade: DataFacade,
-    private readonly dialogFacade: DialogFacade
+    private readonly dialogFacade: DialogFacade,
+    private readonly msdSapMaterialsExcelService: MsdSapMaterialsExcelService
   ) {}
 
   private parseBulkErrors(error: any, materials: MaterialRequest[]) {

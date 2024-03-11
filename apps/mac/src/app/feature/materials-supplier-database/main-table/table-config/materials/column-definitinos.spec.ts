@@ -26,9 +26,9 @@ import {
   BASE_SUPPLIERS_COLUMN_DEFINITIONS,
   HISTORY_COLUMN_DEFINITION,
 } from '@mac/msd/main-table/table-config/materials/base';
+import { SAP_MATERIALS_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/sap-materials';
 
 import { LUBRICANT_COLUMN_DEFINITIONS } from './lubricant';
-import { SAP_MATERIALS_COLUMN_DEFINITIONS } from './sap-materials';
 import { STEEL_COLUMN_DEFINITIONS } from './steel';
 
 jest.mock('@ngneat/transloco', () => ({

@@ -1791,13 +1791,16 @@ describe('DialogSelectors', () => {
   });
 
   it('should return sapMaterialsDatabaseUploadStatus', () => {
+    const databaseUploadStatus = {
+      status: SapMaterialsDatabaseUploadStatus.RUNNING,
+    };
     expect(
       DialogSelectors.getSapMaterialsDatabaseUploadStatus.projector({
         uploadSapMaterials: {
-          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+          databaseUploadStatus,
         },
       } as DialogState)
-    ).toBe(SapMaterialsDatabaseUploadStatus.RUNNING);
+    ).toBe(databaseUploadStatus);
   });
 
   it('should return sapMaterialsFileUploadProgress', () => {

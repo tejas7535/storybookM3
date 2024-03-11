@@ -1936,7 +1936,9 @@ describe('dialogReducer', () => {
       uploadSapMaterials: {
         ...state.uploadSapMaterials,
         uploadLoading: false,
-        databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+        databaseUploadStatus: {
+          status: SapMaterialsDatabaseUploadStatus.RUNNING,
+        },
         fileUploadProgress: undefined,
       },
     });
@@ -1967,7 +1969,9 @@ describe('dialogReducer', () => {
   });
 
   it('should set databaseUploadStatus on getSapMaterialsDatabaseUploadStatusSuccess', () => {
-    const databaseUploadStatus = SapMaterialsDatabaseUploadStatus.DONE;
+    const databaseUploadStatus = {
+      status: SapMaterialsDatabaseUploadStatus.DONE,
+    };
     const action = DialogActions.getSapMaterialsDatabaseUploadStatusSuccess({
       databaseUploadStatus,
     });
@@ -1976,7 +1980,9 @@ describe('dialogReducer', () => {
         ...state,
         uploadSapMaterials: {
           ...state.uploadSapMaterials,
-          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.RUNNING,
+          databaseUploadStatus: {
+            status: SapMaterialsDatabaseUploadStatus.RUNNING,
+          },
         },
       },
       action
@@ -2042,7 +2048,9 @@ describe('dialogReducer', () => {
         ...state,
         uploadSapMaterials: {
           ...state.uploadSapMaterials,
-          databaseUploadStatus: SapMaterialsDatabaseUploadStatus.FAILED,
+          databaseUploadStatus: {
+            status: SapMaterialsDatabaseUploadStatus.FAILED,
+          },
           isUploadStatusDialogMinimized: true,
         },
       },

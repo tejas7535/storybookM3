@@ -60,6 +60,7 @@ import {
   DataResult,
   SAPMaterial,
   SapMaterialsDatabaseUploadStatus,
+  SapMaterialsDatabaseUploadStatusResponse,
 } from '@mac/msd/models';
 import {
   MsdAgGridConfigService,
@@ -688,8 +689,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         takeUntil(this.destroy$),
         filter(
-          (databaseUploadStatus: SapMaterialsDatabaseUploadStatus) =>
-            databaseUploadStatus === SapMaterialsDatabaseUploadStatus.DONE
+          (databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse) =>
+            databaseUploadStatus?.status ===
+            SapMaterialsDatabaseUploadStatus.DONE
         )
       )
       .subscribe(() => this.refreshServerSide());

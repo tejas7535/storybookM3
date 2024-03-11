@@ -43,7 +43,7 @@ import { DialogFacade } from '@mac/feature/materials-supplier-database/store/fac
 import * as util from '../../util';
 import { ExcelValidatorService } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator.service';
 import {
-  COLUMN_HEADER_FIELD,
+  COLUMN_HEADER_FIELDS,
   MANDATORY_COLUMNS,
 } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
 import {
@@ -126,14 +126,14 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
 
     // remove all columns that are not intended for upload
     const columns = visibleColumns.filter((columnName) =>
-      COLUMN_HEADER_FIELD.includes(columnName)
+      COLUMN_HEADER_FIELDS.includes(columnName)
     );
     // find mandatory columns that are not displayed
     const missingMandatory = MANDATORY_COLUMNS.filter(
       (column) => !columns.includes(column)
     );
     // get list of optional columns that are not displayed
-    const missingOptional = COLUMN_HEADER_FIELD.filter(
+    const missingOptional = COLUMN_HEADER_FIELDS.filter(
       (column) => !MANDATORY_COLUMNS.includes(column)
     ).filter((column) => !columns.includes(column));
     // add missing columns to the end of the list

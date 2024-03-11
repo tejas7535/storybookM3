@@ -55,5 +55,43 @@
         t(config.warningTranslationKeySuffix)
       }}</span>
     </div>
+    <div
+      *ngIf="config.statusAction"
+      class="w-full flex content-between items-end gap-x-1 mt-7 px-3 py-2 border rounded-xl border-[#E9B300] bg-[#FFFBEF]"
+    >
+      <div>
+        <ng-container *ngFor="let info of config.statusAction.infos">
+          <div
+            *ngIf="info.shouldShow()"
+            class="text-[14px] leading-6 font-medium text-[#814E00]"
+          >
+            {{
+              t(
+                'statusAction.info.' + info.translationKeySuffix,
+                currentDatabaseUploadStatus
+              )
+            }}
+          </div>
+        </ng-container>
+      </div>
+      <div
+        *ngIf="config.statusAction.button.shouldShow()"
+        class="flex flex-1 justify-end"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="config.statusAction.button.action()"
+        >
+          <mat-icon>{{ config.statusAction.button.icon }}</mat-icon>
+          <span>{{
+            t(
+              'statusAction.button.' +
+                config.statusAction.button.translationKeySuffix
+            )
+          }}</span>
+        </button>
+      </div>
+    </div>
   </div>
 </mac-base-dialog>

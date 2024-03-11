@@ -25,7 +25,6 @@ import {
   MaterialStandardTableValue,
   SAPMaterial,
   SAPMaterialHistoryValue,
-  SapMaterialsDatabaseUploadStatus,
   SapMaterialsDatabaseUploadStatusResponse,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
@@ -571,17 +570,22 @@ export class MsdDataService {
 
   public getSapMaterialsDatabaseUploadStatus(
     uploadId: string
-  ): Observable<SapMaterialsDatabaseUploadStatus> {
-    return this.httpClient
-      .get<SapMaterialsDatabaseUploadStatusResponse>(
-        `${this.BASE_URL_SAP}/emissionfactor/upload/status/${uploadId}`
-      )
-      .pipe(
-        map(
-          (response: SapMaterialsDatabaseUploadStatusResponse) =>
-            response.status
-        )
-      );
+  ): Observable<SapMaterialsDatabaseUploadStatusResponse> {
+    return this.httpClient.get<SapMaterialsDatabaseUploadStatusResponse>(
+      `${this.BASE_URL_SAP}/emissionfactor/upload/status/${uploadId}`
+    );
+  }
+
+  public getRejectedSapMaterials(uploadId: string): Observable<SAPMaterial[]> {
+    return this.httpClient.get<SAPMaterial[]>(
+      `${this.BASE_URL_SAP}/emissionfactor/upload/rejected/${uploadId}`
+    );
+  }
+
+  public deleteRejectedSapMaterials(uploadId: string): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${this.BASE_URL_SAP}/emissionfactor/upload/rejected/${uploadId}`
+    );
   }
 
   public getDistinctSapValues(column: string): Observable<string[]> {
