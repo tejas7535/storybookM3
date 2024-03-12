@@ -670,10 +670,15 @@
       "tableRows": {
         "technicalValueDriver": {
           "heatTreatment": "Wärmebehandlung",
+          "heatTreatmentDescription": "Falls zutreffend: Aufschlag für Wärmebehandlung ({{value}})",
           "toleranceClass": "Toleranzklasse",
+          "toleranceClassDescription": "Falls zutreffend: Aufschlag für besondere Toleranzklasse ({{value}})",
           "radialClearance": "Radialluft",
+          "radialClearanceDescription": "Falls zutreffend: Aufschlag für Radialluft",
           "axialClearance": "Axialluft",
-          "engineeringEffort": "Entwicklungsaufwand"
+          "axialClearanceDescription": "Falls zutreffend: Aufschlag für Axialluft ({{value}})",
+          "engineeringEffort": "Entwicklungsaufwand",
+          "engineeringEffortDescription": "Bewertung des technischen Entwicklungsaufwands"
         }
       },
       "marketValueDriver": {

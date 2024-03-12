@@ -670,10 +670,15 @@
       "tableRows": {
         "technicalValueDriver": {
           "heatTreatment": "Heat Treatment",
+          "heatTreatmentDescription": "If applicable: Surcharge for heat treatment ({{value}})",
           "toleranceClass": "Tolerance Class",
+          "toleranceClassDescription": "If applicable: Surcharge for special tolerance class ({{value}})",
           "radialClearance": "Radial Clearance",
+          "radialClearanceDescription": "If applicable: Surcharge for radial clearance",
           "axialClearance": "Axial Clearance",
-          "engineeringEffort": "Engineering Effort"
+          "axialClearanceDescription": "If applicable: Surcharge for axial clearance ({{value}})",
+          "engineeringEffort": "Engineering Effort",
+          "engineeringEffortDescription": "Evaluation of engineering effort"
         }
       },
       "marketValueDriver": {

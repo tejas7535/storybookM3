@@ -4,6 +4,7 @@ import { PercentPipe } from '@angular/common';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
+import { Keyboard } from '@gq/shared/models';
 import {
   FPricingData,
   MarketValueDriver,
@@ -16,7 +17,6 @@ import { translate } from '@ngneat/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { MATERIAL_INFORMATION_MOCK } from '../../../../testing/mocks';
-import { TECHNICAL_VALUE_DRIVERS_MOCK } from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
 import {
   ComparableMaterialsRowData,
   FPricingComparableMaterials,
@@ -55,7 +55,7 @@ export const initialState: FPricingState = {
   comparableTransactions: null,
   marketValueDriversSelections: [],
   priceSelected: null,
-  technicalValueDrivers: TECHNICAL_VALUE_DRIVERS_MOCK,
+  technicalValueDrivers: null,
   technicalValueDriversToUpdate: [],
 };
 
@@ -311,56 +311,80 @@ export const fPricingFeature = createFeature({
             description: translate(`${TRANSLATION_KEY}.heatTreatment`),
 
             value: percentPipe.transform(
-              technicalValueDriver.heatTreatmentSurcharge
+              technicalValueDriver?.heatTreatmentSurcharge
             ),
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 1
             )?.editableValue,
-          } as TableItem,
+            additionalDescription: translate(
+              `${TRANSLATION_KEY}.heatTreatmentDescription`,
+              {
+                value:
+                  technicalValueDriver?.topHeatTreatmentValue ?? Keyboard.DASH,
+              }
+            ),
+          },
           {
             id: 2,
             description: translate(`${TRANSLATION_KEY}.toleranceClass`),
             value: percentPipe.transform(
-              technicalValueDriver.toleranceClassSurcharge
+              technicalValueDriver?.toleranceClassSurcharge
             ),
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 2
             )?.editableValue,
+            additionalDescription: translate(
+              `${TRANSLATION_KEY}.toleranceClassDescription`,
+              {
+                value:
+                  technicalValueDriver?.topToleranceClassValue ?? Keyboard.DASH,
+              }
+            ),
           },
           {
             id: 3,
             description: translate(`${TRANSLATION_KEY}.radialClearance`),
             value: percentPipe.transform(
-              technicalValueDriver.clearanceRadialSurcharge
+              technicalValueDriver?.clearanceRadialSurcharge
             ),
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 3
             )?.editableValue,
+            additionalDescription: translate(
+              `${TRANSLATION_KEY}.radialClearanceDescription`
+            ),
           },
           {
             id: 4,
             description: translate(`${TRANSLATION_KEY}.axialClearance`),
             value: percentPipe.transform(
-              technicalValueDriver.clearanceAxialSurcharge
+              technicalValueDriver?.clearanceAxialSurcharge
             ),
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 4
             )?.editableValue,
+            additionalDescription: translate(
+              `${TRANSLATION_KEY}.axialClearanceDescription`,
+              { value: technicalValueDriver?.clearanceAxial ?? Keyboard.DASH }
+            ),
           },
           {
             id: 5,
             description: translate(`${TRANSLATION_KEY}.engineeringEffort`),
             value: percentPipe.transform(
-              technicalValueDriver.engineeringEffortSurcharge
+              technicalValueDriver?.engineeringEffortSurcharge
             ),
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 5
             )?.editableValue,
+            additionalDescription: translate(
+              `${TRANSLATION_KEY}.engineeringEffortDescription`
+            ),
           },
         ];
 

@@ -4,8 +4,8 @@ import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-valu
 
 export const TECHNICAL_VALUE_DRIVERS_MOCK: TechnicalValueDriver = {
   productType: ProductType.CRB,
-  topHeatTreatmentValue: 'c1',
-  topToleranceClassValue: 'c1',
+  topHeatTreatmentValue: 's1',
+  topToleranceClassValue: 'P1',
   clearanceAxial: 'c1',
   heatTreatmentSurcharge: 0.05,
   clearanceAxialSurcharge: 0.08,
@@ -21,6 +21,7 @@ export const TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK: TableItem[] = [
     value: '5%',
     editableValue: 5,
     editableValueUnit: '%',
+    additionalDescription: 'translate it',
   },
   {
     description: 'translate it',
@@ -28,6 +29,7 @@ export const TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK: TableItem[] = [
     value: '4%',
     editableValue: 5,
     editableValueUnit: '%',
+    additionalDescription: 'translate it',
   },
   {
     description: 'translate it',
@@ -35,6 +37,7 @@ export const TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK: TableItem[] = [
     value: '5%',
     editableValue: 5,
     editableValueUnit: '%',
+    additionalDescription: 'translate it',
   },
   {
     description: 'translate it',
@@ -42,6 +45,7 @@ export const TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK: TableItem[] = [
     value: '8%',
     editableValue: 5,
     editableValueUnit: '%',
+    additionalDescription: 'translate it',
   },
   {
     description: 'translate it',
@@ -49,5 +53,6 @@ export const TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK: TableItem[] = [
     value: '1%',
     editableValue: 5,
     editableValueUnit: '%',
+    additionalDescription: 'translate it',
   },
 ];
