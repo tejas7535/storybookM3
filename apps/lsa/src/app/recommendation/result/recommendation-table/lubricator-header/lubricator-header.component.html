@@ -1,0 +1,46 @@
+<ng-container *transloco="let t; read: 'recommendation.result'">
+  <div
+    class="relative top-0 left-0 bottom-0 right-0 h-full px-2"
+    [ngClass]="{
+      'pl-2 pr-0': isLastColumn
+    }"
+  >
+    <div
+      class="flex flex-col h-full gap-2 p-2 border-x border-t border-border rounded-t-lg"
+      [ngClass]="{ 'border-primary': selected }"
+    >
+      <mat-radio-button
+        #headerSelectButton
+        [checked]="selected"
+        color="primary"
+        class="cursor-pointer bg-disabled-overlay rounded-xl w-fit"
+        (change)="onHeaderSelected(headerSelectButton.checked)"
+      >
+        <span
+          class="uppercase text-[8px]/[16px] font-bold tracking-wide h-full text-center block"
+        >
+          {{
+            t(headerData.isRecommended ? 'recommended' : 'minimumRequirements')
+          }}
+        </span>
+      </mat-radio-button>
+      <div class="w-48 h-32 flex justify-center items-center">
+        <img [src]="headerData.productImageUrl" />
+      </div>
+      <span class="text-subtitle-1 text-medium-emphasis h-12">{{
+        headerData.name
+      }}</span>
+      <p class="text-caption text-medium-emphasis flex-1">
+        {{ headerData.description }}
+      </p>
+      <div class="flex flex-row gap-2">
+        <span class="text-[10px]/[18px] text-low-emphasis">{{
+          t('schaefflerId')
+        }}</span>
+        <span class="text-[10px]/[18px] text-medium-emphasis">{{
+          headerData.matNr
+        }}</span>
+      </div>
+    </div>
+  </div>
+</ng-container>

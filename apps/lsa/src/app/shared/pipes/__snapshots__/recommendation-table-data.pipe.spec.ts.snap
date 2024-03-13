@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RecommendationTableDataPipe transform should create the data object 1`] = `
+Object {
+  "headers": Object {
+    "minimum": Object {
+      "description": "CONCEPT1, Single-point lubrication, gas-driven, without lubricant",
+      "isRecommended": false,
+      "matNr": "0951660500000",
+      "name": "ARCALUB-C1-60-REFILLABLE",
+      "productImageUrl": "https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png",
+    },
+    "recommended": Object {
+      "description": "CONCEPT2, Single-point lubrication, gas-driven, without lubricant",
+      "isRecommended": true,
+      "matNr": "0951660500001",
+      "name": "ARCALUB-C2-60-REFILLABLE",
+      "productImageUrl": "https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png",
+    },
+  },
+  "rows": Array [
+    Object {
+      "field": "volume",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+  ],
+}
+`;
+
+exports[`RecommendationTableDataPipe transform should create the data object with identical lubricators 1`] = `
+Object {
+  "headers": Object {
+    "minimum": undefined,
+    "recommended": Object {
+      "description": "CONCEPT1, Single-point lubrication, gas-driven, without lubricant",
+      "isRecommended": true,
+      "matNr": "0951660500000",
+      "name": "ARCALUB-C1-60-REFILLABLE",
+      "productImageUrl": "https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png",
+    },
+  },
+  "rows": Array [
+    Object {
+      "field": "volume",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+  ],
+}
+`;
+
+exports[`RecommendationTableDataPipe transform should create the data object without lubricators 1`] = `
+Object {
+  "headers": Object {
+    "minimum": undefined,
+    "recommended": undefined,
+  },
+  "rows": Array [
+    Object {
+      "field": "volume",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+  ],
+}
+`;

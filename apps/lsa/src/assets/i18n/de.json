@@ -60,6 +60,30 @@
         "battery": "Batterie",
         "noPreference": "Ich weiß es noch nicht"
       }
+    },
+    "result": {
+      "minimumRequirements": "Mindestanforderungen",
+      "recommended": "Empfohlen",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "Ausgangsdurchmesser",
+      "maxOperatingPressure": "Betriebsdruck",
+      "noOfOutlets": "Schmierstellenanzahl",
+      "maxTemp": "Maximale Temperatur",
+      "minTemp": "Minimale Temperatur",
+      "batteryPowered": "Batteriebetrieben",
+      "medium": "Schmierstoff",
+      "productSeries": "Produktreihe",
+      "volume": "Volumen",
+      "isOptime": "Optime",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "yes": "Ja",
+      "no": "Nein"
     }
   }
 }

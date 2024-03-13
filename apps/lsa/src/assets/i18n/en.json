@@ -60,6 +60,30 @@
         "battery": "Battery",
         "noPreference": "I don`t know yet"
       }
+    },
+    "result": {
+      "minimumRequirements": "minimum requirements",
+      "recommended": "recommended",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "Output diameter",
+      "maxOperatingPressure": "Operating pressure",
+      "noOfOutlets": "Number of outlets",
+      "maxTemp": "Maximum temperature",
+      "minTemp": "Minimum temperature",
+      "batteryPowered": "Battery powered",
+      "medium": "Greasing medium",
+      "productSeries": "Product Series",
+      "volume": "Volume",
+      "isOptime": "Optime",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "yes": "Yes",
+      "no": "No"
     }
   }
 }

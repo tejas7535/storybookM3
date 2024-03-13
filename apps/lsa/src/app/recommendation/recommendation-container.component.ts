@@ -18,6 +18,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ApplicationComponent } from './application/application.component';
 import { LubricantComponent } from './lubricant/lubricant.component';
 import { LubricationPointsComponent } from './lubrication-points/lubrication-points.component';
+import { ResultComponent } from './result/result.component';
 
 @Component({
   selector: 'lsa-recommendation-container',
@@ -29,6 +30,7 @@ import { LubricationPointsComponent } from './lubrication-points/lubrication-poi
     LubricationPointsComponent,
     LubricantComponent,
     ApplicationComponent,
+    ResultComponent,
     forwardRef(() => LsaStepperComponent),
     CdkStepperModule,
     SharedTranslocoModule,

@@ -5,5 +5,6 @@ export * from './medium.enum';
 export * from './optime.enum';
 export * from './pages.enum';
 export * from './power-supply.enum';
+export * from './recommendation-table-data';
 export * from './relubrication-interval.enum';
 export * from './screens';

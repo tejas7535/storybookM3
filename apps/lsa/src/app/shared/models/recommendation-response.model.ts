@@ -21,6 +21,8 @@ export interface Lubricator {
   description: string;
   productSeries: string;
   volume: string;
+  isOptime: 0 | 1;
+  productImageUrl: string;
   accessories?: Accessory[];
 }
 
