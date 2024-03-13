@@ -8,7 +8,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 import {
   BehaviorSubject,
@@ -16,6 +16,7 @@ import {
   filter,
   map,
   Observable,
+  startWith,
   Subject,
   takeUntil,
 } from 'rxjs';
@@ -55,7 +56,7 @@ export class AppComponent
 
   public isStandalone$ = this.settingsFacade.isStandalone$;
   public isBearingSupported$ = this.store.select(isBearingSupported);
-
+  public isCookiePage = false;
   public isProduction = environment.production;
 
   public containerScrollEvent$ = new BehaviorSubject<Event>({} as Event);
@@ -92,6 +93,13 @@ export class AppComponent
     this.translocoService.selectTranslate('legal.termsOfUse').pipe(
       map((title) => ({
         link: `${LegalRoute}/${LegalPath.TermsPath}`,
+        title,
+        external: false,
+      }))
+    ),
+    this.translocoService.selectTranslate('legal.cookiePolicy').pipe(
+      map((title) => ({
+        link: `${LegalRoute}/${LegalPath.CookiePath}`,
         title,
         external: false,
       }))
@@ -148,6 +156,17 @@ export class AppComponent
         this.settingsFacade.dispatch(
           setResultPreviewSticky({ isResultPreviewSticky: !thresholdMet })
         );
+      });
+
+    this.router.events
+      .pipe(
+        takeUntil(this.destroyScrollThreshold$),
+        filter((event) => event instanceof NavigationEnd),
+        startWith('')
+      )
+      .subscribe((event) => {
+        const url = (event as NavigationEnd).url?.split('/').pop();
+        this.isCookiePage = url === LegalPath.CookiePath;
       });
 
     const currentLanguage = isLanguageAvailable(this.language)

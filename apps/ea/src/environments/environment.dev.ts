@@ -23,7 +23,7 @@ export const environment: Environment = {
     },
     consent: true,
     enableGlobalErrorHandler: true,
-    enableNgrxMetaReducer: true,
+    enableNgrxMetaReducer: false,
     ngrxIgnorePattern: ['@ngrx/*'],
   },
 };
