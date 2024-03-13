@@ -1,5 +1,11 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationRef,
+  DoBootstrap,
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +37,15 @@ import { BearingDesignationProvidedGuard } from './guards/bearing-designation-pr
 import { LegacyAppComponent } from './legacy-app/legacy-app.component';
 import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
+import { environment } from '@ea/environments/environment';
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+  CustomProps,
+} from '@schaeffler/application-insights';
+import { combineLatest, of, tap } from 'rxjs';
+import { CookiesGroups } from '@altack/ngx-onetrust';
+import { SettingsFacade } from './core/store';
 
 export const appRoutePaths: Routes = [
   {
@@ -74,6 +89,35 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
 @NgModule({
   declarations: [AppComponent],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      deps: [ApplicationInsightsService, SettingsFacade],
+      useFactory: (
+        appInsightService: ApplicationInsightsService,
+        settingsFacade: SettingsFacade
+      ) => {
+        const customProps: CustomProps = {
+          tag: 'application',
+          value: '[Medias - EasyCalc]',
+        };
+        const dummyCookieGroup = new Map([
+          [CookiesGroups.PerformanceCookies, true],
+        ]);
+
+        return () =>
+          combineLatest([settingsFacade.isStandalone$]).pipe(
+            tap(([standalone]) => {
+              if (standalone && !environment.localDev) {
+                appInsightService.initTracking(
+                  of(dummyCookieGroup),
+                  customProps
+                );
+              }
+            })
+          );
+      },
+      multi: true,
+    },
     TranslocoDecimalPipe,
     { provide: OverlayContainer, useClass: AppOverlayContainer },
     {
@@ -111,6 +155,8 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     LanguageSelectModule,
     QualtricsInfoBannerComponent,
     LegacyAppComponent,
+
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
 })
 export class AppModule implements DoBootstrap {

@@ -15,4 +15,15 @@ export const environment: Environment = {
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: 'https://medias-easycalc-q.dev.dp.schaeffler/assets',
   oneTrustId: '3a469db6-83fa-4b5f-9231-f96928c037b5',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: '3d8a728a-165f-4dfa-bb4c-670ebd88c0e6',
+      disableCookiesUsage: false,
+      autoTrackPageVisitTime: true,
+    },
+    consent: true,
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };

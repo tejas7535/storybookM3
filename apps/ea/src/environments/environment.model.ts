@@ -12,4 +12,15 @@ export interface Environment {
   groupId: string;
   assetsPath: string;
   oneTrustId: string;
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: string;
+      disableCookiesUsage: boolean;
+      autoTrackPageVisitTime: boolean;
+    };
+    consent: boolean;
+    enableGlobalErrorHandler: boolean;
+    enableNgrxMetaReducer: boolean;
+    ngrxIgnorePattern: string[];
+  };
 }
