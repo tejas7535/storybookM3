@@ -48,7 +48,7 @@ import {
 import { AppRoutePath } from '@ea/app-route-path.enum';
 import { LocalStorageService } from '@ea/core/local-storage';
 import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
-import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
@@ -368,7 +368,7 @@ export class CalculationParametersComponent
     private readonly translocoService: TranslocoService,
     private readonly calculationParametersFormHelperService: CalculationParametersFormHelperService,
     private readonly router: Router,
-    private readonly analyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly analyticsService: TrackingService,
     private readonly changeDetectionRef: ChangeDetectorRef,
     private readonly localStorageService: LocalStorageService
   ) {}

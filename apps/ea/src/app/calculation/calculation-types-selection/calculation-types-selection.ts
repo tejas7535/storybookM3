@@ -23,10 +23,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { firstValueFrom, Subject } from 'rxjs';
 
-import {
-  CalculationTypeChangeEvent,
-  EmbeddedGoogleAnalyticsService,
-} from '@ea/core/services/embedded-google-analytics';
+import { CalculationTypeChangeEvent } from '@ea/core/services/embedded-google-analytics';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationTypesActions } from '@ea/core/store/actions';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
@@ -72,7 +70,7 @@ export class CalculationTypesSelectionComponent implements OnDestroy {
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly matDialog: MatDialog,
-    private readonly trackingService: EmbeddedGoogleAnalyticsService,
+    private readonly trackingService: TrackingService,
     @Optional()
     public readonly dialogRef?: MatDialogRef<CalculationTypesSelectionComponent>
   ) {}

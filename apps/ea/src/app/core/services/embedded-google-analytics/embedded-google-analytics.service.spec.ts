@@ -6,6 +6,7 @@ import { SettingsFacade } from '@ea/core/store';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { EmbeddedGoogleAnalyticsService } from './embedded-google-analytics.service';
+import { BasicEvent, CalculationTypeChangeEvent } from './event-types';
 
 describe('EmbeddedGoogleAnalyticsService', () => {
   let spectator: SpectatorService<EmbeddedGoogleAnalyticsService>;
@@ -53,59 +54,13 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       settingsFacadeMock.isStandalone$ = of(false);
     });
 
-    it('should push logDownloadReport event to dataLayer', async () => {
-      await service.logDownloadReport();
-      expect(document.defaultView.dataLayer.push).toBeCalledWith({
-        action: 'Download Report',
-        event: 'Engineering-App',
-      });
-    });
+    it('should push the specified event to data layer', async () => {
+      const testEvent: BasicEvent = { action: 'This is the test event' };
+      await service.logEvent(testEvent as CalculationTypeChangeEvent);
 
-    it('should push logShowReport to data layer', async () => {
-      await service.logShowReport();
-      expect(document.defaultView.dataLayer.push).toBeCalledWith({
-        action: 'Show Report',
+      expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
         event: 'Engineering-App',
-      });
-    });
-
-    it('should push logCalculation to data layer', async () => {
-      const payload = { a: { selected: true }, b: { selected: false } } as any;
-      await service.logCalculation(payload, 15);
-      expect(document.defaultView.dataLayer.push).toBeCalledWith({
-        action: 'Calculate',
-        status: 'successful',
-        methods: { a: true, b: false },
-        message: 'successful',
-        version: service['version'],
-        event: 'Engineering-App',
-        numberOfLoadcases: 15,
-      });
-    });
-
-    it('should push logCalculation to data layer on error', async () => {
-      const payload = { a: { selected: true }, b: { selected: false } } as any;
-      await service.logCalculation(payload, -1, 'A serious error');
-      expect(document.defaultView.dataLayer.push).toBeCalledWith({
-        action: 'Calculate',
-        status: 'unsuccessful',
-        methods: { a: true, b: false },
-        message: 'A serious error',
-        version: service['version'],
-        event: 'Engineering-App',
-        numberOfLoadcases: -1,
-      });
-    });
-
-    it('should push logToggleCalculationType to data layer', async () => {
-      const payload = { a: true, b: false };
-      await service.logToggleCalculationType(true, payload);
-      expect(document.defaultView.dataLayer.push).toBeCalledWith({
-        action: 'Toggle Method',
-        status: 'on',
-        methods: payload,
-        version: service['version'],
-        event: 'Engineering-App',
+        ...testEvent,
       });
     });
   });
@@ -116,11 +71,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
     });
 
     it('should not interact with dataLayer when all possible logging calls are made', async () => {
-      await service.logCalculation({} as any, -1);
-      await service.logDownloadReport();
-      await service.logShowReport();
-      await service.logToggleCalculationType(true, {});
-
+      await service.logEvent({} as any);
       expect(document.defaultView.dataLayer.push).not.toHaveBeenCalled();
     });
   });

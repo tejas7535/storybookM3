@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
@@ -26,6 +27,7 @@ describe('CalculationContainerComponent', () => {
 
       provideTranslocoTestingModule({ en: {} }),
       MatIconTestingModule,
+      RouterTestingModule,
     ],
     providers: [
       provideMockStore({

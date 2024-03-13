@@ -14,7 +14,7 @@ export const environment: Environment = {
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: 'https://medias-easycalc-d.dev.dp.schaeffler/assets',
-  oneTrustId: '7046149d-287b-4943-823f-02838a51a445',
+  oneTrustId: '018e331f-2e0e-73a2-b47d-fb29f9704f6c-test',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '1c13d904-fb90-4598-82b4-ebba31a8e172',

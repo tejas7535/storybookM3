@@ -11,11 +11,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
+import { combineLatest, tap } from 'rxjs';
+
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+  CustomProps,
+} from '@schaeffler/application-insights';
 import { BannerModule } from '@schaeffler/banner';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
@@ -33,19 +43,11 @@ import { AppRoutePath } from './app-route-path.enum';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
+import { SettingsFacade } from './core/store';
 import { BearingDesignationProvidedGuard } from './guards/bearing-designation-provided.guard';
 import { LegacyAppComponent } from './legacy-app/legacy-app.component';
 import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
-import { environment } from '@ea/environments/environment';
-import {
-  ApplicationInsightsModule,
-  ApplicationInsightsService,
-  CustomProps,
-} from '@schaeffler/application-insights';
-import { combineLatest, of, tap } from 'rxjs';
-import { CookiesGroups } from '@altack/ngx-onetrust';
-import { SettingsFacade } from './core/store';
 
 export const appRoutePaths: Routes = [
   {
@@ -91,25 +93,24 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
   providers: [
     {
       provide: APP_INITIALIZER,
-      deps: [ApplicationInsightsService, SettingsFacade],
+      deps: [ApplicationInsightsService, SettingsFacade, OneTrustService],
       useFactory: (
         appInsightService: ApplicationInsightsService,
-        settingsFacade: SettingsFacade
+        settingsFacade: SettingsFacade,
+        oneTrustService: OneTrustService
       ) => {
         const customProps: CustomProps = {
           tag: 'application',
           value: '[Medias - EasyCalc]',
         };
-        const dummyCookieGroup = new Map([
-          [CookiesGroups.PerformanceCookies, true],
-        ]);
 
         return () =>
           combineLatest([settingsFacade.isStandalone$]).pipe(
             tap(([standalone]) => {
-              if (standalone && !environment.localDev) {
+              if (standalone) {
+                oneTrustService.loadOneTrust();
                 appInsightService.initTracking(
-                  of(dummyCookieGroup),
+                  oneTrustService.consentChanged$(),
                   customProps
                 );
               }
@@ -155,7 +156,10 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     LanguageSelectModule,
     QualtricsInfoBannerComponent,
     LegacyAppComponent,
-
+    OneTrustModule.forRoot({
+      cookiesGroups: COOKIE_GROUPS,
+      domainScript: environment.oneTrustId,
+    }),
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
 })

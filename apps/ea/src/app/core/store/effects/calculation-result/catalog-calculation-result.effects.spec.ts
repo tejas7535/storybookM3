@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
-import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   APP_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -39,7 +40,7 @@ describe('Catalog Calculation Result Effects', () => {
 
   const createService = createServiceFactory({
     service: CatalogCalculationResultEffects,
-    imports: [HttpClientTestingModule],
+    imports: [HttpClientTestingModule, RouterTestingModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({ initialState: APP_STATE_MOCK }),
@@ -68,7 +69,7 @@ describe('Catalog Calculation Result Effects', () => {
         },
       },
       {
-        provide: EmbeddedGoogleAnalyticsService,
+        provide: TrackingService,
         useValue: trackingServiceMock,
       },
     ],

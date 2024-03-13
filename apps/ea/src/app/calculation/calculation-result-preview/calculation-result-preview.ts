@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { CalculationParametersFacade, SettingsFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -66,7 +66,7 @@ export class CalculationResultPreviewComponent {
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly analyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly analyticsService: TrackingService,
     private readonly settingsFacade: SettingsFacade,
     private readonly dialog: Dialog
   ) {}

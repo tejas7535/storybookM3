@@ -9,8 +9,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { map } from 'rxjs';
 
-import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
@@ -96,7 +96,7 @@ export class CalculationResultReportComponent {
     public readonly settingsFacade: SettingsFacade,
     private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService,
-    private readonly trackingService: EmbeddedGoogleAnalyticsService,
+    private readonly trackingService: TrackingService,
     private readonly reportService: PDFReportService
   ) {}
 

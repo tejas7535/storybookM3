@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { firstValueFrom, of, Subject } from 'rxjs';
 
@@ -48,7 +49,7 @@ describe('CalculationParametersComponent', () => {
       MockModule(MatTooltipModule),
       MockModule(MatSlideToggleModule),
       MockModule(MatDialogModule),
-
+      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

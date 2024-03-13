@@ -14,7 +14,7 @@ export const environment: Environment = {
   tenantId: '035a32aa-f517-4698-a818-e756af53c99e',
   groupId: 'c4c115f9-a73a-4761-a7d1-daa07e6deda1',
   assetsPath: 'https://medias-easycalc.com/assets',
-  oneTrustId: '39ed6ec5-7a45-4732-80c8-cfe75986abc4',
+  oneTrustId: '018e319b-539e-71d4-81ef-009e587d0bf9',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'cfecb843-072b-4edf-9c7d-2b52d7309d6d',

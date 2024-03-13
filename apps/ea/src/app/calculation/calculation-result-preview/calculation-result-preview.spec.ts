@@ -4,8 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
@@ -44,6 +45,7 @@ describe('CalculationResultPreviewComponent', () => {
       MockModule(DialogModule),
 
       provideTranslocoTestingModule({ en: {} }),
+      RouterTestingModule,
     ],
     providers: [
       provideMockStore({
@@ -63,7 +65,7 @@ describe('CalculationResultPreviewComponent', () => {
       { provide: Dialog, useValue: dialogMock },
       { provide: MatDialog, useValue: dialogMock },
       {
-        provide: EmbeddedGoogleAnalyticsService,
+        provide: TrackingService,
         useValue: analyticsServiceMock,
       },
     ],

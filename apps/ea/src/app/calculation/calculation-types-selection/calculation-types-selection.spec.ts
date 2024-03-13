@@ -2,6 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
@@ -33,7 +34,7 @@ describe('CalculationTypesSelectionComponent', () => {
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatDividerModule),
-
+      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

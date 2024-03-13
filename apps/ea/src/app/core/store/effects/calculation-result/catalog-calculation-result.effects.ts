@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { catchError, of, switchMap, takeUntil } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
-import { EmbeddedGoogleAnalyticsService } from '@ea/core/services/embedded-google-analytics';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import {
@@ -163,6 +163,6 @@ export class CatalogCalculationResultEffects {
     private readonly catalogService: CatalogService,
     private readonly productSelectionFacade: ProductSelectionFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly trackingService: EmbeddedGoogleAnalyticsService
+    private readonly trackingService: TrackingService
   ) {}
 }

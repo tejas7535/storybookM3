@@ -1,5 +1,6 @@
 import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
@@ -31,6 +32,7 @@ describe('CalculationResultReportComponent', () => {
       MatIconTestingModule,
       MockModule(DialogModule),
       provideTranslocoTestingModule({ en: {} }),
+      RouterTestingModule,
     ],
     providers: [
       provideMockStore({
