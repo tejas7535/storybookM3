@@ -153,16 +153,6 @@
         </button>
       </ng-container>
       <ng-template #upload>
-        <ng-container
-          *ngIf="
-            isSapMaterialsUploadStatusDialogMinimized$ | ngrxPush;
-            then uploadInProgressButton;
-            else uploadButton
-          "
-        >
-        </ng-container>
-      </ng-template>
-      <ng-template #uploadButton>
         <button
           mat-raised-button
           [disabled]="!(hasMatnrUploaderRole$ | ngrxPush)"
@@ -188,22 +178,7 @@
           <span>{{ t('export') }}</span>
         </button>
       </ng-template>
-      <ng-template #uploadInProgressButton>
-        <button
-          mat-raised-button
-          class="!bg-nordic-blue"
-          (click)="openSapMaterialsUploadStatusDialog()"
-        >
-          <div class="flex flex-row gap-x-2">
-            <span class="text-white">{{ t('uploadInProgress') }}</span>
-            <mat-spinner
-              class="my-auto"
-              color="accent"
-              diameter="14"
-            ></mat-spinner>
-          </div>
-        </button>
-      </ng-template>
+
       <button
         mat-button
         color="primary"

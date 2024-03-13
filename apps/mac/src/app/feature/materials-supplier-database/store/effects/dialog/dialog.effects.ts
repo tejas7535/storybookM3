@@ -1180,38 +1180,14 @@ export class DialogEffects {
   public getSapMaterialsDatabaseUploadStatusSuccess$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.getSapMaterialsDatabaseUploadStatusSuccess),
-      concatLatestFrom(
-        () => this.dialogFacade.isSapMaterialsUploadStatusDialogMinimized$
-      ),
       filter(
-        ([{ databaseUploadStatus }]) =>
+        ({ databaseUploadStatus }) =>
           databaseUploadStatus.status !==
           SapMaterialsDatabaseUploadStatus.RUNNING
       ),
-      switchMap(([{ databaseUploadStatus }, isDialogMinimized]) => {
-        if (isDialogMinimized) {
-          const message = translate(
-            `materialsSupplierDatabase.mainTable.uploadStatusDialog.statusInfo.${databaseUploadStatus.status}`
-          );
-
-          this.dataFacade.dispatch(
-            databaseUploadStatus.status ===
-              SapMaterialsDatabaseUploadStatus.DONE
-              ? DataActions.infoSnackBar({
-                  message,
-                })
-              : DataActions.errorSnackBar({
-                  message,
-                })
-          );
-
-          this.dialogFacade.dispatch(
-            DialogActions.sapMaterialsUploadStatusReset()
-          );
-        }
-
-        return of(DialogActions.stopPollingSapMaterialsDatabaseUploadStatus());
-      })
+      switchMap(() =>
+        of(DialogActions.stopPollingSapMaterialsDatabaseUploadStatus())
+      )
     );
   });
 
@@ -1222,26 +1198,6 @@ export class DialogEffects {
         this.msdDataService.removeSapMaterialsUploadId();
 
         return [];
-      })
-    );
-  });
-
-  public sapMaterialsUploadStatusRestore$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(DialogActions.sapMaterialsUploadStatusRestore),
-      switchMap(() => {
-        const uploadId = this.msdDataService.getSapMaterialsUploadId();
-
-        if (uploadId) {
-          return of(
-            DialogActions.sapMaterialsUploadStatusDialogMinimized(),
-            DialogActions.startPollingSapMaterialsDatabaseUploadStatus({
-              uploadId,
-            })
-          );
-        }
-
-        return of();
       })
     );
   });

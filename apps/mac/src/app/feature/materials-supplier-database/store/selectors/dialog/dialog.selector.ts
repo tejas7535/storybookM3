@@ -746,14 +746,6 @@ export const getSapMaterialsDatabaseUploadStatus = createSelector(
   (dialogState) => dialogState.uploadSapMaterials?.databaseUploadStatus
 );
 
-export const isSapMaterialsUploadStatusDialogMinimized = createSelector(
-  getDialogState,
-  (dialogState) =>
-    dialogState.uploadSapMaterials?.isUploadStatusDialogMinimized === undefined
-      ? false
-      : dialogState.uploadSapMaterials.isUploadStatusDialogMinimized
-);
-
 export const getSapMaterialsFileUploadProgress = createSelector(
   getDialogState,
   (dialogState) => dialogState.uploadSapMaterials?.fileUploadProgress

@@ -11,14 +11,11 @@ import { MsdDialogService } from '@mac/feature/materials-supplier-database/servi
 import {
   clearRejectedSapMaterials,
   downloadRejectedSapMaterials,
-  sapMaterialsUploadStatusDialogMinimized,
-  sapMaterialsUploadStatusDialogOpened,
   sapMaterialsUploadStatusReset,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
 interface UploadStatusDialogConfig {
-  minimizeEnabled: boolean;
   closeEnabled: boolean;
   status: {
     color: string;
@@ -41,10 +38,9 @@ interface UploadStatusDialogConfig {
   infoTranslationKeySuffix?: string;
   warningTranslationKeySuffix?: string;
   cancelButtonTranslationKeySuffix?: string;
-  confirmButtonTranslationKeySuffix: string;
-  minimize?: () => void;
+  confirmButtonTranslationKeySuffix?: string;
   cancel?: () => void;
-  confirm: () => void;
+  confirm?: () => void;
 }
 
 @Component({
@@ -62,7 +58,6 @@ export class SapMaterialsUploadStatusDialogComponent
     [status: string]: UploadStatusDialogConfig;
   } = {
     [SapMaterialsDatabaseUploadStatus.RUNNING]: {
-      minimizeEnabled: true,
       closeEnabled: false,
       status: {
         color: '#00893D',
@@ -71,14 +66,9 @@ export class SapMaterialsUploadStatusDialogComponent
         descriptionTranslationKeySuffix:
           SapMaterialsDatabaseUploadStatus.RUNNING,
       },
-      infoTranslationKeySuffix: 'minimizeInfo',
       warningTranslationKeySuffix: 'browserTabWarning',
-      confirmButtonTranslationKeySuffix: 'minimize',
-      minimize: () => this.minimize(),
-      confirm: () => this.minimize(),
     },
     [SapMaterialsDatabaseUploadStatus.DONE]: {
-      minimizeEnabled: false,
       closeEnabled: true,
       status: {
         color: '#00893D',
@@ -112,7 +102,6 @@ export class SapMaterialsUploadStatusDialogComponent
       confirm: () => this.close(),
     },
     [SapMaterialsDatabaseUploadStatus.FAILED]: {
-      minimizeEnabled: false,
       closeEnabled: true,
       status: {
         color: '#CB0B15',
@@ -160,8 +149,6 @@ export class SapMaterialsUploadStatusDialogComponent
   ) {}
 
   ngOnInit(): void {
-    this.dialogFacade.dispatch(sapMaterialsUploadStatusDialogOpened());
-
     this.config =
       this.DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG[
         SapMaterialsDatabaseUploadStatus.RUNNING
@@ -202,11 +189,6 @@ export class SapMaterialsUploadStatusDialogComponent
     this.dialogFacade.getSapMaterialsDatabaseUploadStatusFailed$
       .pipe(take(1))
       .subscribe(() => this.close());
-  }
-
-  private minimize(): void {
-    this.dialogRef.close();
-    this.dialogFacade.dispatch(sapMaterialsUploadStatusDialogMinimized());
   }
 
   private close(): void {

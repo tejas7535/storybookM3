@@ -87,8 +87,6 @@ import {
   resetDialogOptions,
   resetMaterialRecord,
   resetSteelMakingProcessInUse,
-  sapMaterialsUploadStatusDialogMinimized,
-  sapMaterialsUploadStatusDialogOpened,
   sapMaterialsUploadStatusReset,
   setMaterialFormValue,
   setSapMaterialsFileUploadProgress,
@@ -163,7 +161,6 @@ export interface DialogState {
     uploadLoading: boolean; // indicate that the file is being uploaded to the BE, not that the data is uploaded into the DB!
     fileUploadProgress: number; // file upload progress in percent
     databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse;
-    isUploadStatusDialogMinimized: boolean;
   };
   selectedMaterial?: {
     rows: DataResult[];
@@ -1149,33 +1146,12 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    sapMaterialsUploadStatusDialogOpened,
-    (state): DialogState => ({
-      ...state,
-      uploadSapMaterials: {
-        ...state.uploadSapMaterials,
-        isUploadStatusDialogMinimized: false,
-      },
-    })
-  ),
-  on(
-    sapMaterialsUploadStatusDialogMinimized,
-    (state): DialogState => ({
-      ...state,
-      uploadSapMaterials: {
-        ...state.uploadSapMaterials,
-        isUploadStatusDialogMinimized: true,
-      },
-    })
-  ),
-  on(
     sapMaterialsUploadStatusReset,
     (state): DialogState => ({
       ...state,
       uploadSapMaterials: {
         ...state.uploadSapMaterials,
         databaseUploadStatus: undefined,
-        isUploadStatusDialogMinimized: false,
       },
     })
   ),

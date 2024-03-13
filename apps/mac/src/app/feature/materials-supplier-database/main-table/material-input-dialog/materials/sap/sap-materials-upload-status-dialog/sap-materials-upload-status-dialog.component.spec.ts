@@ -14,8 +14,6 @@ import { MsdDialogService } from '@mac/feature/materials-supplier-database/servi
 import {
   clearRejectedSapMaterials,
   downloadRejectedSapMaterials,
-  sapMaterialsUploadStatusDialogMinimized,
-  sapMaterialsUploadStatusDialogOpened,
   sapMaterialsUploadStatusReset,
 } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
@@ -51,17 +49,6 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should dispatch sapMaterialsUploadStatusDialogOpened action', () => {
-      component['handleUploadStatusChanges'] = jest.fn();
-      component['handleGetUploadStatusFailure'] = jest.fn();
-
-      component.ngOnInit();
-
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        sapMaterialsUploadStatusDialogOpened()
-      );
-    });
-
     test('should set config on database upload status change', () => {
       const dbStatus = { status: SapMaterialsDatabaseUploadStatus.DONE };
 
@@ -115,17 +102,6 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
 
     expect(component['destroy$'].next).toHaveBeenCalled();
     expect(component['destroy$'].complete).toHaveBeenCalled();
-  });
-
-  describe('minimize', () => {
-    test('should close dialog and dispatch sapMaterialsUploadStatusDialogMinimized', () => {
-      component['minimize']();
-
-      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        sapMaterialsUploadStatusDialogMinimized()
-      );
-    });
   });
 
   describe('close', () => {

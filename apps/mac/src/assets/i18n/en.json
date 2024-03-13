@@ -408,7 +408,6 @@
   "materialsSupplierDatabase": {
     "addItem": "Add Item",
     "uploadItem": "Upload Item",
-    "uploadInProgress": "upload in progress",
     "all": "All",
     "allClass": "All {{class}}:",
     "allSelected": "All selected",
@@ -592,7 +591,6 @@
       },
       "uploadStatusDialog": {
         "title": "Upload item",
-        "minimize": "minimize window",
         "close": "close window",
         "startNew": "start new upload",
         "statusInfo": {
@@ -614,7 +612,6 @@
             "downloadRejected": "download rejected"
           }
         },
-        "minimizeInfo": "This dialog can be minimized without interrupting the upload process. The upload will continue in the background.",
         "browserTabWarning": "Please do not close the Material Supplier Database Browser tab.",
         "getDatabaseUploadStatusFailure": "An error occurred while getting the database upload status of your data!",
         "downloadRejectedSapMaterialsFailure": "An error occurred while downloading the rejected materials!",

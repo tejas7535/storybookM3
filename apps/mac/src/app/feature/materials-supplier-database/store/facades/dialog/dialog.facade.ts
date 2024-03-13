@@ -38,7 +38,6 @@ import {
   getSupplierNameStringOptionsMerged,
   getSupplierPlantsStringOptionsMerged,
   getUniqueStringOptions,
-  isSapMaterialsUploadStatusDialogMinimized,
   selectedHintData,
   validateCo2Scope,
 } from '@mac/msd/store/selectors';
@@ -129,10 +128,6 @@ export class DialogFacade {
 
   sapMaterialsDatabaseUploadStatus$ = this.store.select(
     getSapMaterialsDatabaseUploadStatus
-  );
-
-  isSapMaterialsUploadStatusDialogMinimized$ = this.store.select(
-    isSapMaterialsUploadStatusDialogMinimized
   );
 
   sapMaterialsFileUploadProgress$ = this.store.select(

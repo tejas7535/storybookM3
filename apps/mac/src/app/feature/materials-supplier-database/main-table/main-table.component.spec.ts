@@ -66,7 +66,6 @@ import { initialState as initialDialogState } from '@mac/msd/store/reducers/dial
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../assets/i18n/en.json';
-import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MainTableComponent } from './main-table.component';
@@ -1407,36 +1406,6 @@ describe('MainTableComponent', () => {
       expect(
         component['dialogService'].openSapMaterialsUploadStatusDialog
       ).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('sapMaterialsUploadStatusRecover', () => {
-    beforeEach(() => jest.resetAllMocks());
-
-    it('should dispatch sapMaterialsUploadStatusRecover action if selected material class is SAP_MATERIAL', () => {
-      component.navigation$ = of({
-        materialClass: MaterialClass.SAP_MATERIAL,
-        navigationLevel: NavigationLevel.MATERIAL,
-      });
-
-      component.ngOnInit();
-
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        sapMaterialsUploadStatusRestore()
-      );
-    });
-
-    it('should not dispatch sapMaterialsUploadStatusRecover action if selected material class is not SAP_MATERIAL', () => {
-      component.navigation$ = of({
-        materialClass: MaterialClass.STEEL,
-        navigationLevel: NavigationLevel.MATERIAL,
-      });
-
-      component.ngOnInit();
-
-      expect(component['dialogFacade'].dispatch).not.toHaveBeenCalledWith(
-        sapMaterialsUploadStatusRestore()
-      );
     });
   });
 

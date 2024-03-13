@@ -477,20 +477,8 @@ export const getSapMaterialsDatabaseUploadStatusFailure = createAction(
   '[MSD - Dialog] Get SAP Materials Database Upload Status Failure'
 );
 
-export const sapMaterialsUploadStatusDialogOpened = createAction(
-  '[MSD - Dialog] SAP Materials Upload Status Dialog Opened'
-);
-
-export const sapMaterialsUploadStatusDialogMinimized = createAction(
-  '[MSD - Dialog] SAP Materials Upload Status Dialog Minimized'
-);
-
 export const sapMaterialsUploadStatusReset = createAction(
   '[MSD - Dialog] SAP Materials Upload Status Reset'
-);
-
-export const sapMaterialsUploadStatusRestore = createAction(
-  '[MSD - Dialog] SAP Materials Upload Status Restore'
 );
 
 export const downloadRejectedSapMaterials = createAction(

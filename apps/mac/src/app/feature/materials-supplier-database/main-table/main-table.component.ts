@@ -78,7 +78,6 @@ import {
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
-import { sapMaterialsUploadStatusRestore } from '../store/actions/dialog';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
@@ -112,8 +111,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
 
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
-  public isSapMaterialsUploadStatusDialogMinimized$ =
-    this.dialogFacade.isSapMaterialsUploadStatusDialogMinimized$;
 
   public selectedClass: string;
 
@@ -211,17 +208,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           );
         }
       });
-
-    this.navigation$
-      .pipe(
-        filter(
-          ({ materialClass }) => materialClass === MaterialClass.SAP_MATERIAL
-        ),
-        take(1)
-      )
-      .subscribe(() =>
-        this.dialogFacade.dispatch(sapMaterialsUploadStatusRestore())
-      );
 
     this.reloadDataOnSapMaterialsDatabaseUploadSuccess();
   }

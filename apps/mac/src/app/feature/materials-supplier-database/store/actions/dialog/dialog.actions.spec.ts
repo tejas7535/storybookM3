@@ -110,10 +110,7 @@ import {
   resetMaterialRecord,
   resetSteelMakingProcessInUse,
   sapMaterialsUploadDialogOpened,
-  sapMaterialsUploadStatusDialogMinimized,
-  sapMaterialsUploadStatusDialogOpened,
   sapMaterialsUploadStatusReset,
-  sapMaterialsUploadStatusRestore,
   setMaterialFormValue,
   setSapMaterialsFileUploadProgress,
   startPollingSapMaterialsDatabaseUploadStatus,
@@ -152,14 +149,6 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] SAP Materials Dialog Opened',
-      });
-    });
-
-    it('sapMaterialsUploadStatusDialogOpened', () => {
-      const action = sapMaterialsUploadStatusDialogOpened();
-
-      expect(action).toEqual({
-        type: '[MSD - Dialog] SAP Materials Upload Status Dialog Opened',
       });
     });
   });
@@ -1214,27 +1203,11 @@ describe('Dialog Actions', () => {
       });
     });
 
-    it('sapMaterialsUploadStatusDialogMinimized', () => {
-      const action = sapMaterialsUploadStatusDialogMinimized();
-
-      expect(action).toEqual({
-        type: '[MSD - Dialog] SAP Materials Upload Status Dialog Minimized',
-      });
-    });
-
     it('sapMaterialsUploadStatusReset', () => {
       const action = sapMaterialsUploadStatusReset();
 
       expect(action).toEqual({
         type: '[MSD - Dialog] SAP Materials Upload Status Reset',
-      });
-    });
-
-    it('sapMaterialsUploadStatusRestore', () => {
-      const action = sapMaterialsUploadStatusRestore();
-
-      expect(action).toEqual({
-        type: '[MSD - Dialog] SAP Materials Upload Status Restore',
       });
     });
   });

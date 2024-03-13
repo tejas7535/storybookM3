@@ -1814,26 +1814,4 @@ describe('DialogSelectors', () => {
       } as DialogState)
     ).toBe(fileUploadProgress);
   });
-
-  describe('isSapMaterialsUploadStatusDialogMinimized', () => {
-    it('should return false if isUploadStatusDialogMinimized is undefined', () => {
-      expect(
-        DialogSelectors.isSapMaterialsUploadStatusDialogMinimized.projector({
-          uploadSapMaterials: {
-            isUploadStatusDialogMinimized: undefined,
-          },
-        } as DialogState)
-      ).toBe(false);
-    });
-
-    it('should return true if isUploadStatusDialogMinimized is true', () => {
-      expect(
-        DialogSelectors.isSapMaterialsUploadStatusDialogMinimized.projector({
-          uploadSapMaterials: {
-            isUploadStatusDialogMinimized: true,
-          },
-        } as DialogState)
-      ).toBe(true);
-    });
-  });
 });

@@ -1997,50 +1997,6 @@ describe('dialogReducer', () => {
     });
   });
 
-  it('should set minimized flag to false on sapMaterialsUploadStatusDialogOpened', () => {
-    const action = DialogActions.sapMaterialsUploadStatusDialogOpened();
-    const newState = dialogReducer(
-      {
-        ...state,
-        uploadSapMaterials: {
-          ...state.uploadSapMaterials,
-          isUploadStatusDialogMinimized: true,
-        },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      uploadSapMaterials: {
-        ...state.uploadSapMaterials,
-        isUploadStatusDialogMinimized: false,
-      },
-    });
-  });
-
-  it('should set minimized flag to true on sapMaterialsUploadStatusDialogMinimized', () => {
-    const action = DialogActions.sapMaterialsUploadStatusDialogMinimized();
-    const newState = dialogReducer(
-      {
-        ...state,
-        uploadSapMaterials: {
-          ...state.uploadSapMaterials,
-          isUploadStatusDialogMinimized: false,
-        },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      uploadSapMaterials: {
-        ...state.uploadSapMaterials,
-        isUploadStatusDialogMinimized: true,
-      },
-    });
-  });
-
   it('should reset on sapMaterialsUploadStatusReset', () => {
     const action = DialogActions.sapMaterialsUploadStatusReset();
     const newState = dialogReducer(
@@ -2051,7 +2007,6 @@ describe('dialogReducer', () => {
           databaseUploadStatus: {
             status: SapMaterialsDatabaseUploadStatus.FAILED,
           },
-          isUploadStatusDialogMinimized: true,
         },
       },
       action
@@ -2062,7 +2017,6 @@ describe('dialogReducer', () => {
       uploadSapMaterials: {
         ...state.uploadSapMaterials,
         databaseUploadStatus: undefined,
-        isUploadStatusDialogMinimized: false,
       },
     });
   });

@@ -124,7 +124,6 @@ describe('DialogFacade', () => {
                 databaseUploadStatus: {
                   status: SapMaterialsDatabaseUploadStatus.RUNNING,
                 },
-                isUploadStatusDialogMinimized: true,
                 fileUploadProgress: 25,
               },
               minimizedDialog: {
@@ -598,21 +597,6 @@ describe('DialogFacade', () => {
         m.expect(facade.sapMaterialsDatabaseUploadStatus$).toBeObservable(
           expected
         );
-      })
-    );
-  });
-
-  describe('isSapMaterialsUploadStatusDialogMinimized$', () => {
-    it(
-      'should provide isSapMaterialsUploadStatusDialogMinimized',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: true,
-        });
-
-        m.expect(
-          facade.isSapMaterialsUploadStatusDialogMinimized$
-        ).toBeObservable(expected);
       })
     );
   });
