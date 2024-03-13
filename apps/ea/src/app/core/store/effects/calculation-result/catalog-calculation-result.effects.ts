@@ -7,13 +7,9 @@ import { CatalogService } from '@ea/core/services/catalog.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import {
-  CalculationTypesActions,
-  CatalogCalculationResultActions,
-} from '../../actions';
+import { CatalogCalculationResultActions } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
-import { CalculationParametersCalculationTypes } from '../../models/calculation-parameters-state.model';
 
 @Injectable()
 export class CatalogCalculationResultEffects {
@@ -96,7 +92,7 @@ export class CatalogCalculationResultEffects {
               concatLatestFrom(() => [
                 this.calculationParametersFacade.getCalculationTypes$, // fetching an up-to-date state
               ]),
-              switchMap(([calculationResult, currentCalculationTypes]) => {
+              switchMap(([calculationResult]) => {
                 if (calculationResult.calculationError) {
                   this.trackingService.logCalculation(
                     originalCalculationTypes,
@@ -110,33 +106,9 @@ export class CatalogCalculationResultEffects {
                   );
                 }
 
-                // special case: sometimes bearings have no friction data available. In this case we need to disable the calculation option
-                const isFrictionAvailable =
-                  (!!calculationResult?.loadcaseFriction?.some(
-                    (frictionItem) => frictionItem.totalFrictionalPowerLoss
-                  ) &&
-                    !!calculationResult?.loadcaseFriction?.some(
-                      (frictionItem) => frictionItem.totalFrictionalTorque
-                    )) ||
-                  (calculationResult?.loadcaseFriction?.[0]
-                    .totalFrictionalPowerLoss &&
-                    calculationResult?.loadcaseFriction?.[0]
-                      .totalFrictionalTorque);
-                const updatedCalculationTypes: CalculationParametersCalculationTypes =
-                  {
-                    ...currentCalculationTypes,
-                    frictionalPowerloss: {
-                      ...currentCalculationTypes.frictionalPowerloss,
-                      disabled: !isFrictionAvailable,
-                    },
-                  };
-
                 return [
                   CatalogCalculationResultActions.setCalculationResult({
                     calculationResult,
-                  }),
-                  CalculationTypesActions.setCalculationTypes({
-                    calculationTypes: updatedCalculationTypes,
                   }),
                 ];
               }),

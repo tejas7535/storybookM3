@@ -15,10 +15,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import {
-  CalculationTypesActions,
-  CatalogCalculationResultActions,
-} from '../../actions';
+import { CatalogCalculationResultActions } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';
 import { CatalogCalculationResultEffects } from './catalog-calculation-result.effects';
@@ -122,19 +119,9 @@ describe('Catalog Calculation Result Effects', () => {
         action = CatalogCalculationResultActions.fetchCalculationResult();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bc)', {
+        const expected = m.cold('-b', {
           b: CatalogCalculationResultActions.setCalculationResult({
             calculationResult: 'result-from-service' as any,
-          }),
-          c: CalculationTypesActions.setCalculationTypes({
-            calculationTypes: {
-              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
-              frictionalPowerloss: {
-                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
-                  .frictionalPowerloss,
-                disabled: true,
-              },
-            },
           }),
         });
 
@@ -164,23 +151,13 @@ describe('Catalog Calculation Result Effects', () => {
         action = CatalogCalculationResultActions.fetchCalculationResult();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bc)', {
+        const expected = m.cold('-b', {
           b: CatalogCalculationResultActions.setCalculationResult({
             calculationResult: {
               calculationError: {
                 error: 'some calculation error',
               },
             } as any,
-          }),
-          c: CalculationTypesActions.setCalculationTypes({
-            calculationTypes: {
-              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
-              frictionalPowerloss: {
-                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
-                  .frictionalPowerloss,
-                disabled: true,
-              },
-            },
           }),
         });
 
