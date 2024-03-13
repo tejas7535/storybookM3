@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [1.6.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.6.1...ea-v1.6.2) (2024-03-13)
+
+
+### Features
+
+* **ea:** add same number formatting in pdf report (UFTABI-7414) ([#6074](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6074)) ([2b67fcb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b67fcb4aeaba1ca52bf2439c4b13bee0d95f64d))
+* **ea:** implement tracking by default for OneTrust - UFTABI-6524 ([#6073](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6073)) ([01e21e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/01e21e1362cbec9d899e157af325fd3528350d8f))
+
 ## [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.6.0...ea-v1.6.1) (2024-03-07)
 
 
