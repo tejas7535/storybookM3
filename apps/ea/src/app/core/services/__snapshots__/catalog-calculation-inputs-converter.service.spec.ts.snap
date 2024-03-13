@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CatalogCalculationInputsConverterService convertCatalogInputsResponse should convert a valid result 1`] = `
+Array [
+  Object {
+    "hasNestedStructure": true,
+    "subItems": Array [
+      Object {
+        "hasNestedStructure": true,
+        "subItems": Array [
+          Object {
+            "hasNestedStructure": false,
+            "subItems": Array [
+              Object {
+                "designation": "apple (apple)",
+                "hasNestedStructure": false,
+                "unit": "kg",
+                "value": "delicious apple",
+              },
+              Object {
+                "designation": "bannana (bannana)",
+                "hasNestedStructure": false,
+                "unit": "qt",
+                "value": "delicious bannana",
+              },
+              Object {
+                "designation": "tomato (tomato)",
+                "hasNestedStructure": false,
+                "unit": undefined,
+                "value": "some cherry tomatoes",
+              },
+              Object {
+                "designation": "undefined (resultValues.designation)",
+                "hasNestedStructure": false,
+                "unit": undefined,
+                "value": "designation",
+              },
+            ],
+            "title": undefined,
+            "titleID": "0",
+          },
+        ],
+        "title": undefined,
+        "titleID": undefined,
+      },
+    ],
+    "title": "inner Block",
+    "titleID": undefined,
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "reference rating life",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "nominal",
+      },
+    ],
+    "title": "title variable Block 1",
+    "titleID": undefined,
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": "BPFFO",
+        "designation": "Overrolling frequency factor on outer ring",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "4.12",
+      },
+      Object {
+        "abbreviation": "BPFFI",
+        "designation": "Overrolling frequency factor on inner ring",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "5.88",
+      },
+      Object {
+        "abbreviation": "BSFF",
+        "designation": "Overrolling frequency factor on rolling element",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "2.75",
+      },
+    ],
+    "title": "Basic frequencies factor",
+    "titleID": "STRING_OUTP_BASIC_FREQUENCIES_FACTOR",
+  },
+  Object {
+    "hasNestedStructure": true,
+    "subItems": Array [
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "designation": "Time portion (q)",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": "30.000",
+          },
+          Object {
+            "designation": "operationConditions.rotatingCondition.typeOfMotion",
+            "hasNestedStructure": false,
+            "unit": undefined,
+            "value": "rotating",
+          },
+          Object {
+            "designation": "Speed (n_i)",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": "65.00",
+          },
+          Object {
+            "designation": "Mean operating temperature (T)",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": "70",
+          },
+          Object {
+            "designation": "Radial load (Fr)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "65.0",
+          },
+          Object {
+            "designation": "Axial load (Fa)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "0.0",
+          },
+        ],
+        "title": "Loadcase 1",
+      },
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "designation": "Time portion (q)",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": "30.000",
+          },
+          Object {
+            "designation": "operationConditions.rotatingCondition.typeOfMotion",
+            "hasNestedStructure": false,
+            "unit": undefined,
+            "value": "rotating",
+          },
+          Object {
+            "designation": "Speed (n_i)",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": "36.00",
+          },
+          Object {
+            "designation": "Mean operating temperature (T)",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": "70",
+          },
+          Object {
+            "designation": "Radial load (Fr)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "55.0",
+          },
+          Object {
+            "designation": "Axial load (Fa)",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "0.0",
+          },
+        ],
+        "title": "Loadcase 2 item",
+      },
+    ],
+    "title": "Load",
+    "titleID": "STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES",
+  },
+]
+`;

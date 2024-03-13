@@ -47,53 +47,6 @@ Object {
       },
     },
   ],
-  "reportInputSuborinates": Object {
-    "inputSubordinates": Array [
-      Object {
-        "abbreviation": undefined,
-        "designation": "Designation",
-        "hasNestedStructure": false,
-        "title": undefined,
-        "titleID": undefined,
-        "unit": undefined,
-        "value": "6210",
-      },
-      Object {
-        "abbreviation": undefined,
-        "designation": "Series",
-        "hasNestedStructure": false,
-        "title": undefined,
-        "titleID": undefined,
-        "unit": undefined,
-        "value": "5510",
-      },
-      Object {
-        "hasNestedStructure": true,
-        "subItems": Array [],
-        "title": "Bearing internal data",
-        "titleID": "STRING_OUTP_CALCULATION_SELECTION",
-      },
-      Object {
-        "hasNestedStructure": true,
-        "subItems": Array [
-          Object {
-            "hasNestedStructure": false,
-            "subItems": Array [],
-            "title": "Sub Visible",
-            "titleID": "STRING_OUTP_LUBRICATION",
-          },
-          Object {
-            "hasNestedStructure": false,
-            "subItems": Array [],
-            "title": "Sub Hidden",
-            "titleID": "STRING_OUT_UNKNOWN",
-          },
-        ],
-        "title": "Test Parent Block",
-        "titleID": "STRING_OUTP_BEARING_DATA",
-      },
-    ],
-  },
   "reportMessages": Object {
     "errors": Array [],
     "notes": Array [],

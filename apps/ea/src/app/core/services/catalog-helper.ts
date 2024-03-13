@@ -13,7 +13,6 @@ import {
   extractValues,
   extractWarningsFromResult,
   formatMessageSubordinates,
-  formatReportInputResult,
 } from './bearinx-helper';
 import {
   BEARING_BEHAVIOUR_ABBREVIATIONS,
@@ -24,10 +23,8 @@ import {
   LoadcaseValueType,
   LUBRICATION_ABBREVIATIONS_KEY_MAPPING,
   OVERROLLING_FREQUENCIES_ABBREVIATIONS,
-  STRING_OUTP_BASIC_FREQUENCIES_FACTOR,
   STRING_OUTP_BEARING_BEHAVIOUR,
   STRING_OUTP_FRICTION_AND_THERMALLY_PERMISSABLE_SPEED,
-  STRING_OUTP_INPUT,
   STRING_OUTP_LOAD_FACTORS_AND_EQUIVALENT_LOADS,
   STRING_OUTP_LUBRICATION,
   STRING_OUTP_RESULTS,
@@ -55,8 +52,6 @@ export const convertCatalogCalculationResult = (
   extractBearingBehaviour(originalResult, result);
 
   extractOverrolling(originalResult, result, hasMultipleLoadCases);
-
-  extractReportInput(originalResult, result);
 
   extractErrorsWarnings(originalResult, result);
 
@@ -211,35 +206,6 @@ function extractOverrolling(
         )
       )
     );
-  }
-}
-
-function extractReportInput(
-  originalResult: BearinxOnlineResult,
-  result: CatalogCalculationResult
-): void {
-  const inputData = extractSubordinatesFromPath(originalResult, [
-    { titleID: STRING_OUTP_INPUT, identifier: BLOCK },
-  ]);
-
-  if (!inputData) {
-    return;
-  }
-
-  const formattedInputData = formatReportInputResult(inputData?.subordinates);
-
-  // format basic frequencies
-  const basicFrequencies = formattedInputData.find(
-    (item) => item.titleID === STRING_OUTP_BASIC_FREQUENCIES_FACTOR
-  );
-  if (basicFrequencies) {
-    basicFrequencies.meaningfulRound = true;
-  }
-
-  if (formattedInputData) {
-    result.reportInputSuborinates = {
-      inputSubordinates: formattedInputData,
-    };
   }
 }
 

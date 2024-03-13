@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 
-import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
+import { CatalogCalculationInputFormatterService } from '@ea/core/services/catalog-calculation-input-formatter.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -18,7 +17,7 @@ describe('CalculationResultReportInputItemComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationResultReportInputItemComponent,
     imports: [CommonModule, provideTranslocoTestingModule({ en: {} })],
-    providers: [MeaningfulRoundPipe, TranslocoDecimalPipe],
+    providers: [CatalogCalculationInputFormatterService],
   });
 
   beforeEach(() => {

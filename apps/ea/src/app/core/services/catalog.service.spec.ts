@@ -21,6 +21,7 @@ import {
   CatalogServiceBasicFrequenciesResult,
   CatalogServiceLoadCaseData,
 } from './catalog.service.interface';
+import { CatalogCalculationInputsConverterService } from './catalog-calculation-inputs-converter.service';
 import { convertCatalogCalculationResult } from './catalog-helper';
 
 jest.mock('./catalog-helper', () => ({
@@ -39,7 +40,15 @@ describe('CatalogService', () => {
   const createService = createServiceFactory({
     service: CatalogService,
     imports: [HttpClientTestingModule],
-    providers: [CatalogService],
+    providers: [
+      CatalogService,
+      {
+        provide: CatalogCalculationInputsConverterService,
+        useValue: {
+          convertCatalogInputsResponse: jest.fn(() => []),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {

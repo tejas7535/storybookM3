@@ -8,12 +8,10 @@ import {
   OnInit,
 } from '@angular/core';
 
+import { CatalogCalculationInputFormatterService } from '@ea/core/services/catalog-calculation-input-formatter.service';
 import { CalculationResultReportInput } from '@ea/core/store/models';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
-import {
-  TranslocoDecimalPipe,
-  TranslocoLocaleService,
-} from '@ngneat/transloco-locale';
+import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -41,7 +39,6 @@ export const elementWidthSmall = 400;
 })
 export class CalculationResultReportInputItemComponent implements OnInit {
   @Input() public reportInputItem!: CalculationResultReportInput;
-  @Input() public ignoreFormattingDesignations?: string[] = [];
 
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;
@@ -50,10 +47,9 @@ export class CalculationResultReportInputItemComponent implements OnInit {
   private observer!: ResizeObserver;
 
   public constructor(
-    private readonly localeService: TranslocoLocaleService,
     private readonly elementRef: ElementRef,
     private readonly changeDetector: ChangeDetectorRef,
-    private readonly meaningfulRoundPipe: MeaningfulRoundPipe
+    private readonly catalogCalculationInputFormatterService: CatalogCalculationInputFormatterService
   ) {
     this.htmlElement = this.elementRef.nativeElement;
   }
@@ -84,7 +80,10 @@ export class CalculationResultReportInputItemComponent implements OnInit {
     subordinates && subordinates.length > 0
       ? subordinates.map((subordinate) => ({
           label: this.getLabel(subordinate),
-          value: this.getValue(subordinate),
+          value:
+            this.catalogCalculationInputFormatterService.formatInputValue(
+              subordinate
+            ),
         }))
       : [];
 
@@ -94,41 +93,6 @@ export class CalculationResultReportInputItemComponent implements OnInit {
     `${subordinate?.designation || ''} ${this.getLabelAbbreviation(
       subordinate
     )}`;
-
-  private readonly getValue = (
-    subordinate?: CalculationResultReportInput
-  ): string => {
-    const unit = this.getUnit(subordinate);
-    if (
-      (this.reportInputItem.meaningfulRound || subordinate.meaningfulRound) &&
-      !this.ignoreFormattingDesignations.includes(subordinate.designation)
-    ) {
-      const retval = `${this.meaningfulRoundPipe.transform(
-        subordinate?.value
-      )} ${unit}`.trim();
-
-      return retval;
-    } else if (
-      this.ignoreFormattingDesignations.includes(subordinate.designation)
-    ) {
-      return `${subordinate?.value} ${unit}`.trim();
-    }
-    const localizedNumberString = this.localeService.localizeNumber(
-      subordinate?.value || '',
-      'decimal'
-    );
-
-    // return original if we couldn't transform to number (e.g. because input was a string after all)
-    if (!localizedNumberString) {
-      return (subordinate?.value || '').trim();
-    }
-
-    return `${localizedNumberString} ${unit}`.trim();
-  };
-
-  private readonly getUnit = (
-    subordinate?: CalculationResultReportInput
-  ): string => subordinate?.unit || '';
 
   private readonly getLabelAbbreviation = (
     subordinate?: CalculationResultReportInput

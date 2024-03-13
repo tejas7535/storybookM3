@@ -24,6 +24,7 @@ import {
   CatalogServiceOperatingConditionsISOClass,
   CatalogServiceTemplateResult,
 } from './catalog.service.interface';
+import { CatalogCalculationInputsConverterService } from './catalog-calculation-inputs-converter.service';
 import {
   convertCatalogCalculationResult,
   convertTemplateResult,
@@ -33,7 +34,10 @@ import {
 export class CatalogService {
   readonly baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly catalogCalculationInputsConverter: CatalogCalculationInputsConverterService
+  ) {}
 
   public getBearingSearch(query: string): Observable<string[]> {
     const singlePageResultSizeToIncludeAllBearing = '15000';
@@ -220,11 +224,22 @@ export class CatalogService {
         }),
         switchMap((result) => this.getCalculationResultReport(result)),
         map((result) => {
+          const inputs =
+            this.catalogCalculationInputsConverter.convertCatalogInputsResponse(
+              result
+            );
+
           const res = convertCatalogCalculationResult(
             result,
             calculationError,
             loadcaseData.length > 1
           );
+
+          if (inputs.length > 0) {
+            res.reportInputSuborinates = {
+              inputSubordinates: inputs,
+            };
+          }
 
           return res;
         })

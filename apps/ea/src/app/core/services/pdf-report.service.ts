@@ -16,6 +16,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { CalculationResultFacade, ProductSelectionFacade } from '../store';
+import { CalculationResultReportInput } from '../store/models';
+import { CatalogCalculationInputFormatterService } from './catalog-calculation-input-formatter.service';
 import { FontsLoaderService } from './fonts-loader.service';
 import { Notices, ResultBlock, ResultReport } from './pdfreport/data';
 import { PDFDocumentSettingsService } from './pdfreport/pdf-document-settings.service';
@@ -30,7 +32,8 @@ export class PDFReportService {
     private readonly selectionFacade: ProductSelectionFacade,
     private readonly roundPipe: MeaningfulRoundPipe,
     private readonly fontsLoaderService: FontsLoaderService,
-    private readonly documentSettingsService: PDFDocumentSettingsService
+    private readonly documentSettingsService: PDFDocumentSettingsService,
+    private readonly catalogCalculationInputFormatterService: CatalogCalculationInputFormatterService
   ) {}
 
   async generate() {
@@ -260,31 +263,30 @@ export class PDFReportService {
       return [];
     }
 
-    const doNotFormat = new Set([
-      'Designation',
-      'Bezeichnung',
-      'Denominación',
-      'Désignation',
-      '型号',
-    ]);
-
     return inputItems.map((items) => {
       const flatten = (nestedItem: any): typeof items => {
-        if (!nestedItem.hasNestedStructure) {
-          let formattedValue = doNotFormat.has(nestedItem.designation)
-            ? nestedItem.value
-            : this.roundPipe.transform(nestedItem.value);
-          if (nestedItem.unit) {
-            formattedValue = `${formattedValue} ${nestedItem.unit}`;
-          }
-
-          return { ...nestedItem, value: formattedValue };
+        if (!nestedItem.hasNestedStructure && nestedItem.subItems) {
+          return {
+            ...nestedItem,
+            subItems: this.formatSubItems(nestedItem.subItems),
+          };
         }
 
         return nestedItem.subItems.map((nest: any) => flatten(nest));
       };
 
       return flatten(items);
+    });
+  }
+
+  private formatSubItems(
+    subItems: CalculationResultReportInput[]
+  ): CalculationResultReportInput[] {
+    return subItems.map((subItem) => {
+      const formattedValue =
+        this.catalogCalculationInputFormatterService.formatInputValue(subItem);
+
+      return { ...subItem, value: formattedValue };
     });
   }
 
