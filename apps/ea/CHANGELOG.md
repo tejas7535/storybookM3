@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.7.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.7.0...ea-v1.7.1) (2024-03-14)
+
+
+### Features
+
+* **ea:** add app preview image ([#6081](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6081)) ([627c211](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/627c2110bb746af3392bce5f05cdb7f3532204eb))
+
 ## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.6.2...ea-v1.7.0) (2024-03-14)
 
 
