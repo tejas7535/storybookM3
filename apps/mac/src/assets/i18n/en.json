@@ -582,6 +582,7 @@
           "required": "Input required",
           "missingColumn": "Mandatory columns missing in Excel file: {{missing}}",
           "missingValue": "Missing value in mandatory column [{{column}}] row [{{rowNumber}}].",
+          "errorCell": "Cell error in Cell [{{cellCode}}].",
           "invalidValue": "Invalid value [{{value}}] in column [{{column}}] row [{{rowNumber}}].",
           "invalidPcfValue": "At least one PCF Value is not valid in row [{{rowNumber}}]: [{{valueKg}}] or [{{valuePc}}]!",
           "missingPcfValue": "No PCF value found in row [{{rowNumber}}]",

@@ -45,15 +45,16 @@ export class ExcelValidatorService implements AsyncValidator {
   private async handleFileAsync(file: File): Promise<any> {
     const data = await file.arrayBuffer();
     const wb: XLSX.WorkBook = XLSX.read(data);
-    const columnHeaders = XLSX.utils.sheet_to_json(
-      wb.Sheets[wb.SheetNames[0]],
-      { header: 1 }
-    )[0] as string[];
-    const wbJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const columnHeaders = XLSX.utils.sheet_to_json(sheet, {
+      header: 1,
+    })[0] as string[];
+    const wbJson = XLSX.utils.sheet_to_json(sheet);
     const dataObjects = this.mapExcelJsonList(wbJson);
 
     // validation methods:
     try {
+      this.validateNoCellErrors(sheet);
       this.validateColumns(columnHeaders);
       this.checkForMissingValues(dataObjects);
       this.validateValues(dataObjects);
@@ -126,6 +127,21 @@ export class ExcelValidatorService implements AsyncValidator {
    */
   private formatHeaderLabel(headerLabel: string): string {
     return headerLabel.replace('(*)', '').replaceAll(/\s/g, '').toLowerCase();
+  }
+
+  private validateNoCellErrors(sheet: XLSX.WorkSheet) {
+    const range = XLSX.utils.decode_range(sheet['!ref']);
+    // iterate all rows from 's'tart 'r'ow to 'e'nd 'r'ow
+    for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum += 1) {
+      // iterate all columns from 's'tart 'c'olumn to 'e'nd 'c'olumn
+      for (let colNum = range.s.c; colNum <= range.e.c; colNum += 1) {
+        // transform row/column to Excel 'A1' notation
+        const cellCode = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
+        if (sheet[cellCode]?.t === 'e') {
+          throw new ValidationError(ErrorCode.ERROR_CELL, { cellCode });
+        }
+      }
+    }
   }
 
   private validateColumns(columnHeaders: string[]) {

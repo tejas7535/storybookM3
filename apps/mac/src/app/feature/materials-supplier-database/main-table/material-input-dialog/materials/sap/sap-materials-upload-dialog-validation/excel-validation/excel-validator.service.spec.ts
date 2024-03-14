@@ -55,6 +55,7 @@ describe('ExcelValidatorService', () => {
     it('should handle file', (done) => {
       const file = createFile();
       const control = { value: file } as AbstractControl<File>;
+      service['validateNoCellErrors'] = jest.fn();
       service['validateColumns'] = jest.fn();
       service['checkForMissingValues'] = jest.fn();
       service['validateValues'] = jest.fn();
@@ -72,6 +73,32 @@ describe('ExcelValidatorService', () => {
         // eslint-disable-next-line jest/no-conditional-expect
         expect(service['validateValues']).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('validateNoCellErrors', () => {
+    it('should pass', () => {
+      const sheet = {
+        '!ref': 'A1:B2',
+        A1: { t: 'q', v: 'A2 missing' },
+        B1: { t: 's', v: 'B1' },
+        B2: { t: 'v', v: 'B2' },
+      } as XLSX.WorkSheet;
+      expect(() => {
+        service['validateNoCellErrors'](sheet);
+      }).not.toThrow();
+    });
+    it('should throw error if mandatory columns are missing', () => {
+      const sheet = {
+        '!ref': 'A1:B2',
+        A1: { t: 's', v: 'A1' },
+        A2: { t: 's', v: 'A2' },
+        B1: { t: 'e', v: 'error' },
+        B2: { t: 's', v: 'B2' },
+      } as XLSX.WorkSheet;
+      expect(() => {
+        service['validateNoCellErrors'](sheet);
+      }).toThrow();
     });
   });
 

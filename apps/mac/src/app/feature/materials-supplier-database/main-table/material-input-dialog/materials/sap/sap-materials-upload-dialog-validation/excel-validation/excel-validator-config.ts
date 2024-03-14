@@ -54,6 +54,7 @@ export enum ErrorCode {
   MISSING_MANDATORY_COLUMN = 'missingColumn',
   MISSING_MANDATORY_VALUE = 'missingValue',
   INVALID_VALUE = 'invalidValue',
+  ERROR_CELL = 'errorCell',
   INVALID_PCF_VALUE = 'invalidPcfValue',
   NO_PCF_VALUE = 'missingPcfValue',
   INVALID_PCF_SUPPLIER_EMISSIONS = 'invalidPcfSupplierEmissions',
