@@ -16,12 +16,18 @@ export const ActiveCaseActions = createActionGroup({
   events: {
     'Get Customer Details': emptyProps(),
     'Get Customer Details Success': props<{ item: Customer }>(),
-    'Get Customer Details Failure': props<{ errorMessage: string }>(),
+    'Get Customer Details Failure': props<{
+      errorMessage: string;
+      errorId?: string;
+    }>(),
 
     'Get Quotation in Interval': emptyProps(),
     'Get Quotation': emptyProps(),
     'Get Quotation Success': props<{ item: Quotation }>(),
-    'Get Quotation Failure': props<{ errorMessage: string }>(),
+    'Get Quotation Failure': props<{
+      errorMessage: string;
+      errorId?: string;
+    }>(),
     'Get Quotation Success Fully Completed': emptyProps(),
 
     'Update Quotation Details': props<{

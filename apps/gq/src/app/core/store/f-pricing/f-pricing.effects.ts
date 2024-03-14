@@ -75,6 +75,7 @@ export class FPricingEffects {
               const failureMessage = translate(
                 'fPricing.pricingAssistantModal.confirm.failure'
               );
+
               this.snackBar.open(failureMessage);
 
               return of(FPricingActions.updateFPricingFailure({ error }));

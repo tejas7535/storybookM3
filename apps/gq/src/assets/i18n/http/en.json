@@ -3,5 +3,15 @@
   "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
   "errorInterceptorActionDefault": "Contact Support",
   "errorInterceptorActionForbidden": "Forbidden. You do not have the necessary roles for this action. Please check if your Guided Quoting roles are correct.",
-  "errorInterceptorCreateCustomerCaseNoQuotationDetails": "No materials could be found for the selected filters."
+  "errorId": {
+    "1": "Access to Customer not allowed",
+    "2": "Customer not found",
+    "3": "Quotation not found",
+    "4": "Quotation Detail not found",
+    "5": "F-Pricing data not found",
+    "6": "Product Type not found",
+    "7": "Market Value Driver Question Id not found",
+    "8": "Market Value Driver Option Id not found",
+    "10": "No materials could be found for the selected filters."
+  }
 }

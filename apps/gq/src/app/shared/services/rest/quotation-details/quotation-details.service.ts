@@ -1,9 +1,4 @@
-import {
-  HttpClient,
-  HttpContext,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -19,7 +14,6 @@ import {
   SapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
 
-import { BYPASS_DEFAULT_ERROR_HANDLING } from '../../../http/http-error.interceptor';
 import { ApiVersion, Quotation, RfqData } from '../../../models';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '../../../models/quotation-detail/material-sales-org.model';
@@ -64,7 +58,6 @@ export class QuotationDetailsService {
           'Content-Type': 'application/json',
         }),
         body: qgPositionIds,
-        context: new HttpContext().set(BYPASS_DEFAULT_ERROR_HANDLING, true),
       }
     );
   }

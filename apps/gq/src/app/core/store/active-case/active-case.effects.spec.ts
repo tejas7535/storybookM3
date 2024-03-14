@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import {
   Quotation,
   QuotationAttachment,
@@ -253,6 +254,69 @@ describe('ActiveCaseEffects', () => {
         m.expect(effects.quotation$).toBeObservable(expected);
         m.flush();
         expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('forbiddenCustomer$', () => {
+    beforeEach(() => {
+      router.navigate = jest.fn();
+    });
+    test(
+      'should navigate to the forbidden path on quotation failure and 403',
+      marbles((m) => {
+        action = ActiveCaseActions.getQuotationFailure({
+          errorMessage: 'No access',
+          errorId: `${ErrorId.NotAllowdToAccessCustomer}`,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: action });
+
+        m.expect(effects.forbiddenCustomer$).toBeObservable(expected);
+        m.flush();
+
+        expect(router.navigate).toHaveBeenCalledWith([
+          AppRoutePath.ForbiddenCustomerPath,
+        ]);
+      })
+    );
+
+    test(
+      'should navigate to the forbidden path on customer details failure and 403',
+      marbles((m) => {
+        action = ActiveCaseActions.getCustomerDetailsFailure({
+          errorMessage: 'No access',
+          errorId: `${ErrorId.NotAllowdToAccessCustomer}`,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: action });
+
+        m.expect(effects.forbiddenCustomer$).toBeObservable(expected);
+        m.flush();
+
+        expect(router.navigate).toHaveBeenCalledWith([
+          AppRoutePath.ForbiddenCustomerPath,
+        ]);
+      })
+    );
+
+    test(
+      'should do nothing when different errorId',
+      marbles((m) => {
+        action = ActiveCaseActions.getCustomerDetailsFailure({
+          errorMessage: 'No access',
+          errorId: `-23`,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('');
+
+        m.expect(effects.forbiddenCustomer$).toBeObservable(expected);
+        m.flush();
+
+        expect(router.navigate).not.toHaveBeenCalled();
       })
     );
   });

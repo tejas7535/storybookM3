@@ -15,6 +15,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import { URL_SUPPORT } from '@gq/shared/http/constants/urls';
 import { Customer, Quotation, QuotationAttachment } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
@@ -109,6 +110,24 @@ export class ActiveCaseEffects {
       )
     );
   });
+
+  forbiddenCustomer$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(
+          ActiveCaseActions.getQuotationFailure,
+          ActiveCaseActions.getCustomerDetailsFailure
+        ),
+        filter(
+          (action) => +action.errorId === ErrorId.NotAllowdToAccessCustomer
+        ),
+        tap(() => {
+          this.router.navigate([AppRoutePath.ForbiddenCustomerPath]);
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   quotationInterval$ = createEffect(() => {
     return this.actions$.pipe(
@@ -257,25 +276,19 @@ export class ActiveCaseEffects {
               )
               .filter((errorCode: string) => !!errorCode);
 
-            let messageText = '';
             if (errorCodes?.length > 0) {
-              messageText = `shared.sapStatusLabels.errorCodes.${errorCodes[0]}`;
-            } else if (errorMessage.status === 400) {
-              messageText = 'errorInterceptorActionForbidden';
-            } else {
-              messageText = 'errorInterceptorMessageDefault';
+              const messageText = `shared.sapStatusLabels.errorCodes.${errorCodes[0]}`;
+              this.snackBar
+                .open(
+                  translate(messageText),
+                  translate('errorInterceptorActionDefault'),
+                  {
+                    duration: 5000,
+                  }
+                )
+                .onAction()
+                .subscribe(() => window.open(URL_SUPPORT, '_blank')?.focus());
             }
-
-            this.snackBar
-              .open(
-                translate(messageText),
-                translate('errorInterceptorActionDefault'),
-                {
-                  duration: 5000,
-                }
-              )
-              .onAction()
-              .subscribe(() => window.open(URL_SUPPORT, '_blank')?.focus());
 
             return of(
               ActiveCaseActions.removePositionsFromQuotationFailure({

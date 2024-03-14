@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { BYPASS_DEFAULT_ERROR_HANDLING } from '@gq/shared/http/http-error.interceptor';
+import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
 import {
   MarketValueDriver,
   UpdateFPricingDataRequest,
@@ -72,7 +72,7 @@ export class FPricingService {
       }`,
       data,
       {
-        context: new HttpContext().set(BYPASS_DEFAULT_ERROR_HANDLING, true),
+        context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),
       }
     );
   }

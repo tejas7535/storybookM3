@@ -3,5 +3,15 @@
   "errorInterceptorMessageDefault": "Es sind Serverprobleme aufgetreten. Bitte versuchen Sie es später noch einmal.",
   "errorInterceptorActionDefault": "Support kontaktieren",
   "errorInterceptorActionForbidden": "Zugriff verweigert. Sie haben nicht die benötigten Berechtigungen für diese Aktion. Bitte überprüfen Sie, ob Ihre Guided Quoting Rollen korrekt sind.",
-  "errorInterceptorCreateCustomerCaseNoQuotationDetails": "Es konnten keine Materialien für die ausgewählten Filter gefunden werden."
+  "errorId": {
+    "1": "Kein Zugriff auf den Kunden",
+    "2": "Kunde nicht gefunden",
+    "3": "Case nicht gefunden",
+    "4": "Case Detail nicht gefunden",
+    "5": "F-Pricing Daten nicht gefunden",
+    "6": "Produkttype nicht gefunden",
+    "7": "Marktwerttreiber nicht gefunden",
+    "8": "Auswahl für Marktwerttreiber nicht gefunden",
+    "10": "Es konnten keine Materialien für die ausgewählten Filter gefunden werden."
+  }
 }

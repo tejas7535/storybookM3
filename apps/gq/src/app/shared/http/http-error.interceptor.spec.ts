@@ -2,7 +2,6 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpContext,
-  HttpStatusCode,
 } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -13,21 +12,18 @@ import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ApiVersion } from '../models';
 import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';
 import {
-  BYPASS_DEFAULT_ERROR_HANDLING,
   HttpErrorInterceptor,
+  SHOW_DEFAULT_SNACKBAR_ACTION,
 } from './http-error.interceptor';
 
 const environment = {
@@ -48,22 +44,19 @@ class ExampleService {
     return this.http.get<string>(`${this.apiUrl}/test`);
   }
 
-  public getCustomers(): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/testcustomer`, {
-      context: new HttpContext().set(BYPASS_DEFAULT_ERROR_HANDLING, true),
-    });
-  }
-
   public getQuotation(): Observable<string> {
     return this.http.get<string>(
       `${this.apiUrl}/${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`
     );
   }
 
-  public createCustomerQuotation(): Observable<string> {
+  public hideSnackbarOnErrorCase(): Observable<string> {
     return this.http.post<string>(
-      `${this.apiUrl}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}/`,
-      {}
+      `${this.apiUrl}/hide-snackbar-pls`,
+      {},
+      {
+        context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),
+      }
     );
   }
 }
@@ -81,7 +74,6 @@ describe(`HttpHeaderInterceptor`, () => {
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
   let snackBar: MatSnackBar;
-  let router: Router;
 
   const createService = createServiceFactory({
     service: ExampleService,
@@ -89,7 +81,6 @@ describe(`HttpHeaderInterceptor`, () => {
       provideTranslocoTestingModule({ en: {} }),
       HttpClientTestingModule,
       NoopAnimationsModule,
-      RouterTestingModule,
     ],
     providers: [
       {
@@ -111,7 +102,6 @@ describe(`HttpHeaderInterceptor`, () => {
     httpMock = spectator.inject(HttpTestingController);
     snackBar = spectator.inject(MatSnackBar);
     console.error = jest.fn();
-    router = spectator.inject(Router);
   });
 
   test('should be truthy', () => {
@@ -121,7 +111,6 @@ describe(`HttpHeaderInterceptor`, () => {
   describe('intercept', () => {
     beforeEach(() => {
       jest.spyOn(snackBar, 'open');
-      router.navigate = jest.fn();
     });
 
     afterEach(() => {
@@ -135,7 +124,6 @@ describe(`HttpHeaderInterceptor`, () => {
       });
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
       expect(httpRequest.request.method).toEqual('GET');
-      expect(router.navigate).toHaveBeenCalledTimes(0);
 
       httpRequest.flush('data');
     }));
@@ -155,7 +143,6 @@ describe(`HttpHeaderInterceptor`, () => {
       });
 
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-      expect(router.navigate).toHaveBeenCalledTimes(0);
 
       expect(httpRequest.request.method).toEqual('GET');
 
@@ -166,7 +153,7 @@ describe(`HttpHeaderInterceptor`, () => {
             title: 'Service Unavailable',
             detail: 'Damn monkey',
           },
-        } as unknown as ErrorEvent,
+        } as unknown as ProgressEvent,
         { status: 400 }
       );
     }));
@@ -187,12 +174,36 @@ describe(`HttpHeaderInterceptor`, () => {
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
       expect(httpRequest.request.method).toEqual('GET');
-      expect(router.navigate).toHaveBeenCalledTimes(0);
 
-      httpRequest.error(undefined as unknown as ErrorEvent);
+      httpRequest.error(undefined as unknown as ProgressEvent);
     }));
 
-    test('should toast sap error message in error case', waitForAsync(() => {
+    test('should toast with errorId message', () => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).toHaveBeenCalledWith('translate it', {
+            duration: 5000,
+          });
+        },
+      });
+
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(
+        {
+          parameters: {
+            errorId: 5,
+          },
+        } as unknown as ProgressEvent,
+        { status: 404 }
+      );
+    });
+    test('should toast sap error message in error case', () => {
       service.getPosts().subscribe({
         next: () => {
           expect(true).toEqual(false);
@@ -210,129 +221,26 @@ describe(`HttpHeaderInterceptor`, () => {
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
       expect(httpRequest.request.method).toEqual('GET');
-      expect(router.navigate).toHaveBeenCalledTimes(0);
 
       httpRequest.error(
         {
           parameters: {
             V102: 'test sap error message',
           },
-        } as unknown as ErrorEvent,
+        } as unknown as ProgressEvent,
         { status: 400 }
       );
-    }));
+    });
 
-    test('should toast case creation error and not show action on customer case creation without quotation details', waitForAsync(() => {
-      service.createCustomerQuotation().subscribe({
-        next: () => {
-          expect(true).toEqual(false);
-        },
-        error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('translate it', '', {
-            duration: 5000,
-          });
-          expect(translate).toHaveBeenCalledWith(
-            'errorInterceptorCreateCustomerCaseNoQuotationDetails'
-          );
-        },
-      });
-
-      const httpRequest = httpMock.expectOne(
-        `${environment.baseUrl}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}/`
-      );
-
-      expect(httpRequest.request.method).toEqual('POST');
-
-      expect(router.navigate).toHaveBeenCalledTimes(0);
-
-      httpRequest.error(
-        {
-          error: {
-            message: 'error',
-            title: 'Service Unavailable',
-            detail: 'Damn monkey',
-          },
-        } as unknown as ErrorEvent,
-        { status: 400 }
-      );
-    }));
-
-    test('should show errorInterceptorForbidden on 403 status code', waitForAsync(() => {
+    test('should show no error on auth error', () => {
       service.getPosts().subscribe({
         next: () => {
           expect(true).toEqual(false);
         },
         error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith(
-            'translate it',
-            'translate it',
-            { duration: 5000 }
-          );
-          expect(translate).toHaveBeenCalledWith('errorInterceptorForbidden');
-          expect(router.navigate).toHaveBeenCalledTimes(0);
-        },
-      });
-
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-
-      expect(httpRequest.request.method).toEqual('GET');
-
-      httpRequest.error(
-        {
-          error: {
-            message: 'error',
-            title: 'Service Unavailable',
-            detail: 'Damn monkey',
-          },
-        } as unknown as ErrorEvent,
-        { status: HttpStatusCode.Forbidden }
-      );
-    }));
-    test('should show errorInterceptorForbidden and navigate on 403 status code and quotation request', waitForAsync(() => {
-      service.getQuotation().subscribe({
-        next: () => {
-          expect(true).toEqual(false);
-        },
-        error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith(
-            'translate it',
-            'translate it',
-            { duration: 5000 }
-          );
-          expect(translate).toHaveBeenCalledWith('errorInterceptorForbidden');
-          expect(router.navigate).toHaveBeenCalledTimes(1);
-        },
-      });
-
-      const httpRequest = httpMock.expectOne(
-        `${environment.baseUrl}/${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`
-      );
-
-      expect(httpRequest.request.method).toEqual('GET');
-
-      httpRequest.error(
-        {
-          error: {
-            message: 'error',
-            title: 'Service Unavailable',
-            detail: 'Damn monkey',
-          },
-        } as unknown as ErrorEvent,
-        { status: HttpStatusCode.Forbidden }
-      );
-    }));
-    test('should show no error on auth error', () => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (_response) => {
           expect(snackBar.open).toHaveBeenCalledTimes(0);
-        }
-      );
+        },
+      });
 
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
@@ -346,26 +254,38 @@ describe(`HttpHeaderInterceptor`, () => {
           title: 'Service Unavailable',
           detail: 'Damn monkey',
         },
-      } as unknown as ErrorEvent);
+      } as unknown as ProgressEvent);
     });
 
-    test('should not intercept calls with BYPASS_DEFAULT_ERROR_HANDLING', () => {
-      service.getCustomers().subscribe({
+    test('should not include action buttton when SHOW_DEFAULT_SNACKBAR_ACTION', () => {
+      service.hideSnackbarOnErrorCase().subscribe({
         next: () => {
           expect(true).toEqual(false);
         },
-        error: (_response) => {
-          expect(snackBar.open).not.toHaveBeenCalled();
+        error: (response) => {
+          expect(snackBar.open).toHaveBeenCalledWith('translate it', '', {
+            duration: 2000,
+          });
+          expect(response).toBeTruthy();
         },
       });
 
       const httpRequest = httpMock.expectOne(
-        `${environment.baseUrl}/testcustomer`
+        `${environment.baseUrl}/hide-snackbar-pls`
       );
 
-      expect(httpRequest.request.method).toEqual('GET');
+      expect(httpRequest.request.method).toEqual('POST');
 
-      httpRequest.error(undefined as unknown as ErrorEvent);
+      httpRequest.error(
+        {
+          error: {
+            message: 'error',
+            title: 'Service Unavailable',
+            detail: 'Damn monkey',
+          },
+        } as unknown as ProgressEvent,
+        { status: 400 }
+      );
     });
   });
 });

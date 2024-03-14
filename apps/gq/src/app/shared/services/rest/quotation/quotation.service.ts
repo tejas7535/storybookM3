@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
+import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
 import { QuotationSearchResult } from '@gq/shared/models/quotation';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 
@@ -132,7 +133,10 @@ export class QuotationService {
     return this.#http
       .post(
         `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`,
-        requestPayload
+        requestPayload,
+        {
+          context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),
+        }
       )
       .pipe(
         map((res: any) => {
