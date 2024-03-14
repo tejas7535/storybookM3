@@ -369,13 +369,14 @@ pipeline {
 
                 script {
                     sh "pnpm nx affected:test --base=${buildBase} --parallel=3 --runInBand"
+                    sh "mkdir -p coverage"
                     // merge reports
                     sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files='coverage/**/cobertura-coverage.xml'"
                 }
             }
             post {
                 always {
-                    recordCoverage sourceCodeRetention: 'NEVER', tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']]
+                    recordCoverage sourceCodeRetention: 'NEVER', tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']], ignoreParsingErrors: true
                     junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
                 }
             }
