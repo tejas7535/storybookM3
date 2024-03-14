@@ -1,4 +1,18 @@
 # Release Notes of Engineering App
+## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.6.2...ea-v1.7.0) (2024-03-14)
+
+
+### Features
+
+* **ea:** enable onetrust opt in - UFTABI-6524 ([#6075](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6075)) ([806055e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/806055e2325485fe227e6be4feb451705e58cd78))
+* **ea:** remove the coming soon banner for prod standalone ([#6080](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6080)) ([93c9107](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93c9107e0672d960ed30caf6044fb04d2611d0a8))
+
+
+### Bug Fixes
+
+* **ea:** remove friction dependance on result ([#6072](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6072)) ([5199f86](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5199f862fc7f33f1826699fd5a9b6234f6c0ab4d))
+* **ea:** remove meta reducer from app insights ([#6078](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6078)) ([1d2e42d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1d2e42d72cc0f1473831041f44b3e84e5b02a9ec))
+
 ## [1.6.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.6.1...ea-v1.6.2) (2024-03-13)
 
 
