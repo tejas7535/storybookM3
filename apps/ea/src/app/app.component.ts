@@ -21,7 +21,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { environment } from '@ea/environments/environment';
 import { isLanguageAvailable } from '@ea/shared/helper/language-helpers';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -57,7 +56,6 @@ export class AppComponent
   public isStandalone$ = this.settingsFacade.isStandalone$;
   public isBearingSupported$ = this.store.select(isBearingSupported);
   public isCookiePage = false;
-  public isProduction = environment.production;
 
   public containerScrollEvent$ = new BehaviorSubject<Event>({} as Event);
 

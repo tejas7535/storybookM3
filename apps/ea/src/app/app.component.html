@@ -1,41 +1,39 @@
 <ng-container *ngIf="isStandalone$ | ngrxPush; else embeddedAppVersion">
-  <ng-container *ngIf="!isProduction; else standaloneProdPlaceholder">
-    <schaeffler-app-shell
-      [hasSidebarLeft]="true"
-      [appTitle]="'appTitle' | transloco"
-      [appTitleLink]="'/home'"
-      [footerFixed]="false"
-      [footerLinks]="footerLinks$ | ngrxPush"
-      (onContentScroll)="containerScrollEvent$.next($event)"
-    >
-      <ng-container mainContent>
-        <schaeffler-banner></schaeffler-banner>
-        <div class="border-t border-border"></div>
-        <router-outlet></router-outlet>
+  <schaeffler-app-shell
+    [hasSidebarLeft]="true"
+    [appTitle]="'appTitle' | transloco"
+    [appTitleLink]="'/home'"
+    [footerFixed]="false"
+    [footerLinks]="footerLinks$ | ngrxPush"
+    (onContentScroll)="containerScrollEvent$.next($event)"
+  >
+    <ng-container mainContent>
+      <schaeffler-banner></schaeffler-banner>
+      <div class="border-t border-border"></div>
+      <router-outlet></router-outlet>
 
-        <div
-          *transloco="let t; read: 'legal'"
-          class="mx-auto w-full max-w-2xl bg-surface"
-          id="cookie-settings"
-          [ngClass]="{ hidden: !isCookiePage }"
-        >
-          <div class="py-3 px-4">
-            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-              {{ t('cookieSettings') }}
-            </button>
-          </div>
-          <div class="py-3 md:px-4">
-            <div id="ot-sdk-cookie-policy"></div>
-          </div>
+      <div
+        *transloco="let t; read: 'legal'"
+        class="mx-auto w-full max-w-2xl bg-surface"
+        id="cookie-settings"
+        [ngClass]="{ hidden: !isCookiePage }"
+      >
+        <div class="py-3 px-4">
+          <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+            {{ t('cookieSettings') }}
+          </button>
         </div>
-      </ng-container>
-      <ng-container sidenavBody>
-        <div class="px-5 py-4">
-          <ea-settings-panel></ea-settings-panel>
+        <div class="py-3 md:px-4">
+          <div id="ot-sdk-cookie-policy"></div>
         </div>
-      </ng-container>
-    </schaeffler-app-shell>
-  </ng-container>
+      </div>
+    </ng-container>
+    <ng-container sidenavBody>
+      <div class="px-5 py-4">
+        <ea-settings-panel></ea-settings-panel>
+      </div>
+    </ng-container>
+  </schaeffler-app-shell>
 </ng-container>
 
 <ng-template #embeddedAppVersion>
@@ -58,15 +56,5 @@
     <div class="md:flex md:flex-1 max-w-full">
       <ea-calculation-container class="max-w-full"></ea-calculation-container>
     </div>
-  </div>
-</ng-template>
-
-<!-- placeholder required before standalone version release-->
-<ng-template #standaloneProdPlaceholder>
-  <div class="flex flex-col items-center p-4 text-center">
-    <h4 class="mb-4 text-high-emphasis">Under Construction</h4>
-    <p class="text-subtitle-1 text-medium-emphasis">
-      We are sorry, this content is coming soon.
-    </p>
   </div>
 </ng-template>
