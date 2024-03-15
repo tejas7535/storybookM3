@@ -13,17 +13,12 @@ import {
 import { ApiVersion, ProductType } from '../../../models';
 import { ComparableKNumbers } from '../../../models/f-pricing/comparable-k-numbers.interface';
 import { FPricingData } from '../../../models/f-pricing/f-pricing-data.interface';
+import { FPricingPaths } from './f-pricing.paths.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FPricingService {
-  // TODO: create enum for paths
-  readonly #PATH_QUOTATION_DETAILS = 'quotation-details';
-  readonly #Path_F_PRICING = 'f-pricing';
-  readonly #PATH_COMPARABLE_K_NUMBER_TRANSACTIONS =
-    'comparable-k-number-transactions';
-
   readonly #http = inject(HttpClient);
 
   /**
@@ -35,19 +30,17 @@ export class FPricingService {
   getFPricingData(gqPositionId: string): Observable<FPricingData> {
     return this.#http
       .get<FPricingData>(
-        `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
-          this.#Path_F_PRICING
-        }`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`
       )
       .pipe(
         map((data: FPricingData) => ({
           ...data,
-          marketValueDrivers: [
-            ...data.marketValueDrivers.map((mvd: MarketValueDriver) => ({
+          marketValueDrivers: data.marketValueDrivers.map(
+            (mvd: MarketValueDriver) => ({
               ...mvd,
               productType: ProductType[mvd.productType],
-            })),
-          ],
+            })
+          ),
         }))
       );
   }
@@ -56,9 +49,7 @@ export class FPricingService {
     gqPositionId: string
   ): Observable<ComparableKNumbers> {
     return this.#http.get<ComparableKNumbers>(
-      `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
-        this.#Path_F_PRICING
-      }/${this.#PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
+      `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}/${FPricingPaths.PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
     );
   }
 
@@ -67,9 +58,7 @@ export class FPricingService {
     data: UpdateFPricingDataRequest
   ): Observable<UpdateFPricingDataResponse> {
     return this.#http.post<UpdateFPricingDataResponse>(
-      `${ApiVersion.V1}/${this.#PATH_QUOTATION_DETAILS}/${gqPositionId}/${
-        this.#Path_F_PRICING
-      }`,
+      `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`,
       data,
       {
         context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),

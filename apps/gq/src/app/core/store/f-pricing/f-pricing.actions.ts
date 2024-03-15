@@ -38,5 +38,7 @@ export const FPricingActions = createActionGroup({
     'Update Technical Value Driver': props<{
       technicalValueDriver: TableItem;
     }>(),
+
+    'Set Sanity Check Value': props<{ value: number }>(),
   },
 });

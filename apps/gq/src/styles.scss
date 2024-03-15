@@ -39,6 +39,10 @@
 @tailwind components;
 @tailwind utilities;
 
+gq-root {
+  font-family: Noto Sans, sans-serif !important;
+}
+
 .ag-theme-material {
   --ag-font-family: 'Noto sans';
   .ag-column-panel {

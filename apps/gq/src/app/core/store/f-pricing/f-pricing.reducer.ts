@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
-import { PercentPipe } from '@angular/common';
 
+import { getQuotationDetails } from '@gq/core/store/active-case/active-case.selectors';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
-import { Keyboard } from '@gq/shared/models';
+import { Keyboard, QuotationDetail } from '@gq/shared/models';
 import {
   FPricingData,
   MarketValueDriver,
@@ -12,6 +12,7 @@ import {
   PropertyValue,
   UpdateFPricingDataRequest,
 } from '@gq/shared/models/f-pricing';
+import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
 import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-value-driver.interface';
 import { translate } from '@ngneat/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
@@ -26,10 +27,10 @@ import { MarketValueDriverWarningLevel } from './models/market-value-driver-warn
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
 
-const TRANSLATION_KEY =
-  'fPricing.pricingAssistantModal.tableRows.technicalValueDriver';
+const TRANSLATION_KEY = 'fPricing.pricingAssistantModal';
 
-const percentPipe = new PercentPipe('en-US');
+const TECHNICAL_VALUE_DRIVERS = 'technicalValueDrivers.tableRows';
+const SANITY_CHECKS = 'sanityChecks.tableRows';
 
 export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
@@ -38,9 +39,15 @@ export interface FPricingState extends FPricingData {
   materialInformation: MaterialInformation[];
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
-  // the price could either be the reference price or the manual price
-  priceSelected: number;
+  marketValueDriversValueAbsolute: number;
+  marketValueDriversValueRelative: number;
+
   technicalValueDriversToUpdate: TableItem[];
+  technicalValueDriversValueAbsolute: number;
+  technicalValueDriversValueRelative: number;
+  sanityCheckValue: number;
+  // the price could either be the GQPrice or the manual price
+  priceSelected: number;
 }
 
 export const initialState: FPricingState = {
@@ -49,14 +56,24 @@ export const initialState: FPricingState = {
   error: null,
   materialInformation: MATERIAL_INFORMATION_MOCK,
   gqPositionId: null,
-  referencePrice: null,
   productType: null,
-  marketValueDrivers: null,
+  referencePrice: null,
   comparableTransactions: null,
+  marketValueDrivers: null,
   marketValueDriversSelections: [],
   priceSelected: null,
   technicalValueDrivers: null,
+  // TODO: remove value when value will be calculated
+  marketValueDriversValueAbsolute: 24.23,
+  marketValueDriversValueRelative: 0.23,
+
   technicalValueDriversToUpdate: [],
+  // TODO: remove value when value will be calculated
+  technicalValueDriversValueAbsolute: 125.45,
+  technicalValueDriversValueRelative: 0.25,
+  sanityCheckMargins: null,
+  sanityCheckValue: null,
+  // this is the value of either the GqPrice or Manual Price
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -177,6 +194,13 @@ export const fPricingFeature = createFeature({
           technicalValueDriver,
         ],
       })
+    ),
+    on(
+      FPricingActions.setSanityCheckValue,
+      (state: FPricingState, { value }): FPricingState => ({
+        ...state,
+        sanityCheckValue: value,
+      })
     )
   ),
 
@@ -186,8 +210,13 @@ export const fPricingFeature = createFeature({
     selectComparableTransactions,
     selectMarketValueDriversSelections,
     selectPriceSelected,
+    selectGqPositionId,
     selectTechnicalValueDrivers,
     selectTechnicalValueDriversToUpdate,
+    selectSanityCheckMargins,
+    selectReferencePrice,
+    selectTechnicalValueDriversValueRelative,
+    selectMarketValueDriversValueRelative,
   }) => {
     const getMaterialInformationExtended = createSelector(
       selectMaterialInformation,
@@ -318,20 +347,21 @@ export const fPricingFeature = createFeature({
         technicalValueDriver: TechnicalValueDriver,
         technicalValueDriverUpdated: TableItem[]
       ): TableItem[] => {
+        // the Values of the items will be mapped within the facade to have access to localization Service
         const list = [
           {
             id: 1,
-            description: translate(`${TRANSLATION_KEY}.heatTreatment`),
-
-            value: percentPipe.transform(
-              technicalValueDriver?.heatTreatmentSurcharge
+            description: translate(
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.heatTreatment`
             ),
+
+            value: technicalValueDriver?.heatTreatmentSurcharge,
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 1
             )?.editableValue,
             additionalDescription: translate(
-              `${TRANSLATION_KEY}.heatTreatmentDescription`,
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.heatTreatmentDescription`,
               {
                 value:
                   technicalValueDriver?.topHeatTreatmentValue ?? Keyboard.DASH,
@@ -340,16 +370,16 @@ export const fPricingFeature = createFeature({
           },
           {
             id: 2,
-            description: translate(`${TRANSLATION_KEY}.toleranceClass`),
-            value: percentPipe.transform(
-              technicalValueDriver?.toleranceClassSurcharge
+            description: translate(
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.toleranceClass`
             ),
+            value: technicalValueDriver?.toleranceClassSurcharge,
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 2
             )?.editableValue,
             additionalDescription: translate(
-              `${TRANSLATION_KEY}.toleranceClassDescription`,
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.toleranceClassDescription`,
               {
                 value:
                   technicalValueDriver?.topToleranceClassValue ?? Keyboard.DASH,
@@ -358,50 +388,145 @@ export const fPricingFeature = createFeature({
           },
           {
             id: 3,
-            description: translate(`${TRANSLATION_KEY}.radialClearance`),
-            value: percentPipe.transform(
-              technicalValueDriver?.clearanceRadialSurcharge
+            description: translate(
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.radialClearance`
             ),
+            value: technicalValueDriver?.clearanceRadialSurcharge,
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 3
             )?.editableValue,
             additionalDescription: translate(
-              `${TRANSLATION_KEY}.radialClearanceDescription`
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.radialClearanceDescription`
             ),
           },
           {
             id: 4,
-            description: translate(`${TRANSLATION_KEY}.axialClearance`),
-            value: percentPipe.transform(
-              technicalValueDriver?.clearanceAxialSurcharge
+            description: translate(
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.axialClearance`
             ),
+            value: technicalValueDriver?.clearanceAxialSurcharge,
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 4
             )?.editableValue,
             additionalDescription: translate(
-              `${TRANSLATION_KEY}.axialClearanceDescription`,
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.axialClearanceDescription`,
               { value: technicalValueDriver?.clearanceAxial ?? Keyboard.DASH }
             ),
           },
           {
             id: 5,
-            description: translate(`${TRANSLATION_KEY}.engineeringEffort`),
-            value: percentPipe.transform(
-              technicalValueDriver?.engineeringEffortSurcharge
+            description: translate(
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.engineeringEffort`
             ),
+            value: technicalValueDriver?.engineeringEffortSurcharge,
             editableValueUnit: '%',
             editableValue: technicalValueDriverUpdated.find(
               (item) => item.id === 5
             )?.editableValue,
             additionalDescription: translate(
-              `${TRANSLATION_KEY}.engineeringEffortDescription`
+              `${TRANSLATION_KEY}.${TECHNICAL_VALUE_DRIVERS}.engineeringEffortDescription`
             ),
           },
         ];
 
         return list;
+      }
+    );
+    const getSanityCheckData = createSelector(
+      selectSanityCheckMargins,
+      selectGqPositionId,
+      getQuotationDetails,
+      selectReferencePrice,
+      selectTechnicalValueDriversValueRelative,
+      selectMarketValueDriversValueRelative,
+      (
+        sanityChecks: SanityCheckMargins,
+        positionId: string,
+        quotationDetails: QuotationDetail[],
+        refPrice: number,
+        tvdValue: number,
+        mvdValue: number
+      ): SanityCheckData => {
+        const quotationDetail = quotationDetails.find(
+          (item) => item.gqPositionId === positionId
+        );
+
+        // when sqv of RFQ ist not available take the quotationDetail.sqv
+        const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
+        // formula: refPrice * (1 + mvdValue + tvdValue)
+        const recommendBeforeChecks = refPrice * (1 + mvdValue + tvdValue);
+        // formula: SQV_RFQ / (1- minMargin)
+        const lowerThreshold = sqv / (1 - sanityChecks.minMargin);
+        // formula: SQV_RFQ / (1- maxMargin)
+        const upperThreshold = sqv / (1 - sanityChecks.maxMargin);
+
+        return {
+          recommendBeforeChecks,
+          lowerThreshold,
+          upperThreshold,
+          recommendAfterChecks:
+            calculatePriceRecommendationAfterForSanityChecks(
+              recommendBeforeChecks,
+              lowerThreshold,
+              upperThreshold,
+              quotationDetail?.lastCustomerPrice
+            ),
+          sqv,
+          lastCustomerPrice: quotationDetail?.lastCustomerPrice,
+        };
+      }
+    );
+
+    const getSanityChecksForDisplay = createSelector(
+      getSanityCheckData,
+      (sanityCheckData: SanityCheckData): TableItem[] => {
+        // the Values of the items will be mapped within the facade to have access to localization Service
+        const sanityCheckList: TableItem[] = [
+          {
+            id: 1,
+            description: translate(
+              `${TRANSLATION_KEY}.${SANITY_CHECKS}.priceRecommendationBefore`
+            ),
+            value: sanityCheckData.recommendBeforeChecks,
+          },
+          {
+            id: 2,
+            description: translate(`${TRANSLATION_KEY}.${SANITY_CHECKS}.cost`),
+            value: sanityCheckData.sqv,
+          },
+          {
+            id: 3,
+            description: translate(
+              `${TRANSLATION_KEY}.${SANITY_CHECKS}.lowerThreshold`
+            ),
+            value: sanityCheckData.lowerThreshold,
+          },
+          {
+            id: 4,
+            description: translate(
+              `${TRANSLATION_KEY}.${SANITY_CHECKS}.lastCustomerPrice`
+            ),
+            value: sanityCheckData.lastCustomerPrice,
+          },
+          {
+            id: 5,
+            description: translate(
+              `${TRANSLATION_KEY}.${SANITY_CHECKS}.upperThreshold`
+            ),
+            value: sanityCheckData.upperThreshold,
+          },
+          {
+            id: 6,
+            description: translate(
+              `${TRANSLATION_KEY}.${SANITY_CHECKS}.priceRecommendationAfter`
+            ),
+            value: sanityCheckData.recommendAfterChecks,
+          },
+        ];
+
+        return sanityCheckList;
       }
     );
 
@@ -426,6 +551,8 @@ export const fPricingFeature = createFeature({
       getAllMarketValueDriverSelected,
       getMarketValueDriverWarningLevel,
       getTechnicalValueDriversForDisplay,
+      getSanityCheckData,
+      getSanityChecksForDisplay,
       getDataForUpdateFPricing,
     };
   },
@@ -496,8 +623,41 @@ export function notLastOptionSelected(
 }
 
 /**
+ * Will return the recommended Price after sanity checks. Will be calculated by a special non-linear logic.
+ *
+ * the maximum allowed Value is the maxThreshold, minimum allowed value is the minThreshold.
+ * When a customer Price is available, and it is between the min and max threshold, it will be taken into account.
+ * When a recPriceBeforeSanityCheck is between the min and max threshold, it will be taken into account.
+ * From the into Account taken values the higher the returned
+ * when no lastCustomerPrice and no recPriceBeforeSanityCheck is available, the maxThreshold will be returned.
+ * @param recPriceBeforeCheck
+ * @param minThreshold
+ * @param maxThreshold
+ * @param lastCustomerPrice
+ * @returns the price recommendation after sanity checks
+ */
+export function calculatePriceRecommendationAfterForSanityChecks(
+  recPriceBeforeCheck: number,
+  minThreshold: number,
+  maxThreshold: number,
+  lastCustomerPrice: number
+): number {
+  const maxValue = Math.max(
+    isBetween(recPriceBeforeCheck, minThreshold, maxThreshold)
+      ? recPriceBeforeCheck
+      : null,
+    isBetween(lastCustomerPrice, minThreshold, maxThreshold)
+      ? lastCustomerPrice
+      : null
+  );
+
+  return isBetween(maxValue, minThreshold, maxThreshold)
+    ? maxValue
+    : maxThreshold;
+}
+
+/**
  * Checks if a delta exists for the given property values.
- * @param propertyValues the property values to compare
  * @returns if a delta exists
  */
 function isDeltaByPropertyValue(propertyValues: PropertyValue[]): boolean {
@@ -532,4 +692,17 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
   }
 
   return delta;
+}
+
+function isBetween(value: number, lower: number, upper: number): boolean {
+  return value >= lower && value <= upper;
+}
+
+export interface SanityCheckData {
+  recommendBeforeChecks: number;
+  recommendAfterChecks: number;
+  lowerThreshold: number;
+  upperThreshold: number;
+  lastCustomerPrice: number;
+  sqv: number;
 }

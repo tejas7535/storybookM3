@@ -655,20 +655,14 @@
           }
         }
       },
-      "tableColumnHeader": {
-        "sanityChecks": {
-          "description": "Description",
-          "value": "Value"
-        },
-        "technicalValueDriver": {
+      "technicalValueDrivers": {
+        "tableColumnHeader": {
           "description": "Technical Value Driver",
           "selectedValue": "Selected Value",
           "value": "GQ Proposed Value",
           "additionalDescription": "Description"
-        }
-      },
-      "tableRows": {
-        "technicalValueDriver": {
+        },
+        "tableRows": {
           "heatTreatment": "Heat Treatment",
           "heatTreatmentDescription": "If applicable: Surcharge for heat treatment ({{value}})",
           "toleranceClass": "Tolerance Class",
@@ -679,6 +673,20 @@
           "axialClearanceDescription": "If applicable: Surcharge for axial clearance ({{value}})",
           "engineeringEffort": "Engineering Effort",
           "engineeringEffortDescription": "Evaluation of engineering effort"
+        }
+      },
+      "sanityChecks": {
+        "tableColumnHeader": {
+          "description": "Description",
+          "value": "Value"
+        },
+        "tableRows": {
+          "priceRecommendationBefore": "Price Recommendation before Sanity Check",
+          "cost": "Cost (SQV)",
+          "lowerThreshold": "Lower Threshold Price (min. margin)",
+          "upperThreshold": "Higher Threshold Price (max. margin)",
+          "lastCustomerPrice": "Last Customer Price",
+          "priceRecommendationAfter": "Price Recommendation After Sanity Check"
         }
       },
       "marketValueDriver": {

@@ -1,5 +1,6 @@
 import { ProductType } from '../quotation-detail/product-type.enum';
 import { MarketValueDriver } from './market-value-driver.interface';
+import { SanityCheckMargins } from './sanity-check-margins.interface';
 import { TechnicalValueDriver } from './technical-value-driver.interface';
 
 export interface FPricingData {
@@ -8,4 +9,5 @@ export interface FPricingData {
   productType: ProductType;
   marketValueDrivers: MarketValueDriver[];
   technicalValueDrivers: TechnicalValueDriver;
+  sanityCheckMargins: SanityCheckMargins;
 }

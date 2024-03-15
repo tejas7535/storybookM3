@@ -26,6 +26,7 @@ export class PricingTabsWrapperComponent {
   @Input() referencePriceRowData: ComparableMaterialsRowData[];
   @Input() marketValueDriverData: MarketValueDriverDisplayItem[];
   @Input() technicalValueDriversTableItems: TableItem[];
+  @Input() sanityChecksTableItems: TableItem[];
 
   @Input() comparableTransactionsLoading = true;
   @Input() comparableTransactionsAvailable: boolean;
@@ -35,39 +36,6 @@ export class PricingTabsWrapperComponent {
 
   readonly marketValueDriverWarningLevel = MarketValueDriverWarningLevel;
   readonly fPricingFacade = inject(FPricingFacade);
-
-  sanityChecksDataSource: TableItem[] = [
-    {
-      id: 1,
-      description: 'Price recommendation before sanity check',
-      value: '174.15 EUR',
-    },
-    {
-      id: 2,
-      description: 'Cost (SQV)',
-      value: '59.17 EUR',
-    },
-    {
-      id: 3,
-      description: 'Min. - Margin Price',
-      value: '91.03 EUR (min. Margin 35%)',
-    },
-    {
-      id: 4,
-      description: 'Last price customer and material 2022 / Invoice',
-      value: '141.72 EUR',
-    },
-    {
-      id: 5,
-      description: 'Max. price',
-      value: '163.52 EUR',
-    },
-    {
-      id: 6,
-      description: 'Price recommendation after sanity check',
-      value: '163.52 EUR',
-    },
-  ];
 
   onComparedMaterialClicked(material: string): void {
     this.comparedMaterialClicked.emit(material);

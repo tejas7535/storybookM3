@@ -4,6 +4,7 @@ import { ProductType } from '@gq/shared/models';
 import { MATERIAL_INFORMATION_MOCK } from '../models';
 import { MARKET_VALUE_DRIVERS_MOCK } from '../models/fpricing/market-value-drivers.mock';
 import { MARKET_VALUE_DRIVERS_SELECTIONS_MOCK } from '../models/fpricing/market-value-drivers-selections.mock';
+import { SANITY_CHECK_MARGINS_MOCK } from '../models/fpricing/sanity-check-margins.mock';
 import { TECHNICAL_VALUE_DRIVERS_MOCK } from '../models/fpricing/technical-value-drivers.mock';
 
 export const F_PRICING_STATE_MOCK: FPricingState = {
@@ -15,6 +16,12 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   gqPositionId: '1234',
   marketValueDrivers: MARKET_VALUE_DRIVERS_MOCK,
   marketValueDriversSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+  marketValueDriversValueAbsolute: 124,
+  marketValueDriversValueRelative: 0.7,
+  sanityCheckMargins: SANITY_CHECK_MARGINS_MOCK,
+  sanityCheckValue: 25,
+  technicalValueDriversValueAbsolute: 145,
+  technicalValueDriversValueRelative: 0.8,
   referencePrice: 10,
   materialInformation: MATERIAL_INFORMATION_MOCK,
   priceSelected: 14.45,

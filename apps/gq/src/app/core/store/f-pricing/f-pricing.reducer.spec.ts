@@ -1,5 +1,6 @@
-import { ProductType } from '@gq/shared/models';
 import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
+
+import { ProductType, QuotationDetail } from '@gq/shared/models';
 
 import {
   F_PRICING_COMPARABLE_MATERIALS_MOCK,
@@ -15,6 +16,7 @@ import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
 } from '../../../../testing/mocks/models/fpricing/material-information.mock';
+import { SANITY_CHECK_MARGINS_MOCK } from '../../../../testing/mocks/models/fpricing/sanity-check-margins.mock';
 import {
   TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
   TECHNICAL_VALUE_DRIVERS_MOCK,
@@ -26,6 +28,7 @@ import {
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import {
+  calculatePriceRecommendationAfterForSanityChecks,
   fPricingFeature,
   FPricingState,
   getDeltaByInformationKeyAndPropertyKey,
@@ -67,6 +70,7 @@ describe('fPricingReducer', () => {
             productType: ProductType.CRB,
             marketValueDrivers: MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK,
             technicalValueDrivers: null,
+            sanityCheckMargins: null,
           },
         })
       );
@@ -79,6 +83,7 @@ describe('fPricingReducer', () => {
 
       expect(result).toEqual({
         ...initialState,
+        sanityCheckMargins: null,
         gqPositionId: 'test',
         referencePrice: 100_000,
         productType: ProductType.CRB,
@@ -186,6 +191,16 @@ describe('fPricingReducer', () => {
             editableValueUnit: '%',
           },
         ],
+      });
+    });
+    test('should set SanityCheckValue', () => {
+      const result = fPricingFeature.reducer(
+        initialState,
+        FPricingActions.setSanityCheckValue({ value: 100 })
+      );
+      expect(result).toEqual({
+        ...initialState,
+        sanityCheckValue: 100,
       });
     });
   });
@@ -364,6 +379,55 @@ describe('fPricingReducer', () => {
         expect(result).toEqual(TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
       });
     });
+
+    describe('getSanityCheckData', () => {
+      test('should provide the prepared Data for SanityChecks', () => {
+        const result = fPricingFeature.getSanityCheckData.projector(
+          SANITY_CHECK_MARGINS_MOCK,
+          'gqPositionId',
+          [
+            {
+              gqPositionId: 'gqPositionId',
+              rfqData: {
+                sqv: 100,
+              },
+            } as unknown as QuotationDetail,
+          ],
+          125,
+          0.8,
+          0.5
+        );
+        expect(result).toEqual({
+          lastCustomerPrice: undefined,
+          lowerThreshold: 125,
+          recommendAfterChecks: 287.5,
+          recommendBeforeChecks: 287.5,
+          sqv: 100,
+          upperThreshold: 500.000_000_000_000_1,
+        });
+      });
+    });
+
+    describe('getSanityCheckMarginsForDisplay', () => {
+      test('should return the sanity check margins for display', () => {
+        const result = fPricingFeature.getSanityChecksForDisplay.projector({
+          lastCustomerPrice: undefined,
+          lowerThreshold: 125,
+          recommendAfterChecks: 287.5,
+          recommendBeforeChecks: 287.5,
+          sqv: 100,
+          upperThreshold: 500,
+        });
+        expect(result).toEqual([
+          { description: 'translate it', id: 1, value: 287.5 },
+          { description: 'translate it', id: 2, value: 100 },
+          { description: 'translate it', id: 3, value: 125 },
+          { description: 'translate it', id: 4, value: undefined },
+          { description: 'translate it', id: 5, value: 500 },
+          { description: 'translate it', id: 6, value: 287.5 },
+        ]);
+      });
+    });
   });
 
   describe('getNumberOfDeltasByInformationKey', () => {
@@ -467,6 +531,73 @@ describe('fPricingReducer', () => {
       const result = notLastOptionSelected(marketValueDrivers, selection);
 
       expect(result).toEqual(false);
+    });
+  });
+
+  describe('calculatePriceRecommendationAfterForSanityChecks', () => {
+    test('should return the value of the price recommendation after sanity checks', () => {
+      const result = calculatePriceRecommendationAfterForSanityChecks(
+        150,
+        124,
+        178,
+        null
+      );
+
+      expect(result).toBe(150);
+    });
+
+    test('should return the value of last customer price, after sanity Checks', () => {
+      const result = calculatePriceRecommendationAfterForSanityChecks(
+        150,
+        175,
+        225,
+        180
+      );
+
+      expect(result).toBe(180);
+    });
+
+    test('should return the value of the maxThreshold, after sanity Checks', () => {
+      const result = calculatePriceRecommendationAfterForSanityChecks(
+        250,
+        195,
+        225,
+        null
+      );
+
+      expect(result).toBe(225);
+    });
+
+    test('should return the value of the maxThreshold, after sanity Checks when customer price and priceRecommendationBeforeChecks is higher than maxThreshold', () => {
+      const result = calculatePriceRecommendationAfterForSanityChecks(
+        250,
+        195,
+        225,
+        226
+      );
+
+      expect(result).toBe(225);
+    });
+
+    test('should return the value of the lastCustomerPrice, after sanity Checks', () => {
+      const result = calculatePriceRecommendationAfterForSanityChecks(
+        196,
+        195,
+        225,
+        224
+      );
+
+      expect(result).toBe(224);
+    });
+    test('should return the value of the maxThreshold when lastCustomerPrice und recPRiceBeforeCheck is higher then maxThreshold', () => {
+      const result = calculatePriceRecommendationAfterForSanityChecks(
+        300,
+        195,
+        225,
+        300
+      );
+
+      expect(result).toBe(225);
     });
   });
 });

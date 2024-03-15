@@ -3,20 +3,21 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { loadMaterialSalesOrg } from '@gq/core/store/actions/material-sales-org/material-sales-org.actions';
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
+import {
+  getMaterialSalesOrg,
+  getMaterialSalesOrgDataAvailable,
+} from '@gq/core/store/selectors/material-sales-org/material-sales-org.selector';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import { ComparableMaterialsRowData } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
-import {
-  getMaterialSalesOrg,
-  getMaterialSalesOrgDataAvailable,
-} from '../selectors/material-sales-org/material-sales-org.selector';
 import { FPricingActions } from './f-pricing.actions';
 import { fPricingFeature, FPricingState } from './f-pricing.reducer';
 import { FPricingPositionData } from './models/f-pricing-position-data.interface';
@@ -29,6 +30,8 @@ import { MaterialInformationExtended } from './models/material-information-exten
 export class FPricingFacade {
   readonly #store = inject(Store);
   readonly #actions$ = inject(Actions);
+
+  private readonly transformationService = inject(TransformationService);
 
   updateFPricingDataSuccess$: Observable<void> = this.#actions$.pipe(
     ofType(FPricingActions.updateFPricingSuccess)
@@ -46,6 +49,7 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getAllMarketValueDriverSelected),
     this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
+    this.#store.select(fPricingFeature.getSanityChecksForDisplay),
   ]).pipe(
     map(
       ([
@@ -60,6 +64,7 @@ export class FPricingFacade {
         allMarketValueDriverSelected,
         marketValueDriverWarningLevel,
         technicalValueDriversForDisplay,
+        sanityChecksForDisplay,
       ]: [
         FPricingState,
         string,
@@ -71,6 +76,7 @@ export class FPricingFacade {
         boolean,
         boolean,
         MarketValueDriverWarningLevel,
+        TableItem[],
         TableItem[]
       ]) => ({
         ...fPricingState,
@@ -83,13 +89,41 @@ export class FPricingFacade {
         anyMarketValueDriverSelected,
         allMarketValueDriverSelected,
         marketValueDriverWarningLevel,
-        technicalValueDriversForDisplay,
+
+        technicalValueDriversForDisplay: technicalValueDriversForDisplay.map(
+          (item) => ({
+            ...item,
+            value: this.transformationService.transformNumberWithUnit(
+              (item.value as number) * 100,
+              item.editableValueUnit,
+              false
+            ),
+          })
+        ),
+        sanityChecksForDisplay: sanityChecksForDisplay.map((item) => ({
+          ...item,
+          value: this.transformationService.transformNumberCurrency(
+            item.value as number,
+            currency
+          ),
+        })),
       })
     )
   );
 
   referencePrice$: Observable<number> = this.#store.select(
     fPricingFeature.selectReferencePrice
+  );
+
+  sanityCheckValue$: Observable<number> = this.#store.select(
+    fPricingFeature.selectSanityCheckValue
+  );
+
+  technicalValueDriverValue$: Observable<number> = this.#store.select(
+    fPricingFeature.selectTechnicalValueDriversValueAbsolute
+  );
+  marketValueDriverValue$: Observable<number> = this.#store.select(
+    fPricingFeature.selectMarketValueDriversValueAbsolute
   );
 
   materialInformation$: Observable<MaterialInformationExtended[]> =

@@ -655,20 +655,15 @@
           }
         }
       },
-      "tableColumnHeader": {
-        "sanityChecks": {
-          "description": "Beschreibung",
-          "value": "Wert"
-        },
-        "technicalValueDriver": {
+
+      "technicalValueDrivers": {
+        "tableColumnHeader": {
           "description": "Technische Werttreiber",
           "selectedValue": "Ausgewählter Wert",
           "value": "GQ vorgeschlagener Wert",
           "additionalDescription": "Beschreibung"
-        }
-      },
-      "tableRows": {
-        "technicalValueDriver": {
+        },
+        "tableRows": {
           "heatTreatment": "Wärmebehandlung",
           "heatTreatmentDescription": "Falls zutreffend: Aufschlag für Wärmebehandlung ({{value}})",
           "toleranceClass": "Toleranzklasse",
@@ -679,6 +674,20 @@
           "axialClearanceDescription": "Falls zutreffend: Aufschlag für Axialluft ({{value}})",
           "engineeringEffort": "Entwicklungsaufwand",
           "engineeringEffortDescription": "Bewertung des technischen Entwicklungsaufwands"
+        }
+      },
+      "sanityChecks": {
+        "tableColumnHeader": {
+          "description": "Beschreibung",
+          "value": "Wert"
+        },
+        "tableRows": {
+          "priceRecommendationBefore": "Preisempfehlung vor finaler Prüfung",
+          "cost": "Kosten (SAW)",
+          "lowerThreshold": "Unterer Schwellenpreis (min. Marge)",
+          "upperThreshold": "Oberer Schwellenpreis (max. Marge)",
+          "lastCustomerPrice": "Letzter Kundenpreis",
+          "priceRecommendationAfter": "Finale Preisempfehlung"
         }
       },
       "marketValueDriver": {

@@ -1,23 +1,33 @@
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
+import {
+  getMaterialSalesOrg,
+  getMaterialSalesOrgDataAvailable,
+} from '@gq/core/store/selectors/material-sales-org/material-sales-org.selector';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { F_PRICING_STATE_MOCK } from '../../../../testing/mocks/models/fpricing/f-pricing-state.mock';
 import { MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK } from '../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import { MATERIAL_INFORMATION_EXTENDED_MOCK } from '../../../../testing/mocks/models/fpricing/material-information.mock';
-import { TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK } from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
-import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
+import { SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING } from '../../../../testing/mocks/models/fpricing/sanity-check-margins.mock';
 import {
-  getMaterialSalesOrg,
-  getMaterialSalesOrgDataAvailable,
-} from '../selectors/material-sales-org/material-sales-org.selector';
+  TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
+  TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
+} from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
+import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingFacade } from './f-pricing.facade';
-import { fPricingFeature, initialState } from './f-pricing.reducer';
+import { fPricingFeature } from './f-pricing.reducer';
 import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 
 describe('Service: FPricingFacade', () => {
@@ -25,10 +35,18 @@ describe('Service: FPricingFacade', () => {
   let spectator: SpectatorService<FPricingFacade>;
   let mockStore: MockStore;
   let actions$: Actions;
+  const transformationService = {
+    transformNumberWithUnit: () => 'mappedValue',
+    transformNumberCurrency: () => 'mappedValue',
+  };
 
   const createService = createServiceFactory({
     service: FPricingFacade,
-    providers: [provideMockStore({}), provideMockActions(() => actions$)],
+    providers: [
+      provideMockStore({}),
+      provideMockActions(() => actions$),
+      mockProvider(TransformationService, transformationService),
+    ],
   });
 
   beforeEach(() => {
@@ -47,11 +65,10 @@ describe('Service: FPricingFacade', () => {
     test(
       'should provide fPricingDataComplete$',
       marbles((m) => {
-        mockStore.overrideSelector(fPricingFeature.selectFPricingState, {
-          ...initialState,
-          gqPositionId: '1234',
-          referencePrice: 100_000,
-        });
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingState,
+          F_PRICING_STATE_MOCK
+        );
 
         mockStore.overrideSelector(getQuotationCurrency, 'EUR');
         mockStore.overrideSelector(getMaterialSalesOrg, {
@@ -70,6 +87,11 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getAllMarketValueDriverSelected,
           false
         );
+
+        mockStore.overrideSelector(
+          fPricingFeature.getMarketValueDriverWarningLevel,
+          MarketValueDriverWarningLevel.UNSET
+        );
         mockStore.overrideSelector(
           fPricingFeature.getComparableTransactionsForDisplaying,
           []
@@ -82,25 +104,28 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getTechnicalValueDriversForDisplay,
           TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK
         );
+        mockStore.overrideSelector(
+          fPricingFeature.getSanityChecksForDisplay,
+          SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING
+        );
 
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
             a: {
-              ...initialState,
-              gqPositionId: '1234',
-              referencePrice: 100_000,
+              ...F_PRICING_STATE_MOCK,
               currency: 'EUR',
               materialSalesOrg: { materialStatus: 'f' } as MaterialSalesOrg,
               materialSalesOrgAvailable: true,
+              comparableTransactionsAvailable: false,
+              comparableTransactionsForDisplay: [],
               marketValueDriversDisplay: MARKET_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
               anyMarketValueDriverSelected: false,
-              comparableTransactionsForDisplay: [],
-              comparableTransactionsAvailable: false,
-              technicalValueDriversForDisplay:
-                TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
               allMarketValueDriverSelected: false,
               marketValueDriverWarningLevel:
                 MarketValueDriverWarningLevel.UNSET,
+              technicalValueDriversForDisplay:
+                TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
+              sanityChecksForDisplay: SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING,
             },
           })
         );

@@ -19,6 +19,7 @@ import {
   MARKET_VALUE_DRIVERS_MOCK,
 } from '../../../../../testing/mocks/models/fpricing/market-value-drivers.mock';
 import { MARKET_VALUE_DRIVERS_SELECTIONS_MOCK } from '../../../../../testing/mocks/models/fpricing/market-value-drivers-selections.mock';
+import { FPricingPaths } from './f-pricing.paths.enum';
 import { FPricingService } from './f-pricing.service';
 
 describe('FPricingService', () => {
@@ -49,7 +50,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/quotation-details/${gqPositionId}/f-pricing`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqPositionId);
@@ -62,7 +63,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual(MARKET_VALUE_DRIVERS_MOCK));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/quotation-details/1234/f-pricing`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/1234/${FPricingPaths.Path_F_PRICING}`
       );
       req.flush(response);
     });
@@ -76,7 +77,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/quotation-details/${gqPositionId}/f-pricing/comparable-k-number-transactions`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}/${FPricingPaths.PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });
@@ -100,7 +101,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual(response));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/quotation-details/${gqPositionId}/f-pricing`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(gqPositionId);

@@ -9,7 +9,7 @@ import { ComparableKNumbers } from '@gq/shared/models/f-pricing/comparable-k-num
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import {
@@ -18,13 +18,18 @@ import {
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingEffects } from './f-pricing.effects';
-import { initialState } from './f-pricing.reducer';
+import {
+  fPricingFeature,
+  initialState,
+  SanityCheckData,
+} from './f-pricing.reducer';
 
 describe('FPricingEffects', () => {
   let actions$: any;
   let spectator: SpectatorService<FPricingEffects>;
   let effects: FPricingEffects;
   let snackBar: MatSnackBar;
+  let store: any;
 
   const createService = createServiceFactory({
     service: FPricingEffects,
@@ -40,6 +45,7 @@ describe('FPricingEffects', () => {
     effects = spectator.service;
     actions$ = spectator.inject(Actions);
     snackBar = spectator.inject(MatSnackBar);
+    store = spectator.inject(MockStore);
   });
 
   it('should be created', () => {
@@ -89,6 +95,36 @@ describe('FPricingEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         m.expect(effects.getFPricingData$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('calculateSanityCheckValue$', () => {
+    test(
+      'should dispatch setSanityCheckValue',
+      marbles((m) => {
+        const sanityCheckData = {
+          recommendBeforeChecks: 100,
+          recommendAfterChecks: 50,
+        } as SanityCheckData;
+
+        store.overrideSelector(
+          fPricingFeature.getSanityCheckData,
+          sanityCheckData
+        );
+        const action = FPricingActions.loadFPricingDataSuccess({
+          data: {} as FPricingData,
+        });
+
+        const result = FPricingActions.setSanityCheckValue({
+          value: 50,
+        });
+
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.calculateSanityCheckValue$).toBeObservable(expected);
         m.flush();
       })
     );

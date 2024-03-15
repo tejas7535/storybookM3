@@ -51,6 +51,22 @@ describe('TransformationService', () => {
     });
   });
 
+  describe('transformNumberWithUnit', () => {
+    test('should localize decimal number with unit', () => {
+      const result = service.transformNumberWithUnit(
+        12_345_678.912_345,
+        'EUR',
+        false
+      );
+
+      expect(result).toEqual('12,345,679 EUR');
+    });
+    test('should return dash if undefined', () => {
+      const result = service.transformNumberWithUnit(undefined, 'EUR', false);
+
+      expect(result).toEqual(Keyboard.DASH);
+    });
+  });
   describe('transformNumberExcel', () => {
     test('should localize decimal number', () => {
       const result = service.transformNumberExcel(12_345_678.912_345);
@@ -81,7 +97,7 @@ describe('TransformationService', () => {
     test('should return the value if keepValue is true', () => {
       const result = service.transformNumberCurrency(0, 'EUR', true);
 
-      expect(result).toEqual('0 EUR');
+      expect(result).toEqual('EUR\u00A00.00');
     });
   });
 

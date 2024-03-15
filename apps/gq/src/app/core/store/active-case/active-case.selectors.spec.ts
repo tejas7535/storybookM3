@@ -547,6 +547,11 @@ describe('Active Case Selectors', () => {
             materialDescription: 'F-123',
             productType: ProductType.SRB,
           },
+          fPricing: {
+            referencePrice: 123,
+            coefficient1: 1,
+            coefficient2: 2,
+          },
         })
       ).toEqual(true);
     });

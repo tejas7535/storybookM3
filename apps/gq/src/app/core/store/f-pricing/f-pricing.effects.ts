@@ -5,20 +5,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { fPricingFeature } from '@gq/core/store/f-pricing/f-pricing.reducer';
 import { FPricingService } from '@gq/shared/services/rest/f-pricing/f-pricing.service';
 import { translate } from '@ngneat/transloco';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FPricingActions } from './f-pricing.actions';
+import { fPricingFeature, SanityCheckData } from './f-pricing.reducer';
 
 @Injectable()
 export class FPricingEffects {
   private readonly actions = inject(Actions);
   private readonly fPricingService = inject(FPricingService);
   private readonly snackBar = inject(MatSnackBar);
-  readonly #store = inject(Store);
+  private readonly store = inject(Store);
 
   getFPricingData$ = createEffect(() => {
     return this.actions.pipe(
@@ -30,6 +30,26 @@ export class FPricingEffects {
             of(FPricingActions.loadFPricingDataFailure({ error }))
           )
         )
+      )
+    );
+  });
+
+  calculateSanityCheckValue$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(FPricingActions.loadFPricingDataSuccess),
+      concatLatestFrom(() =>
+        this.store.select(fPricingFeature.getSanityCheckData)
+      ),
+      map(
+        ([_, sanityCheckData]: [
+          ReturnType<typeof FPricingActions.loadFPricingDataSuccess>,
+          SanityCheckData
+        ]) =>
+          FPricingActions.setSanityCheckValue({
+            value:
+              sanityCheckData.recommendBeforeChecks -
+              sanityCheckData.recommendAfterChecks,
+          })
       )
     );
   });
@@ -56,7 +76,7 @@ export class FPricingEffects {
     return this.actions.pipe(
       ofType(FPricingActions.updateFPricing),
       withLatestFrom(
-        this.#store.select(fPricingFeature.getDataForUpdateFPricing)
+        this.store.select(fPricingFeature.getDataForUpdateFPricing)
       ),
       mergeMap(([action, request]) =>
         this.fPricingService

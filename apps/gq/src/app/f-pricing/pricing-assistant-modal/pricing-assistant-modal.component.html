@@ -118,16 +118,21 @@
             class="h-full"
             [currency]="fPricingData?.currency"
             [referencePrice]="fPricingData?.referencePrice"
-            [marketValueDriversValue]="63.23"
+            [marketValueDriversValue]="
+              fPricingData?.marketValueDriversValueAbsolute
+            "
             [marketValueDriverWarning]="
               fPricingData?.marketValueDriverWarningLevel
             "
             [marketValueDriverData]="fPricingData?.marketValueDriversDisplay"
-            [technicalValueDriversValue]="12.23"
+            [technicalValueDriversValue]="
+              fPricingData?.technicalValueDriversValueAbsolute
+            "
             [technicalValueDriversTableItems]="
               fPricingData?.technicalValueDriversForDisplay
             "
-            [sanityCheckValue]="0"
+            [sanityChecksTableItems]="fPricingData?.sanityChecksForDisplay"
+            [sanityCheckValue]="fPricingData?.sanityCheckValue"
             [finalPrice]="2013.45"
             [referencePriceRowData]="
               fPricingData?.comparableTransactionsForDisplay

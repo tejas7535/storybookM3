@@ -29,6 +29,27 @@ export class TransformationService {
     );
   }
 
+  transformNumberWithUnit(
+    number: number,
+    unit: string,
+    showDigits: boolean
+  ): string {
+    if (number === undefined || Number.isNaN(number)) {
+      return Keyboard.DASH;
+    }
+
+    const locale = this.translocoLocaleService.getLocale();
+
+    return `${this.translocoLocaleService.localizeNumber(
+      number,
+      'decimal',
+      locale,
+      {
+        minimumFractionDigits: showDigits ? 2 : undefined,
+        maximumFractionDigits: showDigits ? 2 : 0,
+      }
+    )} ${unit}`;
+  }
   transformNumberExcel(number: number): string {
     if (!number) {
       return Keyboard.DASH;
@@ -52,10 +73,12 @@ export class TransformationService {
     keepValue: boolean = false
   ): string {
     const locale = this.translocoLocaleService.getLocale();
-    // when function localizeNumber() returns falsy value (undefined, null, NaN, 0, '') then define if to return a dash or the falsy value
-    // in some places the '0' value is needed instead of the dash
     const falsyValueReturn = keepValue
-      ? `${number} ${currency}`
+      ? // '0' is a valid value in context with currencies
+        this.translocoLocaleService.localizeNumber(number, 'currency', locale, {
+          currency,
+          currencyDisplay: 'code',
+        }) ?? `${number} ${currency}`
       : Keyboard.DASH;
 
     return number

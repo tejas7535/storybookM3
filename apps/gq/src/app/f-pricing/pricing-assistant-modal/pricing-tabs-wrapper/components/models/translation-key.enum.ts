@@ -3,7 +3,7 @@
   will be used in the simple-table component
   translations need than to be placed in the translation file under the key:
 
-  fPricing.pricingAssistantModal.tableColumnHeader.KEY:{
+  fPricing.pricingAssistantModal.KEY:{
   "description":"VALUE",
   "selectedValue":"VALUE",
   "value":"VALUE",
@@ -13,6 +13,6 @@
  */
 
 export enum TranslationKey {
-  TECHNICAL_VALUE_DRIVER = 'technicalValueDriver',
-  SANITY_CHECKS = 'sanityChecks',
+  TECHNICAL_VALUE_DRIVER = 'technicalValueDrivers.tableColumnHeader',
+  SANITY_CHECKS = 'sanityChecks.tableColumnHeader',
 }

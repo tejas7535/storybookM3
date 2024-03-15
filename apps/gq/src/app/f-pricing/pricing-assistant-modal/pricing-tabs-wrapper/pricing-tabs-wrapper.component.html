@@ -7,7 +7,7 @@
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="referencePrice | numberCurrency: currency:true"
+          [value]="referencePrice ?? 0 | numberCurrency: currency:true"
           [title]="t('referencePricingLabel')"
         ></gq-tabs-label
       ></ng-template>
@@ -50,7 +50,7 @@
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="marketValueDriversValue | numberCurrency: currency:true"
+          [value]="marketValueDriversValue ?? 0 | numberCurrency: currency:true"
           [title]="t('marketValueDriversLabel')"
           [icon]="
             marketValueDriverWarning !== marketValueDriverWarningLevel.COMPLETE
@@ -96,7 +96,9 @@
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="technicalValueDriversValue | numberCurrency: currency:true"
+          [value]="
+            technicalValueDriversValue ?? 0 | numberCurrency: currency:true
+          "
           [title]="t('technicalValueDriversLabel')"
         ></gq-tabs-label
       ></ng-template>
@@ -112,19 +114,19 @@
         ><gq-tabs-label
           class="h-full"
           [isOperator]="true"
-          [operatorText]="'-'"
+          [operatorText]="'+'"
         ></gq-tabs-label
       ></ng-template>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="sanityCheckValue | numberCurrency: currency:true"
+          [value]="sanityCheckValue ?? 0 | numberCurrency: currency:true"
           [title]="t('sanityCheckLabel')"
         ></gq-tabs-label
       ></ng-template>
       <div class="p-2 w-full absolute">
-        <gq-sanity-checks-table [dataSource]="sanityChecksDataSource">
+        <gq-sanity-checks-table [dataSource]="sanityChecksTableItems">
         </gq-sanity-checks-table>
       </div>
     </mat-tab>
