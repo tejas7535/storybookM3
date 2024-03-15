@@ -110,6 +110,10 @@
     border-right: none !important;
   }
 
+  .cdk-global-overlay-wrapper .cdk-overlay-pane {
+    @apply #{$prefix}pointer-events-auto;
+  }
+
   .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane {
     @apply #{$prefix}fixed #{$prefix}pointer-events-auto #{!important};
   }
