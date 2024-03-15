@@ -1,14 +1,21 @@
-import { getCalculationResultInputGroup } from '../support/app.po';
+/* eslint-disable cypress/no-unnecessary-waiting */
+import {
+  clickOnFirstItem,
+  getCalculationResultInputGroup,
+  getInputElementAndType,
+} from '../support/app.po';
 
 describe('EA: CO2 downstream values', () => {
-  const expectedRatingLife = '181,000';
+  const bearingId = '6210-C-2HRS';
+  const expectedTotalRatingLife = '211,000';
+  const modifiedTotalRatingLifeInHours = '10,000,000';
   const expectedViscosityRating = '2.02';
   const expectedUpstreamEmission = '1.55';
   const expectedOverrollingFrequency = '102';
   const reportSectionValueMapping: Record<string, string[]> = {
     'Rating life': [
-      expectedRatingLife,
-      '9,030,000',
+      expectedTotalRatingLife,
+      modifiedTotalRatingLifeInHours,
       '1,500',
       '1,500',
       '15.5',
@@ -26,11 +33,17 @@ describe('EA: CO2 downstream values', () => {
   };
 
   beforeEach(() => {
-    cy.viewport(1100, 1000);
     cy.visit('/');
 
+    getInputElementAndType('.mat-mdc-input-element', bearingId);
+    cy.wait(3000);
+    clickOnFirstItem('.mdc-list-item'); // select bearing from list
+    cy.wait(1000); // wait for page navigation
+
     // enable all calcuations
-    cy.get('ea-calculation-types-selection mat-checkbox').first().click();
+    cy.get('ea-calculation-types-selection mat-checkbox')
+      .first()
+      .click({ force: true });
 
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
@@ -58,7 +71,8 @@ describe('EA: CO2 downstream values', () => {
     { defaultCommandTimeout: 15_000 },
     () => {
       // rating life
-      cy.get('ea-calculation-result-preview').contains(expectedRatingLife);
+      cy.get('ea-calculation-result-preview').contains(expectedTotalRatingLife);
+      cy.get('ea-calculation-result-preview').contains('15.5');
 
       // lubrication
       cy.get('ea-calculation-result-preview').contains(expectedViscosityRating);

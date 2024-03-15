@@ -387,7 +387,7 @@ pipeline {
         stage('Test:E2E') {
             when {
                 expression {
-                    return isNightly
+                    return runQualityStage
                 }
             }
             environment {

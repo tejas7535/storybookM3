@@ -1,8 +1,18 @@
-describe('ga', () => {
-  beforeEach(() => cy.visit('/'));
+import { clickOnFirstItem, getInputElementAndType } from '../support/app.po';
+
+describe('GA', () => {
+  const bearingId = '6226';
+  beforeEach(() => {
+    cy.viewport(1100, 1000);
+    cy.visit('/');
+  });
 
   it('should display welcome message', () => {
-    // Function helper example, see `../support/app.po.ts` file
     cy.get('h1.text-h5').contains('Grease App');
+  });
+
+  it('should have a list item', () => {
+    getInputElementAndType('.mat-mdc-input-element', bearingId);
+    clickOnFirstItem('.mdc-list-item'); // select bearing from list
   });
 });
