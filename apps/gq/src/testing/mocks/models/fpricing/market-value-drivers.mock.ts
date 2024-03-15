@@ -1,12 +1,14 @@
 import { ProductType } from '@gq/shared/models';
+import { MarketValueDriver } from '@gq/shared/models/f-pricing';
+
 /**
  * ALL OF the Mock refer to each other. All of them have the same "BASIS" just differently MAPPED
  */
-export const MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK = [
+export const MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK: MarketValueDriver[] = [
   {
     questionId: 1,
     selectedOptionId: 1,
-    productType: 'CRB',
+    productType: ProductType.CRB,
     options: [
       {
         optionId: 1,
@@ -29,7 +31,7 @@ export const MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK = [
   {
     questionId: 2,
     selectedOptionId: 2,
-    productType: 'CRB',
+    productType: ProductType.CRB,
     options: [
       {
         optionId: 1,
@@ -52,7 +54,7 @@ export const MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK = [
   {
     questionId: 3,
     selectedOptionId: 3,
-    productType: 'CRB',
+    productType: ProductType.CRB,
     options: [
       {
         optionId: 1,
@@ -75,7 +77,7 @@ export const MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK = [
   {
     questionId: 4,
     selectedOptionId: 4,
-    productType: 'CRB',
+    productType: ProductType.CRB,
     options: [
       {
         optionId: 1,
@@ -98,7 +100,7 @@ export const MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK = [
   {
     questionId: 5,
     selectedOptionId: 3,
-    productType: 'CRB',
+    productType: ProductType.CRB,
     options: [
       {
         optionId: 1,

@@ -83,6 +83,13 @@ export const fPricingFeature = createFeature({
       (state: FPricingState, { data }): FPricingState => ({
         ...state,
         ...data,
+        marketValueDriversSelections: data?.marketValueDrivers.map(
+          (value) =>
+            ({
+              questionId: value.questionId,
+              selectedOptionId: value.selectedOptionId,
+            } as MarketValueDriverSelection)
+        ),
         fPricingDataLoading: false,
       })
     ),
@@ -239,19 +246,24 @@ export const fPricingFeature = createFeature({
     );
     const getMarketValueDriverForDisplay = createSelector(
       selectMarketValueDrivers,
+      selectMarketValueDriversSelections,
       (
-        marketValueDriver: MarketValueDriver[]
+        marketValueDriver: MarketValueDriver[],
+        marketValueDriverSelection: MarketValueDriverSelection[]
       ): MarketValueDriverDisplayItem[] => {
-        if (!marketValueDriver) {
+        if (!marketValueDriver || !marketValueDriverSelection) {
           return [];
         }
 
         return marketValueDriver.map((item) => {
+          const selection = marketValueDriverSelection.find(
+            (mvdSelection) => mvdSelection.questionId === item.questionId
+          );
           const displayItem: MarketValueDriverDisplayItem = {
             questionId: item.questionId,
             options: item.options.map((option) => ({
               optionId: option.optionId,
-              selected: item.selectedOptionId === option.optionId,
+              selected: selection?.selectedOptionId === option.optionId,
             })),
           };
 
@@ -259,27 +271,28 @@ export const fPricingFeature = createFeature({
         });
       }
     );
-    // aggregate both lists of market Value driver selections (db values and userSelections)
-    const getAggregatedMarketValueDrivers = createSelector(
+    const getAnyMarketValueDriverSelected = createSelector(
       selectMarketValueDrivers,
       selectMarketValueDriversSelections,
       (
-        marketValueDriver: MarketValueDriver[],
-        mvdUserSelection: MarketValueDriverSelection[]
-      ): AggregateList[] =>
-        createAggregatedList(marketValueDriver, mvdUserSelection)
-    );
-    // is there any selection made that is not the last option, then a selection other than default is made
-    const getAnyMarketValueDriverSelected = createSelector(
-      getAggregatedMarketValueDrivers,
-      (aggrList: AggregateList[]): boolean =>
-        aggrList?.some((item) => !item.unknown)
+        marketValueDrivers: MarketValueDriver[],
+        selections: MarketValueDriverSelection[]
+      ): boolean =>
+        selections?.some((item) =>
+          notLastOptionSelected(marketValueDrivers, item)
+        )
     );
     // check if all the selections are made and not the last option
     const getAllMarketValueDriverSelected = createSelector(
-      getAggregatedMarketValueDrivers,
-      (aggrList: AggregateList[]): boolean =>
-        aggrList?.every((item) => !item.unknown)
+      selectMarketValueDrivers,
+      selectMarketValueDriversSelections,
+      (
+        marketValueDrivers: MarketValueDriver[],
+        selections: MarketValueDriverSelection[]
+      ): boolean =>
+        selections?.every((item) =>
+          notLastOptionSelected(marketValueDrivers, item)
+        )
     );
 
     const getMarketValueDriverWarningLevel = createSelector(
@@ -409,7 +422,6 @@ export const fPricingFeature = createFeature({
       getComparableTransactionsForDisplaying,
       getComparableTransactionsAvailable,
       getMarketValueDriverForDisplay,
-      getAggregatedMarketValueDrivers,
       getAnyMarketValueDriverSelected,
       getAllMarketValueDriverSelected,
       getMarketValueDriverWarningLevel,
@@ -467,28 +479,20 @@ export function getDeltaByInformationKeyAndPropertyKey(
 }
 
 /**
- * aggregate the market value drivers from db and the user selections.
- * it is checked for unknown selection.
- * when user selection has been made it is taken into account for this list, otherwise the db selection is taken into account.
- *
- * @param marketValueDriver the market value driver from db
- * @param userSelections the selections the user has made
- * @returns aggregated list of market value drivers and user selections
+ * Checks if other than the last option in selected for given MVD.
+ * @param marketValueDrivers the market value drivers
+ * @param selection the market value driver selection
+ * @returns is last option not selected
  */
-export function createAggregatedList(
-  marketValueDriver: MarketValueDriver[],
-  userSelections: MarketValueDriverSelection[]
-): AggregateList[] {
-  return marketValueDriver?.map(({ questionId, options, selectedOptionId }) => {
-    const userSelection = userSelections.find(
-      (selection) => selection.questionId === questionId
-    );
-    const unknown = userSelection
-      ? userSelection.selectedOptionId === options.length
-      : selectedOptionId === options.length;
+export function notLastOptionSelected(
+  marketValueDrivers: MarketValueDriver[],
+  selection: MarketValueDriverSelection
+) {
+  const found = marketValueDrivers.find(
+    (mvd) => mvd.questionId === selection.questionId
+  );
 
-    return { questionId, unknown };
-  });
+  return selection.selectedOptionId !== found?.options.length;
 }
 
 /**
@@ -528,9 +532,4 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
   }
 
   return delta;
-}
-
-interface AggregateList {
-  questionId: number;
-  unknown: boolean;
 }

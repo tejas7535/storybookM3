@@ -8,18 +8,18 @@ export const MARKET_VALUE_DRIVERS_SELECTIONS_MOCK: MarketValueDriverSelection[] 
     },
     {
       questionId: 2,
-      selectedOptionId: 3,
-    },
-    {
-      questionId: 3,
-      selectedOptionId: 1,
-    },
-    {
-      questionId: 4,
       selectedOptionId: 2,
     },
     {
-      questionId: 5,
+      questionId: 3,
+      selectedOptionId: 3,
+    },
+    {
+      questionId: 4,
       selectedOptionId: 4,
+    },
+    {
+      questionId: 5,
+      selectedOptionId: 3,
     },
   ];
