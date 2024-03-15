@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -26,7 +26,7 @@ describe('EditingCommentModalComponent', () => {
       LoadingSpinnerModule,
       MatFormFieldModule,
       DialogHeaderModule,
-      PushModule,
+      PushPipe,
       TextFieldModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),

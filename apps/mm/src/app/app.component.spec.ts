@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -5,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -36,7 +37,7 @@ describe('AppComponent', () => {
       MockModule(LanguageSelectModule),
       MockModule(BannerModule),
       RouterTestingModule,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
 
       // TOOD: remove when sidebar component has its module

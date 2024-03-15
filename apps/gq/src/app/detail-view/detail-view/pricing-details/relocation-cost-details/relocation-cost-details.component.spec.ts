@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -18,7 +18,7 @@ describe('RelocationCostDetailsComponent', () => {
     component: RelocationCostDetailsComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
       SharedPipesModule,
       MatCardModule,
       LabelTextModule,

@@ -34,7 +34,7 @@ export const reducers: ActionReducerMap<AppState> = {
   catalogCalculationResult: catalogCalculationResultReducer,
 };
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 

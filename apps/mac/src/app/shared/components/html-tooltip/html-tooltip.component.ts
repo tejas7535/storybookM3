@@ -1,3 +1,5 @@
+import { CdkOverlayOrigin, OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,8 +10,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { CdkOverlayOrigin, OverlayModule } from '@angular/cdk/overlay';
-import { Observable, Subject, fromEvent } from 'rxjs';
+
+import { fromEvent, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -17,7 +19,6 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'mac-html-tooltip',
@@ -37,7 +38,7 @@ export class HtmlTooltipComponent implements OnDestroy, OnInit {
   fadeOut = false;
   destroy$ = new Subject<void>();
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     const element = this.tooltipOrigin.elementRef.nativeElement;
@@ -96,7 +97,7 @@ export class HtmlTooltipComponent implements OnDestroy, OnInit {
 
   private isMovedOutside(
     element: any,
-    tooltip: ElementRef<any>,
+    tooltip: ElementRef,
     event: Event
   ): boolean {
     return !(

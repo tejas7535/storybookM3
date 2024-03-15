@@ -13,7 +13,7 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockDirective } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -37,7 +37,7 @@ describe('HeaderContentComponent', () => {
       MatIconModule,
       InfoIconModule,
       SharedPipesModule,
-      PushModule,
+      PushPipe,
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -85,6 +85,7 @@ describe('HeaderContentComponent', () => {
         EditCaseModalComponent,
         {
           width: '550px',
+          panelClass: 'edit-case-modal',
           data: {
             caseName: 'case-name',
             bindingPeriodValidityEndDate: undefined,
@@ -115,6 +116,7 @@ describe('HeaderContentComponent', () => {
         EditCaseModalComponent,
         {
           width: '550px',
+          panelClass: 'edit-case-modal',
           data: {
             caseName: 'case-name',
             bindingPeriodValidityEndDate: undefined,

@@ -87,8 +87,4 @@ lubricator-selection-assistant {
     @apply max-w-full #{!important};
     @apply w-full #{!important};
   }
-
-  .app-overlay-container {
-    @apply top-0 left-0 h-full w-full fixed pointer-events-none z-50;
-  }
 }

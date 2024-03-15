@@ -88,32 +88,28 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "options": {
-        "browserTarget": "sedo:build"
+        "buildTarget": "sedo:build"
       },
       "configurations": {
         "local": {
-          "browserTarget": "sedo:build:local"
+          "buildTarget": "sedo:build:local"
         },
         "dev": {
-          "browserTarget": "sedo:build:dev"
+          "buildTarget": "sedo:build:dev"
         },
         "qa": {
-          "browserTarget": "sedo:build:qa"
+          "buildTarget": "sedo:build:qa"
         },
         "production": {
-          "browserTarget": "sedo:build:production"
+          "buildTarget": "sedo:build:production"
         }
       },
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/sedo/src/**/*.ts", "apps/sedo/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -125,8 +121,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/sedo/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/sedo/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/sedo"]
     },

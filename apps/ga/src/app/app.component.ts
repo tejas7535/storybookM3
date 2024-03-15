@@ -1,3 +1,4 @@
+/* eslint @nx/enforce-module-boundaries: 1 */
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';

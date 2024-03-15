@@ -98,14 +98,14 @@ export const getSAPResult = createSelector(
         startRow?: number;
       }
     | undefined =>
-    sapMaterialsRows?.startRow !== undefined
-      ? {
+    sapMaterialsRows?.startRow === undefined
+      ? undefined
+      : {
           data: state.result?.[MaterialClass.SAP_MATERIAL]?.[
             NavigationLevel.MATERIAL
           ],
           ...sapMaterialsRows,
         }
-      : undefined
 );
 
 export const isBulkEditAllowed = createSelector(

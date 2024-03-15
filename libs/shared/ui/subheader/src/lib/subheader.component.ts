@@ -19,10 +19,8 @@ export class SubheaderComponent {
   public constructor(private readonly router: Router) {}
 
   public clickBackButton(): void {
-    if (this.breadcrumbs.length > 1) {
-      const breadcrumbForNavigation =
-        this.breadcrumbs[this.breadcrumbs.length - 2];
-
+    const breadcrumbForNavigation = this.breadcrumbs.at(-2);
+    if (breadcrumbForNavigation) {
       this.router.navigate([breadcrumbForNavigation.url], {
         queryParams: breadcrumbForNavigation.queryParams,
       });

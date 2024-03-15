@@ -171,7 +171,23 @@ function extractOverrolling(
   if (!basicOverrollingFrequenciesSubordinate) {
     return;
   }
-  if (!hasMultipleLoadCases) {
+  if (hasMultipleLoadCases) {
+    result.loadcaseOverrollingFrequencies = extractTableFromSubordinate(
+      basicOverrollingFrequenciesSubordinate
+    ).map((tableRow) =>
+      Object.fromEntries(
+        OverrollingFrequencyKeys.filter((key) => tableRow[key]).map(
+          (overrollingFrequencyKey) => [
+            overrollingFrequencyKey,
+            {
+              ...tableRow[overrollingFrequencyKey],
+              title: overrollingFrequencyKey,
+            },
+          ]
+        )
+      )
+    );
+  } else {
     const loadcaseResult: { [key: string]: LoadcaseStringResultItem } = {};
 
     for (const abbreviation of OVERROLLING_FREQUENCIES_ABBREVIATIONS) {
@@ -190,22 +206,6 @@ function extractOverrolling(
       }
     }
     result.loadcaseOverrollingFrequencies = [loadcaseResult];
-  } else {
-    result.loadcaseOverrollingFrequencies = extractTableFromSubordinate(
-      basicOverrollingFrequenciesSubordinate
-    ).map((tableRow) =>
-      Object.fromEntries(
-        OverrollingFrequencyKeys.filter((key) => tableRow[key]).map(
-          (overrollingFrequencyKey) => [
-            overrollingFrequencyKey,
-            {
-              ...tableRow[overrollingFrequencyKey],
-              title: overrollingFrequencyKey,
-            },
-          ]
-        )
-      )
-    );
   }
 }
 

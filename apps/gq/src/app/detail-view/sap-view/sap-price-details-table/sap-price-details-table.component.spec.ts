@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
@@ -17,7 +17,7 @@ describe('SapConditionsTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapPriceDetailsTableComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       MockProvider(LocalizationService),
       MockProvider(SapPriceDetailsColumnDefService),

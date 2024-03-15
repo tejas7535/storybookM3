@@ -6,6 +6,8 @@ import { debounceTime, Subscription } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getSelectedBearing, SettingsFacade } from '@ga/core/store';
 import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
@@ -17,12 +19,11 @@ import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calcu
 import { Environment } from '@ga/environments/environment.model';
 import { ENV } from '@ga/environments/environments.provider';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
+import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 import { ReportUrls } from '@ga/shared/models';
 
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 
 @Component({
   selector: 'ga-calculation-result',

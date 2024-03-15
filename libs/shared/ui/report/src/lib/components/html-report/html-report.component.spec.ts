@@ -34,7 +34,7 @@ describe('HtmlReportComponent', () => {
     providers: [ReportService],
   });
 
-  beforeEach(() => {
+  beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       value: () => ({
         matches: false,
@@ -42,6 +42,9 @@ describe('HtmlReportComponent', () => {
         removeListener: () => {},
       }),
     });
+  });
+
+  beforeEach(() => {
     spectator = createComponent();
     snackBar = spectator.inject(MatSnackBar);
     component = spectator.debugElement.componentInstance;

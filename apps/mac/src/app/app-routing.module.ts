@@ -1,3 +1,4 @@
+/* eslint @nx/enforce-module-boundaries: 1 */
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -5,9 +6,10 @@ import { MsalGuard } from '@azure/msal-angular';
 
 import { LegalRoute } from '@schaeffler/legal-pages';
 
-import { RoutePath } from '@mac/app-routing.enum';
 import { RoleGuard } from '@mac/core/guards';
-import { MACRoutes } from '@mac/shared/models';
+
+import { RoutePath } from './app-routing.enum';
+import { MACRoutes } from './shared/models/mac-route.model';
 
 export const appRoutePaths: MACRoutes = [
   {

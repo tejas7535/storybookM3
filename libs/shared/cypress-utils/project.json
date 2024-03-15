@@ -6,14 +6,7 @@
   "prefix": "schaeffler",
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/cypress-utils/src/**/*.ts",
-          "libs/shared/cypress-utils/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",

@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
@@ -37,7 +37,7 @@ describe('MaterialDesignationCellRenderComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialDesignationCellRenderComponent,
     imports: [
-      PushModule,
+      PushPipe,
       MockModule(MatButtonModule),
       provideTranslocoTestingModule({ en: {} }),
     ],

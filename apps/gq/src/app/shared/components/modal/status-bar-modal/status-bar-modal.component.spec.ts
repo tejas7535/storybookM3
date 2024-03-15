@@ -5,7 +5,7 @@ import { StatusBar } from '@gq/shared/models/status-bar.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -28,7 +28,7 @@ describe('StatusBarModalComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
 
-      PushModule,
+      PushPipe,
       SharedPipesModule,
     ],
     providers: [

@@ -1,8 +1,10 @@
+import crypto from 'node:crypto';
+
 export default {
   displayName: 'shared-utils-azure-auth',
 
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  globals: { crypto: require('crypto') },
+  globals: { crypto },
   coverageDirectory: '../../../../coverage/libs/shared/utils/azure-auth',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',

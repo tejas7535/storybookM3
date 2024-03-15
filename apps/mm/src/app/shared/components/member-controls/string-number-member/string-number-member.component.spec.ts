@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { CONTROL_META, VariablePropertyMeta } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { MaterialModule } from './../../../material.module';
 import { StringNumberMemberComponent } from './string-number-member.component';
@@ -19,7 +19,7 @@ describe('SelectMemberComponent', () => {
     component: StringNumberMemberComponent,
     imports: [
       TranslocoTestingModule,
-      PushModule,
+      PushPipe,
       MaterialModule,
       ReactiveFormsModule,
     ],

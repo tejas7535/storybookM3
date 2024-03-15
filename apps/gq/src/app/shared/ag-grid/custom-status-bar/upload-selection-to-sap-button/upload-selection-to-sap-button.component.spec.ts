@@ -8,7 +8,7 @@ import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action
 import * as statusbarUtils from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { MockDirective } from 'ng-mocks';
@@ -30,7 +30,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
     declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     imports: [
       MatDialogModule,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

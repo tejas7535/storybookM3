@@ -9,6 +9,11 @@ import {
 
 import { DisableOnProdDirective } from './disable-on-prod.directive';
 
+jest.mock('@angular/core', () => ({
+  ...jest.requireActual('@angular/core'),
+  isDevMode: jest.fn(),
+}));
+
 describe('Directive: DisableOnProdDirective', () => {
   let spectator: SpectatorDirective<DisableOnProdDirective>;
   let directive: DisableOnProdDirective;

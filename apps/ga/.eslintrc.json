@@ -1,6 +1,6 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "*.min.js"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -12,6 +12,8 @@
         "project": ["apps/ga/tsconfig.*?.json"]
       },
       "rules": {
+        "import/no-extraneous-dependencies": ["warn"],
+        "unicorn/switch-case-braces": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {

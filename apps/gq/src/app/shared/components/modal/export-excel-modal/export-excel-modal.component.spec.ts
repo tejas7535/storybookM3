@@ -12,7 +12,7 @@ import { from, of } from 'rxjs';
 
 import { loadExtendedComparableLinkedTransaction } from '@gq/core/store/actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -41,7 +41,7 @@ describe('ExportExcelModalComponent', () => {
       MatDialogModule,
       FormsModule,
       MatIconModule,
-      PushModule,
+      PushPipe,
       LoadingSpinnerModule,
       DialogHeaderModule,
       provideTranslocoTestingModule({ en: {} }),

@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -17,7 +17,7 @@ describe('DetailTabComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailTabComponent,
     imports: [
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(LoadingSpinnerModule),
     ],

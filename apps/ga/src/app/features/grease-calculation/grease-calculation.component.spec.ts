@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -35,7 +35,7 @@ describe('GreaseCalculationComponent', () => {
       RouterTestingModule,
       BreadcrumbsModule,
       GreaseStepperComponent,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

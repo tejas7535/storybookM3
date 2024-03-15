@@ -10,7 +10,7 @@ import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
@@ -34,7 +34,7 @@ describe('AddEntryComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       ReactiveFormsModule,
       SharedDirectivesModule,
-      PushModule,
+      PushPipe,
     ],
     providers: [
       MockProvider(PasteMaterialsService),

@@ -6,9 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockDirective, MockModule, MockPipe } from 'ng-mocks';
 
 import { StepperModule } from '@schaeffler/stepper';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -31,8 +31,8 @@ describe('StepperComponent', () => {
     imports: [
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(LetModule),
-      MockModule(PushModule),
+      MockDirective(LetDirective),
+      MockPipe(PushPipe),
       MockModule(MatStepperModule),
       MockModule(StepperModule),
     ],

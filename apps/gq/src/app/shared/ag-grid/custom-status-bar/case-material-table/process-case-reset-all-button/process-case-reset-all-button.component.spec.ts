@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -26,7 +26,7 @@ describe('ResetAllButtonComponent', () => {
       SharedTranslocoModule,
       MatButtonModule,
       MatIconModule,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

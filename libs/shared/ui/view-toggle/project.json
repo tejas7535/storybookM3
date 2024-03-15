@@ -26,19 +26,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/view-toggle"],
       "options": {
-        "jestConfig": "libs/shared/ui/view-toggle/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/view-toggle/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/view-toggle/**/*.ts",
-          "libs/shared/ui/view-toggle/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",

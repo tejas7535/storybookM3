@@ -2,9 +2,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockDirective, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -21,8 +21,8 @@ describe('SelectSalesOrgComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       MatSelectModule,
-      MockModule(LetModule),
-      MockModule(PushModule),
+      MockDirective(LetDirective),
+      MockPipe(PushPipe),
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

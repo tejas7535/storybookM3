@@ -229,6 +229,8 @@ pipeline {
         CYPRESS_CACHE_FOLDER = '/tmp/.cache/Cypress'
         NX_CACHE_DIRECTORY = '/tmp/.project-cache/nx-cache'
         PNPM_HOME = '/tmp/.cache/pnpm'
+        // Sometimes the cache is rejected. Can also be fixed by `npx nx reset` https://nx.dev/recipes/troubleshooting/unknown-local-cache#you-share-cache-with-another-machine-using-a-network-drive
+        NX_REJECT_UNKNOWN_LOCAL_CACHE = 0
     }
 
     options {

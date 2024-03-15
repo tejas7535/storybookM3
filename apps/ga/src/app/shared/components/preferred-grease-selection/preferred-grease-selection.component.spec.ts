@@ -1,7 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockDirective } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -17,7 +17,10 @@ describe('PreferredGreaseSelectionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PreferredGreaseSelectionComponent,
-    imports: [MockModule(LetModule), provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      MockDirective(LetDirective),
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [provideMockStore()],
   });
 

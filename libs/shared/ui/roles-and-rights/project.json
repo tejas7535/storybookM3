@@ -10,7 +10,6 @@
       "options": {
         "tsConfig": "libs/shared/ui/roles-and-rights/tsconfig.lib.json",
         "project": "libs/shared/ui/roles-and-rights/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "tailwindConfig": "libs/shared/ui/roles-and-rights/tailwind.config.js"
       },
       "configurations": {
@@ -20,14 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/roles-and-rights/src/**/*.ts",
-          "libs/shared/ui/roles-and-rights/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -39,8 +31,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/ui/roles-and-rights/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/roles-and-rights/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/roles-and-rights"]
     },

@@ -246,12 +246,15 @@ describe('MainTableComponent', () => {
       // eslint-disable-next-line unicorn/no-useless-undefined
       route.snapshot.queryParamMap.get = jest.fn((str) => {
         switch (str) {
-          case 'materialClass':
+          case 'materialClass': {
             return 'st';
-          case 'navigationLevel':
+          }
+          case 'navigationLevel': {
             return 'materials';
-          default:
+          }
+          default: {
             return 'some params';
+          }
         }
       });
 

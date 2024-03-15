@@ -1,9 +1,6 @@
 {
   "extends": ["../../../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
-  "parserOptions": {
-    "project": ["libs/shared/ui/view-toggle/tsconfig.*?.json"]
-  },
   "overrides": [
     {
       "files": ["*.ts"],
@@ -11,6 +8,9 @@
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "parserOptions": {
+        "project": ["libs/shared/ui/view-toggle/tsconfig.*?.json"]
+      },
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",

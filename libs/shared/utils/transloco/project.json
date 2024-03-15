@@ -10,7 +10,6 @@
       "options": {
         "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
         "project": "libs/shared/utils/transloco/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "tailwindConfig": "libs/shared/utils/transloco/tailwind.config.js"
       },
       "configurations": {
@@ -20,14 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/utils/transloco/**/*.ts",
-          "libs/shared/utils/transloco/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -39,8 +31,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/utils/transloco/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/utils/transloco/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/utils/transloco"]
     },

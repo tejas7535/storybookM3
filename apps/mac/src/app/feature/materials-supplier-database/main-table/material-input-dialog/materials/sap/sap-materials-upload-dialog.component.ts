@@ -333,12 +333,15 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     }
 
     switch (this.fileControl.status) {
-      case 'PENDING':
+      case 'PENDING': {
         return SapMaterialsUploadStatus.IN_PROGRESS;
-      case 'VALID':
+      }
+      case 'VALID': {
         return SapMaterialsUploadStatus.SUCCEEDED;
-      default:
+      }
+      default: {
         return SapMaterialsUploadStatus.FAILED;
+      }
     }
   }
 }

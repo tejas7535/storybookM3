@@ -7,7 +7,7 @@ import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-ca
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -40,7 +40,7 @@ describe('SapViewComponent', () => {
       provideTranslocoTestingModule({}),
       SubheaderModule,
       MatCardModule,
-      PushModule,
+      PushPipe,
       ShareButtonModule,
       LoadingSpinnerModule,
       MaterialPriceHeaderContentModule,

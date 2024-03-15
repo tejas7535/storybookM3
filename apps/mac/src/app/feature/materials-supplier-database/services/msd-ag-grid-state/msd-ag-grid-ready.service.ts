@@ -36,10 +36,10 @@ export class MsdAgGridReadyService {
     this.sapResult$
       .pipe(filter((result) => this.serverSideParamsStore.size > 0 && !!result))
       .subscribe((result) => {
-        if (!result.data) {
-          this.paramFailure(result.startRow);
-        } else {
+        if (result.data) {
           this.paramSuccess(result as SAPMaterialsResponse, result.startRow);
+        } else {
+          this.paramFailure(result.startRow);
         }
       });
   }

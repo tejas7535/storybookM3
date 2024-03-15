@@ -28,6 +28,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
     environment.devToolsEnabled
       ? StoreDevtoolsModule.instrument({
           maxAge: 50,
+          connectInZone: true,
         })
       : /* istanbul ignore next: very difficult */ [],
     EffectsModule.forRoot([RootEffects, RolesEffects]),

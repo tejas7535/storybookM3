@@ -14,7 +14,6 @@
       },
       "executor": "@nx/angular:package",
       "options": {
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "project": "libs/shared/ui/inputs/ng-package.json",
         "tailwindConfig": "libs/shared/ui/inputs/tailwind.config.js",
         "tsConfig": "libs/shared/ui/inputs/tsconfig.lib.json"
@@ -28,13 +27,7 @@
           "outputFile": "checkstyle/libs/shared/ui/inputs/checkstyle.xml"
         }
       },
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/inputs/**/*.ts",
-          "libs/shared/ui/inputs/**/*.html"
-        ]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "publish": {
       "executor": "nx:run-commands",
@@ -49,8 +42,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/ui/inputs/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/inputs/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/inputs"]
     },

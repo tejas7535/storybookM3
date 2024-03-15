@@ -35,17 +35,21 @@ export class MaterialDialogBasePartDirective implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     switch (true) {
-      case !!this.co2Host:
+      case !!this.co2Host: {
         this.host = this.co2Host;
         break;
-      case !!this.supplierHost:
+      }
+      case !!this.supplierHost: {
         this.host = this.supplierHost;
         break;
-      case !!this.materialStandardHost:
+      }
+      case !!this.materialStandardHost: {
         this.host = this.materialStandardHost;
         break;
-      default:
+      }
+      default: {
         break;
+      }
     }
   }
 

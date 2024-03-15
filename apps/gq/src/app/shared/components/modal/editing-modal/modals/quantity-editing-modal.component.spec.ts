@@ -11,8 +11,8 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
-import { MockModule } from 'ng-mocks';
+import { PushPipe } from '@ngrx/component';
+import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -21,6 +21,13 @@ import { QuantityEditingModalComponent } from './quantity-editing-modal.componen
 
 jest.mock('../editing-modal.component', () => ({
   EditingModalComponent: jest.fn(),
+}));
+
+jest.mock('@gq/shared/constants', () => ({
+  ...jest.requireActual('@gq/shared/constants'),
+  getQuantityRegex: jest.fn((input: any) =>
+    jest.requireActual('@gq/shared/constants').getQuantityRegex(input)
+  ),
 }));
 
 describe('QuantityEditingModalComponent', () => {
@@ -33,7 +40,7 @@ describe('QuantityEditingModalComponent', () => {
     detectChanges: false,
     imports: [
       DialogHeaderModule,
-      MockModule(PushModule),
+      MockPipe(PushPipe),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [mockProvider(TransformationService)],

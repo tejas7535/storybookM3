@@ -5,8 +5,8 @@ import { LOCALE_EN } from '@gq/shared/constants';
 import { PriceSource } from '@gq/shared/models/quotation-detail';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
-import { MockModule } from 'ng-mocks';
+import { PushPipe } from '@ngrx/component';
+import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -15,6 +15,16 @@ import { PriceEditingModalComponent } from './price-editing-modal.component';
 
 jest.mock('../editing-modal.component', () => ({
   EditingModalComponent: jest.fn(),
+}));
+
+jest.mock('@gq/shared/constants', () => ({
+  ...jest.requireActual('@gq/shared/constants'),
+  getCurrencyRegex: jest.fn((input: any) =>
+    jest.requireActual('@gq/shared/constants').getCurrencyRegex(input)
+  ),
+  getPercentageRegex: jest.fn((input: any) =>
+    jest.requireActual('@gq/shared/constants').getPercentageRegex(input)
+  ),
 }));
 
 describe('PriceEditingModalComponent', () => {
@@ -26,7 +36,7 @@ describe('PriceEditingModalComponent', () => {
     detectChanges: false,
     imports: [
       DialogHeaderModule,
-      MockModule(PushModule),
+      MockPipe(PushPipe),
       provideTranslocoTestingModule({ en: {} }),
     ],
   });

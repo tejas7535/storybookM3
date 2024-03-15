@@ -10,7 +10,7 @@ import {
 } from '@gq/core/store/actions';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -32,7 +32,7 @@ describe('AdditionalFiltersComponent', () => {
       ReactiveFormsModule,
       SharedPipesModule,
       LoadingSpinnerModule,
-      PushModule,
+      PushPipe,
     ],
     declarations: [FilterSelectionComponent],
     providers: [

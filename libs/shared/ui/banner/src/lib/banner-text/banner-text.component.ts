@@ -27,16 +27,21 @@ export class BannerTextComponent {
 
   public setBannerIcon(bannerIcon: BannerType): string | undefined {
     switch (bannerIcon) {
-      case 'info':
+      case 'info': {
         return 'info';
-      case 'warning':
+      }
+      case 'warning': {
         return 'warning';
-      case 'error':
+      }
+      case 'error': {
         return 'cancel';
-      case 'success':
+      }
+      case 'success': {
         return 'check_circle';
-      default:
+      }
+      default: {
         return undefined;
+      }
     }
   }
 

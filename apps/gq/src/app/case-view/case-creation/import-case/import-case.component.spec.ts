@@ -19,7 +19,7 @@ import {
 } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -39,7 +39,7 @@ describe('ImportCaseComponent', () => {
     component: ImportCaseComponent,
     imports: [
       AutocompleteInputModule,
-      PushModule,
+      PushPipe,
       MatButtonModule,
       LoadingSpinnerModule,
       DialogHeaderModule,

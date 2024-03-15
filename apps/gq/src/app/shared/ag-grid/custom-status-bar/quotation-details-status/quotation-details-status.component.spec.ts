@@ -11,7 +11,7 @@ import {
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
@@ -37,7 +37,7 @@ describe('QuotationDetailsStatusComponent', () => {
     component: QuotationDetailsStatusComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
       SharedPipesModule,
     ],
     mocks: [MatDialog],

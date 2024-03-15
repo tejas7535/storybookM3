@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
@@ -20,7 +20,7 @@ describe('SearchComponent', () => {
   const createComponent = createComponentFactory({
     component: SearchComponent,
     imports: [
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       MockModule(BlockUiModule),

@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/icons/tsconfig.lib.json",
-        "project": "libs/shared/ui/icons/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "project": "libs/shared/ui/icons/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -19,14 +18,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/icons/src/**/*.ts",
-          "libs/shared/ui/icons/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -38,8 +30,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/ui/icons/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/icons/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/icons"]
     },

@@ -4,7 +4,23 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
+      "parserOptions": {
+        "project": ["apps/lsa-e2e/tsconfig.json"]
+      },
+      "rules": {},
+      "plugins": [
+        "@angular-eslint/eslint-plugin",
+        "eslint-plugin-import",
+        "@typescript-eslint"
+      ]
+    },
+    {
+      "files": ["**/commands.ts", "**/cypress.config.ts", "**/app.po.ts"],
+      "rules": {
+        "unicorn/no-empty-file": "off",
+        "import/no-default-export": "off",
+        "unicorn/prefer-module": "off"
+      }
     }
   ]
 }

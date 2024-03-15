@@ -215,10 +215,10 @@ export class SteelInputDialogComponent
     this.ratingsControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: StringOption) => {
-        if (value?.id !== this.dialogData.editDialogInformation?.row?.rating) {
-          this.ratingChangeCommentControl.enable({ emitEvent: false });
-        } else {
+        if (value?.id === this.dialogData.editDialogInformation?.row?.rating) {
           this.ratingChangeCommentControl.disable({ emitEvent: false });
+        } else {
+          this.ratingChangeCommentControl.enable({ emitEvent: false });
         }
         // this is needed, otherwise field would not be marked as invalid until touched!
         this.ratingChangeCommentControl.markAsTouched();

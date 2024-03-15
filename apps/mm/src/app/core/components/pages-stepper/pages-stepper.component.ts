@@ -40,7 +40,7 @@ export class PagesStepperComponent implements OnChanges {
   ) {}
 
   public get hasNext(): boolean {
-    const lastPage = this.getVisiblePages().slice(-1).pop();
+    const lastPage = this.getVisiblePages().at(-1);
 
     return lastPage && lastPage.id !== this.activePageId;
   }

@@ -178,7 +178,7 @@ export const getConcept1Setting = (
 ) => {
   const result = item.find(({ field }) => field === c1size)?.value;
 
-  return `${result}`.trim() !== '-' ? +result : undefined;
+  return `${result}`.trim() === '-' ? undefined : +result;
 };
 
 export const getLabel = (
@@ -225,7 +225,7 @@ export const concept1ShopQuery = (
 ): string => concept1InShop(title, size) ?? `ARCALUB-C1-${size}-REFILLABLE`;
 
 export const greaseShopQuery = (title: string): string =>
-  `${title.replace(/ /g, '-')}-${
+  `${title.replaceAll(' ', '-')}-${
     greaseSizeExceptions.find((grease) => grease.title === title)?.size ?? 1
   }kg`;
 

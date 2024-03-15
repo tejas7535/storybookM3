@@ -128,36 +128,32 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "options": {
-        "browserTarget": "mm:build"
+        "buildTarget": "mm:build"
       },
       "configurations": {
         "local": {
-          "browserTarget": "mm:build:local"
+          "buildTarget": "mm:build:local"
         },
         "dev": {
-          "browserTarget": "mm:build:dev"
+          "buildTarget": "mm:build:dev"
         },
         "qa": {
-          "browserTarget": "mm:build:qa"
+          "buildTarget": "mm:build:qa"
         },
         "production": {
-          "browserTarget": "mm:build:production"
+          "buildTarget": "mm:build:production"
         },
         "e2e": {
-          "browserTarget": "mm:build",
-          "host": "0.0.0.0"
+          "host": "0.0.0.0",
+          "buildTarget": "mm:build"
         }
       },
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/mm/src/**/*.ts", "apps/mm/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -170,8 +166,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/mm"],
       "options": {
-        "jestConfig": "apps/mm/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/mm/jest.config.ts"
       }
     },
     "version": {

@@ -10,9 +10,6 @@ export const testHeaderWithUserMenu = (testMobile: boolean) => {
     : '[data-cy="user-menu"]';
   cy.visit('/iframe.html?id=header--with-user-menu');
 
-  cy.get(selector)
-    .click()
-    .get('.mat-menu-content')
-    .children()
-    .should('have.length', 2);
+  cy.get(selector).click();
+  cy.get(selector).get('.mat-menu-content').children().should('have.length', 2);
 };

@@ -10,7 +10,7 @@ import {
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockDirective } from 'ng-mocks';
 
@@ -23,7 +23,7 @@ describe('QuantityDisplayComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QuantityDisplayComponent,
-    imports: [MatIconModule, MatDialogModule, PushModule],
+    imports: [MatIconModule, MatDialogModule, PushPipe],
     declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

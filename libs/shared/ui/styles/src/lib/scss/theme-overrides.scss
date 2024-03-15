@@ -49,7 +49,7 @@
 
   // input fields
   .mat-mdc-form-field-focus-overlay {
-    @apply #{$prefix}bg-transparent;
+    @apply #{$prefix}bg-transparent #{!important};
   }
 
   .mat-mdc-form-field-icon-prefix,
@@ -80,6 +80,10 @@
     }
   }
 
+  .mdc-button__label {
+    @apply #{$prefix}text-button;
+  }
+
   .mat-mdc-button-base:not(.mat-mdc-fab):not(.mat-mdc-mini-fab):not(.mat-mdc-icon-button) {
     mat-icon {
       @apply #{$prefix}-ml-1.5 #{$prefix}mr-2 #{$prefix}h-[18px] #{$prefix}w-[18px] #{$prefix}text-[18px];
@@ -104,5 +108,89 @@
     */
   .mdc-notched-outline__notch {
     border-right: none !important;
+  }
+
+  .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane {
+    @apply #{$prefix}fixed #{$prefix}pointer-events-auto #{!important};
+  }
+
+  .cdk-overlay-pane.mat-mdc-tooltip-panel {
+    @apply #{$prefix}w-fit;
+  }
+
+  .cdk-overlay-pane.mat-datepicker-popup
+    mat-month-view
+    .mat-calendar-table-header
+    .cdk-visually-hidden {
+    @apply w-[1px] h-[1px] absolute overflow-hidden;
+  }
+
+  .mat-mdc-dialog-container {
+    @apply #{$prefix}relative;
+  }
+
+  .cdk-overlay-connected-position-bounding-box {
+    @apply #{$prefix}fixed #{$prefix}w-0 #{$prefix}h-0 #{!important};
+  }
+
+  .cdk-overlay-backdrop {
+    @apply #{$prefix}top-0 #{$prefix}left-0 #{$prefix}h-full #{$prefix}w-full #{$prefix}fixed #{$prefix}pointer-events-auto;
+  }
+
+  .cdk-overlay-container {
+    @apply #{$prefix}top-0 #{$prefix}left-0 #{$prefix}h-full #{$prefix}w-full #{$prefix}fixed #{$prefix}pointer-events-none;
+  }
+
+  .cdk-overlay-container:empty,
+  .cdk-overlay-container:has(.cdk-overlay-connected-position-bounding-box) {
+    @apply #{$prefix}pointer-events-none;
+  }
+
+  .cdk-global-overlay-wrapper {
+    @apply #{$prefix}absolute #{$prefix}top-0 #{$prefix}left-0 #{$prefix}h-full #{$prefix}w-full #{$prefix}flex;
+  }
+
+  .cdk-global-overlay-wrapper:has(.cdk-overlay-pane > mat-snack-bar-container) {
+    @apply #{$prefix}pointer-events-none;
+  }
+
+  .cdk-overlay-container:has(.cdk-global-overlay-wrapper
+      > .cdk-overlay-pane
+      > mat-snack-bar-container) {
+    @apply #{$prefix}pointer-events-none;
+  }
+
+  .mat-mdc-tab-group > .mat-mdc-tab-header .mat-mdc-tab {
+    @apply #{$prefix}relative;
+  }
+
+  .mdc-tab.mat-mdc-tab-link.mat-mdc-focus-indicator {
+    @apply #{$prefix}relative;
+  }
+
+  .mat-ripple.mat-mdc-tab-ripple .mat-ripple-element {
+    @apply #{$prefix}absolute #{$prefix}top-0 #{$prefix}left-0 #{$prefix}w-full #{$prefix}h-full #{!important};
+  }
+
+  mat-button-toggle-group
+    mat-button-toggle
+    .mat-button-toggle-ripple
+    .mat-ripple-element {
+    @apply #{$prefix}max-w-full #{$prefix}max-h-full #{$prefix}bg-focus-overlay #{!important};
+  }
+
+  .mat-ripple.mat-mdc-checkbox-ripple.mat-mdc-focus-indicator
+    .mat-ripple-element {
+    @apply #{$prefix}max-w-full #{$prefix}max-h-full #{$prefix}rounded-full #{!important};
+  }
+
+  .cdk-overlay-backdrop.cdk-overlay-dark-backdrop {
+    @apply #{$prefix}bg-backdrop-overlay;
+  }
+
+  .mat-mdc-slider-visual-thumb
+    .mat-ripple.mat-mdc-focus-indicator
+    .mat-ripple-element {
+    @apply #{$prefix}absolute #{$prefix}top-0 #{$prefix}left-0 #{$prefix}max-w-full #{$prefix}max-h-full #{$prefix}rounded-full #{!important};
   }
 }

@@ -9,7 +9,7 @@ import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 // eslint-disable-next-line no-restricted-imports
 import { createMouseEvent } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -29,7 +29,7 @@ describe('DetailButtonComponent', () => {
     imports: [
       MatCardModule,
       MatIconModule,
-      PushModule,
+      PushPipe,
       RouterTestingModule,
       SharedPipesModule,
       MatMenuModule,

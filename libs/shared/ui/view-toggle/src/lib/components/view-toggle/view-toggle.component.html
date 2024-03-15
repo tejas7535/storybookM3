@@ -8,13 +8,13 @@
   }"
 >
   <mat-button-toggle
-    class="h-8 bg-[#fafafa] px-1 !leading-8 text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:hidden"
+    class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:!hidden"
     *ngFor="let item of items; let i = index"
     [value]="item"
     [ngClass]="{
-      '!bg-secondary font-medium text-high-emphasis': item.id === active.id,
-      'hover:!font-medium hover:text-high-emphasis ': !item.disabled,
-      '!bg-[#fafafa] text-low-emphasis': item.disabled
+      '!bg-secondary !font-medium !text-high-emphasis': item.id === active.id,
+      'hover:!font-medium hover:!text-high-emphasis ': !item.disabled,
+      '!text-low-emphasis': item.disabled
     }"
     [disabled]="item.disabled"
     [attr.cy-view-toggle-id]="item.id"
@@ -49,9 +49,9 @@
           mat-icon-button
           class="flex"
           [ngClass]="{
-            ' text-high-emphasis': item.id === active.id,
-            ' text-medium-emphasis': item.id !== active.id,
-            'text-low-emphasis': icon.disabled
+            ' !text-high-emphasis': item.id === active.id,
+            ' !text-medium-emphasis': item.id !== active.id,
+            '!text-low-emphasis': icon.disabled
           }"
           *ngFor="let icon of item.icons"
           (click)="onIconClicked($event, item.id, icon.name)"

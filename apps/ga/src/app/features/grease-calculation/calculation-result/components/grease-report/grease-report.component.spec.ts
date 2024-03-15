@@ -67,7 +67,7 @@ describe('GreaseReportComponent', () => {
     ],
   });
 
-  beforeEach(() => {
+  beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       value: () => ({
         matches: false,
@@ -75,6 +75,9 @@ describe('GreaseReportComponent', () => {
         removeListener: () => {},
       }),
     });
+  });
+
+  beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
 

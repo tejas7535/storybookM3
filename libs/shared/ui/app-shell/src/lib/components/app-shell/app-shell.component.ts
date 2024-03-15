@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,10 +44,11 @@ export class AppShellComponent implements OnInit {
   @Input() public footerFixed? = true;
   @Input() public appVersion?: string;
   @Input() public scrollToTop? = false;
-  @Input() set showSideNav(value: boolean) {
+  @Input() public set showSideNav(value: boolean) {
     this._sideNavOpen = value;
   }
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onContentScroll = new EventEmitter();
   @Output() public sidenavOpenChange = new EventEmitter<boolean>();
 
@@ -53,13 +56,6 @@ export class AppShellComponent implements OnInit {
   private readonly sidenavContent: MatSidenavContent;
 
   private _sideNavOpen = false;
-  public get sidenavOpen(): boolean {
-    return this._sideNavOpen;
-  }
-  public set sidenavOpen(value: boolean) {
-    this._sideNavOpen = value;
-    this.sidenavOpenChange.emit(value);
-  }
 
   public constructor(
     private readonly translocoService: TranslocoService,
@@ -71,6 +67,15 @@ export class AppShellComponent implements OnInit {
     this.translocoService.setTranslation(frJson, 'fr');
     this.translocoService.setTranslation(ruJson, 'ru');
     this.translocoService.setTranslation(zhJson, 'zh');
+  }
+
+  public get sidenavOpen(): boolean {
+    return this._sideNavOpen;
+  }
+
+  public set sidenavOpen(value: boolean) {
+    this._sideNavOpen = value;
+    this.sidenavOpenChange.emit(value);
   }
 
   // close the sidenav when pressing "esc"

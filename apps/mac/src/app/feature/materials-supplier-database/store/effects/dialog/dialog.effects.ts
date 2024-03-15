@@ -62,9 +62,10 @@ export class DialogEffects {
           DialogActions.fetchManufacturerSuppliers(),
         ];
         switch (materialClass) {
-          case MaterialClass.ALUMINUM:
+          case MaterialClass.ALUMINUM: {
             return [...baseActions, DialogActions.fetchProductCategories()];
-          case MaterialClass.COPPER:
+          }
+          case MaterialClass.COPPER: {
             return [
               ...baseActions,
               DialogActions.fetchProductCategories(),
@@ -72,7 +73,8 @@ export class DialogEffects {
               DialogActions.fetchProductionProcesses(),
               DialogActions.fetchReferenceDocuments(),
             ];
-          case MaterialClass.STEEL:
+          }
+          case MaterialClass.STEEL: {
             return [
               ...baseActions,
               DialogActions.fetchProductCategories(),
@@ -81,14 +83,17 @@ export class DialogEffects {
               DialogActions.fetchCastingModes(),
               DialogActions.fetchReferenceDocuments(),
             ];
-          case MaterialClass.CERAMIC:
+          }
+          case MaterialClass.CERAMIC: {
             return [
               ...baseActions,
               DialogActions.fetchProductCategories(),
               DialogActions.fetchConditions(),
             ];
-          default:
+          }
+          default: {
             return baseActions;
+          }
         }
       }),
       switchMap((actions) => actions)
@@ -705,7 +710,7 @@ export class DialogEffects {
       concatLatestFrom(() => this.dataFacade.navigation$),
       switchMap(([{ row, isCopy = false }, { navigationLevel }]) => {
         switch (navigationLevel) {
-          case NavigationLevel.STANDARD:
+          case NavigationLevel.STANDARD: {
             return [
               DialogActions.setMaterialFormValue({
                 parsedMaterial: {
@@ -719,7 +724,8 @@ export class DialogEffects {
                 } as Partial<MaterialFormValue>,
               }),
             ];
-          case NavigationLevel.SUPPLIER:
+          }
+          case NavigationLevel.SUPPLIER: {
             return [
               DialogActions.setMaterialFormValue({
                 parsedMaterial: {
@@ -741,7 +747,8 @@ export class DialogEffects {
                 } as Partial<MaterialFormValue>,
               }),
             ];
-          case NavigationLevel.MATERIAL:
+          }
+          case NavigationLevel.MATERIAL: {
             return isCopy
               ? [
                   DialogActions.fetchEditStandardDocumentData({
@@ -755,8 +762,10 @@ export class DialogEffects {
                   }),
                 ]
               : [DialogActions.parseMaterialFormValue()];
-          default:
+          }
+          default: {
             return [];
+          }
         }
       })
     );
@@ -1316,14 +1325,14 @@ export class DialogEffects {
   }
 
   private convertToProperties(dataObj: any) {
-    return !dataObj
-      ? []
-      : Object.keys(dataObj)
+    return dataObj
+      ? Object.keys(dataObj)
           .map((key) => ({
             key: this.translateKey(key),
             value: dataObj[key],
           }))
-          .filter((item) => item.key && (item.value || item.value === 0));
+          .filter((item) => item.key && (item.value || item.value === 0))
+      : [];
   }
 
   private translateKey(key: string) {

@@ -94,33 +94,29 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "options": {
-        "browserTarget": "gq:build"
+        "buildTarget": "gq:build"
       },
       "configurations": {
         "local": {
-          "browserTarget": "gq:build:local",
-          "proxyConfig": "apps/gq/proxy.conf.js"
+          "proxyConfig": "apps/gq/proxy.conf.js",
+          "buildTarget": "gq:build:local"
         },
         "dev": {
-          "browserTarget": "gq:build:dev"
+          "buildTarget": "gq:build:dev"
         },
         "qa": {
-          "browserTarget": "gq:build:qa"
+          "buildTarget": "gq:build:qa"
         },
         "production": {
-          "browserTarget": "gq:build:production"
+          "buildTarget": "gq:build:production"
         }
       },
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/gq/src/**/*.ts", "apps/gq/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -132,8 +128,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/gq/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/gq/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/gq"]
     },

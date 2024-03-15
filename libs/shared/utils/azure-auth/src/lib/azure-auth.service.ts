@@ -52,9 +52,7 @@ export class AzureAuthService {
     if (accountInfo.name) {
       const splittedName = accountInfo.name.split(' ');
 
-      return splittedName.length < 3
-        ? undefined
-        : splittedName[splittedName.length - 1];
+      return splittedName.length < 3 ? undefined : splittedName.at(-1);
     }
 
     return undefined;
@@ -148,7 +146,7 @@ export class AzureAuthService {
 
   public decodeAccessToken(accessToken: string): any {
     const base64Url = accessToken.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const base64 = base64Url.replaceAll('-', '+').replaceAll('_', '/');
     const jsonPayload = decodeURIComponent(
       [...atob(base64)]
         .map((c) => `%${`00${c.codePointAt(0).toString(16)}`.slice(-2)}`)

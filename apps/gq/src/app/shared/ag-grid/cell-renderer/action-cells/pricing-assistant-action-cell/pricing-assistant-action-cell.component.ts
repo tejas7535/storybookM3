@@ -25,7 +25,7 @@ export class PricingAssistantActionCellComponent {
     this.dialog.open(PricingAssistantModalComponent, {
       data: this.params.data,
       width: '1000px',
-      height: '1000px',
+      height: '920px',
       autoFocus: false,
       panelClass: 'pricing-assistant-modal',
     });

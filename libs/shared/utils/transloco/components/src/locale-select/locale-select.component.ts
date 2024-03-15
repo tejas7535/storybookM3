@@ -38,19 +38,6 @@ export class LocaleSelectComponent implements OnInit {
     private readonly localeService: TranslocoLocaleService
   ) {}
 
-  public ngOnInit(): void {
-    this.localeService.setLocale(this.currentLocaleId);
-  }
-
-  public onLocaleSelectionChange(locale: string): void {
-    this.localeService.setLocale(locale);
-    this.localStorage.setItem(this.storageKeyLocale, locale);
-
-    if (this.reloadOnLocaleChange) {
-      location.reload();
-    }
-  }
-
   protected get getStoredLocale(): Locale {
     return (
       this.availableLocales.find(
@@ -66,5 +53,18 @@ export class LocaleSelectComponent implements OnInit {
         (locale) => locale.id === navigator?.language
       ) || this.defaultLocale
     );
+  }
+
+  public ngOnInit(): void {
+    this.localeService.setLocale(this.currentLocaleId);
+  }
+
+  public onLocaleSelectionChange(locale: string): void {
+    this.localeService.setLocale(locale);
+    this.localStorage.setItem(this.storageKeyLocale, locale);
+
+    if (this.reloadOnLocaleChange) {
+      location.reload();
+    }
   }
 }

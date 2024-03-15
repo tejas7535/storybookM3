@@ -59,6 +59,19 @@ button {
   opacity: 1 !important;
 }
 
+// mat-menu is ignoring the xPosition an yPosition settings
+.mat-mdc-menu-panel {
+  margin-left: -130%;
+  margin-top: 0px;
+}
+
+// disable slider ripples
+.mat-ripple-element.mat-mdc-slider-focus-ripple,
+.mat-ripple-element.mat-mdc-slider-active-ripple,
+.mat-ripple-element.mat-mdc-slider-hover-ripple {
+  display: none !important;
+}
+
 // custom overrides for ag grid
 .ag-theme-material {
   --ag-font-family: 'Noto sans';

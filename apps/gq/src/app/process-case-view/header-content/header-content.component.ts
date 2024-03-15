@@ -106,6 +106,7 @@ export class HeaderContentComponent {
     this.matDialog
       .open(EditCaseModalComponent, {
         width: '550px',
+        panelClass: 'edit-case-modal',
         data: {
           caseName: this.caseName,
           currency: this.currency,

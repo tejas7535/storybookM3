@@ -88,7 +88,7 @@ export const createXAxisOption = (name: string): XAXisComponentOption => ({
 
 export const createYAxisOption = (
   featuresNames: string[]
-): YAXisComponentOption => ({
+): YAXisComponentOption & { data: string[] } => ({
   type: 'value',
   data: featuresNames,
   min: -1,

@@ -27,18 +27,24 @@ export class LearnMoreResolver {
   ): LearnMoreData {
     const id = route.paramMap.get('id');
     switch (id) {
-      case RoutePath.HardnessConverterPath:
+      case RoutePath.HardnessConverterPath: {
         return hardnessConverterLearnMoreData;
-      case RoutePath.AQMCalculatorPath:
+      }
+      case RoutePath.AQMCalculatorPath: {
         return aqmCalculatorLearnMoreData;
-      case RoutePath.InsulationSolutionsPath:
+      }
+      case RoutePath.InsulationSolutionsPath: {
         return insulationSolutionsLearnMoreData;
-      case RoutePath.MaterialPropertiesEstimator:
+      }
+      case RoutePath.MaterialPropertiesEstimator: {
         return materialPropertiesEstimatorLearnMoreData;
-      case RoutePath.MaterialsSupplierDatabasePath:
+      }
+      case RoutePath.MaterialsSupplierDatabasePath: {
         return materialSupplierDbLearnMoreData;
-      default:
+      }
+      default: {
         this.router.navigate(['/notfound']);
+      }
     }
 
     return undefined;

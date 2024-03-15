@@ -81,12 +81,12 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
           quickFilters.map((quickFilter: QuickFilter) => ({
             ...quickFilter,
             type:
-              quickFilter.id !== undefined
+              quickFilter.id === undefined
                 ? translate(
-                    `${this.QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX}.public`
+                    `${this.QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX}.local`
                   )
                 : translate(
-                    `${this.QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX}.local`
+                    `${this.QUICK_FILTER_TYPE_TRANSLATION_KEY_PREFIX}.public`
                   ),
           }))
         )

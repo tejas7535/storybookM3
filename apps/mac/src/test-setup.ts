@@ -1,4 +1,4 @@
-/* eslint-disable import/order */
+/* eslint-disable import/order,@nx/enforce-module-boundaries */
 import './mock-window';
 import '../../../global-mocks';
 import 'jest-canvas-mock';

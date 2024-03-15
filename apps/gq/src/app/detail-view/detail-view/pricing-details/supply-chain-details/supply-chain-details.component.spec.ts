@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -16,7 +16,7 @@ describe('SupplyChainDetailsComponent', () => {
     component: SupplyChainDetailsComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
       SharedPipesModule,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -31,7 +32,6 @@ import {
 } from './services';
 import { FontsLoaderService } from './services/pdf/fonts-loader.service';
 import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf-file-save.service';
-import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [CalculationResultComponent],

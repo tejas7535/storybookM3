@@ -55,9 +55,9 @@ export class ProductSelectionEffects {
                   frictionalPowerloss: {
                     ...calculationConfig.frictionalPowerloss,
                     disabled: !capabilities.capabilityInfo.frictionCalculation,
-                    selected: !capabilities.capabilityInfo.frictionCalculation
-                      ? false
-                      : calculationConfig.frictionalPowerloss.selected,
+                    selected: capabilities.capabilityInfo.frictionCalculation
+                      ? calculationConfig.frictionalPowerloss.selected
+                      : false,
                   },
                 };
 
@@ -134,23 +134,23 @@ export class ProductSelectionEffects {
                 lubrication: {
                   ...calculationTypes.lubrication,
                   disabled: !result.catalogueCalculation,
-                  selected: !result.catalogueCalculation
-                    ? false
-                    : calculationTypes.lubrication.selected,
+                  selected: result.catalogueCalculation
+                    ? calculationTypes.lubrication.selected
+                    : false,
                 },
                 overrollingFrequency: {
                   ...calculationTypes.overrollingFrequency,
                   disabled: !result.catalogueCalculation,
-                  selected: !result.catalogueCalculation
-                    ? false
-                    : calculationTypes.overrollingFrequency.selected,
+                  selected: result.catalogueCalculation
+                    ? calculationTypes.overrollingFrequency.selected
+                    : false,
                 },
                 ratingLife: {
                   ...calculationTypes.ratingLife,
                   disabled: !result.catalogueCalculation,
-                  selected: !result.catalogueCalculation
-                    ? false
-                    : calculationTypes.ratingLife.selected,
+                  selected: result.catalogueCalculation
+                    ? calculationTypes.ratingLife.selected
+                    : false,
                 },
               };
 

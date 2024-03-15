@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';

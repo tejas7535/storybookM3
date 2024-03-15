@@ -91,6 +91,7 @@ export class PricingAssistantModalComponent implements OnInit {
       width: '792px',
       data: this.dialogData,
       autoFocus: false,
+      panelClass: 'show-more',
     });
   }
 

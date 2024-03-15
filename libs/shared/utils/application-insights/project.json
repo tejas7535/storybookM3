@@ -9,8 +9,7 @@
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.json",
-        "project": "libs/shared/utils/application-insights/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "project": "libs/shared/utils/application-insights/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -19,14 +18,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/utils/application-insights/src/**/*.ts",
-          "libs/shared/utils/application-insights/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -38,8 +30,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/utils/application-insights/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/utils/application-insights/jest.config.ts"
       },
       "outputs": [
         "{workspaceRoot}/coverage/libs/shared/utils/application-insights"

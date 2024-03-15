@@ -15,9 +15,9 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule, MockProvider } from 'ng-mocks';
+import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
 import {
@@ -39,8 +39,8 @@ describe('DetailViewComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailViewComponent,
     imports: [
-      MockModule(LetModule),
-      MockModule(PushModule),
+      MockDirective(LetDirective),
+      MockPipe(PushPipe),
       RouterTestingModule,
     ],
     providers: [

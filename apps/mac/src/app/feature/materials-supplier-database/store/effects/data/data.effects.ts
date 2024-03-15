@@ -35,14 +35,18 @@ export class DataEffects {
           return [];
         }
         switch (navigationLevel) {
-          case NavigationLevel.MATERIAL:
+          case NavigationLevel.MATERIAL: {
             return [DataActions.fetchMaterials()];
-          case NavigationLevel.SUPPLIER:
+          }
+          case NavigationLevel.SUPPLIER: {
             return [DataActions.fetchManufacturerSuppliers()];
-          case NavigationLevel.STANDARD:
+          }
+          case NavigationLevel.STANDARD: {
             return [DataActions.fetchMaterialStandards()];
-          default:
+          }
+          default: {
             return [];
+          }
         }
       })
     );
@@ -182,16 +186,20 @@ export class DataEffects {
       concatLatestFrom(() => this.dataFacade.navigation$),
       switchMap(([{ id }, { navigationLevel, materialClass }]) => {
         switch (navigationLevel) {
-          case NavigationLevel.MATERIAL:
+          case NavigationLevel.MATERIAL: {
             return [DataActions.deleteMaterial({ id, materialClass })];
-          case NavigationLevel.STANDARD:
+          }
+          case NavigationLevel.STANDARD: {
             return [DataActions.deleteMaterialStandard({ id, materialClass })];
-          case NavigationLevel.SUPPLIER:
+          }
+          case NavigationLevel.SUPPLIER: {
             return [
               DataActions.deleteManufacturerSupplier({ id, materialClass }),
             ];
-          default:
+          }
+          default: {
             return [];
+          }
         }
       })
     );

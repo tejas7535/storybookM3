@@ -25,7 +25,7 @@ export function sapMaterialsUploadDataOwnerValidator(): ValidatorFn {
       '^\\w{2,},\\s\\w{2,}\\s{1,2}\\w{2}/\\w+(-.+)?$'
     ).test(owner?.title);
 
-    return !valid ? { invalidDataOwnerFormat: true } : undefined;
+    return valid ? undefined : { invalidDataOwnerFormat: true };
   };
 }
 
@@ -36,5 +36,5 @@ function getFileExtension(file: File): string {
 
   const fileNameParts = file.name.trim().toLowerCase().split('.');
 
-  return fileNameParts[fileNameParts.length - 1];
+  return fileNameParts.at(-1);
 }

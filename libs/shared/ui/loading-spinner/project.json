@@ -10,7 +10,6 @@
       "options": {
         "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
         "project": "libs/shared/ui/loading-spinner/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "tailwindConfig": "libs/shared/ui/loading-spinner/tailwind.config.js"
       },
       "configurations": {
@@ -20,14 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/loading-spinner/src/**/*.ts",
-          "libs/shared/ui/loading-spinner/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -40,8 +32,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/loading-spinner"],
       "options": {
-        "jestConfig": "libs/shared/ui/loading-spinner/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/loading-spinner/jest.config.ts"
       }
     },
     "publish": {

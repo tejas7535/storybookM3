@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { GreaseReportInputComponent } from './grease-report-input.component';
 
@@ -11,7 +11,7 @@ describe('GreaseReportInputComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GreaseReportInputComponent,
-    imports: [CommonModule, PushModule],
+    imports: [CommonModule, PushPipe],
   });
 
   beforeEach(() => {

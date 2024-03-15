@@ -16,7 +16,7 @@ import {
   EVENT_NAMES,
 } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
@@ -35,7 +35,7 @@ describe('CreateManualCaseComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CreateManualCaseComponent,
-    imports: [provideTranslocoTestingModule({}), PushModule],
+    imports: [provideTranslocoTestingModule({}), PushPipe],
     providers: [
       MockProvider(AutoCompleteFacade),
       MockProvider(PurchaseOrderTypeFacade),

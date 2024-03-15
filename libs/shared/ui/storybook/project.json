@@ -1,4 +1,5 @@
 {
+  "name": "shared-ui-storybook",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/ui/storybook/src",
   "projectType": "library",
@@ -53,6 +54,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["shared-ui-styles"],
-  "name": "shared-ui-storybook"
+  "implicitDependencies": ["shared-ui-styles"]
 }

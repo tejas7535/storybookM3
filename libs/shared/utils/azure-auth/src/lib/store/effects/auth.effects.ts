@@ -27,12 +27,6 @@ import {
 
 @Injectable()
 export class AuthEffects {
-  public constructor(
-    private readonly actions$: Actions,
-    private readonly authService: AzureAuthService,
-    private readonly msalBroadcastService: MsalBroadcastService
-  ) {}
-
   public login$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -92,4 +86,10 @@ export class AuthEffects {
       ])
     );
   });
+
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly authService: AzureAuthService,
+    private readonly msalBroadcastService: MsalBroadcastService
+  ) {}
 }

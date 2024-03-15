@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -26,7 +26,7 @@ describe('CreateCaseButtonComponent', () => {
       CommonModule,
       SharedTranslocoModule,
       MatButtonModule,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

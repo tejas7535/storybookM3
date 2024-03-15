@@ -50,6 +50,10 @@
   }
 }
 
+.mat-datepicker-content .mat-datepicker-close-button {
+  @apply hidden;
+}
+
 .mat-mdc-dialog-surface {
   padding: 16px !important;
 }
@@ -74,6 +78,12 @@ button {
   line-height: normal;
 }
 
+.edit-case-modal {
+  .mat-mdc-button-base .mdc-button__label {
+    z-index: 0;
+  }
+}
+
 .mdc-tooltip__surface {
   @apply py-2 #{!important};
   @apply px-4 #{!important};
@@ -83,6 +93,10 @@ button {
 }
 
 .pricing-assistant-modal {
+  .mat-mdc-dialog-container {
+    @apply flex;
+  }
+
   .mat-mdc-tab {
     @apply px-0;
     min-width: 60px;
@@ -128,6 +142,7 @@ button {
   .mat-mdc-tab-body-wrapper {
     @apply h-full;
     @apply bg-secondary-900 bg-opacity-5;
+    @apply z-0;
   }
 
   // radio Button/ Group
@@ -136,6 +151,9 @@ button {
   }
 }
 
+.show-more {
+  @apply z-50;
+}
 .mat-mdc-snack-bar-container {
   .mdc-snackbar__label {
     @apply text-body-2 #{!important};
@@ -154,7 +172,7 @@ button {
 }
 
 .mdc-button__label {
-  @apply whitespace-nowrap;
+  @apply whitespace-nowrap font-medium text-body-2 uppercase;
 }
 
 // This fixes an ui issue when the form field is opened with appearance outline
@@ -169,6 +187,12 @@ button {
 .mat-mdc-form-field-type-mat-select.mat-form-field-appearance-outline
   .mdc-notched-outline__notch {
   @apply max-w-full #{!important};
+}
+
+.mat-mdc-form-field-icon-suffix > .mat-icon {
+  @apply p-0 #{!important};
+  @apply relative #{!important};
+  @apply text-medium-emphasis #{!important};
 }
 
 mat-error,

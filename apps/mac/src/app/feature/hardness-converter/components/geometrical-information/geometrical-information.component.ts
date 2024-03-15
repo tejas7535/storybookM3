@@ -233,7 +233,7 @@ export class GeometricalInformationComponent implements OnInit, OnDestroy {
   public get(response: IndentationResponse, item: IndentationConfigColumn) {
     const val = response[item.name];
 
-    return !val ? '-' : formatNumber(val as number, this.locale, item.format);
+    return val ? formatNumber(val as number, this.locale, item.format) : '-';
   }
 
   // verify that selected unit has a configuration (not for MPa)

@@ -27,6 +27,7 @@ const greys = {
   'focus-overlay': 'rgba(0,0,0,0.08)',
   'selected-overlay': 'rgba(0,0,0,0.12)',
   'disabled-overlay': 'rgba(129,129,129,0.12)',
+  'backdrop-overlay': 'rgba(0,0,0,0.32)',
 };
 
 const gradientColors = {

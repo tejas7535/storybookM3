@@ -34,6 +34,7 @@ export const reducers: ActionReducerMap<AppState> = {
   calculationParameters: calculationParametersReducer,
 };
 
+// eslint-disable-next-line unicorn/no-negated-condition
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];

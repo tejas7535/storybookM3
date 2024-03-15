@@ -63,7 +63,7 @@
         "@nx/jest",
         "@nx/storybook",
         "@nx/workspace",
-        "@nx/linter"
+        "@nx/eslint"
       ],
       "groupName": "@nrwl/nx",
       "major": {

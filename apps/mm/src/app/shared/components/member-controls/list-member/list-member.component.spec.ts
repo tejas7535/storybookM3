@@ -14,7 +14,7 @@ import {
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
@@ -39,7 +39,7 @@ describe('ListMemberComponent', () => {
   const createComponent = createComponentFactory({
     component: ListMemberComponent,
     imports: [
-      PushModule,
+      PushPipe,
       MaterialModule,
       SelectModule,
       ReactiveFormsModule,

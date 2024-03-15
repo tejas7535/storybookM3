@@ -92,33 +92,29 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "options": {
-        "browserTarget": "cdba:build"
+        "buildTarget": "cdba:build"
       },
       "configurations": {
         "local": {
-          "browserTarget": "cdba:build:local",
-          "proxyConfig": "apps/cdba/proxy.conf.js"
+          "proxyConfig": "apps/cdba/proxy.conf.js",
+          "buildTarget": "cdba:build:local"
         },
         "dev": {
-          "browserTarget": "cdba:build:dev"
+          "buildTarget": "cdba:build:dev"
         },
         "qa": {
-          "browserTarget": "cdba:build:qa"
+          "buildTarget": "cdba:build:qa"
         },
         "production": {
-          "browserTarget": "cdba:build:production"
+          "buildTarget": "cdba:build:production"
         }
       },
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/cdba/src/**/*.ts", "apps/cdba/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -130,8 +126,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/cdba/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/cdba/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/cdba"]
     },

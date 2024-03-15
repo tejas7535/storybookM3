@@ -6,7 +6,7 @@ import { ReplaySubject } from 'rxjs';
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -47,7 +47,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
       AppShellModule,
       LoadingSpinnerModule,
       MockModule(UserSettingsModule),

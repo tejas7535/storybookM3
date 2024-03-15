@@ -23,7 +23,7 @@ export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
 };
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 

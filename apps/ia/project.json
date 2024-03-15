@@ -92,33 +92,29 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "options": {
-        "browserTarget": "ia:build",
-        "proxyConfig": "apps/ia/proxy.conf.js"
+        "proxyConfig": "apps/ia/proxy.conf.js",
+        "buildTarget": "ia:build"
       },
       "configurations": {
         "local": {
-          "browserTarget": "ia:build:local"
+          "buildTarget": "ia:build:local"
         },
         "dev": {
-          "browserTarget": "ia:build:dev"
+          "buildTarget": "ia:build:dev"
         },
         "qa": {
-          "browserTarget": "ia:build:qa"
+          "buildTarget": "ia:build:qa"
         },
         "production": {
-          "browserTarget": "ia:build:production"
+          "buildTarget": "ia:build:production"
         }
       },
       "defaultConfiguration": "local"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/ia/src/**/*.ts", "apps/ia/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -130,8 +126,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "apps/ia/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/ia/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/ia"]
     },

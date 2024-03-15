@@ -12,6 +12,7 @@
         "project": ["apps/lsa/tsconfig.*?.json"]
       },
       "rules": {
+        "unicorn/switch-case-braces": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {

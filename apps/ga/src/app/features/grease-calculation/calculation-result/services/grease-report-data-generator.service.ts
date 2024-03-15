@@ -209,7 +209,7 @@ export class GreaseReportDataGeneratorService {
 
     if (dataSourceValueWithHtml) {
       dataSourceValueWithHtml.split('<br>').forEach((value) => {
-        result.push(value.replace(regex, ''));
+        result.push(value.replaceAll(regex, ''));
       });
 
       if (dataSourceTitle === 'initialGreaseQuantity') {

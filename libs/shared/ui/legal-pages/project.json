@@ -22,19 +22,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/legal-pages"],
       "options": {
-        "jestConfig": "libs/shared/ui/legal-pages/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/legal-pages/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/legal-pages/src/**/*.ts",
-          "libs/shared/ui/legal-pages/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",

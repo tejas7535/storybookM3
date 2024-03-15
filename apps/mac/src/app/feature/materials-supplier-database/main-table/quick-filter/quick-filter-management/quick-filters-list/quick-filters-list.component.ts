@@ -40,12 +40,12 @@ export class QuickFiltersListComponent implements AfterViewInit, OnDestroy {
 
   @Input()
   set config(config: QuickFiltersListConfig) {
-    this._config = !config.tableConfig
-      ? {
+    this._config = config.tableConfig
+      ? config
+      : {
           ...config,
           tableConfig: this.defaultTableConfig,
-        }
-      : config;
+        };
   }
 
   ngAfterViewInit(): void {

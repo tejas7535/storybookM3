@@ -14,7 +14,7 @@ import {
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockPipe } from 'ng-mocks';
 
@@ -33,7 +33,7 @@ describe('ManualPriceComponent', () => {
     detectChanges: false,
     imports: [
       MatIconModule,
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

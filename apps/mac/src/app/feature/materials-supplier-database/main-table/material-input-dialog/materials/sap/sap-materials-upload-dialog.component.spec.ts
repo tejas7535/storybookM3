@@ -48,6 +48,11 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn((string) => string.split('.').pop()),
 }));
 
+jest.mock('../../util', () => ({
+  ...jest.requireActual<TranslocoModule>('../../util'),
+  filterFn: jest.fn(),
+}));
+
 describe('SapMaterialsUploadDialogComponent', () => {
   let component: SapMaterialsUploadDialogComponent;
   let spectator: Spectator<SapMaterialsUploadDialogComponent>;

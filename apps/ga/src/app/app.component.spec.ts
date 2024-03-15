@@ -1,3 +1,4 @@
+/* eslint @nx/enforce-module-boundaries: 1 */
 import { Meta, Title } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';

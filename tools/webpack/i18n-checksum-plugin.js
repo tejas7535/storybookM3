@@ -1,4 +1,4 @@
-const spawn = require('child_process').spawn;
+const generateChecksums = require('./i18n-checksum');
 
 class I18nChecksumPlugin {
   input;
@@ -11,13 +11,7 @@ class I18nChecksumPlugin {
   // Define `apply` as its prototype method which is supplied with compiler as its argument
   apply(compiler) {
     compiler.hooks.entryOption.tap('I18nChecksumPlugin', () => {
-      spawn('node', [
-        'tools/webpack/i18n-checksum.js',
-        '--in',
-        this.input,
-        '--out',
-        this.output,
-      ]);
+      generateChecksums(this.input, this.output);
     });
   }
 }

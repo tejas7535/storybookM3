@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { GridApi, RowNode } from 'ag-grid-enterprise';
-import { MockModule } from 'ng-mocks';
+import { MockDirective, MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -24,7 +24,7 @@ describe('CompareButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: CompareButtonComponent,
     imports: [
-      MockModule(LetModule),
+      MockDirective(LetDirective),
       MockModule(MatButtonModule),
       MockModule(MatTooltipModule),
       RouterTestingModule,

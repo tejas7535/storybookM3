@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { RolesFacade } from '@gq/core/store/facades';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
   ExcelRow,
@@ -83,7 +83,7 @@ describe('ExportToExcelButtonComponent', () => {
       MatIconModule,
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
       MatSnackBarModule,
       MatTooltipModule,
     ],

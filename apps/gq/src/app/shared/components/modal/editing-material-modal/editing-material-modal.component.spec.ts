@@ -9,7 +9,7 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { when } from 'jest-when';
 import { MockProvider } from 'ng-mocks';
@@ -37,7 +37,7 @@ describe('EditingMaterialModalComponent', () => {
     imports: [
       MatInputModule,
       AutocompleteInputModule,
-      PushModule,
+      PushPipe,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

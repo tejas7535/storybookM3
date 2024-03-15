@@ -70,12 +70,12 @@ export class MsdSnackbarService {
     items?: { key: string; value: any }[],
     config = MsdSnackbarService.DEFAULT_CONFIG
   ) {
-    const snackBarConfig = !items
-      ? { ...config, data: { message } }
-      : ({
+    const snackBarConfig = items
+      ? ({
           ...config,
           data: { message, detail: { message: detailMessage, items } },
-        } as MatSnackBarConfig);
+        } as MatSnackBarConfig)
+      : { ...config, data: { message } };
     this.snackBar.openFromComponent(CustomSnackbarComponent, snackBarConfig);
   }
 }

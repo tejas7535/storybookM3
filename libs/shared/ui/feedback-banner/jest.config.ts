@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'feedback-banner',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],

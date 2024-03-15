@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -25,7 +25,7 @@ describe('DrawingsComponent', () => {
   const createComponent = createComponentFactory({
     component: DrawingsComponent,
     imports: [
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(LoadingSpinnerModule),
       MaterialNumberModule,

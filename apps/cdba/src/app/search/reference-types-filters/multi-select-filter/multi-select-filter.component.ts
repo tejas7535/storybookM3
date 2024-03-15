@@ -25,7 +25,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { Subscription } from 'rxjs';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
@@ -258,7 +258,7 @@ export class MultiSelectFilterComponent
     MatSelectModule,
     ReactiveFormsModule,
     LoadingSpinnerModule,
-    PushModule,
+    PushPipe,
     MatSliderModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,

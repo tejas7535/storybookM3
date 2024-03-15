@@ -7,6 +7,13 @@ import {
   SharedTranslocoModule,
 } from './shared-transloco.module';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  getBrowserLang: jest.fn(() =>
+    jest.requireActual('@ngneat/transloco').getBrowserLang()
+  ),
+}));
+
 describe('SharedTranslocoModule for Root', () => {
   test('should create', () => {
     const module = new SharedTranslocoModule();
@@ -56,9 +63,7 @@ describe('SharedTranslocoModule for Root', () => {
     });
 
     test('should load language from Browser Language', () => {
-      Object.defineProperty(transloco, 'getBrowserLang', {
-        value: jest.fn().mockImplementation(() => 'es'),
-      });
+      (transloco.getBrowserLang as jest.Mock).mockImplementation(() => 'es');
       const service = {
         load: jest.fn().mockImplementation(() => of(true)),
         setActiveLang: jest.fn(),
@@ -73,9 +78,7 @@ describe('SharedTranslocoModule for Root', () => {
     });
 
     test('should load language from fallback language in the edge case', () => {
-      Object.defineProperty(transloco, 'getBrowserLang', {
-        value: jest.fn().mockImplementation(() => {}),
-      });
+      (transloco.getBrowserLang as jest.Mock).mockImplementation(() => {});
       const service = {
         load: jest.fn().mockImplementation(() => of(true)),
         setActiveLang: jest.fn(),

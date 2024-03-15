@@ -114,23 +114,29 @@ export class MaterialStandardInputDialogComponent
 
   public getMaterialNumberTranslationKey(): string {
     switch (this.materialClass) {
-      case MaterialClass.STEEL:
+      case MaterialClass.STEEL: {
         return 'steelNumber';
-      case MaterialClass.COPPER:
+      }
+      case MaterialClass.COPPER: {
         return 'copperNumber';
-      default:
+      }
+      default: {
         return '';
+      }
     }
   }
 
   public getMaterialNumberPlaceholder(): string {
     switch (this.materialClass) {
-      case MaterialClass.STEEL:
+      case MaterialClass.STEEL: {
         return '1.1234';
-      case MaterialClass.COPPER:
+      }
+      case MaterialClass.COPPER: {
         return '2.1234';
-      default:
+      }
+      default: {
         return '';
+      }
     }
   }
 
@@ -162,12 +168,15 @@ export class MaterialStandardInputDialogComponent
 
   private createMaterialNumberControl(): FormControl<string> {
     switch (this.materialClass) {
-      case MaterialClass.STEEL:
+      case MaterialClass.STEEL: {
         return this.controlsService.getSteelNumberControl();
-      case MaterialClass.COPPER:
+      }
+      case MaterialClass.COPPER: {
         return this.controlsService.getCopperNumberControl();
-      default:
+      }
+      default: {
         return this.controlsService.getControl(undefined, true);
+      }
     }
   }
 }

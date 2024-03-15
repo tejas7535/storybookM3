@@ -29,23 +29,28 @@ export const loggerCallback = (
     return;
   }
   switch (logLevel) {
-    case LogLevel.Error:
+    case LogLevel.Error: {
       console.error(message);
       break;
-    case LogLevel.Info:
+    }
+    case LogLevel.Info: {
       // eslint-disable-next-line no-restricted-syntax, no-console
       console.info(message);
       break;
-    case LogLevel.Verbose:
+    }
+    case LogLevel.Verbose: {
       // eslint-disable-next-line no-restricted-syntax,no-console
       console.debug(message);
       break;
-    case LogLevel.Warning:
+    }
+    case LogLevel.Warning: {
       console.warn(message);
       break;
-    default:
+    }
+    default: {
       // eslint-disable-next-line no-console
       console.log(message);
+    }
   }
 };
 

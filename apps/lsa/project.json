@@ -200,36 +200,32 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/angular:webpack-dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "default": {
-          "browserTarget": "lsa:build:default"
+          "buildTarget": "lsa:build:default"
         },
         "local": {
-          "browserTarget": "lsa:build:local"
+          "buildTarget": "lsa:build:local"
         },
         "dev": {
-          "browserTarget": "lsa:build:dev"
+          "buildTarget": "lsa:build:dev"
         },
         "qa": {
-          "browserTarget": "lsa:build:qa"
+          "buildTarget": "lsa:build:qa"
         },
         "production": {
-          "browserTarget": "lsa:build:production"
+          "buildTarget": "lsa:build:production"
         },
         "e2e": {
-          "browserTarget": "lsa:build:default",
-          "host": "0.0.0.0"
+          "host": "0.0.0.0",
+          "buildTarget": "lsa:build:default"
         }
       },
       "defaultConfiguration": "default"
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/lsa/src/**/*.ts", "apps/lsa/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -242,8 +238,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/lsa"],
       "options": {
-        "jestConfig": "apps/lsa/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/lsa/jest.config.ts"
       }
     },
     "version": {

@@ -8,7 +8,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
@@ -74,7 +74,7 @@ describe('ReferenceTypesFiltersComponent', () => {
   const createComponent = createComponentFactory({
     component: ReferenceTypesFiltersComponent,
     imports: [
-      PushModule,
+      PushPipe,
       MatButtonModule,
       MatIconModule,
       MatTooltipModule,

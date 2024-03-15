@@ -4,7 +4,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { StaticHTMLService } from '@ea/core/services/static-html.service';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -16,7 +16,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatDialogModule,
     SharedTranslocoModule,
     MatIconModule,
-    PushModule,
+    PushPipe,
   ],
   templateUrl: './calculation-disclaimer.component.html',
 })

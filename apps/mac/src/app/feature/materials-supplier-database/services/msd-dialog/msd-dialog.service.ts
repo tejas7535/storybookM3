@@ -155,25 +155,34 @@ export class MsdDialogService {
     navigationLevel?: NavigationLevel
   ): Type<MaterialInputDialogComponent> {
     switch (navigationLevel) {
-      case NavigationLevel.MATERIAL:
+      case NavigationLevel.MATERIAL: {
         switch (materialClass) {
-          case MaterialClass.ALUMINUM:
+          case MaterialClass.ALUMINUM: {
             return AluminumInputDialogComponent;
-          case MaterialClass.STEEL:
+          }
+          case MaterialClass.STEEL: {
             return SteelInputDialogComponent;
-          case MaterialClass.COPPER:
+          }
+          case MaterialClass.COPPER: {
             return CopperInputDialogComponent;
-          case MaterialClass.CERAMIC:
+          }
+          case MaterialClass.CERAMIC: {
             return CeramicInputDialogComponent;
-          default:
+          }
+          default: {
             return SteelInputDialogComponent;
+          }
         }
-      case NavigationLevel.STANDARD:
+      }
+      case NavigationLevel.STANDARD: {
         return MaterialStandardInputDialogComponent;
-      case NavigationLevel.SUPPLIER:
+      }
+      case NavigationLevel.SUPPLIER: {
         return ManufacturerSupplierInputDialogComponent;
-      default:
+      }
+      default: {
         return SteelInputDialogComponent;
+      }
     }
   }
 

@@ -5,9 +5,9 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { LetModule, PushModule } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockDirective, MockModule, MockPipe } from 'ng-mocks';
 
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -29,8 +29,8 @@ describe('DetailComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailComponent,
     imports: [
-      MockModule(LetModule),
-      MockModule(PushModule),
+      MockDirective(LetDirective),
+      MockPipe(PushPipe),
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MaterialNumberModule,

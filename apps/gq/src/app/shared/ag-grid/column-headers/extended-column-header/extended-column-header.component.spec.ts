@@ -18,7 +18,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -82,7 +82,7 @@ describe('ExtendedColumnHeaderComponent', () => {
       InfoIconModule,
       SharedDirectivesModule,
       MatTooltipModule,
-      PushModule,
+      PushPipe,
     ],
     providers: [
       mockProvider(TranslocoLocaleService),

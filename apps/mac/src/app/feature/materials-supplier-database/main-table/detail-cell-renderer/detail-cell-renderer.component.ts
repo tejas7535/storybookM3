@@ -88,11 +88,12 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
 
   private getHistory(id: number): Observable<any[]> {
     switch (this.navigationLevel) {
-      case NavigationLevel.STANDARD:
+      case NavigationLevel.STANDARD: {
         return this.msdDataService
           .getHistoryForMaterialStandard(this.materialClass, id)
           .pipe(map((std) => this.msdDataService.mapStandardsToTableView(std)));
-      case NavigationLevel.SUPPLIER:
+      }
+      case NavigationLevel.SUPPLIER: {
         return this.msdDataService
           .getHistoryForManufacturerSupplier(this.materialClass, id)
           .pipe(
@@ -100,16 +101,19 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
               this.msdDataService.mapSuppliersToTableView(suppliers)
             )
           );
-      case NavigationLevel.MATERIAL:
+      }
+      case NavigationLevel.MATERIAL: {
         return this.msdDataService.getHistoryForMaterial(
           this.materialClass,
           id
         );
-      default:
+      }
+      default: {
         return this.msdDataService.getHistoryForMaterial(
           this.materialClass,
           id
         );
+      }
     }
   }
 

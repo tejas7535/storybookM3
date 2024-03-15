@@ -7,7 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import * as statusbarUtils from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
@@ -31,7 +31,7 @@ describe('UploadQuoteToSapButtonComponent', () => {
       MatDialogModule,
       MatIconModule,
       MatTooltipModule,
-      PushModule,
+      PushPipe,
     ],
     providers: [
       provideMockStore({}),

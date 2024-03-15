@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockDirective, MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -23,7 +23,7 @@ describe('PortfolioAnalysisButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: PortfolioAnalysisButtonComponent,
     imports: [
-      MockModule(LetModule),
+      MockDirective(LetDirective),
       MockModule(MatButtonModule),
       MockModule(MatTooltipModule),
       RouterTestingModule,

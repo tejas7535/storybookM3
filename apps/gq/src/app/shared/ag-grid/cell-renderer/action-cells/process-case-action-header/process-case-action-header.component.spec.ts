@@ -7,7 +7,7 @@ import {
   ProcessCaseActions,
 } from '@gq/core/store/process-case';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { HeaderClassParams, RowNode } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
@@ -23,7 +23,7 @@ describe('ProcessCaseActionHeaderComponent', () => {
   const createComponent = createComponentFactory({
     component: ProcessCaseActionHeaderComponent,
     declarations: [ProcessCaseActionHeaderComponent],
-    imports: [MatIconModule, PushModule],
+    imports: [MatIconModule, PushPipe],
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

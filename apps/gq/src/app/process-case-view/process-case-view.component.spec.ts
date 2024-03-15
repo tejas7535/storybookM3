@@ -17,9 +17,9 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule, MockProvider } from 'ng-mocks';
+import { MockPipe, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
@@ -38,7 +38,7 @@ describe('ProcessCaseViewComponent', () => {
     component: ProcessCaseViewComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(PushModule),
+      MockPipe(PushPipe),
       SharedPipesModule,
     ],
 

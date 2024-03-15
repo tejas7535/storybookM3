@@ -1,6 +1,6 @@
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -11,7 +11,7 @@ describe('CalculationInProgressComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationInProgressComponent,
-    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
   });
 

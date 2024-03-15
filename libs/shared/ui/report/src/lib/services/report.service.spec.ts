@@ -2,7 +2,7 @@ import {
   createHttpFactory,
   HttpMethod,
   SpectatorHttp,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { reportBodyMock } from '../../mocks';
 import { ReportService } from './report.service';

@@ -56,7 +56,7 @@ export class PDFReportService {
     );
     const date = this.localeService
       .localizeDate(Date.now())
-      .replace(/[./]/g, '-');
+      .replaceAll(/[./]/g, '-');
 
     const filename = this.translocoService.translate('pdfReport.filename', {
       designation,
@@ -294,12 +294,12 @@ export class PDFReportService {
     data.data = data.data.map((item) => {
       const roundedValue = this.roundPipe.transform(item.value);
       const hasLoadcase = item.loadcaseValues !== undefined;
-      const loadcaseValues = !hasLoadcase
-        ? undefined
-        : item.loadcaseValues.map((lc) => ({
+      const loadcaseValues = hasLoadcase
+        ? item.loadcaseValues.map((lc) => ({
             ...lc,
             value: this.roundPipe.transform(lc.value),
-          }));
+          }))
+        : undefined;
 
       return { ...item, value: roundedValue, loadcaseValues };
     });

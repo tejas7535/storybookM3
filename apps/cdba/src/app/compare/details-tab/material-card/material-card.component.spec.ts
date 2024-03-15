@@ -4,7 +4,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
@@ -29,7 +29,7 @@ describe('MaterialCardComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialCardComponent,
     imports: [
-      PushModule,
+      PushPipe,
       MockModule(MatCardModule),
       MockModule(MatExpansionModule),
       provideTranslocoTestingModule({ en: {} }),

@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FilterChangedEvent } from 'ag-grid-community';
 import resize_observer_polyfill from 'resize-observer-polyfill';
@@ -37,7 +37,7 @@ describe('TransactionViewComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TransactionViewComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
 
     providers: [
       provideMockStore({

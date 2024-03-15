@@ -19,14 +19,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/tag/src/**/*.ts",
-          "libs/shared/ui/tag/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -39,8 +32,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/tag"],
       "options": {
-        "jestConfig": "libs/shared/ui/tag/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/tag/jest.config.ts"
       }
     },
     "publish": {

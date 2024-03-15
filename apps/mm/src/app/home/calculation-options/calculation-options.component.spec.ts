@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 
 import { PagedMeta } from '../home.model';
 import { CalculationOptionsComponent } from './calculation-options.component';
@@ -20,7 +20,7 @@ describe('CalculationOptionsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationOptionsComponent,
-    imports: [ReactiveFormsModule, PushModule],
+    imports: [ReactiveFormsModule, PushPipe],
     declarations: [CalculationOptionsComponent],
   });
 

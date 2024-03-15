@@ -10,7 +10,7 @@ import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-curr
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -25,7 +25,7 @@ describe('SapPriceComponent', () => {
   const createComponent = createComponentFactory({
     component: SapPriceComponent,
     detectChanges: false,
-    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

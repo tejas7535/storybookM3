@@ -587,7 +587,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             );
           for (const key of keys) {
             switch (key) {
-              case MANUFACTURER_SUPPLIER_SAPID:
+              case MANUFACTURER_SUPPLIER_SAPID: {
                 cells.push({
                   data: {
                     type: 'String',
@@ -595,7 +595,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
                   },
                 });
                 break;
-              case RELEASE_DATE:
+              }
+              case RELEASE_DATE: {
                 cells.push({
                   data: {
                     type: 'String',
@@ -608,7 +609,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
                   },
                 });
                 break;
-              case RELEASED_STATUS:
+              }
+              case RELEASED_STATUS: {
                 cells.push({
                   data: {
                     type: 'String',
@@ -621,13 +623,15 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
                   },
                 });
                 break;
-              default:
+              }
+              default: {
                 cells.push({
                   data: {
                     type: 'String',
                     value: getCellValueFn(key, data[key]),
                   },
                 });
+              }
             }
           }
           const row: ExcelRow = { cells };
@@ -657,16 +661,20 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getCellValue(columnName: string, value?: any): string {
     switch (columnName) {
-      case RELEASED_STATUS:
+      case RELEASED_STATUS: {
         return value?.toString() || Status.DEFAULT.toString();
-      case LAST_MODIFIED:
+      }
+      case LAST_MODIFIED: {
         return value
           ? new Date(value * 1000).toLocaleDateString('en-GB').toString()
           : '';
-      case RELEASE_DATE:
+      }
+      case RELEASE_DATE: {
         return value ? new Date(value)?.toLocaleDateString('en-GB') || '' : '';
-      default:
+      }
+      default: {
         return value?.toString() || '';
+      }
     }
   }
 

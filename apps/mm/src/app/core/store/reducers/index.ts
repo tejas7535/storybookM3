@@ -23,6 +23,7 @@ export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
 };
 
+// eslint-disable-next-line unicorn/no-negated-condition
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];

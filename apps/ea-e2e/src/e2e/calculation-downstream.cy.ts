@@ -32,6 +32,7 @@ describe('EA: CO2 downstream values', () => {
     // enable all calcuations
     cy.get('ea-calculation-types-selection mat-checkbox').first().click();
 
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
 
     // enter some load data
@@ -54,7 +55,7 @@ describe('EA: CO2 downstream values', () => {
 
   it(
     'should show results in in preview',
-    { defaultCommandTimeout: 15000 },
+    { defaultCommandTimeout: 15_000 },
     () => {
       // rating life
       cy.get('ea-calculation-result-preview').contains(expectedRatingLife);
@@ -76,9 +77,10 @@ describe('EA: CO2 downstream values', () => {
 
   it(
     'should show results in report for each section',
-    { defaultCommandTimeout: 30000 },
+    { defaultCommandTimeout: 30_000 },
     () => {
       // open report when its no longer disabled (-> loading finished)
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(500)
         .get('button:not(.mat-button-disabled)')
         .contains('Show Report')

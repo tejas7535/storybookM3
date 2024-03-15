@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
@@ -19,7 +19,7 @@ describe('CalculationsStatusBarComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationsStatusBarComponent,
     imports: [
-      PushModule,
+      PushPipe,
       MockModule(CompareButtonModule),
       MockModule(ExcludedCalculationsModule),
       MockModule(LoadBomButtonModule),

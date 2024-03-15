@@ -11,7 +11,7 @@ import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-curr
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -27,7 +27,7 @@ describe('GqPriceComponent', () => {
     component: GqPriceComponent,
     detectChanges: false,
     imports: [
-      PushModule,
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
     ],

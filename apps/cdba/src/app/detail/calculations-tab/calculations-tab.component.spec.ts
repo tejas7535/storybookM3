@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -17,7 +17,7 @@ describe('CalculationsTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationsTabComponent,
-    imports: [PushModule, MockModule(CalculationsTableModule)],
+    imports: [PushPipe, MockModule(CalculationsTableModule)],
     providers: [
       provideMockStore({
         initialState: {

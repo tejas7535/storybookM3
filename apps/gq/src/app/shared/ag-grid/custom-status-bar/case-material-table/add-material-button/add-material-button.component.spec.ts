@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -24,7 +24,7 @@ describe('CreateCaseButtonComponent', () => {
       SharedTranslocoModule,
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
-      PushModule,
+      PushPipe,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

@@ -26,28 +26,28 @@
       class="!rounded-b-none !border-b-0"
     >
       <mat-button-toggle
-        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
+        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
         [value]="undefined"
         [ngClass]="{
-          '!bg-secondary text-high-emphasis': item === active
+          '!bg-secondary !text-high-emphasis': item === active
         }"
       >
         <mat-icon class="!h-4 !w-4 !text-[16px]">folder_shared</mat-icon>
       </mat-button-toggle>
 
       <mat-button-toggle
-        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
+        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
         *ngFor="let item of staticFilters; let i = index"
         [value]="item"
         [ngClass]="{
-          '!bg-secondary text-high-emphasis': item === active
+          '!bg-secondary !text-high-emphasis': item === active
         }"
       >
         {{ item.title }}
       </mat-button-toggle>
 
       <mat-button-toggle
-        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
+        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
         *ngFor="let item of ownFilters$ | ngrxPush"
         [value]="item"
         [ngClass]="{
@@ -79,11 +79,11 @@
       </mat-button-toggle>
 
       <mat-button-toggle
-        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
+        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
         *ngFor="let item of subscribedFilters$ | ngrxPush"
         [value]="item"
         [ngClass]="{
-          '!bg-secondary text-high-emphasis': item === active
+          '!bg-secondary !text-high-emphasis': item === active
         }"
       >
         {{ item.title }}

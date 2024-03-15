@@ -1,6 +1,12 @@
 # Frontend@Schaeffler
 
+<!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE:link=false&prefix=version) -->
+
 ![version](https://img.shields.io/badge/version-v144.0.0-green.svg)
+
+<!-- AUTO-GENERATED-CONTENT:END -->
+<!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nx/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
+
 ![@nx/workspace: 16.3.1](https://img.shields.io/badge/%40nx%2Fworkspace-16.3.1-brightgreen)
 ![typescript: 5.0.4](https://img.shields.io/badge/typescript-5.0.4-brightgreen)
 ![@angular/core: 16.0.4](https://img.shields.io/badge/%40angular%2Fcore-16.0.4-brightgreen)
@@ -12,6 +18,8 @@
 ![cypress: 12.16.0](https://img.shields.io/badge/cypress-12.16.0-brightgreen)
 ![prettier: 2.7.1](https://img.shields.io/badge/prettier-2.7.1-brightgreen)
 ![tailwindcss: 3.3.1](https://img.shields.io/badge/tailwindcss-3.3.1-brightgreen)
+
+<!-- AUTO-GENERATED-CONTENT:END -->
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 

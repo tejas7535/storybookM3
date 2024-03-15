@@ -1,9 +1,11 @@
-import { Spectator, createComponentFactory } from '@ngneat/spectator';
-import { HtmlTooltipComponent } from './html-tooltip.component';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { ElementRef } from '@angular/core';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
+import { ElementRef } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
+import { HtmlTooltipComponent } from './html-tooltip.component';
 
 describe('HtmlTooltipComponent', () => {
   let component: HtmlTooltipComponent;
@@ -27,7 +29,7 @@ describe('HtmlTooltipComponent', () => {
       } as unknown as CdkOverlayOrigin,
       tooltip: {
         nativeElement: {},
-      } as unknown as ElementRef<any>,
+      } as unknown as ElementRef,
     });
 
     spectator.detectChanges();
@@ -189,7 +191,7 @@ describe('HtmlTooltipComponent', () => {
 
       const mockTooltip = {
         nativeElement: tooltip,
-      } as ElementRef<any>;
+      } as ElementRef;
 
       const mockEvent = {
         target: document.createElement('span'),
@@ -209,7 +211,7 @@ describe('HtmlTooltipComponent', () => {
 
       const mockTooltip = {
         nativeElement: tooltip,
-      } as ElementRef<any>;
+      } as ElementRef;
 
       const mockEvent = {
         target: element,
@@ -229,7 +231,7 @@ describe('HtmlTooltipComponent', () => {
 
       const mockTooltip = {
         nativeElement: tooltip,
-      } as ElementRef<any>;
+      } as ElementRef;
 
       const mockEvent = {
         target: tooltip,

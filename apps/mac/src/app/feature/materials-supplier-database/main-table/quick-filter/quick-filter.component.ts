@@ -357,12 +357,12 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   private isOwnFilter(quickFilter: QuickFilter): Observable<boolean> {
     return this.ownFilters$.pipe(
       map((ownQuickFilters: QuickFilter[]) =>
-        quickFilter.id !== undefined
-          ? ownQuickFilters.some(
+        quickFilter.id === undefined
+          ? ownQuickFilters.includes(quickFilter)
+          : ownQuickFilters.some(
               (ownQuickFilter: QuickFilter) =>
                 ownQuickFilter.id === quickFilter.id
             )
-          : ownQuickFilters.includes(quickFilter)
       )
     );
   }

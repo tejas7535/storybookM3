@@ -38,16 +38,14 @@ export class ReportService {
                     defaultOpen: content[0].name === 'anchor_7',
                   },
                 ]
-              : [
-                  ...acc.map((entry: Content, index: number) =>
-                    acc.length === index + 1
-                      ? {
-                          ...entry,
-                          content: [...entry.content, section],
-                        }
-                      : entry
-                  ),
-                ];
+              : acc.map((entry: Content, index: number) =>
+                  acc.length === index + 1
+                    ? {
+                        ...entry,
+                        content: [...entry.content, section],
+                      }
+                    : entry
+                );
           }, []);
 
         return structuredContent;

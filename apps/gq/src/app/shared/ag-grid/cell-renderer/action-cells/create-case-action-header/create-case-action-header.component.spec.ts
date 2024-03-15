@@ -5,7 +5,7 @@ import {
 } from '@gq/core/store/selectors/create-case/create-case.selector';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { HeaderClassParams, RowNode } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
@@ -19,7 +19,7 @@ describe('CreateCaseActionHeaderComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CreateCaseActionHeaderComponent,
-    imports: [PushModule],
+    imports: [PushPipe],
     providers: [provideMockStore()],
     detectChanges: false,
   });

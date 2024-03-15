@@ -165,6 +165,6 @@ export class SearchComponent
 
   private sanitizeSearchString(val: string): string {
     // remove html tags and empty spaces
-    return val?.toString().replace(/(&nbsp;|(<([^>]+)>))/gi, '');
+    return val?.toString().replaceAll(/(&nbsp;|(<([^>]+)>))/gi, '');
   }
 }

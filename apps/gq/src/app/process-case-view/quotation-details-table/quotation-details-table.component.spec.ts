@@ -25,7 +25,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -63,7 +63,7 @@ describe('QuotationDetailsTableComponent', () => {
     detectChanges: false,
     imports: [
       AgGridModule,
-      PushModule,
+      PushPipe,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

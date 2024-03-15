@@ -5,7 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
@@ -21,7 +21,7 @@ describe('AddItemsButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: AddItemsButtonComponent,
     imports: [
-      PushModule,
+      PushPipe,
       MatIconModule,
       MatDialogModule,
       MatTooltipModule,

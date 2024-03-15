@@ -26,19 +26,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/breadcrumbs"],
       "options": {
-        "jestConfig": "libs/shared/ui/breadcrumbs/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/ui/breadcrumbs/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/ui/breadcrumbs/src/**/*.ts",
-          "libs/shared/ui/breadcrumbs/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",

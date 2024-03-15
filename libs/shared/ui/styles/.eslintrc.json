@@ -3,12 +3,16 @@
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
       "files": ["*.ts", "*.tsx"],
-      "rules": {}
+      "parserOptions": {
+        "project": ["libs/shared/ui/styles/tsconfig.*?.json"]
+      },
+      "rules": {},
+      "plugins": [
+        "@angular-eslint/eslint-plugin",
+        "eslint-plugin-import",
+        "@typescript-eslint"
+      ]
     },
     {
       "files": ["*.js", "*.jsx"],

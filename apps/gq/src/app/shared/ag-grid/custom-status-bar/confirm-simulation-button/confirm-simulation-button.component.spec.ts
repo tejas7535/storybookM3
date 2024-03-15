@@ -1,6 +1,6 @@
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -16,7 +16,7 @@ describe('ConfirmSimulationComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ConfirmSimulationButtonComponent,
-    imports: [PushModule],
+    imports: [PushPipe],
     providers: [
       provideMockStore({}),
       {

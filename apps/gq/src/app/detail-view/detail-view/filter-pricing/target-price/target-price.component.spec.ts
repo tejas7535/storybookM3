@@ -20,7 +20,7 @@ import {
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockPipe } from 'ng-mocks';
 
@@ -43,7 +43,7 @@ describe('TargetPriceComponent', () => {
   const createComponent = createComponentFactory({
     component: TargetPriceComponent,
     detectChanges: false,
-    imports: [PushModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     providers: [
       provideMockStore({

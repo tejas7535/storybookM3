@@ -8,7 +8,7 @@ import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/model
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -28,7 +28,7 @@ describe('CalculationTypesSelectionComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationTypesSelectionComponent,
     imports: [
-      PushModule,
+      PushPipe,
 
       // Material Modules
       MockModule(MatButtonModule),

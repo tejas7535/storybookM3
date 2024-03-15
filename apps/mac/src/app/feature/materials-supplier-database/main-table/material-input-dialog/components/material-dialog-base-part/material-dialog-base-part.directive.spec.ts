@@ -30,6 +30,11 @@ import { MaterialInputDialogModule } from '../../material-input-dialog.module';
 import * as utils from '../../util';
 import { MaterialDialogBasePartDirective } from './material-dialog-base-part.directive';
 
+jest.mock('../../util', () => ({
+  ...jest.requireActual('../../util'),
+  focusSelectedElement: jest.fn(),
+}));
+
 @Component({
   selector: 'mac-host-component',
   template: '',

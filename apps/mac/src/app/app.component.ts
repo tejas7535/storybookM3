@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { RoutePath } from '@mac/app-routing.enum';

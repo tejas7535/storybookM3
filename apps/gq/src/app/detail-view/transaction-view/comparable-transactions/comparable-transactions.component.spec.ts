@@ -4,7 +4,7 @@ import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { UserRoles } from '@gq/shared/constants';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FilterChangedEvent } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
@@ -23,7 +23,7 @@ describe('ComparableTransactionsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ComparableTransactionsComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), PushModule],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       ColumnDefService,
       {

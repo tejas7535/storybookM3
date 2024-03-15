@@ -1,8 +1,8 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
-import { MockModule } from 'ng-mocks';
+import { MockDirective } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -16,7 +16,10 @@ describe('TotalRowCountComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TotalRowCountComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), MockModule(LetModule)],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      MockDirective(LetDirective),
+    ],
     providers: [provideMockStore({})],
   });
 

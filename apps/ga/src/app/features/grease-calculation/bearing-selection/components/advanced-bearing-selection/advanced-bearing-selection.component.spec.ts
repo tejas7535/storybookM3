@@ -10,9 +10,9 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockComponent, MockModule } from 'ng-mocks';
+import { MockComponent, MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -43,7 +43,7 @@ describe('AdvancedBearingSelectionComponent', () => {
     component: AdvancedBearingSelectionComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(PushModule),
+      MockPipe(PushPipe),
       MockModule(MatButtonModule),
       MockModule(MatDividerModule),
       MockModule(MatIconModule),

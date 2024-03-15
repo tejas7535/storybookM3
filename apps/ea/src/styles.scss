@@ -76,15 +76,6 @@ engineering-app {
     }
   }
 
-  // styles for the dialog overlay
-  .app-overlay-container {
-    @apply top-0 left-0 h-full w-full fixed pointer-events-none z-50;
-  }
-
-  .app-overlay-container:empty {
-    @apply hidden;
-  }
-
   // animation for certain dialogs (e.g. result report)
   @keyframes upslide {
     0% {

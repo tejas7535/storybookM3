@@ -3,9 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
-import { LetModule } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockComponent, MockModule } from 'ng-mocks';
+import { MockComponent, MockDirective, MockModule } from 'ng-mocks';
 
 import { SearchModule } from '@schaeffler/inputs/search';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -27,7 +27,7 @@ describe('QuickBearingSelectionComponent', () => {
     imports: [
       RouterTestingModule,
       MockModule(ReactiveFormsModule),
-      MockModule(LetModule),
+      MockDirective(LetDirective),
       MockModule(SearchModule),
       MockComponent(AdvancedBearingButtonComponent),
       provideTranslocoTestingModule(

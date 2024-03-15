@@ -33,6 +33,16 @@ import { StoreModule } from './store/store.module';
   bootstrap: [MsalRedirectComponent],
 })
 export class SharedAzureAuthModule {
+  public constructor(
+    @Optional() @SkipSelf() parentModule: SharedAzureAuthModule
+  ) {
+    if (parentModule) {
+      throw new Error(
+        'SharedAzureAuthModule is already loaded. Import it in the AppModule only'
+      );
+    }
+  }
+
   public static forRoot(
     azureConfig: AzureConfig
   ): ModuleWithProviders<SharedAzureAuthModule> {
@@ -58,15 +68,5 @@ export class SharedAzureAuthModule {
         },
       ],
     };
-  }
-
-  public constructor(
-    @Optional() @SkipSelf() parentModule: SharedAzureAuthModule
-  ) {
-    if (parentModule) {
-      throw new Error(
-        'SharedAzureAuthModule is already loaded. Import it in the AppModule only'
-      );
-    }
   }
 }

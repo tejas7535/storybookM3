@@ -7,6 +7,7 @@ import { APP_ROOT } from './app.module';
 
 @Injectable()
 export class AppOverlayContainer extends OverlayContainer {
+  private readonly cdkOverlayContainerClass = 'cdk-overlay-container';
   private readonly appOverlayContainerClass = 'app-overlay-container';
 
   getContainerElement(): HTMLElement {
@@ -21,6 +22,7 @@ export class AppOverlayContainer extends OverlayContainer {
 
   protected _createContainer(): void {
     const container: HTMLDivElement = document.createElement('div');
+    container.classList.add(this.cdkOverlayContainerClass);
     container.classList.add(this.appOverlayContainerClass);
 
     const element: Element | null = document.querySelector(APP_ROOT);

@@ -18,14 +18,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/utils/azure-auth/src/**/*.ts",
-          "libs/shared/utils/azure-auth/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
           "format": "checkstyle",
@@ -37,8 +30,7 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/utils/azure-auth/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/utils/azure-auth/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/utils/azure-auth"]
     },

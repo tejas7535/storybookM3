@@ -11,7 +11,7 @@ import { PriceSource, UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushModule } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -46,7 +46,7 @@ describe('FilterPricingComponent', () => {
       MatIconModule,
       MatFormFieldModule,
       MatInputModule,
-      PushModule,
+      PushPipe,
       ReactiveFormsModule,
       SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),
