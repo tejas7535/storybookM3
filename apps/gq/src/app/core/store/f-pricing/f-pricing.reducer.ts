@@ -449,6 +449,9 @@ export const fPricingFeature = createFeature({
         tvdValue: number,
         mvdValue: number
       ): SanityCheckData => {
+        if (!positionId || !sanityChecks || !refPrice) {
+          return null;
+        }
         const quotationDetail = quotationDetails.find(
           (item) => item.gqPositionId === positionId
         );
@@ -483,6 +486,9 @@ export const fPricingFeature = createFeature({
       getSanityCheckData,
       (sanityCheckData: SanityCheckData): TableItem[] => {
         // the Values of the items will be mapped within the facade to have access to localization Service
+        if (!sanityCheckData) {
+          return [];
+        }
         const sanityCheckList: TableItem[] = [
           {
             id: 1,
