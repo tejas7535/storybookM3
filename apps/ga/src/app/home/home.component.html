@@ -15,6 +15,7 @@
       class="block mb-3 md:mb-6"
     ></ga-qualtrics-info-banner>
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <ga-easy-calc-card class="col-span-2 md:col-span-4"> </ga-easy-calc-card>
       <ng-container
         *ngFor="let card of homeCardsService.getHomeCards() | ngrxPush"
       >

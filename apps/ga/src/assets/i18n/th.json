@@ -2,6 +2,14 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "คำนวณอายุการให้คะแนนชีวิต, การสูญเสียพลังงานจากแรงเสียดสี, พารามิเตอร์การหล่อลื่นพื้นฐาน, ความถี่การเกิดผล้ำกว่าและ CO₂e ประกาศ"
+        },
+        "button": "medias EascyCalc",
+        "tag": "ใหม่"
+      },
       "calculator": {
         "title": {
           "main": "เครื่องคำนวณจาระบี",

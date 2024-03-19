@@ -2,6 +2,14 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "レーティング寿命、摩擦損失、基本的な潤滑パラメーター、オーバーローリング周波数、およびCO₂ e排出を計算します"
+        },
+        "button": "medias EascyCalc",
+        "tag": "新しい"
+      },
       "calculator": {
         "title": {
           "main": "グリース計算機",

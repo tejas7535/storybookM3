@@ -2,6 +2,14 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Berechnen Sie Lebensdauer, Reibungsverluste, Schmierparameter, Überrollfrequenzen sowie CO₂e-Emissionen."
+        },
+        "button": "medias EascyCalc",
+        "tag": "Neu"
+      },
       "calculator": {
         "title": {
           "main": "Grease Calculator",

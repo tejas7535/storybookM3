@@ -2,6 +2,14 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Calculer la durée de vie, la perte de puissance de friction, les paramètres de lubrification de base, les fréquences de surroulement et les émissions de CO₂e"
+        },
+        "button": "medias EascyCalc",
+        "tag": "Nouveau"
+      },
       "calculator": {
         "title": {
           "main": "Calculateur de graisse",

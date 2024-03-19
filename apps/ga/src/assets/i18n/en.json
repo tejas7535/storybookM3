@@ -2,6 +2,14 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Calculate rating life, frictional powerloss, basic lubrication paramaters, overrolling freqquencies and CO₂e emissions"
+        },
+        "button": "medias EascyCalc",
+        "tag": "New"
+      },
       "calculator": {
         "title": {
           "main": "Grease Calculator",

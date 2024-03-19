@@ -10,16 +10,17 @@ import {
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockComponent, MockModule } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
 
 import { initialState } from '@ga/core/store/reducers/settings/settings.reducer';
-import { AppLogoModule } from '@ga/shared/components/app-logo';
+import { AppLogoComponent } from '@ga/shared/components/app-logo/app-logo.component';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
 import { HOMEPAGE_CARD_MOCK } from '@ga/testing/mocks/models/homepage-card.mock';
 
 import { HomepageCardComponent } from './components';
+import { EasyCalcCardComponent } from './components/easy-calc-card/easy-calc-card.component';
 import { HomeComponent } from './home.component';
 import { HomeCardsService } from './services/home-cards.service';
 
@@ -31,7 +32,8 @@ describe('HomeComponent', () => {
     component: HomeComponent,
     declarations: [HomeComponent],
     imports: [
-      MockModule(AppLogoModule),
+      MockComponent(AppLogoComponent),
+      MockComponent(EasyCalcCardComponent),
       MockComponent(HomepageCardComponent),
       MockComponent(QuickBearingSelectionComponent),
       MockComponent(QualtricsInfoBannerComponent),

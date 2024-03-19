@@ -2,6 +2,14 @@
   "appTitle": "Grease App",
   "homepage": {
     "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "計算等級壽命、摩擦損失、基本潤滑參數、超卷頻率和CO₂e排放"
+        },
+        "button": "medias EascyCalc",
+        "tag": "新"
+      },
       "calculator": {
         "title": {
           "main": "润滑脂计算器",
