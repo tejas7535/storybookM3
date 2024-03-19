@@ -10,12 +10,10 @@ import { Store } from '@ngrx/store';
 export class SharedQuotationFacade {
   #store = inject(Store);
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   sharedQuotation$ = this.#store.select(
     sharedQuotationFeature.selectSharedQuotation
   );
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   sharedQuotationLoading$ = this.#store.select(
     sharedQuotationFeature.selectSharedQuotationLoading
   );

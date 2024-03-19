@@ -16,7 +16,6 @@ export class UpdateRfqPositionDetailsComponent {
     MatDialogRef<UpdateRfqPositionDetailsComponent>
   );
   private readonly destroyRef = inject(DestroyRef);
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly rfqInformationUpdating$ =
     this.activeCaseFacade.rfqInformationUpdating$;
 

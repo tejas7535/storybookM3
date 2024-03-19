@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 
 import {
@@ -41,6 +40,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
   private readonly rolesFacade = inject(RolesFacade);
   private readonly store = inject(Store);
+  private readonly shutDown$$: Subject<void> = new Subject();
   protected translocoLocaleService = inject(TranslocoLocaleService);
 
   generalInformation$: Observable<GeneralInformation> = NEVER;
@@ -56,7 +56,6 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   hasSqvRole$ = this.rolesFacade.userHasSQVRole$;
 
   readonly quotationStatus = QuotationStatus;
-  private readonly shutDown$$: Subject<void> = new Subject();
 
   ngOnInit(): void {
     this.approvalFacade.getApprovers();

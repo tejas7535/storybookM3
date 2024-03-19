@@ -20,21 +20,6 @@ import { Store } from '@ngrx/store';
 export class TargetPriceComponent implements OnInit {
   @Input() isDisabled: boolean;
   @Input() currency: string;
-  @Output() readonly targetPriceSelected = new EventEmitter<UpdatePrice>();
-
-  isQuotationActive$: Observable<boolean>;
-  PriceSource = PriceSource;
-  gpi: number;
-  gpm: number;
-  gpmRfq: number;
-
-  private _quotationDetail: QuotationDetail;
-  private _isLoading: boolean;
-
-  constructor(
-    private readonly store: Store,
-    private readonly editingModalService: EditingModalService
-  ) {}
 
   get quotationDetail(): QuotationDetail {
     return this._quotationDetail;
@@ -58,7 +43,6 @@ export class TargetPriceComponent implements OnInit {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   get isLoading(): boolean {
     return this._isLoading;
   }
@@ -66,6 +50,22 @@ export class TargetPriceComponent implements OnInit {
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
   }
+
+  @Output() readonly targetPriceSelected = new EventEmitter<UpdatePrice>();
+
+  isQuotationActive$: Observable<boolean>;
+  PriceSource = PriceSource;
+  gpi: number;
+  gpm: number;
+  gpmRfq: number;
+
+  private _quotationDetail: QuotationDetail;
+  private _isLoading: boolean;
+
+  constructor(
+    private readonly store: Store,
+    private readonly editingModalService: EditingModalService
+  ) {}
 
   ngOnInit(): void {
     this.isQuotationActive$ = this.store.select(getIsQuotationActive);

@@ -20,19 +20,6 @@ export class SapPriceComponent {
   @Input() currency: string;
   @Input() isDisabled: boolean;
 
-  @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
-
-  gpi: number;
-  gpm: number;
-  gpmRfq: number;
-  isSelected: boolean;
-
-  PriceSource = PriceSource;
-  DetailRoutePath = DetailRoutePath;
-
-  private _isLoading: boolean;
-  private _quotationDetail: QuotationDetail;
-
   get quotationDetail(): QuotationDetail {
     return this._quotationDetail;
   }
@@ -54,13 +41,26 @@ export class SapPriceComponent {
     this._quotationDetail = quotationDetail;
   }
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   get isLoading(): boolean {
     return this._isLoading;
   }
+
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
   }
+
+  @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
+
+  gpi: number;
+  gpm: number;
+  gpmRfq: number;
+  isSelected: boolean;
+
+  PriceSource = PriceSource;
+  DetailRoutePath = DetailRoutePath;
+
+  private _isLoading: boolean;
+  private _quotationDetail: QuotationDetail;
 
   selectPrice(): void {
     this._isLoading = true;

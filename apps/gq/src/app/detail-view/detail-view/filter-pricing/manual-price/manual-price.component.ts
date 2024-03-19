@@ -15,6 +15,26 @@ import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
   templateUrl: './manual-price.component.html',
 })
 export class ManualPriceComponent {
+  get quotationDetail(): QuotationDetail {
+    return this._quotationDetail;
+  }
+
+  @Input() set quotationDetail(quotationDetail: QuotationDetail) {
+    this._quotationDetail = quotationDetail;
+
+    this.priceUnit = getPriceUnit(quotationDetail);
+    // check if price set equals GQ price
+    this.setPrice();
+  }
+
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
+  @Input() set isLoading(value: boolean) {
+    this._isLoading = this.isLoading && value;
+  }
+
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
   @Input() currency: string;
@@ -36,27 +56,6 @@ export class ManualPriceComponent {
   private _quotationDetail: QuotationDetail;
 
   constructor(private readonly editingModalService: EditingModalService) {}
-
-  get quotationDetail(): QuotationDetail {
-    return this._quotationDetail;
-  }
-
-  @Input() set quotationDetail(quotationDetail: QuotationDetail) {
-    this._quotationDetail = quotationDetail;
-
-    this.priceUnit = getPriceUnit(quotationDetail);
-    // check if price set equals GQ price
-    this.setPrice();
-  }
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  get isLoading(): boolean {
-    return this._isLoading;
-  }
-
-  @Input() set isLoading(value: boolean) {
-    this._isLoading = this.isLoading && value;
-  }
 
   setPrice(): void {
     if (this.quotationDetail.priceSource === PriceSource.MANUAL) {

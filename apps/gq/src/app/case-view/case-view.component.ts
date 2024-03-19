@@ -1,5 +1,3 @@
-// TODO: need to disable the rule, until we have decided, how to handle this
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';

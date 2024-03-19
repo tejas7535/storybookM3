@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -51,26 +50,25 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly materialNumberService = inject(MaterialNumberService);
   private readonly featureToggleService = inject(FeatureToggleConfigService);
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  private readonly unsubscribe$ = new Subject<boolean>();
 
   readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
-
   displayResultList: ResultsListDisplay = ResultsListDisplay.LAST_RESULTS;
-  searchResult: QuotationSearchResult[] = [];
 
+  searchResult: QuotationSearchResult[] = [];
   readonly resultsDisplayType = ResultsListDisplay;
   readonly openIn = OpenIn;
   searchFormControl: FormControl = new FormControl();
-  searchVal = '';
 
+  searchVal = '';
   materialNumberOrDescAutocompleteLoading$ =
     this.autocomplete.materialNumberOrDescAutocompleteLoading$;
   materialNumberOrDescForGlobalSearch$ =
     this.autocomplete.materialNumberOrDescForGlobalSearch$;
   lastSearchResults$ = this.lastSearchResultsService.lastSearchResults$;
-  lastSearchTerms$ = this.lastSearchResultsService.lastSearchTerms$;
 
-  private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  private readonly unsubscribe$ = new Subject<boolean>();
+  lastSearchTerms$ = this.lastSearchResultsService.lastSearchTerms$;
   private selectedMaterialNumber = '';
   private selectedMaterialDesc = '';
 

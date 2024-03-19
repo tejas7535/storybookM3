@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';

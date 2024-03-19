@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -11,9 +10,9 @@ import { QuotationDetail } from '@gq/shared/models';
   templateUrl: './material-details.component.html',
 })
 export class MaterialDetailsComponent {
-  readonly quotationDetail: QuotationDetail = inject(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef<MaterialDetailsComponent>);
   private readonly fPricingFacade = inject(FPricingFacade);
+  readonly quotationDetail: QuotationDetail = inject(MAT_DIALOG_DATA);
 
   readonly materialSalesOrg$ = this.fPricingFacade.materialSalesOrg$;
   readonly materialSalesOrgDataAvailable$ =

@@ -44,7 +44,17 @@
           }
         ],
         "import/no-extraneous-dependencies": "off",
-        "unicorn/no-null": "off"
+        "unicorn/no-null": "off",
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "public-set",
+              "private-readonly-field",
+              "public-readonly-field"
+            ]
+          }
+        ]
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",
