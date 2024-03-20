@@ -43,7 +43,7 @@ describe('CalculationResultReportInputItemComponent', () => {
         subItems: [
           {
             hasNestedStructure: false,
-            designation: 'mock_designation',
+            designation: 'Designation',
             abbreviation: 'mock_abbreviation',
             value: '123',
             unit: 'mock_unit',
@@ -55,7 +55,7 @@ describe('CalculationResultReportInputItemComponent', () => {
 
       expect(component.labelValues).toStrictEqual([
         {
-          label: 'mock_designation (mock_abbreviation)',
+          label: 'Designation (mock_abbreviation)',
           value: '123 mock_unit',
         },
       ]);

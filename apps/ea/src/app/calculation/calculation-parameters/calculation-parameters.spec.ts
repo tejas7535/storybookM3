@@ -107,7 +107,7 @@ describe('CalculationParametersComponent', () => {
 
   describe('Dialogs', () => {
     it('should open basic frequencies dialog', () => {
-      jest.spyOn(component.matDialog, 'open').mockClear();
+      component.matDialog.open = jest.fn();
 
       component.onShowBasicFrequenciesDialogClick();
 
@@ -115,7 +115,7 @@ describe('CalculationParametersComponent', () => {
     });
 
     it('should open calculation types dialog', () => {
-      jest.spyOn(component.matDialog, 'open').mockClear();
+      component.matDialog.open = jest.fn();
 
       component.onShowCalculationTypesClick();
 

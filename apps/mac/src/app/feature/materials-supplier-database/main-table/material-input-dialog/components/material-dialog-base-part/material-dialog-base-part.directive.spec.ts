@@ -14,6 +14,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -99,19 +100,10 @@ describe('MaterialDialogBasePartDirective', () => {
 
   const createDirective = createDirectiveFactory({
     directive: MaterialDialogBasePartDirective,
-    imports: [MaterialInputDialogModule],
-    providers: [
-      {
-        provide: ChangeDetectorRef,
-        useValue: mockCdRef,
-      },
+    imports: [
+      MockModule(MaterialInputDialogModule),
+      provideTranslocoTestingModule({ en }),
     ],
-    template: `<div macMaterialDialogBasePart></div>
-        `,
-  });
-  const createCo2Directive = createDirectiveFactory({
-    directive: MaterialDialogBasePartDirective,
-    imports: [MaterialInputDialogModule, provideTranslocoTestingModule({ en })],
     providers: [
       {
         provide: ChangeDetectorRef,
@@ -120,64 +112,8 @@ describe('MaterialDialogBasePartDirective', () => {
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
     ],
-    template: `
-        <mac-co2-component
-        [co2Scope1Control]="co2Scope1Control"
-        [co2Scope2Control]="co2Scope2Control"
-        [co2Scope3Control]="co2Scope3Control"
-        [co2TotalControl]="co2TotalControl"
-        [co2ClassificationControl]="co2ClassificationControl"
-        [releaseRestrictionsControl]="releaseRestrictionsControl"
-        column="col"
-        macMaterialDialogBasePart
-      ></mac-co2-component>
+    template: `<div macMaterialDialogBasePart></div>
         `,
-    host: HostComponent,
-  });
-
-  const createSupplierDirective = createDirectiveFactory({
-    directive: MaterialDialogBasePartDirective,
-    imports: [MaterialInputDialogModule],
-    providers: [
-      {
-        provide: ChangeDetectorRef,
-        useValue: mockCdRef,
-      },
-    ],
-    template: `
-            <mac-manufacturer-supplier
-              [readonly]="false"
-              [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
-              [supplierControl]="supplierControl"
-              [supplierPlantControl]="supplierPlantControl"
-              [supplierCountryControl]="supplierCountryControl"
-              column="col"
-              macMaterialDialogBasePart
-            ></mac-manufacturer-supplier>
-            `,
-    host: HostComponent,
-  });
-
-  const createMaterialStandardDirective = createDirectiveFactory({
-    directive: MaterialDialogBasePartDirective,
-    imports: [MaterialInputDialogModule],
-    providers: [
-      {
-        provide: ChangeDetectorRef,
-        useValue: mockCdRef,
-      },
-    ],
-    template: `
-          <mac-material-standard
-            class="w-full"
-            [readonly]="false"
-            [materialStandardIdControl]="materialStandardIdControl"
-            [standardDocumentsControl]="standardDocumentsControl"
-            [materialNamesControl]="materialNamesControl"
-            column="col"
-            macMaterialDialogBasePart
-          ></mac-material-standard>
-          `,
     host: HostComponent,
   });
 
@@ -219,7 +155,20 @@ describe('MaterialDialogBasePartDirective', () => {
   describe('co2 directive', () => {
     const mockList = [] as unknown as QueryList<ElementRef>;
     beforeEach(() => {
-      spectator = createCo2Directive();
+      spectator = createDirective(
+        `
+            <mac-co2-component
+            [co2Scope1Control]="co2Scope1Control"
+            [co2Scope2Control]="co2Scope2Control"
+            [co2Scope3Control]="co2Scope3Control"
+            [co2TotalControl]="co2TotalControl"
+            [co2ClassificationControl]="co2ClassificationControl"
+            [releaseRestrictionsControl]="releaseRestrictionsControl"
+            column="col"
+            macMaterialDialogBasePart
+          ></mac-co2-component>
+            `
+      );
       directive = spectator.directive;
 
       directive['host'].dialogControlRefs = mockList;
@@ -246,7 +195,17 @@ describe('MaterialDialogBasePartDirective', () => {
   describe('supplier directive', () => {
     const mockList = [] as unknown as QueryList<ElementRef>;
     beforeEach(() => {
-      spectator = createSupplierDirective();
+      spectator = createDirective(`
+      <mac-manufacturer-supplier
+        [readonly]="false"
+        [manufacturerSupplierIdControl]="manufacturerSupplierIdControl"
+        [supplierControl]="supplierControl"
+        [supplierPlantControl]="supplierPlantControl"
+        [supplierCountryControl]="supplierCountryControl"
+        column="col"
+        macMaterialDialogBasePart
+      ></mac-manufacturer-supplier>
+      `);
       directive = spectator.directive;
 
       directive['host'].dialogControlRefs = mockList;
@@ -273,7 +232,17 @@ describe('MaterialDialogBasePartDirective', () => {
   describe('material standard directive', () => {
     const mockList = [] as unknown as QueryList<ElementRef>;
     beforeEach(() => {
-      spectator = createMaterialStandardDirective();
+      spectator = createDirective(`
+      <mac-material-standard
+        class="w-full"
+        [readonly]="false"
+        [materialStandardIdControl]="materialStandardIdControl"
+        [standardDocumentsControl]="standardDocumentsControl"
+        [materialNamesControl]="materialNamesControl"
+        column="col"
+        macMaterialDialogBasePart
+      ></mac-material-standard>
+      `);
       directive = spectator.directive;
 
       directive['host'].dialogControlRefs = mockList;

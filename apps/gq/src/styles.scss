@@ -54,6 +54,15 @@ gq-root {
   }
 }
 
+.mat-mdc-table {
+  .mat-mdc-header-cell {
+    font-family: Noto Sans !important;
+  }
+  .mdc-data-table__cell {
+    font-family: Noto Sans !important;
+  }
+}
+
 .mat-datepicker-content .mat-datepicker-close-button {
   @apply hidden;
 }
@@ -96,7 +105,15 @@ button {
   @apply text-caption #{!important};
 }
 
+gq-kpi-status-card {
+  .mat-mdc-button-base .mdc-button__label {
+    z-index: 0;
+  }
+}
 .pricing-assistant-modal {
+  .mat-mdc-button-base .mdc-button__label {
+    z-index: 0;
+  }
   .mat-mdc-dialog-container {
     @apply flex;
   }
