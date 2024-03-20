@@ -49,6 +49,9 @@ boolean skipBuild = false
 @Field
 def releasableApps = ['cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa']
 
+baselineBranch = 'master'
+
+projectPath = env.JOB_NAME.split(env.JOB_BASE_NAME)[0]
 // build should be unstable if any issues are found in master branch. In feature/bugfix branch, it should be red if new issues are introduced.
 qualityGate = !isMain ? [threshold: 1, type: 'NEW', unstable: false] : [threshold: 1, type: 'TOTAL', unstable: true]
 
@@ -266,6 +269,7 @@ pipeline {
 
                 script {
                     script {
+                        discoverGitReferenceBuild referenceJob: projectPath + baselineBranch
                         util.addWorkspaceToGitGlobalSafeDirectory()
                         defineIsAppRelease(isMain)
                         defineIsLibsRelease(isMain)
@@ -305,7 +309,7 @@ pipeline {
                         mkdir -p reports
                         pnpm audit --json > reports/pnpm-audit.json
                     '''
-                    recordIssues(ignoreQualityGate: util.isPullRequest(), qualityGates: [qualityGate], tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit'))
+                    recordIssues(ignoreQualityGate: !isMain, qualityGates: [qualityGate], tool: analysisParser(pattern: 'reports/pnpm-audit.json', analysisModelId: 'pnpm-audit'))
                 }
             }
         }
