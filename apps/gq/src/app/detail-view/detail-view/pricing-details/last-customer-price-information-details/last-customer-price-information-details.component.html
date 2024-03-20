@@ -31,11 +31,15 @@
       </gq-label-text>
       <gq-label-text *ngIf="userHasGPCRole">
         <span label>{{ t('gpi') }}</span>
-        <span text>{{ quotationDetail.gpi | percentage }}</span>
+        <span text>{{
+          quotationDetail.lastCustomerPriceGpi | percentage
+        }}</span>
       </gq-label-text>
       <gq-label-text *ngIf="userHasSQVRole">
         <span label>{{ t('gpm') }}</span>
-        <span text>{{ quotationDetail.gpm | percentage }}</span>
+        <span text>{{
+          quotationDetail.lastCustomerPriceGpm | percentage
+        }}</span>
       </gq-label-text>
     </div>
   </gq-kpi-status-card>
