@@ -1,4 +1,19 @@
 # Release Notes of Material App Center
+## [1.19.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.18.0...mac-v1.19.0) (2024-03-20)
+
+
+### Features
+
+* **mac:** give user a feedback after SAP materials upload and the possibility to download rejected SAP materials (UFTABI-7351) ([#6066](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6066)) ([8449674](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8449674d5734ce8acf225016847ef898ca26d5ad))
+* **mac:** remove minimize function from sap materials upload status dialog (UFTABI-7471) ([#6069](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6069)) ([622ccb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/622ccb036ac93d9088597606dc40a910e297143a))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
+
+### Bug Fixes
+
+* **mac:** angular 17 layout fixes ([#6089](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6089)) ([2dc6e3e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2dc6e3ef51b3918750c1cde03002e6b9863a0e85))
+* **mac:** validate that no error cells exist in uploaded worksheet before processing ([#6079](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6079)) ([3f6363e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3f6363e0e710ed54b96a3efcd5a942c6722207b2))
+
 ## [1.18.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.17.0...mac-v1.18.0) (2024-03-08)
 
 

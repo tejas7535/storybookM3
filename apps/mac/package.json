@@ -1,6 +1,6 @@
 {
   "name": "mac",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "dependencies": {
     "buffer": "6.0.3",
     "xlsx": "0.18.0"
