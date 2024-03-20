@@ -103,3 +103,14 @@
     @apply px-2;
   }
 }
+
+mac-base-dialog .mat-mdc-button .mdc-button__label,
+mac-base-dialog .mat-mdc-unelevated-button .mdc-button__label,
+mac-base-dialog .mat-mdc-raised-button .mdc-button__label,
+mac-base-dialog .mat-mdc-outlined-button .mdc-button__label {
+  z-index: unset;
+}
+
+.mat-calendar-body-cell:focus .mat-focus-indicator::before {
+  margin: 0;
+}
