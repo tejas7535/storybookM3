@@ -1,6 +1,7 @@
 import { ReferenceType } from '@cdba/shared/models';
 
 import { PCM_CALCULATIONS_MOCK } from './calculations.mock';
+import { SALES_ORGANIZATION_DETAILS_MOCK } from './sales-organization-details.mock';
 
 export const REFERENCE_TYPE_MOCK: ReferenceType = {
   id: '001',
@@ -40,8 +41,7 @@ export const REFERENCE_TYPE_MOCK: ReferenceType = {
   plannedQuantities: [30_000, 350_000, 400_000, 500_000],
   customerGroups: ['G1', 'G2', 'G3'],
   customers: ['BMW AG'],
-  salesOrganizations: ['0060'],
-  salesOrganizationsDescriptions: ['Schaeffler Technologies AG & Co. KG'],
+  salesOrganizationDetails: SALES_ORGANIZATION_DETAILS_MOCK,
   productDescription: 'description lorem ipsum',
   sqvSapLatestMonth: 0.566,
   isPcmRow: false,

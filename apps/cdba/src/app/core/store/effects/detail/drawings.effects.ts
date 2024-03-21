@@ -8,7 +8,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import { Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
 
 import {
@@ -36,7 +36,7 @@ export class DrawingsEffects {
       ),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
-        this.detailService.getDrawings(materialNumber, plant).pipe(
+        this.productDetailService.getDrawings(materialNumber, plant).pipe(
           map((items: Drawing[]) => loadDrawingsSuccess({ items })),
           catchError((error: HttpErrorResponse) =>
             of(
@@ -53,7 +53,7 @@ export class DrawingsEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly detailService: DetailService,
+    private readonly productDetailService: ProductDetailService,
     private readonly store: Store
   ) {}
 }

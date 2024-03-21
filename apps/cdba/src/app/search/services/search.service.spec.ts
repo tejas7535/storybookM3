@@ -72,7 +72,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v2/search?${expectedParams.toString()}`
+        `api/v1/search?${expectedParams.toString()}`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mock);

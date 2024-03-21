@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
-import { API, DetailPath } from '@cdba/shared/constants/api';
+import { API, ProductDetailPath } from '@cdba/shared/constants/api';
 import {
   CostComponentSplit,
   Drawing,
@@ -21,7 +21,7 @@ import { CalculationsResponse } from '../../core/store/reducers/detail/models';
 @Injectable({
   providedIn: 'root',
 })
-export class DetailService {
+export class ProductDetailService {
   private readonly PARAM_LANGUAGE = 'language';
 
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
@@ -55,7 +55,7 @@ export class DetailService {
     if (currentItem.level === 1) {
       currentItem.predecessorsInTree = [currentItem.materialDesignation];
 
-      return DetailService.defineBomTreeForAgGrid(items, nextIdx);
+      return ProductDetailService.defineBomTreeForAgGrid(items, nextIdx);
     }
 
     const previousItem = items[idx - 1];
@@ -103,7 +103,7 @@ export class DetailService {
       ];
     }
 
-    return DetailService.defineBomTreeForAgGrid(items, nextIdx);
+    return ProductDetailService.defineBomTreeForAgGrid(items, nextIdx);
   }
 
   public getDetails(item: ReferenceTypeIdentifier): Observable<ReferenceType> {
@@ -112,7 +112,7 @@ export class DetailService {
       .set(this.PARAM_PLANT, item.plant)
       .set(this.PARAM_LANGUAGE, this.localStorage.getItem('language'));
 
-    const path = `${API.v2}/${DetailPath.Detail}`;
+    const path = `${API.v1}/${ProductDetailPath.Detail}`;
 
     return this.httpClient.get<ReferenceType>(path, {
       params,
@@ -129,7 +129,7 @@ export class DetailService {
       .set(this.PARAM_PLANT, plant);
 
     return this.httpClient.get<CalculationsResponse>(
-      `${API.v2}/${DetailPath.Calculations}`,
+      `${API.v1}/${ProductDetailPath.Calculations}`,
       {
         params,
         context: withCache(),
@@ -138,7 +138,7 @@ export class DetailService {
   }
 
   public getBom(bomIdentifier: BomIdentifier): Observable<BomItem[]> {
-    const path = `${API.v2}/${DetailPath.Bom}`;
+    const path = `${API.v1}/${ProductDetailPath.Bom}`;
 
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_COSTING_DATE, bomIdentifier.costingDate)
@@ -163,7 +163,7 @@ export class DetailService {
           }))
         ),
         map((items: BomItem[]) =>
-          DetailService.defineBomTreeForAgGrid(items, 0)
+          ProductDetailService.defineBomTreeForAgGrid(items, 0)
         )
       );
   }
@@ -171,7 +171,7 @@ export class DetailService {
   public getCostComponentSplit(
     bomIdentifier: BomIdentifier
   ): Observable<CostComponentSplit[]> {
-    const path = `${API.v1}/${DetailPath.CostComponentSplit}`;
+    const path = `${API.v1}/${ProductDetailPath.CostComponentSplit}`;
 
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_COSTING_DATE, bomIdentifier.costingDate)
@@ -228,9 +228,12 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
       .set(this.PARAM_PLANT, plant);
 
-    return this.httpClient.get<Drawing[]>(`${API.v1}/${DetailPath.Drawings}`, {
-      params,
-      context: withCache(),
-    });
+    return this.httpClient.get<Drawing[]>(
+      `${API.v1}/${ProductDetailPath.Drawings}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 }

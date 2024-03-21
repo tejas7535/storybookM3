@@ -6,7 +6,7 @@ export const ADDITIONAL_INFORMATION_DETAILS_MOCK: AdditionalInformationDetails =
   {
     plant: REFERENCE_TYPE_MOCK.plant,
     procurementType: REFERENCE_TYPE_MOCK.procurementType,
-    salesOrganizations: REFERENCE_TYPE_MOCK.salesOrganizations,
+    salesOrganizationDetails: REFERENCE_TYPE_MOCK.salesOrganizationDetails,
     actualQuantities: REFERENCE_TYPE_MOCK.actualQuantities,
     plannedQuantities: REFERENCE_TYPE_MOCK.plannedQuantities,
   };

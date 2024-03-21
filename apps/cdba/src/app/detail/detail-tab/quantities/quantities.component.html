@@ -2,7 +2,8 @@
   <cdba-details-label-value
     *ngFor="
       let netSale of quantitiesDetails?.netSales.slice().reverse();
-      index as i
+      index as i;
+      trackBy: trackByFn
     "
     [label]="
       t('netSales', {
@@ -16,19 +17,11 @@
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('budgetQuantity', { year: currentYear })"
-    [value]="
-      quantitiesDetails?.budgetQuantityCurrentYear
-        | translocoDecimal
-        | undefinedAttributeFallback
-    "
+    [value]="quantitiesDetails?.budgetQuantityCurrentYear | translocoDecimal"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('budgetQuantitySoco', { year: currentYear })"
-    [value]="
-      quantitiesDetails?.budgetQuantitySoco
-        | translocoDecimal
-        | undefinedAttributeFallback
-    "
+    [value]="quantitiesDetails?.budgetQuantitySoco | translocoDecimal"
     [borderBottom]="
       quantitiesDetails?.actualQuantities.length > 0 ||
       quantitiesDetails?.plannedQuantities.length > 0
@@ -39,22 +32,24 @@
       let actualQuantity of quantitiesDetails?.actualQuantities
         .slice()
         .reverse();
-      index as i
+      index as i;
+      trackBy: trackByFn
     "
     [label]="
       t('actualQuantity', {
         year: currentYear - (quantitiesDetails?.actualQuantities.length - 1) + i
       })
     "
-    [value]="actualQuantity | translocoDecimal | undefinedAttributeFallback"
+    [value]="actualQuantity | translocoDecimal"
     [borderBottom]="i + 1 === quantitiesDetails?.actualQuantities.length"
   ></cdba-details-label-value>
   <cdba-details-label-value
     *ngFor="
       let plannedQuantity of quantitiesDetails?.plannedQuantities;
-      index as i
+      index as i;
+      trackBy: trackByFn
     "
     [label]="t('plannedQuantity', { year: currentYear + i })"
-    [value]="plannedQuantity | translocoDecimal | undefinedAttributeFallback"
+    [value]="plannedQuantity | translocoDecimal"
   ></cdba-details-label-value>
 </div>

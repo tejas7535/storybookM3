@@ -11,7 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import {
   AUTH_STATE_MOCK,
   CALCULATIONS_MOCK,
@@ -34,7 +34,7 @@ describe('CalculationsEffects', () => {
   let action: any;
   let actions$: any;
   let effects: CalculationsEffects;
-  let detailService: DetailService;
+  let productDetailService: ProductDetailService;
   let store: MockStore;
 
   const error = new HttpErrorResponse({
@@ -46,7 +46,7 @@ describe('CalculationsEffects', () => {
     service: CalculationsEffects,
     imports: [],
     providers: [
-      mockProvider(DetailService),
+      mockProvider(ProductDetailService),
       RoleFacade,
       provideMockActions(() => actions$),
       provideMockStore({
@@ -61,7 +61,7 @@ describe('CalculationsEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(CalculationsEffects);
-    detailService = spectator.inject(DetailService);
+    productDetailService = spectator.inject(ProductDetailService);
     store = spectator.inject(MockStore);
   });
 
@@ -86,7 +86,7 @@ describe('CalculationsEffects', () => {
         const response = m.cold('-a|', {
           a: new CalculationsResponse(calculations, excludedCalculations),
         });
-        detailService.getCalculations = jest.fn(() => response);
+        productDetailService.getCalculations = jest.fn(() => response);
 
         const result = loadCalculationsSuccess({
           calculations,
@@ -97,7 +97,7 @@ describe('CalculationsEffects', () => {
 
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getCalculations).toHaveBeenCalled();
+        expect(productDetailService.getCalculations).toHaveBeenCalled();
       })
     );
 
@@ -114,11 +114,11 @@ describe('CalculationsEffects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.getCalculations = jest.fn(() => response);
+        productDetailService.getCalculations = jest.fn(() => response);
 
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getCalculations).toHaveBeenCalled();
+        expect(productDetailService.getCalculations).toHaveBeenCalled();
       })
     );
   });

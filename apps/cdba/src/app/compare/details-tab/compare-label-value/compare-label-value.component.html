@@ -1,7 +1,12 @@
 <div
   #componentWrapper
   class="truncate px-6 py-3 text-body-1"
-  [ngClass]="{ 'border-b border-border': borderBottom }"
+  [ngClass]="{
+    'border-b border-border': borderBottom
+  }"
+  [matTooltip]="value"
+  [matTooltipPosition]="'above'"
+  [matTooltipDisabled]="hideTooltip$ | ngrxPush"
 >
   <span class="mr-4 inline-block text-medium-emphasis">{{ label }}:</span>
   <span
@@ -9,8 +14,5 @@
     class="text-high-emphasis"
     [ngClass]="{ 'cursor-help': !(hideTooltip$ | ngrxPush) }"
     [innerHTML]="value"
-    [matTooltip]="value"
-    [matTooltipPosition]="'above'"
-    [matTooltipDisabled]="hideTooltip$ | ngrxPush"
   ></span>
 </div>

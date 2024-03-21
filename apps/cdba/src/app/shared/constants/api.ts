@@ -3,10 +3,10 @@ export enum API {
   v2 = 'api/v2',
 }
 
-export enum DetailPath {
-  Detail = 'detail',
+export enum ProductDetailPath {
+  Detail = 'details',
+  Drawings = 'drawings',
   Calculations = 'calculations',
   Bom = 'bom',
-  Drawings = 'products/drawings',
   CostComponentSplit = 'cost-component-split',
 }

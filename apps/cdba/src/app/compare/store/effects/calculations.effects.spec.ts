@@ -11,7 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { CalculationsResponse } from '@cdba/core/store/reducers/detail/models';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   AUTH_STATE_MOCK,
@@ -36,7 +36,7 @@ describe('CalculationsEffects', () => {
   let action: any;
   let actions$: any;
   let effects: CalculationsEffects;
-  let detailService: DetailService;
+  let productDetailService: ProductDetailService;
   let store: any;
 
   const error = new HttpErrorResponse({
@@ -47,7 +47,7 @@ describe('CalculationsEffects', () => {
   const createService = createServiceFactory({
     service: CalculationsEffects,
     providers: [
-      mockProvider(DetailService),
+      mockProvider(ProductDetailService),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -62,7 +62,7 @@ describe('CalculationsEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(CalculationsEffects);
-    detailService = spectator.inject(DetailService);
+    productDetailService = spectator.inject(ProductDetailService);
     store = spectator.inject(MockStore);
   });
 
@@ -122,7 +122,7 @@ describe('CalculationsEffects', () => {
         const response = m.cold('-a|', {
           a: new CalculationsResponse(items, excludedItems),
         });
-        detailService.getCalculations = jest.fn(() => response);
+        productDetailService.getCalculations = jest.fn(() => response);
 
         const result = loadCalculationHistorySuccess({
           index,
@@ -150,7 +150,7 @@ describe('CalculationsEffects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.getCalculations = jest.fn(() => response);
+        productDetailService.getCalculations = jest.fn(() => response);
 
         m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
       })

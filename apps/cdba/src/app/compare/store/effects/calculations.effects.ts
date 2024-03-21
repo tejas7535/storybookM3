@@ -9,7 +9,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 
 import {
   loadCalculationHistory,
@@ -47,7 +47,7 @@ export class CalculationsEffects {
       concatLatestFrom(() => this.roleFacade.hasAnyPricingRole$),
       mergeMap(([action, hasPricingRole]) => {
         return hasPricingRole
-          ? this.detailService
+          ? this.productDetailService
               .getCalculations(action.materialNumber, action.plant)
               .pipe(
                 map((result) =>
@@ -88,7 +88,7 @@ export class CalculationsEffects {
 
   public constructor(
     private readonly actions$: Actions,
-    private readonly detailService: DetailService,
+    private readonly productDetailService: ProductDetailService,
     private readonly store: Store,
     private readonly roleFacade: RoleFacade
   ) {}

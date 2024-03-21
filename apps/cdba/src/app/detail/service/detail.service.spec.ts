@@ -32,23 +32,23 @@ import {
 import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import { CalculationsResponse } from '../../core/store/reducers/detail/models';
-import { DetailService } from './detail.service';
+import { ProductDetailService } from './detail.service';
 
-describe('DetailService', () => {
-  let spectator: SpectatorService<DetailService>;
-  let service: DetailService;
+describe('ProductDetailService', () => {
+  let spectator: SpectatorService<ProductDetailService>;
+  let service: ProductDetailService;
   let httpMock: HttpTestingController;
   let localStorage: LocalStorageMock;
 
   const createService = createServiceFactory({
-    service: DetailService,
+    service: ProductDetailService,
     imports: [HttpClientTestingModule],
     providers: [mockProvider(BetaFeatureService)],
   });
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(DetailService);
+    service = spectator.inject(ProductDetailService);
     httpMock = spectator.inject(HttpTestingController);
 
     localStorage = spectator.inject(
@@ -76,7 +76,7 @@ describe('DetailService', () => {
         });
 
       const req = httpMock.expectOne(
-        `api/v2/detail?${expectedParams.toString()}`
+        `api/v1/details?${expectedParams.toString()}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
@@ -96,7 +96,7 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        'api/v2/calculations?material_number=2345&plant=0060'
+        'api/v1/calculations?material_number=2345&plant=0060'
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
@@ -122,7 +122,7 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v2/bom?costing_date=${bomIdentifier.costingDate}&costing_number=${bomIdentifier.costingNumber}&costing_type=${bomIdentifier.costingType}&version=${bomIdentifier.version}&entered_manually=${bomIdentifier.enteredManually}&reference_object=${bomIdentifier.referenceObject}&valuation_variant=${bomIdentifier.valuationVariant}`
+        `api/v1/bom?costing_date=${bomIdentifier.costingDate}&costing_number=${bomIdentifier.costingNumber}&costing_type=${bomIdentifier.costingType}&version=${bomIdentifier.version}&entered_manually=${bomIdentifier.enteredManually}&reference_object=${bomIdentifier.referenceObject}&valuation_variant=${bomIdentifier.valuationVariant}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
@@ -139,7 +139,7 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        'api/v1/products/drawings?material_number=2345&plant=0061'
+        'api/v1/drawings?material_number=2345&plant=0061'
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
@@ -183,7 +183,10 @@ describe('DetailService', () => {
     it('should build correct tree', () => {
       const bomItems = BOM_MOCK;
 
-      const result = DetailService['defineBomTreeForAgGrid'](bomItems, 0);
+      const result = ProductDetailService['defineBomTreeForAgGrid'](
+        bomItems,
+        0
+      );
 
       expect(result.length).toEqual(bomItems.length);
       expect(result[0].predecessorsInTree).toEqual(['FE-2313']);

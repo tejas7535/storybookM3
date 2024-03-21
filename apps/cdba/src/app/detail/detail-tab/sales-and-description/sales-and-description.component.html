@@ -1,11 +1,7 @@
 <div *transloco="let t; read: 'detail.detailTab.salesAndDescription'">
   <cdba-details-label-value
     [label]="t('materialDesignation')"
-    [value]="
-      salesDetails?.materialDesignation
-        | scrambleMaterialDesignation: 0
-        | undefinedAttributeFallback
-    "
+    [value]="salesDetails?.materialDesignation | scrambleMaterialDesignation: 0"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('materialNumber')"
@@ -13,50 +9,76 @@
       salesDetails?.materialNumber
         | materialNumber
         | scrambleMaterialDesignation: 0
-        | undefinedAttributeFallback
     "
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('materialShortDescription')"
-    [value]="
-      salesDetails?.materialShortDescription | undefinedAttributeFallback
-    "
+    [value]="salesDetails?.materialShortDescription"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('productLine')"
-    [value]="salesDetails?.productLine | undefinedAttributeFallback"
+    [value]="salesDetails?.productLine"
     [borderBottom]="true"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('rfq')"
-    [value]="salesDetails?.rfq | undefinedAttributeFallback"
+    [value]="salesDetails?.rfq"
   ></cdba-details-label-value>
   <cdba-details-label-value
-    [label]="t('salesOrganization')"
-    [values]="salesDetails?.salesOrganizations"
+    [label]="t('salesOrganizationDetails.title')"
+    [value]="' '"
   ></cdba-details-label-value>
-  <cdba-details-label-value
-    [label]="t('salesOrganizationDescription')"
-    [values]="salesDetails?.salesOrganizationDescriptions"
-    [borderBottom]="true"
-  ></cdba-details-label-value>
+  <ng-container
+    *ngIf="
+      salesDetails?.salesOrganizationDetails &&
+        salesDetails?.salesOrganizationDetails.length;
+      else noSalesOrganizationDetails
+    "
+  >
+    <div
+      class="grid max-h-[175px] grid-cols-2 gap-0 overflow-hidden overflow-y-auto text-caption text-high-emphasis"
+    >
+      <ng-container *ngFor="let header of headers; let i = index">
+        <div
+          class="sticky top-0 flex items-center justify-between bg-primary-variant px-2 py-3"
+          [ngClass]="{ 'border-l border-border': i > 0 }"
+        >
+          {{ t('salesOrganizationDetails.' + header.label + '.label') }}
+        </div>
+      </ng-container>
+      <ng-container
+        *ngFor="let salesOrgDetail of salesDetails.salesOrganizationDetails"
+      >
+        <div class="border-t border-border px-2 py-3">
+          {{ salesOrgDetail.salesOrganizationDescription }}
+        </div>
+        <div class="border-t border-border px-2 py-3">
+          {{ salesOrgDetail.salesOrganizations.join(', ') }}
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #noSalesOrganizationDetails>
+    <div class="p-4 text-caption text-high-emphasis align-middle">
+      {{ t('salesOrganizationDetails.noSalesOrganizationDetails') }}
+    </div>
+  </ng-template>
   <cdba-details-label-value
     [label]="t('projectName')"
-    [value]="salesDetails?.projectName | undefinedAttributeFallback"
+    [value]="salesDetails?.projectName"
+    [borderTop]="true"
     [borderBottom]="true"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('productDescription')"
-    [value]="salesDetails?.productDescription | undefinedAttributeFallback"
+    [value]="salesDetails?.productDescription"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('materialClass')"
-    [value]="salesDetails?.materialClass | undefinedAttributeFallback"
+    [value]="salesDetails?.materialClass"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('materialClassDescription')"
-    [value]="
-      salesDetails?.materialClassDescription | undefinedAttributeFallback
-    "
+    [value]="salesDetails?.materialClassDescription"
   ></cdba-details-label-value>
 </div>

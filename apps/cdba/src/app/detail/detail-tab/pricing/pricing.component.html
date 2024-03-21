@@ -26,7 +26,7 @@
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('sqvDate')"
-    [value]="priceDetails?.sqvDate | translocoDate | undefinedAttributeFallback"
+    [value]="priceDetails?.sqvDate | translocoDate"
     [borderBottom]="true"
   ></cdba-details-label-value>
 
@@ -44,11 +44,11 @@
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('gpcDate')"
-    [value]="priceDetails?.gpcDate | translocoDate | undefinedAttributeFallback"
+    [value]="priceDetails?.gpcDate | translocoDate"
     [borderBottom]="true"
   ></cdba-details-label-value>
   <cdba-details-label-value
     [label]="t('puUm')"
-    [value]="priceDetails?.puUm | undefinedAttributeFallback"
+    [value]="priceDetails?.puUm"
   ></cdba-details-label-value>
 </div>

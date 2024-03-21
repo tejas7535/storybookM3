@@ -16,3 +16,4 @@ export * from './reference-type.mock';
 export * from './reference-type-identifier.mock';
 export * from './roles.mock';
 export * from './sales-details.mock';
+export * from './sales-organization-details.mock';

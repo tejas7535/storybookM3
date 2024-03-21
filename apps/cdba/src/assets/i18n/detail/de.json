@@ -77,12 +77,16 @@
       "materialShortDescription": "Materialkurzbezeichnung",
       "productLine": "Produktlinie",
       "rfq": "RFQ-Nummer",
-      "salesOrganization": "Verkaufsorganisation(en)",
-      "salesOrganizationDescription": "Verkaufsorganisationsbeschreibung(en)",
       "projectName": "Projektname",
       "productDescription": "Produktbeschreibung",
       "materialClass": "Materialklasse",
-      "materialClassDescription": "Klassenbezeichnung"
+      "materialClassDescription": "Klassenbezeichnung",
+      "salesOrganizationDetails": {
+        "title": "Verkaufsorganisation(en)",
+        "description": { "label": "Beschreibung(en)" },
+        "organizations": { "label": "Kennzeichen" },
+        "noSalesOrganizationDetails": "Keine Verkaufsorganisation Einzelheiten verfügbar"
+      }
     }
   },
   "errorTitle": "??? | ???"

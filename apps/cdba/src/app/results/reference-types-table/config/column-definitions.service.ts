@@ -17,6 +17,7 @@ import {
   valueGetterFromArrayOfObjects,
 } from '@cdba/shared/components/table';
 import { PcmCalculation, ReferenceType } from '@cdba/shared/models';
+import { SalesOrganizationDetail } from '@cdba/shared/models/reference-type.model';
 import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 
 @Injectable({
@@ -87,7 +88,6 @@ export class ColumnDefinitionService {
         valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
           'pcmCalculations',
-          0,
           'quantity'
         ),
       valueFormatter: this.columnUtilsService.formatNumber,
@@ -103,7 +103,6 @@ export class ColumnDefinitionService {
         valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
           'pcmCalculations',
-          0,
           'cost'
         ),
       valueFormatter: (params) =>
@@ -216,6 +215,12 @@ export class ColumnDefinitionService {
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.salesOrganization'
       ),
+      valueGetter: (params) =>
+        valueGetterFromArrayOfObjects<ReferenceType, SalesOrganizationDetail>(
+          params,
+          'salesOrganizationDetails',
+          'salesOrganizations'
+        ),
       valueFormatter: formatLongValue,
     },
     {
@@ -444,7 +449,6 @@ export class ColumnDefinitionService {
         valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
           'pcmCalculations',
-          0,
           'projectName'
         ),
     },
@@ -583,7 +587,6 @@ export class ColumnDefinitionService {
         valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
           'pcmCalculations',
-          0,
           'rfq'
         ),
     },
@@ -608,7 +611,6 @@ export class ColumnDefinitionService {
         valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
           'pcmCalculations',
-          0,
           'toolingCost'
         ),
       valueFormatter: (params) =>
@@ -629,7 +631,6 @@ export class ColumnDefinitionService {
         valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
           'pcmCalculations',
-          0,
           'date'
         ),
       valueFormatter: this.columnUtilsService.formatDate,

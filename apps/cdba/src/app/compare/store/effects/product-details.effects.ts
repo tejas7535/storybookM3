@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RouterStateUrl } from '@cdba/core/store';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 
 import {
@@ -84,23 +84,25 @@ export class ProductDetailsEffects {
     this.actions$.pipe(
       ofType(loadProductDetails),
       mergeMap((action) =>
-        this.detailService.getDetails(action.referenceTypeIdentifier).pipe(
-          map((item) =>
-            loadProductDetailsSuccess({
-              item,
-              index: action.index,
-            })
-          ),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              loadProductDetailsFailure({
-                errorMessage: error.error.detail || error.message,
-                statusCode: error.status,
+        this.productDetailService
+          .getDetails(action.referenceTypeIdentifier)
+          .pipe(
+            map((item) =>
+              loadProductDetailsSuccess({
+                item,
                 index: action.index,
               })
+            ),
+            catchError((error: HttpErrorResponse) =>
+              of(
+                loadProductDetailsFailure({
+                  errorMessage: error.error.detail || error.message,
+                  statusCode: error.status,
+                  index: action.index,
+                })
+              )
             )
           )
-        )
       )
     )
   );
@@ -114,7 +116,7 @@ export class ProductDetailsEffects {
 
   public constructor(
     private readonly actions$: Actions,
-    private readonly detailService: DetailService,
+    private readonly productDetailService: ProductDetailService,
     private readonly store: Store,
     private readonly router: Router
   ) {}

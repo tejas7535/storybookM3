@@ -77,12 +77,16 @@
       "materialShortDescription": "Material Short Description",
       "productLine": "Product Line",
       "rfq": "RFQ-Number",
-      "salesOrganization": "Sales Organization(s)",
-      "salesOrganizationDescription": "Sales Organization(s) Description(s)",
       "projectName": "Project Name",
       "productDescription": "Product Description",
       "materialClass": "Material class",
-      "materialClassDescription": "Class Description"
+      "materialClassDescription": "Class Description",
+      "salesOrganizationDetails": {
+        "title": "Sales Organization Details",
+        "description": { "label": "Description(s)" },
+        "organizations": { "label": "ID(s)" },
+        "noSalesOrganizationDetails": "No Sales Organization Details available"
+      }
     }
   },
   "errorTitle": "??? | ???"

@@ -1,6 +1,10 @@
 <div
   class="border-border text-body-2"
-  [ngClass]="{ 'mb-4 border-b pb-3': borderBottom, 'pb-1': !borderBottom }"
+  [ngClass]="{
+    'mb-4 border-b pb-3': borderBottom,
+    'mt-4 border-t pt-3': borderTop,
+    'pb-1': !borderBottom
+  }"
 >
   <span class="mr-2 mb-1 inline-block text-medium-emphasis">{{ label }}:</span>
   <div

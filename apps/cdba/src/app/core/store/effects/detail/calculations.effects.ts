@@ -9,7 +9,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 
 import {
   loadCalculations,
@@ -30,7 +30,7 @@ export class CalculationsEffects {
       ]),
       exhaustMap(([, referenceTypeIdentifier, hasPricingRole]) => {
         return referenceTypeIdentifier && hasPricingRole
-          ? this.detailService
+          ? this.productDetailService
               .getCalculations(
                 referenceTypeIdentifier.materialNumber,
                 referenceTypeIdentifier.plant
@@ -71,7 +71,7 @@ export class CalculationsEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly detailService: DetailService,
+    private readonly productDetailService: ProductDetailService,
     private readonly store: Store,
     private readonly roleFacade: RoleFacade
   ) {}

@@ -13,7 +13,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   AUTH_STATE_MOCK,
@@ -36,7 +36,7 @@ describe('ProductDetailsEffects', () => {
   let action: any;
   let actions$: any;
   let effects: ProductDetailsEffects;
-  let detailService: DetailService;
+  let productDetailService: ProductDetailService;
   let router: Router;
 
   const error = new HttpErrorResponse({
@@ -48,7 +48,7 @@ describe('ProductDetailsEffects', () => {
     service: ProductDetailsEffects,
     imports: [RouterTestingModule],
     providers: [
-      mockProvider(DetailService),
+      mockProvider(ProductDetailService),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -63,7 +63,7 @@ describe('ProductDetailsEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ProductDetailsEffects);
-    detailService = spectator.inject(DetailService);
+    productDetailService = spectator.inject(ProductDetailService);
     router = spectator.inject(Router);
   });
 
@@ -178,7 +178,7 @@ describe('ProductDetailsEffects', () => {
         const response = m.cold('-a|', {
           a: REFERENCE_TYPE_MOCK,
         });
-        detailService.getDetails = jest.fn(() => response);
+        productDetailService.getDetails = jest.fn(() => response);
 
         const result = loadProductDetailsSuccess({
           index,
@@ -204,7 +204,7 @@ describe('ProductDetailsEffects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.getDetails = jest.fn(() => response);
+        productDetailService.getDetails = jest.fn(() => response);
 
         m.expect(effects.loadProductDetails$).toBeObservable(expected);
       })

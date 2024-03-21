@@ -9,4 +9,9 @@ import { SalesDetails } from '@cdba/shared/models';
 })
 export class SalesAndDescriptionComponent {
   @Input() salesDetails: SalesDetails;
+
+  headers: { label: string }[] = [
+    { label: 'description' },
+    { label: 'organizations' },
+  ];
 }

@@ -56,7 +56,7 @@ export class SearchService {
     const payload = this.preparePayload(filters);
 
     return this.httpClient.post<SearchResult>(
-      `${API.v2}/${this.SEARCH}`,
+      `${API.v1}/${this.SEARCH}`,
       {
         filters: payload,
       },

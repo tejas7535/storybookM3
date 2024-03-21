@@ -1,3 +1,5 @@
+import { SalesOrganizationDetail } from './reference-type.model';
+
 export class SalesDetails {
   constructor(
     public materialNumber: string,
@@ -5,8 +7,7 @@ export class SalesDetails {
     public materialShortDescription: string,
     public productLine: string,
     public rfq: string,
-    public salesOrganizations: string[],
-    public salesOrganizationDescriptions: string[],
+    public salesOrganizationDetails: SalesOrganizationDetail[],
     public projectName: string,
     public productDescription: string,
     public materialClass: string,

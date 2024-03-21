@@ -14,14 +14,27 @@
       "
       [borderBottom]="true"
     ></cdba-compare-label-value>
-    <cdba-compare-label-value
-      [label]="t('salesOrganizations')"
-      [value]="
-        concatValues(additionalInformation?.salesOrganizations)
-          | undefinedAttributeFallback
+    <ng-container
+      *ngFor="
+        let detail of additionalInformation?.salesOrganizationDetails;
+        index as i
       "
-      [borderBottom]="true"
-    ></cdba-compare-label-value>
+    >
+      <cdba-compare-label-value
+        [label]="t('salesOrganizationDescription')"
+        [value]="
+          detail.salesOrganizationDescription | undefinedAttributeFallback
+        "
+        [borderBottom]="true"
+      ></cdba-compare-label-value>
+      <cdba-compare-label-value
+        [label]="t('salesOrganizations')"
+        [value]="
+          concatValues(detail.salesOrganizations) | undefinedAttributeFallback
+        "
+        [borderBottom]="true"
+      ></cdba-compare-label-value>
+    </ng-container>
     <cdba-compare-label-value
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 4 })"

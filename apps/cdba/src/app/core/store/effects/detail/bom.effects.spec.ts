@@ -11,7 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   AUTH_STATE_MOCK,
@@ -45,7 +45,7 @@ describe('Bom Effects', () => {
   let action: any;
   let actions$: any;
   let effects: BomEffects;
-  let detailService: DetailService;
+  let productDetailService: ProductDetailService;
   let betaFeatureService: BetaFeatureService;
   let store: MockStore;
 
@@ -59,7 +59,7 @@ describe('Bom Effects', () => {
 
     providers: [
       mockProvider(BetaFeatureService),
-      mockProvider(DetailService),
+      mockProvider(ProductDetailService),
       RoleFacade,
       provideMockActions(() => actions$),
       provideMockStore({
@@ -74,7 +74,7 @@ describe('Bom Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(BomEffects);
-    detailService = spectator.inject(DetailService);
+    productDetailService = spectator.inject(ProductDetailService);
     betaFeatureService = spectator.inject(BetaFeatureService);
     store = spectator.inject(MockStore);
   });
@@ -134,14 +134,14 @@ describe('Bom Effects', () => {
         const response = m.cold('-a|', {
           a: items,
         });
-        detailService.getBom = jest.fn(() => response);
+        productDetailService.getBom = jest.fn(() => response);
 
         const result = loadBomSuccess({ items });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadBom$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getBom).toHaveBeenCalled();
+        expect(productDetailService.getBom).toHaveBeenCalled();
       })
     );
 
@@ -158,11 +158,11 @@ describe('Bom Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.getBom = jest.fn(() => response);
+        productDetailService.getBom = jest.fn(() => response);
 
         m.expect(effects.loadBom$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getBom).toHaveBeenCalled();
+        expect(productDetailService.getBom).toHaveBeenCalled();
       })
     );
   });
@@ -227,14 +227,14 @@ describe('Bom Effects', () => {
         const response = m.cold('-a|', {
           a: items,
         });
-        detailService.getCostComponentSplit = jest.fn(() => response);
+        productDetailService.getCostComponentSplit = jest.fn(() => response);
 
         const result = loadCostComponentSplitSuccess({ items });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadCostComponentSplit$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getCostComponentSplit).toHaveBeenCalled();
+        expect(productDetailService.getCostComponentSplit).toHaveBeenCalled();
       })
     );
 
@@ -251,11 +251,11 @@ describe('Bom Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.getCostComponentSplit = jest.fn(() => response);
+        productDetailService.getCostComponentSplit = jest.fn(() => response);
 
         m.expect(effects.loadCostComponentSplit$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getCostComponentSplit).toHaveBeenCalled();
+        expect(productDetailService.getCostComponentSplit).toHaveBeenCalled();
       })
     );
   });

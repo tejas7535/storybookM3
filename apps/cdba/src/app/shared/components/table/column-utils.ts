@@ -58,15 +58,27 @@ export const valueGetterFromArray = <T>(
   return data?.[key]?.[index];
 };
 
+/**
+ * Extracts the values from a given array of objects into an array or a single value.
+ * @param params from which the data is extracted.
+ * @param objectKey name of the object from which the data is extracted.
+ * @param valueKey name of the value to be extracted.
+ * @returns a single value or an array of values.
+ */
 export const valueGetterFromArrayOfObjects = <T, TObj>(
   params: ValueGetterParams,
-  key: keyof T,
-  index: number,
-  objectKey: keyof TObj
+  objectKey: keyof T,
+  valueKey: keyof TObj
 ) => {
   const { data } = params;
 
-  return getValueFromObject<TObj>(data?.[key]?.[index], objectKey);
+  const result: any[] = [];
+
+  for (let i = 0; i < data?.[objectKey]?.length; i += 1) {
+    result.push(getValueFromObject<TObj>(data?.[objectKey]?.[i], valueKey));
+  }
+
+  return result.length === 1 ? result[0] : result.join(', ');
 };
 
 /**

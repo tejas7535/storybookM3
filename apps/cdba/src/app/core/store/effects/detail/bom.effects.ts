@@ -9,7 +9,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 
 import {
   loadBom,
@@ -47,7 +47,7 @@ export class BomEffects {
       concatLatestFrom(() => this.roleFacade.hasAnyPricingRole$),
       exhaustMap(([action, hasPricingRole]) => {
         return hasPricingRole
-          ? this.detailService.getBom(action.bomIdentifier).pipe(
+          ? this.productDetailService.getBom(action.bomIdentifier).pipe(
               map((items) => loadBomSuccess({ items })),
               catchError((error: HttpErrorResponse) =>
                 of(
@@ -72,7 +72,7 @@ export class BomEffects {
     return this.actions$.pipe(
       ofType(loadCostComponentSplit),
       exhaustMap((action) => {
-        return this.detailService
+        return this.productDetailService
           .getCostComponentSplit(action.bomIdentifier)
           .pipe(
             map((items) => loadCostComponentSplitSuccess({ items })),
@@ -104,7 +104,7 @@ export class BomEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly detailService: DetailService,
+    private readonly productDetailService: ProductDetailService,
     private readonly store: Store,
     private readonly roleFacade: RoleFacade
   ) {}

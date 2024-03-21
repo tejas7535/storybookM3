@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { DetailPath } from '@cdba/shared/constants/api';
+import { ProductDetailPath } from '@cdba/shared/constants/api';
 
 import { AUTH_URLS } from '../constants/urls';
 import { HttpErrorService } from '../services/http-error.service';
@@ -27,7 +27,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       catchError((errorResponse: HttpErrorResponse) => {
         // don't use the interceptor for detail paths
         if (
-          Object.values<string>(DetailPath).some((path) =>
+          Object.values<string>(ProductDetailPath).some((path) =>
             errorResponse.url.includes(`/${path}`)
           )
         ) {

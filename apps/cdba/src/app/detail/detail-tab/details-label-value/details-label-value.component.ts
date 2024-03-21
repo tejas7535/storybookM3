@@ -9,5 +9,6 @@ export class DetailsLabelValueComponent {
   @Input() label: string;
   @Input() value: string;
   @Input() values: string[];
+  @Input() borderTop?: boolean;
   @Input() borderBottom?: boolean;
 }

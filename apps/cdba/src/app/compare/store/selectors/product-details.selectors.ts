@@ -50,7 +50,7 @@ export const getAdditionalInformation = createSelector(
       const {
         plant,
         procurementType,
-        salesOrganizations,
+        salesOrganizationDetails,
         plannedQuantities,
         actualQuantities,
       } = referenceType;
@@ -58,7 +58,7 @@ export const getAdditionalInformation = createSelector(
       return {
         plant,
         procurementType,
-        salesOrganizations,
+        salesOrganizationDetails,
         plannedQuantities,
         actualQuantities,
       };

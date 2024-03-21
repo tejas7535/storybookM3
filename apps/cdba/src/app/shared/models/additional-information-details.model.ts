@@ -1,7 +1,9 @@
+import { SalesOrganizationDetail } from './reference-type.model';
+
 export interface AdditionalInformationDetails {
   plant: string;
   procurementType: string;
-  salesOrganizations: string[];
+  salesOrganizationDetails: SalesOrganizationDetail[];
   actualQuantities: number[];
   plannedQuantities: number[];
 }

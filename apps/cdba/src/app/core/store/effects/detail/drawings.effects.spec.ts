@@ -10,7 +10,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { DetailService } from '@cdba/detail/service/detail.service';
+import { ProductDetailService } from '@cdba/detail/service/detail.service';
 import {
   AUTH_STATE_MOCK,
   DRAWINGS_MOCK,
@@ -31,7 +31,7 @@ describe('DrawingsEffects', () => {
   let action: any;
   let actions$: any;
   let effects: DrawingsEffects;
-  let detailService: DetailService;
+  let productDetailService: ProductDetailService;
   let store: MockStore;
 
   const error = new HttpErrorResponse({
@@ -43,7 +43,7 @@ describe('DrawingsEffects', () => {
     service: DrawingsEffects,
     imports: [],
     providers: [
-      mockProvider(DetailService),
+      mockProvider(ProductDetailService),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -57,7 +57,7 @@ describe('DrawingsEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(DrawingsEffects);
-    detailService = spectator.inject(DetailService);
+    productDetailService = spectator.inject(ProductDetailService);
     store = spectator.inject(MockStore);
   });
 
@@ -81,14 +81,14 @@ describe('DrawingsEffects', () => {
         const response = m.cold('-a|', {
           a: items,
         });
-        detailService.getDrawings = jest.fn(() => response);
+        productDetailService.getDrawings = jest.fn(() => response);
 
         const result = loadDrawingsSuccess({ items });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadDrawings$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getDrawings).toHaveBeenCalled();
+        expect(productDetailService.getDrawings).toHaveBeenCalled();
       })
     );
 
@@ -105,11 +105,11 @@ describe('DrawingsEffects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.getDrawings = jest.fn(() => response);
+        productDetailService.getDrawings = jest.fn(() => response);
 
         m.expect(effects.loadDrawings$).toBeObservable(expected);
         m.flush();
-        expect(detailService.getDrawings).toHaveBeenCalled();
+        expect(productDetailService.getDrawings).toHaveBeenCalled();
       })
     );
   });

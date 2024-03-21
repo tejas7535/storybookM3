@@ -15,6 +15,7 @@ import {
   AdditionalInformationDetails,
   DimensionAndWeightDetails,
 } from '@cdba/shared/models';
+import { SalesOrganizationDetail } from '@cdba/shared/models/reference-type.model';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
@@ -71,7 +72,16 @@ describe('MaterialCardComponent', () => {
         const expectedAdditionalInformation: AdditionalInformationDetails = {
           plant: 'IWS',
           procurementType: 'in-house',
-          salesOrganizations: ['0060'],
+          salesOrganizationDetails: [
+            {
+              salesOrganizationDescription: 'SALES ORGANIZATION DESCR 1',
+              salesOrganizations: ['0123', '4567', '8901'],
+            } as SalesOrganizationDetail,
+            {
+              salesOrganizationDescription: 'SALES ORGANIZATION DESCR 2',
+              salesOrganizations: ['2345', '6789', '0123'],
+            } as SalesOrganizationDetail,
+          ],
           plannedQuantities: [30_000, 350_000, 400_000, 500_000],
           actualQuantities: [250_000, 200_000, 44_444, 2_345_345],
         };
