@@ -168,7 +168,7 @@
         "command": "pnpm webpack-bundle-analyzer dist/apps/cdba/stats.json --mode static --report dist/webpack/cdba/bundle-report.html --title 'CDBA Bundle Report' --no-open || true"
       }
     },
-    "transloco:optimize": {
+    "transloco-optimize": {
       "executor": "nx:run-commands",
       "outputs": [],
       "options": {
