@@ -459,11 +459,17 @@ export const fPricingFeature = createFeature({
         // when sqv of RFQ ist not available take the quotationDetail.sqv
         const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
         // formula: refPrice * (1 + mvdValue + tvdValue)
-        const recommendBeforeChecks = refPrice * (1 + mvdValue + tvdValue);
+        const recommendBeforeChecks = Number(
+          (refPrice * (1 + mvdValue + tvdValue)).toFixed(3)
+        );
         // formula: SQV_RFQ / (1- minMargin)
-        const lowerThreshold = sqv / (1 - sanityChecks.minMargin);
+        const lowerThreshold = Number(
+          (sqv / (1 - sanityChecks.minMargin)).toFixed(3)
+        );
         // formula: SQV_RFQ / (1- maxMargin)
-        const upperThreshold = sqv / (1 - sanityChecks.maxMargin);
+        const upperThreshold = Number(
+          (sqv / (1 - sanityChecks.maxMargin)).toFixed(3)
+        );
 
         return {
           recommendBeforeChecks,

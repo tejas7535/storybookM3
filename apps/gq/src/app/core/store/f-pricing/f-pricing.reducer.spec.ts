@@ -1,6 +1,5 @@
-import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
-
 import { ProductType, QuotationDetail } from '@gq/shared/models';
+import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
 
 import {
   F_PRICING_COMPARABLE_MATERIALS_MOCK,
@@ -381,6 +380,10 @@ describe('fPricingReducer', () => {
     });
 
     describe('getSanityCheckData', () => {
+      test('check for the correct calculation because of the floating number Issue with 0.000000000099', () => {
+        const result = 249.43 / (1 - 0.6);
+        expect(result.toFixed(3)).toBe('623.575');
+      });
       test('should provide the prepared Data for SanityChecks', () => {
         const result = fPricingFeature.getSanityCheckData.projector(
           SANITY_CHECK_MARGINS_MOCK,
@@ -403,7 +406,7 @@ describe('fPricingReducer', () => {
           recommendAfterChecks: 287.5,
           recommendBeforeChecks: 287.5,
           sqv: 100,
-          upperThreshold: 500.000_000_000_000_1,
+          upperThreshold: 500,
         });
       });
     });
