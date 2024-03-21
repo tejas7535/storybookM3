@@ -460,15 +460,15 @@ export const fPricingFeature = createFeature({
         const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
         // formula: refPrice * (1 + mvdValue + tvdValue)
         const recommendBeforeChecks = Number(
-          (refPrice * (1 + mvdValue + tvdValue)).toFixed(3)
+          (refPrice * (1 + mvdValue + tvdValue)).toFixed(8)
         );
         // formula: SQV_RFQ / (1- minMargin)
         const lowerThreshold = Number(
-          (sqv / (1 - sanityChecks.minMargin)).toFixed(3)
+          (sqv / (1 - sanityChecks.minMargin)).toFixed(8)
         );
         // formula: SQV_RFQ / (1- maxMargin)
         const upperThreshold = Number(
-          (sqv / (1 - sanityChecks.maxMargin)).toFixed(3)
+          (sqv / (1 - sanityChecks.maxMargin)).toFixed(8)
         );
 
         return {
