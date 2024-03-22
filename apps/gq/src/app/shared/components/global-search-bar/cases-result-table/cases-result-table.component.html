@@ -1,0 +1,64 @@
+<ng-container *transloco="let t; read: 'searchBarAdvanced.casesResultsTable'">
+  <div class="flex flex-col h-full pt-6 gap-4 border-border border-t">
+    <div class="flex flex-row items-center">
+      <span class="text-medium-emphasis text-subtitle-2 pr-6"
+        >{{ t('searchCriteriaLabel') }}
+      </span>
+      <mat-radio-group class="flex flex-row gap-6 px-2">
+        <mat-radio-button
+          disableRipple
+          checked
+          value="gqNumber"
+          color="primary"
+          class="text-subtitle-2"
+          labelPosition="after"
+          >{{ t('gqNumber') }}</mat-radio-button
+        >
+        <mat-radio-button
+          value="sapNumber"
+          color="primary"
+          class="text-subtitle-2"
+          labelPosition="after"
+          disableRipple
+          >{{ t('sapNumber') }}</mat-radio-button
+        >
+        <mat-radio-button
+          value="customerName"
+          color="primary"
+          class="text-subtitle-2"
+          labelPosition="after"
+          disableRipple
+          >{{ t('customerName') }}
+        </mat-radio-button>
+        <mat-radio-button
+          value="customerNumber"
+          color="primary"
+          class="text-subtitle-2"
+          labelPosition="after"
+          disableRipple
+          >{{ t('customerNumber') }}</mat-radio-button
+        >
+        <mat-radio-button
+          value="createdBy"
+          color="primary"
+          class="text-subtitle-2"
+          labelPosition="after"
+          disableRipple
+          >{{ t('createdBy') }}</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+    <mat-card appearance="outlined" class="h-full">
+      <ng-container [ngTemplateOutlet]="noResults"></ng-container>
+    </mat-card>
+  </div>
+
+  <ng-template #noResults>
+    <gq-no-data
+      class="h-full bg-secondary-variant"
+      [title]="t('noResultsTitle')"
+      [subTitle]="t('noResultsSubTitle')"
+    >
+    </gq-no-data>
+  </ng-template>
+</ng-container>

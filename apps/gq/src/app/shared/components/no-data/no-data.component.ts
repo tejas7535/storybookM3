@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'gq-no-tabs-data',
-  templateUrl: './no-tabs-data.component.html',
+  selector: 'gq-no-data',
+  templateUrl: './no-data.component.html',
 })
-export class NoTabsDataComponent {
+export class NoDataComponent {
   @Input() title: string;
   @Input() subTitle: string;
 }

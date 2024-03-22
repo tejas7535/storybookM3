@@ -1,14 +1,20 @@
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
-import { Spectator, SpyObject } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import {
+  createComponentFactory,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedDirectivesModule } from '../../directives/shared-directives.module';
+import { GlobalSearchAdvancedModalComponent } from './global-search-advanced-modal/global-search-advanced-modal.component';
 import { GlobalSearchBarComponent } from './global-search-bar.component';
 import { GlobalSearchModalComponent } from './global-search-modal/global-search-modal.component';
 
@@ -16,6 +22,9 @@ describe('GlobalSearchBarComponent', () => {
   let component: GlobalSearchBarComponent;
   let spectator: Spectator<GlobalSearchBarComponent>;
   let matDialogSpyObject: SpyObject<MatDialog>;
+  const featureSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
 
   const createComponent = createComponentFactory({
     component: GlobalSearchBarComponent,
@@ -24,6 +33,11 @@ describe('GlobalSearchBarComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
       MatDialogModule,
+    ],
+    providers: [
+      MockProvider(FeatureToggleConfigService, {
+        isEnabled: jest.fn(() => featureSubject.value),
+      }),
     ],
     declarations: [GlobalSearchBarComponent],
     mocks: [MatDialog],
@@ -43,7 +57,8 @@ describe('GlobalSearchBarComponent', () => {
   });
 
   describe('openGlobalSearchModal', () => {
-    test('should open matDialog', () => {
+    test('should open matDialog with standardSearchbar', () => {
+      component.extendedSearchBar = false;
       component.openGlobalSearchModal();
 
       expect(matDialogSpyObject.open).toHaveBeenCalledTimes(1);
@@ -55,6 +70,21 @@ describe('GlobalSearchBarComponent', () => {
           position: {
             top: '20vh',
           },
+        }
+      );
+    });
+
+    test('should open matDialog with extendedSearchbar', () => {
+      component.extendedSearchBar = true;
+      component.openGlobalSearchModal();
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledTimes(1);
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        GlobalSearchAdvancedModalComponent,
+        {
+          panelClass: 'global-search-advanced-modal',
+          width: '1100px',
+          height: '500px',
         }
       );
     });

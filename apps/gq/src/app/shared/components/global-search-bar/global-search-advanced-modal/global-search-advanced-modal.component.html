@@ -1,0 +1,93 @@
+<ng-container *transloco="let t; read: 'searchBarAdvanced'">
+  <div class="flex flex-col h-full">
+    <!-- header-->
+    <div class="flex flex-row items-center w-full">
+      <div class="flex flex-row items-center w-full gap-3">
+        <mat-icon matSuffix class="pr-4 text-medium-emphasis">
+          search
+        </mat-icon>
+        <div class="flex flex-col w-full">
+          <input
+            matInput
+            color="primary"
+            class="w-full leading-7 !outline-none"
+            [ngClass]="
+              searchFormControl.hasError('minlength')
+                ? 'text-error'
+                : 'text-high-emphasis'
+            "
+            type="text"
+            [placeholder]="t('searchHint')"
+            [formControl]="searchFormControl"
+            (keydown.enter)="selectTopItem()"
+            cdkFocusInitial
+          />
+          <mat-error
+            class="absolute pt-5"
+            [ngClass]="
+              searchFormControl.hasError('minlength') ? 'visible' : 'collapse'
+            "
+            >{{ t('minLengthError') }}</mat-error
+          >
+        </div>
+      </div>
+      <div class="flex items-center">
+        <mat-slide-toggle
+          class="whitespace-nowrap text-caption uppercase pr-8"
+          color="primary"
+          labelPosition="before"
+          [checked]="onlyUserCases"
+          (change)="toggleOnlyUserCases()"
+        >
+          {{ t('onlyMyCases') }}
+        </mat-slide-toggle>
+        <span
+          class="text-caption cursor-pointer text-medium-emphasis"
+          (click)="clearInputField()"
+        >
+          {{ t('clear') }}
+        </span>
+        <span class="px-2 text-medium-emphasis"> | </span>
+        <mat-icon
+          class="float-right h-5 w-5 cursor-pointer text-medium-emphasis"
+          (click)="closeDialog()"
+        >
+          close
+        </mat-icon>
+      </div>
+    </div>
+
+    <!-- content-->
+    <div class="flex flex-col w-full h-full relative pb-2 pt-4">
+      <mat-tab-group>
+        <mat-tab label="Cases">
+          <gq-cases-result-table></gq-cases-result-table>
+        </mat-tab>
+        <mat-tab label="Materials">
+          <gq-materials-result-table></gq-materials-result-table>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <!-- the footer-->
+    <div class="flex flex-col">
+      <div class="flex justify-start gap-2 pt-2">
+        <button
+          color="primary"
+          class="text-button font-medium"
+          mat-raised-button
+          (click)="search()"
+        >
+          {{ t('searchButton') }}
+        </button>
+        <button
+          color="primary"
+          class="text-button font-medium"
+          mat-stroked-button
+          (click)="closeDialog()"
+        >
+          {{ t('cancelButton') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

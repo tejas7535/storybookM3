@@ -83,6 +83,38 @@ button {
   @apply px-0 #{!important};
 }
 
+.global-search-advanced-modal {
+  .mat-mdc-tab-group {
+    @apply h-full;
+  }
+  .mat-mdc-tab-body-wrapper {
+    @apply h-full;
+  }
+
+  mat-slide-toggle {
+    .mdc-label {
+      @apply text-medium-emphasis #{!important};
+      @apply cursor-pointer;
+    }
+  }
+
+  .mat-mdc-radio-button {
+    &.mat-mdc-radio-checked .mdc-label {
+      @apply text-high-emphasis #{!important};
+      @apply cursor-pointer;
+    }
+
+    .mdc-label {
+      @apply text-medium-emphasis #{!important};
+      @apply cursor-pointer;
+    }
+
+    .mdc-radio {
+      --mdc-radio-state-layer-size: 28px;
+    }
+  }
+}
+
 .release-modal .mat-mdc-dialog-surface {
   padding: 0 !important;
 }

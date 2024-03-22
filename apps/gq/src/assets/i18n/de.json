@@ -569,6 +569,32 @@
     "foundInOpenCases": "Gefunden in offene Angebote",
     "showMore": "Weitere laden"
   },
+  "searchBarAdvanced": {
+    "searchHint": "Stichwortsuche",
+    "onlyMyCases": "Nur meine Cases",
+    "clear": "Leeren",
+    "searchButton": "Suchen",
+    "cancelButton": "Abbrechen",
+    "minLengthError": "Bitte geben Sie mindestens 3 Zeichen ein.",
+    "casesResultsTable": {
+      "searchCriteriaLabel": "Suchkriterium:",
+      "gqNumber": "GQ Case Nummer",
+      "sapNumber": "SAP Angebot",
+      "customerName": "Kundenname",
+      "customerNumber": "Kundennummer",
+      "createdBy": "GQ erstellt von",
+      "noResultsTitle": "Noch keine Ergebnisse",
+      "noResultsSubTitle": "Stichwort für die Suche eingeben"
+    },
+    "materialsResultsTable": {
+      "searchCriteriaLabel": "Suchkriterium:",
+      "matNumber": "Materialnummer",
+      "matDesc": "Materialbeschreibung",
+      "customerMatNumber": "Kundenmaterialnummer",
+      "noResultsTitle": "Noch keine Ergebnisse",
+      "noResultsSubTitle": "Stichwort für die Suche eingeben"
+    }
+  },
   "fPricing": {
     "pricingAssistantModal": {
       "title": "Preis Assistent für {{ material }}",

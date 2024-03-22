@@ -569,6 +569,32 @@
     "foundInOpenCases": "Found in open Cases",
     "showMore": "Show more"
   },
+  "searchBarAdvanced": {
+    "searchHint": "Keyword Search",
+    "onlyMyCases": "only my cases",
+    "clear": "clear",
+    "searchButton": "search",
+    "cancelButton": "cancel",
+    "minLengthError": "Please enter at least 3 characters.",
+    "casesResultsTable": {
+      "searchCriteriaLabel": "Search Criteria:",
+      "gqNumber": "GQ Case Number",
+      "sapNumber": "SAP Quotation",
+      "customerName": "Customer Name",
+      "customerNumber": "Customer Number",
+      "createdBy": "GQ Created By",
+      "noResultsTitle": "No results yet",
+      "noResultsSubTitle": "Enter keyword for search"
+    },
+    "materialsResultsTable": {
+      "searchCriteriaLabel": "Search Criteria:",
+      "matNumber": "Material Number",
+      "matDesc": "Material Description",
+      "customerMatNumber": "Customer Material Number",
+      "noResultsTitle": "No results yet",
+      "noResultsSubTitle": "Enter keyword for search"
+    }
+  },
   "fPricing": {
     "pricingAssistantModal": {
       "title": "Pricing Assistant for {{ material }}",

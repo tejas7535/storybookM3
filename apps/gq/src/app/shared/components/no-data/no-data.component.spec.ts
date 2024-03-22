@@ -2,14 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { NoTabsDataComponent } from './no-tabs-data.component';
+import { NoDataComponent } from './no-data.component';
 
 describe('NoTabsDataComponent', () => {
-  let component: NoTabsDataComponent;
-  let spectator: Spectator<NoTabsDataComponent>;
+  let component: NoDataComponent;
+  let spectator: Spectator<NoDataComponent>;
 
   const createComponent = createComponentFactory({
-    component: NoTabsDataComponent,
+    component: NoDataComponent,
 
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
