@@ -39,8 +39,6 @@ export interface FPricingState extends FPricingData {
   materialInformation: MaterialInformation[];
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
-  marketValueDriversValueAbsolute: number;
-  marketValueDriversValueRelative: number;
 
   technicalValueDriversToUpdate: TableItem[];
   technicalValueDriversValueAbsolute: number;
@@ -63,10 +61,6 @@ export const initialState: FPricingState = {
   marketValueDriversSelections: [],
   priceSelected: null,
   technicalValueDrivers: null,
-  // TODO: remove value when value will be calculated
-  marketValueDriversValueAbsolute: 24.23,
-  marketValueDriversValueRelative: 0.23,
-
   technicalValueDriversToUpdate: [],
   // TODO: remove value when value will be calculated
   technicalValueDriversValueAbsolute: 125.45,
@@ -105,6 +99,9 @@ export const fPricingFeature = createFeature({
             ({
               questionId: value.questionId,
               selectedOptionId: value.selectedOptionId,
+              surcharge: value.options.find(
+                (option) => option.optionId === value.selectedOptionId
+              ).surcharge,
             } as MarketValueDriverSelection)
         ),
         fPricingDataLoading: false,
@@ -216,7 +213,6 @@ export const fPricingFeature = createFeature({
     selectSanityCheckMargins,
     selectReferencePrice,
     selectTechnicalValueDriversValueRelative,
-    selectMarketValueDriversValueRelative,
   }) => {
     const getMaterialInformationExtended = createSelector(
       selectMaterialInformation,
@@ -293,6 +289,7 @@ export const fPricingFeature = createFeature({
             options: item.options.map((option) => ({
               optionId: option.optionId,
               selected: selection?.selectedOptionId === option.optionId,
+              surcharge: option.surcharge,
             })),
           };
 
@@ -434,13 +431,39 @@ export const fPricingFeature = createFeature({
         return list;
       }
     );
+
+    /* Result of this selector is the sum of all surcharges from selected market value drivers */
+    const getMarketValueDriversRelativeValue = createSelector(
+      selectMarketValueDriversSelections,
+      (marketValueDriversSelections): number =>
+        Number(
+          marketValueDriversSelections
+            .reduce((acc, option) => acc + option.surcharge, 0)
+            .toFixed(8)
+        )
+    );
+
+    const getMarketValueDriversAbsoluteValue = createSelector(
+      getMarketValueDriversRelativeValue,
+      selectReferencePrice,
+      (marketValueDriversRelativeValue, referencePrice): number => {
+        if (!referencePrice) {
+          return 0;
+        }
+
+        return Number(
+          (referencePrice * (1 + marketValueDriversRelativeValue)).toFixed(8)
+        );
+      }
+    );
+
     const getSanityCheckData = createSelector(
       selectSanityCheckMargins,
       selectGqPositionId,
       getQuotationDetails,
       selectReferencePrice,
       selectTechnicalValueDriversValueRelative,
-      selectMarketValueDriversValueRelative,
+      getMarketValueDriversRelativeValue,
       (
         sanityChecks: SanityCheckMargins,
         positionId: string,
@@ -563,6 +586,8 @@ export const fPricingFeature = createFeature({
       getAllMarketValueDriverSelected,
       getMarketValueDriverWarningLevel,
       getTechnicalValueDriversForDisplay,
+      getMarketValueDriversRelativeValue,
+      getMarketValueDriversAbsoluteValue,
       getSanityCheckData,
       getSanityChecksForDisplay,
       getDataForUpdateFPricing,

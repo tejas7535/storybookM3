@@ -16,10 +16,6 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   comparableTransactions: [],
   marketValueDrivers: [],
   marketValueDriversSelections: [],
-  // TODO: remove value when value will be calculated
-  marketValueDriversValueAbsolute: 24.23,
-  marketValueDriversValueRelative: 0.23,
-
   technicalValueDrivers: TECHNICAL_VALUE_DRIVERS_MOCK,
   technicalValueDriversToUpdate: [],
   // TODO: remove value when value will be calculated

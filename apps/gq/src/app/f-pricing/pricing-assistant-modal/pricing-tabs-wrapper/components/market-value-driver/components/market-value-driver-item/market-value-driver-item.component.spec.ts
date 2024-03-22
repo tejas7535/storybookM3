@@ -52,6 +52,7 @@ describe('MarketValueDriverItemComponent', () => {
       const option = {
         optionId: 1,
         selected: true,
+        surcharge: 0.05,
       } as MarketValueDriverOptionItem;
       component.item = {
         questionId: 1,
@@ -61,6 +62,7 @@ describe('MarketValueDriverItemComponent', () => {
       const selection: MarketValueDriverSelection = {
         questionId: 1,
         selectedOptionId: 1,
+        surcharge: 0.05,
       };
 
       const emitSpy = jest.spyOn(component.optionChange, 'emit');

@@ -16,8 +16,6 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   gqPositionId: '1234',
   marketValueDrivers: MARKET_VALUE_DRIVERS_MOCK,
   marketValueDriversSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-  marketValueDriversValueAbsolute: 124,
-  marketValueDriversValueRelative: 0.7,
   sanityCheckMargins: SANITY_CHECK_MARGINS_MOCK,
   sanityCheckValue: 25,
   technicalValueDriversValueAbsolute: 145,

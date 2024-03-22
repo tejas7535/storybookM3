@@ -29,6 +29,7 @@ describe('MarketValueDriverComponent', () => {
       const selection: MarketValueDriverSelection = {
         questionId: 1,
         selectedOptionId: 1,
+        surcharge: 10,
       };
       component.questionsSelectionChanged.emit = jest.fn();
       component.onOptionChange(selection);

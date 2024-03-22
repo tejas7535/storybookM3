@@ -108,6 +108,10 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getSanityChecksForDisplay,
           SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING
         );
+        mockStore.overrideSelector(
+          fPricingFeature.getMarketValueDriversAbsoluteValue,
+          1000
+        );
 
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
@@ -123,6 +127,7 @@ describe('Service: FPricingFacade', () => {
               allMarketValueDriverSelected: false,
               marketValueDriverWarningLevel:
                 MarketValueDriverWarningLevel.UNSET,
+              marketValueDriversAbsoluteValue: 1000,
               technicalValueDriversForDisplay:
                 TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
               sanityChecksForDisplay: SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING,
@@ -255,6 +260,7 @@ describe('Service: FPricingFacade', () => {
       const selection: MarketValueDriverSelection = {
         questionId: 1,
         selectedOptionId: 1,
+        surcharge: 0.05,
       };
       const action = FPricingActions.setMarketValueDriverSelection({
         selection,

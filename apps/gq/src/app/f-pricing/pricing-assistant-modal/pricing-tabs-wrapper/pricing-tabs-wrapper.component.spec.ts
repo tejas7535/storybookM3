@@ -63,6 +63,7 @@ describe('PricingTabsWrapperComponent', () => {
       const selection: MarketValueDriverSelection = {
         questionId: 1,
         selectedOptionId: 1,
+        surcharge: 10,
       };
 
       const facadeMock: FPricingFacade = {

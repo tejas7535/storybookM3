@@ -26,6 +26,7 @@ export class MarketValueDriverItemComponent implements OnInit {
     const selectedOption: MarketValueDriverSelection = {
       questionId: this.item.questionId,
       selectedOptionId: option.optionId,
+      surcharge: option.surcharge,
     };
     this.selectedOptionId = option.optionId;
 

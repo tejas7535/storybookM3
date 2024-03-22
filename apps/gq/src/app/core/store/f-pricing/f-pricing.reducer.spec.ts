@@ -78,6 +78,9 @@ describe('fPricingReducer', () => {
         MARKET_VALUE_DRIVERS_BE_RESPONSE_MOCK.map((value) => ({
           questionId: value.questionId,
           selectedOptionId: value.selectedOptionId,
+          surcharge: value.options.find(
+            (option) => option.optionId === value.selectedOptionId
+          ).surcharge,
         }));
 
       expect(result).toEqual({
@@ -257,7 +260,7 @@ describe('fPricingReducer', () => {
                 ],
               },
             ],
-            [{ questionId: 1, selectedOptionId: 1 }]
+            [{ questionId: 1, selectedOptionId: 1, surcharge: 10 }]
           );
         expect(result).toBe(true);
       });
@@ -277,7 +280,7 @@ describe('fPricingReducer', () => {
                 ],
               },
             ],
-            [{ questionId: 1, selectedOptionId: 4 }]
+            [{ questionId: 1, selectedOptionId: 4, surcharge: 40 }]
           );
         expect(result).toBe(false);
       });
@@ -300,7 +303,7 @@ describe('fPricingReducer', () => {
                 ],
               },
             ],
-            [{ questionId: 1, selectedOptionId: 4 }]
+            [{ questionId: 1, selectedOptionId: 4, surcharge: 40 }]
           );
         expect(result).toBe(false);
       });
@@ -320,7 +323,7 @@ describe('fPricingReducer', () => {
                 ],
               },
             ],
-            [{ questionId: 1, selectedOptionId: 1 }]
+            [{ questionId: 1, selectedOptionId: 1, surcharge: 10 }]
           );
         expect(result).toBe(true);
       });
@@ -376,6 +379,39 @@ describe('fPricingReducer', () => {
             TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK
           );
         expect(result).toEqual(TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK);
+      });
+    });
+
+    describe('getMarketValueDriversRelativeValue', () => {
+      test('should return market value drivers relative value', () => {
+        const result =
+          fPricingFeature.getMarketValueDriversRelativeValue.projector(
+            MARKET_VALUE_DRIVERS_SELECTIONS_MOCK
+          );
+        const expected = MARKET_VALUE_DRIVERS_SELECTIONS_MOCK.reduce(
+          (acc, option) => acc + option.surcharge,
+          0
+        );
+        expect(result).toEqual(expected);
+      });
+    });
+
+    describe('getMarketValueDriversAbsoluteValue', () => {
+      test('should return market value drivers absolute value', () => {
+        const mvdRelativeValue = MARKET_VALUE_DRIVERS_SELECTIONS_MOCK.reduce(
+          (acc, option) => acc + option.surcharge,
+          0
+        );
+
+        const result =
+          fPricingFeature.getMarketValueDriversAbsoluteValue.projector(
+            mvdRelativeValue,
+            F_PRICING_STATE_MOCK.referencePrice
+          );
+
+        const expected =
+          F_PRICING_STATE_MOCK.referencePrice * (1 + mvdRelativeValue);
+        expect(result).toEqual(expected);
       });
     });
 
@@ -507,7 +543,7 @@ describe('fPricingReducer', () => {
         },
       ];
 
-      const selection = { questionId: 1, selectedOptionId: 1 };
+      const selection = { questionId: 1, selectedOptionId: 1, surcharge: 10 };
 
       const result = notLastOptionSelected(marketValueDrivers, selection);
 
@@ -529,7 +565,7 @@ describe('fPricingReducer', () => {
         },
       ];
 
-      const selection = { questionId: 1, selectedOptionId: 4 };
+      const selection = { questionId: 1, selectedOptionId: 4, surcharge: 40 };
 
       const result = notLastOptionSelected(marketValueDrivers, selection);
 

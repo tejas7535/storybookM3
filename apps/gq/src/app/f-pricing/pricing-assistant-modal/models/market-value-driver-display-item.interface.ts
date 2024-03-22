@@ -6,4 +6,5 @@ export interface MarketValueDriverDisplayItem {
 export interface MarketValueDriverOptionItem {
   optionId: number;
   selected: boolean;
+  surcharge: number;
 }
