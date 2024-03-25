@@ -134,7 +134,7 @@
   }
 
   .cdk-overlay-connected-position-bounding-box {
-    @apply #{$prefix}fixed #{$prefix}w-0 #{$prefix}h-0 #{!important};
+    @apply #{$prefix}fixed #{$prefix}flex #{$prefix}flex-col #{$prefix}w-0 #{$prefix}h-0 #{!important};
   }
 
   .cdk-overlay-backdrop {
