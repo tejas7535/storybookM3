@@ -39,10 +39,7 @@ export interface FPricingState extends FPricingData {
   materialInformation: MaterialInformation[];
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
-
   technicalValueDriversToUpdate: TableItem[];
-  technicalValueDriversValueAbsolute: number;
-  technicalValueDriversValueRelative: number;
   sanityCheckValue: number;
   // the price could either be the GQPrice or the manual price
   priceSelected: number;
@@ -62,9 +59,6 @@ export const initialState: FPricingState = {
   priceSelected: null,
   technicalValueDrivers: null,
   technicalValueDriversToUpdate: [],
-  // TODO: remove value when value will be calculated
-  technicalValueDriversValueAbsolute: 125.45,
-  technicalValueDriversValueRelative: 0.25,
   sanityCheckMargins: null,
   sanityCheckValue: null,
   // this is the value of either the GqPrice or Manual Price
@@ -212,7 +206,6 @@ export const fPricingFeature = createFeature({
     selectTechnicalValueDriversToUpdate,
     selectSanityCheckMargins,
     selectReferencePrice,
-    selectTechnicalValueDriversValueRelative,
   }) => {
     const getMaterialInformationExtended = createSelector(
       selectMaterialInformation,
@@ -457,12 +450,38 @@ export const fPricingFeature = createFeature({
       }
     );
 
+    const getTechnicalValueDriversRelativeValue = createSelector(
+      selectTechnicalValueDrivers,
+      (tvd: TechnicalValueDriver): number =>
+        Number(
+          (
+            tvd?.heatTreatmentSurcharge +
+            tvd?.toleranceClassSurcharge +
+            tvd?.clearanceRadialSurcharge +
+            tvd?.clearanceAxialSurcharge +
+            tvd?.engineeringEffortSurcharge
+          ).toFixed(8)
+        )
+    );
+
+    const getTechnicalValueDriversValueAbsoluteValue = createSelector(
+      getTechnicalValueDriversRelativeValue,
+      selectReferencePrice,
+      (tvdRelativeValue, referencePrice): number => {
+        if (!referencePrice) {
+          return 0;
+        }
+
+        return Number((referencePrice * (1 + tvdRelativeValue)).toFixed(8));
+      }
+    );
+
     const getSanityCheckData = createSelector(
       selectSanityCheckMargins,
       selectGqPositionId,
       getQuotationDetails,
       selectReferencePrice,
-      selectTechnicalValueDriversValueRelative,
+      getTechnicalValueDriversRelativeValue,
       getMarketValueDriversRelativeValue,
       (
         sanityChecks: SanityCheckMargins,
@@ -588,6 +607,10 @@ export const fPricingFeature = createFeature({
       getTechnicalValueDriversForDisplay,
       getMarketValueDriversRelativeValue,
       getMarketValueDriversAbsoluteValue,
+      getTechnicalValueDriverRelativeValue:
+        getTechnicalValueDriversRelativeValue,
+      getTechnicalValueDriverValueAbsoluteValue:
+        getTechnicalValueDriversValueAbsoluteValue,
       getSanityCheckData,
       getSanityChecksForDisplay,
       getDataForUpdateFPricing,

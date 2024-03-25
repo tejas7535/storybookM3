@@ -18,8 +18,6 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   marketValueDriversSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
   sanityCheckMargins: SANITY_CHECK_MARGINS_MOCK,
   sanityCheckValue: 25,
-  technicalValueDriversValueAbsolute: 145,
-  technicalValueDriversValueRelative: 0.8,
   referencePrice: 10,
   materialInformation: MATERIAL_INFORMATION_MOCK,
   priceSelected: 14.45,

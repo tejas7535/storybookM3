@@ -28,6 +28,7 @@ export interface FPricingPositionData
   allMarketValueDriverSelected: boolean;
   marketValueDriverWarningLevel: MarketValueDriverWarningLevel;
   marketValueDriversAbsoluteValue: number;
+  technicalValueDriversAbsoluteValue: number;
   technicalValueDriversForDisplay: TableItem[];
   sanityChecksForDisplay: TableItem[];
 }

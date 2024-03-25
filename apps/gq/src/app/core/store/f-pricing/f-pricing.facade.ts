@@ -48,6 +48,9 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getAllMarketValueDriverSelected),
     this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
     this.#store.select(fPricingFeature.getMarketValueDriversAbsoluteValue),
+    this.#store.select(
+      fPricingFeature.getTechnicalValueDriverValueAbsoluteValue
+    ),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
     this.#store.select(fPricingFeature.getSanityChecksForDisplay),
   ]).pipe(
@@ -64,6 +67,7 @@ export class FPricingFacade {
         allMarketValueDriverSelected,
         marketValueDriverWarningLevel,
         marketValueDriversAbsoluteValue,
+        technicalValueDriversAbsoluteValue,
         technicalValueDriversForDisplay,
         sanityChecksForDisplay,
       ]: [
@@ -77,6 +81,7 @@ export class FPricingFacade {
         boolean,
         boolean,
         MarketValueDriverWarningLevel,
+        number,
         number,
         TableItem[],
         TableItem[]
@@ -92,6 +97,7 @@ export class FPricingFacade {
         allMarketValueDriverSelected,
         marketValueDriverWarningLevel,
         marketValueDriversAbsoluteValue,
+        technicalValueDriversAbsoluteValue,
 
         technicalValueDriversForDisplay: technicalValueDriversForDisplay.map(
           (item) => ({
@@ -120,10 +126,6 @@ export class FPricingFacade {
 
   sanityCheckValue$: Observable<number> = this.#store.select(
     fPricingFeature.selectSanityCheckValue
-  );
-
-  technicalValueDriverValue$: Observable<number> = this.#store.select(
-    fPricingFeature.selectTechnicalValueDriversValueAbsolute
   );
 
   materialInformation$: Observable<MaterialInformationExtended[]> =

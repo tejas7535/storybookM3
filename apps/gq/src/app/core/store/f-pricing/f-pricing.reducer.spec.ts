@@ -415,6 +415,30 @@ describe('fPricingReducer', () => {
       });
     });
 
+    describe('getTechnicalValueDriverRelativeValue', () => {
+      test('should return technical value driver relative value', () => {
+        const result =
+          fPricingFeature.getTechnicalValueDriverRelativeValue.projector(
+            TECHNICAL_VALUE_DRIVERS_MOCK
+          );
+        expect(result).toEqual(0.23);
+      });
+    });
+
+    describe('getTechnicalValueDriverValueAbsoluteValue', () => {
+      test('should return technical value driver absolute value', () => {
+        const tvdRelativeValue = 0.23;
+        const result =
+          fPricingFeature.getTechnicalValueDriverValueAbsoluteValue.projector(
+            tvdRelativeValue,
+            F_PRICING_STATE_MOCK.referencePrice
+          );
+        expect(result).toEqual(
+          F_PRICING_STATE_MOCK.referencePrice * (1 + tvdRelativeValue)
+        );
+      });
+    });
+
     describe('getSanityCheckData', () => {
       test('check for the correct calculation because of the floating number Issue with 0.000000000099', () => {
         const result = 249.43 / (1 - 0.6);

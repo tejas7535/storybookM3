@@ -18,9 +18,6 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   marketValueDriversSelections: [],
   technicalValueDrivers: TECHNICAL_VALUE_DRIVERS_MOCK,
   technicalValueDriversToUpdate: [],
-  // TODO: remove value when value will be calculated
-  technicalValueDriversValueAbsolute: 125.45,
-  technicalValueDriversValueRelative: 0.25,
   sanityCheckMargins: SANITY_CHECK_MARGINS_MOCK,
   sanityCheckValue: 155.4,
   // this is the value of either the GqPrice or Manual Price
