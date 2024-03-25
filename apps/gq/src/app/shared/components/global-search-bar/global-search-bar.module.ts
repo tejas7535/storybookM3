@@ -14,7 +14,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { FeatureToggleViewModule } from '@gq/feature-toggle-view/feature-toggle-view.module';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -68,7 +67,6 @@ import { MaterialsResultTableComponent } from './materials-result-table/material
     MatTabsModule,
     MatRadioModule,
     NoDataModule,
-    FeatureToggleViewModule,
   ],
   exports: [GlobalSearchBarComponent],
 })
