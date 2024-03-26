@@ -445,7 +445,7 @@ export const fPricingFeature = createFeature({
         }
 
         return Number(
-          (referencePrice * (1 + marketValueDriversRelativeValue)).toFixed(8)
+          (referencePrice * marketValueDriversRelativeValue).toFixed(8)
         );
       }
     );
@@ -472,7 +472,7 @@ export const fPricingFeature = createFeature({
           return 0;
         }
 
-        return Number((referencePrice * (1 + tvdRelativeValue)).toFixed(8));
+        return Number((referencePrice * tvdRelativeValue).toFixed(8));
       }
     );
 

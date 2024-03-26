@@ -409,8 +409,9 @@ describe('fPricingReducer', () => {
             F_PRICING_STATE_MOCK.referencePrice
           );
 
-        const expected =
-          F_PRICING_STATE_MOCK.referencePrice * (1 + mvdRelativeValue);
+        const expected = Number(
+          (F_PRICING_STATE_MOCK.referencePrice * mvdRelativeValue).toFixed(8)
+        );
         expect(result).toEqual(expected);
       });
     });
@@ -433,9 +434,10 @@ describe('fPricingReducer', () => {
             tvdRelativeValue,
             F_PRICING_STATE_MOCK.referencePrice
           );
-        expect(result).toEqual(
-          F_PRICING_STATE_MOCK.referencePrice * (1 + tvdRelativeValue)
+        const expected = Number(
+          (F_PRICING_STATE_MOCK.referencePrice * tvdRelativeValue).toFixed(8)
         );
+        expect(result).toEqual(expected);
       });
     });
 
