@@ -2,6 +2,7 @@
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>{{ t('languageSelectLabel') }}</mat-label>
     <mat-select
+      hideSingleSelectionIndicator
       [formControl]="languageSelectControl"
       (selectionChange)="onLanguageSelectionChange($event.value)"
     >

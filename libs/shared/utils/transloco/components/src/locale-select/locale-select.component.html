@@ -2,6 +2,7 @@
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>{{ t('localeSelectLabel') }}</mat-label>
     <mat-select
+      hideSingleSelectionIndicator
       [formControl]="localeSelectControl"
       (selectionChange)="onLocaleSelectionChange($event.value)"
     >
