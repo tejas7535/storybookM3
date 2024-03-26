@@ -1,0 +1,14 @@
+{
+  "legal": {
+    "cookiePolicy": "Cookie-Richtlinie",
+    "cookieSettings": "Cookie Einstellungen",
+    "dataPrivacy": "Datenschutzerklärung",
+    "dataSource": "Wir nutzen Daten, die wir durch Ihren Azure Active Directory Account erhalten.",
+    "imprint": "Impressum",
+    "purpose": "<p>Das Materials App Center (MAC) ist eine Webapplikation und bietet eine Übersicht an verschiedenen speziell entwickelten Webanwendungen an. Hierdurch haben Sie Zugang zu den Services, die von Schaeffler Materials Technologies zur Verfügung gestellt werden. Sie haben dabei die Möglichkeit auf folgende Webanwendungen zuzugreifen: Hardness Converter, Materials Supplier Database, AQM Calculator und Lifetime Predictor.</p><p>In diesem Zusammenhang verarbeiten wir Ihre personenbezogenen Daten ausschließlich auf anonymer Basis. Durch die Verarbeitung werden folgende Auswertungen ermöglicht:</p><ul><li>• Auswertungen zu Anforderungsraten, Antwortzeiten und Fehlerraten der Website um zu erfahren, welche Seiten zu welchen Tageszeiten am häufigsten verwendet werden und wo die Nutzer sich befinden.</li><li>• Auswertungen zu Seitenansichten und Ladeleistung der Website</li><li>• Auswertungen zu Anzahl von Benutzern und Sitzungen</li><li>• Auswertungen von benutzerdefinierten Ereignissen und Metriken</li></ul><p>Des Weiteren verarbeiten wir Ihre personenbezogenen Daten, um auf unserer Übersichtsseite folgende Auswertungen zu ermöglichen:</p><ul><li>Welche Webanwendung wird vom Nutzer angeklickt und somit gestartet.</li></ul><p>In den verschiedene Webanwendungen auf unserer Übersichtsseite werden folgende Daten von Ihnen getrackt:<br>In der Hardness Converter Webanwendung können Sie Härte sowie Ausgangseinheit erfassen. Dabei können wir Ihre Eingabe tracken.<br>In der Materials Supplier Data Base Webanwendung werden Co2-Werte von bestellbaren Materialien zu verschiedenen Lieferanten zugeordnet. In diesen Fall wird Ihre Eingabe getrackt.<br>Mit der AQM Calculator Webanwendung können chemische Zusammensetzungen von Stählen mit bestehenden Normen angeglichen werden. Der Nutzer kann dabei Angaben zu Elementen machen. Diese Angaben werden von uns getrackt.<br>Die Lifetime Predictor Webanwendung dient zur Vorhersage für die Lebensdauer verschiedener Materialien unter bestimmten Belastungen. Dabei kann der Nutzer Materialparameter und Belastungs-Parameter eingeben. Diese Angaben werden durch uns getrackt.</p>",
+    "termsOfUse": "Nutzungsbedingungen"
+  },
+  "sidebar": {
+    "languageSettings": "Spracheinstellungen"
+  }
+}

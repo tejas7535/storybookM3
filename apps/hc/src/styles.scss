@@ -1,0 +1,64 @@
+/***************************************************************************************************
+* COMPONENTS AND THEMES
+*/
+
+/*
+* Angular Material, material design components
+* see https://material.angular.io
+
+*/
+@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+
+/***************************************************************************************************
+* UTILITIES
+*/
+/*
+* TailwindCSS, utility-first css framework
+* see https://tailwindcss.com/docs
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  ul {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+  }
+}
+
+.table-learnmore {
+  tr {
+    @apply even:bg-secondary odd:bg-hover-overlay min-w-full w-full;
+
+    td,
+    th {
+      @apply px-1 py-2;
+    }
+    th {
+      @apply py-4;
+    }
+  }
+}
+.learn-more-contents {
+  img.learnmore-image {
+    @apply w-full max-w-3xl;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold;
+  }
+  h1 {
+    @apply text-subtitle-1 text-h6;
+  }
+  h2 {
+    @apply text-subtitle-2;
+  }
+}
+
+.table-learnmore.table-compact {
+  @apply max-w-3xl;
+}

@@ -1,0 +1,219 @@
+{
+  "name": "hc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/hc/src",
+  "prefix": "hc",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:webpack-browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/hc",
+        "index": "apps/hc/src/index.html",
+        "main": "apps/hc/src/main.ts",
+        "polyfills": "apps/hc/src/polyfills.ts",
+        "tsConfig": "apps/hc/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/hc/src/favicon.ico",
+          "apps/hc/src/assets",
+          "apps/hc/src/browserconfig.xml",
+          "apps/hc/src/robots.txt"
+        ],
+        "styles": [
+          "apps/hc/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css",
+          "node_modules/@fontsource/noto-sans/400.css",
+          "node_modules/@fontsource/noto-sans/500.css"
+        ],
+        "scripts": [],
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "7mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "10kb"
+          }
+        ],
+        "buildLibsFromSource": false
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "assets": [
+            "apps/hc/src/favicon.ico",
+            "apps/hc/src/assets",
+            "apps/hc/src/browserconfig.xml",
+            {
+              "input": "apps/hc/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/hc/src/environments/environment.ts",
+              "with": "apps/hc/src/environments/environment.dev.ts"
+            }
+          ],
+          "assets": [
+            "apps/hc/src/favicon.ico",
+            "apps/hc/src/assets",
+            "apps/hc/src/browserconfig.xml",
+            {
+              "input": "apps/hc/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/hc/src/environments/environment.ts",
+              "with": "apps/hc/src/environments/environment.qa.ts"
+            }
+          ],
+          "assets": [
+            "apps/hc/src/favicon.ico",
+            "apps/hc/src/assets",
+            "apps/hc/src/browserconfig.xml",
+            {
+              "input": "apps/hc/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "fileReplacements": [
+            {
+              "replace": "apps/hc/src/environments/environment.ts",
+              "with": "apps/hc/src/environments/environment.prod.ts"
+            }
+          ],
+          "assets": [
+            "apps/hc/src/favicon.ico",
+            "apps/hc/src/assets",
+            "apps/hc/src/browserconfig.xml",
+            {
+              "input": "apps/hc/robots/prod",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "configurations": {
+        "local": {
+          "buildTarget": "hc:build:local"
+        },
+        "dev": {
+          "buildTarget": "hc:build:dev"
+        },
+        "qa": {
+          "buildTarget": "hc:build:qa"
+        },
+        "production": {
+          "buildTarget": "hc:build:production"
+        },
+        "e2e": {
+          "host": "0.0.0.0",
+          "buildTarget": "hc:build"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/hc/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/hc"],
+      "options": {
+        "jestConfig": "apps/hc/jest.config.ts"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Hardness Converter",
+        "commitMessageFormat": "chore(${projectName}): 🧈 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["hc:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/hc",
+          "cd dist/apps/hc && zip -r ../../zips/hc/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/webpack/hc/bundle-report.html"],
+      "options": {
+        "command": "pnpm webpack-bundle-analyzer dist/apps/hc/stats.json --mode static --report dist/webpack/hc/bundle-report.html --title 'HC Bundle Report' --no-open || true"
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/hc/assets/i18n"
+      }
+    }
+  },
+  "tags": []
+}

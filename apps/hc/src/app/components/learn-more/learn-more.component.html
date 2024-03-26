@@ -1,0 +1,65 @@
+<div
+  class="flex h-full w-full flex-col overflow-auto bg-surface"
+  *transloco="let t; read: 'learnmore'"
+>
+  <div class="fixed z-10 w-full bg-secondary">
+    <schaeffler-subheader
+      [subheaderTitle]="t('title')"
+      [breadcrumbs]="breadcrumbs"
+    >
+    </schaeffler-subheader>
+  </div>
+  <div
+    class="mt-[129px] flex w-full flex-1 flex-col md:flex-row md:justify-center gap-12 overflow-y-auto md:px-14 px-8"
+  >
+    <div class="max-w-7xl">
+      <div class="relative text-high-emphasis-dark-bg">
+        <div
+          class="absolute top-0 h-80 w-full rounded-lg bg-[#000] opacity-60"
+        ></div>
+        <img
+          class="top-0 h-80 w-full rounded-lg select-none object-cover"
+          src="/assets/images/hc_background.png"
+          [title]="imgTitle"
+          [alt]="imgTitle"
+        />
+        <div
+          class="absolute top-28 md:inset-x-8 inset-x-4 flex flex-col max-w-full flex-wrap"
+        >
+          <h2 class="text-h4 md:text-h3 break-words max-w-full">
+            {{ t('title') }}
+          </h2>
+          <div class="text-subtitle-2">{{ t('subTitle') }}</div>
+        </div>
+        <mat-icon
+          class="absolute md:right-20 md:top-20 md:!h-48 md:!w-48 !w-14 !h-14 left-auto bottom-auto right-4 top-4"
+          svgIcon="hardness_converter"
+        ></mat-icon>
+      </div>
+      <div>
+        <div class="py-4 text-h6 text-high-emphasis">{{ t('overview') }}</div>
+        <div class="space-y-6 learn-more-contents">
+          @for(part of t('content'); track part; let last = $last) {
+          <div>
+            @if(isImage(part)) {
+            <img
+              class="m-auto learnmore-image"
+              [src]="getAssetPath(part)"
+              title="learnmore"
+              alt="learnmore"
+            />
+            } @else {
+            <p
+              class="text-justify"
+              [ngClass]="{ inline: last }"
+              [innerHTML]="part"
+            ></p>
+            }
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    <hc-links-panel [linkGroups]="linkGroups" class="w-auto"></hc-links-panel>
+  </div>
+</div>
