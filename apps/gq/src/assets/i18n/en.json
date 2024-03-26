@@ -576,6 +576,8 @@
     "searchButton": "search",
     "cancelButton": "cancel",
     "minLengthError": "Please enter at least 3 characters.",
+    "casesLabel": "Cases",
+    "materialsLabel": "Material",
     "casesResultsTable": {
       "searchCriteriaLabel": "Search Criteria:",
       "gqNumber": "GQ Case Number",
