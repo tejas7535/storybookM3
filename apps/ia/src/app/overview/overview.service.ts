@@ -10,7 +10,6 @@ import { ApiVersion, EmployeesRequest } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -22,7 +21,6 @@ import {
 export class OverviewService {
   readonly OVERVIEW_WORKFORCE_BALANCE_META = 'overview-workforce-balance-meta';
   readonly OVERVIEW_FLUCTUATION_RATES = 'overview-fluctuation-rates';
-  readonly FLUCTUATION_RATES_CHART = 'fluctuation-rates-chart';
   readonly UNFORCED_FLUCTUATION_RATES_CHART =
     'unforced-fluctuation-rates-chart';
   readonly RESIGNED_EMPLOYEES = 'resigned-employees';
@@ -67,23 +65,6 @@ export class OverviewService {
 
     return this.http.get<OverviewWorkforceBalanceMeta>(
       `${ApiVersion.V1}/${this.OVERVIEW_WORKFORCE_BALANCE_META}`,
-      {
-        params,
-        context: withCache(),
-      }
-    );
-  }
-
-  getFluctuationRateChartData(
-    employeesRequest: EmployeesRequest
-  ): Observable<FluctuationRatesChartData> {
-    const params = this.paramsCreator.createHttpParamsForFilterDimension(
-      employeesRequest.filterDimension,
-      employeesRequest.value
-    );
-
-    return this.http.get<FluctuationRatesChartData>(
-      `${ApiVersion.V1}/${this.FLUCTUATION_RATES_CHART}`,
       {
         params,
         context: withCache(),

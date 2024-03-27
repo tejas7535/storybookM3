@@ -9,10 +9,8 @@ import { withCache } from '@ngneat/cashew';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
   ApiVersion,
-  AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
-  TimePeriod,
 } from '../shared/models';
 import { DimensionFluctuationData } from './models';
 import {
@@ -33,7 +31,6 @@ export class OrganizationalViewService {
   readonly ORG_CHART_EMPLOYEES = 'org-chart-employees';
   readonly WORLD_MAP = 'world-map';
   readonly DIMENSION_PARENT = 'dimension-parent';
-  readonly ATTRITION_OVER_TIME = 'attrition-over-time';
   readonly FLUCTUATION_RATE = 'fluctuation-rate';
 
   constructor(
@@ -134,26 +131,6 @@ export class OrganizationalViewService {
 
     return this.http.get<DimensionParentResponse>(
       `${ApiVersion.V1}/${this.DIMENSION_PARENT}`,
-      {
-        params,
-        context: withCache(),
-      }
-    );
-  }
-
-  getAttritionOverTime(
-    filterDimension: FilterDimension,
-    key: string,
-    timePeriod: TimePeriod.LAST_THREE_YEARS | TimePeriod.LAST_6_MONTHS
-  ): Observable<AttritionOverTime> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimePeriod(
-      filterDimension,
-      key,
-      timePeriod
-    );
-
-    return this.http.get<AttritionOverTime>(
-      `${ApiVersion.V1}/${this.ATTRITION_OVER_TIME}`,
       {
         params,
         context: withCache(),

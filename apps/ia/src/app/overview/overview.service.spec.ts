@@ -8,7 +8,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { EmployeesRequest, FilterDimension } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -53,28 +52,6 @@ describe('OverviewService', () => {
 
       const req = httpMock.expectOne(
         `api/v1/overview-workforce-balance-meta?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123%7C456`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(request);
-    });
-  });
-
-  describe('getFluctuationRateChartData', () => {
-    test('should call rest service', () => {
-      const orgUnit = 'Schaeffler12';
-      const request = {
-        filterDimension: FilterDimension.ORG_UNIT,
-        value: orgUnit,
-      } as EmployeesRequest;
-
-      const response = {} as FluctuationRatesChartData;
-
-      service.getFluctuationRateChartData(request).subscribe((result) => {
-        expect(result).toEqual(response);
-      });
-
-      const req = httpMock.expectOne(
-        `api/v1/fluctuation-rates-chart?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);

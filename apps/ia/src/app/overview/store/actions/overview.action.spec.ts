@@ -1,8 +1,7 @@
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import { EmployeesRequest, MonthlyFluctuation } from '../../../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -79,14 +78,16 @@ describe('Overview Actions', () => {
   });
 
   test('loadAttritionOverTimeOverviewSuccess', () => {
-    const data: AttritionOverTime = {} as unknown as AttritionOverTime;
+    const monthlyFluctuation: MonthlyFluctuation = {
+      fluctuationRates: [1, 2, 3],
+    } as MonthlyFluctuation;
 
     const action = loadAttritionOverTimeOverviewSuccess({
-      data,
+      monthlyFluctuation,
     });
 
     expect(action).toEqual({
-      data,
+      monthlyFluctuation,
       type: '[Overview] Load AttritionOverTime for last three years Success',
     });
   });
@@ -191,11 +192,13 @@ describe('Overview Actions', () => {
   });
 
   test('loadFluctuationRatesChartDataSuccess', () => {
-    const data = {} as FluctuationRatesChartData;
-    const action = loadFluctuationRatesChartDataSuccess({ data });
+    const monthlyFluctuation: MonthlyFluctuation = {
+      fluctuationRates: [1, 2, 3],
+    } as MonthlyFluctuation;
+    const action = loadFluctuationRatesChartDataSuccess({ monthlyFluctuation });
 
     expect(action).toEqual({
-      data,
+      monthlyFluctuation,
       type: '[Overview] Load FluctuationRatesChartData Success',
     });
   });
@@ -220,11 +223,15 @@ describe('Overview Actions', () => {
   });
 
   test('loadBenchmarkFluctuationRatesChartDataSuccess', () => {
-    const data = {} as FluctuationRatesChartData;
-    const action = loadBenchmarkFluctuationRatesChartDataSuccess({ data });
+    const monthlyFluctuation: MonthlyFluctuation = {
+      fluctuationRates: [1, 2, 3],
+    } as MonthlyFluctuation;
+    const action = loadBenchmarkFluctuationRatesChartDataSuccess({
+      monthlyFluctuation,
+    });
 
     expect(action).toEqual({
-      data,
+      monthlyFluctuation,
       type: '[Overview] Load Benchmark FluctuationRatesChartData Success',
     });
   });

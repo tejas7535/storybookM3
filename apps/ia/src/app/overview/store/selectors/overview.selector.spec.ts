@@ -119,11 +119,7 @@ describe('Overview Selector', () => {
       ...initialState,
       attritionOverTime: {
         data: {
-          data: {
-            2019: {
-              attrition: [10, 20, 10, 20, 10],
-            },
-          },
+          unforcedLeavers: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
         },
         loading: true,
         errorMessage: undefined,
@@ -290,12 +286,51 @@ describe('Overview Selector', () => {
   });
 
   describe('getAttritionOverTimeOverviewData', () => {
-    it('should return actual attrition data', () => {
+    test('should return actual attrition data', () => {
+      Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
+
       expect(getAttritionOverTimeOverviewData(fakeState)).toEqual({
         2019: {
-          attrition: [10, 20, 10, 20, 10],
+          attrition: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
         },
       });
+    });
+
+    test('should return leavers when less than 12', () => {
+      Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
+
+      const leavers = [1, 2, 3, 4, 5, 6, 7];
+
+      const result = getAttritionOverTimeOverviewData.projector(leavers);
+
+      expect(result).toEqual({ 2019: { attrition: [1, 2, 3, 4, 5, 6, 7] } });
+    });
+
+    test('should return leavers when less than 24', () => {
+      Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
+
+      const leavers = [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+      ];
+
+      const result = getAttritionOverTimeOverviewData.projector(leavers);
+
+      expect(result).toEqual({
+        2018: {
+          attrition: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        },
+        2019: {
+          attrition: [13, 14, 15, 16, 17],
+        },
+      });
+    });
+
+    test('should return empty object when leavers empty', () => {
+      Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
+
+      const result = getAttritionOverTimeOverviewData.projector([]);
+
+      expect(result).toEqual({});
     });
   });
 

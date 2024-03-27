@@ -1,10 +1,9 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import { EmployeesRequest, MonthlyFluctuation } from '../../../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -25,7 +24,7 @@ export const loadAttritionOverTimeOverview = createAction(
 
 export const loadAttritionOverTimeOverviewSuccess = createAction(
   '[Overview] Load AttritionOverTime for last three years Success',
-  props<{ data: AttritionOverTime }>()
+  props<{ monthlyFluctuation: MonthlyFluctuation }>()
 );
 
 export const loadAttritionOverTimeOverviewFailure = createAction(
@@ -121,7 +120,7 @@ export const loadFluctuationRatesChartData = createAction(
 
 export const loadFluctuationRatesChartDataSuccess = createAction(
   '[Overview] Load FluctuationRatesChartData Success',
-  props<{ data: FluctuationRatesChartData }>()
+  props<{ monthlyFluctuation: MonthlyFluctuation }>()
 );
 
 export const loadFluctuationRatesChartDataFailure = createAction(
@@ -136,7 +135,7 @@ export const loadBenchmarkFluctuationRatesChartData = createAction(
 
 export const loadBenchmarkFluctuationRatesChartDataSuccess = createAction(
   '[Overview] Load Benchmark FluctuationRatesChartData Success',
-  props<{ data: FluctuationRatesChartData }>()
+  props<{ monthlyFluctuation: MonthlyFluctuation }>()
 );
 
 export const loadBenchmarkFluctuationRatesChartDataFailure = createAction(

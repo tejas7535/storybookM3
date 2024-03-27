@@ -6,7 +6,7 @@ import { Observable, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { EChartsOption, LineSeriesOption } from 'echarts';
 
-import { createFluctuationRateChartConfig } from '../../shared/charts/line-chart/line-chart-utils';
+import { getDefaultFluctuationChartConfig } from '../../overview/store/selectors/overview.selector';
 import { ChartType, SeriesType } from '../models';
 import { changeAttritionOverTimeSeries } from '../store/actions/organizational-view.action';
 import {
@@ -33,7 +33,7 @@ export class AttritionDialogComponent implements OnInit {
 
   fluctuationLoading$: Observable<boolean>;
   childDimensionName$: Observable<string>;
-  fluctuationChartConfig: EChartsOption;
+  fluctuationChartConfig$: Observable<EChartsOption>;
   meta: AttritionDialogMeta;
 
   selectedSeriesType$: Observable<SeriesType>;
@@ -49,7 +49,9 @@ export class AttritionDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fluctuationChartConfig = createFluctuationRateChartConfig('', 1);
+    this.fluctuationChartConfig$ = this.store.select(
+      getDefaultFluctuationChartConfig
+    );
     this.parentFluctuationOverTimeData$ = this.store.select(
       getParentAttritionOverTimeOrgChartData
     );

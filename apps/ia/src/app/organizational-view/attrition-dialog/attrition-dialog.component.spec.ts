@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { EChartsOption } from 'echarts';
 import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { getDefaultFluctuationChartConfig } from '../../overview/store/selectors/overview.selector';
 import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';
 import { SeriesType } from '../models';
@@ -62,6 +64,22 @@ describe('AttritionDialogComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    test(
+      'fluctuationChartConfig',
+      marbles((m) => {
+        const result = {} as EChartsOption;
+        store.overrideSelector(getDefaultFluctuationChartConfig, result);
+
+        component.ngOnInit();
+
+        m.expect(component.fluctuationChartConfig$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
     test(
       'should set parent fluctuation over time data',
       marbles((m) => {

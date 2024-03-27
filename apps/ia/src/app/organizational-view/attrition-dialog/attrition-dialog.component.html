@@ -54,7 +54,7 @@
           </mat-button-toggle-group>
         </div>
         <ia-line-chart
-          [config]="fluctuationChartConfig"
+          [config]="fluctuationChartConfig$ | ngrxPush"
           [isDataLoading]="childFluctuationOverTimeDataLoading$ | ngrxPush"
           [series]="childFluctuationOverTimeData$ | ngrxPush"
           [benchmarkSeries]="parentFluctuationOverTimeData$ | ngrxPush"

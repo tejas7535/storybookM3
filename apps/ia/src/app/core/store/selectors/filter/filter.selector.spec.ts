@@ -15,6 +15,7 @@ import {
   getCurrentDimensionValue,
   getCurrentFilters,
   getCurrentRoute,
+  getLast6MonthsTimeRange,
   getSelectedBenchmarkValue,
   getSelectedDimension,
   getSelectedDimensionDataLoading,
@@ -25,6 +26,7 @@ import {
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
+  getTimeRangeForAllAvailableData,
 } from './filter.selector';
 
 describe('Filter Selector', () => {
@@ -107,15 +109,6 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getCurrentFilters', () => {
-    test('should return current filters', () => {
-      const result = getCurrentFilters(fakeState);
-      expect(result.filterDimension).toEqual(FilterDimension.ORG_UNIT);
-      expect(result.value).toEqual('Schaeffler_IT_1');
-      expect(result.timeRange).toEqual('1577863715000|1609399715000');
-    });
-  });
-
   describe('getSelectedDimensionDataLoading', () => {
     test('should return loading status', () => {
       expect(getSelectedDimensionDataLoading(fakeState)).toBeTruthy();
@@ -154,6 +147,30 @@ describe('Filter Selector', () => {
         id: '1577863715000|1609399715000',
         value: '1/1/2020 - 12/31/2020',
       });
+    });
+  });
+
+  describe('getTimeRangeForAllAvailableData', () => {
+    test('should return time range since 2021 until 2029 for org unit when today is 2029', () => {
+      Date.now = jest.fn().mockReturnValue(new Date('2029-05-13').getTime());
+
+      const result = getTimeRangeForAllAvailableData.projector(
+        FilterDimension.ORG_UNIT
+      );
+
+      expect(result).toEqual('1609459200|1893455999');
+    });
+  });
+
+  describe('getLast6MonthsTimeRange', () => {
+    test('should return time range for last 6 months when today is 2022-05-04', () => {
+      Date.now = jest.fn().mockReturnValue(new Date('2022-05-04').getTime());
+
+      const result = getLast6MonthsTimeRange.projector(
+        new IdValue('1577836800|1609372800', '2020-01-01 - 2020-12-31')
+      );
+
+      expect(result).toEqual('1593561600|1609459199');
     });
   });
 

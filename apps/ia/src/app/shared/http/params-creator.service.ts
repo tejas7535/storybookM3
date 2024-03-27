@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { FilterDimension } from '../models';
+import { FilterDimension, MonthlyFluctuationOverTime } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,7 @@ export class ParamsCreatorService {
   readonly PARAM_TIME_RANGE = 'time_range';
   readonly PARAM_TIME_PERIOD = 'time_period';
   readonly PARAM_POSITION_DESCRIPTION = 'position_description';
+  readonly PARAM_TYPE = 'type';
 
   createHttpParamsForAutoCompleteOrgUnits(
     searchFor: string,
@@ -58,6 +59,19 @@ export class ParamsCreatorService {
       .set(this.PARAM_FILTER_DIMENSION, filterDimension)
       .set(this.PARAM_FILTER_VALUE, value)
       .set(this.PARAM_TIME_RANGE, timeRange);
+  }
+
+  createHttpParamsForDimensionTimeRangeAndTypes(
+    filterDimension: FilterDimension,
+    value: string,
+    timeRange: string,
+    type: MonthlyFluctuationOverTime[]
+  ) {
+    return new HttpParams()
+      .set(this.PARAM_FILTER_DIMENSION, filterDimension)
+      .set(this.PARAM_FILTER_VALUE, value)
+      .set(this.PARAM_TIME_RANGE, timeRange)
+      .set(this.PARAM_TYPE, type.join(','));
   }
 
   createHttpParamsForFilterValueTimeRangeAndTimePeriod(

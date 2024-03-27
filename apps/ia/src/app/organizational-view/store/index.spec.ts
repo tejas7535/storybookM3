@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 
 import {
-  AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
+  MonthlyFluctuation,
 } from '../../shared/models';
 import { ChartType, DimensionFluctuationData } from '../models';
 import { DimensionParentResponse, OrgChartEmployee } from '../org-chart/models';
@@ -166,14 +166,16 @@ describe('Organization View Reducer', () => {
 
   describe('loadParentAttritionOverTimeOrgChartSuccess', () => {
     test('should unset loading and set country data', () => {
-      const data: AttritionOverTime = {} as unknown as AttritionOverTime;
+      const monthlyFluctuation = {} as unknown as MonthlyFluctuation;
 
-      const action = loadParentAttritionOverTimeOrgChartSuccess({ data });
+      const action = loadParentAttritionOverTimeOrgChartSuccess({
+        monthlyFluctuation,
+      });
 
       const state = organizationalViewReducer(initialState, action);
 
       expect(state.attritionOverTime.parent.loading).toBeFalsy();
-      expect(state.attritionOverTime.parent.data).toEqual(data);
+      expect(state.attritionOverTime.parent.data).toEqual(monthlyFluctuation);
     });
   });
 
@@ -196,14 +198,16 @@ describe('Organization View Reducer', () => {
 
   describe('loadChildAttritionOverTimeOrgChartSuccess', () => {
     test('should unset loading and set country data', () => {
-      const data: AttritionOverTime = {} as unknown as AttritionOverTime;
+      const monthlyFluctuation = {} as unknown as MonthlyFluctuation;
 
-      const action = loadChildAttritionOverTimeOrgChartSuccess({ data });
+      const action = loadChildAttritionOverTimeOrgChartSuccess({
+        monthlyFluctuation,
+      });
 
       const state = organizationalViewReducer(initialState, action);
 
       expect(state.attritionOverTime.child.loading).toBeFalsy();
-      expect(state.attritionOverTime.child.data).toEqual(data);
+      expect(state.attritionOverTime.child.data).toEqual(monthlyFluctuation);
     });
   });
 

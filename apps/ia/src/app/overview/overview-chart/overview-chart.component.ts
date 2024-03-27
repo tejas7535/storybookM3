@@ -54,12 +54,17 @@ export class OverviewChartComponent {
     this._data = data;
 
     const series: any = data
-      ? Object.keys(data).map((name) => ({
-          ...LINE_SERIES_BASE_OPTIONS,
-          symbolSize: this.SYMBOL_SIZE,
-          name,
-          data: data[name].attrition,
-        }))
+      ? Object.keys(data)
+          .reverse()
+          .map((name) => ({
+            ...LINE_SERIES_BASE_OPTIONS,
+            symbolSize: this.SYMBOL_SIZE,
+            name,
+            data: data[name].attrition,
+            emphasis: {
+              focus: 'series',
+            },
+          }))
       : undefined;
 
     this.options = {

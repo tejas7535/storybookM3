@@ -1,3 +1,4 @@
+import { MonthlyFluctuationOverTime } from '.';
 import { FilterDimension } from './filter';
 
 export class EmployeesRequest {
@@ -5,6 +6,7 @@ export class EmployeesRequest {
     public filterDimension: FilterDimension,
     public value: string,
     public timeRange: string,
-    public positionDescription?: string
+    public positionDescription?: string,
+    public type?: MonthlyFluctuationOverTime[]
   ) {}
 }

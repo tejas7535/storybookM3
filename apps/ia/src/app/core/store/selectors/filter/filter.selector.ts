@@ -3,7 +3,10 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 import moment from 'moment';
 
-import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../../shared/constants';
+import {
+  DATA_IMPORT_DAY,
+  DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS,
+} from '../../../../shared/constants';
 import {
   EmployeesRequest,
   Filter,
@@ -219,6 +222,37 @@ export const getSelectedTimeRange = createSelector(
   getAllSelectedFilters,
   (filters: SelectedFilter[]) =>
     filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
+);
+
+export const getTimeRangeForAllAvailableData = createSelector(
+  getSelectedDimension,
+  (dimension: FilterDimension) => {
+    const nowDate = moment()
+      .utc()
+      .subtract(DATA_IMPORT_DAY - 1, 'day') // use previous month if data is not imported yet
+      .endOf('month');
+
+    const end = nowDate.clone().endOf('year').utc();
+    const start =
+      dimension === FilterDimension.ORG_UNIT
+        ? moment.utc({ year: 2021, month: 0, day: 1 })
+        : moment.utc({ year: 2022, month: 0, day: 1 });
+
+    return `${start.unix()}|${end.unix()}`;
+  }
+);
+
+export const getLast6MonthsTimeRange = createSelector(
+  getSelectedTimeRange,
+  (timeRange: IdValue) => {
+    const end = moment
+      .unix(+timeRange.id.split('|')[1])
+      .utc()
+      .endOf('month');
+    const start = end.clone().subtract(5, 'months').startOf('month');
+
+    return `${start.unix()}|${end.unix()}`;
+  }
 );
 
 export const getBeautifiedFilterValues = createSelector(

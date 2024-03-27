@@ -1,11 +1,10 @@
 /* eslint-disable max-lines */
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { AttritionOverTime } from '../../shared/models';
+import { MonthlyFluctuation } from '../../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -55,7 +54,7 @@ export const overviewFeatureKey = 'overview';
 
 export interface OverviewState {
   attritionOverTime: {
-    data: AttritionOverTime;
+    data: Partial<MonthlyFluctuation>;
     loading: boolean;
     errorMessage: string;
   };
@@ -95,12 +94,12 @@ export interface OverviewState {
   };
   fluctuationRatesChart: {
     benchmark: {
-      data: FluctuationRatesChartData;
+      data: Partial<MonthlyFluctuation>;
       loading: boolean;
       errorMessage: string;
     };
     dimension: {
-      data: FluctuationRatesChartData;
+      data: Partial<MonthlyFluctuation>;
       loading: boolean;
       errorMessage: string;
     };
@@ -288,11 +287,14 @@ export const overviewReducer = createReducer(
   ),
   on(
     loadAttritionOverTimeOverviewSuccess,
-    (state: OverviewState, { data }): OverviewState => ({
+    (state: OverviewState, { monthlyFluctuation }): OverviewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
-        data,
+        data: {
+          ...state.attritionOverTime.data,
+          ...monthlyFluctuation,
+        },
         loading: false,
       },
     })
@@ -531,13 +533,16 @@ export const overviewReducer = createReducer(
   ),
   on(
     loadFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }): OverviewState => ({
+    (state: OverviewState, { monthlyFluctuation }): OverviewState => ({
       ...state,
       fluctuationRatesChart: {
         ...state.fluctuationRatesChart,
         dimension: {
           ...state.fluctuationRatesChart.dimension,
-          data,
+          data: {
+            ...state.fluctuationRatesChart.dimension.data,
+            ...monthlyFluctuation,
+          },
           loading: false,
         },
       },
@@ -572,13 +577,16 @@ export const overviewReducer = createReducer(
   ),
   on(
     loadBenchmarkFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }): OverviewState => ({
+    (state: OverviewState, { monthlyFluctuation }): OverviewState => ({
       ...state,
       fluctuationRatesChart: {
         ...state.fluctuationRatesChart,
         benchmark: {
           ...state.fluctuationRatesChart.benchmark,
-          data,
+          data: {
+            ...state.fluctuationRatesChart.benchmark.data,
+            ...monthlyFluctuation,
+          },
           loading: false,
         },
       },

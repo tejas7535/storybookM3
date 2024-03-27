@@ -38,7 +38,7 @@
           </div>
           <div class="grow">
             <ia-line-chart
-              [config]="fluctuationRatesChartConfig"
+              [config]="fluctuationRatesChartConfig | ngrxPush"
               [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
               [title]="t('fluctuationChartTitle')"
               [series]="fluctuationChartData$ | ngrxPush"
@@ -91,7 +91,7 @@
           </div>
           <div class="grow">
             <ia-line-chart
-              [config]="unforcedFluctuationRatesChartConfig"
+              [config]="unforcedFluctuationRatesChartConfig | ngrxPush"
               [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
               [title]="t('unforcedFluctuationChartTitle')"
               [series]="unforcedFluctuationChartData$ | ngrxPush"

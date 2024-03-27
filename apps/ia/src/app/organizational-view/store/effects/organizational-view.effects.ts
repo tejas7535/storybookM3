@@ -16,14 +16,16 @@ import {
 import {
   getCurrentDimensionValue,
   getCurrentFilters,
+  getLast6MonthsTimeRange,
   getSelectedDimension,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import {
-  AttritionOverTime,
   EmployeesRequest,
-  TimePeriod,
+  MonthlyFluctuation,
+  MonthlyFluctuationOverTime,
 } from '../../../shared/models';
+import { SharedService } from '../../../shared/shared.service';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { DimensionFluctuationData } from '../../models';
 import {
@@ -203,26 +205,29 @@ export class OrganizationalViewEffects {
   loadParentAttritionOverTimeOrgChart$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParentAttritionOverTimeOrgChart),
-      map((action) => action.request),
+      concatLatestFrom(() => this.store.select(getLast6MonthsTimeRange)),
+      map(([action, timeRange]) => ({
+        ...action.request,
+        timeRange,
+        type: [
+          MonthlyFluctuationOverTime.UNFORCED_LEAVERS,
+          MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+          MonthlyFluctuationOverTime.HEADCOUNTS,
+        ],
+      })),
       switchMap((request: EmployeesRequest) =>
-        this.organizationalViewService
-          .getAttritionOverTime(
-            request.filterDimension,
-            request.value,
-            TimePeriod.LAST_6_MONTHS
-          )
-          .pipe(
-            map((data: AttritionOverTime) =>
-              loadParentAttritionOverTimeOrgChartSuccess({ data })
-            ),
-            catchError((error) =>
-              of(
-                loadParentAttritionOverTimeOrgChartFailure({
-                  errorMessage: error.message,
-                })
-              )
+        this.sharedService.getFluctuationRateChartData(request).pipe(
+          map((monthlyFluctuation: MonthlyFluctuation) =>
+            loadParentAttritionOverTimeOrgChartSuccess({ monthlyFluctuation })
+          ),
+          catchError((error) =>
+            of(
+              loadParentAttritionOverTimeOrgChartFailure({
+                errorMessage: error.message,
+              })
             )
           )
+        )
       )
     );
   });
@@ -230,25 +235,32 @@ export class OrganizationalViewEffects {
   loadChildAttritionOverTimeOrgChart$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadChildAttritionOverTimeOrgChart),
-      switchMap((action) =>
-        this.organizationalViewService
-          .getAttritionOverTime(
-            action.filterDimension,
-            action.dimensionKey,
-            TimePeriod.LAST_6_MONTHS
-          )
-          .pipe(
-            map((data: AttritionOverTime) =>
-              loadChildAttritionOverTimeOrgChartSuccess({ data })
-            ),
-            catchError((error) =>
-              of(
-                loadChildAttritionOverTimeOrgChartFailure({
-                  errorMessage: error.message,
-                })
-              )
+      concatLatestFrom(() => this.store.select(getLast6MonthsTimeRange)),
+      map(([action, timeRange]) => {
+        return {
+          filterDimension: action.filterDimension,
+          value: action.dimensionKey,
+          timeRange,
+          type: [
+            MonthlyFluctuationOverTime.UNFORCED_LEAVERS,
+            MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+            MonthlyFluctuationOverTime.HEADCOUNTS,
+          ],
+        };
+      }),
+      switchMap((request) =>
+        this.sharedService.getFluctuationRateChartData(request).pipe(
+          map((monthlyFluctuation: MonthlyFluctuation) =>
+            loadChildAttritionOverTimeOrgChartSuccess({ monthlyFluctuation })
+          ),
+          catchError((error) =>
+            of(
+              loadChildAttritionOverTimeOrgChartFailure({
+                errorMessage: error.message,
+              })
             )
           )
+        )
       )
     );
   });
@@ -277,6 +289,7 @@ export class OrganizationalViewEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly organizationalViewService: OrganizationalViewService,
+    private readonly sharedService: SharedService,
     private readonly store: Store
   ) {}
 }

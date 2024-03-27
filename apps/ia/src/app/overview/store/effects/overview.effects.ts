@@ -18,20 +18,21 @@ import {
   getCurrentBenchmarkFilters,
   getCurrentDimensionValue,
   getCurrentFilters,
+  getLast6MonthsTimeRange,
   getSelectedBenchmarkValue,
+  getTimeRangeForAllAvailableData,
 } from '../../../core/store/selectors';
-import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../../shared/constants';
 import {
-  AttritionOverTime,
   EmployeesRequest,
-  TimePeriod,
+  MonthlyFluctuation,
+  MonthlyFluctuationOverTime,
 } from '../../../shared/models';
+import { SharedService } from '../../../shared/shared.service';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -222,26 +223,27 @@ export class OverviewEffects {
   loadAttritionOverTimeOverview$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadAttritionOverTimeOverview),
-      map((action) => action.request),
+      concatLatestFrom(() =>
+        this.store.select(getTimeRangeForAllAvailableData)
+      ),
+      map(([action, timeRange]) => ({
+        ...action.request,
+        timeRange,
+        type: [MonthlyFluctuationOverTime.UNFORCED_LEAVERS],
+      })),
       switchMap((request: EmployeesRequest) =>
-        this.organizationalViewService
-          .getAttritionOverTime(
-            request.filterDimension,
-            request.value,
-            TimePeriod.LAST_THREE_YEARS
-          )
-          .pipe(
-            map((data: AttritionOverTime) =>
-              loadAttritionOverTimeOverviewSuccess({ data })
-            ),
-            catchError((error) =>
-              of(
-                loadAttritionOverTimeOverviewFailure({
-                  errorMessage: error.message,
-                })
-              )
+        this.sharedService.getFluctuationRateChartData(request).pipe(
+          map((monthlyFluctuation: MonthlyFluctuation) =>
+            loadAttritionOverTimeOverviewSuccess({ monthlyFluctuation })
+          ),
+          catchError((error) =>
+            of(
+              loadAttritionOverTimeOverviewFailure({
+                errorMessage: error.message,
+              })
             )
           )
+        )
       )
     )
   );
@@ -270,11 +272,19 @@ export class OverviewEffects {
   loadFluctuationRatesChartData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadFluctuationRatesChartData),
-      map((action) => action.request),
+      concatLatestFrom(() => this.store.select(getLast6MonthsTimeRange)),
+      map(([action, timeRange]) => ({
+        ...action.request,
+        timeRange,
+        type: [
+          MonthlyFluctuationOverTime.FLUCTUATION_RATES,
+          MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+        ],
+      })),
       switchMap((request: EmployeesRequest) =>
-        this.overviewService.getFluctuationRateChartData(request).pipe(
-          map((data: FluctuationRatesChartData) =>
-            loadFluctuationRatesChartDataSuccess({ data })
+        this.sharedService.getFluctuationRateChartData(request).pipe(
+          map((monthlyFluctuation: MonthlyFluctuation) =>
+            loadFluctuationRatesChartDataSuccess({ monthlyFluctuation })
           ),
           catchError((error) =>
             of(
@@ -291,11 +301,21 @@ export class OverviewEffects {
   loadBenchmarkFluctuationRatesChartData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBenchmarkFluctuationRatesChartData),
-      map((action) => action.request),
+      concatLatestFrom(() => this.store.select(getLast6MonthsTimeRange)),
+      map(([action, timeRange]) => ({
+        ...action.request,
+        timeRange,
+        type: [
+          MonthlyFluctuationOverTime.FLUCTUATION_RATES,
+          MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+        ],
+      })),
       switchMap((request: EmployeesRequest) =>
-        this.overviewService.getFluctuationRateChartData(request).pipe(
-          map((data: FluctuationRatesChartData) =>
-            loadBenchmarkFluctuationRatesChartDataSuccess({ data })
+        this.sharedService.getFluctuationRateChartData(request).pipe(
+          map((monthlyFluctuation: MonthlyFluctuation) =>
+            loadBenchmarkFluctuationRatesChartDataSuccess({
+              monthlyFluctuation,
+            })
           ),
           catchError((error) =>
             of(
@@ -459,7 +479,7 @@ export class OverviewEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly overviewService: OverviewService,
-    private readonly organizationalViewService: OrganizationalViewService,
+    private readonly sharedService: SharedService,
     private readonly store: Store
   ) {}
 

@@ -1,9 +1,9 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import {
-  AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
+  MonthlyFluctuation,
 } from '../../../shared/models';
 import { ChartType, DimensionFluctuationData, SeriesType } from '../../models';
 import {
@@ -77,22 +77,24 @@ export const loadParentFailure = createAction(
 );
 
 export const loadParentAttritionOverTimeOrgChart = createAction(
-  '[Organizational View] Load Parent AttritionOverTime for plus minus three months',
+  '[Organizational View] Load Parent AttritionOverTime for last six months',
   props<{ request: EmployeesRequest; dimensionName: string }>()
 );
 
 export const loadParentAttritionOverTimeOrgChartSuccess = createAction(
-  '[Organizational View] Load Parent AttritionOverTime for plus minus three months Success',
-  props<{ data: AttritionOverTime }>()
+  '[Organizational View] Load Parent AttritionOverTime for last six months Success',
+  props<{
+    monthlyFluctuation: MonthlyFluctuation;
+  }>()
 );
 
 export const loadParentAttritionOverTimeOrgChartFailure = createAction(
-  '[Organizational View] Load Parent AttritionOverTime for plus minus three months Failure',
+  '[Organizational View] Load Parent AttritionOverTime for last six months Failure',
   props<{ errorMessage: string }>()
 );
 
 export const loadChildAttritionOverTimeOrgChart = createAction(
-  '[Organizational View] Load Child AttritionOverTime for plus minus three months',
+  '[Organizational View] Load Child AttritionOverTime for last six months',
   props<{
     filterDimension: FilterDimension;
     dimensionKey: string;
@@ -101,12 +103,14 @@ export const loadChildAttritionOverTimeOrgChart = createAction(
 );
 
 export const loadChildAttritionOverTimeOrgChartSuccess = createAction(
-  '[Organizational View] Load Child AttritionOverTime for plus minus three months Success',
-  props<{ data: AttritionOverTime }>()
+  '[Organizational View] Load Child AttritionOverTime for last six months Success',
+  props<{
+    monthlyFluctuation: MonthlyFluctuation;
+  }>()
 );
 
 export const loadChildAttritionOverTimeOrgChartFailure = createAction(
-  '[Organizational View] Load Child AttritionOverTime for plus minus three months Failure',
+  '[Organizational View] Load Child AttritionOverTime for last six months Failure',
   props<{ errorMessage: string }>()
 );
 

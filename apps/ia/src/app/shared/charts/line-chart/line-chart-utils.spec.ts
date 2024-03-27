@@ -4,12 +4,16 @@ import { createFluctuationRateChartConfig } from './line-chart-utils';
 
 describe('createFluctuationRateChartConfig', () => {
   test('should create chart config', () => {
-    const result = createFluctuationRateChartConfig();
+    const result = createFluctuationRateChartConfig(
+      '%',
+      0.1,
+      '1625097600|1627776000'
+    );
 
     expect(result.series).toEqual([]);
     expect(result.yAxis).toEqual({
       axisLabel: {
-        formatter: '{value}',
+        formatter: '{value}%',
       },
       minInterval: 0.1,
     });
@@ -23,7 +27,11 @@ describe('createFluctuationRateChartConfig', () => {
   });
 
   test('should create chart config with unit and min interval', () => {
-    const result = createFluctuationRateChartConfig('%', 10);
+    const result = createFluctuationRateChartConfig(
+      '%',
+      10,
+      '1625097600|1627776000'
+    );
 
     expect(result.yAxis).toEqual({
       axisLabel: {

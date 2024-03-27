@@ -92,6 +92,9 @@ describe('OverviewChartComponent', () => {
             symbolSize: component.SYMBOL_SIZE,
             name: '2020',
             data: [10, 20, 10],
+            emphasis: {
+              focus: 'series',
+            },
           },
         ],
       };

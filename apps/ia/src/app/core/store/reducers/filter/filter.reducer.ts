@@ -189,9 +189,9 @@ export const filterReducer = createReducer(
     (state: FilterState, { filter }): FilterState => ({
       ...state,
       selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
-      selectedDimension: Object.values(FilterDimension).find(
-        (d) => d === filter.name
-      ),
+      selectedDimension:
+        Object.values(FilterDimension).find((d) => d === filter.name) ??
+        state.selectedDimension,
       // There is only one time range filter for now. It makes changes for both filter collections.
       // So, when time range filter changes, make updates in benchmark filters too.
       benchmarkFilters:

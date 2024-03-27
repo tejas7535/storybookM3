@@ -11,7 +11,6 @@ import {
   getBeautifiedFilterValues,
   getSelectedDimension,
 } from '../core/store/selectors/filter/filter.selector';
-import { createFluctuationRateChartConfig } from '../shared/charts/line-chart/line-chart-utils';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
@@ -35,6 +34,7 @@ import {
   getBenchmarkFluctuationKpi,
   getBenchmarkFluctuationRatesForChart,
   getBenchmarkUnforcedFluctuationRatesForChart,
+  getDefaultFluctuationChartConfig,
   getDimensionFluctuationKpi,
   getDimensionFluctuationRatesForChart,
   getDimensionUnforcedFluctuationRatesForChart,
@@ -69,8 +69,8 @@ import {
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit {
-  fluctuationRatesChartConfig: EChartsOption;
-  unforcedFluctuationRatesChartConfig: EChartsOption;
+  fluctuationRatesChartConfig: Observable<EChartsOption>;
+  unforcedFluctuationRatesChartConfig: Observable<EChartsOption>;
   fluctuationChartData$: Observable<LineSeriesOption[]>;
   benchmarkfluctuationChartData$: Observable<LineSeriesOption[]>;
   benchmarkUnforcedFluctuationChartData$: Observable<LineSeriesOption[]>;
@@ -192,11 +192,12 @@ export class OverviewComponent implements OnInit {
   }
 
   loadFluctuationData() {
-    const percentageSign = '%';
-    this.fluctuationRatesChartConfig =
-      createFluctuationRateChartConfig(percentageSign);
-    this.unforcedFluctuationRatesChartConfig =
-      createFluctuationRateChartConfig(percentageSign);
+    this.fluctuationRatesChartConfig = this.store.select(
+      getDefaultFluctuationChartConfig
+    );
+    this.unforcedFluctuationRatesChartConfig = this.store.select(
+      getDefaultFluctuationChartConfig
+    );
     this.isDimensionFluctuationKpiLoading$ = this.store.select(
       getIsLoadingDimensionFluctuationRates
     );

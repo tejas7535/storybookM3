@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { AttritionOverTime } from '../../shared/models';
+import { MonthlyFluctuation } from '../../shared/models';
 import { ChartType, DimensionFluctuationData, SeriesType } from '../models';
 import { OrgChartEmployee } from '../org-chart/models';
 import { CountryDataAttrition } from '../world-map/models/country-data-attrition.model';
@@ -54,13 +54,13 @@ export interface OrganizationalViewState {
   attritionOverTime: {
     parent: {
       dimensionName: string;
-      data: AttritionOverTime;
+      data: Partial<MonthlyFluctuation>;
       loading: boolean;
       errorMessage: string;
     };
     child: {
       dimensionName: string;
-      data: AttritionOverTime;
+      data: Partial<MonthlyFluctuation>;
       loading: boolean;
       errorMessage: string;
     };
@@ -263,13 +263,19 @@ export const organizationalViewReducer = createReducer(
   ),
   on(
     loadParentAttritionOverTimeOrgChartSuccess,
-    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
+    (
+      state: OrganizationalViewState,
+      { monthlyFluctuation }
+    ): OrganizationalViewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
         parent: {
           ...state.attritionOverTime.parent,
-          data,
+          data: {
+            ...state.attritionOverTime.parent.data,
+            ...monthlyFluctuation,
+          },
           loading: false,
         },
       },
@@ -313,13 +319,19 @@ export const organizationalViewReducer = createReducer(
   ),
   on(
     loadChildAttritionOverTimeOrgChartSuccess,
-    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
+    (
+      state: OrganizationalViewState,
+      { monthlyFluctuation }
+    ): OrganizationalViewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
         child: {
           ...state.attritionOverTime.child,
-          data,
+          data: {
+            ...state.attritionOverTime.child.data,
+            ...monthlyFluctuation,
+          },
           loading: false,
         },
       },

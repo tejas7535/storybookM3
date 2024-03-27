@@ -13,19 +13,20 @@ import {
   getCurrentBenchmarkFilters,
   getCurrentDimensionValue,
   getCurrentFilters,
+  getLast6MonthsTimeRange,
   getSelectedBenchmarkValue,
+  getTimeRangeForAllAvailableData,
 } from '../../../core/store/selectors';
-import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
-  AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
-  TimePeriod,
+  MonthlyFluctuation,
+  MonthlyFluctuationOverTime,
 } from '../../../shared/models';
+import { SharedService } from '../../../shared/shared.service';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -84,7 +85,7 @@ describe('Overview Effects', () => {
   let spectator: SpectatorService<OverviewEffects>;
   let actions$: any;
   let overviewService: OverviewService;
-  let organizationalViewService: OrganizationalViewService;
+  let sharedService: SharedService;
   let action: any;
   let effects: OverviewEffects;
   let store: MockStore;
@@ -105,10 +106,8 @@ describe('Overview Effects', () => {
         },
       },
       {
-        provide: OrganizationalViewService,
-        useValue: {
-          getResignedEmployees: jest.fn(),
-        },
+        provide: SharedService,
+        useValue: {},
       },
     ],
   });
@@ -118,7 +117,7 @@ describe('Overview Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(OverviewEffects);
     overviewService = spectator.inject(OverviewService);
-    organizationalViewService = spectator.inject(OrganizationalViewService);
+    sharedService = spectator.inject(SharedService);
     store = spectator.inject(MockStore);
   });
 
@@ -327,7 +326,7 @@ describe('Overview Effects', () => {
       'loadAttritionOverTimeOverviewSuccess - should do nothing when dimension selected',
       marbles((m) => {
         action = loadAttritionOverTimeOverviewSuccess({
-          data: {} as AttritionOverTime,
+          monthlyFluctuation: {} as MonthlyFluctuation,
         });
         store.overrideSelector(getCurrentDimensionValue, value);
 
@@ -361,7 +360,7 @@ describe('Overview Effects', () => {
       'loadFluctuationRatesChartDataSuccess - should do nothing when dimension selected',
       marbles((m) => {
         action = loadFluctuationRatesChartDataSuccess({
-          data: {} as FluctuationRatesChartData,
+          monthlyFluctuation: {} as MonthlyFluctuation,
         });
         store.overrideSelector(getCurrentDimensionValue, value);
 
@@ -412,7 +411,7 @@ describe('Overview Effects', () => {
       'loadAttritionOverTimeOverviewSuccess - should return clearOverviewDimensionData when dimension not selected',
       marbles((m) => {
         action = loadAttritionOverTimeOverviewSuccess({
-          data: {} as AttritionOverTime,
+          monthlyFluctuation: {} as MonthlyFluctuation,
         });
         store.overrideSelector(getCurrentDimensionValue, undefined as string);
 
@@ -448,7 +447,7 @@ describe('Overview Effects', () => {
       'loadFluctuationRatesChartDataSuccess - should return clearOverviewDimensionData when dimension not selected',
       marbles((m) => {
         action = loadFluctuationRatesChartDataSuccess({
-          data: {} as FluctuationRatesChartData,
+          monthlyFluctuation: {} as MonthlyFluctuation,
         });
         store.overrideSelector(getCurrentDimensionValue, undefined as string);
 
@@ -506,7 +505,7 @@ describe('Overview Effects', () => {
       'loadBenchmarkFluctuationRatesChartDataSuccess - should do nothing when dimension selected',
       marbles((m) => {
         action = loadBenchmarkFluctuationRatesChartDataSuccess({
-          data: {} as FluctuationRatesChartData,
+          monthlyFluctuation: {} as MonthlyFluctuation,
         });
         store.overrideSelector(getSelectedBenchmarkValue, value);
 
@@ -523,7 +522,7 @@ describe('Overview Effects', () => {
       'loadBenchmarkFluctuationRatesChartDataSuccess - should return clearOverviewBenchmarkData when dimension not selected',
       marbles((m) => {
         action = loadBenchmarkFluctuationRatesChartDataSuccess({
-          data: {} as FluctuationRatesChartData,
+          monthlyFluctuation: {} as MonthlyFluctuation,
         });
         store.overrideSelector(getSelectedBenchmarkValue, undefined as string);
 
@@ -554,39 +553,43 @@ describe('Overview Effects', () => {
     test(
       'should return loadAttritionOverTimeOverviewSuccess action when REST call is successful',
       marbles((m) => {
-        const data: AttritionOverTime = { data: {} };
+        const timeRange = '123|321';
+        const monthlyFluctuation = {
+          fluctuationRates: [1, 2, 3],
+        } as MonthlyFluctuation;
         const result = loadAttritionOverTimeOverviewSuccess({
-          data,
+          monthlyFluctuation,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: data,
+          a: monthlyFluctuation,
         });
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getAttritionOverTime = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getTimeRangeForAllAvailableData, timeRange);
 
         m.expect(effects.loadAttritionOverTimeOverview$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(
-          FilterDimension.ORG_UNIT,
-          orgUnit,
-          TimePeriod.LAST_THREE_YEARS
-        );
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith({
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: orgUnit,
+          timeRange,
+          type: [MonthlyFluctuationOverTime.UNFORCED_LEAVERS],
+        });
       })
     );
 
     test(
       'should return loadAttritionOverTimeOverviewFailure on REST error',
       marbles((m) => {
+        const timeRange = '123|321';
         const result = loadAttritionOverTimeOverviewFailure({
           errorMessage: error.message,
         });
@@ -595,21 +598,21 @@ describe('Overview Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getAttritionOverTime = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getTimeRangeForAllAvailableData, timeRange);
 
         m.expect(effects.loadAttritionOverTimeOverview$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(
-          FilterDimension.ORG_UNIT,
-          orgUnit,
-          TimePeriod.LAST_THREE_YEARS
-        );
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith({
+          filterDimension: FilterDimension.ORG_UNIT,
+          value: orgUnit,
+          timeRange,
+          type: [MonthlyFluctuationOverTime.UNFORCED_LEAVERS],
+        });
       })
     );
   });
@@ -740,34 +743,43 @@ describe('Overview Effects', () => {
 
   describe('loadFluctuationRatesChartData', () => {
     let request: EmployeesRequest;
+    const monthlyFluctuation = {
+      fluctuationRates: [1, 2, 3],
+    } as MonthlyFluctuation;
 
     beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
+      request = {
+        timeRange: '123|456',
+        type: [
+          MonthlyFluctuationOverTime.FLUCTUATION_RATES,
+          MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+        ],
+      } as unknown as EmployeesRequest;
       action = loadFluctuationRatesChartData({ request });
     });
     it(
       'should load data',
       marbles((m) => {
-        const data = {} as FluctuationRatesChartData;
         const result = loadFluctuationRatesChartDataSuccess({
-          data,
+          monthlyFluctuation,
         });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
-          a: data,
+          a: monthlyFluctuation,
         });
         const expected = m.cold('--b', { b: result });
 
-        overviewService.getFluctuationRateChartData = jest.fn(() => response);
+        sharedService.getFluctuationRateChartData = jest.fn(() => response);
+        store.overrideSelector(getLast6MonthsTimeRange, request.timeRange);
 
         m.expect(effects.loadFluctuationRatesChartData$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          overviewService.getFluctuationRateChartData
-        ).toHaveBeenCalledWith(request);
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith(
+          request
+        );
       })
     );
 
@@ -782,17 +794,18 @@ describe('Overview Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        overviewService.getFluctuationRateChartData = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getLast6MonthsTimeRange, request.timeRange);
 
         m.expect(effects.loadFluctuationRatesChartData$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          overviewService.getFluctuationRateChartData
-        ).toHaveBeenCalledWith(request);
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith(
+          request
+        );
       })
     );
   });

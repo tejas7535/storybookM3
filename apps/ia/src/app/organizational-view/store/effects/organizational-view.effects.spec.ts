@@ -16,18 +16,20 @@ import {
 import {
   getCurrentDimensionValue,
   getCurrentFilters,
+  getLast6MonthsTimeRange,
   getSelectedDimension,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import {
-  AttritionOverTime,
   EmployeeAttritionMeta,
   EmployeesRequest,
   FilterDimension,
   IdValue,
+  MonthlyFluctuation,
+  MonthlyFluctuationOverTime,
   SelectedFilter,
-  TimePeriod,
 } from '../../../shared/models';
+import { SharedService } from '../../../shared/shared.service';
 import { DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
@@ -64,6 +66,7 @@ describe('Organizational View Effects', () => {
   let spectator: SpectatorService<OrganizationalViewEffects>;
   let actions$: any;
   let organizationalViewService: OrganizationalViewService;
+  let sharedService: SharedService;
   let action: any;
   let effects: OrganizationalViewEffects;
   let store: MockStore;
@@ -83,6 +86,12 @@ describe('Organizational View Effects', () => {
           getInitialFilters: jest.fn(),
         },
       },
+      {
+        provide: SharedService,
+        useValue: {
+          getInitialFilters: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -91,6 +100,7 @@ describe('Organizational View Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(OrganizationalViewEffects);
     organizationalViewService = spectator.inject(OrganizationalViewService);
+    sharedService = spectator.inject(SharedService);
     store = spectator.inject(MockStore);
   });
 
@@ -551,33 +561,39 @@ describe('Organizational View Effects', () => {
     test(
       'should return loadParentAttritionOverTimeOrgChartSuccess action when REST call is successful',
       marbles((m) => {
-        const data: AttritionOverTime = { data: {} };
+        const monthlyFluctuation = {
+          fluctuationRates: [1, 2, 3],
+        } as MonthlyFluctuation;
         const result = loadParentAttritionOverTimeOrgChartSuccess({
-          data,
+          monthlyFluctuation,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: data,
+          a: monthlyFluctuation,
         });
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getAttritionOverTime = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getLast6MonthsTimeRange, timeRange);
 
         m.expect(effects.loadParentAttritionOverTimeOrgChart$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith({
           filterDimension,
           value,
-          TimePeriod.LAST_6_MONTHS
-        );
+          timeRange,
+          type: [
+            MonthlyFluctuationOverTime.UNFORCED_LEAVERS,
+            MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+            MonthlyFluctuationOverTime.HEADCOUNTS,
+          ],
+        });
       })
     );
 
@@ -592,21 +608,25 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getAttritionOverTime = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getLast6MonthsTimeRange, timeRange);
 
         m.expect(effects.loadParentAttritionOverTimeOrgChart$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith({
           filterDimension,
           value,
-          TimePeriod.LAST_6_MONTHS
-        );
+          timeRange,
+          type: [
+            MonthlyFluctuationOverTime.UNFORCED_LEAVERS,
+            MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+            MonthlyFluctuationOverTime.HEADCOUNTS,
+          ],
+        });
       })
     );
   });
@@ -630,33 +650,40 @@ describe('Organizational View Effects', () => {
     test(
       'should return loadChildAttritionOverTimeOrgChartSuccess action when REST call is successful',
       marbles((m) => {
-        const data: AttritionOverTime = { data: {} };
+        const monthlyFluctuation = {
+          fluctuationRates: [1, 2, 3],
+        } as MonthlyFluctuation;
+        const timeRange = '123|321';
         const result = loadChildAttritionOverTimeOrgChartSuccess({
-          data,
+          monthlyFluctuation,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: data,
+          a: monthlyFluctuation,
         });
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getAttritionOverTime = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getLast6MonthsTimeRange, timeRange);
 
         m.expect(effects.loadChildAttritionOverTimeOrgChart$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith({
           filterDimension,
           value,
-          TimePeriod.LAST_6_MONTHS
-        );
+          timeRange,
+          type: [
+            MonthlyFluctuationOverTime.UNFORCED_LEAVERS,
+            MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+            MonthlyFluctuationOverTime.HEADCOUNTS,
+          ],
+        });
       })
     );
 
@@ -666,26 +693,31 @@ describe('Organizational View Effects', () => {
         const result = loadChildAttritionOverTimeOrgChartFailure({
           errorMessage: error.message,
         });
+        const timeRange = '123|321';
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getAttritionOverTime = jest
+        sharedService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getLast6MonthsTimeRange, timeRange);
 
         m.expect(effects.loadChildAttritionOverTimeOrgChart$).toBeObservable(
           expected
         );
         m.flush();
-        expect(
-          organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(
+        expect(sharedService.getFluctuationRateChartData).toHaveBeenCalledWith({
           filterDimension,
           value,
-          TimePeriod.LAST_6_MONTHS
-        );
+          timeRange,
+          type: [
+            MonthlyFluctuationOverTime.UNFORCED_LEAVERS,
+            MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
+            MonthlyFluctuationOverTime.HEADCOUNTS,
+          ],
+        });
       })
     );
   });

@@ -272,9 +272,8 @@ export class OrgChartComponent implements AfterViewInit {
     this.updateChart();
   }
 
-  getDimensionFluctuationDataById(id: string): DimensionFluctuationData {
-    return this.orgChartData.data.find((elem) => elem.id === id);
-  }
+  getDimensionFluctuationDataById = (id: string): DimensionFluctuationData =>
+    this.orgChartData.data.find((elem) => elem.id === id);
 
   updateChart(): void {
     if (
@@ -385,12 +384,14 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   changeFluctuationType(fluctuationType: FluctuationType) {
-    this.orgChartService.setFluctuationRatesToDisplay(
-      this.chartData,
-      fluctuationType
-    );
-    this.chart.data(this.chartData);
-    this.chart.render();
+    if (this.chart) {
+      this.orgChartService.setFluctuationRatesToDisplay(
+        this.chartData,
+        fluctuationType
+      );
+      this.chart.data(this.chartData);
+      this.chart.render();
+    }
   }
 
   exportImg = (): void => this.chart.exportImg();

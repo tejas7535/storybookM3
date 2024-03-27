@@ -33,18 +33,6 @@ describe('LineChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getXAxisData', () => {
-    test('should return correct data', () => {
-      // momentjs uses Date.now() under the hood for moment()
-      const spyDate = jest
-        .spyOn(Date, 'now')
-        .mockImplementation(() => 1_630_014_361_000); // 26.8.2021
-      const result = component.getXAxisData();
-      expect(result).toEqual([`2/21`, `3/21`, `4/21`, `5/21`, `6/21`, `7/21`]);
-      expect(spyDate).toHaveBeenCalled();
-    });
-  });
-
   describe('set series', () => {
     test('should merge series contain benchmark and series when both defined', () => {
       const series = [{ id: 'A' }];
@@ -126,7 +114,6 @@ describe('LineChartComponent', () => {
         xAxis: {
           ...LINE_CHART_BASE_OPTIONS.xAxis,
           type: 'category',
-          data: component.getXAxisData(),
         },
         series: component.config.series,
         grid: {

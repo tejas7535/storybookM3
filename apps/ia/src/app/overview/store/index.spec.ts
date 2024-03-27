@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
+import { EmployeesRequest, MonthlyFluctuation } from '../../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
@@ -58,14 +58,16 @@ describe('Overview Reducer', () => {
 
   describe('loadAttritionOverTimeOverviewSuccess', () => {
     test('should unset loading and set country data', () => {
-      const data: AttritionOverTime = {} as unknown as AttritionOverTime;
+      const monthlyFluctuation = {} as unknown as MonthlyFluctuation;
 
-      const action = loadAttritionOverTimeOverviewSuccess({ data });
+      const action = loadAttritionOverTimeOverviewSuccess({
+        monthlyFluctuation,
+      });
 
       const state = overviewReducer(initialState, action);
 
       expect(state.attritionOverTime.loading).toBeFalsy();
-      expect(state.attritionOverTime.data).toEqual(data);
+      expect(state.attritionOverTime.data).toEqual(monthlyFluctuation);
     });
   });
 
@@ -146,15 +148,18 @@ describe('Overview Reducer', () => {
 
   describe('loadFluctuationRatesChartDataSuccess', () => {
     test('should unset loading and set fluctuation rates data', () => {
-      const data: FluctuationRatesChartData =
-        {} as unknown as FluctuationRatesChartData;
+      const monthlyFluctuation = {} as unknown as MonthlyFluctuation;
 
-      const action = loadFluctuationRatesChartDataSuccess({ data });
+      const action = loadFluctuationRatesChartDataSuccess({
+        monthlyFluctuation,
+      });
 
       const state = overviewReducer(initialState, action);
 
       expect(state.fluctuationRatesChart.dimension.loading).toBeFalsy();
-      expect(state.fluctuationRatesChart.dimension.data).toEqual(data);
+      expect(state.fluctuationRatesChart.dimension.data).toEqual(
+        monthlyFluctuation
+      );
     });
   });
 
@@ -303,7 +308,7 @@ describe('Overview Reducer', () => {
         },
         attritionOverTime: {
           ...initialState.attritionOverTime,
-          data: {} as AttritionOverTime,
+          data: {} as Partial<MonthlyFluctuation>,
         },
       };
       const action = clearOverviewDimensionData();

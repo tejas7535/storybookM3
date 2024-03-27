@@ -37,7 +37,7 @@ export class DateInputComponent {
   // minimal date when data is correct
   readonly MIN_DATE = {
     year: 2021,
-    month: 5,
+    month: 1,
     date: 1,
   };
 

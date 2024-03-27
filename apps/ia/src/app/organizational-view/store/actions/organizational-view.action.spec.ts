@@ -1,7 +1,7 @@
 import {
-  AttritionOverTime,
   EmployeesRequest,
   FilterDimension,
+  MonthlyFluctuation,
 } from '../../../shared/models';
 import { ChartType, DimensionFluctuationData, SeriesType } from '../../models';
 import {
@@ -157,18 +157,20 @@ describe('Organizational View Actions', () => {
     expect(action).toEqual({
       request: { value: orgUnit },
       dimensionName,
-      type: '[Organizational View] Load Parent AttritionOverTime for plus minus three months',
+      type: '[Organizational View] Load Parent AttritionOverTime for last six months',
     });
   });
 
   test('loadParentAttritionOverTimeOrgChartSuccess', () => {
-    const data = {} as unknown as AttritionOverTime;
+    const monthlyFluctuation = {} as unknown as MonthlyFluctuation;
 
-    const action = loadParentAttritionOverTimeOrgChartSuccess({ data });
+    const action = loadParentAttritionOverTimeOrgChartSuccess({
+      monthlyFluctuation,
+    });
 
     expect(action).toEqual({
-      data,
-      type: '[Organizational View] Load Parent AttritionOverTime for plus minus three months Success',
+      monthlyFluctuation,
+      type: '[Organizational View] Load Parent AttritionOverTime for last six months Success',
     });
   });
 
@@ -177,7 +179,7 @@ describe('Organizational View Actions', () => {
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Organizational View] Load Parent AttritionOverTime for plus minus three months Failure',
+      type: '[Organizational View] Load Parent AttritionOverTime for last six months Failure',
     });
   });
 
@@ -192,18 +194,20 @@ describe('Organizational View Actions', () => {
 
     expect(action).toEqual({
       ...data,
-      type: '[Organizational View] Load Child AttritionOverTime for plus minus three months',
+      type: '[Organizational View] Load Child AttritionOverTime for last six months',
     });
   });
 
   test('loadChildAttritionOverTimeOrgChartSuccess', () => {
-    const data = {} as unknown as AttritionOverTime;
+    const monthlyFluctuation = {} as unknown as MonthlyFluctuation;
 
-    const action = loadChildAttritionOverTimeOrgChartSuccess({ data });
+    const action = loadChildAttritionOverTimeOrgChartSuccess({
+      monthlyFluctuation,
+    });
 
     expect(action).toEqual({
-      data,
-      type: '[Organizational View] Load Child AttritionOverTime for plus minus three months Success',
+      monthlyFluctuation,
+      type: '[Organizational View] Load Child AttritionOverTime for last six months Success',
     });
   });
 
@@ -212,7 +216,7 @@ describe('Organizational View Actions', () => {
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Organizational View] Load Child AttritionOverTime for plus minus three months Failure',
+      type: '[Organizational View] Load Child AttritionOverTime for last six months Failure',
     });
   });
 

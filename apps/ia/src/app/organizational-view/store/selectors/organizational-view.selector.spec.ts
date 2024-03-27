@@ -102,11 +102,21 @@ describe('Organizational View Selector', () => {
         ...initialState.attritionOverTime,
         parent: {
           ...initialState.attritionOverTime.parent,
+          data: {
+            unforcedLeavers: [5, 4, 3, 2, 1],
+            unforcedFluctuationRates: [50, 40, 30, 20, 10],
+            headcounts: [5, 4, 3, 2, 1],
+          },
           loading: true,
         },
         child: {
           ...initialState.attritionOverTime.child,
           dimensionName: 'child',
+          data: {
+            unforcedLeavers: [1, 2, 3, 4, 5],
+            unforcedFluctuationRates: [10, 20, 30, 40, 50],
+            headcounts: [1, 2, 3, 4, 5],
+          },
           loading: true,
         },
       },

@@ -5,12 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import {
-  AttritionOverTime,
-  EmployeesRequest,
-  FilterDimension,
-  TimePeriod,
-} from '../shared/models';
+import { EmployeesRequest, FilterDimension } from '../shared/models';
 import {
   DimensionParentResponse,
   OrgChartEmployeesResponse,
@@ -163,35 +158,6 @@ describe('OrganizationalViewService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(response);
-    });
-  });
-
-  describe('getAttritionOverTime', () => {
-    test('should get attrition data for last years', () => {
-      const orgUnit = 'Schaeffler12';
-      const mock: AttritionOverTime = {
-        data: {
-          '2019': {
-            attrition: [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
-          },
-        },
-      };
-
-      service
-        .getAttritionOverTime(
-          FilterDimension.ORG_UNIT,
-          orgUnit,
-          TimePeriod.LAST_THREE_YEARS
-        )
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
-
-      const req = httpMock.expectOne(
-        `api/v1/attrition-over-time?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_period=${TimePeriod.LAST_THREE_YEARS}`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mock);
     });
   });
 });

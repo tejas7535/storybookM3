@@ -1,24 +1,30 @@
 import { createSelector } from '@ngrx/store';
+import moment from 'moment';
 
 import {
   getBenchmarkIdValue,
   getSelectedBenchmarkValue,
   getSelectedDimensionIdValue,
   getSelectedDimensionValue,
+  getSelectedTimeRange,
 } from '../../../core/store/selectors';
-import { createFluctuationRateChartSerie } from '../../../shared/charts/line-chart/line-chart-utils';
+import {
+  createFluctuationRateChartConfig,
+  createFluctuationRateChartSerie,
+} from '../../../shared/charts/line-chart/line-chart-utils';
+import { DATA_IMPORT_DAY } from '../../../shared/constants';
 import {
   ActionType,
-  AttritionOverTime,
+  AttritionSeries,
   EmployeeWithAction,
   IdValue,
   LeavingType,
+  MonthlyFluctuation,
 } from '../../../shared/models';
 import { getPercentageValueSigned } from '../../../shared/utils/utilities';
 import {
   FluctuationKpi,
   FluctuationRate,
-  FluctuationRatesChartData,
   OverviewWorkforceBalanceMeta,
 } from '../../models';
 import { OverviewState, selectOverviewState } from '..';
@@ -34,12 +40,37 @@ export const getIsLoadingAttritionOverTimeOverview = createSelector(
 
 const getAttritionOverTime = createSelector(
   selectOverviewState,
-  (state: OverviewState) => state.attritionOverTime?.data
+  (state: OverviewState): number[] =>
+    state.attritionOverTime?.data?.unforcedLeavers
 );
 
 export const getAttritionOverTimeOverviewData = createSelector(
   getAttritionOverTime,
-  (attritionOverTime: AttritionOverTime) => attritionOverTime?.data
+  (unforcedLeavers: number[]): AttritionSeries => {
+    if (!unforcedLeavers) {
+      return undefined;
+    }
+    const monthsInYear = 12;
+    const yearsBetween = Math.ceil(unforcedLeavers.length / monthsInYear);
+    const currentYear = moment()
+      .utc()
+      .subtract(DATA_IMPORT_DAY - 1, 'day')
+      .get('year');
+
+    const unfLeaversUnprocessed = [...unforcedLeavers];
+
+    let result: AttritionSeries = {};
+    let processingYear = currentYear - yearsBetween + 1;
+
+    for (let i = 0; i < yearsBetween; i += 1) {
+      const yearLeavers = unfLeaversUnprocessed.splice(0, 12);
+      result = { ...result, [processingYear]: { attrition: yearLeavers } };
+
+      processingYear += 1;
+    }
+
+    return result;
+  }
 );
 
 export const getAttritionOverTimeEmployeesData = createSelector(
@@ -218,6 +249,12 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
     )
 );
 
+export const getDefaultFluctuationChartConfig = createSelector(
+  getSelectedTimeRange,
+  (timeRange: IdValue) =>
+    createFluctuationRateChartConfig('%', 0.1, timeRange.id)
+);
+
 export const getDimensionFluctuationRatesChart = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.fluctuationRatesChart.dimension.data
@@ -226,7 +263,7 @@ export const getDimensionFluctuationRatesChart = createSelector(
 export const getDimensionFluctuationRatesForChart = createSelector(
   getDimensionFluctuationRatesChart,
   getSelectedDimensionValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) => [
+  (chartData: Partial<MonthlyFluctuation>, dimensionName: string) => [
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
       dimensionName,
@@ -238,7 +275,7 @@ export const getDimensionFluctuationRatesForChart = createSelector(
 export const getDimensionUnforcedFluctuationRatesForChart = createSelector(
   getDimensionFluctuationRatesChart,
   getSelectedDimensionValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) => [
+  (chartData: Partial<MonthlyFluctuation>, dimensionName: string) => [
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
       dimensionName,
@@ -255,7 +292,7 @@ export const getBenchmarkFluctuationRatesChart = createSelector(
 export const getBenchmarkFluctuationRatesForChart = createSelector(
   getBenchmarkFluctuationRatesChart,
   getSelectedBenchmarkValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) => [
+  (chartData: Partial<MonthlyFluctuation>, dimensionName: string) => [
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
       dimensionName,
@@ -267,7 +304,7 @@ export const getBenchmarkFluctuationRatesForChart = createSelector(
 export const getBenchmarkUnforcedFluctuationRatesForChart = createSelector(
   getBenchmarkFluctuationRatesChart,
   getSelectedBenchmarkValue,
-  (chartData: FluctuationRatesChartData, dimensionName: string) => [
+  (chartData: Partial<MonthlyFluctuation>, dimensionName: string) => [
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
       dimensionName,

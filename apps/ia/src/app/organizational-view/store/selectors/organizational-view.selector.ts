@@ -171,12 +171,25 @@ export const getWorldMap = createSelector(
 export const getParentAttritionOverTimeOrgChartData = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
-    mapDataToLineSerie(
-      PARENT_SERIE_ID,
-      state.attritionOverTime?.parent?.data?.data,
-      state.attritionOverTime?.parent?.dimensionName,
-      state.attritionOverTime.selectedSeries
-    )
+    state.attritionOverTime?.parent?.data
+      ? mapDataToLineSerie(
+          PARENT_SERIE_ID,
+          {
+            unforcedLeavers: {
+              attrition: state.attritionOverTime?.parent?.data?.unforcedLeavers,
+            },
+            unforcedFluctuation: {
+              attrition:
+                state.attritionOverTime?.parent?.data?.unforcedFluctuationRates,
+            },
+            headcounts: {
+              attrition: state.attritionOverTime?.parent?.data?.headcounts,
+            },
+          },
+          state.attritionOverTime?.parent?.dimensionName,
+          state.attritionOverTime.selectedSeries
+        )
+      : undefined
 );
 
 export const getParentIsLoadingAttritionOverTimeOrgChart = createSelector(
@@ -187,12 +200,25 @@ export const getParentIsLoadingAttritionOverTimeOrgChart = createSelector(
 export const getChildAttritionOverTimeOrgChartSeries = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
-    mapDataToLineSerie(
-      CHILD_SERIE_ID,
-      state.attritionOverTime?.child?.data?.data,
-      state.attritionOverTime?.child?.dimensionName,
-      state.attritionOverTime.selectedSeries
-    )
+    state.attritionOverTime?.child?.data
+      ? mapDataToLineSerie(
+          CHILD_SERIE_ID,
+          {
+            unforcedLeavers: {
+              attrition: state.attritionOverTime?.child?.data?.unforcedLeavers,
+            },
+            unforcedFluctuation: {
+              attrition:
+                state.attritionOverTime?.child?.data?.unforcedFluctuationRates,
+            },
+            headcounts: {
+              attrition: state.attritionOverTime?.child?.data?.headcounts,
+            },
+          },
+          state.attritionOverTime?.child?.dimensionName,
+          state.attritionOverTime.selectedSeries
+        )
+      : undefined
 );
 
 export const getChildIsLoadingAttritionOverTimeOrgChart = createSelector(
@@ -241,14 +267,15 @@ export function mapDataToLineSerie(
   seriesName: string,
   selectedSeriesType: SeriesType
 ): LineSeriesOption[] {
-  const selectedData =
-    selectedSeriesType === SeriesType.UNFORCED_LEAVERS
-      ? data?.[SeriesType.UNFORCED_LEAVERS].attrition
-      : data?.[SeriesType.UNFORCED_FLUCTUATION]?.attrition;
-  const lineStyle =
-    selectedSeriesType === SeriesType.UNFORCED_LEAVERS
-      ? LINE_SERIES_BASE_OPTIONS
-      : SMOOTH_LINE_SERIES_OPTIONS;
+  let selectedData: number[];
+  let lineStyle: LineSeriesOption;
+  if (selectedSeriesType === SeriesType.UNFORCED_LEAVERS) {
+    selectedData = data?.[SeriesType.UNFORCED_LEAVERS]?.attrition;
+    lineStyle = LINE_SERIES_BASE_OPTIONS as LineSeriesOption;
+  } else {
+    selectedData = data?.[SeriesType.UNFORCED_FLUCTUATION]?.attrition;
+    lineStyle = SMOOTH_LINE_SERIES_OPTIONS as LineSeriesOption;
+  }
 
   return [
     {

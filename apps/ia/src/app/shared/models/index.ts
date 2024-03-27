@@ -6,6 +6,8 @@ export * from './employees-request.model';
 export * from './environment-enum';
 export * from './filter';
 export * from './id-value.model';
+export * from './monthly-fluctuation.model';
+export * from './monthly-fluctuation-over-time.enum';
 export * from './pageable';
 export * from './position.model';
 export * from './rest-response.model';
