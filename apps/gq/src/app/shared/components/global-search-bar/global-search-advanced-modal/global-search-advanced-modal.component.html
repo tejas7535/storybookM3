@@ -6,7 +6,7 @@
         <mat-icon matSuffix class="pr-4 text-medium-emphasis">
           search
         </mat-icon>
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full pr-4">
           <input
             matInput
             color="primary"
@@ -23,7 +23,7 @@
             cdkFocusInitial
           />
           <mat-error
-            class="absolute pt-5"
+            class="absolute pt-6"
             [ngClass]="
               searchFormControl.hasError('minlength') ? 'visible' : 'collapse'
             "
