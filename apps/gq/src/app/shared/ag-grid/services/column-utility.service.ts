@@ -82,7 +82,7 @@ export class ColumnUtilityService {
         this.translocoLocaleService.getLocale() === LOCALE_EN.id &&
         getNumberFilterRegex(LOCALE_DE.id).test(inputText)
       ) {
-        inputText = text.replace(/,/g, Keyboard.DOT);
+        inputText = text.replaceAll(',', Keyboard.DOT);
       }
 
       return Number.parseFloat(inputText);
@@ -412,14 +412,18 @@ export class ColumnUtilityService {
       'transactionView.transactions.table.salesIndicationValue';
 
     switch (salesIndicationValue) {
-      case SalesIndication.INVOICE:
+      case SalesIndication.INVOICE: {
         return translate(`${salesIndicationTranslationsKeyPath}.invoice`);
-      case SalesIndication.ORDER:
+      }
+      case SalesIndication.ORDER: {
         return translate(`${salesIndicationTranslationsKeyPath}.order`);
-      case SalesIndication.LOST_QUOTE:
+      }
+      case SalesIndication.LOST_QUOTE: {
         return translate(`${salesIndicationTranslationsKeyPath}.lostQuote`);
-      default:
+      }
+      default: {
         return salesIndicationValue;
+      }
     }
   }
 
@@ -499,19 +503,22 @@ export function openInNew(
   }
 
   switch (target) {
-    case 'window':
+    case 'window': {
       window.open(
         `${window.location.origin}${cellRendererInstance[0].url}`,
         '_blank',
         'location=no,toolbar=yes'
       );
       break;
+    }
 
-    case 'tab':
+    case 'tab': {
       window.open(`${window.location.origin}${cellRendererInstance[0].url}`);
       break;
+    }
 
-    default:
+    default: {
       break;
+    }
   }
 }

@@ -139,13 +139,13 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           this.tableContext.quotation
         );
 
-        columnDef = !hasFNumberMaterials
-          ? ColumnUtilityService.filterPricingAssistantColumns(columnDef)
-          : columnDef;
+        columnDef = hasFNumberMaterials
+          ? columnDef
+          : ColumnUtilityService.filterPricingAssistantColumns(columnDef);
 
-        return !hasRfqMaterials
-          ? ColumnUtilityService.filterRfqColumns(columnDef)
-          : columnDef;
+        return hasRfqMaterials
+          ? columnDef
+          : ColumnUtilityService.filterRfqColumns(columnDef);
       })
     );
 
@@ -581,8 +581,9 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       case ColumnFields.GPM: {
         return detail.sqv && detail.sqv > 0;
       }
-      default:
+      default: {
         return true;
+      }
     }
   }
 

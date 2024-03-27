@@ -209,6 +209,11 @@ describe('CreateColumnService', () => {
       res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
 
       expect(res).toBeFalsy();
+
+      col = { field: ColumnFields.STRATEGIC_PL };
+      res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
+
+      expect(res).toBeFalsy();
     });
     test('should return true on REGION.GREATER.CHINA', () => {
       const userRoles = [UserRoles.REGION_GREATER_CHINA];
@@ -221,6 +226,11 @@ describe('CreateColumnService', () => {
       res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
 
       expect(res).toBeTruthy();
+
+      col = { field: ColumnFields.STRATEGIC_PL };
+      res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
+
+      expect(res).toBeTruthy();
     });
     test('should return true on REGION.WORLD', () => {
       const userRoles = [UserRoles.REGION_WORLD];
@@ -230,6 +240,11 @@ describe('CreateColumnService', () => {
       expect(res).toBeTruthy();
 
       col = { field: ColumnFields.STRATEGIC_HIERARCHY };
+      res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
+
+      expect(res).toBeTruthy();
+
+      col = { field: ColumnFields.STRATEGIC_PL };
       res = ColumnUtilityService.filterChinaSpecificColumns(col, userRoles);
 
       expect(res).toBeTruthy();

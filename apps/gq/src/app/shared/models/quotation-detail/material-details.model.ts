@@ -25,6 +25,7 @@ export class MaterialDetails {
   width: string;
   productType?: ProductType;
 
-  // strategic hierarchy is only relevant for greater china
+  // strategic hierarchy and strategic pl is only relevant for greater china
   strategicHierarchy: string;
+  strategicPL: string;
 }

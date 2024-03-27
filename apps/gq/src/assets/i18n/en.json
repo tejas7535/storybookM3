@@ -125,6 +125,7 @@
       "mspInfoText": "Minimum Selling Price (SAP)",
       "strategicHierarchy": "Strategic Hierarchy (GC)",
       "strategicMaterial": "Strategic Material (GC)",
+      "strategicPL": "Strategic PL (GC)",
       "sapVolumeScale": "SAP Volume Scale %",
       "targetPrice": "Target Price",
       "targetPriceInfoText": "Selected Target Price. When sent to SAP the Target Price will be applied as ZMAN in the SAP Quotation.",

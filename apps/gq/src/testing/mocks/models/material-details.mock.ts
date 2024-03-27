@@ -25,4 +25,5 @@ export const MATERIAL_DETAILS_MOCK: MaterialDetails = {
   width: '50',
   priceUnit: 1,
   strategicHierarchy: 'Y-123',
+  strategicPL: 'Y-1MS',
 };

@@ -42,6 +42,7 @@ export enum ColumnFields {
   DATE_NEXT_FREE_ATP = 'materialStockByPlant.dateNextFree',
   STRATEGIC_MATERIAL = 'strategicMaterial',
   STRATEGIC_HIERARCHY = 'material.strategicHierarchy',
+  STRATEGIC_PL = 'material.strategicPL',
   SAP_VOLUME_SCALE = 'sapVolumeScale',
   TARGET_PRICE = 'targetPrice',
   DELIVERY_UNIT = 'deliveryUnit',
@@ -153,4 +154,5 @@ export const GpcColumns = [
 export const ChinaSpecificColumns = [
   ColumnFields.STRATEGIC_MATERIAL,
   ColumnFields.STRATEGIC_HIERARCHY,
+  ColumnFields.STRATEGIC_PL,
 ];

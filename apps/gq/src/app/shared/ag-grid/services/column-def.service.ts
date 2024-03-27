@@ -858,6 +858,12 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.strategicPL'),
+      field: ColumnFields.STRATEGIC_PL,
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.followingType'),
       field: ColumnFields.FOLLOWING_TYPE,
       valueFormatter: (params) =>
