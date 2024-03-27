@@ -1,21 +1,18 @@
-<div *transloco="let t; read: 'filters'">
-  <mat-chip-listbox
-    [attr.aria-label]="t('globalFilters')"
+<div *transloco="let t; read: 'filters'" class="flex gap-2">
+  <schaeffler-tag
+    type="info"
+    [withBorder]="true"
+    [withDot]="false"
     *ngIf="filters; else noFilters"
+    >{{ filters.timeRange }}</schaeffler-tag
   >
-    <mat-chip
-      *ngFor="
-        let filter of [filters.timeRange, filters.value];
-        trackBy: trackByFn
-      "
-      selected
-      disableRipple="true"
-      selectable="false"
-      class="after:!bg-transparent !bg-high-emphasis-dark-bg"
-      (click)="$event.stopPropagation()"
-      >{{ filter }}</mat-chip
-    >
-  </mat-chip-listbox>
+  <schaeffler-tag
+    type="info"
+    [withBorder]="true"
+    [withDot]="false"
+    *ngIf="filters; else noFilters"
+    >{{ filters.value }}</schaeffler-tag
+  >
   <ng-template #noFilters>
     <i>{{ t('noFiltersSelected') }}</i>
   </ng-template>

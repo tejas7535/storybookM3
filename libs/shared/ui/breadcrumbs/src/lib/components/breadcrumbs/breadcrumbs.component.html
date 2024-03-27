@@ -1,6 +1,6 @@
 <div
   *ngIf="breadcrumbs && breadcrumbs.length"
-  class="flex items-center pb-2 text-caption text-medium-emphasis"
+  class="flex items-center justify-end pb-2 text-caption text-medium-emphasis"
 >
   <ng-container
     *ngFor="let breadcrumb of breadcrumbs; let i = index; trackBy: trackByFn"
@@ -22,6 +22,7 @@
       <mat-menu
         #breadcrumbsTruncateMenu="matMenu"
         class="!max-h-[260px] !w-[260px]"
+        xPosition="after"
       >
         <ng-container
           *ngFor="

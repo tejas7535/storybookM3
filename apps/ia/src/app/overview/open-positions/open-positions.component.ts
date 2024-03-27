@@ -12,6 +12,7 @@ import { OpenApplication } from '../models/open-application.model';
   selector: 'ia-open-positions',
   templateUrl: './open-positions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './open-positions.component.scss',
 })
 export class OpenPositionsComponent {
   @Input() openApplications: OpenApplication[];

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -7,6 +6,7 @@ import { translate } from '@ngneat/transloco';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
+import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared.module';
@@ -18,7 +18,7 @@ import { ChipClass, FluctuationType } from '../models';
   imports: [
     SharedModule,
     SharedTranslocoModule,
-    MatChipsModule,
+    TagComponent,
     MatIconModule,
     MatTooltipModule,
   ],

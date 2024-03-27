@@ -193,7 +193,7 @@ export class WorldMapComponent implements OnInit {
   openDialog(data: { type: ChartType; meta: AttritionDialogMeta }): void {
     this.dialog.open(AttritionDialogComponent, {
       data: { ...data, type: ChartType.WORLD_MAP },
-      width: '90%',
+      width: '50%',
       maxWidth: '750px',
     });
   }

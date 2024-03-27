@@ -5,6 +5,7 @@
   <mat-button-toggle-group
     *ngIf="selectedChart === possibleChartTypes.ORG_CHART"
     class="fluctuation-tab-group col-start-2 max-w-max mx-auto p-[2px] !rounded-md !bg-gray-300 !border-gray-300"
+    hideSingleSelectionIndicator="true"
     [value]="fluctuationType"
     (change)="onFluctuationTypeChange($event)"
   >
@@ -32,7 +33,7 @@
     >
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #additionalFunctionality="matMenu">
+    <mat-menu xPosition="before" #additionalFunctionality="matMenu">
       <button mat-menu-item (click)="onExportBtnClick()">
         <mat-icon>file_download</mat-icon>
         <span>{{ t('orgChart.additionalFunctionality.export') }}</span>
@@ -50,6 +51,7 @@
       name="chartType"
       aria-label="Chart Type"
       class="small-toggle-group self-center my-0.5"
+      hideSingleSelectionIndicator="true"
       [value]="selectedChart"
       (change)="onChartTypeChange($event)"
     >

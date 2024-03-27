@@ -118,6 +118,23 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   padding: 16px !important;
 }
 
+.mat-mdc-form-field-error {
+  font-size: 12px;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  @apply absolute z-[1000] flex flex-col min-w-[1px] min-h-[1px] pointer-events-none #{!important};
+}
+
+.cdk-overlay-pane {
+  @apply absolute pointer-events-auto box-border z-[1000] flex max-w-full max-h-full #{!important};
+}
+
+.mat-calendar-header label,
+.mat-datepicker-close-button {
+  display: none !important;
+}
+
 // Custom Scrollbar
 ::-webkit-scrollbar-track {
   background-color: transparent;

@@ -200,7 +200,7 @@ describe('WorldMapComponent', () => {
         {
           data: meta,
           maxWidth: '750px',
-          width: '90%',
+          width: '50%',
         }
       );
     });

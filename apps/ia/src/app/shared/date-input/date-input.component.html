@@ -63,7 +63,7 @@
       ></mat-datepicker-toggle>
       <mat-datepicker
         #yearPicker
-        [startView]="'multi-year'"
+        startView="multi-year"
         (yearSelected)="chosenYearHandler($event, yearPicker)"
       ></mat-datepicker>
       <mat-hint align="start">{{ hint }}</mat-hint>
@@ -87,12 +87,12 @@
         iaDateRangeFormat
       />
       <mat-datepicker-toggle
-        matSuffix
+        matIconSuffix
         [for]="monthPicker"
       ></mat-datepicker-toggle>
       <mat-datepicker
         #monthPicker
-        [startView]="'multi-year'"
+        startView="multi-year"
         (monthSelected)="chosenMonthHandler($event, monthPicker)"
       ></mat-datepicker>
       <mat-hint align="start">{{ hint }}</mat-hint>

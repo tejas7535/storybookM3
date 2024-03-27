@@ -205,7 +205,7 @@ export class OrgChartComponent implements AfterViewInit {
 
           this.dialog.open(AttritionDialogComponent, {
             data,
-            width: '90%',
+            width: '50%',
             maxWidth: '750px',
           });
         }

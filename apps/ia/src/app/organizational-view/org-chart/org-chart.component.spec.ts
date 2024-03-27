@@ -344,7 +344,7 @@ describe('OrgChartComponent', () => {
         AttritionDialogComponent,
         {
           data: { type: ChartType.ORG_CHART, meta },
-          width: '90%',
+          width: '50%',
           maxWidth: '750px',
         }
       );

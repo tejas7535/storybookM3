@@ -34,6 +34,7 @@
           <mat-button-toggle-group
             class="fluctuation-details-tab-group col-span-1 mb-auto ml-auto max-w-max max-h-max !rounded-md !bg-gray-300 !border-gray-300"
             name="chartType"
+            hideSingleSelectionIndicator="true"
             [value]="selectedSeriesType$ | ngrxPush"
             (valueChange)="onSeriesTypeChange($event)"
           >
