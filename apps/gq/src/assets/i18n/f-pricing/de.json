@@ -1,0 +1,176 @@
+{
+  "pricingAssistantModal": {
+    "title": "Preis Assistent für {{ material }}",
+    "materialDetailsDialogTitle": "Informationen zu {{materialDescription}}",
+    "materialNumberLabel": "Materialnr.",
+    "dimensionsLabel": "Dimensionen",
+    "weightLabel": "Gewicht",
+    "showMoreButtonLabel": "weitere Anzeigen",
+    "gqPriceLabel": " GQ Preis",
+    "manualPriceLabel": "Manueller Preis",
+    "currentlySelected": "Aktuell ausgewählt",
+    "gpmLabel": "GPM %",
+    "addManualPriceButton": "Manuellen Preis hinzufügen",
+    "cancelButton": "Abbrechen",
+    "confirmButton": "Bestätigen",
+    "resultsLabel": "Ergebnisse",
+    "resultsPriceLabel": "Vorgeschlagener Verkaufspreis",
+    "resultsGpmLabel": "GPM %",
+    "confidence": {
+      "levelLabel": "Confidence Level:",
+      "tooltip": "tooltiptext for confidence"
+    },
+    "referencePricingLabel": "Referenzpreis",
+    "marketValueDriversLabel": "Marktwerttreiber",
+    "marketValueDriversWarningTooltip": "Bitte vervollständigen Sie nach Möglichkeit Ihre Bewertung der Marktwerttreiber.",
+    "marketValueDriversErrorTooltip": "Bitte überprüfen Sie die Marktwerttreiber.",
+    "technicalValueDriversLabel": "Technische Werttreiber",
+    "sanityCheckLabel": "Plausibilitätsprüfung",
+    "finalPriceLabel": "Endpreis",
+    "referencePricingTable": {
+      "noReferenceDataTitle": "Keine vergleichbaren Transaktionen verfügbar",
+      "noReferenceDataSubTitle": "Der Referenzpreis wird durch Regression berechnet",
+      "item": "Item",
+      "materialDescription": "Beschreibung",
+      "materialNumber": "Materialnummer",
+      "quantity": "Menge",
+      "price": "Nettopreis",
+      "year": "Jahr",
+      "showMoreRows": "mehr Transaktionen anzeigen (+{{amount}})"
+    },
+    "comparisonPanel": {
+      "showDelta": "Delta zeigen",
+      "hideDelta": "Delta ausblenden",
+      "backButton": "Zurück",
+      "differentString": "Verschieden",
+      "amountOfDelta": "{{amount}} Deltas",
+      "comparableProperties": {
+        "general": {
+          "title": "Allgemein",
+          "bearingRows": "Bearing rows",
+          "size": "Size"
+        },
+        "outerRing": {
+          "title": "Außenring",
+          "outerDiameter": "Außendurchmesser",
+          "materialCat": "Außenringmaterial",
+          "width": "Breite",
+          "racewayDiameter": "Laufbahndurchmesser",
+          "crossSection": "Querschnitt"
+        },
+        "innerRing": {
+          "title": "Innenring",
+          "innerDiameter": "Innendurchmesser",
+          "materialCat": "Innenringmaterial",
+          "width": "Breite",
+          "racewayDiameter": "Laufbahndurchmesser",
+          "crossSection": "Querschnitt"
+        },
+        "cage": {
+          "title": "Käfig",
+          "rollingElements": "Wälzkörper",
+          "designCat": "Design",
+          "materialCat": "Käfigmaterial",
+          "width": "Breite",
+          "diameter": "Käfigdurchmesser",
+          "rows": "Reihenanzahl"
+        },
+        "roller": {
+          "title": "Käfig",
+          "length": "Länge",
+          "diameter": "Wälzkörperdurchmesser",
+          "materialCat": "Wälzkörpermaterial",
+          "angle": "Rollenwinkel"
+        }
+      }
+    },
+
+    "technicalValueDrivers": {
+      "tableColumnHeader": {
+        "description": "Technische Werttreiber",
+        "selectedValue": "Ausgewählter Wert",
+        "value": "GQ vorgeschlagener Wert",
+        "additionalDescription": "Beschreibung"
+      },
+      "tableRows": {
+        "heatTreatment": "Wärmebehandlung",
+        "heatTreatmentDescription": "Falls zutreffend: Aufschlag für Wärmebehandlung ({{value}})",
+        "toleranceClass": "Toleranzklasse",
+        "toleranceClassDescription": "Falls zutreffend: Aufschlag für besondere Toleranzklasse ({{value}})",
+        "radialClearance": "Radialluft",
+        "radialClearanceDescription": "Falls zutreffend: Aufschlag für Radialluft",
+        "axialClearance": "Axialluft",
+        "axialClearanceDescription": "Falls zutreffend: Aufschlag für Axialluft ({{value}})",
+        "engineeringEffort": "Entwicklungsaufwand",
+        "engineeringEffortDescription": "Bewertung des technischen Entwicklungsaufwands"
+      }
+    },
+    "sanityChecks": {
+      "tableColumnHeader": {
+        "description": "Beschreibung",
+        "value": "Wert"
+      },
+      "tableRows": {
+        "priceRecommendationBefore": "Preisempfehlung vor finaler Prüfung",
+        "cost": "Kosten (SAW)",
+        "lowerThreshold": "Unterer Schwellenpreis (min. Marge)",
+        "upperThreshold": "Oberer Schwellenpreis (max. Marge)",
+        "lastCustomerPrice": "Letzter Kundenpreis",
+        "priceRecommendationAfter": "Finale Preisempfehlung"
+      }
+    },
+    "marketValueDriver": {
+      "information": "Diese Information verbessert die Genauigkeit der Preisempfehlung.",
+      "unknownTooltip": "Unbekannt wird automatisch ausgwählt. Bitte bestätigen Sie die Marktwerttreiber.",
+      "questions": {
+        "1": {
+          "title": " Anzahl verfügbarer Wettbewerber",
+          "subtitle": "Bezieht sich auf die Anzahl der Wettbewerber, die die angefragte Lösung anbieten können.",
+          "option1": "Niedrig (<=2)",
+          "option2": "Mittle (3-5)",
+          "option3": "Hoch (>=6)",
+          "option4": "Unbekannt"
+        },
+        "2": {
+          "title": "Größe der Wettbewerber",
+          "subtitle": "Geben Sie bitte eine ungefähre Schätzung zu dem letzten Jahresumsatz des Wettbewerber ab (in EUR).",
+          "option1": "Groß (>1 Mrd. EUR)",
+          "option2": "Mittel",
+          "option3": "Klein (<1 Mrd. EUR)",
+          "option4": "Unbekannt"
+        },
+        "3": {
+          "title": "Produkte mit Schaeffler-spezifischen Komponenten / Eigenschaften",
+          "subtitle": "Welcher Wettbewerber kann die Komponenten / Eigenschaften des angefragten Lagers herstellen?",
+          "option1": "Jeder Wettbewerber",
+          "option2": "Nur Premiumhersteller",
+          "option3": "Nur Schaeffler",
+          "option4": "Unbekannt"
+        },
+        "4": {
+          "title": "Bedeutung für den Kunden",
+          "subtitle": "Was ist der Grad der Wichtigkeit für den Kunden?",
+          "option1": "Niedrig",
+          "option2": "Mittel",
+          "option3": "Hoch",
+          "option4": "Unbekannt"
+        },
+        "5": {
+          "title": "X-Life",
+          "subtitle": "Sind Sie sicher, dass der Kunde einen signifikanten Vorteil durch die X-Life Eigenschaft dieses Lagers ziehen würde?",
+          "option1": "Ja",
+          "option2": "Nein",
+          "option3": "Unbekannt"
+        }
+      }
+    },
+    "confirm": {
+      "success": "Ihre Auswahl wurde gespeichert",
+      "failure": "Ihre Auswahl konnte nicht gespeichert werden"
+    },
+    "manualPrice": {
+      "warningText": "Durch Berücksichtigung der GQ Preisempfehlung besteht die Möglichkeit zusätzliche {{value}} {{currency}}  zu generieren.",
+      "commentLabel": "Kommentar zum manuellen Preis"
+    }
+  }
+}

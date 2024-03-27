@@ -1,7 +1,11 @@
 <ng-container *ngIf="amount > 0">
   <div
     class="delta-chip bg-info text-info"
-    *transloco="let t; read: 'fPricing.pricingAssistantModal.comparisonPanel'"
+    *transloco="
+      let t;
+      scope: 'f-pricing';
+      read: 'fPricing.pricingAssistantModal.comparisonPanel'
+    "
   >
     <span> {{t('amountOfDelta', {amount})}}</span>
   </div>

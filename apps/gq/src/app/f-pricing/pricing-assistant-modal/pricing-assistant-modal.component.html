@@ -1,5 +1,11 @@
 <ng-container *ngrxLet="fPricingData$ | ngrxPush as fPricingData">
-  <ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+  <ng-container
+    *transloco="
+      let t;
+      scope: 'f-pricing';
+      read: 'fPricing.pricingAssistantModal'
+    "
+  >
     <div class="flex flex-col h-full">
       <gq-pricing-assistant-header
         [material]="material"

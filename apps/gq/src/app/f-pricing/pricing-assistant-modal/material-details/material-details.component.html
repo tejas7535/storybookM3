@@ -1,4 +1,6 @@
-<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+<ng-container
+  *transloco="let t; scope: 'f-pricing'; read: 'fPricing.pricingAssistantModal'"
+>
   <ng-container *ngrxLet="quotationDetail.material as material">
     <gq-dialog-header
       [title]="

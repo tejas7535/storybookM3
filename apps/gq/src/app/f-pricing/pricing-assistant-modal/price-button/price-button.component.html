@@ -1,4 +1,6 @@
-<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+<ng-container
+  *transloco="let t; scope: 'f-pricing'; read: 'fPricing.pricingAssistantModal'"
+>
   <ng-container *ngIf="!isAddPriceButton; else addPrice">
     <div
       class="border box-border border-border border-solid rounded-md p-4 flex flex-col w-full h-20 cursor-pointer"

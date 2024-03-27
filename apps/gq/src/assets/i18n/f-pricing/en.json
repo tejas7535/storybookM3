@@ -1,0 +1,175 @@
+{
+  "pricingAssistantModal": {
+    "title": "Pricing Assistant for {{ material }}",
+    "materialDetailsDialogTitle": "Information about {{materialDescription}}",
+    "materialNumberLabel": "Material No.",
+    "dimensionsLabel": "Dimensions",
+    "weightLabel": "Weight",
+    "showMoreButtonLabel": "Show more",
+    "gqPriceLabel": "GQ Price",
+    "manualPriceLabel": "Manual Price",
+    "currentlySelected": "currently selected",
+    "gpmLabel": "GPM %",
+    "addManualPriceButton": "Add Manual Price",
+    "cancelButton": "Cancel",
+    "confirmButton": "Confirm",
+    "resultsLabel": "Results",
+    "resultsPriceLabel": "Proposed Selling Price",
+    "resultsGpmLabel": "GPM %",
+    "confidence": {
+      "levelLabel": "Confidence Level:",
+      "tooltip": "tooltiptext for confidence"
+    },
+    "referencePricingLabel": "Reference Pricing",
+    "marketValueDriversLabel": "Market Value Drivers",
+    "marketValueDriversWarningTooltip": "If possible, please complete your evaluation of the market value drivers.",
+    "marketValueDriversErrorTooltip": " Please verify market value drivers.",
+    "technicalValueDriversLabel": "Technical Value Drivers",
+    "sanityCheckLabel": "Sanity Check",
+    "finalPriceLabel": "Final Price",
+    "referencePricingTable": {
+      "noReferenceDataTitle": "No comparable transactions could be found",
+      "noReferenceDataSubTitle": "The reference price is calculated by regression",
+      "item": "Item",
+      "materialDescription": "Description",
+      "materialNumber": "Material Number",
+      "quantity": "Quantity",
+      "price": "Net Price",
+      "year": "Year",
+      "showMoreRows": "show more transactions (+{{amount}})"
+    },
+    "comparisonPanel": {
+      "showDelta": "show delta",
+      "hideDelta": "hide delta",
+      "backButton": "Back",
+      "differentString": "different",
+      "amountOfDelta": "{{amount}} Deltas",
+      "comparableProperties": {
+        "general": {
+          "title": "General",
+          "bearingRows": "Bearing rows",
+          "size": "Size"
+        },
+        "outerRing": {
+          "title": "Outer ring",
+          "outerDiameter": "Outer diameter",
+          "materialCat": "Outer ring material",
+          "width": "Width",
+          "racewayDiameter": "Raceway diameter",
+          "crossSection": "Cross section"
+        },
+        "innerRing": {
+          "title": "Inner ring",
+          "innerDiameter": "Inner diameter",
+          "materialCat": "Inner ring material",
+          "width": "Width",
+          "racewayDiameter": "Raceway diameter",
+          "crossSection": "Cross section"
+        },
+        "cage": {
+          "title": "Cage",
+          "rollingElements": "Rolling elements",
+          "designCat": "Design",
+          "materialCat": "Cage material",
+          "width": "Width",
+          "diameter": "Cage diameter",
+          "rows": "Number of rows"
+        },
+        "roller": {
+          "title": "Roller",
+          "length": "Length",
+          "diameter": "Roller diameter",
+          "materialCat": "Roller material",
+          "angle": "Angle"
+        }
+      }
+    },
+    "technicalValueDrivers": {
+      "tableColumnHeader": {
+        "description": "Technical Value Driver",
+        "selectedValue": "Selected Value",
+        "value": "GQ Proposed Value",
+        "additionalDescription": "Description"
+      },
+      "tableRows": {
+        "heatTreatment": "Heat Treatment",
+        "heatTreatmentDescription": "If applicable: Surcharge for heat treatment ({{value}})",
+        "toleranceClass": "Tolerance Class",
+        "toleranceClassDescription": "If applicable: Surcharge for special tolerance class ({{value}})",
+        "radialClearance": "Radial Clearance",
+        "radialClearanceDescription": "If applicable: Surcharge for radial clearance",
+        "axialClearance": "Axial Clearance",
+        "axialClearanceDescription": "If applicable: Surcharge for axial clearance ({{value}})",
+        "engineeringEffort": "Engineering Effort",
+        "engineeringEffortDescription": "Evaluation of engineering effort"
+      }
+    },
+    "sanityChecks": {
+      "tableColumnHeader": {
+        "description": "Description",
+        "value": "Value"
+      },
+      "tableRows": {
+        "priceRecommendationBefore": "Price Recommendation before Sanity Check",
+        "cost": "Cost (SQV)",
+        "lowerThreshold": "Lower Threshold Price (min. margin)",
+        "upperThreshold": "Higher Threshold Price (max. margin)",
+        "lastCustomerPrice": "Last Customer Price",
+        "priceRecommendationAfter": "Price Recommendation After Sanity Check"
+      }
+    },
+    "marketValueDriver": {
+      "information": "This information will improve price recommendation accuracy.",
+      "unknownTooltip": "Unknown pre-selected automatically. Please confirm the market value drivers.",
+      "questions": {
+        "1": {
+          "title": "Number of available competitors",
+          "subtitle": "Refers to the number of competitors that have the capability to offer the requested solution.",
+          "option1": "Low (<=2)",
+          "option2": "Medium (3-5)",
+          "option3": "High (>=6)",
+          "option4": "Unknown"
+        },
+        "2": {
+          "title": "Size of competitors",
+          "subtitle": "Please provide rough estimate about the competitors' past annual revenue size (in EUR).",
+          "option1": "Large (>1bn EUR)",
+          "option2": "Medium",
+          "option3": "Small (<1bn EUR)",
+          "option4": "Unknown"
+        },
+        "3": {
+          "title": "Products with components / features specific to Schaeffler",
+          "subtitle": "Which competitors can create components / features of the inquired bearing?",
+          "option1": "Any Competitor",
+          "option2": "Only Premium Producer",
+          "option3": "Only Schaeffler",
+          "option4": "Unknown"
+        },
+        "4": {
+          "title": "Criticality for customer",
+          "subtitle": "What is the degree of criticality for the customer?",
+          "option1": "Low",
+          "option2": "Medium",
+          "option3": "High",
+          "option4": "Unknown"
+        },
+        "5": {
+          "title": "X-Life",
+          "subtitle": "Are we confident that the customer would draw significant advantage from X-Life feature on this bearing?",
+          "option1": "Yes",
+          "option2": "No",
+          "option3": "Unknown"
+        }
+      }
+    },
+    "confirm": {
+      "success": "Your selection has been saved",
+      "failure": "Your selection could not be saved"
+    },
+    "manualPrice": {
+      "warningText": "There is an opportunity to earn an additional {{value}} {{currency}} following the GQ algorithm.",
+      "commentLabel": "Comment on Manual Price"
+    }
+  }
+}

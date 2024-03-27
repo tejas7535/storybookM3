@@ -1,4 +1,7 @@
-<div *transloco="let t; read: 'fPricing.pricingAssistantModal'" class="">
+<div
+  *transloco="let t; scope: 'f-pricing'; read: 'fPricing.pricingAssistantModal'"
+  class=""
+>
   <gq-dialog-header
     [title]="t('title', { material: material.materialDescription })"
     (closeDialog)="closeDialog.emit()"
