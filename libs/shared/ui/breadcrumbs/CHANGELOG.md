@@ -1,4 +1,14 @@
 # Release Notes of Library Shared UI Breadcrumbs
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/breadcrumbs-v1.1.1...breadcrumbs-v1.2.0) (2024-03-28)
+
+
+### Features
+
+* **breadcrumbs:** migrate to mdc components ([#5832](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5832)) ([30854eb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/30854ebbc7092e6b6062a5ebb74f8a4b18b7b41c))
+* **ia:** adjust app after angular 17 update (IA-1372) ([#6114](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6114)) ([164aeae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/164aeae782fc7a13470ad8b03d477a20d0850c7e))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/breadcrumbs-v1.1.0...breadcrumbs-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/breadcrumbs-v1.0.2...breadcrumbs-v1.1.0) (2023-09-22)
