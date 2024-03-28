@@ -1,4 +1,11 @@
 # Release Notes of Storybook
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/shared-ui-storybook-e2e-v0.1.0...shared-ui-storybook-e2e-v0.2.0) (2024-03-28)
+
+
+### Features
+
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## 0.1.0 (2023-09-22)
 
 
