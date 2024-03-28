@@ -1,11 +1,4 @@
 # Release Notes of Library Shared Utils Application Insights
-## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.2.0...application-insights-v1.3.0) (2024-03-28)
-
-
-### Features
-
-* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
-
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.1.1...application-insights-v1.2.0) (2023-12-14)
 
 

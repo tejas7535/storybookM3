@@ -1,12 +1,4 @@
 # Release Notes of Library Shared UI Controls
-## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/controls-v1.1.1...controls-v1.2.0) (2024-03-28)
-
-
-### Features
-
-* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
-* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
-
 ## [1.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/controls-v1.1.0...controls-v1.1.1) (2023-09-25)
 
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/controls-v1.0.2...controls-v1.1.0) (2023-09-22)

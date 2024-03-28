@@ -1,19 +1,4 @@
 # Release Notes of Library Shared UI Styles
-## [1.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.9.0...styles-v1.10.0) (2024-03-28)
-
-
-### Features
-
-* **styles:** remove unused styles ([#6027](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6027)) ([856ae97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/856ae97e27d4611312ae97042e2d5e52e2fcf318))
-* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
-* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
-
-
-### Bug Fixes
-
-* **styles:** fix dialog pointer events ([#6087](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6087)) ([d59e301](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d59e301da48df8fa702e701662173536a656e9d4))
-* **styles:** fix mat menu position ([#6106](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6106)) ([32e845b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/32e845b226b49aa93fd7d26d86c88c8f75b1a575))
-
 ## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.8.1...styles-v1.9.0) (2023-12-14)
 
 

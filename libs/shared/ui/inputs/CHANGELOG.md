@@ -1,17 +1,4 @@
 # Release Notes of Library Shared UI Inputs
-## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.3.0...inputs-v1.4.0) (2024-03-28)
-
-
-### Features
-
-* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
-* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
-
-
-### Bug Fixes
-
-* **inputs:** handle undefined options ([203f766](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/203f766d47f0b296f5dfbc5d0d5473281028f9f2))
-
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.2.1...inputs-v1.3.0) (2023-12-14)
 
 

@@ -52,7 +52,7 @@
         "baseBranch": "master",
         "tagPrefix": "banner-v",
         "changelogHeader": "# Release Notes of Library Shared UI Banner",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

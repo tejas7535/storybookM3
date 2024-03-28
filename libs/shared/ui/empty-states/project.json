@@ -52,7 +52,7 @@
         "baseBranch": "master",
         "tagPrefix": "empty-states-v",
         "changelogHeader": "# Release Notes of Library Shared UI Empty States",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

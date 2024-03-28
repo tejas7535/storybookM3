@@ -52,7 +52,7 @@
         "baseBranch": "master",
         "tagPrefix": "picture-card-v",
         "changelogHeader": "# Release Notes of Library Shared UI Picture Card",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

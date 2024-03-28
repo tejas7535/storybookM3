@@ -52,7 +52,7 @@
         "baseBranch": "master",
         "tagPrefix": "loading-spinner-v",
         "changelogHeader": "# Release Notes of Library Shared UI Loading Spinner",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

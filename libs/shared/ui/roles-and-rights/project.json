@@ -52,7 +52,7 @@
         "baseBranch": "master",
         "tagPrefix": "roles-and-rights-v",
         "changelogHeader": "# Release Notes of Library Shared UI Roles And Rights",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

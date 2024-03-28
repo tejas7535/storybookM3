@@ -56,7 +56,7 @@
         "baseBranch": "master",
         "tagPrefix": "view-toggle-v",
         "changelogHeader": "# Release Notes of Library Shared UI View Toggle",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

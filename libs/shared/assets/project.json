@@ -12,7 +12,7 @@
         "baseBranch": "master",
         "tagPrefix": "assets-v",
         "changelogHeader": "# Release Notes of Library Shared Assets",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

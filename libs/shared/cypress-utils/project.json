@@ -22,7 +22,7 @@
         "baseBranch": "master",
         "tagPrefix": "cypress-utils-v",
         "changelogHeader": "# Release Notes of Library Shared Cypress Utils",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

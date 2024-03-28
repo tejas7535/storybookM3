@@ -163,7 +163,7 @@ def defineAffectedAppsAndLibs() {
     )
 
     libs = sh (
-        script: "pnpm --silent nx show projects --affected --base=${buildBase} --projects 'shared-*'",
+        script: "pnpm --silent nx show projects --affected --base=${buildBase} --projects 'shared-*' --exclude '*-e2e'",
         returnStdout: true
     )
 
@@ -179,7 +179,7 @@ def defineAffectedAppsAndLibs() {
 }
 
 boolean ciSkip(isMain, isRelease) {
-    Integer ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
+    Integer ciSkip = sh([script: "git log -1 | grep '.*\\[(ci skip|CI SKIP)\\].*'", returnStatus: true])
 
     if ((ciSkip == 0 && isMain && !isRelease) || "${BRANCH_NAME}" == 'gh-pages') {
         currentBuild.description = 'CI SKIP'
@@ -359,7 +359,7 @@ pipeline {
             }
             post {
                 always {
-                    recordIssues(ignoreQualityGate: !isMain, qualityGates: [qualityGate], tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
+                    recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
                 }
             }
         }
@@ -446,13 +446,13 @@ pipeline {
                     // generate project specific changelog
                     if (isAppRelease) {
                         standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version"
-
                         if (params.CUSTOM_VERSION != "${customVersionDefault}") {
                             standardVersionCommand += " --releaseAs=${params.CUSTOM_VERSION}"
                         }
                     } else if (isLibsRelease) {
                         standardVersionCommand = "pnpm nx run-many --target=version --projects=${affectedLibs.join(',')}"
                     }
+
 
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                         releaseFailed = github.executeAsGithubUser('github-jenkins-access-token', standardVersionCommand)

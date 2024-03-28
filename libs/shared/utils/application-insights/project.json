@@ -53,7 +53,7 @@
         "baseBranch": "master",
         "tagPrefix": "application-insights-v",
         "changelogHeader": "# Release Notes of Library Shared Utils Application Insights",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": []
       }

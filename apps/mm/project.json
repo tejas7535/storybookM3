@@ -177,7 +177,7 @@
         "baseBranch": "master",
         "tagPrefix": "${target}-v",
         "changelogHeader": "# Release Notes of Mounting Manager",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": ["mm:github"]
       }

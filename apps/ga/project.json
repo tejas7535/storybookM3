@@ -177,7 +177,7 @@
         "baseBranch": "master",
         "tagPrefix": "${target}-v",
         "changelogHeader": "# Release Notes of Grease App",
-        "commitMessageFormat": "chore(${projectName}): 🧈 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🧈 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": ["ga:github"]
       }

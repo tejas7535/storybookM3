@@ -1,18 +1,4 @@
 # Release Notes of Library Shared Utils Transloco
-## [4.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.2.0...transloco-v4.3.0) (2024-03-28)
-
-
-### Features
-
-* **transloco:** migrate to mdc components ([#5868](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5868)) ([cae3511](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cae3511f825b48176bcd5e990e129cde254a6646))
-* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
-* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
-
-
-### Bug Fixes
-
-* **transloco:** hide tick in language and locale select ([#6113](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6113)) ([f9be8c0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f9be8c0c17977014320aa76e7dc7ccac4dec5c97))
-
 ## [4.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.1.1...transloco-v4.2.0) (2023-12-14)
 
 

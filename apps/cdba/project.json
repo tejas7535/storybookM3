@@ -138,7 +138,7 @@
         "baseBranch": "master",
         "tagPrefix": "${target}-v",
         "changelogHeader": "# Release Notes of Cost Database Analytics",
-        "commitMessageFormat": "chore(${projectName}): 🚀 release version ${version} [CI SKIP]",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
         "noVerify": true,
         "postTargets": ["cdba:github"]
       }
