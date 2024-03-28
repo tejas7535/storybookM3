@@ -7,7 +7,6 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
-import { deleteEntity } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Component({
@@ -64,7 +63,6 @@ export class ActionCellRendererComponent implements ICellRendererAngularComp {
   }
 
   private onConfirmDelete(): void {
-    const id = this.params.data.id;
-    this.dataFacade.dispatch(deleteEntity({ id }));
+    this.dataFacade.deleteEntity(this.params.data.id);
   }
 }

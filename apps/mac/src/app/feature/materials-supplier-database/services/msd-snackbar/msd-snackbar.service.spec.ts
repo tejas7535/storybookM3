@@ -24,7 +24,7 @@ describe('MsdSnackbarService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdSnackbarService);
+    service = spectator.service;
   });
 
   it('should be created', () => {

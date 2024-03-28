@@ -1,5 +1,4 @@
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 
 import { Subject } from 'rxjs';
 
@@ -11,10 +10,10 @@ import {
   ICellRendererParams,
   RowNode,
 } from 'ag-grid-community';
+import { MockPipe } from 'ng-mocks';
 
 import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
-import { deleteEntity } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { ActionCellRendererComponent } from './action-cell-renderer.component';
@@ -22,6 +21,7 @@ import { ActionCellRendererComponent } from './action-cell-renderer.component';
 describe('ActionCellRendererComponent', () => {
   let component: ActionCellRendererComponent;
   let spectator: Spectator<ActionCellRendererComponent>;
+  let dataFacade: DataFacade;
 
   let mockDialogRef: MatDialogRef<any>;
   let mockSubjectOpen: Subject<void>;
@@ -35,12 +35,12 @@ describe('ActionCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ActionCellRendererComponent,
-    imports: [PushPipe, MatIconModule],
+    imports: [MockPipe(PushPipe)],
     providers: [
       {
         provide: DataFacade,
         useValue: {
-          dispatch: jest.fn(),
+          deleteEntity: jest.fn(),
         },
       },
       {
@@ -70,6 +70,8 @@ describe('ActionCellRendererComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component.params = mockParams;
+
+    dataFacade = spectator.inject(DataFacade);
   });
 
   describe('agInit', () => {
@@ -94,7 +96,7 @@ describe('ActionCellRendererComponent', () => {
       component.onDeleteClick();
       mockSubjectClose.next(false);
 
-      expect(component['dataFacade'].dispatch).not.toBeCalled();
+      expect(dataFacade.deleteEntity).not.toBeCalled();
     });
 
     it('should dispatch call', () => {
@@ -104,9 +106,7 @@ describe('ActionCellRendererComponent', () => {
       component.onDeleteClick();
       mockSubjectClose.next(true);
 
-      expect(component['dataFacade'].dispatch).toBeCalledWith(
-        deleteEntity({ id })
-      );
+      expect(dataFacade.deleteEntity).toBeCalledWith(id);
     });
   });
 
@@ -133,9 +133,7 @@ describe('ActionCellRendererComponent', () => {
     it('should dispatch the deleteEntity action', () => {
       component['onConfirmDelete']();
 
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        deleteEntity({ id: 876 })
-      );
+      expect(dataFacade.deleteEntity).toHaveBeenCalledWith(876);
     });
   });
 

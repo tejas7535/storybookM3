@@ -8,10 +8,6 @@ import { translate } from '@ngneat/transloco';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
-import {
-  materialstandardDialogConfirmed,
-  materialstandardDialogOpened,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
@@ -78,7 +74,7 @@ export class MaterialStandardInputDialogComponent
   }
 
   public dispatchDialogOpenEvent(): void {
-    this.dialogFacade.dispatch(materialstandardDialogOpened());
+    this.dialogFacade.materialStandardDialogOpened();
   }
 
   patchFields(materialFormValue: Partial<MaterialFormValue>): void {
@@ -147,7 +143,7 @@ export class MaterialStandardInputDialogComponent
     const standard: MaterialStandard = this.buildMaterialStandard(baseMaterial);
 
     // include stdDoc put logic in effect
-    this.dialogFacade.dispatch(materialstandardDialogConfirmed({ standard }));
+    this.dialogFacade.materialStandardDialogConfirmed(standard);
     this.awaitMaterialComplete(createAnother);
   }
 

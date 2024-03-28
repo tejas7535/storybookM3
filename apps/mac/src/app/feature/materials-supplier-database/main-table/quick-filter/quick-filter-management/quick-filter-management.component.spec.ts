@@ -1,11 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { provideRouter, Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -39,16 +34,12 @@ describe('QuickFilterManagementComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QuickFilterManagementComponent,
-    declarations: [QuickFilterManagementComponent],
-    imports: [
-      provideTranslocoTestingModule({ en }),
-      RouterTestingModule,
-      MatDialogModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en })],
     providers: [
       mockProvider(DataFacade),
       mockProvider(QuickFilterFacade, { ownQuickFilters$: of() }),
       mockProvider(MatDialog),
+      provideRouter([]),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,

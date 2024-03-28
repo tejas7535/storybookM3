@@ -21,7 +21,7 @@ describe('MsdQuickFilterService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdQuickFilterService);
+    service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
   });
 

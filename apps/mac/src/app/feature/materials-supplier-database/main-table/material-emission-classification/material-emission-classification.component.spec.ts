@@ -24,7 +24,6 @@ describe('MaterialEmissionClassificationComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MaterialEmissionClassificationComponent,
-    declarations: [MaterialEmissionClassificationComponent],
     providers: [mockProvider(MsdDialogService, { openInfoDialog: jest.fn() })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,

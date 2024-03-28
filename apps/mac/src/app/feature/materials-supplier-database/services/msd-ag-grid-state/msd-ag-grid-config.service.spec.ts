@@ -50,7 +50,7 @@ describe('MsdAgGridConfigService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdAgGridConfigService);
+    service = spectator.service;
     dataFacade = spectator.inject(DataFacade);
   });
 

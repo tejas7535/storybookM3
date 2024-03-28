@@ -1,12 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
@@ -14,6 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -45,19 +39,7 @@ describe('BaseDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BaseDialogComponent,
-    imports: [
-      CommonModule,
-      MatProgressSpinnerModule,
-      MatButtonModule,
-      MatFormFieldModule,
-      ReactiveFormsModule,
-      MatGridListModule,
-      MatIconModule,
-      MatDialogModule,
-      MatDividerModule,
-      PushPipe,
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [MockPipe(PushPipe), provideTranslocoTestingModule({ en })],
     providers: [
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
@@ -68,7 +50,7 @@ describe('BaseDialogComponent', () => {
         },
       },
     ],
-    declarations: [BaseDialogComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

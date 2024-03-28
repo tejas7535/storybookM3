@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { QueryList } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable, QueryList } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,24 +6,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import {
   createComponentFactory,
@@ -35,55 +19,56 @@ import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
+import { SelectComponent } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
-  CreateMaterialErrorState,
-  CreateMaterialRecord,
-  SteelMaterialFormValue,
-} from '@mac/msd/models';
-import {
-  addCustomCastingDiameter,
-  addCustomReferenceDocument,
-  fetchCastingDiameters,
-  fetchCo2ValuesForSupplierSteelMakingProcess,
-  fetchSteelMakingProcessesInUse,
-  materialDialogConfirmed,
-  resetSteelMakingProcessInUse,
-  updateCreateMaterialDialogValues,
-} from '@mac/msd/store/actions/dialog';
-import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
-import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
-import {
-  getCreateMaterialRecord,
   getHighestCo2Values,
   getSteelMakingProcessesInUse,
-} from '@mac/msd/store/selectors';
+} from '@mac/feature/materials-supplier-database/store';
+import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
+import { SteelMaterialFormValue } from '@mac/msd/models';
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import {
   mockMaterialStandards,
   mockSuppliers,
 } from '@mac/testing/mocks/msd/input-dialog.mock';
-import {
-  createMaterialFormValue,
-  createOption,
-  transformAsMaterialRequest,
-} from '@mac/testing/mocks/msd/material-generator.mock';
+import { createOption } from '@mac/testing/mocks/msd/material-generator.mock';
+import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-values.mocks';
 
 import * as en from '../../../../../../../assets/i18n/en.json';
-import { BaseDialogModule } from '../../base-dialog/base-dialog.module';
-import { MaterialInputDialogModule } from '../../material-input-dialog.module';
 import { DialogControlsService } from '../../services';
 import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 import { SteelInputDialogComponent } from './steel-input-dialog.component';
 
+@Injectable()
+class MockDialogFacade extends DialogFacade {
+  addCustomCastingDiameter = jest.fn();
+  addCustomReferenceDocument = jest.fn();
+  fetchCastingDiameters = jest.fn();
+  fetchCo2ValuesForSupplierSteelMakingProcess = jest.fn();
+  fetchSteelMakingProcessesInUse = jest.fn();
+  materialDialogConfirmed = jest.fn();
+  resetSteelMakingProcessInUse = jest.fn();
+  updateCreateMaterialDialogValues = jest.fn();
+}
+
+jest.mock(
+  '@mac/feature/materials-supplier-database/main-table/material-input-dialog/material-input-dialog.component'
+);
+
+const getMockControl = (disabled: boolean): FormControl =>
+  new FormControl({ value: undefined, disabled });
+
 describe('SteelInputDialogComponent', () => {
   let component: SteelInputDialogComponent;
   let spectator: Spectator<SteelInputDialogComponent>;
+  let dialogFacade: DialogFacade;
 
   const setSilent = <T>(control: FormControl<T> | FormGroup, value?: T) =>
     control.setValue(value, { emitEvent: false });
@@ -123,35 +108,28 @@ describe('SteelInputDialogComponent', () => {
   let store: MockStore;
   let smpSpy: MemoizedSelector<any, string[], DefaultProjectorFn<string[]>>;
   let co2Spy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
-  let createMaterialSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
 
   const createComponent = createComponentFactory({
     component: SteelInputDialogComponent,
     imports: [
-      CommonModule,
-      MatProgressSpinnerModule,
-      PushPipe,
-      MatIconModule,
-      MatButtonModule,
-      MatDividerModule,
-      MatInputModule,
-      MatCheckboxModule,
-      MatFormFieldModule,
-      SelectModule,
-      ReactiveFormsModule,
-      MatDialogModule,
-      MatGridListModule,
-      MatSelectModule,
-      MatTooltipModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
-      MatSnackBarModule,
-      BaseDialogModule,
-      MaterialInputDialogModule,
     ],
     providers: [
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
-      DialogControlsService,
+      MockProvider(DialogControlsService, {
+        getCopperNumberControl: jest.fn((_, disabled) =>
+          getMockControl(disabled)
+        ),
+        getRequiredControl: jest.fn((_, disabled) => getMockControl(disabled)),
+        getControl: jest.fn((_, disabled) => getMockControl(disabled)),
+        getNumberControl: jest.fn((_, disabled) => getMockControl(disabled)),
+        getRequiredNumberControl: jest.fn((_, disabled) =>
+          getMockControl(disabled)
+        ),
+      }),
       mockProvider(MsdDialogService),
       {
         provide: MatDialogRef,
@@ -163,7 +141,10 @@ describe('SteelInputDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: matDialogData,
       },
+      MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -172,10 +153,39 @@ describe('SteelInputDialogComponent', () => {
     const spy = spectator.inject(MockStore);
     co2Spy = spy.overrideSelector(getHighestCo2Values, {});
     smpSpy = spy.overrideSelector(getSteelMakingProcessesInUse, []);
-    createMaterialSpy = spy.overrideSelector(getCreateMaterialRecord);
     store = spy;
-    store.dispatch = jest.fn();
+
+    assignDialogValues(component, {
+      steelNumberControl: getMockControl(false),
+      selfCertifiedControl: getMockControl(false),
+      castingModesControl: getMockControl(true),
+      castingDiameterControl: getMockControl(true),
+      ratingsControl: getMockControl(false),
+      maxDimControl: getMockControl(false),
+      minDimControl: getMockControl(false),
+      releaseMonthControl: getMockControl(false),
+      releaseYearControl: getMockControl(false),
+      referenceDocumentControl: getMockControl(false),
+      ratingRemarksControl: getMockControl(false),
+      ratingChangeCommentControl: getMockControl(true),
+      isBlockedControl: getMockControl(false),
+      steelMakingProcessControl: getMockControl(false),
+      minRecyclingRateControl: new FormControl(undefined, [
+        Validators.min(0),
+        Validators.max(100),
+      ]),
+      maxRecyclingRateControl: new FormControl(undefined, [
+        Validators.min(0),
+        Validators.max(100),
+      ]),
+      isManufacturerControl: getMockControl(false),
+      destroy$: new Subject<void>(),
+      isAddDialog: jest.fn(() => true),
+    });
+
     spectator.detectChanges();
+
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   it('should create', () => {
@@ -237,10 +247,8 @@ describe('SteelInputDialogComponent', () => {
     it('should assign the material form', () => {
       component.minDimControl.setValue(99);
 
-      expect(store.dispatch).toBeCalledWith(
-        updateCreateMaterialDialogValues({
-          form: component.createMaterialForm.value,
-        })
+      expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith(
+        component.createMaterialForm.value
       );
     });
   });
@@ -360,32 +368,32 @@ describe('SteelInputDialogComponent', () => {
         castingMode: 'new',
       });
       expect(component.castingDiameterControl.enabled).toBeTruthy();
-      expect(store.dispatch).toBeCalledWith(resetSteelMakingProcessInUse());
+      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
     });
     it('should disable castingDiameter with casting mode reset', () => {
       component.castingDiameterDep.patchValue({
         castingMode: undefined,
       });
       expect(component.castingDiameterControl.disabled).toBeTruthy();
-      expect(store.dispatch).toBeCalledWith(resetSteelMakingProcessInUse());
+      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
     });
     it('should fetchCastingDiameters', () => {
       component.castingDiameterDep.setValue({
         supplierId: 99,
         castingMode: 'new',
       });
-      expect(store.dispatch).toBeCalledWith(resetSteelMakingProcessInUse());
-      expect(store.dispatch).toBeCalledWith(
-        fetchCastingDiameters({ supplierId: 99, castingMode: 'new' })
-      );
+      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
+      expect(dialogFacade.fetchCastingDiameters).toBeCalledWith(99, 'new');
     });
     it('should not fetchCastingDiameters without castingMode', () => {
       component.castingDiameterDep.patchValue({
         castingMode: undefined,
       });
-      expect(store.dispatch).toBeCalledWith(resetSteelMakingProcessInUse());
-      expect(store.dispatch).not.toBeCalledWith(
-        fetchCastingDiameters({ supplierId: 99, castingMode: undefined })
+      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
+      expect(dialogFacade.fetchCastingDiameters).not.toBeCalledWith(
+        99,
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        undefined
       );
     });
     it('should not fetchCastingDiameters without supplierId', () => {
@@ -393,9 +401,11 @@ describe('SteelInputDialogComponent', () => {
         supplierId: undefined,
       });
 
-      expect(store.dispatch).toBeCalledWith(resetSteelMakingProcessInUse());
-      expect(store.dispatch).not.toBeCalledWith(
-        fetchCastingDiameters({ supplierId: 99, castingMode: undefined })
+      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
+      expect(dialogFacade.fetchCastingDiameters).not.toBeCalledWith(
+        99,
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        undefined
       );
     });
   });
@@ -416,45 +426,25 @@ describe('SteelInputDialogComponent', () => {
     it('should fetch steelMakingProcesses', () => {
       castingDiameter = '2x2';
       component.castingDiameterControl.setValue(createOption(castingDiameter));
-      expect(store.dispatch).toBeCalledWith(
-        fetchSteelMakingProcessesInUse({
-          supplierId,
-          castingMode,
-          castingDiameter,
-        })
+      expect(dialogFacade.fetchSteelMakingProcessesInUse).toBeCalledWith(
+        supplierId,
+        castingMode,
+        castingDiameter
       );
     });
     it('should not fetch processes with empty diameter', () => {
       component.castingDiameterControl.reset();
-      expect(store.dispatch).not.toBeCalledWith(
-        fetchSteelMakingProcessesInUse({
-          supplierId,
-          castingMode,
-          castingDiameter: undefined,
-        })
-      );
+      expect(dialogFacade.fetchSteelMakingProcessesInUse).not.toBeCalled();
     });
     it('should not fetch processes with empty casting mode', () => {
       setSilent(component.castingModesControl);
       component.castingDiameterControl.setValue(createOption('test'));
-      expect(store.dispatch).not.toBeCalledWith(
-        fetchSteelMakingProcessesInUse({
-          supplierId,
-          castingMode: undefined,
-          castingDiameter: 'test',
-        })
-      );
+      expect(dialogFacade.fetchSteelMakingProcessesInUse).not.toBeCalled();
     });
     it('should not fetch processes with empty id', () => {
       setSilent(component.manufacturerSupplierIdControl);
       component.castingDiameterControl.setValue(createOption('test'));
-      expect(store.dispatch).not.toBeCalledWith(
-        fetchSteelMakingProcessesInUse({
-          supplierId: undefined,
-          castingMode,
-          castingDiameter: 'test',
-        })
-      );
+      expect(dialogFacade.fetchSteelMakingProcessesInUse).not.toBeCalled();
     });
   });
 
@@ -470,13 +460,9 @@ describe('SteelInputDialogComponent', () => {
       component.categoriesControl.setValue(createOption('xxx', 'brightBar'));
       component.steelMakingProcessControl.setValue(createOption('BF+BOF'));
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId: 1,
-          steelMakingProcess: 'BF+BOF',
-          productCategory: 'brightBar',
-        })
-      );
+      expect(
+        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
+      ).toHaveBeenCalledWith(1, 'BF+BOF', 'brightBar');
       expect(
         component.createMaterialForm.updateValueAndValidity
       ).toHaveBeenCalled();
@@ -488,13 +474,9 @@ describe('SteelInputDialogComponent', () => {
       component.categoriesControl.setValue(createOption('xxx', 'brightBar'));
       component.steelMakingProcessControl.setValue(createOption('initial'));
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId: 7,
-          steelMakingProcess: 'initial',
-          productCategory: 'brightBar',
-        })
-      );
+      expect(
+        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
+      ).toHaveBeenCalledWith(7, 'initial', 'brightBar');
       expect(
         component.createMaterialForm.updateValueAndValidity
       ).toHaveBeenCalled();
@@ -502,25 +484,17 @@ describe('SteelInputDialogComponent', () => {
     it('should not dispatch the fetch action with no SMP', () => {
       component.steelMakingProcessControl.reset();
 
-      expect(store.dispatch).not.toHaveBeenCalledWith(
-        fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId: 7,
-          steelMakingProcess: undefined,
-          productCategory: 'brightBar',
-        })
-      );
+      expect(
+        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
+      ).not.toHaveBeenCalledWith(7, undefined, 'brightBar');
     });
     it('should not dispatch the fetch action with no supplierId', () => {
       setSilent(component.manufacturerSupplierIdControl);
       component.steelMakingProcessControl.setValue({ id: 0, title: 'process' });
 
-      expect(store.dispatch).not.toHaveBeenCalledWith(
-        fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId: undefined,
-          steelMakingProcess: undefined,
-          productCategory: 'brightBar',
-        })
-      );
+      expect(
+        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
+      ).not.toHaveBeenCalledWith(undefined, undefined, 'brightBar');
     });
   });
 
@@ -643,14 +617,14 @@ describe('SteelInputDialogComponent', () => {
     beforeEach(() => {
       component.isEditDialog = jest.fn(() => false);
       component.isCopyDialog = jest.fn(() => false);
-      component['isBulkEdit'] = false;
+      component.isBulkEditDialog = jest.fn(() => false);
       component.releaseMonthControl.enable();
       component.releaseYearControl.enable();
     });
     it('should return NEW for ADD Dialog', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => false);
-      component['isBulkEdit'] = false;
+      component.isBulkEditDialog = jest.fn(() => false);
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.DEFAULT
       );
@@ -658,7 +632,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return NEW for COPY Dialog', () => {
       component.isCopyDialog = jest.fn(() => true);
       component.isEditDialog = jest.fn(() => true);
-      component['isBulkEdit'] = false;
+      component.isBulkEditDialog = jest.fn(() => false);
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.DEFAULT
       );
@@ -666,7 +640,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return NEW for BULK Edit Dialog', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
-      component['isBulkEdit'] = true;
+      component.isBulkEditDialog = jest.fn(() => true);
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.READONLY
       );
@@ -674,7 +648,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return READONLY for EDIT Dialog', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
-      component['isBulkEdit'] = false;
+      component.isBulkEditDialog = jest.fn(() => false);
       component.releaseMonthControl.setValue(1);
       component.releaseYearControl.setValue(33);
       expect(component.selectReleaseDateView()).toBe(
@@ -684,7 +658,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return HISTORIC for EDIT Dialog without full release date (month)', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
-      component['isBulkEdit'] = false;
+      component.isBulkEditDialog = jest.fn(() => false);
       component.releaseMonthControl.reset();
       component.releaseYearControl.setValue(33);
       expect(component.selectReleaseDateView()).toBe(
@@ -694,7 +668,7 @@ describe('SteelInputDialogComponent', () => {
     it('should return HISTORIC for EDIT Dialog without full release date (Year)', () => {
       component.isCopyDialog = jest.fn(() => false);
       component.isEditDialog = jest.fn(() => true);
-      component['isBulkEdit'] = false;
+      component.isBulkEditDialog = jest.fn(() => false);
       component.releaseMonthControl.setValue(1);
       component.releaseYearControl.reset();
       expect(component.selectReleaseDateView()).toBe(
@@ -707,8 +681,8 @@ describe('SteelInputDialogComponent', () => {
     it('should add values to select', () => {
       const referenceDocument = 'string';
       component.addReferenceDocument(referenceDocument);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomReferenceDocument({ referenceDocument })
+      expect(dialogFacade.addCustomReferenceDocument).toHaveBeenCalledWith(
+        referenceDocument
       );
     });
   });
@@ -717,8 +691,8 @@ describe('SteelInputDialogComponent', () => {
     it('should add values to select', () => {
       const castingDiameter = 'string';
       component.addCastingDiameter(castingDiameter);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomCastingDiameter({ castingDiameter })
+      expect(dialogFacade.addCustomCastingDiameter).toHaveBeenCalledWith(
+        castingDiameter
       );
     });
   });
@@ -750,104 +724,6 @@ describe('SteelInputDialogComponent', () => {
       );
 
       expect(result).toBe(true);
-    });
-  });
-
-  describe('confirmMaterial', () => {
-    beforeEach(() => {
-      component.supplierPlantControl.enable({ emitEvent: false });
-      component.supplierCountryControl.enable({ emitEvent: false });
-      component.castingDiameterControl.enable({ emitEvent: false });
-      component.castingModesControl.enable({ emitEvent: false });
-      component.co2ClassificationControl.enable({ emitEvent: false });
-      component.ratingChangeCommentControl.enable({ emitEvent: false });
-      component.isManufacturerControl.enable({ emitEvent: false });
-    });
-    const update = (error: boolean) => {
-      const result = error
-        ? {
-            error: {
-              code: 400,
-              state: CreateMaterialErrorState.MaterialCreationFailed,
-            },
-          }
-        : {};
-      createMaterialSpy.setResult(result as CreateMaterialRecord);
-      store.refreshState();
-    };
-    beforeEach(() => {
-      component['closeDialog'] = jest.fn();
-    });
-    it('should close dialog on successful confirm', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).toBeCalled();
-    });
-
-    it('should close dialog on successful confirm with empty material number', () => {
-      const baseValues = createMaterialFormValue(MaterialClass.STEEL);
-      const values = {
-        ...baseValues,
-        materialNumber: '',
-      };
-
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).toBeCalled();
-    });
-    it('should not close dialog on successful confirm with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(true);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).not.toHaveBeenCalled();
-    });
-    it('should keep the dialog open on error', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(true);
-      expect(component['closeDialog']).not.toBeCalled();
-    });
-    it('should keep the dialog open on error with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.STEEL);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(true);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(true);
-      expect(component['closeDialog']).not.toBeCalled();
     });
   });
 

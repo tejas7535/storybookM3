@@ -2,9 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { MaterialRequest } from '@mac/feature/materials-supplier-database/models';
+import {
+  DataResult,
+  ManufacturerSupplier,
+  MaterialFormValue,
+  MaterialRequest,
+  MaterialStandard,
+  SapMaterialsUpload,
+} from '@mac/feature/materials-supplier-database/models';
 import * as DialogActions from '@mac/msd/store/actions/dialog/dialog.actions';
 import {
   getConditions,
@@ -147,7 +154,195 @@ export class DialogFacade {
     this.store.dispatch(DialogActions.bulkEditMaterials({ materials }));
   }
 
-  dispatch(action: Action) {
-    this.store.dispatch(action);
+  openDialog(): void {
+    this.store.dispatch(DialogActions.openDialog());
+  }
+
+  openEditDialog(props: {
+    row: DataResult;
+    selectedRows?: DataResult[];
+    column: string;
+    isCopy?: boolean;
+    isBulkEdit?: boolean;
+  }): void {
+    this.store.dispatch(DialogActions.openEditDialog(props));
+  }
+
+  materialDialogOpened(): void {
+    this.store.dispatch(DialogActions.materialDialogOpened());
+  }
+
+  materialDialogCanceled(): void {
+    this.store.dispatch(DialogActions.materialDialogCanceled());
+  }
+
+  materialDialogConfirmed(
+    standard: MaterialStandard,
+    supplier: ManufacturerSupplier,
+    material: MaterialRequest,
+    isBulkEdit?: boolean
+  ): void {
+    this.store.dispatch(
+      DialogActions.materialDialogConfirmed({
+        standard,
+        supplier,
+        material,
+        isBulkEdit,
+      })
+    );
+  }
+
+  resetMaterialRecord(error: boolean, createAnother: boolean): void {
+    this.store.dispatch(
+      DialogActions.resetMaterialRecord({ error, createAnother })
+    );
+  }
+
+  addCustomSupplierName(supplierName: string): void {
+    this.store.dispatch(DialogActions.addCustomSupplierName({ supplierName }));
+  }
+
+  addCustomSupplierPlant(supplierPlant: string): void {
+    this.store.dispatch(
+      DialogActions.addCustomSupplierPlant({ supplierPlant })
+    );
+  }
+
+  addCustomMaterialStandardDocument(standardDocument: string): void {
+    this.store.dispatch(
+      DialogActions.addCustomMaterialStandardDocument({
+        standardDocument,
+      })
+    );
+  }
+
+  addCustomMaterialStandardName(materialName: string): void {
+    this.store.dispatch(
+      DialogActions.addCustomMaterialStandardName({ materialName })
+    );
+  }
+
+  manufacturerSupplierDialogOpened(): void {
+    this.store.dispatch(DialogActions.manufacturerSupplierDialogOpened());
+  }
+
+  manufacturerSupplierDialogConfirmed(supplier: ManufacturerSupplier): void {
+    this.store.dispatch(
+      DialogActions.manufacturerSupplierDialogConfirmed({ supplier })
+    );
+  }
+
+  addCustomSupplierBusinessPartnerId(supplierBusinessPartnerId: number): void {
+    this.store.dispatch(
+      DialogActions.addCustomSupplierBusinessPartnerId({
+        supplierBusinessPartnerId,
+      })
+    );
+  }
+
+  materialStandardDialogOpened(): void {
+    this.store.dispatch(DialogActions.materialStandardDialogOpened());
+  }
+
+  materialStandardDialogConfirmed(standard: MaterialStandard): void {
+    this.store.dispatch(
+      DialogActions.materialStandardDialogConfirmed({ standard })
+    );
+  }
+
+  updateCreateMaterialDialogValues(form: MaterialFormValue): void {
+    this.store.dispatch(
+      DialogActions.updateCreateMaterialDialogValues({ form })
+    );
+  }
+
+  fetchCastingDiameters(supplierId: number, castingMode: string) {
+    this.store.dispatch(
+      DialogActions.fetchCastingDiameters({ supplierId, castingMode })
+    );
+  }
+
+  addCustomReferenceDocument(referenceDocument: string): void {
+    this.store.dispatch(
+      DialogActions.addCustomReferenceDocument({ referenceDocument })
+    );
+  }
+
+  addCustomCastingDiameter(castingDiameter: string): void {
+    this.store.dispatch(
+      DialogActions.addCustomCastingDiameter({ castingDiameter })
+    );
+  }
+
+  sapMaterialsUploadDialogOpened(): void {
+    this.store.dispatch(DialogActions.sapMaterialsUploadDialogOpened());
+  }
+
+  addCustomDataOwner(dataOwner: string): void {
+    this.store.dispatch(DialogActions.addCustomDataOwner({ dataOwner }));
+  }
+
+  uploadSapMaterials(upload: SapMaterialsUpload): void {
+    this.store.dispatch(DialogActions.uploadSapMaterials({ upload }));
+  }
+
+  clearRejectedSapMaterials(): void {
+    this.store.dispatch(DialogActions.clearRejectedSapMaterials());
+  }
+
+  sapMaterialsUploadStatusReset(): void {
+    this.store.dispatch(DialogActions.sapMaterialsUploadStatusReset());
+  }
+
+  downloadRejectedSapMaterials(): void {
+    this.store.dispatch(DialogActions.downloadRejectedSapMaterials());
+  }
+
+  resetSteelMakingProcessInUse(): void {
+    this.store.dispatch(DialogActions.resetSteelMakingProcessInUse());
+  }
+
+  fetchSteelMakingProcessesInUse(
+    supplierId: number,
+    castingMode: string,
+    castingDiameter: string
+  ): void {
+    this.store.dispatch(
+      DialogActions.fetchSteelMakingProcessesInUse({
+        supplierId,
+        castingMode,
+        castingDiameter,
+      })
+    );
+  }
+
+  fetchCo2ValuesForSupplierSteelMakingProcess(
+    supplierId: number,
+    steelMakingProcess: string,
+    productCategory: string
+  ): void {
+    this.store.dispatch(
+      DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess({
+        supplierId,
+        steelMakingProcess,
+        productCategory,
+      })
+    );
+  }
+
+  minimizeDialog(
+    id: number,
+    value: Partial<MaterialFormValue>,
+    isCopy: boolean,
+    isBulkEdit: boolean
+  ): void {
+    this.store.dispatch(
+      DialogActions.minimizeDialog({
+        id,
+        value,
+        isCopy,
+        isBulkEdit,
+      })
+    );
   }
 }

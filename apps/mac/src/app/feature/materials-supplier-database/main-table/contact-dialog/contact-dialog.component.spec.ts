@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -15,12 +14,7 @@ describe('ContactDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ContactDialogComponent,
-    imports: [
-      CommonModule,
-      MatIconModule,
-      MatDialogModule,
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [provideTranslocoTestingModule({ en })],
     providers: [
       {
         provide: MatDialogRef,
@@ -29,6 +23,7 @@ describe('ContactDialogComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

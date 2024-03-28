@@ -100,9 +100,9 @@ export class DialogEffects {
     );
   });
 
-  public materialstandardDialogOpened$ = createEffect(() => {
+  public materialStandardDialogOpened$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DialogActions.materialstandardDialogOpened),
+      ofType(DialogActions.materialStandardDialogOpened),
       switchMap(() => [DialogActions.fetchMaterialStandards()])
     );
   });
@@ -344,9 +344,9 @@ export class DialogEffects {
     );
   });
 
-  public materialstandardDialogConfirmed$ = createEffect(() => {
+  public materialStandardDialogConfirmed$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DialogActions.materialstandardDialogConfirmed),
+      ofType(DialogActions.materialStandardDialogConfirmed),
       concatLatestFrom(() => this.dataFacade.materialClass$),
       switchMap(([{ standard }, materialClass]) =>
         this.msdDataService
@@ -627,7 +627,7 @@ export class DialogEffects {
   public materialDialogCanceled$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(
-        DialogActions.materialstandardDialogCanceled,
+        DialogActions.materialStandardDialogCanceled,
         DialogActions.manufacturerSupplierDialogCanceled,
         DialogActions.materialDialogCanceled
       ),
@@ -1166,12 +1166,10 @@ export class DialogEffects {
                     })
                 ),
                 catchError(() => {
-                  this.dataFacade.dispatch(
-                    DataActions.errorSnackBar({
-                      message: translate(
-                        'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
-                      ),
-                    })
+                  this.dataFacade.errorSnackBar(
+                    translate(
+                      'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
+                    )
                   );
 
                   return of(

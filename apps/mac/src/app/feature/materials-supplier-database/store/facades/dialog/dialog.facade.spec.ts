@@ -3,6 +3,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import moment from 'moment';
 import { marbles } from 'rxjs-marbles';
 
 import {
@@ -731,11 +732,356 @@ describe('DialogFacade', () => {
     });
   });
 
-  describe('dispatch', () => {
-    it('should dispatch each action', () => {
-      facade.dispatch({ type: 'mock action' });
+  describe('openDialog', () => {
+    it('should openDialog', () => {
+      facade.openDialog();
 
-      expect(store.dispatch).toHaveBeenCalledWith({ type: 'mock action' });
+      expect(store.dispatch).toHaveBeenCalledWith(DialogActions.openDialog());
+    });
+  });
+
+  describe('openEditDialog', () => {
+    it('should openEditDialog', () => {
+      const props = {
+        row: {} as DataResult,
+        column: 'column',
+      };
+
+      facade.openEditDialog(props);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.openEditDialog(props)
+      );
+    });
+  });
+
+  describe('materialDialogOpened', () => {
+    it('should materialDialogOpened', () => {
+      facade.materialDialogOpened();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.materialDialogOpened()
+      );
+    });
+  });
+
+  describe('materialDialogCanceled', () => {
+    it('should materialDialogCanceled', () => {
+      facade.materialDialogCanceled();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.materialDialogCanceled()
+      );
+    });
+  });
+
+  describe('materialDialogConfirmed', () => {
+    it('should materialDialogConfirmed', () => {
+      const standard = mockMaterialStandard;
+      const supplier = mockManufacturerSupplier;
+      const material = {} as MaterialRequest;
+
+      facade.materialDialogConfirmed(standard, supplier, material);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.materialDialogConfirmed({ standard, supplier, material })
+      );
+    });
+  });
+
+  describe('resetMaterialRecord', () => {
+    it('should resetMaterialRecord', () => {
+      const error = false;
+      const createAnother = false;
+
+      facade.resetMaterialRecord(error, createAnother);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.resetMaterialRecord({ error, createAnother })
+      );
+    });
+  });
+
+  describe('addCustomSupplierName', () => {
+    it('should addCustomSupplierName', () => {
+      const supplierName = 'supplier';
+
+      facade.addCustomSupplierName(supplierName);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomSupplierName({ supplierName })
+      );
+    });
+  });
+
+  describe('addCustomSupplierPlant', () => {
+    it('should addCustomSupplierPlant', () => {
+      const supplierPlant = 'plant';
+
+      facade.addCustomSupplierPlant(supplierPlant);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomSupplierPlant({ supplierPlant })
+      );
+    });
+  });
+
+  describe('addCustomMaterialStandardDocument', () => {
+    it('should addCustomMaterialStandardDocument', () => {
+      const standardDocument = 'document';
+
+      facade.addCustomMaterialStandardDocument(standardDocument);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomMaterialStandardDocument({ standardDocument })
+      );
+    });
+  });
+
+  describe('addCustomMaterialStandardName', () => {
+    it('should addCustomMaterialStandardName', () => {
+      const materialName = 'material';
+
+      facade.addCustomMaterialStandardName(materialName);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomMaterialStandardName({ materialName })
+      );
+    });
+  });
+
+  describe('manufacturerSupplierDialogOpened', () => {
+    it('should manufacturerSupplierDialogOpened', () => {
+      facade.manufacturerSupplierDialogOpened();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.manufacturerSupplierDialogOpened()
+      );
+    });
+  });
+
+  describe('manufacturerSupplierDialogConfirmed', () => {
+    it('should manufacturerSupplierDialogConfirmed', () => {
+      const supplier = mockManufacturerSupplier;
+
+      facade.manufacturerSupplierDialogConfirmed(supplier);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.manufacturerSupplierDialogConfirmed({ supplier })
+      );
+    });
+  });
+
+  describe('addCustomSupplierBusinessPartnerId', () => {
+    it('should addCustomSupplierBusinessPartnerId', () => {
+      const supplierBusinessPartnerId = 1;
+
+      facade.addCustomSupplierBusinessPartnerId(supplierBusinessPartnerId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomSupplierBusinessPartnerId({
+          supplierBusinessPartnerId,
+        })
+      );
+    });
+  });
+
+  describe('materialStandardDialogOpened', () => {
+    it('should materialStandardDialogOpened', () => {
+      facade.materialStandardDialogOpened();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.materialStandardDialogOpened()
+      );
+    });
+  });
+
+  describe('materialStandardDialogConfirmed', () => {
+    it('should materialStandardDialogConfirmed', () => {
+      const standard = mockMaterialStandard;
+
+      facade.materialStandardDialogConfirmed(standard);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.materialStandardDialogConfirmed({ standard })
+      );
+    });
+  });
+
+  describe('updateCreateMaterialDialogValues', () => {
+    it('should updateCreateMaterialDialogValues', () => {
+      const form = {} as MaterialFormValue;
+
+      facade.updateCreateMaterialDialogValues(form);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.updateCreateMaterialDialogValues({ form })
+      );
+    });
+  });
+
+  describe('fetchCastingDiameters', () => {
+    it('should fetchCastingDiameters', () => {
+      const supplierId = 1;
+      const castingMode = 'mode';
+
+      facade.fetchCastingDiameters(supplierId, castingMode);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.fetchCastingDiameters({ supplierId, castingMode })
+      );
+    });
+  });
+
+  describe('addCustomReferenceDocument', () => {
+    it('should addCustomReferenceDocument', () => {
+      const referenceDocument = 'document';
+
+      facade.addCustomReferenceDocument(referenceDocument);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomReferenceDocument({ referenceDocument })
+      );
+    });
+  });
+
+  describe('addCustomCastingDiameter', () => {
+    it('should addCustomCastingDiameter', () => {
+      const castingDiameter = 'diameter';
+
+      facade.addCustomCastingDiameter(castingDiameter);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomCastingDiameter({ castingDiameter })
+      );
+    });
+  });
+
+  describe('uploadSapMaterials', () => {
+    it('should uploadSapMaterials', () => {
+      const upload = {
+        owner: 'owner',
+        date: moment(),
+        maturity: 1,
+        file: new File([''], 'test.csv'),
+      };
+
+      facade.uploadSapMaterials(upload);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.uploadSapMaterials({ upload })
+      );
+    });
+  });
+
+  describe('clearRejectedSapMaterials', () => {
+    it('should clearRejectedSapMaterials', () => {
+      facade.clearRejectedSapMaterials();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.clearRejectedSapMaterials()
+      );
+    });
+  });
+
+  describe('sapMaterialsUploadStatusReset', () => {
+    it('should sapMaterialsUploadStatusReset', () => {
+      facade.sapMaterialsUploadStatusReset();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.sapMaterialsUploadStatusReset()
+      );
+    });
+  });
+
+  describe('downloadRejectedSapMaterials', () => {
+    it('should downloadRejectedSapMaterials', () => {
+      facade.downloadRejectedSapMaterials();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.downloadRejectedSapMaterials()
+      );
+    });
+  });
+
+  describe('resetSteelMakingProcessInUse', () => {
+    it('should resetSteelMakingProcessInUse', () => {
+      facade.resetSteelMakingProcessInUse();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.resetSteelMakingProcessInUse()
+      );
+    });
+  });
+
+  describe('fetchSteelMakingProcessesInUse', () => {
+    it('should fetchSteelMakingProcessesInUse', () => {
+      const supplierId = 1;
+      const castingMode = 'mode';
+      const castingDiameter = 'diameter';
+
+      facade.fetchSteelMakingProcessesInUse(
+        supplierId,
+        castingMode,
+        castingDiameter
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.fetchSteelMakingProcessesInUse({
+          supplierId,
+          castingMode,
+          castingDiameter,
+        })
+      );
+    });
+  });
+
+  describe('addCustomDataOwner', () => {
+    it('should addCustomDataOwner', () => {
+      const dataOwner = 'owner';
+
+      facade.addCustomDataOwner(dataOwner);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.addCustomDataOwner({ dataOwner })
+      );
+    });
+  });
+
+  describe('fetchCo2ValuesForSupplierSteelMakingProcess', () => {
+    it('should fetchCo2ValuesForSupplierSteelMakingProcess', () => {
+      const supplierId = 1;
+      const steelMakingProcess = 'process';
+      const productCategory = 'tube';
+
+      facade.fetchCo2ValuesForSupplierSteelMakingProcess(
+        supplierId,
+        steelMakingProcess,
+        productCategory
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess({
+          supplierId,
+          steelMakingProcess,
+          productCategory,
+        })
+      );
+    });
+  });
+
+  describe('minimizeDialog', () => {
+    it('should minimizeDialog', () => {
+      const id = 1;
+      const value = {} as MaterialFormValue;
+      const isCopy = false;
+      const isBulkEdit = false;
+
+      facade.minimizeDialog(id, value, isCopy, isBulkEdit);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        DialogActions.minimizeDialog({ id, value, isCopy, isBulkEdit })
+      );
     });
   });
 });

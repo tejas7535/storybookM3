@@ -24,12 +24,6 @@ import {
   MsdAgGridReadyService,
   MsdDialogService,
 } from '@mac/feature/materials-supplier-database/services';
-import {
-  addCustomDataOwner,
-  materialDialogCanceled,
-  sapMaterialsUploadDialogOpened,
-  uploadSapMaterials,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
@@ -56,16 +50,19 @@ jest.mock('../../util', () => ({
 describe('SapMaterialsUploadDialogComponent', () => {
   let component: SapMaterialsUploadDialogComponent;
   let spectator: Spectator<SapMaterialsUploadDialogComponent>;
+  let dialogFacade: DialogFacade;
 
   const createComponent = createComponentFactory({
     component: SapMaterialsUploadDialogComponent,
     imports: [provideTranslocoTestingModule({ en })],
-    declarations: [SapMaterialsUploadDialogComponent],
     providers: [
       { provide: MatDialogRef, useValue: { close: jest.fn() } },
       FormBuilder,
       mockProvider(DialogFacade, {
-        dispatch: jest.fn(),
+        materialDialogCanceled: jest.fn(),
+        sapMaterialsUploadDialogOpened: jest.fn(),
+        addCustomDataOwner: jest.fn(),
+        uploadSapMaterials: jest.fn(),
         sapMaterialsDataOwners$: of(),
         uploadSapMaterialsSucceeded$: of(),
         sapMaterialsFileUploadProgress$: of(),
@@ -88,6 +85,8 @@ describe('SapMaterialsUploadDialogComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   test('should create', () => {
@@ -103,9 +102,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
       component.ngOnInit();
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        sapMaterialsUploadDialogOpened()
-      );
+      expect(dialogFacade.sapMaterialsUploadDialogOpened).toHaveBeenCalled();
     });
 
     test('should init formGroup', () => {
@@ -300,9 +297,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
       component.addNewOwner(dataOwner);
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        addCustomDataOwner({ dataOwner })
-      );
+      expect(dialogFacade.addCustomDataOwner).toHaveBeenCalledWith(dataOwner);
     });
   });
 
@@ -407,16 +402,12 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
       component.upload();
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        uploadSapMaterials({
-          upload: {
-            owner: uploadFormData.owner.title,
-            maturity: uploadFormData.maturity,
-            date: uploadFormData.date,
-            file: uploadFormData.file,
-          },
-        })
-      );
+      expect(dialogFacade.uploadSapMaterials).toHaveBeenCalledWith({
+        owner: uploadFormData.owner.title,
+        maturity: uploadFormData.maturity,
+        date: uploadFormData.date,
+        file: uploadFormData.file,
+      });
     });
   });
 
@@ -424,9 +415,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
     test('should close the dialog', () => {
       component.close();
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        materialDialogCanceled()
-      );
+      expect(dialogFacade.materialDialogCanceled).toHaveBeenCalled();
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
     });
   });

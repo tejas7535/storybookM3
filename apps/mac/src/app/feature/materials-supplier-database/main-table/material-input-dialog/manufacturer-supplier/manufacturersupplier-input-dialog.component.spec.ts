@@ -1,21 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
@@ -23,23 +8,19 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {
-  CreateMaterialErrorState,
-  CreateMaterialRecord,
   ManufacturerSupplier,
   ManufacturerSupplierFormValue,
   SteelMaterialFormValue,
 } from '@mac/feature/materials-supplier-database/models';
-import { getCreateMaterialRecord } from '@mac/feature/materials-supplier-database/store';
-import { manufacturerSupplierDialogConfirmed } from '@mac/feature/materials-supplier-database/store/actions/dialog';
+import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import {
@@ -47,10 +28,9 @@ import {
   mockSuppliers,
 } from '@mac/testing/mocks/msd/input-dialog.mock';
 import { createMaterialFormValue } from '@mac/testing/mocks/msd/material-generator.mock';
+import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-values.mocks';
 
 import * as en from '../../../../../../assets/i18n/en.json';
-import { BaseDialogModule } from '../base-dialog/base-dialog.module';
-import { MaterialInputDialogModule } from '../material-input-dialog.module';
 import { DialogControlsService } from '../services';
 import { ManufacturerSupplierInputDialogComponent } from './manufacturersupplier-input-dialog.component';
 
@@ -59,9 +39,21 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn((string) => string),
 }));
 
+@Injectable()
+class MockDialogFacade extends DialogFacade {
+  manufacturerSupplierDialogOpened = jest.fn();
+  manufacturerSupplierDialogConfirmed = jest.fn();
+  addCustomSupplierBusinessPartnerId = jest.fn();
+}
+
+jest.mock(
+  '@mac/msd/main-table/material-input-dialog/material-input-dialog.component'
+);
+
 describe('ManufacturerSupplierInputDialogComponent', () => {
   let component: ManufacturerSupplierInputDialogComponent;
   let spectator: Spectator<ManufacturerSupplierInputDialogComponent>;
+  let dialogFacade: DialogFacade;
 
   const initialState = {
     msd: {
@@ -95,31 +87,13 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     },
   };
   const matDialogData = { materialClass: MaterialClass.STEEL };
-  let store: MockStore;
-  let createMaterialSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
 
   const createComponent = createComponentFactory({
     component: ManufacturerSupplierInputDialogComponent,
     imports: [
-      CommonModule,
-      MatProgressSpinnerModule,
-      PushPipe,
-      MatIconModule,
-      MatButtonModule,
-      MatDividerModule,
-      MatInputModule,
-      MatCheckboxModule,
-      MatFormFieldModule,
-      SelectModule,
-      ReactiveFormsModule,
-      MatDialogModule,
-      MatGridListModule,
-      MatSelectModule,
-      MatTooltipModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
-      MatSnackBarModule,
-      BaseDialogModule,
-      MaterialInputDialogModule,
     ],
     providers: [
       provideMockStore({ initialState }),
@@ -135,18 +109,26 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: matDialogData,
       },
+      MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    const spy = spectator.inject(MockStore);
-    createMaterialSpy = spy.overrideSelector(getCreateMaterialRecord);
-    store = spy;
-    store.dispatch = jest.fn();
+
+    assignDialogValues(component, {
+      awaitMaterialComplete: jest.fn(),
+      materialClass: MaterialClass.STEEL,
+      isCopy: false,
+    });
+
     spectator.detectChanges();
+
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   it('should create', () => {
@@ -184,26 +166,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
   });
 
   describe('confirmMaterial', () => {
-    const update = (error: boolean) => {
-      const result = error
-        ? {
-            error: {
-              code: 400,
-              state: CreateMaterialErrorState.MaterialCreationFailed,
-            },
-          }
-        : {};
-      createMaterialSpy.setResult(result as CreateMaterialRecord);
-      store.refreshState();
-    };
-
-    beforeEach(() => {
-      component.materialClass = MaterialClass.STEEL;
-      component.ngOnInit();
-      component['closeDialog'] = jest.fn();
-
-      component.enableEditFields();
-    });
     it('should close dialog on successful confirm', () => {
       const values = createMaterialFormValue(
         MaterialClass.STEEL
@@ -220,13 +182,10 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        manufacturerSupplierDialogConfirmed({ supplier: expected })
+      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
+        expected
       );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).toBeCalled();
+      expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);
     });
 
     it('should not close dialog on successful confirm with createAnother', () => {
@@ -245,13 +204,10 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(true);
-      expect(store.dispatch).toBeCalledWith(
-        manufacturerSupplierDialogConfirmed({ supplier: expected })
+      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
+        expected
       );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).not.toHaveBeenCalled();
+      expect(component.awaitMaterialComplete).toHaveBeenCalledWith(true);
     });
 
     it('should keep the dialog open on error', () => {
@@ -270,13 +226,10 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        manufacturerSupplierDialogConfirmed({ supplier })
+      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
+        supplier
       );
-
-      // backend response
-      update(true);
-      expect(component['closeDialog']).not.toBeCalled();
+      expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);
     });
 
     it('should keep the dialog open on error with createAnother', () => {
@@ -295,21 +248,14 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(true);
-      expect(store.dispatch).toBeCalledWith(
-        manufacturerSupplierDialogConfirmed({ supplier })
+      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
+        supplier
       );
-
-      // backend response
-      update(true);
-      expect(component['closeDialog']).not.toBeCalled();
+      expect(component.awaitMaterialComplete).toHaveBeenCalledWith(true);
     });
   });
 
   describe('show is manufacturer', () => {
-    beforeEach(() => {
-      component.materialClass = MaterialClass.STEEL;
-      component.ngOnInit();
-    });
     it('should be true', () => {
       expect(component.showIsManufacturer()).toBe(true);
     });
@@ -328,7 +274,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle',
-        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+        { class: 'materialsSupplierDatabase.materialClassValues.st' }
       );
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle'
@@ -343,7 +289,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
-        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+        { class: 'materialsSupplierDatabase.materialClassValues.st' }
       );
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle'
@@ -358,7 +304,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
-        { class: 'materialsSupplierDatabase.materialClassValues.undefined' }
+        { class: 'materialsSupplierDatabase.materialClassValues.st' }
       );
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle'

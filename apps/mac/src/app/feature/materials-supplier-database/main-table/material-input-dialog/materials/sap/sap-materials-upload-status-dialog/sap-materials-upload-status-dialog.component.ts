@@ -8,11 +8,6 @@ import {
   SapMaterialsDatabaseUploadStatusResponse,
 } from '@mac/feature/materials-supplier-database/models';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
-import {
-  clearRejectedSapMaterials,
-  downloadRejectedSapMaterials,
-  sapMaterialsUploadStatusReset,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
 interface UploadStatusDialogConfig {
@@ -192,9 +187,9 @@ export class SapMaterialsUploadStatusDialogComponent
   }
 
   private close(): void {
-    this.dialogFacade.dispatch(clearRejectedSapMaterials());
+    this.dialogFacade.clearRejectedSapMaterials();
     this.dialogRef.close();
-    this.dialogFacade.dispatch(sapMaterialsUploadStatusReset());
+    this.dialogFacade.sapMaterialsUploadStatusReset();
   }
 
   private startNewUpload(): void {
@@ -212,6 +207,6 @@ export class SapMaterialsUploadStatusDialogComponent
   }
 
   private downloadRejected(): void {
-    this.dialogFacade.dispatch(downloadRejectedSapMaterials());
+    this.dialogFacade.downloadRejectedSapMaterials();
   }
 }

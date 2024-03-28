@@ -1,11 +1,13 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-
-import { MsdDialogService } from '@mac/msd/services';
-import { DataFacade } from '@mac/msd/store/facades/data';
+import { MockPipe } from 'ng-mocks';
 
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { LinkCellRendererComponent } from './link-cell-renderer.component';
+
+jest.mock('../edit-cell-renderer/edit-cell-renderer.component', () => ({
+  EditCellRendererComponent: jest.fn(),
+}));
 
 describe('LinkCellRendererComponent', () => {
   let component: LinkCellRendererComponent;
@@ -13,21 +15,8 @@ describe('LinkCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LinkCellRendererComponent,
-    imports: [PushPipe],
-    providers: [
-      {
-        provide: DataFacade,
-        useValue: {
-          dispatch: jest.fn(),
-        },
-      },
-      {
-        provide: MsdDialogService,
-        useValue: {
-          openDialog: jest.fn(),
-        },
-      },
-    ],
+    imports: [MockPipe(PushPipe)],
+    detectChanges: false,
   });
 
   const mockparams = {
@@ -39,31 +28,12 @@ describe('LinkCellRendererComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.agInit(mockparams);
+
+    component.params = mockparams;
   });
 
-  describe('agInit', () => {
-    it('should assign params', () => {
-      const mockParams = {} as EditCellRendererParams;
-
-      component.agInit(mockParams);
-
-      expect(component.params).toEqual(mockParams);
-    });
-  });
-
-  describe('refresh', () => {
-    it('should return false', () => {
-      expect(component.refresh()).toBe(false);
-    });
-  });
-
-  describe('setHovered', () => {
-    it('should assign hovered', () => {
-      component.setHovered(true);
-
-      expect(component.hovered).toBe(true);
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('getHref', () => {

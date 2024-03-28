@@ -78,7 +78,7 @@ describe('MsdAgGridStateService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdAgGridStateService);
+    service = spectator.service;
     localStorage = spectator.inject(
       LOCAL_STORAGE
     ) as unknown as LocalStorageMock;

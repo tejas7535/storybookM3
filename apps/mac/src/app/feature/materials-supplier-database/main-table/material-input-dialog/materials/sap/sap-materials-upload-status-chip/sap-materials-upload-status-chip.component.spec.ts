@@ -11,7 +11,6 @@ describe('SapMaterialsUploadStatusChipComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapMaterialsUploadStatusChipComponent,
-    declarations: [SapMaterialsUploadStatusChipComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });

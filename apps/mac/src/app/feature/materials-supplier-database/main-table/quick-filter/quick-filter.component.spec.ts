@@ -1,15 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MatButtonToggleChange,
-  MatButtonToggleModule,
-} from '@angular/material/button-toggle';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 
@@ -21,6 +13,7 @@ import {
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Column, ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
+import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -56,18 +49,7 @@ describe('QuickFilterComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QuickFilterComponent,
-    imports: [
-      CommonModule,
-      MatIconModule,
-      MatButtonToggleModule,
-      MatTooltipModule,
-      PushPipe,
-      MatButtonModule,
-      MatFormFieldModule,
-      ReactiveFormsModule,
-      MatDialogModule,
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [MockPipe(PushPipe), provideTranslocoTestingModule({ en })],
     providers: [
       provideMockStore({ initialState }),
       {
@@ -98,6 +80,7 @@ describe('QuickFilterComponent', () => {
         quickFilterActivated$: of(),
       }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

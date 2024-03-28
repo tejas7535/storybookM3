@@ -11,7 +11,6 @@ describe('UrlCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UrlCellRendererComponent,
-    declarations: [UrlCellRendererComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });

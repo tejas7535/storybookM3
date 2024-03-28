@@ -20,7 +20,7 @@ describe('MsdSapMaterialsExcelService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdSapMaterialsExcelService);
+    service = spectator.service;
   });
 
   test('should be created', () => {

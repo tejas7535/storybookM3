@@ -14,10 +14,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { StringOption } from '@schaeffler/inputs';
 
 import * as util from '@mac/msd/main-table/material-input-dialog/util';
-import {
-  addCustomSupplierName,
-  addCustomSupplierPlant,
-} from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 @Component({
@@ -158,11 +154,11 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   }
 
   public addSupplierName(supplierName: string): void {
-    this.dialogFacade.dispatch(addCustomSupplierName({ supplierName }));
+    this.dialogFacade.addCustomSupplierName(supplierName);
   }
 
   public addSupplierPlant(supplierPlant: string): void {
-    this.dialogFacade.dispatch(addCustomSupplierPlant({ supplierPlant }));
+    this.dialogFacade.addCustomSupplierPlant(supplierPlant);
   }
 
   private mapToControl(

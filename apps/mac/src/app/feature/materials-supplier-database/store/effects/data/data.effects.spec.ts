@@ -1,5 +1,3 @@
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -71,7 +69,6 @@ describe('Data Effects', () => {
 
   const createService = createServiceFactory({
     service: DataEffects,
-    imports: [MatSnackBarModule],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({}),

@@ -28,15 +28,6 @@ import { SelectComponent } from '@schaeffler/inputs/select';
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
-import {
-  addCustomCastingDiameter,
-  addCustomReferenceDocument,
-  fetchCastingDiameters,
-  fetchCo2ValuesForSupplierSteelMakingProcess,
-  fetchSteelMakingProcessesInUse,
-  resetSteelMakingProcessInUse,
-  updateCreateMaterialDialogValues,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
@@ -164,10 +155,10 @@ export class SteelInputDialogComponent
       dialogData
     );
     this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
-    this.co2TotalControl.removeValidators(Validators.required);
   }
 
   ngOnInit(): void {
+    this.co2TotalControl.removeValidators(Validators.required);
     super.ngOnInit();
     // setup material formular values
     this.createMaterialForm = new FormGroup<SteelMaterialForm>({
@@ -261,13 +252,11 @@ export class SteelInputDialogComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ supplierId, castingMode }) => {
         // reset steel Making process
-        this.dialogFacade.dispatch(resetSteelMakingProcessInUse());
+        this.dialogFacade.resetSteelMakingProcessInUse();
         if (castingMode) {
           this.castingDiameterControl.enable();
           if (supplierId) {
-            this.dialogFacade.dispatch(
-              fetchCastingDiameters({ supplierId, castingMode })
-            );
+            this.dialogFacade.fetchCastingDiameters(supplierId, castingMode);
           }
         } else if (!this.isBulkEdit) {
           this.castingDiameterControl.reset();
@@ -292,12 +281,10 @@ export class SteelInputDialogComponent
         )
       )
       .subscribe(({ supplierId, castingMode, castingDiameter }) =>
-        this.dialogFacade.dispatch(
-          fetchSteelMakingProcessesInUse({
-            supplierId,
-            castingMode,
-            castingDiameter,
-          })
+        this.dialogFacade.fetchSteelMakingProcessesInUse(
+          supplierId,
+          castingMode,
+          castingDiameter
         )
       );
 
@@ -380,9 +367,7 @@ export class SteelInputDialogComponent
       });
 
     this.createMaterialForm.valueChanges.subscribe((val) => {
-      this.dialogFacade.dispatch(
-        updateCreateMaterialDialogValues({ form: val })
-      );
+      this.dialogFacade.updateCreateMaterialDialogValues(val);
     });
 
     if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
@@ -414,12 +399,10 @@ export class SteelInputDialogComponent
           this.createMaterialForm.updateValueAndValidity({
             emitEvent: false,
           });
-          this.dialogFacade.dispatch(
-            fetchCo2ValuesForSupplierSteelMakingProcess({
-              supplierId,
-              steelMakingProcess,
-              productCategory,
-            })
+          this.dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess(
+            supplierId,
+            steelMakingProcess,
+            productCategory
           );
         });
     }
@@ -439,13 +422,11 @@ export class SteelInputDialogComponent
   }
 
   public addReferenceDocument(referenceDocument: string): void {
-    this.dialogFacade.dispatch(
-      addCustomReferenceDocument({ referenceDocument })
-    );
+    this.dialogFacade.addCustomReferenceDocument(referenceDocument);
   }
 
   public addCastingDiameter(castingDiameter: string): void {
-    this.dialogFacade.dispatch(addCustomCastingDiameter({ castingDiameter }));
+    this.dialogFacade.addCustomCastingDiameter(castingDiameter);
   }
 
   public steelMakingProcessFilterFn = (

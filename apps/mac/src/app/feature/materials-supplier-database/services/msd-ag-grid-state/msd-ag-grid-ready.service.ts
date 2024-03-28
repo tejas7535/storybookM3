@@ -13,7 +13,6 @@ import {
   SAPMaterialsResponse,
   SAPMaterialsResult,
 } from '@mac/msd/models';
-import { fetchSAPMaterials } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Injectable({
@@ -51,9 +50,7 @@ export class MsdAgGridReadyService {
 
   public setParams(params: IServerSideGetRowsParams) {
     this.serverSideParamsStore.set(params.request.startRow, params);
-    this.dataFacade.dispatch(
-      fetchSAPMaterials({ request: params.request as SAPMaterialsRequest })
-    );
+    this.dataFacade.fetchSAPMaterials(params.request as SAPMaterialsRequest);
   }
 
   public unsetParams() {

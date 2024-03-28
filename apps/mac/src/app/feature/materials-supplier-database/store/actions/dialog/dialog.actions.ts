@@ -32,15 +32,15 @@ export const materialDialogConfirmed = createAction(
   }>()
 );
 
-export const materialstandardDialogOpened = createAction(
+export const materialStandardDialogOpened = createAction(
   '[MSD - Dialog] MaterialStandard Dialog Opened'
 );
 
-export const materialstandardDialogCanceled = createAction(
+export const materialStandardDialogCanceled = createAction(
   '[MSD - Dialog] MaterialStandard Dialog Canceled'
 );
 
-export const materialstandardDialogConfirmed = createAction(
+export const materialStandardDialogConfirmed = createAction(
   '[MSD - Dialog] MaterialStandard Confirmed',
   props<{
     standard: MaterialStandard;

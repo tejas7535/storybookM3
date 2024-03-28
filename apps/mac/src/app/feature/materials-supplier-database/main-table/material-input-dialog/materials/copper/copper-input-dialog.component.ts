@@ -10,12 +10,6 @@ import { StringOption } from '@schaeffler/inputs';
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
-import {
-  addCustomCastingDiameter,
-  addCustomReferenceDocument,
-  fetchCastingDiameters,
-  updateCreateMaterialDialogValues,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
@@ -142,9 +136,7 @@ export class CopperInputDialogComponent
         if (castingMode) {
           this.castingDiameterControl.enable();
           if (supplierId) {
-            this.dialogFacade.dispatch(
-              fetchCastingDiameters({ supplierId, castingMode })
-            );
+            this.dialogFacade.fetchCastingDiameters(supplierId, castingMode);
           }
         } else {
           this.castingDiameterControl.reset();
@@ -153,9 +145,7 @@ export class CopperInputDialogComponent
       });
 
     this.createMaterialForm.valueChanges.subscribe((val) => {
-      this.dialogFacade.dispatch(
-        updateCreateMaterialDialogValues({ form: val })
-      );
+      this.dialogFacade.updateCreateMaterialDialogValues(val);
     });
 
     if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
@@ -164,13 +154,11 @@ export class CopperInputDialogComponent
   }
 
   public addReferenceDocument(referenceDocument: string): void {
-    this.dialogFacade.dispatch(
-      addCustomReferenceDocument({ referenceDocument })
-    );
+    this.dialogFacade.addCustomReferenceDocument(referenceDocument);
   }
 
   public addCastingDiameter(castingDiameter: string): void {
-    this.dialogFacade.dispatch(addCustomCastingDiameter({ castingDiameter }));
+    this.dialogFacade.addCustomCastingDiameter(castingDiameter);
   }
 
   openReferenceDocumentBulkEditDialog(): void {

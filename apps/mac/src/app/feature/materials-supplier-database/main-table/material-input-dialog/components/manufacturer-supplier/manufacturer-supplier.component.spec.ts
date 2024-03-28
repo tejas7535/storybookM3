@@ -1,27 +1,19 @@
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ManufacturerSupplier } from '@mac/feature/materials-supplier-database/models';
-import {
-  addCustomSupplierName,
-  addCustomSupplierPlant,
-} from '@mac/msd/store/actions/dialog';
+import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
@@ -44,38 +36,38 @@ const initialState = {
   },
 };
 
+@Injectable()
+class MockDialogFacade extends DialogFacade {
+  addCustomSupplierName = jest.fn();
+  addCustomSupplierPlant = jest.fn();
+}
+
 describe('ManufacturerSupplierComponent', () => {
   let component: ManufacturerSupplierComponent;
   let spectator: Spectator<ManufacturerSupplierComponent>;
-  let store: MockStore;
   let manufacturerSupplierIdControl: FormControl<number>;
   let supplierControl: FormControl<StringOption>;
   let supplierPlantControl: FormControl<StringOption>;
   let supplierCountryControl: FormControl<StringOption>;
   let readonly = false;
   let editable = false;
+  let dialogFacade: DialogFacade;
 
   const createComponent = createComponentFactory({
     component: ManufacturerSupplierComponent,
     // required so we can set the inputs
     detectChanges: false,
     imports: [
-      CommonModule,
-      MatButtonModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatIconModule,
-      MatSelectModule,
-      PushPipe,
-      ReactiveFormsModule,
-      SelectModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
+      MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
-    declarations: [ManufacturerSupplierComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -97,8 +89,7 @@ describe('ManufacturerSupplierComponent', () => {
     spectator.detectChanges();
     component = spectator.debugElement.componentInstance;
 
-    store = spectator.inject(MockStore);
-    store.dispatch = jest.fn();
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   it('should create', () => {
@@ -315,26 +306,24 @@ describe('ManufacturerSupplierComponent', () => {
 
   describe('addSupplierName', () => {
     it('should dispatch the action', () => {
-      component['dialogFacade'].dispatch = jest.fn();
       const supplierName = 'test';
 
       component.addSupplierName(supplierName);
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        addCustomSupplierName({ supplierName })
+      expect(dialogFacade.addCustomSupplierName).toHaveBeenCalledWith(
+        supplierName
       );
     });
   });
 
   describe('addSupplierPlant', () => {
     it('should dispatch the action', () => {
-      component['dialogFacade'].dispatch = jest.fn();
       const supplierPlant = 'test';
 
       component.addSupplierPlant(supplierPlant);
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        addCustomSupplierPlant({ supplierPlant })
+      expect(dialogFacade.addCustomSupplierPlant).toHaveBeenCalledWith(
+        supplierPlant
       );
     });
   });

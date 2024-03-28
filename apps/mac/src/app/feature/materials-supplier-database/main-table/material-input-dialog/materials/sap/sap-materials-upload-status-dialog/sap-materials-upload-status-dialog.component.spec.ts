@@ -11,11 +11,6 @@ import {
 
 import { SapMaterialsDatabaseUploadStatus } from '@mac/feature/materials-supplier-database/models';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
-import {
-  clearRejectedSapMaterials,
-  downloadRejectedSapMaterials,
-  sapMaterialsUploadStatusReset,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
 import { SapMaterialsUploadStatusDialogComponent } from './sap-materials-upload-status-dialog.component';
@@ -23,14 +18,16 @@ import { SapMaterialsUploadStatusDialogComponent } from './sap-materials-upload-
 describe('SapMaterialsUploadStatusDialogComponent', () => {
   let component: SapMaterialsUploadStatusDialogComponent;
   let spectator: Spectator<SapMaterialsUploadStatusDialogComponent>;
+  let dialogFacade: DialogFacade;
 
   const createComponent = createComponentFactory({
     component: SapMaterialsUploadStatusDialogComponent,
-    declarations: [SapMaterialsUploadStatusDialogComponent],
     providers: [
       { provide: MatDialogRef, useValue: { close: jest.fn() } },
       mockProvider(DialogFacade, {
-        dispatch: jest.fn(),
+        clearRejectedSapMaterials: jest.fn(),
+        downloadRejectedSapMaterials: jest.fn(),
+        sapMaterialsUploadStatusReset: jest.fn(),
       }),
       mockProvider(MsdDialogService),
     ],
@@ -41,6 +38,8 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
+    dialogFacade = spectator.inject(DialogFacade);
     jest.resetAllMocks();
   });
 
@@ -109,12 +108,8 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
       component['close']();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        sapMaterialsUploadStatusReset()
-      );
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        clearRejectedSapMaterials()
-      );
+      expect(dialogFacade.sapMaterialsUploadStatusReset).toHaveBeenCalled();
+      expect(dialogFacade.clearRejectedSapMaterials).toHaveBeenCalled();
     });
   });
 
@@ -122,9 +117,7 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
     test('should dispatch downloadRejectedSapMaterials', () => {
       component['downloadRejected']();
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        downloadRejectedSapMaterials()
-      );
+      expect(dialogFacade.downloadRejectedSapMaterials).toHaveBeenCalled();
     });
   });
 
@@ -159,7 +152,9 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
 
   describe('sendSupportEmail', () => {
     test('should open mailto link', () => {
-      const openSpy = jest.spyOn(window, 'open');
+      const openSpy = jest
+        .spyOn(window, 'open')
+        .mockImplementation(() => window);
 
       component['sendSupportEmail']();
 

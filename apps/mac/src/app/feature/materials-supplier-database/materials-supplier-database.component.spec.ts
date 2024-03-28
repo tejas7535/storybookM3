@@ -1,11 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatButtonModule } from '@angular/material/button';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router, UrlTree } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router, UrlTree } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -17,8 +13,6 @@ import {
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { ShareButtonModule } from '@schaeffler/share-button';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -26,7 +20,6 @@ import { initialState as initialDataState } from '@mac/msd/store/reducers/data/d
 import * as en from '../../../assets/i18n/en.json';
 import { MaterialClass, NavigationLevel } from './constants';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
-import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { MsdDialogService } from './services';
 
 jest.mock('@mac/shared/change-favicon', () => ({
@@ -43,18 +36,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MaterialsSupplierDatabaseComponent,
-    imports: [
-      CommonModule,
-      MaterialsSupplierDatabaseRoutingModule,
-      RouterTestingModule,
-      SubheaderModule,
-      ShareButtonModule,
-      HttpClientTestingModule,
-      MatButtonModule,
-      MatSnackBarModule,
-      MatIconModule,
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [HttpClientTestingModule, provideTranslocoTestingModule({ en })],
     providers: [
       provideMockStore({ initialState }),
       {
@@ -70,8 +52,9 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      provideRouter([]),
     ],
-    declarations: [MaterialsSupplierDatabaseComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

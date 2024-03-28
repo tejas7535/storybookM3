@@ -46,7 +46,7 @@ describe('ExcelValidatorService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(ExcelValidatorService);
+    service = spectator.service;
   });
   it('should exist', () => {
     expect(service).toBeTruthy();

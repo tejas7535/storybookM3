@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { Column, RowNode } from 'ag-grid-community';
+import { MockPipe } from 'ng-mocks';
 
 import { DataResult, MaterialFormValue } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
@@ -44,7 +45,7 @@ describe('EditCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EditCellRendererComponent,
-    imports: [PushPipe],
+    imports: [MockPipe(PushPipe)],
     providers: [
       {
         provide: DataFacade,

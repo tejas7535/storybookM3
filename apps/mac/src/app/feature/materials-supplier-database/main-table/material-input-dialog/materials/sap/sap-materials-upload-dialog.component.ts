@@ -31,12 +31,6 @@ import {
   MsdAgGridReadyService,
   MsdDialogService,
 } from '@mac/feature/materials-supplier-database/services';
-import {
-  addCustomDataOwner,
-  materialDialogCanceled,
-  sapMaterialsUploadDialogOpened,
-  uploadSapMaterials,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
@@ -91,7 +85,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.dialogFacade.dispatch(sapMaterialsUploadDialogOpened());
+    this.dialogFacade.sapMaterialsUploadDialogOpened();
 
     this.initFormGroup();
     this.setDefaultOwner();
@@ -114,7 +108,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     util.filterFn(option, value);
 
   addNewOwner(dataOwner: string): void {
-    this.dialogFacade.dispatch(addCustomDataOwner({ dataOwner }));
+    this.dialogFacade.addCustomDataOwner(dataOwner);
   }
 
   downloadDataTemplate(): void {
@@ -203,11 +197,11 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     const { owner, date, maturity, file } = this.formGroup.value;
     const upload = { owner: owner.title, date, maturity, file };
 
-    this.dialogFacade.dispatch(uploadSapMaterials({ upload }));
+    this.dialogFacade.uploadSapMaterials(upload);
   }
 
   close(): void {
-    this.dialogFacade.dispatch(materialDialogCanceled());
+    this.dialogFacade.materialDialogCanceled();
     this.dialogRef.close();
   }
 

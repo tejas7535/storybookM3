@@ -93,9 +93,9 @@ import {
   materialDialogCanceled,
   materialDialogConfirmed,
   materialDialogOpened,
-  materialstandardDialogCanceled,
-  materialstandardDialogConfirmed,
-  materialstandardDialogOpened,
+  materialStandardDialogCanceled,
+  materialStandardDialogConfirmed,
+  materialStandardDialogOpened,
   minimizeDialog,
   openDialog,
   openEditDialog,
@@ -129,8 +129,8 @@ describe('Dialog Actions', () => {
         type: '[MSD - Dialog] Material Dialog Opened',
       });
     });
-    it('materialstandardDialogOpened', () => {
-      const action = materialstandardDialogOpened();
+    it('materialStandardDialogOpened', () => {
+      const action = materialStandardDialogOpened();
 
       expect(action).toEqual({
         type: '[MSD - Dialog] MaterialStandard Dialog Opened',
@@ -161,8 +161,8 @@ describe('Dialog Actions', () => {
         type: '[MSD - Dialog] Material Dialog Canceled',
       });
     });
-    it('materialstandardDialogCanceled', () => {
-      const action = materialstandardDialogCanceled();
+    it('materialStandardDialogCanceled', () => {
+      const action = materialStandardDialogCanceled();
 
       expect(action).toEqual({
         type: '[MSD - Dialog] MaterialStandard Dialog Canceled',
@@ -197,9 +197,9 @@ describe('Dialog Actions', () => {
         type: '[MSD - Dialog] Material Confirmed',
       });
     });
-    it('materialstandardDialogConfirmed', () => {
+    it('materialStandardDialogConfirmed', () => {
       const mockStandard = {} as MaterialStandard;
-      const action = materialstandardDialogConfirmed({
+      const action = materialStandardDialogConfirmed({
         standard: mockStandard,
       });
 

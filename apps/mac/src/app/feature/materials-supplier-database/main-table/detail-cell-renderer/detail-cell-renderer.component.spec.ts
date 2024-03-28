@@ -5,6 +5,7 @@ import { PushPipe } from '@ngrx/component';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-community';
+import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -18,6 +19,7 @@ import { DetailCellRendererComponent } from './detail-cell-renderer.component';
 import { ChangeHistoryItem } from './models/change-history-item';
 import { CHANGE_STATUS } from './models/change-status';
 import { PropertyChange } from './models/property-change';
+
 describe('DetailCellRendererComponent', () => {
   let component: DetailCellRendererComponent;
   let spectator: Spectator<DetailCellRendererComponent>;
@@ -35,7 +37,7 @@ describe('DetailCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DetailCellRendererComponent,
-    imports: [PushPipe, provideTranslocoTestingModule({ en })],
+    imports: [MockPipe(PushPipe), provideTranslocoTestingModule({ en })],
     providers: [
       provideMockStore({ initialState }),
       {

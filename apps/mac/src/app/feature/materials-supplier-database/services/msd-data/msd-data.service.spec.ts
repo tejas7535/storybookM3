@@ -84,7 +84,7 @@ describe('MsdDataService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdDataService);
+    service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
     localStorage = spectator.inject(LOCAL_STORAGE);
   });

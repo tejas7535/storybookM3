@@ -14,10 +14,6 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import {
-  addCustomMaterialStandardDocument,
-  addCustomMaterialStandardName,
-} from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { DialogControlsService } from '../../services';
@@ -129,13 +125,11 @@ export class MaterialStandardComponent
   }
 
   public addStandardDocument(standardDocument: string): void {
-    this.dialogFacade.dispatch(
-      addCustomMaterialStandardDocument({ standardDocument })
-    );
+    this.dialogFacade.addCustomMaterialStandardDocument(standardDocument);
   }
 
   public addMaterialName(materialName: string): void {
-    this.dialogFacade.dispatch(addCustomMaterialStandardName({ materialName }));
+    this.dialogFacade.addCustomMaterialStandardName(materialName);
   }
 
   public materialNameFilterFnFactory =

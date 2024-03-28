@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -6,11 +6,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { of } from 'rxjs';
 
@@ -18,9 +13,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -61,22 +56,15 @@ describe('Co2ComponentComponent', () => {
     // required so we can set the inputs
     detectChanges: false,
     imports: [
-      CommonModule,
-      MatButtonModule,
-      MatFormFieldModule,
-      MatIconModule,
-      PushPipe,
-      ReactiveFormsModule,
-      MatTooltipModule,
-      SelectModule,
-      MatInputModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
     ],
-    declarations: [Co2ComponentComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

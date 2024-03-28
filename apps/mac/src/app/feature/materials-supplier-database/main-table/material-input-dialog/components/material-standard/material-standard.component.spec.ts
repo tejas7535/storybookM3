@@ -1,25 +1,19 @@
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 import { MaterialStandard } from '@mac/msd/models';
-import {
-  addCustomMaterialStandardDocument,
-  addCustomMaterialStandardName,
-} from '@mac/msd/store/actions/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
@@ -43,10 +37,16 @@ const initialState = {
   },
 };
 
+@Injectable()
+class MockDialogFacade extends DialogFacade {
+  addCustomMaterialStandardDocument = jest.fn();
+  addCustomMaterialStandardName = jest.fn();
+}
+
 describe('MaterialStandardComponent', () => {
   let component: MaterialStandardComponent;
   let spectator: Spectator<MaterialStandardComponent>;
-  let store: MockStore;
+  let dialogFacade: DialogFacade;
   const stdDocControl = new FormControl<StringOption>(undefined);
   const matNameControl = new FormControl<StringOption>(undefined);
   const idControl = new FormControl<number>(undefined);
@@ -56,13 +56,8 @@ describe('MaterialStandardComponent', () => {
     // required so we can set the inputs
     detectChanges: false,
     imports: [
-      CommonModule,
-      MatButtonModule,
-      MatFormFieldModule,
-      MatIconModule,
-      PushPipe,
-      ReactiveFormsModule,
-      SelectModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
     ],
 
@@ -70,8 +65,9 @@ describe('MaterialStandardComponent', () => {
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
       DialogControlsService,
+      MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
-    declarations: [MaterialStandardComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -85,8 +81,8 @@ describe('MaterialStandardComponent', () => {
     spectator.detectChanges();
 
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
-    store.dispatch = jest.fn();
+
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   it('should create', () => {
@@ -486,24 +482,20 @@ describe('MaterialStandardComponent', () => {
 
   describe('addStandardDocument', () => {
     it('should dispatch the action', () => {
-      component['dialogFacade'].dispatch = jest.fn();
-
       component.addStandardDocument('');
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        addCustomMaterialStandardDocument({ standardDocument: '' })
-      );
+      expect(
+        dialogFacade.addCustomMaterialStandardDocument
+      ).toHaveBeenCalledWith('');
     });
   });
 
   describe('addMaterialName', () => {
     it('should dispatch the action', () => {
-      component['dialogFacade'].dispatch = jest.fn();
-
       component.addMaterialName('');
 
-      expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
-        addCustomMaterialStandardName({ materialName: '' })
+      expect(dialogFacade.addCustomMaterialStandardName).toHaveBeenCalledWith(
+        ''
       );
     });
   });

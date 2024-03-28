@@ -8,11 +8,6 @@ import { translate } from '@ngneat/transloco';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
-import {
-  addCustomSupplierBusinessPartnerId,
-  manufacturerSupplierDialogConfirmed,
-  manufacturerSupplierDialogOpened,
-} from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
@@ -84,7 +79,7 @@ export class ManufacturerSupplierInputDialogComponent
   }
 
   public dispatchDialogOpenEvent(): void {
-    this.dialogFacade.dispatch(manufacturerSupplierDialogOpened());
+    this.dialogFacade.manufacturerSupplierDialogOpened();
   }
 
   patchFields(materialFormValue: Partial<MaterialFormValue>): void {
@@ -164,15 +159,13 @@ export class ManufacturerSupplierInputDialogComponent
     };
 
     // include supplier put logic in effect
-    this.dialogFacade.dispatch(
-      manufacturerSupplierDialogConfirmed({ supplier })
-    );
+    this.dialogFacade.manufacturerSupplierDialogConfirmed(supplier);
     this.awaitMaterialComplete(createAnother);
   }
 
   public addSupplierBusinessPartnerId(supplierBusinessPartnerId: number): void {
-    this.dialogFacade.dispatch(
-      addCustomSupplierBusinessPartnerId({ supplierBusinessPartnerId })
+    this.dialogFacade.addCustomSupplierBusinessPartnerId(
+      supplierBusinessPartnerId
     );
   }
 }

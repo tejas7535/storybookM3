@@ -20,7 +20,6 @@ import { SapMaterialsUploadDialogComponent } from '../../main-table/material-inp
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
-import { openMultiEditDialog } from '../../store/actions/dialog';
 
 @Injectable()
 export class MsdDialogService {
@@ -77,7 +76,7 @@ export class MsdDialogService {
   ): MatDialogRef<MaterialInputDialogComponent, { action?: TypedAction<any> }> {
     const rows = selectedRows.map((node) => node.data);
     const combinedRows = this.combineRows(rows);
-    this.dataFacade.dispatch(openMultiEditDialog({ rows, combinedRows }));
+    this.dataFacade.openMultiEditDialog(rows, combinedRows);
 
     return this.openDialog(false, {
       row: combinedRows,

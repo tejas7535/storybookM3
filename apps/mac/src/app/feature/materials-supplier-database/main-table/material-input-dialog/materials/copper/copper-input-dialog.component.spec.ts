@@ -1,23 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import {
   createComponentFactory,
@@ -26,47 +11,46 @@ import {
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
-import {
-  CreateMaterialErrorState,
-  CreateMaterialRecord,
-} from '@mac/msd/models';
-import {
-  addCustomCastingDiameter,
-  addCustomReferenceDocument,
-  fetchCastingDiameters,
-  materialDialogConfirmed,
-  updateCreateMaterialDialogValues,
-} from '@mac/msd/store/actions/dialog';
+import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
-import { getCreateMaterialRecord } from '@mac/msd/store/selectors';
 import {
   mockMaterialStandards,
   mockSuppliers,
 } from '@mac/testing/mocks/msd/input-dialog.mock';
-import {
-  createMaterialFormValue,
-  transformAsMaterialRequest,
-} from '@mac/testing/mocks/msd/material-generator.mock';
+import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-values.mocks';
 
 import * as en from '../../../../../../../assets/i18n/en.json';
-import { BaseDialogModule } from '../../base-dialog/base-dialog.module';
-import { MaterialInputDialogModule } from '../../material-input-dialog.module';
 import { DialogControlsService } from '../../services';
 import { CopperInputDialogComponent } from './copper-input-dialog.component';
+
+@Injectable()
+class MockDialogFacade extends DialogFacade {
+  fetchCastingDiameters = jest.fn();
+  addCustomReferenceDocument = jest.fn();
+  addCustomCastingDiameter = jest.fn();
+  updateCreateMaterialDialogValues = jest.fn();
+  materialDialogConfirmed = jest.fn();
+}
+
+jest.mock(
+  '@mac/feature/materials-supplier-database/main-table/material-input-dialog/material-input-dialog.component'
+);
+
+const getMockControl = (disabled: boolean): FormControl =>
+  new FormControl({ value: undefined, disabled });
 
 describe('CopperInputDialogComponent', () => {
   let component: CopperInputDialogComponent;
   let spectator: Spectator<CopperInputDialogComponent>;
+  let dialogFacade: DialogFacade;
 
   const initialState = {
     msd: {
@@ -100,36 +84,25 @@ describe('CopperInputDialogComponent', () => {
     },
   };
   const matDialogData = {};
-  let store: MockStore;
-  let createMaterialSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
 
   const createComponent = createComponentFactory({
     component: CopperInputDialogComponent,
     imports: [
-      CommonModule,
-      MatProgressSpinnerModule,
-      PushPipe,
-      MatIconModule,
-      MatButtonModule,
-      MatDividerModule,
-      MatInputModule,
-      MatCheckboxModule,
-      MatFormFieldModule,
-      SelectModule,
-      ReactiveFormsModule,
-      MatDialogModule,
-      MatGridListModule,
-      MatSelectModule,
-      MatTooltipModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
-      MatSnackBarModule,
-      BaseDialogModule,
-      MaterialInputDialogModule,
     ],
     providers: [
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
-      DialogControlsService,
+      MockProvider(DialogControlsService, {
+        getCopperNumberControl: jest.fn((_, disabled) =>
+          getMockControl(disabled)
+        ),
+        getRequiredControl: jest.fn((_, disabled) => getMockControl(disabled)),
+        getControl: jest.fn((_, disabled) => getMockControl(disabled)),
+        getNumberControl: jest.fn((_, disabled) => getMockControl(disabled)),
+      }),
       mockProvider(MsdDialogService),
       {
         provide: MatDialogRef,
@@ -141,17 +114,23 @@ describe('CopperInputDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: matDialogData,
       },
+      MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    const spy = spectator.inject(MockStore);
-    createMaterialSpy = spy.overrideSelector(getCreateMaterialRecord);
-    store = spy;
-    store.dispatch = jest.fn();
+
+    assignDialogValues(component, {
+      destroy$: new Subject<void>(),
+    });
+
     spectator.detectChanges();
+
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   it('should create', () => {
@@ -185,6 +164,7 @@ describe('CopperInputDialogComponent', () => {
     });
 
     it('should enable casting Mode', () => {
+      component['castingModesControl'].disable();
       expect(component['castingModesControl'].enabled).toBeFalsy();
       const val = {} as StringOption;
       component['supplierCountryControl'].setValue(val);
@@ -192,6 +172,7 @@ describe('CopperInputDialogComponent', () => {
     });
 
     it('should disable casting Mode', () => {
+      component['castingModesControl'].disable();
       expect(component['castingModesControl'].enabled).toBeFalsy();
       // enable
       const val = {} as StringOption;
@@ -215,18 +196,21 @@ describe('CopperInputDialogComponent', () => {
     });
 
     it('should enable casting Diameter', () => {
+      component['castingDiameterControl'].disable();
       expect(component['castingDiameterControl'].enabled).toBeFalsy();
       component['castingModesControl'].enable();
       component['castingModesControl'].setValue('mode');
 
       expect(component['castingDiameterControl'].enabled).toBeTruthy();
-      expect(store.dispatch).not.toHaveBeenCalledWith(
-        fetchCastingDiameters({ supplierId: undefined, castingMode: 'mode' })
+      expect(dialogFacade.fetchCastingDiameters).not.toHaveBeenCalledWith(
+        undefined,
+        'mode'
       );
     });
 
     it('should enable casting Diameter and fetch them', () => {
       component['castingModesControl'].enable();
+      component['castingDiameterControl'].disable();
       expect(component['castingDiameterControl'].enabled).toBeFalsy();
       const castingMode = 'mode';
       const supplierId = 1;
@@ -237,8 +221,9 @@ describe('CopperInputDialogComponent', () => {
       component['manufacturerSupplierIdControl'].setValue(supplierId);
 
       expect(component['castingDiameterControl'].enabled).toBeTruthy();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        fetchCastingDiameters({ supplierId, castingMode })
+      expect(dialogFacade.fetchCastingDiameters).toHaveBeenCalledWith(
+        supplierId,
+        castingMode
       );
     });
   });
@@ -247,10 +232,8 @@ describe('CopperInputDialogComponent', () => {
     it('should assign the material form', () => {
       component.co2Scope1Control.setValue(99);
 
-      expect(store.dispatch).toBeCalledWith(
-        updateCreateMaterialDialogValues({
-          form: component.createMaterialForm.value,
-        })
+      expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith(
+        component.createMaterialForm.value
       );
     });
   });
@@ -259,8 +242,8 @@ describe('CopperInputDialogComponent', () => {
     it('should add values to select', () => {
       const referenceDocument = 'string';
       component.addReferenceDocument(referenceDocument);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomReferenceDocument({ referenceDocument })
+      expect(dialogFacade.addCustomReferenceDocument).toHaveBeenCalledWith(
+        referenceDocument
       );
     });
   });
@@ -269,104 +252,9 @@ describe('CopperInputDialogComponent', () => {
     it('should add values to select', () => {
       const castingDiameter = 'string';
       component.addCastingDiameter(castingDiameter);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addCustomCastingDiameter({ castingDiameter })
+      expect(dialogFacade.addCustomCastingDiameter).toHaveBeenCalledWith(
+        castingDiameter
       );
-    });
-  });
-
-  describe('confirmMaterial', () => {
-    beforeEach(() => {
-      component.supplierPlantControl.enable({ emitEvent: false });
-      component.supplierCountryControl.enable({ emitEvent: false });
-      component.castingDiameterControl.enable({ emitEvent: false });
-      component.castingModesControl.enable({ emitEvent: false });
-      component.co2ClassificationControl.enable({ emitEvent: false });
-    });
-    const update = (error: boolean) => {
-      const result = error
-        ? {
-            error: {
-              code: 400,
-              state: CreateMaterialErrorState.MaterialCreationFailed,
-            },
-          }
-        : {};
-      createMaterialSpy.setResult(result as CreateMaterialRecord);
-      store.refreshState();
-    };
-    beforeEach(() => {
-      component['closeDialog'] = jest.fn();
-    });
-    it('should close dialog on successful confirm', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).toBeCalled();
-    });
-
-    it('should close dialog on successful confirm with empty material number', () => {
-      const baseValues = createMaterialFormValue(MaterialClass.COPPER);
-      const values = {
-        ...baseValues,
-        materialNumber: '',
-      };
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).toBeCalled();
-    });
-    it('should not close dialog on successful confirm with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(true);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(false);
-      expect(component['closeDialog']).not.toHaveBeenCalled();
-    });
-    it('should keep the dialog open on error', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(false);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(true);
-      expect(component['closeDialog']).not.toBeCalled();
-    });
-    it('should keep the dialog open on error with createAnother', () => {
-      const values = createMaterialFormValue(MaterialClass.COPPER);
-      component.createMaterialForm.patchValue(values, { emitEvent: false });
-
-      component.confirmMaterial(true);
-      expect(store.dispatch).toBeCalledWith(
-        materialDialogConfirmed(transformAsMaterialRequest(values))
-      );
-
-      // backend response
-      update(true);
-      expect(component['closeDialog']).not.toBeCalled();
     });
   });
 

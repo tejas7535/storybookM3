@@ -1,5 +1,3 @@
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import {
   MAT_SNACK_BAR_DATA,
   MatSnackBarRef,
@@ -8,8 +6,9 @@ import {
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from '../../../../../assets/i18n/en.json';
 import { CustomSnackbarComponent } from './custom-snackbar.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -24,7 +23,7 @@ describe('ActionCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CustomSnackbarComponent,
-    imports: [MatIconModule, CommonModule, SharedTranslocoModule],
+    imports: [provideTranslocoTestingModule({ en })],
     providers: [
       {
         provide: MatSnackBarRef,

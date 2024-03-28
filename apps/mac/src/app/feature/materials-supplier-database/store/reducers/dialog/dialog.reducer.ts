@@ -13,88 +13,7 @@ import {
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsDatabaseUploadStatusResponse,
 } from '@mac/msd/models';
-// TODO: clean import
-import {
-  addCustomCastingDiameter,
-  addCustomDataOwner,
-  addCustomMaterialStandardDocument,
-  addCustomMaterialStandardName,
-  addCustomReferenceDocument,
-  addCustomSupplierBusinessPartnerId,
-  addCustomSupplierName,
-  addCustomSupplierPlant,
-  bulkEditMaterials,
-  bulkEditMaterialsFailure,
-  bulkEditMaterialsSuccess,
-  cleanMinimizeDialog,
-  createMaterialComplete,
-  editDialogLoadingComplete,
-  fetchCastingDiameters,
-  fetchCastingDiametersFailure,
-  fetchCastingDiametersSuccess,
-  fetchCastingModes,
-  fetchCastingModesFailure,
-  fetchCastingModesSuccess,
-  fetchCo2ClassificationsFailure,
-  fetchCo2ClassificationsSuccess,
-  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
-  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
-  fetchConditions,
-  fetchConditionsFailure,
-  fetchConditionsSuccess,
-  fetchDataOwners,
-  fetchDataOwnersFailure,
-  fetchDataOwnersSuccess,
-  fetchEditMaterialNameDataFailure,
-  fetchEditMaterialNameDataSuccess,
-  fetchEditMaterialSuppliersFailure,
-  fetchEditMaterialSuppliersSuccess,
-  fetchEditStandardDocumentDataFailure,
-  fetchEditStandardDocumentDataSuccess,
-  fetchManufacturerSuppliersFailure,
-  fetchManufacturerSuppliersSuccess,
-  fetchMaterialStandardsFailure,
-  fetchMaterialStandardsSuccess,
-  fetchProductCategories,
-  fetchProductCategoriesFailure,
-  fetchProductCategoriesSuccess,
-  fetchProductionProcesses,
-  fetchProductionProcessesFailure,
-  fetchProductionProcessesSuccess,
-  fetchRatings,
-  fetchRatingsFailure,
-  fetchRatingsSuccess,
-  fetchReferenceDocuments,
-  fetchReferenceDocumentsFailure,
-  fetchReferenceDocumentsSuccess,
-  fetchSteelMakingProcesses,
-  fetchSteelMakingProcessesFailure,
-  fetchSteelMakingProcessesInUseFailure,
-  fetchSteelMakingProcessesInUseSuccess,
-  fetchSteelMakingProcessesSuccess,
-  getSapMaterialsDatabaseUploadStatusSuccess,
-  manufacturerSupplierDialogOpened,
-  materialDialogCanceled,
-  materialDialogConfirmed,
-  materialstandardDialogOpened,
-  minimizeDialog,
-  openDialog,
-  openEditDialog,
-  openMultiEditDialog,
-  postManufacturerSupplier,
-  postMaterial,
-  resetCo2ValuesForSupplierSteelMakingProcess,
-  resetDialogOptions,
-  resetMaterialRecord,
-  resetSteelMakingProcessInUse,
-  sapMaterialsUploadStatusReset,
-  setMaterialFormValue,
-  setSapMaterialsFileUploadProgress,
-  updateCreateMaterialDialogValues,
-  uploadSapMaterials,
-  uploadSapMaterialsFailure,
-  uploadSapMaterialsSuccess,
-} from '@mac/msd/store/actions/dialog';
+import * as DialogActions from '@mac/msd/store/actions/dialog';
 
 export interface DialogState {
   manufacturerSupplier: {
@@ -202,7 +121,7 @@ export const initialState: DialogState = {
 export const dialogReducer = createReducer(
   initialState,
   on(
-    materialDialogCanceled,
+    DialogActions.materialDialogCanceled,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -230,7 +149,7 @@ export const dialogReducer = createReducer(
   // open dialog will be called for every dialog
   // this is still required to set the loading spinner!
   on(
-    openDialog,
+    DialogActions.openDialog,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -243,7 +162,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    materialstandardDialogOpened,
+    DialogActions.materialStandardDialogOpened,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -256,7 +175,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    manufacturerSupplierDialogOpened,
+    DialogActions.manufacturerSupplierDialogOpened,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -270,7 +189,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchRatings,
+    DialogActions.fetchRatings,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -280,7 +199,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchSteelMakingProcesses,
+    DialogActions.fetchSteelMakingProcesses,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -290,7 +209,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchProductionProcesses,
+    DialogActions.fetchProductionProcesses,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -300,7 +219,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCastingModes,
+    DialogActions.fetchCastingModes,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -310,7 +229,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchMaterialStandardsSuccess,
+    DialogActions.fetchMaterialStandardsSuccess,
     (state, { materialStandards }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -321,7 +240,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchMaterialStandardsFailure,
+    DialogActions.fetchMaterialStandardsFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -333,7 +252,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchManufacturerSuppliersSuccess,
+    DialogActions.fetchManufacturerSuppliersSuccess,
     (state, { manufacturerSuppliers }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -344,7 +263,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchManufacturerSuppliersFailure,
+    DialogActions.fetchManufacturerSuppliersFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -356,7 +275,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchProductCategories,
+    DialogActions.fetchProductCategories,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -367,7 +286,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchProductCategoriesSuccess,
+    DialogActions.fetchProductCategoriesSuccess,
     (state, { productCategories }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -378,7 +297,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchProductCategoriesFailure,
+    DialogActions.fetchProductCategoriesFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -390,7 +309,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCastingDiameters,
+    DialogActions.fetchCastingDiameters,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -401,7 +320,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCastingDiametersSuccess,
+    DialogActions.fetchCastingDiametersSuccess,
     (state, { castingDiameters }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -412,7 +331,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCastingDiametersFailure,
+    DialogActions.fetchCastingDiametersFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -424,7 +343,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchReferenceDocuments,
+    DialogActions.fetchReferenceDocuments,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -435,7 +354,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchReferenceDocumentsSuccess,
+    DialogActions.fetchReferenceDocumentsSuccess,
     (state, { referenceDocuments }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -446,7 +365,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchReferenceDocumentsFailure,
+    DialogActions.fetchReferenceDocumentsFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -458,7 +377,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchRatingsSuccess,
+    DialogActions.fetchRatingsSuccess,
     (state, { ratings }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -469,7 +388,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchRatingsFailure,
+    DialogActions.fetchRatingsFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -481,7 +400,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchSteelMakingProcessesSuccess,
+    DialogActions.fetchSteelMakingProcessesSuccess,
     (state, { steelMakingProcesses }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -492,7 +411,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchSteelMakingProcessesFailure,
+    DialogActions.fetchSteelMakingProcessesFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -504,7 +423,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchProductionProcessesSuccess,
+    DialogActions.fetchProductionProcessesSuccess,
     (state, { productionProcesses }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -515,7 +434,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchProductionProcessesFailure,
+    DialogActions.fetchProductionProcessesFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -527,7 +446,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCo2ClassificationsSuccess,
+    DialogActions.fetchCo2ClassificationsSuccess,
     (state, { co2Classifications }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -538,7 +457,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCo2ClassificationsFailure,
+    DialogActions.fetchCo2ClassificationsFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -550,7 +469,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCastingModesSuccess,
+    DialogActions.fetchCastingModesSuccess,
     (state, { castingModes }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -561,7 +480,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCastingModesFailure,
+    DialogActions.fetchCastingModesFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -574,7 +493,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchConditions,
+    DialogActions.fetchConditions,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -585,7 +504,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchConditionsSuccess,
+    DialogActions.fetchConditionsSuccess,
     (state, { conditions }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -596,7 +515,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchConditionsFailure,
+    DialogActions.fetchConditionsFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -608,7 +527,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchDataOwners,
+    DialogActions.fetchDataOwners,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -620,7 +539,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchDataOwnersSuccess,
+    DialogActions.fetchDataOwnersSuccess,
     (state, { dataOwners }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -631,7 +550,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchDataOwnersFailure,
+    DialogActions.fetchDataOwnersFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -644,7 +563,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    materialDialogConfirmed,
+    DialogActions.materialDialogConfirmed,
     (state): DialogState => ({
       ...state,
       createMaterial: {
@@ -654,7 +573,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    postManufacturerSupplier,
+    DialogActions.postManufacturerSupplier,
     (state): DialogState => ({
       // successfully create material Standard
       ...state,
@@ -666,7 +585,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    postMaterial,
+    DialogActions.postMaterial,
     (state): DialogState => ({
       // successfully create manufacturer Supplier
       ...state,
@@ -680,7 +599,7 @@ export const dialogReducer = createReducer(
   ),
   // either error while creating or successfully created materiel record
   on(
-    createMaterialComplete,
+    DialogActions.createMaterialComplete,
     (state, { record }): DialogState => ({
       // reset loading state
       ...state,
@@ -692,7 +611,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    resetMaterialRecord,
+    DialogActions.resetMaterialRecord,
     (state): DialogState => ({
       ...state,
       createMaterial: undefined,
@@ -700,7 +619,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    resetDialogOptions,
+    DialogActions.resetDialogOptions,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -727,23 +646,26 @@ export const dialogReducer = createReducer(
     })
   ),
 
-  on(addCustomCastingDiameter, (state, { castingDiameter }): DialogState => {
-    const customCastingDiameters = state.dialogOptions.customCastingDiameters
-      ? [...state.dialogOptions.customCastingDiameters]
-      : [];
-    customCastingDiameters.unshift(castingDiameter);
+  on(
+    DialogActions.addCustomCastingDiameter,
+    (state, { castingDiameter }): DialogState => {
+      const customCastingDiameters = state.dialogOptions.customCastingDiameters
+        ? [...state.dialogOptions.customCastingDiameters]
+        : [];
+      customCastingDiameters.unshift(castingDiameter);
 
-    return {
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        customCastingDiameters,
-      },
-    };
-  }),
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customCastingDiameters,
+        },
+      };
+    }
+  ),
 
   on(
-    addCustomReferenceDocument,
+    DialogActions.addCustomReferenceDocument,
     (state, { referenceDocument }): DialogState => {
       const customReferenceDocuments = state.dialogOptions
         .customReferenceDocuments
@@ -762,7 +684,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    addCustomMaterialStandardDocument,
+    DialogActions.addCustomMaterialStandardDocument,
     (state, { standardDocument }): DialogState => {
       const stdDoc = state.dialogOptions.customMaterialStandardDocuments
         ? [...state.dialogOptions.customMaterialStandardDocuments]
@@ -779,53 +701,62 @@ export const dialogReducer = createReducer(
     }
   ),
 
-  on(addCustomMaterialStandardName, (state, { materialName }): DialogState => {
-    const matNames = state.dialogOptions.customMaterialStandardNames
-      ? [...state.dialogOptions.customMaterialStandardNames]
-      : [];
-    matNames.unshift(materialName);
+  on(
+    DialogActions.addCustomMaterialStandardName,
+    (state, { materialName }): DialogState => {
+      const matNames = state.dialogOptions.customMaterialStandardNames
+        ? [...state.dialogOptions.customMaterialStandardNames]
+        : [];
+      matNames.unshift(materialName);
 
-    return {
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        customMaterialStandardNames: matNames,
-      },
-    };
-  }),
-
-  on(addCustomSupplierName, (state, { supplierName }): DialogState => {
-    const manufNames = state.dialogOptions.customManufacturerSupplierNames
-      ? [...state.dialogOptions.customManufacturerSupplierNames]
-      : [];
-    manufNames.unshift(supplierName);
-
-    return {
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        customManufacturerSupplierNames: manufNames,
-      },
-    };
-  }),
-
-  on(addCustomSupplierPlant, (state, { supplierPlant }): DialogState => {
-    const manufPlants = state.dialogOptions.customManufacturerSupplierPlants
-      ? [...state.dialogOptions.customManufacturerSupplierPlants]
-      : [];
-    manufPlants.unshift(supplierPlant);
-
-    return {
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        customManufacturerSupplierPlants: manufPlants,
-      },
-    };
-  }),
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customMaterialStandardNames: matNames,
+        },
+      };
+    }
+  ),
 
   on(
-    addCustomSupplierBusinessPartnerId,
+    DialogActions.addCustomSupplierName,
+    (state, { supplierName }): DialogState => {
+      const manufNames = state.dialogOptions.customManufacturerSupplierNames
+        ? [...state.dialogOptions.customManufacturerSupplierNames]
+        : [];
+      manufNames.unshift(supplierName);
+
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierNames: manufNames,
+        },
+      };
+    }
+  ),
+
+  on(
+    DialogActions.addCustomSupplierPlant,
+    (state, { supplierPlant }): DialogState => {
+      const manufPlants = state.dialogOptions.customManufacturerSupplierPlants
+        ? [...state.dialogOptions.customManufacturerSupplierPlants]
+        : [];
+      manufPlants.unshift(supplierPlant);
+
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customManufacturerSupplierPlants: manufPlants,
+        },
+      };
+    }
+  ),
+
+  on(
+    DialogActions.addCustomSupplierBusinessPartnerId,
     (state, { supplierBusinessPartnerId }): DialogState => {
       const manufBpIds = state.dialogOptions
         .customManufacturerSupplierBusinessPartnerIds
@@ -843,7 +774,7 @@ export const dialogReducer = createReducer(
     }
   ),
 
-  on(addCustomDataOwner, (state, { dataOwner }): DialogState => {
+  on(DialogActions.addCustomDataOwner, (state, { dataOwner }): DialogState => {
     const dataOwners = state.dialogOptions.dataOwners
       ? [...state.dialogOptions.dataOwners]
       : [];
@@ -859,7 +790,7 @@ export const dialogReducer = createReducer(
   }),
 
   on(
-    openEditDialog,
+    DialogActions.openEditDialog,
     (state, { row, column }): DialogState => ({
       ...state,
       editMaterial: {
@@ -878,7 +809,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    openMultiEditDialog,
+    DialogActions.openMultiEditDialog,
     (state, { rows, combinedRows }): DialogState => ({
       ...state,
       selectedMaterial: {
@@ -890,7 +821,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    updateCreateMaterialDialogValues,
+    DialogActions.updateCreateMaterialDialogValues,
     (state, { form }): DialogState => ({
       ...state,
       selectedMaterial: {
@@ -901,7 +832,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    setMaterialFormValue,
+    DialogActions.setMaterialFormValue,
     (state, { parsedMaterial }): DialogState => ({
       ...state,
       editMaterial: {
@@ -912,7 +843,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchEditMaterialNameDataSuccess,
+    DialogActions.fetchEditMaterialNameDataSuccess,
     (state, { standardDocuments }): DialogState => ({
       ...state,
       editMaterial: {
@@ -924,7 +855,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchEditMaterialNameDataFailure,
+    DialogActions.fetchEditMaterialNameDataFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -940,7 +871,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchEditStandardDocumentDataSuccess,
+    DialogActions.fetchEditStandardDocumentDataSuccess,
     (state, { materialNames }): DialogState => ({
       ...state,
       editMaterial: {
@@ -952,7 +883,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchEditStandardDocumentDataFailure,
+    DialogActions.fetchEditStandardDocumentDataFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -968,7 +899,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchEditMaterialSuppliersSuccess,
+    DialogActions.fetchEditMaterialSuppliersSuccess,
     (state, { supplierIds }): DialogState => ({
       ...state,
       editMaterial: {
@@ -980,7 +911,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchEditMaterialSuppliersFailure,
+    DialogActions.fetchEditMaterialSuppliersFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -996,7 +927,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    editDialogLoadingComplete,
+    DialogActions.editDialogLoadingComplete,
     (state): DialogState => ({
       ...state,
       editMaterial: {
@@ -1007,7 +938,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    minimizeDialog,
+    DialogActions.minimizeDialog,
     (state, { id, value, isCopy, isBulkEdit }): DialogState => ({
       ...state,
       minimizedDialog: {
@@ -1020,7 +951,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    cleanMinimizeDialog,
+    DialogActions.cleanMinimizeDialog,
     (state): DialogState => ({
       ...state,
       minimizedDialog: undefined,
@@ -1028,7 +959,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchSteelMakingProcessesInUseSuccess,
+    DialogActions.fetchSteelMakingProcessesInUseSuccess,
     (state, { steelMakingProcessesInUse }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -1038,7 +969,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchSteelMakingProcessesInUseFailure,
+    DialogActions.fetchSteelMakingProcessesInUseFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -1049,7 +980,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    resetSteelMakingProcessInUse,
+    DialogActions.resetSteelMakingProcessInUse,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -1060,7 +991,7 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
+    DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
     (state, { co2Values }): DialogState => ({
       ...state,
       dialogOptions: {
@@ -1070,7 +1001,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    fetchCo2ValuesForSupplierSteelMakingProcessFailure,
+    DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -1081,7 +1012,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    resetCo2ValuesForSupplierSteelMakingProcess,
+    DialogActions.resetCo2ValuesForSupplierSteelMakingProcess,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
@@ -1091,7 +1022,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    uploadSapMaterials,
+    DialogActions.uploadSapMaterials,
     (state): DialogState => ({
       ...state,
       uploadSapMaterials: {
@@ -1101,7 +1032,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    setSapMaterialsFileUploadProgress,
+    DialogActions.setSapMaterialsFileUploadProgress,
     (state, { fileUploadProgress }): DialogState => ({
       ...state,
       uploadSapMaterials: {
@@ -1111,7 +1042,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    uploadSapMaterialsSuccess,
+    DialogActions.uploadSapMaterialsSuccess,
     (state): DialogState => ({
       ...state,
       uploadSapMaterials: {
@@ -1125,7 +1056,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    uploadSapMaterialsFailure,
+    DialogActions.uploadSapMaterialsFailure,
     (state): DialogState => ({
       ...state,
       uploadSapMaterials: {
@@ -1136,7 +1067,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    getSapMaterialsDatabaseUploadStatusSuccess,
+    DialogActions.getSapMaterialsDatabaseUploadStatusSuccess,
     (state, { databaseUploadStatus }): DialogState => ({
       ...state,
       uploadSapMaterials: {
@@ -1146,7 +1077,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    sapMaterialsUploadStatusReset,
+    DialogActions.sapMaterialsUploadStatusReset,
     (state): DialogState => ({
       ...state,
       uploadSapMaterials: {
@@ -1156,7 +1087,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    bulkEditMaterials,
+    DialogActions.bulkEditMaterials,
     (state): DialogState => ({
       ...state,
       bulkEditMaterials: {
@@ -1166,7 +1097,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    bulkEditMaterialsSuccess,
+    DialogActions.bulkEditMaterialsSuccess,
     (state): DialogState => ({
       ...state,
       bulkEditMaterials: {
@@ -1176,7 +1107,7 @@ export const dialogReducer = createReducer(
     })
   ),
   on(
-    bulkEditMaterialsFailure,
+    DialogActions.bulkEditMaterialsFailure,
     (state): DialogState => ({
       ...state,
       bulkEditMaterials: {

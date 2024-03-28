@@ -1,21 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of, Subject } from 'rxjs';
 
@@ -23,12 +8,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { TypedAction } from '@ngrx/store/src/models';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { SelectModule } from '@schaeffler/inputs/select';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { DataResult, MaterialForm, MaterialFormValue } from '@mac/msd/models';
@@ -45,13 +28,8 @@ import {
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { MaterialClass } from '../../constants';
-import {
-  materialDialogCanceled,
-  minimizeDialog,
-} from '../../store/actions/dialog';
-import { BaseDialogModule } from './base-dialog/base-dialog.module';
+import { DialogFacade } from '../../store/facades/dialog';
 import { MaterialInputDialogComponent } from './material-input-dialog.component';
-import { MaterialInputDialogModule } from './material-input-dialog.module';
 import { DialogControlsService } from './services';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -59,9 +37,21 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn((string) => string),
 }));
 
+@Injectable()
+class MockDialogFacade extends DialogFacade {
+  openDialog = jest.fn();
+  openEditDialog = jest.fn();
+  materialDialogOpened = jest.fn();
+  materialDialogConfirmed = jest.fn();
+  resetMaterialRecord = jest.fn();
+  materialDialogCanceled = jest.fn();
+  minimizeDialog = jest.fn();
+}
+
 describe('MaterialInputDialogComponent', () => {
   let component: MaterialInputDialogComponent;
   let spectator: Spectator<MaterialInputDialogComponent>;
+  let dialogFacade: DialogFacade;
 
   const initialState = {
     msd: {
@@ -101,25 +91,8 @@ describe('MaterialInputDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialInputDialogComponent,
     imports: [
-      CommonModule,
-      MatProgressSpinnerModule,
-      PushPipe,
-      MatIconModule,
-      MatButtonModule,
-      MatDividerModule,
-      MatInputModule,
-      MatCheckboxModule,
-      MatFormFieldModule,
-      SelectModule,
-      ReactiveFormsModule,
-      MatDialogModule,
-      MatGridListModule,
-      MatSelectModule,
-      MatTooltipModule,
-      SharedTranslocoModule,
-      MatSnackBarModule,
-      MaterialInputDialogModule,
-      BaseDialogModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -136,12 +109,16 @@ describe('MaterialInputDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: {},
       },
+      MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
+    dialogFacade = spectator.inject(DialogFacade);
   });
 
   describe('check initial form values', () => {
@@ -202,8 +179,6 @@ describe('MaterialInputDialogComponent', () => {
       });
 
       it('should prepare the form', () => {
-        component['dialogFacade'].dispatch = jest.fn();
-
         component.supplierPlantControl.enable = jest.fn();
         component.supplierCountryControl.enable = jest.fn();
 
@@ -247,8 +222,6 @@ describe('MaterialInputDialogComponent', () => {
       });
 
       it('should prepare the form', () => {
-        component['dialogFacade'].dispatch = jest.fn();
-
         component.supplierPlantControl.enable = jest.fn();
         component.supplierCountryControl.enable = jest.fn();
 
@@ -292,8 +265,6 @@ describe('MaterialInputDialogComponent', () => {
       });
 
       it('should prepare the form', () => {
-        component['dialogFacade'].dispatch = jest.fn();
-
         component.supplierPlantControl.enable = jest.fn();
         component.supplierCountryControl.enable = jest.fn();
 
@@ -353,22 +324,21 @@ describe('MaterialInputDialogComponent', () => {
   });
 
   describe('cancelDialog', () => {
-    const mockSubjectClose = new Subject<{ action: TypedAction<any> }>();
+    const mockSubjectClose = new Subject<void>();
 
     it('should call closeDialog', () => {
       component['dialogRef'].close = jest.fn();
       component['dialogRef'].afterClosed = jest.fn(() => mockSubjectClose);
 
       component.cancelDialog();
-      mockSubjectClose.next({ action: materialDialogCanceled() });
-      expect(component['dialogRef'].close).toHaveBeenCalledWith({
-        action: materialDialogCanceled(),
-      });
+      mockSubjectClose.next();
+      expect(component['dialogRef'].close).toHaveBeenCalledWith(undefined);
+      expect(dialogFacade.materialDialogCanceled).toHaveBeenCalled();
     });
   });
 
   describe('minimizeDialog', () => {
-    const mockSubjectClose = new Subject<{ action: TypedAction<any> }>();
+    const mockSubjectClose = new Subject<void>();
 
     it('should close the dialog ref with the minimize value', () => {
       component['dialogRef'].close = jest.fn();
@@ -382,14 +352,19 @@ describe('MaterialInputDialogComponent', () => {
 
       component.minimizeDialog();
 
+      mockSubjectClose.next();
       expect(component.createMaterialForm.getRawValue).toHaveBeenCalled();
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
-        action: minimizeDialog({
-          id: undefined,
-          value: {},
-          isCopy: true,
-        }),
+        id: undefined,
+        value: {},
+        isCopy: true,
       });
+      expect(dialogFacade.minimizeDialog).toHaveBeenCalledWith(
+        undefined,
+        {},
+        true,
+        undefined
+      );
     });
   });
 

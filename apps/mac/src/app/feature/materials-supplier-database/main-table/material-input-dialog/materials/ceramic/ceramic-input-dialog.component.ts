@@ -9,7 +9,6 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
-import { updateCreateMaterialDialogValues } from '@mac/feature/materials-supplier-database/store/actions/dialog';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
@@ -84,9 +83,7 @@ export class CeramicInputDialogComponent
     });
 
     this.createMaterialForm.valueChanges.subscribe((val) => {
-      this.dialogFacade.dispatch(
-        updateCreateMaterialDialogValues({ form: val })
-      );
+      this.dialogFacade.updateCreateMaterialDialogValues(val);
     });
   }
 }

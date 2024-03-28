@@ -1,15 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
@@ -17,6 +8,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -36,16 +28,8 @@ describe('QuickfilterDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: QuickfilterDialogComponent,
     imports: [
-      CommonModule,
-      MatDialogModule,
-      MatIconModule,
-      FormsModule,
-      MatInputModule,
-      MatRadioModule,
-      PushPipe,
-      MatButtonModule,
-      MatFormFieldModule,
-      ReactiveFormsModule,
+      MockPipe(PushPipe),
+      MockModule(ReactiveFormsModule),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -61,6 +45,7 @@ describe('QuickfilterDialogComponent', () => {
       },
       mockProvider(DataFacade),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

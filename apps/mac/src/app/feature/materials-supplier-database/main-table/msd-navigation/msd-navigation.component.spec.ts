@@ -1,29 +1,32 @@
-import { CommonModule } from '@angular/common';
-import { SimpleChanges } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Injectable,
+  SimpleChanges,
+} from '@angular/core';
 
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { setNavigation } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { MsdAgGridStateService } from '../../services';
 import { MsdNavigationComponent } from './msd-navigation.component';
+
+@Injectable()
+class MockDataFacade extends DataFacade {
+  setNavigation = jest.fn();
+}
 
 describe('MsdNavigationComponent', () => {
   let component: MsdNavigationComponent;
@@ -33,16 +36,7 @@ describe('MsdNavigationComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MsdNavigationComponent,
-    imports: [
-      CommonModule,
-      MatListModule,
-      MatExpansionModule,
-      MatButtonModule,
-      MatIconModule,
-      PushPipe,
-      LetDirective,
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [provideTranslocoTestingModule({ en })],
     detectChanges: false,
     providers: [
       provideMockStore({
@@ -71,7 +65,7 @@ describe('MsdNavigationComponent', () => {
           },
         },
       }),
-      DataFacade,
+      MockProvider(DataFacade, MockDataFacade, 'useClass'),
       mockProvider(MsdAgGridStateService),
       {
         provide: ApplicationInsightsService,
@@ -80,6 +74,7 @@ describe('MsdNavigationComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -87,8 +82,6 @@ describe('MsdNavigationComponent', () => {
     component = spectator.component;
     dataFacade = spectator.inject(DataFacade);
     msdAgGridStateService = spectator.inject(MsdAgGridStateService);
-
-    dataFacade.dispatch = jest.fn();
   });
 
   it('should be created', () => {
@@ -109,8 +102,9 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.getLastActiveNavigationLevel
       ).not.toHaveBeenCalled();
-      expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation(activeNavigationLevel)
+      expect(dataFacade.setNavigation).toHaveBeenCalledWith(
+        activeNavigationLevel.materialClass,
+        activeNavigationLevel.navigationLevel
       );
       expect(
         component['applicationInsightsService'].logEvent
@@ -133,8 +127,9 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.getLastActiveNavigationLevel
       ).toHaveBeenCalledTimes(1);
-      expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation(lastActiveNavigationLevel)
+      expect(dataFacade.setNavigation).toHaveBeenCalledWith(
+        lastActiveNavigationLevel.materialClass,
+        lastActiveNavigationLevel.navigationLevel
       );
       expect(
         component['applicationInsightsService'].logEvent
@@ -158,7 +153,7 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.storeActiveNavigationLevel
       ).not.toHaveBeenCalled();
-      expect(dataFacade.dispatch).not.toHaveBeenCalled();
+      expect(dataFacade.setNavigation).not.toHaveBeenCalled();
       expect(
         component['applicationInsightsService'].logEvent
       ).not.toHaveBeenCalled();
@@ -177,7 +172,7 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.storeActiveNavigationLevel
       ).not.toHaveBeenCalled();
-      expect(dataFacade.dispatch).not.toHaveBeenCalled();
+      expect(dataFacade.setNavigation).not.toHaveBeenCalled();
     });
 
     it('should load data and store last active navigation level', () => {
@@ -198,8 +193,9 @@ describe('MsdNavigationComponent', () => {
       expect(
         msdAgGridStateService.storeActiveNavigationLevel
       ).toHaveBeenCalledWith(activeNavigationLevel);
-      expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation(activeNavigationLevel)
+      expect(dataFacade.setNavigation).toHaveBeenCalledWith(
+        activeNavigationLevel.materialClass,
+        activeNavigationLevel.navigationLevel
       );
       expect(
         component['applicationInsightsService'].logEvent
@@ -220,8 +216,9 @@ describe('MsdNavigationComponent', () => {
         activeNavigationLevel.navigationLevel
       );
 
-      expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation({ ...activeNavigationLevel })
+      expect(dataFacade.setNavigation).toHaveBeenCalledWith(
+        activeNavigationLevel.materialClass,
+        activeNavigationLevel.navigationLevel
       );
       expect(
         msdAgGridStateService.storeActiveNavigationLevel
@@ -241,10 +238,9 @@ describe('MsdNavigationComponent', () => {
 
       component.setActive(materialClass);
 
-      expect(dataFacade.dispatch).toHaveBeenCalledWith(
-        setNavigation({
-          ...defaultActiveNavigationLevel,
-        })
+      expect(dataFacade.setNavigation).toHaveBeenCalledWith(
+        defaultActiveNavigationLevel.materialClass,
+        defaultActiveNavigationLevel.navigationLevel
       );
       expect(
         msdAgGridStateService.storeActiveNavigationLevel

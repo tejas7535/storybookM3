@@ -16,7 +16,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { TypedAction } from '@ngrx/store/src/models';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -31,15 +30,6 @@ import {
   MaterialRequest,
   MaterialStandard,
 } from '@mac/msd/models';
-import {
-  materialDialogCanceled,
-  materialDialogConfirmed,
-  materialDialogOpened,
-  minimizeDialog as minimizeDialogAction,
-  openDialog,
-  openEditDialog,
-  resetMaterialRecord,
-} from '@mac/msd/store/actions/dialog';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { MsdSnackbarService } from '../../services/msd-snackbar';
@@ -137,11 +127,9 @@ export class MaterialInputDialogComponent
       isResumeDialog: boolean;
     }
   ) {
-    this.dataFacade.dispatch(openDialog());
+    this.dialogFacade.openDialog();
     if (dialogData.editDialogInformation) {
-      this.dataFacade.dispatch(
-        openEditDialog(dialogData.editDialogInformation)
-      );
+      this.dialogFacade.openEditDialog(dialogData.editDialogInformation);
     }
     this.isBulkEdit = dialogData.editDialogInformation?.isBulkEdit;
 
@@ -241,7 +229,7 @@ export class MaterialInputDialogComponent
 
   // allow overload in sup-class
   dispatchDialogOpenEvent(): void {
-    this.dialogFacade.dispatch(materialDialogOpened());
+    this.dialogFacade.materialDialogOpened();
   }
 
   public ngOnDestroy(): void {
@@ -255,7 +243,7 @@ export class MaterialInputDialogComponent
   }
 
   public cancelDialog(): void {
-    this.closeDialog(materialDialogCanceled());
+    this.closeDialog(undefined, true);
   }
 
   public minimizeDialog(): void {
@@ -265,7 +253,7 @@ export class MaterialInputDialogComponent
       isCopy: this.isCopy,
       isBulkEdit: this.isBulkEdit,
     };
-    this.closeDialog(minimizeDialogAction(minimize));
+    this.closeDialog(minimize);
   }
 
   // extend this method in child classes for specific material classes
@@ -381,13 +369,11 @@ export class MaterialInputDialogComponent
     const material = this.buildMaterial(baseMaterial);
 
     // include material, stdDoc and supplier put logic in effect
-    this.dialogFacade.dispatch(
-      materialDialogConfirmed({
-        standard,
-        supplier,
-        material,
-        isBulkEdit: this.isBulkEdit,
-      })
+    this.dialogFacade.materialDialogConfirmed(
+      standard,
+      supplier,
+      material,
+      this.isBulkEdit
     );
     this.awaitMaterialComplete(createAnother);
   }
@@ -400,9 +386,7 @@ export class MaterialInputDialogComponent
         if (!record.error && !createAnother) {
           this.closeDialog();
         }
-        this.dialogFacade.dispatch(
-          resetMaterialRecord({ error: !!record.error, createAnother })
-        );
+        this.dialogFacade.resetMaterialRecord(!!record.error, createAnother);
       });
   }
 
@@ -500,15 +484,26 @@ export class MaterialInputDialogComponent
     return list?.length === 0 ? undefined : list;
   }
 
-  private closeDialog(closeAction?: TypedAction<any>): void {
-    this.dialogRef.close({ action: closeAction });
+  private closeDialog(
+    minimize?: {
+      id?: number;
+      value: Partial<MaterialFormValue>;
+      isCopy?: boolean;
+      isBulkEdit?: boolean;
+    },
+    canceled?: boolean
+  ): void {
+    this.dialogRef.close(minimize);
 
     this.dialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe(({ action }) => {
-        if (action) {
-          this.dataFacade.dispatch(action);
+      .subscribe(() => {
+        if (minimize) {
+          const { id, value, isCopy, isBulkEdit } = minimize;
+          this.dialogFacade.minimizeDialog(id, value, isCopy, isBulkEdit);
+        } else if (canceled) {
+          this.dialogFacade.materialDialogCanceled();
         }
       });
   }

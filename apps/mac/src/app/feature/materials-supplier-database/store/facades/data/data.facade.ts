@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getUsername, hasIdTokenRole } from '@schaeffler/azure-auth';
 
+import {
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/feature/materials-supplier-database/constants';
+import {
+  DataResult,
+  SAPMaterialsRequest,
+} from '@mac/feature/materials-supplier-database/models';
 import {
   getAgGridColumns,
   getAgGridFilter,
@@ -24,6 +32,9 @@ import {
   getShareQueryParams,
   isBulkEditAllowed,
 } from '@mac/msd/store/selectors';
+
+import * as DataActions from '../../actions/data';
+import { openMultiEditDialog } from '../../actions/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +75,44 @@ export class DataFacade {
 
   constructor(private readonly store: Store) {}
 
-  dispatch(action: Action) {
-    this.store.dispatch(action);
+  fetchClassOptions() {
+    this.store.dispatch(DataActions.fetchClassOptions());
+  }
+
+  fetchResult() {
+    this.store.dispatch(DataActions.fetchResult());
+  }
+
+  setAgGridFilter(filterModel: { [key: string]: any }) {
+    this.store.dispatch(DataActions.setAgGridFilter({ filterModel }));
+  }
+
+  setAgGridColumns(agGridColumns: string) {
+    this.store.dispatch(DataActions.setAgGridColumns({ agGridColumns }));
+  }
+
+  deleteEntity(id: number) {
+    this.store.dispatch(DataActions.deleteEntity({ id }));
+  }
+
+  fetchSAPMaterials(request: SAPMaterialsRequest) {
+    this.store.dispatch(DataActions.fetchSAPMaterials({ request }));
+  }
+
+  openMultiEditDialog(rows: DataResult[], combinedRows: DataResult) {
+    this.store.dispatch(openMultiEditDialog({ rows, combinedRows }));
+  }
+
+  setNavigation(
+    materialClass: MaterialClass,
+    navigationLevel: NavigationLevel
+  ) {
+    this.store.dispatch(
+      DataActions.setNavigation({ materialClass, navigationLevel })
+    );
+  }
+
+  errorSnackBar(message: string) {
+    this.store.dispatch(DataActions.errorSnackBar({ message }));
   }
 }

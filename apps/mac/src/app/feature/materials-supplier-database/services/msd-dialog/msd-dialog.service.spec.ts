@@ -1,8 +1,11 @@
+import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/confirm-delete-dialog/confirm-delete-dialog.component';
 import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
@@ -17,13 +20,17 @@ import { SapMaterialsUploadDialogComponent } from '../../main-table/material-inp
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
-import { openMultiEditDialog } from '../../store/actions/dialog';
 import { MsdDialogService } from './msd-dialog.service';
+
+@Injectable()
+class MockDataFacade extends DataFacade {
+  openMultiEditDialog = jest.fn();
+}
 
 describe('MsdDialogService', () => {
   let spectator: SpectatorService<MsdDialogService>;
   let service: MsdDialogService;
-  let store: MockStore;
+  let dataFacade: DataFacade;
 
   const initialState = {
     msd: {
@@ -48,15 +55,15 @@ describe('MsdDialogService', () => {
           open: jest.fn(() => ({}) as unknown as MatDialogRef<any>),
         },
       },
+      MockProvider(DataFacade, MockDataFacade, 'useClass'),
     ],
   });
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdDialogService);
-    store = spectator.inject(MockStore);
+    service = spectator.service;
 
-    store.dispatch = jest.fn();
+    dataFacade = spectator.inject(DataFacade);
   });
 
   it('should be created', () => {
@@ -180,12 +187,7 @@ describe('MsdDialogService', () => {
 
       service.openBulkEditDialog(selectedRows);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        openMultiEditDialog({
-          rows: [dr, dr],
-          combinedRows: dr,
-        })
-      );
+      expect(dataFacade.openMultiEditDialog).toHaveBeenCalledWith([dr, dr], dr);
       expect(service.openDialog).toBeCalledWith(false, {
         row: dr,
         column: undefined,

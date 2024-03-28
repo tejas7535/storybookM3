@@ -1,8 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -13,7 +12,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import {
   ColDef,
   Column,
@@ -29,6 +28,7 @@ import {
   RowClassParams,
   RowNode,
 } from 'ag-grid-enterprise';
+import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
@@ -56,16 +56,12 @@ import {
   MsdDataService,
   MsdDialogService,
 } from '@mac/msd/services';
-import {
-  fetchResult,
-  setAgGridColumns,
-  setAgGridFilter,
-} from '@mac/msd/store/actions/data';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { DataFacade } from '../store/facades/data';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MainTableComponent } from './main-table.component';
@@ -86,11 +82,21 @@ jest.mock('./util', () => ({
 // Otherwise following error is thrown: "Class extends value undefined is not a constructor or null"
 jest.mock('./link-cell-renderer/link-cell-renderer.component');
 jest.mock('./green-steel-cell-renderer/green-steel-cell-renderer.component');
+jest.mock('./action-cell-renderer/action-cell-renderer.component');
+
+@Injectable()
+class MockDataFacade extends DataFacade {
+  fetchClassOptions = jest.fn();
+  fetchResult = jest.fn();
+  setAgGridFilter = jest.fn();
+  setAgGridColumns = jest.fn();
+}
 
 describe('MainTableComponent', () => {
   let component: MainTableComponent;
   let spectator: Spectator<MainTableComponent>;
-  let store: MockStore;
+  let dataFacade: DataFacade;
+  let dialogFacade: DialogFacade;
   let route: ActivatedRoute;
   let router: Router;
 
@@ -124,9 +130,8 @@ describe('MainTableComponent', () => {
   const createComponent = createComponentFactory({
     component: MainTableComponent,
     imports: [
-      RouterTestingModule,
-      PushPipe,
-      LetDirective,
+      MockPipe(PushPipe),
+      MockDirective(LetDirective),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
@@ -135,7 +140,6 @@ describe('MainTableComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
-      DatePipe,
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -175,20 +179,21 @@ describe('MainTableComponent', () => {
           sapMaterialsDatabaseUploadStatus$: of(),
         },
       },
+      MockProvider(DataFacade, MockDataFacade, 'useClass'),
       mockProvider(QuickFilterFacade),
+      DatePipe,
+      provideRouter([]),
     ],
-    declarations: [MainTableComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
+    dataFacade = spectator.inject(DataFacade);
+    dialogFacade = spectator.inject(DialogFacade);
     route = spectator.inject(ActivatedRoute);
     router = spectator.inject(Router);
-
-    store.dispatch = jest.fn();
   });
 
   it('should create', () => {
@@ -237,7 +242,6 @@ describe('MainTableComponent', () => {
     });
 
     it('should call the set filter functions if filters are defined in query params', () => {
-      component['dataFacade'].dispatch = jest.fn();
       component['changeDetectorRef'].markForCheck = jest.fn();
       component['changeDetectorRef'].detectChanges = jest.fn();
       component['setParamAgGridFilter'] = jest.fn();
@@ -321,7 +325,7 @@ describe('MainTableComponent', () => {
 
       component['setParamAgGridFilter'](mockFilterString);
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(dataFacade.setAgGridFilter).not.toHaveBeenCalled();
     });
     it('should dispatch agGridFilter and set list controls if filter is defined', () => {
       const mockFilterString = 'some filter';
@@ -338,8 +342,8 @@ describe('MainTableComponent', () => {
 
       component['setParamAgGridFilter'](mockFilterString);
 
-      expect(store.dispatch).toHaveBeenLastCalledWith(
-        setAgGridFilter({ filterModel: mockFilterModel })
+      expect(dataFacade.setAgGridFilter).toHaveBeenLastCalledWith(
+        mockFilterModel
       );
     });
   });
@@ -365,9 +369,7 @@ describe('MainTableComponent', () => {
 
       expect(mockApi.getFilterModel).toHaveBeenCalled();
 
-      expect(store.dispatch).toBeCalledWith(
-        setAgGridFilter({ filterModel: mockFilterModel })
-      );
+      expect(dataFacade.setAgGridFilter).toBeCalledWith(mockFilterModel);
     });
     it('should dispatch agGridFilter and filtered rows and reset the list controls on empty filter', () => {
       const mockFilterModel = {};
@@ -389,9 +391,7 @@ describe('MainTableComponent', () => {
 
       expect(mockApi.getFilterModel).toHaveBeenCalled();
 
-      expect(store.dispatch).toBeCalledWith(
-        setAgGridFilter({ filterModel: mockFilterModel })
-      );
+      expect(dataFacade.setAgGridFilter).toBeCalledWith(mockFilterModel);
     });
   });
   describe('setAgGridFilter', () => {
@@ -467,13 +467,9 @@ describe('MainTableComponent', () => {
   });
   describe('fetchResult', () => {
     it('should dispatch fetchResult', () => {
-      component['dataFacade'].dispatch = jest.fn();
-
       component.fetchResult();
 
-      expect(component['dataFacade'].dispatch).toHaveBeenCalledWith(
-        fetchResult()
-      );
+      expect(dataFacade.fetchResult).toHaveBeenCalled();
     });
   });
   describe('onGridReady', () => {
@@ -618,9 +614,7 @@ describe('MainTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnState
       ).toHaveBeenCalledWith([]);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        setAgGridColumns({ agGridColumns: '[]' })
-      );
+      expect(dataFacade.setAgGridColumns).toHaveBeenCalledWith('[]');
       expect(component['setVisibleColumns']).toHaveBeenCalled();
     });
   });
@@ -1415,7 +1409,7 @@ describe('MainTableComponent', () => {
   describe('sapMaterialsDatabaseUploadStatus', () => {
     it('should reload SAP materials if database upload status is DONE', () => {
       component.refreshServerSide = jest.fn();
-      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of({
+      dialogFacade.sapMaterialsDatabaseUploadStatus$ = of({
         status: SapMaterialsDatabaseUploadStatus.DONE,
       });
 
@@ -1426,7 +1420,7 @@ describe('MainTableComponent', () => {
 
     it('should not reload SAP materials if database upload status is not DONE', () => {
       component.refreshServerSide = jest.fn();
-      component['dialogFacade'].sapMaterialsDatabaseUploadStatus$ = of({
+      dialogFacade.sapMaterialsDatabaseUploadStatus$ = of({
         status: SapMaterialsDatabaseUploadStatus.RUNNING,
       });
 

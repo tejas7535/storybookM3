@@ -13,6 +13,7 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import moment from 'moment';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -108,9 +109,9 @@ import {
   materialDialogCanceled,
   materialDialogConfirmed,
   materialDialogOpened,
-  materialstandardDialogCanceled,
-  materialstandardDialogConfirmed,
-  materialstandardDialogOpened,
+  materialStandardDialogCanceled,
+  materialStandardDialogConfirmed,
+  materialStandardDialogOpened,
   openEditDialog,
   parseMaterialFormValue,
   postBulkMaterial,
@@ -164,14 +165,10 @@ describe('Dialog Effects', () => {
         useValue: {
           editMaterial: undefined,
           materialClass$: of(MaterialClass.STEEL),
+          errorSnackBar: jest.fn(),
         },
       },
-      {
-        provide: DialogFacade,
-        useValue: {
-          dispatch: jest.fn(),
-        },
-      },
+      MockProvider(DialogFacade),
     ],
   });
 
@@ -215,14 +212,14 @@ describe('Dialog Effects', () => {
     it(
       'should dispatch the fetch actions for MaterialStandard',
       marbles((m) => {
-        action = materialstandardDialogOpened();
+        action = materialStandardDialogOpened();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(b)', {
           b: fetchMaterialStandards(),
         });
 
-        m.expect(effects.materialstandardDialogOpened$).toBeObservable(
+        m.expect(effects.materialStandardDialogOpened$).toBeObservable(
           expected
         );
         m.flush();
@@ -935,7 +932,7 @@ describe('Dialog Effects', () => {
           standardDocument: 'stdDoc',
         } as MaterialStandard;
 
-        action = materialstandardDialogConfirmed({
+        action = materialStandardDialogConfirmed({
           standard: mockStandard,
         });
 
@@ -958,7 +955,7 @@ describe('Dialog Effects', () => {
           }),
         });
 
-        m.expect(effects.materialstandardDialogConfirmed$).toBeObservable(
+        m.expect(effects.materialStandardDialogConfirmed$).toBeObservable(
           expected
         );
         m.flush();
@@ -972,7 +969,7 @@ describe('Dialog Effects', () => {
           standardDocument: 'stdDoc',
         } as MaterialStandard;
 
-        action = materialstandardDialogConfirmed({
+        action = materialStandardDialogConfirmed({
           standard: mockStandard,
         });
         actions$ = m.hot('-a', { a: action });
@@ -998,7 +995,7 @@ describe('Dialog Effects', () => {
           }),
         });
 
-        m.expect(effects.materialstandardDialogConfirmed$).toBeObservable(
+        m.expect(effects.materialStandardDialogConfirmed$).toBeObservable(
           expected
         );
         m.flush();
@@ -1670,7 +1667,7 @@ describe('Dialog Effects', () => {
     it(
       'should reset dialog data from cancel material standard dialog',
       marbles((m) => {
-        action = materialstandardDialogCanceled();
+        action = materialStandardDialogCanceled();
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(b)', {
           b: resetDialogOptions(),
@@ -2855,7 +2852,6 @@ describe('Dialog Effects', () => {
         msdDataService.getSapMaterialsDatabaseUploadStatus = jest.fn(
           () => response
         );
-        msdDataFacade.dispatch = jest.fn();
         const result = getSapMaterialsDatabaseUploadStatusFailure();
         const expected = m.cold(
           `${effects.SAP_MATERIALS_DATABASE_UPLOAD_STATUS_POLLING_INTERVAL}ms (ab)`,
@@ -2886,12 +2882,10 @@ describe('Dialog Effects', () => {
           msdDataService.getSapMaterialsDatabaseUploadStatus
         ).toHaveBeenCalledTimes(1);
 
-        expect(msdDataFacade.dispatch).toHaveBeenCalledWith(
-          errorSnackBar({
-            message: translate(
-              'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
-            ),
-          })
+        expect(msdDataFacade.errorSnackBar).toHaveBeenCalledWith(
+          translate(
+            'materialsSupplierDatabase.mainTable.uploadStatusDialog.getDatabaseUploadStatusFailure'
+          )
         );
       })
     );

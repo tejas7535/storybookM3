@@ -14,7 +14,7 @@ describe('DialogControlsService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(DialogControlsService);
+    service = spectator.service;
   });
 
   describe('getControl', () => {

@@ -69,12 +69,6 @@ import {
   MsdDataService,
   MsdDialogService,
 } from '@mac/msd/services';
-import {
-  fetchClassOptions,
-  fetchResult,
-  setAgGridColumns,
-  setAgGridFilter,
-} from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
@@ -173,7 +167,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(take(1))
       .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
 
-    this.dataFacade.dispatch(fetchClassOptions());
+    this.dataFacade.fetchClassOptions();
 
     this.dataFacade.agGridFilter$
       .pipe(takeUntil(this.destroy$))
@@ -293,7 +287,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public onFilterChange({ api }: { api: GridApi }): void {
     const filterModel = api.getFilterModel();
 
-    this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
+    this.dataFacade.setAgGridFilter(filterModel);
   }
 
   public setAgGridFilter({ api }: { api: GridApi }): void {
@@ -312,7 +306,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public fetchResult(): void {
-    this.dataFacade.dispatch(fetchResult());
+    this.dataFacade.fetchResult();
   }
 
   public onGridReady(
@@ -355,9 +349,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .getColumnState()
       .filter((cs) => !this.META_COLUMNS.includes(cs.colId));
     this.agGridStateService.setColumnState(agGridColumns);
-    this.dataFacade.dispatch(
-      setAgGridColumns({ agGridColumns: JSON.stringify(agGridColumns) })
-    );
+    this.dataFacade.setAgGridColumns(JSON.stringify(agGridColumns));
+
     this.setVisibleColumns();
   }
 
@@ -547,7 +540,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!filterModel) {
       return;
     }
-    this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
+    this.dataFacade.setAgGridFilter(filterModel);
   }
 
   private setVisibleColumns(): void {

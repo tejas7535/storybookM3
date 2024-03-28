@@ -1,10 +1,5 @@
-import { CommonModule } from '@angular/common';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -19,12 +14,7 @@ describe('MoreInformationDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MoreInformationDialogComponent,
-    imports: [
-      CommonModule,
-      MatIconModule,
-      MatDialogModule,
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [provideTranslocoTestingModule({ en })],
     providers: [
       {
         provide: MatDialogRef,
@@ -37,6 +27,7 @@ describe('MoreInformationDialogComponent', () => {
         useValue: {},
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

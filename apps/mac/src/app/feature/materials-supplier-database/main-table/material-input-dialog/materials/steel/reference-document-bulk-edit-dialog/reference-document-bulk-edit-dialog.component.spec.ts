@@ -25,7 +25,6 @@ describe('ReferenceDocumentBulkEditDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: ReferenceDocumentBulkEditDialogComponent,
     imports: [provideTranslocoTestingModule({ en })],
-    declarations: [ReferenceDocumentBulkEditDialogComponent],
     providers: [
       {
         provide: MAT_DIALOG_DATA,

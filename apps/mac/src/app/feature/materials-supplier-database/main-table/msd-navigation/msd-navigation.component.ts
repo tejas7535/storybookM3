@@ -11,7 +11,6 @@ import {
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { setNavigation } from '@mac/msd/store/actions/data';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { ActiveNavigationLevel } from '../../models';
@@ -84,7 +83,7 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
       { ...active }
     );
     // dispatch event and store
-    this.dataFacade.dispatch(setNavigation({ ...active }));
+    this.dataFacade.setNavigation(active.materialClass, active.navigationLevel);
     if (storeInSessionStorage) {
       this.msdAgGridStateService.storeActiveNavigationLevel({ ...active });
     }

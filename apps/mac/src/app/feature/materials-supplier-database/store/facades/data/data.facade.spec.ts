@@ -5,9 +5,16 @@ import { marbles } from 'rxjs-marbles/jest';
 import { getUsername } from '@schaeffler/azure-auth';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { DataResult, MaterialFormValue, SteelMaterial } from '@mac/msd/models';
+import {
+  DataResult,
+  MaterialFormValue,
+  SAPMaterialsRequest,
+  SteelMaterial,
+} from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 
+import * as DataActions from '../../actions/data';
+import { openMultiEditDialog } from '../../actions/dialog';
 import { getSAPResult } from '../../selectors';
 import { DataFacade } from '.';
 
@@ -112,6 +119,8 @@ describe('DataFacade', () => {
     spectator = createService();
     facade = spectator.service;
     store = spectator.inject(MockStore);
+
+    store.dispatch = jest.fn();
   });
 
   it('should create', () => {
@@ -448,12 +457,87 @@ describe('DataFacade', () => {
     );
   });
 
-  describe('dispatch', () => {
-    it('should dispatch each action', () => {
-      store.dispatch = jest.fn();
-      facade.dispatch({ type: 'mock action' });
+  describe('fetchClassOptions', () => {
+    it('should dispatch fetchClassOptions action', () => {
+      const action = DataActions.fetchClassOptions();
+      facade.fetchClassOptions();
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
 
-      expect(store.dispatch).toHaveBeenCalledWith({ type: 'mock action' });
+  describe('fetchResult', () => {
+    it('should dispatch fetchResult action', () => {
+      const action = DataActions.fetchResult();
+      facade.fetchResult();
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('setAgGridFilter', () => {
+    it('should dispatch setAgGridFilter action', () => {
+      const filterModel = {};
+      const action = DataActions.setAgGridFilter({ filterModel });
+      facade.setAgGridFilter(filterModel);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('setAgGridColumns', () => {
+    it('should dispatch setAgGridColumns action', () => {
+      const agGridColumns = 'agGridColumns';
+      const action = DataActions.setAgGridColumns({ agGridColumns });
+      facade.setAgGridColumns(agGridColumns);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('deleteEntity', () => {
+    it('should dispatch deleteEntity action', () => {
+      const id = 1;
+      const action = DataActions.deleteEntity({ id });
+      facade.deleteEntity(id);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('fetchSAPMaterials', () => {
+    it('should dispatch fetchSAPMaterials action', () => {
+      const request = { startRow: 0, endRow: 100 } as SAPMaterialsRequest;
+      const action = DataActions.fetchSAPMaterials({ request });
+      facade.fetchSAPMaterials(request);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('openMultiEditDialog', () => {
+    it('should dispatch openMultiEditDialog action', () => {
+      const rows = [{} as DataResult];
+      const combinedRows = {} as DataResult;
+      const action = openMultiEditDialog({ rows, combinedRows });
+      facade.openMultiEditDialog(rows, combinedRows);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('setNavigation', () => {
+    it('should dispatch setNavigation action', () => {
+      const materialClass = MaterialClass.STEEL;
+      const navigationLevel = NavigationLevel.MATERIAL;
+      const action = DataActions.setNavigation({
+        materialClass,
+        navigationLevel,
+      });
+      facade.setNavigation(materialClass, navigationLevel);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('errorSnackBar', () => {
+    it('should dispatch errorSnackBar action', () => {
+      const message = 'test';
+      const action = DataActions.errorSnackBar({ message });
+      facade.errorSnackBar(message);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
 });

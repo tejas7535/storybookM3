@@ -1,11 +1,8 @@
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { LetDirective, PushPipe } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -28,14 +25,7 @@ describe('EditCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ReleaseStatusCellRendererComponent,
-    imports: [
-      PushPipe,
-      provideTranslocoTestingModule({ en }),
-      LetDirective,
-      MatIconModule,
-      MatChipsModule,
-      MatTooltipModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en })],
     providers: [
       {
         provide: DataFacade,
@@ -47,6 +37,7 @@ describe('EditCellRendererComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

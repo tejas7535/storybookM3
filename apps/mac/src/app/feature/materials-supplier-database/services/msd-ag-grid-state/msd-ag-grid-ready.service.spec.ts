@@ -14,7 +14,6 @@ import {
 } from '@mac/msd/models';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
-import { fetchSAPMaterials } from '../../store/actions/data';
 import { MsdAgGridReadyService } from './msd-ag-grid-ready.service';
 
 describe('MsdAgGridStateService', () => {
@@ -35,7 +34,7 @@ describe('MsdAgGridStateService', () => {
             startRow: number;
             data: SAPMaterial[];
           }>(),
-          dispatch: jest.fn(),
+          fetchSAPMaterials: jest.fn(),
         },
       },
     ],
@@ -43,7 +42,7 @@ describe('MsdAgGridStateService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(MsdAgGridReadyService);
+    service = spectator.service;
     facade = spectator.inject(DataFacade);
     facade.sapResult$ = new Subject<{
       lastRow?: number;
@@ -157,9 +156,9 @@ describe('MsdAgGridStateService', () => {
 
       service.setParams(mockParams);
 
-      expect(facade.dispatch).toHaveBeenCalledWith(
-        fetchSAPMaterials({ request: { startRow: 0 } as SAPMaterialsRequest })
-      );
+      expect(facade.fetchSAPMaterials).toHaveBeenCalledWith({
+        startRow: 0,
+      } as SAPMaterialsRequest);
       expect(service['serverSideParamsStore'].set).toHaveBeenCalledWith(
         0,
         mockParams
