@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Empty States
+## [2.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.6.0...empty-states-v2.7.0) (2024-03-28)
+
+
+### Features
+
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [2.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.5.1...empty-states-v2.6.0) (2023-12-14)
 
 
