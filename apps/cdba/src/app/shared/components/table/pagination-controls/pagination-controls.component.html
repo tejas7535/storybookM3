@@ -7,10 +7,10 @@
     <div class="flex gap-3 items-center grid-auto-columns: min-content">
       <div>
         {{
-        t('pages', {
-          pagesStartIndex: this.gridApi.paginationGetCurrentPage() + 1,
-          pagesEndIndex: totalPages,
-        })
+          t('pages', {
+            pagesStartIndex: this.gridApi.paginationGetCurrentPage() + 1,
+            pagesEndIndex: totalPages
+          })
         }}
       </div>
       <div class="flex gap-1 items-center">
@@ -26,7 +26,7 @@
           {{ pageSize }}
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
-        <mat-menu #menu="matMenu">
+        <mat-menu xPosition="after" yPosition="above" #menu="matMenu">
           <button
             mat-menu-item
             *ngFor="let pageSizeOption of pageSizeOptions"

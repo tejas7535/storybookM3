@@ -110,7 +110,11 @@
           <button mat-icon-button [matMenuTriggerFor]="additionalFunctionality">
             <mat-icon>more_vert</mat-icon>
           </button>
-          <mat-menu #additionalFunctionality="matMenu">
+          <mat-menu
+            xPosition="before"
+            yPosition="below"
+            #additionalFunctionality="matMenu"
+          >
             <button
               mat-menu-item
               [disabled]="
