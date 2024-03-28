@@ -5,17 +5,16 @@
     'border-warning bg-warning': isWarning
   }"
 >
-  <mat-icon
-    *ngIf="!isWarning"
-    class="mr-4 align-middle flex-shrink-0 text-icon-info"
-    >info_outline
-  </mat-icon>
-
-  <mat-icon
-    *ngIf="isWarning"
-    class="mr-4 align-middle flex-shrink-0 text-icon-warning"
-    >warning_amber
-  </mat-icon>
+  @if (!isWarning) {
+    <mat-icon class="mr-4 align-middle flex-shrink-0 text-icon-info"
+      >info_outline
+    </mat-icon>
+  }
+  @if (isWarning) {
+    <mat-icon class="mr-4 align-middle flex-shrink-0 text-icon-warning"
+      >warning_amber
+    </mat-icon>
+  }
 
   <div
     class="text-subtitle-2"

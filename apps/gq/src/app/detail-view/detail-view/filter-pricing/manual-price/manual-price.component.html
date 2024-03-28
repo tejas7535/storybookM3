@@ -13,54 +13,65 @@
       <div>
         <div class="flex-1">
           <span class="font-bold">{{ price | numberCurrency: currency }}</span>
-          <span *ngIf="!price" class="font-bold"> {{ currency }}</span>
+          @if (!price) {
+            <span class="font-bold"> {{ currency }}</span>
+          }
           <ng-container *hideIfQuotationNotActive>
-            <mat-icon
-              *ngIf="userHasManualPriceRole"
-              class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-              (click)="openEditing(ColumnFields.PRICE)"
-              >mode_edit</mat-icon
-            >
+            @if (userHasManualPriceRole) {
+              <mat-icon
+                class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                (click)="openEditing(ColumnFields.PRICE)"
+                >mode_edit</mat-icon
+              >
+            }
           </ng-container>
         </div>
       </div>
     </div>
-    <div class="min-w-[8rem] pt-2" *ngIf="userHasGPCRole">
-      <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
-      <div>
-        <span class="font-bold">{{ gpi | percentage }}</span>
-        <ng-container *hideIfQuotationNotActive>
-          <mat-icon
-            *ngIf="userHasManualPriceRole"
-            class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-            (click)="openEditing(ColumnFields.GPI)"
-            >mode_edit</mat-icon
-          >
-        </ng-container>
+    @if (userHasGPCRole) {
+      <div class="min-w-[8rem] pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
+        <div>
+          <span class="font-bold">{{ gpi | percentage }}</span>
+          <ng-container *hideIfQuotationNotActive>
+            @if (userHasManualPriceRole) {
+              <mat-icon
+                class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                (click)="openEditing(ColumnFields.GPI)"
+                >mode_edit</mat-icon
+              >
+            }
+          </ng-container>
+        </div>
       </div>
-    </div>
-    <div class="min-w-[8rem] pt-2" *ngIf="userHasSQVRole">
-      <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
-      <div>
-        <span class="font-bold">{{ gpm | percentage }}</span>
-        <ng-container *hideIfQuotationNotActive>
-          <mat-icon
-            *ngIf="userHasManualPriceRole"
-            class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-            (click)="openEditing(ColumnFields.GPM)"
-            >mode_edit</mat-icon
-          >
-        </ng-container>
+    }
+    @if (userHasSQVRole) {
+      <div class="min-w-[8rem] pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
+        <div>
+          <span class="font-bold">{{ gpm | percentage }}</span>
+          <ng-container *hideIfQuotationNotActive>
+            @if (userHasManualPriceRole) {
+              <mat-icon
+                class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                (click)="openEditing(ColumnFields.GPM)"
+                >mode_edit</mat-icon
+              >
+            }
+          </ng-container>
+        </div>
       </div>
-    </div>
-    <div class="min-w-[8rem] pt-2" *ngIf="quotationDetail.rfqData">
-      <div class="text-body-2 text-medium-emphasis mb-1">
-        {{ t('gpmRfq') }}:
+    }
+    @if (quotationDetail.rfqData) {
+      <div class="min-w-[8rem] pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          {{ t('gpmRfq') }}:
+        </div>
+        <div>
+          <span class="font-bold">{{ gpmRfq | percentage }}</span>
+        </div>
       </div>
-      <div>
-        <span class="font-bold">{{ gpmRfq | percentage }}</span>
-      </div>
-    </div>
+    }
     <div class="min-w-[8rem] pt-2">
       <div class="text-body-2 text-medium-emphasis mb-1">
         {{ t('quantity') }}:

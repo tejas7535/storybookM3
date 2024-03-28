@@ -4,7 +4,7 @@
     read: 'materialsSupplierDatabase.mainTable.tooltip.greensteel'
   "
 >
-  <ng-container *ngIf="valueValid; else simpleView">
+  @if (valueValid) {
     <span
       class="px-2 py-[2px] rounded-[40px] w-fit min-w-[48px] h-7 flex items-center justify-center"
       [ngStyle]="{
@@ -31,9 +31,7 @@
         ></a
       ></mac-html-tooltip
     >
-  </ng-container>
-
-  <ng-template #simpleView>{{
-    displayValue !== undefined ? displayValue : value
-  }}</ng-template>
+  } @else {
+    {{ displayValue !== undefined ? displayValue : value }}
+  }
 </ng-container>

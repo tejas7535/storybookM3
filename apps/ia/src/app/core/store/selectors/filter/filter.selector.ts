@@ -245,10 +245,7 @@ export const getTimeRangeForAllAvailableData = createSelector(
 export const getLast6MonthsTimeRange = createSelector(
   getSelectedTimeRange,
   (timeRange: IdValue) => {
-    const end = moment
-      .unix(+timeRange.id.split('|')[1])
-      .utc()
-      .endOf('month');
+    const end = moment.unix(+timeRange.id.split('|')[1]).utc().endOf('month');
     const start = end.clone().subtract(5, 'months').startOf('month');
 
     return `${start.unix()}|${end.unix()}`;

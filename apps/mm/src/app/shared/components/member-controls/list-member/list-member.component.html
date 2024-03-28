@@ -1,18 +1,9 @@
 <ng-container *transloco="let t">
-  <input
-    *ngIf="isBoolean; else dropdown"
-    type="checkbox"
-    [formControl]="control"
-  />
-
-  <ng-template #dropdown>
-    <ng-container
-      *ngIf="
-        !meta.listValuesLoading$ || !(meta.listValuesLoading$ | ngrxPush);
-        else loading
-      "
-    >
-      <ng-container *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList">
+  @if (isBoolean) {
+    <input type="checkbox" [formControl]="control" />
+  } @else {
+    @if (!meta.listValuesLoading$ || !(meta.listValuesLoading$ | ngrxPush)) {
+      @if (!(isPictureList$ | ngrxPush)) {
         <div
           [ngClass]="
             meta.page.id !== PROPERTY_PAGE_MOUNTING &&
@@ -21,34 +12,43 @@
               : ''
           "
         >
-          <ng-container *ngIf="(options$ | ngrxPush).length > 0">
-            <schaeffler-select
-              *ngIf="
-                isDropdownInput(meta.member?.type, meta.member?.id);
-                else select
-              "
-              ngDefaultControl
-              appearance="outline"
-              [stringOptions]="options$ | ngrxPush"
-              [resetButton]="false"
-              [formControl]="control"
-              [placeholder]="
-                t('form.select', { fieldname: meta.member.text | transloco })
-              "
-              [searchPlaceholder]="
-                t('form.select', { fieldname: meta.member.text | transloco })
-              "
-              [label]="
-                meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
-                meta.page.id === PROPERTY_PAGE_MOUNTING
-                  ? meta.member.text
-                  : undefined
-              "
-              [initialValue]="selectedOption"
-              [filterFn]="filterFn"
-              (optionSelected)="onOptionSelected($event)"
-            >
-            </schaeffler-select>
+          @if ((options$ | ngrxPush).length > 0) {
+            @if (isDropdownInput(meta.member?.type, meta.member?.id)) {
+              <schaeffler-select
+                ngDefaultControl
+                appearance="outline"
+                [stringOptions]="options$ | ngrxPush"
+                [resetButton]="false"
+                [formControl]="control"
+                [placeholder]="
+                  t('form.select', { fieldname: meta.member.text | transloco })
+                "
+                [searchPlaceholder]="
+                  t('form.select', { fieldname: meta.member.text | transloco })
+                "
+                [label]="
+                  meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
+                  meta.page.id === PROPERTY_PAGE_MOUNTING
+                    ? meta.member.text
+                    : undefined
+                "
+                [initialValue]="selectedOption"
+                [filterFn]="filterFn"
+                (optionSelected)="onOptionSelected($event)"
+              >
+              </schaeffler-select>
+            } @else {
+              <mm-select-member
+                [placeholder]="
+                  meta.member.id === 'IDMM_MEASSURING_METHOD'
+                    ? t('form.select', {
+                        fieldname: meta.member.text | transloco
+                      })
+                    : ''
+                "
+                [options]="options$ | ngrxPush"
+              ></mm-select-member>
+            }
             <ng-template #select>
               <mm-select-member
                 [placeholder]="
@@ -61,27 +61,23 @@
                 [options]="options$ | ngrxPush"
               ></mm-select-member>
             </ng-template>
-          </ng-container>
+          }
         </div>
-      </ng-container>
-    </ng-container>
-  </ng-template>
-
-  <ng-template #pictureCardList>
-    <ng-container *ngIf="(options$ | ngrxPush).length > 0">
-      <mm-picture-card-list
-        [options]="options$ | ngrxPush"
-        [formControl]="control"
-        [translationRequired]="meta.member.type === 'list'"
-      ></mm-picture-card-list>
-    </ng-container>
-  </ng-template>
-
-  <ng-template #loading>
-    <div>
-      <schaeffler-loading-spinner
-        [relative]="true"
-      ></schaeffler-loading-spinner>
-    </div>
-  </ng-template>
+      } @else {
+        @if ((options$ | ngrxPush).length > 0) {
+          <mm-picture-card-list
+            [options]="options$ | ngrxPush"
+            [formControl]="control"
+            [translationRequired]="meta.member.type === 'list'"
+          ></mm-picture-card-list>
+        }
+      }
+    } @else {
+      <div>
+        <schaeffler-loading-spinner
+          [relative]="true"
+        ></schaeffler-loading-spinner>
+      </div>
+    }
+  }
 </ng-container>

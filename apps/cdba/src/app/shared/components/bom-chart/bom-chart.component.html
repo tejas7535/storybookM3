@@ -1,4 +1,4 @@
-<ng-container *ngIf="barChartData.length > 0; else showSelectionHint">
+@if (barChartData.length > 0) {
   <div class="p-4 text-caption">
     <span class="mr-3 inline-block">{{
       selectedBomItem?.materialDesignation || materialDesignation
@@ -9,9 +9,7 @@
     }}</span>
   </div>
   <div echarts [options]="options"></div>
-</ng-container>
-
-<ng-template #showSelectionHint>
+} @else {
   <div
     class="flex flex-col items-center p-8 text-center"
     *transloco="let t; read: 'shared.bom.additionalInformation'"
@@ -21,4 +19,4 @@
       {{ t('selectionHintBomElement') }}
     </div>
   </div>
-</ng-template>
+}

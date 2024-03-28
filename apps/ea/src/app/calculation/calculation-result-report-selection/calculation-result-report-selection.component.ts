@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +10,7 @@ import { TranslocoModule } from '@ngneat/transloco';
   templateUrl: './calculation-result-report-selection.component.html',
   standalone: true,
   selector: 'ea-calculation-result-report-selection',
-  imports: [CommonModule, MatDividerModule, MatIconModule, TranslocoModule],
+  imports: [MatDividerModule, MatIconModule, TranslocoModule],
 })
 export class CalculationResultReportSelectionComponent {
   @Input()

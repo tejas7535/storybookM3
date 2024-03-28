@@ -1,1 +1,3 @@
-<p *ngIf="params && params.getMessage">{{ params.getMessage() }}</p>
+@if (params && params.getMessage) {
+  <p>{{ params.getMessage() }}</p>
+}

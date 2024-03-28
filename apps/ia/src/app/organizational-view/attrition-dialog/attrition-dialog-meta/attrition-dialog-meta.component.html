@@ -7,7 +7,7 @@
   >
     {{ t('metaTitle') }} ({{ meta?.selectedTimeRange }})
   </h6>
-  <ng-container *ngIf="meta?.showAttritionRates">
+  @if (meta?.showAttritionRates) {
     <div class="flex items-center text-body-1 leading-8">
       <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">
         insert_chart
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-  </ng-container>
+  }
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >person_outline</mat-icon
@@ -54,35 +54,34 @@
     ></span>
     <span class="ml-2 text-high-emphasis">{{ meta.data.employeesLost }}</span>
   </div>
-  <div
-    class="flex text-body-1 leading-8"
-    *ngIf="!meta.data.hideDetailedLeaverStats"
-  >
-    <mat-divider
-      class="!-mt-1 !mr-[calc(1rem+1px)] !mb-3 !ml-3 flex"
-      [vertical]="true"
-    ></mat-divider>
-    <div class="flex flex-col">
-      <div class="flex text-medium-emphasis">
-        <span [innerHTML]="t('unforcedFluctuation') + ':'"></span>
-        <span class="ml-2 text-high-emphasis">{{
-          meta.data.unforcedFluctuation
-        }}</span>
-      </div>
-      <div class="flex text-medium-emphasis">
-        <span [innerHTML]="t('forcedFluctuation') + ':'"></span>
-        <span class="ml-2 text-high-emphasis">{{
-          meta.data.forcedFluctuation
-        }}</span>
-      </div>
-      <div class="flex text-medium-emphasis">
-        <span [innerHTML]="t('remainingFluctuation') + ':'"></span>
-        <span class="ml-2 text-high-emphasis">{{
-          meta.data.remainingFluctuation
-        }}</span>
+  @if (!meta.data.hideDetailedLeaverStats) {
+    <div class="flex text-body-1 leading-8">
+      <mat-divider
+        class="!-mt-1 !mr-[calc(1rem+1px)] !mb-3 !ml-3 flex"
+        [vertical]="true"
+      ></mat-divider>
+      <div class="flex flex-col">
+        <div class="flex text-medium-emphasis">
+          <span [innerHTML]="t('unforcedFluctuation') + ':'"></span>
+          <span class="ml-2 text-high-emphasis">{{
+            meta.data.unforcedFluctuation
+          }}</span>
+        </div>
+        <div class="flex text-medium-emphasis">
+          <span [innerHTML]="t('forcedFluctuation') + ':'"></span>
+          <span class="ml-2 text-high-emphasis">{{
+            meta.data.forcedFluctuation
+          }}</span>
+        </div>
+        <div class="flex text-medium-emphasis">
+          <span [innerHTML]="t('remainingFluctuation') + ':'"></span>
+          <span class="ml-2 text-high-emphasis">{{
+            meta.data.remainingFluctuation
+          }}</span>
+        </div>
       </div>
     </div>
-  </div>
+  }
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">block</mat-icon>
     <div class="flex text-medium-emphasis">
@@ -123,21 +122,17 @@
       class="flex text-medium-emphasis"
       [innerHTML]="t('openPositions') + ':'"
     ></span>
-    <span
-      *ngIf="meta.data.openPositionsAvailable; else openPositionsUnavailable"
-      class="ml-2 text-high-emphasis"
-      >{{ meta.data.openPositions }}</span
-    >
+    @if (meta.data.openPositionsAvailable) {
+      <span class="ml-2 text-high-emphasis">{{ meta.data.openPositions }}</span>
+    } @else {
+      <mat-icon
+        *transloco="let t; read: 'openPositions'"
+        class="ml-2 text-icon-warning"
+        inline="true"
+        [matTooltip]="t('dataUnavailable')"
+        matTooltipClass="!text-warning"
+        >warning_amber</mat-icon
+      >
+    }
   </div>
 </div>
-
-<ng-template #openPositionsUnavailable>
-  <mat-icon
-    *transloco="let t; read: 'openPositions'"
-    class="ml-2 text-icon-warning"
-    inline="true"
-    [matTooltip]="t('dataUnavailable')"
-    matTooltipClass="!text-warning"
-    >warning_amber</mat-icon
-  >
-</ng-template>

@@ -8,24 +8,25 @@
       >close</mat-icon
     >
   </h6>
-  <div
-    class="text-caption text-medium-emphasis"
-    *ngIf="customer$ | ngrxPush as customer"
-  >
-    <span>{{ customer.name }}</span>
-    <span class="mx-2 opacity-[0.12]"> | </span>
-    <span>{{ t('salesOrg') }} {{ customer.identifier.salesOrg }}</span>
-  </div>
-  <div
-    class="flex h-full flex-col"
-    *ngIf="!(updateLoading$ | ngrxPush); else loading"
-  >
-    <gq-add-entry></gq-add-entry>
-    <div class="h-full" *ngIf="rowData$ | ngrxPush as rowData">
-      <gq-material-input-table [rowData]="rowData"></gq-material-input-table>
+  @if (customer$ | ngrxPush; as customer) {
+    <div class="text-caption text-medium-emphasis">
+      <span>{{ customer.name }}</span>
+      <span class="mx-2 opacity-[0.12]"> | </span>
+      <span>{{ t('salesOrg') }} {{ customer.identifier.salesOrg }}</span>
     </div>
-  </div>
-  <ng-template #loading>
+  }
+  @if (!(updateLoading$ | ngrxPush)) {
+    <div class="flex h-full flex-col">
+      <gq-add-entry></gq-add-entry>
+      @if (rowData$ | ngrxPush; as rowData) {
+        <div class="h-full">
+          <gq-material-input-table
+            [rowData]="rowData"
+          ></gq-material-input-table>
+        </div>
+      }
+    </div>
+  } @else {
     <schaeffler-loading-spinner></schaeffler-loading-spinner>
-  </ng-template>
+  }
 </div>

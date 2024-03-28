@@ -47,7 +47,7 @@ describe('AttachmentFilesComponent', () => {
       () =>
         ({
           afterClosed: () => {},
-        } as any)
+        }) as any
     );
     component['dialog'].open = openMock;
 
@@ -75,7 +75,7 @@ describe('AttachmentFilesComponent', () => {
       () =>
         ({
           afterClosed: () => {},
-        } as any)
+        }) as any
     );
     component['dialog'].open = openMock;
 
@@ -86,14 +86,6 @@ describe('AttachmentFilesComponent', () => {
       width: '634px',
       disableClose: true,
       data: { attachment },
-    });
-  });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
     });
   });
 

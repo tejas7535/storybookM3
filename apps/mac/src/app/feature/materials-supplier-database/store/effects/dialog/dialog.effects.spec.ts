@@ -1394,7 +1394,7 @@ describe('Dialog Effects', () => {
         castingMode: mode,
         minDimension: min,
         maxDimension: max,
-      } as DataResult);
+      }) as DataResult;
     it(
       'should reqest bulk material edit',
       marbles((m) => {
@@ -2158,7 +2158,7 @@ describe('Dialog Effects', () => {
   });
 
   describe('parseMaterialFormValue$', () => {
-    const toStrOpt = (id: string) => ({ id, title: id } as StringOption);
+    const toStrOpt = (id: string) => ({ id, title: id }) as StringOption;
     it(
       'should return set material form value action',
       marbles((m) => {

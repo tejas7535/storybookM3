@@ -8,7 +8,7 @@ let environment: EnvironmentEnum;
 
 jest.mock('./../../../environments/environments.provider', () => ({
   ...jest.requireActual('./../../../environments/environments.provider'),
-  getEnv: jest.fn(() => ({ environment } as Environment)),
+  getEnv: jest.fn(() => ({ environment }) as Environment),
 }));
 
 describe('prodGuard', () => {

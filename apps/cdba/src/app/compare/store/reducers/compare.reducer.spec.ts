@@ -52,7 +52,7 @@ describe('Compare Reducer', () => {
   describe('selectCompareItems', () => {
     const compareItems: [
       nodeId: string,
-      referenceTypeIdentifier: ReferenceTypeIdentifier
+      referenceTypeIdentifier: ReferenceTypeIdentifier,
     ][] = [
       ['0', REFERENCE_TYPE_IDENTIFIER_MOCK],
       ['7', REFERENCE_TYPE_IDENTIFIER_MOCK],

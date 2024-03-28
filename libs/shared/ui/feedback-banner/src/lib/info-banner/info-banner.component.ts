@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -6,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   selector: 'schaeffler-info-banner',
   templateUrl: './info-banner.component.html',
-  imports: [MatIconModule, CommonModule],
+  imports: [MatIconModule],
 })
 export class InfoBannerComponent {
   @Input() public infoText = '';

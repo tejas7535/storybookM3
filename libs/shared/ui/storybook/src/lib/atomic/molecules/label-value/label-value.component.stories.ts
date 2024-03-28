@@ -97,9 +97,11 @@ const mockLabelValuesHtml: LabelValue[] = [
       [labelMaxWidth]="LabelMaxWidth"
     >
       <ng-template #custom let-row="row" let-data="data">
-        <div *ngIf="row === 'htmlrow'">
-          <button mat-raised-button color="primary">{{ data.text }}</button>
-        </div>
+        @if (row === 'htmlrow') {
+          <div>
+            <button mat-raised-button color="primary">{{ data.text }}</button>
+          </div>
+        }
       </ng-template>
     </schaeffler-label-value>
   `,

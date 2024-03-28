@@ -96,10 +96,6 @@ export class SelectInputComponent implements ControlValueAccessor {
     }
   }
 
-  trackByFn(index: number, _item: IdValue): number {
-    return index;
-  }
-
   onChange: (value: IdValue) => void = () => {};
   onTouched: () => void = () => {};
 }

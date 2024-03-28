@@ -82,13 +82,4 @@ describe('SettingsComponent', () => {
       expect(component['subscription'].unsubscribe).toHaveBeenCalled();
     });
   });
-
-  describe('#trackByFn', () => {
-    it('should return index', () => {
-      const index = 5;
-      const result = component.trackByFn(index);
-
-      expect(result).toBe(index);
-    });
-  });
 });

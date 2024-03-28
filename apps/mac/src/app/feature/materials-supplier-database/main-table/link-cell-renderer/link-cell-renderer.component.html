@@ -3,22 +3,29 @@
   (mouseover)="setHovered(true)"
   (mouseout)="setHovered(false)"
 >
-  <span class="flex-1 truncate" *ngIf="params?.valueFormatted; else plain">
-    <a [href]="getHref()" target="_blank" [ngClass]="{ 'text-link': hovered }">
-      {{ getName() }}
-      <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
-    </a>
-  </span>
-  <ng-template #plain>
+  @if (params?.valueFormatted) {
+    <span class="flex-1 truncate">
+      <a
+        [href]="getHref()"
+        target="_blank"
+        [ngClass]="{ 'text-link': hovered }"
+      >
+        {{ getName() }}
+        <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
+      </a>
+    </span>
+  } @else {
     <span class="flex-1 truncate">{{ params?.value }}</span>
-  </ng-template>
-  <div class="h-full" *ngIf="isEnabled(materialClass$ | ngrxPush)">
-    <mat-icon
-      mat-icon-button
-      [ngClass]="{ '!hidden': !hovered }"
-      (click)="onEditClick()"
-      class="text-medium-emphasis !text-[12px] mt-4 cursor-pointer"
-      >edit</mat-icon
-    >
-  </div>
+  }
+  @if (isEnabled(materialClass$ | ngrxPush)) {
+    <div class="h-full">
+      <mat-icon
+        mat-icon-button
+        [ngClass]="{ '!hidden': !hovered }"
+        (click)="onEditClick()"
+        class="text-medium-emphasis !text-[12px] mt-4 cursor-pointer"
+        >edit</mat-icon
+      >
+    </div>
+  }
 </div>

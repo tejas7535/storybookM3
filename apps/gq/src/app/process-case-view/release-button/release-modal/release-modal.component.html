@@ -3,125 +3,113 @@
   class="flex h-full max-h-[90vh] flex-col overflow-y-auto"
   *transloco="let t; read: 'processCaseView.header.releaseModal'"
 >
-  <ng-container
-    *ngIf="!(approvalFacade.allApproversLoading$ | ngrxPush); else loading"
-  >
+  @if (!(approvalFacade.allApproversLoading$ | ngrxPush)) {
     <div class="px-4 pt-4">
       <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
       </gq-dialog-header>
     </div>
-
-    <ng-container
-      *ngIf="
-        !(approvalFacade.triggerApprovalWorkflowInProgress$ | ngrxPush) &&
-          !(
-            approvalFacade.saveApprovalWorkflowInformationInProgress$ | ngrxPush
-          );
-        else loadingRelative
-      "
-    >
+    @if (
+      !(approvalFacade.triggerApprovalWorkflowInProgress$ | ngrxPush) &&
+      !(approvalFacade.saveApprovalWorkflowInformationInProgress$ | ngrxPush)
+    ) {
       <div class="px-4">
-        <p
-          *ngIf="
-            !(approvalFacade.approvalCockpitInformation$ | ngrxPush)
-              .autoApproval
-          "
-          class="text-subtitle-2 pt-4"
-        >
-          {{ t('summary') }}
-        </p>
-        <div
-          *ngIf="
-            !(approvalFacade.approvalCockpitInformation$ | ngrxPush)
-              .autoApproval
-          "
-          class="flex items-center pt-3"
-        >
-          <p class="text-body-2 text-medium-emphasis">
-            {{ t('approvalLevelLabel') }}:
+        @if (
+          !(approvalFacade.approvalCockpitInformation$ | ngrxPush).autoApproval
+        ) {
+          <p class="text-subtitle-2 pt-4">
+            {{ t('summary') }}
           </p>
-          <span class="text-body-2 text-high-emphasis pl-2">{{
-            approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
-          }}</span>
-        </div>
-
-        <div
-          *ngIf="
-            !(approvalFacade.approvalCockpitInformation$ | ngrxPush)
-              .autoApproval
-          "
-        >
-          <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
-          <gq-user-select
-            tabindex="0"
-            [enableFiltering]="true"
-            [userSelectFormControl]="approver1FormControl"
-            [users$]="approvalFacade.firstApprovers$"
-            [title]="
-              t('approver1Title', {
-                level:
-                  approvalLevelEnum[
-                    approvalFacade.approvalLevelFirstApprover$ | ngrxPush
-                  ]
-              })
-            "
-            [errorMessage]="
-              getErrorMessageOfControl(approver1FormControl, true)
-            "
-            [invalidSelectionErrorMessage]="INVALID_SELECTION_APPROVER"
-          ></gq-user-select>
-          <gq-user-select
-            [enableFiltering]="true"
-            [userSelectFormControl]="approver2FormControl"
-            [users$]="approvalFacade.secondApprovers$"
-            [title]="
-              t('approver2Title', {
-                level:
-                  approvalLevelEnum[
-                    approvalFacade.approvalLevelSecondApprover$ | ngrxPush
-                  ]
-              })
-            "
-            [errorMessage]="
-              getErrorMessageOfControl(approver2FormControl, true)
-            "
-            [invalidSelectionErrorMessage]="INVALID_SELECTION_APPROVER"
-          ></gq-user-select>
-          <gq-user-select
-            *ngIf="
+        }
+        @if (
+          !(approvalFacade.approvalCockpitInformation$ | ngrxPush).autoApproval
+        ) {
+          <div class="flex items-center pt-3">
+            <p class="text-body-2 text-medium-emphasis">
+              {{ t('approvalLevelLabel') }}:
+            </p>
+            <span class="text-body-2 text-high-emphasis pl-2">{{
+              approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
+            }}</span>
+          </div>
+        }
+        @if (
+          !(approvalFacade.approvalCockpitInformation$ | ngrxPush).autoApproval
+        ) {
+          <div>
+            <p class="text-subtitle-2 pb-4 pt-6">{{ t('approvers') }}</p>
+            <gq-user-select
+              tabindex="0"
+              [enableFiltering]="true"
+              [userSelectFormControl]="approver1FormControl"
+              [users$]="approvalFacade.firstApprovers$"
+              [title]="
+                t('approver1Title', {
+                  level:
+                    approvalLevelEnum[
+                      approvalFacade.approvalLevelFirstApprover$ | ngrxPush
+                    ]
+                })
+              "
+              [errorMessage]="
+                getErrorMessageOfControl(approver1FormControl, true)
+              "
+              [invalidSelectionErrorMessage]="INVALID_SELECTION_APPROVER"
+            ></gq-user-select>
+            <gq-user-select
+              [enableFiltering]="true"
+              [userSelectFormControl]="approver2FormControl"
+              [users$]="approvalFacade.secondApprovers$"
+              [title]="
+                t('approver2Title', {
+                  level:
+                    approvalLevelEnum[
+                      approvalFacade.approvalLevelSecondApprover$ | ngrxPush
+                    ]
+                })
+              "
+              [errorMessage]="
+                getErrorMessageOfControl(approver2FormControl, true)
+              "
+              [invalidSelectionErrorMessage]="INVALID_SELECTION_APPROVER"
+            ></gq-user-select>
+            @if (
               (approvalFacade.approvalCockpitInformation$ | ngrxPush)
                 ?.thirdApproverRequired
-            "
-            [enableFiltering]="true"
-            [userSelectFormControl]="approver3FormControl"
-            [users$]="approvalFacade.thirdApprovers$"
-            [title]="
-              t('approver3Title', {
-                level:
-                  approvalLevelEnum[
-                    approvalFacade.approvalLevelThirdApprover$ | ngrxPush
-                  ]
-              })
-            "
-            [errorMessage]="
-              getErrorMessageOfControl(approver3FormControl, true)
-            "
-            [invalidSelectionErrorMessage]="INVALID_SELECTION_APPROVER"
-          ></gq-user-select>
-          <gq-user-select
-            [userSelectFormControl]="approverCCFormControl"
-            [users$]="approvalFacade.activeDirectoryUsers$"
-            [isLoading]="approvalFacade.activeDirectoryUsersLoading$ | ngrxPush"
-            [title]="t('approverCCTitle')"
-            [errorMessage]="getErrorMessageOfControl(approverCCFormControl)"
-            [inputChangedDebounceTime]="500"
-            (inputChanged)="handleUserSearchExpressionChanged($event)"
-          ></gq-user-select>
-          <mat-error *ngIf="formGroup.hasError('equalApprovers')">{{
-            t('equalApproversError')
-          }}</mat-error>
-        </div>
-
+            ) {
+              <gq-user-select
+                [enableFiltering]="true"
+                [userSelectFormControl]="approver3FormControl"
+                [users$]="approvalFacade.thirdApprovers$"
+                [title]="
+                  t('approver3Title', {
+                    level:
+                      approvalLevelEnum[
+                        approvalFacade.approvalLevelThirdApprover$ | ngrxPush
+                      ]
+                  })
+                "
+                [errorMessage]="
+                  getErrorMessageOfControl(approver3FormControl, true)
+                "
+                [invalidSelectionErrorMessage]="INVALID_SELECTION_APPROVER"
+              ></gq-user-select>
+            }
+            <gq-user-select
+              [userSelectFormControl]="approverCCFormControl"
+              [users$]="approvalFacade.activeDirectoryUsers$"
+              [isLoading]="
+                approvalFacade.activeDirectoryUsersLoading$ | ngrxPush
+              "
+              [title]="t('approverCCTitle')"
+              [errorMessage]="getErrorMessageOfControl(approverCCFormControl)"
+              [inputChangedDebounceTime]="500"
+              (inputChanged)="handleUserSearchExpressionChanged($event)"
+            ></gq-user-select>
+            @if (formGroup.hasError('equalApprovers')) {
+              <mat-error>{{ t('equalApproversError') }}</mat-error>
+            }
+          </div>
+        }
         <div class="pb-10">
           <p class="text-subtitle-2 pb-5 pt-6">
             {{ t('additionalInformation') }}
@@ -137,9 +125,11 @@
               [maxlength]="INPUT_MAX_LENGTH"
               #comment
             ></textarea>
-            <mat-hint class="text-error" *ngIf="isInvalidInput" align="start">
-              {{ t('exceededCharactersError') }}
-            </mat-hint>
+            @if (isInvalidInput) {
+              <mat-hint class="text-error" align="start">
+                {{ t('exceededCharactersError') }}
+              </mat-hint>
+            }
             <mat-hint align="end">
               {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
             >
@@ -161,21 +151,18 @@
           </mat-form-field>
         </div>
       </div>
-
       <div class="flex w-full gap-4 border-t border-[#000000]/[0.12] px-4 py-4">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="triggerAutoApproval()"
-          *ngIf="
-            (approvalFacade.approvalCockpitInformation$ | ngrxPush)
-              ?.autoApproval;
-            else startWorkflowButton
-          "
-        >
-          {{ t('autoApproval') }}
-        </button>
-        <ng-template #startWorkflowButton>
+        @if (
+          (approvalFacade.approvalCockpitInformation$ | ngrxPush)?.autoApproval
+        ) {
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="triggerAutoApproval()"
+          >
+            {{ t('autoApproval') }}
+          </button>
+        } @else {
           <button
             mat-raised-button
             color="primary"
@@ -188,8 +175,7 @@
           >
             {{ t('startWorkflow') }}
           </button>
-        </ng-template>
-
+        }
         <button
           mat-raised-button
           color="primary"
@@ -204,22 +190,18 @@
           {{ t('cancel') }}
         </button>
       </div>
-    </ng-container>
-  </ng-container>
+    } @else {
+      <div class="py-24">
+        <schaeffler-loading-spinner
+          class="h-full"
+          backgroundColor="rgba(255,255,255, 0.1)"
+          [relative]="true"
+        ></schaeffler-loading-spinner>
+      </div>
+    }
+  } @else {
+    <div class="py-24">
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    </div>
+  }
 </form>
-
-<ng-template #loading>
-  <div class="py-24">
-    <schaeffler-loading-spinner></schaeffler-loading-spinner>
-  </div>
-</ng-template>
-
-<ng-template #loadingRelative>
-  <div class="py-24">
-    <schaeffler-loading-spinner
-      class="h-full"
-      backgroundColor="rgba(255,255,255, 0.1)"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </div>
-</ng-template>

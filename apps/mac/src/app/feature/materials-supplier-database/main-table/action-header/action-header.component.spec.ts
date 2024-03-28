@@ -107,7 +107,7 @@ describe('ActionHeaderComponent', () => {
 
   describe('isAllSelected', () => {
     const getNode = (selected: boolean) =>
-      ({ isSelected: () => selected } as RowNode);
+      ({ isSelected: () => selected }) as RowNode;
 
     it('should detect that all items are selected', () => {
       mockParams.api.getRenderedNodes = jest.fn(() => [

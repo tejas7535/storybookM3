@@ -1,18 +1,22 @@
-<div *ngIf="reportInput" class="pb-4 md:px-6">
-  <div
-    *ngFor="let subordinate of regularInputs"
-    class="ea-calculation-result-report-input__grid-item mb-6 inline-flex w-full lg:w-1/2"
-  >
-    <ea-calculation-result-report-input-item
-      [reportInputItem]="subordinate"
-    ></ea-calculation-result-report-input-item>
+@if (reportInput) {
+  <div class="pb-4 md:px-6">
+    @for (subordinate of regularInputs; track subordinate) {
+      <div
+        class="ea-calculation-result-report-input__grid-item mb-6 inline-flex w-full lg:w-1/2"
+      >
+        <ea-calculation-result-report-input-item
+          [reportInputItem]="subordinate"
+        ></ea-calculation-result-report-input-item>
+      </div>
+    }
   </div>
-</div>
-
-<ng-container *ngIf="nestedInputs">
-  <div *ngFor="let subordinate of nestedInputs">
-    <div class="pb-4 px-3 md:px-8">{{ subordinate.title }}</div>
-    <ea-calculation-result-report-input [reportInput]="subordinate.subItems">
-    </ea-calculation-result-report-input>
-  </div>
-</ng-container>
+}
+@if (nestedInputs) {
+  @for (subordinate of nestedInputs; track subordinate) {
+    <div>
+      <div class="pb-4 px-3 md:px-8">{{ subordinate.title }}</div>
+      <ea-calculation-result-report-input [reportInput]="subordinate.subItems">
+      </ea-calculation-result-report-input>
+    </div>
+  }
+}

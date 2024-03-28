@@ -1,15 +1,17 @@
-<button
-  *ngIf="breadcrumb"
-  mat-menu-item
-  [routerLink]="breadcrumb.url"
-  [queryParams]="breadcrumb.queryParams"
->
-  {{ breadcrumb.label }}
-  <mat-icon
-    *ngIf="breadcrumb.tooltip"
-    class="ml-1 !mr-0 !h-[auto] !w-[auto] cursor-help !text-[16px] text-medium-emphasis"
-    [matTooltip]="breadcrumb.tooltip"
-    matTooltipPosition="after"
-    >info_outline</mat-icon
+@if (breadcrumb) {
+  <button
+    mat-menu-item
+    [routerLink]="breadcrumb.url"
+    [queryParams]="breadcrumb.queryParams"
   >
-</button>
+    {{ breadcrumb.label }}
+    @if (breadcrumb.tooltip) {
+      <mat-icon
+        class="ml-1 !mr-0 !h-[auto] !w-[auto] cursor-help !text-[16px] text-medium-emphasis"
+        [matTooltip]="breadcrumb.tooltip"
+        matTooltipPosition="after"
+        >info_outline</mat-icon
+      >
+    }
+  </button>
+}

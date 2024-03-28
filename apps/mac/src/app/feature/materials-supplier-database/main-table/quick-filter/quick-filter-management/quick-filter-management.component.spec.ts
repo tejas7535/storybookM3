@@ -289,7 +289,7 @@ describe('QuickFilterManagementComponent', () => {
         () =>
           ({
             afterClosed: () => of({ delete: true }),
-          } as MatDialogRef<any>)
+          }) as MatDialogRef<any>
       );
 
       component.quickFilterFacade.deleteQuickFilter = jest.fn();
@@ -324,7 +324,7 @@ describe('QuickFilterManagementComponent', () => {
         () =>
           ({
             afterClosed: () => of({ delete: false }),
-          } as MatDialogRef<any>)
+          }) as MatDialogRef<any>
       );
 
       component.quickFilterFacade.deleteQuickFilter = jest.fn();

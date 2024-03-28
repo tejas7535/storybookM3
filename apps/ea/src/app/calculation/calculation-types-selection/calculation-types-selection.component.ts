@@ -55,7 +55,7 @@ import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencie
       useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions,
     },
   ],
-  templateUrl: './calculation-types-selection.html',
+  templateUrl: './calculation-types-selection.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalculationTypesSelectionComponent implements OnDestroy {

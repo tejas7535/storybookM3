@@ -12,35 +12,37 @@
     [innerHTML]="t(routeData.messageText || 'forbiddenMessageDefault')"
   ></p>
   <div class="flex justify-center gap-4 p-8">
-    <ng-container *ngIf="routeData.action">
-      <button
-        *ngIf="routeData.action === 'event'; else actionButtonAsLink"
-        mat-raised-button
-        color="primary"
-        (click)="onActionButtonClick()"
-      >
-        {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
-      </button>
-      <ng-template #actionButtonAsLink>
-        <a
-          *ngIf="routeData.action"
-          [href]="routeData.action"
+    @if (routeData.action) {
+      @if (routeData.action === 'event') {
+        <button
           mat-raised-button
           color="primary"
-          data-cy="requestAccess"
+          (click)="onActionButtonClick()"
         >
           {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
-        </a>
-      </ng-template>
-    </ng-container>
-    <button
-      *ngIf="!routeData.hideHomeButton"
-      mat-raised-button
-      [color]="routeData.action ? undefined : 'primary'"
-      routerLink="/"
-      data-cy="visitHome"
-    >
-      {{ t(routeData.homeButtonText || 'homeButtonTextDefault') }}
-    </button>
+        </button>
+      } @else {
+        @if (routeData.action) {
+          <a
+            [href]="routeData.action"
+            mat-raised-button
+            color="primary"
+            data-cy="requestAccess"
+          >
+            {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
+          </a>
+        }
+      }
+    }
+    @if (!routeData.hideHomeButton) {
+      <button
+        mat-raised-button
+        [color]="routeData.action ? undefined : 'primary'"
+        routerLink="/"
+        data-cy="visitHome"
+      >
+        {{ t(routeData.homeButtonText || 'homeButtonTextDefault') }}
+      </button>
+    }
   </div>
 </div>

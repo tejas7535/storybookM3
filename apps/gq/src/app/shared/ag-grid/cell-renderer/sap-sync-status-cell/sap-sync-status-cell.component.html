@@ -28,18 +28,18 @@
       class="truncate text-[8px] font-bold"
       [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
     >
-      <ng-container *ngIf="syncedStatus === synced">
+      @if (syncedStatus === synced) {
         {{ t('synced') }}
-      </ng-container>
-      <ng-container *ngIf="syncedStatus === notSynced">
+      }
+      @if (syncedStatus === notSynced) {
         {{ t('notSynced') }}
-      </ng-container>
-      <ng-container *ngIf="syncedStatus === partiallySynced">
+      }
+      @if (syncedStatus === partiallySynced) {
         {{ t('partiallySynced') }}
-      </ng-container>
-      <ng-container *ngIf="syncedStatus === syncFailed">
+      }
+      @if (syncedStatus === syncFailed) {
         {{ t('syncFailed') }}
-      </ng-container>
+      }
     </span>
   </div>
 </div>

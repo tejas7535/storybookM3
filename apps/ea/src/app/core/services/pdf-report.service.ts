@@ -234,7 +234,7 @@ export class PDFReportService {
                       value: this.roundPipe.transform(emissions.co2_upstream),
                       unit: 'kg',
                       short: 'CO2e',
-                    } as ResultReportLargeItem)
+                    }) as ResultReportLargeItem
                 )
               )
             ),

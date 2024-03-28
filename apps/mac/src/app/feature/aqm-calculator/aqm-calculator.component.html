@@ -20,17 +20,18 @@
           <!-- select alloy -->
           <div class="flex flex-col items-center justify-center">
             <p>{{ t('chooseAlloy') }}</p>
-            <schaeffler-select
-              *ngIf="materials"
-              [initialValue]="materials[1]"
-              [stringOptions]="materials"
-              [control]="materialInput"
-              [filterFn]="filterFn"
-              [resetButton]="false"
-              appearance="outline"
-              [placeholder]="t('customAlloy')"
-            >
-            </schaeffler-select>
+            @if (materials) {
+              <schaeffler-select
+                [initialValue]="materials[1]"
+                [stringOptions]="materials"
+                [control]="materialInput"
+                [filterFn]="filterFn"
+                [resetButton]="false"
+                appearance="outline"
+                [placeholder]="t('customAlloy')"
+              >
+              </schaeffler-select>
+            }
           </div>
           <!-- seperator horizontal -->
           <div
@@ -50,30 +51,26 @@
             <div
               class="flex flex-col items-start justify-center gap-2 md:flex-row md:gap-6"
             >
-              <mat-form-field
-                appearance="outline"
-                *ngFor="
-                  let control of compositionForm?.controls | keyvalue;
-                  trackBy: trackByFn
-                "
-              >
-                <mat-label>{{ control.key | titlecase }}</mat-label>
-                <input matInput type="number" [formControl]="control.value" />
-                <mat-hint
-                  *ngIf="
+              @for (
+                control of compositionForm?.controls | keyvalue;
+                track $index
+              ) {
+                <mat-form-field appearance="outline">
+                  <mat-label>{{ control.key | titlecase }}</mat-label>
+                  <input matInput type="number" [formControl]="control.value" />
+                  @if (
                     !control.value.pristine && control.value.errors?.required
-                  "
-                  >{{ t('hintRequired') }}</mat-hint
-                >
-                <mat-hint
-                  *ngIf="!control.value.pristine && control.value.errors?.max"
-                  >{{ t('hintTooHigh') }}</mat-hint
-                >
-                <mat-hint
-                  *ngIf="!control.value.pristine && control.value.errors?.min"
-                  >{{ t('hintTooLow') }}</mat-hint
-                >
-              </mat-form-field>
+                  ) {
+                    <mat-hint>{{ t('hintRequired') }}</mat-hint>
+                  }
+                  @if (!control.value.pristine && control.value.errors?.max) {
+                    <mat-hint>{{ t('hintTooHigh') }}</mat-hint>
+                  }
+                  @if (!control.value.pristine && control.value.errors?.min) {
+                    <mat-hint>{{ t('hintTooLow') }}</mat-hint>
+                  }
+                </mat-form-field>
+              }
             </div>
           </div>
           <!-- results -->
@@ -88,33 +85,30 @@
             </div>
             <!-- results aqm -->
             <div class="flex w-1/4 flex-col pt-14">
-              <div
-                class="flex flex-row justify-between"
-                *ngIf="
-                  (aqmCalculationResult | ngrxPush)?.aqm?.result;
-                  else aqmError
-                "
-              >
-                <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
-                <p
-                  *ngIf="
-                    (aqmCalculationResult | ngrxPush)?.aqm?.result;
-                    else aqmError
-                  "
-                >
-                  {{
-                    (
-                      aqmCalculationResult | ngrxPush
-                    )?.aqm?.result?.toLocaleString()
-                  }}
-                </p>
-              </div>
-              <ng-template #aqmError>
+              @if ((aqmCalculationResult | ngrxPush)?.aqm?.result) {
+                <div class="flex flex-row justify-between">
+                  <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
+                  @if ((aqmCalculationResult | ngrxPush)?.aqm?.result) {
+                    <p>
+                      {{
+                        (
+                          aqmCalculationResult | ngrxPush
+                        )?.aqm?.result?.toLocaleString()
+                      }}
+                    </p>
+                  } @else {
+                    <div class="flex flex-col gap-4">
+                      <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
+                      <p>{{ (aqmCalculationResult | ngrxPush)?.aqm?.error }}</p>
+                    </div>
+                  }
+                </div>
+              } @else {
                 <div class="flex flex-col gap-4">
                   <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
                   <p>{{ (aqmCalculationResult | ngrxPush)?.aqm?.error }}</p>
                 </div>
-              </ng-template>
+              }
             </div>
             <!-- seperator vertical -->
             <div
@@ -135,35 +129,32 @@
                   }}
                 </p>
               </div>
-              <ng-container
-                *ngIf="
-                  (aqmCalculationResult | ngrxPush) &&
-                  !(aqmCalculationResult | ngrxPush)?.aqm?.error
-                "
-              >
+              @if (
+                (aqmCalculationResult | ngrxPush) &&
+                !(aqmCalculationResult | ngrxPush)?.aqm?.error
+              ) {
                 <p class="mt-0">{{ t('sumLimitsReachedFor') }}</p>
                 <mat-chip-listbox>
-                  <mat-chip-option
-                    *ngFor="
-                      let item of (aqmCalculationResult | ngrxPush)?.limits
-                        | keyvalue;
-                      trackBy: trackByFn
-                    "
-                    [selectable]="false"
-                  >
-                    <div
-                      class="flex flex-row items-center justify-between gap-1"
-                    >
-                      <mat-icon [color]="item.value ? 'primary' : 'error'">{{
-                        item.value ? 'check_circle' : 'error'
-                      }}</mat-icon>
-                      <p>
-                        {{ item.key }}
-                      </p>
-                    </div>
-                  </mat-chip-option>
+                  @for (
+                    item of (aqmCalculationResult | ngrxPush)?.limits
+                      | keyvalue;
+                    track $index
+                  ) {
+                    <mat-chip-option [selectable]="false">
+                      <div
+                        class="flex flex-row items-center justify-between gap-1"
+                      >
+                        <mat-icon [color]="item.value ? 'primary' : 'error'">{{
+                          item.value ? 'check_circle' : 'error'
+                        }}</mat-icon>
+                        <p>
+                          {{ item.key }}
+                        </p>
+                      </div>
+                    </mat-chip-option>
+                  }
                 </mat-chip-listbox>
-              </ng-container>
+              }
             </div>
           </div>
         </div>
@@ -171,3 +162,4 @@
     </mat-card>
   </div>
 </div>
+@if (false) {}

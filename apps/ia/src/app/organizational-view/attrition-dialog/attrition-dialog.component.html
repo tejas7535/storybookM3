@@ -21,16 +21,17 @@
       </div>
       <div class="flex flex-col w-full">
         <div class="grid grid-cols-4">
-          <h6
-            *ngIf="childDimensionName$ | ngrxPush"
-            class="col-span-3 text-overline text-medium-emphasis mb-2 ml-1 mr-0 mt-0 font-medium leading-4"
-          >
-            <span
-              [innerHTML]="
-                (childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')
-              "
-            ></span>
-          </h6>
+          @if (childDimensionName$ | ngrxPush) {
+            <h6
+              class="col-span-3 text-overline text-medium-emphasis mb-2 ml-1 mr-0 mt-0 font-medium leading-4"
+            >
+              <span
+                [innerHTML]="
+                  (childDimensionName$ | ngrxPush) + ' - ' + t('chartTitle')
+                "
+              ></span>
+            </h6>
+          }
           <mat-button-toggle-group
             class="fluctuation-details-tab-group col-span-1 mb-auto ml-auto max-w-max max-h-max !rounded-md !bg-gray-300 !border-gray-300"
             name="chartType"
@@ -64,9 +65,11 @@
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions *ngIf="meta?.data.hideDetailedLeaverStats" align="end">
-    <p class="italic text-warning text-start">
-      {{ t('insufficientRights') }}
-    </p>
-  </mat-dialog-actions>
+  @if (meta?.data.hideDetailedLeaverStats) {
+    <mat-dialog-actions align="end">
+      <p class="italic text-warning text-start">
+        {{ t('insufficientRights') }}
+      </p>
+    </mat-dialog-actions>
+  }
 </ng-container>

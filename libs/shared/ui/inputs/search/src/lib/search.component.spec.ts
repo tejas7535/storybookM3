@@ -271,14 +271,6 @@ describe('SearchComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    it('should return the index', () => {
-      const result = component.trackByFn(5);
-
-      expect(result).toEqual(5);
-    });
-  });
-
   describe('validatorFn', () => {
     it('should return the controls errors', () => {
       component.control = {

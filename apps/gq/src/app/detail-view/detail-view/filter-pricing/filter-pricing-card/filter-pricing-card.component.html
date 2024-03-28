@@ -1,45 +1,53 @@
 <div *transloco="let t; read: 'detailView.filterPricing'" class="md:mr-4">
   <gq-kpi-status-card [title]="title">
-    <div *ngIf="!isLoading; else loading">
-      <div class="flex flex-col sm:flex-row">
-        <div class="w-full max-w-[80%] grow">
-          <ng-content select="[content]"></ng-content>
-        </div>
-        <div
-          class="flex-auto"
-          *transloco="let t; read: 'detailView.filterPricing'"
-        >
-          <button
-            class="!mt-2 w-[200px]"
-            mat-raised-button
-            color="primary"
-            *ngIf="isSelected; else select"
+    @if (!isLoading) {
+      <div>
+        <div class="flex flex-col sm:flex-row">
+          <div class="w-full max-w-[80%] grow">
+            <ng-content select="[content]"></ng-content>
+          </div>
+          <div
+            class="flex-auto"
+            *transloco="let t; read: 'detailView.filterPricing'"
           >
-            <mat-icon>check_circle</mat-icon>
-            {{ t('selected') }}
-          </button>
-          <ng-template #select>
-            <button
-              class="!mt-2 w-[200px]"
-              mat-stroked-button
-              color="primary"
-              (click)="selectPrice()"
-              [disabled]="isDisabled"
-            >
-              <mat-icon>check_circle</mat-icon>
-              {{ t('select') }}
-            </button>
-          </ng-template>
+            @if (isSelected) {
+              <button class="!mt-2 w-[200px]" mat-raised-button color="primary">
+                <mat-icon>check_circle</mat-icon>
+                {{ t('selected') }}
+              </button>
+            } @else {
+              <button
+                class="!mt-2 w-[200px]"
+                mat-stroked-button
+                color="primary"
+                (click)="selectPrice()"
+                [disabled]="isDisabled"
+              >
+                <mat-icon>check_circle</mat-icon>
+                {{ t('select') }}
+              </button>
+            }
+            <ng-template #select>
+              <button
+                class="!mt-2 w-[200px]"
+                mat-stroked-button
+                color="primary"
+                (click)="selectPrice()"
+                [disabled]="isDisabled"
+              >
+                <mat-icon>check_circle</mat-icon>
+                {{ t('select') }}
+              </button>
+            </ng-template>
+          </div>
         </div>
+        <ng-content select="[link]"> </ng-content>
       </div>
-      <ng-content select="[link]"> </ng-content>
-    </div>
+    } @else {
+      <schaeffler-loading-spinner
+        backgroundColor="rgba(255,255,255, 0.1)"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    }
   </gq-kpi-status-card>
-
-  <ng-template #loading>
-    <schaeffler-loading-spinner
-      backgroundColor="rgba(255,255,255, 0.1)"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </ng-template>
 </div>

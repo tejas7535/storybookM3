@@ -19,7 +19,7 @@ describe('ProductDetails Actions', () => {
 
   const compareItems: [
     nodeId: string,
-    referenceTypeIdentifier: ReferenceTypeIdentifier
+    referenceTypeIdentifier: ReferenceTypeIdentifier,
   ][] = [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]];
   const index = 1;
   const errorMessage = 'Please Help';

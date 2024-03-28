@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,7 +20,6 @@ import { tooManyBearingsResultsThreshold } from '../../constants';
   selector: 'ga-bearing-selection-button',
   standalone: true,
   imports: [
-    CommonModule,
     LetDirective,
     PushPipe,
     SharedTranslocoModule,

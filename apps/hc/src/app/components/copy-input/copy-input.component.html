@@ -5,7 +5,9 @@
         appearance="outline"
         class="pointer-events-none flex w-44 flex-1"
       >
-        <mat-label *ngIf="label">{{ label }}</mat-label>
+        @if (label) {
+          <mat-label>{{ label }}</mat-label>
+        }
         <input
           matInput
           readonly

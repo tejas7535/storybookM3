@@ -56,7 +56,8 @@ export class MultiSelectFilterComponent
   }> = new EventEmitter();
 
   @Output()
-  private readonly updateFilter: EventEmitter<FilterItemIdValue> = new EventEmitter();
+  private readonly updateFilter: EventEmitter<FilterItemIdValue> =
+    new EventEmitter();
 
   @ViewChild('select')
   private readonly selectComponent!: SelectComponent;
@@ -94,7 +95,7 @@ export class MultiSelectFilterComponent
             ({
               id: x.id,
               title: x.title,
-            } as StringOption)
+            }) as StringOption
         )
         .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id));
 
@@ -157,7 +158,7 @@ export class MultiSelectFilterComponent
             ({
               id: x.id,
               title: x.title,
-            } as StringOption)
+            }) as StringOption
         );
 
       this.stringOptions = [...this.selectedFilterOptions, ...options];

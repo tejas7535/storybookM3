@@ -1,37 +1,39 @@
-<schaeffler-app-shell
-  *ngIf="!embedded"
-  [appTitle]="title"
-  [appTitleLink]="'/'"
-  [hasSidebarLeft]="true"
-  [footerLinks]="footerLinks$ | ngrxPush"
-  [appVersion]="appVersion"
->
-  <ng-container sidenavBody>
-    <mm-settings></mm-settings>
-  </ng-container>
-  <ng-container mainContent>
-    <div class="h-full w-full">
-      <schaeffler-banner></schaeffler-banner>
-      <div class="border-t border-border"></div>
-      <ng-container *ngTemplateOutlet="content"></ng-container>
+@if (!embedded) {
+  <schaeffler-app-shell
+    [appTitle]="title"
+    [appTitleLink]="'/'"
+    [hasSidebarLeft]="true"
+    [footerLinks]="footerLinks$ | ngrxPush"
+    [appVersion]="appVersion"
+  >
+    <ng-container sidenavBody>
+      <mm-settings></mm-settings>
+    </ng-container>
+    <ng-container mainContent>
+      <div class="h-full w-full">
+        <schaeffler-banner></schaeffler-banner>
+        <div class="border-t border-border"></div>
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+      </div>
+    </ng-container>
+  </schaeffler-app-shell>
+}
+@if (embedded) {
+  <div class="fixed h-full w-full">
+    <div class="fixed z-10 bg-surface">
+      <button (click)="drawer.toggle()" mat-icon-button aria-label="settings">
+        <mat-icon class="text-icon">menu</mat-icon>
+      </button>
     </div>
-  </ng-container>
-</schaeffler-app-shell>
-
-<div *ngIf="embedded" class="fixed h-full w-full">
-  <div class="fixed z-10 bg-surface">
-    <button (click)="drawer.toggle()" mat-icon-button aria-label="settings">
-      <mat-icon class="text-icon">menu</mat-icon>
-    </button>
+    <mat-drawer-container class="h-full">
+      <mat-drawer #drawer class="example-sidenav" mode="over">
+        <mm-settings #sidebar [embedded]="embedded"></mm-settings>
+      </mat-drawer>
+      <schaeffler-banner></schaeffler-banner>
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </mat-drawer-container>
   </div>
-  <mat-drawer-container class="h-full">
-    <mat-drawer #drawer class="example-sidenav" mode="over">
-      <mm-settings #sidebar [embedded]="embedded"></mm-settings>
-    </mat-drawer>
-    <schaeffler-banner></schaeffler-banner>
-    <ng-container *ngTemplateOutlet="content"></ng-container>
-  </mat-drawer-container>
-</div>
+}
 
 <ng-template #content>
   <div

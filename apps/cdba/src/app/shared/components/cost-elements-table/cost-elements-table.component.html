@@ -1,4 +1,4 @@
-<ng-container *ngIf="costElementsData; else showSelectionHint">
+@if (costElementsData) {
   <div class="p-4 text-caption">
     <span class="mr-3 inline-block">{{
       selectedBomItem?.materialDesignation || materialDesignation
@@ -30,13 +30,11 @@
     [suppressCsvExport]="true"
     [suppressExcelExport]="true"
     [suppressCellFocus]="true"
-    [context]="{index}"
+    [context]="{ index }"
     (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
-</ng-container>
-
-<ng-template #showSelectionHint>
+} @else {
   <div
     class="flex flex-col items-center p-8 text-center"
     *transloco="let t; read: 'shared.bom.additionalInformation'"
@@ -46,4 +44,4 @@
       {{ t('selectionHintCalculation') }}
     </div>
   </div>
-</ng-template>
+}

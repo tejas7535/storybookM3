@@ -29,8 +29,4 @@ export class PictureCardComponent {
     this.active = active;
     this.selected = selected;
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

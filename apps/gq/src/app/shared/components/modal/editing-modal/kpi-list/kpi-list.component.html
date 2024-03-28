@@ -1,51 +1,54 @@
 <div class="grid-col mt-2 grid grid-cols-2">
-  <div class="mt-4" *ngFor="let kpi of displayedKpis; index as i">
-    <div
-      *transloco="let t; read: 'shared.editingModal.kpis'"
-      class="flex flex-row"
-      [ngClass]="{ 'text-low-emphasis': !kpi.value, 'pl-12': i % 2 !== 0 }"
-    >
-      <div class="mr-4 w-36">
-        <h6>{{ t(kpi.key) }}</h6>
-        <div>
-          <span class="text-caption text-medium-emphasis">{{
-            t('previous', {
-              fieldTranslation: t(kpi.key)
-            })
-          }}</span>
+  @for (kpi of displayedKpis; track kpi; let i = $index) {
+    <div class="mt-4">
+      <div
+        *transloco="let t; read: 'shared.editingModal.kpis'"
+        class="flex flex-row"
+        [ngClass]="{ 'text-low-emphasis': !kpi.value, 'pl-12': i % 2 !== 0 }"
+      >
+        <div class="mr-4 w-36">
+          <h6>{{ t(kpi.key) }}</h6>
+          <div>
+            <span class="text-caption text-medium-emphasis">{{
+              t('previous', {
+                fieldTranslation: t(kpi.key)
+              })
+            }}</span>
+          </div>
         </div>
-      </div>
-      <div>
-        <h6 class="truncate">
-          <span
-            [ngClass]="{
-              '!text-orange': kpi.hasWarning,
-              'text-error': kpi.hasError
-            }"
-            [attr.data-cy]="
-              editingModalData.field + '-modal_' + kpi.key + '-value'
-            "
-          >
-            {{ kpi.displayValue }}
-            <mat-icon
-              *ngIf="kpi.warningText"
-              [matTooltip]="kpi.warningText"
-              class="ml-1 align-bottom"
+        <div>
+          <h6 class="truncate">
+            <span
+              [ngClass]="{
+                '!text-orange': kpi.hasWarning,
+                'text-error': kpi.hasError
+              }"
+              [attr.data-cy]="
+                editingModalData.field + '-modal_' + kpi.key + '-value'
+              "
             >
-              warning_amber
-            </mat-icon>
-          </span>
-        </h6>
-        <div class="text-caption text-medium-emphasis leading-6">
-          <span
-            [attr.data-cy]="
-              editingModalData.field + '-modal_' + kpi.key + '-previous-value'
-            "
-          >
-            {{ kpi.previousDisplayValue }}
-          </span>
+              {{ kpi.displayValue }}
+              @if (kpi.warningText) {
+                <mat-icon
+                  [matTooltip]="kpi.warningText"
+                  class="ml-1 align-bottom"
+                >
+                  warning_amber
+                </mat-icon>
+              }
+            </span>
+          </h6>
+          <div class="text-caption text-medium-emphasis leading-6">
+            <span
+              [attr.data-cy]="
+                editingModalData.field + '-modal_' + kpi.key + '-previous-value'
+              "
+            >
+              {{ kpi.previousDisplayValue }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </div>

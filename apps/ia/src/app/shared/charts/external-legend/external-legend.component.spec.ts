@@ -63,14 +63,4 @@ describe('ExternalLegendComponent', () => {
       expect(component.legend[2].selected).toBeFalsy();
     });
   });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const testNumber = 5;
-
-      const result = component.trackByFn(testNumber);
-
-      expect(result).toEqual(testNumber);
-    });
-  });
 });

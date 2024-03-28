@@ -36,7 +36,7 @@ export const getUserRoles = createSelector(
     if (geoRoles.length > 0) {
       const geoRolesEntry = {
         title: translate('user.userSettings.roles.geographicalRoles'),
-        roles: geoRoles.map((role) => ({ title: role } as Role)),
+        roles: geoRoles.map((role) => ({ title: role }) as Role),
         showOnlyRoles: true,
       };
 

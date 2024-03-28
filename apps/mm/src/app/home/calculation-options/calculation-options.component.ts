@@ -10,8 +10,4 @@ import { PagedMeta } from '../home.model';
 export class CalculationOptionsComponent {
   @Input()
   public pageMeta: PagedMeta;
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

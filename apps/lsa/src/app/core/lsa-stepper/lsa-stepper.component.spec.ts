@@ -33,7 +33,7 @@ describe('LsaStepperComponent', () => {
               () =>
                 ({
                   getRawValue: jest.fn(),
-                } as unknown as FormGroup)
+                }) as unknown as FormGroup
             ),
           },
         },

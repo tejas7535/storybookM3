@@ -2,67 +2,72 @@
   class="mb-6 flex h-full w-full flex-col"
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
 >
-  <div *ngIf="isCaseView">
-    <div class="mt-6 flex items-end justify-between">
-      <span class="text-h6 text-medium-emphasis">
-        {{ t('addItems') }}
-      </span>
+  @if (isCaseView) {
+    <div>
+      <div class="mt-6 flex items-end justify-between">
+        <span class="text-h6 text-medium-emphasis">
+          {{ t('addItems') }}
+        </span>
+      </div>
+      <hr class="mt-6 opacity-[12%]" />
     </div>
-    <hr class="mt-6 opacity-[12%]" />
-  </div>
+  }
 
   <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-5">
-    <div
-      *ngIf="
-        autoCompleteFacade.materialDescForAddEntry$ | ngrxPush as materialDesc
-      "
-    >
-      <gq-autocomplete-input
-        #materialDescInput
-        [filterName]="materialDesc.filter"
-        [fitContent]="true"
-        [options]="materialDesc.options"
-        (inputContent)="materialHasInput($event)"
-        (unselected)="autoCompleteFacade.unselectOptions(materialDesc.filter)"
-        (added)="
-          autoCompleteFacade.selectMaterialNumberOrDescription(
-            $event,
-            materialDesc.filter
-          )
-        "
-        (isValid)="materialInputValid($event)"
-        [autocompleteLoading]="
-          autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
-        "
-        (autocomplete)="autoCompleteFacade.autocomplete($event)"
-      ></gq-autocomplete-input>
-    </div>
-    <div
-      *ngIf="
-        autoCompleteFacade.materialNumberForAddEntry$
-          | ngrxPush as materialNumber
-      "
-    >
-      <gq-autocomplete-input
-        #materialNumberInput
-        [filterName]="materialNumber.filter"
-        [fitContent]="true"
-        [options]="materialNumber.options"
-        (inputContent)="materialHasInput($event)"
-        (unselected)="autoCompleteFacade.unselectOptions(materialNumber.filter)"
-        (added)="
-          autoCompleteFacade.selectMaterialNumberOrDescription(
-            $event,
-            materialNumber.filter
-          )
-        "
-        (isValid)="materialInputValid($event)"
-        [autocompleteLoading]="
-          autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
-        "
-        (autocomplete)="autoCompleteFacade.autocomplete($event)"
-      ></gq-autocomplete-input>
-    </div>
+    @if (
+      autoCompleteFacade.materialDescForAddEntry$ | ngrxPush;
+      as materialDesc
+    ) {
+      <div>
+        <gq-autocomplete-input
+          #materialDescInput
+          [filterName]="materialDesc.filter"
+          [fitContent]="true"
+          [options]="materialDesc.options"
+          (inputContent)="materialHasInput($event)"
+          (unselected)="autoCompleteFacade.unselectOptions(materialDesc.filter)"
+          (added)="
+            autoCompleteFacade.selectMaterialNumberOrDescription(
+              $event,
+              materialDesc.filter
+            )
+          "
+          (isValid)="materialInputValid($event)"
+          [autocompleteLoading]="
+            autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+          "
+          (autocomplete)="autoCompleteFacade.autocomplete($event)"
+        ></gq-autocomplete-input>
+      </div>
+    }
+    @if (
+      autoCompleteFacade.materialNumberForAddEntry$ | ngrxPush;
+      as materialNumber
+    ) {
+      <div>
+        <gq-autocomplete-input
+          #materialNumberInput
+          [filterName]="materialNumber.filter"
+          [fitContent]="true"
+          [options]="materialNumber.options"
+          (inputContent)="materialHasInput($event)"
+          (unselected)="
+            autoCompleteFacade.unselectOptions(materialNumber.filter)
+          "
+          (added)="
+            autoCompleteFacade.selectMaterialNumberOrDescription(
+              $event,
+              materialNumber.filter
+            )
+          "
+          (isValid)="materialInputValid($event)"
+          [autocompleteLoading]="
+            autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+          "
+          (autocomplete)="autoCompleteFacade.autocomplete($event)"
+        ></gq-autocomplete-input>
+      </div>
+    }
     <div>
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>
@@ -79,9 +84,9 @@
           [formControl]="quantityFormControl"
         />
         <mat-hint>{{ t('quantity.hint') }}</mat-hint>
-        <mat-error *ngIf="quantityFormControl.hasError('invalidInput')">{{
-          t('quantity.error')
-        }}</mat-error>
+        @if (quantityFormControl.hasError('invalidInput')) {
+          <mat-error>{{ t('quantity.error') }}</mat-error>
+        }
       </mat-form-field>
     </div>
     <div>
@@ -97,9 +102,9 @@
           [formControl]="targetPriceFormControl"
         />
         <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
-        <mat-error *ngIf="targetPriceFormControl.hasError('invalidPrice')">{{
-          t('targetPrice.error')
-        }}</mat-error>
+        @if (targetPriceFormControl.hasError('invalidPrice')) {
+          <mat-error>{{ t('targetPrice.error') }}</mat-error>
+        }
       </mat-form-field>
     </div>
     <div>

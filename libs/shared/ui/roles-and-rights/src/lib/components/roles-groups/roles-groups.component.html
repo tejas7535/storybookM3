@@ -1,23 +1,27 @@
 <ng-container *transloco="let t">
-  <mat-accordion *ngIf="rolesGroups && rolesGroups.length">
-    <mat-expansion-panel *ngFor="let rolesGroup of rolesGroups">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ rolesGroup.title }}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <schaeffler-roles
-        *ngIf="rolesGroup.roles && rolesGroup.roles.length; else noRoles"
-        [roles]="rolesGroup.roles"
-        [showRights]="!rolesGroup.showOnlyRoles"
-      >
-        ></schaeffler-roles
-      >
-      <ng-template #noRoles>
-        <div class="p-4 pt-0 text-subtitle-2 text-medium-emphasis">
-          {{ t('rightsAndRolesMissingRoles') }}
-        </div>
-      </ng-template>
-    </mat-expansion-panel>
-  </mat-accordion>
+  @if (rolesGroups && rolesGroups.length) {
+    <mat-accordion>
+      @for (rolesGroup of rolesGroups; track rolesGroup) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ rolesGroup.title }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @if (rolesGroup.roles && rolesGroup.roles.length) {
+            <schaeffler-roles
+              [roles]="rolesGroup.roles"
+              [showRights]="!rolesGroup.showOnlyRoles"
+            >
+              ></schaeffler-roles
+            >
+          } @else {
+            <div class="p-4 pt-0 text-subtitle-2 text-medium-emphasis">
+              {{ t('rightsAndRolesMissingRoles') }}
+            </div>
+          }
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  }
 </ng-container>

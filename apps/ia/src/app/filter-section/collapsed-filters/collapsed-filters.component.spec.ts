@@ -24,13 +24,4 @@ describe('CollapsedFiltersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const idx = 3;
-      const result = component.trackByFn(idx);
-
-      expect(result).toEqual(idx);
-    });
-  });
 });

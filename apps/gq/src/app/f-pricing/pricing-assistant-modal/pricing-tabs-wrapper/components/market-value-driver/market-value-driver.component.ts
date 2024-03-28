@@ -13,10 +13,6 @@ export class MarketValueDriverComponent {
   @Output() questionsSelectionChanged =
     new EventEmitter<MarketValueDriverSelection>();
 
-  trackByFn(_index: number, item: MarketValueDriverDisplayItem): number {
-    return item.questionId;
-  }
-
   onOptionChange(selection: MarketValueDriverSelection) {
     this.questionsSelectionChanged.emit(selection);
   }

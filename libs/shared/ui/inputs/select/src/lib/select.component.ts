@@ -209,8 +209,4 @@ export class SelectComponent
 
   public compareWith = (option: StringOption, selection: StringOption) =>
     option?.id === selection?.id && option?.title === selection?.title;
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

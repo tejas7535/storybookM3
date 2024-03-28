@@ -18,9 +18,11 @@
     ></ia-dimension-filter>
 
     <div class="mr-6 flex flex-col columns-2">
-      <span class="text-body-1 mb-2" *ngIf="!disableFilters">
-        {{ t('periodOfTime.title') }}
-      </span>
+      @if (!disableFilters) {
+        <span class="text-body-1 mb-2">
+          {{ t('periodOfTime.title') }}
+        </span>
+      }
       <div class="flex flex-row gap-2">
         <ia-select-input
           class="w-full mr-1"
@@ -45,18 +47,19 @@
       </div>
     </div>
 
-    <ia-dimension-filter
-      *ngIf="showBenchmarkFilter"
-      class="ml-auto flex"
-      [availableDimensions]="availableDimensions"
-      [activeDimension]="activeBenchmarkDimension"
-      [selectedDimensionIdValue]="benchmarkDimensionIdValue"
-      [dimensionFilter]="benchmarkDimensionFilter"
-      [dimensionFilterTranslation]="benchmarkDimensionFilterTranslation"
-      [dimensionDataLoading]="benchmarkDimensionDataLoading"
-      (dimensionSelected)="onBenchmarkDimensionSelected($event)"
-      (autocompleteInput)="onBenchmarkAutocompleteInput($event)"
-      (optionSelected)="onBenchmarkOptionSelected($event)"
-    ></ia-dimension-filter>
+    @if (showBenchmarkFilter) {
+      <ia-dimension-filter
+        class="ml-auto flex"
+        [availableDimensions]="availableDimensions"
+        [activeDimension]="activeBenchmarkDimension"
+        [selectedDimensionIdValue]="benchmarkDimensionIdValue"
+        [dimensionFilter]="benchmarkDimensionFilter"
+        [dimensionFilterTranslation]="benchmarkDimensionFilterTranslation"
+        [dimensionDataLoading]="benchmarkDimensionDataLoading"
+        (dimensionSelected)="onBenchmarkDimensionSelected($event)"
+        (autocompleteInput)="onBenchmarkAutocompleteInput($event)"
+        (optionSelected)="onBenchmarkOptionSelected($event)"
+      ></ia-dimension-filter>
+    }
   </div>
 </ng-container>

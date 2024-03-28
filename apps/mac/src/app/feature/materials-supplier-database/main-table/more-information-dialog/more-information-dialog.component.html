@@ -15,36 +15,41 @@
   </div>
   <div mat-dialog-content>
     <div class="flex flex-col gap-2">
-      <p *ngIf="dialogData.topText">{{ dialogData.topText }}</p>
-      <img *ngIf="dialogData.imageSrc" [src]="dialogData.imageSrc" />
-      <div *ngIf="dialogData.imageCaption" class="flex flex-row-reverse">
-        <span class="text-caption">{{ dialogData.imageCaption }}</span>
-      </div>
-      <p *ngIf="dialogData.bottomText">{{ dialogData.bottomText }}</p>
-      <ng-container
-        *ngIf="dialogData.bottomTemplate"
-        [ngTemplateOutlet]="dialogData.bottomTemplate"
-      ></ng-container>
-      <div
-        *ngIf="dialogData.contact"
-        class="flex flex-row-reverse items-baseline"
-      >
-        <span
-          class="text-caption"
-          *ngIf="!dialogData.mailToLink; else contactLink"
-          >{{ dialogData.contact }}</span
-        >
-        <ng-template #contactLink>
-          <a class="text-caption text-link" [href]="dialogData.mailToLink"
-            ><mat-icon [inline]="true" class="!h-3 mr-0.5"
-              >mail_outline</mat-icon
-            >{{ dialogData.contact }}</a
-          >
-        </ng-template>
-        <span class="text-caption pr-1">{{
-          t('moreInformationContactLabel')
-        }}</span>
-      </div>
+      @if (dialogData.topText) {
+        <p>{{ dialogData.topText }}</p>
+      }
+      @if (dialogData.imageSrc) {
+        <img [src]="dialogData.imageSrc" />
+      }
+      @if (dialogData.imageCaption) {
+        <div class="flex flex-row-reverse">
+          <span class="text-caption">{{ dialogData.imageCaption }}</span>
+        </div>
+      }
+      @if (dialogData.bottomText) {
+        <p>{{ dialogData.bottomText }}</p>
+      }
+      @if (dialogData.bottomTemplate) {
+        <ng-container
+          [ngTemplateOutlet]="dialogData.bottomTemplate"
+        ></ng-container>
+      }
+      @if (dialogData.contact) {
+        <div class="flex flex-row-reverse items-baseline">
+          @if (!dialogData.mailToLink) {
+            <span class="text-caption">{{ dialogData.contact }}</span>
+          } @else {
+            <a class="text-caption text-link" [href]="dialogData.mailToLink"
+              ><mat-icon [inline]="true" class="!h-3 mr-0.5"
+                >mail_outline</mat-icon
+              >{{ dialogData.contact }}</a
+            >
+          }
+          <span class="text-caption pr-1">{{
+            t('moreInformationContactLabel')
+          }}</span>
+        </div>
+      }
     </div>
   </div>
 </ng-container>

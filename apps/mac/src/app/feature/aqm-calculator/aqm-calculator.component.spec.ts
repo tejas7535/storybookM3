@@ -293,14 +293,6 @@ describe('AqmCalculatorComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    it('should return index', () => {
-      const result = component.trackByFn(1);
-
-      expect(result).toEqual(1);
-    });
-  });
-
   describe('ngOnDestroy', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();

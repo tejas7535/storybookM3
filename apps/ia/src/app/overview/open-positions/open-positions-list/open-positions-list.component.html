@@ -37,50 +37,47 @@
   </div>
 </div>
 
-<mat-list
-  *ngIf="!isLoadingOpenApplications; else loading"
-  (click)="$event.stopPropagation()"
->
-  <ng-container
-    *ngFor="let application of openApplications; trackBy: trackByFn"
-  >
-    <mat-list-item class="!px-0">
-      <div
-        matBadgePosition="before"
-        [matBadge]="application.count"
-        matBadgeOverlap="false"
-        matBadgeColor="primary"
-        class="flex h-full w-full flex-row content-center items-center"
-      >
-        <span class="ml-7 mr-2 flex self-center">
-          {{ application.name }}
-        </span>
-        <mat-icon
-          class="!h-4 !w-4 self-center !text-[16px]"
-          [ngStyle]="{
-            color: colors.BLUE
-          }"
-          *ngIf="application.isExternal"
-          >east</mat-icon
+@if (!isLoadingOpenApplications) {
+  <mat-list (click)="$event.stopPropagation()">
+    @for (application of openApplications; track $index) {
+      <mat-list-item class="!px-0">
+        <div
+          matBadgePosition="before"
+          [matBadge]="application.count"
+          matBadgeOverlap="false"
+          matBadgeColor="primary"
+          class="flex h-full w-full flex-row content-center items-center"
         >
-        <mat-icon
-          class="!h-4 !w-4 self-center !text-[16px]"
-          [ngStyle]="{
-            color: colors.GREEN
-          }"
-          *ngIf="application.isInternal"
-          >west</mat-icon
-        >
-
-        <span class="ml-auto flex justify-end self-center">
-          {{ application.approvalDate | date: 'dd.MM.yyyy' }}
-        </span>
-      </div>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-  </ng-container>
-</mat-list>
-<ng-template #loading>
+          <span class="ml-7 mr-2 flex self-center">
+            {{ application.name }}
+          </span>
+          @if (application.isExternal) {
+            <mat-icon
+              class="!h-4 !w-4 self-center !text-[16px]"
+              [ngStyle]="{
+                color: colors.BLUE
+              }"
+              >east</mat-icon
+            >
+          }
+          @if (application.isInternal) {
+            <mat-icon
+              class="!h-4 !w-4 self-center !text-[16px]"
+              [ngStyle]="{
+                color: colors.GREEN
+              }"
+              >west</mat-icon
+            >
+          }
+          <span class="ml-auto flex justify-end self-center">
+            {{ application.approvalDate | date: 'dd.MM.yyyy' }}
+          </span>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    }
+  </mat-list>
+} @else {
   <schaeffler-loading-spinner
     class="mr-8"
     [relative]="true"
@@ -88,4 +85,4 @@
     [strokeWidth]="2"
   >
   </schaeffler-loading-spinner>
-</ng-template>
+}

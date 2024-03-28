@@ -1,86 +1,85 @@
-<div
-  class="flex h-full flex-1 flex-col"
-  *ngIf="!(quotationLoading$ | ngrxPush); else loading"
->
-  <div *transloco="let t; read: 'transactionView.header'">
-    <schaeffler-subheader
-      [breadcrumbs]="breadcrumbs$ | ngrxPush"
-      [subheaderTitle]="t('title')"
-    >
-      <ng-container subheaderTitleContent>
-        <gq-material-price-header-content
-          [quotationDetail]="quotationDetail$ | ngrxPush"
-          [currency]="quotationCurrency$ | ngrxPush"
-          [price]="(quotationDetail$ | ngrxPush)?.recommendedPrice"
-        >
-        </gq-material-price-header-content>
-      </ng-container>
-      <ng-container subheaderInlineContent>
-        <schaeffler-share-button></schaeffler-share-button>
-      </ng-container>
-
-      <ng-container subheaderBlockContent>
-        <gq-status-customer-info-header [customer]="customer$ | ngrxPush">
-        </gq-status-customer-info-header>
-      </ng-container>
-    </schaeffler-subheader>
-  </div>
-  <gq-saving-in-progress
-    class="h-full"
-    *ngIf="
-      !(transactionsLoading$ | ngrxPush) &&
-        (transactions$ | ngrxPush)?.length === 0;
-      else transparencyGraph
-    "
-    [hideRolesHint]="hideRolesHint$ | ngrxPush"
-  ></gq-saving-in-progress>
-
-  <ng-template #transparencyGraph>
-    <div class="flex flex-1 flex-col pt-4 pb-16 lg:flex-row">
-      <div class="flex h-full w-full pl-4 pr-4 lg:w-1/2 lg:pr-2">
-        <mat-card
-          appearance="outlined"
-          class="flex-1 overflow-hidden border-[1px] border-border !shadow-none"
-        >
-          <mat-card-content class="h-full">
-            <gq-transparency-graph
-              *ngIf="
-                (translationsLoaded$ | ngrxPush) &&
-                  !(transactionsLoading$ | ngrxPush);
-                else loading
-              "
-              [transactions]="graphTransactions$ | ngrxPush"
-              [coefficients]="coefficients$ | ngrxPush"
-              [currency]="quotationCurrency$ | ngrxPush"
-              [customer]="customer$ | ngrxPush"
-              [userHasGpcRole]="hasGpcRole$ | ngrxPush"
-              [hideRolesHint]="hideRolesHint$ | ngrxPush"
-            ></gq-transparency-graph>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="flex h-full w-full pl-4 pr-4 pt-4 lg:w-1/2 lg:pl-2 lg:pt-0">
-        <mat-card
-          appearance="outlined"
-          class="flex-1 border-[1px] border-border !shadow-none"
-        >
-          <mat-card-content class="h-full">
-            <gq-comparable-transactions
-              *ngIf="
-                (translationsLoaded$ | ngrxPush) &&
-                  !(transactionsLoading$ | ngrxPush);
-                else loading
-              "
-              [rowData]="transactions$ | ngrxPush"
-              [currency]="quotationCurrency$ | ngrxPush"
-              (filterChanged)="onFilterChanged($event)"
-            ></gq-comparable-transactions>
-          </mat-card-content>
-        </mat-card>
-      </div>
+@if (!(quotationLoading$ | ngrxPush)) {
+  <div class="flex h-full flex-1 flex-col">
+    <div *transloco="let t; read: 'transactionView.header'">
+      <schaeffler-subheader
+        [breadcrumbs]="breadcrumbs$ | ngrxPush"
+        [subheaderTitle]="t('title')"
+      >
+        <ng-container subheaderTitleContent>
+          <gq-material-price-header-content
+            [quotationDetail]="quotationDetail$ | ngrxPush"
+            [currency]="quotationCurrency$ | ngrxPush"
+            [price]="(quotationDetail$ | ngrxPush)?.recommendedPrice"
+          >
+          </gq-material-price-header-content>
+        </ng-container>
+        <ng-container subheaderInlineContent>
+          <schaeffler-share-button></schaeffler-share-button>
+        </ng-container>
+        <ng-container subheaderBlockContent>
+          <gq-status-customer-info-header [customer]="customer$ | ngrxPush">
+          </gq-status-customer-info-header>
+        </ng-container>
+      </schaeffler-subheader>
     </div>
-  </ng-template>
-</div>
-<ng-template #loading>
+    @if (
+      !(transactionsLoading$ | ngrxPush) &&
+      (transactions$ | ngrxPush)?.length === 0
+    ) {
+      <gq-saving-in-progress
+        class="h-full"
+        [hideRolesHint]="hideRolesHint$ | ngrxPush"
+      ></gq-saving-in-progress>
+    } @else {
+      <div class="flex flex-1 flex-col pt-4 pb-16 lg:flex-row">
+        <div class="flex h-full w-full pl-4 pr-4 lg:w-1/2 lg:pr-2">
+          <mat-card
+            appearance="outlined"
+            class="flex-1 overflow-hidden border-[1px] border-border !shadow-none"
+          >
+            <mat-card-content class="h-full">
+              @if (
+                (translationsLoaded$ | ngrxPush) &&
+                !(transactionsLoading$ | ngrxPush)
+              ) {
+                <gq-transparency-graph
+                  [transactions]="graphTransactions$ | ngrxPush"
+                  [coefficients]="coefficients$ | ngrxPush"
+                  [currency]="quotationCurrency$ | ngrxPush"
+                  [customer]="customer$ | ngrxPush"
+                  [userHasGpcRole]="hasGpcRole$ | ngrxPush"
+                  [hideRolesHint]="hideRolesHint$ | ngrxPush"
+                ></gq-transparency-graph>
+              } @else {
+                <schaeffler-loading-spinner></schaeffler-loading-spinner>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="flex h-full w-full pl-4 pr-4 pt-4 lg:w-1/2 lg:pl-2 lg:pt-0">
+          <mat-card
+            appearance="outlined"
+            class="flex-1 border-[1px] border-border !shadow-none"
+          >
+            <mat-card-content class="h-full">
+              @if (
+                (translationsLoaded$ | ngrxPush) &&
+                !(transactionsLoading$ | ngrxPush)
+              ) {
+                <gq-comparable-transactions
+                  [rowData]="transactions$ | ngrxPush"
+                  [currency]="quotationCurrency$ | ngrxPush"
+                  (filterChanged)="onFilterChanged($event)"
+                ></gq-comparable-transactions>
+              } @else {
+                <schaeffler-loading-spinner></schaeffler-loading-spinner>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
   <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>
+}

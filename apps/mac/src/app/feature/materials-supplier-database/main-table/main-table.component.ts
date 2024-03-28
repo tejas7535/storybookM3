@@ -376,7 +376,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           (column: ColDef) =>
             ({
               colId: column.field,
-            } as ColumnState)
+            }) as ColumnState
         );
         this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
         this.setVisibleColumns();
@@ -513,7 +513,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       ({
         data: { type: 'String', value },
         styleId: style,
-      } as ExcelCell);
+      }) as ExcelCell;
   }
 
   private parseQueryParams(): void {

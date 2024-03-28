@@ -112,7 +112,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
           Quotation,
           Customer,
           string,
-          ApprovalWorkflowInformation
+          ApprovalWorkflowInformation,
         ]) => ({
           approvalLevel,
           validityFrom: quotation.sapCreated,
@@ -145,7 +145,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
       map(
         ([approvalInformation, gqPricing]: [
           ApprovalWorkflowInformation,
-          QuotationPricingOverview
+          QuotationPricingOverview,
         ]) => ({
           netValue: {
             value:

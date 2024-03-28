@@ -47,33 +47,30 @@
       </div>
     </div>
 
-    <div
-      class="flex pb-4 items-end"
-      *ngFor="let materialInfo of materialInformation"
-    >
-      <gq-comparison-panel
-        [ngClass]="showDelta ? 'w-4/5' : 'flex-1'"
-        [panelKey]="materialInfo.informationKey"
-        [data]="materialInfo.properties"
-        [numberOfDeltas]="materialInfo.countOfDelta"
-        [showDelta]="showDelta"
-        (togglePanelExpanded)="
-          onTogglePanelExpanded(materialInfo.informationKey, $event)
-        "
-      ></gq-comparison-panel>
-      <ng-container
-        *ngIf="
+    @for (materialInfo of materialInformation; track materialInfo) {
+      <div class="flex pb-4 items-end">
+        <gq-comparison-panel
+          [ngClass]="showDelta ? 'w-4/5' : 'flex-1'"
+          [panelKey]="materialInfo.informationKey"
+          [data]="materialInfo.properties"
+          [numberOfDeltas]="materialInfo.countOfDelta"
+          [showDelta]="showDelta"
+          (togglePanelExpanded)="
+            onTogglePanelExpanded(materialInfo.informationKey, $event)
+          "
+        ></gq-comparison-panel>
+        @if (
           showDelta &&
           materialInfo.countOfDelta > 0 &&
           showDeltasByKey.get(materialInfo.informationKey)
-        "
-      >
-        <gq-comparison-delta
-          class="w-1/5"
-          [propertyDeltas]="materialInfo.deltaValues"
-        >
-        </gq-comparison-delta>
-      </ng-container>
-    </div>
+        ) {
+          <gq-comparison-delta
+            class="w-1/5"
+            [propertyDeltas]="materialInfo.deltaValues"
+          >
+          </gq-comparison-delta>
+        }
+      </div>
+    }
   </div>
 </ng-container>

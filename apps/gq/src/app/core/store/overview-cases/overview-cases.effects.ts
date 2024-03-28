@@ -153,7 +153,7 @@ export class OverviewCasesEffects implements OnInitEffects {
       map(
         ([_, tab]: [
           ReturnType<typeof OverviewCasesActions.updateCasesStatusSuccess>,
-          QuotationTab
+          QuotationTab,
         ]) => OverviewCasesActions.loadCases({ tab })
       )
     );

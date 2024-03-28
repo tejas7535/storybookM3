@@ -13,9 +13,7 @@
   (cancel)="cancelDialog()"
 >
   <div class="flex flex-col gap-y-3">
-    <ng-container
-      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
-    >
+    @if (!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)) {
       <ng-container *ngrxLet="hintData$ as hintData">
         <!-- MatStd -->
         <div class="text-subtitle-2 text-high-emphasis">
@@ -34,9 +32,9 @@
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('steelNumber') }}</mat-label>
-            <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
-              >&nbsp;{{ t('readonly') }}</mat-label
-            >
+            @if (isEditDialog() && !isCopyDialog()) {
+              <mat-label>&nbsp;{{ t('readonly') }}</mat-label>
+            }
             <input
               matInput
               placeholder="1.1234"
@@ -46,16 +44,17 @@
               name="materialNumbers"
               #dialogControl
             />
-            <mat-error
-              class="text-caption"
-              *ngIf="steelNumberControl.invalid"
-              [matTooltip]="t('error.steelNumber')"
-            >
-              {{ getErrorMessage(steelNumberControl.errors) }}
-              <mat-icon inline="true" class="!leading-3 cursor-help"
-                >info_outline</mat-icon
+            @if (steelNumberControl.invalid) {
+              <mat-error
+                class="text-caption"
+                [matTooltip]="t('error.steelNumber')"
               >
-            </mat-error>
+                {{ getErrorMessage(steelNumberControl.errors) }}
+                <mat-icon inline="true" class="!leading-3 cursor-help"
+                  >info_outline</mat-icon
+                >
+              </mat-error>
+            }
           </mat-form-field>
           <div class="flex w-full flex-row">
             <schaeffler-select
@@ -84,18 +83,18 @@
                 >info_outline</mat-icon
               >
             </span>
-            <button
-              *ngIf="dialogData.editDialogInformation?.selectedRows?.length > 1"
-              mat-icon-button
-              color="primary"
-              class="mt-1 ml-1"
-              (click)="openReferenceDocumentBulkEditDialog()"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
+            @if (dialogData.editDialogInformation?.selectedRows?.length > 1) {
+              <button
+                mat-icon-button
+                color="primary"
+                class="mt-1 ml-1"
+                (click)="openReferenceDocumentBulkEditDialog()"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
           </div>
         </div>
-
         <!-- Supplier Block -->
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('supplierInformationTitle') }}
@@ -108,7 +107,6 @@
           [supplierCountryControl]="supplierCountryControl"
           macMaterialDialogBasePart
         ></mac-manufacturer-supplier>
-
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('castingMode') }}</mat-label>
@@ -117,22 +115,20 @@
               name="castingMode"
               #dialogControl
             >
-              <mat-option
-                *ngFor="let mode of castingModes$ | ngrxPush"
-                [value]="mode"
-              >
-                {{ t(mode.toLowerCase()) }}
-              </mat-option>
+              @for (mode of castingModes$ | ngrxPush; track mode) {
+                <mat-option [value]="mode">
+                  {{ t(mode.toLowerCase()) }}
+                </mat-option>
+              }
             </mat-select>
             <mat-hint>
               {{ getHint(hintData, 'castingMode') }}
             </mat-hint>
-
-            <mat-error
-              class="text-caption"
-              *ngIf="castingModesControl.invalid"
-              >{{ getErrorMessage(castingModesControl.errors) }}</mat-error
-            >
+            @if (castingModesControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(castingModesControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
           <schaeffler-select
             appearance="outline"
@@ -152,13 +148,11 @@
             name="castingDiameter"
             #dialogControl
           >
-            <span
-              matErrorContent
-              class="text-caption"
-              *ngIf="castingDiameterControl.invalid"
-            >
-              {{ getErrorMessage(castingDiameterControl.errors) }}
-            </span>
+            @if (castingDiameterControl.invalid) {
+              <span matErrorContent class="text-caption">
+                {{ getErrorMessage(castingDiameterControl.errors) }}
+              </span>
+            }
           </schaeffler-select>
         </div>
         <div class="flex flex-row gap-x-6">
@@ -170,21 +164,21 @@
               name="rating"
               #dialogControl
             >
-              <mat-option
-                *ngFor="let rating of ratings$ | ngrxPush"
-                [value]="rating"
-              >
-                {{ rating.title }}
-              </mat-option>
+              @for (rating of ratings$ | ngrxPush; track rating) {
+                <mat-option [value]="rating">
+                  {{ rating.title }}
+                </mat-option>
+              }
             </mat-select>
             <mat-hint>
               {{ getHint(hintData, 'rating') }}
             </mat-hint>
-            <mat-error class="text-caption" *ngIf="ratingsControl.invalid">{{
-              getErrorMessage(ratingsControl.errors)
-            }}</mat-error>
+            @if (ratingsControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(ratingsControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
-
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('supplierRatingRemark') }}</mat-label>
             <input
@@ -198,7 +192,6 @@
             </mat-hint>
           </mat-form-field>
         </div>
-
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('ratingChangeComment') }}</mat-label>
@@ -211,13 +204,11 @@
             <mat-hint>
               {{ getHint(hintData, 'ratingChangeComment') }}
             </mat-hint>
-            <mat-error
-              class="text-caption"
-              *ngIf="ratingChangeCommentControl.invalid"
-              >{{
+            @if (ratingChangeCommentControl.invalid) {
+              <mat-error class="text-caption">{{
                 getErrorMessage(ratingChangeCommentControl.errors)
-              }}</mat-error
-            >
+              }}</mat-error>
+            }
           </mat-form-field>
         </div>
         <div class="-ml-2 flex flex-row gap-x-6">
@@ -238,7 +229,6 @@
             >
           </mat-checkbox>
         </div>
-
         <div class="-ml-2 flex flex-row gap-x-6">
           <mat-checkbox
             class="text-caption text-high-emphasis"
@@ -250,12 +240,10 @@
             {{ t('manufacturer') }}
           </mat-checkbox>
         </div>
-
         <!-- CO2 Block -->
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('co2AndProductInformationTitle') }}
         </div>
-
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('maxDim') }}</mat-label>
@@ -272,9 +260,11 @@
             <span matSuffix class="text-caption !block pt-1">{{
               t('mm')
             }}</span>
-            <mat-error class="text-caption" *ngIf="maxDimControl.invalid">{{
-              getErrorMessage(maxDimControl.errors)
-            }}</mat-error>
+            @if (maxDimControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(maxDimControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('minDim') }}</mat-label>
@@ -291,12 +281,13 @@
             <span matSuffix class="text-caption !block pt-1">{{
               t('mm')
             }}</span>
-            <mat-error class="text-caption" *ngIf="minDimControl.invalid">{{
-              getErrorMessage(minDimControl.errors)
-            }}</mat-error>
+            @if (minDimControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(minDimControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
         </div>
-
         <div class="flex flex-row gap-x-6">
           <schaeffler-select
             appearance="outline"
@@ -312,13 +303,11 @@
             name="productCategoryText"
             #dialogControl
           >
-            <span
-              matErrorContent
-              class="text-caption"
-              *ngIf="categoriesControl.invalid"
-            >
-              {{ getErrorMessage(categoriesControl.errors) }}
-            </span>
+            @if (categoriesControl.invalid) {
+              <span matErrorContent class="text-caption">
+                {{ getErrorMessage(categoriesControl.errors) }}
+              </span>
+            }
           </schaeffler-select>
           <schaeffler-select
             preCo2Classification
@@ -348,11 +337,11 @@
             <mat-hint>
               {{ getHint(hintData, 'minRecyclingRate') }}
             </mat-hint>
-            <mat-error
-              class="text-caption"
-              *ngIf="minRecyclingRateControl.invalid"
-              >{{ getErrorMessage(minRecyclingRateControl.errors) }}</mat-error
-            >
+            @if (minRecyclingRateControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(minRecyclingRateControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-1/5">
             <mat-label>{{ t('maxRecyclingRate') }}</mat-label>
@@ -367,11 +356,11 @@
             <mat-hint>
               {{ getHint(hintData, 'maxRecyclingRate') }}
             </mat-hint>
-            <mat-error
-              class="text-caption"
-              *ngIf="maxRecyclingRateControl.invalid"
-              >{{ getErrorMessage(maxRecyclingRateControl.errors) }}</mat-error
-            >
+            @if (maxRecyclingRateControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(maxRecyclingRateControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
         </div>
         <mac-co2-component
@@ -390,103 +379,105 @@
           [column]="getColumn()"
           macMaterialDialogBasePart
         >
-          <mat-error
-            afterCo2Scope
-            class="text-caption text-center"
-            *ngIf="isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)"
-            >{{ t('error.co2BulkEdit') }}
-          </mat-error>
+          @if (isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)) {
+            <mat-error afterCo2Scope class="text-caption text-center"
+              >{{ t('error.co2BulkEdit') }}
+            </mat-error>
+          }
         </mac-co2-component>
-
-        <div class="flex flex-row gap-x-6" [ngSwitch]="selectReleaseDateView()">
-          <ng-container *ngSwitchCase="'READONLY'">
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-label
-                >{{ t('releaseDateYear') }} {{ t('readonly') }}</mat-label
-              >
-              <input
-                matInput
-                [value]="releaseYearControl.value || ''"
-                name="releaseDate"
-                #dialogControl
-                readonly="true"
-              />
-            </mat-form-field>
-            <mat-form-field
-              appearance="outline"
-              class="w-full"
-              *ngIf="releaseMonthControl.value"
-            >
-              <mat-label
-                >{{ t('releaseDateMonth') }} {{ t('readonly') }}</mat-label
-              >
-              <input
-                matInput
-                [value]="t('month.' + releaseMonthControl.value)"
-                name="releaseDateMonth"
-                #dialogControl
-                readonly="true"
-              />
-            </mat-form-field>
-          </ng-container>
-          <ng-container *ngSwitchCase="'HISTORIC'">
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-label>{{ t('releaseDate') }} {{ t('readonly') }}</mat-label>
-              <input
-                matInput
-                [value]="t('historicallyApproved')"
-                name="releaseDate"
-                #dialogControl
-                readonly="true"
-              />
-            </mat-form-field>
-          </ng-container>
-          <!-- DEFAULT == EDIT-->
-          <ng-container *ngSwitchDefault>
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-label>{{ t('releaseDateYear') }}</mat-label>
-              <mat-select
-                [formControl]="releaseYearControl"
-                name="releaseDate"
-                #dialogControl
-              >
-                <mat-option *ngFor="let year of years" [value]="year">
-                  {{ year }}
-                </mat-option>
-              </mat-select>
-              <mat-hint>
-                {{ getHint(hintData, 'releaseDateYear') }}
-              </mat-hint>
-              <mat-error
-                class="text-caption"
-                *ngIf="releaseYearControl.invalid"
-                >{{ t('error.required') }}</mat-error
-              >
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="w-full">
-              <mat-label>{{ t('releaseDateMonth') }}</mat-label>
-              <mat-select
-                [formControl]="releaseMonthControl"
-                name="releaseDateMonth"
-                #dialogControl
-              >
-                <mat-option *ngFor="let month of months" [value]="month">
-                  {{ t('month.' + month) }}
-                </mat-option>
-              </mat-select>
-              <mat-error
-                class="text-caption"
-                *ngIf="releaseMonthControl.invalid"
-                >{{ t('error.required') }}</mat-error
-              >
-              <mat-hint>
-                {{ getHint(hintData, 'releaseDateMonth') }}
-              </mat-hint>
-            </mat-form-field>
-          </ng-container>
+        <div class="flex flex-row gap-x-6">
+          @switch (selectReleaseDateView()) {
+            @case ('READONLY') {
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label
+                  >{{ t('releaseDateYear') }} {{ t('readonly') }}</mat-label
+                >
+                <input
+                  matInput
+                  [value]="releaseYearControl.value || ''"
+                  name="releaseDate"
+                  #dialogControl
+                  readonly="true"
+                />
+              </mat-form-field>
+              @if (releaseMonthControl.value) {
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label
+                    >{{ t('releaseDateMonth') }} {{ t('readonly') }}</mat-label
+                  >
+                  <input
+                    matInput
+                    [value]="t('month.' + releaseMonthControl.value)"
+                    name="releaseDateMonth"
+                    #dialogControl
+                    readonly="true"
+                  />
+                </mat-form-field>
+              }
+            }
+            @case ('HISTORIC') {
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label
+                  >{{ t('releaseDate') }} {{ t('readonly') }}</mat-label
+                >
+                <input
+                  matInput
+                  [value]="t('historicallyApproved')"
+                  name="releaseDate"
+                  #dialogControl
+                  readonly="true"
+                />
+              </mat-form-field>
+            }
+            <!-- DEFAULT == EDIT-->
+            @default {
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>{{ t('releaseDateYear') }}</mat-label>
+                <mat-select
+                  [formControl]="releaseYearControl"
+                  name="releaseDate"
+                  #dialogControl
+                >
+                  @for (year of years; track year) {
+                    <mat-option [value]="year">
+                      {{ year }}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-hint>
+                  {{ getHint(hintData, 'releaseDateYear') }}
+                </mat-hint>
+                @if (releaseYearControl.invalid) {
+                  <mat-error class="text-caption">{{
+                    t('error.required')
+                  }}</mat-error>
+                }
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>{{ t('releaseDateMonth') }}</mat-label>
+                <mat-select
+                  [formControl]="releaseMonthControl"
+                  name="releaseDateMonth"
+                  #dialogControl
+                >
+                  @for (month of months; track month) {
+                    <mat-option [value]="month">
+                      {{ t('month.' + month) }}
+                    </mat-option>
+                  }
+                </mat-select>
+                @if (releaseMonthControl.invalid) {
+                  <mat-error class="text-caption">{{
+                    t('error.required')
+                  }}</mat-error>
+                }
+                <mat-hint>
+                  {{ getHint(hintData, 'releaseDateMonth') }}
+                </mat-hint>
+              </mat-form-field>
+            }
+          }
         </div>
-
         <div class="-ml-2 flex flex-row gap-x-6">
           <mat-checkbox
             class="text-caption text-high-emphasis"
@@ -506,6 +497,6 @@
           </mat-checkbox>
         </div>
       </ng-container>
-    </ng-container>
+    }
   </div>
 </mac-base-dialog>

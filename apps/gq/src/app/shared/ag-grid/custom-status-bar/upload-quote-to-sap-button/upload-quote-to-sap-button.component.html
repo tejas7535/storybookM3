@@ -1,25 +1,26 @@
-<div *ngIf="!(sapId$ | ngrxPush) && !(simulationModeEnabled$ | ngrxPush)">
-  <div
-    *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    [matTooltip]="t(tooltipText$ | ngrxPush)"
-    [matTooltipDisabled]="(quotationActive$ | ngrxPush) && !uploadDisabled"
-    matTooltipPosition="above"
-  >
-    <button
-      class="!m-4 !ml-0"
-      [disabled]="uploadDisabled || !(quotationActive$ | ngrxPush)"
-      mat-raised-button
-      color="primary"
-      (click)="uploadCaseToSap()"
+@if (!(sapId$ | ngrxPush) && !(simulationModeEnabled$ | ngrxPush)) {
+  <div>
+    <div
+      *transloco="let t; read: 'shared.customStatusBar.buttons'"
+      [matTooltip]="t(tooltipText$ | ngrxPush)"
+      [matTooltipDisabled]="(quotationActive$ | ngrxPush) && !uploadDisabled"
+      matTooltipPosition="above"
     >
-      <mat-icon>cloud_upload</mat-icon>
-
-      <span class="hidden lg:inline">
-        {{ t('uploadQuoteToSap') }}
-      </span>
-      <span class="lg:hidden">
-        {{ t('uploadQuoteToSapMobile') }}
-      </span>
-    </button>
+      <button
+        class="!m-4 !ml-0"
+        [disabled]="uploadDisabled || !(quotationActive$ | ngrxPush)"
+        mat-raised-button
+        color="primary"
+        (click)="uploadCaseToSap()"
+      >
+        <mat-icon>cloud_upload</mat-icon>
+        <span class="hidden lg:inline">
+          {{ t('uploadQuoteToSap') }}
+        </span>
+        <span class="lg:hidden">
+          {{ t('uploadQuoteToSapMobile') }}
+        </span>
+      </button>
+    </div>
   </div>
-</div>
+}

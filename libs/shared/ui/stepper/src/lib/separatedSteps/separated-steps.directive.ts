@@ -7,7 +7,10 @@ import { MatStepper } from '@angular/material/stepper';
 })
 export class SeparatedStepsDirective implements AfterViewInit {
   public el!: ElementRef;
-  public constructor(el: ElementRef, public stepper: MatStepper) {
+  public constructor(
+    el: ElementRef,
+    public stepper: MatStepper
+  ) {
     this.el = el;
   }
 

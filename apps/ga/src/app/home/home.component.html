@@ -10,53 +10,53 @@
     </div>
   </div>
   <div class="container mx-auto px-4 md:max-w-screen-md">
-    <ga-qualtrics-info-banner
-      *ngIf="!(partnerVersion$ | ngrxPush)"
-      class="block mb-3 md:mb-6"
-    ></ga-qualtrics-info-banner>
+    @if (!(partnerVersion$ | ngrxPush)) {
+      <ga-qualtrics-info-banner
+        class="block mb-3 md:mb-6"
+      ></ga-qualtrics-info-banner>
+    }
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
       <ga-easy-calc-card class="col-span-2 md:col-span-4"> </ga-easy-calc-card>
-      <ng-container
-        *ngFor="let card of homeCardsService.getHomeCards() | ngrxPush"
-      >
+      @for (card of homeCardsService.getHomeCards() | ngrxPush; track card) {
         <ga-homepage-card [homepageCard]="card"></ga-homepage-card>
-      </ng-container>
+      }
     </div>
-    <div
-      *ngIf="
-        (appDelivery$ | ngrxPush) === 'standalone' &&
-        !(partnerVersion$ | ngrxPush)
-      "
-      class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:max-w-screen-md mt-8"
-    >
-      <div class="flex flex-row justify-center md:justify-end md:col-start-2">
-        <a
-          href="https://apps.apple.com/app/grease-app/id1625065852"
-          target="_blank"
-          (click)="sendClickEvent('appStore')"
-        >
-          <img
-            src="/assets/images/icons/store-badges/apple-appstore-badge.svg"
-            class="w-40 md:w-auto md:h-8"
-            alt="Download on Apple App Store badge"
-          />
-        </a>
-      </div>
+    @if (
+      (appDelivery$ | ngrxPush) === 'standalone' &&
+      !(partnerVersion$ | ngrxPush)
+    ) {
       <div
-        class="flex flex-row justify-center md:justify-start col-start md:col-start-3"
+        class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:max-w-screen-md mt-8"
       >
-        <a
-          href="https://play.google.com/store/apps/details?id=com.schaeffler.greaseapp"
-          target="_blank"
-          (click)="sendClickEvent('play')"
+        <div class="flex flex-row justify-center md:justify-end md:col-start-2">
+          <a
+            href="https://apps.apple.com/app/grease-app/id1625065852"
+            target="_blank"
+            (click)="sendClickEvent('appStore')"
+          >
+            <img
+              src="/assets/images/icons/store-badges/apple-appstore-badge.svg"
+              class="w-40 md:w-auto md:h-8"
+              alt="Download on Apple App Store badge"
+            />
+          </a>
+        </div>
+        <div
+          class="flex flex-row justify-center md:justify-start col-start md:col-start-3"
         >
-          <img
-            src="/assets/images/icons/store-badges/google-play-badge.png"
-            class="w-40 md:w-auto md:h-8"
-            alt="Download on Google Play Store badge"
-          />
-        </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.schaeffler.greaseapp"
+            target="_blank"
+            (click)="sendClickEvent('play')"
+          >
+            <img
+              src="/assets/images/icons/store-badges/google-play-badge.png"
+              class="w-40 md:w-auto md:h-8"
+              alt="Download on Google Play Store badge"
+            />
+          </a>
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

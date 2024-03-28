@@ -31,14 +31,4 @@ describe('OpenPositionsListComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const index = 5;
-
-      const result = component.trackByFn(index);
-
-      expect(result).toBe(index);
-    });
-  });
 });

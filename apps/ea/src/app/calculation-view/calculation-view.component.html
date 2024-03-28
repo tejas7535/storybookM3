@@ -1,15 +1,15 @@
-<schaeffler-breadcrumbs
-  *ngIf="isStandalone$ | ngrxPush"
-  class="mx-4 mt-4 hidden sm:block"
-  [breadcrumbs]="breadcrumbs$ | ngrxPush"
-></schaeffler-breadcrumbs>
-<ng-container *ngIf="isBearingSupported$ | ngrxPush; else legacyApp">
+@if (isStandalone$ | ngrxPush) {
+  <schaeffler-breadcrumbs
+    class="mx-4 mt-4 hidden sm:block"
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
+  ></schaeffler-breadcrumbs>
+}
+@if (isBearingSupported$ | ngrxPush) {
   <div class="flex flex-1 max-w-full justify-center">
     <ea-calculation-container></ea-calculation-container>
   </div>
-</ng-container>
-<ng-template #legacyApp>
+} @else {
   <ea-legacy-app
     [bearingDesignation]="bearingDesignation$ | ngrxPush"
   ></ea-legacy-app>
-</ng-template>
+}

@@ -13,9 +13,7 @@
   (cancel)="cancelDialog()"
 >
   <div class="flex flex-col gap-y-3">
-    <ng-container
-      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
-    >
+    @if (!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)) {
       <ng-container *ngrxLet="hintData$ as hintData">
         <!-- MatStd -->
         <div class="text-subtitle-2 text-high-emphasis">
@@ -34,9 +32,9 @@
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('copperNumber') }}</mat-label>
-            <mat-label *ngIf="isEditDialog() && !isCopyDialog()"
-              >&nbsp;{{ t('readonly') }}</mat-label
-            >
+            @if (isEditDialog() && !isCopyDialog()) {
+              <mat-label>&nbsp;{{ t('readonly') }}</mat-label>
+            }
             <input
               matInput
               placeholder="2.1234"
@@ -46,15 +44,18 @@
               name="materialNumbers"
               #dialogControl
             />
-            <mat-error
-              class="text-caption"
-              *ngIf="materialNumberControl.invalid"
-              [matTooltip]="t('error.copperNumber')"
-              class="cursor-help"
-            >
-              {{ getErrorMessage(materialNumberControl.errors) }}
-              <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
-            </mat-error>
+            @if (materialNumberControl.invalid) {
+              <mat-error
+                class="text-caption"
+                [matTooltip]="t('error.copperNumber')"
+                class="cursor-help"
+              >
+                {{ getErrorMessage(materialNumberControl.errors) }}
+                <mat-icon inline="true" class="!leading-3"
+                  >info_outline</mat-icon
+                >
+              </mat-error>
+            }
           </mat-form-field>
           <div class="flex w-full flex-row">
             <schaeffler-select
@@ -83,18 +84,18 @@
                 >info_outline</mat-icon
               >
             </span>
-            <button
-              *ngIf="dialogData.editDialogInformation?.selectedRows?.length > 1"
-              mat-icon-button
-              color="primary"
-              class="mt-1 ml-1"
-              (click)="openReferenceDocumentBulkEditDialog()"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
+            @if (dialogData.editDialogInformation?.selectedRows?.length > 1) {
+              <button
+                mat-icon-button
+                color="primary"
+                class="mt-1 ml-1"
+                (click)="openReferenceDocumentBulkEditDialog()"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
           </div>
         </div>
-
         <!-- Supplier Block -->
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('supplierInformationTitle') }}
@@ -107,7 +108,6 @@
           [supplierCountryControl]="supplierCountryControl"
           macMaterialDialogBasePart
         ></mac-manufacturer-supplier>
-
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('castingMode') }}</mat-label>
@@ -116,21 +116,20 @@
               name="castingMode"
               #dialogControl
             >
-              <mat-option
-                *ngFor="let mode of castingModes$ | ngrxPush"
-                [value]="mode"
-              >
-                {{ t(mode.toLowerCase()) }}
-              </mat-option>
+              @for (mode of castingModes$ | ngrxPush; track mode) {
+                <mat-option [value]="mode">
+                  {{ t(mode.toLowerCase()) }}
+                </mat-option>
+              }
             </mat-select>
             <mat-hint>
               {{ getHint(hintData, 'castingMode') }}
             </mat-hint>
-            <mat-error
-              class="text-caption"
-              *ngIf="castingModesControl.invalid"
-              >{{ getErrorMessage(castingModesControl.errors) }}</mat-error
-            >
+            @if (castingModesControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(castingModesControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
           <schaeffler-select
             appearance="outline"
@@ -150,21 +149,17 @@
             name="castingDiameter"
             #dialogControl
           >
-            <span
-              matErrorContent
-              class="text-caption"
-              *ngIf="castingDiameterControl.invalid"
-            >
-              {{ getErrorMessage(castingDiameterControl.errors) }}
-            </span>
+            @if (castingDiameterControl.invalid) {
+              <span matErrorContent class="text-caption">
+                {{ getErrorMessage(castingDiameterControl.errors) }}
+              </span>
+            }
           </schaeffler-select>
         </div>
-
         <!-- CO2 Block -->
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('co2AndProductInformationTitle') }}
         </div>
-
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>{{ t('maxDim') }}</mat-label>
@@ -181,11 +176,12 @@
             <mat-hint>
               {{ getHint(hintData, 'maxDimension') }}
             </mat-hint>
-            <mat-error class="text-caption" *ngIf="maxDimControl.invalid">{{
-              getErrorMessage(maxDimControl.errors)
-            }}</mat-error>
+            @if (maxDimControl.invalid) {
+              <mat-error class="text-caption">{{
+                getErrorMessage(maxDimControl.errors)
+              }}</mat-error>
+            }
           </mat-form-field>
-
           <schaeffler-select
             appearance="outline"
             class="w-full"
@@ -201,13 +197,11 @@
             name="productCategoryText"
             #dialogControl
           >
-            <span
-              matErrorContent
-              class="text-caption"
-              *ngIf="categoriesControl.invalid"
-            >
-              {{ getErrorMessage(categoriesControl.errors) }}
-            </span>
+            @if (categoriesControl.invalid) {
+              <span matErrorContent class="text-caption">
+                {{ getErrorMessage(categoriesControl.errors) }}
+              </span>
+            }
           </schaeffler-select>
         </div>
         <mac-co2-component
@@ -226,13 +220,14 @@
           [column]="getColumn()"
           macMaterialDialogBasePart
         >
-          <mat-error
-            class="text-caption"
-            afterCo2Scope
-            class="text-caption text-center"
-            *ngIf="isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)"
-            >{{ t('error.co2BulkEdit') }}
-          </mat-error>
+          @if (isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)) {
+            <mat-error
+              class="text-caption"
+              afterCo2Scope
+              class="text-caption text-center"
+              >{{ t('error.co2BulkEdit') }}
+            </mat-error>
+          }
           <schaeffler-select
             preCo2Classification
             appearance="outline"
@@ -250,6 +245,6 @@
           ></schaeffler-select>
         </mac-co2-component>
       </ng-container>
-    </ng-container>
+    }
   </div>
 </mac-base-dialog>

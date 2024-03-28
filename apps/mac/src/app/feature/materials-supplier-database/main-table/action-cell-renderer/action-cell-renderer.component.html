@@ -1,5 +1,5 @@
 <div class="flex h-[46px] w-full flex-row">
-  <ng-container *ngIf="isBulkEditAllowed$ | ngrxPush">
+  @if (isBulkEditAllowed$ | ngrxPush) {
     <div class="p-2">
       <mat-icon
         (click)="onSelectClick()"
@@ -7,7 +7,7 @@
         >{{ isSelected() ? 'check_box' : 'check_box_outline_blank' }}</mat-icon
       >
     </div>
-  </ng-container>
+  }
 
   <button
     class="my-auto !w-10 !h-10"
@@ -17,8 +17,8 @@
   >
     <mat-icon
       [ngClass]="{
-          'line-through': activeSelectionOnGrid(),
-        }"
+        'line-through': activeSelectionOnGrid()
+      }"
       class="text-medium-emphasis !text-[16px] pr-2"
       >content_copy</mat-icon
     >

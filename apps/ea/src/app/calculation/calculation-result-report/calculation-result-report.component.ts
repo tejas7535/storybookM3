@@ -34,7 +34,7 @@ import { CalculationResultMessagesComponent } from '../calculation-result-messag
 import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
-import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
+import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
 
 @Component({
   templateUrl: './calculation-result-report.component.html',

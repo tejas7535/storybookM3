@@ -1,4 +1,4 @@
-<ng-container *ngIf="greaseResult">
+@if (greaseResult) {
   <div
     *transloco="let t; read: 'calculationResult'"
     class="overflow-hidden border-y-[1.5px] border-border lg:rounded lg:border-x-[1.5px]"
@@ -21,64 +21,61 @@
             "
           ></div>
         </div>
-
         <!-- Chip if grease in general is not suited -->
-        <div
-          *ngIf="!greaseResult.isSufficient"
-          class="relative ml-3 inline-block"
-        >
+        @if (!greaseResult.isSufficient) {
+          <div class="relative ml-3 inline-block">
+            <div
+              class="ml-3 inline-block cursor-pointer rounded-full bg-orange px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
+              matTooltip="{{ t('insufficientGreaseResultTooltip') }}"
+              matTooltipPosition="below"
+              matTooltipClass="!max-w-[400px]"
+              #insufficientTooltip="matTooltip"
+              (click)="insufficientTooltip.toggle()"
+            >
+              {{ t('insufficientGreaseResultHint') }}
+            </div>
+          </div>
+        }
+        <!-- Chip for preselection -->
+        @if (
+          greaseResult.isSufficient &&
+          preferredGreaseResult &&
+          (greaseResult.isPreferred || isAlternative())
+        ) {
           <div
-            class="ml-3 inline-block cursor-pointer rounded-full bg-orange px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
-            matTooltip="{{ t('insufficientGreaseResultTooltip') }}"
+            class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption text-medium-emphasis"
+            [ngClass]="{
+              'cursor-pointer border !border-primary !bg-[#EDF7F1]':
+                !greaseResult.isPreferred
+            }"
+            [matTooltipDisabled]="greaseResult.isPreferred"
+            matTooltip="{{ t('preferredGreaseHintAlternativeTooltip') }}"
             matTooltipPosition="below"
             matTooltipClass="!max-w-[400px]"
-            #insufficientTooltip="matTooltip"
-            (click)="insufficientTooltip.toggle()"
+            #alternativeTooltip="matTooltip"
+            (click)="alternativeTooltip.toggle()"
           >
-            {{ t('insufficientGreaseResultHint') }}
+            {{
+              t(
+                greaseResult.isPreferred
+                  ? 'preferredGreaseHintSelected'
+                  : 'preferredGreaseHintAlternative'
+              )
+            }}
           </div>
-        </div>
-
-        <!-- Chip for preselection -->
-        <div
-          *ngIf="
-            greaseResult.isSufficient &&
-            preferredGreaseResult &&
-            (greaseResult.isPreferred || isAlternative())
-          "
-          class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption text-medium-emphasis"
-          [ngClass]="{
-            'cursor-pointer border !border-primary !bg-[#EDF7F1]':
-              !greaseResult.isPreferred
-          }"
-          [matTooltipDisabled]="greaseResult.isPreferred"
-          matTooltip="{{ t('preferredGreaseHintAlternativeTooltip') }}"
-          matTooltipPosition="below"
-          matTooltipClass="!max-w-[400px]"
-          #alternativeTooltip="matTooltip"
-          (click)="alternativeTooltip.toggle()"
-        >
-          {{
-            t(
-              greaseResult.isPreferred
-                ? 'preferredGreaseHintSelected'
-                : 'preferredGreaseHintAlternative'
-            )
-          }}
-        </div>
+        }
       </div>
     </div>
-
-    <div
-      *ngIf="partnerVersion$ | ngrxPush"
-      class="flex flex-row gap-2 p-3 bg-primary bg-opacity-[0.07] border-border border-b"
-    >
-      <span class="text-caption text-medium-emphasis">{{
-        t('poweredBy')
-      }}</span>
-      <img class="h-3 mt-[1px]" src="/assets/images/schaeffler-logo.svg" />
-    </div>
-
+    @if (partnerVersion$ | ngrxPush) {
+      <div
+        class="flex flex-row gap-2 p-3 bg-primary bg-opacity-[0.07] border-border border-b"
+      >
+        <span class="text-caption text-medium-emphasis">{{
+          t('poweredBy')
+        }}</span>
+        <img class="h-3 mt-[1px]" src="/assets/images/schaeffler-logo.svg" />
+      </div>
+    }
     <div
       class="overflow-hidden overflow-x-auto transition-[max-height] duration-300 ease-in-out"
       [ngClass]="{
@@ -86,52 +83,60 @@
         'max-h-[600px]': !showAllValues
       }"
     >
-      <schaeffler-label-value
-        *ngIf="!showConcept1Details; else concept1Details"
-        [labelValues]="labelValues | automaticLubrication: automaticLubrication"
-        [labelMaxWidth]="labelWidth"
-      >
-        <ng-template #custom let-row="row" let-settings="data">
-          <div *ngIf="row === concept1">
-            <ga-grease-report-concept1
-              [settings]="settings"
-              (showDetails)="toggleShowConcept1Details()"
-            ></ga-grease-report-concept1>
-          </div>
-        </ng-template>
-      </schaeffler-label-value>
-    </div>
-    <ng-template #concept1Details>
-      <ga-grease-report-concept1-detail
-        [greaseResult]="greaseResult"
-        [settings]="getSettings(labelValues)"
-        [partnerVersion]="partnerVersion$ | ngrxPush"
-        (hideDetails)="toggleShowConcept1Details()"
-      >
-      </ga-grease-report-concept1-detail>
-    </ng-template>
-    <div *ngIf="!showConcept1Details" class="p-3 pb-4">
-      <button
-        class="w-full"
-        mat-stroked-button
-        color="primary"
-        (click)="toggleShowValues()"
-      >
-        <mat-icon
-          class="transition-all duration-300 ease-out"
-          [ngClass]="{ 'rotate-180': showAllValues }"
-          >expand_more</mat-icon
+      @if (!showConcept1Details) {
+        <schaeffler-label-value
+          [labelValues]="
+            labelValues | automaticLubrication: automaticLubrication
+          "
+          [labelMaxWidth]="labelWidth"
         >
-        {{ t(showAllValues ? 'hideValues' : 'allValues') }}
-      </button>
+          <ng-template #custom let-row="row" let-settings="data">
+            @if (row === concept1) {
+              <div>
+                <ga-grease-report-concept1
+                  [settings]="settings"
+                  (showDetails)="toggleShowConcept1Details()"
+                ></ga-grease-report-concept1>
+              </div>
+            }
+          </ng-template>
+        </schaeffler-label-value>
+      } @else {
+        <ga-grease-report-concept1-detail
+          [greaseResult]="greaseResult"
+          [settings]="getSettings(labelValues)"
+          [partnerVersion]="partnerVersion$ | ngrxPush"
+          (hideDetails)="toggleShowConcept1Details()"
+        >
+        </ga-grease-report-concept1-detail>
+      }
     </div>
-    <div *ngIf="!showConcept1Details" class="px-3 pb-4">
-      <ga-grease-report-shop-buttons
-        [greaseResult]="greaseResult"
-        [settings]="getSettings(labelValues)"
-        [showConcept1Button]="automaticLubrication"
-        [partnerVersion]="partnerVersion$ | ngrxPush"
-      ></ga-grease-report-shop-buttons>
-    </div>
+    @if (!showConcept1Details) {
+      <div class="p-3 pb-4">
+        <button
+          class="w-full"
+          mat-stroked-button
+          color="primary"
+          (click)="toggleShowValues()"
+        >
+          <mat-icon
+            class="transition-all duration-300 ease-out"
+            [ngClass]="{ 'rotate-180': showAllValues }"
+            >expand_more</mat-icon
+          >
+          {{ t(showAllValues ? 'hideValues' : 'allValues') }}
+        </button>
+      </div>
+    }
+    @if (!showConcept1Details) {
+      <div class="px-3 pb-4">
+        <ga-grease-report-shop-buttons
+          [greaseResult]="greaseResult"
+          [settings]="getSettings(labelValues)"
+          [showConcept1Button]="automaticLubrication"
+          [partnerVersion]="partnerVersion$ | ngrxPush"
+        ></ga-grease-report-shop-buttons>
+      </div>
+    }
   </div>
-</ng-container>
+}

@@ -45,14 +45,6 @@ describe('BreadcrumbsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
-
   describe('showTruncation', () => {
     test('should return truncation status', () => {
       expect(component.showTruncation()).toEqual(false);

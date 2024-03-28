@@ -1,18 +1,15 @@
 <ng-container *hideIfQuotationNotActive>
-  <ng-container *ngIf="buttonVisible$ | ngrxPush">
+  @if (buttonVisible$ | ngrxPush) {
     <div
       class="fixed bottom-40"
       [ngClass]="deleteButtonClass$ | ngrxPush"
       *transloco="let t; read: 'shared.customStatusBar.buttons'"
     >
-      <button
-        *ngIf="selections.length"
-        mat-fab
-        color="primary"
-        (click)="deletePositions()"
-      >
-        <mat-icon>{{ icon }}</mat-icon>
-      </button>
+      @if (selections.length) {
+        <button mat-fab color="primary" (click)="deletePositions()">
+          <mat-icon>{{ icon }}</mat-icon>
+        </button>
+      }
     </div>
-  </ng-container>
+  }
 </ng-container>

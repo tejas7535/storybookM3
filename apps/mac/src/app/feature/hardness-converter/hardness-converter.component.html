@@ -22,216 +22,228 @@
   </div>
   <div class="mt-[89px] w-full flex-1 overflow-y-auto sm:mt-[101px]">
     <div class="flex flex-col overflow-y-auto p-4">
-      <div
-        class="flex flex-col rounded md:mx-auto md:border md:border-border md:p-6"
-        *ngIf="units$ | ngrxPush; else loading"
-      >
-        <div class="flex w-full flex-row">
-          <div class="flex flex-1 flex-col">
-            <div class="flex flex-col">
-              <mat-form-field appearance="outline" class="max-w-[592px]">
-                <mat-label>{{ t('conversionTable') }}</mat-label>
-                <mat-select [formControl]="inputTable">
-                  <mat-option
-                    *ngFor="let table of tables$ | ngrxPush; trackBy: trackByFn"
-                    [value]="table"
-                    >{{ t('normLong.' + table) }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="flex flex-col gap-4 md:flex-row">
-              <mat-form-field appearance="outline" class="md:w-72">
-                <mat-label>{{ t('value') }}</mat-label>
-                <input
-                  #defaultInputValue
-                  matInput
-                  [formControl]="inputValue"
-                  type="number"
-                  [step]="step"
-                />
-                <mat-error class="text-caption" *ngIf="inputValue.invalid"
-                  >{{ t('negativeValueError') }}
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="md:w-72">
-                <mat-label>{{ t('from') }}</mat-label>
-                <mat-select
-                  [formControl]="inputUnit"
-                  [matTooltip]="getTooltip(inputUnit.value)"
-                >
-                  <mat-option
-                    *ngFor="let unit of units$ | ngrxPush; trackBy: trackByFn"
-                    [value]="unit"
-                    [disabled]="!(enabled$ | ngrxPush)?.includes(unit)"
-                    [matTooltip]="getTooltip(unit)"
-                    >{{ t('unit.' + unit, { hint: ' (' + t('uts') + ')' }) }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <ng-container *ngFor="let inputGroup of additionalInputs.controls">
-              <div class="flex flex-1 flex-col gap-4 md:flex-row">
-                <mat-form-field appearance="outline" class="md:w-72">
-                  <mat-label>{{ t('value') }}</mat-label>
-                  <input
-                    matInput
-                    [formControl]="inputGroup.get('0')"
-                    [step]="step"
-                    type="number"
-                  />
-                  <mat-error class="text-caption" *ngIf="inputGroup.get('0')"
-                    >{{ t('negativeValueError') }}
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="md:w-72">
-                  <mat-label>{{ t('value') }}</mat-label>
-                  <input
-                    matInput
-                    [formControl]="inputGroup.get('1')"
-                    [step]="step"
-                    type="number"
-                  />
-                  <mat-error class="text-caption" *ngIf="inputGroup.get('1')"
-                    >{{ t('negativeValueError') }}
-                  </mat-error>
+      @if (units$ | ngrxPush) {
+        <div
+          class="flex flex-col rounded md:mx-auto md:border md:border-border md:p-6"
+        >
+          <div class="flex w-full flex-row">
+            <div class="flex flex-1 flex-col">
+              <div class="flex flex-col">
+                <mat-form-field appearance="outline" class="max-w-[592px]">
+                  <mat-label>{{ t('conversionTable') }}</mat-label>
+                  <mat-select [formControl]="inputTable">
+                    @for (table of tables$ | ngrxPush; track $index) {
+                      <mat-option [value]="table"
+                        >{{ t('normLong.' + table) }}
+                      </mat-option>
+                    }
+                  </mat-select>
                 </mat-form-field>
               </div>
-            </ng-container>
+              <div class="flex flex-col gap-4 md:flex-row">
+                <mat-form-field appearance="outline" class="md:w-72">
+                  <mat-label>{{ t('value') }}</mat-label>
+                  <input
+                    #defaultInputValue
+                    matInput
+                    [formControl]="inputValue"
+                    type="number"
+                    [step]="step"
+                  />
+                  @if (inputValue.invalid) {
+                    <mat-error class="text-caption"
+                      >{{ t('negativeValueError') }}
+                    </mat-error>
+                  }
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="md:w-72">
+                  <mat-label>{{ t('from') }}</mat-label>
+                  <mat-select
+                    [formControl]="inputUnit"
+                    [matTooltip]="getTooltip(inputUnit.value)"
+                  >
+                    @for (unit of units$ | ngrxPush; track $index) {
+                      <mat-option
+                        [value]="unit"
+                        [disabled]="!(enabled$ | ngrxPush)?.includes(unit)"
+                        [matTooltip]="getTooltip(unit)"
+                        >{{
+                          t('unit.' + unit, { hint: ' (' + t('uts') + ')' })
+                        }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              @for (inputGroup of additionalInputs.controls; track inputGroup) {
+                <div class="flex flex-1 flex-col gap-4 md:flex-row">
+                  <mat-form-field appearance="outline" class="md:w-72">
+                    <mat-label>{{ t('value') }}</mat-label>
+                    <input
+                      matInput
+                      [formControl]="inputGroup.get('0')"
+                      [step]="step"
+                      type="number"
+                    />
+                    @if (inputGroup.get('0')) {
+                      <mat-error class="text-caption"
+                        >{{ t('negativeValueError') }}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="md:w-72">
+                    <mat-label>{{ t('value') }}</mat-label>
+                    <input
+                      matInput
+                      [formControl]="inputGroup.get('1')"
+                      [step]="step"
+                      type="number"
+                    />
+                    @if (inputGroup.get('1')) {
+                      <mat-error class="text-caption"
+                        >{{ t('negativeValueError') }}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+              }
+            </div>
+            <div class="mb-9 flex flex-col justify-end pl-4">
+              <button mat-mini-fab color="primary" (click)="onAddButtonClick()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
           </div>
-          <div class="mb-9 flex flex-col justify-end pl-4">
-            <button mat-mini-fab color="primary" (click)="onAddButtonClick()">
-              <mat-icon>add</mat-icon>
+          <div class="flex flex-col pb-4">
+            <!-- MULTI VALUE CALCULATION -->
+            @if (multipleValues$ | ngrxPush) {
+              <div>
+                <div
+                  class="my-9 flex flex-row justify-center text-center text-subtitle-1"
+                >
+                  {{ t('statisticalEvaluation') }}
+                </div>
+                <div class="flex flex-col gap-8 md:flex-row">
+                  <div class="flex flex-1">
+                    <mac-copy-input
+                      class="w-full"
+                      [value]="average$ | ngrxPush"
+                      [unit]="t('unit.' + inputUnit.value)"
+                      [label]="t('averageValue')"
+                      [tooltip]="getTooltip(inputUnit.value)"
+                      [precision]="getPrecision(inputUnit.value)"
+                    ></mac-copy-input>
+                  </div>
+                  <div class="flex flex-1">
+                    <mac-copy-input
+                      class="w-full"
+                      [value]="standardDeviation$ | ngrxPush"
+                      [unit]="t('unit.' + inputUnit.value)"
+                      [label]="t('standardDeviation')"
+                      [tooltip]="getTooltip(inputUnit.value)"
+                      [precision]="1"
+                    ></mac-copy-input>
+                  </div>
+                </div>
+                @if (
+                  (conversionResult$ | ngrxPush) &&
+                  (conversionResult$ | ngrxPush).deviationWarning
+                ) {
+                  <div class="my-4 max-w-fit">
+                    <div
+                      class="flex min-w-0 max-w-[648px] flex-row items-center gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"
+                    >
+                      <mat-icon class="text-warning">warning_amber</mat-icon>
+                      <div
+                        class="flex-shrink text-caption font-normal text-high-emphasis"
+                      >
+                        {{ t('deviationWarning') }}
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+            <!-- RESULT -->
+            @if (
+              !(resultLoading$ | ngrxPush) && (conversionResult$ | ngrxPush)
+            ) {
+              <div>
+                <div
+                  class="mb-8 mt-4 flex flex-row justify-center text-center text-subtitle-1"
+                >
+                  {{
+                    (multipleValues$ | ngrxPush)
+                      ? t('convertedAfterMultiple', {
+                          norm: t('norm.' + inputTable.value)
+                        })
+                      : t('convertedAfter', {
+                          norm: t('norm.' + inputTable.value)
+                        })
+                  }}
+                </div>
+                <div class="grid grid-cols-1 gap-x-8 md:grid-cols-2">
+                  @for (
+                    result of (conversionResult$ | ngrxPush).converted;
+                    track result
+                  ) {
+                    <div class="col-span-1">
+                      <mac-copy-input
+                        class="w-full"
+                        [value]="result.value"
+                        [warning]="
+                          (enabled$ | ngrxPush)?.includes(result.unit)
+                            ? result.warning
+                            : t('notInTable')
+                        "
+                        [unit]="t('unit.' + result.unit)"
+                        [tooltip]="getTooltip(result.unit)"
+                        [precision]="getPrecision(result.unit)"
+                      ></mac-copy-input>
+                    </div>
+                  }
+                </div>
+              </div>
+            } @else {
+              @if (resultLoading$ | ngrxPush) {
+                <div
+                  class="mt-12 flex w-full flex-1 flex-col place-items-center justify-center"
+                >
+                  <mat-spinner></mat-spinner>
+                </div>
+              }
+            }
+          </div>
+          <mac-geometrical-information
+            class="flex flex-row"
+            [activeConversion]="activeConversion$"
+            [inputElement]="defaultInputElement"
+          ></mac-geometrical-information>
+          <div class="flex flex-row">
+            <button
+              mat-button
+              (click)="onResetButtonClick()"
+              color="primary"
+              [disabled]="conversionForm.pristine"
+            >
+              {{ t('reset') }}
             </button>
           </div>
         </div>
-        <div class="flex flex-col pb-4">
-          <!-- MULTI VALUE CALCULATION -->
-          <div *ngIf="multipleValues$ | ngrxPush">
-            <div
-              class="my-9 flex flex-row justify-center text-center text-subtitle-1"
-            >
-              {{ t('statisticalEvaluation') }}
-            </div>
-            <div class="flex flex-col gap-8 md:flex-row">
-              <div class="flex flex-1">
-                <mac-copy-input
-                  class="w-full"
-                  [value]="average$ | ngrxPush"
-                  [unit]="t('unit.' + inputUnit.value)"
-                  [label]="t('averageValue')"
-                  [tooltip]="getTooltip(inputUnit.value)"
-                  [precision]="getPrecision(inputUnit.value)"
-                ></mac-copy-input>
-              </div>
-              <div class="flex flex-1">
-                <mac-copy-input
-                  class="w-full"
-                  [value]="standardDeviation$ | ngrxPush"
-                  [unit]="t('unit.' + inputUnit.value)"
-                  [label]="t('standardDeviation')"
-                  [tooltip]="getTooltip(inputUnit.value)"
-                  [precision]="1"
-                ></mac-copy-input>
-              </div>
-            </div>
-            <div
-              class="my-4 max-w-fit"
-              *ngIf="
-                (conversionResult$ | ngrxPush) &&
-                (conversionResult$ | ngrxPush).deviationWarning
-              "
-            >
-              <div
-                class="flex min-w-0 max-w-[648px] flex-row items-center gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"
-              >
-                <mat-icon class="text-warning">warning_amber</mat-icon>
-                <div
-                  class="flex-shrink text-caption font-normal text-high-emphasis"
-                >
-                  {{ t('deviationWarning') }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- RESULT -->
-          <div
-            *ngIf="
-              !(resultLoading$ | ngrxPush) && (conversionResult$ | ngrxPush);
-              else noResult
-            "
-          >
-            <div
-              class="mb-8 mt-4 flex flex-row justify-center text-center text-subtitle-1"
-            >
-              {{
-                (multipleValues$ | ngrxPush)
-                  ? t('convertedAfterMultiple', {
-                      norm: t('norm.' + inputTable.value)
-                    })
-                  : t('convertedAfter', { norm: t('norm.' + inputTable.value) })
-              }}
-            </div>
-            <div class="grid grid-cols-1 gap-x-8 md:grid-cols-2">
-              <div
-                class="col-span-1"
-                *ngFor="let result of (conversionResult$ | ngrxPush).converted"
-              >
-                <mac-copy-input
-                  class="w-full"
-                  [value]="result.value"
-                  [warning]="
-                    (enabled$ | ngrxPush)?.includes(result.unit)
-                      ? result.warning
-                      : t('notInTable')
-                  "
-                  [unit]="t('unit.' + result.unit)"
-                  [tooltip]="getTooltip(result.unit)"
-                  [precision]="getPrecision(result.unit)"
-                ></mac-copy-input>
-              </div>
-            </div>
-          </div>
-          <ng-template #noResult>
-            <div
-              *ngIf="resultLoading$ | ngrxPush"
-              class="mt-12 flex w-full flex-1 flex-col place-items-center justify-center"
-            >
-              <mat-spinner></mat-spinner>
-            </div>
-          </ng-template>
-        </div>
-
-        <mac-geometrical-information
-          class="flex flex-row"
-          [activeConversion]="activeConversion$"
-          [inputElement]="defaultInputElement"
-        ></mac-geometrical-information>
-
-        <div class="flex flex-row">
-          <button
-            mat-button
-            (click)="onResetButtonClick()"
-            color="primary"
-            [disabled]="conversionForm.pristine"
-          >
-            {{ t('reset') }}
-          </button>
-        </div>
-      </div>
-      <div
-        *ngIf="conversionResult$ | ngrxPush"
-        class="mt-4 flex flex-row justify-center align-middle text-caption text-medium-emphasis"
-      >
-        {{ t('valuesCalculatedWith', { version: (version$ | ngrxPush) }) }}
-      </div>
-      <ng-template #loading>
+      } @else {
         <div
           class="mt-12 flex w-full flex-1 flex-col place-items-center justify-center"
         >
           <mat-spinner></mat-spinner>
         </div>
-      </ng-template>
+      }
+      @if (conversionResult$ | ngrxPush) {
+        <div
+          class="mt-4 flex flex-row justify-center align-middle text-caption text-medium-emphasis"
+        >
+          {{ t('valuesCalculatedWith', { version: (version$ | ngrxPush) }) }}
+        </div>
+      }
     </div>
   </div>
 </div>

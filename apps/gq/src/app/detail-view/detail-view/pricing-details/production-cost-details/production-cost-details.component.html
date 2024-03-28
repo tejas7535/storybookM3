@@ -2,70 +2,89 @@
   *transloco="let t; read: 'detailView.pricingDetails.productionCostDetails'"
 >
   <gq-kpi-status-card [title]="t('title')">
-    <div *ngIf="quotationDetail">
-      <span
-        *ngIf="userHasGPCRole && userHasSQVRole"
-        class="absolute right-4 top-5"
-      >
-        <mat-icon
-          *ngIf="materialCostUpdateAvl; else isUpToDate"
-          (click)="updateCosts()"
-          class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-approval-status-green"
-          [matTooltip]="t('updateCosts.tooltip')"
-        >
-          refresh</mat-icon
-        >
-        <ng-template #isUpToDate>
-          <mat-icon
-            class="!w-4 !h-4 !text-[16px] text-approval-status-green"
-            [matTooltip]="t('costsUpToDate')"
-            >check_circle</mat-icon
+    @if (quotationDetail) {
+      <div>
+        @if (userHasGPCRole && userHasSQVRole) {
+          <span class="absolute right-4 top-5">
+            @if (materialCostUpdateAvl) {
+              <mat-icon
+                (click)="updateCosts()"
+                class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-approval-status-green"
+                [matTooltip]="t('updateCosts.tooltip')"
+              >
+                refresh</mat-icon
+              >
+            } @else {
+              <mat-icon
+                class="!w-4 !h-4 !text-[16px] text-approval-status-green"
+                [matTooltip]="t('costsUpToDate')"
+                >check_circle</mat-icon
+              >
+            }
+          </span>
+        }
+        @if (userHasGPCRole) {
+          <gq-label-text>
+            <span label> {{ t('gpc') }}</span>
+            <span text>{{
+              quotationDetail.gpc | numberCurrency: currency
+            }}</span>
+            @if (quotationDetail.gpc) {
+              <ng-container text>
+                @if (quotationDetail.gpcDate) {
+                  <span>
+                    {{ ' (' + (quotationDetail.gpcDate | translocoDate) + ')' }}
+                  </span>
+                } @else {
+                  <span>{{
+                    ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
+                  }}</span>
+                }
+              </ng-container>
+            }
+          </gq-label-text>
+        }
+        @if (userHasSQVRole) {
+          <gq-label-text>
+            <span label>{{ t('sqv') }}</span>
+            <span text>{{
+              quotationDetail.sqv | numberCurrency: currency
+            }}</span>
+            @if (quotationDetail.sqv) {
+              <ng-container text>
+                @if (quotationDetail.sqvDate) {
+                  <span>
+                    {{ ' (' + (quotationDetail.sqvDate | translocoDate) + ')' }}
+                  </span>
+                } @else {
+                  <span>{{
+                    ' (' + (quotationDetail.gqCreated | translocoDate) + ')'
+                  }}</span>
+                }
+              </ng-container>
+            }
+          </gq-label-text>
+        }
+        <gq-label-text>
+          <span label>{{ t('deliveryPlant') }}</span>
+          <span text> {{ quotationDetail.plant | plantDisplay }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('productionPlant') }}</span>
+          <span text>
+            {{ quotationDetail.productionPlant | plantDisplay }}</span
           >
-        </ng-template>
-      </span>
-
-      <gq-label-text *ngIf="userHasGPCRole">
-        <span label> {{ t('gpc') }}</span>
-        <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
-        <ng-container *ngIf="quotationDetail.gpc" text>
-          <ng-container *ngIf="quotationDetail.gpcDate; else gqCreatedDate">
-            <span>
-              {{ ' (' + (quotationDetail.gpcDate | translocoDate) + ')' }}
-            </span>
-          </ng-container>
-        </ng-container>
-      </gq-label-text>
-      <gq-label-text *ngIf="userHasSQVRole">
-        <span label>{{ t('sqv') }}</span>
-        <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
-        <ng-container *ngIf="quotationDetail.sqv" text>
-          <ng-container *ngIf="quotationDetail.sqvDate; else gqCreatedDate">
-            <span>
-              {{ ' (' + (quotationDetail.sqvDate | translocoDate) + ')' }}
-            </span>
-          </ng-container>
-        </ng-container>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('deliveryPlant') }}</span>
-        <span text> {{ quotationDetail.plant | plantDisplay }}</span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('productionPlant') }}</span>
-        <span text> {{ quotationDetail.productionPlant | plantDisplay }}</span>
-      </gq-label-text>
-      <gq-label-text [marginBottom]="false">
-        <span label>{{ t('productionSegment') }}</span>
-        <span text>
-          {{ quotationDetail.productionSegment | nullableString }}</span
-        >
-      </gq-label-text>
-    </div>
+        </gq-label-text>
+        <gq-label-text [marginBottom]="false">
+          <span label>{{ t('productionSegment') }}</span>
+          <span text>
+            {{ quotationDetail.productionSegment | nullableString }}</span
+          >
+        </gq-label-text>
+      </div>
+    }
   </gq-kpi-status-card>
 </div>
 
-<!-- SqvDate and gpcYear was added in a later version, 
-  quotationDetails created before that feature was released will not have that property => the gqCreated will be shown instead-->
-<ng-template #gqCreatedDate>
-  <span>{{ ' (' + (quotationDetail.gqCreated | translocoDate) + ')' }}</span>
-</ng-template>
+<!-- SqvDate and gpcYear was added in a later version,
+      quotationDetails created before that feature was released will not have that property => the gqCreated will be shown instead-->

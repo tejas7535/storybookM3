@@ -15,11 +15,9 @@
     [matAutocomplete]="auto"
     [errorStateMatcher]="errorStateMatcher"
   />
-  <mat-spinner
-    *ngIf="autoCompleteLoading"
-    matSuffix
-    [diameter]="18"
-  ></mat-spinner>
+  @if (autoCompleteLoading) {
+    <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+  }
   <mat-error>
     {{ inputControl.errors?.invalidInput }}
   </mat-error>
@@ -31,22 +29,20 @@
     [autoActiveFirstOption]="true"
     [hideSingleSelectionIndicator]="true"
   >
-    <mat-option
-      *ngFor="let option of filter?.options; trackBy: trackByFn"
-      [value]="option"
-    >
-      {{ option.value }}
-    </mat-option>
-    <mat-option
-      disabled
-      *ngIf="
-        filter?.options?.length === 0 &&
-        !isTyping &&
-        !autoCompleteLoading &&
-        inputControl.value?.length > minCharLength
-      "
-    >
-      {{ noResultMessage }}
-    </mat-option>
+    @for (option of filter?.options; track $index) {
+      <mat-option [value]="option">
+        {{ option.value }}
+      </mat-option>
+    }
+    @if (
+      filter?.options?.length === 0 &&
+      !isTyping &&
+      !autoCompleteLoading &&
+      inputControl.value?.length > minCharLength
+    ) {
+      <mat-option disabled>
+        {{ noResultMessage }}
+      </mat-option>
+    }
   </mat-autocomplete>
 </mat-form-field>

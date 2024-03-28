@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
@@ -14,7 +13,7 @@ import { NOOP_VALUE_ACCESSOR } from '../constants/input';
 @Component({
   selector: 'ea-radio-button',
   standalone: true,
-  imports: [CommonModule, MatRadioModule, ReactiveFormsModule],
+  imports: [MatRadioModule, ReactiveFormsModule],
   templateUrl: './radio-button.component.html',
   viewProviders: [
     {

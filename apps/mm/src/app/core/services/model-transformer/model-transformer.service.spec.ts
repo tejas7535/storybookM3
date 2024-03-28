@@ -21,7 +21,7 @@ describe('ModelTransformer testing', () => {
     it('should call api2localObject', () => {
       const spy = jest
         .spyOn(service, 'api2localObject')
-        .mockImplementationOnce(() => ({} as ModelObject));
+        .mockImplementationOnce(() => ({}) as ModelObject);
       const mockApiModel = {} as BxApiModel;
 
       service.api2local(mockApiModel);

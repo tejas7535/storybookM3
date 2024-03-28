@@ -4,48 +4,47 @@
       *ngrxLet="advancedBearingSelectionResultList$; let bearings"
       class="relative"
     >
-      <div
-        *ngIf="bearings?.length; else no_results"
-        class="max-h-[370px] overflow-auto md:pr-3"
-      >
-        <mat-action-list>
-          <mat-list-item
-            *ngFor="let bearing of bearings"
-            (click)="selectBearing(bearing)"
-            [disabled]="bearing.disabled"
-          >
-            <div class="flex items-center">
-              <div class="flex flex-col md:flex-row">
-                <span class="mr-1 inline-block text-body-2">{{
-                  bearing.disabled
-                    ? t('bearingsList.disabledOption')
-                    : t('bearingsList.selectOption')
-                }}</span>
-                <span class="inline-block text-subtitle-2">{{
-                  bearing.title
-                }}</span>
-              </div>
-              <mat-icon
-                *ngIf="!bearing.disabled"
-                color="primary"
-                class="align-bottom"
-                >chevron_right</mat-icon
+      @if (bearings?.length) {
+        <div class="max-h-[370px] overflow-auto md:pr-3">
+          <mat-action-list>
+            @for (bearing of bearings; track bearing) {
+              <mat-list-item
+                (click)="selectBearing(bearing)"
+                [disabled]="bearing.disabled"
               >
-            </div>
-          </mat-list-item>
-        </mat-action-list>
-      </div>
-      <ng-template #no_results>
+                <div class="flex items-center">
+                  <div class="flex flex-col md:flex-row">
+                    <span class="mr-1 inline-block text-body-2">{{
+                      bearing.disabled
+                        ? t('bearingsList.disabledOption')
+                        : t('bearingsList.selectOption')
+                    }}</span>
+                    <span class="inline-block text-subtitle-2">{{
+                      bearing.title
+                    }}</span>
+                  </div>
+                  @if (!bearing.disabled) {
+                    <mat-icon color="primary" class="align-bottom"
+                      >chevron_right</mat-icon
+                    >
+                  }
+                </div>
+              </mat-list-item>
+            }
+          </mat-action-list>
+        </div>
+      } @else {
         <div class="p-4 md:p-2">
           {{ t('noResults.message') }}
         </div>
-      </ng-template>
-      <div
-        *ngIf="loading"
-        class="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-surface"
-      >
-        <mat-spinner diameter="20"></mat-spinner>
-      </div>
+      }
+      @if (loading) {
+        <div
+          class="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-surface"
+        >
+          <mat-spinner diameter="20"></mat-spinner>
+        </div>
+      }
     </div>
   </ng-container>
 </div>

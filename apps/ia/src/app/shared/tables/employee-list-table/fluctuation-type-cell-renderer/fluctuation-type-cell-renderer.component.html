@@ -1,17 +1,18 @@
 @if (type) {
-<schaeffler-tag
-  type="info"
-  [withBorder]="false"
-  [withDot]="false"
-  [styleClass]="chipClass"
->
-  {{ translatedType | uppercase }}
-  <mat-icon
-    *ngIf="type === 'INTERNAL'"
-    [matTooltip]="fromMessage + '&emsp;' + toMessage"
-    matTooltipClass="internal-tooltip"
-    class="!h-3.5 !w-3.5 !text-[14px] !leading-[14px] ml-1 cursor-pointer"
-    >info_outline</mat-icon
+  <schaeffler-tag
+    type="info"
+    [withBorder]="false"
+    [withDot]="false"
+    [styleClass]="chipClass"
   >
-</schaeffler-tag>
+    {{ translatedType | uppercase }}
+    @if (type === 'INTERNAL') {
+      <mat-icon
+        [matTooltip]="fromMessage + '&emsp;' + toMessage"
+        matTooltipClass="internal-tooltip"
+        class="!h-3.5 !w-3.5 !text-[14px] !leading-[14px] ml-1 cursor-pointer"
+        >info_outline</mat-icon
+      >
+    }
+  </schaeffler-tag>
 }

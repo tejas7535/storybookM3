@@ -12,31 +12,27 @@
         (closeDialog)="closeDialog()"
         (showMore)="showMore()"
       ></gq-pricing-assistant-header>
-      <ng-container *ngIf="!(fPricingDataLoading$ | ngrxPush); else loading">
+      @if (!(fPricingDataLoading$ | ngrxPush)) {
         <!-- content and possible overlays -->
         <div class="flex flex-col w-full h-full relative">
-          <gq-overlay
-            *ngIf="visibleOverlay === overlayToShowEnum.comparisonScreen"
-          >
-            <ng-container
-              [ngTemplateOutlet]="comparisonScreenView"
-            ></ng-container>
-          </gq-overlay>
-
-          <gq-overlay
-            class="overflow-auto"
-            *ngIf="visibleOverlay === overlayToShowEnum.manualPricing"
-          >
-            <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
-          </gq-overlay>
-
+          @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
+            <gq-overlay>
+              <ng-container
+                [ngTemplateOutlet]="comparisonScreenView"
+              ></ng-container>
+            </gq-overlay>
+          }
+          @if (visibleOverlay === overlayToShowEnum.manualPricing) {
+            <gq-overlay class="overflow-auto">
+              <ng-container
+                [ngTemplateOutlet]="manualPricingView"
+              ></ng-container>
+            </gq-overlay>
+          }
           <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
         </div>
-
         <!--footer-->
-        <ng-container
-          *ngIf="visibleOverlay !== overlayToShowEnum.comparisonScreen"
-        >
+        @if (visibleOverlay !== overlayToShowEnum.comparisonScreen) {
           <div class="flex flex-col">
             <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
             <div class="flex justify-start">
@@ -59,8 +55,10 @@
               </button>
             </div>
           </div>
-        </ng-container>
-      </ng-container>
+        }
+      } @else {
+        <schaeffler-loading-spinner></schaeffler-loading-spinner>
+      }
     </div>
 
     <ng-template #priceButtons>
@@ -78,14 +76,14 @@
           (priceButtonClicked)="gqPriceClicked()"
         ></gq-price-button>
 
-        <ng-container *ngIf="showAddManualPriceButton">
+        @if (showAddManualPriceButton) {
           <gq-price-button
             class="w-full"
             [isAddPriceButton]="true"
             (addPriceButtonClicked)="manualPriceClicked()"
           ></gq-price-button>
-        </ng-container>
-        <ng-container *ngIf="!showAddManualPriceButton">
+        }
+        @if (!showAddManualPriceButton) {
           <gq-price-button
             class="w-full"
             [priceLabelKey]="'manualPriceLabel'"
@@ -98,7 +96,7 @@
             "
             (priceButtonClicked)="manualPriceClicked()"
           ></gq-price-button>
-        </ng-container>
+        }
       </div>
     </ng-template>
 
@@ -178,10 +176,6 @@
           [warningTemplate]="warningTemplate"
         ></gq-price-editing-modal>
       </div>
-    </ng-template>
-
-    <ng-template #loading>
-      <schaeffler-loading-spinner></schaeffler-loading-spinner>
     </ng-template>
 
     <ng-template #warningTemplate>

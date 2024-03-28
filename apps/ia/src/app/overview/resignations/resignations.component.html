@@ -25,10 +25,9 @@
     [suppressCellFocus]="true"
   >
   </ag-grid-angular>
-  <p
-    *ngIf="totalCount && data.length && totalCount !== data.length"
-    class="text-warning italic"
-  >
-    {{ t('enoughRightsToShowAllEmployees') }}
-  </p>
+  @if (totalCount && data.length && totalCount !== data.length) {
+    <p class="text-warning italic">
+      {{ t('enoughRightsToShowAllEmployees') }}
+    </p>
+  }
 </div>

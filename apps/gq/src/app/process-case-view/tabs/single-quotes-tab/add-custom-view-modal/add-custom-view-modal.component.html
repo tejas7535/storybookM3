@@ -28,24 +28,25 @@
           {{ NAME_MAX_LENGTH }}
         </mat-hint>
       </mat-form-field>
-      <mat-radio-group
-        matInput
-        aria-labelledby="example-radio-group-label"
-        class="flex flex-col pt-6"
-        formControlName="createFromDefault"
-        *ngIf="modalData.createNewView && modalData.showRadioButtons"
-      >
-        <mat-radio-button checked color="primary" [value]="true">
-          <span class="pl-2 text-medium-emphasis">
-            {{ t('createFromDefault') }}
-          </span>
-        </mat-radio-button>
-        <mat-radio-button color="primary" [value]="false">
-          <span class="pl-2 text-medium-emphasis">
-            {{ t('createFromCurrent') }}
-          </span>
-        </mat-radio-button>
-      </mat-radio-group>
+      @if (modalData.createNewView && modalData.showRadioButtons) {
+        <mat-radio-group
+          matInput
+          aria-labelledby="example-radio-group-label"
+          class="flex flex-col pt-6"
+          formControlName="createFromDefault"
+        >
+          <mat-radio-button checked color="primary" [value]="true">
+            <span class="pl-2 text-medium-emphasis">
+              {{ t('createFromDefault') }}
+            </span>
+          </mat-radio-button>
+          <mat-radio-button color="primary" [value]="false">
+            <span class="pl-2 text-medium-emphasis">
+              {{ t('createFromCurrent') }}
+            </span>
+          </mat-radio-button>
+        </mat-radio-group>
+      }
     </div>
     <div class="flex pt-8">
       <button

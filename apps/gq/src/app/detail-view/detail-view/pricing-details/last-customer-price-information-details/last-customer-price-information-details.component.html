@@ -12,35 +12,43 @@
         <span text>{{
           quotationDetail.lastCustomerPrice | numberCurrency: currency
         }}</span>
-        <ng-container *ngIf="quotationDetail.lastCustomerPriceDate" text>
-          <span>
-            {{
-              ' (' +
-                (quotationDetail.lastCustomerPriceDate | translocoDate) +
-                ')'
-            }}
-          </span>
-        </ng-container>
+        @if (quotationDetail.lastCustomerPriceDate) {
+          <ng-container text>
+            <span>
+              {{
+                ' (' +
+                  (quotationDetail.lastCustomerPriceDate | translocoDate) +
+                  ')'
+              }}
+            </span>
+          </ng-container>
+        }
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('lastCustomerPriceQty') }}</span>
         <span text>{{ quotationDetail.lastCustomerPriceQuantity || '-' }}</span>
-        <span text *ngIf="quotationDetail.lastCustomerPriceQuantity">
-          {{ quotationDetail.material.baseUoM | uom }}
-        </span>
+        @if (quotationDetail.lastCustomerPriceQuantity) {
+          <span text>
+            {{ quotationDetail.material.baseUoM | uom }}
+          </span>
+        }
       </gq-label-text>
-      <gq-label-text *ngIf="userHasGPCRole">
-        <span label>{{ t('gpi') }}</span>
-        <span text>{{
-          quotationDetail.lastCustomerPriceGpi | percentage
-        }}</span>
-      </gq-label-text>
-      <gq-label-text *ngIf="userHasSQVRole">
-        <span label>{{ t('gpm') }}</span>
-        <span text>{{
-          quotationDetail.lastCustomerPriceGpm | percentage
-        }}</span>
-      </gq-label-text>
+      @if (userHasGPCRole) {
+        <gq-label-text>
+          <span label>{{ t('gpi') }}</span>
+          <span text>{{
+            quotationDetail.lastCustomerPriceGpi | percentage
+          }}</span>
+        </gq-label-text>
+      }
+      @if (userHasSQVRole) {
+        <gq-label-text>
+          <span label>{{ t('gpm') }}</span>
+          <span text>{{
+            quotationDetail.lastCustomerPriceGpm | percentage
+          }}</span>
+        </gq-label-text>
+      }
     </div>
   </gq-kpi-status-card>
 </div>

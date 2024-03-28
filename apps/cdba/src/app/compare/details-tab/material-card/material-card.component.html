@@ -3,52 +3,51 @@
     {{ materialDesignation$ | ngrxPush }}
   </h6>
 
-  <ng-container *ngIf="!(errorMessage$ | ngrxPush)">
+  @if (!(errorMessage$ | ngrxPush)) {
     <mat-accordion multi *transloco="let t; read: 'compare.details'">
-      <mat-expansion-panel
-        *ngIf="
-          dimensionAndWeightDetails$ | ngrxPush as dimensionAndWeightDetails
-        "
-        [expanded]="(expandedItems$ | ngrxPush).includes(0)"
-        (opened)="addExpandedItem(0)"
-        (closed)="removeExpandedItem(0)"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title class="text-body-1">
-            {{ t('dimensions.title') }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="px-6">
-          <cdba-dimensions-widget [data]="dimensionAndWeightDetails">
-          </cdba-dimensions-widget>
-        </div>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel
-        *ngIf="additionalInformation$ | ngrxPush as additionalInformation"
-        [expanded]="(expandedItems$ | ngrxPush).includes(1)"
-        (opened)="addExpandedItem(1)"
-        (closed)="removeExpandedItem(1)"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title class="text-body-1">
-            {{ t('additionalInformation.title') }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <div class="px-6">
-          <cdba-additional-information-widget
-            [additionalInformation]="additionalInformation"
-          ></cdba-additional-information-widget>
-        </div>
-      </mat-expansion-panel>
+      @if (
+        dimensionAndWeightDetails$ | ngrxPush;
+        as dimensionAndWeightDetails
+      ) {
+        <mat-expansion-panel
+          [expanded]="(expandedItems$ | ngrxPush).includes(0)"
+          (opened)="addExpandedItem(0)"
+          (closed)="removeExpandedItem(0)"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title class="text-body-1">
+              {{ t('dimensions.title') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="px-6">
+            <cdba-dimensions-widget [data]="dimensionAndWeightDetails">
+            </cdba-dimensions-widget>
+          </div>
+        </mat-expansion-panel>
+      }
+      @if (additionalInformation$ | ngrxPush; as additionalInformation) {
+        <mat-expansion-panel
+          [expanded]="(expandedItems$ | ngrxPush).includes(1)"
+          (opened)="addExpandedItem(1)"
+          (closed)="removeExpandedItem(1)"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title class="text-body-1">
+              {{ t('additionalInformation.title') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="px-6">
+            <cdba-additional-information-widget
+              [additionalInformation]="additionalInformation"
+            ></cdba-additional-information-widget>
+          </div>
+        </mat-expansion-panel>
+      }
     </mat-accordion>
-  </ng-container>
-
-  <div
-    *ngIf="errorMessage$ | ngrxPush as errorMessage"
-    class="flex justify-center"
-  >
-    <p class="max-w-full break-words text-error">{{ errorMessage }}</p>
-  </div>
+  }
+  @if (errorMessage$ | ngrxPush; as errorMessage) {
+    <div class="flex justify-center">
+      <p class="max-w-full break-words text-error">{{ errorMessage }}</p>
+    </div>
+  }
 </mat-card>

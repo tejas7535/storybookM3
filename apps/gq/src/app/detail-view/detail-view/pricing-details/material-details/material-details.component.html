@@ -3,31 +3,27 @@
     *transloco="let t; read: 'detailView.pricingDetails.materialDetails'"
   >
     <gq-kpi-status-card [title]="t('title')">
-      <ng-container *ngIf="materialDetails">
+      @if (materialDetails) {
         <gq-material-basic
           [quotationDetail]="quotationDetail"
         ></gq-material-basic>
         <gq-horizontal-divider></gq-horizontal-divider>
-
         <gq-product-details [quotationDetail]="quotationDetail">
         </gq-product-details>
         <gq-horizontal-divider></gq-horizontal-divider>
-
         <gq-dimension-details
           [materialDetails]="materialDetails"
         ></gq-dimension-details>
         <gq-horizontal-divider></gq-horizontal-divider>
-
         <gq-material-additional
           [quotationDetail]="quotationDetail"
         ></gq-material-additional>
         <gq-horizontal-divider></gq-horizontal-divider>
-
         <gq-material-sales-org-details
           [materialSalesOrg]="materialSalesOrg"
           [materialSalesOrgDataAvailable]="materialSalesOrgDataAvailable"
         ></gq-material-sales-org-details>
-      </ng-container>
+      }
     </gq-kpi-status-card>
   </ng-container>
 </ng-container>

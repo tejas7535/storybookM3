@@ -1,4 +1,3 @@
-<cdba-pcm-badge
-  *ngIf="isPcmRow === true || isPcmRow === 'true'"
-  size="small"
-></cdba-pcm-badge>
+@if (isPcmRow === true || isPcmRow === 'true') {
+  <cdba-pcm-badge size="small"></cdba-pcm-badge>
+}

@@ -1,4 +1,4 @@
-<ng-container *ngIf="isStandalone$ | ngrxPush; else embeddedAppVersion">
+@if (isStandalone$ | ngrxPush) {
   <schaeffler-app-shell
     [hasSidebarLeft]="true"
     [appTitle]="'appTitle' | transloco"
@@ -11,7 +11,6 @@
       <schaeffler-banner></schaeffler-banner>
       <div class="border-t border-border"></div>
       <router-outlet></router-outlet>
-
       <div
         *transloco="let t; read: 'legal'"
         class="mx-auto w-full max-w-2xl bg-surface"
@@ -34,18 +33,14 @@
       </div>
     </ng-container>
   </schaeffler-app-shell>
-</ng-container>
-
-<ng-template #embeddedAppVersion>
-  <ng-container *ngIf="isBearingSupported$ | ngrxPush; else legacyApp">
+} @else {
+  @if (isBearingSupported$ | ngrxPush) {
     <ng-container *ngTemplateOutlet="appInner"></ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #legacyApp>
-  <schaeffler-banner></schaeffler-banner>
-  <ea-legacy-app [bearingDesignation]="bearingDesignation"> </ea-legacy-app>
-</ng-template>
+  } @else {
+    <schaeffler-banner></schaeffler-banner>
+    <ea-legacy-app [bearingDesignation]="bearingDesignation"> </ea-legacy-app>
+  }
+}
 
 <ng-template #appInner>
   <!-- The max-w class forces the app to not overflow in medias. Paddings are taken from medias. -->

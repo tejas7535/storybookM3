@@ -1,5 +1,5 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
@@ -22,7 +22,6 @@ import {
   selector: 'ga-grease-stepper',
   standalone: true,
   imports: [
-    CommonModule,
     MatStepperModule,
     StepperModule,
     LetDirective,
@@ -38,7 +37,10 @@ export class GreaseStepperComponent {
 
   public currentStep$ = this.store.select(getCurrentStep);
 
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  constructor(
+    private readonly store: Store,
+    private readonly router: Router
+  ) {}
 
   async selectStep(_event: StepperSelectionEvent): Promise<void> {
     const items = await firstValueFrom(this.steps$);

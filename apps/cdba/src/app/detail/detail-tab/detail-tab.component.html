@@ -2,7 +2,7 @@
   *transloco="let t; read: 'detail.detailTab'"
   class="grid h-full w-full auto-cols-fr grid-cols-1 justify-center gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
 >
-  <ng-container *ngIf="!(isLoading$ | ngrxPush); else loading">
+  @if (!(isLoading$ | ngrxPush)) {
     <div>
       <div
         class="mb-4 overflow-hidden rounded border border-border bg-surface p-4"
@@ -66,9 +66,7 @@
     >
       <cdba-drawings></cdba-drawings>
     </div>
-  </ng-container>
+  } @else {
+    <schaeffler-loading-spinner></schaeffler-loading-spinner>
+  }
 </div>
-
-<ng-template #loading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>

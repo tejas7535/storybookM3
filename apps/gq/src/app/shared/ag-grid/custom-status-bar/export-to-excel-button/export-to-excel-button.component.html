@@ -1,12 +1,14 @@
-<div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
-  <button
-    class="!my-4"
-    mat-icon-button
-    color="primary"
-    *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    (click)="openExportToExcelDialog()"
-    [matTooltip]="t('exportToExcelTooltip')"
-  >
-    <mat-icon class="!text-[20px]">download</mat-icon>
-  </button>
-</div>
+@if (!(simulationModeEnabled$ | ngrxPush)) {
+  <div>
+    <button
+      class="!my-4"
+      mat-icon-button
+      color="primary"
+      *transloco="let t; read: 'shared.customStatusBar.buttons'"
+      (click)="openExportToExcelDialog()"
+      [matTooltip]="t('exportToExcelTooltip')"
+    >
+      <mat-icon class="!text-[20px]">download</mat-icon>
+    </button>
+  </div>
+}

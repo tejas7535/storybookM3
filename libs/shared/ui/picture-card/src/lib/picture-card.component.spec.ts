@@ -53,13 +53,4 @@ describe('PictureCardComponent', () => {
       expect(originalSelected).toBe(!component.selected);
     });
   });
-
-  describe('trackby', () => {
-    it('should return index', () => {
-      const index = 9001;
-      const result = component.trackByFn(index);
-
-      expect(index).toEqual(result);
-    });
-  });
 });

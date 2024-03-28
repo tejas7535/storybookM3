@@ -1,9 +1,10 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   <div class="flex h-full flex-col px-4">
-    <ga-qualtrics-info-banner
-      *ngIf="!(partnerVersion$ | ngrxPush)"
-      class="block mb-3 md:mb-6"
-    ></ga-qualtrics-info-banner>
+    @if (!(partnerVersion$ | ngrxPush)) {
+      <ga-qualtrics-info-banner
+        class="block mb-3 md:mb-6"
+      ></ga-qualtrics-info-banner>
+    }
     <schaeffler-subheader
       class="-mx-4"
       *ngrxLet="selectedBearing$ as selectedBearing"
@@ -23,53 +24,59 @@
           info_outline
         </mat-icon>
       </ng-container>
-      <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
-        <button
-          class="ml-auto w-full sm:w-auto"
-          mat-raised-button
-          color="basic"
-          aria-label="generate report"
-          (click)="generateReport(selectedBearing)"
-        >
-          {{ t('pdfDownload') }}
-          <mat-icon class="align-middle">download</mat-icon>
-        </button>
-        <ga-medias-button
-          class="max-sm:w-full ml-auto"
-          [bearing]="selectedBearing"
-          [partnerVersion]="partnerVersion$ | ngrxPush"
-        ></ga-medias-button>
-      </ng-container>
+      @if (!(appIsEmbedded$ | ngrxPush)) {
+        <ng-container subheaderInlineContent>
+          <button
+            class="ml-auto w-full sm:w-auto"
+            mat-raised-button
+            color="basic"
+            aria-label="generate report"
+            (click)="generateReport(selectedBearing)"
+          >
+            {{ t('pdfDownload') }}
+            <mat-icon class="align-middle">download</mat-icon>
+          </button>
+          <ga-medias-button
+            class="max-sm:w-full ml-auto"
+            [bearing]="selectedBearing"
+            [partnerVersion]="partnerVersion$ | ngrxPush"
+          ></ga-medias-button>
+        </ng-container>
+      }
     </schaeffler-subheader>
-    <div *ngIf="reportUrls; else loading_spinner">
-      <div *ngIf="!isProduction" class="mb-4 flex w-full justify-end">
-        <mat-slide-toggle
-          color="primary"
-          labelPosition="before"
-          [(ngModel)]="showCompactView"
-        >
-          {{ t('showCompactView') }}
-        </mat-slide-toggle>
+    @if (reportUrls) {
+      <div>
+        @if (!isProduction) {
+          <div class="mb-4 flex w-full justify-end">
+            <mat-slide-toggle
+              color="primary"
+              labelPosition="before"
+              [(ngModel)]="showCompactView"
+            >
+              {{ t('showCompactView') }}
+            </mat-slide-toggle>
+          </div>
+        }
+        @if (showCompactView) {
+          <ga-grease-report
+            #greaseReport
+            [greaseReportUrl]="reportUrls.jsonReportUrl"
+            [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
+            [automaticLubrication]="automaticLubrication$ | ngrxPush"
+          ></ga-grease-report>
+        }
+        @if (!showCompactView) {
+          <schaeffler-html-report
+            [htmlReportUrl]="reportUrls.htmlReportUrl"
+            [reportSelector]="reportSelector"
+          >
+          </schaeffler-html-report>
+        }
       </div>
-      <ga-grease-report
-        #greaseReport
-        *ngIf="showCompactView"
-        [greaseReportUrl]="reportUrls.jsonReportUrl"
-        [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
-        [automaticLubrication]="automaticLubrication$ | ngrxPush"
-      ></ga-grease-report>
-
-      <schaeffler-html-report
-        *ngIf="!showCompactView"
-        [htmlReportUrl]="reportUrls.htmlReportUrl"
-        [reportSelector]="reportSelector"
-      >
-      </schaeffler-html-report>
-    </div>
-    <ng-template #loading_spinner>
+    } @else {
       <div class="flex flex-1 items-center justify-center">
         <mat-spinner diameter="50"></mat-spinner>
       </div>
-    </ng-template>
+    }
   </div>
 </ng-container>

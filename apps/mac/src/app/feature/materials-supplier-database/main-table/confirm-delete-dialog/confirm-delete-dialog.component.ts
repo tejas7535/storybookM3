@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +14,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
   selector: 'mac-confirm-delete-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatIconModule,
     PushPipe,

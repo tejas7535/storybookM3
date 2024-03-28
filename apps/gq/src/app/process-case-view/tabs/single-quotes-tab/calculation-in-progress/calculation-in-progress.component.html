@@ -1,18 +1,20 @@
-<div *ngIf="translationsLoaded$ | ngrxPush" class="flex h-full justify-center">
-  <div
-    class="flex h-full flex-col items-center justify-center"
-    *transloco="let t; read: translationSource"
-  >
-    <div class="cursor-pointer" (click)="reload()">
-      <img [src]="imagePath" />
-    </div>
-    <h4 class="mt-12 text-center text-high-emphasis">
-      {{ t('header', { variable: amountDetails }) }}
-    </h4>
-    <div class="mt-6 text-center text-medium-emphasis">
-      <span class="text-subtitle-1">{{ t('refreshText') }}</span>
-      <span class="block text-subtitle-1">{{ t('subtitle1') }}</span>
-      <span class="block text-subtitle-1">{{ t('subtitle2') }}</span>
+@if (translationsLoaded$ | ngrxPush) {
+  <div class="flex h-full justify-center">
+    <div
+      class="flex h-full flex-col items-center justify-center"
+      *transloco="let t; read: translationSource"
+    >
+      <div class="cursor-pointer" (click)="reload()">
+        <img [src]="imagePath" />
+      </div>
+      <h4 class="mt-12 text-center text-high-emphasis">
+        {{ t('header', { variable: amountDetails }) }}
+      </h4>
+      <div class="mt-6 text-center text-medium-emphasis">
+        <span class="text-subtitle-1">{{ t('refreshText') }}</span>
+        <span class="block text-subtitle-1">{{ t('subtitle1') }}</span>
+        <span class="block text-subtitle-1">{{ t('subtitle2') }}</span>
+      </div>
     </div>
   </div>
-</div>
+}

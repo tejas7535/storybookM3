@@ -5,18 +5,16 @@
   <div class="pt-5">
     <schaeffler-subheader [showBackButton]="false">
       <ng-container subheaderTitleContent>
-        <div
-          *ngIf="!isDefaultConfig; else defaultTitle"
-          class="flex flex-col justify-center"
-        >
-          <h5 class="leading-6">{{ t('title') }}</h5>
-        </div>
+        @if (!isDefaultConfig) {
+          <div class="flex flex-col justify-center">
+            <h5 class="leading-6">{{ t('title') }}</h5>
+          </div>
+        } @else {
+          <h5 class="leading-6">{{ t('titleDefaultConfig') }}</h5>
+        }
       </ng-container>
     </schaeffler-subheader>
   </div>
-  <ng-template #defaultTitle>
-    <h5 class="leading-6">{{ t('titleDefaultConfig') }}</h5>
-  </ng-template>
 
   <mat-card
     appearance="outlined"
@@ -24,28 +22,27 @@
   >
     <mat-card-content>
       <div class="flex-col items-center">
-        <div *ngFor="let toggle of configs">
-          <div class="flex flex-row justify-center">
-            <mat-slide-toggle
-              color="primary"
-              labelPosition="before"
-              [checked]="toggle.value"
-              [disabled]="isDefaultConfig"
-              [name]="toggle.key"
-              (change)="featureToggleChanged($event)"
-            >
-              {{ toggle.key }}
-            </mat-slide-toggle>
+        @for (toggle of configs; track toggle) {
+          <div>
+            <div class="flex flex-row justify-center">
+              <mat-slide-toggle
+                color="primary"
+                labelPosition="before"
+                [checked]="toggle.value"
+                [disabled]="isDefaultConfig"
+                [name]="toggle.key"
+                (change)="featureToggleChanged($event)"
+              >
+                {{ toggle.key }}
+              </mat-slide-toggle>
+            </div>
           </div>
-        </div>
-        <button
-          *ngIf="!isDefaultConfig"
-          mat-raised-button
-          color="primary"
-          (click)="saveConfig()"
-        >
-          {{ t('submit') }}
-        </button>
+        }
+        @if (!isDefaultConfig) {
+          <button mat-raised-button color="primary" (click)="saveConfig()">
+            {{ t('submit') }}
+          </button>
+        }
       </div>
     </mat-card-content>
   </mat-card>

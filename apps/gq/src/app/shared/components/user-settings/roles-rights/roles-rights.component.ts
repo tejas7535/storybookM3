@@ -19,8 +19,4 @@ export class RolesRightsComponent implements OnInit {
   ngOnInit(): void {
     this.allRoles$ = this.store.pipe(getAllRoles);
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

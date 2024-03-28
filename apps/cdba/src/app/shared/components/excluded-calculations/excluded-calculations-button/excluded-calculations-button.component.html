@@ -1,4 +1,4 @@
-<ng-container *ngIf="excludedCalculations">
+@if (excludedCalculations) {
   <span
     *transloco="let t; read: 'shared.calculations.excludedCalculations.button'"
     class="cursor-pointer px-3 py-1 font-normal text-link"
@@ -6,4 +6,4 @@
   >
     {{ t('label', { count: excludedCalculations.count }) }}
   </span>
-</ng-container>
+}

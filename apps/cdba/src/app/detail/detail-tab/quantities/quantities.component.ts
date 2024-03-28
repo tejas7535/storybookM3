@@ -11,8 +11,4 @@ export class QuantitiesComponent {
   @Input() quantitiesDetails: QuantitiesDetails;
 
   currentYear = new Date().getFullYear();
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

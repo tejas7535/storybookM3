@@ -6,12 +6,11 @@
     <mat-form-field appearance="fill" class="w-[360px]">
       <mat-label>Reason</mat-label>
       <mat-select [(value)]="currentIgnoreFlag">
-        <mat-option
-          *ngFor="let ignoreReason of ignoreReasons"
-          [value]="ignoreReason.ignoreFlag"
-        >
-          {{ ignoreReason.reason }}
-        </mat-option>
+        @for (ignoreReason of ignoreReasons; track ignoreReason) {
+          <mat-option [value]="ignoreReason.ignoreFlag">
+            {{ ignoreReason.reason }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
   </mat-dialog-content>

@@ -10,7 +10,7 @@
   >
   </gq-dialog-header>
 
-  <ng-container *ngIf="!(rfqInformationUpdating$ | ngrxPush); else loading">
+  @if (!(rfqInformationUpdating$ | ngrxPush)) {
     <div class="py-4">
       <p
         class="text-body-2 text-medium-emphasis"
@@ -21,7 +21,6 @@
         [innerHTML]="t('confirmDialogWarning')"
       ></p>
     </div>
-
     <div class="flex w-full gap-4">
       <button mat-raised-button color="primary" (click)="confirm()">
         {{ t('confirmButton') }}
@@ -30,13 +29,12 @@
         {{ t('cancelButton') }}
       </button>
     </div>
-  </ng-container>
-  <ng-template #loading>
+  } @else {
     <div class="py-3">
       <schaeffler-loading-spinner
         class="h-full"
         [relative]="true"
       ></schaeffler-loading-spinner>
     </div>
-  </ng-template>
+  }
 </ng-container>

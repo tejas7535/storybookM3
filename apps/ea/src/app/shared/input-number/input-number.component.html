@@ -7,7 +7,9 @@
     class="flex w-full grow-0 flex-col pb-3"
     [subscriptSizing]="'dynamic'"
   >
-    <mat-label *ngIf="label">{{ label }}</mat-label>
+    @if (label) {
+      <mat-label>{{ label }}</mat-label>
+    }
     <input
       matInput
       type="number"
@@ -16,26 +18,38 @@
       [placeholder]="placeholder"
       [step]="stepSize"
     />
-    <div *ngIf="unit" class="relative" matSuffix>
-      {{ unit }}
-    </div>
-    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-    <mat-error *ngIf="control.hasError('max')">{{
-      t('max', control.getError('max'))
-    }}</mat-error>
-    <mat-error *ngIf="control.hasError('min')">{{
-      t('min', control.getError('min'))
-    }}</mat-error>
-    <mat-error *ngIf="control.hasError('required')">
-      {{ t('required') }}
-    </mat-error>
-    <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
-      <mat-error *ngIf="control.hasError(error.name)">
-        {{ t(error.message || error.name) }}
+    @if (unit) {
+      <div class="relative" matSuffix>
+        {{ unit }}
+      </div>
+    }
+    @if (hint) {
+      <mat-hint>{{ hint }}</mat-hint>
+    }
+    @if (control.hasError('max')) {
+      <mat-error>{{ t('max', control.getError('max')) }}</mat-error>
+    }
+    @if (control.hasError('min')) {
+      <mat-error>{{ t('min', control.getError('min')) }}</mat-error>
+    }
+    @if (control.hasError('required')) {
+      <mat-error>
+        {{ t('required') }}
       </mat-error>
-    </ng-container>
+    }
+    @for (error of customErrors; track error) {
+      <ng-container ngProjectAs="mat-error">
+        @if (control.hasError(error.name)) {
+          <mat-error>
+            {{ t(error.message || error.name) }}
+          </mat-error>
+        }
+      </ng-container>
+    }
   </mat-form-field>
-  <div *ngIf="tooltip">
-    <ea-info-button [tooltip]="tooltip"></ea-info-button>
-  </div>
+  @if (tooltip) {
+    <div>
+      <ea-info-button [tooltip]="tooltip"></ea-info-button>
+    </div>
+  }
 </div>

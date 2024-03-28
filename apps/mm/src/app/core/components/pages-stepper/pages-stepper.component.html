@@ -8,27 +8,29 @@
   linear="true"
   class="primary-stepper"
 >
-  <mat-step
-    *ngFor="let page of pages; let i = index"
-    [editable]="
-      page.id !== inactivePageId &&
-      page.visible &&
-      (page.id | mmPageBefore: maxPageId:pages)
-    "
-    [completed]="
-      page.id === inactivePageId || (page.id | mmPageBefore: maxPageId:pages)
-    "
-    [label]="page.id"
-    [aria-labelledby]="
-      (page.id === inactivePageId ||
-        !page.visible ||
-        !(page.id | mmPageBefore: maxPageId:pages)) &&
-      'disabled'
-    "
-  >
-    <ng-template matStepLabel>{{ t(page.page.text) }}</ng-template>
-    <h5>{{ t(page.page.text) }}</h5>
-  </mat-step>
+  @for (page of pages; track page; let i = $index) {
+    <mat-step
+      [editable]="
+        page.id !== inactivePageId &&
+        page.visible &&
+        (page.id | mmPageBefore: maxPageId : pages)
+      "
+      [completed]="
+        page.id === inactivePageId ||
+        (page.id | mmPageBefore: maxPageId : pages)
+      "
+      [label]="page.id"
+      [aria-labelledby]="
+        (page.id === inactivePageId ||
+          !page.visible ||
+          !(page.id | mmPageBefore: maxPageId : pages)) &&
+        'disabled'
+      "
+    >
+      <ng-template matStepLabel>{{ t(page.page.text) }}</ng-template>
+      <h5>{{ t(page.page.text) }}</h5>
+    </mat-step>
+  }
   <ng-template matStepperIcon="done" let-index="index">
     {{ index + 1 }}
   </ng-template>

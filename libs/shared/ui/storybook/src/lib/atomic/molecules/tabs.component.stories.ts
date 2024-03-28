@@ -78,14 +78,15 @@ import { MatIconModule } from '@angular/material/icon';
         animationDuration="0ms"
         [tabPanel]="tabPanel"
       >
-        <a
-          mat-tab-link
-          *ngFor="let link of links"
-          (click)="activeLink = link"
-          [active]="activeLink == link"
-        >
-          {{ link }}
-        </a>
+        @for (link of links; track link) {
+          <a
+            mat-tab-link
+            (click)="activeLink = link"
+            [active]="activeLink == link"
+          >
+            {{ link }}
+          </a>
+        }
       </nav>
       <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
     </div>

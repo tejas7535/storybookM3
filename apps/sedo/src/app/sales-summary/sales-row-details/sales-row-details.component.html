@@ -1,129 +1,125 @@
-<div *ngIf="rowData" class="flex flex-row flex-wrap">
-  <mat-list>
-    <mat-list-item>
-      <span matListItemTitle class="!text-body-1">{{
-        rowData.combinedKey
-      }}</span>
-      <span matListItemLine class="!text-body-2">Combined Key</span>
-    </mat-list-item>
-    <mat-list-item>
-      <span matListItemTitle class="!text-body-1">{{
-        rowData.socoCustomerNumberGlobalKey
-      }}</span>
-      <span matListItemLine class="!text-body-2">Customer Key</span>
-    </mat-list-item>
-  </mat-list>
-
-  <mat-list>
-    <mat-list-item>
-      <span matListItemTitle class="!text-body-1">{{
-        rowData.socoArticleNumberGlobalName
-      }}</span>
-      <span matListItemLine class="!text-body-2"
-        >Material Short Description</span
-      >
-    </mat-list-item>
-    <mat-list-item>
-      <span matListItemTitle class="!text-body-1">{{
-        rowData.socoCustomerNumberGlobalName
-      }}</span>
-      <span matListItemLine class="!text-body-2">Customer Name</span>
-    </mat-list-item>
-  </mat-list>
-
-  <div class="flex flex-col items-start" [formGroup]="datesFormGroup">
-    <div>
+@if (rowData) {
+  <div class="flex flex-row flex-wrap">
+    <mat-list>
+      <mat-list-item>
+        <span matListItemTitle class="!text-body-1">{{
+          rowData.combinedKey
+        }}</span>
+        <span matListItemLine class="!text-body-2">Combined Key</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle class="!text-body-1">{{
+          rowData.socoCustomerNumberGlobalKey
+        }}</span>
+        <span matListItemLine class="!text-body-2">Customer Key</span>
+      </mat-list-item>
+    </mat-list>
+    <mat-list>
+      <mat-list-item>
+        <span matListItemTitle class="!text-body-1">{{
+          rowData.socoArticleNumberGlobalName
+        }}</span>
+        <span matListItemLine class="!text-body-2"
+          >Material Short Description</span
+        >
+      </mat-list-item>
+      <mat-list-item>
+        <span matListItemTitle class="!text-body-1">{{
+          rowData.socoCustomerNumberGlobalName
+        }}</span>
+        <span matListItemLine class="!text-body-2">Customer Name</span>
+      </mat-list-item>
+    </mat-list>
+    <div class="flex flex-col items-start" [formGroup]="datesFormGroup">
+      <div>
+        <mat-form-field class="!mt-4 !mx-4" appearance="fill">
+          <mat-label>Choose EOP</mat-label>
+          <input
+            matInput
+            [matDatepicker]="eopPicker"
+            formControlName="eopDateControl"
+          />
+          <mat-datepicker-toggle
+            color="primary"
+            matSuffix
+            [for]="eopPicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            #eopPicker
+            [disabled]="datesFormGroup.disabled"
+          ></mat-datepicker>
+          @if (datesFormGroup.controls['eopDateControl'].hasError('required')) {
+            <mat-error>Please choose a valid date. (MM/DD/YYYY)</mat-error>
+          }
+        </mat-form-field>
+        <span class="cursor-help text-medium-emphasis">
+          <mat-icon
+            [matMenuTriggerFor]="infoMenu"
+            #infoMenuTrigger="matMenuTrigger"
+            (mouseenter)="iconEnter(infoMenuTrigger)"
+            (mouseleave)="iconLeave(infoMenuTrigger)"
+          >
+            info
+          </mat-icon>
+          <mat-menu
+            #infoMenu="matMenu"
+            direction="down"
+            yPosition="below"
+            [hasBackdrop]="false"
+            class="mat-menu-width"
+          >
+            <p class="m-0 p-5 text-body-1 leading-6 text-medium-emphasis">
+              The SeDo Application calculates the EOP Dates with a dataset of
+              monthly budget planning for the next 24 months.<br />
+              Therefore a calculated EOP in 24 months might not be the correct
+              EOP since the app is missing budget planning after 24 months.<br />
+              In this case since the app updates its budget planning values each
+              month the calculated EOP also updates according to the new
+              dataset.
+            </p>
+          </mat-menu>
+        </span>
+      </div>
       <mat-form-field class="!mt-4 !mx-4" appearance="fill">
-        <mat-label>Choose EOP</mat-label>
+        <mat-label>Choose EDO</mat-label>
         <input
           matInput
-          [matDatepicker]="eopPicker"
-          formControlName="eopDateControl"
+          [matDatepicker]="edoPicker"
+          formControlName="edoDateControl"
         />
         <mat-datepicker-toggle
-          color="primary"
           matSuffix
-          [for]="eopPicker"
+          [for]="edoPicker"
         ></mat-datepicker-toggle>
         <mat-datepicker
-          #eopPicker
+          #edoPicker
           [disabled]="datesFormGroup.disabled"
         ></mat-datepicker>
-        <mat-error
-          *ngIf="datesFormGroup.controls['eopDateControl'].hasError('required')"
-          >Please choose a valid date. (MM/DD/YYYY)</mat-error
-        >
-      </mat-form-field>
-
-      <span class="cursor-help text-medium-emphasis">
-        <mat-icon
-          [matMenuTriggerFor]="infoMenu"
-          #infoMenuTrigger="matMenuTrigger"
-          (mouseenter)="iconEnter(infoMenuTrigger)"
-          (mouseleave)="iconLeave(infoMenuTrigger)"
-        >
-          info
-        </mat-icon>
-        <mat-menu
-          #infoMenu="matMenu"
-          direction="down"
-          yPosition="below"
-          [hasBackdrop]="false"
-          class="mat-menu-width"
-        >
-          <p class="m-0 p-5 text-body-1 leading-6 text-medium-emphasis">
-            The SeDo Application calculates the EOP Dates with a dataset of
-            monthly budget planning for the next 24 months.<br />
-            Therefore a calculated EOP in 24 months might not be the correct EOP
-            since the app is missing budget planning after 24 months.<br />
-            In this case since the app updates its budget planning values each
-            month the calculated EOP also updates according to the new dataset.
-          </p>
-        </mat-menu>
-      </span>
-    </div>
-    <mat-form-field class="!mt-4 !mx-4" appearance="fill">
-      <mat-label>Choose EDO</mat-label>
-      <input
-        matInput
-        [matDatepicker]="edoPicker"
-        formControlName="edoDateControl"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="edoPicker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker
-        #edoPicker
-        [disabled]="datesFormGroup.disabled"
-      ></mat-datepicker>
-      <mat-error
-        *ngIf="datesFormGroup.controls['edoDateControl'].hasError('required')"
-        >Please choose a valid date. (MM/DD/YYYY)</mat-error
-      >
-      <mat-error
-        *ngIf="
+        @if (datesFormGroup.controls['edoDateControl'].hasError('required')) {
+          <mat-error>Please choose a valid date. (MM/DD/YYYY)</mat-error>
+        }
+        @if (
           datesFormGroup.controls['edoDateControl'].hasError('disallowedEdo')
-        "
-        >EDO before EOP is not allowed.</mat-error
-      >
-    </mat-form-field>
-    <div class="flex gap-4 !m-4">
-      <button
-        *ngIf="!datesFormGroup.disabled"
-        mat-raised-button
-        (click)="openIgnoreDialog()"
-      >
-        SET IGNORE
-      </button>
-      <button
-        *ngIf="!datesFormGroup.disabled"
-        mat-raised-button
-        color="primary"
-        (click)="sendUpdatedDates()"
-      >
-        CONFIRM DATES
-      </button>
+        ) {
+          <mat-error>EDO before EOP is not allowed.</mat-error>
+        }
+      </mat-form-field>
+      <div class="flex gap-4 !m-4">
+        @if (!datesFormGroup.disabled) {
+          <button mat-raised-button (click)="openIgnoreDialog()">
+            SET IGNORE
+          </button>
+        }
+        @if (!datesFormGroup.disabled) {
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="sendUpdatedDates()"
+          >
+            CONFIRM DATES
+          </button>
+        }
+      </div>
     </div>
   </div>
-</div>
+}

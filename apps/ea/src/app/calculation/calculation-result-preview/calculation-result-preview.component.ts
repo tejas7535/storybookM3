@@ -21,7 +21,7 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
 
 @Component({
   selector: 'ea-calculation-result-preview',
-  templateUrl: './calculation-result-preview.html',
+  templateUrl: './calculation-result-preview.component.html',
   standalone: true,
   imports: [
     CommonModule,

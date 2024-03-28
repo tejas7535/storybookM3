@@ -1,9 +1,10 @@
 <ng-container *transloco="let t; read: 'parameters'">
   <div class="flex h-full flex-col">
-    <ga-qualtrics-info-banner
-      *ngIf="!(partnerVersion$ | ngrxPush)"
-      class="block mb-3 md:mb-6 px-4"
-    ></ga-qualtrics-info-banner>
+    @if (!(partnerVersion$ | ngrxPush)) {
+      <ga-qualtrics-info-banner
+        class="block mb-3 md:mb-6 px-4"
+      ></ga-qualtrics-info-banner>
+    }
     <schaeffler-subheader
       *ngrxLet="selectedBearing$ as selectedBearing"
       [hideLine]="true"
@@ -15,233 +16,236 @@
         <span class="hidden sm:block">{{ t('title.main') }}&nbsp;</span>
         <span class="truncate">{{ selectedBearing }}</span>
       </ng-container>
-      <ng-container *ngIf="!(appIsEmbedded$ | ngrxPush)" subheaderInlineContent>
-        <ga-medias-button
-          class="max-sm:w-full"
-          [bearing]="selectedBearing"
-          [partnerVersion]="partnerVersion$ | ngrxPush"
-        ></ga-medias-button>
-      </ng-container>
+      @if (!(appIsEmbedded$ | ngrxPush)) {
+        <ng-container subheaderInlineContent>
+          <ga-medias-button
+            class="max-sm:w-full"
+            [bearing]="selectedBearing"
+            [partnerVersion]="partnerVersion$ | ngrxPush"
+          ></ga-medias-button>
+        </ng-container>
+      }
     </schaeffler-subheader>
-    <div
-      class="container mx-auto pb-4 sm:px-4 md:px-0 md:pb-8"
-      *ngIf="
-        (modelCreationLoading$ | ngrxPush) ||
-          (modelCreationSuccess$ | ngrxPush);
-        else invalid_model
-      "
-    >
-      <div class="flex flex-col gap-0 sm:gap-5 lg:grid lg:grid-cols-2">
-        <div
-          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
-        >
-          <div class="border-border flex flex-row items-center border-b p-5">
-            <mat-icon class="!text-medium-emphasis mr-2">compress</mat-icon>
-            <h5 class="text-body-2 mr-4">{{ t('loads') }}</h5>
-            <span class="flex-grow"></span>
-            <span
-              class="text-caption text-low-emphasis font-medium tracking-wide"
-              >{{ t('requiredInformation') }}</span
-            >
-          </div>
-          <div class="p-4 pb-0">
-            <div class="mb-4">
-              <mat-slide-toggle
-                color="primary"
-                labelPosition="before"
-                [checked]="exact.value"
-                (change)="toggleLoadsType($event)"
-              >
-                {{ t('enterRadialAndAxialLoad') }}
-              </mat-slide-toggle>
-            </div>
-            <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
-              <ng-container *ngIf="exact.value; else exactValuesUnknown">
-                <ga-input
-                  *ngIf="radialLoadPossible$ | ngrxPush"
-                  [control]="radial"
-                  [label]="t('radialLoad')"
-                  [unit]="loadUnit"
-                  [tooltipText]="t('tooltip.radialLoad')"
-                  [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
-                  [onlyPositive]="true"
-                ></ga-input>
-                <ga-input
-                  *ngIf="axialLoadPossible$ | ngrxPush"
-                  [control]="axial"
-                  [label]="t('axialLoad')"
-                  [unit]="loadUnit"
-                  [tooltipText]="t('tooltip.axialLoad')"
-                  [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
-                  [onlyPositive]="true"
-                ></ga-input>
-              </ng-container>
-              <ng-template #exactValuesUnknown>
-                <ga-select
-                  [control]="loadRatio"
-                  [label]="t('load')"
-                  [options]="loadRatioOptions"
-                ></ga-select>
-              </ng-template>
-            </div>
-          </div>
-        </div>
-        <div
-          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
-        >
-          <div class="border-border flex flex-row items-center border-b p-5">
-            <mat-icon class="!text-medium-emphasis mr-2">animation</mat-icon>
-            <h5 class="text-body-2 mr-4">{{ t('motionInfluences') }}</h5>
-            <span class="flex-grow"></span>
-            <span
-              class="text-caption text-low-emphasis font-medium tracking-wide"
-              >{{ t('requiredInformation') }}</span
-            >
-          </div>
-          <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
-            <ga-select
-              [control]="movementType"
-              [label]="t('kindOfMotion')"
-              [options]="typeOptions"
-            ></ga-select>
-            <ng-container *ngIf="selectedMovementType$ | ngrxPush">
-              <ga-input
-                *ngIf="
-                  (selectedMovementType$ | ngrxPush) === movement.rotating;
-                  else oscillatingFields
-                "
-                [control]="rotationalSpeed"
-                [label]="t('relativeRotationalSpeed')"
-                [unit]="t('onePerMinute')"
-                [tooltipText]="t('tooltip.rotationSpeed')"
-                [placeholder]="
-                  t('pleaseEnter', { label: t('relativeRotationalSpeed') })
-                "
-                [onlyPositive]="true"
-              ></ga-input>
-            </ng-container>
-
-            <ng-template #oscillatingFields>
-              <div></div>
-              <ga-input
-                [control]="shiftFrequency"
-                [label]="t('shiftFrequency')"
-                [unit]="t('onePerMinute')"
-                [tooltipText]="t('tooltip.shiftFrequency')"
-                [placeholder]="t('pleaseEnter', { label: t('shiftFrequency') })"
-                [onlyPositive]="true"
-              ></ga-input>
-              <ga-input
-                [control]="shiftAngle"
-                [label]="t('shiftAngle')"
-                [unit]="t('degree')"
-                [tooltipText]="t('tooltip.shiftAngle')"
-                [placeholder]="t('pleaseEnter', { label: t('shiftAngle') })"
-                [onlyPositive]="true"
-              ></ga-input>
-            </ng-template>
-          </div>
-        </div>
-        <div
-          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
-        >
-          <div class="border-border flex flex-row items-center border-b p-5">
-            <mat-icon class="!text-medium-emphasis mr-2"
-              >device_thermostat</mat-icon
-            >
-            <h5 class="text-body-2 mr-4">{{ t('otherInfluences') }}</h5>
-            <span class="flex-grow"></span>
-            <span
-              class="text-caption text-low-emphasis font-medium tracking-wide"
-              >{{ t('requiredInformation') }}</span
-            >
-          </div>
-          <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
-            <ga-input
-              [control]="operatingTemperature"
-              [label]="t('operatingTemperature')"
-              [unit]="temperatureUnit"
-              [customErrors]="operatingTemperatureErrors"
-              [tooltipText]="t('tooltip.operatingTemperature')"
-            ></ga-input>
-            <ga-input
-              [control]="environmentTemperature"
-              [label]="t('environmentTemperature')"
-              [unit]="temperatureUnit"
-              [tooltipText]="t('tooltip.environmentTemperature')"
-            ></ga-input>
-            <ga-select
-              [control]="environmentImpact"
-              [label]="t('environmentalImpactOnGreaseDuration')"
-              [options]="environmentImpactOptions"
-              [tooltipText]="t('tooltip.otherInfluences')"
-            ></ga-select>
-          </div>
-        </div>
-        <div
-          class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
-        >
+    @if (
+      (modelCreationLoading$ | ngrxPush) || (modelCreationSuccess$ | ngrxPush)
+    ) {
+      <div class="container mx-auto pb-4 sm:px-4 md:px-0 md:pb-8">
+        <div class="flex flex-col gap-0 sm:gap-5 lg:grid lg:grid-cols-2">
           <div
-            class="border-border bg-primary-variant text-link flex flex-row items-center border-b p-5"
+            class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
           >
-            <mat-icon class="mr-2">manage_search</mat-icon>
-            <h5 class="text-body-2 mr-4">
-              {{ t('productPreselection.title.main') }}
-            </h5>
-          </div>
-          <div class="p-4 pb-0">
-            <ga-preferred-grease-selection></ga-preferred-grease-selection>
-            <div class="flex items-center justify-between gap-2 pb-4">
-              <mat-slide-toggle
-                color="primary"
-                class="h-auto"
-                labelPosition="before"
-                [checked]="automaticLubrication$ | ngrxPush"
-                (change)="toggleAutomaticLubrication($event)"
+            <div class="border-border flex flex-row items-center border-b p-5">
+              <mat-icon class="!text-medium-emphasis mr-2">compress</mat-icon>
+              <h5 class="text-body-2 mr-4">{{ t('loads') }}</h5>
+              <span class="flex-grow"></span>
+              <span
+                class="text-caption text-low-emphasis font-medium tracking-wide"
+                >{{ t('requiredInformation') }}</span
               >
-                {{ t('productPreselection.concept1.label') }}
-              </mat-slide-toggle>
-
-              <mat-icon
-                color="primary"
-                class="min-w-[24px] cursor-help"
-                #tooltip="matTooltip"
-                [matTooltip]="t('productPreselection.concept1.tooltip')"
-                (click)="tooltip.toggle()"
-              >
-                info_outline
-              </mat-icon>
             </div>
-          </div>
-        </div>
-        <div
-          class="col-span-2 flex flex-col justify-between gap-5 px-4 pt-6 sm:px-0 sm:pt-0 md:flex-row"
-        >
-          <button
-            mat-raised-button
-            color="primary"
-            class="md:order-last"
-            (click)="completeStep()"
-            [disabled]="form.invalid || (parameterUpdating$ | ngrxPush)"
-          >
-            <div class="flex items-center justify-center">
-              {{ t('showResults') }}
-              <div
-                *ngIf="!form.invalid && (parameterUpdating$ | ngrxPush)"
-                class="pl-2"
-              >
-                <mat-spinner diameter="20"></mat-spinner>
+            <div class="p-4 pb-0">
+              <div class="mb-4">
+                <mat-slide-toggle
+                  color="primary"
+                  labelPosition="before"
+                  [checked]="exact.value"
+                  (change)="toggleLoadsType($event)"
+                >
+                  {{ t('enterRadialAndAxialLoad') }}
+                </mat-slide-toggle>
+              </div>
+              <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+                @if (exact.value) {
+                  @if (radialLoadPossible$ | ngrxPush) {
+                    <ga-input
+                      [control]="radial"
+                      [label]="t('radialLoad')"
+                      [unit]="loadUnit"
+                      [tooltipText]="t('tooltip.radialLoad')"
+                      [placeholder]="
+                        t('pleaseEnter', { label: t('radialLoad') })
+                      "
+                      [onlyPositive]="true"
+                    ></ga-input>
+                  }
+                  @if (axialLoadPossible$ | ngrxPush) {
+                    <ga-input
+                      [control]="axial"
+                      [label]="t('axialLoad')"
+                      [unit]="loadUnit"
+                      [tooltipText]="t('tooltip.axialLoad')"
+                      [placeholder]="
+                        t('pleaseEnter', { label: t('axialLoad') })
+                      "
+                      [onlyPositive]="true"
+                    ></ga-input>
+                  }
+                } @else {
+                  <ga-select
+                    [control]="loadRatio"
+                    [label]="t('load')"
+                    [options]="loadRatioOptions"
+                  ></ga-select>
+                }
               </div>
             </div>
-          </button>
-          <button mat-button color="primary" (click)="onResetButtonClick()">
-            {{ t('resetInputs') }}
-          </button>
+          </div>
+          <div
+            class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
+          >
+            <div class="border-border flex flex-row items-center border-b p-5">
+              <mat-icon class="!text-medium-emphasis mr-2">animation</mat-icon>
+              <h5 class="text-body-2 mr-4">{{ t('motionInfluences') }}</h5>
+              <span class="flex-grow"></span>
+              <span
+                class="text-caption text-low-emphasis font-medium tracking-wide"
+                >{{ t('requiredInformation') }}</span
+              >
+            </div>
+            <div
+              class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4"
+            >
+              <ga-select
+                [control]="movementType"
+                [label]="t('kindOfMotion')"
+                [options]="typeOptions"
+              ></ga-select>
+              @if (selectedMovementType$ | ngrxPush) {
+                @if ((selectedMovementType$ | ngrxPush) === movement.rotating) {
+                  <ga-input
+                    [control]="rotationalSpeed"
+                    [label]="t('relativeRotationalSpeed')"
+                    [unit]="t('onePerMinute')"
+                    [tooltipText]="t('tooltip.rotationSpeed')"
+                    [placeholder]="
+                      t('pleaseEnter', { label: t('relativeRotationalSpeed') })
+                    "
+                    [onlyPositive]="true"
+                  ></ga-input>
+                } @else {
+                  <div></div>
+                  <ga-input
+                    [control]="shiftFrequency"
+                    [label]="t('shiftFrequency')"
+                    [unit]="t('onePerMinute')"
+                    [tooltipText]="t('tooltip.shiftFrequency')"
+                    [placeholder]="
+                      t('pleaseEnter', { label: t('shiftFrequency') })
+                    "
+                    [onlyPositive]="true"
+                  ></ga-input>
+                  <ga-input
+                    [control]="shiftAngle"
+                    [label]="t('shiftAngle')"
+                    [unit]="t('degree')"
+                    [tooltipText]="t('tooltip.shiftAngle')"
+                    [placeholder]="t('pleaseEnter', { label: t('shiftAngle') })"
+                    [onlyPositive]="true"
+                  ></ga-input>
+                }
+              }
+            </div>
+          </div>
+          <div
+            class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
+          >
+            <div class="border-border flex flex-row items-center border-b p-5">
+              <mat-icon class="!text-medium-emphasis mr-2"
+                >device_thermostat</mat-icon
+              >
+              <h5 class="text-body-2 mr-4">{{ t('otherInfluences') }}</h5>
+              <span class="flex-grow"></span>
+              <span
+                class="text-caption text-low-emphasis font-medium tracking-wide"
+                >{{ t('requiredInformation') }}</span
+              >
+            </div>
+            <div
+              class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4"
+            >
+              <ga-input
+                [control]="operatingTemperature"
+                [label]="t('operatingTemperature')"
+                [unit]="temperatureUnit"
+                [customErrors]="operatingTemperatureErrors"
+                [tooltipText]="t('tooltip.operatingTemperature')"
+              ></ga-input>
+              <ga-input
+                [control]="environmentTemperature"
+                [label]="t('environmentTemperature')"
+                [unit]="temperatureUnit"
+                [tooltipText]="t('tooltip.environmentTemperature')"
+              ></ga-input>
+              <ga-select
+                [control]="environmentImpact"
+                [label]="t('environmentalImpactOnGreaseDuration')"
+                [options]="environmentImpactOptions"
+                [tooltipText]="t('tooltip.otherInfluences')"
+              ></ga-select>
+            </div>
+          </div>
+          <div
+            class="border-border bg-surface border-t sm:rounded sm:border-x sm:border-b"
+          >
+            <div
+              class="border-border bg-primary-variant text-link flex flex-row items-center border-b p-5"
+            >
+              <mat-icon class="mr-2">manage_search</mat-icon>
+              <h5 class="text-body-2 mr-4">
+                {{ t('productPreselection.title.main') }}
+              </h5>
+            </div>
+            <div class="p-4 pb-0">
+              <ga-preferred-grease-selection></ga-preferred-grease-selection>
+              <div class="flex items-center justify-between gap-2 pb-4">
+                <mat-slide-toggle
+                  color="primary"
+                  class="h-auto"
+                  labelPosition="before"
+                  [checked]="automaticLubrication$ | ngrxPush"
+                  (change)="toggleAutomaticLubrication($event)"
+                >
+                  {{ t('productPreselection.concept1.label') }}
+                </mat-slide-toggle>
+                <mat-icon
+                  color="primary"
+                  class="min-w-[24px] cursor-help"
+                  #tooltip="matTooltip"
+                  [matTooltip]="t('productPreselection.concept1.tooltip')"
+                  (click)="tooltip.toggle()"
+                >
+                  info_outline
+                </mat-icon>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-span-2 flex flex-col justify-between gap-5 px-4 pt-6 sm:px-0 sm:pt-0 md:flex-row"
+          >
+            <button
+              mat-raised-button
+              color="primary"
+              class="md:order-last"
+              (click)="completeStep()"
+              [disabled]="form.invalid || (parameterUpdating$ | ngrxPush)"
+            >
+              <div class="flex items-center justify-center">
+                {{ t('showResults') }}
+                @if (!form.invalid && (parameterUpdating$ | ngrxPush)) {
+                  <div class="pl-2">
+                    <mat-spinner diameter="20"></mat-spinner>
+                  </div>
+                }
+              </div>
+            </button>
+            <button mat-button color="primary" (click)="onResetButtonClick()">
+              {{ t('resetInputs') }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <ng-template #invalid_model>
+    } @else {
       <schaeffler-maintenance></schaeffler-maintenance>
-    </ng-template>
+    }
   </div>
 </ng-container>

@@ -197,7 +197,7 @@ describe('DetailCellRendererComponent', () => {
         current,
         previous,
         reason,
-      } as PropertyChange);
+      }) as PropertyChange;
 
     it.each([
       // new

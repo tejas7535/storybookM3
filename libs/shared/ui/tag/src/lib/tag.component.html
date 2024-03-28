@@ -5,7 +5,9 @@
   "
   [ngClass]="tagClassName"
 >
-  <div *ngIf="withDot" class="w-2 h-2 rounded-full mr-1 tag-dot"></div>
+  @if (withDot) {
+    <div class="w-2 h-2 rounded-full mr-1 tag-dot"></div>
+  }
   <div>
     {{ value }}
   </div>

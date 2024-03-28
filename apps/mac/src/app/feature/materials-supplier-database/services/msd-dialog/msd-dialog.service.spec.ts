@@ -45,7 +45,7 @@ describe('MsdDialogService', () => {
       {
         provide: MatDialog,
         useValue: {
-          open: jest.fn(() => ({} as unknown as MatDialogRef<any>)),
+          open: jest.fn(() => ({}) as unknown as MatDialogRef<any>),
         },
       },
     ],

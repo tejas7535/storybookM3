@@ -87,7 +87,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencies.component';
 import { CalculationParametersFormDevDebugComponent } from '../calculation-parameters-form-dev-debug/calculation-parameters-form-dev-debug.component';
-import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
+import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
 import { getContaminationOptions } from './contamination.options';
 import { getEnvironmentalInfluenceOptions } from './environmental-influence.options';
 import {
@@ -106,7 +106,7 @@ import { LoadCaseDataFormGroupModel } from './loadcase-data-form-group.interface
 import { ParameterTemplateDirective } from './parameter-template.directive';
 
 @Component({
-  templateUrl: './calculation-parameters.html',
+  templateUrl: './calculation-parameters.component.html',
   selector: 'ea-calculation-parameters',
   standalone: true,
   imports: [

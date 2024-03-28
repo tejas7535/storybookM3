@@ -164,11 +164,13 @@ export class OrgChartTemplateService {
                     rounded-full flex flex-col items-center justify-center
                   text-low-emphasis !visible" style="visibility: hidden">
           <span ${expand} class="group-hover:text-high-emphasis">${
-      node.data._directSubordinates
-    }</span>
+            node.data._directSubordinates
+          }</span>
           <span ${expand} class="${
-      node.children ? "before:content-['\\e313']" : "before:content-['\\e316']"
-    } before:font-materiaIcons group-hover:text-link"></span>
+            node.children
+              ? "before:content-['\\e313']"
+              : "before:content-['\\e316']"
+          } before:font-materiaIcons group-hover:text-link"></span>
         </div>
       `;
   }

@@ -7,28 +7,30 @@
     class="flex"
     *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
   >
-    <div *ngIf="totalRowCount" class="flex flex-col">
-      <span
-        class="text-left"
-        [ngClass]="
-          simulationModeEnabled
-            ? 'text-medium-emphasis-dark-bg'
-            : 'text-low-emphasis'
-        "
-      >
-        {{ t('total') }}:</span
-      >
-      <span
-        class="text-high-emphasis text-left"
-        [ngClass]="
-          simulationModeEnabled
-            ? 'text-high-emphasis-dark-bg '
-            : 'text-high-emphasis'
-        "
-      >
-        {{ totalRowCount }}</span
-      >
-    </div>
+    @if (totalRowCount) {
+      <div class="flex flex-col">
+        <span
+          class="text-left"
+          [ngClass]="
+            simulationModeEnabled
+              ? 'text-medium-emphasis-dark-bg'
+              : 'text-low-emphasis'
+          "
+        >
+          {{ t('total') }}:</span
+        >
+        <span
+          class="text-high-emphasis text-left"
+          [ngClass]="
+            simulationModeEnabled
+              ? 'text-high-emphasis-dark-bg '
+              : 'text-high-emphasis'
+          "
+        >
+          {{ totalRowCount }}</span
+        >
+      </div>
+    }
     <div class="ml-4 flex flex-col">
       <span
         class="text-left"

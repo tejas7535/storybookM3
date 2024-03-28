@@ -89,10 +89,6 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
       .includes(value.toLowerCase().trim());
   }
 
-  public trackByFn(index: number): number {
-    return index;
-  }
-
   private patchSelect(material?: AQMMaterial): void {
     if (material !== this.materialInput.value) {
       this.materialInput.patchValue(material, { emitEvent: false });

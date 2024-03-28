@@ -8,42 +8,36 @@
   >
   </gq-dialog-header>
   <div class="pt-2 text-caption flex flex-row gap-3">
-    <gq-label-text
-      *ngIf="material.materialNumber13"
-      [modalVersion]="true"
-      [modalFlexRow]="true"
-    >
-      <span label>
-        {{ t('materialNumberLabel') }}
-      </span>
-      <span text>
-        {{ material.materialDescription }}
-      </span>
-    </gq-label-text>
+    @if (material.materialNumber13) {
+      <gq-label-text [modalVersion]="true" [modalFlexRow]="true">
+        <span label>
+          {{ t('materialNumberLabel') }}
+        </span>
+        <span text>
+          {{ material.materialDescription }}
+        </span>
+      </gq-label-text>
+    }
     <span class="text-medium-emphasis"> | </span>
-    <gq-label-text
-      *ngIf="material.dimensions"
-      [modalVersion]="true"
-      [modalFlexRow]="true"
-    >
-      <span label>
-        {{ t('dimensionsLabel') }}
-      </span>
-      <span text>
-        {{ material.dimensions }}
-      </span>
-    </gq-label-text>
+    @if (material.dimensions) {
+      <gq-label-text [modalVersion]="true" [modalFlexRow]="true">
+        <span label>
+          {{ t('dimensionsLabel') }}
+        </span>
+        <span text>
+          {{ material.dimensions }}
+        </span>
+      </gq-label-text>
+    }
     <span class="text-medium-emphasis"> | </span>
-    <gq-label-text
-      *ngIf="material.grossWeight"
-      [modalVersion]="true"
-      [modalFlexRow]="true"
-    >
-      <span label>
-        {{ t('weightLabel') }}
-      </span>
-      <span text> {{ material.grossWeight }} {{ material.weightUnit }} </span>
-    </gq-label-text>
+    @if (material.grossWeight) {
+      <gq-label-text [modalVersion]="true" [modalFlexRow]="true">
+        <span label>
+          {{ t('weightLabel') }}
+        </span>
+        <span text> {{ material.grossWeight }} {{ material.weightUnit }} </span>
+      </gq-label-text>
+    }
     <span class="text-medium-emphasis"> | </span>
     <div (click)="showMore.emit()">
       <span class="text-link text-caption cursor-pointer">

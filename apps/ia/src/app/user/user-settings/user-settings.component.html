@@ -29,10 +29,11 @@
   </div>
   <mat-divider></mat-divider>
   <div class="py-4">
-    <schaeffler-roles-and-rights
-      *ngIf="(roleGroups$ | ngrxPush) && (roleGroups$ | ngrxPush).length"
-      [rolesGroups]="roleGroups$ | ngrxPush"
-      [showHeading]="true"
-    ></schaeffler-roles-and-rights>
+    @if ((roleGroups$ | ngrxPush) && (roleGroups$ | ngrxPush).length) {
+      <schaeffler-roles-and-rights
+        [rolesGroups]="roleGroups$ | ngrxPush"
+        [showHeading]="true"
+      ></schaeffler-roles-and-rights>
+    }
   </div>
 </div>

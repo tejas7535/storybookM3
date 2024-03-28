@@ -35,12 +35,4 @@ describe('GqRatingComponent', () => {
       expect(component.rating).toEqual(2);
     });
   });
-
-  describe('trackByFn()', () => {
-    test('should return the loop index to track usersArray', () => {
-      const indexNum = 1337;
-      const retId = component.trackByFn(indexNum);
-      expect(retId).toEqual(indexNum);
-    });
-  });
 });

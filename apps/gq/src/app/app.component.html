@@ -1,59 +1,60 @@
-<schaeffler-app-shell
-  *ngIf="
-    (isLoggedIn$ | ngrxPush) &&
-      !(healthCheckFacade.healthCheckLoading$ | ngrxPush);
-    else loading
-  "
-  [appTitle]="title"
-  [appTitleLink]="titleLink"
-  [hasSidebarLeft]="true"
-  [userName]="username$ | ngrxPush"
-  [userImageUrl]="profileImage$ | ngrxPush"
-  [footerLinks]="footerLinks"
-  [appVersion]="appVersion"
->
-  <ng-container headerInlineContent *ngIf="showGlobalSearch$ | ngrxPush">
-    <gq-global-search-bar></gq-global-search-bar>
-  </ng-container>
-  <ng-container sidenavBody>
-    <gq-user-settings></gq-user-settings>
-  </ng-container>
-  <ng-container mainContent>
-    <div class="bg-secondary h-full w-full">
-      <div
-        *ngIf="
-          healthCheckFacade.healthCheckAvailable$ | ngrxPush;
-          else maintenance
-        "
-        class="h-full w-full"
-      >
-        <router-outlet></router-outlet>
-        <div
-          *transloco="let t; read: 'legal'"
-          class="bg-surface mx-auto w-full max-w-screen-md"
-          [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
-        >
-          <div class="px-4 py-3">
-            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-              {{ t('cookieSettings') }}
-            </button>
+@if (
+  (isLoggedIn$ | ngrxPush) &&
+  !(healthCheckFacade.healthCheckLoading$ | ngrxPush)
+) {
+  <schaeffler-app-shell
+    [appTitle]="title"
+    [appTitleLink]="titleLink"
+    [hasSidebarLeft]="true"
+    [userName]="username$ | ngrxPush"
+    [userImageUrl]="profileImage$ | ngrxPush"
+    [footerLinks]="footerLinks"
+    [appVersion]="appVersion"
+  >
+    @if (showGlobalSearch$ | ngrxPush) {
+      <ng-container headerInlineContent>
+        <gq-global-search-bar></gq-global-search-bar>
+      </ng-container>
+    }
+    <ng-container sidenavBody>
+      <gq-user-settings></gq-user-settings>
+    </ng-container>
+    <ng-container mainContent>
+      <div class="bg-secondary h-full w-full">
+        @if (healthCheckFacade.healthCheckAvailable$ | ngrxPush) {
+          <div class="h-full w-full">
+            <router-outlet></router-outlet>
+            <div
+              *transloco="let t; read: 'legal'"
+              class="bg-surface mx-auto w-full max-w-screen-md"
+              [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
+            >
+              <div class="px-4 py-3">
+                <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+                  {{ t('cookieSettings') }}
+                </button>
+              </div>
+              <div class="py-3 md:px-4">
+                <div id="ot-sdk-cookie-policy"></div>
+              </div>
+            </div>
           </div>
-          <div class="py-3 md:px-4">
-            <div id="ot-sdk-cookie-policy"></div>
-          </div>
-        </div>
+        } @else {
+          <schaeffler-maintenance
+            *transloco="let t; read: 'shared.maintenance'"
+            [title]="t('title')"
+          ></schaeffler-maintenance>
+        }
       </div>
-    </div>
-  </ng-container>
-</schaeffler-app-shell>
+    </ng-container>
+  </schaeffler-app-shell>
+} @else {
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+}
 
 <ng-template class="h-full grow overflow-y-auto" #maintenance>
   <schaeffler-maintenance
     *transloco="let t; read: 'shared.maintenance'"
     [title]="t('title')"
   ></schaeffler-maintenance>
-</ng-template>
-
-<ng-template #loading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

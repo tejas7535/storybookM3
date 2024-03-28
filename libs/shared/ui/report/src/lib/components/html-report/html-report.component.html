@@ -1,42 +1,48 @@
-<div *ngIf="htmlReportTitle || downloadReport" class="flex items-center">
-  <div *ngIf="htmlReportTitle" class="text-h6">
-    {{ htmlReportTitle }}
+@if (htmlReportTitle || downloadReport) {
+  <div class="flex items-center">
+    @if (htmlReportTitle) {
+      <div class="text-h6">
+        {{ htmlReportTitle }}
+      </div>
+    }
+    <div class="grow"></div>
+    @if (downloadReport) {
+      <a
+        type="button"
+        mat-icon-button
+        class="float-right focus:outline-none"
+        [href]="downloadReport"
+      >
+        <mat-icon class="text-medium-emphasis">save</mat-icon>
+      </a>
+    }
   </div>
-  <div class="grow"></div>
-  <a
-    *ngIf="downloadReport"
-    type="button"
-    mat-icon-button
-    class="float-right focus:outline-none"
-    [href]="downloadReport"
-  >
-    <mat-icon class="text-medium-emphasis">save</mat-icon>
-  </a>
-</div>
-<div *ngIf="htmlReportSubtitle" class="text-caption">
-  {{ htmlReportSubtitle }}
-</div>
+}
+@if (htmlReportSubtitle) {
+  <div class="text-caption">
+    {{ htmlReportSubtitle }}
+  </div>
+}
 
 <mat-accordion>
-  <mat-expansion-panel
-    *ngFor="let entry of htmlResult$ | ngrxPush"
-    [expanded]="entry.defaultOpen"
-  >
-    <mat-expansion-panel-header class="text-body-1">
-      <mat-panel-title>{{ entry.title }}</mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="px-6 pb-4">
-      <ng-container *ngFor="let content of entry.content">
-        <div
-          [ngClass]="
-            content.nodeName === 'TABLE' ? '-mx-6 md:mx-0' : 'ml-0 mr-0'
-          "
-          class="m-3 overflow-x-scroll leading-normal sm:overflow-x-visible"
-          [innerHtml]="content.outerHTML | safeHtml"
-        ></div>
-      </ng-container>
-    </div>
-  </mat-expansion-panel>
+  @for (entry of htmlResult$ | ngrxPush; track entry) {
+    <mat-expansion-panel [expanded]="entry.defaultOpen">
+      <mat-expansion-panel-header class="text-body-1">
+        <mat-panel-title>{{ entry.title }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="px-6 pb-4">
+        @for (content of entry.content; track content) {
+          <div
+            [ngClass]="
+              content.nodeName === 'TABLE' ? '-mx-6 md:mx-0' : 'ml-0 mr-0'
+            "
+            class="m-3 overflow-x-scroll leading-normal sm:overflow-x-visible"
+            [innerHtml]="content.outerHTML | safeHtml"
+          ></div>
+        }
+      </div>
+    </mat-expansion-panel>
+  }
 </mat-accordion>
 
 <!-- custom content -->

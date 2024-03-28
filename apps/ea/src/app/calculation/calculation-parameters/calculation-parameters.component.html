@@ -1,0 +1,887 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<ng-container *transloco="let t; read: 'operationConditions'">
+  <div class="flex w-full flex-col md:w-[660px] lg:w-[850px]">
+    <div class="flex flex-1 flex-col items-center gap-10">
+      <div class="flex flex-col gap-0 w-full sm:gap-6 lg:grid">
+        <ea-qualtrics-info-banner
+          [bearingDesingation]="bearingDesignation$ | ngrxPush"
+        ></ea-qualtrics-info-banner>
+        <schaeffler-subheader
+          *ngrxLet="bearingDesignation$ as selectedBearing"
+          [hideLine]="true"
+          [breakTitle]="true"
+          [showBackButton]="isStandalone"
+          (backButtonClicked)="navigateBack()"
+        >
+          <ng-container subheaderTitleContent>
+            <span
+              class="hidden sm:block end-to-end-test-element text-medium-emphasis"
+              >{{ t('title') }}&nbsp;</span
+            >
+            <span class="truncate text-medium-emphasis">{{
+              selectedBearing
+            }}</span>
+          </ng-container>
+        </schaeffler-subheader>
+        @if (!isProduction) {
+          <div class="py-2 flex flex-col gap-y-2">
+            <ea-info-banner
+              [isWarning]="true"
+              [infoText]="t('prototypeWarning')"
+            ></ea-info-banner>
+          </div>
+        }
+        <div class="flex-row items-end w-full mb-4 flex min-[1100px]:hidden">
+          <button
+            (click)="onShowBasicFrequenciesDialogClick()"
+            mat-button
+            class="ml-auto"
+            color="primary"
+          >
+            {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
+          </button>
+        </div>
+
+        <div
+          class="flex flex-row items-center min-[1100px]:hidden justify-between mb-4"
+        >
+          <!-- Mobile Empty state-->
+          @if (!(hasSelection$ | ngrxPush)) {
+            <div
+              class="text-left py-11 flex-row items-center justify-center space-x-2 flex md:hidden"
+            >
+              <mat-icon color="primary" class="flex-shrink-0"
+                >info_outline</mat-icon
+              >
+              <span class="max-w-2xl flex-grow-0">{{ t('emptyState') }}</span>
+            </div>
+          }
+
+          <button
+            mat-fab
+            extended
+            color="primary"
+            (click)="onShowCalculationTypesClick()"
+            class="ml-auto mr-2 h-8 px-4"
+          >
+            <mat-icon class="!m-auto">tune</mat-icon>
+          </button>
+        </div>
+
+        <!-- DEV STUFF form debug component -->
+        <ea-calculation-parameters-form-dev-debug
+          [operationConditionsForm]="operationConditionsForm"
+          [validationErrors]="formErrors$ | ngrxPush"
+        >
+        </ea-calculation-parameters-form-dev-debug>
+
+        <!-- Desktop Empty state-->
+        @if (!(hasSelection$ | ngrxPush)) {
+          <div
+            class="text-center py-11 flex-row items-center justify-center space-x-2 hidden md:flex"
+          >
+            <mat-icon color="primary" class="flex-shrink-0"
+              >info_outline</mat-icon
+            >
+            <span class="max-w-2xl flex-grow-0">{{ t('emptyState') }}</span>
+          </div>
+        }
+
+        <!-- INPUT PARAMETERS -->
+        @if (parameterTemplates && hasSelection$ | ngrxPush) {
+          <!-- LOAD CASES-->
+          <!-- single load cases-->
+          @if (isSingleLoadCaseForm) {
+            @for (
+              loadDataItem of operationConditionsForm.controls.loadCaseData
+                .controls;
+              track loadDataItem
+            ) {
+              <div class="flex-row items-start w-full mb-4 flex">
+                <button
+                  (click)="onAddLoadCaseClick()"
+                  mat-button
+                  color="primary"
+                >
+                  <mat-icon>add</mat-icon>
+                  {{ 'operationConditions.addLoadCase' | transloco }}
+                </button>
+              </div>
+              @for (
+                parameterTemplate of parameterTemplates.loadCases;
+                track parameterTemplate
+              ) {
+                <ng-container
+                  [ngTemplateOutlet]="parameterTemplate"
+                  [ngTemplateOutletContext]="{ t: t, loadCase: loadDataItem }"
+                >
+                </ng-container>
+              }
+            }
+          }
+          <!-- Multiple load cases -->
+          @if (!isSingleLoadCaseForm) {
+            <div>
+              <div class="flex-row w-full mb-4 flex items-center">
+                <button
+                  (click)="onAddLoadCaseClick()"
+                  mat-button
+                  color="primary"
+                >
+                  <mat-icon>add</mat-icon>
+                  {{ t('addLoadCase') }}
+                </button>
+                <p class="ml-auto text-right">
+                  {{ t('totalAmountOfTime') }}
+                  <span
+                    [ngClass]="{
+                      'text-icon-warning': totalOperatingTime > 100
+                    }"
+                    >{{ totalOperatingTime }}%</span
+                  >
+                </p>
+              </div>
+              <mat-tab-group
+                class="w-[95vw] lg:w-[850px]"
+                (selectedIndexChange)="onSelectedLoadCaseChange($event)"
+              >
+                @for (
+                  loadDataItem of operationConditionsForm.controls.loadCaseData
+                    .controls;
+                  track loadDataItem;
+                  let i = $index
+                ) {
+                  <mat-tab class="bg-warning p-1">
+                    <ng-template mat-tab-label>
+                      <p>{{ loadDataItem.controls.loadCaseName.value }}</p>
+                    </ng-template>
+                    <ng-template matTabContent>
+                      <div
+                        class="p-4 mt-2 flex flex-col gap-0 w-full rounded-xl sm:gap-6 lg:grid bg-background-dark"
+                      >
+                        <div class="flex">
+                          <mat-form-field>
+                            <input
+                              matInput
+                              [formControl]="loadDataItem.controls.loadCaseName"
+                            />
+                          </mat-form-field>
+                          <button
+                            mat-icon-button
+                            (click)="onRemoveLoadCaseClick(i)"
+                            class="ml-auto !text-medium-emphasis"
+                            color="secondary"
+                          >
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                        @for (
+                          parameterTemplate of parameterTemplates.loadCases;
+                          track parameterTemplate
+                        ) {
+                          <ng-container
+                            [ngTemplateOutlet]="parameterTemplate"
+                            [ngTemplateOutletContext]="{
+                              t: t,
+                              loadCase: loadDataItem
+                            }"
+                          >
+                          </ng-container>
+                        }
+                      </div>
+                    </ng-template>
+                  </mat-tab>
+                }
+              </mat-tab-group>
+            </div>
+          }
+          <!-- MANDATORY PARAMETERS -->
+          @if (!isSingleLoadCaseForm) {
+            <div class="flex-row w-full mt-2 sm:mt-0 mb-4 px-3 flex">
+              <p>{{ t('generalInputsTitle') }}</p>
+              <ea-info-button
+                class="pl-2"
+                [tooltip]="t('generalInputsTitleTooltip')"
+              ></ea-info-button>
+            </div>
+          }
+          @for (
+            parameterTemplate of parameterTemplates.mandatory;
+            track parameterTemplate
+          ) {
+            <ng-container
+              [ngTemplateOutlet]="parameterTemplate"
+              [ngTemplateOutletContext]="{ t: t }"
+            >
+            </ng-container>
+          }
+          <!-- PRESET PARAMETERS -->
+          <div [hidden]="(presetChips$ | ngrxPush)?.length === 0">
+            <div class="flex w-full justify-between items-center mb-3">
+              <div class="flex flex-row">
+                <div
+                  class="text-subtitle-2 text-body-2 text-medium-emphasis py-2"
+                >
+                  {{ t('presetParameters.headline') }}
+                </div>
+                <ea-info-button
+                  class="pl-2 my-auto max-w"
+                  [tooltip]="t('presetParameters.explanation')"
+                  tooltipPosition="after"
+                  tooltipClass="md:max-w-lg md:[&>div]:max-w-lg"
+                ></ea-info-button>
+              </div>
+              <div>
+                @if (showPresetParameters) {
+                  <button
+                    mat-button
+                    color="primary"
+                    (click)="showPresetParameters = false"
+                  >
+                    {{ t('presetParameters.hide') }}
+                  </button>
+                }
+              </div>
+            </div>
+            <!---- Preset calculation chips ----->
+            <div
+              [ngClass]="{
+                '!hidden':
+                  showPresetParameters || !(hasCalculationSelected$ | ngrxPush)
+              }"
+              class="w-full md:flex grid grid-cols-2 min-w-full flex-row justify-start md:border-b border-border py-2 flex-nowrap"
+            >
+              @for (
+                chip of presetChips$ | ngrxPush;
+                track chip;
+                let isLast = $last;
+                let isOdd = $odd
+              ) {
+                <div
+                  class="w-auto border-r chip flex flex-col space-y-2 border-b md:border-b-0 border-border px-3 py-2 md:py-0"
+                  [ngClass]="{
+                    'md:border-r-0': isLast,
+                    'border-r-0 md:border-r': isOdd
+                  }"
+                >
+                  <mat-icon
+                    class="hidden md:block !text-medium-emphasis"
+                    [svgIcon]="chip.icon"
+                    >{{ chip.icon }}</mat-icon
+                  >
+                  <span
+                    class="font-bold text-subtitle-2 text-medium-emphasis"
+                    >{{ chip.text }}</span
+                  >
+                  <span class="text-low-emphasis text-body-2">{{
+                    chip.label
+                  }}</span>
+                </div>
+              }
+              <div
+                class="md:w-auto flex items-center col-span-2 px-3 border-b md:border-b-0 md:border-l border-border"
+              >
+                <button
+                  mat-button
+                  color="primary"
+                  class="w-full md:w-auto"
+                  (click)="showPresetParameters = true"
+                >
+                  {{ t('presetParameters.edit') }}
+                </button>
+              </div>
+            </div>
+          </div>
+          @if (showPresetParameters) {
+            <div class="flex flex-col gap-4">
+              @for (
+                parameterTemplate of parameterTemplates.preset;
+                track parameterTemplate
+              ) {
+                <ng-container
+                  [ngTemplateOutlet]="parameterTemplate"
+                  [ngTemplateOutletContext]="{ t: t }"
+                >
+                </ng-container>
+              }
+            </div>
+          }
+        }
+        @if (hasSelection$ | ngrxPush) {
+          <div class="flex">
+            <button
+              mat-button
+              color="primary"
+              (click)="onResetButtonClick()"
+              icon
+            >
+              <mat-icon>refresh</mat-icon>
+              {{ t('resetInputs') }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- LOAD -->
+<ng-template parameterTemplate="load" let-t="t" let-loadCase="loadCase">
+  <ea-input-group [title]="t('loads')" icon="compress" [isMandatory]="true">
+    @if (loadAvailable$ | ngrxPush; as loadAvailable) {
+      <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+        @if (loadAvailable.radialLoad) {
+          <ea-input-number
+            [formControl]="loadCase.controls.load.controls.radialLoad"
+            [label]="t('radialLoad')"
+            [unit]="'N'"
+            [tooltip]="t('tooltip.radialLoad')"
+            [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
+            [onlyPositive]="true"
+            [customErrors]="[{ name: 'anyLoad' }]"
+            [stepSize]="100"
+          ></ea-input-number>
+        }
+        @if (loadAvailable.axialLoad) {
+          <ea-input-number
+            [formControl]="loadCase.controls.load.controls.axialLoad"
+            [label]="t('axialLoad')"
+            [unit]="'N'"
+            [tooltip]="t('tooltip.axialLoad')"
+            [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
+            [onlyPositive]="true"
+            [customErrors]="[{ name: 'anyLoad' }]"
+            [stepSize]="100"
+          ></ea-input-number>
+        }
+      </div>
+    } @else {
+      <div class="flex items-center justify-center md:mb-4">
+        <mat-spinner diameter="16"></mat-spinner>
+      </div>
+    }
+  </ea-input-group>
+</ng-template>
+
+<!-- MOTION -->
+<ng-template
+  parameterTemplate="rotatingCondition"
+  let-t="t"
+  let-loadCase="loadCase"
+>
+  <ea-input-group
+    [title]="t('title')"
+    icon="animation"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.rotatingCondition'"
+  >
+    @if (typeOfMotionsAvailable$ | ngrxPush; as typeOfMotionsAvailable) {
+      <ea-tabbed-options
+        [simplifiedMobile]="true"
+        [formControl]="loadCase.controls.rotation.controls.typeOfMotion"
+      >
+        @if (typeOfMotionsAvailable.includes('LB_ROTATING')) {
+          <ng-template
+            optionTemplate="LB_ROTATING"
+            [label]="t('options.LB_ROTATING')"
+          >
+            <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
+              <ea-input-number
+                [formControl]="
+                  loadCase.controls.rotation.controls.rotationalSpeed
+                "
+                [label]="t('relativeRotationalSpeed')"
+                [unit]="t('onePerMinute')"
+                [tooltip]="t('tooltip.rotationSpeed')"
+                [placeholder]="
+                  'operationConditions.pleaseEnter'
+                    | transloco: { label: t('relativeRotationalSpeed') }
+                "
+                [onlyPositive]="true"
+              ></ea-input-number>
+            </div>
+          </ng-template>
+        }
+        @if (typeOfMotionsAvailable.includes('LB_OSCILLATING')) {
+          <ng-template
+            optionTemplate="LB_OSCILLATING"
+            [label]="t('options.LB_OSCILLATING')"
+          >
+            <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
+              <ea-input-number
+                [formControl]="
+                  loadCase.controls.rotation.controls.shiftFrequency
+                "
+                [label]="t('shiftFrequency')"
+                [unit]="t('rpm')"
+                [tooltip]="t('tooltip.shiftFrequency')"
+                [placeholder]="
+                  'operationConditions.pleaseEnter'
+                    | transloco: { label: t('shiftFrequency') }
+                "
+                [onlyPositive]="true"
+              ></ea-input-number>
+              <ea-input-number
+                [formControl]="loadCase.controls.rotation.controls.shiftAngle"
+                [label]="t('shiftAngle')"
+                [unit]="t('degree')"
+                [tooltip]="t('tooltip.shiftAngle')"
+                [placeholder]="
+                  'operationConditions.pleaseEnter'
+                    | transloco: { label: t('shiftAngle') }
+                "
+                [onlyPositive]="true"
+              ></ea-input-number>
+            </div>
+          </ng-template>
+        }
+      </ea-tabbed-options>
+    } @else {
+      <div class="flex items-center justify-center md:mb-4">
+        <mat-spinner diameter="16"></mat-spinner>
+      </div>
+    }
+  </ea-input-group>
+</ng-template>
+
+<ng-template
+  [parameterTemplate]="['operatingTimeAndTemperature']"
+  let-loadCase="loadCase"
+>
+  @if (!isSingleLoadCaseForm) {
+    <div class="flex gap-4 flex-col sm:flex-row">
+      <ea-input-group
+        [title]="t('title')"
+        svgIcon="acute"
+        [isMandatory]="true"
+        class="sm:w-1/2"
+        *transloco="let t; read: 'operationConditions.operatingTime'"
+      >
+        <div class="grid grid-cols-1 gap-0">
+          <ea-input-number
+            [formControl]="loadCase.controls.operatingTime"
+            [label]="t('label')"
+            [unit]="'%'"
+            [placeholder]="
+              'operationConditions.pleaseEnter'
+                | transloco: { label: t('label') }
+            "
+            [onlyPositive]="true"
+            [customErrors]="[{ name: 'operatingTimeValueTotal' }]"
+          ></ea-input-number>
+        </div>
+      </ea-input-group>
+      <ea-input-group
+        [title]="t('title')"
+        svgIcon="device_thermostat"
+        [isMandatory]="true"
+        class="sm:w-1/2"
+        *transloco="let t; read: 'operationConditions.temperature'"
+      >
+        <div class="grid grid-cols-1 gap-0">
+          <ea-input-number
+            [formControl]="loadCase.controls.operatingTemperature"
+            [label]="t('operatingTemperature.label')"
+            [unit]="t('operatingTemperature.unit')"
+            [tooltip]="t('operatingTemperature.tooltip')"
+            [placeholder]="
+              'operationConditions.pleaseEnter'
+                | transloco: { label: t('operatingTemperature.label') }
+            "
+            [onlyPositive]="true"
+            [customErrors]="[{ name: 'tmpBoundViolation' }]"
+          ></ea-input-number>
+        </div>
+      </ea-input-group>
+    </div>
+  }
+</ng-template>
+
+<!-- LUBRICATION -->
+<ng-template parameterTemplate="lubrication" let-t="t">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="water_drop"
+    [isMandatory]="true"
+    [formGroup]="operationConditionsForm.controls.lubrication"
+    *transloco="let t; read: 'operationConditions.lubrication'"
+  >
+    @if (
+      lubricationMethodsAvailable$ | ngrxPush;
+      as lubricationMethodsAvailable
+    ) {
+      <ea-tabbed-options formControlName="lubricationSelection">
+        <ng-template
+          optionTemplate="grease"
+          [label]="t('options.grease')"
+          formGroupName="grease"
+          [className]="'flex-col'"
+          [disabled]="!lubricationMethodsAvailable.grease"
+          [tooltip]="
+            lubricationMethodsAvailable.grease ? undefined : t('notAvailable')
+          "
+        >
+          <div class="flex flex-col md:flex-row gap-4">
+            <!-- TYPE OF GREASE -->
+            <ea-tabbed-suboption
+              formControlName="selection"
+              [label]="t('grease.typeOfGrease.label')"
+              name="typeOfGrease"
+              class="grow shrink basis-0"
+              [description]="t('grease.typeOfGrease.description')"
+            >
+              <ng-container formGroupName="typeOfGrease">
+                <ea-input-select
+                  formControlName="typeOfGrease"
+                  [label]="t('grease.typeOfGrease.label')"
+                  [options]="greases"
+                  [tooltip]="t('grease.typeOfGrease.tooltip')"
+                ></ea-input-select>
+              </ng-container>
+            </ea-tabbed-suboption>
+            <!-- ISO VG CLASS -->
+            <ea-tabbed-suboption
+              formControlName="selection"
+              [label]="t('grease.isoVgClass.label')"
+              name="isoVgClass"
+              class="grow shrink basis-0"
+              [description]="t('grease.isoVgClass.description')"
+            >
+              <ng-container formGroupName="isoVgClass">
+                <ea-input-select
+                  formControlName="isoVgClass"
+                  [label]="t('grease.isoVgClass.label')"
+                  [options]="isoVgClasses"
+                  [tooltip]="t('grease.isoVgClass.tooltip')"
+                ></ea-input-select>
+              </ng-container>
+            </ea-tabbed-suboption>
+            <!-- VISCOSITY -->
+            <ea-tabbed-suboption
+              formControlName="selection"
+              [label]="t('grease.viscosity.label')"
+              name="viscosity"
+              class="grow shrink basis-0"
+              [description]="t('grease.viscosity.description')"
+            >
+              <ng-container formGroupName="viscosity">
+                <ea-input-number
+                  formControlName="ny40"
+                  [label]="t('grease.viscosity.ny40')"
+                  [unit]="t('grease.viscosity.unit')"
+                  [onlyPositive]="true"
+                  [customErrors]="[{ name: 'viscosity' }]"
+                  class="min-w-max"
+                ></ea-input-number>
+                <ea-input-number
+                  formControlName="ny100"
+                  [label]="t('grease.viscosity.ny100')"
+                  [unit]="t('grease.viscosity.unit')"
+                  [onlyPositive]="true"
+                  [customErrors]="[{ name: 'viscosity' }]"
+                  class="min-w-max"
+                ></ea-input-number>
+              </ng-container>
+            </ea-tabbed-suboption>
+          </div>
+          <div class="grid grid-cols-1 mt-4 gap-0 md:grid-cols-2 md:gap-4">
+            <ea-input-select
+              formControlName="environmentalInfluence"
+              [label]="t('grease.environmentalInfluence.label')"
+              [options]="environmentalInfluenceOptions$ | ngrxPush"
+              [hidden]="
+                this.operationConditionsForm.controls.lubrication.controls
+                  .grease.controls.selection.value !== 'typeOfGrease'
+              "
+            ></ea-input-select>
+          </div>
+        </ng-template>
+        <ng-template
+          optionTemplate="oilBath"
+          [label]="t('options.oilBath')"
+          formGroupName="oilBath"
+          [disabled]="!lubricationMethodsAvailable.oilBath"
+          [tooltip]="
+            lubricationMethodsAvailable.oilBath ? undefined : t('notAvailable')
+          "
+        >
+          <!-- ISO VG CLASS -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.isoVgClass.label')"
+            name="isoVgClass"
+            class="grow shrink basis-0"
+            [description]="t('grease.isoVgClass.description')"
+          >
+            <ng-container formGroupName="isoVgClass">
+              <ea-input-select
+                formControlName="isoVgClass"
+                [label]="t('grease.isoVgClass.label')"
+                [options]="isoVgClasses"
+                [tooltip]="t('grease.isoVgClass.tooltip')"
+              ></ea-input-select>
+            </ng-container>
+          </ea-tabbed-suboption>
+          <!-- VISCOSITY -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.viscosity.label')"
+            name="viscosity"
+            class="grow shrink basis-0"
+            [description]="t('grease.viscosity.description')"
+          >
+            <ng-container formGroupName="viscosity">
+              <ea-input-number
+                formControlName="ny40"
+                [label]="t('grease.viscosity.ny40')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{ name: 'viscosity' }]"
+              ></ea-input-number>
+              <ea-input-number
+                formControlName="ny100"
+                [label]="t('grease.viscosity.ny100')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{ name: 'viscosity' }]"
+              ></ea-input-number>
+            </ng-container>
+          </ea-tabbed-suboption>
+        </ng-template>
+        <ng-template
+          optionTemplate="oilMist"
+          [label]="t('options.oilMist')"
+          formGroupName="oilMist"
+          [disabled]="!lubricationMethodsAvailable.oilMist"
+          [tooltip]="
+            lubricationMethodsAvailable.oilMist ? undefined : t('notAvailable')
+          "
+        >
+          <!-- ISO VG CLASS -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.isoVgClass.label')"
+            name="isoVgClass"
+            class="grow shrink basis-0"
+            [description]="t('grease.isoVgClass.description')"
+          >
+            <ng-container formGroupName="isoVgClass">
+              <ea-input-select
+                formControlName="isoVgClass"
+                [label]="t('grease.isoVgClass.label')"
+                [options]="isoVgClasses"
+                [tooltip]="t('grease.isoVgClass.tooltip')"
+              ></ea-input-select>
+            </ng-container>
+          </ea-tabbed-suboption>
+          <!-- VISCOSITY -->
+          <ea-tabbed-suboption
+            formControlName="selection"
+            [label]="t('grease.viscosity.label')"
+            name="viscosity"
+            class="grow shrink basis-0"
+            [description]="t('grease.viscosity.description')"
+          >
+            <ng-container formGroupName="viscosity">
+              <ea-input-number
+                formControlName="ny40"
+                [label]="t('grease.viscosity.ny40')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{ name: 'viscosity' }]"
+              ></ea-input-number>
+              <ea-input-number
+                formControlName="ny100"
+                [label]="t('grease.viscosity.ny100')"
+                [unit]="t('grease.viscosity.unit')"
+                [onlyPositive]="true"
+                [customErrors]="[{ name: 'viscosity' }]"
+              ></ea-input-number>
+            </ng-container>
+          </ea-tabbed-suboption>
+        </ng-template>
+        <ng-template
+          optionTemplate="recirculatingOil"
+          [label]="t('options.recirculatingOil')"
+          formGroupName="recirculatingOil"
+          [className]="'flex-col'"
+          [disabled]="!lubricationMethodsAvailable.recirculatingOil"
+          [tooltip]="
+            lubricationMethodsAvailable.recirculatingOil
+              ? undefined
+              : t('notAvailable')
+          "
+        >
+          <div class="flex flex-col md:flex-row gap-4">
+            <!-- ISO VG CLASS -->
+            <ea-tabbed-suboption
+              formControlName="selection"
+              [label]="t('grease.isoVgClass.label')"
+              name="isoVgClass"
+              class="grow shrink basis-0"
+              [description]="t('grease.isoVgClass.description')"
+            >
+              <ng-container formGroupName="isoVgClass">
+                <ea-input-select
+                  formControlName="isoVgClass"
+                  [label]="t('grease.isoVgClass.label')"
+                  [options]="isoVgClasses"
+                  [tooltip]="t('grease.isoVgClass.tooltip')"
+                ></ea-input-select>
+              </ng-container>
+            </ea-tabbed-suboption>
+            <!-- VISCOSITY -->
+            <ea-tabbed-suboption
+              formControlName="selection"
+              [label]="t('grease.viscosity.label')"
+              name="viscosity"
+              class="grow shrink basis-0"
+              [description]="t('grease.viscosity.description')"
+            >
+              <ng-container formGroupName="viscosity">
+                <ea-input-number
+                  formControlName="ny40"
+                  [label]="t('grease.viscosity.ny40')"
+                  [unit]="t('grease.viscosity.unit')"
+                  [onlyPositive]="true"
+                  [customErrors]="[{ name: 'viscosity' }]"
+                ></ea-input-number>
+                <ea-input-number
+                  formControlName="ny100"
+                  [label]="t('grease.viscosity.ny100')"
+                  [unit]="t('grease.viscosity.unit')"
+                  [onlyPositive]="true"
+                  [customErrors]="[{ name: 'viscosity' }]"
+                ></ea-input-number>
+              </ng-container>
+            </ea-tabbed-suboption>
+          </div>
+          <div class="grid grid-cols-1 mt-4 gap-0 md:grid-cols-3 md:gap-4">
+            <ea-input-number
+              formControlName="oilFlow"
+              [label]="t('recirculatingOil.oilFlow')"
+              [unit]="'l/min'"
+              [placeholder]="
+                'operationConditions.pleaseEnter'
+                  | transloco: { label: t('recirculatingOil.oilFlow') }
+              "
+              [onlyPositive]="true"
+            ></ea-input-number>
+            <ea-input-number
+              formControlName="oilTemperatureDifference"
+              [label]="t('recirculatingOil.oilTemperatureDifference')"
+              [unit]="'K'"
+              [placeholder]="
+                'operationConditions.pleaseEnter'
+                  | transloco
+                    : { label: t('recirculatingOil.oilTemperatureDifference') }
+              "
+              [onlyPositive]="true"
+            ></ea-input-number>
+            <ea-input-number
+              formControlName="externalHeatFlow"
+              [label]="t('recirculatingOil.externalHeatFlow')"
+              [unit]="'kW'"
+              [placeholder]="
+                'operationConditions.pleaseEnter'
+                  | transloco: { label: t('recirculatingOil.externalHeatFlow') }
+              "
+              [onlyPositive]="true"
+            ></ea-input-number>
+          </div>
+        </ng-template>
+      </ea-tabbed-options>
+    } @else {
+      <div class="flex items-center justify-center md:mb-4">
+        <mat-spinner diameter="16"></mat-spinner>
+      </div>
+    }
+  </ea-input-group>
+</ng-template>
+
+<!-- TEMPERATURE -->
+<ng-template
+  [parameterTemplate]="['operatingTemperature', 'ambientTemperature']"
+>
+  <ea-input-group
+    [title]="isSingleLoadCaseForm ? t('title') : t('ambientTemperature.label')"
+    svgIcon="device_thermostat"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.temperature'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      @if (isSingleLoadCaseForm) {
+        <ea-input-number
+          [formControl]="operatingTemperature"
+          [label]="t('operatingTemperature.label')"
+          [unit]="t('operatingTemperature.unit')"
+          [tooltip]="t('operatingTemperature.tooltip')"
+          [placeholder]="
+            'operationConditions.pleaseEnter'
+              | transloco: { label: t('operatingTemperature.label') }
+          "
+          [onlyPositive]="true"
+          [customErrors]="[{ name: 'tmpBoundViolation' }]"
+        ></ea-input-number>
+      }
+
+      <ea-input-number
+        [formControl]="operationConditionsForm.controls.ambientTemperature"
+        [label]="t('ambientTemperature.label')"
+        [unit]="t('ambientTemperature.unit')"
+        [tooltip]="t('ambientTemperature.tooltip')"
+        [placeholder]="
+          'operationConditions.pleaseEnter'
+            | transloco: { label: t('ambientTemperature.label') }
+        "
+        [customErrors]="[{ name: 'tmpBoundViolation' }]"
+      ></ea-input-number>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- CONTAMINATION -->
+<ng-template parameterTemplate="contamination">
+  <ea-input-group
+    [title]="t('title')"
+    icon="mop"
+    svgIcon="mop"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.contamination'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      <ea-input-select
+        [formControl]="operationConditionsForm.controls.contamination"
+        [label]="t('label')"
+        [options]="contaminationOptions$ | ngrxPush"
+      ></ea-input-select>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- CONDITION OF ROTATION -->
+<ng-template parameterTemplate="conditionOfRotation">
+  <ea-input-group
+    [title]="t('title')"
+    icon="flip_camera_android"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.conditionOfRotation'"
+  >
+    <ea-tabbed-options
+      mobileStyleClass="bg-transparent !gap-0 pb-0"
+      [formControl]="operationConditionsForm.controls.conditionOfRotation"
+    >
+      <ng-template
+        optionTemplate="innerring"
+        [label]="t('options.rotatingInnerring')"
+      >
+      </ng-template>
+
+      <ng-template
+        optionTemplate="outerring"
+        [label]="t('options.rotatingOuterring')"
+      >
+      </ng-template>
+    </ea-tabbed-options>
+  </ea-input-group>
+</ng-template>

@@ -9,14 +9,15 @@
   class="h-[300px]"
   *transloco="let t; read: 'user.userSettings.dialog'"
 >
-  <div *ngIf="data.initialLoad; else infoExistingSettings">
-    <h5>{{ t('welcomeTitle') }}</h5>
+  @if (data.initialLoad) {
+    <div>
+      <h5>{{ t('welcomeTitle') }}</h5>
+      <p>{{ t('instruction') }}</p>
+      <p>{{ t('hint') }}</p>
+    </div>
+  } @else {
     <p>{{ t('instruction') }}</p>
-    <p>{{ t('hint') }}</p>
-  </div>
-  <ng-template #infoExistingSettings>
-    <p>{{ t('instruction') }}</p>
-  </ng-template>
+  }
   <ia-dimension-filter
     class="my-8 flex justify-center"
     [apparence]="'outline'"
@@ -35,9 +36,11 @@
   align="end"
   *transloco="let t; read: 'user.userSettings.dialog'"
 >
-  <button mat-button mat-dialog-close *ngIf="!data.initialLoad">
-    {{ t('cancel') }}
-  </button>
+  @if (!data.initialLoad) {
+    <button mat-button mat-dialog-close>
+      {{ t('cancel') }}
+    </button>
+  }
   <button
     mat-button
     mat-dialog-close

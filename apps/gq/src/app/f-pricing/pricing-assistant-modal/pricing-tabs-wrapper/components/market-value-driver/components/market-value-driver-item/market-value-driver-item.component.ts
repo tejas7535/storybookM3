@@ -32,8 +32,4 @@ export class MarketValueDriverItemComponent implements OnInit {
 
     this.optionChange.emit(selectedOption);
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

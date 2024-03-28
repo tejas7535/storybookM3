@@ -6,9 +6,11 @@
   [userImageUrl]="profileImage$ | ngrxPush"
   [footerLinks]="footerLinks$ | ngrxPush"
 >
-  <ng-container headerInlineContent *ngIf="envName !== ''">
-    <span class="rounded-xl border px-4 text-error">{{ envName }}</span>
-  </ng-container>
+  @if (envName !== '') {
+    <ng-container headerInlineContent>
+      <span class="rounded-xl border px-4 text-error">{{ envName }}</span>
+    </ng-container>
+  }
   <ng-container mainContent>
     <div class="h-full w-full overflow-auto bg-surface">
       <router-outlet></router-outlet>

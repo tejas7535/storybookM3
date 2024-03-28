@@ -359,7 +359,7 @@ pipeline {
             }
             post {
                 always {
-                    recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
+                    recordIssues(ignoreQualityGate: !isMain, qualityGates: [qualityGate], tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
                 }
             }
         }

@@ -17,12 +17,9 @@
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
 
-  <ng-container
-    *ngIf="
-      (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false;
-      else loading
-    "
-  >
+  @if (
+    (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false
+  ) {
     <p class="text-subtitle-2 pt-4">{{ t('summary') }}</p>
     <div class="flex items-center pt-3">
       <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
@@ -30,7 +27,6 @@
         approvalFacade.requiredApprovalLevelsForQuotation$ | ngrxPush
       }}</span>
     </div>
-
     <div class="pb-10 pt-7">
       <mat-form-field
         class="w-full"
@@ -47,15 +43,16 @@
           [maxlength]="INPUT_MAX_LENGTH"
           #comment
         ></textarea>
-        <mat-hint class="text-error" *ngIf="isInvalidInput" align="start">
-          {{ t('exceededCharactersError') }}
-        </mat-hint>
+        @if (isInvalidInput) {
+          <mat-hint class="text-error" align="start">
+            {{ t('exceededCharactersError') }}
+          </mat-hint>
+        }
         <mat-hint align="end">
           {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
         >
       </mat-form-field>
     </div>
-
     <div class="flex w-full gap-4">
       <button
         mat-raised-button
@@ -75,15 +72,13 @@
         {{ t('cancel') }}
       </button>
     </div>
-  </ng-container>
+  } @else {
+    <div class="py-24">
+      <schaeffler-loading-spinner
+        class="h-full"
+        backgroundColor="rgba(255,255,255, 0.1)"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
 </form>
-
-<ng-template #loading>
-  <div class="py-24">
-    <schaeffler-loading-spinner
-      class="h-full"
-      backgroundColor="rgba(255,255,255, 0.1)"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </div>
-</ng-template>

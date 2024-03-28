@@ -1,19 +1,18 @@
 <div class="relative flex h-full flex-col">
-  <div
-    echarts
-    (chartInit)="onChartInit($event)"
-    [options]="options"
-    [merge]="mergeOptions"
-    class="flex h-[330px] w-full min-w-[170px] justify-center"
-    *ngIf="!isLoading; else loading"
-  ></div>
-
-  <ng-template #loading>
+  @if (!isLoading) {
+    <div
+      echarts
+      (chartInit)="onChartInit($event)"
+      [options]="options"
+      [merge]="mergeOptions"
+      class="flex h-[330px] w-full min-w-[170px] justify-center"
+    ></div>
+  } @else {
     <schaeffler-loading-spinner
       class="flex h-[330px] w-full min-w-[170px] justify-center"
       [diameter]="40"
       [strokeWidth]="4"
       [relative]="false"
     ></schaeffler-loading-spinner>
-  </ng-template>
+  }
 </div>

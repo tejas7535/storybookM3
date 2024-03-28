@@ -3,149 +3,155 @@
   [ngClass]="{ 'bg-secondary-900': (simulationModeEnabled$ | ngrxPush) }"
   *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
 >
-  <div
-    *ngIf="
-      simulatedQuotation$ | ngrxPush as simulatedQuotation;
-      else simulationBar
-    "
-  >
-    <div class="text-high-emphasis-dark-bg flex flex-row gap-16 pr-8 text-left">
+  @if (simulatedQuotation$ | ngrxPush; as simulatedQuotation) {
+    <div>
       <div
-        class="flex flex-row"
-        *ngIf="quotationCurrency$ | ngrxPush as currency"
+        class="text-high-emphasis-dark-bg flex flex-row gap-16 pr-8 text-left"
       >
-        <div>
-          <h6>{{ t('totalNetValue') }}</h6>
-          <div class="text-caption opacity-60">
-            {{ t('previousNetValue') }}:
+        @if (quotationCurrency$ | ngrxPush; as currency) {
+          <div class="flex flex-row">
+            <div>
+              <h6>{{ t('totalNetValue') }}</h6>
+              <div class="text-caption opacity-60">
+                {{ t('previousNetValue') }}:
+              </div>
+            </div>
+            <div class="ml-6">
+              <h6>
+                {{
+                  simulatedQuotation.simulatedStatusBar.netValue
+                    | numberCurrency: currency
+                }}
+              </h6>
+              <div class="text-caption opacity-60">
+                {{
+                  simulatedQuotation.previousStatusBar.netValue
+                    | numberCurrency: currency
+                }}
+              </div>
+            </div>
+          </div>
+        }
+        <div class="flex flex-row">
+          <div>
+            <h6>{{ t('totalAverageGPM') }}</h6>
+            <div class="text-caption opacity-60">{{ t('previousGPM') }}:</div>
+          </div>
+          <div class="ml-6">
+            <h6>
+              {{ simulatedQuotation.simulatedStatusBar.gpm | percentage }}
+            </h6>
+            <div class="text-caption opacity-60">
+              {{ simulatedQuotation.previousStatusBar.gpm | percentage }}
+            </div>
           </div>
         </div>
-        <div class="ml-6">
-          <h6>
-            {{
-              simulatedQuotation.simulatedStatusBar.netValue
-                | numberCurrency: currency
-            }}
-          </h6>
-          <div class="text-caption opacity-60">
-            {{
-              simulatedQuotation.previousStatusBar.netValue
-                | numberCurrency: currency
-            }}
+        <div class="flex flex-row">
+          <div>
+            <h6>{{ t('totalAverageGPI') }}</h6>
+            <div class="text-caption opacity-60">{{ t('previousGPI') }}:</div>
+          </div>
+          <div class="ml-6">
+            <h6>
+              {{ simulatedQuotation.simulatedStatusBar.gpi | percentage }}
+            </h6>
+            <div class="text-caption opacity-60">
+              {{ simulatedQuotation.previousStatusBar.gpi | percentage }}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="flex flex-row">
-        <div>
-          <h6>{{ t('totalAverageGPM') }}</h6>
-          <div class="text-caption opacity-60">{{ t('previousGPM') }}:</div>
-        </div>
-        <div class="ml-6">
-          <h6>
-            {{ simulatedQuotation.simulatedStatusBar.gpm | percentage }}
-          </h6>
-          <div class="text-caption opacity-60">
-            {{ simulatedQuotation.previousStatusBar.gpm | percentage }}
+        <div class="flex flex-row">
+          <div>
+            <h6>{{ t('totalPriceDiff') }}</h6>
+            <div class="text-caption opacity-60">
+              {{ t('previousPriceDiff') }}:
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div>
-          <h6>{{ t('totalAverageGPI') }}</h6>
-          <div class="text-caption opacity-60">{{ t('previousGPI') }}:</div>
-        </div>
-        <div class="ml-6">
-          <h6>
-            {{ simulatedQuotation.simulatedStatusBar.gpi | percentage }}
-          </h6>
-          <div class="text-caption opacity-60">
-            {{ simulatedQuotation.previousStatusBar.gpi | percentage }}
-          </div>
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div>
-          <h6>{{ t('totalPriceDiff') }}</h6>
-          <div class="text-caption opacity-60">
-            {{ t('previousPriceDiff') }}:
-          </div>
-        </div>
-        <div class="ml-6">
-          <h6>
-            {{ simulatedQuotation.simulatedStatusBar.priceDiff | percentage }}
-          </h6>
-          <div class="text-caption opacity-60">
-            {{ simulatedQuotation.previousStatusBar.priceDiff | percentage }}
+          <div class="ml-6">
+            <h6>
+              {{ simulatedQuotation.simulatedStatusBar.priceDiff | percentage }}
+            </h6>
+            <div class="text-caption opacity-60">
+              {{ simulatedQuotation.previousStatusBar.priceDiff | percentage }}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <ng-template #simulationBar>
+  } @else {
     <div class="hidden pr-4 xl:flex">
-      <div class="flex flex-row" *ngIf="selections.length">
-        <div class="ml-8 flex flex-col">
-          <span class="text-low-emphasis text-left"
-            >{{ t('selectedNetValue') }}:</span
-          >
-          <span
-            class="text-high-emphasis text-left"
-            *ngIf="quotationCurrency$ | ngrxPush as currency"
-          >
-            {{ statusBar.selected.netValue | numberCurrency: currency }}
-          </span>
+      @if (selections.length) {
+        <div class="flex flex-row">
+          <div class="ml-8 flex flex-col">
+            <span class="text-low-emphasis text-left"
+              >{{ t('selectedNetValue') }}:</span
+            >
+            @if (quotationCurrency$ | ngrxPush; as currency) {
+              <span class="text-high-emphasis text-left">
+                {{ statusBar.selected.netValue | numberCurrency: currency }}
+              </span>
+            }
+          </div>
+          @if (showGPI$ | ngrxPush) {
+            <div class="ml-8 flex flex-col">
+              <span class="text-low-emphasis text-left"
+                >{{ t('selectedAverageGPI') }}:</span
+              >
+              <span class="text-high-emphasis text-left">
+                {{ statusBar.selected.gpi | percentage }}</span
+              >
+            </div>
+          }
+          @if (showGPM$ | ngrxPush) {
+            <div class="ml-8 flex flex-col">
+              <span class="text-low-emphasis text-left"
+                >{{ t('selectedAverageGPM') }}:
+              </span>
+              <span class="text-high-emphasis text-left">{{
+                statusBar.selected.gpm | percentage
+              }}</span>
+            </div>
+          }
+          <div class="ml-8 flex flex-col">
+            <span class="text-low-emphasis text-left"
+              >{{ t('selectedPriceDiff') }}:
+            </span>
+            <span class="text-high-emphasis text-left">{{
+              statusBar.selected.priceDiff | percentage
+            }}</span>
+          </div>
         </div>
-        <div class="ml-8 flex flex-col" *ngIf="showGPI$ | ngrxPush">
-          <span class="text-low-emphasis text-left"
-            >{{ t('selectedAverageGPI') }}:</span
-          >
-          <span class="text-high-emphasis text-left">
-            {{ statusBar.selected.gpi | percentage }}</span
-          >
-        </div>
-        <div class="ml-8 flex flex-col" *ngIf="showGPM$ | ngrxPush">
-          <span class="text-low-emphasis text-left"
-            >{{ t('selectedAverageGPM') }}:
-          </span>
-          <span class="text-high-emphasis text-left">{{
-            statusBar.selected.gpm | percentage
-          }}</span>
-        </div>
-        <div class="ml-8 flex flex-col">
-          <span class="text-low-emphasis text-left"
-            >{{ t('selectedPriceDiff') }}:
-          </span>
-          <span class="text-high-emphasis text-left">{{
-            statusBar.selected.priceDiff | percentage
-          }}</span>
-        </div>
-      </div>
+      }
       <div class="ml-8 flex flex-col">
         <span class="text-low-emphasis text-left">
           {{ t('totalNetValue') }}:
         </span>
-        <span
-          class="text-high-emphasis text-left"
-          *ngIf="quotationCurrency$ | ngrxPush as currency"
-          >{{ statusBar.total.netValue | numberCurrency: currency }}
-        </span>
+        @if (quotationCurrency$ | ngrxPush; as currency) {
+          <span class="text-high-emphasis text-left"
+            >{{ statusBar.total.netValue | numberCurrency: currency }}
+          </span>
+        }
       </div>
-      <div class="ml-8 flex flex-col" *ngIf="showGPI$ | ngrxPush">
-        <span class="text-low-emphasis text-left">
-          {{ t('totalAverageGPI') }}:
-        </span>
-        <span class="text-high-emphasis text-left">
-          {{ statusBar.total.gpi | percentage }}</span
-        >
-      </div>
-      <div class="ml-8 flex flex-col" *ngIf="showGPM$ | ngrxPush">
-        <span class="text-low-emphasis text-left">
-          {{ t('totalAverageGPM') }}:
-        </span>
-        <span class="text-high-emphasis text-left">
-          {{ statusBar.total.gpm | percentage }}</span
-        >
-      </div>
+      @if (showGPI$ | ngrxPush) {
+        <div class="ml-8 flex flex-col">
+          <span class="text-low-emphasis text-left">
+            {{ t('totalAverageGPI') }}:
+          </span>
+          <span class="text-high-emphasis text-left">
+            {{ statusBar.total.gpi | percentage }}</span
+          >
+        </div>
+      }
+      @if (showGPM$ | ngrxPush) {
+        <div class="ml-8 flex flex-col">
+          <span class="text-low-emphasis text-left">
+            {{ t('totalAverageGPM') }}:
+          </span>
+          <span class="text-high-emphasis text-left">
+            {{ statusBar.total.gpm | percentage }}</span
+          >
+        </div>
+      }
       <div class="ml-8 flex flex-col">
         <span class="text-low-emphasis text-left">
           {{ t('totalPriceDiff') }}:
@@ -164,5 +170,5 @@
         {{ t('showAll') }}
       </button>
     </div>
-  </ng-template>
+  }
 </div>

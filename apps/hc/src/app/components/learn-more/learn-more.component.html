@@ -39,23 +39,23 @@
       <div>
         <div class="py-4 text-h6 text-high-emphasis">{{ t('overview') }}</div>
         <div class="space-y-6 learn-more-contents">
-          @for(part of t('content'); track part; let last = $last) {
-          <div>
-            @if(isImage(part)) {
-            <img
-              class="m-auto learnmore-image"
-              [src]="getAssetPath(part)"
-              title="learnmore"
-              alt="learnmore"
-            />
-            } @else {
-            <p
-              class="text-justify"
-              [ngClass]="{ inline: last }"
-              [innerHTML]="part"
-            ></p>
-            }
-          </div>
+          @for (part of t('content'); track part; let last = $last) {
+            <div>
+              @if (isImage(part)) {
+                <img
+                  class="m-auto learnmore-image"
+                  [src]="getAssetPath(part)"
+                  title="learnmore"
+                  alt="learnmore"
+                />
+              } @else {
+                <p
+                  class="text-justify"
+                  [ngClass]="{ inline: last }"
+                  [innerHTML]="part"
+                ></p>
+              }
+            </div>
           }
         </div>
       </div>

@@ -9,8 +9,4 @@ import { Breadcrumb } from './breadcrumb.model';
 })
 export class BreadcrumbsComponent {
   @Input() breadcrumbs?: Breadcrumb[];
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

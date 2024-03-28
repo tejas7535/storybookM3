@@ -10,11 +10,9 @@
       [compareWith]="compareOptions"
       (selectionChange)="onMeasurementUnitsSelectChange($event.value)"
     >
-      <mat-option
-        *ngFor="let option of measurementUnitsOptions"
-        [value]="option"
-        >{{ t(option.text) }}</mat-option
-      >
+      @for (option of measurementUnitsOptions; track option) {
+        <mat-option [value]="option">{{ t(option.text) }}</mat-option>
+      }
     </mat-select>
     <mat-hint>{{ t('shared.hint.applicationReload') }}</mat-hint>
   </mat-form-field>

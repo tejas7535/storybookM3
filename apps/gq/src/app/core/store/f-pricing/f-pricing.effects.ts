@@ -42,7 +42,7 @@ export class FPricingEffects {
       map(
         ([_, sanityCheckData]: [
           ReturnType<typeof FPricingActions.loadFPricingDataSuccess>,
-          SanityCheckData
+          SanityCheckData,
         ]) =>
           FPricingActions.setSanityCheckValue({
             value:

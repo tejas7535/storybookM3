@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { QuotationDetail } from '@gq/shared/models';
@@ -14,7 +13,6 @@ import { LabelTextModule } from '../../label-text/label-text.module';
   standalone: true,
   imports: [
     LabelTextModule,
-    CommonModule,
     SharedPipesModule,
     SharedTranslocoModule,
     LetDirective,

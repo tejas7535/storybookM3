@@ -13,7 +13,7 @@ export const IntendationLoadValues = [
     ({
       id: value,
       title: value.toString(),
-    } as StringOption)
+    }) as StringOption
 );
 
 export const IntendationDiameterBallValues = [

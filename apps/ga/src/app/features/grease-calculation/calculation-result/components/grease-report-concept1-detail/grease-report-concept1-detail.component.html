@@ -1,4 +1,4 @@
-<ng-container *ngIf="settings && greaseResult">
+@if (settings && greaseResult) {
   <div
     *transloco="let t; read: 'calculationResult.concept1settings'"
     class="flex w-full flex-col items-center px-3 py-1"
@@ -37,25 +37,27 @@
       {{ t('arrowSetting', { setting: getDurationMonths() }) }}
     </p>
     <mat-radio-group class="py-3" [(ngModel)]="concept1Selection">
-      <mat-radio-button
-        *ngFor="let size of sizes"
-        color="primary"
-        class="ml-4"
-        [disabled]="disabledOption(size)"
-        [value]="size"
-      >
-        <div class="flex items-center gap-1">
-          {{ t('ml', { ml: size }) }}
-          <mat-icon
-            *ngIf="getTooltip(size)"
-            class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
-            #tooltipSize="matTooltip"
-            (click)="tooltipSize.toggle()"
-            [matTooltip]="getTooltip(size)"
-            >info_outline</mat-icon
-          >
-        </div>
-      </mat-radio-button>
+      @for (size of sizes; track size) {
+        <mat-radio-button
+          color="primary"
+          class="ml-4"
+          [disabled]="disabledOption(size)"
+          [value]="size"
+        >
+          <div class="flex items-center gap-1">
+            {{ t('ml', { ml: size }) }}
+            @if (getTooltip(size)) {
+              <mat-icon
+                class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
+                #tooltipSize="matTooltip"
+                (click)="tooltipSize.toggle()"
+                [matTooltip]="getTooltip(size)"
+                >info_outline</mat-icon
+              >
+            }
+          </div>
+        </mat-radio-button>
+      }
     </mat-radio-group>
     <div class="w-full">
       <a
@@ -77,4 +79,4 @@
       ></ga-grease-report-shop-buttons>
     </div>
   </div>
-</ng-container>
+}

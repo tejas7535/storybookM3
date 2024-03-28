@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -14,7 +13,7 @@ import { MeasurementUnitsService } from '@ga/shared/services';
 @Component({
   selector: 'ga-measurement-units-select',
   standalone: true,
-  imports: [CommonModule, SharedTranslocoModule, MatSelectModule],
+  imports: [SharedTranslocoModule, MatSelectModule],
   templateUrl: './measurement-units-select.component.html',
 })
 export class MeasurementUnitsSelectComponent {

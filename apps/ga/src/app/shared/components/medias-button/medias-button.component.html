@@ -1,4 +1,4 @@
-<ng-container *ngIf="bearingInMedias">
+@if (bearingInMedias) {
   <a
     *transloco="let t; read: 'shared'"
     mat-raised-button
@@ -10,4 +10,4 @@
     <mat-icon>open_in_new</mat-icon
     >{{ t('mediasButton', { bearing: bearing }) }}
   </a>
-</ng-container>
+}

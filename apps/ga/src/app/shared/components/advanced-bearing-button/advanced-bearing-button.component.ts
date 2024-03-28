@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
@@ -14,7 +13,7 @@ import { BearingSelectionType } from '@ga/shared/models';
 @Component({
   selector: 'ga-advanced-bearing-button',
   standalone: true,
-  imports: [CommonModule, SharedTranslocoModule, MatButtonModule],
+  imports: [SharedTranslocoModule, MatButtonModule],
   templateUrl: './advanced-bearing-button.component.html',
 })
 export class AdvancedBearingButtonComponent {

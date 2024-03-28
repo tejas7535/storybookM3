@@ -16,26 +16,36 @@
           quotationDetail.recommendedPrice | numberCurrency: currency
         }}</span>
       </div>
-      <div class="min-w-[8rem] pt-2" *ngIf="userHasGPCRole">
-        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
-        <div>
-          <span class="font-bold">{{ gpi | percentage }}</span>
+      @if (userHasGPCRole) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpi') }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpi | percentage }}</span>
+          </div>
         </div>
-      </div>
-      <div class="min-w-[8rem] pt-2" *ngIf="userHasSQVRole">
-        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
-        <div>
-          <span class="font-bold">{{ gpm | percentage }}</span>
+      }
+      @if (userHasSQVRole) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpm') }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpm | percentage }}</span>
+          </div>
         </div>
-      </div>
-      <div class="min-w-[8rem] pt-2" *ngIf="gpmRfq">
-        <div class="text-body-2 text-medium-emphasis mb-1">
-          {{ t('gpmRfq') }}:
+      }
+      @if (gpmRfq) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpmRfq') }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpmRfq | percentage }}</span>
+          </div>
         </div>
-        <div>
-          <span class="font-bold">{{ gpmRfq | percentage }}</span>
-        </div>
-      </div>
+      }
       <div class="min-w-[8rem] pt-2">
         <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('quantity') }}:
@@ -44,33 +54,24 @@
           [quotationDetail]="quotationDetail"
         ></gq-quantity-display>
       </div>
-      <div
-        class="min-w-[8rem] pt-2"
-        *ngIf="quotationDetail.gqRating; else displayStrategicPriceSource"
-      >
-        <div class="text-body-2 text-medium-emphasis mb-1">
-          {{ t('rating') }}:
+      @if (quotationDetail.gqRating) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('rating') }}:
+          </div>
+          <div>
+            @for (i of [].constructor(quotationDetail.gqRating); track $index) {
+              <mat-icon class="text-link mr-1">star</mat-icon>
+            }
+            @for (
+              i of [].constructor(3 - quotationDetail.gqRating);
+              track $index
+            ) {
+              <mat-icon class="text-link mr-1">star_border</mat-icon>
+            }
+          </div>
         </div>
-        <div>
-          <ng-container
-            *ngFor="
-              let i of [].constructor(quotationDetail.gqRating);
-              trackBy: trackByFn
-            "
-          >
-            <mat-icon class="text-link mr-1">star</mat-icon>
-          </ng-container>
-          <ng-container
-            *ngFor="
-              let i of [].constructor(3 - quotationDetail.gqRating);
-              trackBy: trackByFn
-            "
-          >
-            <mat-icon class="text-link mr-1">star_border</mat-icon>
-          </ng-container>
-        </div>
-      </div>
-      <ng-template #displayStrategicPriceSource>
+      } @else {
         <div class="min-w-[8rem] pt-2">
           <div class="text-body-2 text-medium-emphasis mb-1">
             {{ t('source') }}:
@@ -79,13 +80,14 @@
             <span class="font-bold"> {{ t('strategic') }}</span>
           </div>
         </div>
-      </ng-template>
+      }
     </div>
-    <gq-detail-button
-      link
-      *ngIf="!quotationDetail.strategicPrice && isDetailsButtonVisible"
-      [text]="t('details')"
-      [path]="DetailRoutePath.TransactionsPath"
-    ></gq-detail-button>
+    @if (!quotationDetail.strategicPrice && isDetailsButtonVisible) {
+      <gq-detail-button
+        link
+        [text]="t('details')"
+        [path]="DetailRoutePath.TransactionsPath"
+      ></gq-detail-button>
+    }
   </gq-filter-pricing-card>
 </div>

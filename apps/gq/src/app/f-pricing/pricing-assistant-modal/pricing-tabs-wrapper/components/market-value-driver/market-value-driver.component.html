@@ -16,18 +16,19 @@
     </div>
   </mat-card>
   <mat-card appearance="outlined" class="p-4">
-    <gq-market-value-driver-item
-      *ngFor="
-        let item of marketValueDriverItems;
-        trackBy: trackByFn;
-        index as i
-      "
-      [item]="item"
-      (optionChange)="onOptionChange($event)"
-    >
-      <gq-horizontal-divider
-        *ngIf="i < marketValueDriverItems.length - 1"
-      ></gq-horizontal-divider
-    ></gq-market-value-driver-item>
+    @for (
+      item of marketValueDriverItems;
+      track item.questionId;
+      let i = $index
+    ) {
+      <gq-market-value-driver-item
+        [item]="item"
+        (optionChange)="onOptionChange($event)"
+      >
+        @if (i < marketValueDriverItems.length - 1) {
+          <gq-horizontal-divider></gq-horizontal-divider>
+        }
+      </gq-market-value-driver-item>
+    }
   </mat-card>
 </ng-container>

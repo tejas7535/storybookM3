@@ -158,10 +158,6 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  trackByFn(index: number): number {
-    return index;
-  }
-
   displayFn(idValue: IdValue): string {
     return idValue?.value;
   }

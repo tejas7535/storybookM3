@@ -37,13 +37,14 @@
     <p class="text-body-2 pt-6">{{ t('acknowledgement') }}</p>
     <p class="text-body-2 pt-2">{{ t('signature') }}</p>
 
-    <schaeffler-loading-spinner
-      *ngIf="isLoading | ngrxPush"
-      class="flex"
-      [diameter]="64"
-      [strokeWidth]="4"
-    >
-    </schaeffler-loading-spinner>
+    @if (isLoading | ngrxPush) {
+      <schaeffler-loading-spinner
+        class="flex"
+        [diameter]="64"
+        [strokeWidth]="4"
+      >
+      </schaeffler-loading-spinner>
+    }
   </mat-dialog-content>
   <mat-dialog-actions
     align="end"

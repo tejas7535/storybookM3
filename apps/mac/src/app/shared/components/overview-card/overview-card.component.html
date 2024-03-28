@@ -11,8 +11,8 @@
       (click)="onCardClick()"
       [routerLink]="!external && link ? link : undefined"
     >
-      <ng-container *ngIf="!noAccess; else noAccessImage">
-        <ng-container *ngIf="!disableImageHoverEffect; else noImageHoverEffect">
+      @if (!noAccess) {
+        @if (!disableImageHoverEffect) {
           <a
             [target]="external && link ? '_blank' : ''"
             [href]="link"
@@ -22,10 +22,9 @@
             <div class="h-full w-full">
               <ng-container>
                 <div class="h-full w-full">
-                  <ng-container *ngIf="!inverted; else invertedImage">
+                  @if (!inverted) {
                     <img [src]="image" class="m-auto max-h-full max-w-full" />
-                  </ng-container>
-                  <ng-template #invertedImage>
+                  } @else {
                     <div
                       class="flex h-full w-full flex-col items-center justify-center"
                     >
@@ -34,71 +33,70 @@
                         class="!block !h-24 !w-24 text-link"
                       ></mat-icon>
                     </div>
-                  </ng-template>
+                  }
                 </div>
               </ng-container>
-              <ng-container *ngIf="hovered$ | ngrxPush" #currentlyHovered>
-                <ng-container *ngIf="!inverted; else invertedHover">
-                  <div
-                    class="absolute top-0 bottom-32 left-0 right-0 flex flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.5)] p-12"
-                  >
-                    <mat-icon
-                      [svgIcon]="icon"
-                      class="!h-12 !w-12 text-h1-mobile text-high-emphasis-dark-bg"
-                      [inline]="false"
-                    ></mat-icon>
+              @if (hovered$ | ngrxPush) {
+                <ng-container #currentlyHovered>
+                  @if (!inverted) {
                     <div
-                      class="text-center text-caption text-high-emphasis-dark-bg"
-                      *ngIf="!external; else externalTemplate"
+                      class="absolute top-0 bottom-32 left-0 right-0 flex flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.5)] p-12"
                     >
-                      {{ t('openApplication') }}
+                      <mat-icon
+                        [svgIcon]="icon"
+                        class="!h-12 !w-12 text-h1-mobile text-high-emphasis-dark-bg"
+                        [inline]="false"
+                      ></mat-icon>
+                      @if (!external) {
+                        <div
+                          class="text-center text-caption text-high-emphasis-dark-bg"
+                        >
+                          {{ t('openApplication') }}
+                        </div>
+                      } @else {
+                        <div
+                          class="text-center text-caption text-high-emphasis-dark-bg"
+                        >
+                          {{ t('openApplicationInNewWindow') }}
+                        </div>
+                      }
                     </div>
-                    <ng-template #externalTemplate>
-                      <div
-                        class="text-center text-caption text-high-emphasis-dark-bg"
-                      >
-                        {{ t('openApplicationInNewWindow') }}
-                      </div>
-                    </ng-template>
-                  </div>
+                  } @else {
+                    <div class="absolute top-0 bottom-32 left-0 right-0">
+                      <img [src]="image" class="m-auto max-h-full max-w-full" />
+                    </div>
+                    <div
+                      class="absolute top-0 bottom-32 left-0 right-0 flex flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.5)] p-12"
+                    >
+                      <mat-icon
+                        [svgIcon]="icon"
+                        class="!h-24 !w-24 text-high-emphasis-dark-bg"
+                      ></mat-icon>
+                      @if (!external) {
+                        <div
+                          class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
+                        >
+                          {{ t('openApplication') }}
+                        </div>
+                      } @else {
+                        <div
+                          class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
+                        >
+                          {{ t('openApplicationInNewTab') }}
+                        </div>
+                      }
+                    </div>
+                  }
                 </ng-container>
-                <ng-template #invertedHover>
-                  <div class="absolute top-0 bottom-32 left-0 right-0">
-                    <img [src]="image" class="m-auto max-h-full max-w-full" />
-                  </div>
-                  <div
-                    class="absolute top-0 bottom-32 left-0 right-0 flex flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.5)] p-12"
-                  >
-                    <mat-icon
-                      [svgIcon]="icon"
-                      class="!h-24 !w-24 text-high-emphasis-dark-bg"
-                    ></mat-icon>
-                    <div
-                      class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
-                      *ngIf="!external; else externalTemplateInverted"
-                    >
-                      {{ t('openApplication') }}
-                    </div>
-                    <ng-template #externalTemplateInverted>
-                      <div
-                        class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
-                      >
-                        {{ t('openApplicationInNewTab') }}
-                      </div>
-                    </ng-template>
-                  </div>
-                </ng-template>
-              </ng-container>
+              }
             </div>
           </a>
-        </ng-container>
-        <ng-template #noImageHoverEffect>
-          <ng-container *ngIf="!inverted; else invertedWithoutHoverEffect">
+        } @else {
+          @if (!inverted) {
             <div class="h-full w-full">
               <img [src]="image" class="max-h-full max-w-full" />
             </div>
-          </ng-container>
-          <ng-template #invertedWithoutHoverEffect>
+          } @else {
             <div
               class="flex h-full w-full flex-col items-center justify-center"
             >
@@ -107,11 +105,9 @@
                 class="!block !h-24 !w-24 text-link"
               ></mat-icon>
             </div>
-          </ng-template>
-        </ng-template>
-      </ng-container>
-
-      <ng-template #noAccessImage>
+          }
+        }
+      } @else {
         <div
           class="flex h-full w-full flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.2)]"
         >
@@ -120,38 +116,36 @@
             {{ t('noAccessText') }}
           </div>
         </div>
-      </ng-template>
+      }
     </div>
     <div class="flex h-32 w-full flex-col items-start justify-start p-4">
-      <div
-        class="line-clamp-1 overflow-hidden text-subtitle-2 text-high-emphasis"
-        *ngIf="translationKey; else noTranslationTitleTemplate"
-      >
-        {{ t(translationKey + '.title') }}
-      </div>
-      <ng-template #noTranslationTitleTemplate>
+      @if (translationKey) {
+        <div
+          class="line-clamp-1 overflow-hidden text-subtitle-2 text-high-emphasis"
+        >
+          {{ t(translationKey + '.title') }}
+        </div>
+      } @else {
         <div
           class="line-clamp-1 overflow-hidden text-subtitle-2 text-high-emphasis"
         >
           {{ title }}
         </div>
-      </ng-template>
+      }
       <div class="h-10 flex-1">
-        <div
-          class="line-clamp-2 text-body-2 text-medium-emphasis"
-          *ngIf="translationKey; else noTranslationDescriptionTemplate"
-        >
-          {{ t(translationKey + '.description') }}
-        </div>
-        <ng-template #noTranslationDescriptionTemplate>
+        @if (translationKey) {
+          <div class="line-clamp-2 text-body-2 text-medium-emphasis">
+            {{ t(translationKey + '.description') }}
+          </div>
+        } @else {
           <div class="line-clamp-2 text-body-2 text-medium-emphasis">
             {{ description }}
           </div>
-        </ng-template>
+        }
       </div>
       <div class="flex flex-col items-start justify-end">
-        <ng-container *ngIf="learnMoreLink">
-          <ng-container *ngIf="!learnMoreExternal; else externalLearnMoreLink">
+        @if (learnMoreLink) {
+          @if (!learnMoreExternal) {
             <div
               class="mt-2 cursor-pointer text-caption text-link hover:underline"
               [routerLink]="learnMoreLink"
@@ -159,8 +153,7 @@
             >
               {{ t('learnMore') }}
             </div>
-          </ng-container>
-          <ng-template #externalLearnMoreLink>
+          } @else {
             <a
               target="_blank"
               [href]="learnMoreLink"
@@ -172,8 +165,8 @@
                 {{ t('learnMore') }}
               </div>
             </a>
-          </ng-template>
-        </ng-container>
+          }
+        }
       </div>
     </div>
   </div>

@@ -12,68 +12,74 @@
   </label>
 </div>
 
-<div class="mb-3" *ngFor="let attachment of attachments; trackBy: trackByFn">
-  <div
-    class="flex flex-row items-center"
-    *transloco="
-      let t;
-      read: 'processCaseView.tabs.overview.generalInformation.attachments'
-    "
-  >
-    <div class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis">
-      <span
-        class="text-high-emphasis text-body-2 hover:text-link hover:underline hover:cursor-pointer"
-        (click)="downloadAttachment(attachment)"
-      >
-        {{ attachment.fileName }}
-      </span>
-      <span class="text-medium-emphasis text-[12px]">
-        {{
-          t('uploadInformation', {
-            at: attachment.uploadedAt | translocoDate: translocoDatePipeConfig,
-            by: attachment.uploadedBy
-          })
-        }}
-      </span>
-    </div>
+@for (attachment of attachments; track $index) {
+  <div class="mb-3">
     <div
-      class="ml-auto text-approval-status-grey mt-1"
-      *ngrxLet="quotationActive$ as buttonEnabled"
+      class="flex flex-row items-center"
+      *transloco="
+        let t;
+        read: 'processCaseView.tabs.overview.generalInformation.attachments'
+      "
     >
       <div
-        class="group inline-block"
-        [matTooltip]="
-          workflowInProgress || quotationFullyApproved
-            ? t('toolTipApprovalWorkFlowStarted')
-            : t('toolTipDeletedDrafts')
-        "
-        [matTooltipDisabled]="buttonEnabled"
+        class="flex flex-col whitespace-nowrap overflow-hidden text-ellipsis"
       >
-        <button
-          (click)="openConfirmDeleteAttachmentDialog(attachment)"
-          [disabled]="!buttonEnabled"
+        <span
+          class="text-high-emphasis text-body-2 hover:text-link hover:underline hover:cursor-pointer"
+          (click)="downloadAttachment(attachment)"
         >
-          <mat-icon
-            class="!w-5 !h-5 !text-[20px] relative text-approval-status-grey hover:!text-approval-status-green"
+          {{ attachment.fileName }}
+        </span>
+        <span class="text-medium-emphasis text-[12px]">
+          {{
+            t('uploadInformation', {
+              at:
+                attachment.uploadedAt | translocoDate: translocoDatePipeConfig,
+              by: attachment.uploadedBy
+            })
+          }}
+        </span>
+      </div>
+      <div
+        class="ml-auto text-approval-status-grey mt-1"
+        *ngrxLet="quotationActive$ as buttonEnabled"
+      >
+        <div
+          class="group inline-block"
+          [matTooltip]="
+            workflowInProgress || quotationFullyApproved
+              ? t('toolTipApprovalWorkFlowStarted')
+              : t('toolTipDeletedDrafts')
+          "
+          [matTooltipDisabled]="buttonEnabled"
+        >
+          <button
+            (click)="openConfirmDeleteAttachmentDialog(attachment)"
+            [disabled]="!buttonEnabled"
           >
-            <span
-              [ngClass]="
-                buttonEnabled
-                  ? 'group-hover:opacity-0'
-                  : 'text-approval-status-grey opacity-50'
-              "
-            >
-              delete
-            </span>
             <mat-icon
-              *ngIf="buttonEnabled"
-              class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px] hover:cursor-pointer"
+              class="!w-5 !h-5 !text-[20px] relative text-approval-status-grey hover:!text-approval-status-green"
             >
-              delete_forever
+              <span
+                [ngClass]="
+                  buttonEnabled
+                    ? 'group-hover:opacity-0'
+                    : 'text-approval-status-grey opacity-50'
+                "
+              >
+                delete
+              </span>
+              @if (buttonEnabled) {
+                <mat-icon
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px] hover:cursor-pointer"
+                >
+                  delete_forever
+                </mat-icon>
+              }
             </mat-icon>
-          </mat-icon>
-        </button>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+}

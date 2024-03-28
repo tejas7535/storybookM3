@@ -43,7 +43,7 @@ export class ProcessCaseEffects {
         ([_action, tableData, customer]: [
           ReturnType<typeof ProcessCaseActions.validateMaterialTableItems>,
           MaterialTableItem[],
-          Customer
+          Customer,
         ]) => {
           const request: MaterialValidationRequest = {
             customerId: customer.identifier,

@@ -159,7 +159,7 @@ export const extractValues = <
       title: string;
       loadcaseName: string;
     }
-  >
+  >,
 >(
   result: TResult & CatalogCalculationResult,
   subordinate: BearinxOnlineResultSubordinate,

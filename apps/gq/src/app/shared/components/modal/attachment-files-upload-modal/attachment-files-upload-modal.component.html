@@ -6,9 +6,7 @@
     [title]="t('title')"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
-  <ng-container
-    *ngIf="!(activeCaseFacade.attachmentsUploading$ | ngrxPush); else loading"
-  >
+  @if (!(activeCaseFacade.attachmentsUploading$ | ngrxPush)) {
     <div class="flex-grow mt-4">
       <div
         class="border-2 h-24 border-dashed border-border rounded-lg w-full flex justify-center items-center font-bold cursor-pointer"
@@ -47,60 +45,56 @@
         </div>
       </div>
     </div>
-
     <div class="mt-4">
-      <div *ngFor="let fileToDisplay of filesToUpload">
-        <div class="flex flex-row">
-          <ng-container
-            *ngIf="
+      @for (fileToDisplay of filesToUpload; track fileToDisplay) {
+        <div>
+          <div class="flex flex-row">
+            @if (
               fileToDisplay.exists ||
-                fileToDisplay.sizeExceeded ||
-                fileToDisplay.unsupportedFileType;
-              else noWarning
-            "
-          >
-            <mat-icon
-              class="text-error mr-2 !w-5 !h-5 !text-body-1"
-              [matTooltip]="
-                fileToDisplay.exists
-                  ? t('fileExitsTooltip')
-                  : fileToDisplay.unsupportedFileType
-                  ? t('fileTypeNotSupportedTooltip')
-                  : t('fileSizeExceedsTooltip')
-              "
-            >
-              close
-            </mat-icon>
-          </ng-container>
-          <ng-template #noWarning>
-            <mat-icon
-              class="text-approval-status-green mr-2 !w-5 !h-5 !text-body-1"
-            >
-              check_circle_outline
-            </mat-icon>
-          </ng-template>
-          <span class="text-high-emphasis text-body-2">{{
-            fileToDisplay?.file?.name
-          }}</span>
-          <div class="ml-auto text-approval-status-grey mt-1">
-            <div class="group inline-block">
+              fileToDisplay.sizeExceeded ||
+              fileToDisplay.unsupportedFileType
+            ) {
               <mat-icon
-                class="!w-5 !h-5 !text-[20px] hover:text-approval-status-green relative text-approval-status-grey"
+                class="text-error mr-2 !w-5 !h-5 !text-body-1"
+                [matTooltip]="
+                  fileToDisplay.exists
+                    ? t('fileExitsTooltip')
+                    : fileToDisplay.unsupportedFileType
+                      ? t('fileTypeNotSupportedTooltip')
+                      : t('fileSizeExceedsTooltip')
+                "
               >
-                <span class="group-hover:opacity-0"> delete </span>
-                <mat-icon
-                  class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px]"
-                  (click)="removeFile(fileToDisplay)"
-                >
-                  delete_forever
-                </mat-icon>
+                close
               </mat-icon>
+            } @else {
+              <mat-icon
+                class="text-approval-status-green mr-2 !w-5 !h-5 !text-body-1"
+              >
+                check_circle_outline
+              </mat-icon>
+            }
+            <span class="text-high-emphasis text-body-2">{{
+              fileToDisplay?.file?.name
+            }}</span>
+            <div class="ml-auto text-approval-status-grey mt-1">
+              <div class="group inline-block">
+                <mat-icon
+                  class="!w-5 !h-5 !text-[20px] hover:text-approval-status-green relative text-approval-status-grey"
+                >
+                  <span class="group-hover:opacity-0"> delete </span>
+                  <mat-icon
+                    class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px]"
+                    (click)="removeFile(fileToDisplay)"
+                  >
+                    delete_forever
+                  </mat-icon>
+                </mat-icon>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     </div>
-
     <div class="mt-11 flex flex-row">
       <button
         color="primary"
@@ -120,14 +114,12 @@
         {{ t('cancelButton') }}
       </button>
     </div>
-  </ng-container>
+  } @else {
+    <div class="py-3">
+      <schaeffler-loading-spinner
+        class="h-full"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
 </div>
-
-<ng-template #loading>
-  <div class="py-3">
-    <schaeffler-loading-spinner
-      class="h-full"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </div>
-</ng-template>

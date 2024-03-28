@@ -28,7 +28,7 @@ describe('CalculationParametersFormHelperService', () => {
       {
         provide: MatDialog,
         useValue: {
-          open: jest.fn(() => ({} as unknown as MatDialogRef<any>)),
+          open: jest.fn(() => ({}) as unknown as MatDialogRef<any>),
         },
       },
     ],
@@ -43,7 +43,7 @@ describe('CalculationParametersFormHelperService', () => {
           value: operatingTimeValue,
         },
       },
-    } as unknown as FormGroup<LoadCaseDataFormGroupModel>);
+    }) as unknown as FormGroup<LoadCaseDataFormGroupModel>;
 
   beforeEach(() => {
     spectator = createService();

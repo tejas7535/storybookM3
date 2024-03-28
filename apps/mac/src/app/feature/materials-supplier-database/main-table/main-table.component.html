@@ -19,14 +19,13 @@
 
       <div class="flex w-full h-[calc(100%-33px)] flex-1">
         <div class="h-full w-full">
-          <mac-quick-filter-management
-            *ngIf="quickFilterManagementTabActive"
-            [activeNavigationLevel]="navigation"
-          ></mac-quick-filter-management>
+          @if (quickFilterManagementTabActive) {
+            <mac-quick-filter-management
+              [activeNavigationLevel]="navigation"
+            ></mac-quick-filter-management>
+          }
           <div [hidden]="quickFilterManagementTabActive" class="h-full w-full">
-            <ng-container
-              *ngIf="navigation.materialClass !== 'sap'; else serverSideGrid"
-            >
+            @if (navigation.materialClass !== 'sap') {
               <ag-grid-angular
                 class="ag-theme-material border-border h-full border"
                 [masterDetail]="true"
@@ -54,8 +53,7 @@
                 (columnResized)="onColumnChange($event)"
                 (sortChanged)="onColumnChange($event)"
               ></ag-grid-angular>
-            </ng-container>
-            <ng-template #serverSideGrid>
+            } @else {
               <ag-grid-angular
                 class="ag-theme-material border-border h-full border"
                 [masterDetail]="true"
@@ -91,157 +89,153 @@
                 (columnResized)="onColumnChange($event)"
                 (sortChanged)="onColumnChange($event)"
               ></ag-grid-angular>
-            </ng-template>
+            }
           </div>
         </div>
       </div>
     </ng-container>
-    <div
-      *ngIf="!quickFilterManagementTabActive"
-      class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
-    >
-      <ng-container
-        *ngIf="
-          navigation.materialClass !== materialClass.SAP_MATERIAL;
-          else upload
-        "
+    @if (!quickFilterManagementTabActive) {
+      <div
+        class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
       >
-        <ng-container
-          *ngIf="!(hasMinimizedDialog$ | ngrxPush); else resumeButton"
-        >
+        @if (navigation.materialClass !== materialClass.SAP_MATERIAL) {
+          @if (!(hasMinimizedDialog$ | ngrxPush)) {
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="
+                !(hasEditorRole$ | ngrxPush) ||
+                !editableClass(navigation.materialClass)
+              "
+              (click)="openDialog(false)"
+            >
+              <mat-icon class="material-icons-outlined">add</mat-icon>
+              <span>{{ t('addItem') }}</span>
+            </button>
+            @if (countSelectedNodes() >= 2) {
+              <button
+                mat-raised-button
+                class="!bg-nordic-blue"
+                (click)="openDialogMultiEdit()"
+              >
+                <mat-icon class="material-icons-outlined">edit</mat-icon>
+                <span class="text-white">{{
+                  t('multiEdit', { count: countSelectedNodes() })
+                }}</span>
+              </button>
+            }
+          } @else {
+            <button
+              mat-raised-button
+              class="!bg-nordic-blue"
+              [disabled]="
+                !(hasEditorRole$ | ngrxPush) ||
+                !editableClass(navigation.materialClass)
+              "
+              (click)="resumeDialog()"
+            >
+              <mat-icon class="text-white">play_arrow</mat-icon>
+              <span class="text-white">{{ t('resume') }}</span>
+            </button>
+          }
+          <button
+            mat-button
+            color="primary"
+            (click)="exportExcelRawMaterials()"
+          >
+            <mat-icon class="material-icons-outlined">download</mat-icon>
+            <span>{{ t('export') }}</span>
+          </button>
+        } @else {
           <button
             mat-raised-button
+            [disabled]="!(hasMatnrUploaderRole$ | ngrxPush)"
             color="primary"
-            [disabled]="
-              !(hasEditorRole$ | ngrxPush) ||
-              !editableClass(navigation.materialClass)
-            "
-            (click)="openDialog(false)"
+            (click)="openSapMaterialsUploadDialog()"
           >
             <mat-icon class="material-icons-outlined">add</mat-icon>
-            <span>{{ t('addItem') }}</span>
+            <span>{{ t('uploadItem') }}</span>
           </button>
           <button
-            mat-raised-button
-            class="!bg-nordic-blue"
-            (click)="openDialogMultiEdit()"
-            *ngIf="countSelectedNodes() >= 2"
-          >
-            <mat-icon class="material-icons-outlined">edit</mat-icon>
-            <span class="text-white">{{
-              t('multiEdit', { count: countSelectedNodes() })
-            }}</span>
-          </button>
-        </ng-container>
-        <ng-template #resumeButton>
-          <button
-            mat-raised-button
-            class="!bg-nordic-blue"
+            class="!pointer-events-auto"
+            *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
+            mat-button
+            color="primary"
+            (click)="exportExcelSapMaterials()"
+            [matTooltip]="t('mainTable.excelExport.matNrTooltip')"
             [disabled]="
-              !(hasEditorRole$ | ngrxPush) ||
-              !editableClass(navigation.materialClass)
+              !(hasMatnrUploaderRole$ | ngrxPush) ||
+              sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
             "
-            (click)="resumeDialog()"
           >
-            <mat-icon class="text-white">play_arrow</mat-icon>
-            <span class="text-white">{{ t('resume') }}</span>
+            <mat-icon class="material-icons-outlined">download</mat-icon>
+            <span>{{ t('export') }}</span>
           </button>
-        </ng-template>
-        <button mat-button color="primary" (click)="exportExcelRawMaterials()">
-          <mat-icon class="material-icons-outlined">download</mat-icon>
-          <span>{{ t('export') }}</span>
-        </button>
-      </ng-container>
-      <ng-template #upload>
+        }
         <button
-          mat-raised-button
-          [disabled]="!(hasMatnrUploaderRole$ | ngrxPush)"
-          color="primary"
-          (click)="openSapMaterialsUploadDialog()"
-        >
-          <mat-icon class="material-icons-outlined">add</mat-icon>
-          <span>{{ t('uploadItem') }}</span>
-        </button>
-        <button
-          class="!pointer-events-auto"
-          *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
           mat-button
           color="primary"
-          (click)="exportExcelSapMaterials()"
-          [matTooltip]="t('mainTable.excelExport.matNrTooltip')"
-          [disabled]="
-            !(hasMatnrUploaderRole$ | ngrxPush) ||
-            sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
+          [disabled]="isDefaultAgGridFilter()"
+          (click)="resetForm()"
+        >
+          <mat-icon class="material-icons-outlined">sync</mat-icon>
+          <span>{{ t('resetTable') }}</span>
+        </button>
+        <div
+          class="flex flex-grow flex-row items-center justify-start gap-4"
+          *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
+        >
+          <div class="flex flex-col">
+            <div class="text-caption text-low-emphasis">
+              {{
+                t('allClass', {
+                  class: t(navigation.navigationLevel)
+                })
+              }}
+            </div>
+            <div class="text-caption text-high-emphasis">
+              {{
+                (navigation.materialClass !== 'sap'
+                  ? (resultCount$ | ngrxPush)
+                  : sapMaterialsRows?.totalRows) || 0
+              }}
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <div class="text-caption text-low-emphasis">
+              {{ t('subtotal') }}
+            </div>
+            <div class="text-caption text-high-emphasis">
+              {{
+                (navigation.materialClass !== 'sap'
+                  ? agGridApi?.getDisplayedRowCount()
+                  : sapMaterialsRows?.subTotalRows) || 0
+              }}
+            </div>
+          </div>
+        </div>
+        <button
+          mat-button
+          color="primary"
+          (click)="
+            navigation.materialClass !== 'sap'
+              ? fetchResult()
+              : refreshServerSide()
           "
         >
-          <mat-icon class="material-icons-outlined">download</mat-icon>
-          <span>{{ t('export') }}</span>
+          <mat-icon class="material-icons-outlined">refresh</mat-icon>
+          <span>{{ t('reload') }}</span>
         </button>
-      </ng-template>
-
-      <button
-        mat-button
-        color="primary"
-        [disabled]="isDefaultAgGridFilter()"
-        (click)="resetForm()"
-      >
-        <mat-icon class="material-icons-outlined">sync</mat-icon>
-        <span>{{ t('resetTable') }}</span>
-      </button>
-      <div
-        class="flex flex-grow flex-row items-center justify-start gap-4"
-        *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
-      >
-        <div class="flex flex-col">
-          <div class="text-caption text-low-emphasis">
-            {{
-              t('allClass', {
-                class: t(navigation.navigationLevel)
-              })
-            }}
-          </div>
-          <div class="text-caption text-high-emphasis">
-            {{
-              (navigation.materialClass !== 'sap'
-                ? (resultCount$ | ngrxPush)
-                : sapMaterialsRows?.totalRows) || 0
-            }}
-          </div>
-        </div>
-        <div class="flex flex-col">
-          <div class="text-caption text-low-emphasis">{{ t('subtotal') }}</div>
-          <div class="text-caption text-high-emphasis">
-            {{
-              (navigation.materialClass !== 'sap'
-                ? agGridApi?.getDisplayedRowCount()
-                : sapMaterialsRows?.subTotalRows) || 0
-            }}
-          </div>
-        </div>
       </div>
-      <button
-        mat-button
-        color="primary"
-        (click)="
-          navigation.materialClass !== 'sap'
-            ? fetchResult()
-            : refreshServerSide()
-        "
-      >
-        <mat-icon class="material-icons-outlined">refresh</mat-icon>
-        <span>{{ t('reload') }}</span>
-      </button>
-    </div>
+    }
   </div>
-  <ng-container
-    *ngIf="
-      (optionsLoading$ | ngrxPush) ||
-      (resultLoading$ | ngrxPush) ||
-      (quickFiltersLoading$ | ngrxPush)
-    "
-  >
+  @if (
+    (optionsLoading$ | ngrxPush) ||
+    (resultLoading$ | ngrxPush) ||
+    (quickFiltersLoading$ | ngrxPush)
+  ) {
     <div class="fixed flex h-full w-full flex-col items-center md:pt-[10%]">
       <mat-spinner></mat-spinner>
     </div>
-  </ng-container>
+  }
 </div>

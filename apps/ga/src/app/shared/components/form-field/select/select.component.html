@@ -7,37 +7,46 @@
     appearance="outline"
     class="flex grow flex-row pb-3 hover:outline-none"
   >
-    <mat-label *ngIf="label">{{ label }}</mat-label>
+    @if (label) {
+      <mat-label>{{ label }}</mat-label>
+    }
     <mat-select [formControl]="control" [placeholder]="placeholder">
-      <mat-option
-        *ngFor="let option of options"
-        [value]="option.value ? option.value : option.id"
-        >{{ t(option.text) }}</mat-option
-      >
-      <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+      @for (option of options; track option) {
+        <mat-option [value]="option.value ? option.value : option.id">{{
+          t(option.text)
+        }}</mat-option>
+      }
+      @if (hint) {
+        <mat-hint>{{ hint }}</mat-hint>
+      }
     </mat-select>
-    <mat-error *ngIf="control.hasError('required')">{{
-      t('parameters.errors.required')
-    }}</mat-error>
+    @if (control.hasError('required')) {
+      <mat-error>{{ t('parameters.errors.required') }}</mat-error>
+    }
 
     <ng-container *transloco="let t; read: 'parameters.errors'">
-      <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
-        <mat-error *ngIf="control.hasError(error.name)">{{
-          t(error.message)
-        }}</mat-error>
-      </ng-container></ng-container
-    >
+      @for (error of customErrors; track error) {
+        <ng-container ngProjectAs="mat-error">
+          @if (control.hasError(error.name)) {
+            <mat-error>{{ t(error.message) }}</mat-error>
+          }
+        </ng-container>
+      }
+    </ng-container>
   </mat-form-field>
-  <div *ngIf="tooltipText" class="w-6">
-    <mat-icon
-      *ngIf="tooltipText"
-      color="primary"
-      class="cursor-help"
-      #tooltip="matTooltip"
-      [matTooltip]="tooltipText"
-      (click)="tooltip.toggle()"
-    >
-      info_outline
-    </mat-icon>
-  </div>
+  @if (tooltipText) {
+    <div class="w-6">
+      @if (tooltipText) {
+        <mat-icon
+          color="primary"
+          class="cursor-help"
+          #tooltip="matTooltip"
+          [matTooltip]="tooltipText"
+          (click)="tooltip.toggle()"
+        >
+          info_outline
+        </mat-icon>
+      }
+    </div>
+  }
 </div>

@@ -1,104 +1,102 @@
 <ng-container
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
-  <div class="flex flex-row gap-x-6" [ngSwitch]="viewMode">
-    <ng-container *ngSwitchCase="'readonly'">
-      <!-- readonly fields -->
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>{{ t('standardDocument') }} {{ t('readonly') }}</mat-label>
-        <input
-          matInput
-          [value]="standardDocumentsControl.value?.title || ''"
+  <div class="flex flex-row gap-x-6">
+    @switch (viewMode) {
+      @case ('readonly') {
+        <!-- readonly fields -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('standardDocument') }} {{ t('readonly') }}</mat-label>
+          <input
+            matInput
+            [value]="standardDocumentsControl.value?.title || ''"
+            name="materialStandardStandardDocument"
+            [matTooltip]="standardDocumentsControl.value.title"
+            [matTooltipShowDelay]="1500"
+            #dialogControl
+            readonly="true"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('materialName') }} {{ t('readonly') }}</mat-label>
+          <input
+            matInput
+            [value]="materialNamesControl.value?.title || ''"
+            name="materialStandardMaterialName"
+            [matTooltip]="materialNamesControl.value.title"
+            [matTooltipShowDelay]="1500"
+            #dialogControl
+            readonly="true"
+          />
+        </mat-form-field>
+      }
+      @case ('editable') {
+        <!-- edit fields-->
+        <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+          <mat-label>{{ t('standardDocument') }}</mat-label>
+          <input
+            matInput
+            [formControl]="standardDocumentsEditControl"
+            name="materialStandardStandardDocument"
+            #dialogControl
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+          <mat-label>{{ t('materialName') }}</mat-label>
+          <input
+            matInput
+            [formControl]="materialNamesEditControl"
+            name="materialStandardMaterialName"
+            #dialogControl
+          />
+        </mat-form-field>
+      }
+      @default {
+        <!-- select fields -->
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="standardDocuments$ | ngrxPush"
+          [control]="standardDocumentsControl"
+          [label]="t('standardDocument')"
+          [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
+          [resetButton]="true"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
+          addEntry="true"
+          (entryAdded)="addStandardDocument($event)"
           name="materialStandardStandardDocument"
-          [matTooltip]="standardDocumentsControl.value.title"
-          [matTooltipShowDelay]="1500"
           #dialogControl
-          readonly="true"
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>{{ t('materialName') }} {{ t('readonly') }}</mat-label>
-        <input
-          matInput
-          [value]="materialNamesControl.value?.title || ''"
-          name="materialStandardMaterialName"
-          [matTooltip]="materialNamesControl.value.title"
-          [matTooltipShowDelay]="1500"
-          #dialogControl
-          readonly="true"
-        />
-      </mat-form-field>
-    </ng-container>
-    <ng-container *ngSwitchCase="'editable'">
-      <!-- edit fields-->
-      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
-        <mat-label>{{ t('standardDocument') }}</mat-label>
-        <input
-          matInput
-          [formControl]="standardDocumentsEditControl"
-          name="materialStandardStandardDocument"
-          #dialogControl
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
-        <mat-label>{{ t('materialName') }}</mat-label>
-        <input
-          matInput
-          [formControl]="materialNamesEditControl"
+        >
+          @if (standardDocumentsControl.invalid) {
+            <span matErrorContent class="text-caption">
+              {{ getErrorMessage(standardDocumentsControl.errors) }}
+            </span>
+          }
+        </schaeffler-select>
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="materialNames$ | ngrxPush"
+          [control]="materialNamesControl"
+          [label]="t('materialName')"
+          [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
+          addEntry="true"
+          (entryAdded)="addMaterialName($event)"
           name="materialStandardMaterialName"
           #dialogControl
-        />
-      </mat-form-field>
-    </ng-container>
-    <ng-container *ngSwitchDefault>
-      <!-- select fields -->
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="standardDocuments$ | ngrxPush"
-        [control]="standardDocumentsControl"
-        [label]="t('standardDocument')"
-        [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
-        [resetButton]="true"
-        [showTriggerTooltip]="true"
-        triggerTooltipDelay="1500"
-        tooltipPosition="right"
-        addEntry="true"
-        (entryAdded)="addStandardDocument($event)"
-        name="materialStandardStandardDocument"
-        #dialogControl
-      >
-        <span
-          matErrorContent
-          class="text-caption"
-          *ngIf="standardDocumentsControl.invalid"
         >
-          {{ getErrorMessage(standardDocumentsControl.errors) }}
-        </span>
-      </schaeffler-select>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="materialNames$ | ngrxPush"
-        [control]="materialNamesControl"
-        [label]="t('materialName')"
-        [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
-        [showTriggerTooltip]="true"
-        triggerTooltipDelay="1500"
-        tooltipPosition="right"
-        addEntry="true"
-        (entryAdded)="addMaterialName($event)"
-        name="materialStandardMaterialName"
-        #dialogControl
-      >
-        <span
-          matErrorContent
-          class="text-caption"
-          *ngIf="materialNamesControl.invalid"
-        >
-          {{ getErrorMessage(materialNamesControl.errors) }}
-        </span>
-      </schaeffler-select>
-    </ng-container>
+          @if (materialNamesControl.invalid) {
+            <span matErrorContent class="text-caption">
+              {{ getErrorMessage(materialNamesControl.errors) }}
+            </span>
+          }
+        </schaeffler-select>
+      }
+    }
   </div>
 </ng-container>

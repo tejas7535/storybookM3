@@ -1,17 +1,16 @@
-<schaeffler-app-shell
-  *ngIf="getIsLoggedIn$ | ngrxPush; else loading"
-  [appTitle]="title"
-  [hasSidebarLeft]="true"
-  [userName]="username$ | ngrxPush"
-  [userImageUrl]="profileImage$ | ngrxPush"
->
-  <ng-container mainContent>
-    <div class="h-full w-full">
-      <router-outlet></router-outlet>
-    </div>
-  </ng-container>
-</schaeffler-app-shell>
-
-<ng-template #loading>
+@if (getIsLoggedIn$ | ngrxPush) {
+  <schaeffler-app-shell
+    [appTitle]="title"
+    [hasSidebarLeft]="true"
+    [userName]="username$ | ngrxPush"
+    [userImageUrl]="profileImage$ | ngrxPush"
+  >
+    <ng-container mainContent>
+      <div class="h-full w-full">
+        <router-outlet></router-outlet>
+      </div>
+    </ng-container>
+  </schaeffler-app-shell>
+} @else {
   <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>
+}

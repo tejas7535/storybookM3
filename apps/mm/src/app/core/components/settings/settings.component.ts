@@ -61,8 +61,4 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public setSeparator(separator: MMSeparator): void {
     this.localeService.setSeparator(separator);
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

@@ -11,11 +11,9 @@
     [isDisabled]="isDisabled"
   ></ea-radio-button>
 
-  <ng-container *ngIf="selected; else descriptionTemplate">
+  @if (selected) {
     <ng-content></ng-content>
-  </ng-container>
+  } @else {
+    <div class="text-medium-emphasis text-body-2">{{ description }}</div>
+  }
 </div>
-
-<ng-template #descriptionTemplate>
-  <div class="text-medium-emphasis text-body-2">{{ description }}</div>
-</ng-template>

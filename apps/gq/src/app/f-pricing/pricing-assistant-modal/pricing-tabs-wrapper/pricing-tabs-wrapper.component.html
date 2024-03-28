@@ -9,35 +9,30 @@
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="referencePrice ?? 0 | numberCurrency: currency:true"
+          [value]="referencePrice ?? 0 | numberCurrency: currency : true"
           [title]="t('referencePricingLabel')"
         ></gq-tabs-label
       ></ng-template>
       <div class="p-2 h-full">
-        <ng-container *ngIf="comparableTransactionsLoading"
-          ><ng-template [ngTemplateOutlet]="loadingSpinner"></ng-template>
-        </ng-container>
-        <ng-container
-          *ngIf="
-            !comparableTransactionsLoading && !comparableTransactionsAvailable
-          "
-        >
+        @if (comparableTransactionsLoading) {
+          <ng-template [ngTemplateOutlet]="loadingSpinner"></ng-template>
+        }
+        @if (
+          !comparableTransactionsLoading && !comparableTransactionsAvailable
+        ) {
           <gq-no-data
             [title]="t('referencePricingTable.noReferenceDataTitle')"
             [subTitle]="t('referencePricingTable.noReferenceDataSubTitle')"
           ></gq-no-data>
-        </ng-container>
-
-        <ng-container
-          *ngIf="
-            !comparableTransactionsLoading && comparableTransactionsAvailable
-          "
-        >
+        }
+        @if (
+          !comparableTransactionsLoading && comparableTransactionsAvailable
+        ) {
           <gq-reference-pricing-table
             [inputRowData]="referencePriceRowData"
             (comparedMaterialClicked)="onComparedMaterialClicked($event)"
-          ></gq-reference-pricing-table
-        ></ng-container>
+          ></gq-reference-pricing-table>
+        }
       </div>
     </mat-tab>
     <mat-tab disabled>
@@ -52,7 +47,9 @@
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="marketValueDriversValue ?? 0 | numberCurrency: currency:true"
+          [value]="
+            marketValueDriversValue ?? 0 | numberCurrency: currency : true
+          "
           [title]="t('marketValueDriversLabel')"
           [icon]="
             marketValueDriverWarning !== marketValueDriverWarningLevel.COMPLETE
@@ -64,16 +61,16 @@
             marketValueDriverWarningLevel.INCOMPLETE
               ? 'text-orange'
               : marketValueDriverWarning === marketValueDriverWarningLevel.UNSET
-              ? 'text-error'
-              : ''
+                ? 'text-error'
+                : ''
           "
           [iconTooltip]="
             marketValueDriverWarning ===
             marketValueDriverWarningLevel.INCOMPLETE
               ? t('marketValueDriversWarningTooltip')
               : marketValueDriverWarning === marketValueDriverWarningLevel.UNSET
-              ? t('marketValueDriversErrorTooltip')
-              : ''
+                ? t('marketValueDriversErrorTooltip')
+                : ''
           "
         ></gq-tabs-label
       ></ng-template>
@@ -99,7 +96,7 @@
       <ng-template mat-tab-label
         ><gq-tabs-label
           [value]="
-            technicalValueDriversValue ?? 0 | numberCurrency: currency:true
+            technicalValueDriversValue ?? 0 | numberCurrency: currency : true
           "
           [title]="t('technicalValueDriversLabel')"
         ></gq-tabs-label
@@ -123,7 +120,7 @@
     <mat-tab>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="sanityCheckValue ?? 0 | numberCurrency: currency:true"
+          [value]="sanityCheckValue ?? 0 | numberCurrency: currency : true"
           [title]="t('sanityCheckLabel')"
         ></gq-tabs-label
       ></ng-template>
@@ -145,7 +142,7 @@
     <mat-tab disabled>
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="finalPrice | numberCurrency: currency:true"
+          [value]="finalPrice | numberCurrency: currency : true"
           [title]="t('finalPriceLabel')"
         ></gq-tabs-label
       ></ng-template>

@@ -338,7 +338,7 @@ export class OverviewEffects {
           ({
             filterDimension: request.filterDimension,
             value: request.value,
-          } as EmployeesRequest)
+          }) as EmployeesRequest
       ),
       mergeMap((request: EmployeesRequest) =>
         this.overviewService.getResignedEmployees(request).pipe(

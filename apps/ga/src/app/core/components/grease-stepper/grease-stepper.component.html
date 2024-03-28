@@ -7,21 +7,22 @@
     linear="true"
     #stepper
   >
-    <mat-step
-      *ngFor="let step of steps"
-      state="number"
-      [editable]="step.editable"
-      [completed]="step.complete"
-      optional="false"
-      [aria-labelledby]="
-        step.enabled
-          ? step.index === (currentStep$ | ngrxPush)
-            ? 'active'
-            : 'enabled'
-          : 'disabled'
-      "
-      ><ng-template matStepLabel>{{ t(step.name) }}</ng-template></mat-step
-    >
+    @for (step of steps; track step) {
+      <mat-step
+        state="number"
+        [editable]="step.editable"
+        [completed]="step.complete"
+        optional="false"
+        [aria-labelledby]="
+          step.enabled
+            ? step.index === (currentStep$ | ngrxPush)
+              ? 'active'
+              : 'enabled'
+            : 'disabled'
+        "
+        ><ng-template matStepLabel>{{ t(step.name) }}</ng-template></mat-step
+      >
+    }
     <ng-template matStepperIcon="edit" let-index="index">
       {{ index + 1 }}
     </ng-template>

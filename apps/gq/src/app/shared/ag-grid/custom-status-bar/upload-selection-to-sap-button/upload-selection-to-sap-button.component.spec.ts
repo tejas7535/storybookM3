@@ -160,7 +160,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
         () =>
           ({
             afterClosed: () => of(true),
-          } as any)
+          }) as any
       );
       component.uploadSelectionToSap();
 

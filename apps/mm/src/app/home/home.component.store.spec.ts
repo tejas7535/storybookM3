@@ -202,7 +202,7 @@ describe('HomeStore', () => {
     it('should return the selected option', () => {
       const mockSelectedOption = { id: 'myId', title: 'myTitle' };
       homeStore['homeService'].getBearingParams = jest.fn(
-        () => ({ id: 'myId' } as unknown as BearingParams)
+        () => ({ id: 'myId' }) as unknown as BearingParams
       );
 
       homeStore.setBearing('myTitle');

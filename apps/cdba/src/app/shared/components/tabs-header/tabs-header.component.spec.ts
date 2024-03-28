@@ -42,12 +42,4 @@ describe('TabsHeaderComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
 });

@@ -27,7 +27,7 @@ import { convertCatalogCalculationResult } from './catalog-helper';
 jest.mock('./catalog-helper', () => ({
   ...jest.requireActual('./catalog-helper'),
   convertCatalogCalculationResult: jest.fn(
-    () => ({} as CatalogCalculationResult)
+    () => ({}) as CatalogCalculationResult
   ),
 }));
 

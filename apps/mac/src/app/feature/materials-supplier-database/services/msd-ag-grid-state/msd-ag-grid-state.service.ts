@@ -202,7 +202,7 @@ export class MsdAgGridStateService {
   }
 
   private getMsdMainTableState<
-    T extends MsdAgGridState = MsdAgGridStateCurrent
+    T extends MsdAgGridState = MsdAgGridStateCurrent,
   >(): T {
     return JSON.parse(this.localStorage.getItem(this.KEY)) as T;
   }
@@ -532,7 +532,7 @@ export class MsdAgGridStateService {
     // create a ColumnState object for each unfound column
     const added = required
       .filter((col) => !existingColumns.has(col))
-      .map((col) => ({ colId: col, hide: false } as ColumnState));
+      .map((col) => ({ colId: col, hide: false }) as ColumnState);
 
     // update all existing lockVisible columns to be visible!
     const newState = lastState.map((s) =>

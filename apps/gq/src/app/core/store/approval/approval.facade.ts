@@ -165,7 +165,7 @@ export class ApprovalFacade {
       ([events, info, approvers]: [
         ApprovalWorkflowEvent[],
         ApprovalWorkflowInformation,
-        Approver[]
+        Approver[],
       ]) => {
         // either all approvers (two or three) are set or no approvers are set
         // when no approvers have been saved, then we do not have a approvalStatus of the RequestedApprovers
@@ -253,7 +253,7 @@ export class ApprovalFacade {
     mergeMap(
       ([userId, approversWithApprovalStatus]: [
         string,
-        ApprovalStatusOfRequestedApprover[]
+        ApprovalStatusOfRequestedApprover[],
       ]) => {
         const approverIndex = approversWithApprovalStatus.findIndex(
           (approverWithApprovalStatus: ApprovalStatusOfRequestedApprover) =>
@@ -518,7 +518,7 @@ export class ApprovalFacade {
         ([status, allApprovers, events]: [
           QuotationStatus,
           Approver[],
-          ApprovalWorkflowEvent[]
+          ApprovalWorkflowEvent[],
         ]) => {
           if (
             status !==

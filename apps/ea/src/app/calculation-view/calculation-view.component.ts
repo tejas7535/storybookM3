@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
@@ -21,7 +20,6 @@ import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
     CalculationContainerComponent,
     BreadcrumbsModule,
     PushPipe,
-    NgIf,
     LegacyAppComponent,
   ],
   providers: [TranslocoDecimalPipe],

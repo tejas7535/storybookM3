@@ -1,17 +1,18 @@
 <div class="chart-legend flex cursor-pointer flex-col" *transloco="let t">
   <p class="text-right">{{ t(title) }}</p>
-  <div
-    *ngFor="let item of items"
-    class="chart-legend-item flex items-center justify-end"
-    #chartLegendTooltip="matTooltip"
-    (click)="chartLegendTooltip.toggle()"
-    [matTooltip]="t(item.tooltip)"
-    matTooltipPosition="left"
-  >
-    <span class="tiny font-light leading-6">{{ t(item.name) }}</span>
+  @for (item of items; track item) {
     <div
-      class="chart-legend-indicator ml-2 h-3.5 w-5 rounded"
-      [class]="'bg-' + item.color"
-    ></div>
-  </div>
+      class="chart-legend-item flex items-center justify-end"
+      #chartLegendTooltip="matTooltip"
+      (click)="chartLegendTooltip.toggle()"
+      [matTooltip]="t(item.tooltip)"
+      matTooltipPosition="left"
+    >
+      <span class="tiny font-light leading-6">{{ t(item.name) }}</span>
+      <div
+        class="chart-legend-indicator ml-2 h-3.5 w-5 rounded"
+        [class]="'bg-' + item.color"
+      ></div>
+    </div>
+  }
 </div>

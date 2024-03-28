@@ -7,12 +7,9 @@
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
 
-  <ng-container
-    *ngIf="
-      (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false;
-      else loading
-    "
-  >
+  @if (
+    (approvalFacade.updateApprovalWorkflowInProgress$ | ngrxPush) === false
+  ) {
     <p class="text-subtitle-2 mt-6">{{ t('summary') }}</p>
     <div class="flex items-center mt-3">
       <p class="text-body-2 text-medium-emphasis">{{ t('approvalLevel') }}:</p>
@@ -21,7 +18,6 @@
       }}</span>
     </div>
     <p class="text-body-1 mt-3">{{ t('confirmationQuestion') }}</p>
-
     <div class="flex w-full gap-4 mt-7">
       <button
         mat-raised-button
@@ -34,15 +30,13 @@
         {{ t('backToOverview') }}
       </button>
     </div>
-  </ng-container>
+  } @else {
+    <div class="py-24">
+      <schaeffler-loading-spinner
+        class="h-full"
+        backgroundColor="rgba(255,255,255, 0.1)"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
 </div>
-
-<ng-template #loading>
-  <div class="py-24">
-    <schaeffler-loading-spinner
-      class="h-full"
-      backgroundColor="rgba(255,255,255, 0.1)"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </div>
-</ng-template>

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,7 +34,6 @@ import { GreaseReportShopButtonsComponent } from '../grease-report-shop-buttons/
   selector: 'ga-grease-report-concept1-detail',
   standalone: true,
   imports: [
-    CommonModule,
     SharedTranslocoModule,
     FormsModule,
     MatButtonModule,

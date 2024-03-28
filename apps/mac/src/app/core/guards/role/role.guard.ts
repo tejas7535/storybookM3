@@ -18,7 +18,10 @@ import { RoutePath } from '@mac/app-routing.enum';
   providedIn: 'root',
 })
 export class RoleGuard {
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  constructor(
+    private readonly store: Store,
+    private readonly router: Router
+  ) {}
 
   canActivateChild(
     _childRoute: ActivatedRouteSnapshot,

@@ -1,55 +1,54 @@
-<div class="flex flex-col md:gap-6 gap-2" *ngIf="selectionOptions">
-  <ng-container
-    *ngIf="(isMediumScreen$ | async) || simplifiedMobile; else mobileView"
-  >
-    <mat-radio-group [formControl]="control" class="flex flex-wrap">
-      <div
-        class="flex mb-4 md:mb-0"
-        *ngFor="let option of selectionOptions; let last = last"
-        [matTooltip]="option.tooltip"
-      >
-        <mat-radio-button
-          [value]="option.value"
-          color="primary"
-          [disabled]="option.disabled"
-        >
-          {{ option.label }}
-        </mat-radio-button>
-        <mat-divider [vertical]="true" *ngIf="!last" class="mx-4"></mat-divider>
-      </div>
-    </mat-radio-group>
-
-    <div
-      class="flex flex-row gap-4"
-      [ngClass]="visibleTemplate.styleClass"
-      *ngIf="visibleTemplate$ | async as visibleTemplate"
-    >
-      <ng-template *ngTemplateOutlet="visibleTemplate.ref"></ng-template>
-    </div>
-  </ng-container>
-</div>
+@if (selectionOptions) {
+  <div class="flex flex-col md:gap-6 gap-2">
+    @if ((isMediumScreen$ | async) || simplifiedMobile) {
+      <mat-radio-group [formControl]="control" class="flex flex-wrap">
+        @for (option of selectionOptions; track option; let last = $last) {
+          <div class="flex mb-4 md:mb-0" [matTooltip]="option.tooltip">
+            <mat-radio-button
+              [value]="option.value"
+              color="primary"
+              [disabled]="option.disabled"
+            >
+              {{ option.label }}
+            </mat-radio-button>
+            @if (!last) {
+              <mat-divider [vertical]="true" class="mx-4"></mat-divider>
+            }
+          </div>
+        }
+      </mat-radio-group>
+      @if (visibleTemplate$ | async; as visibleTemplate) {
+        <div class="flex flex-row gap-4" [ngClass]="visibleTemplate.styleClass">
+          <ng-template *ngTemplateOutlet="visibleTemplate.ref"></ng-template>
+        </div>
+      }
+    } @else {
+      @if (!simplifiedMobile) {
+        @for (option of selectionOptions; track option) {
+          <div
+            class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
+            [ngClass]="mobileStyleClass"
+          >
+            <ea-radio-button
+              [label]="option.label"
+              [value]="option.value"
+              [formControl]="control"
+            ></ea-radio-button>
+            @if (option.value === control?.value) {
+              <div
+                class="flex flex-col gap-2"
+                [ngClass]="templateMap[option.value].styleClass"
+              >
+                <ng-template
+                  *ngTemplateOutlet="templateMap[option.value].ref"
+                ></ng-template>
+              </div>
+            }
+          </div>
+        }
+      }
+    }
+  </div>
+}
 
 <!-- Mobile view -->
-<ng-template #mobileView>
-  <ng-container *ngIf="!simplifiedMobile">
-    <div
-      *ngFor="let option of selectionOptions"
-      class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
-      [ngClass]="mobileStyleClass"
-    >
-      <ea-radio-button
-        [label]="option.label"
-        [value]="option.value"
-        [formControl]="control"
-      ></ea-radio-button>
-      <div
-        class="flex flex-col gap-2"
-        [ngClass]="templateMap[option.value].styleClass"
-        *ngIf="option.value === control?.value"
-      >
-        <ng-template
-          *ngTemplateOutlet="templateMap[option.value].ref"
-        ></ng-template>
-      </div></div
-  ></ng-container>
-</ng-template>

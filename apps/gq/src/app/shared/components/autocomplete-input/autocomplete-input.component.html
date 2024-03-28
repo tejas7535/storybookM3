@@ -1,4 +1,4 @@
-<ng-container *ngIf="filterName">
+@if (filterName) {
   <mat-form-field
     #formField
     class="w-full"
@@ -18,40 +18,37 @@
       cdkFocusInitial
       pinDropDown="matAutocompleteTrigger"
     />
-
-    <mat-spinner
-      *ngIf="autocompleteLoading"
-      matSuffix
-      [diameter]="18"
-    ></mat-spinner>
+    @if (autocompleteLoading) {
+      <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+    }
     <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
-    <mat-error *ngIf="searchFormControl.hasError('invalidInput')">{{
-      t(filterName + '.wrongInput')
-    }}</mat-error>
+    @if (searchFormControl.hasError('invalidInput')) {
+      <mat-error>{{ t(filterName + '.wrongInput') }}</mat-error>
+    }
     <mat-autocomplete
       #auto="matAutocomplete"
       (optionSelected)="selected($event)"
     >
-      <mat-option
-        *ngFor="let idValue of unselectedOptions; trackBy: trackByFn"
-        [value]="idValue"
-      >
-        <span> {{ idValue.id }} | {{ idValue.value }}</span>
-        <span *ngIf="idValue.value2"> | {{ idValue.value2 }}</span>
-      </mat-option>
-      <mat-option
-        disabled
-        *ngIf="
-          unselectedOptions
-            | noResultsFound
-              : selectedIdValue
-              : searchFormControl.value
-              : autocompleteLoading
-              : debounceIsActive
-        "
-      >
-        {{ t(filterName + '.nothingFound') }}
-      </mat-option>
+      @for (idValue of unselectedOptions; track $index) {
+        <mat-option [value]="idValue">
+          <span> {{ idValue.id }} | {{ idValue.value }}</span>
+          @if (idValue.value2) {
+            <span> | {{ idValue.value2 }}</span>
+          }
+        </mat-option>
+      }
+      @if (
+        unselectedOptions
+          | noResultsFound
+            : selectedIdValue
+            : searchFormControl.value
+            : autocompleteLoading
+            : debounceIsActive
+      ) {
+        <mat-option disabled>
+          {{ t(filterName + '.nothingFound') }}
+        </mat-option>
+      }
     </mat-autocomplete>
   </mat-form-field>
-</ng-container>
+}

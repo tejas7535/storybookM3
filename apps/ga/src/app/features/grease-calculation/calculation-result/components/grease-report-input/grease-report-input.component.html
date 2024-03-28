@@ -1,10 +1,13 @@
-<div *ngIf="greaseReportInput" class="pb-4 md:px-6">
-  <div
-    *ngFor="let subordinate of greaseReportInput.subordinates"
-    class="grease-input__grid-item mb-6 inline-flex w-full md:w-1/2 lg:w-1/3"
-  >
-    <ga-grease-report-input-item
-      [greaseReportInputItem]="subordinate"
-    ></ga-grease-report-input-item>
+@if (greaseReportInput) {
+  <div class="pb-4 md:px-6">
+    @for (subordinate of greaseReportInput.subordinates; track subordinate) {
+      <div
+        class="grease-input__grid-item mb-6 inline-flex w-full md:w-1/2 lg:w-1/3"
+      >
+        <ga-grease-report-input-item
+          [greaseReportInputItem]="subordinate"
+        ></ga-grease-report-input-item>
+      </div>
+    }
   </div>
-</div>
+}

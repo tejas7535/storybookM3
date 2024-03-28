@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, HostBinding, Input, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
@@ -14,7 +13,7 @@ import { RadioButtonComponent } from '../radio-button/radio-button.component';
 @Component({
   selector: 'ea-tabbed-suboption',
   standalone: true,
-  imports: [CommonModule, RadioButtonComponent, ReactiveFormsModule],
+  imports: [RadioButtonComponent, ReactiveFormsModule],
   templateUrl: './tabbed-suboption.component.html',
   viewProviders: [
     {

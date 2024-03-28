@@ -1,25 +1,29 @@
 <div class="flex flex-row text py-2 mt-1">
   <div class="flex-1">
     <div class="flex flex-row cursor-pointer" (click)="toggleDetails()">
-      <button mat-raised-button class="flex-none" *ngIf="hasDetail()">
-        <mat-icon
-          class="material-icons-outlined"
-          [ngClass]="{ 'rotate-180': visibleDetails }"
-          >expand_more</mat-icon
-        >
-      </button>
+      @if (hasDetail()) {
+        <button mat-raised-button class="flex-none">
+          <mat-icon
+            class="material-icons-outlined"
+            [ngClass]="{ 'rotate-180': visibleDetails }"
+            >expand_more</mat-icon
+          >
+        </button>
+      }
       <p class="flex-1 px-4">
         {{ data.message }}
       </p>
     </div>
-    <div [ngClass]="{ hidden: !visibleDetails }" *ngIf="hasDetail()">
-      {{ data.detail.message }}
-      <ul class="list-none">
-        <li class="pl-4 text-body-1" *ngFor="let item of getItems()">
-          {{ item.key }}: {{ item.value }}
-        </li>
-      </ul>
-    </div>
+    @if (hasDetail()) {
+      <div [ngClass]="{ hidden: !visibleDetails }">
+        {{ data.detail.message }}
+        <ul class="list-none">
+          @for (item of getItems(); track item) {
+            <li class="pl-4 text-body-1">{{ item.key }}: {{ item.value }}</li>
+          }
+        </ul>
+      </div>
+    }
   </div>
   <button mat-raised-button (click)="close()" class="flex-none self-start">
     <mat-icon class="material-icons-outlined">close</mat-icon>

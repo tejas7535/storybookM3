@@ -11,17 +11,19 @@
           {{ t('bearing.bearingSelection.advancedSelection.filters.heading') }}
         </mat-panel-title>
         <mat-panel-description class="!text-medium-emphasis">
-          <ga-bearing-selection-filters-summary
-            *ngIf="step > 0; else filters_intro"
-            [advancedBearingSelectionFilters]="advancedBearingSelectionFilters"
-          ></ga-bearing-selection-filters-summary>
-          <ng-template #filters_intro>
+          @if (step > 0) {
+            <ga-bearing-selection-filters-summary
+              [advancedBearingSelectionFilters]="
+                advancedBearingSelectionFilters
+              "
+            ></ga-bearing-selection-filters-summary>
+          } @else {
             <span class="text-caption">{{
               t('bearing.bearingSelection.advancedSelection.filters.intro', {
                 tooManyResultsThreshold: resultsThreshold
               })
             }}</span>
-          </ng-template>
+          }
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-divider></mat-divider>
@@ -40,11 +42,11 @@
             [(value)]="advancedBearingSelectionFilters.bearingType"
             (selectionChange)="onBearingTypeSelectionChange()"
           >
-            <mat-option
-              *ngFor="let bearingType of bearingTypes"
-              [value]="bearingType.id"
-              >{{ bearingType.text }}</mat-option
-            >
+            @for (bearingType of bearingTypes; track bearingType) {
+              <mat-option [value]="bearingType.id">{{
+                bearingType.text
+              }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
         <ga-range-filter
@@ -80,11 +82,13 @@
             t('bearing.bearingSelection.advancedSelection.bearingsList.heading')
           }}
         </mat-panel-title>
-        <mat-panel-description class="!text-medium-emphasis" *ngIf="step === 1">
-          <span class="text-caption">{{
-            t('bearing.bearingSelection.advancedSelection.bearingsList.intro')
-          }}</span>
-        </mat-panel-description>
+        @if (step === 1) {
+          <mat-panel-description class="!text-medium-emphasis">
+            <span class="text-caption">{{
+              t('bearing.bearingSelection.advancedSelection.bearingsList.intro')
+            }}</span>
+          </mat-panel-description>
+        }
       </mat-expansion-panel-header>
 
       <div class="pb-4 md:px-4">

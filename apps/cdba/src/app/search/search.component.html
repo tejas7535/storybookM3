@@ -2,7 +2,7 @@
   class="flex h-full flex-col items-center justify-center gap-12 bg-surface py-4"
 >
   <img src="/assets/images/logo.png" alt="Logo" class="h-[50px] w-[124px]" />
-  <ng-container *ngIf="tooManyResults$ | ngrxPush">
+  @if (tooManyResults$ | ngrxPush) {
     <div
       class="flex flex-col items-center justify-center text-center"
       *transloco="let t; read: 'search.tooManyResults'"
@@ -22,9 +22,8 @@
         }}
       </h6>
     </div>
-  </ng-container>
-
-  <ng-container *ngIf="noResultsFound$ | ngrxPush">
+  }
+  @if (noResultsFound$ | ngrxPush) {
     <div
       class="flex flex-col items-center justify-center text-center"
       *transloco="let t; read: 'search.noResults'"
@@ -36,13 +35,10 @@
         {{ t('hint') }}
       </h6>
     </div>
-  </ng-container>
-
-  <cdba-reference-types-filters
-    *ngIf="!(loading$ | ngrxPush); else blockUi"
-  ></cdba-reference-types-filters>
+  }
+  @if (!(loading$ | ngrxPush)) {
+    <cdba-reference-types-filters></cdba-reference-types-filters>
+  } @else {
+    <cdba-block-ui></cdba-block-ui>
+  }
 </div>
-
-<ng-template #blockUi>
-  <cdba-block-ui></cdba-block-ui>
-</ng-template>

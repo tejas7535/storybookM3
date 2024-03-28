@@ -2,148 +2,142 @@
   class="flex h-full flex-col"
   *transloco="let t; read: 'shared.editingModal'"
 >
-  <gq-dialog-header
-    *ngIf="isDialog"
-    class="mb-4"
-    [title]="
-      t('title', {
-        id: modalData?.quotationDetail?.quotationItemId,
-        fieldName: t(modalData.field)
-      })
-    "
-    (closeDialog)="closeDialog()"
-  >
-  </gq-dialog-header>
-
-  <form
-    [formGroup]="editingFormGroup"
-    class="flex h-full flex-col"
-    *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
-  >
-    <mat-radio-group
-      class="flex flex-col pb-4"
-      [formControlName]="IS_RELATIVE_PRICE_CONTROL_NAME"
-      *ngIf="isPriceChangeTypeAvailable"
+  @if (isDialog) {
+    <gq-dialog-header
+      class="mb-4"
+      [title]="
+        t('title', {
+          id: modalData?.quotationDetail?.quotationItemId,
+          fieldName: t(modalData.field)
+        })
+      "
+      (closeDialog)="closeDialog()"
     >
-      <mat-radio-button
-        [value]="true"
-        color="primary"
-        (change)="callPriceChangeTypeSwitchHandler(true)"
-        [disabled]="isRelativePriceChangeDisabled"
-        [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
-      >
-        <span class="pl-2">
-          {{ t('relative') }}
-        </span>
-      </mat-radio-button>
-      <mat-radio-button
-        [value]="false"
-        color="primary"
-        (change)="callPriceChangeTypeSwitchHandler(false)"
-        [attr.data-cy]="modalData.field + '-modal_absolute-radio-btn'"
-      >
-        <span class="pl-2">
-          {{ t('absolute') }}
-        </span>
-      </mat-radio-button>
-    </mat-radio-group>
-
-    <div class="flex h-full flex-row mt-4">
-      <mat-form-field class="w-full" appearance="outline">
-        <mat-label>{{
-          t(
-            'labels.' +
-              modalData.field +
-              (editingFormGroup.get(IS_RELATIVE_PRICE_CONTROL_NAME)?.value ||
-              !isPriceChangeTypeAvailable
-                ? ''
-                : 'Absolute')
-          )
-        }}</mat-label>
-
-        <input
-          class="text-overline !leading-7"
-          formControlName="valueInput"
-          (keydown)="callInputFieldKeyDownHandler($event)"
-          [placeholder]="localeValue"
-          type="text"
-          autocomplete="off"
-          cdkTextareaAutosize
-          matInput
-          [attr.data-cy]="modalData.field + '-modal_value-input'"
-          #editInputField
-        />
-        <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
-        <mat-error>{{ t('errors.invalidInput') }}</mat-error>
-      </mat-form-field>
-
-      <div class="ml-4 mt-3 flex flex-col gap-2">
-        <mat-icon
-          class="text-medium-emphasis cursor-pointer"
-          (click)="changeValueIncrementally(1)"
-          >add
-        </mat-icon>
-        <mat-icon
-          class="text-medium-emphasis cursor-pointer"
-          (click)="changeValueIncrementally(-1)"
-          >remove</mat-icon
+    </gq-dialog-header>
+  }
+  @if ((updateLoading$ | ngrxPush) === false) {
+    <form [formGroup]="editingFormGroup" class="flex h-full flex-col">
+      @if (isPriceChangeTypeAvailable) {
+        <mat-radio-group
+          class="flex flex-col pb-4"
+          [formControlName]="IS_RELATIVE_PRICE_CONTROL_NAME"
         >
+          <mat-radio-button
+            [value]="true"
+            color="primary"
+            (change)="callPriceChangeTypeSwitchHandler(true)"
+            [disabled]="isRelativePriceChangeDisabled"
+            [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
+          >
+            <span class="pl-2">
+              {{ t('relative') }}
+            </span>
+          </mat-radio-button>
+          <mat-radio-button
+            [value]="false"
+            color="primary"
+            (change)="callPriceChangeTypeSwitchHandler(false)"
+            [attr.data-cy]="modalData.field + '-modal_absolute-radio-btn'"
+          >
+            <span class="pl-2">
+              {{ t('absolute') }}
+            </span>
+          </mat-radio-button>
+        </mat-radio-group>
+      }
+      <div class="flex h-full flex-row mt-4">
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>{{
+            t(
+              'labels.' +
+                modalData.field +
+                (editingFormGroup.get(IS_RELATIVE_PRICE_CONTROL_NAME)?.value ||
+                !isPriceChangeTypeAvailable
+                  ? ''
+                  : 'Absolute')
+            )
+          }}</mat-label>
+          <input
+            class="text-overline !leading-7"
+            formControlName="valueInput"
+            (keydown)="callInputFieldKeyDownHandler($event)"
+            [placeholder]="localeValue"
+            type="text"
+            autocomplete="off"
+            cdkTextareaAutosize
+            matInput
+            [attr.data-cy]="modalData.field + '-modal_value-input'"
+            #editInputField
+          />
+          <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
+          <mat-error>{{ t('errors.invalidInput') }}</mat-error>
+        </mat-form-field>
+        <div class="ml-4 mt-3 flex flex-col gap-2">
+          <mat-icon
+            class="text-medium-emphasis cursor-pointer"
+            (click)="changeValueIncrementally(1)"
+            >add
+          </mat-icon>
+          <mat-icon
+            class="text-medium-emphasis cursor-pointer"
+            (click)="changeValueIncrementally(-1)"
+            >remove</mat-icon
+          >
+        </div>
       </div>
+      @if (warningText) {
+        <div class="mt-2">
+          <gq-info-banner [infoText]="warningText" [isWarning]="true">
+          </gq-info-banner>
+        </div>
+      }
+      @if (affectedKpis?.length > 0) {
+        <gq-kpi-list
+          [editingModalData]="modalData"
+          [kpis]="affectedKpis"
+        ></gq-kpi-list>
+      }
+      <ng-container
+        *ngTemplateOutlet="warningTemplate || defaultTemplate"
+      ></ng-container>
+      <ng-template #defaultTemplate>
+        <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
+      </ng-template>
+      @if (isDialog) {
+        <div class="pt-8">
+          <button
+            class="!pl-4 !pr-4"
+            color="primary"
+            mat-raised-button
+            [disabled]="
+              editingFormGroup.invalid ||
+              !editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value ||
+              !hasValueChanged
+            "
+            (click)="confirmEditing()"
+            [attr.data-cy]="modalData.field + '-modal_submit-btn'"
+          >
+            <span> {{ t('confirm.' + modalData.field) | uppercase }} </span>
+          </button>
+          <button
+            class="!ml-4 !pl-4 !pr-4"
+            color="primary"
+            mat-stroked-button
+            (click)="closeDialog()"
+            [attr.data-cy]="modalData.field + '-modal_cancel-btn'"
+          >
+            <span> {{ t('cancel') | uppercase }} </span>
+          </button>
+        </div>
+      }
+    </form>
+  } @else {
+    <div class="py-24">
+      <schaeffler-loading-spinner
+        class="h-full"
+        backgroundColor="rgba(255,255,255, 0.1)"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
     </div>
-
-    <div class="mt-2" *ngIf="warningText">
-      <gq-info-banner [infoText]="warningText" [isWarning]="true">
-      </gq-info-banner>
-    </div>
-
-    <ng-container *ngIf="affectedKpis?.length > 0">
-      <gq-kpi-list
-        [editingModalData]="modalData"
-        [kpis]="affectedKpis"
-      ></gq-kpi-list>
-    </ng-container>
-
-    <ng-container
-      *ngTemplateOutlet="warningTemplate || defaultTemplate"
-    ></ng-container>
-    <ng-template #defaultTemplate>
-      <gq-info-banner [infoText]="t('warning')"> </gq-info-banner>
-    </ng-template>
-
-    <div *ngIf="isDialog" class="pt-8">
-      <button
-        class="!pl-4 !pr-4"
-        color="primary"
-        mat-raised-button
-        [disabled]="
-          editingFormGroup.invalid ||
-          !editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value ||
-          !hasValueChanged
-        "
-        (click)="confirmEditing()"
-        [attr.data-cy]="modalData.field + '-modal_submit-btn'"
-      >
-        <span> {{ t('confirm.' + modalData.field) | uppercase }} </span>
-      </button>
-      <button
-        class="!ml-4 !pl-4 !pr-4"
-        color="primary"
-        mat-stroked-button
-        (click)="closeDialog()"
-        [attr.data-cy]="modalData.field + '-modal_cancel-btn'"
-      >
-        <span> {{ t('cancel') | uppercase }} </span>
-      </button>
-    </div>
-  </form>
+  }
 </div>
-
-<ng-template #loading>
-  <div class="py-24">
-    <schaeffler-loading-spinner
-      class="h-full"
-      backgroundColor="rgba(255,255,255, 0.1)"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </div>
-</ng-template>

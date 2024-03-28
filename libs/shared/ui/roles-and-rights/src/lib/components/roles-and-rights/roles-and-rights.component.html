@@ -1,14 +1,15 @@
 <div *transloco="let t">
-  <div *ngIf="showHeading" class="mb-4 text-subtitle-1 text-medium-emphasis">
-    {{ headingText || t('rightsAndRolesHeadingDefault') }}
-  </div>
-  <schaeffler-roles-groups
-    *ngIf="rolesGroups && rolesGroups.length"
-    [rolesGroups]="rolesGroups"
-  ></schaeffler-roles-groups>
-  <schaeffler-roles
-    *ngIf="roles && roles.length"
-    [roles]="roles"
-    [standalone]="true"
-  ></schaeffler-roles>
+  @if (showHeading) {
+    <div class="mb-4 text-subtitle-1 text-medium-emphasis">
+      {{ headingText || t('rightsAndRolesHeadingDefault') }}
+    </div>
+  }
+  @if (rolesGroups && rolesGroups.length) {
+    <schaeffler-roles-groups
+      [rolesGroups]="rolesGroups"
+    ></schaeffler-roles-groups>
+  }
+  @if (roles && roles.length) {
+    <schaeffler-roles [roles]="roles" [standalone]="true"></schaeffler-roles>
+  }
 </div>

@@ -1,13 +1,16 @@
-<div *ngIf="breadcrumbs" class="breadcrumbs">
-  <div
-    *ngFor="let breadcrumb of breadcrumbs; let i = index; trackBy: trackByFn"
-    class="crumb-wrapper"
-  >
-    <mat-icon *ngIf="i > 0">chevron_right</mat-icon>
-    <span
-      [class.crumb-active]="breadcrumb.link"
-      [routerLink]="breadcrumb.link"
-      >{{ breadcrumb.label }}</span
-    >
+@if (breadcrumbs) {
+  <div class="breadcrumbs">
+    @for (breadcrumb of breadcrumbs; track i; let i = $index) {
+      <div class="crumb-wrapper">
+        @if (i > 0) {
+          <mat-icon>chevron_right</mat-icon>
+        }
+        <span
+          [class.crumb-active]="breadcrumb.link"
+          [routerLink]="breadcrumb.link"
+          >{{ breadcrumb.label }}</span
+        >
+      </div>
+    }
   </div>
-</div>
+}

@@ -5,29 +5,29 @@
     [matTooltipDisabled]="!showTooltip"
     >{{ title }}</span
   >
-  <ng-container *ngIf="!isLoading; else loading">
+  @if (!isLoading) {
     <h4 class="mb-2">{{ value | defaultValue }}</h4>
-  </ng-container>
+  } @else {
+    <schaeffler-loading-spinner
+      [diameter]="40"
+      [strokeWidth]="4"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  }
   <div [class]="'text-high-emphasis'">
-    <button
-      mat-fab
-      color="primary"
-      class="mt-2"
-      *ngIf="showTeamMemberDialog"
-      [disabled]="employeeLoadingDisabled"
-      (click)="openTeamMemberDialog()"
-      [ngClass]="{
-        'cursor-not-allowed': employeeLoadingDisabled
-      }"
-    >
-      <mat-icon>people</mat-icon>
-    </button>
+    @if (showTeamMemberDialog) {
+      <button
+        mat-fab
+        color="primary"
+        class="mt-2"
+        [disabled]="employeeLoadingDisabled"
+        (click)="openTeamMemberDialog()"
+        [ngClass]="{
+          'cursor-not-allowed': employeeLoadingDisabled
+        }"
+      >
+        <mat-icon>people</mat-icon>
+      </button>
+    }
   </div>
 </div>
-<ng-template #loading>
-  <schaeffler-loading-spinner
-    [diameter]="40"
-    [strokeWidth]="4"
-    [relative]="true"
-  ></schaeffler-loading-spinner>
-</ng-template>

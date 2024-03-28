@@ -14,11 +14,12 @@
     <span class="truncate text-[8px] font-bold">
       {{ t(status) }}
     </span>
-    <mat-icon
-      *ngIf="statusVerified === false"
-      class="ml-1 !text-[12px] !h-3 !w-3"
-      [matTooltip]="t('ongoingSapVerification')"
-      >hourglass_empty</mat-icon
-    >
+    @if (statusVerified === false) {
+      <mat-icon
+        class="ml-1 !text-[12px] !h-3 !w-3"
+        [matTooltip]="t('ongoingSapVerification')"
+        >hourglass_empty</mat-icon
+      >
+    }
   </div>
 </div>

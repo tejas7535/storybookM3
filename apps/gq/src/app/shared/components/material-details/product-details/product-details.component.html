@@ -17,9 +17,9 @@
     <gq-label-text>
       <span label>{{ t('gpsdGroup') }}</span>
       <span text>
-        <span *ngIf="materialDetails.gpsdGroup"
-          >{{ materialDetails.gpsdGroup }} |</span
-        >
+        @if (materialDetails.gpsdGroup) {
+          <span>{{ materialDetails.gpsdGroup }} |</span>
+        }
         <span>{{ materialDetails.gpsdGroupId | nullableString }}</span>
       </span>
     </gq-label-text>

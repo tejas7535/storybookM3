@@ -255,4 +255,4 @@ export const createTitleOption = (text: string): TitleOption =>
   ({
     text,
     padding: [20, 30, 40, 29],
-  } as TitleOption);
+  }) as TitleOption;

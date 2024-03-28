@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { MaterialDetails } from '@gq/shared/models';
@@ -11,12 +10,7 @@ import { LabelTextModule } from '../../label-text/label-text.module';
 @Component({
   selector: 'gq-dimension-details',
   standalone: true,
-  imports: [
-    LabelTextModule,
-    CommonModule,
-    SharedPipesModule,
-    SharedTranslocoModule,
-  ],
+  imports: [LabelTextModule, SharedPipesModule, SharedTranslocoModule],
   templateUrl: './dimension-details.component.html',
 })
 export class DimensionDetailsComponent {

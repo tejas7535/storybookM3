@@ -3,19 +3,18 @@
   [ngStyle]="{ backgroundColor: backgroundColor }"
   [ngClass]="{ absolute: !relative }"
 >
-  <img
-    *ngIf="useBearingLoadingSpinner; else matSpinner"
-    [width]="diameter"
-    [height]="diameter"
-    class="animate-spin"
-    [src]="bearingUrl"
-  />
-
-  <ng-template #matSpinner>
+  @if (useBearingLoadingSpinner) {
+    <img
+      [width]="diameter"
+      [height]="diameter"
+      class="animate-spin"
+      [src]="bearingUrl"
+    />
+  } @else {
     <mat-spinner
       class="outline-none"
       [diameter]="diameter"
       [strokeWidth]="strokeWidth"
     ></mat-spinner>
-  </ng-template>
+  }
 </div>

@@ -5,8 +5,7 @@
       <cdba-portfolio-analysis-button></cdba-portfolio-analysis-button>
     </div>
   </div>
-  <cdba-pagination-controls
-    *ngIf="LIMIT_FILTER_ENABLED"
-    [gridApi]="gridApi"
-  ></cdba-pagination-controls>
+  @if (LIMIT_FILTER_ENABLED) {
+    <cdba-pagination-controls [gridApi]="gridApi"></cdba-pagination-controls>
+  }
 </div>

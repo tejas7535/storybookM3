@@ -1,23 +1,23 @@
 <div *transloco="let t; read: 'detailView.pricingDetails.rfqPositionDetails'">
-  <ng-container *ngIf="rfqData">
+  @if (rfqData) {
     <div class="mt-4">
       <gq-kpi-status-card [title]="t('title')">
         <span class="absolute right-4 top-5">
-          <mat-icon
-            *ngIf="rfqDataUpdateAvl; else isUpToDate"
-            (click)="updateRfqData()"
-            class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-link"
-            [matTooltip]="t('updateRfqData.tooltip')"
-          >
-            refresh</mat-icon
-          >
-          <ng-template #isUpToDate>
+          @if (rfqDataUpdateAvl) {
+            <mat-icon
+              (click)="updateRfqData()"
+              class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-link"
+              [matTooltip]="t('updateRfqData.tooltip')"
+            >
+              refresh</mat-icon
+            >
+          } @else {
             <mat-icon
               class="!w-4 !h-4 !text-[16px] text-link"
               [matTooltip]="t('rfqDataUpToDate')"
               >check_circle</mat-icon
             >
-          </ng-template>
+          }
         </span>
         <gq-label-text>
           <span label>{{ t('rfqNumber') }}</span>
@@ -49,5 +49,5 @@
         </gq-label-text>
       </gq-kpi-status-card>
     </div>
-  </ng-container>
+  }
 </div>

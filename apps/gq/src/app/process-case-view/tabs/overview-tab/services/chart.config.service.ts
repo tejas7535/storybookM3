@@ -150,8 +150,8 @@ export class ChartConfigService {
     <div class="flex flex-row justify-between">
       <div class="flex flex-row items-center">
       <span style ="${this.tooltipLegendStyle} background-color: ${
-      param.color
-    };"></span>
+        param.color
+      };"></span>
         <span class="text text-body-2 text-medium-emphasis"> ${translate(
           `processCaseView.tabs.overview.quotationByProductionLineOrGPSD.tooltip.shareLabel`
         )}</span>

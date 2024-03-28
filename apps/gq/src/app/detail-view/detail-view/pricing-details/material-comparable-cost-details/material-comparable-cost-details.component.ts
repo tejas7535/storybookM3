@@ -60,10 +60,6 @@ export class MaterialComparableCostDetailsComponent
     this.processMaterialComparableCosts();
   }
 
-  trackByFn(index: number): number {
-    return index;
-  }
-
   private checkUserRoles(): void {
     this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
     this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);

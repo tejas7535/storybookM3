@@ -17,12 +17,13 @@
   <div class="grid grid-cols-12 items-center">
     <div class="relative col-span-10 h-[520px]">
       <div echarts [options]="options" class="h-[520px]"></div>
-      <schaeffler-loading-spinner
-        *ngIf="loading"
-        [diameter]="40"
-        [strokeWidth]="4"
-        [relative]="false"
-      ></schaeffler-loading-spinner>
+      @if (loading) {
+        <schaeffler-loading-spinner
+          [diameter]="40"
+          [strokeWidth]="4"
+          [relative]="false"
+        ></schaeffler-loading-spinner>
+      }
     </div>
     <div
       class="ml-auto flex h-[70%] w-1.5 flex-col justify-between bg-gradient-to-t from-heatmapBlue via-heatmapDeepMagenta to-heatmapRed"

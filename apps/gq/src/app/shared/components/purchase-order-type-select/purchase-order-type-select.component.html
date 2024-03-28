@@ -11,22 +11,20 @@
       [compareWith]="compareFn"
     >
       <mat-option [value]="NO_ENTRY"> {{ t('emptyValue') }}</mat-option>
-      <mat-option
-        *ngFor="let type of purchaseOrderTypes; trackBy: trackByFn"
-        [value]="type"
-      >
-        <div class="flex flex-row items-center">
-          <span class="whitespace-nowrap w-12 text-subtitle-1">{{
-            type.id
-          }}</span>
-          <span
-            *ngIf="type.name"
-            class="whitespace-nowrap text-caption text-medium-emphasis"
-          >
-            - {{ type.name }}</span
-          >
-        </div>
-      </mat-option>
+      @for (type of purchaseOrderTypes; track $index) {
+        <mat-option [value]="type">
+          <div class="flex flex-row items-center">
+            <span class="whitespace-nowrap w-12 text-subtitle-1">{{
+              type.id
+            }}</span>
+            @if (type.name) {
+              <span class="whitespace-nowrap text-caption text-medium-emphasis">
+                - {{ type.name }}</span
+              >
+            }
+          </div>
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 </div>

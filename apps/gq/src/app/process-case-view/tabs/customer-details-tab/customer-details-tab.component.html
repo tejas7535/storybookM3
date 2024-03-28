@@ -56,15 +56,19 @@
         ></gq-keyaccount>
       </gq-kpi-status-card>
     </div>
-    <div class="col-span-2" *ngIf="(customer$ | ngrxPush).accountPotential">
-      <gq-kpi-status-card [title]="t('tabs.customerDetails.salesforce.title')">
-        <gq-salesforce
-          [accountPotential]="(customer$ | ngrxPush).accountPotential"
-          [currency]="(customer$ | ngrxPush).currency"
+    @if ((customer$ | ngrxPush).accountPotential) {
+      <div class="col-span-2">
+        <gq-kpi-status-card
+          [title]="t('tabs.customerDetails.salesforce.title')"
         >
-        </gq-salesforce>
-      </gq-kpi-status-card>
-    </div>
+          <gq-salesforce
+            [accountPotential]="(customer$ | ngrxPush).accountPotential"
+            [currency]="(customer$ | ngrxPush).currency"
+          >
+          </gq-salesforce>
+        </gq-kpi-status-card>
+      </div>
+    }
   </div>
   <div class="col-span-2">
     <!--

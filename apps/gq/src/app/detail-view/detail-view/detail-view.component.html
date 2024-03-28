@@ -1,154 +1,163 @@
-<div *ngIf="dataLoadingComplete$ | ngrxPush; else loading">
-  <div *ngIf="quotation$ | ngrxPush as quotation">
-    <schaeffler-subheader
-      *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
-      [subheaderTitle]="material | materialInfo"
-      [breadcrumbs]="breadcrumbs$ | ngrxPush"
-    >
-      <ng-container subheaderStatusIcon>
-        <ng-container
-          *ngIf="
-            quotation.status !== quotationStatus.ACTIVE &&
-              quotation.status !== quotationStatus.DELETED &&
-              quotation.status !== quotationStatus.ARCHIVED;
-            then quotationStatusIcon;
-            else sapSyncStatusIcon
-          "
-        >
-        </ng-container>
-      </ng-container>
-      <ng-container subheaderTitleContent>
-        <gq-detail-view-header-content
-          [materialStock]="materialStock$ | ngrxPush"
-          [materialStockLoading]="materialStockLoading$ | ngrxPush"
-        ></gq-detail-view-header-content>
-      </ng-container>
-      <ng-container subheaderInlineContent>
-        <schaeffler-share-button></schaeffler-share-button>
-      </ng-container>
-      <ng-container subheaderBlockContent>
-        <gq-status-customer-info-header
-          [customer]="quotation.customer"
-          [sapStatus$]="sapStatusPosition$"
-          [statusOfQuotation]="quotation.status"
-          [errorCode]="(quotationDetail$ | ngrxPush)?.sapSyncErrorCode"
-          [showStatus]="true"
-        ></gq-status-customer-info-header>
-      </ng-container>
-    </schaeffler-subheader>
-  </div>
-  <div class="mx-4 mt-4 flex flex-col md:flex-row">
-    <div class="w-full md:w-3/5">
-      <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">
-      </gq-filter-pricing>
-      <ng-container *featureToggle="'fPricing'">
-        <ng-container *transloco="let t; read: 'detailView.filterPricing'">
-          <div
-            *ngIf="activeCaseFacade.quotationDetailIsFNumber$ | ngrxPush"
-            class="flex justify-end md:mr-4"
+@if (dataLoadingComplete$ | ngrxPush) {
+  <div>
+    @if (quotation$ | ngrxPush; as quotation) {
+      <div>
+        @if ((quotationDetail$ | ngrxPush)?.material; as material) {
+          <schaeffler-subheader
+            [subheaderTitle]="material | materialInfo"
+            [breadcrumbs]="breadcrumbs$ | ngrxPush"
           >
-            <button
-              *ngrxLet="quotationDetail$ as quotationDetail"
-              class="!mt-2 w-[250px]"
-              mat-raised-button
-              color="primary"
-              (click)="openPricingAssistant(quotationDetail)"
-            >
-              {{ t('pricingAssistantButton') }}
-            </button>
-          </div>
+            <ng-container subheaderStatusIcon>
+              @if (
+                quotation.status !== quotationStatus.ACTIVE &&
+                quotation.status !== quotationStatus.DELETED &&
+                quotation.status !== quotationStatus.ARCHIVED
+              ) {
+                @if (quotation$ | ngrxPush; as quotation) {
+                  <div
+                    class="relative h-5 w-5 rounded-full bg-opacity-20"
+                    [ngClass]="{
+                      'bg-nordic-blue':
+                        quotation.status === quotationStatus.IN_APPROVAL,
+                      'bg-quotation-status-dark-green':
+                        quotation.status === quotationStatus.APPROVED,
+                      'bg-error': quotation.status === quotationStatus.REJECTED
+                    }"
+                  >
+                    <div
+                      class="absolute top-1 left-1 h-3 w-3 rounded-full"
+                      [ngClass]="{
+                        'bg-nordic-blue':
+                          quotation.status === quotationStatus.IN_APPROVAL,
+                        'bg-quotation-status-dark-green':
+                          quotation.status === quotationStatus.APPROVED,
+                        'bg-error':
+                          quotation.status === quotationStatus.REJECTED
+                      }"
+                    ></div>
+                  </div>
+                }
+              } @else {
+                <div
+                  class="relative h-5 w-5 rounded-full bg-opacity-20"
+                  [ngClass]="{
+                    'bg-nordic-blue':
+                      (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
+                    'bg-gray-300':
+                      (sapStatusPosition$ | ngrxPush) ===
+                        sapSyncStatus.NOT_SYNCED &&
+                      !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
+                    'bg-opacity-100':
+                      (sapStatusPosition$ | ngrxPush) ===
+                        sapSyncStatus.NOT_SYNCED &&
+                      !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
+                    'bg-orange':
+                      (sapStatusPosition$ | ngrxPush) ===
+                      sapSyncStatus.PARTIALLY_SYNCED,
+                    'bg-error':
+                      (sapStatusPosition$ | ngrxPush) ===
+                        sapSyncStatus.NOT_SYNCED &&
+                      (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
+                  }"
+                  *transloco="let t; read: 'shared.sapStatusLabels'"
+                  [matTooltip]="
+                    (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
+                      ? t(
+                          'errorCodes.' +
+                            (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
+                        )
+                      : undefined
+                  "
+                >
+                  <div
+                    class="absolute top-1 left-1 h-3 w-3 rounded-full"
+                    [ngClass]="{
+                      'bg-nordic-blue':
+                        (sapStatusPosition$ | ngrxPush) ===
+                        sapSyncStatus.SYNCED,
+                      'bg-low-emphasis':
+                        (sapStatusPosition$ | ngrxPush) ===
+                          sapSyncStatus.NOT_SYNCED &&
+                        !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
+                      'bg-orange':
+                        (sapStatusPosition$ | ngrxPush) ===
+                        sapSyncStatus.PARTIALLY_SYNCED,
+                      'bg-error':
+                        (sapStatusPosition$ | ngrxPush) ===
+                          sapSyncStatus.NOT_SYNCED &&
+                        (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
+                    }"
+                  ></div>
+                </div>
+              }
+            </ng-container>
+            <ng-container subheaderTitleContent>
+              <gq-detail-view-header-content
+                [materialStock]="materialStock$ | ngrxPush"
+                [materialStockLoading]="materialStockLoading$ | ngrxPush"
+              ></gq-detail-view-header-content>
+            </ng-container>
+            <ng-container subheaderInlineContent>
+              <schaeffler-share-button></schaeffler-share-button>
+            </ng-container>
+            <ng-container subheaderBlockContent>
+              <gq-status-customer-info-header
+                [customer]="quotation.customer"
+                [sapStatus$]="sapStatusPosition$"
+                [statusOfQuotation]="quotation.status"
+                [errorCode]="(quotationDetail$ | ngrxPush)?.sapSyncErrorCode"
+                [showStatus]="true"
+              ></gq-status-customer-info-header>
+            </ng-container>
+          </schaeffler-subheader>
+        }
+      </div>
+    }
+    <div class="mx-4 mt-4 flex flex-col md:flex-row">
+      <div class="w-full md:w-3/5">
+        <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">
+        </gq-filter-pricing>
+        <ng-container *featureToggle="'fPricing'">
+          <ng-container *transloco="let t; read: 'detailView.filterPricing'">
+            @if (activeCaseFacade.quotationDetailIsFNumber$ | ngrxPush) {
+              <div class="flex justify-end md:mr-4">
+                <button
+                  *ngrxLet="quotationDetail$ as quotationDetail"
+                  class="!mt-2 w-[250px]"
+                  mat-raised-button
+                  color="primary"
+                  (click)="openPricingAssistant(quotationDetail)"
+                >
+                  {{ t('pricingAssistantButton') }}
+                </button>
+              </div>
+            }
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
-    <div class="mt-4 w-full md:mt-0 md:w-2/5">
-      <gq-pricing-details
-        [quotationDetail]="quotationDetail$ | ngrxPush"
-        [plantMaterialDetails]="plantMaterialDetails$ | ngrxPush"
-        [materialCostUpdateAvl]="materialCostUpdateAvl$ | ngrxPush"
-        [rfqDataUpdateAvl]="rfqDataFacade.rfqDataUpdateAvl$ | ngrxPush"
-      >
-      </gq-pricing-details>
+      </div>
+      <div class="mt-4 w-full md:mt-0 md:w-2/5">
+        <gq-pricing-details
+          [quotationDetail]="quotationDetail$ | ngrxPush"
+          [plantMaterialDetails]="plantMaterialDetails$ | ngrxPush"
+          [materialCostUpdateAvl]="materialCostUpdateAvl$ | ngrxPush"
+          [rfqDataUpdateAvl]="rfqDataFacade.rfqDataUpdateAvl$ | ngrxPush"
+        >
+        </gq-pricing-details>
+      </div>
     </div>
   </div>
-</div>
+} @else {
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+}
 
 <ng-container *ngrxLet="quotationDetail$ as quotationDetail">
-  <gq-detail-view-navigation-bar
-    *ngIf="quotationDetail && quotations && quotations.length >= 2"
-    [numberOfCases]="quotations.length"
-    [selectedCaseIndex]="
-      getSelectedQuotationIndex(quotationDetail.gqPositionId)
-    "
-    (navigateToCase)="onNavigateToQuotationByIndex($event)"
-  ></gq-detail-view-navigation-bar>
+  @if (quotationDetail && quotations && quotations.length >= 2) {
+    <gq-detail-view-navigation-bar
+      [numberOfCases]="quotations.length"
+      [selectedCaseIndex]="
+        getSelectedQuotationIndex(quotationDetail.gqPositionId)
+      "
+      (navigateToCase)="onNavigateToQuotationByIndex($event)"
+    ></gq-detail-view-navigation-bar>
+  }
 </ng-container>
-
-<ng-template #sapSyncStatusIcon>
-  <div
-    class="relative h-5 w-5 rounded-full bg-opacity-20"
-    [ngClass]="{
-      'bg-nordic-blue':
-        (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
-      'bg-gray-300':
-        (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
-        !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
-      'bg-opacity-100':
-        (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
-        !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
-      'bg-orange':
-        (sapStatusPosition$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
-      'bg-error':
-        (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
-        (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
-    }"
-    *transloco="let t; read: 'shared.sapStatusLabels'"
-    [matTooltip]="
-      (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
-        ? t('errorCodes.' + (quotationDetail$ | ngrxPush)?.sapSyncErrorCode)
-        : undefined
-    "
-  >
-    <div
-      class="absolute top-1 left-1 h-3 w-3 rounded-full"
-      [ngClass]="{
-        'bg-nordic-blue':
-          (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
-        'bg-low-emphasis':
-          (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
-          !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
-        'bg-orange':
-          (sapStatusPosition$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
-        'bg-error':
-          (sapStatusPosition$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
-          (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
-      }"
-    ></div>
-  </div>
-</ng-template>
-
-<ng-template #quotationStatusIcon>
-  <div
-    *ngIf="quotation$ | ngrxPush as quotation"
-    class="relative h-5 w-5 rounded-full bg-opacity-20"
-    [ngClass]="{
-      'bg-nordic-blue': quotation.status === quotationStatus.IN_APPROVAL,
-      'bg-quotation-status-dark-green':
-        quotation.status === quotationStatus.APPROVED,
-      'bg-error': quotation.status === quotationStatus.REJECTED
-    }"
-  >
-    <div
-      class="absolute top-1 left-1 h-3 w-3 rounded-full"
-      [ngClass]="{
-        'bg-nordic-blue': quotation.status === quotationStatus.IN_APPROVAL,
-        'bg-quotation-status-dark-green':
-          quotation.status === quotationStatus.APPROVED,
-        'bg-error': quotation.status === quotationStatus.REJECTED
-      }"
-    ></div>
-  </div>
-</ng-template>
-
-<ng-template #loading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>

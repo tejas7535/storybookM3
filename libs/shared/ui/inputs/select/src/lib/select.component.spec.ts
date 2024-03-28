@@ -503,12 +503,4 @@ describe('SelectComponent', () => {
       expect(component.searchControl.getRawValue()).toEqual(initialSearchValue);
     });
   });
-
-  describe('trackByFn', () => {
-    it('should return the index', () => {
-      const result = component.trackByFn(5);
-
-      expect(result).toEqual(5);
-    });
-  });
 });

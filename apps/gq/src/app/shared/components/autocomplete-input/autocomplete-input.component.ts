@@ -61,7 +61,8 @@ export class AutocompleteInputComponent
   @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
 
   @Output()
-  private readonly autocomplete: EventEmitter<AutocompleteSearch> = new EventEmitter();
+  private readonly autocomplete: EventEmitter<AutocompleteSearch> =
+    new EventEmitter();
 
   debounceIsActive = false;
 
@@ -249,10 +250,6 @@ export class AutocompleteInputComponent
 
   focus(): void {
     this.valueInput.nativeElement.focus();
-  }
-
-  trackByFn(index: number): number {
-    return index;
   }
 
   resetInputField(): void {

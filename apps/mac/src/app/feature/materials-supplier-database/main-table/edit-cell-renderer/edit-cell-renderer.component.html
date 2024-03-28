@@ -6,13 +6,15 @@
   <span class="flex-1 truncate">{{
     params?.valueFormatted ?? params?.value
   }}</span>
-  <div class="h-full" *ngIf="isEnabled(materialClass$ | ngrxPush)">
-    <mat-icon
-      mat-icon-button
-      [ngClass]="{ '!hidden': !hovered }"
-      (click)="onEditClick()"
-      class="!text-[12px] text-medium-emphasis mt-4 cursor-pointer"
-      >edit</mat-icon
-    >
-  </div>
+  @if (isEnabled(materialClass$ | ngrxPush)) {
+    <div class="h-full">
+      <mat-icon
+        mat-icon-button
+        [ngClass]="{ '!hidden': !hovered }"
+        (click)="onEditClick()"
+        class="!text-[12px] text-medium-emphasis mt-4 cursor-pointer"
+        >edit</mat-icon
+      >
+    </div>
+  }
 </div>

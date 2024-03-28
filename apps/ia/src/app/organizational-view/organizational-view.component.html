@@ -11,35 +11,37 @@
     (collapseBtn)="collapseAll()"
   ></ia-drill-down-tool-panel>
   <div class="grow">
-    <ia-org-chart
-      *ngIf="selectedChart === chartType.ORG_CHART"
-      [orgChartData]="orgChart$ | ngrxPush"
-      [fluctuationType]="selectedFluctuationType"
-      [timeRange]="selectedTimeRange$ | ngrxPush"
-      [isLoading]="isLoadingOrgChart$ | ngrxPush"
-      [selectedNodeEmployees]="orgChartEmployees$ | ngrxPush"
-      [selectedNodeEmployeesLoading]="orgChartEmployeesLoading$ | ngrxPush"
-      (showOrgChartEmployees)="loadOrgChartEmployees($event)"
-      (showParent)="loadParent($event)"
-      (loadChildAttritionOverTime)="loadChildAttritionOverTime($event)"
-      (changeDimension)="changeSelectedDimensionFilter($event)"
-    ></ia-org-chart>
-    <ia-world-map
-      *ngIf="selectedChart === chartType.WORLD_MAP"
-      [data]="worldMap$ | ngrxPush"
-      [regions]="regions$ | ngrxPush"
-      [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
-      [isLoading]="isLoadingWorldMap$ | ngrxPush"
-      (loadRegionMeta)="loadRegionMeta($event)"
-      (loadCountryMeta)="loadCountryMeta($event)"
-    ></ia-world-map>
+    @if (selectedChart === chartType.ORG_CHART) {
+      <ia-org-chart
+        [orgChartData]="orgChart$ | ngrxPush"
+        [fluctuationType]="selectedFluctuationType"
+        [timeRange]="selectedTimeRange$ | ngrxPush"
+        [isLoading]="isLoadingOrgChart$ | ngrxPush"
+        [selectedNodeEmployees]="orgChartEmployees$ | ngrxPush"
+        [selectedNodeEmployeesLoading]="orgChartEmployeesLoading$ | ngrxPush"
+        (showOrgChartEmployees)="loadOrgChartEmployees($event)"
+        (showParent)="loadParent($event)"
+        (loadChildAttritionOverTime)="loadChildAttritionOverTime($event)"
+        (changeDimension)="changeSelectedDimensionFilter($event)"
+      ></ia-org-chart>
+    }
+    @if (selectedChart === chartType.WORLD_MAP) {
+      <ia-world-map
+        [data]="worldMap$ | ngrxPush"
+        [regions]="regions$ | ngrxPush"
+        [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
+        [isLoading]="isLoadingWorldMap$ | ngrxPush"
+        (loadRegionMeta)="loadRegionMeta($event)"
+        (loadCountryMeta)="loadCountryMeta($event)"
+      ></ia-world-map>
+    }
   </div>
 
   <!-- TODO: add again once heat feature is activated -->
   <!-- <div class="absolute right-1 bottom-1 flex flex-col">
-    <ia-chart-legend
-      [items]="chartLegendItems"
-      [title]="'organizationalView.worldMap.chartLegend.title'"
-    ></ia-chart-legend>
-  </div> -->
+  <ia-chart-legend
+    [items]="chartLegendItems"
+    [title]="'organizationalView.worldMap.chartLegend.title'"
+  ></ia-chart-legend>
+</div> -->
 </div>

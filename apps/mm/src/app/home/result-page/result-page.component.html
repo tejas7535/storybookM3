@@ -1,45 +1,48 @@
-<ng-container *ngIf="active">
+@if (active) {
   <ng-container *transloco="let t; read: 'result'">
-    <schaeffler-html-report
-      *ngIf="result$ | ngrxPush as result"
-      [htmlReportUrl]="result.htmlReportUrl"
-      [downloadReport]="result.pdfReportUrl"
-      [errorMsg]="errorMsg"
-      [actionText]="actionText"
-      [reportSelector]="reportSelector"
-    >
-      <div class="flex flex-col py-4 md:flex-row">
-        <a
-          mat-raised-button
-          color="primary"
-          class="m-2 grow uppercase"
-          [href]="result.pdfReportUrl"
-          [disabled]="!(pdfReportReady$ | ngrxPush)"
-        >
-          <div class="flex-row flex items-center justify-center">
-            <span>
-              {{ t('downloadReport') }}
-            </span>
-            <div class="pl-2" *ngIf="!(pdfReportReady$ | ngrxPush)">
-              <mat-spinner [diameter]="20"></mat-spinner>
+    @if (result$ | ngrxPush; as result) {
+      <schaeffler-html-report
+        [htmlReportUrl]="result.htmlReportUrl"
+        [downloadReport]="result.pdfReportUrl"
+        [errorMsg]="errorMsg"
+        [actionText]="actionText"
+        [reportSelector]="reportSelector"
+      >
+        <div class="flex flex-col py-4 md:flex-row">
+          <a
+            mat-raised-button
+            color="primary"
+            class="m-2 grow uppercase"
+            [href]="result.pdfReportUrl"
+            [disabled]="!(pdfReportReady$ | ngrxPush)"
+          >
+            <div class="flex-row flex items-center justify-center">
+              <span>
+                {{ t('downloadReport') }}
+              </span>
+              @if (!(pdfReportReady$ | ngrxPush)) {
+                <div class="pl-2">
+                  <mat-spinner [diameter]="20"></mat-spinner>
+                </div>
+              }
             </div>
-          </div>
-        </a>
-        <button
-          mat-button
-          class="m-2 grow uppercase text-link"
-          (click)="resetWizard()"
-        >
-          {{ t('startNewCalculation') }}
-        </button>
+          </a>
+          <button
+            mat-button
+            class="m-2 grow uppercase text-link"
+            (click)="resetWizard()"
+          >
+            {{ t('startNewCalculation') }}
+          </button>
+        </div>
+      </schaeffler-html-report>
+    }
+    @if (!((result$ | ngrxPush) || (error$ | ngrxPush))) {
+      <div
+        class="w-full h-full flex flex-row justify-around items-center relative flex-1 flex-grow mt-[20%]"
+      >
+        <schaeffler-loading-spinner></schaeffler-loading-spinner>
       </div>
-    </schaeffler-html-report>
-
-    <div
-      *ngIf="!((result$ | ngrxPush) || (error$ | ngrxPush))"
-      class="w-full h-full flex flex-row justify-around items-center relative flex-1 flex-grow mt-[20%]"
-    >
-      <schaeffler-loading-spinner></schaeffler-loading-spinner>
-    </div>
+    }
   </ng-container>
-</ng-container>
+}

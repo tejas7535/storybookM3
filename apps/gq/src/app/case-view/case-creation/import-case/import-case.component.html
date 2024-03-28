@@ -6,42 +6,42 @@
     [title]="title$ | ngrxPush"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
-  <div
-    class="mt-8 flex h-full flex-col"
-    *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
-  >
-    <div class="h-full" *ngIf="quotation$ | ngrxPush as quotation">
-      <gq-autocomplete-input
-        [filterName]="quotation.filter"
-        [options]="quotation.options"
-        (unselected)="unselectOptions(quotation.filter)"
-        (added)="selectOption($event, quotation.filter)"
-        (isValid)="quotationValid($event)"
-        [autocompleteLoading]="quotationAutocompleteLoading$ | ngrxPush"
-        (autocomplete)="autocomplete($event)"
-      ></gq-autocomplete-input>
+  @if (!(createCaseLoading$ | ngrxPush)) {
+    <div class="mt-8 flex h-full flex-col">
+      @if (quotation$ | ngrxPush; as quotation) {
+        <div class="h-full">
+          <gq-autocomplete-input
+            [filterName]="quotation.filter"
+            [options]="quotation.options"
+            (unselected)="unselectOptions(quotation.filter)"
+            (added)="selectOption($event, quotation.filter)"
+            (isValid)="quotationValid($event)"
+            [autocompleteLoading]="quotationAutocompleteLoading$ | ngrxPush"
+            (autocomplete)="autocomplete($event)"
+          ></gq-autocomplete-input>
+        </div>
+      }
+      <div class="flex flex-row">
+        <button
+          class="!mr-4 !pl-8 !pr-8"
+          color="primary"
+          mat-raised-button
+          [disabled]="!quotationIsValid"
+          (click)="importQuotation()"
+        >
+          {{ t('importButton') | uppercase }}
+        </button>
+        <button
+          color="primary"
+          class="text-button font-medium"
+          mat-stroked-button
+          (click)="closeDialog()"
+        >
+          {{ t('cancelButton') | uppercase }}
+        </button>
+      </div>
     </div>
-    <div class="flex flex-row">
-      <button
-        class="!mr-4 !pl-8 !pr-8"
-        color="primary"
-        mat-raised-button
-        [disabled]="!quotationIsValid"
-        (click)="importQuotation()"
-      >
-        {{ t('importButton') | uppercase }}
-      </button>
-      <button
-        color="primary"
-        class="text-button font-medium"
-        mat-stroked-button
-        (click)="closeDialog()"
-      >
-        {{ t('cancelButton') | uppercase }}
-      </button>
-    </div>
-  </div>
-  <ng-template #loading>
+  } @else {
     <schaeffler-loading-spinner></schaeffler-loading-spinner>
-  </ng-template>
+  }
 </div>

@@ -6,7 +6,9 @@
     >{{ t('total') }}:</span
   >&nbsp;
   <span class="text-caption text-high-emphasis tracking-[0.4px]">
-    <span *ngIf="isAnyFilterPresent">{{ filtered | number }}&nbsp;/&nbsp;</span>
+    @if (isAnyFilterPresent) {
+      <span>{{ filtered | number }}&nbsp;/&nbsp;</span>
+    }
     <span>{{ total | number }}</span>
   </span>
 </div>

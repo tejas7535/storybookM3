@@ -1,12 +1,12 @@
 <mat-form-field [appearance]="appearance" class="w-full" *transloco="let t">
-  <mat-label *ngIf="label && label !== ''">
-    <ng-container
-      *ngIf="multiple && showNumberOfSelected && control.value?.length > 0"
-    >
-      ({{ control.value?.length }})
-    </ng-container>
-    {{ label }}
-  </mat-label>
+  @if (label && label !== '') {
+    <mat-label>
+      @if (multiple && showNumberOfSelected && control.value?.length > 0) {
+        ({{ control.value?.length }})
+      }
+      {{ label }}
+    </mat-label>
+  }
   <mat-select
     controlType="mat-select"
     disableOptionCentering
@@ -40,7 +40,9 @@
                 [placeholder]="searchPlaceholder"
                 #searchInput
               />
-              <mat-hint *ngIf="hint" class="my-auto">{{ hint }}</mat-hint>
+              @if (hint) {
+                <mat-hint class="my-auto">{{ hint }}</mat-hint>
+              }
               <div matSuffix class="-mr-1 flex flex-row gap-1">
                 <button
                   mat-button
@@ -64,154 +66,160 @@
               </div>
             </mat-form-field>
           </div>
-          <div *ngIf="addEntry" class="border-border border-b py-2">
-            <button
-              *ngIf="!addingEntry; else addingEntryTemplate"
-              mat-button
-              color="primary"
-              class="!text-body-1 text-medium-emphasis -ml-1 flex !min-w-0 flex-row !px-1 !font-normal !normal-case"
-              [ngClass]="{ 'text-link': !loading }"
-              (click)="onClickAddEntry()"
-              [disabled]="loading"
-            >
-              <div class="flex flex-row justify-center">
-                <mat-icon class="!text-icon !my-auto !h-6 !w-6">add</mat-icon>
-                <div>{{ t('addEntry') }}</div>
-              </div>
-            </button>
-            <ng-template #addingEntryTemplate>
-              <div class="flex flex-row justify-center gap-4 py-1">
-                <div class="border-primary flex-1 rounded border px-4">
-                  <input
-                    type="text"
-                    class="text-caption w-full focus:outline-none"
-                    [placeholder]="addEntryPlaceholder"
-                    #addEntryInput
-                  />
-                </div>
+          @if (addEntry) {
+            <div class="border-border border-b py-2">
+              @if (!addingEntry) {
                 <button
-                  mat-icon-button
-                  (click)="onCancelAddEntry()"
+                  mat-button
+                  color="primary"
+                  class="!text-body-1 text-medium-emphasis -ml-1 flex !min-w-0 flex-row !px-1 !font-normal !normal-case"
+                  [ngClass]="{ 'text-link': !loading }"
+                  (click)="onClickAddEntry()"
                   [disabled]="loading"
-                  class="!h-6 !w-6"
                 >
-                  <mat-icon class="text-error !block !absolute !-ml-3 !-mt-3"
-                    >close</mat-icon
-                  >
+                  <div class="flex flex-row justify-center">
+                    <mat-icon class="!text-icon !my-auto !h-6 !w-6"
+                      >add</mat-icon
+                    >
+                    <div>{{ t('addEntry') }}</div>
+                  </div>
                 </button>
-                <button
-                  mat-icon-button
-                  (click)="onConfirmAddEntry(addEntryInput.value)"
-                  [disabled]="loading || !addEntryInput.value"
-                  class="!h-6 !w-6"
-                >
-                  <mat-icon
-                    class="!block !absolute !-ml-3 !-mt-3"
-                    [ngClass]="
-                      addEntryInput.value ? 'text-link' : 'text-low-emphasis'
-                    "
-                    >check</mat-icon
-                  >
-                </button>
-              </div>
-            </ng-template>
-          </div>
-          <div *ngIf="multiple" class="border-border my-0.5 border-b py-2">
-            <div class="-ml-3 flex flex-row content-between">
-              <mat-checkbox
-                color="primary"
-                class="flex-1"
-                [checked]="control.value?.length === stringOptions.length"
-                [indeterminate]="
-                  control.value?.length > 0 &&
-                  control.value.length < stringOptions.length
-                "
-                [disabled]="stringOptions.length === 0 || loading"
-                (change)="onSelectAllToggle($event.checked)"
-              >
-                <div class="text-medium-emphasis flex flex-row gap-2">
-                  {{ t('selectAll') }}
-                </div>
-              </mat-checkbox>
-              <div
-                class="text-caption text-low-emphasis my-auto align-text-bottom"
-              >
-                {{ control.value?.length ?? 0 }} {{ t('selected') }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="max-h-72 overflow-y-auto">
-          <ng-content
-            select="[loadingContent]"
-            *ngIf="loading; else optionsTemplate"
-          >
-          </ng-content>
-          <ng-template #optionsTemplate>
-            <ng-content
-              select="[errorContent]"
-              *ngIf="error; else noErrorOptionsTemplate"
-            ></ng-content>
-            <ng-template #noErrorOptionsTemplate>
-              <div
-                class="flex h-12 w-full flex-col content-around"
-                *ngIf="stringOptions.length === 0"
-              >
-                <div class="text-high-emphasis relative my-auto text-center">
-                  {{ noResultsText }}
-                </div>
-              </div>
-              <mat-option
-                *ngFor="let option of filteredOptions; trackBy: trackByFn"
-                #selectOption
-                [value]="option"
-                (click)="select()"
-                [ngClass]="{
-                  'mat-selected': option === control.value
-                }"
-                class="text-high-emphasis [&>span]:w-full"
-                [matTooltip]="option.tooltip ? option.tooltip : ''"
-                [matTooltipShowDelay]="option.tooltipDelay"
-                [matTooltipPosition]="tooltipPosition ?? 'below'"
-              >
-                <div
-                  class="flex w-full flex-grow flex-row justify-center content-between"
-                >
-                  <div class="max-w-full flex-1 truncate my-auto">
-                    {{ option.title }}
+              } @else {
+                <div class="flex flex-row justify-center gap-4 py-1">
+                  <div class="border-primary flex-1 rounded border px-4">
+                    <input
+                      type="text"
+                      class="text-caption w-full focus:outline-none"
+                      [placeholder]="addEntryPlaceholder"
+                      #addEntryInput
+                    />
                   </div>
                   <button
                     mat-icon-button
-                    *ngIf="option.removable"
-                    (click)="onOptionRemoved(option); $event.stopPropagation()"
+                    (click)="onCancelAddEntry()"
+                    [disabled]="loading"
+                    class="!h-6 !w-6"
                   >
-                    <mat-icon class="text-medium-emphasis !mx-0"
-                      >delete_outline</mat-icon
+                    <mat-icon class="text-error !block !absolute !-ml-3 !-mt-3"
+                      >close</mat-icon
+                    >
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="onConfirmAddEntry(addEntryInput.value)"
+                    [disabled]="loading || !addEntryInput.value"
+                    class="!h-6 !w-6"
+                  >
+                    <mat-icon
+                      class="!block !absolute !-ml-3 !-mt-3"
+                      [ngClass]="
+                        addEntryInput.value ? 'text-link' : 'text-low-emphasis'
+                      "
+                      >check</mat-icon
                     >
                   </button>
                 </div>
-              </mat-option>
-            </ng-template>
-          </ng-template>
+              }
+            </div>
+          }
+          @if (multiple) {
+            <div class="border-border my-0.5 border-b py-2">
+              <div class="-ml-3 flex flex-row content-between">
+                <mat-checkbox
+                  color="primary"
+                  class="flex-1"
+                  [checked]="control.value?.length === stringOptions.length"
+                  [indeterminate]="
+                    control.value?.length > 0 &&
+                    control.value.length < stringOptions.length
+                  "
+                  [disabled]="stringOptions.length === 0 || loading"
+                  (change)="onSelectAllToggle($event.checked)"
+                >
+                  <div class="text-medium-emphasis flex flex-row gap-2">
+                    {{ t('selectAll') }}
+                  </div>
+                </mat-checkbox>
+                <div
+                  class="text-caption text-low-emphasis my-auto align-text-bottom"
+                >
+                  {{ control.value?.length ?? 0 }} {{ t('selected') }}
+                </div>
+              </div>
+            </div>
+          }
         </div>
-        <div class="py-auto flex h-16" *ngIf="resetButton && !multiple">
-          <button
-            mat-button
-            [disabled]="!control.value"
-            (click)="control.reset()"
-            color="primary"
-            class="!w-full !h-full !text-start !block !px-4"
-          >
-            {{ t('reset') }}
-          </button>
+        <div class="max-h-72 overflow-y-auto">
+          @if (loading) {
+            <ng-content select="[loadingContent]"> </ng-content>
+          } @else {
+            @if (error) {
+              <ng-content select="[errorContent]"></ng-content>
+            } @else {
+              @if (stringOptions.length === 0) {
+                <div class="flex h-12 w-full flex-col content-around">
+                  <div class="text-high-emphasis relative my-auto text-center">
+                    {{ noResultsText }}
+                  </div>
+                </div>
+              }
+              @for (option of filteredOptions; track $index) {
+                <mat-option
+                  #selectOption
+                  [value]="option"
+                  (click)="select()"
+                  [ngClass]="{
+                    'mat-selected': option === control.value
+                  }"
+                  class="text-high-emphasis [&>span]:w-full"
+                  [matTooltip]="option.tooltip ? option.tooltip : ''"
+                  [matTooltipShowDelay]="option.tooltipDelay"
+                  [matTooltipPosition]="tooltipPosition ?? 'below'"
+                >
+                  <div
+                    class="flex w-full flex-grow flex-row justify-center content-between"
+                  >
+                    <div class="max-w-full flex-1 truncate my-auto">
+                      {{ option.title }}
+                    </div>
+                    @if (option.removable) {
+                      <button
+                        mat-icon-button
+                        (click)="
+                          onOptionRemoved(option); $event.stopPropagation()
+                        "
+                      >
+                        <mat-icon class="text-medium-emphasis !mx-0"
+                          >delete_outline</mat-icon
+                        >
+                      </button>
+                    }
+                  </div>
+                </mat-option>
+              }
+            }
+          }
         </div>
+        @if (resetButton && !multiple) {
+          <div class="py-auto flex h-16">
+            <button
+              mat-button
+              [disabled]="!control.value"
+              (click)="control.reset()"
+              color="primary"
+              class="!w-full !h-full !text-start !block !px-4"
+            >
+              {{ t('reset') }}
+            </button>
+          </div>
+        }
       </div>
     </div>
   </mat-select>
   <mat-error class="flex">
     <ng-content select="[matErrorContent]"></ng-content>
   </mat-error>
-  <mat-hint *ngIf="formFieldHint" class="flex items-end h-6">{{
-    formFieldHint
-  }}</mat-hint>
+  @if (formFieldHint) {
+    <mat-hint class="flex items-end h-6">{{ formFieldHint }}</mat-hint>
+  }
 </mat-form-field>

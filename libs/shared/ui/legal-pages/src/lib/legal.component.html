@@ -10,15 +10,12 @@
       [hideLine]="true"
     ></schaeffler-subheader>
   </div>
-  <div
-    *ngIf="
-      (termsOfUse$ | ngrxPush) &&
-        (lastPath$ | ngrxPush) === LegalRoutePath.TermsPath;
-      else translation_content
-    "
-    [innerHTML]="termsOfUse$ | ngrxPush"
-  ></div>
-  <ng-template #translation_content>
+  @if (
+    (termsOfUse$ | ngrxPush) &&
+    (lastPath$ | ngrxPush) === LegalRoutePath.TermsPath
+  ) {
+    <div [innerHTML]="termsOfUse$ | ngrxPush"></div>
+  } @else {
     <div [innerHTML]="translationContent$ | ngrxPush"></div>
-  </ng-template>
+  }
 </div>

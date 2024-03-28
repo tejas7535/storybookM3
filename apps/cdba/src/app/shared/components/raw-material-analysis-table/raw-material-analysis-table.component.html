@@ -1,4 +1,4 @@
-<ng-container *ngIf="rawMaterialAnalysisData; else showSelectionHint">
+@if (rawMaterialAnalysisData) {
   <div class="p-4 text-caption">
     <span class="mr-3 inline-block">{{
       selectedBomItem?.materialDesignation || materialDesignation
@@ -33,7 +33,6 @@
     (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
-
   <div
     class="bg-light-blue m-4 flex flex-row items-center gap-3 rounded-lg border border-info px-3"
     *transloco="
@@ -44,9 +43,7 @@
     <mat-icon class="flex-none text-info"> warning_amber </mat-icon>
     <span class="my-3 flex-auto text-caption"> {{ t('infoHint') }}</span>
   </div>
-</ng-container>
-
-<ng-template #showSelectionHint>
+} @else {
   <div
     class="flex flex-col items-center p-8 text-center"
     *transloco="let t; read: 'shared.bom.additionalInformation'"
@@ -56,4 +53,4 @@
       {{ t('selectionHintCalculation') }}
     </div>
   </div>
-</ng-template>
+}

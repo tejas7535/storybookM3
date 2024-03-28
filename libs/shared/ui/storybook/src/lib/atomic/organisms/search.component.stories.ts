@@ -47,29 +47,26 @@ import { MatChipsModule } from '@angular/material/chips';
         (searchUpdated)="onSearchUpdated($event)"
         (optionSelected)="onOptionSelected($event)"
       >
-        <ng-template
-          *ngIf="includeCustomOptions"
-          #customOptions
-          let-option="option"
-        >
-          <div class="flex items-center flex-col min-[850px]:flex-row">
-            <span> {{ option.title }} some additional template text </span>
-
-            <mat-chip class="ml-1">
-              <mat-icon
-                class="!h-4 !w-4 cursor-pointer !text-[16px] !mr-1 align-sub"
-                >animation</mat-icon
+        @if (includeCustomOptions; as option) {
+          <ng-template #customOptions let-option="option">
+            <div class="flex items-center flex-col min-[850px]:flex-row">
+              <span> {{ option.title }} some additional template text </span>
+              <mat-chip class="ml-1">
+                <mat-icon
+                  class="!h-4 !w-4 cursor-pointer !text-[16px] !mr-1 align-sub"
+                  >animation</mat-icon
+                >
+                Catalog Calculation</mat-chip
               >
-              Catalog Calculation</mat-chip
-            >
-            <mat-chip class="ml-1">
-              <mat-icon
-                class="!h-4 !w-4 cursor-pointer !text-[16px] !mr-1 align-sub"
-                >home</mat-icon
-              >CO2 Emission</mat-chip
-            >
-          </div>
-        </ng-template>
+              <mat-chip class="ml-1">
+                <mat-icon
+                  class="!h-4 !w-4 cursor-pointer !text-[16px] !mr-1 align-sub"
+                  >home</mat-icon
+                >CO2 Emission</mat-chip
+              >
+            </div>
+          </ng-template>
+        }
         <div
           loadingContent
           class="flex w-full flex-row content-center gap-4 p-4"

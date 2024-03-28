@@ -54,11 +54,4 @@ describe('SelectSalesOrgComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
     });
   });
-  describe('trackByFn()', () => {
-    test('should return the loop index to track usersArray', () => {
-      const indexNum = 1337;
-      const retId = component.trackByFn(indexNum);
-      expect(retId).toEqual(indexNum);
-    });
-  });
 });

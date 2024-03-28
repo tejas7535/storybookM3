@@ -6,50 +6,52 @@
     [title]="title$ | ngrxPush"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
-  <div
-    class="mt-8 flex h-full flex-col"
-    *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
-  >
-    <div class="flex gap-4">
-      <div
-        class="w-3/5"
-        *ngIf="autocompleteFacade.createCaseCustomer$ | ngrxPush as customer"
-      >
-        <gq-autocomplete-input
-          [filterName]="customer.filter"
-          [options]="customer.options"
-          (unselected)="autocompleteFacade.unselectOptions(customer.filter)"
-          (added)="autocompleteFacade.selectCustomer($event, customer.filter)"
-          [autocompleteLoading]="autocompleteFacade.customerLoading$ | ngrxPush"
-          (autocomplete)="autocompleteFacade.autocomplete($event)"
-          (inputContent)="
-            !$event ? autocompleteFacade.unselectOptions(customer.filter) : null
-          "
-        ></gq-autocomplete-input>
+  @if (!(createCaseLoading$ | ngrxPush)) {
+    <div class="mt-8 flex h-full flex-col">
+      <div class="flex gap-4">
+        @if (autocompleteFacade.createCaseCustomer$ | ngrxPush; as customer) {
+          <div class="w-3/5">
+            <gq-autocomplete-input
+              [filterName]="customer.filter"
+              [options]="customer.options"
+              (unselected)="autocompleteFacade.unselectOptions(customer.filter)"
+              (added)="
+                autocompleteFacade.selectCustomer($event, customer.filter)
+              "
+              [autocompleteLoading]="
+                autocompleteFacade.customerLoading$ | ngrxPush
+              "
+              (autocomplete)="autocompleteFacade.autocomplete($event)"
+              (inputContent)="
+                !$event
+                  ? autocompleteFacade.unselectOptions(customer.filter)
+                  : null
+              "
+            ></gq-autocomplete-input>
+          </div>
+        }
+        <div class="w-1/5">
+          <gq-select-sales-org></gq-select-sales-org>
+        </div>
+        <div class="w-1/5">
+          <gq-purchase-order-type-select
+            (purchaseOrderTypeSelected)="purchaseOrderTypeChanged($event)"
+          ></gq-purchase-order-type-select>
+        </div>
       </div>
-      <div class="w-1/5">
-        <gq-select-sales-org></gq-select-sales-org>
+      <div>
+        <gq-add-entry [isCaseView]="true"> </gq-add-entry>
       </div>
-      <div class="w-1/5">
-        <gq-purchase-order-type-select
-          (purchaseOrderTypeSelected)="purchaseOrderTypeChanged($event)"
-        ></gq-purchase-order-type-select>
-      </div>
+      @if (rowData$ | ngrxPush; as rowData) {
+        <div class="h-full min-h-[20rem] pb-4 lg:pb-0">
+          <gq-material-input-table
+            [rowData]="rowData"
+            [isCaseView]="true"
+          ></gq-material-input-table>
+        </div>
+      }
     </div>
-    <div>
-      <gq-add-entry [isCaseView]="true"> </gq-add-entry>
-    </div>
-    <div
-      class="h-full min-h-[20rem] pb-4 lg:pb-0"
-      *ngIf="rowData$ | ngrxPush as rowData"
-    >
-      <gq-material-input-table
-        [rowData]="rowData"
-        [isCaseView]="true"
-      ></gq-material-input-table>
-    </div>
-  </div>
-  <ng-template #loading>
+  } @else {
     <schaeffler-loading-spinner></schaeffler-loading-spinner>
-  </ng-template>
+  }
 </div>

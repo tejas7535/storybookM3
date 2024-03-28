@@ -508,7 +508,7 @@ export class ActiveCaseEffects {
       mergeMap(
         ([action, gqId]: [
           ReturnType<typeof ActiveCaseActions.createSapQuote>,
-          number
+          number,
         ]) =>
           this.quotationService
             .createSapQuotation(gqId, action.gqPositionIds)

@@ -1,29 +1,31 @@
-<div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
-  <div
-    *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    matTooltipPosition="above"
-    [matTooltip]="
-      (approvalFacade.workflowInProgress$ | ngrxPush) ||
-      (approvalFacade.quotationFullyApproved$ | ngrxPush)
-        ? t('disabledForActiveWorkflowTooltip')
-        : t('disabledForDeletedCasesTooltip')
-    "
-    [matTooltipDisabled]="quotationActive$ | ngrxPush"
-  >
-    <button
-      class="!m-4"
-      mat-raised-button
-      color="primary"
-      (click)="showAddDialog()"
-      [disabled]="!(quotationActive$ | ngrxPush)"
+@if (!(simulationModeEnabled$ | ngrxPush)) {
+  <div>
+    <div
+      *transloco="let t; read: 'shared.customStatusBar.buttons'"
+      matTooltipPosition="above"
+      [matTooltip]="
+        (approvalFacade.workflowInProgress$ | ngrxPush) ||
+        (approvalFacade.quotationFullyApproved$ | ngrxPush)
+          ? t('disabledForActiveWorkflowTooltip')
+          : t('disabledForDeletedCasesTooltip')
+      "
+      [matTooltipDisabled]="quotationActive$ | ngrxPush"
     >
-      <mat-icon class="!align-text-bottom !text-[20px]">add</mat-icon>
-      <span class="hidden lg:inline">
-        {{ t('addNewItem') }}
-      </span>
-      <span class="lg:hidden">
-        {{ t('addNewItemMobile') }}
-      </span>
-    </button>
+      <button
+        class="!m-4"
+        mat-raised-button
+        color="primary"
+        (click)="showAddDialog()"
+        [disabled]="!(quotationActive$ | ngrxPush)"
+      >
+        <mat-icon class="!align-text-bottom !text-[20px]">add</mat-icon>
+        <span class="hidden lg:inline">
+          {{ t('addNewItem') }}
+        </span>
+        <span class="lg:hidden">
+          {{ t('addNewItemMobile') }}
+        </span>
+      </button>
+    </div>
   </div>
-</div>
+}

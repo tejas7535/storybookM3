@@ -1,19 +1,69 @@
 <div class="flex flex-row">
-  <ng-container *ngIf="showStatus">
-    <ng-container
-      *ngIf="
-        statusOfQuotation !== quotationStatus.ACTIVE &&
-          statusOfQuotation !== quotationStatus.DELETED &&
-          statusOfQuotation !== quotationStatus.ARCHIVED;
-        then quotationStatusTemplate;
-        else sapSyncStatusTemplate
-      "
-    >
-    </ng-container>
-    <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]"
-      >|</span
-    ></ng-container
-  >
+  @if (showStatus) {
+    @if (
+      statusOfQuotation !== quotationStatus.ACTIVE &&
+      statusOfQuotation !== quotationStatus.DELETED &&
+      statusOfQuotation !== quotationStatus.ARCHIVED
+    ) {
+      <div
+        *transloco="let t; read: 'shared.quotationStatusLabels'"
+        class="flex items-center pl-9 pt-2"
+        [ngClass]="{
+          'text-info': statusOfQuotation === quotationStatus.IN_APPROVAL,
+          'text-quotation-status-green':
+            statusOfQuotation === quotationStatus.APPROVED,
+          'text-error': statusOfQuotation === quotationStatus.REJECTED
+        }"
+      >
+        <span class="text-caption">
+          {{ t(statusOfQuotation) }}
+        </span>
+        @if (!(approvalFacade.isLatestApprovalEventVerified$ | ngrxPush)) {
+          <mat-icon
+            class="ml-2 !text-[12px] !font-medium !h-3 !w-3"
+            [matTooltip]="t('ongoingSapVerification')"
+            >hourglass_empty</mat-icon
+          >
+        }
+      </div>
+    } @else {
+      <span
+        class="pl-9 pt-2 text-caption"
+        [ngClass]="{
+          'text-info': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+          'text-medium-emphasis':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode,
+          'text-orange':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+          'text-error':
+            (sapStatus$ | ngrxPush) ===
+            ((sapSyncStatus.NOT_SYNCED && errorCode) ||
+              sapSyncStatus.SYNC_FAILED)
+        }"
+        *transloco="let t; read: 'shared.sapStatusLabels'"
+        [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
+      >
+        @if ((sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED) {
+          {{ t('synced') }}
+        }
+        @if (
+          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode
+        ) {
+          {{ t('notSynced') }}
+        }
+        @if ((sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED) {
+          {{ t('partiallySynced') }}
+        }
+        @if (
+          (sapStatus$ | ngrxPush) ===
+          ((sapSyncStatus.NOT_SYNCED && errorCode) || sapSyncStatus.SYNC_FAILED)
+        ) {
+          {{ t('syncFailed') }}
+        }
+      </span>
+    }
+    <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]">|</span>
+  }
 
   <span
     class="pt-2 text-caption text-medium-emphasis"
@@ -23,64 +73,3 @@
     {{ customer.country | nullableString }}</span
   >
 </div>
-
-<ng-template #sapSyncStatusTemplate>
-  <span
-    class="pl-9 pt-2 text-caption"
-    [ngClass]="{
-      'text-info': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-      'text-medium-emphasis':
-        (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode,
-      'text-orange': (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
-      'text-error':
-        (sapStatus$ | ngrxPush) ===
-        ((sapSyncStatus.NOT_SYNCED && errorCode) || sapSyncStatus.SYNC_FAILED)
-    }"
-    *transloco="let t; read: 'shared.sapStatusLabels'"
-    [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
-  >
-    <ng-container *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED">
-      {{ t('synced') }}
-    </ng-container>
-    <ng-container
-      *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode"
-    >
-      {{ t('notSynced') }}
-    </ng-container>
-    <ng-container
-      *ngIf="(sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED"
-    >
-      {{ t('partiallySynced') }}
-    </ng-container>
-    <ng-container
-      *ngIf="
-        (sapStatus$ | ngrxPush) ===
-        ((sapSyncStatus.NOT_SYNCED && errorCode) || sapSyncStatus.SYNC_FAILED)
-      "
-    >
-      {{ t('syncFailed') }}
-    </ng-container>
-  </span>
-</ng-template>
-
-<ng-template #quotationStatusTemplate>
-  <div
-    *transloco="let t; read: 'shared.quotationStatusLabels'"
-    class="flex items-center pl-9 pt-2"
-    [ngClass]="{
-      'text-info': statusOfQuotation === quotationStatus.IN_APPROVAL,
-      'text-quotation-status-green': statusOfQuotation === quotationStatus.APPROVED,
-      'text-error': statusOfQuotation === quotationStatus.REJECTED,
-    }"
-  >
-    <span class="text-caption">
-      {{ t(statusOfQuotation) }}
-    </span>
-    <mat-icon
-      *ngIf="!(approvalFacade.isLatestApprovalEventVerified$ | ngrxPush)"
-      class="ml-2 !text-[12px] !font-medium !h-3 !w-3"
-      [matTooltip]="t('ongoingSapVerification')"
-      >hourglass_empty</mat-icon
-    >
-  </div>
-</ng-template>

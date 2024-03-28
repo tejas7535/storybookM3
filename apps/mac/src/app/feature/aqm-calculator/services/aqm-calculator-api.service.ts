@@ -44,7 +44,7 @@ export class AqmCalculatorApiService {
                   mo: material.mo,
                   ni: material.ni,
                 },
-              } as AQMMaterial)
+              }) as AQMMaterial
           );
 
           return {

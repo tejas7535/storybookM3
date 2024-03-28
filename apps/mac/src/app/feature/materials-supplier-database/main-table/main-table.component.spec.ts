@@ -546,7 +546,7 @@ describe('MainTableComponent', () => {
       component['setVisibleColumns'] = jest.fn();
 
       component['createServerSideDataSource'] = jest.fn(
-        () => ({} as IServerSideDatasource)
+        () => ({}) as IServerSideDatasource
       );
 
       component.onGridReady(
@@ -664,7 +664,7 @@ describe('MainTableComponent', () => {
         (column: ColDef) =>
           ({
             colId: column.field,
-          } as ColumnState)
+          }) as ColumnState
       );
 
       component['agGridColumnApi'] = mockColumnApi as unknown as ColumnApi;
@@ -897,7 +897,7 @@ describe('MainTableComponent', () => {
         field: s,
         headerName: s,
         headerTooltip: s,
-      } as ColDef);
+      }) as ColDef;
     it('should register the event Listener', () => {
       const colDefs = [toColDef('a'), toColDef('b'), toColDef('c')];
 

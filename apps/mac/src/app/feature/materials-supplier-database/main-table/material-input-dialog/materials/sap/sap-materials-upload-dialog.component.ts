@@ -168,7 +168,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
           ({
             data: { type: 'String', value },
             styleId: 'hint',
-          } as ExcelCell)
+          }) as ExcelCell
       );
     const hintRow = [{ cells } as ExcelRow];
 

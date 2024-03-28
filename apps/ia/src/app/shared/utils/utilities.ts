@@ -59,10 +59,7 @@ export const convertTimeRangeToUTC = (timeRange: string) => {
   const dates = timeRange?.split('|');
 
   return timeRange
-    ? `${moment
-        .unix(+dates[0])
-        .utc()
-        .valueOf()}|${moment
+    ? `${moment.unix(+dates[0]).utc().valueOf()}|${moment
         .unix(+dates[1])
         .utc()
         .valueOf()}`

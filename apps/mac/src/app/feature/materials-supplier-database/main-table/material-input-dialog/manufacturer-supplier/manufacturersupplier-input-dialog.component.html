@@ -14,9 +14,7 @@
   (cancel)="cancelDialog()"
 >
   <div class="flex flex-col gap-y-3">
-    <ng-container
-      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
-    >
+    @if (!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)) {
       <div class="flex flex-row gap-x-6">
         <mac-manufacturer-supplier
           class="w-full"
@@ -28,18 +26,19 @@
           macMaterialDialogBasePart
         ></mac-manufacturer-supplier>
       </div>
-
-      <div class="-ml-2 flex flex-row gap-x-6" *ngIf="showIsManufacturer()">
-        <mat-checkbox
-          class="text-caption text-high-emphasis"
-          color="primary"
-          [formControl]="isManufacturerControl"
-          name="manufacturer"
-          #dialogControl
-        >
-          {{ t('manufacturer') }}
-        </mat-checkbox>
-      </div>
+      @if (showIsManufacturer()) {
+        <div class="-ml-2 flex flex-row gap-x-6">
+          <mat-checkbox
+            class="text-caption text-high-emphasis"
+            color="primary"
+            [formControl]="isManufacturerControl"
+            name="manufacturer"
+            #dialogControl
+          >
+            {{ t('manufacturer') }}
+          </mat-checkbox>
+        </div>
+      }
       <div class="flex flex-row gap-x-6">
         <schaeffler-select
           appearance="outline"
@@ -54,15 +53,13 @@
           name="businessPartnerIds"
           #dialogControl
         >
-          <span
-            matErrorContent
-            class="text-caption"
-            *ngIf="supplierBusinessPartnerIdsControl.invalid"
-          >
-            {{ getErrorMessage(supplierBusinessPartnerIdsControl.errors) }}
-          </span>
+          @if (supplierBusinessPartnerIdsControl.invalid) {
+            <span matErrorContent class="text-caption">
+              {{ getErrorMessage(supplierBusinessPartnerIdsControl.errors) }}
+            </span>
+          }
         </schaeffler-select>
       </div>
-    </ng-container>
+    }
   </div>
 </mac-base-dialog>

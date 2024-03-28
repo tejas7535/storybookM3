@@ -27,19 +27,22 @@
       </div>
     </div>
     <mat-divider></mat-divider>
-    <div class="flex pt-4 flex-col" *ngIf="calculationResultTypeSelection">
-      <div
-        *ngFor="let config of calculationResultTypeSelection"
-        (click)="onCalculationTypeClicked(config.name)"
-        class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
-      >
-        <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon">{{
-          config.icon
-        }}</mat-icon>
-        <div class="text-subtitle-2 whitespace-normal">
-          {{ t(config.label) }}
-        </div>
+    @if (calculationResultTypeSelection) {
+      <div class="flex pt-4 flex-col">
+        @for (config of calculationResultTypeSelection; track config) {
+          <div
+            (click)="onCalculationTypeClicked(config.name)"
+            class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
+          >
+            <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon">{{
+              config.icon
+            }}</mat-icon>
+            <div class="text-subtitle-2 whitespace-normal">
+              {{ t(config.label) }}
+            </div>
+          </div>
+        }
       </div>
-    </div>
+    }
   </div>
 </div>

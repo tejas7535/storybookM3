@@ -10,11 +10,4 @@ import { Tab } from './tab.model';
 })
 export class TabsHeaderComponent {
   @Input() tabs: Tab[];
-
-  /**
-   * Improves performance of ngFor.
-   */
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

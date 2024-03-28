@@ -1,66 +1,68 @@
-<mat-button-toggle-group
-  *ngIf="items.length > 0"
-  [value]="active"
-  (change)="onViewSelect($event)"
-  class="!rounded-b-none"
-  [hideSingleSelectionIndicator]="true"
-  [ngClass]="{
-    '!border-b-0': !displayBorderBottom
-  }"
->
-  <mat-button-toggle
-    class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:!hidden"
-    *ngFor="let item of items; let i = index"
-    [value]="item"
+@if (items.length > 0) {
+  <mat-button-toggle-group
+    [value]="active"
+    (change)="onViewSelect($event)"
+    class="!rounded-b-none"
+    [hideSingleSelectionIndicator]="true"
     [ngClass]="{
-      '!bg-secondary !font-medium !text-high-emphasis': item.id === active.id,
-      'hover:!font-medium hover:!text-high-emphasis ': !item.disabled,
-      '!text-low-emphasis': item.disabled
+      '!border-b-0': !displayBorderBottom
     }"
-    [disabled]="item.disabled"
-    [attr.cy-view-toggle-id]="item.id"
-    [attr.cy-view-toggle-status]="
-      item.id === active.id
-        ? viewToggleStatus.ACTIVE
-        : item.disabled
-        ? viewToggleStatus.DISABLED
-        : viewToggleStatus.INACTIVE
-    "
   >
-    <div
-      class="flex items-center justify-between"
-      [ngClass]="{ 'mt-1': !item.title }"
-      (dblclick)="onDoubleClick($event, item.id)"
-    >
-      <span
-        *ngIf="item.title"
+    @for (item of items; track item; let i = $index) {
+      <mat-button-toggle
+        class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:!hidden"
+        [value]="item"
         [ngClass]="{
-          '!cursor-not-allowed ': item.disabled
+          '!bg-secondary !font-medium !text-high-emphasis':
+            item.id === active.id,
+          'hover:!font-medium hover:!text-high-emphasis ': !item.disabled,
+          '!text-low-emphasis': item.disabled
         }"
+        [disabled]="item.disabled"
+        [attr.cy-view-toggle-id]="item.id"
+        [attr.cy-view-toggle-status]="
+          item.id === active.id
+            ? viewToggleStatus.ACTIVE
+            : item.disabled
+              ? viewToggleStatus.DISABLED
+              : viewToggleStatus.INACTIVE
+        "
       >
-        {{ item.title }}
-      </span>
-
-      <div
-        class="flex"
-        *ngIf="item.icons && item.icons.length > 0"
-        [ngClass]="{ 'ml-1': item.title }"
-      >
-        <button
-          mat-icon-button
-          class="flex"
-          [ngClass]="{
-            ' !text-high-emphasis': item.id === active.id,
-            ' !text-medium-emphasis': item.id !== active.id,
-            '!text-low-emphasis': icon.disabled
-          }"
-          *ngFor="let icon of item.icons"
-          (click)="onIconClicked($event, item.id, icon.name)"
-          [disabled]="icon.disabled"
+        <div
+          class="flex items-center justify-between"
+          [ngClass]="{ 'mt-1': !item.title }"
+          (dblclick)="onDoubleClick($event, item.id)"
         >
-          <mat-icon class="scale-50">{{ icon.name }}</mat-icon>
-        </button>
-      </div>
-    </div>
-  </mat-button-toggle>
-</mat-button-toggle-group>
+          @if (item.title) {
+            <span
+              [ngClass]="{
+                '!cursor-not-allowed ': item.disabled
+              }"
+            >
+              {{ item.title }}
+            </span>
+          }
+          @if (item.icons && item.icons.length > 0) {
+            <div class="flex" [ngClass]="{ 'ml-1': item.title }">
+              @for (icon of item.icons; track icon) {
+                <button
+                  mat-icon-button
+                  class="flex"
+                  [ngClass]="{
+                    ' !text-high-emphasis': item.id === active.id,
+                    ' !text-medium-emphasis': item.id !== active.id,
+                    '!text-low-emphasis': icon.disabled
+                  }"
+                  (click)="onIconClicked($event, item.id, icon.name)"
+                  [disabled]="icon.disabled"
+                >
+                  <mat-icon class="scale-50">{{ icon.name }}</mat-icon>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+}

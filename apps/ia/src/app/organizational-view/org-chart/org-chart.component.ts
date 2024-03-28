@@ -104,17 +104,20 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   @Output()
-  readonly showParent: EventEmitter<DimensionFluctuationData> = new EventEmitter();
+  readonly showParent: EventEmitter<DimensionFluctuationData> =
+    new EventEmitter();
 
   @Output()
-  readonly showOrgChartEmployees: EventEmitter<DimensionFluctuationData> = new EventEmitter();
+  readonly showOrgChartEmployees: EventEmitter<DimensionFluctuationData> =
+    new EventEmitter();
 
   @Output()
   readonly loadChildAttritionOverTime: EventEmitter<DimensionFluctuationData> =
     new EventEmitter();
 
   @Output()
-  readonly changeDimension: EventEmitter<DimensionFluctuationData> = new EventEmitter();
+  readonly changeDimension: EventEmitter<DimensionFluctuationData> =
+    new EventEmitter();
 
   @ViewChild('chartContainer') set chartContainer(chartContainer: ElementRef) {
     if (chartContainer) {

@@ -1,12 +1,11 @@
 <ng-container *transloco="let t; read: 'processCaseView'">
-  <ng-container *ngIf="!(sharedQuotationLoading$ | ngrxPush); else loading">
-    <ng-container *ngIf="!(sharedQuotation$ | ngrxPush); else unsave">
+  @if (!(sharedQuotationLoading$ | ngrxPush)) {
+    @if (!(sharedQuotation$ | ngrxPush)) {
       <button class="gq-shared-quotation-button" (click)="onSave()">
         <mat-icon class="pt-[1px]">save</mat-icon>
         {{ t('header.save') }}
       </button>
-    </ng-container>
-    <ng-template #unsave>
+    } @else {
       <button
         *ngrxLet="sharedQuotation$ as sq"
         class="gq-shared-quotation-button"
@@ -15,9 +14,8 @@
         <mat-icon color="primary">save</mat-icon>
         {{ t('header.delete') }}
       </button>
-    </ng-template>
-  </ng-container>
-  <ng-template #loading>
+    }
+  } @else {
     <div class="py-2 px-6">
       <schaeffler-loading-spinner
         class="h-full"
@@ -26,5 +24,5 @@
         [relative]="true"
       ></schaeffler-loading-spinner>
     </div>
-  </ng-template>
+  }
 </ng-container>

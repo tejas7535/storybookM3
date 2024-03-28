@@ -26,13 +26,11 @@
           name="owner"
           (entryAdded)="addNewOwner($event)"
         >
-          <span
-            matErrorContent
-            class="text-caption leading-none"
-            *ngIf="formGroup.get('owner').invalid"
-          >
-            {{ t('invalidDataOwnerError') }}
-          </span>
+          @if (formGroup.get('owner').invalid) {
+            <span matErrorContent class="text-caption leading-none">
+              {{ t('invalidDataOwnerError') }}
+            </span>
+          }
         </schaeffler-select>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>{{ t('dataDate') }}</mat-label>
@@ -74,21 +72,18 @@
           formControlName="maturity"
           *transloco="let tr; read: 'materialsSupplierDatabase.dataSource'"
         >
-          <mat-radio-button
-            *ngFor="let maturity of possibleMaturity"
-            color="primary"
-            class="w-full"
-            [value]="maturity"
-          >
-            <div class="w-full flex justify-between items-center gap-x-1">
-              <span> {{ tr(maturity) }} </span>
-              <span
-                class="bg-secondary-900 text-white text-[12px] rounded-[50%] text-center w-6 h-6 leading-4 p-1"
-              >
-                {{ maturity }}
-              </span>
-            </div>
-          </mat-radio-button>
+          @for (maturity of possibleMaturity; track maturity) {
+            <mat-radio-button color="primary" class="w-full" [value]="maturity">
+              <div class="w-full flex justify-between items-center gap-x-1">
+                <span> {{ tr(maturity) }} </span>
+                <span
+                  class="bg-secondary-900 text-white text-[12px] rounded-[50%] text-center w-6 h-6 leading-4 p-1"
+                >
+                  {{ maturity }}
+                </span>
+              </div>
+            </mat-radio-button>
+          }
         </mat-radio-group>
       </div>
     </div>
@@ -99,18 +94,17 @@
         [dragAndDropEnabled]="!fileControl.value"
         (fileDropped)="setFile($event)"
       >
-        <ng-container *ngIf="fileControl.value; else fileChooserLabel">
+        @if (fileControl.value) {
           <mac-sap-materials-upload-status-chip
             [status]="uploadStatus"
             [fileName]="fileControl.value.name"
             (removed)="setFile(undefined)"
           ></mac-sap-materials-upload-status-chip>
-        </ng-container>
-        <ng-template #fileChooserLabel>
+        } @else {
           <span class="text-[16px] text-[#00000099] cursor-default">{{
             t('fileChooser.label')
           }}</span>
-        </ng-template>
+        }
         <button
           mat-button
           color="primary"
@@ -120,13 +114,11 @@
           {{ t('fileChooser.button') }}
         </button>
       </div>
-      <mat-error
-        class="text-caption"
-        *ngIf="fileControl.errors && fileControl.touched"
-        class="px-4 pt-1 text-[12px]"
-      >
-        {{ errorMessage }}
-      </mat-error>
+      @if (fileControl.errors && fileControl.touched) {
+        <mat-error class="text-caption" class="px-4 pt-1 text-[12px]">
+          {{ errorMessage }}
+        </mat-error>
+      }
     </div>
     <div class="text-caption">
       {{ t('rawMaterialInfo_1') }}<br />

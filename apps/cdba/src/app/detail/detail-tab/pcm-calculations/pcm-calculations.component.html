@@ -1,31 +1,30 @@
 <ng-container *transloco="let t; read: 'detail.detailTab.pcmCalculations'">
-  <ng-container
-    *ngIf="
-      priceDetails?.pcmCalculations && priceDetails?.pcmCalculations.length;
-      else noPcmCalculations
-    "
-  >
+  @if (priceDetails?.pcmCalculations && priceDetails?.pcmCalculations.length) {
     <div
       class="grid max-h-[175px] grid-cols-4 gap-0 overflow-hidden overflow-y-auto text-caption text-high-emphasis"
     >
-      <ng-container *ngFor="let header of headers; let i = index">
+      @for (header of headers; track header; let i = $index) {
         <div
           class="sticky top-0 flex items-center justify-between bg-primary-variant px-2 py-3"
           [ngClass]="{ 'border-l border-border': i > 0 }"
         >
           {{ t(header.label + '.label') }}
-          <mat-icon
-            *ngIf="header.hint"
-            class="!h-[auto] !w-[auto] cursor-help !text-[14px]"
-            matTooltip="{{
-              t(header.label + '.hint', { currency: priceDetails?.currency })
-            }}"
-            matTooltipPosition="above"
-            >info_outline</mat-icon
-          >
+          @if (header.hint) {
+            <mat-icon
+              class="!h-[auto] !w-[auto] cursor-help !text-[14px]"
+              matTooltip="{{
+                t(header.label + '.hint', { currency: priceDetails?.currency })
+              }}"
+              matTooltipPosition="above"
+              >info_outline</mat-icon
+            >
+          }
         </div>
-      </ng-container>
-      <ng-container *ngFor="let pcmCalculation of priceDetails.pcmCalculations">
+      }
+      @for (
+        pcmCalculation of priceDetails.pcmCalculations;
+        track pcmCalculation
+      ) {
         <div class="border-t border-border px-2 py-3">
           {{
             pcmCalculation.date
@@ -54,12 +53,11 @@
               | undefinedAttributeFallback
           }}
         </div>
-      </ng-container>
+      }
     </div>
-  </ng-container>
-  <ng-template #noPcmCalculations>
+  } @else {
     <div class="p-4 pt-0 text-caption text-high-emphasis">
       {{ t('noCalculations') }}
     </div>
-  </ng-template>
+  }
 </ng-container>

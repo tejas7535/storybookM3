@@ -379,7 +379,7 @@ export const getSupplierNameStringOptionsMerged = createSelector(
           title: value,
           tooltip: value,
           tooltipDelay: TOOLTIP_DELAY,
-        } as StringOption)
+        }) as StringOption
     );
     customOptions.push(...supplierOptions);
 
@@ -400,7 +400,7 @@ export const getSupplierPlantsStringOptionsMerged = createSelector(
           title: value,
           tooltip: value,
           tooltipDelay: TOOLTIP_DELAY,
-        } as StringOption)
+        }) as StringOption
     );
     customOptions.push(...supplierOptions);
 
@@ -422,7 +422,7 @@ export const getSupplierBusinessPartnerIdsStringOptionsMerged = createSelector(
         ({
           id: undefined,
           title: value.toString(),
-        } as StringOption)
+        }) as StringOption
     );
     customOptions.push(...supplierBusinessPartnerIdsOptions);
 
@@ -489,7 +489,7 @@ export const getMaterialNameStringOptionsMerged = createSelector(
           title: value,
           tooltip: value,
           tooltipDelay: TOOLTIP_DELAY,
-        } as StringOption)
+        }) as StringOption
     );
     customOptions.push(...materialNameOptions);
 
@@ -559,7 +559,7 @@ export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
           title: value,
           tooltip: value,
           tooltipDelay: TOOLTIP_DELAY,
-        } as StringOption)
+        }) as StringOption
     );
     customOptions.push(...standardDocumentOptions);
 

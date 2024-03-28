@@ -2,7 +2,7 @@
   class="flex flex-col gap-4 p-4 md:flex-row lg:grid lg:grid-cols-4 lg:items-start border-border border-t"
   *transloco="let t; read: 'processCaseView'"
 >
-  <ng-container *ngIf="!(allApproversLoading$ | ngrxPush); else loading">
+  @if (!(allApproversLoading$ | ngrxPush)) {
     <div class="gap-4 md:w-1/2 lg:w-full">
       <gq-kpi-status-card [title]="t('tabs.overview.overviewCardTitle')">
         <gq-general-information
@@ -13,7 +13,6 @@
         ></gq-general-information>
       </gq-kpi-status-card>
     </div>
-
     <div
       class="col-span-2 grid grid-cols-2 gap-4 md:w-1/2 lg:w-full"
       [ngClass]="
@@ -40,35 +39,36 @@
         <gq-quotation-by-product-line-or-gpsd></gq-quotation-by-product-line-or-gpsd>
       </div>
       <!-- when we have either SQV or GPC Role the remaining tile while be stretched-->
-      <gq-kpi-status-card
-        *ngIf="hasSqvRole$ | ngrxPush"
-        [ngClass]="
-          (hasSqvRole$ | ngrxPush) && !(hasGpcRole$ | ngrxPush)
-            ? 'col-span-2'
-            : 'col-span-1'
-        "
-        [title]="t('tabs.overview.gpmCardTitle')"
-        [subtitle]="t('tabs.overview.gpmCardSubtitle')"
-        [kpiValue]="(pricingInformation$ | ngrxPush)?.gpm.value | percentage"
-        [warning]="(pricingInformation$ | ngrxPush)?.gpm.warning"
-        [warningInfo]="t('tabs.overview.gpmCardTitleWarning')"
-        [rating]="getRating((pricingInformation$ | ngrxPush)?.gpm.value)"
-      >
-      </gq-kpi-status-card>
-      <gq-kpi-status-card
-        *ngIf="hasGpcRole$ | ngrxPush"
-        [ngClass]="
-          (hasGpcRole$ | ngrxPush) && !(hasSqvRole$ | ngrxPush)
-            ? 'col-span-2'
-            : 'col-span-1'
-        "
-        [title]="t('tabs.overview.gpiCardTitle')"
-        [subtitle]="t('tabs.overview.gpiCardSubtitle')"
-        [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi.value | percentage"
-        [rating]="getRating((pricingInformation$ | ngrxPush)?.gpi.value)"
-      >
-      </gq-kpi-status-card>
-
+      @if (hasSqvRole$ | ngrxPush) {
+        <gq-kpi-status-card
+          [ngClass]="
+            (hasSqvRole$ | ngrxPush) && !(hasGpcRole$ | ngrxPush)
+              ? 'col-span-2'
+              : 'col-span-1'
+          "
+          [title]="t('tabs.overview.gpmCardTitle')"
+          [subtitle]="t('tabs.overview.gpmCardSubtitle')"
+          [kpiValue]="(pricingInformation$ | ngrxPush)?.gpm.value | percentage"
+          [warning]="(pricingInformation$ | ngrxPush)?.gpm.warning"
+          [warningInfo]="t('tabs.overview.gpmCardTitleWarning')"
+          [rating]="getRating((pricingInformation$ | ngrxPush)?.gpm.value)"
+        >
+        </gq-kpi-status-card>
+      }
+      @if (hasGpcRole$ | ngrxPush) {
+        <gq-kpi-status-card
+          [ngClass]="
+            (hasGpcRole$ | ngrxPush) && !(hasSqvRole$ | ngrxPush)
+              ? 'col-span-2'
+              : 'col-span-1'
+          "
+          [title]="t('tabs.overview.gpiCardTitle')"
+          [subtitle]="t('tabs.overview.gpiCardSubtitle')"
+          [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi.value | percentage"
+          [rating]="getRating((pricingInformation$ | ngrxPush)?.gpi.value)"
+        >
+        </gq-kpi-status-card>
+      }
       <gq-kpi-status-card
         class="col-span-1 flex"
         [title]="t('tabs.overview.ratingCardTitle')"
@@ -91,16 +91,12 @@
       >
       </gq-kpi-status-card>
     </div>
-
-    <div
-      *ngIf="hasAnyApprovalEvent$ | ngrxPush"
-      class="gap-4 md:w-1/2 lg:w-full"
-    >
-      <gq-approval-cockpit></gq-approval-cockpit>
-    </div>
-  </ng-container>
+    @if (hasAnyApprovalEvent$ | ngrxPush) {
+      <div class="gap-4 md:w-1/2 lg:w-full">
+        <gq-approval-cockpit></gq-approval-cockpit>
+      </div>
+    }
+  } @else {
+    <schaeffler-loading-spinner></schaeffler-loading-spinner>
+  }
 </div>
-
-<ng-template #loading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>

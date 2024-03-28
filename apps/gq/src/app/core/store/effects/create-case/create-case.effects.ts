@@ -133,7 +133,7 @@ export class CreateCaseEffects {
           ReturnType<typeof validateMaterialsOnCustomerAndSalesOrg>,
           MaterialTableItem[],
           string,
-          SalesOrg
+          SalesOrg,
         ]) => {
           const request: MaterialValidationRequest = {
             customerId: { customerId, salesOrg: salesOrg?.id },

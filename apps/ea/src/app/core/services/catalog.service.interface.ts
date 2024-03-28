@@ -7,7 +7,7 @@ export interface CatalogServiceBearingSearchResult {
         id: string; // eg. old id "6f609926c66e403da0cce73858b252df"
         title: string; // eg. bearing designation "6200"
       };
-    }
+    },
   ];
 }
 
@@ -20,7 +20,7 @@ export interface CatalogServiceBasicFrequenciesResult {
         id: string;
         title: string;
         fields: Frequency[];
-      }
+      },
     ];
   };
 }
@@ -35,7 +35,7 @@ export interface Frequency {
       content: string;
       index: number;
       unit: string;
-    }
+    },
   ];
 }
 

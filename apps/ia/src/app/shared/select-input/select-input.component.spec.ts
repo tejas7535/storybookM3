@@ -83,14 +83,6 @@ describe('SelectInputComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    it('should return index', () => {
-      const result = component.trackByFn(3, options[0]);
-
-      expect(result).toEqual(3);
-    });
-  });
-
   describe('findOptionById', () => {
     test('should return option by id', () => {
       const expectedOption = { id: '1', value: 'bug' };

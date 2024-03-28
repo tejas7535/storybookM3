@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
@@ -19,7 +18,6 @@ import { InfoButtonComponent } from '../info-button/info-button.component';
   selector: 'ea-input-select',
   standalone: true,
   imports: [
-    CommonModule,
     MatSelectModule,
     MatFormFieldModule,
     ReactiveFormsModule,

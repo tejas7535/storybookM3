@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,7 +24,7 @@ export const elementWidthSmall = 400;
 @Component({
   selector: 'ga-grease-report-input-item',
   standalone: true,
-  imports: [CommonModule, SharedTranslocoModule, LabelValueModule],
+  imports: [SharedTranslocoModule, LabelValueModule],
   templateUrl: './grease-report-input-item.component.html',
   styleUrls: ['./grease-report-input-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

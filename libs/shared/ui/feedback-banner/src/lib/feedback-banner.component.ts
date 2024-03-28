@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -18,7 +17,6 @@ import { SurveyComponent } from './survey/survey.component';
   selector: 'schaeffler-feedback-banner',
   templateUrl: './feedback-banner.component.html',
   imports: [
-    CommonModule,
     InfoBannerComponent,
     MatIconModule,
     MatDialogModule,

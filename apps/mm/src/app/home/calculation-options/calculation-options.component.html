@@ -6,29 +6,27 @@
   <div
     class="min-w-[calc(100vw - 4rem)] my-4 gap-4 space-y-4 md:flex md:items-start md:space-y-0"
   >
-    <div
-      *ngFor="let metaGroup of pageMeta.children; trackBy: trackByFn"
-      class="h-full md:w-[50%]"
-    >
-      <mat-expansion-panel
-        class="calculation-panel h-[calc(100%)]"
-        [expanded]="true"
-      >
-        <mat-expansion-panel-header class="max-h-12">{{
-          t(metaGroup.page.page.text)
-        }}</mat-expansion-panel-header>
-        <div class="flex flex-wrap">
-          <div
-            *ngFor="let meta of metaGroup.metas"
-            class="control-wrapper w-full md:w-[50%]"
-          >
-            <cae-member-control
-              [class.wide]="true"
-              [meta]="meta"
-            ></cae-member-control>
+    @for (metaGroup of pageMeta.children; track $index) {
+      <div class="h-full md:w-[50%]">
+        <mat-expansion-panel
+          class="calculation-panel h-[calc(100%)]"
+          [expanded]="true"
+        >
+          <mat-expansion-panel-header class="max-h-12">{{
+            t(metaGroup.page.page.text)
+          }}</mat-expansion-panel-header>
+          <div class="flex flex-wrap">
+            @for (meta of metaGroup.metas; track meta) {
+              <div class="control-wrapper w-full md:w-[50%]">
+                <cae-member-control
+                  [class.wide]="true"
+                  [meta]="meta"
+                ></cae-member-control>
+              </div>
+            }
           </div>
-        </div>
-      </mat-expansion-panel>
-    </div>
+        </mat-expansion-panel>
+      </div>
+    }
   </div>
 </div>

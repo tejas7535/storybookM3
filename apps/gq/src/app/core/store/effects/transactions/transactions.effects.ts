@@ -60,7 +60,7 @@ export class TransactionsEffect {
           map(
             ([transactions, priceUnit]: [
               ComparableLinkedTransaction[],
-              number
+              number,
             ]) => ({
               transactions,
               priceUnit,

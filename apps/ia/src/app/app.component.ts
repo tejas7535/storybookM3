@@ -115,10 +115,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  trackByFn(index: number): number {
-    return index;
-  }
-
   handleCurrentRoute(): void {
     // on first load app component loads after router event
     const initialLoad = of(this.router).pipe(

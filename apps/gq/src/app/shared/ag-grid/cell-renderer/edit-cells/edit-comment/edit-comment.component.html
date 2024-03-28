@@ -1,11 +1,13 @@
-<div *ngIf="detail">
-  <span class="float-left w-full min-w-[100px] truncate">
-    {{ detail.comment || '-' }}
-  </span>
-  <mat-icon
-    *hideIfQuotationNotActive
-    class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
-    (click)="onIconClick()"
-    >mode_edit</mat-icon
-  >
-</div>
+@if (detail) {
+  <div>
+    <span class="float-left w-full min-w-[100px] truncate">
+      {{ detail.comment || '-' }}
+    </span>
+    <mat-icon
+      *hideIfQuotationNotActive
+      class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
+      (click)="onIconClick()"
+      >mode_edit</mat-icon
+    >
+  </div>
+}

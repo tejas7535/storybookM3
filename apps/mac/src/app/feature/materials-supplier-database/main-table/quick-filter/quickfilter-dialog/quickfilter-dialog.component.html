@@ -8,15 +8,21 @@
     <div
       class="inline-flex w-full flex-row content-around justify-between pl-4 pb-3 pr-2"
     >
-      <div class="my-auto text-h6 text-high-emphasis" *ngIf="add">
-        {{ t('title_add') }}
-      </div>
-      <div class="my-auto text-h6 text-high-emphasis" *ngIf="edit">
-        {{ t('title_edit') }}
-      </div>
-      <div class="my-auto text-h6 text-high-emphasis" *ngIf="delete">
-        {{ t('title_delete') }}
-      </div>
+      @if (add) {
+        <div class="my-auto text-h6 text-high-emphasis">
+          {{ t('title_add') }}
+        </div>
+      }
+      @if (edit) {
+        <div class="my-auto text-h6 text-high-emphasis">
+          {{ t('title_edit') }}
+        </div>
+      }
+      @if (delete) {
+        <div class="my-auto text-h6 text-high-emphasis">
+          {{ t('title_delete') }}
+        </div>
+      }
       <div class="flex flex-row">
         <button mat-icon-button (click)="closeDialog()">
           <mat-icon class="text-medium-emphasis">close</mat-icon>
@@ -27,63 +33,67 @@
 
   <mat-dialog-content class="!px-4 !pt-2">
     <div>
-      <form (ngSubmit)="onSubmit()" *ngIf="add || edit">
-        <div>
-          <mat-form-field appearance="outline" class="w-full pb-6">
-            <mat-label>{{ t('name') }}</mat-label>
-            <mat-hint>{{ t('name_hint') }}</mat-hint>
-            <input matInput name="title" [formControl]="titleControl" />
-          </mat-form-field>
-          <mat-form-field
-            *ngIf="
+      @if (add || edit) {
+        <form (ngSubmit)="onSubmit()">
+          <div>
+            <mat-form-field appearance="outline" class="w-full pb-6">
+              <mat-label>{{ t('name') }}</mat-label>
+              <mat-hint>{{ t('name_hint') }}</mat-hint>
+              <input matInput name="title" [formControl]="titleControl" />
+            </mat-form-field>
+            @if (
               radioControl.value === quickFilterType.PUBLIC ||
               data.quickFilter?.id
-            "
-            appearance="outline"
-            class="w-full pb-6"
-          >
-            <mat-label>{{ t('description') }}</mat-label>
-            <mat-hint>{{ t('description_hint') }}</mat-hint>
-            <input
-              matInput
-              name="description"
-              [formControl]="descriptionControl"
-            />
-          </mat-form-field>
+            ) {
+              <mat-form-field appearance="outline" class="w-full pb-6">
+                <mat-label>{{ t('description') }}</mat-label>
+                <mat-hint>{{ t('description_hint') }}</mat-hint>
+                <input
+                  matInput
+                  name="description"
+                  [formControl]="descriptionControl"
+                />
+              </mat-form-field>
+            }
+          </div>
+          @if (add) {
+            <div>
+              <mat-radio-group
+                [formControl]="radioControl"
+                class="text-body-1 text-medium-emphasis"
+              >
+                <mat-radio-button
+                  class="w-full pb-2"
+                  color="primary"
+                  [value]="quickFilterType.LOCAL_FROM_CURRENT_VIEW"
+                >
+                  {{ t('radio_current') }}
+                </mat-radio-button>
+                <mat-radio-button
+                  class="w-full pb-2"
+                  color="primary"
+                  [value]="quickFilterType.LOCAL_FROM_STANDARD"
+                >
+                  {{ t('radio_default') }}
+                </mat-radio-button>
+                <mat-radio-button
+                  class="w-full pb-4"
+                  color="primary"
+                  [value]="quickFilterType.PUBLIC"
+                  [disabled]="!(hasEditorRole$ | ngrxPush)"
+                >
+                  {{ t('radio_public') }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          }
+        </form>
+      }
+      @if (delete) {
+        <div>
+          {{ t('text_delete') }}
         </div>
-        <div *ngIf="add">
-          <mat-radio-group
-            [formControl]="radioControl"
-            class="text-body-1 text-medium-emphasis"
-          >
-            <mat-radio-button
-              class="w-full pb-2"
-              color="primary"
-              [value]="quickFilterType.LOCAL_FROM_CURRENT_VIEW"
-            >
-              {{ t('radio_current') }}
-            </mat-radio-button>
-            <mat-radio-button
-              class="w-full pb-2"
-              color="primary"
-              [value]="quickFilterType.LOCAL_FROM_STANDARD"
-            >
-              {{ t('radio_default') }}
-            </mat-radio-button>
-            <mat-radio-button
-              class="w-full pb-4"
-              color="primary"
-              [value]="quickFilterType.PUBLIC"
-              [disabled]="!(hasEditorRole$ | ngrxPush)"
-            >
-              {{ t('radio_public') }}
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </form>
-      <div *ngIf="delete">
-        {{ t('text_delete') }}
-      </div>
+      }
     </div>
   </mat-dialog-content>
 

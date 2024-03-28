@@ -8,13 +8,12 @@
         (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
       ></schaeffler-view-toggle>
     </div>
-    <gq-quotation-details-table
-      *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
-      [quotation]="quotation$ | ngrxPush"
-    ></gq-quotation-details-table>
+    @if (!(updateLoading$ | ngrxPush)) {
+      <gq-quotation-details-table
+        [quotation]="quotation$ | ngrxPush"
+      ></gq-quotation-details-table>
+    } @else {
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    }
   </mat-card-content>
 </mat-card>
-
-<ng-template #updateLoading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner
-></ng-template>

@@ -36,9 +36,8 @@
   <div
     class="w-full h-[calc(100%-68px)] overflow-y-auto flex flex-col gap-y-6 mt-4"
   >
-    <mac-quick-filters-list
-      *ngFor="let config of quickFiltersListConfigs"
-      [config]="config"
-    ></mac-quick-filters-list>
+    @for (config of quickFiltersListConfigs; track config) {
+      <mac-quick-filters-list [config]="config"></mac-quick-filters-list>
+    }
   </div>
 </div>

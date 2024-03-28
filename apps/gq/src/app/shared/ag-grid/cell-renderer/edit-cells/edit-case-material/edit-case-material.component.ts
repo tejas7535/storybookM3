@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +21,7 @@ import { MaterialTableItem } from '../../../../models/table';
 @Component({
   selector: 'gq-edit-case-material',
   standalone: true,
-  imports: [MatIconModule, CommonModule],
+  imports: [MatIconModule],
   templateUrl: './edit-case-material.component.html',
 })
 export class EditCaseMaterialComponent {

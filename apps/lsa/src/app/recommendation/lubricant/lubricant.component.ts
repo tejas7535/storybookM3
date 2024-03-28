@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
@@ -18,7 +17,6 @@ const translatePath = 'recommendation.lubrication';
   selector: 'lsa-lubricant',
   standalone: true,
   imports: [
-    CommonModule,
     RadioButtonGroupComponent,
     TranslocoModule,
     MatDividerModule,

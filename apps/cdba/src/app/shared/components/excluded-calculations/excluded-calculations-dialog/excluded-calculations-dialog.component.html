@@ -11,33 +11,33 @@
     <div class="mb-4">
       {{ t('content.intro', { count: excludedCalculations.count }) }}
     </div>
-    <div
-      *ngIf="
-        excludedCalculations.missingCostRoles &&
-        excludedCalculations.missingCostRoles.length
-      "
-      class="mb-4"
-    >
-      {{
-        t('content.costRoles', {
-          costRoleType: formatMissingCostRoles(
-            excludedCalculations.missingCostRoles
-          )
-        })
-      }}
-    </div>
-    <div
-      *ngIf="
-        excludedCalculations.excludedPlants &&
-        excludedCalculations.excludedPlants.length
-      "
-      [innerHTML]="
-        t('content.regionalRoles', {
-          plants: excludedCalculations.excludedPlants.join(', ')
-        })
-      "
-      class="mb-4"
-    ></div>
+    @if (
+      excludedCalculations.missingCostRoles &&
+      excludedCalculations.missingCostRoles.length
+    ) {
+      <div class="mb-4">
+        {{
+          t('content.costRoles', {
+            costRoleType: formatMissingCostRoles(
+              excludedCalculations.missingCostRoles
+            )
+          })
+        }}
+      </div>
+    }
+    @if (
+      excludedCalculations.excludedPlants &&
+      excludedCalculations.excludedPlants.length
+    ) {
+      <div
+        [innerHTML]="
+          t('content.regionalRoles', {
+            plants: excludedCalculations.excludedPlants.join(', ')
+          })
+        "
+        class="mb-4"
+      ></div>
+    }
     <div
       [innerHTML]="
         t('content.outro', { urlRoleAssignments: urlRoleAssignments })

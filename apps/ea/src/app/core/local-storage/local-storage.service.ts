@@ -223,7 +223,7 @@ export class LocalStorageService implements OnDestroy {
                 templates
               )
             ),
-          } as LoadCaseData)
+          }) as LoadCaseData
       );
 
     return operationConditions;

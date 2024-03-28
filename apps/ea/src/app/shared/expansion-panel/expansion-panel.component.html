@@ -16,12 +16,13 @@
         </div>
         <div class="my-auto ml-2">
           {{ title }}
-          <ea-info-button
-            class="inline-flex align-bottom"
-            *ngIf="titleTooltip"
-            [inline]="true"
-            [tooltip]="titleTooltip"
-          ></ea-info-button>
+          @if (titleTooltip) {
+            <ea-info-button
+              class="inline-flex align-bottom"
+              [inline]="true"
+              [tooltip]="titleTooltip"
+            ></ea-info-button>
+          }
         </div>
       </div>
     </mat-panel-title>

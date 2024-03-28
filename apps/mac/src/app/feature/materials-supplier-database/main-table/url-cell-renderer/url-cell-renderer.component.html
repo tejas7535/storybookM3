@@ -1,10 +1,12 @@
 <ng-container
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.columns'"
 >
-  <div *ngIf="url" (mouseover)="hovered = true" (mouseout)="hovered = false">
-    <a [href]="url" target="_blank" [ngClass]="{ 'text-link': hovered }">
-      <span class="uppercase mr-1">{{ t('link') }}</span>
-      <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
-    </a>
-  </div>
+  @if (url) {
+    <div (mouseover)="hovered = true" (mouseout)="hovered = false">
+      <a [href]="url" target="_blank" [ngClass]="{ 'text-link': hovered }">
+        <span class="uppercase mr-1">{{ t('link') }}</span>
+        <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
+      </a>
+    </div>
+  }
 </ng-container>

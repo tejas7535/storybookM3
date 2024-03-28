@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,12 +25,7 @@ export const elementWidthSmall = 400;
 @Component({
   selector: 'ea-calculation-result-report-input-item',
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedTranslocoModule,
-    LabelValueModule,
-    MeaningfulRoundPipe,
-  ],
+  imports: [SharedTranslocoModule, LabelValueModule, MeaningfulRoundPipe],
   providers: [TranslocoDecimalPipe],
   templateUrl: './calculation-result-report-input-item.component.html',
   styleUrls: ['./calculation-result-report-input-item.component.scss'],

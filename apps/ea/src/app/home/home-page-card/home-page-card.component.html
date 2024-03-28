@@ -4,21 +4,23 @@
   (click)="onCardClick()"
 >
   <div class="flex">
-    <div
-      *ngIf="card?.imagePath"
-      class="mx-4 aspect-video rounded-lg bg-cover w-36"
-      [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
-    ></div>
-
-    <div *ngIf="card?.svgIcon" class="aspect-video rounded-lg bg-cover w-28">
+    @if (card?.imagePath) {
+      <div
+        class="mx-4 aspect-video rounded-lg bg-cover w-36"
+        [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
+      ></div>
+    }
+    @if (card?.svgIcon) {
       <div class="aspect-video rounded-lg bg-cover w-28">
-        <mat-icon
-          class="!m-auto w-full h-full"
-          color="primary"
-          svgIcon="{{ card.svgIcon }}"
-        ></mat-icon>
+        <div class="aspect-video rounded-lg bg-cover w-28">
+          <mat-icon
+            class="!m-auto w-full h-full"
+            color="primary"
+            svgIcon="{{ card.svgIcon }}"
+          ></mat-icon>
+        </div>
       </div>
-    </div>
+    }
 
     <div class="px-2 text-center flex gap-2 items-center flex-col self-center">
       <div class="truncate mr-auto text-body-2 leading-6 font-medium">

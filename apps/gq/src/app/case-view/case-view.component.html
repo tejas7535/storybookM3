@@ -14,21 +14,19 @@
       (selectionChange)="onViewToggle($event)"
       [displayBorderBottom]="quotationsLoading$ | ngrxPush"
     >
-    </schaeffler-view-toggle
-    ><gq-case-table
-      *ngIf="
-        (quotationsLoading$ | ngrxPush) === false &&
-          (deleteLoading$ | ngrxPush) === false;
-        else loading
-      "
-      class="h-full"
-      [rowData]="quotations$ | ngrxPush"
-      [statusBar]="statusBarForQuotationStatus$ | ngrxPush"
-      [activeTab]="activeTab$ | ngrxPush"
-    ></gq-case-table>
+    </schaeffler-view-toggle>
+    @if (
+      (quotationsLoading$ | ngrxPush) === false &&
+      (deleteLoading$ | ngrxPush) === false
+    ) {
+      <gq-case-table
+        class="h-full"
+        [rowData]="quotations$ | ngrxPush"
+        [statusBar]="statusBarForQuotationStatus$ | ngrxPush"
+        [activeTab]="activeTab$ | ngrxPush"
+      ></gq-case-table>
+    } @else {
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    }
   </div>
 </div>
-
-<ng-template #loading>
-  <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>

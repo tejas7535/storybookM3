@@ -357,7 +357,7 @@ describe('helpers', () => {
 
   describe('excludeColumn', () => {
     it('should return the only non excluded columns', () => {
-      const cd = (name: string) => ({ field: name } as ColDef);
+      const cd = (name: string) => ({ field: name }) as ColDef;
       const colDefs = [cd('1'), cd('2'), cd('3')];
       const columns = ['1', '3'];
       const expected = [cd('2')];
@@ -369,7 +369,7 @@ describe('helpers', () => {
   describe('replaceColumn', () => {
     it('should return the only non excluded columns', () => {
       const cd = (name: string, width = 20) =>
-        ({ field: name, width } as ColDef);
+        ({ field: name, width }) as ColDef;
       const colDefs = [cd('1'), cd('2'), cd('3')];
       const columns = [cd('4', 99), cd('1', 99)];
       const expected = [cd('1', 99), cd('2'), cd('3')];
@@ -381,7 +381,7 @@ describe('helpers', () => {
   describe('lockColumns', () => {
     it('should lock columns', () => {
       const cd = (name: string, locked?: boolean) =>
-        ({ field: name, lockVisible: locked, hide: !locked } as ColDef);
+        ({ field: name, lockVisible: locked, hide: !locked }) as ColDef;
       const colDefs = [cd('1'), cd('2'), cd('3')];
       const columns = ['1', '3'];
       const expected = [cd('1', true), cd('2'), cd('3', true)];
@@ -391,7 +391,7 @@ describe('helpers', () => {
   });
 
   describe('link-value-formatter material standard', () => {
-    const params = (value?: string) => ({ value } as ValueFormatterParams);
+    const params = (value?: string) => ({ value }) as ValueFormatterParams;
 
     it('should make link to S standard', () => {
       expect(MATERIALSTANDARD_LINK_FORMATTER(params('S 654321'))).toBeTruthy();

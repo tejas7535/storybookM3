@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -11,7 +10,7 @@ import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/q
   selector: 'ea-legacy-app',
   templateUrl: './legacy-app.component.html',
   standalone: true,
-  imports: [QualtricsInfoBannerComponent, CommonModule],
+  imports: [QualtricsInfoBannerComponent],
 })
 export class LegacyAppComponent implements OnInit, OnDestroy {
   @Input() bearingDesignation: string | undefined;

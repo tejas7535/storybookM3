@@ -14,59 +14,78 @@
   >
     <cdba-bom-overlay (closeOverlay)="additionalInformation.close()">
       <ng-container calculations>
-        <cdba-calculations-table
-          *ngIf="showSidenavContent"
-          [minified]="true"
-          [rowData]="calculations$ | ngrxPush"
-          [selectedNodeIds]="selectedCalculationNodeId$ | ngrxPush"
-          [isLoading]="calculationsLoading$ | ngrxPush"
-          [errorMessage]="calculationsErrorMessage$ | ngrxPush"
-          (selectionChange)="selectCalculation($event)"
-        ></cdba-calculations-table>
+        @if (showSidenavContent) {
+          <cdba-calculations-table
+            [minified]="true"
+            [rowData]="calculations$ | ngrxPush"
+            [selectedNodeIds]="selectedCalculationNodeId$ | ngrxPush"
+            [isLoading]="calculationsLoading$ | ngrxPush"
+            [errorMessage]="calculationsErrorMessage$ | ngrxPush"
+            (selectionChange)="selectCalculation($event)"
+          ></cdba-calculations-table>
+        }
       </ng-container>
-      <ng-container chart *ngIf="!(bomLoading$ | ngrxPush); else loading">
-        <cdba-bom-chart
-          *ngIf="showSidenavContent"
-          [data]="childrenOfSelectedBomItem$ | ngrxPush"
-          [materialDesignation]="materialDesignation"
-          [selectedBomItem]="selectedBomItem"
-          [selectedCalculation]="selectedCalculation"
-        ></cdba-bom-chart>
-        <cdba-bom-legend
-          *ngIf="(childrenOfSelectedBomItem$ | ngrxPush)?.length > 0"
-          [data]="childrenOfSelectedBomItem$ | ngrxPush"
-        ></cdba-bom-legend>
-      </ng-container>
-      <ng-container
-        costElements
-        *ngIf="!(bomLoading$ | ngrxPush); else loading"
-      >
-        <cdba-cost-elements-table
-          *ngIf="showSidenavContent"
-          [index]="index"
-          [isLoading]="costComponentSplitLoading$ | ngrxPush"
-          [errorMessage]="costComponentSplitErrorMessage$ | ngrxPush"
-          [costElementsData]="costComponentSplitItems$ | ngrxPush"
-          [costElementsSummary]="costComponentSplitSummary$ | ngrxPush"
-          [materialDesignation]="materialDesignation"
-          [selectedBomItem]="selectedBomItem"
-          [selectedCalculation]="selectedCalculation"
-        ></cdba-cost-elements-table>
-      </ng-container>
-      <ng-container
-        rawMaterialAnalysis
-        *ngIf="!(bomLoading$ | ngrxPush); else loading"
-      >
-        <cdba-raw-material-analysis-table
-          *ngIf="showSidenavContent"
-          [isLoading]="bomLoading$ | ngrxPush"
-          [rawMaterialAnalysisData]="rawMaterialAnalysis$ | ngrxPush"
-          [rawMaterialAnalysisSummary]="rawMaterialAnalysisSummary$ | ngrxPush"
-          [materialDesignation]="materialDesignation"
-          [selectedBomItem]="selectedBomItem"
-          [selectedCalculation]="selectedCalculation"
-        ></cdba-raw-material-analysis-table>
-      </ng-container>
+      @if (!(bomLoading$ | ngrxPush)) {
+        <ng-container chart>
+          @if (showSidenavContent) {
+            <cdba-bom-chart
+              [data]="childrenOfSelectedBomItem$ | ngrxPush"
+              [materialDesignation]="materialDesignation"
+              [selectedBomItem]="selectedBomItem"
+              [selectedCalculation]="selectedCalculation"
+            ></cdba-bom-chart>
+          }
+          @if ((childrenOfSelectedBomItem$ | ngrxPush)?.length > 0) {
+            <cdba-bom-legend
+              [data]="childrenOfSelectedBomItem$ | ngrxPush"
+            ></cdba-bom-legend>
+          }
+        </ng-container>
+      } @else {
+        @if (bomLoading$ | ngrxPush) {
+          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+        }
+      }
+      @if (!(bomLoading$ | ngrxPush)) {
+        <ng-container costElements>
+          @if (showSidenavContent) {
+            <cdba-cost-elements-table
+              [index]="index"
+              [isLoading]="costComponentSplitLoading$ | ngrxPush"
+              [errorMessage]="costComponentSplitErrorMessage$ | ngrxPush"
+              [costElementsData]="costComponentSplitItems$ | ngrxPush"
+              [costElementsSummary]="costComponentSplitSummary$ | ngrxPush"
+              [materialDesignation]="materialDesignation"
+              [selectedBomItem]="selectedBomItem"
+              [selectedCalculation]="selectedCalculation"
+            ></cdba-cost-elements-table>
+          }
+        </ng-container>
+      } @else {
+        @if (bomLoading$ | ngrxPush) {
+          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+        }
+      }
+      @if (!(bomLoading$ | ngrxPush)) {
+        <ng-container rawMaterialAnalysis>
+          @if (showSidenavContent) {
+            <cdba-raw-material-analysis-table
+              [isLoading]="bomLoading$ | ngrxPush"
+              [rawMaterialAnalysisData]="rawMaterialAnalysis$ | ngrxPush"
+              [rawMaterialAnalysisSummary]="
+                rawMaterialAnalysisSummary$ | ngrxPush
+              "
+              [materialDesignation]="materialDesignation"
+              [selectedBomItem]="selectedBomItem"
+              [selectedCalculation]="selectedCalculation"
+            ></cdba-raw-material-analysis-table>
+          }
+        </ng-container>
+      } @else {
+        @if (bomLoading$ | ngrxPush) {
+          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+        }
+      }
     </cdba-bom-overlay>
   </mat-sidenav>
 
@@ -164,10 +183,3 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<ng-template #loading>
-  <cdba-loading-spinner
-    *ngIf="bomLoading$ | ngrxPush"
-    [show]="true"
-  ></cdba-loading-spinner>
-</ng-template>

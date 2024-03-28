@@ -34,9 +34,9 @@
         [card]="sustainbilityCard$ | ngrxPush"
       >
       </ea-home-page-sustainability-card>
-      <ng-container *ngFor="let card of homeCards$ | ngrxPush">
+      @for (card of homeCards$ | ngrxPush; track card) {
         <ea-home-page-card [card]="card"></ea-home-page-card>
-      </ng-container>
+      }
     </div>
     <div class="mt-4 sm:mt-8">
       <ea-qualtrics-info-banner

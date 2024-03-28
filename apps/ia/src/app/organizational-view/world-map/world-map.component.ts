@@ -235,8 +235,4 @@ export class WorldMapComponent implements OnInit {
       shadowBlur: 2,
     };
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

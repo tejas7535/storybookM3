@@ -26,8 +26,4 @@ export class SelectSalesOrgComponent implements OnInit {
   selectionChange(event: MatSelectChange): void {
     this.store.dispatch(selectSalesOrg({ salesOrgId: event.value }));
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

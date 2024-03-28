@@ -117,7 +117,7 @@ describe('Product Selection Effects', () => {
                 ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes.emission,
                 disabled: false,
               },
-            } as typeof CALCULATION_PARAMETERS_STATE_MOCK['calculationTypes'],
+            } as (typeof CALCULATION_PARAMETERS_STATE_MOCK)['calculationTypes'],
           }),
         });
 

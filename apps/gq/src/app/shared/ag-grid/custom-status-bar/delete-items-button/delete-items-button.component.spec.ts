@@ -211,7 +211,7 @@ describe('DeleteItemsButtonComponent', () => {
         () =>
           ({
             afterClosed: () => of(true),
-          } as any)
+          }) as any
       );
 
       component.selections = [QUOTATION_DETAIL_MOCK];
@@ -240,7 +240,7 @@ describe('DeleteItemsButtonComponent', () => {
         () =>
           ({
             afterClosed: () => of(true),
-          } as any)
+          }) as any
       );
       component.isSapQuotation = true;
       component.selections = [QUOTATION_DETAIL_MOCK];

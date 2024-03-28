@@ -18,14 +18,11 @@
       [disabled]="!isValidSelection(resultsCount)"
     >
       {{ t('filters.action.nextStep') }}
-      <mat-spinner
-        *ngIf="bearingSelectionLoading$ | ngrxPush; else results_count"
-        diameter="20"
-        class="!inline-block"
-      ></mat-spinner>
-      <ng-template #results_count>
+      @if (bearingSelectionLoading$ | ngrxPush) {
+        <mat-spinner diameter="20" class="!inline-block"></mat-spinner>
+      } @else {
         ({{ advancedBearingSelectionResultsCount$ | ngrxPush }})
-      </ng-template>
+      }
     </button>
   </div>
 </ng-container>

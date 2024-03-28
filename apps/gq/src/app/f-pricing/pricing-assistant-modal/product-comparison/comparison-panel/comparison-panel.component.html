@@ -19,31 +19,32 @@
         <mat-panel-title class="text-body-1 text-high-emphasis">{{
           t(panelKey + '.title')
         }}</mat-panel-title>
-        <gq-delta-amount
-          *ngIf="showDelta"
-          [amount]="numberOfDeltas"
-          class="pr-4 flex items-center"
-        >
-        </gq-delta-amount>
+        @if (showDelta) {
+          <gq-delta-amount
+            [amount]="numberOfDeltas"
+            class="pr-4 flex items-center"
+          >
+          </gq-delta-amount>
+        }
       </mat-expansion-panel-header>
 
-      <!-- 
-         Grid Structure Overview:
+      <!--
+      Grid Structure Overview:
 
-          With Delta Displayed:
-          - grid is divided into 15 parts.
-          - key column occupies 3/15 parts (20%).
-          - referenceValue and compareValue  each occupy 4.5/15 parts (30% each).
-          - delta section takes up 3/15 parts (20%).
+      With Delta Displayed:
+      - grid is divided into 15 parts.
+      - key column occupies 3/15 parts (20%).
+      - referenceValue and compareValue  each occupy 4.5/15 parts (30% each).
+      - delta section takes up 3/15 parts (20%).
 
-          Without Delta Displayed:
-          - grid is divided into 12 parts.
-          - key column occupies 3/12 parts (25%).
-          - referenceValue takes up 4.5 parts/12 parts (37,5%)
-          - compareValue occupies the remaining space.
+      Without Delta Displayed:
+      - grid is divided into 12 parts.
+      - key column occupies 3/12 parts (25%).
+      - referenceValue takes up 4.5 parts/12 parts (37,5%)
+      - compareValue occupies the remaining space.
 
-    Note: The width of the columns for 'key' and 'referenceValue ' needs to be set dynamically based on whether the Delta is displayed or not. The absolute width remains constant, but the relative distribution changes accordingly.
-    -->
+      Note: The width of the columns for 'key' and 'referenceValue ' needs to be set dynamically based on whether the Delta is displayed or not. The absolute width remains constant, but the relative distribution changes accordingly.
+      -->
       <table
         mat-table
         [dataSource]="data"

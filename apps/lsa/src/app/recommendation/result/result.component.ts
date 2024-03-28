@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { RecommendationResponse } from '@lsa/shared/models';
@@ -9,11 +8,7 @@ import { RecommendationTableComponent } from './recommendation-table/recommendat
 @Component({
   selector: 'lsa-result',
   standalone: true,
-  imports: [
-    CommonModule,
-    RecommendationTableComponent,
-    RecommendationTableDataPipe,
-  ],
+  imports: [RecommendationTableComponent, RecommendationTableDataPipe],
   templateUrl: './result.component.html',
 })
 export class ResultComponent {

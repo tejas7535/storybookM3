@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -31,7 +30,6 @@ import { InfoButtonComponent } from '../info-button/info-button.component';
   templateUrl: './input-number.component.html',
   standalone: true,
   imports: [
-    CommonModule,
     InfoButtonComponent,
     MatFormFieldModule,
     MatInputModule,

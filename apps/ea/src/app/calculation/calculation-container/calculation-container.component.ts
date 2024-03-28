@@ -5,9 +5,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { SettingsFacade } from '@ea/core/store';
 import { PushPipe } from '@ngrx/component';
 
-import { CalculationParametersComponent } from '../calculation-parameters/calculation-parameters';
-import { CalculationResultPreviewComponent } from '../calculation-result-preview/calculation-result-preview';
-import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection';
+import { CalculationParametersComponent } from '../calculation-parameters/calculation-parameters.component';
+import { CalculationResultPreviewComponent } from '../calculation-result-preview/calculation-result-preview.component';
+import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
 
 @Component({
   selector: 'ea-calculation-container',

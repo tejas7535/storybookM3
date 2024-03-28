@@ -19,8 +19,4 @@ export class CollapsedFiltersComponent {
   get filters() {
     return this._filters;
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

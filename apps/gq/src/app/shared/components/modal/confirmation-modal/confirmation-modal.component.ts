@@ -16,8 +16,4 @@ export class ConfirmationModalComponent {
   closeDialog(confirm: boolean) {
     this.dialogRef.close(confirm);
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, HostListener, TemplateRef, ViewChild } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
@@ -8,7 +7,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { MsdDialogService } from '../../services';
 
 @Component({
-  imports: [CommonModule, SharedTranslocoModule],
+  imports: [SharedTranslocoModule],
   selector: 'mac-maturity-info',
   templateUrl: './maturity-info.component.html',
   standalone: true,

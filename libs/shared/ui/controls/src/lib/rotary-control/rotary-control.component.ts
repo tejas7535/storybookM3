@@ -1,4 +1,4 @@
-import { NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { RotaryControlItem } from './rotary-control.model';
@@ -6,7 +6,7 @@ import { RotaryControlItem } from './rotary-control.model';
 @Component({
   selector: 'schaeffler-rotary-control',
   standalone: true,
-  imports: [NgStyle, NgForOf, NgIf, NgClass],
+  imports: [NgStyle, NgClass],
   templateUrl: './rotary-control.component.html',
   styleUrls: ['./rotary-control.component.scss'],
 })

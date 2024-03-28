@@ -1,4 +1,4 @@
-import { DOCUMENT, NgFor } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Meta, Title } from '@angular/platform-browser';
@@ -23,7 +23,6 @@ import { QuickBearingSelectionComponent } from '../quick-bearing-selection';
   templateUrl: './home-page.component.html',
   standalone: true,
   imports: [
-    NgFor,
     HomePageCardComponent,
     PushPipe,
     SharedTranslocoModule,

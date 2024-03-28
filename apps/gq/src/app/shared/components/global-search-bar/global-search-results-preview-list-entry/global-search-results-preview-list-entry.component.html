@@ -4,11 +4,9 @@
   *transloco="let t; read: 'searchBar'"
 >
   <div class="flex items-center">
-    <mat-icon
-      class="mr-3 h-5 w-5 text-medium-emphasis"
-      *ngIf="resultIsFromLocalStorage"
-      >history</mat-icon
-    >
+    @if (resultIsFromLocalStorage) {
+      <mat-icon class="mr-3 h-5 w-5 text-medium-emphasis">history</mat-icon>
+    }
 
     <p
       [innerHTML]="idValue | globalSearchResultsPreviewFormatter: searchVal"
@@ -19,19 +17,16 @@
     </p>
   </div>
 
-  <div
-    class="hidden h-5 pr-4 group-hover:block"
-    *ngIf="!resultIsFromLocalStorage; else deleteIcon"
-  >
-    <mat-icon class="h-5 w-5 text-link">chevron_right</mat-icon>
-  </div>
+  @if (!resultIsFromLocalStorage) {
+    <div class="hidden h-5 pr-4 group-hover:block">
+      <mat-icon class="h-5 w-5 text-link">chevron_right</mat-icon>
+    </div>
+  } @else {
+    <div class="mr-4 h-5 w-5" (click)="removeFromLocalStorage($event)">
+      <mat-icon
+        class="cursor-pointer text-medium-emphasis hover:text-high-emphasis"
+        >clear</mat-icon
+      >
+    </div>
+  }
 </div>
-
-<ng-template #deleteIcon>
-  <div class="mr-4 h-5 w-5" (click)="removeFromLocalStorage($event)">
-    <mat-icon
-      class="cursor-pointer text-medium-emphasis hover:text-high-emphasis"
-      >clear</mat-icon
-    >
-  </div>
-</ng-template>

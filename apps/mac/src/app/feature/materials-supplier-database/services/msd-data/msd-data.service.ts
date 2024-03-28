@@ -69,9 +69,9 @@ export class MsdDataService {
 
   public getProductCategories(materialClass: MaterialClass) {
     return this.httpClient
-      .get<string[]>(
-        `${this.BASE_URL}/materials/${materialClass}/productCategories`
-      )
+      .get<
+        string[]
+      >(`${this.BASE_URL}/materials/${materialClass}/productCategories`)
       .pipe(
         map((productCategories) =>
           productCategories.map((productCategory) => {
@@ -193,9 +193,9 @@ export class MsdDataService {
 
   public fetchProductionProcesses(materialClass: MaterialClass) {
     return this.httpClient
-      .get<string[]>(
-        `${this.BASE_URL}/materials/${materialClass}/productionProcesses`
-      )
+      .get<
+        string[]
+      >(`${this.BASE_URL}/materials/${materialClass}/productionProcesses`)
       .pipe(
         map((processes) =>
           processes.map((process) => {
@@ -442,10 +442,9 @@ export class MsdDataService {
     };
 
     return this.httpClient
-      .post<[number, number, number, number, string][]>(
-        `${this.BASE_URL}/materials/${materialClass}/query`,
-        body
-      )
+      .post<
+        [number, number, number, number, string][]
+      >(`${this.BASE_URL}/materials/${materialClass}/query`, body)
       .pipe(
         map((co2Values) => co2Values.filter(Boolean)),
         map((co2Values) =>
@@ -540,9 +539,9 @@ export class MsdDataService {
     plant: string
   ): Observable<SAPMaterialHistoryValue[]> {
     return this.httpClient
-      .get<SAPMaterial[]>(
-        `${this.BASE_URL_SAP}/emissionfactor/history/${materialNumber}/${supplierId}/${plant}`
-      )
+      .get<
+        SAPMaterial[]
+      >(`${this.BASE_URL_SAP}/emissionfactor/history/${materialNumber}/${supplierId}/${plant}`)
       .pipe(
         map((sapMaterials: SAPMaterial[]) =>
           sapMaterials.map((material: SAPMaterial) =>
@@ -590,9 +589,9 @@ export class MsdDataService {
 
   public getDistinctSapValues(column: string): Observable<string[]> {
     return this.httpClient
-      .get<{ values: string[] }>(
-        `${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`
-      )
+      .get<{
+        values: string[];
+      }>(`${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`)
       .pipe(map((v: { values: string[] }) => v.values));
   }
 

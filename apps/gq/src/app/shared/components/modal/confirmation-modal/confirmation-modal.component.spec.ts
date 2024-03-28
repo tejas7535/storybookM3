@@ -52,11 +52,4 @@ describe('ConfirmationModalComponent', () => {
       expect(component.dialogRef.close).toHaveBeenLastCalledWith(true);
     });
   });
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
 });

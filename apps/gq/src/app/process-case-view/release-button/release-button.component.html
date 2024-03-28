@@ -1,4 +1,4 @@
-<ng-container *ngIf="displayReleaseButton">
+@if (displayReleaseButton) {
   <ng-container *transloco="let t; read: 'processCaseView.header'">
     <div
       [matTooltip]="
@@ -15,4 +15,4 @@
       </button>
     </div>
   </ng-container>
-</ng-container>
+}

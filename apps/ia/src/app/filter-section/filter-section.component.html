@@ -7,11 +7,13 @@
   >
     <mat-expansion-panel-header>
       <mat-panel-title> {{ t('globalFilters') }} </mat-panel-title>
-      <mat-panel-description *ngIf="!isExpanded">
-        <ia-collapsed-filters
-          [filters]="selectedFilterValues$ | ngrxPush"
-        ></ia-collapsed-filters>
-      </mat-panel-description>
+      @if (!isExpanded) {
+        <mat-panel-description>
+          <ia-collapsed-filters
+            [filters]="selectedFilterValues$ | ngrxPush"
+          ></ia-collapsed-filters>
+        </mat-panel-description>
+      }
     </mat-expansion-panel-header>
     <div class="mb-4 px-6">
       <ia-filter

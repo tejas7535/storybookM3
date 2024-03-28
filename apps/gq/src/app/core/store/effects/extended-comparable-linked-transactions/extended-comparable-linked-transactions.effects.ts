@@ -33,7 +33,7 @@ export class ExtendedComparableLinkedTransactionsEffect {
           map(
             ([transactions, priceUnitsForQuotationItemIds]: [
               ExtendedComparableLinkedTransaction[],
-              PriceUnitForQuotationItemId[]
+              PriceUnitForQuotationItemId[],
             ]) => ({
               transactions,
               priceUnitsForQuotationItemIds,

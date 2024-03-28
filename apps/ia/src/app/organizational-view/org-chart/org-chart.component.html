@@ -9,15 +9,15 @@
     [ngClass]="{ hidden: chartData?.length === 0 }"
   ></div>
 
-  <schaeffler-loading-spinner
-    *ngIf="isLoading"
-    [diameter]="40"
-    [strokeWidth]="4"
-  ></schaeffler-loading-spinner>
-  <div
-    *ngIf="!chartData?.length && !isLoading"
-    class="flex grow items-center justify-center"
-  >
-    <span class="self-center">{{ t('noData') }}</span>
-  </div>
+  @if (isLoading) {
+    <schaeffler-loading-spinner
+      [diameter]="40"
+      [strokeWidth]="4"
+    ></schaeffler-loading-spinner>
+  }
+  @if (!chartData?.length && !isLoading) {
+    <div class="flex grow items-center justify-center">
+      <span class="self-center">{{ t('noData') }}</span>
+    </div>
+  }
 </div>

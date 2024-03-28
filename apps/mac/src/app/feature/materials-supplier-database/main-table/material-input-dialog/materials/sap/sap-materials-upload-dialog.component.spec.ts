@@ -314,7 +314,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
       const optional: ColDef = { hide: false, colId: 'incoterms' };
 
       const mockGridApi = {
-        getColumnDef: jest.fn((key) => ({ headerTooltip: key } as ColDef)),
+        getColumnDef: jest.fn((key) => ({ headerTooltip: key }) as ColDef),
         exportDataAsExcel: jest.fn(),
       } as unknown as GridApi;
       const mockColumnApi = {

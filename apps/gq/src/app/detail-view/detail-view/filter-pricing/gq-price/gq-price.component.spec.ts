@@ -131,14 +131,6 @@ describe('GqPriceComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
-
   describe('set isLoading', () => {
     test('should set isLoading true', () => {
       component['_isLoading'] = true;

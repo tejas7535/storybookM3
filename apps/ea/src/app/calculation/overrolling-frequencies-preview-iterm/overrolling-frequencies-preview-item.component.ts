@@ -75,19 +75,19 @@ export class OverrollingFrequenciesPreviewItemComponent
 
   public _item: CalculationResultPreviewItem;
 
-  public readonly destroy$$ = new Subject<void>();
+  public readonly destroy$ = new Subject<void>();
 
-  public readonly dataFields$$: BehaviorSubject<
+  public readonly dataFields$: BehaviorSubject<
     CalculationResultPreviewItem['values']
   > = new BehaviorSubject([]);
 
   public readonly updateTrigger = interval(ANIMATION_UPDATE_INTERVAL);
 
-  public readonly currentIndex$$ = new BehaviorSubject(0);
+  public readonly currentIndex$ = new BehaviorSubject(0);
 
   public readonly animationItems$ = combineLatest([
-    this.currentIndex$$,
-    this.dataFields$$,
+    this.currentIndex$,
+    this.dataFields$,
   ]).pipe(
     map(([currentlyActiveIndex, dataItems]) =>
       dataItems.map((dataItem, i) => ({
@@ -101,7 +101,7 @@ export class OverrollingFrequenciesPreviewItemComponent
   public readonly isLoading$ =
     this.calculationResultFacade.isOverrollingLoading$;
 
-  public readonly resultUnavailable$ = this.dataFields$$.pipe(
+  public readonly resultUnavailable$ = this.dataFields$.pipe(
     map((items) => items.length === 0)
   );
 
@@ -111,18 +111,18 @@ export class OverrollingFrequenciesPreviewItemComponent
 
   @Input() set item(item: CalculationResultPreviewItem) {
     this._item = item;
-    this.dataFields$$.next(this._item.values);
+    this.dataFields$.next(this._item.values);
   }
 
   ngOnInit(): void {
-    this.updateTrigger.pipe(takeUntil(this.destroy$$)).subscribe(async (_) => {
+    this.updateTrigger.pipe(takeUntil(this.destroy$)).subscribe(async (_) => {
       await this.nextPage();
     });
   }
 
   ngOnDestroy(): void {
-    this.destroy$$.next();
-    this.destroy$$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   async selectIndex(index: number) {
@@ -130,16 +130,16 @@ export class OverrollingFrequenciesPreviewItemComponent
       return;
     }
 
-    const currentIndex = await firstValueFrom(this.currentIndex$$);
+    const currentIndex = await firstValueFrom(this.currentIndex$);
     if (index !== currentIndex) {
-      this.currentIndex$$.next(index);
+      this.currentIndex$.next(index);
     }
   }
 
   async nextPage() {
-    const currentIndex = await firstValueFrom(this.currentIndex$$);
-    const dataItems = await firstValueFrom(this.dataFields$$);
+    const currentIndex = await firstValueFrom(this.currentIndex$);
+    const dataItems = await firstValueFrom(this.dataFields$);
     const next = (currentIndex + 1) % dataItems.length;
-    this.currentIndex$$.next(next);
+    this.currentIndex$.next(next);
   }
 }

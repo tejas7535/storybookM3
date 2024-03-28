@@ -33,9 +33,5 @@ Use like:
 
 ```html
 <!-- parent.component.html -->
-<ltp-tooltip
-  [content]="This is a tooltip | translate"
-  color="primary"
-  icon="icon-toast-information"
-></ltp-tooltip>
+<ltp-tooltip [content]="This is a tooltip | translate" color="primary" icon="icon-toast-information"></ltp-tooltip>
 ```

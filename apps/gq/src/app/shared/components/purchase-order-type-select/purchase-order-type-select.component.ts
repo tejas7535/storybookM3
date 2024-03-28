@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +25,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
     MatSelectModule,
     SharedTranslocoModule,
     PushPipe,
@@ -87,10 +85,6 @@ export class PurchaseOrderTypeSelectComponent implements ControlValueAccessor {
     optionTwo: PurchaseOrderType
   ): boolean {
     return optionOne.id === optionTwo.id;
-  }
-
-  trackByFn(index: number): number {
-    return index;
   }
 
   /**

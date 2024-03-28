@@ -28,13 +28,11 @@
   ></gq-approval-workflow-history-section>
   <!--timeline under start event-->
   <!--
-    an auto_approved quotation has for a short period of time just the GQ generated autoApproved event. A little later the Released events is received and displayed. 
-    we display the short form for auto-approval, when we have  a) only the auto_approved event and b) only the auto_approved and released event
-    when an auto_approved quotation has been cancelled and auto-approved again, we will display the iterations section
-    -->
-  <ng-container
-    *ngIf="!(quotationAutoApprovedEvent && workflowEvents?.length <= 2)"
-  >
+  an auto_approved quotation has for a short period of time just the GQ generated autoApproved event. A little later the Released events is received and displayed.
+  we display the short form for auto-approval, when we have  a) only the auto_approved event and b) only the auto_approved and released event
+  when an auto_approved quotation has been cancelled and auto-approved again, we will display the iterations section
+  -->
+  @if (!(quotationAutoApprovedEvent && workflowEvents?.length <= 2)) {
     <div
       class="timeline history border-l-2 border-solid h-[1.5rem] bg border-y-border ml-3"
       [ngClass]="
@@ -43,7 +41,6 @@
           : 'border-l-border'
       "
     ></div>
-
     <!-- section of all Iterations Event-->
     <gq-approval-workflow-history-iterations
       [autoApprovedEvent]="quotationAutoApprovedEvent"
@@ -56,63 +53,44 @@
         receivedApprovalsOfRequiredApprovals
       "
     ></gq-approval-workflow-history-iterations>
-  </ng-container>
+  }
   <!--EndEvent-->
-  <ng-container
-    *ngIf="
-      quotationStatus === quotationStatusEnum.APPROVED;
-      then approvalComplete;
-      else approvalPending
-    "
-  >
-  </ng-container>
-
-  <ng-template #approvalComplete>
-    <ng-container
-      *ngIf="
-        quotationAutoApprovedEvent;
-        then quotationAutoApproved;
-        else quotationByWorkflowApproved
-      "
-    ></ng-container>
-  </ng-template>
-
-  <ng-template #quotationAutoApproved>
-    <!-- when quotation was auto_approved (two events received:Auto_Approved and Released) and never touched again, we just display the start Event,
-        when workflowEvents.length <2 we have iterations such as cancelled and then restarted 
+  @if (quotationStatus === quotationStatusEnum.APPROVED) {
+    @if (quotationAutoApprovedEvent) {
+      <!-- when quotation was auto_approved (two events received:Auto_Approved and Released) and never touched again, we just display the start Event,
+      when workflowEvents.length <2 we have iterations such as cancelled and then restarted
       -->
-    <gq-approval-workflow-history-section
-      *ngIf="workflowEvents?.length > 2"
-      [icon]="'check_circle_outline'"
-      [iconColor]="'text-link'"
-      [title]="t('workflowAutoApprovedText')"
-      [subtitle]="
-        quotationAutoApprovedEvent?.eventDate
-          | translocoDate: translocoDatePipeConfig
-      "
-    ></gq-approval-workflow-history-section
-  ></ng-template>
-  <ng-template #quotationByWorkflowApproved>
-    <gq-approval-workflow-history-section
-      [icon]="'check_circle_outline'"
-      [iconColor]="'text-link'"
-      [title]="t('quotationApprovedText')"
-      [subtitle]="
-        quotationFinalReleaseEvent?.eventDate
-          | translocoDate: translocoDatePipeConfig
-      "
-    ></gq-approval-workflow-history-section
-  ></ng-template>
-
-  <ng-template #approvalPending>
+      @if (workflowEvents?.length > 2) {
+        <gq-approval-workflow-history-section
+          [icon]="'check_circle_outline'"
+          [iconColor]="'text-link'"
+          [title]="t('workflowAutoApprovedText')"
+          [subtitle]="
+            quotationAutoApprovedEvent?.eventDate
+              | translocoDate: translocoDatePipeConfig
+          "
+        ></gq-approval-workflow-history-section>
+      }
+    } @else {
+      <gq-approval-workflow-history-section
+        [icon]="'check_circle_outline'"
+        [iconColor]="'text-link'"
+        [title]="t('quotationApprovedText')"
+        [subtitle]="
+          quotationFinalReleaseEvent?.eventDate
+            | translocoDate: translocoDatePipeConfig
+        "
+      ></gq-approval-workflow-history-section>
+    }
+  } @else {
     <!-- when quotation has been rejected, we do not want the end event to be displayed-->
-    <ng-container *ngIf="!quotationRejectedEvent">
+    @if (!quotationRejectedEvent) {
       <gq-approval-workflow-history-section
         [icon]="'timer_outline'"
         [iconColor]="'text-low-emphasis'"
         [title]="t('caseApprovalStatus')"
         [subtitle]="t('approvalPending')"
       ></gq-approval-workflow-history-section>
-    </ng-container>
-  </ng-template>
+    }
+  }
 </div>

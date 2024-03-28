@@ -1,17 +1,13 @@
-<table
-  *ngIf="propertyDeltas"
-  mat-table
-  [dataSource]="propertyDeltas"
-  class="flex-1"
->
-  <ng-container matColumnDef="delta">
-    <mat-cell
-      *matCellDef="let property"
-      class="!border-b-0 justify-center items-center"
-    >
-      <gq-delta-value class="w-full" [delta]="property"> </gq-delta-value>
-    </mat-cell>
-  </ng-container>
-
-  <mat-row *matRowDef="let row; columns: ['delta']"></mat-row>
-</table>
+@if (propertyDeltas) {
+  <table mat-table [dataSource]="propertyDeltas" class="flex-1">
+    <ng-container matColumnDef="delta">
+      <mat-cell
+        *matCellDef="let property"
+        class="!border-b-0 justify-center items-center"
+      >
+        <gq-delta-value class="w-full" [delta]="property"> </gq-delta-value>
+      </mat-cell>
+    </ng-container>
+    <mat-row *matRowDef="let row; columns: ['delta']"></mat-row>
+  </table>
+}

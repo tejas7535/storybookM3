@@ -14,9 +14,7 @@
   (cancel)="cancelDialog()"
 >
   <div class="flex flex-col gap-y-3">
-    <ng-container
-      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
-    >
+    @if (!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)) {
       <div class="flex flex-row gap-x-6">
         <mac-material-standard
           class="w-full"
@@ -27,28 +25,33 @@
           macMaterialDialogBasePart
         ></mac-material-standard>
       </div>
-      <div class="flex flex-row gap-x-6" *ngIf="showMaterialNumber()">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t(getMaterialNumberTranslationKey()) }}</mat-label>
-          <input
-            matInput
-            [placeholder]="getMaterialNumberPlaceholder()"
-            value=""
-            [formControl]="materialNumberControl"
-            name="materialNumbers"
-            #dialogControl
-          />
-          <mat-error
-            class="text-caption"
-            *ngIf="materialNumberControl.invalid"
-            [matTooltip]="t('error.' + getMaterialNumberTranslationKey())"
-            class="cursor-help"
-          >
-            {{ getErrorMessage(materialNumberControl.errors) }}
-            <mat-icon inline="true" class="!leading-3">info_outline</mat-icon>
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </ng-container>
+      @if (showMaterialNumber()) {
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t(getMaterialNumberTranslationKey()) }}</mat-label>
+            <input
+              matInput
+              [placeholder]="getMaterialNumberPlaceholder()"
+              value=""
+              [formControl]="materialNumberControl"
+              name="materialNumbers"
+              #dialogControl
+            />
+            @if (materialNumberControl.invalid) {
+              <mat-error
+                class="text-caption"
+                [matTooltip]="t('error.' + getMaterialNumberTranslationKey())"
+                class="cursor-help"
+              >
+                {{ getErrorMessage(materialNumberControl.errors) }}
+                <mat-icon inline="true" class="!leading-3"
+                  >info_outline</mat-icon
+                >
+              </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      }
+    }
   </div>
 </mac-base-dialog>

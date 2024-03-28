@@ -17,9 +17,11 @@
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2Scope1Hint }}</mat-hint>
-      <mat-error class="text-caption" *ngIf="co2Scope1Control.invalid">{{
-        getErrorMessage(co2Scope1Control.errors)
-      }}</mat-error>
+      @if (co2Scope1Control.invalid) {
+        <mat-error class="text-caption">{{
+          getErrorMessage(co2Scope1Control.errors)
+        }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline" class="w-1/4 pr-6">
       <mat-label>{{ t('scope2') }}</mat-label>
@@ -34,9 +36,11 @@
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2Scope2Hint }}</mat-hint>
-      <mat-error class="text-caption" *ngIf="co2Scope2Control.invalid">{{
-        getErrorMessage(co2Scope2Control.errors)
-      }}</mat-error>
+      @if (co2Scope2Control.invalid) {
+        <mat-error class="text-caption">{{
+          getErrorMessage(co2Scope2Control.errors)
+        }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline" class="w-1/4 pr-6">
       <mat-label>{{ t('scope3') }}</mat-label>
@@ -51,9 +55,11 @@
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2Scope3Hint }}</mat-hint>
-      <mat-error class="text-caption" *ngIf="co2Scope3Control.invalid">{{
-        getErrorMessage(co2Scope3Control.errors)
-      }}</mat-error>
+      @if (co2Scope3Control.invalid) {
+        <mat-error class="text-caption">{{
+          getErrorMessage(co2Scope3Control.errors)
+        }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline" class="w-1/4">
       <mat-label>{{ t('co2Total') }}</mat-label>
@@ -68,21 +74,22 @@
         t('co2PerTon')
       }}</span>
       <mat-hint>{{ co2TotalHint }}</mat-hint>
-      <mat-error
-        class="text-caption"
-        *ngIf="co2TotalControl.invalid"
-        [matTooltip]="
-          co2TotalControl.errors?.scopeTotalLowerThanSingleScopes ||
-          co2TotalControl.errors?.scopeTotalHigherThanSingleScopes
-            ? t('error.co2Scopes')
-            : ''
-        "
-      >
-        {{ getErrorMessage(co2TotalControl.errors) }}
-        <mat-icon inline="true" class="!leading-3 cursor-help"
-          >info_outline</mat-icon
+      @if (co2TotalControl.invalid) {
+        <mat-error
+          class="text-caption"
+          [matTooltip]="
+            co2TotalControl.errors?.scopeTotalLowerThanSingleScopes ||
+            co2TotalControl.errors?.scopeTotalHigherThanSingleScopes
+              ? t('error.co2Scopes')
+              : ''
+          "
         >
-      </mat-error>
+          {{ getErrorMessage(co2TotalControl.errors) }}
+          <mat-icon inline="true" class="!leading-3 cursor-help"
+            >info_outline</mat-icon
+          >
+        </mat-error>
+      }
     </mat-form-field>
   </div>
 
@@ -106,13 +113,11 @@
         name="co2Classification"
         #dialogControl
       >
-        <span
-          matErrorContent
-          class="text-caption"
-          *ngIf="co2ClassificationControl.invalid"
-        >
-          {{ getErrorMessage(co2ClassificationControl.errors) }}
-        </span>
+        @if (co2ClassificationControl.invalid) {
+          <span matErrorContent class="text-caption">
+            {{ getErrorMessage(co2ClassificationControl.errors) }}
+          </span>
+        }
       </schaeffler-select>
       <span mat-icon class="mb-4 self-center pl-4">
         <mat-icon

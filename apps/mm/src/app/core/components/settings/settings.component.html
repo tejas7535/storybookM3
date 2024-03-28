@@ -21,11 +21,11 @@
         [formControl]="separatorSelectControl"
         (selectionChange)="setSeparator($event.value)"
       >
-        <mat-option
-          *ngFor="let seperator of availableSeparators; trackBy: trackByFn"
-          [value]="seperator.id"
-          >{{ t(seperator.label) }}</mat-option
-        >
+        @for (seperator of availableSeparators; track $index) {
+          <mat-option [value]="seperator.id">{{
+            t(seperator.label)
+          }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
   </div>

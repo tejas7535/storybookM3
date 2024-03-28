@@ -80,7 +80,7 @@ export class TabbedOptionsComponent implements AfterContentInit {
     };
   } = {};
   visibleTemplate$: Observable<
-    typeof this.templateMap[keyof typeof this.templateMap] | undefined
+    (typeof this.templateMap)[keyof typeof this.templateMap] | undefined
   >;
 
   selectionOptions: {

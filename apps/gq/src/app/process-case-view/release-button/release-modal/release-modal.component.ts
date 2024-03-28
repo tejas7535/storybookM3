@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -69,7 +69,6 @@ interface ReleaseModalFormControl {
     MatFormFieldModule,
     SharedTranslocoModule,
     MatInputModule,
-    CommonModule,
     LoadingSpinnerModule,
     PushPipe,
     MatButtonModule,
@@ -273,7 +272,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
         filter(
           ([allApproversLoading, cockpitInformation]: [
             boolean,
-            ApprovalWorkflowInformation
+            ApprovalWorkflowInformation,
           ]) =>
             !allApproversLoading &&
             cockpitInformation.sapId === this.dialogData.sapId
@@ -281,7 +280,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
         tap(
           ([_loading, cockpitInformation]: [
             boolean,
-            ApprovalWorkflowInformation
+            ApprovalWorkflowInformation,
           ]) => {
             if (!cockpitInformation.autoApproval) {
               this.formGroup.addControl('approver1', this.approver1FormControl);

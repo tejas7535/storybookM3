@@ -41,7 +41,7 @@ export class ProductDetailsEffects {
         (
           value: [
             nodeId: string,
-            referenceTypeIdentifier: ReferenceTypeIdentifier
+            referenceTypeIdentifier: ReferenceTypeIdentifier,
           ][]
         ) => {
           if (value === undefined) {
@@ -55,7 +55,7 @@ export class ProductDetailsEffects {
         (
           items: [
             nodeId: string,
-            referenceTypeIdentifier: ReferenceTypeIdentifier
+            referenceTypeIdentifier: ReferenceTypeIdentifier,
           ][]
         ) => selectCompareItems({ items })
       )

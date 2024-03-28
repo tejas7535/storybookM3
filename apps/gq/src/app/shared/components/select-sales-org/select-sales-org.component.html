@@ -1,22 +1,23 @@
-<div *ngIf="salesOrgs$ | ngrxPush as salesOrgs">
-  <mat-form-field
-    class="w-full"
-    *ngrxLet="selectedSalesOrg$ as selectedSalesOrg"
-  >
-    <mat-label *transloco="let t; read: 'shared.caseMaterial'">{{
-      t('salesOrg')
-    }}</mat-label>
-    <mat-select
-      [disabled]="salesOrgs.length <= 1"
-      (selectionChange)="selectionChange($event)"
-      [value]="selectedSalesOrg?.id"
+@if (salesOrgs$ | ngrxPush; as salesOrgs) {
+  <div>
+    <mat-form-field
+      class="w-full"
+      *ngrxLet="selectedSalesOrg$ as selectedSalesOrg"
     >
-      <mat-option
-        *ngFor="let salesOrg of salesOrgs; trackBy: trackByFn"
-        [value]="salesOrg.id"
+      <mat-label *transloco="let t; read: 'shared.caseMaterial'">{{
+        t('salesOrg')
+      }}</mat-label>
+      <mat-select
+        [disabled]="salesOrgs.length <= 1"
+        (selectionChange)="selectionChange($event)"
+        [value]="selectedSalesOrg?.id"
       >
-        {{ salesOrg.id }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+        @for (salesOrg of salesOrgs; track $index) {
+          <mat-option [value]="salesOrg.id">
+            {{ salesOrg.id }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+}

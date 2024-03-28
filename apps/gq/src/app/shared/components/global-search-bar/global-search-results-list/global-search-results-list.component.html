@@ -1,28 +1,30 @@
 <ng-container *transloco="let t; read: 'searchBar'">
-  <div *ngIf="gqCases?.length > 0; else emptyState">
-    <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
-      {{ t('foundInOpenCases') }}
-    </p>
-    <div class="max-h-[400px] overflow-auto">
-      <gq-global-search-results-item
-        *ngFor="let case of gqCases | slice: 0:count"
-        [searchResult]="case"
-        (gqIdSelected)="gqIdSelected.emit(case)"
-        (contextMenu)="showContextMenu($event, case)"
-      ></gq-global-search-results-item>
+  @if (gqCases?.length > 0) {
+    <div>
+      <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
+        {{ t('foundInOpenCases') }}
+      </p>
+      <div class="max-h-[400px] overflow-auto">
+        @for (case of gqCases | slice: 0 : count; track case) {
+          <gq-global-search-results-item
+            [searchResult]="case"
+            (gqIdSelected)="gqIdSelected.emit(case)"
+            (contextMenu)="showContextMenu($event, case)"
+          ></gq-global-search-results-item>
+        }
+      </div>
+      @if (count < gqCases?.length) {
+        <button
+          color="primary"
+          mat-button
+          class="py-4 pl-4"
+          (click)="increaseCount()"
+        >
+          {{ t('showMore') }}
+        </button>
+      }
     </div>
-    <button
-      color="primary"
-      mat-button
-      class="py-4 pl-4"
-      *ngIf="count < gqCases?.length"
-      (click)="increaseCount()"
-    >
-      {{ t('showMore') }}
-    </button>
-  </div>
-
-  <ng-template #emptyState>
+  } @else {
     <div class="flex flex-col items-center justify-center py-4">
       <img src="assets/png/empty_global_search_results.png" />
       <h6 class="text-h6 text-high-emphasis">
@@ -32,7 +34,7 @@
         t('noResultsText')
       }}</span>
     </div>
-  </ng-template>
+  }
 </ng-container>
 
 <div

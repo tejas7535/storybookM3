@@ -19,10 +19,11 @@
       <!-- EDITOR VIEW -->
       <ng-template #editorView let-navigation="navigation">
         <mat-accordion multi *ngrxLet="navigation$ as navigation">
-          <ng-container
-            *ngFor="let materialClass of materialClasses$ | ngrxPush"
-          >
-            <ng-container *ngIf="hasNavigationLevels(materialClass)">
+          @for (
+            materialClass of materialClasses$ | ngrxPush;
+            track materialClass
+          ) {
+            @if (hasNavigationLevels(materialClass)) {
               <mat-expansion-panel
                 class="!m-0 !rounded-none border-none"
                 [expanded]="
@@ -46,8 +47,11 @@
                     >chevron_left</mat-icon
                   >
                 </mat-expansion-panel-header>
-                <ng-container *ngFor="let navigationLevel of navigationLevels"
-                  ><ng-container
+                @for (
+                  navigationLevel of navigationLevels;
+                  track navigationLevel
+                ) {
+                  <ng-container
                     *ngTemplateOutlet="
                       navigationLevelItem;
                       context: {
@@ -57,11 +61,11 @@
                       }
                     "
                   >
-                  </ng-container
-                ></ng-container>
+                  </ng-container>
+                }
               </mat-expansion-panel>
-            </ng-container>
-          </ng-container>
+            }
+          }
         </mat-accordion>
         <ng-container
           *ngTemplateOutlet="
@@ -72,7 +76,10 @@
       </ng-template>
       <!-- CONSUMER VIEW -->
       <ng-template #consumerView let-navigation="navigation">
-        <ng-container *ngFor="let materialClass of materialClasses$ | ngrxPush">
+        @for (
+          materialClass of materialClasses$ | ngrxPush;
+          track materialClass
+        ) {
           <ng-container
             *ngTemplateOutlet="
               plainItem;
@@ -82,7 +89,7 @@
               }
             "
           ></ng-container>
-        </ng-container>
+        }
       </ng-template>
       <!-- NAVIGATION LEVEL ITEM -->
       <ng-template

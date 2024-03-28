@@ -123,13 +123,16 @@ export const getRawMaterialAnalysisSummaryForSelectedBom = (index: number) =>
   );
 
 export const getCostComponentSplitItems = (index: number) =>
-  createSelector(getCompareState, (state: CompareState): CostComponentSplit[] =>
-    state[index]?.costComponentSplit?.items
-      ? state[index].costComponentSplit.items.filter(
-          (item) =>
-            item.splitType === state[index].costComponentSplit.selectedSplitType
-        )
-      : undefined
+  createSelector(
+    getCompareState,
+    (state: CompareState): CostComponentSplit[] =>
+      state[index]?.costComponentSplit?.items
+        ? state[index].costComponentSplit.items.filter(
+            (item) =>
+              item.splitType ===
+              state[index].costComponentSplit.selectedSplitType
+          )
+        : undefined
   );
 
 export const getCostComponentSplitLoading = (index: number) =>

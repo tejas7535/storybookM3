@@ -1,20 +1,27 @@
-<div
-  *ngIf="card"
-  class="flex items-center rounded-2xl border border-border px-4 py-2 md:px-6 md:py-4"
->
-  <div class="mr-8">
-    <mat-icon color="primary" [svgIcon]="'co2'" class="w-12 h-12 flex-shrink-0">
-    </mat-icon>
-  </div>
-  <div class="flex flex-col md:flex-row gap-2 items-center">
-    <div class="text-body-2 leading-6 font-medium">
-      {{ card.mainTitle | transloco }}
+@if (card) {
+  <div
+    class="flex items-center rounded-2xl border border-border px-4 py-2 md:px-6 md:py-4"
+  >
+    <div class="mr-8">
+      <mat-icon
+        color="primary"
+        [svgIcon]="'co2'"
+        class="w-12 h-12 flex-shrink-0"
+      >
+      </mat-icon>
     </div>
-    <div class="pl-3">
-      <button mat-button color="primary" (click)="onCardClick()">
-        <mat-icon>open_in_new</mat-icon>
-        {{ card.actionTitle | transloco }}
-      </button>
+    <div class="flex flex-col md:flex-row gap-2 items-center">
+      <div class="flex flex-col md:flex-row gap-2 items-center">
+        <div class="text-body-2 leading-6 font-medium">
+          {{ card.mainTitle | transloco }}
+        </div>
+        <div class="pl-3 whitespace-nowrap">
+          <button mat-button color="primary" (click)="onCardClick()">
+            <mat-icon>open_in_new</mat-icon>
+            {{ card.actionTitle | transloco }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+}

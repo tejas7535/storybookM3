@@ -155,10 +155,6 @@ export class SearchComponent
 
   public filterOptions = (_option?: StringOption, _value?: string) => true;
 
-  public trackByFn(index: number): number {
-    return index;
-  }
-
   private readonly validatorFn: ValidatorFn = (): {
     [key: string]: boolean;
   } | null => this.control.errors;

@@ -1,5 +1,5 @@
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
-import { CommonModule, formatNumber } from '@angular/common';
+import { formatNumber } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -66,7 +66,6 @@ import { InternalUserCheckService } from '../../services/internal-user-check.ser
   selector: 'mac-geometrical-information',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
     SelectModule,
     MatFormFieldModule,

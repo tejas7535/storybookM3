@@ -2,20 +2,20 @@
   <div
     class="border-border flex flex-row items-center border-b px-6 py-4 md:flex-nowrap flex-wrap-reverse"
   >
-    <mat-icon
-      class="!text-medium-emphasis mr-2"
-      *ngIf="svgIcon || icon"
-      [svgIcon]="svgIcon"
-      >{{ icon }}</mat-icon
-    >
+    @if (svgIcon || icon) {
+      <mat-icon class="!text-medium-emphasis mr-2" [svgIcon]="svgIcon">{{
+        icon
+      }}</mat-icon>
+    }
     <h5 class="text-subtitle-2 text-medium-emphasis mr-1 md:mr-4">
       {{ title }}
     </h5>
-    <span
-      *ngIf="isMandatory"
-      class="text-caption ml-auto text-low-emphasis font-medium tracking-wide"
-      >{{ 'general.requiredInformation' | transloco }}</span
-    >
+    @if (isMandatory) {
+      <span
+        class="text-caption ml-auto text-low-emphasis font-medium tracking-wide"
+        >{{ 'general.requiredInformation' | transloco }}</span
+      >
+    }
   </div>
   <div class="md:p-8 md:pb-4 px-2 py-4">
     <ng-content></ng-content>

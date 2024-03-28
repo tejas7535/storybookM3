@@ -4,111 +4,108 @@
   role="presentation"
   (click)="onSortRequested($event)"
 >
-  <div
-    ref="eLabel"
-    class="ag-header-cell-label"
-    role="presentation"
-    *ngIf="!(editMode || value)"
-  >
+  @if (!(editMode || value)) {
+    <div ref="eLabel" class="ag-header-cell-label" role="presentation">
+      <span
+        ref="eText"
+        class="ag-header-cell-text w-full truncate"
+        [matTooltip]="params.displayName"
+        [matTooltipDisabled]="!text.isTruncated"
+        isTextTruncated
+        #text="isTextTruncated"
+      >
+        {{ params.displayName }}
+      </span>
+      @if (sort || showEditIcon || params.tooltipText) {
+        <div class="flex items-center justify-end">
+          @if (sort) {
+            <div class="flex w-4 items-center justify-center">
+              @if (sort === 'asc') {
+                <span class="ag-icon ag-icon-asc"></span>
+              }
+              @if (sort === 'desc') {
+                <span class="ag-icon ag-icon-desc"></span>
+              }
+            </div>
+          }
+          @if (sort && (showEditIcon || params.tooltipText)) {
+            <div class="w-2"></div>
+          }
+          @if (
+            (quotationStatus$ | ngrxPush) &&
+            (showEditIcon || params.tooltipText)
+          ) {
+            <div class="flex w-4 items-start justify-start pb-[2px]">
+              @if (showEditIcon) {
+                <mat-icon (click)="enableEditMode($event)" class="edit-icon">
+                  mode_edit
+                </mat-icon>
+              }
+              @if (!showEditIcon && params.tooltipText) {
+                <gq-info-icon
+                  [displaySmall]="true"
+                  [text]="params?.tooltipText"
+                ></gq-info-icon>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+  @if (!(editMode || value)) {
     <span
-      ref="eText"
-      class="ag-header-cell-text w-full truncate"
-      [matTooltip]="params.displayName"
-      [matTooltipDisabled]="!text.isTruncated"
-      isTextTruncated
-      #text="isTextTruncated"
+      ref="eMenu"
+      class="ag-header-icon ag-header-cell-menu-button pl-2"
+      aria-hidden="true"
     >
-      {{ params.displayName }}
+      <span
+        class="ag-icon ag-icon-menu"
+        #menuButton
+        (click)="onMenuClicked($event)"
+      ></span>
     </span>
-
-    <div
-      class="flex items-center justify-end"
-      *ngIf="sort || showEditIcon || params.tooltipText"
-    >
-      <div class="flex w-4 items-center justify-center" *ngIf="sort">
-        <span class="ag-icon ag-icon-asc" *ngIf="sort === 'asc'"></span>
-        <span class="ag-icon ag-icon-desc" *ngIf="sort === 'desc'"></span>
-      </div>
-
-      <div
-        class="w-2"
-        *ngIf="sort && (showEditIcon || params.tooltipText)"
-      ></div>
-
-      <div
-        class="flex w-4 items-start justify-start pb-[2px]"
-        *ngIf="
-          (quotationStatus$ | ngrxPush) && (showEditIcon || params.tooltipText)
+  }
+</div>
+@if (editMode || value) {
+  <div>
+    @if (!isPriceSourceColumn) {
+      <mat-form-field appearance="outline">
+        <input
+          #inputField
+          matInput
+          type="text"
+          [placeholder]="params.displayName"
+          (keydown.enter)="submitValue($event)"
+          (blur)="disableEditMode()"
+          class="!text-high-emphasis"
+          [formControl]="editFormControl"
+          autocomplete="off"
+          step="1"
+        />
+        <span matSuffix>%&nbsp;</span>
+      </mat-form-field>
+    } @else {
+      <mat-form-field
+        appearance="outline"
+        class="w-full"
+        *transloco="
+          let t;
+          read: 'shared.quotationDetailsTable.headers.priceSource'
         "
       >
-        <ng-container *ngIf="showEditIcon">
-          <mat-icon (click)="enableEditMode($event)" class="edit-icon">
-            mode_edit
-          </mat-icon>
-        </ng-container>
-
-        <ng-container *ngIf="!showEditIcon && params.tooltipText">
-          <gq-info-icon
-            [displaySmall]="true"
-            [text]="params?.tooltipText"
-          ></gq-info-icon>
-        </ng-container>
-      </div>
-    </div>
+        <input
+          #inputField
+          matInput
+          type="text"
+          [value]="t(getSelectedPriceSourceTranslationKey())"
+          [readonly]="true"
+          class="!text-high-emphasis p-3"
+        />
+        <span (click)="switchPriceSource()" matSuffix
+          ><mat-icon class="!text-body-1 !h-4 !leading-3">unfold_more</mat-icon>
+        </span>
+      </mat-form-field>
+    }
   </div>
-
-  <span
-    ref="eMenu"
-    class="ag-header-icon ag-header-cell-menu-button pl-2"
-    aria-hidden="true"
-    *ngIf="!(editMode || value)"
-  >
-    <span
-      class="ag-icon ag-icon-menu"
-      #menuButton
-      (click)="onMenuClicked($event)"
-    ></span>
-  </span>
-</div>
-<div *ngIf="editMode || value">
-  <mat-form-field
-    *ngIf="!isPriceSourceColumn; else editPriceSource"
-    appearance="outline"
-  >
-    <input
-      #inputField
-      matInput
-      type="text"
-      [placeholder]="params.displayName"
-      (keydown.enter)="submitValue($event)"
-      (blur)="disableEditMode()"
-      class="!text-high-emphasis"
-      [formControl]="editFormControl"
-      autocomplete="off"
-      step="1"
-    />
-    <span matSuffix>%&nbsp;</span>
-  </mat-form-field>
-  <ng-template #editPriceSource>
-    <mat-form-field
-      appearance="outline"
-      class="w-full"
-      *transloco="
-        let t;
-        read: 'shared.quotationDetailsTable.headers.priceSource'
-      "
-    >
-      <input
-        #inputField
-        matInput
-        type="text"
-        [value]="t(getSelectedPriceSourceTranslationKey())"
-        [readonly]="true"
-        class="!text-high-emphasis p-3"
-      />
-      <span (click)="switchPriceSource()" matSuffix
-        ><mat-icon class="!text-body-1 !h-4 !leading-3">unfold_more</mat-icon>
-      </span>
-    </mat-form-field>
-  </ng-template>
-</div>
+}

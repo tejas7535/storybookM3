@@ -1,35 +1,38 @@
-<div
-  class="flex h-16 items-center justify-end gap-2 font-normal"
-  *ngIf="aggregationModel.isVisible"
->
-  <div class="font-bold" *ngIf="aggregationModel.showFullModel">Average:</div>
-  <div
-    class="font-bold text-high-emphasis"
-    *ngIf="aggregationModel.showFullModel"
-  >
-    {{ aggregationModel.average }}
+@if (aggregationModel.isVisible) {
+  <div class="flex h-16 items-center justify-end gap-2 font-normal">
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold">Average:</div>
+    }
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold text-high-emphasis">
+        {{ aggregationModel.average }}
+      </div>
+    }
+    <div class="font-bold">Count:</div>
+    <div class="font-bold text-high-emphasis">{{ aggregationModel.count }}</div>
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold">Min:</div>
+    }
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold text-high-emphasis">
+        {{ aggregationModel.min }}
+      </div>
+    }
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold">Max:</div>
+    }
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold text-high-emphasis">
+        {{ aggregationModel.max }}
+      </div>
+    }
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold">Sum:</div>
+    }
+    @if (aggregationModel.showFullModel) {
+      <div class="font-bold text-high-emphasis">
+        {{ aggregationModel.sum }}
+      </div>
+    }
   </div>
-  <div class="font-bold">Count:</div>
-  <div class="font-bold text-high-emphasis">{{ aggregationModel.count }}</div>
-  <div class="font-bold" *ngIf="aggregationModel.showFullModel">Min:</div>
-  <div
-    class="font-bold text-high-emphasis"
-    *ngIf="aggregationModel.showFullModel"
-  >
-    {{ aggregationModel.min }}
-  </div>
-  <div class="font-bold" *ngIf="aggregationModel.showFullModel">Max:</div>
-  <div
-    class="font-bold text-high-emphasis"
-    *ngIf="aggregationModel.showFullModel"
-  >
-    {{ aggregationModel.max }}
-  </div>
-  <div class="font-bold" *ngIf="aggregationModel.showFullModel">Sum:</div>
-  <div
-    class="font-bold text-high-emphasis"
-    *ngIf="aggregationModel.showFullModel"
-  >
-    {{ aggregationModel.sum }}
-  </div>
-</div>
+}

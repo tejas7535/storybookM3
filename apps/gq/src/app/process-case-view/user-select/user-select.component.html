@@ -8,17 +8,17 @@
     [matAutocomplete]="autoComplete"
     pinDropDown="matAutocompleteTrigger"
   />
-  <mat-spinner *ngIf="isLoading" matSuffix [diameter]="18"></mat-spinner>
-
-  <mat-error *ngIf="errorMessage; else internalError">{{
-    errorMessage
-  }}</mat-error>
+  @if (isLoading) {
+    <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+  }
+  @if (errorMessage) {
+    <mat-error>{{ errorMessage }}</mat-error>
+  } @else {
+    @if (userSelectFormControl.hasError('invalidSelection')) {
+      <mat-error>{{ invalidSelectionErrorMessage }}</mat-error>
+    }
+  }
   <!-- incoming errorMessages have priority -->
-  <ng-template #internalError>
-    <mat-error *ngIf="userSelectFormControl.hasError('invalidSelection')">{{
-      invalidSelectionErrorMessage
-    }}</mat-error></ng-template
-  >
 
   <mat-autocomplete
     #autoComplete="matAutocomplete"

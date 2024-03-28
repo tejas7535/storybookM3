@@ -27,10 +27,11 @@
       />
     </g>
   </svg>
-  <h1
-    *ngIf="showText"
-    class="mt-4 mr-3 text-h5 text-medium-emphasis md:mt-5 md:mr-5 md:text-h4"
-  >
-    {{ t('appTitle') }}
-  </h1>
+  @if (showText) {
+    <h1
+      class="mt-4 mr-3 text-h5 text-medium-emphasis md:mt-5 md:mr-5 md:text-h4"
+    >
+      {{ t('appTitle') }}
+    </h1>
+  }
 </div>

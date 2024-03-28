@@ -155,7 +155,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         ([[prev, next], activePageId, pagedMetas]: [
           [FormValue, FormValue],
           any,
-          PagedMeta[]
+          PagedMeta[],
         ]) => {
           if (
             activePageId === PROPERTY_PAGE_MOUNTING_SITUATION ||

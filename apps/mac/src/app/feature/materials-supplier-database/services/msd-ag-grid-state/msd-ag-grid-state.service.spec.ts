@@ -413,7 +413,7 @@ describe('MsdAgGridStateService', () => {
   describe('migrateToVersion2_6', () => {
     it('should migrate to version 2_6', () => {
       const createViewState = (columns: string[]): ViewState => ({
-        columnState: columns.map((id) => ({ colId: id } as ColumnState)),
+        columnState: columns.map((id) => ({ colId: id }) as ColumnState),
         quickFilters: [],
       });
 
@@ -464,7 +464,7 @@ describe('MsdAgGridStateService', () => {
   describe('migrateToVersion2_7', () => {
     it('should migrate to version 2_7', () => {
       const createViewState = (columns: string[]): ViewState => ({
-        columnState: columns.map((id) => ({ colId: id } as ColumnState)),
+        columnState: columns.map((id) => ({ colId: id }) as ColumnState),
         quickFilters: [
           {
             title: 'test',

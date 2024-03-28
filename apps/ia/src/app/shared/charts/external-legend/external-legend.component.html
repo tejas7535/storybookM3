@@ -2,31 +2,33 @@
   class="flex-wrap items-center justify-center gap-3"
   [ngClass]="legend?.length > 2 ? 'grid grid-cols-3' : 'flex flex-row'"
 >
-  <div
-    *ngFor="let item of legend; trackBy: trackByFn"
-    class="flex cursor-pointer items-center"
-    (click)="onLegendItemClicked(item.name)"
-  >
+  @for (item of legend; track $index) {
     <div
-      class="mr-1 inline-block h-3.5 w-7 flex-row rounded"
-      [ngClass]="{ 'bg-disabledSecondary': !item.selected }"
-      [style.background-color]="item.selected ? item.color : undefined"
-    ></div>
-    <span
-      class="text-caption inline font-light"
-      [ngClass]="{ 'text-low-emphasis': !item.selected }"
-      >{{ item.name }}</span
+      class="flex cursor-pointer items-center"
+      (click)="onLegendItemClicked(item.name)"
     >
-    <mat-icon
-      *ngIf="item.tooltip"
-      [matTooltip]="item.tooltip"
-      [ngClass]="{
-        'text-low-emphasis': !item.selected,
-        'text-high-emphasis': item.selected
-      }"
-      class="ml-1 !h-[16px] !w-[16px] cursor-default !text-[16px]"
-    >
-      info
-    </mat-icon>
-  </div>
+      <div
+        class="mr-1 inline-block h-3.5 w-7 flex-row rounded"
+        [ngClass]="{ 'bg-disabledSecondary': !item.selected }"
+        [style.background-color]="item.selected ? item.color : undefined"
+      ></div>
+      <span
+        class="text-caption inline font-light"
+        [ngClass]="{ 'text-low-emphasis': !item.selected }"
+        >{{ item.name }}</span
+      >
+      @if (item.tooltip) {
+        <mat-icon
+          [matTooltip]="item.tooltip"
+          [ngClass]="{
+            'text-low-emphasis': !item.selected,
+            'text-high-emphasis': item.selected
+          }"
+          class="ml-1 !h-[16px] !w-[16px] cursor-default !text-[16px]"
+        >
+          info
+        </mat-icon>
+      }
+    </div>
+  }
 </div>

@@ -84,7 +84,7 @@ export class FPricingFacade {
         number,
         number,
         TableItem[],
-        TableItem[]
+        TableItem[],
       ]) => ({
         ...fPricingState,
         currency,

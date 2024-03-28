@@ -6,20 +6,23 @@
   (chartClick)="showCountryData($event)"
   class="h-full min-h-[400px] overflow-hidden"
 ></div>
-<schaeffler-loading-spinner
-  *ngIf="isLoading"
-  [diameter]="40"
-  [strokeWidth]="4"
-></schaeffler-loading-spinner>
+@if (isLoading) {
+  <schaeffler-loading-spinner
+    [diameter]="40"
+    [strokeWidth]="4"
+  ></schaeffler-loading-spinner>
+}
 
 <div class="absolute right-10 top-40 flex flex-col">
-  <div *ngFor="let region of regions; trackBy: trackByFn">
-    <button
-      mat-stroked-button
-      (click)="openDialogWithRegionData(region)"
-      class="m-b-5 w-[150px]"
-    >
-      {{ region }}
-    </button>
-  </div>
+  @for (region of regions; track $index) {
+    <div>
+      <button
+        mat-stroked-button
+        (click)="openDialogWithRegionData(region)"
+        class="m-b-5 w-[150px]"
+      >
+        {{ region }}
+      </button>
+    </div>
+  }
 </div>

@@ -16,12 +16,13 @@
           <span class="font-bold">{{
             quotationDetail?.targetPrice | numberCurrency: currency
           }}</span>
-          <mat-icon
-            *ngIf="isQuotationActive$ | ngrxPush"
-            class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-            (click)="openTargetPriceEditingModal()"
-            >mode_edit</mat-icon
-          >
+          @if (isQuotationActive$ | ngrxPush) {
+            <mat-icon
+              class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+              (click)="openTargetPriceEditingModal()"
+              >mode_edit</mat-icon
+            >
+          }
         </div>
       </div>
       <div class="min-w-[8rem] pt-2">
@@ -36,14 +37,16 @@
           <span class="font-bold">{{ gpm | percentage }}</span>
         </div>
       </div>
-      <div class="min-w-[8rem] pt-2" *ngIf="gpmRfq">
-        <div class="text-body-2 text-medium-emphasis mb-1">
-          {{ t('gpmRfq) }}:
+      @if (gpmRfq) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpmRfq) }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpmRfq | percentage }}</span>
+          </div>
         </div>
-        <div>
-          <span class="font-bold">{{ gpmRfq | percentage }}</span>
-        </div>
-      </div>
+      }
       <div class="min-w-[8rem] pt-2">
         <div class="text-body-2 text-medium-emphasis mb-1">
           {{ t('quantity') }}:

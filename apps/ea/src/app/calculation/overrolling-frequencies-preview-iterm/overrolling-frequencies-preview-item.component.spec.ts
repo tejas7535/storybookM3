@@ -48,19 +48,19 @@ describe('OverrollingFrequenciesPreviewItemComponent', () => {
 
   describe('Pagination clicks', () => {
     beforeEach(() => {
-      component.currentIndex$$.next = jest.fn();
+      component.currentIndex$.next = jest.fn();
     });
 
     it('should be ignored when clickable is set to false', async () => {
       await component.selectIndex(1);
-      expect(component.currentIndex$$.next).not.toHaveBeenCalled();
+      expect(component.currentIndex$.next).not.toHaveBeenCalled();
     });
 
     it('should set the index when clickable is set to true', async () => {
       spectator.setInput('clickablePaging', true);
 
       await component.selectIndex(1);
-      expect(component.currentIndex$$.next).toHaveBeenCalledWith(1);
+      expect(component.currentIndex$.next).toHaveBeenCalledWith(1);
     });
   });
 
@@ -72,12 +72,12 @@ describe('OverrollingFrequenciesPreviewItemComponent', () => {
         values: [{ title: 'value1', unit: '1/2', value: 'value1' }],
       } as CalculationResultPreviewItem;
 
-      component.dataFields$$.next = jest.fn();
+      component.dataFields$.next = jest.fn();
 
       spectator.setInput('item', previewItems);
       spectator.detectChanges();
 
-      expect(component.dataFields$$.next).toHaveBeenCalledWith(
+      expect(component.dataFields$.next).toHaveBeenCalledWith(
         previewItems.values
       );
     });

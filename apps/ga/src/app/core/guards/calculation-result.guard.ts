@@ -12,7 +12,10 @@ import { getParameterValidity } from '../store/selectors/calculation-parameters/
 
 @Injectable()
 export class CalculationResultGuard {
-  constructor(public readonly store: Store, public readonly router: Router) {}
+  constructor(
+    public readonly store: Store,
+    public readonly router: Router
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const { queryParams } = route;

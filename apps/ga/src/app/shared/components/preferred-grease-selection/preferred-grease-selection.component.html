@@ -15,21 +15,24 @@
       [disabled]="preferredGrease?.loading"
       (selectionChange)="onPreferredGreaseSelectionChange($event.value)"
     >
-      <mat-option *ngIf="defaultOption" [value]="defaultOption">
-        {{ t(defaultOption.text) }}
-      </mat-option>
+      @if (defaultOption) {
+        <mat-option [value]="defaultOption">
+          {{ t(defaultOption.text) }}
+        </mat-option>
+      }
       <ng-container *ngrxLet="allGreases$ as allGreases">
-        <mat-optgroup
-          *ngFor="let optionGroup of allGreases"
-          [label]="optionGroup.name"
-        >
-          <mat-option
-            *ngFor="let option of removeEmptyOptions(optionGroup.entries)"
-            [value]="option"
-          >
-            {{ option.text }}
-          </mat-option>
-        </mat-optgroup>
+        @for (optionGroup of allGreases; track optionGroup) {
+          <mat-optgroup [label]="optionGroup.name">
+            @for (
+              option of removeEmptyOptions(optionGroup.entries);
+              track option
+            ) {
+              <mat-option [value]="option">
+                {{ option.text }}
+              </mat-option>
+            }
+          </mat-optgroup>
+        }
       </ng-container>
     </mat-select>
   </mat-form-field>

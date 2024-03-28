@@ -50,7 +50,9 @@ engineering-app {
   @apply text-body-1 #{!important};
 
   * {
-    font-family: Noto Sans, sans-serif !important;
+    font-family:
+      Noto Sans,
+      sans-serif !important;
   }
 
   .mat-button-base.mat-button .mat-button-focus-overlay {

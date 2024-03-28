@@ -1,10 +1,14 @@
-<div *ngIf="messages?.length > 0" class="pb:2 sm:pb-4">
-  <div class="pb-2 text-h5">
-    {{ title }}
+@if (messages?.length > 0) {
+  <div class="pb:2 sm:pb-4">
+    <div class="pb-2 text-h5">
+      {{ title }}
+    </div>
+    <div>
+      @for (message of messages; track message) {
+        <p>
+          {{ message }}
+        </p>
+      }
+    </div>
   </div>
-  <div>
-    <p *ngFor="let message of messages">
-      {{ message }}
-    </p>
-  </div>
-</div>
+}

@@ -4,31 +4,31 @@
   >
     <div class="my-auto text-h6 text-high-emphasis">{{ txtTitle }}</div>
     <div class="flex flex-row">
-      <button
-        *ngIf="minimizeEnabled"
-        mat-icon-button
-        (click)="minimizeDialog()"
-      >
-        <mat-icon class="text-medium-emphasis">minimize</mat-icon>
-      </button>
-      <button *ngIf="closeEnabled" mat-icon-button (click)="cancelDialog()">
-        <mat-icon class="text-medium-emphasis">close</mat-icon>
-      </button>
+      @if (minimizeEnabled) {
+        <button mat-icon-button (click)="minimizeDialog()">
+          <mat-icon class="text-medium-emphasis">minimize</mat-icon>
+        </button>
+      }
+      @if (closeEnabled) {
+        <button mat-icon-button (click)="cancelDialog()">
+          <mat-icon class="text-medium-emphasis">close</mat-icon>
+        </button>
+      }
     </div>
   </div>
   <mat-divider></mat-divider>
 </div>
 
 <mat-dialog-content class="!px-4 !pt-4">
-  <div *ngIf="!(isLoading$ | ngrxPush); else dialogLoadingTemplate">
-    <ng-content></ng-content>
-  </div>
-
-  <ng-template #dialogLoadingTemplate>
+  @if (!(isLoading$ | ngrxPush)) {
+    <div>
+      <ng-content></ng-content>
+    </div>
+  } @else {
     <div class="flex flex-1 flex-col place-items-center">
       <mat-spinner></mat-spinner>
     </div>
-  </ng-template>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions
@@ -38,39 +38,39 @@
 >
   <mat-divider class="w-full pb-4"></mat-divider>
   <div class="px-4 pb-2">
-    <mat-checkbox
-      class="pr-4 text-caption text-high-emphasis"
-      color="primary"
-      [formControl]="createAnotherControl"
-      *ngIf="isAddDialog"
-    >
-      {{ t('createAnother') }}</mat-checkbox
-    >
-    <button
-      *ngIf="txtCancel"
-      mat-stroked-button
-      (click)="cancelDialog()"
-      color="primary"
-    >
-      {{ txtCancel }}
-    </button>
-    <button
-      *ngIf="txtConfirm"
-      mat-raised-button
-      color="primary"
-      class="!ml-4"
-      [disabled]="!valid"
-      (click)="confirmDialog()"
-    >
-      <div class="flex flex-row gap-x-2">
-        {{ txtConfirm }}
-        <mat-spinner
-          *ngIf="processConfirm$ | ngrxPush"
-          class="my-auto"
-          color="accent"
-          diameter="14"
-        ></mat-spinner>
-      </div>
-    </button>
+    @if (isAddDialog) {
+      <mat-checkbox
+        class="pr-4 text-caption text-high-emphasis"
+        color="primary"
+        [formControl]="createAnotherControl"
+      >
+        {{ t('createAnother') }}</mat-checkbox
+      >
+    }
+    @if (txtCancel) {
+      <button mat-stroked-button (click)="cancelDialog()" color="primary">
+        {{ txtCancel }}
+      </button>
+    }
+    @if (txtConfirm) {
+      <button
+        mat-raised-button
+        color="primary"
+        class="!ml-4"
+        [disabled]="!valid"
+        (click)="confirmDialog()"
+      >
+        <div class="flex flex-row gap-x-2">
+          {{ txtConfirm }}
+          @if (processConfirm$ | ngrxPush) {
+            <mat-spinner
+              class="my-auto"
+              color="accent"
+              diameter="14"
+            ></mat-spinner>
+          }
+        </div>
+      </button>
+    }
   </div>
 </mat-dialog-actions>

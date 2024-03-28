@@ -1,15 +1,15 @@
 <div class="flex p-3" *transloco="let t">
-  <img
-    *ngIf="userImageUrl; else noImageUrl"
-    class="schaeffler-user-panel__avatar flex-shrink-0"
-    [src]="userImageUrl"
-    width="64"
-  />
-  <ng-template #noImageUrl>
+  @if (userImageUrl) {
+    <img
+      class="schaeffler-user-panel__avatar flex-shrink-0"
+      [src]="userImageUrl"
+      width="64"
+    />
+  } @else {
     <mat-icon class="schaeffler-user-panel__avatar flex-shrink-0"
       >account_circle</mat-icon
     >
-  </ng-template>
+  }
   <div class="overflow-hidden">
     <div class="truncate text-h6">{{ userName }}</div>
     <a class="text-subtitle-2 text-link" [href]="urlAccount" target="_blank">

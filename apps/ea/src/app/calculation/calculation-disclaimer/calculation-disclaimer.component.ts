@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,13 +10,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'ea-calculation-disclaimer',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    SharedTranslocoModule,
-    MatIconModule,
-    PushPipe,
-  ],
+  imports: [MatDialogModule, SharedTranslocoModule, MatIconModule, PushPipe],
   templateUrl: './calculation-disclaimer.component.html',
 })
 export class CalculationDisclaimerComponent {

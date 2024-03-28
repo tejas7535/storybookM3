@@ -1,39 +1,39 @@
-<ng-container *ngIf="settings">
+@if (settings) {
   <ng-container *transloco="let t; read: 'calculationResult.concept1settings'">
-    <div *ngIf="greaseResult.isSufficient && greaseResult.subTitle">
-      <a
-        mat-raised-button
-        class="mb-3 w-full"
-        color="primary"
-        [attr.href]="getShopUrl()"
-        target="_blank"
-        (click)="trackGreaseSelection()"
-      >
-        <mat-icon>water_drop_outline</mat-icon>
-        {{ getLinkText() }}
-      </a>
-    </div>
-
-    <div
-      [class.pt-2]="greaseResult.isSufficient && greaseResult.subTitle"
-      *ngIf="showConcept1Button && !concept1UnSuitable"
-    >
-      <a
-        mat-raised-button
-        class="w-full pt-3"
-        color="primary"
-        [attr.href]="getConcept1ShopUrl()"
-        (click)="trackConcept1Selection()"
-        target="_blank"
-      >
-        <mat-icon svgIcon="concept1"></mat-icon>
-        {{
-          t('concept1ShopTitle', {
-            title: getConcept1InShop() ? getShortTitle() : 'refillable',
-            size: concept1Selection
-          })
-        }}
-      </a>
-    </div>
+    @if (greaseResult.isSufficient && greaseResult.subTitle) {
+      <div>
+        <a
+          mat-raised-button
+          class="mb-3 w-full"
+          color="primary"
+          [attr.href]="getShopUrl()"
+          target="_blank"
+          (click)="trackGreaseSelection()"
+        >
+          <mat-icon>water_drop_outline</mat-icon>
+          {{ getLinkText() }}
+        </a>
+      </div>
+    }
+    @if (showConcept1Button && !concept1UnSuitable) {
+      <div [class.pt-2]="greaseResult.isSufficient && greaseResult.subTitle">
+        <a
+          mat-raised-button
+          class="w-full pt-3"
+          color="primary"
+          [attr.href]="getConcept1ShopUrl()"
+          (click)="trackConcept1Selection()"
+          target="_blank"
+        >
+          <mat-icon svgIcon="concept1"></mat-icon>
+          {{
+            t('concept1ShopTitle', {
+              title: getConcept1InShop() ? getShortTitle() : 'refillable',
+              size: concept1Selection
+            })
+          }}
+        </a>
+      </div>
+    }
   </ng-container>
-</ng-container>
+}

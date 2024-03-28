@@ -12,9 +12,7 @@
   (cancel)="cancelDialog()"
 >
   <div class="flex flex-col gap-y-3">
-    <ng-container
-      *ngIf="!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)"
-    >
+    @if (!(dialogLoading$ | ngrxPush) && !(editLoading$ | ngrxPush)) {
       <ng-container *ngrxLet="hintData$ as hintData">
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('materialStandardTitle') }}
@@ -63,13 +61,14 @@
             [column]="getColumn()"
             macMaterialDialogBasePart
           >
-            <mat-error
-              class="text-caption"
-              afterCo2Scope
-              class="text-caption text-center"
-              *ngIf="isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)"
-              >{{ t('error.co2BulkEdit') }}
-            </mat-error>
+            @if (isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)) {
+              <mat-error
+                class="text-caption"
+                afterCo2Scope
+                class="text-caption text-center"
+                >{{ t('error.co2BulkEdit') }}
+              </mat-error>
+            }
             <ng-container preCo2Classification>
               <schaeffler-select
                 appearance="outline"
@@ -89,6 +88,6 @@
           </mac-co2-component>
         </ng-container>
       </ng-container>
-    </ng-container>
+    }
   </div>
 </mac-base-dialog>

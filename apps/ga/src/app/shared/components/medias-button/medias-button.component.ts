@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,12 +19,7 @@ import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
 @Component({
   selector: 'ga-medias-button',
   standalone: true,
-  imports: [
-    CommonModule,
-    SharedTranslocoModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
+  imports: [SharedTranslocoModule, MatIconModule, MatButtonModule],
   templateUrl: './medias-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

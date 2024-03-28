@@ -95,7 +95,7 @@ describe('ProductDetailsEffects', () => {
 
         const items: [
           nodeId: string,
-          referenceTypeIdentifier: ReferenceTypeIdentifier
+          referenceTypeIdentifier: ReferenceTypeIdentifier,
         ][] = [
           [undefined, new ReferenceTypeIdentifier('456789', '0060')],
           [undefined, new ReferenceTypeIdentifier('4123789', '0076')],

@@ -54,7 +54,7 @@ describe('GeometricalInformationComponent', () => {
     unit: string;
   }>({ value: undefined, unit: HV });
 
-  const toSo = (i: number) => ({ id: i, title: i.toString() } as StringOption);
+  const toSo = (i: number) => ({ id: i, title: i.toString() }) as StringOption;
 
   const createComponent = createComponentFactory({
     component: GeometricalInformationComponent,

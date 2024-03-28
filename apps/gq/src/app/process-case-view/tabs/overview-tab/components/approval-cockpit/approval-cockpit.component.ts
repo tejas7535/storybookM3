@@ -41,8 +41,4 @@ export class ApprovalCockpitComponent {
       },
     });
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

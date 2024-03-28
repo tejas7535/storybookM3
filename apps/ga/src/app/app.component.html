@@ -1,10 +1,10 @@
-<div class="bg-surface" *ngIf="appIsEmbedded$ | ngrxPush; else standalone">
-  <schaeffler-banner></schaeffler-banner>
-  <div class="border-t border-border"></div>
-  <router-outlet></router-outlet>
-</div>
-
-<ng-template #standalone>
+@if (appIsEmbedded$ | ngrxPush) {
+  <div class="bg-surface">
+    <schaeffler-banner></schaeffler-banner>
+    <div class="border-t border-border"></div>
+    <router-outlet></router-outlet>
+  </div>
+} @else {
   <schaeffler-app-shell
     [appTitle]="appTitle"
     [appTitleLink]="'/app'"
@@ -49,11 +49,12 @@
       *ngrxLet="partnerVersion$ as partnerVersion"
       headerInlineContent
     >
-      <img
-        class="h-4 sm:h-8 md:h-12"
-        [src]="getPartnerVersionLogoUrl(partnerVersion)"
-        *ngIf="partnerVersion"
-      />
+      @if (partnerVersion) {
+        <img
+          class="h-4 sm:h-8 md:h-12"
+          [src]="getPartnerVersionLogoUrl(partnerVersion)"
+        />
+      }
     </ng-container>
   </schaeffler-app-shell>
-</ng-template>
+}

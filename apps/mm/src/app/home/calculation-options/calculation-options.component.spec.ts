@@ -36,11 +36,4 @@ describe('CalculationOptionsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('#trackBy', () => {
-    it('should return the id', () => {
-      const id = 100;
-      expect(component.trackByFn(id)).toEqual(id);
-    });
-  });
 });

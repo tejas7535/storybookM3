@@ -7,18 +7,17 @@
     [formControl]="selectControl"
     (selectionChange)="selectionChange($event)"
   >
-    <mat-option
-      *ngFor="let option of options; trackBy: trackByFn"
-      [value]="option.id"
-    >
-      <span
-        [style.marginLeft.px]="
-          option.level ? LEVEL_MARGIN_PX * option.level : ''
-        "
-      >
-        {{ option.value }}
-      </span>
-    </mat-option>
+    @for (option of options; track $index) {
+      <mat-option [value]="option.id">
+        <span
+          [style.marginLeft.px]="
+            option.level ? LEVEL_MARGIN_PX * option.level : ''
+          "
+        >
+          {{ option.value }}
+        </span>
+      </mat-option>
+    }
   </mat-select>
   <mat-hint align="start">{{ hint }} </mat-hint>
 </mat-form-field>

@@ -1,4 +1,4 @@
-<ng-container *ngIf="additionalInformation">
+@if (additionalInformation) {
   <ng-container
     *transloco="let t; read: 'compare.details.additionalInformation'"
   >
@@ -14,12 +14,11 @@
       "
       [borderBottom]="true"
     ></cdba-compare-label-value>
-    <ng-container
-      *ngFor="
-        let detail of additionalInformation?.salesOrganizationDetails;
-        index as i
-      "
-    >
+    @for (
+      detail of additionalInformation?.salesOrganizationDetails;
+      track detail;
+      let i = $index
+    ) {
       <cdba-compare-label-value
         [label]="t('salesOrganizationDescription')"
         [value]="
@@ -34,7 +33,7 @@
         "
         [borderBottom]="true"
       ></cdba-compare-label-value>
-    </ng-container>
+    }
     <cdba-compare-label-value
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 4 })"
@@ -108,4 +107,4 @@
       "
     ></cdba-compare-label-value>
   </ng-container>
-</ng-container>
+}

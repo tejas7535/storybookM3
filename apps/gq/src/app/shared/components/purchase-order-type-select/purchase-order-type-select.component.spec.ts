@@ -93,13 +93,6 @@ describe('PurchaseOrderTypeSelectComponent', () => {
       expect(result).toEqual(false);
     });
   });
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
 
   describe('Accessor functions', () => {
     test('writeValue should set components selectedType', () => {

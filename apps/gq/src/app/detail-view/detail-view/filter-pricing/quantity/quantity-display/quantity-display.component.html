@@ -1,14 +1,15 @@
 <div>
   <span class="font-bold">{{ quotationDetail?.orderQuantity }}</span>
-  <span
-    class="text-medium-emphasis ml-1 cursor-pointer"
-    (click)="openEditing()"
-    *ngIf="isManualCase$ | ngrxPush"
-  >
-    <mat-icon
-      class="!text-body-1 align-bottom !leading-6"
-      *hideIfQuotationNotActive
-      >mode_edit</mat-icon
+  @if (isManualCase$ | ngrxPush) {
+    <span
+      class="text-medium-emphasis ml-1 cursor-pointer"
+      (click)="openEditing()"
     >
-  </span>
+      <mat-icon
+        class="!text-body-1 align-bottom !leading-6"
+        *hideIfQuotationNotActive
+        >mode_edit</mat-icon
+      >
+    </span>
+  }
 </div>

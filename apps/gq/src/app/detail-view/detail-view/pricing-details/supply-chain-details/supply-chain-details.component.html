@@ -3,51 +3,51 @@
   *transloco="let t; read: 'detailView.pricingDetails.supplyChainDetails'"
 >
   <gq-kpi-status-card [title]="t('title')">
-    <div *ngIf="quotationDetail">
-      <gq-label-text>
-        <span label>{{ t('supplyPlant') }}</span>
-        <span text>{{ quotationDetail.plant | plantDisplay }}</span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('productionPlant') }}</span>
-        <span text>{{ quotationDetail.productionPlant | plantDisplay }}</span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('productionPlantRltAndTransit') }}</span>
-        <span text>{{ quotationDetail.rlt || '-' }}</span>
-      </gq-label-text>
-      <gq-label-text
-        [tooltipText]="
-          supplyPlantStochasticType
-            ? t('stochasticTypes.' + supplyPlantStochasticType)
-            : ''
-        "
-      >
-        <span label>{{ t('supplyPlantStType') }}</span>
-        <span text>
-          {{ supplyPlantStochasticType | nullableString }}
-        </span>
-      </gq-label-text>
-
-      <gq-label-text
-        [tooltipText]="
-          productionPlantStochasticType
-            ? t('stochasticTypes.' + productionPlantStochasticType)
-            : ''
-        "
-      >
-        <span label>{{ t('productionPlantStType') }}</span>
-        <span text>
-          {{ productionPlantStochasticType | nullableString }}
-        </span>
-      </gq-label-text>
-
-      <gq-label-text [marginBottom]="false">
-        <span label>{{ t('mrpController') }}</span>
-        <span text>
-          {{ quotationDetail.mrpData | mrpDisplay }}
-        </span>
-      </gq-label-text>
-    </div>
+    @if (quotationDetail) {
+      <div>
+        <gq-label-text>
+          <span label>{{ t('supplyPlant') }}</span>
+          <span text>{{ quotationDetail.plant | plantDisplay }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('productionPlant') }}</span>
+          <span text>{{ quotationDetail.productionPlant | plantDisplay }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('productionPlantRltAndTransit') }}</span>
+          <span text>{{ quotationDetail.rlt || '-' }}</span>
+        </gq-label-text>
+        <gq-label-text
+          [tooltipText]="
+            supplyPlantStochasticType
+              ? t('stochasticTypes.' + supplyPlantStochasticType)
+              : ''
+          "
+        >
+          <span label>{{ t('supplyPlantStType') }}</span>
+          <span text>
+            {{ supplyPlantStochasticType | nullableString }}
+          </span>
+        </gq-label-text>
+        <gq-label-text
+          [tooltipText]="
+            productionPlantStochasticType
+              ? t('stochasticTypes.' + productionPlantStochasticType)
+              : ''
+          "
+        >
+          <span label>{{ t('productionPlantStType') }}</span>
+          <span text>
+            {{ productionPlantStochasticType | nullableString }}
+          </span>
+        </gq-label-text>
+        <gq-label-text [marginBottom]="false">
+          <span label>{{ t('mrpController') }}</span>
+          <span text>
+            {{ quotationDetail.mrpData | mrpDisplay }}
+          </span>
+        </gq-label-text>
+      </div>
+    }
   </gq-kpi-status-card>
 </div>

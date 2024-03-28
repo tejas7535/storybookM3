@@ -34,7 +34,8 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   public filter: FilterItemRange;
 
   @Output()
-  private readonly updateFilter: EventEmitter<FilterItemRange> = new EventEmitter();
+  private readonly updateFilter: EventEmitter<FilterItemRange> =
+    new EventEmitter();
 
   public form = new UntypedFormControl();
   public inputType = InputType;

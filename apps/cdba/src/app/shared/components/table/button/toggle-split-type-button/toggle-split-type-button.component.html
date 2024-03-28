@@ -1,12 +1,13 @@
 <div *transloco="let t; read: 'shared.bom.additionalInformation.costElements'">
-  <button
-    *ngIf="currentSplitType"
-    mat-button
-    color="primary"
-    class="!mr-4"
-    queryParamsHandling="merge"
-    (click)="toggleSplitType.emit()"
-  >
-    {{ currentSplitType === 'MAIN' ? t('showMore') : t('showLess') }}
-  </button>
+  @if (currentSplitType) {
+    <button
+      mat-button
+      color="primary"
+      class="!mr-4"
+      queryParamsHandling="merge"
+      (click)="toggleSplitType.emit()"
+    >
+      {{ currentSplitType === 'MAIN' ? t('showMore') : t('showLess') }}
+    </button>
+  }
 </div>

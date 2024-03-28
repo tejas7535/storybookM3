@@ -48,11 +48,11 @@ describe('RecommendationContainerComponent', () => {
             () =>
               ({
                 getRawValue: jest.fn(),
-              } as unknown as FormGroup)
+              }) as unknown as FormGroup
           ),
-          getLubricationPointsForm: jest.fn(() => ({} as unknown as FormGroup)),
-          getLubricantForm: jest.fn(() => ({} as unknown as FormGroup)),
-          getApplicationForm: jest.fn(() => ({} as unknown as FormGroup)),
+          getLubricationPointsForm: jest.fn(() => ({}) as unknown as FormGroup),
+          getLubricantForm: jest.fn(() => ({}) as unknown as FormGroup),
+          getApplicationForm: jest.fn(() => ({}) as unknown as FormGroup),
         },
       },
     ],

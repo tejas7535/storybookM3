@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -24,7 +23,6 @@ import { PreferredGreaseOption } from '@ga/shared/models';
   selector: 'ga-preferred-grease-selection',
   standalone: true,
   imports: [
-    CommonModule,
     LetDirective,
     SharedTranslocoModule,
     MatIconModule,

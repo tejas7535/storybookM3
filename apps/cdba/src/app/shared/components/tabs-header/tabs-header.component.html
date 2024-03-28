@@ -6,19 +6,20 @@
     [tabPanel]="tabPanel"
     *transloco="let t"
   >
-    <a
-      *ngFor="let tab of tabs; trackBy: trackByFn"
-      class="tab-link"
-      [style.--numberOfTabs]="tabs.length"
-      mat-tab-link
-      queryParamsHandling="merge"
-      routerLinkActive
-      #rla="routerLinkActive"
-      [routerLink]="tab.link"
-      [active]="rla.isActive"
-      [disabled]="tab.disabled"
-      >{{ t(tab.label) | uppercase }}
-    </a>
+    @for (tab of tabs; track $index) {
+      <a
+        class="tab-link"
+        [style.--numberOfTabs]="tabs.length"
+        mat-tab-link
+        queryParamsHandling="merge"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [routerLink]="tab.link"
+        [active]="rla.isActive"
+        [disabled]="tab.disabled"
+        >{{ t(tab.label) | uppercase }}
+      </a>
+    }
   </nav>
   <div class="w-full grow">
     <mat-tab-nav-panel #tabPanel>

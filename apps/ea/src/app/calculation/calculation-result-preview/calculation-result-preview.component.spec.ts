@@ -17,7 +17,7 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CalculationResultPreviewComponent } from './calculation-result-preview';
+import { CalculationResultPreviewComponent } from './calculation-result-preview.component';
 
 const analyticsServiceMock = {
   logShowReport: jest.fn(),

@@ -12,26 +12,25 @@
     ></lsa-radio-button-group>
   </div>
 
-  <ng-container
-    *ngIf="lubricantForm.controls.lubricantType.value === arcanolType"
-  >
+  @if (lubricantForm.controls.lubricantType.value === arcanolType) {
     <mat-divider></mat-divider>
     <div class="flex flex-col gap-6">
       <span class="text-h6 text-medium-emphasis">
         {{ t('questionSchaefflerArcanol') }}</span
       >
-      <schaeffler-select
-        *ngIf="greases"
-        appearance="outline"
-        class="max-w-sm"
-        [label]="t('label')"
-        [stringOptions]="greases"
-        [control]="lubricantForm.controls.grease"
-        [resetButton]="false"
-        [hint]="t('searchHint')"
-        [filterFn]="filterFn"
-        name="greaseSelector"
-      ></schaeffler-select>
+      @if (greases) {
+        <schaeffler-select
+          appearance="outline"
+          class="max-w-sm"
+          [label]="t('label')"
+          [stringOptions]="greases"
+          [control]="lubricantForm.controls.grease"
+          [resetButton]="false"
+          [hint]="t('searchHint')"
+          [filterFn]="filterFn"
+          name="greaseSelector"
+        ></schaeffler-select>
+      }
     </div>
-  </ng-container>
+  }
 </div>

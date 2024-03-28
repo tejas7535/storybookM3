@@ -12,7 +12,10 @@ import { getModelCreationSuccess } from '../store/selectors/bearing-selection/be
 
 @Injectable()
 export class CalculationParametersGuard {
-  constructor(public readonly store: Store, public readonly router: Router) {}
+  constructor(
+    public readonly store: Store,
+    public readonly router: Router
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const { queryParams } = route;

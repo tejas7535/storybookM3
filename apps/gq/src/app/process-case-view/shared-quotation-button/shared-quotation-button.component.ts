@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +19,6 @@ import { SharedQuotationFacade } from '../../../app/core/store/shared-quotation'
   selector: 'gq-shared-quotation-button',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
     MatIconModule,
     SharedTranslocoModule,

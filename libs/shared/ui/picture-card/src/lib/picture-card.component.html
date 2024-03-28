@@ -5,50 +5,55 @@
   >
     <img mat-card-image [src]="img" class="max-w-none" />
     <div class="absolute right-0 top-0">
-      <button
-        mat-icon-button
-        *ngIf="active"
-        (click)="deactivate()"
-        class="focus:outline-none"
-      >
-        <mat-icon class="text-medium-emphasis">clear</mat-icon>
-      </button>
+      @if (active) {
+        <button
+          mat-icon-button
+          (click)="deactivate()"
+          class="focus:outline-none"
+        >
+          <mat-icon class="text-medium-emphasis">clear</mat-icon>
+        </button>
+      }
     </div>
     <h6 class="mb-3">{{ title }}</h6>
     <mat-card-content>
-      <ng-content select="[card-content]" *ngIf="active"></ng-content>
+      @if (active) {
+        <ng-content select="[card-content]"></ng-content>
+      }
     </mat-card-content>
     <div
       [ngClass]="
         !hideActionsOnActive || (hideActionsOnActive && !active) ? 'mb-12' : ''
       "
     ></div>
-    <mat-card-actions
-      class="absolute bottom-0 !p-0"
-      *ngIf="!hideActionsOnActive || (hideActionsOnActive && !active)"
-    >
-      <ng-content select="[card-actions]"></ng-content>
-      <schaeffler-picture-card-action
-        *ngFor="let action of actions; trackBy: trackByFn"
-        [text]="action.text"
-        [disabled]="action.disabled"
-        (click)="
-          action.toggleAction || action.selectAction
-            ? toggle(
-                action.toggleAction ? !active : false,
-                action.selectAction ? !selected : false
-              )
-            : action.click
-        "
-      ></schaeffler-picture-card-action>
-    </mat-card-actions>
+    @if (!hideActionsOnActive || (hideActionsOnActive && !active)) {
+      <mat-card-actions class="absolute bottom-0 !p-0">
+        <ng-content select="[card-actions]"></ng-content>
+        @for (action of actions; track $index) {
+          <schaeffler-picture-card-action
+            [text]="action.text"
+            [disabled]="action.disabled"
+            (click)="
+              action.toggleAction || action.selectAction
+                ? toggle(
+                    action.toggleAction ? !active : false,
+                    action.selectAction ? !selected : false
+                  )
+                : action.click
+            "
+          ></schaeffler-picture-card-action>
+        }
+      </mat-card-actions>
+    }
   </mat-card>
   <div
     class="absolute top-0 bottom-0 w-full rounded hover:cursor-pointer hover:bg-hover-overlay focus:cursor-pointer focus:bg-focus-overlay"
     [ngClass]="{ 'bg-disabled-overlay': selected }"
   >
-    <mat-icon *ngIf="selected" class="absolute top-2 right-2 text-link" filled
-      >check_circle</mat-icon
-    >
+    @if (selected) {
+      <mat-icon class="absolute top-2 right-2 text-link" filled
+        >check_circle</mat-icon
+      >
+    }
   </div>
 </div>

@@ -22,23 +22,23 @@
       </div>
     </schaeffler-search>
     <div class="text-center md:text-right">
-      <button
-        *ngIf="showSelectButton; else advancedBearingButton"
-        mat-flat-button
-        color="primary"
-        class="w-full md:w-auto"
-        (click)="onBearingSelectionButtonClick(selectedBearing)"
-        [disabled]="(modelCreationLoading$ | ngrxPush) || !selectedBearing"
-      >
-        {{ t('selectButton') }}
-      </button>
-      <ng-template #advancedBearingButton>
+      @if (showSelectButton) {
+        <button
+          mat-flat-button
+          color="primary"
+          class="w-full md:w-auto"
+          (click)="onBearingSelectionButtonClick(selectedBearing)"
+          [disabled]="(modelCreationLoading$ | ngrxPush) || !selectedBearing"
+        >
+          {{ t('selectButton') }}
+        </button>
+      } @else {
         <ga-advanced-bearing-button></ga-advanced-bearing-button>
-      </ng-template>
+      }
     </div>
-    <ng-container *ngIf="modelCreationLoading$ | ngrxPush">
+    @if (modelCreationLoading$ | ngrxPush) {
       <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
-    </ng-container>
+    }
   </div>
   <ng-template #loadingTemplate>
     <div

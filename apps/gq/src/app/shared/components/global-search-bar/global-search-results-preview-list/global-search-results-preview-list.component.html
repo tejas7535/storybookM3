@@ -1,38 +1,34 @@
 <ng-container *transloco="let t; read: 'searchBar'">
-  <div
-    *ngIf="
-      idValues?.length > 0 ||
-        (resultsAreFromLocalStorage && idValues.length === 0);
-      else emptyState
-    "
-  >
-    <p
-      class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
-      *ngIf="idValues?.length > 0"
-    >
-      {{ t(title) }}
-    </p>
-    <gq-global-search-results-preview-list-entry
-      *ngFor="let idValue of idValues; let i = index"
-      [idValue]="idValue"
-      [searchVal]="getSearchVal(i)"
-      (itemSelected)="onItemSelected($event)"
-      [resultIsFromLocalStorage]="resultsAreFromLocalStorage"
-    ></gq-global-search-results-preview-list-entry>
-  </div>
-
-  <ng-template #emptyState>
-    <div
-      *ngIf="searchVal"
-      class="flex flex-col items-center justify-center py-4"
-    >
-      <img src="assets/png/empty_global_search_results.png" />
-      <h6 class="text-h6 text-high-emphasis">
-        {{ t('noResultsTitle') }}
-      </h6>
-      <span class="pt-2 text-subtitle-1 text-medium-emphasis">{{
-        t('noResultsText')
-      }}</span>
+  @if (
+    idValues?.length > 0 ||
+    (resultsAreFromLocalStorage && idValues.length === 0)
+  ) {
+    <div>
+      @if (idValues?.length > 0) {
+        <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
+          {{ t(title) }}
+        </p>
+      }
+      @for (idValue of idValues; track idValue; let i = $index) {
+        <gq-global-search-results-preview-list-entry
+          [idValue]="idValue"
+          [searchVal]="getSearchVal(i)"
+          (itemSelected)="onItemSelected($event)"
+          [resultIsFromLocalStorage]="resultsAreFromLocalStorage"
+        ></gq-global-search-results-preview-list-entry>
+      }
     </div>
-  </ng-template>
+  } @else {
+    @if (searchVal) {
+      <div class="flex flex-col items-center justify-center py-4">
+        <img src="assets/png/empty_global_search_results.png" />
+        <h6 class="text-h6 text-high-emphasis">
+          {{ t('noResultsTitle') }}
+        </h6>
+        <span class="pt-2 text-subtitle-1 text-medium-emphasis">{{
+          t('noResultsText')
+        }}</span>
+      </div>
+    }
+  }
 </ng-container>

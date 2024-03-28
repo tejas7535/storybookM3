@@ -84,7 +84,9 @@
     @apply #{$prefix}text-button;
   }
 
-  .mat-mdc-button-base:not(.mat-mdc-fab):not(.mat-mdc-mini-fab):not(.mat-mdc-icon-button) {
+  .mat-mdc-button-base:not(.mat-mdc-fab):not(.mat-mdc-mini-fab):not(
+      .mat-mdc-icon-button
+    ) {
     mat-icon {
       @apply #{$prefix}-ml-1.5 #{$prefix}mr-2 #{$prefix}h-[18px] #{$prefix}w-[18px] #{$prefix}text-[18px];
     }
@@ -158,9 +160,9 @@
     @apply #{$prefix}pointer-events-none;
   }
 
-  .cdk-overlay-container:has(.cdk-global-overlay-wrapper
-      > .cdk-overlay-pane
-      > mat-snack-bar-container) {
+  .cdk-overlay-container:has(
+      .cdk-global-overlay-wrapper > .cdk-overlay-pane > mat-snack-bar-container
+    ) {
     @apply #{$prefix}pointer-events-none;
   }
 

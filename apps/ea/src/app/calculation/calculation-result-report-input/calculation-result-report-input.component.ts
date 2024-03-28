@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +12,7 @@ import { CalculationResultReportInputItemComponent } from '../calculation-result
 @Component({
   selector: 'ea-calculation-result-report-input',
   standalone: true,
-  imports: [CommonModule, CalculationResultReportInputItemComponent],
+  imports: [CalculationResultReportInputItemComponent],
   templateUrl: './calculation-result-report-input.component.html',
   styleUrls: ['./calculation-result-report-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

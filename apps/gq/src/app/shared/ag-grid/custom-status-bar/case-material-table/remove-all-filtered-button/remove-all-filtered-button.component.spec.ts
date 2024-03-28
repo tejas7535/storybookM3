@@ -72,7 +72,7 @@ describe('RemoveAllFilteredButtonComponent', () => {
         () =>
           ({
             afterClosed: () => of(true),
-          } as any)
+          }) as any
       );
       component.removeAllFiltered = jest.fn();
       component.openConfirmDialog();
@@ -86,7 +86,7 @@ describe('RemoveAllFilteredButtonComponent', () => {
         () =>
           ({
             afterClosed: () => of(false),
-          } as any)
+          }) as any
       );
       component.removeAllFiltered = jest.fn();
       component.openConfirmDialog();

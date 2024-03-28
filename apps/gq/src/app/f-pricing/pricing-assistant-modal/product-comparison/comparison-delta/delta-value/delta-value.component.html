@@ -1,19 +1,22 @@
-<ng-container *ngIf="delta?.isDelta">
+@if (delta?.isDelta) {
   <div
     class="delta-chip"
     [ngClass]="{
       'text-neutral-variant-20 bg-neutral-variant-95': !delta.absolute,
-      'text-success bg-success':  delta.absolute >= 0,
-      'text-error bg-error': delta.absolute < 0,
+      'text-success bg-success': delta.absolute >= 0,
+      'text-error bg-error': delta.absolute < 0
     }"
   >
-    <mat-icon
-      *ngIf="delta.absolute"
-      class="!text-caption !h-4 !w-4"
-      [ngClass]="delta.absolute >= 0 ? 'text-icon-success' : 'text-icon-error'"
-    >
-      {{ delta.absolute >= 0 ? 'arrow_upward' : 'arrow_downward' }}
-    </mat-icon>
+    @if (delta.absolute) {
+      <mat-icon
+        class="!text-caption !h-4 !w-4"
+        [ngClass]="
+          delta.absolute >= 0 ? 'text-icon-success' : 'text-icon-error'
+        "
+      >
+        {{ delta.absolute >= 0 ? 'arrow_upward' : 'arrow_downward' }}
+      </mat-icon>
+    }
     <span>{{ delta | deltaDisplay | uppercase }}</span>
   </div>
-</ng-container>
+}

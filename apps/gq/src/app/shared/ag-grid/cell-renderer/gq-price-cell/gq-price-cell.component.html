@@ -1,9 +1,4 @@
-<ng-container
-  *ngIf="
-    rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush;
-    else simpleText
-  "
->
+@if (rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush) {
   <a
     [href]="url"
     (click)="navigate($event)"
@@ -11,7 +6,6 @@
     [ngClass]="{ 'pointer-events-none': value | isDashOrEmptyString }"
     >{{ value }}</a
   >
-</ng-container>
-<ng-template #simpleText>
+} @else {
   <span>{{ value }}</span>
-</ng-template>
+}

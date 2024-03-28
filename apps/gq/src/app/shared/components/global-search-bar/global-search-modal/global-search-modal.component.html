@@ -12,14 +12,12 @@
       cdkFocusInitial
     />
     <div class="px-2">
-      <mat-spinner
-        *ngIf="
-          (materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
-          displayResultList === resultsDisplayType.LOADING
-        "
-        matSuffix
-        [diameter]="18"
-      ></mat-spinner>
+      @if (
+        (materialNumberOrDescAutocompleteLoading$ | ngrxPush) ||
+        displayResultList === resultsDisplayType.LOADING
+      ) {
+        <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+      }
     </div>
 
     <div class="flex items-center">
@@ -42,63 +40,60 @@
       </mat-icon>
     </div>
   </div>
-  <ng-container
-    *ngIf="
-      !(materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
-        displayResultList !== resultsDisplayType.LOADING;
-      else loading
-    "
-  >
-    <gq-global-search-results-preview-list
-      *ngIf="displayResultList === resultsDisplayType.PREVIEW"
-      [title]="'suggestions'"
-      [idValues]="(materialNumberOrDescForGlobalSearch$ | ngrxPush).options"
-      [searchVal]="searchVal"
-      [resultsAreFromLocalStorage]="false"
-      (itemSelected)="onItemSelected($event)"
-    ></gq-global-search-results-preview-list>
-
-    <gq-global-search-results-preview-list
-      *ngIf="displayResultList === resultsDisplayType.LAST_RESULTS"
-      [title]="'lastResults'"
-      [idValues]="lastSearchResults$ | ngrxPush"
-      [searchVal]="lastSearchTerms$ | ngrxPush"
-      [resultsAreFromLocalStorage]="true"
-      (itemSelected)="onItemSelected($event)"
-    ></gq-global-search-results-preview-list>
-
-    <gq-global-search-results-list
-      *ngIf="displayResultList === resultsDisplayType.RESULT"
-      [gqCases]="searchResult"
-      [searchVal]="searchVal"
-      (gqIdSelected)="openCase($event)"
-      (openInTabClicked)="openCase($event, openIn.tab)"
-      (openInWindowClicked)="openCase($event, openIn.window)"
-    >
-    </gq-global-search-results-list>
-  </ng-container>
-
-  <ng-template #loading>
-    <ng-container
-      *ngIf="searchVal.length >= MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE"
-    >
-      <p
-        *ngIf="displayResultList === resultsDisplayType.PREVIEW"
-        class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
+  @if (
+    !(materialNumberOrDescAutocompleteLoading$ | ngrxPush) &&
+    displayResultList !== resultsDisplayType.LOADING
+  ) {
+    @if (displayResultList === resultsDisplayType.PREVIEW) {
+      <gq-global-search-results-preview-list
+        [title]="'suggestions'"
+        [idValues]="(materialNumberOrDescForGlobalSearch$ | ngrxPush).options"
+        [searchVal]="searchVal"
+        [resultsAreFromLocalStorage]="false"
+        (itemSelected)="onItemSelected($event)"
+      ></gq-global-search-results-preview-list>
+    }
+    @if (displayResultList === resultsDisplayType.LAST_RESULTS) {
+      <gq-global-search-results-preview-list
+        [title]="'lastResults'"
+        [idValues]="lastSearchResults$ | ngrxPush"
+        [searchVal]="lastSearchTerms$ | ngrxPush"
+        [resultsAreFromLocalStorage]="true"
+        (itemSelected)="onItemSelected($event)"
+      ></gq-global-search-results-preview-list>
+    }
+    @if (displayResultList === resultsDisplayType.RESULT) {
+      <gq-global-search-results-list
+        [gqCases]="searchResult"
+        [searchVal]="searchVal"
+        (gqIdSelected)="openCase($event)"
+        (openInTabClicked)="openCase($event, openIn.tab)"
+        (openInWindowClicked)="openCase($event, openIn.window)"
       >
-        {{ t('suggestions') }}
-      </p>
-      <p
-        *ngIf="displayResultList !== resultsDisplayType.PREVIEW"
-        class="py-3 pl-4 text-overline uppercase text-medium-emphasis"
-      >
-        {{ t('foundInOpenCases') }}
-      </p>
+      </gq-global-search-results-list>
+    }
+  } @else {
+    @if (searchVal.length >= MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE) {
+      @if (displayResultList === resultsDisplayType.PREVIEW) {
+        <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
+          {{ t('suggestions') }}
+        </p>
+      }
+      @if (displayResultList !== resultsDisplayType.PREVIEW) {
+        <p class="py-3 pl-4 text-overline uppercase text-medium-emphasis">
+          {{ t('foundInOpenCases') }}
+        </p>
+      }
       <div class="flex h-full animate-pulse flex-col px-4">
-        <div class="py-3" *ngFor="let i of ['1/3', '1/6', '1/2', '1/3', '1/5']">
-          <div class="bg-gray-300 h-5 rounded-md" [ngClass]="['w-' + i]"></div>
-        </div>
+        @for (i of ['1/3', '1/6', '1/2', '1/3', '1/5']; track i) {
+          <div class="py-3">
+            <div
+              class="bg-gray-300 h-5 rounded-md"
+              [ngClass]="['w-' + i]"
+            ></div>
+          </div>
+        }
       </div>
-    </ng-container>
-  </ng-template>
+    }
+  }
 </div>

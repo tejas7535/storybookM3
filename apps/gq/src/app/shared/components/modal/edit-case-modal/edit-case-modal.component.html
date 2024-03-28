@@ -33,13 +33,12 @@
               formControlName="currency"
               data-cy="edit-case-modal_custom-currency-input"
             >
-              <mat-option
-                *ngFor="
-                  let currency of currencyFacade.availableCurrencies$ | ngrxPush
-                "
-                [value]="currency"
-                >{{ currency }}</mat-option
-              >
+              @for (
+                currency of currencyFacade.availableCurrencies$ | ngrxPush;
+                track currency
+              ) {
+                <mat-option [value]="currency">{{ currency }}</mat-option>
+              }
             </mat-select>
           </mat-form-field>
           <gq-purchase-order-type-select
@@ -66,24 +65,25 @@
               pinDropDown="matAutocompleteTrigger"
             />
 
-            <mat-icon
-              matSuffix
-              class="absolute bottom-1 right-2"
-              *ngIf="!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)"
-              (click)="shipToPartyInput.select()"
-              [ngClass]="{
-                'text-low-emphasis': caseModalForm.get('shipToParty').disabled
-              }"
-            >
-              edit
-            </mat-icon>
-
-            <mat-spinner
-              matSuffix
-              class="absolute bottom-1 right-2"
-              *ngIf="autocomplete.customerAndShipToPartyLoading$ | ngrxPush"
-              [diameter]="18"
-            ></mat-spinner>
+            @if (!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)) {
+              <mat-icon
+                matSuffix
+                class="absolute bottom-1 right-2"
+                (click)="shipToPartyInput.select()"
+                [ngClass]="{
+                  'text-low-emphasis': caseModalForm.get('shipToParty').disabled
+                }"
+              >
+                edit
+              </mat-icon>
+            }
+            @if (autocomplete.customerAndShipToPartyLoading$ | ngrxPush) {
+              <mat-spinner
+                matSuffix
+                class="absolute bottom-1 right-2"
+                [diameter]="18"
+              ></mat-spinner>
+            }
 
             <mat-autocomplete
               #auto="matAutocomplete"
@@ -92,16 +92,17 @@
                 autocomplete.selectCustomer($event.option.value, filterName)
               "
             >
-              <mat-option
-                *ngFor="
-                  let idValue of (autocomplete.shipToCustomer$ | ngrxPush)
-                    ?.options
-                "
-                [value]="idValue"
-              >
-                <span> {{ idValue.id }} | {{ idValue.value }}</span>
-                <span *ngIf="idValue.value2"> | {{ idValue.value2 }}</span>
-              </mat-option>
+              @for (
+                idValue of (autocomplete.shipToCustomer$ | ngrxPush)?.options;
+                track idValue
+              ) {
+                <mat-option [value]="idValue">
+                  <span> {{ idValue.id }} | {{ idValue.value }}</span>
+                  @if (idValue.value2) {
+                    <span> | {{ idValue.value2 }}</span>
+                  }
+                </mat-option>
+              }
             </mat-autocomplete>
           </mat-form-field>
 
@@ -133,12 +134,13 @@
               ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
             </mat-datepicker-toggle>
             <mat-datepicker #quotationToDatePicker></mat-datepicker>
-            <mat-error
-              *ngIf="
-                caseModalForm.get('quotationToDate')?.errors?.smallerThanPoDate
-              "
-              >{{ t('smallerThanPoDateValidationMessage') }}</mat-error
-            >
+            @if (
+              caseModalForm.get('quotationToDate')?.errors?.smallerThanPoDate
+            ) {
+              <mat-error>{{
+                t('smallerThanPoDateValidationMessage')
+              }}</mat-error>
+            }
           </mat-form-field>
           <mat-form-field class="pb-2" appearance="outline">
             <mat-label>{{ t('requestedDeliveryDateLabel') }}</mat-label>
@@ -152,14 +154,14 @@
               ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
             </mat-datepicker-toggle>
             <mat-datepicker #requestedDeliveryDatePicker></mat-datepicker>
-            <mat-hint
-              class="text-info"
-              *ngIf="
-                caseModalForm.get('requestedDeliveryDate')?.errors
-                  ?.smallerThanToday
-              "
-              >{{ t('dateBeforeTodayValidationMessage') }}</mat-hint
-            >
+            @if (
+              caseModalForm.get('requestedDeliveryDate')?.errors
+                ?.smallerThanToday
+            ) {
+              <mat-hint class="text-info">{{
+                t('dateBeforeTodayValidationMessage')
+              }}</mat-hint>
+            }
           </mat-form-field>
           <mat-form-field class="pb-2" appearance="outline">
             <mat-label>{{ t('bindingPeriodValidityEndDateLabel') }}</mat-label>
@@ -177,13 +179,14 @@
             <mat-datepicker
               #bindingPeriodValidityEndDatePicker
             ></mat-datepicker>
-            <mat-error
-              *ngIf="
-                caseModalForm.get('bindingPeriodValidityEndDate')?.errors
-                  ?.smallerThanPoDate
-              "
-              >{{ t('smallerThanPoDateValidationMessage') }}</mat-error
-            >
+            @if (
+              caseModalForm.get('bindingPeriodValidityEndDate')?.errors
+                ?.smallerThanPoDate
+            ) {
+              <mat-error>{{
+                t('smallerThanPoDateValidationMessage')
+              }}</mat-error>
+            }
           </mat-form-field>
         </div>
       </div>

@@ -19,7 +19,10 @@ import { AppRoutePath } from '../../app-route-path.enum';
 export class RoleGuard {
   private readonly BASE_ROLE = 'USER_READ';
 
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  constructor(
+    private readonly store: Store,
+    private readonly router: Router
+  ) {}
   canActivateChild(
     _childRoute: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot

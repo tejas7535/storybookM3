@@ -6,72 +6,75 @@
     [title]="title$ | ngrxPush"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
-  <div
-    class="flex h-full flex-col"
-    *ngIf="(createCaseLoading$ | ngrxPush) === false; else loading"
-  >
-    <div class="mt-8 flex">
-      <div
-        class="w-5/6"
-        *ngIf="autocompleteFacade.createCaseCustomer$ | ngrxPush as customer"
-      >
-        <gq-autocomplete-input
-          #autocompleteComponent
-          [filterName]="customer.filter"
-          [options]="customer.options"
-          (unselected)="autocompleteFacade.unselectOptions(customer.filter)"
-          (added)="autocompleteFacade.selectCustomer($event, customer.filter)"
-          [autocompleteLoading]="autocompleteFacade.customerLoading$ | ngrxPush"
-          (autocomplete)="autocompleteFacade.autocomplete($event)"
-          (inputContent)="
-            !$event ? autocompleteFacade.unselectOptions(customer.filter) : null
-          "
-        ></gq-autocomplete-input>
+  @if ((createCaseLoading$ | ngrxPush) === false) {
+    <div class="flex h-full flex-col">
+      <div class="mt-8 flex">
+        @if (autocompleteFacade.createCaseCustomer$ | ngrxPush; as customer) {
+          <div class="w-5/6">
+            <gq-autocomplete-input
+              #autocompleteComponent
+              [filterName]="customer.filter"
+              [options]="customer.options"
+              (unselected)="autocompleteFacade.unselectOptions(customer.filter)"
+              (added)="
+                autocompleteFacade.selectCustomer($event, customer.filter)
+              "
+              [autocompleteLoading]="
+                autocompleteFacade.customerLoading$ | ngrxPush
+              "
+              (autocomplete)="autocompleteFacade.autocomplete($event)"
+              (inputContent)="
+                !$event
+                  ? autocompleteFacade.unselectOptions(customer.filter)
+                  : null
+              "
+            ></gq-autocomplete-input>
+          </div>
+        }
+        <div class="ml-3 w-1/6">
+          <gq-select-sales-org></gq-select-sales-org>
+        </div>
       </div>
-      <div class="ml-3 w-1/6">
-        <gq-select-sales-org></gq-select-sales-org>
+      <div class="mt-8 flex h-full w-full flex-col">
+        <div class="flex flex-row">
+          <div class="w-1/2">
+            <span class="text-h6 text-medium-emphasis">
+              {{ t('includeMaterials.title') }}
+            </span>
+          </div>
+          <div class="w-1/2">
+            <span class="text-h6 text-medium-emphasis">
+              {{ t('additionalMaterials.title') }}
+            </span>
+          </div>
+        </div>
+        <hr class="opacity-[12%]" />
+        <div class="mt-5 flex h-full flex-row">
+          <div class="w-1/2">
+            <gq-material-selection
+              [customerId]="selectedCustomerId$ | ngrxPush"
+              [salesOrg]="(selectedSalesOrg$ | ngrxPush)?.id"
+              #materialSelection
+            ></gq-material-selection>
+          </div>
+          <div class="w-1/2">
+            <gq-additional-filters
+              [plsAndSeries]="plsAndSeries$ | ngrxPush"
+              [plsAndSeriesLoading]="plsAndSeriesLoading$ | ngrxPush"
+            ></gq-additional-filters>
+          </div>
+        </div>
+        <gq-status-bar
+          [createCaseDisabled]="createCaseDisabled$ | ngrxPush"
+          (resetAll)="resetAll()"
+          (createCase)="createCase()"
+          (closeDialog)="closeDialog()"
+        ></gq-status-bar>
       </div>
     </div>
-    <div class="mt-8 flex h-full w-full flex-col">
-      <div class="flex flex-row">
-        <div class="w-1/2">
-          <span class="text-h6 text-medium-emphasis">
-            {{ t('includeMaterials.title') }}
-          </span>
-        </div>
-        <div class="w-1/2">
-          <span class="text-h6 text-medium-emphasis">
-            {{ t('additionalMaterials.title') }}
-          </span>
-        </div>
-      </div>
-      <hr class="opacity-[12%]" />
-      <div class="mt-5 flex h-full flex-row">
-        <div class="w-1/2">
-          <gq-material-selection
-            [customerId]="selectedCustomerId$ | ngrxPush"
-            [salesOrg]="(selectedSalesOrg$ | ngrxPush)?.id"
-            #materialSelection
-          ></gq-material-selection>
-        </div>
-        <div class="w-1/2">
-          <gq-additional-filters
-            [plsAndSeries]="plsAndSeries$ | ngrxPush"
-            [plsAndSeriesLoading]="plsAndSeriesLoading$ | ngrxPush"
-          ></gq-additional-filters>
-        </div>
-      </div>
-      <gq-status-bar
-        [createCaseDisabled]="createCaseDisabled$ | ngrxPush"
-        (resetAll)="resetAll()"
-        (createCase)="createCase()"
-        (closeDialog)="closeDialog()"
-      ></gq-status-bar>
-    </div>
-  </div>
-  <ng-template #loading>
+  } @else {
     <schaeffler-loading-spinner
       backgroundColor="rgba(255,255,255, 0.1)"
     ></schaeffler-loading-spinner>
-  </ng-template>
+  }
 </div>

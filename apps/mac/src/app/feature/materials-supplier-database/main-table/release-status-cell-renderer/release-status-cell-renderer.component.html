@@ -3,50 +3,51 @@
   *transloco="let t; read: 'materialsSupplierDatabase.status'"
 >
   <ng-container *ngrxLet="navigation$ as navigation">
-    <div
-      class="!rotate-[0.03deg] text-subtitle-1 !text-error text-opacity-95"
-      *ngIf="isBlocked"
-    >
-      <mat-icon
-        [inline]="true"
-        class="pb-[1px] align-middle"
-        [matTooltip]="
-          t('tooltip.blocked', {
-            instance: t('instance.' + navigation.navigationLevel)
-          })
-        "
-        >block</mat-icon
+    @if (isBlocked) {
+      <div
+        class="!rotate-[0.03deg] text-subtitle-1 !text-error text-opacity-95"
       >
-    </div>
-    <div
-      class="!rotate-[0.03deg] text-subtitle-1 !text-medium-emphasis text-opacity-95"
-      *ngIf="!isBlocked"
-    >
-      <mat-icon
-        [inline]="true"
-        class="pb-[1px] align-middle"
-        [matTooltip]="
-          t('tooltip.default', {
-            instance: t('instance.' + navigation.navigationLevel)
-          })
-        "
-        >check_circle_outline</mat-icon
+        <mat-icon
+          [inline]="true"
+          class="pb-[1px] align-middle"
+          [matTooltip]="
+            t('tooltip.blocked', {
+              instance: t('instance.' + navigation.navigationLevel)
+            })
+          "
+          >block</mat-icon
+        >
+      </div>
+    }
+    @if (!isBlocked) {
+      <div
+        class="!rotate-[0.03deg] text-subtitle-1 !text-medium-emphasis text-opacity-95"
       >
-    </div>
-    <div
-      class="!rotate-[0.03deg] text-subtitle-1 !text-info text-opacity-95"
-      *ngIf="isRecent"
-    >
-      <mat-icon
-        [inline]="true"
-        class="pb-[1px] align-middle"
-        [matTooltip]="
-          t('tooltip.changed', {
-            instance: t('instance.' + navigation.navigationLevel)
-          })
-        "
-        >update</mat-icon
-      >
-    </div>
+        <mat-icon
+          [inline]="true"
+          class="pb-[1px] align-middle"
+          [matTooltip]="
+            t('tooltip.default', {
+              instance: t('instance.' + navigation.navigationLevel)
+            })
+          "
+          >check_circle_outline</mat-icon
+        >
+      </div>
+    }
+    @if (isRecent) {
+      <div class="!rotate-[0.03deg] text-subtitle-1 !text-info text-opacity-95">
+        <mat-icon
+          [inline]="true"
+          class="pb-[1px] align-middle"
+          [matTooltip]="
+            t('tooltip.changed', {
+              instance: t('instance.' + navigation.navigationLevel)
+            })
+          "
+          >update</mat-icon
+        >
+      </div>
+    }
   </ng-container>
 </div>

@@ -1,4 +1,4 @@
-<ng-container *ngIf="settings">
+@if (settings) {
   <div
     *transloco="let t; read: 'calculationResult.concept1settings'"
     class="flex w-full flex-col items-center"
@@ -6,13 +6,11 @@
     (click)="onShowDetails()"
   >
     <div class="!-mt-2 !-mr-3 self-end">
-      <button
-        *ngIf="getDurationMonths()"
-        mat-icon-button
-        (click)="onShowDetails()"
-      >
-        <mat-icon>search</mat-icon>
-      </button>
+      @if (getDurationMonths()) {
+        <button mat-icon-button (click)="onShowDetails()">
+          <mat-icon>search</mat-icon>
+        </button>
+      }
     </div>
     <div
       [ngClass]="{ 'opacity-25': !getDurationMonths() }"
@@ -24,7 +22,7 @@
         [offsetAngle]="45"
       ></schaeffler-rotary-control>
     </div>
-    <ng-container *ngIf="getDurationMonths(); else unsuited">
+    @if (getDurationMonths()) {
       <p class="flex items-center gap-1 pt-2 text-body-2 text-low-emphasis">
         <span
           class="text-center [&>span]:whitespace-nowrap"
@@ -36,20 +34,20 @@
           "
         >
         </span>
-        <mat-icon
-          *ngIf="getTooltip()"
-          class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
-          #tooltipDetail="matTooltip"
-          (click)="tooltipDetail.toggle()"
-          [matTooltip]="getTooltip()"
-          >info_outline</mat-icon
-        >
+        @if (getTooltip()) {
+          <mat-icon
+            class="!h-[18px] !w-[18px] cursor-help !text-[18px]"
+            #tooltipDetail="matTooltip"
+            (click)="tooltipDetail.toggle()"
+            [matTooltip]="getTooltip()"
+            >info_outline</mat-icon
+          >
+        }
       </p>
       <button mat-button color="primary" (click)="onShowDetails()">
         {{ t('details') }}
       </button>
-    </ng-container>
-    <ng-template #unsuited>
+    } @else {
       <!-- Chip for CONCEPT1 -->
       <div
         class="mt-3 mb-2 inline-block rounded-full px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
@@ -70,6 +68,6 @@
       >
         {{ t('why') }}
       </button>
-    </ng-template>
+    }
   </div>
-</ng-container>
+}

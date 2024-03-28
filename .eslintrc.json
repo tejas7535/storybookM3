@@ -309,6 +309,12 @@
         "jest/expect-expect": "off",
         "@angular-eslint/component-max-inline-declarations": "off"
       }
+    },
+    {
+      "files": ["*.html"],
+      "rules": {
+        "@angular-eslint/template/prefer-control-flow": "error"
+      }
     }
   ]
 }

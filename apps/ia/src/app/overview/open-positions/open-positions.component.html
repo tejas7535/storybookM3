@@ -3,64 +3,66 @@
   class="flex h-full flex-col"
 >
   <h5>{{ t('title') }}</h5>
-  <div class="flex flex-row" *ngIf="available; else openPositionsUnavailable">
-    <div class="flex grow flex-col">
-      <div class="pl-4">
-        <span class="text-body-2 mt-4 flex flex-row">
-          {{ t('openForApplications') }}
-        </span>
-        <div class="flex flex-row items-center">
-          <h4 *ngIf="!openApplicationsCountLoading; else loading" class="mr-8">
-            {{ openApplicationsCount | defaultValue }}
-          </h4>
-          <button
-            [matMenuTriggerFor]="openApplicationsMenu"
-            mat-fab
-            color="primary"
-            class="mt-2 flex"
-            [disabled]="!openApplicationsCount || openApplicationsCount === 0"
-            [ngClass]="{ 'cursor-not-allowed': openApplicationsCount === 0 }"
-            (click)="onButtonClick()"
-          >
-            <mat-icon>group_add</mat-icon>
-          </button>
-          <mat-menu
-            xPosition="before"
-            #openApplicationsMenu="matMenu"
-            class="!max-w-none !px-4"
-          >
-            <ia-open-positions-list
-              [openApplications]="openApplications"
-              [isLoadingOpenApplications]="openApplicationsLoading"
-            ></ia-open-positions-list>
-          </mat-menu>
+  @if (available) {
+    <div class="flex flex-row">
+      <div class="flex grow flex-col">
+        <div class="pl-4">
+          <span class="text-body-2 mt-4 flex flex-row">
+            {{ t('openForApplications') }}
+          </span>
+          <div class="flex flex-row items-center">
+            @if (!openApplicationsCountLoading) {
+              <h4 class="mr-8">
+                {{ openApplicationsCount | defaultValue }}
+              </h4>
+            } @else {
+              <schaeffler-loading-spinner
+                class="mr-8"
+                [relative]="true"
+                [diameter]="20"
+                [strokeWidth]="2"
+              >
+              </schaeffler-loading-spinner>
+            }
+            <button
+              [matMenuTriggerFor]="openApplicationsMenu"
+              mat-fab
+              color="primary"
+              class="mt-2 flex"
+              [disabled]="!openApplicationsCount || openApplicationsCount === 0"
+              [ngClass]="{ 'cursor-not-allowed': openApplicationsCount === 0 }"
+              (click)="onButtonClick()"
+            >
+              <mat-icon>group_add</mat-icon>
+            </button>
+            <mat-menu
+              xPosition="before"
+              #openApplicationsMenu="matMenu"
+              class="!max-w-none !px-4"
+            >
+              <ia-open-positions-list
+                [openApplications]="openApplications"
+                [isLoadingOpenApplications]="openApplicationsLoading"
+              ></ia-open-positions-list>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+      <div class="flex grow flex-col">
+        <div class="flex grow flex-col">
+          <div class="pl-4"></div>
         </div>
       </div>
     </div>
-    <div class="flex grow flex-col">
-      <div class="flex grow flex-col">
-        <div class="pl-4"></div>
-      </div>
-    </div>
-  </div>
-</div>
-<ng-template #loading>
-  <schaeffler-loading-spinner
-    class="mr-8"
-    [relative]="true"
-    [diameter]="20"
-    [strokeWidth]="2"
-  >
-  </schaeffler-loading-spinner>
-</ng-template>
-<ng-template #openPositionsUnavailable>
-  <div
-    *transloco="let t; read: 'openPositions'"
-    class="py-4 text-center text-subtitle-2 leading-6 text-warning"
-  >
-    <mat-icon [inline]="true" class="mr-1 align-bottom text-icon-warning"
-      >warning_amber</mat-icon
+  } @else {
+    <div
+      *transloco="let t; read: 'openPositions'"
+      class="py-4 text-center text-subtitle-2 leading-6 text-warning"
     >
-    <span [innerHTML]="t('dataUnavailable')"></span>
-  </div>
-</ng-template>
+      <mat-icon [inline]="true" class="mr-1 align-bottom text-icon-warning"
+        >warning_amber</mat-icon
+      >
+      <span [innerHTML]="t('dataUnavailable')"></span>
+    </div>
+  }
+</div>

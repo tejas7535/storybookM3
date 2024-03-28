@@ -52,7 +52,7 @@ export class ApprovalEffects {
       mergeMap(
         ([_action, allApprovers]: [
           ReturnType<typeof ApprovalActions.getAllApprovers>,
-          Approver[]
+          Approver[],
         ]) => {
           if (!allApprovers || allApprovers.length === 0) {
             return this.approvalService.getAllApprovers().pipe(
@@ -114,7 +114,7 @@ export class ApprovalEffects {
           ReturnType<typeof ApprovalActions.triggerApprovalWorkflow>,
           string,
           QuotationIdentifier,
-          ApprovalWorkflowInformation
+          ApprovalWorkflowInformation,
         ]) => {
           const gqLink = `${window.location.protocol}//${
             window.location.hostname
@@ -173,7 +173,7 @@ export class ApprovalEffects {
         ([action, sapId, quotationIdentifier]: [
           ReturnType<typeof ApprovalActions.saveApprovalWorkflowInformation>,
           string,
-          QuotationIdentifier
+          QuotationIdentifier,
         ]) =>
           this.approvalService
             .saveApprovalWorkflowInformation(sapId, {
@@ -224,7 +224,7 @@ export class ApprovalEffects {
         ([action, sapId, quotationIdentifier]: [
           ReturnType<typeof ApprovalActions.updateApprovalWorkflow>,
           string,
-          QuotationIdentifier
+          QuotationIdentifier,
         ]) =>
           this.approvalService
             .updateApprovalWorkflow(sapId, {
@@ -271,7 +271,7 @@ export class ApprovalEffects {
       mergeMap(
         ([action, recentApprovalCockpit]: [
           ReturnType<typeof ApprovalActions.getApprovalCockpitData>,
-          ApprovalCockpitData
+          ApprovalCockpitData,
         ]) => {
           if (
             action.forceLoad ||
@@ -331,7 +331,7 @@ export class ApprovalEffects {
           >,
           boolean,
           QuotationStatus,
-          boolean
+          boolean,
         ]) =>
           quotationStatus !== QuotationStatus.ACTIVE &&
           quotationStatus !== QuotationStatus.DELETED &&
@@ -354,7 +354,7 @@ export class ApprovalEffects {
           >,
           boolean,
           QuotationStatus,
-          boolean
+          boolean,
         ]) => of(ApprovalActions.startPollingApprovalCockpitData())
       )
     );
@@ -379,7 +379,7 @@ export class ApprovalEffects {
       mergeMap(
         ([_action, sapId]: [
           ReturnType<typeof ApprovalActions.startPollingApprovalCockpitData>,
-          string
+          string,
         ]) =>
           timer(
             // we don't need to start the polling immediately as the status cannot be verified immediately after workflow start or workflow update

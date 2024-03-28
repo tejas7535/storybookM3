@@ -6,9 +6,9 @@
       [formControl]="localeSelectControl"
       (selectionChange)="onLocaleSelectionChange($event.value)"
     >
-      <mat-option *ngFor="let lang of availableLocales" [value]="lang.id">
-        {{ lang.label }}</mat-option
-      >
+      @for (lang of availableLocales; track lang) {
+        <mat-option [value]="lang.id"> {{ lang.label }}</mat-option>
+      }
     </mat-select>
     <mat-hint>{{ t(hintText || 'localeSelectHint') }}</mat-hint>
   </mat-form-field>

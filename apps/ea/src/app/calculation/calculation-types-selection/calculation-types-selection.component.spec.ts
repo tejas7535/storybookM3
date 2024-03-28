@@ -14,7 +14,7 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CalculationTypesSelectionComponent } from './calculation-types-selection';
+import { CalculationTypesSelectionComponent } from './calculation-types-selection.component';
 
 describe('CalculationTypesSelectionComponent', () => {
   let component: CalculationTypesSelectionComponent;

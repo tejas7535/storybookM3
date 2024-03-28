@@ -8,14 +8,15 @@
       >
         FILTER ASSIGNED TO ME
       </button>
-      <button
-        *ngIf="visibleFilterForKeyUser"
-        class="filter-button !ml-3 !mb-2 w-[300px] text-button"
-        mat-raised-button
-        (click)="setKeyUserFilter()"
-      >
-        FILTER ASSIGNED AS KEY USER
-      </button>
+      @if (visibleFilterForKeyUser) {
+        <button
+          class="filter-button !ml-3 !mb-2 w-[300px] text-button"
+          mat-raised-button
+          (click)="setKeyUserFilter()"
+        >
+          FILTER ASSIGNED AS KEY USER
+        </button>
+      }
       <button
         class="filter-button !ml-3 !mb-2 w-[250px] text-button"
         mat-raised-button

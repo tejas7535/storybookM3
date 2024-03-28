@@ -366,7 +366,7 @@ describe('Dialog Helpers', () => {
   });
 
   describe('createSapSupplierIDValidator', () => {
-    const toStrOpt = (name: string) => ({ title: name } as StringOption);
+    const toStrOpt = (name: string) => ({ title: name }) as StringOption;
     it('Should create a validator (undefined)', () => {
       const control = new FormControl<StringOption[]>(undefined);
       control.addValidators(

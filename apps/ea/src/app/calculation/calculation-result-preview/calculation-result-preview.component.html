@@ -1,0 +1,145 @@
+<ng-container *transloco="let t; read: 'calculation'">
+  @if (isStandalone$ | ngrxPush) {
+    <div class="blur-backdrop" [ngClass]="{ 'scale-y-0': !sticky }"></div>
+  }
+  <div
+    class="left-0 flex w-full items-center justify-center box-border bottom-0 md:bottom-9 z-20 transition-all duration-150"
+    [ngClass]="{
+      'md:inset-y-auto relative md:fixed max-w-[100vw]':
+        (isStandalone$ | ngrxPush) && !sticky,
+      'relative h-auto': !isStandalone$ | ngrxPush,
+      fixed: isStandalone$ | ngrxPush
+    }"
+  >
+    <div
+      *ngrxLet="{
+        errors: calculationErrors$ | ngrxPush,
+        isCalculationImpossible: isCalculationImpossible$ | ngrxPush,
+        isCalculationGeneralError: calculationGeneralError$ | ngrxPush
+      } as calculationFailureData"
+      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-6 pt-4 md:py-6 md:px-6 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
+      [ngClass]="{
+        'rounded-b-lg rounded-none drop-shadow-none md:rounded-lg md:drop-shadow-lg':
+          'sticky',
+        'mx-auto': !isStandalone$ | ngrxPush
+      }"
+    >
+      <div class="user-hints flex items-center flex-grow-0 flex-shrink-0">
+        @if (isCalculationMissingInput$ | ngrxPush) {
+          <div class="flex max-w-[180px] flex-row items-center justify-center">
+            <div class="flex flex-shrink-0">
+              <mat-icon color="primary">info_outline</mat-icon>
+            </div>
+            <div
+              class="text-caption text-high-emphasis ml-2 text-center md:text-left"
+            >
+              {{ t('calculationMissingInput') }}
+            </div>
+          </div>
+          <mat-divider class="hidden md:block" [vertical]="true"></mat-divider>
+        }
+
+        <!-- Calculation Impossible -->
+        @if (
+          calculationFailureData.isCalculationImpossible ||
+          calculationFailureData.isCalculationGeneralError
+        ) {
+          <div class="flex flex-shrink-0 flex-row items-center">
+            @if (calculationFailureData?.errors?.length === 0) {
+              <div class="flex flex-shrink-0">
+                <mat-icon color="error">warning</mat-icon>
+              </div>
+            }
+            <div
+              class="text-caption text-high-emphasis ml-2 flex-shrink-0"
+              [style]="{ 'max-width': '220px' }"
+            >
+              @if (calculationFailureData?.errors?.length === 0) {
+                <span> {{ t('calculationImpossible') }} </span>
+              }
+              @if (calculationFailureData.isCalculationGeneralError) {
+                <span> {{ t('generalError') }} </span>
+              }
+            </div>
+          </div>
+          <mat-divider [vertical]="true"></mat-divider>
+        }
+      </div>
+      <ng-container>
+        @if (overlayData$ | ngrxPush; as overlayData) {
+          <div
+            class="result-data"
+            class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4"
+          >
+            @if (calculationFailureData?.errors?.length > 0) {
+              <div class="snap-center my-1 md:my-0 min-w-max">
+                <ea-calculation-result-preview-errors
+                  [errors]="calculationFailureData.errors"
+                  [overlayData]="overlayData$ | ngrxPush"
+                  [(expanded)]="errorsExpanded"
+                ></ea-calculation-result-preview-errors>
+              </div>
+            }
+            @for (item of overlayData; track item) {
+              <div
+                [class.hidden]="
+                  (calculationFailureData?.errors?.length > 0 &&
+                    !item.title.includes('emissions')) ||
+                  (calculationFailureData?.errors?.length && errorsExpanded)
+                "
+              >
+                @if (!item.title.includes('overrolling')) {
+                  <div class="snap-center my-1 md:my-0 min-w-max">
+                    <ea-calculation-result-preview-item
+                      styleClass="w-[70vw] sm:w-[50vw]"
+                      [item]="item"
+                    >
+                      @if (item.title.includes('emissions')) {
+                        <ea-calculation-result-preview-emissions-tooltip>
+                        </ea-calculation-result-preview-emissions-tooltip>
+                      }
+                    </ea-calculation-result-preview-item>
+                  </div>
+                } @else {
+                  <div class="snap-center my-1 md:my-0 min-w-[220px]">
+                    <ea-overrolling-frequencies-preview-item
+                      [item]="item"
+                      styleClass="w-[70vw] sm:w-[50vw]"
+                    />
+                  </div>
+                }
+                <mat-divider
+                  class="hidden md:block"
+                  [vertical]="true"
+                ></mat-divider>
+              </div>
+            }
+          </div>
+        }
+      </ng-container>
+      <div
+        class="result-button w-full md:w-auto flex flex-shrink-0 flex-grow md:flex-grow-0 md:justify-end items-center md:ml-auto md:mr-0"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          class="grow md:mx-0 mx-4"
+          [class.hidden]="
+            calculationFailureData?.errors?.length > 0 && errorsExpanded
+          "
+          [disabled]="
+            (isCalculationResultReportAvailable$ | ngrxPush) === false
+          "
+          (click)="showReport()"
+        >
+          <div class="flex items-center justify-center flex-grow">
+            {{ t('showReport') }}
+            @if (isAnyServiceLoading$ | ngrxPush) {
+              <mat-spinner class="ml-1" diameter="16"></mat-spinner>
+            }
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -28,36 +28,38 @@
     [label]="t('salesOrganizationDetails.title')"
     [value]="' '"
   ></cdba-details-label-value>
-  <ng-container
-    *ngIf="
-      salesDetails?.salesOrganizationDetails &&
-        salesDetails?.salesOrganizationDetails.length;
-      else noSalesOrganizationDetails
-    "
-  >
+  @if (
+    salesDetails?.salesOrganizationDetails &&
+    salesDetails?.salesOrganizationDetails.length
+  ) {
     <div
       class="grid max-h-[175px] grid-cols-2 gap-0 overflow-hidden overflow-y-auto text-caption text-high-emphasis"
     >
-      <ng-container *ngFor="let header of headers; let i = index">
+      @for (header of headers; track header; let i = $index) {
         <div
           class="sticky top-0 flex items-center justify-between bg-primary-variant px-2 py-3"
           [ngClass]="{ 'border-l border-border': i > 0 }"
         >
           {{ t('salesOrganizationDetails.' + header.label + '.label') }}
         </div>
-      </ng-container>
-      <ng-container
-        *ngFor="let salesOrgDetail of salesDetails.salesOrganizationDetails"
-      >
+      }
+      @for (
+        salesOrgDetail of salesDetails.salesOrganizationDetails;
+        track salesOrgDetail
+      ) {
         <div class="border-t border-border px-2 py-3">
           {{ salesOrgDetail.salesOrganizationDescription }}
         </div>
         <div class="border-t border-border px-2 py-3">
           {{ salesOrgDetail.salesOrganizations.join(', ') }}
         </div>
-      </ng-container>
+      }
     </div>
-  </ng-container>
+  } @else {
+    <div class="p-4 text-caption text-high-emphasis align-middle">
+      {{ t('salesOrganizationDetails.noSalesOrganizationDetails') }}
+    </div>
+  }
   <ng-template #noSalesOrganizationDetails>
     <div class="p-4 text-caption text-high-emphasis align-middle">
       {{ t('salesOrganizationDetails.noSalesOrganizationDetails') }}

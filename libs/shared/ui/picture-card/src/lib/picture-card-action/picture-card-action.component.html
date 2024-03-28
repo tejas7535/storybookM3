@@ -1,14 +1,14 @@
-<button
-  *ngIf="selectAction && disabled; else defaultButton"
-  mat-raised-button
-  disabled="true"
-  color="primary"
-  class="focus:outline-none"
->
-  {{ text }}
-</button>
-<ng-template #defaultButton>
-  <ng-container *ngIf="selected; else notSelected">
+@if (selectAction && disabled) {
+  <button
+    mat-raised-button
+    disabled="true"
+    color="primary"
+    class="focus:outline-none"
+  >
+    {{ text }}
+  </button>
+} @else {
+  @if (selected) {
     <button
       mat-flat-button
       (click)="(click)"
@@ -18,8 +18,7 @@
     >
       {{ text }}
     </button>
-  </ng-container>
-  <ng-template #notSelected>
+  } @else {
     <button
       mat-button
       (click)="(click)"
@@ -29,5 +28,5 @@
     >
       {{ text }}
     </button>
-  </ng-template>
-</ng-template>
+  }
+}

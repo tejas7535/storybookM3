@@ -34,13 +34,14 @@
             <mat-select
               [formControl]="lubricationPointsForm.controls.lubricationQty"
             >
-              <mat-option
-                *ngFor="let lubricationQuantity of lubricationQuantityOptions"
-                [value]="lubricationQuantity"
-                >{{
+              @for (
+                lubricationQuantity of lubricationQuantityOptions;
+                track lubricationQuantity
+              ) {
+                <mat-option [value]="lubricationQuantity">{{
                   t('lubricationQuantityValue', { value: lubricationQuantity })
-                }}</mat-option
-              >
+                }}</mat-option>
+              }
             </mat-select>
           </mat-form-field>
         </div>

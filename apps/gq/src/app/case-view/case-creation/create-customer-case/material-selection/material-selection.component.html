@@ -23,26 +23,30 @@
           (selectionChange)="onHistoricalDataLimitChanged($event)"
           [value]="numberOfYears"
         >
-          <mat-option [value]="years" *ngFor="let years of availableYears">{{
-            t('lastYears', { years: years + 1 })
-          }}</mat-option>
+          @for (years of availableYears; track years) {
+            <mat-option [value]="years">{{
+              t('lastYears', { years: years + 1 })
+            }}</mat-option>
+          }
         </mat-select>
       </div>
     </div>
   </div>
   <div class="m-4">
-    <div class="mt-4" *ngFor="let item of selectionItems">
-      <span class="flex items-center">
-        <mat-checkbox
-          [checked]="item.checked"
-          color="primary"
-          (change)="updateSelection($event, item.id)"
-        >
-        </mat-checkbox>
-        <span class="ml-6 flex">{{
-          t(item.translation, { numberOfYears: numberOfYears + 1 })
-        }}</span>
-      </span>
-    </div>
+    @for (item of selectionItems; track item) {
+      <div class="mt-4">
+        <span class="flex items-center">
+          <mat-checkbox
+            [checked]="item.checked"
+            color="primary"
+            (change)="updateSelection($event, item.id)"
+          >
+          </mat-checkbox>
+          <span class="ml-6 flex">{{
+            t(item.translation, { numberOfYears: numberOfYears + 1 })
+          }}</span>
+        </span>
+      </div>
+    }
   </div>
 </div>

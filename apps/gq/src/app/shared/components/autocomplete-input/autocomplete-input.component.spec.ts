@@ -327,13 +327,6 @@ describe('AutocompleteInputComponent', () => {
       expect(component.valueInput.nativeElement.focus).toHaveBeenCalled();
     });
   });
-  describe('trackByFn()', () => {
-    test('should return the loop index to track usersArray', () => {
-      const indexNum = 1337;
-      const retId = component.trackByFn(indexNum);
-      expect(retId).toEqual(indexNum);
-    });
-  });
   describe('resetInputField', () => {
     test('should reset inputField content', () => {
       component.searchFormControl.setValue = jest.fn();

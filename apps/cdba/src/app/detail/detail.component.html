@@ -20,11 +20,9 @@
             : t('errorTitle')
         }}
       </div>
-      <cdba-pcm-badge
-        *ngIf="referenceType?.isPcmRow"
-        size="large"
-        class="block leading-[0]"
-      ></cdba-pcm-badge>
+      @if (referenceType?.isPcmRow) {
+        <cdba-pcm-badge size="large" class="block leading-[0]"></cdba-pcm-badge>
+      }
     </div>
     <schaeffler-share-button subheaderInlineContent></schaeffler-share-button>
   </schaeffler-subheader>

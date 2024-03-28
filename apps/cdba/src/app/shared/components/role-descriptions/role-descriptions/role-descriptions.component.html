@@ -1,11 +1,18 @@
 <div *transloco="let t; read: 'roles.descriptions'">
-  <schaeffler-roles-and-rights
-    *ngIf="rolesGroups && rolesGroups.length"
-    [rolesGroups]="rolesGroups"
-    [showHeading]="showHeading"
-  ></schaeffler-roles-and-rights>
+  @if (rolesGroups && rolesGroups.length) {
+    <schaeffler-roles-and-rights
+      [rolesGroups]="rolesGroups"
+      [showHeading]="showHeading"
+    ></schaeffler-roles-and-rights>
+  }
   <div
     class="whitespace-pre-line pt-4 text-body-1"
-    [innerHTML]="t('hints.' + hintText, { urlServiceNow, urlProductLines, urlRoleAssignments })"
+    [innerHTML]="
+      t('hints.' + hintText, {
+        urlServiceNow,
+        urlProductLines,
+        urlRoleAssignments
+      })
+    "
   ></div>
 </div>

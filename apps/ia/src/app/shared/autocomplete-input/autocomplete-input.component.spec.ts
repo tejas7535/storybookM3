@@ -198,14 +198,6 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(0);
-
-      expect(result).toEqual(0);
-    });
-  });
-
   describe('displayFn', () => {
     test('should return value', () => {
       const idVal = {

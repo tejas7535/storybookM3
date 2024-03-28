@@ -2,38 +2,39 @@
   *transloco="let t"
   class="relative flex min-h-[100px] flex-col content-center items-center justify-between gap-5 bg-surface py-7 px-5 md:flex-row md:px-7"
 >
-  <mat-icon
-    *ngIf="bannerIcon"
-    class="!hidden text-icon md:!block"
-    [ngClass]="{
-      'text-info': bannerIcon === 'info',
-      'text-warning': bannerIcon === 'warning',
-      'text-error': bannerIcon === 'error',
-      'text-link': bannerIcon === 'success'
-    }"
-    >{{ setBannerIcon(bannerIcon) }}
-  </mat-icon>
+  @if (bannerIcon) {
+    <mat-icon
+      class="!hidden text-icon md:!block"
+      [ngClass]="{
+        'text-info': bannerIcon === 'info',
+        'text-warning': bannerIcon === 'warning',
+        'text-error': bannerIcon === 'error',
+        'text-link': bannerIcon === 'success'
+      }"
+      >{{ setBannerIcon(bannerIcon) }}
+    </mat-icon>
+  }
   <div class="flex-shrink flex-grow">
-    <p
-      *ngIf="!showFullText && truncateSize > 0"
-      [innerHTML]="text | truncate: truncateSize"
-    ></p>
-    <p *ngIf="showFullText" [innerHTML]="text"></p>
-    <span
-      *ngIf="truncateSize > 0"
-      class="-ml-1 cursor-pointer p-1 tracking-wider text-link"
-    >
-      <span *ngIf="!showFullText" (click)="toggleText()">
-        {{ t('readMore') }}
+    @if (!showFullText && truncateSize > 0) {
+      <p [innerHTML]="text | truncate: truncateSize"></p>
+    }
+    @if (showFullText) {
+      <p [innerHTML]="text"></p>
+    }
+    @if (truncateSize > 0) {
+      <span class="-ml-1 cursor-pointer p-1 tracking-wider text-link">
+        @if (!showFullText) {
+          <span (click)="toggleText()">
+            {{ t('readMore') }}
+          </span>
+        }
+        @if (showFullText) {
+          <span (click)="toggleText()" data-cy="read-less-span">
+            {{ t('readLess') }}
+          </span>
+        }
       </span>
-      <span
-        *ngIf="showFullText"
-        (click)="toggleText()"
-        data-cy="read-less-span"
-      >
-        {{ t('readLess') }}
-      </span>
-    </span>
+    }
   </div>
   <button
     class="flex-initial"

@@ -1,80 +1,75 @@
-<schaeffler-app-shell
-  *ngIf="isLoggedIn$ | ngrxPush; else loading"
-  [appTitle]="title"
-  [appTitleLink]="titleLink"
-  [hasSidebarLeft]="true"
-  [userName]="username$ | ngrxPush"
-  [userImageUrl]="profileImage$ | ngrxPush"
-  [footerLinks]="footerLinks"
-  [footerFixed]="false"
->
-  <ng-container sidenavBody>
-    <ia-user></ia-user>
-  </ng-container>
-
-  <ng-container mainContent>
-    <div class="flex h-full w-full flex-col">
-      <ng-container
-        *ngIf="
+@if (isLoggedIn$ | ngrxPush) {
+  <schaeffler-app-shell
+    [appTitle]="title"
+    [appTitleLink]="titleLink"
+    [hasSidebarLeft]="true"
+    [userName]="username$ | ngrxPush"
+    [userImageUrl]="profileImage$ | ngrxPush"
+    [footerLinks]="footerLinks"
+    [footerFixed]="false"
+  >
+    <ng-container sidenavBody>
+      <ia-user></ia-user>
+    </ng-container>
+    <ng-container mainContent>
+      <div class="flex h-full w-full flex-col">
+        @if (
           !(isLegalRouteActive$ | ngrxPush) &&
           !(isCookieRouteActive$ | ngrxPush)
-        "
-      >
-        <ia-filter-section
-          *ngIf="!(isFluctuationAnalyticsPageActive$ | ngrxPush)"
-        ></ia-filter-section>
-
-        <nav
-          mat-tab-nav-bar
-          *transloco="let t; read: 'tabs'"
-          class="bg-secondary"
-          [tabPanel]="tabPanel"
+        ) {
+          @if (!(isFluctuationAnalyticsPageActive$ | ngrxPush)) {
+            <ia-filter-section></ia-filter-section>
+          }
+          <nav
+            mat-tab-nav-bar
+            *transloco="let t; read: 'tabs'"
+            class="bg-secondary"
+            [tabPanel]="tabPanel"
+          >
+            @for (tab of tabs; track $index) {
+              @if (!tab.disabled) {
+                <a
+                  mat-tab-link
+                  routerLinkActive
+                  #rla="routerLinkActive"
+                  [routerLink]="tab.path"
+                  [active]="rla.isActive"
+                  [disabled]="tab.disabled"
+                  >{{ t(tab.label) | uppercase }}</a
+                >
+              }
+            }
+          </nav>
+        }
+        <div
+          class="flex grow flex-col overflow-y-auto border-border p-4 bg-surface"
         >
-          <ng-container *ngFor="let tab of tabs; trackBy: trackByFn">
-            <a
-              *ngIf="!tab.disabled"
-              mat-tab-link
-              routerLinkActive
-              #rla="routerLinkActive"
-              [routerLink]="tab.path"
-              [active]="rla.isActive"
-              [disabled]="tab.disabled"
-              >{{ t(tab.label) | uppercase }}</a
-            >
-          </ng-container>
-        </nav>
-      </ng-container>
-
-      <div
-        class="flex grow flex-col overflow-y-auto border-border p-4 bg-surface"
-      >
-        <div class="flex-1">
-          <mat-tab-nav-panel #tabPanel>
-            <router-outlet></router-outlet>
-          </mat-tab-nav-panel>
+          <div class="flex-1">
+            <mat-tab-nav-panel #tabPanel>
+              <router-outlet></router-outlet>
+            </mat-tab-nav-panel>
+          </div>
+        </div>
+        <div
+          class="mx-auto w-full max-w-screen-md bg-surface"
+          *transloco="let t; read: 'legal'"
+          [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
+        >
+          <div class="py-3 px-4">
+            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+              {{ t('cookieSettings') }}
+            </button>
+          </div>
+          <div class="py-3 md:px-4">
+            <div id="ot-sdk-cookie-policy"></div>
+          </div>
         </div>
       </div>
-      <div
-        class="mx-auto w-full max-w-screen-md bg-surface"
-        *transloco="let t; read: 'legal'"
-        [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
-      >
-        <div class="py-3 px-4">
-          <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-            {{ t('cookieSettings') }}
-          </button>
-        </div>
-        <div class="py-3 md:px-4">
-          <div id="ot-sdk-cookie-policy"></div>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-</schaeffler-app-shell>
-
-<ng-template #loading>
+    </ng-container>
+  </schaeffler-app-shell>
+} @else {
   <schaeffler-loading-spinner
     [diameter]="40"
     [strokeWidth]="4"
   ></schaeffler-loading-spinner>
-</ng-template>
+}

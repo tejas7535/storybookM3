@@ -96,7 +96,7 @@ export const fPricingFeature = createFeature({
               surcharge: value.options.find(
                 (option) => option.optionId === value.selectedOptionId
               ).surcharge,
-            } as MarketValueDriverSelection)
+            }) as MarketValueDriverSelection
         ),
         fPricingDataLoading: false,
       })

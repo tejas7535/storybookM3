@@ -4,28 +4,34 @@
     *transloco="let t; read: 'detailView.headerContent'"
   >
     <mat-chip-set class="mt-1 !flex-nowrap" role="list">
-      <mat-chip
-        *ngIf="materialStock?.excessStock || materialStockLoading"
-        class="excess-stock"
-        [ngClass]="{
-          loading: materialStockLoading
-        }"
-      >
-        <span *ngIf="materialStock?.excessStock">
-          {{ t('excessStock') }}
-        </span>
-      </mat-chip>
-      <mat-chip
-        *ngIf="materialStock?.slowMover || materialStockLoading"
-        class="slow-mover"
-        [ngClass]="{
-          loading: materialStockLoading
-        }"
-      >
-        <span *ngIf="materialStock?.slowMover">
-          {{ t('slowMover') }}
-        </span>
-      </mat-chip>
+      @if (materialStock?.excessStock || materialStockLoading) {
+        <mat-chip
+          class="excess-stock"
+          [ngClass]="{
+            loading: materialStockLoading
+          }"
+        >
+          @if (materialStock?.excessStock) {
+            <span>
+              {{ t('excessStock') }}
+            </span>
+          }
+        </mat-chip>
+      }
+      @if (materialStock?.slowMover || materialStockLoading) {
+        <mat-chip
+          class="slow-mover"
+          [ngClass]="{
+            loading: materialStockLoading
+          }"
+        >
+          @if (materialStock?.slowMover) {
+            <span>
+              {{ t('slowMover') }}
+            </span>
+          }
+        </mat-chip>
+      }
     </mat-chip-set>
   </div>
 </div>

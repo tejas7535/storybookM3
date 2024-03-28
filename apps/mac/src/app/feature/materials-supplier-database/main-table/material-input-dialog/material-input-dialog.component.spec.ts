@@ -96,7 +96,7 @@ describe('MaterialInputDialogComponent', () => {
   };
 
   const createOption = (title: string, id = 7, data?: any) =>
-    ({ id, title, data } as StringOption);
+    ({ id, title, data }) as StringOption;
 
   const createComponent = createComponentFactory({
     component: MaterialInputDialogComponent,
@@ -376,7 +376,7 @@ describe('MaterialInputDialogComponent', () => {
 
       component.createMaterialForm = new FormGroup({} as MaterialForm);
       component.createMaterialForm.getRawValue = jest.fn(
-        () => ({} as unknown as any)
+        () => ({}) as unknown as any
       );
       component['isCopy'] = true;
 

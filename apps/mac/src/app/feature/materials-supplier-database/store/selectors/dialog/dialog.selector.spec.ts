@@ -688,7 +688,7 @@ describe('DialogSelectors', () => {
             title: `${c} (${c})`,
             tooltip: c,
             tooltipDelay: 1500,
-          } as StringOption)
+          }) as StringOption
       );
 
       const result =

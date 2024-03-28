@@ -1,4 +1,4 @@
-<ng-container *ngIf="filterSet">
+@if (filterSet) {
   <button
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     class="!mt-4 !mr-4"
@@ -8,4 +8,4 @@
   >
     {{ t('resetAllFiltered.buttonLabel') }}
   </button>
-</ng-container>
+}

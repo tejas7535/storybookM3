@@ -4,17 +4,19 @@
   *transloco="let t; read: 'parameters.errors'"
 >
   <mat-form-field appearance="outline" class="flex grow flex-row pb-3">
-    <mat-label *ngIf="label">{{ label }}</mat-label>
-    <input
-      *ngIf="onlyPositive; else casualInput"
-      matInput
-      type="number"
-      inputmode="decimal"
-      [formControl]="control"
-      [placeholder]="placeholder"
-      [min]="0"
-    />
-    <ng-template #casualInput>
+    @if (label) {
+      <mat-label>{{ label }}</mat-label>
+    }
+    @if (onlyPositive) {
+      <input
+        matInput
+        type="number"
+        inputmode="decimal"
+        [formControl]="control"
+        [placeholder]="placeholder"
+        [min]="0"
+      />
+    } @else {
       <input
         matInput
         type="number"
@@ -22,35 +24,54 @@
         [formControl]="control"
         [placeholder]="placeholder"
       />
-    </ng-template>
-    <div *ngIf="unit" class="relative bottom-1" matSuffix>
-      {{ unit }}
-    </div>
-    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-    <mat-error *ngIf="control.hasError('max')">{{ t('max') }}</mat-error>
-    <mat-error *ngIf="control.hasError('min')">{{ t('min') }}</mat-error>
-    <mat-error *ngIf="control.hasError('anyLoad')">
-      {{ t('anyLoad') }}
-    </mat-error>
-    <mat-error *ngIf="control.hasError('required')">
-      {{ t('required') }}
-    </mat-error>
-    <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
-      <mat-error *ngIf="control.hasError(error.name)">
-        {{ t(error.message) }}
+    }
+    @if (unit) {
+      <div class="relative bottom-1" matSuffix>
+        {{ unit }}
+      </div>
+    }
+    @if (hint) {
+      <mat-hint>{{ hint }}</mat-hint>
+    }
+    @if (control.hasError('max')) {
+      <mat-error>{{ t('max') }}</mat-error>
+    }
+    @if (control.hasError('min')) {
+      <mat-error>{{ t('min') }}</mat-error>
+    }
+    @if (control.hasError('anyLoad')) {
+      <mat-error>
+        {{ t('anyLoad') }}
       </mat-error>
-    </ng-container>
+    }
+    @if (control.hasError('required')) {
+      <mat-error>
+        {{ t('required') }}
+      </mat-error>
+    }
+    @for (error of customErrors; track error) {
+      <ng-container ngProjectAs="mat-error">
+        @if (control.hasError(error.name)) {
+          <mat-error>
+            {{ t(error.message) }}
+          </mat-error>
+        }
+      </ng-container>
+    }
   </mat-form-field>
-  <div *ngIf="tooltipText" class="w-6">
-    <mat-icon
-      *ngIf="tooltipText"
-      color="primary"
-      class="cursor-help"
-      #tooltip="matTooltip"
-      [matTooltip]="tooltipText"
-      (click)="tooltip.toggle()"
-    >
-      info_outline
-    </mat-icon>
-  </div>
+  @if (tooltipText) {
+    <div class="w-6">
+      @if (tooltipText) {
+        <mat-icon
+          color="primary"
+          class="cursor-help"
+          #tooltip="matTooltip"
+          [matTooltip]="tooltipText"
+          (click)="tooltip.toggle()"
+        >
+          info_outline
+        </mat-icon>
+      }
+    </div>
+  }
 </div>

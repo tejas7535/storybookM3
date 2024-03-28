@@ -68,7 +68,7 @@ export class RadioButtonGroupComponent<T> implements AfterContentInit {
     };
   } = {};
   visibleTemplate$: Observable<
-    typeof this.templateMap[keyof typeof this.templateMap] | undefined
+    (typeof this.templateMap)[keyof typeof this.templateMap] | undefined
   >;
 
   constructor(private readonly breakpointObserver: BreakpointObserver) {}

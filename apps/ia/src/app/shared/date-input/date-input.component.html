@@ -1,5 +1,5 @@
-<ng-container [ngSwitch]="timePeriod">
-  <ng-container *ngSwitchCase="timePeriods.LAST_12_MONTHS">
+@switch (timePeriod) {
+  @case (timePeriods.LAST_12_MONTHS) {
     <mat-form-field
       appearance="fill"
       *transloco="let t; read: 'filters'"
@@ -7,7 +7,6 @@
       iaDateRangeFormat
     >
       <mat-label>{{ label }}</mat-label>
-
       <mat-date-range-input
         [min]="minDate"
         [max]="maxDate"
@@ -39,9 +38,8 @@
       ></mat-date-range-picker>
       <mat-hint align="start">{{ hint }}</mat-hint>
     </mat-form-field>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="timePeriods.YEAR">
+  }
+  @case (timePeriods.YEAR) {
     <mat-form-field
       appearance="fill"
       *transloco="let t; read: 'filters'"
@@ -68,9 +66,8 @@
       ></mat-datepicker>
       <mat-hint align="start">{{ hint }}</mat-hint>
     </mat-form-field>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="timePeriods.MONTH">
+  }
+  @case (timePeriods.MONTH) {
     <mat-form-field
       appearance="fill"
       *transloco="let t; read: 'filters'"
@@ -97,5 +94,5 @@
       ></mat-datepicker>
       <mat-hint align="start">{{ hint }}</mat-hint>
     </mat-form-field>
-  </ng-container>
-</ng-container>
+  }
+}

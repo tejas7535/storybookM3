@@ -6,18 +6,19 @@
     *transloco="let t"
     [tabPanel]="tabPanel"
   >
-    <a
-      *ngFor="let tab of tabs"
-      mat-tab-link
-      queryParamsHandling="merge"
-      routerLinkActive
-      #rla="routerLinkActive"
-      [routerLink]="tab.link"
-      [active]="rla.isActive"
-      [disabled]="tab.disabled"
-      (contextmenu)="showContextMenu($event, tab)"
-      >{{ t(tab.label) | uppercase }}
-    </a>
+    @for (tab of tabs; track tab) {
+      <a
+        mat-tab-link
+        queryParamsHandling="merge"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [routerLink]="tab.link"
+        [active]="rla.isActive"
+        [disabled]="tab.disabled"
+        (contextmenu)="showContextMenu($event, tab)"
+        >{{ t(tab.label) | uppercase }}
+      </a>
+    }
   </nav>
   <mat-tab-nav-panel #tabPanel class="grow">
     <router-outlet></router-outlet>

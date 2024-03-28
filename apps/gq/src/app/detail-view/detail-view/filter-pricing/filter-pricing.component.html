@@ -1,58 +1,60 @@
-<div *ngIf="quotationDetail">
-  <gq-manual-price
-    [userHasManualPriceRole]="rolesFacade.userHasManualPriceRole$ | ngrxPush"
-    [quotationDetail]="quotationDetail"
-    [currency]="quotationCurrency$ | ngrxPush"
-    (selectManualPrice)="selectPrice($event)"
-    [isLoading]="updateIsLoading$ | ngrxPush"
-    [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
-    [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
-  ></gq-manual-price>
-
-  <gq-price
-    *ngIf="quotationDetail?.recommendedPrice"
-    [quotationDetail]="quotationDetail"
-    [currency]="quotationCurrency$ | ngrxPush"
-    (selectGqPrice)="selectPrice($event)"
-    [isLoading]="updateIsLoading$ | ngrxPush"
-    [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
-    [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
-    [isDisabled]="
-      !(quotationIsActive$ | ngrxPush) ||
-      !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
-    "
-    [isDetailsButtonVisible]="
-      rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush
-    "
-  >
-  </gq-price>
-
-  <gq-sap-price
-    *ngIf="quotationDetail?.sapPrice"
-    [quotationDetail]="quotationDetail"
-    [currency]="quotationCurrency$ | ngrxPush"
-    (selectSapPrice)="selectPrice($event)"
-    [isLoading]="updateIsLoading$ | ngrxPush"
-    [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
-    [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
-    [isDisabled]="
-      !(quotationIsActive$ | ngrxPush) ||
-      !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
-    "
-  >
-  </gq-sap-price>
-
-  <gq-target-price
-    *ngIf="quotationDetail?.targetPrice"
-    [quotationDetail]="quotationDetail"
-    [currency]="quotationCurrency$ | ngrxPush"
-    [isLoading]="updateIsLoading$ | ngrxPush"
-    [isDisabled]="
-      !(quotationIsActive$ | ngrxPush) ||
-      !(rolesFacade.userHasManualPriceRole$ | ngrxPush) ||
-      !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
-    "
-    (targetPriceSelected)="selectPrice($event)"
-  >
-  </gq-target-price>
-</div>
+@if (quotationDetail) {
+  <div>
+    <gq-manual-price
+      [userHasManualPriceRole]="rolesFacade.userHasManualPriceRole$ | ngrxPush"
+      [quotationDetail]="quotationDetail"
+      [currency]="quotationCurrency$ | ngrxPush"
+      (selectManualPrice)="selectPrice($event)"
+      [isLoading]="updateIsLoading$ | ngrxPush"
+      [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
+      [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
+    ></gq-manual-price>
+    @if (quotationDetail?.recommendedPrice) {
+      <gq-price
+        [quotationDetail]="quotationDetail"
+        [currency]="quotationCurrency$ | ngrxPush"
+        (selectGqPrice)="selectPrice($event)"
+        [isLoading]="updateIsLoading$ | ngrxPush"
+        [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
+        [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
+        [isDisabled]="
+          !(quotationIsActive$ | ngrxPush) ||
+          !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
+        "
+        [isDetailsButtonVisible]="
+          rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush
+        "
+      >
+      </gq-price>
+    }
+    @if (quotationDetail?.sapPrice) {
+      <gq-sap-price
+        [quotationDetail]="quotationDetail"
+        [currency]="quotationCurrency$ | ngrxPush"
+        (selectSapPrice)="selectPrice($event)"
+        [isLoading]="updateIsLoading$ | ngrxPush"
+        [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
+        [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
+        [isDisabled]="
+          !(quotationIsActive$ | ngrxPush) ||
+          !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
+        "
+      >
+      </gq-sap-price>
+    }
+    @if (quotationDetail?.targetPrice) {
+      <gq-target-price
+        [quotationDetail]="quotationDetail"
+        [currency]="quotationCurrency$ | ngrxPush"
+        [isLoading]="updateIsLoading$ | ngrxPush"
+        [isDisabled]="
+          !(quotationIsActive$ | ngrxPush) ||
+          !(rolesFacade.userHasManualPriceRole$ | ngrxPush) ||
+          !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
+        "
+        (targetPriceSelected)="selectPrice($event)"
+      >
+      </gq-target-price>
+    }
+  </div>
+}

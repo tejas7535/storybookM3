@@ -1,20 +1,21 @@
 <div *transloco="let t; read: 'detail.detailTab.quantities'">
-  <cdba-details-label-value
-    *ngFor="
-      let netSale of quantitiesDetails?.netSales.slice().reverse();
-      index as i;
-      trackBy: trackByFn
-    "
-    [label]="
-      t('netSales', {
-        year: currentYear - (quantitiesDetails?.netSales.length - 1) + i
-      })
-    "
-    [value]="
-      (netSale | translocoDecimal | undefinedAttributeFallback) +
-      (quantitiesDetails?.currency ? ' ' + quantitiesDetails?.currency : '')
-    "
-  ></cdba-details-label-value>
+  @for (
+    netSale of quantitiesDetails?.netSales.slice().reverse();
+    track i;
+    let i = $index
+  ) {
+    <cdba-details-label-value
+      [label]="
+        t('netSales', {
+          year: currentYear - (quantitiesDetails?.netSales.length - 1) + i
+        })
+      "
+      [value]="
+        (netSale | translocoDecimal | undefinedAttributeFallback) +
+        (quantitiesDetails?.currency ? ' ' + quantitiesDetails?.currency : '')
+      "
+    ></cdba-details-label-value>
+  }
   <cdba-details-label-value
     [label]="t('budgetQuantity', { year: currentYear })"
     [value]="quantitiesDetails?.budgetQuantityCurrentYear | translocoDecimal"
@@ -27,29 +28,30 @@
       quantitiesDetails?.plannedQuantities.length > 0
     "
   ></cdba-details-label-value>
-  <cdba-details-label-value
-    *ngFor="
-      let actualQuantity of quantitiesDetails?.actualQuantities
-        .slice()
-        .reverse();
-      index as i;
-      trackBy: trackByFn
-    "
-    [label]="
-      t('actualQuantity', {
-        year: currentYear - (quantitiesDetails?.actualQuantities.length - 1) + i
-      })
-    "
-    [value]="actualQuantity | translocoDecimal"
-    [borderBottom]="i + 1 === quantitiesDetails?.actualQuantities.length"
-  ></cdba-details-label-value>
-  <cdba-details-label-value
-    *ngFor="
-      let plannedQuantity of quantitiesDetails?.plannedQuantities;
-      index as i;
-      trackBy: trackByFn
-    "
-    [label]="t('plannedQuantity', { year: currentYear + i })"
-    [value]="plannedQuantity | translocoDecimal"
-  ></cdba-details-label-value>
+  @for (
+    actualQuantity of quantitiesDetails?.actualQuantities.slice().reverse();
+    track i;
+    let i = $index
+  ) {
+    <cdba-details-label-value
+      [label]="
+        t('actualQuantity', {
+          year:
+            currentYear - (quantitiesDetails?.actualQuantities.length - 1) + i
+        })
+      "
+      [value]="actualQuantity | translocoDecimal"
+      [borderBottom]="i + 1 === quantitiesDetails?.actualQuantities.length"
+    ></cdba-details-label-value>
+  }
+  @for (
+    plannedQuantity of quantitiesDetails?.plannedQuantities;
+    track i;
+    let i = $index
+  ) {
+    <cdba-details-label-value
+      [label]="t('plannedQuantity', { year: currentYear + i })"
+      [value]="plannedQuantity | translocoDecimal"
+    ></cdba-details-label-value>
+  }
 </div>

@@ -7,64 +7,62 @@
   <form [formGroup]="editFormGroup" class="mt-6 flex h-full flex-col">
     <div class="flex flex-col">
       <div class="flex flex-row gap-6">
-        <div
-          *ngIf="
-            autoCompleteFacade.materialDescForEditMaterial$
-              | ngrxPush as materialDesc
-          "
-          class="flex-1"
-        >
-          <gq-autocomplete-input
-            #materialDescInput
-            [filterName]="materialDesc.filter"
-            [fitContent]="true"
-            [options]="materialDesc.options"
-            [autocompleteLoading]="
-              autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
-            "
-            (autocomplete)="autoCompleteFacade.autocomplete($event)"
-            (inputContent)="materialHasInput($event)"
-            (isValid)="materialInputValid($event)"
-            (unselected)="
-              autoCompleteFacade.unselectOptions(materialDesc.filter)
-            "
-            (added)="
-              autoCompleteFacade.selectMaterialNumberOrDescription(
-                $event,
-                materialDesc.filter
-              )
-            "
-          ></gq-autocomplete-input>
-        </div>
-        <div
-          *ngIf="
-            autoCompleteFacade.materialNumberForEditMaterial$
-              | ngrxPush as materialNumber
-          "
-          class="flex-1"
-        >
-          <gq-autocomplete-input
-            #materialNumberInput
-            [filterName]="materialNumber.filter"
-            [fitContent]="true"
-            [options]="materialNumber.options"
-            [autocompleteLoading]="
-              autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
-            "
-            (isValid)="materialInputValid($event)"
-            (autocomplete)="autoCompleteFacade.autocomplete($event)"
-            (inputContent)="materialHasInput($event)"
-            (unselected)="
-              autoCompleteFacade.unselectOptions(materialNumber.filter)
-            "
-            (added)="
-              autoCompleteFacade.selectMaterialNumberOrDescription(
-                $event,
-                materialNumber.filter
-              )
-            "
-          ></gq-autocomplete-input>
-        </div>
+        @if (
+          autoCompleteFacade.materialDescForEditMaterial$ | ngrxPush;
+          as materialDesc
+        ) {
+          <div class="flex-1">
+            <gq-autocomplete-input
+              #materialDescInput
+              [filterName]="materialDesc.filter"
+              [fitContent]="true"
+              [options]="materialDesc.options"
+              [autocompleteLoading]="
+                autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+              "
+              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (inputContent)="materialHasInput($event)"
+              (isValid)="materialInputValid($event)"
+              (unselected)="
+                autoCompleteFacade.unselectOptions(materialDesc.filter)
+              "
+              (added)="
+                autoCompleteFacade.selectMaterialNumberOrDescription(
+                  $event,
+                  materialDesc.filter
+                )
+              "
+            ></gq-autocomplete-input>
+          </div>
+        }
+        @if (
+          autoCompleteFacade.materialNumberForEditMaterial$ | ngrxPush;
+          as materialNumber
+        ) {
+          <div class="flex-1">
+            <gq-autocomplete-input
+              #materialNumberInput
+              [filterName]="materialNumber.filter"
+              [fitContent]="true"
+              [options]="materialNumber.options"
+              [autocompleteLoading]="
+                autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+              "
+              (isValid)="materialInputValid($event)"
+              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (inputContent)="materialHasInput($event)"
+              (unselected)="
+                autoCompleteFacade.unselectOptions(materialNumber.filter)
+              "
+              (added)="
+                autoCompleteFacade.selectMaterialNumberOrDescription(
+                  $event,
+                  materialNumber.filter
+                )
+              "
+            ></gq-autocomplete-input>
+          </div>
+        }
       </div>
       <div class="mt-4 flex flex-row gap-6">
         <div class="flex-1">
@@ -84,10 +82,9 @@
               (keydown)="handleQuantityKeyDown($event)"
             />
             <mat-hint>{{ t('quantity.hint') }}</mat-hint>
-            <mat-error
-              *ngIf="editFormGroup.get('quantity')?.errors?.required"
-              >{{ t('quantity.error') }}</mat-error
-            >
+            @if (editFormGroup.get('quantity')?.errors?.required) {
+              <mat-error>{{ t('quantity.error') }}</mat-error>
+            }
           </mat-form-field>
         </div>
         <ng-container
@@ -106,10 +103,9 @@
                 formControlName="targetPrice"
               />
               <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
-              <mat-error
-                *ngIf="editFormGroup.get('targetPrice')?.errors?.invalidPrice"
-                >{{ t('targetPrice.error') }}</mat-error
-              >
+              @if (editFormGroup.get('targetPrice')?.errors?.invalidPrice) {
+                <mat-error>{{ t('targetPrice.error') }}</mat-error>
+              }
             </mat-form-field>
           </div></ng-container
         >

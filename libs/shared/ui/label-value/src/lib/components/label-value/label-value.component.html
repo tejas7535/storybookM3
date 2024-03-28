@@ -1,76 +1,81 @@
-<div
-  *ngIf="labelValues && labelValues.length"
-  class="grid gap-0 text-caption text-high-emphasis"
-  [ngClass]="showValue ? 'grid-cols-[auto_1fr]' : 'grid-cols-1'"
->
-  <ng-container *ngFor="let labelValue of labelValues; let i = index">
-    <div
-      class="relative bg-primary bg-opacity-[0.07] px-6 pt-3 pb-6"
-      [ngClass]="i > 0 ? 'border-t border-border' : ''"
-    >
-      <span
-        [innerHTML]="labelValue.label"
-        class="inline-block"
-        [ngClass]="{ 'pr-6': labelValue.labelHint }"
-        [style.min-width]="labelMinWidth ? labelMinWidth + 'px' : ''"
-        [style.max-width]="labelMaxWidth ? labelMaxWidth + 'px' : ''"
-      ></span>
-      <mat-icon
-        *ngIf="labelValue.labelHint"
-        color="primary"
-        class="absolute right-3 top-2 cursor-help"
-        #tooltip="matTooltip"
-        [matTooltip]="labelValue.labelHint"
-        (click)="tooltip.toggle()"
+@if (labelValues && labelValues.length) {
+  <div
+    class="grid gap-0 text-caption text-high-emphasis"
+    [ngClass]="showValue ? 'grid-cols-[auto_1fr]' : 'grid-cols-1'"
+  >
+    @for (labelValue of labelValues; track labelValue; let i = $index) {
+      <div
+        class="relative bg-primary bg-opacity-[0.07] px-6 pt-3 pb-6"
+        [ngClass]="i > 0 ? 'border-t border-border' : ''"
       >
-        info_outline
-      </mat-icon>
-    </div>
-    <div
-      class="bg-surface"
-      *ngIf="showValue"
-      [ngClass]="[
-        labelValue.valueAdditionalClass || '',
-        i > 0 ? 'border-t border-border' : ''
-      ]"
-    >
-      <ng-container
-        *ngIf="labelValue.values && labelValue.values.length; else singleValue"
-      >
-        <div
-          class="grid h-full gap-0"
-          [style.grid-template-columns]="
-            'repeat(' + labelValue.values.length + ', minmax(0, 1fr))'
-          "
-        >
-          <div
-            *ngFor="let value of labelValue.values; let i = index"
-            class="px-6 pt-3 pb-6"
-            [ngClass]="[
-              value.valueAdditionalClass || '',
-              i > 0 ? 'border-l border-border' : ''
-            ]"
+        <span
+          [innerHTML]="labelValue.label"
+          class="inline-block"
+          [ngClass]="{ 'pr-6': labelValue.labelHint }"
+          [style.min-width]="labelMinWidth ? labelMinWidth + 'px' : ''"
+          [style.max-width]="labelMaxWidth ? labelMaxWidth + 'px' : ''"
+        ></span>
+        @if (labelValue.labelHint) {
+          <mat-icon
+            color="primary"
+            class="absolute right-3 top-2 cursor-help"
+            #tooltip="matTooltip"
+            [matTooltip]="labelValue.labelHint"
+            (click)="tooltip.toggle()"
           >
-            {{ value.valueText }}
-          </div>
-        </div>
-      </ng-container>
-      <ng-template #singleValue>
-        <div *ngIf="labelValue.value" class="px-6 pt-3 pb-6">
-          <span [innerHTML]="labelValue.value"></span>
-        </div>
-      </ng-template>
-      <div *ngIf="labelValue.custom" class="px-6 py-3">
-        <ng-container
-          *ngTemplateOutlet="
-            custom;
-            context: {
-              row: labelValue.custom.selector,
-              data: labelValue.custom.data
-            }
-          "
-        ></ng-container>
+            info_outline
+          </mat-icon>
+        }
       </div>
-    </div>
-  </ng-container>
-</div>
+      @if (showValue) {
+        <div
+          class="bg-surface"
+          [ngClass]="[
+            labelValue.valueAdditionalClass || '',
+            i > 0 ? 'border-t border-border' : ''
+          ]"
+        >
+          @if (labelValue.values && labelValue.values.length) {
+            <div
+              class="grid h-full gap-0"
+              [style.grid-template-columns]="
+                'repeat(' + labelValue.values.length + ', minmax(0, 1fr))'
+              "
+            >
+              @for (value of labelValue.values; track value; let i = $index) {
+                <div
+                  class="px-6 pt-3 pb-6"
+                  [ngClass]="[
+                    value.valueAdditionalClass || '',
+                    i > 0 ? 'border-l border-border' : ''
+                  ]"
+                >
+                  {{ value.valueText }}
+                </div>
+              }
+            </div>
+          } @else {
+            @if (labelValue.value) {
+              <div class="px-6 pt-3 pb-6">
+                <span [innerHTML]="labelValue.value"></span>
+              </div>
+            }
+          }
+          @if (labelValue.custom) {
+            <div class="px-6 py-3">
+              <ng-container
+                *ngTemplateOutlet="
+                  custom;
+                  context: {
+                    row: labelValue.custom.selector,
+                    data: labelValue.custom.data
+                  }
+                "
+              ></ng-container>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+}

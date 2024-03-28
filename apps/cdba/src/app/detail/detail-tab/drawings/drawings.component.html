@@ -2,51 +2,51 @@
   class="space-between flex h-full flex-col"
   *transloco="let t; read: 'drawings'"
 >
-  <h6 class="mb-4 text-medium-emphasis" *ngIf="materialDesignation$ | ngrxPush">
-    {{
-      t('title', {
-        material:
-          materialDesignation$ | ngrxPush | scrambleMaterialDesignation: 0
-      })
-    }}
-  </h6>
+  @if (materialDesignation$ | ngrxPush) {
+    <h6 class="mb-4 text-medium-emphasis">
+      {{
+        t('title', {
+          material:
+            materialDesignation$ | ngrxPush | scrambleMaterialDesignation: 0
+        })
+      }}
+    </h6>
+  }
   <div class="relative flex h-full w-full flex-col">
-    <cdba-loading-spinner
-      *ngIf="loading$ | ngrxPush"
-      [show]="true"
-    ></cdba-loading-spinner>
-    <ng-container *ngIf="(drawings$ | ngrxPush)?.length > 0">
+    @if (loading$ | ngrxPush) {
+      <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+    }
+    @if ((drawings$ | ngrxPush)?.length > 0) {
       <schaeffler-under-construction
         class="mb-4"
         [title]="t('upcomingPreviewFeatureTeaser')"
         [message]="t('upcomingPreviewFeatureTeaserMessage')"
       >
       </schaeffler-under-construction>
-
       <cdba-drawings-table
         class="grow"
         [rowData]="drawings$ | ngrxPush"
         (selectionChange)="selectDrawing($event)"
       ></cdba-drawings-table>
-    </ng-container>
-
-    <div
-      *ngIf="(drawings$ | ngrxPush)?.length === 0 && !(loading$ | ngrxPush)"
-      class="flex h-full flex-col items-center justify-center p-4 text-center"
-    >
-      <img
-        src="/assets/images/no_drawings_empty_state.png"
-        alt="No drawings found"
-        class="mb-4 max-w-[90%]"
-      />
-      <div *transloco="let t; read: 'drawings'">
-        <h4 class="mb-4 text-high-emphasis">
-          {{ t('noDrawingsTitle') }}
-        </h4>
-        <div class="text-subtitle-1 text-medium-emphasis">
-          {{ t('noDrawingsText') }}
+    }
+    @if ((drawings$ | ngrxPush)?.length === 0 && !(loading$ | ngrxPush)) {
+      <div
+        class="flex h-full flex-col items-center justify-center p-4 text-center"
+      >
+        <img
+          src="/assets/images/no_drawings_empty_state.png"
+          alt="No drawings found"
+          class="mb-4 max-w-[90%]"
+        />
+        <div *transloco="let t; read: 'drawings'">
+          <h4 class="mb-4 text-high-emphasis">
+            {{ t('noDrawingsTitle') }}
+          </h4>
+          <div class="text-subtitle-1 text-medium-emphasis">
+            {{ t('noDrawingsText') }}
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

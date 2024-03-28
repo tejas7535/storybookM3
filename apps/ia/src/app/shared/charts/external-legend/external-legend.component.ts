@@ -28,8 +28,4 @@ export class ExternalLegendComponent {
       [clickedLegendItem.name]: clickedLegendItem.selected,
     });
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

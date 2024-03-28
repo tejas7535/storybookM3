@@ -1,4 +1,4 @@
-<ng-container *ngIf="isFNumber">
+@if (isFNumber) {
   <div
     class="flex h-full items-center overflow-hidden"
     *transloco="let t; read: 'shared.quotationDetailsTable'"
@@ -12,4 +12,4 @@
       </span>
     </div>
   </div>
-</ng-container>
+}

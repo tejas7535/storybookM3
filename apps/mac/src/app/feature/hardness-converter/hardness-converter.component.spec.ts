@@ -430,14 +430,6 @@ describe('HardnessConverterComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    it('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
-
   describe('getTooltip', () => {
     it('should return translation for MPA', () => {
       expect(component.getTooltip('mpa')).toBeTruthy();

@@ -6,45 +6,48 @@
   "
 >
   <div class="mr-2 flex-1">
-    <ng-container *ngIf="showMaterialEmissionClassification; else simpleView">
+    @if (showMaterialEmissionClassification) {
       <!-- The emissions value is expected to be per ton but the value in SAP Materials is PCF per kg.
       Therefore, we need the factor 1000 in this case! -->
       <mac-material-emission-classification
         [value]="params.value ? params.value * 1000 : undefined"
         [displayValue]="params.valueFormatted"
       ></mac-material-emission-classification>
-    </ng-container>
-    <ng-template #simpleView
-      ><span>{{ params?.valueFormatted ?? params?.value }}</span></ng-template
-    >
+    } @else {
+      <span>{{ params?.valueFormatted ?? params?.value }}</span>
+    }
   </div>
-  <div class="flex-1 align-baseline text-right" *ngIf="hasValue()">
-    <ng-container>
-      <span
-        activeClass="text-link"
-        cdkOverlayOrigin
-        #indicator="cdkOverlayOrigin"
-      >
-        {{ t(getMaturity()) }}
+  @if (hasValue()) {
+    <div class="flex-1 align-baseline text-right">
+      <ng-container>
         <span
-          class="bg-secondary-900 text-white rounded-[50%] text-center w-5 h-5 inline-block line leading-5"
+          activeClass="text-link"
+          cdkOverlayOrigin
+          #indicator="cdkOverlayOrigin"
         >
-          {{ getMaturity() }}
+          {{ t(getMaturity()) }}
+          <span
+            class="bg-secondary-900 text-white rounded-[50%] text-center w-5 h-5 inline-block line leading-5"
+          >
+            {{ getMaturity() }}
+          </span>
         </span>
-      </span>
-      <mac-html-tooltip
-        [tooltipOrigin]="indicator"
-        [tooltipShowDelay]="500"
-        [tooltipHideDelay]="500"
-      >
-        {{ t('tooltip') }}
-        <mac-maturity-info>
-          <a class="hover:cursor-pointer hover:underline ml-1">
-            {{ t('moreInformation') }}
-            <mat-icon [inline]="true" class="ml-0.5 !h-3">open_in_new</mat-icon>
-          </a>
-        </mac-maturity-info>
-      </mac-html-tooltip>
-    </ng-container>
-  </div>
+        <mac-html-tooltip
+          [tooltipOrigin]="indicator"
+          [tooltipShowDelay]="500"
+          [tooltipHideDelay]="500"
+        >
+          {{ t('tooltip') }}
+          <mac-maturity-info>
+            <a class="hover:cursor-pointer hover:underline ml-1">
+              {{ t('moreInformation') }}
+              <mat-icon [inline]="true" class="ml-0.5 !h-3"
+                >open_in_new</mat-icon
+              >
+            </a>
+          </mac-maturity-info>
+        </mac-html-tooltip>
+      </ng-container>
+    </div>
+  }
 </div>

@@ -1,7 +1,5 @@
-<ng-container
-  *transloco="let t; scope: 'f-pricing'; read: 'fPricing.pricingAssistantModal'"
->
-  <ng-container *ngIf="!isAddPriceButton; else addPrice">
+<ng-container *transloco="let t; read: 'fPricing.pricingAssistantModal'">
+  @if (!isAddPriceButton) {
     <div
       class="border box-border border-border border-solid rounded-md p-4 flex flex-col w-full h-20 cursor-pointer"
       [ngClass]="{ 'border-b-4 border-b-primary': isActiveInDialog }"
@@ -11,14 +9,26 @@
         <span class="text-caption text-medium-emphasis">{{
           t(priceLabelKey)
         }}</span>
-        <ng-container *ngIf="isSelected; then currentlySelected"></ng-container>
+        @if (isSelected) {
+          <div
+            class="flex h-full items-center overflow-hidden rounded-full text-caption text-quotation-status-green"
+          >
+            <span
+              class="block rounded-full py-1 px-3 bg-quotation-status-green text-[8px] leading-4 font-bold"
+            >
+              {{ t('currentlySelected') | uppercase }}</span
+            >
+          </div>
+        }
       </div>
       <div
         class="flex flex-row gap-4 items-end"
         [ngClass]="{ 'py-3': !isSelected }"
       >
         <div class="flex items-center gap-2">
-          <mat-icon *ngIf="icon" [ngClass]="iconColor">{{ icon }}</mat-icon>
+          @if (icon) {
+            <mat-icon [ngClass]="iconColor">{{ icon }}</mat-icon>
+          }
           <span class="gq-text-5 text-high-emphasis"
             >{{ priceValue | numberCurrency: currency }}
           </span>
@@ -31,9 +41,7 @@
         </gq-label-text>
       </div>
     </div>
-  </ng-container>
-
-  <ng-template #addPrice>
+  } @else {
     <div
       class="border box-border border-border border-dashed rounded-md p-4 h-20 flex flex-col w-full items-center cursor-pointer"
       (click)="addPriceButtonClicked.emit()"
@@ -43,17 +51,5 @@
         >{{ t('addManualPriceButton') }}
       </span>
     </div>
-  </ng-template>
-
-  <ng-template #currentlySelected>
-    <div
-      class="flex h-full items-center overflow-hidden rounded-full text-caption text-quotation-status-green"
-    >
-      <span
-        class="block rounded-full py-1 px-3 bg-quotation-status-green text-[8px] leading-4 font-bold"
-      >
-        {{ t('currentlySelected') | uppercase }}</span
-      >
-    </div>
-  </ng-template>
+  }
 </ng-container>

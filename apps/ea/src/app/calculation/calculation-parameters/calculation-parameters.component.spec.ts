@@ -25,7 +25,7 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CalculationParametersComponent } from './calculation-parameters';
+import { CalculationParametersComponent } from './calculation-parameters.component';
 import { LoadCaseDataFormGroupModel } from './loadcase-data-form-group.interface';
 import { ParameterTemplateDirective } from './parameter-template.directive';
 
@@ -127,7 +127,7 @@ describe('CalculationParametersComponent', () => {
     it('should add a loadcase', () => {
       component['updateFirstLoadCaseName'] = jest.fn();
       component['createLoadCaseDataFormGroup'] = jest.fn(
-        () => ({} as FormGroup<LoadCaseDataFormGroupModel>)
+        () => ({}) as FormGroup<LoadCaseDataFormGroupModel>
       );
       component.operationConditionsForm.controls['loadCaseData'].push =
         jest.fn();

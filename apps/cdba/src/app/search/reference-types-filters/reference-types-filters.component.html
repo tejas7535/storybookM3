@@ -1,24 +1,24 @@
 <div *transloco="let t; read: 'search.referenceTypesFilters'">
   <div class="flex flex-wrap justify-center gap-x-5">
-    <ng-container
-      *ngFor="let filter of filters$ | ngrxPush; trackBy: trackByFn"
-      [ngSwitch]="filter.type"
-    >
-      <cdba-multi-select-filter
-        class="w-[233px]"
-        *ngSwitchCase="filterType.ID_VALUE"
-        [filter]="$any(filter)"
-        (updateFilter)="updateFilter($event)"
-        (autocomplete)="autocomplete($event)"
-      ></cdba-multi-select-filter>
-
-      <cdba-range-filter
-        class="w-[233px]"
-        *ngSwitchCase="filterType.RANGE"
-        [filter]="$any(filter)"
-        (updateFilter)="updateFilter($event)"
-      ></cdba-range-filter>
-    </ng-container>
+    @for (filter of filters$ | ngrxPush; track filter.name) {
+      @switch (filter.type) {
+        @case (filterType.ID_VALUE) {
+          <cdba-multi-select-filter
+            class="w-[233px]"
+            [filter]="$any(filter)"
+            (updateFilter)="updateFilter($event)"
+            (autocomplete)="autocomplete($event)"
+          ></cdba-multi-select-filter>
+        }
+        @case (filterType.RANGE) {
+          <cdba-range-filter
+            class="w-[233px]"
+            [filter]="$any(filter)"
+            (updateFilter)="updateFilter($event)"
+          ></cdba-range-filter>
+        }
+      }
+    }
   </div>
   <div class="flex justify-center gap-x-5">
     <div

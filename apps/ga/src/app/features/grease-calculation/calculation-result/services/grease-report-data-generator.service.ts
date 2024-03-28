@@ -168,7 +168,7 @@ export class GreaseReportDataGeneratorService {
                 : '',
               notes: this.getNoteFor125ml(customDataSource?.custom?.data),
             },
-          } as GreasePdfConcept1Result)
+          }) as GreasePdfConcept1Result
       )
       .shift();
   }

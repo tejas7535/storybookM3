@@ -1,20 +1,22 @@
-<div *ngIf="breadcrumb" class="flex items-center">
-  <span [matTooltip]="breadcrumb.tooltip || ''" matTooltipPosition="above">
-    <span
-      *ngIf="breadcrumb.url; else noLink"
-      class="cursor-pointer text-link"
-      [routerLink]="breadcrumb.url"
-      [queryParams]="breadcrumb.queryParams"
-    >
-      {{ breadcrumb.label }}
+@if (breadcrumb) {
+  <div class="flex items-center">
+    <span [matTooltip]="breadcrumb.tooltip || ''" matTooltipPosition="above">
+      @if (breadcrumb.url) {
+        <span
+          class="cursor-pointer text-link"
+          [routerLink]="breadcrumb.url"
+          [queryParams]="breadcrumb.queryParams"
+        >
+          {{ breadcrumb.label }}
+        </span>
+      } @else {
+        <span>{{ breadcrumb.label }}</span>
+      }
     </span>
-    <ng-template #noLink>
-      <span>{{ breadcrumb.label }}</span>
-    </ng-template>
-  </span>
-  <mat-icon
-    *ngIf="hasFollowerBreadcrumb"
-    class="mx-2 !h-[auto] !w-[auto] !text-[16px]"
-    >chevron_right</mat-icon
-  >
-</div>
+    @if (hasFollowerBreadcrumb) {
+      <mat-icon class="mx-2 !h-[auto] !w-[auto] !text-[16px]"
+        >chevron_right</mat-icon
+      >
+    }
+  </div>
+}

@@ -209,7 +209,7 @@ describe('Local Storage Service', () => {
                 lubricationSelection: 'grease',
               },
             },
-          } as EAParametersLocalStorageItem)
+          }) as EAParametersLocalStorageItem
       );
 
       service.restoreStoredSession(
@@ -234,7 +234,7 @@ describe('Local Storage Service', () => {
                 lubricationSelection: 'grease',
               },
             },
-          } as EAParametersLocalStorageItem)
+          }) as EAParametersLocalStorageItem
       );
 
       service.restoreStoredSession(
@@ -261,7 +261,7 @@ describe('Local Storage Service', () => {
                 lubricationSelection: 'grease',
               },
             },
-          } as EAParametersLocalStorageItem)
+          }) as EAParametersLocalStorageItem
       );
 
       service.restoreStoredSession(

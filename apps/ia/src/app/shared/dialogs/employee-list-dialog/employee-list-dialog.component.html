@@ -1,25 +1,27 @@
 <ng-container *transloco="let t; read: 'employeeListDialog'">
-  <div class="p-4" *ngIf="data?.headings?.header">
-    <mat-icon class="inline text-medium-emphasis">{{
-      data?.headings.icon
-    }}</mat-icon>
-    <h5 class="inline align-top mx-2 leading-6">
-      {{ data?.headings?.header }}
-    </h5>
-    <button mat-dialog-close class="inline float-right">
-      <mat-icon>close</mat-icon>
-    </button>
-    <ng-container
-      *ngrxLet="beautifiedFilters$ as beautifiedFilters"
-      [ngTemplateOutlet]="headings"
-      [ngTemplateOutletContext]="{
-        $implicit: data?.headings?.showDefaultFilters
-          ? beautifiedFilters
-          : data?.headings?.customBeautifiedFilters
-      }"
-    >
-    </ng-container>
-  </div>
+  @if (data?.headings?.header) {
+    <div class="p-4">
+      <mat-icon class="inline text-medium-emphasis">{{
+        data?.headings.icon
+      }}</mat-icon>
+      <h5 class="inline align-top mx-2 leading-6">
+        {{ data?.headings?.header }}
+      </h5>
+      <button mat-dialog-close class="inline float-right">
+        <mat-icon>close</mat-icon>
+      </button>
+      <ng-container
+        *ngrxLet="beautifiedFilters$ as beautifiedFilters"
+        [ngTemplateOutlet]="headings"
+        [ngTemplateOutletContext]="{
+          $implicit: data?.headings?.showDefaultFilters
+            ? beautifiedFilters
+            : data?.headings?.customBeautifiedFilters
+        }"
+      >
+      </ng-container>
+    </div>
+  }
   <mat-dialog-content
     class="!overflow-hidden"
     *ngrxLet="defaultExcelName$ as defaultExcelName"
@@ -30,12 +32,11 @@
       [excludedColumns]="data.excludedColumns"
       [excelName]="data.customExcelFileName ?? defaultExcelName"
     ></ia-employee-list-table>
-    <span
-      *ngIf="!data.employeesLoading && !data.enoughRightsToShowAllEmployees"
-      class="text-warning !pt-0"
-    >
-      {{ t('enoughRightsToShowAllEmployees') }}
-    </span>
+    @if (!data.employeesLoading && !data.enoughRightsToShowAllEmployees) {
+      <span class="text-warning !pt-0">
+        {{ t('enoughRightsToShowAllEmployees') }}
+      </span>
+    }
   </mat-dialog-content>
 </ng-container>
 
@@ -51,13 +52,13 @@
     <span class="text-high-emphasis">{{ beautifiedFilters.value }}</span>
     <span class="ml-4 text-medium-emphasis">Timeframe:&nbsp;</span>
     <span class="text-high-emphasis">{{ beautifiedFilters.timeRange }}</span>
-    <ng-container *ngIf="beautifiedFilters.manager">
+    @if (beautifiedFilters.manager) {
       <span class="ml-4 text-medium-emphasis">Manager:&nbsp;</span>
       <span class="text-high-emphasis">{{ beautifiedFilters.manager }}</span>
-    </ng-container>
-    <ng-container *ngIf="beautifiedFilters.job">
+    }
+    @if (beautifiedFilters.job) {
       <span class="ml-4 text-medium-emphasis">Job:&nbsp;</span>
       <span class="text-high-emphasis">{{ beautifiedFilters.job }}</span>
-    </ng-container>
+    }
   </div>
 </ng-template>

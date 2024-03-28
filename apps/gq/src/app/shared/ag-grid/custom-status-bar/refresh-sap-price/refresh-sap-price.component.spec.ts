@@ -60,7 +60,7 @@ describe('RefreshSapPriceComponent', () => {
       () =>
         ({
           afterClosed: () => of(true),
-        } as any)
+        }) as any
     );
   });
 

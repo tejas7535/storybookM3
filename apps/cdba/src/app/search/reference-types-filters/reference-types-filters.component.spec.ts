@@ -200,14 +200,4 @@ describe('ReferenceTypesFiltersComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(resetFilters());
     });
   });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const filter = new FilterItemIdValue('test', [], [], true, false);
-
-      const result = component.trackByFn(undefined, filter);
-
-      expect(result).toEqual(filter.name);
-    });
-  });
 });

@@ -7,56 +7,54 @@
     (closeDialog)="closeDialog()"
   >
   </gq-dialog-header>
-  <div
-    class="flex h-full flex-col"
-    *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
-  >
-    <div class="h-full">
-      <mat-form-field class="w-full">
-        <textarea
-          class="text-overline !leading-7"
-          [formControl]="commentFormControl"
-          appearance="fill"
-          type="text"
-          maxlength="100"
-          cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="4"
-          matInput
-          #comment
-          data-cy="comment-modal_comment-input"
-        ></textarea>
-        <mat-hint align="end"> {{ comment.value.length }} / 100</mat-hint>
-      </mat-form-field>
+  @if ((updateLoading$ | ngrxPush) === false) {
+    <div class="flex h-full flex-col">
+      <div class="h-full">
+        <mat-form-field class="w-full">
+          <textarea
+            class="text-overline !leading-7"
+            [formControl]="commentFormControl"
+            appearance="fill"
+            type="text"
+            maxlength="100"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="4"
+            matInput
+            #comment
+            data-cy="comment-modal_comment-input"
+          ></textarea>
+          <mat-hint align="end"> {{ comment.value.length }} / 100</mat-hint>
+        </mat-form-field>
+      </div>
+      <div>
+        <button
+          class="!pl-8 !pr-8"
+          color="primary"
+          mat-raised-button
+          [disabled]="commentDisabled || commentFormControl.invalid"
+          (click)="confirmComment()"
+          data-cy="comment-modal_comment-confirm-btn"
+        >
+          <span> {{ t('confirm') | uppercase }} </span>
+        </button>
+        <button
+          class="!ml-6 !pl-8 !pr-8"
+          color="primary"
+          mat-stroked-button
+          (click)="closeDialog()"
+          data-cy="comment-modal_comment-cancel-btn"
+        >
+          <span> {{ t('cancel') | uppercase }} </span>
+        </button>
+      </div>
     </div>
-    <div>
-      <button
-        class="!pl-8 !pr-8"
-        color="primary"
-        mat-raised-button
-        [disabled]="commentDisabled || commentFormControl.invalid"
-        (click)="confirmComment()"
-        data-cy="comment-modal_comment-confirm-btn"
-      >
-        <span> {{ t('confirm') | uppercase }} </span>
-      </button>
-      <button
-        class="!ml-6 !pl-8 !pr-8"
-        color="primary"
-        mat-stroked-button
-        (click)="closeDialog()"
-        data-cy="comment-modal_comment-cancel-btn"
-      >
-        <span> {{ t('cancel') | uppercase }} </span>
-      </button>
-    </div>
-  </div>
-  <ng-template #loading>
+  } @else {
     <schaeffler-loading-spinner
       class="h-full"
       backgroundColor="rgba(255,255,255, 0.1)"
       [relative]="true"
     ></schaeffler-loading-spinner>
-  </ng-template>
+  }
 </div>

@@ -27,13 +27,11 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu xPosition="after" yPosition="above" #menu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let pageSizeOption of pageSizeOptions"
-            (click)="onPageSizeChange(pageSizeOption)"
-          >
-            {{ pageSizeOption }}
-          </button>
+          @for (pageSizeOption of pageSizeOptions; track pageSizeOption) {
+            <button mat-menu-item (click)="onPageSizeChange(pageSizeOption)">
+              {{ pageSizeOption }}
+            </button>
+          }
         </mat-menu>
       </div>
     </div>

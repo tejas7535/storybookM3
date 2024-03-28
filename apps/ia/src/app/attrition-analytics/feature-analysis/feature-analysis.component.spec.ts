@@ -38,14 +38,6 @@ describe('FeatureAnalysisComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
-
   describe('drop', () => {
     test('should move selected features and trigger change', () => {
       const event = {

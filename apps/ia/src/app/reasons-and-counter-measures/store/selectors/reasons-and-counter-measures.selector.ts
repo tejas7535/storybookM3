@@ -213,7 +213,10 @@ export const getReasonsCombinedLegend = createSelector(
   }
 );
 
-const getTimeRangeTitle = (timePeriod: TimePeriod, timeRange: string): string =>
+const getTimeRangeTitle = (
+  timePeriod: TimePeriod,
+  timeRange: string
+): string =>
   timePeriod === TimePeriod.LAST_12_MONTHS
     ? translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`)
     : timeRange;

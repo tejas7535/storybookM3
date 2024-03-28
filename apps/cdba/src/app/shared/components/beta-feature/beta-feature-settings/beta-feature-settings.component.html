@@ -19,7 +19,7 @@
 </ng-template>
 
 <!--Limit Filter and Client Side Pagination-->
-<ng-container *ngIf="showLimitFilterToggle">
+@if (showLimitFilterToggle) {
   <div class="mb-2 text-subtitle-1">Limit Filter and Pagination</div>
   <div class="mb-2 text-caption">
     Activate to enable the Limit Filter with pagination in Results view.<br />The
@@ -33,4 +33,4 @@
   >
     Activate Limit Filter
   </mat-slide-toggle>
-</ng-container>
+}

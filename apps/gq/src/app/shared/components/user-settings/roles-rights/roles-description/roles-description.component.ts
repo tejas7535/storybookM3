@@ -10,8 +10,4 @@ export class RolesDescriptionComponent {
   @Input() set key(value: string) {
     this.translationKey = `userSettings.rolesRights.${value}`;
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

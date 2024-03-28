@@ -11,10 +11,6 @@ export class BreadcrumbsComponent {
   @Input() public breadcrumbs!: Breadcrumb[];
   @Input() public truncateAfter = 0;
 
-  public trackByFn(index: number): number {
-    return index;
-  }
-
   public showTruncation(): boolean {
     return !!this.truncateAfter && this.truncateAfter > 0;
   }

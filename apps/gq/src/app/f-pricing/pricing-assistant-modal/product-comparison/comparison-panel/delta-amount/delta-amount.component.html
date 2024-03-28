@@ -1,4 +1,4 @@
-<ng-container *ngIf="amount > 0">
+@if (amount > 0) {
   <div
     class="delta-chip bg-info text-info"
     *transloco="
@@ -7,6 +7,6 @@
       read: 'fPricing.pricingAssistantModal.comparisonPanel'
     "
   >
-    <span> {{t('amountOfDelta', {amount})}}</span>
+    <span> {{ t('amountOfDelta', { amount }) }}</span>
   </div>
-</ng-container>
+}

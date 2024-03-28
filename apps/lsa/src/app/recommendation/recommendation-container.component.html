@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <lsa-stepper (selectionChange)="selectionChanged($event)">
     <ng-container *ngrxLet="selectedStep$ as currentStep">
-      <ng-container *ngFor="let page of pages; let index = index">
+      @for (page of pages; track page; let index = $index) {
         <cdk-step
           lsaStep
           matStepContent
@@ -9,25 +9,26 @@
           [completed]="page.completed"
         >
           <div class="md:px-8 px-2 pt-8">
-            <ng-container [ngSwitch]="index">
-              <ng-container *ngSwitchCase="0">
+            @switch (index) {
+              @case (0) {
                 <lsa-lubrication-points
                   [lubricationPointsForm]="lubricationPointsForm"
                 ></lsa-lubrication-points>
-              </ng-container>
-              <ng-container *ngSwitchCase="1">
+              }
+              @case (1) {
                 <lsa-lubricant
                   [lubricantForm]="lubricantForm"
                   [greases]="greases$ | ngrxPush"
                 ></lsa-lubricant>
-              </ng-container>
-              <ng-container *ngSwitchCase="2">
-                <lsa-application
-                  *ngIf="index === currentStep"
-                  [applicationForm]="applicationForm"
-                ></lsa-application>
-              </ng-container>
-              <ng-container *ngSwitchCase="3">
+              }
+              @case (2) {
+                @if (index === currentStep) {
+                  <lsa-application
+                    [applicationForm]="applicationForm"
+                  ></lsa-application>
+                }
+              }
+              @case (3) {
                 <ng-container *ngrxLet="recommendation$ as recommendation">
                   <lsa-result
                     [recommendationResult]="recommendation"
@@ -48,11 +49,11 @@
                     <pre>{{ recommendation$ | ngrxPush | json }}</pre>
                   </div>
                 </div>
-              </ng-container>
-            </ng-container>
+              }
+            }
           </div>
         </cdk-step>
-      </ng-container>
+      }
     </ng-container>
   </lsa-stepper>
 </ng-container>

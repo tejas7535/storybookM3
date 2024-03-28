@@ -3,7 +3,6 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  TrackByFunction,
   ViewChildren,
 } from '@angular/core';
 
@@ -115,9 +114,4 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
     this.rangeFilters.forEach((filter) => filter.reset());
     this.store.dispatch(resetFilters());
   }
-
-  trackByFn: TrackByFunction<FilterItem> = (
-    _index: number,
-    item: FilterItem
-  ): string => item.name;
 }

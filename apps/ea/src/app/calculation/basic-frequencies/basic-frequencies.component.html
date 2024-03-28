@@ -17,12 +17,7 @@
   </div>
 
   <mat-dialog-content class="!px-4 pb-4">
-    <ng-container
-      *ngIf="
-        basicFrequencies$ | ngrxPush as basicFrequencies;
-        else loadingTemplate
-      "
-    >
+    @if (basicFrequencies$ | ngrxPush; as basicFrequencies) {
       <div class="border-border rounded border overflow-auto min-w-[400px]">
         <div class="border-border text-subtitle-1 border-b md:px-4 md:py-2 p-2">
           {{ basicFrequencies.title }}
@@ -51,7 +46,6 @@
                 {{ item.value | number: '1.2-2' }}
               </td>
             </ng-container>
-
             <tr
               mat-row
               [class.bg-hover-overlay]="i % 2 === 1"
@@ -60,15 +54,13 @@
           </table>
         </div>
       </div>
-    </ng-container>
-
-    <ng-template #loadingTemplate>
+    } @else {
       <div class="item-center flex content-center p-8">
         <div class="ml-auto mr-auto">
           <mat-spinner diameter="20"></mat-spinner>
         </div>
       </div>
-    </ng-template>
+    }
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button color="primary" (click)="saveAsPdf()">

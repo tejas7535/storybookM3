@@ -1,56 +1,60 @@
-<div class="mt-4" *ngIf="materialStockByPlant && uom">
-  <div
-    *transloco="
-      let t;
-      read: 'detailView.pricingDetails.stockAvailabilityDetails'
-    "
-  >
-    <gq-kpi-status-card [title]="t('title')">
-      <gq-label-text>
-        <span label>{{ t('deliveryPlant') }}</span>
-        <span text>{{ materialStockByPlant.plant | plantDisplay }}</span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('stock') }}</span>
-        <span text
-          >{{ materialStockByPlant.stock }}
-          {{ uom | uom | nullableString }}
-        </span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('freeStock') }}</span>
-        <span text>
-          <gq-free-stock-traffic-light
-            [freeStock]="materialStockByPlant.freeStock"
-            [uom]="uom"
-          >
-          </gq-free-stock-traffic-light>
-        </span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('backlog') }}</span>
-        <span text
-          >{{ materialStockByPlant.backlog }}
-          {{ uom | uom | nullableString }}
-        </span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('nextFreeAtp') }}</span>
-        <span text
-          >{{ materialStockByPlant.nextFree }}
-          {{ uom | uom | nullableString }}
-        </span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('dateNextFreeAtp') }}</span>
-        <span text>{{
-          materialStockByPlant.dateNextFree | translocoDate
-        }}</span>
-      </gq-label-text>
-      <gq-label-text>
-        <span label>{{ t('deliveryDate') }}</span>
-        <span text>{{ materialStockByPlant.arrivalDate | translocoDate }}</span>
-      </gq-label-text>
-    </gq-kpi-status-card>
+@if (materialStockByPlant && uom) {
+  <div class="mt-4">
+    <div
+      *transloco="
+        let t;
+        read: 'detailView.pricingDetails.stockAvailabilityDetails'
+      "
+    >
+      <gq-kpi-status-card [title]="t('title')">
+        <gq-label-text>
+          <span label>{{ t('deliveryPlant') }}</span>
+          <span text>{{ materialStockByPlant.plant | plantDisplay }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('stock') }}</span>
+          <span text
+            >{{ materialStockByPlant.stock }}
+            {{ uom | uom | nullableString }}
+          </span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('freeStock') }}</span>
+          <span text>
+            <gq-free-stock-traffic-light
+              [freeStock]="materialStockByPlant.freeStock"
+              [uom]="uom"
+            >
+            </gq-free-stock-traffic-light>
+          </span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('backlog') }}</span>
+          <span text
+            >{{ materialStockByPlant.backlog }}
+            {{ uom | uom | nullableString }}
+          </span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('nextFreeAtp') }}</span>
+          <span text
+            >{{ materialStockByPlant.nextFree }}
+            {{ uom | uom | nullableString }}
+          </span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('dateNextFreeAtp') }}</span>
+          <span text>{{
+            materialStockByPlant.dateNextFree | translocoDate
+          }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('deliveryDate') }}</span>
+          <span text>{{
+            materialStockByPlant.arrivalDate | translocoDate
+          }}</span>
+        </gq-label-text>
+      </gq-kpi-status-card>
+    </div>
   </div>
-</div>
+}

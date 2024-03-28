@@ -7,18 +7,24 @@
     floatLabel="always"
     class="flex w-full grow-0 flex-row pb-3"
   >
-    <mat-label *ngIf="label">{{ label }}</mat-label>
+    @if (label) {
+      <mat-label>{{ label }}</mat-label>
+    }
     <mat-select
       [formControl]="control"
       [placeholder]="placeholder || t('pleaseSelect')"
     >
-      <mat-option *ngFor="let option of options" [value]="option.value">
-        {{ option.label }}
-      </mat-option>
+      @for (option of options; track option) {
+        <mat-option [value]="option.value">
+          {{ option.label }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
-  <div *ngIf="tooltip">
-    <ea-info-button [tooltip]="tooltip"></ea-info-button>
-  </div>
+  @if (tooltip) {
+    <div>
+      <ea-info-button [tooltip]="tooltip"></ea-info-button>
+    </div>
+  }
 </div>

@@ -13,7 +13,4 @@ export class GqRatingComponent {
   agInit(params: CellClassParams): void {
     this.rating = params.value;
   }
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

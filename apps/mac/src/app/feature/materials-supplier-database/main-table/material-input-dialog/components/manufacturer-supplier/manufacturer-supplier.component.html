@@ -1,163 +1,162 @@
 <ng-container
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
 >
-  <div class="flex flex-row gap-x-6" [ngSwitch]="viewMode">
-    <!-- readonly fields -->
-    <ng-container *ngSwitchCase="'readonly'">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>{{ t('supplierName') }} {{ t('readonly') }}</mat-label>
-        <input
-          matInput
-          [value]="supplierControl.value?.title || ''"
-          name="manufacturerSupplierName"
-          [matTooltip]="supplierControl.value.title"
-          [matTooltipShowDelay]="1500"
-          #dialogControl
-          readonly="true"
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>{{ t('supplierPlant') }} {{ t('readonly') }}</mat-label>
-        <input
-          matInput
-          [value]="supplierPlantControl.value?.title || ''"
-          name="manufacturerSupplierPlant"
-          [matTooltip]="supplierPlantControl.value.title"
-          [matTooltipShowDelay]="1500"
-          #dialogControl
-          readonly="true"
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label>
-        <input
-          matInput
-          [value]="supplierCountryControl.value?.title || ''"
-          name="manufacturerSupplierCountry"
-          [matTooltip]="supplierCountryControl.value.title"
-          [matTooltipShowDelay]="1500"
-          #dialogControl
-          readonly="true"
-        />
-      </mat-form-field>
-    </ng-container>
-    <!-- editable fields -->
-    <ng-container *ngSwitchCase="'editable'">
-      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
-        <mat-label>{{ t('supplierName') }}</mat-label>
-        <input
-          matInput
-          [formControl]="supplierEditControl"
-          name="manufacturerSupplierName"
-          #dialogControl
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
-        <mat-label>{{ t('supplierPlant') }}</mat-label>
-        <input
-          matInput
-          [formControl]="supplierPlantEditControl"
-          name="manufacturerSupplierPlant"
-          #dialogControl
-        />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full" floatLabel="always">
-        <mat-select required [formControl]="supplierCountryEditControl">
-          <mat-option
-            *ngFor="let country of supplierCountries$ | ngrxPush"
-            [value]="country.id"
-            >{{ country.title }}</mat-option
-          >
-        </mat-select>
-        <mat-label>{{ t('supplierCountry') }}</mat-label>
-      </mat-form-field>
-    </ng-container>
-    <!-- default (SELECT) -->
-    <ng-container *ngSwitchDefault>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="suppliers$ | ngrxPush"
-        [control]="supplierControl"
-        [filterFn]="filterFn"
-        [label]="t('supplierName')"
-        [addEntry]="true"
-        [showTriggerTooltip]="true"
-        triggerTooltipDelay="1500"
-        tooltipPosition="right"
-        (entryAdded)="addSupplierName($event)"
-        name="manufacturerSupplierName"
-        #dialogControl
-      >
-        <span
-          matErrorContent
-          class="text-caption"
-          *ngIf="supplierControl.invalid"
-        >
-          {{ getErrorMessage(supplierControl.errors) }}
-        </span>
-      </schaeffler-select>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="supplierPlants$ | ngrxPush"
-        [control]="supplierPlantControl"
-        [filterFn]="
-          valueTitleToOptionKeyFilterFnFactory(supplierControl, 'supplierName')
-        "
-        [label]="t('supplierPlant')"
-        [addEntry]="true"
-        [showTriggerTooltip]="true"
-        triggerTooltipDelay="1500"
-        tooltipPosition="right"
-        (entryAdded)="addSupplierPlant($event)"
-        name="manufacturerSupplierPlant"
-        #dialogControl
-      >
-        <span
-          matErrorContent
-          class="text-caption"
-          *ngIf="supplierPlantControl.invalid"
-        >
-          {{ getErrorMessage(supplierPlantControl.errors) }}
-        </span>
-      </schaeffler-select>
-      <schaeffler-select
-        *ngIf="!supplierPlantControl.value?.data; else readOnlyCountry"
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="supplierCountries$ | ngrxPush"
-        [control]="supplierCountryControl"
-        [label]="t('supplierCountry')"
-        [filterFn]="filterFn"
-        [showTriggerTooltip]="true"
-        triggerTooltipDelay="1500"
-        tooltipPosition="right"
-        name="manufacturerSupplierCountry"
-        #dialogControl
-      >
-        <span
-          matErrorContent
-          class="text-caption"
-          *ngIf="supplierCountryControl.invalid"
-        >
-          {{ getErrorMessage(supplierCountryControl.errors) }}
-        </span>
-      </schaeffler-select>
-      <ng-template #readOnlyCountry>
+  <div class="flex flex-row gap-x-6">
+    @switch (viewMode) {
+      <!-- readonly fields -->
+      @case ('readonly') {
         <mat-form-field appearance="outline" class="w-full">
-          <mat-label>{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label>
+          <mat-label>{{ t('supplierName') }} {{ t('readonly') }}</mat-label>
           <input
             matInput
-            [value]="supplierCountryControl.value?.title"
-            name="manufacturerSupplierCountry"
-            [matTooltip]="supplierCountryControl.value?.title"
+            [value]="supplierControl.value?.title || ''"
+            name="manufacturerSupplierName"
+            [matTooltip]="supplierControl.value.title"
             [matTooltipShowDelay]="1500"
             #dialogControl
             readonly="true"
           />
         </mat-form-field>
-      </ng-template>
-    </ng-container>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('supplierPlant') }} {{ t('readonly') }}</mat-label>
+          <input
+            matInput
+            [value]="supplierPlantControl.value?.title || ''"
+            name="manufacturerSupplierPlant"
+            [matTooltip]="supplierPlantControl.value.title"
+            [matTooltipShowDelay]="1500"
+            #dialogControl
+            readonly="true"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label>
+          <input
+            matInput
+            [value]="supplierCountryControl.value?.title || ''"
+            name="manufacturerSupplierCountry"
+            [matTooltip]="supplierCountryControl.value.title"
+            [matTooltipShowDelay]="1500"
+            #dialogControl
+            readonly="true"
+          />
+        </mat-form-field>
+      }
+      <!-- editable fields -->
+      @case ('editable') {
+        <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+          <mat-label>{{ t('supplierName') }}</mat-label>
+          <input
+            matInput
+            [formControl]="supplierEditControl"
+            name="manufacturerSupplierName"
+            #dialogControl
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+          <mat-label>{{ t('supplierPlant') }}</mat-label>
+          <input
+            matInput
+            [formControl]="supplierPlantEditControl"
+            name="manufacturerSupplierPlant"
+            #dialogControl
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full" floatLabel="always">
+          <mat-select required [formControl]="supplierCountryEditControl">
+            @for (country of supplierCountries$ | ngrxPush; track country) {
+              <mat-option [value]="country.id">{{ country.title }}</mat-option>
+            }
+          </mat-select>
+          <mat-label>{{ t('supplierCountry') }}</mat-label>
+        </mat-form-field>
+      }
+      <!-- default (SELECT) -->
+      @default {
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="suppliers$ | ngrxPush"
+          [control]="supplierControl"
+          [filterFn]="filterFn"
+          [label]="t('supplierName')"
+          [addEntry]="true"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
+          (entryAdded)="addSupplierName($event)"
+          name="manufacturerSupplierName"
+          #dialogControl
+        >
+          @if (supplierControl.invalid) {
+            <span matErrorContent class="text-caption">
+              {{ getErrorMessage(supplierControl.errors) }}
+            </span>
+          }
+        </schaeffler-select>
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="supplierPlants$ | ngrxPush"
+          [control]="supplierPlantControl"
+          [filterFn]="
+            valueTitleToOptionKeyFilterFnFactory(
+              supplierControl,
+              'supplierName'
+            )
+          "
+          [label]="t('supplierPlant')"
+          [addEntry]="true"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
+          (entryAdded)="addSupplierPlant($event)"
+          name="manufacturerSupplierPlant"
+          #dialogControl
+        >
+          @if (supplierPlantControl.invalid) {
+            <span matErrorContent class="text-caption">
+              {{ getErrorMessage(supplierPlantControl.errors) }}
+            </span>
+          }
+        </schaeffler-select>
+        @if (!supplierPlantControl.value?.data) {
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="supplierCountries$ | ngrxPush"
+            [control]="supplierCountryControl"
+            [label]="t('supplierCountry')"
+            [filterFn]="filterFn"
+            [showTriggerTooltip]="true"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="manufacturerSupplierCountry"
+            #dialogControl
+          >
+            @if (supplierCountryControl.invalid) {
+              <span matErrorContent class="text-caption">
+                {{ getErrorMessage(supplierCountryControl.errors) }}
+              </span>
+            }
+          </schaeffler-select>
+        } @else {
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label
+              >{{ t('supplierCountry') }} {{ t('readonly') }}</mat-label
+            >
+            <input
+              matInput
+              [value]="supplierCountryControl.value?.title"
+              name="manufacturerSupplierCountry"
+              [matTooltip]="supplierCountryControl.value?.title"
+              [matTooltipShowDelay]="1500"
+              #dialogControl
+              readonly="true"
+            />
+          </mat-form-field>
+        }
+      }
+    }
   </div>
 </ng-container>

@@ -53,8 +53,4 @@ export class AttachmentFilesComponent implements OnInit {
   downloadAttachment(attachment: QuotationAttachment): void {
     this.activeCaseFacade.downloadAttachment(attachment);
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

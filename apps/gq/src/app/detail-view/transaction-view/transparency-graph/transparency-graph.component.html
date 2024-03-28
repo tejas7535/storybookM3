@@ -3,12 +3,11 @@
     <span class="block w-full text-h6 text-medium-emphasis">
       {{ t('title') }}
     </span>
-    <span
-      class="block w-full text-caption text-low-emphasis"
-      *ngIf="!hideRolesHint"
-    >
-      {{ t('hint') }}
-    </span>
+    @if (!hideRolesHint) {
+      <span class="block w-full text-caption text-low-emphasis">
+        {{ t('hint') }}
+      </span>
+    }
   </div>
 
   <div echarts class="h-full" [options]="options"></div>

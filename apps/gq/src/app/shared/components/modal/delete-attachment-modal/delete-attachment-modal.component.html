@@ -5,14 +5,8 @@
   <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
   </gq-dialog-header>
 
-  <ng-container
-    *ngIf="
-      !(activeCaseFacade.deletionAttachmentInProgress$ | ngrxPush);
-      else loading
-    "
-  >
+  @if (!(activeCaseFacade.deletionAttachmentInProgress$ | ngrxPush)) {
     <p class="text-body-1 mt-5">{{ t('dialogInfo') }}</p>
-
     <div class="pt-8">
       <button
         class="!px-4"
@@ -31,14 +25,12 @@
         <span> {{ t('cancelButton') | uppercase }} </span>
       </button>
     </div>
-  </ng-container>
+  } @else {
+    <div class="py-3">
+      <schaeffler-loading-spinner
+        class="h-full"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
 </div>
-
-<ng-template #loading>
-  <div class="py-3">
-    <schaeffler-loading-spinner
-      class="h-full"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
-  </div>
-</ng-template>

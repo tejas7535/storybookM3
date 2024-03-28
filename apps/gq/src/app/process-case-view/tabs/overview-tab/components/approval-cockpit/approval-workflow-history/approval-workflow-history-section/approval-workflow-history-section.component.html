@@ -9,17 +9,18 @@
   ]"
   class="{{ getBorderClass }}"
 >
-  <mat-icon
-    *ngIf="isIterationItem && !icon"
-    class="!h-2 !w-2 !text-[8px] font-normal"
-    [ngClass]="[
-      iterationItemIconColor
-        ? iterationItemIconColor
-        : '!text-iteration-item-icon',
-      showTimeline && showInterruptedTimeline ? 'ml-[-3px]' : 'ml-[-5px]'
-    ]"
-    >circle</mat-icon
-  >
+  @if (isIterationItem && !icon) {
+    <mat-icon
+      class="!h-2 !w-2 !text-[8px] font-normal"
+      [ngClass]="[
+        iterationItemIconColor
+          ? iterationItemIconColor
+          : '!text-iteration-item-icon',
+        showTimeline && showInterruptedTimeline ? 'ml-[-3px]' : 'ml-[-5px]'
+      ]"
+      >circle</mat-icon
+    >
+  }
   <div
     class="flex flex-row gap-5 justify-center items-center mt-1"
     [ngClass]="{

@@ -1,48 +1,46 @@
-<div
-  class="flex h-full flex-1 flex-col"
-  *ngIf="!(quotationLoading$ | ngrxPush); else loading"
->
-  <div *transloco="let t; read: 'sapView.header'">
-    <schaeffler-subheader
-      [subheaderTitle]="t('title')"
-      [breadcrumbs]="breadcrumbs$ | ngrxPush"
-      *ngIf="quotationDetail$ | ngrxPush"
-    >
-      <ng-container subheaderTitleContent>
-        <gq-material-price-header-content
-          [quotationDetail]="quotationDetail$ | ngrxPush"
-          [currency]="quotationCurrency$ | ngrxPush"
-          [price]="(quotationDetail$ | ngrxPush)?.sapPrice"
+@if (!(quotationLoading$ | ngrxPush)) {
+  <div class="flex h-full flex-1 flex-col">
+    <div *transloco="let t; read: 'sapView.header'">
+      @if (quotationDetail$ | ngrxPush) {
+        <schaeffler-subheader
+          [subheaderTitle]="t('title')"
+          [breadcrumbs]="breadcrumbs$ | ngrxPush"
         >
-        </gq-material-price-header-content>
-      </ng-container>
-      <ng-container subheaderInlineContent>
-        <schaeffler-share-button></schaeffler-share-button>
-      </ng-container>
-      <ng-container subheaderBlockContent>
-        <gq-status-customer-info-header
-          [customer]="customer$ | ngrxPush"
-        ></gq-status-customer-info-header>
-      </ng-container>
-    </schaeffler-subheader>
-  </div>
-  <mat-card appearance="outlined" class="m-4 h-full">
-    <mat-card-content class="h-full">
-      <gq-sap-price-details-table
-        *ngIf="
+          <ng-container subheaderTitleContent>
+            <gq-material-price-header-content
+              [quotationDetail]="quotationDetail$ | ngrxPush"
+              [currency]="quotationCurrency$ | ngrxPush"
+              [price]="(quotationDetail$ | ngrxPush)?.sapPrice"
+            >
+            </gq-material-price-header-content>
+          </ng-container>
+          <ng-container subheaderInlineContent>
+            <schaeffler-share-button></schaeffler-share-button>
+          </ng-container>
+          <ng-container subheaderBlockContent>
+            <gq-status-customer-info-header
+              [customer]="customer$ | ngrxPush"
+            ></gq-status-customer-info-header>
+          </ng-container>
+        </schaeffler-subheader>
+      }
+    </div>
+    <mat-card appearance="outlined" class="m-4 h-full">
+      <mat-card-content class="h-full">
+        @if (
           (translationsLoaded$ | ngrxPush) &&
-            !(sapPriceDetailsLoading$ | ngrxPush);
-          else tableLoading
-        "
-        [rowData]="rowData$ | ngrxPush"
-        [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
-      ></gq-sap-price-details-table>
-      <ng-template #tableLoading>
-        <schaeffler-loading-spinner></schaeffler-loading-spinner>
-      </ng-template>
-    </mat-card-content>
-  </mat-card>
-</div>
-<ng-template #loading>
+          !(sapPriceDetailsLoading$ | ngrxPush)
+        ) {
+          <gq-sap-price-details-table
+            [rowData]="rowData$ | ngrxPush"
+            [tableContext]="{ quotation: (quotation$ | ngrxPush) }"
+          ></gq-sap-price-details-table>
+        } @else {
+          <schaeffler-loading-spinner></schaeffler-loading-spinner>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+} @else {
   <schaeffler-loading-spinner></schaeffler-loading-spinner>
-</ng-template>
+}

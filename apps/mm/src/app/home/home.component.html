@@ -20,15 +20,15 @@
         >
         </mm-pages-stepper>
       </div>
-      <div *ngIf="activeBearing$ | ngrxPush as activeBearing" class="mb-4">
-        <span class="text-subtitle-1">
-          {{ activeBearing }}
-        </span>
-      </div>
+      @if (activeBearing$ | ngrxPush; as activeBearing) {
+        <div class="mb-4">
+          <span class="text-subtitle-1">
+            {{ activeBearing }}
+          </span>
+        </div>
+      }
       <div class="w-full">
-        <ng-container
-          *ngIf="(activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE"
-        >
+        @if ((activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE) {
           <div class="mt-8 mb-4 max-w-sm sm:mb-8">
             <mm-bearing-search
               (bearing)="selectBearing($event)"
@@ -43,93 +43,88 @@
               ></mat-slide-toggle
             ></mm-horizontal-separator>
           </div>
-        </ng-container>
-        <ng-container
-          *ngFor="let pagedMeta of pagedMetas$ | ngrxPush; index as pageIndex"
-        >
-          <ng-container
-            *ngIf="pagedMeta.page.id === (activePageId$ | ngrxPush)"
-          >
+        }
+        @for (
+          pagedMeta of pagedMetas$ | ngrxPush;
+          track pagedMeta;
+          let pageIndex = $index
+        ) {
+          @if (pagedMeta.page.id === (activePageId$ | ngrxPush)) {
             <div
               [ngClass]="{
                 hidden:
                   !manualBearing && pagedMeta.page.id === RSY_PAGE_BEARING_TYPE
               }"
             >
-              <ng-container *ngFor="let meta of pagedMeta.metas">
-                <ng-container
-                  *ngIf="
-                    meta.member.id !== RSY_BEARING_SERIES &&
-                      meta.member.id !== RSY_BEARING;
-                    else inBox
-                  "
-                >
-                  <div
-                    *ngIf="
-                      meta.page.visible &&
-                      !isCalculationOptions(pagedMeta.page.id)
-                    "
-                  >
-                    <div
-                      [ngClass]="{
-                        'mt-8 max-w-md rounded border border-border p-4 sm:w-[26rem]':
-                          meta.member.id === IDMM_MEASSURING_METHOD
-                      }"
-                    >
-                      <h6
-                        *ngIf="
-                          meta.member.text &&
-                          hasHeadline(meta.page.id, meta.member.id)
-                        "
-                      >
-                        {{ t(meta.member.text) }}
-                      </h6>
+              @for (meta of pagedMeta.metas; track meta) {
+                @if (
+                  meta.member.id !== RSY_BEARING_SERIES &&
+                  meta.member.id !== RSY_BEARING
+                ) {
+                  @if (
+                    meta.page.visible &&
+                    !isCalculationOptions(pagedMeta.page.id)
+                  ) {
+                    <div>
                       <div
                         [ngClass]="{
-                          '-mb-5 mt-4':
+                          'mt-8 max-w-md rounded border border-border p-4 sm:w-[26rem]':
                             meta.member.id === IDMM_MEASSURING_METHOD
                         }"
                       >
+                        @if (
+                          meta.member.text &&
+                          hasHeadline(meta.page.id, meta.member.id)
+                        ) {
+                          <h6>
+                            {{ t(meta.member.text) }}
+                          </h6>
+                        }
                         <div
-                          *ngIf="meta.member.id === IDMM_MOUNTING_METHOD"
-                          class="mt-4"
+                          [ngClass]="{
+                            '-mb-5 mt-4':
+                              meta.member.id === IDMM_MEASSURING_METHOD
+                          }"
                         >
-                          <mm-horizontal-separator
-                            *ngIf="measuringMethodSet()"
-                            [text]="
-                              t('form.select', {
-                                fieldname: meta.member.text | transloco
-                              })
-                            "
-                          ></mm-horizontal-separator>
+                          @if (meta.member.id === IDMM_MOUNTING_METHOD) {
+                            <div class="mt-4">
+                              @if (measuringMethodSet()) {
+                                <mm-horizontal-separator
+                                  [text]="
+                                    t('form.select', {
+                                      fieldname: meta.member.text | transloco
+                                    })
+                                  "
+                                ></mm-horizontal-separator>
+                              }
+                            </div>
+                          }
+                          <cae-member-control
+                            [class.wide]="!meta.member.text"
+                            [meta]="meta"
+                          ></cae-member-control>
                         </div>
-                        <cae-member-control
-                          [class.wide]="!meta.member.text"
-                          [meta]="meta"
-                        ></cae-member-control>
                       </div>
                     </div>
-                  </div>
-                </ng-container>
-                <ng-template #inBox>
+                  }
+                } @else {
                   <ng-template #inBoxControl>
-                    <h6
-                      *ngIf="
-                        meta.page.visible &&
-                        meta.member.text &&
-                        hasHeadline(meta.page.id, meta.member.id)
-                      "
-                    >
-                      {{ t(meta.member.text) }}
-                    </h6>
+                    @if (
+                      meta.page.visible &&
+                      meta.member.text &&
+                      hasHeadline(meta.page.id, meta.member.id)
+                    ) {
+                      <h6>
+                        {{ t(meta.member.text) }}
+                      </h6>
+                    }
                     <cae-member-control
                       [class.wide]="!meta.member.text"
                       [meta]="meta"
                     ></cae-member-control>
                   </ng-template>
-                </ng-template>
-              </ng-container>
-
+                }
+              }
               <div
                 [ngClass]="{
                   'mt-8 w-full rounded border border-border p-4':
@@ -143,51 +138,50 @@
                       form.value.objects[0].properties[0].value
                   }"
                 >
-                  <ng-container *ngFor="let template of inBoxTemplates">
+                  @for (template of inBoxTemplates; track template) {
                     <ng-container [ngTemplateOutlet]="template"></ng-container>
-                  </ng-container>
-
-                  <div
-                    class="mb-4"
-                    *ngIf="isCalculationOptions(pagedMeta.page.id)"
-                  >
-                    <mm-calculation-options
-                      [pageMeta]="pagedMeta"
-                    ></mm-calculation-options>
-                  </div>
-
+                  }
+                  @if (isCalculationOptions(pagedMeta.page.id)) {
+                    <div class="mb-4">
+                      <mm-calculation-options
+                        [pageMeta]="pagedMeta"
+                      ></mm-calculation-options>
+                    </div>
+                  }
                   <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
-                    <button
-                      mat-raised-button
-                      *ngIf="
-                        stepper.hasNext &&
-                        (pagedMeta.valid$ | ngrxPush) &&
-                        pagedMeta.page.id !== PAGE_MOUNTING_MANAGER_SEAT &&
-                        pagedMeta.page.id !==
-                          PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS
-                      "
-                      [disabled]="!(pagedMeta.valid$ | ngrxPush)"
-                      color="primary"
-                      (click)="
-                        next(pagedMeta.page.id, pagedMetas, stepper);
-                        stepper.hasResultNext && resultPage.send(form)
-                      "
-                      class="w-full uppercase md:max-w-xs"
-                    >
-                      {{
-                        stepper.hasResultNext
-                          ? t('form.calculateResults')
-                          : t('form.select', {
-                              fieldname: activePageName$ | ngrxPush | transloco
-                            })
-                      }}
-                    </button>
+                    @if (
+                      stepper.hasNext &&
+                      (pagedMeta.valid$ | ngrxPush) &&
+                      pagedMeta.page.id !== PAGE_MOUNTING_MANAGER_SEAT &&
+                      pagedMeta.page.id !==
+                        PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS
+                    ) {
+                      <button
+                        mat-raised-button
+                        [disabled]="!(pagedMeta.valid$ | ngrxPush)"
+                        color="primary"
+                        (click)="
+                          next(pagedMeta.page.id, pagedMetas, stepper);
+                          stepper.hasResultNext && resultPage.send(form)
+                        "
+                        class="w-full uppercase md:max-w-xs"
+                      >
+                        {{
+                          stepper.hasResultNext
+                            ? t('form.calculateResults')
+                            : t('form.select', {
+                                fieldname:
+                                  activePageName$ | ngrxPush | transloco
+                              })
+                        }}
+                      </button>
+                    }
                   </ng-container>
                 </div>
               </div>
             </div>
-          </ng-container>
-        </ng-container>
+          }
+        }
 
         <mm-result-page
           [active]="!stepper.hasNext"

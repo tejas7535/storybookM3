@@ -71,8 +71,4 @@ export class GqPriceComponent {
       this.quotationDetail.recommendedPrice;
     this.selectGqPrice.emit(new UpdatePrice(price, priceSource));
   }
-
-  public trackByFn(index: number): number {
-    return index;
-  }
 }

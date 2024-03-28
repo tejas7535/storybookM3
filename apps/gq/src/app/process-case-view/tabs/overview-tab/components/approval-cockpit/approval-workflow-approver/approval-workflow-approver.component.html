@@ -47,30 +47,23 @@
   </div>
 
   <div class="flex flex-row items-center gap-2">
-    <ng-container
-      *ngIf="approvalStatusOfApprover === displayStatus.APPROVED"
-      class="flex items-center"
-    >
-      <mat-icon
-        class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
-        >check</mat-icon
-      ><span class="text-caption font-bold text-approval-status-green">{{
-        t('approved')
-      }}</span>
-    </ng-container>
-
-    <ng-container
-      *ngIf="approvalStatusOfApprover === displayStatus.IN_APPROVAL"
-    >
+    @if (approvalStatusOfApprover === displayStatus.APPROVED) {
+      <ng-container class="flex items-center">
+        <mat-icon
+          class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
+          >check</mat-icon
+        ><span class="text-caption font-bold text-approval-status-green">{{
+          t('approved')
+        }}</span>
+      </ng-container>
+    }
+    @if (approvalStatusOfApprover === displayStatus.IN_APPROVAL) {
       <span
         class="text-caption font-bold text-approval-status-blue whitespace-nowrap"
         >{{ t('inApproval') }}</span
       >
-    </ng-container>
-
-    <ng-container
-      *ngIf="approvalStatusOfApprover === displayStatus.PRE_APPROVED"
-    >
+    }
+    @if (approvalStatusOfApprover === displayStatus.PRE_APPROVED) {
       <mat-icon
         class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
         >check</mat-icon
@@ -78,11 +71,8 @@
         class="text-caption font-bold text-approval-status-green whitespace-nowrap"
         >{{ t('preApproved') }}</span
       >
-    </ng-container>
-
-    <ng-container
-      *ngIf="approvalStatusOfApprover === displayStatus.AUTO_APPROVAL"
-    >
+    }
+    @if (approvalStatusOfApprover === displayStatus.AUTO_APPROVAL) {
       <mat-icon
         class="text-caption text-approval-status-green !text-[16px] !w-4 !h-4"
         >check</mat-icon
@@ -90,23 +80,21 @@
         class="text-caption font-bold text-approval-status-green whitespace-nowrap"
         >{{ t('autoApproved') }}</span
       >
-    </ng-container>
-
-    <ng-container *ngIf="approvalStatusOfApprover === displayStatus.FORWARDED">
+    }
+    @if (approvalStatusOfApprover === displayStatus.FORWARDED) {
       <mat-icon
         class="text-caption text-approval-status-grey !text-[16px] !w-4 !h-4"
         >arrow_forward</mat-icon
       ><span class="text-caption font-bold text-approval-status-grey">{{
         t('forwarded')
       }}</span>
-    </ng-container>
-
-    <ng-container *ngIf="approvalStatusOfApprover === displayStatus.REJECTED">
+    }
+    @if (approvalStatusOfApprover === displayStatus.REJECTED) {
       <mat-icon class="text-caption text-error !text-[16px] !w-4 !h-4"
         >report_problem</mat-icon
       ><span class="text-caption font-bold text-error">{{
         t('rejected')
       }}</span>
-    </ng-container>
+    }
   </div>
 </div>

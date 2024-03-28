@@ -39,8 +39,4 @@ export class FeatureAnalysisComponent {
   openEditFeatureSelectorDialog() {
     this.editFeatureSelection.emit();
   }
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

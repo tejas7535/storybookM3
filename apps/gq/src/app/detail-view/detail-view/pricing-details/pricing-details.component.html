@@ -1,72 +1,83 @@
 <div *transloco="let t; read: 'detailView.pricingDetails'">
-  <div *ngIf="quotationDetail">
-    <div *ngIf="quotationCurrency$ | ngrxPush as currency">
-      <div
-        *ngIf="
-          !(materialComparableCostsLoading$ | ngrxPush) &&
+  @if (quotationDetail) {
+    <div>
+      @if (quotationCurrency$ | ngrxPush; as currency) {
+        <div>
+          @if (
+            !(materialComparableCostsLoading$ | ngrxPush) &&
             !(materialSalesOrgLoading$ | ngrxPush) &&
-            !(plantMaterialDetailsLoading$ | ngrxPush);
-          else loading
-        "
-      >
-        <div class="mb-4 flex flex-col md:flex-row">
-          <div class="w-full md:mr-4 md:w-1/2">
-            <gq-production-cost-details
-              [currency]="currency"
-              [quotationDetail]="quotationDetail"
-              [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
-              [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
-              [materialCostUpdateAvl]="materialCostUpdateAvl"
-            ></gq-production-cost-details>
-            <gq-rfq-position-details
-              *ngIf="quotationDetail.rfqData"
-              [currency]="currency"
-              [rfqData]="quotationDetail.rfqData"
-              [rfqDataUpdateAvl]="rfqDataUpdateAvl"
-            >
-            </gq-rfq-position-details>
-            <gq-material-comparable-cost-details
-              [price]="quotationDetail.price"
-              [materialPriceUnit]="quotationDetail.material?.priceUnit"
-              [currency]="currency"
-              [sapPriceUnit]="quotationDetail.sapPriceUnit"
-            ></gq-material-comparable-cost-details>
-            <gq-stock-availability-details
-              [materialStockByPlant]="quotationDetail.materialStockByPlant"
-              [uom]="quotationDetail.material.baseUoM"
-            ></gq-stock-availability-details>
-            <gq-relocation-cost-details
-              *ngIf="quotationDetail?.relocationCost"
-              [quotationDetail]="quotationDetail"
-              [currency]="currency"
-            ></gq-relocation-cost-details>
-            <gq-supply-chain-details
-              [quotationDetail]="quotationDetail"
-              [productionPlantStochasticType]="productionPlantStochasticType"
-              [supplyPlantStochasticType]="supplyPlantStochasticType"
-            ></gq-supply-chain-details>
-            <gq-last-customer-price-information-details
-              *ngIf="quotationDetail.lastCustomerPrice"
-              [quotationDetail]="quotationDetail"
-              [currency]="currency"
-              [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
-              [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
-            ></gq-last-customer-price-information-details>
-          </div>
-          <div class="mt-4 w-full md:mt-0 md:w-1/2">
-            <gq-material-details
-              [quotationDetail]="quotationDetail"
-              [materialSalesOrg]="materialSalesOrg$ | ngrxPush"
-              [materialSalesOrgDataAvailable]="
-                materialSalesOrgDataAvailable$ | ngrxPush
-              "
-            ></gq-material-details>
-          </div>
+            !(plantMaterialDetailsLoading$ | ngrxPush)
+          ) {
+            <div>
+              <div class="mb-4 flex flex-col md:flex-row">
+                <div class="w-full md:mr-4 md:w-1/2">
+                  <gq-production-cost-details
+                    [currency]="currency"
+                    [quotationDetail]="quotationDetail"
+                    [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+                    [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
+                    [materialCostUpdateAvl]="materialCostUpdateAvl"
+                  ></gq-production-cost-details>
+                  @if (quotationDetail.rfqData) {
+                    <gq-rfq-position-details
+                      [currency]="currency"
+                      [rfqData]="quotationDetail.rfqData"
+                      [rfqDataUpdateAvl]="rfqDataUpdateAvl"
+                    >
+                    </gq-rfq-position-details>
+                  }
+                  <gq-material-comparable-cost-details
+                    [price]="quotationDetail.price"
+                    [materialPriceUnit]="quotationDetail.material?.priceUnit"
+                    [currency]="currency"
+                    [sapPriceUnit]="quotationDetail.sapPriceUnit"
+                  ></gq-material-comparable-cost-details>
+                  <gq-stock-availability-details
+                    [materialStockByPlant]="
+                      quotationDetail.materialStockByPlant
+                    "
+                    [uom]="quotationDetail.material.baseUoM"
+                  ></gq-stock-availability-details>
+                  @if (quotationDetail?.relocationCost) {
+                    <gq-relocation-cost-details
+                      [quotationDetail]="quotationDetail"
+                      [currency]="currency"
+                    ></gq-relocation-cost-details>
+                  }
+                  <gq-supply-chain-details
+                    [quotationDetail]="quotationDetail"
+                    [productionPlantStochasticType]="
+                      productionPlantStochasticType
+                    "
+                    [supplyPlantStochasticType]="supplyPlantStochasticType"
+                  ></gq-supply-chain-details>
+                  @if (quotationDetail.lastCustomerPrice) {
+                    <gq-last-customer-price-information-details
+                      [quotationDetail]="quotationDetail"
+                      [currency]="currency"
+                      [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+                      [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
+                    ></gq-last-customer-price-information-details>
+                  }
+                </div>
+                <div class="mt-4 w-full md:mt-0 md:w-1/2">
+                  <gq-material-details
+                    [quotationDetail]="quotationDetail"
+                    [materialSalesOrg]="materialSalesOrg$ | ngrxPush"
+                    [materialSalesOrgDataAvailable]="
+                      materialSalesOrgDataAvailable$ | ngrxPush
+                    "
+                  ></gq-material-details>
+                </div>
+              </div>
+            </div>
+          } @else {
+            <schaeffler-loading-spinner
+              [relative]="true"
+            ></schaeffler-loading-spinner>
+          }
         </div>
-      </div>
+      }
     </div>
-  </div>
+  }
 </div>
-<ng-template #loading>
-  <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
-</ng-template>

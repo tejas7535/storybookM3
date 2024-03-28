@@ -24,8 +24,4 @@ export class OpenPositionsListComponent {
   @Input() isLoadingOpenApplications: boolean;
 
   colors = Color;
-
-  trackByFn(index: number): number {
-    return index;
-  }
 }

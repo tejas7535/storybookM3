@@ -1,48 +1,12 @@
 <div class="flex flex-col md:gap-6 gap-2">
-  <ng-container
-    *ngIf="(isMediumScreen$ | ngrxPush) || simplifiedMobile; else mobileView"
-  >
+  @if ((isMediumScreen$ | ngrxPush) || simplifiedMobile) {
     <mat-radio-group
       [formControl]="control"
       class="flex flex-wrap"
       (change)="onOptionSelected($event)"
     >
-      <div
-        class="flex mb-4 md:mb-0"
-        *ngFor="let option of options; let last = last"
-        [matTooltip]="option.tooltip"
-      >
-        <mat-radio-button
-          [value]="option.value"
-          color="primary"
-          [disabled]="option.disabled"
-          class="cursor-pointer"
-        >
-          {{ option.name }}
-        </mat-radio-button>
-        <mat-divider [vertical]="true" *ngIf="!last" class="mx-4"></mat-divider>
-      </div>
-    </mat-radio-group>
-    <div
-      class="flex flex-row gap-4"
-      *ngIf="visibleTemplate$ | ngrxPush as visibleTemplate"
-    >
-      <ng-template *ngTemplateOutlet="visibleTemplate.ref"></ng-template>
-    </div>
-  </ng-container>
-</div>
-
-<ng-template #mobileView>
-  <ng-container *ngIf="!simplifiedMobile">
-    <mat-radio-group
-      [formControl]="control"
-      class="flex flex-wrap"
-      (change)="onOptionSelected($event)"
-      ><div class="flex flex-col gap-2 w-full">
-        <div
-          *ngFor="let option of options"
-          class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
-        >
+      @for (option of options; track option; let last = $last) {
+        <div class="flex mb-4 md:mb-0" [matTooltip]="option.tooltip">
           <mat-radio-button
             [value]="option.value"
             color="primary"
@@ -51,17 +15,49 @@
           >
             {{ option.name }}
           </mat-radio-button>
-          <div
-            class="flex flex-col gap-2"
-            *ngIf="
-              option.value === control?.value &&
-              templateMap[option.templateRef]?.ref
-            "
-          >
-            <ng-template
-              *ngTemplateOutlet="templateMap[option.templateRef].ref"
-            ></ng-template>
-          </div>
-        </div></div></mat-radio-group
-  ></ng-container>
-</ng-template>
+          @if (!last) {
+            <mat-divider [vertical]="true" class="mx-4"></mat-divider>
+          }
+        </div>
+      }
+    </mat-radio-group>
+    @if (visibleTemplate$ | ngrxPush; as visibleTemplate) {
+      <div class="flex flex-row gap-4">
+        <ng-template *ngTemplateOutlet="visibleTemplate.ref"></ng-template>
+      </div>
+    }
+  } @else {
+    @if (!simplifiedMobile) {
+      <mat-radio-group
+        [formControl]="control"
+        class="flex flex-wrap"
+        (change)="onOptionSelected($event)"
+        ><div class="flex flex-col gap-2 w-full">
+          @for (option of options; track option) {
+            <div
+              class="bg-secondary-variant flex flex-col px-2 py-4 rounded-lg gap-4"
+            >
+              <mat-radio-button
+                [value]="option.value"
+                color="primary"
+                [disabled]="option.disabled"
+                class="cursor-pointer"
+              >
+                {{ option.name }}
+              </mat-radio-button>
+              @if (
+                option.value === control?.value &&
+                templateMap[option.templateRef]?.ref
+              ) {
+                <div class="flex flex-col gap-2">
+                  <ng-template
+                    *ngTemplateOutlet="templateMap[option.templateRef].ref"
+                  ></ng-template>
+                </div>
+              }
+            </div>
+          }</div
+      ></mat-radio-group>
+    }
+  }
+</div>

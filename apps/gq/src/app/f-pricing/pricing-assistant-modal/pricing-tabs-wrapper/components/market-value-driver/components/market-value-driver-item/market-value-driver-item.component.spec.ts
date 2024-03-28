@@ -92,12 +92,4 @@ describe('MarketValueDriverItemComponent', () => {
       expect(component.selectedOptionId).toEqual(1);
     });
   });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
 });

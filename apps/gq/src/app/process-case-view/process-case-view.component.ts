@@ -112,7 +112,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
           Quotation,
           boolean,
           ApprovalWorkflowInformation,
-          Error
+          Error,
         ]) =>
           !customerLoading &&
           !quotationLoading &&

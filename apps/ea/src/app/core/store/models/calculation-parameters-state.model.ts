@@ -22,7 +22,7 @@ export interface CalculationParametersOperationConditions {
     grease: {
       selection: 'typeOfGrease' | 'isoVgClass' | 'viscosity';
       typeOfGrease: {
-        typeOfGrease: typeof Greases[number]['value'];
+        typeOfGrease: (typeof Greases)[number]['value'];
       };
       isoVgClass: {
         isoVgClass: number;

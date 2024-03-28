@@ -100,14 +100,6 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('trackByFn', () => {
-    it('should return index', () => {
-      const result = component.trackByFn(3);
-
-      expect(result).toEqual(3);
-    });
-  });
-
   describe('handleCurrentRoute', () => {
     test(
       'should consider initial routing event - legal route active',

@@ -22,14 +22,15 @@
         class="drag-list !mt-0"
         (cdkDropListDropped)="drop($event)"
       >
-        <div
-          class="drag-list-item"
-          *ngFor="let item of unselected"
-          cdkDrag
-          (cdkDragReleased)="itemReleased()"
-        >
-          {{ t('features.' + item.feature.feature) }}
-        </div>
+        @for (item of unselected; track item) {
+          <div
+            class="drag-list-item"
+            cdkDrag
+            (cdkDragReleased)="itemReleased()"
+          >
+            {{ t('features.' + item.feature.feature) }}
+          </div>
+        }
       </div>
     </div>
 
@@ -47,9 +48,11 @@
         class="drag-list !mt-0 !min-h-[230px]"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="drag-list-item" *ngFor="let item of selected" cdkDrag>
-          {{ t('features.' + item.feature.feature) }}
-        </div>
+        @for (item of selected; track item) {
+          <div class="drag-list-item" cdkDrag>
+            {{ t('features.' + item.feature.feature) }}
+          </div>
+        }
       </div>
     </div>
   </div>

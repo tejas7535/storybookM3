@@ -3,21 +3,21 @@
   class="z-10 h-[60px] border-b border-border !pl-2"
   *transloco="let t"
 >
-  <button
-    *ngIf="hasSidebarLeft"
-    type="button"
-    mat-icon-button
-    disableRipple
-    class="text-medium-emphasis"
-    (click)="drawer.toggle(); sidenavOpen = !sidenavOpen"
-  >
-    <mat-icon *ngIf="sidenavOpen; else menuIcon" [@sidenavToggleAnimation]>
-      arrow_back
-    </mat-icon>
-    <ng-template #menuIcon>
-      <mat-icon [@sidenavToggleAnimation]>menu</mat-icon>
-    </ng-template>
-  </button>
+  @if (hasSidebarLeft) {
+    <button
+      type="button"
+      mat-icon-button
+      disableRipple
+      class="text-medium-emphasis"
+      (click)="drawer.toggle(); sidenavOpen = !sidenavOpen"
+    >
+      @if (sidenavOpen) {
+        <mat-icon [@sidenavToggleAnimation]> arrow_back </mat-icon>
+      } @else {
+        <mat-icon [@sidenavToggleAnimation]>menu</mat-icon>
+      }
+    </button>
+  }
   <span
     class="inline-block truncate pr-2 text-subtitle-1 text-medium-emphasis outline-none sm:pr-3 sm:text-h6"
     [class.ml-1]="hasSidebarLeft"
@@ -25,13 +25,13 @@
     [class.cursor-pointer]="appTitleLink && !sidenavOpen"
     [routerLink]="appTitleLink && !sidenavOpen ? appTitleLink : undefined"
   >
-    <span *ngIf="sidenavOpen; else appTitleTemplate">
-      {{ t('shellSidenavHeading') }}
-    </span>
-
-    <ng-template #appTitleTemplate>
+    @if (sidenavOpen) {
+      <span>
+        {{ t('shellSidenavHeading') }}
+      </span>
+    } @else {
       <span>{{ appTitle }}</span>
-    </ng-template>
+    }
   </span>
   <div class="content-wrapper flex flex-auto justify-end">
     <ng-content select="[headerInlineContent]"></ng-content>
@@ -51,11 +51,12 @@
     [(opened)]="sidenavOpen"
     [autoFocus]="false"
   >
-    <schaeffler-user-panel
-      *ngIf="userName"
-      [userName]="userName"
-      [userImageUrl]="userImageUrl"
-    ></schaeffler-user-panel>
+    @if (userName) {
+      <schaeffler-user-panel
+        [userName]="userName"
+        [userImageUrl]="userImageUrl"
+      ></schaeffler-user-panel>
+    }
     <mat-divider></mat-divider>
     <ng-content select="[sidenavBody]"></ng-content>
   </mat-sidenav>
@@ -75,56 +76,64 @@
     <!-- end main content -->
 
     <!-- start footer -->
-    <footer
-      *ngIf="hasFooter || footerLinks?.length"
-      class="flex flex-col items-center justify-between gap-2 lg:flex-row"
-    >
-      <div class="content-wrapper p-2">
-        <ng-content select="[footerContent]"></ng-content>
-      </div>
-      <div
-        class="flex shrink-0 flex-col items-center justify-center md:flex md:flex-row"
+    @if (hasFooter || footerLinks?.length) {
+      <footer
+        class="flex flex-col items-center justify-between gap-2 lg:flex-row"
       >
-        <div class="mx-4 flex flex-row flex-wrap sm:mx-0">
-          <ng-container *ngIf="footerLinks?.length">
-            <ng-container *ngFor="let footerLink of footerLinks; let i = index">
-              <a
-                *ngIf="footerLink.external"
-                [href]="footerLink.link"
-                target="_blank"
-                rel="noopener noreferrer"
-                (click)="handleClick(footerLink, $event)"
-                class="footer-link-external py-1 text-caption leading-4 text-medium-emphasis"
-              >
-                {{ footerLink.title }}
-              </a>
-              <div
-                *ngIf="!footerLink.external"
-                [routerLink]="footerLink.link || undefined"
-                (click)="handleClick(footerLink, $event)"
-                class="footer-link-internal inline-block cursor-pointer py-1 text-caption leading-4 text-medium-emphasis outline-none"
-              >
-                {{ footerLink.title }}
-              </div>
-              <span
-                class="separator mx-1 py-1 text-caption leading-4 text-medium-emphasis"
-                *ngIf="i !== footerLinks.length - 1 || appVersion"
-                >|</span
-              >
-            </ng-container>
-          </ng-container>
-          <ng-container *ngIf="appVersion">
-            <span
-              id="version"
-              class="py-1 text-caption leading-4 text-medium-emphasis"
-            >
-              {{ appVersion }}
-            </span>
-          </ng-container>
+        <div class="content-wrapper p-2">
+          <ng-content select="[footerContent]"></ng-content>
         </div>
-        <div class="schaeffler-footer-logo m-3"></div>
-      </div>
-    </footer>
+        <div
+          class="flex shrink-0 flex-col items-center justify-center md:flex md:flex-row"
+        >
+          <div class="mx-4 flex flex-row flex-wrap sm:mx-0">
+            @if (footerLinks?.length) {
+              @for (
+                footerLink of footerLinks;
+                track footerLink;
+                let i = $index
+              ) {
+                @if (footerLink.external) {
+                  <a
+                    [href]="footerLink.link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    (click)="handleClick(footerLink, $event)"
+                    class="footer-link-external py-1 text-caption leading-4 text-medium-emphasis"
+                  >
+                    {{ footerLink.title }}
+                  </a>
+                }
+                @if (!footerLink.external) {
+                  <div
+                    [routerLink]="footerLink.link || undefined"
+                    (click)="handleClick(footerLink, $event)"
+                    class="footer-link-internal inline-block cursor-pointer py-1 text-caption leading-4 text-medium-emphasis outline-none"
+                  >
+                    {{ footerLink.title }}
+                  </div>
+                }
+                @if (i !== footerLinks.length - 1 || appVersion) {
+                  <span
+                    class="separator mx-1 py-1 text-caption leading-4 text-medium-emphasis"
+                    >|</span
+                  >
+                }
+              }
+            }
+            @if (appVersion) {
+              <span
+                id="version"
+                class="py-1 text-caption leading-4 text-medium-emphasis"
+              >
+                {{ appVersion }}
+              </span>
+            }
+          </div>
+          <div class="schaeffler-footer-logo m-3"></div>
+        </div>
+      </footer>
+    }
     <!-- end footer -->
   </mat-sidenav-content>
   <!-- end content -->

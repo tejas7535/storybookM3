@@ -1,4 +1,4 @@
-<ng-container *ngIf="dimensionData">
+@if (dimensionData) {
   <ng-container *transloco="let t; read: 'compare.details.dimensions'">
     <cdba-compare-label-value
       [label]="t('length')"
@@ -25,4 +25,4 @@
       [value]="dimensionData.volume | undefinedAttributeFallback"
     ></cdba-compare-label-value>
   </ng-container>
-</ng-container>
+}

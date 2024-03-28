@@ -1,7 +1,8 @@
 <div>
-  <cdba-toggle-split-type-button
-    *ngIf="(costElements$ | ngrxPush)?.length > 0"
-    [currentSplitType]="currentSplitType$ | ngrxPush"
-    (toggleSplitType)="toggleSelectedSplitType()"
-  ></cdba-toggle-split-type-button>
+  @if ((costElements$ | ngrxPush)?.length > 0) {
+    <cdba-toggle-split-type-button
+      [currentSplitType]="currentSplitType$ | ngrxPush"
+      (toggleSplitType)="toggleSelectedSplitType()"
+    ></cdba-toggle-split-type-button>
+  }
 </div>

@@ -2,12 +2,13 @@
   <span>
     {{ materialDesignation }}
   </span>
-  <mat-icon
-    *ngIf="isRouterLink"
-    class="!h-4 !w-4 cursor-pointer !text-[16px]"
-    (click)="navigateToDetailPage()"
-    [matTooltip]="t('navigateToDetailTooltip')"
-    matTooltipShowDelay="500"
-    >open_in_new</mat-icon
-  >
+  @if (isRouterLink) {
+    <mat-icon
+      class="!h-4 !w-4 cursor-pointer !text-[16px]"
+      (click)="navigateToDetailPage()"
+      [matTooltip]="t('navigateToDetailTooltip')"
+      matTooltipShowDelay="500"
+      >open_in_new</mat-icon
+    >
+  }
 </div>

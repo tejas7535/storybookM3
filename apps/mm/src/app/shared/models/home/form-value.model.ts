@@ -4,7 +4,7 @@ export interface FormValue {
       properties: FormValueProperty[];
       requiresInitialization?: boolean;
       requiresUpdate?: boolean;
-    }
+    },
   ];
 }
 

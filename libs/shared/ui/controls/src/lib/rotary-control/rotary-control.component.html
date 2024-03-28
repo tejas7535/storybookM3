@@ -9,21 +9,24 @@
         }
       "
     >
-      <span
-        class="scale-mark"
-        *ngFor="let item of controlItems; let i = index"
-        [ngClass]="{
-          'scale-mark--highlighted': item.highlight,
-          'cursor-pointer': controlValueChangeable
-        }"
-        [ngStyle]="{
-          transform: 'rotate(' + getScaleRotation(i) + 'deg) translateX(100px)'
-        }"
-        (click)="onScaleMarkClick(i)"
-        ><span class="scale-label" *ngIf="item.label">{{
-          item.label
-        }}</span></span
-      >
+      @for (item of controlItems; track item; let i = $index) {
+        <span
+          class="scale-mark"
+          [ngClass]="{
+            'scale-mark--highlighted': item.highlight,
+            'cursor-pointer': controlValueChangeable
+          }"
+          [ngStyle]="{
+            transform:
+              'rotate(' + getScaleRotation(i) + 'deg) translateX(100px)'
+          }"
+          (click)="onScaleMarkClick(i)"
+        >
+          @if (item.label) {
+            <span class="scale-label">{{ item.label }}</span>
+          }
+        </span>
+      }
     </div>
     <div
       class="pointer transition-transform duration-300"
