@@ -16,7 +16,11 @@
       ></ga-qualtrics-info-banner>
     }
     <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-      <ga-easy-calc-card class="col-span-2 md:col-span-4"> </ga-easy-calc-card>
+      @if (!(partnerVersion$ | ngrxPush)) {
+        <ga-easy-calc-card class="col-span-2 md:col-span-4">
+        </ga-easy-calc-card>
+      }
+
       @for (card of homeCardsService.getHomeCards() | ngrxPush; track card) {
         <ga-homepage-card [homepageCard]="card"></ga-homepage-card>
       }
