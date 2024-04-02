@@ -1,4 +1,20 @@
 # Release Notes of Grease App
+## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.8.0...ga-v1.9.0) (2024-04-02)
+
+
+### Features
+
+* **ga:** add easycalc to standalone homepage (UFTABI-7512) ([#6091](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6091)) ([8ab6057](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8ab60579c6aa34b8a9e3abed8e78d29394941852))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
+
+### Bug Fixes
+
+* **ga:** fix button typo ([#6110](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6110)) ([8c5375a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c5375acd783e9e5ef57b60b77f7220cc36711d8))
+* **ga:** fix typo in english version ([f75c597](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f75c597a25aae2d0750b135f834b6ade6afb00e7))
+* **ga:** hide easy calc add for partner version ([838908e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/838908ee683164cd745b75f2589d048e08e35796))
+
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.7.1...ga-v1.8.0) (2024-03-05)
 
 
