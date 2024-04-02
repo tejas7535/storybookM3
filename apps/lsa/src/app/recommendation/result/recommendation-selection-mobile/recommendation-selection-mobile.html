@@ -1,0 +1,25 @@
+<ng-container *transloco="let t; read: 'recommendation.result'">
+  <mat-radio-group
+    class="flex gap-4 mb-4"
+    color="primary"
+    (change)="onSelectionChange($event)"
+  >
+    @if(hasMinimumData) {
+    <lsa-recommendation-selection-radio-button
+      class="flex"
+      [value]="minimum"
+      [selected]="!isRecommendedSelected"
+      [title]="t('minimumRequirements')"
+    >
+    </lsa-recommendation-selection-radio-button>
+    } @if(hasRecommendedData) {
+    <lsa-recommendation-selection-radio-button
+      class="flex"
+      [value]="recommended"
+      [selected]="isRecommendedSelected"
+      [title]="t('recommended')"
+    >
+    </lsa-recommendation-selection-radio-button>
+    }
+  </mat-radio-group>
+</ng-container>

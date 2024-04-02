@@ -1,5 +1,5 @@
 <div class="flex flex-col md:flex-row gap-4 md:justify-between">
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 flex-shrink-0">
     <lsa-recommendation-table
       [data]="recommendationResult.lubricators | lsaRecommendationTableData"
       (recommendedSelectedChange)="onRecommendedSelectedChange($event)"
