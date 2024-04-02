@@ -87,4 +87,8 @@ lubricator-selection-assistant {
     @apply max-w-full #{!important};
     @apply w-full #{!important};
   }
+
+  .mat-column-field {
+    @apply w-40 sm:w-24 md:w-52;
+  }
 }

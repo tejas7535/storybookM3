@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -6,11 +7,16 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTableModule } from '@angular/material/table';
 
+import { map } from 'rxjs';
+
+import { TAILWIND_SCREENS } from '@lsa/shared/constants';
 import { RecommendationTableData } from '@lsa/shared/models';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { RecommendationSelectionMobileComponent } from '../recommendation-selection-mobile/recommendation-selection-mobile';
 import { LubricatorHeaderComponent } from './lubricator-header/lubricator-header.component';
 import { RecommendationTableCellComponent } from './recommendation-table-cell/recommendation-table-cell.component';
 
@@ -23,6 +29,7 @@ import { RecommendationTableCellComponent } from './recommendation-table-cell/re
     LubricatorHeaderComponent,
     RecommendationTableCellComponent,
     TranslocoModule,
+    RecommendationSelectionMobileComponent,
   ],
   templateUrl: './recommendation-table.component.html',
 })
@@ -30,7 +37,15 @@ export class RecommendationTableComponent implements AfterViewInit {
   @Input() data!: RecommendationTableData;
   @Output() recommendedSelectedChange = new EventEmitter<boolean>();
 
+  headerColsSpan = toSignal(
+    this.breakpointObserver
+      .observe([`(min-width: ${TAILWIND_SCREENS.MD})`])
+      .pipe(map((state) => (state.matches ? 1 : 2)))
+  );
+
   isRecommendedSelected = false;
+
+  constructor(private readonly breakpointObserver: BreakpointObserver) {}
 
   get displayedColumns(): string[] {
     const columns = ['field'];

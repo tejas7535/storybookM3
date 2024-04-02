@@ -1,101 +1,131 @@
 <ng-container *transloco="let t; read: 'recommendation.result'">
-  <table mat-table [dataSource]="data.rows">
-    <ng-container matColumnDef="field">
-      <th mat-header-cell *matHeaderCellDef class="border-none w-60 px-2"></th>
-      <td
-        mat-cell
-        *matCellDef="let element; let isEven = even"
-        class="border-none text-subtitle-2 text-low-emphasis"
-        [ngClass]="{
-          'bg-medias-grey-background': isEven
-        }"
+  @if (data.headers?.minimum || data.headers?.recommended) {
+    <div class="md:hidden">
+      <lsa-recommendation-selection-mobile
+        [hasMinimumData]="!!data.headers?.minimum"
+        [hasRecommendedData]="!!data.headers?.recommended"
+        [isRecommendedSelected]="isRecommendedSelected"
+        (headerSelected)="onHeaderSelectionChange($event)"
       >
-        {{ t(element.field) }}
-      </td>
-    </ng-container>
+      </lsa-recommendation-selection-mobile>
+    </div>
+  }
 
-    @if (data.headers.minimum) {
-      <ng-container matColumnDef="minimum">
+  <div class="border border-primary overflow-hidden rounded-lg md:border-none">
+    <table mat-table [dataSource]="data.rows">
+      <ng-container matColumnDef="field">
         <th
           mat-header-cell
           *matHeaderCellDef
-          class="border-none w-56 relative min-h-min h-full p-0"
+          class="hidden md:table-cell border-none w-60 px-2"
+        ></th>
+        <td
+          mat-cell
+          *matCellDef="let element; let isEven = even"
+          class="border-none text-subtitle-2 text-low-emphasis"
+          [ngClass]="{
+            'bg-medias-grey-background': isEven
+          }"
         >
-          <div class="relative top-0 left-0 w-full h-full flex items-stretch">
-            <lsa-lubricator-header
-              [headerData]="data.headers.minimum"
+          {{ t(element.field) }}
+        </td>
+      </ng-container>
+
+      @if (data.headers.minimum) {
+        <ng-container matColumnDef="minimum">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [attr.colspan]="headerColsSpan()"
+            class="border-none w-56 relative min-h-min h-full p-0"
+            [ngClass]="{
+              'hidden md:table-cell': isRecommendedSelected
+            }"
+          >
+            <div class="relative top-0 left-0 w-full h-64 flex items-stretch">
+              <lsa-lubricator-header
+                class="w-full"
+                [headerData]="data.headers.minimum"
+                [selected]="!isRecommendedSelected"
+                [isLastColumn]="!data.headers.recommended"
+                (headerSelected)="onHeaderSelectionChange($event)"
+              ></lsa-lubricator-header>
+            </div>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let isEven = even; let isLast = last"
+            class="!border-none relative md:table-cell"
+            [ngClass]="{
+              'bg-medias-grey-background': isEven,
+              'hidden md:table-cell': isRecommendedSelected
+            }"
+          >
+            <lsa-recommendation-table-cell
+              [border]="true"
               [selected]="!isRecommendedSelected"
+              [isLastRow]="isLast"
               [isLastColumn]="!data.headers.recommended"
-              (headerSelected)="onHeaderSelectionChange($event)"
-            ></lsa-lubricator-header>
-          </div>
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let element; let isEven = even; let isLast = last"
-          class="!border-none relative"
-          [ngClass]="{
-            'bg-medias-grey-background': isEven
-          }"
-        >
-          <lsa-recommendation-table-cell
-            [border]="true"
-            [selected]="!isRecommendedSelected"
-            [isLastRow]="isLast"
-            [isLastColumn]="!data.headers.recommended"
+            >
+              <span>
+                {{ element.minimum }}
+              </span>
+            </lsa-recommendation-table-cell>
+          </td>
+        </ng-container>
+      }
+      @if (data.headers.recommended) {
+        <ng-container matColumnDef="recommended">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [attr.colspan]="headerColsSpan()"
+            class="border-none w-56 relative h-64 p-0"
+            [ngClass]="{
+              'hidden md:table-cell': !isRecommendedSelected
+            }"
           >
-            <span>
-              {{ element.minimum }}
-            </span>
-          </lsa-recommendation-table-cell>
-        </td>
-      </ng-container>
-    }
-    @if (data.headers.recommended) {
-      <ng-container matColumnDef="recommended">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="border-none w-56 relative min-h-min h-full p-0"
-        >
-          <div class="absolute top-0 left-0 w-full h-full flex items-stretch">
-            <lsa-lubricator-header
-              [headerData]="data.headers.recommended"
+            <div class="absolute top-0 left-0 w-full h-full flex items-stretch">
+              <lsa-lubricator-header
+                class="w-full"
+                [headerData]="data.headers.recommended"
+                [selected]="isRecommendedSelected"
+                [isLastColumn]="true"
+                (headerSelected)="onHeaderSelectionChange($event)"
+              ></lsa-lubricator-header>
+            </div>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element; let isEven = even; let isLast = last"
+            class="!border-none relative"
+            [ngClass]="{
+              'bg-medias-grey-background': isEven,
+              'hidden md:table-cell': !isRecommendedSelected
+            }"
+          >
+            <lsa-recommendation-table-cell
+              [border]="true"
               [selected]="isRecommendedSelected"
+              [isLastRow]="isLast"
               [isLastColumn]="true"
-              (headerSelected)="onHeaderSelectionChange($event)"
-            ></lsa-lubricator-header>
-          </div>
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let element; let isEven = even; let isLast = last"
-          class="!border-none relative"
-          [ngClass]="{
-            'bg-medias-grey-background': isEven
-          }"
-        >
-          <lsa-recommendation-table-cell
-            [border]="true"
-            [selected]="isRecommendedSelected"
-            [isLastRow]="isLast"
-            [isLastColumn]="true"
-          >
-            {{ element.recommended }}
-          </lsa-recommendation-table-cell>
-        </td>
-      </ng-container>
-    }
+            >
+              {{ element.recommended }}
+            </lsa-recommendation-table-cell>
+          </td>
+        </ng-container>
+      }
 
-    <tr
-      mat-header-row
-      class="items-stretch"
-      *matHeaderRowDef="displayedColumns"
-    ></tr>
-    <tr
-      class="items-stretch !h-10"
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-    ></tr>
-  </table>
+      <tr
+        mat-header-row
+        class="items-stretch"
+        *matHeaderRowDef="displayedColumns"
+      ></tr>
+      <tr
+        class="items-stretch !h-10"
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+    </table>
+  </div>
 </ng-container>

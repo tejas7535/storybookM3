@@ -1,6 +1,8 @@
 import { RecommendationTableData } from '@lsa/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { RecommendationTableComponent } from './recommendation-table.component';
 
 describe('RecommendationTableComponent', () => {
@@ -9,6 +11,7 @@ describe('RecommendationTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: RecommendationTableComponent,
+    imports: [provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
     shallow: true,
   });
