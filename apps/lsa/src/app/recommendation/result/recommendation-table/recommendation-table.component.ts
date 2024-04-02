@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 
 import { map } from 'rxjs';
@@ -30,6 +31,7 @@ import { RecommendationTableCellComponent } from './recommendation-table-cell/re
     RecommendationTableCellComponent,
     TranslocoModule,
     RecommendationSelectionMobileComponent,
+    MatRadioModule,
   ],
   templateUrl: './recommendation-table.component.html',
 })

@@ -15,6 +15,7 @@ export class LubricatorHeaderComponent {
   @Input() headerData: RecommendationLubricatorHeaderData;
   @Input() selected: boolean;
   @Input() isLastColumn?: boolean;
+  @Input() selectValue: string;
 
   @Output() headerSelected = new EventEmitter<{ isRecommended: boolean }>();
 

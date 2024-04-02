@@ -12,6 +12,7 @@
       <mat-radio-button
         #headerSelectButton
         [checked]="selected"
+        [value]="selectValue"
         color="primary"
         class="cursor-pointer bg-disabled-overlay rounded-xl w-fit hidden md:block"
         (change)="onHeaderSelected(headerSelectButton.checked)"
