@@ -46,6 +46,7 @@ export abstract class EditingModalComponent
   @Input() warningTemplate: TemplateRef<any>;
 
   @Output() affectedKpiOutput: EventEmitter<KpiValue[]> = new EventEmitter();
+  @Output() isButtonDisabled: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('editInputField') editInputField: ElementRef;
 
@@ -199,6 +200,14 @@ export abstract class EditingModalComponent
       !this.isPriceChangeTypeAvailable ||
         (this.isPriceChangeTypeAvailable &&
           this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME).value)
+    );
+
+    this.isButtonDisabled.emit(
+      this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).invalid ||
+        this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME)
+          ?.invalid ||
+        !this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value ||
+        !this.hasValueChanged
     );
     this.affectedKpiOutput.emit(this.affectedKpis);
   }

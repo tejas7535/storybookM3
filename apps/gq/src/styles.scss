@@ -152,6 +152,10 @@ gq-kpi-status-card {
     @apply flex;
   }
 
+  .mdc-dialog__container {
+    @apply w-full;
+  }
+
   .mat-mdc-tab {
     @apply px-0;
     min-width: 60px;

@@ -45,6 +45,7 @@ describe('PricingAssistant.modalComponent', () => {
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
+
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
@@ -97,13 +98,20 @@ describe('PricingAssistant.modalComponent', () => {
     });
   });
 
-  describe('confirm', () => {
+  describe('backToGqPricingPage', () => {
+    test('should set visibleOverlay to gqPricing', () => {
+      component.visibleOverlay = OverlayToShow.comparisonScreen;
+      component.backToGqPricingPage();
+      expect(component.visibleOverlay).toBe('gqPricing');
+    });
+  });
+  describe('confirmGqPrice', () => {
     test('should call the facades method', () => {
       component.dialogData = { gqPositionId: '12345' } as QuotationDetail;
       component['fPricingFacade'].updateFPricingData = jest.fn();
       component['fPricingFacade'].updateFPricingDataSuccess$ = of();
 
-      component.confirm();
+      component.confirmGqPrice();
 
       expect(
         component['fPricingFacade'].updateFPricingData
@@ -124,7 +132,7 @@ describe('PricingAssistant.modalComponent', () => {
         value: facadeMock,
       });
 
-      component.confirm();
+      component.confirmGqPrice();
 
       expect(closeDialogSpy).toHaveBeenCalledTimes(1);
     });
@@ -143,19 +151,15 @@ describe('PricingAssistant.modalComponent', () => {
   });
 
   describe('manualPriceChanged', () => {
-    test('should update the manualPriceData', () => {
-      component.manualPriceData = {
-        quotationDetail: {
-          price: 1,
-          gpm: 1,
-        } as QuotationDetail,
-      } as EditingModal;
+    test('should update the manualPriceToDisplay and manualPriceGPMToDisplay', () => {
+      component.manualPriceToDisplay = 1;
+      component.manualPriceGPMToDisplay = 1;
       component.manualPriceChanged([
         { key: 'price', value: 100 },
         { key: 'gpm', value: 15 },
       ]);
-      expect(component.manualPriceData.quotationDetail.price).toBe(100);
-      expect(component.manualPriceData.quotationDetail.gpm).toBe(15);
+      expect(component.manualPriceToDisplay).toBe(100);
+      expect(component.manualPriceGPMToDisplay).toBe(15);
     });
 
     test('should call the facades method', () => {
@@ -167,6 +171,15 @@ describe('PricingAssistant.modalComponent', () => {
       expect(component['fPricingFacade'].changePrice).toHaveBeenCalled();
     });
   });
+
+  describe('manualPriceButtonDisabled', () => {
+    test('should set manualPriceConfirmButtonDisabled to false', () => {
+      component.manualPriceConfirmButtonDisabled = true;
+      component.manualPriceButtonDisabled(false);
+      expect(component.manualPriceConfirmButtonDisabled).toBe(false);
+    });
+  });
+
   describe('gqPriceClicked', () => {
     test('should set visibleOverlay to gqPricing', () => {
       component.visibleOverlay = OverlayToShow.manualPricing;
@@ -208,10 +221,10 @@ describe('PricingAssistant.modalComponent', () => {
   });
 
   describe('mvdTabClicked', () => {
-    test('should set mvdTabActivated to true', () => {
-      component.mvdTabActivated = false;
+    test('should set gqPricingConfirmButtonDisabled to false', () => {
+      component.gqPricingConfirmButtonDisabled = true;
       component.mvdTabClicked();
-      expect(component.mvdTabActivated).toBe(true);
+      expect(component.gqPricingConfirmButtonDisabled).toBe(false);
     });
   });
   describe('getInitialPriceValue', () => {

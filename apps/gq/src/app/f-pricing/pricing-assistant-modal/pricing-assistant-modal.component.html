@@ -6,7 +6,7 @@
       read: 'fPricing.pricingAssistantModal'
     "
   >
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full w-full">
       <gq-pricing-assistant-header
         [material]="material"
         (closeDialog)="closeDialog()"
@@ -15,36 +15,24 @@
       @if (!(fPricingDataLoading$ | ngrxPush)) {
         <!-- content and possible overlays -->
         <div class="flex flex-col w-full h-full relative">
-          @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
-            <gq-overlay>
-              <ng-container
-                [ngTemplateOutlet]="comparisonScreenView"
-              ></ng-container>
-            </gq-overlay>
-          }
-          @if (visibleOverlay === overlayToShowEnum.manualPricing) {
-            <gq-overlay class="overflow-auto">
-              <ng-container
-                [ngTemplateOutlet]="manualPricingView"
-              ></ng-container>
-            </gq-overlay>
-          }
           <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
+          <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
         </div>
         <!--footer-->
         @if (visibleOverlay !== overlayToShowEnum.comparisonScreen) {
           <div class="flex flex-col">
             <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
             <div class="flex justify-start">
-              <button
-                color="primary"
-                class="!mr-4 text-button font-medium"
-                mat-raised-button
-                [disabled]="!mvdTabActivated"
-                (click)="confirm()"
-              >
-                {{ t('confirmButton') }}
-              </button>
+              @if (visibleOverlay === overlayToShowEnum.gqPricing) {
+                <ng-container
+                  [ngTemplateOutlet]="gqPricingConfirmButton"
+                ></ng-container>
+              }
+              @if (visibleOverlay === overlayToShowEnum.manualPricing) {
+                <ng-container
+                  [ngTemplateOutlet]="manualConfirmButton"
+                ></ng-container>
+              }
               <button
                 color="primary"
                 class="text-button font-medium"
@@ -61,6 +49,30 @@
       }
     </div>
 
+    <!-- templates -->
+    <!--confirmButtons-->
+    <ng-template #manualConfirmButton>
+      <button
+        color="primary"
+        class="!mr-4 text-button font-medium"
+        mat-raised-button
+        [disabled]="manualPriceConfirmButtonDisabled"
+        (click)="confirmManualPrice()"
+      >
+        {{ t('confirmButton') }}
+      </button>
+    </ng-template>
+    <ng-template #gqPricingConfirmButton>
+      <button
+        color="primary"
+        class="!mr-4 text-button font-medium"
+        mat-raised-button
+        [disabled]="gqPricingConfirmButtonDisabled"
+        (click)="confirmGqPrice()"
+      >
+        {{ t('confirmButton') }}
+      </button>
+    </ng-template>
     <ng-template #priceButtons>
       <div class="flex flex-row justify-between w-full gap-3 py-4">
         <gq-price-button
@@ -87,8 +99,8 @@
           <gq-price-button
             class="w-full"
             [priceLabelKey]="'manualPriceLabel'"
-            [priceValue]="manualPriceData.quotationDetail.price"
-            [gpmValue]="manualPriceData.quotationDetail.gpm"
+            [priceValue]="manualPriceToDisplay"
+            [gpmValue]="manualPriceGPMToDisplay"
             [currency]="fPricingData?.currency"
             [isSelected]="isInitiallyManualPrice"
             [isActiveInDialog]="
@@ -101,57 +113,65 @@
     </ng-template>
 
     <ng-template #gqPricingView>
-      <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
-      <mat-card
-        appearance="outlined"
-        class="h-full"
-        [ngClass]="
-          visibleOverlay !== overlayToShowEnum.gqPricing
-            ? 'collapse'
-            : 'visible'
-        "
+      <div
+        class="gq-pricing-view"
+        [ngClass]="{
+          hidden: visibleOverlay !== overlayToShowEnum.gqPricing,
+          'flex flex-col h-full': visibleOverlay === overlayToShowEnum.gqPricing
+        }"
       >
-        <div class="flex flex-col h-full">
-          <gq-pricing-results
-            [price]="24.23"
-            [currency]="fPricingData?.currency"
-            [gpm]="12.4"
-            [confidence]="2"
-          ></gq-pricing-results>
-          <gq-pricing-tabs-wrapper
-            class="h-full"
-            [currency]="fPricingData?.currency"
-            [referencePrice]="fPricingData?.referencePrice"
-            [marketValueDriversValue]="
-              fPricingData?.marketValueDriversAbsoluteValue
-            "
-            [marketValueDriverWarning]="
-              fPricingData?.marketValueDriverWarningLevel
-            "
-            [marketValueDriverData]="fPricingData?.marketValueDriversDisplay"
-            [technicalValueDriversValue]="
-              fPricingData?.technicalValueDriversAbsoluteValue
-            "
-            [technicalValueDriversTableItems]="
-              fPricingData?.technicalValueDriversForDisplay
-            "
-            [sanityChecksTableItems]="fPricingData?.sanityChecksForDisplay"
-            [sanityCheckValue]="fPricingData?.sanityCheckValue"
-            [finalPrice]="2013.45"
-            [referencePriceRowData]="
-              fPricingData?.comparableTransactionsForDisplay
-            "
-            [comparableTransactionsLoading]="
-              comparableTransactionsLoading$ | ngrxPush
-            "
-            [comparableTransactionsAvailable]="
-              fPricingData?.comparableTransactionsAvailable
-            "
-            (comparedMaterialClicked)="onComparedMaterialClicked($event)"
-            (marketValueDriverTabActivated)="mvdTabClicked()"
-          ></gq-pricing-tabs-wrapper>
-        </div>
-      </mat-card>
+        <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
+        <mat-card
+          appearance="outlined"
+          class="h-full"
+          [ngClass]="
+            visibleOverlay !== overlayToShowEnum.gqPricing
+              ? 'collapse'
+              : 'visible'
+          "
+        >
+          <div class="flex flex-col h-full">
+            <gq-pricing-results
+              [price]="24.23"
+              [currency]="fPricingData?.currency"
+              [gpm]="12.4"
+              [confidence]="2"
+            ></gq-pricing-results>
+            <gq-pricing-tabs-wrapper
+              class="h-full"
+              [currency]="fPricingData?.currency"
+              [referencePrice]="fPricingData?.referencePrice"
+              [marketValueDriversValue]="
+                fPricingData?.marketValueDriversAbsoluteValue
+              "
+              [marketValueDriverWarning]="
+                fPricingData?.marketValueDriverWarningLevel
+              "
+              [marketValueDriverData]="fPricingData?.marketValueDriversDisplay"
+              [technicalValueDriversValue]="
+                fPricingData?.technicalValueDriversAbsoluteValue
+              "
+              [technicalValueDriversTableItems]="
+                fPricingData?.technicalValueDriversForDisplay
+              "
+              [sanityChecksTableItems]="fPricingData?.sanityChecksForDisplay"
+              [sanityCheckValue]="fPricingData?.sanityCheckValue"
+              [finalPrice]="2013.45"
+              [referencePriceRowData]="
+                fPricingData?.comparableTransactionsForDisplay
+              "
+              [comparableTransactionsLoading]="
+                comparableTransactionsLoading$ | ngrxPush
+              "
+              [comparableTransactionsAvailable]="
+                fPricingData?.comparableTransactionsAvailable
+              "
+              (comparedMaterialClicked)="onComparedMaterialClicked($event)"
+              (marketValueDriverTabActivated)="mvdTabClicked()"
+            ></gq-pricing-tabs-wrapper>
+          </div>
+        </mat-card>
+      </div>
     </ng-template>
 
     <ng-template #comparisonScreenView>
@@ -166,13 +186,19 @@
     </ng-template>
 
     <ng-template #manualPricingView>
-      <div class="flex flex-col manual-pricing-view">
+      <div
+        class="flex flex-col manual-pricing-view"
+        [ngClass]="{
+          hidden: visibleOverlay !== overlayToShowEnum.manualPricing
+        }"
+      >
         <ng-container [ngTemplateOutlet]="priceButtons"></ng-container>
         <gq-price-editing-modal
           class="px-2"
           [modalData]="manualPriceData"
           [isDialog]="false"
           (affectedKpiOutput)="manualPriceChanged($event)"
+          (isButtonDisabled)="manualPriceButtonDisabled($event)"
           [warningTemplate]="warningTemplate"
         ></gq-price-editing-modal>
       </div>

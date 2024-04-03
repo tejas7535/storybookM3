@@ -326,6 +326,14 @@ describe('TestEditingModalComponent', () => {
       );
       expect(component.affectedKpis).toEqual([]);
     });
+
+    test('should call the EventEmitters', () => {
+      component.affectedKpiOutput.emit = jest.fn();
+      component.isButtonDisabled.emit = jest.fn();
+      component['setAffectedKpis'](1);
+      expect(component.affectedKpiOutput.emit).toHaveBeenCalled();
+      expect(component.isButtonDisabled.emit).toHaveBeenCalled();
+    });
   });
 
   describe('closeDialog', () => {
