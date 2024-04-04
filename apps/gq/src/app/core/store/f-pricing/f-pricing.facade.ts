@@ -49,10 +49,11 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
     this.#store.select(fPricingFeature.getMarketValueDriversAbsoluteValue),
     this.#store.select(
-      fPricingFeature.getTechnicalValueDriverValueAbsoluteValue
+      fPricingFeature.getTechnicalValueDriversValueAbsoluteValue
     ),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
     this.#store.select(fPricingFeature.getSanityChecksForDisplay),
+    this.#store.select(fPricingFeature.getGpmValue),
   ]).pipe(
     map(
       ([
@@ -70,6 +71,7 @@ export class FPricingFacade {
         technicalValueDriversAbsoluteValue,
         technicalValueDriversForDisplay,
         sanityChecksForDisplay,
+        gpmValue,
       ]: [
         FPricingState,
         string,
@@ -85,6 +87,7 @@ export class FPricingFacade {
         number,
         TableItem[],
         TableItem[],
+        number,
       ]) => ({
         ...fPricingState,
         currency,
@@ -116,16 +119,13 @@ export class FPricingFacade {
             currency
           ),
         })),
+        gpmValue,
       })
     )
   );
 
   referencePrice$: Observable<number> = this.#store.select(
     fPricingFeature.selectReferencePrice
-  );
-
-  sanityCheckValue$: Observable<number> = this.#store.select(
-    fPricingFeature.selectSanityCheckValue
   );
 
   materialInformation$: Observable<MaterialInformationExtended[]> =

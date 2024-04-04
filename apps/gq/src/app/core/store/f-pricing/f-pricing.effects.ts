@@ -33,21 +33,45 @@ export class FPricingEffects {
     );
   });
 
-  calculateSanityCheckValue$ = createEffect(() => {
+  /* This effect should react for every action which is related with user input.
+   * If in the future user will be able to change the data for example TVD values,
+   * this effect should be updated.
+   */
+  setSanityCheckValues$ = createEffect(() => {
     return this.actions.pipe(
-      ofType(FPricingActions.loadFPricingDataSuccess),
+      ofType(
+        FPricingActions.loadFPricingDataSuccess,
+        FPricingActions.setMarketValueDriverSelection
+      ),
       concatLatestFrom(() =>
         this.store.select(fPricingFeature.getSanityCheckData)
       ),
       map(
         ([_, sanityCheckData]: [
-          ReturnType<typeof FPricingActions.loadFPricingDataSuccess>,
+          ReturnType<
+            | typeof FPricingActions.loadFPricingDataSuccess
+            | typeof FPricingActions.setMarketValueDriverSelection
+          >,
           SanityCheckData,
         ]) =>
-          FPricingActions.setSanityCheckValue({
-            value:
-              sanityCheckData.recommendBeforeChecks -
-              sanityCheckData.recommendAfterChecks,
+          FPricingActions.setSanityCheckValues({
+            value: sanityCheckData,
+          })
+      )
+    );
+  });
+
+  setFinalPrice$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(FPricingActions.setSanityCheckValues),
+      concatLatestFrom(() => this.store.select(fPricingFeature.getFinalPrice)),
+      map(
+        ([_, finalPrice]: [
+          ReturnType<typeof FPricingActions.setSanityCheckValues>,
+          number,
+        ]) =>
+          FPricingActions.setFinalPriceValue({
+            value: finalPrice,
           })
       )
     );

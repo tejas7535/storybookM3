@@ -31,4 +31,6 @@ export interface FPricingPositionData
   technicalValueDriversAbsoluteValue: number;
   technicalValueDriversForDisplay: TableItem[];
   sanityChecksForDisplay: TableItem[];
+  finalPrice: number;
+  gpmValue: number;
 }

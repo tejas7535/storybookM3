@@ -113,9 +113,10 @@ describe('Service: FPricingFacade', () => {
           1000
         );
         mockStore.overrideSelector(
-          fPricingFeature.getTechnicalValueDriverValueAbsoluteValue,
+          fPricingFeature.getTechnicalValueDriversValueAbsoluteValue,
           500
         );
+        mockStore.overrideSelector(fPricingFeature.getGpmValue, 0.5);
 
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
@@ -136,6 +137,7 @@ describe('Service: FPricingFacade', () => {
               technicalValueDriversForDisplay:
                 TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
               sanityChecksForDisplay: SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING,
+              gpmValue: 0.5,
             },
           })
         );

@@ -15,7 +15,10 @@ import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
 } from '../../../../testing/mocks/models/fpricing/material-information.mock';
-import { SANITY_CHECK_MARGINS_MOCK } from '../../../../testing/mocks/models/fpricing/sanity-check-margins.mock';
+import {
+  SANITY_CHECK_MARGINS_MOCK,
+  SANITY_CHECK_VALUES_MOCK,
+} from '../../../../testing/mocks/models/fpricing/sanity-check-margins.mock';
 import {
   TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
   TECHNICAL_VALUE_DRIVERS_MOCK,
@@ -195,14 +198,16 @@ describe('fPricingReducer', () => {
         ],
       });
     });
-    test('should set SanityCheckValue', () => {
+    test('should set sanityCheckValues', () => {
       const result = fPricingFeature.reducer(
         initialState,
-        FPricingActions.setSanityCheckValue({ value: 100 })
+        FPricingActions.setSanityCheckValues({
+          value: SANITY_CHECK_VALUES_MOCK,
+        })
       );
       expect(result).toEqual({
         ...initialState,
-        sanityCheckValue: 100,
+        sanityCheckValues: SANITY_CHECK_VALUES_MOCK,
       });
     });
   });
@@ -359,13 +364,16 @@ describe('fPricingReducer', () => {
     describe('getDataForUpdateFPricing', () => {
       test('should return the data for update FPricing', () => {
         const SELECTED_PRICE = 12.4;
+        const FINAL_PRICE = 100;
         const result = fPricingFeature.getDataForUpdateFPricing.projector(
           MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-          SELECTED_PRICE
+          SELECTED_PRICE,
+          FINAL_PRICE
         );
         const expected: UpdateFPricingDataRequest = {
           marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
           selectedPrice: SELECTED_PRICE,
+          finalPrice: FINAL_PRICE,
         };
         expect(result).toEqual(expected);
       });
@@ -419,7 +427,7 @@ describe('fPricingReducer', () => {
     describe('getTechnicalValueDriverRelativeValue', () => {
       test('should return technical value driver relative value', () => {
         const result =
-          fPricingFeature.getTechnicalValueDriverRelativeValue.projector(
+          fPricingFeature.getTechnicalValueDriversRelativeValue.projector(
             TECHNICAL_VALUE_DRIVERS_MOCK
           );
         expect(result).toEqual(0.23);
@@ -430,7 +438,7 @@ describe('fPricingReducer', () => {
       test('should return technical value driver absolute value', () => {
         const tvdRelativeValue = 0.23;
         const result =
-          fPricingFeature.getTechnicalValueDriverValueAbsoluteValue.projector(
+          fPricingFeature.getTechnicalValueDriversValueAbsoluteValue.projector(
             tvdRelativeValue,
             F_PRICING_STATE_MOCK.referencePrice
           );
@@ -469,6 +477,7 @@ describe('fPricingReducer', () => {
           recommendBeforeChecks: 287.5,
           sqv: 100,
           upperThreshold: 500,
+          sanityCheckValue: 0,
         });
       });
     });
@@ -482,6 +491,7 @@ describe('fPricingReducer', () => {
           recommendBeforeChecks: 287.5,
           sqv: 100,
           upperThreshold: 500,
+          sanityCheckValue: 0,
         });
         expect(result).toEqual([
           { description: 'translate it', id: 1, value: 287.5 },

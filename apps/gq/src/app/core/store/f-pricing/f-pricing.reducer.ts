@@ -40,9 +40,10 @@ export interface FPricingState extends FPricingData {
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
   technicalValueDriversToUpdate: TableItem[];
-  sanityCheckValue: number;
+  sanityCheckValues: SanityCheckData;
   // the price could either be the GQPrice or the manual price
   priceSelected: number;
+  finalPrice: number;
 }
 
 export const initialState: FPricingState = {
@@ -60,8 +61,9 @@ export const initialState: FPricingState = {
   technicalValueDrivers: null,
   technicalValueDriversToUpdate: [],
   sanityCheckMargins: null,
-  sanityCheckValue: null,
+  sanityCheckValues: null,
   // this is the value of either the GqPrice or Manual Price
+  finalPrice: null,
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -144,6 +146,7 @@ export const fPricingFeature = createFeature({
       (state: FPricingState, { response }): FPricingState => ({
         ...state,
         marketValueDriversSelections: response.marketValueDriverSelections,
+        finalPrice: response.finalPrice,
       })
     ),
     on(
@@ -187,10 +190,17 @@ export const fPricingFeature = createFeature({
       })
     ),
     on(
-      FPricingActions.setSanityCheckValue,
+      FPricingActions.setSanityCheckValues,
       (state: FPricingState, { value }): FPricingState => ({
         ...state,
-        sanityCheckValue: value,
+        sanityCheckValues: value,
+      })
+    ),
+    on(
+      FPricingActions.setFinalPriceValue,
+      (state: FPricingState, { value }): FPricingState => ({
+        ...state,
+        finalPrice: value,
       })
     )
   ),
@@ -206,6 +216,7 @@ export const fPricingFeature = createFeature({
     selectTechnicalValueDriversToUpdate,
     selectSanityCheckMargins,
     selectReferencePrice,
+    selectSanityCheckValues,
   }) => {
     const getMaterialInformationExtended = createSelector(
       selectMaterialInformation,
@@ -513,19 +524,26 @@ export const fPricingFeature = createFeature({
           (sqv / (1 - sanityChecks.maxMargin)).toFixed(8)
         );
 
+        const recommendAfterChecks =
+          calculatePriceRecommendationAfterForSanityChecks(
+            recommendBeforeChecks,
+            lowerThreshold,
+            upperThreshold,
+            quotationDetail?.lastCustomerPrice
+          );
+
+        const sanityCheckValue = Number(
+          (recommendAfterChecks - recommendBeforeChecks).toFixed(8)
+        );
+
         return {
           recommendBeforeChecks,
           lowerThreshold,
           upperThreshold,
-          recommendAfterChecks:
-            calculatePriceRecommendationAfterForSanityChecks(
-              recommendBeforeChecks,
-              lowerThreshold,
-              upperThreshold,
-              quotationDetail?.lastCustomerPrice
-            ),
+          recommendAfterChecks,
           sqv,
           lastCustomerPrice: quotationDetail?.lastCustomerPrice,
+          sanityCheckValue,
         };
       }
     );
@@ -584,15 +602,50 @@ export const fPricingFeature = createFeature({
       }
     );
 
+    const getFinalPrice = createSelector(
+      selectReferencePrice,
+      getMarketValueDriversAbsoluteValue,
+      getTechnicalValueDriversValueAbsoluteValue,
+      selectSanityCheckValues,
+      (refPrice, mvd, tvd, sanityCheck) =>
+        Number(
+          (refPrice + mvd + tvd + sanityCheck?.sanityCheckValue).toFixed(8)
+        )
+    );
+
+    const getGpmValue = createSelector(
+      selectGqPositionId,
+      getFinalPrice,
+      getQuotationDetails,
+      (gqPositionId, finalPrice, quotationDetails) => {
+        const qd = quotationDetails.find(
+          (detail) => detail.gqPositionId === gqPositionId
+        );
+        if (!qd || !finalPrice) {
+          return null;
+        }
+        // If SQV RFQ is available use it for calculations. Otherwise use SQV value from quotation details
+        const sqvValue = qd.rfqData?.sqv ?? qd.sqv;
+        if (!sqvValue) {
+          return null;
+        }
+
+        return Number(((finalPrice - qd.sqv) / finalPrice).toFixed(8)) * 100;
+      }
+    );
+
     const getDataForUpdateFPricing = createSelector(
       selectMarketValueDriversSelections,
       selectPriceSelected,
+      getFinalPrice,
       (
         marketValueDriverSelections,
-        selectedPrice
+        selectedPrice,
+        finalPrice
       ): UpdateFPricingDataRequest => ({
         marketValueDriverSelections,
         selectedPrice,
+        finalPrice,
       })
     );
 
@@ -607,13 +660,13 @@ export const fPricingFeature = createFeature({
       getTechnicalValueDriversForDisplay,
       getMarketValueDriversRelativeValue,
       getMarketValueDriversAbsoluteValue,
-      getTechnicalValueDriverRelativeValue:
-        getTechnicalValueDriversRelativeValue,
-      getTechnicalValueDriverValueAbsoluteValue:
-        getTechnicalValueDriversValueAbsoluteValue,
+      getTechnicalValueDriversRelativeValue,
+      getTechnicalValueDriversValueAbsoluteValue,
       getSanityCheckData,
       getSanityChecksForDisplay,
       getDataForUpdateFPricing,
+      getFinalPrice,
+      getGpmValue,
     };
   },
 });
@@ -765,4 +818,5 @@ export interface SanityCheckData {
   upperThreshold: number;
   lastCustomerPrice: number;
   sqv: number;
+  sanityCheckValue: number;
 }

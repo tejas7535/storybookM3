@@ -1,3 +1,4 @@
+import { SanityCheckData } from '@gq/core/store/f-pricing/f-pricing.reducer';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import {
@@ -39,6 +40,7 @@ export const FPricingActions = createActionGroup({
       technicalValueDriver: TableItem;
     }>(),
 
-    'Set Sanity Check Value': props<{ value: number }>(),
+    'Set Sanity Check Values': props<{ value: SanityCheckData }>(),
+    'Set Final Price Value': props<{ value: number }>(),
   },
 });

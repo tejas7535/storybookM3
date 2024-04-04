@@ -26,6 +26,8 @@ import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/ed
 import { NoDataModule } from '@gq/shared/components/no-data/no-data.module';
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { OperatorTextPipe } from '@gq/shared/pipes/operator-text/operator-text.pipe';
+import { PositiveValuePipe } from '@gq/shared/pipes/positive-value/positive-value.pipe';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
@@ -90,6 +92,8 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     fPricingStoreModule,
     SharedDirectivesModule,
     NoDataModule,
+    OperatorTextPipe,
+    PositiveValuePipe,
   ],
   declarations: [
     PricingAssistantModalComponent,

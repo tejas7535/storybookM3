@@ -100,7 +100,7 @@ describe('FPricingEffects', () => {
     );
   });
 
-  describe('calculateSanityCheckValue$', () => {
+  describe('setSanityCheckValues$', () => {
     test(
       'should dispatch setSanityCheckValue',
       marbles((m) => {
@@ -117,14 +117,39 @@ describe('FPricingEffects', () => {
           data: {} as FPricingData,
         });
 
-        const result = FPricingActions.setSanityCheckValue({
-          value: 50,
+        const result = FPricingActions.setSanityCheckValues({
+          value: sanityCheckData,
         });
 
         const expected = m.cold('b', { b: result });
 
         actions$ = m.hot('a', { a: action });
-        m.expect(effects.calculateSanityCheckValue$).toBeObservable(expected);
+        m.expect(effects.setSanityCheckValues$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('setFinalPrice$', () => {
+    test(
+      'should dispatch setFinalPriceValue',
+      marbles((m) => {
+        const finalPrice = 415.5;
+
+        store.overrideSelector(fPricingFeature.getFinalPrice, finalPrice);
+
+        const action = FPricingActions.setSanityCheckValues({
+          value: {} as SanityCheckData,
+        });
+
+        const result = FPricingActions.setFinalPriceValue({
+          value: finalPrice,
+        });
+
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.setFinalPrice$).toBeObservable(expected);
         m.flush();
       })
     );

@@ -3,4 +3,5 @@ import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-moda
 export interface UpdateFPricingDataRequest {
   marketValueDriverSelections: MarketValueDriverSelection[];
   selectedPrice: number;
+  finalPrice: number;
 }

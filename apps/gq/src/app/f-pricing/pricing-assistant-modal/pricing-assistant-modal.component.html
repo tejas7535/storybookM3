@@ -78,9 +78,9 @@
         <gq-price-button
           class="w-full"
           [priceLabelKey]="'gqPriceLabel'"
-          [priceValue]="45.12"
+          [priceValue]="fPricingData?.finalPrice"
           [currency]="fPricingData?.currency"
-          [gpmValue]="12.45"
+          [gpmValue]="fPricingData?.gpmValue"
           [icon]="'warning_amber'"
           [iconColor]="'text-error'"
           [isSelected]="dialogData.priceSource === priceSourceEnum.GQ"
@@ -132,9 +132,9 @@
         >
           <div class="flex flex-col h-full">
             <gq-pricing-results
-              [price]="24.23"
+              [price]="fPricingData?.finalPrice"
               [currency]="fPricingData?.currency"
-              [gpm]="12.4"
+              [gpm]="fPricingData?.gpmValue"
               [confidence]="2"
             ></gq-pricing-results>
             <gq-pricing-tabs-wrapper
@@ -155,8 +155,10 @@
                 fPricingData?.technicalValueDriversForDisplay
               "
               [sanityChecksTableItems]="fPricingData?.sanityChecksForDisplay"
-              [sanityCheckValue]="fPricingData?.sanityCheckValue"
-              [finalPrice]="2013.45"
+              [sanityCheckValue]="
+                fPricingData?.sanityCheckValues?.sanityCheckValue
+              "
+              [finalPrice]="fPricingData?.finalPrice"
               [referencePriceRowData]="
                 fPricingData?.comparableTransactionsForDisplay
               "

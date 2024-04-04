@@ -113,14 +113,19 @@
         ><gq-tabs-label
           class="h-full"
           [isOperator]="true"
-          [operatorText]="'+'"
+          [operatorText]="sanityCheckValue | operatorText"
         ></gq-tabs-label
       ></ng-template>
     </mat-tab>
     <mat-tab>
+      <!-- Just for presentation purposes always display sanityCheckValue as positive value -->
       <ng-template mat-tab-label
         ><gq-tabs-label
-          [value]="sanityCheckValue ?? 0 | numberCurrency: currency : true"
+          [value]="
+            sanityCheckValue ?? 0
+              | positiveValue
+              | numberCurrency: currency : true
+          "
           [title]="t('sanityCheckLabel')"
         ></gq-tabs-label
       ></ng-template>
