@@ -65,7 +65,7 @@ export class TrackingService {
 
     return this.logEvent({
       action: 'Calculate',
-      status: !error ? 'successful' : 'unsuccessful',
+      status: error ? 'unsuccessful' : 'successful',
       methods,
       message: error || 'successful',
       version: this.version,
@@ -87,10 +87,10 @@ export class TrackingService {
   private async logEvent<T extends BasicEvent>(event: T): Promise<void> {
     const standalone = await firstValueFrom(this.settingsFacade.isStandalone$);
 
-    if (!standalone) {
-      this.gaService.logEvent(event);
-    } else {
+    if (standalone) {
       this.aiService.logEvent(event.action, event);
+    } else {
+      this.gaService.logEvent(event);
     }
 
     return;
