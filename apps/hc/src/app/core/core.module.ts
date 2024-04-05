@@ -1,15 +1,22 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { environment } from '@hc/environments/environment';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
 
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+  CustomProps,
+} from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -43,8 +50,36 @@ let defaultLang; // default -> undefined would lead to browser detection
       },
     }),
     HttpClientModule,
+    OneTrustModule.forRoot({
+      cookiesGroups: COOKIE_GROUPS,
+      domainScript: environment.oneTrustId,
+    }),
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   exports: [SharedTranslocoModule],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      deps: [ApplicationInsightsService, OneTrustService],
+      useFactory: (
+        appInsightService: ApplicationInsightsService,
+        oneTrustService: OneTrustService
+      ) => {
+        const customProps: CustomProps = {
+          tag: 'application',
+          value: '[Hardness - Converter]',
+        };
+
+        appInsightService.initTracking(
+          oneTrustService.consentChanged$(),
+          customProps
+        );
+
+        return () => oneTrustService.loadOneTrust();
+      },
+      multi: true,
+    },
+  ],
 })
 export class CoreModule {
   public constructor(

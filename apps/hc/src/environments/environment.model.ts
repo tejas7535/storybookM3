@@ -4,8 +4,6 @@ export interface Environment {
   devToolsEnabled: boolean;
   baseUrl: string;
   internalUserCheckURL: string;
-  /*   tenantId: string;
-  groupId: string;
   oneTrustId: string;
   applicationInsights: {
     applicationInsightsConfig: {
@@ -17,5 +15,5 @@ export interface Environment {
     enableGlobalErrorHandler: boolean;
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
-  }; */
+  };
 }

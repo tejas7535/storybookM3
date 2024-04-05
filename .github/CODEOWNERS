@@ -49,3 +49,7 @@ apps/ea-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vog
 
 apps/lsa @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT
 apps/lsa-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT
+
+# HC
+
+apps/hc @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT
