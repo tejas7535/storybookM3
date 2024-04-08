@@ -58,6 +58,7 @@ import {
   WEIGHT_DATA_SOURCE,
 } from '@mac/feature/materials-supplier-database/constants';
 import {
+  DATE_FILTER_PARAMS,
   DISTINCT_FILTER_PARAMS,
   NUMBER_FILTER_PARAMS,
   TEXT_FILTER_PARAMS,
@@ -244,6 +245,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: VALID_FROM,
     headerName: VALID_FROM,
     filter: 'agDateColumnFilter',
+    filterParams: DATE_FILTER_PARAMS,
     valueFormatter: SAP_MATERIALS_DATE_FORMATTER,
     headerTooltip: 'date',
     hide: true,
@@ -252,6 +254,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: VALID_UNTIL,
     headerName: VALID_UNTIL,
     filter: 'agDateColumnFilter',
+    filterParams: DATE_FILTER_PARAMS,
     valueFormatter: SAP_MATERIALS_DATE_FORMATTER,
     headerTooltip: 'date',
     hide: true,

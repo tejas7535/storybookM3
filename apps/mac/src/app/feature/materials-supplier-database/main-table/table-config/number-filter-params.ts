@@ -6,6 +6,8 @@ export const NUMBER_FILTER_PARAMS = {
     'lessThanOrEqual',
     'greaterThan',
     'greaterThanOrEqual',
+    'blank',
+    'notBlank',
   ],
   buttons: ['apply', 'reset'],
   closeOnApply: true,

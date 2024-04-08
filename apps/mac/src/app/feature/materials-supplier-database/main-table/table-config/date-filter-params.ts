@@ -1,5 +1,4 @@
-export const TEXT_FILTER_PARAMS = {
-  filterOptions: ['contains', 'blank', 'notBlank'],
+export const DATE_FILTER_PARAMS = {
   buttons: ['apply', 'reset'],
   closeOnApply: true,
   suppressAndOrCondition: true,
