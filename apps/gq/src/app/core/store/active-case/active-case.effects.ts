@@ -337,7 +337,7 @@ export class ActiveCaseEffects {
     );
   });
 
-  updateMaterials$ = createEffect(() => {
+  updateQuotationDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.updateQuotationDetails),
       map((action: any) => action.updateQuotationDetailList),
@@ -351,9 +351,18 @@ export class ActiveCaseEffects {
         this.quotationDetailsService
           .updateQuotationDetail(updateQuotationDetailList)
           .pipe(
-            tap(() =>
-              this.showUpdateQuotationDetailToast(updateQuotationDetailList[0])
-            ),
+            tap((quotation) => {
+              // check if the update of the detail leads to an update of the gqPrice
+              const updatesGqPrice = this.checkGqPriceAffectedByUpdate(
+                updateQuotationDetailList,
+                quotation
+              );
+
+              this.showUpdateQuotationDetailToast(
+                updateQuotationDetailList[0],
+                updatesGqPrice
+              );
+            }),
             tap((quotation) => {
               addCalculationsForDetails(quotation.quotationDetails);
             }),
@@ -693,6 +702,21 @@ export class ActiveCaseEffects {
     private readonly snackBar: MatSnackBar
   ) {}
 
+  private checkGqPriceAffectedByUpdate(
+    updateQuotationDetailList: UpdateQuotationDetail[],
+    quotation: Quotation
+  ) {
+    const updatedDetailIds = new Set(
+      updateQuotationDetailList.map((item) => item.gqPositionId)
+    );
+
+    return (
+      quotation.quotationDetails
+        .filter((detail) => updatedDetailIds.has(detail.gqPositionId))
+        .findIndex((detail) => detail.recommendedPrice) > -1
+    );
+  }
+
   private showUploadSelectionToast(
     quotation: Quotation,
     syncedPositionIds: string[]
@@ -743,12 +767,17 @@ export class ActiveCaseEffects {
     this.snackBar.open(successMessage);
   }
 
-  private showUpdateQuotationDetailToast(update: UpdateQuotationDetail): void {
+  private showUpdateQuotationDetailToast(
+    update: UpdateQuotationDetail,
+    updatesGqPrice: boolean
+  ): void {
     let translateString = `shared.snackBarMessages.`;
     if (update.price) {
       translateString += 'updateSelectedPrice';
     } else if (update.orderQuantity) {
-      translateString += 'updateQuantity';
+      translateString += updatesGqPrice
+        ? 'updateQuantityAffectsGqPrice'
+        : 'updateQuantity';
     } else if (update.targetPrice) {
       translateString += 'updateTargetPrice';
     } else {

@@ -392,6 +392,7 @@
       "updateSelectedPrice": "Der Preis wurde gespeichert",
       "updateTargetPrice": "Der Zielpreis wurde gespeichert",
       "updateQuantity": "Die Mengenänderung wurde gespeichert",
+      "updateQuantityAffectsGqPrice": "Die Mengenänderung wurde gespeichert. Dies könnte zu einer Aktualisierung des GQ-Preises führen.",
       "updateComment": "Die Kommentaränderung wurde gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "refreshSapPricingSuccessAsync": "Preise werden aus SAP aktualisiert",

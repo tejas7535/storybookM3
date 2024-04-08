@@ -669,7 +669,7 @@ describe('ActiveCaseEffects', () => {
     );
   });
 
-  describe('updateMaterials$', () => {
+  describe('updateQuotationDetails$', () => {
     let convertSpy: jest.SpyInstance<string, [value: string]>;
     beforeEach(() => {
       convertSpy = jest
@@ -707,7 +707,7 @@ describe('ActiveCaseEffects', () => {
         const response = m.cold('-a|', { a: updatedQuotation });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.updateMaterials$).toBeObservable(expected);
+        m.expect(effects.updateQuotationDetails$).toBeObservable(expected);
         m.flush();
         expect(
           quotationDetailsService.updateQuotationDetail
@@ -718,6 +718,54 @@ describe('ActiveCaseEffects', () => {
         ).toHaveBeenCalledWith(updateQuotationDetailList);
         expect(effects['showUpdateQuotationDetailToast']).toHaveBeenCalledTimes(
           1
+        );
+        expect(effects['showUpdateQuotationDetailToast']).toHaveBeenCalledWith(
+          updateQuotationDetailList[0],
+          true
+        );
+      })
+    );
+
+    test(
+      'should return removePositionsSuccess when REST call is successful and no recommendedPrice',
+      marbles((m) => {
+        action = ActiveCaseActions.updateQuotationDetails({
+          updateQuotationDetailList,
+        });
+        effects['showUpdateQuotationDetailToast'] = jest.fn();
+        quotationDetailsService.updateQuotationDetail = jest.fn(() => response);
+        const updatedQuotationWithoutRecommendedprice: Quotation = {
+          ...QUOTATION_MOCK,
+          quotationDetails: [
+            { ...QUOTATION_DETAIL_MOCK, recommendedPrice: null },
+          ],
+        };
+
+        const result = ActiveCaseActions.updateQuotationDetailsSuccess({
+          updatedQuotation: updatedQuotationWithoutRecommendedprice,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: updatedQuotationWithoutRecommendedprice,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.updateQuotationDetails$).toBeObservable(expected);
+        m.flush();
+        expect(
+          quotationDetailsService.updateQuotationDetail
+        ).toHaveBeenCalledTimes(1);
+        expect(convertSpy).toHaveBeenCalled();
+        expect(
+          quotationDetailsService.updateQuotationDetail
+        ).toHaveBeenCalledWith(updateQuotationDetailList);
+        expect(effects['showUpdateQuotationDetailToast']).toHaveBeenCalledTimes(
+          1
+        );
+        expect(effects['showUpdateQuotationDetailToast']).toHaveBeenCalledWith(
+          updateQuotationDetailList[0],
+          false
         );
       })
     );
@@ -739,7 +787,7 @@ describe('ActiveCaseEffects', () => {
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.updateMaterials$).toBeObservable(expected);
+        m.expect(effects.updateQuotationDetails$).toBeObservable(expected);
         m.flush();
         expect(
           quotationDetailsService.updateQuotationDetail
@@ -897,7 +945,7 @@ describe('ActiveCaseEffects', () => {
     test('should display updateSelectedPrice', () => {
       effects['snackBar'].open = jest.fn();
 
-      effects['showUpdateQuotationDetailToast']({ price: 20 } as any);
+      effects['showUpdateQuotationDetailToast']({ price: 20 } as any, false);
       expect(effects['snackBar'].open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.updateSelectedPrice`)
       );
@@ -905,15 +953,32 @@ describe('ActiveCaseEffects', () => {
     test('should display updateQuantity', () => {
       effects['snackBar'].open = jest.fn();
 
-      effects['showUpdateQuotationDetailToast']({ orderQuantity: 20 } as any);
+      effects['showUpdateQuotationDetailToast'](
+        { orderQuantity: 20 } as any,
+        false
+      );
       expect(effects['snackBar'].open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.updateQuantity`)
+      );
+    });
+    test('should display updateQuantity affects gqPrice', () => {
+      effects['snackBar'].open = jest.fn();
+
+      effects['showUpdateQuotationDetailToast'](
+        { orderQuantity: 20 } as any,
+        true
+      );
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateQuantityAffectsGqPrice`)
       );
     });
     test('should display updateTargetPrice', () => {
       effects['snackBar'].open = jest.fn();
 
-      effects['showUpdateQuotationDetailToast']({ targetPrice: 200 } as any);
+      effects['showUpdateQuotationDetailToast'](
+        { targetPrice: 200 } as any,
+        false
+      );
       expect(effects['snackBar'].open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.updateTargetPrice`)
       );
