@@ -1,6 +1,7 @@
 import { ProductType, QuotationDetail } from '@gq/shared/models';
 import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
 
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import {
   F_PRICING_COMPARABLE_MATERIALS_MOCK,
   F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING,
@@ -37,6 +38,7 @@ import {
   getNumberOfDeltasByInformationKey,
   initialState,
   notLastOptionSelected,
+  SanityCheckData,
 } from './f-pricing.reducer';
 import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 import { PropertyDelta } from './models/property-delta.interface';
@@ -501,6 +503,44 @@ describe('fPricingReducer', () => {
           { description: 'translate it', id: 5, value: 500 },
           { description: 'translate it', id: 6, value: 287.5 },
         ]);
+      });
+    });
+
+    describe('getFinalPrice', () => {
+      test('should return final price', () => {
+        const result = fPricingFeature.getFinalPrice.projector(100, 50, 200, {
+          sanityCheckValue: 30,
+        } as SanityCheckData);
+        expect(result).toBe(380);
+      });
+    });
+
+    describe('getGpmValue', () => {
+      test('should return gpm value with RFQ SQV value used', () => {
+        const result = fPricingFeature.getGpmValue.projector('5694232', 350, [
+          QUOTATION_DETAIL_MOCK,
+        ]);
+        expect(result).toBe(90);
+      });
+      test('should return gpm value with SQV value used', () => {
+        const quotationDetail = QUOTATION_DETAIL_MOCK;
+        quotationDetail.rfqData = null;
+        const result = fPricingFeature.getGpmValue.projector('5694232', 300, [
+          quotationDetail,
+        ]);
+        expect(result).toBe(90);
+      });
+      test('should return null when final price is not present', () => {
+        const result = fPricingFeature.getGpmValue.projector('5694232', null, [
+          QUOTATION_DETAIL_MOCK,
+        ]);
+        expect(result).toBe(null);
+      });
+      test('should return null when quotation detail not found', () => {
+        const result = fPricingFeature.getGpmValue.projector('12345', 300, [
+          QUOTATION_DETAIL_MOCK,
+        ]);
+        expect(result).toBe(null);
       });
     });
   });

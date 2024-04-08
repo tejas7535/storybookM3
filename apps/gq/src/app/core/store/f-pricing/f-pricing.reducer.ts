@@ -630,7 +630,7 @@ export const fPricingFeature = createFeature({
           return null;
         }
 
-        return Number(((finalPrice - qd.sqv) / finalPrice).toFixed(8)) * 100;
+        return Number(((finalPrice - sqvValue) / finalPrice).toFixed(8)) * 100;
       }
     );
 
