@@ -459,6 +459,11 @@ export const fPricingFeature = createFeature({
       }
     );
 
+    const getReferencePriceRounded = createSelector(
+      selectReferencePrice,
+      (referencePrice): number => Number(referencePrice?.toFixed(2))
+    );
+
     const getTechnicalValueDriversRelativeValue = createSelector(
       selectTechnicalValueDrivers,
       (tvd: TechnicalValueDriver): number =>
@@ -489,9 +494,9 @@ export const fPricingFeature = createFeature({
       selectSanityCheckMargins,
       selectGqPositionId,
       getQuotationDetails,
-      selectReferencePrice,
-      getTechnicalValueDriversRelativeValue,
-      getMarketValueDriversRelativeValue,
+      getReferencePriceRounded,
+      getTechnicalValueDriversValueAbsoluteValue,
+      getMarketValueDriversAbsoluteValue,
       (
         sanityChecks: SanityCheckMargins,
         positionId: string,
@@ -507,14 +512,11 @@ export const fPricingFeature = createFeature({
           (item) => item.gqPositionId === positionId
         );
 
-        const refPriceRounded = Number(refPrice.toFixed(2));
-
         // when sqv of RFQ ist not available take the quotationDetail.sqv
         const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
         // formula: refPrice * (1 + mvdValue + tvdValue)
-        const recommendBeforeChecks = Number(
-          (refPriceRounded * (1 + mvdValue + tvdValue)).toFixed(2)
-        );
+
+        const recommendBeforeChecks = Number(refPrice + mvdValue + tvdValue);
         // formula: SQV_RFQ / (1- minMargin)
         const lowerThreshold = Number(
           (sqv / (1 - sanityChecks.minMargin)).toFixed(2)
@@ -523,9 +525,8 @@ export const fPricingFeature = createFeature({
         const upperThreshold = Number(
           (sqv / (1 - sanityChecks.maxMargin)).toFixed(2)
         );
-
         const recommendAfterChecks =
-          calculatePriceRecommendationAfterForSanityChecks(
+          calculatePriceRecommendationAfterSanityChecks(
             recommendBeforeChecks,
             lowerThreshold,
             upperThreshold,
@@ -603,7 +604,7 @@ export const fPricingFeature = createFeature({
     );
 
     const getFinalPrice = createSelector(
-      selectReferencePrice,
+      getReferencePriceRounded,
       getMarketValueDriversAbsoluteValue,
       getTechnicalValueDriversValueAbsoluteValue,
       selectSanityCheckValues,
@@ -652,6 +653,7 @@ export const fPricingFeature = createFeature({
       getAllMarketValueDriverSelected,
       getMarketValueDriverWarningLevel,
       getTechnicalValueDriversForDisplay,
+      getReferencePriceRounded,
       getMarketValueDriversRelativeValue,
       getMarketValueDriversAbsoluteValue,
       getTechnicalValueDriversRelativeValue,
@@ -730,37 +732,34 @@ export function notLastOptionSelected(
 }
 
 /**
- * Will return the recommended Price after sanity checks. Will be calculated by a special non-linear logic.
+ * Will return the recommended Price after sanity checks.
  *
- * the maximum allowed Value is the maxThreshold, minimum allowed value is the minThreshold.
- * When a customer Price is available, and it is between the min and max threshold, it will be taken into account.
- * When a recPriceBeforeSanityCheck is between the min and max threshold, it will be taken into account.
- * From the into Account taken values the higher the returned
- * when no lastCustomerPrice and no recPriceBeforeSanityCheck is available, the maxThreshold will be returned.
- * @param recPriceBeforeCheck
- * @param minThreshold
- * @param maxThreshold
- * @param lastCustomerPrice
+ * @param recPriceBeforeCheck the price recommendation before sanity checks
+ * @param minThreshold minimum allowed value according to sanity checks
+ * @param maxThreshold maximum allowed value according to sanity checks
+ * @param lastCustomerPrice the last customer price, acts as minimum value if higher than min value from sanity checks
  * @returns the price recommendation after sanity checks
  */
-export function calculatePriceRecommendationAfterForSanityChecks(
+export function calculatePriceRecommendationAfterSanityChecks(
   recPriceBeforeCheck: number,
   minThreshold: number,
   maxThreshold: number,
   lastCustomerPrice: number
 ): number {
-  const maxValue = Math.max(
-    isBetween(recPriceBeforeCheck, minThreshold, maxThreshold)
-      ? recPriceBeforeCheck
-      : null,
-    isBetween(lastCustomerPrice, minThreshold, maxThreshold)
+  // if the last customer price is higher than the min threshold, the lastCustomerPrice is the new min value
+  const minValue =
+    lastCustomerPrice != null && lastCustomerPrice > minThreshold
       ? lastCustomerPrice
-      : null
-  );
+      : minThreshold;
 
-  return isBetween(maxValue, minThreshold, maxThreshold)
-    ? maxValue
-    : maxThreshold;
+  if (recPriceBeforeCheck < minValue) {
+    return minValue;
+  }
+  if (recPriceBeforeCheck > maxThreshold) {
+    return maxThreshold;
+  }
+
+  return recPriceBeforeCheck;
 }
 
 /**
@@ -799,10 +798,6 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
   }
 
   return delta;
-}
-
-function isBetween(value: number, lower: number, upper: number): boolean {
-  return value >= lower && value <= upper;
 }
 
 export interface SanityCheckData {

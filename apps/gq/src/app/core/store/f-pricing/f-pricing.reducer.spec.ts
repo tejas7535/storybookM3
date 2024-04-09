@@ -31,7 +31,7 @@ import {
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import {
-  calculatePriceRecommendationAfterForSanityChecks,
+  calculatePriceRecommendationAfterSanityChecks,
   fPricingFeature,
   FPricingState,
   getDeltaByInformationKeyAndPropertyKey,
@@ -465,7 +465,7 @@ describe('fPricingReducer', () => {
         const result = 249.43 / (1 - 0.6);
         expect(result.toFixed(3)).toBe('623.575');
       });
-      test('should provide the prepared Data for SanityChecks', () => {
+      test('should apply sanity check correction for recommendedBeforeSanity Checks lower then lowerThreshold', () => {
         const result = fPricingFeature.getSanityCheckData.projector(
           SANITY_CHECK_MARGINS_MOCK,
           'gqPositionId',
@@ -477,15 +477,68 @@ describe('fPricingReducer', () => {
               },
             } as unknown as QuotationDetail,
           ],
-          125,
-          0.8,
-          0.5
+          120,
+          3,
+          1
         );
         expect(result).toEqual({
           lastCustomerPrice: undefined,
           lowerThreshold: 125,
-          recommendAfterChecks: 287.5,
-          recommendBeforeChecks: 287.5,
+          recommendAfterChecks: 125,
+          recommendBeforeChecks: 124,
+          sqv: 100,
+          upperThreshold: 500,
+          sanityCheckValue: 1,
+        });
+      });
+      test('should apply sanity check correction for recommendedBeforeSanity Checks lower then lastCustomerPrice', () => {
+        const result = fPricingFeature.getSanityCheckData.projector(
+          SANITY_CHECK_MARGINS_MOCK,
+          'gqPositionId',
+          [
+            {
+              gqPositionId: 'gqPositionId',
+              rfqData: {
+                sqv: 100,
+              },
+              lastCustomerPrice: 130,
+            } as unknown as QuotationDetail,
+          ],
+          120,
+          3,
+          1
+        );
+        expect(result).toEqual({
+          lastCustomerPrice: 130,
+          lowerThreshold: 125,
+          recommendAfterChecks: 130,
+          recommendBeforeChecks: 124,
+          sqv: 100,
+          upperThreshold: 500,
+          sanityCheckValue: 6,
+        });
+      });
+      test('should not apply sanity check correction if value between lower and upper Threshold', () => {
+        const result = fPricingFeature.getSanityCheckData.projector(
+          SANITY_CHECK_MARGINS_MOCK,
+          'gqPositionId',
+          [
+            {
+              gqPositionId: 'gqPositionId',
+              rfqData: {
+                sqv: 100,
+              },
+            } as unknown as QuotationDetail,
+          ],
+          120,
+          10,
+          10
+        );
+        expect(result).toEqual({
+          lastCustomerPrice: undefined,
+          lowerThreshold: 125,
+          recommendAfterChecks: 140,
+          recommendBeforeChecks: 140,
           sqv: 100,
           upperThreshold: 500,
           sanityCheckValue: 0,
@@ -660,7 +713,7 @@ describe('fPricingReducer', () => {
 
   describe('calculatePriceRecommendationAfterForSanityChecks', () => {
     test('should return the value of the price recommendation after sanity checks', () => {
-      const result = calculatePriceRecommendationAfterForSanityChecks(
+      const result = calculatePriceRecommendationAfterSanityChecks(
         150,
         124,
         178,
@@ -671,7 +724,7 @@ describe('fPricingReducer', () => {
     });
 
     test('should return the value of last customer price, after sanity Checks', () => {
-      const result = calculatePriceRecommendationAfterForSanityChecks(
+      const result = calculatePriceRecommendationAfterSanityChecks(
         150,
         175,
         225,
@@ -681,8 +734,18 @@ describe('fPricingReducer', () => {
       expect(result).toBe(180);
     });
 
+    test('should return value of the minThreshold, after sanity Checks', () => {
+      const result = calculatePriceRecommendationAfterSanityChecks(
+        123,
+        124,
+        178,
+        null
+      );
+
+      expect(result).toBe(124);
+    });
     test('should return the value of the maxThreshold, after sanity Checks', () => {
-      const result = calculatePriceRecommendationAfterForSanityChecks(
+      const result = calculatePriceRecommendationAfterSanityChecks(
         250,
         195,
         225,
@@ -693,7 +756,7 @@ describe('fPricingReducer', () => {
     });
 
     test('should return the value of the maxThreshold, after sanity Checks when customer price and priceRecommendationBeforeChecks is higher than maxThreshold', () => {
-      const result = calculatePriceRecommendationAfterForSanityChecks(
+      const result = calculatePriceRecommendationAfterSanityChecks(
         250,
         195,
         225,
@@ -704,7 +767,7 @@ describe('fPricingReducer', () => {
     });
 
     test('should return the value of the lastCustomerPrice, after sanity Checks', () => {
-      const result = calculatePriceRecommendationAfterForSanityChecks(
+      const result = calculatePriceRecommendationAfterSanityChecks(
         196,
         195,
         225,
@@ -714,7 +777,7 @@ describe('fPricingReducer', () => {
       expect(result).toBe(224);
     });
     test('should return the value of the maxThreshold when lastCustomerPrice und recPRiceBeforeCheck is higher then maxThreshold', () => {
-      const result = calculatePriceRecommendationAfterForSanityChecks(
+      const result = calculatePriceRecommendationAfterSanityChecks(
         300,
         195,
         225,
