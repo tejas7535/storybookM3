@@ -443,7 +443,7 @@ export const fPricingFeature = createFeature({
         Number(
           marketValueDriversSelections
             .reduce((acc, option) => acc + option.surcharge, 0)
-            .toFixed(8)
+            .toFixed(2)
         )
     );
 
@@ -456,7 +456,7 @@ export const fPricingFeature = createFeature({
         }
 
         return Number(
-          (referencePrice * marketValueDriversRelativeValue).toFixed(8)
+          (referencePrice * marketValueDriversRelativeValue).toFixed(2)
         );
       }
     );
@@ -471,7 +471,7 @@ export const fPricingFeature = createFeature({
             tvd?.clearanceRadialSurcharge +
             tvd?.clearanceAxialSurcharge +
             tvd?.engineeringEffortSurcharge
-          ).toFixed(8)
+          ).toFixed(2)
         )
     );
 
@@ -483,7 +483,7 @@ export const fPricingFeature = createFeature({
           return 0;
         }
 
-        return Number((referencePrice * tvdRelativeValue).toFixed(8));
+        return Number((referencePrice * tvdRelativeValue).toFixed(2));
       }
     );
 
@@ -509,19 +509,21 @@ export const fPricingFeature = createFeature({
           (item) => item.gqPositionId === positionId
         );
 
+        const refPriceRounded = Number(refPrice.toFixed(2));
+
         // when sqv of RFQ ist not available take the quotationDetail.sqv
         const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
         // formula: refPrice * (1 + mvdValue + tvdValue)
         const recommendBeforeChecks = Number(
-          (refPrice * (1 + mvdValue + tvdValue)).toFixed(8)
+          (refPriceRounded * (1 + mvdValue + tvdValue)).toFixed(2)
         );
         // formula: SQV_RFQ / (1- minMargin)
         const lowerThreshold = Number(
-          (sqv / (1 - sanityChecks.minMargin)).toFixed(8)
+          (sqv / (1 - sanityChecks.minMargin)).toFixed(2)
         );
         // formula: SQV_RFQ / (1- maxMargin)
         const upperThreshold = Number(
-          (sqv / (1 - sanityChecks.maxMargin)).toFixed(8)
+          (sqv / (1 - sanityChecks.maxMargin)).toFixed(2)
         );
 
         const recommendAfterChecks =
@@ -533,7 +535,7 @@ export const fPricingFeature = createFeature({
           );
 
         const sanityCheckValue = Number(
-          (recommendAfterChecks - recommendBeforeChecks).toFixed(8)
+          (recommendAfterChecks - recommendBeforeChecks).toFixed(2)
         );
 
         return {
@@ -609,7 +611,7 @@ export const fPricingFeature = createFeature({
       selectSanityCheckValues,
       (refPrice, mvd, tvd, sanityCheck) =>
         Number(
-          (refPrice + mvd + tvd + sanityCheck?.sanityCheckValue).toFixed(8)
+          (refPrice + mvd + tvd + sanityCheck?.sanityCheckValue).toFixed(2)
         )
     );
 
@@ -630,7 +632,7 @@ export const fPricingFeature = createFeature({
           return null;
         }
 
-        return Number(((finalPrice - sqvValue) / finalPrice).toFixed(8)) * 100;
+        return Number(((finalPrice - sqvValue) / finalPrice).toFixed(2)) * 100;
       }
     );
 
