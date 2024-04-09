@@ -16,7 +16,7 @@ import {
   getSapId,
   getSelectedQuotationDetail,
 } from './active-case.selectors';
-import { QuotationIdentifier } from './models';
+import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +34,14 @@ export class ActiveCaseFacade {
 
   quotationCurrency$: Observable<string> =
     this.store.select(getQuotationCurrency);
+
+  quotationDetailUpdating$ = this.store.select(
+    activeCaseFeature.selectUpdateLoading
+  );
+
+  quotationDetailUpdateSuccess$: Observable<void> = this.actions$.pipe(
+    ofType(ActiveCaseActions.updateQuotationDetailsSuccess)
+  );
 
   costsUpdating$ = this.store.select(
     activeCaseFeature.selectUpdateCostsLoading
@@ -118,5 +126,13 @@ export class ActiveCaseFacade {
 
   deleteAttachment(attachment: QuotationAttachment): void {
     this.store.dispatch(ActiveCaseActions.deleteAttachment({ attachment }));
+  }
+
+  updateQuotationDetails(
+    updateQuotationDetailList: UpdateQuotationDetail[]
+  ): void {
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
+    );
   }
 }

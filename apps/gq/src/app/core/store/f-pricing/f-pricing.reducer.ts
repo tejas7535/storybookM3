@@ -41,8 +41,7 @@ export interface FPricingState extends FPricingData {
   marketValueDriversSelections: MarketValueDriverSelection[];
   technicalValueDriversToUpdate: TableItem[];
   sanityCheckValues: SanityCheckData;
-  // the price could either be the GQPrice or the manual price
-  priceSelected: number;
+  manualPrice: number;
   finalPrice: number;
 }
 
@@ -57,12 +56,11 @@ export const initialState: FPricingState = {
   comparableTransactions: null,
   marketValueDrivers: null,
   marketValueDriversSelections: [],
-  priceSelected: null,
+  manualPrice: null,
   technicalValueDrivers: null,
   technicalValueDriversToUpdate: [],
   sanityCheckMargins: null,
   sanityCheckValues: null,
-  // this is the value of either the GqPrice or Manual Price
   finalPrice: null,
 };
 
@@ -145,6 +143,7 @@ export const fPricingFeature = createFeature({
       FPricingActions.updateFPricingSuccess,
       (state: FPricingState, { response }): FPricingState => ({
         ...state,
+        fPricingDataLoading: false,
         marketValueDriversSelections: response.marketValueDriverSelections,
         finalPrice: response.finalPrice,
       })
@@ -173,7 +172,7 @@ export const fPricingFeature = createFeature({
       FPricingActions.changePrice,
       (state: FPricingState, { price }): FPricingState => ({
         ...state,
-        priceSelected: price,
+        manualPrice: price,
       })
     ),
 
@@ -210,7 +209,6 @@ export const fPricingFeature = createFeature({
     selectMarketValueDrivers,
     selectComparableTransactions,
     selectMarketValueDriversSelections,
-    selectPriceSelected,
     selectGqPositionId,
     selectTechnicalValueDrivers,
     selectTechnicalValueDriversToUpdate,
@@ -638,15 +636,9 @@ export const fPricingFeature = createFeature({
 
     const getDataForUpdateFPricing = createSelector(
       selectMarketValueDriversSelections,
-      selectPriceSelected,
       getFinalPrice,
-      (
+      (marketValueDriverSelections, finalPrice): UpdateFPricingDataRequest => ({
         marketValueDriverSelections,
-        selectedPrice,
-        finalPrice
-      ): UpdateFPricingDataRequest => ({
-        marketValueDriverSelections,
-        selectedPrice,
         finalPrice,
       })
     );

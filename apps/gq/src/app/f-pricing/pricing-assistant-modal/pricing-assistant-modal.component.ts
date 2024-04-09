@@ -103,13 +103,16 @@ export class PricingAssistantModalComponent implements OnInit {
 
   confirmGqPrice(): void {
     this.fPricingFacade.updateFPricingData(this.dialogData.gqPositionId);
-    this.fPricingFacade.updateFPricingDataSuccess$
+    this.fPricingFacade.updatePriceSuccess$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.closeDialog());
   }
 
   confirmManualPrice(): void {
-    console.log('manualPriceConfirmed');
+    this.fPricingFacade.updateManualPrice(this.dialogData.gqPositionId);
+    this.fPricingFacade.updatePriceSuccess$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.closeDialog());
   }
 
   manualPriceClicked(): void {

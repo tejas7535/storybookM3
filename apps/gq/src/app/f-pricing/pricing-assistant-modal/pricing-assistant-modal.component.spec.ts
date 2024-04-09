@@ -109,7 +109,7 @@ describe('PricingAssistant.modalComponent', () => {
     test('should call the facades method', () => {
       component.dialogData = { gqPositionId: '12345' } as QuotationDetail;
       component['fPricingFacade'].updateFPricingData = jest.fn();
-      component['fPricingFacade'].updateFPricingDataSuccess$ = of();
+      component['fPricingFacade'].updatePriceSuccess$ = of();
 
       component.confirmGqPrice();
 
@@ -125,7 +125,7 @@ describe('PricingAssistant.modalComponent', () => {
 
       const facadeMock: FPricingFacade = {
         updateFPricingData: jest.fn(),
-        updateFPricingDataSuccess$: of(true),
+        updatePriceSuccess$: of(true),
       } as unknown as FPricingFacade;
 
       Object.defineProperty(component, 'fPricingFacade', {
@@ -133,6 +133,38 @@ describe('PricingAssistant.modalComponent', () => {
       });
 
       component.confirmGqPrice();
+
+      expect(closeDialogSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('confirmManualPrice', () => {
+    test('should call the facades method', () => {
+      component.dialogData = { gqPositionId: '12345' } as QuotationDetail;
+      component['fPricingFacade'].updateManualPrice = jest.fn();
+      component['fPricingFacade'].updatePriceSuccess$ = of();
+
+      component.confirmManualPrice();
+
+      expect(
+        component['fPricingFacade'].updateManualPrice
+      ).toHaveBeenCalledWith('12345');
+    });
+
+    test('should close the dialog after update manual price success', () => {
+      jest.resetAllMocks();
+      const closeDialogSpy = jest.spyOn(component, 'closeDialog');
+      closeDialogSpy.mockImplementation();
+
+      const facadeMock: FPricingFacade = {
+        updateManualPrice: jest.fn(),
+        updatePriceSuccess$: of(true),
+      } as unknown as FPricingFacade;
+
+      Object.defineProperty(component, 'fPricingFacade', {
+        value: facadeMock,
+      });
+
+      component.confirmManualPrice();
 
       expect(closeDialogSpy).toHaveBeenCalledTimes(1);
     });

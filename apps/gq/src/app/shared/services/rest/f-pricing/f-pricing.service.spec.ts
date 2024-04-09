@@ -88,7 +88,6 @@ describe('FPricingService', () => {
       const gqPositionId = '1234';
       const data: UpdateFPricingDataRequest = {
         marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-        selectedPrice: 12.4,
         finalPrice: 1500,
       };
 

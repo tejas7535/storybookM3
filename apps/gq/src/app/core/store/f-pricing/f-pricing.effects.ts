@@ -1,9 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
+import { PriceSource } from '@gq/shared/models';
 import { FPricingService } from '@gq/shared/services/rest/f-pricing/f-pricing.service';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -18,6 +21,7 @@ export class FPricingEffects {
   private readonly fPricingService = inject(FPricingService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly store = inject(Store);
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
 
   getFPricingData$ = createEffect(() => {
     return this.actions.pipe(
@@ -105,12 +109,6 @@ export class FPricingEffects {
         this.fPricingService
           .updateFPricingData(action.gqPositionId, request)
           .pipe(
-            tap(() => {
-              const successMessage = translate(
-                'fPricing.pricingAssistantModal.confirm.success'
-              );
-              this.snackBar.open(successMessage);
-            }),
             map((response) =>
               FPricingActions.updateFPricingSuccess({ response })
             ),
@@ -127,4 +125,48 @@ export class FPricingEffects {
       )
     );
   });
+
+  updateGqPrice$ = createEffect(
+    () => {
+      return this.actions.pipe(
+        ofType(FPricingActions.updateFPricingSuccess),
+        map(({ response }) => {
+          const updateQuotationDetail: UpdateQuotationDetail = {
+            gqPositionId: response.gqPositionId,
+            priceSource: PriceSource.GQ,
+            price: response.finalPrice,
+          };
+
+          this.activeCaseFacade.updateQuotationDetails([updateQuotationDetail]);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  updateManualPrice$ = createEffect(
+    () => {
+      return this.actions.pipe(
+        ofType(FPricingActions.updateManualPrice),
+        withLatestFrom(this.store.select(fPricingFeature.selectManualPrice)),
+        map(
+          ([action, manualPrice]: [
+            ReturnType<typeof FPricingActions.updateManualPrice>,
+            number,
+          ]) => {
+            const updateQuotationDetail: UpdateQuotationDetail = {
+              gqPositionId: action.gqPositionId,
+              priceSource: PriceSource.MANUAL,
+              price: manualPrice,
+            };
+
+            this.activeCaseFacade.updateQuotationDetails([
+              updateQuotationDetail,
+            ]);
+          }
+        )
+      );
+    },
+    { dispatch: false }
+  );
 }

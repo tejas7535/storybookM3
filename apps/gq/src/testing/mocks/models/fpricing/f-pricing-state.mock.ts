@@ -24,6 +24,6 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   sanityCheckMargins: SANITY_CHECK_MARGINS_MOCK,
   sanityCheckValues: SANITY_CHECK_VALUES_MOCK,
   // this is the value of either the GqPrice or Manual Price
-  priceSelected: null,
+  manualPrice: null,
   finalPrice: 150,
 };

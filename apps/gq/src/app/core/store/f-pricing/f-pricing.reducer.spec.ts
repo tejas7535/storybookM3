@@ -212,6 +212,18 @@ describe('fPricingReducer', () => {
         sanityCheckValues: SANITY_CHECK_VALUES_MOCK,
       });
     });
+    test('should set setFinalPriceValue', () => {
+      const result = fPricingFeature.reducer(
+        initialState,
+        FPricingActions.setFinalPriceValue({
+          value: 150,
+        })
+      );
+      expect(result).toEqual({
+        ...initialState,
+        finalPrice: 150,
+      });
+    });
   });
 
   describe('extraSelectors', () => {
@@ -365,16 +377,13 @@ describe('fPricingReducer', () => {
 
     describe('getDataForUpdateFPricing', () => {
       test('should return the data for update FPricing', () => {
-        const SELECTED_PRICE = 12.4;
         const FINAL_PRICE = 100;
         const result = fPricingFeature.getDataForUpdateFPricing.projector(
           MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-          SELECTED_PRICE,
           FINAL_PRICE
         );
         const expected: UpdateFPricingDataRequest = {
           marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
-          selectedPrice: SELECTED_PRICE,
           finalPrice: FINAL_PRICE,
         };
         expect(result).toEqual(expected);

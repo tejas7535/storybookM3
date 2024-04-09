@@ -15,6 +15,7 @@ import {
   getQuotationHasRfqMaterials,
   getSapId,
 } from './active-case.selectors';
+import { UpdateQuotationDetail } from './models';
 
 describe('ActiveCaseFacade', () => {
   let facade: ActiveCaseFacade;
@@ -66,6 +67,37 @@ describe('ActiveCaseFacade', () => {
     );
   });
 
+  describe('quotationDetailUpdating$', () => {
+    test(
+      'should select update loading',
+      marbles((m) => {
+        mockStore.overrideSelector(activeCaseFeature.selectUpdateLoading, true);
+        m.expect(facade.quotationDetailUpdating$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
+  describe('updateQuotationDetailsSuccess$', () => {
+    test(
+      'should dispatch update quotation details success',
+      marbles((m) => {
+        const action = ActiveCaseActions.updateQuotationDetailsSuccess(
+          {} as any
+        );
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(facade.quotationDetailUpdateSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+  });
   describe('costsUpdating$', () => {
     test(
       'should select update costs loading',
@@ -321,6 +353,26 @@ describe('ActiveCaseFacade', () => {
       const spy = jest.spyOn(mockStore, 'dispatch');
 
       facade.deleteAttachment(attachment);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('updateQuotationDetails', () => {
+    test('should dispatch update quotation details', () => {
+      const updateQuotationDetailList = [
+        {
+          gqPositionId: '123',
+          priceSource: 'GQ',
+          price: 100,
+        } as UpdateQuotationDetail,
+      ];
+      const action = ActiveCaseActions.updateQuotationDetails({
+        updateQuotationDetailList,
+      });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.updateQuotationDetails(updateQuotationDetailList);
 
       expect(spy).toHaveBeenCalledWith(action);
     });

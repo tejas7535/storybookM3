@@ -23,7 +23,7 @@ export const F_PRICING_STATE_MOCK: FPricingState = {
   sanityCheckValues: SANITY_CHECK_VALUES_MOCK,
   referencePrice: 10,
   materialInformation: MATERIAL_INFORMATION_MOCK,
-  priceSelected: 14.45,
+  manualPrice: 14.45,
   technicalValueDrivers: TECHNICAL_VALUE_DRIVERS_MOCK,
   technicalValueDriversToUpdate: [],
   finalPrice: 100,

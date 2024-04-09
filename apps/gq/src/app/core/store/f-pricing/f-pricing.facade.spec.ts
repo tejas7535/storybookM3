@@ -25,6 +25,8 @@ import {
   TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
 } from '../../../../testing/mocks/models/fpricing/technical-value-drivers.mock';
 import { loadMaterialSalesOrg } from '../actions/material-sales-org/material-sales-org.actions';
+import { ActiveCaseActions } from '../active-case/active-case.action';
+import { activeCaseFeature } from '../active-case/active-case.reducer';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingFacade } from './f-pricing.facade';
 import { fPricingFeature } from './f-pricing.reducer';
@@ -62,6 +64,34 @@ describe('Service: FPricingFacade', () => {
   });
 
   describe('should provide Observables', () => {
+    test(
+      'should provide  updateFPricingDataSuccess$',
+      marbles((m) => {
+        const action = FPricingActions.updateFPricingSuccess({} as any);
+        const expected = m.cold('b', {
+          b: action,
+        });
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(service.updateFPricingDataSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
+
+    test(
+      'should provide updatePriceSuccess$',
+      marbles((m) => {
+        const action = ActiveCaseActions.updateQuotationDetailsSuccess;
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(service.updatePriceSuccess$).toBeObservable(expected as any);
+      })
+    );
     test(
       'should provide fPricingDataComplete$',
       marbles((m) => {
@@ -196,12 +226,47 @@ describe('Service: FPricingFacade', () => {
       );
     });
 
-    test('fPricingDataLoading$', () => {
-      mockStore.overrideSelector(
-        fPricingFeature.selectFPricingDataLoading,
-        true
-      );
-      service.fPricingDataLoading$.subscribe((res) => expect(res).toBe(true));
+    describe('fPricingDataLoading$', () => {
+      test('should return true when both true', () => {
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingDataLoading,
+          true
+        );
+        mockStore.overrideSelector(activeCaseFeature.selectUpdateLoading, true);
+        service.fPricingDataLoading$.subscribe((res) => expect(res).toBe(true));
+      });
+      test('should return false when both false', () => {
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingDataLoading,
+          false
+        );
+        mockStore.overrideSelector(
+          activeCaseFeature.selectUpdateLoading,
+          false
+        );
+        service.fPricingDataLoading$.subscribe((res) =>
+          expect(res).toBe(false)
+        );
+      });
+      test('should return true when quotationDetailUpdating true', () => {
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingDataLoading,
+          false
+        );
+        mockStore.overrideSelector(activeCaseFeature.selectUpdateLoading, true);
+        service.fPricingDataLoading$.subscribe((res) => expect(res).toBe(true));
+      });
+      test('should return true when fPriceDataLoading true', () => {
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingDataLoading,
+          true
+        );
+        mockStore.overrideSelector(
+          activeCaseFeature.selectUpdateLoading,
+          false
+        );
+        service.fPricingDataLoading$.subscribe((res) => expect(res).toBe(true));
+      });
     });
   });
 
@@ -304,6 +369,17 @@ describe('Service: FPricingFacade', () => {
       });
 
       service.updateTechnicalValueDriver(technicalValueDriver);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('updateManualPrice', () => {
+    test('should dispatch updateManualPrice', () => {
+      const gqPositionId = '1234';
+      const action = FPricingActions.updateManualPrice({ gqPositionId });
+
+      service.updateManualPrice(gqPositionId);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });

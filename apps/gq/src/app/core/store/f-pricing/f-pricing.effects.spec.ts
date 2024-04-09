@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { PriceSource } from '@gq/shared/models';
 import {
   FPricingData,
   UpdateFPricingDataResponse,
@@ -10,8 +12,10 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
+import { UpdateQuotationDetail } from '../active-case/models';
 import {
   FPricingComparableMaterials,
   Material,
@@ -37,6 +41,7 @@ describe('FPricingEffects', () => {
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { fPricing: initialState } }),
+      MockProvider(ActiveCaseFacade),
     ],
   });
 
@@ -220,7 +225,6 @@ describe('FPricingEffects', () => {
     test(
       'should dispatch updateFPricingSuccess',
       marbles((m) => {
-        snackBar.open = jest.fn();
         const gqPositionId = '1234';
         const response = {
           gqPositionId,
@@ -240,7 +244,6 @@ describe('FPricingEffects', () => {
         actions$ = m.hot('a', { a: action });
         m.expect(effects.updateFPricingData$).toBeObservable(expected);
         m.flush();
-        expect(snackBar.open).toHaveBeenCalled();
       })
     );
 
@@ -265,6 +268,57 @@ describe('FPricingEffects', () => {
         m.expect(effects.updateFPricingData$).toBeObservable(expected);
         m.flush();
         expect(snackBar.open).toHaveBeenCalled();
+      })
+    );
+  });
+  describe('updateGqPrice$', () => {
+    test(
+      'should call the activeCaseFacades method updateQuotationDetails',
+      marbles((m) => {
+        const gqPositionId = '1234567890';
+        const price = 450;
+
+        const updateQuotationDetail: UpdateQuotationDetail = {
+          gqPositionId,
+          priceSource: PriceSource.GQ,
+          price,
+        };
+
+        const action = FPricingActions.updateFPricingSuccess({
+          response: {
+            gqPositionId,
+            marketValueDriverSelections: [],
+            finalPrice: price,
+          } as UpdateFPricingDataResponse,
+        });
+        effects['activeCaseFacade'].updateQuotationDetails = jest.fn();
+        actions$ = m.hot('a', { a: action });
+        effects.updateGqPrice$.subscribe(() => {
+          expect(
+            effects['activeCaseFacade'].updateQuotationDetails
+          ).toHaveBeenCalledWith([updateQuotationDetail]);
+        });
+        m.flush();
+      })
+    );
+  });
+
+  describe('updateManualPrice$', () => {
+    test(
+      'Should call the ActiveCaseFacade updateQuotationDetails method',
+      marbles((m) => {
+        const gqPositionId = '1234567890';
+        const action = FPricingActions.updateManualPrice({ gqPositionId });
+
+        actions$ = m.hot('a', { a: action });
+        effects['activeCaseFacade'].updateQuotationDetails = jest.fn();
+
+        effects.updateManualPrice$.subscribe(() => {
+          expect(
+            effects['activeCaseFacade'].updateQuotationDetails
+          ).toHaveBeenCalled();
+        });
+        m.flush();
       })
     );
   });

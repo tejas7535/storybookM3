@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 
 import { loadMaterialSalesOrg } from '@gq/core/store/actions/material-sales-org/material-sales-org.actions';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialSalesOrg,
@@ -29,12 +30,18 @@ import { MaterialInformationExtended } from './models/material-information-exten
 export class FPricingFacade {
   readonly #store = inject(Store);
   readonly #actions$ = inject(Actions);
+  readonly #activeCaseFacade = inject(ActiveCaseFacade);
 
   private readonly transformationService = inject(TransformationService);
 
   updateFPricingDataSuccess$: Observable<void> = this.#actions$.pipe(
     ofType(FPricingActions.updateFPricingSuccess)
   );
+
+  /** Confirming gq or manual price will call the updateQuotationDetails action of activeCase store.
+   Provide information about a successful update within the fPricing facade */
+  updatePriceSuccess$: Observable<void> =
+    this.#activeCaseFacade.quotationDetailUpdateSuccess$;
 
   fPricingDataComplete$: Observable<FPricingPositionData> = combineLatest([
     this.#store.select(fPricingFeature.selectFPricingState),
@@ -141,8 +148,16 @@ export class FPricingFacade {
   comparableTransactionsLoading$: Observable<boolean> = this.#store.select(
     fPricingFeature.selectComparableTransactionsLoading
   );
-  fPricingDataLoading$: Observable<boolean> = this.#store.select(
-    fPricingFeature.selectFPricingDataLoading
+
+  /**  Combination of fPricing loading and quotation detail update state */
+  fPricingDataLoading$: Observable<boolean> = combineLatest([
+    this.#store.select(fPricingFeature.selectFPricingDataLoading),
+    this.#activeCaseFacade.quotationDetailUpdating$,
+  ]).pipe(
+    map(
+      ([fPricingDataLoading, quotationDetailUpdating]) =>
+        fPricingDataLoading || quotationDetailUpdating
+    )
   );
 
   // #########################################
@@ -163,6 +178,10 @@ export class FPricingFacade {
 
   updateFPricingData(gqPositionId: string) {
     this.#store.dispatch(FPricingActions.updateFPricing({ gqPositionId }));
+  }
+
+  updateManualPrice(gqPositionId: string) {
+    this.#store.dispatch(FPricingActions.updateManualPrice({ gqPositionId }));
   }
 
   setMarketValueDriverSelection(selection: MarketValueDriverSelection) {

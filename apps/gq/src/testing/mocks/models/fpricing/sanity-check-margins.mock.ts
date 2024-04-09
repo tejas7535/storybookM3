@@ -1,6 +1,6 @@
+import { SanityCheckData } from '@gq/core/store/f-pricing/f-pricing.reducer';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
-import { SanityCheckData } from '@gq/core/store/f-pricing/f-pricing.reducer';
 
 export const SANITY_CHECK_MARGINS_MOCK: SanityCheckMargins = {
   maxMargin: 0.8,
