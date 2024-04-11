@@ -24,25 +24,26 @@
           info_outline
         </mat-icon>
       </ng-container>
-      @if (!(appIsEmbedded$ | ngrxPush)) {
-        <ng-container subheaderInlineContent>
-          <button
-            class="ml-auto w-full sm:w-auto"
-            mat-raised-button
-            color="basic"
-            aria-label="generate report"
-            (click)="generateReport(selectedBearing)"
-          >
-            {{ t('pdfDownload') }}
-            <mat-icon class="align-middle">download</mat-icon>
-          </button>
+      <ng-container subheaderInlineContent>
+        <button
+          class="ml-auto w-full sm:w-auto"
+          mat-raised-button
+          color="basic"
+          aria-label="generate report"
+          (click)="generateReport(selectedBearing)"
+        >
+          {{ t('pdfDownload') }}
+          <mat-icon class="align-middle">download</mat-icon>
+        </button>
+
+        @if (!(appIsEmbedded$ | ngrxPush)) {
           <ga-medias-button
             class="max-sm:w-full ml-auto"
             [bearing]="selectedBearing"
             [partnerVersion]="partnerVersion$ | ngrxPush"
           ></ga-medias-button>
-        </ng-container>
-      }
+        }
+      </ng-container>
     </schaeffler-subheader>
     @if (reportUrls) {
       <div>
