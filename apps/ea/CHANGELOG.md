@@ -1,4 +1,14 @@
 # Release Notes of Engineering App
+## [1.7.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.7.1...ea-v1.7.2) (2024-04-11)
+
+
+### Features
+
+* **ea:** change sustainability wording on homepage - UFTABI-7547 ([#6104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6104)) ([5273262](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/52732625af148fe5b5372b103662d2fbd4a8e50c))
+* **ea:** move GA to easycalc - UFTABI-7488 ([#6139](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6139)) ([658ca29](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/658ca29bba91f7c3301d0a8946d55491a24601bf))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [1.7.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.7.0...ea-v1.7.1) (2024-03-14)
 
 
