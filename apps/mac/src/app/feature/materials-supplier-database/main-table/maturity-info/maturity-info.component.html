@@ -8,7 +8,44 @@
   "
 >
   <div class="max-w-2xl">
-    <ul class="p-0 m-0 pl-6 mb-4">
+    <div class="grid grid-cols-[6fr_2fr_2fr] border border-[#00000033]">
+      @for (header of maturityTable.headers; track header) {
+        <span
+          class="bg-[#F0F0F0] px-6 py-3 text-caption text-high-emphasis"
+          [ngClass]="{ 'text-center': header.isCentered }"
+          >{{ t('table.' + header.translationKeySuffix) }}</span
+        >
+      }
+      @for (maturity of maturityTable.maturities; track maturity) {
+        <span
+          class="px-6 py-2 text-[12px] font-normal border-t border-t-[#00000033]"
+          [ngClass]="
+            maturity.isDisabled ? 'text-low-emphasis' : 'text-high-emphasis'
+          "
+          >{{ t('table.dataSource.' + maturity.score) }}</span
+        >
+        <span
+          class="flex items-center px-6 py-2 text-[12px] font-normal border-t border-t-[#00000033]"
+          [ngClass]="
+            maturity.isDisabled ? 'text-low-emphasis' : 'text-high-emphasis'
+          "
+          >{{ t(maturity.score) }}</span
+        >
+        <div
+          class="px-6 py-2 border-t border-t-[#00000033] flex justify-center items-center"
+        >
+          <span
+            class="text-white text-[12px] rounded-[50%] text-center w-6 h-6 leading-4 p-1"
+            [ngClass]="
+              maturity.isDisabled ? 'bg-low-emphasis' : 'bg-secondary-900'
+            "
+          >
+            {{ maturity.score }}
+          </span>
+        </div>
+      }
+    </div>
+    <ul class="p-0 pl-6 mb-4 text-[12px]">
       <li>
         {{ t('primaryData') }}
         <span class="italic">{{ t('primaryDataText') }}</span>
@@ -18,7 +55,7 @@
         <span class="italic">{{ t('secondaryDataText') }}</span>
       </li>
     </ul>
-    <p>
+    <p class="text-[12px]">
       {{ t('bottomText_prefix') }}
       <a target="_blank" class="text-link" [href]="t('bottomText_link')">
         {{ t('bottomText_linkText') }}

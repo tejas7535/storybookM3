@@ -235,7 +235,7 @@ describe('MsdDialogService', () => {
       expect(service['dialog'].open).toBeCalledWith(
         SapMaterialsUploadDialogComponent,
         {
-          width: '634px',
+          width: '700px',
           autoFocus: false,
           restoreFocus: false,
           disableClose: true,

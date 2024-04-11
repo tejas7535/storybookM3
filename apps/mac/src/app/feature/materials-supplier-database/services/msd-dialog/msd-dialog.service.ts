@@ -126,7 +126,7 @@ export class MsdDialogService {
 
   openSapMaterialsUploadDialog(): void {
     this.dialog.open(SapMaterialsUploadDialogComponent, {
-      width: '634px',
+      width: '700px',
       autoFocus: false,
       restoreFocus: false,
       disableClose: true,

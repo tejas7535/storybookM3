@@ -881,7 +881,6 @@
           "tooltip": "Data maturity.",
           "moreInformation": "More information",
           "moreInformationTitle": "Classification of data maturity",
-          "moreInformationImg": "/assets/img/msd_pcf_maturity_classification_info.png",
           "primaryData": "Primary data:",
           "primaryDataText": "provided by suppliers [...] related to specific activities in the reporting company's value chain",
           "secondaryData": "Secondary data:",
@@ -891,7 +890,23 @@
           "bottomText_linkText": "here",
           "bottomText_postfix": "for further details and background on the data sources.",
           "moreInformationContact": "Moeller, Johannes ST/ZHZ-CE",
-          "moreInformationContactLink": "mailto:johannes.moeller@schaeffler.com"
+          "moreInformationContactLink": "mailto:johannes.moeller@schaeffler.com",
+          "table": {
+            "dataSourceHeader": "Data source",
+            "maturityHeader": "Maturity",
+            "scoreHeader": "Score",
+            "dataSource": {
+              "1": "Manual input (outside MSD)",
+              "2": "Sec. data (indirectly derived)",
+              "3": "Sec. data (w/o reference to Schaeffler specification)",
+              "5": "Sec. data from external database",
+              "6": "Internal expertise",
+              "7": "Internal estimate based on primary data for emission factor of steel source and service weight provided by supplier",
+              "8": "PCF value internally checked for plausibility",
+              "9": "PCF calculation tool verified / validated",
+              "10": "Verified PCF value"
+            }
+          }
         },
         "moreInformationContactLabel": "Contact:",
         "materialStandardStoffId": "Schaeffler Material ID (SSID) used in WIAM and Windchill",
@@ -980,8 +995,10 @@
     },
     "dataSource": {
       "10": "Primary Data (verified)",
+      "9": "Primary Data (validated)",
       "8": "Primary Data (plausible)",
-      "7": "Secondary Data (internal)",
+      "7": "Secondary Data (supplier-specific)",
+      "6": "Secondary Data (internal)",
       "5": "Secondary Data (external)",
       "2": "Secondary Data (indirect)"
     },

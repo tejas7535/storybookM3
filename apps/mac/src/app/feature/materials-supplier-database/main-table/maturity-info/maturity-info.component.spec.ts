@@ -48,7 +48,7 @@ describe('MaturityInfoComponent', () => {
       expect(component['dialogService'].openInfoDialog).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationTitle',
         undefined,
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImg',
+        undefined,
         undefined,
         undefined,
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationContact',

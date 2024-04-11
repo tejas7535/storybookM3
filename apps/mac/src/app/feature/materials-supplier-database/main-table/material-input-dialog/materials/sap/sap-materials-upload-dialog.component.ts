@@ -62,7 +62,7 @@ interface SapMaterialUploadDialogFormControl {
 export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   @ViewChild('fileChooser') fileChooserRef: ElementRef;
 
-  possibleMaturity = [10, 8, 7, 5, 2];
+  possibleMaturity = [10, 9, 8, 7, 6, 5, 2];
   formGroup: FormGroup<SapMaterialUploadDialogFormControl>;
   uploadStatus: SapMaterialsUploadStatus;
   uploadButtonLabel: string;

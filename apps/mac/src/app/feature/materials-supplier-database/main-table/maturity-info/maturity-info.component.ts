@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostListener, TemplateRef, ViewChild } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
@@ -6,14 +7,70 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MsdDialogService } from '../../services';
 
+interface MaturityTable {
+  headers: TableHeader[];
+  maturities: Maturity[];
+}
+
+interface TableHeader {
+  translationKeySuffix: string;
+  isCentered?: boolean;
+}
+
+interface Maturity {
+  score: number;
+  isDisabled?: boolean;
+}
+
 @Component({
-  imports: [SharedTranslocoModule],
+  imports: [SharedTranslocoModule, CommonModule],
   selector: 'mac-maturity-info',
   templateUrl: './maturity-info.component.html',
   standalone: true,
 })
 export class MaturityInfoComponent {
   @ViewChild('bottomTextTemplate') bottomTextTemplate: TemplateRef<HTMLElement>;
+
+  readonly maturityTable: MaturityTable = {
+    headers: [
+      {
+        translationKeySuffix: 'dataSourceHeader',
+      },
+      { translationKeySuffix: 'maturityHeader' },
+      { translationKeySuffix: 'scoreHeader', isCentered: true },
+    ],
+    maturities: [
+      {
+        score: 10,
+      },
+      {
+        score: 9,
+      },
+      {
+        score: 8,
+      },
+      {
+        score: 7,
+      },
+      {
+        score: 6,
+      },
+      {
+        score: 5,
+      },
+      {
+        score: 3,
+        isDisabled: true,
+      },
+      {
+        score: 2,
+      },
+      {
+        score: 1,
+        isDisabled: true,
+      },
+    ],
+  };
 
   constructor(private readonly dialogService: MsdDialogService) {}
 
@@ -24,9 +81,7 @@ export class MaturityInfoComponent {
         'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationTitle'
       ),
       undefined,
-      translate(
-        'materialsSupplierDatabase.mainTable.tooltip.maturity.moreInformationImg'
-      ),
+      undefined,
       undefined,
       undefined,
       translate(
