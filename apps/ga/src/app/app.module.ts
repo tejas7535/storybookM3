@@ -1,4 +1,3 @@
-/* eslint @nx/enforce-module-boundaries: 1 */
 import { CommonModule } from '@angular/common';
 import { InjectionToken, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

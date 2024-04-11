@@ -1,6 +1,7 @@
 export const getPlatformTitle = () => cy.get('.platform-title');
 
 export const getInputElementAndType = (input: string, value: string) => {
+  // eslint-disable-next-line cypress/unsafe-to-chain-command
   cy.get(input)
     .first()
     .click({ force: true })

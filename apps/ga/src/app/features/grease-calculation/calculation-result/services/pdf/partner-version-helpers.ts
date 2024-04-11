@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
 import jsPDF from 'jspdf';
 import { CellHookData } from 'jspdf-autotable';
 

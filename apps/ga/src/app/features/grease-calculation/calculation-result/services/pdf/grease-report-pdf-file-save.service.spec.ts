@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import jsPDF from 'jspdf';
 

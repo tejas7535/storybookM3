@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
@@ -5,10 +6,8 @@ import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { ShareResult } from '@capacitor/share';
 import { TranslocoDatePipe } from '@ngneat/transloco-locale';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import jsPDF from 'jspdf';
 import autoTable, {
   CellDef,

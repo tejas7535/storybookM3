@@ -33,7 +33,7 @@
         "@nx/enforce-module-boundaries": [
           "error",
           {
-            "allow": [],
+            "allow": ["@schaeffler/*"],
             "depConstraints": [
               {
                 "sourceTag": "*",
