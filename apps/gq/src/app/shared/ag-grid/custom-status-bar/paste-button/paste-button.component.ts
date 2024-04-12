@@ -40,7 +40,7 @@ export class PasteButtonComponent {
     matSnackBarRef?.onAction().subscribe(() => {
       window
         .open(
-          'https://worksite-my.sharepoint.com/:v:/g/personal/schmjan_schaeffler_com/Efn1Vc3JU9lNtI-PZoyVM1UBgUmnnXN1AsCir5lnqvT_fQ?e=rUsbeU',
+          'https://worksite.sharepoint.com/:v:/s/OG_18600/ERS7mthtil9Hs6AIFsWkhJEBJdHG-Tau29oC-FoShjjl9g?e=XTRj8w',
           '_blank'
         )
         .focus();
