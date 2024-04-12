@@ -15,6 +15,13 @@
       @if (!(fPricingDataLoading$ | ngrxPush)) {
         <!-- content and possible overlays -->
         <div class="flex flex-col w-full h-full relative">
+          @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
+            <gq-overlay>
+              <ng-container
+                [ngTemplateOutlet]="comparisonScreenView"
+              ></ng-container>
+            </gq-overlay>
+          }
           <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
           <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
         </div>
@@ -33,6 +40,7 @@
                   [ngTemplateOutlet]="manualConfirmButton"
                 ></ng-container>
               }
+
               <button
                 color="primary"
                 class="text-button font-medium"
