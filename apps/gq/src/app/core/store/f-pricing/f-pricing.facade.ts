@@ -180,8 +180,10 @@ export class FPricingFacade {
     this.#store.dispatch(FPricingActions.updateFPricing({ gqPositionId }));
   }
 
-  updateManualPrice(gqPositionId: string) {
-    this.#store.dispatch(FPricingActions.updateManualPrice({ gqPositionId }));
+  updateManualPrice(gqPositionId: string, comment?: string) {
+    this.#store.dispatch(
+      FPricingActions.updateManualPrice({ gqPositionId, comment })
+    );
   }
 
   setMarketValueDriverSelection(selection: MarketValueDriverSelection) {

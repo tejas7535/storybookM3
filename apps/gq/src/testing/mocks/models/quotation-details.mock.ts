@@ -41,6 +41,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   plant: PLANT_MOCK,
   productionPlant: PLANT_MOCK,
   price: 200,
+  priceComment: 'test comment',
   gqRating: 2,
   recommendedPrice: 250,
   strategicPrice: undefined,

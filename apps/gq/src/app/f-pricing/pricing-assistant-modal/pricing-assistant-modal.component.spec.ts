@@ -67,6 +67,19 @@ describe('PricingAssistant.modalComponent', () => {
     });
   });
 
+  describe('ngAfterViewInit', () => {
+    it('should subscribe to comment value changes', () => {
+      const commentValue = 'New comment';
+      const dialogData = { priceComment: 'Old comment' } as QuotationDetail;
+      component.dialogData = dialogData;
+
+      component.ngAfterViewInit();
+      component.comment.setValue(commentValue);
+
+      expect(component.commentValidAndChanged).toBe(true);
+    });
+  });
+
   describe('closeDialog', () => {
     it('should close the dialog', () => {
       component['dialogRef'].close = jest.fn();
@@ -139,15 +152,19 @@ describe('PricingAssistant.modalComponent', () => {
   });
   describe('confirmManualPrice', () => {
     test('should call the facades method', () => {
-      component.dialogData = { gqPositionId: '12345' } as QuotationDetail;
+      component.dialogData = {
+        gqPositionId: '12345',
+        priceComment: 'test Comment',
+      } as QuotationDetail;
       component['fPricingFacade'].updateManualPrice = jest.fn();
       component['fPricingFacade'].updatePriceSuccess$ = of();
+      component.comment.setValue('test Comment');
 
       component.confirmManualPrice();
 
       expect(
         component['fPricingFacade'].updateManualPrice
-      ).toHaveBeenCalledWith('12345');
+      ).toHaveBeenCalledWith('12345', 'test Comment');
     });
 
     test('should close the dialog after update manual price success', () => {
@@ -206,9 +223,9 @@ describe('PricingAssistant.modalComponent', () => {
 
   describe('manualPriceButtonDisabled', () => {
     test('should set manualPriceConfirmButtonDisabled to false', () => {
-      component.manualPriceConfirmButtonDisabled = true;
-      component.manualPriceButtonDisabled(false);
-      expect(component.manualPriceConfirmButtonDisabled).toBe(false);
+      component.manualPriceInputInvalidOrUnchanged = null;
+      component.manualPriceInvalidOrUnchangedHandled(false);
+      expect(component.manualPriceInputInvalidOrUnchanged).toBe(false);
     });
   });
 
@@ -280,4 +297,84 @@ describe('PricingAssistant.modalComponent', () => {
       expect(result).toBe(200);
     });
   });
+
+  describe('logic for ManualPrice Confirm Button', () => {
+    /** from html file
+   * manualPriceConfirmButtonDisabled.invalid ||
+          (manualPriceConfirmButtonDisabled.invalidOrUnchanged &&
+            !commentValidAndChanged)
+   */
+
+    test('disable Button, when comment not set and price not changed', () => {
+      const manualPriceConfirmButtonDisabled = {
+        invalid: false,
+        invalidOrUnchanged: true,
+        unchanged: true,
+      };
+      const result = checkHtmlManualPriceButtonLogic(
+        manualPriceConfirmButtonDisabled,
+        false
+      );
+      expect(result).toBe(true);
+    });
+    test('enable button, when comment not set and price changed', () => {
+      const manualPriceConfirmButtonDisabled = {
+        invalid: false,
+        invalidOrUnchanged: false,
+        unchanged: false,
+      };
+      const result = checkHtmlManualPriceButtonLogic(
+        manualPriceConfirmButtonDisabled,
+        false
+      );
+      expect(result).toBe(false);
+    });
+    test('should enable button when comment is set and price not changed', () => {
+      const manualPriceConfirmButtonDisabled = {
+        invalid: false,
+        invalidOrUnchanged: true,
+        unchanged: true,
+      };
+      const result = checkHtmlManualPriceButtonLogic(
+        manualPriceConfirmButtonDisabled,
+        true
+      );
+      expect(result).toBe(false);
+    });
+    test('should enable button when comment is set and price changed', () => {
+      const manualPriceConfirmButtonDisabled = {
+        invalid: false,
+        invalidOrUnchanged: false,
+        unchanged: false,
+      };
+      const result = checkHtmlManualPriceButtonLogic(
+        manualPriceConfirmButtonDisabled,
+        true
+      );
+      expect(result).toBe(false);
+    });
+    test('should disable button, when comment is set but manualPrice FormControl is invalid', () => {
+      const manualPriceConfirmButtonDisabled = {
+        invalid: true,
+        invalidOrUnchanged: true,
+        unchanged: false,
+      };
+      const result = checkHtmlManualPriceButtonLogic(
+        manualPriceConfirmButtonDisabled,
+        true
+      );
+      expect(result).toBe(true);
+    });
+  });
 });
+
+function checkHtmlManualPriceButtonLogic(
+  manualPriceConfirmButtonDisabled: any,
+  commentValidAndChanged: boolean
+): boolean {
+  return (
+    manualPriceConfirmButtonDisabled.invalid ||
+    (manualPriceConfirmButtonDisabled.invalidOrUnchanged &&
+      !commentValidAndChanged)
+  );
+}

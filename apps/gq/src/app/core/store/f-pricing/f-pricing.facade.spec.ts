@@ -377,9 +377,13 @@ describe('Service: FPricingFacade', () => {
   describe('updateManualPrice', () => {
     test('should dispatch updateManualPrice', () => {
       const gqPositionId = '1234';
-      const action = FPricingActions.updateManualPrice({ gqPositionId });
+      const comment = 'comment';
+      const action = FPricingActions.updateManualPrice({
+        gqPositionId,
+        comment,
+      });
 
-      service.updateManualPrice(gqPositionId);
+      service.updateManualPrice(gqPositionId, comment);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });

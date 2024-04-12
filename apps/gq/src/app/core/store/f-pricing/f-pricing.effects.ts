@@ -158,6 +158,7 @@ export class FPricingEffects {
               gqPositionId: action.gqPositionId,
               priceSource: PriceSource.MANUAL,
               price: manualPrice,
+              priceComment: action.comment,
             };
 
             this.activeCaseFacade.updateQuotationDetails([

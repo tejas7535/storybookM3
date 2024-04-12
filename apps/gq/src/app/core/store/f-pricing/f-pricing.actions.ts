@@ -42,6 +42,6 @@ export const FPricingActions = createActionGroup({
 
     'Set Sanity Check Values': props<{ value: SanityCheckData }>(),
     'Set Final Price Value': props<{ value: number }>(),
-    'Update Manual Price': props<{ gqPositionId: string }>(),
+    'Update Manual Price': props<{ gqPositionId: string; comment: string }>(),
   },
 });

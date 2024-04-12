@@ -169,7 +169,7 @@
       "failure": "Ihre Auswahl konnte nicht gespeichert werden"
     },
     "manualPrice": {
-      "warningText": "Durch Berücksichtigung der GQ Preisempfehlung besteht die Möglichkeit zusätzliche {{value}} {{currency}}  zu generieren.",
+      "warningText": "Gemäß des GQ-Algorithmus besteht die Möglichkeit zusätzlichen Umsatz in Höhe von {{ value }} zu erzielen.",
       "commentLabel": "Kommentar zum manuellen Preis"
     }
   }

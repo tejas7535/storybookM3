@@ -1,6 +1,12 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -25,7 +31,7 @@ import { OverlayToShow } from './models/overlay-to-show.enum';
   // otherwise it will override the columnState on in backgrounds quotationSDetailsTable
   providers: [AgGridStateService],
 })
-export class PricingAssistantModalComponent implements OnInit {
+export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialog = inject(MatDialog);
   private readonly dialogRef = inject(
@@ -68,19 +74,32 @@ export class PricingAssistantModalComponent implements OnInit {
     },
   };
 
-  manualPriceConfirmButtonDisabled = true;
+  manualPriceInputInvalidOrUnchanged = true;
   manualPriceToDisplay: number;
   manualPriceGPMToDisplay: number;
 
-  comment: string;
-  formGroup: FormGroup = new FormGroup({
-    comment: new FormControl(undefined, Validators.maxLength(200)),
-  });
+  commentValidAndChanged = false;
+  comment: FormControl = new FormControl(
+    this.dialogData?.priceComment || undefined,
+    Validators.maxLength(200)
+  );
 
   ngOnInit(): void {
     this.fPricingFacade.loadDataForPricingAssistant(
       this.dialogData.gqPositionId
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.comment.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (value: string) =>
+          (this.commentValidAndChanged =
+            !!value &&
+            this.comment.valid &&
+            value !== this.dialogData.priceComment)
+      );
   }
 
   closeDialog(): void {
@@ -109,7 +128,10 @@ export class PricingAssistantModalComponent implements OnInit {
   }
 
   confirmManualPrice(): void {
-    this.fPricingFacade.updateManualPrice(this.dialogData.gqPositionId);
+    this.fPricingFacade.updateManualPrice(
+      this.dialogData.gqPositionId,
+      this.comment.value
+    );
     this.fPricingFacade.updatePriceSuccess$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.closeDialog());
@@ -131,8 +153,8 @@ export class PricingAssistantModalComponent implements OnInit {
   }
 
   // the editingComponent includes logic for enabling and disabling the button
-  manualPriceButtonDisabled(isDisabled: boolean): void {
-    this.manualPriceConfirmButtonDisabled = isDisabled;
+  manualPriceInvalidOrUnchangedHandled(invalidOrUnchanged: boolean): void {
+    this.manualPriceInputInvalidOrUnchanged = invalidOrUnchanged;
   }
 
   gqPriceClicked(): void {

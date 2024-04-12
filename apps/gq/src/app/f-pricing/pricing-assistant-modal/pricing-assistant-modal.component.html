@@ -56,7 +56,10 @@
         color="primary"
         class="!mr-4 text-button font-medium"
         mat-raised-button
-        [disabled]="manualPriceConfirmButtonDisabled"
+        [disabled]="
+          !manualPriceToDisplay ||
+          (manualPriceInputInvalidOrUnchanged && !commentValidAndChanged)
+        "
         (click)="confirmManualPrice()"
       >
         {{ t('confirmButton') }}
@@ -200,34 +203,40 @@
           [modalData]="manualPriceData"
           [isDialog]="false"
           (affectedKpiOutput)="manualPriceChanged($event)"
-          (isButtonDisabled)="manualPriceButtonDisabled($event)"
+          (isInvalidOrUnchanged)="manualPriceInvalidOrUnchangedHandled($event)"
           [warningTemplate]="warningTemplate"
         ></gq-price-editing-modal>
       </div>
     </ng-template>
 
     <ng-template #warningTemplate>
-      <div class="flex flex-col gap-4">
-        <gq-info-banner
-          [infoText]="
-            t('manualPrice.warningText', {
-              value: manualPriceData.quotationDetail.price,
-              currency: fPricingData?.currency
-            })
-          "
-        ></gq-info-banner>
+      <div class="flex flex-col">
+        @if (
+          manualPriceToDisplay &&
+          fPricingData?.finalPrice &&
+          manualPriceToDisplay < fPricingData?.finalPrice
+        ) {
+          <gq-info-banner
+            [infoText]="
+              t('manualPrice.warningText', {
+                value:
+                  fPricingData.finalPrice - manualPriceToDisplay
+                  | numberCurrency: fPricingData?.currency
+              })
+            "
+          ></gq-info-banner>
+        }
 
-        <mat-form-field class="w-full" appearance="outline">
+        <mat-form-field class="w-full pt-4" appearance="outline">
           <mat-label>{{ t('manualPrice.commentLabel') }}</mat-label>
           <textarea
             matInput
             class="h-20 max-h-32 !leading-6"
-            formControlName="comment"
+            [formControl]="comment"
             type="text"
             maxlength="200"
-            #comment
           ></textarea>
-          <mat-hint align="end"> {{ comment.value.length }} / 200</mat-hint>
+          <mat-hint align="end"> {{ comment.value?.length }} / 200</mat-hint>
         </mat-form-field>
       </div>
     </ng-template>

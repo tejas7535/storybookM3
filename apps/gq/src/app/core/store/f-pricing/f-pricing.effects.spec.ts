@@ -308,7 +308,10 @@ describe('FPricingEffects', () => {
       'Should call the ActiveCaseFacade updateQuotationDetails method',
       marbles((m) => {
         const gqPositionId = '1234567890';
-        const action = FPricingActions.updateManualPrice({ gqPositionId });
+        const action = FPricingActions.updateManualPrice({
+          gqPositionId,
+          comment: 'test',
+        });
 
         actions$ = m.hot('a', { a: action });
         effects['activeCaseFacade'].updateQuotationDetails = jest.fn();

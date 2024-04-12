@@ -27,6 +27,7 @@ export class QuotationDetail {
   plant: Plant;
   productionPlant: Plant;
   price: number;
+  priceComment: string;
   gqRating: number;
   recommendedPrice: number;
   lastCustomerPrice: number;

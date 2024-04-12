@@ -168,7 +168,7 @@
       "failure": "Your selection could not be saved"
     },
     "manualPrice": {
-      "warningText": "There is an opportunity to earn an additional {{value}} {{currency}} following the GQ algorithm.",
+      "warningText": "There is an opportunity to earn an additional {{value}} following the GQ algorithm.",
       "commentLabel": "Comment on Manual Price"
     }
   }

@@ -6,5 +6,6 @@ export class UpdateQuotationDetail {
   priceSource?: PriceSource;
   orderQuantity?: number;
   comment?: string;
+  priceComment?: string;
   targetPrice?: number;
 }
