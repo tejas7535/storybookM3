@@ -30,7 +30,7 @@ import {
   SelectedFilter,
 } from '../../../shared/models';
 import { SharedService } from '../../../shared/shared.service';
-import { DimensionFluctuationData } from '../../models';
+import { ChartType, DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
@@ -38,6 +38,7 @@ import {
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
+  chartTypeSelected,
   loadChildAttritionOverTimeForWorldMap,
   loadChildAttritionOverTimeOrgChart,
   loadChildAttritionOverTimeOrgChartFailure,
@@ -59,7 +60,10 @@ import {
   loadWorldMapFailure,
   loadWorldMapSuccess,
 } from '../actions/organizational-view.action';
-import { getWorldMap } from '../selectors/organizational-view.selector';
+import {
+  getSelectedChartType,
+  getWorldMap,
+} from '../selectors/organizational-view.selector';
 import { OrganizationalViewEffects } from './organizational-view.effects';
 
 describe('Organizational View Effects', () => {
@@ -157,20 +161,10 @@ describe('Organizational View Effects', () => {
           value: request.value,
           timeRange: request.timeRange,
         });
+        store.overrideSelector(getSelectedChartType, ChartType.ORG_CHART);
         store.overrideSelector(getCurrentDimensionValue, dimensionName);
-        const resultOrg = loadOrgChart({
-          request: {
-            filterDimension: request.filterDimension,
-            value: request.value,
-            timeRange: request.timeRange,
-          },
-        });
-        const resultWorld = loadWorldMap({
-          request: {
-            filterDimension: request.filterDimension,
-            value: request.value,
-            timeRange: request.timeRange,
-          },
+        const resultChartTypeSelected = chartTypeSelected({
+          chartType: ChartType.ORG_CHART,
         });
         const resultAttrition = loadParentAttritionOverTimeOrgChart({
           request,
@@ -178,10 +172,9 @@ describe('Organizational View Effects', () => {
         });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcd)', {
-          b: resultOrg,
-          c: resultWorld,
-          d: resultAttrition,
+        const expected = m.cold('-(bc)', {
+          b: resultChartTypeSelected,
+          c: resultAttrition,
         });
 
         m.expect(effects.loadOrganizationalViewData$).toBeObservable(expected);
@@ -198,6 +191,24 @@ describe('Organizational View Effects', () => {
         const expected = m.cold('--');
 
         m.expect(effects.loadOrganizationalViewData$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('chartTypeSelected$', () => {
+    test(
+      'should return loadOrgChart when chartType is ORG_CHART',
+      marbles((m) => {
+        action = chartTypeSelected({ chartType: ChartType.ORG_CHART });
+        const result = loadOrgChart({
+          request: {} as EmployeesRequest,
+        });
+        store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.chartTypeSelected$).toBeObservable(expected);
       })
     );
   });

@@ -27,7 +27,7 @@ import {
 } from '../../../shared/models';
 import { SharedService } from '../../../shared/shared.service';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
-import { DimensionFluctuationData } from '../../models';
+import { ChartType, DimensionFluctuationData } from '../../models';
 import {
   DimensionParentResponse,
   OrgChartEmployee,
@@ -35,6 +35,7 @@ import {
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryDataAttrition } from '../../world-map/models/country-data-attrition.model';
 import {
+  chartTypeSelected,
   loadChildAttritionOverTimeForWorldMap,
   loadChildAttritionOverTimeOrgChart,
   loadChildAttritionOverTimeOrgChartFailure,
@@ -56,7 +57,10 @@ import {
   loadWorldMapFailure,
   loadWorldMapSuccess,
 } from '../actions/organizational-view.action';
-import { getDimensionKeyForWorldMap } from '../selectors/organizational-view.selector';
+import {
+  getDimensionKeyForWorldMap,
+  getSelectedChartType,
+} from '../selectors/organizational-view.selector';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
@@ -77,27 +81,50 @@ export class OrganizationalViewEffects {
   loadOrganizationalViewData$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadOrganizationalViewData),
-      concatLatestFrom(() => this.store.select(getCurrentFilters)),
-      map(([_action, request]) => request),
-      filter(
-        (request: EmployeesRequest) =>
-          !!(request.filterDimension && request.value && request.timeRange)
-      ),
-      concatLatestFrom(() => [this.store.select(getCurrentDimensionValue)]),
-      map(([request, dimensionName]) => ({
+      concatLatestFrom(() => [
+        this.store.select(getCurrentFilters),
+        this.store.select(getSelectedChartType),
+        this.store.select(getCurrentDimensionValue),
+      ]),
+      map(([_action, request, chartType, dimensionValue]) => ({
         request,
-        dimensionName,
+        chartType,
+        dimensionValue,
       })),
+      filter(
+        (action: {
+          request: EmployeesRequest;
+          chartType: ChartType;
+          dimensionValue: string;
+        }) =>
+          !!(
+            action.request.filterDimension &&
+            action.request.value &&
+            action.request.timeRange &&
+            action.chartType
+          )
+      ),
       mergeMap((requestWithDimensionName) => [
-        loadOrgChart({
-          request: requestWithDimensionName.request,
+        chartTypeSelected({
+          chartType: requestWithDimensionName.chartType,
         }),
-        loadWorldMap({ request: requestWithDimensionName.request }),
         loadParentAttritionOverTimeOrgChart({
           request: requestWithDimensionName.request,
-          dimensionName: requestWithDimensionName.dimensionName,
+          dimensionName: requestWithDimensionName.dimensionValue,
         }),
       ])
+    );
+  });
+
+  chartTypeSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(chartTypeSelected),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([action, request]) =>
+        action.chartType === ChartType.ORG_CHART
+          ? loadOrgChart({ request })
+          : loadWorldMap({ request })
+      )
     );
   });
 
