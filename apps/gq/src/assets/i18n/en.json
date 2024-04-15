@@ -107,7 +107,7 @@
       "materialStatus": "Material Status",
       "freeStock": "Free Stock",
       "freeStockInfoText": "Free Stock information pulled via live interface from SAP",
-      "nextFreeAtp": "Next Free  ATP",
+      "nextFreeAtp": "Next Free ATP",
       "dateNextFreeAtp": "Date Next Free ATP",
       "dateNextFreeAtpInfoText": "Date of next free stock availability, pulled via live interface from SAP",
       "sidebar": {
