@@ -139,9 +139,13 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
 
   manualPriceClicked(): void {
     // first time the 'Add Manual Price' button is clicked, the button should be hidden afterwards
+    // when a netPrice is available, it will be set as manualPrice and then the confirm Button shall be enabled directly
+    if (this.showAddManualPriceButton) {
+      this.manualPriceInputInvalidOrUnchanged = false;
+    }
     this.showAddManualPriceButton = false;
     this.visibleOverlay = OverlayToShow.manualPricing;
-    this.fPricingFacade.changePrice(this.manualPriceData.quotationDetail.price);
+    this.fPricingFacade.changePrice(this.manualPriceToDisplay);
   }
 
   // fired when user input has changed in the editingComponent
