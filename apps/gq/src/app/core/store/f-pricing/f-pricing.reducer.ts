@@ -14,6 +14,13 @@ import {
 } from '@gq/shared/models/f-pricing';
 import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
 import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-value-driver.interface';
+import {
+  addNumbers,
+  calculateGpmValue,
+  calculateThresholdForSanityChecks,
+  multiplyTwoNumbers,
+  subtractTwoNumbers,
+} from '@gq/shared/utils/f-pricing.utils';
 import { translate } from '@ngneat/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
@@ -31,6 +38,7 @@ const TRANSLATION_KEY = 'fPricing.pricingAssistantModal';
 
 const TECHNICAL_VALUE_DRIVERS = 'technicalValueDrivers.tableRows';
 const SANITY_CHECKS = 'sanityChecks.tableRows';
+const PRECISION = 2;
 
 export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
@@ -437,12 +445,16 @@ export const fPricingFeature = createFeature({
     /* Result of this selector is the sum of all surcharges from selected market value drivers */
     const getMarketValueDriversRelativeValue = createSelector(
       selectMarketValueDriversSelections,
-      (marketValueDriversSelections): number =>
-        Number(
-          marketValueDriversSelections
-            .reduce((acc, option) => acc + option.surcharge, 0)
-            .toFixed(2)
-        )
+      (marketValueDriversSelections): number => {
+        if (!marketValueDriversSelections) {
+          return 0;
+        }
+
+        return addNumbers(
+          marketValueDriversSelections.map((option) => option.surcharge),
+          PRECISION
+        );
+      }
     );
 
     const getMarketValueDriversAbsoluteValue = createSelector(
@@ -453,28 +465,31 @@ export const fPricingFeature = createFeature({
           return 0;
         }
 
-        return Number(
-          (referencePrice * marketValueDriversRelativeValue).toFixed(2)
+        return multiplyTwoNumbers(
+          referencePrice,
+          marketValueDriversRelativeValue,
+          PRECISION
         );
       }
     );
 
     const getReferencePriceRounded = createSelector(
       selectReferencePrice,
-      (referencePrice): number => Number(referencePrice?.toFixed(2))
+      (referencePrice): number => Number((referencePrice ?? 0).toFixed(2))
     );
 
     const getTechnicalValueDriversRelativeValue = createSelector(
       selectTechnicalValueDrivers,
       (tvd: TechnicalValueDriver): number =>
-        Number(
-          (
-            tvd?.heatTreatmentSurcharge +
-            tvd?.toleranceClassSurcharge +
-            tvd?.clearanceRadialSurcharge +
-            tvd?.clearanceAxialSurcharge +
-            tvd?.engineeringEffortSurcharge
-          ).toFixed(2)
+        addNumbers(
+          [
+            tvd?.heatTreatmentSurcharge,
+            tvd?.toleranceClassSurcharge,
+            tvd?.clearanceRadialSurcharge,
+            tvd?.clearanceAxialSurcharge,
+            tvd?.engineeringEffortSurcharge,
+          ],
+          PRECISION
         )
     );
 
@@ -486,7 +501,7 @@ export const fPricingFeature = createFeature({
           return 0;
         }
 
-        return Number((referencePrice * tvdRelativeValue).toFixed(2));
+        return multiplyTwoNumbers(referencePrice, tvdRelativeValue, PRECISION);
       }
     );
 
@@ -514,17 +529,22 @@ export const fPricingFeature = createFeature({
 
         // when sqv of RFQ ist not available take the quotationDetail.sqv
         const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
-        // formula: refPrice * (1 + mvdValue + tvdValue)
 
         const recommendBeforeChecks = Number(refPrice + mvdValue + tvdValue);
         // formula: SQV_RFQ / (1- minMargin)
-        const lowerThreshold = Number(
-          (sqv / (1 - sanityChecks.minMargin)).toFixed(2)
+        const lowerThreshold = calculateThresholdForSanityChecks(
+          sqv,
+          sanityChecks.minMargin,
+          PRECISION
         );
+
         // formula: SQV_RFQ / (1- maxMargin)
-        const upperThreshold = Number(
-          (sqv / (1 - sanityChecks.maxMargin)).toFixed(2)
+        const upperThreshold = calculateThresholdForSanityChecks(
+          sqv,
+          sanityChecks.maxMargin,
+          PRECISION
         );
+
         const recommendAfterChecks =
           calculatePriceRecommendationAfterSanityChecks(
             recommendBeforeChecks,
@@ -533,8 +553,10 @@ export const fPricingFeature = createFeature({
             quotationDetail?.lastCustomerPrice
           );
 
-        const sanityCheckValue = Number(
-          (recommendAfterChecks - recommendBeforeChecks).toFixed(2)
+        const sanityCheckValue = subtractTwoNumbers(
+          recommendAfterChecks,
+          recommendBeforeChecks,
+          PRECISION
         );
 
         return {
@@ -609,8 +631,9 @@ export const fPricingFeature = createFeature({
       getTechnicalValueDriversValueAbsoluteValue,
       selectSanityCheckValues,
       (refPrice, mvd, tvd, sanityCheck) =>
-        Number(
-          (refPrice + mvd + tvd + sanityCheck?.sanityCheckValue).toFixed(2)
+        addNumbers(
+          [refPrice, mvd, tvd, sanityCheck?.sanityCheckValue],
+          PRECISION
         )
     );
 
@@ -631,7 +654,8 @@ export const fPricingFeature = createFeature({
           return null;
         }
 
-        return Number(((finalPrice - sqvValue) / finalPrice).toFixed(2)) * 100;
+        //  ((finalPrice - sqvValue) / finalPrice) * 100
+        return calculateGpmValue(finalPrice, sqvValue, PRECISION);
       }
     );
 
