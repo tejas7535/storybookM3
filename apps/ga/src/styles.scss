@@ -75,3 +75,26 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
 #legal-pages {
   @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
 }
+// This class should usually be part of the styles included from the material CDK library
+// But causes issues when the application is running embedded in an iFrame.
+//
+// Source: https://github.com/angular/components/blob/38946e6680be75816e7dab043ab954df016df0ed/src/cdk/a11y/_index.scss#L3-L36
+.cdk-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+  outline: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  left: 0;
+  [dir='rtl'] & {
+    left: auto;
+    right: 0;
+  }
+}

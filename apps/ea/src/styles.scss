@@ -14,6 +14,10 @@ engineering-app {
   label[matformfieldfloatinglabel] {
     font-size: 16px !important;
   }
+
+  .cdk-overlay-container {
+    z-index: 99;
+  }
 }
 
 /***************************************************************************************************
