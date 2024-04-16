@@ -244,7 +244,9 @@
             type="text"
             maxlength="200"
           ></textarea>
-          <mat-hint align="end"> {{ comment.value?.length }} / 200</mat-hint>
+          <mat-hint align="end">
+            {{ comment.value?.length || 0 }} / 200</mat-hint
+          >
         </mat-form-field>
       </div>
     </ng-template>

@@ -8,6 +8,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { PriceSource } from '@gq/shared/models';
 import { FPricingService } from '@gq/shared/services/rest/f-pricing/f-pricing.service';
+import { convertToBase64 } from '@gq/shared/utils/misc.utils';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -158,7 +159,7 @@ export class FPricingEffects {
               gqPositionId: action.gqPositionId,
               priceSource: PriceSource.MANUAL,
               price: manualPrice,
-              priceComment: action.comment,
+              priceComment: convertToBase64(action.comment),
             };
 
             this.activeCaseFacade.updateQuotationDetails([
