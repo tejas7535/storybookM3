@@ -70,6 +70,9 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
     // the targetPrice itself will not be touched
     quotationDetail: {
       ...this.dialogData,
+      // when rfqData is present use these values, otherwise use the values from the dialogData
+      sqv: this.dialogData.rfqData?.sqv ?? this.dialogData.sqv,
+      gpm: this.dialogData.gpmRfq ?? this.dialogData.gpm,
       price: this.getInitialPriceValue(),
     },
   };
