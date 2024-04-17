@@ -6,57 +6,58 @@
       read: 'fPricing.pricingAssistantModal'
     "
   >
-    <div class="flex flex-col h-full w-full">
-      <gq-pricing-assistant-header
-        [material]="material"
-        (closeDialog)="closeDialog()"
-        (showMore)="showMore()"
-      ></gq-pricing-assistant-header>
-      @if (!(fPricingDataLoading$ | ngrxPush)) {
-        <!-- content and possible overlays -->
-        <div class="flex flex-col w-full h-full relative">
-          @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
-            <gq-overlay>
-              <ng-container
-                [ngTemplateOutlet]="comparisonScreenView"
-              ></ng-container>
-            </gq-overlay>
-          }
-          <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
-          <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
-        </div>
-        <!--footer-->
-        @if (visibleOverlay !== overlayToShowEnum.comparisonScreen) {
-          <div class="flex flex-col">
-            <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
-            <div class="flex justify-start">
-              @if (visibleOverlay === overlayToShowEnum.gqPricing) {
+    <mat-dialog-content>
+      <div class="flex flex-col min-h-[77vh] h-full w-full">
+        <gq-pricing-assistant-header
+          [material]="material"
+          (closeDialog)="closeDialog()"
+          (showMore)="showMore()"
+        ></gq-pricing-assistant-header>
+        @if (!(fPricingDataLoading$ | ngrxPush)) {
+          <!-- content and possible overlays -->
+          <div class="flex flex-col w-full h-full min-h-[inherit] relative">
+            @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
+              <gq-overlay>
                 <ng-container
-                  [ngTemplateOutlet]="gqPricingConfirmButton"
+                  [ngTemplateOutlet]="comparisonScreenView"
                 ></ng-container>
-              }
-              @if (visibleOverlay === overlayToShowEnum.manualPricing) {
-                <ng-container
-                  [ngTemplateOutlet]="manualConfirmButton"
-                ></ng-container>
-              }
-
-              <button
-                color="primary"
-                class="text-button font-medium"
-                mat-stroked-button
-                (click)="closeDialog()"
-              >
-                {{ t('cancelButton') }}
-              </button>
-            </div>
+              </gq-overlay>
+            }
+            <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
+            <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
           </div>
-        }
-      } @else {
-        <schaeffler-loading-spinner></schaeffler-loading-spinner>
-      }
-    </div>
+          <!--footer-->
+          @if (visibleOverlay !== overlayToShowEnum.comparisonScreen) {
+            <div class="flex flex-col">
+              <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
+              <div class="flex justify-start">
+                @if (visibleOverlay === overlayToShowEnum.gqPricing) {
+                  <ng-container
+                    [ngTemplateOutlet]="gqPricingConfirmButton"
+                  ></ng-container>
+                }
+                @if (visibleOverlay === overlayToShowEnum.manualPricing) {
+                  <ng-container
+                    [ngTemplateOutlet]="manualConfirmButton"
+                  ></ng-container>
+                }
 
+                <button
+                  color="primary"
+                  class="text-button font-medium"
+                  mat-stroked-button
+                  (click)="closeDialog()"
+                >
+                  {{ t('cancelButton') }}
+                </button>
+              </div>
+            </div>
+          }
+        } @else {
+          <schaeffler-loading-spinner></schaeffler-loading-spinner>
+        }
+      </div>
+    </mat-dialog-content>
     <!-- templates -->
     <!--confirmButtons-->
     <ng-template #manualConfirmButton>
@@ -141,7 +142,7 @@
               : 'visible'
           "
         >
-          <div class="flex flex-col h-full">
+          <div class="flex flex-col h-full overflow-hidden">
             <gq-pricing-results
               [price]="fPricingData?.finalPrice"
               [currency]="fPricingData?.currency"
@@ -149,7 +150,7 @@
               [confidence]="2"
             ></gq-pricing-results>
             <gq-pricing-tabs-wrapper
-              class="h-full"
+              class="h-full min-h-full"
               [currency]="fPricingData?.currency"
               [referencePrice]="fPricingData?.referencePrice"
               [marketValueDriversValue]="

@@ -463,9 +463,9 @@
         "price": "Net Price",
         "targetPrice": "Target Price",
         "previous": "Previous {{fieldTranslation}}",
-        "gpi": "GPI%",
-        "gpm": "GPM%",
-        "discount": "Discount%"
+        "gpi": "GPI %",
+        "gpm": "GPM %",
+        "discount": "Discount %"
       },
       "warning": "Please be aware this change is permanent and cannot be undone"
     },

@@ -59,8 +59,8 @@
       "priceUnitInfoText": "Preiseinheit",
       "priceSource": "Preisquelle",
       "priceSourceInfoText": "Preisquelle des ausgewählten Nettopreises",
-      "pricingAssistant": "Preis Assistent",
-      "priceAssistantButton": "Preis Assistent",
+      "pricingAssistant": "Preis-Assistent",
+      "priceAssistantButton": "Preis-Assistent",
       "productionCity": "Ort",
       "productionCountry": "Land",
       "customerMaterial": "Kundenmaterialnummer",
@@ -462,9 +462,9 @@
         "price": "Nettopreis",
         "targetPrice": "Zielpreis",
         "previous": "Vorheriger {{fieldTranslation}}",
-        "gpi": "GPI%",
-        "gpm": "GPM%",
-        "discount": "Rabatt%"
+        "gpi": "GPI %",
+        "gpm": "GPM %",
+        "discount": "Rabatt %"
       },
       "cancel": "Abbrechen",
       "warning": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann."

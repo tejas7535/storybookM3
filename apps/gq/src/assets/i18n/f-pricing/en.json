@@ -115,7 +115,7 @@
         "lowerThreshold": "Lower Threshold Price (min. margin)",
         "upperThreshold": "Higher Threshold Price (max. margin)",
         "lastCustomerPrice": "Last Customer Price",
-        "priceRecommendationAfter": "Price Recommendation After Sanity Check"
+        "priceRecommendationAfter": "Price Recommendation after Sanity Check"
       }
     },
     "marketValueDriver": {

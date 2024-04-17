@@ -25,20 +25,24 @@
         class="flex flex-row gap-4 items-end"
         [ngClass]="{ 'py-3': !isSelected }"
       >
-        <div class="flex items-center gap-2">
-          @if (icon) {
-            <mat-icon [ngClass]="iconColor">{{ icon }}</mat-icon>
-          }
-          <span class="gq-text-5 text-high-emphasis"
-            >{{ priceValue | numberCurrency: currency }}
-          </span>
-        </div>
-        <gq-label-text [marginBottom]="false">
-          <span label> {{ t('gpmLabel') }} </span>text-subtitle-1
-          <span text class="font-medium">
-            {{ gpmValue | percentage }}
-          </span>
-        </gq-label-text>
+        @if (!priceValue && !gpmValue) {
+          <span class="gq-text-5 text-high-emphasis"> - </span>
+        } @else {
+          <div class="flex items-center gap-2">
+            @if (icon) {
+              <mat-icon [ngClass]="iconColor">{{ icon }}</mat-icon>
+            }
+            <span class="gq-text-5 text-high-emphasis"
+              >{{ priceValue | numberCurrency: currency }}
+            </span>
+          </div>
+          <gq-label-text [marginBottom]="false">
+            <span label> {{ t('gpmLabel') }} </span>text-subtitle-1
+            <span text class="font-medium">
+              {{ gpmValue | percentage }}
+            </span>
+          </gq-label-text>
+        }
       </div>
     </div>
   } @else {

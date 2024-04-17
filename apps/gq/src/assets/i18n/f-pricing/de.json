@@ -1,6 +1,6 @@
 {
   "pricingAssistantModal": {
-    "title": "Preis Assistent für {{ material }}",
+    "title": "Preis-Assistent für {{ material }}",
     "materialDetailsDialogTitle": "Informationen zu {{materialDescription}}",
     "materialNumberLabel": "Materialnr.",
     "dimensionsLabel": "Dimensionen",
@@ -17,8 +17,8 @@
     "resultsPriceLabel": "Vorgeschlagener Verkaufspreis",
     "resultsGpmLabel": "GPM %",
     "confidence": {
-      "levelLabel": "Confidence Level:",
-      "tooltip": "tooltiptext for confidence"
+      "levelLabel": "Vertrauensgrad:",
+      "tooltip": "Tooltiptext für Vertrauensgrad"
     },
     "referencePricingLabel": "Referenzpreis",
     "marketValueDriversLabel": "Marktwerttreiber",
@@ -30,7 +30,7 @@
     "referencePricingTable": {
       "noReferenceDataTitle": "Keine vergleichbaren Transaktionen verfügbar",
       "noReferenceDataSubTitle": "Der Referenzpreis wird durch Regression berechnet",
-      "item": "Item",
+      "item": "Position",
       "materialDescription": "Beschreibung",
       "materialNumber": "Materialnummer",
       "quantity": "Menge",
