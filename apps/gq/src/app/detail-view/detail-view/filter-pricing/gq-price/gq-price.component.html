@@ -82,7 +82,7 @@
         </div>
       }
     </div>
-    @if (!quotationDetail.strategicPrice && isDetailsButtonVisible) {
+    @if (isDetailsButtonVisible) {
       <gq-detail-button
         link
         [text]="t('details')"

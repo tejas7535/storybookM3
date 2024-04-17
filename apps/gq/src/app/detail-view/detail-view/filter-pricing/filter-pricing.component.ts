@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
@@ -14,6 +14,7 @@ import {
   QuotationDetail,
   UpdatePrice,
 } from '@gq/shared/models/quotation-detail';
+import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
@@ -24,9 +25,21 @@ import { Store } from '@ngrx/store';
 export class FilterPricingComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
 
+  readonly #isFNumber: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
   public quotationCurrency$: Observable<string>;
   public updateIsLoading$: Observable<boolean>;
   public quotationIsActive$: Observable<boolean>;
+  public isDetailsLinkVisible$: Observable<boolean> = combineLatest([
+    this.rolesFacade.userHasAccessToComparableTransactions$,
+    this.#isFNumber,
+  ]).pipe(
+    map(
+      ([hasAccess, isFNumberValue]) =>
+        hasAccess && !isFNumberValue && !this.quotationDetail?.strategicPrice
+    )
+  );
 
   constructor(
     public readonly rolesFacade: RolesFacade,
@@ -39,6 +52,7 @@ export class FilterPricingComponent implements OnInit {
       activeCaseFeature.selectUpdateLoading
     );
     this.quotationIsActive$ = this.store.select(getIsQuotationActive);
+    this.#isFNumber.next(isFNumber(this.quotationDetail));
   }
 
   selectPrice(updatePrice: UpdatePrice): void {

@@ -21,9 +21,7 @@
           !(quotationIsActive$ | ngrxPush) ||
           !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
         "
-        [isDetailsButtonVisible]="
-          rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush
-        "
+        [isDetailsButtonVisible]="isDetailsLinkVisible$ | ngrxPush"
       >
       </gq-price>
     }

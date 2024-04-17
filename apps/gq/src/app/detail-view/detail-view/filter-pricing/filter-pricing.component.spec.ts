@@ -5,14 +5,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { of } from 'rxjs';
+
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { RolesFacade } from '@gq/core/store/facades';
 import { ProcessCaseState } from '@gq/core/store/process-case';
 import { PriceSource, UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -60,6 +65,9 @@ describe('FilterPricingComponent', () => {
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),
+      MockProvider(RolesFacade, {
+        userHasAccessToComparableTransactions$: of(true),
+      }),
     ],
     declarations: [
       FilterPricingComponent,
@@ -83,8 +91,11 @@ describe('FilterPricingComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    beforeEach(() => {
+      jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
+    });
     test(
-      'should initalize observables',
+      'should initalize observables and variables',
       marbles((m) => {
         component.ngOnInit();
 
@@ -93,6 +104,12 @@ describe('FilterPricingComponent', () => {
         );
         m.expect(component.updateIsLoading$).toBeObservable('a', {
           a: ACTIVE_CASE_STATE_MOCK.updateLoading,
+        });
+        m.expect(component.quotationIsActive$).toBeObservable('a', {
+          a: true,
+        });
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
         });
       })
     );
@@ -126,5 +143,66 @@ describe('FilterPricingComponent', () => {
         })
       );
     });
+  });
+
+  describe('isDetailsLinkVisible$', () => {
+    beforeEach(() => {
+      jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+    });
+    test(
+      'should return true when is not f number and strategic price is not set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+        component.ngOnInit();
+        component.quotationDetail = QUOTATION_DETAIL_MOCK;
+        component.quotationDetail.strategicPrice = null;
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
+
+    test(
+      'should return false when is not f number and strategic price is set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+        component.ngOnInit();
+        component.quotationDetail = QUOTATION_DETAIL_MOCK;
+        component.quotationDetail.strategicPrice = 50;
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
+        });
+      })
+    );
+
+    test(
+      'should return false when is f number and strategic price is not set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
+        component.ngOnInit();
+        component.quotationDetail = QUOTATION_DETAIL_MOCK;
+        component.quotationDetail.strategicPrice = null;
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
+        });
+      })
+    );
+
+    test(
+      'should return false when is f number and strategic price is set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
+        component.ngOnInit();
+        component.quotationDetail = QUOTATION_DETAIL_MOCK;
+        component.quotationDetail.strategicPrice = 50;
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
+        });
+      })
+    );
   });
 });

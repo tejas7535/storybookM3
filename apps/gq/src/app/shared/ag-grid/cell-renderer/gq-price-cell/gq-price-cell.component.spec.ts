@@ -1,12 +1,16 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { RolesFacade } from '@gq/core/store/facades';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { DetailRoutePath } from '../../../../../app/detail-view/detail-route-path.enum';
@@ -20,7 +24,11 @@ describe('GqPriceCellComponent', () => {
   const createComponent = createComponentFactory({
     component: GqPriceCellComponent,
     imports: [RouterTestingModule, SharedPipesModule, PushPipe],
-    providers: [MockProvider(RolesFacade)],
+    providers: [
+      MockProvider(RolesFacade, {
+        userHasAccessToComparableTransactions$: of(true),
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -35,6 +43,9 @@ describe('GqPriceCellComponent', () => {
   });
 
   describe('agInit', () => {
+    beforeEach(() => {
+      jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
+    });
     test('should create valid URL, set value and navigationExtras', () => {
       const url =
         '/detail-view/transactions?customer_number=queryParamValue_customer_number&sales_org=queryParamValue_sales_org&quotation_number=queryParamValue_quotation_number&gqPositionId=123456789';
@@ -68,5 +79,66 @@ describe('GqPriceCellComponent', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(router.navigate).toHaveBeenCalledTimes(1);
     });
+  });
+  describe('isDetailsLinkVisible$', () => {
+    test(
+      'should return true when is not f number and strategic price is not set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+        component.agInit({
+          data: { gqPositionId: '123456789', strategicPrice: null },
+          valueFormatted: 'valueFormatted',
+        } as ICellRendererParams);
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
+
+    test(
+      'should return false when is not f number and strategic price is set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+        component.agInit({
+          data: { gqPositionId: '123456789', strategicPrice: 50 },
+          valueFormatted: 'valueFormatted',
+        } as ICellRendererParams);
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
+        });
+      })
+    );
+
+    test(
+      'should return false when is f number and strategic price is not set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
+        component.agInit({
+          data: { gqPositionId: '123456789', strategicPrice: null },
+          valueFormatted: 'valueFormatted',
+        } as ICellRendererParams);
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
+        });
+      })
+    );
+
+    test(
+      'should return false when is f number and strategic price is set',
+      marbles((m) => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
+        component.agInit({
+          data: { gqPositionId: '123456789', strategicPrice: 50 },
+          valueFormatted: 'valueFormatted',
+        } as ICellRendererParams);
+
+        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+          a: false,
+        });
+      })
+    );
   });
 });

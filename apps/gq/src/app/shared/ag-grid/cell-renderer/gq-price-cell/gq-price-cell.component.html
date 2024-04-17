@@ -1,4 +1,4 @@
-@if (rolesFacade.userHasAccessToComparableTransactions$ | ngrxPush) {
+@if (isDetailsLinkVisible$ | ngrxPush) {
   <a
     [href]="url"
     (click)="navigate($event)"
