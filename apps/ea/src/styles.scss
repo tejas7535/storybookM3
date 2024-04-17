@@ -53,10 +53,16 @@ engineering-app {
   /** fix font size for medias integration */
   @apply text-body-1 #{!important};
 
-  * {
-    font-family:
-      Noto Sans,
-      sans-serif !important;
+  @layer resets {
+    * {
+      font-family:
+        Noto Sans,
+        sans-serif !important;
+    }
+
+    .material-icons {
+      font-family: 'Material Icons' !important;
+    }
   }
 
   .mat-button-base.mat-button .mat-button-focus-overlay {
@@ -65,10 +71,6 @@ engineering-app {
 
   button {
     outline: none !important;
-  }
-
-  .material-icons {
-    font-family: 'Material Icons' !important;
   }
 
   // apply full width to wrapper so it actually takes the full width

@@ -15,4 +15,15 @@ export const environment: Environment = {
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: 'http://localhost:8000/assets',
   oneTrustId: '7046149d-287b-4943-823f-02838a51a445-test',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: '1c13d904-fb90-4598-82b4-ebba31a8e172',
+      disableCookiesUsage: false,
+      autoTrackPageVisitTime: true,
+    },
+    consent: true,
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: false,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };
