@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.7.2...ea-v1.8.0) (2024-04-17)
+
+
+### Bug Fixes
+
+* **ea:** fix broken fonts in medias ([#6157](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6157)) ([38ee573](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38ee573045c25fdbcf000b82030f5c75310ead7e))
+* **ga:** fix stepper bug in medias - UFTABI-7605 ([#6143](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6143)) ([9ebe276](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ebe276ff46edf3e1dd61961f7aed7f800aebc75))
+
 ## [1.7.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.7.1...ea-v1.7.2) (2024-04-11)
 
 
