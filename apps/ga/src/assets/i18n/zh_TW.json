@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "計算額定壽命、摩擦功率損失、基本潤滑參數、超過滾動頻率以及CO₂e排放。"
+        },
+        "button": "medias EasyCalc",
+        "tag": "新"
+      },
+      "calculator": {
+        "title": {
+          "main": "潤滑油計算器",
+          "sub": "由 Bearinx 提供"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "ARCANOL 潤滑油",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "潤滑器"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "維護工具",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "產品目錄"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler 專家"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "常見問題"
+        },
+        "externalLink": "https://medias.schaeffler.cn/zh_TW/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "透過 Grease App，您可以快速且輕鬆地計算軸承在初次潤滑與重新潤滑方面的最佳潤滑劑量。此外，您也可以根據具體運作條件，獲得重新潤滑間隔和潤滑油運作壽命的建議。</br>使用 Schaeffler 潤滑器，可手動或自動完成重新潤滑。</br>您也會收到 Arcanol 潤滑油特性的概觀。具有高重新潤滑間隔的潤滑油會醒目標示。"
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "語言設定"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "單位系統",
+        "sub": "影響重量和溫度規格"
+      },
+      "label": "單位系統",
+      "options": {
+        "metric": "公制單位",
+        "imperial": "英制單位"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "登陸頁面",
+      "greaseCalculator": "潤滑油計算器"
+    },
+    "button": {
+      "close": "關閉"
+    },
+    "label": {
+      "defaultSet": "設定 {{label}}",
+      "defaultSelect": "選擇 {{label}}"
+    },
+    "hint": {
+      "applicationReload": "應用程式將重新載入。"
+    },
+    "unit": {
+      "millimeterShort": "毫米"
+    },
+    "min": "最小",
+    "max": "最大",
+    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
+  "bearing": {
+    "title": {
+      "main": "軸承選擇",
+      "sub": "請選擇要執行潤滑計算的軸承"
+    },
+    "label": {
+      "bearingType": "軸承類型",
+      "boreDiameter": "孔徑",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "外徑",
+      "outsideDiameterShort": "D",
+      "width": "寬度",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "直接軸承選擇",
+        "advancedSelection": "進階軸承選擇"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "輸入軸承型號，例如 6226",
+        "selectButton": "選擇軸承",
+        "selectOption": "<span class=\"text-medium-emphasis\">軸承</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}} 的潤滑計算",
+        "disabledOption": "<span class=\"text-medium-emphasis\">無法執行</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}} 的潤滑計算",
+        "noResults": "找不到結果"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "篩選條件",
+          "intro": "縮小軸承選取範圍至 {{tooManyResultsThreshold}} 筆結果上限",
+          "action": {
+            "nextStep": "前往軸承選擇"
+          }
+        },
+        "bearingsList": {
+          "heading": "軸承選擇",
+          "intro": "請選擇一個軸承",
+          "selectOption": "軸承的潤滑油計算",
+          "disabledOption": "無法對軸承執行計算",
+          "action": {
+            "previousStep": "調整篩選條件"
+          }
+        },
+        "error": {
+          "modelCreation": "目前無法對 {{bearing}} 軸承執行計算。"
+        },
+        "tooManyResults": {
+          "message": "結果過多（{{resultsCount}}）",
+          "hint": "我們在資料庫中找到太多項目。請使用篩選條件將結果數目減少至最多 {{tooManyResultsThreshold}}。"
+        },
+        "noResults": {
+          "message": "找不到結果",
+          "hint": "我們無法找到套用篩選條件的任何軸承。請檢查您的篩選設定，確保您使用的是有效的選擇。"
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "徑向角接觸球軸承",
+      "IDO_RADIAL_BALL_BEARING": "徑向深溝球軸承",
+      "IDO_RADIAL_ROLLER_BEARING": "徑向滾子軸承",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "調心球軸承",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "徑向球面滾子軸承",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "徑向錐形滾子軸承",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "推力角接觸球軸承",
+      "IDO_THRUST_BALL_BEARING": "推力球軸承",
+      "IDO_THRUST_ROLLER_BEARING": "推力滾子軸承"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "運作條件對象",
+      "backButton": "變更軸承選擇"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "新項目：產品預選（選用）"
+      },
+      "grease": {
+        "label": "潤滑油",
+        "defaultOption": "所有潤滑油",
+        "tooltip": "選擇的潤滑油將在計算報告中優先顯示。如果選擇的潤滑油不適用，將顯示替代潤滑油。",
+        "schaefflerGreases": "Schaeffler 潤滑油",
+        "nonSchaefflerMultiPurposeGreases": "非 Schaeffler 多用途潤滑油",
+        "nonSchaefflerHighTempGreases": "非 Schaeffler 高溫潤滑油"
+      },
+      "concept1": {
+        "label": "計算筒匣設定（CONCEPT1）",
+        "tooltip": "如果啟用筒匣設定的計算，則會額外計算並顯示 CONCEPT1 設定（若可能）。停用時不會顯示 CONCEPT1 設定"
+      }
+    },
+    "requiredInformation": "* 必填資訊",
+    "loads": "載荷",
+    "load": "預期載荷",
+    "radialLoad": "徑向載荷",
+    "axialLoad": "軸向載荷",
+    "loadsUnknown": "實際載荷未知？",
+    "enterRadialAndAxialLoad": "輸入徑向和軸向載荷",
+    "motionInfluences": "動作影響",
+    "kindOfMotion": "動作類型",
+    "rotating": "旋轉",
+    "oscillating": "擺動",
+    "relativeRotationalSpeed": "旋轉速度",
+    "onePerMinute": "每分鐘轉速（rpm）",
+    "shiftFrequency": "變換頻率",
+    "shiftAngle": "變換角度",
+    "degree": "°",
+    "otherInfluences": "環境因素",
+    "operatingTemperature": "運作溫度",
+    "environmentTemperature": "周圍溫度",
+    "environmentalImpactOnGreaseDuration": "運作條件",
+    "low": "低",
+    "moderate": "中",
+    "high": "高",
+    "greaseSelection": "潤滑油選擇",
+    "selectGrease": "選擇潤滑油",
+    "showResults": "顯示結果",
+    "resetInputs": "重設輸入",
+    "pleaseEnter": "輸入 {{label}}",
+    "errors": {
+      "min": "數值過低",
+      "max": "數值過高",
+      "required": "該欄位為必填",
+      "lowerThanEnvironmentTemperature": "不可低於周圍溫度",
+      "innerOuterInconsistent": "孔徑必須小於外徑",
+      "minMaxInconsistent": "最小值必須小於最大值",
+      "anyLoad": "需要一個載荷"
+    },
+    "loadLevel": {
+      "veryLow": "非常低（C0/P 約 30）",
+      "low": "低（C0/P 約 15）",
+      "moderate": "中（C0/P 約 10）",
+      "high": "高（C0/P 約 5）",
+      "veryHigh": "非常高（C0/P 約 2）"
+    },
+    "tooltip": {
+      "radialLoad": "徑向方向的載荷（指定為絕對值）",
+      "axialLoad": "軸向方向的載荷（指定為絕對值）",
+      "rotationSpeed": "內環與外環之間的相對旋轉速度（指定為絕對值）",
+      "operatingTemperature": "軸承的運作溫度（如有必要，請估計）。請參閱常見問題集，以瞭解對潤滑油運作壽命的影響。",
+      "environmentTemperature": "機器周圍環境的溫度。",
+      "otherInfluences": "在潮濕、振動和衝擊載荷下，影響潤滑油運作壽命的因素。",
+      "shiftFrequency": "每分鐘擺動次數（完整循環，來回擺動）",
+      "shiftAngle": "擺動轉折點之間的角度（另請參閱常見問題集）"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "報告對象",
+      "backButton": "變更運作條件",
+      "247hint": "所有結果均指全天候不間斷運作。"
+    },
+    "showCompactView": "顯示精簡檢視",
+    "reportSectionInput": "輸入",
+    "shopLinkText": "可用的產品",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "很抱歉，發生錯誤。請稍後再試。",
+    "snackbarRetry": "重試",
+    "allValues": "顯示所有值",
+    "hideValues": "隱藏其他值",
+    "limitResults": "顯示前 {{ results }} 個結果",
+    "remainingResults": "{{ results }} 其他結果",
+    "resultsDefault": "結果依據重新潤滑間隔（{{ amount }}/{{ complete }} 潤滑油）排序",
+    "resultsWithPreferred": "依據重新潤滑間隔排序的選擇和替代潤滑油結果",
+    "guideValues": "* 指引值",
+    "errorsWarningsNotes": "錯誤、警告與備註",
+    "concept1": "CONCEPT1 筒匣設定",
+    "concept1Impossible": "無法透過 CONCEPT1 自動潤滑。在某些情況下，潤滑量過高或過低。如果變更運作參數，可能可以使用",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} 個月<span>（{{size}} 毫升）</span>",
+      "details": "詳細資料",
+      "why": "為什麼？",
+      "adjustConditions": "此潤滑油適用於 CONCEPT1 及整體應用，但運作條件導致 CONCEPT1 的潤滑計算過高或過低",
+      "SUITED": "合適",
+      "NOT_SUITED": "不合適",
+      "UNSUITED": "不適用",
+      "CONDITIONAL": "有條件的",
+      "UNKNOWN": "合適度未知",
+      "detailsConcept1": "CONCEPT1 的詳細資料",
+      "concept1Size": "{{ size }} 毫升的筒匣",
+      "emptyDuration": "適用於 {{ duration }} 個月內卸載",
+      "arrowSetting": "將箭頭設定為 {{ setting }}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }} 毫升",
+      "sizeHint": "對於您選擇的運作條件，使用 {{ size }} 毫升的 CONCEPT1 並不合適",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1（{{ title }} {{ size }} 毫升）"
+    },
+    "previouslySelected": "已對 {{ type }} 執行計算，例如「{{ grease }}」。對於潤滑脂品質，我們概不負責",
+    "compatibilityCheck": "必須檢查相容性",
+    "initialGreaseQuantity": "初始潤滑油劑量 *",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "潤滑油使用壽命 *",
+    "additiveRequired": "需要添加物",
+    "additiveRequiredTooltip": "評估當前的運作條件（載荷和黏度比 Kappa），另請參閱常見問題。",
+    "effectiveEpAdditivation": "有效的 EP 添加物",
+    "baseOilViscosityAt40": "40°C 時的基礎油黏度",
+    "viscosityRatio": "黏度比",
+    "lowerTemperatureLimit": "溫度下限",
+    "lowerTemperatureLimitTooltip": "軸承開始動作時的溫度下限，另請參閱常見問題集。",
+    "upperTemperatureLimit": "溫度上限",
+    "upperTemperatureLimitTooltip": "超出此溫度的運作會導致潤滑油的運作壽命變得非常短，請參閱常見問題集。",
+    "density": "密度",
+    "lowFriction": "低摩擦力",
+    "suitableForVibrations": "適用於振動",
+    "supportForSeals": "支援密封",
+    "h1Registration": "H1 註冊（NSF-H1 猶太與清真認證）",
+    "errors": "錯誤",
+    "warnings": "警告",
+    "notes": "備註",
+    "day": "天",
+    "days": "天",
+    "hours": "{{ hours }} hours",
+    "grams": "克",
+    "undefinedValue": "無",
+    "suitabilityLevelExtremelySuitable": "極度合適",
+    "suitabilityLevelHighlySuitable": "非常合適",
+    "suitabilityLevelSuitable": "合適",
+    "suitabilityLevelLessSuitable": "較不合適",
+    "suitabilityLevelNotSuitable": "不合適",
+    "insufficientGreaseResultHint": "不足",
+    "insufficientGreaseResultTooltip": "潤滑油的合適性被 Grease App 評為不足。如果您有任何其他問題，請聯絡 Schaeffler 工程服務。",
+    "preferredGreaseHintSelected": "已預選",
+    "preferredGreaseHintAlternative": "替代",
+    "preferredGreaseHintAlternativeTooltip": "根據他們在第 2 步驟的輸入，這是來自 Schaeffler 產品組合的替代產品。",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "軸承選擇",
+      "parameters": "運作條件",
+      "report": "報告"
+    }
+  },
+  "legal": {
+    "imprint": "版權聲明",
+    "dataPrivacy": "資料隱私權",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "使用條款",
+    "cookiePolicy": "Cookie 政策"
+  },
+  "error": {
+    "content": "很抱歉，發生錯誤。請稍後再試。",
+    "confirm": "確認",
+    "retry": "重試"
+  }
+}

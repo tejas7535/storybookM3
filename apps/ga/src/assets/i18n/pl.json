@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Oblicz żywotność łożyska, straty mocy tarcia, podstawowe parametry smarowania, częstotliwości i emisję CO₂e."
+        },
+        "button": "medias EasyCalc",
+        "tag": "Nowość"
+      },
+      "calculator": {
+        "title": {
+          "main": "Kalkulator smarowania",
+          "sub": "Powered by Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Smary ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.pl/pl/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Smarownice"
+        },
+        "externalLink": "https://medias.schaeffler.pl/pl/lubricate/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Narzędzia serwisowe",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.pl/pl/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.pl/pl/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Katalog produktów"
+        },
+        "externalLink": "https://medias.schaeffler.pl/pl/"
+      },
+      "contact": {
+        "title": {
+          "main": "Eksperci Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "Często zadawane pytania"
+        },
+        "externalLink": "https://medias.schaeffler.pl/pl/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "W aplikacji Grease możesz szybko i łatwo obliczyć optymalną ilość smaru do wstępnego i ponownego smarowania łożyska. Ponadto, mogą być w niej wyświetlane zalecenia dotyczące częstotliwości smarowania i trwałości smaru, uwzględniające indywidualne warunki pracy.</br>Smarowanie można przeprowadzić ręcznie lub automatycznie za pomocą smarownic Schaeffler.</br>Aplikacja zawiera również zestawienie właściwości smarów Arcanol. Smary o wysokiej częstotliwości smarowania są zaznaczone."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Ustawienia języka"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Układ miar",
+        "sub": "Wpływa na parametry masy i temperatury"
+      },
+      "label": "układ miar",
+      "options": {
+        "metric": "Jednostki metryczne",
+        "imperial": "Jednostki calowe"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Strona główna",
+      "greaseCalculator": "Kalkulator smarowania"
+    },
+    "button": {
+      "close": "Zamknij"
+    },
+    "label": {
+      "defaultSet": "Ustaw {{label}}",
+      "defaultSelect": "Wybierz {{label}}"
+    },
+    "hint": {
+      "applicationReload": "Aplikacja zostanie ponownie załadowana."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min.",
+    "max": "Maks.",
+    "mediasButton": "Pokaż łożysko {{bearing}} w Medias",
+    "feedbackButton": "Opinia",
+    "feedbackText": "Twoja opinia pomaga nam cały czas udoskonalać nasz produkt."
+  },
+  "bearing": {
+    "title": {
+      "main": "Wybór łożyska",
+      "sub": "Wybierz łożysko, aby wykonać obliczenia smarowania"
+    },
+    "label": {
+      "bearingType": "Typ łożyska",
+      "boreDiameter": "Średnica otworu",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Średnica zewnętrzna",
+      "outsideDiameterShort": "D",
+      "width": "Szerokość",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Bezpośredni wybór łożyska",
+        "advancedSelection": "Zaawansowany wybór łożyska"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Wpisz oznaczenie łożyska, np. 6226",
+        "selectButton": "Wybierz łożysko",
+        "selectOption": "<span class=\"text-medium-emphasis\">Obliczanie smarowania łożyska</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Nie jest możliwe obliczenie smarowania łożyska</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "Nie znaleziono wyników"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Kryteria filtrowania",
+          "intro": "Zawęź wybór łożyska, aby liczba wyników nie przekraczała {{tooManyResultsThreshold}}",
+          "action": {
+            "nextStep": "Przejdź do wyboru łożyska"
+          }
+        },
+        "bearingsList": {
+          "heading": "Wybór łożyska",
+          "intro": "Wybierz łożysko",
+          "selectOption": "Obliczanie smaru do łożyska",
+          "disabledOption": "Nie można przeprowadzić obliczenia na łożysku",
+          "action": {
+            "previousStep": "Zmień kryteria filtrowania"
+          }
+        },
+        "error": {
+          "modelCreation": "Obecnie nie można przeprowadzić obliczeń dla łożyska {{bearing}}."
+        },
+        "tooManyResults": {
+          "message": "Zbyt wiele wyników ({{resultsCount}})",
+          "hint": "Znaleźliśmy zbyt dużo wpisów w naszej bazie danych. Użyj filtrów, aby zmniejszyć liczbę wyników do maksymalnie {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Nie znaleziono wyników",
+          "hint": "Nie znaleźliśmy żadnego łożyska spełniającego podane kryteria filtrowania. Sprawdź, czy ustawienia filtrowania są poprawne."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Łożysko kulkowe skośne poprzeczne",
+      "IDO_RADIAL_BALL_BEARING": "Łożysko kulkowe zwykłe poprzeczne",
+      "IDO_RADIAL_ROLLER_BEARING": "Łożysko toczne poprzeczne",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Samonastawne łożysko kulkowe",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Kuliste łożysko toczne poprzeczne",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Stożkowe łożysko toczne poprzeczne",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Łożysko kulkowe skośne wzdłużne",
+      "IDO_THRUST_BALL_BEARING": "Łożysko kulkowe wzdłużne",
+      "IDO_THRUST_ROLLER_BEARING": "Łożysko toczne wzdłużne"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Warunki pracy dla",
+      "backButton": "Zmień wybór łożyska"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "NOWOŚĆ: Ustawienie domyślnego produktu (opcjonalnie)"
+      },
+      "grease": {
+        "label": "Smar",
+        "defaultOption": "Wszystkie smary",
+        "tooltip": "Wybrany smar będzie traktowany priorytetowo w raporcie z obliczeń. Jeśli wybrany smar nie jest odpowiedni, zostaną wyświetlone zamienniki.",
+        "schaefflerGreases": "Smary Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Smar uniwersalny nie Schaeffler",
+        "nonSchaefflerHighTempGreases": "Smar wysokotemperaturowy nie Schaeffler"
+      },
+      "concept1": {
+        "label": "Oblicz ustawienie kasety (CONCEPT1)",
+        "tooltip": "Jeśli obliczenie ustawienia kasety jest włączone, ustawienie CONCEPT1 jest dodatkowo obliczane i wyświetlane, o ile to możliwe. Wyłączenie sprawia, że ustawienie CONCEPT1 nie jest wyświetlane"
+      }
+    },
+    "requiredInformation": "* wymagane informacje",
+    "loads": "Obciążenia",
+    "load": "Spodziewane obciążenie",
+    "radialLoad": "Obciążenie promieniowe",
+    "axialLoad": "Obciążenie osiowe",
+    "loadsUnknown": "Dokładne obciążenia nieznane?",
+    "enterRadialAndAxialLoad": "Wprowadź obciążenie promieniowe i osiowe",
+    "motionInfluences": "Wpływy ruchu",
+    "kindOfMotion": "Rodzaj ruchu",
+    "rotating": "obrotowy",
+    "oscillating": "oscylacyjny",
+    "relativeRotationalSpeed": "Prędkość obrotowa",
+    "onePerMinute": "obr./min",
+    "shiftFrequency": "Częstotliwość przesunięcia",
+    "shiftAngle": "Kąt przesunięcia",
+    "degree": "°",
+    "otherInfluences": "Czynniki środowiskowe",
+    "operatingTemperature": "Temperatura robocza",
+    "environmentTemperature": "Temperatura otoczenia",
+    "environmentalImpactOnGreaseDuration": "Warunki pracy",
+    "low": "niska",
+    "moderate": "umiarkowana",
+    "high": "wysoka",
+    "greaseSelection": "Wybór smaru",
+    "selectGrease": "Wybierz smar",
+    "showResults": "Pokaż wyniki",
+    "resetInputs": "Zresetuj dane wejściowe",
+    "pleaseEnter": "Wprowadź {{label}}",
+    "errors": {
+      "min": "Wartość jest zbyt niska",
+      "max": "Wartość jest zbyt wysoka",
+      "required": "To pole jest obowiązkowe",
+      "lowerThanEnvironmentTemperature": "Nie może być niższa niż temperatura otoczenia",
+      "innerOuterInconsistent": "Średnica otworu musi być mniejsza niż średnica zewnętrzna",
+      "minMaxInconsistent": "Wartość minimalna musi być mniejsza od wartości maksymalnej",
+      "anyLoad": "Wymagane jest jedno obciążenie"
+    },
+    "loadLevel": {
+      "veryLow": "Bardzo niskie (C0/P około 30)",
+      "low": "Niskie (C0/P około 15)",
+      "moderate": "Umiarkowane (C0/P około 10)",
+      "high": "Wysokie (C0/P około 5)",
+      "veryHigh": "Bardzo wysokie (C0/P około 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Obciążenie w kierunku promieniowym (musi być podane jako wartość bezwzględną)",
+      "axialLoad": "Obciążenie w kierunku osiowym (musi być podane jako wartość bezwzględną)",
+      "rotationSpeed": "Względna prędkość obrotowa pomiędzy pierścieniem wewnętrznym i zewnętrznym (należy określić jako wartość bezwzględną)",
+      "operatingTemperature": "Temperatura robocza łożyska (w razie potrzeby oszacować). Informacje na temat wpływu smaru na żywotność można znaleźć w odpowiedziach na często zadawane pytania.",
+      "environmentTemperature": "Temperatura otoczenia maszyny.",
+      "otherInfluences": "Współczynnik wpływu wilgoci, drgań i obciążeń udarowych na żywotność smaru.",
+      "shiftFrequency": "Liczba ruchów oscylacyjnych na minutę (pełny cykl, do tyłu i do przodu)",
+      "shiftAngle": "Kąt między punktami zwrotnymi ruchów oscylacyjnych (patrz także odpowiedzi na często zadawane pytania)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Raport",
+      "backButton": "Zmień warunki pracy",
+      "247hint": "Wszystkie wyniki przy założeniu pracy ciągłej 24/7."
+    },
+    "showCompactView": "Pokaż widok kompaktowy",
+    "reportSectionInput": "Dane wejściowe",
+    "shopLinkText": "Dostępne produkty",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Niestety, wystąpił błąd. Spróbuj ponownie później.",
+    "snackbarRetry": "Ponów próbę",
+    "allValues": "Pokaż wszystkie wartości",
+    "hideValues": "Ukryj dodatkowe wartości",
+    "limitResults": "Pokaż pierwsze {{ results }} wyników",
+    "remainingResults": "{{ results }} innych wyników",
+    "resultsDefault": "Sortowanie wyników według częstotliwości smarowania ({ amount }}/{{ complete }} smarów)",
+    "resultsWithPreferred": "Wynikowe wybrane smary i zamienniki posortowane według częstotliwości smarowania",
+    "guideValues": "* wartości orientacyjne",
+    "errorsWarningsNotes": "Błędy, ostrzeżenia i uwagi",
+    "concept1": "Ustawienie kasety CONCEPT1",
+    "concept1Impossible": "Automatyczne smarowanie w systemie CONCEPT1 nie jest możliwe. W pewnych okolicznościach ilość smaru jest zbyt wysoka lub zbyt niska. W przypadku zmiany parametrów roboczych zastosowanie może być możliwe",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} mies. <span>({{size}} ml)</span>",
+      "details": "Szczegóły",
+      "why": "Dlaczego?",
+      "adjustConditions": "Smar ten nadaje się do CONCEPT1 i ogólnego zastosowania, ale ilość smaru obliczona na podstawie warunków pracy jest zbyt wysoka albo zbyt niska dla CONCEPT1",
+      "SUITED": "nadaje się",
+      "NOT_SUITED": "nie nadaje się",
+      "UNSUITED": "niezdatny",
+      "CONDITIONAL": "warunkowo",
+      "UNKNOWN": "nieznana zdatność",
+      "detailsConcept1": "Szczegóły dotyczące CONCEPT1",
+      "concept1Size": "kaseta {{ size }}ml",
+      "emptyDuration": "do rozładunku w ciągu {{ duration }} mies.",
+      "arrowSetting": "ustaw strzałkę na {{ setting }}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Przy wybranych warunkach pracy nie można użyć CONCEPT1 z {{ size }}ml",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
+    },
+    "previouslySelected": "Obliczenia przeprowadzono dla smaru typu {{ type }} np. &bdquo;{{ grease }}&rdquo;. Nie odpowiadamy za jakość smaru",
+    "compatibilityCheck": "Kompatybilność musi zostać zweryfikowana",
+    "initialGreaseQuantity": "Początkowa ilość smaru*",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "Okres eksploatacji smaru*",
+    "additiveRequired": "Wymagany dodatek",
+    "additiveRequiredTooltip": "Ocena panujących warunków pracy (obciążenie i współczynnik lepkości kappa), patrz również odpowiedzi na często zadawane pytania.",
+    "effectiveEpAdditivation": "Skuteczna poprawa właściwości dodatkami EP",
+    "baseOilViscosityAt40": "Lepkość oleju bazowego w 40°C",
+    "viscosityRatio": "Współczynnik lepkości",
+    "lowerTemperatureLimit": "Dolna granica temperatury",
+    "lowerTemperatureLimitTooltip": "Dolna granica temperatury na początku ruchu łożyska, patrz również odpowiedzi na często zadawane pytania.",
+    "upperTemperatureLimit": "Górna granica temperatury",
+    "upperTemperatureLimitTooltip": "Praca w wyższej temperaturze prowadzi do silnego skrócenia okresu eksploatacji smaru, patrz odpowiedzi na często zadawane pytania.",
+    "density": "Gęstość",
+    "lowFriction": "Niskie tarcie",
+    "suitableForVibrations": "Odporność na wibracje",
+    "supportForSeals": "Wspomaganie uszczelnienia",
+    "h1Registration": "Atest H1 (certyfikat koszerności i halal NSF-H1)",
+    "errors": "Błędy",
+    "warnings": "Ostrzeżenia",
+    "notes": "Uwagi",
+    "day": "dzień",
+    "days": "dni",
+    "hours": "{{ hours }} hours",
+    "grams": "gr",
+    "undefinedValue": "nie dotyczy",
+    "suitabilityLevelExtremelySuitable": "najlepiej się nadaje",
+    "suitabilityLevelHighlySuitable": "bardzo dobrze się nadaje",
+    "suitabilityLevelSuitable": "nadaje się",
+    "suitabilityLevelLessSuitable": "mniej się nadaje",
+    "suitabilityLevelNotSuitable": "nie nadaje się",
+    "insufficientGreaseResultHint": "Niewystarczające",
+    "insufficientGreaseResultTooltip": "Aplikacja Grease App oceniła przydatność smaru jako niewystarczającą. Dział inżynierii Schaeffler jest do dyspozycji w razie pytań.",
+    "preferredGreaseHintSelected": "Domyślnie wybrane",
+    "preferredGreaseHintAlternative": "Zamiennik",
+    "preferredGreaseHintAlternativeTooltip": "Jest to zamiennik z portfolio produktów Schaeffler, oparty na danych wejściowych z kroku 2.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Wybór łożyska",
+      "parameters": "Warunki pracy",
+      "report": "Raport"
+    }
+  },
+  "legal": {
+    "imprint": "Stopka",
+    "dataPrivacy": "Ochrona danych osobowych",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Regulamin",
+    "cookiePolicy": "Zasady stosowania plików cookie"
+  },
+  "error": {
+    "content": "Niestety, wystąpił błąd. Spróbuj ponownie później.",
+    "confirm": "Potwierdź",
+    "retry": "Ponów próbę"
+  }
+}

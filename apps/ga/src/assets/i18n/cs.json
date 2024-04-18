@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Vypočítat hodnocenou životnost, ztrátu výkonu tření, základní parametry mazání, překrývající se kmitočty a emise CO₂e"
+        },
+        "button": "medias EasyCalc",
+        "tag": "Nový"
+      },
+      "calculator": {
+        "title": {
+          "main": "Kalkulačka maziva",
+          "sub": "Powered by Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Maziva ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.cz/cs/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Lubrikátory"
+        },
+        "externalLink": "https://medias.schaeffler.cz/cs/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Nástroje pro údržbu",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.cz/cs/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.cz/cs/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Katalog produktů"
+        },
+        "externalLink": "https://medias.schaeffler.cz/cs/"
+      },
+      "contact": {
+        "title": {
+          "main": "Odborníci společnosti Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "ČASTO KLADEN&Eacute; DOTAZY"
+        },
+        "externalLink": "https://medias.schaeffler.cz/cs/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Pomocí aplikace Grease app můžete snadno a&nbsp;rychle vypočítat optimální množství maziva pro ložisko při prvním mazání a&nbsp;domazávání. Kromě toho získáte doporučení pro domazávací intervaly a&nbsp;provozní životnost maziva s&nbsp;ohledem na konkrétní provozní podmínky.</br>Domazávání lze provádět ručně nebo automaticky pomocí lubrikátorů Schaeffler.</br>Získáte také přehled vlastností maziv Arcanol. Zvýrazněna jsou maziva s&nbsp;vysokým domazávacím intervalem."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Nastavení jazyka"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Soustava jednotek",
+        "sub": "Ovlivňuje specifikace hmotnosti a&nbsp;teploty"
+      },
+      "label": "soustava jednotek",
+      "options": {
+        "metric": "Metrické jednotky",
+        "imperial": "Imperiální jednotky"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Vstupní stránka",
+      "greaseCalculator": "Kalkulačka maziva"
+    },
+    "button": {
+      "close": "Zavřít"
+    },
+    "label": {
+      "defaultSet": "Nastavit {{label}}",
+      "defaultSelect": "Vybrat {{label}}"
+    },
+    "hint": {
+      "applicationReload": "Aplikace bude znovu načtena."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min.",
+    "max": "Max.",
+    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
+  "bearing": {
+    "title": {
+      "main": "Výběr ložiska",
+      "sub": "Vyberte ložisko pro výpočet mazání"
+    },
+    "label": {
+      "bearingType": "Typ ložiska",
+      "boreDiameter": "Vnitřní průměr",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Vnější průměr",
+      "outsideDiameterShort": "D",
+      "width": "Šířka",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Přímý výběr ložiska",
+        "advancedSelection": "Pokročilý výběr ložiska"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Zadejte označení ložiska, např. 6226",
+        "selectButton": "Vybrat ložisko",
+        "selectOption": "<span class=\"text-medium-emphasis\">Výpočet mazání pro ložisko</span> &nbsp;<strong>{{bearing}}{{disabled}}</strong>",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Není možný výpočet mazání pro</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "Nebyly nalezeny žádné výsledky"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Kritéria filtru",
+          "intro": "Zúžit výběr ložiska na maximální počet výsledků {{tooManyResultsThreshold}}",
+          "action": {
+            "nextStep": "Přejít na výběr ložiska"
+          }
+        },
+        "bearingsList": {
+          "heading": "Výběr ložiska",
+          "intro": "Vyberte ložisko",
+          "selectOption": "Výpočet maziva pro ložisko",
+          "disabledOption": "Výpočet pro ložisko není možný",
+          "action": {
+            "previousStep": "Upravit kritéria filtru"
+          }
+        },
+        "error": {
+          "modelCreation": "Pro ložisko {{bearing}} nelze momentálně provést žádný výpočet."
+        },
+        "tooManyResults": {
+          "message": "Příliš mnoho výsledků ({{resultsCount}})",
+          "hint": "V&nbsp;databázi bylo nalezeno příliš mnoho záznamů. Pomocí filtrů snižte počet výsledků na maximálně {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Nebyly nalezeny žádné výsledky",
+          "hint": "Pro použité filtry se nám nepodařilo najít žádné ložisko. Zkontrolujte nastavení filtru a&nbsp;ujistěte se, že používáte platný výběr."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radiální kuličkové ložisko s&nbsp;kosoúhlým stykem",
+      "IDO_RADIAL_BALL_BEARING": "Radiální kuličkové ložisko s&nbsp;hlubokou drážkou",
+      "IDO_RADIAL_ROLLER_BEARING": "Radiální válečkové ložisko",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Naklápěcí kuličkové ložisko",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Radiální soudečkové ložisko",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Radiální kuželíkové ložisko",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Axiální kuličkové ložisko s&nbsp;kosoúhlým stykem",
+      "IDO_THRUST_BALL_BEARING": "Axiální kuličkové ložisko",
+      "IDO_THRUST_ROLLER_BEARING": "Axiální válečkové ložisko"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Provozní podmínky pro",
+      "backButton": "Změnit výběr ložiska"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "NOVINKA: Předvýběr produktu (volitelné)"
+      },
+      "grease": {
+        "label": "Mazivo",
+        "defaultOption": "Všechna maziva",
+        "tooltip": "Vybrané mazivo bude ve zprávě s&nbsp;výpočtem upřednostněno. Pokud vybrané mazivo není vhodné, zobrazí se alternativy.",
+        "schaefflerGreases": "Maziva Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Víceúčelové mazivo jiné než Schaeffler",
+        "nonSchaefflerHighTempGreases": "Vysokoteplotní mazivo jiné než Schaeffler"
+      },
+      "concept1": {
+        "label": "Vypočítat nastavení kartuše (CONCEPT1)",
+        "tooltip": "Pokud je aktivován výpočet nastavení kartuše, je navíc vypočteno a&nbsp;zobrazeno nastavení CONCEPT1, pokud je to možné. Deaktivace nezobrazuje žádné nastavení CONCEPT1"
+      }
+    },
+    "requiredInformation": "* povinné informace",
+    "loads": "Zatížení",
+    "load": "Očekávané zatížení",
+    "radialLoad": "Radiální zatížení",
+    "axialLoad": "Axiální zatížení",
+    "loadsUnknown": "Přesná zatížení nejsou známá?",
+    "enterRadialAndAxialLoad": "Zadat radiální a axiální zatížení",
+    "motionInfluences": "Vlivy pohybu",
+    "kindOfMotion": "Typ pohybu",
+    "rotating": "otáčivý",
+    "oscillating": "oscilační",
+    "relativeRotationalSpeed": "Rychlost otáčení",
+    "onePerMinute": "ot/min",
+    "shiftFrequency": "Frekvence posunu",
+    "shiftAngle": "&Uacute;hel posunu",
+    "degree": "°",
+    "otherInfluences": "Faktory prostředí",
+    "operatingTemperature": "Provozní teplota",
+    "environmentTemperature": "Okolní teplota",
+    "environmentalImpactOnGreaseDuration": "Provozní podmínky",
+    "low": "nízká",
+    "moderate": "střední",
+    "high": "vysoká",
+    "greaseSelection": "Výběr maziva",
+    "selectGrease": "Vybrat mazivo",
+    "showResults": "Zobrazit výsledky",
+    "resetInputs": "Resetovat vstupy",
+    "pleaseEnter": "Zadat {{label}}",
+    "errors": {
+      "min": "Hodnota je příliš nízká",
+      "max": "Hodnota je příliš vysoká",
+      "required": "Toto je povinné pole",
+      "lowerThanEnvironmentTemperature": "Nesmí být nižší než okolní teplota",
+      "innerOuterInconsistent": "Vnitřní průměr musí být menší než vnější průměr",
+      "minMaxInconsistent": "Minimální hodnota musí být menší než maximální hodnota",
+      "anyLoad": "Je vyžadováno jedno zatížení"
+    },
+    "loadLevel": {
+      "veryLow": "velmi nízké (C0/P přibližně 30)",
+      "low": "nízké (C0/P přibližně 15)",
+      "moderate": "střední (C0/P přibližně 10)",
+      "high": "vysoké (C0/P přibližně 5)",
+      "veryHigh": "velmi vysoké (C0/P přibližně 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Zatížení v&nbsp;radiálním směru (zadává se jako absolutní hodnota)",
+      "axialLoad": "Zatížení v&nbsp;axiálním směru (zadává se jako absolutní hodnota)",
+      "rotationSpeed": "Relativní rychlost otáčení mezi vnitřním a&nbsp;vnějším kroužkem (zadává se jako absolutní hodnota)",
+      "operatingTemperature": "Provozní teplota ložiska (v&nbsp;případě potřeby odhadněte). Informace o&nbsp;vlivu na životnost maziva naleznete v&nbsp;často kladených dotazech.",
+      "environmentTemperature": "Teplota okolního prostředí stroje.",
+      "otherInfluences": "Faktor vlivu vlhkosti, vibrací a&nbsp;rázového zatížení na provozní životnost maziva.",
+      "shiftFrequency": "Počet kmitavých pohybů za minutu (celý cyklus, tam a&nbsp;zpět)",
+      "shiftAngle": "&Uacute;hel mezi body otáčení pro kmitavé pohyby (viz také často kladené dotazy)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Zpráva pro",
+      "backButton": "Změnit provozní podmínky",
+      "247hint": "Všechny výsledky se vztahují k&nbsp;nepřetržitému provozu."
+    },
+    "showCompactView": "Zobrazit kompaktní pohled",
+    "reportSectionInput": "Vstup",
+    "shopLinkText": "Dostupné produkty",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Bohužel došlo k&nbsp;chybě. Zkuste to znovu později.",
+    "snackbarRetry": "Zkusit znovu",
+    "allValues": "Zobrazit všechny hodnoty",
+    "hideValues": "Skrýt další hodnoty",
+    "limitResults": "Zobrazit prvních {{ results }} výsledků",
+    "remainingResults": "{{ results }} dalších výsledků",
+    "resultsDefault": "Výsledky seřazené podle intervalu domazávání ({{ amount }}/{{ complete }} maziv)",
+    "resultsWithPreferred": "Výsledky pro vybraná a&nbsp;alternativní maziva seřazené podle intervalu domazávání",
+    "guideValues": "* orientační hodnoty",
+    "errorsWarningsNotes": "Chyby, varování a poznámky",
+    "concept1": "Nastavení kartuše CONCEPT1",
+    "concept1Impossible": "Automatické mazání s&nbsp;nastavením CONCEPT1 není možné. Za určitých okolností je množství maziva příliš vysoké nebo příliš nízké. Pokud se změní provozní parametry, použití může být možné",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} měsíců <span>({{size}} ml)</span>",
+      "details": "Podrobnosti",
+      "why": "Proč?",
+      "adjustConditions": "Toto mazivo je vhodné pro CONCEPT1 a použití obecně, ale provozní podmínky vedou k ;výpočtu mazání, které je pro nastavení CONCEPT1 příliš vysoké nebo nízké",
+      "SUITED": "vhodné",
+      "NOT_SUITED": "není vhodné",
+      "UNSUITED": "nevhodné",
+      "CONDITIONAL": "podmíněné",
+      "UNKNOWN": "vhodnost neznámá",
+      "detailsConcept1": "Podrobnosti pro nastavení CONCEPT1",
+      "concept1Size": "{{ size }}ml kartuš",
+      "emptyDuration": "pro odlehčení za {{ duration }} měsíců",
+      "arrowSetting": "nastavit šipku na {{ setting }}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Pro zvolené provozní podmínky je použití nastavení CONCEPT1 s&nbsp;{{ size }}ml nevhodné",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
+    },
+    "previouslySelected": "Výpočet byl proveden pro {{ type }} např. &bdquo;{{ grease }}&ldquo;. Za kvalitu maziva neneseme odpovědnost",
+    "compatibilityCheck": "Je třeba zkontrolovat kompatibilitu",
+    "initialGreaseQuantity": "Počáteční množství maziva *",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "Provozní životnost maziva *",
+    "additiveRequired": "Požadované aditivum",
+    "additiveRequiredTooltip": "Posouzení pro převládající provozní podmínky (zatížení a&nbsp;viskozitní poměr kappa), viz také často kladené dotazy.",
+    "effectiveEpAdditivation": "&Uacute;činná aditivace EP",
+    "baseOilViscosityAt40": "Viskozita základového oleje při 40&nbsp;°C",
+    "viscosityRatio": "Viskozitní poměr",
+    "lowerTemperatureLimit": "Dolní mezní hodnota teploty",
+    "lowerTemperatureLimitTooltip": "Dolní mezní hodnota teploty na začátku pohybu ložiska viz často kladené dotazy.",
+    "upperTemperatureLimit": "Horní mezní hodnota teploty",
+    "upperTemperatureLimitTooltip": "Provoz nad touto teplotou vede k&nbsp;velmi krátké provozní životnosti maziva, často kladené dotazy.",
+    "density": "Hustota",
+    "lowFriction": "Nízké tření",
+    "suitableForVibrations": "Vhodné pro vibrace",
+    "supportForSeals": "Podpora utěsňování",
+    "h1Registration": "Registrace H1 (certifikace košer a&nbsp;halal NSF-H1)",
+    "errors": "Chyby",
+    "warnings": "Varování",
+    "notes": "Poznámky",
+    "day": "den",
+    "days": "dnů",
+    "hours": "{{ hours }} hours",
+    "grams": "Gramm",
+    "undefinedValue": "není k&nbsp;dispozici",
+    "suitabilityLevelExtremelySuitable": "mimořádně vhodné",
+    "suitabilityLevelHighlySuitable": "velmi vhodné",
+    "suitabilityLevelSuitable": "vhodné",
+    "suitabilityLevelLessSuitable": "méně vhodné",
+    "suitabilityLevelNotSuitable": "není vhodné",
+    "insufficientGreaseResultHint": "Nedostatečné",
+    "insufficientGreaseResultTooltip": "Aplikace Grease App vyhodnotila vhodnost maziva jako nedostatečnou. V&nbsp;případě dalších dotazů se obraťte na technické služby společnosti Schaeffler.",
+    "preferredGreaseHintSelected": "Předem vybrané",
+    "preferredGreaseHintAlternative": "Alternativa",
+    "preferredGreaseHintAlternativeTooltip": "Toto je alternativní výrobek z&nbsp;portfolia výrobků společnosti Schaeffler na základě jejich údajů z&nbsp;kroku&nbsp;2.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Výběr ložiska",
+      "parameters": "Provozní podmínky",
+      "report": "Nahlásit"
+    }
+  },
+  "legal": {
+    "imprint": "Tiráž",
+    "dataPrivacy": "Ochrana osobních údajů",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Podmínky použití",
+    "cookiePolicy": "Zásady používání souborů cookie"
+  },
+  "error": {
+    "content": "Bohužel došlo k&nbsp;chybě. Zkuste to znovu později.",
+    "confirm": "Potvrdit",
+    "retry": "Zkusit znovu"
+  }
+}

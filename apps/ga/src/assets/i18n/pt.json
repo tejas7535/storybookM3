@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Calcular vida útil estimada, perda de potência por atrito, parâmetros básicos de lubrificação, frequências de sobre-rolamento e emissão de CO₂e."
+        },
+        "button": "medias EasyCalc",
+        "tag": "Novo"
+      },
+      "calculator": {
+        "title": {
+          "main": "Calculadora de massa lubrificante",
+          "sub": "Com o apoio da Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Massas lubrificantes ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.pt/pt/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Lubrificadores"
+        },
+        "externalLink": "https://medias.schaeffler.pt/pt/lubricate/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Ferramentas de manutenção",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.pt/pt/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.pt/pt/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catálogo de produtos"
+        },
+        "externalLink": "https://medias.schaeffler.pt/pt"
+      },
+      "contact": {
+        "title": {
+          "main": "Especialistas da Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "Perguntas frequentes"
+        },
+        "externalLink": "https://medias.schaeffler.pt/pt/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Com a Grease App, poderá calcular de forma rápida e fácil a quantidade ideal de lubrificante para o seu rolamento, nas tarefas de lubrificação inicial e relubrificação. Além disso, obterá recomendações relativamente aos intervalos de relubrificação e &agrave; vida &uacute;til da massa lubrificante, tendo em conta as condições de funcionamento específicas.</br>A relubrificação pode ser efetuada manual ou automaticamente com os lubrificadores da Schaeffler.</br>Receberá também uma descrição geral das propriedades das massas lubrificantes Arcanol. As massas lubrificantes com um intervalo de relubrificação elevado são destacadas."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Definições de idioma"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Sistema de unidades",
+        "sub": "Afeta as especificações de peso e temperatura"
+      },
+      "label": "sistema de unidades",
+      "options": {
+        "metric": "Unidades métricas",
+        "imperial": "Unidades imperiais"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Página de destino",
+      "greaseCalculator": "Calculadora de massa lubrificante"
+    },
+    "button": {
+      "close": "Fechar"
+    },
+    "label": {
+      "defaultSet": "Definir {{label}}",
+      "defaultSelect": "Selecionar {{label}}"
+    },
+    "hint": {
+      "applicationReload": "A aplicação será recarregada."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Mín.",
+    "max": "Máx.",
+    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
+  "bearing": {
+    "title": {
+      "main": "Seleção de rolamentos",
+      "sub": "Selecione um rolamento para efetuar um cálculo de lubrificação"
+    },
+    "label": {
+      "bearingType": "Tipo de rolamento",
+      "boreDiameter": "Diâmetro do orifício",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Diâmetro exterior",
+      "outsideDiameterShort": "D",
+      "width": "Largura",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Seleção direta de rolamentos",
+        "advancedSelection": "Seleção avançada de rolamentos"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Introduza a designação do rolamento, por exemplo, 6226",
+        "selectButton": "Selecionar rolamento",
+        "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de lubrificação para o rolamento</span> &nbsp;<strong> {{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Não é possível calcular a lubrificação para</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "Não foram encontrados resultados"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Critérios de filtragem",
+          "intro": "Limitar a seleção de rolamentos a um máximo de {{tooManyResultsThreshold}} resultados",
+          "action": {
+            "nextStep": "Aceder &agrave; seleção de rolamentos"
+          }
+        },
+        "bearingsList": {
+          "heading": "Seleção de rolamentos",
+          "intro": "Selecione um rolamento",
+          "selectOption": "Cálculo de massa lubrificante para o rolamento",
+          "disabledOption": "Não é possível efetuar cálculos para o rolamento",
+          "action": {
+            "previousStep": "Ajustar os critérios de filtragem"
+          }
+        },
+        "error": {
+          "modelCreation": "Atualmente, não é possível efetuar cálculos para o rolamento {{bearing}}."
+        },
+        "tooManyResults": {
+          "message": "Demasiados resultados ({{resultsCount}})",
+          "hint": "Encontrámos demasiadas entradas na nossa base de dados. Utilize os filtros para reduzir o n&uacute;mero de resultados para um máximo de {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Não foram encontrados resultados",
+          "hint": "Não foi possível encontrar rolamentos para os filtros aplicados. Verifique as definições de filtragem para garantir que está a utilizar uma seleção válida."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Rolamento de esferas de contacto angular radial",
+      "IDO_RADIAL_BALL_BEARING": "Rolamento rígido de esferas radial",
+      "IDO_RADIAL_ROLLER_BEARING": "Rolamento de roletes radial",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Rolamento de esferas autocompensador",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Rolamento de roletes esférico radial",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Rolamento de roletes cónico radial",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Rolamento de esferas de contacto angular axial",
+      "IDO_THRUST_BALL_BEARING": "Rolamento de esferas axial",
+      "IDO_THRUST_ROLLER_BEARING": "Rolamento de roletes axial"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Condições de funcionamento para",
+      "backButton": "Alterar a seleção de rolamentos"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "NOVO: Pré-seleção de produtos (opcional)"
+      },
+      "grease": {
+        "label": "Massa lubrificante",
+        "defaultOption": "Todas as massas lubrificantes",
+        "tooltip": "A massa lubrificante selecionada terá prioridade no relatório de cálculo. Se a massa lubrificante selecionada não for adequada, serão apresentadas alternativas.",
+        "schaefflerGreases": "Massas lubrificantes da Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Massa lubrificante multifuncional não Schaeffler",
+        "nonSchaefflerHighTempGreases": "Massa lubrificante para temperaturas elevadas não Schaeffler"
+      },
+      "concept1": {
+        "label": "Calcular a definição do cartucho (CONCEPT1)",
+        "tooltip": "Se o cálculo da definição do cartucho estiver ativado, a definição CONCEPT1 será adicionalmente calculada e apresentada, se possível. Se esta opção for desativada, a definição CONCEPT1 não é apresentada"
+      }
+    },
+    "requiredInformation": "*Informações necessárias",
+    "loads": "Cargas",
+    "load": "Carga prevista",
+    "radialLoad": "Carga radial",
+    "axialLoad": "Carga axial",
+    "loadsUnknown": "As cargas exatas são desconhecidas?",
+    "enterRadialAndAxialLoad": "Introduzir a carga radial e a carga axial",
+    "motionInfluences": "Influ&ecirc;ncias de movimento",
+    "kindOfMotion": "Tipo de movimento",
+    "rotating": "rotativo",
+    "oscillating": "oscilante",
+    "relativeRotationalSpeed": "Velocidade de rotação",
+    "onePerMinute": "rpm",
+    "shiftFrequency": "Frequ&ecirc;ncia de mudança",
+    "shiftAngle": "&Acirc;ngulo de mudança",
+    "degree": "°",
+    "otherInfluences": "Fatores ambientais",
+    "operatingTemperature": "Temperatura de funcionamento",
+    "environmentTemperature": "Temperatura ambiente",
+    "environmentalImpactOnGreaseDuration": "Condições de funcionamento",
+    "low": "baixa",
+    "moderate": "moderada",
+    "high": "elevada",
+    "greaseSelection": "Seleção da massa lubrificante",
+    "selectGrease": "Selecionar a massa lubrificante",
+    "showResults": "Mostrar resultados",
+    "resetInputs": "Repor entradas",
+    "pleaseEnter": "Introduzir {{label}}",
+    "errors": {
+      "min": "O valor é demasiado baixo",
+      "max": "O valor é demasiado elevado",
+      "required": "Este campo é obrigatório",
+      "lowerThanEnvironmentTemperature": "Não pode ser inferior &agrave; temperatura ambiente",
+      "innerOuterInconsistent": "O diâmetro do orifício deve ser inferior ao diâmetro exterior",
+      "minMaxInconsistent": "O valor mínimo deve ser inferior ao valor máximo",
+      "anyLoad": "&Eacute; necessária uma carga"
+    },
+    "loadLevel": {
+      "veryLow": "muito reduzida (C0/P aprox. 30)",
+      "low": "reduzida (C0/P aprox. 15)",
+      "moderate": "moderada (C0/P aprox. 10)",
+      "high": "elevada (C0/P aprox. 5)",
+      "veryHigh": "muito elevada (C0/P aprox. 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Carga na direção radial (a especificar como valor absoluto)",
+      "axialLoad": "Carga na direção axial (a especificar como valor absoluto)",
+      "rotationSpeed": "Velocidade de rotação relativa entre o anel interior e exterior (a especificar como valor absoluto)",
+      "operatingTemperature": "Temperatura de funcionamento do rolamento (se necessário, fazer uma estimativa). Consulte a secção de perguntas frequentes para obter informações sobre o impacto na vida &uacute;til da massa lubrificante.",
+      "environmentTemperature": "Temperatura do ambiente circundante da máquina.",
+      "otherInfluences": "Fator de influ&ecirc;ncia na humidade, nas vibrações e na carga de choque para a vida &uacute;til da massa lubrificante.",
+      "shiftFrequency": "N&uacute;mero de movimentos de oscilação por minuto (ciclo completo, para a frente e para trás)",
+      "shiftAngle": "&Acirc;ngulo entre os pontos de viragem para movimentos de oscilação (consultar também a secção de perguntas frequentes)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Relatório para",
+      "backButton": "Alterar as condições de funcionamento",
+      "247hint": "Todos os resultados são referentes a um funcionamento contínuo de 24 horas por dia, 7 dias por semana."
+    },
+    "showCompactView": "Mostrar a vista compacta",
+    "reportSectionInput": "Entrada",
+    "shopLinkText": "Produtos disponíveis",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Infelizmente, ocorreu um erro. Tente novamente mais tarde.",
+    "snackbarRetry": "Tentar novamente",
+    "allValues": "Mostrar todos os valores",
+    "hideValues": "Ocultar os valores adicionais",
+    "limitResults": "Mostrar os primeiros {{results}} resultados",
+    "remainingResults": "{{results}} outros resultados",
+    "resultsDefault": "Resultados ordenados por intervalo de relubrificação ({{amount}}/{{complete}} massas lubrificantes)",
+    "resultsWithPreferred": "Resultados para massas lubrificantes selecionadas e alternativas ordenados por intervalo de relubrificação",
+    "guideValues": "*Valores-guia",
+    "errorsWarningsNotes": "Erros, alertas e notas",
+    "concept1": "Definição do cartucho CONCEPT1",
+    "concept1Impossible": "Não é possível efetuar uma lubrificação automática com a CONCEPT1. Em determinadas circunstâncias, a quantidade de lubrificação é demasiado elevada ou demasiado baixa. Se os parâmetros de funcionamento forem alterados, a sua utilização pode ser possível",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{months}} meses <span>({{size}}&nbsp;ml)</span>",
+      "details": "Detalhes",
+      "why": "Porqu&ecirc;?",
+      "adjustConditions": "Esta massa lubrificante é adequada para a CONCEPT1 e a aplicação em geral, mas as condições de funcionamento resultam num cálculo de lubrificação demasiado elevado ou baixo para a CONCEPT1",
+      "SUITED": "adequado",
+      "NOT_SUITED": "não adequado",
+      "UNSUITED": "inadequado",
+      "CONDITIONAL": "condicional",
+      "UNKNOWN": "adequação desconhecida",
+      "detailsConcept1": "Detalhes da CONCEPT1",
+      "concept1Size": "Cartucho de {{size}}&nbsp;ml",
+      "emptyDuration": "para descarga em {{duration}} meses",
+      "arrowSetting": "definir a seta para {{setting}}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ml}}&nbsp;ml",
+      "sizeHint": "Para as condições de funcionamento selecionadas, não é adequado utilizar a CONCEPT1 com {{size}}&nbsp;ml",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1 ({{title}} {{size}}&nbsp;ml)"
+    },
+    "previouslySelected": "O cálculo foi efetuado para {{type}}, por exemplo, &quot;{{grease}}&quot;. Não nos responsabilizamos pela qualidade da massa lubrificante",
+    "compatibilityCheck": "A respetiva compatibilidade deve ser verificada",
+    "initialGreaseQuantity": "Quantidade inicial de massa lubrificante*",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "Vida &uacute;til da massa lubrificante*",
+    "additiveRequired": "Aditivo necessário",
+    "additiveRequiredTooltip": "Avaliação das condições de funcionamento prevalecentes (carga e relação de viscosidade kappa), consultar também a secção de perguntas frequentes.",
+    "effectiveEpAdditivation": "Aditivação eficaz de PE",
+    "baseOilViscosityAt40": "Viscosidade do óleo base a 40&nbsp;°C",
+    "viscosityRatio": "Relação de viscosidade",
+    "lowerTemperatureLimit": "Limite inferior da temperatura",
+    "lowerTemperatureLimitTooltip": "Limite inferior da temperatura no início do movimento do rolamento, consultar também a secção de perguntas frequentes.",
+    "upperTemperatureLimit": "Limite superior da temperatura",
+    "upperTemperatureLimitTooltip": "Um funcionamento que exceda esta temperatura resulta numa vida &uacute;til muito reduzida da massa lubrificante, consultar a secção de perguntas frequentes.",
+    "density": "Densidade",
+    "lowFriction": "Baixa fricção",
+    "suitableForVibrations": "Adequado para vibrações",
+    "supportForSeals": "Suporte para vedante",
+    "h1Registration": "Registo H1 (certificação NSF-H1 para Kosher e Halal)",
+    "errors": "Erros",
+    "warnings": "Alertas",
+    "notes": "Notas",
+    "day": "dia",
+    "days": "dias",
+    "hours": "{{ hours }} hours",
+    "grams": "Gramm",
+    "undefinedValue": "N/A",
+    "suitabilityLevelExtremelySuitable": "extremamente adequado",
+    "suitabilityLevelHighlySuitable": "altamente adequado",
+    "suitabilityLevelSuitable": "adequado",
+    "suitabilityLevelLessSuitable": "pouco adequado",
+    "suitabilityLevelNotSuitable": "não adequado",
+    "insufficientGreaseResultHint": "Insuficiente",
+    "insufficientGreaseResultTooltip": "A adequação da massa lubrificante foi classificada como insuficiente pela Grease App. Para obter mais informações, contacte o serviço de engenharia da Schaeffler.",
+    "preferredGreaseHintSelected": "Pré-selecionado",
+    "preferredGreaseHintAlternative": "Alternativa",
+    "preferredGreaseHintAlternativeTooltip": "Este é um produto alternativo do portefólio de produtos da Schaeffler, com base nos dados introduzidos no passo&nbsp;2.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Seleção de rolamentos",
+      "parameters": "Condições de funcionamento",
+      "report": "Relatório"
+    }
+  },
+  "legal": {
+    "imprint": "Impressão",
+    "dataPrivacy": "Privacidade de dados",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Termos de utilização",
+    "cookiePolicy": "Política de cookies"
+  },
+  "error": {
+    "content": "Infelizmente, ocorreu um erro. Tente novamente mais tarde.",
+    "confirm": "Confirmar",
+    "retry": "Tentar novamente"
+  }
+}

@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Nominal ömür, sürtünme gücü kaybı, temel yağlama parametreleri, devir daim frekansları ve CO₂e emisyonlarını hesaplayın"
+        },
+        "button": "medias EasyCalc",
+        "tag": "Yeni"
+      },
+      "calculator": {
+        "title": {
+          "main": "Gres Hesaplayıcı",
+          "sub": "Bearinx tarafından desteklenmektedir"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "ARCANOL Gresleri",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Yağlayıcılar"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Bakım Araçları",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Ürün Kataloğu"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler Uzmanları"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "SSS"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Grease App ile ilk yağlama ve yeniden yağlama amacıyla rulmanınız için optimum yağ miktarını hızlı ve kolay şekilde hesaplayabilirsiniz. Ayrıca, belirli çalışma koşulları göz önünde bulundurularak yeniden yağlama aralıkları ve gres kullanım ömürleri için öneriler alırsınız.</br>Yeniden yağlama, Schaeffler yağlayıcılarla manuel veya otomatik olarak yapılabilir.</br>Ayrıca Arcanol yağlama greslerinin özelliklerine genel bir bakış da elde edersiniz. Yüksek yeniden yağlama aralığı olan greslere dikkat çekilir."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Dil Ayarları"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Birim sistemi",
+        "sub": "Ağırlık ve sıcaklık özelliklerini etkiler"
+      },
+      "label": "birim sistemi",
+      "options": {
+        "metric": "Metrik birimler",
+        "imperial": "İngiliz birimleri"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Açılış Sayfası",
+      "greaseCalculator": "Gres Hesaplayıcı"
+    },
+    "button": {
+      "close": "Kapat"
+    },
+    "label": {
+      "defaultSet": "{{label}} öğesini ayarla",
+      "defaultSelect": "{{label}} öğesini seç"
+    },
+    "hint": {
+      "applicationReload": "Uygulama yeniden yüklenecektir."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min.",
+    "max": "Maks.",
+    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
+  "bearing": {
+    "title": {
+      "main": "Rulman Seçimi",
+      "sub": "Lütfen yağlama hesaplaması yapmak için bir rulman seçin"
+    },
+    "label": {
+      "bearingType": "Rulman Tipi",
+      "boreDiameter": "Delik Çapı",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Dış Çap",
+      "outsideDiameterShort": "D",
+      "width": "Genişlik",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Doğrudan rulman seçimi",
+        "advancedSelection": "Gelişmiş rulman seçimi"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Bir rulman tanımı girin, ör. 6226",
+        "selectButton": "Rulmanı seç",
+        "selectOption": "<strong>{{bearing}}</strong>{{disabled}}&nbsp;<span class=\"text-medium-emphasis\">rulmanı için yağlama hesaplaması</span>",
+        "disabledOption": "<strong>{{bearing}}</strong>{{disabled}}&nbsp;<span class=\"text-medium-emphasis\">için yağlama hesaplaması yapılamıyor</span>",
+        "noResults": "Sonuç bulunamadı"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Filtre kriterleri",
+          "intro": "Rulman seçimini, maksimum {{tooManyResultsThreshold}} sonuç verecek şekilde daraltın",
+          "action": {
+            "nextStep": "Rulman Seçimine Git"
+          }
+        },
+        "bearingsList": {
+          "heading": "Rulman Seçimi",
+          "intro": "Lütfen bir rulman seçin",
+          "selectOption": "Rulman için gres hesaplaması",
+          "disabledOption": "Rulmanda hesaplama yapılamıyor",
+          "action": {
+            "previousStep": "Filtre kriterlerini ayarlayın"
+          }
+        },
+        "error": {
+          "modelCreation": "{{bearing}} rulmanı için şu anda hesaplama yapılamıyor."
+        },
+        "tooManyResults": {
+          "message": "Çok fazla sonuç ({{resultsCount}})",
+          "hint": "Veritabanımızda çok fazla giriş bulduk. Lütfen sonuç sayısını maksimum {{tooManyResultsThreshold}} değerine düşürmek için filtreleri kullanın."
+        },
+        "noResults": {
+          "message": "Sonuç bulunamadı",
+          "hint": "Uygulanan filtreler için herhangi bir rulman bulamadık. Lütfen filtre ayarlarınızı kontrol ederek geçerli bir seçim kullandığınızdan emin olun."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radyal eğik bilyalı rulman",
+      "IDO_RADIAL_BALL_BEARING": "Radyal sabit bilyalı rulman",
+      "IDO_RADIAL_ROLLER_BEARING": "Radyal makaralı rulman",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Sarkaçlı bilyalı rulman",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Radyal küresel bilyalı rulman",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Radyal konik makaralı rulman",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Eksenel eğik bilyalı rulman",
+      "IDO_THRUST_BALL_BEARING": "Eksenel bilyalı rulman",
+      "IDO_THRUST_ROLLER_BEARING": "Eksenel makaralı rulman"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Şunun çalışma koşulları:",
+      "backButton": "Rulman seçimini değiştir"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "YENİ: Ürün Ön Seçimi (isteğe bağlı)"
+      },
+      "grease": {
+        "label": "Gres",
+        "defaultOption": "Tüm Gresler",
+        "tooltip": "Hesaplama raporunda seçilen grese öncelik verilir. Seçilen gres uygun değilse alternatifler görüntülenir.",
+        "schaefflerGreases": "Schaeffler Gresler",
+        "nonSchaefflerMultiPurposeGreases": "Schaeffler Ürünü Olmayan Çok Amaçlı Gres",
+        "nonSchaefflerHighTempGreases": "Schaeffler Ürünü Olmayan Yüksek Sıcaklık Gresi"
+      },
+      "concept1": {
+        "label": "Kartuş ayarını hesapla (CONCEPT1)",
+        "tooltip": "Kartuş ayarının hesaplanması etkinleştirilirse CONCEPT1 ayarı da hesaplanır ve mümkünse görüntülenir. Devre Dışı Bırak seçeneği, CONCEPT1 ayarını göstermez"
+      }
+    },
+    "requiredInformation": "* gerekli bilgiler",
+    "loads": "Yükler",
+    "load": "Beklenen yük",
+    "radialLoad": "Radyal yük",
+    "axialLoad": "Eksenel yük",
+    "loadsUnknown": "Tam yükler bilinmiyor mu?",
+    "enterRadialAndAxialLoad": "Radyal ve eksenel yükü girin",
+    "motionInfluences": "Hareket etkileri",
+    "kindOfMotion": "Hareket tipi",
+    "rotating": "döner",
+    "oscillating": "salınımlı",
+    "relativeRotationalSpeed": "Dönüş hızı",
+    "onePerMinute": "dev/dak",
+    "shiftFrequency": "Kayma sıklığı",
+    "shiftAngle": "Kayma açısı",
+    "degree": "°",
+    "otherInfluences": "Çevresel faktörler",
+    "operatingTemperature": "Çalışma sıcaklığı",
+    "environmentTemperature": "Ortam sıcaklığı",
+    "environmentalImpactOnGreaseDuration": "Çalışma koşulları",
+    "low": "düşük",
+    "moderate": "orta",
+    "high": "yüksek",
+    "greaseSelection": "Gres seçimi",
+    "selectGrease": "Gres seç",
+    "showResults": "Sonuçları göster",
+    "resetInputs": "Girişleri sıfırla",
+    "pleaseEnter": "{{label}} öğesini girin",
+    "errors": {
+      "min": "Değer çok düşük",
+      "max": "Değer çok yüksek",
+      "required": "Zorunlu alan",
+      "lowerThanEnvironmentTemperature": "Ortam sıcaklığından az olamaz",
+      "innerOuterInconsistent": "Delik çapı, dış çaptan küçük olmalıdır",
+      "minMaxInconsistent": "Minimum değer, maksimum değerden küçük olmalıdır",
+      "anyLoad": "Bir yük gereklidir"
+    },
+    "loadLevel": {
+      "veryLow": "çok düşük (C0/P yaklaşık 30)",
+      "low": "düşük (C0/P yaklaşık 15)",
+      "moderate": "orta (C0/P yaklaşık 10)",
+      "high": "yüksek (C0/P yaklaşık 5)",
+      "veryHigh": "çok yüksek (C0/P yaklaşık 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Radyal yönde yük (mutlak değer olarak belirtilecektir)",
+      "axialLoad": "Eksenel yönde yük (mutlak değer olarak belirtilecektir)",
+      "rotationSpeed": "İç ve dış halka arasındaki bağıl dönüş hızı (mutlak değer olarak belirtilecektir)",
+      "operatingTemperature": "Rulman çalışma sıcaklığı (gerekirse lütfen tahmin edin). Gresin kullanım ömrü üzerindeki etkisi hakkında bilgi için lütfen SSS bölümüne bakın.",
+      "environmentTemperature": "Makinenin çevresindeki ortamın sıcaklığı.",
+      "otherInfluences": "Gresin çalışma ömrü üzerindeki nem, titreşim ve darbe yükleme etkisi faktörü.",
+      "shiftFrequency": "Dakika başına salınım hareketi sayısı (tam döngü, geri ve ileri)",
+      "shiftAngle": "Salınım hareketleri için dönüş noktaları arasındaki açı (ayrıca bkz. SSS)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Şunun raporu:",
+      "backButton": "Çalışma koşullarını değiştirin",
+      "247hint": "Tüm sonuçlar sürekli 24/7 çalışma içindir."
+    },
+    "showCompactView": "Kompakt görünümü göster",
+    "reportSectionInput": "Giriş",
+    "shopLinkText": "Mevcut ürünler",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Maalesef bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+    "snackbarRetry": "Tekrar dene",
+    "allValues": "Tüm değerleri göster",
+    "hideValues": "Ek değerleri gizle",
+    "limitResults": "İlk{{ results }} Sonucu göster",
+    "remainingResults": "{{ results }} diğer Sonuç",
+    "resultsDefault": "Yeniden yağlama aralığına göre sıralanan sonuçlar ({{ amount }}/{{ complete }} gres)",
+    "resultsWithPreferred": "Seçilen ve alternatif greslerin sonuçları yeniden yağlama aralığına göre sıralanır",
+    "guideValues": "* kılavuz değerler",
+    "errorsWarningsNotes": "Hatalar, Uyarılar ve Notlar",
+    "concept1": "CONCEPT1 kartuş ayarı",
+    "concept1Impossible": "CONCEPT1 ile otomatik yağlama mümkün değildir. Bazı durumlarda yağlama miktarı çok yüksek veya çok düşüktür. Çalışma parametreleri değiştirilirse kullanım mümkün olabilir",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} ay <span>({{size}} ml)</span>",
+      "details": "Ayrıntılar",
+      "why": "Neden?",
+      "adjustConditions": "Bu gres, genel olarak CONCEPT1 ve uygulama için uygundur ancak çalışma koşulları, CONCEPT1 için yüksek veya düşük yağlama hesaplamasına neden olur",
+      "SUITED": "uygun",
+      "NOT_SUITED": "uygun değil",
+      "UNSUITED": "uygun değil",
+      "CONDITIONAL": "koşullu",
+      "UNKNOWN": "uygunluk bilinmiyor",
+      "detailsConcept1": "CONCEPT1 ile ilgili ayrıntılar",
+      "concept1Size": "{{ size }} ml kartuş",
+      "emptyDuration": "{{ duration }} ay içinde boşaltma için",
+      "arrowSetting": "oku {{ setting }} olarak ayarla",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }} ml",
+      "sizeHint": "{{ size }} ml ile CONCEPT1 kullanarak seçtiğiniz çalışma koşulları için uygun değildir",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} ml)"
+    },
+    "previouslySelected": "Hesaplama, {{ type }} için yapılmıştır, ör. &quot;{{ grease }}&quot;. Gres kalitesinden sorumlu değiliz",
+    "compatibilityCheck": "Uyumluluk kontrol edilmelidir",
+    "initialGreaseQuantity": "İlk gres miktarı *",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "Gres kullanım ömrü*",
+    "additiveRequired": "Katkı maddesi gerekli",
+    "additiveRequiredTooltip": "Geçerli çalışma koşulları (yük ve viskozite oranı kappa değeri) değerlendirmesi, ayrıca bkz. SSS.",
+    "effectiveEpAdditivation": "Etkin EP katkısı ekleme",
+    "baseOilViscosityAt40": "40°C&apos;de baz yağ viskozitesi",
+    "viscosityRatio": "Viskozite oranı",
+    "lowerTemperatureLimit": "Alt sıcaklık sınırı",
+    "lowerTemperatureLimitTooltip": "Rulmanın hareket başlangıcındaki sıcaklık alt sınırı için ayrıca SSS bölümüne bakın.",
+    "upperTemperatureLimit": "Üst sıcaklık sınırı",
+    "upperTemperatureLimitTooltip": "Bu sıcaklığın dışında çalışma, gres kullanım ömrünün çok kısa olmasına neden olur, SSS.",
+    "density": "Yoğunluk",
+    "lowFriction": "Düşük Sürtünme",
+    "suitableForVibrations": "Titreşimler için uygun",
+    "supportForSeals": "Sızdırmazlık desteği",
+    "h1Registration": "H1 kaydı (NSF-H1 koşer ve helal sertifikası)",
+    "errors": "Hatalar",
+    "warnings": "Uyarılar",
+    "notes": "Notlar",
+    "day": "gün",
+    "days": "gün",
+    "hours": "{{ hours }} hours",
+    "grams": "Gram",
+    "undefinedValue": "yok",
+    "suitabilityLevelExtremelySuitable": "son derece uygun",
+    "suitabilityLevelHighlySuitable": "çok uygun",
+    "suitabilityLevelSuitable": "uygun",
+    "suitabilityLevelLessSuitable": "daha az uygun",
+    "suitabilityLevelNotSuitable": "uygun değil",
+    "insufficientGreaseResultHint": "Yetersiz",
+    "insufficientGreaseResultTooltip": "Yağlama gresinin uygunluğu, Grease App tarafından yetersiz olarak derecelendirilmiştir. Başka sorularınız varsa lütfen Schaeffler mühendislik hizmetleri ile iletişime geçin.",
+    "preferredGreaseHintSelected": "Önceden seçilmiş",
+    "preferredGreaseHintAlternative": "Alternatif",
+    "preferredGreaseHintAlternativeTooltip": "Bu, adım 2&apos;deki girdilerine dayalı olarak Schaeffler ürün portföyünden alternatif bir üründür.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Rulman Seçimi",
+      "parameters": "Çalışma koşulları",
+      "report": "Rapor"
+    }
+  },
+  "legal": {
+    "imprint": "Baskı",
+    "dataPrivacy": "Veri Gizliliği",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Kullanım Şartları",
+    "cookiePolicy": "Çerez Politikası"
+  },
+  "error": {
+    "content": "Maalesef bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+    "confirm": "Onayla",
+    "retry": "Tekrar dene"
+  }
+}

@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Calcolare la durata nominale, la perdita di potenza per attrito, i parametri di lubrificazione di base, le frequenze di sovrarotolamento e le emissioni di CO₂e."
+        },
+        "button": "medias EasyCalc",
+        "tag": "Nuovo"
+      },
+      "calculator": {
+        "title": {
+          "main": "Calcolatore di grasso",
+          "sub": "Con tecnologia Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Grassi ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.it/it/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Lubrificatori"
+        },
+        "externalLink": "https://medias.schaeffler.it/it/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Strumenti di manutenzione",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.it/it/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.it/it/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catalogo prodotti"
+        },
+        "externalLink": "https://medias.schaeffler.it/it"
+      },
+      "contact": {
+        "title": {
+          "main": "Esperti Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "DOMANDE FREQUENTI"
+        },
+        "externalLink": "https://medias.schaeffler.it/it/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Grease App",
+    "description": "Grease App consente di calcolare in maniera rapida e semplice la quantità ottimale di lubrificante per un cuscinetto, sia per la lubrificazione iniziale che per la rilubrificazione. L'app, inoltre, fornisce consigli sugli intervalli di rilubrificazione e sulla durata del grasso tenendo conto delle condizioni di esercizio specifiche.</br>La rilubrificazione pu&ograve; essere eseguita manualmente o automaticamente con i lubrificatori Schaeffler.</br>L'app, infine, fornisce anche una panoramica delle proprietà dei grassi lubrificanti Arcanol, evidenziando i grassi con un elevato intervallo di rilubrificazione."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Impostazioni della lingua"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Unità di misura",
+        "sub": "Influisce sulle specifiche di peso e temperatura"
+      },
+      "label": "unità di misura",
+      "options": {
+        "metric": "Unità metriche",
+        "imperial": "Unità imperiali"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Pagina di destinazione",
+      "greaseCalculator": "Calcolatore di grasso"
+    },
+    "button": {
+      "close": "Chiudi"
+    },
+    "label": {
+      "defaultSet": "Imposta {{label}}",
+      "defaultSelect": "Seleziona {{label}}"
+    },
+    "hint": {
+      "applicationReload": "L'applicazione verrà ricaricata."
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min",
+    "max": "Max",
+    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
+  "bearing": {
+    "title": {
+      "main": "Selezione del cuscinetto",
+      "sub": "Seleziona un cuscinetto per eseguire il calcolo della lubrificazione"
+    },
+    "label": {
+      "bearingType": "Tipo di cuscinetto",
+      "boreDiameter": "Diametro del foro",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Diametro esterno",
+      "outsideDiameterShort": "D",
+      "width": "Larghezza",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Selezione diretta del cuscinetto",
+        "advancedSelection": "Selezione avanzata del cuscinetto"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Inserisci la designazione di un cuscinetto, ad es. 6226",
+        "selectButton": "Seleziona il cuscinetto",
+        "selectOption": "<span class=\"text-medium-emphasis\">Calcolo della lubrificazione per il cuscinetto</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Impossibile calcolare la lubrificazione per</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "Nessun risultato trovato"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Criteri di filtro",
+          "intro": "Limita la selezione del cuscinetto a {{tooManyResultsThreshold}} risultati",
+          "action": {
+            "nextStep": "Passa alla selezione cuscinetto"
+          }
+        },
+        "bearingsList": {
+          "heading": "Selezione del cuscinetto",
+          "intro": "Seleziona un cuscinetto",
+          "selectOption": "Calcolo del grasso per il cuscinetto",
+          "disabledOption": "Nessun calcolo possibile per il cuscinetto",
+          "action": {
+            "previousStep": "Regola i criteri di filtro"
+          }
+        },
+        "error": {
+          "modelCreation": "Attualmente non &egrave; possibile eseguire alcun calcolo per il cuscinetto {{bearing}}."
+        },
+        "tooManyResults": {
+          "message": "Troppi risultati ({{resultsCount}})",
+          "hint": "Sono state trovate troppe voci nel nostro database. Usa i filtri per ridurre il numero di risultati a {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Nessun risultato trovato",
+          "hint": "Non &egrave; stato possibile trovare alcun cuscinetto per i filtri applicati. Verifica le impostazioni del filtro per controllare se la selezione &egrave; valida."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Cuscinetto a sfere obliquo radiale",
+      "IDO_RADIAL_BALL_BEARING": "Cuscinetto a sfere a gola profonda radiale",
+      "IDO_RADIAL_ROLLER_BEARING": "Cuscinetto a rulli radiale",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Cuscinetto a sfere autoallineanti",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Cuscinetto a rulli oscillante radiale",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Cuscinetto a rulli conici radiale",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Cuscinetto a sfere obliquo reggispinta",
+      "IDO_THRUST_BALL_BEARING": "Cuscinetto a sfere reggispinta",
+      "IDO_THRUST_ROLLER_BEARING": "Cuscinetto a rulli reggispinta"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Condizioni di esercizio per",
+      "backButton": "Modifica la selezione del cuscinetto"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "NOVIT&Agrave;: Preselezione del prodotto (facoltativa)"
+      },
+      "grease": {
+        "label": "Grasso",
+        "defaultOption": "Tutti i grassi",
+        "tooltip": "Il grasso selezionato sarà prioritario nel rapporto di calcolo. Se il grasso selezionato non &egrave; adatto, verranno visualizzate alternative.",
+        "schaefflerGreases": "Grassi Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Grasso multiuso non Schaeffler",
+        "nonSchaefflerHighTempGreases": "Grasso per alte temperature non Schaeffler"
+      },
+      "concept1": {
+        "label": "Calcola impostazione cartuccia (CONCEPT1)",
+        "tooltip": "Se il calcolo dell'impostazione della cartuccia &egrave; attivato, viene calcolata e visualizzata anche l'impostazione CONCEPT1, se possibile. Disattiva non mostra alcuna impostazione CONCEPT1"
+      }
+    },
+    "requiredInformation": "* Informazioni necessarie",
+    "loads": "Carichi",
+    "load": "Carico previsto",
+    "radialLoad": "Carico radiale",
+    "axialLoad": "Carico assiale",
+    "loadsUnknown": "I carichi esatti non sono noti?",
+    "enterRadialAndAxialLoad": "Inserisci il carico radiale e assiale",
+    "motionInfluences": "Influssi sul movimento",
+    "kindOfMotion": "Tipo di movimento",
+    "rotating": "rotante",
+    "oscillating": "oscillante",
+    "relativeRotationalSpeed": "Velocità di rotazione",
+    "onePerMinute": "giri/min",
+    "shiftFrequency": "Frequenza di sfasamento",
+    "shiftAngle": "Angolo di sfasamento",
+    "degree": "°",
+    "otherInfluences": "Fattori ambientali",
+    "operatingTemperature": "Temperatura di esercizio",
+    "environmentTemperature": "Temperatura ambiente",
+    "environmentalImpactOnGreaseDuration": "Condizioni di esercizio",
+    "low": "basso",
+    "moderate": "moderato",
+    "high": "alto",
+    "greaseSelection": "Selezione del grasso",
+    "selectGrease": "Seleziona il grasso",
+    "showResults": "Mostra risultati",
+    "resetInputs": "Azzera i dati inseriti",
+    "pleaseEnter": "Inserisci {{label}}",
+    "errors": {
+      "min": "Il valore &egrave; troppo basso",
+      "max": "Il valore &egrave; troppo alto",
+      "required": "Questo campo &egrave; obbligatorio",
+      "lowerThanEnvironmentTemperature": "Non pu&ograve; essere inferiore alla temperatura ambiente",
+      "innerOuterInconsistent": "Il diametro del foro deve essere inferiore al diametro esterno",
+      "minMaxInconsistent": "Il valore minimo deve essere inferiore al valore massimo",
+      "anyLoad": "&Egrave; necessario inserire un carico"
+    },
+    "loadLevel": {
+      "veryLow": "Bassissimo (C0/P ca. 30)",
+      "low": "Basso (C0/P ca. 15)",
+      "moderate": "Moderato (C0/P ca. 10)",
+      "high": "Alto (C0/P ca. 5)",
+      "veryHigh": "Altissimo (C0/P ca. 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Carico in direzione radiale (da specificare come valore assoluto)",
+      "axialLoad": "Carico in direzione assiale (da specificare come valore assoluto)",
+      "rotationSpeed": "Velocità di rotazione relativa tra l'anello interno e quello esterno (da specificare come valore assoluto)",
+      "operatingTemperature": "Temperatura di esercizio del cuscinetto (se necessario, fornire una stima). Per informazioni sui fattori che influiscono sulla durata del grasso, consulta le domande frequenti.",
+      "environmentTemperature": "Temperatura dell'ambiente attorno al macchinario.",
+      "otherInfluences": "Fattore relativo agli influssi dell'umidità, delle vibrazioni e del carico d'urto sulla durata del grasso.",
+      "shiftFrequency": "Numero di movimenti di oscillazione al minuto (ciclo completo, avanti e indietro)",
+      "shiftAngle": "Angolo tra i punti di svolta per movimenti oscillanti (vedere anche le domande frequenti)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Rapporto per",
+      "backButton": "Modifica le condizioni di esercizio",
+      "247hint": "Tutti i risultati si riferiscono all'uso continuo (24/7)."
+    },
+    "showCompactView": "Mostra vista compatta",
+    "reportSectionInput": "Input",
+    "shopLinkText": "Prodotti disponibili",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "Si &egrave; verificato un errore. Riprova pi&ugrave; tardi.",
+    "snackbarRetry": "Riprova",
+    "allValues": "Mostra tutti i valori",
+    "hideValues": "Nascondi valori aggiuntivi",
+    "limitResults": "Mostra i primi {{ results }} risultati",
+    "remainingResults": "Altri {{ results }} risultati",
+    "resultsDefault": "Risultati ordinati in base all'intervallo di rilubrificazione ({{ amount }}/{{ complete }} grassi)",
+    "resultsWithPreferred": "Risultati per i grassi selezionati e i grassi alternativi ordinati in base all'intervallo di rilubrificazione",
+    "guideValues": "* Valori guida",
+    "errorsWarningsNotes": "Errori, avvertenze e note",
+    "concept1": "Impostazione cartuccia CONCEPT1",
+    "concept1Impossible": "La lubrificazione automatica con CONCEPT1 non &egrave; possibile. In determinate circostanze, la quantità di lubrificazione &egrave; troppo alta o troppo bassa. Se i parametri di esercizio vengono modificati, l'uso pu&ograve; essere possibile",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} mesi <span>({{size}} ml)</span>",
+      "details": "Dettagli",
+      "why": "Perch&eacute;?",
+      "adjustConditions": "Questo grasso &egrave; adatto per CONCEPT1 e l'applicazione in generale, ma le condizioni di esercizio determinano un calcolo della lubrificazione alto o basso per CONCEPT1",
+      "SUITED": "adatto",
+      "NOT_SUITED": "non adatto",
+      "UNSUITED": "inadatto",
+      "CONDITIONAL": "condizionale",
+      "UNKNOWN": "idoneità non nota",
+      "detailsConcept1": "Dettagli per CONCEPT1",
+      "concept1Size": "Cartuccia da {{ size }}ml",
+      "emptyDuration": "per scarico entro {{ duration }} mesi",
+      "arrowSetting": "imposta la freccia su {{ setting }}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }}ml",
+      "sizeHint": "Per le condizioni di esercizio selezionate, l'uso di CONCEPT1 con {{ size }}ml non &egrave; adatto",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }}ml)"
+    },
+    "previouslySelected": "Il calcolo &egrave; stato eseguito per {{ type }}, ad es. &quot;{{ grease }}&quot;. Non siamo responsabili della qualità del grasso",
+    "compatibilityCheck": "&Egrave; necessario verificare la compatibilità",
+    "initialGreaseQuantity": "Quantità iniziale di grasso *",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "Durata del grasso *",
+    "additiveRequired": "Additivo richiesto",
+    "additiveRequiredTooltip": "Valutazione delle condizioni di esercizio prevalenti (carico e rapporto di viscosità kappa). Vedere anche le domande frequenti.",
+    "effectiveEpAdditivation": "Additivazione EP efficace",
+    "baseOilViscosityAt40": "Viscosità olio base a 40 °C.",
+    "viscosityRatio": "Rapporto di viscosità",
+    "lowerTemperatureLimit": "Limite di temperatura inferiore",
+    "lowerTemperatureLimitTooltip": "Limite inferiore per la temperatura all'inizio del movimento del cuscinetto. Vedere anche le domande frequenti.",
+    "upperTemperatureLimit": "Limite di temperatura superiore",
+    "upperTemperatureLimitTooltip": "L'uso con temperature superiori a questa riduce notevolmente la durata del grasso. Vedere anche le domande frequenti.",
+    "density": "Densità",
+    "lowFriction": "Basso attrito",
+    "suitableForVibrations": "Adatto per le vibrazioni",
+    "supportForSeals": "Supporto per tenuta",
+    "h1Registration": "Registrazione H1 (certificazione Kosher e Halal NSF-H1)",
+    "errors": "Errori",
+    "warnings": "Avvertenze",
+    "notes": "Note",
+    "day": "giorno",
+    "days": "giorni",
+    "hours": "{{ hours }} hours",
+    "grams": "Gramm",
+    "undefinedValue": "n.d.",
+    "suitabilityLevelExtremelySuitable": "estremamente adatto",
+    "suitabilityLevelHighlySuitable": "molto adatto",
+    "suitabilityLevelSuitable": "adatto",
+    "suitabilityLevelLessSuitable": "meno adatto",
+    "suitabilityLevelNotSuitable": "non adatto",
+    "insufficientGreaseResultHint": "Insufficiente",
+    "insufficientGreaseResultTooltip": "L'idoneità del grasso lubrificante &egrave; stata valutata come insufficiente da Grease App. Per ulteriori domande, contatta il servizio tecnico Schaeffler.",
+    "preferredGreaseHintSelected": "Preselezionato",
+    "preferredGreaseHintAlternative": "Alternativa",
+    "preferredGreaseHintAlternativeTooltip": "&Egrave; un prodotto alternativo del portafoglio di prodotti Schaeffler basato sugli input del passo 2.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Selezione del cuscinetto",
+      "parameters": "Condizioni di esercizio",
+      "report": "Rapporto"
+    }
+  },
+  "legal": {
+    "imprint": "Stampa",
+    "dataPrivacy": "Privacy dei dati",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Condizioni d'uso",
+    "cookiePolicy": "Informativa sui cookie"
+  },
+  "error": {
+    "content": "Si &egrave; verificato un errore. Riprova pi&ugrave; tardi.",
+    "confirm": "Conferma",
+    "retry": "Riprova"
+  }
+}

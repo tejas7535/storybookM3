@@ -1,0 +1,363 @@
+{
+  "appTitle": "Grease App",
+  "homepage": {
+    "cards": {
+      "easyCalc": {
+        "title": {
+          "main": "medias EasyCalc",
+          "sub": "Рассчитать номинальный срок службы, потерю мощности при трении, основные параметры смазки, частоты перекатывания и выбросы CO₂e"
+        },
+        "button": "medias EasyCalc",
+        "tag": "новый"
+      },
+      "calculator": {
+        "title": {
+          "main": "Калькулятор смазки",
+          "sub": "На основе Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "Смазки ARCANOL",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Лубрикаторы"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Инструменты для технического обслуживания",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Каталог продукции"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Эксперты Schaeffler"
+        },
+        "externalLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en"
+      },
+      "faq": {
+        "title": {
+          "main": "ЧаВо"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/faq/grease-app"
+      }
+    }
+  },
+  "meta": {
+    "title": "Приложение для смазки",
+    "description": "С помощью приложения для смазки можно быстро и легко рассчитать оптимальное количество смазки для начальной и повторной смазки подшипника. Кроме того, вы получите рекомендации по интервалам повторной смазки и сроку службы смазки с учетом конкретных условий эксплуатации.</br>Повторную смазку можно выполнять вручную или автоматически с помощью лубрикаторов Schaeffler.</br>Вы также получите общую информацию о свойствах смазочных материалов Arcanol. Смазки с длинными интервалами повторной смазки выделены."
+  },
+  "userSettings": {
+    "language": {
+      "title": {
+        "main": "Языковые настройки"
+      }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Система единиц измерения",
+        "sub": "Влияет на параметры массы и температуры"
+      },
+      "label": "система единиц измерения",
+      "options": {
+        "metric": "Метрические единицы измерения",
+        "imperial": "Британские единицы измерения"
+      }
+    }
+  },
+  "shared": {
+    "breadcrumbs": {
+      "landingPage": "Начальная страница",
+      "greaseCalculator": "Калькулятор смазки"
+    },
+    "button": {
+      "close": "Закрыть"
+    },
+    "label": {
+      "defaultSet": "Задать {{label}}",
+      "defaultSelect": "Выбрать {{label}}"
+    },
+    "hint": {
+      "applicationReload": "Приложение перезапустится."
+    },
+    "unit": {
+      "millimeterShort": "мм"
+    },
+    "min": "Мин.",
+    "max": "Макс.",
+    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "feedbackButton": "Feedback",
+    "feedbackText": "Your feedback helps us to continuously improve our product."
+  },
+  "bearing": {
+    "title": {
+      "main": "Выбор подшипника",
+      "sub": "Выберите подшипник для расчета смазки"
+    },
+    "label": {
+      "bearingType": "Тип подшипника",
+      "boreDiameter": "Диаметр отверстия",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Наружный диаметр",
+      "outsideDiameterShort": "D",
+      "width": "Ширина",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Прямой выбор подшипника",
+        "advancedSelection": "Расширенный выбор подшипника"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Введите обозначение подшипника, например 6226",
+        "selectButton": "Выбор подшипника",
+        "selectOption": "<span class=\"text-medium-emphasis\">Расчет смазки для подшипника</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "disabledOption": "<span class=\"text-medium-emphasis\">Невозможно выполнить расчет смазки для</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
+        "noResults": "Результаты не найдены"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Критерии фильтрации",
+          "intro": "Ограничить максимальное количество результатов выбора подшипника до {{tooManyResultsThreshold}}",
+          "action": {
+            "nextStep": "Перейти к выбору подшипника"
+          }
+        },
+        "bearingsList": {
+          "heading": "Выбор подшипника",
+          "intro": "Выберите подшипник",
+          "selectOption": "Расчет смазки для подшипника",
+          "disabledOption": "Невозможно выполнить расчет для подшипника",
+          "action": {
+            "previousStep": "Настроить критерии фильтрации"
+          }
+        },
+        "error": {
+          "modelCreation": "В настоящее время невозможно выполнить расчет для подшипника {{bearing}}."
+        },
+        "tooManyResults": {
+          "message": "Слишком много результатов ({{resultsCount}})",
+          "hint": "В нашей базе данных найдено слишком много записей. Используйте фильтры, чтобы сократить максимальное количество результатов до {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "Результаты не найдены",
+          "hint": "Не удалось найти подшипник с примененными фильтрами. Проверьте настройки фильтрации, чтобы убедиться, что используются допустимые критерии выбора."
+        }
+      }
+    },
+    "bearingTypes": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Радиально-упорный шарикоподшипник",
+      "IDO_RADIAL_BALL_BEARING": "Радиальный шарикоподшипник с глубокой канавкой",
+      "IDO_RADIAL_ROLLER_BEARING": "Радиальный роликоподшипник",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Радиальный сферический шарикоподшипник",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Радиальный сферический роликоподшипник",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Радиальный конический роликоподшипник",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Упорно-радиальный шарикоподшипник",
+      "IDO_THRUST_BALL_BEARING": "Упорный шарикоподшипник",
+      "IDO_THRUST_ROLLER_BEARING": "Упорный роликоподшипник"
+    }
+  },
+  "parameters": {
+    "title": {
+      "main": "Рабочие условия для",
+      "backButton": "Изменить выбор подшипника"
+    },
+    "productPreselection": {
+      "title": {
+        "main": "НОВИНКА: Предварительный выбор продукции (дополнительно)"
+      },
+      "grease": {
+        "label": "Смазка",
+        "defaultOption": "Все смазки",
+        "tooltip": "Выбранная смазка будет иметь приоритет в отчете о расчете. Если выбранная смазка не подходит, будут показаны альтернативные варианты.",
+        "schaefflerGreases": "Смазки Schaeffler",
+        "nonSchaefflerMultiPurposeGreases": "Универсальная смазка (не Schaeffler)",
+        "nonSchaefflerHighTempGreases": "Высокотемпературная смазка (не Schaeffler)"
+      },
+      "concept1": {
+        "label": "Расчет настройки картриджа (CONCEPT1)",
+        "tooltip": "Если расчет настроек картриджа активирован, настройка CONCEPT1 дополнительно рассчитывается и отображается, если это возможно. При деактивации настройка CONCEPT1 не отображается"
+      }
+    },
+    "requiredInformation": "* требуемая информация",
+    "loads": "Нагрузки",
+    "load": "Ожидаемая нагрузка",
+    "radialLoad": "Радиальная нагрузка",
+    "axialLoad": "Осевая нагрузка",
+    "loadsUnknown": "Точные нагрузки неизвестны?",
+    "enterRadialAndAxialLoad": "Введите радиальную и осевую нагрузку",
+    "motionInfluences": "Влияние движения",
+    "kindOfMotion": "Тип движения",
+    "rotating": "вращение",
+    "oscillating": "качение",
+    "relativeRotationalSpeed": "Частота вращения",
+    "onePerMinute": "об/мин",
+    "shiftFrequency": "Частота смещения",
+    "shiftAngle": "Угол смещения",
+    "degree": "°",
+    "otherInfluences": "Факторы окружающей среды",
+    "operatingTemperature": "Рабочая температура",
+    "environmentTemperature": "Температура окружающей среды",
+    "environmentalImpactOnGreaseDuration": "Рабочие условия",
+    "low": "низк.",
+    "moderate": "умеренн.",
+    "high": "выс.",
+    "greaseSelection": "Выбор смазки",
+    "selectGrease": "Выбрать смазку",
+    "showResults": "Показать результаты",
+    "resetInputs": "Сбросить данные ввода",
+    "pleaseEnter": "Ввести {{label}}",
+    "errors": {
+      "min": "Слишком низкое значение",
+      "max": "Слишком высокое значение",
+      "required": "Это поле является обязательным для заполнения",
+      "lowerThanEnvironmentTemperature": "Не может быть ниже температуры окружающей среды",
+      "innerOuterInconsistent": "Диаметр отверстия должен быть меньше наружного диаметра",
+      "minMaxInconsistent": "Минимальное значение должно быть меньше максимального значения",
+      "anyLoad": "Требуется одна нагрузка"
+    },
+    "loadLevel": {
+      "veryLow": "очень низк. (C0/P прибл. 30)",
+      "low": "низк. (C0/P прибл. 15)",
+      "moderate": "умеренн. (C0/P прибл. 10)",
+      "high": "выс. (C0/P прибл. 5)",
+      "veryHigh": "очень выс. (C0/P прибл. 2)"
+    },
+    "tooltip": {
+      "radialLoad": "Нагрузка в радиальном направлении (указывается как абсолютное значение)",
+      "axialLoad": "Нагрузка в осевом направлении (указывается как абсолютное значение)",
+      "rotationSpeed": "Относительная частота вращения между внутренним и внешним кольцом (указывается как абсолютное значение)",
+      "operatingTemperature": "Рабочая температура подшипника (рассчитайте при необходимости). Информацию о факторах, влияющих на срок службы смазки, см. в разделе часто задаваемых вопросов.",
+      "environmentTemperature": "Температура окружающей среды машины.",
+      "otherInfluences": "Показатель влияния влажности, вибрации и ударных нагрузок на срок службы смазки.",
+      "shiftFrequency": "Количество движений качения в минуту (полный цикл, вперед-назад)",
+      "shiftAngle": "Угол между точками поворота при движениях качения (см. также раздел часто задаваемых вопросов)"
+    }
+  },
+  "calculationResult": {
+    "title": {
+      "main": "Отчет для",
+      "backButton": "Изменить рабочие условия",
+      "247hint": "Все результаты относятся к непрерывной круглосуточной работе (24/7)."
+    },
+    "showCompactView": "Показать компактный вид",
+    "reportSectionInput": "Ввод",
+    "shopLinkText": "Доступная продукция",
+    "shopBaseUrl": "https://medias.schaeffler.de/en",
+    "snackbarError": "К сожалению, произошла ошибка. Повторите попытку позже.",
+    "snackbarRetry": "Повторить попытку",
+    "allValues": "Показать все значения",
+    "hideValues": "Скрыть дополнительные значения",
+    "limitResults": "Показать первые {{ results }} результатов",
+    "remainingResults": "Еще {{ results }} результатов",
+    "resultsDefault": "Результаты отсортированы по интервалу повторной смазки ({{ amount }}/{{ complete }} смазок)",
+    "resultsWithPreferred": "Результаты для выбранных и альтернативных смазок, отсортированных по интервалу повторной смазки",
+    "guideValues": "* ориентировочные значения",
+    "errorsWarningsNotes": "Ошибки, предупреждения и примечания",
+    "concept1": "Настройка картриджа CONCEPT1",
+    "concept1Impossible": "Автоматическая смазка с использованием CONCEPT1 невозможна. При определенных обстоятельствах количество смазки слишком высокое или слишком низкое. Использование возможно при изменении эксплуатационных параметров",
+    "concept1Link": "success-stories/0171",
+    "concept1settings": {
+      "duration": "{{ months }} мес. <span>({{size}} мл)</span>",
+      "details": "Сведения",
+      "why": "Почему?",
+      "adjustConditions": "Эта смазка подходит для CONCEPT1 и общего применения, но из-за рабочих условий расчет смазки для CONCEPT1 может отображать слишком высокое или слишком низкое значение",
+      "SUITED": "подходит",
+      "NOT_SUITED": "не подходит",
+      "UNSUITED": "не подходит",
+      "CONDITIONAL": "в зависимости от условий",
+      "UNKNOWN": "пригодность неизвестна",
+      "detailsConcept1": "Сведения для CONCEPT1",
+      "concept1Size": "Картридж {{ size }} мл",
+      "emptyDuration": "для полного использования за {{ duration }} мес.",
+      "arrowSetting": "установить стрелку на {{ setting }}",
+      "setArrowSetting": "Setting: set arrow to {{ setting }}",
+      "ml": "{{ ml }} мл",
+      "sizeHint": "Использование CONCEPT1 объемом {{ size }} мл не подходит для выбранных вами рабочих условий",
+      "size60PossibleHint": "The determined CONCEPT 60 cartridge setting is larger than the maximum value that can be set. However, the lubricator can be operated with the setting displayed.",
+      "size125PossibleHint": "The determined CONCEPT 125 cartridge setting is larger than the maximum value that can be set. We recommend the use of a smaller CONCEPT lubricator.",
+      "unsuitableHint": "The determined CONCEPT cartridge setting is significantly larger than the maximum value that can be set. The use of a CONCEPT lubricator is not recommended with these relubrication quantities.",
+      "concept1ShopTitle": "CONCEPT1 ({{ title }} {{ size }} мл)"
+    },
+    "previouslySelected": "Расчет был выполнен для {{ type }}, например &quot;{{ grease }}&quot;. Мы не несем ответственности за качество смазки",
+    "compatibilityCheck": "Необходимо проверить совместимость",
+    "initialGreaseQuantity": "Начальное количество смазки *",
+    "relubricationQuantityPer1000OperatingHours": "Quantity of relubrication per 1000 operating hours *",
+    "relubricationPer7days": "Quantity of relubrication per 7 days *",
+    "relubricationPer30days": "Quantity of relubrication per 30 days *",
+    "relubricationPer365days": "Quantity of relubrication per 365 days *",
+    "relubricationQuantityPer365daysTooltip": "It is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
+    "greaseServiceLife": "Срок службы смазки *",
+    "additiveRequired": "Требуется присадка",
+    "additiveRequiredTooltip": "Оценка преобладающих рабочих условий (нагрузка и коэффициент вязкости Каппа), см. также часто задаваемые вопросы.",
+    "effectiveEpAdditivation": "Добавление эффективной противозадирной присадки",
+    "baseOilViscosityAt40": "Вязкость базового масла при 40&nbsp;°C",
+    "viscosityRatio": "Коэффициент вязкости",
+    "lowerTemperatureLimit": "Нижний предел температуры",
+    "lowerTemperatureLimitTooltip": "Нижний предел температуры в начале движения подшипника, см. также раздел часто задаваемых вопросов.",
+    "upperTemperatureLimit": "Верхний предел температуры",
+    "upperTemperatureLimitTooltip": "При работе с более высокой температурой срок службы смазки будет очень коротким, см. часто задаваемые вопросы.",
+    "density": "Плотность",
+    "lowFriction": "Низкое трение",
+    "suitableForVibrations": "Подходит в условиях вибрации",
+    "supportForSeals": "Опора для уплотнения",
+    "h1Registration": "Допуск H1 (NSF-H1, сертификат кошерности и сертификат на право маркировки знаком «Халяль»)",
+    "errors": "Ошибки",
+    "warnings": "Предупреждения",
+    "notes": "Примечания",
+    "day": "дн.",
+    "days": "дн.",
+    "hours": "{{ hours }} hours",
+    "grams": "г",
+    "undefinedValue": "нет данных",
+    "suitabilityLevelExtremelySuitable": "отлично подходит",
+    "suitabilityLevelHighlySuitable": "хорошо подходит",
+    "suitabilityLevelSuitable": "подходит",
+    "suitabilityLevelLessSuitable": "не очень подходит",
+    "suitabilityLevelNotSuitable": "не подходит",
+    "insufficientGreaseResultHint": "Недостаточно",
+    "insufficientGreaseResultTooltip": "Пригодность смазки оценена с помощью приложения для смазки как недостаточная. При возникновении дополнительных вопросов обратитесь в инженерную службу Schaeffler.",
+    "preferredGreaseHintSelected": "Предварительный выбор",
+    "preferredGreaseHintAlternative": "Альтернатива",
+    "preferredGreaseHintAlternativeTooltip": "Это альтернативная продукция из портфолио Schaeffler, которая представлена на основании указанной в шаге 2 информации.",
+    "poweredBy": "powered by"
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Выбор подшипника",
+      "parameters": "Рабочие условия",
+      "report": "Отчет"
+    }
+  },
+  "legal": {
+    "imprint": "Печать",
+    "dataPrivacy": "Конфиденциальность данных",
+    "disclaimer": "Disclaimer",
+    "termsOfUse": "Условия использования",
+    "cookiePolicy": "Политика использования файлов cookie"
+  },
+  "error": {
+    "content": "К сожалению, произошла ошибка. Повторите попытку позже.",
+    "confirm": "Подтвердить",
+    "retry": "Повторить попытку"
+  }
+}

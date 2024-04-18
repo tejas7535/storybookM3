@@ -9,6 +9,7 @@ import jsPDF from 'jspdf';
 
 import {
   LANGUAGE_CHINESE,
+  LANGUAGE_CHINESE_TRADITIONAL,
   LANGUAGE_JAPANESE,
   LANGUAGE_KOREAN,
   LANGUAGE_THAI,
@@ -38,6 +39,13 @@ export class FontsLoaderService implements OnDestroy {
       {
         regularFontName: 'NotoSansSC-Regular.ttf',
         boldFontName: 'NotoSansSC-Bold.ttf',
+      },
+    ],
+    [
+      LANGUAGE_CHINESE_TRADITIONAL.id,
+      {
+        regularFontName: 'NotoSansTC-Regular.ttf',
+        boldFontName: 'NotoSansTC-Bold.ttf',
       },
     ],
     [
