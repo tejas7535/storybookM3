@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.8.0...ea-v1.8.1) (2024-04-19)
+
+
+### Bug Fixes
+
+* **ea:** fix clipping issue in easy calc medias ([34e1846](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/34e184644337e06c32e7e5f9f4e28771c92e7bc2))
+
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.7.2...ea-v1.8.0) (2024-04-17)
 
 
