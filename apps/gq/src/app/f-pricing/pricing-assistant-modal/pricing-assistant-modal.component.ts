@@ -139,10 +139,6 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
 
   manualPriceClicked(): void {
     // first time the 'Add Manual Price' button is clicked, the button should be hidden afterwards
-    // when a netPrice is available, it will be set as manualPrice and then the confirm Button shall be enabled directly
-    if (this.showAddManualPriceButton && this.manualPriceGPMToDisplay) {
-      this.manualPriceInputInvalidOrUnchanged = false;
-    }
     this.showAddManualPriceButton = false;
     this.visibleOverlay = OverlayToShow.manualPricing;
     this.fPricingFacade.changePrice(this.manualPriceToDisplay);
@@ -165,9 +161,8 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
     this.visibleOverlay = OverlayToShow.gqPricing;
     // TODO: replace with the reference Price Value
     this.fPricingFacade.changePrice(null);
-    // check if manualPriceData has been net, if not display button 'Add Manual Price'
+    // check if manualPriceData has been set and changed, if not display button 'Add Manual Price'
     if (
-      !this.manualPriceData.quotationDetail.price &&
       this.manualPriceInputInvalidOrUnchanged &&
       !this.commentValidAndChanged
     ) {
