@@ -96,8 +96,8 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
       .subscribe(
         (value: string) =>
           (this.commentValidAndChanged =
-            !!value &&
             this.comment.valid &&
+            (!!value || !!this.dialogData.priceComment) &&
             value !== this.dialogData.priceComment)
       );
   }
