@@ -276,27 +276,6 @@ describe('PricingAssistant.modalComponent', () => {
       expect(component.gqPricingConfirmButtonDisabled).toBe(false);
     });
   });
-  describe('getInitialPriceValue', () => {
-    test('should return value from TargetPrice', () => {
-      component.dialogData = {
-        priceSource: 'TARGET_PRICE',
-        targetPrice: 100,
-        price: 200,
-      } as QuotationDetail;
-      const result = component['getInitialPriceValue']();
-      expect(result).toBe(100);
-    });
-
-    test('should return price value from manuelPrice', () => {
-      component.dialogData = {
-        priceSource: 'MANUAL',
-        targetPrice: 100,
-        price: 200,
-      } as QuotationDetail;
-      const result = component['getInitialPriceValue']();
-      expect(result).toBe(200);
-    });
-  });
 
   describe('logic for ManualPrice Confirm Button', () => {
     /** from html file

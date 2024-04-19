@@ -66,14 +66,11 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   // that's the data the editingModal is initialized with
   manualPriceData: EditingModal = {
     field: ColumnFields.PRICE,
-    // When the priceSource is targetPrice, we use this value to initialize the price (ManualPrice)
-    // the targetPrice itself will not be touched
     quotationDetail: {
       ...this.dialogData,
       // when rfqData is present use these values, otherwise use the values from the dialogData
       sqv: this.dialogData.rfqData?.sqv ?? this.dialogData.sqv,
       gpm: this.dialogData.gpmRfq ?? this.dialogData.gpm,
-      price: this.getInitialPriceValue(),
     },
   };
 
@@ -189,11 +186,5 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
 
   mvdTabClicked(): void {
     this.gqPricingConfirmButtonDisabled = false;
-  }
-
-  private getInitialPriceValue(): number {
-    return this.dialogData.priceSource === PriceSource.TARGET_PRICE
-      ? this.dialogData.targetPrice
-      : this.dialogData.price;
   }
 }
