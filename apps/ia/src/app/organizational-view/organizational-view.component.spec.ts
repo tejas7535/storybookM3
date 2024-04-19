@@ -279,4 +279,76 @@ describe('OrganizationalViewComponent', () => {
       expect(component.orgChartComponent.collapseAll).toHaveBeenCalled();
     });
   });
+
+  describe('zoomIn', () => {
+    test('should call orgChartComponent.zoomIn', () => {
+      component.selectedChartType = ChartType.ORG_CHART;
+      component.orgChartComponent = {
+        zoomIn: jest.fn(),
+      } as any;
+
+      component.zoomIn();
+
+      expect(component.orgChartComponent.zoomIn).toHaveBeenCalled();
+    });
+
+    test('should call worldMapComponent.zoomIn', () => {
+      component.selectedChartType = ChartType.WORLD_MAP;
+      component.worldMapComponent = {
+        zoomIn: jest.fn(),
+      } as any;
+
+      component.zoomIn();
+
+      expect(component.worldMapComponent.zoomIn).toHaveBeenCalled();
+    });
+  });
+
+  describe('zoomOut', () => {
+    test('should call orgChartComponent.zoomOut', () => {
+      component.selectedChartType = ChartType.ORG_CHART;
+      component.orgChartComponent = {
+        zoomOut: jest.fn(),
+      } as any;
+
+      component.zoomOut();
+
+      expect(component.orgChartComponent.zoomOut).toHaveBeenCalled();
+    });
+
+    test('should call worldMapComponent.zoomOut', () => {
+      component.selectedChartType = ChartType.WORLD_MAP;
+      component.worldMapComponent = {
+        zoomOut: jest.fn(),
+      } as any;
+
+      component.zoomOut();
+
+      expect(component.worldMapComponent.zoomOut).toHaveBeenCalled();
+    });
+  });
+
+  describe('zoomToFit', () => {
+    test('should call orgChartComponent.zoomToFit', () => {
+      component.selectedChartType = ChartType.ORG_CHART;
+      component.orgChartComponent = {
+        zoomToFit: jest.fn(),
+      } as any;
+
+      component.zoomToFit();
+
+      expect(component.orgChartComponent.zoomToFit).toHaveBeenCalled();
+    });
+
+    test('should call worldMapComponent.zoomToFit', () => {
+      component.selectedChartType = ChartType.WORLD_MAP;
+      component.worldMapComponent = {
+        zoomToFit: jest.fn(),
+      } as any;
+
+      component.zoomToFit();
+
+      expect(component.worldMapComponent.zoomToFit).toHaveBeenCalled();
+    });
+  });
 });

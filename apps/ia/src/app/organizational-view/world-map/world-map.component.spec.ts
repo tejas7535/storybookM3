@@ -232,4 +232,107 @@ describe('WorldMapComponent', () => {
       });
     });
   });
+
+  describe('zoomIn', () => {
+    test('should set zoom option with zoom increased by 5', () => {
+      component.echartsInstance = {
+        setOption: jest.fn(),
+        getOption: jest.fn().mockReturnValue({
+          series: [
+            {
+              zoom: 10,
+            },
+          ],
+        }),
+      } as any;
+
+      component.zoomIn();
+
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith({
+        series: [
+          {
+            zoom: 15,
+          },
+        ],
+      });
+    });
+
+    test('should not set zoom option when current zoom is at max', () => {
+      component.echartsInstance = {
+        setOption: jest.fn(),
+        getOption: jest.fn().mockReturnValue({
+          series: [
+            {
+              zoom: 20,
+            },
+          ],
+        }),
+      } as any;
+
+      component.zoomIn();
+
+      expect(component.echartsInstance.setOption).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('zoomOut', () => {
+    test('should set zoom option with zoom decreased by 5', () => {
+      component.echartsInstance = {
+        setOption: jest.fn(),
+        getOption: jest.fn().mockReturnValue({
+          series: [
+            {
+              zoom: 10,
+            },
+          ],
+        }),
+      } as any;
+
+      component.zoomOut();
+
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith({
+        series: [
+          {
+            zoom: 5,
+          },
+        ],
+      });
+    });
+
+    test('should not set zoom option when current zoom is at min', () => {
+      component.echartsInstance = {
+        setOption: jest.fn(),
+        getOption: jest.fn().mockReturnValue({
+          series: [
+            {
+              zoom: 0,
+            },
+          ],
+        }),
+      } as any;
+
+      component.zoomOut();
+
+      expect(component.echartsInstance.setOption).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('zoomToFit', () => {
+    test('should set zoom option with zoom set to 1 and center set to [0, 0]', () => {
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as any;
+
+      component.zoomToFit();
+
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith({
+        series: [
+          {
+            zoom: 1,
+            center: [0, 0],
+          },
+        ],
+      });
+    });
+  });
 });

@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { MapChart } from 'echarts/charts';
 import {
+  DataZoomComponent,
   GridComponent,
   TitleComponent,
   TooltipComponent,
@@ -24,6 +25,7 @@ echarts.use([
   MapChart,
   CanvasRenderer,
   GridComponent,
+  DataZoomComponent,
 ]);
 @NgModule({
   declarations: [WorldMapComponent],

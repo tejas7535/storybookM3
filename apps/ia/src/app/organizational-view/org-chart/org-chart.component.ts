@@ -186,7 +186,6 @@ export class OrgChartComponent implements AfterViewInit {
         this._dialogRef = this.dialog.open(EmployeeListDialogComponent, {
           data,
         });
-
         break;
       }
       case OrgChartConfig.BUTTON_CSS.attrition: {
@@ -212,14 +211,12 @@ export class OrgChartComponent implements AfterViewInit {
             maxWidth: '750px',
           });
         }
-
         break;
       }
       case OrgChartConfig.BUTTON_CSS.showUpArrow: {
         this.selectedDataNode = this.getDimensionFluctuationDataById(datasetId);
 
         this.showParent.emit(this.selectedDataNode);
-
         break;
       }
       case OrgChartConfig.BUTTON_CSS.expand: {
@@ -247,14 +244,12 @@ export class OrgChartComponent implements AfterViewInit {
         this.chart.clearHighlighting();
         this.chart.setUpToTheRootHighlighted(datasetId);
         this.chart.render();
-
         break;
       }
       case OrgChartConfig.BUTTON_CSS.switchDimension: {
         const dataNode = this.getDimensionFluctuationDataById(datasetId);
 
         this.changeDimension.emit(dataNode);
-
         break;
       }
       default: {
@@ -271,7 +266,6 @@ export class OrgChartComponent implements AfterViewInit {
       // eslint-disable-next-line new-cap
       this.chart = new OrgChart();
     }
-
     this.updateChart();
   }
 
@@ -400,4 +394,7 @@ export class OrgChartComponent implements AfterViewInit {
   exportImg = (): void => this.chart.exportImg();
   expandAll = (): void => this.chart.expandAll().fit();
   collapseAll = (): void => this.chart.collapseAll().fit();
+  zoomIn = (): void => this.chart.zoomIn();
+  zoomOut = (): void => this.chart.zoomOut();
+  zoomToFit = (): void => this.chart.fit();
 }

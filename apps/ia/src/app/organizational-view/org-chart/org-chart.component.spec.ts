@@ -835,4 +835,40 @@ describe('OrgChartComponent', () => {
       expect(component.chart.exportImg).toHaveBeenCalled();
     });
   });
+
+  describe('zoomIn', () => {
+    test('should zoom in', () => {
+      component.chart = {
+        zoomIn: jest.fn(),
+      };
+
+      component.zoomIn();
+
+      expect(component.chart.zoomIn).toHaveBeenCalled();
+    });
+  });
+
+  describe('zoomOut', () => {
+    test('should zoom out', () => {
+      component.chart = {
+        zoomOut: jest.fn(),
+      };
+
+      component.zoomOut();
+
+      expect(component.chart.zoomOut).toHaveBeenCalled();
+    });
+  });
+
+  describe('zoomToFit', () => {
+    test('should zoom to fit', () => {
+      component.chart = {
+        fit: jest.fn(),
+      };
+
+      component.zoomToFit();
+
+      expect(component.chart.fit).toHaveBeenCalled();
+    });
+  });
 });

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, take, tap } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { concatLatestFrom } from '@ngrx/effects';
@@ -35,6 +35,7 @@ import {
   getWorldMap,
 } from './store/selectors/organizational-view.selector';
 import { CountryDataAttrition } from './world-map/models/country-data-attrition.model';
+import { WorldMapComponent } from './world-map/world-map.component';
 
 @Component({
   selector: 'ia-organizational-view',
@@ -82,6 +83,8 @@ export class OrganizationalViewComponent implements OnInit {
   chartType = ChartType;
 
   @ViewChild(OrgChartComponent) orgChartComponent: OrgChartComponent;
+  @ViewChild(WorldMapComponent) worldMapComponent: WorldMapComponent;
+  selectedChartType: ChartType;
 
   constructor(
     private readonly store: Store,
@@ -97,7 +100,11 @@ export class OrganizationalViewComponent implements OnInit {
     );
     this.isLoadingOrgChart$ = this.store.select(getIsLoadingOrgChart);
     this.isLoadingWorldMap$ = this.store.select(getIsLoadingWorldMap);
-    this.selectedChartType$ = this.store.select(getSelectedChartType);
+    this.selectedChartType$ = this.store.select(getSelectedChartType).pipe(
+      tap((selectedChartType) => {
+        this.selectedChartType = selectedChartType;
+      })
+    );
     this.worldMap$ = this.store.select(getWorldMap);
     this.regions$ = this.store.select(getRegions);
     this.selectedTimeRange$ = this.store.select(getSelectedTimeRange);
@@ -194,5 +201,29 @@ export class OrganizationalViewComponent implements OnInit {
 
   collapseAll(): void {
     this.orgChartComponent.collapseAll();
+  }
+
+  zoomIn(): void {
+    if (this.selectedChartType === ChartType.ORG_CHART) {
+      this.orgChartComponent.zoomIn();
+    } else {
+      this.worldMapComponent.zoomIn();
+    }
+  }
+
+  zoomOut(): void {
+    if (this.selectedChartType === ChartType.ORG_CHART) {
+      this.orgChartComponent.zoomOut();
+    } else {
+      this.worldMapComponent.zoomOut();
+    }
+  }
+
+  zoomToFit(): void {
+    if (this.selectedChartType === ChartType.ORG_CHART) {
+      this.orgChartComponent.zoomToFit();
+    } else {
+      this.worldMapComponent.zoomToFit();
+    }
   }
 }

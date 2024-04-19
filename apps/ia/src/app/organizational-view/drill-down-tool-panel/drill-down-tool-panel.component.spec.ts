@@ -1,5 +1,6 @@
 import {
   MatButtonToggleChange,
+  MatButtonToggleGroup,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
@@ -12,6 +13,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
+import { ZoomButton } from '../models';
 import { DrillDownToolPanelComponent } from './drill-down-tool-panel.component';
 
 describe('DrillDownToolPanelComponent', () => {
@@ -95,6 +97,59 @@ describe('DrillDownToolPanelComponent', () => {
       component.onCollapseBtnClick();
 
       expect(component.collapseBtn.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('onZoomChange', () => {
+    test('should emit zoomInBtn', () => {
+      component.zoomInBtn.emit = jest.fn();
+      const event = new MouseEvent('click');
+      const group = {
+        value: [],
+      } as MatButtonToggleGroup;
+
+      component.onZoomChange(ZoomButton.ZOOM_IN, event, group);
+
+      expect(component.zoomInBtn.emit).toHaveBeenCalled();
+      expect(group.value).toEqual([
+        ZoomButton.ZOOM_IN,
+        ZoomButton.ZOOM_OUT,
+        ZoomButton.ZOOM_TO_FIT,
+      ]);
+    });
+
+    test('should emit zoomOutBtn', () => {
+      component.zoomOutBtn.emit = jest.fn();
+      const event = new MouseEvent('click');
+      const group = {
+        value: [],
+      } as MatButtonToggleGroup;
+
+      component.onZoomChange(ZoomButton.ZOOM_OUT, event, group);
+
+      expect(component.zoomOutBtn.emit).toHaveBeenCalled();
+      expect(group.value).toEqual([
+        ZoomButton.ZOOM_IN,
+        ZoomButton.ZOOM_OUT,
+        ZoomButton.ZOOM_TO_FIT,
+      ]);
+    });
+
+    test('should emit zoomToFitBtn', () => {
+      component.zoomToFitBtn.emit = jest.fn();
+      const event = new MouseEvent('click');
+      const group = {
+        value: [],
+      } as MatButtonToggleGroup;
+
+      component.onZoomChange(ZoomButton.ZOOM_TO_FIT, event, group);
+
+      expect(component.zoomToFitBtn.emit).toHaveBeenCalled();
+      expect(group.value).toEqual([
+        ZoomButton.ZOOM_IN,
+        ZoomButton.ZOOM_OUT,
+        ZoomButton.ZOOM_TO_FIT,
+      ]);
     });
   });
 });

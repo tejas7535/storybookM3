@@ -24,6 +24,11 @@ import { CountryDataAttrition } from './models/country-data-attrition.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent implements OnInit {
+  readonly INITIAL_ZOOM = 1;
+  readonly ZOOM_STEP = 5;
+  readonly MIN_ZOOM = 0;
+  readonly MAX_ZOOM = 20;
+
   @Output()
   readonly loadCountryMeta: EventEmitter<string> = new EventEmitter();
 
@@ -93,6 +98,7 @@ export class WorldMapComponent implements OnInit {
             formatter: '{b}',
             extraCssText: 'opacity: 0',
           },
+          zoom: this.INITIAL_ZOOM,
         },
       ],
     };
@@ -234,5 +240,45 @@ export class WorldMapComponent implements OnInit {
       shadowColor: Color.SHADOW_GREY,
       shadowBlur: 2,
     };
+  }
+
+  zoomIn(): void {
+    const selectedZoomValue =
+      this.echartsInstance.getOption().series[0].zoom + 1;
+    if (selectedZoomValue <= this.MAX_ZOOM) {
+      this.echartsInstance.setOption({
+        series: [
+          {
+            zoom:
+              this.echartsInstance.getOption().series[0].zoom + this.ZOOM_STEP,
+          },
+        ],
+      });
+    }
+  }
+
+  zoomOut(): void {
+    const selectedZoomValue =
+      this.echartsInstance.getOption().series[0].zoom - this.ZOOM_STEP;
+    if (selectedZoomValue >= this.MIN_ZOOM) {
+      this.echartsInstance.setOption({
+        series: [
+          {
+            zoom: selectedZoomValue,
+          },
+        ],
+      });
+    }
+  }
+
+  zoomToFit(): void {
+    this.echartsInstance.setOption({
+      series: [
+        {
+          zoom: this.INITIAL_ZOOM,
+          center: [0, 0],
+        },
+      ],
+    });
   }
 }
