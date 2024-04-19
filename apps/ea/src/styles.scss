@@ -222,3 +222,8 @@ schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {
 #legal-pages {
   @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
 }
+
+// hide underneath scrollbar in medias once dialog is open
+.cdk-global-scrollblock body {
+  overflow: hidden;
+}
