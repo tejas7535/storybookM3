@@ -18,7 +18,7 @@
     "resultsGpmLabel": "GPM %",
     "confidence": {
       "levelLabel": "Vertrauensgrad:",
-      "tooltip": "Tooltiptext für Vertrauensgrad"
+      "tooltip": "Zeigt die Verlässlichkeit des GQ Preises"
     },
     "referencePricingLabel": "Referenzpreis",
     "marketValueDriversLabel": "Marktwerttreiber",

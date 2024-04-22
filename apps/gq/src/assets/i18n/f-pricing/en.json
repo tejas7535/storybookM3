@@ -18,7 +18,7 @@
     "resultsGpmLabel": "GPM %",
     "confidence": {
       "levelLabel": "Confidence Level:",
-      "tooltip": "tooltiptext for confidence"
+      "tooltip": "Indicates the reliability of the GQ Price"
     },
     "referencePricingLabel": "Reference Pricing",
     "marketValueDriversLabel": "Market Value Drivers",
