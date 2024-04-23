@@ -1,16 +1,16 @@
 import { of } from 'rxjs';
 
-import * as transloco from '@ngneat/transloco';
+import * as transloco from '@jsverse/transloco';
 
 import {
   preloadLanguage,
   SharedTranslocoModule,
 } from './shared-transloco.module';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
   getBrowserLang: jest.fn(() =>
-    jest.requireActual('@ngneat/transloco').getBrowserLang()
+    jest.requireActual('@jsverse/transloco').getBrowserLang()
   ),
 }));
 

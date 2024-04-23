@@ -38,7 +38,7 @@ export const getDirectChildrenOfSelectedBomItem = (index: number) =>
     state[index]?.billOfMaterial?.selected
       ? state[index].billOfMaterial.items.filter(
           (item) =>
-            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+            item.predecessorsInTree.at(-2) ===
               state[index].billOfMaterial.selected.materialDesignation &&
             item.level === state[index].billOfMaterial.selected.level + 1
         )

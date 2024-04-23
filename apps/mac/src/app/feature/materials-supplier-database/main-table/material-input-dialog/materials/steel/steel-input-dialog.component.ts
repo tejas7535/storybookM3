@@ -20,7 +20,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { BehaviorSubject, filter, map, takeUntil, tap } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent } from '@schaeffler/inputs/select';

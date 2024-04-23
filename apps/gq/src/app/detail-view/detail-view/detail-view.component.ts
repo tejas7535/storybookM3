@@ -65,10 +65,10 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   sapStatusPosition$: Observable<SAP_SYNC_STATUS> = NEVER;
 
+  private readonly shutDown$$: Subject<void> = new Subject();
+
   readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
   readonly quotationStatus: typeof QuotationStatus = QuotationStatus;
-
-  private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(
     public readonly activeCaseFacade: ActiveCaseFacade,

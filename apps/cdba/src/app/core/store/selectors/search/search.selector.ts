@@ -54,20 +54,23 @@ export const getChangedFilters = createSelector(
           }
           case FilterItemType.RANGE: {
             switch (filter.name) {
-              case FILTER_NAME_LIMIT:
+              case FILTER_NAME_LIMIT: {
                 return !(filter as FilterItemRange).disabled &&
                   (filter as FilterItemRange).maxSelected !==
                     DEFAULT_RESULTS_THRESHOLD
                   ? filter
                   : undefined;
-              default:
-                return !(filter as FilterItemRange).disabled
-                  ? filter
-                  : undefined;
+              }
+              default: {
+                return (filter as FilterItemRange).disabled
+                  ? undefined
+                  : filter;
+              }
             }
           }
-          default:
+          default: {
             return undefined;
+          }
         }
       })
       .filter((item) => item !== undefined)

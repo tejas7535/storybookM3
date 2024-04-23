@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { CalculationResultReportLargeItemsComponent } from './calculation-result-report-large-items.component';
 
 describe('CalculationResultReportLargeItemsComponent', () => {
@@ -8,7 +10,10 @@ describe('CalculationResultReportLargeItemsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CalculationResultReportLargeItemsComponent],
+      imports: [
+        CalculationResultReportLargeItemsComponent,
+        provideTranslocoTestingModule({ en: {} }),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(

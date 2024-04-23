@@ -5,7 +5,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
 import { LANGUAGE_ZH, LANGUAGE_ZH_TW } from '@ea/shared/constants/language';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import { DocumentFonts } from './pdfreport/data';

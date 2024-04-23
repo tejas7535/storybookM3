@@ -5,7 +5,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { map, Observable } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
-import { HashMap, TranslocoService } from '@ngneat/transloco';
+import { HashMap, TranslocoService } from '@jsverse/transloco';
 @Injectable({ providedIn: 'root' })
 export class StaticHTMLService {
   constructor(

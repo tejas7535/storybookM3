@@ -22,7 +22,7 @@ import {
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 

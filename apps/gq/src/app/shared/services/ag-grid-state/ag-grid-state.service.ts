@@ -3,8 +3,8 @@ import { Inject, Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { translate } from '@ngneat/transloco';
 import { ColumnState } from 'ag-grid-enterprise';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
@@ -144,11 +144,9 @@ export class AgGridStateService {
 
     this.saveGridState({
       ...gridState,
-      customViews: [
-        ...gridState.customViews.filter(
-          (customView: CustomView) => customView.id !== id
-        ),
-      ],
+      customViews: gridState.customViews.filter(
+        (customView: CustomView) => customView.id !== id
+      ),
     });
 
     this.setActiveView(this.DEFAULT_VIEW_ID);
@@ -165,15 +163,13 @@ export class AgGridStateService {
 
     this.saveGridState({
       ...gridState,
-      customViews: [
-        ...gridState.customViews.map((customView: CustomView) => {
-          if (customView.id === viewId) {
-            return { ...customView, title: name };
-          }
+      customViews: gridState.customViews.map((customView: CustomView) => {
+        if (customView.id === viewId) {
+          return { ...customView, title: name };
+        }
 
-          return customView;
-        }),
-      ],
+        return customView;
+      }),
     });
   }
 
@@ -249,19 +245,17 @@ export class AgGridStateService {
 
     this.saveGridState({
       ...gridState,
-      customViews: [
-        ...gridState.customViews.map((view: CustomView) =>
-          view.id === viewId
-            ? {
-                ...view,
-                state: {
-                  ...view.state,
-                  columnState,
-                },
-              }
-            : view
-        ),
-      ],
+      customViews: gridState.customViews.map((view: CustomView) =>
+        view.id === viewId
+          ? {
+              ...view,
+              state: {
+                ...view.state,
+                columnState,
+              },
+            }
+          : view
+      ),
     });
   }
 
@@ -316,7 +310,7 @@ export class AgGridStateService {
     );
     ids.sort((a: number, b: number) => a - b);
 
-    return ids[ids.length - 1] + 1;
+    return ids.at(-1) + 1;
   }
 
   private getCurrentView() {
@@ -370,15 +364,13 @@ export class AgGridStateService {
       existingFilters.findIndex(
         (filter: FilterState) => filter.actionItemId === actionItemId
       ) > -1
-        ? [
-            ...existingFilters.map((curFilterState: FilterState) => {
-              if (curFilterState.actionItemId === actionItemId) {
-                return { actionItemId, filterModels };
-              }
+        ? existingFilters.map((curFilterState: FilterState) => {
+            if (curFilterState.actionItemId === actionItemId) {
+              return { actionItemId, filterModels };
+            }
 
-              return curFilterState;
-            }),
-          ]
+            return curFilterState;
+          })
         : [
             ...existingFilters,
             {
@@ -389,19 +381,17 @@ export class AgGridStateService {
 
     this.saveGridState({
       ...gridState,
-      customViews: [
-        ...gridState.customViews.map((view: CustomView) =>
-          view.id === viewId
-            ? {
-                ...view,
-                state: {
-                  ...view.state,
-                  filterState,
-                },
-              }
-            : view
-        ),
-      ],
+      customViews: gridState.customViews.map((view: CustomView) =>
+        view.id === viewId
+          ? {
+              ...view,
+              state: {
+                ...view.state,
+                filterState,
+              },
+            }
+          : view
+      ),
     });
   }
 

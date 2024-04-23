@@ -1,8 +1,9 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getAreOpenApplicationsAvailable } from '../core/store/selectors';
 import { DoughnutConfig } from '../shared/charts/models';
@@ -49,7 +50,7 @@ describe('OverviewComponent', () => {
   const createComponent = createComponentFactory({
     component: OverviewComponent,
     detectChanges: false,
-    imports: [PushPipe, TranslocoTestingModule],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [provideMockStore({})],
   });
 

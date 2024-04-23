@@ -7,11 +7,8 @@ export const getCalculationResultInputGroup = (title: string) =>
     .parent();
 
 export const getInputElementAndType = (input: string, value: string) => {
-  cy.get(input)
-    .first()
-    .click({ force: true })
-    .focused()
-    .type(value, { force: true });
+  cy.get(input).first().click({ force: true });
+  cy.focused().type(value, { force: true });
 };
 
 export const clickOnFirstItem = (item: string) => {

@@ -12,8 +12,11 @@ import {
   validateMaterialsOnCustomerAndSalesOrg,
 } from '@gq/core/store/actions';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
-import { Spectator, SpyObject } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-community';
 

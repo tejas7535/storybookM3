@@ -1,5 +1,5 @@
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -7,8 +7,8 @@ import * as en from '../../../../../assets/i18n/en.json';
 import { TooltipParams } from '../table-config';
 import { HeaderTooltipComponent } from './header-tooltip.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

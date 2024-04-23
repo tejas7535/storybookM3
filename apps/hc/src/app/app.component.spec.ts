@@ -3,8 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockComponent, MockModule } from 'ng-mocks';
 
@@ -16,8 +16,8 @@ import * as en from '../assets/i18n/en.json';
 import { AppComponent } from './app.component';
 import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 

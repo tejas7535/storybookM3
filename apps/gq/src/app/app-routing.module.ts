@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app-route-path.enum';

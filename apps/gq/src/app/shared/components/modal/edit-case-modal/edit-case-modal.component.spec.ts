@@ -23,12 +23,12 @@ import { of } from 'rxjs';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { getSalesOrgs } from '@gq/core/store/selectors';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import moment from 'moment';

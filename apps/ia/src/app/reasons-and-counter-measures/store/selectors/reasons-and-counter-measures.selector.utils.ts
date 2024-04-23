@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
@@ -101,7 +101,7 @@ export function getColorsForChart(
   // fill undefined entries with available colors
   const colorPalette = colors
     .map((color: Color) =>
-      color !== undefined ? color : remainingColors.shift()
+      color === undefined ? remainingColors.shift() : color
     )
     .filter((color: Color) => color !== undefined);
 

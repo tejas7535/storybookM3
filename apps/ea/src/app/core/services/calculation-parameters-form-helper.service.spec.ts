@@ -7,8 +7,8 @@ import {
 
 import { LoadCaseDataFormGroupModel } from '@ea/calculation/calculation-parameters/loadcase-data-form-group.interface';
 import { ConfirmationDialogComponent } from '@ea/shared/confirmation-dialog/confirmation-dialog.component';
+import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

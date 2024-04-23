@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { TranslocoDatePipe } from '@ngneat/transloco-locale';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -69,7 +69,7 @@ import { GreaseReportPdfFileSaveService } from './services/pdf/grease-report-pdf
     GreaseReportPdfGeneratorService,
     GreaseReportPdfFileSaveService,
     FontsLoaderService,
-    TranslocoDatePipe,
+    provideTranslocoLocale(),
     {
       provide: ENV,
       useFactory: getEnv,

@@ -5,7 +5,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, merge, Observable, of, take } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
@@ -15,6 +15,7 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';

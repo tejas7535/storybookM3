@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { ForbiddenRoute } from '@schaeffler/empty-states';
 
 import { NO_ACCESS_ACTION } from '@cdba/shared/constants/forbidden-action';

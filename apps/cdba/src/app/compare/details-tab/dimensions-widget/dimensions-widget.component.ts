@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { DimensionAndWeightDetails } from '@cdba/shared/models';
 
@@ -24,9 +24,7 @@ export class DimensionsWidgetComponent {
 
   @Input()
   public set data(data: DimensionAndWeightDetails) {
-    if (!data) {
-      this.dimensionData = undefined;
-    } else {
+    if (data) {
       const height = data.height
         ? `${this.localeService.localizeNumber(data.height, 'decimal')} ${
             data.unitOfDimension || ''
@@ -65,6 +63,8 @@ export class DimensionsWidgetComponent {
         weight,
         volume,
       };
+    } else {
+      this.dimensionData = undefined;
     }
   }
 }

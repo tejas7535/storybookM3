@@ -35,7 +35,7 @@ export const reducers: ActionReducerMap<AppState> = {
   roles: rolesReducer,
 };
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 

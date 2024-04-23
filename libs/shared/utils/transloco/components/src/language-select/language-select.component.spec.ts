@@ -6,8 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '../../../testing/src';
 import { LanguageSelectComponent } from './language-select.component';

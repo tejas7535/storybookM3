@@ -36,24 +36,24 @@ export class CostElementsStatusBarComponent {
   public agInit(params: IStatusPanelParams): void {
     this.index = params.context.index;
 
-    if (this.index !== undefined) {
+    if (this.index === undefined) {
+      this.currentSplitType$ = this.store.select(getSelectedSplitTypeDetail);
+      this.costElements$ = this.store.select(getCostComponentSplitItemsDetail);
+    } else {
       this.currentSplitType$ = this.store.select(
         getSelectedSplitTypeCompare(this.index)
       );
       this.costElements$ = this.store.select(
         getCostComponentSplitItemsCompare(this.index)
       );
-    } else {
-      this.currentSplitType$ = this.store.select(getSelectedSplitTypeDetail);
-      this.costElements$ = this.store.select(getCostComponentSplitItemsDetail);
     }
   }
 
   public toggleSelectedSplitType(): void {
-    if (this.index !== undefined) {
-      this.store.dispatch(toggleSplitTypeForComparePage());
-    } else {
+    if (this.index === undefined) {
       this.store.dispatch(toggleSplitTypeForDetailPage());
+    } else {
+      this.store.dispatch(toggleSplitTypeForComparePage());
     }
   }
 }

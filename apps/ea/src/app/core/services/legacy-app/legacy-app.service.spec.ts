@@ -2,9 +2,9 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { ProductSelectionFacade } from '@ea/core/store/facades';
 import { environment } from '@ea/environments/environment';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { LegacyAppService } from './legacy-app.service';
 

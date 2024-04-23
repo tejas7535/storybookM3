@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 

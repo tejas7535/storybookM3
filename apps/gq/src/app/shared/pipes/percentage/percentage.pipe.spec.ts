@@ -1,5 +1,5 @@
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { PercentagePipe } from './percentage.pipe';
 

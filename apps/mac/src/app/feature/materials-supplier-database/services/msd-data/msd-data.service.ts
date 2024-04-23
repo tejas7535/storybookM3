@@ -4,8 +4,8 @@ import { Inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 

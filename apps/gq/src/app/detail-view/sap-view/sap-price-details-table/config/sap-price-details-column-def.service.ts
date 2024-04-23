@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { SapPriceDetailsColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
-import { MULTI_COLUMN_FILTER } from '@gq/shared/ag-grid/constants/filters';
-import { MULTI_COLUMN_FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
-import { NUMBER_COLUMN_FILTER } from '@gq/shared/ag-grid/constants/filters';
+import {
+  FILTER_PARAMS,
+  MULTI_COLUMN_FILTER,
+  MULTI_COLUMN_FILTER_PARAMS,
+  NUMBER_COLUMN_FILTER,
+} from '@gq/shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
 @Injectable({

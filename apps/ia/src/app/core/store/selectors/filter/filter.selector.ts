@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 import moment from 'moment';
@@ -189,7 +189,7 @@ export const getCurrentDimensionValue = createSelector(
     );
 
     return selectedDimension === FilterDimension.ORG_UNIT
-      ? selectedDimensionFilter?.idValue.value.replace(/\s+\(.*?\)$/g, '')
+      ? selectedDimensionFilter?.idValue.value.replaceAll(/\s+\(.*?\)$/g, '')
       : selectedDimensionFilter?.idValue.value;
   }
 );

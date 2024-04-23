@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';

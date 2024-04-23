@@ -24,7 +24,7 @@ import {
 } from 'rxjs/operators';
 
 import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { MPA, ONE_DIGIT_UNITS } from '../../constants';
 import {

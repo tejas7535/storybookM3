@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   Actions,
   concatLatestFrom,

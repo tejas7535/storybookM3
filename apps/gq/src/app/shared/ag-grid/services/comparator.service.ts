@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import moment, { Moment } from 'moment';
 
 import { DE_FORMAT_STRING, EN_FORMAT_STRING, LOCALE_DE } from '../../constants';

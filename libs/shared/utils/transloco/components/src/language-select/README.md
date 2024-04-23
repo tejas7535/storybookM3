@@ -52,7 +52,7 @@ This lib depends on [Angular Material](https://material.angular.io) and [Tailwin
 ```ts
 // app.module.ts or core.module.ts (example)
 
-import { LangDefinition } from '@ngneat/transloco/lib/types';
+import { LangDefinition } from '@jsverse/transloco/lib/types';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

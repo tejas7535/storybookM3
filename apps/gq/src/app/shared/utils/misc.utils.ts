@@ -60,8 +60,8 @@ export const parseLocalizedInputValue = (
   const isGermanLocale = locale === LOCALE_DE.id;
 
   const value = isGermanLocale
-    ? val.replace(/\./g, Keyboard.EMPTY).replace(/,/g, Keyboard.DOT)
-    : val.replace(/,/g, Keyboard.EMPTY);
+    ? val.replaceAll('.', Keyboard.EMPTY).replaceAll(',', Keyboard.DOT)
+    : val.replaceAll(',', Keyboard.EMPTY);
 
   return Number.parseFloat(value);
 };
@@ -76,8 +76,8 @@ export const parseNullableLocalizedInputValue = (
   const isGermanLocale = locale === LOCALE_DE.id;
 
   const value = isGermanLocale
-    ? val.replace(/\./g, Keyboard.EMPTY).replace(/,/g, Keyboard.DOT)
-    : val.replace(/,/g, Keyboard.EMPTY);
+    ? val.replaceAll('.', Keyboard.EMPTY).replaceAll(',', Keyboard.DOT)
+    : val.replaceAll(',', Keyboard.EMPTY);
 
   return Number.parseFloat(value);
 };
@@ -105,10 +105,10 @@ export function getRatingText(rating: number): string {
 export function groupBy<T>(arr: T[], fn: (item: T) => any) {
   const groupedBy = new Map();
   for (const listItem of arr) {
-    if (!groupedBy.has(fn(listItem))) {
-      groupedBy.set(fn(listItem), [listItem]);
-    } else {
+    if (groupedBy.has(fn(listItem))) {
       groupedBy.get(fn(listItem)).push(listItem);
+    } else {
+      groupedBy.set(fn(listItem), [listItem]);
     }
   }
 

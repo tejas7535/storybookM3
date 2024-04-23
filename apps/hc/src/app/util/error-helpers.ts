@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 export const getErrorMessage = (errors: { [key: string]: any }): string => {
   if (!errors) {

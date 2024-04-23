@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, ElementRef, QueryList } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { HashMap, translate, TranslocoModule } from '@ngneat/transloco';
+import { HashMap, translate, TranslocoModule } from '@jsverse/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -17,8 +17,8 @@ import {
   valueTitleToOptionKeyFilterFnFactory,
 } from '.';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string: string, params?: HashMap) =>
     params && Object.keys(params).length > 0
       ? `${string.split('.').pop()}${Object.values(params).join('')}`

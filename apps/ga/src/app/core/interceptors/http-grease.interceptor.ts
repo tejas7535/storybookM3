@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '@ga/environments/environment';
 import { MeasurementUnitsService } from '@ga/shared/services';

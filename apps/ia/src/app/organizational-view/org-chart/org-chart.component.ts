@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { OrgChart } from 'd3-org-chart';
 import * as d3Selection from 'd3-selection';
 import moment from 'moment';

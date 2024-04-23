@@ -24,6 +24,7 @@ export class GlobalSearchAdvancedModalComponent {
   }
 
   selectTopItem(): void {
+    // eslint-disable-next-line no-console
     console.log('selectTopItem');
   }
 
@@ -37,6 +38,7 @@ export class GlobalSearchAdvancedModalComponent {
   }
 
   search(): void {
+    // eslint-disable-next-line no-console
     console.log('search');
   }
 }

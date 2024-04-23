@@ -28,7 +28,7 @@ import { CustomerService } from '@gq/shared/services/rest/customer/customer.serv
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { convertToBase64 } from '@gq/shared/utils/misc.utils';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';

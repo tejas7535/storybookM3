@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { translate, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 
 import deJson from '../../../assets/i18n/http/de.json';
 import enJson from '../../../assets/i18n/http/en.json';

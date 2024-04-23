@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { LegendSelectAction } from '../../shared/charts/models';
 import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';

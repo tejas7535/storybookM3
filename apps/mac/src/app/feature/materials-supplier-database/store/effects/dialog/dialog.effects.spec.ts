@@ -8,8 +8,8 @@ import {
 
 import { of, throwError } from 'rxjs';
 
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import moment from 'moment';
@@ -135,8 +135,8 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { DialogFacade } from '../../facades/dialog';
 import { DialogEffects } from './dialog.effects';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string.split('.').pop()),
 }));
 

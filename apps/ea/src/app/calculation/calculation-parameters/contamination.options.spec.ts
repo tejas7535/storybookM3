@@ -1,6 +1,6 @@
 import { firstValueFrom, of } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { getContaminationOptions } from './contamination.options';
 

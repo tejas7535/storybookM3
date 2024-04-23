@@ -10,7 +10,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ComponentStore } from '@ngrx/component-store';
 import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -59,7 +59,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
   public readonly setCompareBreadcrumb = this.updater(
     (state, compareBreadcrumb: Breadcrumb): BreadcrumbState => {
-      const lastItem = state.items[state.items.length - 1];
+      const lastItem = state.items.at(-1);
       if (
         routeUtils.isCompareRoute(lastItem.url) &&
         routeUtils.checkQueryParamsEquality(
@@ -87,7 +87,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
   public readonly updateMaterialDesignation = this.updater(
     (state, materialDesignation: string): BreadcrumbState => {
-      const lastItem = state.items[state.items.length - 1];
+      const lastItem = state.items.at(-1);
 
       if (routeUtils.isDetailRoute(lastItem.url)) {
         // just update the link
@@ -108,7 +108,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
   public readonly setDetailBreadcrumb = this.updater(
     (state, detailBreadcrumb: Breadcrumb): BreadcrumbState => {
-      const lastItem = state.items[state.items.length - 1];
+      const lastItem = state.items.at(-1);
       if (
         routeUtils.isDetailRoute(lastItem.url) &&
         routeUtils.checkQueryParamsEquality(

@@ -7,7 +7,8 @@ import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
 
 import { ShareResult } from '@capacitor/share';
-import { TranslocoDatePipe } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import jsPDF from 'jspdf';
 import autoTable, {
   CellDef,
@@ -79,7 +80,7 @@ export class GreaseReportPdfGeneratorService {
 
   public constructor(
     private readonly dataGeneratorService: GreaseReportDataGeneratorService,
-    private readonly datePipe: TranslocoDatePipe,
+    private readonly translocoLocaleService: TranslocoLocaleService,
     private readonly greaseReportPdfFileSaveService: GreaseReportPdfFileSaveService,
     private readonly fontsLoaderService: FontsLoaderService,
     private readonly settingsFacade: SettingsFacade,
@@ -92,7 +93,7 @@ export class GreaseReportPdfGeneratorService {
   public generateReport(
     report: GreasePdfReportModel
   ): Promise<ShareResult | void> {
-    const currentDate = this.datePipe.transform(new Date());
+    const currentDate = this.translocoLocaleService.localizeDate(new Date());
     const fileName = this.getFileName(report.reportTitle, currentDate);
 
     this.setCurrentLinePosition(this.standardLineSpacing);

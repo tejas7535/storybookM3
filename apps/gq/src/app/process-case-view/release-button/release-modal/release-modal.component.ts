@@ -48,7 +48,7 @@ import {
 } from '@gq/shared/models';
 import { approversDifferValidator } from '@gq/shared/validators/approvers-differ-validator';
 import { userValidator } from '@gq/shared/validators/user-validator';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -84,6 +84,14 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup<ReleaseModalFormControl>;
 
   INPUT_MAX_LENGTH = 200;
+  private readonly REQUIRED_ERROR_MESSAGE = '';
+  private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
+  private readonly INVALID_USER_ERROR_MESSAGE = '';
+
+  private readonly USER_SEARCH_EXPRESSION_MIN_LENGTH = 2;
+
+  private readonly shutdown$$: Subject<void> = new Subject<void>();
+
   readonly approvalLevelEnum = ApprovalLevel;
 
   approver1FormControl = new FormControl<Approver>(
@@ -111,17 +119,10 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   hasValueChanged = false;
 
   readonly quotationStatus = QuotationStatus;
+
   readonly INVALID_SELECTION_APPROVER = '';
 
   isInvalidInput = false;
-
-  private readonly REQUIRED_ERROR_MESSAGE = '';
-  private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
-  private readonly INVALID_USER_ERROR_MESSAGE = '';
-
-  private readonly USER_SEARCH_EXPRESSION_MIN_LENGTH = 2;
-
-  private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(
     public readonly approvalFacade: ApprovalFacade,
@@ -282,7 +283,10 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
             boolean,
             ApprovalWorkflowInformation,
           ]) => {
-            if (!cockpitInformation.autoApproval) {
+            if (cockpitInformation.autoApproval) {
+              this.setInitialDataForCommentAndProject(cockpitInformation);
+              this.attachForChanges();
+            } else {
               this.formGroup.addControl('approver1', this.approver1FormControl);
               this.formGroup.addControl('approver2', this.approver2FormControl);
               this.formGroup.addControl(
@@ -302,9 +306,6 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
               );
 
               this.setInitialData(cockpitInformation);
-            } else {
-              this.setInitialDataForCommentAndProject(cockpitInformation);
-              this.attachForChanges();
             }
           }
         )

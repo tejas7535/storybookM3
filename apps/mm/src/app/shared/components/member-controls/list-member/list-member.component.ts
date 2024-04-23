@@ -24,7 +24,7 @@ import {
   CONTROL_META,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 

@@ -9,7 +9,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { RecommendationSelectionRadioButtonComponent } from '../recommendation-selection-radio-button/recommendation-selection-radio-button';
 
@@ -20,7 +20,7 @@ import { RecommendationSelectionRadioButtonComponent } from '../recommendation-s
   imports: [
     CommonModule,
     MatRadioModule,
-    TranslocoModule,
+    SharedTranslocoModule,
     MatInputModule,
     RecommendationSelectionRadioButtonComponent,
   ],

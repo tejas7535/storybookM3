@@ -9,8 +9,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of, ReplaySubject } from 'rxjs';
 
+import { translate, TranslocoTestingModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate, TranslocoTestingModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles/jest';
 

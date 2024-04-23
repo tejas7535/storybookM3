@@ -32,6 +32,6 @@ export class MaterialNumberService {
     matNumber: string,
     searchVal: string
   ): boolean {
-    return matNumber?.startsWith(searchVal.replace(/-/g, ''));
+    return matNumber?.startsWith(searchVal.replaceAll('-', ''));
   }
 }

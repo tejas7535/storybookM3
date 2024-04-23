@@ -11,7 +11,7 @@ import {
 
 import { Subscription } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   FirstDataRenderedEvent,
   GridOptions,

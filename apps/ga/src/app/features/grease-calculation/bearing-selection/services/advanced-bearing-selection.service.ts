@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { RangeFilter } from '@ga/shared/components/range-filter';
 import { bearingTypes } from '@ga/shared/constants';

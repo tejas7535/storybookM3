@@ -1,10 +1,10 @@
+import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -18,8 +18,8 @@ import { GREASE_PDF_RESULT_MOCK } from '@ga/testing/mocks/models/pdf/grease-pdf-
 import { GreasePdfInput, GreasePdfMessage, GreasePdfResult } from '../models';
 import { GreaseReportDataGeneratorService } from './grease-report-data-generator.service';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey: string) => {
     switch (translateKey) {
       default:

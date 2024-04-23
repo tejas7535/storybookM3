@@ -1,4 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
+
 import { HealthCheckActions } from './health-check.actions';
 
 const HEALTH_CHECK_KEY = 'healthCheck';

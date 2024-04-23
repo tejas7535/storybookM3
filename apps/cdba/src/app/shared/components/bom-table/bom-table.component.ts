@@ -9,8 +9,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { translate } from '@jsverse/transloco';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { translate } from '@ngneat/transloco';
 import {
   CellRange,
   ColumnMovedEvent,

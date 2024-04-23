@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  TextOnlySnackBar,
   MatSnackBar,
   MatSnackBarRef,
+  TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { URL_SUPPORT } from '../constants/urls';
 

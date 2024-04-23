@@ -10,7 +10,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, startWith } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import {
   CUSTOM_DATA_PRIVACY,

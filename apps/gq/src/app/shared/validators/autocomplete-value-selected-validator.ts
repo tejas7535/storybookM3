@@ -11,6 +11,6 @@ export function autocompleteValueSelectedValidator(
     const { value } = control;
     const valid = !value || users.includes(value);
 
-    return !valid ? { invalidSelection: true } : undefined;
+    return valid ? undefined : { invalidSelection: true };
   };
 }

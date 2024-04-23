@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
 import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-enterprise';
 

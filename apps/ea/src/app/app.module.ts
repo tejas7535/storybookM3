@@ -15,8 +15,8 @@ import { combineLatest, tap } from 'rxjs';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { environment } from '@ea/environments/environment';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';

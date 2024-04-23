@@ -5,12 +5,12 @@ import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 
 import { BehaviorSubject, of } from 'rxjs';
 
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
@@ -32,7 +32,6 @@ import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   LAST_MODIFIED,
@@ -60,7 +59,6 @@ import { initialState as initialDataState } from '@mac/msd/store/reducers/data/d
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers/quickfilter/quickfilter.reducer';
 
-import * as en from '../../../../assets/i18n/en.json';
 import { DataFacade } from '../store/facades/data';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
@@ -68,8 +66,8 @@ import { MainTableComponent } from './main-table.component';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
 import { getStatus } from './util';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 
@@ -129,11 +127,7 @@ describe('MainTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MainTableComponent,
-    imports: [
-      MockPipe(PushPipe),
-      MockDirective(LetDirective),
-      provideTranslocoTestingModule({ en }),
-    ],
+    imports: [MockPipe(PushPipe), MockDirective(LetDirective)],
     providers: [
       provideMockStore({ initialState }),
       {

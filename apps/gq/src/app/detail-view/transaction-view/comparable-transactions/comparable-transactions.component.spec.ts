@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { UserRoles } from '@gq/shared/constants';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { FilterChangedEvent } from 'ag-grid-community';

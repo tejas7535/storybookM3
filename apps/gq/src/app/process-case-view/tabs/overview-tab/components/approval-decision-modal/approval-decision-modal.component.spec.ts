@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { UpdateFunction } from '@gq/shared/models';
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

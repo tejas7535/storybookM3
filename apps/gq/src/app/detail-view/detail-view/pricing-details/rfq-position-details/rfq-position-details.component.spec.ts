@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { RfqPositionDetailsComponent } from './rfq-position-details.component';
-import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 describe('RfqPositionDetailsComponent', () => {
   let component: RfqPositionDetailsComponent;

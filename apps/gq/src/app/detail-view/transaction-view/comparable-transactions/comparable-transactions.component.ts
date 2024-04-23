@@ -51,6 +51,7 @@ export class ComparableTransactionsComponent implements OnInit {
     private readonly store: Store
   ) {}
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() set currency(currency: string) {
     this.tableContext.quotation.currency = currency;
   }

@@ -3,7 +3,7 @@ import {
   API_RESULT_MULTIPLE_LOADCASES_MOCK,
   EXPECTED_RESULT_MULTIPLE_LOADCASES,
 } from '@ea/testing/mocks/catalog-helper-mocks';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import {
   LOADCASE_DESIGNATION_FIELD_NAME_TRANSLATION_KEY,
@@ -12,8 +12,8 @@ import {
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import { convertCatalogCalculationResult } from './catalog-helper';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => {
     switch (translateKey) {
       case LOADCASE_NAME_FIELD_NAME_TRANSLATION_KEY:

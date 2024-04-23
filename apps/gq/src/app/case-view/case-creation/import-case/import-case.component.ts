@@ -23,7 +23,7 @@ import {
   EVENT_NAMES,
 } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

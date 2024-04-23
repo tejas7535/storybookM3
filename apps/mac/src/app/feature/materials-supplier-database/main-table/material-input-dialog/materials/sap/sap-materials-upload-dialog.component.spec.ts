@@ -8,12 +8,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 import { ColDef, ColumnApi, GridApi } from 'ag-grid-community';
 import moment from 'moment';
 
@@ -37,8 +37,8 @@ import {
 } from './sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
 import { SapMaterialsUploadStatus } from './sap-materials-upload-status.enum';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string.split('.').pop()),
 }));
 

@@ -5,8 +5,8 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { ProductSelectionFacade } from '@ea/core/store/facades';
 import { environment } from '@ea/environments/environment';
 import { getLocaleForLanguage } from '@ea/shared/constants/language';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 @Injectable({ providedIn: 'root' })
 export class LegacyAppService {

@@ -4,7 +4,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { LanguageSelectComponent } from '@schaeffler/transloco/components';
 

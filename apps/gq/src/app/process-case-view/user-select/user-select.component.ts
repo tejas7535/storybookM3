@@ -99,6 +99,7 @@ export class UserSelectComponent implements AfterViewInit, OnDestroy {
     return this._users$;
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() set users$(users$: Observable<ActiveDirectoryUser[]>) {
     this.filteredOptions$ = users$.pipe(
       tap((users: ActiveDirectoryUser[]) => {

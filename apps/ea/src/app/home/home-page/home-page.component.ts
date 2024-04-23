@@ -9,7 +9,7 @@ import { Card } from '@ea/core/services/home/card.model';
 import { HomeCardsService } from '@ea/core/services/home/home-cards.service';
 import { SettingsFacade } from '@ea/core/store';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';

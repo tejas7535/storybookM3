@@ -6,13 +6,16 @@ import { Observable } from 'rxjs';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { CustomMissingTranslationHandler } from '@gq/shared/custom-missing-translation-handler';
-import { TRANSLOCO_MISSING_HANDLER, TranslocoService } from '@ngneat/transloco';
+import {
+  TRANSLOCO_MISSING_HANDLER,
+  TranslocoService,
+} from '@jsverse/transloco';
 import {
   TranslocoCurrencyPipe,
   TranslocoDatePipe,
   TranslocoDecimalPipe,
   TranslocoPercentPipe,
-} from '@ngneat/transloco-locale';
+} from '@jsverse/transloco-locale';
 
 import {
   AzureConfig,
@@ -22,6 +25,7 @@ import {
   ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   CUSTOM_DATA_PRIVACY,
   PERSON_RESPONSIBLE,

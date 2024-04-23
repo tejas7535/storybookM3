@@ -8,6 +8,6 @@ export function priceValidator(locale: string): ValidatorFn {
 
     const valid = !value || getCurrencyRegex(locale).test(value);
 
-    return !valid ? { invalidPrice: true } : undefined;
+    return valid ? undefined : { invalidPrice: true };
   };
 }

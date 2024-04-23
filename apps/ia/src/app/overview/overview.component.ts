@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption, LineSeriesOption } from 'echarts';
 

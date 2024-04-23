@@ -2,7 +2,7 @@ import {
   HashMap,
   TranslocoMissingHandler,
   TranslocoMissingHandlerData,
-} from '@ngneat/transloco';
+} from '@jsverse/transloco';
 
 export class CustomMissingTranslationHandler
   implements TranslocoMissingHandler

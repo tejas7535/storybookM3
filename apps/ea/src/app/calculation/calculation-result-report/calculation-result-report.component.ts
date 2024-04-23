@@ -23,8 +23,8 @@ import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.componen
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { TagComponent } from '@ea/shared/tag/tag.component';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';

@@ -17,7 +17,7 @@ export class GlobalSearchResultsPreviewFormatterPipe implements PipeTransform {
     const result = this.isMaterialNumber(idValue, searchVal)
       ? this.formatMaterialNumber(
           idValue.value,
-          searchVal.replace(/-/g, '').length
+          searchVal.replaceAll('-', '').length
         )
       : this.formatMaterialDescription(idValue.id, searchVal.length);
 
@@ -26,7 +26,7 @@ export class GlobalSearchResultsPreviewFormatterPipe implements PipeTransform {
 
   private isMaterialNumber(idValue: IdValue, searchVal: string): boolean {
     return (
-      idValue?.value?.startsWith(searchVal.replace(/-/g, '')) &&
+      idValue?.value?.startsWith(searchVal.replaceAll('-', '')) &&
       !idValue?.id?.startsWith(searchVal)
     );
   }

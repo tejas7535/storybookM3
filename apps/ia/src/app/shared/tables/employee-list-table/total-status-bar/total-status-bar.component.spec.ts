@@ -1,6 +1,8 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IRowModel, IStatusPanelParams } from 'ag-grid-community';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { TotalStatusBarComponent } from './total-status-bar.component';
 
 describe('TotalStatusBarComponent', () => {
@@ -9,6 +11,7 @@ describe('TotalStatusBarComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TotalStatusBarComponent,
+    imports: [provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
   });
 

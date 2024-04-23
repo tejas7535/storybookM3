@@ -1,6 +1,8 @@
 import { RecommendationLubricatorHeaderData } from '@lsa/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { LubricatorHeaderComponent } from './lubricator-header.component';
 
 describe('LubricatorHeaderComponent', () => {
@@ -9,6 +11,7 @@ describe('LubricatorHeaderComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LubricatorHeaderComponent,
+    imports: [provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
   });
 

@@ -10,7 +10,7 @@ import {
 import { CatalogCalculationInputFormatterService } from '@ea/core/services/catalog-calculation-input-formatter.service';
 import { CalculationResultReportInput } from '@ea/core/store/models';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
+import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

@@ -230,9 +230,9 @@ export const attritionAnalyticsReducer = createReducer(
       featureImportance: {
         ...state.featureImportance,
         data:
-          state.featureImportance.data !== undefined
-            ? [...[...data.content].reverse(), ...state.featureImportance.data] // reverse to have most important feature on top
-            : [...data.content].reverse(),
+          state.featureImportance.data === undefined
+            ? [...data.content].reverse() // reverse to have most important feature on top
+            : [...[...data.content].reverse(), ...state.featureImportance.data],
         hasNext: data.hasNext,
         pageable: data.pageable,
         loading: false,

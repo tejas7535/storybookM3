@@ -4,8 +4,10 @@ import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
-import { PlantMaterialDetail } from '@gq/shared/models/quotation-detail';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import {
+  PlantMaterialDetail,
+  QuotationDetail,
+} from '@gq/shared/models/quotation-detail';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';

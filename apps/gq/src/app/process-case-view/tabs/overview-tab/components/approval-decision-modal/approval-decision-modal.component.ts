@@ -35,9 +35,9 @@ export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
 
   isInvalidInput = false;
 
-  readonly approvalModalType = ApprovalModalType;
-
   private readonly shutdown$$: Subject<void> = new Subject();
+
+  readonly approvalModalType = ApprovalModalType;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

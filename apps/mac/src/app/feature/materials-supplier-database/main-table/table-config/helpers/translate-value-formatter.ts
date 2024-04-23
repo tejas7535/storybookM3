@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ValueFormatterParams } from 'ag-grid-community';
 
 export const TRANSLATE_VALUE_FORMATTER_FACTORY =

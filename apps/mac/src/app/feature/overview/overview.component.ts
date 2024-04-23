@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

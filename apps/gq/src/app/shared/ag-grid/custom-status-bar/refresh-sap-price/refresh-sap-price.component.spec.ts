@@ -7,8 +7,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockDirective } from 'ng-mocks';

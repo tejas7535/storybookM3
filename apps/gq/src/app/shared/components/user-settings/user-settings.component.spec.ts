@@ -1,8 +1,10 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import {
   LanguageSelectModule,
   LocaleSelectModule,
@@ -32,6 +34,7 @@ describe('UserSettingsComponent', () => {
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),
+      provideTranslocoLocale(sharedTranslocoLocaleConfig),
     ],
   });
 

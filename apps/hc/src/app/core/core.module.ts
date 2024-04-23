@@ -6,10 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { environment } from '@hc/environments/environment';
-import {
-  TRANSLOCO_PERSIST_LANG_STORAGE,
-  TranslocoPersistLangModule,
-} from '@ngneat/transloco-persist-lang';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
 import {
   ApplicationInsightsModule,
@@ -42,13 +39,6 @@ let defaultLang; // default -> undefined would lead to browser detection
       true,
       !environment.localDev
     ),
-    TranslocoPersistLangModule.forRoot({
-      storageKey: LANGUAGE_STORAGE_KEY,
-      storage: {
-        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
-        useValue: localStorage,
-      },
-    }),
     HttpClientModule,
     OneTrustModule.forRoot({
       cookiesGroups: COOKIE_GROUPS,
@@ -79,6 +69,12 @@ let defaultLang; // default -> undefined would lead to browser detection
       },
       multi: true,
     },
+    provideTranslocoPersistLang({
+      storageKey: LANGUAGE_STORAGE_KEY,
+      storage: {
+        useValue: localStorage,
+      },
+    }),
   ],
 })
 export class CoreModule {

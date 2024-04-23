@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   ColDef,
   ExcelExportParams,
@@ -245,9 +245,10 @@ export class EmployeeListTableComponent implements OnInit {
       case ActionType.INTERNAL: {
         return FluctuationType.INTERNAL;
       }
-      default:
+      default: {
         // eslint-disable-next-line unicorn/no-useless-undefined
         return undefined;
+      }
     }
   }
 

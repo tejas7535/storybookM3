@@ -2,8 +2,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { of } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 

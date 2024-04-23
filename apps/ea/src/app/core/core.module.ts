@@ -13,10 +13,7 @@ import {
   FALLBACK_LANGUAGE,
   LANGUAGE_STORAGE_KEY,
 } from '@ea/shared/constants/language';
-import {
-  TRANSLOCO_PERSIST_LANG_STORAGE,
-  TranslocoPersistLangModule,
-} from '@ngneat/transloco-persist-lang';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -41,17 +38,15 @@ import { StoreModule } from './store/store.module';
       undefined,
       `${environment.assetsPath}/i18n/`
     ),
-
-    TranslocoPersistLangModule.forRoot({
-      storageKey: LANGUAGE_STORAGE_KEY,
-      storage: {
-        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
-        useValue: localStorage,
-      },
-    }),
   ],
 
   providers: [
+    provideTranslocoPersistLang({
+      storageKey: LANGUAGE_STORAGE_KEY,
+      storage: {
+        useValue: localStorage,
+      },
+    }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpBearinxInterceptor,

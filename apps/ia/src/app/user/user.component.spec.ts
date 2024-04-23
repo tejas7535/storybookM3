@@ -8,9 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FeedbackDialogComponent } from '../shared/dialogs/feedback-dialog/feedback-dialog.component';
 import { UserComponent } from './user.component';
@@ -26,12 +27,12 @@ describe('UserComponent', () => {
     detectChanges: false,
     imports: [
       PushPipe,
-      TranslocoTestingModule,
       UserSettingsModule,
       MatDividerModule,
       MatDialogModule,
       MatIconModule,
       MatButtonModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({ initialState: { feedback: { loading: false } } }),

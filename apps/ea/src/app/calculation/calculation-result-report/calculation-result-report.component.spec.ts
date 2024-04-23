@@ -4,15 +4,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
+import { translate } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
+import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
@@ -38,6 +40,7 @@ describe('CalculationResultReportComponent', () => {
       provideMockStore({
         initialState: { ...APP_STATE_MOCK },
       }),
+      provideTranslocoLocale(sharedTranslocoLocaleConfig),
       {
         provide: translate,
         useValue: jest.fn(),

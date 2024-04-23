@@ -1,7 +1,7 @@
 import { SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { IdValue } from '../../../models/search';
 import { NumberCurrencyPipe } from '../../../pipes/number-currency/number-currency.pipe';

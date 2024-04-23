@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { ColDef } from 'ag-grid-enterprise';
 
 import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
@@ -66,10 +66,12 @@ export class PortfolioAnalysisTableService {
   public readonly formatValue = (value: number, fieldName: string): string => {
     switch (fieldName) {
       case 'sqvMargin':
-      case 'gpcMargin':
+      case 'gpcMargin': {
         return this.formatMarginValue(value);
-      default:
+      }
+      default: {
         return this.formatPriceValue(value);
+      }
     }
   };
 

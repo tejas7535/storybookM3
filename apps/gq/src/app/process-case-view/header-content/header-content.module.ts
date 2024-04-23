@@ -18,7 +18,7 @@ import {
 
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';

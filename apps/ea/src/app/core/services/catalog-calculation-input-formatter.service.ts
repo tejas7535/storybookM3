@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { CalculationResultReportInput } from '../store/models';
 

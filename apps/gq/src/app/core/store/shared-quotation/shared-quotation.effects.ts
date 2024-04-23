@@ -7,7 +7,7 @@ import { catchError, concatMap, map, tap } from 'rxjs/operators';
 import { SharedQuotationActions } from '@gq/core/store/shared-quotation/shared-quotation.actions';
 import { SharedQuotation } from '@gq/shared/models';
 import { SharedQuotationService } from '@gq/shared/services/rest/shared-quotation/shared-quotation.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 @Injectable()

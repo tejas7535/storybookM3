@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 
 import { CatalogCalculationInputFormatterService } from '@ea/core/services/catalog-calculation-input-formatter.service';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
+import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultReportInputItemComponent } from './calculation-result-report-input-item.component';
@@ -17,7 +19,10 @@ describe('CalculationResultReportInputItemComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationResultReportInputItemComponent,
     imports: [CommonModule, provideTranslocoTestingModule({ en: {} })],
-    providers: [CatalogCalculationInputFormatterService],
+    providers: [
+      CatalogCalculationInputFormatterService,
+      provideTranslocoLocale(sharedTranslocoLocaleConfig),
+    ],
   });
 
   beforeEach(() => {

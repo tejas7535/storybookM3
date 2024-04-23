@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import * as helpers from '../helpers/grease-helpers';

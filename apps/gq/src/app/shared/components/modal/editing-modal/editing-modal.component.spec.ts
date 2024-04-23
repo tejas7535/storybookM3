@@ -8,12 +8,12 @@ import { PriceSource } from '@gq/shared/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 

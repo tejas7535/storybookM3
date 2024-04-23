@@ -6,8 +6,8 @@ import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { parseNullableLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { LOCALE_DE } from '../../constants';
@@ -83,8 +83,8 @@ export class PasteMaterialsService {
     }
     const localeQuantity =
       this.translocoLocaleService.getLocale() === LOCALE_DE.id
-        ? quantity.replace(/\./g, Keyboard.EMPTY)
-        : quantity.replace(/,/g, Keyboard.EMPTY);
+        ? quantity.replaceAll('.', Keyboard.EMPTY)
+        : quantity.replaceAll(',', Keyboard.EMPTY);
 
     return Number.parseInt(localeQuantity.trim(), 10);
   }

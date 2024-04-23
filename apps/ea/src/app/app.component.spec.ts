@@ -3,17 +3,13 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { APP_STATE_MOCK } from '@ea/testing/mocks/store';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import {
-  LOCALE_CONFIG,
-  LOCALE_CURRENCY_MAPPING,
-  LOCALE_DEFAULT_CURRENCY,
-  LOCALE_DEFAULT_LOCALE,
-  LOCALE_LANG_MAPPING,
+  provideTranslocoLocale,
   TRANSLOCO_DATE_TRANSFORMER,
   TRANSLOCO_NUMBER_TRANSFORMER,
-} from '@ngneat/transloco-locale';
+} from '@jsverse/transloco-locale';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -22,8 +18,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => translateKey),
 }));
 
@@ -45,26 +41,13 @@ describe('AppComponent', () => {
       provideMockStore({
         initialState: { ...APP_STATE_MOCK },
       }),
-      {
-        provide: LOCALE_LANG_MAPPING,
-        useValue: { en: 'en-US' },
-      },
-      {
-        provide: LOCALE_DEFAULT_LOCALE,
-        useValue: 'en',
-      },
-      {
-        provide: LOCALE_DEFAULT_CURRENCY,
-        useValue: 'usd',
-      },
-      {
-        provide: LOCALE_CONFIG,
-        useValue: {},
-      },
-      {
-        provide: LOCALE_CURRENCY_MAPPING,
-        useValue: undefined,
-      },
+      provideTranslocoLocale({
+        langToLocaleMapping: { en: 'en-US' },
+        defaultLocale: 'en',
+        defaultCurrency: 'usd',
+        localeConfig: undefined,
+        localeToCurrencyMapping: undefined,
+      }),
       {
         provide: TRANSLOCO_NUMBER_TRANSFORMER,
         useValue: undefined,

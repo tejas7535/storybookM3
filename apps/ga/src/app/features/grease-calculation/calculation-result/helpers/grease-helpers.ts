@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { RotaryControlItem } from '@schaeffler/controls';
 import { LabelValue } from '@schaeffler/label-value';

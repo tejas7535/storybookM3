@@ -6,8 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';

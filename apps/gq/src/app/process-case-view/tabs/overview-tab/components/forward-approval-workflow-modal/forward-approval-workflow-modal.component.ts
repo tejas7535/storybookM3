@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { Approver, UpdateFunction } from '@gq/shared/models';
 import { userValidator } from '@gq/shared/validators/user-validator';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 @Component({
   selector: 'gq-forward-approval-workflow-modal',

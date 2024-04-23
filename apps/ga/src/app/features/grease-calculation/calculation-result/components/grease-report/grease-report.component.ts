@@ -13,8 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Subscription } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

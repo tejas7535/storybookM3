@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
@@ -71,7 +71,7 @@ export function getPercentageValue(rate: number): number {
 }
 
 export function getPercentageValueSigned(value: number): string {
-  return value !== undefined ? `${Number(value)}%` : undefined;
+  return value === undefined ? undefined : `${Number(value)}%`;
 }
 
 export const valueFormatterDate = <T>(

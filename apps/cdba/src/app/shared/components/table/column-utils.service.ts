@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   DateFormatOptions,
-  NumberTypes,
-} from '@ngneat/transloco-locale/lib/transloco-locale.types';
+  NumberStyles,
+} from '@jsverse/transloco-locale/lib/transloco-locale.types';
 import { ValueFormatterParams } from 'ag-grid-enterprise';
 
 @Injectable({ providedIn: 'root' })
@@ -43,7 +43,7 @@ export class ColumnUtilsService {
   public formatNumber = (
     params: ValueFormatterParams,
     options?: Intl.NumberFormatOptions,
-    type: NumberTypes = 'decimal'
+    type: NumberStyles = 'decimal'
   ): string =>
     this.localeService.localizeNumber(params.value, type, undefined, options);
 

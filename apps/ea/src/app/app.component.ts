@@ -22,8 +22,8 @@ import {
 } from 'rxjs';
 
 import { isLanguageAvailable } from '@ea/shared/helper/language-helpers';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';

@@ -53,17 +53,20 @@ export class ScrambleMaterialDesignationPipe implements PipeTransform {
     let valueMainPart: string;
 
     switch (scramblePattern) {
-      case 0:
+      case 0: {
         valueMainPart = '363453';
         break;
-      case 1:
+      }
+      case 1: {
         valueMainPart = '454672';
         break;
-      default:
+      }
+      default: {
         valueMainPart = Math.floor(
           100_000 + Math.random() * 900_000
         ).toString();
         break;
+      }
     }
 
     valueMainPartSplit[0] = valueMainPart;

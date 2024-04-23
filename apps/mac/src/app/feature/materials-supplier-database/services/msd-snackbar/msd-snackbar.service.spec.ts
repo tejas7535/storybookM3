@@ -1,13 +1,13 @@
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { CustomSnackbarComponent } from '../../main-table/custom-snackbar/custom-snackbar.component';
 import { MsdSnackbarService } from './msd-snackbar.service';
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 describe('MsdSnackbarService', () => {

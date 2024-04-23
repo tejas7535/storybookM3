@@ -1,5 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { HomePageCardComponent } from './home-page-card.component';
 
 describe('HomePageCardComponent', () => {
@@ -8,7 +10,7 @@ describe('HomePageCardComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HomePageCardComponent,
-    imports: [],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
   });
 

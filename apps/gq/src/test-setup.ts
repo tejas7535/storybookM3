@@ -1,12 +1,13 @@
 // eslint-disable  import/order
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import '../../../global-mocks';
 import 'jest-preset-angular/setup-jest';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { LicenseManager } from 'ag-grid-enterprise';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

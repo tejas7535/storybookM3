@@ -21,8 +21,8 @@ import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.s
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
+import { translate } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

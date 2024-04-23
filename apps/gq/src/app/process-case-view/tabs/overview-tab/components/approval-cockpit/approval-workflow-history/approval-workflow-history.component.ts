@@ -29,6 +29,7 @@ export class ApprovalWorkflowHistoryComponent {
     return this._workflowEvents;
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input()
   set workflowEvents(workflowEvents: ApprovalWorkflowEvent[]) {
     this._workflowEvents = workflowEvents;

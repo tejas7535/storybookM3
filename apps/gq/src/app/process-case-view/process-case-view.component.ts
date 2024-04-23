@@ -43,11 +43,11 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   dataLoadingComplete$: Observable<boolean>;
   tabs$: Observable<Tab[]>;
 
+  private readonly shutDown$$: Subject<void> = new Subject();
+
   readonly sapSyncStatus = SAP_SYNC_STATUS;
   readonly quotationStatus = QuotationStatus;
   readonly loggedInUserId$ = this.rolesFacade.loggedInUserId$;
-
-  private readonly shutDown$$: Subject<void> = new Subject();
 
   constructor(
     private readonly store: Store,

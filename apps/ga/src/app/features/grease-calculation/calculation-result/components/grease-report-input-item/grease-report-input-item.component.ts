@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

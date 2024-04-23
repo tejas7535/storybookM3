@@ -1,13 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { environment } from '@lsa/environments/environment';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
   LANGUAGE_STORAGE_KEY,
 } from '@lsa/shared/constants/language';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

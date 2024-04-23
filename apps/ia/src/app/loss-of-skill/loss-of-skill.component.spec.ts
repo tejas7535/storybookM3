@@ -2,9 +2,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
@@ -21,7 +22,7 @@ describe('LossOfSkillComponent', () => {
       LostJobProfilesModule,
       RiskOfLeavingModule,
       MatCardModule,
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
       PushPipe,
     ],
     providers: [

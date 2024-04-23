@@ -182,9 +182,9 @@ export class SalesRowDetailsComponent
     // eopVerified is preferred value
     this.datesFormGroup.setValue({
       eopDateControl:
-        this.rowData.eopDateVerified !== null
-          ? this.rowData.eopDateVerified
-          : this.rowData.eopDateTemp,
+        this.rowData.eopDateVerified === null
+          ? this.rowData.eopDateTemp
+          : this.rowData.eopDateVerified,
       edoDateControl: this.rowData.edoDate,
     });
 

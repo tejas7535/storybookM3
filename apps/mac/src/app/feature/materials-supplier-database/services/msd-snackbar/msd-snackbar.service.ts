@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { CustomSnackbarComponent } from '../../main-table/custom-snackbar/custom-snackbar.component';
 

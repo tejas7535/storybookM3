@@ -2,13 +2,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LOCALE_DE, LOCALE_EN } from '../../constants';

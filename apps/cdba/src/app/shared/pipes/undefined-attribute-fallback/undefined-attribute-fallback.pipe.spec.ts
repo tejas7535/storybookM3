@@ -1,5 +1,5 @@
+import { TranslocoService } from '@jsverse/transloco';
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { UndefinedAttributeFallbackPipe } from './undefined-attribute-fallback.pipe';
 

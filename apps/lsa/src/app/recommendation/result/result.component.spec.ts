@@ -1,5 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { ResultComponent } from './result.component';
 
 describe('ResultComponent', () => {
@@ -8,6 +10,7 @@ describe('ResultComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ResultComponent,
+    imports: [provideTranslocoTestingModule({ en: {} })],
     detectChanges: false,
   });
 

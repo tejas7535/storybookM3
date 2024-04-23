@@ -1,10 +1,10 @@
+import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -30,8 +30,8 @@ import {
 import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey: string) => {
     switch (translateKey) {
       case 'calculationResult.gramsAbbreviation':

@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';

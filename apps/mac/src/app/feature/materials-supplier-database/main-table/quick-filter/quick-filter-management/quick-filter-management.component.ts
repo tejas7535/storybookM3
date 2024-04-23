@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { map, Observable, of, take } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {

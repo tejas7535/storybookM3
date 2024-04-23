@@ -169,8 +169,9 @@ export class OrgChartService {
       case FluctuationType.REMAINING: {
         return fluctuationRate.remainingFluctuationRate;
       }
-      default:
+      default: {
         return fluctuationRate.fluctuationRate;
+      }
     }
   }
 

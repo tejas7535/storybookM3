@@ -25,12 +25,15 @@ export class ExcludedCalculationsDialogComponent {
 
   private readonly formatCostRole = (costRole: `${CostRoles}`): string => {
     switch (costRole) {
-      case 'CDBA_COST_TYPE_SQV':
+      case 'CDBA_COST_TYPE_SQV': {
         return '<SD-INFORMATION_SAW>';
-      case 'CDBA_COST_TYPE_GPC':
+      }
+      case 'CDBA_COST_TYPE_GPC': {
         return '<CO_PC-INFORMATION>';
-      default:
+      }
+      default: {
         return costRole;
+      }
     }
   };
 }

@@ -7,7 +7,7 @@ import {
 
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { Subordinate } from '../../models';
 import { ReportService } from '../../services/report.service';

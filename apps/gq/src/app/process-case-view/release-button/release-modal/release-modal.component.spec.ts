@@ -15,8 +15,8 @@ import {
   Approver,
   Quotation,
 } from '@gq/shared/models';
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

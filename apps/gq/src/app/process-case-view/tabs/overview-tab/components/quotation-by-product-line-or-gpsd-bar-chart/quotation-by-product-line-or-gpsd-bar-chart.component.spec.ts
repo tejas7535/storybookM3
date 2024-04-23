@@ -4,7 +4,7 @@ import {
   createComponentFactory,
   mockProvider,
   Spectator,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 import { MockDirective } from 'ng-mocks';
 import { NgxEchartsDirective } from 'ngx-echarts';
 

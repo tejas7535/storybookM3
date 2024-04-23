@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { debounceTime, Subscription } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

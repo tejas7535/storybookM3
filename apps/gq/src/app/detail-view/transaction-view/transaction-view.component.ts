@@ -24,7 +24,7 @@ import {
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { FilterChangedEvent, RowNode } from 'ag-grid-community';
 

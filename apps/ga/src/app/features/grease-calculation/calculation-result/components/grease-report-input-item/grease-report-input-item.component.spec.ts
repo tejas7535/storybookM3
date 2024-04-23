@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 

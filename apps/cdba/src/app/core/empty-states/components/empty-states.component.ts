@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { ForbiddenEventService } from '@schaeffler/empty-states';
 
 import { RoleDescriptionsDialogComponent } from '@cdba/shared/components/role-descriptions/role-descriptions-dialog/role-descriptions-dialog.component';

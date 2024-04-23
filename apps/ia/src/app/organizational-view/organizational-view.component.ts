@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { map, Observable, take, tap } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 

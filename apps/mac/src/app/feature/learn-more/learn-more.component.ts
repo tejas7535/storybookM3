@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { Store, StoreModule } from '@ngrx/store';
 

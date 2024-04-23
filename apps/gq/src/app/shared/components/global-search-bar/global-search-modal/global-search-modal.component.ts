@@ -142,8 +142,9 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
 
         break;
       }
-      default:
+      default: {
         return;
+      }
     }
   }
 
@@ -200,18 +201,21 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
     });
 
     switch (openIn) {
-      case OpenIn.window:
+      case OpenIn.window: {
         openInNewWindowByUrl(`${window.location.origin}${url.toString()}`);
         break;
-      case OpenIn.tab:
+      }
+      case OpenIn.tab: {
         openInNewTabByUrl(`${window.location.origin}${url.toString()}`);
         break;
-      default:
+      }
+      default: {
         this.router.navigateByUrl(url);
         this.clearInputField();
         this.closeDialog();
 
         break;
+      }
     }
   }
 

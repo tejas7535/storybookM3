@@ -1,5 +1,5 @@
 import { Duration } from '@gq/shared/models';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { when } from 'jest-when';
 
 import { DurationPipe } from './duration.pipe';

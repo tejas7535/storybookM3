@@ -5,7 +5,7 @@ import { deleteRowDataItem } from '@gq/core/store/actions';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '@gq/shared/components/modal/confirmation-modal/models/confirmation-modal-data.model';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { GridApi } from 'ag-grid-community';
 

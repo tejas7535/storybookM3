@@ -64,10 +64,7 @@ export class DateInputComponent {
 
   @Input() set timePeriod(timePeriod: TimePeriod) {
     // refDate depends on year or month/last12month dropdown
-    if (!this.timePeriod) {
-      this._timePeriod = timePeriod;
-      this.setInitialStartEndDates();
-    } else {
+    if (this.timePeriod) {
       this._timePeriod = timePeriod;
       let refDate;
       if (timePeriod === TimePeriod.YEAR) {
@@ -78,6 +75,9 @@ export class DateInputComponent {
         refDate = this.nowDate.clone().subtract(1, 'month').utc();
       }
       this.updateStartEndDates(refDate);
+    } else {
+      this._timePeriod = timePeriod;
+      this.setInitialStartEndDates();
     }
   }
 

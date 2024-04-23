@@ -2,7 +2,7 @@
 
 import { filter, map, pipe } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { createSelector, MemoizedSelector, select } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';

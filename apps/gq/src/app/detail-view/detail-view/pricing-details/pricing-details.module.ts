@@ -11,7 +11,7 @@ import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kp
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -25,9 +25,9 @@ import { ProductionCostDetailsComponent } from './production-cost-details/produc
 import { UpdateCostsConfirmModalComponent } from './production-cost-details/update-costs-confirm-modal/update-costs-confirm-modal.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
 import { RfqPositionDetailsComponent } from './rfq-position-details/rfq-position-details.component';
+import { UpdateRfqPositionDetailsComponent } from './rfq-position-details/update-rfq-position-details/update-rfq-position-details.component';
 import { StockAvailabilityDetailsComponent } from './stock-availability-details/stock-availability-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
-import { UpdateRfqPositionDetailsComponent } from './rfq-position-details/update-rfq-position-details/update-rfq-position-details.component';
 @NgModule({
   declarations: [
     PricingDetailsComponent,

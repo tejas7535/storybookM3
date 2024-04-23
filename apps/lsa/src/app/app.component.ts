@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { isLanguageAvailable } from './core/services/language-helpers';
 import { RestService } from './core/services/rest.service';

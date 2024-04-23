@@ -41,7 +41,7 @@ export class RolesFacade {
     this.userHasRegionGreaterChinaRole$,
   ]).pipe(
     map(([hasGPC, hasSQV, hasRegionGreaterChina]) =>
-      !hasRegionGreaterChina ? true : hasGPC && hasSQV
+      hasRegionGreaterChina ? hasGPC && hasSQV : true
     )
   );
 
@@ -62,7 +62,7 @@ export class RolesFacade {
     this.userHasManualPriceRole$,
   ]).pipe(
     map(([hasRegionGreaterChina, hasManualPrice]) =>
-      !hasRegionGreaterChina ? true : hasManualPrice
+      hasRegionGreaterChina ? hasManualPrice : true
     )
   );
 

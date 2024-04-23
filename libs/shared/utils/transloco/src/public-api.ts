@@ -7,5 +7,6 @@ export {
 export {
   preLoad,
   preloadLanguage,
+  sharedTranslocoLocaleConfig,
   SharedTranslocoModule,
 } from './lib/shared-transloco.module';

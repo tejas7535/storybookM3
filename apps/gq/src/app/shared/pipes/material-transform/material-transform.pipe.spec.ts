@@ -1,4 +1,4 @@
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { GlobalSearchResultsPreviewFormatterPipe } from '../../components/global-search-bar/global-search-results-preview-formatter/global-search-results-preview-formatter.pipe';
 import { MaterialNumberService } from '../../services/material-number/material-number.service';

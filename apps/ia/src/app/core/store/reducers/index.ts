@@ -32,7 +32,7 @@ export const ROOT_REDUCERS = new InjectionToken<ActionReducerMap<AppState>>(
   }
 );
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = environment.production
   ? []
   : [];
 

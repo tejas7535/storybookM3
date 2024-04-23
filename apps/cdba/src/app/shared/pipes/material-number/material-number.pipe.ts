@@ -20,8 +20,9 @@ export class MaterialNumberPipe implements PipeTransform {
           )}-${value.slice(13)}`;
           break;
         }
-        default:
+        default: {
           materialNumber = value;
+        }
       }
     }
 

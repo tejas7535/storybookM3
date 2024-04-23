@@ -1,5 +1,5 @@
+import { AvailableLangs, TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
 import { MMLocales } from './locale.enum';
 import { LocaleService } from './locale.service';

@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { BehaviorSubject, Subject, take, takeUntil, tap } from 'rxjs';
 
-import { translate, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';

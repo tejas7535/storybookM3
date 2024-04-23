@@ -1,11 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { MsdDialogService } from '../../services';
 import {
@@ -13,8 +13,8 @@ import {
   MaterialEmissionClassificationComponent,
 } from './material-emission-classification.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 

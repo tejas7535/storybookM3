@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs/internal/Observable';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';

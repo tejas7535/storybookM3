@@ -425,9 +425,9 @@ export const activeCaseFeature = createFeature({
       ActiveCaseActions.deselectQuotationDetail,
       (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
         ...state,
-        selectedQuotationDetails: [
-          ...state.selectedQuotationDetails.filter((id) => id !== gqPositionId),
-        ],
+        selectedQuotationDetails: state.selectedQuotationDetails.filter(
+          (id) => id !== gqPositionId
+        ),
       })
     ),
     on(

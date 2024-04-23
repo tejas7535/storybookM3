@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 

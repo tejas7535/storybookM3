@@ -4,7 +4,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import jsPDF from 'jspdf';
 
 import {

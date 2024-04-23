@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { AVAILABLE_LANGUAGE_DE } from '../../constants';
 import { AG_GRID_LOCALE_DE } from '../constants/locale-de';

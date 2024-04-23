@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { PropertyDelta } from '@gq/core/store/f-pricing/models/property-delta.interface';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'deltaDisplay',

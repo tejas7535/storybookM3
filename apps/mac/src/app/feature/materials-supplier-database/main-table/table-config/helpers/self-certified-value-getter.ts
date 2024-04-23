@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ValueGetterParams } from 'ag-grid-community';
 
 import { DataResult } from '@mac/msd/models';

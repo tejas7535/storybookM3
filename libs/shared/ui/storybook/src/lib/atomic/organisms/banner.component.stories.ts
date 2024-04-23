@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   applicationConfig,
   Meta,

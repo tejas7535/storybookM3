@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { debounceTime, filter, map, ReplaySubject, Subscription } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 

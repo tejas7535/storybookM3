@@ -1,12 +1,12 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 

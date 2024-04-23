@@ -1,4 +1,4 @@
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';

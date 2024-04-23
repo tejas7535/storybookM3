@@ -4,7 +4,7 @@ import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,
 } from '@gq/shared/models';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 

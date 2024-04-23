@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { createSelector } from '@ngrx/store';
 import { LineSeriesOption } from 'echarts';
 
@@ -135,12 +135,12 @@ const getWorldMapFluctuationDialogCountryMetaData = (
 export const getWorldMapFluctuationDialogMetaData = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) =>
-    state.worldMap.selectedRegion !== undefined
-      ? getWorldMapFluctuationDialogRegionMetaData(
+    state.worldMap.selectedRegion === undefined
+      ? getWorldMapFluctuationDialogCountryMetaData(state)
+      : getWorldMapFluctuationDialogRegionMetaData(
           state.worldMap.data,
           state.worldMap.selectedRegion
         )
-      : getWorldMapFluctuationDialogCountryMetaData(state)
 );
 
 export const getWorldMapFluctuationDialogMeta = createSelector(

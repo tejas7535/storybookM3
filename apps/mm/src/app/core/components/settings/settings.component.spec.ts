@@ -6,8 +6,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BehaviorSubject } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
+import { TranslocoTestingModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { MockModule } from 'ng-mocks';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';

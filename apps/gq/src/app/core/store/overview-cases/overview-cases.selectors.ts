@@ -5,7 +5,7 @@ import {
 import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
 import { AgStatusBar } from '@gq/shared/ag-grid/models/ag-status-bar.model';
 import { ViewQuotation } from '@gq/shared/models/quotation';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { OverviewCasesStateQuotations } from './models/overview-cases-state-quotations.model';
@@ -19,22 +19,30 @@ export const getQuotations = createSelector(
   overviewCasesFeature.selectOverviewCasesState,
   (state: OverviewCasesState): ViewQuotation[] => {
     switch (state.quotations.activeTab) {
-      case QuotationTab.ACTIVE:
+      case QuotationTab.ACTIVE: {
         return state.quotations.active.quotations;
-      case QuotationTab.IN_APPROVAL:
+      }
+      case QuotationTab.IN_APPROVAL: {
         return state.quotations.inApproval.quotations;
-      case QuotationTab.APPROVED:
+      }
+      case QuotationTab.APPROVED: {
         return state.quotations.approved.quotations;
-      case QuotationTab.ARCHIVED:
+      }
+      case QuotationTab.ARCHIVED: {
         return state.quotations.archived.quotations;
-      case QuotationTab.TO_APPROVE:
+      }
+      case QuotationTab.TO_APPROVE: {
         return state.quotations.toApprove.quotations;
-      case QuotationTab.REJECTED:
+      }
+      case QuotationTab.REJECTED: {
         return state.quotations.rejected.quotations;
-      case QuotationTab.SHARED:
+      }
+      case QuotationTab.SHARED: {
         return state.quotations.shared.quotations;
-      default:
+      }
+      default: {
         return undefined;
+      }
     }
   }
 );
@@ -43,12 +51,15 @@ export const getStatusBarForQuotationStatus = createSelector(
   overviewCasesFeature.selectOverviewCasesState,
   (state: OverviewCasesState): AgStatusBar => {
     switch (state.quotations.activeTab) {
-      case QuotationTab.ACTIVE:
+      case QuotationTab.ACTIVE: {
         return ACTIVE_STATUS_BAR_CONFIG;
-      case QuotationTab.ARCHIVED:
+      }
+      case QuotationTab.ARCHIVED: {
         return ARCHIVED_STATUS_BAR_CONFIG;
-      default:
+      }
+      default: {
         return { statusPanels: [] };
+      }
     }
   }
 );

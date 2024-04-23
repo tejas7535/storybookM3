@@ -2,6 +2,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { RolesAndRightsModule } from '../../roles-and-rights.module';
 import { RolesComponent } from './roles.component';
 
@@ -11,7 +13,7 @@ describe('RolesComponent', () => {
 
   const createComponent = createComponentFactory({
     component: RolesComponent,
-    imports: [RolesAndRightsModule],
+    imports: [RolesAndRightsModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
         provide: MATERIAL_SANITY_CHECKS,

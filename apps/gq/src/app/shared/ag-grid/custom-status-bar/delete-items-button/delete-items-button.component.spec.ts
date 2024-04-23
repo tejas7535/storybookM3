@@ -1,13 +1,13 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject, of } from 'rxjs';
 
 import { RolesFacade } from '@gq/core/store/facades';
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { MockDirective, MockProvider } from 'ng-mocks';
@@ -190,6 +190,7 @@ describe('DeleteItemsButtonComponent', () => {
     test(
       'should toolPanelOpened$$ return false',
       marbles((m) => {
+        // eslint-disable-next-line unicorn/no-useless-undefined
         params.api.getOpenedToolPanel = jest.fn(() => undefined);
         component['params'] = params;
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ITooltipAngularComp } from 'ag-grid-angular';
 
 import { TooltipParams } from '../table-config';

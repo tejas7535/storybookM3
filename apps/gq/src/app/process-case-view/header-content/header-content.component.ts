@@ -12,7 +12,7 @@ import {
 import { Customer } from '@gq/shared/models/customer';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 @Component({
   selector: 'gq-header-content',
   styleUrls: ['./header-content.component.scss'],

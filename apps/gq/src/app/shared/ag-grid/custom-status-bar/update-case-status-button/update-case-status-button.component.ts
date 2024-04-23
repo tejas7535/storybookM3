@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';

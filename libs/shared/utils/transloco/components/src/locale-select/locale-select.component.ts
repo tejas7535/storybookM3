@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from './locale.constants';
 import { Locale } from './locale.model';

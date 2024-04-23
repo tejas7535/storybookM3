@@ -3,6 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { RadioOptionContentDirective } from '@lsa/shared/components/radio-button-group/radio-option-content.directive';
 import {
@@ -11,7 +12,6 @@ import {
   RelubricationInterval,
 } from '@lsa/shared/constants';
 import { LSAInterval, LubricationPointsForm } from '@lsa/shared/models';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 
 const translatePath = 'recommendation.lubricationPoints';
 

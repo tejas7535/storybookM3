@@ -1,4 +1,4 @@
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import { APP_STATE_MOCK, MODEL_MOCK_ID } from '@ga/testing/mocks';
 
@@ -16,8 +16,8 @@ import {
   getSelectedBearing,
 } from './bearing-selection.selector';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 

@@ -1,7 +1,7 @@
 import { of, throwError } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -53,8 +53,8 @@ import { getNavigation } from '@mac/msd/store/selectors';
 import { cleanMinimizeDialog } from '../../actions/dialog';
 import { DataEffects } from './data.effects';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string.split('.').pop()),
 }));
 

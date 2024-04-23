@@ -6,13 +6,13 @@ import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
-import { translate } from '@ngneat/transloco';
+import { QuotationDetail } from '@gq/shared/models';
+import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { Quotation, QuotationStatus } from '../../../models';
-import { QuotationDetail } from '@gq/shared/models';
 
 @Component({
   selector: 'gq-delete-items-button',

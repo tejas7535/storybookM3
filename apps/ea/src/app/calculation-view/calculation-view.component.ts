@@ -6,8 +6,8 @@ import { AppRoutePath } from '@ea/app-route-path.enum';
 import { CalculationContainerComponent } from '@ea/calculation/calculation-container/calculation-container.component';
 import { ProductSelectionFacade, SettingsFacade } from '@ea/core/store/facades';
 import { LegacyAppComponent } from '@ea/legacy-app/legacy-app.component';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 
 import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';

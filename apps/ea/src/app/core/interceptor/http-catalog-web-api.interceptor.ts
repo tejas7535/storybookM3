@@ -18,7 +18,7 @@ import {
   LANGUAGE_ZH,
   LANGUAGE_ZH_TW,
 } from '@ea/shared/constants/language';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable()
 export class HttpCatalogWebApiInterceptor implements HttpInterceptor {

@@ -12,8 +12,8 @@ import {
   RatingLifeIcon,
 } from '@ea/shared/constants/pdf-icons';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { CalculationResultFacade, ProductSelectionFacade } from '../store';
 import { CalculationResultReportInput } from '../store/models';

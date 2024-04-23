@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { RecommendationLubricatorHeaderData } from '@lsa/shared/models';
-import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'lsa-lubricator-header',

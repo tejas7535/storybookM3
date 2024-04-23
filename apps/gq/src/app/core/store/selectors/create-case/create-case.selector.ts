@@ -143,7 +143,7 @@ export const getCustomerConditionsValid = createSelector(
           .options.find((opt: IdValue) => opt.selected)
       : undefined;
 
-    return customerValid !== undefined ? rowDataValid : false;
+    return customerValid === undefined ? false : rowDataValid;
   }
 );
 export const getCreateCaseData = createSelector(

@@ -6,17 +6,17 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter, startWith, Subject, take, takeUntil } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath } from '@schaeffler/legal-pages';
 
-import { getAppFooterLinks } from '@ga/core/helpers/app-config-helpers';
 import { SettingsFacade, StorageMessagesActions } from '@ga/core/store';
 
 import packageJson from '../../package.json';
+import { getAppFooterLinks } from './core/helpers/app-config-helpers';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 import { PartnerVersion } from './shared/models';
 import { EmbeddedGoogleAnalyticsService } from './shared/services/embedded-google-analytics/embedded-google-analytics.service';

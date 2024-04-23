@@ -1,6 +1,6 @@
 import { CustomMissingTranslationHandler } from '@gq/shared/custom-missing-translation-handler';
+import { TranslocoMissingHandlerData } from '@jsverse/transloco/lib/transloco-missing-handler';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoMissingHandlerData } from '@ngneat/transloco/lib/transloco-missing-handler';
 
 describe('CustomMissingTranslationHandler', () => {
   let handler: CustomMissingTranslationHandler;

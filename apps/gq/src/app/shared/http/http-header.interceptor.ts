@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {} from 'rxjs/operators';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ApiVersion } from '../models';
 import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';

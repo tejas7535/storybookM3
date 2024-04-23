@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
 import { Calculation } from '@cdba/shared/models';

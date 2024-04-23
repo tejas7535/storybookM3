@@ -3,7 +3,7 @@ import { mockResponse } from '@lsa/testing/mocks/recommendation.mock';
 import { Lubricator } from '../models';
 import { RecommendationTableDataPipe } from './recommendation-table-data.pipe';
 
-jest.mock('@ngneat/transloco', () => ({
+jest.mock('@jsverse/transloco', () => ({
   translate: jest.fn((key) => key),
 }));
 

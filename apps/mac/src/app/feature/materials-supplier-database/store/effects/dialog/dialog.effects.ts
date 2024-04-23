@@ -19,7 +19,7 @@ import {
   timer,
 } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { StringOption } from '@schaeffler/inputs';

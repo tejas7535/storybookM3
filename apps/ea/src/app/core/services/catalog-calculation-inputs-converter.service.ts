@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { roundToThreeSigFigs } from '@ea/shared/helper';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { CalculationResultReportInput } from '../store/models/calculation-result-report-input.model';
 import { extractSubordinatesFromPath } from './bearinx-helper';

@@ -10,7 +10,7 @@ import {
   translate,
   TranslocoEvents,
   TranslocoService,
-} from '@ngneat/transloco';
+} from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';

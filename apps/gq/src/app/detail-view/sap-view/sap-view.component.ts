@@ -17,7 +17,7 @@ import { Quotation } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';

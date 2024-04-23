@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { translate, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 import {
   ColDef,
   ValueFormatterParams,

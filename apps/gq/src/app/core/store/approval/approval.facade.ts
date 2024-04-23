@@ -264,17 +264,21 @@ export class ApprovalFacade {
         let approvers$: Observable<Approver[]>;
 
         switch (approverIndex) {
-          case 0:
+          case 0: {
             approvers$ = this.firstApprovers$;
             break;
-          case 1:
+          }
+          case 1: {
             approvers$ = this.secondApprovers$;
             break;
-          case 2:
+          }
+          case 2: {
             approvers$ = this.thirdApprovers$;
             break;
-          default:
+          }
+          default: {
             approvers$ = of([]);
+          }
         }
 
         return approvers$.pipe(

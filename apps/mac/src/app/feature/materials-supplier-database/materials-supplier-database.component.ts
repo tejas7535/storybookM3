@@ -5,7 +5,7 @@ import { Router, UrlSerializer } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';

@@ -10,9 +10,9 @@ import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if
 import { Keyboard } from '@gq/shared/models';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
-import { TranslocoService } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockDirective } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';

@@ -24,12 +24,12 @@ import { QuotationStatus } from '@gq/shared/models/quotation';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscs from '@gq/shared/utils/misc.utils';
+import { translate } from '@jsverse/transloco';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

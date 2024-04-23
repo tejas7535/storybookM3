@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { IHeaderAngularComp } from 'ag-grid-angular/lib/interfaces';
@@ -12,7 +12,7 @@ import { deselectReferenceType } from '@cdba/core/store';
   styleUrls: ['./custom-header.component.scss'],
 })
 export class CustomHeaderComponent implements IHeaderAngularComp {
-  params!: IHeaderParams;
+  @Input() params!: IHeaderParams;
   isXButtonVisible: boolean;
   nodeId: string;
 

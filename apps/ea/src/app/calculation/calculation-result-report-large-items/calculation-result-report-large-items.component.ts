@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { InfoButtonComponent } from '@ea/shared/info-button/info-button.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TagComponent } from '@ea/shared/tag/tag.component';
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
+import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { CalculationResultReportCalculationTypeSelection } from '@ea/core/store/models/calculation-result-report.model';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   templateUrl: './calculation-result-report-selection.component.html',

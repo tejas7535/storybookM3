@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import {
   MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
   MatExpansionModule,
   MatExpansionPanelDefaultOptions,
 } from '@angular/material/expansion';
-import { MatCardModule } from '@angular/material/card';
 
 import { PushPipe } from '@ngrx/component';
 

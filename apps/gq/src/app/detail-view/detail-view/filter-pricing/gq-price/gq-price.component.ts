@@ -37,7 +37,7 @@ export class GqPriceComponent {
     return this._isLoading;
   }
 
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures,@typescript-eslint/member-ordering
   @Input() set quotationDetail(quotationDetail: QuotationDetail) {
     if (quotationDetail) {
       this.gpi = calculateMargin(
@@ -56,7 +56,7 @@ export class GqPriceComponent {
     this._quotationDetail = quotationDetail;
   }
 
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures,@typescript-eslint/member-ordering
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
   }

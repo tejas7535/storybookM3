@@ -13,7 +13,7 @@ import {
 } from '@gq/shared/ag-grid/services';
 import { timestampRegex } from '@gq/shared/constants';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
 @Injectable({
@@ -92,16 +92,21 @@ export class ColumnDefService {
         ...FILTER_PARAMS,
         valueFormatter: (params: ValueFormatterParams) => {
           switch (params.value) {
-            case SAP_SYNC_STATUS.SYNCED.toString():
+            case SAP_SYNC_STATUS.SYNCED.toString(): {
               return translate('shared.sapStatusLabels.synced');
-            case SAP_SYNC_STATUS.NOT_SYNCED.toString():
+            }
+            case SAP_SYNC_STATUS.NOT_SYNCED.toString(): {
               return translate('shared.sapStatusLabels.notSynced');
-            case SAP_SYNC_STATUS.PARTIALLY_SYNCED.toString():
+            }
+            case SAP_SYNC_STATUS.PARTIALLY_SYNCED.toString(): {
               return translate('shared.sapStatusLabels.partiallySynced');
-            case SAP_SYNC_STATUS.SYNC_FAILED.toString():
+            }
+            case SAP_SYNC_STATUS.SYNC_FAILED.toString(): {
               return translate('shared.sapStatusLabels.syncFailed');
-            default:
+            }
+            default: {
               return params.value;
+            }
           }
         },
       },

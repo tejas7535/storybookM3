@@ -18,7 +18,7 @@ import {
 } from '@gq/core/store/selectors';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
-import { translate, TranslocoService } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import {
   ExcelCell,
@@ -855,8 +855,9 @@ export class ExportToExcelButtonComponent implements OnInit {
 
           return this.transformationService.transformPercentage(Number(value));
         }
-        default:
+        default: {
           return value.toString();
+        }
       }
     }
   }

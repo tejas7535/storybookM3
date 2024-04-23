@@ -7,7 +7,7 @@ import {
 import { Customer } from '@gq/shared/models/customer';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   LegendComponentOption,
   SeriesOption,
@@ -109,24 +109,29 @@ export class ChartConfigService {
     data: DataPoint
   ): string | number => {
     switch (item) {
-      case ToolTipItems.PRICE:
+      case ToolTipItems.PRICE: {
         return this.transformationService.transformNumberCurrency(
           data.price,
           data.currency
         );
-      case ToolTipItems.YEAR:
+      }
+      case ToolTipItems.YEAR: {
         return data.year;
-      case ToolTipItems.QUANTITY:
+      }
+      case ToolTipItems.QUANTITY: {
         return this.transformationService.transformNumber(
           data.value[this.INDEX_X_AXIS],
           false
         );
-      case ToolTipItems.PROFIT_MARGIN:
+      }
+      case ToolTipItems.PROFIT_MARGIN: {
         return this.transformationService.transformPercentage(
           data.value[this.INDEX_Y_AXIS]
         );
-      default:
+      }
+      default: {
         return ``;
+      }
     }
   };
 

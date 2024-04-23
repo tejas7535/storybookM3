@@ -38,17 +38,21 @@ export class SimpleTableComponent implements OnInit {
   ngOnInit(): void {
     // 2 columns 1/2 width, 3 columns 1/4 width, 4 columns 1/5 width the last column will take the remaining space!!!
     switch (this.columnsToDisplay.length) {
-      case 2:
+      case 2: {
         this.columnWidth = '!w-1/2';
         break;
-      case 3:
+      }
+      case 3: {
         this.columnWidth = '!w-1/4';
         break;
-      case 4:
+      }
+      case 4: {
         this.columnWidth = '!w-1/5';
         break;
-      default:
+      }
+      default: {
         this.columnWidth = '!w-1/2';
+      }
     }
   }
 }

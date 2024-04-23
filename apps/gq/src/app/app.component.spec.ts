@@ -4,8 +4,8 @@ import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
@@ -13,7 +13,9 @@ import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { MaintenanceModule } from '@schaeffler/empty-states';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -24,8 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { GlobalSearchBarModule } from './shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

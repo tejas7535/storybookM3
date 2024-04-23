@@ -313,9 +313,9 @@ export const searchReducer = createReducer(
           ...state,
           referenceTypes: {
             ...state.referenceTypes,
-            selectedNodeIds: [
-              ...selectedNodeIds.filter((id: string) => id !== nodeId),
-            ],
+            selectedNodeIds: selectedNodeIds.filter(
+              (id: string) => id !== nodeId
+            ),
           },
         }
       : state;

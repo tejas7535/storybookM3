@@ -4,14 +4,17 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import {
   AvailableLangs,
   getBrowserLang,
-  TRANSLOCO_CONFIG,
+  provideTransloco,
   TRANSLOCO_SCOPE,
-  TranslocoConfig,
   TranslocoModule,
   TranslocoService,
-} from '@ngneat/transloco';
-import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
-import { TranslocoMessageFormatModule } from '@ngneat/transloco-messageformat';
+} from '@jsverse/transloco';
+import {
+  provideTranslocoLocale,
+  TranslocoLocaleConfig,
+  TranslocoLocaleModule,
+} from '@jsverse/transloco-locale';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 
 import {
   DEFAULT_LANGUAGE,
@@ -52,6 +55,18 @@ export const preLoad = {
   ],
 };
 
+export const sharedTranslocoLocaleConfig: TranslocoLocaleConfig = {
+  localeConfig: {
+    global: {
+      date: {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      },
+    },
+  },
+};
+
 /**
  * Configures the Transloco Module for Apps.
  *
@@ -61,22 +76,7 @@ export const preLoad = {
  *
  */
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    TranslocoMessageFormatModule.forRoot(),
-    TranslocoLocaleModule.forRoot({
-      localeConfig: {
-        global: {
-          date: {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          },
-        },
-      },
-    }),
-  ],
+  imports: [CommonModule, TranslocoModule],
   exports: [TranslocoModule, TranslocoLocaleModule],
 })
 export class SharedTranslocoModule {
@@ -94,6 +94,8 @@ export class SharedTranslocoModule {
     return {
       ngModule: SharedTranslocoModule,
       providers: [
+        provideTranslocoLocale(sharedTranslocoLocaleConfig),
+        provideTranslocoMessageformat(),
         ...(appHasTranslations
           ? [
               sharedTranslocoLoader,
@@ -103,9 +105,8 @@ export class SharedTranslocoModule {
               preLoad,
             ]
           : []),
-        {
-          provide: TRANSLOCO_CONFIG,
-          useValue: {
+        provideTransloco({
+          config: {
             prodMode,
             availableLangs,
             defaultLang,
@@ -117,8 +118,8 @@ export class SharedTranslocoModule {
             flatten: {
               aot: enableAotFlattening,
             },
-          } as unknown as TranslocoConfig,
-        },
+          },
+        }),
         {
           provide: I18N_CACHE_CHECKSUM,
           useValue: cacheChecksums,
@@ -130,6 +131,7 @@ export class SharedTranslocoModule {
       ],
     };
   }
+
   public static forChild(
     scope: string,
     loader: any

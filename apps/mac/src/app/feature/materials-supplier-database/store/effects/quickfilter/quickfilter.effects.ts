@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { catchError, map, of, switchMap } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { QuickFilter } from '@mac/feature/materials-supplier-database/models';

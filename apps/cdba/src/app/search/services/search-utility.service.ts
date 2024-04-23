@@ -21,9 +21,7 @@ export class SearchUtilityService {
         const selectedOptionFound = tmpOptions.find(
           (item) => item.id === selectedOption.id
         );
-        if (!selectedOptionFound) {
-          selectionsToMerge.push(selectedOption);
-        } else {
+        if (selectedOptionFound) {
           /**
            * if selectedOption is in the options array then remove it from options
            * move it to the top of options and preserve selection order
@@ -33,6 +31,8 @@ export class SearchUtilityService {
             (item) => item.id === selectedOption.id
           );
           tmpOptions.splice(index, 1);
+          selectionsToMerge.push(selectedOption);
+        } else {
           selectionsToMerge.push(selectedOption);
         }
       });

@@ -9,7 +9,7 @@ import { AppRoutePath } from '@gq/app-route-path.enum';
 import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.enum';
 import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   Actions,
   concatLatestFrom,

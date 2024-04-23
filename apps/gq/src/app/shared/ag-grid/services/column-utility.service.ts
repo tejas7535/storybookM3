@@ -15,8 +15,8 @@ import { MaterialNumberService } from '@gq/shared/services/material-number/mater
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   ColDef,
   GetContextMenuItemsParams,

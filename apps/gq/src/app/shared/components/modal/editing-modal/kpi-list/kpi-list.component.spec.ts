@@ -3,12 +3,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { translate } from '@jsverse/transloco';
 import {
   createComponentFactory,
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

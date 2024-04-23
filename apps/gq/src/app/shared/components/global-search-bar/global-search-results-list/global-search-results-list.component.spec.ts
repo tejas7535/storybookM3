@@ -1,11 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 
-import {
-  createComponentFactory,
-  createMouseEvent,
-  Spectator,
-} from '@ngneat/spectator';
+// eslint-disable-next-line no-restricted-imports
+import { createMouseEvent } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { QuotationSearchResult } from '../../../models/quotation';
 import { GlobalSearchResultsListComponent } from './global-search-results-list.component';

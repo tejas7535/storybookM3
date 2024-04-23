@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Keyboard } from '@gq/shared/models';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 @Injectable({
   providedIn: 'root',

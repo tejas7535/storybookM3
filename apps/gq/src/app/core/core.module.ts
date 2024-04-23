@@ -19,10 +19,7 @@ import {
 } from '@gq/shared/constants/language';
 import { HttpErrorInterceptor } from '@gq/shared/http/http-error.interceptor';
 import { HttpHeaderInterceptor } from '@gq/shared/http/http-header.interceptor';
-import {
-  TRANSLOCO_PERSIST_LANG_STORAGE,
-  TranslocoPersistLangModule,
-} from '@ngneat/transloco-persist-lang';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -32,6 +29,7 @@ import {
   COOKIE_GROUPS,
   CustomProps,
 } from '@schaeffler/application-insights';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -89,13 +87,6 @@ export function appInitializer(
       !environment.localDev,
       i18nChecksumsJson
     ),
-    TranslocoPersistLangModule.forRoot({
-      storageKey: LANGUAGE_STORAGE_KEY,
-      storage: {
-        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
-        useValue: localStorage,
-      },
-    }),
     // Cookie Tracking
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
     OneTrustModule.forRoot({
@@ -104,6 +95,12 @@ export function appInitializer(
     }),
   ],
   providers: [
+    provideTranslocoPersistLang({
+      storageKey: LANGUAGE_STORAGE_KEY,
+      storage: {
+        useValue: localStorage,
+      },
+    }),
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,

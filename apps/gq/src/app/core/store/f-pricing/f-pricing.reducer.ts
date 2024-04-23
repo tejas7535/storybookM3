@@ -21,7 +21,7 @@ import {
   multiplyTwoNumbers,
   subtractTwoNumbers,
 } from '@gq/shared/utils/f-pricing.utils';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { MATERIAL_INFORMATION_MOCK } from '../../../../testing/mocks';

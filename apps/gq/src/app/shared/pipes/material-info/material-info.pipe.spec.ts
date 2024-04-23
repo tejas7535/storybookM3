@@ -1,4 +1,4 @@
-import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator';
+import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
 import { MaterialDetails } from '../../models/quotation-detail';
 import { MaterialNumberService } from '../../services/material-number/material-number.service';

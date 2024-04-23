@@ -8,7 +8,7 @@ import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reduce
 import { FILTER_PARAM_INDICATOR } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { ViewToggle } from '@schaeffler/view-toggle';

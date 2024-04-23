@@ -1,8 +1,8 @@
 import { SalesIndication } from '@gq/core/store/reducers/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 import { SeriesOption } from 'echarts';
 
 import {
@@ -16,8 +16,8 @@ import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
 import { ChartConfigService } from './chart.config.service';
 import { DataPointColor } from './data-point-color.enum';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

@@ -46,6 +46,10 @@ export class AutocompleteInputComponent
    */
   @Input() fitContent = false;
 
+  private readonly ONE_CHAR_LENGTH = 1;
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '100%';
+
   @Output() readonly unselected: EventEmitter<any> = new EventEmitter();
 
   @Output() readonly added: EventEmitter<IdValue> = new EventEmitter();
@@ -55,11 +59,13 @@ export class AutocompleteInputComponent
   @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
     true
   );
-
   @ViewChild('formField') formFieldReference: MatFormField;
   @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement>;
-  @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
 
+  @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output()
   private readonly autocomplete: EventEmitter<AutocompleteSearch> =
     new EventEmitter();
@@ -67,15 +73,12 @@ export class AutocompleteInputComponent
   debounceIsActive = false;
 
   readonly subscription: Subscription = new Subscription();
-
   selectedIdValue: IdValue;
   unselectedOptions: IdValue[];
+
   searchFormControl: UntypedFormControl = new UntypedFormControl();
 
-  private readonly ONE_CHAR_LENGTH = 1;
-  private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '100%';
-
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() set isDisabled(isDisabled: boolean) {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isDisabled
@@ -83,6 +86,7 @@ export class AutocompleteInputComponent
       : this.searchFormControl.enable();
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() set options(itemOptions: IdValue[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
@@ -204,7 +208,7 @@ export class AutocompleteInputComponent
          * when replacing:
          * check the string length to insert '-' separator only if string is long enough
          */
-        .replace(
+        .replaceAll(
           /^(.{9})(.{0,4})/g,
           `$1-$2${inputNumber.length <= 13 ? '' : Keyboard.DASH}`
         )

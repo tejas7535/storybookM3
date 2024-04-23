@@ -7,7 +7,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { APPROVAL_STATUS_OF_APPROVER_DISPLAY } from './consts/approval-status-display';
 import { TRANSLOCO_DATE_PIPE_CONFIG } from './consts/transloco-date-pipe-config';
@@ -34,13 +34,13 @@ export class ApprovalWorkflowApproverComponent {
   ) {}
 
   get eventComment(): string {
-    return this.workflowEvent?.event !== ApprovalEventType.FORWARDED
-      ? this.workflowEvent?.comment
-      : // TODO: implement correctly
-        this.translationService.translate(
+    return this.workflowEvent?.event === ApprovalEventType.FORWARDED
+      ? this.translationService.translate(
           'processCaseView.tabs.overview.approvalCockpit.approvalStatusOfApprover.forwardedTo',
           { value: this.workflowEvent?.comment }
-        );
+        )
+      : // TODO: implement correctly
+        this.workflowEvent?.comment;
   }
 
   get approvalStatusOfApprover(): string {

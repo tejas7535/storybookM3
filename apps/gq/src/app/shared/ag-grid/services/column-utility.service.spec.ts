@@ -8,9 +8,9 @@ import {
 } from '@gq/core/store/reducers/models';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import {
   ColDef,
   GetContextMenuItemsParams,

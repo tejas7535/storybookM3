@@ -4,7 +4,7 @@ import { take } from 'rxjs';
 
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { ColumnFields } from '../../../../ag-grid/constants/column-fields.enum';

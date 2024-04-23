@@ -1,7 +1,7 @@
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

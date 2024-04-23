@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { Drawing } from '@cdba/shared/models';

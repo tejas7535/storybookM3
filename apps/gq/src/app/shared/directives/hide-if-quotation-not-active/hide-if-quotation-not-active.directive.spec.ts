@@ -21,9 +21,7 @@ describe('HideIfQuotationNotActiveDirective', () => {
   });
 
   beforeEach(() => {
-    spectator = createDirective(`<div *hideIfQuotationNotActive></div>`, {
-      props: {},
-    });
+    spectator = createDirective(`<div *hideIfQuotationNotActive></div>`);
     store = spectator.inject(MockStore);
     directive = spectator.directive;
   });

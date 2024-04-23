@@ -1,5 +1,5 @@
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 
 import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

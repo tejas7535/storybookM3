@@ -8,12 +8,12 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 
 import { environment } from '@ea/environments/environment';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

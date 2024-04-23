@@ -1,16 +1,16 @@
 import { MatSlider, MatSliderRangeThumb } from '@angular/material/slider';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { mockApplicationForm } from '@lsa/testing/mocks/form.mock';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ApplicationComponent } from './application.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => translateKey),
 }));
 

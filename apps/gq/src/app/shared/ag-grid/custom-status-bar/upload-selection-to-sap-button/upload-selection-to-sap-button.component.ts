@@ -13,7 +13,7 @@ import {
 import { getTooltipTextKeyByQuotationStatus } from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { QuotationStatus } from '@gq/shared/models';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 

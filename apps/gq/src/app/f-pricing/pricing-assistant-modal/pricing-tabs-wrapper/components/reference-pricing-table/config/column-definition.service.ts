@@ -5,7 +5,7 @@ import { ReferenceMaterialGroupCellComponent } from '@gq/shared/ag-grid/cell-ren
 import { ShowMoreRowsComponent } from '@gq/shared/ag-grid/cell-renderer/show-more-rows/show-more-rows.component';
 import { ReferencePricingColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   ColDef,
   GetRowIdParams,

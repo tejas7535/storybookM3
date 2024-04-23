@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-community';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
@@ -107,12 +107,15 @@ export class MsdSapMaterialsExcelService {
 
   private mapBooleanToString(booleanValue: boolean): string {
     switch (booleanValue) {
-      case true:
+      case true: {
         return 'Yes';
-      case false:
+      }
+      case false: {
         return 'No';
-      default:
+      }
+      default: {
         return undefined;
+      }
     }
   }
 

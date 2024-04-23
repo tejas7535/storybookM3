@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
   providedIn: 'root',
 })
 export class SharedQuotationFacade {
-  #store = inject(Store);
+  readonly #store = inject(Store);
 
   sharedQuotation$ = this.#store.select(
     sharedQuotationFeature.selectSharedQuotation

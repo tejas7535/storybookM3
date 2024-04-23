@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef, RowDataUpdatedEvent } from 'ag-grid-community';
 
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';

@@ -27,7 +27,7 @@ import {
 } from 'rxjs';
 
 import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { DIALOG } from '../../mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';

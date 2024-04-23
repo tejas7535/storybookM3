@@ -130,26 +130,32 @@ export const calculateAffectedKPIs = (
 
   if (isRelativePrice) {
     switch (field) {
-      case ColumnFields.PRICE:
+      case ColumnFields.PRICE: {
         updatedPrice = multiplyAndRoundValues(detail.price, 1 + value / 100);
         break;
-      case ColumnFields.TARGET_PRICE:
+      }
+      case ColumnFields.TARGET_PRICE: {
         updatedPrice = multiplyAndRoundValues(
           detail.targetPrice,
           1 + value / 100
         );
         break;
-      case ColumnFields.GPI:
+      }
+      case ColumnFields.GPI: {
         updatedPrice = getManualPriceByMarginAndCost(detail.gpc, value);
         break;
-      case ColumnFields.GPM:
+      }
+      case ColumnFields.GPM: {
         updatedPrice = getManualPriceByMarginAndCost(detail.sqv, value);
         break;
-      case ColumnFields.DISCOUNT:
+      }
+      case ColumnFields.DISCOUNT: {
         updatedPrice = getManualPriceByDiscount(detail.sapGrossPrice, value);
         break;
-      default:
+      }
+      default: {
         throw new Error('No matching Column Field for computation');
+      }
     }
   } else {
     updatedPrice = value;

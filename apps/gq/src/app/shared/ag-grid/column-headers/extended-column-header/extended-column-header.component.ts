@@ -21,7 +21,7 @@ import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reduce
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import { IHeaderAngularComp } from 'ag-grid-angular';
 
@@ -170,7 +170,7 @@ export class ExtendedColumnHeaderComponent
       ])
         .pipe(take(1))
         .subscribe(([hasRegionRole, hasEditingRoles]) =>
-          this.shouldShowEditIcon(!hasRegionRole ? true : hasEditingRoles)
+          this.shouldShowEditIcon(hasRegionRole ? hasEditingRoles : true)
         );
     } else {
       this.shouldShowEditIcon(true);
@@ -245,14 +245,18 @@ export class ExtendedColumnHeaderComponent
 
   getSelectedPriceSourceTranslationKey(): string {
     switch (this.selectedPriceSource) {
-      case PriceSourceOptions.GQ:
+      case PriceSourceOptions.GQ: {
         return 'gqPriceSource';
-      case PriceSourceOptions.SAP:
+      }
+      case PriceSourceOptions.SAP: {
         return 'sapPriceSource';
-      case PriceSourceOptions.TARGET_PRICE:
+      }
+      case PriceSourceOptions.TARGET_PRICE: {
         return 'targetPriceSource';
-      default:
+      }
+      default: {
         return undefined;
+      }
     }
   }
 

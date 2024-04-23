@@ -22,6 +22,6 @@ export function approversDifferValidator(): ValidatorFn {
 
     const valid = unique.length === approvers.length;
 
-    return !valid ? { equalApprovers: true } : undefined;
+    return valid ? undefined : { equalApprovers: true };
   };
 }

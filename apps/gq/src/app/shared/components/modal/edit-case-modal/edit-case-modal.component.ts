@@ -30,7 +30,7 @@ import { SalesOrg } from '@gq/core/store/reducers/models';
 import { getSalesOrgs } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import moment, { isMoment, Moment } from 'moment';
 
@@ -45,20 +45,20 @@ import { EditCaseModalData } from './edit-case-modal-data.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCaseModalComponent implements OnInit, OnDestroy {
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  private readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
   readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
+
   NAME_MAX_LENGTH = 20;
 
   options: IdValue[] = [];
-
   caseModalForm: UntypedFormGroup;
   hasCaseModalFormChange: boolean;
   salesOrg: string;
+
   filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
 
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
-
-  private readonly DEBOUNCE_TIME_DEFAULT = 500;
-  private readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

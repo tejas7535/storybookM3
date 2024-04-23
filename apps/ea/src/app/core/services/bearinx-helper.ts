@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { CatalogCalculationResult } from '../store/models';
 import {

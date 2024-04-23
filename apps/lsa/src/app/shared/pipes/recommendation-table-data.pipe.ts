@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { translate } from '@jsverse/transloco';
 import { recommendationTableFields } from '@lsa/shared/constants';
-import { translate } from '@ngneat/transloco';
 
 import {
   Lubricator,

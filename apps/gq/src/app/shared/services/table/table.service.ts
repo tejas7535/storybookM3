@@ -21,7 +21,7 @@ export class TableService {
       ...item,
       id: newId + i,
       materialNumber: TableService.removeDashes(
-        item.materialNumber.replace(/-/g, '')
+        item.materialNumber.replaceAll('-', '')
       ),
     }));
 
@@ -93,21 +93,19 @@ export class TableService {
     currentRowData: MaterialTableItem[],
     currency?: string
   ): MaterialTableItem[] {
-    return [
-      ...currentRowData.map((item: MaterialTableItem) => {
-        const newItem: MaterialTableItem = {
-          ...item,
-          currency,
-          info: {
-            valid: false,
-            errorCodes: undefined,
-            description: [ValidationDescription.Not_Validated],
-          },
-        };
+    return currentRowData.map((item: MaterialTableItem) => {
+      const newItem: MaterialTableItem = {
+        ...item,
+        currency,
+        info: {
+          valid: false,
+          errorCodes: undefined,
+          description: [ValidationDescription.Not_Validated],
+        },
+      };
 
-        return newItem;
-      }),
-    ];
+      return newItem;
+    });
   }
   static deleteItem(
     id: number,
@@ -151,15 +149,15 @@ export class TableService {
           : false
         : false;
 
-    if (!quantity) {
+    if (quantity) {
+      // Covers an edge case, to convert f.e quantity 50* into 50 (* = wildcard)
+      updatedRow.quantity = quantity;
+    } else {
       updatedRow.info.valid = false;
       updatedRow.info.description = TableService.addDesc(
         updatedRow.info.description,
         ValidationDescription.QuantityInValid
       );
-    } else {
-      // Covers an edge case, to convert f.e quantity 50* into 50 (* = wildcard)
-      updatedRow.quantity = quantity;
     }
 
     if (updatedRow.info.description.length === 0) {
@@ -190,7 +188,7 @@ export class TableService {
   }
 
   static removeDashes(text: string): string {
-    return text.replace(/-/g, '');
+    return text.replaceAll('-', '');
   }
 
   static removeDashesFromTableItems(

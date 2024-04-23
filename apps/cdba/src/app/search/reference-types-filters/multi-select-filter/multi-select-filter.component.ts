@@ -24,7 +24,7 @@ import { MatSliderModule } from '@angular/material/slider';
 
 import { Subscription } from 'rxjs';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -138,19 +138,21 @@ export class MultiSelectFilterComponent
 
   onSearchUpdated(search: string): void {
     let searchText = search?.trim();
-    if (!this.filter.autocomplete) {
-      this.handleLocalSearch(searchText);
-    } else {
+    if (this.filter.autocomplete) {
       searchText =
         this.filter.name === 'material_number' && searchText?.length > 0
           ? searchText.split('-').join('')
           : searchText;
       this.handleRemoteSearch(searchText);
+    } else {
+      this.handleLocalSearch(searchText);
     }
   }
 
   onOpenedChange(change: boolean): void {
-    if (!change) {
+    if (change) {
+      this.formControl.setValue(this.formControl.value, { onlySelf: true });
+    } else {
       const options = this.stringOptions
         .filter((x) => !this.selectedFilterOptions.some((y) => y.id === x.id))
         .map(
@@ -168,8 +170,6 @@ export class MultiSelectFilterComponent
         items: this.stringOptions,
         selectedItems: this.selectedFilterOptions,
       });
-    } else {
-      this.formControl.setValue(this.formControl.value, { onlySelf: true });
     }
   }
 

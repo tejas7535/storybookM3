@@ -6,7 +6,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 

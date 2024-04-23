@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { map, Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 

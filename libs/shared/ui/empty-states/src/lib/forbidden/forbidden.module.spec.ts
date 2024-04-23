@@ -1,4 +1,4 @@
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { ForbiddenModule } from './forbidden.module';
 import deJson from './i18n/de.json';

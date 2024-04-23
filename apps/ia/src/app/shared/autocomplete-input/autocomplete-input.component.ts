@@ -63,14 +63,14 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
   @Input() filter: Filter;
 
   @Input() set value(value: string | IdValue) {
-    if (!value) {
-      this.inputControl.reset();
-    } else {
+    if (value) {
       // if string provided map it to ID/Value pair
       const idValue = typeof value === 'string' ? { id: value, value } : value;
 
       this.inputControl.setValue(idValue, { emitEvent: false });
       this.latestSelection = idValue;
+    } else {
+      this.inputControl.reset();
     }
   }
 

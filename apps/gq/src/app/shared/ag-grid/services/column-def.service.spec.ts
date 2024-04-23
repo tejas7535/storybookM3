@@ -1,21 +1,21 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ColumnDefService } from './column-def.service';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 describe('ColumnDefService', () => {

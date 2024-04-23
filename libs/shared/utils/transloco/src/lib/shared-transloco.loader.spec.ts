@@ -3,8 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { Translation } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { Translation } from '@ngneat/transloco';
 
 import { I18N_CACHE_CHECKSUM, LOADER_PATH } from './injection-tokens';
 import { SharedHttpLoader } from './shared-transloco.loader';

@@ -1,11 +1,11 @@
 import { throwError } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { marbles } from 'rxjs-marbles/jest';
@@ -21,8 +21,8 @@ import * as QuickFilterActions from '@mac/msd/store/actions/quickfilter/quickfil
 
 import { QuickFilterEffects } from './quickfilter.effects';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string.split('.').pop()),
 }));
 

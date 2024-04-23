@@ -4,10 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import {
-  TRANSLOCO_PERSIST_LANG_STORAGE,
-  TranslocoPersistLangModule,
-} from '@ngneat/transloco-persist-lang';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { PushPipe } from '@ngrx/component';
 
 import {
@@ -80,13 +77,6 @@ export function appInitializer(oneTrustService: OneTrustService) {
       !environment.localDev,
       i18nChecksumsJson
     ),
-    TranslocoPersistLangModule.forRoot({
-      storageKey: LANGUAGE_STORAGE_KEY,
-      storage: {
-        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
-        useValue: localStorage,
-      },
-    }),
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
@@ -104,6 +94,12 @@ export function appInitializer(oneTrustService: OneTrustService) {
     SharedAzureAuthModule.forRoot(azureConfig),
   ],
   providers: [
+    provideTranslocoPersistLang({
+      storageKey: LANGUAGE_STORAGE_KEY,
+      storage: {
+        useValue: localStorage,
+      },
+    }),
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,

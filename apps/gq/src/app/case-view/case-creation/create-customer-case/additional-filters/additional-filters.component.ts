@@ -8,7 +8,7 @@ import {
   setSelectedSeries,
 } from '@gq/core/store/actions';
 import { PLsAndSeries } from '@gq/core/store/reducers/models';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 @Component({

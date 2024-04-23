@@ -1,4 +1,4 @@
-import { LangDefinition } from '@ngneat/transloco/lib/types';
+import { LangDefinition } from '@jsverse/transloco/lib/types';
 
 export const AVAILABLE_LANGUAGE_DE: LangDefinition = {
   id: 'de',

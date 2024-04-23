@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
@@ -22,9 +22,9 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
   for (const feature of features) {
     for (let index = 0; index < feature.values.length; index += 1) {
       const attrition =
-        feature.employeeCount[index] !== 0
-          ? feature.attritionCount[index] / feature.employeeCount[index]
-          : 0;
+        feature.employeeCount[index] === 0
+          ? 0
+          : feature.attritionCount[index] / feature.employeeCount[index];
       values.push([
         getPercentageValue(attrition),
         feature.employeeCount[index],

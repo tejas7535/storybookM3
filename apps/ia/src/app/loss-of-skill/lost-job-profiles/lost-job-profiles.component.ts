@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   CellClickedEvent,
   ColDef,

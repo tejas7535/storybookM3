@@ -1,10 +1,12 @@
-import { translate } from '@ngneat/transloco';
+/* eslint @nx/enforce-module-boundaries: 1 */
+import { translate } from '@jsverse/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
-import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
 import { AppDelivery } from '@ga/shared/models';
+
+import { detectAppDelivery } from './settings-helpers';
 
 /**
  * Returns app footer links

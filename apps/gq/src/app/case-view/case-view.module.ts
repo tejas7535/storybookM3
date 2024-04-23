@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { OverviewCasesModule } from '@gq/core/store/overview-cases/overview-cases.module';
 import { ConfirmationModalModule } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.module';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';

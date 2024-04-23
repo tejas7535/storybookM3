@@ -1,4 +1,4 @@
-import { DateFormatOptions } from '@ngneat/transloco-locale';
+import { DateFormatOptions } from '@jsverse/transloco-locale';
 
 export const TRANSLOCO_DATE_PIPE_CONFIG: DateFormatOptions = {
   year: '2-digit',

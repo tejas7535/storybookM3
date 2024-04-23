@@ -8,12 +8,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { of } from 'rxjs/internal/observable/of';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { GridReadyEvent } from 'ag-grid-community';

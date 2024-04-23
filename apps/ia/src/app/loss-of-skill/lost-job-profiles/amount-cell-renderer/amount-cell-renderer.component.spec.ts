@@ -2,12 +2,12 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { TranslocoService } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { AmountCellRendererComponent } from './amount-cell-renderer.component';

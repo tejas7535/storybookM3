@@ -14,7 +14,7 @@ import {
 
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
 import { RawValue, RawValueContent, Result } from '../../shared/models';

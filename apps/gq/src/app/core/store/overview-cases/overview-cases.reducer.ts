@@ -256,9 +256,7 @@ export const overviewCasesFeature = createFeature({
       (state: OverviewCasesState, { gqIds }): OverviewCasesState => ({
         ...state,
         deleteLoading: false,
-        selectedCases: [
-          ...state.selectedCases.filter((id) => !gqIds.includes(id)),
-        ],
+        selectedCases: state.selectedCases.filter((id) => !gqIds.includes(id)),
       })
     ),
     on(
@@ -280,7 +278,7 @@ export const overviewCasesFeature = createFeature({
       OverviewCasesActions.deselectCase,
       (state: OverviewCasesState, { gqId }): OverviewCasesState => ({
         ...state,
-        selectedCases: [...state.selectedCases.filter((id) => id !== gqId)],
+        selectedCases: state.selectedCases.filter((id) => id !== gqId),
       })
     )
   ),

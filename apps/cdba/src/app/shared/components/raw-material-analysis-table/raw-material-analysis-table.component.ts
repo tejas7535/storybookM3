@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   ColDef,
   GridApi,

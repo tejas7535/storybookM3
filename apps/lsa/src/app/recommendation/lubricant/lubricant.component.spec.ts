@@ -1,15 +1,15 @@
+import { TranslocoModule } from '@jsverse/transloco';
 import { LubricantType } from '@lsa/shared/constants';
 import { mockLubricantForm } from '@lsa/testing/mocks/form.mock';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LubricantComponent } from './lubricant.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => translateKey),
 }));
 

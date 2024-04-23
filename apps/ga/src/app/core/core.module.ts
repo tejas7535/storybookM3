@@ -3,10 +3,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import {
-  TRANSLOCO_PERSIST_LANG_STORAGE,
-  TranslocoPersistLangModule,
-} from '@ngneat/transloco-persist-lang';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
 import {
   ApplicationInsightsModule,
@@ -70,6 +67,12 @@ let providers = [
     useClass: HttpGreaseInterceptor,
     multi: true,
   },
+  provideTranslocoPersistLang({
+    storageKey: LANGUAGE_STORAGE_KEY,
+    storage: {
+      useValue: localStorage,
+    },
+  }),
 ];
 
 // needed for mobile app and medias
@@ -106,13 +109,6 @@ if (detectPartnerVersion() === PartnerVersion.Schmeckthal) {
       true,
       !environment.localDev
     ),
-    TranslocoPersistLangModule.forRoot({
-      storageKey: LANGUAGE_STORAGE_KEY,
-      storage: {
-        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
-        useValue: localStorage,
-      },
-    }),
     // Monitoring
     ...Tracking,
 

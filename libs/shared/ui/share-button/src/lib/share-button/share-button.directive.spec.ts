@@ -2,19 +2,19 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import {
   createDirectiveFactory,
   mockProvider,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { ShareButtonDirective } from './share-button.directive';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((key: string) => key),
   replace: jest.fn(),
 }));

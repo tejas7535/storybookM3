@@ -32,7 +32,7 @@ import {
 } from '@gq/shared/models/approval';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { convertToBase64 } from '@gq/shared/utils/misc.utils';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 

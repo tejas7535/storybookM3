@@ -15,7 +15,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   ColumnApi,
   ColumnState,

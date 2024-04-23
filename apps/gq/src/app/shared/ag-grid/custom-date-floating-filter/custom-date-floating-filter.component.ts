@@ -18,7 +18,7 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { IFloatingFilterAngularComp } from 'ag-grid-angular';
 import { FilterChangedEvent } from 'ag-grid-community';
 import { IFloatingFilterParams } from 'ag-grid-enterprise';

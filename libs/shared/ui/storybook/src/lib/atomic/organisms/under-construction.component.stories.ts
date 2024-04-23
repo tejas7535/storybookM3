@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   applicationConfig,
   Meta,

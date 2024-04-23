@@ -8,8 +8,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
+import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

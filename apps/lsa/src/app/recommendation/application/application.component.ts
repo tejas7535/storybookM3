@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { PowerSupply } from '@lsa/shared/constants';
 import { ApplicationForm } from '@lsa/shared/models';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 
 const translatePath = 'recommendation.application';
 

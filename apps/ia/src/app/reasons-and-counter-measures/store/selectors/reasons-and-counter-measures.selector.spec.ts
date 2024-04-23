@@ -1,4 +1,4 @@
-import { translate, TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 
 import { FilterData } from '../../../core/store/reducers/filter/filter.reducer';
 import { DoughnutChartData } from '../../../shared/charts/models';
@@ -35,8 +35,8 @@ import {
 } from './reasons-and-counter-measures.selector';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((key) => key),
 }));
 

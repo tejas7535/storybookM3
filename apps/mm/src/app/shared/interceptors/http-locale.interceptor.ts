@@ -8,8 +8,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { environment } from '@mm/environments/environment';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { locales, MMLocales } from '../../core/services/locale/locale.enum';
 

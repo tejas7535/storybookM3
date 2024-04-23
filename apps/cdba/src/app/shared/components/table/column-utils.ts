@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   GetMainMenuItemsParams,
   MenuItemDef,
@@ -86,24 +86,33 @@ export const valueGetterFromArrayOfObjects = <T, TObj>(
  */
 export const columnDefinitionToReferenceTypeProp = (def: string) => {
   switch (def) {
-    case 'actualQuantityLastYear':
+    case 'actualQuantityLastYear': {
       return 'actualQuantities';
-    case 'actualQuantityLastYearMinus1':
+    }
+    case 'actualQuantityLastYearMinus1': {
       return 'actualQuantities';
-    case 'actualQuantityLastYearMinus2':
+    }
+    case 'actualQuantityLastYearMinus2': {
       return 'actualQuantities';
-    case 'actualQuantityLastYearMinus3':
+    }
+    case 'actualQuantityLastYearMinus3': {
       return 'actualQuantities';
-    case 'plannedQuantityCurrentYear':
+    }
+    case 'plannedQuantityCurrentYear': {
       return 'plannedQuantities';
-    case 'plannedQuantityCurrentYearPlus1':
+    }
+    case 'plannedQuantityCurrentYearPlus1': {
       return 'plannedQuantities';
-    case 'plannedQuantityCurrentYearPlus2':
+    }
+    case 'plannedQuantityCurrentYearPlus2': {
       return 'plannedQuantities';
-    case 'plannedQuantityCurrentYearPlus3':
+    }
+    case 'plannedQuantityCurrentYearPlus3': {
       return 'plannedQuantities';
-    default:
+    }
+    default: {
       return def;
+    }
   }
 };
 

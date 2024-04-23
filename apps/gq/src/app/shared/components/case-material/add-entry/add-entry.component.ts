@@ -17,8 +17,8 @@ import {
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
-import { translate } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { Keyboard } from '../../../models';
@@ -80,9 +80,9 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.quantity = value;
     this.rowInputValid();
 
-    return !this.quantityValid
-      ? { invalidInput: !this.quantityValid }
-      : undefined;
+    return this.quantityValid
+      ? undefined
+      : { invalidInput: !this.quantityValid };
   }
 
   ngOnDestroy(): void {

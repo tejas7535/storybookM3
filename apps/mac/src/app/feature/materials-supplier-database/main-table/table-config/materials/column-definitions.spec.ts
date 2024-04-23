@@ -1,4 +1,4 @@
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   ColDef,
   HeaderValueGetterFunc,
@@ -31,8 +31,8 @@ import { SAP_MATERIALS_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-conf
 import { LUBRICANT_COLUMN_DEFINITIONS } from './lubricant';
 import { STEEL_COLUMN_DEFINITIONS } from './steel';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 

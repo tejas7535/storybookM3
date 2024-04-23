@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { when } from 'jest-when';
 
 import { DeltaDisplayPipe } from './delta-display.pipe';

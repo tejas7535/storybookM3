@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { NumberFormatOptions } from '@ngneat/transloco-locale/lib/transloco-locale.types';
+import { TranslocoService } from '@jsverse/transloco';
+import { NumberFormatOptions } from '@jsverse/transloco-locale/lib/transloco-locale.types';
 
 import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
 
@@ -70,12 +70,13 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
         this.setupDefaultRangeValues();
         break;
       }
-      default:
+      default: {
         this.disabledFilterHint = this.translocoService.translate(
           'search.referenceTypesFilters.tooltips.disabledDimensionFilter'
         );
         this.setupDefaultRangeValues();
         break;
+      }
     }
 
     if (this.filter.name === FILTER_NAME_LIMIT) {
@@ -135,7 +136,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
         }
         break;
       }
-      default:
+      default: {
         {
           if (value <= this.filter.min || value >= this.filter.max) {
             this.resetInput(input);
@@ -148,6 +149,7 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
           }
         }
         break;
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { RolesAndRightsModule } from '@schaeffler/roles-and-rights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

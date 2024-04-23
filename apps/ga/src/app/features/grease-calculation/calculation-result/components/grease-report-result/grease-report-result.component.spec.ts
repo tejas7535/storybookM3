@@ -3,8 +3,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import resize_observer_polyfill from 'resize-observer-polyfill';
@@ -23,8 +23,8 @@ import { GreaseReportResultComponent } from './grease-report-result.component';
 
 window.ResizeObserver = resize_observer_polyfill;
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => translateKey),
 }));
 

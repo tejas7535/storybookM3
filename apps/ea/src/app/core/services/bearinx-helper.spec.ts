@@ -1,4 +1,4 @@
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import {
   extractErrorsFromResult,
@@ -20,8 +20,8 @@ import {
   BearinxOnlineResultSubordinate,
 } from './bearinx-result.interface';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => translateKey),
 }));
 

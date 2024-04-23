@@ -22,7 +22,7 @@ import {
   PurchaseOrderType,
 } from '@gq/shared/models';
 import { MaterialTableItem } from '@gq/shared/models/table';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

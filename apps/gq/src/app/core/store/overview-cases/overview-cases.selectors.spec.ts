@@ -1,5 +1,5 @@
 import { ExtendedViewToggle } from '@gq/case-view/models/extended-view-toggle';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 import {
   ACTIVE_STATUS_BAR_CONFIG,

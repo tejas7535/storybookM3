@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, map } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
   providedIn: 'root',

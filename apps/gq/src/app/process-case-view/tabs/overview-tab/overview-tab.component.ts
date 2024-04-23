@@ -26,7 +26,7 @@ import {
 } from '@gq/shared/models/quotation';
 import { Rating } from '@gq/shared/models/rating.enum';
 import { calculateDuration } from '@gq/shared/utils/misc.utils';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { GeneralInformation } from './models';

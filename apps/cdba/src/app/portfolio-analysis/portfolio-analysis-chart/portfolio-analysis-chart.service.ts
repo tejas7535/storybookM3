@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { EChartsOption } from 'echarts';
 
 import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
@@ -157,10 +157,12 @@ export class PortfolioAnalysisChartService {
     seriesType: 'line' | 'scatter'
   ): string => {
     switch (seriesType) {
-      case 'line':
+      case 'line': {
         return this.formatLineValue(value);
-      default:
+      }
+      default: {
         return this.formatScatterValue(value);
+      }
     }
   };
 

@@ -4,8 +4,8 @@ import {
   HashMap,
   TranslocoTestingModule,
   TranslocoTestingOptions,
-} from '@ngneat/transloco';
-import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+} from '@jsverse/transloco';
+import { TranslocoLocaleModule } from '@jsverse/transloco-locale';
 import { MockModule, Type } from 'ng-mocks';
 
 export const provideTranslocoTestingModule: (

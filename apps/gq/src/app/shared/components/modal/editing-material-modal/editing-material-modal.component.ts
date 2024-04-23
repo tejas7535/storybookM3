@@ -19,7 +19,7 @@ import {
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import {
@@ -144,20 +144,25 @@ export class EditingMaterialModalComponent
       return;
     }
     switch (this.fieldToFocus) {
-      case MaterialColumnFields.MATERIAL:
+      case MaterialColumnFields.MATERIAL: {
         this.matNumberInput.focus();
         break;
-      case MaterialColumnFields.MATERIAL_DESCRIPTION:
+      }
+      case MaterialColumnFields.MATERIAL_DESCRIPTION: {
         this.matDescInput.focus();
         break;
-      case MaterialColumnFields.QUANTITY:
+      }
+      case MaterialColumnFields.QUANTITY: {
         this.valueInput.nativeElement.focus();
         break;
-      case MaterialColumnFields.TARGET_PRICE:
+      }
+      case MaterialColumnFields.TARGET_PRICE: {
         this.targetPriceInput.nativeElement.focus();
         break;
-      default:
+      }
+      default: {
         break;
+      }
     }
 
     this.cdref.detectChanges();

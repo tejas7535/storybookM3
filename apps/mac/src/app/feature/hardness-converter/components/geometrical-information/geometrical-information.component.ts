@@ -35,7 +35,7 @@ import {
   tap,
 } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { StringOption } from '@schaeffler/inputs';

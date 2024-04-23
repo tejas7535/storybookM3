@@ -30,18 +30,19 @@ import { BarChartData, ChartType } from '../../models';
 export class QuotationByProductLineOrGpsdComponent
   implements OnInit, OnDestroy
 {
-  readonly chartType = ChartType;
-  type = ChartType.GPSD;
-  selectedChartType: ChartType = ChartType.PL;
-
-  gpsdBarChartData$: Observable<BarChartData[]> = NEVER;
-  plBarChartData$: Observable<BarChartData[]> = NEVER;
-
   private readonly shutdown$$: Subject<void> = new Subject<void>();
   constructor(
     private readonly store: Store,
     private readonly transformationService: TransformationService
   ) {}
+
+  readonly chartType = ChartType;
+  type = ChartType.GPSD;
+
+  selectedChartType: ChartType = ChartType.PL;
+  gpsdBarChartData$: Observable<BarChartData[]> = NEVER;
+
+  plBarChartData$: Observable<BarChartData[]> = NEVER;
 
   ngOnInit(): void {
     this.initObservables();

@@ -5,7 +5,7 @@ import {
   createServiceFactory,
   SpectatorService,
   SpectatorServiceFactory,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { ENV, getEnv } from '../../../environments/environments.provider';
 import { ProdGuard } from '.';

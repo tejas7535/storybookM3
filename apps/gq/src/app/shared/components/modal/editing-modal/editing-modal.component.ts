@@ -31,7 +31,7 @@ import {
   calculateAffectedKPIs,
   multiplyAndRoundValues,
 } from '@gq/shared/utils/pricing.utils';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { EditingModal } from './models/editing-modal.model';

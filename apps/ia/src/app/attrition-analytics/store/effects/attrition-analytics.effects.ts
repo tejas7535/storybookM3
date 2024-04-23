@@ -198,7 +198,7 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
       this.store.dispatch(
         selectRegion({
           // get latest saved feature's region
-          selectedRegion: selectedFeatures[selectedFeatures.length - 1].region,
+          selectedRegion: selectedFeatures.at(-1).region,
         })
       );
     }

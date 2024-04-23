@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -22,11 +22,9 @@ export class AmountCellRendererComponent implements ICellRendererAngularComp {
   }
 
   setTooltip(): void {
-    this.tooltip = !this.restrictedAccess
-      ? this.translocoService.translate('accessRights.showTeamMembers')
-      : this.translocoService.translate(
-          'accessRights.showTeamMembersPartially'
-        );
+    this.tooltip = this.restrictedAccess
+      ? this.translocoService.translate('accessRights.showTeamMembersPartially')
+      : this.translocoService.translate('accessRights.showTeamMembers');
   }
 
   refresh(): boolean {

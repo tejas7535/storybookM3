@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { MockModule } from 'ng-mocks';
 
 import { RotaryControlComponent } from '@schaeffler/controls';
@@ -13,8 +13,8 @@ import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-con
 
 import { CONCEPT1_SIZES } from '../../models';
 import { GreaseReportConcept1DetailComponent } from './grease-report-concept1-detail.component';
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => translateKey),
 }));
 

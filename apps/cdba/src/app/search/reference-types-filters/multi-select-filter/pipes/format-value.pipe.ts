@@ -7,6 +7,6 @@ import { StringOption } from '@schaeffler/inputs';
 })
 export class FormatValuePipe implements PipeTransform {
   transform(option: StringOption, isAutocomplete: boolean): any {
-    return !isAutocomplete ? `${option?.id} | ${option?.title}` : option?.title;
+    return isAutocomplete ? option?.title : `${option?.id} | ${option?.title}`;
   }
 }

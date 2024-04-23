@@ -79,16 +79,21 @@ const calculatePricePerUnit = (
   totalPrice: number
 ): number => {
   switch (unitOfMeasure) {
-    case UnitOfMeasure.G:
-      return operatingUnit !== 0 ? (totalCosts / operatingUnit) * 1000 : 0;
-    case UnitOfMeasure.KG:
-      return operatingUnit !== 0 ? totalCosts / operatingUnit : 0;
-    case UnitOfMeasure.M:
+    case UnitOfMeasure.G: {
+      return operatingUnit === 0 ? 0 : (totalCosts / operatingUnit) * 1000;
+    }
+    case UnitOfMeasure.KG: {
+      return operatingUnit === 0 ? 0 : totalCosts / operatingUnit;
+    }
+    case UnitOfMeasure.M: {
       return totalPrice * uomBaseToPriceFactor;
-    case UnitOfMeasure.MM:
+    }
+    case UnitOfMeasure.MM: {
       return totalPrice * uomBaseToPriceFactor;
-    default:
+    }
+    default: {
       return 0;
+    }
   }
 };
 

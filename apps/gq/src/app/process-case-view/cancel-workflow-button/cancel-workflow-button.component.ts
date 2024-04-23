@@ -18,9 +18,9 @@ export class CancelWorkflowButtonComponent implements OnInit, OnDestroy {
   @Input() quotationStatus: QuotationStatus;
 
   isProcessCaseOverviewTabActive = false;
-  readonly status = QuotationStatus;
-
   private readonly shutdown$$: Subject<void> = new Subject();
+
+  readonly status = QuotationStatus;
 
   constructor(
     private readonly router: Router,

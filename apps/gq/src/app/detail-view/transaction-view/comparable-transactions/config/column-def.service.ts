@@ -5,7 +5,7 @@ import {
   NUMBER_COLUMN_FILTER,
 } from '@gq/shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
 @Injectable({

@@ -3,7 +3,7 @@ import { AbstractControl, AsyncValidator } from '@angular/forms';
 
 import { from, Observable } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import * as XLSX from 'xlsx';
 
 import {

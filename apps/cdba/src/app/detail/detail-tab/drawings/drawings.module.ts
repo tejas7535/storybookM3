@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { PushPipe } from '@ngrx/component';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

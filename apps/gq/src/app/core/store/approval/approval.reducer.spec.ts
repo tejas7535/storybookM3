@@ -426,13 +426,13 @@ describe('approvalReducer', () => {
         approvalFeature
           .getApproversOfLevel(ApprovalLevel.L3)
           .projector(APPROVAL_STATE_MOCK.approvers)
-      ).toEqual([
-        ...APPROVAL_STATE_MOCK.approvers.filter(
+      ).toEqual(
+        APPROVAL_STATE_MOCK.approvers.filter(
           (item) =>
             item.approvalLevel !== ApprovalLevel.L1 &&
             item.approvalLevel !== ApprovalLevel.L2
-        ),
-      ]);
+        )
+      );
     });
 
     test('should return Approvers of requested Level 4', () => {
@@ -440,13 +440,13 @@ describe('approvalReducer', () => {
         approvalFeature
           .getApproversOfLevel(ApprovalLevel.L4)
           .projector(APPROVAL_STATE_MOCK.approvers)
-      ).toEqual([
-        ...APPROVAL_STATE_MOCK.approvers.filter(
+      ).toEqual(
+        APPROVAL_STATE_MOCK.approvers.filter(
           (item) =>
             item.approvalLevel === ApprovalLevel.L4 ||
             item.approvalLevel === ApprovalLevel.L5
-        ),
-      ]);
+        )
+      );
     });
 
     test('should return Approvers of requested Level 1 and check for sorting', () => {

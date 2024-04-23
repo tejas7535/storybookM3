@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Subscription } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

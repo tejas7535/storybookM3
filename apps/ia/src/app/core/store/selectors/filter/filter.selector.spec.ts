@@ -203,7 +203,7 @@ describe('Filter Selector', () => {
     });
   });
 
-  describe('getCurrentFilters', () => {
+  describe('getCurrentFilters and time range', () => {
     test('should return currently selected filters and time range', () => {
       expect(getCurrentFilters(fakeState)).toEqual({
         filterDimension: FilterDimension.ORG_UNIT,

@@ -199,47 +199,61 @@ export class FilterService {
     timeRangeId?: string
   ): Observable<IdValue[]> {
     switch (filterDimension) {
-      case FilterDimension.ORG_UNIT:
+      case FilterDimension.ORG_UNIT: {
         return this.getOrgUnits(searchFor, timeRangeId);
+      }
 
-      case FilterDimension.HR_LOCATION:
+      case FilterDimension.HR_LOCATION: {
         return this.getHrLocations(timeRangeId);
+      }
 
-      case FilterDimension.PERSONAL_AREA:
+      case FilterDimension.PERSONAL_AREA: {
         return this.getPersonalAreas(timeRangeId);
+      }
 
-      case FilterDimension.REGION:
+      case FilterDimension.REGION: {
         return this.getRegions(timeRangeId);
+      }
 
-      case FilterDimension.SUB_REGION:
+      case FilterDimension.SUB_REGION: {
         return this.getSubRegions(timeRangeId);
+      }
 
-      case FilterDimension.COUNTRY:
+      case FilterDimension.COUNTRY: {
         return this.getCountries(timeRangeId);
+      }
 
-      case FilterDimension.FUNCTION:
+      case FilterDimension.FUNCTION: {
         return this.getFunctions(timeRangeId);
+      }
 
-      case FilterDimension.SUB_FUNCTION:
+      case FilterDimension.SUB_FUNCTION: {
         return this.getSubFunctions(timeRangeId);
+      }
 
-      case FilterDimension.SEGMENT:
+      case FilterDimension.SEGMENT: {
         return this.getSegments(timeRangeId);
+      }
 
-      case FilterDimension.SUB_SEGMENT:
+      case FilterDimension.SUB_SEGMENT: {
         return this.getSubSegments(timeRangeId);
+      }
 
-      case FilterDimension.SEGMENT_UNIT:
+      case FilterDimension.SEGMENT_UNIT: {
         return this.getSegmentUnits(timeRangeId);
+      }
 
-      case FilterDimension.BOARD:
+      case FilterDimension.BOARD: {
         return this.getBoards(timeRangeId);
+      }
 
-      case FilterDimension.SUB_BOARD:
+      case FilterDimension.SUB_BOARD: {
         return this.getSubBoards(timeRangeId);
+      }
 
-      default:
+      default: {
         return EMPTY;
+      }
     }
   }
 }

@@ -4,9 +4,9 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { translate, TranslocoModule } from '@ngneat/transloco';
 import moment from 'moment';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -54,8 +54,8 @@ import {
 import * as en from '../../../../../assets/i18n/en.json';
 import { MsdDataService } from './msd-data.service';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
 

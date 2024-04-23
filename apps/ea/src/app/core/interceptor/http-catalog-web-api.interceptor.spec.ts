@@ -9,8 +9,8 @@ import { waitForAsync } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
+import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

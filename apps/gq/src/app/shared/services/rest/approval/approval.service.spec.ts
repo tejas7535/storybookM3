@@ -14,13 +14,13 @@ import {
   TriggerApprovalWorkflowRequest,
   UpdateFunction,
 } from '@gq/shared/models';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
   HttpMethod,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { APPROVAL_STATE_MOCK } from '../../../../../testing/mocks/';
 import { ApprovalService } from './approval.service';

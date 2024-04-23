@@ -5,7 +5,7 @@ import {
   translocoConfig,
   TranslocoModule,
   TranslocoService,
-} from '@ngneat/transloco';
+} from '@jsverse/transloco';
 
 import { Story } from '@storybook/angular';
 

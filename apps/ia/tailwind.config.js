@@ -30,7 +30,6 @@ module.exports = {
         'sea-blue': '#2f799e', // used to show reason for leaving
         'light-gray': 'rgba(0, 0, 0, 0.32)', // used on org chart
         teal: '#41a9bc', // used to show reason for leaving
-        'light-gray': 'rgba(0, 0, 0, 0.32)', // used on org chart
       },
       backgroundColor: {
         'gray-300': '#F0F0F0',

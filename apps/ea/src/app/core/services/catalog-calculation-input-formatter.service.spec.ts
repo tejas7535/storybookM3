@@ -1,6 +1,6 @@
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createServiceFactory, mockProvider } from '@ngneat/spectator/jest';
 import { SpectatorService } from '@ngneat/spectator/lib/spectator-service/spectator-service';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { CalculationResultReportInput } from '../store/models/calculation-result-report-input.model';
 import { CatalogCalculationInputFormatterService } from './catalog-calculation-input-formatter.service';

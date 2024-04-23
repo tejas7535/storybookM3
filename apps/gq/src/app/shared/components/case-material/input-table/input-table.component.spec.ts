@@ -15,8 +15,8 @@ import { RemoveAllFilteredButtonComponent } from '@gq/shared/ag-grid/custom-stat
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
 import { StatusBarConfig } from '@gq/shared/models/table';
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColDef } from 'ag-grid-community';

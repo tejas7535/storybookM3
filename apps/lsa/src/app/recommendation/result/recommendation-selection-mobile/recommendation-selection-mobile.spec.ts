@@ -1,5 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { RecommendationSelectionMobileComponent } from './recommendation-selection-mobile';
 
 describe('RecommendationSelectionMobileComponent', () => {
@@ -8,6 +10,7 @@ describe('RecommendationSelectionMobileComponent', () => {
 
   const createComponent = createComponentFactory({
     component: RecommendationSelectionMobileComponent,
+    imports: [provideTranslocoTestingModule({})],
     detectChanges: false,
   });
 

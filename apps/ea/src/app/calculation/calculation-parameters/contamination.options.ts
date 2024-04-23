@@ -1,7 +1,7 @@
 import { combineLatest, map, Observable } from 'rxjs';
 
 import { CalculationParametersOperationConditions } from '@ea/core/store/models';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 export const getContaminationOptions = (
   translocoService: TranslocoService

@@ -1,13 +1,13 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { of } from 'rxjs';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { TranslocoDatePipe } from '@ngneat/transloco-locale';
 
 import { SettingsFacade } from '@ga/core/store/facades/settings.facade';
 import {
@@ -81,7 +81,9 @@ describe('GreaseReportPdfGeneratorService', () => {
     service: GreaseReportPdfGeneratorService,
     providers: [
       mockProvider(GreaseReportDataGeneratorService),
-      mockProvider(TranslocoDatePipe, { transform: () => '14.11.2022' }),
+      mockProvider(TranslocoLocaleService, {
+        localizeDate: () => '14.11.2022',
+      }),
       mockProvider(GreaseReportPdfFileSaveService),
       mockProvider(FontsLoaderService),
       {

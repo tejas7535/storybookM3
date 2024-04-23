@@ -6,8 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, ReplaySubject } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
+import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { MockModule } from 'ng-mocks';

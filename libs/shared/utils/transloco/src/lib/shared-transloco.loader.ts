@@ -7,7 +7,7 @@ import {
   Translation,
   TRANSLOCO_LOADER,
   TranslocoLoader,
-} from '@ngneat/transloco';
+} from '@jsverse/transloco';
 
 import { I18N_CACHE_CHECKSUM, LOADER_PATH } from './injection-tokens';
 

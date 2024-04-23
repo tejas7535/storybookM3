@@ -5,10 +5,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { Observable } from 'rxjs';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
+import { TranslocoService } from '@jsverse/transloco';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-import { TranslocoService } from '@ngneat/transloco';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   CUSTOM_DATA_PRIVACY,
   PERSON_RESPONSIBLE,

@@ -9,6 +9,6 @@ export function userValidator(): ValidatorFn {
     const { value } = control;
     const valid = !value || value?.userId;
 
-    return !valid ? { invalidUser: true } : undefined;
+    return valid ? undefined : { invalidUser: true };
   };
 }

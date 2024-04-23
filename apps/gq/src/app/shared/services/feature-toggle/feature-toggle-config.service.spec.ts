@@ -2,7 +2,7 @@ import {
   createServiceFactory,
   SpectatorService,
   SpectatorServiceFactory,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { EnvironmentEnum } from '../../models';
 import { FeatureToggleConfigService } from './feature-toggle-config.service';

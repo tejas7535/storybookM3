@@ -18,6 +18,7 @@ import { DeletingAttachmentModalModule } from '@gq/shared/components/modal/delet
 import { StarRatingModule } from '@gq/shared/components/star-rating/star-rating.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -70,6 +71,7 @@ import { OverviewTabRoutingModule } from './overview-tab.routing.module';
     DeletingAttachmentModalModule,
     SharedDirectivesModule,
     StarRatingModule,
+    TranslocoDatePipe,
   ],
   declarations: [
     OverviewTabComponent,

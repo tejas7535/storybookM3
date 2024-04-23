@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-community';
 
 import { valueFormatterDate } from '../../shared/utils/utilities';

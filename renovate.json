@@ -95,13 +95,13 @@
     },
     {
       "packageNames": [
-        "@ngneat/transloco",
-        "@ngneat/transloco-keys-manager",
-        "@ngneat/transloco-locale",
-        "@ngneat/transloco-optimize",
-        "@ngneat/transloco-persist-lang",
-        "@ngneat/transloco-validator",
-        "@ngneat/transloco-messageformat"
+        "@jsverse/transloco",
+        "@jsverse/transloco-keys-manager",
+        "@jsverse/transloco-locale",
+        "@jsverse/transloco-optimize",
+        "@jsverse/transloco-persist-lang",
+        "@jsverse/transloco-validator",
+        "@jsverse/transloco-messageformat"
       ],
       "groupName": "transloco"
     },

@@ -7,6 +7,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   BetaFeatureModule,
@@ -36,6 +37,7 @@ describe('AppComponent', () => {
       MockModule(LoadingSpinnerModule),
       MockModule(RoleDescriptionsModule),
       MockModule(UserSettingsModule),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

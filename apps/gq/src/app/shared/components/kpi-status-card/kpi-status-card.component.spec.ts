@@ -1,5 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { KpiStatusCardComponent } from './kpi-status-card.component';
 
 describe('KpiStatusCardComponent', () => {
@@ -7,6 +9,7 @@ describe('KpiStatusCardComponent', () => {
   let spectator: Spectator<KpiStatusCardComponent>;
 
   const createComponent = createComponentFactory({
+    imports: [provideTranslocoTestingModule({ en: {} })],
     component: KpiStatusCardComponent,
   });
 

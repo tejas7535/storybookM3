@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { combineLatest, filter, map, Observable } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';

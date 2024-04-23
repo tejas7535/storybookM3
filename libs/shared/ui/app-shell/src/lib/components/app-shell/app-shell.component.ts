@@ -15,7 +15,7 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { filter } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { sidenavToggleAnimation } from '../../animations/sidenav.animations';
 import deJson from '../../i18n/de.json';

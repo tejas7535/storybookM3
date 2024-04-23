@@ -1,6 +1,8 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IStatusPanelParams } from 'ag-grid-community';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { ExcelExportStatusBarComponent } from './excel-export-status-bar.component';
 
 describe('ExcelExportStatusBarComponent', () => {
@@ -10,7 +12,7 @@ describe('ExcelExportStatusBarComponent', () => {
   const createComponent = createComponentFactory({
     component: ExcelExportStatusBarComponent,
     detectChanges: false,
-    imports: [],
+    imports: [provideTranslocoTestingModule({ en: {} })],
   });
 
   beforeEach(() => {

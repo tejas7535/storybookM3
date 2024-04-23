@@ -30,4 +30,16 @@
 //
 //
 // -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.overwrite('visit', (originalFn, url, options) =>
+  originalFn(url, {
+    onBeforeLoad: (contentWindow) => {
+      Object.defineProperty(contentWindow.navigator, 'language', {
+        value: 'en-US',
+      });
+      Object.defineProperty(contentWindow.navigator, 'languages', {
+        value: ['en-US'],
+      });
+    },
+    ...options,
+  })
+);

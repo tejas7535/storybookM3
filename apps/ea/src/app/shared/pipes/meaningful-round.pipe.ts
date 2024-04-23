@@ -1,6 +1,6 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
-import { TranslocoDecimalPipe } from '@ngneat/transloco-locale';
+import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 
 import { roundToThreeSigFigs } from '../helper/number-helper';
 

@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
 import { ExcelCell, ExcelRow, GridApi } from 'ag-grid-enterprise';
@@ -101,10 +101,10 @@ export class BomContainerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (this.index !== undefined) {
-      this.initializeWithCompareSelectors();
-    } else {
+    if (this.index === undefined) {
       this.initializeWithDetailSelectors();
+    } else {
+      this.initializeWithCompareSelectors();
     }
   }
 
@@ -114,24 +114,24 @@ export class BomContainerComponent implements OnInit {
       calculation: Calculation;
     }[]
   ): void {
-    if (this.index !== undefined) {
+    if (this.index === undefined) {
+      this.store.dispatch(fromDetail.selectCalculation(event[0]));
+    } else {
       this.store.dispatch(
         fromCompare.selectCalculation({ ...event[0], index: this.index })
       );
-    } else {
-      this.store.dispatch(fromDetail.selectCalculation(event[0]));
     }
   }
 
   public selectBomItem(item: BomItem): void {
     this.selectedBomItem = item;
 
-    if (this.index !== undefined) {
+    if (this.index === undefined) {
+      this.store.dispatch(fromDetail.selectBomItem({ item }));
+    } else {
       this.store.dispatch(
         fromCompare.selectBomItem({ item, index: this.index })
       );
-    } else {
-      this.store.dispatch(fromDetail.selectBomItem({ item }));
     }
   }
 

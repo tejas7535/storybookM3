@@ -3,8 +3,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { environment } from '@mm/environments/environment';
-import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import moment from 'moment';
 

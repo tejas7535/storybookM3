@@ -4,12 +4,9 @@ import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { TranslocoService } from '@jsverse/transloco';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-import { TranslocoService } from '@ngneat/transloco';
-import {
-  TRANSLOCO_PERSIST_LANG_STORAGE,
-  TranslocoPersistLangModule,
-} from '@ngneat/transloco-persist-lang';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -63,6 +60,12 @@ let Tracking = [
 ];
 
 let providers = [
+  provideTranslocoPersistLang({
+    storageKey: 'language',
+    storage: {
+      useValue: localStorage,
+    },
+  }),
   // OneTrust Provider must be first entry
   {
     provide: APP_INITIALIZER,
@@ -121,13 +124,6 @@ if (
       true,
       !environment.localDev
     ),
-    TranslocoPersistLangModule.forRoot({
-      storageKey: 'language',
-      storage: {
-        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
-        useValue: localStorage,
-      },
-    }),
     LanguageSelectModule,
 
     // Monitoring

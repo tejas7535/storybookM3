@@ -5,12 +5,12 @@ import * as constants from '@gq/shared/constants';
 import { LOCALE_EN } from '@gq/shared/constants';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
+import { translate } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { PushPipe } from '@ngrx/component';
 import { MockPipe } from 'ng-mocks';
 

@@ -9,8 +9,8 @@ import { UntypedFormControl } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { LangDefinition } from '@ngneat/transloco/lib/types';
+import { TranslocoService } from '@jsverse/transloco';
+import { LangDefinition } from '@jsverse/transloco/lib/types';
 
 @Component({
   selector: 'schaeffler-language-select',

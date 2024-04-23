@@ -1,9 +1,7 @@
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import {
-  TranslocoLocaleModule,
-  TranslocoLocaleService,
-} from '@ngneat/transloco-locale';
 
+import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { Keyboard } from '../../models';
@@ -15,11 +13,8 @@ describe('TransformationService', () => {
 
   const createService = createServiceFactory({
     service: TransformationService,
-    providers: [TranslocoLocaleService],
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      TranslocoLocaleModule.forRoot(),
-    ],
+    providers: [provideTranslocoLocale(sharedTranslocoLocaleConfig)],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     declarations: [],
   });
 

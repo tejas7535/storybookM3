@@ -3,8 +3,8 @@ import {
   API_RESULT_MULTIPLE_LOADCASES_MOCK,
   EXPECTED_RESULT_MULTIPLE_LOADCASES_INPUTS,
 } from '@ea/testing/mocks/catalog-helper-mocks';
+import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import {
   LOADCASE_DESIGNATION_FIELD_NAME_TRANSLATION_KEY,
@@ -13,8 +13,8 @@ import {
 import { BearinxOnlineResult } from './bearinx-result.interface';
 import { CatalogCalculationInputsConverterService } from './catalog-calculation-inputs-converter.service';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((translateKey) => {
     switch (translateKey) {
       case LOADCASE_NAME_FIELD_NAME_TRANSLATION_KEY:

@@ -54,7 +54,7 @@ export const reducers: ActionReducerMap<AppState> = {
   materialCostDetails: fromMaterialCostDetails.materialCostDetailsReducer,
 };
 
-export const metaReducers: MetaReducer<AppState>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 

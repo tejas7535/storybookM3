@@ -1,10 +1,11 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { AgGridModule } from 'ag-grid-angular';
 import { GridApi, GridReadyEvent } from 'ag-grid-community';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

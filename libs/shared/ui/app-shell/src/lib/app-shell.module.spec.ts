@@ -1,4 +1,4 @@
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 
 import { AppShellModule } from './app-shell.module';
 import deutsch from './i18n/de.json';

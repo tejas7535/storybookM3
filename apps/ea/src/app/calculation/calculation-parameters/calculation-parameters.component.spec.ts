@@ -17,8 +17,8 @@ import {
 import { resetCalculationResult } from '@ea/core/store/actions/calculation-result/catalog-calculation-result.actions';
 import { ProductSelectionTemplate } from '@ea/core/store/models';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
+import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { translate } from '@ngneat/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';

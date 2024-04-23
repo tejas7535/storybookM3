@@ -1,7 +1,7 @@
 import { FormControl } from '@angular/forms';
 
-import * as transloco from '@ngneat/transloco';
-import { translate } from '@ngneat/transloco';
+import * as transloco from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 
 import {
   createAutocompleteInputValidator,

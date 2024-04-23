@@ -6,7 +6,7 @@ import {
   NUMBER_COLUMN_FILTER,
 } from '@gq/shared/ag-grid/constants/filters';
 import { Keyboard } from '@gq/shared/models';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { ColumnUtilityService } from '../../../../ag-grid/services/column-utility.service';

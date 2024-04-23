@@ -2,6 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

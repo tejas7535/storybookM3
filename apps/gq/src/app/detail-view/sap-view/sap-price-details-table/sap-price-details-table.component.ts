@@ -6,8 +6,10 @@ import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 import { TableContext } from '@gq/process-case-view/quotation-details-table/config/tablecontext.model';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
-import { basicTableStyle } from '@gq/shared/constants/table-styles';
-import { disableTableHorizontalScrollbar } from '@gq/shared/constants/table-styles';
+import {
+  basicTableStyle,
+  disableTableHorizontalScrollbar,
+} from '@gq/shared/constants/table-styles';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
   ColumnState,

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 @Component({
   selector: 'schaeffler-maintenance',
