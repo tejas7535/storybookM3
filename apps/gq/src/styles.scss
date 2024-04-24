@@ -180,7 +180,9 @@ gq-kpi-status-card {
       @apply border-t-4;
     }
   }
-
+  .mat-mdc-tab-label-container {
+    z-index: 0;
+  }
   .mat-mdc-tab-labels {
     @apply justify-between;
     @apply flex;
