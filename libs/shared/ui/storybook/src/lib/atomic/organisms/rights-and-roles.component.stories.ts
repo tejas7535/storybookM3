@@ -12,10 +12,10 @@ import READMEMd from '../../../../../roles-and-rights/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import {
-  StorybookTranslocoModule,
+  STORYBOOK_TRANSLOCO_CONFIG,
   getMultiLanguageStoryTemplate,
-} from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+} from '../../../../.storybook/storybook-transloco.constants';
+import { provideTransloco } from '@jsverse/transloco';
 
 const mockRoles: Role[] = [
   {
@@ -66,7 +66,7 @@ export default {
     }),
     applicationConfig({
       providers: [
-        importProvidersFrom(StorybookTranslocoModule),
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
         provideAnimations(),
       ],
     }),

@@ -13,8 +13,8 @@ import {
 import READMEMd from '../../../../../empty-states/src/lib/maintenance/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
+import { provideTransloco } from '@jsverse/transloco';
 
 export default {
   title: 'Atomic/Pages/Maintenance',
@@ -32,7 +32,7 @@ export default {
       imports: [MaintenanceModule],
     }),
     applicationConfig({
-      providers: [importProvidersFrom(StorybookTranslocoModule)],
+      providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
 } as Meta<MaintenanceComponent>;

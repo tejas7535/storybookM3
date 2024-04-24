@@ -1,5 +1,3 @@
-import { RouterTestingModule } from '@angular/router/testing';
-
 import { Meta, applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { ForbiddenComponent, ForbiddenModule } from '@schaeffler/empty-states';
@@ -8,10 +6,11 @@ import READMEMd from '../../../../../empty-states/src/lib/forbidden/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import {
-  StorybookTranslocoModule,
+  STORYBOOK_TRANSLOCO_CONFIG,
   getMultiLanguageStoryTemplate,
-} from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+} from '../../../../.storybook/storybook-transloco.constants';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideRouter } from '@angular/router';
 
 export default {
   title: 'Atomic/Pages/Forbidden',
@@ -26,10 +25,13 @@ export default {
   },
   decorators: [
     moduleMetadata({
-      imports: [ForbiddenModule, RouterTestingModule],
+      imports: [ForbiddenModule],
     }),
     applicationConfig({
-      providers: [importProvidersFrom(StorybookTranslocoModule)],
+      providers: [
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
+        provideRouter([]),
+      ],
     }),
   ],
 } as Meta<ForbiddenComponent>;

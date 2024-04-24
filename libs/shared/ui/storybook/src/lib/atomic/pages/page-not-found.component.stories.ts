@@ -1,5 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import {
   applicationConfig,
@@ -16,24 +15,21 @@ import {
 import READMEMd from '../../../../../empty-states/src/lib/page-not-found/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
+
+import { provideTransloco } from '@jsverse/transloco';
 
 export default {
   title: 'Atomic/Pages/Page Not Found',
   component: PageNotFoundComponent,
   decorators: [
     moduleMetadata({
-      imports: [PageNotFoundModule, HttpClientModule],
+      imports: [PageNotFoundModule],
     }),
     applicationConfig({
       providers: [
-        importProvidersFrom(StorybookTranslocoModule),
-        importProvidersFrom(
-          RouterModule.forRoot([], {
-            useHash: true,
-          })
-        ),
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
+        provideRouter([]),
       ],
     }),
   ],

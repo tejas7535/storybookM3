@@ -5,9 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 
-import { TranslocoModule } from '@jsverse/transloco';
+import { provideTransloco } from '@jsverse/transloco';
 
 import {
   Meta,
@@ -21,9 +20,8 @@ import { AppShellComponent } from '@schaeffler/app-shell';
 import { UserPanelComponent } from '../../../../../app-shell/src/lib/components/user-panel/user-panel.component';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { importProvidersFrom } from '@angular/core';
 import READMEMd from '../../../../../app-shell/README.md';
-import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
 interface AppShellStorybookTemplate {
   headerContent?: string;
   sideNavContent?: string;
@@ -50,9 +48,6 @@ export default {
       declarations: [AppShellComponent, UserPanelComponent],
       imports: [
         CommonModule,
-        RouterTestingModule,
-        StorybookTranslocoModule,
-        TranslocoModule,
         MatButtonModule,
         MatDividerModule,
         MatIconModule,
@@ -62,7 +57,7 @@ export default {
     }),
     applicationConfig({
       providers: [
-        importProvidersFrom(StorybookTranslocoModule),
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
         provideAnimations(),
       ],
     }),

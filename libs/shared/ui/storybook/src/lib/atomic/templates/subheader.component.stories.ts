@@ -1,6 +1,6 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import {
   applicationConfig,
@@ -14,7 +14,6 @@ import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 
 import READMEMd from '../../../../../subheader/README.md';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
-import { importProvidersFrom } from '@angular/core';
 
 interface SubheaderStorybookTemplate {
   subheaderTitleContent?: string;
@@ -33,11 +32,7 @@ export default {
     applicationConfig({
       providers: [
         provideNoopAnimations(),
-        importProvidersFrom(
-          RouterModule.forRoot([
-            { path: 'base', component: SubheaderComponent },
-          ])
-        ),
+        provideRouter([{ path: 'base', component: SubheaderComponent }]),
       ],
     }),
   ],

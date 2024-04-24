@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 
-import { TranslocoModule } from '@jsverse/transloco';
+import { provideTransloco } from '@jsverse/transloco';
 import {
   applicationConfig,
   Meta,
@@ -13,9 +13,8 @@ import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
 
 import READMEMd from '../../../../../feedback-banner/README.md';
 
-import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
-import { importProvidersFrom } from '@angular/core';
 
 export default {
   title: 'Atomic/Organisms/Feedback Banner',
@@ -30,15 +29,10 @@ export default {
   },
   decorators: [
     moduleMetadata({
-      imports: [
-        CommonModule,
-        BannerTextModule,
-        StorybookTranslocoModule,
-        TranslocoModule,
-      ],
+      imports: [CommonModule, BannerTextModule],
     }),
     applicationConfig({
-      providers: [importProvidersFrom(StorybookTranslocoModule)],
+      providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
 } as Meta<FeedbackBannerComponent>;

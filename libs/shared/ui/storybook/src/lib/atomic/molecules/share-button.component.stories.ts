@@ -1,5 +1,5 @@
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { applicationConfig, Meta, moduleMetadata } from '@storybook/angular';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
@@ -11,10 +11,11 @@ import {
 import READMEMd from '../../../../../share-button/README.md';
 import {
   getMultiLanguageStoryTemplate,
-  StorybookTranslocoModule,
-} from '../../../../.storybook/storybook-transloco.module';
+  STORYBOOK_TRANSLOCO_CONFIG,
+} from '../../../../.storybook/storybook-transloco.constants';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import { importProvidersFrom } from '@angular/core';
+import { provideTransloco } from '@jsverse/transloco';
 
 export default {
   title: 'Atomic/Molecules/Share Button',
@@ -26,12 +27,10 @@ export default {
     applicationConfig({
       providers: [
         provideAnimations(),
-        importProvidersFrom(StorybookTranslocoModule),
-        importProvidersFrom(
-          RouterModule.forRoot([], {
-            useHash: true,
-          })
-        ),
+        provideTransloco({
+          config: STORYBOOK_TRANSLOCO_CONFIG,
+        }),
+        provideRouter([]),
         importProvidersFrom(
           ApplicationInsightsModule.forRoot({
             applicationInsightsConfig: {

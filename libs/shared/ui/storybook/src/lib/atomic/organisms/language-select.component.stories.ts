@@ -13,9 +13,9 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import {
   getMultiLanguageStoryTemplate,
-  StorybookTranslocoModule,
-} from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+  STORYBOOK_TRANSLOCO_CONFIG,
+} from '../../../../.storybook/storybook-transloco.constants';
+import { provideTransloco } from '@jsverse/transloco';
 
 export default {
   title: 'Atomic/Organisms/Language Select',
@@ -35,7 +35,7 @@ export default {
     applicationConfig({
       providers: [
         provideNoopAnimations(),
-        importProvidersFrom(StorybookTranslocoModule),
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
       ],
     }),
   ],

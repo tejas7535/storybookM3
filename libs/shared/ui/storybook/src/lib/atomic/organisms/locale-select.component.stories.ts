@@ -13,9 +13,10 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import {
   getMultiLanguageStoryTemplate,
-  StorybookTranslocoModule,
-} from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+  STORYBOOK_TRANSLOCO_CONFIG,
+} from '../../../../.storybook/storybook-transloco.constants';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 
 export default {
   title: 'Atomic/Organisms/Locale Select',
@@ -35,8 +36,8 @@ export default {
     applicationConfig({
       providers: [
         provideNoopAnimations(),
-        importProvidersFrom(StorybookTranslocoModule),
-        importProvidersFrom(LocaleSelectModule),
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
+        provideTranslocoLocale(),
       ],
     }),
   ],

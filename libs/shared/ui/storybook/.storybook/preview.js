@@ -1,4 +1,3 @@
-import { moduleMetadata } from '@storybook/angular';
 import { themes } from '@storybook/theming';
 
 import logo from './schaeffler-logo.svg';
@@ -7,14 +6,6 @@ import {
   STORYBOOK_DEFAULT_LANGUAGE,
   STORYBOOK_SUPPORTED_LANGUAGES,
 } from './storybook-transloco.constants';
-import { StorybookTranslocoModule } from './storybook-transloco.module';
-
-export const decorators = [
-  // add global modules which will be available for all stories
-  moduleMetadata({
-    imports: [StorybookTranslocoModule],
-  }),
-];
 
 export const parameters = {
   options: {

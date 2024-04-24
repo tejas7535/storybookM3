@@ -16,8 +16,9 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { action } from '@storybook/addon-actions';
 import { StringOption } from '@schaeffler/inputs';
-import { StorybookTranslocoModule } from 'libs/shared/ui/storybook/.storybook/storybook-transloco.module';
-import { Component, importProvidersFrom } from '@angular/core';
+import { STORYBOOK_TRANSLOCO_CONFIG } from 'libs/shared/ui/storybook/.storybook/storybook-transloco.constants';
+import { Component } from '@angular/core';
+import { provideTransloco } from '@jsverse/transloco';
 
 @Component({
   selector: 'wrapper',
@@ -82,7 +83,7 @@ export default {
     }),
     applicationConfig({
       providers: [
-        importProvidersFrom(StorybookTranslocoModule),
+        provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG }),
         provideAnimations(),
       ],
     }),

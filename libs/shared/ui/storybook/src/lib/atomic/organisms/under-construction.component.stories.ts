@@ -1,6 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
-
-import { TranslocoModule } from '@jsverse/transloco';
+import { provideTransloco } from '@jsverse/transloco';
 import {
   applicationConfig,
   Meta,
@@ -16,23 +14,17 @@ import {
 import READMEMd from '../../../../../empty-states/src/lib/under-construction/README.md';
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
-import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
-import { importProvidersFrom } from '@angular/core';
+import { STORYBOOK_TRANSLOCO_CONFIG } from '../../../../.storybook/storybook-transloco.constants';
 
 export default {
   title: 'Atomic/Organisms/Under Construction',
   component: UnderConstructionComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        UnderConstructionModule,
-        HttpClientModule,
-        StorybookTranslocoModule,
-        TranslocoModule,
-      ],
+      imports: [UnderConstructionModule],
     }),
     applicationConfig({
-      providers: [importProvidersFrom(StorybookTranslocoModule)],
+      providers: [provideTransloco({ config: STORYBOOK_TRANSLOCO_CONFIG })],
     }),
   ],
   parameters: {
