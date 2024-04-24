@@ -1,11 +1,15 @@
 <div *transloco="let t; read: 'filters'" class="flex gap-2">
   @if (filters) {
-    <schaeffler-tag type="info" [withBorder]="true" [withDot]="false">{{
-      filters.timeRange
-    }}</schaeffler-tag>
-    <schaeffler-tag type="info" [withBorder]="true" [withDot]="false">{{
-      filters.value
-    }}</schaeffler-tag>
+    @if (filters.timeRange) {
+      <schaeffler-tag type="info" [withBorder]="true" [withDot]="false">{{
+        filters.timeRange
+      }}</schaeffler-tag>
+    }
+    @if (filters.value) {
+      <schaeffler-tag type="info" [withBorder]="true" [withDot]="false">{{
+        filters.value
+      }}</schaeffler-tag>
+    }
   } @else {
     <i>{{ t('noFiltersSelected') }}</i>
   }
