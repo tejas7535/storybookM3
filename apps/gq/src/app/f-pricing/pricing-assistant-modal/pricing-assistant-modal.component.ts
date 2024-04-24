@@ -163,6 +163,7 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
     this.fPricingFacade.changePrice(null);
     // check if manualPriceData has been set and changed, if not display button 'Add Manual Price'
     if (
+      !this.isInitiallyManualPrice &&
       this.manualPriceInputInvalidOrUnchanged &&
       !this.commentValidAndChanged
     ) {
