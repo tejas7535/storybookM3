@@ -108,7 +108,7 @@ describe('QuotationDetailsService', (): void => {
       );
       req.flush(quotationDetails);
 
-      expect(req.request.method).toBe(HttpMethod.PUT);
+      expect(req.request.method).toBe(HttpMethod.PATCH);
     });
   });
   describe('get Transactions', () => {

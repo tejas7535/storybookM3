@@ -65,7 +65,7 @@ export class QuotationDetailsService {
   public updateQuotationDetail(
     quotationDetails: UpdateQuotationDetail[]
   ): Observable<Quotation> {
-    return this.http.put<Quotation>(
+    return this.http.patch<Quotation>(
       `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}`,
       quotationDetails
     );
