@@ -1,4 +1,3 @@
-import { SanityCheckData } from '@gq/core/store/f-pricing/f-pricing.reducer';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import {
@@ -8,6 +7,7 @@ import {
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { FPricingComparableMaterials } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { FPricingCalculations } from './models/f-pricing-calculations.interface';
 
 export const FPricingActions = createActionGroup({
   source: 'fPricing',
@@ -16,6 +16,15 @@ export const FPricingActions = createActionGroup({
     'Load FPricing Data': props<{ gqPositionId: string }>(),
     'Load FPricing Data Success': props<{ data: FPricingData }>(),
     'Load FPricing Data failure': props<{ error: Error }>(),
+
+    // data is fetched within the effect
+    'Trigger FPricing Calculations': emptyProps(),
+    'Trigger FPricing Calculations Success': props<{
+      response: FPricingCalculations;
+    }>(),
+    'Trigger FPricing Calculations Failure': props<{
+      error: Error;
+    }>(),
 
     'Load Comparable Transactions': props<{ gqPositionId: string }>(),
     'Load Comparable Transactions Success': props<{
@@ -40,8 +49,6 @@ export const FPricingActions = createActionGroup({
       technicalValueDriver: TableItem;
     }>(),
 
-    'Set Sanity Check Values': props<{ value: SanityCheckData }>(),
-    'Set Final Price Value': props<{ value: number }>(),
     'Update Manual Price': props<{ gqPositionId: string; comment: string }>(),
   },
 });

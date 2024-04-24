@@ -5,6 +5,8 @@ import { map, Observable } from 'rxjs';
 
 import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
 import {
+  FPricingCalculationsRequest,
+  FPricingCalculationsResponse,
   MarketValueDriver,
   UpdateFPricingDataRequest,
   UpdateFPricingDataResponse,
@@ -30,7 +32,7 @@ export class FPricingService {
   getFPricingData(gqPositionId: string): Observable<FPricingData> {
     return this.#http
       .get<FPricingData>(
-        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.PATH_F_PRICING}`
       )
       .pipe(
         map((data: FPricingData) => ({
@@ -49,7 +51,16 @@ export class FPricingService {
     gqPositionId: string
   ): Observable<ComparableKNumbers> {
     return this.#http.get<ComparableKNumbers>(
-      `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}/${FPricingPaths.PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
+      `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.PATH_F_PRICING}/${FPricingPaths.PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
+    );
+  }
+
+  getFPricingCalculations(
+    requestData: FPricingCalculationsRequest
+  ): Observable<FPricingCalculationsResponse> {
+    return this.#http.post<FPricingCalculationsResponse>(
+      `${ApiVersion.V1}/${FPricingPaths.PATH_F_PRICING}/${FPricingPaths.PATH_F_PRICING_CALCULATIONS}`,
+      requestData
     );
   }
 
@@ -58,7 +69,7 @@ export class FPricingService {
     data: UpdateFPricingDataRequest
   ): Observable<UpdateFPricingDataResponse> {
     return this.#http.post<UpdateFPricingDataResponse>(
-      `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`,
+      `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.PATH_F_PRICING}`,
       data,
       {
         context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),

@@ -1,7 +1,11 @@
 import { ProductType, QuotationDetail } from '@gq/shared/models';
-import { UpdateFPricingDataRequest } from '@gq/shared/models/f-pricing';
+import {
+  FPricingCalculationsRequest,
+  UpdateFPricingDataRequest,
+} from '@gq/shared/models/f-pricing';
+import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import { F_PRICING_CALCULATIONS_MOCK } from '../../../../testing/mocks/models/fpricing/f-pricing-calculations.mock';
 import {
   F_PRICING_COMPARABLE_MATERIALS_MOCK,
   F_PRICING_COMPARABLE_MATERIALS_MOCK_FOR_DISPLAYING,
@@ -16,10 +20,6 @@ import {
   MATERIAL_INFORMATION_EXTENDED_MOCK,
   MATERIAL_INFORMATION_MOCK,
 } from '../../../../testing/mocks/models/fpricing/material-information.mock';
-import {
-  SANITY_CHECK_MARGINS_MOCK,
-  SANITY_CHECK_VALUES_MOCK,
-} from '../../../../testing/mocks/models/fpricing/sanity-check-margins.mock';
 import {
   TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
   TECHNICAL_VALUE_DRIVERS_MOCK,
@@ -38,8 +38,8 @@ import {
   getNumberOfDeltasByInformationKey,
   initialState,
   notLastOptionSelected,
-  SanityCheckData,
 } from './f-pricing.reducer';
+import { FPricingCalculations } from './models/f-pricing-calculations.interface';
 import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 import { PropertyDelta } from './models/property-delta.interface';
 
@@ -173,15 +173,97 @@ describe('fPricingReducer', () => {
         fPricingDataLoading: true,
       });
     });
-    test('should set technicalValueDriversToUpdate', () => {
+    test('should set update FPricing success', () => {
+      const state: FPricingState = F_PRICING_STATE_MOCK;
+
+      const result = fPricingFeature.reducer(
+        state,
+        FPricingActions.updateFPricingSuccess({
+          response: {
+            finalPrice: 100,
+            gqPositionId: '1234',
+            marketValueDriverSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+          },
+        })
+      );
+
+      expect(result).toEqual({
+        ...state,
+        fPricingDataLoading: false,
+        marketValueDriversSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+        calculations: {
+          ...F_PRICING_CALCULATIONS_MOCK,
+          finalPrice: 100,
+        },
+      });
+    });
+    test('should set update FPricing failure', () => {
+      const state: FPricingState = F_PRICING_STATE_MOCK;
+      const error = new Error('test');
+      const result = fPricingFeature.reducer(
+        state,
+        FPricingActions.updateFPricingFailure({ error })
+      );
+
+      expect(result).toEqual({
+        ...state,
+        error,
+      });
+    });
+
+    test('should set marketValueDriverSelection', () => {
+      const result = fPricingFeature.reducer(
+        {
+          ...initialState,
+          marketValueDriversSelections: MARKET_VALUE_DRIVERS_SELECTIONS_MOCK,
+        },
+        FPricingActions.setMarketValueDriverSelection({
+          selection: {
+            ...MARKET_VALUE_DRIVERS_SELECTIONS_MOCK[0],
+            selectedOptionId: 4,
+          },
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        marketValueDriversSelections: [
+          MARKET_VALUE_DRIVERS_SELECTIONS_MOCK[1],
+          MARKET_VALUE_DRIVERS_SELECTIONS_MOCK[2],
+          MARKET_VALUE_DRIVERS_SELECTIONS_MOCK[3],
+          MARKET_VALUE_DRIVERS_SELECTIONS_MOCK[4],
+          {
+            ...MARKET_VALUE_DRIVERS_SELECTIONS_MOCK[0],
+            selectedOptionId: 4,
+          },
+        ],
+      });
+    });
+
+    test('should change the manual Price', () => {
       const result = fPricingFeature.reducer(
         initialState,
+        FPricingActions.changePrice({ price: 100 })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        manualPrice: 100,
+      });
+    });
+    test('should set technicalValueDriversToUpdate', () => {
+      const result = fPricingFeature.reducer(
+        {
+          ...initialState,
+          technicalValueDriversToUpdate:
+            TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK,
+        },
         FPricingActions.updateTechnicalValueDriver({
           technicalValueDriver: {
             description: 'test',
             id: 1,
             value: '5%',
-            editableValue: 5,
+            editableValue: 6,
             editableValueUnit: '%',
           },
         })
@@ -190,38 +272,73 @@ describe('fPricingReducer', () => {
       expect(result).toEqual({
         ...initialState,
         technicalValueDriversToUpdate: [
+          TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK[1],
+          TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK[2],
+          TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK[3],
+          TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK[4],
           {
             description: 'test',
             id: 1,
             value: '5%',
-            editableValue: 5,
+            editableValue: 6,
             editableValueUnit: '%',
           },
         ],
       });
     });
-    test('should set sanityCheckValues', () => {
+
+    test('should handle triggerFPricingCalculations', () => {
+      const state: FPricingState = F_PRICING_STATE_MOCK;
       const result = fPricingFeature.reducer(
-        initialState,
-        FPricingActions.setSanityCheckValues({
-          value: SANITY_CHECK_VALUES_MOCK,
-        })
+        state,
+        FPricingActions.triggerFPricingCalculations()
       );
+
       expect(result).toEqual({
-        ...initialState,
-        sanityCheckValues: SANITY_CHECK_VALUES_MOCK,
+        ...state,
+        fPricingCalculationsLoading: true,
       });
     });
-    test('should set setFinalPriceValue', () => {
+    test('should handle loadFPricingCalculationsSuccess', () => {
+      const state: FPricingState = F_PRICING_STATE_MOCK;
+      const calculations: FPricingCalculations = {
+        absoluteMvdSurcharge: 20,
+        absoluteTvdSurcharge: 40,
+        finalPrice: 287.5,
+        gpm: 60,
+        sanityCheck: {
+          lastCustomerPrice: undefined,
+          maxPrice: 500,
+          minPrice: 125,
+          priceAfterSanityCheck: 287.5,
+          priceBeforeSanityCheck: 287.5,
+          sqv: 100,
+          value: 0,
+        },
+      };
       const result = fPricingFeature.reducer(
-        initialState,
-        FPricingActions.setFinalPriceValue({
-          value: 150,
+        state,
+        FPricingActions.triggerFPricingCalculationsSuccess({
+          response: calculations,
         })
       );
+
       expect(result).toEqual({
-        ...initialState,
-        finalPrice: 150,
+        ...state,
+        calculations,
+      });
+    });
+    test('should handle loadFPricingCalculationsFailure', () => {
+      const state: FPricingState = F_PRICING_STATE_MOCK;
+      const error = new Error('test');
+      const result = fPricingFeature.reducer(
+        state,
+        FPricingActions.triggerFPricingCalculationsFailure({ error })
+      );
+
+      expect(result).toEqual({
+        ...state,
+        error,
       });
     });
   });
@@ -415,26 +532,6 @@ describe('fPricingReducer', () => {
       });
     });
 
-    describe('getMarketValueDriversAbsoluteValue', () => {
-      test('should return market value drivers absolute value', () => {
-        const mvdRelativeValue = MARKET_VALUE_DRIVERS_SELECTIONS_MOCK.reduce(
-          (acc, option) => acc + option.surcharge,
-          0
-        );
-
-        const result =
-          fPricingFeature.getMarketValueDriversAbsoluteValue.projector(
-            mvdRelativeValue,
-            F_PRICING_STATE_MOCK.referencePrice
-          );
-
-        const expected = Number(
-          (F_PRICING_STATE_MOCK.referencePrice * mvdRelativeValue).toFixed(2)
-        );
-        expect(result).toEqual(expected);
-      });
-    });
-
     describe('getTechnicalValueDriverRelativeValue', () => {
       test('should return technical value driver relative value', () => {
         const result =
@@ -445,118 +542,30 @@ describe('fPricingReducer', () => {
       });
     });
 
-    describe('getTechnicalValueDriverValueAbsoluteValue', () => {
-      test('should return technical value driver absolute value', () => {
-        const tvdRelativeValue = 0.23;
-        const result =
-          fPricingFeature.getTechnicalValueDriversValueAbsoluteValue.projector(
-            tvdRelativeValue,
-            F_PRICING_STATE_MOCK.referencePrice
-          );
-        const expected = Number(
-          (F_PRICING_STATE_MOCK.referencePrice * tvdRelativeValue).toFixed(2)
-        );
-        expect(result).toEqual(expected);
-      });
-    });
-
-    describe('getSanityCheckData', () => {
-      test('check for the correct calculation because of the floating number Issue with 0.000000000099', () => {
-        const result = 249.43 / (1 - 0.6);
-        expect(result.toFixed(3)).toBe('623.575');
-      });
-      test('should apply sanity check correction for recommendedBeforeSanity Checks lower then lowerThreshold', () => {
-        const result = fPricingFeature.getSanityCheckData.projector(
-          SANITY_CHECK_MARGINS_MOCK,
-          'gqPositionId',
-          [
-            {
-              gqPositionId: 'gqPositionId',
-              rfqData: {
-                sqv: 100,
-              },
-            } as unknown as QuotationDetail,
-          ],
-          120,
-          3,
-          1
-        );
-        expect(result).toEqual({
-          lastCustomerPrice: undefined,
-          lowerThreshold: 125,
-          recommendAfterChecks: 125,
-          recommendBeforeChecks: 124,
-          sqv: 100,
-          upperThreshold: 500,
-          sanityCheckValue: 1,
-        });
-      });
-      test('should apply sanity check correction for recommendedBeforeSanity Checks lower then lastCustomerPrice', () => {
-        const result = fPricingFeature.getSanityCheckData.projector(
-          SANITY_CHECK_MARGINS_MOCK,
-          'gqPositionId',
-          [
-            {
-              gqPositionId: 'gqPositionId',
-              rfqData: {
-                sqv: 100,
-              },
-              lastCustomerPrice: 130,
-            } as unknown as QuotationDetail,
-          ],
-          120,
-          3,
-          1
-        );
-        expect(result).toEqual({
-          lastCustomerPrice: 130,
-          lowerThreshold: 125,
-          recommendAfterChecks: 130,
-          recommendBeforeChecks: 124,
-          sqv: 100,
-          upperThreshold: 500,
-          sanityCheckValue: 6,
-        });
-      });
-      test('should not apply sanity check correction if value between lower and upper Threshold', () => {
-        const result = fPricingFeature.getSanityCheckData.projector(
-          SANITY_CHECK_MARGINS_MOCK,
-          'gqPositionId',
-          [
-            {
-              gqPositionId: 'gqPositionId',
-              rfqData: {
-                sqv: 100,
-              },
-            } as unknown as QuotationDetail,
-          ],
-          120,
-          10,
-          10
-        );
-        expect(result).toEqual({
-          lastCustomerPrice: undefined,
-          lowerThreshold: 125,
-          recommendAfterChecks: 140,
-          recommendBeforeChecks: 140,
-          sqv: 100,
-          upperThreshold: 500,
-          sanityCheckValue: 0,
-        });
-      });
-    });
-
     describe('getSanityCheckMarginsForDisplay', () => {
       test('should return the sanity check margins for display', () => {
         const result = fPricingFeature.getSanityChecksForDisplay.projector({
-          lastCustomerPrice: undefined,
-          lowerThreshold: 125,
-          recommendAfterChecks: 287.5,
-          recommendBeforeChecks: 287.5,
-          sqv: 100,
-          upperThreshold: 500,
-          sanityCheckValue: 0,
-        });
+          absoluteMvdSurcharge: 20,
+          absoluteTvdSurcharge: 40,
+          finalPrice: 287.5,
+          gpm: 60,
+          sanityCheck: {
+            lastCustomerPrice: undefined,
+            maxPrice: 500,
+            minPrice: 125,
+            priceAfterSanityCheck: 287.5,
+            priceBeforeSanityCheck: 287.5,
+            sqv: 100,
+            value: 0,
+          },
+          // lastCustomerPrice: undefined,
+          // lowerThreshold: 125,
+          // recommendAfterChecks: 287.5,
+          // recommendBeforeChecks: 287.5,
+          // sqv: 100,
+          // upperThreshold: 500,
+          // sanityCheckValue: 0,
+        } as FPricingCalculations);
         expect(result).toEqual([
           { description: 'translate it', id: 1, value: 287.5 },
           { description: 'translate it', id: 2, value: 100 },
@@ -570,39 +579,41 @@ describe('fPricingReducer', () => {
 
     describe('getFinalPrice', () => {
       test('should return final price', () => {
-        const result = fPricingFeature.getFinalPrice.projector(100, 50, 200, {
-          sanityCheckValue: 30,
-        } as SanityCheckData);
+        const result = fPricingFeature.getFinalPrice.projector({
+          finalPrice: 380,
+        } as FPricingCalculations);
         expect(result).toBe(380);
       });
     });
 
-    describe('getGpmValue', () => {
-      test('should return gpm value with RFQ SQV value used', () => {
-        const result = fPricingFeature.getGpmValue.projector('5694232', 350, [
-          QUOTATION_DETAIL_MOCK,
-        ]);
-        expect(result).toBe(90);
-      });
-      test('should return gpm value with SQV value used', () => {
-        const quotationDetail = QUOTATION_DETAIL_MOCK;
-        quotationDetail.rfqData = null;
-        const result = fPricingFeature.getGpmValue.projector('5694232', 300, [
-          quotationDetail,
-        ]);
-        expect(result).toBe(90);
-      });
-      test('should return null when final price is not present', () => {
-        const result = fPricingFeature.getGpmValue.projector('5694232', null, [
-          QUOTATION_DETAIL_MOCK,
-        ]);
-        expect(result).toBe(null);
-      });
-      test('should return null when quotation detail not found', () => {
-        const result = fPricingFeature.getGpmValue.projector('12345', 300, [
-          QUOTATION_DETAIL_MOCK,
-        ]);
-        expect(result).toBe(null);
+    describe('getDataForTriggerCalculations', () => {
+      test('should return the data for trigger calculations', () => {
+        const result = fPricingFeature.getDataForTriggerCalculations.projector(
+          100,
+          0.3,
+          0.5,
+          { maxMargin: 150, minMargin: 50 } as SanityCheckMargins,
+          '1234',
+          [
+            {
+              gqPositionId: '1234',
+              sqv: 120,
+              lastCustomerPrice: undefined,
+            } as QuotationDetail,
+          ] as QuotationDetail[]
+        );
+        const expected = {
+          referencePrice: result.referencePrice,
+          relativeMvdSurcharge: result.relativeMvdSurcharge,
+          relativeTvdSurcharge: result.relativeTvdSurcharge,
+          sanityCheck: {
+            lastCustomerPrice: undefined,
+            maxMargin: 150,
+            minMargin: 50,
+            sqv: 120,
+          },
+        } as FPricingCalculationsRequest;
+        expect(result).toEqual(expected);
       });
     });
   });

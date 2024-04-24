@@ -14,7 +14,8 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { FPricingActions } from './f-pricing.actions';
-import { fPricingFeature, SanityCheckData } from './f-pricing.reducer';
+import { fPricingFeature } from './f-pricing.reducer';
+import { FPricingCalculations } from './models/f-pricing-calculations.interface';
 
 @Injectable()
 export class FPricingEffects {
@@ -38,50 +39,44 @@ export class FPricingEffects {
     );
   });
 
-  /* This effect should react for every action which is related with user input.
-   * If in the future user will be able to change the data for example TVD values,
-   * this effect should be updated.
-   */
-  setSanityCheckValues$ = createEffect(() => {
+  triggerInitialCalculations$ = createEffect(() => {
     return this.actions.pipe(
-      ofType(
-        FPricingActions.loadFPricingDataSuccess,
-        FPricingActions.setMarketValueDriverSelection
-      ),
+      ofType(FPricingActions.loadFPricingDataSuccess),
+      switchMap(() => of(FPricingActions.triggerFPricingCalculations()))
+    );
+  });
+
+  getFPricingCalculations$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(FPricingActions.triggerFPricingCalculations),
       concatLatestFrom(() =>
-        this.store.select(fPricingFeature.getSanityCheckData)
+        this.store.select(fPricingFeature.getDataForTriggerCalculations)
       ),
-      map(
-        ([_, sanityCheckData]: [
-          ReturnType<
-            | typeof FPricingActions.loadFPricingDataSuccess
-            | typeof FPricingActions.setMarketValueDriverSelection
-          >,
-          SanityCheckData,
-        ]) =>
-          FPricingActions.setSanityCheckValues({
-            value: sanityCheckData,
-          })
+      mergeMap(([_, requestData]) =>
+        this.fPricingService.getFPricingCalculations(requestData).pipe(
+          map((response) => {
+            const result: FPricingCalculations = {
+              ...response,
+              gpm: response.gpm * 100,
+              sanityCheck: {
+                ...response.sanityCheck,
+                sqv: requestData.sanityCheck.sqv,
+                lastCustomerPrice: requestData.sanityCheck.lastCustomerPrice,
+                priceAfterSanityCheck: response.finalPrice,
+              },
+            };
+
+            return FPricingActions.triggerFPricingCalculationsSuccess({
+              response: result,
+            });
+          }),
+          catchError((error) =>
+            of(FPricingActions.triggerFPricingCalculationsFailure({ error }))
+          )
+        )
       )
     );
   });
-
-  setFinalPrice$ = createEffect(() => {
-    return this.actions.pipe(
-      ofType(FPricingActions.setSanityCheckValues),
-      concatLatestFrom(() => this.store.select(fPricingFeature.getFinalPrice)),
-      map(
-        ([_, finalPrice]: [
-          ReturnType<typeof FPricingActions.setSanityCheckValues>,
-          number,
-        ]) =>
-          FPricingActions.setFinalPriceValue({
-            value: finalPrice,
-          })
-      )
-    );
-  });
-
   getComparableTransactions$ = createEffect(() => {
     return this.actions.pipe(
       ofType(FPricingActions.loadComparableTransactions),

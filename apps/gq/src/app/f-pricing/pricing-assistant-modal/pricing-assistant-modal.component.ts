@@ -44,6 +44,8 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   comparableTransactionsLoading$ =
     this.fPricingFacade.comparableTransactionsLoading$;
   fPricingDataLoading$ = this.fPricingFacade.fPricingDataLoading$;
+  fPricingCalculationsLoading$ =
+    this.fPricingFacade.fPricingCalculationsLoading$;
 
   material: MaterialDetails = this.dialogData.material;
   materialToCompare: string;

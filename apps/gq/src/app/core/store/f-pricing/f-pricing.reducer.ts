@@ -6,6 +6,8 @@ import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-mo
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { Keyboard, QuotationDetail } from '@gq/shared/models';
 import {
+  FPricingCalculationsRequest,
+  FPricingCalculationsResponse,
   FPricingData,
   MarketValueDriver,
   MaterialInformation,
@@ -14,13 +16,7 @@ import {
 } from '@gq/shared/models/f-pricing';
 import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
 import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-value-driver.interface';
-import {
-  addNumbers,
-  calculateGpmValue,
-  calculateThresholdForSanityChecks,
-  multiplyTwoNumbers,
-  subtractTwoNumbers,
-} from '@gq/shared/utils/f-pricing.utils';
+import { addNumbers } from '@gq/shared/utils/f-pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
@@ -30,6 +26,7 @@ import {
   FPricingComparableMaterials,
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
+import { FPricingCalculations } from './models/f-pricing-calculations.interface';
 import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';
 import { MaterialInformationExtended } from './models/material-information-extended.interface';
 import { PropertyDelta } from './models/property-delta.interface';
@@ -43,19 +40,20 @@ const PRECISION = 2;
 export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
   comparableTransactionsLoading: boolean;
+  fPricingCalculationsLoading: boolean;
   error: Error;
   materialInformation: MaterialInformation[];
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
   technicalValueDriversToUpdate: TableItem[];
-  sanityCheckValues: SanityCheckData;
   manualPrice: number;
-  finalPrice: number;
+  calculations: FPricingCalculations;
 }
 
 export const initialState: FPricingState = {
   fPricingDataLoading: false,
   comparableTransactionsLoading: false,
+  fPricingCalculationsLoading: false,
   error: null,
   materialInformation: MATERIAL_INFORMATION_MOCK,
   gqPositionId: null,
@@ -68,8 +66,7 @@ export const initialState: FPricingState = {
   technicalValueDrivers: null,
   technicalValueDriversToUpdate: [],
   sanityCheckMargins: null,
-  sanityCheckValues: null,
-  finalPrice: null,
+  calculations: null,
 };
 
 export const F_PRICING_KEY = 'fPricing';
@@ -153,7 +150,10 @@ export const fPricingFeature = createFeature({
         ...state,
         fPricingDataLoading: false,
         marketValueDriversSelections: response.marketValueDriverSelections,
-        finalPrice: response.finalPrice,
+        calculations: {
+          ...state.calculations,
+          finalPrice: response.finalPrice,
+        },
       })
     ),
     on(
@@ -197,17 +197,26 @@ export const fPricingFeature = createFeature({
       })
     ),
     on(
-      FPricingActions.setSanityCheckValues,
-      (state: FPricingState, { value }): FPricingState => ({
+      FPricingActions.triggerFPricingCalculations,
+      (state: FPricingState): FPricingState => ({
         ...state,
-        sanityCheckValues: value,
+        fPricingCalculationsLoading: true,
       })
     ),
     on(
-      FPricingActions.setFinalPriceValue,
-      (state: FPricingState, { value }): FPricingState => ({
+      FPricingActions.triggerFPricingCalculationsSuccess,
+      (state: FPricingState, { response }): FPricingState => ({
         ...state,
-        finalPrice: value,
+        fPricingCalculationsLoading: false,
+        calculations: response,
+      })
+    ),
+    on(
+      FPricingActions.triggerFPricingCalculationsFailure,
+      (state: FPricingState, { error }): FPricingState => ({
+        ...state,
+        fPricingCalculationsLoading: false,
+        error,
       })
     )
   ),
@@ -217,12 +226,12 @@ export const fPricingFeature = createFeature({
     selectMarketValueDrivers,
     selectComparableTransactions,
     selectMarketValueDriversSelections,
-    selectGqPositionId,
     selectTechnicalValueDrivers,
     selectTechnicalValueDriversToUpdate,
-    selectSanityCheckMargins,
     selectReferencePrice,
-    selectSanityCheckValues,
+    selectCalculations,
+    selectSanityCheckMargins,
+    selectGqPositionId,
   }) => {
     const getMaterialInformationExtended = createSelector(
       selectMaterialInformation,
@@ -457,22 +466,6 @@ export const fPricingFeature = createFeature({
       }
     );
 
-    const getMarketValueDriversAbsoluteValue = createSelector(
-      getMarketValueDriversRelativeValue,
-      selectReferencePrice,
-      (marketValueDriversRelativeValue, referencePrice): number => {
-        if (!referencePrice) {
-          return 0;
-        }
-
-        return multiplyTwoNumbers(
-          referencePrice,
-          marketValueDriversRelativeValue,
-          PRECISION
-        );
-      }
-    );
-
     const getReferencePriceRounded = createSelector(
       selectReferencePrice,
       (referencePrice): number => Number((referencePrice ?? 0).toFixed(2))
@@ -493,89 +486,11 @@ export const fPricingFeature = createFeature({
         )
     );
 
-    const getTechnicalValueDriversValueAbsoluteValue = createSelector(
-      getTechnicalValueDriversRelativeValue,
-      selectReferencePrice,
-      (tvdRelativeValue, referencePrice): number => {
-        if (!referencePrice) {
-          return 0;
-        }
-
-        return multiplyTwoNumbers(referencePrice, tvdRelativeValue, PRECISION);
-      }
-    );
-
-    const getSanityCheckData = createSelector(
-      selectSanityCheckMargins,
-      selectGqPositionId,
-      getQuotationDetails,
-      getReferencePriceRounded,
-      getTechnicalValueDriversValueAbsoluteValue,
-      getMarketValueDriversAbsoluteValue,
-      (
-        sanityChecks: SanityCheckMargins,
-        positionId: string,
-        quotationDetails: QuotationDetail[],
-        refPrice: number,
-        tvdValue: number,
-        mvdValue: number
-      ): SanityCheckData => {
-        if (!positionId || !sanityChecks || !refPrice) {
-          return null;
-        }
-        const quotationDetail = quotationDetails.find(
-          (item) => item.gqPositionId === positionId
-        );
-
-        // when sqv of RFQ ist not available take the quotationDetail.sqv
-        const sqv = quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv;
-
-        const recommendBeforeChecks = Number(refPrice + mvdValue + tvdValue);
-        // formula: SQV_RFQ / (1- minMargin)
-        const lowerThreshold = calculateThresholdForSanityChecks(
-          sqv,
-          sanityChecks.minMargin,
-          PRECISION
-        );
-
-        // formula: SQV_RFQ / (1- maxMargin)
-        const upperThreshold = calculateThresholdForSanityChecks(
-          sqv,
-          sanityChecks.maxMargin,
-          PRECISION
-        );
-
-        const recommendAfterChecks =
-          calculatePriceRecommendationAfterSanityChecks(
-            recommendBeforeChecks,
-            lowerThreshold,
-            upperThreshold,
-            quotationDetail?.lastCustomerPrice
-          );
-
-        const sanityCheckValue = subtractTwoNumbers(
-          recommendAfterChecks,
-          recommendBeforeChecks,
-          PRECISION
-        );
-
-        return {
-          recommendBeforeChecks,
-          lowerThreshold,
-          upperThreshold,
-          recommendAfterChecks,
-          sqv,
-          lastCustomerPrice: quotationDetail?.lastCustomerPrice,
-          sanityCheckValue,
-        };
-      }
-    );
-
     const getSanityChecksForDisplay = createSelector(
-      getSanityCheckData,
-      (sanityCheckData: SanityCheckData): TableItem[] => {
+      selectCalculations,
+      (calculations: FPricingCalculations): TableItem[] => {
         // the Values of the items will be mapped within the facade to have access to localization Service
-        if (!sanityCheckData) {
+        if (!calculations) {
           return [];
         }
         const sanityCheckList: TableItem[] = [
@@ -584,40 +499,40 @@ export const fPricingFeature = createFeature({
             description: translate(
               `${TRANSLATION_KEY}.${SANITY_CHECKS}.priceRecommendationBefore`
             ),
-            value: sanityCheckData.recommendBeforeChecks,
+            value: calculations.sanityCheck.priceBeforeSanityCheck,
           },
           {
             id: 2,
             description: translate(`${TRANSLATION_KEY}.${SANITY_CHECKS}.cost`),
-            value: sanityCheckData.sqv,
+            value: calculations.sanityCheck.sqv,
           },
           {
             id: 3,
             description: translate(
               `${TRANSLATION_KEY}.${SANITY_CHECKS}.lowerThreshold`
             ),
-            value: sanityCheckData.lowerThreshold,
+            value: calculations.sanityCheck.minPrice,
           },
           {
             id: 4,
             description: translate(
               `${TRANSLATION_KEY}.${SANITY_CHECKS}.lastCustomerPrice`
             ),
-            value: sanityCheckData.lastCustomerPrice,
+            value: calculations.sanityCheck.lastCustomerPrice,
           },
           {
             id: 5,
             description: translate(
               `${TRANSLATION_KEY}.${SANITY_CHECKS}.upperThreshold`
             ),
-            value: sanityCheckData.upperThreshold,
+            value: calculations.sanityCheck.maxPrice,
           },
           {
             id: 6,
             description: translate(
               `${TRANSLATION_KEY}.${SANITY_CHECKS}.priceRecommendationAfter`
             ),
-            value: sanityCheckData.recommendAfterChecks,
+            value: calculations.sanityCheck.priceAfterSanityCheck,
           },
         ];
 
@@ -626,37 +541,9 @@ export const fPricingFeature = createFeature({
     );
 
     const getFinalPrice = createSelector(
-      getReferencePriceRounded,
-      getMarketValueDriversAbsoluteValue,
-      getTechnicalValueDriversValueAbsoluteValue,
-      selectSanityCheckValues,
-      (refPrice, mvd, tvd, sanityCheck) =>
-        addNumbers(
-          [refPrice, mvd, tvd, sanityCheck?.sanityCheckValue],
-          PRECISION
-        )
-    );
-
-    const getGpmValue = createSelector(
-      selectGqPositionId,
-      getFinalPrice,
-      getQuotationDetails,
-      (gqPositionId, finalPrice, quotationDetails) => {
-        const qd = quotationDetails.find(
-          (detail) => detail.gqPositionId === gqPositionId
-        );
-        if (!qd || !finalPrice) {
-          return null;
-        }
-        // If SQV RFQ is available use it for calculations. Otherwise use SQV value from quotation details
-        const sqvValue = qd.rfqData?.sqv ?? qd.sqv;
-        if (!sqvValue) {
-          return null;
-        }
-
-        //  ((finalPrice - sqvValue) / finalPrice) * 100
-        return calculateGpmValue(finalPrice, sqvValue, PRECISION);
-      }
+      selectCalculations,
+      (calculations: FPricingCalculationsResponse): number =>
+        calculations?.finalPrice
     );
 
     const getDataForUpdateFPricing = createSelector(
@@ -666,6 +553,40 @@ export const fPricingFeature = createFeature({
         marketValueDriverSelections,
         finalPrice,
       })
+    );
+
+    const getDataForTriggerCalculations = createSelector(
+      selectReferencePrice,
+      getTechnicalValueDriversRelativeValue,
+      getMarketValueDriversRelativeValue,
+      selectSanityCheckMargins,
+      selectGqPositionId,
+      getQuotationDetails,
+      (
+        referencePrice: number,
+        relativeTvdSurcharge: number,
+        relativeMvdSurcharge: number,
+        sanityCheckMargins: SanityCheckMargins,
+        gqPositionId: string,
+        quotationDetails: QuotationDetail[]
+      ): FPricingCalculationsRequest => {
+        const quotationDetail = quotationDetails.find(
+          (item) => item.gqPositionId === gqPositionId
+        );
+
+        return {
+          referencePrice,
+          relativeTvdSurcharge,
+          relativeMvdSurcharge,
+          sanityCheck: {
+            minMargin: sanityCheckMargins.minMargin,
+            maxMargin: sanityCheckMargins.maxMargin,
+            // when sqv of RFQ ist not available take the quotationDetail.sqv
+            sqv: quotationDetail?.rfqData?.sqv ?? quotationDetail?.sqv,
+            lastCustomerPrice: quotationDetail?.lastCustomerPrice,
+          },
+        };
+      }
     );
 
     return {
@@ -679,14 +600,11 @@ export const fPricingFeature = createFeature({
       getTechnicalValueDriversForDisplay,
       getReferencePriceRounded,
       getMarketValueDriversRelativeValue,
-      getMarketValueDriversAbsoluteValue,
       getTechnicalValueDriversRelativeValue,
-      getTechnicalValueDriversValueAbsoluteValue,
-      getSanityCheckData,
       getSanityChecksForDisplay,
       getDataForUpdateFPricing,
+      getDataForTriggerCalculations,
       getFinalPrice,
-      getGpmValue,
     };
   },
 });
@@ -822,14 +740,4 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
   }
 
   return delta;
-}
-
-export interface SanityCheckData {
-  recommendBeforeChecks: number;
-  recommendAfterChecks: number;
-  lowerThreshold: number;
-  upperThreshold: number;
-  lastCustomerPrice: number;
-  sqv: number;
-  sanityCheckValue: number;
 }

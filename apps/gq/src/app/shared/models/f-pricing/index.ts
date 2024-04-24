@@ -1,3 +1,5 @@
+export * from './f-pricing-calculations-request.interface';
+export * from './f-pricing-calculations-response.interface';
 export * from './f-pricing-data.interface';
 export * from './market-value-driver.interface';
 export * from './material-information.interface';

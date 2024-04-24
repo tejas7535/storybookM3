@@ -4,6 +4,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { PriceSource } from '@gq/shared/models';
 import {
+  FPricingCalculationsRequest,
+  FPricingCalculationsResponse,
   FPricingData,
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
@@ -22,11 +24,7 @@ import {
 } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingEffects } from './f-pricing.effects';
-import {
-  fPricingFeature,
-  initialState,
-  SanityCheckData,
-} from './f-pricing.reducer';
+import { fPricingFeature, initialState } from './f-pricing.reducer';
 
 describe('FPricingEffects', () => {
   let actions$: any;
@@ -105,61 +103,104 @@ describe('FPricingEffects', () => {
     );
   });
 
-  describe('setSanityCheckValues$', () => {
+  describe('triggerInitialCalculations$', () => {
     test(
-      'should dispatch setSanityCheckValue',
+      'should dispatch triggerFPricingCalculations',
       marbles((m) => {
-        const sanityCheckData = {
-          recommendBeforeChecks: 100,
-          recommendAfterChecks: 50,
-        } as SanityCheckData;
-
-        store.overrideSelector(
-          fPricingFeature.getSanityCheckData,
-          sanityCheckData
-        );
         const action = FPricingActions.loadFPricingDataSuccess({
           data: {} as FPricingData,
         });
-
-        const result = FPricingActions.setSanityCheckValues({
-          value: sanityCheckData,
-        });
+        const result = FPricingActions.triggerFPricingCalculations();
 
         const expected = m.cold('b', { b: result });
 
         actions$ = m.hot('a', { a: action });
-        m.expect(effects.setSanityCheckValues$).toBeObservable(expected);
+        m.expect(effects.triggerInitialCalculations$).toBeObservable(expected);
         m.flush();
       })
     );
   });
 
-  describe('setFinalPrice$', () => {
+  describe('getFPricingCalculations$', () => {
     test(
-      'should dispatch setFinalPriceValue',
+      'should dispatch triggerFPricingCalculationsSuccess',
       marbles((m) => {
-        const finalPrice = 415.5;
+        const requestData = {
+          referencePrice: 100,
+          relativeMvdSurcharge: 0.5,
+          relativeTvdSurcharge: 0.5,
+          sanityCheck: {
+            lastCustomerPrice: 12,
+            maxMargin: 300,
+            minMargin: 200,
+            sqv: 12,
+          },
+        } as FPricingCalculationsRequest;
 
-        store.overrideSelector(fPricingFeature.getFinalPrice, finalPrice);
+        store.overrideSelector(
+          fPricingFeature.getDataForTriggerCalculations,
+          requestData
+        );
+        const response = {
+          absoluteMvdSurcharge: 120,
+          absoluteTvdSurcharge: 20,
+          gpm: 0.5,
+          finalPrice: 100_000,
+          sanityCheck: {
+            maxPrice: 300,
+            minPrice: 200,
+            priceBeforeSanityCheck: 60,
+            value: 12,
+          },
+        } as FPricingCalculationsResponse;
+        const action = FPricingActions.triggerFPricingCalculations();
 
-        const action = FPricingActions.setSanityCheckValues({
-          value: {} as SanityCheckData,
+        effects['fPricingService'].getFPricingCalculations = () =>
+          m.cold('a', { a: response });
+
+        const result = FPricingActions.triggerFPricingCalculationsSuccess({
+          response: {
+            ...response,
+            gpm: response.gpm * 100,
+            sanityCheck: {
+              ...response.sanityCheck,
+              sqv: requestData.sanityCheck.sqv,
+              lastCustomerPrice: requestData.sanityCheck.lastCustomerPrice,
+              priceAfterSanityCheck: response.finalPrice,
+            },
+          },
         });
-
-        const result = FPricingActions.setFinalPriceValue({
-          value: finalPrice,
-        });
-
         const expected = m.cold('b', { b: result });
 
         actions$ = m.hot('a', { a: action });
-        m.expect(effects.setFinalPrice$).toBeObservable(expected);
+        m.expect(effects.getFPricingCalculations$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    test(
+      'Should dispatch error action',
+      marbles((m) => {
+        const error = new Error('Error');
+
+        const action = FPricingActions.triggerFPricingCalculations();
+        const result = FPricingActions.triggerFPricingCalculationsFailure({
+          error,
+        });
+
+        actions$ = new Actions(m.cold('a', { a: action }));
+
+        effects['fPricingService'].getFPricingCalculations = () =>
+          m.cold('-#', {}, error);
+
+        const expected = m.cold('--b', { b: result });
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.getFPricingCalculations$).toBeObservable(expected);
         m.flush();
       })
     );
   });
-
   describe('getComparableTransactions$', () => {
     test(
       'should dispatch loadComparableTransactionsSuccess',

@@ -5,6 +5,7 @@ import {
 
 import { ApiVersion } from '@gq/shared/models';
 import {
+  FPricingCalculationsRequest,
   UpdateFPricingDataRequest,
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
@@ -50,7 +51,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.PATH_F_PRICING}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqPositionId);
@@ -63,7 +64,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual(MARKET_VALUE_DRIVERS_MOCK));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/1234/${FPricingPaths.Path_F_PRICING}`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/1234/${FPricingPaths.PATH_F_PRICING}`
       );
       req.flush(response);
     });
@@ -77,12 +78,32 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}/${FPricingPaths.PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.PATH_F_PRICING}/${FPricingPaths.PATH_COMPARABLE_K_NUMBER_TRANSACTIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
 
+  describe('getFPricingCalculations', () => {
+    test('should call POST', () => {
+      const data = {
+        referencePrice: 100,
+        relativeMvdSurcharge: 0.8,
+        relativeTvdSurcharge: 0.5,
+        sanityCheck: {},
+      } as FPricingCalculationsRequest;
+
+      service
+        .getFPricingCalculations(data)
+        .subscribe((res) => expect(res).toEqual(data));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${FPricingPaths.PATH_F_PRICING}/${FPricingPaths.PATH_F_PRICING_CALCULATIONS}`
+      );
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush(data);
+    });
+  });
   describe('updateFPricingData', () => {
     test('should call POST', () => {
       const gqPositionId = '1234';
@@ -102,7 +123,7 @@ describe('FPricingService', () => {
         .subscribe((res) => expect(res).toEqual(response));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.Path_F_PRICING}`
+        `${ApiVersion.V1}/${FPricingPaths.PATH_QUOTATION_DETAILS}/${gqPositionId}/${FPricingPaths.PATH_F_PRICING}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(gqPositionId);

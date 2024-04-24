@@ -15,6 +15,7 @@ export interface FPricingPositionData
     FPricingState,
     | 'error'
     | 'fPricingDataLoading'
+    | 'fPricingCalculationsLoading'
     | 'materialSalesOrgLoading'
     | 'comparableTransactionsLoading'
   > {
@@ -27,10 +28,6 @@ export interface FPricingPositionData
   anyMarketValueDriverSelected: boolean;
   allMarketValueDriverSelected: boolean;
   marketValueDriverWarningLevel: MarketValueDriverWarningLevel;
-  marketValueDriversAbsoluteValue: number;
-  technicalValueDriversAbsoluteValue: number;
   technicalValueDriversForDisplay: TableItem[];
   sanityChecksForDisplay: TableItem[];
-  finalPrice: number;
-  gpmValue: number;
 }

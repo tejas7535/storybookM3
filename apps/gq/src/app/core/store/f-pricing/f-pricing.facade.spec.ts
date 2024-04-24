@@ -138,15 +138,6 @@ describe('Service: FPricingFacade', () => {
           fPricingFeature.getSanityChecksForDisplay,
           SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING
         );
-        mockStore.overrideSelector(
-          fPricingFeature.getMarketValueDriversAbsoluteValue,
-          1000
-        );
-        mockStore.overrideSelector(
-          fPricingFeature.getTechnicalValueDriversValueAbsoluteValue,
-          500
-        );
-        mockStore.overrideSelector(fPricingFeature.getGpmValue, 0.5);
 
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
@@ -162,12 +153,9 @@ describe('Service: FPricingFacade', () => {
               allMarketValueDriverSelected: false,
               marketValueDriverWarningLevel:
                 MarketValueDriverWarningLevel.UNSET,
-              marketValueDriversAbsoluteValue: 1000,
-              technicalValueDriversAbsoluteValue: 500,
               technicalValueDriversForDisplay:
                 TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
               sanityChecksForDisplay: SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING,
-              gpmValue: 0.5,
             },
           })
         );
@@ -266,6 +254,27 @@ describe('Service: FPricingFacade', () => {
           false
         );
         service.fPricingDataLoading$.subscribe((res) => expect(res).toBe(true));
+      });
+    });
+
+    describe('fPricingCalculationsLoading$', () => {
+      test('should return true when true', () => {
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingCalculationsLoading,
+          true
+        );
+        service.fPricingCalculationsLoading$.subscribe((res) =>
+          expect(res).toBe(true)
+        );
+      });
+      test('should return false when false', () => {
+        mockStore.overrideSelector(
+          fPricingFeature.selectFPricingCalculationsLoading,
+          false
+        );
+        service.fPricingCalculationsLoading$.subscribe((res) =>
+          expect(res).toBe(false)
+        );
       });
     });
   });

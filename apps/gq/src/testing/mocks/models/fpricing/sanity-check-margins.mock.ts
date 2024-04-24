@@ -1,4 +1,3 @@
-import { SanityCheckData } from '@gq/core/store/f-pricing/f-pricing.reducer';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
 
@@ -7,16 +6,6 @@ export const SANITY_CHECK_MARGINS_MOCK: SanityCheckMargins = {
   minMargin: 0.2,
   productHierarchy: 'productHierarchy',
   sectorManagement: 'sectorManagement',
-};
-
-export const SANITY_CHECK_VALUES_MOCK: SanityCheckData = {
-  lastCustomerPrice: undefined,
-  lowerThreshold: 125,
-  recommendAfterChecks: 287.5,
-  recommendBeforeChecks: 287.5,
-  sqv: 100,
-  upperThreshold: 500,
-  sanityCheckValue: 0,
 };
 
 export const SANITY_CHECKS_FOR_DISPLAY: TableItem[] = [

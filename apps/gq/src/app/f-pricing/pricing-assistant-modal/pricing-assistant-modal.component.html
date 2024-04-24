@@ -90,9 +90,9 @@
         <gq-price-button
           class="w-full"
           [priceLabelKey]="'gqPriceLabel'"
-          [priceValue]="fPricingData?.finalPrice"
+          [priceValue]="fPricingData?.calculations?.finalPrice"
           [currency]="fPricingData?.currency"
-          [gpmValue]="fPricingData?.gpmValue"
+          [gpmValue]="fPricingData?.calculations?.gpm"
           [icon]="'warning_amber'"
           [iconColor]="'text-error'"
           [isSelected]="dialogData.priceSource === priceSourceEnum.GQ"
@@ -144,9 +144,9 @@
         >
           <div class="flex flex-col h-full overflow-hidden">
             <gq-pricing-results
-              [price]="fPricingData?.finalPrice"
+              [price]="fPricingData?.calculations?.finalPrice"
               [currency]="fPricingData?.currency"
-              [gpm]="fPricingData?.gpmValue"
+              [gpm]="fPricingData?.calculations?.gpm"
               [confidence]="dialogData.gqRating"
             ></gq-pricing-results>
             <gq-pricing-tabs-wrapper
@@ -154,23 +154,23 @@
               [currency]="fPricingData?.currency"
               [referencePrice]="fPricingData?.referencePrice"
               [marketValueDriversValue]="
-                fPricingData?.marketValueDriversAbsoluteValue
+                fPricingData?.calculations?.absoluteMvdSurcharge
               "
               [marketValueDriverWarning]="
                 fPricingData?.marketValueDriverWarningLevel
               "
               [marketValueDriverData]="fPricingData?.marketValueDriversDisplay"
               [technicalValueDriversValue]="
-                fPricingData?.technicalValueDriversAbsoluteValue
+                fPricingData?.calculations?.absoluteTvdSurcharge
               "
               [technicalValueDriversTableItems]="
                 fPricingData?.technicalValueDriversForDisplay
               "
               [sanityChecksTableItems]="fPricingData?.sanityChecksForDisplay"
               [sanityCheckValue]="
-                fPricingData?.sanityCheckValues?.sanityCheckValue
+                fPricingData?.calculations?.sanityCheck?.value
               "
-              [finalPrice]="fPricingData?.finalPrice"
+              [finalPrice]="fPricingData?.calculations?.finalPrice"
               [referencePriceRowData]="
                 fPricingData?.comparableTransactionsForDisplay
               "
@@ -222,14 +222,14 @@
       <div class="flex flex-col">
         @if (
           manualPriceToDisplay &&
-          fPricingData?.finalPrice &&
-          manualPriceToDisplay < fPricingData?.finalPrice
+          fPricingData?.calculations?.finalPrice &&
+          manualPriceToDisplay < fPricingData?.calculations?.finalPrice
         ) {
           <gq-info-banner
             [infoText]="
               t('manualPrice.warningText', {
                 value:
-                  fPricingData.finalPrice - manualPriceToDisplay
+                  fPricingData?.calculations?.finalPrice - manualPriceToDisplay
                   | numberCurrency: fPricingData?.currency
               })
             "

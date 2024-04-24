@@ -54,13 +54,8 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getAnyMarketValueDriverSelected),
     this.#store.select(fPricingFeature.getAllMarketValueDriverSelected),
     this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
-    this.#store.select(fPricingFeature.getMarketValueDriversAbsoluteValue),
-    this.#store.select(
-      fPricingFeature.getTechnicalValueDriversValueAbsoluteValue
-    ),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
     this.#store.select(fPricingFeature.getSanityChecksForDisplay),
-    this.#store.select(fPricingFeature.getGpmValue),
   ]).pipe(
     map(
       ([
@@ -74,11 +69,8 @@ export class FPricingFacade {
         anyMarketValueDriverSelected,
         allMarketValueDriverSelected,
         marketValueDriverWarningLevel,
-        marketValueDriversAbsoluteValue,
-        technicalValueDriversAbsoluteValue,
         technicalValueDriversForDisplay,
         sanityChecksForDisplay,
-        gpmValue,
       ]: [
         FPricingState,
         string,
@@ -90,11 +82,8 @@ export class FPricingFacade {
         boolean,
         boolean,
         MarketValueDriverWarningLevel,
-        number,
-        number,
         TableItem[],
         TableItem[],
-        number,
       ]) => ({
         ...fPricingState,
         currency,
@@ -106,9 +95,6 @@ export class FPricingFacade {
         anyMarketValueDriverSelected,
         allMarketValueDriverSelected,
         marketValueDriverWarningLevel,
-        marketValueDriversAbsoluteValue,
-        technicalValueDriversAbsoluteValue,
-
         technicalValueDriversForDisplay: technicalValueDriversForDisplay.map(
           (item) => ({
             ...item,
@@ -126,7 +112,6 @@ export class FPricingFacade {
             currency
           ),
         })),
-        gpmValue,
       })
     )
   );
@@ -147,6 +132,10 @@ export class FPricingFacade {
 
   comparableTransactionsLoading$: Observable<boolean> = this.#store.select(
     fPricingFeature.selectComparableTransactionsLoading
+  );
+
+  fPricingCalculationsLoading$: Observable<boolean> = this.#store.select(
+    fPricingFeature.selectFPricingCalculationsLoading
   );
 
   /**  Combination of fPricing loading and quotation detail update state */
@@ -176,6 +165,9 @@ export class FPricingFacade {
     this.#store.dispatch(FPricingActions.resetFPricingData());
   }
 
+  triggerCalculations(): void {
+    this.#store.dispatch(FPricingActions.triggerFPricingCalculations());
+  }
   updateFPricingData(gqPositionId: string) {
     this.#store.dispatch(FPricingActions.updateFPricing({ gqPositionId }));
   }
@@ -190,6 +182,8 @@ export class FPricingFacade {
     this.#store.dispatch(
       FPricingActions.setMarketValueDriverSelection({ selection })
     );
+
+    this.triggerCalculations();
   }
 
   changePrice(price: number): void {
