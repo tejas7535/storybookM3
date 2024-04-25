@@ -27,7 +27,6 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { SettingsFacade } from './core/store';

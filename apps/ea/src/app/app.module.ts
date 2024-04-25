@@ -27,7 +27,6 @@ import {
   CustomProps,
 } from '@schaeffler/application-insights';
 import { BannerModule } from '@schaeffler/banner';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   PERSON_RESPONSIBLE,
   PURPOSE,
@@ -45,6 +44,7 @@ import { CalculationViewComponent } from './calculation-view/calculation-view.co
 import { CoreModule } from './core/core.module';
 import { SettingsFacade } from './core/store';
 import { BearingDesignationProvidedGuard } from './guards/bearing-designation-provided.guard';
+import { LanguageGuard } from './guards/language.guard';
 import { LegacyAppComponent } from './legacy-app/legacy-app.component';
 import { QualtricsInfoBannerComponent } from './shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { SettingsPanelComponent } from './shared/settings-panel/settings-panel.component';
@@ -54,7 +54,7 @@ export const appRoutePaths: Routes = [
     path: AppRoutePath.BasePath,
     component: CalculationViewComponent,
     pathMatch: 'full',
-    canActivate: [BearingDesignationProvidedGuard],
+    canActivate: [LanguageGuard, BearingDesignationProvidedGuard],
   },
   {
     path: AppRoutePath.LegalPath,
@@ -67,6 +67,7 @@ export const appRoutePaths: Routes = [
       import('./home/home-page/home-page.component').then(
         (m) => m.HomePageComponent
       ),
+    canActivate: [LanguageGuard],
   },
   {
     path: '**',
