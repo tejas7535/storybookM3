@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import * as transloco from '@jsverse/transloco';
 
 import {
+  getDefaultLang,
   preloadLanguage,
   SharedTranslocoModule,
 } from './shared-transloco.module';
@@ -96,5 +97,25 @@ describe('SharedTranslocoModule for Child', () => {
   test('should create', () => {
     const forChildModule = SharedTranslocoModule.forChild('scope', {});
     expect(forChildModule).toBeDefined();
+  });
+});
+
+describe('getDefaultLang', () => {
+  beforeEach(() => {
+    (transloco.getBrowserLang as jest.Mock).mockReset();
+  });
+  test('should return the default lang if provided', () => {
+    const defaultLang = getDefaultLang('de');
+
+    expect(transloco.getBrowserLang).not.toHaveBeenCalled();
+    expect(defaultLang).toEqual('de');
+  });
+  test('should return the browser lang if not provided', () => {
+    (transloco.getBrowserLang as jest.Mock).mockImplementation(() => 'de');
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    const defaultLang = getDefaultLang(undefined);
+
+    expect(transloco.getBrowserLang).toHaveBeenCalledTimes(1);
+    expect(defaultLang).toEqual('de');
   });
 });

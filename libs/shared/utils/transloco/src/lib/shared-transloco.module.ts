@@ -67,6 +67,10 @@ export const sharedTranslocoLocaleConfig: TranslocoLocaleConfig = {
   },
 };
 
+export function getDefaultLang(defaultLang: string): string {
+  return defaultLang ?? getBrowserLang();
+}
+
 /**
  * Configures the Transloco Module for Apps.
  *
@@ -94,22 +98,11 @@ export class SharedTranslocoModule {
     return {
       ngModule: SharedTranslocoModule,
       providers: [
-        provideTranslocoLocale(sharedTranslocoLocaleConfig),
-        provideTranslocoMessageformat(),
-        ...(appHasTranslations
-          ? [
-              sharedTranslocoLoader,
-              { provide: DEFAULT_LANGUAGE, useValue: defaultLang },
-              { provide: FALLBACK_LANGUAGE, useValue: fallbackLang },
-              { provide: LANGUAGE_STORAGE_KEY, useValue: localStorageKey },
-              preLoad,
-            ]
-          : []),
         provideTransloco({
           config: {
             prodMode,
             availableLangs,
-            defaultLang,
+            defaultLang: getDefaultLang(defaultLang),
             fallbackLang,
             missingHandler: {
               useFallbackTranslation: true,
@@ -120,6 +113,20 @@ export class SharedTranslocoModule {
             },
           },
         }),
+        provideTranslocoLocale(sharedTranslocoLocaleConfig),
+        provideTranslocoMessageformat(),
+        ...(appHasTranslations
+          ? [
+              sharedTranslocoLoader,
+              {
+                provide: DEFAULT_LANGUAGE,
+                useValue: getDefaultLang(defaultLang),
+              },
+              { provide: FALLBACK_LANGUAGE, useValue: fallbackLang },
+              { provide: LANGUAGE_STORAGE_KEY, useValue: localStorageKey },
+              preLoad,
+            ]
+          : []),
         {
           provide: I18N_CACHE_CHECKSUM,
           useValue: cacheChecksums,
