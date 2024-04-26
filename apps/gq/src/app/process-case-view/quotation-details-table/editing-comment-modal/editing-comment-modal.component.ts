@@ -64,12 +64,16 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.commentFormControl.valueChanges.subscribe((val: string) => {
-        this.commentDisabled =
-          val === null ||
-          val === this.modalData.comment ||
-          (val !== null && val.trim() === this.modalData.comment);
-      })
+      this.commentFormControl.valueChanges
+        .pipe(map((value) => (value === '' ? null : value)))
+        .subscribe((val: string) => {
+          // If for some reason comment would be empty string convert it to null
+          // to compare always the same values
+          const comment =
+            this.modalData.comment === '' ? null : this.modalData.comment;
+          this.commentDisabled =
+            val === comment || (val !== null && val.trim() === comment);
+        })
     );
   }
 

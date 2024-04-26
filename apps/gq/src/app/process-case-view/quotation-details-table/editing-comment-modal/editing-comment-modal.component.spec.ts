@@ -114,6 +114,12 @@ describe('EditingCommentModalComponent', () => {
       component.commentDisabled = true;
       component.modalData.comment = '1';
     });
+    test('should set commentDisabled to false when empty string', () => {
+      component.addSubscriptions();
+
+      component.commentFormControl.setValue('');
+      expect(component.commentDisabled).toBeFalsy();
+    });
     test('should set commentDisabled to false', () => {
       component.addSubscriptions();
 
