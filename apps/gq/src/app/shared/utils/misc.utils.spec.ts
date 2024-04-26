@@ -260,6 +260,11 @@ describe('MiscUtils', () => {
   });
 
   describe('convertToBase64', () => {
+    test('should return undefined', () => {
+      const value: any = undefined;
+      expect(miscUtils.convertToBase64(value)).toBeUndefined();
+    });
+
     test('should return null if value is falsy', () => {
       expect(miscUtils.convertToBase64('')).toBeNull();
     });

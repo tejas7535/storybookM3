@@ -119,8 +119,11 @@ export function groupBy<T>(arr: T[], fn: (item: T) => any) {
  * Converts a string to base64
  *
  * @param value value to be converted to base64
- * @returns the converted value or null if value is falsy
+ * @returns the converted value or value if is falsy
  */
 export function convertToBase64(value: string): string {
-  return value ? Buffer.from(value.trim(), 'utf8').toString('base64') : null;
+  // eslint-disable-next-line no-param-reassign
+  value = value === '' ? null : value;
+
+  return value ? Buffer.from(value.trim(), 'utf8').toString('base64') : value;
 }
