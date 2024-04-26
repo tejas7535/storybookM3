@@ -93,8 +93,30 @@
           [priceValue]="fPricingData?.calculations?.finalPrice"
           [currency]="fPricingData?.currency"
           [gpmValue]="fPricingData?.calculations?.gpm"
-          [icon]="'warning_amber'"
-          [iconColor]="'text-error'"
+          [icon]="
+            fPricingData?.marketValueDriverWarningLevel !==
+            marketValueDriverWarningLevel.COMPLETE
+              ? 'warning_amber'
+              : ''
+          "
+          [iconColor]="
+            fPricingData?.marketValueDriverWarningLevel ===
+            marketValueDriverWarningLevel.INCOMPLETE
+              ? 'text-orange'
+              : fPricingData?.marketValueDriverWarningLevel ===
+                  marketValueDriverWarningLevel.UNSET
+                ? 'text-error'
+                : ''
+          "
+          [iconTooltip]="
+            fPricingData?.marketValueDriverWarningLevel ===
+            marketValueDriverWarningLevel.INCOMPLETE
+              ? t('marketValueDriversWarningTooltip')
+              : fPricingData?.marketValueDriverWarningLevel ===
+                  marketValueDriverWarningLevel.UNSET
+                ? t('marketValueDriversErrorTooltip')
+                : ''
+          "
           [isSelected]="dialogData.priceSource === priceSourceEnum.GQ"
           [isActiveInDialog]="visibleOverlay === overlayToShowEnum.gqPricing"
           (priceButtonClicked)="gqPriceClicked()"

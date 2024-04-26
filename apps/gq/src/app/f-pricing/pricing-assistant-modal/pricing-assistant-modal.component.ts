@@ -14,6 +14,7 @@ import {
 } from '@angular/material/dialog';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
+import { MarketValueDriverWarningLevel } from '@gq/core/store/f-pricing/models/market-value-driver-warning-level.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModal } from '@gq/shared/components/modal/editing-modal/models/editing-modal.model';
 import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
@@ -37,6 +38,8 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   private readonly dialogRef = inject(
     MatDialogRef<PricingAssistantModalComponent>
   );
+
+  readonly marketValueDriverWarningLevel = MarketValueDriverWarningLevel;
 
   dialogData: QuotationDetail = inject(MAT_DIALOG_DATA);
   fPricingFacade = inject(FPricingFacade);

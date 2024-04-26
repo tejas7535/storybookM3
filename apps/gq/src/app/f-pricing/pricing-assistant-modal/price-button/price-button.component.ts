@@ -12,6 +12,7 @@ export class PriceButtonComponent {
   @Input() gpmValue: number;
   @Input() icon: string;
   @Input() iconColor: string;
+  @Input() iconTooltip: string;
   @Input() isSelected: boolean;
   @Input() isActiveInDialog = false;
   @Output() addPriceButtonClicked = new EventEmitter<void>();

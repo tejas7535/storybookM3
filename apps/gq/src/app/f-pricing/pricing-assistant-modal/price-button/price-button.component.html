@@ -30,7 +30,9 @@
         } @else {
           <div class="flex items-center gap-2">
             @if (icon) {
-              <mat-icon [ngClass]="iconColor">{{ icon }}</mat-icon>
+              <mat-icon [ngClass]="iconColor" [matTooltip]="iconTooltip">{{
+                icon
+              }}</mat-icon>
             }
             <span class="gq-text-5 text-high-emphasis"
               >{{ priceValue | numberCurrency: currency }}
