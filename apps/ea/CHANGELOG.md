@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.8.1...ea-v1.9.0) (2024-04-29)
+
+
+### Features
+
+* **ea:** add url language param handler ([#6182](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6182)) ([bf4487c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bf4487c64b158a5e3399fd1d1e8eb3d830786e05))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+
 ## [1.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.8.0...ea-v1.8.1) (2024-04-19)
 
 
