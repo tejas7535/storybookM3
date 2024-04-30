@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -25,6 +19,7 @@ import {
 } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
+import { SelectedFile } from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
@@ -60,8 +55,6 @@ interface SapMaterialUploadDialogFormControl {
   styleUrls: ['./sap-materials-upload-dialog.component.scss'],
 })
 export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
-  @ViewChild('fileChooser') fileChooserRef: ElementRef;
-
   possibleMaturity = [10, 9, 8, 7, 6, 5, 2];
   formGroup: FormGroup<SapMaterialUploadDialogFormControl>;
   uploadStatus: SapMaterialsUploadStatus;
@@ -74,6 +67,8 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   private columnApi: ColumnApi;
   private readonly destroy$ = new Subject<void>();
 
+  private currentFile: SelectedFile;
+
   constructor(
     private readonly dialogRef: MatDialogRef<SapMaterialsUploadDialogComponent>,
     private readonly formBuilder: FormBuilder,
@@ -81,7 +76,8 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     private readonly dataFacade: DataFacade,
     private readonly excelValidatorService: ExcelValidatorService,
     private readonly dialogService: MsdDialogService,
-    private readonly agGridService: MsdAgGridReadyService
+    private readonly agGridService: MsdAgGridReadyService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -178,19 +174,17 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  openFileChooser(): void {
-    this.fileChooserRef?.nativeElement.click();
-  }
+  setFile(files: SelectedFile[]): void {
+    if (files.length !== 1) {
+      this.currentFile = undefined;
+      this.fileControl.reset();
 
-  setFile(file: File): void {
-    this.fileControl.setValue(file);
-    this.fileControl.markAsTouched();
-
-    if (!file) {
-      // Reset the input element value.
-      // Needed because the change event is not triggered if the same file is removed and selected again.
-      this.fileChooserRef.nativeElement.value = '';
+      return;
     }
+    this.currentFile = files[0];
+    this.fileControl.setValue(files[0].file);
+    this.fileControl.markAsTouched();
+    this.changeDetectorRef.detectChanges();
   }
 
   upload(): void {
@@ -262,6 +256,13 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.uploadStatus = this.determineUploadStatus();
         this.errorMessage = this.getErrorMessage(this.fileControl.errors);
+        if (this.errorMessage && this.currentFile) {
+          this.currentFile.setMessage({
+            type: 'error',
+            title: 'Validation failed!',
+            description: this.errorMessage,
+          });
+        }
       });
 
     this.formGroup = this.formBuilder.group<SapMaterialUploadDialogFormControl>(

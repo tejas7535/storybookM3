@@ -87,71 +87,39 @@
         </mat-radio-group>
       </div>
     </div>
-    <div class="w-full">
-      <div
-        class="px-4 w-full h-[57px] flex justify-between items-center border rounded-md border-border"
-        macSapMaterialsUploadDragAndDrop
-        [dragAndDropEnabled]="!fileControl.value"
-        (fileDropped)="setFile($event)"
-      >
-        @if (fileControl.value) {
-          <mac-sap-materials-upload-status-chip
-            [status]="uploadStatus"
-            [fileName]="fileControl.value.name"
-            (removed)="setFile(undefined)"
-          ></mac-sap-materials-upload-status-chip>
-        } @else {
-          <span class="text-[16px] text-[#00000099] cursor-default">{{
-            t('fileChooser.label')
-          }}</span>
-        }
-        <button
-          mat-button
+    <div class="w-full flex flex-col gap-2">
+      <div>
+        <mat-checkbox
           color="primary"
-          [disabled]="fileControl.value"
-          (click)="openFileChooser()"
+          formControlName="disclaimerAccepted"
+          class="-ml-2"
         >
-          {{ t('fileChooser.button') }}
+          <span class="!whitespace-normal text-caption block">{{
+            t('disclaimer')
+          }}</span>
+        </mat-checkbox>
+      </div>
+      <schaeffler-file-upload
+        [displayMaxFileCountError]="false"
+        [autoOverwriteOldestFile]="true"
+        acceptTypeString="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        [loading]="uploadStatus === 'IN_PROGRESS'"
+        (filesChanged)="setFile($event)"
+      ></schaeffler-file-upload>
+      <div>
+        <button mat-button color="primary" (click)="downloadDataTemplate()">
+          <mat-icon class="!absolute !right-0">download</mat-icon>
+          <span class="pr-6">{{ t('downloadTemplate') }}</span>
         </button>
       </div>
-      @if (fileControl.errors && fileControl.touched) {
-        <mat-error class="text-caption" class="px-4 pt-1 text-[12px]">
-          {{ errorMessage }}
-        </mat-error>
-      }
-    </div>
-    <div class="text-caption">
-      {{ t('rawMaterialInfo_1') }}<br />
-      {{ t('rawMaterialInfo_2') }}<br />
-      {{ t('rawMaterialInfo_contact') }}
-      <a [href]="'mailto:' + t('rawMaterialInfo_email')" class="text-link">
-        {{ t('rawMaterialInfo_email') }}
-      </a>
-    </div>
-    <div>
-      <button mat-button color="primary" (click)="downloadDataTemplate()">
-        <mat-icon class="!absolute !right-0">download</mat-icon>
-        <span class="pr-6">{{ t('downloadTemplate') }}</span>
-      </button>
-    </div>
-    <div>
-      <mat-checkbox
-        color="primary"
-        formControlName="disclaimerAccepted"
-        class="-ml-2"
-      >
-        <span class="!whitespace-normal text-caption block">{{
-          t('disclaimer')
-        }}</span>
-      </mat-checkbox>
     </div>
   </div>
 </mac-base-dialog>
 
-<input
+<!-- <input
   #fileChooser
   type="file"
   accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
   class="hidden"
   (change)="setFile($event.target.files[0])"
-/>
+/> -->

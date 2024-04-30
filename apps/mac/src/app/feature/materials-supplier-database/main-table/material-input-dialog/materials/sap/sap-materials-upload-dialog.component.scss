@@ -8,6 +8,12 @@
   }
 }
 
+::ng-deep .mat-ripple-element {
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 9999px;
+}
+
 ::ng-deep mat-checkbox .mdc-form-field .mdc-checkbox .mdc-checkbox__background {
   scale: 0.75;
 }

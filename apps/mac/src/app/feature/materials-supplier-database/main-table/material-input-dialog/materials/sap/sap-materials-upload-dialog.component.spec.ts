@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   AsyncValidatorFn,
   FormBuilder,
@@ -14,9 +14,12 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 import { ColDef, ColumnApi, GridApi } from 'ag-grid-community';
 import moment from 'moment';
+import { MockPipe } from 'ng-mocks';
 
+import { SelectedFile } from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -54,7 +57,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapMaterialsUploadDialogComponent,
-    imports: [provideTranslocoTestingModule({ en })],
+    imports: [provideTranslocoTestingModule({ en }), MockPipe(PushPipe)],
     providers: [
       { provide: MatDialogRef, useValue: { close: jest.fn() } },
       FormBuilder,
@@ -329,61 +332,82 @@ describe('SapMaterialsUploadDialogComponent', () => {
     });
   });
 
-  describe('openFileChooser', () => {
-    test('should open file chooser', () => {
-      const click = jest.fn();
-
-      component.ngOnInit();
-
-      component.fileChooserRef = {
-        nativeElement: {
-          click,
-        },
-      } as ElementRef;
-
-      component.openFileChooser();
-
-      expect(click).toBeCalledTimes(1);
-    });
-  });
-
   describe('setFile', () => {
     beforeEach(() => {
       component['initFormGroup']();
     });
 
+    test('should do nothing and reset the control if more that one file is given', () => {
+      const testFile: SelectedFile = {
+        file: new File([''], 'test.xlsx'),
+      } as SelectedFile;
+
+      component.fileControl.setValue = jest.fn();
+      component.fileControl.markAsTouched = jest.fn();
+      component.fileControl.reset = jest.fn();
+      component['changeDetectorRef'].detectChanges = jest.fn();
+
+      component.setFile([testFile, testFile]);
+
+      expect(component.fileControl.setValue).not.toHaveBeenCalled();
+      expect(component.fileControl.markAsTouched).not.toHaveBeenCalled();
+      expect(component.fileControl.reset).toHaveBeenCalled();
+      expect(
+        component['changeDetectorRef'].detectChanges
+      ).not.toHaveBeenCalled();
+    });
+
+    test('should do nothing and reset the control if no file is given', () => {
+      component.fileControl.setValue = jest.fn();
+      component.fileControl.markAsTouched = jest.fn();
+      component.fileControl.reset = jest.fn();
+      component['changeDetectorRef'].detectChanges = jest.fn();
+
+      component.setFile([]);
+
+      expect(component.fileControl.setValue).not.toHaveBeenCalled();
+      expect(component.fileControl.markAsTouched).not.toHaveBeenCalled();
+      expect(component.fileControl.reset).toHaveBeenCalled();
+      expect(
+        component['changeDetectorRef'].detectChanges
+      ).not.toHaveBeenCalled();
+    });
+
     test('should set the chosen valid file', () => {
-      const testFile = new File([''], 'test.xlsx');
+      const testFile: SelectedFile = {
+        file: new File([''], 'test.xlsx'),
+      } as SelectedFile;
 
-      component.setFile(testFile);
+      component.setFile([testFile]);
 
-      expect(component.formGroup.value.file).toBe(testFile);
+      expect(component.formGroup.value.file).toBe(testFile.file);
       expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.SUCCEEDED);
     });
 
     test('should set the chosen invalid file', () => {
-      const testFile = new File([''], 'test.json');
+      const testFile: SelectedFile = {
+        file: new File([''], 'test.json'),
+        setMessage: jest.fn(),
+      } as unknown as SelectedFile;
 
-      component.setFile(testFile);
+      component.setFile([testFile]);
 
-      expect(component.formGroup.value.file).toBe(testFile);
+      expect(component.formGroup.value.file).toBe(testFile.file);
       expect(component.uploadStatus).toBe(SapMaterialsUploadStatus.FAILED);
     });
 
     test('should remove the chosen file', () => {
       const fileName = 'test.xlsx';
-      component.formGroup.get('file').setValue(new File([''], fileName));
-      component.fileChooserRef = {
-        nativeElement: {
-          value: fileName,
-        },
-      };
+      component.formGroup
+        .get('file')
+        .setValue(new File([''], fileName), { emitEvent: false });
 
-      component.setFile(undefined as File);
+      component.setFile([
+        { file: undefined, setMessage: jest.fn() } as unknown as SelectedFile,
+      ]);
 
       expect(component.formGroup.value.file).toBeUndefined();
       expect(component.uploadStatus).toBeUndefined();
-      expect(component.fileChooserRef.nativeElement.value).toBe('');
     });
   });
 

@@ -17,6 +17,7 @@ import {
 
 import { PushPipe } from '@ngrx/component';
 
+import { FileUploadComponent } from '@schaeffler/file-upload';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -62,6 +63,7 @@ const DATE_FORMATS = {
     MaturityInfoComponent,
     SelectModule,
     PushPipe,
+    FileUploadComponent,
   ],
   exports: [
     SapMaterialsUploadDialogComponent,
