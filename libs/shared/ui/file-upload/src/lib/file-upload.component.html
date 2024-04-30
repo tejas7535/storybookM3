@@ -1,0 +1,75 @@
+<div class="flex flex-col w-full" *transloco="let t">
+  <div
+    class="rounded border border-dotted border-[#9D9D9D] bg-secondary-variant flex flex-row items-center justify-center p-4 py-8 mb-3"
+    schaefflerFileDrop
+    [dragAndDropDisabled]="
+      disableDragAndDrop || (loading && loadingIndicator === 'spinner')
+    "
+    (filesDropped)="onFilesDropped($event)"
+  >
+    @if (loading && loadingIndicator === 'spinner') {
+      <schaeffler-loading-spinner
+        [diameter]="72"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    } @else {
+      <div class="flex flex-row gap-6 py-2">
+        <div class="flex flex-col justify-center">
+          <div class="upload-icon"></div>
+        </div>
+        <div class="flex flex-col items-center justify-center py-3 gap-1">
+          <div class="text-body-1 text-medium-emphasis">
+            <span
+              class="text-link cursor-pointer hover:underline"
+              (click)="fileChooser.click()"
+              >{{ t('selectFile') }}</span
+            >
+            @if (!disableDragAndDrop) {
+              {{ t('orDragHere') }}
+            }
+          </div>
+          @if (fileHint) {
+            <div class="text-caption text-low-emphasis">
+              {{ fileHint }}
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  @for (file of files; track file; let first = $first) {
+    <schaeffler-file-upload-file
+      [file]="file"
+      [progressBar]="loadingIndicator === 'bar'"
+      [autoReadFileData]="autoReadFileData"
+      [unknownFileTypeText]="unknownFileTypeText"
+      [statusTextFn]="statusTextFn"
+      [border]="!first"
+      (removeFile)="onRemoveFile(file)"
+      (fileLoaded)="onFileLoaded($event)"
+      (fileError)="onFileError($event)"
+    ></schaeffler-file-upload-file>
+  }
+  @for (message of messages; track message) {
+    <schaeffler-file-upload-message
+      [message]="message"
+      (closeMessage)="onRemoveMessage(message)"
+    ></schaeffler-file-upload-message>
+  }
+  @for (message of internalMessages; track message) {
+    <schaeffler-file-upload-message
+      [message]="message"
+      (closeMessage)="onRemoveInternalMessage(message)"
+    ></schaeffler-file-upload-message>
+  }
+</div>
+
+<input
+  #fileChooser
+  type="file"
+  [accept]="acceptTypeString"
+  class="hidden"
+  (input)="onFilesSelected($event)"
+  (cancel)="$event.stopPropagation()"
+  [multiple]="maxFileCount !== 1"
+/>

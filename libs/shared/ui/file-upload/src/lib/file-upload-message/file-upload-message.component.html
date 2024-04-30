@@ -1,0 +1,35 @@
+<div
+  class="flex flex-row border p-3 rounded gap-2 my-3"
+  [ngClass]="{
+    'bg-error border-error text-error': message.type === 'error',
+    'bg-warning border-warning text-warning': message.type === 'warning',
+    'bg-info border-info text-info': message.type === 'info'
+  }"
+>
+  <div class="flex flex-col justify-start">
+    <mat-icon>
+      @switch (message.type) {
+        @case ('error') {
+          error
+        }
+        @case ('warning') {
+          warning
+        }
+        @case ('info') {
+          info
+        }
+      }
+    </mat-icon>
+  </div>
+  <div class="flex flex-col flex-1 gap-1">
+    <div class="flex flex-row flex-1 text-body-1">{{ message.title }}</div>
+    <div class="flex flex-row flex-1 text-caption text-medium-emphasis">
+      {{ message.description }}
+    </div>
+  </div>
+  <div class="flex flex-col justify-start">
+    <mat-icon class="text-medium-emphasis cursor-pointer" (click)="close()"
+      >close</mat-icon
+    >
+  </div>
+</div>

@@ -60,6 +60,7 @@
       "@schaeffler/feedback-banner": [
         "libs/shared/ui/feedback-banner/src/index.ts"
       ],
+      "@schaeffler/file-upload": ["libs/shared/ui/file-upload/src/index.ts"],
       "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
       "@schaeffler/inputs": ["libs/shared/ui/inputs/src/index.ts"],
       "@schaeffler/inputs/search": [

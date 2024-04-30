@@ -1,0 +1,12 @@
+{
+  "selectFile": "Datei auswählen",
+  "orDragHere": "oder hierher ziehen",
+  "b": "B",
+  "kb": "KB",
+  "mb": "MB",
+  "gb": "GB",
+  "tb": "TB",
+  "unknownType": "unbekannter Dateityp",
+  "tooManyFilesSelected": "Zu viele Dateien ausgewählt",
+  "maximumFiles": "Es {maxFileCount, plural, one {kann maximal eine Datei} other {können maximal {maxFileCount} Dateien ausgewählt werden}."
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@schaeffler/file-upload",
+  "version": "0.1.0",
+  "dependencies": {
+    "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=17.0.0 <18.0.0",
+    "@angular/core": ">=17.0.0 <18.0.0"
+  }
+}
