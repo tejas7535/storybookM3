@@ -23,6 +23,7 @@
     ) {
       <gq-market-value-driver-item
         [item]="item"
+        [isDisabled]="isDisabled"
         (optionChange)="onOptionChange($event)"
       >
         @if (i < marketValueDriverItems.length - 1) {

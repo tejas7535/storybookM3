@@ -13,6 +13,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
+import { tap } from 'rxjs';
+
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { MarketValueDriverWarningLevel } from '@gq/core/store/f-pricing/models/market-value-driver-warning-level.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
@@ -43,7 +45,11 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
 
   dialogData: QuotationDetail = inject(MAT_DIALOG_DATA);
   fPricingFacade = inject(FPricingFacade);
-  fPricingData$ = this.fPricingFacade.fPricingDataComplete$;
+  fPricingData$ = this.fPricingFacade.fPricingDataComplete$.pipe(
+    tap((f) =>
+      f.quotationIsActive ? this.comment.enable() : this.comment.disable()
+    )
+  );
   comparableTransactionsLoading$ =
     this.fPricingFacade.comparableTransactionsLoading$;
   fPricingDataLoading$ = this.fPricingFacade.fPricingDataLoading$;
@@ -98,13 +104,12 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.comment.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        (value: string) =>
-          (this.commentValidAndChanged =
-            this.comment.valid &&
-            (!!value || !!this.dialogData.priceComment) &&
-            value !== this.dialogData.priceComment)
-      );
+      .subscribe((value: string) => {
+        this.commentValidAndChanged =
+          this.comment.valid &&
+          (!!value || !!this.dialogData.priceComment) &&
+          value !== this.dialogData.priceComment;
+      });
   }
 
   closeDialog(): void {

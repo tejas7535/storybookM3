@@ -5,6 +5,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { loadMaterialSalesOrg } from '@gq/core/store/actions/material-sales-org/material-sales-org.actions';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
+import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialSalesOrg,
   getMaterialSalesOrgDataAvailable,
@@ -56,6 +57,7 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
     this.#store.select(fPricingFeature.getSanityChecksForDisplay),
+    this.#store.select(fromActiveCaseSelectors.getIsQuotationActive),
   ]).pipe(
     map(
       ([
@@ -71,6 +73,7 @@ export class FPricingFacade {
         marketValueDriverWarningLevel,
         technicalValueDriversForDisplay,
         sanityChecksForDisplay,
+        quotationIsActive,
       ]: [
         FPricingState,
         string,
@@ -84,6 +87,7 @@ export class FPricingFacade {
         MarketValueDriverWarningLevel,
         TableItem[],
         TableItem[],
+        boolean,
       ]) => ({
         ...fPricingState,
         currency,
@@ -112,6 +116,7 @@ export class FPricingFacade {
             currency
           ),
         })),
+        quotationIsActive,
       })
     )
   );

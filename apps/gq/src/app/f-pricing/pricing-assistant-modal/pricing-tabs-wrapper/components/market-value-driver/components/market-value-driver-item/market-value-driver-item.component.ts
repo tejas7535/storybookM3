@@ -13,7 +13,9 @@ import {
 })
 export class MarketValueDriverItemComponent implements OnInit {
   @Input() item: MarketValueDriverDisplayItem;
+  @Input() isDisabled: boolean;
   @Output() optionChange = new EventEmitter<MarketValueDriverSelection>();
+
   selectedOptionId: number;
 
   ngOnInit() {

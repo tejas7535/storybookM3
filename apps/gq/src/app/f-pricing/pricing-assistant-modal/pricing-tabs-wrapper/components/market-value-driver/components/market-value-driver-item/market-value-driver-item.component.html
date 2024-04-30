@@ -12,7 +12,7 @@
     <span class="text-subtitle-2 text-medium-emphasis mb-3">{{
       t('questions.' + item.questionId + '.subtitle')
     }}</span>
-    <mat-radio-group class="-ml-3 flex flex-row gap-3">
+    <mat-radio-group class="-ml-3 flex flex-row gap-3" [disabled]="isDisabled">
       @for (option of item.options; track i; let i = $index) {
         <mat-radio-button
           color="primary"

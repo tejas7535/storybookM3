@@ -12,6 +12,7 @@ import { TableColumns } from '../simple-table/models/table-columns.enum';
 })
 export class TechnicalValueDriversTableComponent {
   @Input() dataSource: TableItem[];
+  @Input() isDisabled = false;
   @Output() technicalValueDriversChange = new EventEmitter<TableItem>();
 
   private readonly featureToggleService = inject(FeatureToggleConfigService);

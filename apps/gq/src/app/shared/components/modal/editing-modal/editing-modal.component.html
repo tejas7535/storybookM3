@@ -26,7 +26,7 @@
             [value]="true"
             color="primary"
             (change)="callPriceChangeTypeSwitchHandler(true)"
-            [disabled]="isRelativePriceChangeDisabled"
+            [disabled]="isRelativePriceChangeDisabled || isDisabled"
             [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
           >
             <span class="pl-2">
@@ -36,6 +36,7 @@
           <mat-radio-button
             [value]="false"
             color="primary"
+            [disabled]="isDisabled"
             (change)="callPriceChangeTypeSwitchHandler(false)"
             [attr.data-cy]="modalData.field + '-modal_absolute-radio-btn'"
           >
@@ -74,12 +75,22 @@
         </mat-form-field>
         <div class="ml-4 mt-3 flex flex-col gap-2">
           <mat-icon
-            class="text-medium-emphasis cursor-pointer"
+            class="text-medium-emphasis"
+            [ngClass]="
+              isDisabled
+                ? 'pointer-events-none cursor-default'
+                : 'cursor-pointer'
+            "
             (click)="changeValueIncrementally(1)"
             >add
           </mat-icon>
           <mat-icon
-            class="text-medium-emphasis cursor-pointer"
+            class="text-medium-emphasis"
+            [ngClass]="
+              isDisabled
+                ? 'pointer-events-none cursor-default'
+                : 'cursor-pointer'
+            "
             (click)="changeValueIncrementally(-1)"
             >remove</mat-icon
           >

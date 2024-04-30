@@ -30,4 +30,5 @@ export interface FPricingPositionData
   marketValueDriverWarningLevel: MarketValueDriverWarningLevel;
   technicalValueDriversForDisplay: TableItem[];
   sanityChecksForDisplay: TableItem[];
+  quotationIsActive: boolean;
 }

@@ -43,6 +43,7 @@ export abstract class EditingModalComponent
 {
   @Input() modalData: EditingModal;
   @Input() isDialog = true;
+  @Input() isDisabled = false;
   @Input() warningTemplate: TemplateRef<any>;
 
   @Output() affectedKpiOutput: EventEmitter<KpiValue[]> = new EventEmitter();
@@ -95,6 +96,10 @@ export abstract class EditingModalComponent
       .get(this.VALUE_FORM_CONTROL_NAME)
       .setValidators([this.isInputValid.bind(this)]);
     this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).markAllAsTouched();
+
+    if (this.isDisabled) {
+      this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).disable();
+    }
 
     this.updateLoading$ = this.store.select(
       activeCaseFeature.selectUpdateLoading

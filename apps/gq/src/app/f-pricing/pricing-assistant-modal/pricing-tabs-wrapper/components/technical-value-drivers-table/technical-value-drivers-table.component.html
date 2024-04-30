@@ -8,6 +8,7 @@
 
 <ng-template #technicalValueDriversValueTemplate let-id="id" let-value="value">
   <gq-edit-value
+    [isDisabled]="isDisabled"
     [value]="value"
     (valueChanged)="onTechnicalValueDriversValueChange($event, id)"
   ></gq-edit-value>

@@ -10,6 +10,7 @@ import { MarketValueDriverDisplayItem } from './../../../models/market-value-dri
 })
 export class MarketValueDriverComponent {
   @Input() marketValueDriverItems: MarketValueDriverDisplayItem[];
+  @Input() isDisabled: boolean;
   @Output() questionsSelectionChanged =
     new EventEmitter<MarketValueDriverSelection>();
 

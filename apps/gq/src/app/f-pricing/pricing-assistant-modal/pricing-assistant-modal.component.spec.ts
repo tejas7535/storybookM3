@@ -49,7 +49,9 @@ describe('PricingAssistant.modalComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    fPricingDataCompleteMock.next({} as FPricingPositionData);
+    fPricingDataCompleteMock.next({
+      quotationIsActive: true,
+    } as FPricingPositionData);
   });
 
   it('should create', () => {
@@ -64,11 +66,20 @@ describe('PricingAssistant.modalComponent', () => {
       expect(
         component['fPricingFacade'].loadDataForPricingAssistant
       ).toHaveBeenCalled();
+
+      fPricingDataCompleteMock.next({
+        quotationIsActive: false,
+      } as FPricingPositionData);
+      expect(component.comment.disabled).toBe(true);
     });
   });
 
   describe('ngAfterViewInit', () => {
     it('should subscribe to comment value changes', () => {
+      fPricingDataCompleteMock.next({
+        quotationIsActive: true,
+      } as FPricingPositionData);
+
       const commentValue = 'New comment';
       const dialogData = { priceComment: 'Old comment' } as QuotationDetail;
       component.dialogData = dialogData;

@@ -13,15 +13,18 @@
     (focusout)="toggleEditMode()"
   />
 }
+
 @if (!isEditMode) {
   <div class="flex flex-row items-center gap-4">
     <span>
       {{ value ?? 0 | percentage }}
     </span>
-    <mat-icon
-      class="text-medium-emphasis cursor-pointer !icon-5"
-      (click)="toggleEditMode()"
-      >edit</mat-icon
-    >
+    @if (!isDisabled) {
+      <mat-icon
+        class="text-medium-emphasis cursor-pointer !icon-5"
+        (click)="toggleEditMode()"
+        >edit</mat-icon
+      >
+    }
   </div>
 }

@@ -1,4 +1,5 @@
 import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
+import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialSalesOrg,
   getMaterialSalesOrgDataAvailable,
@@ -139,6 +140,10 @@ describe('Service: FPricingFacade', () => {
           SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING
         );
 
+        mockStore.overrideSelector(
+          fromActiveCaseSelectors.getIsQuotationActive,
+          true
+        );
         m.expect(service.fPricingDataComplete$).toBeObservable(
           m.cold('a', {
             a: {
@@ -156,6 +161,8 @@ describe('Service: FPricingFacade', () => {
               technicalValueDriversForDisplay:
                 TECHNICAL_VALUE_DRIVERS_FOR_DISPLAY_MOCK_AFTER_MAPPING,
               sanityChecksForDisplay: SANITY_CHECKS_FOR_DISPLAY_AFTER_MAPPING,
+
+              quotationIsActive: true,
             },
           })
         );

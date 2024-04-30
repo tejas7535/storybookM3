@@ -22,6 +22,7 @@ export class PricingTabsWrapperComponent {
   @Input() sanityCheckValue: number;
   @Input() finalPrice: number;
   @Input() currency: string;
+  @Input() isDisabled: boolean;
 
   @Input() referencePriceRowData: ComparableMaterialsRowData[];
   @Input() marketValueDriverData: MarketValueDriverDisplayItem[];

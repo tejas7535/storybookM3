@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class EditValueComponent {
   @Input() value: number;
-
+  @Input() isDisabled = false;
   @Output() valueChanged = new EventEmitter<number>();
 
   isEditMode = false;

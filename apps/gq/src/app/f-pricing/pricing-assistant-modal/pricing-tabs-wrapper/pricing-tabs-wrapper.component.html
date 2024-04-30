@@ -77,6 +77,7 @@
       <div class="p-2 w-full absolute">
         <gq-market-value-driver
           [marketValueDriverItems]="marketValueDriverData"
+          [isDisabled]="isDisabled"
           (questionsSelectionChanged)="
             marketValueDriverSelectionChanged($event)
           "
@@ -103,6 +104,7 @@
       ></ng-template>
       <div class="p-2 w-full absolute">
         <gq-technical-value-drivers-table
+          [isDisabled]="isDisabled"
           [dataSource]="technicalValueDriversTableItems"
           (technicalValueDriversChange)="onTechnicalValueDriversChange($event)"
         ></gq-technical-value-drivers-table>

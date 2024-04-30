@@ -66,6 +66,7 @@
         class="!mr-4 text-button font-medium"
         mat-raised-button
         [disabled]="
+          !fPricingData?.quotationIsActive ||
           !manualPriceToDisplay ||
           (manualPriceInputInvalidOrUnchanged && !commentValidAndChanged)
         "
@@ -79,7 +80,9 @@
         color="primary"
         class="!mr-4 text-button font-medium"
         mat-raised-button
-        [disabled]="gqPricingConfirmButtonDisabled"
+        [disabled]="
+          gqPricingConfirmButtonDisabled || !fPricingData?.quotationIsActive
+        "
         (click)="confirmGqPrice()"
       >
         {{ t('confirmButton') }}
@@ -124,6 +127,9 @@
 
         @if (showAddManualPriceButton) {
           <gq-price-button
+            [ngClass]="{
+              'pointer-events-none': !fPricingData?.quotationIsActive
+            }"
             class="w-full"
             [isAddPriceButton]="true"
             (addPriceButtonClicked)="manualPriceClicked()"
@@ -175,6 +181,7 @@
               class="h-full min-h-full"
               [currency]="fPricingData?.currency"
               [referencePrice]="fPricingData?.referencePrice"
+              [isDisabled]="!fPricingData?.quotationIsActive"
               [marketValueDriversValue]="
                 fPricingData?.calculations?.absoluteMvdSurcharge
               "
@@ -233,6 +240,7 @@
           class="px-2"
           [modalData]="manualPriceData"
           [isDialog]="false"
+          [isDisabled]="!fPricingData?.quotationIsActive"
           (affectedKpiOutput)="manualPriceChanged($event)"
           (isInvalidOrUnchanged)="manualPriceInvalidOrUnchangedHandled($event)"
           [warningTemplate]="warningTemplate"
