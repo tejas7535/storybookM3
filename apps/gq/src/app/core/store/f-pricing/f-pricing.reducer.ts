@@ -363,6 +363,9 @@ export const fPricingFeature = createFeature({
         technicalValueDriver: TechnicalValueDriver,
         technicalValueDriverUpdated: TableItem[]
       ): TableItem[] => {
+        if (!technicalValueDriver) {
+          return [];
+        }
         // the Values of the items will be mapped within the facade to have access to localization Service
         const list = [
           {

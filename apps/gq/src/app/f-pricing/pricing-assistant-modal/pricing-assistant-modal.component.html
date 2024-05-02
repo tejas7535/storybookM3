@@ -13,48 +13,53 @@
           (closeDialog)="closeDialog()"
           (showMore)="showMore()"
         ></gq-pricing-assistant-header>
-        @if (!(fPricingDataLoading$ | ngrxPush)) {
-          <!-- content and possible overlays -->
-          <div class="flex flex-col w-full h-full min-h-[inherit] relative">
-            @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
-              <gq-overlay>
-                <ng-container
-                  [ngTemplateOutlet]="comparisonScreenView"
-                ></ng-container>
-              </gq-overlay>
-            }
-            <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
-            <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
-          </div>
-          <!--footer-->
-          @if (visibleOverlay !== overlayToShowEnum.comparisonScreen) {
-            <div class="flex flex-col">
-              <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
-              <div class="flex justify-start">
-                @if (visibleOverlay === overlayToShowEnum.gqPricing) {
-                  <ng-container
-                    [ngTemplateOutlet]="gqPricingConfirmButton"
-                  ></ng-container>
-                }
-                @if (visibleOverlay === overlayToShowEnum.manualPricing) {
-                  <ng-container
-                    [ngTemplateOutlet]="manualConfirmButton"
-                  ></ng-container>
-                }
 
-                <button
-                  color="primary"
-                  class="text-button font-medium"
-                  mat-stroked-button
-                  (click)="closeDialog()"
-                >
-                  {{ t('cancelButton') }}
-                </button>
-              </div>
-            </div>
+        <!-- content and possible overlays -->
+        <div class="flex flex-col w-full h-full min-h-[inherit] relative">
+          @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
+            <gq-overlay>
+              <ng-container
+                [ngTemplateOutlet]="comparisonScreenView"
+              ></ng-container>
+            </gq-overlay>
           }
-        } @else {
-          <schaeffler-loading-spinner></schaeffler-loading-spinner>
+          @if (fPricingDataLoading$ | ngrxPush) {
+            <gq-overlay class="z-10">
+              <schaeffler-loading-spinner></schaeffler-loading-spinner>
+            </gq-overlay>
+          }
+          <ng-container [ngTemplateOutlet]="gqPricingView"></ng-container>
+          <ng-container [ngTemplateOutlet]="manualPricingView"></ng-container>
+        </div>
+        <!--footer-->
+        @if (
+          visibleOverlay !== overlayToShowEnum.comparisonScreen &&
+          !(fPricingDataLoading$ | ngrxPush)
+        ) {
+          <div class="flex flex-col">
+            <div class="mb-4 mt-2 -mx-4 h-px bg-selected-overlay"></div>
+            <div class="flex justify-start">
+              @if (visibleOverlay === overlayToShowEnum.gqPricing) {
+                <ng-container
+                  [ngTemplateOutlet]="gqPricingConfirmButton"
+                ></ng-container>
+              }
+              @if (visibleOverlay === overlayToShowEnum.manualPricing) {
+                <ng-container
+                  [ngTemplateOutlet]="manualConfirmButton"
+                ></ng-container>
+              }
+
+              <button
+                color="primary"
+                class="text-button font-medium"
+                mat-stroked-button
+                (click)="closeDialog()"
+              >
+                {{ t('cancelButton') }}
+              </button>
+            </div>
+          </div>
         }
       </div>
     </mat-dialog-content>

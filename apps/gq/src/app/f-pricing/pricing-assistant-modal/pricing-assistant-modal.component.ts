@@ -102,6 +102,8 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.comment.patchValue(this.dialogData?.priceComment || undefined);
+
     this.comment.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: string) => {

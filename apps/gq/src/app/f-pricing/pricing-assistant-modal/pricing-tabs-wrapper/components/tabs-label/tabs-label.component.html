@@ -3,13 +3,13 @@
     <div class="flex flex-row items-center">
       @if (icon) {
         <mat-icon
-          class="icon-5 !h-5 !w5 items-center pr-1"
+          class="!icon-5 !h-5 !w5 items-center pr-1"
           [ngClass]="iconColor"
           [matTooltip]="iconTooltip"
           >{{ icon }}</mat-icon
         >
       }
-      <span class="gq-text-5">{{ value }}</span>
+      <span class="text-6">{{ value }}</span>
     </div>
     <span class="text-caption normal-case pt-1">{{ title }}</span>
   </div>
