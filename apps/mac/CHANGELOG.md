@@ -1,4 +1,20 @@
 # Release Notes of Material App Center
+## [1.20.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.19.0...mac-v1.20.0) (2024-05-02)
+
+
+### Features
+
+* **mac:** add blank and notblank filters to all sap materials fields ([#6128](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6128)) ([404f8f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/404f8f6bf24b29e479de8b0253d992eaa3d179ad))
+* **mac:** update maturity (UFTABI-7572) ([#6137](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6137)) ([ec42510](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ec42510ca6a0c5acb2fc742f03159bba156a73d8))
+* **mac:** use new upload component ([#6190](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6190)) ([6f19cce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f19ccebd44598cadb48ac078307db0e210548ec))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+
+
+### Bug Fixes
+
+* **mac:** refactor tests and facade usage ([#6118](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6118)) ([be90196](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/be90196fa909b8a2cd4c0d90aaa1ea8dccdacdbf))
+
 ## [1.19.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.18.0...mac-v1.19.0) (2024-03-20)
 
 
