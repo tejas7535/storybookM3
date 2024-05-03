@@ -299,3 +299,10 @@ mat-hint {
   @apply h-auto #{!important};
   @apply py-3 #{!important};
 }
+
+@layer base {
+  body {
+    // dragging of column headers in AG Grid table is only possible within body range
+    @apply min-h-screen;
+  }
+}
