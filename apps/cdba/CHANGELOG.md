@@ -1,4 +1,33 @@
 # Release Notes of Cost Database Analytics
+## [5.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.3.0...cdba-v5.0.0) (2024-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **cdba:** internal BE API endpoint changes
+
+* test(cdba): adjusted old tests, added new ones
+
+* feat(cdba): added trackBy function
+
+### Features
+
+* **cdba:** added handling for MM as unitOfMeasure ([#5925](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5925)) ([78e1ca5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/78e1ca57b911078168eb058404adb0c2f9e7da9b))
+* **cdba:** sales org redesign ([#6029](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6029)) ([d4914ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4914ea02374aba8f63367e18ddbf3c8353227a9))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
+
+### Bug Fixes
+
+* **cdba:** columnPinned is now handled ([#5939](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5939)) ([7e14e48](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7e14e481cb63efb5bfe1e9264b540932796e756e))
+* **cdba:** corrected url ([#6161](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6161)) ([4184674](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/41846745e2ca7e6f30772924b017f22d129c3011))
+* **cdba:** not displaying overlays ([#5961](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5961)) ([92e6b37](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/92e6b3751107ab78aa44e9446c7f40c1a5d6730d))
+* **cdba:** remove mat-menu styling and specify location ([#6117](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6117)) ([b4c3f27](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b4c3f279324865cba692e35f98f1f5d8a4979850))
+* **cdba:** tooltip and i18n ([#5920](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5920)) ([fd7f411](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fd7f411bcbe0a393c725ab594b107f76ab0e451e))
+* **cdba:** translations ([#6099](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6099)) ([643506a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/643506ae029f943e1a0ec2d1f2a7b293c83b1f5b))
+
 ## [4.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.2.0...cdba-v4.3.0) (2024-01-12)
 
 
