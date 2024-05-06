@@ -7,7 +7,7 @@
     "
   >
     <mat-dialog-content>
-      <div class="flex flex-col min-h-[77vh] h-full w-full">
+      <div class="flex flex-col h-full w-full">
         <gq-pricing-assistant-header
           [material]="material"
           (closeDialog)="closeDialog()"
@@ -183,7 +183,7 @@
               [confidence]="dialogData.gqRating"
             ></gq-pricing-results>
             <gq-pricing-tabs-wrapper
-              class="h-full min-h-full"
+              class="h-full"
               [currency]="fPricingData?.currency"
               [referencePrice]="fPricingData?.referencePrice"
               [isDisabled]="!fPricingData?.quotationIsActive"
