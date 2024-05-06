@@ -263,7 +263,6 @@ export class OrgChartComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.chart) {
-      // eslint-disable-next-line new-cap
       this.chart = new OrgChart();
     }
     this.updateChart();

@@ -32,7 +32,8 @@
         [benchmarkDimensionIdValue]="benchmarkDimensionIdValue$ | ngrxPush"
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
-        [selectedTime]="selectedTime$ | ngrxPush"
+        [selectedTime]="selectedFromToMomentTimeRange$ | ngrxPush"
+        [timeRangeConstraints]="timeRangeConstraints$ | ngrxPush"
         [benchmarkDimensionFilterTranslation]="
           benchmarkDimensionFilterTranslation$ | ngrxPush
         "
@@ -43,7 +44,6 @@
         (selectBenchmarkOption)="onBenchmarkOptionSelected($event)"
         (selectDimensionOption)="filterSelected($event)"
         (selectTimePeriod)="timePeriodSelected($event)"
-        (selectTimeRange)="timeRangeSelected($event)"
         (autoCompleteInput)="onDimensionAutocompleteInput($event)"
         (selectedDimensionInvalid)="triggerDimensionDataClear()"
       >

@@ -6,6 +6,8 @@ import {
   Output,
 } from '@angular/core';
 
+import { Moment } from 'moment';
+
 import { DimensionFilterTranslation } from '../dimension-filter/models';
 import {
   Filter,
@@ -26,10 +28,21 @@ import { FilterLayout } from './filter-layout.enum';
 export class FilterComponent {
   private _selectedDimensionIdValue: IdValue;
   private _selectedTimePeriod: TimePeriod;
+  private _activeDimension: FilterDimension;
 
+  readonly DIMENSIONS_WITH_2021_DATA = [
+    FilterDimension.ORG_UNIT,
+    FilterDimension.PERSONAL_AREA,
+    FilterDimension.REGION,
+    FilterDimension.SUB_REGION,
+    FilterDimension.COUNTRY,
+    FilterDimension.HR_LOCATION,
+  ];
   disabledTimeRangeFilter = true;
   filterLayout = FilterLayout;
   timeRangeHintValue = 'time range';
+  availableDataFrom: { year: number; month: number; date: number };
+  isTimeRangeLimited = false;
 
   @Input() showBenchmarkFilter = false;
 
@@ -37,11 +50,22 @@ export class FilterComponent {
   @Input() orgUnitsLoading: boolean;
   @Input() disableFilters: boolean;
   @Input() layout: FilterLayout = FilterLayout.DEFAULT;
-  @Input() selectedTime: IdValue;
+  @Input() selectedTime: { from: Moment; to: Moment };
   @Input() timePeriods: IdValue[];
 
   @Input() dimensionFilter: Filter;
-  @Input() activeDimension: FilterDimension;
+
+  @Input() set activeDimension(activeDimension: FilterDimension) {
+    this._activeDimension = activeDimension;
+    this.isTimeRangeLimited =
+      !this.DIMENSIONS_WITH_2021_DATA.includes(activeDimension);
+  }
+
+  get activeDimension(): FilterDimension {
+    return this._activeDimension;
+  }
+
+  @Input() timeRangeConstraints: { min: Moment; max: Moment };
 
   @Input() set selectedDimensionIdValue(selectedDimensionIdValue: IdValue) {
     this._selectedDimensionIdValue = selectedDimensionIdValue;

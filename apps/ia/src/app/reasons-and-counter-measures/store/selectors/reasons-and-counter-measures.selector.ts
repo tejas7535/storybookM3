@@ -1,7 +1,9 @@
 import { translate } from '@jsverse/transloco';
 import { createSelector } from '@ngrx/store';
+import moment from 'moment';
 
 import {
+  getAreAllFiltersSelected,
   getSelectedTimePeriod,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
@@ -38,8 +40,9 @@ export const getComparedSelectedTimePeriod = createSelector(
 
 export const getReasonsData = createSelector(
   selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.reasons.data
+  getAreAllFiltersSelected,
+  (state: ReasonsAndCounterMeasuresState, areAllFiltersSelected: boolean) =>
+    areAllFiltersSelected ? state.reasonsForLeaving.reasons.data : undefined
 );
 
 export const getReasonsTableData = createSelector(
@@ -121,6 +124,18 @@ export const getComparedSelectedTimeRange = createSelector(
   getAllComparedSelectedFilters,
   (filters: SelectedFilter[]) =>
     filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
+);
+
+export const getComparedMomentSelectedTimeRange = createSelector(
+  getComparedSelectedTimeRange,
+  (timeRange: IdValue) => {
+    const timeRangeSplit = timeRange.id.split('|');
+
+    return {
+      from: moment.unix(+timeRangeSplit[0]).utc(),
+      to: moment.unix(+timeRangeSplit[1]).utc(),
+    };
+  }
 );
 
 export const getComparedSelectedOrgUnitLoading = createSelector(

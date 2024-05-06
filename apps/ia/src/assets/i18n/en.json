@@ -33,6 +33,7 @@
     },
     "periodOfTime": {
       "title": "Select period of time",
+      "timeRangeTitle": "Select time range",
       "last12Months": "Last 12 Months",
       "month": "Month",
       "year": "Year",
@@ -43,7 +44,9 @@
       "timeRangeHintLast12Months": "Last 12 Months",
       "timeRangeHintMonth": "Select a month",
       "timeRangePlaceholderStart": "Start date",
-      "timeRangePlaceholderEnd": "End date"
+      "timeRangePlaceholderEnd": "End date",
+      "timeRangeHint": "To provide an accurate representation of the fluctuation rates in 2022, the FACTS dataset has been restricted to the start of 2023",
+      "invalidInputRequired": "Please select a valid time range using date picker"
     },
     "invalidInputDropdownHint": "Please select a valid {{dimensionName}} from the dropdown",
     "invalidInputTooShortHint": "Please type at least 2 characters to search for {{dimensionName}}",

@@ -11,8 +11,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
+  getSelectedMomentTimeRange,
   getSelectedTimePeriod,
-  getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors';
 import { FilterDimension, IdValue, TimePeriod } from '../../shared/models';
@@ -24,6 +24,7 @@ import {
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
+  getComparedMomentSelectedTimeRange,
   getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
@@ -32,7 +33,6 @@ import {
   getComparedSelectedDimensionIdValue,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
-  getComparedSelectedTimeRange,
   getReasonsChartConfig,
   getReasonsChartData,
   getReasonsCombinedLegend,
@@ -80,7 +80,7 @@ describe('ReasonsForLeavingComponent', () => {
         store.overrideSelector(getSelectedDimensionIdValue, result);
         store.overrideSelector(getTimePeriods, result);
         store.overrideSelector(getSelectedTimePeriod, result);
-        store.overrideSelector(getSelectedTimeRange, result);
+        store.overrideSelector(getSelectedMomentTimeRange, result);
         store.overrideSelector(getReasonsChartData, result);
         store.overrideSelector(getComparedReasonsChartData, result);
         store.overrideSelector(getReasonsTableData, result);
@@ -94,7 +94,7 @@ describe('ReasonsForLeavingComponent', () => {
         store.overrideSelector(getComparedSelectedDimensionIdValue, result);
         store.overrideSelector(getComparedSelectedOrgUnitLoading, result);
         store.overrideSelector(getComparedSelectedTimePeriod, result);
-        store.overrideSelector(getComparedSelectedTimeRange, result);
+        store.overrideSelector(getComparedMomentSelectedTimeRange, result);
         store.overrideSelector(getComparedReasonsTableData, result);
 
         component.ngOnInit();

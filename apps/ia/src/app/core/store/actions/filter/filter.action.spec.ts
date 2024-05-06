@@ -16,7 +16,6 @@ import {
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
   timePeriodSelected,
-  timeRangeSelected,
   triggerLoad,
 } from '../';
 
@@ -150,16 +149,6 @@ describe('Filter Actions', () => {
 
       expect(action).toEqual({
         type: '[Filter] Benchmark Dimension Selected',
-      });
-    });
-
-    test('timeRangeSelected', () => {
-      const timeRange = new SelectedFilter('x', new IdValue('a', 'b'));
-      const action = timeRangeSelected({ timeRange });
-
-      expect(action).toEqual({
-        timeRange,
-        type: '[Filter] Time range selected',
       });
     });
   });

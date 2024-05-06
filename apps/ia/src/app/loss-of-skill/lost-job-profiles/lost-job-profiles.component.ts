@@ -17,6 +17,7 @@ import {
 import moment from 'moment';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
+import { DATE_FORMAT_BEAUTY } from '../../shared/constants';
 import { EmployeeListDialogComponent } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
 import {
   EmployeeListDialogMeta,
@@ -179,7 +180,7 @@ export class LostJobProfilesComponent {
     {
       field: 'openPositions',
       headerName: translate('lossOfSkill.lostJobProfiles.table.openPositions', {
-        state: `${this.currentDate.format('MMM YYYY')}`,
+        state: `${this.currentDate.format(DATE_FORMAT_BEAUTY)}`,
       }),
       filter: 'agNumberColumnFilter',
       flex: 1,
@@ -256,7 +257,7 @@ export class LostJobProfilesComponent {
       timeframe = moment
         .unix(+this.timeRange.id.split('|')[1])
         .utc()
-        .format('MMMM YYYY');
+        .format(DATE_FORMAT_BEAUTY);
       timeframeExcelName = timeframe;
     } else {
       translationKey = 'titleLeavers';

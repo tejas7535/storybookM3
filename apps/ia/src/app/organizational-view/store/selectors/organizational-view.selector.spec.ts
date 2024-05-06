@@ -9,7 +9,6 @@ import {
   AttritionSeries,
   EmployeeAttritionMeta,
   FilterDimension,
-  IdValue,
 } from '../../../shared/models';
 import { AttritionDialogFluctuationMeta } from '../../attrition-dialog/models/attrition-dialog-fluctuation-meta.model';
 import { ChartType, DimensionFluctuationData, SeriesType } from '../../models';
@@ -128,10 +127,9 @@ describe('Organizational View Selector', () => {
 
   describe('getOrgChart', () => {
     test('should return org chart data with dimension information', () => {
-      const idValue = new IdValue('test', 'val');
       const data: DimensionFluctuationData[] = [{} as DimensionFluctuationData];
       expect(
-        getOrgChart.projector(false, data, FilterDimension.BOARD, idValue)
+        getOrgChart.projector(false, data, true, FilterDimension.BOARD)
       ).toEqual({
         data,
         dimension: FilterDimension.BOARD,
@@ -141,12 +139,7 @@ describe('Organizational View Selector', () => {
     test('should return empty org chart if no dimension value is set', () => {
       const data: DimensionFluctuationData[] = [];
       expect(
-        getOrgChart.projector(
-          false,
-          data,
-          FilterDimension.BOARD,
-          undefined as undefined
-        )
+        getOrgChart.projector(false, data, true, FilterDimension.BOARD)
       ).toEqual({
         data: [],
         dimension: FilterDimension.BOARD,
@@ -156,12 +149,7 @@ describe('Organizational View Selector', () => {
     test('should return empty org chart if loading is true', () => {
       const data: DimensionFluctuationData[] = [{} as DimensionFluctuationData];
       expect(
-        getOrgChart.projector(
-          true,
-          data,
-          FilterDimension.BOARD,
-          undefined as undefined
-        )
+        getOrgChart.projector(true, data, true, FilterDimension.BOARD)
       ).toEqual({
         data: [],
         dimension: FilterDimension.BOARD,
@@ -377,9 +365,14 @@ describe('Organizational View Selector', () => {
 
   describe('getWorldMap', () => {
     test('should return country data for world map', () => {
-      expect(getWorldMap(fakeState)).toEqual(
-        fakeState.organizationalView.worldMap.data
+      const data = [{ countryKey: 'PL' }] as CountryDataAttrition[];
+      const result = getWorldMap.projector(
+        { worldMap: { data } } as OrganizationalViewState,
+        true,
+        false
       );
+
+      expect(result).toEqual(data);
     });
   });
 

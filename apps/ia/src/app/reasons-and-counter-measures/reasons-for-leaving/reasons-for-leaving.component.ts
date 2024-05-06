@@ -4,12 +4,13 @@ import { combineLatest, map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
+import { Moment } from 'moment';
 
 import {
   getSelectedDimension,
   getSelectedDimensionIdValue,
+  getSelectedMomentTimeRange,
   getSelectedTimePeriod,
-  getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors';
 import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
@@ -34,6 +35,7 @@ import {
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
+  getComparedMomentSelectedTimeRange,
   getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
@@ -43,7 +45,6 @@ import {
   getComparedSelectedDimensionIdValue,
   getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
-  getComparedSelectedTimeRange,
   getReasonsChartConfig,
   getReasonsChartData,
   getReasonsCombinedLegend,
@@ -62,7 +63,7 @@ export class ReasonsForLeavingComponent implements OnInit {
   selectedOrgUnit$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
-  selectedTime$: Observable<IdValue>;
+  selectedTime$: Observable<{ from: Moment; to: Moment }>;
 
   reasonsChartLegend$: Observable<ChartLegendItem[]>;
 
@@ -84,7 +85,7 @@ export class ReasonsForLeavingComponent implements OnInit {
   comparedSelectedOrgUnit$: Observable<IdValue>;
   comparedSelectedOrgUnitLoading$: Observable<boolean>;
   comparedSelectedTimePeriod$: Observable<TimePeriod>;
-  comparedSelectedTime$: Observable<IdValue>;
+  comparedSelectedTime$: Observable<{ from: Moment; to: Moment }>;
 
   dimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
 
@@ -108,7 +109,7 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.selectedOrgUnit$ = this.store.select(getSelectedDimensionIdValue);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
-    this.selectedTime$ = this.store.select(getSelectedTimeRange);
+    this.selectedTime$ = this.store.select(getSelectedMomentTimeRange);
 
     this.reasonsChartData$ = this.store.select(getReasonsChartData);
     this.comparedReasonsChartData$ = this.store.select(
@@ -146,7 +147,7 @@ export class ReasonsForLeavingComponent implements OnInit {
       getComparedSelectedTimePeriod
     );
     this.comparedSelectedTime$ = this.store.select(
-      getComparedSelectedTimeRange
+      getComparedMomentSelectedTimeRange
     );
     this.comparedReasonsTableData$ = this.store.select(
       getComparedReasonsTableData

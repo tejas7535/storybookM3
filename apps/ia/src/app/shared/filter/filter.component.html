@@ -18,32 +18,49 @@
     ></ia-dimension-filter>
 
     <div class="mr-6 flex flex-col columns-2">
-      @if (!disableFilters) {
-        <span class="text-body-1 mb-2">
-          {{ t('periodOfTime.title') }}
-        </span>
-      }
-      <div class="flex flex-row gap-2">
-        <ia-select-input
-          class="w-full mr-1"
-          [options]="timePeriods"
-          [selectedOption]="selectedTimePeriod"
-          [label]="t('periodOfTime.timePeriodLabel')"
-          [hint]="disableFilters ? undefined : t('periodOfTime.timePeriodHint')"
-          [disabled]="disableFilters || disabledTimeRangeFilter"
-          (selected)="timePeriodSelected($event)"
-        ></ia-select-input>
-        <ia-date-input
-          class="w-full"
-          [timePeriod]="selectedTimePeriod"
-          [selectedTime]="selectedTime?.id"
-          [label]="t('periodOfTime.timeRangeLabel')"
-          [hint]="disableFilters ? undefined : timeRangeHintValue"
-          [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
-          [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
-          [disabled]="disableFilters || disabledTimeRangeFilter"
-          (selected)="timeRangeSelected($event)"
-        ></ia-date-input>
+      <div class="flex flex-row gap-2 w-1/2">
+        <div class="mb-2 mr-1">
+          @if (!disableFilters) {
+            <span class="flex mb-2">{{ t('periodOfTime.title') }}</span>
+          }
+          <ia-select-input
+            [options]="timePeriods"
+            [selectedOption]="selectedTimePeriod"
+            [label]="t('periodOfTime.timePeriodLabel')"
+            [hint]="
+              disableFilters ? undefined : t('periodOfTime.timePeriodHint')
+            "
+            [disabled]="disableFilters || disabledTimeRangeFilter"
+            (selected)="timePeriodSelected($event)"
+          ></ia-select-input>
+        </div>
+        <div class="mb-2">
+          @if (!disableFilters) {
+            <div class="flex flex-row w-max">
+              <span class="flex mb-2">{{
+                t('periodOfTime.timeRangeTitle')
+              }}</span>
+              @if (isTimeRangeLimited) {
+                <mat-icon
+                  [matTooltip]="t('periodOfTime.timeRangeHint')"
+                  class="text-high-emphasis ml-1 flex cursor-default"
+                >
+                  info
+                </mat-icon>
+              }
+            </div>
+          }
+          <ia-date-input
+            [timePeriod]="selectedTimePeriod"
+            [timeRange]="selectedTime"
+            [timeRangeConstraints]="timeRangeConstraints"
+            [label]="t('periodOfTime.timeRangeLabel')"
+            [hint]="disableFilters ? undefined : timeRangeHintValue"
+            [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
+            [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
+            (selected)="timeRangeSelected($event)"
+          ></ia-date-input>
+        </div>
       </div>
     </div>
 

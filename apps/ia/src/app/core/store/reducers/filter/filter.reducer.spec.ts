@@ -1,3 +1,4 @@
+import { EntityState } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 import moment from 'moment';
 
@@ -21,6 +22,7 @@ import {
 import {
   filterReducer,
   getInitialSelectedTimeRange,
+  getTimeRangeFilterForTimePeriod,
   initialState,
   reducer,
 } from './filter.reducer';
@@ -262,5 +264,100 @@ describe('Filter Reducer', () => {
 
       expect(result).toBe('1622505600|1654041599'); // 01-06-2021|31-05-2022
     });
+  });
+
+  describe('getTimeRangeFilterForTimePeriod', () => {
+    test('should return 12 latest months from current end of time range', () => {
+      const entityState = createEntityState(
+        '1622505600|1654041599',
+        'Jun 2022'
+      );
+
+      const result = getTimeRangeFilterForTimePeriod(
+        TimePeriod.LAST_12_MONTHS,
+        entityState
+      );
+
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.id).toEqual(
+        '1622505600|1654041599'
+      );
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.value).toEqual(
+        'Jun 2021 -  May 2022'
+      );
+    });
+
+    test('should return single month when 12 latest months currently selected', () => {
+      const entityState = createEntityState(
+        '1625090400|1654041599',
+        'Jun 2021 -  May 2022'
+      );
+
+      const result = getTimeRangeFilterForTimePeriod(
+        TimePeriod.MONTH,
+        entityState
+      );
+
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.id).toEqual(
+        '1651363200|1654041599'
+      );
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.value).toEqual(
+        'May 2022'
+      );
+    });
+
+    test('should return single year when single month selected', () => {
+      const entityState = createEntityState(
+        '1651363200|1654041599',
+        'May 2022'
+      );
+
+      const result = getTimeRangeFilterForTimePeriod(
+        TimePeriod.YEAR,
+        entityState
+      );
+
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.id).toEqual(
+        '1640995200|1672531199'
+      );
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.value).toEqual(
+        '2022'
+      );
+    });
+
+    test('should return previous year when currently selected present year', () => {
+      moment.utc = jest.fn().mockReturnValue(moment.utc('2022-07-01'));
+      const entityState = createEntityState(
+        '1651363200|1654041599',
+        'May 2022'
+      );
+
+      const result = getTimeRangeFilterForTimePeriod(
+        TimePeriod.YEAR,
+        entityState
+      );
+
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.id).toEqual(
+        '1609459200|1640995199'
+      );
+      expect(result.entities[FilterKey.TIME_RANGE].idValue.value).toEqual(
+        '2021'
+      );
+    });
+  });
+
+  const createEntityState = (
+    id: string,
+    value: string
+  ): EntityState<SelectedFilter> => ({
+    ids: [FilterKey.TIME_RANGE],
+    entities: {
+      [FilterKey.TIME_RANGE]: {
+        idValue: {
+          id,
+          value,
+        },
+        name: FilterKey.TIME_RANGE,
+      },
+    },
   });
 });

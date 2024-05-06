@@ -5,9 +5,13 @@ import {
   IdValue,
   TimePeriod,
 } from '../../../../shared/models';
-import { initialState } from '../../reducers/filter/filter.reducer';
+import {
+  FilterState,
+  initialState,
+} from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
+  getAreAllFiltersSelected,
   getAreOpenApplicationsAvailable,
   getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
@@ -16,6 +20,7 @@ import {
   getCurrentFilters,
   getCurrentRoute,
   getLast6MonthsTimeRange,
+  getMomentTimeRangeConstraints,
   getSelectedBenchmarkValue,
   getSelectedDimension,
   getSelectedDimensionDataLoading,
@@ -23,6 +28,7 @@ import {
   getSelectedDimensionIdValue,
   getSelectedDimensionValue,
   getSelectedFilters,
+  getSelectedMomentTimeRange,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -81,7 +87,11 @@ describe('Filter Selector', () => {
       selectedDimension: FilterDimension.ORG_UNIT,
       selectedBenchmark: FilterDimension.ORG_UNIT,
       selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
-    },
+      timeRangeConstraints: {
+        min: '1609459200',
+        max: '1893455999',
+      },
+    } as unknown as FilterState,
     router: {
       state: {
         url: '/overview',
@@ -118,6 +128,26 @@ describe('Filter Selector', () => {
   describe('getBenchmarkDimensionDataLoading', () => {
     test('should return loading status', () => {
       expect(getBenchmarkDimensionDataLoading(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getMomentTimeRangeConstraints', () => {
+    test('should return moment time range constraints', () => {
+      const result = getMomentTimeRangeConstraints.projector(fakeState.filter);
+      expect(result.min.unix()).toEqual(1_609_459_200);
+      expect(result.max.unix()).toEqual(1_893_455_999);
+    });
+
+    test('should return undefined time range constraints', () => {
+      const fakeStateNoTimeRangeConstraints = {
+        ...fakeState.filter,
+        timeRangeConstraints: undefined as any,
+      };
+      const result = getMomentTimeRangeConstraints.projector(
+        fakeStateNoTimeRangeConstraints
+      );
+      expect(result.min).toBeUndefined();
+      expect(result.max).toBeUndefined();
     });
   });
 
@@ -179,6 +209,67 @@ describe('Filter Selector', () => {
       expect(getSelectedFilters(fakeState)).toEqual(
         fakeState.filter.selectedFilters
       );
+    });
+  });
+
+  describe('getSelectedMomentTimeRange', () => {
+    test('should return moment time range', () => {
+      const timeRange = new IdValue('1609459200|1893455999', 'XYZ');
+
+      const result = getSelectedMomentTimeRange.projector(timeRange);
+
+      expect(result.from.unix()).toEqual(1_609_459_200);
+      expect(result.to.unix()).toEqual(1_893_455_999);
+    });
+
+    test('should return undefined time range', () => {
+      const timeRange = new IdValue(undefined, undefined);
+
+      const result = getSelectedMomentTimeRange.projector(timeRange);
+      expect(result.from).toBeUndefined();
+      expect(result.to).toBeUndefined();
+    });
+  });
+
+  describe('getAreAllFiltersSelected', () => {
+    test('should return true when dimension, value and time range selected', () => {
+      const result = getAreAllFiltersSelected.projector({
+        filterDimension: FilterDimension.BOARD,
+        value: 'Schaeffler_IT_1',
+        timeRange: '1577863715000|1609399715000',
+      });
+
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false when dimension not selected', () => {
+      const result = getAreAllFiltersSelected.projector({
+        filterDimension: undefined,
+        value: 'Schaeffler_IT_1',
+        timeRange: '1577863715000|1609399715000',
+      });
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when value not selected', () => {
+      const result = getAreAllFiltersSelected.projector({
+        filterDimension: FilterDimension.BOARD,
+        value: undefined,
+        timeRange: '1577863715000|1609399715000',
+      });
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when time range not selected', () => {
+      const result = getAreAllFiltersSelected.projector({
+        filterDimension: FilterDimension.BOARD,
+        value: 'abc',
+        timeRange: undefined,
+      });
+
+      expect(result).toBeFalsy();
     });
   });
 

@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
+import { Moment } from 'moment';
 
 import {
   autocompleteBenchmarkDimensionData,
@@ -14,7 +15,6 @@ import {
   loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
   timePeriodSelected,
-  timeRangeSelected,
 } from '../core/store/actions';
 import {
   getBeautifiedFilterValues,
@@ -22,12 +22,13 @@ import {
   getBenchmarkDimensionDataLoading,
   getBenchmarkDimensionFilter,
   getBenchmarkIdValue,
+  getMomentTimeRangeConstraints,
   getSelectedDimension,
   getSelectedDimensionDataLoading,
   getSelectedDimensionFilter,
   getSelectedDimensionIdValue,
+  getSelectedMomentTimeRange,
   getSelectedTimePeriod,
-  getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
 import { FILTER_DIMENSIONS } from '../shared/constants';
@@ -59,13 +60,14 @@ export class FilterSectionComponent implements OnInit {
   benchmarkDimensionIdValue$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
-  selectedTime$: Observable<IdValue>;
+  selectedFromToMomentTimeRange$: Observable<{ from: Moment; to: Moment }>;
   selectedFilterValues$: Observable<{
     timeRange: string;
     value: string;
   }>;
   dimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
   benchmarkDimensionFilterTranslation$: Observable<DimensionFilterTranslation>;
+  timeRangeConstraints$: Observable<{ min: Moment; max: Moment }>;
 
   filterLayout = FilterLayout;
 
@@ -83,6 +85,9 @@ export class FilterSectionComponent implements OnInit {
         )
       );
     this.activeDimension$ = this.store.select(getSelectedDimension);
+    this.timeRangeConstraints$ = this.store.select(
+      getMomentTimeRangeConstraints
+    );
     this.activeBenchmarkDimension$ = this.store.select(getBenchmarkDimension);
     this.selectedDimensionDataLoading$ = this.store.select(
       getSelectedDimensionDataLoading
@@ -102,7 +107,9 @@ export class FilterSectionComponent implements OnInit {
       getSelectedDimensionIdValue
     );
     this.benchmarkDimensionIdValue$ = this.store.select(getBenchmarkIdValue);
-    this.selectedTime$ = this.store.select(getSelectedTimeRange);
+    this.selectedFromToMomentTimeRange$ = this.store.select(
+      getSelectedMomentTimeRange
+    );
     this.selectedFilterValues$ = this.store.select(getBeautifiedFilterValues);
     this.dimensionFilterTranslation$ =
       this.translocoService.selectTranslateObject('filters.dimension');
@@ -132,10 +139,6 @@ export class FilterSectionComponent implements OnInit {
 
   timePeriodSelected(timePeriod: TimePeriod): void {
     this.store.dispatch(timePeriodSelected({ timePeriod }));
-  }
-
-  timeRangeSelected(timeRange: SelectedFilter): void {
-    this.store.dispatch(timeRangeSelected({ timeRange }));
   }
 
   expansionPanelToggled(expanded: boolean): void {

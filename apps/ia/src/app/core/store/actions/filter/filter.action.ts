@@ -57,11 +57,6 @@ export const timePeriodSelected = createAction(
   props<{ timePeriod: TimePeriod }>()
 );
 
-export const timeRangeSelected = createAction(
-  '[Filter] Time range selected',
-  props<{ timeRange: SelectedFilter }>()
-);
-
 export const dimensionSelected = createAction('[Filter] Dimension Selected');
 
 export const benchmarDimensionSelected = createAction(

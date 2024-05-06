@@ -139,7 +139,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
 
   describe('getReasonsData', () => {
     test('should return data for reasons', () => {
-      expect(getReasonsData.projector(fakeState)).toEqual(
+      expect(getReasonsData.projector(fakeState, true)).toEqual(
         fakeState.reasonsForLeaving.reasons.data
       );
     });
@@ -312,6 +312,21 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   });
 
   describe('getComparedSelectedTimeRange', () => {
+    test('should return compared selected time range', () => {
+      expect(
+        getComparedSelectedTimeRange.projector(
+          Object.values(
+            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
+          )
+        )
+      ).toEqual({
+        id: '1577863715000|1609399715000',
+        value: '1/1/2020 - 12/31/2020',
+      });
+    });
+  });
+
+  describe('getComparedMomentSelectedTimeRange', () => {
     test('should return compared selected time range', () => {
       expect(
         getComparedSelectedTimeRange.projector(

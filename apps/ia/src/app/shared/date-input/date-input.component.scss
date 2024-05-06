@@ -1,0 +1,24 @@
+::ng-deep .mat-calendar-period-button {
+  pointer-events: none;
+}
+// Workaround for error state in time range input which is false positive
+::ng-deep .mat-mdc-form-field.date-input-ignore-error {
+  --mdc-filled-text-field-error-active-indicator-color: var(
+    --mdc-filled-text-field-active-indicator-color
+  );
+  --mdc-filled-text-field-error-focus-active-indicator-color: var(
+    --mdc-filled-text-field-focus-active-indicator-color
+  );
+  --mdc-filled-text-field-error-hover-active-indicator-color: var(
+    --mdc-filled-text-field-active-indicator-color
+  );
+  --mdc-filled-text-field-error-label-text-color: var(
+    --mdc-filled-text-field-label-text-color
+  );
+  --mdc-filled-text-field-error-hover-label-text-color: var(
+    --mdc-filled-text-field-label-text-color
+  );
+  --mdc-filled-text-field-error-focus-label-text-color: var(
+    --mdc-filled-text-field-active-indicator-color
+  );
+}

@@ -2,6 +2,7 @@ import { translate } from '@jsverse/transloco';
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
+import { DATE_FORMAT_BEAUTY } from '../constants';
 import { TimePeriod } from '../models';
 
 export const getTimeRangeHint = (timePeriod: TimePeriod): string => {
@@ -30,7 +31,10 @@ export const getMonth12MonthsAgo = (refDate: Moment): Moment => {
 export const getTimeRangeFromDates = (
   dateOne: Moment,
   dateTwo: Moment
-): string => `${dateOne.unix()}|${dateTwo.unix()}`;
+): string =>
+  dateOne && dateTwo
+    ? `${dateOne.utc().unix()}|${dateTwo.utc().unix()}`
+    : undefined;
 
 export const getBeautifiedTimeRange = (timeRange: string): string => {
   if (!timeRange) {
@@ -40,18 +44,17 @@ export const getBeautifiedTimeRange = (timeRange: string): string => {
   const start = moment.unix(+dates[0]).utc();
   const end = moment.unix(+dates[1]).utc();
 
-  const monthYearFormat = 'MMM YYYY';
   const yearFormat = 'YYYY';
 
   if (start.year() === end.year() && start.month() === end.month()) {
-    return start.format(monthYearFormat);
+    return start.format(DATE_FORMAT_BEAUTY);
   } else if (
     start.year() === end.year() &&
     end.month() - start.month() === 11
   ) {
     return start.format(yearFormat);
   } else {
-    return `${start.format(monthYearFormat)} - ${end.format(monthYearFormat)}`;
+    return `${start.format(DATE_FORMAT_BEAUTY)} - ${end.format(DATE_FORMAT_BEAUTY)}`;
   }
 };
 

@@ -13,10 +13,10 @@ import { selectRouterState } from '../../../core/store';
 import {
   benchmarkFilterSelected,
   filterSelected,
+  timePeriodSelected,
 } from '../../../core/store/actions';
 import {
   getCurrentBenchmarkFilters,
-  getCurrentDimensionValue,
   getCurrentFilters,
   getLast6MonthsTimeRange,
   getSelectedBenchmarkValue,
@@ -88,7 +88,12 @@ export class OverviewEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
+      ofType(
+        filterSelected,
+        timePeriodSelected,
+        routerNavigationAction,
+        updateUserSettingsSuccess
+      ),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(([_action, router]) => router.state.url === this.OVERVIEW_URL),
       mergeMap(() => [loadOverviewDimensionData()])
@@ -97,7 +102,11 @@ export class OverviewEffects {
 
   benchmarkFilterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(benchmarkFilterSelected, routerNavigationAction),
+      ofType(
+        benchmarkFilterSelected,
+        timePeriodSelected,
+        routerNavigationAction
+      ),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(([_action, router]) => router.state.url === this.OVERVIEW_URL),
       map(() => loadOverviewBenchmarkData())
@@ -110,8 +119,8 @@ export class OverviewEffects {
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter(
-        (request: EmployeesRequest) =>
-          !!(request.filterDimension && request.value)
+        (request) =>
+          !!(request.filterDimension && request.value && request.timeRange)
       ),
       mergeMap((request: EmployeesRequest) => [
         loadFluctuationRates({
@@ -139,7 +148,7 @@ export class OverviewEffects {
       map(([_action, request]) => request),
       filter(
         (request: EmployeesRequest) =>
-          !!(request.filterDimension && request.value)
+          !!(request.filterDimension && request.value && request.timeRange)
       ),
       mergeMap((request: EmployeesRequest) => [
         loadBenchmarkFluctuationRates({ request }),
@@ -161,8 +170,12 @@ export class OverviewEffects {
         loadResignedEmployeesSuccess,
         loadOpenApplicationsCountSuccess
       ),
-      concatLatestFrom(() => this.store.select(getCurrentDimensionValue)),
-      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([_action, request]) => request),
+      filter(
+        (request: EmployeesRequest) =>
+          !(request.filterDimension && request.value && request.timeRange)
+      ),
       map(() => clearOverviewDimensionData())
     )
   );
@@ -281,6 +294,10 @@ export class OverviewEffects {
           MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
         ],
       })),
+      filter(
+        (request: EmployeesRequest) =>
+          !!(request.filterDimension && request.value && request.timeRange)
+      ),
       switchMap((request: EmployeesRequest) =>
         this.sharedService.getFluctuationRateChartData(request).pipe(
           map((monthlyFluctuation: MonthlyFluctuation) =>
@@ -482,20 +499,4 @@ export class OverviewEffects {
     private readonly sharedService: SharedService,
     private readonly store: Store
   ) {}
-
-  areRquiredFieldsDefined(requests: EmployeesRequests): boolean {
-    return !!(
-      requests.selectedFilterRequest.filterDimension &&
-      requests.selectedFilterRequest.value &&
-      requests.selectedFilterRequest.timeRange &&
-      requests.benchmarkRequest.filterDimension &&
-      requests.benchmarkRequest.value &&
-      requests.benchmarkRequest.timeRange
-    );
-  }
-}
-
-export interface EmployeesRequests {
-  selectedFilterRequest: EmployeesRequest;
-  benchmarkRequest: EmployeesRequest;
 }

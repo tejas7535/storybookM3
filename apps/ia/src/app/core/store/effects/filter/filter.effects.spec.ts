@@ -24,7 +24,7 @@ import {
 } from '../../actions/filter/filter.action';
 import {
   getBenchmarkIdValue,
-  getCurrentDimensionValue,
+  getCurrentFilters,
   getSelectedBenchmarkValue,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
@@ -69,8 +69,58 @@ describe('Filter Effects', () => {
     test(
       'should return clearOverviewDimensionData when no dimension value selected',
       marbles((m) => {
-        store.overrideSelector(getCurrentDimensionValue, undefined as string);
-        action = dimensionSelected();
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: undefined,
+          timeRange: '123|321',
+          value: 'cba',
+        });
+        action = loadFilterDimensionData({
+          filterDimension: FilterDimension.BOARD,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bc)', {
+          b: clearOverviewDimensionData(),
+          c: clearLossOfSkillDimensionData(),
+        });
+
+        m.expect(effects.dimensionSelected$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return clearOverviewDimensionData when no value selected',
+      marbles((m) => {
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.COUNTRY,
+          timeRange: '123-321',
+          value: undefined,
+        });
+        action = loadFilterDimensionData({
+          filterDimension: FilterDimension.BOARD,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-(bc)', {
+          b: clearOverviewDimensionData(),
+          c: clearLossOfSkillDimensionData(),
+        });
+
+        m.expect(effects.dimensionSelected$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return clearOverviewDimensionData when no time range selected',
+      marbles((m) => {
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.COUNTRY,
+          timeRange: undefined,
+          value: 'cba',
+        });
+        action = loadFilterDimensionData({
+          filterDimension: FilterDimension.BOARD,
+        });
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {
@@ -85,14 +135,17 @@ describe('Filter Effects', () => {
     test(
       'should return nothing when dimension value selected',
       marbles((m) => {
-        const value = 'ABC';
-        store.overrideSelector(getCurrentDimensionValue, value);
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.BOARD,
+          timeRange: '123-321',
+          value: 'abc',
+        });
         action = dimensionSelected();
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('--');
 
-        m.expect(effects.dimensionSelected$).toBeObservable(expected);
+        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
       })
     );
   });

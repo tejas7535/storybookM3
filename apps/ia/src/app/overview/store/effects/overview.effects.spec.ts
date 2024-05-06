@@ -11,7 +11,6 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import {
   getCurrentBenchmarkFilters,
-  getCurrentDimensionValue,
   getCurrentFilters,
   getLast6MonthsTimeRange,
   getSelectedBenchmarkValue,
@@ -71,7 +70,7 @@ import {
   loadWorkforceBalanceMetaFailure,
   loadWorkforceBalanceMetaSuccess,
 } from '../actions/overview.action';
-import { EmployeesRequests, OverviewEffects } from './overview.effects';
+import { OverviewEffects } from './overview.effects';
 
 jest.mock('../../../core/store/reducers/filter/filter.reducer', () => ({
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
@@ -189,23 +188,6 @@ describe('Overview Effects', () => {
 
   describe('loadOverviewDimensionData$', () => {
     test(
-      'loadOverviewDimensionData - should do nothing when diemnsion value is not set',
-      marbles((m) => {
-        action = loadOverviewDimensionData();
-        store.overrideSelector(getCurrentFilters, {} as EmployeesRequest);
-        store.overrideSelector(
-          getCurrentBenchmarkFilters,
-          {} as EmployeesRequest
-        );
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
-
-        m.expect(effects.loadOverviewDimensionData$).toBeObservable(expected);
-      })
-    );
-
-    test(
       'should return dimension overview data',
       marbles((m) => {
         const selectedDimensionRequest = {
@@ -320,18 +302,20 @@ describe('Overview Effects', () => {
   });
 
   describe('clearDimensionDataOnDimensionChange$', () => {
-    const value = 'ABC';
-
     test(
-      'loadAttritionOverTimeOverviewSuccess - should do nothing when dimension selected',
+      'loadAttritionOverTimeOverviewSuccess - should return clearOverviewDimensionData when dimension is not selected',
       marbles((m) => {
         action = loadAttritionOverTimeOverviewSuccess({
           monthlyFluctuation: {} as MonthlyFluctuation,
         });
-        store.overrideSelector(getCurrentDimensionValue, value);
+        store.overrideSelector(getCurrentFilters, {
+          value: 'abc',
+          timeRange: '123|321',
+          filterDimension: undefined,
+        });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
+        const expected = m.cold('-a', { a: clearOverviewDimensionData() });
 
         m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
           expected
@@ -345,24 +329,11 @@ describe('Overview Effects', () => {
         action = loadWorkforceBalanceMetaSuccess({
           data: {} as OverviewWorkforceBalanceMeta,
         });
-        store.overrideSelector(getCurrentDimensionValue, value);
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
-
-        m.expect(effects.clearDimensionDataOnDimensionChange$).toBeObservable(
-          expected
-        );
-      })
-    );
-
-    test(
-      'loadFluctuationRatesChartDataSuccess - should do nothing when dimension selected',
-      marbles((m) => {
-        action = loadFluctuationRatesChartDataSuccess({
-          monthlyFluctuation: {} as MonthlyFluctuation,
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.BOARD,
+          value: 'BR02',
+          timeRange: '123|321',
         });
-        store.overrideSelector(getCurrentDimensionValue, value);
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -379,7 +350,11 @@ describe('Overview Effects', () => {
         action = loadResignedEmployeesSuccess({
           data: {} as ResignedEmployeesResponse,
         });
-        store.overrideSelector(getCurrentDimensionValue, value);
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.BOARD,
+          value: 'BR02',
+          timeRange: '123|321',
+        });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -396,7 +371,11 @@ describe('Overview Effects', () => {
         action = loadOpenApplicationsCountSuccess({
           openApplicationsCount: 0,
         });
-        store.overrideSelector(getCurrentDimensionValue, value);
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.BOARD,
+          value: 'BR02',
+          timeRange: '123|321',
+        });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -413,7 +392,11 @@ describe('Overview Effects', () => {
         action = loadAttritionOverTimeOverviewSuccess({
           monthlyFluctuation: {} as MonthlyFluctuation,
         });
-        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+        store.overrideSelector(getCurrentFilters, {
+          timeRange: '123|231',
+          value: 'abc',
+          filterDimension: undefined,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = clearOverviewDimensionData();
@@ -431,7 +414,11 @@ describe('Overview Effects', () => {
         action = loadWorkforceBalanceMetaSuccess({
           data: {} as OverviewWorkforceBalanceMeta,
         });
-        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+        store.overrideSelector(getCurrentFilters, {
+          value: 'BR02',
+          timeRange: '123|321',
+          filterDimension: undefined,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = clearOverviewDimensionData();
@@ -449,7 +436,11 @@ describe('Overview Effects', () => {
         action = loadFluctuationRatesChartDataSuccess({
           monthlyFluctuation: {} as MonthlyFluctuation,
         });
-        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+        store.overrideSelector(getCurrentFilters, {
+          value: 'BR02',
+          timeRange: '123|321',
+          filterDimension: undefined,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = clearOverviewDimensionData();
@@ -467,7 +458,11 @@ describe('Overview Effects', () => {
         action = loadResignedEmployeesSuccess({
           data: {} as ResignedEmployeesResponse,
         });
-        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+        store.overrideSelector(getCurrentFilters, {
+          value: 'BR02',
+          timeRange: '123|321',
+          filterDimension: undefined,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = clearOverviewDimensionData();
@@ -485,7 +480,11 @@ describe('Overview Effects', () => {
         action = loadOpenApplicationsCountSuccess({
           openApplicationsCount: 0,
         });
-        store.overrideSelector(getCurrentDimensionValue, undefined as string);
+        store.overrideSelector(getCurrentFilters, {
+          value: 'BR02',
+          timeRange: '123|321',
+          filterDimension: undefined,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const result = clearOverviewDimensionData();
@@ -754,7 +753,9 @@ describe('Overview Effects', () => {
           MonthlyFluctuationOverTime.FLUCTUATION_RATES,
           MonthlyFluctuationOverTime.UNFORCED_FLUCTUATION_RATES,
         ],
-      } as unknown as EmployeesRequest;
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'ABC123',
+      } as EmployeesRequest;
       action = loadFluctuationRatesChartData({ request });
     });
     it(
@@ -1181,64 +1182,5 @@ describe('Overview Effects', () => {
         ).toHaveBeenCalledWith(request);
       })
     );
-  });
-
-  describe('areRquiredFieldsDefined', () => {
-    test('should return true when all required fields defined', () => {
-      const request: EmployeesRequests = {
-        selectedFilterRequest: {
-          filterDimension: FilterDimension.ORG_UNIT,
-          timeRange: '1-1',
-          value: 'abc',
-        },
-        benchmarkRequest: {
-          filterDimension: FilterDimension.ORG_UNIT,
-          timeRange: '1-1',
-          value: 'abc',
-        },
-      };
-
-      const result = effects.areRquiredFieldsDefined(request);
-
-      expect(result).toBeTruthy();
-    });
-
-    test('should return false when one required field of selected filter request is missing', () => {
-      const request: EmployeesRequests = {
-        selectedFilterRequest: {
-          filterDimension: FilterDimension.ORG_UNIT,
-          timeRange: undefined,
-          value: 'abc',
-        },
-        benchmarkRequest: {
-          filterDimension: FilterDimension.ORG_UNIT,
-          timeRange: '1-1',
-          value: 'abc',
-        },
-      };
-
-      const result = effects.areRquiredFieldsDefined(request);
-
-      expect(result).toBeFalsy();
-    });
-
-    test('should return false when one required field of benchmark request is missing', () => {
-      const request: EmployeesRequests = {
-        selectedFilterRequest: {
-          filterDimension: FilterDimension.ORG_UNIT,
-          timeRange: '1-1',
-          value: 'abc',
-        },
-        benchmarkRequest: {
-          filterDimension: undefined,
-          timeRange: '1-1',
-          value: 'abc',
-        },
-      };
-
-      const result = effects.areRquiredFieldsDefined(request);
-
-      expect(result).toBeFalsy();
-    });
   });
 });

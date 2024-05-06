@@ -7,6 +7,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import moment from 'moment';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -24,10 +25,10 @@ import {
 import {
   getBeautifiedFilterValues,
   getBenchmarkDimensionDataLoading,
+  getMomentTimeRangeConstraints,
   getSelectedDimensionFilter,
-  getSelectedDimensionIdValue,
+  getSelectedMomentTimeRange,
   getSelectedTimePeriod,
-  getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
 import { DimensionFilterModule } from '../shared/dimension-filter/dimension-filter.module';
@@ -172,33 +173,32 @@ describe('FilterSectionComponent', () => {
     );
 
     test(
-      'should set selectedOrgUnit',
+      'should set timeRangeConstraints',
       marbles((m) => {
         const result = {
-          id: 'Org123',
-          value: 'Org123',
+          min: moment.utc('2020-01-01'),
+          max: moment.utc('2025-01-01'),
         };
-        store.overrideSelector(getSelectedDimensionIdValue, result);
+        store.overrideSelector(getMomentTimeRangeConstraints, result);
         component.ngOnInit();
 
-        m.expect(component.selectedDimensionIdValue$).toBeObservable(
+        m.expect(component.timeRangeConstraints$).toBeObservable(
           m.cold('a', { a: result })
         );
-        expect(component.selectedTime$).toBeDefined();
       })
     );
 
     test(
-      'should set selectedTime',
+      'should set selectedFromToMomentTimeRange',
       marbles((m) => {
         const result = {
-          id: '1-2',
-          value: 'Nice',
+          from: moment.utc('2020-01-01'),
+          to: moment.utc('2025-01-01'),
         };
-        store.overrideSelector(getSelectedTimeRange, result);
+        store.overrideSelector(getSelectedMomentTimeRange, result);
         component.ngOnInit();
 
-        m.expect(component.selectedTime$).toBeObservable(
+        m.expect(component.selectedFromToMomentTimeRange$).toBeObservable(
           m.cold('a', { a: result })
         );
       })

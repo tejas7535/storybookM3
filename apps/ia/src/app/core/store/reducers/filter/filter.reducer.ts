@@ -2,7 +2,11 @@ import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 import moment, { Moment } from 'moment';
 
-import { DATA_IMPORT_DAY } from '../../../../shared/constants';
+import {
+  DATA_IMPORT_DAY,
+  DATE_FORMAT_BEAUTY,
+  DIMENSIONS_WITH_2021_DATA,
+} from '../../../../shared/constants';
 import {
   filterAdapter,
   FilterDimension,
@@ -43,6 +47,20 @@ export interface FilterState {
   selectedTimePeriod: TimePeriod;
   selectedDimension: FilterDimension;
   benchmarkDimension: FilterDimension;
+  timeRangeConstraints: {
+    min: number;
+    max: number;
+  };
+}
+
+export function getMaxDate() {
+  const maxDate: Moment = moment()
+    .utc()
+    .subtract(DATA_IMPORT_DAY, 'days') // use previous month if data is not imported yet
+    .subtract(1, 'month')
+    .endOf('month');
+
+  return maxDate.unix();
 }
 
 export const getInitialSelectedTimeRange = (today: Moment) => {
@@ -124,6 +142,10 @@ export const initialState: FilterState = {
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
   selectedDimension: undefined,
   benchmarkDimension: FilterDimension.ORG_UNIT,
+  timeRangeConstraints: {
+    min: undefined,
+    max: getMaxDate(),
+  },
 };
 
 export const filterReducer = createReducer(
@@ -154,6 +176,28 @@ export const filterReducer = createReducer(
         },
       },
       selectedDimension: filterDimension,
+      timeRangeConstraints: {
+        ...state.timeRangeConstraints,
+        min: DIMENSIONS_WITH_2021_DATA.includes(filterDimension)
+          ? moment.utc('2022-01-01').unix()
+          : moment.utc('2023-01-01').unix(),
+      },
+      selectedFilters:
+        !DIMENSIONS_WITH_2021_DATA.includes(filterDimension) &&
+        +state.selectedFilters.entities[
+          FilterKey.TIME_RANGE
+        ].idValue?.id?.split('|')[0] < moment.utc('2023-01-01').unix()
+          ? filterAdapter.upsertOne(
+              {
+                idValue: { id: undefined, value: undefined },
+                name: FilterKey.TIME_RANGE,
+              },
+              state.selectedFilters
+            )
+          : filterAdapter.upsertOne(
+              state.selectedFilters.entities[FilterKey.TIME_RANGE],
+              state.selectedFilters
+            ),
     })
   ),
   on(
@@ -220,9 +264,97 @@ export const filterReducer = createReducer(
     (state: FilterState, { timePeriod }): FilterState => ({
       ...state,
       selectedTimePeriod: timePeriod,
+      selectedFilters: getTimeRangeFilterForTimePeriod(
+        timePeriod,
+        state.selectedFilters
+      ),
+      benchmarkFilters: getTimeRangeFilterForTimePeriod(
+        timePeriod,
+        state.benchmarkFilters
+      ),
+      timeRangeConstraints: {
+        ...state.timeRangeConstraints,
+        max:
+          timePeriod === TimePeriod.YEAR
+            ? moment
+                .unix(getMaxDate())
+                .utc()
+                .subtract(1, 'year')
+                .endOf('year')
+                .unix()
+            : getMaxDate(),
+      },
     })
   )
 );
+
+export const getTimeRangeFilterForTimePeriod = (
+  timePeriod: TimePeriod,
+  entityState: EntityState<SelectedFilter>
+): EntityState<SelectedFilter> => {
+  const currentTimeRangeEnd = moment
+    .unix(+entityState.entities[FilterKey.TIME_RANGE].idValue.id.split('|')[1])
+    .utc();
+
+  switch (timePeriod) {
+    case TimePeriod.YEAR: {
+      const currentDate = moment.utc().subtract(DATA_IMPORT_DAY, 'days');
+      const timeRangeStart =
+        currentTimeRangeEnd.year() === currentDate.year()
+          ? currentTimeRangeEnd
+              .clone()
+              .utc()
+              .subtract(1, 'year')
+              .startOf('year')
+          : currentTimeRangeEnd.clone().utc().startOf('year');
+      const timeRangeEnd = timeRangeStart.clone().utc().endOf('year');
+
+      return filterAdapter.upsertOne(
+        {
+          idValue: {
+            id: `${timeRangeStart.unix()}|${timeRangeEnd.unix()}`,
+            value: `${timeRangeEnd.utc().format('YYYY')}`,
+          },
+          name: FilterKey.TIME_RANGE,
+        },
+        entityState
+      );
+    }
+    case TimePeriod.MONTH: {
+      const timeRangeStart = currentTimeRangeEnd.clone().utc().startOf('month');
+      const timeRangeEnd = currentTimeRangeEnd.clone().utc().endOf('month');
+
+      return filterAdapter.upsertOne(
+        {
+          idValue: {
+            id: `${timeRangeStart.utc().unix()}|${timeRangeEnd.utc().unix()}`,
+            value: timeRangeStart.utc().format(DATE_FORMAT_BEAUTY),
+          },
+          name: FilterKey.TIME_RANGE,
+        },
+        entityState
+      );
+    }
+    case TimePeriod.LAST_12_MONTHS: {
+      const timeRangeStart = getMonth12MonthsAgo(currentTimeRangeEnd);
+      const timeRangeEnd = currentTimeRangeEnd.clone().utc().endOf('month');
+
+      return filterAdapter.upsertOne(
+        {
+          idValue: {
+            id: `${timeRangeStart.utc().unix()}|${timeRangeEnd.utc().unix()}`,
+            value: `${timeRangeStart.utc().format(DATE_FORMAT_BEAUTY)} -  ${timeRangeEnd.utc().format(DATE_FORMAT_BEAUTY)}`,
+          },
+          name: FilterKey.TIME_RANGE,
+        },
+        entityState
+      );
+    }
+    default: {
+      return entityState;
+    }
+  }
+};
 
 const { selectAll } = filterAdapter.getSelectors();
 

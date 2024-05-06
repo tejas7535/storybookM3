@@ -18,7 +18,6 @@ import {
   autocompleteDimensionData,
   benchmarDimensionSelected,
   benchmarkFilterSelected,
-  dimensionSelected,
   filterSelected,
   loadFilterBenchmarkDimensionData,
   loadFilterDimensionData,
@@ -27,7 +26,7 @@ import {
 } from '../../actions';
 import {
   getBenchmarkIdValue,
-  getCurrentDimensionValue,
+  getCurrentFilters,
   getSelectedBenchmarkValue,
   getSelectedDimensionIdValue,
   getSelectedTimeRange,
@@ -38,9 +37,14 @@ export class FilterEffects {
   // clear dimension's data when user changed the dimension during loading
   dimensionSelected$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(dimensionSelected),
-      concatLatestFrom(() => this.store.select(getCurrentDimensionValue)),
-      filter(([_action, dimensionFilter]) => !dimensionFilter),
+      ofType(loadFilterDimensionData),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      filter(
+        ([_action, dimensionFilter]) =>
+          !dimensionFilter.filterDimension ||
+          !dimensionFilter.timeRange ||
+          !dimensionFilter.value
+      ),
       mergeMap(() => [
         clearOverviewDimensionData(),
         clearLossOfSkillDimensionData(),
@@ -100,7 +104,7 @@ export class FilterEffects {
       ofType(loadFilterDimensionData),
       concatLatestFrom(() => this.store.select(getSelectedDimensionIdValue)),
       mergeMap(([action, selectedDimensionIdValue]) => {
-        return selectedDimensionIdValue
+        return selectedDimensionIdValue?.id
           ? of(
               filterSelected({
                 filter: {

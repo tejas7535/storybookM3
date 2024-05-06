@@ -5,20 +5,23 @@
       *transloco="let t; read: 'filters'"
       class="w-full"
       iaDateRangeFormat
+      [ngClass]="{
+        'date-input-ignore-error': dateInput?.errors?.matDatepickerMin
+      }"
     >
       <mat-label>{{ label }}</mat-label>
       <mat-date-range-input
-        [min]="minDate"
-        [max]="maxDate"
+        [min]="timeRangeConstraints?.min"
+        [max]="timeRangeConstraints?.max"
         [formGroup]="rangeInput"
         [rangePicker]="rangePicker"
-        disabled
       >
         <input
           matStartDate
           formControlName="start"
           [placeholder]="placeholderStart"
           readonly
+          required
         />
         <input
           #endDate
@@ -26,6 +29,7 @@
           formControlName="end"
           [placeholder]="placeholderEnd"
           readonly
+          required
         />
       </mat-date-range-input>
       <mat-datepicker-toggle
@@ -34,9 +38,15 @@
       ></mat-datepicker-toggle>
       <mat-date-range-picker
         #rangePicker
-        (yearSelected)="chosenYearHandler($event, rangePicker)"
+        startView="multi-year"
+        (monthSelected)="onLast12MonthsSelected($event, rangePicker)"
       ></mat-date-range-picker>
       <mat-hint align="start">{{ hint }}</mat-hint>
+      @if (dateInput?.errors?.required) {
+        <mat-error>
+          {{ t('periodOfTime.invalidInputRequired') }}
+        </mat-error>
+      }
     </mat-form-field>
   }
   @case (timePeriods.YEAR) {
@@ -50,8 +60,9 @@
         matInput
         [matDatepicker]="yearPicker"
         [formControl]="dateInput"
-        [min]="minDate"
-        [max]="maxDate"
+        [min]="timeRangeConstraints?.min"
+        [max]="timeRangeConstraints?.max"
+        required
         readonly
         iaDateYearFormat
       />
@@ -62,9 +73,12 @@
       <mat-datepicker
         #yearPicker
         startView="multi-year"
-        (yearSelected)="chosenYearHandler($event, yearPicker)"
+        (yearSelected)="onYearSelected($event, yearPicker)"
       ></mat-datepicker>
       <mat-hint align="start">{{ hint }}</mat-hint>
+      <mat-error>
+        {{ t('periodOfTime.invalidInputRequired') }}
+      </mat-error>
     </mat-form-field>
   }
   @case (timePeriods.MONTH) {
@@ -76,12 +90,13 @@
       <mat-label>{{ label }}</mat-label>
       <input
         matInput
-        [matDatepicker]="monthPicker"
-        [formControl]="dateInput"
-        [min]="minDate"
-        [max]="maxDate"
+        required
         readonly
         iaDateRangeFormat
+        [matDatepicker]="monthPicker"
+        [formControl]="dateInput"
+        [min]="timeRangeConstraints?.min"
+        [max]="timeRangeConstraints?.max"
       />
       <mat-datepicker-toggle
         matIconSuffix
@@ -90,9 +105,12 @@
       <mat-datepicker
         #monthPicker
         startView="multi-year"
-        (monthSelected)="chosenMonthHandler($event, monthPicker)"
+        (monthSelected)="onMonthSelected($event, monthPicker)"
       ></mat-datepicker>
       <mat-hint align="start">{{ hint }}</mat-hint>
+      <mat-error>
+        {{ t('periodOfTime.invalidInputRequired') }}
+      </mat-error>
     </mat-form-field>
   }
 }

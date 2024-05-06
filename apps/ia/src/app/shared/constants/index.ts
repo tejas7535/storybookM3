@@ -3,6 +3,7 @@ import { FilterDimension } from '../models';
 export const LOCAL_STORAGE_APP_KEY = 'ia';
 export const COMPANY_NAME = 'Schaeffler';
 export const DATA_IMPORT_DAY = 9; // day of each month of data import from data provider
+export const DATE_FORMAT_BEAUTY = 'MMM YYYY';
 export const CONTENT_TYPE_APPLICATION_JSON = {
   'Content-Type': 'application/json',
 };
@@ -29,6 +30,15 @@ export const DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS = [
   FilterDimension.HR_LOCATION,
   FilterDimension.PERSONAL_AREA,
   FilterDimension.FUNCTION,
+];
+
+export const DIMENSIONS_WITH_2021_DATA = [
+  FilterDimension.ORG_UNIT,
+  FilterDimension.REGION,
+  FilterDimension.SUB_REGION,
+  FilterDimension.COUNTRY,
+  FilterDimension.HR_LOCATION,
+  FilterDimension.PERSONAL_AREA,
 ];
 
 /** for autocomplete */

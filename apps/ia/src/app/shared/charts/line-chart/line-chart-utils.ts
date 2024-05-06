@@ -31,7 +31,7 @@ export function createFluctuationRateChartConfig(
   return {
     series: [],
     xAxis: {
-      data: getXAxisData(timeRange),
+      data: timeRange ? getXAxisData(timeRange) : [],
     },
     yAxis: {
       axisLabel: {

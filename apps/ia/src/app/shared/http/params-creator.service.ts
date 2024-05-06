@@ -25,7 +25,9 @@ export class ParamsCreatorService {
   }
 
   createHttpParamsForTimeRange(timeRange: string) {
-    return new HttpParams().set(this.PARAM_TIME_RANGE, timeRange);
+    return timeRange
+      ? new HttpParams().set(this.PARAM_TIME_RANGE, timeRange)
+      : undefined;
   }
 
   createHttpParamsForFilterDimension(

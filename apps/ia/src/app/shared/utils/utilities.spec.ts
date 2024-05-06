@@ -40,7 +40,8 @@ describe('utilities', () => {
 
       const expected = moment({ year: 2019, month: 2, date: 1 });
 
-      expect(getMonth12MonthsAgo(date).isSame(expected)).toBeTruthy();
+      const newLocal = getMonth12MonthsAgo(date);
+      expect(newLocal.isSame(expected)).toBeTruthy();
     });
   });
 

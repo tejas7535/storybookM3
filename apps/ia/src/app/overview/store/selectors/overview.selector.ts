@@ -252,7 +252,7 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
 export const getDefaultFluctuationChartConfig = createSelector(
   getSelectedTimeRange,
   (timeRange: IdValue) =>
-    createFluctuationRateChartConfig('%', 0.1, timeRange.id)
+    createFluctuationRateChartConfig('%', 0.1, timeRange?.id)
 );
 
 export const getDimensionFluctuationRatesChart = createSelector(

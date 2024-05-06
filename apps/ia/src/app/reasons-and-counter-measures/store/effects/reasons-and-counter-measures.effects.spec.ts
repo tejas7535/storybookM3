@@ -9,7 +9,7 @@ import { marbles } from 'rxjs-marbles/marbles';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
-import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { filterSelected } from '../../../core/store/actions';
 import {
   getCurrentFilters,
   getSelectedTimeRange,
@@ -143,22 +143,6 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         m.expect(effects.loadReasonsAndCounterMeasuresData$).toBeObservable(
           expected
         );
-      })
-    );
-
-    test(
-      'timeRangeSelected - should do nothing when organization is not set',
-      marbles((m) => {
-        action = triggerLoad();
-        store.overrideSelector(
-          getCurrentFilters,
-          {} as EmployeesRequest as any
-        );
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
-
-        m.expect(effects.filterChange$).toBeObservable(expected);
       })
     );
   });

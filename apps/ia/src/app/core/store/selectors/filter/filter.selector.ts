@@ -36,6 +36,18 @@ export const getBenchmarkDimension = createSelector(
   (state: FilterState) => state.benchmarkDimension
 );
 
+export const getMomentTimeRangeConstraints = createSelector(
+  selectFilterState,
+  (state: FilterState) => ({
+    min: state.timeRangeConstraints?.min
+      ? moment.unix(state.timeRangeConstraints.min).utc()
+      : undefined,
+    max: state.timeRangeConstraints?.max
+      ? moment.unix(state.timeRangeConstraints.max).utc()
+      : undefined,
+  })
+);
+
 export const getSelectedDimensionFilter = createSelector(
   selectFilterState,
   getSelectedDimension,
@@ -152,6 +164,20 @@ export const getCurrentFilters = createSelector(
   }
 );
 
+export const getAreAllFiltersSelected = createSelector(
+  getCurrentFilters,
+  (currentFilters: {
+    filterDimension: FilterDimension;
+    value: string;
+    timeRange: string;
+  }): boolean =>
+    !!(
+      currentFilters.filterDimension &&
+      currentFilters.value &&
+      currentFilters.timeRange
+    )
+);
+
 export const getCurrentBenchmarkFilters = createSelector(
   getAllBenchmarkFilters,
   getBenchmarkDimension,
@@ -224,6 +250,24 @@ export const getSelectedTimeRange = createSelector(
     filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
 );
 
+export const getSelectedMomentTimeRange = createSelector(
+  getSelectedTimeRange,
+  (timeRange: IdValue) => {
+    if (timeRange.id === undefined) {
+      return {
+        from: undefined,
+        to: undefined,
+      };
+    }
+    const timeRangeSplit = timeRange.id.split('|');
+
+    return {
+      from: moment.unix(+timeRangeSplit[0]).utc(),
+      to: moment.unix(+timeRangeSplit[1]).utc(),
+    };
+  }
+);
+
 export const getTimeRangeForAllAvailableData = createSelector(
   getSelectedDimension,
   (dimension: FilterDimension) => {
@@ -266,7 +310,7 @@ export const getBeautifiedFilterValues = createSelector(
       .unix(
         +filters
           .find((filter) => filter.name === FilterKey.TIME_RANGE)
-          ?.idValue.id.split('|')[1]
+          ?.idValue.id?.split('|')[1]
       )
       .utc();
     switch (timePeriod) {

@@ -3,8 +3,8 @@ import { createSelector } from '@ngrx/store';
 import { LineSeriesOption } from 'echarts';
 
 import {
+  getAreAllFiltersSelected,
   getSelectedDimension,
-  getSelectedDimensionIdValue,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import {
@@ -47,19 +47,19 @@ export const getIsLoadingOrgChartData = createSelector(
 export const getOrgChart = createSelector(
   getIsLoadingOrgChartData,
   getOrgChartData,
+  getAreAllFiltersSelected,
   getSelectedDimension,
-  getSelectedDimensionIdValue,
   (
     isLoading: boolean,
     state: DimensionFluctuationData[],
-    dimension: FilterDimension,
-    selectedDimensionIdValue: IdValue
+    areFiltersSelected: boolean,
+    selectedDimension: FilterDimension
   ) => {
-    const hideOrgChart = selectedDimensionIdValue === undefined;
+    const hideOrgChart = !areFiltersSelected || isLoading;
 
     return {
-      data: hideOrgChart || isLoading ? [] : state,
-      dimension,
+      data: hideOrgChart ? [] : state,
+      dimension: selectedDimension,
     };
   }
 );
@@ -165,7 +165,17 @@ export const getIsLoadingWorldMap = createSelector(
 
 export const getWorldMap = createSelector(
   selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.worldMap.data
+  getAreAllFiltersSelected,
+  getIsLoadingOrgChartData,
+  (
+    state: OrganizationalViewState,
+    areAllFiltersSelected: boolean,
+    isLoading: boolean
+  ) => {
+    const hideOrgChart = !areAllFiltersSelected || isLoading;
+
+    return hideOrgChart ? [] : state.worldMap.data;
+  }
 );
 
 export const getParentAttritionOverTimeOrgChartData = createSelector(
