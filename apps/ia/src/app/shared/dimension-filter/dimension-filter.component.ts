@@ -31,6 +31,7 @@ export class DimensionFilterComponent {
   dimensionName: string;
   options: IdValue[];
   asyncMode = false;
+  showCode = false;
   minCharLength = 0;
 
   @ViewChild(AutocompleteInputComponent)
@@ -59,6 +60,8 @@ export class DimensionFilterComponent {
   @Input() set activeDimension(activeDimension: FilterDimension) {
     this._activeDimension = activeDimension;
     this.dimensionName = this.getDimensionName();
+
+    this.showCode = activeDimension !== FilterDimension.ORG_UNIT;
 
     if (this.autocompleteInputComponent) {
       this.autocompleteInputComponent.latestSelection = undefined;
@@ -113,9 +116,14 @@ export class DimensionFilterComponent {
     } else {
       this.dimensionFilter.options =
         searchFor.length > 0
-          ? this.options?.filter((option) =>
-              option.value?.toUpperCase().includes(searchFor.toUpperCase())
-            )
+          ? this.options?.filter((option) => {
+              const searchForUpperCase = searchFor.toUpperCase();
+
+              return (
+                option.value?.toUpperCase().includes(searchForUpperCase) ||
+                option.id?.toUpperCase().includes(searchForUpperCase)
+              );
+            })
           : this.options;
     }
   }

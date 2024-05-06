@@ -32,6 +32,7 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
 export class AutocompleteInputComponent implements OnInit, OnDestroy {
   latestSelection: IdValue;
   errorStateMatcher: InputErrorStateMatcher;
+  displayFn = this.defaultDisplayFn;
 
   private _type: InputType;
 
@@ -77,6 +78,10 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
   @Input() appearance: MatFormFieldAppearance = 'fill';
 
   @Input() minCharLength = 0;
+
+  @Input() set showCode(showCode: boolean) {
+    this.displayFn = showCode ? this.displayWithCodeFn : this.defaultDisplayFn;
+  }
 
   @Output()
   selected: EventEmitter<SelectedFilter> = new EventEmitter();
@@ -158,7 +163,11 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  displayFn(idValue: IdValue): string {
+  displayWithCodeFn(idValue: IdValue): string {
+    return idValue ? `${idValue.value} (${idValue.id})` : undefined;
+  }
+
+  defaultDisplayFn(idValue: IdValue): string {
     return idValue?.value;
   }
 }

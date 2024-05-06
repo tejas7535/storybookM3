@@ -92,6 +92,24 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
+  describe('set showCode', () => {
+    test('should set display function', () => {
+      component.displayFn = component.defaultDisplayFn;
+
+      component.showCode = true;
+
+      expect(component.displayFn).toEqual(component.displayWithCodeFn);
+    });
+
+    test('should set default display function', () => {
+      component.displayFn = component.defaultDisplayFn;
+
+      component.showCode = false;
+
+      expect(component.displayFn).toEqual(component.defaultDisplayFn);
+    });
+  });
+
   describe('ngOnInit', () => {
     test('should listen to typing input changes', (done) => {
       component['autoComplete'].emit = jest.fn();
@@ -198,15 +216,27 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
-  describe('displayFn', () => {
+  describe('defaultDisplayFn', () => {
     test('should return value', () => {
       const idVal = {
         id: '123',
         value: '123',
       };
-      const result = component.displayFn(idVal);
+      const result = component.defaultDisplayFn(idVal);
 
       expect(result).toEqual(idVal.value);
+    });
+  });
+
+  describe('displayWithCodeFn', () => {
+    test('should return value with code', () => {
+      const idVal = {
+        id: '123',
+        value: '123',
+      };
+      const result = component.displayWithCodeFn(idVal);
+
+      expect(result).toEqual(`${idVal.value} (${idVal.id})`);
     });
   });
 });
