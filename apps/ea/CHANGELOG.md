@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.9.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.9.0...ea-v1.9.1) (2024-05-06)
+
+
+### Bug Fixes
+
+* **ea:** use transloco service api in pipe ([#6198](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6198)) ([65459bf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/65459bf330b350f14a73122aa602dbed3dee9911))
+
 ## [1.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.8.1...ea-v1.9.0) (2024-04-29)
 
 
