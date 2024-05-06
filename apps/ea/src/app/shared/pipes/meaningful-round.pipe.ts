@@ -1,6 +1,6 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
-import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { roundToThreeSigFigs } from '../helper/number-helper';
 
@@ -15,7 +15,9 @@ const extractPrefix = (input: string): string | undefined => {
 @Pipe({ name: 'meaningfulRound', standalone: true })
 @Injectable({ providedIn: 'root' })
 export class MeaningfulRoundPipe implements PipeTransform {
-  constructor(private readonly translocoDecimalPipe: TranslocoDecimalPipe) {}
+  constructor(
+    private readonly translocoLocaleService: TranslocoLocaleService
+  ) {}
 
   transform(value: number | string | null | undefined): string | null {
     if (value === undefined || value === null) {
@@ -37,7 +39,10 @@ export class MeaningfulRoundPipe implements PipeTransform {
       return value as string;
     }
 
-    const transformed = this.translocoDecimalPipe.transform(roundedNumber);
+    const transformed = this.translocoLocaleService.localizeNumber(
+      roundedNumber,
+      'decimal'
+    );
 
     return `${prefix}${transformed}`;
   }
