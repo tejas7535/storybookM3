@@ -1,4 +1,20 @@
 # Release Notes of Grease App
+## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.10.5...ga-v1.11.0) (2024-05-07)
+
+
+### Features
+
+* **ea:** move GA to easycalc - UFTABI-7488 ([#6139](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6139)) ([658ca29](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/658ca29bba91f7c3301d0a8946d55491a24601bf))
+* **ga:** add additional languages in grease app (UFTABI-7489) ([#6158](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6158)) ([b601924](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b601924c9b6298dff81c2bd1049a782c29d8f36d))
+* **ga:** add standalone Google Analytics + Tag Manager - UFTABI-7488 ([#6135](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6135)) ([0508d38](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0508d38e0a9297bbbe42e99ddfa694bc0ec077da))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+
+
+### Bug Fixes
+
+* **ga:** fix stepper bug in medias - UFTABI-7605 ([#6143](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6143)) ([9ebe276](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ebe276ff46edf3e1dd61961f7aed7f800aebc75))
+* **ga:** make PDF button visible again on embedded ([#6145](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6145)) ([7da1a5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7da1a5ba9162c69642c74d9ca28705e1a4eec58a))
+
 ## [1.10.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.10.4...ga-v1.10.5) (2024-04-04)
 
 ## [1.10.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.10.3...ga-v1.10.4) (2024-04-03)
