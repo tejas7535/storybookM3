@@ -1,3 +1,7 @@
-<a (click)="clickMaterial($event)" class="text-link hover:underline">{{
-  value
-}}</a>
+@if (comparisonScreenEnabled) {
+  <a (click)="clickMaterial($event)" class="text-link hover:underline">{{
+    value
+  }}</a>
+} @else {
+  <a class="text-link">{{ value }}</a>
+}

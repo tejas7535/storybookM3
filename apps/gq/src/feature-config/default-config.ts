@@ -1,5 +1,6 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
-  fPricing: false,
+  fPricing: true,
+  fPricingComparisonScreen: false,
   editTechnicalValueDriver: false,
   extendedSearchbar: false,
 };
@@ -7,6 +8,7 @@ export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GqFeatureToggleConfig {
   fPricing: boolean;
+  fPricingComparisonScreen: boolean;
   editTechnicalValueDriver: boolean;
   extendedSearchbar: boolean;
 }

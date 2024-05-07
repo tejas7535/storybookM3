@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -30,11 +32,13 @@ describe('ReferenceMaterialGroupCellComponent', () => {
           },
         },
       } as unknown as ICellRendererParams;
+      component['featureToggleService'].isEnabled = jest.fn(() => of(true));
 
       component.agInit(params);
 
       expect(component.value).toEqual(params.value);
       expect(component.params).toEqual(params);
+      expect(component.comparisonScreenEnabled).toBeTruthy();
     });
   });
 
