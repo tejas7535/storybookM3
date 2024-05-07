@@ -4,7 +4,7 @@ export const environment: Environment = {
   production: true,
   localDev: false,
   devToolsEnabled: false,
-  baseUrl: 'https://bearinx.schaeffler.com/grease_api/v1.3/greaseservice',
+  baseUrl: 'https://materials-app-center.dp.schaeffler',
   internalUserCheckURL:
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
 
