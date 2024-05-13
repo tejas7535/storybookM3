@@ -1,4 +1,5 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,10 +11,23 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MsalRedirectComponent } from '@azure/msal-angular';
+import { environment } from '@hc/environments/environment';
 import { TranslocoService } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import {
+  AzureConfig,
+  MsalGuardConfig,
+  MsalInstanceConfig,
+  MsalInterceptorConfig,
+  ProtectedResource,
+  SharedAzureAuthModule,
+} from '@schaeffler/azure-auth';
+import { BannerModule } from '@schaeffler/banner';
 import {
   DATA_SOURCE,
   PERSON_RESPONSIBLE,
@@ -28,6 +42,7 @@ import { HardnessConverterComponent } from './components/hardness-converter/hard
 import { LearnMoreComponent } from './components/learn-more/learn-more.component';
 import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
 import { CoreModule } from './core/core.module';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');
@@ -36,6 +51,18 @@ export function DynamicPurpose(translocoService: TranslocoService) {
 export function DynamicDataSource(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.dataSource');
 }
+
+const azureConfig = new AzureConfig(
+  new MsalInstanceConfig(
+    environment.authentication.clientId,
+    environment.authentication.tenantId,
+    !environment.production
+  ),
+  new MsalInterceptorConfig([
+    new ProtectedResource('/nowhere', [environment.authentication.appScope]),
+  ]),
+  new MsalGuardConfig('/kaputt', [environment.authentication.appScope])
+);
 
 @NgModule({
   declarations: [AppComponent, HardnessConverterComponent],
@@ -48,6 +75,10 @@ export function DynamicDataSource(translocoService: TranslocoService) {
     CoreModule,
     AppRoutingModule,
 
+    // MSAL config
+    SharedAzureAuthModule.forRoot(azureConfig),
+    StoreModule.forRoot(),
+    EffectsModule.forRoot(),
     GeometricalInformationComponent,
     CopyInputComponent,
 
@@ -63,6 +94,7 @@ export function DynamicDataSource(translocoService: TranslocoService) {
     ReactiveFormsModule,
     PushPipe,
     LearnMoreComponent,
+    BannerModule,
 
     // UI Modules
     AppShellModule,
@@ -82,8 +114,13 @@ export function DynamicDataSource(translocoService: TranslocoService) {
       useFactory: DynamicDataSource,
       deps: [TranslocoService],
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     DecimalPipe,
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

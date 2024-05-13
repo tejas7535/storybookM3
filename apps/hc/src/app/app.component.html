@@ -9,7 +9,42 @@
     [scrollToTop]="true"
   >
     <ng-container sidenavBody>
-      <div class="px-5">
+      <div class="px-5" *transloco="let t; read: 'sidebar'">
+        <div
+          class="flex mt-6"
+          [ngClass]="{
+            'items-center flex-row': authService.isLoggedin() | ngrxPush,
+            'items-start flex-col': !(authService.isLoggedin() | ngrxPush)
+          }"
+        >
+          @if (authService.isLoggedin() | ngrxPush) {
+            @if (authService.getProfilePictureUrl() | ngrxPush) {
+              <img
+                [src]="authService.getProfilePictureUrl() | ngrxPush"
+                width="64"
+                class="flex-shrink-0 mr-4"
+              />
+            } @else {
+              <mat-icon
+                class="!w-16 !h-16 !text-[64px] text-medium-emphasis flex-shrink-0"
+                >account_circle</mat-icon
+              >
+            }
+            <div class="truncate text-h6 w-full">
+              {{ authService.getUsername() | ngrxPush }}
+            </div>
+          } @else {
+            <p>{{ t('loginText') }}</p>
+            <button
+              (click)="authService.login()"
+              class="mr-0 mt-2"
+              mat-raised-button
+              color="primary"
+            >
+              {{ t('login') }}
+            </button>
+          }
+        </div>
         <div class="py-4">
           <hc-settings-panel></hc-settings-panel>
         </div>

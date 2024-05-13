@@ -19,4 +19,9 @@ export const environment: Environment = {
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
   },
+  authentication: {
+    tenantId: '67416604-6509-4014-9859-45e709f53d3f',
+    clientId: '3e187b5d-2c84-4287-8d6c-d6167c2a07d4',
+    appScope: 'api://e3624a8e-5b1a-4135-83f3-e7c1fa1993ab/macapi',
+  },
 };

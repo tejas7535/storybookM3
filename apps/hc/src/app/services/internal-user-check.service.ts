@@ -16,8 +16,8 @@ export class InternalUserCheckService {
 
   public isInternalUser() {
     return this.httpClient.get<any>(this.STORAGE_ENDPOINT).pipe(
-      catchError(() => of(false)),
-      map(() => true)
+      map(Boolean),
+      catchError(() => of(false))
     );
   }
 }

@@ -60,6 +60,9 @@
         </div>
       </div>
     </div>
-    <hc-links-panel [linkGroups]="linkGroups" class="w-auto"></hc-links-panel>
+    <hc-links-panel
+      [linkGroups]="linkGroups$ | ngrxPush"
+      class="w-auto"
+    ></hc-links-panel>
   </div>
 </div>

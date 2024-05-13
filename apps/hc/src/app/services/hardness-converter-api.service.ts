@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@hc/environments/environment';
+import { LinkGroups } from '@hc/models/resource-links.model';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -76,5 +78,11 @@ export class HardnessConverterApiService {
           return response;
         })
       );
+  }
+
+  public getResourceLinks(): Observable<LinkGroups> {
+    return this.httpClient
+      .get(`${this.BASE_URL}/links`)
+      .pipe(map((groups) => groups as LinkGroups));
   }
 }

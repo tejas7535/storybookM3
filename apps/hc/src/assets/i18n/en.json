@@ -135,7 +135,9 @@
     "termsOfUse": "Terms of Use"
   },
   "sidebar": {
-    "languageSettings": "Language settings"
+    "languageSettings": "Language settings",
+    "login": "Login",
+    "loginText": "Sign in using your Schaeffler account"
   },
   "learnmore": {
     "overview": "Overview",
@@ -184,34 +186,6 @@
       "<p>You have measured a hardness of 400 HV30 on a case-hardened steel wire with a diameter of 15&nbsp;mm and with a case hardening depth (CHD) of 0.5&nbsp;mm and you want to know the indentation properties and correction values on the round surface. You just have to enter 400&nbsp;HV, expand the geometry tab and enter the indentation force of 30&nbsp;kp (for HV30), the part diameter of 15&nbsp;mm and the desired CHD of 0.5&nbsp;mm.</p>",
       "%ASSETS/images/gui_04.png",
       "<p>From the given values, the inter-indentation spacing, the edge indentation spacing can directly be seen. So you can check if e. g. multiple indentations keep a distance greater 0.93&nbsp;mm, the indentations represent a valid measurement. Steel wire is considered to be a convex cylinder. If the indentation diagonals are oriented about 45&deg; to the axis of the wire, the actual hardness of the part is 394&nbsp;HV30. From the given CHD of 0.5&nbsp;mm, the maximum test force is calculated. As the maximum allowed test force for such a small CHD is &asymp; 24&nbsp;kp, but the actual test force used is 30&nbsp;kp, the warning &quot;Applied test force is higher than maximum allowed test force.&quot; is given. This means, that the hardness values might be incorrect. The hardness measurement should be repeated with a lower test force of e. g. 10&nbsp;kp, i. e. with HV10.</p>"
-    ],
-    "linkgroup1": "Further Information",
-    "linkgroup1_1_name": "ISO 18265",
-    "linkgroup1_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO18265&doktl=EN",
-    "linkgroup1_2_name": "S285018",
-    "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S285018&doktl=EN",
-    "linkgroup1_3_name": "S266010",
-    "linkgroup1_3_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266010&doktl=EN",
-    "linkgroup1_4_name": "DIN EN ISO 6506-1",
-    "linkgroup1_4_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6506-1&doktl=EN",
-    "linkgroup1_5_name": "DIN EN ISO 6507-1",
-    "linkgroup1_5_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6507-1&doktl=EN",
-    "linkgroup1_6_name": "DIN EN ISO 6508-1",
-    "linkgroup1_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=EN",
-    "linkgroup1_7_name": "ASTM E140",
-    "linkgroup1_7_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=ASTME140&doktl=EN",
-    "linkgroup2": "German Links",
-    "linkgroup2_1_name": "S 266010",
-    "linkgroup2_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266010&doktl=DE",
-    "linkgroup2_2_name": "DIN EN ISO 18265",
-    "linkgroup2_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO18265&doktl=DE",
-    "linkgroup2_3_name": "DIN EN ISO 6507",
-    "linkgroup2_3_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6507-1&doktl=DE",
-    "linkgroup2_4_name": "S 285018",
-    "linkgroup2_4_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S285018&doktl=DE",
-    "linkgroup2_5_name": "DIN EN ISO 6506",
-    "linkgroup2_5_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6506-1&doktl=DE",
-    "linkgroup2_6_name": "DIN EN ISO 6508",
-    "linkgroup2_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=DE"
+    ]
   }
 }

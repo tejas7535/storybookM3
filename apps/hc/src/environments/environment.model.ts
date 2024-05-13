@@ -16,4 +16,9 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
+  authentication: {
+    tenantId: string;
+    clientId: string;
+    appScope: string;
+  };
 }

@@ -15,8 +15,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { AuthService } from '@hc/services/auth.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -58,6 +60,13 @@ describe('HardnessConverterComponent', () => {
     ],
     declarations: [HardnessConverterComponent],
     providers: [
+      provideMockStore({}),
+      {
+        provide: AuthService,
+        useValue: {
+          isLoggedin: jest.fn(() => of(true)),
+        },
+      },
       {
         provide: HardnessConverterApiService,
         useValue: {

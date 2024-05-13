@@ -12,11 +12,21 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import * as en from '../../../assets/i18n/en.json';
 import { LinksPanelComponent } from '../links-panel/links-panel.component';
 import { LearnMoreComponent } from './learn-more.component';
+import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
+import { of } from 'rxjs';
+import { LinkGroups } from '@hc/models/resource-links.model';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: jest.fn((string) => string),
 }));
+
+const MOCK_LINKS: LinkGroups = [
+  {
+    title: 'External URLs',
+    links: [{ text: 'Google', uri: 'https://google.com' }],
+  },
+];
 
 describe('LearnMoreComponent', () => {
   let component: LearnMoreComponent;
@@ -32,6 +42,14 @@ describe('LearnMoreComponent', () => {
       MatIconTestingModule,
       provideTranslocoTestingModule({ en }),
       LinksPanelComponent,
+    ],
+    providers: [
+      {
+        provide: HardnessConverterApiService,
+        useValue: {
+          getResourceLinks: jest.fn(() => of(MOCK_LINKS)),
+        },
+      },
     ],
   });
 
@@ -85,6 +103,6 @@ describe('LearnMoreComponent', () => {
     const linksPanel = spectator.query(LinksPanelComponent);
 
     expect(linksPanel).toBeTruthy();
-    expect(linksPanel.linkGroups).toEqual(component.linkGroups);
+    expect(linksPanel.linkGroups).toEqual(component.linkGroups$);
   });
 });

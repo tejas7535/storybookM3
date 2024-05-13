@@ -1,13 +1,13 @@
-<div *transloco="let t; read: 'learnmore'" class="w-auto">
+<div class="w-auto">
   @for (group of linkGroups; track group) {
     <div class="text-caption font-medium text-medium-emphasis">
-      {{ t(group.title) }}
+      {{ group.title }}
     </div>
     <ul class="pb-8">
       @for (link of group.links; track link) {
         <li class="mt-3">
-          <a class="text-caption text-link hover:underline" [href]="t(link.uri)"
-            >{{ t(link.name) }}
+          <a class="text-caption text-link hover:underline" [href]="link.uri"
+            >{{ link.text }}
           </a>
         </li>
       }

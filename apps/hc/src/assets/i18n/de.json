@@ -9,6 +9,8 @@
     "termsOfUse": "Nutzungsbedingungen"
   },
   "sidebar": {
-    "languageSettings": "Spracheinstellungen"
+    "languageSettings": "Spracheinstellungen",
+    "login": "Anmelden",
+    "loginText": "Mit Schaeffler Konto anmelden"
   }
 }

@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { combineLatest, filter, map, Observable } from 'rxjs';
+import { combineLatest, filter, map, Observable, of, switchMap } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -10,6 +10,8 @@ import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
+import { AuthService } from './services/auth.service';
+import { InternalUserCheckService } from './services/internal-user-check.service';
 
 @Component({
   selector: 'hc-root',
@@ -25,6 +27,11 @@ export class AppComponent implements OnInit {
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
   private readonly router: Router = inject(Router);
+
+  constructor(
+    public readonly authService: AuthService,
+    private readonly internalDetection: InternalUserCheckService
+  ) {}
 
   ngOnInit(): void {
     this.footerLinks$ = combineLatest([
@@ -57,6 +64,20 @@ export class AppComponent implements OnInit {
         }))
       ),
     ]);
+
+    this.internalDetection
+      .isInternalUser()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap((internal) =>
+          internal
+            ? this.authService.isLoggedin().pipe(map((val) => !val))
+            : of(false)
+        )
+      )
+      .subscribe((shouldLogin) =>
+        shouldLogin ? this.authService.login() : undefined
+      );
 
     this.router.events
       .pipe(

@@ -18,11 +18,13 @@ import {
   debounceTime,
   filter,
   map,
+  switchMap,
   take,
   takeUntil,
   tap,
 } from 'rxjs/operators';
 
+import { AuthService } from '@hc/services/auth.service';
 import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -75,11 +77,14 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
   public resultLoading$ = new BehaviorSubject<boolean>(false);
 
+  public isLoggedIn$$ = new BehaviorSubject(false);
+  public showSigninBanner$$ = new BehaviorSubject(false);
   private readonly destroy$ = new Subject<void>();
 
   public constructor(
     private readonly hardnessService: HardnessConverterApiService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly authService: AuthService
   ) {}
 
   public get step(): string {
@@ -178,9 +183,9 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   }
 
   private fetchInfo(): void {
-    this.hardnessService
-      .getInfo()
-      .pipe(take(1))
+    this.authService
+      .isLoggedin()
+      .pipe(switchMap(() => this.hardnessService.getInfo().pipe(take(1))))
       .subscribe((info) => {
         this.tables$.next(info.conversionTables);
         this.units$.next(info.units);

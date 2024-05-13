@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { LinkGroups } from '@hc/models/resource-links.model';
 
-import { LinkGroup } from '../learn-more/models';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'hc-links-panel',
@@ -11,5 +11,5 @@ import { LinkGroup } from '../learn-more/models';
   imports: [SharedTranslocoModule],
 })
 export class LinksPanelComponent {
-  @Input() public linkGroups: LinkGroup[] = [];
+  @Input() public linkGroups: LinkGroups = [];
 }
