@@ -234,12 +234,6 @@
     "errors": "Errores",
     "warnings": "Advertencias",
     "notes": "Notas",
-    "calculationNotAvailable": {
-      "line1": "Para el rodamiento seleccionado no es posible realizar este cálculo.",
-      "line2": "Para obtener más información, por favor, contacte con nuestro",
-      "linkText": "servicio de atención al cliente",
-      "link": "https://medias.schaeffler.de/en/stc"
-    },
     "co2Emissions": {
       "title": "Estimación de emisiones de CO₂e por pieza",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "Pérdida total de potencia por fricción",
       "speedDependentFrictionalTorque": "Torque por fricción dependiente de la velocidad",
       "loadDependentFrictionalTorque": "Torque por fricción dependiente de la carga",
-      "thermallySafeOperatingSpeed": "Velocidad de operación térmicamente segura"
+      "thermallySafeOperatingSpeed": "Velocidad de operación térmicamente segura",
+      "calculationNotAvailable": {
+        "line1": "Para el rodamiento seleccionado no es posible realizar este cálculo.",
+        "line2": "Para obtener más información, por favor, contacte con nuestro",
+        "linkText": "servicio de atención al cliente",
+        "link": "https://medias.schaeffler.de/en/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "Descripción general de la metodología de cálculo del proceso completo de producción",

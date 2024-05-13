@@ -234,12 +234,6 @@
     "errors": "Fehler",
     "warnings": "Warnungen",
     "notes": "Hinweise",
-    "calculationNotAvailable": {
-      "line1": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
-      "line2": "Für weitere Informationen kontaktieren Sie bitte unseren",
-      "linkText": "Kundensupport",
-      "link": "https://medias.schaeffler.de/de/stc"
-    },
     "co2Emissions": {
       "title": "Schätzung der CO₂e-Emissionen pro Stück",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "Gesamte Reibleistung",
       "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibmoment",
       "loadDependentFrictionalTorque": "Lastabhängiges Reibmoment",
-      "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl"
+      "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl",
+      "calculationNotAvailable": {
+        "line1": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
+        "line2": "Für weitere Informationen kontaktieren Sie bitte unseren",
+        "linkText": "Kundensupport",
+        "link": "https://medias.schaeffler.de/de/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "Allgemeine Beschreibung der Berechnungsmethode für Cradle-to-Gate",

@@ -234,12 +234,6 @@
     "errors": "错误",
     "warnings": "警告",
     "notes": "说明",
-    "calculationNotAvailable": {
-      "line1": "对于所选轴承，当前无法进行此计算。",
-      "line2": "如需了解更多信息，请联系我们的",
-      "linkText": "客户服务团队",
-      "link": "https://medias.schaeffler.cn/stc"
-    },
     "co2Emissions": {
       "title": "每件产品二氧化碳排放的估算",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "总摩擦功率损失",
       "speedDependentFrictionalTorque": "速度相关摩擦力矩",
       "loadDependentFrictionalTorque": "负荷相关摩擦力矩",
-      "thermallySafeOperatingSpeed": "热安全工作速度"
+      "thermallySafeOperatingSpeed": "热安全工作速度",
+      "calculationNotAvailable": {
+        "line1": "对于所选轴承，当前无法进行此计算。",
+        "line2": "如需了解更多信息，请联系我们的",
+        "linkText": "客户服务团队",
+        "link": "https://medias.schaeffler.cn/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "“摇篮到工厂”PCF 计算方法概述",

@@ -234,12 +234,6 @@
     "errors": "錯誤",
     "warnings": "警告",
     "notes": "說明",
-    "calculationNotAvailable": {
-      "line1": "對於所選軸承，當前無法進行此計算。",
-      "line2": "如需獲取更多信息，請聯繫我們的",
-      "linkText": "客戶服務團隊",
-      "link": "https://medias.schaeffler.cn/zh/stc"
-    },
     "co2Emissions": {
       "title": "每件產品二氧化碳排放的估算",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "總摩擦功率損失",
       "speedDependentFrictionalTorque": "速度相關摩擦力矩",
       "loadDependentFrictionalTorque": "負載相關摩擦力矩",
-      "thermallySafeOperatingSpeed": "熱安全工作速度"
+      "thermallySafeOperatingSpeed": "熱安全工作速度",
+      "calculationNotAvailable": {
+        "line1": "對於所選軸承，當前無法進行此計算。",
+        "line2": "如需獲取更多信息，請聯繫我們的",
+        "linkText": "客戶服務團隊",
+        "link": "https://medias.schaeffler.cn/zh/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "搖籃到大門的計算方法概述",

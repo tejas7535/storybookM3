@@ -234,12 +234,6 @@
     "errors": "Errors",
     "warnings": "Warnings",
     "notes": "Notes",
-    "calculationNotAvailable": {
-      "line1": "For the selected bearing this calculation is not possible.",
-      "line2": "For further information please contact our",
-      "linkText": "customer support",
-      "link": "https://medias.schaeffler.de/en/stc"
-    },
     "co2Emissions": {
       "title": "Estimation of CO₂e emissions per piece",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "Total frictional power loss",
       "speedDependentFrictionalTorque": "Speed-dependent frictional torque",
       "loadDependentFrictionalTorque": "Load-dependent frictional torque",
-      "thermallySafeOperatingSpeed": "Thermally safe operating speed"
+      "thermallySafeOperatingSpeed": "Thermally safe operating speed",
+      "calculationNotAvailable": {
+        "line1": "For the selected bearing this calculation is not possible.",
+        "line2": "For further information please contact our",
+        "linkText": "customer support",
+        "link": "https://medias.schaeffler.de/en/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "Disclaimer for PCF calculation",

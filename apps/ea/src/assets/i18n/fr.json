@@ -234,12 +234,6 @@
     "errors": "Erreurs",
     "warnings": "Avertissements",
     "notes": "Notes",
-    "calculationNotAvailable": {
-      "line1": "Pour le roulement sélectionné, ce calcul n'est pas possible.",
-      "line2": "Pour plus d'informations, veuillez contacter notre",
-      "linkText": "service client",
-      "link": "https://medias.schaeffler.de/fr/stc"
-    },
     "co2Emissions": {
       "title": "Estimation des émissions de CO₂e par pièce",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "Perte totale de puissance due aux frottements",
       "speedDependentFrictionalTorque": "Couple dû aux frottements dépendant de la vitesse",
       "loadDependentFrictionalTorque": "Couple dû aux frottements dépendant de la charge",
-      "thermallySafeOperatingSpeed": "Vitesse de fonctionnement thermiquement sûre"
+      "thermallySafeOperatingSpeed": "Vitesse de fonctionnement thermiquement sûre",
+      "calculationNotAvailable": {
+        "line1": "Pour le roulement sélectionné, ce calcul n'est pas possible.",
+        "line2": "Pour plus d'informations, veuillez contacter notre",
+        "linkText": "service client",
+        "link": "https://medias.schaeffler.de/fr/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "Description générale de la méthodologie de calcul ACV-A",

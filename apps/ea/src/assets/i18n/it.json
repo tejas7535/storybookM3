@@ -234,12 +234,6 @@
     "errors": "Errori",
     "warnings": "Avvisi",
     "notes": "Note",
-    "calculationNotAvailable": {
-      "line1": "Per il cuscinetto selezionato questo calcolo non è possibile.",
-      "line2": "Per ulteriori informazioni si prega di contattare il nostro",
-      "linkText": "supporto clienti",
-      "link": "https://medias.schaeffler.de/en/stc"
-    },
     "co2Emissions": {
       "title": "Stima delle emissioni di CO₂e per pezzo",
       "unit": "CO₂e",
@@ -269,7 +263,13 @@
       "totalFrictionalPowerLoss": "Perdita di potenza totale per attrito",
       "speedDependentFrictionalTorque": "Coppia di attrito dipendente dalla velocità",
       "loadDependentFrictionalTorque": "Coppia di attrito dipendente dal carico",
-      "thermallySafeOperatingSpeed": "Velocità di esercizio termicamente sicura"
+      "thermallySafeOperatingSpeed": "Velocità di esercizio termicamente sicura",
+      "calculationNotAvailable": {
+        "line1": "Per il cuscinetto selezionato questo calcolo non è possibile.",
+        "line2": "Per ulteriori informazioni si prega di contattare il nostro",
+        "linkText": "supporto clienti",
+        "link": "https://medias.schaeffler.de/en/stc"
+      }
     },
     "calculationDisclaimer": {
       "title": "Disclaimer del calcolo",
