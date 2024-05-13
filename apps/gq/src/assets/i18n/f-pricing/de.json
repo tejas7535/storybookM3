@@ -121,7 +121,7 @@
     },
     "marketValueDriver": {
       "information": "Diese Information verbessert die Genauigkeit der Preisempfehlung.",
-      "unknownTooltip": "Unbekannt wird automatisch ausgwählt. Bitte bestätigen Sie die Marktwerttreiber.",
+      "unknownTooltip": "Unbekannt wird automatisch vorausgewählt. Bitte bestätigen Sie die Marktwerttreiber.",
       "questions": {
         "1": {
           "title": " Anzahl verfügbarer Wettbewerber",

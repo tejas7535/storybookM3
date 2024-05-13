@@ -132,15 +132,15 @@
         },
         "2": {
           "title": "Size of competitors",
-          "subtitle": "Please provide rough estimate about the competitors' past annual revenue size (in EUR).",
-          "option1": "Large (>1bn EUR)",
-          "option2": "Medium",
-          "option3": "Small (<1bn EUR)",
+          "subtitle": "Please provide a rough estimate about the competitors' past annual revenue size (in EUR).",
+          "option1": "Large (>=2,0 bn EUR)",
+          "option2": "Medium (<2,0 bn EUR)",
+          "option3": "Small (<0,5 bn EUR)",
           "option4": "Unknown"
         },
         "3": {
           "title": "Products with components / features specific to Schaeffler",
-          "subtitle": "Which competitors can create components / features of the inquired bearing?",
+          "subtitle": "Which competitor can create components / features of the inquired bearing?",
           "option1": "Any Competitor",
           "option2": "Only Premium Producer",
           "option3": "Only Schaeffler",
