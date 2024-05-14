@@ -147,7 +147,7 @@ describe('ExcelValidatorService', () => {
       expect(() => service['validateValues'](json)).not.toThrow();
     });
     it('should fail if supplierId is 0', () => {
-      json[0].supplierId = 0;
+      json[0].businessPartnerId = 0;
       expect(() => service['validateValues'](json)).toThrow();
     });
   });

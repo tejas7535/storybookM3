@@ -6,17 +6,12 @@ export const COLUMN_HEADER_FIELDS = [
   columns.MATERIAL_DESCRIPTION,
   columns.RECYCLED_MATERIAL_SHARE,
   columns.SECONDARY_MATERIAL_SHARE,
-  columns.CATEGORY,
-  columns.MATERIAL_GROUP,
   columns.DATA_COMMENT,
   columns.BUSINESS_PARTNER_ID,
-  columns.SUPPLIER_ID,
   columns.RAW_MATERIAL_MANUFACTURER,
   columns.INCOTERMS,
   columns.SUPPLIER_LOCATION,
   columns.PLANT,
-  columns.SUPPLIER_COUNTRY,
-  columns.SUPPLIER_REGION,
   columns.FOSSIL_ENERGY_SHARE,
   columns.NUCLEAR_ENERGY_SHARE,
   columns.RENEWABLE_ENERGY_SHARE,
@@ -75,13 +70,8 @@ export class ValidationError {
 export const MANDATORY_COLUMNS = [
   columns.MATERIAL_NUMBER,
   columns.MATERIAL_DESCRIPTION,
-  columns.PLANT,
-  columns.CATEGORY,
-  columns.MATERIAL_GROUP,
   columns.BUSINESS_PARTNER_ID,
-  columns.SUPPLIER_ID,
-  columns.SUPPLIER_COUNTRY,
-  columns.SUPPLIER_REGION,
+  columns.PLANT,
 ];
 
 const URL_REG_EXP =
@@ -90,12 +80,8 @@ const URL_REG_EXP =
 // List of column rules
 export const COLUMN_RULES: { [id: string]: RegExp } = {
   [columns.MATERIAL_NUMBER]: /^\d{9}(-\d{4}(-\d{2})?)?$/,
-  [columns.PLANT]: /^\d{1,4}$/,
-  [columns.CATEGORY]: /^\w{4}$/,
   [columns.BUSINESS_PARTNER_ID]: /^\d{5,7}$/,
-  [columns.SUPPLIER_ID]: /^S\d{9}$/,
-  [columns.SUPPLIER_COUNTRY]: /^\w{2}$/,
-  [columns.SUPPLIER_REGION]: /^\w{2}$/,
+  [columns.PLANT]: /^\d{1,4}$/,
   [columns.LINK_TO_CUSTOMER_CALCULATION_METHOD]: URL_REG_EXP,
   [columns.LINK_TO_3RD_PARTY_VERIFICATION_PROOF]: URL_REG_EXP,
 };
