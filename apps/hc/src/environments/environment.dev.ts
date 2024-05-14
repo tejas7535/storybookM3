@@ -4,7 +4,7 @@ export const environment: Environment = {
   production: false,
   localDev: false,
   devToolsEnabled: true,
-  baseUrl: 'https://materials-app-center-d.dev.dp.schaeffler',
+  baseUrl: 'https://hardness-converter-d.dev.dp.schaeffler',
   internalUserCheckURL:
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
   oneTrustId: '018ead92-22a1-7a6d-86b9-f2b36f79927e-test',
