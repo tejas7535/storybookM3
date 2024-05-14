@@ -22,6 +22,6 @@ export const environment: Environment = {
   authentication: {
     tenantId: '67416604-6509-4014-9859-45e709f53d3f',
     clientId: 'd4fa5085-89b2-4e17-b226-633e5048a932',
-    appScope: 'api://e3624a8e-5b1a-4135-83f3-e7c1fa1993ab/macapi',
+    appScope: 'api://d7b55d07-470d-4483-a4de-524bbe21f2a5/macapi',
   },
 };
