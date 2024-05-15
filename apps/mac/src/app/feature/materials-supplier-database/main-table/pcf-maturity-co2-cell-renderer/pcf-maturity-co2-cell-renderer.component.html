@@ -6,15 +6,14 @@
   "
 >
   <div class="mr-2 flex-1">
-    @if (showMaterialEmissionClassification) {
+    @if (params) {
       <!-- The emissions value is expected to be per ton but the value in SAP Materials is PCF per kg.
       Therefore, we need the factor 1000 in this case! -->
       <mac-material-emission-classification
         [value]="params.value ? params.value * 1000 : undefined"
         [displayValue]="params.valueFormatted"
+        [transparent]="!showMaterialEmissionClassification"
       ></mac-material-emission-classification>
-    } @else {
-      <span>{{ params?.valueFormatted ?? params?.value }}</span>
     }
   </div>
   @if (hasValue()) {

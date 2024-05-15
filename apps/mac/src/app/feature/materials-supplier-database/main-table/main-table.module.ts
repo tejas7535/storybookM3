@@ -37,6 +37,7 @@ import { MaturityInfoComponent } from './maturity-info/maturity-info.component';
 import { MoreInformationDialogComponent } from './more-information-dialog/more-information-dialog.component';
 import { MsdNavigationModule } from './msd-navigation/msd-navigation.module';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
+import { MaterialEmissionClassificationColorPipe } from './pipes';
 import { QuickFilterModule } from './quick-filter/quick-filter.module';
 import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { ReleaseStatusCellRendererComponent } from './release-status-cell-renderer/release-status-cell-renderer.component';
@@ -84,6 +85,7 @@ import { UrlCellRendererComponent } from './url-cell-renderer/url-cell-renderer.
     OverlayModule,
     MaturityInfoComponent,
     QuickFilterModule,
+    MaterialEmissionClassificationColorPipe,
   ],
   providers: [DatePipe, MsdDialogService],
 })

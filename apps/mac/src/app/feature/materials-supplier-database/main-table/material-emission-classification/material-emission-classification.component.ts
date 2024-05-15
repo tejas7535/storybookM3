@@ -21,28 +21,7 @@ export class MaterialEmissionClassificationComponent implements OnInit {
    */
   @Input() value: number;
   @Input() displayValue?: number;
-
-  readonly WHITE = '#FFFFFF';
-  readonly BLACK = '#000000DE';
-
-  readonly config = {
-    [ClassificationClass.GREY]: {
-      backgroundColor: '#E4E4E4',
-      textColor: this.BLACK,
-    },
-    [ClassificationClass.LIGHT_GREEN]: {
-      backgroundColor: '#ABC7BF',
-      textColor: this.BLACK,
-    },
-    [ClassificationClass.MEDIUM_GREEN]: {
-      backgroundColor: '#537C71',
-      textColor: this.WHITE,
-    },
-    [ClassificationClass.GREEN]: {
-      backgroundColor: '#006E5D',
-      textColor: this.WHITE,
-    },
-  };
+  @Input() transparent?: boolean;
 
   valueValid: boolean;
   classificationClass: ClassificationClass;

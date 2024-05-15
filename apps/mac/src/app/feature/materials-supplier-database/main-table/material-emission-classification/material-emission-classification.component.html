@@ -4,18 +4,19 @@
     read: 'materialsSupplierDatabase.mainTable.tooltip.greensteel'
   "
 >
+  <span
+    class="px-2 py-[2px] rounded-[40px] w-fit min-w-[48px] h-7 flex items-center justify-center"
+    [ngClass]="
+      transparent
+        ? ''
+        : (classificationClass | materialEmissionClassificationColor)
+    "
+    cdkOverlayOrigin
+    #indicator="cdkOverlayOrigin"
+  >
+    {{ displayValue !== undefined ? displayValue : value }}
+  </span>
   @if (valueValid) {
-    <span
-      class="px-2 py-[2px] rounded-[40px] w-fit min-w-[48px] h-7 flex items-center justify-center"
-      [ngStyle]="{
-        'background-color': config[classificationClass].backgroundColor,
-        color: config[classificationClass].textColor
-      }"
-      cdkOverlayOrigin
-      #indicator="cdkOverlayOrigin"
-    >
-      {{ displayValue !== undefined ? displayValue : value }}
-    </span>
     <mac-html-tooltip
       [tooltipOrigin]="indicator"
       [tooltipShowDelay]="500"
@@ -31,7 +32,5 @@
         ></a
       ></mac-html-tooltip
     >
-  } @else {
-    {{ displayValue !== undefined ? displayValue : value }}
   }
 </ng-container>

@@ -1,3 +1,5 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -18,6 +20,7 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: PcfMaturityCo2CellRendererComponent,
     imports: [provideTranslocoTestingModule({ en })],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   const mockparams = {
