@@ -95,6 +95,18 @@ export enum ReferencePricingColumnFields {
   YEAR = 'year',
 }
 
+export enum SearchByCasesColumnFields {
+  GQ_ID = 'gqId',
+  SAP_ID = 'sapId',
+  CUSTOMER_NAME = 'customerName',
+  CUSTOMER_ID = 'customerId',
+  GQ_CREATED_BY = 'gqCreatedByUser',
+  GQ_CREATED = 'gqCreated', // equals createdOn date
+  GQ_LAST_UPDATED = 'gqLastUpdated',
+  TOTAL_NET_VALUE = 'totalNetValue',
+  CURRENCY = 'currency',
+}
+
 export const PriceColumns = [
   ColumnFields.PRICE,
   ColumnFields.NET_VALUE,

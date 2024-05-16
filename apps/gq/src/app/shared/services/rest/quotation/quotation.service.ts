@@ -7,11 +7,14 @@ import { map } from 'rxjs/operators';
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
-import { QuotationSearchResult } from '@gq/shared/models/quotation';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 
-import { ApiVersion, PurchaseOrderType, Quotation } from '../../../models';
-import { QuotationStatus } from '../../../models/quotation/quotation-status.enum';
+import {
+  ApiVersion,
+  PurchaseOrderType,
+  Quotation,
+  QuotationStatus,
+} from '../../../models';
 import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { GetQuotationsResponse } from './models/get-quotations-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
@@ -25,12 +28,9 @@ export class QuotationService {
   private readonly PARAM_STATUS = 'status';
   private readonly PARAM_NEXT_APPROVER = 'next_approver';
 
-  private readonly PARAM_MATERIAL_NUMBER = 'material-number';
-  private readonly PARAM_USER_CASES_ONLY = 'userCasesOnly';
-
   readonly #http = inject(HttpClient);
 
-  public uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
+  uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
     return this.#http.post<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
       {
@@ -39,16 +39,13 @@ export class QuotationService {
     );
   }
 
-  public refreshSapPricing(gqId: number): Observable<Quotation> {
+  refreshSapPricing(gqId: number): Observable<Quotation> {
     return this.#http.get<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_REFRESH_SAP_PRICING}`
     );
   }
 
-  public updateCases(
-    gqIds: number[],
-    status: QuotationStatus
-  ): Observable<any> {
+  updateCases(gqIds: number[], status: QuotationStatus): Observable<any> {
     const requestBody: any = {
       status,
       gqIds,
@@ -60,7 +57,7 @@ export class QuotationService {
     );
   }
 
-  public getQuotation(gqId: number): Observable<Quotation> {
+  getQuotation(gqId: number): Observable<Quotation> {
     return this.#http.get<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
     );
@@ -99,9 +96,7 @@ export class QuotationService {
     );
   }
 
-  public createCase(
-    createCaseData: CreateCase
-  ): Observable<CreateCaseResponse> {
+  createCase(createCaseData: CreateCase): Observable<CreateCaseResponse> {
     return this.#http
       .post<CreateCaseResponse>(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
@@ -120,14 +115,14 @@ export class QuotationService {
       );
   }
 
-  public importCase(importCase: string): Observable<Quotation> {
+  importCase(importCase: string): Observable<Quotation> {
     return this.#http.put<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
       importCase
     );
   }
 
-  public createCustomerCase(
+  createCustomerCase(
     requestPayload: CreateCustomerCase
   ): Observable<CreateCaseResponse> {
     return this.#http
@@ -151,7 +146,7 @@ export class QuotationService {
       );
   }
 
-  public updateQuotation(
+  updateQuotation(
     updateQuotationRequest: UpdateQuotationRequest,
     gqId: number
   ): Observable<Quotation> {
@@ -161,19 +156,19 @@ export class QuotationService {
     );
   }
 
-  public getCurrencies(): Observable<{ currency: string }[]> {
+  getCurrencies(): Observable<{ currency: string }[]> {
     return this.#http.get<{ currency: string }[]>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
     );
   }
 
-  public getExchangeRateForCurrency(fromCurrency: string, toCurrency: string) {
+  getExchangeRateForCurrency(fromCurrency: string, toCurrency: string) {
     return this.#http.get(
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
     );
   }
 
-  public createSapQuotation(
+  createSapQuotation(
     gqId: number,
     gqPositionIds: string[]
   ): Observable<Quotation> {
@@ -188,23 +183,7 @@ export class QuotationService {
     );
   }
 
-  public getCasesByMaterialNumber(
-    materialNumber: string,
-    userCaseOnly: boolean
-  ): Observable<QuotationSearchResult[]> {
-    const httpParams = new HttpParams()
-      .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
-      .append(this.PARAM_USER_CASES_ONLY, userCaseOnly);
-
-    return this.#http.get<QuotationSearchResult[]>(
-      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}`,
-      {
-        params: httpParams,
-      }
-    );
-  }
-
-  public getPurchaseOrderTypes(): Observable<PurchaseOrderType[]> {
+  getPurchaseOrderTypes(): Observable<PurchaseOrderType[]> {
     return this.#http.get<PurchaseOrderType[]>(
       `${ApiVersion.V1}/${QuotationPaths.PURCHASE_ORDER_TYPES}`
     );

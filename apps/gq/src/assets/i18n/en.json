@@ -574,7 +574,7 @@
   "searchBarAdvanced": {
     "searchHint": "Keyword Search",
     "onlyMyCases": "only my cases",
-    "clear": "clear",
+    "clear": "Clear",
     "searchButton": "search",
     "cancelButton": "cancel",
     "minLengthError": "Please enter at least 3 characters.",
@@ -582,13 +582,23 @@
     "materialsLabel": "Material",
     "casesResultsTable": {
       "searchCriteriaLabel": "Search Criteria:",
-      "gqNumber": "GQ Case Number",
-      "sapNumber": "SAP Quotation",
+      "gqId": "GQ Case Number",
+      "sapId": "SAP Quotation",
       "customerName": "Customer Name",
-      "customerNumber": "Customer Number",
+      "customerId": "Customer Number",
       "createdBy": "GQ Created By",
       "noResultsTitle": "No results yet",
-      "noResultsSubTitle": "Enter keyword for search"
+      "noResultsSubTitle": "Enter keyword for search",
+      "columns": {
+        "gqId": "GQ Case",
+        "sapId": "SAP Quotation",
+        "customerId": "Customer Number",
+        "customerName": "Customer Name",
+        "gqCreatedBy": "Case created on By",
+        "gqCreated": "Case Created On",
+        "gqLastUpdated": "Case Last Updated",
+        "totalNetValue": "Total Net Value"
+      }
     },
     "materialsResultsTable": {
       "searchCriteriaLabel": "Search Criteria:",

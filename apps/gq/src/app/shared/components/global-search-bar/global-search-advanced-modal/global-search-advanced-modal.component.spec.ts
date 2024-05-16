@@ -1,7 +1,11 @@
 import { MatDialogRef } from '@angular/material/dialog';
 
+import { of } from 'rxjs';
+
+import { QuotationSummaryService } from '@gq/shared/services/rest/quotation/quotation-summary/quotation-summary.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { CasesCriteriaSelection } from '../cases-result-table/cases-criteria-selection.enum';
 import { GlobalSearchAdvancedModalComponent } from './global-search-advanced-modal.component';
 
 describe('GlobalSearchAdvancedModalComponent', () => {
@@ -17,6 +21,12 @@ describe('GlobalSearchAdvancedModalComponent', () => {
           close: jest.fn(),
         },
       },
+      {
+        provide: QuotationSummaryService,
+        useValue: {
+          getSearchResultsByCases: jest.fn(() => of({ results: [] })),
+        },
+      },
     ],
   });
 
@@ -29,6 +39,13 @@ describe('GlobalSearchAdvancedModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('search', () => {
+    it('should call determineSearch', () => {
+      component['determineSearch'] = jest.fn();
+      component.search();
+      expect(component['determineSearch']).toHaveBeenCalled();
+    });
+  });
   describe('toggleOnlyUserCases', () => {
     it('should toggle onlyUserCases', () => {
       component.onlyUserCases = false;
@@ -41,6 +58,23 @@ describe('GlobalSearchAdvancedModalComponent', () => {
     });
   });
 
+  describe('casesCriteriaSelected', () => {
+    it('should set casesSearchCriteria', () => {
+      component.casesSearchCriteria = null;
+
+      component.casesCriteriaSelected(CasesCriteriaSelection.GQ_ID);
+      expect(component.casesSearchCriteria).toBe(CasesCriteriaSelection.GQ_ID);
+    });
+  });
+
+  describe('materialCriteriaSelected', () => {
+    it('should set materialSearchCriteria', () => {
+      component.materialSearchCriteria = null;
+
+      component.materialCriteriaSelected('test');
+      expect(component.materialSearchCriteria).toBe('test');
+    });
+  });
   describe('closeDialog', () => {
     it('should close the dialog', () => {
       const spy = jest.spyOn(component['dialogRef'], 'close');
@@ -58,6 +92,17 @@ describe('GlobalSearchAdvancedModalComponent', () => {
       component.clearInputField();
       expect(component.onlyUserCases).toBe(false);
       expect(component.searchFormControl.value).toBe('');
+    });
+  });
+
+  describe('determineSearch', () => {
+    test('should call getSearchResultsByCases when TabIndex is 0 (by Cases)', () => {
+      component.casesResults = null;
+      component.tabIndex = 0;
+
+      component['determineSearch']();
+
+      expect(component.casesResults).toEqual({ results: [] });
     });
   });
 });

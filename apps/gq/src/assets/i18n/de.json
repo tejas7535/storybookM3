@@ -582,13 +582,23 @@
     "materialsLabel": "Material",
     "casesResultsTable": {
       "searchCriteriaLabel": "Suchkriterium:",
-      "gqNumber": "GQ Case Nummer",
-      "sapNumber": "SAP Angebot",
+      "gqId": "GQ Case Nummer",
+      "sapId": "SAP Angebot",
       "customerName": "Kundenname",
-      "customerNumber": "Kundennummer",
+      "customerId": "Kundennummer",
       "createdBy": "GQ erstellt von",
       "noResultsTitle": "Noch keine Ergebnisse",
-      "noResultsSubTitle": "Stichwort für die Suche eingeben"
+      "noResultsSubTitle": "Stichwort für die Suche eingeben",
+      "columns": {
+        "gqId": "GQ Case",
+        "sapId": "SAP Angebot",
+        "customerId": "Kundennummer",
+        "customerName": "Kundenname",
+        "gqCreatedBy": "Case erstellt von",
+        "gqCreated": "Case erstellt am",
+        "gqLastUpdated": "Case zuletzt aktualisiert am",
+        "totalNetValue": "Ges. Nettowert"
+      }
     },
     "materialsResultsTable": {
       "searchCriteriaLabel": "Suchkriterium:",

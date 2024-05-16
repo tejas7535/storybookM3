@@ -21,7 +21,6 @@ export class GlobalSearchBarComponent {
       this.matDialog.open(GlobalSearchAdvancedModalComponent, {
         panelClass: 'global-search-advanced-modal',
         width: '1100px',
-        height: '500px',
       });
     } else {
       this.matDialog.open(GlobalSearchModalComponent, {

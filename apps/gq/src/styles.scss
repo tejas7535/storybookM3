@@ -86,7 +86,13 @@ button {
   @apply px-0 #{!important};
 }
 
+.global-search-advanced-modal:has(.cases-results-table-with-pagination) {
+  @apply top-8 bottom-16 h-[unset] fixed #{!important};
+}
+
 .global-search-advanced-modal {
+  @apply h-[570px] top-8 fixed #{!important};
+  // enter classes here
   .mat-mdc-tab-group {
     @apply h-full;
   }

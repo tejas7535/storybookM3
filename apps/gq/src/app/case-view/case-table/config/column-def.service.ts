@@ -4,14 +4,12 @@ import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-field
 import {
   FILTER_PARAMS,
   MULTI_COLUMN_FILTER,
-  SET_COLUMN_FILTER,
-  TEXT_COLUMN_FILTER,
 } from '@gq/shared/ag-grid/constants/filters';
 import {
   ColumnUtilityService,
   ComparatorService,
 } from '@gq/shared/ag-grid/services';
-import { timestampRegex } from '@gq/shared/constants';
+import { DateFilterParamService } from '@gq/shared/ag-grid/services/date-filter-param/date-filter-param.service';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
@@ -20,32 +18,6 @@ import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
   providedIn: 'root',
 })
 export class ColumnDefService {
-  DATE_FILTER_PARAMS = {
-    filters: [
-      {
-        filter: TEXT_COLUMN_FILTER,
-        filterParams: {
-          defaultOption: 'startsWith',
-          suppressAndOrCondition: true,
-          buttons: ['reset'],
-          textFormatter: (val: string) => {
-            if (timestampRegex.test(val)) {
-              return this.columnUtilityService.dateFormatter(val);
-            }
-
-            return val;
-          },
-        },
-      },
-      {
-        filter: SET_COLUMN_FILTER,
-        filterParams: {
-          comparator: this.comparatorService.compareTranslocoDateDesc,
-        },
-      },
-    ],
-  };
-
   COLUMN_DEFS: ColDef[] = [
     {
       headerCheckboxSelection: true,
@@ -67,7 +39,7 @@ export class ColumnDefService {
         this.columnUtilityService.dateFormatter(data.data.gqCreated),
 
       filter: MULTI_COLUMN_FILTER,
-      filterParams: this.DATE_FILTER_PARAMS,
+      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
     },
     {
       headerName: translate('caseView.caseTable.gqCreatedBy'),
@@ -155,12 +127,13 @@ export class ColumnDefService {
         this.columnUtilityService.dateFormatter(data.data.gqLastUpdated),
       sort: 'desc',
       filter: MULTI_COLUMN_FILTER,
-      filterParams: this.DATE_FILTER_PARAMS,
+      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
     },
   ];
 
   constructor(
     private readonly columnUtilityService: ColumnUtilityService,
-    private readonly comparatorService: ComparatorService
+    private readonly comparatorService: ComparatorService,
+    private readonly dateFilterParamService: DateFilterParamService
   ) {}
 }

@@ -15,7 +15,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PushPipe } from '@ngrx/component';
+import { AgGridModule } from 'ag-grid-angular';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedDirectivesModule } from '../../directives/shared-directives.module';
@@ -67,7 +69,9 @@ import { MaterialsResultTableComponent } from './materials-result-table/material
     MatTabsModule,
     MatRadioModule,
     NoDataModule,
+    AgGridModule,
+    LoadingSpinnerModule,
   ],
-  exports: [GlobalSearchBarComponent],
+  exports: [GlobalSearchBarComponent, CasesResultTableComponent],
 })
 export class GlobalSearchBarModule {}

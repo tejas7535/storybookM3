@@ -5,6 +5,7 @@ import {
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
+import { ApiVersion, QuotationStatus } from '@gq/shared/models';
 import {
   createServiceFactory,
   HttpMethod,
@@ -12,7 +13,6 @@ import {
 } from '@ngneat/spectator/jest';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { ApiVersion, QuotationStatus } from '../../../models';
 import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { ShipToParty } from './models/ship-to-party';
@@ -264,19 +264,6 @@ describe('QuotationService', () => {
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
-    });
-  });
-
-  describe('getCasesByMaterialNumber', () => {
-    test('should call the service', () => {
-      service
-        .getCasesByMaterialNumber('123456', true)
-        .subscribe((res) => expect(res).toEqual([]));
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_SUMMARY}?${service['PARAM_MATERIAL_NUMBER']}=123456&${service['PARAM_USER_CASES_ONLY']}=true`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
 

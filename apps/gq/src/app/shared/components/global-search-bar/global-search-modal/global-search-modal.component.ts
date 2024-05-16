@@ -18,6 +18,7 @@ import {
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { QuotationSummaryService } from '@gq/shared/services/rest/quotation/quotation-summary/quotation-summary.service';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
@@ -25,7 +26,6 @@ import { FILTER_PARAM_INDICATOR } from '../../../constants';
 import { QuotationSearchResult } from '../../../models/quotation';
 import { IdValue } from '../../../models/search';
 import { MaterialNumberService } from '../../../services/material-number/material-number.service';
-import { QuotationService } from '../../../services/rest/quotation/quotation.service';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import {
@@ -46,7 +46,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
   );
   private readonly autocomplete = inject(AutoCompleteFacade);
   private readonly dialogRef = inject(MatDialogRef<GlobalSearchModalComponent>);
-  private readonly quotationService = inject(QuotationService);
+  private readonly quotationSummaryService = inject(QuotationSummaryService);
   private readonly router = inject(Router);
   private readonly materialNumberService = inject(MaterialNumberService);
   private readonly featureToggleService = inject(FeatureToggleConfigService);
@@ -162,7 +162,7 @@ export class GlobalSearchModalComponent implements OnInit, OnDestroy {
 
     this.setFilter(idValue);
 
-    this.quotationService
+    this.quotationSummaryService
       .getCasesByMaterialNumber(
         idValue.value,
         !this.featureToggleService.isEnabled('extendedSearchbar')

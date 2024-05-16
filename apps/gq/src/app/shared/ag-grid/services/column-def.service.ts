@@ -8,7 +8,7 @@ import {
   ValueGetterParams,
 } from 'ag-grid-enterprise';
 
-import { timestampRegex, UserRoles } from '../../constants';
+import { UserRoles } from '../../constants';
 import { Keyboard } from '../../models';
 import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
 import { FreeStockCellComponent, FreeStockCellParams } from '../cell-renderer';
@@ -20,42 +20,16 @@ import {
   FILTER_PARAMS,
   MULTI_COLUMN_FILTER,
   NUMBER_COLUMN_FILTER,
-  SET_COLUMN_FILTER,
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
 import { ColumnUtilityService } from './column-utility.service';
 import { ComparatorService } from './comparator.service';
+import { DateFilterParamService } from './date-filter-param/date-filter-param.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColumnDefService {
-  DATE_FILTER_PARAMS = {
-    filters: [
-      {
-        filter: TEXT_COLUMN_FILTER,
-        filterParams: {
-          defaultOption: 'startsWith',
-          suppressAndOrCondition: true,
-          buttons: ['reset'],
-          textFormatter: (val: string) => {
-            if (timestampRegex.test(val)) {
-              return this.columnUtilityService.dateFormatter(val);
-            }
-
-            return val;
-          },
-        },
-      },
-      {
-        filter: SET_COLUMN_FILTER,
-        filterParams: {
-          comparator: this.comparatorService.compareTranslocoDateDesc,
-        },
-      },
-    ],
-  };
-
   COLUMN_DEFS: ColDef[] = [
     {
       headerCheckboxSelection: true,
@@ -561,7 +535,7 @@ export class ColumnDefService {
           data.data[ColumnFields.LAST_CUSTOMER_PRICE_DATE]
         ),
       filter: MULTI_COLUMN_FILTER,
-      filterParams: this.DATE_FILTER_PARAMS,
+      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceDateInfoText'
@@ -630,7 +604,7 @@ export class ColumnDefService {
           data.data.lastOfferDetail?.lastOfferDate
         ),
       filter: MULTI_COLUMN_FILTER,
-      filterParams: this.DATE_FILTER_PARAMS,
+      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastOfferDateInfoText'
@@ -702,7 +676,7 @@ export class ColumnDefService {
           params.data.materialStockByPlant?.dateNextFree
         ),
       filter: MULTI_COLUMN_FILTER,
-      filterParams: this.DATE_FILTER_PARAMS,
+      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.dateNextFreeAtpInfoText'
@@ -885,6 +859,7 @@ export class ColumnDefService {
   constructor(
     private readonly columnUtilityService: ColumnUtilityService,
     private readonly translocoService: TranslocoService,
-    private readonly comparatorService: ComparatorService
+    private readonly comparatorService: ComparatorService,
+    private readonly dateFilterParamService: DateFilterParamService
   ) {}
 }

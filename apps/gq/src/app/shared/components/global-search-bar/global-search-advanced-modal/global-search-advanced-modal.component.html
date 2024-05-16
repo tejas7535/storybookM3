@@ -19,7 +19,11 @@
             type="text"
             [placeholder]="t('searchHint')"
             [formControl]="searchFormControl"
-            (keydown.enter)="selectTopItem()"
+            (keydown.enter)="
+              !(searchFormControl.invalid || searchFormControl.pristine)
+                ? search()
+                : null
+            "
             cdkFocusInitial
           />
           <mat-error
@@ -33,16 +37,18 @@
       </div>
       <div class="flex items-center">
         <mat-slide-toggle
-          class="whitespace-nowrap text-caption uppercase pr-8"
+          class="whitespace-nowrap uppercase text-caption"
           color="primary"
           labelPosition="before"
           [checked]="onlyUserCases"
           (change)="toggleOnlyUserCases()"
         >
-          {{ t('onlyMyCases') }}
+          <span class="pr-2">
+            {{ t('onlyMyCases') }}
+          </span>
         </mat-slide-toggle>
         <span
-          class="text-caption cursor-pointer text-medium-emphasis"
+          class="text-caption cursor-pointer text-medium-emphasis font-normal pl-6"
           (click)="clearInputField()"
         >
           {{ t('clear') }}
@@ -59,12 +65,18 @@
 
     <!-- content-->
     <div class="flex flex-col w-full h-full relative pb-2 pt-4">
-      <mat-tab-group>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
         <mat-tab [label]="t('casesLabel')">
-          <gq-cases-result-table></gq-cases-result-table>
+          <gq-cases-result-table
+            [casesResults]="casesResults"
+            [loading]="loading$ | ngrxPush"
+            (criteriaSelected)="casesCriteriaSelected($event)"
+          ></gq-cases-result-table>
         </mat-tab>
         <mat-tab [label]="t('materialsLabel')">
-          <gq-materials-result-table></gq-materials-result-table>
+          <gq-materials-result-table
+            (criteriaSelected)="materialCriteriaSelected($event)"
+          ></gq-materials-result-table>
         </mat-tab>
       </mat-tab-group>
     </div>
@@ -74,6 +86,7 @@
         <button
           color="primary"
           class="text-button font-medium"
+          [disabled]="searchFormControl.invalid || searchFormControl.pristine"
           mat-raised-button
           (click)="search()"
         >

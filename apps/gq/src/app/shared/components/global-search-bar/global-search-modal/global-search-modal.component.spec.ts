@@ -11,6 +11,7 @@ import {
   QuotationSearchResult,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
+import { QuotationSummaryService } from '@gq/shared/services/rest/quotation/quotation-summary/quotation-summary.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -20,7 +21,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { QUOTATION_SEARCH_RESULT_MOCK } from '../../../../../testing/mocks/models';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { IdValue } from '../../../models/search';
-import { QuotationService } from '../../../services/rest/quotation/quotation.service';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { GlobalSearchLastResultsService } from '../global-search-last-results-service/global-search-last-results.service';
 import * as contextFunctions from './../../contextMenu/functions/context-menu-functions';
@@ -59,7 +59,7 @@ describe('GlobalSearchModalComponent', () => {
         },
       },
       {
-        provide: QuotationService,
+        provide: QuotationSummaryService,
         useValue: {
           getCasesByMaterialNumber: jest
             .fn()
