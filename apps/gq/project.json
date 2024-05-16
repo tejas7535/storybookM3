@@ -80,6 +80,16 @@
             }
           ]
         },
+        "pre-release": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/gq/src/environments/environment.ts",
+              "with": "apps/gq/src/environments/environment.pre-release.ts"
+            }
+          ]
+        },
         "production": {
           "outputHashing": "bundles",
           "sourceMap": true,
@@ -141,8 +151,7 @@
         "tagPrefix": "${target}-v",
         "changelogHeader": "# Release Notes of Guided Quoting",
         "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
-        "noVerify": true,
-        "postTargets": ["gq:github"]
+        "noVerify": true
       }
     },
     "github": {

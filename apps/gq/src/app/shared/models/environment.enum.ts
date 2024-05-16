@@ -1,5 +1,6 @@
 export enum EnvironmentEnum {
   'prod' = 1,
-  'qa' = 2,
-  'dev' = 3,
+  'pre-release' = 2,
+  'qa' = 3,
+  'dev' = 4,
 }

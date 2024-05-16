@@ -10,6 +10,7 @@ import adp.github.Github
 import adp.util.Util
 
 // Variables
+@Field
 Github github = new Github(this)
 Util util = new Util(this)
 
@@ -31,6 +32,10 @@ def affectedLibs
 @Field
 boolean isRelease = false
 @Field
+boolean isPreReleaseTrigger = false
+@Field
+boolean isPreRelease = false
+@Field
 boolean isAppRelease = false
 @Field
 boolean isLibsRelease = false
@@ -47,7 +52,15 @@ boolean storybookAffected = false
 @Field
 boolean skipBuild = false
 @Field
-def releasableApps = ['cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa']
+def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release' ]
+@Field
+def releasableApps = ['cdba', 'sedo', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa']
+@Field
+def preReleasableApps = ['gq']
+@Field
+def preReleaseBranchPrefix = 'pre-release/'
+
+boolean isPreReleaseBranch = env.BRANCH_NAME.startsWith(preReleaseBranchPrefix)
 
 baselineBranch = 'master'
 
@@ -60,13 +73,52 @@ boolean isDepUpdate() {
     return "${BRANCH_NAME}".startsWith('dependabot/') || "${BRANCH_NAME}".startsWith('renovate/')
 }
 
-void defineIsAppRelease(isMain) {
-    // releases only allowed on master
-    if(!isMain){
-        return false;
+void defineIsPreRelease(isPreReleaseBranch) {
+    if (isPreReleaseBranch && params.BUILD_TYPE != buildTypes.RELEASE) {
+        isPreRelease = preReleasableApps.any { app -> app.contains(params.RELEASE_SCOPE) }
+    }
+}
+
+void defineIsAppRelease(isMain, isPreReleaseBranch) {
+    if (isMain && params.BUILD_TYPE == buildTypes.RELEASE) {
+        isAppRelease = releasableApps.any { app -> app.contains(params.RELEASE_SCOPE) }
     }
 
-    isAppRelease = releasableApps.any { app -> app.contains(params.RELEASE_SCOPE)}
+    if (isPreReleaseBranch && params.BUILD_TYPE == buildTypes.RELEASE) {
+        isAppRelease = preReleasableApps.any { app -> app.contains(env.RELEASE_SCOPE) }
+    }
+}
+
+void defineReleaseScope(isPreReleaseBranch) {
+    // in case of a pre-release we can't get the release scope from the parameter but from the branch name (e.g. pre-release/<app>)
+    env.RELEASE_SCOPE = isPreReleaseBranch ? env.BRANCH_NAME.substring(preReleaseBranchPrefix.length()) : params.RELEASE_SCOPE
+}
+
+void defineIsPreReleaseTrigger(isMain) {
+    // pre-releases only allowed on master
+    if (isMain) {
+        isPreReleaseTrigger = preReleasableApps.any { app -> app.contains(params.RELEASE_SCOPE) }
+
+        if (isPreReleaseTrigger) {
+            // throw error if pre-release branch already exists
+            def branchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
+            def getBranchCommand = "git ls-remote --heads origin $branchName"
+            
+            withCredentials([usernamePassword(credentialsId: 'github-jenkins-access-token', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                sh(script:
+                    """#!/bin/sh
+                        git config --global credential.helper '!f() { sleep 1; echo "username=${env.GIT_USERNAME}"; echo "password=${env.GIT_PASSWORD}"; }; f'
+                    """
+                )
+                def branchExists = sh(script: getBranchCommand, returnStdout: true)
+
+                if (branchExists) {
+                    currentBuild.result = 'ABORTED'
+                    error("Pre release already in progress for ${params.RELEASE_SCOPE}")
+                }
+            }
+        }
+    }
 }
 
 void defineIsLibsRelease(isMain) {
@@ -91,8 +143,9 @@ void defineRunQualityStage(isRelease) {
     // skipBuild flag is set
     // nightly pipeline run
     // libs or app release
+    // app pre-release trigger
 
-    runQualityStage = !skipBuild && !isRelease
+    runQualityStage = !skipBuild && !isRelease && !isPreReleaseTrigger
 }
 
 boolean runDeliverAppsStage(isMain) {
@@ -113,12 +166,12 @@ void defineBuildBase(isMain) {
     if (isRelease) {
         latestTag = getLatestGitTag("${env.RELEASE_SCOPE}")
 
-        buildBase = sh (
+        buildBase = sh(
             script: "git rev-list -n 1 ${latestTag}",
             returnStdout: true
         ).trim()
     } else {
-        buildBase = sh (
+        buildBase = sh(
             script: 'git merge-base origin/master HEAD^',
             returnStdout: true
         ).trim()
@@ -130,7 +183,7 @@ void defineBuildBase(isMain) {
 def getLatestGitTag(app) {
     def tag
 
-    tag = sh (
+    tag = sh(
         script: "git tag --sort=taggerdate -l '${app}-v*' | tail -1",
         returnStdout: true
     ).trim()
@@ -139,7 +192,7 @@ def getLatestGitTag(app) {
         println("Couldn't find a version tag for app ${app}")
         println('Using last workspace git tag instead ...')
 
-        tag = sh (
+        tag = sh(
             script: "git tag --sort=taggerdate -l 'v*' | tail -1",
             returnStdout: true
         ).trim()
@@ -157,12 +210,12 @@ def mapAffectedStringToArray(String input) {
 }
 
 def defineAffectedAppsAndLibs() {
-    apps = sh (
+    apps = sh(
         script: "pnpm --silent nx show projects --affected --base=${buildBase} --exclude '*-e2e,shared-*,eslint-rules'",
         returnStdout: true
     )
 
-    libs = sh (
+    libs = sh(
         script: "pnpm --silent nx show projects --affected --base=${buildBase} --projects 'shared-*' --exclude '*-e2e'",
         returnStdout: true
     )
@@ -199,6 +252,27 @@ def getPackageVersion(app = null) {
     def packageJSON = readJSON file: file
 
     return packageJSON.version
+}
+
+def getReleaseTypeForPreRelease(releaseScope){
+    // get the release type by comparing latest pre release and release tags
+    def latestReleaseTag = sh (returnStdout:true, script: """
+        git tag --sort=-v:refname --list '${releaseScope}*' | grep -v 'rc' | head -1 | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'
+    """).split(/\D+/)
+    def latestPreReleaseTag = sh (returnStdout:true, script: """
+        git tag --sort=-v:refname --list '${releaseScope}*' | grep 'rc'| head -1 | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'
+    """).split(/\D+/)
+
+    def releaseType
+    if (Integer.parseInt(latestPreReleaseTag[0]) > Integer.parseInt(latestReleaseTag[0])) {
+        releaseType = 'major'
+    } else if (Integer.parseInt(latestPreReleaseTag[1]) > Integer.parseInt(latestReleaseTag[1])) {
+        releaseType = 'minor'
+    } else {
+        releaseType = 'patch'
+    }
+    
+    return releaseType
 }
 
 void deployArtifact(target, uploadFile, checksum) {
@@ -238,7 +312,7 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        disableConcurrentBuilds (abortPrevious: !isMain)
+        disableConcurrentBuilds(abortPrevious: !isMain && !isPreReleaseBranch)
         timeout(time: 1, unit: 'HOURS')
         timestamps()
         ansiColor('xterm')
@@ -250,15 +324,101 @@ pipeline {
     }
 
     parameters {
-        choice(
-          name: 'RELEASE_SCOPE',
-          choices: ['NOTHING', 'LIBS', 'cdba', 'sedo', 'gq', 'ia', 'mac', 'mm', 'ga', 'ea'],
-          description: 'Use to trigger a production release of either an single app or for all libs.'
+        // environment variables are not accessible in the first run but available within the second run
+        activeChoiceHtml(
+            choiceType: 'ET_FORMATTED_HIDDEN_HTML',
+            name: 'BRANCH',
+            omitValueField: true,
+            script: [
+                $class: 'GroovyScript',
+                fallbackScript: [
+                    classpath: [],
+                    sandbox: true,
+                    script: '''
+                        return '<p>error</p>'
+                    '''
+                ],
+                script: [
+                    classpath: [],
+                    sandbox: true,
+                    script: """
+                        return '<input name="value" value="${env.BRANCH_NAME}" type="text">'
+                    """
+                ]
+            ]
         )
-        choice(
-          name: 'CUSTOM_VERSION',
-          choices: ["${customVersionDefault}", 'major', 'minor', 'patch'],
-          description: 'Define type of version (major = 1.X.X, minor = X.1.X, patch = X.X.1).'
+        reactiveChoice(
+            choiceType: 'PT_SINGLE_SELECT',
+            description: 'What kind of build do you want to perform?',
+            filterLength: 1, filterable: false,
+            name: 'BUILD_TYPE',
+            referencedParameters: 'BRANCH',
+            script: [
+                $class: 'GroovyScript',
+                script: [
+                    sandbox: true,
+                    script: """
+                        def types = ["${buildTypes.NORMAL}"]
+
+                        if(BRANCH.startsWith("${buildTypes.PRE_RELEASE}")) {
+                            types = types + ["${buildTypes.RELEASE}"]
+                        } else if (BRANCH.startsWith('master')) {
+                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}"]
+                        }
+
+                        return types
+                    """
+                ]
+            ]
+        )
+        reactiveChoice(
+            choiceType: 'PT_SINGLE_SELECT',
+            description: 'Select the (Pre-) Release scope',
+            filterLength: 1, filterable: false,
+            name: 'RELEASE_SCOPE',
+            referencedParameters: 'BUILD_TYPE,BRANCH',
+            script: [
+                $class: 'GroovyScript',
+                script: [
+                    sandbox: true,
+                    script: """
+                        if(BUILD_TYPE == "${buildTypes.PRE_RELEASE}") {
+                            return ["${preReleasableApps.join('","')}"]
+                        }
+                        if(BUILD_TYPE == "${buildTypes.RELEASE}") {
+                            if(BRANCH.startsWith("${preReleaseBranchPrefix}")) {
+                                return [BRANCH.substring("${preReleaseBranchPrefix.length()}".toInteger())]
+                            }
+                            return ['LIBS'] + ["${releasableApps.join('","')}"]
+                        }
+                        return ['NO RELEASE NOR PRE RELEASE']
+                    """
+                ]
+            ]
+        )
+        reactiveChoice(
+            choiceType: 'PT_SINGLE_SELECT',
+            description: 'Select the Version or let semantic versioning do its job.',
+            filterLength: 1, filterable: false,
+            name: 'CUSTOM_VERSION',
+            referencedParameters: 'BUILD_TYPE,BRANCH',
+            script: [
+                $class: 'GroovyScript',
+                script: [
+                    sandbox: true,
+                    script: """
+                        if(BUILD_TYPE == "${buildTypes.RELEASE}" && BRANCH.startsWith("${preReleaseBranchPrefix}")) {
+                            return ['VERSION ALREADY DEFINED WHEN CREATING PRE-RELEASE']
+                        }
+
+                        if(BUILD_TYPE == "${buildTypes.PRE_RELEASE}" || BUILD_TYPE == "${buildTypes.RELEASE}") {
+                            return ["${customVersionDefault}", 'major', 'minor', 'patch']
+                        }
+
+                        return ['NO RELEASE NOR PRE RELEASE']
+                    """
+                ]
+            ]
         )
     }
 
@@ -268,30 +428,26 @@ pipeline {
                 echo 'Preparation of some variables'
 
                 script {
-                    script {
-                        discoverGitReferenceBuild referenceJob: projectPath + baselineBranch
-                        util.addWorkspaceToGitGlobalSafeDirectory()
-                        defineIsAppRelease(isMain)
-                        defineIsLibsRelease(isMain)
-                        isRelease = isAppRelease || isLibsRelease
-                        if (isAppRelease) {
-                            def deployments = readJSON file: 'deployments.json'
-                            def apps = deployments.keySet()
-                            env.RELEASE_SCOPE = params.RELEASE_SCOPE
-                        }
-                        ciSkip(isMain, isRelease)
-                        defineRunQualityStage(isRelease)
-                        defineBuildStorybook(isRelease)
-                        definePublishStorybook(isMain)
-                        defineRunTriggerAppDeploymentsStage(isNightly)
+                    discoverGitReferenceBuild referenceJob: projectPath + baselineBranch
+                    util.addWorkspaceToGitGlobalSafeDirectory()
+                    defineReleaseScope(isPreReleaseBranch)
+                    defineIsPreRelease(isPreReleaseBranch)
+                    defineIsAppRelease(isMain, isPreReleaseBranch)
+                    defineIsPreReleaseTrigger(isMain)
+                    defineIsLibsRelease(isMain)
+                    isRelease = isAppRelease || isLibsRelease
+                    ciSkip(isMain, isRelease)
+                    defineRunQualityStage(isRelease)
+                    defineBuildStorybook(isRelease)
+                    definePublishStorybook(isMain)
+                    defineRunTriggerAppDeploymentsStage(isNightly)
 
-                        sh "pnpm config set store-dir $PNPM_HOME/.pnpm-store"
-                        sh 'pnpm install'
+                    sh "pnpm config set store-dir $PNPM_HOME/.pnpm-store"
+                    sh 'pnpm install'
 
-                        defineBuildBase(isMain)
-                        defineAffectedAppsAndLibs()
-                        setGitUser()
-                    }
+                    defineBuildBase(isMain)
+                    defineAffectedAppsAndLibs()
+                    setGitUser()
                 }
             }
         }
@@ -305,7 +461,7 @@ pipeline {
             steps {
                 echo 'Run PNPM Audit'
                 script {
-                     sh returnStatus: true, script:'''
+                    sh returnStatus: true, script:'''
                         mkdir -p reports
                         pnpm audit --json > reports/pnpm-audit.json
                     '''
@@ -375,7 +531,7 @@ pipeline {
 
                 script {
                     sh "pnpm nx affected:test --base=${buildBase} --parallel=3 --runInBand"
-                    sh "mkdir -p coverage"
+                    sh 'mkdir -p coverage'
                     // merge reports
                     sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files='coverage/**/cobertura-coverage.xml'"
                 }
@@ -395,7 +551,7 @@ pipeline {
                 }
             }
             environment {
-                NO_PROXY="localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com,.schaeffler"
+                NO_PROXY = 'localhost,127.0.0.1,::1,schaeffler.com,caeonlinecalculation-d.schaeffler.com,caeonlinecalculation.schaeffler.com,.schaeffler'
             }
             steps {
                 echo 'Run E2E Tests'
@@ -419,7 +575,47 @@ pipeline {
             }
         }
 
-        stage('Pre-Release') {
+        stage('PreRelease') {
+            when {
+                expression {
+                    // define isPreRelease
+                    return (isPreReleaseTrigger || isPreRelease) && !isRelease
+                }
+            }
+            steps {
+                script {
+                    if (isPreReleaseTrigger) {
+                        def preReleaseBranch = preReleaseBranchPrefix + env.RELEASE_SCOPE
+
+                        echo 'Creating new pre-release branch...'
+                        sh "git checkout -b ${preReleaseBranch}"
+                    }else {
+                        sh "git checkout ${env.BRANCH_NAME}"
+                    }
+                    
+                    // create a release candidate for any normal pipeline run
+                    if (!preReleasableApps.any { app -> app.contains(env.RELEASE_SCOPE) }) {
+                        currentBuild.result = 'ABORTED'
+                        error('Did not find valid application for the pre-release branch')
+                    }
+                    // generate tags and changelog on project level
+                    def baseBranch = isPreReleaseTrigger ? preReleaseBranchPrefix + env.RELEASE_SCOPE : env.BRANCH_NAME
+                    def standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version --preid=rc --baseBranch=${baseBranch} --skipProjectChangelog"
+                        
+                    if(isPreReleaseTrigger && params.CUSTOM_VERSION != "${customVersionDefault}") {
+                        standardVersionCommand +=" --releaseAs=pre" + params.CUSTOM_VERSION
+                    } else {
+                        standardVersionCommand +=" --releaseAs=prerelease"                       
+                    }
+                    
+                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                        github.executeAsGithubUser('github-jenkins-access-token', standardVersionCommand)
+                    }            
+                }
+            }
+        }
+
+        stage('Prepare-Release') {
             when {
                 expression {
                     return !skipBuild && isRelease
@@ -429,7 +625,8 @@ pipeline {
                 echo 'Preparing Release'
 
                 script {
-                    def targetBranch = 'master'
+                    def targetBranch = (isAppRelease && isPreReleaseBranch) || isPreRelease ? env.BRANCH_NAME : 'master'
+
                     try {
                         sh "git branch -D ${targetBranch}"
                     } catch (error) {
@@ -441,18 +638,26 @@ pipeline {
                     sh "git checkout ${targetBranch}"
 
                     def releaseFailed = 0
-                    def standardVersionCommand = ""
+                    def standardVersionCommand = ''
 
                     // generate project specific changelog
                     if (isAppRelease) {
                         standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version"
-                        if (params.CUSTOM_VERSION != "${customVersionDefault}") {
+                        if (params.CUSTOM_VERSION != "${customVersionDefault}" && !isPreReleaseBranch) {
                             standardVersionCommand += " --releaseAs=${params.CUSTOM_VERSION}"
+                        }
+                        if (isPreReleaseBranch) {
+                            standardVersionCommand += " --baseBranch=${env.BRANCH_NAME} --postTargets=${env.RELEASE_SCOPE}:github"
+
+                            def releaseType = getReleaseTypeForPreRelease(env.RELEASE_SCOPE)
+                            standardVersionCommand += " --releaseAs=${releaseType}"
+
+                            // delete all rc tags for the project so that the CHANGELOG generation takes the last release tag as a reference to generate the changelog
+                            sh "git tag -l '${env.RELEASE_SCOPE}-v*.*.*-rc*' | xargs git tag -d"
                         }
                     } else if (isLibsRelease) {
                         standardVersionCommand = "pnpm nx run-many --target=version --projects=${affectedLibs.join(',')}"
                     }
-
 
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                         releaseFailed = github.executeAsGithubUser('github-jenkins-access-token', standardVersionCommand)
@@ -508,6 +713,8 @@ pipeline {
                     if (isAppRelease) {
                         sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=production"
                         sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
+                    } else if (isPreRelease) {
+                        sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=${buildTypes.PRE_RELEASE}"
                     } else {
                         if (isMain) {
                             sh "pnpm nx affected --base=${buildBase} --target=build --configuration=qa  --parallel=3"
@@ -517,12 +724,12 @@ pipeline {
                         sh "pnpm nx affected --base=${buildBase} --target=transloco-optimize --parallel=3"
 
                         sh "pnpm nx affected --base=${buildBase} --target=analyze-bundle --parallel=3"
-                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "**/bundle-report.html", reportName: "bundle-reports", reportTitles: "bundle-report"])
+                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: '**/bundle-report.html', reportName: 'bundle-reports', reportTitles: 'bundle-report'])
                     }
                 }
             }
         }
-        stage ('Build:Packages') {
+        stage('Build:Packages') {
             when {
                 expression {
                     return isLibsRelease
@@ -556,7 +763,7 @@ pipeline {
 
                         script {
                             sh 'mkdir -p dist/zips'
-                            def appsToDeploy = isAppRelease ? [env.RELEASE_SCOPE] : affectedApps
+                            def appsToDeploy = isAppRelease || isPreRelease ? [env.RELEASE_SCOPE] : affectedApps
 
                             // loop over apps and publish them
                             for (app in appsToDeploy) {
@@ -564,18 +771,20 @@ pipeline {
 
                                 sh "pnpm nx run ${app}:zip"
                                 uploadFile = "dist/zips/${app}/next.zip"
-                                checksum = sh (
+                                checksum = sh(
                                     script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
                                     returnStdout: true
                                 ).trim()
 
-                                if (isAppRelease) {
+                                if (isAppRelease || isPreRelease) {
                                     def version = getPackageVersion(app)
-
-                                    target1 = "${artifactoryBasePath}/${app}/latest.zip"
+                                    def path = isPreRelease ? "/${buildTypes.PRE_RELEASE}" : ''
+                                    target1 = "${artifactoryBasePath}/${app}${path}/latest.zip"
                                     deployArtifact(target1, uploadFile, checksum)
 
-                                    target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
+                                    def releasePath = isPreRelease ? "${buildTypes.PRE_RELEASE}" : "${buildTypes.RELEASE}"
+
+                                    target2 = "${artifactoryBasePath}/${app}/${releasePath}/${version}.zip"
                                     deployArtifact(target2, uploadFile, checksum)
                                 } else if (isMain) {
                                     target = "${artifactoryBasePath}/${app}/next.zip"
@@ -618,7 +827,7 @@ pipeline {
                         script {
                             zip dir: 'dist/storybook/shared-ui-storybook',  glob: '', zipFile: 'dist/zips/storybook/next.zip'
                             uploadFile = 'dist/zips/storybook/next.zip'
-                            checksum = sh (
+                            checksum = sh(
                                 script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
                                 returnStdout: true
                             ).trim()
@@ -633,7 +842,7 @@ pipeline {
             post {
                 success {
                     script {
-                        def version = isAppRelease ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
+                        def version = isAppRelease || isPreRelease ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
                         currentBuild.description = "Version: ${version}"
                     }
                 }
@@ -649,8 +858,25 @@ pipeline {
             steps {
                 echo 'Release new version'
 
-                script {
+                script {                    
                     github.executeAsGithubUser('github-jenkins-access-token', 'git push --follow-tags')
+
+                    if (isAppRelease && isPreReleaseBranch) {
+                        github.executeAsGithubUser('github-jenkins-access-token', 'git fetch')
+                        sh 'git checkout master'
+                        try {
+                            sh "git merge ${env.BRANCH_NAME}"
+                            github.executeAsGithubUser('github-jenkins-access-token', 'git push')
+                        } catch(error) {
+                            sh "git reset --hard HEAD"
+                            sh "git checkout ${env.BRANCH_NAME}"
+                            withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                                def version = getPackageVersion(env.RELEASE_SCOPE)
+                                sh "gh pr create --base origin/master --title 'chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master' --body 'Automated merge failed due to conflicts. Please resolve them manually and merge this branch.'"
+                            }
+                        }                            
+                    }                   
+                    
                 }
             }
         }
@@ -664,17 +890,18 @@ pipeline {
             steps {
                 script {
                     def deployments = readJSON file: 'deployments.json'
-                    def appsToBuild = isAppRelease ? [env.RELEASE_SCOPE] : affectedApps
+                    def appsToBuild = isAppRelease || isPreRelease ? [env.RELEASE_SCOPE] : affectedApps
 
                     for (app in appsToBuild) {
                         def url = deployments[app]
 
                         def version = getPackageVersion(app)
-                        def configuration = isAppRelease ? 'PROD' : (isMain ? 'QA' : 'DEV')
+                        def configuration = isAppRelease ? 'PROD' : isPreRelease ? 'PRE-RELEASE' : (isMain ? 'QA' : 'DEV')
 
-                        // prod/release = latest, master = next, feature build = branch name
-                        def fileName = isAppRelease ? 'latest' : isMain ? 'next' : sanitizedBranchName
-                        def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
+                        // prod/release/pre-release = latest, master = next, feature build = branch name
+                        def path = isPreRelease ? "/${buildTypes.PRE_RELEASE}" : ''
+                        def fileName = isAppRelease || isPreRelease ? 'latest' : isMain ? 'next' : sanitizedBranchName
+                        def artifactoryTargetPath = "${artifactoryBasePath}/${app}${path}/${fileName}.zip"
 
                         try {
                             build job: "${url}",
@@ -692,7 +919,7 @@ pipeline {
             }
         }
 
-        stage ('Storybook Deployment') {
+        stage('Storybook Deployment') {
             when {
                 expression {
                     return publishStorybook
@@ -706,7 +933,7 @@ pipeline {
                     github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
                     sh 'git checkout -- .'
                     sh 'git checkout gh-pages'
-                    sh "git reset --hard origin/gh-pages"
+                    sh 'git reset --hard origin/gh-pages'
                     sh 'rm -rf *'
 
                     // download latest storybook bundle
@@ -733,7 +960,7 @@ pipeline {
             }
         }
 
-         stage('Cleanup Artifactory') {
+        stage('Cleanup Artifactory') {
             when {
                 expression {
                     return isNightly
@@ -742,7 +969,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-                        def jsonString = sh (
+                        def jsonString = sh(
                             script: "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
                             returnStdout: true
                         )
@@ -766,12 +993,12 @@ pipeline {
                 }
             }
         }
-    }
+}
 
     post {
         always {
             // perform general clean up
-            sh "chmod -R 777 ." // set rights so that the cleanup job can do its work
+            sh 'chmod -R 777 .' // set rights so that the cleanup job can do its work
             cleanWs(deleteDirs: true, disableDeferredWipeout: true)
         }
     }
