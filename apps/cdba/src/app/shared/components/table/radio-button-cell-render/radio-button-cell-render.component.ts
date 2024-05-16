@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { RowNode } from 'ag-grid-community';
+import { IRowNode } from 'ag-grid-community';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 @Component({
@@ -9,7 +9,7 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
   styleUrls: ['./radio-button-cell-render.component.scss'],
 })
 export class RadioButtonCellRenderComponent {
-  public node: RowNode;
+  public node: IRowNode;
 
   public agInit(params: ICellRendererParams): void {
     this.node = params.node;

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GridApi, ICellRendererParams, RowNode } from 'ag-grid-enterprise';
+import { GridApi, ICellRendererParams, IRowNode } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
@@ -15,7 +15,7 @@ export class MaterialDesignationCellRenderComponent {
   public materialDesignation: string;
   public referenceType: ReferenceType;
   public gridApi: GridApi;
-  public node: RowNode;
+  public node: IRowNode;
 
   public constructor(private readonly router: Router) {}
 

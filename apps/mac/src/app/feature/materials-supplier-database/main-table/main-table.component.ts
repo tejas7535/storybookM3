@@ -22,12 +22,12 @@ import {
   ExcelRow,
   ExcelStyle,
   GridApi,
+  IRowNode,
   IServerSideDatasource,
   IServerSideGetRowsParams,
   ProcessCellForExportParams,
   ProcessRowGroupForExportParams,
   RowClassParams,
-  RowNode,
   SideBarDef,
   ValueGetterParams,
 } from 'ag-grid-enterprise';
@@ -557,7 +557,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     getCellValueFn: (columnName: string, value?: any) => string
   ) {
     return (params: ProcessRowGroupForExportParams): ExcelRow[] => {
-      const rowNode: RowNode = params.node;
+      const rowNode: IRowNode = params.node;
       const data = rowNode.data;
 
       const result: ExcelRow[] = [];

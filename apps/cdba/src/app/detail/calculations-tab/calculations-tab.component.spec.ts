@@ -39,8 +39,39 @@ describe('CalculationsTabComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('selectCalculation', () => {
-    test('should dispatch selectCalculation Action', () => {
+  describe('selectCalculations', () => {
+    test('should dispatch selectCalculations Action when two calculations are selected and there is a new selected calculation', () => {
+      component['selectedNodeIds'] = ['1', '2'];
+      store.dispatch = jest.fn();
+
+      const calculation = {} as unknown as Calculation;
+
+      component.selectCalculations([
+        { nodeId: '2', calculation },
+        { nodeId: '7', calculation },
+      ]);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectCalculations({ nodeIds: ['2', '7'] })
+      );
+    });
+
+    test('should dispatch selectCalculations Action when one calculation is selected and there is already a selected calculation', () => {
+      component['selectedNodeIds'] = ['5'];
+      store.dispatch = jest.fn();
+
+      const nodeId = '7';
+      const calculation = {} as unknown as Calculation;
+
+      component.selectCalculations([{ nodeId, calculation }]);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectCalculations({ nodeIds: ['5', '7'] })
+      );
+    });
+
+    test('should dispatch selectCalculations Action when one calculation is selected and there is no selected calculation', () => {
+      component['selectedNodeIds'] = [];
       store.dispatch = jest.fn();
 
       const nodeId = '7';

@@ -21,6 +21,7 @@ import {
   ExcelRow,
   GridApi,
   IFilterComp,
+  IRowNode,
   IServerSideDatasource,
   IServerSideGetRowsParams,
   ProcessCellForExportParams,
@@ -975,7 +976,7 @@ describe('MainTableComponent', () => {
             col2: 'b',
             [MANUFACTURER_SUPPLIER_SAPID]: [],
           },
-        } as unknown as RowNode,
+        } as unknown as IRowNode,
       } as ProcessRowGroupForExportParams;
 
       const result: ExcelRow[] =
@@ -992,7 +993,7 @@ describe('MainTableComponent', () => {
             col2: 'b',
             [MANUFACTURER_SUPPLIER_SAPID]: ['onlyOneId'],
           },
-        } as unknown as RowNode,
+        } as unknown as IRowNode,
       } as ProcessRowGroupForExportParams;
 
       const result: ExcelRow[] =
@@ -1011,7 +1012,7 @@ describe('MainTableComponent', () => {
             releaseDateYear: 2000,
             releaseDateMonth: 1,
           },
-        } as unknown as RowNode,
+        } as unknown as IRowNode,
       } as ProcessRowGroupForExportParams;
       component['visibleColumns'] = [
         'col1',

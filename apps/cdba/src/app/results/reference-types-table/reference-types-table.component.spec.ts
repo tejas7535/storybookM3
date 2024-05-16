@@ -10,6 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import {
   FirstDataRenderedEvent,
   GridReadyEvent,
+  IRowNode,
   SelectionChangedEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
@@ -249,15 +250,23 @@ describe('ReferenceTypesTableComponent', () => {
     beforeEach(() => {
       component['gridApi'] = {
         getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
+        setNodesSelected: jest.fn(() => {}),
       } as unknown as GridApi;
     });
 
     it('should set node selected if nodeId is set', () => {
       component.selectedNodeIds = ['7'];
+      const rowNode = { id: '7' } as IRowNode as any;
+      component['gridApi'].getRowNode = jest.fn().mockReturnValue(rowNode);
 
       component['selectNodes']();
 
-      expect(component['gridApi'].getRowNode).toHaveBeenCalled();
+      expect(component['gridApi'].getRowNode).toHaveBeenCalledWith('7');
+      expect(component['gridApi'].setNodesSelected).toHaveBeenCalledWith({
+        nodes: [rowNode],
+        newValue: true,
+        source: 'api',
+      });
     });
 
     it('should do nothing, if nodeId is not present', () => {

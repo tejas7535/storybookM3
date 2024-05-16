@@ -13,7 +13,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   @Input() loading: boolean; // not used at the moment
   @Input() data: ReasonForLeavingStats[];
 
-  frameworkComponents = {};
+  components = {};
 
   readonly timeRangeHintValue = 'time range';
   readonly headerClass = 'bg-selected-overlay';

@@ -11,7 +11,12 @@ import { tap } from 'rxjs/operators';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
-import { ExcelCell, ExcelRow, GridApi } from 'ag-grid-enterprise';
+import {
+  ExcelCell,
+  ExcelExportParams,
+  ExcelRow,
+  GridApi,
+} from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -154,7 +159,7 @@ export class BomContainerComponent implements OnInit {
       sheetName: this.materialDesignation,
       allColumns: true,
       prependContent: this.getBomMetadata(this.gridApi.getColumnDefs().length),
-    });
+    } as ExcelExportParams);
 
     this.applicationInsights.logEvent('BoM Excel Export', {
       materialDesignation: this.materialDesignation,
@@ -303,9 +308,9 @@ export class BomContainerComponent implements OnInit {
       emptyAndStyledExcelCells.push(emptyCell);
     }
 
-    prependedMetadata[0] = this.createEmptyRow(0, emptyAndStyledExcelCells);
-    prependedMetadata[1] = this.createEmptyRow(1, emptyAndStyledExcelCells);
-    prependedMetadata[2] = this.createEmptyRow(2, emptyAndStyledExcelCells);
+    prependedMetadata[0] = this.createEmptyRow(emptyAndStyledExcelCells);
+    prependedMetadata[1] = this.createEmptyRow(emptyAndStyledExcelCells);
+    prependedMetadata[2] = this.createEmptyRow(emptyAndStyledExcelCells);
 
     // Material Designation[0][1] and Material Number[0][2]
     prependedMetadata[0].cells[1] = {
@@ -346,12 +351,11 @@ export class BomContainerComponent implements OnInit {
     return prependedMetadata;
   }
 
-  private createEmptyRow(index: number, cells: ExcelCell[]): ExcelRow {
+  private createEmptyRow(cells: ExcelCell[]): ExcelRow {
     return {
-      index,
       collapsed: false,
       hidden: false,
-      height: 1,
+      height: 20,
       outlineLevel: 0,
       cells: [...cells],
     };

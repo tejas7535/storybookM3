@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { RowNode } from 'ag-grid-community';
+import { IRowNode } from 'ag-grid-community';
 
 import { MaterialClass, REFERENCE_DOCUMENT } from '@mac/msd/constants';
 import { EDITABLE_MATERIAL_CLASSES } from '@mac/msd/constants/editable-material-classes';
@@ -64,7 +64,7 @@ export class EditCellRendererComponent implements ICellRendererAngularComp {
     } else {
       if (this.params.column.getColId() === REFERENCE_DOCUMENT) {
         this.dialogService.openReferenceDocumentBulkEditDialog(
-          this.params.api.getSelectedNodes().map((node: RowNode) => node.data)
+          this.params.api.getSelectedNodes().map((node: IRowNode) => node.data)
         );
       } else {
         this.dialogService.openBulkEditDialog(

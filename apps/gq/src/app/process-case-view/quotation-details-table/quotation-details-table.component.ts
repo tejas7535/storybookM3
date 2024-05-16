@@ -49,10 +49,10 @@ import {
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
+  IRowNode,
   MenuItemDef,
   RowDataUpdatedEvent,
   RowDoubleClickedEvent,
-  RowNode,
   RowSelectedEvent,
   SideBarDef,
   SortChangedEvent,
@@ -75,7 +75,7 @@ import { TableContext } from './config/tablecontext.model';
 })
 export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   sideBar: SideBarDef = SIDE_BAR;
-  defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
+  defaultColumnDefs: ColDef = { ...DEFAULT_COLUMN_DEFS, minWidth: 150 };
   statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
   components = COMPONENTS;
   columnDefs$: Observable<ColDef[]>;
@@ -83,7 +83,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   excelStyles: ExcelStyle[] = excelStyles;
   localeText$: Observable<AgGridLocale>;
   rowData: QuotationDetail[];
-  selectedRows: RowNode[] = [];
+  selectedRows: IRowNode[] = [];
   tableContext: TableContext = {
     quotation: undefined,
     onMultipleMaterialSimulation: () => {},
@@ -192,8 +192,8 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     this.updateColumnData(event);
 
     if (this.selectedRows) {
-      this.selectedRows.forEach((node: RowNode) => {
-        event.api.selectIndex(node.rowIndex, true, true);
+      this.selectedRows.forEach((node: IRowNode) => {
+        node.setSelected(true);
       });
     }
   }
@@ -324,7 +324,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     this.simulatedPriceSource = priceSourceOption;
 
     const simulatedRows = this.selectedRows
-      .map((row: RowNode) => {
+      .map((row: IRowNode) => {
         const detail: QuotationDetail = row.data;
 
         const targetPriceSource = this.getTargetPriceSource(
@@ -510,7 +510,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   private getSimulatedRow(
     field: ColumnFields,
     value: number,
-    row: RowNode
+    row: IRowNode
   ): QuotationDetail {
     if (!this.shouldSimulate(field, row.data)) {
       return row.data;
@@ -555,7 +555,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
   ) {
     const simulatedRows = isInvalid
       ? []
-      : this.selectedRows.map((row: RowNode) =>
+      : this.selectedRows.map((row: IRowNode) =>
           this.getSimulatedRow(field, value, row)
         );
 
@@ -596,7 +596,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
 
   private readonly buildColumnData = (event: RowDataUpdatedEvent) => {
     const columnData: QuotationDetail[] = [];
-    event.api.forEachNodeAfterFilterAndSort((node: RowNode) => {
+    event.api.forEachNodeAfterFilterAndSort((node: IRowNode) => {
       columnData.push(node.data);
     });
 

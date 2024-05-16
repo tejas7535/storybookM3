@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { IStatusPanelParams, RowNode } from 'ag-grid-community';
+import { IRowNode, IStatusPanelParams } from 'ag-grid-community';
 
 import { ValidationDescription } from '../../../models/table';
 
@@ -27,7 +27,7 @@ export class MaterialValidationStatusComponent {
     this.invalid = 0;
     this.total = 0;
 
-    this.params.api.forEachNode((row: RowNode) => {
+    this.params.api.forEachNode((row: IRowNode) => {
       if (
         row?.data?.info?.description?.includes(
           ValidationDescription.Not_Validated

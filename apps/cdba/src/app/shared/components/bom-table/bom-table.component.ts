@@ -18,9 +18,10 @@ import {
   ColumnState,
   FirstDataRenderedEvent,
   GridReadyEvent,
+  IRowNode,
   RowClickedEvent,
 } from 'ag-grid-community';
-import { ColumnApi, GridApi, RowNode } from 'ag-grid-enterprise';
+import { ColumnApi, GridApi } from 'ag-grid-enterprise';
 
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService } from '@cdba/shared/services';
@@ -174,7 +175,7 @@ export class BomTableComponent implements OnChanges {
     this.saveCustomColumnsState(evt.columnApi.getColumnState());
   }
 
-  updateNonLevel2Children(node: RowNode): void {
+  updateNonLevel2Children(node: IRowNode): void {
     // if node is not root and not level 1 child
     if (
       node.id !== this.currentSelectedRow.node.id &&
@@ -183,7 +184,7 @@ export class BomTableComponent implements OnChanges {
       this.nonLevel2Children.push(node.id);
     }
 
-    node.childrenAfterGroup.forEach((child: RowNode) => {
+    node.childrenAfterGroup.forEach((child: IRowNode) => {
       this.updateNonLevel2Children(child);
     });
   }

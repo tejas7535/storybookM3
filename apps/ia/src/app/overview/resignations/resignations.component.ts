@@ -17,7 +17,7 @@ export class ResignationsComponent {
   @Input() totalCount: number;
   @Input() syncOn: string;
 
-  frameworkComponents = {};
+  components = {};
 
   defaultColDef: ColDef = {
     sortable: true,

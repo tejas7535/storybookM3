@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -18,11 +18,14 @@ import {
   selector: 'cdba-calculations-tab',
   templateUrl: './calculations-tab.component.html',
 })
-export class CalculationsTabComponent implements OnInit {
+export class CalculationsTabComponent implements OnInit, OnDestroy {
   calculations$: Observable<Calculation[]>;
   selectedNodeIds$: Observable<string[]>;
   loading$: Observable<boolean>;
   errorMessage$: Observable<string>;
+
+  private selectedNodeIds: string[];
+  private selectedNodeIdsSubscription: Subscription;
 
   public constructor(private readonly store: Store) {}
 
@@ -31,6 +34,14 @@ export class CalculationsTabComponent implements OnInit {
     this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
     this.loading$ = this.store.select(getCalculationsLoading);
     this.errorMessage$ = this.store.select(getCalculationsError);
+
+    this.selectedNodeIdsSubscription = this.selectedNodeIds$.subscribe(
+      (selectedNodeIds) => (this.selectedNodeIds = selectedNodeIds)
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.selectedNodeIdsSubscription.unsubscribe();
   }
 
   public selectCalculations(
@@ -40,6 +51,11 @@ export class CalculationsTabComponent implements OnInit {
     }[]
   ): void {
     const nodeIds = event.map((entry) => entry.nodeId);
+
+    if (nodeIds.length === 1 && this.selectedNodeIds.length === 1) {
+      nodeIds.splice(0, 0, this.selectedNodeIds[0]);
+    }
+
     this.store.dispatch(selectCalculations({ nodeIds }));
   }
 }

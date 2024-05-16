@@ -9,6 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   GridReadyEvent,
+  IRowNode,
   RowSelectedEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
@@ -113,6 +114,7 @@ describe('CalculationsTableComponent', () => {
           setSelected: jest.fn(),
           data: undefined,
         })),
+        setNodesSelected: jest.fn((_param: any) => {}),
       },
     } as unknown as RowSelectedEvent;
 
@@ -160,6 +162,9 @@ describe('CalculationsTableComponent', () => {
 
     it('should remove from selectedRows if there are to many entries', () => {
       component.selectedNodeIds = ['1', '3'];
+      const rowNode: IRowNode = { id: '1' } as IRowNode as any;
+      event.api.getRowNode = jest.fn().mockReturnValue(rowNode);
+      event.api.setNodesSelected = jest.fn();
 
       component.onRowSelected(event);
 
@@ -170,6 +175,11 @@ describe('CalculationsTableComponent', () => {
         { nodeId: '2', calculation: undefined },
       ]);
       expect(event.api.getRowNode).toHaveBeenCalledWith('1');
+      expect(event.api.setNodesSelected).toHaveBeenCalledWith({
+        nodes: [rowNode],
+        newValue: false,
+        source: 'api',
+      });
     });
   });
 
@@ -201,12 +211,20 @@ describe('CalculationsTableComponent', () => {
     });
 
     it('should set node selected if nodeId is set', () => {
+      const rowNode: IRowNode = { id: '7' } as IRowNode as any;
+      component['gridApi'].getRowNode = jest.fn().mockReturnValue(rowNode);
+      component['gridApi'].setNodesSelected = jest.fn();
       component.selectedNodeIds = ['7'];
 
       component['selectNodes']();
 
       jest.advanceTimersByTime(10);
-      expect(component['gridApi'].getRowNode).toHaveBeenCalled();
+      expect(component['gridApi'].getRowNode).toHaveBeenCalledWith('7');
+      expect(component['gridApi'].setNodesSelected).toHaveBeenCalledWith({
+        nodes: [rowNode],
+        newValue: true,
+        source: 'api',
+      });
     });
 
     it('should do nothing, if nodeId is not present', () => {

@@ -4,7 +4,7 @@ import { Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { GridApi, RowNode } from 'ag-grid-enterprise';
+import { GridApi, IRowNode } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
@@ -52,7 +52,7 @@ export class CompareButtonComponent implements OnInit {
 
     nodeIds
       .map((id) => this.gridApi.getRowNode(id))
-      .forEach((selection: RowNode, index: number) => {
+      .forEach((selection: IRowNode, index: number) => {
         queryParams[`material_number_item_${index + 1}`] =
           selection.data.materialNumber;
         queryParams[`plant_item_${index + 1}`] = selection.data.plant;

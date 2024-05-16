@@ -596,12 +596,17 @@ describe('QuotationDetailsTableComponent', () => {
 
     test('should re-select rows', () => {
       component.selectedRows = [
-        { rowIndex: 21, data: { gqPositionId: '123' } },
+        {
+          rowIndex: 21,
+          data: { gqPositionId: '123' },
+          setSelected: (_isSelected: boolean) => {},
+        },
       ] as any;
+      component.selectedRows[0].setSelected = jest.fn();
 
       component.onRowDataUpdated(mockEvent as any);
 
-      expect(mockEvent.api.selectIndex).toHaveBeenCalledWith(21, true, true);
+      expect(component.selectedRows[0].setSelected).toHaveBeenCalledWith(true);
     });
 
     test('should NOT re-select rows if no rows had been selected', () => {

@@ -185,9 +185,10 @@ export class ReferenceTypesTableComponent
 
   private selectNodes(): void {
     if (this.selectedNodeIds) {
-      this.selectedNodeIds.forEach((id) =>
-        this.gridApi.getRowNode(id).setSelected(true, true, true)
+      const nodes = this.selectedNodeIds.map((id) =>
+        this.gridApi.getRowNode(id)
       );
+      this.gridApi.setNodesSelected({ nodes, newValue: true, source: 'api' });
     }
   }
 }

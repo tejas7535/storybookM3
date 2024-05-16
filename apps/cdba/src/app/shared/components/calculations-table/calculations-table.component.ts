@@ -41,6 +41,8 @@ import {
 })
 export class CalculationsTableComponent implements OnInit, OnChanges {
   @Input() minified = false;
+  @Input() rowSelection: 'multiple' | 'single';
+  @Input() rowMultiSelectWithClick = false;
   @Input() rowData: Calculation[];
   @Input() selectedNodeIds: string[];
   @Input() isLoading: boolean;
@@ -72,9 +74,8 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   };
 
   public sideBar: SideBarDef;
-  public rowSelection: 'multiple' | 'single';
   public enableRangeSelection: boolean;
-  public rowGroupPanelShow: string;
+  public rowGroupPanelShow: 'always' | 'onlyWhenGrouping' | 'never';
 
   public getMainMenuItems = getMainMenuItems;
 
@@ -107,8 +108,16 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   /**
    * Limit selected rows to a maximum of two
    */
-  public onRowSelected({ node, api }: RowSelectedEvent): void {
+  public onRowSelected(evt: RowSelectedEvent): void {
     setTimeout(() => {
+      // Ignore programatical row selections
+      if (evt.source === 'api') {
+        return;
+      }
+
+      const node = evt.node;
+      const api = evt.api;
+
       const maxLength = this.minified ? 1 : COMPARE_ITEMS_MAX_COUNT;
 
       const previouslySelectedRows = this.selectedNodeIds
@@ -123,7 +132,12 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
         : previouslySelectedRows.filter((entry: string) => entry !== id);
 
       if (newSelectedRows.length > maxLength) {
-        api.getRowNode(newSelectedRows.shift()).setSelected(false, false, true);
+        const latestSelectedNode = api.getRowNode(newSelectedRows.shift());
+        api.setNodesSelected({
+          nodes: [latestSelectedNode],
+          newValue: false,
+          source: 'api',
+        });
       }
 
       if (!arrayEquals<string>(newSelectedRows, previouslySelectedRows)) {
@@ -137,9 +151,15 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
         // keep at least one item selected in minified version
         if (this.minified && selections?.length === 0) {
-          api
-            .getRowNode(previouslySelectedRows.shift())
-            .setSelected(true, false, true);
+          const latestSelectedNode = api.getRowNode(
+            previouslySelectedRows.shift()
+          );
+
+          api.setNodesSelected({
+            nodes: [latestSelectedNode],
+            newValue: true,
+            source: 'api',
+          });
 
           return;
         }
@@ -185,7 +205,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
       ? FRAMEWORK_COMPONENTS_MINIFIED
       : FRAMEWORK_COMPONENTS;
 
-    this.rowSelection = 'multiple';
     this.enableRangeSelection = !minified;
     this.rowGroupPanelShow = minified ? 'never' : 'always';
   }
@@ -193,9 +212,16 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   private selectNodes(): void {
     if (this.selectedNodeIds) {
       setTimeout(() => {
-        this.selectedNodeIds.forEach((id) =>
-          this.gridApi.getRowNode(id).setSelected(true, true, true)
+        const latestSelectedNodes = this.gridApi.getRowNode(
+          this.selectedNodeIds[0]
         );
+        this.selectedNodeIds = this.selectedNodeIds.slice(1);
+
+        this.gridApi.setNodesSelected({
+          nodes: [latestSelectedNodes],
+          newValue: true,
+          source: 'api',
+        });
       }, 0);
     }
   }

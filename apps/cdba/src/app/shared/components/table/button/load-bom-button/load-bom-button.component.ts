@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { GridApi, RowNode } from 'ag-grid-enterprise';
+import { GridApi, IRowNode } from 'ag-grid-enterprise';
 
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
@@ -50,6 +50,6 @@ export class LoadBomButtonComponent {
     return nodesSelected[0]?.data?.costType !== 'RFQ';
   }
 
-  private readonly selectedNodes = (): RowNode[] =>
+  private readonly selectedNodes = (): IRowNode[] =>
     this.gridApi ? this.gridApi.getSelectedNodes() || [] : [];
 }

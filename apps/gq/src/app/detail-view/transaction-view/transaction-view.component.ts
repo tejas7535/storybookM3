@@ -26,7 +26,7 @@ import {
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { FilterChangedEvent, RowNode } from 'ag-grid-community';
+import { FilterChangedEvent, IRowNode } from 'ag-grid-community';
 
 import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
@@ -111,7 +111,7 @@ export class TransactionViewComponent implements OnInit {
 
   onFilterChanged(event: FilterChangedEvent): void {
     const filteredTransactionIdentifiers: number[] = [];
-    event.api.forEachNodeAfterFilter((node: RowNode) => {
+    event.api.forEachNodeAfterFilter((node: IRowNode) => {
       filteredTransactionIdentifiers.push(node.data.identifier);
     });
 
