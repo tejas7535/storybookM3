@@ -96,7 +96,7 @@ void defineReleaseScope(isPreReleaseBranch) {
 
 void defineIsPreReleaseTrigger(isMain) {
     // pre-releases only allowed on master
-    if (isMain) {
+    if (isMain && params.BUILD_TYPE == buildTypes.PRE_RELEASE) {
         isPreReleaseTrigger = preReleasableApps.any { app -> app.contains(params.RELEASE_SCOPE) }
 
         if (isPreReleaseTrigger) {
