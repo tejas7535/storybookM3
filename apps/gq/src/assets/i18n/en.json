@@ -586,7 +586,7 @@
       "sapId": "SAP Quotation",
       "customerName": "Customer Name",
       "customerId": "Customer Number",
-      "createdBy": "GQ Created By",
+      "gqCreatedByUser": "GQ Created By",
       "noResultsTitle": "No results yet",
       "noResultsSubTitle": "Enter keyword for search",
       "columns": {
@@ -594,7 +594,7 @@
         "sapId": "SAP Quotation",
         "customerId": "Customer Number",
         "customerName": "Customer Name",
-        "gqCreatedBy": "Case created on By",
+        "gqCreatedByUser": "Case Created By",
         "gqCreated": "Case Created On",
         "gqLastUpdated": "Case Last Updated",
         "totalNetValue": "Total Net Value"

@@ -84,7 +84,7 @@ export class ColumnDefinitionService {
 
     {
       headerName: translate(
-        'searchBarAdvanced.casesResultsTable.columns.gqCreatedBy'
+        'searchBarAdvanced.casesResultsTable.columns.gqCreatedByUser'
       ),
       field: SearchByCasesColumnFields.GQ_CREATED_BY,
       valueFormatter: GeneralColumnUtilityService.basicTransform,

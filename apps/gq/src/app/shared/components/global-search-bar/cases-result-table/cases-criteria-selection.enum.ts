@@ -3,5 +3,5 @@ export enum CasesCriteriaSelection {
   SAP_ID = 'sapId',
   CUSTOMER_ID = 'customerId',
   CUSTOMER_NAME = 'customerName',
-  CREATED_BY = 'createdBy',
+  GQ_CREATED_BY = 'gqCreatedByUser',
 }

@@ -586,7 +586,7 @@
       "sapId": "SAP Angebot",
       "customerName": "Kundenname",
       "customerId": "Kundennummer",
-      "createdBy": "GQ erstellt von",
+      "gqCreatedByUser": "GQ erstellt von",
       "noResultsTitle": "Noch keine Ergebnisse",
       "noResultsSubTitle": "Stichwort für die Suche eingeben",
       "columns": {
@@ -594,7 +594,7 @@
         "sapId": "SAP Angebot",
         "customerId": "Kundennummer",
         "customerName": "Kundenname",
-        "gqCreatedBy": "Case erstellt von",
+        "gqCreatedByUser": "Case erstellt von",
         "gqCreated": "Case erstellt am",
         "gqLastUpdated": "Case zuletzt aktualisiert am",
         "totalNetValue": "Ges. Nettowert"
