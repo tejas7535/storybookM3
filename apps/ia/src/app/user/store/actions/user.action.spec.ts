@@ -1,6 +1,13 @@
 import { FilterDimension } from '../../../shared/models';
+import { ISystemMessage } from '../../../shared/models/system-message';
 import { UserFeedback } from '../../user-settings/models';
 import {
+  dismissSystemMessage,
+  dismissSystemMessageFailure,
+  dismissSystemMessageSuccess,
+  loadSystemMessage,
+  loadSystemMessageFailure,
+  loadSystemMessageSuccess,
   loadUserSettings,
   loadUserSettingsDimensionData,
   loadUserSettingsFailure,
@@ -134,6 +141,62 @@ describe('User Actions', () => {
 
     expect(action).toEqual({
       type: '[User] Submit User Feedback Failure',
+    });
+  });
+
+  test('loadSystemMessages', () => {
+    const action = loadSystemMessage();
+
+    expect(action).toEqual({
+      type: '[User] Load System Message',
+    });
+  });
+
+  test('loadSystemMessageSuccess', () => {
+    const data: ISystemMessage[] = [
+      { id: 123, message: 'message', type: 'info' },
+    ];
+    const action = loadSystemMessageSuccess({ data });
+
+    expect(action).toEqual({
+      type: '[User] Load System Message Success',
+      data,
+    });
+  });
+
+  test('loadSystemMessageFailure', () => {
+    const action = loadSystemMessageFailure({ errorMessage: 'error' });
+
+    expect(action).toEqual({
+      type: '[User] Load System Message Failure',
+      errorMessage: 'error',
+    });
+  });
+
+  test('dismissSystemMessage', () => {
+    const action = dismissSystemMessage({ id: 321 });
+
+    expect(action).toEqual({
+      type: '[User] Dismiss System Message',
+      id: 321,
+    });
+  });
+
+  test('dismissSystemMessageSuccess', () => {
+    const action = dismissSystemMessageSuccess({ id: 123 });
+
+    expect(action).toEqual({
+      type: '[User] Dismiss System Message Success',
+      id: 123,
+    });
+  });
+
+  test('dismissSystemMessageFailure', () => {
+    const action = dismissSystemMessageFailure({ errorMessage: 'abc' });
+
+    expect(action).toEqual({
+      type: '[User] Dismiss System Message Failure',
+      errorMessage: 'abc',
     });
   });
 });

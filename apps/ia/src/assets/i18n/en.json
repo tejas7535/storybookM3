@@ -1,4 +1,8 @@
 {
+  "banner": {
+    "dismiss": "Dismiss",
+    "nextMessage": "Next Message"
+  },
   "filters": {
     "dimension": {
       "title": "Select a dimension",

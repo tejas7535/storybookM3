@@ -1,0 +1,39 @@
+::ng-deep .ia-banner-type-info > schaeffler-banner-text > div {
+  background-color: #f0f6fa;
+  border: 1px solid #1c98b5;
+  color: #00596e;
+
+  .mat-icon {
+    color: #1c98b5;
+  }
+}
+
+::ng-deep .ia-banner-type-success > schaeffler-banner-text > div {
+  background-color: #f8fbf4;
+  border: 1px solid #a1c861;
+  color: #3c7029;
+
+  .mat-icon {
+    color: #a1c861;
+  }
+}
+
+::ng-deep .ia-banner-type-warning > schaeffler-banner-text > div {
+  background-color: #fffbef;
+  border: 1px solid #e9b300;
+  color: #814e00;
+
+  .mat-icon {
+    color: #e9b300;
+  }
+}
+
+::ng-deep .ia-banner-type-error > schaeffler-banner-text > div {
+  background-color: #fceee8;
+  border: 1px solid #cb0b15;
+  color: #a30f0c;
+
+  .mat-icon {
+    color: #cb0b15;
+  }
+}

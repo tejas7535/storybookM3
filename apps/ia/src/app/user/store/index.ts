@@ -1,3 +1,4 @@
+import { EntityState } from '@ngrx/entity';
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import {
@@ -5,12 +6,23 @@ import {
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../core/store/actions';
+import {
+  SystemMessage,
+  systemMessageAdapter,
+} from '../../shared/models/system-message';
 import { UserSettings } from '../user-settings/models/user-settings.model';
 import {
+  dismissSystemMessage,
+  dismissSystemMessageFailure,
+  dismissSystemMessageSuccess,
+  loadSystemMessage,
+  loadSystemMessageFailure,
+  loadSystemMessageSuccess,
   loadUserSettings,
   loadUserSettingsDimensionData,
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
+  openIABanner,
   submitUserFeedback,
   submitUserFeedbackFailure,
   submitUserFeedbackSuccess,
@@ -33,6 +45,12 @@ export interface UserState {
   feedback: {
     loading: boolean;
   };
+  systemMessage: {
+    loading: boolean;
+    errorMessage: string;
+    data: EntityState<SystemMessage>;
+    active: number;
+  };
 }
 
 export const initialState: UserState = {
@@ -46,6 +64,12 @@ export const initialState: UserState = {
   },
   feedback: {
     loading: false,
+  },
+  systemMessage: {
+    loading: false,
+    errorMessage: undefined,
+    data: systemMessageAdapter.getInitialState(),
+    active: undefined,
   },
 };
 
@@ -181,6 +205,80 @@ export const userReducer = createReducer(
       feedback: {
         ...state.feedback,
         loading: false,
+      },
+    })
+  ),
+  on(
+    loadSystemMessage,
+    (state: UserState): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadSystemMessageSuccess,
+    (state: UserState, { data }): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        loading: false,
+        data: systemMessageAdapter.upsertMany(data, state.systemMessage.data),
+      },
+    })
+  ),
+  on(
+    loadSystemMessageFailure,
+    (state: UserState, { errorMessage }): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        loading: false,
+        errorMessage,
+      },
+    })
+  ),
+  on(
+    dismissSystemMessage,
+    (state: UserState): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    dismissSystemMessageSuccess,
+    (state: UserState, { id }): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        data: systemMessageAdapter.removeOne(id, state.systemMessage.data),
+        active: undefined,
+      },
+    })
+  ),
+  on(
+    dismissSystemMessageFailure,
+    (state: UserState, { errorMessage }): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        loading: false,
+        errorMessage,
+      },
+    })
+  ),
+  on(
+    openIABanner,
+    (state: UserState, { systemMessage }): UserState => ({
+      ...state,
+      systemMessage: {
+        ...state.systemMessage,
+        active: systemMessage?.id,
       },
     })
   )

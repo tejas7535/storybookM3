@@ -1,10 +1,20 @@
+import { EntityState } from '@ngrx/entity';
+
 import { FilterDimension, IdValue } from '../../../shared/models';
+import {
+  SystemMessage,
+  systemMessageAdapter,
+} from '../../../shared/models/system-message';
 import { UserState } from '../index';
 import {
+  getActiveSystemMessageId,
   getDialogSelectedDimensionDataLoading,
   getFavoriteDimension,
   getFavoriteDimensionDisplayName,
   getFavoriteDimensionIdValue,
+  getSystemMessage,
+  getSystemMessageCount,
+  getSystemMessageData,
   getUserSettings,
 } from './user.selector';
 
@@ -105,6 +115,60 @@ describe('User Selector', () => {
           settings: { data: undefined },
         } as unknown as UserState)
       ).toBeUndefined();
+    });
+  });
+
+  describe('getSystemMessageData', () => {
+    test('should return system message data', () => {
+      const data = {
+        ids: [1],
+        entities: [{ id: 1, message: 'm', type: 'info' }],
+      } as unknown as EntityState<SystemMessage>;
+      const fakeState = {
+        systemMessage: {
+          data,
+        },
+      } as UserState;
+
+      expect(getSystemMessageData.projector(fakeState)).toEqual(data);
+    });
+  });
+
+  describe('getSystemMessage', () => {
+    test('should return system message', () => {
+      const data = systemMessageAdapter.getInitialState();
+      systemMessageAdapter.getSelectors = jest.fn().mockReturnValue({
+        selectTotal: () => 5,
+        selectAll: () => [{ id: 1, message: 'm', type: 'info' }],
+      });
+
+      const result = getSystemMessage.projector(data);
+
+      expect(result).toEqual({ id: 1, message: 'm', type: 'info' });
+    });
+  });
+
+  describe('getActiveSystemMessageId', () => {
+    test('should return active system message id', () => {
+      const fakeState = {
+        systemMessage: {
+          active: 1001,
+        },
+      } as UserState;
+      expect(getActiveSystemMessageId.projector(fakeState)).toBe(1001);
+    });
+  });
+
+  describe('getSystemMessageCount', () => {
+    test('should return system message count', () => {
+      const data = systemMessageAdapter.getInitialState();
+      systemMessageAdapter.getSelectors = jest.fn().mockReturnValue({
+        selectTotal: () => 5,
+      });
+
+      const result = getSystemMessageCount.projector(data);
+
+      expect(result).toEqual(5);
     });
   });
 });

@@ -1,8 +1,10 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { of } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -10,6 +12,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { getIsLoggedIn, loginSuccess } from '@schaeffler/azure-auth';
+import { closeBanner, openBanner } from '@schaeffler/banner';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   filterDimensionSelected,
@@ -17,14 +21,24 @@ import {
   loadFilterDimensionData,
 } from '../../../core/store/actions';
 import { FilterDimension, IdValue } from '../../../shared/models';
+import { SystemMessage } from '../../../shared/models/system-message';
+import { SystemMessageService } from '../../system-message/system-message.service';
 import { UserFeedback } from '../../user-settings/models';
 import { UserSettings } from '../../user-settings/models/user-settings.model';
 import { UserSettingsService } from '../../user-settings/user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings/user-settings-dialog/user-settings-dialog.component';
 import {
+  dismissSystemMessage,
+  dismissSystemMessageFailure,
+  dismissSystemMessageSuccess,
+  initUserEffects,
+  loadSystemMessage,
+  loadSystemMessageFailure,
+  loadSystemMessageSuccess,
   loadUserSettings,
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
+  openIABanner,
   showUserSettingsDialog,
   submitUserFeedback,
   submitUserFeedbackFailure,
@@ -34,8 +48,10 @@ import {
   updateUserSettingsSuccess,
 } from '../actions/user.action';
 import {
+  getActiveSystemMessageId,
   getFavoriteDimension,
   getFavoriteDimensionIdValue,
+  getSystemMessageCount,
 } from '../selectors/user.selector';
 import { UserEffects } from './user.effects';
 
@@ -48,6 +64,8 @@ describe('User Settings Effects', () => {
   let spectator: SpectatorService<UserEffects>;
   let actions$: any;
   let userSettingsService: UserSettingsService;
+  let systemMessageService: SystemMessageService;
+  let translocoService: TranslocoService;
   let action: any;
   let effects: UserEffects;
   let dialog: MockDialog;
@@ -61,7 +79,11 @@ describe('User Settings Effects', () => {
 
   const createService = createServiceFactory({
     service: UserEffects,
-    imports: [MatDialogModule, MatSnackBarModule],
+    imports: [
+      MatDialogModule,
+      MatSnackBarModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       provideMockActions(() => actions$),
       provideMockStore(),
@@ -71,7 +93,15 @@ describe('User Settings Effects', () => {
           getInitialFilters: jest.fn(),
         },
       },
+      {
+        provide: SystemMessageService,
+        useValue: {
+          getSystemMessage: jest.fn(),
+          dismissSystemMessage: jest.fn(),
+        },
+      },
       { provide: MatDialog, useClass: MockDialog },
+      { provide: HttpClientTestingModule },
     ],
   });
 
@@ -80,10 +110,12 @@ describe('User Settings Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(UserEffects);
     userSettingsService = spectator.inject(UserSettingsService);
+    systemMessageService = spectator.inject(SystemMessageService);
     dialog = spectator.inject(MatDialog);
     metadata = getEffectsMetadata(effects);
     snackbar = spectator.inject(MatSnackBar);
     store = spectator.inject(MockStore);
+    translocoService = spectator.inject(TranslocoService);
   });
 
   describe('loadUserSettings$', () => {
@@ -427,7 +459,7 @@ describe('User Settings Effects', () => {
     });
 
     test(
-      'should return filterDimensionSelected',
+      'should return filterDimensionSelected and loadSystemMessage',
       marbles((m) => {
         const filter = {
           name: FilterDimension.BOARD,
@@ -437,13 +469,18 @@ describe('User Settings Effects', () => {
           },
         };
 
-        const result = filterDimensionSelected({
+        const resultFilterDimensionSelected = filterDimensionSelected({
           filter,
           filterDimension: FilterDimension.BOARD,
         });
 
+        const resultLoadSystemMessage = loadSystemMessage();
+
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: result });
+        const expected = m.cold('-(bc)', {
+          b: resultLoadSystemMessage,
+          c: resultFilterDimensionSelected,
+        });
 
         m.expect(effects.updateUserSettingsSuccess$).toBeObservable(expected);
         m.flush();
@@ -538,6 +575,196 @@ describe('User Settings Effects', () => {
       effects.submitUserFeedbackFailure$.subscribe();
 
       expect(snackbar.open).toHaveBeenCalledWith('translate it');
+    });
+  });
+
+  describe('loadSystemMessage$', () => {
+    beforeEach(() => {
+      action = loadSystemMessage();
+    });
+
+    test(
+      'should return loadSystemMessageSuccess on success',
+      marbles((m) => {
+        const data: SystemMessage[] = [
+          {
+            id: 1,
+            message: 'System message',
+            type: 'info',
+          },
+        ];
+        const result = loadSystemMessageSuccess({ data });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--b', { b: result });
+        const response = m.cold('-c', { c: data });
+
+        systemMessageService.getSystemMessage = jest
+          .fn()
+          .mockReturnValue(response);
+
+        m.expect(effects.loadSystemMessage$).toBeObservable(expected);
+        m.flush();
+        expect(systemMessageService.getSystemMessage).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return loadSystemMessageFailure on REST error',
+      marbles((m) => {
+        const result = loadSystemMessageFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        systemMessageService.getSystemMessage = jest
+          .fn()
+          .mockReturnValue(response);
+
+        m.expect(effects.loadSystemMessage$).toBeObservable(expected);
+        m.flush();
+        expect(systemMessageService.getSystemMessage).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('dismissSystemMessage$', () => {
+    const id = 123;
+    beforeEach(() => {
+      action = dismissSystemMessage({ id });
+    });
+
+    test(
+      'should return dismissSystemMessageSuccess on success',
+      marbles((m) => {
+        const result = dismissSystemMessageSuccess({ id });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--b', { b: result });
+
+        const response = m.cold('-c', { c: id });
+
+        systemMessageService.dismissSystemMessage = jest
+          .fn()
+          .mockReturnValue(response);
+
+        m.expect(effects.dismissSystemMessage$).toBeObservable(expected);
+        m.flush();
+        expect(systemMessageService.dismissSystemMessage).toHaveBeenCalledWith(
+          id
+        );
+      })
+    );
+
+    test(
+      'should return dismissSystemMessageFailure on REST error',
+      marbles((m) => {
+        const result = dismissSystemMessageFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        systemMessageService.dismissSystemMessage = jest
+          .fn()
+          .mockReturnValue(response);
+
+        m.expect(effects.dismissSystemMessage$).toBeObservable(expected);
+        m.flush();
+        expect(systemMessageService.dismissSystemMessage).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
+  });
+
+  describe('closeBanner$', () => {
+    test(
+      'should return dismissSystemMessage',
+      marbles((m) => {
+        const id = 123;
+        action = closeBanner();
+        actions$ = m.hot('--a', { a: action });
+        const result = dismissSystemMessage({ id });
+        const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getActiveSystemMessageId, id);
+
+        m.expect(effects.closeBanner$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('initUserEffects$', () => {
+    test(
+      'should dispatch init actions',
+      marbles((m) => {
+        action = initUserEffects();
+        const loadUserSettingsAction = loadUserSettings();
+        const loadSystemMessageAction = loadSystemMessage();
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected$ = m.cold('-(bc)', {
+          b: loadUserSettingsAction,
+          c: loadSystemMessageAction,
+        });
+
+        m.expect(effects.initUserEffects$).toBeObservable(expected$);
+        m.flush();
+      })
+    );
+  });
+
+  describe('openIABanner$', () => {
+    test(
+      'should return openBanner with dismiss text button',
+      marbles((m) => {
+        const systemMessage: SystemMessage = {
+          id: 123,
+          message: 'System message',
+          type: 'info',
+        };
+        translocoService.selectTranslateObject = jest
+          .fn()
+          .mockReturnValue(
+            of({ dismiss: 'dismiss', nextMessage: 'Next Message' })
+          );
+        store.overrideSelector(getSystemMessageCount, 5);
+        effects.getTruncationSize = jest.fn().mockReturnValue(5);
+
+        action = openIABanner({ systemMessage });
+        actions$ = m.hot('-a', { a: action });
+        const result = openBanner({
+          text: 'System message',
+          buttonText: 'Next Message',
+          icon: 'info',
+          truncateSize: 5,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.openIABanner$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('getTruncationSize', () => {
+    test('should return undefined if the message is not defined', () => {
+      expect(
+        effects.getTruncationSize(undefined as string, 10)
+      ).toBeUndefined();
+    });
+
+    test('should return 10 if the message length is 5 and max size 10', () => {
+      expect(effects.getTruncationSize('12345', 10)).toBeUndefined();
+    });
+
+    test('should return 5 if the message length in HTML tag is 6', () => {
+      expect(effects.getTruncationSize('<p>123456</p>', 5)).toBe(5);
     });
   });
 });

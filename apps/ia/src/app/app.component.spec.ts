@@ -10,6 +10,7 @@ import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
@@ -18,6 +19,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { FilterSectionModule } from './filter-section/filter-section.module';
+import { SystemMessageBannerComponent } from './user/system-message/system-message-banner/system-message-banner.component';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 
@@ -49,6 +51,7 @@ describe('AppComponent', () => {
         cookiesGroups: COOKIE_GROUPS,
         domainScript: 'mockOneTrustId',
       }),
+      MockComponent(SystemMessageBannerComponent),
     ],
     providers: [
       provideMockStore(),

@@ -19,6 +19,8 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { getEnv } from '../environments/environments.provider';
 import { AppRoutePath } from './app-route-path.enum';
 import { EnvironmentEnum } from './shared/models';
+import { SystemMessage } from './shared/models/system-message';
+import { getSystemMessage } from './user/store/selectors/user.selector';
 
 interface TabElem {
   label: string;
@@ -41,6 +43,8 @@ export class AppComponent implements OnInit {
   isLegalRouteActive$: Observable<boolean>;
   isCookieRouteActive$: Observable<boolean>;
   isFluctuationAnalyticsPageActive$: Observable<boolean>;
+
+  systemMessage$: Observable<SystemMessage>;
 
   tabs: TabElem[] = [
     {
@@ -114,6 +118,8 @@ export class AppComponent implements OnInit {
     this.translocoService.langChanges$.subscribe((language) => {
       this.oneTrustService.translateBanner(language, true);
     });
+
+    this.systemMessage$ = this.store.select(getSystemMessage);
   }
 
   handleCurrentRoute(): void {

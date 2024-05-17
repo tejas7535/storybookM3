@@ -24,6 +24,7 @@ import { CoreModule } from './core/core.module';
 import { FilterSectionModule } from './filter-section/filter-section.module';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './user/user.module';
+import { SystemMessageBannerComponent } from './user/system-message/system-message-banner/system-message-banner.component';
 
 export function DynamicDataPrivacy(
   translocoService: TranslocoService
@@ -51,6 +52,7 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
     AppShellModule,
     UserModule,
     FilterSectionModule,
+    SystemMessageBannerComponent,
   ],
   providers: [
     {

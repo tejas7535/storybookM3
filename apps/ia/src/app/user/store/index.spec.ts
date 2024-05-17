@@ -4,7 +4,14 @@ import {
   loadFilterDimensionDataSuccess,
 } from '../../core/store/actions';
 import { FilterDimension } from '../../shared/models';
+import { SystemMessage } from '../../shared/models/system-message';
 import {
+  dismissSystemMessage,
+  dismissSystemMessageFailure,
+  dismissSystemMessageSuccess,
+  loadSystemMessage,
+  loadSystemMessageFailure,
+  loadSystemMessageSuccess,
   loadUserSettings,
   loadUserSettingsDimensionData,
   loadUserSettingsFailure,
@@ -16,7 +23,7 @@ import {
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
 } from './actions/user.action';
-import { initialState, userReducer } from './index';
+import { initialState, userReducer, UserState } from './index';
 
 describe('User Reducer', () => {
   test('loadUserSettings', () => {
@@ -160,5 +167,84 @@ describe('User Reducer', () => {
     const state = userReducer(initialState, action);
 
     expect(state.feedback.loading).toBeFalsy();
+  });
+
+  test('loadSystemMessage', () => {
+    const action = loadSystemMessage();
+
+    const state = userReducer(initialState, action);
+
+    expect(state.systemMessage.loading).toBeTruthy();
+  });
+
+  test('loadSystemMessageSuccess', () => {
+    const data: SystemMessage[] = [
+      {
+        id: 1,
+        message: 'System message',
+        type: 'info',
+      },
+    ];
+    const action = loadSystemMessageSuccess({ data });
+
+    const state = userReducer(initialState, action);
+
+    expect(state.systemMessage.loading).toBeFalsy();
+    expect(state.systemMessage.data.entities[1]).toBe(data[0]);
+    expect(state.systemMessage.data.ids.length).toBe(1);
+    expect(state.systemMessage.data.ids).toEqual([1]);
+  });
+
+  test('loadSystemMessageFailure', () => {
+    const action = loadSystemMessageFailure({ errorMessage: 'error' });
+
+    const state = userReducer(initialState, action);
+
+    expect(state.systemMessage.loading).toBeFalsy();
+  });
+
+  test('dismissSystemMessage', () => {
+    const id = 1;
+    const action = dismissSystemMessage({ id });
+
+    const state = userReducer(initialState, action);
+
+    expect(state.systemMessage.loading).toBeTruthy();
+  });
+
+  test('dismissSystemMessageSuccess', () => {
+    const id = 1;
+    const action = dismissSystemMessageSuccess({ id });
+    const fakeState: UserState = {
+      ...initialState,
+      systemMessage: {
+        ...initialState.systemMessage,
+        data: {
+          ids: [id],
+          entities: {
+            [id]: {
+              id,
+              message: 'System message',
+              type: 'info',
+            },
+          },
+        },
+      },
+    };
+
+    const state = userReducer(fakeState, action);
+
+    expect(state.systemMessage.data.entities[id]).toBeUndefined();
+    expect(state.systemMessage.data.ids.length).toEqual(0);
+    expect(state.systemMessage.loading).toBeFalsy();
+  });
+
+  test('dismissSystemMessageFailure', () => {
+    const action = dismissSystemMessageFailure({ errorMessage: 'error' });
+
+    const state = userReducer(initialState, action);
+
+    expect(state.systemMessage.loading).toBeFalsy();
+    expect(state.systemMessage.errorMessage).toEqual('error');
   });
 });
