@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom } from 'rxjs';
-
-import { SettingsFacade } from '@ea/core/store';
 import { CalculationParametersCalculationTypes } from '@ea/core/store/models';
 import { APP_VERSION } from '@ea/shared/constants/version';
 
@@ -12,9 +9,9 @@ import {
   BasicEvent,
   CalculationEvent,
   CalculationTypeChangeEvent,
-  EmbeddedGoogleAnalyticsService,
+  GoogleAnalyticsService,
   LoadCaseEvent,
-} from '../embedded-google-analytics';
+} from '../google-analytics';
 
 @Injectable({
   providedIn: 'root',
@@ -23,23 +20,22 @@ export class TrackingService {
   private readonly version = APP_VERSION;
 
   constructor(
-    private readonly settingsFacade: SettingsFacade,
-    private readonly gaService: EmbeddedGoogleAnalyticsService,
+    private readonly gaService: GoogleAnalyticsService,
     private readonly aiService: ApplicationInsightsService
   ) {}
 
-  public async logDownloadReport(): Promise<void> {
+  public logDownloadReport(): void {
     return this.logEvent({ action: 'Download Report' });
   }
 
-  public async logShowReport(): Promise<void> {
+  public logShowReport(): void {
     return this.logEvent({ action: 'Show Report' });
   }
 
-  public async logToggleCalculationType(
+  public logToggleCalculationType(
     newStatus: boolean,
     methods: CalculationTypeChangeEvent['methods']
-  ): Promise<void> {
+  ): void {
     return this.logEvent({
       action: 'Toggle Method',
       status: newStatus ? 'on' : 'off',
@@ -48,11 +44,11 @@ export class TrackingService {
     });
   }
 
-  public async logCalculation(
+  public logCalculation(
     calculationTypes: CalculationParametersCalculationTypes,
     loadcaseCount: number,
     error?: string
-  ): Promise<void> {
+  ): void {
     const methods: CalculationEvent['methods'] = {};
     for (const [calculationType, calculationOptions] of Object.entries(
       calculationTypes
@@ -73,7 +69,7 @@ export class TrackingService {
     });
   }
 
-  public async logLoadcaseEvent(
+  public logLoadcaseEvent(
     event: LoadCaseEvent['event'],
     numberOfLoadcases?: LoadCaseEvent['numberOfLoadcases']
   ) {
@@ -84,14 +80,9 @@ export class TrackingService {
     });
   }
 
-  private async logEvent<T extends BasicEvent>(event: T): Promise<void> {
-    const standalone = await firstValueFrom(this.settingsFacade.isStandalone$);
-
-    if (standalone) {
-      this.aiService.logEvent(event.action, event);
-    } else {
-      this.gaService.logEvent(event);
-    }
+  private logEvent<T extends BasicEvent>(event: T): void {
+    this.aiService.logEvent(event.action, event);
+    this.gaService.logEvent(event);
 
     return;
   }

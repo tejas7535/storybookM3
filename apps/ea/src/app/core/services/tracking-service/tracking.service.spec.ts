@@ -7,12 +7,12 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import {
   BasicEvent,
-  EmbeddedGoogleAnalyticsService,
+  GoogleAnalyticsService,
   LoadCaseEvent,
-} from '../embedded-google-analytics';
+} from '../google-analytics';
 import { TrackingService } from './tracking.service';
 
-const GA_SERVICE_MOCK: Partial<EmbeddedGoogleAnalyticsService> = {
+const GA_SERVICE_MOCK: Partial<GoogleAnalyticsService> = {
   logEvent: jest.fn(),
 };
 
@@ -46,7 +46,7 @@ describe('TrackingService', () => {
         useValue: settingsFacadeMock,
       },
       {
-        provide: EmbeddedGoogleAnalyticsService,
+        provide: GoogleAnalyticsService,
         useValue: GA_SERVICE_MOCK,
       },
       {
@@ -66,9 +66,9 @@ describe('TrackingService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('when the app is delivered in embedded mode', () => {
-    it('event log calls should be made to google analytics with specific calls', async () => {
-      await service.logLoadcaseEvent(
+  describe('when the tracking service is called', () => {
+    it('every log call should be redirected to both implemented tracking services', () => {
+      service.logLoadcaseEvent(
         MOCK_LOAD_CASE_EVENT.event,
         MOCK_LOAD_CASE_EVENT.numberOfLoadcases
       );
@@ -76,45 +76,22 @@ describe('TrackingService', () => {
       expect(service['gaService'].logEvent).toHaveBeenCalledWith(
         MOCK_LOAD_CASE_EVENT
       );
-      expect(service['aiService'].logEvent).not.toHaveBeenCalled();
-    });
-
-    it('the general log event call should be redirect to GA', async () => {
-      await service['logEvent'](MOCK_BASIC_EVENT);
-
-      expect(service['gaService'].logEvent).toHaveBeenCalledWith(
-        MOCK_BASIC_EVENT
-      );
-      expect(service['aiService'].logEvent).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('when the app is delivered in standalone', () => {
-    beforeEach(() => {
-      settingsFacadeMock.isStandalone$ = of(true);
-    });
-
-    it('the general log event call should be redirect to Application Insights', async () => {
-      await service.logLoadcaseEvent(
-        MOCK_LOAD_CASE_EVENT.event,
-        MOCK_LOAD_CASE_EVENT.numberOfLoadcases
-      );
-
       expect(service['aiService'].logEvent).toHaveBeenCalledWith(
         MOCK_LOAD_CASE_EVENT.action,
         MOCK_LOAD_CASE_EVENT
       );
-      expect(service['gaService'].logEvent).not.toHaveBeenCalled();
     });
 
-    it('the general call should be redirect to Application Insights', async () => {
-      await service['logEvent'](MOCK_BASIC_EVENT);
+    it('the general log event call should be redirect to both tracking services', () => {
+      service['logEvent'](MOCK_BASIC_EVENT);
 
+      expect(service['gaService'].logEvent).toHaveBeenCalledWith(
+        MOCK_BASIC_EVENT
+      );
       expect(service['aiService'].logEvent).toHaveBeenCalledWith(
         MOCK_BASIC_EVENT.action,
         MOCK_BASIC_EVENT
       );
-      expect(service['gaService'].logEvent).not.toHaveBeenCalled();
     });
   });
 });

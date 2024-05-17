@@ -23,7 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { firstValueFrom, Subject } from 'rxjs';
 
-import { CalculationTypeChangeEvent } from '@ea/core/services/embedded-google-analytics';
+import { CalculationTypeChangeEvent } from '@ea/core/services/google-analytics';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { CalculationParametersFacade } from '@ea/core/store';
 import { CalculationTypesActions } from '@ea/core/store/actions';
