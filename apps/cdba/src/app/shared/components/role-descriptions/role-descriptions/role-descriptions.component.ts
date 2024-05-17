@@ -114,7 +114,15 @@ export class RoleDescriptionsComponent implements OnInit, OnDestroy {
           ],
         };
 
-        this.rolesGroups = [...this.rolesGroups, costRolesGroup];
+        // don't add another Cost RoleGroup when it already exists
+        const index = this.rolesGroups.findIndex(
+          (rolesGroup) => rolesGroup.title === costRolesGroup.title
+        );
+        if (index > -1) {
+          this.rolesGroups[index] = costRolesGroup;
+        } else {
+          this.rolesGroups = [...this.rolesGroups, costRolesGroup];
+        }
       });
   }
 }

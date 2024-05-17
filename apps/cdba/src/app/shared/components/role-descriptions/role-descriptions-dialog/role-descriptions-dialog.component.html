@@ -1,7 +1,10 @@
 <div [@.disabled]="disableAnimation" *transloco="let t; read: 'roles'">
   <h2 mat-dialog-title>
     {{ t('heading.default') }}
-    <mat-icon mat-dialog-close class="float-right cursor-pointer">
+    <mat-icon
+      mat-dialog-close
+      class="float-right cursor-pointer pt-4 !overflow-visible"
+    >
       close
     </mat-icon>
   </h2>
