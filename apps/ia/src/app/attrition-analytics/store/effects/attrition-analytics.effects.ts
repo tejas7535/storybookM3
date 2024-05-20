@@ -1,15 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  of,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
 import {
   Actions,
@@ -21,8 +12,8 @@ import {
 import { Action, Store } from '@ngrx/store';
 
 import { triggerLoad } from '../../../core/store/actions';
-import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
+import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import {
   changeSelectedFeatures,
   initializeSelectedFeatures,
@@ -116,10 +107,10 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   changeSelectedFeatures$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(changeSelectedFeatures),
-      withLatestFrom(
+      concatLatestFrom(() => [
         this.store.select(getSelectedFeatures),
-        this.store.select(getSelectedRegion)
-      ),
+        this.store.select(getSelectedRegion),
+      ]),
       tap(([action, _filters]) =>
         this.stateService.setSelectedFeatures(action.features)
       ),
@@ -138,14 +129,14 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   loadNextFeatureImportance$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadFeatureImportance, selectRegion),
-      withLatestFrom(
+      concatLatestFrom(() => [
         this.store.select(getFeatureImportanceHasNext),
         this.store.select(getFeatureImportancePageable),
         this.store.select(getFeatureImportanceSort),
         this.store.select(getSelectedRegion),
         this.store.select(getYearFromCurrentFilters),
-        this.store.select(getMonthFromCurrentFilters)
-      ),
+        this.store.select(getMonthFromCurrentFilters),
+      ]),
       filter(
         ([_action, hasNext, _pageable, _sort, selectedRegion, year, month]) =>
           hasNext && !!selectedRegion && !!year && !!month

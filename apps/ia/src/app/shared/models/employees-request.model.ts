@@ -6,7 +6,7 @@ export class EmployeesRequest {
     public filterDimension: FilterDimension,
     public value: string,
     public timeRange: string,
-    public positionDescription?: string,
+    public jobKey?: string,
     public type?: MonthlyFluctuationOverTime[]
   ) {}
 }

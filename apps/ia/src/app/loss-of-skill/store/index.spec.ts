@@ -65,6 +65,7 @@ describe('LossOfSkill Reducer', () => {
               {
                 employees: [{ employeeName: 'Hans' } as Employee],
                 leavers: [{ employeeName: 'Peter' } as Employee],
+                jobKey: 'F1',
                 positionDescription: 'Foo Bar',
                 leaversCount: 2,
                 employeesCount: 23,
@@ -114,7 +115,7 @@ describe('LossOfSkill Reducer', () => {
   describe('loadLossOfSkillWorkforce', () => {
     test('should set loading as true', () => {
       const action = loadLossOfSkillWorkforce({
-        positionDescription: 'Developer',
+        jobKey: 'Developer',
       });
       const fakeState: LossOfSkillState = {
         ...initialState,
@@ -180,7 +181,7 @@ describe('LossOfSkill Reducer', () => {
   describe('loadLossOfSkillLeavers', () => {
     test('should set loading as true', () => {
       const action = loadLossOfSkillLeavers({
-        positionDescription: 'Developer',
+        jobKey: 'Developer',
       });
       const fakeState: LossOfSkillState = {
         ...initialState,

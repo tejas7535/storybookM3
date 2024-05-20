@@ -328,13 +328,13 @@ describe('LossOfSkill Effects', () => {
 
   describe('loadLossOfSkillWorkforce$', () => {
     let request: EmployeesRequest;
-    const positionDescription = 'Developer';
+    const jobKey = 'Developer';
 
     beforeEach(() => {
-      action = loadLossOfSkillWorkforce({ positionDescription });
+      action = loadLossOfSkillWorkforce({ jobKey });
       request = {
         filterDimension: FilterDimension.ORG_UNIT,
-        positionDescription,
+        jobKey,
         value: 'AVC',
         timeRange: '12',
       } as EmployeesRequest;
@@ -394,13 +394,13 @@ describe('LossOfSkill Effects', () => {
 
   describe('loadLossOfSkillLeavers$', () => {
     let request: EmployeesRequest;
-    const positionDescription = 'Developer';
+    const jobKey = 'Developer';
 
     beforeEach(() => {
-      action = loadLossOfSkillLeavers({ positionDescription });
+      action = loadLossOfSkillLeavers({ jobKey });
       request = {
         filterDimension: FilterDimension.ORG_UNIT,
-        positionDescription,
+        jobKey,
         value: 'AVC',
         timeRange: '12',
       } as EmployeesRequest;

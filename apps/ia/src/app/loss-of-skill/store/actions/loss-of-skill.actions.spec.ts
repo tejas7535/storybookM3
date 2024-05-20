@@ -48,11 +48,11 @@ describe('LossOfSkill Actions', () => {
   });
 
   test('loadLossOfSkillWorkforce', () => {
-    const positionDescription = 'Developer';
-    const action = loadLossOfSkillWorkforce({ positionDescription });
+    const jobKey = 'Developer';
+    const action = loadLossOfSkillWorkforce({ jobKey });
 
     expect(action).toEqual({
-      positionDescription,
+      jobKey,
       type: '[Loss of Skill] Load Loss of Skill Workforce',
     });
   });
@@ -85,11 +85,11 @@ describe('LossOfSkill Actions', () => {
   });
 
   test('loadLossOfSkillLeavers', () => {
-    const positionDescription = 'Developer';
-    const action = loadLossOfSkillLeavers({ positionDescription });
+    const jobKey = 'Developer';
+    const action = loadLossOfSkillLeavers({ jobKey });
 
     expect(action).toEqual({
-      positionDescription,
+      jobKey,
       type: '[Loss of Skill] Load Loss of Skill Leavers',
     });
   });

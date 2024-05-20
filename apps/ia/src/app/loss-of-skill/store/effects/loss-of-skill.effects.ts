@@ -96,7 +96,7 @@ export class LossOfSkillEffects {
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([action, request]) => ({
         ...request,
-        positionDescription: action.positionDescription,
+        jobKey: action.jobKey,
       })),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getWorkforce(request).pipe(
@@ -121,7 +121,7 @@ export class LossOfSkillEffects {
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([action, request]) => ({
         ...request,
-        positionDescription: action.positionDescription,
+        jobKey: action.jobKey,
       })),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getLeavers(request).pipe(

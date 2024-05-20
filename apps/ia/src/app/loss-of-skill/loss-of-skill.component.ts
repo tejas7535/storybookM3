@@ -63,11 +63,11 @@ export class LossOfSkillComponent implements OnInit {
     );
   }
 
-  triggerLoadWorkforce(positionDescription: string): void {
-    this.store.dispatch(loadLossOfSkillWorkforce({ positionDescription }));
+  triggerLoadWorkforce(jobKey: string): void {
+    this.store.dispatch(loadLossOfSkillWorkforce({ jobKey }));
   }
 
-  triggerLoadLeavers(positionDescription: string): void {
-    this.store.dispatch(loadLossOfSkillLeavers({ positionDescription }));
+  triggerLoadLeavers(jobKey: string): void {
+    this.store.dispatch(loadLossOfSkillLeavers({ jobKey }));
   }
 }

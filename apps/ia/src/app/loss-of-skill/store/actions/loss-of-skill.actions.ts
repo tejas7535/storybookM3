@@ -25,7 +25,7 @@ export const loadJobProfilesFailure = createAction(
 
 export const loadLossOfSkillWorkforce = createAction(
   '[Loss of Skill] Load Loss of Skill Workforce',
-  props<{ positionDescription: string }>()
+  props<{ jobKey: string }>()
 );
 
 export const loadLossOfSkillWorkforceSuccess = createAction(
@@ -44,7 +44,7 @@ export const clearLossOfSkillDimensionData = createAction(
 
 export const loadLossOfSkillLeavers = createAction(
   '[Loss of Skill] Load Loss of Skill Leavers',
-  props<{ positionDescription: string }>()
+  props<{ jobKey: string }>()
 );
 
 export const loadLossOfSkillLeaversSuccess = createAction(

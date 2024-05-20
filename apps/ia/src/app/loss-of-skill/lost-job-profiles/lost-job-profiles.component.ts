@@ -13,6 +13,7 @@ import {
   ColDef,
   GridApi,
   GridReadyEvent,
+  ITooltipParams,
 } from 'ag-grid-community';
 import moment from 'moment';
 
@@ -147,6 +148,8 @@ export class LostJobProfilesComponent {
       field: 'positionDescription',
       headerName: translate('lossOfSkill.lostJobProfiles.table.job'),
       flex: 2,
+      tooltipValueGetter: (params: ITooltipParams) =>
+        `${params.data.positionDescription} (${params.data.jobKey})`,
     },
     {
       field: 'employees',
@@ -235,10 +238,10 @@ export class LostJobProfilesComponent {
 
   handleCellClick(params: CellClickedEvent, key: CellType): void {
     if (key === 'workforce' && params.data.employeesCount > 0) {
-      this.workforceRequested.emit(params.data.positionDescription);
+      this.workforceRequested.emit(params.data.jobKey);
       this.openEmployeeListDialog(key, params.data.positionDescription);
     } else if (key === 'leavers' && params.data.leaversCount > 0) {
-      this.leaversRequested.emit(params.data.positionDescription);
+      this.leaversRequested.emit(params.data.jobKey);
       this.openEmployeeListDialog(key, params.data.positionDescription);
     }
   }

@@ -18,6 +18,7 @@ describe('LossOfSkill Selector', () => {
         data: {
           lostJobProfiles: [
             {
+              jobKey: 'S1',
               positionDescription: 'Software Engineer',
               employeesCount: 0,
               leaversCount: 0,

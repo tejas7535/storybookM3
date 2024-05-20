@@ -62,18 +62,18 @@ describe('LossOfSkillService', () => {
     test('should get workforce', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '1-1';
-      const positionDescription = 'Manager';
+      const jobKey = 'Manager';
       const request = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: orgUnit,
         timeRange,
-        positionDescription,
+        jobKey,
       } as EmployeesRequest;
       const mock = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: orgUnit,
         timeRange,
-        positionDescription,
+        jobKey,
       };
 
       service.getWorkforce(request).subscribe((response) => {
@@ -81,7 +81,7 @@ describe('LossOfSkillService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/workforce?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&position_description=${positionDescription}`
+        `api/v1/workforce?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&job_key=${jobKey}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -92,18 +92,18 @@ describe('LossOfSkillService', () => {
     test('should get leavers', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '1-1';
-      const positionDescription = 'Manager';
+      const jobKey = 'Manager';
       const request = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: orgUnit,
         timeRange,
-        positionDescription,
+        jobKey,
       } as EmployeesRequest;
       const mock = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: orgUnit,
         timeRange,
-        positionDescription,
+        jobKey,
       };
 
       service.getLeavers(request).subscribe((response) => {
@@ -111,7 +111,7 @@ describe('LossOfSkillService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&position_description=${positionDescription}`
+        `api/v1/leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&job_key=${jobKey}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

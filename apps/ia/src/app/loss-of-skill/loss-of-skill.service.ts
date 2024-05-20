@@ -45,11 +45,11 @@ export class LossOfSkillService {
   getWorkforce(
     employeesRequest: EmployeesRequest
   ): Observable<WorkforceResponse> {
-    const params = this.paramsCreator.createHttpParamsForPositionDescription(
+    const params = this.paramsCreator.createHttpParamsForJobKey(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange,
-      employeesRequest.positionDescription
+      employeesRequest.jobKey
     );
 
     return this.http.get<WorkforceResponse>(
@@ -64,11 +64,11 @@ export class LossOfSkillService {
   getLeavers(
     employeesRequest: EmployeesRequest
   ): Observable<ExitEntryEmployeesResponse> {
-    const params = this.paramsCreator.createHttpParamsForPositionDescription(
+    const params = this.paramsCreator.createHttpParamsForJobKey(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange,
-      employeesRequest.positionDescription
+      employeesRequest.jobKey
     );
 
     return this.http.get<ExitEntryEmployeesResponse>(
