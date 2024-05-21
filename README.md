@@ -92,6 +92,21 @@ Styles:
 ],
 ...
 ```
+### Common issues
+
+Please make sure you have installed following (below versions are tested):
+1.  **_Node.js_**: `18.15.0`
+2. **_pnpm_** : `8.0.0` 
+   - [corepack](https://nodejs.org/api/corepack.html#enabling-the-feature) is recommended for managing your pnpm versions. Use `corepack prepare pnpm@8.0.0 --activate` to activate the version 8.0.0 of pnpm
+   - If you have installed version greater than `8.0.0` without `corepack`, please remove pnpm from your device completely and install it once again
+   - Please follow uninstall instructions from https://pnpm.io/uninstall
+   - After uninstall process, please verify if process was successful in terminal with `pnpm -v` command (should return no results)
+   - If for some reason after uninstall process `pnpm -v` command will return pnpm version, please remove `pnpm` folders located under `C:\Users\<username>\AppData\Local`
+3. Node gyp errors. In case error like: `gyp ERR! stack Error: Could not find any Python installation to use` please install Python version `3.10.0`. If you still get errors, either try `python3 -m pip install setuptools` or the **C++ desktop development tools** via Visual Studio installer (version 2019 works fine).
+3. Install **C++ desktop development tools** via Visual Studio installer (version 2019 works fine)
+4. In case error like: `gyp ERR! stack Error: Could not find any Python installation to use` please install Python version `3.10.0`
+5. In case errors like: `FetchError: request to https://artifactory.schaeffler.com/artifactory/api/npm/npm/@caeonline/dynamic-forms/-/@caeonline/production/dynamic-forms-1.1.0.tgz failed...`, please replace `@` with `%40` in URL (path will be found in `pnpm-lock.yaml`)
+
 
 ## Contribution and Terms of Admission
 
