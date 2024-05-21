@@ -41,7 +41,7 @@ describe('QuotationService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_MATERIALS}?${service['PARAM_MATERIAL_NUMBER']}=123456&${service['PARAM_USER_CASES_ONLY']}=true`
+        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}?${service['PARAM_MATERIAL_NUMBER']}=123456&${service['PARAM_USER_CASES_ONLY']}=true`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });

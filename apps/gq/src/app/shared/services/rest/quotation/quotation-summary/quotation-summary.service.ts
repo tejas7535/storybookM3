@@ -35,7 +35,7 @@ export class QuotationSummaryService {
       .append(this.PARAM_USER_CASES_ONLY, userCaseOnly);
 
     return this.#http.get<QuotationSearchResult[]>(
-      `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_MATERIALS}`,
+      `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}`,
       {
         params: httpParams,
       }
