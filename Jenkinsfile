@@ -712,7 +712,6 @@ pipeline {
                 script {
                     if (isAppRelease) {
                         sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=production"
-                        sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
                     } else if (isPreRelease) {
                         sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=${buildTypes.PRE_RELEASE}"
                     } else {
@@ -725,6 +724,10 @@ pipeline {
 
                         sh "pnpm nx affected --base=${buildBase} --target=analyze-bundle --parallel=3"
                         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: '**/bundle-report.html', reportName: 'bundle-reports', reportTitles: 'bundle-report'])
+                    }
+
+                    if(isAppRelease || isPreRelease) {
+                        sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
                     }
                 }
             }
