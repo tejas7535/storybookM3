@@ -25,10 +25,14 @@
       @if (loading) {
         <ng-container [ngTemplateOutlet]="loadingTemplate"></ng-container>
       } @else {
-        @if (casesResults?.length === 0) {
-          <ng-container [ngTemplateOutlet]="noResults"></ng-container>
+        @if (!casesResults) {
+          <ng-container [ngTemplateOutlet]="noInitialResults"></ng-container>
         } @else {
-          <ng-container [ngTemplateOutlet]="tableResults"></ng-container>
+          @if (casesResults?.length === 0) {
+            <ng-container [ngTemplateOutlet]="noResults"></ng-container>
+          } @else {
+            <ng-container [ngTemplateOutlet]="tableResults"></ng-container>
+          }
         }
       }
     </mat-card>
@@ -38,7 +42,15 @@
     <gq-no-data
       class="h-full bg-secondary-variant"
       [title]="t('noResultsTitle')"
-      [subTitle]="t('noResultsSubTitle')"
+    >
+    </gq-no-data>
+  </ng-template>
+
+  <ng-template #noInitialResults>
+    <gq-no-data
+      class="h-full bg-secondary-variant"
+      [title]="t('noInitialResultsTitle')"
+      [subTitle]="t('noInitialResultsSubTitle')"
     >
     </gq-no-data>
   </ng-template>

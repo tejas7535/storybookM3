@@ -587,8 +587,9 @@
       "customerName": "Kundenname",
       "customerId": "Kundennummer",
       "gqCreatedByUser": "GQ erstellt von",
-      "noResultsTitle": "Noch keine Ergebnisse",
-      "noResultsSubTitle": "Stichwort für die Suche eingeben",
+      "noInitialResultsTitle": "Noch keine Ergebnisse",
+      "noInitialResultsSubTitle": "Stichwort für die Suche eingeben",
+      "noResultsTitle": "Keine Ergebnisse gefunden",
       "columns": {
         "gqId": "GQ Case",
         "sapId": "SAP Angebot",

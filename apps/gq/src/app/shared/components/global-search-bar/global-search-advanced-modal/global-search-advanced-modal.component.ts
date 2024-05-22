@@ -35,9 +35,9 @@ export class GlobalSearchAdvancedModalComponent {
   casesSearchCriteria: CasesCriteriaSelection;
   materialSearchCriteria: string;
 
-  casesResults: QuotationSearchResultByCases[] = [];
+  casesResults: QuotationSearchResultByCases[] = null;
   // TODO: to be done
-  materialResults: any[] = [];
+  materialResults: any[] = null;
 
   clearInputField() {
     this.onlyUserCases = false;

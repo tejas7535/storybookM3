@@ -58,6 +58,27 @@ export class ColumnDefinitionService {
         GeneralColumnUtilityService.idFormatter({ value: params.data.gqId }),
       width: 175,
     },
+    {
+      headerName: translate(
+        'searchBarAdvanced.casesResultsTable.columns.gqCreated'
+      ),
+      field: SearchByCasesColumnFields.GQ_CREATED,
+      filter: MULTI_COLUMN_FILTER,
+      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
+      comparator: this.comparatorService.compareTranslocoDateAsc,
+      valueGetter: (params) =>
+        this.generalColumnUtilityService.dateFormatter(params.data.gqCreated),
+    },
+    {
+      headerName: translate(
+        'searchBarAdvanced.casesResultsTable.columns.gqCreatedByUser'
+      ),
+      field: SearchByCasesColumnFields.GQ_CREATED_BY,
+      valueFormatter: GeneralColumnUtilityService.basicTransform,
+      valueGetter: (params) =>
+        this.casesResultsColumnUtilityService.createdByGetter(params.data),
+      filterParams: FILTER_PARAMS,
+    },
 
     {
       headerName: translate(
@@ -80,28 +101,6 @@ export class ColumnDefinitionService {
       ),
       field: SearchByCasesColumnFields.CUSTOMER_NAME,
       filterParams: FILTER_PARAMS,
-    },
-
-    {
-      headerName: translate(
-        'searchBarAdvanced.casesResultsTable.columns.gqCreatedByUser'
-      ),
-      field: SearchByCasesColumnFields.GQ_CREATED_BY,
-      valueFormatter: GeneralColumnUtilityService.basicTransform,
-      valueGetter: (params) =>
-        this.casesResultsColumnUtilityService.createdByGetter(params.data),
-      filterParams: FILTER_PARAMS,
-    },
-    {
-      headerName: translate(
-        'searchBarAdvanced.casesResultsTable.columns.gqCreated'
-      ),
-      field: SearchByCasesColumnFields.GQ_CREATED,
-      filter: MULTI_COLUMN_FILTER,
-      filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
-      comparator: this.comparatorService.compareTranslocoDateAsc,
-      valueGetter: (params) =>
-        this.generalColumnUtilityService.dateFormatter(params.data.gqCreated),
     },
     {
       headerName: translate(
