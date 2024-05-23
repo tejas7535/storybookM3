@@ -125,7 +125,6 @@ describe('MsdSapMaterialsExcelService', () => {
     const expected = [
       {
         materialNumber: '111122222-1111',
-        materialDescription: 'Test-Material-001',
         recycledMaterialShare: 0,
         secondaryMaterialShare: 0.04,
         dataComment: 'test data',
@@ -164,7 +163,6 @@ describe('MsdSapMaterialsExcelService', () => {
       },
       {
         materialNumber: '111122222-1112-11',
-        materialDescription: 'Test-Material-002',
         secondaryMaterialShare: 0.04,
         dataComment: 'test data',
         businessPartnerId: '1000002',

@@ -3,7 +3,6 @@ import * as columns from '@mac/feature/materials-supplier-database/constants';
 // Excel header fields
 export const COLUMN_HEADER_FIELDS = [
   columns.MATERIAL_NUMBER,
-  columns.MATERIAL_DESCRIPTION,
   columns.RECYCLED_MATERIAL_SHARE,
   columns.SECONDARY_MATERIAL_SHARE,
   columns.DATA_COMMENT,
@@ -69,7 +68,6 @@ export class ValidationError {
 // List of mandatory columns
 export const MANDATORY_COLUMNS = [
   columns.MATERIAL_NUMBER,
-  columns.MATERIAL_DESCRIPTION,
   columns.BUSINESS_PARTNER_ID,
   columns.PLANT,
 ];
