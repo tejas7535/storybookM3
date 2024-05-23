@@ -12,6 +12,7 @@ import { Status } from '@mac/feature/materials-supplier-database/constants';
 import {
   DataResult,
   SAPMaterial,
+  SapValueWithText,
 } from '@mac/feature/materials-supplier-database/models';
 
 import { getStatus } from '../../util';
@@ -21,6 +22,7 @@ import {
   CUSTOM_DATE_FORMATTER,
   DATE_COMPARATOR,
   DISTINCT_VALUE_GETTER,
+  DISTINCT_WITH_NAME_VALUE_GETTER_FACTORY,
   EMISSION_FACTORS_FORMATTER,
   EMPTY_VALUE_FORMATTER,
   excludeColumn,
@@ -564,6 +566,40 @@ describe('helpers', () => {
           value,
         } as ValueFormatterParams)
       ).toBe(new Date(value).toLocaleDateString('en-GB'));
+    });
+  });
+
+  describe('DISTINCT_WITH_NAME_VALUE_GETTER_FACTORY', () => {
+    it('should return a function that fetches distinct values with text', (done) => {
+      const mockColumn = { getColId: () => 'columnId' };
+      const mockContext = {
+        dataService: {
+          getDistinctSapValuesWithText: jest.fn(() =>
+            of([
+              { value: 'value1', text: 'text1' },
+              { value: 'value2', text: 'text2' },
+            ])
+          ),
+        },
+      };
+      const mockParams = {
+        column: mockColumn,
+        context: mockContext,
+        success: (values: string[]) => {
+          expect(values).toEqual([
+            { value: 'value1', text: 'text1' },
+            { value: 'value2', text: 'text2' },
+          ]);
+          expect(
+            mockContext.dataService.getDistinctSapValuesWithText
+          ).toHaveBeenCalledWith('columnId', 'textColumn');
+          done();
+        },
+      } as unknown as SetFilterValuesFuncParams<any, SapValueWithText>;
+
+      const distinctWithNameValueGetter =
+        DISTINCT_WITH_NAME_VALUE_GETTER_FACTORY('textColumn');
+      distinctWithNameValueGetter(mockParams);
     });
   });
 });

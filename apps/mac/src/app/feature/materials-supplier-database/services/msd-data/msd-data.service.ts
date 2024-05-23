@@ -30,6 +30,7 @@ import {
   SAPMaterialsResponse,
   SapMaterialsUpload,
   SapMaterialsUploadResponse,
+  SapValueWithText,
 } from '@mac/msd/models';
 
 import {
@@ -591,8 +592,21 @@ export class MsdDataService {
     return this.httpClient
       .get<{
         values: string[];
-      }>(`${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`)
-      .pipe(map((v: { values: string[] }) => v.values));
+      }>(`${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`, {})
+      .pipe(map((v) => v.values));
+  }
+
+  public getDistinctSapValuesWithText(
+    column: string,
+    textColumn: string
+  ): Observable<SapValueWithText[]> {
+    return this.httpClient
+      .get<{
+        values: SapValueWithText[];
+      }>(`${this.BASE_URL_SAP}/emissionfactor/distinct/${column}`, {
+        params: { textColumn },
+      })
+      .pipe(map((v) => v.values));
   }
 
   /**

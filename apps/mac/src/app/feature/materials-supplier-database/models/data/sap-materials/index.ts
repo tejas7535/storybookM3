@@ -3,3 +3,4 @@ export * from './sap-materials-request.model';
 export * from './sap-materials-response.model';
 export * from './sap-materials-result.model';
 export * from './sap-materials-upload.model';
+export * from './sap-value-with-text.model';

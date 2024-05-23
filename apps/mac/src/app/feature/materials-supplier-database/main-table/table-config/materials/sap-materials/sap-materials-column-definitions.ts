@@ -60,6 +60,7 @@ import {
 import {
   DATE_FILTER_PARAMS,
   DISTINCT_FILTER_PARAMS,
+  DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY,
   NUMBER_FILTER_PARAMS,
   TEXT_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
@@ -112,7 +113,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: CATEGORY,
     headerName: CATEGORY,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY(CATEGORY_TEXT),
     tooltipField: CATEGORY_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -122,7 +123,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: MATERIAL_GROUP,
     headerName: MATERIAL_GROUP,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY(MATERIAL_GROUP_TEXT),
     tooltipField: MATERIAL_GROUP_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -138,7 +139,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: BUSINESS_PARTNER_ID,
     headerName: BUSINESS_PARTNER_ID,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY(SUPPLIER_ID_TEXT),
     tooltipField: SUPPLIER_ID_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -148,7 +149,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: SUPPLIER_ID,
     headerName: SUPPLIER_ID,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY(SUPPLIER_ID_TEXT),
     tooltipField: SUPPLIER_ID_TEXT,
     tooltipComponentParams: {
       translate: false,
@@ -181,7 +182,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     field: PLANT,
     headerName: PLANT,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY(PLANT_TEXT),
     tooltipField: PLANT_TEXT,
     tooltipComponentParams: {
       translate: false,

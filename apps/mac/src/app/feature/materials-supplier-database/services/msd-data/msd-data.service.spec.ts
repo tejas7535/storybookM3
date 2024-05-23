@@ -1490,6 +1490,54 @@ describe('MsdDataService', () => {
     });
   });
 
+  describe('getDistinctSapValuesWithText', () => {
+    it('should get distinct SAP values with text', (done) => {
+      const response = {
+        values: [
+          {
+            value: '1',
+            text: 'text1',
+          },
+          {
+            value: '2',
+            text: 'text2',
+          },
+          {
+            value: '3',
+            text: 'text3',
+          },
+        ],
+      };
+      const expected = [
+        {
+          value: '1',
+          text: 'text1',
+        },
+        {
+          value: '2',
+          text: 'text2',
+        },
+        {
+          value: '3',
+          text: 'text3',
+        },
+      ];
+
+      service
+        .getDistinctSapValuesWithText('test', 'test')
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/emissionfactor/distinct/test?textColumn=test`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
+    });
+  });
+
   describe('getSapMaterialsDatabaseUploadStatus', () => {
     it('should get SAP materials database upload status', (done) => {
       const uploadId = '3d75599c-90ee-4d26-b2fa-8b41d9c8786d';

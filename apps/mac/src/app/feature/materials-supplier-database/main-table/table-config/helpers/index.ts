@@ -6,6 +6,7 @@ export * from './column-def-replace';
 export * from './custom-date-formatter';
 export * from './date-comparator';
 export * from './distinct-value-getter';
+export * from './distinct-with-name-value-getter';
 export * from './emission-factors-value-formatter';
 export * from './empty-value-formatter';
 export * from './link-value-formatter';
