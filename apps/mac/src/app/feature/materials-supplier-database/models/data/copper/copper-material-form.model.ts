@@ -11,4 +11,6 @@ export interface CopperMaterialForm extends BaseMaterialForm {
   maxDimension: FormControl<number>;
   productionProcess: FormControl<StringOption>;
   materialNumber: FormControl<string>;
+  minRecyclingRate: FormControl<number>;
+  maxRecyclingRate: FormControl<number>;
 }

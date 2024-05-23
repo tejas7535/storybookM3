@@ -1,0 +1,43 @@
+<div
+  class="flex gap-6"
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+>
+  <mat-form-field appearance="outline" class="w-1/2">
+    <mat-label>{{ t('minRecyclingRate') }}</mat-label>
+    <input
+      matInput
+      [formControl]="minRecyclingRateControl"
+      type="number"
+      name="recyclingRate"
+      #dialogControl
+    />
+    <span matSuffix class="text-caption !block pt-1"> %</span>
+    <mat-hint>
+      {{ minRecyclingRateHint }}
+    </mat-hint>
+    @if (minRecyclingRateControl.invalid) {
+      <mat-error class="text-caption">{{
+        getErrorMessage(minRecyclingRateControl.errors)
+      }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-1/2">
+    <mat-label>{{ t('maxRecyclingRate') }}</mat-label>
+    <input
+      matInput
+      [formControl]="maxRecyclingRateControl"
+      type="number"
+      name="recyclingRate"
+      #dialogControl
+    />
+    <span matSuffix class="text-caption !block pt-1"> %</span>
+    <mat-hint>
+      {{ maxRecyclingRateHint }}
+    </mat-hint>
+    @if (maxRecyclingRateControl.invalid) {
+      <mat-error class="text-caption">{{
+        getErrorMessage(maxRecyclingRateControl.errors)
+      }}</mat-error>
+    }
+  </mat-form-field>
+</div>

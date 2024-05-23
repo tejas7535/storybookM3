@@ -161,7 +161,28 @@
           {{ t('co2AndProductInformationTitle') }}
         </div>
         <div class="flex flex-row gap-x-6">
-          <mat-form-field appearance="outline" class="w-full">
+          <schaeffler-select
+            appearance="outline"
+            class="w-1/2"
+            [stringOptions]="categories$ | ngrxPush"
+            [control]="categoriesControl"
+            [filterFn]="filterFn"
+            [label]="t('productCategory')"
+            [resetButton]="false"
+            [formFieldHint]="getHint(hintData, 'productCategory')"
+            [showTriggerTooltip]="true"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="productCategoryText"
+            #dialogControl
+          >
+            @if (categoriesControl.invalid) {
+              <span matErrorContent class="text-caption">
+                {{ getErrorMessage(categoriesControl.errors) }}
+              </span>
+            }
+          </schaeffler-select>
+          <mat-form-field appearance="outline" class="w-1/2">
             <mat-label>{{ t('maxDim') }}</mat-label>
             <input
               matInput
@@ -182,27 +203,13 @@
               }}</mat-error>
             }
           </mat-form-field>
-          <schaeffler-select
-            appearance="outline"
-            class="w-full"
-            [stringOptions]="categories$ | ngrxPush"
-            [control]="categoriesControl"
-            [filterFn]="filterFn"
-            [label]="t('productCategory')"
-            [resetButton]="false"
-            [formFieldHint]="getHint(hintData, 'productCategory')"
-            [showTriggerTooltip]="true"
-            triggerTooltipDelay="1500"
-            tooltipPosition="right"
-            name="productCategoryText"
-            #dialogControl
-          >
-            @if (categoriesControl.invalid) {
-              <span matErrorContent class="text-caption">
-                {{ getErrorMessage(categoriesControl.errors) }}
-              </span>
-            }
-          </schaeffler-select>
+          <mac-recycling-rate
+            [minRecyclingRateControl]="minRecyclingRateControl"
+            [maxRecyclingRateControl]="maxRecyclingRateControl"
+            [minRecyclingRateHint]="getHint(hintData, 'minRecyclingRate')"
+            [maxRecyclingRateHint]="getHint(hintData, 'maxRecyclingRate')"
+            class="w-1/2"
+          ></mac-recycling-rate>
         </div>
         <mac-co2-component
           [co2Scope1Control]="co2Scope1Control"

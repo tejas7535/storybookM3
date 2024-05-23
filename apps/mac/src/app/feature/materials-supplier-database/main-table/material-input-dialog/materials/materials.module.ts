@@ -23,6 +23,7 @@ import { BaseDialogModule } from '@mac/msd/main-table/material-input-dialog/base
 import { MaterialInputDialogModule } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.module';
 import { DialogControlsService } from '@mac/msd/main-table/material-input-dialog/services';
 
+import { RecyclingRateComponent } from '../components/recycline-rate/recycling-rate.component';
 import { ManufacturerSupplierInputDialogComponent } from '../manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../material-standard/material-standard-input-dialog.component';
 import { AluminumInputDialogComponent } from './aluminum/aluminum-input-dialog.component';
@@ -63,6 +64,7 @@ import { SteelInputDialogComponent } from './steel/steel-input-dialog.component'
     MatSnackBarModule,
     BaseDialogModule,
     MaterialInputDialogModule,
+    RecyclingRateComponent,
   ],
   exports: [
     MaterialStandardInputDialogComponent,

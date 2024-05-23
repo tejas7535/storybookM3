@@ -47,6 +47,18 @@ export class CopperInputDialogComponent
     this.controlsService.getControl<StringOption[]>();
   public productionProcessControl =
     this.controlsService.getRequiredControl<StringOption>();
+  public minRecyclingRateControl = this.controlsService.getNumberControl(
+    undefined,
+    false,
+    0,
+    100
+  );
+  public maxRecyclingRateControl = this.controlsService.getNumberControl(
+    undefined,
+    false,
+    0,
+    100
+  );
 
   // casting diameter dependencies
   castingDiameterDep: FormGroup<{
@@ -112,6 +124,8 @@ export class CopperInputDialogComponent
       maxDimension: this.maxDimControl,
       referenceDoc: this.referenceDocumentControl,
       productionProcess: this.productionProcessControl,
+      minRecyclingRate: this.minRecyclingRateControl,
+      maxRecyclingRate: this.maxRecyclingRateControl,
     });
 
     // only enable casting mode after supplier is selected

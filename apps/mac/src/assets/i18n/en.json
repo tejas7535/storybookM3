@@ -973,7 +973,7 @@
 
         "materialNumber": "Format: 111122222-1111-22",
         "percent": "[%] (0.01 = 1%)",
-        "incoterms": "DAP (Delivered at Place) / FCA (Free Carrier) / FOB (Free on Board) / CL_PFC (estimation from Corp. Logistics)",
+        "incoterms": "DAP (Delivered at Place) / FCA (Free Carrier) / FOB (Free on Board) / CL_PCF (estimation from Corp. Logistics)",
         "supplierLocation": "Shipment from Supplier Location",
         "plant": "Shipment to Schaeffler Plant",
         "supplierCountry": "Iso Code of supplier country",
@@ -984,7 +984,7 @@
         "url": "URI to sharepoint / etc.",
         "emissionFactorKg": "Product Carbon Footprint in [kg CO2e per kg] - one pcf value is mandatory",
         "emissionFactorPc": "Product Carbon Footprint in [kg CO2e per part] - one pcf value is mandatory",
-        "pcfLogistics": "Transport emissions (if supplier responsibility) in [kg CO2e per kg]",
+        "pcfLogistics": "Transport emissions in [kg CO2e per kg]",
         "netWeight": "drawing or supplier input [kg]",
         "weightDataSource": "Supplier | Drawing | Master data ",
         "materialUtilizationFactor": "Net weight / Service weight (< 1)",

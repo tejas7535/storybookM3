@@ -69,6 +69,15 @@
                 >{{ t('error.co2BulkEdit') }}
               </mat-error>
             }
+            <div class="flex flex-row gap-x-6" afterCo2Scope>
+              <mac-recycling-rate
+                [minRecyclingRateControl]="minRecyclingRateControl"
+                [maxRecyclingRateControl]="maxRecyclingRateControl"
+                [minRecyclingRateHint]="getHint(hintData, 'minRecyclingRate')"
+                [maxRecyclingRateHint]="getHint(hintData, 'maxRecyclingRate')"
+                class="w-full"
+              ></mac-recycling-rate>
+            </div>
             <ng-container preCo2Classification>
               <schaeffler-select
                 appearance="outline"

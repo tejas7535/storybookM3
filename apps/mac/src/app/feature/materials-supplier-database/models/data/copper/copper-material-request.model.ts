@@ -6,4 +6,6 @@ export interface CopperMaterialRequest extends BaseMaterialRequest {
   castingDiameter: string;
   maxDimension: number;
   productionProcess?: string;
+  minRecyclingRate?: number;
+  maxRecyclingRate?: number;
 }

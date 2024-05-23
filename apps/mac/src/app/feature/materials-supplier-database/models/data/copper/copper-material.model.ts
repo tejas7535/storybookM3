@@ -8,4 +8,6 @@ export interface CopperMaterial extends BaseMaterial {
   maxDimension: number;
   productionProcess?: string;
   productionProcessText?: string;
+  minRecyclingRate?: number;
+  maxRecyclingRate?: number;
 }

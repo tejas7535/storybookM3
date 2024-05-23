@@ -24,6 +24,14 @@ export class AluminumInputDialogComponent
 
   public co2Classification$ = this.dialogFacade.co2Classification$;
   public categories$ = this.dialogFacade.categories$;
+  public minRecyclingRateControl = this.controlsService.getNumberControl(
+    undefined,
+    false
+  );
+  public maxRecyclingRateControl = this.controlsService.getNumberControl(
+    undefined,
+    false
+  );
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -62,6 +70,8 @@ export class AluminumInputDialogComponent
       co2PerTon: this.co2TotalControl,
       co2Classification: this.co2ClassificationControl,
       releaseRestrictions: this.releaseRestrictionsControl,
+      minRecyclingRate: this.minRecyclingRateControl,
+      maxRecyclingRate: this.maxRecyclingRateControl,
 
       // these controls are not used for creating a material, only for materialStandards or manufacturerSuppliers
       standardDocument: this.standardDocumentsControl,

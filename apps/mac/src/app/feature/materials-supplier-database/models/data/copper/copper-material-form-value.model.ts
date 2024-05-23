@@ -9,4 +9,6 @@ export interface CopperMaterialFormValue extends BaseMaterialFormValue {
   maxDimension: number;
   productionProcess: StringOption;
   materialNumber: string;
+  minRecyclingRate: number;
+  maxRecyclingRate: number;
 }

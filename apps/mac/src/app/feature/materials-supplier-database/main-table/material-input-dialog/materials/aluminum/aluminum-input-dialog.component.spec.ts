@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -82,7 +82,12 @@ describe('AluminumInputDialogComponent', () => {
     providers: [
       provideMockStore({ initialState }),
       provideMockActions(() => of()),
-      MockProvider(DialogControlsService),
+
+      MockProvider(DialogControlsService, {
+        getNumberControl: jest.fn(
+          (_, disabled) => new FormControl({ value: undefined, disabled })
+        ),
+      }),
       {
         provide: MatDialogRef,
         useValue: {
