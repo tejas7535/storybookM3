@@ -1,4 +1,11 @@
 # Release Notes of Hardness Converter
+## [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.0...hc-v0.1.1) (2024-05-24)
+
+
+### Features
+
+* **hc:** update one trust id config for prod ([#6236](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6236)) ([14ff730](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14ff730f9b7d415f3975a4dce72e0d40e823694e))
+
 ## 0.1.0 (2024-05-24)
 
 
