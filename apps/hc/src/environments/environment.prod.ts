@@ -8,7 +8,7 @@ export const environment: Environment = {
   internalUserCheckURL:
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
 
-  oneTrustId: 'todo: add oneTrustId here once production is ready',
+  oneTrustId: '018fa549-1dd5-72ad-9a0c-f294c72204f3',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'cfecb843-072b-4edf-9c7d-2b52d7309d6d',
