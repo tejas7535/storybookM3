@@ -7,3 +7,4 @@ export * from './number-filter-params';
 export * from './sidebar-definition';
 export * from './text-filter-params';
 export * from './tooltip-params.model';
+export * from './year-filter-params';

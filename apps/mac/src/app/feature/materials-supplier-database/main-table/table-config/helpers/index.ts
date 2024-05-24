@@ -1,3 +1,4 @@
+export * from './array-sort-value-formatter';
 export * from './boolean-value-formatter';
 export * from './boolean-value-getter';
 export * from './column-def-exclude';

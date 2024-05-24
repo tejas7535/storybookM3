@@ -17,6 +17,7 @@ import {
 
 import { getStatus } from '../../util';
 import {
+  ARRAY_SORT_VALUE_FORMATTER,
   BOOLEAN_VALUE_FORMATTER,
   BOOLEAN_VALUE_GETTER,
   CUSTOM_DATE_FORMATTER,
@@ -600,6 +601,39 @@ describe('helpers', () => {
       const distinctWithNameValueGetter =
         DISTINCT_WITH_NAME_VALUE_GETTER_FACTORY('textColumn');
       distinctWithNameValueGetter(mockParams);
+    });
+  });
+
+  describe('ARRAY_SORT_VALUE_FORMATTER', () => {
+    it('should sort the array', () => {
+      const value = [10, 5, 1];
+      const expected = '1, 5, 10';
+
+      expect(
+        ARRAY_SORT_VALUE_FORMATTER({ value } as ValueFormatterParams)
+      ).toEqual(expected);
+    });
+
+    it('should return undefined for undefined value', () => {
+      const value: any = undefined;
+      const expected: any = undefined;
+
+      expect(
+        ARRAY_SORT_VALUE_FORMATTER({
+          value: value as number[],
+        } as ValueFormatterParams)
+      ).toEqual(expected);
+    });
+
+    it('should return undefined for empty array', () => {
+      const value: any = [];
+      const expected: any = undefined;
+
+      expect(
+        ARRAY_SORT_VALUE_FORMATTER({
+          value: value as number[],
+        } as ValueFormatterParams)
+      ).toEqual(expected);
     });
   });
 });

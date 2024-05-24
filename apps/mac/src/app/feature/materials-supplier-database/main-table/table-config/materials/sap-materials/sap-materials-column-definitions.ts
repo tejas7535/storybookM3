@@ -56,6 +56,7 @@ import {
   VALID_FROM,
   VALID_UNTIL,
   WEIGHT_DATA_SOURCE,
+  YEARS,
 } from '@mac/feature/materials-supplier-database/constants';
 import {
   DATE_FILTER_PARAMS,
@@ -63,11 +64,13 @@ import {
   DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY,
   NUMBER_FILTER_PARAMS,
   TEXT_FILTER_PARAMS,
+  YEAR_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
 
 import { PcfMaturityCo2CellRendererComponent } from '../../../pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
 import { UrlCellRendererComponent } from '../../../url-cell-renderer/url-cell-renderer.component';
 import {
+  ARRAY_SORT_VALUE_FORMATTER,
   BOOLEAN_VALUE_FORMATTER,
   EMISSION_FACTORS_FORMATTER,
   MATURITY_FORMATTER,
@@ -478,7 +481,12 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: false,
     valueFormatter: SAP_MATERIALS_DATE_FORMATTER,
   },
-
+  {
+    field: YEARS,
+    headerName: YEARS,
+    filterParams: YEAR_FILTER_PARAMS,
+    valueFormatter: ARRAY_SORT_VALUE_FORMATTER,
+  },
   {
     field: MATURITY,
     headerName: MATURITY,

@@ -527,7 +527,8 @@
         "rawMaterial": "Raw material",
         "directSupplierEmissions": "Direct supplier emissions ",
         "indirectSupplierEmissions": "Indirect supplier emissions",
-        "upstreamEmissions": "Upstream emissions"
+        "upstreamEmissions": "Upstream emissions",
+        "years": "Purchased in years"
       },
       "confirmDialog": {
         "cancel": "Cancel",
