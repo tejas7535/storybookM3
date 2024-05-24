@@ -1,4 +1,16 @@
 # Release Notes of Material App Center
+## [1.21.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.20.0...mac-v1.21.0) (2024-05-24)
+
+
+### Features
+
+* **mac:** add recycling rate to copper and aluminum material dialogs and views (UFTABI-7689) ([#6229](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6229)) ([dd6e143](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd6e143dc9f79f72aa810ea83aefad4f4b29918c))
+* **mac:** add years column ([#6224](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6224)) ([e78c8ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e78c8ea92893cc97e76036102b4652aebfaf15e4))
+* **mac:** align CO2 vaues ([#6213](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6213)) ([c14de53](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c14de53d31b18d6f8ec44ca3438c026cfe650345))
+* **mac:** remove autofill-columns from upload template and validator (UFTABI-7676) ([#6203](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6203)) ([b26fc19](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b26fc19c42c2f960ed4ac8084df69ee48755ebed))
+* **mac:** remove description from mandatory columns (UFTABI-7732) ([#6231](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6231)) ([6c49cb8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6c49cb88cc619ff6ffaf4262053737d1062573db))
+* **mac:** show info texts in filter for category and material group ([#6225](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6225)) ([998880e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/998880ebe5bf079209cdb437bfc46456e17077de))
+
 ## [1.20.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.19.0...mac-v1.20.0) (2024-05-02)
 
 
