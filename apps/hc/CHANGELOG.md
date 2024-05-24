@@ -1,4 +1,11 @@
 # Release Notes of Hardness Converter
+## [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.1...hc-v0.1.2) (2024-05-24)
+
+
+### Features
+
+* **hc:** add api prod url to config ([#6237](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6237)) ([9df5685](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9df5685cf7f4e8b35a6993facdede450beaff83f))
+
 ## [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.0...hc-v0.1.1) (2024-05-24)
 
 
