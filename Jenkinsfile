@@ -54,7 +54,7 @@ boolean skipBuild = false
 @Field
 def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release' ]
 @Field
-def releasableApps = ['cdba', 'sedo', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa']
+def releasableApps = ['cdba', 'sedo', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa', 'hc']
 @Field
 def preReleasableApps = ['gq']
 @Field
