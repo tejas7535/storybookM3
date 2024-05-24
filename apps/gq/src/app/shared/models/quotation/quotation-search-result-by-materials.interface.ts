@@ -1,12 +1,11 @@
 import { GqCreatedByUser } from './gq-created-by-user.interface';
 import { QuotationStatus } from './quotation-status.enum';
 
-export interface QuotationSearchByCasesResponse {
-  results: QuotationSearchResultByCases[];
+export interface QuotationSearchResultByMaterialsResponse {
+  results: QuotationSearchResultByMaterials[];
 }
-export interface QuotationSearchResultByCases {
+export interface QuotationSearchResultByMaterials {
   gqId: number;
-  sapId: number;
   customerName: string;
   customerId: string;
   salesOrg: string;
@@ -15,6 +14,11 @@ export interface QuotationSearchResultByCases {
   gqCreatedByUser: GqCreatedByUser;
   gqCreated: string;
   gqLastUpdated: string;
-  totalNetValue: number;
+  materialNumber15: string;
+  materialDescription: string;
+  customerMaterial: string;
+  quantity: number;
+  price: number;
   currency: string;
+  gpi: number;
 }

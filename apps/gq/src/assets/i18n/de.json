@@ -577,9 +577,20 @@
     "clear": "Leeren",
     "searchButton": "Suchen",
     "cancelButton": "Abbrechen",
-    "minLengthError": "Bitte geben Sie mindestens 3 Zeichen ein.",
+    "minLengthError": "Bitte geben Sie mindestens {{ minLength }} Zeichen ein.",
     "casesLabel": "Cases",
     "materialsLabel": "Material",
+    "resultsTable": {
+      "columns": {
+        "gqId": "GQ Case",
+        "sapId": "SAP Angebot",
+        "customerId": "Kundennummer",
+        "customerName": "Kundenname",
+        "gqCreatedByUser": "Case erstellt von",
+        "gqCreated": "Case erstellt am",
+        "gqLastUpdated": "Case zuletzt aktualisiert am"
+      }
+    },
     "casesResultsTable": {
       "searchCriteriaLabel": "Suchkriterium:",
       "gqId": "GQ Case Nummer",
@@ -591,23 +602,25 @@
       "noInitialResultsSubTitle": "Stichwort für die Suche eingeben",
       "noResultsTitle": "Keine Ergebnisse gefunden",
       "columns": {
-        "gqId": "GQ Case",
-        "sapId": "SAP Angebot",
-        "customerId": "Kundennummer",
-        "customerName": "Kundenname",
-        "gqCreatedByUser": "Case erstellt von",
-        "gqCreated": "Case erstellt am",
-        "gqLastUpdated": "Case zuletzt aktualisiert am",
         "totalNetValue": "Ges. Nettowert"
       }
     },
     "materialsResultsTable": {
       "searchCriteriaLabel": "Suchkriterium:",
-      "matNumber": "Materialnummer",
-      "matDesc": "Materialbeschreibung",
-      "customerMatNumber": "Kundenmaterialnummer",
-      "noResultsTitle": "Noch keine Ergebnisse",
-      "noResultsSubTitle": "Stichwort für die Suche eingeben"
+      "materialNumber": "Materialnummer",
+      "materialDescription": "Materialbeschreibung",
+      "customerMaterialNumber": "Kundenmaterialnummer",
+      "noInitialResultsTitle": "Noch keine Ergebnisse",
+      "noInitialResultsSubTitle": "Stichwort für die Suche eingeben",
+      "noResultsTitle": "Keine Ergebnisse gefunden",
+      "columns": {
+        "materialNumber": "Materialnummer (15-stellig)",
+        "materialDescription": "Materialbeschreibung",
+        "customerMaterial": "Kundenmaterialnummer",
+        "quantity": "Menge",
+        "price": "Nettopreis",
+        "gpi": "GPI %"
+      }
     }
   },
 

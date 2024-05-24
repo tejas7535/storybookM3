@@ -8,11 +8,12 @@
         </mat-icon>
         <div class="flex flex-col w-full pr-4">
           <input
+            #inputField
             matInput
             color="primary"
             class="w-full leading-7 !outline-none z-10"
             [ngClass]="
-              searchFormControl.hasError('minlength')
+              searchFormControl.hasError('minlengthDisplay')
                 ? 'text-error'
                 : 'text-high-emphasis'
             "
@@ -29,9 +30,13 @@
           <mat-error
             class="absolute pt-6"
             [ngClass]="
-              searchFormControl.hasError('minlength') ? 'visible' : 'collapse'
+              searchFormControl.hasError('minlengthDisplay')
+                ? 'visible'
+                : 'collapse'
             "
-            >{{ t('minLengthError') }}</mat-error
+            >{{
+              t('minLengthError', { minLength: activeMinLengthForValidation })
+            }}</mat-error
           >
         </div>
       </div>
@@ -65,7 +70,10 @@
 
     <!-- content-->
     <div class="flex flex-col w-full h-full relative pb-2 pt-4">
-      <mat-tab-group [(selectedIndex)]="tabIndex">
+      <mat-tab-group
+        [(selectedIndex)]="tabIndex"
+        (selectedIndexChange)="tabChanged()"
+      >
         <mat-tab [label]="t('casesLabel')">
           <gq-cases-result-table
             [casesResults]="casesResults"
@@ -75,6 +83,8 @@
         </mat-tab>
         <mat-tab [label]="t('materialsLabel')">
           <gq-materials-result-table
+            [materialsResults]="materialResults"
+            [loading]="loading$ | ngrxPush"
             (criteriaSelected)="materialCriteriaSelected($event)"
           ></gq-materials-result-table>
         </mat-tab>

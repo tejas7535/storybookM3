@@ -4,13 +4,15 @@ import {
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
+import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table.component';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
-  FilterChangedEvent,
-  GridReadyEvent,
-  SortChangedEvent,
-} from 'ag-grid-community';
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
+import { FilterChangedEvent, GridReadyEvent } from 'ag-grid-community';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -27,12 +29,13 @@ describe('CasesResultTableComponent', () => {
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       MockProvider(ColumnDefinitionService, {
-        COLUMN_DEFS: [],
+        CASES_TABLE_COLUMN_DEFS: [],
       }),
       MockProvider(LocalizationService, {
         locale$: jest.fn(),
       } as unknown),
       MockProvider(ColumnUtilityService),
+      mockProvider(TranslocoLocaleService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -73,67 +76,26 @@ describe('CasesResultTableComponent', () => {
     });
   });
   describe('onGridReady', () => {
-    test('should apply ColumnState and filterState', () => {
-      const columnState = {};
-      const filterState = [
-        {
-          actionItemId: component['TABLE_KEY'],
-          filterModels: { column1: { type: 'equals', filter: 'value' } },
-        },
-      ];
-      component['agGridStateService'].getColumnStateForCurrentView = jest
-        .fn()
-        .mockReturnValue(columnState);
-      const event: GridReadyEvent = {
-        api: { setFilterModel: jest.fn() },
-        columnApi: {
-          applyColumnState: jest.fn(),
-        },
-      } as unknown as GridReadyEvent;
-
-      component.onGridReady(event);
-      component['agGridStateService'].filterState.next(filterState);
-
-      expect(event.columnApi.applyColumnState).toHaveBeenCalled();
-      expect(
-        component['agGridStateService'].getColumnStateForCurrentView
-      ).toHaveBeenCalled();
-
-      expect(event.api.setFilterModel).toHaveBeenCalledWith(
-        filterState[0].filterModels
+    test('should call base class onGridReady method', () => {
+      const onGridReady = jest.spyOn(
+        BaseResultTableComponent.prototype,
+        'onGridReady'
       );
-    });
-  });
-
-  describe('onColumnChange', () => {
-    it('should call agGridStateService.setColumnStateForCurrentView', () => {
-      const event = {
-        columnApi: {
-          getColumnState: jest.fn().mockReturnValue([]),
-        },
-      } as unknown as SortChangedEvent;
-      const setColumnStateSpy = jest.spyOn(
-        component['agGridStateService'],
-        'setColumnStateForCurrentView'
-      );
-      component.onColumnChange(event);
-      expect(setColumnStateSpy).toHaveBeenCalled();
+      onGridReady.mockImplementationOnce(() => {});
+      component.onGridReady({} as GridReadyEvent);
+      expect(onGridReady).toHaveBeenCalled();
     });
   });
 
   describe('onFilterChanged', () => {
-    it('should call agGridStateService.setColumnFilterForCurrentView', () => {
-      const event = {
-        api: {
-          getFilterModel: jest.fn().mockReturnValue({}),
-        },
-      } as unknown as FilterChangedEvent;
-      const setColumnFilterSpy = jest.spyOn(
-        component['agGridStateService'],
-        'setColumnFilterForCurrentView'
+    test('should call base class onFilterChanged method', () => {
+      const onFilterChanged = jest.spyOn(
+        BaseResultTableComponent.prototype,
+        'onFilterChanged'
       );
-      component.onFilterChanged(event);
-      expect(setColumnFilterSpy).toHaveBeenCalled();
+      onFilterChanged.mockImplementationOnce(() => {});
+      component.onFilterChanged({} as FilterChangedEvent);
+      expect(onFilterChanged).toHaveBeenCalled();
     });
   });
 });

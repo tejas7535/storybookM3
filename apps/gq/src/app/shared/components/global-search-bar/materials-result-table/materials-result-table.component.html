@@ -11,35 +11,32 @@
         [(ngModel)]="criteriaSelectedValue"
         class="flex flex-row gap-6 px-2"
       >
-        <mat-radio-button
-          disableRipple
-          checked
-          value="matNumber"
-          color="primary"
-          class="text-subtitle-2"
-          labelPosition="after"
-          >{{ t('matNumber') }}</mat-radio-button
-        >
-        <mat-radio-button
-          value="matDesc"
-          color="primary"
-          class="text-subtitle-2"
-          labelPosition="after"
-          disableRipple
-          >{{ t('matDesc') }}</mat-radio-button
-        >
-        <mat-radio-button
-          value="customerMatNumber"
-          color="primary"
-          class="text-subtitle-2"
-          labelPosition="after"
-          disableRipple
-          >{{ t('customerMatNumber') }}
-        </mat-radio-button>
+        @for (criteria of criteriaSelections; track criteria) {
+          <mat-radio-button
+            [value]="criteria"
+            color="primary"
+            class="text-subtitle-2"
+            labelPosition="after"
+            disableRipple
+            >{{ t(criteria) }}</mat-radio-button
+          >
+        }
       </mat-radio-group>
     </div>
     <mat-card appearance="outlined" class="h-full">
-      <ng-container [ngTemplateOutlet]="noResults"></ng-container>
+      @if (loading) {
+        <ng-container [ngTemplateOutlet]="loadingTemplate"></ng-container>
+      } @else {
+        @if (!materialsResults) {
+          <ng-container [ngTemplateOutlet]="noInitialResults"></ng-container>
+        } @else {
+          @if (materialsResults?.length === 0) {
+            <ng-container [ngTemplateOutlet]="noResults"></ng-container>
+          } @else {
+            <ng-container [ngTemplateOutlet]="tableResults"></ng-container>
+          }
+        }
+      }
     </mat-card>
   </div>
 
@@ -47,8 +44,56 @@
     <gq-no-data
       class="h-full bg-secondary-variant"
       [title]="t('noResultsTitle')"
-      [subTitle]="t('noResultsSubTitle')"
     >
     </gq-no-data>
+  </ng-template>
+
+  <ng-template #noInitialResults>
+    <gq-no-data
+      class="h-full bg-secondary-variant"
+      [title]="t('noInitialResultsTitle')"
+      [subTitle]="t('noInitialResultsSubTitle')"
+    >
+    </gq-no-data>
+  </ng-template>
+
+  <ng-template #tableResults>
+    <!--
+    Dynamically set spinner's class and dialog size based on result count by assigning a panelClass to MatDialogConfig. 
+    Modify panel classes and sizes in gq module's styles.scss. 
+    Applies to '#loadingTemplate' as well.
+    -->
+    <ag-grid-angular
+      oncontextmenu="return false;"
+      class="ag-theme-material h-full"
+      [ngClass]="{
+        'material-results-table-with-pagination': materialsResults?.length > 4
+      }"
+      [defaultColDef]="defaultColDef"
+      [columnDefs]="columnDefs$ | ngrxPush"
+      [components]="components"
+      [localeText]="localeText$ | ngrxPush"
+      (gridReady)="onGridReady($event)"
+      (columnResized)="onColumnChange($event)"
+      (columnMoved)="onColumnChange($event)"
+      (sortChanged)="onColumnChange($event)"
+      (filterChanged)="onFilterChanged($event)"
+      rowSelection="single"
+      [rowData]="materialsResults"
+      [gridOptions]="
+        materialsResults?.length > 8
+          ? gridOptions
+          : gridOptionsWithoutPagination
+      "
+    >
+    </ag-grid-angular>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <schaeffler-loading-spinner
+      [ngClass]="{
+        'material-results-table-with-pagination': materialsResults?.length > 4
+      }"
+    ></schaeffler-loading-spinner>
   </ng-template>
 </ng-container>

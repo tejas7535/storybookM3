@@ -95,7 +95,7 @@ export enum ReferencePricingColumnFields {
   YEAR = 'year',
 }
 
-export enum SearchByCasesColumnFields {
+export enum SearchByCasesOrMaterialsColumnFields {
   GQ_ID = 'gqId',
   SAP_ID = 'sapId',
   CUSTOMER_NAME = 'customerName',
@@ -104,6 +104,12 @@ export enum SearchByCasesColumnFields {
   GQ_CREATED = 'gqCreated', // equals createdOn date
   GQ_LAST_UPDATED = 'gqLastUpdated',
   TOTAL_NET_VALUE = 'totalNetValue',
+  MATERIAL_NUMBER_15 = 'materialNumber15',
+  MATERIAL_DESCRIPTION = 'materialDescription',
+  CUSTOMER_MATERIAL = 'customerMaterial',
+  QUANTITY = 'quantity',
+  PRICE = 'price',
+  GPI = 'gpi',
   CURRENCY = 'currency',
 }
 

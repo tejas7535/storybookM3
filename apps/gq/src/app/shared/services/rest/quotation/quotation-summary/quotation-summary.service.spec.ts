@@ -4,8 +4,10 @@ import {
 } from '@angular/common/http/testing';
 
 import { CasesCriteriaSelection } from '@gq/shared/components/global-search-bar/cases-result-table/cases-criteria-selection.enum';
+import { MaterialsCriteriaSelection } from '@gq/shared/components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { ApiVersion, QuotationStatus } from '@gq/shared/models';
 import { QuotationSearchByCasesResponse } from '@gq/shared/models/quotation/quotation-search-result-by-cases.interface';
+import { QuotationSearchResultByMaterialsResponse } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
 import {
   createServiceFactory,
   HttpMethod,
@@ -81,6 +83,50 @@ describe('QuotationService', () => {
 
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_QUOTATIONS}?${service['PARAM_USER_QUOTATIONS_ONLY']}=false&${service['PARAM_CRITERIA']}=${CasesCriteriaSelection.CUSTOMER_ID}&${service['PARAM_VALUE']}=value`
+      );
+
+      req.flush(response);
+    });
+  });
+
+  describe('getSearchResultsByMaterials', () => {
+    test('should call the service', () => {
+      service
+        .getSearchResultsByMaterials(
+          false,
+          MaterialsCriteriaSelection.MATERIAL_NUMBER,
+          'value'
+        )
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_MATERIALS}?${service['PARAM_USER_QUOTATIONS_ONLY']}=false&${service['PARAM_CRITERIA']}=${MaterialsCriteriaSelection.MATERIAL_NUMBER}&${service['PARAM_VALUE']}=value`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+
+    test('should map the results', () => {
+      const response = {
+        results: [
+          {
+            gqId: 1,
+            status: QuotationStatus.ACTIVE,
+          },
+        ],
+      } as QuotationSearchResultByMaterialsResponse;
+
+      service
+        .getSearchResultsByMaterials(
+          false,
+          MaterialsCriteriaSelection.MATERIAL_NUMBER,
+          'value'
+        )
+        .subscribe((data) => {
+          expect(data).toEqual(response.results);
+        });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_MATERIALS}?${service['PARAM_USER_QUOTATIONS_ONLY']}=false&${service['PARAM_CRITERIA']}=${MaterialsCriteriaSelection.MATERIAL_NUMBER}&${service['PARAM_VALUE']}=value`
       );
 
       req.flush(response);

@@ -70,7 +70,34 @@ describe('ColumnUtilityService', () => {
     });
   });
 
-  describe('totalNetValueFormatter', () => {
+  describe('materialGetter', () => {
+    test('should return the materialNumber', () => {
+      const params = {
+        data: {
+          materialNumber15: '123456789012345',
+        },
+      } as ValueGetterParams;
+      service['materialNumberService'].formatStringAsMaterialNumber = jest.fn(
+        () => '123456789012345'
+      );
+      const result = service.materialGetter(params);
+      expect(result).toEqual('123456789012345');
+    });
+  });
+
+  describe('gpiGetter', () => {
+    test('should return the gpi', () => {
+      const params = {
+        data: {
+          gpi: 0.1234,
+        },
+      } as ValueGetterParams;
+      const result = service.gpiGetter(params);
+      expect(result).toEqual('12.34');
+    });
+  });
+
+  describe('netValueFormatter', () => {
     test('should return the totalNetValue', () => {
       const params = {
         value: 1234,
@@ -81,7 +108,7 @@ describe('ColumnUtilityService', () => {
       service['transformationService'].transformNumberCurrency = jest.fn(
         () => '1,234.00 USD'
       );
-      const result = service.totalNetValueFormatter(params);
+      const result = service.netValueFormatter(params);
       expect(result).toEqual('1,234.00 USD');
     });
   });

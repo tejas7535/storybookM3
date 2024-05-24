@@ -577,9 +577,20 @@
     "clear": "Clear",
     "searchButton": "search",
     "cancelButton": "cancel",
-    "minLengthError": "Please enter at least 3 characters.",
+    "minLengthError": "Please enter at least {{ minLength }} characters.",
     "casesLabel": "Cases",
     "materialsLabel": "Material",
+    "resultsTable": {
+      "columns": {
+        "gqId": "GQ Case",
+        "sapId": "SAP Quotation",
+        "customerId": "Customer Number",
+        "customerName": "Customer Name",
+        "gqCreatedByUser": "Case Created By",
+        "gqCreated": "Case Created On",
+        "gqLastUpdated": "Case Last Updated"
+      }
+    },
     "casesResultsTable": {
       "searchCriteriaLabel": "Search Criteria:",
       "gqId": "GQ Case Number",
@@ -591,23 +602,25 @@
       "noInitialResultsSubTitle": "Enter keyword for search",
       "noResultsTitle": "No results found",
       "columns": {
-        "gqId": "GQ Case",
-        "sapId": "SAP Quotation",
-        "customerId": "Customer Number",
-        "customerName": "Customer Name",
-        "gqCreatedByUser": "Case Created By",
-        "gqCreated": "Case Created On",
-        "gqLastUpdated": "Case Last Updated",
         "totalNetValue": "Total Net Value"
       }
     },
     "materialsResultsTable": {
       "searchCriteriaLabel": "Search Criteria:",
-      "matNumber": "Material Number",
-      "matDesc": "Material Description",
-      "customerMatNumber": "Customer Material Number",
-      "noResultsTitle": "No results yet",
-      "noResultsSubTitle": "Enter keyword for search"
+      "materialNumber": "Material Number",
+      "materialDescription": "Material Description",
+      "customerMaterialNumber": "Customer Material Number",
+      "noInitialResultsTitle": "No results yet",
+      "noInitialResultsSubTitle": "Enter keyword for search",
+      "noResultsTitle": "No results found",
+      "columns": {
+        "materialNumber": "Material Number (15-Digit)",
+        "materialDescription": "Material Description",
+        "customerMaterial": "Customer Material Number",
+        "quantity": "Quantity",
+        "price": "Net Price",
+        "gpi": "GPI %"
+      }
     }
   },
   "purchaseOrderType": {
