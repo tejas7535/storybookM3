@@ -80,6 +80,7 @@
       (filterChanged)="onFilterChanged($event)"
       rowSelection="single"
       [rowData]="materialsResults"
+      [postSortRows]="columnUtilityService.postSortRows"
       [gridOptions]="
         materialsResults?.length > 8
           ? gridOptions

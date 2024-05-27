@@ -5,7 +5,11 @@ import { ViewQuotation } from '@gq/shared/models/quotation';
 import { QuotationSearchResultByCases } from '@gq/shared/models/quotation/quotation-search-result-by-cases.interface';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-enterprise';
+import {
+  PostSortRowsParams,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-enterprise';
 @Injectable({
   providedIn: 'root',
 })
@@ -16,6 +20,23 @@ export class ColumnUtilityService {
   private readonly materialNumberService: MaterialNumberService = inject(
     MaterialNumberService
   );
+
+  // always moves rows with no gqLastUpdated to the end of the array after sorting
+  // ToDo: can be removed after a db cleanup was performed since this is only require because of very old data
+  postSortRows(params: PostSortRowsParams): void {
+    const nodes = params.nodes;
+    // eslint-disable-next-line no-plusplus
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const node = nodes[i];
+      const gqLastUpdated = node.data.gqLastUpdated;
+
+      // If gqLastUpdated is not defined, move the node to the end of the array
+      if (!gqLastUpdated) {
+        const [nodeWithoutUpdate] = nodes.splice(i, 1);
+        nodes.push(nodeWithoutUpdate);
+      }
+    }
+  }
 
   createdByGetter(data: QuotationSearchResultByCases): string {
     if (!data || !data.gqCreatedByUser?.name || !data.gqCreatedByUser?.id) {

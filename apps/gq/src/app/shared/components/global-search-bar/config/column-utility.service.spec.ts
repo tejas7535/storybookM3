@@ -24,6 +24,24 @@ describe('ColumnUtilityService', () => {
     service = spectator.service;
   });
 
+  describe('postSortRows', () => {
+    test('should move rows with no gqLastUpdated to the end of the array after sorting', () => {
+      const nodes = [
+        { data: { gqLastUpdated: '2021-01-01' } },
+        { data: { gqLastUpdated: '2021-01-02' } },
+        { data: { gqLastUpdated: null } },
+        { data: { gqLastUpdated: '2021-01-03' } },
+      ];
+      service.postSortRows({ nodes } as any);
+      expect(nodes).toEqual([
+        { data: { gqLastUpdated: '2021-01-01' } },
+        { data: { gqLastUpdated: '2021-01-02' } },
+        { data: { gqLastUpdated: '2021-01-03' } },
+        { data: { gqLastUpdated: null } },
+      ]);
+    });
+  });
+
   describe('createdByGetter', () => {
     test('should return createdBy', () => {
       const data = {

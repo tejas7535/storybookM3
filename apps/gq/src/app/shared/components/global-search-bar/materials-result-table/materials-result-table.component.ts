@@ -20,6 +20,7 @@ import {
 } from 'ag-grid-community/dist/lib/events';
 import { ColDef } from 'ag-grid-enterprise';
 
+import { ColumnUtilityService } from '../config/column-utility.service';
 import { MaterialsCriteriaSelection } from './material-criteria-selection.enum';
 
 @Component({
@@ -39,7 +40,7 @@ export class MaterialsResultTableComponent
   private readonly TABLE_KEY = 'search-material-results-table';
 
   private readonly rolesFacade = inject(RolesFacade);
-
+  protected readonly columnUtilityService = inject(ColumnUtilityService);
   criteriaSelections = Object.values(MaterialsCriteriaSelection);
   criteriaSelectedValue = MaterialsCriteriaSelection.MATERIAL_NUMBER;
 

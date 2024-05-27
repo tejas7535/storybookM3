@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -18,6 +19,7 @@ import {
   GridReadyEvent,
 } from 'ag-grid-community/dist/lib/events';
 
+import { ColumnUtilityService } from '../config/column-utility.service';
 import { CasesCriteriaSelection } from './cases-criteria-selection.enum';
 
 @Component({
@@ -35,6 +37,7 @@ export class CasesResultTableComponent
   @Output() criteriaSelected: EventEmitter<CasesCriteriaSelection> =
     new EventEmitter<CasesCriteriaSelection>();
 
+  protected readonly columnUtilityService = inject(ColumnUtilityService);
   private readonly TABLE_KEY = 'search-cases-results-table';
 
   criteriaSelections = Object.values(CasesCriteriaSelection);

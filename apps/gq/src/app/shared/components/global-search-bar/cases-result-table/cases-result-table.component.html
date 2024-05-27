@@ -77,6 +77,7 @@
       (filterChanged)="onFilterChanged($event)"
       rowSelection="single"
       [rowData]="casesResults"
+      [postSortRows]="columnUtilityService.postSortRows"
       [gridOptions]="
         casesResults?.length > 8 ? gridOptions : gridOptionsWithoutPagination
       "
