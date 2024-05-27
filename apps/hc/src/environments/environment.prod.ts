@@ -4,7 +4,7 @@ export const environment: Environment = {
   production: true,
   localDev: false,
   devToolsEnabled: false,
-  baseUrl: 'https://hardness-converter-q.dev.dp.schaeffler',
+  baseUrl: 'https://hardness-converter.com',
   internalUserCheckURL:
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
 
