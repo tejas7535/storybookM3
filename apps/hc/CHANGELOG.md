@@ -1,4 +1,11 @@
 # Release Notes of Hardness Converter
+## [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.3...hc-v0.1.4) (2024-05-27)
+
+
+### Reverts
+
+* Revert "feat(hc): debug cookie handling code (UFTABI-6436) (#6233)" (#6239) ([70f086f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/70f086fdec3932bb6922a6cb2a7e519ca4d6ff96)), closes [#6233](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6233) [#6239](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6239)
+
 ## [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.2...hc-v0.1.3) (2024-05-24)
 
 
