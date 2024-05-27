@@ -1,4 +1,13 @@
 # Release Notes of Engineering App
+## [1.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.9.1...ea-v1.10.0) (2024-05-27)
+
+
+### Bug Fixes
+
+* **ea:** correct typo in sustainability card ([#6230](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6230)) ([4a225e3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a225e3c36193c86c4c4fe1c3771af180df2ff1b))
+* **ea:** enable standalone tracking with Google Analytics ([#6216](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6216)) ([cee478c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cee478ce1bc2444f504f0f25bc7999c7e3ef0363))
+* **ea:** fix error message for frictional  powerloss ([#6204](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6204)) ([fbc955c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fbc955c64999fa902d0f5a61238b71b432868f23))
+
 ## [1.9.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.9.0...ea-v1.9.1) (2024-05-06)
 
 
