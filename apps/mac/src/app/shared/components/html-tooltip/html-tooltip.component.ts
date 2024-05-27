@@ -11,13 +11,14 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
   filter,
   startWith,
   switchMap,
   takeUntil,
+  tap,
 } from 'rxjs/operators';
 
 @Component({
@@ -38,23 +39,30 @@ export class HtmlTooltipComponent implements OnDestroy, OnInit {
   fadeOut = false;
   destroy$ = new Subject<void>();
 
+  elementMouseenter$: Observable<Event>;
+  elementMouseleave$: Observable<Event>;
+  documentMousemove$: Observable<Event>;
+
+  cursorX: number;
+  cursorY: number;
+
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     const element = this.tooltipOrigin.elementRef.nativeElement;
+    this.elementMouseenter$ = fromEvent(element, 'mouseenter');
+    this.elementMouseleave$ = fromEvent(element, 'mouseleave');
+    this.documentMousemove$ = fromEvent(document, 'mousemove');
 
-    (fromEvent(element, 'mouseenter') as Observable<Event>)
+    this.elementMouseenter$
       .pipe(
         takeUntil(this.destroy$),
         filter(() => !this.isOpened),
         switchMap((enterEvent: Event) =>
-          fromEvent(document, 'mousemove').pipe(
+          merge(this.elementMouseleave$, this.documentMousemove$).pipe(
             startWith(enterEvent),
             debounceTime(this.tooltipShowDelay),
-            filter(
-              (event: Event) =>
-                !this.isMovedOutside(element, this.tooltip, event)
-            )
+            filter(() => !this.isMovedOutside(this.tooltip))
           )
         )
       )
@@ -63,14 +71,16 @@ export class HtmlTooltipComponent implements OnDestroy, OnInit {
         this.changeState(true);
       });
 
-    (fromEvent(document, 'mousemove') as Observable<Event>)
+    merge(this.elementMouseleave$, this.documentMousemove$)
       .pipe(
+        tap((event) => {
+          this.cursorX = (event as MouseEvent).pageX;
+          this.cursorY = (event as MouseEvent).pageY;
+        }),
         takeUntil(this.destroy$),
         debounceTime(this.tooltipHideDelay),
         filter(() => this.isOpened),
-        filter((event: Event) =>
-          this.isMovedOutside(element, this.tooltip, event)
-        )
+        filter(() => this.isMovedOutside(this.tooltip))
       )
       .subscribe(() => {
         this.fadeOut = true;
@@ -95,14 +105,40 @@ export class HtmlTooltipComponent implements OnDestroy, OnInit {
     this.changeDetectorRef.markForCheck();
   }
 
-  private isMovedOutside(
-    element: any,
-    tooltip: ElementRef,
-    event: Event
-  ): boolean {
+  private isMovedOutside(tooltip: ElementRef): boolean {
+    const elementRect: {
+      left: number;
+      right: number;
+      top: number;
+      bottom: number;
+    } = this.tooltipOrigin.elementRef.nativeElement.getBoundingClientRect();
+    const tooltipRect: {
+      left: number;
+      right: number;
+      top: number;
+      bottom: number;
+    } = tooltip?.nativeElement?.getBoundingClientRect();
+
     return !(
-      element.contains(event['target']) ||
-      tooltip?.nativeElement?.contains(event['target'])
+      this.isCursorOverRect(elementRect) || this.isCursorOverRect(tooltipRect)
+    );
+  }
+
+  private isCursorOverRect(rect?: {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+  }): boolean {
+    if (!rect) {
+      return false;
+    }
+
+    return (
+      this.cursorX > rect.left &&
+      this.cursorX < rect.right &&
+      this.cursorY > rect.top &&
+      this.cursorY < rect.bottom
     );
   }
 }

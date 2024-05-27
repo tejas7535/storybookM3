@@ -176,72 +176,132 @@ describe('HtmlTooltipComponent', () => {
   });
 
   describe('isMovedOutside', () => {
-    let element: HTMLDivElement;
-    let tooltip: HTMLDivElement;
+    let tooltip: {
+      nativeElement: {
+        getBoundingClientRect: () => {
+          left: number;
+          right: number;
+          top: number;
+          bottom: number;
+        };
+      };
+    };
+    let tooltipOrigin: {
+      elementRef: {
+        nativeElement: {
+          getBoundingClientRect: () => {
+            left: number;
+            right: number;
+            top: number;
+            bottom: number;
+          };
+        };
+      };
+    };
 
     beforeEach(() => {
-      element = document.createElement('div');
-      element.innerHTML = 'origin';
-      tooltip = document.createElement('div');
-      tooltip.innerHTML = 'tooltip';
+      tooltip = {
+        nativeElement: {
+          getBoundingClientRect: jest.fn(() => ({
+            left: 0,
+            right: 100,
+            top: 0,
+            bottom: 100,
+          })),
+        },
+      };
+      tooltipOrigin = {
+        elementRef: {
+          nativeElement: {
+            getBoundingClientRect: jest.fn(() => ({
+              left: 100,
+              right: 0,
+              top: 100,
+              bottom: 0,
+            })),
+          },
+        },
+      };
     });
 
-    it('should return true', () => {
-      const mockElement = element;
+    it('should return false if cursor is over tooltip', () => {
+      component.tooltipOrigin = tooltipOrigin;
+      component['isCursorOverRect'] = jest.fn((rect) => rect.left === 0);
 
-      const mockTooltip = {
-        nativeElement: tooltip,
-      } as ElementRef;
+      const result = component['isMovedOutside'](tooltip);
 
-      const mockEvent = {
-        target: document.createElement('span'),
-      } as unknown as Event;
+      expect(result).toBe(false);
+      expect(component['isCursorOverRect']).toHaveBeenCalledTimes(2);
+      expect(tooltip.nativeElement.getBoundingClientRect).toHaveBeenCalled();
+      expect(
+        tooltipOrigin.elementRef.nativeElement.getBoundingClientRect
+      ).toHaveBeenCalled();
+    });
 
-      const result = component['isMovedOutside'](
-        mockElement,
-        mockTooltip,
-        mockEvent
-      );
+    it('should return false if cursor is over tooltipOrigin', () => {
+      component.tooltipOrigin = tooltipOrigin;
+      component['isCursorOverRect'] = jest.fn((rect) => rect.left !== 0);
+
+      const result = component['isMovedOutside'](tooltip);
+
+      expect(result).toBe(false);
+      expect(component['isCursorOverRect']).toHaveBeenCalledTimes(1);
+      expect(tooltip.nativeElement.getBoundingClientRect).toHaveBeenCalled();
+      expect(
+        tooltipOrigin.elementRef.nativeElement.getBoundingClientRect
+      ).toHaveBeenCalled();
+    });
+
+    it('should return true if cursor is not over tooltip or tooltipOrigin', () => {
+      component.tooltipOrigin = tooltipOrigin;
+      component['isCursorOverRect'] = jest.fn(() => false);
+
+      const result = component['isMovedOutside'](tooltip);
 
       expect(result).toBe(true);
+      expect(component['isCursorOverRect']).toHaveBeenCalledTimes(2);
+      expect(tooltip.nativeElement.getBoundingClientRect).toHaveBeenCalled();
+      expect(
+        tooltipOrigin.elementRef.nativeElement.getBoundingClientRect
+      ).toHaveBeenCalled();
     });
+  });
 
-    it('should return true if target is inside element', () => {
-      const mockElement = element;
-
-      const mockTooltip = {
-        nativeElement: tooltip,
-      } as ElementRef;
-
-      const mockEvent = {
-        target: element,
-      } as unknown as Event;
-
-      const result = component['isMovedOutside'](
-        mockElement,
-        mockTooltip,
-        mockEvent
-      );
+  describe('isCursorOverRect', () => {
+    it('should return false if rect is falsy', () => {
+      const result = component['isCursorOverRect']();
 
       expect(result).toBe(false);
     });
 
-    it('should return true if target is inside tooltip', () => {
-      const mockElement = element;
+    it('should return true if cursor is over rect', () => {
+      const rect = {
+        left: 0,
+        right: 100,
+        top: 0,
+        bottom: 100,
+      };
 
-      const mockTooltip = {
-        nativeElement: tooltip,
-      } as ElementRef;
+      component.cursorX = 50;
+      component.cursorY = 50;
 
-      const mockEvent = {
-        target: tooltip,
-      } as unknown as Event;
+      const result = component['isCursorOverRect'](rect);
 
-      const result = component['isMovedOutside'](
-        mockElement,
-        mockTooltip,
-        mockEvent
-      );
+      expect(result).toBe(true);
+    });
+
+    it('should return false if cursor is not over rect', () => {
+      const rect = {
+        left: 0,
+        right: 100,
+        top: 0,
+        bottom: 100,
+      };
+
+      component.cursorX = 101;
+      component.cursorY = 101;
+
+      const result = component['isCursorOverRect'](rect);
 
       expect(result).toBe(false);
     });
