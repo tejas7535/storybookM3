@@ -619,7 +619,7 @@
         "customerMaterial": "Kundenmaterialnummer",
         "quantity": "Menge",
         "price": "Nettopreis",
-        "gpi": "GPI %"
+        "gpi": "GPI % (KHK)"
       }
     }
   },

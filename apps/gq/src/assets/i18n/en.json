@@ -586,9 +586,9 @@
         "sapId": "SAP Quotation",
         "customerId": "Customer Number",
         "customerName": "Customer Name",
-        "gqCreatedByUser": "Case Created By",
-        "gqCreated": "Case Created On",
-        "gqLastUpdated": "Case Last Updated"
+        "gqCreatedByUser": "Case Created by",
+        "gqCreated": "Case Created on",
+        "gqLastUpdated": "Case Last Updated on"
       }
     },
     "casesResultsTable": {
@@ -597,7 +597,7 @@
       "sapId": "SAP Quotation",
       "customerName": "Customer Name",
       "customerId": "Customer Number",
-      "gqCreatedByUser": "GQ Created By",
+      "gqCreatedByUser": "GQ Created by",
       "noInitialResultsTitle": "No results yet",
       "noInitialResultsSubTitle": "Enter keyword for search",
       "noResultsTitle": "No results found",
@@ -614,12 +614,12 @@
       "noInitialResultsSubTitle": "Enter keyword for search",
       "noResultsTitle": "No results found",
       "columns": {
-        "materialNumber": "Material Number (15-Digit)",
+        "materialNumber": "Material Number (15-digits)",
         "materialDescription": "Material Description",
         "customerMaterial": "Customer Material Number",
         "quantity": "Quantity",
         "price": "Net Price",
-        "gpi": "GPI %"
+        "gpi": "GPI % (GPC)"
       }
     }
   },
