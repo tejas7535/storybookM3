@@ -4,13 +4,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { of } from 'rxjs';
-
-import {
-  CookiesGroups,
-  OneTrustModule,
-  OneTrustService,
-} from '@altack/ngx-onetrust';
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { environment } from '@hc/environments/environment';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
@@ -59,26 +53,19 @@ let defaultLang; // default -> undefined would lead to browser detection
       deps: [ApplicationInsightsService, OneTrustService],
       useFactory: (
         appInsightService: ApplicationInsightsService,
-        _oneTrustService: OneTrustService
-        // eslint-disable-next-line arrow-body-style
+        oneTrustService: OneTrustService
       ) => {
         const customProps: CustomProps = {
           tag: 'application',
           value: '[Hardness - Converter]',
         };
 
-        const cookieMap = new Map<CookiesGroups, boolean>();
-        cookieMap.set(CookiesGroups.PerformanceCookies, true);
+        appInsightService.initTracking(
+          oneTrustService.consentChanged$(),
+          customProps
+        );
 
-        appInsightService.initTracking(of(cookieMap), customProps);
-
-        // appInsightService.initTracking(
-        //   oneTrustService.consentChanged$(),
-        //   customProps
-        // );
-
-        // eslint-disable-next-line unicorn/no-null, unicorn/no-useless-undefined
-        return () => {};
+        return () => oneTrustService.loadOneTrust();
       },
       multi: true,
     },
