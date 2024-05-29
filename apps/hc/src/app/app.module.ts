@@ -102,7 +102,7 @@ const azureConfig = new AzureConfig(
   providers: [
     {
       provide: PERSON_RESPONSIBLE,
-      useValue: 'Dr. Johannes Möller',
+      useValue: 'Schaeffler Technologies AG & Co. KG',
     },
     {
       provide: PURPOSE,
