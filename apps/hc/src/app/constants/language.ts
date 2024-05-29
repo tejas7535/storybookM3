@@ -2,10 +2,11 @@ import { LangDefinition } from '@jsverse/transloco/lib/types';
 
 export const LANGUAGE_STORAGE_KEY = 'language';
 
-export const LANGUAGE_DEUSTCH: LangDefinition = {
-  id: 'de',
-  label: 'Deutsch',
-};
+// Deustch is not supported yet, once it will be fully supported we will enable language setting.
+// export const LANGUAGE_DEUSTCH: LangDefinition = {
+//   id: 'de',
+//   label: 'Deutsch',
+// };
 
 export const LANGUAGE_ENGLISH: LangDefinition = {
   id: 'en',
@@ -13,7 +14,7 @@ export const LANGUAGE_ENGLISH: LangDefinition = {
 };
 
 export const AVAILABLE_LANGUAGES: LangDefinition[] = [
-  LANGUAGE_DEUSTCH,
+  // LANGUAGE_DEUSTCH,
   LANGUAGE_ENGLISH,
 ];
 

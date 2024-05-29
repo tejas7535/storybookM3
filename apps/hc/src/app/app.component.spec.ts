@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -45,6 +46,7 @@ describe('AppComponent', () => {
       MockComponent(SettingsPanelComponent),
       MockModule(AppShellModule),
       MockModule(SharedAzureAuthModule),
+      MockModule(MatIconModule),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

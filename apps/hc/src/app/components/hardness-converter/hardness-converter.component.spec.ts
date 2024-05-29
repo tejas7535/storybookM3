@@ -19,6 +19,7 @@ import { AuthService } from '@hc/services/auth.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -31,6 +32,7 @@ import {
   HARDNESS_CONVERSION_UNITS_MOCK,
 } from '../../../testing/mocks';
 import { CopyInputComponent } from '../copy-input/copy-input.component';
+import { GeometricalInformationComponent } from '../geometrical-information/geometrical-information.component';
 import { HardnessConverterApiService } from './../../services/hardness-converter-api.service';
 import { HardnessConverterComponent } from './hardness-converter.component';
 
@@ -57,6 +59,7 @@ describe('HardnessConverterComponent', () => {
       RouterTestingModule,
       provideTranslocoTestingModule({ en }),
       HttpClientTestingModule,
+      MockComponent(GeometricalInformationComponent),
     ],
     declarations: [HardnessConverterComponent],
     providers: [

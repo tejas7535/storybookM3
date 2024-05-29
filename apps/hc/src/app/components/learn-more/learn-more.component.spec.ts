@@ -2,6 +2,10 @@ import { CommonModule } from '@angular/common';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
+import { LinkGroups } from '@hc/models/resource-links.model';
+import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -12,9 +16,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import * as en from '../../../assets/i18n/en.json';
 import { LinksPanelComponent } from '../links-panel/links-panel.component';
 import { LearnMoreComponent } from './learn-more.component';
-import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
-import { of } from 'rxjs';
-import { LinkGroups } from '@hc/models/resource-links.model';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
