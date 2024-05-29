@@ -21,6 +21,7 @@ import { EditingMaterialModalComponent } from '@gq/shared/components/modal/editi
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { StatusBarModalModule } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { PurchaseOrderTypeSelectComponent } from '@gq/shared/components/purchase-order-type-select/purchase-order-type-select.component';
+import { SectorGpsdSelectComponent } from '@gq/shared/components/sector-gpsd-select/sector-gpsd-select.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -67,6 +68,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     MatProgressSpinnerModule,
     EditingModalModule,
     PurchaseOrderTypeSelectComponent,
+    SectorGpsdSelectComponent,
   ],
   exports: [QuotationDetailsTableComponent],
 })

@@ -10,7 +10,7 @@
     <div class="mt-8 flex h-full flex-col">
       <div class="flex gap-4">
         @if (autocompleteFacade.createCaseCustomer$ | ngrxPush; as customer) {
-          <div class="w-3/5">
+          <div class="w-1/2">
             <gq-autocomplete-input
               [filterName]="customer.filter"
               [options]="customer.options"
@@ -30,10 +30,15 @@
             ></gq-autocomplete-input>
           </div>
         }
-        <div class="w-1/5">
+        <div class="w-1/6">
           <gq-select-sales-org></gq-select-sales-org>
         </div>
-        <div class="w-1/5">
+        <div class="w-1/6">
+          <gq-sector-gpsd-select
+            (sectorGpsdSelected)="sectorGpsdChanged($event)"
+          ></gq-sector-gpsd-select>
+        </div>
+        <div class="w-1/6">
           <gq-purchase-order-type-select
             (purchaseOrderTypeSelected)="purchaseOrderTypeChanged($event)"
           ></gq-purchase-order-type-select>

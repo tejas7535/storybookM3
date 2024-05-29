@@ -15,6 +15,7 @@ export class CreateManualCaseButtonComponent implements OnDestroy {
     this.dialog.open(CreateManualCaseComponent, {
       width: '70%',
       height: '95%',
+      panelClass: 'create-manual-case-modal',
     });
   }
   ngOnDestroy(): void {

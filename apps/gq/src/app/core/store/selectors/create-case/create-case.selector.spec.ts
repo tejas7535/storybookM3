@@ -348,4 +348,14 @@ describe('Create Case Selector', () => {
       ).toEqual(fakeState.case.purchaseOrderType);
     });
   });
+
+  describe('getSelectedSectorGpsdFromCreateCase', () => {
+    test('should return selectedSectorGpsd', () => {
+      expect(
+        createSelectors.getSelectedSectorGpsdFromCreateCase.projector(
+          fakeState.case
+        )
+      ).toEqual(fakeState.case.sectorGpsd);
+    });
+  });
 });

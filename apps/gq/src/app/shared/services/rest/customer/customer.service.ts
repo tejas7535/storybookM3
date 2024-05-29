@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { QuotationIdentifier } from '@gq/core/store/active-case/models';
 import { ApiVersion } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 
 import { SearchPaths } from '../search/models/search-paths.enum';
@@ -49,5 +50,16 @@ export class CustomerService {
           },
         }))
       );
+  }
+
+  getSectorGpsdsByCustomerAndSalesOrg(
+    customerId: string,
+    salesOrg: string
+  ): Observable<SectorGpsd[]> {
+    return this.http
+      .get<any>(
+        `${ApiVersion.V1}/${CustomerPaths.PATH_CUSTOMER}/${customerId}/${salesOrg}/${CustomerPaths.PATH_END_CUSTOMERS_OR_SECTORS}`
+      )
+      .pipe(map((data) => data.results));
   }
 }

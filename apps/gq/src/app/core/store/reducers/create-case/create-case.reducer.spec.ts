@@ -16,6 +16,8 @@ import {
   autocompleteSuccess,
   clearCreateCaseRowData,
   clearCustomer,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -40,6 +42,7 @@ import {
   selectAutocompleteOption,
   selectPurchaseOrderType,
   selectSalesOrg,
+  selectSectorGpsd,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
@@ -929,6 +932,18 @@ describe('Create Case Reducer', () => {
     });
   });
 
+  describe('selectSectorGpsd', () => {
+    test('should set the sectorGpsd', () => {
+      const action = selectSectorGpsd({
+        sectorGpsd: { id: 'ZOR', name: 'ZOR Name' },
+      });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.sectorGpsd).toEqual({
+        id: 'ZOR',
+        name: 'ZOR Name',
+      });
+    });
+  });
   describe('clearCustomer', () => {
     test('should clearCustomer', () => {
       const action = clearCustomer();
@@ -1094,6 +1109,22 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.plSeries).toEqual(initialState.plSeries);
+    });
+  });
+
+  describe('clearPurchaseOrderType', () => {
+    test('should clear purchaseOrderType', () => {
+      const action = clearPurchaseOrderType();
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.purchaseOrderType).toEqual(initialState.purchaseOrderType);
+    });
+  });
+
+  describe('clearSectorGpsd', () => {
+    test('should clear sectorGpsd', () => {
+      const action = clearSectorGpsd();
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.sectorGpsd).toEqual(initialState.sectorGpsd);
     });
   });
   describe('Reducer function', () => {

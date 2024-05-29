@@ -7,4 +7,5 @@ export class CreateCase {
   };
   materialQuantities: MaterialQuantities[];
   purchaseOrderTypeId?: string;
+  partnerRole?: string;
 }

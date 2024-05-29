@@ -19,10 +19,11 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
     materialSelection: { includeQuotationHistory: false, salesIndications: [] },
     historicalDataLimitInYear: 2,
   },
-  purchaseOrderType: undefined,
+  purchaseOrderType: { id: '112', name: 'Purchase Order Type' },
   createdCase: undefined,
   createCaseLoading: false,
   errorMessage: undefined,
   rowData: [],
   validationLoading: false,
+  sectorGpsd: { id: '14', name: 'Sector GPSD' },
 };

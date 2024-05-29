@@ -2,6 +2,7 @@ import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-in
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { PurchaseOrderType } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialQuantities, MaterialTableItem } from '@gq/shared/models/table';
 import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
 import { TableService } from '@gq/shared/services/table/table.service';
@@ -152,6 +153,7 @@ export const getCreateCaseData = createSelector(
     const { customerId, salesOrgs } = state.customer;
     const salesOrg = salesOrgs.find((org) => org.selected)?.id;
     const purchaseOrderType = state.purchaseOrderType;
+    const sectorGpsd = state.sectorGpsd;
 
     const materialQuantities: MaterialQuantities[] =
       TableService.createMaterialQuantitiesFromTableItems(state.rowData, 0);
@@ -163,6 +165,7 @@ export const getCreateCaseData = createSelector(
         salesOrg,
       },
       purchaseOrderTypeId: purchaseOrderType?.id,
+      partnerRole: sectorGpsd?.id,
     };
   }
 );
@@ -252,4 +255,9 @@ export const getCreateCustomerCasePayload = createSelector(
 export const getSelectedPurchaseOrderTypeFromCreateCase = createSelector(
   getCaseState,
   (state: CreateCaseState): PurchaseOrderType => state.purchaseOrderType
+);
+
+export const getSelectedSectorGpsdFromCreateCase = createSelector(
+  getCaseState,
+  (state: CreateCaseState): SectorGpsd => state.sectorGpsd
 );

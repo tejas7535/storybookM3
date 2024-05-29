@@ -2,6 +2,7 @@ import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-in
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { PurchaseOrderType } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialTableItem, MaterialValidation } from '@gq/shared/models/table';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { createAction, props, union } from '@ngrx/store';
@@ -195,6 +196,17 @@ export const selectPurchaseOrderType = createAction(
   props<{ purchaseOrderType: PurchaseOrderType }>()
 );
 
+export const clearPurchaseOrderType = createAction(
+  '[Create Case] Reset Purchase Order Type'
+);
+
+export const selectSectorGpsd = createAction(
+  '[Create Case] Select Sector Gpsd',
+  props<{ sectorGpsd: SectorGpsd }>()
+);
+
+export const clearSectorGpsd = createAction('[Create Case] Reset Sector Gpsd');
+
 const all = union({
   addRowDataItems,
   duplicateRowDataItem,
@@ -218,6 +230,9 @@ const all = union({
   getSalesOrgsFailure,
   selectSalesOrg,
   selectPurchaseOrderType,
+  selectSectorGpsd,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
 });
 
 export type createCaseActions = typeof all;

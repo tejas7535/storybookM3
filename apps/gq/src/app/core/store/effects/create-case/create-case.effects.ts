@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -59,6 +60,7 @@ import {
   PLsAndSeries,
   SalesOrg,
 } from '../../reducers/models';
+import { SectorGpsdFacade } from '../../sector-gpsd/sector-gpsd.facade';
 import {
   getAutoSelectMaterial,
   getCaseRowData,
@@ -116,6 +118,30 @@ export class CreateCaseEffects {
       map(() => validateMaterialsOnCustomerAndSalesOrg())
     );
   });
+
+  loadSectorGpsdByCustomerAndSalesOrg$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(validateMaterialsOnCustomerAndSalesOrg),
+        concatLatestFrom(() => [
+          this.store.select(getSelectedCustomerId),
+          this.store.select(getSelectedSalesOrg),
+        ]),
+        map(
+          ([_action, customerId, salesOrg]: [
+            ReturnType<typeof validateMaterialsOnCustomerAndSalesOrg>,
+            string,
+            SalesOrg,
+          ]) =>
+            this.sectorGpsdFacade.loadSectorGpsdByCustomerAndSalesOrg(
+              customerId,
+              salesOrg.id
+            )
+        )
+      );
+    },
+    { dispatch: false }
+  );
 
   /**
    * Get Validation for materialNumbers in combination with Customer and SalesOrg
@@ -317,7 +343,8 @@ export class CreateCaseEffects {
     private readonly router: Router,
     private readonly store: Store,
     private readonly materialService: MaterialService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly sectorGpsdFacade: SectorGpsdFacade
   ) {}
 
   navigateAfterCaseCreate(

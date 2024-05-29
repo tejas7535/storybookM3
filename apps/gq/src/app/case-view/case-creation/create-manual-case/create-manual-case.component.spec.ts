@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 import {
   clearCreateCaseRowData,
   clearCustomer,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
@@ -30,7 +32,7 @@ describe('CreateManualCaseComponent', () => {
   let spectator: Spectator<CreateManualCaseComponent>;
   let mockStore: MockStore;
   let applicationInsightsService: ApplicationInsightsService;
-  // const beforeClosed: () => Subject<boolean> = () => new Subject<boolean>();
+
   let mockSubjectClose: Subject<boolean>;
 
   const createComponent = createComponentFactory({
@@ -124,6 +126,17 @@ describe('CreateManualCaseComponent', () => {
     });
   });
 
+  describe('sectorGpsdChanged', () => {
+    test('should call selectSectorGpsdForCaseCreation', () => {
+      component['sectorGpsdFacade'].selectSectorGpsdForCaseCreation = jest.fn();
+      const gpsd = { id: 'test', name: 'test' };
+      component.sectorGpsdChanged(gpsd);
+
+      expect(
+        component['sectorGpsdFacade'].selectSectorGpsdForCaseCreation
+      ).toHaveBeenCalledWith(gpsd);
+    });
+  });
   describe('closeDialog', () => {
     test('should close matDialog', () => {
       mockStore.dispatch = jest.fn();
@@ -145,6 +158,10 @@ describe('CreateManualCaseComponent', () => {
           clearCreateCaseRowData()
         );
         expect(mockStore.dispatch).toHaveBeenCalledWith(clearCustomer());
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          clearPurchaseOrderType()
+        );
+        expect(mockStore.dispatch).toHaveBeenCalledWith(clearSectorGpsd());
       });
 
       component.closeDialog();

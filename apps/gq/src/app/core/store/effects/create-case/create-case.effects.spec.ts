@@ -252,6 +252,31 @@ describe('Create Case Effects', () => {
     );
   });
 
+  describe('loadSectorGpsdByCustomerAndSalesOrg$', () => {
+    test(
+      'should return getSectorGpsdSuccess when REST call is successful',
+      marbles((m) => {
+        action = validateMaterialsOnCustomerAndSalesOrg();
+        store.overrideSelector(getSelectedCustomerId, '1234');
+        store.overrideSelector(getSelectedSalesOrg, {
+          id: '0615',
+          selected: true,
+        });
+        effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg =
+          jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+
+        effects.loadSectorGpsdByCustomerAndSalesOrg$.subscribe(() => {
+          expect(
+            effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
+          ).toHaveBeenCalledTimes(1);
+        });
+
+        m.flush();
+      })
+    );
+  });
   describe('validateMaterialsOnCustomerAndSalesOrg$', () => {
     const tableData: MaterialTableItem[] = [
       {

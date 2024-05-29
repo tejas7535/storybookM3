@@ -6,10 +6,13 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   clearCreateCaseRowData,
   clearCustomer,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { PurchaseOrderTypeFacade } from '@gq/core/store/purchase-order-type/purchase-order-type.facade';
+import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import {
   getCaseRowData,
   getCreateCaseLoading,
@@ -21,6 +24,7 @@ import {
   EVENT_NAMES,
   PurchaseOrderType,
 } from '@gq/shared/models';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
@@ -44,6 +48,7 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     private readonly translocoService: TranslocoService,
     private readonly insightsService: ApplicationInsightsService,
     private readonly purchaseOrderTypeFacade: PurchaseOrderTypeFacade,
+    private readonly sectorGpsdFacade: SectorGpsdFacade,
     public readonly autocompleteFacade: AutoCompleteFacade
   ) {
     this.title$ = this.translocoService.selectTranslate(
@@ -78,6 +83,10 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     );
   }
 
+  sectorGpsdChanged(gpsd: SectorGpsd): void {
+    this.sectorGpsdFacade.selectSectorGpsdForCaseCreation(gpsd);
+  }
+
   ngOnDestroy(): void {
     this.shutdown$$.next();
     this.shutdown$$.unsubscribe();
@@ -94,5 +103,8 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     this.store.dispatch(resetAllAutocompleteOptions());
     this.store.dispatch(clearCustomer());
     this.store.dispatch(clearCreateCaseRowData());
+    this.store.dispatch(clearPurchaseOrderType());
+    this.store.dispatch(clearSectorGpsd());
+    this.sectorGpsdFacade.resetAllSectorGpsds();
   }
 }

@@ -627,6 +627,12 @@
     "label": "Purchase Order Type",
     "emptyValue": "No Entry"
   },
+  "sectorGpsd": {
+    "label": "End Sector / Customer",
+    "emptyValue": "No Entry",
+    "notAvailable": "Not available",
+    "standardValue": "Standard Pricing"
+  },
   "pricingDetails": {
     "materialDetails": {
       "materialNumber": "Material Number (15-Digit)",

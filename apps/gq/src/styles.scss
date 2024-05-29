@@ -135,6 +135,12 @@ button {
   line-height: normal;
 }
 
+.create-manual-case-modal {
+  .mat-mdc-button-base .mdc-button__label {
+    z-index: 0;
+  }
+}
+
 .edit-case-modal {
   .mat-mdc-button-base .mdc-button__label {
     z-index: 0;

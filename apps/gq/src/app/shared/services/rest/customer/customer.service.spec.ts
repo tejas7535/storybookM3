@@ -74,4 +74,26 @@ describe('CustomerService', () => {
       req.flush(mock);
     });
   });
+
+  describe('getSectorGpsdsByCustomerAndSalesOrg', () => {
+    test('should call and map', () => {
+      const customerId = '123456';
+      const salesOrg = '0267';
+      const response = {
+        results: [
+          { id: '1', name: 'gpsd1' },
+          { id: '2', name: 'gpsd2' },
+        ],
+      };
+      service
+        .getSectorGpsdsByCustomerAndSalesOrg(customerId, salesOrg)
+        .subscribe((data) => expect(data).toEqual(response.results));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${CustomerPaths.PATH_CUSTOMER}/${customerId}/${salesOrg}/${CustomerPaths.PATH_END_CUSTOMERS_OR_SECTORS}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(response);
+    });
+  });
 });

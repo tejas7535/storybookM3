@@ -2,6 +2,7 @@ import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-in
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { PurchaseOrderType } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import {
   MaterialTableItem,
   ValidationDescription,
@@ -16,6 +17,8 @@ import {
   autocompleteSuccess,
   clearCreateCaseRowData,
   clearCustomer,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -41,6 +44,7 @@ import {
   selectAutocompleteOption,
   selectPurchaseOrderType,
   selectSalesOrg,
+  selectSectorGpsd,
   setRequestingAutoCompleteDialog,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
@@ -87,6 +91,7 @@ export interface CreateCaseState {
   errorMessage: string;
   rowData: MaterialTableItem[];
   validationLoading: boolean;
+  sectorGpsd: SectorGpsd;
 }
 export const initialState: CreateCaseState = {
   autocompleteLoading: undefined,
@@ -140,6 +145,7 @@ export const initialState: CreateCaseState = {
   errorMessage: undefined,
   rowData: [],
   validationLoading: false,
+  sectorGpsd: undefined,
 };
 
 const isOnlyOptionForMaterial = (options: any, filter: any): boolean =>
@@ -507,6 +513,13 @@ export const createCaseReducer = createReducer(
     })
   ),
   on(
+    selectSectorGpsd,
+    (state: CreateCaseState, { sectorGpsd }): CreateCaseState => ({
+      ...state,
+      sectorGpsd,
+    })
+  ),
+  on(
     clearCustomer,
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
@@ -646,6 +659,20 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       plSeries: initialState.plSeries,
+    })
+  ),
+  on(
+    clearPurchaseOrderType,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      purchaseOrderType: initialState.purchaseOrderType,
+    })
+  ),
+  on(
+    clearSectorGpsd,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      sectorGpsd: initialState.sectorGpsd,
     })
   )
 );

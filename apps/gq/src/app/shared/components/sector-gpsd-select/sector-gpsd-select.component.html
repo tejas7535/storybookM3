@@ -1,0 +1,33 @@
+<div *ngrxLet="sectorGpsds$ | ngrxPush as sectorGpsds">
+  <mat-form-field
+    class="w-full"
+    [appearance]="appearance"
+    *transloco="let t; read: 'sectorGpsd'"
+  >
+    <mat-label>{{ t('label') }}</mat-label>
+    <mat-select
+      panelWidth="450px"
+      [formControl]="sectorGpsdControl"
+      (selectionChange)="selectionChange($event)"
+      [compareWith]="compareFn"
+    >
+      @for (type of sectorGpsds; track type.id) {
+        <mat-option [value]="type">
+          <div class="flex flex-row items-center">
+            <span class="whitespace-nowrap w-80 text-subtitle-1">{{
+              type.name
+            }}</span>
+            @if (type.id && type.id !== 'NOT_AVAILABLE') {
+              <span class="whitespace-nowrap text-caption text-medium-emphasis">
+                - {{ type.id }}</span
+              >
+            }
+          </div>
+        </mat-option>
+      }
+    </mat-select>
+    @if (sectorGpsdLoading$ | ngrxPush) {
+      <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+    }
+  </mat-form-field>
+</div>
