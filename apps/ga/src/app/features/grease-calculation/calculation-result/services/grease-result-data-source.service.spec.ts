@@ -23,6 +23,7 @@ import {
   CONCEPT1,
   GreaseReportConcept1Subordinate,
   GreaseReportSubordinate,
+  GreaseReportSubordinateDataItem,
   GreaseReportSubordinateTitle,
   SubordinateDataItemField,
   SUITABILITY_LABEL,
@@ -285,6 +286,116 @@ describe('GreaseResultDataSourceService', () => {
       );
 
       expect(item).toBeUndefined();
+    });
+  });
+
+  describe('maximumManualRelubricationInterval', () => {
+    const baseItem: GreaseReportSubordinateDataItem[] = [
+      {
+        field: SubordinateDataItemField.QVRE_AUT_MIN,
+        value: '0.06',
+        unit: 'mock_unit',
+      },
+      {
+        field: SubordinateDataItemField.QVRE_AUT_MAX,
+        value: '0.08',
+        unit: 'mock_unit',
+      },
+    ];
+    describe('when relubrication interval in days exceeds 365 days', () => {
+      it('should return lubrication interval data for 365 days', () => {
+        const item = service.maximumManualRelubricationInterval(
+          [
+            {
+              field: SubordinateDataItemField.TFR_MIN,
+              value: 19_710,
+              unit: 'h',
+            },
+            {
+              field: SubordinateDataItemField.TFR_MAX,
+              value: 21_900,
+              unit: 'h',
+            },
+            ...baseItem,
+          ],
+          subordinateDataMock.rhoMock
+        );
+
+        expect(item).toStrictEqual({
+          title: 'maximumManualRelubricationPerInterval',
+          values:
+            '<span>25.55 g/365 days</span><br><span class="text-low-emphasis">25.55 /365 days</span>',
+        });
+      });
+    });
+
+    describe('when relubrication interval in days is less than 365 days', () => {
+      it('should return lubrication interval data for the calculated days', () => {
+        const item = service.maximumManualRelubricationInterval(
+          [
+            {
+              field: SubordinateDataItemField.TFR_MIN,
+              value: 5710,
+              unit: 'h',
+            },
+            {
+              field: SubordinateDataItemField.TFR_MAX,
+              value: 7900,
+              unit: 'h',
+            },
+            ...baseItem,
+          ],
+          subordinateDataMock.rhoMock
+        );
+
+        expect(item).toStrictEqual({
+          title: 'maximumManualRelubricationPerInterval',
+          values:
+            '<span>19.880000000000003 g/284 days</span><br><span class="text-low-emphasis">19.880000000000003 /284 days</span>',
+        });
+      });
+    });
+
+    describe('when the relubrication interval value could not be calculated', () => {
+      it('should return undefined', () => {
+        const item = service.maximumManualRelubricationInterval(
+          [],
+          subordinateDataMock.rhoMock
+        );
+
+        expect(item).toBeUndefined();
+      });
+    });
+  });
+
+  describe('relubricationInterval', () => {
+    it('should return relubrication interval value in days', () => {
+      const item = service.relubricationInterval([
+        {
+          field: SubordinateDataItemField.TFR_MIN,
+          value: 19_710,
+          unit: 'h',
+        },
+        {
+          field: SubordinateDataItemField.TFR_MAX,
+          value: 21_900,
+          unit: 'h',
+        },
+      ]);
+
+      expect(item).toStrictEqual({
+        title: 'relubricationInterval',
+        tooltip: 'relubricationIntervalTooltip',
+        values: '~ 867 days',
+      });
+    });
+
+    describe('when the relubrication interval value could not be calculated', () => {
+      it('should return undefined', () => {
+        const item = service.relubricationInterval([]);
+
+        expect(item).toBeUndefined();
+      });
     });
   });
 

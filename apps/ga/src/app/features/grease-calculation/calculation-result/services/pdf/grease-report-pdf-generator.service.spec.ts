@@ -192,7 +192,7 @@ describe('GreaseReportPdfGeneratorService', () => {
 
     it('should generate page numbers', () => {
       const xPositionValue = 200 - 2 * pageMargin;
-      const yPositionValue = 400 - 25;
+      const yPositionValue = 400 - 10;
 
       expect(textSpy).toHaveBeenCalledWith(
         '1/2',
@@ -211,7 +211,7 @@ describe('GreaseReportPdfGeneratorService', () => {
         'schaefflerLogo',
         'png',
         36,
-        pageMargin + 1,
+        pageMargin - 10 + 1,
         130,
         16
       );

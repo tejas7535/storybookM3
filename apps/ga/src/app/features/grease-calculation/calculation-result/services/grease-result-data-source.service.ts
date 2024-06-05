@@ -24,6 +24,8 @@ export class GreaseResultDataSourceService {
     maximumFractionDigits: 2,
   };
 
+  private readonly daysInYear = 365;
+
   public constructor(
     private readonly localeService: TranslocoLocaleService,
     private readonly undefinedValuePipe: UndefinedValuePipe,
@@ -166,6 +168,67 @@ export class GreaseResultDataSourceService {
             greaseServiceLifeValue,
             'decimal'
           )} ${translate('calculationResult.days')}`,
+        }
+      : undefined;
+  }
+
+  public maximumManualRelubricationInterval(
+    dataItems: GreaseReportSubordinateDataItem[],
+    rho: number
+  ): GreaseResultDataSourceItem {
+    const relubricationIntervalValueInDays =
+      helpers.relubricationIntervalInDays(dataItems);
+
+    const numberOfDays =
+      relubricationIntervalValueInDays > this.daysInYear
+        ? this.daysInYear
+        : relubricationIntervalValueInDays;
+
+    /*
+      Qvre_man_min and Qvre_man_max are not used in the calculation as it is combined value per interval,
+      so for an example if the result of relubricationIntervalInDays is 870 days then the unit of value is cm³/870 days,
+      which is not suitable for the scenario where we exceed 365 days.
+      the outcome of the calculation should equal to average of Qvre_man_min and Qvre_man_max , if the interval is less than 365 days. 
+
+      Qvre_aut_min and Qvre_aut_max are defined as per day values which are easier used in the calculation.
+    */
+    const relubricationPerDays = helpers.relubricationPerDays(
+      numberOfDays,
+      dataItems
+    );
+
+    if (!relubricationPerDays) {
+      return undefined;
+    }
+
+    const result: GreaseResultDataSourceItem = {
+      title: `maximumManualRelubricationPerInterval`,
+      values: `${this.massTemplate(
+        rho,
+        relubricationPerDays,
+        `${numberOfDays} ${translate('calculationResult.days')}`
+      )}<br>${helpers.secondaryValue(
+        `${this.localeService.localizeNumber(
+          relubricationPerDays,
+          'decimal'
+        )} ${helpers.relubricationQuantityUnit(
+          dataItems
+        )}/${numberOfDays} ${translate('calculationResult.days')}`
+      )}`,
+    };
+
+    return result;
+  }
+
+  public relubricationInterval(dataItems: GreaseReportSubordinateDataItem[]) {
+    const relubricationIntervalValue =
+      helpers.relubricationIntervalInDays(dataItems);
+
+    return relubricationIntervalValue
+      ? {
+          title: 'relubricationInterval',
+          values: `~ ${relubricationIntervalValue} ${translate('calculationResult.days')}`,
+          tooltip: 'relubricationIntervalTooltip',
         }
       : undefined;
   }

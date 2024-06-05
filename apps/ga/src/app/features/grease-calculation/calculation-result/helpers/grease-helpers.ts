@@ -172,6 +172,30 @@ export const relubricationPerOperatingHours = (
   return quantity ? (quantity / 24) * numberOfOperatingHours : undefined;
 };
 
+export const relubricationIntervalInDays = (
+  dataItems: GreaseReportSubordinateDataItem[] = []
+): number | undefined => {
+  const minValueInHours = itemValue(
+    dataItems,
+    SubordinateDataItemField.TFR_MIN
+  );
+  const maxValueInHours = itemValue(
+    dataItems,
+    SubordinateDataItemField.TFR_MAX
+  );
+
+  const min = convertInputToNumberWithoutSpecialCharacters(minValueInHours);
+  const max = convertInputToNumberWithoutSpecialCharacters(maxValueInHours);
+
+  if (min === undefined || max === undefined) {
+    return undefined;
+  }
+
+  const average = (min + max) / 2;
+
+  return Math.round(average / 24);
+};
+
 export const getConcept1Setting = (
   item: GreaseReportSubordinateDataItem[],
   c1size: SubordinateDataItemField

@@ -1,4 +1,3 @@
-/* eslint @nx/enforce-module-boundaries: 1 */
 import { translate } from '@jsverse/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';

@@ -55,8 +55,8 @@ export class GreaseReportPdfGeneratorService {
 
   private currentYPosition = 0;
 
-  private readonly yPageContentStartPosition = 125;
-  private readonly yPageRegularContentEndPosition = 722;
+  private readonly yPageContentStartPosition = 85;
+  private readonly yPageRegularContentEndPosition = 710;
 
   private partnerVersion: `${PartnerVersion}`;
   private partnerLogo: string;
@@ -150,7 +150,8 @@ export class GreaseReportPdfGeneratorService {
     totalPages: number
   ): void {
     const pageNumber = `${currentPage}/${totalPages}`;
-    const pageNumberYPosition = doc.internal.pageSize.getHeight() - 25;
+    const pageNumberYPosition =
+      doc.internal.pageSize.getHeight() - this.standardLineSpacing;
 
     doc.text(
       pageNumber,
@@ -166,13 +167,14 @@ export class GreaseReportPdfGeneratorService {
   ): void {
     const width = this.partnerVersion ? 280 : 130;
     const height = this.partnerVersion ? 28 : 16;
+    const logoTopMargin = this.pageMargin - this.standardLineSpacing;
     const x = this.pageMargin + 1;
-    const y = this.pageMargin + 1;
+    const y = logoTopMargin + 1;
     const logo = this.partnerVersion ? this.partnerLogo : this.schaefflerLogo;
 
     this.generateImage(doc, logo, x, y, width, height);
 
-    const titleYPosition = 100;
+    const titleYPosition = 70;
 
     doc.setFontSize(fontSize.ReportTitle);
     doc.setFont(fontFamily, fontType.Bold);
@@ -547,15 +549,11 @@ export class GreaseReportPdfGeneratorService {
 
   private printTableLineSpacing(index: number, doc: jsPDF): void {
     if (this.isFirst(index)) {
-      this.setCurrentLinePosition(
-        this.getCurrentLinePosition(doc) + this.standardLineSpacing
-      );
+      this.setCurrentLinePosition(this.getCurrentLinePosition(doc));
     }
 
     if (this.isEven(index) && !this.isFirst(index)) {
-      this.setCurrentLinePosition(
-        this.getTableLineStart(doc) + this.standardLineSpacing
-      );
+      this.setCurrentLinePosition(this.getTableLineStart(doc));
     }
   }
 

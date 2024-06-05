@@ -339,6 +339,44 @@ describe('Grease helpers', () => {
     });
   });
 
+  describe('relubricationIntervalInDays', () => {
+    it('should return a value', () => {
+      const value = helpers.relubricationIntervalInDays([
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          value: 19_710,
+          field: SubordinateDataItemField.TFR_MIN,
+        },
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          value: 21_900,
+          field: SubordinateDataItemField.TFR_MAX,
+        },
+      ]);
+
+      expect(value).toBe(867);
+    });
+
+    describe('when values are not specified', () => {
+      it('should return undefined', () => {
+        const value = helpers.relubricationIntervalInDays([
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            value: undefined,
+            field: SubordinateDataItemField.TFR_MIN,
+          },
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            value: undefined,
+            field: SubordinateDataItemField.TFR_MAX,
+          },
+        ]);
+
+        expect(value).toBe(undefined);
+      });
+    });
+  });
+
   describe('relubricationPer7days', () => {
     it('should return a value', () => {
       const numberOfDays = 7;

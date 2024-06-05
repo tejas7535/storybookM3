@@ -6,9 +6,9 @@ export enum fontType {
 }
 
 export enum fontSize {
-  ReportTitle = 16,
-  sectionTitle = 14,
-  text = 9,
-  concept1 = 8,
-  disclaimer = 7,
+  ReportTitle = 14,
+  sectionTitle = 10,
+  text = 8,
+  concept1 = 7,
+  disclaimer = 6,
 }
