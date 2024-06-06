@@ -248,6 +248,15 @@ describe('helpers', () => {
       expect(result).toEqual(undefined);
     });
 
+    it('should return sth if the value is 0', () => {
+      const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY();
+      const params = { value: 0 } as ValueFormatterParams;
+
+      const result = formatter(params);
+
+      expect(result).toEqual('0');
+    });
+
     it('should return the translated value', () => {
       const formatter = TRANSLATE_VALUE_FORMATTER_FACTORY();
       const params = { value: 'something' } as ValueFormatterParams;

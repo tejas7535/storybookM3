@@ -897,6 +897,7 @@
             "maturityHeader": "Maturity",
             "scoreHeader": "Score",
             "dataSource": {
+              "0": "SAP BW import",
               "1": "Manual input (outside MSD)",
               "2": "Sec. data (indirectly derived)",
               "3": "Sec. data (w/o reference to Schaeffler specification)",
@@ -969,9 +970,7 @@
           "GC": "Greater China",
           "--": "#NA"
         },
-
         "mandatory": "Mandatory",
-
         "materialNumber": "Format: 111122222-1111-22",
         "percent": "[%] (0.01 = 1%)",
         "incoterms": "DAP (Delivered at Place) / FCA (Free Carrier) / FOB (Free on Board) / CL_PCF (estimation from Corp. Logistics)",
@@ -1001,7 +1000,8 @@
       "7": "Secondary Data (supplier-specific)",
       "6": "Secondary Data (internal)",
       "5": "Secondary Data (external)",
-      "2": "Secondary Data (indirect)"
+      "2": "Secondary Data (indirect)",
+      "0": "SAP BW import"
     },
     "materialClass": "Material Class",
     "materialClassValues": {
