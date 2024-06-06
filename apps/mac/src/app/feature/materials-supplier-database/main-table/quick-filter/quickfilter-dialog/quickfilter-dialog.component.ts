@@ -1,8 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { Subject, takeUntil } from 'rxjs';
+
+import { PushPipe } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   QuickFilter,
@@ -13,6 +29,24 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 @Component({
   selector: 'mac-quickfilter-dialog',
   templateUrl: './quickfilter-dialog.component.html',
+  standalone: true,
+  imports: [
+    // default
+    CommonModule,
+    // angular material
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    // forms
+    FormsModule,
+    ReactiveFormsModule,
+    // libs
+    SharedTranslocoModule,
+    // ngrx
+    PushPipe,
+  ],
 })
 export class QuickfilterDialogComponent implements OnInit, OnDestroy {
   // set quickfilter title

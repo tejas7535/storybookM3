@@ -67,8 +67,8 @@ import {
   YEAR_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
 
-import { PcfMaturityCo2CellRendererComponent } from '../../../pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
-import { UrlCellRendererComponent } from '../../../url-cell-renderer/url-cell-renderer.component';
+import { PcfMaturityCo2CellRendererComponent } from '../../../cell-renderers/pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
+import { UrlCellRendererComponent } from '../../../cell-renderers/url-cell-renderer/url-cell-renderer.component';
 import {
   ARRAY_SORT_VALUE_FORMATTER,
   BOOLEAN_VALUE_FORMATTER,

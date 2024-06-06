@@ -12,11 +12,11 @@ import {
   MANUFACTURER_SUPPLIER_SAPID,
   RECENT_STATUS,
 } from '@mac/msd/constants';
-import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import { CUSTOM_DATE_FORMATTER } from '@mac/msd/main-table/table-config/helpers';
 
-import { RecentStatusCellRendererComponent } from '../../../recent-status-cell-renderer/recent-status-cell-renderer.component';
+import { EditCellRendererComponent } from '../../../cell-renderers/edit-cell-renderer/edit-cell-renderer.component';
+import { RecentStatusCellRendererComponent } from '../../../cell-renderers/recent-status-cell-renderer/recent-status-cell-renderer.component';
 import { HISTORY_COLUMN_DEFINITION } from './global-column-definitions';
 
 export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [

@@ -4,7 +4,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { CustomSnackbarComponent } from '../../main-table/custom-snackbar/custom-snackbar.component';
+import { CustomSnackbarComponent } from '../../main-table/components/custom-snackbar/custom-snackbar.component';
 import { MsdSnackbarService } from './msd-snackbar.service';
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),

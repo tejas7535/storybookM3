@@ -5,21 +5,21 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
+import { AluminumInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
+import { SteelInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/confirm-delete-dialog/confirm-delete-dialog.component';
-import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
-import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
+import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataResult } from '@mac/msd/models';
 
-import { ManufacturerSupplierInputDialogComponent } from '../../main-table/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
-import { MaterialStandardInputDialogComponent } from '../../main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
-import { CeramicInputDialogComponent } from '../../main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
-import { CopperInputDialogComponent } from '../../main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
-import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
-import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
-import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
-import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
+import { ManufacturerSupplierInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
+import { MaterialStandardInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/material-standard/material-standard-input-dialog.component';
+import { CeramicInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
+import { CopperInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/copper/copper-input-dialog.component';
+import { SapMaterialsUploadDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
+import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
+import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
+import { MoreInformationDialogComponent } from '../../main-table/dialogs/more-information-dialog/more-information-dialog.component';
 import { MsdDialogService } from './msd-dialog.service';
 
 @Injectable()

@@ -1,6 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 import {
   createComponentFactory,
@@ -30,6 +34,7 @@ describe('QuickfilterDialogComponent', () => {
     imports: [
       MockPipe(PushPipe),
       MockModule(ReactiveFormsModule),
+      MockModule(MatDialogModule),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

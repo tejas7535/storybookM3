@@ -1,9 +1,9 @@
 import { ColDef } from 'ag-grid-community';
 
 import { ACTION, HISTORY } from '@mac/msd/constants';
-import { ActionCellRendererComponent } from '@mac/msd/main-table/action-cell-renderer/action-cell-renderer.component';
 
-import { ActionHeaderComponent } from '../../../action-header/action-header.component';
+import { ActionCellRendererComponent } from '../../../cell-renderers/action-cell-renderer/action-cell-renderer.component';
+import { ActionHeaderComponent } from '../../../components/action-header/action-header.component';
 
 export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
   {

@@ -1,7 +1,10 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, UrlSerializer } from '@angular/router';
+import { Router, RouterModule, UrlSerializer } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 
@@ -9,6 +12,8 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
+import { SubheaderModule } from '@schaeffler/subheader';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DataFacade } from '@mac/msd/store/facades/data';
 import { changeFavicon } from '@mac/shared/change-favicon';
@@ -18,6 +23,19 @@ import { MsdDialogService } from './services';
 @Component({
   selector: 'mac-materials-supplier-database',
   templateUrl: './materials-supplier-database.component.html',
+  standalone: true,
+  imports: [
+    // default
+    RouterModule,
+    // angular material
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    // libs
+    SharedTranslocoModule,
+    SubheaderModule,
+  ],
+  providers: [MsdDialogService],
 })
 export class MaterialsSupplierDatabaseComponent implements OnInit {
   public breadcrumbs: Breadcrumb[];

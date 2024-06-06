@@ -4,7 +4,7 @@ import { MaterialClass } from '@mac/feature/materials-supplier-database/constant
 import {
   findProperty,
   mapProperty,
-} from '@mac/feature/materials-supplier-database/main-table/material-input-dialog/util/form-helpers';
+} from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/util/form-helpers';
 import {
   ManufacturerSupplier,
   MaterialFormValue,

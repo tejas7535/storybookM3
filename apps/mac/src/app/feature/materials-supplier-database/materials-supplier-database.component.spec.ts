@@ -45,9 +45,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
           logEvent: jest.fn(),
         },
       },
-      mockProvider(MsdDialogService, {
-        openContactDialog: jest.fn(),
-      }),
+      mockProvider(MsdDialogService),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
@@ -60,6 +58,9 @@ describe('MaterialsSupplierDatabaseComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
+    component['dialogService'].openContactDialog = jest.fn();
+
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
 

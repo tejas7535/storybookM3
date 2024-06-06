@@ -3,23 +3,23 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { TypedAction } from '@ngrx/store/src/models';
 
+import { ManufacturerSupplierInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
+import { MaterialInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component';
+import { MaterialStandardInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-standard/material-standard-input-dialog.component';
+import { AluminumInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
+import { CeramicInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
+import { CopperInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/copper/copper-input-dialog.component';
+import { SteelInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/confirm-delete-dialog/confirm-delete-dialog.component';
-import { ManufacturerSupplierInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
-import { MaterialInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-input-dialog.component';
-import { MaterialStandardInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/material-standard/material-standard-input-dialog.component';
-import { AluminumInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/aluminum/aluminum-input-dialog.component';
-import { CeramicInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
-import { CopperInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/copper/copper-input-dialog.component';
-import { SteelInputDialogComponent } from '@mac/msd/main-table/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataResult } from '@mac/msd/models';
 
-import { ContactDialogComponent } from '../../main-table/contact-dialog/contact-dialog.component';
-import { SapMaterialsUploadDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
-import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
-import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
-import { MoreInformationDialogComponent } from '../../main-table/more-information-dialog/more-information-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../../main-table/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ContactDialogComponent } from '../../main-table/dialogs/contact-dialog/contact-dialog.component';
+import { SapMaterialsUploadDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
+import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
+import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
+import { MoreInformationDialogComponent } from '../../main-table/dialogs/more-information-dialog/more-information-dialog.component';
 
 @Injectable()
 export class MsdDialogService {

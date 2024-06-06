@@ -16,7 +16,7 @@ import {
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
-import { LinkCellRendererComponent } from '../../../link-cell-renderer/link-cell-renderer.component';
+import { LinkCellRendererComponent } from '../../../cell-renderers/link-cell-renderer/link-cell-renderer.component';
 import { excludeColumn, MATERIALSTOFFID_LINK_FORMATTER } from '../../helpers';
 
 export const LUBRICANT_COLUMN_DEFINITIONS: ColDef[] = [

@@ -1,10 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 import { map, Observable, of, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {
@@ -15,11 +20,26 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 import { QuickFilterFacade } from '@mac/feature/materials-supplier-database/store/facades/quickfilter';
 
 import { QuickfilterDialogComponent } from '../quickfilter-dialog/quickfilter-dialog.component';
+import { QuickFiltersListComponent } from './quick-filters-list/quick-filters-list.component';
 import { QuickFiltersListConfig } from './quick-filters-list/quick-filters-list-config.model';
 
 @Component({
   selector: 'mac-quick-filter-management',
   templateUrl: './quick-filter-management.component.html',
+  standalone: true,
+  imports: [
+    // default
+    CommonModule,
+    // msd
+    QuickFiltersListComponent,
+    QuickfilterDialogComponent,
+    // angular material
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    // libs
+    SharedTranslocoModule,
+  ],
 })
 export class QuickFilterManagementComponent implements OnInit, OnDestroy {
   @Input() activeNavigationLevel: ActiveNavigationLevel;

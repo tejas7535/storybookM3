@@ -10,7 +10,7 @@ import * as columns from '@mac/feature/materials-supplier-database/constants';
 import {
   COLUMN_HEADER_FIELDS,
   MANDATORY_COLUMNS,
-} from '../../main-table/material-input-dialog/materials/sap/sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
+} from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-dialog-validation/excel-validation/excel-validator-config';
 import { SAP_MATERIALS_COLUMN_DEFINITIONS } from '../../main-table/table-config/materials/sap-materials';
 import { SAPMaterial } from '../../models';
 

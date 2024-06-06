@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,12 +7,20 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatButtonToggleChange,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { filter, map, Observable, of, Subject, take, takeUntil } from 'rxjs';
 
+import { PushPipe } from '@ngrx/component';
 import { ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   ACTION,
@@ -34,6 +43,19 @@ import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dia
 @Component({
   selector: 'mac-quick-filter',
   templateUrl: './quick-filter.component.html',
+  standalone: true,
+  imports: [
+    // default
+    CommonModule,
+    // angular material
+    MatIconModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    // libs
+    SharedTranslocoModule,
+    // ngrx
+    PushPipe,
+  ],
 })
 export class QuickFilterComponent implements OnDestroy, OnInit {
   @Output() managementTabSelected = new EventEmitter<boolean>();

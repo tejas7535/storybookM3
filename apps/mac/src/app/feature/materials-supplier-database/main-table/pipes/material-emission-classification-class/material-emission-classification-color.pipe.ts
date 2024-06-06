@@ -9,7 +9,7 @@ import {
   WHITE,
 } from '@mac/feature/materials-supplier-database/constants';
 
-import { ClassificationClass } from '../../material-emission-classification/material-emission-classification.component';
+import { ClassificationClass } from '../../components/material-emission-classification/material-emission-classification.component';
 
 @Pipe({
   name: 'materialEmissionClassificationColor',

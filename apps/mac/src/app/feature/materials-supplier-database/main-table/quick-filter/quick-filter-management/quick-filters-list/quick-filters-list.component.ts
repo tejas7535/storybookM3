@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -6,8 +7,15 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { debounceTime, fromEvent, Subject, takeUntil } from 'rxjs';
+
+import { LetDirective, PushPipe } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { QuickFiltersListConfig } from './quick-filters-list-config.model';
 
@@ -19,6 +27,20 @@ export interface TableConfig {
 @Component({
   selector: 'mac-quick-filters-list',
   templateUrl: './quick-filters-list.component.html',
+  standalone: true,
+  imports: [
+    // default
+    CommonModule,
+    // angular material
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    // libs
+    SharedTranslocoModule,
+    // ngrx
+    PushPipe,
+    LetDirective,
+  ],
 })
 export class QuickFiltersListComponent implements AfterViewInit, OnDestroy {
   @ViewChild('searchField') searchField: ElementRef<HTMLInputElement>;

@@ -47,8 +47,8 @@ export const appRoutePaths: MACRoutes = [
     path: RoutePath.MaterialsSupplierDatabasePath,
     loadChildren: () =>
       import(
-        './feature/materials-supplier-database/materials-supplier-database.module'
-      ).then((m) => m.MaterialsSupplierDatabaseModule),
+        './feature/materials-supplier-database/materials-supplier-database-routes'
+      ).then((m) => m.routes),
     data: {
       requiredRoles: ['material-supplier-database-read-user'],
     },

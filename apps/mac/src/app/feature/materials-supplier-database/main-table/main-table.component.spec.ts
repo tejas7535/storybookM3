@@ -33,6 +33,7 @@ import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   LAST_MODIFIED,
@@ -43,7 +44,6 @@ import {
   RELEASED_STATUS,
   Status,
 } from '@mac/msd/constants';
-import { STEEL_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/steel';
 import {
   DataResult,
   SAPMaterial,
@@ -65,6 +65,7 @@ import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MainTableComponent } from './main-table.component';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
+import { STEEL_COLUMN_DEFINITIONS } from './table-config/materials/steel';
 import { getStatus } from './util';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -79,9 +80,13 @@ jest.mock('./util', () => ({
 
 // Mock cell renderers.
 // Otherwise following error is thrown: "Class extends value undefined is not a constructor or null"
-jest.mock('./link-cell-renderer/link-cell-renderer.component');
-jest.mock('./green-steel-cell-renderer/green-steel-cell-renderer.component');
-jest.mock('./action-cell-renderer/action-cell-renderer.component');
+jest.mock('./cell-renderers/link-cell-renderer/link-cell-renderer.component');
+jest.mock(
+  './cell-renderers/green-steel-cell-renderer/green-steel-cell-renderer.component'
+);
+jest.mock(
+  './cell-renderers/action-cell-renderer/action-cell-renderer.component'
+);
 
 @Injectable()
 class MockDataFacade extends DataFacade {
@@ -128,7 +133,11 @@ describe('MainTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: MainTableComponent,
-    imports: [MockPipe(PushPipe), MockDirective(LetDirective)],
+    imports: [
+      MockPipe(PushPipe),
+      MockDirective(LetDirective),
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       provideMockStore({ initialState }),
       {
@@ -149,13 +158,15 @@ describe('MainTableComponent', () => {
           openSapMaterialsUploadStatusDialog: jest.fn(),
         },
       },
-      {
-        provide: MsdDataService,
-        useValue: {},
-      },
+      MockProvider(MsdDataService),
       {
         provide: MsdAgGridStateService,
-        useValue: {},
+        useValue: {
+          getLastActiveNavigationLevel: jest.fn(() => ({
+            materialClass: MaterialClass.STEEL,
+            navigationLevel: NavigationLevel.MATERIAL,
+          })),
+        },
       },
       {
         provide: MsdAgGridConfigService,
@@ -309,37 +320,6 @@ describe('MainTableComponent', () => {
       });
 
       jest.useRealTimers();
-    });
-  });
-
-  describe('setParamAgGridFilter', () => {
-    it('should do nothing if filterModel is not defined', () => {
-      const mockFilterString = 'some filter';
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      JSON.parse = jest.fn(() => undefined);
-
-      component['setParamAgGridFilter'](mockFilterString);
-
-      expect(dataFacade.setAgGridFilter).not.toHaveBeenCalled();
-    });
-    it('should dispatch agGridFilter and set list controls if filter is defined', () => {
-      const mockFilterString = 'some filter';
-      const mockFilterValue = ['some filter value'];
-      const mockFilterModel = {
-        materialStandardMaterialNameHiddenFilter: { values: mockFilterValue },
-        materialStandardStandardDocumentHiddenFilter: {
-          values: mockFilterValue,
-        },
-        materialNumbers: { values: mockFilterValue },
-      };
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      JSON.parse = jest.fn(() => mockFilterModel);
-
-      component['setParamAgGridFilter'](mockFilterString);
-
-      expect(dataFacade.setAgGridFilter).toHaveBeenLastCalledWith(
-        mockFilterModel
-      );
     });
   });
 
@@ -1422,6 +1402,43 @@ describe('MainTableComponent', () => {
       component.ngOnInit();
 
       expect(component.refreshServerSide).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('setParamAgGridFilter', () => {
+    it('should do nothing if filterModel is not defined', () => {
+      const mockFilterString = 'some filter';
+      const spy = jest.spyOn(JSON, 'parse');
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      spy.mockImplementationOnce(() => undefined);
+
+      component['setParamAgGridFilter'](mockFilterString);
+
+      expect(dataFacade.setAgGridFilter).not.toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it('should dispatch agGridFilter and set list controls if filter is defined', () => {
+      const mockFilterString = 'some filter';
+      const mockFilterValue = ['some filter value'];
+      const mockFilterModel = {
+        materialStandardMaterialNameHiddenFilter: { values: mockFilterValue },
+        materialStandardStandardDocumentHiddenFilter: {
+          values: mockFilterValue,
+        },
+        materialNumbers: { values: mockFilterValue },
+      };
+      const spy = jest.spyOn(JSON, 'parse');
+      spy.mockImplementationOnce(() => mockFilterModel);
+
+      component['setParamAgGridFilter'](mockFilterString);
+
+      expect(dataFacade.setAgGridFilter).toHaveBeenLastCalledWith(
+        mockFilterModel
+      );
+
+      spy.mockRestore();
     });
   });
 });

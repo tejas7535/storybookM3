@@ -36,7 +36,7 @@ import {
 import {
   findProperty,
   mapProperty,
-} from '../../main-table/material-input-dialog/util/form-helpers';
+} from '../../main-table/dialogs/material-input-dialog/util/form-helpers';
 
 @Injectable({
   providedIn: 'root',

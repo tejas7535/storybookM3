@@ -25,7 +25,6 @@ import {
   RELEASED_STATUS,
   STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
-import { EditCellRendererComponent } from '@mac/msd/main-table/edit-cell-renderer/edit-cell-renderer.component';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
   MANUFACTURER_VALUE_GETTER,
@@ -42,9 +41,10 @@ import {
 } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
-import { GreenSteelCellRendererComponent } from '../../../green-steel-cell-renderer/green-steel-cell-renderer.component';
-import { LinkCellRendererComponent } from '../../../link-cell-renderer/link-cell-renderer.component';
-import { ReleaseStatusCellRendererComponent } from '../../../release-status-cell-renderer/release-status-cell-renderer.component';
+import { EditCellRendererComponent } from '../../../cell-renderers/edit-cell-renderer/edit-cell-renderer.component';
+import { GreenSteelCellRendererComponent } from '../../../cell-renderers/green-steel-cell-renderer/green-steel-cell-renderer.component';
+import { LinkCellRendererComponent } from '../../../cell-renderers/link-cell-renderer/link-cell-renderer.component';
+import { ReleaseStatusCellRendererComponent } from '../../../cell-renderers/release-status-cell-renderer/release-status-cell-renderer.component';
 import { excludeColumn, lockColumns } from '../../helpers';
 
 export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [

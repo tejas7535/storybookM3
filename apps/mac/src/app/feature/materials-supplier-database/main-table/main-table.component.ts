@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -8,12 +8,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@jsverse/transloco';
+import { LetDirective, PushPipe } from '@ngrx/component';
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   ColumnApi,
@@ -34,6 +40,7 @@ import {
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   ACTION,
@@ -74,7 +81,10 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
-import { DetailCellRendererComponent } from './detail-cell-renderer/detail-cell-renderer.component';
+import { DetailCellRendererComponent } from './cell-renderers/detail-cell-renderer/detail-cell-renderer.component';
+import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
+import { QuickFilterComponent } from './quick-filter/quick-filter.component';
+import { QuickFilterManagementComponent } from './quick-filter/quick-filter-management/quick-filter-management.component';
 import { excelStyles } from './table-config/materials/sap-materials/sap-excel-styles';
 import { getStatus } from './util';
 
@@ -82,6 +92,28 @@ import { getStatus } from './util';
 @Component({
   selector: 'mac-main-table',
   templateUrl: './main-table.component.html',
+  standalone: true,
+  imports: [
+    // default
+    CommonModule,
+    // msd
+    MsdNavigationComponent,
+    QuickFilterComponent,
+    QuickFilterManagementComponent,
+    // angular material
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    // libs
+    SharedTranslocoModule,
+    // ngrx
+    PushPipe,
+    LetDirective,
+    // ag grid
+    AgGridModule,
+  ],
+  providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {

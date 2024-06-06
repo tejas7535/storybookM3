@@ -1,6 +1,6 @@
 import { ColDef } from 'ag-grid-enterprise';
 
-import { HeaderTooltipComponent } from '../header-tooltip/header-tooltip.component';
+import { HeaderTooltipComponent } from '../components/header-tooltip/header-tooltip.component';
 
 export const DEFAULT_COLUMN_DEFINITION: ColDef = {
   sortable: true,
