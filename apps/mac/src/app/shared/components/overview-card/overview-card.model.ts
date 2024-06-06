@@ -6,6 +6,7 @@ export interface OverviewCard {
   link: string;
   learnMoreLink?: string;
   noAccessText?: string;
+  requestAccessLink?: string;
   disableImageHoverEffect?: boolean;
   learnMoreExternal?: boolean;
   external?: boolean;

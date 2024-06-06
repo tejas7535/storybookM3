@@ -31,6 +31,7 @@
             [external]="card.external"
             [learnMoreExternal]="card.learnMoreExternal"
             [noAccess]="!(hasRequiredRoles(card.requiredRoles) | ngrxPush)"
+            [requestAccessLink]="card.requestAccessLink"
             [inverted]="card.inverted"
             [disableImageHoverEffect]="card.disableImageHoverEffect"
             [translationKey]="card.translationKey"

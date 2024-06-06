@@ -78,7 +78,7 @@ export const appRoutePaths: MACRoutes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutePaths, {})],
+  imports: [RouterModule.forRoot(appRoutePaths)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

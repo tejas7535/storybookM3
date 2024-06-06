@@ -1,22 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { of, Subject } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockPipe } from 'ng-mocks';
 
-import { SubheaderModule } from '@schaeffler/subheader';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { SafeHtmlPipe } from '@mac/shared/pipes/safe-html/safe-html.pipe';
 
 import * as en from '../../../assets/i18n/en.json';
 import { LearnMoreComponent } from './learn-more.component';
@@ -31,26 +27,17 @@ describe('LearnMoreComponent', () => {
   let spectator: Spectator<LearnMoreComponent>;
   let store: MockStore;
 
-  const mockActivatedRoute = {
-    data: new Subject(),
-  };
+  const mockActivatedRouteData = new Subject();
 
   const createComponent = createComponentFactory({
     component: LearnMoreComponent,
     imports: [
-      CommonModule,
-      MatIconModule,
-      MatButtonModule,
-      SharedTranslocoModule,
-      StoreModule,
-      SubheaderModule,
-      PushPipe,
-      RouterTestingModule,
+      MockPipe(PushPipe),
+      MockPipe(SafeHtmlPipe),
       MatIconTestingModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [
-      { provide: ActivatedRoute, useValue: mockActivatedRoute },
       {
         provide: DomSanitizer,
         useValue: {
@@ -58,7 +45,9 @@ describe('LearnMoreComponent', () => {
         },
       },
       provideMockStore({}),
+      provideRouter([]),
     ],
+    detectChanges: false,
   });
 
   const learnMoreContent: any = (val?: any) => ({
@@ -79,7 +68,12 @@ describe('LearnMoreComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
+    component['activatedroute'].data = mockActivatedRouteData;
+
     store = spectator.inject(MockStore);
+
+    spectator.detectChanges();
   });
 
   afterEach(() => {
@@ -93,30 +87,67 @@ describe('LearnMoreComponent', () => {
   it('register svgIcon', () => {
     const url = 'http://some.url';
     component['matIconRegistry'].addSvgIcon = jest.fn();
-    mockActivatedRoute.data.next(learnMoreContent({ svgIconUrl: url }));
+    mockActivatedRouteData.next(learnMoreContent({ svgIconUrl: url }));
 
     expect(component['matIconRegistry'].addSvgIcon).toHaveBeenCalled();
   });
 
+  describe('ngAfterViewInit', () => {
+    it('should scroll to fragment', () => {
+      component['activatedroute'].snapshot.fragment = 'test';
+      const mockScrollIntoView = jest.fn();
+      const spy = jest.spyOn(document, 'querySelector');
+      spy.mockImplementation(
+        () =>
+          ({
+            scrollIntoView: mockScrollIntoView,
+          }) as unknown as Element
+      );
+
+      component.ngAfterViewInit();
+
+      expect(spy).toHaveBeenCalledWith('#test');
+      expect(mockScrollIntoView).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it('should do nothing if fragment is not defined', () => {
+      const mockScrollIntoView = jest.fn();
+      const spy = jest.spyOn(document, 'querySelector');
+      spy.mockImplementation(
+        () =>
+          ({
+            scrollIntoView: mockScrollIntoView,
+          }) as unknown as Element
+      );
+
+      component.ngAfterViewInit();
+
+      expect(spy).not.toHaveBeenCalled();
+      expect(mockScrollIntoView).not.toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+  });
+
   it('required roles is empty', () => {
     store.pipe = jest.fn().mockReturnValue(of(true));
-    mockActivatedRoute.data.next(learnMoreContent({ requiredRoles: [] }));
+    mockActivatedRouteData.next(learnMoreContent({ requiredRoles: [] }));
 
     component.hasRequiredRoles().forEach((val) => expect(val).toBeTruthy());
   });
 
   it('required roles is undefined', () => {
     store.pipe = jest.fn().mockReturnValue(of(true));
-    mockActivatedRoute.data.next(
-      learnMoreContent({ requiredRoles: undefined })
-    );
+    mockActivatedRouteData.next(learnMoreContent({ requiredRoles: undefined }));
 
     component.hasRequiredRoles().forEach((val) => expect(val).toBeTruthy());
   });
 
   it('required roles should be included', () => {
     store.pipe = jest.fn().mockReturnValue(of(true));
-    mockActivatedRoute.data.next(
+    mockActivatedRouteData.next(
       learnMoreContent({ requiredRoles: ['role to be found'] })
     );
 
@@ -125,7 +156,7 @@ describe('LearnMoreComponent', () => {
 
   it('required roles should NOT be included', () => {
     store.pipe = jest.fn().mockReturnValue(of(false));
-    mockActivatedRoute.data.next(
+    mockActivatedRouteData.next(
       learnMoreContent({ requiredRoles: ['not your role'] })
     );
 

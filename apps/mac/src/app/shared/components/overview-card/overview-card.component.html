@@ -115,6 +115,20 @@
           <div class="text-caption text-high-emphasis-dark-bg">
             {{ t('noAccessText') }}
           </div>
+          @if (requestAccessLink) {
+            <a
+              class="text-caption text-high-emphasis-dark-bg hover:underline cursor-pointer"
+              [routerLink]="learnMoreLink"
+              [fragment]="requestAccessLink"
+              (click)="$event.stopPropagation()"
+            >
+              {{ t('requestAccessText')
+              }}<mat-icon
+                class="text-high-emphasis-dark-bg !h-5 !w-4 !text-[16px] !align-middle ml-2"
+                >open_in_new</mat-icon
+              >
+            </a>
+          }
         </div>
       }
     </div>

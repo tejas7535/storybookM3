@@ -236,7 +236,7 @@
         "<i>Several data sources containing information about approved steel suppliers are centralized in the Materials Supplier Database.</i>",
         "<b>3. Conclusion</b>",
         "With the MSD we offer a reliable, available, integrable, and single source of truth for raw-material GHG emission factors. The availability of this data is key to reach our aim of climate neutrality by 2040 (because it is needed to steer purchasing decisions as well as design and material-selection considerations) and for maintaining or even improving our market position (by offering transparent, high-quality information about the PCFs of our products to our customers).",
-        "<b>4. How to get access</b>",
+        "<span id=\"how-to-get-access\"><b>4. How to get access</b><span>",
         "Access to the Materials Supplier Database can be requested via the <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"https://schaefflerprod.service-now.com/sup?id=sc_cat_item&sys_id=19c1f2d9474a551034c874bd436d43ff&sysparm_category=69bbcbde1b22c014503297539b4bcba0\">IT user self-service catalogue</a>:",
         "<ul><li>Application/Anwendung: \"Materials App Center\"</li><li>Instance/System: \"MAC-MSD\"</li><li>Authorizations/Berechtigungen: \"P_MSD_CONSUMER\"</li><li>Please provide a brief description of your use case in the field \"Reason/Begründung\". After access has been granted you can navigate to the database via the Materials App Center</li>",
         "../../../assets/img/learnmore/msd/msd_3.png",
@@ -1222,6 +1222,7 @@
         }
       },
       "noAccessText": "No Access",
+      "requestAccessText": "Click here to find out how to get access.",
       "openApplication": "Open application",
       "openApplicationInNewTab": "Open application in new tab"
     },

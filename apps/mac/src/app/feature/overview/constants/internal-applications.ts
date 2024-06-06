@@ -25,6 +25,7 @@ export const integratedApps: OverviewCard[] = [
     external: false,
     learnMoreExternal: false,
     requiredRoles: ['material-supplier-database-read-user'],
+    requestAccessLink: 'how-to-get-access',
     inverted: true,
     translationKey: 'internalApplications.materialsSupplierDatabase',
   },

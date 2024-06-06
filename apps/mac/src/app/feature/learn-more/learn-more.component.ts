@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -16,6 +16,8 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SafeHtmlPipe } from '@mac/shared/pipes/safe-html/safe-html.pipe';
+
 import { GuideGroup, LinkGroup } from './models';
 
 @Component({
@@ -29,10 +31,11 @@ import { GuideGroup, LinkGroup } from './models';
     StoreModule,
     SubheaderModule,
     PushPipe,
+    SafeHtmlPipe,
   ],
   templateUrl: './learn-more.component.html',
 })
-export class LearnMoreComponent implements OnInit {
+export class LearnMoreComponent implements OnInit, AfterViewInit {
   public imgUrl = '';
   public darkenImg = false;
   public linkGroups: LinkGroup[] = [];
@@ -85,6 +88,14 @@ export class LearnMoreComponent implements OnInit {
         );
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.activatedroute.snapshot.fragment) {
+      document
+        .querySelector(`#${this.activatedroute.snapshot.fragment}`)
+        ?.scrollIntoView();
+    }
   }
 
   public hasRequiredRoles(): Observable<boolean> {

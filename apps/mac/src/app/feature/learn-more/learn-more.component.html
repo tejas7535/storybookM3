@@ -86,7 +86,7 @@
                 <p
                   class="text-justify"
                   [ngClass]="{ inline: last }"
-                  [innerHTML]="part"
+                  [innerHTML]="part | safeHtml"
                 ></p>
               }
             </div>
