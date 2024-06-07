@@ -1,12 +1,13 @@
 import {
-  ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable } from 'rxjs';
 
@@ -25,7 +26,6 @@ import { CasesCriteriaSelection } from './cases-criteria-selection.enum';
 @Component({
   selector: 'gq-cases-result-table',
   templateUrl: './cases-result-table.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   // define service as seperate instance (non-singleton) to avoid overriding of the columnState in the case-table
   providers: [AgGridStateService],
 })
@@ -34,11 +34,13 @@ export class CasesResultTableComponent
   implements OnInit
 {
   @Input() casesResults: QuotationSearchResultByCases[];
+  @Input() resetInputs$: Observable<void>;
   @Output() criteriaSelected: EventEmitter<CasesCriteriaSelection> =
     new EventEmitter<CasesCriteriaSelection>();
 
   protected readonly columnUtilityService = inject(ColumnUtilityService);
   private readonly TABLE_KEY = 'search-cases-results-table';
+  private readonly destroyRef = inject(DestroyRef);
 
   criteriaSelections = Object.values(CasesCriteriaSelection);
   criteriaSelectedValue = CasesCriteriaSelection.GQ_ID;
@@ -55,6 +57,12 @@ export class CasesResultTableComponent
     this.localeText$ = this.localizationService.locale$;
     this.agGridStateService.init(this.TABLE_KEY);
     this.criteriaSelected.emit(this.criteriaSelectedValue);
+
+    this.resetInputs$
+      ?.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        () => (this.criteriaSelectedValue = CasesCriteriaSelection.GQ_ID)
+      );
   }
 
   radioButtonChanged(): void {

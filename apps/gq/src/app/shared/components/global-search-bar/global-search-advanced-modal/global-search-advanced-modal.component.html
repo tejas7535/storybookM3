@@ -54,7 +54,7 @@
         </mat-slide-toggle>
         <span
           class="text-caption cursor-pointer text-medium-emphasis font-normal pl-6"
-          (click)="clearInputField()"
+          (click)="clearDialog()"
         >
           {{ t('clear') }}
         </span>
@@ -76,6 +76,7 @@
       >
         <mat-tab [label]="t('casesLabel')">
           <gq-cases-result-table
+            [resetInputs$]="reset$"
             [casesResults]="casesResults"
             [loading]="loading$ | ngrxPush"
             (criteriaSelected)="casesCriteriaSelected($event)"
@@ -83,6 +84,7 @@
         </mat-tab>
         <mat-tab [label]="t('materialsLabel')">
           <gq-materials-result-table
+            [resetInputs$]="reset$"
             [materialsResults]="materialResults"
             [loading]="loading$ | ngrxPush"
             (criteriaSelected)="materialCriteriaSelected($event)"

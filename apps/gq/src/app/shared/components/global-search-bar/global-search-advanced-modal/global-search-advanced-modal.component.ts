@@ -38,6 +38,9 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
     Validators.minLength(this.activeMinLengthForValidation),
   ]);
 
+  private readonly resetSubject$$: BehaviorSubject<void> =
+    new BehaviorSubject<void>(null);
+  reset$ = this.resetSubject$$.asObservable();
   tabIndex = 0;
   casesSearchCriteria: CasesCriteriaSelection;
   materialSearchCriteria: MaterialsCriteriaSelection;
@@ -56,11 +59,12 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
         }
       });
   }
-  clearInputField() {
+  clearDialog() {
     this.onlyUserCases = false;
     this.searchFormControl.patchValue('');
     this.casesResults = null;
     this.materialResults = null;
+    this.resetSubject$$.next();
   }
 
   search(): void {
@@ -94,6 +98,7 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
   }
 
   closeDialog() {
+    this.resetSubject$$.complete();
     this.dialogRef.close();
   }
 

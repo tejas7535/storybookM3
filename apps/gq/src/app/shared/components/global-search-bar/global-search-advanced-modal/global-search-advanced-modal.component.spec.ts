@@ -171,9 +171,12 @@ describe('GlobalSearchAdvancedModalComponent', () => {
   describe('closeDialog', () => {
     it('should close the dialog', () => {
       const spy = jest.spyOn(component['dialogRef'], 'close');
+      component['resetSubject$$'].complete = jest.fn();
 
       component.closeDialog();
+
       expect(spy).toHaveBeenCalled();
+      expect(component['resetSubject$$'].complete).toHaveBeenCalled();
     });
   });
 
@@ -181,10 +184,15 @@ describe('GlobalSearchAdvancedModalComponent', () => {
     it('should clear the input field', () => {
       component.onlyUserCases = true;
       component.searchFormControl.patchValue('test');
+      component['resetSubject$$'].next = jest.fn();
 
-      component.clearInputField();
+      component.clearDialog();
+
       expect(component.onlyUserCases).toBe(false);
       expect(component.searchFormControl.value).toBe('');
+      expect(component.casesResults).toBe(null);
+      expect(component.materialResults).toBe(null);
+      expect(component['resetSubject$$'].next).toHaveBeenCalled();
     });
   });
 

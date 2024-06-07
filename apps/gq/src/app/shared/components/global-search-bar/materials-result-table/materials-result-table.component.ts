@@ -1,11 +1,13 @@
 import {
   Component,
+  DestroyRef,
   EventEmitter,
   inject,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { map, Observable, take } from 'rxjs';
 
@@ -34,13 +36,16 @@ export class MaterialsResultTableComponent
   implements OnInit
 {
   @Input() materialsResults: QuotationSearchResultByMaterials[];
+  @Input() resetInputs$: Observable<void>;
+
   @Output() criteriaSelected: EventEmitter<MaterialsCriteriaSelection> =
     new EventEmitter<MaterialsCriteriaSelection>();
 
   private readonly TABLE_KEY = 'search-material-results-table';
-
+  private readonly destroyRef = inject(DestroyRef);
   private readonly rolesFacade = inject(RolesFacade);
   protected readonly columnUtilityService = inject(ColumnUtilityService);
+
   criteriaSelections = Object.values(MaterialsCriteriaSelection);
   criteriaSelectedValue = MaterialsCriteriaSelection.MATERIAL_NUMBER;
 
@@ -64,6 +69,14 @@ export class MaterialsResultTableComponent
     this.localeText$ = this.localizationService.locale$;
     this.agGridStateService.init(this.TABLE_KEY);
     this.criteriaSelected.emit(this.criteriaSelectedValue);
+
+    this.resetInputs$
+      ?.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        () =>
+          (this.criteriaSelectedValue =
+            MaterialsCriteriaSelection.MATERIAL_NUMBER)
+      );
   }
 
   radioButtonChanged(): void {

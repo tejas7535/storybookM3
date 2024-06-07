@@ -1,5 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 import {
   ColumnUtilityService,
   LocalizationService,
@@ -49,6 +51,20 @@ describe('CasesResultTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  test('should reset criteriaSelectedValue when resetInputs$ emits', () => {
+    // Arrange
+    const resetInputs$ = new Subject<void>();
+    component.resetInputs$ = resetInputs$;
+    component.criteriaSelectedValue = CasesCriteriaSelection.CUSTOMER_NAME;
+
+    // Act
+    component.ngOnInit();
+    resetInputs$.next();
+
+    // Assert
+    expect(component.criteriaSelectedValue).toBe(CasesCriteriaSelection.GQ_ID);
+  });
+
   describe('ngOnInit', () => {
     it('should initialize localeText$', () => {
       expect(component.localeText$).toBeDefined();
@@ -64,6 +80,19 @@ describe('CasesResultTableComponent', () => {
       const emitSpy = jest.spyOn(component.criteriaSelected, 'emit');
       component.ngOnInit();
       expect(emitSpy).toHaveBeenCalledWith(component.criteriaSelectedValue);
+    });
+
+    test('should subscribe to resetInputs$ and set criteriaSelectedValue', () => {
+      component.criteriaSelectedValue = CasesCriteriaSelection.CUSTOMER_NAME;
+      const resetSubject$$: Subject<void> = new Subject<void>();
+      component.resetInputs$ = resetSubject$$;
+
+      component.ngOnInit();
+
+      resetSubject$$.next();
+      expect(component.criteriaSelectedValue).toBe(
+        CasesCriteriaSelection.GQ_ID
+      );
     });
   });
 

@@ -53,31 +53,43 @@ describe('CasesResultTableComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should be created', () => {
+  test('should be created', () => {
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
-    it('should initialize localeText$', () => {
+    test('should initialize localeText$', () => {
       expect(component.localeText$).toBeDefined();
     });
 
-    it('should call agGridStateService.init', () => {
+    test('should call agGridStateService.init', () => {
       const initSpy = jest.spyOn(component['agGridStateService'], 'init');
       component.ngOnInit();
       expect(initSpy).toHaveBeenCalledWith(component['TABLE_KEY']);
     });
-    it('should emit criteriaSelectedValue', () => {
+    test('should emit criteriaSelectedValue', () => {
       component.criteriaSelectedValue =
         MaterialsCriteriaSelection.MATERIAL_NUMBER;
       const emitSpy = jest.spyOn(component.criteriaSelected, 'emit');
       component.ngOnInit();
       expect(emitSpy).toHaveBeenCalledWith(component.criteriaSelectedValue);
     });
+    test('should subscribe to resetInputs$ and set criteriaSelectedValue', () => {
+      const resetInputs$ = of();
+      component.resetInputs$ = resetInputs$;
+      component.criteriaSelectedValue =
+        MaterialsCriteriaSelection.MATERIAL_DESCRIPTION;
+      component.ngOnInit();
+      resetInputs$.subscribe(() => {
+        expect(component.criteriaSelectedValue).toBe(
+          MaterialsCriteriaSelection.MATERIAL_NUMBER
+        );
+      });
+    });
   });
 
   describe('radioButtonChanged', () => {
-    it('should emit criteriaSelectedValue', () => {
+    test('should emit criteriaSelectedValue', () => {
       component.criteriaSelectedValue =
         MaterialsCriteriaSelection.MATERIAL_NUMBER;
       const emitSpy = jest.spyOn(component.criteriaSelected, 'emit');
