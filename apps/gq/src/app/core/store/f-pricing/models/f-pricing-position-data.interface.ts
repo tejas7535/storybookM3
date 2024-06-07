@@ -18,6 +18,7 @@ export interface FPricingPositionData
     | 'fPricingCalculationsLoading'
     | 'materialSalesOrgLoading'
     | 'comparableTransactionsLoading'
+    | 'materialComparisonLoading'
   > {
   currency: string;
   materialSalesOrg: MaterialSalesOrg;

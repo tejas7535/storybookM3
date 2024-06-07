@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { PriceSource } from '@gq/shared/models';
+import { PriceSource, ProductType } from '@gq/shared/models';
 import {
   FPricingCalculationsRequest,
   FPricingCalculationsResponse,
@@ -10,6 +10,7 @@ import {
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
 import { ComparableKNumbers } from '@gq/shared/models/f-pricing/comparable-k-numbers.interface';
+import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -312,6 +313,85 @@ describe('FPricingEffects', () => {
       })
     );
   });
+
+  describe('getComparisonMaterialInformation$', () => {
+    test(
+      'should dispatch getComparisonMaterialInformationSuccess',
+      marbles((m) => {
+        const referenceMaterialProductType = ProductType.CRB;
+        store.overrideSelector(
+          fPricingFeature.selectProductType,
+          referenceMaterialProductType
+        );
+        snackBar.open = jest.fn();
+
+        const referenceMaterial = '987654';
+        const materialToCompare = '12345';
+        const response: MaterialComparisonResponse = {
+          items: [],
+        };
+
+        const action = FPricingActions.getComparisonMaterialInformation({
+          referenceMaterialProductType,
+          referenceMaterial,
+          materialToCompare,
+        });
+
+        effects['fPricingService'].getComparisonMaterialInformation = () =>
+          m.cold('a', { a: response });
+
+        const result = FPricingActions.getComparisonMaterialInformationSuccess({
+          response,
+        });
+
+        const expected = m.cold('b', { b: result });
+
+        actions$ = m.hot('a', { a: action });
+        m.expect(effects.getComparisonMaterialInformation$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
+    test(
+      'should dispatch getComparisonMaterialInformationFailure',
+      marbles((m) => {
+        const referenceMaterialProductType = ProductType.CRB;
+        store.overrideSelector(
+          fPricingFeature.selectProductType,
+          referenceMaterialProductType
+        );
+        snackBar.open = jest.fn();
+
+        const error = new Error('Error');
+        const referenceMaterial = '987654';
+        const materialToCompare = '12345';
+        const action = FPricingActions.getComparisonMaterialInformation({
+          referenceMaterialProductType,
+          referenceMaterial,
+          materialToCompare,
+        });
+        const result = FPricingActions.getComparisonMaterialInformationFailure({
+          error,
+        });
+
+        actions$ = new Actions(m.cold('a', { a: action }));
+
+        effects['fPricingService'].getComparisonMaterialInformation = () =>
+          m.cold('-#', {}, error);
+
+        const expected = m.cold('--b', { b: result });
+
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.getComparisonMaterialInformation$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(snackBar.open).toHaveBeenCalled();
+      })
+    );
+  });
+
   describe('updateGqPrice$', () => {
     test(
       'should call the activeCaseFacades method updateQuotationDetails',

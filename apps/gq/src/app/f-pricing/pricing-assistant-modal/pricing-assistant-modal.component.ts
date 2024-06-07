@@ -21,6 +21,7 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModal } from '@gq/shared/components/modal/editing-modal/models/editing-modal.model';
 import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { PriceSource, QuotationDetail } from '@gq/shared/models';
+import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 import { MaterialDetails } from '@gq/shared/models/quotation-detail/material-details.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 
@@ -55,9 +56,10 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   fPricingDataLoading$ = this.fPricingFacade.fPricingDataLoading$;
   fPricingCalculationsLoading$ =
     this.fPricingFacade.fPricingCalculationsLoading$;
+  materialComparisonLoading$ = this.fPricingFacade.materialComparisonLoading$;
 
   material: MaterialDetails = this.dialogData.material;
-  materialToCompare: string;
+  materialToCompare: MaterialToCompare;
 
   priceSourceEnum = PriceSource;
   overlayToShowEnum = OverlayToShow;
@@ -183,9 +185,14 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onComparedMaterialClicked(material: string): void {
-    this.materialToCompare = material;
+  onComparedMaterialClicked(matToCompare: MaterialToCompare): void {
+    this.materialToCompare = matToCompare;
     this.visibleOverlay = OverlayToShow.comparisonScreen;
+    this.fPricingFacade.loadDataForComparisonScreen(
+      this.material.productType,
+      this.material.materialNumber13,
+      matToCompare
+    );
   }
 
   closeOverlay(): void {

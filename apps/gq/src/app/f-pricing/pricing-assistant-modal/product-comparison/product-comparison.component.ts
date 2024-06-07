@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 
 import { MaterialInformationExtended } from '@gq/core/store/f-pricing/models/material-information-extended.interface';
+import { MaterialDetails } from '@gq/shared/models';
+import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 
 @Component({
   selector: 'gq-product-comparison',
@@ -14,9 +16,10 @@ import { MaterialInformationExtended } from '@gq/core/store/f-pricing/models/mat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductComparisonModalComponent {
-  @Input() referenceMaterialDescription: string;
-  @Input() comparedMaterialDescription: string;
+  @Input() referenceMaterial: MaterialDetails;
+  @Input() comparedMaterial: MaterialToCompare;
   @Input() materialInformation: MaterialInformationExtended[];
+  @Input() materialComparisonLoading = true;
   @Output() closeView: EventEmitter<void> = new EventEmitter<void>();
 
   showDelta = true;

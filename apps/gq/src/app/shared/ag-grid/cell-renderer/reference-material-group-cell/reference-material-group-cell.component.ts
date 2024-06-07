@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
@@ -10,16 +9,10 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class ReferenceMaterialGroupCellComponent {
   value: string;
   params: ICellRendererParams;
-  comparisonScreenEnabled: boolean;
-
-  private readonly featureToggleService = inject(FeatureToggleConfigService);
 
   agInit(params: ICellRendererParams): void {
     this.params = params;
     this.value = params.value;
-    this.comparisonScreenEnabled = this.featureToggleService.isEnabled(
-      'fPricingComparisonScreen'
-    );
   }
 
   clickMaterial(event: MouseEvent): void {

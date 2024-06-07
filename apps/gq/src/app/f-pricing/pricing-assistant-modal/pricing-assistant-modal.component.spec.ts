@@ -10,7 +10,8 @@ import { BehaviorSubject, of } from 'rxjs';
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { FPricingPositionData } from '@gq/core/store/f-pricing/models/f-pricing-position-data.interface';
 import { EditingModal } from '@gq/shared/components/modal/editing-modal/models/editing-modal.model';
-import { QuotationDetail } from '@gq/shared/models';
+import { ProductType, QuotationDetail } from '@gq/shared/models';
+import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -18,6 +19,7 @@ import { MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { MATERIAL_DETAILS_MOCK } from '../../../testing/mocks';
 import { MaterialDetailsComponent } from './material-details/material-details.component';
 import { OverlayToShow } from './models/overlay-to-show.enum';
 import { PricingAssistantModalComponent } from './pricing-assistant-modal.component';
@@ -266,9 +268,20 @@ describe('PricingAssistant.modalComponent', () => {
   });
   describe('onComparedMaterialClicked', () => {
     test('should set visibleOverlay to comparisonScreen', () => {
+      component['fPricingFacade'].loadDataForComparisonScreen = jest.fn();
       component.visibleOverlay = OverlayToShow.gqPricing;
-      component.onComparedMaterialClicked('material');
+      const material = MATERIAL_DETAILS_MOCK;
+      material.productType = ProductType.CRB;
+      component.material = material;
+      const materialToCompare: MaterialToCompare = {
+        description: 'materialDescription',
+        number: 'materialNumber',
+      };
+      component.onComparedMaterialClicked(materialToCompare);
       expect(component.visibleOverlay).toBe('comparisonScreen');
+      expect(
+        component['fPricingFacade'].loadDataForComparisonScreen
+      ).toHaveBeenCalled();
     });
   });
 

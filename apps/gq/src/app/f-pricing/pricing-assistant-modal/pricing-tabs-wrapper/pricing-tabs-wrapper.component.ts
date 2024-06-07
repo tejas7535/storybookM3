@@ -5,6 +5,7 @@ import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { MarketValueDriverWarningLevel } from '@gq/core/store/f-pricing/models/market-value-driver-warning-level.enum';
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 
 import { MarketValueDriverDisplayItem } from '../models/market-value-driver-display-item.interface';
 import { TableItem } from '../models/table-item';
@@ -32,14 +33,23 @@ export class PricingTabsWrapperComponent {
   @Input() comparableTransactionsLoading = true;
   @Input() comparableTransactionsAvailable: boolean;
 
-  @Output() comparedMaterialClicked = new EventEmitter<string>();
+  @Output() comparedMaterialClicked = new EventEmitter<MaterialToCompare>();
   @Output() marketValueDriverTabActivated = new EventEmitter<void>();
 
   readonly marketValueDriverWarningLevel = MarketValueDriverWarningLevel;
   readonly fPricingFacade = inject(FPricingFacade);
 
   onComparedMaterialClicked(material: string): void {
-    this.comparedMaterialClicked.emit(material);
+    const rowData = this.referencePriceRowData.find(
+      (m) => m.parentMaterialDescription === material
+    );
+
+    const materialToCompare: MaterialToCompare = {
+      description: material,
+      number: rowData.parentMaterialNumber,
+    };
+
+    this.comparedMaterialClicked.emit(materialToCompare);
   }
 
   onTechnicalValueDriversChange(changedTechnicalValueDriver: TableItem): void {

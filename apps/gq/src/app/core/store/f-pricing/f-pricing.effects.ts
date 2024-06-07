@@ -166,4 +166,39 @@ export class FPricingEffects {
     },
     { dispatch: false }
   );
+
+  getComparisonMaterialInformation$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(FPricingActions.getComparisonMaterialInformation),
+      withLatestFrom(this.store.select(fPricingFeature.selectProductType)),
+      switchMap(([action, productType]) =>
+        this.fPricingService
+          .getComparisonMaterialInformation(
+            productType,
+            action.referenceMaterial,
+            action.materialToCompare
+          )
+          .pipe(
+            map((response) =>
+              FPricingActions.getComparisonMaterialInformationSuccess({
+                response,
+              })
+            ),
+            catchError((error) => {
+              const failureMessage = translate(
+                'fPricing.pricingAssistantModal.confirm.failure'
+              );
+
+              this.snackBar.open(failureMessage);
+
+              return of(
+                FPricingActions.getComparisonMaterialInformationFailure({
+                  error,
+                })
+              );
+            })
+          )
+      )
+    );
+  });
 }

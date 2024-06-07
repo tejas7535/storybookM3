@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import {
   UpdateFPricingDataRequest,
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
+import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
 
 import { ApiVersion, ProductType } from '../../../models';
 import { ComparableKNumbers } from '../../../models/f-pricing/comparable-k-numbers.interface';
@@ -22,6 +23,8 @@ import { FPricingPaths } from './f-pricing.paths.enum';
 })
 export class FPricingService {
   readonly #http = inject(HttpClient);
+  readonly PARAM_COMPARE = 'compare';
+  readonly PARAM_PRODUCT_TYPE = 'product-type';
 
   /**
    * Get all related F Pricing data for a given gq position id
@@ -74,6 +77,21 @@ export class FPricingService {
       {
         context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),
       }
+    );
+  }
+
+  getComparisonMaterialInformation(
+    productType: ProductType,
+    material: string,
+    materialToCompare: string
+  ) {
+    const params: HttpParams = new HttpParams()
+      .set(this.PARAM_PRODUCT_TYPE, productType)
+      .set(this.PARAM_COMPARE, [material, materialToCompare].join(','));
+
+    return this.#http.get<MaterialComparisonResponse>(
+      `${ApiVersion.V1}/${FPricingPaths.PATH_F_PRICING}/${FPricingPaths.PATH_F_PRICING_FEATURE_COMPARISON}`,
+      { params }
     );
   }
 }

@@ -9,22 +9,22 @@ export const MATERIAL_INFORMATION_MOCK: MaterialInformation[] = [
       {
         key: 'racewayDiameter',
         values: [
-          { materialNumber15: 12_345, value: 90 },
-          { materialNumber15: 45_678, value: 120 },
+          { materialNumber13: 12_345, value: 90 },
+          { materialNumber13: 45_678, value: 120 },
         ],
       },
       {
         key: 'racewayDiameter2',
         values: [
-          { materialNumber15: 12_345, value: 120 },
-          { materialNumber15: 45_678, value: 90 },
+          { materialNumber13: 12_345, value: 120 },
+          { materialNumber13: 45_678, value: 90 },
         ],
       },
       {
         key: 'materialCat',
         values: [
-          { materialNumber15: 12_345, value: '100Cr6' },
-          { materialNumber15: 45_678, value: '100Cr6' },
+          { materialNumber13: 12_345, value: '100Cr6' },
+          { materialNumber13: 45_678, value: '100Cr6' },
         ],
       },
     ],
@@ -35,15 +35,15 @@ export const MATERIAL_INFORMATION_MOCK: MaterialInformation[] = [
       {
         key: 'cageMaterial',
         values: [
-          { materialNumber15: 12_345, value: 'Medium (2)' },
-          { materialNumber15: 45_678, value: '100Cr6' },
+          { materialNumber13: 12_345, value: 'Medium (2)' },
+          { materialNumber13: 45_678, value: '100Cr6' },
         ],
       },
       {
         key: 'cageDesign',
         values: [
-          { materialNumber15: 12_345, value: 'NU' },
-          { materialNumber15: 45_678, value: 'NU' },
+          { materialNumber13: 12_345, value: 'NU' },
+          { materialNumber13: 45_678, value: 'NU' },
         ],
       },
     ],

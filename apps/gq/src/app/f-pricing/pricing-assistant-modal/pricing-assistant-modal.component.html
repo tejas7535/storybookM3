@@ -225,9 +225,10 @@
     <ng-template #comparisonScreenView>
       <div class="pt-3">
         <gq-product-comparison
-          [referenceMaterialDescription]="material?.materialDescription"
-          [comparedMaterialDescription]="materialToCompare"
+          [referenceMaterial]="material"
+          [comparedMaterial]="materialToCompare"
           [materialInformation]="fPricingFacade.materialInformation$ | ngrxPush"
+          [materialComparisonLoading]="materialComparisonLoading$ | ngrxPush"
           (closeView)="backToGqPricingPage()"
         ></gq-product-comparison>
       </div>

@@ -2,7 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
+import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
@@ -33,9 +35,23 @@ describe('PricingTabsWrapperComponent', () => {
   describe('onComparedMaterialClicked', () => {
     test('should emit comparedMaterialClicked', () => {
       component.comparedMaterialClicked.emit = jest.fn();
-      component.onComparedMaterialClicked('test');
+      const materialDescription = 'test';
+      const materialNumber = '1234';
+      component.referencePriceRowData = [
+        {
+          identifier: 200,
+          isShowMoreRow: true,
+          parentMaterialDescription: materialDescription,
+          parentMaterialNumber: materialNumber,
+        } as ComparableMaterialsRowData,
+      ];
+      const materialToCompare: MaterialToCompare = {
+        description: materialDescription,
+        number: materialNumber,
+      };
+      component.onComparedMaterialClicked(materialDescription);
       expect(component.comparedMaterialClicked.emit).toHaveBeenCalledWith(
-        'test'
+        materialToCompare
       );
     });
   });

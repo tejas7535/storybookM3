@@ -5,6 +5,8 @@ import {
   getMaterialSalesOrgDataAvailable,
 } from '@gq/core/store/selectors/material-sales-org/material-sales-org.selector';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
+import { ProductType } from '@gq/shared/models';
+import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
@@ -220,6 +222,15 @@ describe('Service: FPricingFacade', () => {
         expect(res).toBe(true)
       );
     });
+    test('materialComparisonLoading$', () => {
+      mockStore.overrideSelector(
+        fPricingFeature.selectMaterialComparisonLoading,
+        true
+      );
+      service.materialComparisonLoading$.subscribe((res) =>
+        expect(res).toBe(true)
+      );
+    });
 
     describe('fPricingDataLoading$', () => {
       test('should return true when both true', () => {
@@ -401,6 +412,31 @@ describe('Service: FPricingFacade', () => {
 
       service.updateManualPrice(gqPositionId, comment);
 
+      expect(mockStore.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('loadDataForComparisonScreen', () => {
+    test('should dispatch getComparisonMaterialInformation', () => {
+      const number = '123456789';
+      const description = 'materialDesc';
+      const referenceMaterial = '987654321';
+      const referenceMaterialProductType = ProductType.CRB;
+      const materialToCompare: MaterialToCompare = {
+        description,
+        number,
+      };
+      const action = FPricingActions.getComparisonMaterialInformation({
+        referenceMaterialProductType,
+        referenceMaterial,
+        materialToCompare: materialToCompare.number,
+      });
+
+      service.loadDataForComparisonScreen(
+        referenceMaterialProductType,
+        referenceMaterial,
+        materialToCompare
+      );
       expect(mockStore.dispatch).toHaveBeenCalledWith(action);
     });
   });

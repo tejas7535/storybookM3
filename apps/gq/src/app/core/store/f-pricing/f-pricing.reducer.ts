@@ -14,13 +14,16 @@ import {
   PropertyValue,
   UpdateFPricingDataRequest,
 } from '@gq/shared/models/f-pricing';
+import {
+  MaterialComparison,
+  MaterialComparisonInformation,
+} from '@gq/shared/models/f-pricing/material-comparison.interface';
 import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
 import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-value-driver.interface';
 import { addNumbers } from '@gq/shared/utils/f-pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
-import { MATERIAL_INFORMATION_MOCK } from '../../../../testing/mocks';
 import {
   ComparableMaterialsRowData,
   FPricingComparableMaterials,
@@ -41,8 +44,9 @@ export interface FPricingState extends FPricingData {
   fPricingDataLoading: boolean;
   comparableTransactionsLoading: boolean;
   fPricingCalculationsLoading: boolean;
+  materialComparisonLoading: boolean;
   error: Error;
-  materialInformation: MaterialInformation[];
+  materialComparisonInformation: MaterialComparisonInformation;
   comparableTransactions: FPricingComparableMaterials[];
   marketValueDriversSelections: MarketValueDriverSelection[];
   technicalValueDriversToUpdate: TableItem[];
@@ -54,8 +58,9 @@ export const initialState: FPricingState = {
   fPricingDataLoading: false,
   comparableTransactionsLoading: false,
   fPricingCalculationsLoading: false,
+  materialComparisonLoading: false,
   error: null,
-  materialInformation: MATERIAL_INFORMATION_MOCK,
+  materialComparisonInformation: null,
   gqPositionId: null,
   productType: null,
   referencePrice: null,
@@ -218,11 +223,46 @@ export const fPricingFeature = createFeature({
         fPricingCalculationsLoading: false,
         error,
       })
+    ),
+    on(
+      FPricingActions.getComparisonMaterialInformation,
+      (
+        state: FPricingState,
+        { referenceMaterialProductType, referenceMaterial, materialToCompare }
+      ): FPricingState => ({
+        ...state,
+        productType: referenceMaterialProductType,
+        materialComparisonLoading: true,
+        materialComparisonInformation: {
+          referenceMaterial,
+          materialToCompare,
+          materials: null,
+        },
+      })
+    ),
+    on(
+      FPricingActions.getComparisonMaterialInformationSuccess,
+      (state: FPricingState, { response }): FPricingState => ({
+        ...state,
+        materialComparisonLoading: false,
+        materialComparisonInformation: {
+          ...state.materialComparisonInformation,
+          materials: [...response.items],
+        },
+      })
+    ),
+    on(
+      FPricingActions.getComparisonMaterialInformationFailure,
+      (state: FPricingState, { error }): FPricingState => ({
+        ...state,
+        materialComparisonLoading: false,
+        error,
+      })
     )
   ),
 
   extraSelectors: ({
-    selectMaterialInformation,
+    selectMaterialComparisonInformation,
     selectMarketValueDrivers,
     selectComparableTransactions,
     selectMarketValueDriversSelections,
@@ -233,8 +273,76 @@ export const fPricingFeature = createFeature({
     selectSanityCheckMargins,
     selectGqPositionId,
   }) => {
+    const getConvertedMaterialInformation = createSelector(
+      selectMaterialComparisonInformation,
+      (
+        materialComparisonInformation: MaterialComparisonInformation
+      ): MaterialInformation[] => {
+        if (!materialComparisonInformation.materials) {
+          return [];
+        }
+
+        const referenceMaterial =
+          materialComparisonInformation.referenceMaterial;
+        // Make sure the reference material is always the first element in the array
+        // eslint-disable-next-line no-param-reassign
+        const materialComparisonInformationArray = [
+          materialComparisonInformation.materials.find(
+            (item) => item.materialNumber13 === referenceMaterial
+          ),
+          ...materialComparisonInformation.materials.filter(
+            (item) => item.materialNumber13 !== referenceMaterial
+          ),
+        ];
+
+        // 1. Build MaterialInformation structure based on the response
+        // Get first element just to build the structure
+        const firstElement = materialComparisonInformationArray[0];
+        const objKeys = Object.keys(firstElement);
+        const materialInformationArray: MaterialInformation[] = [];
+
+        objKeys.forEach((informationKey) => {
+          if (informationKey !== 'materialNumber13') {
+            const materialInformation: MaterialInformation = {
+              informationKey,
+              properties: [],
+            };
+
+            const properties = Object.keys(
+              firstElement[informationKey as keyof MaterialComparison]
+            );
+
+            properties.forEach((property) => {
+              materialInformation.properties.push({
+                key: property,
+                values: [],
+              });
+            });
+
+            materialInformationArray.push(materialInformation);
+          }
+        });
+
+        // 2. Populate the material information structure with value pairs
+        for (const value of materialComparisonInformationArray) {
+          materialInformationArray.forEach((element) => {
+            element.properties.forEach((property) => {
+              const propValue: string | number =
+                value[element.informationKey][property.key];
+
+              property.values.push({
+                materialNumber13: +value.materialNumber13,
+                value: propValue,
+              });
+            });
+          });
+        }
+
+        return materialInformationArray;
+      }
+    );
     const getMaterialInformationExtended = createSelector(
-      selectMaterialInformation,
+      getConvertedMaterialInformation,
       (
         materialInformation: MaterialInformation[]
       ): MaterialInformationExtended[] => {
@@ -608,6 +716,7 @@ export const fPricingFeature = createFeature({
       getDataForUpdateFPricing,
       getDataForTriggerCalculations,
       getFinalPrice,
+      getConvertedMaterialInformation,
     };
   },
 });
@@ -738,7 +847,8 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
     typeof values[0].value === 'number' &&
     typeof values[1].value === 'number'
   ) {
-    delta.absolute = values[1].value - values[0].value;
+    // todo: Consider delta creation on BE to avoid rounding issues
+    delta.absolute = Number((values[1].value - values[0].value).toFixed(2));
     delta.relative = Math.round((delta.absolute / values[0].value) * 100);
   }
 

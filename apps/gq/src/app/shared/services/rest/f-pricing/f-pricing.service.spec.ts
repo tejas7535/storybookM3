@@ -1,14 +1,16 @@
+import { HttpParams } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { ApiVersion } from '@gq/shared/models';
+import { ApiVersion, ProductType } from '@gq/shared/models';
 import {
   FPricingCalculationsRequest,
   UpdateFPricingDataRequest,
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
+import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
 import {
   createServiceFactory,
   HttpMethod,
@@ -127,6 +129,32 @@ describe('FPricingService', () => {
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(gqPositionId);
+    });
+  });
+  describe('getComparisonMaterialInformation', () => {
+    test('should call GET', () => {
+      const productType: ProductType = ProductType.CRB;
+      const material = '12345';
+      const materialToCompare = '45678';
+      const response: MaterialComparisonResponse = {
+        items: [],
+      };
+      const params: HttpParams = new HttpParams()
+        .set('product-type', productType)
+        .set('compare', [material, materialToCompare].join(','));
+
+      service
+        .getComparisonMaterialInformation(
+          productType,
+          material,
+          materialToCompare
+        )
+        .subscribe((res) => expect(res).toEqual(response));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${FPricingPaths.PATH_F_PRICING}/${FPricingPaths.PATH_F_PRICING_FEATURE_COMPARISON}?${params.toString()}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
 });

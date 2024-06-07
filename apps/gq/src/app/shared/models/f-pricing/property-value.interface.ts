@@ -1,4 +1,4 @@
 export interface PropertyValue {
-  materialNumber15: number;
+  materialNumber13: number;
   value: string | number;
 }
