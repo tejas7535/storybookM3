@@ -61,6 +61,17 @@ describe('QuotationService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
 
+    test('should trim value to search', () => {
+      service
+        .getSearchResultsByCases(false, CasesCriteriaSelection.GQ_ID, ' value ') // value with white spaces
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_QUOTATIONS}?${service['PARAM_USER_QUOTATIONS_ONLY']}=false&${service['PARAM_CRITERIA']}=${CasesCriteriaSelection.GQ_ID}&${service['PARAM_VALUE']}=value`
+      );
+      expect(req.request.params.get('value')).toBe('value');
+    });
+
     test('should map the results', () => {
       const response = {
         results: [
@@ -103,6 +114,21 @@ describe('QuotationService', () => {
         `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_MATERIALS}?${service['PARAM_USER_QUOTATIONS_ONLY']}=false&${service['PARAM_CRITERIA']}=${MaterialsCriteriaSelection.MATERIAL_NUMBER}&${service['PARAM_VALUE']}=value`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
+    });
+
+    test('should trim value to search and remove - from material number', () => {
+      service
+        .getSearchResultsByMaterials(
+          false,
+          MaterialsCriteriaSelection.MATERIAL_NUMBER,
+          ' 016703529-0030-02 ' // material number with white spaces
+        )
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}/${QuotationSummaryPaths.SEARCH_BY_MATERIALS}?${service['PARAM_USER_QUOTATIONS_ONLY']}=false&${service['PARAM_CRITERIA']}=${MaterialsCriteriaSelection.MATERIAL_NUMBER}&${service['PARAM_VALUE']}=016703529003002`
+      );
+      expect(req.request.params.get('value')).toBe('016703529003002');
     });
 
     test('should map the results', () => {

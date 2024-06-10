@@ -50,8 +50,9 @@ export class QuotationSummaryService {
   getSearchResultsByCases(
     userQuotationsOnly: boolean,
     criteria: CasesCriteriaSelection,
-    value: string
+    valueToSearch: string
   ): Observable<QuotationSearchResultByCases[]> {
+    const value = this.trimValueToSearch(valueToSearch);
     const httpParams = new HttpParams()
       .set(this.PARAM_USER_QUOTATIONS_ONLY, userQuotationsOnly)
       .append(this.PARAM_CRITERIA, criteria)
@@ -73,8 +74,9 @@ export class QuotationSummaryService {
   getSearchResultsByMaterials(
     userQuotationsOnly: boolean,
     criteria: MaterialsCriteriaSelection,
-    value: string
+    valueToSearch: string
   ): Observable<QuotationSearchResultByMaterials[]> {
+    const value = this.trimValueToSearch(valueToSearch);
     const httpParams = new HttpParams()
       .set(this.PARAM_USER_QUOTATIONS_ONLY, userQuotationsOnly)
       .append(this.PARAM_CRITERIA, criteria)
@@ -96,5 +98,9 @@ export class QuotationSummaryService {
         catchError(() => of({ results: [] })),
         map((data) => data.results)
       );
+  }
+
+  private trimValueToSearch(value: string): string {
+    return value ? value.trim() : '';
   }
 }
