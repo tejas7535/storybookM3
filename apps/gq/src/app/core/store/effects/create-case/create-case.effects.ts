@@ -105,24 +105,10 @@ export class CreateCaseEffects {
     );
   });
 
-  validateAfterSalesOrgSelected$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(selectSalesOrg.type),
-      map(() => validateMaterialsOnCustomerAndSalesOrg())
-    );
-  });
-
-  validateAfterItemAdded$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(addRowDataItems.type),
-      map(() => validateMaterialsOnCustomerAndSalesOrg())
-    );
-  });
-
-  loadSectorGpsdByCustomerAndSalesOrg$ = createEffect(
+  loadSectorGpsdAfterSalesOrgsLoaded$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(validateMaterialsOnCustomerAndSalesOrg),
+        ofType(getSalesOrgsSuccess.type),
         concatLatestFrom(() => [
           this.store.select(getSelectedCustomerId),
           this.store.select(getSelectedSalesOrg),
@@ -142,6 +128,37 @@ export class CreateCaseEffects {
     },
     { dispatch: false }
   );
+
+  validateAfterSalesOrgSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(selectSalesOrg.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+
+  loadSectorGpsdAfterSalesOrgSelected$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(selectSalesOrg.type),
+        concatLatestFrom(() => [this.store.select(getSelectedCustomerId)]),
+        map(
+          ([action, customerId]: [ReturnType<typeof selectSalesOrg>, string]) =>
+            this.sectorGpsdFacade.loadSectorGpsdByCustomerAndSalesOrg(
+              customerId,
+              action.salesOrgId
+            )
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
+  validateAfterItemAdded$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(addRowDataItems.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
 
   /**
    * Get Validation for materialNumbers in combination with Customer and SalesOrg

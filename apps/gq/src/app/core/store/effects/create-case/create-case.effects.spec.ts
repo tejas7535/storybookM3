@@ -252,11 +252,11 @@ describe('Create Case Effects', () => {
     );
   });
 
-  describe('loadSectorGpsdByCustomerAndSalesOrg$', () => {
+  describe('load Sector Gpsd Data', () => {
     test(
-      'should return getSectorGpsdSuccess when REST call is successful',
+      'should trigger facade method when "getSalesOrgsSuccess" action has been emitted',
       marbles((m) => {
-        action = validateMaterialsOnCustomerAndSalesOrg();
+        action = getSalesOrgsSuccess({ salesOrgs: [] });
         store.overrideSelector(getSelectedCustomerId, '1234');
         store.overrideSelector(getSelectedSalesOrg, {
           id: '0615',
@@ -267,10 +267,32 @@ describe('Create Case Effects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        effects.loadSectorGpsdByCustomerAndSalesOrg$.subscribe(() => {
+        effects.loadSectorGpsdAfterSalesOrgsLoaded$.subscribe(() => {
           expect(
             effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
           ).toHaveBeenCalledTimes(1);
+        });
+
+        m.flush();
+      })
+    );
+    test(
+      'should trigger facade method when "selectSalesOrg" action has been emitted',
+      marbles((m) => {
+        action = selectSalesOrg({ salesOrgId: '14' });
+        store.overrideSelector(getSelectedCustomerId, '1234');
+        effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg =
+          jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+
+        effects.loadSectorGpsdAfterSalesOrgsLoaded$.subscribe(() => {
+          expect(
+            effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
+          ).toHaveBeenCalledTimes(1);
+          expect(
+            effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
+          ).toBeCalledWith('1234', '14');
         });
 
         m.flush();
