@@ -22,8 +22,6 @@ import {
   LANGUAGE_STORAGE_KEY,
 } from '../constants';
 
-let defaultLang; // default -> undefined would lead to browser detection
-
 @NgModule({
   imports: [
     // Material Modules
@@ -33,7 +31,7 @@ let defaultLang; // default -> undefined would lead to browser detection
     SharedTranslocoModule.forRoot(
       environment.production,
       AVAILABLE_LANGUAGES,
-      defaultLang, // default -> undefined would lead to browser detection
+      'en', // default -> undefined would lead to browser detection
       FALLBACK_LANGUAGE.id,
       LANGUAGE_STORAGE_KEY,
       true,

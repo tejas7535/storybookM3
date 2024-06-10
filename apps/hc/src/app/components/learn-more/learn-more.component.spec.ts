@@ -5,9 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { LinkGroups } from '@hc/models/resource-links.model';
+import { AuthService } from '@hc/services/auth.service';
 import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
 import { TranslocoModule } from '@jsverse/transloco';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -51,6 +57,10 @@ describe('LearnMoreComponent', () => {
           getResourceLinks: jest.fn(() => of(MOCK_LINKS)),
         },
       },
+      provideMockStore({}),
+      mockProvider(AuthService, {
+        isLoggedin: () => of(true),
+      }),
     ],
   });
 

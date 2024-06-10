@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { map } from 'rxjs';
+
+import { AuthService } from '@hc/services/auth.service';
 import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -11,6 +14,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LinksPanelComponent } from '../links-panel/links-panel.component';
+import { HideLoginElementsPipe } from './hide-loginelement.pipe';
 
 @Component({
   standalone: true,
@@ -21,6 +25,7 @@ import { LinksPanelComponent } from '../links-panel/links-panel.component';
     SubheaderModule,
     LinksPanelComponent,
     PushPipe,
+    HideLoginElementsPipe,
   ],
   templateUrl: './learn-more.component.html',
 })
@@ -39,7 +44,10 @@ export class LearnMoreComponent {
 
   public content: string[] = [];
 
-  constructor(private readonly hcService: HardnessConverterApiService) {}
+  constructor(
+    private readonly hcService: HardnessConverterApiService,
+    private readonly authService: AuthService
+  ) {}
 
   public isImage(s: string): boolean {
     return (
@@ -79,5 +87,9 @@ export class LearnMoreComponent {
     } while (content.length > i && charCount < size);
 
     return truncated;
+  }
+
+  public hideInternalUrls() {
+    return this.authService.isLoggedin().pipe(map((loggedIn) => !loggedIn));
   }
 }

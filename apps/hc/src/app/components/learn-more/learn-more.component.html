@@ -52,7 +52,9 @@
                 <p
                   class="text-justify"
                   [ngClass]="{ inline: last }"
-                  [innerHTML]="part"
+                  [innerHTML]="
+                    part | hideLoginElements: (hideInternalUrls() | ngrxPush)
+                  "
                 ></p>
               }
             </div>
