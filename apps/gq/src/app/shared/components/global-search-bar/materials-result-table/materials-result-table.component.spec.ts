@@ -84,6 +84,9 @@ describe('CasesResultTableComponent', () => {
         expect(component.criteriaSelectedValue).toBe(
           MaterialsCriteriaSelection.MATERIAL_NUMBER
         );
+        expect(component.criteriaSelected).toBeCalledWith(
+          MaterialsCriteriaSelection.MATERIAL_NUMBER
+        );
       });
     });
   });

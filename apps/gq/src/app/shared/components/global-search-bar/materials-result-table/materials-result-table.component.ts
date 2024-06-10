@@ -72,11 +72,10 @@ export class MaterialsResultTableComponent
 
     this.resetInputs$
       ?.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        () =>
-          (this.criteriaSelectedValue =
-            MaterialsCriteriaSelection.MATERIAL_NUMBER)
-      );
+      .subscribe(() => {
+        this.criteriaSelectedValue = MaterialsCriteriaSelection.MATERIAL_NUMBER;
+        this.criteriaSelected.emit(this.criteriaSelectedValue);
+      });
   }
 
   radioButtonChanged(): void {

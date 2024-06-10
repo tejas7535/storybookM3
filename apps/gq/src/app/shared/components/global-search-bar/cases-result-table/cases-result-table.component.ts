@@ -60,9 +60,10 @@ export class CasesResultTableComponent
 
     this.resetInputs$
       ?.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(
-        () => (this.criteriaSelectedValue = CasesCriteriaSelection.GQ_ID)
-      );
+      .subscribe(() => {
+        this.criteriaSelectedValue = CasesCriteriaSelection.GQ_ID;
+        this.criteriaSelected.emit(this.criteriaSelectedValue);
+      });
   }
 
   radioButtonChanged(): void {

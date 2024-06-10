@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import {
   ColumnUtilityService,
@@ -83,16 +83,18 @@ describe('CasesResultTableComponent', () => {
     });
 
     test('should subscribe to resetInputs$ and set criteriaSelectedValue', () => {
-      component.criteriaSelectedValue = CasesCriteriaSelection.CUSTOMER_NAME;
-      const resetSubject$$: Subject<void> = new Subject<void>();
-      component.resetInputs$ = resetSubject$$;
-
+      const resetInputs$ = of();
+      component.resetInputs$ = resetInputs$;
+      component.criteriaSelectedValue = CasesCriteriaSelection.GQ_ID;
       component.ngOnInit();
-
-      resetSubject$$.next();
-      expect(component.criteriaSelectedValue).toBe(
-        CasesCriteriaSelection.GQ_ID
-      );
+      resetInputs$.subscribe(() => {
+        expect(component.criteriaSelectedValue).toBe(
+          CasesCriteriaSelection.GQ_ID
+        );
+        expect(component.criteriaSelected).toBeCalledWith(
+          CasesCriteriaSelection.GQ_ID
+        );
+      });
     });
   });
 
