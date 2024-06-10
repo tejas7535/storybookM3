@@ -11,13 +11,17 @@
         *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
       >
         <div class="mt-8 flex flex-row">
-          <gq-label-text class="w-1/2" [modalVersion]="true">
+          <gq-label-text class="w-1/3" [modalVersion]="true">
             <span label>{{ t('total') }}</span>
             <span text>{{ statusBar.total.rows }} </span>
           </gq-label-text>
-          <gq-label-text class="w-1/2" [modalVersion]="true">
+          <gq-label-text class="w-1/3" [modalVersion]="true">
             <span label>{{ t('selected') }}</span>
             <span text>{{ statusBar.selected.rows }}</span>
+          </gq-label-text>
+          <gq-label-text class="w-1/3" [modalVersion]="true">
+            <span label>{{ t('filtered') }}</span>
+            <span text>{{ statusBar.filtered }}</span>
           </gq-label-text>
         </div>
         <gq-horizontal-divider></gq-horizontal-divider>

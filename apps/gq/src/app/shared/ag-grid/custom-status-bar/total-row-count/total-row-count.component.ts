@@ -6,6 +6,8 @@ import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
+import { calculateFilteredRows } from '../statusbar.utils';
+
 @Component({
   selector: 'gq-total-row-count',
   templateUrl: './total-row-count.component.html',
@@ -13,6 +15,7 @@ import { IStatusPanelParams } from 'ag-grid-community';
 export class TotalRowCountComponent {
   totalRowCount: number;
   selectedRowCount = 0;
+  filteredRowCount = 0;
   simulationModeEnabled$: Observable<boolean>;
   private params: IStatusPanelParams;
 
@@ -25,6 +28,11 @@ export class TotalRowCountComponent {
       'selectionChanged',
       this.onSelectionChange.bind(this)
     );
+    this.params.api.addEventListener(
+      'filterChanged',
+      this.onFilterChange.bind(this)
+    );
+
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
 
@@ -33,5 +41,12 @@ export class TotalRowCountComponent {
   }
   onSelectionChange(): void {
     this.selectedRowCount = this.params.api.getSelectedRows().length;
+  }
+  onFilterChange(): void {
+    const displayedRowCount = this.params.api.getDisplayedRowCount();
+    this.filteredRowCount = calculateFilteredRows(
+      displayedRowCount,
+      this.totalRowCount
+    );
   }
 }

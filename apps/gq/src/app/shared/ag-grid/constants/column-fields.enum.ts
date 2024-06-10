@@ -47,6 +47,7 @@ export enum ColumnFields {
   TARGET_PRICE = 'targetPrice',
   DELIVERY_UNIT = 'deliveryUnit',
   SAP_PRICE_UNIT = 'sapPriceUnit',
+  CUSTOMER_MATERIAL = 'customerMaterial',
 }
 
 export enum SapPriceDetailsColumnFields {

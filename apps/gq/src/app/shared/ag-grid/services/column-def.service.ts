@@ -786,7 +786,7 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.customerMaterial'),
-      field: 'customerMaterial',
+      field: ColumnFields.CUSTOMER_MATERIAL,
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
     },

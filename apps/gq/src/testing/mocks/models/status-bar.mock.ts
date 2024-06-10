@@ -15,4 +15,5 @@ export const STATUS_BAR_PROPERTIES_MOCK: StatusBarProperties = {
 export const STATUS_BAR_MOCK: StatusBar = {
   total: STATUS_BAR_PROPERTIES_MOCK,
   selected: STATUS_BAR_PROPERTIES_MOCK,
+  filtered: 0,
 };

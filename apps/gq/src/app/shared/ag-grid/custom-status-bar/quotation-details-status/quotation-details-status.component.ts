@@ -16,6 +16,7 @@ import { IRowNode, IStatusPanelParams } from 'ag-grid-community';
 
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
+import { calculateFilteredRows } from '../statusbar.utils';
 
 @Component({
   selector: 'gq-quotation-details-status',
@@ -64,6 +65,10 @@ export class QuotationDetailsStatusComponent implements OnInit {
       'rowDataUpdated',
       this.rowValueChanges.bind(this)
     );
+    this.params.api.addEventListener(
+      'filterChanged',
+      this.onFilterChanged.bind(this)
+    );
   }
 
   rowValueChanges(): void {
@@ -78,6 +83,14 @@ export class QuotationDetailsStatusComponent implements OnInit {
   onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
     this.statusBar.selected = calculateStatusBarValues(this.selections);
+  }
+
+  onFilterChanged(): void {
+    const displayedRowCount = this.params.api.getDisplayedRowCount();
+    this.statusBar.filtered = calculateFilteredRows(
+      displayedRowCount,
+      this.statusBar.total.rows
+    );
   }
 
   showAll(): void {

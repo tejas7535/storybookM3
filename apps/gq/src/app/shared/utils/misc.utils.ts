@@ -1,9 +1,14 @@
-import { LOCALE_DE } from '@gq/shared/constants';
+import { Params } from '@angular/router';
+
+import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
 import { Duration, Keyboard } from '@gq/shared/models';
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import { Buffer } from 'buffer';
 import moment from 'moment';
 
+import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
+import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
+import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { Rating } from '../models/rating.enum';
 export const getCurrentYear = (): number => new Date().getFullYear();
 
@@ -127,3 +132,46 @@ export function convertToBase64(value: string): string {
 
   return value ? Buffer.from(value.trim(), 'utf8').toString('base64') : value;
 }
+
+/**
+ * getFilterQueryParams when the context has property filter
+ * filter is applied only for materials Tab, when row is doubleClicked, openedByContextMenu or opened by click on GqId link
+ *
+ * @param context context of the grid typeof SearchbarGridContext
+ * @param queryParams already calculated query params
+ * @param data data from params.node.data typeof either GetContextMenuItemsParams or RowDoubleClickedEvent or ViewQuotation
+ */
+export const addMaterialFilterToQueryParams = (
+  queryParams: Params,
+  context: SearchbarGridContext,
+  data: any
+): void => {
+  switch (context?.filter) {
+    case MaterialsCriteriaSelection.MATERIAL_NUMBER: {
+      queryParams[
+        `${FILTER_PARAM_INDICATOR}${ColumnFields.MATERIAL_NUMBER_15}`
+      ] = context.columnUtilityService.materialTransform({
+        value: data.materialNumber15,
+      } as any);
+
+      break;
+    }
+    case MaterialsCriteriaSelection.MATERIAL_DESCRIPTION: {
+      queryParams[
+        `${FILTER_PARAM_INDICATOR}${ColumnFields.MATERIAL_DESCRIPTION}`
+      ] = data.materialDescription;
+
+      break;
+    }
+    case MaterialsCriteriaSelection.CUSTOMER_MATERIAL_NUMBER: {
+      queryParams[
+        `${FILTER_PARAM_INDICATOR}${ColumnFields.CUSTOMER_MATERIAL}`
+      ] = data.customerMaterial;
+
+      break;
+    }
+    default: {
+      break;
+    }
+  }
+};

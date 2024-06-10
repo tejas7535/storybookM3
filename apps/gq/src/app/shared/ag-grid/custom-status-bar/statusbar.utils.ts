@@ -21,3 +21,10 @@ export function getTooltipTextKeyByQuotationStatus(
   // remaining Statuses are Approval Active Statuses --> In Approval, Rejected, Approved
   return 'disabledForActiveWorkflowTooltip';
 }
+
+export function calculateFilteredRows(
+  displayedRowCount: number,
+  totalRowCount: number
+): number {
+  return displayedRowCount === totalRowCount ? 0 : displayedRowCount;
+}

@@ -6,7 +6,8 @@ import { QuotationStatus } from './quotation';
 export class StatusBar {
   constructor(
     public total = new StatusBarProperties(),
-    public selected = new StatusBarProperties()
+    public selected = new StatusBarProperties(),
+    public filtered = 0
   ) {}
 }
 

@@ -53,5 +53,28 @@
         {{ selectedRowCount }}</span
       >
     </div>
+
+    <div class="ml-4 flex flex-col">
+      <span
+        class="text-left"
+        [ngClass]="
+          simulationModeEnabled
+            ? 'text-medium-emphasis-dark-bg'
+            : 'text-low-emphasis'
+        "
+      >
+        {{ t('filtered') }}:</span
+      >
+      <span
+        class="text-left"
+        [ngClass]="
+          simulationModeEnabled
+            ? 'text-high-emphasis-dark-bg '
+            : 'text-high-emphasis-emphasis'
+        "
+      >
+        {{ filteredRowCount }}</span
+      >
+    </div>
   </div>
 </div>

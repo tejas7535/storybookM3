@@ -1,3 +1,9 @@
+import { Params } from '@angular/router';
+
+import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
+import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
+import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
+import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
 import { Keyboard } from '../models';
 import * as miscUtils from './misc.utils';
 
@@ -277,6 +283,52 @@ describe('MiscUtils', () => {
       const spy = jest.spyOn(Buffer, 'from');
       miscUtils.convertToBase64('test');
       expect(spy).toHaveBeenCalledWith('test', 'utf8');
+    });
+  });
+
+  describe('addMaterialFilterToQueryParams', () => {
+    test('should return Params without adding any filter', () => {
+      const params: Params = {};
+      miscUtils.addMaterialFilterToQueryParams(params, null, {});
+      expect(params).toEqual({});
+    });
+    test('should add filter for MaterialsCriteriaSelection.MATERIAL_NUMBER', () => {
+      const params: Params = {};
+      const context = {
+        filter: MaterialsCriteriaSelection.MATERIAL_NUMBER,
+        columnUtilityService: {
+          materialTransform: jest.fn(() => '123'),
+        },
+      } as unknown as SearchbarGridContext;
+      const data = { materialNumber15: '123' };
+      miscUtils.addMaterialFilterToQueryParams(params, context, data);
+      expect(
+        params[`${FILTER_PARAM_INDICATOR}${ColumnFields.MATERIAL_NUMBER_15}`]
+      ).toEqual('123');
+    });
+    test('should add filter for MaterialsCriteriaSelection.MATERIAL_DESCRIPTION', () => {
+      const params: Params = {};
+      const context = {
+        filter: MaterialsCriteriaSelection.MATERIAL_DESCRIPTION,
+      } as unknown as SearchbarGridContext;
+      const data = { materialDescription: 'description' };
+
+      miscUtils.addMaterialFilterToQueryParams(params, context, data);
+
+      expect(
+        params[`${FILTER_PARAM_INDICATOR}${ColumnFields.MATERIAL_DESCRIPTION}`]
+      ).toEqual('description');
+    });
+    test('should add filter for MaterialsCriteriaSelection.CUSTOMER_MATERIAL_NUMBER', () => {
+      const params: Params = {};
+      const context = {
+        filter: MaterialsCriteriaSelection.CUSTOMER_MATERIAL_NUMBER,
+      } as unknown as SearchbarGridContext;
+      const data = { customerMaterial: 'customerMaterial' };
+      miscUtils.addMaterialFilterToQueryParams(params, context, data);
+      expect(
+        params[`${FILTER_PARAM_INDICATOR}${ColumnFields.CUSTOMER_MATERIAL}`]
+      ).toEqual('customerMaterial');
     });
   });
 });

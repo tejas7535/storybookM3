@@ -6,7 +6,7 @@ import {
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
-import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table.component';
+import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,

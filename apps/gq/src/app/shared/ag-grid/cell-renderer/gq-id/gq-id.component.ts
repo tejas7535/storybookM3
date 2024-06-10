@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Params, Router } from '@angular/router';
+
+import { SearchbarGridContext } from '@gq/shared/components/global-search-bar/config/searchbar-grid-context.interface';
+import { addMaterialFilterToQueryParams } from '@gq/shared/utils/misc.utils';
 
 import { ViewQuotation } from '../../../models/quotation';
 import { ColumnUtilityService } from '../../services';
@@ -21,16 +24,21 @@ export class GqIdComponent {
   ) {}
 
   agInit(params: any): void {
+    const context = params.context as SearchbarGridContext;
     this.valueFormatted = params.valueFormatted;
     this.quotation = params.data;
     const { customerId, salesOrg } = this.quotation.customerIdentifiers;
+    const queryParams: Params = {
+      quotation_number: this.quotation.gqId,
+      customer_number: customerId,
+      sales_org: salesOrg,
+    };
+
+    addMaterialFilterToQueryParams(queryParams, context, params.node.data);
+
     this.urlQueryParams = {
       queryParamsHandling: 'merge',
-      queryParams: {
-        quotation_number: this.quotation.gqId,
-        customer_number: customerId,
-        sales_org: salesOrg,
-      },
+      queryParams,
     };
 
     this.url = this.router

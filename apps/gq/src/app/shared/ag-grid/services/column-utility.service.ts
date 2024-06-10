@@ -255,6 +255,23 @@ export class ColumnUtilityService {
     };
   }
 
+  static getOpenInNewWindowContextMenuItemByUrl(
+    url: string
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customContextMenuItems.openInNewWindow'),
+      action: () => openInNewByUrl(url, 'window'),
+    };
+  }
+
+  static getOpenInNewTabContextMenuItemByUrl(
+    url: string
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customContextMenuItems.openInNewTab'),
+      action: () => openInNewByUrl(url, 'tab'),
+    };
+  }
   public materialTransform(data: ValueFormatterParams): string {
     return this.materialNumberService.formatStringAsMaterialNumber(data.value);
   }
@@ -489,6 +506,13 @@ export function getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
   clipboard.copy(result ?? '');
 }
 
+/**
+ * open the case in new window or tab.
+ * To be used when row/cell has gqIdComponent as cellRenderer
+ * @param params contextMenuParams
+ * @param target open in Window or Tab
+ * @returns
+ */
 export function openInNew(
   params: GetContextMenuItemsParams,
   target: openInTarget
@@ -501,19 +525,24 @@ export function openInNew(
   if (cellRendererInstance.length === 0 || !cellRendererInstance[0]['url']) {
     return;
   }
+  const url = `${window.location.origin}${cellRendererInstance[0].url}`;
+  openInNewByUrl(url, target);
+}
 
+/**
+ * open a url in new window or tab
+ * @param target open in window or tab
+ * @param url url to open
+ */
+export const openInNewByUrl = (url: string, target: openInTarget) => {
   switch (target) {
     case 'window': {
-      window.open(
-        `${window.location.origin}${cellRendererInstance[0].url}`,
-        '_blank',
-        'location=no,toolbar=yes'
-      );
+      window.open(`${url}`, '_blank', 'location=no,toolbar=yes');
       break;
     }
 
     case 'tab': {
-      window.open(`${window.location.origin}${cellRendererInstance[0].url}`);
+      window.open(`${url}`);
       break;
     }
 
@@ -521,4 +550,4 @@ export function openInNew(
       break;
     }
   }
-}
+};

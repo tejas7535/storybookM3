@@ -13,7 +13,7 @@ import { map, Observable, take } from 'rxjs';
 
 import { RolesFacade } from '@gq/core/store/facades';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
-import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table.component';
+import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
 import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
@@ -22,7 +22,6 @@ import {
 } from 'ag-grid-community/dist/lib/events';
 import { ColDef } from 'ag-grid-enterprise';
 
-import { ColumnUtilityService } from '../config/column-utility.service';
 import { MaterialsCriteriaSelection } from './material-criteria-selection.enum';
 
 @Component({
@@ -44,7 +43,6 @@ export class MaterialsResultTableComponent
   private readonly TABLE_KEY = 'search-material-results-table';
   private readonly destroyRef = inject(DestroyRef);
   private readonly rolesFacade = inject(RolesFacade);
-  protected readonly columnUtilityService = inject(ColumnUtilityService);
 
   criteriaSelections = Object.values(MaterialsCriteriaSelection);
   criteriaSelectedValue = MaterialsCriteriaSelection.MATERIAL_NUMBER;
@@ -76,9 +74,11 @@ export class MaterialsResultTableComponent
         this.criteriaSelectedValue = MaterialsCriteriaSelection.MATERIAL_NUMBER;
         this.criteriaSelected.emit(this.criteriaSelectedValue);
       });
+    this.gridContext.filter = this.criteriaSelectedValue;
   }
 
   radioButtonChanged(): void {
+    this.gridContext.filter = this.criteriaSelectedValue;
     this.criteriaSelected.emit(this.criteriaSelectedValue);
   }
 

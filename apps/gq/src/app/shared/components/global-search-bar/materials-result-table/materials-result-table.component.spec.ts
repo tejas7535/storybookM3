@@ -1,10 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { RolesFacade } from '@gq/core/store/facades';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
-import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table.component';
+import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar//base-result-table/base-result-table.component';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -51,6 +51,7 @@ describe('CasesResultTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    component['criteriaSelected'].emit = jest.fn();
   });
 
   test('should be created', () => {
@@ -75,29 +76,43 @@ describe('CasesResultTableComponent', () => {
       expect(emitSpy).toHaveBeenCalledWith(component.criteriaSelectedValue);
     });
     test('should subscribe to resetInputs$ and set criteriaSelectedValue', () => {
-      const resetInputs$ = of();
+      const subjectForReset = new BehaviorSubject<void>(null);
+      const resetInputs$ = subjectForReset.asObservable();
       component.resetInputs$ = resetInputs$;
       component.criteriaSelectedValue =
         MaterialsCriteriaSelection.MATERIAL_DESCRIPTION;
       component.ngOnInit();
-      resetInputs$.subscribe(() => {
+      component.resetInputs$.subscribe(() => {
         expect(component.criteriaSelectedValue).toBe(
           MaterialsCriteriaSelection.MATERIAL_NUMBER
         );
-        expect(component.criteriaSelected).toBeCalledWith(
+        expect(component['criteriaSelected'].emit).toBeCalledWith(
           MaterialsCriteriaSelection.MATERIAL_NUMBER
         );
       });
     });
+    test('should set gridContext.filter to criteriaSelectedValue', () => {
+      component.gridContext.filter = null;
+      component.criteriaSelectedValue =
+        MaterialsCriteriaSelection.MATERIAL_NUMBER;
+      component.ngOnInit();
+      expect(component.gridContext.filter).toBe(
+        MaterialsCriteriaSelection.MATERIAL_NUMBER
+      );
+    });
   });
 
   describe('radioButtonChanged', () => {
-    test('should emit criteriaSelectedValue', () => {
+    test('should emit criteriaSelectedValue and set the gridContextFilter', () => {
+      component.gridContext.filter = null;
       component.criteriaSelectedValue =
         MaterialsCriteriaSelection.MATERIAL_NUMBER;
       const emitSpy = jest.spyOn(component.criteriaSelected, 'emit');
       component.radioButtonChanged();
       expect(emitSpy).toHaveBeenCalledWith(component.criteriaSelectedValue);
+      expect(component.gridContext.filter).toBe(
+        MaterialsCriteriaSelection.MATERIAL_NUMBER
+      );
     });
   });
 

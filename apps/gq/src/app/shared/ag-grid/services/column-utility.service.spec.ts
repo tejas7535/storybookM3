@@ -46,7 +46,8 @@ import {
   ColumnUtilityService,
   getValueOfFocusedCell,
   openInNew,
-} from './column-utility.service';
+} from '../services/column-utility.service';
+import * as colUtils from '../services/column-utility.service';
 
 describe('CreateColumnService', () => {
   let service: ColumnUtilityService;
@@ -736,16 +737,14 @@ describe('CreateColumnService', () => {
 
   describe('openInNew', () => {
     let params: GetContextMenuItemsParams;
-
-    Object.assign(window, {
-      open: jest.fn().mockImplementation(() => Promise.resolve()),
-      location: {
-        origin: jest.fn(() => 'localhost'),
-      },
-    });
+    let openInUrlSpy: jest.SpyInstance<
+      void,
+      [url: string, target: 'window' | 'tab']
+    >;
     afterEach(() => jest.clearAllMocks());
     describe('cellRenderer has url property', () => {
       beforeEach(() => {
+        openInUrlSpy = jest.spyOn(colUtils, 'openInNewByUrl');
         params = {
           node: jest.fn(),
           column: {
@@ -759,15 +758,17 @@ describe('CreateColumnService', () => {
 
       test('should call window.open method with tab', () => {
         openInNew(params, 'tab');
-        expect(window.open).toHaveBeenCalledWith('http://localhost/anyUrl');
+        expect(openInUrlSpy).toHaveBeenCalledWith(
+          'http://localhost/anyUrl',
+          'tab'
+        );
       });
 
       test('should call window.open method with window', () => {
         openInNew(params, 'window');
-        expect(window.open).toHaveBeenCalledWith(
+        expect(openInUrlSpy).toHaveBeenCalledWith(
           'http://localhost/anyUrl',
-          '_blank',
-          'location=no,toolbar=yes'
+          'window'
         );
       });
     });
@@ -786,14 +787,37 @@ describe('CreateColumnService', () => {
         } as unknown as GetContextMenuItemsParams;
       });
 
-      test('should call NOT window.open method with tab', () => {
+      test('should call NOT openInNewByUrl method with tab', () => {
         openInNew(params, 'tab');
-        expect(window.open).not.toHaveBeenCalled();
+        expect(openInUrlSpy).not.toHaveBeenCalled();
       });
-      test('should call NOT window.open method with window', () => {
+      test('should call NOT openInNewByUrl method with window', () => {
         openInNew(params, 'window');
-        expect(window.open).not.toHaveBeenCalled();
+        expect(openInUrlSpy).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('openInNewByUrl', () => {
+    Object.assign(window, {
+      open: jest.fn().mockImplementation(() => Promise.resolve()),
+      location: {
+        origin: jest.fn(() => 'localhost'),
+      },
+    });
+    afterEach(() => jest.clearAllMocks());
+    test('should call window.open with tab', () => {
+      colUtils.openInNewByUrl('http://localhost/anyUrl', 'tab');
+      expect(window.open).toHaveBeenCalledWith('http://localhost/anyUrl');
+    });
+
+    test('should call window.open with window', () => {
+      colUtils.openInNewByUrl('http://localhost/anyUrl', 'window');
+      expect(window.open).toHaveBeenCalledWith(
+        'http://localhost/anyUrl',
+        '_blank',
+        'location=no,toolbar=yes'
+      );
     });
   });
 

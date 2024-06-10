@@ -2,24 +2,32 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import {
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
-import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table.component';
+import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
 import { ColumnDefinitionService } from '@gq/shared/components/global-search-bar/config/column-definition-service';
 import { FilterState } from '@gq/shared/models/grid-state.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { GridReadyEvent } from 'ag-grid-community';
 import {
   FilterChangedEvent,
+  RowDoubleClickedEvent,
   SortChangedEvent,
 } from 'ag-grid-community/dist/lib/events';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 describe('BaseResultTableComponent', () => {
   let component: BaseResultTableComponent;
@@ -37,6 +45,7 @@ describe('BaseResultTableComponent', () => {
       } as unknown),
       MockProvider(ColumnUtilityService),
       MockProvider(AgGridStateService),
+      mockProvider(TranslocoLocaleService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -117,6 +126,40 @@ describe('BaseResultTableComponent', () => {
       );
       component.onFilterChanged(event, tableKey);
       expect(setColumnFilterSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('onRowDoubleClicked', () => {
+    test('should navigate to the correct route', () => {
+      const miscSpy = jest.spyOn(miscUtils, 'addMaterialFilterToQueryParams');
+      const event = {
+        context: {
+          quotation_number: 'quotation_number',
+          customer_number: 'customer_number',
+          sales_org: 'sales_org',
+        },
+        data: {
+          gqId: 'gqId',
+          customerIdentifiers: {
+            customerId: 'customerId',
+            salesOrg: 'salesOrg',
+          },
+          status: 'status',
+          enabledForApprovalWorkflow: 'enabledForApprovalWorkflow',
+        },
+      } as unknown as RowDoubleClickedEvent;
+      const navigateSpy = jest.spyOn(component['router'], 'navigate');
+      const determineCaseNavigationPathSpy = jest
+        .spyOn(component['columnUtilityService'], 'determineCaseNavigationPath')
+        .mockReturnValue([AppRoutePath.ProcessCaseViewPath]);
+      const emitSpy = jest.spyOn(component.rowDoubleClicked, 'emit');
+
+      component.onRowDoubleClicked(event);
+
+      expect(determineCaseNavigationPathSpy).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalled();
+      expect(emitSpy).toHaveBeenCalled();
+      expect(miscSpy).toHaveBeenCalled();
     });
   });
 });

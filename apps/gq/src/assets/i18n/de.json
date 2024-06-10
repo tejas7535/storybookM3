@@ -286,7 +286,8 @@
       },
       "totalRowCount": {
         "total": "Anzahl",
-        "selected": "Ausgewählt"
+        "selected": "Ausgewählt",
+        "filtered": "Gefiltert"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Ausgew. gew. ø GPI",

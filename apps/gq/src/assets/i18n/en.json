@@ -286,7 +286,8 @@
       },
       "totalRowCount": {
         "total": "Total",
-        "selected": "Selected"
+        "selected": "Selected",
+        "filtered": "Filtered"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Select. WAvg. GPI",

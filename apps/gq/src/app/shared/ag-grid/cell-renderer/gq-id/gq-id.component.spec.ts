@@ -1,7 +1,7 @@
-import { NavigationExtras, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NavigationExtras, Router, RouterModule } from '@angular/router';
 
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { MaterialsCriteriaSelection } from '@gq/shared/components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { QuotationStatus } from '@gq/shared/models';
 import {
   createComponentFactory,
@@ -21,7 +21,7 @@ describe('GqIdComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GqIdComponent,
-    imports: [RouterTestingModule],
+    imports: [RouterModule.forRoot([])],
     providers: [mockProvider(ColumnUtilityService)],
   });
 
@@ -40,6 +40,7 @@ describe('GqIdComponent', () => {
       const params = {
         valueFormatted: 'GQ123',
         data: VIEW_QUOTATION_MOCK,
+        node: { data: { itemId: '123', gqPositionId: '456' } },
       };
 
       jest
@@ -50,6 +51,80 @@ describe('GqIdComponent', () => {
 
       expect(component.valueFormatted).toEqual(params.valueFormatted);
       expect(component.quotation).toEqual(params.data);
+    });
+    test('should adjust queryParams for materials tab when selected criteria is MaterialNumber', () => {
+      const params = {
+        valueFormatted: 'GQ123',
+        data: VIEW_QUOTATION_MOCK,
+        context: {
+          filter: MaterialsCriteriaSelection.MATERIAL_NUMBER,
+          columnUtilityService: {
+            materialTransform: jest.fn(() => '123'),
+          },
+        },
+        node: { data: { materialNumber15: '123' } },
+      };
+
+      jest
+        .spyOn(component['columnUtilityService'], 'determineCaseNavigationPath')
+        .mockReturnValue([AppRoutePath.ProcessCaseViewPath]);
+
+      component.agInit(params as any);
+
+      expect(component.urlQueryParams.queryParams).toEqual({
+        quotation_number: VIEW_QUOTATION_MOCK.gqId,
+        customer_number: VIEW_QUOTATION_MOCK.customerIdentifiers.customerId,
+        sales_org: VIEW_QUOTATION_MOCK.customerIdentifiers.salesOrg,
+        'filter_material.materialNumber15': '123',
+      });
+    });
+
+    test('should adjust queryParams for materials tab when selected criteria is MaterialDescription', () => {
+      const params = {
+        valueFormatted: 'GQ123',
+        data: VIEW_QUOTATION_MOCK,
+        context: {
+          filter: MaterialsCriteriaSelection.MATERIAL_DESCRIPTION,
+        },
+        node: { data: { materialDescription: 'description' } },
+      };
+
+      jest
+        .spyOn(component['columnUtilityService'], 'determineCaseNavigationPath')
+        .mockReturnValue([AppRoutePath.ProcessCaseViewPath]);
+
+      component.agInit(params as any);
+
+      expect(component.urlQueryParams.queryParams).toEqual({
+        quotation_number: VIEW_QUOTATION_MOCK.gqId,
+        customer_number: VIEW_QUOTATION_MOCK.customerIdentifiers.customerId,
+        sales_org: VIEW_QUOTATION_MOCK.customerIdentifiers.salesOrg,
+        'filter_material.materialDescription': 'description',
+      });
+    });
+
+    test('should adjust queryParams for materials tab when selected criteria is CustomerMaterialNumber', () => {
+      const params = {
+        valueFormatted: 'GQ123',
+        data: VIEW_QUOTATION_MOCK,
+        context: {
+          filter: MaterialsCriteriaSelection.CUSTOMER_MATERIAL_NUMBER,
+        },
+        node: { data: { customerMaterial: 'customerMaterial' } },
+      };
+
+      jest
+        .spyOn(component['columnUtilityService'], 'determineCaseNavigationPath')
+        .mockReturnValue([AppRoutePath.ProcessCaseViewPath]);
+
+      component.agInit(params as any);
+
+      expect(component.urlQueryParams.queryParams).toEqual({
+        quotation_number: VIEW_QUOTATION_MOCK.gqId,
+        customer_number: VIEW_QUOTATION_MOCK.customerIdentifiers.customerId,
+        sales_org: VIEW_QUOTATION_MOCK.customerIdentifiers.salesOrg,
+        filter_customerMaterial: 'customerMaterial',
+      });
     });
   });
 
@@ -116,6 +191,7 @@ describe('GqIdComponent', () => {
       component.agInit({
         valueFormatted: 'GQ123',
         data: VIEW_QUOTATION_MOCK,
+        node: { data: { itemId: '123', gqPositionId: '456' } },
       } as any);
 
       expect(router.createUrlTree).toHaveBeenCalledTimes(1);

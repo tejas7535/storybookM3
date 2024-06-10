@@ -170,6 +170,18 @@ describe('QuotationDetailsStatusComponent', () => {
       expect(component.statusBar.selected.rows).toEqual(1);
     });
   });
+
+  describe('onFilterChanged', () => {
+    test('should set filtered rows', () => {
+      component['params'] = params;
+      component.statusBar.total.rows = 10;
+      params.api.getDisplayedRowCount = jest.fn().mockReturnValue(5);
+      component.onFilterChanged();
+
+      expect(params.api.getDisplayedRowCount).toHaveBeenCalled();
+      expect(component.statusBar.filtered).toEqual(5);
+    });
+  });
   describe('showAll', () => {
     test('should open dialog', () => {
       component.showAll();

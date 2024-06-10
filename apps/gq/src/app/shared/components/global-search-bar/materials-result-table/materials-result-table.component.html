@@ -73,14 +73,16 @@
       [columnDefs]="columnDefs$ | ngrxPush"
       [components]="components"
       [localeText]="localeText$ | ngrxPush"
+      [context]="gridContext"
       (gridReady)="onGridReady($event)"
       (columnResized)="onColumnChange($event)"
       (columnMoved)="onColumnChange($event)"
       (sortChanged)="onColumnChange($event)"
       (filterChanged)="onFilterChanged($event)"
+      (rowDoubleClicked)="onRowDoubleClicked($event)"
       rowSelection="single"
       [rowData]="materialsResults"
-      [postSortRows]="columnUtilityService.postSortRows"
+      [postSortRows]="searchbarColUtilsService.postSortRows"
       [gridOptions]="
         materialsResults?.length > 8
           ? gridOptions

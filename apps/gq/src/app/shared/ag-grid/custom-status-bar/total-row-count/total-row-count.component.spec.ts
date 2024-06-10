@@ -44,7 +44,7 @@ describe('TotalRowCountComponent', () => {
       component.agInit(params);
 
       expect(component['params']).toEqual(params);
-      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(2);
+      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(3);
       expect(component.simulationModeEnabled$).toBeDefined();
     });
   });
@@ -67,6 +67,20 @@ describe('TotalRowCountComponent', () => {
 
       expect(component['params'].api.getSelectedRows).toHaveBeenCalledTimes(1);
       expect(component.selectedRowCount).toEqual(expectedRowCount);
+    });
+  });
+
+  describe('onFilterChange', () => {
+    test('should set filteredRowCount', () => {
+      component['params'] = params;
+      component['params'].api.getDisplayedRowCount = jest.fn(() => 5);
+      component.totalRowCount = 10;
+      component.onFilterChange();
+
+      expect(
+        component['params'].api.getDisplayedRowCount
+      ).toHaveBeenCalledTimes(1);
+      expect(component.filteredRowCount).toEqual(5);
     });
   });
 });
