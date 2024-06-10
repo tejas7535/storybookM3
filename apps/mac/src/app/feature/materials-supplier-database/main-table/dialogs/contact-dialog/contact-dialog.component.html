@@ -29,6 +29,7 @@
             <a
               class="flex-none"
               href="mailto:{{ t('email.' + contact.email) }}"
+              (click)="trackEmail()"
             >
               <mat-icon class="text-link">mail</mat-icon>
             </a>
@@ -38,6 +39,7 @@
               href="https://teams.microsoft.com/l/call/0/0?users={{
                 t('email.' + contact.email)
               }}"
+              (click)="trackTeams()"
               target="_blank"
             >
               <mat-icon class="text-link">call</mat-icon>

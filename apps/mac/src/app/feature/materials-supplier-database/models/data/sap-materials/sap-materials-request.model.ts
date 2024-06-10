@@ -1,14 +1,9 @@
 export interface SAPMaterialsRequest {
   startRow: number;
   endRow: number;
-  valueCols: {
-    id: string;
-    displayName: string;
-    field: string;
-  }[];
   filterModel: {
     [key: string]: {
-      filterType: 'text' | 'number';
+      filterType: 'text' | 'number' | 'set' | 'date';
       type:
         | 'equals'
         | 'notEqual'
@@ -20,9 +15,14 @@ export interface SAPMaterialsRequest {
         | 'contains'
         | 'notContains'
         | 'startsWith'
-        | 'endsWith';
+        | 'endsWith'
+        | 'blank'
+        | 'notBlank';
       filter: string | number;
       filterTo?: number;
+      values?: string[];
+      dateFrom?: string;
+      dateTo?: string;
     };
   };
   sortModel: {

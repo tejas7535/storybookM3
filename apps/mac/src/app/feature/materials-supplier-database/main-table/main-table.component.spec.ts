@@ -29,7 +29,7 @@ import {
   RowClassParams,
   RowNode,
 } from 'ag-grid-enterprise';
-import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
+import { MockComponent, MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
@@ -63,8 +63,11 @@ import { initialState as initialQuickfilterState } from '@mac/msd/store/reducers
 import { DataFacade } from '../store/facades/data';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
+import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
 import { MainTableComponent } from './main-table.component';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
+import { QuickFilterComponent } from './quick-filter/quick-filter.component';
+import { QuickFilterManagementComponent } from './quick-filter/quick-filter-management/quick-filter-management.component';
 import { STEEL_COLUMN_DEFINITIONS } from './table-config/materials/steel';
 import { getStatus } from './util';
 
@@ -134,6 +137,9 @@ describe('MainTableComponent', () => {
   const createComponent = createComponentFactory({
     component: MainTableComponent,
     imports: [
+      MockComponent(MsdNavigationComponent),
+      MockComponent(QuickFilterComponent),
+      MockComponent(QuickFilterManagementComponent),
       MockPipe(PushPipe),
       MockDirective(LetDirective),
       provideTranslocoTestingModule({ en: {} }),

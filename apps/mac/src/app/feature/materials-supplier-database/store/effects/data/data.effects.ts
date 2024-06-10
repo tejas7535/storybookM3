@@ -6,6 +6,8 @@ import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { TypedAction } from '@ngrx/store/src/models';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import {
   MaterialClass,
   NavigationLevel,
@@ -51,6 +53,29 @@ export class DataEffects {
       })
     );
   });
+
+  public logFetchMaterials$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(DataActions.fetchSAPMaterials),
+        tap(({ request }) => {
+          const sort = request.sortModel.map((s) => s.colId);
+          const filter = Object.keys(request.filterModel).map((f) => f);
+
+          // this.applicationInsightsService.logPageView('SAPMaterialsQuery', {});
+          this.applicationInsightsService.logEvent(
+            '[MAC - MSD] fetchMaterials',
+            {
+              materialClass: MaterialClass.SAP_MATERIAL,
+              sort,
+              filter,
+            }
+          );
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   public fetchMaterials$ = createEffect(() => {
     return this.actions$.pipe(
@@ -291,6 +316,7 @@ export class DataEffects {
   );
 
   constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly actions$: Actions,
     private readonly msdDataService: MsdDataService,
     private readonly dataFacade: DataFacade,

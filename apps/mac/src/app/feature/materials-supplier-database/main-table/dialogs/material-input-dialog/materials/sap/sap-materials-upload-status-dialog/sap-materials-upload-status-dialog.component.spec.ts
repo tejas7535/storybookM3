@@ -9,8 +9,10 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { SapMaterialsDatabaseUploadStatus } from '@mac/feature/materials-supplier-database/models';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
@@ -33,6 +35,7 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
         sapMaterialsUploadStatusReset: jest.fn(),
       }),
       mockProvider(MsdDialogService),
+      mockProvider(ApplicationInsightsService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
@@ -93,6 +96,41 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
       component.ngOnInit();
 
       expect(component['close']).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('logEvent', () => {
+    test('do not log other states', () => {
+      component['currentDatabaseUploadStatus'] = {
+        status: SapMaterialsDatabaseUploadStatus.RUNNING,
+      };
+      component['logEvent']();
+
+      expect(component['applicationInsightsService'].logEvent).not.toBeCalled();
+    });
+    test('log status failed', () => {
+      component['currentDatabaseUploadStatus'] = {
+        status: SapMaterialsDatabaseUploadStatus.FAILED,
+      };
+      component['logEvent']();
+
+      expect(component['applicationInsightsService'].logEvent).toBeCalledWith(
+        expect.any(String),
+        { materialClass: MaterialClass.SAP_MATERIAL }
+      );
+    });
+    test('log status done', () => {
+      component['currentDatabaseUploadStatus'] = {
+        status: SapMaterialsDatabaseUploadStatus.DONE,
+        rejectedCount: 7,
+        uploadedCount: 9,
+      };
+      component['logEvent']();
+
+      expect(component['applicationInsightsService'].logEvent).toBeCalledWith(
+        expect.any(String),
+        { materialClass: MaterialClass.SAP_MATERIAL, rejected: 7, uploaded: 9 }
+      );
     });
   });
 

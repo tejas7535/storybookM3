@@ -9,9 +9,9 @@ import { AluminumInputDialogComponent } from '@mac/feature/materials-supplier-da
 import { SteelInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/materials/steel/steel-input-dialog.component';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { ConfirmDeleteDialogComponent } from '@mac/msd/main-table/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DataResult } from '@mac/msd/models';
 
+import { ConfirmDeleteDialogComponent } from '../../main-table/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ManufacturerSupplierInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/material-standard/material-standard-input-dialog.component';
 import { CeramicInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';

@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ContactData, contacts } from './contact-data';
@@ -24,10 +25,31 @@ import { ContactData, contacts } from './contact-data';
   ],
 })
 export class ContactDialogComponent {
-  constructor(readonly dialogRef: MatDialogRef<ContactDialogComponent>) {}
+  constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    readonly dialogRef: MatDialogRef<ContactDialogComponent>
+  ) {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] contactDialogOpened',
+      {}
+    );
+  }
 
   getContacts(): ContactData[] {
     return contacts;
+  }
+
+  trackEmail() {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] contactDialogMailEvent',
+      {}
+    );
+  }
+  trackTeams() {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] contactDialogTeamsEvent',
+      {}
+    );
   }
 
   closeDialog(): void {

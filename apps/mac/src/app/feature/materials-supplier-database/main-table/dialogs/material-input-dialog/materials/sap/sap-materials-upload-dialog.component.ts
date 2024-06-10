@@ -36,12 +36,14 @@ import {
 } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { FileUploadComponent, SelectedFile } from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MaturityInfoComponent } from '@mac/feature/materials-supplier-database/main-table/components/maturity-info/maturity-info.component';
 import {
   MsdAgGridReadyService,
@@ -131,6 +133,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   private currentFile: SelectedFile;
 
   constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly dialogRef: MatDialogRef<SapMaterialsUploadDialogComponent>,
     private readonly formBuilder: FormBuilder,
     private readonly dialogFacade: DialogFacade,
@@ -143,6 +146,9 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dialogFacade.sapMaterialsUploadDialogOpened();
+    this.applicationInsightsService.logEvent('[MAC - MSD] uploadDialogOpened', {
+      materialClass: MaterialClass.SAP_MATERIAL,
+    });
 
     this.initFormGroup();
     this.setDefaultOwner();
@@ -169,6 +175,11 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   }
 
   downloadDataTemplate(): void {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] uploadDialogTemplateDownload',
+      { materialClass: MaterialClass.SAP_MATERIAL }
+    );
+
     // get list of visible columns in the order they are displayed
     const visibleColumns = this.columnApi
       .getColumnState()
@@ -252,6 +263,10 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     const { owner, date, maturity, file } = this.formGroup.value;
     const upload = { owner: owner.title, date, maturity, file };
 
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] uploadDialogUploadStart',
+      { materialClass: MaterialClass.SAP_MATERIAL, size: file.size }
+    );
     this.dialogFacade.uploadSapMaterials(upload);
   }
 

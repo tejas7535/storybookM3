@@ -1,11 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { TranslocoModule } from '@jsverse/transloco';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -27,7 +24,7 @@ describe('MaterialEmissionClassificationComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialEmissionClassificationComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
-    providers: [mockProvider(MsdDialogService, { openInfoDialog: jest.fn() })],
+    providers: [MockProvider(MsdDialogService, { openInfoDialog: jest.fn() })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
   });

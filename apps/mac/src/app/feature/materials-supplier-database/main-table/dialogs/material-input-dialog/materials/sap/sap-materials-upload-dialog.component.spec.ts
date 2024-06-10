@@ -19,6 +19,7 @@ import { ColDef, ColumnApi, GridApi } from 'ag-grid-community';
 import moment from 'moment';
 import { MockModule, MockPipe } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SelectedFile } from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
@@ -85,6 +86,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
       mockProvider(MsdAgGridReadyService, {
         agGridApi$: of({ gridApi: {}, columnApi: {} }),
       }),
+      mockProvider(ApplicationInsightsService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,

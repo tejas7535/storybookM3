@@ -5,12 +5,9 @@ import { provideRouter, Router, UrlTree } from '@angular/router';
 
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -45,7 +42,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
           logEvent: jest.fn(),
         },
       },
-      mockProvider(MsdDialogService),
+      MockProvider(MsdDialogService),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,

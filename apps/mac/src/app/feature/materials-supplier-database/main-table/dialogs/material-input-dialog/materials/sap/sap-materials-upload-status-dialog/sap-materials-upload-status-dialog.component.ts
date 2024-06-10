@@ -6,8 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { filter, Subject, take, takeUntil } from 'rxjs';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import {
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsDatabaseUploadStatusResponse,
@@ -157,6 +159,7 @@ export class SapMaterialsUploadStatusDialogComponent
   private readonly destroy$ = new Subject<void>();
 
   constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly dialogRef: MatDialogRef<SapMaterialsUploadStatusDialogComponent>,
     private readonly dialogFacade: DialogFacade,
     private readonly dialogService: MsdDialogService
@@ -194,9 +197,37 @@ export class SapMaterialsUploadStatusDialogComponent
               this.DATABASE_UPLOAD_STATUS_TO_DIALOG_CONFIG[
                 databaseUploadStatus.status
               ];
+            this.logEvent();
           }
         }
       );
+  }
+
+  private logEvent() {
+    switch (this.currentDatabaseUploadStatus.status) {
+      case SapMaterialsDatabaseUploadStatus.DONE: {
+        this.applicationInsightsService.logEvent(
+          '[MAC - MSD] uploadDialog uploadSuccess',
+          {
+            materialClass: MaterialClass.SAP_MATERIAL,
+            rejected: this.currentDatabaseUploadStatus.rejectedCount,
+            uploaded: this.currentDatabaseUploadStatus.uploadedCount,
+          }
+        );
+        break;
+      }
+      case SapMaterialsDatabaseUploadStatus.FAILED: {
+        this.applicationInsightsService.logEvent(
+          '[MAC - MSD] uploadDialog uploadFailed',
+          {
+            materialClass: MaterialClass.SAP_MATERIAL,
+          }
+        );
+        break;
+      }
+      default:
+      // do nothing
+    }
   }
 
   private handleGetUploadStatusFailure(): void {
@@ -222,10 +253,18 @@ export class SapMaterialsUploadStatusDialogComponent
   }
 
   private sendSupportEmail(): void {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] uploadDialog sendSupport',
+      { materialClass: MaterialClass.SAP_MATERIAL }
+    );
     window.open(`mailto:${this.SUPPORT_EMAIL}`);
   }
 
   private downloadRejected(): void {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] uploadDialog downloadRejected',
+      { materialClass: MaterialClass.SAP_MATERIAL }
+    );
     this.dialogFacade.downloadRejectedSapMaterials();
   }
 }

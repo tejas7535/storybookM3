@@ -92,17 +92,10 @@ export class MsdDataService {
   }
 
   public getMaterials<T extends Material = Material>(
-    materialClass: string,
-    category?: string[]
+    materialClass: string
   ): Observable<Material[]> {
-    const params: { category?: string[] } = category
-      ? { category: category.filter(Boolean) }
-      : {};
-
     return this.httpClient
-      .get<MaterialResponse[]>(`${this.BASE_URL}/materials/${materialClass}`, {
-        params,
-      })
+      .get<MaterialResponse[]>(`${this.BASE_URL}/materials/${materialClass}`)
       .pipe(
         map((materialResponses: MaterialResponse[]) =>
           materialResponses.map((materialResponse: MaterialResponse) =>

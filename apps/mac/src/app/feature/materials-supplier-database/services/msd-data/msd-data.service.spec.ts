@@ -215,19 +215,14 @@ describe('MsdDataService', () => {
       const mockResult = msdServiceAluminumMockResult;
 
       service
-        .getMaterials<AluminumMaterial>(MaterialClass.ALUMINUM, [
-          'category',
-          undefined,
-        ])
+        .getMaterials<AluminumMaterial>(MaterialClass.ALUMINUM)
         .subscribe((result: any) => {
           // TODO: observe this
           expect(result).toMatchObject(mockResult);
           done();
         });
 
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/al?category=category`
-      );
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/al`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -237,19 +232,14 @@ describe('MsdDataService', () => {
       const mockResult = msdServiceCopperMockResult;
 
       service
-        .getMaterials<AluminumMaterial>(MaterialClass.COPPER, [
-          'category',
-          undefined,
-        ])
+        .getMaterials<AluminumMaterial>(MaterialClass.COPPER)
         .subscribe((result: any) => {
           // TODO: observe this
           expect(result).toMatchObject(mockResult);
           done();
         });
 
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/cu?category=category`
-      );
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/cu`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -259,19 +249,14 @@ describe('MsdDataService', () => {
       const mockResult = msdServiceCeramicMockResult;
 
       service
-        .getMaterials<AluminumMaterial>(MaterialClass.CERAMIC, [
-          'category',
-          undefined,
-        ])
+        .getMaterials<AluminumMaterial>(MaterialClass.CERAMIC)
         .subscribe((result: any) => {
           // TODO: observe this
           expect(result).toMatchObject(mockResult);
           done();
         });
 
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/ce?category=category`
-      );
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/ce`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -281,7 +266,7 @@ describe('MsdDataService', () => {
       const mockResult = msdServiceLubricantMockResult;
 
       service
-        .getMaterials<AluminumMaterial>(MaterialClass.LUBRICANTS, [undefined])
+        .getMaterials<AluminumMaterial>(MaterialClass.LUBRICANTS)
         .subscribe((result: any) => {
           // TODO: observe this
           expect(result).toMatchObject(mockResult);

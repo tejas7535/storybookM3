@@ -1,11 +1,17 @@
 import { of, throwError } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
@@ -87,6 +93,7 @@ describe('Data Effects', () => {
           }),
         },
       },
+      mockProvider(ApplicationInsightsService),
     ],
   });
 
@@ -255,6 +262,41 @@ describe('Data Effects', () => {
         expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
           startRow: 0,
         } as SAPMaterialsRequest);
+      })
+    );
+  });
+
+  describe('logFetchMaterials$', () => {
+    it(
+      'should log filters and sorting',
+      marbles((m) => {
+        const request: SAPMaterialsRequest = {
+          startRow: 0,
+          endRow: 1,
+          filterModel: {
+            f1: { filterType: 'number', filter: 1, type: 'equals' },
+            f2: { filterType: 'number', filter: 1, type: 'equals' },
+          },
+          sortModel: [
+            { colId: 's1', sort: 'asc' },
+            { colId: 's2', sort: 'asc' },
+          ],
+        };
+
+        action = fetchSAPMaterials({ request });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-a-', { a: action });
+
+        m.expect(effects.logFetchMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(
+          effects['applicationInsightsService'].logEvent
+        ).toHaveBeenCalledWith(expect.any(String), {
+          materialClass: MaterialClass.SAP_MATERIAL,
+          sort: ['s1', 's2'],
+          filter: ['f1', 'f2'],
+        });
       })
     );
   });
