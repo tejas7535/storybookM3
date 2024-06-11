@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Assets
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.9...assets-v1.13.0) (2024-06-11)
+
+
+### Features
+
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [1.12.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.8...assets-v1.12.9) (2023-09-22)
 
 ## [1.12.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.12.7...assets-v1.12.8) (2023-01-09)
