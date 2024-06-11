@@ -813,7 +813,11 @@ pipeline {
                         echo 'Deliver Libraries as npm packages to Artifactory'
 
                         script {
-                            sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/ --parallel=1"
+                            withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_SVC_FRONTEND_MONO', passwordVariable: 'ENCODED_AUTH', usernameVariable: 'USERNAME')]) {
+                                sh "npm config set //artifactory.schaeffler.com/artifactory/api/npm/npm-local/:_auth=${ENCODED_AUTH}"
+                                sh "npm config set email=${USERNAME}@schaeffler.com"
+                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm-local/ --parallel=1"
+                            }
                         }
                     }
                 }
