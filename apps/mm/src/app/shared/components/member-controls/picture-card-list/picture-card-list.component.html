@@ -6,7 +6,7 @@
       >
         <schaeffler-picture-card
           [title]="translationRequired ? t(option.value) : option.value"
-          [img]="option.imageUrl"
+          [img]="option.imageUrl | mmHostMapping"
           [toggleEnabled]="false"
           [selected]="option.id === value"
           [isClickable]="true"

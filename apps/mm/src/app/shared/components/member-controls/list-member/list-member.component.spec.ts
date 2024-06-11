@@ -13,8 +13,10 @@ import {
   CONTROL_META,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
+import { MmHostMappingPipe } from '@mm/shared/pipes/mm-host-mapping.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { MockPipe } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
@@ -43,6 +45,7 @@ describe('ListMemberComponent', () => {
       MaterialModule,
       SelectModule,
       ReactiveFormsModule,
+      MockPipe(MmHostMappingPipe, () => 'mocked'),
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [

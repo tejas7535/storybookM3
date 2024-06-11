@@ -2,8 +2,8 @@
   <ng-container *transloco="let t; read: 'result'">
     @if (result$ | ngrxPush; as result) {
       <schaeffler-html-report
-        [htmlReportUrl]="result.htmlReportUrl"
-        [downloadReport]="result.pdfReportUrl"
+        [htmlReportUrl]="result.htmlReportUrl | mmHostMapping"
+        [downloadReport]="result.pdfReportUrl | mmHostMapping"
         [errorMsg]="errorMsg"
         [actionText]="actionText"
         [reportSelector]="reportSelector"
@@ -13,7 +13,7 @@
             mat-raised-button
             color="primary"
             class="m-2 grow uppercase"
-            [href]="result.pdfReportUrl"
+            [href]="result.pdfReportUrl | mmHostMapping"
             [disabled]="!(pdfReportReady$ | ngrxPush)"
           >
             <div class="flex-row flex items-center justify-center">

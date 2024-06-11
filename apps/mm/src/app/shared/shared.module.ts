@@ -17,6 +17,7 @@ import {
   StringNumberMemberComponent,
 } from './components/member-controls';
 import { MaterialModule } from './material.module';
+import { MmHostMappingPipe } from './pipes/mm-host-mapping.pipe';
 import { MmNumberPipe } from './pipes/mm-number.pipe';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
   exports: [
     CommonModule,
     MmNumberPipe,
+    MmHostMappingPipe,
     FormsModule,
     ReactiveFormsModule,
     PictureCardModule,
@@ -52,6 +54,7 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
   ],
   declarations: [
     MmNumberPipe,
+    MmHostMappingPipe,
     ListMemberComponent,
     SelectMemberComponent,
     StringNumberMemberComponent,

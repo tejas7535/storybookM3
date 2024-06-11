@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
+import { HttpHostMappingInterceptor } from '@mm/shared/interceptors/http-host-mapping.interceptor';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -81,6 +82,11 @@ let providers = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpLocaleInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpHostMappingInterceptor,
     multi: true,
   },
   DecimalPipe,

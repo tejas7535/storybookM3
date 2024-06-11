@@ -1,6 +1,8 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { MmHostMappingPipe } from '@mm/shared/pipes/mm-host-mapping.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockPipe } from 'ng-mocks';
 
 import { PictureCardModule } from '@schaeffler/picture-card';
 
@@ -14,7 +16,7 @@ describe('PictureCardListComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PictureCardListComponent,
-    imports: [PictureCardModule],
+    imports: [PictureCardModule, MockPipe(MmHostMappingPipe, () => 'mocked')],
     declarations: [PictureCardListComponent, MagneticSliderComponent],
     providers: [
       {

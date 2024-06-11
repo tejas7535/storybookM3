@@ -4,7 +4,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
+import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockComponent } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -18,7 +20,11 @@ describe('PagesStepperComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PagesStepperComponent,
-    imports: [MatButtonModule, MatStepperModule],
+    imports: [
+      MatButtonModule,
+      MatStepperModule,
+      MockComponent(QualtricsInfoBannerComponent),
+    ],
 
     declarations: [PagesStepperComponent, PageBeforePipe],
     providers: [
