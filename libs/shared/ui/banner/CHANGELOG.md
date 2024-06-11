@@ -1,4 +1,18 @@
 # Release Notes of Library Shared UI Banner
+## [3.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.5.0...banner-v3.6.0) (2024-06-11)
+
+
+### Features
+
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
+
+### Bug Fixes
+
+* **banner:** fix partially hidden icon when long text ([#6140](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6140)) ([5431791](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5431791c3c4a788420455930d25c4863cb12141d))
+
 ## [3.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.4.1...banner-v3.5.0) (2023-12-14)
 
 
