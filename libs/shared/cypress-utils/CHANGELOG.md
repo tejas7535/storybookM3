@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Cypress Utils
+## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.9...cypress-utils-v1.14.0) (2024-06-11)
+
+
+### Features
+
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [1.13.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.8...cypress-utils-v1.13.9) (2023-09-22)
 
 ## [1.13.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.7...cypress-utils-v1.13.8) (2023-01-09)
