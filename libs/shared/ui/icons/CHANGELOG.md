@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Icons
+## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.2.1...icons-v2.3.0) (2024-06-11)
+
+
+### Features
+
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [2.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.2.0...icons-v2.2.1) (2023-09-25)
 
 ## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.8...icons-v2.2.0) (2023-09-22)
