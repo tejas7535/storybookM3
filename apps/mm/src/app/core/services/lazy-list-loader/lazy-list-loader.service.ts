@@ -61,7 +61,7 @@ export class LazyListLoaderService implements LazyListLoader {
         }
         if (isSimple(response)) {
           return response.data.map(({ _media, data }) => ({
-            image: _media ? _media[0].href : undefined,
+            image: _media ? _media[0]?.href : undefined,
             ...data,
           }));
         }
