@@ -35,6 +35,7 @@ describe('ProductionCostDetailsComponent', () => {
 
   describe('refreshPrice', () => {
     test('should open dialog', () => {
+      component.refreshEnabled = true;
       const openMock = jest.fn();
       component['matDialog'].open = openMock;
       component.quotationDetail = { gqPositionId: '123' } as any;
@@ -42,6 +43,17 @@ describe('ProductionCostDetailsComponent', () => {
       component.updateCosts();
 
       expect(openMock).toBeCalledTimes(1);
+    });
+
+    test('should not open dialog', () => {
+      component.refreshEnabled = false;
+      const openMock = jest.fn();
+      component['matDialog'].open = openMock;
+      component.quotationDetail = { gqPositionId: '123' } as any;
+
+      component.updateCosts();
+
+      expect(openMock).toBeCalledTimes(0);
     });
   });
 });

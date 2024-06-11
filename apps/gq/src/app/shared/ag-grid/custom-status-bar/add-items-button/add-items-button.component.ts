@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import {
-  getIsQuotationActive,
+  getIsQuotationStatusActive,
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
@@ -30,7 +30,7 @@ export class AddItemsButtonComponent implements OnInit {
 
   ngOnInit(): void {
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
-    this.quotationActive$ = this.store.select(getIsQuotationActive);
+    this.quotationActive$ = this.store.select(getIsQuotationStatusActive);
   }
 
   showAddDialog(): void {

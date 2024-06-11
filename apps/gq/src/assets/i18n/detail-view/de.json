@@ -67,7 +67,8 @@
         "confirmDialogMessage": "Möchten Sie die Kosten aktualisieren?",
         "confirmDialogWarning": "Dies führt zu einer Neuberechnung von <b>GPI, GPM </b> und <b>GQ-Preis</b>.",
         "confirmButton": "Bestätigen",
-        "cancelButton": "Abbrechen"
+        "cancelButton": "Abbrechen",
+        "updateDisabled": "Kosten nicht aktuell. Bitte breche die Freigabe ab, um die Kosten zu aktualisieren."
       },
       "costsUpToDate": "Kosten aktuell"
     },

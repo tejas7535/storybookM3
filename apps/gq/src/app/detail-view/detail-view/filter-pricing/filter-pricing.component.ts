@@ -5,7 +5,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import {
-  getIsQuotationActive,
+  getIsQuotationStatusActive,
   getQuotationCurrency,
 } from '@gq/core/store/active-case/active-case.selectors';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
@@ -51,7 +51,7 @@ export class FilterPricingComponent implements OnInit {
     this.updateIsLoading$ = this.store.select(
       activeCaseFeature.selectUpdateLoading
     );
-    this.quotationIsActive$ = this.store.select(getIsQuotationActive);
+    this.quotationIsActive$ = this.store.select(getIsQuotationStatusActive);
     this.#isFNumber.next(isFNumber(this.quotationDetail));
   }
 

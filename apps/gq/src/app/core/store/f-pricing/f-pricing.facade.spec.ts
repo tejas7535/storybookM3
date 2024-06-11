@@ -143,7 +143,7 @@ describe('Service: FPricingFacade', () => {
         );
 
         mockStore.overrideSelector(
-          fromActiveCaseSelectors.getIsQuotationActive,
+          fromActiveCaseSelectors.getIsQuotationStatusActive,
           true
         );
         m.expect(service.fPricingDataComplete$).toBeObservable(

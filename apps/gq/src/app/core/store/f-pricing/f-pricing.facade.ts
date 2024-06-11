@@ -59,7 +59,7 @@ export class FPricingFacade {
     this.#store.select(fPricingFeature.getMarketValueDriverWarningLevel),
     this.#store.select(fPricingFeature.getTechnicalValueDriversForDisplay),
     this.#store.select(fPricingFeature.getSanityChecksForDisplay),
-    this.#store.select(fromActiveCaseSelectors.getIsQuotationActive),
+    this.#store.select(fromActiveCaseSelectors.getIsQuotationStatusActive),
   ]).pipe(
     map(
       ([

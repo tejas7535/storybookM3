@@ -9,8 +9,19 @@
             @if (materialCostUpdateAvl) {
               <mat-icon
                 (click)="updateCosts()"
-                class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-approval-status-green"
-                [matTooltip]="t('updateCosts.tooltip')"
+                [ngClass]="
+                  refreshEnabled
+                    ? 'text-medium-emphasis cursor-pointer hover:text-approval-status-green'
+                    : 'text-low-emphasis'
+                "
+                class="!w-4 !h-4 !text-[16px]"
+                [matTooltip]="
+                  t(
+                    refreshEnabled
+                      ? 'updateCosts.tooltip'
+                      : 'updateCosts.updateDisabled'
+                  )
+                "
               >
                 refresh</mat-icon
               >

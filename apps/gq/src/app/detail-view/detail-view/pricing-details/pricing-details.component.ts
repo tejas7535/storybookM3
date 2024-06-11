@@ -2,7 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
+import {
+  getIsQuotationStatusActive,
+  getQuotationCurrency,
+} from '@gq/core/store/active-case/active-case.selectors';
 import {
   getMaterialComparableCostsLoading,
   getMaterialSalesOrg,
@@ -36,6 +39,7 @@ export class PricingDetailsComponent implements OnInit {
   supplyPlantStochasticType: string;
   userHasGPCRole$: Observable<boolean>;
   userHasSQVRole$: Observable<boolean>;
+  isQuotationStatusActive$: Observable<boolean>;
 
   materialSalesOrg$: Observable<MaterialSalesOrg>;
   materialSalesOrgDataAvailable$: Observable<boolean>;
@@ -75,6 +79,9 @@ export class PricingDetailsComponent implements OnInit {
     this.materialSalesOrg$ = this.store.select(getMaterialSalesOrg);
     this.materialSalesOrgDataAvailable$ = this.store.select(
       getMaterialSalesOrgDataAvailable
+    );
+    this.isQuotationStatusActive$ = this.store.select(
+      getIsQuotationStatusActive
     );
   }
 }

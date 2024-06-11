@@ -15,10 +15,15 @@ export class ProductionCostDetailsComponent {
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
+  @Input() refreshEnabled: boolean;
 
   constructor(private readonly matDialog: MatDialog) {}
 
   updateCosts(): void {
+    if (!this.refreshEnabled) {
+      return;
+    }
+
     this.matDialog.open(UpdateCostsConfirmModalComponent, {
       width: '550px',
       autoFocus: false,

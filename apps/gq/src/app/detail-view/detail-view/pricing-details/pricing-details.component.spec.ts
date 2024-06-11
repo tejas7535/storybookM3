@@ -99,6 +99,9 @@ describe('PricingDetailsComponent', () => {
         m.expect(component.materialSalesOrgDataAvailable$).toBeObservable('a', {
           a: false,
         });
+        m.expect(component.isQuotationStatusActive$).toBeObservable('a', {
+          a: true,
+        });
       })
     );
   });

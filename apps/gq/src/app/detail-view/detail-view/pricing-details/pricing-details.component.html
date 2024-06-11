@@ -17,6 +17,7 @@
                     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
                     [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
                     [materialCostUpdateAvl]="materialCostUpdateAvl"
+                    [refreshEnabled]="isQuotationStatusActive$ | ngrxPush"
                   ></gq-production-cost-details>
                   @if (quotationDetail.rfqData) {
                     <gq-rfq-position-details

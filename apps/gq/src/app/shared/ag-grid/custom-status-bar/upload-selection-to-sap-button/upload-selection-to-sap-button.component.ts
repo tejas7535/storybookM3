@@ -5,7 +5,7 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import {
-  getIsQuotationActive,
+  getIsQuotationStatusActive,
   getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
@@ -55,7 +55,7 @@ export class UploadSelectionToSapButtonComponent implements OnDestroy {
       this.onSelectionChange.bind(this)
     );
 
-    this.quotationActive$ = this.store.select(getIsQuotationActive);
+    this.quotationActive$ = this.store.select(getIsQuotationStatusActive);
     this.tooltipText$ = this.getTooltipTextKey();
   }
 

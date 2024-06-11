@@ -54,12 +54,6 @@ export const getQuotationStatus = createSelector(
   (quotation: Quotation): QuotationStatus => quotation?.status
 );
 
-export const getIsQuotationActive = createSelector(
-  activeCaseFeature.selectQuotation,
-  (quotation: Quotation): boolean =>
-    quotation?.status === QuotationStatus.ACTIVE
-);
-
 export const getSimulatedQuotationDetailByItemId = (itemId: number) =>
   createSelector(
     activeCaseFeature.selectSimulatedItem,

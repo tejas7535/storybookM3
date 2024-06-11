@@ -4,7 +4,7 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import {
-  getIsQuotationActive,
+  getIsQuotationStatusActive,
   getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
@@ -42,7 +42,7 @@ export class UploadQuoteToSapButtonComponent implements OnDestroy {
     );
     this.sapId$ = this.store.select(getSapId);
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
-    this.quotationActive$ = this.store.select(getIsQuotationActive);
+    this.quotationActive$ = this.store.select(getIsQuotationStatusActive);
 
     this.tooltipText$ = this.getTooltipTextKey();
   }

@@ -4,7 +4,6 @@ import {
   ProductType,
   Quotation,
   QuotationDetail,
-  QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
@@ -294,31 +293,6 @@ describe('Active Case Selectors', () => {
       expect(
         activeCaseSelectors.getSimulatedQuotationDetailByItemId(1111)(fakeState)
       ).toEqual(undefined);
-    });
-  });
-
-  describe('getIsQuotationActive', () => {
-    [
-      { status: QuotationStatus.ACTIVE, expectedResult: true },
-      { status: QuotationStatus.ARCHIVED, expectedResult: false },
-      { status: QuotationStatus.DELETED, expectedResult: false },
-    ].forEach((testCase) => {
-      test(`should return ${testCase.expectedResult} if Quotation has status ${testCase.status}`, () => {
-        const activeState = {
-          ...fakeState,
-          activeCase: {
-            ...fakeState.activeCase,
-            quotation: {
-              ...QUOTATION_MOCK,
-              status: testCase.status,
-            },
-          },
-        };
-
-        expect(activeCaseSelectors.getIsQuotationActive(activeState)).toEqual(
-          testCase.expectedResult
-        );
-      });
     });
   });
 

@@ -67,7 +67,8 @@
         "confirmDialogMessage": "Do you really want to refresh the costs?",
         "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> and <b>GQ-Price</b>.",
         "confirmButton": "Confirm",
-        "cancelButton": "Cancel"
+        "cancelButton": "Cancel",
+        "updateDisabled": "Costs are not up to date. Please cancel the approval workflow to refresh costs."
       },
       "costsUpToDate": "Costs up to date"
     },
