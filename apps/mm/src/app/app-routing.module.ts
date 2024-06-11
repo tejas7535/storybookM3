@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LegalRoute } from '@schaeffler/legal-pages';
 
+import { LanguageGuard } from './guards/language.guard';
+
 export enum RoutePath {
   BasePath = '',
   HomePath = 'app',
@@ -15,19 +17,17 @@ export const appRoutePaths: Routes = [
     path: LegalRoute,
     loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
+    canActivate: [LanguageGuard],
   },
   {
     path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
-  },
-  {
-    path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.HomePath}`,
-    pathMatch: 'full',
+    canActivate: [LanguageGuard],
   },
   {
     path: RoutePath.HomePath,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    canActivate: [LanguageGuard],
   },
 
   {

@@ -17,6 +17,7 @@ import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
+import { RoutePath } from './app-routing.module';
 import { StorageMessagesActions } from './core/store/actions';
 
 @Component({
@@ -57,7 +58,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.checkIframe();
-
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
@@ -65,9 +65,14 @@ export class AppComponent implements OnInit, OnDestroy {
         startWith('')
       )
       .subscribe((event) => {
-        const url = (event as NavigationEnd).url?.split('/').pop();
-
-        this.isCookiePage = url === LegalPath.CookiePath;
+        const url = (event as NavigationEnd).url;
+        this.isCookiePage = url?.split('/').pop() === LegalPath.CookiePath;
+        const parsedUrl = window.location;
+        if (url && parsedUrl.pathname === '/') {
+          this.router.navigate([RoutePath.HomePath], {
+            queryParamsHandling: 'preserve',
+          });
+        }
       });
 
     this.translocoService.events$
