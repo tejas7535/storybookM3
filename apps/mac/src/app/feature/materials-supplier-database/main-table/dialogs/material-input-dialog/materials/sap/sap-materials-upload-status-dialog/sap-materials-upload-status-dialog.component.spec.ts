@@ -206,23 +206,12 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
   });
 
   describe('startUpload', () => {
-    test('should close dialog and open SapMaterialsUploadDialog', () => {
-      jest.useFakeTimers();
-      jest.spyOn(window, 'setTimeout');
-
-      component['dialogService'].openSapMaterialsUploadDialog = jest.fn();
+    test('should close dialog with true', () => {
+      component['close'] = jest.fn();
 
       component['startNewUpload']();
 
-      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      jest.advanceTimersByTime(130);
-      expect(
-        component['dialogService'].openSapMaterialsUploadDialog
-      ).toHaveBeenCalledTimes(1);
-
-      jest.useRealTimers();
+      expect(component['close']).toHaveBeenCalledWith(true);
     });
   });
 });

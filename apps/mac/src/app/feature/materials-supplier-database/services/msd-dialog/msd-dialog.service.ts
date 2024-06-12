@@ -124,8 +124,8 @@ export class MsdDialogService {
     });
   }
 
-  openSapMaterialsUploadDialog(): void {
-    this.dialog.open(SapMaterialsUploadDialogComponent, {
+  openSapMaterialsUploadDialog(): MatDialogRef<SapMaterialsUploadDialogComponent> {
+    return this.dialog.open(SapMaterialsUploadDialogComponent, {
       width: '700px',
       autoFocus: false,
       restoreFocus: false,
@@ -133,8 +133,8 @@ export class MsdDialogService {
     });
   }
 
-  openSapMaterialsUploadStatusDialog(): void {
-    this.dialog.open(SapMaterialsUploadStatusDialogComponent, {
+  openSapMaterialsUploadStatusDialog(): MatDialogRef<SapMaterialsUploadStatusDialogComponent> {
+    return this.dialog.open(SapMaterialsUploadStatusDialogComponent, {
       width: '710px',
       autoFocus: false,
       restoreFocus: false,

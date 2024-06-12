@@ -14,7 +14,6 @@ import {
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsDatabaseUploadStatusResponse,
 } from '@mac/feature/materials-supplier-database/models';
-import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
 import { BaseDialogComponent } from '../../../base-dialog/base-dialog.component';
@@ -161,8 +160,7 @@ export class SapMaterialsUploadStatusDialogComponent
   constructor(
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly dialogRef: MatDialogRef<SapMaterialsUploadStatusDialogComponent>,
-    private readonly dialogFacade: DialogFacade,
-    private readonly dialogService: MsdDialogService
+    private readonly dialogFacade: DialogFacade
   ) {}
 
   ngOnInit(): void {
@@ -236,16 +234,16 @@ export class SapMaterialsUploadStatusDialogComponent
       .subscribe(() => this.close());
   }
 
-  private close(): void {
+  private close(openNewDialog?: boolean): void {
     this.dialogFacade.clearRejectedSapMaterials();
-    this.dialogRef.close();
+    this.dialogRef.close({ openNewDialog });
     this.dialogFacade.sapMaterialsUploadStatusReset();
   }
 
   private startNewUpload(): void {
-    this.close();
+    this.close(true);
     // Delay opening the upload dialog in order to prevent ExpressionChangedAfterItHasBeenCheckedError
-    setTimeout(() => this.dialogService.openSapMaterialsUploadDialog(), 120);
+    // setTimeout(() => this.dialogFacade.openDialog(), 120);
   }
 
   private shouldShowDownloadRejected(): boolean {

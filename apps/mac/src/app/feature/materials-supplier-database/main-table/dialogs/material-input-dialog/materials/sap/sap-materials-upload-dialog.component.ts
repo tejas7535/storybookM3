@@ -45,10 +45,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MaturityInfoComponent } from '@mac/feature/materials-supplier-database/main-table/components/maturity-info/maturity-info.component';
-import {
-  MsdAgGridReadyService,
-  MsdDialogService,
-} from '@mac/feature/materials-supplier-database/services';
+import { MsdAgGridReadyService } from '@mac/feature/materials-supplier-database/services';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
@@ -139,7 +136,6 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     private readonly dialogFacade: DialogFacade,
     private readonly dataFacade: DataFacade,
     private readonly excelValidatorService: ExcelValidatorService,
-    private readonly dialogService: MsdDialogService,
     private readonly agGridService: MsdAgGridReadyService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -270,9 +266,9 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     this.dialogFacade.uploadSapMaterials(upload);
   }
 
-  close(): void {
+  close(openStatusDialog?: boolean): void {
     this.dialogFacade.materialDialogCanceled();
-    this.dialogRef.close();
+    this.dialogRef.close({ openStatusDialog });
   }
 
   private getErrorMessage(errors: { [key: string]: any }): string {
@@ -393,8 +389,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     this.dialogFacade.uploadSapMaterialsSucceeded$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.close();
-        this.dialogService.openSapMaterialsUploadStatusDialog();
+        this.close(true);
       });
   }
 

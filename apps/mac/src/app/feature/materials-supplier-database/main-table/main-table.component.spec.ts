@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
+import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import {
@@ -64,6 +66,8 @@ import { DataFacade } from '../store/facades/data';
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
+import { SapMaterialsUploadDialogComponent } from './dialogs/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
+import { SapMaterialsUploadStatusDialogComponent } from './dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { MainTableComponent } from './main-table.component';
 import { STEEL_STATIC_QUICKFILTERS } from './quick-filter/config/steel';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
@@ -106,6 +110,9 @@ describe('MainTableComponent', () => {
   let dialogFacade: DialogFacade;
   let route: ActivatedRoute;
   let router: Router;
+
+  let mockSubjectUpload: Subject<any>;
+  let mockSubjectUploadStatus: Subject<any>;
 
   const initialState = {
     msd: {
@@ -160,8 +167,6 @@ describe('MainTableComponent', () => {
         provide: MsdDialogService,
         useValue: {
           openDialog: jest.fn(),
-          openSapMaterialsUploadDialog: jest.fn(),
-          openSapMaterialsUploadStatusDialog: jest.fn(),
         },
       },
       MockProvider(MsdDataService),
@@ -206,6 +211,22 @@ describe('MainTableComponent', () => {
     dialogFacade = spectator.inject(DialogFacade);
     route = spectator.inject(ActivatedRoute);
     router = spectator.inject(Router);
+
+    mockSubjectUpload = new Subject();
+    mockSubjectUploadStatus = new Subject();
+
+    component['dialogService'].openSapMaterialsUploadDialog = jest.fn(
+      () =>
+        ({
+          afterClosed: jest.fn(() => mockSubjectUpload),
+        }) as unknown as MatDialogRef<SapMaterialsUploadDialogComponent>
+    );
+    component['dialogService'].openSapMaterialsUploadStatusDialog = jest.fn(
+      () =>
+        ({
+          afterClosed: jest.fn(() => mockSubjectUploadStatus),
+        }) as unknown as MatDialogRef<SapMaterialsUploadStatusDialogComponent>
+    );
   });
 
   it('should create', () => {
@@ -1308,12 +1329,51 @@ describe('MainTableComponent', () => {
   });
 
   describe('openSapMaterialUploadDialog', () => {
-    it('should open SAP materials upload dialog', () => {
+    it('should open SAP materials upload dialog and open status after cllose', waitForAsync(() => {
       component.openSapMaterialsUploadDialog();
       expect(
         component['dialogService'].openSapMaterialsUploadDialog
       ).toHaveBeenCalledTimes(1);
-    });
+      mockSubjectUpload.next({ openStatusDialog: true });
+      expect(
+        component['dialogService'].openSapMaterialsUploadStatusDialog
+      ).toHaveBeenCalled();
+    }));
+
+    it('should open SAP materials upload dialog and not open status after close', waitForAsync(() => {
+      component.openSapMaterialsUploadDialog();
+      expect(
+        component['dialogService'].openSapMaterialsUploadDialog
+      ).toHaveBeenCalledTimes(1);
+      mockSubjectUpload.next({ openStatusDialog: false });
+      expect(
+        component['dialogService'].openSapMaterialsUploadStatusDialog
+      ).not.toHaveBeenCalled();
+    }));
+  });
+
+  describe('openSapMaterialUploadStatusDialog', () => {
+    it('should open SAP materials upload dialog and open a new upload after cllose', waitForAsync(() => {
+      component.openSapMaterialsUploadStatusDialog();
+      expect(
+        component['dialogService'].openSapMaterialsUploadStatusDialog
+      ).toHaveBeenCalledTimes(1);
+      mockSubjectUploadStatus.next({ openNewDialog: true });
+      expect(
+        component['dialogService'].openSapMaterialsUploadDialog
+      ).toHaveBeenCalled();
+    }));
+
+    it('should open SAP materials upload status dialog and not open a new upload after close', waitForAsync(() => {
+      component.openSapMaterialsUploadStatusDialog();
+      expect(
+        component['dialogService'].openSapMaterialsUploadStatusDialog
+      ).toHaveBeenCalledTimes(1);
+      mockSubjectUploadStatus.next({ openStatusDialog: false });
+      expect(
+        component['dialogService'].openSapMaterialsUploadDialog
+      ).not.toHaveBeenCalled();
+    }));
   });
 
   describe('createServerSideDataSource', () => {

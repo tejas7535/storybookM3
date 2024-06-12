@@ -284,11 +284,27 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public openSapMaterialsUploadDialog(): void {
-    this.dialogService.openSapMaterialsUploadDialog();
+    this.dialogService
+      .openSapMaterialsUploadDialog()
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(({ openStatusDialog }: { openStatusDialog: boolean }) => {
+        if (openStatusDialog) {
+          this.openSapMaterialsUploadStatusDialog();
+        }
+      });
   }
 
   public openSapMaterialsUploadStatusDialog(): void {
-    this.dialogService.openSapMaterialsUploadStatusDialog();
+    this.dialogService
+      .openSapMaterialsUploadStatusDialog()
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(({ openNewDialog }: { openNewDialog: boolean }) => {
+        if (openNewDialog) {
+          this.openSapMaterialsUploadDialog();
+        }
+      });
   }
 
   public createServerSideDataSource(

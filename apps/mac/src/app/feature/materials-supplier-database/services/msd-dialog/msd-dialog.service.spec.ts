@@ -230,7 +230,7 @@ describe('MsdDialogService', () => {
 
   describe('openSapMaterialsUploadDialog', () => {
     it('should open the dialog', () => {
-      service.openSapMaterialsUploadDialog();
+      const expected = service.openSapMaterialsUploadDialog();
 
       expect(service['dialog'].open).toBeCalledWith(
         SapMaterialsUploadDialogComponent,
@@ -241,12 +241,13 @@ describe('MsdDialogService', () => {
           disableClose: true,
         }
       );
+      expect(expected).toEqual({} as unknown as MatDialogRef<any>);
     });
   });
 
   describe('openSapMaterialsUploadStatusDialog', () => {
     it('should open the dialog', () => {
-      service.openSapMaterialsUploadStatusDialog();
+      const expected = service.openSapMaterialsUploadStatusDialog();
 
       expect(service['dialog'].open).toBeCalledWith(
         SapMaterialsUploadStatusDialogComponent,
@@ -257,6 +258,7 @@ describe('MsdDialogService', () => {
           disableClose: true,
         }
       );
+      expect(expected).toEqual({} as unknown as MatDialogRef<any>);
     });
   });
 

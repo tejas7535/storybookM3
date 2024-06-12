@@ -230,16 +230,12 @@ describe('SapMaterialsUploadDialogComponent', () => {
       component['initFormGroup'] = jest.fn();
       component['setDefaultOwner'] = jest.fn();
       component['handleFileUploadProgressChanges'] = jest.fn();
-      component['dialogService'].openSapMaterialsUploadStatusDialog = jest.fn();
       component.close = jest.fn();
       component['dialogFacade'].uploadSapMaterialsSucceeded$ = of(true as any);
 
       component.ngOnInit();
 
-      expect(component.close).toHaveBeenCalledTimes(1);
-      expect(
-        component['dialogService'].openSapMaterialsUploadStatusDialog
-      ).toHaveBeenCalledTimes(1);
+      expect(component.close).toHaveBeenCalledWith(true);
     });
 
     test('should show file upload progress in upload button label', () => {
