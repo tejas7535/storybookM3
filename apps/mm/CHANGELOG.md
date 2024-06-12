@@ -1,4 +1,11 @@
 # Release Notes of Mounting Manager
+## [0.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.4.0...mm-v0.4.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* **mm:** resolve missing provider issue in medias embedded ([#6274](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6274)) ([beb0f9c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/beb0f9c7e8664da80bff16cb07efb08ab2568aef))
+
 ## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.4...mm-v0.4.0) (2024-06-12)
 
 
