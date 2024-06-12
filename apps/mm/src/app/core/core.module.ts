@@ -61,12 +61,6 @@ let Tracking = [
 ];
 
 let providers = [
-  provideTranslocoPersistLang({
-    storageKey: 'language',
-    storage: {
-      useValue: localStorage,
-    },
-  }),
   // OneTrust Provider must be first entry
   {
     provide: APP_INITIALIZER,
@@ -89,6 +83,12 @@ let providers = [
     useClass: HttpHostMappingInterceptor,
     multi: true,
   },
+  provideTranslocoPersistLang({
+    storageKey: 'language',
+    storage: {
+      useValue: localStorage,
+    },
+  }),
   DecimalPipe,
 ];
 
