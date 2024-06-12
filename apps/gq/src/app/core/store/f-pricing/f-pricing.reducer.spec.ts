@@ -646,7 +646,7 @@ describe('fPricingReducer', () => {
       const expected: PropertyDelta = {
         isDelta: true,
         absolute: 30,
-        relative: 33,
+        relative: 33.33,
       };
       expect(delta).toEqual(expected);
     });

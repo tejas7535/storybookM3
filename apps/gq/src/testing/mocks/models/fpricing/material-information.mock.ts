@@ -59,7 +59,7 @@ export const MATERIAL_INFORMATION_EXTENDED_MOCK: MaterialInformationExtended[] =
         {
           isDelta: true,
           absolute: 30,
-          relative: 33,
+          relative: 33.33,
         },
         {
           isDelta: true,

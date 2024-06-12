@@ -849,7 +849,9 @@ function createDelta(values: PropertyValue[]): PropertyDelta {
   ) {
     // todo: Consider delta creation on BE to avoid rounding issues
     delta.absolute = Number((values[1].value - values[0].value).toFixed(2));
-    delta.relative = Math.round((delta.absolute / values[0].value) * 100);
+    delta.relative = Number(
+      ((delta.absolute / values[0].value) * 100).toFixed(2)
+    );
   }
 
   return delta;
