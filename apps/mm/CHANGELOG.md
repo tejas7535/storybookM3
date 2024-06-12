@@ -1,4 +1,21 @@
 # Release Notes of Mounting Manager
+## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.4...mm-v0.4.0) (2024-06-12)
+
+
+### Features
+
+* **mm:** add option for language query param ([#6266](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6266)) ([30e4660](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/30e46609d99fc2fdec597a783677cb83d935fed6))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
+
+### Bug Fixes
+
+* **mm:**  resource urls from new api are not available (UFTABI- 7464) ([#6268](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6268)) ([0bc2e1b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0bc2e1b35ed2f1452956c3f37848b4314422d5a0))
+* **mm:** fix manual path selection ([#6270](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6270)) ([019de78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/019de7870d9dbda954ca33c74366c315ca26869d))
+* **mm:** load result when entering last step ([#6063](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6063)) ([c66e50b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c66e50ba7964d467b016d86237072079a9e0066c))
+
 ## [0.3.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.3.3...mm-v0.3.4) (2024-03-04)
 
 
