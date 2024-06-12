@@ -3,7 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { BehaviorSubject, debounceTime } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  merge,
+  Subject,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 
 import { QuotationSearchResultByCases } from '@gq/shared/models/quotation/quotation-search-result-by-cases.interface';
 import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
@@ -38,8 +45,10 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
     Validators.minLength(this.activeMinLengthForValidation),
   ]);
 
-  private readonly resetSubject$$: BehaviorSubject<void> =
-    new BehaviorSubject<void>(null);
+  private readonly searchByCasesSubject$$: Subject<void> = new Subject<void>();
+  private readonly searchByMaterialsSubject$$: Subject<void> =
+    new Subject<void>();
+  private readonly resetSubject$$: Subject<void> = new Subject<void>();
   reset$ = this.resetSubject$$.asObservable();
   tabIndex = 0;
   casesSearchCriteria: CasesCriteriaSelection;
@@ -58,12 +67,60 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
           this.searchFormControl.setErrors({ minlengthDisplay: true });
         }
       });
+
+    this.searchByMaterialsSubject$$
+      .pipe(
+        switchMap(() => {
+          this.loading$$.next(true);
+
+          return this.quotationSummaryService
+            .getSearchResultsByMaterials(
+              this.onlyUserCases,
+              this.materialSearchCriteria,
+              this.searchFormControl.value
+            )
+            .pipe(
+              takeUntilDestroyed(this.destroyRef),
+              takeUntil(merge(this.resetSubject$$, this.searchByCasesSubject$$))
+            );
+        })
+      )
+      .subscribe((results) => {
+        this.materialResults = results;
+        this.loading$$.next(false);
+      });
+
+    this.searchByCasesSubject$$
+      .pipe(
+        switchMap(() => {
+          this.loading$$.next(true);
+
+          return this.quotationSummaryService
+            .getSearchResultsByCases(
+              this.onlyUserCases,
+              this.casesSearchCriteria,
+              this.searchFormControl.value
+            )
+            .pipe(
+              takeUntilDestroyed(this.destroyRef),
+              takeUntil(
+                merge(this.resetSubject$$, this.searchByMaterialsSubject$$)
+              )
+            );
+        })
+      )
+      .subscribe((results) => {
+        this.casesResults = results;
+        this.loading$$.next(false);
+      });
   }
+
   clearDialog() {
     this.onlyUserCases = false;
     this.searchFormControl.patchValue('');
     this.casesResults = null;
     this.materialResults = null;
+    this.loading$$.next(false);
     this.resetSubject$$.next();
   }
 
@@ -99,6 +156,8 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
 
   closeDialog() {
     this.resetSubject$$.complete();
+    this.searchByMaterialsSubject$$.complete();
+    this.searchByCasesSubject$$.complete();
     this.dialogRef.close();
   }
 
@@ -106,36 +165,11 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
    * perform either search by materials or cases
    */
   private determineSearch(): void {
-    // tabIndex = 0 is a falsy value so we can use it for determine which search to perform
+    // tabIndex = 0 is a falsy value, so we can use it for determine which search to perform
     if (this.tabIndex) {
-      this.loading$$.next(true);
-
-      this.quotationSummaryService
-        .getSearchResultsByMaterials(
-          this.onlyUserCases,
-          this.materialSearchCriteria,
-          this.searchFormControl.value
-        )
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((results) => {
-          this.materialResults = results;
-          this.loading$$.next(false);
-        });
-
-      return;
+      this.searchByMaterialsSubject$$.next();
     } else {
-      this.loading$$.next(true);
-      this.quotationSummaryService
-        .getSearchResultsByCases(
-          this.onlyUserCases,
-          this.casesSearchCriteria,
-          this.searchFormControl.value
-        )
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((results) => {
-          this.casesResults = results;
-          this.loading$$.next(false);
-        });
+      this.searchByCasesSubject$$.next();
     }
   }
 

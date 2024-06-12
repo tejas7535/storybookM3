@@ -172,11 +172,17 @@ describe('GlobalSearchAdvancedModalComponent', () => {
     it('should close the dialog', () => {
       const spy = jest.spyOn(component['dialogRef'], 'close');
       component['resetSubject$$'].complete = jest.fn();
+      component['searchByMaterialsSubject$$'].complete = jest.fn();
+      component['searchByCasesSubject$$'].complete = jest.fn();
 
       component.closeDialog();
 
       expect(spy).toHaveBeenCalled();
       expect(component['resetSubject$$'].complete).toHaveBeenCalled();
+      expect(
+        component['searchByMaterialsSubject$$'].complete
+      ).toHaveBeenCalled();
+      expect(component['searchByCasesSubject$$'].complete).toHaveBeenCalled();
     });
   });
 
@@ -184,6 +190,7 @@ describe('GlobalSearchAdvancedModalComponent', () => {
     it('should clear the input field', () => {
       component.onlyUserCases = true;
       component.searchFormControl.patchValue('test');
+      component['loading$$'].next = jest.fn();
       component['resetSubject$$'].next = jest.fn();
 
       component.clearDialog();
@@ -192,27 +199,28 @@ describe('GlobalSearchAdvancedModalComponent', () => {
       expect(component.searchFormControl.value).toBe('');
       expect(component.casesResults).toBe(null);
       expect(component.materialResults).toBe(null);
+      expect(component['loading$$'].next).toHaveBeenCalled();
       expect(component['resetSubject$$'].next).toHaveBeenCalled();
     });
   });
 
   describe('determineSearch', () => {
-    test('should call getSearchResultsByCases when TabIndex is 0 (by Cases)', () => {
-      component.casesResults = null;
+    test('should trigger search by cases when TabIndex is 0 (by Cases)', () => {
+      component['searchByCasesSubject$$'].next = jest.fn();
       component.tabIndex = 0;
 
       component['determineSearch']();
 
-      expect(component.casesResults).toEqual({ results: [] });
+      expect(component['searchByCasesSubject$$'].next).toHaveBeenCalled();
     });
 
-    test('should call getSearchResultsByMaterials when TabIndex is 1 (by Materials)', () => {
-      component.materialResults = null;
+    test('should trigger search by materials when TabIndex is 1 (by Materials)', () => {
+      component['searchByMaterialsSubject$$'].next = jest.fn();
       component.tabIndex = 1;
 
       component['determineSearch']();
 
-      expect(component.materialResults).toEqual({ results: [] });
+      expect(component['searchByMaterialsSubject$$'].next).toHaveBeenCalled();
     });
   });
 
