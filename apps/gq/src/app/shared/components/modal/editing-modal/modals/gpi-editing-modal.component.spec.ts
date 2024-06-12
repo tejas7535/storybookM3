@@ -95,16 +95,13 @@ describe('GpiEditingModalComponent', () => {
   });
 
   test('should build the correct UpdateQuotationDetail', () => {
-    const priceUnit = 200;
     const newPrice = 50;
     const getManualPriceByMarginAndCostSpy = jest.spyOn(
       pricingUtils,
       'getManualPriceByMarginAndCost'
     );
-    const getPriceUnitSpy = jest.spyOn(pricingUtils, 'getPriceUnit');
 
     getManualPriceByMarginAndCostSpy.mockReturnValue(newPrice);
-    getPriceUnitSpy.mockReturnValue(priceUnit);
 
     component.modalData = {
       field: ColumnFields.GPI,
@@ -112,7 +109,7 @@ describe('GpiEditingModalComponent', () => {
     };
 
     expect(component['buildUpdateQuotationDetail'](450)).toEqual({
-      price: newPrice / priceUnit,
+      price: newPrice,
       gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
       priceSource: PriceSource.MANUAL,
     });
@@ -120,6 +117,5 @@ describe('GpiEditingModalComponent', () => {
       QUOTATION_DETAIL_MOCK.gpc,
       450
     );
-    expect(getPriceUnitSpy).toHaveBeenCalledWith(QUOTATION_DETAIL_MOCK);
   });
 });

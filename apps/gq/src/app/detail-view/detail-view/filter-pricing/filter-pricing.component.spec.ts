@@ -13,7 +13,6 @@ import { ProcessCaseState } from '@gq/core/store/process-case';
 import { PriceSource, UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
-import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -117,9 +116,7 @@ describe('FilterPricingComponent', () => {
 
   describe('selectManualPrice', () => {
     test('should dispatch action', () => {
-      const PRICE_UNIT = 100;
       component.quotationDetail = QUOTATION_DETAIL_MOCK;
-      jest.spyOn(pricingUtils, 'getPriceUnit').mockReturnValue(PRICE_UNIT);
       mockStore.dispatch = jest.fn();
       const updatePrice = new UpdatePrice(
         QUOTATION_DETAIL_MOCK.recommendedPrice,
@@ -127,16 +124,12 @@ describe('FilterPricingComponent', () => {
       );
       component.selectPrice(updatePrice);
 
-      expect(pricingUtils.getPriceUnit).toHaveBeenCalledTimes(1);
-      expect(pricingUtils.getPriceUnit).toHaveBeenCalledWith(
-        QUOTATION_DETAIL_MOCK
-      );
       expect(mockStore.dispatch).toHaveBeenLastCalledWith(
         ActiveCaseActions.updateQuotationDetails({
           updateQuotationDetailList: [
             {
               gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-              price: QUOTATION_DETAIL_MOCK.recommendedPrice / PRICE_UNIT,
+              price: QUOTATION_DETAIL_MOCK.recommendedPrice,
               priceSource: PriceSource.GQ,
             },
           ],

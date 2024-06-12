@@ -3,7 +3,6 @@ import {
   MaterialCostDetails,
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
-import { getPriceUnit, roundValue } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
 import { getMaterialCostDetailsState } from '../../reducers';
@@ -31,14 +30,10 @@ export const getMaterialCostUpdateAvl = createSelector(
       return false;
     }
 
-    const roundedMaterialCostGpc = materialCostDetails?.gpc
-      ? roundValue(
-          materialCostDetails.gpc,
-          getPriceUnit(selectedQuotationDetail)
-        )
-      : // gpc can be null, so setting it to undefined would cause problem in value comparison
-        // eslint-disable-next-line unicorn/no-null
-        null;
+    const roundedMaterialCostGpc =
+      materialCostDetails?.gpc ?? // gpc can be null, so setting it to undefined would cause problem in value comparison
+      // eslint-disable-next-line unicorn/no-null
+      null;
     const isGpcDifferent =
       roundedMaterialCostGpc !== selectedQuotationDetail?.gpc;
 

@@ -15,7 +15,6 @@ import {
   UpdatePrice,
 } from '@gq/shared/models/quotation-detail';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
-import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -58,13 +57,10 @@ export class FilterPricingComponent implements OnInit {
   selectPrice(updatePrice: UpdatePrice): void {
     const { priceSource } = updatePrice;
 
-    const priceUnit = getPriceUnit(this.quotationDetail);
-    const price = updatePrice.price / priceUnit;
-
     const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
-        price,
         priceSource,
+        price: updatePrice.price,
         gqPositionId: this.quotationDetail.gqPositionId,
       },
     ];

@@ -205,43 +205,34 @@ describe('TargetPriceEditingModalComponent', () => {
       component['editingFormGroup'] = {
         get: jest.fn().mockReturnValue({ value: true }),
       } as any;
-      const priceUnit = 1;
       const newPrice = 350;
       const multiplyAndRoundValuesSpy = jest.spyOn(
         pricingUtils,
         'multiplyAndRoundValues'
       );
-      const getPriceUnitSpy = jest.spyOn(pricingUtils, 'getPriceUnit');
 
       multiplyAndRoundValuesSpy.mockReturnValue(newPrice);
-      getPriceUnitSpy.mockReturnValue(priceUnit);
 
       expect(component['buildUpdateQuotationDetail'](600)).toEqual({
-        targetPrice: newPrice / priceUnit,
+        targetPrice: newPrice,
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
       });
       expect(multiplyAndRoundValuesSpy).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.targetPrice,
         1 + 600 / 100
       );
-      expect(getPriceUnitSpy).toHaveBeenCalledWith(QUOTATION_DETAIL_MOCK);
     });
 
     test('should build the correct UpdateQuotationDetail for absolute target price', () => {
       component['editingFormGroup'] = {
         get: jest.fn().mockReturnValue({ value: false }),
       } as any;
-      const priceUnit = 1;
       const newPrice = 600;
-      const getPriceUnitSpy = jest.spyOn(pricingUtils, 'getPriceUnit');
-
-      getPriceUnitSpy.mockReturnValue(priceUnit);
 
       expect(component['buildUpdateQuotationDetail'](600)).toEqual({
-        targetPrice: newPrice / priceUnit,
+        targetPrice: newPrice,
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
       });
-      expect(getPriceUnitSpy).toHaveBeenCalledWith(QUOTATION_DETAIL_MOCK);
     });
   });
 });

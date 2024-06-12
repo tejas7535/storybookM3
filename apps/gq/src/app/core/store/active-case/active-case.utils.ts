@@ -8,7 +8,6 @@ import {
   getPriceUnit,
   multiplyAndRoundValues,
   roundToTwoDecimals,
-  roundValue,
 } from '@gq/shared/utils/pricing.utils';
 
 import { SapConditionType } from '../reducers/models';
@@ -23,41 +22,16 @@ export const addCalculationsForDetails = (details: QuotationDetail[]): void => {
 };
 
 export const addCalculationsForDetail = (detail: QuotationDetail): void => {
-  const priceUnit = getPriceUnit(detail);
-
-  // First we need to round the price value to prevent wrong calculations down the line
-  // See GQUOTE-1673
-  if (typeof detail.price === 'number') {
-    detail.price = roundValue(detail.price, priceUnit);
-  }
-
-  if (typeof detail.recommendedPrice === 'number') {
-    detail.recommendedPrice = roundValue(detail.recommendedPrice, priceUnit);
-  }
-
-  if (typeof detail.lastCustomerPrice === 'number') {
-    detail.lastCustomerPrice = roundValue(detail.lastCustomerPrice, priceUnit);
-  }
-
-  if (typeof detail.strategicPrice === 'number') {
-    detail.strategicPrice = roundValue(detail.strategicPrice, priceUnit);
-  }
-
-  if (typeof detail.gpc === 'number') {
-    detail.gpc = roundValue(detail.gpc, priceUnit);
-  }
-
-  if (typeof detail.sqv === 'number') {
-    detail.sqv = roundValue(detail.sqv, priceUnit);
-  }
-
   if (
     typeof detail.price === 'number' &&
     typeof detail.orderQuantity === 'number'
   ) {
+    // value on client side is always already multiplied, so price unit needs to be taken into account
+    // https://confluence.schaeffler.com/display/PARS/Consider+Price+Unit
+    const mutliplicationFactor = detail.orderQuantity / getPriceUnit(detail);
     detail.netValue = multiplyAndRoundValues(
       detail.price,
-      detail.orderQuantity
+      mutliplicationFactor
     );
   }
 
@@ -70,9 +44,6 @@ export const addCalculationsForDetail = (detail: QuotationDetail): void => {
       detail.price
     );
   }
-
-  // calculate priceUnit dependent values
-  calculatePriceUnitValues(detail);
 
   if (
     typeof detail.price === 'number' &&
@@ -186,73 +157,6 @@ export const checkEqualityOfIdentifier = (
   fromRoute.customerNumber === current?.customerNumber &&
   fromRoute.gqId === current?.gqId &&
   fromRoute.salesOrg === current?.salesOrg;
-
-export const calculatePriceUnitValues = (detail: QuotationDetail): void => {
-  const priceUnit = getPriceUnit(detail);
-
-  // calculate priceUnit dependent values
-  if (typeof detail.gpc === 'number') {
-    detail.gpc = multiplyAndRoundValues(detail.gpc, priceUnit);
-  }
-
-  if (typeof detail.sqv === 'number') {
-    detail.sqv = multiplyAndRoundValues(detail.sqv, priceUnit);
-  }
-
-  if (typeof detail.relocationCost === 'number') {
-    detail.relocationCost = multiplyAndRoundValues(
-      detail.relocationCost,
-      priceUnit
-    );
-  }
-
-  if (typeof detail.lastCustomerPrice === 'number') {
-    detail.lastCustomerPrice = multiplyAndRoundValues(
-      detail.lastCustomerPrice,
-      priceUnit
-    );
-  }
-
-  if (typeof detail.price === 'number') {
-    detail.price = multiplyAndRoundValues(detail.price, priceUnit);
-  }
-
-  if (typeof detail.recommendedPrice === 'number') {
-    detail.recommendedPrice = multiplyAndRoundValues(
-      detail.recommendedPrice,
-      priceUnit
-    );
-  }
-
-  if (typeof detail.strategicPrice === 'number') {
-    detail.strategicPrice = multiplyAndRoundValues(
-      detail.strategicPrice,
-      priceUnit
-    );
-  }
-
-  if (typeof detail.targetPrice === 'number') {
-    detail.targetPrice = multiplyAndRoundValues(detail.targetPrice, priceUnit);
-  }
-
-  if (
-    typeof detail.sapPriceUnit === 'number' &&
-    typeof detail.material.priceUnit === 'number'
-  ) {
-    if (typeof detail.sapPrice === 'number') {
-      detail.sapPrice = multiplyAndRoundValues(
-        detail.sapPrice / detail.material.priceUnit,
-        detail.sapPriceUnit
-      );
-    }
-    if (typeof detail.sapGrossPrice === 'number') {
-      detail.sapGrossPrice = multiplyAndRoundValues(
-        detail.sapGrossPrice / detail.material.priceUnit,
-        detail.sapPriceUnit
-      );
-    }
-  }
-};
 
 export const buildSimulatedQuotation = (
   gqId: number,

@@ -212,9 +212,7 @@ export class TableService {
       return {
         quotationItemId: startItemId,
         materialId: el.materialNumber,
-        targetPrice: el.targetPrice
-          ? el.targetPrice / (el.priceUnit ?? 1)
-          : undefined,
+        targetPrice: el.targetPrice,
         quantity:
           typeof el.quantity === 'string'
             ? Number.parseInt(el.quantity, 10)

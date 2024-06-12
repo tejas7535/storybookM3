@@ -3,10 +3,7 @@ import { Component } from '@angular/core';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { getCurrencyRegex, getPercentageRegex } from '@gq/shared/constants';
 import { PriceSource } from '@gq/shared/models/quotation-detail';
-import {
-  getPriceUnit,
-  multiplyAndRoundValues,
-} from '@gq/shared/utils/pricing.utils';
+import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 
 import { EditingModalComponent } from '../editing-modal.component';
 
@@ -53,16 +50,13 @@ export class PriceEditingModalComponent extends EditingModalComponent {
   }
 
   protected buildUpdateQuotationDetail(value: number): UpdateQuotationDetail {
-    const newPrice = this.editingFormGroup.get(
-      this.IS_RELATIVE_PRICE_CONTROL_NAME
-    ).value
+    const price = this.editingFormGroup.get(this.IS_RELATIVE_PRICE_CONTROL_NAME)
+      .value
       ? multiplyAndRoundValues(
           this.modalData.quotationDetail.price,
           1 + value / 100
         )
       : value;
-    const priceUnit = getPriceUnit(this.modalData.quotationDetail);
-    const price = newPrice / priceUnit;
 
     return {
       price,

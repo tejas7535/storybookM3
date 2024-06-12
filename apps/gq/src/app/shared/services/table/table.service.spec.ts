@@ -532,7 +532,7 @@ describe('TableService', () => {
           materialId: '123',
           quantity: 10,
           quotationItemId: 10,
-          targetPrice: 10,
+          targetPrice: 100,
         },
       ];
       expect(result).toEqual(expected);

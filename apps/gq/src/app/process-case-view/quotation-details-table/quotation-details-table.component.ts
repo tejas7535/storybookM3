@@ -36,7 +36,6 @@ import {
   calculateAffectedKPIs,
   calculateMargin,
   calculatePriceDiff,
-  getPriceUnit,
   multiplyAndRoundValues,
 } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
@@ -368,7 +367,6 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           false
         );
 
-        const priceUnit = getPriceUnit(row.data);
         const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
         const simulatedRow: QuotationDetail = {
@@ -378,7 +376,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
           netValue: multiplyAndRoundValues(
             simulatedPrice,
-            row.data.orderQuantity / priceUnit
+            row.data.orderQuantity
           ),
           gpi: this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
           gpm: this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
@@ -517,18 +515,13 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
 
     const affectedKpis = calculateAffectedKPIs(value, field, row.data);
-    const priceUnit = getPriceUnit(row.data);
     const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
     const simulatedRow: QuotationDetail = {
       ...row.data,
       price: simulatedPrice,
       priceSource: PriceSource.MANUAL,
-      // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
-      netValue: multiplyAndRoundValues(
-        simulatedPrice,
-        row.data.orderQuantity / priceUnit
-      ),
+      netValue: multiplyAndRoundValues(simulatedPrice, row.data.orderQuantity),
       gpi:
         field === ColumnFields.GPI
           ? value

@@ -1,5 +1,4 @@
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 
 import {
   QUOTATION_DETAIL_MOCK,
@@ -21,68 +20,27 @@ describe('ActiveCaseUtils', () => {
     });
   });
 
-  describe('addCalculationsForDetail', () => {
-    // eslint-disable-next-line unicorn/no-null
-    ['asd', undefined, null].forEach((val) => {
-      test(`should not round invalid value ${val}`, () => {
-        const spy = jest.spyOn(pricingUtils, 'roundValue');
-        const detail: QuotationDetail = {
-          ...QUOTATION_DETAIL_MOCK,
-          price: val as any,
-          recommendedPrice: val as any,
-          lastCustomerPrice: val as any,
-          strategicPrice: val as any,
-          targetPrice: val as any,
-          gpc: val as any,
-          sqv: val as any,
-        };
+  describe('addCalculationForDetail', () => {
+    test('should set netValueBySapPriceUnit', () => {
+      const detail = {
+        price: 100,
+        orderQuantity: 10,
+        sapPriceUnit: 100,
+      } as QuotationDetail;
 
-        processCaseUtils.addCalculationsForDetail(detail);
-
-        expect(spy).not.toHaveBeenCalled();
-      });
-    });
-
-    [
-      { value: 20, roundedValue: 20 },
-      { value: 20.01, roundedValue: 20.01 },
-      { value: 20.012, roundedValue: 20.01 },
-      { value: 20.018, roundedValue: 20.02 },
-      { value: 20.016, roundedValue: 20.02 },
-      { value: 20.024, roundedValue: 20.02 },
-      { value: 20.0149, roundedValue: 20.01 },
-      { value: 20.0144, roundedValue: 20.01 },
-      { value: 20.014_56, roundedValue: 20.01 },
-      { value: 20.014_423, roundedValue: 20.01 },
-    ].forEach((testCase) => {
-      test(`should correctly round all price values of ${testCase.value} to ${testCase.roundedValue}`, () => {
-        const detail: QuotationDetail = {
-          ...QUOTATION_DETAIL_MOCK,
-          price: testCase.value,
-          recommendedPrice: testCase.value,
-          lastCustomerPrice: testCase.value,
-          strategicPrice: testCase.value,
-          targetPrice: testCase.value,
-          gpc: testCase.value,
-          sqv: testCase.value,
-        };
-
-        processCaseUtils.addCalculationsForDetail(detail);
-
-        expect(detail.price).toEqual(testCase.roundedValue);
-        expect(detail.recommendedPrice).toEqual(testCase.roundedValue);
-        expect(detail.lastCustomerPrice).toEqual(testCase.roundedValue);
-        expect(detail.strategicPrice).toEqual(testCase.roundedValue);
-        expect(detail.targetPrice).toEqual(testCase.roundedValue);
-        expect(detail.gpc).toEqual(testCase.roundedValue);
-        expect(detail.sqv).toEqual(testCase.roundedValue);
-      });
-    });
-
-    test('should calculate gpmRfq', () => {
-      const detail = QUOTATION_DETAIL_MOCK;
       processCaseUtils.addCalculationsForDetail(detail);
-      expect(detail.gpmRfq).toEqual(82.5); // calculate margin from price (200) and rfqSqv (35)
+      expect(detail.netValue).toEqual(10);
+    });
+
+    test('should set netValue by materialPriceUnit', () => {
+      const detail = {
+        price: 100,
+        orderQuantity: 10,
+        material: { priceUnit: 100 },
+      } as QuotationDetail;
+
+      processCaseUtils.addCalculationsForDetail(detail);
+      expect(detail.netValue).toEqual(10);
     });
   });
 
@@ -141,41 +99,6 @@ describe('ActiveCaseUtils', () => {
       processCaseUtils.calculateSapPriceValues(detail);
       expect(detail.msp).toEqual(undefined);
       expect(detail.rsp).toEqual(undefined);
-    });
-  });
-
-  describe('calculatePriceUnitValues', () => {
-    test('should convert sapPrice', () => {
-      const detail = QUOTATION_DETAIL_MOCK;
-      detail.sapPrice = 500;
-      detail.sapPriceUnit = 100;
-      detail.material.priceUnit = 10;
-
-      processCaseUtils.calculatePriceUnitValues(detail);
-
-      expect(detail.sapPrice).toEqual(5000);
-    });
-
-    test('should convert sapGrossPrice', () => {
-      const detail = QUOTATION_DETAIL_MOCK;
-      detail.sapGrossPrice = 500;
-      detail.sapPriceUnit = 100;
-      detail.material.priceUnit = 10;
-
-      processCaseUtils.calculatePriceUnitValues(detail);
-
-      expect(detail.sapGrossPrice).toEqual(5000);
-    });
-
-    test('should convert relocationCosts', () => {
-      const detail = QUOTATION_DETAIL_MOCK;
-      detail.relocationCost = 500;
-      detail.sapPriceUnit = 100;
-      detail.material.priceUnit = 10;
-
-      processCaseUtils.calculatePriceUnitValues(detail);
-
-      expect(detail.relocationCost).toEqual(50_000);
     });
   });
 

@@ -71,6 +71,7 @@ export class ExtendedComparableLinkedTransactionsEffect {
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}
 
+  // ToDo: Move priceUnit calculation for extended comparable transactions to BE
   private readonly multiplyExtendedComparableLinkedTransactionsWithPriceUnit = (
     transactions: ExtendedComparableLinkedTransaction[],
     priceUnitsForQuotationItemIds: PriceUnitForQuotationItemId[]

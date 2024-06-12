@@ -3,10 +3,7 @@ import { Component } from '@angular/core';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { getPercentageRegex } from '@gq/shared/constants';
 import { PriceSource } from '@gq/shared/models/quotation-detail';
-import {
-  getManualPriceByDiscount,
-  getPriceUnit,
-} from '@gq/shared/utils/pricing.utils';
+import { getManualPriceByDiscount } from '@gq/shared/utils/pricing.utils';
 
 import { EditingModalComponent } from '../editing-modal.component';
 
@@ -37,12 +34,10 @@ export class DiscountEditingModalComponent extends EditingModalComponent {
   }
 
   protected buildUpdateQuotationDetail(value: number): UpdateQuotationDetail {
-    const newPrice = getManualPriceByDiscount(
+    const price = getManualPriceByDiscount(
       this.modalData.quotationDetail.sapGrossPrice,
       value
     );
-    const priceUnit = getPriceUnit(this.modalData.quotationDetail);
-    const price = newPrice / priceUnit;
 
     return {
       price,

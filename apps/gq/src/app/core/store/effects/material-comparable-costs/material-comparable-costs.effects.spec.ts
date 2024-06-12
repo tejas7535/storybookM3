@@ -1,13 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
@@ -24,7 +23,6 @@ describe('MaterialComparableCostEffect', () => {
   let actions$: any;
   let action: any;
   let quotationDetailsService: QuotationDetailsService;
-  let store: MockStore;
 
   const errorMessage = 'An error occurred';
 
@@ -37,7 +35,6 @@ describe('MaterialComparableCostEffect', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(MaterialComparableCostEffect);
-    store = spectator.inject(MockStore);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
   });
 
@@ -75,7 +72,6 @@ describe('MaterialComparableCostEffect', () => {
     const materialComparableCosts: MaterialComparableCost[] = [];
 
     beforeEach(() => {
-      store.overrideSelector(getPriceUnitOfSelectedQuotationDetail, 1);
       action = loadMaterialComparableCosts({ gqPositionId });
     });
 

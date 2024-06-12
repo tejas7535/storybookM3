@@ -95,16 +95,13 @@ describe('DiscountEditingModalComponent', () => {
   });
 
   test('should build the correct UpdateQuotationDetail', () => {
-    const priceUnit = 100;
     const newPrice = 50;
     const getManualPriceByDiscountSpy = jest.spyOn(
       pricingUtils,
       'getManualPriceByDiscount'
     );
-    const getPriceUnitSpy = jest.spyOn(pricingUtils, 'getPriceUnit');
 
     getManualPriceByDiscountSpy.mockReturnValue(newPrice);
-    getPriceUnitSpy.mockReturnValue(priceUnit);
 
     component.modalData = {
       field: ColumnFields.DISCOUNT,
@@ -112,7 +109,7 @@ describe('DiscountEditingModalComponent', () => {
     };
 
     expect(component['buildUpdateQuotationDetail'](320)).toEqual({
-      price: newPrice / priceUnit,
+      price: newPrice,
       gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
       priceSource: PriceSource.MANUAL,
     });
@@ -120,6 +117,5 @@ describe('DiscountEditingModalComponent', () => {
       QUOTATION_DETAIL_MOCK.sapGrossPrice,
       320
     );
-    expect(getPriceUnitSpy).toHaveBeenCalledWith(QUOTATION_DETAIL_MOCK);
   });
 });
