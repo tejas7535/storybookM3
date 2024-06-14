@@ -472,17 +472,17 @@ importers:
   apps/ga:
     dependencies:
       '@capacitor-community/file-opener':
-        specifier: ^1.0.5
-        version: 1.0.6(@capacitor/core@5.7.5)
+        specifier: ^6.0.0
+        version: 6.0.0(@capacitor/core@6.1.0)
       '@capacitor/core':
-        specifier: ^5.4.2
-        version: 5.7.5
+        specifier: ^6.1.0
+        version: 6.1.0
       '@capacitor/filesystem':
-        specifier: ^5.1.4
-        version: 5.2.1(@capacitor/core@5.7.5)
+        specifier: ^6.0.0
+        version: 6.0.0(@capacitor/core@6.1.0)
       '@capacitor/share':
-        specifier: ^5.0.6
-        version: 5.0.7(@capacitor/core@5.7.5)
+        specifier: ^6.0.1
+        version: 6.0.1(@capacitor/core@6.1.0)
       jspdf:
         specifier: ^2.5.1
         version: 2.5.1
@@ -3728,35 +3728,35 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@capacitor-community/file-opener@1.0.6(@capacitor/core@5.7.5):
-    resolution: {integrity: sha512-iHsPblcgqTF8rEmvpVyAGfxuTUtV8BthoBv/zBLKEEb1vSUVONed0UTRjvvqjHxewS8LNEWVXzuMzXfQU1r1cA==}
+  /@capacitor-community/file-opener@6.0.0(@capacitor/core@6.1.0):
+    resolution: {integrity: sha512-nJ9S5rCqnVDBKfqdjDhrYOIO9JLeScFkRfKLs2G+d6Df73vrJMes8dr+dGSEvKiPhyjRhICW5imDJEbzaD8KpA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/file-opener/-/file-opener-6.0.0.tgz}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     peerDependencies:
-      '@capacitor/core': ^5.0.0
+      '@capacitor/core': ^6.0.0
     dependencies:
-      '@capacitor/core': 5.7.5
+      '@capacitor/core': 6.1.0
     dev: false
 
-  /@capacitor/core@5.7.5:
-    resolution: {integrity: sha512-babBo26lgIyKkAOr/AbPq5wwi9I4uHDP0lBteJq7p4xZElA6tAA8mD3xRH1/4EKmZ4+acYpKmmyegX3zsVh37A==}
+  /@capacitor/core@6.1.0:
+    resolution: {integrity: sha512-Kt4ONm0X9xxJXn9Q73oBaKdzep5B/VJw3VjXa2eGul4cD2k37mJwgjpXSMRnLH0Aju5bCiRL8J/hMAfTlokO6A==}
     dependencies:
       tslib: 2.4.0
     dev: false
 
-  /@capacitor/filesystem@5.2.1(@capacitor/core@5.7.5):
-    resolution: {integrity: sha512-mexkJHUbNhydzfJywEUTIGARlB/HRogrtbjCZdA+mQxOi07T2887a70CwFaYRu1nKLMoKoliTM5UsLSsdl0PlA==}
+  /@capacitor/filesystem@6.0.0(@capacitor/core@6.1.0):
+    resolution: {integrity: sha512-GnC4CBfky7fvG9zSV/aQnZaGs6ZJ90AaQorr53z81ArTCqcrSUeBMuCxWmvti9HrdXLhBavyA1UOjvRGObOFjg==}
     peerDependencies:
-      '@capacitor/core': ^5.1.1
+      '@capacitor/core': ^6.0.0
     dependencies:
-      '@capacitor/core': 5.7.5
+      '@capacitor/core': 6.1.0
     dev: false
 
-  /@capacitor/share@5.0.7(@capacitor/core@5.7.5):
-    resolution: {integrity: sha512-4GraggRRxwhstxIdF9JyOEBq4QTufqFOekdB4P9GeiQYWJoA5VraSR1mwy4Trke1VFfaBjz/nGi4WQOJdHIAgg==}
+  /@capacitor/share@6.0.1(@capacitor/core@6.1.0):
+    resolution: {integrity: sha512-KQev3omYZ5hgjoZA+NdFZTuFyu1dd/ZIYkE0RnLBB11ZmFEmGRSCYdYtOyqkVxGU1n6FDDqgPPy13CvAZKWNPQ==}
     peerDependencies:
-      '@capacitor/core': ^5.0.0
+      '@capacitor/core': ^6.0.0
     dependencies:
-      '@capacitor/core': 5.7.5
+      '@capacitor/core': 6.1.0
     dev: false
 
   /@colors/colors@1.5.0:
@@ -6457,7 +6457,7 @@ packages:
     dev: true
 
   /@ngrx/component-store@17.0.1(@angular/core@17.3.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-6A7IXzZHAdFadcCILbljNQzrVMwOlx1opdCV/91h3S3ttY7HrPuatyZJyjau8dSf1ANjnAm1kcoof8lZfwhaHg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/component-store/-/component-store-17.0.1.tgz}
+    resolution: {integrity: sha512-6A7IXzZHAdFadcCILbljNQzrVMwOlx1opdCV/91h3S3ttY7HrPuatyZJyjau8dSf1ANjnAm1kcoof8lZfwhaHg==}
     peerDependencies:
       '@angular/core': ^17.0.0
       rxjs: ^6.5.3 || ^7.5.0
@@ -6469,7 +6469,7 @@ packages:
     dev: false
 
   /@ngrx/component@17.0.1(@angular/common@17.3.0)(@angular/core@17.3.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-B38NyH18gxTjrTJOu1fc+AMwOpAaRly6hgWx7zZZtbIwo0sd/bYTZGgMrJkw/CjmvjpAVBE14fB9qI+pSUsl4A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/component/-/component-17.0.1.tgz}
+    resolution: {integrity: sha512-B38NyH18gxTjrTJOu1fc+AMwOpAaRly6hgWx7zZZtbIwo0sd/bYTZGgMrJkw/CjmvjpAVBE14fB9qI+pSUsl4A==}
     peerDependencies:
       '@angular/common': ^17.0.0
       '@angular/core': ^17.0.0
@@ -6482,7 +6482,7 @@ packages:
     dev: false
 
   /@ngrx/effects@17.0.1(@angular/core@17.3.0)(@ngrx/store@17.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-U7ewZpUoJlLrWyZVyzAMU6Qfxmte7Noi9n/pJb5BR3pWmdHnU+VPs08xnSIQUa0US7K6dJJRTGtcEpEvv/IT4A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/effects/-/effects-17.0.1.tgz}
+    resolution: {integrity: sha512-U7ewZpUoJlLrWyZVyzAMU6Qfxmte7Noi9n/pJb5BR3pWmdHnU+VPs08xnSIQUa0US7K6dJJRTGtcEpEvv/IT4A==}
     peerDependencies:
       '@angular/core': ^17.0.0
       '@ngrx/store': 17.0.1
@@ -6496,7 +6496,7 @@ packages:
     dev: false
 
   /@ngrx/entity@17.0.1(@angular/core@17.3.0)(@ngrx/store@17.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-7/N/r5GKJgp6sUJKPJmFeCdNU33INViVvg1oootuAEPyzLKEzeu0fuTwVOodm5VVuy89rMi15WGdZel+HDy3zg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/entity/-/entity-17.0.1.tgz}
+    resolution: {integrity: sha512-7/N/r5GKJgp6sUJKPJmFeCdNU33INViVvg1oootuAEPyzLKEzeu0fuTwVOodm5VVuy89rMi15WGdZel+HDy3zg==}
     peerDependencies:
       '@angular/core': ^17.0.0
       '@ngrx/store': 17.0.1
@@ -6509,7 +6509,7 @@ packages:
     dev: false
 
   /@ngrx/operators@17.0.0-beta.0(rxjs@7.8.1):
-    resolution: {integrity: sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/operators/-/operators-17.0.0-beta.0.tgz}
+    resolution: {integrity: sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A==}
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
     dependencies:
@@ -6518,7 +6518,7 @@ packages:
     dev: false
 
   /@ngrx/router-store@17.0.1(@angular/common@17.3.0)(@angular/core@17.3.0)(@angular/router@17.3.0)(@ngrx/store@17.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-O4kz/yvIaAfG0Hzloj24RqL17E1oddQ7wpxjU6UrTr/oZkX1/lIehaSxSJIVzq02vQWShIq0RFo/t8ac5mzqZQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/router-store/-/router-store-17.0.1.tgz}
+    resolution: {integrity: sha512-O4kz/yvIaAfG0Hzloj24RqL17E1oddQ7wpxjU6UrTr/oZkX1/lIehaSxSJIVzq02vQWShIq0RFo/t8ac5mzqZQ==}
     peerDependencies:
       '@angular/common': ^17.0.0
       '@angular/core': ^17.0.0
@@ -6546,7 +6546,7 @@ packages:
     dev: true
 
   /@ngrx/store@17.0.1(@angular/core@17.3.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-BmVzN+fqyz0ZrVEmJ+jrNwePMKcpNL49vb8sbQ3yDDftxgZz2HqRKFMexqlXpz5ixwK5LqTOblHNQOgi9irsTw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ngrx/store/-/store-17.0.1.tgz}
+    resolution: {integrity: sha512-BmVzN+fqyz0ZrVEmJ+jrNwePMKcpNL49vb8sbQ3yDDftxgZz2HqRKFMexqlXpz5ixwK5LqTOblHNQOgi9irsTw==}
     peerDependencies:
       '@angular/core': ^17.0.0
       rxjs: ^6.5.3 || ^7.5.0
@@ -10249,7 +10249,7 @@ packages:
     dev: true
 
   /ag-grid-angular@30.2.0(@angular/common@17.3.0)(@angular/core@17.3.0)(ag-grid-community@30.2.0):
-    resolution: {integrity: sha512-ZVo3TRq/Uzex85laMI4xmgZ6PW9dxKGxROYlSd4TEggpAdvfjDPtHr0xSRtilM+EQgBg8PZjem4XxXjXc9J0jw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/ag-grid-angular/-/ag-grid-angular-30.2.0.tgz}
+    resolution: {integrity: sha512-ZVo3TRq/Uzex85laMI4xmgZ6PW9dxKGxROYlSd4TEggpAdvfjDPtHr0xSRtilM+EQgBg8PZjem4XxXjXc9J0jw==}
     peerDependencies:
       '@angular/common': '>= 12.0.0'
       '@angular/core': '>= 12.0.0'
@@ -10262,11 +10262,11 @@ packages:
     dev: false
 
   /ag-grid-community@30.2.0:
-    resolution: {integrity: sha512-Gd6GXmtzEQSCDloBdRxxCDqnjTBRAOf/zzlaxxyyVBJgc+cePuNgGdplRUhT/rwIiDwvyuoynvxelVE/iYdXsA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/ag-grid-community/-/ag-grid-community-30.2.0.tgz}
+    resolution: {integrity: sha512-Gd6GXmtzEQSCDloBdRxxCDqnjTBRAOf/zzlaxxyyVBJgc+cePuNgGdplRUhT/rwIiDwvyuoynvxelVE/iYdXsA==}
     dev: false
 
   /ag-grid-enterprise@30.2.0:
-    resolution: {integrity: sha512-rOP52n8NyA4doBBYj9crIcYd5vN62nTOOB9552l9hNPDX9oKy8I6jGqXUIoGuQDg4oLkQIoddZ+vv0W+Mf9kYg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/ag-grid-enterprise/-/ag-grid-enterprise-30.2.0.tgz}
+    resolution: {integrity: sha512-rOP52n8NyA4doBBYj9crIcYd5vN62nTOOB9552l9hNPDX9oKy8I6jGqXUIoGuQDg4oLkQIoddZ+vv0W+Mf9kYg==}
     dev: false
 
   /agent-base@5.1.1:
@@ -13486,7 +13486,7 @@ packages:
     dev: true
 
   /esbuild@0.19.12:
-    resolution: {integrity: sha512-aARqgq8roFBj054KvQr5f1sFu0D65G+miZRCuJyJ0G13Zwx7vRar5Zhn2tkQNzIXcBrNVsv/8stehpj+GAjgbg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/esbuild/-/esbuild-0.19.12.tgz}
+    resolution: {integrity: sha512-aARqgq8roFBj054KvQr5f1sFu0D65G+miZRCuJyJ0G13Zwx7vRar5Zhn2tkQNzIXcBrNVsv/8stehpj+GAjgbg==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
@@ -17650,7 +17650,7 @@ packages:
     dev: true
 
   /mime@1.6.0:
-    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/mime/-/mime-1.6.0.tgz}
+    resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
     hasBin: true
     dev: true
@@ -18026,7 +18026,7 @@ packages:
     dev: true
 
   /node-addon-api@3.2.1:
-    resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/node-addon-api/-/node-addon-api-3.2.1.tgz}
+    resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
     requiresBuild: true
     dev: true
     optional: true
@@ -18068,7 +18068,7 @@ packages:
     dev: true
 
   /node-gyp-build@4.8.0:
-    resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/node-gyp-build/-/node-gyp-build-4.8.0.tgz}
+    resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==}
     hasBin: true
     requiresBuild: true
     dev: true
@@ -20482,7 +20482,7 @@ packages:
     dev: true
 
   /rollup@4.14.3:
-    resolution: {integrity: sha512-ag5tTQKYsj1bhrFC9+OEWqb5O6VYgtQDO9hPDBMmIbePwhfSr+ExlcU741t8Dhw5DkPCQf6noz0jb36D6W9/hw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/rollup/-/rollup-4.14.3.tgz}
+    resolution: {integrity: sha512-ag5tTQKYsj1bhrFC9+OEWqb5O6VYgtQDO9hPDBMmIbePwhfSr+ExlcU741t8Dhw5DkPCQf6noz0jb36D6W9/hw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
     dependencies:
