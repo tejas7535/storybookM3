@@ -12,6 +12,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import {
@@ -27,6 +28,8 @@ import {
 import { AuthService } from '@hc/services/auth.service';
 import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
 import { TranslocoService } from '@jsverse/transloco';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { MPA, ONE_DIGIT_UNITS } from '../../constants';
 import {
@@ -84,7 +87,8 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly hardnessService: HardnessConverterApiService,
     private readonly translocoService: TranslocoService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly appInsights: ApplicationInsightsService
   ) {}
 
   public get step(): string {
@@ -156,11 +160,15 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
       [1]: this.createInputFormControl(),
     });
     this.additionalInputs.push(newInputs, { emitEvent: false });
+    this.appInsights.logEvent('add_input_clicked', {
+      inputs: this.additionalInputs.length,
+    });
     this.conversionForm.markAsTouched();
     this.conversionForm.markAsDirty();
   }
 
   public onResetButtonClick(): void {
+    this.trackEvent('reset_form');
     this.additionalInputs.clear();
     this.conversionForm.reset();
     this.fetchInfo();
@@ -180,6 +188,14 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     return unit === MPA
       ? this.translocoService.translate('utsTooltip')
       : undefined;
+  }
+
+  public trackEvent(name: string) {
+    this.appInsights.logEvent(name);
+  }
+
+  public trackSelectedConversion({ value }: MatSelectChange) {
+    this.appInsights.logEvent('change_conversion_table', { value });
   }
 
   private fetchInfo(): void {
