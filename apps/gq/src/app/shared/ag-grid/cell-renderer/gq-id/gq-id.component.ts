@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NavigationExtras, Params, Router } from '@angular/router';
 
 import { SearchbarGridContext } from '@gq/shared/components/global-search-bar/config/searchbar-grid-context.interface';
@@ -20,7 +21,8 @@ export class GqIdComponent {
 
   constructor(
     private readonly router: Router,
-    private readonly columnUtilityService: ColumnUtilityService
+    private readonly columnUtilityService: ColumnUtilityService,
+    private readonly dialog: MatDialog
   ) {}
 
   agInit(params: any): void {
@@ -62,5 +64,7 @@ export class GqIdComponent {
       ),
       this.urlQueryParams
     );
+
+    this.dialog.closeAll();
   }
 }

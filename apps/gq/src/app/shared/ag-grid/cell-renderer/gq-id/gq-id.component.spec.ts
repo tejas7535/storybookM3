@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { NavigationExtras, Router, RouterModule } from '@angular/router';
 
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
@@ -22,7 +23,7 @@ describe('GqIdComponent', () => {
   const createComponent = createComponentFactory({
     component: GqIdComponent,
     imports: [RouterModule.forRoot([])],
-    providers: [mockProvider(ColumnUtilityService)],
+    providers: [mockProvider(ColumnUtilityService), mockProvider(MatDialog)],
   });
 
   beforeEach(() => {
@@ -129,7 +130,7 @@ describe('GqIdComponent', () => {
   });
 
   describe('navigate', () => {
-    test('should navigate', () => {
+    test('should navigate and close open dialogs', () => {
       const event = { preventDefault: jest.fn() };
       const quotation = {
         gqId: 999,
@@ -150,6 +151,7 @@ describe('GqIdComponent', () => {
       component['router'].navigate = jest.fn();
       component.quotation = quotation;
       component.urlQueryParams = urlQueryParams;
+      component['dialog'].closeAll = jest.fn();
 
       const determineCaseNavigationPathSpy = jest.spyOn(
         component['columnUtilityService'],
@@ -173,6 +175,7 @@ describe('GqIdComponent', () => {
         navigationPath,
         urlQueryParams
       );
+      expect(component['dialog'].closeAll).toHaveBeenCalled();
     });
   });
 

@@ -1,6 +1,5 @@
 import { Params } from '@angular/router';
 
-import { AppRoutePath } from '@gq/app-route-path.enum';
 import { GqIdComponent } from '@gq/shared/ag-grid/cell-renderer/gq-id/gq-id.component';
 import { SearchByCasesOrMaterialsColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
@@ -46,7 +45,7 @@ export const DEFAULT_GRID_OPTIONS: GridOptions = {
         ColumnUtilityService.getOpenInNewTabContextMenuItem(params),
         ColumnUtilityService.getOpenInNewWindowContextMenuItem(params),
       ];
-    } else if (params.value) {
+    } else if (params.node?.data) {
       // openInTab/WindowByURL
       const url = getUrlByColumnData(params);
       hyperlinkMenuItems = [
@@ -93,8 +92,8 @@ export function getUrlByColumnData(params: GetContextMenuItemsParams): string {
   const context = params.context as SearchbarGridContext;
   const queryParams: Params = {
     quotation_number: gqCase.gqId,
-    customer_number: gqCase.customerIdentifiers.customerId,
-    sales_org: gqCase.customerIdentifiers.salesOrg,
+    customer_number: gqCase.customerId,
+    sales_org: gqCase.salesOrg,
   };
 
   addMaterialFilterToQueryParams(
@@ -103,10 +102,16 @@ export function getUrlByColumnData(params: GetContextMenuItemsParams): string {
     params.node.data as QuotationSearchResultByMaterials
   );
 
-  const url = context.router.createUrlTree([AppRoutePath.ProcessCaseViewPath], {
-    queryParamsHandling: 'merge',
-    queryParams,
-  });
+  const url = context.router.createUrlTree(
+    context.columnUtilityService.determineCaseNavigationPath(
+      gqCase.status,
+      gqCase.enabledForApprovalWorkflow
+    ),
+    {
+      queryParamsHandling: 'merge',
+      queryParams,
+    }
+  );
 
   return url.toString();
 }
