@@ -10,7 +10,6 @@ export enum ColumnFields {
   GPM_RFQ = 'gpmRfq',
   ABCX_CLASSIFICATION = 'abcxClassification',
   RLM = 'rlm',
-  PRICE_UNIT = 'priceUnit',
   PRICE = 'price',
   PRICE_SOURCE = 'priceSource',
   PRICING_ASSISTANT = 'pricingAssistant',
@@ -46,7 +45,7 @@ export enum ColumnFields {
   SAP_VOLUME_SCALE = 'sapVolumeScale',
   TARGET_PRICE = 'targetPrice',
   DELIVERY_UNIT = 'deliveryUnit',
-  SAP_PRICE_UNIT = 'sapPriceUnit',
+  LEADING_PRICE_UNIT = 'leadingPriceUnit',
   CUSTOMER_MATERIAL = 'customerMaterial',
 }
 

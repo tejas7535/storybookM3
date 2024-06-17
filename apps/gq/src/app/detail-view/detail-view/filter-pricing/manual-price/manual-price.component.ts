@@ -8,7 +8,6 @@ import {
   QuotationDetail,
   UpdatePrice,
 } from '@gq/shared/models/quotation-detail';
-import { getPriceUnit } from '@gq/shared/utils/pricing.utils';
 
 @Component({
   selector: 'gq-manual-price',
@@ -22,7 +21,6 @@ export class ManualPriceComponent {
   @Input() set quotationDetail(quotationDetail: QuotationDetail) {
     this._quotationDetail = quotationDetail;
 
-    this.priceUnit = getPriceUnit(quotationDetail);
     // check if price set equals GQ price
     this.setPrice();
   }
@@ -43,7 +41,6 @@ export class ManualPriceComponent {
   @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
   price: number;
-  priceUnit: number;
   gpi: number;
   gpm: number;
   gpmRfq: number;

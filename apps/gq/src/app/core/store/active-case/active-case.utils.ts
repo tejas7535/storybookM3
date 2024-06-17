@@ -5,7 +5,6 @@ import {
   calculateMargin,
   calculatePriceDiff,
   calculateStatusBarValues,
-  getPriceUnit,
   multiplyAndRoundValues,
   roundToTwoDecimals,
 } from '@gq/shared/utils/pricing.utils';
@@ -28,7 +27,7 @@ export const addCalculationsForDetail = (detail: QuotationDetail): void => {
   ) {
     // value on client side is always already multiplied, so price unit needs to be taken into account
     // https://confluence.schaeffler.com/display/PARS/Consider+Price+Unit
-    const mutliplicationFactor = detail.orderQuantity / getPriceUnit(detail);
+    const mutliplicationFactor = detail.orderQuantity / detail.leadingPriceUnit;
     detail.netValue = multiplyAndRoundValues(
       detail.price,
       mutliplicationFactor

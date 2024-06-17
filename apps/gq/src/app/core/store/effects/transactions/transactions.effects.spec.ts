@@ -1,13 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
@@ -26,7 +25,6 @@ describe('TransactionsEffect', () => {
   let actions$: any;
   let action: any;
   let quotationDetailsService: QuotationDetailsService;
-  let store: MockStore;
 
   const errorMessage = 'An error occured';
 
@@ -39,7 +37,6 @@ describe('TransactionsEffect', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(TransactionsEffect);
-    store = spectator.inject(MockStore);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
   });
 
@@ -78,7 +75,6 @@ describe('TransactionsEffect', () => {
       (effects as any).executeTransactionComputations = jest.fn(
         () => transactions
       );
-      store.overrideSelector(getPriceUnitOfSelectedQuotationDetail, 1);
       action = loadComparableTransactions({ gqPositionId });
     });
 
@@ -95,9 +91,6 @@ describe('TransactionsEffect', () => {
         m.expect(effects.loadTransactions$).toBeObservable(expected$);
         m.flush();
 
-        expect(
-          (effects as any).executeTransactionComputations
-        ).toHaveBeenCalledWith(transactions, 1);
         expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(
           1
         );
@@ -133,15 +126,12 @@ describe('TransactionsEffect', () => {
         { ...COMPARABLE_LINKED_TRANSACTION_MOCK, profitMargin: 0.511_11 },
       ];
 
-      const result = effects['executeTransactionComputations'](
-        transactions,
-        100
-      );
+      const result = effects['executeTransactionComputations'](transactions);
 
       expect(result).toEqual([
         {
           ...COMPARABLE_LINKED_TRANSACTION_MOCK,
-          price: 1000,
+          price: 10,
           profitMargin: 0.51,
         },
       ]);

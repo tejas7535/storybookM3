@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import {
-  getQuotationCurrency,
-  getSelectedQuotationDetail,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -18,20 +15,27 @@ import {
   loadMaterialCostDetailsSuccess,
   resetMaterialCostDetails,
 } from '../../actions';
+import { activeCaseFeature } from '../../active-case/active-case.reducer';
 
 @Injectable()
 export class MaterialCostDetailsEffects {
   loadMaterialCostDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadMaterialCostDetails),
-      concatLatestFrom(() => this.store.select(getQuotationCurrency)),
-      mergeMap(([action, currency]) =>
+      concatLatestFrom(() => [
+        this.store.select(getQuotationCurrency),
+        this.store.select(
+          activeCaseFeature.getPriceUnitOfSelectedQuotationDetail
+        ),
+      ]),
+      mergeMap(([action, currency, priceUnit]) =>
         this.materialService
           .getMaterialCostDetails(
             action.productionPlantId,
             action.plantId,
             action.materialNumber15,
-            currency
+            currency,
+            priceUnit
           )
           .pipe(
             map((materialCostDetails) =>
@@ -51,7 +55,9 @@ export class MaterialCostDetailsEffects {
         ActiveCaseActions.getQuotationSuccess,
         ActiveCaseActions.setSelectedQuotationDetail
       ),
-      concatLatestFrom(() => this.store.select(getSelectedQuotationDetail)),
+      concatLatestFrom(() =>
+        this.store.select(activeCaseFeature.getSelectedQuotationDetail)
+      ),
       map(([_action, quotationDetail]) => quotationDetail),
       filter((quotationDetail) => quotationDetail !== undefined),
       map((quotationDetail: QuotationDetail) => {

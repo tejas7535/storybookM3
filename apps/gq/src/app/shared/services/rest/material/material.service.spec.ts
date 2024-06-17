@@ -124,14 +124,15 @@ describe('MaterialService', () => {
           productionPlantId,
           plantId,
           materialNumber15,
-          currency
+          currency,
+          1
         )
         .subscribe((response) => {
           expect(response).toEqual([]);
         });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/materials/${materialNumber15}/material-cost-details?${service['PRODUCTION_PLANT_PARAM_KEY']}=${productionPlantId}&${service['PLANT_ID_PARAM_KEY']}=${plantId}&${service['CURRENCY_PARAM_KEY']}=${currency}`
+        `${ApiVersion.V1}/materials/${materialNumber15}/material-cost-details?${service['PRODUCTION_PLANT_PARAM_KEY']}=${productionPlantId}&${service['PLANT_ID_PARAM_KEY']}=${plantId}&${service['CURRENCY_PARAM_KEY']}=${currency}&${service['PRICE_UNIT_PARAM_KEY']}=1`
       );
 
       expect(req.request.method).toBe('GET');

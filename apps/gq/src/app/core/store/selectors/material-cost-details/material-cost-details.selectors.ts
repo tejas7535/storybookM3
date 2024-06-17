@@ -1,10 +1,10 @@
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import {
   MaterialCostDetails,
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
 import { createSelector } from '@ngrx/store';
 
+import { activeCaseFeature } from '../../active-case/active-case.reducer';
 import { getMaterialCostDetailsState } from '../../reducers';
 import { MaterialCostDetailsState } from '../../reducers/material-cost-details/material-cost-details.reducer';
 
@@ -21,7 +21,7 @@ export const getMaterialCostDetailsLoading = createSelector(
 
 export const getMaterialCostUpdateAvl = createSelector(
   getMaterialCostDetails,
-  getSelectedQuotationDetail,
+  activeCaseFeature.getSelectedQuotationDetail,
   (
     materialCostDetails: MaterialCostDetails,
     selectedQuotationDetail: QuotationDetail

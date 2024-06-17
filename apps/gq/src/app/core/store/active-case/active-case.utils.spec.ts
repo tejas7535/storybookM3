@@ -25,7 +25,7 @@ describe('ActiveCaseUtils', () => {
       const detail = {
         price: 100,
         orderQuantity: 10,
-        sapPriceUnit: 100,
+        leadingPriceUnit: 100,
       } as QuotationDetail;
 
       processCaseUtils.addCalculationsForDetail(detail);
@@ -36,7 +36,7 @@ describe('ActiveCaseUtils', () => {
       const detail = {
         price: 100,
         orderQuantity: 10,
-        material: { priceUnit: 100 },
+        leadingPriceUnit: 100,
       } as QuotationDetail;
 
       processCaseUtils.addCalculationsForDetail(detail);

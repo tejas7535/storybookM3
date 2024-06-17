@@ -11,7 +11,6 @@ import {
   SimulatedQuotation,
 } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
-import { PriceUnitForQuotationItemId } from '@gq/shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { groupBy } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
@@ -20,23 +19,13 @@ import { createSelector } from '@ngrx/store';
 import { activeCaseFeature, ActiveCaseState } from './active-case.reducer';
 import { QuotationIdentifier } from './models';
 
-export const getSelectedQuotationDetail = createSelector(
-  activeCaseFeature.selectQuotation,
-  activeCaseFeature.selectSelectedQuotationDetail,
-  (quotation: Quotation, selectedQuotationDetail: string): QuotationDetail =>
-    quotation?.quotationDetails.find(
-      (detail: QuotationDetail) =>
-        detail.gqPositionId === selectedQuotationDetail
-    )
-);
-
 export const getQuotationCurrency = createSelector(
   activeCaseFeature.selectQuotation,
   (quotation: Quotation): string => quotation?.currency
 );
 
 export const getCoefficients = createSelector(
-  getSelectedQuotationDetail,
+  activeCaseFeature.getSelectedQuotationDetail,
   (detail: QuotationDetail): Coefficients => ({
     coefficient1: detail?.coefficient1,
     coefficient2: detail?.coefficient2,
@@ -84,20 +73,6 @@ export const getSapId = createSelector(
 export const getQuotationDetails = createSelector(
   activeCaseFeature.selectQuotation,
   (quotation: Quotation): QuotationDetail[] => quotation?.quotationDetails
-);
-
-export const getPriceUnitOfSelectedQuotationDetail = createSelector(
-  getSelectedQuotationDetail,
-  (detail: QuotationDetail): number => detail?.material?.priceUnit
-);
-
-export const getPriceUnitsForQuotationItemIds = createSelector(
-  getQuotationDetails,
-  (quotationDetails: QuotationDetail[]): PriceUnitForQuotationItemId[] =>
-    quotationDetails.map((quotationDetail: QuotationDetail) => ({
-      quotationItemId: quotationDetail.quotationItemId,
-      priceUnit: quotationDetail.material.priceUnit,
-    }))
 );
 
 export const getGqId = createSelector(
@@ -211,7 +186,7 @@ export const getQuotationHasFNumberMaterials = createSelector(
 );
 
 export const getQuotationDetailIsFNumber = createSelector(
-  getSelectedQuotationDetail,
+  activeCaseFeature.getSelectedQuotationDetail,
   (detail: QuotationDetail): boolean => isFNumber(detail)
 );
 

@@ -23,12 +23,6 @@ export const calculatePriceDiff = (
     ? roundPercentageToTwoDecimals((currentPrice - lastPrice) / lastPrice)
     : 0;
 
-export const getPriceUnit = (detail: QuotationDetail): number => {
-  const priceUnit = detail.sapPriceUnit || detail.material?.priceUnit;
-
-  return typeof priceUnit === 'number' ? priceUnit : 1; // return 1 as fallback to not change any prices
-};
-
 export const calculateMargin = (price: number, costValue: number): number => {
   if (price && price > 0 && costValue && costValue > 0) {
     const margin = (price - costValue) / price;

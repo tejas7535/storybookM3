@@ -14,7 +14,6 @@ import {
   getQuotationHasFNumberMaterials,
   getQuotationHasRfqMaterials,
   getSapId,
-  getSelectedQuotationDetail,
 } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
@@ -27,7 +26,7 @@ export class ActiveCaseFacade {
   );
 
   selectedQuotationDetail$: Observable<QuotationDetail> = this.store.select(
-    getSelectedQuotationDetail
+    activeCaseFeature.getSelectedQuotationDetail
   );
 
   quotationSapId$: Observable<string> = this.store.select(getSapId);

@@ -168,11 +168,9 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
-      field: ColumnFields.SAP_PRICE_UNIT,
+      field: ColumnFields.LEADING_PRICE_UNIT,
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
-      valueGetter: (params) =>
-        params.data.sapPriceUnit || params.data.material.priceUnit,
       filterParams: FILTER_PARAMS,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(

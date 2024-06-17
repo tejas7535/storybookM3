@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -72,7 +72,7 @@ describe('TransactionViewComponent', () => {
       'should initalize observables',
       marbles((m) => {
         store.overrideSelector(
-          getSelectedQuotationDetail,
+          activeCaseFeature.getSelectedQuotationDetail,
           QUOTATION_DETAIL_MOCK
         );
         component['translocoService'].selectTranslateObject = jest.fn(

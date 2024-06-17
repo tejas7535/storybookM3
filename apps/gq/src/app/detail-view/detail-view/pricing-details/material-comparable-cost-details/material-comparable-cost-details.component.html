@@ -16,11 +16,7 @@
             <gq-label-text>
               <span label>{{ t('gpc') }}</span>
               <span text>{{
-                materialComparableCost.gpc
-                  | multiplyComparableCostWithPriceUnit
-                    : currency
-                    : materialPriceUnit
-                    : sapPriceUnit
+                materialComparableCost.gpc | numberCurrency: currency
               }}</span>
             </gq-label-text>
           }
@@ -28,11 +24,7 @@
             <gq-label-text>
               <span label>{{ t('sqv') }}</span>
               <span text>{{
-                materialComparableCost.sqv
-                  | multiplyComparableCostWithPriceUnit
-                    : currency
-                    : materialPriceUnit
-                    : sapPriceUnit
+                materialComparableCost.sqv | numberCurrency: currency
               }}</span>
             </gq-label-text>
           }

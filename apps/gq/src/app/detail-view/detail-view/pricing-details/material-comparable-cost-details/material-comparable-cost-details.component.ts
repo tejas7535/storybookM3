@@ -35,9 +35,7 @@ export class MaterialComparableCostDetailsComponent
   implements OnInit, OnChanges
 {
   @Input() price: number;
-  @Input() materialPriceUnit: number;
   @Input() currency: string;
-  @Input() sapPriceUnit: number;
 
   materialComparableCosts$: Observable<MaterialComparableCostWithMargin[]>;
 

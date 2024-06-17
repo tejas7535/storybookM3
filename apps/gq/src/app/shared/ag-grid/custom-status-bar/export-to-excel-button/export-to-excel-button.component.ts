@@ -63,7 +63,7 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   toBeFormattedInExcelDownload: string[] = [
     ColumnFields.MATERIAL_NUMBER_15,
-    ColumnFields.PRICE_UNIT,
+    ColumnFields.LEADING_PRICE_UNIT,
     ColumnFields.LAST_CUSTOMER_PRICE_DATE,
     ColumnFields.LAST_OFFER_PRICE_DATE,
     ColumnFields.FOLLOWING_TYPE,

@@ -49,28 +49,6 @@ describe('PricingUtils', () => {
     });
   });
 
-  describe('getPriceUnit', () => {
-    test('should return material price unit if sapPriceUnit doesnt exist', () => {
-      const mockDetail = {
-        ...QUOTATION_DETAIL_MOCK,
-        sapPriceUnit: undefined,
-      } as unknown as QuotationDetail;
-
-      const result = pricingUtils.getPriceUnit(mockDetail);
-      expect(result).toEqual(mockDetail.material.priceUnit);
-    });
-
-    test('should return sapPriceUnit if it exists', () => {
-      const mockDetail = {
-        ...QUOTATION_DETAIL_MOCK,
-        sapPriceUnit: 10,
-      } as QuotationDetail;
-
-      const result = pricingUtils.getPriceUnit(mockDetail);
-      expect(result).toEqual(mockDetail.sapPriceUnit);
-    });
-  });
-
   describe('calculateMargin', () => {
     test('should return margin if cost value is greater than 0', () => {
       const price = 25;

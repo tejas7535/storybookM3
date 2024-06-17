@@ -318,7 +318,7 @@ describe('ExportToExcelButtonComponent', () => {
         expect(result).toEqual(formatResponse);
       });
       test('should apply for priceUnit', () => {
-        colDef.field = ColumnFields.PRICE_UNIT;
+        colDef.field = ColumnFields.LEADING_PRICE_UNIT;
         const params = {
           column: {
             getColDef: () => colDef,

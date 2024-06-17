@@ -7,7 +7,7 @@ import {
   SimulatedQuotation,
 } from '@gq/shared/models';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { ActiveCaseActions } from './active-case.action';
 import {
@@ -562,4 +562,27 @@ export const activeCaseFeature = createFeature({
       })
     )
   ),
+  extraSelectors: ({ selectQuotation, selectSelectedQuotationDetail }) => {
+    const getSelectedQuotationDetail = createSelector(
+      selectQuotation,
+      selectSelectedQuotationDetail,
+      (
+        quotation: Quotation,
+        selectedQuotationDetail: string
+      ): QuotationDetail =>
+        quotation?.quotationDetails.find(
+          (detail: QuotationDetail) =>
+            detail.gqPositionId === selectedQuotationDetail
+        )
+    );
+    const getPriceUnitOfSelectedQuotationDetail = createSelector(
+      getSelectedQuotationDetail,
+      (detail: QuotationDetail): number => detail?.leadingPriceUnit
+    );
+
+    return {
+      getSelectedQuotationDetail,
+      getPriceUnitOfSelectedQuotationDetail,
+    };
+  },
 });

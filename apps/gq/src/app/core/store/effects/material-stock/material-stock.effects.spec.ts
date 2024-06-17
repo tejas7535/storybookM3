@@ -1,7 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { Quotation } from '@gq/shared/models';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -21,6 +20,7 @@ import {
   loadMaterialStockSuccess,
   resetMaterialStock,
 } from '../../actions';
+import { activeCaseFeature } from '../../active-case/active-case.reducer';
 import { MaterialStockEffects } from './material-stock.effects';
 
 describe('MaterialStockEffects', () => {
@@ -101,7 +101,10 @@ describe('MaterialStockEffects', () => {
 
   describe('triggerLoadMaterialStock$', () => {
     beforeEach(() => {
-      store.overrideSelector(getSelectedQuotationDetail, QUOTATION_DETAIL_MOCK);
+      store.overrideSelector(
+        activeCaseFeature.getSelectedQuotationDetail,
+        QUOTATION_DETAIL_MOCK
+      );
     });
     test(
       'should trigger loadMaterialStock',
@@ -124,7 +127,7 @@ describe('MaterialStockEffects', () => {
     test(
       'should trigger resetMaterialStock on empty productionPlant',
       marbles((m) => {
-        store.overrideSelector(getSelectedQuotationDetail, {
+        store.overrideSelector(activeCaseFeature.getSelectedQuotationDetail, {
           ...QUOTATION_DETAIL_MOCK,
           productionPlant: undefined,
         });

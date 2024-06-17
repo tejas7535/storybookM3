@@ -21,6 +21,7 @@ export class MaterialService {
   private readonly PRODUCTION_PLANT_PARAM_KEY = 'production_plant_id';
   private readonly PLANT_ID_PARAM_KEY = 'plant_id';
   private readonly CURRENCY_PARAM_KEY = 'currency';
+  private readonly PRICE_UNIT_PARAM_KEY = 'priceUnit';
   private readonly MATERIAL_NUMBER_PARAM_KEY = 'material_number_15';
 
   constructor(private readonly http: HttpClient) {}
@@ -66,12 +67,14 @@ export class MaterialService {
     productionPlantId: string,
     plantId: string,
     materialNumber15: string,
-    currency: string
+    currency: string,
+    priceUnit: number
   ): Observable<any> {
     const params = new HttpParams()
       .set(this.PRODUCTION_PLANT_PARAM_KEY, productionPlantId)
       .append(this.PLANT_ID_PARAM_KEY, plantId)
-      .append(this.CURRENCY_PARAM_KEY, currency);
+      .append(this.CURRENCY_PARAM_KEY, currency)
+      .append(this.PRICE_UNIT_PARAM_KEY, priceUnit);
 
     return this.http.get(
       `${ApiVersion.V1}/materials/${materialNumber15}/material-cost-details`,

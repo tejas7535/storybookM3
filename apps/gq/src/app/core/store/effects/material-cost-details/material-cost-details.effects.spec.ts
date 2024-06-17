@@ -1,10 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import {
-  getQuotationCurrency,
-  getSelectedQuotationDetail,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { Quotation } from '@gq/shared/models';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -24,6 +21,7 @@ import {
   loadMaterialCostDetailsSuccess,
   resetMaterialCostDetails,
 } from '../../actions';
+import { activeCaseFeature } from '../../active-case/active-case.reducer';
 import { MaterialCostDetailsEffects } from './material-cost-details.effects';
 
 describe('MaterialCostDetails', () => {
@@ -64,6 +62,10 @@ describe('MaterialCostDetails', () => {
 
     beforeEach(() => {
       store.overrideSelector(getQuotationCurrency, 'EUR');
+      store.overrideSelector(
+        activeCaseFeature.getPriceUnitOfSelectedQuotationDetail,
+        1
+      );
     });
 
     test(
@@ -85,7 +87,8 @@ describe('MaterialCostDetails', () => {
           productionPlantId,
           plantId,
           materialNumber15,
-          'EUR'
+          'EUR',
+          1
         );
       })
     );
@@ -110,7 +113,8 @@ describe('MaterialCostDetails', () => {
           productionPlantId,
           plantId,
           materialNumber15,
-          'EUR'
+          'EUR',
+          1
         );
       })
     );
@@ -118,7 +122,10 @@ describe('MaterialCostDetails', () => {
 
   describe('triggerLoadMaterialCostDetails$', () => {
     beforeEach(() => {
-      store.overrideSelector(getSelectedQuotationDetail, QUOTATION_DETAIL_MOCK);
+      store.overrideSelector(
+        activeCaseFeature.getSelectedQuotationDetail,
+        QUOTATION_DETAIL_MOCK
+      );
     });
     test(
       'should trigger loadMaterialCostDetails',
@@ -144,7 +151,7 @@ describe('MaterialCostDetails', () => {
     test(
       'should trigger resetMaterialCostDetails on empty productionPlant',
       marbles((m) => {
-        store.overrideSelector(getSelectedQuotationDetail, {
+        store.overrideSelector(activeCaseFeature.getSelectedQuotationDetail, {
           ...QUOTATION_DETAIL_MOCK,
           productionPlant: undefined,
         });

@@ -85,7 +85,9 @@
         {{ t('priceUnit') }}:
       </div>
       <div>
-        <span class="font-bold">{{ priceUnit | number }}</span>
+        <span class="font-bold">{{
+          quotationDetail.leadingPriceUnit | number
+        }}</span>
       </div>
     </div>
   </div>

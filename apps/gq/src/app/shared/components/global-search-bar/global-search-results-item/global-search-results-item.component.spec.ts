@@ -1,5 +1,6 @@
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { FeatureToggleDirective } from '@gq/shared/directives/feature-toggle/feature-toggle.directive';
 import { isTextTruncatedDirective } from '@gq/shared/directives/show-tooltip-when-truncated/show-tooltip-when-truncated.directive';
 import {
   QuotationSearchResult,
@@ -22,7 +23,11 @@ describe('GlobalSearchResultsItemComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GlobalSearchResultsItemComponent,
-    imports: [provideTranslocoTestingModule({ en: {} }), MatTooltipModule],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      MatTooltipModule,
+      FeatureToggleDirective,
+    ],
     providers: [
       {
         provide: TransformationService,

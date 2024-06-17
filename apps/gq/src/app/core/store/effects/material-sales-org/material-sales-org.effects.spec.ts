@@ -1,13 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/models';
@@ -25,7 +24,6 @@ describe('materialSalesOrg Effect', () => {
   let actions$: any;
   let action: any;
   let quotationDetailsService: QuotationDetailsService;
-  let store: MockStore;
 
   const errorMessage = 'An error occurred';
 
@@ -38,7 +36,6 @@ describe('materialSalesOrg Effect', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(MaterialSalesOrgEffect);
-    store = spectator.inject(MockStore);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
   });
 
@@ -74,7 +71,6 @@ describe('materialSalesOrg Effect', () => {
     const materialSalesOrg: MaterialSalesOrg = MATERIAL_SALESORG_MOCK;
 
     beforeEach(() => {
-      store.overrideSelector(getPriceUnitOfSelectedQuotationDetail, 1);
       action = loadMaterialSalesOrg({ gqPositionId });
     });
 

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import {
   PlantMaterialDetail,
   QuotationDetail,
@@ -18,6 +17,7 @@ import {
   loadPlantMaterialDetailsSuccess,
   resetPlantMaterialDetails,
 } from '../../actions';
+import { activeCaseFeature } from '../../active-case/active-case.reducer';
 
 @Injectable()
 export class PlantMaterialDetailsEffects {
@@ -45,7 +45,9 @@ export class PlantMaterialDetailsEffects {
         ActiveCaseActions.getQuotationSuccess,
         ActiveCaseActions.setSelectedQuotationDetail
       ),
-      concatLatestFrom(() => this.store.select(getSelectedQuotationDetail)),
+      concatLatestFrom(() =>
+        this.store.select(activeCaseFeature.getSelectedQuotationDetail)
+      ),
       map(([_action, quotationDetail]) => quotationDetail),
       filter((quotationDetail) => quotationDetail !== undefined),
       map((quotationDetail: QuotationDetail) => {

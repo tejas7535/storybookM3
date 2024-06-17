@@ -146,27 +146,6 @@ describe('Active Case Selectors', () => {
     });
   });
 
-  describe('getPriceUnitOfSelectedQuotationDetail', () => {
-    test('should return price unit', () => {
-      expect(
-        activeCaseSelectors.getPriceUnitOfSelectedQuotationDetail(fakeState)
-      ).toEqual(QUOTATION_DETAIL_MOCK.material.priceUnit);
-    });
-  });
-
-  describe('getPriceUnitsForQuotationItemIds', () => {
-    test('should return a list of PriceUnitsForQuotationItemId', () => {
-      expect(
-        activeCaseSelectors.getPriceUnitsForQuotationItemIds(fakeState)
-      ).toEqual([
-        {
-          priceUnit: QUOTATION_DETAIL_MOCK.material.priceUnit,
-          quotationItemId: QUOTATION_DETAIL_MOCK.quotationItemId,
-        },
-      ]);
-    });
-  });
-
   describe('getDetailViewQueryParams', () => {
     test('should return queryParams and id', () => {
       expect(activeCaseSelectors.getDetailViewQueryParams(fakeState)).toEqual({
@@ -230,25 +209,6 @@ describe('Active Case Selectors', () => {
           fakeState.activeCase.quotation
         )
       ).toBeTruthy();
-    });
-  });
-
-  describe('getSelectedQuotationDetail', () => {
-    test('should return quotation detail', () => {
-      expect(
-        activeCaseSelectors.getSelectedQuotationDetail.projector(
-          fakeState.activeCase.quotation,
-          '5694232'
-        )
-      ).toEqual(fakeState.activeCase.quotation.quotationDetails[0]);
-    });
-    test('should return undefined', () => {
-      expect(
-        activeCaseSelectors.getSelectedQuotationDetail.projector(
-          undefined,
-          '5694232'
-        )
-      ).toEqual(undefined);
     });
   });
 

@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { Quotation } from '@gq/shared/models';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -21,6 +20,7 @@ import {
   loadPlantMaterialDetailsSuccess,
   resetPlantMaterialDetails,
 } from '../../actions';
+import { activeCaseFeature } from '../../active-case/active-case.reducer';
 import { PlantMaterialDetailsEffects } from './plant-material-details.effects';
 
 describe('PlantMaterialDetailsEffects', () => {
@@ -108,7 +108,10 @@ describe('PlantMaterialDetailsEffects', () => {
 
   describe('triggerLoadPlantMaterialDetails$', () => {
     beforeEach(() => {
-      store.overrideSelector(getSelectedQuotationDetail, QUOTATION_DETAIL_MOCK);
+      store.overrideSelector(
+        activeCaseFeature.getSelectedQuotationDetail,
+        QUOTATION_DETAIL_MOCK
+      );
     });
     test(
       'should trigger loadPlantMaterialDetails',
@@ -136,7 +139,7 @@ describe('PlantMaterialDetailsEffects', () => {
     test(
       'should trigger resetPlantMaterialDetails for empty plants',
       marbles((m) => {
-        store.overrideSelector(getSelectedQuotationDetail, {
+        store.overrideSelector(activeCaseFeature.getSelectedQuotationDetail, {
           ...QUOTATION_DETAIL_MOCK,
           productionPlant: undefined,
           plant: undefined,

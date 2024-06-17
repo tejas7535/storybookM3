@@ -1,8 +1,8 @@
-import * as fromActiveCaseSelectors from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetail } from '@gq/shared/models';
 import { RfqData } from '@gq/shared/models/rfq-data.interface';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
+import { activeCaseFeature } from '../active-case/active-case.reducer';
 import { RfqDataActions } from './rfq-data.actions';
 
 const RFQ_DATA_DETAILS_KEY = 'rfqData';
@@ -56,7 +56,7 @@ export const rfqDataFeature = createFeature({
   extraSelectors: ({ selectRfqData }) => {
     const getRfqDataUpdateAvl = createSelector(
       selectRfqData,
-      fromActiveCaseSelectors.getSelectedQuotationDetail,
+      activeCaseFeature.getSelectedQuotationDetail,
       (rfqData: RfqData, selectedQuotationDetail: QuotationDetail) =>
         rfqData &&
         (selectedQuotationDetail.rfqData.sqv !== rfqData.sqv ||

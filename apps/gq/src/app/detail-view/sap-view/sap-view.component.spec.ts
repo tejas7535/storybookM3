@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { getSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -80,7 +80,7 @@ describe('SapViewComponent', () => {
           () => new BehaviorSubject({ test: 'test' }) as any
         );
         store.overrideSelector(
-          getSelectedQuotationDetail,
+          activeCaseFeature.getSelectedQuotationDetail,
           QUOTATION_DETAIL_MOCK
         );
 

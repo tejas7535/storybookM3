@@ -8,7 +8,6 @@ import {
   getCoefficients,
   getDetailViewQueryParams,
   getQuotationCurrency,
-  getSelectedQuotationDetail,
 } from '@gq/core/store/active-case/active-case.selectors';
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import {
@@ -62,7 +61,9 @@ export class TransactionViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
+    this.quotationDetail$ = this.store.select(
+      activeCaseFeature.getSelectedQuotationDetail
+    );
     this.quotationLoading$ = this.store.select(
       activeCaseFeature.selectQuotationLoading
     );

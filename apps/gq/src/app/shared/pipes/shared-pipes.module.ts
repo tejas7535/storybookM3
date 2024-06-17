@@ -10,7 +10,6 @@ import { MaterialTransformPipe } from './material-transform/material-transform.p
 import { MillimeterUnitPipe } from './millimeter-unit/millimeter-unit.pipe';
 import { MrpDisplayPipe } from './mrp-display/mrp-display.pipe';
 import { MultiSelectPipe } from './multi-select/multi-select.pipe';
-import { MultiplyComparableCostWithPriceUnitPipe } from './multiply-comparable-cost-with-price-unit/multiply-comparable-cost-with-price-unit.pipe';
 import { MultiplyWithPriceUnitPipe } from './multiply-with-price-unit/multiply-with-price-unit.pipe';
 import { NullableStringPipe } from './nullable-string/nullable-string.pipe';
 import { NumberCurrencyPipe } from './number-currency/number-currency.pipe';
@@ -37,7 +36,6 @@ import { YearToDatePipe } from './year-to-date/year-to-date.pipe';
     MaterialClassificationSOPPipe,
     UomPipe,
     IsDashOrEmptyStringPipe,
-    MultiplyComparableCostWithPriceUnitPipe,
     MultiplyWithPriceUnitPipe,
     DurationPipe,
     YearToDatePipe,
@@ -59,7 +57,6 @@ import { YearToDatePipe } from './year-to-date/year-to-date.pipe';
     DateDisplayPipe,
     MaterialClassificationSOPPipe,
     IsDashOrEmptyStringPipe,
-    MultiplyComparableCostWithPriceUnitPipe,
     MultiplyWithPriceUnitPipe,
     UserDisplayPipe,
     DurationPipe,

@@ -96,6 +96,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   deliveryUnit: 1,
   sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
   sapPriceUnit: 1,
+  leadingPriceUnit: 1,
 };
 
 export const QUOTATION_DETAILS_MOCK = [

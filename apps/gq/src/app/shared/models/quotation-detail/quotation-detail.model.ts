@@ -61,6 +61,7 @@ export class QuotationDetail {
   deliveryUnit: number;
   sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
   sapPriceUnit: number;
+  leadingPriceUnit: number;
   abcxClassification: AbcxClassification;
   targetPrice: number;
   mrpData: MrpData;

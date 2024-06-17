@@ -14,10 +14,7 @@ import {
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import {
-  getDetailViewQueryParams,
-  getSelectedQuotationDetail,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { getDetailViewQueryParams } from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import { RfqDataFacade } from '@gq/core/store/rfq-data/rfq-data.facade';
@@ -122,7 +119,9 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   private initObservables(): void {
     this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
-    this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
+    this.quotationDetail$ = this.store.select(
+      activeCaseFeature.getSelectedQuotationDetail
+    );
 
     this.materialCostUpdateAvl$ = this.store.select(getMaterialCostUpdateAvl);
 

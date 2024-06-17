@@ -24,7 +24,7 @@ import {
 } from './active-case.reducer';
 import { QuotationIdentifier } from './models';
 
-describe('Active Case Reducer', () => {
+describe('Active Case Feature Reducer', () => {
   const errorMessage = 'An error occured';
 
   describe('customer', () => {
@@ -930,6 +930,57 @@ describe('Active Case Reducer', () => {
       const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
 
       expect(state.attachmentDeletionInProgress).toEqual(true);
+    });
+  });
+});
+
+describe('Active Case Feature Selector', () => {
+  let fakeState: { activeCase: ActiveCaseState };
+
+  beforeEach(() => {
+    fakeState = {
+      activeCase: {
+        ...initialState,
+        customer: CUSTOMER_MOCK,
+        customerLoading: true,
+        quotation: QUOTATION_MOCK,
+        simulatedItem: SIMULATED_QUOTATION_MOCK,
+        selectedQuotationDetail: QUOTATION_DETAIL_MOCK.gqPositionId,
+        quotationLoading: true,
+        selectedQuotationDetails: [] as string[],
+        quotationIdentifier: {
+          gqId: 123,
+          customerNumber: '12345',
+          salesOrg: '0267',
+        },
+      },
+    };
+  });
+
+  describe('getSelectedQuotationDetail', () => {
+    test('should return quotation detail', () => {
+      expect(
+        activeCaseFeature.getSelectedQuotationDetail.projector(
+          fakeState.activeCase.quotation,
+          '5694232'
+        )
+      ).toEqual(fakeState.activeCase.quotation.quotationDetails[0]);
+    });
+    test('should return undefined', () => {
+      expect(
+        activeCaseFeature.getSelectedQuotationDetail.projector(
+          undefined,
+          '5694232'
+        )
+      ).toEqual(undefined);
+    });
+  });
+
+  describe('getPriceUnitOfSelectedQuotationDetail', () => {
+    test('should return price unit', () => {
+      expect(
+        activeCaseFeature.getPriceUnitOfSelectedQuotationDetail(fakeState)
+      ).toEqual(QUOTATION_DETAIL_MOCK.leadingPriceUnit);
     });
   });
 });

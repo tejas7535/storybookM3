@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import {
-  getGqId,
-  getPriceUnitsForQuotationItemIds,
-} from '@gq/core/store/active-case/active-case.selectors';
-import { PriceUnitForQuotationItemId } from '@gq/shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
+import { getGqId } from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
-import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -29,26 +24,6 @@ export class ExtendedComparableLinkedTransactionsEffect {
       map(([_action, gqId]) => gqId),
       mergeMap((quotationNumber: number) =>
         this.quotationDetailsService.getAllTransactions(quotationNumber).pipe(
-          withLatestFrom(this.store.select(getPriceUnitsForQuotationItemIds)),
-          map(
-            ([transactions, priceUnitsForQuotationItemIds]: [
-              ExtendedComparableLinkedTransaction[],
-              PriceUnitForQuotationItemId[],
-            ]) => ({
-              transactions,
-              priceUnitsForQuotationItemIds,
-            })
-          ),
-          map(
-            (object: {
-              transactions: ExtendedComparableLinkedTransaction[];
-              priceUnitsForQuotationItemIds: PriceUnitForQuotationItemId[];
-            }) =>
-              this.multiplyExtendedComparableLinkedTransactionsWithPriceUnit(
-                object.transactions,
-                object.priceUnitsForQuotationItemIds
-              )
-          ),
           map(
             (
               extendedComparableLinkedTransactions: ExtendedComparableLinkedTransaction[]
@@ -70,20 +45,4 @@ export class ExtendedComparableLinkedTransactionsEffect {
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}
-
-  // ToDo: Move priceUnit calculation for extended comparable transactions to BE
-  private readonly multiplyExtendedComparableLinkedTransactionsWithPriceUnit = (
-    transactions: ExtendedComparableLinkedTransaction[],
-    priceUnitsForQuotationItemIds: PriceUnitForQuotationItemId[]
-  ): ExtendedComparableLinkedTransaction[] =>
-    transactions.map((transaction) => ({
-      ...transaction,
-      price: multiplyAndRoundValues(
-        transaction.price,
-        priceUnitsForQuotationItemIds.find(
-          (priceUnitsForQuotationItemId: PriceUnitForQuotationItemId) =>
-            transaction.itemId === priceUnitsForQuotationItemId.quotationItemId
-        ).priceUnit
-      ),
-    }));
 }

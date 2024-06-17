@@ -1,24 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
-import { getPriceUnitOfSelectedQuotationDetail } from '@gq/core/store/active-case/active-case.selectors';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
-import {
-  multiplyAndRoundValues,
-  roundToTwoDecimals,
-} from '@gq/shared/utils/pricing.utils';
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
@@ -54,27 +43,8 @@ export class TransactionsEffect {
       map((action: any) => action.gqPositionId),
       mergeMap((gqPositionId: string) =>
         this.quotationDetailsService.getTransactions(gqPositionId).pipe(
-          withLatestFrom(
-            this.store.select(getPriceUnitOfSelectedQuotationDetail)
-          ),
-          map(
-            ([transactions, priceUnit]: [
-              ComparableLinkedTransaction[],
-              number,
-            ]) => ({
-              transactions,
-              priceUnit,
-            })
-          ),
-          map(
-            (object: {
-              transactions: ComparableLinkedTransaction[];
-              priceUnit: number;
-            }) =>
-              this.executeTransactionComputations(
-                object.transactions,
-                object.priceUnit
-              )
+          map((transactions: ComparableLinkedTransaction[]) =>
+            this.executeTransactionComputations(transactions)
           ),
           map((transactions: ComparableLinkedTransaction[]) =>
             loadComparableTransactionsSuccess({ transactions })
@@ -88,18 +58,15 @@ export class TransactionsEffect {
   });
 
   constructor(
-    private readonly store: Store,
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}
 
   private readonly executeTransactionComputations = (
-    transactions: ComparableLinkedTransaction[],
-    priceUnit: number
+    transactions: ComparableLinkedTransaction[]
   ): ComparableLinkedTransaction[] =>
     transactions.map((transaction) => ({
       ...transaction,
-      price: multiplyAndRoundValues(transaction.price, priceUnit),
       profitMargin: roundToTwoDecimals(transaction.profitMargin),
     }));
 }

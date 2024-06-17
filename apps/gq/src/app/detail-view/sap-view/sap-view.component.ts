@@ -6,7 +6,6 @@ import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reduce
 import {
   getDetailViewQueryParams,
   getQuotationCurrency,
-  getSelectedQuotationDetail,
 } from '@gq/core/store/active-case/active-case.selectors';
 import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
 import {
@@ -47,7 +46,9 @@ export class SapViewComponent implements OnInit {
   ngOnInit(): void {
     this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
-    this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
+    this.quotationDetail$ = this.store.select(
+      activeCaseFeature.getSelectedQuotationDetail
+    );
     this.quotationLoading$ = this.store.select(
       activeCaseFeature.selectQuotationLoading
     );
