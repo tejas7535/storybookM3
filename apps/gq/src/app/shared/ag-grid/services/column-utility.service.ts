@@ -173,6 +173,16 @@ export class ColumnUtilityService {
     return 0;
   }
 
+  /**
+   * Comparator for sorting as string formatted number values
+   * e.g. percentage Values
+   */
+  static numberAsStringComparator(valueA: string, valueB: string): number {
+    const compValue1 = Number(valueA) || 0;
+    const compValue2 = Number(valueB) || 0;
+
+    return compValue1 - compValue2;
+  }
   static basicTransform(data: ValueFormatterParams): string {
     return data.value || Keyboard.DASH;
   }

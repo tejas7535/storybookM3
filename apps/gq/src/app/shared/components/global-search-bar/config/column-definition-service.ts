@@ -187,6 +187,7 @@ export class ColumnDefinitionService {
         this.generalColumnUtilityService.percentageFormatter(params),
       valueGetter: (params: ValueGetterParams) =>
         this.searchResultsColumnUtilityService.gpiGetter(params),
+      comparator: GeneralColumnUtilityService.numberAsStringComparator,
     },
   ];
 

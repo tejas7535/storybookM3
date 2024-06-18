@@ -503,6 +503,34 @@ describe('CreateColumnService', () => {
       expect(res).toEqual(-1);
     });
   });
+
+  describe('numberAsStringComparator', () => {
+    test('should return 1', () => {
+      const res = ColumnUtilityService.numberAsStringComparator('1', '2');
+      expect(res).toEqual(-1);
+    });
+    test('should return 0', () => {
+      const res = ColumnUtilityService.numberAsStringComparator('1', '1');
+      expect(res).toEqual(0);
+    });
+    test('should return -1', () => {
+      const res = ColumnUtilityService.numberAsStringComparator('2', '1');
+      expect(res).toEqual(1);
+    });
+    test('should return 0 on falsy values', () => {
+      const res = ColumnUtilityService.numberAsStringComparator(null, null);
+      expect(res).toEqual(0);
+    });
+    test('should return -1 when valueA is falsy', () => {
+      const res = ColumnUtilityService.numberAsStringComparator(null, '1');
+      expect(res).toEqual(-1);
+    });
+    test('should return 1 when valueB is falsy', () => {
+      const res = ColumnUtilityService.numberAsStringComparator('1', null);
+      expect(res).toEqual(1);
+    });
+  });
+
   describe('materialTransform', () => {
     test('should call pipe transform', () => {
       const data = { value: 'any' } as any as ValueFormatterParams;
