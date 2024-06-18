@@ -31,6 +31,7 @@ export class OverviewCardComponent implements OnInit {
   @Input() learnMoreExternal? = false;
   @Input() noAccess? = false;
   @Input() requestAccessLink?: string;
+  @Input() requestAccessExternal?: string;
   @Input() inverted? = false;
 
   hovered$ = new BehaviorSubject<boolean>(false);

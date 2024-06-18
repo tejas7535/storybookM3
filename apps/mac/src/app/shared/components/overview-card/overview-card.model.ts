@@ -9,6 +9,7 @@ export interface OverviewCard {
   requestAccessLink?: string;
   disableImageHoverEffect?: boolean;
   learnMoreExternal?: boolean;
+  requestAccessExternal?: boolean;
   external?: boolean;
   noAccess?: boolean;
   requiredRoles?: string[];

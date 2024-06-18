@@ -34,6 +34,7 @@
             [requestAccessLink]="card.requestAccessLink"
             [inverted]="card.inverted"
             [disableImageHoverEffect]="card.disableImageHoverEffect"
+            [requestAccessExternal]="card.requestAccessExternal"
             [translationKey]="card.translationKey"
           ></mac-overview-card>
         </div>
@@ -56,6 +57,9 @@
             [learnMoreExternal]="card.learnMoreExternal"
             [inverted]="card.inverted"
             [disableImageHoverEffect]="card.disableImageHoverEffect"
+            [noAccess]="!(hasRequiredRoles(card.requiredRoles) | ngrxPush)"
+            [requestAccessLink]="card.requestAccessLink"
+            [requestAccessExternal]="card.requestAccessExternal"
             [translationKey]="card.translationKey"
           ></mac-overview-card>
         </div>

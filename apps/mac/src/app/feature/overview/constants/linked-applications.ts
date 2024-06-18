@@ -97,4 +97,21 @@ export const linkedApps: OverviewCard[] = [
     inverted: true,
     translationKey: 'internalApplications.lifetimePredictor',
   },
+  {
+    image: '',
+    icon: '../../assets/img/suma.svg',
+    title: 'Sustainability Manager',
+    description: 'Creation of decarbonization scenarios & roadmaps',
+    link: 'https://suma.sps.schaeffler/',
+    learnMoreLink:
+      'https://confluence.schaeffler.com/pages/viewpage.action?pageId=259047258',
+    disableImageHoverEffect: false,
+    external: true,
+    learnMoreExternal: true,
+    inverted: true,
+    requiredRoles: ['sustainability-manager-access'],
+    requestAccessLink:
+      'https://confluence.schaeffler.com/display/SPS/FAQ+-+SuMa',
+    requestAccessExternal: true,
+  },
 ];
