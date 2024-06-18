@@ -25,6 +25,32 @@ describe('PricingUtils', () => {
     });
   });
 
+  describe('calculateNetValue', () => {
+    test('should return net value for priceUnit 1', () => {
+      const detail = {
+        price: 1,
+        orderQuantity: 100,
+        leadingPriceUnit: 1,
+      } as QuotationDetail;
+
+      const result = pricingUtils.calculateNetValue(detail.price, detail);
+
+      expect(result).toEqual(100);
+    });
+
+    test('should return net value for price Unit 100', () => {
+      const detail = {
+        price: 100,
+        orderQuantity: 10,
+        leadingPriceUnit: 100,
+      } as QuotationDetail;
+
+      const result = pricingUtils.calculateNetValue(detail.price, detail);
+
+      expect(result).toEqual(10);
+    });
+  });
+
   describe('calculatePriceDiff should', () => {
     test.each([
       { lastCustomerPrice: 110, price: 120, expected: 9.09 },

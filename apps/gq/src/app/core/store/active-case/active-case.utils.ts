@@ -3,6 +3,7 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import {
   calculateDiscount,
   calculateMargin,
+  calculateNetValue,
   calculatePriceDiff,
   calculateStatusBarValues,
   multiplyAndRoundValues,
@@ -25,13 +26,7 @@ export const addCalculationsForDetail = (detail: QuotationDetail): void => {
     typeof detail.price === 'number' &&
     typeof detail.orderQuantity === 'number'
   ) {
-    // value on client side is always already multiplied, so price unit needs to be taken into account
-    // https://confluence.schaeffler.com/display/PARS/Consider+Price+Unit
-    const mutliplicationFactor = detail.orderQuantity / detail.leadingPriceUnit;
-    detail.netValue = multiplyAndRoundValues(
-      detail.price,
-      mutliplicationFactor
-    );
+    detail.netValue = calculateNetValue(detail.price, detail);
   }
 
   if (

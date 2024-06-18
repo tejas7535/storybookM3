@@ -35,8 +35,8 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 import {
   calculateAffectedKPIs,
   calculateMargin,
+  calculateNetValue,
   calculatePriceDiff,
-  multiplyAndRoundValues,
 } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 import {
@@ -373,11 +373,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           ...row.data,
           price: simulatedPrice,
           priceSource: newPriceSource,
-          // to correctly calculate the new netValue, the orderQuantity has to be divided by the old priceUnit, since the priceUnit might be > 1 but isn't part of the simulated data
-          netValue: multiplyAndRoundValues(
-            simulatedPrice,
-            row.data.orderQuantity
-          ),
+          netValue: calculateNetValue(simulatedPrice, row.data),
           gpi: this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
           gpm: this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
           discount: this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
@@ -521,7 +517,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       ...row.data,
       price: simulatedPrice,
       priceSource: PriceSource.MANUAL,
-      netValue: multiplyAndRoundValues(simulatedPrice, row.data.orderQuantity),
+      netValue: calculateNetValue(simulatedPrice, row.data),
       gpi:
         field === ColumnFields.GPI
           ? value

@@ -33,6 +33,17 @@ export const calculateMargin = (price: number, costValue: number): number => {
   return undefined;
 };
 
+export const calculateNetValue = (
+  price: number,
+  detail: QuotationDetail
+): number => {
+  // value on client side is always already multiplied, so price unit needs to be taken into account
+  // https://confluence.schaeffler.com/display/PARS/Consider+Price+Unit
+  const mutliplicationFactor = detail.orderQuantity / detail.leadingPriceUnit;
+
+  return multiplyAndRoundValues(price, mutliplicationFactor);
+};
+
 /**
  * https://confluence.schaeffler.com/display/PARS/Implementation+Prices
  * @param details
