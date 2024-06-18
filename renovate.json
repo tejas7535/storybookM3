@@ -1,20 +1,16 @@
 {
-  "semanticCommits": true,
+  "semanticCommits": "enabled",
   "labels": ["type:dep-update"],
   "lockFileMaintenance": {
     "enabled": false
   },
   "baseBranches": ["master"],
   "ignorePaths": ["libs/**/*"],
-  "allowPostUpgradeCommandTemplating": true,
-  "allowedPostUpgradeCommands": [
-    "^npm ci --ignore-scripts",
-    "^npm run generate-readme"
-  ],
   "postUpgradeTasks": {
-    "commands": ["npm ci --ignore-scripts", "npm run generate-readme"],
+    "commands": ["pnpm ci --ignore-scripts", "pnpm run generate-readme"],
     "fileFilters": ["docs/01_description.md", "README.md"]
   },
+  "prHourlyLimit": 10,
   "major": {
     "enabled": true
   },
@@ -26,36 +22,36 @@
   },
   "packageRules": [
     {
-      "packageNames": [
+      "matchPackageNames": [
         "@angular/animations",
         "@angular/cdk",
         "@angular/common",
         "@angular/compiler-cli",
         "@angular/compiler",
         "@angular/core",
+        "@angular/elements",
         "@angular/forms",
-        "@angular/language-service",
         "@angular/material",
+        "@angular/material-moment-adapter",
         "@angular/platform-browser",
         "@angular/platform-browser-dynamic",
         "@angular/router",
         "@angular/service-worker",
+        "@angular-devkit/build-angular",
+        "@angular-devkit/core",
+        "@angular-devkit/schematics",
+        "@angular/cli",
+        "@angular/compiler-cli",
+        "@angular/language-service",
         "zone.js"
       ],
-      "groupName": "@angular/angular",
+      "groupName": "@angular",
       "major": {
         "enabled": false
       }
     },
     {
-      "packageNames": ["@angular/cli", "@angular/pwa", "ng-packagr"],
-      "groupName": "@angular/angular-cli",
-      "major": {
-        "enabled": false
-      }
-    },
-    {
-      "packageNames": [
+      "matchPackageNames": [
         "@nx/angular",
         "@nrwl/cli",
         "@nx/cypress",
@@ -63,15 +59,17 @@
         "@nx/jest",
         "@nx/storybook",
         "@nx/workspace",
+        "@nx/devkit",
+        "@nx/js",
         "@nx/eslint"
       ],
-      "groupName": "@nrwl/nx",
+      "groupName": "@nx",
       "major": {
         "enabled": false
       }
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
         "@ngrx/component",
         "@ngrx/component-store",
         "@ngrx/effects",
@@ -86,15 +84,22 @@
       }
     },
     {
-      "packageNames": ["typescript"],
+      "matchPackageNames": ["typescript"],
       "updateTypes": ["patch"]
     },
     {
-      "packageNames": ["@types/echarts", "echarts", "ngx-echarts"],
+      "matchPackageNames": ["@types/echarts", "echarts", "ngx-echarts"],
       "groupName": "echarts"
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
+        "@fontsource/material-icons",
+        "@fontsource/noto-sans"
+      ],
+      "groupName": "fontsource"
+    },
+    {
+      "matchPackageNames": [
         "@jsverse/transloco",
         "@jsverse/transloco-keys-manager",
         "@jsverse/transloco-locale",
@@ -106,7 +111,7 @@
       "groupName": "transloco"
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
         "@storybook/addon-a11y",
         "@storybook/addon-actions",
         "@storybook/addon-backgrounds",
@@ -117,12 +122,19 @@
         "@storybook/angular",
         "@storybook/builder-webpack5",
         "@storybook/manager-webpack5",
+        "@storybook/addon-docs",
+        "@storybook/angular",
+        "@storybook/core-common",
+        "@storybook/core-server",
+        "storybook",
+        "storybook-addon-designs",
+        "storybook-dark-mode",
         "@storybook/addon-essentials"
       ],
       "groupName": "storybook"
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
         "@ag-grid-community/angular",
         "@ag-grid-community/all-modules",
         "@ag-grid-enterprise/all-modules"
@@ -130,7 +142,7 @@
       "groupName": "ag-grid"
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
         "@angular-eslint/eslint-plugin",
         "@angular-eslint/eslint-plugin-template",
         "@angular-eslint/template-parser",
@@ -144,22 +156,56 @@
         "eslint-plugin-prettier",
         "eslint-plugin-ngrx",
         "eslint-plugin-unicorn",
-        "eslint-plugin-prefer-arrow"
+        "eslint-plugin-prefer-arrow",
+        "eslint-plugin-simple-import-sort",
+        "eslint-plugin-storybook",
+        "eslint-plugin-unused-imports"
       ],
       "groupName": "eslint",
       "schedule": ["every weekend"]
     },
     {
-      "packageNames": ["@azure/msal-browser", "@azure/msal-angular"],
+      "matchPackageNames": ["@azure/msal-browser", "@azure/msal-angular"],
       "groupName": "@azure/msal"
     },
     {
-      "packageNames": [
+      "matchPackageNames": [
+        "tailwindcss",
+        "prettier-plugin-tailwindcss",
+        "@tailwindcss/typography",
+        "postcss",
+        "postcss-import",
+        "postcss-preset-env",
+        "postcss-url"
+      ],
+      "groupName": "tailwind"
+    },
+    {
+      "matchPackageNames": [
+        "jest",
+        "jest-canvas-mock",
+        "jest-environment-jsdom",
+        "jest-junit",
+        "jest-preset-angular",
+        "@types/jest",
+        "@types/testing-library__jest-dom",
+        "@testing-library/jest-dom",
+        "ts-jest"
+      ],
+      "groupName": "jest"
+    },
+    {
+      "matchPackageNames": [
         "@commitlint/cli",
         "@commitlint/config-conventional",
         "@commitlint/cz-commitlint"
       ],
       "groupName": "commitlint"
+    },
+    {
+      "matchPackageNames": ["renovate"],
+      "groupName": "renovate",
+      "schedule": ["every weekend"]
     }
   ]
 }

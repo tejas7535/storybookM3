@@ -42,6 +42,8 @@ boolean isLibsRelease = false
 @Field
 boolean runQualityStage = true
 @Field
+boolean isRenovate = false
+@Field
 boolean buildStorybook = false
 @Field
 boolean publishStorybook = false
@@ -52,7 +54,7 @@ boolean storybookAffected = false
 @Field
 boolean skipBuild = false
 @Field
-def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release' ]
+def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release', RENOVATE : 'renovate' ]
 @Field
 def releasableApps = ['cdba', 'sedo', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa', 'hc']
 @Field
@@ -104,7 +106,7 @@ void defineIsPreReleaseTrigger(isMain) {
             def branchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
             def getBranchCommand = "git ls-remote --heads origin $branchName"
             
-            withCredentials([usernamePassword(credentialsId: 'github-jenkins-access-token', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+            withCredentials([usernamePassword(credentialsId: 'SVC_MONO_FRONTEND_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                 sh(script:
                     """#!/bin/sh
                         git config --global credential.helper '!f() { sleep 1; echo "username=${env.GIT_USERNAME}"; echo "password=${env.GIT_PASSWORD}"; }; f'
@@ -160,6 +162,16 @@ void defineRunTriggerAppDeploymentsStage(isNightly) {
     // it is not a dep update branch
 
     triggerAppDeployments = !skipBuild && !isNightly && !isLibsRelease && !isDepUpdate()
+}
+
+void defineIsRenovate() {
+    if (params.BUILD_TYPE == buildTypes.RENOVATE) {
+        isRenovate = true
+        runQualityStage = false
+        buildStorybook = false
+        publishStorybook = false
+        triggerAppDeployments = false
+    }
 }
 
 void defineBuildBase(isMain) {
@@ -243,7 +255,7 @@ boolean ciSkip(isMain, isRelease) {
 
 void setGitUser() {
     // Set Config for Sir Henry
-    sh 'git config user.email adp-jenkins@schaeffler.com'
+    sh 'git config user.email svc_frontend_mono@schaeffler.com'
     sh 'git config user.name "Sir Henry"'
 }
 
@@ -363,7 +375,7 @@ pipeline {
                         if(BRANCH.startsWith("${buildTypes.PRE_RELEASE}")) {
                             types = types + ["${buildTypes.RELEASE}"]
                         } else if (BRANCH.startsWith('master')) {
-                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}"]
+                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}", "${buildTypes.RENOVATE}"]
                         }
 
                         return types
@@ -441,6 +453,7 @@ pipeline {
                     defineBuildStorybook(isRelease)
                     definePublishStorybook(isMain)
                     defineRunTriggerAppDeploymentsStage(isNightly)
+                    defineIsRenovate()
 
                     sh "pnpm config set store-dir $PNPM_HOME/.pnpm-store"
                     sh 'pnpm install'
@@ -448,6 +461,25 @@ pipeline {
                     defineBuildBase(isMain)
                     defineAffectedAppsAndLibs()
                     setGitUser()
+                }
+            }
+        }
+
+        stage('Renovate') {
+            when {
+                expression {
+                    return isNightly || isRenovate
+                }
+            }
+            environment {
+                RENOVATE_CONFIG_FILE = 'renovate-config.js'
+            }
+            steps {
+                echo 'Renovate'
+                withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'RENOVATE_TOKEN')]) {
+                    sh """
+                        pnpm run renovate --token=${RENOVATE_TOKEN}
+                    """
                 }
             }
         }
@@ -608,8 +640,8 @@ pipeline {
                         standardVersionCommand +=" --releaseAs=prerelease"                       
                     }
                     
-                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
-                        github.executeAsGithubUser('github-jenkins-access-token', standardVersionCommand)
+                    withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                        github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', standardVersionCommand)
                     }            
                 }
             }
@@ -634,7 +666,7 @@ pipeline {
                     }
 
                     // Generate Changelog, update Readme
-                    github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
+                    github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch --all')
                     sh "git checkout ${targetBranch}"
 
                     def releaseFailed = 0
@@ -659,8 +691,8 @@ pipeline {
                         standardVersionCommand = "pnpm nx run-many --target=version --projects=${affectedLibs.join(',')}"
                     }
 
-                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
-                        releaseFailed = github.executeAsGithubUser('github-jenkins-access-token', standardVersionCommand)
+                    withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                        releaseFailed = github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', standardVersionCommand)
                     }
 
                     if (releaseFailed) {
@@ -703,7 +735,7 @@ pipeline {
         stage('Build:Apps') {
             when {
                 expression {
-                    return !skipBuild && !isLibsRelease
+                    return !skipBuild && !isLibsRelease && !isRenovate
                 }
             }
             steps {
@@ -750,7 +782,7 @@ pipeline {
         stage('Deliver') {
             when {
                 expression {
-                    return !skipBuild && !isNightly
+                    return !skipBuild && !isNightly && !isRenovate
                 }
             }
             failFast true
@@ -866,18 +898,18 @@ pipeline {
                 echo 'Release new version'
 
                 script {                    
-                    github.executeAsGithubUser('github-jenkins-access-token', 'git push --follow-tags')
+                    github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push --follow-tags')
 
                     if (isAppRelease && isPreReleaseBranch) {
-                        github.executeAsGithubUser('github-jenkins-access-token', 'git fetch')
+                        github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch')
                         sh 'git checkout master'
                         try {
                             sh "git merge ${env.BRANCH_NAME}"
-                            github.executeAsGithubUser('github-jenkins-access-token', 'git push')
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
                         } catch(error) {
                             sh "git reset --hard HEAD"
                             sh "git checkout ${env.BRANCH_NAME}"
-                            withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                            withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
                                 def version = getPackageVersion(env.RELEASE_SCOPE)
                                 sh "gh pr create --base origin/master --title 'chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master' --body 'Automated merge failed due to conflicts. Please resolve them manually and merge this branch.'"
                             }
@@ -937,7 +969,7 @@ pipeline {
 
                 script {
                     // Checkout gh-pages branch and clean folder
-                    github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
+                    github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch --all')
                     sh 'git checkout -- .'
                     sh 'git checkout gh-pages'
                     sh 'git reset --hard origin/gh-pages'
@@ -958,7 +990,7 @@ pipeline {
                         // commit and push back to remote
                         sh 'git add -A'
                         sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
-                        github.executeAsGithubUser('github-jenkins-access-token', 'git push')
+                        github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
                     } catch (error) {
                         echo 'No changes to commit for storybook deployment'
                         println(error)
