@@ -7,7 +7,7 @@
   "baseBranches": ["master"],
   "ignorePaths": ["libs/**/*"],
   "postUpgradeTasks": {
-    "commands": ["pnpm ci --ignore-scripts", "pnpm run generate-readme"],
+    "commands": ["pnpm run generate-readme"],
     "fileFilters": ["docs/01_description.md", "README.md"]
   },
   "prHourlyLimit": 10,
