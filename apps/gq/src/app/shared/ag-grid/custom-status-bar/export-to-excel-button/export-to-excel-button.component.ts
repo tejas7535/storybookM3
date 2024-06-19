@@ -385,6 +385,48 @@ export class ExportToExcelButtonComponent implements OnInit {
         ],
       },
       {
+        hidden: this.isUndefinedOrNull(quotation?.partnerRole.id),
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.partnerRoleNumber'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type: typeString,
+              value: quotation?.partnerRole.id,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+      },
+      {
+        hidden: this.isUndefinedOrNull(quotation?.partnerRole.name),
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.partnerRoleName'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type: typeString,
+              value: quotation?.partnerRole.name,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+      },
+      {
         cells: [
           {
             data: {
@@ -864,6 +906,10 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   appendQuotationCurrency(key: string): string {
     return `${key} [${this.params.context.quotation.currency}]`;
+  }
+
+  isUndefinedOrNull(value: string) {
+    return value === undefined || value === null;
   }
 
   private getProcessCaseSheet(): string {

@@ -581,6 +581,44 @@ describe('ExportToExcelButtonComponent', () => {
           ],
         },
         {
+          hidden: false,
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.partnerRole.id,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          hidden: false,
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.partnerRole.name,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
           cells: [
             {
               data: {
@@ -721,6 +759,44 @@ describe('ExportToExcelButtonComponent', () => {
               data: {
                 type,
                 value: QUOTATION_MOCK.customer.name,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          hidden: false,
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.partnerRole.id,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
+            },
+          ],
+        },
+        {
+          hidden: false,
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+            },
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.partnerRole.name,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -1354,6 +1430,29 @@ describe('ExportToExcelButtonComponent', () => {
       expect(
         transformationService.transformNumberCurrency
       ).toHaveBeenCalledWith(42, 'JPY');
+    });
+  });
+
+  describe('isUndefinedOrNull', () => {
+    test('isUndefinedOrNull should return true when undefined', () => {
+      const value: any = undefined;
+      const isUndefinedOrNull = component.isUndefinedOrNull(value);
+
+      expect(isUndefinedOrNull).toEqual(true);
+    });
+
+    test('isUndefinedOrNull should return true when null', () => {
+      const value: any = null;
+      const isUndefinedOrNull = component.isUndefinedOrNull(value);
+
+      expect(isUndefinedOrNull).toEqual(true);
+    });
+
+    test('isUndefinedOrNull should return false when value exists', () => {
+      const value = 'value';
+      const isUndefinedOrNull = component.isUndefinedOrNull(value);
+
+      expect(isUndefinedOrNull).toEqual(false);
     });
   });
 });

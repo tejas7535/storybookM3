@@ -356,6 +356,8 @@
           "title": "Angebotsübersicht",
           "customerNumber": "Kundennummer",
           "customerName": "Kunde",
+          "partnerRoleNumber": "Endsektor / Endkundennummer",
+          "partnerRoleName": "Endsektor / Endkunde",
           "quoteNetValue": "Angebotsnettowert",
           "quoteWeightedAverageGPM": "Gesamt gew. ø GPI%",
           "quoteWeightedAverageGPI": "Gesamt gew. ø GPI%",

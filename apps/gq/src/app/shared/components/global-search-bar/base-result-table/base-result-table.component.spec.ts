@@ -12,6 +12,7 @@ import { ColumnDefinitionService } from '@gq/shared/components/global-search-bar
 import { FilterState } from '@gq/shared/models/grid-state.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
@@ -27,7 +28,6 @@ import {
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 describe('BaseResultTableComponent', () => {
   let component: BaseResultTableComponent;

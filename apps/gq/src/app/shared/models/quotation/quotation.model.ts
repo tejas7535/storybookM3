@@ -1,3 +1,5 @@
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
+
 import { Customer } from '../customer';
 import { PurchaseOrderType } from '../purchase-order-type.interface';
 import { QuotationDetail } from '../quotation-detail';
@@ -35,4 +37,5 @@ export class Quotation {
   public origin: CASE_ORIGIN;
   public shipToParty: Customer;
   public purchaseOrderType: PurchaseOrderType;
+  public partnerRole: SectorGpsd;
 }

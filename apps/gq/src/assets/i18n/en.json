@@ -356,6 +356,8 @@
           "title": "Quotation Summary",
           "customerNumber": "Customer Number",
           "customerName": "Customer Name",
+          "partnerRoleNumber": "End Sector / Customer number",
+          "partnerRoleName": "End Sector / Customer",
           "quoteNetValue": "Quote Net Value",
           "quoteWeightedAverageGPM": "Quote Weighted Average GPM%",
           "quoteWeightedAverageGPI": "Quote Weighted Average GPI%",

@@ -43,4 +43,8 @@ export const QUOTATION_MOCK: Quotation = {
     id: 'test',
     name: 'purchase order type',
   },
+  partnerRole: {
+    id: '6000001',
+    name: 'partner role name',
+  },
 };
