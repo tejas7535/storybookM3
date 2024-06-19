@@ -3,6 +3,7 @@ import { Params } from '@angular/router';
 import { GqIdComponent } from '@gq/shared/ag-grid/cell-renderer/gq-id/gq-id.component';
 import { SearchByCasesOrMaterialsColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
+import { CasesCriteriaSelection } from '@gq/shared/components/global-search-bar/cases-result-table/cases-criteria-selection.enum';
 import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
 import { addMaterialFilterToQueryParams } from '@gq/shared/utils/misc.utils';
 import {
@@ -75,6 +76,7 @@ export const GRID_OPTIONS_WITHOUT_PAGINATION: GridOptions = {
 
 export interface ValidationConfig {
   minLength?: number;
+  trailingLeadingSpacesInfo?: boolean;
 }
 
 /**
@@ -83,7 +85,16 @@ export interface ValidationConfig {
 export const SEARCH_CRITERIA_VALIDATION_CONFIG: {
   [key: string]: ValidationConfig;
 } = {
-  [MaterialsCriteriaSelection.MATERIAL_NUMBER]: { minLength: 9 },
+  [CasesCriteriaSelection.GQ_ID]: { trailingLeadingSpacesInfo: true },
+  [CasesCriteriaSelection.SAP_ID]: { trailingLeadingSpacesInfo: true },
+  [CasesCriteriaSelection.CUSTOMER_ID]: { trailingLeadingSpacesInfo: true },
+  [MaterialsCriteriaSelection.MATERIAL_NUMBER]: {
+    minLength: 9,
+    trailingLeadingSpacesInfo: true,
+  },
+  [MaterialsCriteriaSelection.CUSTOMER_MATERIAL_NUMBER]: {
+    trailingLeadingSpacesInfo: true,
+  },
   default: { minLength: 3 },
 };
 

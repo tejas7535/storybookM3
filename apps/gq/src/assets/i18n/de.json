@@ -580,7 +580,7 @@
     "clear": "Leeren",
     "searchButton": "Suchen",
     "cancelButton": "Abbrechen",
-    "minLengthError": "Bitte geben Sie mindestens {{ minLength }} Zeichen ein.",
+    "minLengthError": "Bitte geben Sie mindestens {{ minLength }} Zeichen ein. {trailingLeadingSpacesInfo, select, true {(Leerzeichen davor und danach werden ignoriert)} false {} other {}}",
     "casesLabel": "Cases",
     "materialsLabel": "Material",
     "resultsTable": {

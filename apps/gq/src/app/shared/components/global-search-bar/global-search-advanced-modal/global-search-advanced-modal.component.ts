@@ -15,6 +15,7 @@ import {
 import { QuotationSearchResultByCases } from '@gq/shared/models/quotation/quotation-search-result-by-cases.interface';
 import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
 import { QuotationSummaryService } from '@gq/shared/services/rest/quotation/quotation-summary/quotation-summary.service';
+import { minLengthTrimmedValueValidator } from '@gq/shared/validators/min-length-trimmed-value.validator';
 
 import { CasesCriteriaSelection } from '../cases-result-table/cases-criteria-selection.enum';
 import { SEARCH_CRITERIA_VALIDATION_CONFIG } from '../config/default-config';
@@ -39,10 +40,11 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
   onlyUserCases = false;
   activeMinLengthForValidation =
     SEARCH_CRITERIA_VALIDATION_CONFIG['default']?.minLength;
+  trailingLeadingSpacesInfo: boolean;
 
   searchFormControl: FormControl = new FormControl('', [
     Validators.required,
-    Validators.minLength(this.activeMinLengthForValidation),
+    minLengthTrimmedValueValidator(this.activeMinLengthForValidation),
   ]);
 
   private readonly searchByCasesSubject$$: Subject<void> = new Subject<void>();
@@ -180,10 +182,15 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
       SEARCH_CRITERIA_VALIDATION_CONFIG[criteriaSelected]?.minLength ??
       SEARCH_CRITERIA_VALIDATION_CONFIG['default']?.minLength;
 
+    this.trailingLeadingSpacesInfo =
+      SEARCH_CRITERIA_VALIDATION_CONFIG[
+        criteriaSelected
+      ]?.trailingLeadingSpacesInfo;
+
     if (this.activeMinLengthForValidation !== minLength) {
       this.searchFormControl.setValidators([
         Validators.required,
-        Validators.minLength(minLength),
+        minLengthTrimmedValueValidator(minLength),
       ]);
       this.searchFormControl.updateValueAndValidity();
       this.activeMinLengthForValidation = minLength;

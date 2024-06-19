@@ -580,7 +580,7 @@
     "clear": "Clear",
     "searchButton": "search",
     "cancelButton": "cancel",
-    "minLengthError": "Please enter at least {{ minLength }} characters.",
+    "minLengthError": "Please enter at least {{ minLength }} characters. {trailingLeadingSpacesInfo, select, true {(Blanks before and after are ignored)} false {} other {}}",
     "casesLabel": "Cases",
     "materialsLabel": "Material",
     "resultsTable": {

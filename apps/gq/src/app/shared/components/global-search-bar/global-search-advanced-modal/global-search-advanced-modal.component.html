@@ -35,7 +35,10 @@
                 : 'collapse'
             "
             >{{
-              t('minLengthError', { minLength: activeMinLengthForValidation })
+              t('minLengthError', {
+                minLength: activeMinLengthForValidation,
+                trailingLeadingSpacesInfo
+              })
             }}</mat-error
           >
         </div>
