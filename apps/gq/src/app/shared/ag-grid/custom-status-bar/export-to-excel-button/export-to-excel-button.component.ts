@@ -385,7 +385,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         ],
       },
       {
-        hidden: this.isUndefinedOrNull(quotation?.partnerRole.id),
+        hidden: this.isUndefinedOrNull(quotation?.partnerRole?.id),
         cells: [
           {
             data: {
@@ -399,14 +399,14 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: quotation?.partnerRole.id,
+              value: quotation?.partnerRole?.id,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
         ],
       },
       {
-        hidden: this.isUndefinedOrNull(quotation?.partnerRole.name),
+        hidden: this.isUndefinedOrNull(quotation?.partnerRole?.name),
         cells: [
           {
             data: {
@@ -420,7 +420,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           {
             data: {
               type: typeString,
-              value: quotation?.partnerRole.name,
+              value: quotation?.partnerRole?.name,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
