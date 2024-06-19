@@ -93,7 +93,7 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
     return this.materialClass === MaterialClass.SAP_MATERIAL
       ? this.msdDataService.getHistoryForSAPMaterial(
           data.materialNumber,
-          data.supplierId,
+          data.businessPartnerId,
           data.plant
         )
       : this.getHistory(data.id);

@@ -529,13 +529,13 @@ export class MsdDataService {
 
   public getHistoryForSAPMaterial(
     materialNumber: string,
-    supplierId: string,
+    businessPartnerId: string,
     plant: string
   ): Observable<SAPMaterialHistoryValue[]> {
     return this.httpClient
       .get<
         SAPMaterial[]
-      >(`${this.BASE_URL_SAP}/emissionfactor/history/${materialNumber}/${supplierId}/${plant}`)
+      >(`${this.BASE_URL_SAP}/emissionfactor/history/${materialNumber}/${businessPartnerId}/${plant}`)
       .pipe(
         map((sapMaterials: SAPMaterial[]) =>
           sapMaterials.map((material: SAPMaterial) =>

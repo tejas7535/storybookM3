@@ -429,6 +429,8 @@
         "co2Scope3": "Scope 3 (kg CO₂e / t)",
         "isBlocked": "Blocked",
         "lastModified": "Last modified",
+        "timestamp": "Last modified",
+        "modifiedBy": "Changed by",
         "manufacturerSupplierName": "Supplier Name",
         "manufacturerSupplierPlant": "Supplier Plant",
         "manufacturerSupplierCountry": "Supplier Country",

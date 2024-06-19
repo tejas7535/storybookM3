@@ -28,6 +28,7 @@ import {
   MATERIAL_NUMBER,
   MATERIAL_UTILIZATION_FACTOR,
   MATURITY,
+  MODIFIED_BY,
   NET_WEIGHT,
   NUCLEAR_ENERGY_SHARE,
   ONLY_RENEWABLE_ELECTRICITY,
@@ -52,6 +53,7 @@ import {
   SUPPLIER_ID_TEXT,
   SUPPLIER_LOCATION,
   SUPPLIER_REGION,
+  TIMESTAMP,
   UPSTREAM_EMISSIONS,
   VALID_FROM,
   VALID_UNTIL,
@@ -72,6 +74,7 @@ import { UrlCellRendererComponent } from '../../../cell-renderers/url-cell-rende
 import {
   ARRAY_SORT_VALUE_FORMATTER,
   BOOLEAN_VALUE_FORMATTER,
+  CUSTOM_DATE_FORMATTER,
   EMISSION_FACTORS_FORMATTER,
   MATURITY_FORMATTER,
   PERCENT_FORMATTER,
@@ -503,5 +506,17 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: OWNER,
     filter: 'agSetColumnFilter',
     filterParams: DISTINCT_FILTER_PARAMS,
+  },
+  {
+    field: MODIFIED_BY,
+    headerName: MODIFIED_BY,
+    filter: 'agSetColumnFilter',
+    filterParams: DISTINCT_FILTER_PARAMS,
+  },
+  {
+    field: TIMESTAMP,
+    headerName: TIMESTAMP,
+    filter: false,
+    valueFormatter: CUSTOM_DATE_FORMATTER,
   },
 ];
