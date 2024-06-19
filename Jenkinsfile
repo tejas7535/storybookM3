@@ -562,7 +562,7 @@ pipeline {
                 echo 'Run Unit Tests'
 
                 script {
-                    sh "pnpm nx affected:test --base=${buildBase} --parallel=3 --runInBand"
+                    sh "pnpm nx affected:test --base=${buildBase} --parallel=3"
                     sh 'mkdir -p coverage'
                     // merge reports
                     sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files='coverage/**/cobertura-coverage.xml'"
