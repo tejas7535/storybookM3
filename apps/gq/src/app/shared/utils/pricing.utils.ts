@@ -1,4 +1,6 @@
 /* eslint-disable max-lines */
+import Big from 'big.js';
+
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
 import { KpiValue } from '../components/modal/editing-modal/models/kpi-value.model';
 import { StatusBarProperties } from '../models';
@@ -118,8 +120,13 @@ export const keepMaxQuantityIfDuplicate = (
   return [...filtered.values()];
 };
 
-export const roundToTwoDecimals = (number: number): number =>
-  Math.round(number * 100) / 100;
+export const roundToTwoDecimals = (number: number): number => {
+  if (!number) {
+    return number;
+  }
+
+  return new Big(number).round(2, Big.roundHalfUp).toNumber();
+};
 
 export const calculateAffectedKPIs = (
   value: number,

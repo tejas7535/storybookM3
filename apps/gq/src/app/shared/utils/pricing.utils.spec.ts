@@ -194,10 +194,13 @@ describe('PricingUtils', () => {
       const result = pricingUtils.roundToTwoDecimals(1.2222);
       expect(result).toEqual(1.22);
     });
+    test('two decimals for edge cases', () => {
+      const result = pricingUtils.roundToTwoDecimals(37.995);
+      expect(result).toEqual(38);
+    });
     test('undefined', () => {
       const result = pricingUtils.roundToTwoDecimals(undefined as any);
-      // eslint-disable-next-line unicorn/prefer-number-properties
-      expect(result).toEqual(NaN);
+      expect(result).toEqual(undefined);
     });
   });
 
