@@ -178,10 +178,17 @@ export class ColumnUtilityService {
    * e.g. percentage Values
    */
   static numberAsStringComparator(valueA: string, valueB: string): number {
-    const compValue1 = Number(valueA) || 0;
-    const compValue2 = Number(valueB) || 0;
+    if (!Number(valueA) && !Number(valueB)) {
+      return 0;
+    }
+    if (!Number(valueA)) {
+      return -1;
+    }
+    if (!Number(valueB)) {
+      return 1;
+    }
 
-    return compValue1 - compValue2;
+    return Number(valueA) - Number(valueB);
   }
   static basicTransform(data: ValueFormatterParams): string {
     return data.value || Keyboard.DASH;
