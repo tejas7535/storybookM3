@@ -202,6 +202,10 @@ describe('PricingUtils', () => {
       const result = pricingUtils.roundToTwoDecimals(undefined as any);
       expect(result).toEqual(undefined);
     });
+    test('undefined when input is "NaN"', () => {
+      const result = pricingUtils.roundToTwoDecimals('NaN' as any);
+      expect(result).toEqual(undefined);
+    });
   });
 
   describe('getManualPriceByMarginAndCost', () => {

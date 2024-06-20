@@ -121,8 +121,8 @@ export const keepMaxQuantityIfDuplicate = (
 };
 
 export const roundToTwoDecimals = (number: number): number => {
-  if (!number) {
-    return number;
+  if (!number || Number.isNaN(Number(number))) {
+    return undefined;
   }
 
   return new Big(number).round(2, Big.roundHalfUp).toNumber();
