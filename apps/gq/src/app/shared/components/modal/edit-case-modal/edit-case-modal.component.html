@@ -1,216 +1,236 @@
-<div class="flex h-full flex-col" *transloco="let t; read: 'shared.caseModal'">
-  <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
-  </gq-dialog-header>
+<mat-dialog-content>
+  <div
+    class="flex h-full flex-col"
+    *transloco="let t; read: 'shared.caseModal'"
+  >
+    <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+    </gq-dialog-header>
 
-  <form [formGroup]="caseModalForm" (ngSubmit)="submitDialog()">
-    <div class="flex w-full flex-col py-8">
-      <div class="flex flex-col">
-        <span class="text-medium-emphasis pb-2 text-[14px]">
-          {{ t('generalInformation') }}</span
-        >
-        <div class="grid grid-cols-2 gap-4">
-          <mat-form-field class="col-span-2" appearance="outline">
-            <mat-label>{{ t('nameLabel') }}</mat-label>
-            <input
-              formControlName="caseName"
-              type="text"
-              autocomplete="off"
-              matInput
-              data-cy="edit-case-modal_custom-name-input"
-              [maxlength]="NAME_MAX_LENGTH"
-            />
-            <mat-hint align="end">{{
-              (caseModalForm.controls.caseName.value?.length.toString() ||
-                '0') +
-                ' / ' +
-                NAME_MAX_LENGTH.toString()
-            }}</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>{{ t('currencyLabel') }}</mat-label>
-            <mat-select
-              formControlName="currency"
-              data-cy="edit-case-modal_custom-currency-input"
-            >
-              @for (
-                currency of currencyFacade.availableCurrencies$ | ngrxPush;
-                track currency
-              ) {
-                <mat-option [value]="currency">{{ currency }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <gq-purchase-order-type-select
-            appearance="outline"
-            formControlName="purchaseOrderType"
-          ></gq-purchase-order-type-select>
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <span class="text-medium-emphasis pb-2 text-[14px]">
-          {{ t('sapInformation') }}</span
-        >
+    <form [formGroup]="caseModalForm" (ngSubmit)="submitDialog()">
+      <div class="flex w-full flex-col py-8">
         <div class="flex flex-col">
-          <mat-form-field class="pb-2" appearance="outline">
-            <mat-label>{{ t('shipToParty') }}</mat-label>
-            <input
-              matInput
-              color="primary"
-              class="!mx-2 w-full !max-w-[90%] truncate leading-7 !outline-none"
-              type="text"
-              formControlName="shipToParty"
-              [matAutocomplete]="auto"
-              #shipToPartyInput
-              pinDropDown="matAutocompleteTrigger"
-            />
-
-            @if (!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)) {
-              <mat-icon
-                matSuffix
-                class="absolute bottom-1 right-2"
-                (click)="shipToPartyInput.select()"
-                [ngClass]="{
-                  'text-low-emphasis': caseModalForm.get('shipToParty').disabled
-                }"
-              >
-                edit
-              </mat-icon>
-            }
-            @if (autocomplete.customerAndShipToPartyLoading$ | ngrxPush) {
-              <mat-spinner
-                matSuffix
-                class="absolute bottom-1 right-2"
-                [diameter]="18"
-              ></mat-spinner>
-            }
-
-            <mat-autocomplete
-              #auto="matAutocomplete"
-              [displayWith]="formatAutocompleteResult"
-              (optionSelected)="
-                autocomplete.selectCustomer($event.option.value, filterName)
-              "
+          <span class="text-medium-emphasis pb-2 text-[14px]">
+            {{ t('generalInformation') }}</span
+          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <mat-form-field
+              class="col-span-1 sm:col-span-2 md:col-span-3"
+              appearance="outline"
             >
-              @for (
-                idValue of (autocomplete.shipToCustomer$ | ngrxPush)?.options;
-                track idValue
-              ) {
-                <mat-option [value]="idValue">
-                  <span> {{ idValue.id }} | {{ idValue.value }}</span>
-                  @if (idValue.value2) {
-                    <span> | {{ idValue.value2 }}</span>
-                  }
-                </mat-option>
-              }
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <mat-form-field class="pb-2" appearance="outline">
-            <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
-            <input
-              matInput
-              autocomplete="off"
-              formControlName="customerPurchaseOrderDate"
-              [matDatepicker]="customerPurchaseOrderDatePicker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="customerPurchaseOrderDatePicker"
-            >
-              <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #customerPurchaseOrderDatePicker></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field class="pb-2" appearance="outline">
-            <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
-            <input
-              matInput
-              autocomplete="off"
-              formControlName="quotationToDate"
-              [matDatepicker]="quotationToDatePicker"
-            />
-            <mat-datepicker-toggle matSuffix [for]="quotationToDatePicker"
-              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #quotationToDatePicker></mat-datepicker>
-            @if (
-              caseModalForm.get('quotationToDate')?.errors?.smallerThanPoDate
-            ) {
-              <mat-error>{{
-                t('smallerThanPoDateValidationMessage')
-              }}</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field class="pb-2" appearance="outline">
-            <mat-label>{{ t('requestedDeliveryDateLabel') }}</mat-label>
-            <input
-              matInput
-              autocomplete="off"
-              formControlName="requestedDeliveryDate"
-              [matDatepicker]="requestedDeliveryDatePicker"
-            />
-            <mat-datepicker-toggle matSuffix [for]="requestedDeliveryDatePicker"
-              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #requestedDeliveryDatePicker></mat-datepicker>
-            @if (
-              caseModalForm.get('requestedDeliveryDate')?.errors
-                ?.smallerThanToday
-            ) {
-              <mat-hint class="text-info">{{
-                t('dateBeforeTodayValidationMessage')
+              <mat-label>{{ t('nameLabel') }}</mat-label>
+              <input
+                formControlName="caseName"
+                type="text"
+                autocomplete="off"
+                matInput
+                data-cy="edit-case-modal_custom-name-input"
+                [maxlength]="NAME_MAX_LENGTH"
+              />
+              <mat-hint align="end">{{
+                (caseModalForm.controls.caseName.value?.length.toString() ||
+                  '0') +
+                  ' / ' +
+                  NAME_MAX_LENGTH.toString()
               }}</mat-hint>
-            }
-          </mat-form-field>
-          <mat-form-field class="pb-2" appearance="outline">
-            <mat-label>{{ t('bindingPeriodValidityEndDateLabel') }}</mat-label>
-            <input
-              matInput
-              autocomplete="off"
-              formControlName="bindingPeriodValidityEndDate"
-              [matDatepicker]="bindingPeriodValidityEndDatePicker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="bindingPeriodValidityEndDatePicker"
-              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker
-              #bindingPeriodValidityEndDatePicker
-            ></mat-datepicker>
-            @if (
-              caseModalForm.get('bindingPeriodValidityEndDate')?.errors
-                ?.smallerThanPoDate
-            ) {
-              <mat-error>{{
-                t('smallerThanPoDateValidationMessage')
-              }}</mat-error>
-            }
-          </mat-form-field>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ t('currencyLabel') }}</mat-label>
+              <mat-select
+                formControlName="currency"
+                data-cy="edit-case-modal_custom-currency-input"
+              >
+                @for (
+                  currency of currencyFacade.availableCurrencies$ | ngrxPush;
+                  track currency
+                ) {
+                  <mat-option [value]="currency">{{ currency }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <gq-sector-gpsd-select
+              appearance="outline"
+              formControlName="partnerRoleType"
+            ></gq-sector-gpsd-select>
+            <gq-purchase-order-type-select
+              class="col-span-1 sm:col-span-2 md:col-span-1"
+              appearance="outline"
+              formControlName="purchaseOrderType"
+            ></gq-purchase-order-type-select>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-medium-emphasis pb-2 text-[14px]">
+            {{ t('sapInformation') }}</span
+          >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <mat-form-field
+              class="pb-2 col-span-1 sm:col-span-2"
+              appearance="outline"
+            >
+              <mat-label>{{ t('shipToParty') }}</mat-label>
+              <input
+                matInput
+                color="primary"
+                class="!mx-2 w-full !max-w-[90%] truncate leading-7 !outline-none"
+                type="text"
+                formControlName="shipToParty"
+                [matAutocomplete]="auto"
+                #shipToPartyInput
+                pinDropDown="matAutocompleteTrigger"
+              />
+
+              @if (!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)) {
+                <mat-icon
+                  matSuffix
+                  class="absolute bottom-1 right-2"
+                  (click)="shipToPartyInput.select()"
+                  [ngClass]="{
+                    'text-low-emphasis':
+                      caseModalForm.get('shipToParty').disabled
+                  }"
+                >
+                  edit
+                </mat-icon>
+              }
+              @if (autocomplete.customerAndShipToPartyLoading$ | ngrxPush) {
+                <mat-spinner
+                  matSuffix
+                  class="absolute bottom-1 right-2"
+                  [diameter]="18"
+                ></mat-spinner>
+              }
+
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="formatAutocompleteResult"
+                (optionSelected)="
+                  autocomplete.selectCustomer($event.option.value, filterName)
+                "
+              >
+                @for (
+                  idValue of (autocomplete.shipToCustomer$ | ngrxPush)?.options;
+                  track idValue
+                ) {
+                  <mat-option [value]="idValue">
+                    <span> {{ idValue.id }} | {{ idValue.value }}</span>
+                    @if (idValue.value2) {
+                      <span> | {{ idValue.value2 }}</span>
+                    }
+                  </mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="pb-2" appearance="outline">
+              <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
+              <input
+                matInput
+                autocomplete="off"
+                formControlName="customerPurchaseOrderDate"
+                [matDatepicker]="customerPurchaseOrderDatePicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="customerPurchaseOrderDatePicker"
+              >
+                <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #customerPurchaseOrderDatePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="pb-2" appearance="outline">
+              <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
+              <input
+                matInput
+                autocomplete="off"
+                formControlName="quotationToDate"
+                [matDatepicker]="quotationToDatePicker"
+              />
+              <mat-datepicker-toggle matSuffix [for]="quotationToDatePicker"
+                ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #quotationToDatePicker></mat-datepicker>
+              @if (
+                caseModalForm.get('quotationToDate')?.errors?.smallerThanPoDate
+              ) {
+                <mat-error>{{
+                  t('smallerThanPoDateValidationMessage')
+                }}</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field class="pb-2" appearance="outline">
+              <mat-label>{{ t('requestedDeliveryDateLabel') }}</mat-label>
+              <input
+                matInput
+                autocomplete="off"
+                formControlName="requestedDeliveryDate"
+                [matDatepicker]="requestedDeliveryDatePicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="requestedDeliveryDatePicker"
+                ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #requestedDeliveryDatePicker></mat-datepicker>
+              @if (
+                caseModalForm.get('requestedDeliveryDate')?.errors
+                  ?.smallerThanToday
+              ) {
+                <mat-hint class="text-info">{{
+                  t('dateBeforeTodayValidationMessage')
+                }}</mat-hint>
+              }
+            </mat-form-field>
+            <mat-form-field class="pb-2" appearance="outline">
+              <mat-label>{{
+                t('bindingPeriodValidityEndDateLabel')
+              }}</mat-label>
+              <input
+                matInput
+                autocomplete="off"
+                formControlName="bindingPeriodValidityEndDate"
+                [matDatepicker]="bindingPeriodValidityEndDatePicker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="bindingPeriodValidityEndDatePicker"
+                ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker
+                #bindingPeriodValidityEndDatePicker
+              ></mat-datepicker>
+              @if (
+                caseModalForm.get('bindingPeriodValidityEndDate')?.errors
+                  ?.smallerThanPoDate
+              ) {
+                <mat-error>{{
+                  t('smallerThanPoDateValidationMessage')
+                }}</mat-error>
+              }
+            </mat-form-field>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="flex w-full">
-      <button
-        class="!pl-8 !pr-8"
-        color="primary"
-        mat-raised-button
-        [disabled]="!hasCaseModalFormChange || !caseModalForm.valid"
-        data-cy="edit-case-modal_update-btn"
-      >
-        <span> {{ t('confirm') | uppercase }} </span></button
-      ><button
-        class="!ml-6 !pl-8 !pr-8"
-        color="primary"
-        mat-stroked-button
-        (click)="closeDialog()"
-        type="button"
-        data-cy="edit-case-modal_close-btn"
-      >
-        <span> {{ t('cancel') | uppercase }} </span>
-      </button>
-    </div>
-  </form>
-</div>
+      <div class="flex w-full">
+        <button
+          class="!pl-8 !pr-8"
+          color="primary"
+          mat-raised-button
+          [disabled]="!hasCaseModalFormChange || !caseModalForm.valid"
+          data-cy="edit-case-modal_update-btn"
+        >
+          <span> {{ t('confirm') | uppercase }} </span></button
+        ><button
+          class="!ml-6 !pl-8 !pr-8"
+          color="primary"
+          mat-stroked-button
+          (click)="closeDialog()"
+          type="button"
+          data-cy="edit-case-modal_close-btn"
+        >
+          <span> {{ t('cancel') | uppercase }} </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

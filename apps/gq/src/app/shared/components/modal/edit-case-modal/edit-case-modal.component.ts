@@ -27,6 +27,7 @@ import {
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { SalesOrg } from '@gq/core/store/reducers/models';
+import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { getSalesOrgs } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
@@ -68,10 +69,16 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     private readonly adapter: DateAdapter<any>,
     private readonly translocoLocaleService: TranslocoLocaleService,
     readonly autocomplete: AutoCompleteFacade,
-    readonly currencyFacade: CurrencyFacade
+    readonly currencyFacade: CurrencyFacade,
+    readonly sectorGpsdFacade: SectorGpsdFacade
   ) {}
 
   ngOnInit(): void {
+    this.sectorGpsdFacade.loadSectorGpsdByCustomerAndSalesOrg(
+      this.modalData.caseCustomer.identifier.customerId,
+      this.modalData.caseCustomer.identifier.salesOrg
+    );
+
     this.autocomplete.resetView();
     this.autocomplete.initFacade(AutocompleteRequestDialog.EDIT_CASE);
     this.dispatchResetActions();
@@ -132,6 +139,10 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       ),
       purchaseOrderType: new FormControl({
         value: this.modalData?.purchaseOrderType,
+        disabled: false,
+      }),
+      partnerRoleType: new FormControl({
+        value: this.modalData?.partnerRoleType,
         disabled: false,
       }),
     });
@@ -233,6 +244,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   }
 
   closeDialog(): void {
+    this.sectorGpsdFacade.resetAllSectorGpsds();
     this.dialogRef.close();
   }
 
@@ -246,6 +258,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       bindingPeriodValidityEndDate,
       shipToParty,
       purchaseOrderType,
+      partnerRoleType,
     } = this.caseModalForm.controls;
 
     const returnUpdateQuotationRequest: UpdateQuotationRequest = {
@@ -262,6 +275,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
           } as ShipToParty)
         : undefined,
       purchaseOrderTypeId: purchaseOrderType.value?.id,
+      partnerRoleId: partnerRoleType.value?.id,
     };
 
     this.dialogRef.close(returnUpdateQuotationRequest);

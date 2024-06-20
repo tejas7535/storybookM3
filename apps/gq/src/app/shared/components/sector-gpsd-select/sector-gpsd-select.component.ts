@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   forwardRef,
   inject,
   Input,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormControl,
@@ -52,6 +54,8 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
   @Output() sectorGpsdSelected: EventEmitter<SectorGpsd> =
     new EventEmitter<SectorGpsd>();
 
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly NOT_AVAILABLE: SectorGpsd = {
     name: 'Not available',
     id: 'NOT_AVAILABLE',
@@ -63,6 +67,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
 
   sectorGpsdLoading$ = inject(SectorGpsdFacade).sectorGpsdLoading$;
   sectorGpsds$ = inject(SectorGpsdFacade).sectorGpsds$.pipe(
+    takeUntilDestroyed(this.destroyRef),
     map((gpsds: SectorGpsd[]) => {
       if (gpsds?.length === 0) {
         return [this.NOT_AVAILABLE];
@@ -72,6 +77,10 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     }),
 
     tap((gpsds) => {
+      // if formControl has been initialValue skip setting the default value
+      if (this.selectedSectorGpsd) {
+        return;
+      }
       // determine disabled state and select Values
       if (!gpsds) {
         this.setDisabledState(true);

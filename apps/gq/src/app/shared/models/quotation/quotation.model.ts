@@ -1,9 +1,8 @@
-import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
-
 import { Customer } from '../customer';
 import { PurchaseOrderType } from '../purchase-order-type.interface';
 import { QuotationDetail } from '../quotation-detail';
 import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
+import { SectorGpsd } from '../sector-gpsd.interface';
 import { GQUser } from '../user.model';
 import { CASE_ORIGIN } from './quotation-origin.enum';
 import { QuotationStatus } from './quotation-status.enum';

@@ -165,7 +165,7 @@ export const getCreateCaseData = createSelector(
         salesOrg,
       },
       purchaseOrderTypeId: purchaseOrderType?.id,
-      partnerRole: sectorGpsd?.id,
+      partnerRoleId: sectorGpsd?.id,
     };
   }
 );

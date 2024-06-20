@@ -62,6 +62,9 @@ describe('SectorGpsdSelectComponent', () => {
   });
 
   describe('Display and selection Behavior', () => {
+    beforeEach(() => {
+      component['selectedSectorGpsd'] = null;
+    });
     test('should set disabled to FormControl when received gpsd list is undefined', () => {
       component.sectorGpsdControl.enable();
       // eslint-disable-next-line unicorn/no-useless-undefined
@@ -108,6 +111,26 @@ describe('SectorGpsdSelectComponent', () => {
       expect(component['selectedSectorGpsd']).toEqual(gpsd1);
       expect(component.sectorGpsdControl.disabled).toBeFalsy();
       expect(component.sectorGpsdControl.value).toEqual(gpsd1);
+    });
+
+    test('should not override selectedSectorGpsd when it is set', () => {
+      const gpsd = { name: 'test', id: 'test' };
+      component['selectedSectorGpsd'] = gpsd;
+      component.writeValue = jest.fn();
+      component.setDisabledState = jest.fn();
+      component.sectorGpsdSelected.emit = jest.fn();
+
+      sectorGpsds$$.next([
+        { name: 'test1', id: 'test1' },
+        { name: 'test2', id: 'test2' },
+        { name: 'test3', id: 'test3' },
+      ]);
+
+      expect(component.writeValue).not.toHaveBeenCalled();
+      expect(component.setDisabledState).not.toHaveBeenCalled();
+      expect(component.sectorGpsdSelected.emit).not.toHaveBeenCalledWith(gpsd);
+
+      expect(component['selectedSectorGpsd']).toEqual(gpsd);
     });
   });
   describe('selectionChange', () => {

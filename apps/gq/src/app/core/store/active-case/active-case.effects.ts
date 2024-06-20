@@ -469,6 +469,7 @@ export class ActiveCaseEffects {
               requestedDelDate: action.requestedDelDate,
               shipToParty: action.shipToParty,
               purchaseOrderTypeId: action.purchaseOrderTypeId,
+              partnerRoleId: action.partnerRoleId,
             },
             gqId
           )

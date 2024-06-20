@@ -10,6 +10,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { TranslocoService } from '@jsverse/transloco';
@@ -35,7 +36,8 @@ export class HeaderContentComponent {
   showEditIcon: boolean;
   shipToParty: Customer;
   purchaseOrderType: PurchaseOrderType;
-
+  partnerRoleType: SectorGpsd;
+  customer: Customer;
   quotationStatus = QuotationStatus;
 
   constructor(
@@ -99,13 +101,19 @@ export class HeaderContentComponent {
       }
 
       this.purchaseOrderType = value.purchaseOrderType;
+      this.partnerRoleType = value.partnerRole;
+
+      this.customer = value.customer;
     }
   }
 
   openCaseEditingModal(): void {
     this.matDialog
       .open(EditCaseModalComponent, {
-        width: '550px',
+        width: '660px',
+        position: {
+          top: '50px',
+        },
         panelClass: 'edit-case-modal',
         data: {
           caseName: this.caseName,
@@ -121,7 +129,9 @@ export class HeaderContentComponent {
             value2: this.shipToParty?.country,
           },
           salesOrg: this.shipToParty?.identifier?.salesOrg,
+          caseCustomer: this.customer,
           purchaseOrderType: this.purchaseOrderType,
+          partnerRoleType: this.partnerRoleType,
           disabled: !this.showEditIcon,
         },
       })

@@ -7,7 +7,8 @@ import { of } from 'rxjs';
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
-import { Keyboard } from '@gq/shared/models';
+import { Customer, Keyboard, PurchaseOrderType } from '@gq/shared/models';
+import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { TranslocoService } from '@jsverse/transloco';
@@ -76,6 +77,59 @@ describe('HeaderContentComponent', () => {
       component.updateQuotation.emit = jest.fn();
       component.showEditIcon = true;
     });
+    test('Should pass purchaseOrderType and partnerRoleType and caseCustomer to Modal', () => {
+      component.purchaseOrderType = {
+        id: 'HBX',
+        name: 'HBX Name Value',
+      } as PurchaseOrderType;
+      component.partnerRoleType = {
+        id: '6000036',
+        name: 'MRO Mining',
+      } as SectorGpsd;
+      component.customer = {
+        identifier: { customerId: '123456', salesOrg: '0815' },
+      } as Customer;
+
+      component.openCaseEditingModal();
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        EditCaseModalComponent,
+        {
+          width: '660px',
+          position: {
+            top: '50px',
+          },
+          panelClass: 'edit-case-modal',
+          data: {
+            caseName: undefined,
+            bindingPeriodValidityEndDate: undefined,
+            customerPurchaseOrderDate: undefined,
+            enableSapFieldEditing: false,
+            quotationToDate: undefined,
+            requestedDeliveryDate: undefined,
+            currency: undefined,
+            salesOrg: undefined,
+            shipToParty: {
+              id: undefined,
+              value: undefined,
+              value2: undefined,
+            },
+            caseCustomer: {
+              identifier: { customerId: '123456', salesOrg: '0815' },
+            } as Customer,
+            purchaseOrderType: {
+              id: 'HBX',
+              name: 'HBX Name Value',
+            } as PurchaseOrderType,
+            partnerRoleType: {
+              id: '6000036',
+              name: 'MRO Mining',
+            } as SectorGpsd,
+            disabled: false,
+          },
+        }
+      );
+    });
     test('should pass caseName to Modal', () => {
       component.caseName = 'case-name';
 
@@ -84,7 +138,10 @@ describe('HeaderContentComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditCaseModalComponent,
         {
-          width: '550px',
+          width: '660px',
+          position: {
+            top: '50px',
+          },
           panelClass: 'edit-case-modal',
           data: {
             caseName: 'case-name',
@@ -115,7 +172,10 @@ describe('HeaderContentComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditCaseModalComponent,
         {
-          width: '550px',
+          width: '660px',
+          position: {
+            top: '50px',
+          },
           panelClass: 'edit-case-modal',
           data: {
             caseName: 'case-name',

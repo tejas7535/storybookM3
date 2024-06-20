@@ -22,6 +22,7 @@ import { of } from 'rxjs';
 
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { getSalesOrgs } from '@gq/core/store/selectors';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
@@ -40,6 +41,7 @@ import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
 import { PurchaseOrderTypeSelectComponent } from '../../purchase-order-type-select/purchase-order-type-select.component';
+import { SectorGpsdSelectComponent } from '../../sector-gpsd-select/sector-gpsd-select.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
 describe('EditCaseModalComponent', () => {
   let component: EditCaseModalComponent;
@@ -50,6 +52,7 @@ describe('EditCaseModalComponent', () => {
     component: EditCaseModalComponent,
     imports: [
       MockComponent(PurchaseOrderTypeSelectComponent),
+      MockComponent(SectorGpsdSelectComponent),
       MatFormFieldModule,
       MatDatepickerModule,
       MatMomentDateModule,
@@ -80,6 +83,10 @@ describe('EditCaseModalComponent', () => {
           customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
           bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
           purchaseOrderType: { id: 1, name: 'ZOR' },
+          partnerRoleType: { id: '6000036', name: 'MRO Mining' },
+          caseCustomer: {
+            identifier: { customerId: '123456', salesOrg: '0815' },
+          },
           enableSapFieldEditing: true,
         },
       },
@@ -113,6 +120,13 @@ describe('EditCaseModalComponent', () => {
         provide: CurrencyFacade,
         useValue: {
           availableCurrencies$: of([]),
+        },
+      },
+      {
+        provide: SectorGpsdFacade,
+        useValue: {
+          loadSectorGpsdByCustomerAndSalesOrg: jest.fn(),
+          resetAllSectorGpsds: jest.fn(),
         },
       },
     ],
@@ -162,6 +176,9 @@ describe('EditCaseModalComponent', () => {
     test('should set salesOrg from modalData if subscription is empty', () => {
       component.modalData = {
         salesOrg: '0269',
+        caseCustomer: {
+          identifier: { customerId: '123456', salesOrg: '0815' },
+        },
       } as any;
 
       store.overrideSelector(getSalesOrgs, []);
@@ -169,6 +186,26 @@ describe('EditCaseModalComponent', () => {
       component.ngOnInit();
 
       expect(component.salesOrg).toEqual('0269');
+    });
+
+    test('should set purchaseOrderType from Modal data', () => {
+      expect(component.caseModalForm.controls.purchaseOrderType.value).toEqual({
+        id: 1,
+        name: 'ZOR',
+      });
+    });
+    test('should set partnerRoleType from Modal data', () => {
+      expect(component.caseModalForm.controls.partnerRoleType.value).toEqual({
+        id: '6000036',
+        name: 'MRO Mining',
+      });
+    });
+
+    test('should request sectorGpsd data', () => {
+      component.ngOnInit();
+      expect(
+        component['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
+      ).toHaveBeenCalled();
     });
   });
 
@@ -220,12 +257,15 @@ describe('EditCaseModalComponent', () => {
   });
 
   describe('close dialog', () => {
-    test('should close dialog', () => {
+    test('should close dialog and reset sectorGpsd', () => {
       component['dialogRef'].close = jest.fn();
 
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(
+        component['sectorGpsdFacade'].resetAllSectorGpsds
+      ).toHaveBeenCalled();
     });
   });
 
@@ -261,6 +301,7 @@ describe('EditCaseModalComponent', () => {
         customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
         validTo: '2022-12-31T00:00:00.000Z',
         purchaseOrderTypeId: 1,
+        partnerRoleId: '6000036',
       });
     });
 
@@ -295,6 +336,7 @@ describe('EditCaseModalComponent', () => {
         customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
         validTo: '2022-12-31T00:00:00.000Z',
         purchaseOrderTypeId: 1,
+        partnerRoleId: '6000036',
       });
     });
 
@@ -325,6 +367,7 @@ describe('EditCaseModalComponent', () => {
         caseName: 'new whitespace',
         currency: 'USD',
         purchaseOrderTypeId: 1,
+        partnerRoleId: '6000036',
       });
     });
   });

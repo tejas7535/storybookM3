@@ -93,7 +93,8 @@ export class PurchaseOrderTypeSelectComponent implements ControlValueAccessor {
    *
    */
   writeValue(type: PurchaseOrderType): void {
-    this.selectedType = type;
+    // when formControl is initialized with undefined value, the default Value is to be set
+    this.selectedType = type ?? this.NO_ENTRY;
     this.purchaseOrderTypeControl.setValue(this.selectedType, {
       emitEvent: false,
     });

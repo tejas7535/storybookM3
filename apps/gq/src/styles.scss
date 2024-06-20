@@ -145,6 +145,18 @@ button {
   .mat-mdc-button-base .mdc-button__label {
     z-index: 0;
   }
+  .mat-mdc-dialog-surface {
+    @apply p-0 #{!important};
+  }
+  mat-dialog-content {
+    @apply p-4 #{!important};
+  }
+
+  mat-dialog-content.mat-mdc-dialog-content {
+    max-height: 80vh !important;
+    color: unset;
+    font-family: unset;
+  }
 }
 
 .mdc-tooltip__surface {

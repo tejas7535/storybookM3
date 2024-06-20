@@ -9,4 +9,5 @@ export interface UpdateQuotationRequest {
   validTo?: string;
   shipToParty?: ShipToParty;
   purchaseOrderTypeId?: string;
+  partnerRoleId?: string;
 }

@@ -997,6 +997,9 @@ describe('ActiveCaseEffects', () => {
         validTo: '',
         quotationToDate: '',
         requestedDelDate: '',
+        shipToParty: { customerId: '123456', salesOrg: '0815' },
+        purchaseOrderTypeId: 'hbxx',
+        partnerRoleId: '600001',
       });
 
       convertSpy = jest
