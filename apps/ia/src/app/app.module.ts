@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -23,8 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FilterSectionModule } from './filter-section/filter-section.module';
 import { SharedModule } from './shared/shared.module';
-import { UserModule } from './user/user.module';
 import { SystemMessageBannerComponent } from './user/system-message/system-message-banner/system-message-banner.component';
+import { UserModule } from './user/user.module';
 
 export function DynamicDataPrivacy(
   translocoService: TranslocoService
@@ -38,16 +41,14 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
   imports: [
-    HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
     SharedModule,
-
     AppRoutingModule,
     CoreModule,
     MatTabsModule,
     SharedTranslocoModule,
-
     LoadingSpinnerModule,
     AppShellModule,
     UserModule,
@@ -69,7 +70,7 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
       useFactory: DynamicTermsOfUse,
       deps: [TranslocoService],
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

@@ -9,12 +9,12 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$schaeffler-primary: mat.define-palette($mat-schaeffler-primary, 700);
-$schaeffler-accent: mat.define-palette($mat-schaeffler-secondary, 50);
-$schaeffler-warn: mat.define-palette($mat-schaeffler-warn, 500);
+$schaeffler-primary: mat.m2-define-palette($mat-schaeffler-primary, 700);
+$schaeffler-accent: mat.m2-define-palette($mat-schaeffler-secondary, 50);
+$schaeffler-warn: mat.m2-define-palette($mat-schaeffler-warn, 500);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$schaeffler-theme: mat.define-light-theme(
+$schaeffler-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $schaeffler-primary,
@@ -24,7 +24,7 @@ $schaeffler-theme: mat.define-light-theme(
   )
 );
 
-$custom-typography: mat.define-legacy-typography-config(
+$custom-typography: mat.m2-define-legacy-typography-config(
   $font-family: 'Noto Sans',
 );
 

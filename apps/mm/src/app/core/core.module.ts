@@ -1,5 +1,9 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -103,16 +107,14 @@ if (
 
 @NgModule({
   declarations: [SettingsComponent],
+  exports: [SettingsComponent, PagesStepperModule],
   imports: [
     CommonModule,
     RouterModule,
     AppShellModule,
-
     // UI Modules
     PagesStepperModule,
-
     SharedModule,
-
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
@@ -131,15 +133,10 @@ if (
       !environment.localDev
     ),
     LanguageSelectModule,
-
     // Monitoring
     ...Tracking,
-
-    // HTTP
-    HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
   ],
-  exports: [SettingsComponent, PagesStepperModule],
-  providers,
+  providers: [provideHttpClient(withInterceptorsFromDi()), ...providers],
 })
 export class CoreModule {}

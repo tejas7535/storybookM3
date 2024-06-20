@@ -1,5 +1,8 @@
 /* eslint @nx/enforce-module-boundaries: 1 */
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
@@ -25,7 +28,8 @@ export function DynamicDataSource(translocoService: TranslocoService) {
 }
 
 @NgModule({
-  imports: [AppRoutingModule, HttpClientModule, CoreModule, SharedModule],
+  bootstrap: [AppComponent, MsalRedirectComponent],
+  imports: [AppRoutingModule, CoreModule, SharedModule],
   providers: [
     {
       provide: PERSON_RESPONSIBLE,
@@ -41,7 +45,7 @@ export function DynamicDataSource(translocoService: TranslocoService) {
       useFactory: DynamicDataSource,
       deps: [TranslocoService],
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

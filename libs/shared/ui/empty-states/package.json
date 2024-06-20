@@ -2,9 +2,9 @@
   "name": "@schaeffler/empty-states",
   "version": "2.7.0",
   "peerDependencies": {
-    "@angular/common": ">=17.0.0 <18.0.0",
-    "@angular/core": ">=17.0.0 <18.0.0",
-    "@angular/material": ">=17.0.0 <18.0.0",
-    "@angular/router": ">=17.0.0 <18.0.0"
+    "@angular/common": ">=18.0.0 <19.0.0",
+    "@angular/core": ">=18.0.0 <19.0.0",
+    "@angular/material": ">=18.0.0 <19.0.0",
+    "@angular/router": ">=18.0.0 <19.0.0"
   }
 }

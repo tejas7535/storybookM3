@@ -36,20 +36,25 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
         let errorMessage = '';
 
-        if (errorResponse.error instanceof ErrorEvent) {
+        if (errorResponse.error instanceof ProgressEvent) {
           // a client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', errorResponse.error.message);
+          console.error(
+            'An error occurred:',
+            errorResponse.status,
+            errorResponse.statusText,
+            errorResponse.message
+          );
 
           // show default error message
           errorMessage = 'An error occurred. Please try again later.';
         } else {
           // Backend Response
           console.error(
-            `Backend returned code ${errorResponse.status}, ` +
-              `body was: ${JSON.stringify(errorResponse.error)}`
+            `Backend returned code ${errorResponse.status} - ${errorResponse.statusText}, ` +
+              `body was: ${errorResponse.message}`
           );
 
-          errorMessage = `${errorResponse.error.title} - ${errorResponse.error.detail}`;
+          errorMessage = `${errorResponse.status} - ${errorResponse.statusText}: ${errorResponse.error}`;
         }
 
         if (
@@ -58,7 +63,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           this.httpErrorService.handleHttpErrorDefault();
         }
 
-        return throwError(errorMessage);
+        return throwError(() => new Error(errorMessage));
       })
     );
   }

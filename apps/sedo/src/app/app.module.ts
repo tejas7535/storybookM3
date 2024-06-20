@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
@@ -13,16 +16,16 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
+  declarations: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
   imports: [
     AppRoutingModule,
     AppShellModule,
     CoreModule,
-    HttpClientModule,
     LoadingSpinnerModule,
     PushPipe,
     SharedModule,
   ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent, MsalRedirectComponent],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class AppModule {}

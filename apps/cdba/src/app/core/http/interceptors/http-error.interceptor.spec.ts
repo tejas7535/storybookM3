@@ -1,7 +1,13 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
@@ -20,6 +26,8 @@ import { HttpErrorInterceptor } from './http-error.interceptor';
 const environment = {
   baseUrl: 'localhost:8000/api/v1',
 };
+
+const CUSTOM_TIMEOUT = 10_000;
 
 @Injectable()
 class ExampleService {
@@ -41,12 +49,13 @@ describe(`HttpErrorInterceptor`, () => {
   const createService = createServiceFactory({
     service: ExampleService,
     imports: [
-      HttpClientTestingModule,
       NoopAnimationsModule,
       MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      provideHttpClient(withInterceptorsFromDi()),
+      provideHttpClientTesting(),
       ExampleService,
       {
         provide: HTTP_INTERCEPTORS,
@@ -73,125 +82,128 @@ describe(`HttpErrorInterceptor`, () => {
   });
 
   describe('intercept', () => {
-    let error: ErrorEvent;
+    let dummyOpts: any;
 
     beforeEach(() => {
-      error = new ErrorEvent('error', {
-        error: {
-          message: 'error',
-          title: 'Service Unavailable',
-          detail: 'Damn monkey',
-        },
-        message: 'A monkey is throwing bananas at me!',
-        lineno: 402,
-        filename: 'closet.html',
-      });
+      dummyOpts = {
+        status: 503,
+        statusText: 'Service Unavailable',
+      };
     });
 
     afterEach(() => {
       httpMock.verify();
     });
 
-    test('should do nothing when no error occurs', waitForAsync(() => {
-      service.getPosts().subscribe((response) => {
-        expect(response).toBeTruthy();
-        expect(response).toEqual('data');
+    it('should do nothing when no error occurs', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: (response) => {
+          expect(response).toBeTruthy();
+          expect(response).toEqual('data');
+        },
       });
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
       expect(httpRequest.request.method).toEqual('GET');
+
       httpRequest.flush('data');
     }));
 
-    test('should show error on client error', waitForAsync(() => {
-      service.getPosts().subscribe(
-        () => {
+    it(
+      'should show error on client error',
+      waitForAsync(() => {
+        service.getPosts().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (response) => {
+            expect(response).toBeTruthy();
+            expect(response).toEqual(
+              new Error('An error occurred. Please try again later.')
+            );
+          },
+        });
+
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+        expect(httpRequest.request.method).toEqual('GET');
+
+        // ProgressEvents are used to simulate client errors
+        httpRequest.error(new ProgressEvent('error'));
+      }),
+      CUSTOM_TIMEOUT
+    );
+
+    it(
+      'should show error on server error',
+      waitForAsync(() => {
+        service.getPosts().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (response) => {
+            expect(response).toBeTruthy();
+            expect(response).toEqual(
+              new Error('503 - Service Unavailable: Damn monkey')
+            );
+          },
+        });
+
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+        expect(httpRequest.request.method).toEqual('GET');
+
+        // ErrorEvents are used to simulate server errors
+        httpRequest.flush('Damn monkey', dummyOpts);
+      }),
+      CUSTOM_TIMEOUT
+    );
+
+    it('should show snackbar error message in error case', () => {
+      service.getPosts().subscribe({
+        next: () => {
           expect(true).toEqual(false);
         },
-        (response) => {
-          expect(response).toBeTruthy();
-          expect(response).toEqual(
-            'An error occurred. Please try again later.'
-          );
-        }
-      );
-
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-
-      expect(httpRequest.request.method).toEqual('GET');
-
-      httpRequest.error(error);
-    }));
-
-    test('should show error on server error', waitForAsync(() => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (response) => {
-          expect(response).toBeTruthy();
-          expect(response).toEqual('Service Unavailable - Damn monkey');
-        }
-      );
-
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-
-      expect(httpRequest.request.method).toEqual('GET');
-
-      httpRequest.error({
-        status: 0,
-        message: 'error',
-        title: 'Service Unavailable',
-        detail: 'Damn monkey',
-      } as unknown as ErrorEvent);
-    }));
-
-    test('should snackbar error message in error case', () => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (_response) => {
+        error: (_response) => {
           expect(snackBar.open).toHaveBeenCalled();
-        }
-      );
+        },
+      });
 
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
       expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error({
-        status: 403,
-        error: {
-          message: 'error',
-          title: 'Service Unavailable',
-          detail: 'Damn monkey',
-        },
-      } as unknown as ErrorEvent);
+      httpRequest.flush(
+        {
+          statusText: 'Service Unavailable',
+          message: 'Damn monkey',
+        } as HttpErrorResponse,
+        dummyOpts
+      );
     });
 
-    test('should not show snackbar error message in login case', () => {
-      service.getPosts().subscribe(
-        () => {
+    it('should not show snackbar error message in login case', () => {
+      service.getPosts().subscribe({
+        next: () => {
           expect(true).toEqual(false);
         },
-        (_response) => {
+        error: (_response) => {
           expect(snackBar.open).toHaveBeenCalledTimes(0);
-        }
-      );
+        },
+      });
 
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
       expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error({
-        status: 400,
-        error: {
+      httpRequest.flush(
+        {
+          statusText: 'Service Unavailable',
+          message: 'Damn monkey',
           url: 'https://login.microsoftonline',
-          message: 'error',
-          title: 'Service Unavailable',
-          detail: 'Damn monkey',
-        },
-      } as unknown as ErrorEvent);
+        } as HttpErrorResponse,
+        { status: 400, statusText: 'Bad Request' }
+      );
     });
   });
 });

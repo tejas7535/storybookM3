@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { TranslocoService } from '@jsverse/transloco';
@@ -15,8 +18,8 @@ import deJson from '../../assets/i18n/de.json';
 import enJson from '../../assets/i18n/en.json';
 
 @NgModule({
+  exports: [SharedTranslocoModule],
   imports: [
-    HttpClientModule,
     SharedTranslocoModule.forRoot(
       environment.production,
       AVAILABLE_LANGUAGES,
@@ -27,8 +30,7 @@ import enJson from '../../assets/i18n/en.json';
       !environment.localDev
     ),
   ],
-  providers: [],
-  exports: [SharedTranslocoModule],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
 })
 export class CoreModule {
   public constructor(private readonly translocoService: TranslocoService) {

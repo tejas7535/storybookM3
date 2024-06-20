@@ -86,22 +86,22 @@ $mat-partner-version-schmeckthal-black: (
   ),
 );
 
-$partner-version-schmeckthal-red: mat.define-palette(
+$partner-version-schmeckthal-red: mat.m2-define-palette(
   $mat-partner-version-schmeckthal-red,
   700
 );
 
-$partner-version-schmeckthal-grey: mat.define-palette(
+$partner-version-schmeckthal-grey: mat.m2-define-palette(
   $mat-partner-version-schmeckthal-grey,
   700
 );
 
-$partner-version-schmeckthal-black: mat.define-palette(
+$partner-version-schmeckthal-black: mat.m2-define-palette(
   $mat-partner-version-schmeckthal-black,
   50
 );
 
-$partner-version-schmeckthal-theme: mat.define-light-theme(
+$partner-version-schmeckthal-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $partner-version-schmeckthal-grey,

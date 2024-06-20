@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
@@ -32,7 +33,6 @@ describe('Azure Auth Service', () => {
 
   const createService = createServiceFactory({
     service: AzureAuthService,
-    imports: [HttpClientTestingModule],
     providers: [
       {
         provide: MsalService,
@@ -49,6 +49,8 @@ describe('Azure Auth Service', () => {
         provide: MSAL_GUARD_CONFIG,
         useFactory: factory,
       },
+      provideHttpClient(),
+      provideHttpClientTesting(),
     ],
   });
 

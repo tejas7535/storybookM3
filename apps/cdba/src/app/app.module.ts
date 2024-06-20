@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -43,17 +46,15 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
 }
 
 @NgModule({
+  declarations: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
   imports: [
-    // angular modules
-    HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
     PushPipe,
     CommonModule,
-
     // core and routing modules
     AppRoutingModule,
     CoreModule,
-
     // ui and app root modules
     MatDividerModule,
     LoadingSpinnerModule,
@@ -64,7 +65,6 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
     RoleDescriptionsModule,
     SharedTranslocoModule,
   ],
-  declarations: [AppComponent],
   providers: [
     {
       provide: ENV,
@@ -84,7 +84,7 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
       useFactory: DynamicTermsOfUse,
       deps: [TranslocoService],
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

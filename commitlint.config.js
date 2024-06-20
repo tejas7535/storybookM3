@@ -1,33 +1,30 @@
-const { Workspaces } = require('@nx/devkit');
+const { getProjects } = require('@nx/devkit');
+const { FsTree } = require('nx/src/generators/tree');
 
 const Configuration = {
   extends: ['@commitlint/config-conventional'],
-  utils: { getProjects },
+  utils: { getProjectScopes },
   rules: {
     'scope-enum': (ctx) =>
-      getProjects(ctx).then((packages) => [2, 'always', packages]),
+      getProjectScopes(ctx).then((packages) => [2, 'always', packages]),
   },
 };
 
 const nonNxProjectScopes = ['deps', 'jenkinsfile', 'workspace', 'docs'];
 
-function getProjects(context) {
+function getProjectScopes(context) {
   return Promise.resolve()
     .then(() => {
       const ctx = context || {};
       const cwd = ctx.cwd || process.cwd();
-      const ws = new Workspaces(cwd);
-      const workspace = ws.readWorkspaceConfiguration();
-      return Object.entries(workspace.projects || {}).map(
-        ([name, project]) => ({
-          name,
-          ...project,
-        })
-      );
+
+      const tree = new FsTree(cwd, false);
+      const projects = getProjects(tree);
+
+      return Array.from(projects.values() || []);
     })
     .then((projects) => {
       return projects
-        .filter((project) => project.targets)
         .map((project) => project.name)
         .map((name) =>
           name

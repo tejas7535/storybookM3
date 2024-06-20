@@ -1,4 +1,8 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -93,12 +97,11 @@ if (detectPartnerVersion() === PartnerVersion.Schmeckthal) {
 }
 
 @NgModule({
+  exports: [StoreModule, SharedTranslocoModule],
   imports: [
     StoreModule,
-
     // Material Modules
     MatSnackBarModule,
-
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
@@ -111,14 +114,9 @@ if (detectPartnerVersion() === PartnerVersion.Schmeckthal) {
     ),
     // Monitoring
     ...Tracking,
-
-    // HTTP
-    HttpClientModule,
-
     // Application Insights
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
-  providers,
-  exports: [StoreModule, SharedTranslocoModule],
+  providers: [provideHttpClient(withInterceptorsFromDi()), ...providers],
 })
 export class CoreModule {}

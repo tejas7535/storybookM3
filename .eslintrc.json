@@ -12,7 +12,10 @@
     {
       "files": ["*.js"],
       "extends": ["plugin:@nx/javascript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
       "files": ["*.html"],
@@ -54,7 +57,7 @@
         "eslint-plugin-prefer-arrow",
         "eslint-plugin-import",
         "simple-import-sort",
-        "unused-imports"
+        "eslint-plugin-unused-imports"
       ],
       "extends": [
         "eslint:recommended",
@@ -257,7 +260,8 @@
           {
             "checkArrowFunctions": false
           }
-        ]
+        ],
+        "@typescript-eslint/no-extra-semi": "error"
       }
     },
     {

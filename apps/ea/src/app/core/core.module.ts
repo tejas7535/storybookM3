@@ -1,4 +1,8 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
   ErrorStateMatcher,
@@ -23,10 +27,9 @@ import { HttpCO2UpstreamInterceptor } from './interceptor/http-co2-upstream.inte
 import { StoreModule } from './store/store.module';
 
 @NgModule({
+  exports: [StoreModule, SharedTranslocoModule],
   imports: [
     StoreModule,
-
-    HttpClientModule,
     SharedTranslocoModule.forRoot(
       environment.production,
       AVAILABLE_LANGUAGES,
@@ -39,7 +42,6 @@ import { StoreModule } from './store/store.module';
       `${environment.assetsPath}/i18n/`
     ),
   ],
-
   providers: [
     provideTranslocoPersistLang({
       storageKey: LANGUAGE_STORAGE_KEY,
@@ -63,9 +65,8 @@ import { StoreModule } from './store/store.module';
       multi: true,
     },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-
-  exports: [StoreModule, SharedTranslocoModule],
 })
 export class CoreModule {
   public constructor(

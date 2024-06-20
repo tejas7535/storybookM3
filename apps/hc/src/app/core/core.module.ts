@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -23,10 +26,10 @@ import {
 } from '../constants';
 
 @NgModule({
+  exports: [SharedTranslocoModule],
   imports: [
     // Material Modules
     MatSnackBarModule,
-
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
@@ -37,14 +40,12 @@ import {
       true,
       !environment.localDev
     ),
-    HttpClientModule,
     OneTrustModule.forRoot({
       cookiesGroups: COOKIE_GROUPS,
       domainScript: environment.oneTrustId,
     }),
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
-  exports: [SharedTranslocoModule],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -57,7 +58,6 @@ import {
           tag: 'application',
           value: '[Hardness - Converter]',
         };
-
         appInsightService.initTracking(
           oneTrustService.consentChanged$(),
           customProps
@@ -73,6 +73,7 @@ import {
         useValue: localStorage,
       },
     }),
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class CoreModule {

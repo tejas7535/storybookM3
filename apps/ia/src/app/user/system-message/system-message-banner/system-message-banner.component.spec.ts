@@ -3,8 +3,8 @@ import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BannerModule } from '@schaeffler/banner';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { provideTranslocoTestingModule } from '../../../../../../../libs/shared/utils/transloco/testing/src';
 import { SystemMessage } from '../../../shared/models/system-message';
 import { openIABanner } from '../../store/actions/user.action';
 import { SystemMessageBannerComponent } from './system-message-banner.component';

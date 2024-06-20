@@ -1,4 +1,7 @@
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -68,10 +71,10 @@ const azureConfig = new AzureConfig(
 const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
 
 @NgModule({
+  bootstrap: [AppComponent, MsalRedirectComponent],
   imports: [
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule,
     CoreModule,
     SharedAzureAuthModule.forRoot(azureConfig),
   ],
@@ -95,7 +98,6 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
           featureToggleService.initializeLocalStorage(environment.environment);
           agGridStateService.renameQuotationIdToActionItemForProcessCaseState();
         },
-
       multi: true,
       deps: [FeatureToggleConfigService, AgGridStateService],
     },
@@ -116,7 +118,7 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
     TranslocoDatePipe,
     TranslocoDecimalPipe,
     TranslocoPercentPipe,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

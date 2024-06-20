@@ -12,8 +12,8 @@ import {
 import { Action, Store } from '@ngrx/store';
 
 import { triggerLoad } from '../../../core/store/actions';
-import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
+import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
 import {
   changeSelectedFeatures,
   initializeSelectedFeatures,

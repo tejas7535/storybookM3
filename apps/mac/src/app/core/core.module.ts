@@ -1,4 +1,8 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,18 +57,16 @@ export function appInitializer(
 
 @NgModule({
   declarations: [AppComponent],
+  exports: [AppComponent],
   imports: [
     BrowserAnimationsModule,
-
     // NgRx Setup
     StoreModule,
     RouterModule,
     PushPipe,
-
     // UI Modules
     MatButtonModule,
     AppShellModule,
-
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
@@ -75,13 +77,8 @@ export function appInitializer(
       true,
       !environment.localDev
     ),
-
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
-
-    // HTTP
-    HttpClientModule,
-
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
     OneTrustModule.forRoot({
@@ -89,7 +86,6 @@ export function appInitializer(
       domainScript: environment.oneTrustId,
     }),
   ],
-  exports: [AppComponent],
   providers: [
     // OneTrust Provider must be first entry
     {
@@ -103,6 +99,7 @@ export function appInitializer(
       useClass: HttpMSDInterceptor,
       multi: true,
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class CoreModule {}
