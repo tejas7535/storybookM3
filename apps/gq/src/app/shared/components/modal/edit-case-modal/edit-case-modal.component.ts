@@ -143,7 +143,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       }),
       partnerRoleType: new FormControl({
         value: this.modalData?.partnerRoleType,
-        disabled: false,
+        disabled: !this.modalData?.enableSapFieldEditing,
       }),
     });
     if (this.modalData?.disabled) {
