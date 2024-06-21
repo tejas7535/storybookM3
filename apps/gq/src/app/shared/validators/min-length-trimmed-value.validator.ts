@@ -9,7 +9,7 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 export function minLengthTrimmedValueValidator(requiredLength: number) {
   return (control: AbstractControl): ValidationErrors | undefined => {
     const actualLength = control.value.trim().length;
-    if (actualLength < requiredLength) {
+    if (actualLength > 0 && actualLength < requiredLength) {
       return { minlength: { actualLength, requiredLength } };
     }
 

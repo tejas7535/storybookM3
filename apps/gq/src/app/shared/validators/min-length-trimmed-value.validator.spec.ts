@@ -3,14 +3,21 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { minLengthTrimmedValueValidator } from '@gq/shared/validators/min-length-trimmed-value.validator';
 
 describe('minLengthTrimmedValueValidator', () => {
-  test('should return null when value is valid', () => {
+  test('should not return error when value has 0 length', () => {
+    const control: AbstractControl = new FormControl('');
+    const result = minLengthTrimmedValueValidator(9)(control);
+
+    expect(result).toBeUndefined();
+  });
+
+  test('should not return error when value is valid', () => {
     const control: AbstractControl = new FormControl('019089295');
     const result = minLengthTrimmedValueValidator(9)(control);
 
     expect(result).toBeUndefined();
   });
 
-  test('should return null when value with spaces is valid', () => {
+  test('should not return error when value with spaces is valid', () => {
     const control: AbstractControl = new FormControl('   019089295');
     const result = minLengthTrimmedValueValidator(9)(control);
 

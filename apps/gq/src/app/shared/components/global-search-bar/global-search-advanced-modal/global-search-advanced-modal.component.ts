@@ -40,7 +40,6 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
   onlyUserCases = false;
   activeMinLengthForValidation =
     SEARCH_CRITERIA_VALIDATION_CONFIG['default']?.minLength;
-  trailingLeadingSpacesInfo: boolean;
 
   searchFormControl: FormControl = new FormControl('', [
     Validators.required,
@@ -182,18 +181,13 @@ export class GlobalSearchAdvancedModalComponent implements OnInit {
       SEARCH_CRITERIA_VALIDATION_CONFIG[criteriaSelected]?.minLength ??
       SEARCH_CRITERIA_VALIDATION_CONFIG['default']?.minLength;
 
-    this.trailingLeadingSpacesInfo =
-      SEARCH_CRITERIA_VALIDATION_CONFIG[
-        criteriaSelected
-      ]?.trailingLeadingSpacesInfo;
-
     if (this.activeMinLengthForValidation !== minLength) {
       this.searchFormControl.setValidators([
         Validators.required,
         minLengthTrimmedValueValidator(minLength),
       ]);
-      this.searchFormControl.updateValueAndValidity();
       this.activeMinLengthForValidation = minLength;
     }
+    this.searchFormControl.updateValueAndValidity();
   }
 }
