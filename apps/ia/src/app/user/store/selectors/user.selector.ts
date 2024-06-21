@@ -50,10 +50,17 @@ export const getSystemMessageData = createSelector(
   (state: UserState) => state.systemMessage.data
 );
 
-export const getSystemMessage = createSelector(
+export const getSystemMessageCount = createSelector(
   getSystemMessageData,
   (data: EntityState<SystemMessage>) =>
-    systemMessageAdapter.getSelectors().selectTotal(data) > 0
+    systemMessageAdapter.getSelectors().selectTotal(data)
+);
+
+export const getSystemMessage = createSelector(
+  getSystemMessageData,
+  getSystemMessageCount,
+  (data: EntityState<SystemMessage>, count: number) =>
+    count > 0
       ? systemMessageAdapter.getSelectors().selectAll(data)[0]
       : undefined
 );
@@ -61,10 +68,4 @@ export const getSystemMessage = createSelector(
 export const getActiveSystemMessageId = createSelector(
   selectUserState,
   (state: UserState) => state.systemMessage.active
-);
-
-export const getSystemMessageCount = createSelector(
-  getSystemMessageData,
-  (data: EntityState<SystemMessage>) =>
-    systemMessageAdapter.getSelectors().selectTotal(data)
 );

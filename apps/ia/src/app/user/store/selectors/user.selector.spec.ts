@@ -138,11 +138,10 @@ describe('User Selector', () => {
     test('should return system message', () => {
       const data = systemMessageAdapter.getInitialState();
       systemMessageAdapter.getSelectors = jest.fn().mockReturnValue({
-        selectTotal: () => 5,
         selectAll: () => [{ id: 1, message: 'm', type: 'info' }],
       });
 
-      const result = getSystemMessage.projector(data);
+      const result = getSystemMessage.projector(data, 1);
 
       expect(result).toEqual({ id: 1, message: 'm', type: 'info' });
     });
