@@ -14,6 +14,7 @@
                 [value]="(benchmarkFluctuationKpi$ | ngrxPush)?.fluctuationRate"
                 [showTeamMemberDialog]="false"
                 [isLoading]="isBenchmarkFluctuationKpiLoading$ | ngrxPush"
+                [viewRights]="isUserAllowedToViewBenchmarkRates$ | ngrxPush"
               ></ia-kpi>
             </div>
             <div class="mb-4 pl-4">
@@ -32,6 +33,7 @@
                 [showTooltip]="true"
                 [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
                 [excludedColumns]="['from', 'to']"
+                [viewRights]="isUserAllowedToViewDimensionRates$ | ngrxPush"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>
@@ -64,6 +66,7 @@
                 "
                 [showTeamMemberDialog]="false"
                 [isLoading]="isBenchmarkFluctuationKpiLoading$ | ngrxPush"
+                [viewRights]="isUserAllowedToViewBenchmarkRates$ | ngrxPush"
               ></ia-kpi>
             </div>
             <div class="mb-4 pl-4">
@@ -85,6 +88,7 @@
                 [showTooltip]="true"
                 [isLoading]="isDimensionFluctuationKpiLoading$ | ngrxPush"
                 [excludedColumns]="['reasonForLeaving', 'from', 'to']"
+                [viewRights]="isUserAllowedToViewDimensionRates$ | ngrxPush"
                 (openTeamMembers)="triggerLoadExitEmployees()"
               ></ia-kpi>
             </div>

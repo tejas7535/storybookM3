@@ -34,6 +34,7 @@ export class KpiComponent {
   @Input() excludedColumns: string[];
   @Input() showTeamMemberDialog = true;
   @Input() showTooltip = false;
+  @Input() viewRights = false;
   @Input() isLoading: boolean;
 
   @Output()

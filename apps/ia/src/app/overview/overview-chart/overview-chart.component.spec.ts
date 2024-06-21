@@ -3,6 +3,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { GraphicComponentOption } from 'echarts';
+import { ECActionEvent } from 'echarts/types/src/util/types';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -18,7 +20,11 @@ import {
   EmployeeListDialogMetaFilters,
 } from '../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
-import { Employee, EmployeeWithAction } from '../../shared/models';
+import {
+  AttritionOverTime,
+  Employee,
+  EmployeeWithAction,
+} from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
 
@@ -47,21 +53,25 @@ describe('OverviewChartComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('set data', () => {
-    it('should set correct chart configuration', () => {
-      const data: any = {
-        2020: {
-          employees: [],
-          attrition: [10, 20, 10],
+    test('should set correct chart configuration', () => {
+      const data: AttritionOverTime = {
+        data: {
+          2020: {
+            attrition: [10, 20, 10],
+          },
         },
+        responseModified: false,
+        warningMessage: '',
       };
 
       const expectedChartOptions = {
         ...LINE_CHART_BASE_OPTIONS,
+        graphic: [] as GraphicComponentOption[],
         xAxis: {
           ...LINE_CHART_BASE_OPTIONS.xAxis,
           data: [
@@ -113,9 +123,9 @@ describe('OverviewChartComponent', () => {
     });
   });
 
-  describe('onChartClick', () => {
+  describe('showEmployees', () => {
     const employee: any = {
-      employeeName: 'Tronald Dump',
+      employeeName: 'Michael Jordan',
       positionDescription: 'COO',
       orgUnit: 'Zirkus',
     };
@@ -132,14 +142,36 @@ describe('OverviewChartComponent', () => {
       },
     };
 
-    it('should open the dialog with correct data', () => {
-      const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
+    test('should do nothing when event with different component type', () => {
+      const event = {
+        componentType: 'legend',
+      } as unknown as ECActionEvent;
+
+      component['dialog'].open = jest.fn();
+
+      component.showEmployees(event);
+
+      expect(component['dialog'].open).not.toHaveBeenCalled();
+    });
+
+    test('should open the dialog with correct data', () => {
+      const event = {
+        dataIndex: 0,
+        seriesName: '2020',
+        name: 'Jan',
+        componentType: 'series',
+      } as unknown as ECActionEvent;
       const filterDimension = 'ORG UNIT';
       const value = 'SH';
       component.filters = { filterDimension, value };
       component['dialog'].open = jest.fn();
 
-      component.data = data;
+      component.data = {
+        data,
+        responseModified: false,
+        warningMessage: '',
+      } as AttritionOverTime;
+
       component.showEmployees(event);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
@@ -167,16 +199,39 @@ describe('OverviewChartComponent', () => {
       );
     });
 
-    it('should not open the dialog when not attrition', () => {
-      const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
+    test('should not open the dialog when not attrition', () => {
+      const event = {
+        dataIndex: 0,
+        seriesName: '2020',
+        name: 'Jan',
+      } as unknown as ECActionEvent;
 
       component['dialog'].open = jest.fn();
       data['2020'].attrition = [0, 0, 0];
 
-      component.data = data;
+      component.data = {
+        data,
+        responseModified: false,
+        warningMessage: '',
+      } as AttritionOverTime;
       component.showEmployees(event);
 
       expect(component['dialog'].open).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onChartClick', () => {
+    test('should emit leaversForTimeRangeRequested and show employees', () => {
+      const event = { dataIndex: 0, seriesName: '2020' };
+      component.leaversForTimeRangeRequested.emit = jest.fn();
+      component.showEmployees = jest.fn();
+
+      component.onChartClick(event);
+
+      expect(component.leaversForTimeRangeRequested.emit).toHaveBeenCalledWith(
+        '1577836800|1580515199' // 1.01.2020 | 1.02.2020
+      );
+      expect(component.showEmployees).toHaveBeenCalledWith(event);
     });
   });
 

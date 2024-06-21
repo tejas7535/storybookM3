@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { ECActionEvent } from 'echarts/types/src/util/types';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -210,7 +211,7 @@ describe('OrgChartComponent', () => {
             contains: jest.fn().mockReturnValue(true),
           },
         },
-      };
+      } as unknown as ECActionEvent;
 
       const parent = {
         raise: jest.fn(),
@@ -237,7 +238,7 @@ describe('OrgChartComponent', () => {
             contains: jest.fn().mockReturnValue(false),
           },
         },
-      };
+      } as unknown as ECActionEvent;
 
       const findParentSVGSpy = jest
         .spyOn(orgChartService, 'findParentSVG')
@@ -257,7 +258,7 @@ describe('OrgChartComponent', () => {
             contains: jest.fn().mockReturnValue(true),
           },
         },
-      };
+      } as unknown as ECActionEvent;
 
       const button = { raise: jest.fn() } as any;
       const parent = {
@@ -286,7 +287,7 @@ describe('OrgChartComponent', () => {
             contains: jest.fn().mockReturnValue(false),
           },
         },
-      };
+      } as unknown as ECActionEvent;
 
       const findParentSVGSpy = jest
         .spyOn(orgChartService, 'findParentSVG')
@@ -335,7 +336,7 @@ describe('OrgChartComponent', () => {
             id: '123',
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.loadChildAttritionOverTime.emit).toHaveBeenCalledWith(
         component.orgChartData.data[0]
@@ -370,7 +371,7 @@ describe('OrgChartComponent', () => {
             id: '123',
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         EmployeeListDialogComponent,
@@ -390,7 +391,7 @@ describe('OrgChartComponent', () => {
             id: '123',
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.showParent.emit).toHaveBeenCalledWith(
         component.orgChartData.data[0]
@@ -419,7 +420,7 @@ describe('OrgChartComponent', () => {
             id,
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.chart.clearHighlighting).toHaveBeenCalled();
       expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalledWith(
@@ -443,7 +444,7 @@ describe('OrgChartComponent', () => {
             id,
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.chart.clearHighlighting).toHaveBeenCalled();
       expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalledWith(
@@ -470,7 +471,7 @@ describe('OrgChartComponent', () => {
           classList: [`org-chart-header-${id}`],
           dataset: {},
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.chart.clearHighlighting).toHaveBeenCalled();
       expect(component.chart.setUpToTheRootHighlighted).toHaveBeenCalled();
@@ -493,7 +494,7 @@ describe('OrgChartComponent', () => {
             id: '123',
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.changeDimension.emit).toHaveBeenCalledWith(node);
     });
@@ -513,7 +514,7 @@ describe('OrgChartComponent', () => {
             id: 'chartContainer',
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.chart.clearHighlighting).toHaveBeenCalled();
     });
@@ -533,7 +534,7 @@ describe('OrgChartComponent', () => {
             id: 'navigation',
           },
         },
-      });
+      } as unknown as ECActionEvent);
 
       expect(component.chart.clearHighlighting).not.toHaveBeenCalled();
     });

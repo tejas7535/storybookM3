@@ -186,14 +186,18 @@ export const getParentAttritionOverTimeOrgChartData = createSelector(
           PARENT_SERIE_ID,
           {
             unforcedLeavers: {
-              attrition: state.attritionOverTime?.parent?.data?.unforcedLeavers,
+              attrition:
+                state.attritionOverTime?.parent?.data?.unforcedLeavers
+                  .distribution,
             },
             unforcedFluctuation: {
               attrition:
-                state.attritionOverTime?.parent?.data?.unforcedFluctuationRates,
+                state.attritionOverTime?.parent?.data?.unforcedFluctuationRates
+                  .distribution,
             },
             headcounts: {
-              attrition: state.attritionOverTime?.parent?.data?.headcounts,
+              attrition:
+                state.attritionOverTime?.parent?.data?.headcounts.distribution,
             },
           },
           state.attritionOverTime?.parent?.dimensionName,
@@ -215,14 +219,18 @@ export const getChildAttritionOverTimeOrgChartSeries = createSelector(
           CHILD_SERIE_ID,
           {
             unforcedLeavers: {
-              attrition: state.attritionOverTime?.child?.data?.unforcedLeavers,
+              attrition:
+                state.attritionOverTime?.child?.data?.unforcedLeavers
+                  .distribution,
             },
             unforcedFluctuation: {
               attrition:
-                state.attritionOverTime?.child?.data?.unforcedFluctuationRates,
+                state.attritionOverTime?.child?.data?.unforcedFluctuationRates
+                  .distribution,
             },
             headcounts: {
-              attrition: state.attritionOverTime?.child?.data?.headcounts,
+              attrition:
+                state.attritionOverTime?.child?.data?.headcounts.distribution,
             },
           },
           state.attritionOverTime?.child?.dimensionName,

@@ -64,6 +64,12 @@
     "reasonsAndCounterMeasures": "Reasons for Leaving",
     "fluctuationAnalytics": "Fluctuation Analytics"
   },
+  "notification": {
+    "warning": {
+      "absoluteFluctuationNoUserRights": "Absolute fluctuation not available due to insufficient user rights.",
+      "relativeFluctuationTooLowHCO": "Relative fluctuation not available due to unmet threshold (HCO<6)."
+    }
+  },
   "employeeListDialog": {
     "close": "Close",
     "exportToExcel": "Export To Excel",

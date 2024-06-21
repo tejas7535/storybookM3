@@ -6,4 +6,6 @@ export interface AttritionSeries {
 
 export interface AttritionOverTime {
   data: AttritionSeries;
+  responseModified: boolean;
+  warningMessage: string;
 }

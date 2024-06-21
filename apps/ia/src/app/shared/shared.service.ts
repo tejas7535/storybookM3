@@ -25,7 +25,12 @@ export class SharedService {
 
   getFluctuationRateChartData(
     employeesRequest: EmployeesRequest
-  ): Observable<Record<MonthlyFluctuationOverTime, number[]>> {
+  ): Observable<
+    Record<
+      MonthlyFluctuationOverTime,
+      { responseModified: boolean; distribution: number[] }
+    >
+  > {
     const params =
       this.paramsCreator.createHttpParamsForDimensionTimeRangeAndTypes(
         employeesRequest.filterDimension,
@@ -34,12 +39,14 @@ export class SharedService {
         employeesRequest.type
       );
 
-    return this.http.get<Record<MonthlyFluctuationOverTime, number[]>>(
-      `${ApiVersion.V1}/${this.MONTHLY_FLUCTUATION_OVER_TIME}`,
-      {
-        params,
-        context: withCache(),
-      }
-    );
+    return this.http.get<
+      Record<
+        MonthlyFluctuationOverTime,
+        { responseModified: boolean; distribution: number[] }
+      >
+    >(`${ApiVersion.V1}/${this.MONTHLY_FLUCTUATION_OVER_TIME}`, {
+      params,
+      context: withCache(),
+    });
   }
 }

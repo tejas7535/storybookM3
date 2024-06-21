@@ -4,7 +4,6 @@ import { EmployeesRequest, MonthlyFluctuation } from '../../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationRate,
-  FluctuationRatesChartData,
   OpenApplication,
   OverviewWorkforceBalanceMeta,
   ResignedEmployeesResponse,
@@ -250,6 +249,7 @@ describe('Overview Reducer', () => {
             data: {
               fluctuationRate: benchmarkRate,
               unforcedFluctuationRate: benchmarkUnforcedRate,
+              responseModified: false,
             },
           },
           dimension: {
@@ -257,6 +257,7 @@ describe('Overview Reducer', () => {
             data: {
               fluctuationRate: dimensionRate,
               unforcedFluctuationRate: dimensionUnforcedRate,
+              responseModified: false,
             },
           },
         },
@@ -281,16 +282,28 @@ describe('Overview Reducer', () => {
             ...initialState.fluctuationRatesChart.dimension,
             data: {
               ...initialState.fluctuationRatesChart.dimension.data,
-              fluctuationRates: [7],
-              unforcedFluctuationRates: [7],
+              fluctuationRates: {
+                distribution: [7],
+                responseModified: false,
+              },
+              unforcedFluctuationRates: {
+                distribution: [7],
+                responseModified: false,
+              },
             },
           },
           benchmark: {
             ...initialState.fluctuationRatesChart.benchmark,
             data: {
               ...initialState.fluctuationRatesChart.benchmark.data,
-              fluctuationRates: [benchmarkRate],
-              unforcedFluctuationRates: [benchmarkUnforcedRate],
+              fluctuationRates: {
+                distribution: [benchmarkRate],
+                responseModified: false,
+              },
+              unforcedFluctuationRates: {
+                distribution: [benchmarkUnforcedRate],
+                responseModified: false,
+              },
             },
           },
         },
@@ -325,10 +338,12 @@ describe('Overview Reducer', () => {
       expect(state.workforceBalanceMeta.dimension.data).toBeUndefined();
       expect(state.fluctuationRatesChart.dimension.data).toBeUndefined();
       expect(
-        state.fluctuationRatesChart.benchmark.data.fluctuationRates[0]
+        state.fluctuationRatesChart.benchmark.data.fluctuationRates
+          .distribution[0]
       ).toEqual(benchmarkRate);
       expect(
-        state.fluctuationRatesChart.benchmark.data.unforcedFluctuationRates[0]
+        state.fluctuationRatesChart.benchmark.data.unforcedFluctuationRates
+          .distribution[0]
       ).toEqual(benchmarkUnforcedRate);
       expect(state.openApplicationsCount.data).toBeUndefined();
       expect(state.openApplications.data).toBeUndefined();
@@ -356,9 +371,15 @@ describe('Overview Reducer', () => {
           benchmark: {
             ...initialState.fluctuationRatesChart.benchmark,
             data: {
-              fluctuationRates: [1],
-              unforcedFluctuationRates: [2],
-            } as FluctuationRatesChartData,
+              fluctuationRates: {
+                distribution: [1],
+                responseModified: false,
+              },
+              unforcedFluctuationRates: {
+                distribution: [2],
+                responseModified: false,
+              },
+            },
           },
         },
       };

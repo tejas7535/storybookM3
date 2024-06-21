@@ -15,6 +15,7 @@ import {
 import { DATA_IMPORT_DAY } from '../../../shared/constants';
 import {
   ActionType,
+  AttritionOverTime,
   AttritionSeries,
   EmployeeWithAction,
   IdValue,
@@ -40,24 +41,29 @@ export const getIsLoadingAttritionOverTimeOverview = createSelector(
 
 const getAttritionOverTime = createSelector(
   selectOverviewState,
-  (state: OverviewState): number[] =>
+  (
+    state: OverviewState
+  ): { distribution: number[]; responseModified: boolean } =>
     state.attritionOverTime?.data?.unforcedLeavers
 );
 
 export const getAttritionOverTimeOverviewData = createSelector(
   getAttritionOverTime,
-  (unforcedLeavers: number[]): AttritionSeries => {
-    if (!unforcedLeavers) {
+  (data: {
+    distribution: number[];
+    responseModified: boolean;
+  }): AttritionOverTime => {
+    if (!data) {
       return undefined;
     }
     const monthsInYear = 12;
-    const yearsBetween = Math.ceil(unforcedLeavers.length / monthsInYear);
+    const yearsBetween = Math.ceil(data.distribution.length / monthsInYear);
     const currentYear = moment()
       .utc()
       .subtract(DATA_IMPORT_DAY - 1, 'day')
       .get('year');
 
-    const unfLeaversUnprocessed = [...unforcedLeavers];
+    const unfLeaversUnprocessed = [...data.distribution];
 
     let result: AttritionSeries = {};
     let processingYear = currentYear - yearsBetween + 1;
@@ -69,7 +75,11 @@ export const getAttritionOverTimeOverviewData = createSelector(
       processingYear += 1;
     }
 
-    return result;
+    return {
+      data: result,
+      responseModified: data.responseModified,
+      warningMessage: '',
+    };
   }
 );
 
@@ -153,6 +163,12 @@ export const getBenchmarkFluctuationKpi = createSelector(
       : undefined
 );
 
+export const getIsUserAllowedToViewBenchmarkRates = createSelector(
+  selectOverviewState,
+  (state: OverviewState) =>
+    !state.fluctuationRates.benchmark.data?.responseModified
+);
+
 export const getDimensionFluctuationKpi = createSelector(
   getDimensionFluctuationRates,
   getWorkforceBalanceMeta,
@@ -171,6 +187,12 @@ export const getDimensionFluctuationKpi = createSelector(
           workforceBalanceMeta?.externalUnforcedExitCount
         )
       : undefined
+);
+
+export const getIsUserAllowedToViewDimensionRates = createSelector(
+  selectOverviewState,
+  (state: OverviewState) =>
+    !state.fluctuationRates.dimension.data?.responseModified
 );
 
 export const getIsLoadingDoughnutsConfig = createSelector(
@@ -267,7 +289,7 @@ export const getDimensionFluctuationRatesForChart = createSelector(
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
       dimensionName,
-      chartData?.fluctuationRates
+      chartData?.fluctuationRates.distribution
     ),
   ]
 );
@@ -279,7 +301,7 @@ export const getDimensionUnforcedFluctuationRatesForChart = createSelector(
     createFluctuationRateChartSerie(
       DIMENSION_SERIE_ID,
       dimensionName,
-      chartData?.unforcedFluctuationRates
+      chartData?.unforcedFluctuationRates.distribution
     ),
   ]
 );
@@ -296,7 +318,7 @@ export const getBenchmarkFluctuationRatesForChart = createSelector(
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
       dimensionName,
-      chartData?.fluctuationRates
+      chartData?.fluctuationRates.distribution
     ),
   ]
 );
@@ -308,7 +330,7 @@ export const getBenchmarkUnforcedFluctuationRatesForChart = createSelector(
     createFluctuationRateChartSerie(
       BENCHMARK_SERIE_ID,
       dimensionName,
-      chartData?.unforcedFluctuationRates
+      chartData?.unforcedFluctuationRates.distribution
     ),
   ]
 );

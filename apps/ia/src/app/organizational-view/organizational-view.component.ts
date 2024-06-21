@@ -116,12 +116,15 @@ export class OrganizationalViewComponent implements OnInit {
         this.translocoService
           .selectTranslateObject('orgChart.node', {}, 'organizational-view')
           .pipe(take(1)),
+        this.translocoService
+          .selectTranslateObject('notification.warning', {})
+          .pipe(take(1)),
       ]),
       // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(([orgChartData, translation]) => ({
+      map(([orgChartData, nodeTranslation, warningsTranslation]) => ({
         data: orgChartData.data,
         dimension: orgChartData.dimension,
-        translation,
+        translation: { ...nodeTranslation, ...warningsTranslation },
       }))
     );
   }

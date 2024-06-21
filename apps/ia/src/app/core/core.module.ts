@@ -1,10 +1,12 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconRegistry } from '@angular/material/icon';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBarModule,
 } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -32,6 +34,7 @@ import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { HttpHeaderInterceptor } from '../shared/http/http-header.interceptor';
+import { PERSON_ALERT_ICON } from '../shared/models/svg';
 import { StoreModule } from './store';
 
 const azureConfig = new AzureConfig(
@@ -112,4 +115,11 @@ export function appInitializer(
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
   ],
 })
-export class CoreModule {}
+export class CoreModule {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIconLiteral(
+      'person-alert',
+      sanitizer.bypassSecurityTrustHtml(PERSON_ALERT_ICON)
+    );
+  }
+}

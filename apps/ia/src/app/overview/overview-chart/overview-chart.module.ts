@@ -4,6 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { LineChart } from 'echarts/charts';
 import {
+  GraphicComponent,
   GridComponent,
   LegendComponent,
   TitleComponent,
@@ -25,6 +26,7 @@ echarts.use([
   LegendComponent,
   TooltipComponent,
   LineChart,
+  GraphicComponent,
   CanvasRenderer,
   GridComponent,
 ]);

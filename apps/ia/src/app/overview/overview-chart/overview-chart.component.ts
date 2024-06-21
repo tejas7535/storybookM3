@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { translate } from '@jsverse/transloco';
 import { EChartsOption } from 'echarts';
+import { ECActionEvent } from 'echarts/types/src/util/types';
 import moment from 'moment';
 
 import {
@@ -21,7 +22,11 @@ import {
   EmployeeListDialogMetaFilters,
 } from '../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
-import { EmployeeWithAction } from '../../shared/models';
+import {
+  AttritionOverTime,
+  AttritionSeries,
+  EmployeeWithAction,
+} from '../../shared/models';
 import { getTimeRangeFromDates } from '../../shared/utils/utilities';
 import { ExitEntryEmployeesResponse } from '../models';
 import { ChartSeries } from '../models/chart-series.model';
@@ -40,32 +45,27 @@ export class OverviewChartComponent {
 
   @Input() dataLoading: boolean;
 
-  private _data: {
-    [seriesName: string]: {
-      attrition: number[];
-    };
-  };
+  private _data: AttritionSeries;
 
-  @Input() set data(data: {
-    [seriesName: string]: {
-      attrition: number[];
-    };
-  }) {
-    this._data = data;
+  @Input() set data(data: AttritionOverTime) {
+    if (!data?.data) {
+      return;
+    }
+    this._data = data.data;
 
-    const series: any = data
-      ? Object.keys(data)
+    const series: any = data.responseModified
+      ? undefined
+      : Object.keys(data.data)
           .reverse()
           .map((name) => ({
             ...LINE_SERIES_BASE_OPTIONS,
             symbolSize: this.SYMBOL_SIZE,
             name,
-            data: data[name].attrition,
+            data: data?.data[name]?.attrition,
             emphasis: {
               focus: 'series',
             },
-          }))
-      : undefined;
+          }));
 
     this.options = {
       ...LINE_CHART_BASE_OPTIONS,
@@ -97,19 +97,39 @@ export class OverviewChartComponent {
       series,
     };
 
+    this.options = data.responseModified
+      ? {
+          ...this.options,
+          graphic: [
+            {
+              type: 'text',
+              left: 'center',
+              top: 'middle',
+              style: {
+                text: translate(
+                  'notification.warning.absoluteFluctuationNoUserRights'
+                ),
+                fill: 'rgb(233, 179, 0)',
+                fontSize: 24,
+                fontFamily: 'Noto Sans',
+              },
+            },
+          ],
+        }
+      : {
+          ...this.options,
+          graphic: [],
+        };
+
     this.chartSeries = data
-      ? Object.keys(data).map((name) => ({
+      ? Object.keys(data.data).map((name) => ({
           name,
           checked: true,
         }))
       : [];
   }
 
-  public get data(): {
-    [seriesName: string]: {
-      attrition: number[];
-    };
-  } {
+  public get data(): AttritionSeries {
     return this._data;
   }
 
@@ -165,18 +185,22 @@ export class OverviewChartComponent {
 
   onChartClick(event: any) {
     const start = moment.utc({
-      year: event.seriesName,
-      month: event.dataIndex,
+      year: (event as ECActionEvent).seriesName,
+      month: (event as ECActionEvent).dataIndex,
       date: 1,
     });
     const end = start.clone().endOf('month');
 
     const timeRange = getTimeRangeFromDates(start, end);
     this.leaversForTimeRangeRequested.emit(timeRange);
-    this.showEmployees(event);
+    this.showEmployees(event as ECActionEvent);
   }
 
-  showEmployees(event: any): void {
+  showEmployees(event: ECActionEvent): void {
+    if (event.componentType !== 'series') {
+      return;
+    }
+
     const attrition = this.data[event.seriesName].attrition[event.dataIndex];
 
     if (attrition > 0) {

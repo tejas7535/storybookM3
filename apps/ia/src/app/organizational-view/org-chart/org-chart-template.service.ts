@@ -16,6 +16,7 @@ export class OrgChartTemplateService {
     const fluctuationNodeId = this.getFluctuationNodeId(data);
     const peopleIconSvg = this.getPeopleIconSvg(peopleNodeId);
     const fluctuationIconSvg = this.getFluctuationIconSvg(fluctuationNodeId);
+    const warningSvg = this.getWarningSvg(fluctuationNodeId);
     const rectBorder = this.getRectBorderStyles(data, highlightColor);
     const headerBorder = this.getHeaderBorderStyles(data, highlightColor);
     const headerClass = this.getHeaderClass(data);
@@ -24,6 +25,20 @@ export class OrgChartTemplateService {
     const parentArrow = data.showUpperParentBtn
       ? this.getParrentArrow(data, 150)
       : '';
+
+    const hasRightsForRelativeFluctuation =
+      this.hasRightsForRelativeFluctuation(data);
+
+    const tooltip = hasRightsForRelativeFluctuation
+      ? ''
+      : `
+      <div id="org-chart-tooltip" class="absolute left-[290px] group-hover:!block w-max 
+          mt-6 px-4 py-2 rounded tracking-wide bg-secondary-900" style="display: none;">
+        <div>
+          <span class='text-icon-warning'>${data.textWarningRelativeFluctuation}</span>
+        </div>
+      </div>
+      `;
 
     return `
           ${parentArrow}
@@ -58,13 +73,25 @@ export class OrgChartTemplateService {
                   ${fluctuationIconSvg}
                   <span ${fluctuationNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
                 </span>
-                <span ${fluctuationNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
-                  ${data.displayedTotalFluctuationRate}%
+                <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
+              ${
+                hasRightsForRelativeFluctuation
+                  ? `${data.displayedTotalFluctuationRate}%`
+                  : `${warningSvg}`
+              }
                 </span>
+                ${tooltip}
               </div>
             </div>
           </div>
         `;
+  }
+
+  private hasRightsForRelativeFluctuation(data: OrgChartNode) {
+    return (
+      data.displayedDirectFluctuationRate !== null &&
+      data.displayedTotalFluctuationRate !== null
+    );
   }
 
   getOrgUnitNodeContent(
@@ -77,6 +104,7 @@ export class OrgChartTemplateService {
     const fluctuationNodeId = this.getFluctuationNodeId(data);
     const peopleIconSvg = this.getPeopleIconSvg(peopleNodeId);
     const fluctuationIconSvg = this.getFluctuationIconSvg(fluctuationNodeId);
+    const warningSvg = this.getWarningSvg(fluctuationNodeId);
     const rectBorder = this.getRectBorderStyles(data, highlightColor);
     const headerBorder = this.getHeaderBorderStyles(data, highlightColor);
     const headerClass = this.getHeaderClass(data);
@@ -86,20 +114,54 @@ export class OrgChartTemplateService {
       ? this.getParrentArrow(data, 180)
       : '';
 
+    const relativeFluctuationText = `
+      <div>
+        <span class="text-medium-emphasis-dark-bg">${data.textRelativeFluctuation}:</span>
+        <span class="text-high-emphasis-dark-bg">
+          ${data.displayedDirectFluctuationRate}% / ${data.displayedTotalFluctuationRate}%
+        </span>
+      </div>
+    `;
+
+    const insufficientRightsRelativeFluctuation = `
+      <div>
+        <span class='text-icon-warning'>${data.textWarningRelativeFluctuation}</span>
+      </div>
+    `;
+
+    const absoluteFluctuationText = `
+      <div>
+        <span class="text-medium-emphasis-dark-bg">${data.textAbsoluteFluctuation}:</span>
+        <span class="text-high-emphasis-dark-bg">
+          ${data.displayedDirectAbsoluteFluctuation} / ${data.displayedAbsoluteFluctuation}
+        </span>
+      </div>`;
+
+    const insuficientRightsAbsoluteFluctuation = `
+      <div>
+        <span class='text-icon-warning'>${data.textWarningAbsoluteFluctuation}</span>
+      </div>
+    `;
+
+    const hasRightsForAbsoluteFluctuation =
+      this.hasRightsForAbsoluteFluctuation(data);
+
+    const hasRightsForRelativeFluctuation =
+      this.hasRightsForRelativeFluctuation(data);
+
     const tooltip = `
       <div id="org-chart-tooltip" class="absolute left-[290px] group-hover:!block w-max 
           mt-6 px-4 py-2 rounded tracking-wide bg-secondary-900" style="display: none;">
-        <div>
-          <span class="text-medium-emphasis-dark-bg">${data.textRelativeFluctuation}:</span>
-          <span class="text-high-emphasis-dark-bg">
-            ${data.displayedDirectFluctuationRate}% / ${data.displayedTotalFluctuationRate}%
-          </span>
-        </div>
-        <div>
-          <span class="text-medium-emphasis-dark-bg">${data.textAbsoluteFluctuation}:</span>
-          <span class="text-high-emphasis-dark-bg">
-            ${data.displayedDirectAbsoluteFluctuation} / ${data.displayedAbsoluteFluctuation}
-          </span>
+        ${
+          hasRightsForRelativeFluctuation
+            ? relativeFluctuationText
+            : insufficientRightsRelativeFluctuation
+        }
+        ${
+          hasRightsForAbsoluteFluctuation
+            ? absoluteFluctuationText
+            : insuficientRightsAbsoluteFluctuation
+        }
         </div>
       </div>
       `;
@@ -144,13 +206,24 @@ export class OrgChartTemplateService {
               <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
             </span>
             <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
-              ${data.displayedDirectFluctuationRate}%&nbsp;/&nbsp;${data.displayedTotalFluctuationRate}%
+              ${
+                hasRightsForRelativeFluctuation
+                  ? `${data.displayedDirectFluctuationRate}%&nbsp;/&nbsp;${data.displayedTotalFluctuationRate}%`
+                  : `${warningSvg}`
+              }
             </span>
             ${tooltip}
           </div>
         </div>
       </div>
     `;
+  }
+
+  private hasRightsForAbsoluteFluctuation(data: OrgChartNode) {
+    return (
+      data.displayedDirectAbsoluteFluctuation !== null &&
+      data.displayedAbsoluteFluctuation !== null
+    );
   }
 
   getButtonContent(node: any): string {
@@ -212,6 +285,14 @@ export class OrgChartTemplateService {
     return `
     <svg ${nodeId} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
       <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 2H12.6667C13.4 2 14 2.6 14 3.33333V12.6667C14 13.4 13.4 14 12.6667 14H3.33333C2.6 14 2 13.4 2 12.6667V3.33333C2 2.6 2.6 2 3.33333 2ZM4.66667 11.3333H6V6.66667H4.66667V11.3333ZM8.66667 11.3333H7.33333V4.66667H8.66667V11.3333ZM10 11.3333H11.3333V8.66667H10V11.3333Z" fill="rgba(0, 0, 0, 0.60)"/>
+    </svg>
+    `;
+  }
+
+  getWarningSvg(nodeId: string): string {
+    return `
+    <svg ${nodeId} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+      <path ${nodeId} style="fill: rgb(233, 179, 0);" d="M800-520q-17 0-28.5-11.5T760-560q0-17 11.5-28.5T800-600q17 0 28.5 11.5T840-560q0 17-11.5 28.5T800-520Zm-40-120v-200h80v200h-80ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/>
     </svg>
     `;
   }

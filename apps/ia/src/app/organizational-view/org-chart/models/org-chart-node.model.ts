@@ -24,6 +24,8 @@ export interface OrgChartNode {
   textFluctuation: string;
   textRelativeFluctuation: string;
   textAbsoluteFluctuation: string;
+  textWarningAbsoluteFluctuation: string;
+  textWarningRelativeFluctuation: string;
   showUpperParentBtn: boolean;
   _upToTheRootHighlighted?: boolean;
   _highlighted?: boolean;

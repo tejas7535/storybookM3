@@ -1,4 +1,4 @@
-<div class="mt-4" *transloco="let t; read: 'employeeListDialog'">
+<div class="mt-4" *transloco="let t">
   <span
     class="text-body-2 mb-[0.5rem] block h-[3.6em] overflow-hidden text-ellipsis break-words leading-[1.8em]"
     [matTooltip]="title"
@@ -6,7 +6,18 @@
     >{{ title }}</span
   >
   @if (!isLoading) {
-    <h4 class="mb-2">{{ value | defaultValue }}</h4>
+    <h4 class="mb-2">
+      @if (viewRights) {
+        {{ value | defaultValue }}
+      } @else {
+        <mat-icon
+          class="!w-10 !h-10"
+          svgIcon="person-alert"
+          [matTooltip]="t('notification.warning.relativeFluctuationTooLowHCO')"
+          [matTooltipPosition]="'after'"
+        ></mat-icon>
+      }
+    </h4>
   } @else {
     <schaeffler-loading-spinner
       [diameter]="40"
@@ -15,7 +26,7 @@
     ></schaeffler-loading-spinner>
   }
   <div [class]="'text-high-emphasis'">
-    @if (showTeamMemberDialog) {
+    @if (showTeamMemberDialog && viewRights) {
       <button
         mat-fab
         color="primary"

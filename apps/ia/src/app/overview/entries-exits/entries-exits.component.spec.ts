@@ -106,9 +106,10 @@ describe('EntriesExitsComponent', () => {
         By.css('ia-loose-doughnut-chart')
       );
 
-      expect(kpiValues.length).toEqual(3);
-      expect(kpiValues).toContainEqual(component.entriesCount.toString());
-      expect(kpiValues).toContainEqual(component.exitsCount.toString());
+      const trimmedKpiValues = kpiValues.map((value) => value.trim());
+      expect(trimmedKpiValues.length).toEqual(3);
+      expect(trimmedKpiValues).toContainEqual(`${component.entriesCount}`);
+      expect(trimmedKpiValues).toContainEqual(`${component.exitsCount}`);
       expect(charts.length).toEqual(2);
     });
   });

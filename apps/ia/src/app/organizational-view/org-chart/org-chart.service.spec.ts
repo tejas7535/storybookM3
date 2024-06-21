@@ -13,6 +13,8 @@ const mock: any = {
 describe('OrgChartService', () => {
   let service: OrgChartService;
   let spectator: SpectatorService<OrgChartService>;
+  const textWarningAbsoluteFluctuation =
+    'Insufficient rights for absolute fluctuation';
 
   const createService = createServiceFactory({
     service: OrgChartService,
@@ -78,6 +80,8 @@ describe('OrgChartService', () => {
       fluctuation: 'fluctuation',
       relativeFluctuation: 'relativeFluctuation',
       absoluteFluctuation: 'absoluteFluctuation',
+      absoluteFluctuationNoUserRights: 'absoluteFluctuationNoUserRights',
+      relativeFluctuationTooLowHCO: 'relativeFluctuationTooLowHCO',
     };
 
     test('should map org unit data', () => {
@@ -158,6 +162,8 @@ describe('OrgChartService', () => {
         textFluctuation: 'fluctuation',
         textRelativeFluctuation: 'relativeFluctuation',
         textAbsoluteFluctuation: 'absoluteFluctuation',
+        textWarningAbsoluteFluctuation: 'absoluteFluctuationNoUserRights',
+        textWarningRelativeFluctuation: 'relativeFluctuationTooLowHCO',
         heatMapClass: 'bg-secondary-900',
         showUpperParentBtn: false,
         displayedDirectFluctuationRate: 6,
@@ -502,6 +508,9 @@ describe('OrgChartService', () => {
         displayedDirectAbsoluteFluctuation: 10,
         textAbsoluteFluctuation: 'Test5',
         textRelativeFluctuation: 'Test6',
+        textWarningAbsoluteFluctuation,
+        textWarningRelativeFluctuation:
+          'Insufficient rights for relative fluctuation',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,
@@ -561,6 +570,9 @@ describe('OrgChartService', () => {
         displayedDirectAbsoluteFluctuation: 10,
         textAbsoluteFluctuation: 'Test5',
         textRelativeFluctuation: 'Test6',
+        textWarningAbsoluteFluctuation,
+        textWarningRelativeFluctuation:
+          'Insufficient rights for relative fluctuation',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,
@@ -620,6 +632,9 @@ describe('OrgChartService', () => {
         displayedDirectAbsoluteFluctuation: 10,
         textAbsoluteFluctuation: 'Test5',
         textRelativeFluctuation: 'Test6',
+        textWarningAbsoluteFluctuation,
+        textWarningRelativeFluctuation:
+          'Insufficient rights for relative fluctuation',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,
@@ -679,6 +694,9 @@ describe('OrgChartService', () => {
         displayedDirectAbsoluteFluctuation: 10,
         textAbsoluteFluctuation: 'Test5',
         textRelativeFluctuation: 'Test6',
+        textWarningAbsoluteFluctuation,
+        textWarningRelativeFluctuation:
+          'Insufficient rights for relative fluctuation',
         nodeId: '1',
         parentNodeId: '12',
         expanded: true,

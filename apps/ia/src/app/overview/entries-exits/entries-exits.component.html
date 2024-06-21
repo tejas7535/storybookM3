@@ -19,6 +19,7 @@
       [employeeListDialogMetaHeadings]="newJoinersListDialogMetaHeadings"
       [employeesCount]="entriesCount"
       [isLoading]="isDataLoading"
+      [viewRights]="true"
       (openTeamMembers)="triggerEntryEmployeesAction()"
     ></ia-kpi>
 
@@ -49,6 +50,7 @@
       [employeeListDialogMetaHeadings]="leaversListDialogMetaHeadings"
       [employeesCount]="exitsCount"
       [isLoading]="isDataLoading"
+      [viewRights]="true"
       (openTeamMembers)="triggerExitEmployeesAction()"
     ></ia-kpi>
 

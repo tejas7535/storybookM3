@@ -14,6 +14,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { translate } from '@jsverse/transloco';
 import { OrgChart } from 'd3-org-chart';
 import * as d3Selection from 'd3-selection';
+import { ECActionEvent } from 'echarts/types/src/util/types';
 import moment from 'moment';
 
 import { DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS } from '../../shared/constants';
@@ -45,6 +46,12 @@ export class OrgChartComponent implements AfterViewInit {
   private _selectedNodeEmployeesLoading: boolean;
   private _fluctuationType: FluctuationType;
 
+  chart: any;
+  chartData: OrgChartNode[];
+  selectedDataNode: DimensionFluctuationData;
+  d3s = d3Selection;
+  fluctuationTypeEnum = FluctuationType;
+
   @Input() set fluctuationType(fluctuationType: FluctuationType) {
     this.changeFluctuationType(fluctuationType);
     this._fluctuationType = fluctuationType;
@@ -53,9 +60,6 @@ export class OrgChartComponent implements AfterViewInit {
   get fluctuationType(): FluctuationType {
     return this._fluctuationType;
   }
-
-  d3s = d3Selection;
-  fluctuationTypeEnum = FluctuationType;
 
   @Input() timeRange: IdValue;
 
@@ -130,17 +134,13 @@ export class OrgChartComponent implements AfterViewInit {
     return this._chartContainer;
   }
 
-  chart: any;
-  chartData: OrgChartNode[];
-  selectedDataNode: DimensionFluctuationData;
-
   constructor(
     private readonly orgChartService: OrgChartService,
     private readonly dialog: MatDialog
   ) {}
 
   @HostListener('document:mouseover', ['$event']) onMouseOver(
-    event: any
+    event: ECActionEvent
   ): void {
     if (event.target.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
       const parent = this.orgChartService.findParentSVG(this.d3s, event);
@@ -150,7 +150,9 @@ export class OrgChartComponent implements AfterViewInit {
     }
   }
 
-  @HostListener('document:mouseout', ['$event']) onMouseOut(event: any): void {
+  @HostListener('document:mouseout', ['$event']) onMouseOut(
+    event: ECActionEvent
+  ): void {
     if (event.target.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
       const parent = this.orgChartService.findParentSVG(this.d3s, event);
       if (parent) {
@@ -160,7 +162,9 @@ export class OrgChartComponent implements AfterViewInit {
     }
   }
 
-  @HostListener('document:click', ['$event']) clickout(event: any): void {
+  @HostListener('document:click', ['$event']) clickout(
+    event: ECActionEvent
+  ): void {
     const node: HTMLElement = event.target;
     const headerClassPrefix = 'org-chart-header-';
     let datasetId = node.dataset.id;
@@ -179,9 +183,7 @@ export class OrgChartComponent implements AfterViewInit {
     switch (id) {
       case OrgChartConfig.BUTTON_CSS.people: {
         this.selectedDataNode = this.getDimensionFluctuationDataById(datasetId);
-
         this.showOrgChartEmployees.emit(this.selectedDataNode);
-
         const data = this.createEmployeeListDialogMeta();
         this._dialogRef = this.dialog.open(EmployeeListDialogComponent, {
           data,
@@ -215,7 +217,6 @@ export class OrgChartComponent implements AfterViewInit {
       }
       case OrgChartConfig.BUTTON_CSS.showUpArrow: {
         this.selectedDataNode = this.getDimensionFluctuationDataById(datasetId);
-
         this.showParent.emit(this.selectedDataNode);
         break;
       }
@@ -225,7 +226,6 @@ export class OrgChartComponent implements AfterViewInit {
         this.chartData
           .filter((data) => data.parentNodeId === datasetId)
           .forEach((data) => this.chart.setUpToTheRootHighlighted(data.nodeId));
-
         this.chart.render();
         break;
       }
@@ -248,7 +248,6 @@ export class OrgChartComponent implements AfterViewInit {
       }
       case OrgChartConfig.BUTTON_CSS.switchDimension: {
         const dataNode = this.getDimensionFluctuationDataById(datasetId);
-
         this.changeDimension.emit(dataNode);
         break;
       }

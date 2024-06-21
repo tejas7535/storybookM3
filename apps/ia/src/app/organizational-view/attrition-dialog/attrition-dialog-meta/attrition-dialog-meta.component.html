@@ -7,7 +7,7 @@
   >
     {{ t('metaTitle') }} ({{ meta?.selectedTimeRange }})
   </h6>
-  @if (meta?.showAttritionRates) {
+  @if (meta.data.employeesLost > 5 || meta.data.employeesLost === 0) {
     <div class="flex items-center text-body-1 leading-8">
       <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">
         insert_chart

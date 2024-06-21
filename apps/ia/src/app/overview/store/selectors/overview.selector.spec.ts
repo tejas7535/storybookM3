@@ -119,7 +119,10 @@ describe('Overview Selector', () => {
       ...initialState,
       attritionOverTime: {
         data: {
-          unforcedLeavers: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+          unforcedLeavers: {
+            distribution: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+            responseModified: false,
+          },
         },
         loading: true,
         errorMessage: undefined,
@@ -157,6 +160,7 @@ describe('Overview Selector', () => {
           data: {
             fluctuationRate: 2.3,
             unforcedFluctuationRate: 6.5,
+            responseModified: false,
           },
           loading: false,
           errorMessage: undefined,
@@ -165,6 +169,7 @@ describe('Overview Selector', () => {
           data: {
             fluctuationRate: 4.1,
             unforcedFluctuationRate: 8.1,
+            responseModified: false,
           },
           loading: true,
           errorMessage: undefined,
@@ -187,16 +192,28 @@ describe('Overview Selector', () => {
       fluctuationRatesChart: {
         dimension: {
           data: {
-            fluctuationRates: [1.8, 1.4],
-            unforcedFluctuationRates: [1.3, 3],
+            fluctuationRates: {
+              distribution: [1.8, 1.4],
+              responseModified: false,
+            },
+            unforcedFluctuationRates: {
+              distribution: [1.3, 3],
+              responseModified: false,
+            },
           },
           loading: false,
           errorMessage: undefined,
         },
         benchmark: {
           data: {
-            fluctuationRates: [2.5, 3.5],
-            unforcedFluctuationRates: [2, 4],
+            fluctuationRates: {
+              distribution: [2.5, 3.5],
+              responseModified: false,
+            },
+            unforcedFluctuationRates: {
+              distribution: [2, 4],
+              responseModified: false,
+            },
           },
           loading: false,
           errorMessage: undefined,
@@ -290,47 +307,72 @@ describe('Overview Selector', () => {
       Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
 
       expect(getAttritionOverTimeOverviewData(fakeState)).toEqual({
-        2019: {
-          attrition: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+        data: {
+          2019: {
+            attrition: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
+          },
         },
+        responseModified: false,
+        warningMessage: '',
       });
     });
 
     test('should return leavers when less than 12', () => {
       Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
 
-      const leavers = [1, 2, 3, 4, 5, 6, 7];
+      const leavers = {
+        distribution: [1, 2, 3, 4, 5, 6, 7],
+        responseModified: false,
+      };
 
       const result = getAttritionOverTimeOverviewData.projector(leavers);
 
-      expect(result).toEqual({ 2019: { attrition: [1, 2, 3, 4, 5, 6, 7] } });
+      expect(result).toEqual({
+        data: { 2019: { attrition: [1, 2, 3, 4, 5, 6, 7] } },
+        responseModified: false,
+        warningMessage: '',
+      });
     });
 
     test('should return leavers when less than 24', () => {
       Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
 
-      const leavers = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-      ];
+      const leavers = {
+        distribution: [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+        ],
+        responseModified: false,
+      };
 
       const result = getAttritionOverTimeOverviewData.projector(leavers);
 
       expect(result).toEqual({
-        2018: {
-          attrition: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+        data: {
+          2018: {
+            attrition: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          },
+          2019: {
+            attrition: [13, 14, 15, 16, 17],
+          },
         },
-        2019: {
-          attrition: [13, 14, 15, 16, 17],
-        },
+        responseModified: false,
+        warningMessage: '',
       });
     });
 
     test('should return empty object when leavers empty', () => {
       Date.now = jest.fn().mockReturnValue(new Date('2019-05-04').getTime());
 
-      const result = getAttritionOverTimeOverviewData.projector([]);
+      const result = getAttritionOverTimeOverviewData.projector({
+        distribution: [],
+        responseModified: false,
+      });
 
-      expect(result).toEqual({});
+      expect(result).toEqual({
+        data: {},
+        responseModified: false,
+        warningMessage: '',
+      });
     });
   });
 
@@ -354,6 +396,7 @@ describe('Overview Selector', () => {
       expect(getDimensionFluctuationRates(fakeState)).toEqual({
         fluctuationRate: 2.3,
         unforcedFluctuationRate: 6.5,
+        responseModified: false,
       });
     });
   });
@@ -363,6 +406,7 @@ describe('Overview Selector', () => {
       expect(getBenchmarkFluctuationRates(fakeState)).toEqual({
         fluctuationRate: 4.1,
         unforcedFluctuationRate: 8.1,
+        responseModified: false,
       });
     });
   });
@@ -504,8 +548,14 @@ describe('Overview Selector', () => {
     test('should return chart fluctuation rates for dimension', () => {
       const result = getDimensionFluctuationRatesChart(fakeState);
 
-      expect(result.fluctuationRates).toEqual([1.8, 1.4]);
-      expect(result.unforcedFluctuationRates).toEqual([1.3, 3]);
+      expect(result.fluctuationRates).toEqual({
+        distribution: [1.8, 1.4],
+        responseModified: false,
+      });
+      expect(result.unforcedFluctuationRates).toEqual({
+        distribution: [1.3, 3],
+        responseModified: false,
+      });
     });
   });
 
@@ -529,8 +579,14 @@ describe('Overview Selector', () => {
     test('should return chart fluctuation rates for benchmark', () => {
       const result = getBenchmarkFluctuationRatesChart(fakeState);
 
-      expect(result.fluctuationRates).toEqual([2.5, 3.5]);
-      expect(result.unforcedFluctuationRates).toEqual([2, 4]);
+      expect(result.fluctuationRates).toEqual({
+        distribution: [2.5, 3.5],
+        responseModified: false,
+      });
+      expect(result.unforcedFluctuationRates).toEqual({
+        distribution: [2, 4],
+        responseModified: false,
+      });
     });
   });
 

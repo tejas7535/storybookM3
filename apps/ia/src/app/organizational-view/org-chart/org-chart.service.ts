@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { ECActionEvent } from 'echarts/types/src/util/types';
+
 import { FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
@@ -57,8 +59,10 @@ export class OrgChartService {
     const textFluctuation = translations.fluctuation;
     const textRelativeFluctuation = translations.relativeFluctuation;
     const textAbsoluteFluctuation = translations.absoluteFluctuation;
-
-    // TODO: calculate heat
+    const textWarningAbsoluteFluctuation =
+      translations.absoluteFluctuationNoUserRights;
+    const textWarningRelativeFluctuation =
+      translations.relativeFluctuationTooLowHCO;
     const heatMapClass = 'bg-secondary-900';
 
     return data
@@ -136,6 +140,8 @@ export class OrgChartService {
           textFluctuation,
           textRelativeFluctuation,
           textAbsoluteFluctuation,
+          textWarningAbsoluteFluctuation,
+          textWarningRelativeFluctuation,
           showUpperParentBtn:
             parentNodeId === undefined && elem.parentId !== this.ROOT_ID,
         };
@@ -249,7 +255,7 @@ export class OrgChartService {
   }
 
   // Find the parent node (SVG element) of the event target
-  findParentSVG(d3Selection: any, event: Event) {
+  findParentSVG(d3Selection: any, event: ECActionEvent) {
     let node = d3Selection.select(event.target).node();
     while (node && node.classList && !node.classList.contains('node')) {
       node = node.parentNode;

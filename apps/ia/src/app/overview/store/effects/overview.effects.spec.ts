@@ -554,7 +554,7 @@ describe('Overview Effects', () => {
       marbles((m) => {
         const timeRange = '123|321';
         const monthlyFluctuation = {
-          fluctuationRates: [1, 2, 3],
+          fluctuationRates: { distribution: [1, 2, 3] },
         } as MonthlyFluctuation;
         const result = loadAttritionOverTimeOverviewSuccess({
           monthlyFluctuation,
@@ -695,6 +695,7 @@ describe('Overview Effects', () => {
         const data: FluctuationRate = {
           fluctuationRate: 1,
           unforcedFluctuationRate: 2,
+          responseModified: false,
         };
         const result = loadFluctuationRatesSuccess({
           data,
@@ -743,7 +744,7 @@ describe('Overview Effects', () => {
   describe('loadFluctuationRatesChartData', () => {
     let request: EmployeesRequest;
     const monthlyFluctuation = {
-      fluctuationRates: [1, 2, 3],
+      fluctuationRates: { distribution: [1, 2, 3] },
     } as MonthlyFluctuation;
 
     beforeEach(() => {

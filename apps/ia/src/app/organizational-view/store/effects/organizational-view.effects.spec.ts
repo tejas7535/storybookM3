@@ -573,7 +573,7 @@ describe('Organizational View Effects', () => {
       'should return loadParentAttritionOverTimeOrgChartSuccess action when REST call is successful',
       marbles((m) => {
         const monthlyFluctuation = {
-          fluctuationRates: [1, 2, 3],
+          fluctuationRates: { distribution: [1, 2, 3] },
         } as MonthlyFluctuation;
         const result = loadParentAttritionOverTimeOrgChartSuccess({
           monthlyFluctuation,
@@ -662,7 +662,7 @@ describe('Organizational View Effects', () => {
       'should return loadChildAttritionOverTimeOrgChartSuccess action when REST call is successful',
       marbles((m) => {
         const monthlyFluctuation = {
-          fluctuationRates: [1, 2, 3],
+          fluctuationRates: { distribution: [1, 2, 3] },
         } as MonthlyFluctuation;
         const timeRange = '123|321';
         const result = loadChildAttritionOverTimeOrgChartSuccess({

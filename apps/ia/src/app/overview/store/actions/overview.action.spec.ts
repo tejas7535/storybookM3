@@ -79,7 +79,9 @@ describe('Overview Actions', () => {
 
   test('loadAttritionOverTimeOverviewSuccess', () => {
     const monthlyFluctuation: MonthlyFluctuation = {
-      fluctuationRates: [1, 2, 3],
+      fluctuationRates: {
+        distribution: [1, 2, 3],
+      },
     } as MonthlyFluctuation;
 
     const action = loadAttritionOverTimeOverviewSuccess({
@@ -193,7 +195,9 @@ describe('Overview Actions', () => {
 
   test('loadFluctuationRatesChartDataSuccess', () => {
     const monthlyFluctuation: MonthlyFluctuation = {
-      fluctuationRates: [1, 2, 3],
+      fluctuationRates: {
+        distribution: [1, 2, 3],
+      },
     } as MonthlyFluctuation;
     const action = loadFluctuationRatesChartDataSuccess({ monthlyFluctuation });
 
@@ -224,7 +228,9 @@ describe('Overview Actions', () => {
 
   test('loadBenchmarkFluctuationRatesChartDataSuccess', () => {
     const monthlyFluctuation: MonthlyFluctuation = {
-      fluctuationRates: [1, 2, 3],
+      fluctuationRates: {
+        distribution: [1, 2, 3],
+      },
     } as MonthlyFluctuation;
     const action = loadBenchmarkFluctuationRatesChartDataSuccess({
       monthlyFluctuation,

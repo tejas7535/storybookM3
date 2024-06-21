@@ -14,7 +14,7 @@ import {
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
-import { AttritionSeries, EmployeeWithAction } from '../shared/models';
+import { AttritionOverTime, EmployeeWithAction } from '../shared/models';
 import {
   ExitEntryEmployeesResponse,
   FluctuationKpi,
@@ -46,6 +46,8 @@ import {
   getIsLoadingOpenApplications,
   getIsLoadingOpenApplicationsCount,
   getIsLoadingResignedEmployees,
+  getIsUserAllowedToViewBenchmarkRates,
+  getIsUserAllowedToViewDimensionRates,
   getOpenApplications,
   getOpenApplicationsCount,
   getOverviewEntryEmployees,
@@ -77,8 +79,10 @@ export class OverviewComponent implements OnInit {
   unforcedFluctuationChartData$: Observable<LineSeriesOption[]>;
   isFluctuationChartLoading$: Observable<boolean>;
   dimensionFluctuationKpi$: Observable<FluctuationKpi>;
+  isUserAllowedToViewDimensionRates$: Observable<boolean>;
   isDimensionFluctuationKpiLoading$: Observable<boolean>;
   benchmarkFluctuationKpi$: Observable<FluctuationKpi>;
+  isUserAllowedToViewBenchmarkRates$: Observable<boolean>;
   isBenchmarkFluctuationKpiLoading$: Observable<boolean>;
   externalExitEmployees$: Observable<EmployeeWithAction[]>;
   externalUnforcedExitEmployees$: Observable<EmployeeWithAction[]>;
@@ -91,7 +95,7 @@ export class OverviewComponent implements OnInit {
 
   attritionRateLoading$: Observable<boolean>;
   events$: Observable<Event[]>;
-  attritionData$: Observable<AttritionSeries>;
+  attritionData$: Observable<AttritionOverTime>;
   attritionEmployeesData$: Observable<ExitEntryEmployeesResponse>;
   attritionEmployeesLoading$: Observable<boolean>;
 
@@ -221,6 +225,12 @@ export class OverviewComponent implements OnInit {
     );
     this.dimensionFluctuationKpi$ = this.store.select(
       getDimensionFluctuationKpi
+    );
+    this.isUserAllowedToViewDimensionRates$ = this.store.select(
+      getIsUserAllowedToViewDimensionRates
+    );
+    this.isUserAllowedToViewBenchmarkRates$ = this.store.select(
+      getIsUserAllowedToViewBenchmarkRates
     );
     this.externalExitEmployees$ = this.store.select(
       getOverviewExternalExitEmployees
