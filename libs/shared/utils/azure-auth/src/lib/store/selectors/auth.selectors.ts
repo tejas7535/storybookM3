@@ -9,9 +9,8 @@ export const getAccountInfo = createSelector(
   (state) => state.accountInfo
 );
 
-export const getUsername = createSelector(
-  getAuthState,
-  (state) => state.accountInfo?.name
+export const getUsername = createSelector(getAuthState, (state) =>
+  state.accountInfo?.name?.replaceAll(/\s+/g, ' ')
 );
 
 export const getUserUniqueIdentifier = createSelector(

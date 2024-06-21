@@ -778,7 +778,7 @@ export const dialogReducer = createReducer(
     const dataOwners = state.dialogOptions.dataOwners
       ? [...state.dialogOptions.dataOwners]
       : [];
-    dataOwners.unshift(dataOwner);
+    dataOwners.unshift(dataOwner.replaceAll(/\s+/g, ' '));
 
     return {
       ...state,

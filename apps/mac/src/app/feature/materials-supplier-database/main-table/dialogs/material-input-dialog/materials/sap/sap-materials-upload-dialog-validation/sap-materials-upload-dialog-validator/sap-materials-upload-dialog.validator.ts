@@ -21,9 +21,9 @@ export function sapMaterialsUploadDataOwnerValidator(): ValidatorFn {
   ): ValidationErrors | undefined => {
     const owner = control.value;
 
-    const valid = new RegExp(
-      '^\\w{2,},\\s\\w{2,}\\s{1,2}\\w{2}/\\w+(-.+)?$'
-    ).test(owner?.title);
+    const valid = new RegExp('^\\w{2,},\\s\\w{2,}\\s\\w{2}/\\w+(-.+)?$').test(
+      owner?.title
+    );
 
     return valid ? undefined : { invalidDataOwnerFormat: true };
   };

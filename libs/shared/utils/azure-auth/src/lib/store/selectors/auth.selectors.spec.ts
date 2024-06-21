@@ -22,6 +22,14 @@ describe('Azure Auth selectors', () => {
     ).toEqual(accountInfo.name);
   });
 
+  test('should return username with less whitespace', () => {
+    const result = 'T E S T';
+    const accountInfo = { name: 'T  E  S  T' } as unknown as AccountInfo;
+    expect(
+      fromAuthSelectors.getUsername.projector({ accountInfo } as AuthState)
+    ).toEqual(result);
+  });
+
   test('should return undefined on undefined user', () => {
     const accountInfo: AccountInfo = undefined;
     expect(

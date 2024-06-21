@@ -1106,57 +1106,83 @@ describe('dialogReducer', () => {
     });
   });
 
-  it('should set data owner if not defined', () => {
-    const dataOwner = 'test owner';
-    const action = DialogActions.addCustomDataOwner({
-      dataOwner,
-    });
-    const newState = dialogReducer(
-      {
+  describe('addCustomDataOwner', () => {
+    it('should set data owner if not defined', () => {
+      const dataOwner = 'test owner';
+      const action = DialogActions.addCustomDataOwner({
+        dataOwner,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwners: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          dataOwners: undefined,
+          dataOwners: [dataOwner],
         },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        dataOwners: [dataOwner],
-      },
+      });
     });
-  });
 
-  it('should add a custom data owner', () => {
-    const oldDataOwner = 'old data owner';
-    const dataOwner = 'new data owner';
-    const action = DialogActions.addCustomDataOwner({
-      dataOwner,
-    });
-    const newState = dialogReducer(
-      {
+    it('should add a custom data owner', () => {
+      const oldDataOwner = 'old data owner';
+      const dataOwner = 'new data owner';
+      const action = DialogActions.addCustomDataOwner({
+        dataOwner,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwners: [oldDataOwner],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          dataOwners: [oldDataOwner],
+          dataOwners: [dataOwner, oldDataOwner],
         },
-      },
-      action
-    );
+      });
+    });
+    it('should remove whitespaces', () => {
+      const dataOwner = 'new     data owner  with    Whitespaces';
+      const dataOwner_result = 'new data owner with Whitespaces';
+      const action = DialogActions.addCustomDataOwner({
+        dataOwner,
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            dataOwners: [],
+          },
+        },
+        action
+      );
 
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        dataOwners: [dataOwner, oldDataOwner],
-      },
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          dataOwners: [dataOwner_result],
+        },
+      });
     });
   });
-
   it('should set the editMaterial', () => {
     const action = DialogActions.openEditDialog({
       row: {} as DataResult,

@@ -50,5 +50,14 @@ describe('sapMaterialsUploadDialogValidator', () => {
 
       expect(result).toStrictEqual({ invalidDataOwnerFormat: true });
     });
+
+    test('should no longer accept multiple whitespaces', () => {
+      const control = new FormControl({
+        title: 'Mustermann, Max  AA/BB-2XY',
+      });
+      const result = sapMaterialsUploadDataOwnerValidator()(control);
+
+      expect(result).toStrictEqual({ invalidDataOwnerFormat: true });
+    });
   });
 });
