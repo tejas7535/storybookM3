@@ -43,6 +43,7 @@
         "@angular/cli",
         "@angular/compiler-cli",
         "@angular/language-service",
+        "@schematics/angular",
         "zone.js"
       ],
       "groupName": "@angular",
