@@ -196,7 +196,7 @@ describe('ApprovalService', () => {
 
       const request: TriggerApprovalWorkflowRequest = {
         ...baseInformation,
-        gqLinkBase64Encoded: 'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy',
+        gqLink: 'https://localhost:8080?q1=test1&q2=test2',
       };
 
       const response = {

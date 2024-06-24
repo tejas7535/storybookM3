@@ -23,7 +23,6 @@ import {
 import { QuotationStatus } from '@gq/shared/models/quotation';
 import { ApprovalService } from '@gq/shared/services/rest/approval/approval.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import * as miscs from '@gq/shared/utils/misc.utils';
 import { translate } from '@jsverse/transloco';
 import {
   createServiceFactory,
@@ -206,12 +205,6 @@ describe('ApprovalEffects', () => {
         };
         const protocol = 'https';
         const hostname = 'guided-quoting-test.dev.dp.schaeffler';
-        const gqConvertedString =
-          'aHR0cHM6Ly90ZXN0LmRlP3ExPXRlc3QxJnEyPXRlc3Qy';
-
-        const convertSpy = jest
-          .spyOn(miscs, 'convertToBase64')
-          .mockReturnValue(gqConvertedString);
 
         const approvalInformation: ApprovalCockpitData = {
           approvalGeneral: {
@@ -282,16 +275,14 @@ describe('ApprovalEffects', () => {
           mapQuotationIdentifierToQueryParamsStringSpy
         ).toHaveBeenCalledWith(quotationIdentifier);
 
-        expect(convertSpy).toBeCalledWith(
-          `${protocol}//${hostname}/${AppRoutePath.ProcessCaseViewPath}/${ProcessCaseRoutePath.OverviewPath}?${queryParams}`
-        );
+        const gqLink = `${protocol}//${hostname}/${AppRoutePath.ProcessCaseViewPath}/${ProcessCaseRoutePath.OverviewPath}?${queryParams}`;
 
         expect(triggerApprovalWorkflowSpy).toHaveBeenCalledWith(sapId, {
           ...approvalWorkflowData,
-          comment: gqConvertedString,
-          projectInformation: gqConvertedString,
+          comment: 'test comment',
+          projectInformation: 'project info',
           gqId: quotationIdentifier.gqId,
-          gqLinkBase64Encoded: gqConvertedString,
+          gqLink,
         });
 
         const translationKey =
@@ -703,11 +694,11 @@ describe('ApprovalEffects', () => {
           gqId: 999,
         } as any;
 
+        const comment = 'test';
         const updateApprovalWorkflowData = {
-          comment: 'test',
+          comment,
           updateFunction: UpdateFunction.APPROVE_QUOTATION,
         };
-        jest.spyOn(miscs, 'convertToBase64').mockReturnValue('encodedText');
         const approvalInformation: ApprovalCockpitData = {
           approvalGeneral: {
             gqId: 999,
@@ -751,7 +742,7 @@ describe('ApprovalEffects', () => {
 
         expect(updateApprovalWorkflowSpy).toHaveBeenCalledWith(sapId, {
           ...updateApprovalWorkflowData,
-          comment: 'encodedText',
+          comment,
           gqId: quotationIdentifier.gqId,
         });
 
@@ -845,15 +836,15 @@ describe('ApprovalEffects', () => {
           gqId: 999,
         } as any;
 
-        jest.spyOn(miscs, 'convertToBase64').mockReturnValue('encodedText');
-
+        const comment = 'test comment';
+        const projectInformation = 'project info';
         const approvalWorkflowInformation = {
           firstApprover: 'APPR1',
           secondApprover: 'APPR2',
           thirdApprover: 'APPR3',
           infoUser: 'CC00',
-          comment: 'test comment',
-          projectInformation: 'project info',
+          comment,
+          projectInformation,
         };
 
         const approvalGeneral: ApprovalWorkflowInformation = {
@@ -902,8 +893,8 @@ describe('ApprovalEffects', () => {
 
         expect(saveApprovalWorkflowInformationSpy).toHaveBeenCalledWith(sapId, {
           ...approvalWorkflowInformation,
-          comment: 'encodedText',
-          projectInformation: 'encodedText',
+          comment,
+          projectInformation,
           gqId: quotationIdentifier.gqId,
         });
 

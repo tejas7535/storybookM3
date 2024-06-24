@@ -3,7 +3,6 @@ import { Params } from '@angular/router';
 import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
 import { Duration, Keyboard } from '@gq/shared/models';
 // eslint-disable-next-line unicorn/prefer-node-protocol
-import { Buffer } from 'buffer';
 import moment from 'moment';
 
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
@@ -118,19 +117,6 @@ export function groupBy<T>(arr: T[], fn: (item: T) => any) {
   }
 
   return groupedBy;
-}
-
-/**
- * Converts a string to base64
- *
- * @param value value to be converted to base64
- * @returns the converted value or value if is falsy
- */
-export function convertToBase64(value: string): string {
-  // eslint-disable-next-line no-param-reassign
-  value = value === '' ? null : value;
-
-  return value ? Buffer.from(value.trim(), 'utf8').toString('base64') : value;
 }
 
 /**

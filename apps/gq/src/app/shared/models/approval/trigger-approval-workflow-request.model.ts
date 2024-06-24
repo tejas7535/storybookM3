@@ -2,5 +2,5 @@ import { ApprovalWorkflowBaseInformation } from './approval-workflow-base-inform
 
 export interface TriggerApprovalWorkflowRequest
   extends ApprovalWorkflowBaseInformation {
-  gqLinkBase64Encoded: string;
+  gqLink: string;
 }
