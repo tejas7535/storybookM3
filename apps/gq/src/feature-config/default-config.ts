@@ -1,7 +1,7 @@
 export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   fPricing: true,
   editTechnicalValueDriver: false,
-  extendedSearchbar: false,
+  extendedSearchbar: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
