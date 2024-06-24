@@ -1919,7 +1919,7 @@ packages:
     engines: {node: '>= 10'}
 
   '@caeonline/dynamic-forms@1.1.0':
-    resolution: {integrity: sha1-+r2BTFAdldjhrAlhSreiCjhvI0w=, tarball: https://artifactory.schaeffler.com/artifactory/api/npm/npm/@caeonline/dynamic-forms/-/@caeonline/production/dynamic-forms-1.1.0.tgz}
+    resolution: {integrity: sha1-+r2BTFAdldjhrAlhSreiCjhvI0w=, tarball: https://artifactory.schaeffler.com:443/artifactory/npm-local/%40caeonline/dynamic-forms/-/%40caeonline/production/dynamic-forms-1.1.0.tgz}
     peerDependencies:
       '@angular/common': ~15.2.3
       '@angular/core': ~15.2.3
