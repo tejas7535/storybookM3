@@ -270,7 +270,7 @@
     }
   },
   "editingCommentModal": {
-    "title": "Kommentar bearbeiten für Position {{id}}",
+    "title": "Kommentar {quotationStatus, select, ACTIVE {bearbeiten} other {ansehen}} für Position {{id}}",
     "confirm": "Bestätigen",
     "cancel": "Abbrechen"
   },

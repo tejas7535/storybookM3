@@ -270,7 +270,7 @@
     }
   },
   "editingCommentModal": {
-    "title": "Edit comment for Item {{id}}",
+    "title": "{quotationStatus, select, ACTIVE {Edit} other {View}} comment for Item {{id}}",
     "confirm": "Confirm",
     "cancel": "Cancel"
   },

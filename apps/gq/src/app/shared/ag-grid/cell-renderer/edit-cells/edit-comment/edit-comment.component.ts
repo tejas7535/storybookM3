@@ -12,17 +12,19 @@ import { QuotationDetail } from '../../../../models/quotation-detail';
   templateUrl: './edit-comment.component.html',
 })
 export class EditCommentComponent {
-  public detail: QuotationDetail;
-  quotationStatus = QuotationStatus;
+  detail: QuotationDetail;
+  quotationStatus: QuotationStatus;
+
+  readonly quotationStatusEnum = QuotationStatus;
 
   constructor(private readonly dialog: MatDialog) {}
   agInit(params: CellClassParams): void {
+    this.quotationStatus = params?.context?.quotation?.status;
     this.detail = params.data;
   }
   onIconClick(): void {
     this.dialog.open(EditingCommentModalComponent, {
       width: '684px',
-      height: '300px',
       data: this.detail,
     });
   }

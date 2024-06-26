@@ -4,10 +4,13 @@
       {{ detail.comment || '-' }}
     </span>
     <mat-icon
-      *hideIfQuotationNotActive
       class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
       (click)="onIconClick()"
-      >mode_edit</mat-icon
+      >{{
+        quotationStatus === quotationStatusEnum.ACTIVE
+          ? 'mode_edit'
+          : 'edit_off'
+      }}</mat-icon
     >
   </div>
 }

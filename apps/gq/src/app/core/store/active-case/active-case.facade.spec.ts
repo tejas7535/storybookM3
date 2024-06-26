@@ -1,4 +1,4 @@
-import { QuotationAttachment } from '@gq/shared/models';
+import { QuotationAttachment, QuotationStatus } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -13,6 +13,7 @@ import {
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
   getQuotationHasRfqMaterials,
+  getQuotationStatus,
   getSapId,
 } from './active-case.selectors';
 import { UpdateQuotationDetail } from './models';
@@ -285,6 +286,37 @@ describe('ActiveCaseFacade', () => {
       })
     );
   });
+
+  describe('loadingErrorMessage$', () => {
+    test(
+      'should select loading error message',
+      marbles((m) => {
+        const errorMessage = 'error';
+        mockStore.overrideSelector(
+          activeCaseFeature.selectQuotationLoadingErrorMessage,
+          errorMessage
+        );
+
+        m.expect(facade.loadingErrorMessage$).toBeObservable(
+          m.cold('a', { a: errorMessage })
+        );
+      })
+    );
+  });
+
+  describe('quotationStatus$', () => {
+    test(
+      'should select quotation status',
+      marbles((m) => {
+        mockStore.overrideSelector(getQuotationStatus, QuotationStatus.ACTIVE);
+
+        m.expect(facade.quotationStatus$).toBeObservable(
+          m.cold('a', { a: QuotationStatus.ACTIVE })
+        );
+      })
+    );
+  });
+
   // ############################# methods testing ##############################
   describe('updateCosts', () => {
     test('should dispatch update costs', () => {

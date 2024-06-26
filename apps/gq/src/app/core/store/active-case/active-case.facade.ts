@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { QuotationAttachment, QuotationDetail } from '@gq/shared/models';
+import {
+  QuotationAttachment,
+  QuotationDetail,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -13,6 +17,7 @@ import {
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
   getQuotationHasRfqMaterials,
+  getQuotationStatus,
   getSapId,
 } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
@@ -97,6 +102,13 @@ export class ActiveCaseFacade {
   deletionAttachmentInProgress$ = this.store.select(
     activeCaseFeature.selectAttachmentDeletionInProgress
   );
+
+  loadingErrorMessage$: Observable<string> = this.store.select(
+    activeCaseFeature.selectQuotationLoadingErrorMessage
+  );
+
+  quotationStatus$: Observable<QuotationStatus> =
+    this.store.select(getQuotationStatus);
 
   constructor(
     private readonly store: Store,

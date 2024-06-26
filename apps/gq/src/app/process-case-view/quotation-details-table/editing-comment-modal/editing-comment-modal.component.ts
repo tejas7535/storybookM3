@@ -5,11 +5,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
+import { QuotationStatus } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'gq-editing-comment-modal',
@@ -21,40 +20,51 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
 
   commentDisabled = true;
   commentFormControl: UntypedFormControl;
-  updateLoading$: Observable<boolean>;
+  updateLoading$: Observable<boolean> =
+    inject(ActiveCaseFacade).quotationDetailUpdating$;
+  loadingErrorMessage$: Observable<string> =
+    inject(ActiveCaseFacade).loadingErrorMessage$;
+  quotationStatus$: Observable<QuotationStatus> =
+    inject(ActiveCaseFacade).quotationStatus$;
 
   modalData: QuotationDetail = inject(MAT_DIALOG_DATA);
 
   private readonly dialogRef = inject(
     MatDialogRef<EditingCommentModalComponent>
   );
-  private readonly store: Store = inject(Store);
+
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
 
   private readonly subscription: Subscription = new Subscription();
+
+  quotationStatusEnum = QuotationStatus;
 
   ngOnInit(): void {
     this.commentFormControl = new UntypedFormControl(this.modalData.comment);
 
-    this.updateLoading$ = this.store.select(
-      activeCaseFeature.selectUpdateLoading
-    );
     this.addSubscriptions();
   }
 
   addSubscriptions(): void {
-    const loadingStopped$ = this.store
-      .select(activeCaseFeature.selectUpdateLoading)
-      .pipe(
-        pairwise(),
-        // eslint-disable-next-line ngrx/avoid-mapping-selectors
-        map(([preVal, curVal]) => preVal && !curVal)
-      );
-    const isErrorMessage$ = this.store.select(
-      activeCaseFeature.selectQuotationLoadingErrorMessage
+    this.subscription.add(
+      this.quotationStatus$.subscribe((status) => {
+        if (status === QuotationStatus.ACTIVE) {
+          this.commentFormControl.enable();
+
+          return;
+        }
+
+        this.commentFormControl.disable();
+      })
+    );
+
+    const loadingStopped$ = this.updateLoading$.pipe(
+      pairwise(),
+      map(([preVal, curVal]) => preVal && !curVal)
     );
 
     this.subscription.add(
-      combineLatest([isErrorMessage$, loadingStopped$]).subscribe(
+      combineLatest([this.loadingErrorMessage$, loadingStopped$]).subscribe(
         ([isErrorMessage, loadingStopped]) => {
           if (!isErrorMessage && loadingStopped) {
             this.closeDialog();
@@ -80,6 +90,7 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   closeDialog(): void {
     this.dialogRef.close();
   }
@@ -92,8 +103,6 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
         comment,
       },
     ];
-    this.store.dispatch(
-      ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
-    );
+    this.activeCaseFacade.updateQuotationDetails(updateQuotationDetailList);
   }
 }

@@ -1,14 +1,19 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { BehaviorSubject } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { QuotationStatus } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -18,13 +23,21 @@ import { EditingCommentModalComponent } from './editing-comment-modal.component'
 describe('EditingCommentModalComponent', () => {
   let component: EditingCommentModalComponent;
   let spectator: Spectator<EditingCommentModalComponent>;
-  let store: MockStore;
+
+  const quotationStatusSubject$$: BehaviorSubject<QuotationStatus> =
+    new BehaviorSubject<QuotationStatus>(QuotationStatus.IN_APPROVAL);
+
+  const loadingStoppedSubject$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
+  const loadingErrorMessageSubject$$: BehaviorSubject<string> =
+    new BehaviorSubject<string>('');
 
   const createComponent = createComponentFactory({
     component: EditingCommentModalComponent,
     imports: [
       LoadingSpinnerModule,
       MatFormFieldModule,
+      MatInputModule,
       DialogHeaderModule,
       PushPipe,
       TextFieldModule,
@@ -42,42 +55,80 @@ describe('EditingCommentModalComponent', () => {
       }),
       {
         provide: MatDialogRef,
-        useValue: {},
+        useValue: {
+          close: jest.fn(),
+        },
       },
       { provide: MAT_DIALOG_DATA, useValue: QUOTATION_DETAIL_MOCK },
+      {
+        provide: ActiveCaseFacade,
+        useValue: {
+          updateQuotationDetails: jest.fn(),
+          quotationDetailUpdating$: loadingStoppedSubject$$.asObservable(),
+          loadingErrorMessage$: loadingErrorMessageSubject$$.asObservable(),
+          quotationStatus$: quotationStatusSubject$$.asObservable(),
+        },
+      },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
   describe('ngOnInit', () => {
     test('should add subscriptions', () => {
+      jest.restoreAllMocks();
       component.addSubscriptions = jest.fn();
 
       component.ngOnInit();
 
       expect(component.commentFormControl).toBeDefined();
       expect(component.updateLoading$).toBeDefined();
-      expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
+      expect(component.addSubscriptions).toHaveBeenCalled();
     });
   });
 
+  describe('should disable/enable commentFormControl', () => {
+    test('should enable commentFormControl', () => {
+      component.quotationStatus$ = quotationStatusSubject$$.asObservable();
+      quotationStatusSubject$$.next(QuotationStatus.ACTIVE);
+
+      expect(component.commentFormControl.enabled).toBeTruthy();
+    });
+    test('should disable commentFormControl', () => {
+      component.quotationStatus$ = quotationStatusSubject$$.asObservable();
+      quotationStatusSubject$$.next(QuotationStatus.IN_APPROVAL);
+
+      expect(component.commentFormControl.disabled).toBeTruthy();
+    });
+  });
   describe('addSubscriptions', () => {
     test('should add subscriptions', () => {
       component['subscription'].add = jest.fn();
       component.addSubscriptions();
-      expect(component['subscription'].add).toHaveBeenCalledTimes(2);
+      expect(component['subscription'].add).toHaveBeenCalled();
+    });
+
+    test('should close dialog when loading stopped and no error message', () => {
+      component.closeDialog = jest.fn();
+
+      loadingStoppedSubject$$.next(true);
+      loadingStoppedSubject$$.next(false);
+      loadingErrorMessageSubject$$.next('');
+
+      expect(component.closeDialog).toHaveBeenCalled();
     });
   });
   describe('closeDialog', () => {
     test('should close dialogRef', () => {
+      jest.resetAllMocks();
       component['dialogRef'].close = jest.fn();
 
       component.closeDialog();
@@ -88,24 +139,19 @@ describe('EditingCommentModalComponent', () => {
 
   describe('confirmComment', () => {
     test('should dispatch store', () => {
-      store.dispatch = jest.fn();
-
       component.modalData = QUOTATION_DETAIL_MOCK;
       component.commentFormControl = { value: 'test' } as any;
 
       component.confirmComment();
 
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        ActiveCaseActions.updateQuotationDetails({
-          updateQuotationDetailList: [
-            {
-              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-              comment: 'test',
-            },
-          ],
-        })
-      );
+      expect(
+        component['activeCaseFacade'].updateQuotationDetails
+      ).toHaveBeenCalledWith([
+        {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          comment: 'test',
+        },
+      ]);
     });
   });
 

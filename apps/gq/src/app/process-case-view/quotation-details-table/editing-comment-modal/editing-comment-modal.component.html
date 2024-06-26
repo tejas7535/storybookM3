@@ -1,9 +1,10 @@
 <div
-  class="flex h-full flex-col"
+  class="flex h-full flex-col gap-4"
   *transloco="let t; read: 'processCaseView.editingCommentModal'"
 >
   <gq-dialog-header
-    [title]="t('title', { id: modalData.quotationItemId })"
+    *ngrxLet="quotationStatus$ as quotationStatus"
+    [title]="t('title', { id: modalData.quotationItemId, quotationStatus })"
     (closeDialog)="closeDialog()"
   >
   </gq-dialog-header>
@@ -16,7 +17,7 @@
             [formControl]="commentFormControl"
             appearance="fill"
             type="text"
-            maxlength="100"
+            maxlength="1000"
             cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1"
@@ -25,30 +26,32 @@
             #comment
             data-cy="comment-modal_comment-input"
           ></textarea>
-          <mat-hint align="end"> {{ comment.value.length }} / 100</mat-hint>
+          <mat-hint align="end"> {{ comment.value.length }} / 1000</mat-hint>
         </mat-form-field>
       </div>
-      <div>
-        <button
-          class="!pl-8 !pr-8"
-          color="primary"
-          mat-raised-button
-          [disabled]="commentDisabled || commentFormControl.invalid"
-          (click)="confirmComment()"
-          data-cy="comment-modal_comment-confirm-btn"
-        >
-          <span> {{ t('confirm') | uppercase }} </span>
-        </button>
-        <button
-          class="!ml-6 !pl-8 !pr-8"
-          color="primary"
-          mat-stroked-button
-          (click)="closeDialog()"
-          data-cy="comment-modal_comment-cancel-btn"
-        >
-          <span> {{ t('cancel') | uppercase }} </span>
-        </button>
-      </div>
+      @if ((quotationStatus$ | ngrxPush) === quotationStatusEnum.ACTIVE) {
+        <div>
+          <button
+            class="!pl-8 !pr-8"
+            color="primary"
+            mat-raised-button
+            [disabled]="commentDisabled || commentFormControl.invalid"
+            (click)="confirmComment()"
+            data-cy="comment-modal_comment-confirm-btn"
+          >
+            <span> {{ t('confirm') | uppercase }} </span>
+          </button>
+          <button
+            class="!ml-6 !pl-8 !pr-8"
+            color="primary"
+            mat-stroked-button
+            (click)="closeDialog()"
+            data-cy="comment-modal_comment-cancel-btn"
+          >
+            <span> {{ t('cancel') | uppercase }} </span>
+          </button>
+        </div>
+      }
     </div>
   } @else {
     <schaeffler-loading-spinner
