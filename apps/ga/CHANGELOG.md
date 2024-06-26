@@ -1,4 +1,13 @@
 # Release Notes of Grease App
+## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.11.0...ga-v1.12.0) (2024-06-26)
+
+
+### Features
+
+* **ga:** add important manual lubrication result values (UFTABI- 7746) ([#6251](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6251)) ([7d481f2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7d481f2fb5b0847d557c78d25d0a293b492782ab))
+* **ga:** update mobile dependencies version (UFTABI-7796) ([#6277](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6277)) ([67f8918](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/67f89185f6065fc0db0e08e7949949a722811227))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
 ## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.10.5...ga-v1.11.0) (2024-05-07)
 
 
