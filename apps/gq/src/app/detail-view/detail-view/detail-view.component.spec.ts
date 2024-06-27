@@ -9,10 +9,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ApprovalWorkflowInformation, Quotation } from '@gq/shared/models';
-import {
-  QuotationDetail,
-  SAP_SYNC_STATUS,
-} from '@gq/shared/models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -121,9 +118,13 @@ describe('DetailViewComponent', () => {
 
         m.expect(component.sapStatusPosition$).toBeObservable(
           m.cold('a', {
-            a: QUOTATION_DETAIL_MOCK.syncInSap
-              ? SAP_SYNC_STATUS.SYNCED
-              : SAP_SYNC_STATUS.NOT_SYNCED,
+            a: QUOTATION_DETAIL_MOCK.sapSyncStatus,
+          })
+        );
+
+        m.expect(component.sapStatusPosition$).toBeObservable(
+          m.cold('a', {
+            a: QUOTATION_DETAIL_MOCK.sapSyncStatus,
           })
         );
       })

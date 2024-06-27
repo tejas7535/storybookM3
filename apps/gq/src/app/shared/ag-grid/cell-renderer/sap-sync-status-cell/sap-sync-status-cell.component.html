@@ -5,41 +5,33 @@
   <div
     class="flex items-center overflow-hidden rounded-full px-3 py-1 text-caption uppercase"
     [ngClass]="{
-      'text-info': syncedStatus === synced,
-      'bg-quotation-status-blue': syncedStatus === synced,
-      'text-low-emphasis': syncedStatus === notSynced,
-      'bg-quotation-status-grey': syncedStatus === notSynced,
-      'text-orange': syncedStatus === partiallySynced,
-      'bg-quotation-status-orange': syncedStatus === partiallySynced,
-      'text-error': syncedStatus === syncFailed,
-      'bg-quotation-status-red': syncedStatus === syncFailed
+      'text-info bg-quotation-status-blue': syncedStatus === synced,
+      'text-low-emphasis bg-quotation-status-grey': syncedStatus === notSynced,
+      'text-warning bg-warning':
+        syncedStatus === partiallySynced || syncedStatus === syncPending,
+      'text-error bg-quotation-status-red': syncedStatus === syncFailed
     }"
   >
-    <span
-      class="mr-1 block min-h-[6px] min-w-[6px] rounded-full"
-      [ngClass]="{
-        'bg-nordic-blue': syncedStatus === synced,
-        'bg-low-emphasis': syncedStatus === notSynced,
-        'bg-orange': syncedStatus === partiallySynced,
-        'bg-error': syncedStatus === syncFailed
-      }"
-    ></span>
+    @if (syncedStatus !== syncPending) {
+      <span
+        class="mr-1 block min-h-[6px] min-w-[6px] rounded-full"
+        [ngClass]="{
+          'bg-nordic-blue': syncedStatus === synced,
+          'bg-low-emphasis': syncedStatus === notSynced,
+          'bg-[#e9b300]': syncedStatus === partiallySynced,
+          'bg-[#cb0b15]': syncedStatus === syncFailed
+        }"
+      ></span>
+    }
     <span
       class="truncate text-[8px] font-bold"
       [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
     >
-      @if (syncedStatus === synced) {
-        {{ t('synced') }}
-      }
-      @if (syncedStatus === notSynced) {
-        {{ t('notSynced') }}
-      }
-      @if (syncedStatus === partiallySynced) {
-        {{ t('partiallySynced') }}
-      }
-      @if (syncedStatus === syncFailed) {
-        {{ t('syncFailed') }}
-      }
+      {{
+        t('sapSyncStatus', {
+          sapSyncStatus: syncedStatus
+        })
+      }}
     </span>
   </div>
 </div>

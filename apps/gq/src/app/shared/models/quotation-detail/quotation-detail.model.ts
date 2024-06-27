@@ -12,6 +12,7 @@ import { QuotationFPricingData } from './quotation-f-pricing-data.interface';
 import { QuotationRfqData } from './quotation-rfq-data.interface';
 import { SAP_ERROR_MESSAGE_CODE } from './sap-error-message-code.enum';
 import { SapPriceCondition } from './sap-price-condition.enum';
+import { SAP_SYNC_STATUS } from './sap-sync-status.enum';
 export class QuotationDetail {
   quotationId: string;
   gqCreated: string;
@@ -57,7 +58,7 @@ export class QuotationDetail {
   filteredSapConditionDetails: SapPriceConditionDetail[];
   materialClassificationSOP: string;
   strategicMaterial: string;
-  syncInSap: boolean;
+  sapSyncStatus: SAP_SYNC_STATUS;
   deliveryUnit: number;
   sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
   sapPriceUnit: number;

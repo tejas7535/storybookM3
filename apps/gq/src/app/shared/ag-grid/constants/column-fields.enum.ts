@@ -2,7 +2,7 @@ export enum ColumnFields {
   QUOTATION_ITEM_ID = 'quotationItemId',
   MATERIAL_NUMBER_15 = 'material.materialNumber15',
   MATERIAL_DESCRIPTION = 'material.materialDescription',
-  SAP_STATUS = 'syncInSap',
+  SAP_SYNC_STATUS = 'sapSyncStatus',
   UOM = 'material.baseUoM',
   GPI = 'gpi',
   PROFIT_MARGIN = 'profitMargin',

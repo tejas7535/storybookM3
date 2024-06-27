@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -21,8 +21,9 @@ export class StatusCustomerInfoHeaderComponent {
 
   quotationStatusTranslation: string;
 
+  readonly isLatestApprovalEventVerified$: Observable<boolean> =
+    inject(ApprovalFacade).isLatestApprovalEventVerified$;
+
   readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
   readonly quotationStatus: typeof QuotationStatus = QuotationStatus;
-
-  constructor(readonly approvalFacade: ApprovalFacade) {}
 }

@@ -718,12 +718,15 @@ export class ActiveCaseEffects {
     const updatedDetails = quotation.quotationDetails.filter((detail) =>
       syncedPositionIds.includes(detail.gqPositionId)
     );
-    const syncInSapStatus = updatedDetails.map((e) => e.syncInSap);
+    const syncInSapStatus = updatedDetails.map((e) => e.sapSyncStatus);
     let translateKey;
 
-    if (syncInSapStatus.every(Boolean)) {
+    if (syncInSapStatus.every((status) => status === SAP_SYNC_STATUS.SYNCED)) {
       translateKey = 'full';
-    } else if (syncInSapStatus.some(Boolean)) {
+    } else if (
+      syncInSapStatus.includes(SAP_SYNC_STATUS.SYNCED) ||
+      quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
+    ) {
       translateKey = 'partially';
     } else {
       translateKey = 'failed';
@@ -742,7 +745,10 @@ export class ActiveCaseEffects {
     let translateKey;
     if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNCED) {
       translateKey = 'full';
-    } else if (quotation.sapSyncStatus === SAP_SYNC_STATUS.PARTIALLY_SYNCED) {
+    } else if (
+      quotation.sapSyncStatus === SAP_SYNC_STATUS.PARTIALLY_SYNCED ||
+      quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
+    ) {
       translateKey = 'partially';
     } else {
       translateKey = 'failed';

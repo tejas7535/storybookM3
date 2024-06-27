@@ -4,6 +4,7 @@ import {
   QuotationAttachment,
   QuotationDetail,
   QuotationStatus,
+  SAP_SYNC_STATUS,
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { Action } from '@ngrx/store';
@@ -384,17 +385,17 @@ describe('Active Case Feature Reducer', () => {
               {
                 ...QUOTATION_DETAIL_MOCK,
                 gqPositionId: '123',
-                syncInSap: false,
+                sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
               },
               {
                 ...QUOTATION_DETAIL_MOCK,
                 gqPositionId: '456',
-                syncInSap: false,
+                sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
               },
               {
                 ...QUOTATION_DETAIL_MOCK,
                 gqPositionId: '789',
-                syncInSap: false,
+                sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
               },
             ],
           },
@@ -408,7 +409,7 @@ describe('Active Case Feature Reducer', () => {
               {
                 ...QUOTATION_DETAIL_MOCK,
                 gqPositionId: '456',
-                syncInSap: true,
+                sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
               },
             ],
           },
@@ -424,17 +425,17 @@ describe('Active Case Feature Reducer', () => {
           {
             ...QUOTATION_DETAIL_MOCK,
             gqPositionId: '123',
-            syncInSap: false,
+            sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
           },
           {
             ...QUOTATION_DETAIL_MOCK,
             gqPositionId: '456',
-            syncInSap: true,
+            sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
           },
           {
             ...QUOTATION_DETAIL_MOCK,
             gqPositionId: '789',
-            syncInSap: false,
+            sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
           },
         ]);
       });

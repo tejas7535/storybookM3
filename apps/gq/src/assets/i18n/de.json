@@ -236,10 +236,7 @@
       "ongoingSapVerification": "Verifizierung mit SAP läuft"
     },
     "sapStatusLabels": {
-      "notSynced": "Nicht synchronisiert",
-      "synced": "Mit SAP synchronisiert",
-      "partiallySynced": "Teilweise synchronisiert",
-      "syncFailed": "Synchronisierung fehlgeschlagen",
+      "sapSyncStatus": "{sapSyncStatus,select,NOT_SYNCED{Nicht synchronisiert}SYNCED{Mit SAP synchronisiert}PARTIALLY_SYNCED{Teilweise synchronisiert}SYNC_FAILED{Synchronisierung fehlgeschlagen}SYNC_PENDING{Synchronisierung ausstehend} other{}}",
       "errorCodes": {
         "SDG101": "Das Material steht in Sales Org / Vertriebskanal nicht zur Verfügung",
         "SDG102": "Material hat Status T (tot) und wird nicht mehr verkauft",

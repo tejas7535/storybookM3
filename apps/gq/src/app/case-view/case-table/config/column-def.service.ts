@@ -10,7 +10,6 @@ import {
   ComparatorService,
 } from '@gq/shared/ag-grid/services';
 import { DateFilterParamService } from '@gq/shared/ag-grid/services/date-filter-param/date-filter-param.service';
-import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
@@ -62,25 +61,10 @@ export class ColumnDefService {
       field: CaseTableColumnFields.SAP_SYNC_STATUS,
       filterParams: {
         ...FILTER_PARAMS,
-        valueFormatter: (params: ValueFormatterParams) => {
-          switch (params.value) {
-            case SAP_SYNC_STATUS.SYNCED.toString(): {
-              return translate('shared.sapStatusLabels.synced');
-            }
-            case SAP_SYNC_STATUS.NOT_SYNCED.toString(): {
-              return translate('shared.sapStatusLabels.notSynced');
-            }
-            case SAP_SYNC_STATUS.PARTIALLY_SYNCED.toString(): {
-              return translate('shared.sapStatusLabels.partiallySynced');
-            }
-            case SAP_SYNC_STATUS.SYNC_FAILED.toString(): {
-              return translate('shared.sapStatusLabels.syncFailed');
-            }
-            default: {
-              return params.value;
-            }
-          }
-        },
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate('shared.sapStatusLabels.sapSyncStatus', {
+            sapSyncStatus: params.value,
+          }),
       },
       cellRenderer: 'SapStatusCellComponent',
     },

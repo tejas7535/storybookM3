@@ -127,11 +127,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
     this.sapStatusPosition$ = this.quotationDetail$.pipe(
       filter((quotationDetail: QuotationDetail) => !!quotationDetail),
-      map((quotationDetail: QuotationDetail) =>
-        quotationDetail.syncInSap
-          ? SAP_SYNC_STATUS.SYNCED
-          : SAP_SYNC_STATUS.NOT_SYNCED
-      )
+      map((quotationDetail: QuotationDetail) => quotationDetail.sapSyncStatus)
     );
 
     this.plantMaterialDetails$ = this.store.select(getPlantMaterialDetails);

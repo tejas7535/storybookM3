@@ -7,6 +7,7 @@ import {
   PriceSource,
   QuotationDetail,
   SAP_ERROR_MESSAGE_CODE,
+  SAP_SYNC_STATUS,
   SapPriceCondition,
 } from '../../../app/shared/models/quotation-detail';
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
@@ -51,7 +52,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   lastCustomerPriceDate: '2020-12-17T09:29:34',
   lastCustomerPriceCondition: LastCustomerPriceCondition.CA,
   lastCustomerPriceQuantity: 50,
-  syncInSap: false,
+  sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
   abcxClassification: AbcxClassification.UR1,
   targetPrice: 90.55,
   mrpData: MRP_DATA_MOCK,

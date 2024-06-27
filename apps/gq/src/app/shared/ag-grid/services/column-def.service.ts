@@ -10,7 +10,6 @@ import {
 
 import { UserRoles } from '../../constants';
 import { Keyboard } from '../../models';
-import { SAP_SYNC_STATUS } from '../../models/quotation-detail';
 import { FreeStockCellComponent, FreeStockCellParams } from '../cell-renderer';
 import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
 import { EditCellData } from '../cell-renderer/models/edit-cell-class-params.model';
@@ -56,47 +55,18 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapStatus'),
-      field: ColumnFields.SAP_STATUS,
+      field: ColumnFields.SAP_SYNC_STATUS,
       filterParams: {
         ...FILTER_PARAMS,
-        valueFormatter: (params: ValueFormatterParams) => {
-          switch (params.value) {
-            case SAP_SYNC_STATUS.SYNCED.toString(): {
-              return translate('shared.sapStatusLabels.synced');
-            }
-            case SAP_SYNC_STATUS.NOT_SYNCED.toString(): {
-              return translate('shared.sapStatusLabels.notSynced');
-            }
-            case SAP_SYNC_STATUS.SYNC_FAILED.toString(): {
-              return translate('shared.sapStatusLabels.syncFailed');
-            }
-            default: {
-              return params.value;
-            }
-          }
-        },
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate('shared.sapStatusLabels.sapSyncStatus', {
+            sapSyncStatus: params.value,
+          }),
       },
-      valueFormatter: (params: ValueFormatterParams) => {
-        if (!params.data.syncInSap && params.data.sapSyncErrorCode) {
-          return translate('shared.sapStatusLabels.syncFailed');
-        }
-
-        return params.data.syncInSap
-          ? translate('shared.sapStatusLabels.synced')
-          : translate('shared.sapStatusLabels.notSynced');
-      },
-      valueGetter: (params: ValueGetterParams) => {
-        // We need to use valueGetter here to keep the correct value formatter for excel
-        // If the quotation detail is not synced and there is
-        // an error message available it means the sync failed (GQUOTE-1886)
-        if (!params.data.syncInSap && params.data.sapSyncErrorCode) {
-          return SAP_SYNC_STATUS.SYNC_FAILED.toString();
-        }
-
-        return params.data.syncInSap
-          ? SAP_SYNC_STATUS.SYNCED.toString()
-          : SAP_SYNC_STATUS.NOT_SYNCED.toString();
-      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        translate('shared.sapStatusLabels.sapSyncStatus', {
+          sapSyncStatus: params.data.sapSyncStatus,
+        }),
       cellRenderer: 'SapStatusCellComponent',
     },
     {

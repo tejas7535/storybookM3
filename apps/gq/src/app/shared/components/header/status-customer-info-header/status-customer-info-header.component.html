@@ -18,7 +18,7 @@
         <span class="text-caption">
           {{ t(statusOfQuotation) }}
         </span>
-        @if (!(approvalFacade.isLatestApprovalEventVerified$ | ngrxPush)) {
+        @if (!(isLatestApprovalEventVerified$ | ngrxPush)) {
           <mat-icon
             class="ml-2 !text-[12px] !font-medium !h-3 !w-3"
             [matTooltip]="t('ongoingSapVerification')"
@@ -33,33 +33,22 @@
           'text-info': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
           'text-medium-emphasis':
             (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode,
-          'text-orange':
-            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED,
+          'text-warning':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED ||
+            (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_PENDING,
           'text-error':
-            (sapStatus$ | ngrxPush) ===
-            ((sapSyncStatus.NOT_SYNCED && errorCode) ||
-              sapSyncStatus.SYNC_FAILED)
+            ((sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
+              errorCode) ||
+            sapSyncStatus.SYNC_FAILED
         }"
         *transloco="let t; read: 'shared.sapStatusLabels'"
         [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
       >
-        @if ((sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED) {
-          {{ t('synced') }}
-        }
-        @if (
-          (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode
-        ) {
-          {{ t('notSynced') }}
-        }
-        @if ((sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED) {
-          {{ t('partiallySynced') }}
-        }
-        @if (
-          (sapStatus$ | ngrxPush) ===
-          ((sapSyncStatus.NOT_SYNCED && errorCode) || sapSyncStatus.SYNC_FAILED)
-        ) {
-          {{ t('syncFailed') }}
-        }
+        {{
+          t('sapSyncStatus', {
+            sapSyncStatus: (sapStatus$ | ngrxPush)
+          })
+        }}
       </span>
     }
     <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]">|</span>

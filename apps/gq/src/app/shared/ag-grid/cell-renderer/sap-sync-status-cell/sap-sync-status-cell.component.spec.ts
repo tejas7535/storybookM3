@@ -28,33 +28,29 @@ describe('SapStatusCellComponent', () => {
 
   describe('agInit', () => {
     const cellParams = {
-      value: '0',
+      value: 'SYNCED',
       data: {},
       context: {},
     } as ICellRendererParams;
 
-    test('should set NOT_SYNCED Status', () => {
+    test('should set value from Params', () => {
       component.agInit(cellParams);
-
-      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.NOT_SYNCED);
+      expect(component.syncedStatus).toBe(SAP_SYNC_STATUS.SYNCED);
     });
 
-    test('should set SYNCED Status', () => {
-      component.agInit({ ...cellParams, value: '1' });
-
-      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.SYNCED);
+    test('should set default Value when params value is not present', () => {
+      component.agInit({ ...cellParams, value: undefined });
+      expect(component.syncedStatus).toBe(SAP_SYNC_STATUS.NOT_SYNCED);
     });
 
-    test('should set PARTIALLY_SYNCED Status', () => {
-      component.agInit({ ...cellParams, value: '2' });
-
-      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.PARTIALLY_SYNCED);
+    test('should set error code when data is present', () => {
+      component.agInit({ ...cellParams, data: { sapSyncErrorCode: '123' } });
+      expect(component.errorCode).toBe('123');
     });
 
-    test('should set SYNC_FAILED Status', () => {
-      component.agInit({ ...cellParams, value: '3' });
-
-      expect(component.syncedStatus).toEqual(SAP_SYNC_STATUS.SYNC_FAILED);
+    test('should set error code as undefined when data is not present', () => {
+      component.agInit({ ...cellParams, data: {}, value: 'SYNC_FAILED' });
+      expect(component.errorCode).toBe(undefined);
     });
   });
 });

@@ -74,7 +74,10 @@ describe('Active Case Selectors', () => {
         ...fakeState,
         activeCase: {
           ...fakeState.activeCase,
-          quotation: { ...QUOTATION_MOCK, sapSyncStatus: 1 },
+          quotation: {
+            ...QUOTATION_MOCK,
+            sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+          },
         },
       };
 
@@ -88,7 +91,10 @@ describe('Active Case Selectors', () => {
         ...fakeState,
         activeCase: {
           ...fakeState.activeCase,
-          quotation: { ...QUOTATION_MOCK, sapSyncStatus: 2 },
+          quotation: {
+            ...QUOTATION_MOCK,
+            sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+          },
         },
       };
 
@@ -103,7 +109,6 @@ describe('Active Case Selectors', () => {
         activeCase: {
           ...fakeState.activeCase,
           quotation: { ...QUOTATION_MOCK },
-          sapSyncStatus: 0,
         },
       };
 

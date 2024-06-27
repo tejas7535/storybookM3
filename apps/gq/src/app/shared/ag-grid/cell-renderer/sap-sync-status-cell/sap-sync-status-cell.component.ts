@@ -17,14 +17,10 @@ export class SapStatusCellComponent {
   notSynced = SAP_SYNC_STATUS.NOT_SYNCED;
   partiallySynced = SAP_SYNC_STATUS.PARTIALLY_SYNCED;
   syncFailed = SAP_SYNC_STATUS.SYNC_FAILED;
+  syncPending = SAP_SYNC_STATUS.SYNC_PENDING;
 
   agInit(params: ICellRendererParams): void {
-    this.syncedStatus =
-      Number.parseInt(params.value, 10) || SAP_SYNC_STATUS.NOT_SYNCED;
-
-    this.errorCode =
-      params?.data?.sapSyncErrorCode && !params.data?.syncInSap
-        ? params.data.sapSyncErrorCode
-        : undefined;
+    this.syncedStatus = params.value || SAP_SYNC_STATUS.NOT_SYNCED;
+    this.errorCode = params?.data?.sapSyncErrorCode ?? undefined;
   }
 }

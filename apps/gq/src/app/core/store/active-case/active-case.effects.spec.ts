@@ -1277,6 +1277,23 @@ describe('ActiveCaseEffects', () => {
       );
     });
 
+    test('should open snackbar with sync partially when quotation status is SYNC_PENDING', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const quotation = {
+        sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+        sapId: '123',
+      } as Quotation;
+      effects['showCreateSapQuoteToast'](quotation);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith(
+        'shared.snackBarMessages.createSapQuoteSync.partially',
+        { sapId: quotation.sapId }
+      );
+    });
+
     test('should open snackbar with sync failed', () => {
       effects['snackBar'].open = jest.fn();
 
@@ -1301,8 +1318,8 @@ describe('ActiveCaseEffects', () => {
 
       const syncedIds = ['1', '2'];
       const allDetails = [
-        { gqPositionId: '1', syncInSap: true },
-        { gqPositionId: '2', syncInSap: true },
+        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
         { gqPositionId: '3' },
       ];
 
@@ -1320,8 +1337,8 @@ describe('ActiveCaseEffects', () => {
 
       const syncedIds = ['1', '2'];
       const allDetails = [
-        { gqPositionId: '1', syncInSap: true },
-        { gqPositionId: '2', syncInSap: true },
+        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
         { gqPositionId: '3' },
       ];
 
@@ -1342,8 +1359,31 @@ describe('ActiveCaseEffects', () => {
 
       const syncedIds = ['1', '2'];
       const allDetails = [
-        { gqPositionId: '1', syncInSap: false },
-        { gqPositionId: '2', syncInSap: true },
+        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
+        { gqPositionId: '3' },
+      ];
+
+      const quotation = {
+        quotationDetails: allDetails,
+        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+      } as Quotation;
+
+      effects['showUploadSelectionToast'](quotation, syncedIds);
+
+      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenLastCalledWith(
+        'shared.snackBarMessages.uploadToSapSync.partially'
+      );
+    });
+
+    test('should open snackbar with sync partially when quotationStatus is SYNC_PENDING', () => {
+      effects['snackBar'].open = jest.fn();
+
+      const syncedIds = ['1', '2'];
+      const allDetails = [
+        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING },
         { gqPositionId: '3' },
       ];
 
@@ -1364,8 +1404,8 @@ describe('ActiveCaseEffects', () => {
 
       const syncedIds = ['1', '2'];
       const allDetails = [
-        { gqPositionId: '1', syncInSap: false },
-        { gqPositionId: '2', syncInSap: false },
+        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
+        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
         { gqPositionId: '3' },
       ];
 

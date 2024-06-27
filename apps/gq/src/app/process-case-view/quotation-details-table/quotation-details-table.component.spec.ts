@@ -122,7 +122,7 @@ describe('QuotationDetailsTableComponent', () => {
       marbles((m) => {
         const mockColDefs: ColDef[] = [
           {
-            field: ColumnFields.SAP_STATUS,
+            field: ColumnFields.SAP_SYNC_STATUS,
           },
           {
             field: ColumnFields.DATE_NEXT_FREE_ATP,
@@ -162,7 +162,7 @@ describe('QuotationDetailsTableComponent', () => {
       marbles((m) => {
         const mockColDefs: ColDef[] = [
           {
-            field: ColumnFields.SAP_STATUS,
+            field: ColumnFields.SAP_SYNC_STATUS,
           },
           {
             field: ColumnFields.DATE_NEXT_FREE_ATP,

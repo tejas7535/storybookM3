@@ -255,7 +255,7 @@ describe('CreateColumnService', () => {
   describe('filterSAPColumns', () => {
     const colDefs: ColDef[] = [
       { field: ColumnFields.MATERIAL_NUMBER_15 },
-      { field: ColumnFields.SAP_STATUS },
+      { field: ColumnFields.SAP_SYNC_STATUS },
       { field: ColumnFields.STRATEGIC_MATERIAL },
     ];
 

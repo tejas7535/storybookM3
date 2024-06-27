@@ -135,7 +135,7 @@ export class ColumnUtilityService {
       quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_FAILED
     ) {
       return columnDefs.filter(
-        (colDef: ColDef) => colDef.field !== ColumnFields.SAP_STATUS
+        (colDef: ColDef) => colDef.field !== ColumnFields.SAP_SYNC_STATUS
       );
     }
 
