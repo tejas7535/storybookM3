@@ -134,9 +134,9 @@
         "2": {
           "title": "Größe der Wettbewerber",
           "subtitle": "Geben Sie bitte eine ungefähre Schätzung zu dem letzten Jahresumsatz des Wettbewerber ab (in EUR).",
-          "option1": "Groß (>1 Mrd. EUR)",
-          "option2": "Mittel",
-          "option3": "Klein (<1 Mrd. EUR)",
+          "option1": "Groß (>=2,0 Mrd. EUR)",
+          "option2": "Mittel (<2,0 Mrd. EUR)",
+          "option3": "Klein (<0,5 Mrd. EUR)",
           "option4": "Unbekannt"
         },
         "3": {
