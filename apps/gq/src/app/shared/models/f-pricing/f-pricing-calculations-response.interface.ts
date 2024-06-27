@@ -8,7 +8,10 @@ export interface FPricingCalculationsResponse {
 
 export interface CalculationsSanityCheck {
   priceBeforeSanityCheck: number;
+  // actual min price used for calculation
   minPrice: number;
+  // min price on sqv basis
+  minPriceOnSqv: number;
   maxPrice: number;
   value: number;
 }

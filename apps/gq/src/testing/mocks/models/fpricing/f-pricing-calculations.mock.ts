@@ -9,6 +9,7 @@ export const F_PRICING_CALCULATIONS_MOCK: FPricingCalculations = {
     lastCustomerPrice: undefined,
     maxPrice: 600,
     minPrice: 300,
+    minPriceOnSqv: 250,
     priceAfterSanityCheck: 450,
     priceBeforeSanityCheck: 400,
     sqv: 120,

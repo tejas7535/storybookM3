@@ -622,7 +622,7 @@ export const fPricingFeature = createFeature({
             description: translate(
               `${TRANSLATION_KEY}.${SANITY_CHECKS}.lowerThreshold`
             ),
-            value: calculations.sanityCheck.minPrice,
+            value: calculations.sanityCheck.minPriceOnSqv,
           },
           {
             id: 4,
