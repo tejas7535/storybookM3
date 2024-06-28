@@ -36,19 +36,6 @@ describe('QuotationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getCasesByMaterialNumber', () => {
-    test('should call the service', () => {
-      service
-        .getCasesByMaterialNumber('123456', true)
-        .subscribe((res) => expect(res).toEqual([]));
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationSummaryPaths.PATH_QUOTATIONS_SUMMARY}?${service['PARAM_MATERIAL_NUMBER']}=123456&${service['PARAM_USER_CASES_ONLY']}=true`
-      );
-      expect(req.request.method).toBe(HttpMethod.GET);
-    });
-  });
-
   describe('getSearchResultsByCases', () => {
     test('should call the service', () => {
       service

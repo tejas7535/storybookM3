@@ -27,22 +27,11 @@ import { NoDataModule } from '../no-data/no-data.module';
 import { CasesResultTableComponent } from './cases-result-table/cases-result-table.component';
 import { GlobalSearchAdvancedModalComponent } from './global-search-advanced-modal/global-search-advanced-modal.component';
 import { GlobalSearchBarComponent } from './global-search-bar.component';
-import { GlobalSearchModalComponent } from './global-search-modal/global-search-modal.component';
-import { GlobalSearchResultsItemComponent } from './global-search-results-item/global-search-results-item.component';
-import { GlobalSearchResultsListComponent } from './global-search-results-list/global-search-results-list.component';
-import { GlobalSearchResultsPreviewFormatterPipe } from './global-search-results-preview-formatter/global-search-results-preview-formatter.pipe';
-import { GlobalSearchResultsPreviewListComponent } from './global-search-results-preview-list/global-search-results-preview-list.component';
-import { GlobalSearchResultsPreviewListEntryComponent } from './global-search-results-preview-list-entry/global-search-results-preview-list-entry.component';
 import { MaterialsResultTableComponent } from './materials-result-table/materials-result-table.component';
 @NgModule({
   declarations: [
     GlobalSearchBarComponent,
-    GlobalSearchModalComponent,
-    GlobalSearchResultsPreviewListComponent,
-    GlobalSearchResultsPreviewListEntryComponent,
-    GlobalSearchResultsPreviewFormatterPipe,
-    GlobalSearchResultsListComponent,
-    GlobalSearchResultsItemComponent,
+
     GlobalSearchAdvancedModalComponent,
     CasesResultTableComponent,
     MaterialsResultTableComponent,
