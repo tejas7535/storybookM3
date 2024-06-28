@@ -1,4 +1,6 @@
 # Release Notes of Grease App
+## [1.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.0...ga-v1.12.1) (2024-06-28)
+
 ## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.11.0...ga-v1.12.0) (2024-06-26)
 
 
