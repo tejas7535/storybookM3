@@ -57,7 +57,7 @@
     "@angular/router": "18.0.3",
     "@azure/msal-angular": "3.0.7",
     "@azure/msal-browser": "3.4.0",
-    "@caeonline/dynamic-forms": "1.1.0",
+    "@caeonline/dynamic-forms": "https://artifactory.schaeffler.com:443/artifactory/npm-local/%40caeonline/dynamic-forms/-/%40caeonline/production/dynamic-forms-1.1.0.tgz",
     "@fontsource/material-icons": "4.5.4",
     "@fontsource/noto-sans": "4.5.11",
     "@jsverse/transloco": "7.1.0",
