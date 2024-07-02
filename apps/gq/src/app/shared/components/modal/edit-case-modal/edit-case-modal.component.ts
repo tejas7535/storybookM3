@@ -319,7 +319,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     if (this.caseModalForm) {
       const poDate = this.caseModalForm.get('customerPurchaseOrderDate');
 
-      if (poDate && control.value.isSameOrBefore(moment(poDate.value))) {
+      if (poDate && control.value.isBefore(moment(poDate.value))) {
         return { smallerThanPoDate: true };
       }
     }
