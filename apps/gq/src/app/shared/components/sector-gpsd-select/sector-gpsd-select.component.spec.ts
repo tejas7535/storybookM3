@@ -113,9 +113,11 @@ describe('SectorGpsdSelectComponent', () => {
       expect(component.sectorGpsdControl.value).toEqual(gpsd1);
     });
 
-    test('should not override selectedSectorGpsd when it is set', () => {
+    test('should not override selectedSectorGpsd when it is set by a formControl', () => {
       const gpsd = { name: 'test', id: 'test' };
       component['selectedSectorGpsd'] = gpsd;
+      component['onChange'] = jest.fn();
+      component['onTouched'] = jest.fn();
       component.writeValue = jest.fn();
       component.setDisabledState = jest.fn();
       component.sectorGpsdSelected.emit = jest.fn();

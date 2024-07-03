@@ -77,8 +77,9 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     }),
 
     tap((gpsds) => {
-      // if formControl has been initialValue skip setting the default value
-      if (this.selectedSectorGpsd) {
+      // if formControl has been initialValue skip setting the default value,
+      // when onChange and onTouched are defined it is a formControl
+      if (this.selectedSectorGpsd && this.onChange && this.onTouched) {
         return;
       }
       // determine disabled state and select Values

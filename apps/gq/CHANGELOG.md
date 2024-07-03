@@ -1,4 +1,51 @@
 # Release Notes of Guided Quoting
+## [5.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v5.0.0...gq-v5.1.0) (2024-07-02)
+
+
+### Features
+
+* display the real data within the comparison fpricing modal (GQUOTE-4426) ([#6252](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6252)) ([321dbd0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/321dbd03e358ffe7d8013906c710ac035ccc5da0))
+* **gq:** activate searchbar featureToggle ([#6324](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6324)) ([98abfe1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/98abfe1030a311117a0eb5cc36727ec0245cf966))
+* **gq:** add disabled state for cost refresh (GQUOTE-4427) ([#6258](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6258)) ([a1fe3c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a1fe3c62c30b1a271158348b46c4dc3ce17170d9))
+* **gq:** change naming to gq created by user (GQUOTE-4362) ([#6217](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6217)) ([6c55903](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6c55903a11dbd81f4ae3acb79f7f71ccd1e1cf39))
+* **gq:** clear inputs and results of Searchbar Modal(GQUOTE-3822) ([#6256](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6256)) ([ed9ced8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ed9ced8dd8357f8f186adee2692a573f7d0d63fa))
+* **gq:** disable PartnerRole DropDown in CaseSettings when SAPId present (GQUOTE-4579) ([#6314](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6314)) ([0f53652](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0f53652adfcc91fb0ade734746d7046e24d067d6))
+* **gq:** fix for searchbar (GQUOTE-4535) ([#6279](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6279)) ([1460a22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1460a22a2160c08ce8df43a5b91fec57bf9952b6))
+* **gq:** implement contextMenu for nonCellrendererCells (GQUOTE-3805) ([#6242](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6242)) ([1c772ba](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c772ba3404e959e9c9ea6af97687e20a67399b8))
+* **gq:** implement search tab for cases (GQUOTE-3718) ([#6210](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6210)) ([92b7d78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/92b7d78b2cf829a64f6ceddbeeea423ba526f782))
+* **gq:** implement SectorGpsd SelectComponent (GQUOTE-1193) ([#6234](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6234)) ([41f0a51](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/41f0a51967e563a1794ab5f61939292da5fc3625))
+* **gq:** implment Search for Material Tab (GQUOTE-4350) ([#6226](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6226)) ([7f026d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7f026d1f055147b43eb494172efff030778ce0bb))
+* **gq:** include PartnerRole in CaseSettings (GQUOTE-4185) ([#6301](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6301)) ([9bc282b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9bc282b744e36526ac03ff0b328911eacf32b3e7))
+* **gq:** partner role included in the excel (GQUOTE-4519) ([#6276](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6276)) ([5244a0c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5244a0c8b94fbf3396f14ddae4b08d8be4e49803))
+* **gq:** remove calculations for comparable transactions price unit (GQUOTE-4532) ([#6275](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6275)) ([ec3ca97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ec3ca9755ff46b4cb21d8af4bc42f83a4997070c))
+* **gq:** remove encoding from requests (GQUOTE-4457) ([#6261](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6261)) ([af617c3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/af617c31864be87f5c07649561a8db8bdd32aef5))
+* **gq:** remove price unit calculations (GQUOTE-4424) ([#6254](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6254)) ([d6675ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6675eaba6ca2e23e3eea77d2b7a9aa6cf45ce0c))
+* **jenkinsfile:** add preprod stage ([#6171](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6171)) ([8188a4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8188a4e48664c5dc8d0990c4a7ec397e81c1ffdf))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **gq:** add undefined check (GQUOTE-4190) ([#6304](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6304)) ([5b03797](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5b03797de2d7ee78d534d40cef36ca044a701773))
+* **gq:** adjust minLength validation  (GQUOTE-4487) ([#6312](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6312)) ([7642414](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76424145e3a9a925765e48bcb5b2442368b6c153))
+* **gq:** adjust net value simulation (GQUOTE-4558) ([#6284](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6284)) ([d960ae0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d960ae09c7321a1209861184438bd3b4e3502766))
+* **gq:** adjust roundTwoToDecimals to handle nonEmpty String Values (GQUOTE-4484) ([#6306](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6306)) ([4764455](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47644558ce36e9330dde9f1dbca9279d0514090f))
+* **gq:** adjust translations for advanced search (GQUOTE-4406) ([#6241](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6241)) ([4c27866](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c27866702e29af7b4b631d1f5ea5d4dab9e03f6))
+* **gq:** adjust trigger of loading sectorGpsd Data by customer and SalesOrgId (GQUOTE-4472) ([#6260](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6260)) ([452fda0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/452fda0d7500f1bfb1ad77ba1aebf2f185ee276e))
+* **gq:** always show rows with no updated date at the end when sorting (GQUOTE-4405) ([#6243](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6243)) ([2fa42c9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2fa42c9afedfaf15f60ade72e419fe0d43a99595))
+* **gq:** cancel request when clear button clicked (GQUOTE-4485) ([#6269](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6269)) ([c5f53f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5f53f60a6589afb97c9acd9d43839066c60489a))
+* **gq:** change quotations summary endpoint (GQUOTE-4374) ([#6223](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6223)) ([9716b8d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9716b8d88a1fdc2b01a52b3535f3f53a2acd6285))
+* **gq:** correct rounding mode (GQUOTE-4565) ([#6302](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6302)) ([585ebe3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/585ebe33120ec02203f6ec17026ab347eba938f7))
+* **gq:** display material number in pricing assistant header (GQUOTE-4365) ([#6272](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6272)) ([11efe31](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/11efe317edc0a08b6eb63e97b45835db20977284))
+* **gq:** emit value after reset (GQUOTE-4486) ([#6265](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6265)) ([0736412](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/07364120c4010a0f1dae392ba8a52e92b1cf14b2))
+* **gq:** fix initial Value when sales org Changes in Case Creation Dialog (GQUOTE-4619) ([#6332](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6332)) ([633b446](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/633b446a1c280678dce70f1aa0ab41a3090fa303))
+* **gq:** fix sort comparator for percentage values (GQUOTE-4484) ([#6282](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6282)) ([91509b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/91509b7ec5da744eefea6ebeb4b7e3f468a5a50e))
+* **gq:** fixes after testing (GQUOTE-3718) ([#6228](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6228)) ([b811830](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b81183034a858012751c79451954361ba5b11a20))
+* **gq:** remove whitespaces from value to search (GQUOTE-4487) ([#6262](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6262)) ([b4f9df8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b4f9df8e908cf4c8e3b5cba5f62f4f232d3358d5))
+* **gq:** round delta values with two digit precision (GQUOTE-4542) ([#6273](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6273)) ([2305c4f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2305c4f3b555ccd0e8c28bd23b0fbca69b78c19a))
+* **gq:** sorting handles negative and undefined values (GQUOTE-4484) ([#6303](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6303)) ([0be5f91](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0be5f9127f39294e6ab3d763b559cfec79bc358f))
+* **gq:** validate trimmed input value (GQUOTE-4487) ([#6283](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6283)) ([031e9a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/031e9a3d6d17abc4571e89a05d45035aecf1e2e8))
+
 ## [5.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v4.5.0...gq-v5.0.0) (2024-05-16)
 
 
