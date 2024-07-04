@@ -26,12 +26,9 @@ export class LocaleSelectComponent implements OnInit {
   @Input() public tooltipText = '';
 
   public storageKeyLocale = 'locale';
-  public currentLocaleId: string =
-    this.getStoredLocale.id || this.getDefaultLocale.id;
+  public currentLocaleId: string;
 
-  public localeSelectControl: UntypedFormControl = new UntypedFormControl(
-    this.currentLocaleId
-  );
+  public localeSelectControl: UntypedFormControl;
 
   public constructor(
     @Inject(LOCAL_STORAGE) private readonly localStorage: Storage,
@@ -56,6 +53,8 @@ export class LocaleSelectComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.currentLocaleId = this.getStoredLocale.id || this.getDefaultLocale.id;
+    this.localeSelectControl = new UntypedFormControl(this.currentLocaleId);
     this.localeService.setLocale(this.currentLocaleId);
   }
 
