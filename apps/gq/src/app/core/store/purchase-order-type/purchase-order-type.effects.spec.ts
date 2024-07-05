@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { PurchaseOrderType } from '@gq/shared/models';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
@@ -6,6 +6,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { PurchaseOrderTypeActions } from './purchase-order-type.actions';
@@ -22,8 +23,10 @@ describe('PurchaseOrderTypeEffects', () => {
 
   const createService = createServiceFactory({
     service: PurchaseOrderTypeEffects,
-    imports: [HttpClientTestingModule],
+    imports: [],
     providers: [
+      provideHttpClientTesting,
+      MockProvider(QuotationService),
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { purchaseOrderType: initialState } }),
     ],

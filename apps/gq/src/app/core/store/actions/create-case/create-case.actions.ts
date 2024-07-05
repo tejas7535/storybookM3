@@ -1,6 +1,7 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { PurchaseOrderType } from '@gq/shared/models';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialTableItem, MaterialValidation } from '@gq/shared/models/table';
@@ -206,6 +207,13 @@ export const selectSectorGpsd = createAction(
 );
 
 export const clearSectorGpsd = createAction('[Create Case] Reset Sector Gpsd');
+
+export const selectOfferType = createAction(
+  '[Create Case] Select Offer Type',
+  props<{ offerType: OfferType }>()
+);
+
+export const clearOfferType = createAction('[Create Case] Reset Offer Type');
 
 const all = union({
   addRowDataItems,

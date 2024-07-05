@@ -54,6 +54,7 @@ import {
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
+import { RolesFacade } from '../../facades';
 import {
   CreateCase,
   CreateCaseResponse,
@@ -220,8 +221,13 @@ export class CreateCaseEffects {
   createCase$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createCase.type),
-      concatLatestFrom(() => this.store.select(getCreateCaseData)),
-      map(([_action, createCaseData]) => createCaseData),
+      concatLatestFrom(
+        () => this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$
+      ),
+      concatLatestFrom(([_action, userHasAccess]) =>
+        this.store.select(getCreateCaseData(userHasAccess))
+      ),
+      map(([[_action, _userHasAccess], createCaseData]) => createCaseData),
       mergeMap((createCaseData: CreateCase) =>
         this.quotationService.createCase(createCaseData).pipe(
           tap((createdCase: CreateCaseResponse) => {
@@ -361,7 +367,8 @@ export class CreateCaseEffects {
     private readonly store: Store,
     private readonly materialService: MaterialService,
     private readonly snackBar: MatSnackBar,
-    private readonly sectorGpsdFacade: SectorGpsdFacade
+    private readonly sectorGpsdFacade: SectorGpsdFacade,
+    private readonly rolesFacade: RolesFacade
   ) {}
 
   navigateAfterCaseCreate(

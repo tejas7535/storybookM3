@@ -1,0 +1,27 @@
+<div *ngrxLet="offerTypes$ | ngrxPush as offerTypes">
+  <mat-form-field
+    class="w-full"
+    [appearance]="appearance"
+    *transloco="let t; read: 'offerType'"
+  >
+    <mat-label>{{ t('label') }}</mat-label>
+    <mat-select
+      [formControl]="offerTypeControl"
+      (selectionChange)="selectionChange($event)"
+      [compareWith]="compareFn"
+    >
+      <mat-option [value]="NO_ENTRY"> {{ t('emptyValue') }}</mat-option>
+      @for (type of offerTypes; track $index) {
+        <mat-option [value]="type">
+          <div class="flex flex-row items-center">
+            @if (type.name) {
+              <span class="whitespace-nowrap text-caption text-medium-emphasis">
+                {{ type.name }}</span
+              >
+            }
+          </div>
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>

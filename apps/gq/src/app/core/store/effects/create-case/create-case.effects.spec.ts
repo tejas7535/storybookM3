@@ -6,6 +6,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import {
@@ -25,7 +27,9 @@ import { translate } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
@@ -55,6 +59,7 @@ import {
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
+import { RolesFacade } from '../../facades';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import {
   CaseFilterItem,
@@ -67,12 +72,12 @@ import {
 import {
   getAutoSelectMaterial,
   getCaseRowData,
-  getCreateCaseData,
   getCreateCustomerCasePayload,
   getSelectedCustomerId,
   getSelectedQuotation,
   getSelectedSalesOrg,
 } from '../../selectors';
+import * as fromSelectors from '../../selectors/create-case/create-case.selector';
 import { CreateCaseEffects } from './create-case.effects';
 import { CreationType } from './creation-type.enum';
 
@@ -96,7 +101,12 @@ describe('Create Case Effects', () => {
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
-      provideMockStore({ initialState: { search: initialState } }),
+      provideMockStore({
+        initialState: { search: initialState },
+      }),
+      MockProvider(RolesFacade, {
+        userHasRegionWorldOrGreaterChinaRole$: of(true),
+      }),
     ],
   });
 
@@ -421,12 +431,49 @@ describe('Create Case Effects', () => {
       ],
     };
     beforeEach(() => {
-      store.overrideSelector(getCreateCaseData, createCaseData);
+      jest.resetAllMocks();
+      jest
+        .spyOn(fromSelectors, 'getCreateCaseData')
+        .mockImplementation((_userHasOfferTypeAccess: boolean = false) =>
+          createSelector(() => ({
+            customer: {
+              customerId: '1234',
+              salesOrg: '0267',
+            },
+            materialQuantities: [
+              {
+                materialId: '333',
+                quantity: 10,
+                quotationItemId: 10,
+              },
+            ],
+          }))
+        );
     });
 
     test(
       'should return validateMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
+        // jest
+        //   .spyOn(fromSelectors, 'getCreateCaseData')
+        //   .mockImplementation((userHasOfferTypeAccess: boolean = false) => {
+        //     console.log(userHasOfferTypeAccess);
+
+        //     return createSelector(() => ({
+        //       customer: {
+        //         customerId: '1234',
+        //         salesOrg: '0267',
+        //       },
+        //       materialQuantities: [
+        //         {
+        //           materialId: '333',
+        //           quantity: 10,
+        //           quotationItemId: 10,
+        //         },
+        //       ],
+        //     }));
+        //   });
+
         router.navigate = jest.fn();
         snackBar.open = jest.fn();
         action = createCase();
@@ -438,13 +485,13 @@ describe('Create Case Effects', () => {
         };
         const result = createCaseSuccess({ createdCase });
 
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', {
+        actions$ = m.hot('--a', { a: action });
+        const response = m.cold('--a|', {
           a: createdCase,
         });
         quotationService.createCase = jest.fn(() => response);
 
-        const expected = m.cold('--b', { b: result });
+        const expected = m.cold('----b', { b: result });
         m.expect(effects.createCase$).toBeObservable(expected);
         m.flush();
 

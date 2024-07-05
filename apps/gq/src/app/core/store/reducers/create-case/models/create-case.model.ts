@@ -8,4 +8,5 @@ export class CreateCase {
   materialQuantities: MaterialQuantities[];
   purchaseOrderTypeId?: string;
   partnerRoleId?: string;
+  offerTypeId?: number;
 }

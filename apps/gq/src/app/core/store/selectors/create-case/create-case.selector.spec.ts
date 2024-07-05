@@ -54,6 +54,7 @@ describe('Create Case Selector', () => {
         },
       ],
       purchaseOrderType: { type: 'ZOR', name: 'ZOR_name' },
+      offerType: { id: 1, name: 'offerTypeName' },
     } as unknown as CreateCaseState,
   };
 
@@ -207,8 +208,22 @@ describe('Create Case Selector', () => {
   describe('getCreateCaseData', () => {
     test('should return data to create a case', () => {
       expect(
-        createSelectors.getCreateCaseData.projector(fakeState.case)
+        createSelectors.getCreateCaseData().projector(fakeState.case)
       ).toBeTruthy();
+    });
+
+    test('should set offerTypeId to undefined, when user does not have access', () => {
+      const result = createSelectors
+        .getCreateCaseData(false)
+        .projector(fakeState.case);
+      expect(result.offerTypeId).toBeUndefined();
+    });
+
+    test('should set offerTypeId to offerType.id, when user has access', () => {
+      const result = createSelectors
+        .getCreateCaseData(true)
+        .projector(fakeState.case);
+      expect(result.offerTypeId).toBe(fakeState.case.offerType.id);
     });
   });
   describe('getCreatedCase', () => {
@@ -356,6 +371,15 @@ describe('Create Case Selector', () => {
           fakeState.case
         )
       ).toEqual(fakeState.case.sectorGpsd);
+    });
+  });
+  describe('getSelectedOfferTypeFromCreateCase', () => {
+    test('should return selectedOfferType', () => {
+      expect(
+        createSelectors.getSelectedOfferTypeFromCreateCase.projector(
+          fakeState.case
+        )
+      ).toEqual(fakeState.case.offerType);
     });
   });
 });

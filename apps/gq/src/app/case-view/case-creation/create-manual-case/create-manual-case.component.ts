@@ -1,16 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import {
   clearCreateCaseRowData,
   clearCustomer,
+  clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
+import { OfferTypeFacade } from '@gq/core/store/offer-type/offer-type.facade';
 import { PurchaseOrderTypeFacade } from '@gq/core/store/purchase-order-type/purchase-order-type.facade';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import {
@@ -24,6 +26,7 @@ import {
   EVENT_NAMES,
   PurchaseOrderType,
 } from '@gq/shared/models';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { TranslocoService } from '@jsverse/transloco';
@@ -40,6 +43,14 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
   rowData$: Observable<MaterialTableItem[]>;
   title$: Observable<string>;
 
+  userHasOfferTypeAccess$: Observable<boolean> =
+    this.roleFacade.userHasRegionWorldOrGreaterChinaRole$.pipe(
+      tap((hasRole) => {
+        if (hasRole) {
+          this.offerTypeFacade.getAllOfferTypes();
+        }
+      })
+    );
   private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -49,6 +60,8 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     private readonly insightsService: ApplicationInsightsService,
     private readonly purchaseOrderTypeFacade: PurchaseOrderTypeFacade,
     private readonly sectorGpsdFacade: SectorGpsdFacade,
+    private readonly offerTypeFacade: OfferTypeFacade,
+    private readonly roleFacade: RolesFacade,
     public readonly autocompleteFacade: AutoCompleteFacade
   ) {
     this.title$ = this.translocoService.selectTranslate(
@@ -87,6 +100,10 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     this.sectorGpsdFacade.selectSectorGpsdForCaseCreation(gpsd);
   }
 
+  offerTypeChanged(offerType: OfferType): void {
+    this.offerTypeFacade.selectOfferTypeForCaseCreation(offerType);
+  }
+
   ngOnDestroy(): void {
     this.shutdown$$.next();
     this.shutdown$$.unsubscribe();
@@ -105,6 +122,7 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
     this.store.dispatch(clearCreateCaseRowData());
     this.store.dispatch(clearPurchaseOrderType());
     this.store.dispatch(clearSectorGpsd());
+    this.store.dispatch(clearOfferType());
     this.sectorGpsdFacade.resetAllSectorGpsds();
   }
 }

@@ -1,6 +1,7 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { PurchaseOrderType } from '@gq/shared/models';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { IdValue } from '@gq/shared/models/search';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import {
@@ -17,6 +18,7 @@ import {
   autocompleteSuccess,
   clearCreateCaseRowData,
   clearCustomer,
+  clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
   createCase,
@@ -42,6 +44,7 @@ import {
   resetProductLineAndSeries,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
+  selectOfferType,
   selectPurchaseOrderType,
   selectSalesOrg,
   selectSectorGpsd,
@@ -92,6 +95,7 @@ export interface CreateCaseState {
   rowData: MaterialTableItem[];
   validationLoading: boolean;
   sectorGpsd: SectorGpsd;
+  offerType: OfferType;
 }
 export const initialState: CreateCaseState = {
   autocompleteLoading: undefined,
@@ -146,6 +150,7 @@ export const initialState: CreateCaseState = {
   rowData: [],
   validationLoading: false,
   sectorGpsd: undefined,
+  offerType: undefined,
 };
 
 const isOnlyOptionForMaterial = (options: any, filter: any): boolean =>
@@ -520,6 +525,13 @@ export const createCaseReducer = createReducer(
     })
   ),
   on(
+    selectOfferType,
+    (state: CreateCaseState, { offerType }): CreateCaseState => ({
+      ...state,
+      offerType,
+    })
+  ),
+  on(
     clearCustomer,
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
@@ -673,6 +685,13 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       sectorGpsd: initialState.sectorGpsd,
+    })
+  ),
+  on(
+    clearOfferType,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      offerType: initialState.offerType,
     })
   )
 );

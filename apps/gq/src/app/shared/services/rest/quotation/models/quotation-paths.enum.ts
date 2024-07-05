@@ -10,4 +10,5 @@ export enum QuotationPaths {
   PATH_ATTACHMENTS = 'attachments',
   PATH_ATTACHMENT_DOWNLOAD = 'download',
   PURCHASE_ORDER_TYPES = 'purchase-order-types',
+  OFFER_TYPES = 'offer-types',
 }

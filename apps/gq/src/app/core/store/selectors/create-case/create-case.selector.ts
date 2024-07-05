@@ -1,6 +1,7 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { PurchaseOrderType } from '@gq/shared/models';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { IdValue } from '@gq/shared/models/search';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialQuantities, MaterialTableItem } from '@gq/shared/models/table';
@@ -147,13 +148,13 @@ export const getCustomerConditionsValid = createSelector(
     return customerValid === undefined ? false : rowDataValid;
   }
 );
-export const getCreateCaseData = createSelector(
-  getCaseState,
-  (state: CreateCaseState): CreateCase => {
+export const getCreateCaseData = (userHasOfferTypeAccess: boolean = false) =>
+  createSelector(getCaseState, (state: CreateCaseState): CreateCase => {
     const { customerId, salesOrgs } = state.customer;
     const salesOrg = salesOrgs.find((org) => org.selected)?.id;
     const purchaseOrderType = state.purchaseOrderType;
     const sectorGpsd = state.sectorGpsd;
+    const offerType = state.offerType;
 
     const materialQuantities: MaterialQuantities[] =
       TableService.createMaterialQuantitiesFromTableItems(state.rowData, 0);
@@ -166,9 +167,9 @@ export const getCreateCaseData = createSelector(
       },
       purchaseOrderTypeId: purchaseOrderType?.id,
       partnerRoleId: sectorGpsd?.id,
+      offerTypeId: userHasOfferTypeAccess ? offerType?.id : undefined,
     };
-  }
-);
+  });
 
 export const getCreatedCase = createSelector(
   getCaseState,
@@ -260,4 +261,9 @@ export const getSelectedPurchaseOrderTypeFromCreateCase = createSelector(
 export const getSelectedSectorGpsdFromCreateCase = createSelector(
   getCaseState,
   (state: CreateCaseState): SectorGpsd => state.sectorGpsd
+);
+
+export const getSelectedOfferTypeFromCreateCase = createSelector(
+  getCaseState,
+  (state: CreateCaseState): OfferType => state.offerType
 );

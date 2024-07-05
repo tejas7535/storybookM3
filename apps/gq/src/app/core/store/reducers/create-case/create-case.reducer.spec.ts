@@ -16,6 +16,7 @@ import {
   autocompleteSuccess,
   clearCreateCaseRowData,
   clearCustomer,
+  clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
   createCase,
@@ -40,6 +41,7 @@ import {
   resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
+  selectOfferType,
   selectPurchaseOrderType,
   selectSalesOrg,
   selectSectorGpsd,
@@ -944,6 +946,19 @@ describe('Create Case Reducer', () => {
       });
     });
   });
+
+  describe('selectOfferType', () => {
+    test('should set the offerType', () => {
+      const action = selectOfferType({
+        offerType: { id: 1, name: 'OfferType Name' },
+      });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.offerType).toEqual({
+        id: 1,
+        name: 'OfferType Name',
+      });
+    });
+  });
   describe('clearCustomer', () => {
     test('should clearCustomer', () => {
       const action = clearCustomer();
@@ -1125,6 +1140,14 @@ describe('Create Case Reducer', () => {
       const action = clearSectorGpsd();
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.sectorGpsd).toEqual(initialState.sectorGpsd);
+    });
+  });
+
+  describe('clearOfferType', () => {
+    test('should clear offerType', () => {
+      const action = clearOfferType();
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.offerType).toEqual(initialState.offerType);
     });
   });
   describe('Reducer function', () => {

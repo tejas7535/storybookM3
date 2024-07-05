@@ -627,6 +627,10 @@
     "label": "Purchase Order Type",
     "emptyValue": "No Entry"
   },
+  "offerType": {
+    "label": "Offer Type",
+    "emptyValue": "No Entry"
+  },
   "sectorGpsd": {
     "label": "End Sector / Customer",
     "emptyValue": "No Entry",

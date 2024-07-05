@@ -26,4 +26,5 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
   rowData: [],
   validationLoading: false,
   sectorGpsd: { id: '14', name: 'Sector GPSD' },
+  offerType: { id: 1, name: 'Offer Type' },
 };

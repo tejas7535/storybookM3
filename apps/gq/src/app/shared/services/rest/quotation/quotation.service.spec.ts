@@ -279,4 +279,14 @@ describe('QuotationService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
+  describe('getOfferTypes', () => {
+    test('should call the service', () => {
+      service.getOfferTypes().subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.OFFER_TYPES}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
 });

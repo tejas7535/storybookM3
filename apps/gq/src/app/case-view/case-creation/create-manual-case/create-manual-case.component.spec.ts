@@ -1,22 +1,24 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject, take } from 'rxjs';
 
 import {
   clearCreateCaseRowData,
   clearCustomer,
+  clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
+import { OfferTypeFacade } from '@gq/core/store/offer-type/offer-type.facade';
 import { PurchaseOrderTypeFacade } from '@gq/core/store/purchase-order-type/purchase-order-type.facade';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
   EVENT_NAMES,
-} from '@gq/shared/models';
+} from '@gq/shared/models/tracking/gq-events';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -34,6 +36,8 @@ describe('CreateManualCaseComponent', () => {
   let applicationInsightsService: ApplicationInsightsService;
 
   let mockSubjectClose: Subject<boolean>;
+  const mockUserHasAccess$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   const createComponent = createComponentFactory({
     component: CreateManualCaseComponent,
@@ -41,6 +45,11 @@ describe('CreateManualCaseComponent', () => {
     providers: [
       MockProvider(AutoCompleteFacade),
       MockProvider(PurchaseOrderTypeFacade),
+      MockProvider(RolesFacade, {
+        userHasRegionWorldOrGreaterChinaRole$:
+          mockUserHasAccess$$.asObservable(),
+      }),
+      MockProvider(OfferTypeFacade),
       provideMockStore({
         initialState: {
           case: {
@@ -81,11 +90,37 @@ describe('CreateManualCaseComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('userHasOfferTypeAccess$', () => {
+    test('should call getAllOfferTypes when userHasRegionWorldOrGreaterChinaRole$ emits true', (done) => {
+      component['offerTypeFacade'].getAllOfferTypes = jest.fn();
+
+      mockUserHasAccess$$.next(true);
+      component.userHasOfferTypeAccess$.pipe(take(1)).subscribe(() => {
+        expect(
+          component['offerTypeFacade'].getAllOfferTypes
+        ).toHaveBeenCalledTimes(1);
+        done();
+      });
+    });
+
+    test('should not call getAllOfferTypes when userHasRegionWorldOrGreaterChinaRole$ emits false', (done) => {
+      component['offerTypeFacade'].getAllOfferTypes = jest.fn();
+
+      mockUserHasAccess$$.next(false);
+      component.userHasOfferTypeAccess$.pipe(take(1)).subscribe(() => {
+        expect(
+          component['offerTypeFacade'].getAllOfferTypes
+        ).not.toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+
   describe('ngOnInit', () => {
     test('should set observables', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
-
       expect(component.createCaseLoading$).toBeDefined();
     });
   });
@@ -137,6 +172,19 @@ describe('CreateManualCaseComponent', () => {
       ).toHaveBeenCalledWith(gpsd);
     });
   });
+
+  describe('offerTypeChanged', () => {
+    test('should call selectOfferTypeForCaseCreation', () => {
+      component['offerTypeFacade'].selectOfferTypeForCaseCreation = jest.fn();
+      const offerType = { id: 1, name: 'test' };
+      component.offerTypeChanged(offerType);
+
+      expect(
+        component['offerTypeFacade'].selectOfferTypeForCaseCreation
+      ).toHaveBeenCalledWith(offerType);
+    });
+  });
+
   describe('closeDialog', () => {
     test('should close matDialog', () => {
       mockStore.dispatch = jest.fn();
@@ -161,6 +209,7 @@ describe('CreateManualCaseComponent', () => {
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           clearPurchaseOrderType()
         );
+        expect(mockStore.dispatch).toHaveBeenCalledWith(clearOfferType());
         expect(mockStore.dispatch).toHaveBeenCalledWith(clearSectorGpsd());
       });
 
