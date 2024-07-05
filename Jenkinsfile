@@ -911,7 +911,7 @@ pipeline {
                             sh "git checkout ${env.BRANCH_NAME}"
                             withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
                                 def version = getPackageVersion(env.RELEASE_SCOPE)
-                                sh "gh pr create --base origin/master --title 'chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master' --body 'Automated merge failed due to conflicts. Please resolve them manually and merge this branch.'"
+                                sh "gh pr create --base origin/master --head ${env.BRANCH_NAME} --title 'chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master' --body 'Automated merge failed due to conflicts. Please resolve them manually and merge this branch.'"
                             }
                         }                            
                     }                   
