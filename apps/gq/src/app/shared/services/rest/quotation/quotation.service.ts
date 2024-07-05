@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
-import { OfferType } from '@gq/shared/models/offer-type.interface';
+import { OfferTypeResponse } from '@gq/shared/models/offer-type.interface';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 
 import {
@@ -190,8 +190,8 @@ export class QuotationService {
     );
   }
 
-  getOfferTypes(): Observable<OfferType[]> {
-    return this.#http.get<OfferType[]>(
+  getOfferTypes(): Observable<OfferTypeResponse> {
+    return this.#http.get<OfferTypeResponse>(
       `${ApiVersion.V1}/${QuotationPaths.OFFER_TYPES}`
     );
   }

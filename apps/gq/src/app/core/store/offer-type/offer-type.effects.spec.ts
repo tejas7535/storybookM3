@@ -2,7 +2,10 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { OfferType } from '@gq/shared/models/offer-type.interface';
+import {
+  OfferType,
+  OfferTypeResponse,
+} from '@gq/shared/models/offer-type.interface';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -79,7 +82,9 @@ describe('OfferTypeEffects', () => {
         });
         actions$ = m.hot('-a', { a: action });
 
-        const response = m.cold('-a|', { a: [] as OfferType[] });
+        const response = m.cold('-a|', {
+          a: { results: [] } as OfferTypeResponse,
+        });
         quotationService.getOfferTypes = jest.fn(() => response);
 
         const expected = m.cold('--b', { b: result });

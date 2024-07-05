@@ -30,9 +30,9 @@ export class OfferTypeEffects {
         }
 
         return this.quotationService.getOfferTypes().pipe(
-          map((offerTypes) =>
+          map((offerTypeResponse) =>
             OfferTypeActions.getAllOfferTypesSuccess({
-              offerTypes,
+              offerTypes: offerTypeResponse.results,
             })
           ),
           catchError((errorMessage) =>

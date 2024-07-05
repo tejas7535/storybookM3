@@ -281,7 +281,9 @@ describe('QuotationService', () => {
   });
   describe('getOfferTypes', () => {
     test('should call the service', () => {
-      service.getOfferTypes().subscribe((res) => expect(res).toEqual([]));
+      service
+        .getOfferTypes()
+        .subscribe((res) => expect(res).toEqual({ results: [] }));
 
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${QuotationPaths.OFFER_TYPES}`
