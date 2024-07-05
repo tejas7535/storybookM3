@@ -308,7 +308,7 @@
     "relubricationQuantityPer365daysTooltip": "Es empfiehlt sich - gerade bei großen Nachschmiermengen - die errechnete Nachschmiermenge verteilt auf mehrere Nachschmiervorgänge über der Nachschmierfrist zuzuführen.",
     "maximumManualRelubricationPerInterval": "Maximale manuelle Nachschmiermenge / Nachschmierintervall *",
     "greaseServiceLife": "Richtwert für die Fettgebrauchsdauer *",
-    "relubricationInterval": "Nachschmierintervall *",
+    "relubricationInterval": "Nachschmier-Intervall *",
     "relubricationIntervalTooltip": "Berechnetes Nachschmierintervall. Die Nachschmierung sollte mindestens einmal pro Jahr erfolgen.",
     "additiveRequired": "Additivierung erforderlich",
     "additiveRequiredTooltip": "Bewertung für die vorliegenden Betriebsbedingungen (Last und Viskositätsverhältnis kappa), s. FAQ.",
