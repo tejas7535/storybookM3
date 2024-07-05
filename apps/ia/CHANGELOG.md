@@ -1,4 +1,64 @@
 # Release Notes of Insight Attrition
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.1.0...ia-v1.2.0) (2024-07-05)
+
+
+### Features
+
+* **ia:** add action reason column (IA-1147) ([#5808](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5808)) ([acf7039](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/acf703995596c305fc9284c33c56126c8fd26f15))
+* **ia:** add download to org chart (IA-1289 IA-1350) ([#5936](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5936)) ([6c00641](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6c00641188e0424ca0068774b117fecd4b028b16))
+* **ia:** add expand/collapse feature (IA-1291) ([#6003](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6003)) ([9cc681a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9cc681aef3a63353e4f6c9b1200ee349fd298e09))
+* **ia:** add export to excel (IA-1262) ([#5704](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5704)) ([5d82bde](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5d82bdebfc059dc8961fc5dfb66fa656289dd5ff))
+* **ia:** add filtered count to employee status bar (IA-1308) ([#5774](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5774)) ([2f2cd62](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f2cd62ca7b8c4ed0cd864e3be9beca425165adc))
+* **ia:** add fluctuation rate chart (IA-1201) ([#5977](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5977)) ([ef98bde](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ef98bde9cde040525048a3be2be11c73da0b392e))
+* **ia:** add long name to org chart (IA-1151) ([#5679](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5679)) ([0bdd8b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0bdd8b76b7af9e6e449b9b4522d2e882c87f6d14))
+* **ia:** add new dimensions (IA-1170) ([#5727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5727)) ([29a26bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/29a26bb9527fdd7112165e7bf755efbee6091082))
+* **ia:** add sync on to resignations (IA-1141) ([#5653](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5653)) ([ada2655](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ada2655e623783a6e97ce11c7051c12b0ec782ba))
+* **ia:** add tooltip to org chart (IA-1356) ([#5997](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5997)) ([6727174](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6727174ecd9da07700c8bdd9b9f5e82881891ef1))
+* **ia:** add zoom buttons to drill down (IA-1105) ([#6071](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6071)) ([8df8e52](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8df8e52097b9a7b6ac055702de9588d2b738a544))
+* **ia:** adjust app after angular 17 update (IA-1372) ([#6114](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6114)) ([164aeae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/164aeae782fc7a13470ad8b03d477a20d0850c7e))
+* **ia:** adopt new design to org chart (IA-1287) ([#5743](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5743)) ([66a37e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/66a37e215e0f003c8d0a4adddf72f3cf55fe379f))
+* **ia:** change dimension on org chart (IA-1118) ([#6036](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6036)) ([b8ccf54](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b8ccf5413e78cd4fab51469888ff715fc8785ce3))
+* **ia:** create banner info (IA-1371) ([#6160](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6160)) ([7946015](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/79460156bf614499f860960a12a80c3478819446))
+* **ia:** get fluctuation over time (IA-1362) ([#6058](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6058)) ([c141c50](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c141c501bb95858cf629cfdb017b4ce41952facd))
+* **ia:** get rid of legacy angular code (IA-1253) ([#5527](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5527)) ([e54a7ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54a7ffd27b2e7b8931992f60f1c6ab5af19f3b0))
+* **ia:** highlight selected org chart nodes (IA-1344) ([#5944](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5944)) ([e442f63](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e442f635aeafce1159f73465ffc075f171b24f85))
+* **ia:** limit time range (IA-1256) ([#5613](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5613)) ([cbeeed1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cbeeed1aee0ea55434a3dd001752ea75dda8d389))
+* **ia:** limit time range for FACT dataset (IA-1352 IA-1353) ([#6123](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6123)) ([06c4259](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/06c4259ae78bb444c5b775019ba721072ba49e37))
+* **ia:** migrate to private cluster (IA-1271) ([#5741](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5741)) ([813eef3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/813eef39873db2889afab6e9779e894966ccd9ce))
+* **ia:** redesign employee dialogs (IA-1252) ([#5610](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5610)) ([e7763f2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7763f2c270bf5fdf9d65fdc8e067f73b3cfdc6d))
+* **ia:** rename org view to drill down (IA-1335) ([#5837](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5837)) ([5dfd257](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5dfd257921010a34a51ecfc3f995ecb6ad97a487))
+* **ia:** restyle attrition analytics tab (IA-1227) ([#5560](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5560)) ([469a579](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/469a57905b12341ac394611cc4043aba2df89a2a))
+* **ia:** search by code in filter (IA-896) ([#6197](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6197)) ([646f7bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/646f7bc8fd4216763cd3be65f0a2246535fd3aeb))
+* **ia:** show warning data unavailable (IA-1294) ([#5767](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5767)) ([2fb6852](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2fb6852d5e8cefa177e9eb2f0778fab8e18dc922))
+* **ia:** split world map and org chart loading (IA-992) ([#6077](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6077)) ([57b3a99](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/57b3a99d65690afb6caae79560c9d58780efbe86))
+* **ia:** update drill down (IA-1287 IA-1337 IA-1338) ([#5816](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5816)) ([a230829](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a230829a4edab174d7be71050733cf5eda9bbff3))
+* **ia:** use pre-calculated fluctuation rates (IA-1351) ([#5951](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5951)) ([141124b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/141124bb360c7b3aa2993f3b879a6084f64b8b96))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
+
+### Bug Fixes
+
+* **ia:** enable input and fix label (IA-1357) ([#5980](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5980)) ([88f75de](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/88f75de9377d7bbc61f130712d51e5fe662d1eaa))
+* **ia:** fix authorization on overview and drill down (IA-1413) ([#6264](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6264)) ([03cb0ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/03cb0ff1ed7ecdc08d40e0786c3ee4bd4e534e2f))
+* **ia:** fix data loading on reasons tab (IA-1243) ([#5534](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5534)) ([a817277](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a81727716d993164994f47b8b7b8ca9c4f135305))
+* **ia:** fix employees header (IA-1301) ([#5749](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5749)) ([eef39e9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/eef39e9c22c147ad5ea5cd6a5b2ccfe5194b0376))
+* **ia:** fix loading employees on org chart (IA-1303) ([#5773](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5773)) ([a622a3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a622a3ac66be8e615a417809ac5c73b1bb409c48))
+* **ia:** fix overlapping banner (IA-1411) ([#6286](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6286)) ([241464f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/241464fc850830a81fe6b30452cd36dd83bbccef))
+* **ia:** fix reasons and counter measures (IA-743) ([#5932](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5932)) ([9a1d48a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a1d48a93aac85fc53673619aae6462e7159e324))
+* **ia:** fix warning message (IA-1265) ([#5657](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5657)) ([3c4fcdb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c4fcdbb83b7b219ba467e0cf7c5a77a6b8cb73f))
+* **ia:** show filter when defined only (IA-1316) ([#6174](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6174)) ([556dde2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/556dde27421ce71ceff8a637a5bafa0bd053b031))
+* **ia:** show filtered count when filter applied only (IA-1308) ([#5777](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5777)) ([b55da61](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b55da6121c87ae54700ff6168ea601d8c14061e3))
+* **ia:** show open positions for geo map (IA-1294) ([#5780](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5780)) ([422fba9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/422fba9643d517e418ea9bd34eb788ec1032d80b))
+* **ia:** use job key as rest param (IA-1390) ([#6178](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6178)) ([8fd48c3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fd48c3eb5afeea0dfeab68998eec7df13c3ca35))
+
+
+### Reverts
+
+* Revert "feat(ia): adopt new design to org chart (IA-1287) (#5743)" (#5754) ([fae2478](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fae2478b86889ee5bff98c6e88ce077baab5f25e)), closes [#5743](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5743) [#5754](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/5754)
+
 ## [1.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.0.7...ia-v1.1.0) (2023-08-11)
 
 
