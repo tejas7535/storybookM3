@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.12.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.1...ga-v1.12.2) (2024-07-05)
+
+
+### Bug Fixes
+
+* **ga:** reowrd relubrication interval ([#6347](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6347)) ([5237921](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5237921a50e071eb0d381bab1877582474303cb2))
+
 ## [1.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.0...ga-v1.12.1) (2024-06-28)
 
 ## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.11.0...ga-v1.12.0) (2024-06-26)
