@@ -66,6 +66,16 @@ export class RolesFacade {
     )
   );
 
+  userHasRegionWorldOrGreaterChinaRole$ = combineLatest([
+    this.userHasRegionGreaterChinaRole$,
+    this.userHasRegionWorldRole$,
+  ]).pipe(
+    map(
+      ([hasRegionGreaterChina, hasRegionWorld]) =>
+        hasRegionGreaterChina || hasRegionWorld
+    )
+  );
+
   constructor(private readonly store: Store) {}
 
   userHasRole$(role: UserRoles): Observable<boolean> {

@@ -13,4 +13,5 @@ export class GeneralInformationComponent {
   @Input() attachments: QuotationAttachment[];
   @Input() workflowInProgress: boolean;
   @Input() quotationFullyApproved: boolean;
+  @Input() showOfferType: boolean;
 }

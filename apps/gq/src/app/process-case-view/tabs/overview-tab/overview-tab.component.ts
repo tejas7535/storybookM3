@@ -54,6 +54,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   quotationAttachments$ = this.activeCaseFacade.quotationAttachments$;
   hasGpcRole$ = this.rolesFacade.userHasGPCRole$;
   hasSqvRole$ = this.rolesFacade.userHasSQVRole$;
+  hasOfferTypeAccess$ = this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$;
 
   readonly quotationStatus = QuotationStatus;
 
@@ -126,6 +127,7 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
           customer,
           requestedQuotationDate: quotation.sapQuotationToDate,
           comment: approvalGeneralInformation.comment,
+          offerType: quotation.offerType,
         })
       )
     );

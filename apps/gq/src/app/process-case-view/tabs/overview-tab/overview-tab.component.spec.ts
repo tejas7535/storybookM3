@@ -159,6 +159,7 @@ describe('OverviewTabComponent', () => {
               ACTIVE_CASE_STATE_MOCK.quotation.sapQuotationToDate,
             comment:
               APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.comment,
+            offerType: ACTIVE_CASE_STATE_MOCK.quotation.offerType,
           },
         });
 

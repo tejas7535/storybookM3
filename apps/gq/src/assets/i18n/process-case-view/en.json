@@ -120,6 +120,7 @@
         "customer": "Customer",
         "customerClass": "Customer Class",
         "requestedQuotationDate": "Requested Quotation Date",
+        "offerType": "Offer Type",
         "commentLabel": "Comment",
         "attachments": {
           "title": "Attachments",

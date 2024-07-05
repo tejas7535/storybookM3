@@ -39,6 +39,12 @@
       info.requestedQuotationDate | translocoDate | nullableString
     }}</span>
   </gq-label-text>
+  @if (showOfferType) {
+    <gq-label-text>
+      <span label>{{ t('offerType') }}</span>
+      <span text>{{ info.offerType?.name | nullableString }}</span>
+    </gq-label-text>
+  }
   <gq-horizontal-divider></gq-horizontal-divider>
   <gq-label-text>
     <span label>{{ t('commentLabel') }}</span>

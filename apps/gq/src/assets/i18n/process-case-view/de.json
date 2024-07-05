@@ -120,6 +120,7 @@
         "customer": "Kunde",
         "customerClass": "Umsatzklassifizierung (A,B,C)",
         "requestedQuotationDate": "Angebot bis",
+        "offerType": "Angebotart",
         "commentLabel": "Kommentar",
         "attachments": {
           "title": "Anhänge",

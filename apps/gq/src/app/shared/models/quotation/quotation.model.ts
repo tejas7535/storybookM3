@@ -1,4 +1,5 @@
 import { Customer } from '../customer';
+import { OfferType } from '../offer-type.interface';
 import { PurchaseOrderType } from '../purchase-order-type.interface';
 import { QuotationDetail } from '../quotation-detail';
 import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
@@ -37,4 +38,5 @@ export class Quotation {
   public shipToParty: Customer;
   public purchaseOrderType: PurchaseOrderType;
   public partnerRole: SectorGpsd;
+  public offerType: OfferType;
 }

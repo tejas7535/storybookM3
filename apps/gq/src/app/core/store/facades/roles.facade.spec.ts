@@ -282,6 +282,62 @@ describe('RolesFacade', () => {
     );
   });
 
+  describe('userHasRegionWorldOrGreaterChinaRole$', () => {
+    test(
+      'should provide true when RegionWorld',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_WORLD],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasRegionWorldOrGreaterChinaRole$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should provide true when RegionGreaterChina',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_GREATER_CHINA],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasRegionWorldOrGreaterChinaRole$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should provide false when neither RegionWorld nor RegionGreaterChina',
+      marbles((m) => {
+        mockStore.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.BASIC],
+              },
+            },
+          },
+        });
+        m.expect(service.userHasRegionWorldOrGreaterChinaRole$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+  });
+
   describe('methods', () => {
     test(
       'should provide userHasRole',

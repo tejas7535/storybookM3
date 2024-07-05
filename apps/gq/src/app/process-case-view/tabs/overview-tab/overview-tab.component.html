@@ -10,6 +10,7 @@
           [attachments]="quotationAttachments$ | ngrxPush"
           [workflowInProgress]="workflowInProgress$ | ngrxPush"
           [quotationFullyApproved]="quotationFullyApproved$ | ngrxPush"
+          [showOfferType]="hasOfferTypeAccess$ | ngrxPush"
         ></gq-general-information>
       </gq-kpi-status-card>
     </div>
