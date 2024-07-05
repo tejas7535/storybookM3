@@ -7,7 +7,12 @@ import { of } from 'rxjs';
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
-import { Customer, Keyboard, PurchaseOrderType } from '@gq/shared/models';
+import {
+  Customer,
+  Keyboard,
+  PurchaseOrderType,
+  QuotationStatus,
+} from '@gq/shared/models';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -126,6 +131,7 @@ describe('HeaderContentComponent', () => {
               name: 'MRO Mining',
             } as SectorGpsd,
             disabled: false,
+            isSapCase: false,
           },
         }
       );
@@ -158,6 +164,7 @@ describe('HeaderContentComponent', () => {
               value2: undefined,
             },
             disabled: false,
+            isSapCase: false,
           },
         }
       );
@@ -192,6 +199,7 @@ describe('HeaderContentComponent', () => {
               value2: CUSTOMER_MOCK.country,
             },
             disabled: false,
+            isSapCase: false,
           },
         }
       );
@@ -346,5 +354,21 @@ describe('HeaderContentComponent', () => {
         });
       })
     );
+    test('should set enableSapFieldEditing to true when status is ACTIVE', () => {
+      spectator.setInput('quotation', {
+        ...QUOTATION_MOCK,
+        status: QuotationStatus.ACTIVE,
+      });
+
+      expect(component.enableSapFieldEditing).toBe(true);
+    });
+    test('should set isSapCase to true when sapId is present', () => {
+      spectator.setInput('quotation', {
+        ...QUOTATION_MOCK,
+        sapId: '12345',
+      });
+
+      expect(component.isSapCase).toBe(true);
+    });
   });
 });

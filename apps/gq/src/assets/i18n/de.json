@@ -498,7 +498,8 @@
       "customerPurchaseOrderDateLabel": "Bestelldatum",
       "bindingPeriodValidityEndDateLabel": "Gültig bis",
       "dateBeforeTodayValidationMessage": "Datum in der Vergangenheit, bitte prüfen.",
-      "smallerThanPoDateValidationMessage": "Datum muss größer oder gleich dem Bestelldatum sein."
+      "smallerThanPoDateValidationMessage": "Datum muss größer oder gleich dem Bestelldatum sein.",
+      "updateSapCase": "Update SAP Quote"
     },
     "customMainMenuItems": {
       "resetAllFiltersOfAllColumns": "Sämtliche Filter aller Spalten zurücksetzen"

@@ -39,6 +39,7 @@ export class HeaderContentComponent {
   partnerRoleType: SectorGpsd;
   customer: Customer;
   quotationStatus = QuotationStatus;
+  isSapCase = false;
 
   constructor(
     private readonly translocoService: TranslocoService,
@@ -77,7 +78,7 @@ export class HeaderContentComponent {
       this.customerPurchaseOrderDate =
         value.sapCustomerPurchaseOrderDate ?? undefined;
       this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
-      this.enableSapFieldEditing = true;
+      this.enableSapFieldEditing = value.status === QuotationStatus.ACTIVE;
       this.shipToParty = value.shipToParty ?? undefined;
 
       if (value.sapId) {
@@ -96,8 +97,7 @@ export class HeaderContentComponent {
           },
           'process-case-view'
         );
-
-        this.enableSapFieldEditing = false;
+        this.isSapCase = true;
       }
 
       this.purchaseOrderType = value.purchaseOrderType;
@@ -133,6 +133,7 @@ export class HeaderContentComponent {
           purchaseOrderType: this.purchaseOrderType,
           partnerRoleType: this.partnerRoleType,
           disabled: !this.showEditIcon,
+          isSapCase: this.isSapCase,
         },
       })
       .afterClosed()

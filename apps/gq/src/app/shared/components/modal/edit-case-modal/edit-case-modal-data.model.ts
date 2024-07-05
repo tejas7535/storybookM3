@@ -17,4 +17,5 @@ export interface EditCaseModalData {
   purchaseOrderType?: PurchaseOrderType;
   partnerRoleType?: SectorGpsd;
   disabled?: boolean;
+  isSapCase?: boolean;
 }

@@ -56,6 +56,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   caseModalForm: UntypedFormGroup;
   hasCaseModalFormChange: boolean;
   salesOrg: string;
+  isSapCase: boolean;
 
   filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
 
@@ -88,6 +89,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     this.adapter.setLocale(locale || 'en-US');
 
     this.salesOrg = this.modalData.salesOrg;
+    this.isSapCase = this.modalData?.isSapCase;
     this.caseModalForm = new FormGroup({
       caseName: new FormControl(
         { value: this.modalData?.caseName, disabled: false },
@@ -96,7 +98,13 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
           Validators.maxLength(this.NAME_MAX_LENGTH),
         ]
       ),
-      currency: new FormControl(this.modalData.currency, [Validators.required]),
+      currency: new FormControl(
+        {
+          value: this.modalData.currency,
+          disabled: this.isSapCase,
+        },
+        [Validators.required]
+      ),
       shipToParty: new FormControl(
         {
           value: this.modalData.shipToParty,

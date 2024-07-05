@@ -219,7 +219,9 @@
           [disabled]="!hasCaseModalFormChange || !caseModalForm.valid"
           data-cy="edit-case-modal_update-btn"
         >
-          <span> {{ t('confirm') | uppercase }} </span></button
+          <span>
+            {{ t(isSapCase ? 'updateSapCase' : 'confirm') | uppercase }}
+          </span></button
         ><button
           class="!ml-6 !pl-8 !pr-8"
           color="primary"

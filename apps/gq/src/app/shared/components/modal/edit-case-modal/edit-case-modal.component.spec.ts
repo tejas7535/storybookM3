@@ -188,6 +188,22 @@ describe('EditCaseModalComponent', () => {
       expect(component.salesOrg).toEqual('0269');
     });
 
+    test('should set isSapCase from modalData', () => {
+      component.modalData = {
+        salesOrg: '0269',
+        isSapCase: true,
+        caseCustomer: {
+          identifier: { customerId: '123456', salesOrg: '0815' },
+        },
+      } as any;
+
+      store.overrideSelector(getSalesOrgs, []);
+
+      component.ngOnInit();
+
+      expect(component.isSapCase).toEqual(true);
+    });
+
     test('should set purchaseOrderType from Modal data', () => {
       expect(component.caseModalForm.controls.purchaseOrderType.value).toEqual({
         id: 1,
