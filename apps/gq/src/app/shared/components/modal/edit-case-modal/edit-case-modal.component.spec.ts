@@ -18,10 +18,10 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
-import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { getSalesOrgs } from '@gq/core/store/selectors';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -30,16 +30,18 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import moment from 'moment';
 import { MockComponent } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
+import { OfferTypeSelectComponent } from '../../offer-type-select/offer-type-select.component';
 import { PurchaseOrderTypeSelectComponent } from '../../purchase-order-type-select/purchase-order-type-select.component';
 import { SectorGpsdSelectComponent } from '../../sector-gpsd-select/sector-gpsd-select.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
@@ -47,12 +49,15 @@ describe('EditCaseModalComponent', () => {
   let component: EditCaseModalComponent;
   let spectator: Spectator<EditCaseModalComponent>;
   let store: MockStore;
+  const userHasAccessToOfferType$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   const createComponent = createComponentFactory({
     component: EditCaseModalComponent,
     imports: [
       MockComponent(PurchaseOrderTypeSelectComponent),
       MockComponent(SectorGpsdSelectComponent),
+      MockComponent(OfferTypeSelectComponent),
       MatFormFieldModule,
       MatDatepickerModule,
       MatMomentDateModule,
@@ -62,6 +67,7 @@ describe('EditCaseModalComponent', () => {
       ReactiveFormsModule,
       PushPipe,
       MatAutocompleteModule,
+      LetDirective,
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [MockComponent(DialogHeaderComponent)],
@@ -84,6 +90,7 @@ describe('EditCaseModalComponent', () => {
           bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
           purchaseOrderType: { id: 1, name: 'ZOR' },
           partnerRoleType: { id: '6000036', name: 'MRO Mining' },
+          offerType: { id: 1, name: 'offer type name' },
           caseCustomer: {
             identifier: { customerId: '123456', salesOrg: '0815' },
           },
@@ -129,6 +136,13 @@ describe('EditCaseModalComponent', () => {
           resetAllSectorGpsds: jest.fn(),
         },
       },
+      {
+        provide: RolesFacade,
+        useValue: {
+          userHasRegionWorldOrGreaterChinaRole$:
+            userHasAccessToOfferType$$.asObservable(),
+        },
+      },
     ],
     detectChanges: true,
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -144,6 +158,29 @@ describe('EditCaseModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('should set userHasOfferTypeAccess$', () => {
+    test(
+      'should set userHasOfferTypeAccess$ to true',
+      marbles((m) => {
+        userHasAccessToOfferType$$.next(true);
+        m.expect(component.userHasOfferTypeAccess$).toBeObservable('t', {
+          t: true,
+        });
+        expect(component.userHasOfferTypeAccess).toBeTruthy();
+      })
+    );
+
+    test(
+      'should set userHasOfferTypeAccess$ to false',
+      marbles((m) => {
+        userHasAccessToOfferType$$.next(false);
+        m.expect(component.userHasOfferTypeAccess$).toBeObservable('t', {
+          t: false,
+        });
+        expect(component.userHasOfferTypeAccess).toBeFalsy();
+      })
+    );
+  });
   describe('ngOnInit', () => {
     test('should create FormGroup and fill in caseName and currency', () => {
       expect(component.caseModalForm.controls.caseName.value).toBe('case-name');
@@ -237,7 +274,7 @@ describe('EditCaseModalComponent', () => {
       component.validatePurchaseOrderDateDependentDates = jest.fn();
       component.caseModalForm
         .get('customerPurchaseOrderDate')
-        .setValue(moment('01.01.2019'));
+        .setValue(moment('2019-01-01T00:00:00.000Z'));
       expect(component.hasCaseModalFormChange).toBeTruthy();
       expect(
         component.validatePurchaseOrderDateDependentDates
@@ -286,6 +323,9 @@ describe('EditCaseModalComponent', () => {
   });
 
   describe('submit dialog', () => {
+    beforeEach(() => {
+      userHasAccessToOfferType$$.next(true);
+    });
     test('sould submit caseName and currency and all SAP Data Values', () => {
       component['dialogRef'].close = jest.fn();
 
@@ -318,6 +358,7 @@ describe('EditCaseModalComponent', () => {
         validTo: '2022-12-31T00:00:00.000Z',
         purchaseOrderTypeId: 1,
         partnerRoleId: '6000036',
+        offerTypeId: 1,
       });
     });
 
@@ -353,6 +394,7 @@ describe('EditCaseModalComponent', () => {
         validTo: '2022-12-31T00:00:00.000Z',
         purchaseOrderTypeId: 1,
         partnerRoleId: '6000036',
+        offerTypeId: 1,
       });
     });
 
@@ -375,6 +417,39 @@ describe('EditCaseModalComponent', () => {
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
         undefined as any
       );
+
+      component.submitDialog();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(component['dialogRef'].close).toHaveBeenCalledWith({
+        caseName: 'new whitespace',
+        currency: 'USD',
+        purchaseOrderTypeId: 1,
+        partnerRoleId: '6000036',
+        offerTypeId: 1,
+      });
+    });
+    test('should not provide offerType if user has no access', () => {
+      component['dialogRef'].close = jest.fn();
+
+      spectator.detectChanges();
+
+      component.caseModalForm.controls.caseName.setValue('   new whitespace ');
+      component.caseModalForm.controls.currency.setValue('USD');
+      component.caseModalForm.controls.quotationToDate.setValue(
+        undefined as any
+      );
+      component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
+        undefined as any
+      );
+      component.caseModalForm.controls.requestedDeliveryDate.setValue(
+        undefined as any
+      );
+      component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
+        undefined as any
+      );
+
+      userHasAccessToOfferType$$.next(false);
 
       component.submitDialog();
 
@@ -428,7 +503,7 @@ describe('EditCaseModalComponent', () => {
   describe('validateDateGreaterOrEqualToday', () => {
     beforeEach(() => {
       Object.defineProperty(component, 'today', {
-        value: new Date('01.01.2019'),
+        value: new Date('2019-01-01T00:00:00.000Z'),
       });
     });
 
@@ -458,11 +533,11 @@ describe('EditCaseModalComponent', () => {
     test('should update validity of dependent dates when customPurchaseOrder Date has changed', () => {
       component.ngOnInit();
       component.caseModalForm.controls.customerPurchaseOrderDate.setValue(
-        moment('01.01.2019')
+        moment('2019-01-01T00:00:00.000Z')
       );
 
       component.caseModalForm.controls.quotationToDate.setValue(
-        moment('02.01.2019')
+        moment('2019-01-02T00:00:00.000Z')
       );
       component.caseModalForm.controls.quotationToDate.updateValueAndValidity =
         jest.fn();
@@ -470,7 +545,7 @@ describe('EditCaseModalComponent', () => {
         jest.fn();
 
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
-        moment('02.01.2019')
+        moment('2019-01-02T00:00:00.000Z')
       );
       component.caseModalForm.controls.bindingPeriodValidityEndDate.updateValueAndValidity =
         jest.fn();
@@ -501,18 +576,22 @@ describe('EditCaseModalComponent', () => {
       component.ngOnInit();
       component.caseModalForm
         .get('customerPurchaseOrderDate')
-        .setValue(moment('01.01.2019'));
+        .setValue(moment('2019-01-01T00:00:00.000Z'));
     });
 
     it('Should return undefined as Error', () => {
-      const control: FormControl = new FormControl(moment('02.01.2019'));
+      const control: FormControl = new FormControl(
+        moment('2019-01-02T00:00:00.000Z')
+      );
       const result: ValidationErrors | null =
         component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);
       expect(result).toBeUndefined();
     });
 
     it('Should return an error as Error', () => {
-      const control: FormControl = new FormControl(moment('01.01.2018'));
+      const control: FormControl = new FormControl(
+        moment('2018-01-01T00:00:00.000Z')
+      );
       const expectedError: ValidationErrors = { smallerThanPoDate: true };
 
       const result: ValidationErrors | null =
@@ -520,7 +599,9 @@ describe('EditCaseModalComponent', () => {
       expect(result).toEqual(expectedError);
     });
     it('Should not return an error when values equal', () => {
-      const control: FormControl = new FormControl(moment('01.01.2019'));
+      const control: FormControl = new FormControl(
+        moment('2019-01-01T00:00:00.000Z')
+      );
 
       const result: ValidationErrors | null =
         component.validateDateGreaterOrEqualThanPurchaseOrderDate(control);

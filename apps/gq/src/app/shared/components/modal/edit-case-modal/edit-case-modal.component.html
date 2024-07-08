@@ -8,57 +8,65 @@
 
     <form [formGroup]="caseModalForm" (ngSubmit)="submitDialog()">
       <div class="flex w-full flex-col py-8">
-        <div class="flex flex-col">
-          <span class="text-medium-emphasis pb-2 text-[14px]">
-            {{ t('generalInformation') }}</span
+        <ng-container *ngrxLet="userHasOfferTypeAccess$ as offerType">
+          <div
+            class="flex flex-col"
+            [ngClass]="offerType ? 'two-cols-grid' : 'three-cols-grid'"
           >
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <mat-form-field
-              class="col-span-1 sm:col-span-2 md:col-span-3"
-              appearance="outline"
+            <span class="text-medium-emphasis pb-2 text-[14px]">
+              {{ t('generalInformation') }}</span
             >
-              <mat-label>{{ t('nameLabel') }}</mat-label>
-              <input
-                formControlName="caseName"
-                type="text"
-                autocomplete="off"
-                matInput
-                data-cy="edit-case-modal_custom-name-input"
-                [maxlength]="NAME_MAX_LENGTH"
-              />
-              <mat-hint align="end">{{
-                (caseModalForm.controls.caseName.value?.length.toString() ||
-                  '0') +
-                  ' / ' +
-                  NAME_MAX_LENGTH.toString()
-              }}</mat-hint>
-            </mat-form-field>
+            <div class="grid gap-4 grid-container">
+              <mat-form-field class="case-name-input" appearance="outline">
+                <mat-label>{{ t('nameLabel') }}</mat-label>
+                <input
+                  formControlName="caseName"
+                  type="text"
+                  autocomplete="off"
+                  matInput
+                  data-cy="edit-case-modal_custom-name-input"
+                  [maxlength]="NAME_MAX_LENGTH"
+                />
+                <mat-hint align="end">{{
+                  (caseModalForm.controls.caseName.value?.length.toString() ||
+                    '0') +
+                    ' / ' +
+                    NAME_MAX_LENGTH.toString()
+                }}</mat-hint>
+              </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>{{ t('currencyLabel') }}</mat-label>
-              <mat-select
-                formControlName="currency"
-                data-cy="edit-case-modal_custom-currency-input"
-              >
-                @for (
-                  currency of currencyFacade.availableCurrencies$ | ngrxPush;
-                  track currency
-                ) {
-                  <mat-option [value]="currency">{{ currency }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <gq-sector-gpsd-select
-              appearance="outline"
-              formControlName="partnerRoleType"
-            ></gq-sector-gpsd-select>
-            <gq-purchase-order-type-select
-              class="col-span-1 sm:col-span-2 md:col-span-1"
-              appearance="outline"
-              formControlName="purchaseOrderType"
-            ></gq-purchase-order-type-select>
-          </div>
-        </div>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ t('currencyLabel') }}</mat-label>
+                <mat-select
+                  formControlName="currency"
+                  data-cy="edit-case-modal_custom-currency-input"
+                >
+                  @for (
+                    currency of currencyFacade.availableCurrencies$ | ngrxPush;
+                    track currency
+                  ) {
+                    <mat-option [value]="currency">{{ currency }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <gq-sector-gpsd-select
+                appearance="outline"
+                formControlName="partnerRoleType"
+              ></gq-sector-gpsd-select>
+              <gq-purchase-order-type-select
+                class="po-type-select"
+                appearance="outline"
+                formControlName="purchaseOrderType"
+              ></gq-purchase-order-type-select>
+              @if (offerType) {
+                <gq-offer-type-select
+                  class="col-span-1"
+                  appearance="outline"
+                  formControlName="offerType"
+                ></gq-offer-type-select>
+              }
+            </div></div
+        ></ng-container>
         <div class="flex flex-col">
           <span class="text-medium-emphasis pb-2 text-[14px]">
             {{ t('sapInformation') }}</span

@@ -1,0 +1,39 @@
+// handles responsive design for the edit case modal
+// check the figma file for the design of the modal
+
+/** 
+    setup the grid layout for the modal when offerTypeSelect Component has to be displayed
+    it will be a 1 column grid layout per default, and from the width of small screens it will be a 2 column grid layout,
+    - caseNameInput will span over the maximum cols
+    - poTypeSelect will span over 1 column  per default
+**/
+:host :has(.two-cols-grid) {
+  .grid-container {
+    @apply grid-cols-1 sm:grid-cols-2;
+  }
+  .case-name-input {
+    @apply col-span-1 sm:col-span-2;
+  }
+  .po-type-select {
+    @apply col-span-1;
+  }
+}
+
+/**
+    setup the grid layout for the modal when offerTypeSelect Component has to be displayed
+    it will be a 1 column grid layout per default, and from the width of small screens it will be a 2 column grid layout, from the width of medium screens it will be a 3 column grid layout,
+    - caseNameInput will span over the maximum cols
+    - poTypeSelect will span over 1 column  per default, 2 columns from the width of small screens, 1 columns from the width of medium screens
+**/
+:host :has(.three-cols-grid) {
+  .grid-container {
+    @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
+  }
+  .case-name-input {
+    @apply col-span-1 sm:col-span-2 md:col-span-3;
+  }
+
+  .po-type-select {
+    @apply col-span-1 sm:col-span-2 md:col-span-1;
+  }
+}

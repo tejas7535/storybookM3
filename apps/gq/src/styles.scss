@@ -140,6 +140,11 @@ button {
     z-index: 0;
   }
 }
+.edit-case-modal:has(gq-offer-type-select) {
+  mat-dialog-content.mat-mdc-dialog-content {
+    max-height: 87vh !important;
+  }
+}
 
 .edit-case-modal {
   .mat-mdc-button-base .mdc-button__label {

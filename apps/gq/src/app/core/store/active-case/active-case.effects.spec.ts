@@ -983,6 +983,7 @@ describe('ActiveCaseEffects', () => {
         shipToParty: { customerId: '123456', salesOrg: '0815' },
         purchaseOrderTypeId: 'hbxx',
         partnerRoleId: '600001',
+        offerTypeId: 5,
       });
     });
     test(

@@ -1,4 +1,5 @@
 import { Customer, PurchaseOrderType } from '@gq/shared/models';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { IdValue } from '@gq/shared/models/search';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 
@@ -16,6 +17,7 @@ export interface EditCaseModalData {
 
   purchaseOrderType?: PurchaseOrderType;
   partnerRoleType?: SectorGpsd;
+  offerType?: OfferType;
   disabled?: boolean;
   isSapCase?: boolean;
 }

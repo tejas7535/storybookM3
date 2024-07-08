@@ -17,7 +17,15 @@ import {
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { debounce, EMPTY, Subject, takeUntil, tap, timer } from 'rxjs';
+import {
+  debounce,
+  EMPTY,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 
 import {
   clearCreateCaseRowData,
@@ -25,7 +33,7 @@ import {
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
-import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { getSalesOrgs } from '@gq/core/store/selectors';
@@ -43,6 +51,7 @@ import { EditCaseModalData } from './edit-case-modal-data.model';
 @Component({
   selector: 'gq-edit-case-modal',
   templateUrl: './edit-case-modal.component.html',
+  styleUrls: ['./edit-case-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCaseModalComponent implements OnInit, OnDestroy {
@@ -62,6 +71,14 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
 
   unsubscribe$$: Subject<boolean> = new Subject<boolean>();
 
+  userHasOfferTypeAccess: boolean;
+  userHasOfferTypeAccess$: Observable<boolean> =
+    this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$.pipe(
+      tap((hasRole) => {
+        this.userHasOfferTypeAccess = hasRole;
+      })
+    );
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public modalData: EditCaseModalData,
@@ -71,7 +88,8 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     private readonly translocoLocaleService: TranslocoLocaleService,
     readonly autocomplete: AutoCompleteFacade,
     readonly currencyFacade: CurrencyFacade,
-    readonly sectorGpsdFacade: SectorGpsdFacade
+    readonly sectorGpsdFacade: SectorGpsdFacade,
+    readonly rolesFacade: RolesFacade
   ) {}
 
   ngOnInit(): void {
@@ -153,7 +171,12 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         value: this.modalData?.partnerRoleType,
         disabled: !this.modalData?.enableSapFieldEditing,
       }),
+      offerType: new FormControl({
+        value: this.modalData?.offerType,
+        disabled: false,
+      }),
     });
+
     if (this.modalData?.disabled) {
       this.caseModalForm.disable();
     }
@@ -267,6 +290,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       shipToParty,
       purchaseOrderType,
       partnerRoleType,
+      offerType,
     } = this.caseModalForm.controls;
 
     const returnUpdateQuotationRequest: UpdateQuotationRequest = {
@@ -284,6 +308,9 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         : undefined,
       purchaseOrderTypeId: purchaseOrderType.value?.id,
       partnerRoleId: partnerRoleType.value?.id,
+      offerTypeId: this.userHasOfferTypeAccess
+        ? offerType.value?.id
+        : undefined,
     };
 
     this.dialogRef.close(returnUpdateQuotationRequest);

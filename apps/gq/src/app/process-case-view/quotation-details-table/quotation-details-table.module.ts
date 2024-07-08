@@ -21,6 +21,7 @@ import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-mo
 import { EditingMaterialModalComponent } from '@gq/shared/components/modal/editing-material-modal/editing-material-modal.component';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { StatusBarModalModule } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.module';
+import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-select/offer-type-select.component';
 import { PurchaseOrderTypeSelectComponent } from '@gq/shared/components/purchase-order-type-select/purchase-order-type-select.component';
 import { SectorGpsdSelectComponent } from '@gq/shared/components/sector-gpsd-select/sector-gpsd-select.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -70,6 +71,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     EditingModalModule,
     PurchaseOrderTypeSelectComponent,
     SectorGpsdSelectComponent,
+    OfferTypeSelectComponent,
     MatDialogModule,
   ],
   exports: [QuotationDetailsTableComponent],

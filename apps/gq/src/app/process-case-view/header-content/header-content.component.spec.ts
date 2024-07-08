@@ -13,6 +13,7 @@ import {
   PurchaseOrderType,
   QuotationStatus,
 } from '@gq/shared/models';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -82,7 +83,7 @@ describe('HeaderContentComponent', () => {
       component.updateQuotation.emit = jest.fn();
       component.showEditIcon = true;
     });
-    test('Should pass purchaseOrderType and partnerRoleType and caseCustomer to Modal', () => {
+    test('Should pass purchaseOrderType and partnerRoleType and caseCustomer and offerType to Modal', () => {
       component.purchaseOrderType = {
         id: 'HBX',
         name: 'HBX Name Value',
@@ -95,6 +96,7 @@ describe('HeaderContentComponent', () => {
         identifier: { customerId: '123456', salesOrg: '0815' },
       } as Customer;
 
+      component.offerType = { id: 1, name: 'offer type name' } as OfferType;
       component.openCaseEditingModal();
 
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
@@ -130,6 +132,7 @@ describe('HeaderContentComponent', () => {
               id: '6000036',
               name: 'MRO Mining',
             } as SectorGpsd,
+            offerType: { id: 1, name: 'offer type name' } as OfferType,
             disabled: false,
             isSapCase: false,
           },

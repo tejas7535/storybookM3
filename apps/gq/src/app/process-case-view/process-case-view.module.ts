@@ -12,6 +12,7 @@ import { FPricingModule } from '@gq/f-pricing/f-pricing.module';
 import { SharedQuotationButtonComponent } from '@gq/process-case-view/shared-quotation-button/shared-quotation-button.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { ExportExcelModalModule } from '@gq/shared/components/modal/export-excel-modal/export-excel-modal.module';
+import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-select/offer-type-select.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
@@ -69,6 +70,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     DialogHeaderModule,
     FPricingModule,
     SharedQuotationButtonComponent,
+    OfferTypeSelectComponent,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })

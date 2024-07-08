@@ -10,6 +10,7 @@ import {
   QuotationStatus,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -37,6 +38,7 @@ export class HeaderContentComponent {
   shipToParty: Customer;
   purchaseOrderType: PurchaseOrderType;
   partnerRoleType: SectorGpsd;
+  offerType: OfferType;
   customer: Customer;
   quotationStatus = QuotationStatus;
   isSapCase = false;
@@ -102,6 +104,7 @@ export class HeaderContentComponent {
 
       this.purchaseOrderType = value.purchaseOrderType;
       this.partnerRoleType = value.partnerRole;
+      this.offerType = value.offerType;
 
       this.customer = value.customer;
     }
@@ -132,6 +135,7 @@ export class HeaderContentComponent {
           caseCustomer: this.customer,
           purchaseOrderType: this.purchaseOrderType,
           partnerRoleType: this.partnerRoleType,
+          offerType: this.offerType,
           disabled: !this.showEditIcon,
           isSapCase: this.isSapCase,
         },
