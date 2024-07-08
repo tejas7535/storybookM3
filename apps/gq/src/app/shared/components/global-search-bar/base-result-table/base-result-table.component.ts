@@ -3,6 +3,7 @@ import { Params, Router } from '@angular/router';
 
 import { take } from 'rxjs';
 
+import { SearchByCasesOrMaterialsColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   ColumnUtilityService,
   LocalizationService,
@@ -46,10 +47,30 @@ export class BaseResultTableComponent {
   onGridReady(event: GridReadyEvent, tableKey: string): void {
     // apply column State
     const state = this.agGridStateService.getColumnStateForCurrentView();
+
+    // when state is empty array or undefined, Config of columns has not been changed and the recently configChange of now setting pinned='left' will take effect
+    // when user has already made changes by moving columns, the state will be an array of column state AND the property pinned will have a value: pinned = null.
+    // if so, for gq Id the pinned property should be set to 'left'
+
     if (state) {
       event.columnApi.applyColumnState({ state, applyOrder: true });
     }
-    // apply filter state
+
+    // update pinned=left for GQId
+    if (
+      state.some(
+        (colState) => colState.colId === 'gqId' && colState.pinned === null
+      )
+    ) {
+      event.columnApi.setColumnPinned(
+        SearchByCasesOrMaterialsColumnFields.GQ_ID,
+        'left'
+      );
+
+      this.agGridStateService.setColumnStateForCurrentView(
+        event.columnApi.getColumnState()
+      );
+    }
 
     this.agGridStateService.filterState
       .pipe(take(2))

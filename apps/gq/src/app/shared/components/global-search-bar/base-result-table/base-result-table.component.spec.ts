@@ -19,7 +19,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { GridReadyEvent } from 'ag-grid-community';
+import { ColumnState, GridReadyEvent } from 'ag-grid-community';
 import {
   FilterChangedEvent,
   RowDoubleClickedEvent,
@@ -62,7 +62,7 @@ describe('BaseResultTableComponent', () => {
   describe('onGridReady', () => {
     test('should apply ColumnState and filterState', () => {
       const tableKey = 'tableKey';
-      const columnState = {};
+      const columnState: ColumnState[] = [{ colId: 'gqId', pinned: null }];
       const filterState = [
         {
           actionItemId: tableKey,
@@ -75,10 +75,13 @@ describe('BaseResultTableComponent', () => {
       component['agGridStateService'].getColumnStateForCurrentView = jest
         .fn()
         .mockReturnValue(columnState);
+      component['agGridStateService'].setColumnStateForCurrentView = jest.fn();
       const event: GridReadyEvent = {
         api: { setFilterModel: jest.fn() },
         columnApi: {
           applyColumnState: jest.fn(),
+          setColumnPinned: jest.fn(),
+          getColumnState: jest.fn(),
         },
       } as unknown as GridReadyEvent;
 
@@ -86,6 +89,10 @@ describe('BaseResultTableComponent', () => {
       component['agGridStateService'].filterState.next(filterState);
 
       expect(event.columnApi.applyColumnState).toHaveBeenCalled();
+      expect(event.columnApi.setColumnPinned).toHaveBeenCalled();
+      expect(
+        component['agGridStateService'].setColumnStateForCurrentView
+      ).toHaveBeenCalled();
       expect(
         component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalled();

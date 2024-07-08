@@ -53,6 +53,7 @@ export class ColumnDefinitionService {
       valueFormatter: (params: ValueFormatterParams) =>
         GeneralColumnUtilityService.idFormatter({ value: params.data.gqId }),
       filterParams: FILTER_PARAMS,
+      pinned: 'left',
       lockPosition: 'left',
       cellRenderer: 'gqIdComponent',
       cellRendererParams: (params: any) => ({
