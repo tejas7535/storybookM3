@@ -19,6 +19,7 @@ import {
   COLUMN_RULES,
   ErrorCode,
   MANDATORY_COLUMNS,
+  PRIMARY_KEY_COLUMNS,
   ValidationError,
 } from './excel-validator-config';
 
@@ -57,6 +58,7 @@ export class ExcelValidatorService implements AsyncValidator {
       this.validateNoCellErrors(sheet);
       this.validateColumns(columnHeaders);
       this.checkForMissingValues(dataObjects);
+      this.validatePrimaryKey(dataObjects);
       this.validateValues(dataObjects);
       this.validatePcfValues(dataObjects);
       this.validateMaterialUtilizationFactor(dataObjects);
@@ -142,6 +144,27 @@ export class ExcelValidatorService implements AsyncValidator {
         }
       }
     }
+  }
+
+  private validatePrimaryKey(json: any[]) {
+    const map = new Map<string, number>();
+    // check each data row
+    json.forEach((row: any, rowIndex: number) => {
+      let primary_key = '';
+      // build primary key with values from primary key columns
+      PRIMARY_KEY_COLUMNS.forEach((column) => {
+        const value = row[column];
+        primary_key += `${value}##`;
+      });
+      // check for duplicate primary key
+      if (map.has(primary_key)) {
+        throw new ValidationError(ErrorCode.DUPLICATE_KEY, {
+          row_1: map.get(primary_key) + this.EXCEL_DATA_ROW_START,
+          row_2: rowIndex + this.EXCEL_DATA_ROW_START,
+        });
+      }
+      map.set(primary_key, rowIndex);
+    });
   }
 
   private validateColumns(columnHeaders: string[]) {

@@ -290,6 +290,9 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     if (errors.invalidPcfValue) {
       return this.getTranslatedError('invalidPcfValue', errors.params);
     }
+    if (errors.duplicatePrimaryKey) {
+      return this.getTranslatedError('duplicatePrimaryKey', errors.params);
+    }
     if (errors.missingPcfValue) {
       return this.getTranslatedError('missingPcfValue', errors.params);
     }

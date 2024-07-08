@@ -49,6 +49,7 @@ export enum ErrorCode {
   MISSING_MANDATORY_VALUE = 'missingValue',
   INVALID_VALUE = 'invalidValue',
   ERROR_CELL = 'errorCell',
+  DUPLICATE_KEY = 'duplicatePrimaryKey',
   INVALID_PCF_VALUE = 'invalidPcfValue',
   NO_PCF_VALUE = 'missingPcfValue',
   INVALID_PCF_SUPPLIER_EMISSIONS = 'invalidPcfSupplierEmissions',
@@ -71,6 +72,7 @@ export const MANDATORY_COLUMNS = [
   columns.BUSINESS_PARTNER_ID,
   columns.PLANT,
 ];
+export const PRIMARY_KEY_COLUMNS = MANDATORY_COLUMNS;
 
 const URL_REG_EXP =
   /^https?:\/\/(www\.)?[\w#%+.:=@~-]{2,256}\.[a-z]{2,4}\b([\w#%&+./:=?@~-]*)$/;

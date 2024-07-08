@@ -499,6 +499,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
       'invalidValue',
       'invalidPcfValue',
       'missingPcfValue',
+      'duplicatePrimaryKey',
       'invalidPcfSupplierEmissions',
       'unsupportedFileFormat',
       'generic',

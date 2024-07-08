@@ -290,4 +290,29 @@ describe('ExcelValidatorService', () => {
       }
     );
   });
+
+  describe('validatePrimaryKey', () => {
+    const create = (
+      businessPartnerId: string,
+      plant: string,
+      materialNumber: string
+    ) => ({
+      businessPartnerId,
+      plant,
+      materialNumber,
+    });
+    it('should pass', () => {
+      const data = [
+        create('1', '1', '1'),
+        create('2', '2', '2'),
+        create('1', '2', '3'),
+        create('2', '3', '2'),
+      ];
+      expect(() => service['validatePrimaryKey'](data)).not.toThrow();
+    });
+    it('should fail', () => {
+      const data = [create('1', '1', '1'), create('1', '1', '1')];
+      expect(() => service['validatePrimaryKey'](data)).toThrow();
+    });
+  });
 });
