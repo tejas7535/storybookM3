@@ -630,7 +630,7 @@
     "emptyValue": "Kein Eintrag"
   },
   "offerType": {
-    "label": "Angebotart",
+    "label": "Angebotsart",
     "emptyValue": "Kein Eintrag"
   },
   "sectorGpsd": {
