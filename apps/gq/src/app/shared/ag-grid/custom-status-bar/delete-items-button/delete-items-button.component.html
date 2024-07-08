@@ -1,7 +1,8 @@
 <ng-container *hideIfQuotationNotActive>
   @if (buttonVisible$ | ngrxPush) {
+    <!-- [ngClass]="deleteButtonClass$ | ngrxPush"-->
     <div
-      class="fixed bottom-40"
+      class="absolute bottom-20 delete-button-quotation-details"
       [ngClass]="deleteButtonClass$ | ngrxPush"
       *transloco="let t; read: 'shared.customStatusBar.buttons'"
     >

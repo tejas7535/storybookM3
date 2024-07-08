@@ -22,7 +22,7 @@ export const ACTIVE_STATUS_BAR_CONFIG: {
         hasPanelCaption: false,
         confirmDialogIcon: 'delete',
         panelIcon: 'delete',
-        classes: 'fixed bottom-36 right-8',
+        classes: 'absolute bottom-20 right-4 delete-button-open-cases-tab',
         buttonType: ButtonType.matFab,
       } as ExtendedStatusPanelComponentParams,
       align: 'right',

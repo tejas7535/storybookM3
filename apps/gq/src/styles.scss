@@ -341,3 +341,39 @@ mat-hint {
     @apply min-h-screen;
   }
 }
+
+// checks whether gq Table horizontal scrollbar is visible, and if so it will apply the setting
+gq-case-table:has(.ag-body-horizontal-scroll:not([style*='height: 0px;'])),
+gq-quotation-details-table:has(
+    .ag-body-horizontal-scroll-viewport:not([style*='height: 0px;'])
+  ) {
+  .ag-status-bar {
+    .delete-button-open-cases-tab {
+      @apply bottom-24 #{!important};
+    }
+    .delete-button-quotation-details {
+      @apply bottom-28 #{!important};
+    }
+  }
+}
+
+// checks whether gq Table vertical scrollbar is visible, and if so it will apply the setting
+gq-case-table:has(
+    .ag-body-vertical-scroll-viewport:not([style*='width: 0px;'])
+  ),
+gq-quotation-details-table:has(
+    .ag-body-vertical-scroll-viewport:not([style*='width: 0px;'])
+  ) {
+  .ag-status-bar {
+    .delete-button-open-cases-tab {
+      @apply right-12 #{!important};
+    }
+
+    .delete-button-quotation-details.panel-opened {
+      @apply right-64 #{!important};
+    }
+    .delete-button-quotation-details.panel-closed {
+      @apply right-20 #{!important};
+    }
+  }
+}

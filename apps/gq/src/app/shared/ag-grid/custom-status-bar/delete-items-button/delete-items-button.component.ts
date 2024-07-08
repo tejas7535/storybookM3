@@ -38,7 +38,9 @@ export class DeleteItemsButtonComponent {
   private readonly toolPanelOpened$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   deleteButtonClass$: Observable<string> = this.toolPanelOpened$$.pipe(
-    map((isOpen) => (isOpen ? 'right-64' : 'right-8'))
+    map((isOpen) =>
+      isOpen ? 'panel-opened right-60' : 'panel-closed right-12'
+    )
   );
   private params: IStatusPanelParams;
 

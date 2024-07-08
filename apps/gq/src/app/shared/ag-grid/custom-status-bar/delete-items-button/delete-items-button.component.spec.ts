@@ -115,23 +115,23 @@ describe('DeleteItemsButtonComponent', () => {
 
     describe('deleteButtonClass$', () => {
       test(
-        'should return right-64 class when tool panel is opened',
+        'should return right-60 class when tool panel is opened',
         marbles((m) => {
           component['toolPanelOpened$$'].next(true);
 
           m.expect(component.deleteButtonClass$).toBeObservable(
-            m.cold('a', { a: 'right-64' })
+            m.cold('a', { a: 'panel-opened right-60' })
           );
         })
       );
 
       test(
-        'should return right-8 class when tool panel is closed',
+        'should return right-12 class when tool panel is closed',
         marbles((m) => {
           component['toolPanelOpened$$'].next(false);
 
           m.expect(component.deleteButtonClass$).toBeObservable(
-            m.cold('a', { a: 'right-8' })
+            m.cold('a', { a: 'panel-closed right-12' })
           );
         })
       );
