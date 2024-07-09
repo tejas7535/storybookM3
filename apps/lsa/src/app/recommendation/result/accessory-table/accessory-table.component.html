@@ -1,0 +1,157 @@
+@if (!showEmptyState) {
+  <table
+    class="accessory-table"
+    [formGroup]="tableFormGroup"
+    *transloco="let t; read: 'recommendation.result'"
+  >
+    <thead class="text-left">
+      <tr class="[&>th]:py-2 [&>th]:px-2 border-b-2 border-border">
+        <th>{{ t('product') }}</th>
+        <th>
+          <span class="sr-only">{{ t('availability') }}</span>
+        </th>
+        @if (shouldShowPriceColumn()) {
+          <th>Price</th>
+        }
+        <th class="w-11 md:w-20">{{ t('quantity') }}</th>
+        <th>
+          <span class="sr-only">{{ t('actions') }}</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (group of accGroups | keyvalue; track group.key) {
+        <tr class="accessory-group">
+          <th class="text-left">{{ group.value.groupTitle }}</th>
+          <th>&nbsp;</th>
+
+          @if (shouldShowPriceColumn()) {
+            <th>15 Euro</th>
+          }
+          <th>{{ tableGroupStates[group.key].totalQty }} pcs</th>
+          <th class="w-12">
+            <button
+              class="flex w-full justify-center"
+              (click)="onToggleGroupClick(group.key)"
+            >
+              <mat-icon aria-hidden="true">{{
+                tableGroupStates[group.key].isOpen
+                  ? 'keyboard_arrow_up'
+                  : 'keyboard_arrow_down'
+              }}</mat-icon>
+              <div class="sr-only">
+                {{ tableGroupStates[group.key].isOpen ? 'Collapse' : 'Expand' }}
+                group {{ group.value.groupTitle }}
+              </div>
+            </button>
+          </th>
+        </tr>
+        @if (tableGroupStates[group.key].isOpen) {
+          @for (item of group.value.items; track item.fifteen_digit) {
+            <tr class="accessory-item" [formGroupName]="group.key">
+              <td class="pl-1 last-of-type:pr-1">
+                <div
+                  class="flex items-center flex-col md:flex-row space-y-1 md:space-y-0"
+                >
+                  <img
+                    [src]="item.product_image"
+                    class="mr-1 aspect-square object-cover w-16 h-16 flex-shrink-0"
+                    alt=""
+                  />
+                  <div class="flex flex-col justify-between">
+                    <span class="text-subtitle-2 text-medium-emphasis">{{
+                      item.designation
+                    }}</span>
+                    <span class="text-low-emphasis text-caption mt-1">{{
+                      item.description
+                    }}</span>
+                    <span class="text-low-emphasis mt-2 text-[10px]/[18px]"
+                      >Schaeffler ID {{ item.fifteen_digit }}</span
+                    >
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="flex flex-col items-center space-y-1">
+                  <div class="aspect-square w-3 h-3 rounded-full bg-primary">
+                    <div class="sr-only">Availability indicator green</div>
+                  </div>
+                  <span class="text-caption text-medium-emphasis"
+                    >In stock</span
+                  >
+                </div>
+              </td>
+              <td colspan="2" class="px-2">
+                <div>
+                  <span class="text-caption">{{ t('pieces') }}</span>
+                  <div class="flex flex-col md:flex-row items-center">
+                    <input
+                      type="number"
+                      min="0"
+                      [formControlName]="item.fifteen_digit"
+                      aria-label="Quantity"
+                      class="border-b-2 text-center focus:border-primary active:border-primary border-border outline-none w-full md:w-8"
+                    />
+                    <div class="flex mt-1 md:mt-0">
+                      <button
+                        (click)="changeQty(group.key, item.fifteen_digit, '-')"
+                        mat-icon-button
+                        color="primary"
+                        [disabled]="
+                          !minusButtonEnabled(group.key, item.fifteen_digit)
+                        "
+                      >
+                        <mat-icon>remove</mat-icon>
+                        <div class="sr-only">{{ t('increaseOne') }}</div>
+                      </button>
+
+                      <button
+                        (click)="changeQty(group.key, item.fifteen_digit, '+')"
+                        mat-icon-button
+                        color="primary"
+                      >
+                        <mat-icon>add</mat-icon>
+                        <div class="sr-only">{{ t('decreaseOne') }}</div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        }
+
+        <tr class="accessory-group-spacing">
+          <td colspan="5"></td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row" colspan="2">
+          <span class="sr-only">{{ t('configSummary') }}</span>
+        </th>
+        @if (!isNaN(tableSummaryState.totalPrice)) {
+          <td>
+            <div class="flex flex-col px-2">
+              <span class="font-semibold"
+                >{{ tableSummaryState.totalPrice }} EUR</span
+              >
+              <span class="font-light text-caption">{{ t('totalPrice') }}</span>
+            </div>
+          </td>
+        } @else {
+          <td></td>
+        }
+        <td>
+          <div class="flex flex-col px-2">
+            <span class="font-semibold">{{ tableSummaryState.totalQty }}</span>
+            <span class="font-light text-caption">{{ t('totalPrice') }}</span>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+} @else {
+  <div>No accessory configuration found</div>
+}

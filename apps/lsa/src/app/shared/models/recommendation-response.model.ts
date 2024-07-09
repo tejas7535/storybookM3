@@ -23,11 +23,17 @@ export interface Lubricator {
   volume: string;
   isOptime: 0 | 1;
   productImageUrl: string;
-  accessories?: Accessory[];
+  bundle?: Accessory[];
 }
 
 export interface Accessory {
-  matNr: string;
-  accessoryType: string;
+  matnr: string;
+  qty: number;
+  description: string;
+  fifteen_digit: string;
+  designation: string;
+  product_image: string;
+  class: string | number;
+  price?: number;
   attributes: { [key: string]: string | number };
 }

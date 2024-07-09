@@ -1,22 +1,43 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { RecommendationResponse } from '@lsa/shared/models';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
 
+import { AccessoryTableComponent } from './accessory-table/accessory-table.component';
 import { RecommendationTableComponent } from './recommendation-table/recommendation-table.component';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'lsa-result',
   standalone: true,
-  imports: [RecommendationTableComponent, RecommendationTableDataPipe],
+  imports: [
+    RecommendationTableComponent,
+    RecommendationTableDataPipe,
+    MatIcon,
+    MatFormFieldModule,
+    MatInputModule,
+    AccessoryTableComponent,
+    MatButtonModule,
+    MatIconModule,
+    SharedTranslocoModule,
+  ],
   templateUrl: './result.component.html',
 })
-export class ResultComponent {
+export class ResultComponent implements OnChanges {
   @Input() recommendationResult: RecommendationResponse;
 
   isRecommendedSelected = true;
 
   onRecommendedSelectedChange(isRecommendedSelected: boolean): void {
     this.isRecommendedSelected = isRecommendedSelected;
+  }
+
+  ngOnChanges(_changes: SimpleChanges): void {
+    this.isRecommendedSelected =
+      !!this.recommendationResult.lubricators.recommendedLubricator;
   }
 }

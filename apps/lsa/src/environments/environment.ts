@@ -8,6 +8,7 @@ export const environment: Environment = {
   production: false,
   localDev: true,
   assetsPath: '/assets',
-  lsaApiBaseUrl:
-    'https://lubricator-selection-assistant-d.dev.dp.schaeffler/api',
+  // lsaApiBaseUrl:
+  //  'https://lubricator-selection-assistant-d.dev.dp.schaeffler/api',
+  lsaApiBaseUrl: 'http://localhost:3000/api',
 };

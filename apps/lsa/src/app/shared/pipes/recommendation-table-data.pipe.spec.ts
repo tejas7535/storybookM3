@@ -75,7 +75,7 @@ describe('RecommendationTableDataPipe', () => {
       pipe['getTranslation'] = jest.fn((key) => key);
     });
     it('should do nothing if lubricator is not defined', () => {
-      const result = pipe['getFieldValue']('accessories');
+      const result = pipe['getFieldValue']('bundle');
 
       expect(result).not.toBeDefined();
     });

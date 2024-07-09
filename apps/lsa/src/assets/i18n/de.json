@@ -83,7 +83,20 @@
       "bar": "bar",
       "millilitre": "ml",
       "yes": "Ja",
-      "no": "Nein"
+      "no": "Nein",
+      "heading": "Teileliste für {{ designation }}",
+      "share": "Teilen",
+      "addToCart": "In den Warenkorb legen",
+      "product": "Produkt",
+      "actions": "Aktionen",
+      "pieces": "Anzahl",
+      "availability": "Verfügbarkeit",
+      "quantity": "Menge",
+      "totalPieces": "Gesamtstücke",
+      "totalPrice": "Gesamtwert netto",
+      "configSummary": "Konfigurationsübersicht",
+      "increaseOne": "Menge um eins erhöhen",
+      "decreaseOne": "Menge um eins verringern"
     }
   }
 }

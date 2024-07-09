@@ -83,7 +83,20 @@
       "bar": "bar",
       "millilitre": "ml",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "heading": "Parts list for {{ designation }}",
+      "share": "Share",
+      "addToCart": "Add to Cart",
+      "product": "Product",
+      "actions": "Actions",
+      "pieces": "Pieces",
+      "availability": "Availability",
+      "quantity": "Quantity",
+      "totalPieces": "Total pieces",
+      "totalPrice": "Total net value",
+      "configSummary": "Configuration summary",
+      "increaseOne": "Increase quantity by one",
+      "decreaseOne": "Decrease quantity by one"
     }
   }
 }

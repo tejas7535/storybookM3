@@ -91,4 +91,37 @@ lubricator-selection-assistant {
   .mat-column-field {
     @apply w-40 sm:w-24 md:w-52;
   }
+
+  .accessory-table {
+    @apply w-full;
+    th {
+      @apply text-caption;
+    }
+    .accessory-group {
+      @apply [&>th]:py-2 [&>th]:px-2 bg-background-dark text-left rounded-t-md border-x-4 border-[#f5f5f5];
+
+      th:first-of-type {
+        @apply pl-2;
+      }
+    }
+
+    .accessory-item {
+      @apply bg-surface [&>td]:py-4 border-l-2 border-border last-of-type:border-b-4 last-of-type:border-[#f5f5f5];
+
+      td:first-of-type {
+        @apply border-l-4 border-l-[#f5f5f5];
+      }
+
+      td:last-of-type {
+        @apply border-r-4 border-r-[#f5f5f5];
+      }
+    }
+
+    .accessory-group-spacing {
+      td {
+        height: 25px;
+        @apply border-t-4 border-[#f5f5f5];
+      }
+    }
+  }
 }
