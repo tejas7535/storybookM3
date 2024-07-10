@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*Bắt buộc",
+    "poweredBy": "Được cung cấp bởi {{ name }}",
+    "back": "Quay lại"
+  },
+  "breadcrumbs": {
+    "landingPage": "Trang đích",
+    "calculation": "Phép tính"
+  },
+  "homePage": {
+    "description": "Vui lòng nhập số hiệu vòng bi để tính toán tuổi thọ định mức, tổn thất công suất do ma sát, thông số bôi trơn, tần suất lăn quá mức và lượng khí thải CO₂e",
+    "search": {
+      "placeholder": "Nhập ký hiệu vòng bi, ví dụ: 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Bạn muốn tìm hiểu thêm về tính bền vững tại Schaeffler?",
+      "action": {
+        "title": "Nhấp vào đây",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "được cung cấp bởi Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Giám đốc lắp đặt"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Danh mục sản phẩm Medias"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Chuyên gia Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "Vui lòng chọn"
+  },
+  "resultValues": {
+    "designation": "Số hiệu",
+    "loadcase": "Trường hợp tải"
+  },
+  "operationConditions": {
+    "title": "Điều kiện hoạt động của vòng bi",
+    "prototypeWarning": "Các giá trị hiển thị trong nguyên mẫu phát triển này chỉ là giả thuyết và không được sử dụng trong sản xuất",
+    "showPresetCalculationParameters": "Hiển thị thông số tính toán đặt sẵn",
+    "addLoadCase": "Thêm trường hợp tải",
+    "loads": "Tải",
+    "radialLoad": "Tải hướng tâm",
+    "axialLoad": "Tải hướng trục",
+    "totalAmountOfTime": "Tổng thời gian:",
+    "loadCaseName": "Trường hợp tải {{number}}",
+    "generalInputsTitle": "Đầu vào chung",
+    "generalInputsTitleTooltip": "Điều này áp dụng cho tất cả các trường hợp tải",
+    "emptyState": "Vui lòng chọn phép tính bạn muốn thực hiện từ danh sách các phép tính sẵn có",
+    "operatingTime": {
+      "title": "Thời gian hoạt động",
+      "label": "Tỷ lệ phần trăm"
+    },
+    "presetParameters": {
+      "headline": "Thông số tính toán đặt sẵn",
+      "hide": "Ẩn giá trị",
+      "edit": "Chỉnh sửa"
+    },
+    "confirmationDialog": {
+      "title": "Xác nhận xóa",
+      "description": "Bạn có chắc chắn muốn xóa trường hợp tải không?",
+      "cancelAction": "Hủy",
+      "confirmationAction": "Xác nhận"
+    },
+    "resetInputs": "Đặt lại thông tin đầu vào",
+    "pleaseEnter": "Nhập {{label}}",
+    "tooltip": {
+      "radialLoad": "Tải hướng tâm (sẽ được xác định làm giá trị tuyệt đối)",
+      "axialLoad": "Tải hướng trục (sẽ được xác định làm giá trị tuyệt đối)"
+    },
+    "errors": {
+      "min": "Giá trị tối thiểu là {{ min }}",
+      "max": "Giá trị tối đa là {{ max }}",
+      "required": "Đây là trường bắt buộc",
+      "lowerThanEnvironmentTemperature": "Không thể nhỏ hơn nhiệt độ xung quanh",
+      "innerOuterInconsistent": "Đường kính lỗ phải nhỏ hơn đường kính ngoài",
+      "minMaxInconsistent": "Giá trị tối thiểu phải nhỏ hơn giá trị tối đa",
+      "anyLoad": "Phải có một tải",
+      "viscosity": "ny40 phải lớn hơn ny100",
+      "operatingTimeValueTotal": "Tổng số trường hợp tải không được vượt quá 100%",
+      "tmpBoundViolation": "Nhiệt độ vận hành phải cao hơn nhiệt độ xung quanh"
+    },
+    "rotatingCondition": {
+      "title": "Ảnh hưởng chuyển động",
+      "typeOfMotion": "Loại chuyển động",
+      "relativeRotationalSpeed": "Tốc độ xoay",
+      "shiftFrequency": "Tần suất dịch chuyển",
+      "shiftAngle": "Góc dịch chuyển",
+      "onePerMinute": "1/phút",
+      "degree": "°",
+      "rpm": "RPM",
+      "options": {
+        "LB_ROTATING": "xoay",
+        "LB_OSCILLATING": "dao động"
+      },
+      "tooltip": {
+        "rotationSpeed": "Tốc độ xoay tương đối giữa vòng trong và vòng ngoài (sẽ được xác định làm giá trị tuyệt đối)",
+        "shiftFrequency": "Số dao động mỗi phút (toàn chu kỳ, tiến và lùi)",
+        "shiftAngle": "Góc giữa các điểm xoay cho chuyển động dao động"
+      }
+    },
+    "lubrication": {
+      "title": "Điều kiện bôi trơn",
+      "notAvailable": "Loại bôi trơn này không có sẵn cho vòng bi bạn đã chọn.",
+      "options": {
+        "grease": "Mỡ",
+        "oilBath": "Bôi trơn bể dầu",
+        "oilMist": "Bôi trơn sương dầu",
+        "recirculatingOil": "Bôi trơn dầu tuần hoàn"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Loại mỡ bôi trơn",
+          "description": "Chọn loại mỡ bôi trơn được sử dụng để tính toán vòng bi của bạn.",
+          "tooltip": "Mỡ bôi trơn có tác động đáng kể vì nó ảnh hưởng đến các yếu tố như ma sát, sinh nhiệt, mài mòn và hiệu suất vòng bi tổng thể"
+        },
+        "isoVgClass": {
+          "label": "Cấp ISO VG",
+          "description": "Chọn cấp ISO VG cho chất bôi trơn của bạn.",
+          "tooltip": "Cấp ISO VG là phân loại độ nhớt của chất bôi trơn"
+        },
+        "viscosity": {
+          "label": "Nhập độ nhớt",
+          "description": "Nhập độ nhớt của riêng bạn ở 40°C (ny 40) và ở 100°C (ny 100).",
+          "ny40": "Độ nhớt ở 40°C",
+          "ny100": "Độ nhớt ở 100°C",
+          "unit": "mm²/giây"
+        },
+        "environmentalInfluence": {
+          "label": "Ảnh hưởng môi trường",
+          "options": {
+            "lowInfluence": "1,0 (nhẹ)",
+            "averageInfluence": "0,8 (trung bình)",
+            "heavyInfluence": "0,5 (nặng)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Lưu lượng dầu (dV/dt)",
+        "oilTemperatureDifference": "Tăng nhiệt độ dầu (delta T)",
+        "externalHeatFlow": "Dòng nhiệt bên ngoài (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "Sự ô nhiễm",
+      "label": "Sự ô nhiễm",
+      "options": {
+        "extremeCleanliness": "độ sạch cực cao",
+        "highCleanliness": "độ sạch cao",
+        "standardCleanliness": "độ sạch bình thường",
+        "slightContamination": "độ bẩn nhẹ",
+        "typicalContamination": "độ bẩn thông thường",
+        "heavyContamination": "độ bẩn nặng",
+        "veryHeavyContamination": "độ bẩn rất nặng"
+      }
+    },
+    "temperature": {
+      "title": "Nhiệt độ",
+      "operatingTemperature": {
+        "label": "Nhiệt độ hoạt động",
+        "unit": "°C",
+        "tooltip": "Nhiệt độ hoạt động của vòng bi (nếu cần, vui lòng ước tính)"
+      },
+      "ambientTemperature": {
+        "label": "Nhiệt độ xung quanh",
+        "unit": "°C",
+        "tooltip": "Nhiệt độ của môi trường xung quanh máy"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "Điều kiện xoay",
+      "options": {
+        "rotatingOuterring": "Vòng ngoài xoay",
+        "rotatingInnerring": "Vòng trong xoay"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "Hiển thị báo cáo",
+    "calculationImpossible": "Đối với các thông số bạn đã xác định, không thể tính toán.",
+    "calculationMissingInput": "Vui lòng thêm các điều kiện còn lại."
+  },
+  "calculationResult": {
+    "ratingLife": "Tuổi thọ định mức",
+    "ratingLifeSubtitle": "Tổng tuổi thọ định mức (Lh10)",
+    "staticSafetySubtitle": "An toàn tĩnh (S0)",
+    "lubrication": "Thông số bôi trơn",
+    "lubricationSubtitle": "Tỷ lệ độ nhớt (kappa)",
+    "guideIntervalRelubrication": "Chu kỳ tái bôi trơn hướng dẫn (tfR)",
+    "guideIntervalServiceLife": "Giá trị hướng dẫn về tuổi thọ mỡ bôi trơn (tfG)",
+    "emissions": "Lượng khí thải CO₂e",
+    "emissionsTooltip": "CO₂ tương đương (CO₂e) là đơn vị để chuẩn hóa ảnh hưởng khí hậu của các loại khí nhà kính khác nhau. Nhờ đó, có thể so sánh các hỗn hợp khí thải nhà kính khác nhau.",
+    "overrollingFrequency": "Tần suất lăn quá mức",
+    "overrollingFrequencySubtitle": "Tần số ở vòng trong (BPFI)",
+    "frictionalPowerloss": "Tổn thất công suất do ma sát",
+    "frictionalPowerlossSubtitle": "Tổng mô-men xoắn ma sát (MR)",
+    "frictionalPowerlossUnavailable": "Đối với vòng bi đã chọn, phép tính này không khả dụng.",
+    "production": "Dành cho sản xuất",
+    "productionTooltip": "Đây là tổng lượng CO₂ tương đương thải ra trong quá trình sản xuất vòng bi, bao gồm cả các tài nguyên và năng lượng cần thiết."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "Báo cáo về vòng bi {{bearDesignation}}",
+    "reportSectionInput": "Thông tin đầu vào",
+    "reportSectionWarnings": "Lỗi/Cảnh báo/Ghi chú",
+    "calculationNotAvailable": {
+      "line1": "Đối với vòng bi đã chọn, phép tính này không khả thi.",
+      "line2": "Để biết thêm thông tin, vui lòng liên hệ với chúng tôi",
+      "linkText": "hỗ trợ khách hàng",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "Ước tính lượng khí thải CO₂e trên mỗi sản phẩm",
+      "unit": "CO₂e",
+      "upstreamTitle": "Lượng khí thải CO₂e cho sản xuất* (Khâu đầu)",
+      "upstreamHint": "*Giá trị ước tính dựa trên giả định trong quá trình sản xuất",
+      "upstreamHintLinkText": "Xem thêm thông tin.",
+      "calculationHint": "Bạn muốn tìm hiểu thêm về CO₂ tại Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Nhấp vào đây"
+    },
+    "lubrication": {
+      "title": "Thông số bôi trơn",
+      "viscosityRatio": "Tỷ lệ độ nhớt",
+      "operatingViscosity": "Độ nhớt vận hành",
+      "referenceViscosity": "Độ nhớt tham chiếu",
+      "lifeAdjustmentFactor": "Hệ số điều chỉnh tuổi thọ",
+      "lowerGuideIntervalRelubrication": "Giá trị hướng dẫn dưới về chu kỳ tái bôi trơn",
+      "upperGuideIntervalRelubrication": "Giá trị hướng dẫn trên về chu kỳ tái bôi trơn",
+      "lowerGuideIntervalServiceLife": "Giá trị hướng dẫn dưới về tuổi thọ mỡ bôi trơn",
+      "upperGuideIntervalServiceLife": "Giá trị hướng dẫn trên về tuổi thọ mỡ bôi trơn",
+      "guideIntervalRelubrication": "Giá trị hướng dẫn về chu kỳ tái bôi trơn",
+      "guideIntervalServiceLife": "Giá trị hướng dẫn về tuổi thọ mỡ bôi trơn"
+    },
+    "frictionalPowerloss": {
+      "title": "Tổn thất công suất do ma sát",
+      "totalFrictionalTorque": "Tổng mô-men xoắn ma sát",
+      "totalFrictionalPowerLoss": "Tổng tổn thất công suất do ma sát",
+      "speedDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tốc độ",
+      "loadDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tải",
+      "thermallySafeOperatingSpeed": "Tốc độ vận hành an toàn về nhiệt"
+    },
+    "calculationDisclaimer": {
+      "title": "Tuyên bố miễn trừ trách nhiệm đối với việc tính toán PCF",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Tuổi thọ định mức",
+      "lh10": "Tổng tuổi thọ định mức tính bằng giờ (danh nghĩa)",
+      "lh_nm_unavailable": "Vui lòng thêm “Thông số bôi trơn” vào phép tính của bạn để hiển thị giá trị này",
+      "lh_nm": "Tuổi thọ định mức sửa đổi tính bằng giờ",
+      "p": "Tải động tương đương",
+      "n": "Tốc độ tương đương",
+      "s0_min": "An toàn tĩnh",
+      "p0_max": "Tải tĩnh tương đương tối đa",
+      "p0": "Tải tĩnh tương đương cho mỗi trường hợp tải",
+      "p_i": "Tải động tương đương cho mỗi trường hợp tải"
+    },
+    "overrollingFrequencies": {
+      "title": "Tần suất lăn quá mức",
+      "BPFO": "Tần suất lăn quá mức ở vòng ngoài",
+      "BPFI": "Tần suất lăn quá mức ở vòng trong",
+      "BSF": "Tần suất lăn quá mức ở bộ phận lăn",
+      "RPFB": "Tần suất đi qua vòng ở bộ phận lăn",
+      "FTF": "Tốc độ của bộ phận lăn",
+      "short": {
+        "BPFO": "Ở vòng ngoài",
+        "BPFI": "Ở vòng trong",
+        "BSF": "Ở bộ phận lăn",
+        "RPFB": "Tần suất đi qua vòng ở bộ phận lăn",
+        "FTF": "Tốc độ của bộ phận lăn"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Hiển thị tần số cơ bản",
+    "dialogTitle": "Tần số cơ bản của vòng bi {{bearDesignation}}",
+    "saveAsPdf": "Lưu dưới dạng PDF"
+  },
+  "calculationSelection": {
+    "title": "Chọn phép tính của bạn",
+    "selectAll": "Chọn tất cả",
+    "typeUnavailable": "Đối với vòng bi đã chọn, phép tính này không khả dụng.",
+    "calculations": "Phép tính",
+    "calculationTypes": {
+      "ratingLife": "Tuổi thọ định mức",
+      "lubrication": "Thông số bôi trơn",
+      "frictionalPowerloss": "Tổn thất công suất do ma sát",
+      "co2": "Lượng khí thải CO₂e cho sản xuất",
+      "overrollingFrequency": "Tần suất lăn quá mức"
+    },
+    "basicFrequency": "Tần số cơ bản",
+    "saveAsPDF": "Lưu báo cáo dưới dạng PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Phản hồi",
+    "feedbackText": "Phản hồi của bạn giúp chúng tôi liên tục cải thiện sản phẩm của mình."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "Dấu in",
+    "dataPrivacy": "Quyền riêng tư dữ liệu",
+    "termsOfUse": "Điều khoản sử dụng",
+    "cookiePolicy": "Chính sách cookie",
+    "cookieSettings": "Cài đặt cookie"
+  },
+  "sidebar": {
+    "languageSettings": "Cài đặt ngôn ngữ"
+  },
+  "pdfReport": {
+    "reportHeading": "Báo cáo tính toán Medias cho vòng bi {{bearDesignation}}",
+    "mediasBearingLink": {
+      "text": "Xem trong Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "Thông tin đầu vào",
+    "selectedMethods": "Phương pháp tính toán đã chọn",
+    "disclaimer": "Tất cả các quyền đều được bảo lưu đối với tài liệu này, ngay cả trong trường hợp cần cấp bằng sáng chế hoặc đăng ký mô hình tiện ích. Phải xem đây là tài liệu mật. Nếu không có sự đồng ý bằng văn bản của chúng tôi, không được cung cấp tài liệu cũng như bản sao của tài liệu hoặc các bản sao khác của nội dung hoàn chỉnh hoặc trích dẫn cho các bên thứ ba và người nhận không được sử dụng tài liệu sai mục đích theo bất kỳ cách nào khác. Tài liệu này đã được chuẩn bị trên cơ sở các yêu cầu của bạn như nêu trên và giả định của chúng tôi. Thông tin chi tiết của chúng tôi có tính đến những rủi ro mà chúng tôi thấy rõ trên cơ sở các yêu cầu của bạn được cung cấp cho chúng tôi. Tài liệu này chỉ được soạn thảo liên quan đến việc mua sản phẩm của chúng tôi. Các kết quả được trình bày trong tài liệu đã được tính toán cẩn thận và phù hợp với công nghệ hiện đại nhưng không cấu thành sự bảo đảm rõ ràng hay ngụ ý về chất lượng hoặc độ bền theo nghĩa pháp lý. Do đó, bạn không được miễn trách nhiệm kiểm tra tính phù hợp của sản phẩm. Chúng tôi sẽ chỉ chịu trách nhiệm về các chi tiết được cung cấp trong tài liệu trong trường hợp cố tình sai sót hoặc sơ suất. Nếu tài liệu là một phần của thỏa thuận cung cấp thì các điều khoản về trách nhiệm pháp lý đã thỏa thuận sẽ được áp dụng.",
+    "filename": "Báo cáo tính toán Medias cho {{designation}} - {{date}}",
+    "page": "Trang"
+  }
+}

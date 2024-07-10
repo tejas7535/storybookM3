@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*Obrigatório",
+    "poweredBy": "Com o apoio de {{name}}",
+    "back": "Retroceder"
+  },
+  "breadcrumbs": {
+    "landingPage": "Página de destino",
+    "calculation": "Cálculo"
+  },
+  "homePage": {
+    "description": "Introduza a designação de um rolamento para calcular o tempo de vida útil nominal, a perda de potência por fricção, os parâmetros de lubrificação, as frequências de rolamento excessivo e as emissões de CO₂e",
+    "search": {
+      "placeholder": "Introduza a designação do rolamento, por exemplo, 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Pretende saber mais sobre a sustentabilidade na Schaeffler?",
+      "action": {
+        "title": "Clique aqui",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "Com o apoio da Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Catálogo de produtos Medias"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Especialistas da Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "Selecione"
+  },
+  "resultValues": {
+    "designation": "Designação",
+    "loadcase": "Caso de carga"
+  },
+  "operationConditions": {
+    "title": "Condições de funcionamento do rolamento",
+    "prototypeWarning": "Os valores apresentados neste protótipo em desenvolvimento são hipotéticos e não devem ser utilizados na produção",
+    "showPresetCalculationParameters": "Visualizar parâmetros de cálculo predefinidos",
+    "addLoadCase": "Adicionar caso de carga",
+    "loads": "Carga",
+    "radialLoad": "Carga radial",
+    "axialLoad": "Carga axial",
+    "totalAmountOfTime": "Tempo total:",
+    "loadCaseName": "Caso de carga {{number}}",
+    "generalInputsTitle": "Entradas gerais",
+    "generalInputsTitleTooltip": "Isto aplica-se a todos os casos de carga",
+    "emptyState": "Selecione o cálculo que pretende efetuar a partir da lista de cálculos disponíveis",
+    "operatingTime": {
+      "title": "Tempo de funcionamento",
+      "label": "Percentagem"
+    },
+    "presetParameters": {
+      "headline": "Parâmetros de cálculo predefinidos",
+      "hide": "Ocultar valores",
+      "edit": "Editar"
+    },
+    "confirmationDialog": {
+      "title": "Confirmar a eliminação",
+      "description": "Tem a certeza de que pretende eliminar o caso de carga?",
+      "cancelAction": "Cancelar",
+      "confirmationAction": "Confirmar"
+    },
+    "resetInputs": "Repor entradas",
+    "pleaseEnter": "Introduzir {{label}}",
+    "tooltip": {
+      "radialLoad": "Carga na direção radial (a especificar como valor absoluto)",
+      "axialLoad": "Carga na direção axial (a especificar como valor absoluto)"
+    },
+    "errors": {
+      "min": "O valor mínimo é {{min}}",
+      "max": "O valor máximo é {{max}}",
+      "required": "Este campo é obrigatório",
+      "lowerThanEnvironmentTemperature": "Não pode ser inferior à temperatura ambiente",
+      "innerOuterInconsistent": "O diâmetro do orifício deve ser inferior ao diâmetro exterior",
+      "minMaxInconsistent": "O valor mínimo deve ser inferior ao valor máximo",
+      "anyLoad": "É necessária uma carga",
+      "viscosity": "O valor de ny 40 deve ser superior ao valor de ny 100",
+      "operatingTimeValueTotal": "O número total de casos de carga não pode exceder os 100%",
+      "tmpBoundViolation": "A temperatura de funcionamento deve ser superior à temperatura ambiente"
+    },
+    "rotatingCondition": {
+      "title": "Influências de movimento",
+      "typeOfMotion": "Tipo de movimento",
+      "relativeRotationalSpeed": "Velocidade de rotação",
+      "shiftFrequency": "Frequência de mudança",
+      "shiftAngle": "Ângulo de mudança",
+      "onePerMinute": "rpm",
+      "degree": "°",
+      "rpm": "rpm",
+      "options": {
+        "LB_ROTATING": "rotativo",
+        "LB_OSCILLATING": "oscilante"
+      },
+      "tooltip": {
+        "rotationSpeed": "Velocidade de rotação relativa entre o anel interior e exterior (a especificar como valor absoluto)",
+        "shiftFrequency": "Número de movimentos de oscilação por minuto (ciclo completo, para a frente e para trás)",
+        "shiftAngle": "Ângulo entre os pontos de viragem para movimentos de oscilação"
+      }
+    },
+    "lubrication": {
+      "title": "Condições de lubrificação",
+      "notAvailable": "Este tipo de lubrificação não se encontra disponível para o rolamento selecionado.",
+      "options": {
+        "grease": "Massa lubrificante",
+        "oilBath": "Lubrificação por banho de óleo",
+        "oilMist": "Lubrificação por névoa de óleo",
+        "recirculatingOil": "Lubrificação por recirculação de óleo"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Tipo de massa lubrificante",
+          "description": "Selecione o tipo de massa lubrificante utilizado para o cálculo do rolamento.",
+          "tooltip": "A massa lubrificante exerce um impacto significativo, uma vez que afeta fatores como a fricção, a produção de calor, o desgaste e o desempenho geral do rolamento"
+        },
+        "isoVgClass": {
+          "label": "Classe ISO VG",
+          "description": "Selecione a classe ISO VG do seu lubrificante.",
+          "tooltip": "A classe ISO VG corresponde a uma classificação da viscosidade dos lubrificantes"
+        },
+        "viscosity": {
+          "label": "Introduzir viscosidade",
+          "description": "Introduza a sua viscosidade a 40 °C (ny 40) e a 100 °C (ny 100).",
+          "ny40": "Viscosidade a 40 °C",
+          "ny100": "Viscosidade a 100 °C",
+          "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "Influência ambiental",
+          "options": {
+            "lowInfluence": "1,0 (ligeira)",
+            "averageInfluence": "0,8 (moderada)",
+            "heavyInfluence": "0,5 (elevada)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Fluxo de óleo (dV/dt)",
+        "oilTemperatureDifference": "Aumento da temperatura do óleo (Delta T)",
+        "externalHeatFlow": "Fluxo de calor externo (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "Contaminação",
+      "label": "Contaminação",
+      "options": {
+        "extremeCleanliness": "limpeza extrema",
+        "highCleanliness": "limpeza elevada",
+        "standardCleanliness": "limpeza normal",
+        "slightContamination": "contaminação ligeira",
+        "typicalContamination": "contaminação típica",
+        "heavyContamination": "contaminação elevada",
+        "veryHeavyContamination": "contaminação muito elevada"
+      }
+    },
+    "temperature": {
+      "title": "Temperatura",
+      "operatingTemperature": {
+        "label": "Temperatura de funcionamento",
+        "unit": "°C",
+        "tooltip": "Temperatura de funcionamento do rolamento (se necessário, fazer uma estimativa)"
+      },
+      "ambientTemperature": {
+        "label": "Temperatura ambiente",
+        "unit": "°C",
+        "tooltip": "Temperatura do ambiente circundante da máquina"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "Condição de rotação",
+      "options": {
+        "rotatingOuterring": "Anel exterior rotativo",
+        "rotatingInnerring": "Anel interior rotativo"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "Visualizar relatório",
+    "calculationImpossible": "Não é possível efetuar qualquer cálculo para os parâmetros especificados.",
+    "calculationMissingInput": "Adicione as restantes condições."
+  },
+  "calculationResult": {
+    "ratingLife": "Tempo de vida útil nominal",
+    "ratingLifeSubtitle": "Tempo de vida útil nominal total (Lh10)",
+    "staticSafetySubtitle": "Segurança estática (S0)",
+    "lubrication": "Parâmetros de lubrificação",
+    "lubricationSubtitle": "Relação de viscosidade (kappa)",
+    "guideIntervalRelubrication": "Valor-guia para o intervalo de relubrificação (tfR)",
+    "guideIntervalServiceLife": "Valor-guia para o tempo de vida útil da massa lubrificante (tfG)",
+    "emissions": "Emissões de CO₂e",
+    "emissionsTooltip": "Um equivalente de CO₂ (CO₂e) constitui uma unidade para padronizar os efeitos sobre o clima de vários gases com efeito de estufa. Assim, é possível comparar diferentes misturas de emissões de gases com efeito de estufa.",
+    "overrollingFrequency": "Frequências de rolamento excessivo",
+    "overrollingFrequencySubtitle": "Frequência no anel interior (BPFI)",
+    "frictionalPowerloss": "Perda de potência por fricção",
+    "frictionalPowerlossSubtitle": "Binário de fricção total (MR)",
+    "frictionalPowerlossUnavailable": "Este cálculo não se encontra disponível para o rolamento selecionado.",
+    "production": "Para produção",
+    "productionTooltip": "Trata-se da soma de todos os equivalentes de CO₂ emitidos para a produção do rolamento, incluindo os recursos e a energia necessários."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "Relatório para o rolamento {{bearingDesignation}}",
+    "reportSectionInput": "Entrada",
+    "reportSectionWarnings": "Erros/alertas/notas",
+    "calculationNotAvailable": {
+      "line1": "Não é possível efetuar este cálculo para o rolamento selecionado.",
+      "line2": "Para obter mais informações, contacte o nosso",
+      "linkText": "serviço de apoio ao cliente",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "Estimativa de emissões de CO₂e por peça",
+      "unit": "CO₂e",
+      "upstreamTitle": "Emissões de CO₂e para produção* (a montante)",
+      "upstreamHint": "*Valor estimado com base em suposições durante a produção",
+      "upstreamHintLinkText": "Mais informações.",
+      "calculationHint": "Pretende saber mais sobre o CO₂ na Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Clique aqui"
+    },
+    "lubrication": {
+      "title": "Parâmetros de lubrificação",
+      "viscosityRatio": "Relação de viscosidade",
+      "operatingViscosity": "Viscosidade de funcionamento",
+      "referenceViscosity": "Viscosidade de referência",
+      "lifeAdjustmentFactor": "Fator de ajuste do tempo de vida útil",
+      "lowerGuideIntervalRelubrication": "Valor-guia inferior para o intervalo de relubrificação",
+      "upperGuideIntervalRelubrication": "Valor-guia superior para o intervalo de relubrificação",
+      "lowerGuideIntervalServiceLife": "Valor-guia inferior para o tempo de vida útil da massa lubrificante",
+      "upperGuideIntervalServiceLife": "Valor-guia superior para o tempo de vida útil da massa lubrificante",
+      "guideIntervalRelubrication": "Valor-guia para o intervalo de relubrificação",
+      "guideIntervalServiceLife": "Valor-guia para o tempo de vida útil da massa lubrificante"
+    },
+    "frictionalPowerloss": {
+      "title": "Perda de potência por fricção",
+      "totalFrictionalTorque": "Binário de fricção total",
+      "totalFrictionalPowerLoss": "Perda de potência por fricção total",
+      "speedDependentFrictionalTorque": "Binário de fricção dependente da velocidade",
+      "loadDependentFrictionalTorque": "Binário de fricção dependente da carga",
+      "thermallySafeOperatingSpeed": "Velocidade de funcionamento termicamente segura"
+    },
+    "calculationDisclaimer": {
+      "title": "Exoneração de responsabilidade pelo cálculo da PCF",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Tempo de vida útil nominal",
+      "lh10": "Tempo de vida útil nominal total em horas (nominal)",
+      "lh_nm_unavailable": "Adicione a opção &quot;Parâmetros de lubrificação&quot; ao seu cálculo para visualizar este valor",
+      "lh_nm": "Tempo de vida útil nominal modificado em horas",
+      "p": "Carga dinâmica equivalente",
+      "n": "Velocidade equivalente",
+      "s0_min": "Segurança estática",
+      "p0_max": "Carga estática equivalente máxima",
+      "p0": "Carga estática equivalente por caso de carga",
+      "p_i": "Carga dinâmica equivalente por caso de carga"
+    },
+    "overrollingFrequencies": {
+      "title": "Frequências de rolamento excessivo",
+      "BPFO": "Frequência de rolamento excessivo no anel exterior",
+      "BPFI": "Frequência de rolamento excessivo no anel interior",
+      "BSF": "Frequência de rolamento excessivo no elemento rolante",
+      "RPFB": "Frequência de passagem do anel no elemento rolante",
+      "FTF": "Velocidade do conjunto de elementos rolantes",
+      "short": {
+        "BPFO": "No anel exterior",
+        "BPFI": "No anel interior",
+        "BSF": "No elemento rolante",
+        "RPFB": "Frequência de passagem do anel no elemento rolante",
+        "FTF": "Velocidade do conjunto de elementos rolantes"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Visualizar frequências básicas",
+    "dialogTitle": "Frequências básicas para o rolamento {{bearingDesignation}}",
+    "saveAsPdf": "Guardar como um ficheiro PDF"
+  },
+  "calculationSelection": {
+    "title": "Selecione os seus cálculos",
+    "selectAll": "Selecionar tudo",
+    "typeUnavailable": "Este cálculo não se encontra disponível para o rolamento selecionado.",
+    "calculations": "Cálculos",
+    "calculationTypes": {
+      "ratingLife": "Tempo de vida útil nominal",
+      "lubrication": "Parâmetro de lubrificação",
+      "frictionalPowerloss": "Perda de potência por fricção",
+      "co2": "Emissões de CO₂e para produção",
+      "overrollingFrequency": "Frequências de rolamento excessivo"
+    },
+    "basicFrequency": "Frequências básicas",
+    "saveAsPDF": "Guardar o relatório como um ficheiro PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Comentários",
+    "feedbackText": "Os seus comentários ajudam-nos a melhorar continuamente o nosso produto."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "Impressão",
+    "dataPrivacy": "Privacidade de dados",
+    "termsOfUse": "Termos de utilização",
+    "cookiePolicy": "Política de cookies",
+    "cookieSettings": "Definições de cookies"
+  },
+  "sidebar": {
+    "languageSettings": "Definições de idioma"
+  },
+  "pdfReport": {
+    "reportHeading": "Relatório de cálculo Medias para o rolamento {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "Visualização no Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "Entrada",
+    "selectedMethods": "Métodos de cálculo selecionados",
+    "disclaimer": "Reservam-se todos os direitos relativos a este documento, mesmo em caso de concessão de uma patente ou de registo de um modelo de utilidade. O documento deve ser tratado com confidencialidade. Sem o nosso consentimento por escrito, nem o próprio documento, nem as respetivas cópias ou quaisquer outras reproduções integrais ou de excertos do conteúdo podem ser disponibilizados a terceiros ou utilizados indevidamente, de qualquer outra forma, pelo destinatário. O documento foi elaborado com base nas suas necessidades acima referidas e nas nossas próprias suposições. Os nossos detalhes têm em consideração os riscos que nos são evidentes com base nas suas necessidades, tal como nos foram disponibilizadas. O documento foi elaborado exclusivamente no âmbito da aquisição dos nossos produtos. Os resultados apresentados no documento foram calculados cuidadosamente e de acordo com o atual desenvolvimento tecnológico, mas não constituem uma garantia expressa ou implícita de qualidade ou durabilidade no sentido legal. Não se dispensa, portanto, a verificação da adequação dos produtos. Apenas nos responsabilizamos pelas informações disponibilizadas no documento em caso de dolo ou negligência. Caso o documento seja parte integrante de um acordo de fornecimento, aplicar-se-ão as disposições relativas à responsabilidade nele acordadas.",
+    "filename": "Relatório de cálculo Medias para {{designation}} – {{date}}",
+    "page": "Página"
+  }
+}

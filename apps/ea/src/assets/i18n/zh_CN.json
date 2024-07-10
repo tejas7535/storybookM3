@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*必填",
+    "poweredBy": "由 {{ name }} 提供技术支持",
+    "back": "返回"
+  },
+  "breadcrumbs": {
+    "landingPage": "登录页面",
+    "calculation": "计算"
+  },
+  "homePage": {
+    "description": "请输入轴承名称以计算额定寿命、摩擦功率损耗、润滑参数、碾压频率和 CO₂ 当量排放",
+    "search": {
+      "placeholder": "输入轴承名称，例如 6226"
+    },
+    "sustainabilityCard": {
+      "title": "您想了解更多关于 Schaeffler 可持续发展的信息吗？",
+      "action": {
+        "title": "点击此处",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "由 Bearinx 提供技术支持",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias 产品目录"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler 专家"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "请选择"
+  },
+  "resultValues": {
+    "designation": "名称",
+    "loadcase": "载荷状况"
+  },
+  "operationConditions": {
+    "title": "轴承的工作条件",
+    "prototypeWarning": "此开发原型中显示的值是假设值，不得用于生产",
+    "showPresetCalculationParameters": "显示预设的计算参数",
+    "addLoadCase": "添加载荷状况",
+    "loads": "载荷",
+    "radialLoad": "径向载荷",
+    "axialLoad": "轴向载荷",
+    "totalAmountOfTime": "总时间：",
+    "loadCaseName": "载荷状况 {{number}}",
+    "generalInputsTitle": "一般输入",
+    "generalInputsTitleTooltip": "这适用于所有载荷状况",
+    "emptyState": "请从可用计算列表中选择要执行的计算",
+    "operatingTime": {
+      "title": "工作时间",
+      "label": "百分比"
+    },
+    "presetParameters": {
+      "headline": "预设的计算参数",
+      "hide": "隐藏数值",
+      "edit": "编辑"
+    },
+    "confirmationDialog": {
+      "title": "确认删除",
+      "description": "您确定要删除载荷状况吗？",
+      "cancelAction": "取消",
+      "confirmationAction": "确认"
+    },
+    "resetInputs": "重置输入",
+    "pleaseEnter": "输入 {{label}}",
+    "tooltip": {
+      "radialLoad": "径向载荷（指定为绝对值）",
+      "axialLoad": "轴向载荷（指定为绝对值）"
+    },
+    "errors": {
+      "min": "最小值为 {{ min }}",
+      "max": "最大值为 {{ max }}",
+      "required": "该字段为必填",
+      "lowerThanEnvironmentTemperature": "不能低于环境温度",
+      "innerOuterInconsistent": "孔径必须小于外径",
+      "minMaxInconsistent": "最小值必须小于最大值",
+      "anyLoad": "需要一个载荷",
+      "viscosity": "ny40 必须大于 ny100",
+      "operatingTimeValueTotal": "载荷状况的总数量不能超过 100%",
+      "tmpBoundViolation": "工作温度必须高于环境温度"
+    },
+    "rotatingCondition": {
+      "title": "运动影响",
+      "typeOfMotion": "运动类型",
+      "relativeRotationalSpeed": "转速",
+      "shiftFrequency": "漂移频率",
+      "shiftAngle": "漂移角度",
+      "onePerMinute": "1/min",
+      "degree": "°",
+      "rpm": "RPM",
+      "options": {
+        "LB_ROTATING": "旋转",
+        "LB_OSCILLATING": "摆动"
+      },
+      "tooltip": {
+        "rotationSpeed": "内圈和外圈之间的相对转速（指定为绝对值）",
+        "shiftFrequency": "每分钟的摆动次数（来回完整循环）",
+        "shiftAngle": "摆动转向点之间的角度"
+      }
+    },
+    "lubrication": {
+      "title": "润滑条件",
+      "notAvailable": "这种类型的润滑不适用于您所选的轴承。",
+      "options": {
+        "grease": "润滑脂",
+        "oilBath": "油浴润滑",
+        "oilMist": "油雾润滑",
+        "recirculatingOil": "循环油润滑"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "润滑脂类型",
+          "description": "为轴承计算选择所用的润滑脂类型。",
+          "tooltip": "润滑脂会影响摩擦、发热、磨损和整体轴承性能等因素，因此影响重大"
+        },
+        "isoVgClass": {
+          "label": "ISO VG 类别",
+          "description": "选择润滑油脂的 ISO VG 类别。",
+          "tooltip": "ISO VG 类别是对润滑油脂粘度的分类"
+        },
+        "viscosity": {
+          "label": "输入粘度",
+          "description": "输入 40°C (ny 40) 和 100°C (ny 100) 时的粘度。",
+          "ny40": "40°C 时的粘度",
+          "ny100": "100°C 时的粘度",
+          "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "环境影响",
+          "options": {
+            "lowInfluence": "1.0（轻微）",
+            "averageInfluence": "0.8（中度）",
+            "heavyInfluence": "0.5（严重）"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "油流量 (dV/dt)",
+        "oilTemperatureDifference": "油温升高 (delta T)",
+        "externalHeatFlow": "外部热流量 (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "污染",
+      "label": "污染",
+      "options": {
+        "extremeCleanliness": "极其干净",
+        "highCleanliness": "非常干净",
+        "standardCleanliness": "一般干净",
+        "slightContamination": "轻度污染",
+        "typicalContamination": "一般污染",
+        "heavyContamination": "严重污染",
+        "veryHeavyContamination": "非常严重的污染"
+      }
+    },
+    "temperature": {
+      "title": "温度",
+      "operatingTemperature": {
+        "label": "工作温度",
+        "unit": "°C",
+        "tooltip": "轴承的工作温度（如有必要，请估测）"
+      },
+      "ambientTemperature": {
+        "label": "环境温度",
+        "unit": "°C",
+        "tooltip": "机器周围环境的温度"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "旋转条件",
+      "options": {
+        "rotatingOuterring": "外圈旋转",
+        "rotatingInnerring": "内圈旋转"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "显示报告",
+    "calculationImpossible": "根据您指定的参数，无法进行计算。",
+    "calculationMissingInput": "请添加剩余条件。"
+  },
+  "calculationResult": {
+    "ratingLife": "额定寿命",
+    "ratingLifeSubtitle": "总额定寿命 (Lh10)",
+    "staticSafetySubtitle": "静态安全 (S0)",
+    "lubrication": "润滑参数",
+    "lubricationSubtitle": "粘度比 (kappa)",
+    "guideIntervalRelubrication": "重新润滑参考间隔 (tfR)",
+    "guideIntervalServiceLife": "润滑脂使用寿命参考值 (tfG)",
+    "emissions": "CO₂ 当量排放",
+    "emissionsTooltip": "CO₂ 当量 (CO₂e) 是一个单位，用于标准化各种温室气体对气候的影响。因此，我们可以对不同温室气体排放的混合物进行比较。",
+    "overrollingFrequency": "碾压频率",
+    "overrollingFrequencySubtitle": "内圈滚动频率 (BPFI)",
+    "frictionalPowerloss": "摩擦功率损耗",
+    "frictionalPowerlossSubtitle": "总摩擦力矩 (MR)",
+    "frictionalPowerlossUnavailable": "对于所选轴承，无法进行此计算。",
+    "production": "用于轴承生产",
+    "productionTooltip": "这是为生产滚动轴承而排放的所有 CO₂ 当量的总和，包括必要的资源和能源。"
+  },
+  "calculationResultReport": {
+    "dialogTitle": "轴承 {{bearingDesignation}} 的报告",
+    "reportSectionInput": "输入",
+    "reportSectionWarnings": "错误/报警/操作员记录",
+    "calculationNotAvailable": {
+      "line1": "对于所选轴承，无法进行此计算。",
+      "line2": "如需更多信息，请联系我们的",
+      "linkText": "客户支持部门",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "每件轴承的 CO₂ 当量排放估计值",
+      "unit": "CO₂ 当量",
+      "upstreamTitle": "因生产而排放的 CO₂ 当量*（上游）",
+      "upstreamHint": "*基于生产过程中的假设所得出的估计值",
+      "upstreamHintLinkText": "了解更多信息。",
+      "calculationHint": "您想了解更多关于 Schaeffler CO₂ 的信息吗？",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "点击此处"
+    },
+    "lubrication": {
+      "title": "润滑参数",
+      "viscosityRatio": "粘度比",
+      "operatingViscosity": "工作粘度",
+      "referenceViscosity": "参考粘度",
+      "lifeAdjustmentFactor": "寿命修正系数",
+      "lowerGuideIntervalRelubrication": "重新润滑间隔的下限参考值",
+      "upperGuideIntervalRelubrication": "重新润滑间隔的上限参考值",
+      "lowerGuideIntervalServiceLife": "润滑脂使用寿命的下限参考值",
+      "upperGuideIntervalServiceLife": "润滑脂使用寿命的上限参考值",
+      "guideIntervalRelubrication": "重新润滑间隔的参考值",
+      "guideIntervalServiceLife": "润滑脂使用寿命的参考值"
+    },
+    "frictionalPowerloss": {
+      "title": "摩擦功率损耗",
+      "totalFrictionalTorque": "总摩擦力矩",
+      "totalFrictionalPowerLoss": "总摩擦功率损耗",
+      "speedDependentFrictionalTorque": "取决于速度的摩擦力矩",
+      "loadDependentFrictionalTorque": "取决于载荷的摩擦力矩",
+      "thermallySafeOperatingSpeed": "热安全工作转速"
+    },
+    "calculationDisclaimer": {
+      "title": "PCF 计算免责声明",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "额定寿命",
+      "lh10": "总额定寿命，以小时为单位（标称）",
+      "lh_nm_unavailable": "请在计算中添加“润滑参数”以显示此值",
+      "lh_nm": "修改后的额定寿命，以小时为单位",
+      "p": "当量动载荷",
+      "n": "当量转速",
+      "s0_min": "静态安全",
+      "p0_max": "最大当量静载荷",
+      "p0": "每个载荷状况的当量静载荷",
+      "p_i": "每个载荷状况的当量动载荷"
+    },
+    "overrollingFrequencies": {
+      "title": "碾压频率",
+      "BPFO": "外圈碾压频率",
+      "BPFI": "内圈碾压频率",
+      "BSF": "滚动体碾压频率",
+      "RPFB": "套圈通过滚动体的滚过频率",
+      "FTF": "滚动体组的转速",
+      "short": {
+        "BPFO": "外圈上",
+        "BPFI": "内圈上",
+        "BSF": "滚动体上",
+        "RPFB": "套圈通过滚动体的滚过频率",
+        "FTF": "滚动体组的转速"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "显示基础频率",
+    "dialogTitle": "轴承 {{bearingDesignation}} 的基础频率",
+    "saveAsPdf": "另存为 PDF"
+  },
+  "calculationSelection": {
+    "title": "选择您的计算",
+    "selectAll": "全选",
+    "typeUnavailable": "对于所选轴承，无法进行此计算。",
+    "calculations": "计算",
+    "calculationTypes": {
+      "ratingLife": "额定寿命",
+      "lubrication": "润滑参数",
+      "frictionalPowerloss": "摩擦功率损耗",
+      "co2": "因生产而排放的 CO₂ 当量",
+      "overrollingFrequency": "碾压频率"
+    },
+    "basicFrequency": "基础频率",
+    "saveAsPDF": "将报告另存为 PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "反馈",
+    "feedbackText": "您的反馈有助于我们持续改进产品。"
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "版本说明",
+    "dataPrivacy": "数据隐私",
+    "termsOfUse": "使用条款",
+    "cookiePolicy": "Cookie 政策",
+    "cookieSettings": "Cookie 设置"
+  },
+  "sidebar": {
+    "languageSettings": "语言设置"
+  },
+  "pdfReport": {
+    "reportHeading": "轴承 {{bearingDesignation}} 的 Medias 计算报告",
+    "mediasBearingLink": {
+      "text": "在 Medias 中查看",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "输入",
+    "selectedMethods": "选定的计算方法",
+    "disclaimer": "本文档的所有权利归本公司所有，包括授予专利及注册实用新型的权利。本文档必须得到严格保密。未经我们书面同意，本文档正本及其副本、完整内容或摘录内容的其他副本均不得提供给第三方，或被接收方以任何其他方式滥用。本文档是基于您的上述要求，并结合我们自身的假设编写而成的。我们的详细信息考虑了根据您提供给我们的要求，我们明显察觉到的那些风险。本文档仅与购买我们的产品有关。文档中所展示的结果是基于现有技术发展水平而仔细计算的，但并不构成法律意义上明示或暗示的质量或耐用性保证。因此，您有责任检查产品的适用性。我们仅对因故意或疏忽行为导致的文档中详细信息的错误或遗漏承担责任。如果本文档是供货协议的一部分，则其中协商的责任条款适用。",
+    "filename": "{{designation}} 的 Medias 计算报告 - {{date}}",
+    "page": "页面"
+  }
+}

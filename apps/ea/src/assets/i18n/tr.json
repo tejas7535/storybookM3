@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*Zorunlu",
+    "poweredBy": "{{name}} tarafından desteklenmektedir",
+    "back": "Geri"
+  },
+  "breadcrumbs": {
+    "landingPage": "Açılış Sayfası",
+    "calculation": "Hesaplama"
+  },
+  "homePage": {
+    "description": "Lütfen nominal ömrü, sürtünme gücü kaybını, yağlama parametrelerini, aşırı dönme frekanslarını ve CO₂e emisyonlarını hesaplamak için bir rulman tanımı girin",
+    "search": {
+      "placeholder": "Bir rulman tanımı girin, ör. 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Schaeffler&apos;de sürdürülebilirlik hakkında daha fazla bilgi edinmek ister misiniz?",
+      "action": {
+        "title": "Buraya tıklayın",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "Bearinx tarafından desteklenmektedir",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias Ürün Kataloğu"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler Uzmanları"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "Lütfen seçin"
+  },
+  "resultValues": {
+    "designation": "Tanım",
+    "loadcase": "Yük durumu"
+  },
+  "operationConditions": {
+    "title": "Rulman için çalışma koşulları",
+    "prototypeWarning": "Bu geliştirme prototipinde gösterilen değerler varsayıma dayalıdır ve üretimde kullanılmamalıdır",
+    "showPresetCalculationParameters": "Ön ayar hesaplama parametrelerini göster",
+    "addLoadCase": "Yük durumu ekle",
+    "loads": "Yük",
+    "radialLoad": "Radyal yük",
+    "axialLoad": "Eksenel yük",
+    "totalAmountOfTime": "Toplam süre:",
+    "loadCaseName": "Yük durumu {{number}}",
+    "generalInputsTitle": "Genel Girişler",
+    "generalInputsTitleTooltip": "Bu, tüm yük durumları için geçerlidir",
+    "emptyState": "Lütfen mevcut hesaplamalar listesinden gerçekleştirmek istediğiniz hesaplamayı seçin",
+    "operatingTime": {
+      "title": "Çalışma süresi",
+      "label": "Yüzde"
+    },
+    "presetParameters": {
+      "headline": "Önceden ayarlanmış hesaplama parametreleri",
+      "hide": "Değerleri Gizle",
+      "edit": "Düzenle"
+    },
+    "confirmationDialog": {
+      "title": "Silmeyi onayla",
+      "description": "Yük durumunu silmek istediğinize emin misiniz?",
+      "cancelAction": "İptal Et",
+      "confirmationAction": "Onayla"
+    },
+    "resetInputs": "Girişleri sıfırla",
+    "pleaseEnter": "{{label}} öğesini girin",
+    "tooltip": {
+      "radialLoad": "Radyal yönde yük (mutlak değer olarak belirtilecektir)",
+      "axialLoad": "Eksenel yönde yük (mutlak değer olarak belirtilecektir)"
+    },
+    "errors": {
+      "min": "Minimum değer {{ min }}",
+      "max": "Maksimum değer {{ max }}",
+      "required": "Zorunlu alan",
+      "lowerThanEnvironmentTemperature": "Ortam sıcaklığından az olamaz",
+      "innerOuterInconsistent": "Delik çapı, dış çaptan küçük olmalıdır",
+      "minMaxInconsistent": "Minimum değer, maksimum değerden küçük olmalıdır",
+      "anyLoad": "Bir yük gereklidir",
+      "viscosity": "ny40, ny100&apos;den büyük olmalıdır",
+      "operatingTimeValueTotal": "Toplam yük durumu miktarı %100&apos;ü geçemez",
+      "tmpBoundViolation": "Çalışma sıcaklığı, ortam sıcaklığından yüksek olmalıdır"
+    },
+    "rotatingCondition": {
+      "title": "Hareket Etkileri",
+      "typeOfMotion": "Hareket tipi",
+      "relativeRotationalSpeed": "Dönüş Hızı",
+      "shiftFrequency": "Kayma sıklığı",
+      "shiftAngle": "Kayma açısı",
+      "onePerMinute": "1/dk",
+      "degree": "°",
+      "rpm": "dev/dak",
+      "options": {
+        "LB_ROTATING": "döner",
+        "LB_OSCILLATING": "salınımlı"
+      },
+      "tooltip": {
+        "rotationSpeed": "İç ve dış halka arasındaki bağıl dönüş hızı (mutlak değer olarak belirtilecektir)",
+        "shiftFrequency": "Dakika başına salınım hareketi sayısı (tam döngü, geri ve ileri)",
+        "shiftAngle": "Salınım hareketleri için dönüş noktaları arasındaki açı"
+      }
+    },
+    "lubrication": {
+      "title": "Yağlama koşulları",
+      "notAvailable": "Bu tür yağlama, seçtiğiniz rulman için mevcut değildir.",
+      "options": {
+        "grease": "Gres",
+        "oilBath": "Banyo yağlaması",
+        "oilMist": "Püskürtmeli yağlama",
+        "recirculatingOil": "Sirkülasyonlu yağlama"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Gres tipi",
+          "description": "Rulman hesaplamanız için kullanılan gres tipini seçin.",
+          "tooltip": "Sürtünme, ısı üretimi, aşınma ve genel rulman performansı gibi faktörleri etkilediğinden, gres önemli bir etkiye sahiptir"
+        },
+        "isoVgClass": {
+          "label": "ISO VG sınıfı",
+          "description": "Yağlayıcınızın ISO VG sınıfını seçin.",
+          "tooltip": "ISO VG sınıfı, yağlayıcıların viskozite sınıflandırmasıdır"
+        },
+        "viscosity": {
+          "label": "Viskozite girin",
+          "description": "40°C&apos;de (ny 40) ve 100°C&apos;de (ny 100) kendi viskozitenizi girin.",
+          "ny40": "40°C&apos;de viskozite",
+          "ny100": "100°C&apos;de viskozite",
+          "unit": "mm²/sn"
+        },
+        "environmentalInfluence": {
+          "label": "Çevresel etki",
+          "options": {
+            "lowInfluence": "1,0 (hafif)",
+            "averageInfluence": "0,8 (orta)",
+            "heavyInfluence": "0,5 (ağır)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Yağ akışı (dV/dt)",
+        "oilTemperatureDifference": "Yağ sıcaklığında artış (delta T)",
+        "externalHeatFlow": "Harici ısı akışı (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "Kirlenme",
+      "label": "Kirlenme",
+      "options": {
+        "extremeCleanliness": "aşırı temizlik",
+        "highCleanliness": "yüksek temizlik",
+        "standardCleanliness": "normal temizlik",
+        "slightContamination": "hafif kirlenme",
+        "typicalContamination": "tipik kirlenme",
+        "heavyContamination": "ağır kirlenme",
+        "veryHeavyContamination": "çok ağır kirlenme"
+      }
+    },
+    "temperature": {
+      "title": "Sıcaklık",
+      "operatingTemperature": {
+        "label": "Çalışma Sıcaklığı",
+        "unit": "°C",
+        "tooltip": "Rulman çalışma sıcaklığı (gerekirse lütfen tahmin edin)"
+      },
+      "ambientTemperature": {
+        "label": "Ortam Sıcaklığı",
+        "unit": "°C",
+        "tooltip": "Makinenin çevresindeki ortamın sıcaklığı"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "Dönme durumu",
+      "options": {
+        "rotatingOuterring": "Döner dış halka",
+        "rotatingInnerring": "Döner iç halka"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "Raporu Göster",
+    "calculationImpossible": "Belirttiğiniz parametreler için hesaplama yapılamaz.",
+    "calculationMissingInput": "Lütfen kalan koşulları ekleyin."
+  },
+  "calculationResult": {
+    "ratingLife": "Nominal ömür",
+    "ratingLifeSubtitle": "Toplam Nominal Ömür (Lh10)",
+    "staticSafetySubtitle": "Statik güvenlik (S0)",
+    "lubrication": "Yağlama Parametreleri",
+    "lubricationSubtitle": "Viskozite oranı (kappa)",
+    "guideIntervalRelubrication": "Yeniden yağlama kılavuzu Aralığı (tfR)",
+    "guideIntervalServiceLife": "Gres kullanım ömrü için kılavuz değer (tfG)",
+    "emissions": "CO₂e emisyonlu",
+    "emissionsTooltip": "CO₂ eş değeri (CO₂e), çeşitli sera gazlarının iklim etkilerini standartlaştırmaya yönelik bir birimdir. Bu nedenle, sera gazı emisyonlarının farklı karışımları karşılaştırılabilir.",
+    "overrollingFrequency": "Aşırı yuvarlanma frekansları",
+    "overrollingFrequencySubtitle": "İç halkadaki frekans (BPFI)",
+    "frictionalPowerloss": "Sürtünme gücü kaybı",
+    "frictionalPowerlossSubtitle": "Toplam Sürtünme Torku (MR)",
+    "frictionalPowerlossUnavailable": "Seçilen rulman için bu hesaplama kullanılamaz.",
+    "production": "Üretim için",
+    "productionTooltip": "Bu, gerekli kaynaklar ve enerji de dahil olmak üzere makaralı rulmanın üretimi için yayılan tüm CO₂ eş değerlerinin toplamıdır."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "Rulman {{bearingDesignation}} için rapor",
+    "reportSectionInput": "Giriş",
+    "reportSectionWarnings": "Hatalar/Uyarılar/Notlar",
+    "calculationNotAvailable": {
+      "line1": "Seçilen rulman için bu hesaplama yapılamaz.",
+      "line2": "Daha fazla bilgi için lütfen",
+      "linkText": "müşteri desteği departmanımızla iletişime geçin",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "Parça başına CO₂e emisyonları tahmini",
+      "unit": "CO₂e",
+      "upstreamTitle": "Üretim için yayılan CO₂e* (Yukarı)",
+      "upstreamHint": "*Üretim sırasındaki varsayımlara dayalı tahmini değer",
+      "upstreamHintLinkText": "Daha fazla bilgi.",
+      "calculationHint": "Schaeffler&apos;de CO₂ hakkında daha fazla bilgi edinmek ister misiniz?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Buraya tıklayın"
+    },
+    "lubrication": {
+      "title": "Yağlama Parametreleri",
+      "viscosityRatio": "Viskozite oranı",
+      "operatingViscosity": "Çalışma viskozitesi",
+      "referenceViscosity": "Referans viskozite",
+      "lifeAdjustmentFactor": "Ömür ayarlama faktörü",
+      "lowerGuideIntervalRelubrication": "Yeniden yağlama aralığı için alt kılavuz değeri",
+      "upperGuideIntervalRelubrication": "Yeniden yağlama aralığı için üst kılavuz değeri",
+      "lowerGuideIntervalServiceLife": "Gres kullanım ömrü için alt kılavuz değeri",
+      "upperGuideIntervalServiceLife": "Gres kullanım ömrü için üst kılavuz değeri",
+      "guideIntervalRelubrication": "Yeniden yağlama aralığı için kılavuz değer",
+      "guideIntervalServiceLife": "Gres kullanım ömrü için kılavuz değer"
+    },
+    "frictionalPowerloss": {
+      "title": "Sürtünme gücü kaybı",
+      "totalFrictionalTorque": "Toplam sürtünme torku",
+      "totalFrictionalPowerLoss": "Toplam sürtünme gücü kaybı",
+      "speedDependentFrictionalTorque": "Hıza bağlı sürtünme torku",
+      "loadDependentFrictionalTorque": "Yüke bağlı sürtünme torku",
+      "thermallySafeOperatingSpeed": "Termal olarak güvenli çalışma hızı"
+    },
+    "calculationDisclaimer": {
+      "title": "PCF hesaplaması için sorumluluk reddi",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Nominal ömür",
+      "lh10": "Saat cinsinden toplam nominal ömür (nominal)",
+      "lh_nm_unavailable": "Bu değeri görüntülemek için lütfen hesaplamanıza &quot;Yağlama parametreleri&quot; ifadesini ekleyin",
+      "lh_nm": "Saat cinsinden değiştirilmiş nominal ömür",
+      "p": "Eş değer dinamik yük",
+      "n": "Eş değer hız",
+      "s0_min": "Statik güvenlik",
+      "p0_max": "Maksimum eş değer statik yük",
+      "p0": "Yük durumu başına eş değer statik yük",
+      "p_i": "Yük durumu başına eş değer dinamik yük"
+    },
+    "overrollingFrequencies": {
+      "title": "Aşırı yuvarlanma frekansları",
+      "BPFO": "Dış bilezikte aşırı yuvarlanma frekansı",
+      "BPFI": "İç bilezikte aşırı yuvarlanma frekansı",
+      "BSF": "Yuvarlanma elemanında aşırı yuvarlanma frekansı",
+      "RPFB": "Yuvarlanma elemanında halka geçiş frekansı",
+      "FTF": "Yuvarlanma elemanı setinin hızı",
+      "short": {
+        "BPFO": "Dış halkada",
+        "BPFI": "İç halkada",
+        "BSF": "Yuvarlanma elemanında",
+        "RPFB": "Yuvarlanma elemanında halka geçiş frekansı",
+        "FTF": "Yuvarlanma elemanı setinin hızı"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Temel Frekansları Göster",
+    "dialogTitle": "Rulman için temel frekanslar {{bearingDesignation}}",
+    "saveAsPdf": "PDF olarak kaydet"
+  },
+  "calculationSelection": {
+    "title": "Hesaplamalarınızı seçin",
+    "selectAll": "Tümünü seç",
+    "typeUnavailable": "Seçilen rulman için bu hesaplama kullanılamaz.",
+    "calculations": "Hesaplamalar",
+    "calculationTypes": {
+      "ratingLife": "Nominal Ömür",
+      "lubrication": "Yağlama parametresi",
+      "frictionalPowerloss": "Sürtünme gücü kaybı",
+      "co2": "Üretim için CO₂e emisyonları",
+      "overrollingFrequency": "Aşırı yuvarlanma frekansları"
+    },
+    "basicFrequency": "Basit Frekanslar",
+    "saveAsPDF": "Raporu PDF olarak Kaydet"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Geri bildirim",
+    "feedbackText": "Geri bildiriminiz, ürünümüzü sürekli olarak geliştirmemize yardımcı olur."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "Baskı",
+    "dataPrivacy": "Veri Gizliliği",
+    "termsOfUse": "Kullanım Şartları",
+    "cookiePolicy": "Çerez Politikası",
+    "cookieSettings": "Çerez Ayarları"
+  },
+  "sidebar": {
+    "languageSettings": "Dil ayarları"
+  },
+  "pdfReport": {
+    "reportHeading": "Rulman için Medias Hesaplama Raporu {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "Medias&apos;ta görüntüle",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "Giriş",
+    "selectedMethods": "Seçilen hesaplama yöntemleri",
+    "disclaimer": "Bir patentin verilmesi veya bir yardımcı program modelinin kaydedilmesi gerekse bile bu belgeyle ilgili tüm haklar saklıdır. Belge gizli tutulmalıdır. Yazılı onayımız olmadan ne belgenin kendisi ne de kopyaları veya komple içeriğin ya da alıntı yapılan içeriğin diğer basımları üçüncü taraflara verilemez veya alıcı tarafından başka bir şekilde kötüye kullanılamaz. Belge, yukarıda belirtilen gereklilikleriniz ve kendi varsayımlarımız temelinde hazırlanmıştır. Verdiğimiz ayrıntılarda, bize sunulan gereklilikleriniz temelinde bizim için belirgin olan riskler dikkate alınır. Belge, yalnızca ürünlerimizi satın almayla ilgili olarak hazırlanmıştır. Belgede gösterilen sonuçlar, dikkatli bir şekilde ve son teknolojiye uygun olarak hazırlanmıştır ancak yasal açıdan kalite veya dayanıklılık konusunda açık veya zımni bir garanti teşkil etmez. Bu nedenle ürünlerin uygunluğunu kontrol etmekten muaf tutulmazsınız. Belgede verilen ayrıntılardan yalnızca kasıtlı bir niyet veya ihmal durumunda sorumlu olacağız. Belge bir tedarik sözleşmesinin parçasıysa ilgili sözleşmede kabul edilen sorumluluk hükümleri geçerli olacaktır.",
+    "filename": "{{designation}} - {{date}} için Medias Hesaplama Raporu",
+    "page": "Sayfa"
+  }
+}

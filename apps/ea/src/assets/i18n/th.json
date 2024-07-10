@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*บังคับ",
+    "poweredBy": "สนับสนุนโดย {{ name }}",
+    "back": "ย้อนกลับ"
+  },
+  "breadcrumbs": {
+    "landingPage": "หน้าเป้าหมาย",
+    "calculation": "การคำนวณ"
+  },
+  "homePage": {
+    "description": "โปรดป้อนตลับลูกปืนที่ต้องการเพื่อคำนวณพิกัดอายุการใช้งาน การสูญเสียแรงเนื่องจากแรงเสียดทาน พารามิเตอร์การหล่อลื่น ความถี่การโอเวอร์โรล และการปล่อย CO₂e",
+    "search": {
+      "placeholder": "ป้อนรหัสตลับลูกปืน เช่น 6226"
+    },
+    "sustainabilityCard": {
+      "title": "คุณอยากทราบข้อมูลเกี่ยวกับความยั่งยืนที่แชฟฟ์เลอร์ให้มากกว่านี้ไหม",
+      "action": {
+        "title": "คลิกที่นี่",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "สนับสนุนโดย Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "แคตตาล็อกผลิตภัณฑ์ Medias"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "ผู้เชี่ยวชาญของแชฟฟ์เลอร์"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "โปรดเลือก"
+  },
+  "resultValues": {
+    "designation": "รหัส",
+    "loadcase": "โหลดเคส"
+  },
+  "operationConditions": {
+    "title": "เงื่อนไขการทำงานสำหรับตลับลูกปืน",
+    "prototypeWarning": "ค่าที่แสดงในต้นแบบการพัฒนานี้เป็นเพียงสมมติฐานเท่านั้น และไม่ควรถูกนำไปใช้ในการผลิต",
+    "showPresetCalculationParameters": "แสดงพารามิเตอร์การคำนวณค่าที่กำหนดมาล่วงหน้า",
+    "addLoadCase": "เพิ่มโหลดเคส",
+    "loads": "โหลด",
+    "radialLoad": "โหลดแนวรัศมี",
+    "axialLoad": "โหลดเชิงแกน",
+    "totalAmountOfTime": "เวลารวมทั้งหมด:",
+    "loadCaseName": "โหลดเคส {{number}}",
+    "generalInputsTitle": "อินพุตทั่วไป",
+    "generalInputsTitleTooltip": "สิ่งนี้ใช้กับโหลดเคสทั้งหมด",
+    "emptyState": "โปรดเลือกการคำนวณที่คุณต้องการทำจากรายการการคำนวณที่มีให้เลือก",
+    "operatingTime": {
+      "title": "เวลาการทำงาน",
+      "label": "เปอร์เซ็นต์"
+    },
+    "presetParameters": {
+      "headline": "พารามิเตอร์การคำนวณค่าที่กำหนดมาล่วงหน้า",
+      "hide": "ซ่อนค่า",
+      "edit": "แก้ไข"
+    },
+    "confirmationDialog": {
+      "title": "ยืนยันการลบ",
+      "description": "คุณแน่ใจหรือไม่ว่าต้องการลบโหลดเคส",
+      "cancelAction": "ยกเลิก",
+      "confirmationAction": "ยืนยัน"
+    },
+    "resetInputs": "รีเซ็ตอินพุต",
+    "pleaseEnter": "ป้อน {{label}}",
+    "tooltip": {
+      "radialLoad": "โหลดในทิศทางแนวรัศมี (ที่ต้องระบุเป็นค่าที่แน่นอน)",
+      "axialLoad": "โหลดในทิศทางเชิงแกน (ที่ต้องระบุเป็นค่าที่แน่นอน)"
+    },
+    "errors": {
+      "min": "ค่าขั้นต่ำคือ {{ min }}",
+      "max": "ค่าสูงสุดคือ {{ max }}",
+      "required": "จำเป็นต้องระบุข้อมูลในช่องนี้",
+      "lowerThanEnvironmentTemperature": "ต้องไม่ต่ำกว่าอุณหภูมิรอบข้าง",
+      "innerOuterInconsistent": "เส้นผ่านศูนย์กลางวงในต้องสั้นกว่าเส้นผ่านศูนย์กลางวงนอก",
+      "minMaxInconsistent": "ค่าขั้นต่ำต้องต่ำกว่าค่าสูงสุด",
+      "anyLoad": "ต้องมีหนึ่งโหลด",
+      "viscosity": "ny40 ต้องมากกว่า ny100",
+      "operatingTimeValueTotal": "จำนวนโหลดเคสรวมต้องไม่เกิน 100%",
+      "tmpBoundViolation": "อุณหภูมิการทำงานต้องสูงกว่าอุณหภูมิรอบข้าง"
+    },
+    "rotatingCondition": {
+      "title": "อิทธิพลต่อแรงขับเคลื่อน",
+      "typeOfMotion": "ประเภทการเคลื่อนไหว",
+      "relativeRotationalSpeed": "ความเร็วการหมุน",
+      "shiftFrequency": "ความถี่การเปลี่ยนเกียร์",
+      "shiftAngle": "มุมการเปลี่ยนเกียร์",
+      "onePerMinute": "1/นาที",
+      "degree": "°",
+      "rpm": "รอบต่อนาที (RPM)",
+      "options": {
+        "LB_ROTATING": "การหมุน",
+        "LB_OSCILLATING": "การแกว่ง"
+      },
+      "tooltip": {
+        "rotationSpeed": "ความเร็วการหมุนสัมพัทธ์ระหว่างแหวนวงในและวงนอก (ที่ต้องระบุเป็นค่าที่แน่นอน)",
+        "shiftFrequency": "จำนวนการเคลื่อนไหวแบบแกว่ง (เต็มวง ไปกลับ)",
+        "shiftAngle": "มุมระหว่างจุดวกกลับสำหรับการเคลื่อนไหวแบบแกว่ง"
+      }
+    },
+    "lubrication": {
+      "title": "เงื่อนไขของการหล่อลื่น",
+      "notAvailable": "การหล่อลื่นประเภทนี้ไม่สามารถใช้กับตลับลูกปืนที่คุณเลือกได้",
+      "options": {
+        "grease": "จาระบี",
+        "oilBath": "การหล่อลื่นด้วยการอาบน้ำมัน",
+        "oilMist": "การหล่อลื่นด้วยการพ่นน้ำมัน",
+        "recirculatingOil": "การหล่อลื่นด้วยน้ำมันแบบหมุนเวียน"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "ประเภทจาระบี",
+          "description": "เลือกประเภทของจาระบีที่ใช้สำหรับการคำนวณตลับลูกปืนของคุณ",
+          "tooltip": "จาระบีมีผลอย่างมากเนื่องจากสามารถส่งผลต่อปัจจัยต่างๆ อย่างแรงเสียดทาน การสร้างความร้อน การสึกหรอ และประสิทธิภาพการทำงานของตลับลูกปืนในภาพรวม"
+        },
+        "isoVgClass": {
+          "label": "ISO VG คลาส",
+          "description": "เลือก ISO VG คลาส ของสารหล่อลื่นของคุณ",
+          "tooltip": "ISO VG คลาส คือการจำแนกระดับความหนืดของสารหล่อลื่น"
+        },
+        "viscosity": {
+          "label": "ป้อนความหนืด",
+          "description": "ป้อนความหนืดของคุณเองที่ 40°C (ny 40) และที่ 100°C (ny 100)",
+          "ny40": "ความหนืดที่ 40°C",
+          "ny100": "ความหนืดที่ 100°C",
+          "unit": "ตร.มม./วินาที"
+        },
+        "environmentalInfluence": {
+          "label": "อิทธิพลทางสภาพแวดล้อม",
+          "options": {
+            "lowInfluence": "1.0 (เล็กน้อย)",
+            "averageInfluence": "0.8 (ปานกลาง)",
+            "heavyInfluence": "0.5 (หนัก)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "กระแสน้ำมัน (dV/dt)",
+        "oilTemperatureDifference": "การเพิ่มขึ้นในอุณหภูมิน้ำมัน (เดลต้า T)",
+        "externalHeatFlow": "กระแสความร้อนภายนอก (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "การปนเปื้อน",
+      "label": "การปนเปื้อน",
+      "options": {
+        "extremeCleanliness": "ความสะอาดสุดขีด",
+        "highCleanliness": "ความสะอาดสูง",
+        "standardCleanliness": "ความสะอาดปานกลาง",
+        "slightContamination": "การปนเปื้อนเล็กน้อย",
+        "typicalContamination": "การปนเปื้อนตามปกติ",
+        "heavyContamination": "การปนเปื้อนหนัก",
+        "veryHeavyContamination": "การปนเปื้อนหนักมาก"
+      }
+    },
+    "temperature": {
+      "title": "อุณหภูมิ",
+      "operatingTemperature": {
+        "label": "อุณหภูมิในการทำงาน",
+        "unit": "°C",
+        "tooltip": "อุณหภูมิในการทำงานของตลับลูกปืน (โปรดระบุเป็นค่าโดยประมาณหากจำเป็น)"
+      },
+      "ambientTemperature": {
+        "label": "อุณหภูมิรอบข้าง",
+        "unit": "°C",
+        "tooltip": "อุณหภูมิของสภาพแวดล้อมรอบข้างเครื่องจักร"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "เงื่อนไขของการหมุน",
+      "options": {
+        "rotatingOuterring": "การหมุนวงนอก",
+        "rotatingInnerring": "การหมุนวงใน"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "แสดงรายงาน",
+    "calculationImpossible": "ไม่มีการคำนวณที่ทำได้สำหรับพารามิเตอร์ที่คุณระบุ",
+    "calculationMissingInput": "โปรดใส่เงื่อนไขที่เหลืออยู่"
+  },
+  "calculationResult": {
+    "ratingLife": "พิกัดการอายุการใช้งาน",
+    "ratingLifeSubtitle": "พิกัดการอายุการใช้งานรวม (Lh10)",
+    "staticSafetySubtitle": "ความปลอดภัยคงที่ (S0)",
+    "lubrication": "พารามิเตอร์การหล่อลื่น",
+    "lubricationSubtitle": "อัตราความหนืด (Kappa)",
+    "guideIntervalRelubrication": "ระยะห่างของเวลาเติมสารหล่อลื่น (tfR)",
+    "guideIntervalServiceLife": "ค่าที่แนะนำสำหรับอายุการทำงานของสารหล่อลื่น (tfG)",
+    "emissions": "CO₂e ที่ปล่อย",
+    "emissionsTooltip": "CO₂ เทียบเท่า (CO₂e) คือหน่วยที่ใช้กำหนดมาตรฐานผลกระทบทางสภาพอากาศของก๊าซเรือนกระจกหลายชนิด ดังนั้น ชุดการปล่อยก๊าซเรือนกระจกที่แตกต่างกันสามารถนำมาเปรียบเทียบกันได้",
+    "overrollingFrequency": "ความถี่การโอเวอร์โรล",
+    "overrollingFrequencySubtitle": "ความถี่วงใน (BPFI)",
+    "frictionalPowerloss": "การสูญเสียงแรงเนื่องจากแรงเสียดทาน",
+    "frictionalPowerlossSubtitle": "แรงบิดเสียดทานรวม (MR)",
+    "frictionalPowerlossUnavailable": "การคำนวณนี้ไม่พร้อมใช้งานสำหรับตลับลูกปืนที่เลือก",
+    "production": "สำหรับการผลิต",
+    "productionTooltip": "นี่คือผลรวมของ CO₂ เทียบเท่าทั้งหมดที่ปล่อยออกมาสำหรับการผลิตตลับลูกปืนเม็ดลูกกลิ้ง ซึ่งรวมถึงทรัพยากรและพลังงานที่จำเป็น"
+  },
+  "calculationResultReport": {
+    "dialogTitle": "รายงานสำหรับตลับลูกปืน {{bearingDesignation}}",
+    "reportSectionInput": "อินพุต",
+    "reportSectionWarnings": "ข้อผิดพลาด/คำเตือน/หมายเหตุ",
+    "calculationNotAvailable": {
+      "line1": "ไม่สามารถทำการคำนวณนี้กับตลับลูกปืนที่เลือกได้",
+      "line2": "สำหรับข้อมูลเพิ่มเติม โปรดติดต่อ",
+      "linkText": "ฝ่ายสนับสนุนลูกค้า",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "การปล่อย CO₂e โดยประมาณต่อชิ้น",
+      "unit": "CO₂e",
+      "upstreamTitle": "CO₂e ที่ปล่อยสำหรับการผลิต* (ต้นน้ำ)",
+      "upstreamHint": "*ค่าประมาณที่อ้างอิงจากการสันนิษฐานระหว่างการผลิต",
+      "upstreamHintLinkText": "ข้อมูลเพิ่มเติม",
+      "calculationHint": "อบากทราบข้อมูลเพิ่มเติมเกี่ยวกับ CO₂ ที่แชฟฟ์เลอร์ใช่ไหม",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "คลิกที่นี่"
+    },
+    "lubrication": {
+      "title": "พารามิเตอร์การหล่อลื่น",
+      "viscosityRatio": "อัตราความหนืด",
+      "operatingViscosity": "ความหนืดในการทำงาน",
+      "referenceViscosity": "ความหนืดอ้างอิง",
+      "lifeAdjustmentFactor": "ปัจจุบันการปรับอายุการใช้งาน",
+      "lowerGuideIntervalRelubrication": "ค่าที่แนะนำระดับต่ำสำหรับระยะห่างของเวลาเติมสารหล่อลื่น",
+      "upperGuideIntervalRelubrication": "ค่าที่แนะนำระดับสูงสำหรับระยะห่างของเวลาเติมสารหล่อลื่น",
+      "lowerGuideIntervalServiceLife": "ค่าที่แนะนำระดับต่ำสำหรับอายุการทำงานของสารหล่อลื่น",
+      "upperGuideIntervalServiceLife": "ค่าที่แนะนำระดับสูงสำหรับอายุการทำงานของสารหล่อลื่น",
+      "guideIntervalRelubrication": "ค่าที่แนะนำสำหรับระยะห่างของเวลาเติมสารหล่อลื่น",
+      "guideIntervalServiceLife": "ค่าที่แนะนำสำหรับอายุการทำงานของสารหล่อลื่น"
+    },
+    "frictionalPowerloss": {
+      "title": "การสูญเสียงแรงเนื่องจากแรงเสียดทาน",
+      "totalFrictionalTorque": "แรงบิดเสียดทานรวม",
+      "totalFrictionalPowerLoss": "การสูญเสียงแรงเนื่องจากแรงเสียดทานรวม",
+      "speedDependentFrictionalTorque": "แรงบิดเสียดทานตามความเร็ว",
+      "loadDependentFrictionalTorque": "แรงบิดเสียดทานตามโหลด",
+      "thermallySafeOperatingSpeed": "ความเร็วการทำงานที่ปลอดภัยด้านความร้อน"
+    },
+    "calculationDisclaimer": {
+      "title": "คำปฏิเสธความรับผิดสำหรับการคำนวณ PCF",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "พิกัดการอายุการใช้งาน",
+      "lh10": "พิกัดการอายุการใช้งานรวมในหน่วยชั่วโมง (ตามที่ระบุ)",
+      "lh_nm_unavailable": "โปรดเพิ่ม “พารามิเตอร์การหล่อลื่น” ในการคำนวณของคุณเพื่อแสดงค่านี้",
+      "lh_nm": "พิกัดการอายุการใช้งานในหน่วยชั่วโมงที่ปรับแก้",
+      "p": "โหลดไดนามิกเทียบเท่า",
+      "n": "ความเท่าเทียบเท่า",
+      "s0_min": "ความปลอดภัยคงที่",
+      "p0_max": "ความปลอดภัยคงที่เทียบเท่าสูงสุด",
+      "p0": "ความปลอดภัยคงที่เทียบเท่าต่อโหลดเคส",
+      "p_i": "โหลดไดนามิกเทียบเท่าต่อโหลดเคส"
+    },
+    "overrollingFrequencies": {
+      "title": "ความถี่การโอเวอร์โรล",
+      "BPFO": "ความถี่ในการโอเวอร์โรลบนแหวนวงนอก",
+      "BPFI": "ความถี่ในการโอเวอร์โรลบนแหวนวงใน",
+      "BSF": "ความถี่ในการโอเวอร์โรลบนองค์ประกอบเม็ดลูกกลิ้ง",
+      "RPFB": "ความถี่ริงพาสบนองค์ประกอบเม็ดลูกกลิ้ง",
+      "FTF": "ความเร็วของชุดองค์ประกอบเม็ดลูกกลิ้ง",
+      "short": {
+        "BPFO": "บนแหวนวงนอก",
+        "BPFI": "บนแหวนวงใน",
+        "BSF": "บนองค์ประกอบเม็ดลูกกลิ้ง",
+        "RPFB": "ความถี่ริงพาสบนองค์ประกอบเม็ดลูกกลิ้ง",
+        "FTF": "ความเร็วของชุดองค์ประกอบเม็ดลูกกลิ้ง"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "แสดงความถี่พื้นฐาน",
+    "dialogTitle": "ความถี่พื้นฐานสำหรับตลับลูกกลิ้ง {{bearingDesignation}}",
+    "saveAsPdf": "บันทึกเป็น PDF"
+  },
+  "calculationSelection": {
+    "title": "เลือกการคำนวณของคุณ",
+    "selectAll": "เลือกทั้งหมด",
+    "typeUnavailable": "การคำนวณนี้ไม่พร้อมใช้งานสำหรับตลับลูกปืนที่เลือก",
+    "calculations": "การคำนวณ",
+    "calculationTypes": {
+      "ratingLife": "พิกัดการอายุการใช้งาน",
+      "lubrication": "พารามิเตอร์การหล่อลื่น",
+      "frictionalPowerloss": "การสูญเสียงแรงเนื่องจากแรงเสียดทาน",
+      "co2": "การปล่อย CO₂e สำหรับการผลิต",
+      "overrollingFrequency": "ความถี่การโอเวอร์โรล"
+    },
+    "basicFrequency": "ความถี่พื้นฐาน",
+    "saveAsPDF": "บันทึกรายงานเป็น PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "คำติชม",
+    "feedbackText": "คำติชมของคุณช่วยให้เราปรับปรุงผลิตภัณฑ์ของเราได้อย่างต่อเนื่อง"
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "ตราประทับ",
+    "dataPrivacy": "ความเป็นส่วนตัวของข้อมูล",
+    "termsOfUse": "ข้อกำหนดการใช้งาน",
+    "cookiePolicy": "นโยบายคุกกี้",
+    "cookieSettings": "การตั้งค่าคุกกี้"
+  },
+  "sidebar": {
+    "languageSettings": "การตั้งค่าภาษา"
+  },
+  "pdfReport": {
+    "reportHeading": "รายงานการคำนวณของ Medias สำหรับตลับลูกปืน {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "ดูใน Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "อินพุต",
+    "selectedMethods": "วิธีคำนวณที่เลือก",
+    "disclaimer": "ขอสงวนสิทธิ์ทั้งหมดที่เกี่ยวข้องกับเอกสารฉบับนี้ แม้แต่ในกรณีที่ควรออกใบสิทธิบัตรให้หรือมีการจดทะเบียนผลิตภัณฑ์อรรถประโยชน์ เอกสารฉบับนี้ต้องถูกเก็บรักษาเป็นความลับ หากไม่มีความยินยอมอย่างเป็นลายลักษณ์อักษรจากเรา ห้ามไม่ให้นำเอกสารฉบับจริงหรือสำเนา หรือการถอดความของเนื้อหาทั้งหมดหรือข้อมูลที่สกัดออกมาจากเอกสารฉบับนี้ไปมอบให้กับบุคคลที่สาม หรือนำไปใช้อย่างไม่เหมาะสมโดยผู้ใช้ในรูปแบบอื่นใดก็ตาม เอกสารฉบับนี้ถูกจัดทำขึ้นตามข้อกำหนดที่คุณได้กำหนดไว้ในข้างต้นและการสันนิษฐานของเรา รายละเอียดของเราพิจารณารวมไปถึงความเสี่ยงที่เราเห็นได้ชัดแจ้งจากข้อกำหนดที่คุณให้ไว้กับเรา เอกสารฉบับนี้ถูกจัดทำขึ้นโดยเกี่ยวเนื่องกับการซื้อผลิตภัณฑ์ของเราเท่านั้น ผลลัพธ์ที่แสดงในเอกสารได้ถูกประมวลผลอย่างระมัดระวังด้วยเทคโนโลยีที่ทันสมัย แต่ไม่ได้ก่อให้เกิดความเข้าใจหรือการรับประกันโดยนัยถึงคุณภาพและความหนักแน่นในทางกฎหมาย การตรวจสอบความเหมาะสมและความเข้ากันได้ของผลิตภัณฑ์ยังคงเป็นความรับผิดชอบของคุณ เราจะต้องรับผิดต่อรายละเอียดที่ระบุในเอกสารต่อเมื่อความผิดพลาดนั้นเกิดขึ้นโดยเจตนาหรือความประมาทเลินเล่อเท่านั้น หากเอกสารนี้ถูกรวมไว้ในข้อตกลงการจ่ายสินค้า ข้อกำหนดความรับผิดที่ตกลงไว้ในข้อตกลงฉบับนั้นจะมีผลบังคับใช้",
+    "filename": "รายงานการคำนวณของ Medias สำหรับ {{designation}} - {{date}}",
+    "page": "หน้า"
+  }
+}

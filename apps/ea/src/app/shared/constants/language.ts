@@ -37,6 +37,51 @@ export const LANGUAGE_ZH_TW: LangDefinition = {
   label: '繁體中文',
 };
 
+export const LANGUAGE_TR: LangDefinition = {
+  id: 'tr',
+  label: 'Türkçe',
+};
+
+export const LANGUAGE_JA: LangDefinition = {
+  id: 'ja',
+  label: '日本語',
+};
+
+export const LANGUAGE_RU: LangDefinition = {
+  id: 'ru',
+  label: 'Русский',
+};
+
+export const LANGUAGE_PL: LangDefinition = {
+  id: 'pl',
+  label: 'Polski',
+};
+
+export const LANGUAGE_PT: LangDefinition = {
+  id: 'pt',
+  label: 'Português',
+};
+
+export const LANGUAGE_KO: LangDefinition = {
+  id: 'ko',
+  label: '한국인',
+};
+
+export const LANGUAGE_VI: LangDefinition = {
+  id: 'vi',
+  label: 'Tiếng Việt',
+};
+
+export const LANGUAGE_CS: LangDefinition = {
+  id: 'cs',
+  label: 'Čeština',
+};
+
+export const LANGUAGE_TH: LangDefinition = {
+  id: 'th',
+  label: 'ไทย',
+};
+
 export const AVAILABLE_LANGUAGES: LangDefinition[] = [
   LANGUAGE_EN,
   LANGUAGE_DE,
@@ -45,6 +90,15 @@ export const AVAILABLE_LANGUAGES: LangDefinition[] = [
   LANGUAGE_IT,
   LANGUAGE_ZH,
   LANGUAGE_ZH_TW,
+  LANGUAGE_TR,
+  LANGUAGE_JA,
+  LANGUAGE_RU,
+  LANGUAGE_PL,
+  LANGUAGE_PT,
+  LANGUAGE_KO,
+  LANGUAGE_VI,
+  LANGUAGE_CS,
+  LANGUAGE_TH,
 ];
 
 export const FALLBACK_LANGUAGE: LangDefinition = LANGUAGE_EN;

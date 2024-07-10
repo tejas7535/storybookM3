@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*Обязательно",
+    "poweredBy": "На основе {{ name }}",
+    "back": "Назад"
+  },
+  "breadcrumbs": {
+    "landingPage": "Начальная страница",
+    "calculation": "Расчет"
+  },
+  "homePage": {
+    "description": "Введите обозначение подшипника для расчета номинального срока службы, потерь мощности вследствие трения, параметров смазки, частоты перекатывания и выбросов CO₂e",
+    "search": {
+      "placeholder": "Введите обозначение подшипника, например 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Хотите узнать больше об устойчивом развитии в Schaeffler?",
+      "action": {
+        "title": "Нажмите здесь",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "на основе Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Каталог продукции Medias"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Эксперты Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "Выберите"
+  },
+  "resultValues": {
+    "designation": "Обозначение",
+    "loadcase": "Расчетный вариант нагрузки"
+  },
+  "operationConditions": {
+    "title": "Рабочие условия для подшипника",
+    "prototypeWarning": "Значения, отображаемые в этом экспериментальном образце, являются гипотетическими и не должны использоваться при производстве",
+    "showPresetCalculationParameters": "Показать предварительно заданные параметры расчета",
+    "addLoadCase": "Добавить расчетный вариант нагрузки",
+    "loads": "Нагрузка",
+    "radialLoad": "Радиальная нагрузка",
+    "axialLoad": "Осевая нагрузка",
+    "totalAmountOfTime": "Общее количество времени:",
+    "loadCaseName": "Расчетный вариант нагрузки {{number}}",
+    "generalInputsTitle": "Общие входы",
+    "generalInputsTitleTooltip": "Это относится ко всем расчетным вариантам нагрузки",
+    "emptyState": "Выберите расчет, который вы желаете выполнить, из списка доступных расчетов",
+    "operatingTime": {
+      "title": "Время работы",
+      "label": "Процент"
+    },
+    "presetParameters": {
+      "headline": "Предварительно заданные параметры расчета",
+      "hide": "Скрыть значения",
+      "edit": "Редактировать"
+    },
+    "confirmationDialog": {
+      "title": "Подтвердить удаление",
+      "description": "Вы действительно хотите удалить расчетный вариант нагрузки?",
+      "cancelAction": "Отмена",
+      "confirmationAction": "Подтвердить"
+    },
+    "resetInputs": "Сбросить данные ввода",
+    "pleaseEnter": "Ввести{{label}}",
+    "tooltip": {
+      "radialLoad": "Нагрузка в радиальном направлении (указывается как абсолютное значение)",
+      "axialLoad": "Нагрузка в осевом направлении (указывается как абсолютное значение)"
+    },
+    "errors": {
+      "min": "Минимальное значение: {{ min }}",
+      "max": "Максимальное значение: {{ max }}",
+      "required": "Это поле является обязательным для заполнения",
+      "lowerThanEnvironmentTemperature": "Не может быть ниже температуры окружающей среды",
+      "innerOuterInconsistent": "Диаметр отверстия должен быть меньше наружного диаметра",
+      "minMaxInconsistent": "Минимальное значение должно быть меньше максимального значения",
+      "anyLoad": "Требуется одна нагрузка",
+      "viscosity": "Значение ny40 должно быть больше ny100",
+      "operatingTimeValueTotal": "Общее количество расчетных вариантов нагрузки не должно превышать 100%",
+      "tmpBoundViolation": "Рабочая температура должна быть выше температуры окружающей среды"
+    },
+    "rotatingCondition": {
+      "title": "Влияние движения",
+      "typeOfMotion": "Тип движения",
+      "relativeRotationalSpeed": "Частота вращения",
+      "shiftFrequency": "Частота смещения",
+      "shiftAngle": "Угол смещения",
+      "onePerMinute": "1/мин",
+      "degree": "°",
+      "rpm": "об/мин",
+      "options": {
+        "LB_ROTATING": "вращение",
+        "LB_OSCILLATING": "качение"
+      },
+      "tooltip": {
+        "rotationSpeed": "Относительная частота вращения между внутренним и внешним кольцом (указывается как абсолютное значение)",
+        "shiftFrequency": "Количество движений качения в минуту (полный цикл, вперед-назад)",
+        "shiftAngle": "Угол между точками поворота при движениях качения"
+      }
+    },
+    "lubrication": {
+      "title": "Условия смазки",
+      "notAvailable": "Этот тип смазки недоступен для выбранного вами подшипника.",
+      "options": {
+        "grease": "Смазка",
+        "oilBath": "Смазка в масляной ванной",
+        "oilMist": "Смазка с масляным туманом",
+        "recirculatingOil": "Смазка циркуляционным маслом"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Тип смазки",
+          "description": "Выберите тип используемой смазки, чтобы выполнить расчет для подшипника.",
+          "tooltip": "Смазка оказывает значительное влияние на такие факторы, как трение, тепловыделение, износ и общие эксплуатационные характеристики подшипников"
+        },
+        "isoVgClass": {
+          "label": "Класс ISO VG",
+          "description": "Выберите класс ISO VG смазки.",
+          "tooltip": "Класс ISO VG — это классификация вязкости смазки"
+        },
+        "viscosity": {
+          "label": "Ввести вязкость",
+          "description": "Введите собственные данные вязкости при 40 °C (ny 40) и 100 °C (ny 100).",
+          "ny40": "Вязкость при 40 °C",
+          "ny100": "Вязкость при 100 °C",
+          "unit": "мм²/с"
+        },
+        "environmentalInfluence": {
+          "label": "Влияние окружающей среды",
+          "options": {
+            "lowInfluence": "1,0 (небольш.)",
+            "averageInfluence": "0,8 (средн.)",
+            "heavyInfluence": "0,5 (больш.)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Расход масла (dV/dt)",
+        "oilTemperatureDifference": "Увеличение температуры масла (разность температур)",
+        "externalHeatFlow": "Теплоотдача во внешнюю среду (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "Загрязнение",
+      "label": "Загрязнение",
+      "options": {
+        "extremeCleanliness": "очень высокий уровень чистоты",
+        "highCleanliness": "высокий уровень чистоты",
+        "standardCleanliness": "нормальный уровень чистоты",
+        "slightContamination": "невысокий уровень загрязнения",
+        "typicalContamination": "стандартный уровень загрязнения",
+        "heavyContamination": "высокий уровень загрязнения",
+        "veryHeavyContamination": "очень высокий уровень загрязнения"
+      }
+    },
+    "temperature": {
+      "title": "Температура",
+      "operatingTemperature": {
+        "label": "Рабочая температура",
+        "unit": "°C",
+        "tooltip": "Рабочая температура подшипника (рассчитайте при необходимости)"
+      },
+      "ambientTemperature": {
+        "label": "Температура окружающей среды",
+        "unit": "°C",
+        "tooltip": "Температура окружающей среды машины"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "Состояние вращения",
+      "options": {
+        "rotatingOuterring": "Вращающееся наружное кольцо",
+        "rotatingInnerring": "Вращающееся внутреннее кольцо"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "Показать отчет",
+    "calculationImpossible": "Невозможно выполнить расчет для указанных вами параметров.",
+    "calculationMissingInput": "Добавьте остальные условия."
+  },
+  "calculationResult": {
+    "ratingLife": "Номинальный срок службы",
+    "ratingLifeSubtitle": "Общий номинальный срок службы (Lh10)",
+    "staticSafetySubtitle": "Защита от статического электричества (S0)",
+    "lubrication": "Параметры смазки",
+    "lubricationSubtitle": "Коэффициент вязкости (Каппа)",
+    "guideIntervalRelubrication": "Ориентировочное значение интервала повторной смазки (tfR)",
+    "guideIntervalServiceLife": "Ориентировочное значение срока службы смазки (tfG)",
+    "emissions": "Выбросы CO₂e",
+    "emissionsTooltip": "Эквивалент CO₂ (CO₂e) – это единица для стандартизации климатических эффектов различных парниковых газов. Таким образом можно сравнивать выбросы различных смесей парниковых газов.",
+    "overrollingFrequency": "Частота перекатывания",
+    "overrollingFrequencySubtitle": "Частота перекатывания по внутреннему кольцу (BPFI)",
+    "frictionalPowerloss": "Потеря мощности вследствие трения",
+    "frictionalPowerlossSubtitle": "Общий момент трения (MR)",
+    "frictionalPowerlossUnavailable": "Этот расчет недоступен для выбранного подшипника.",
+    "production": "Для производства",
+    "productionTooltip": "Это сумма выбросов всех эквивалентов CO₂ при производстве подшипника качения, включая необходимые ресурсы и энергию."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "Отчет для подшипника {{bearingDesignation}}",
+    "reportSectionInput": "Ввод",
+    "reportSectionWarnings": "Ошибки/Предупреждения/Примечания",
+    "calculationNotAvailable": {
+      "line1": "Этот расчет невозможен для выбранного подшипника.",
+      "line2": "За дополнительной информацией обращайтесь в службу",
+      "linkText": "поддержки заказчиков",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "Оценка объема выбросов CO₂e в расчете на единицу",
+      "unit": "CO₂e",
+      "upstreamTitle": "Выбросы CO₂e для производства* (выше по технологической цепочке)",
+      "upstreamHint": "*Оценочное значение на основе предположений во время производства",
+      "upstreamHintLinkText": "Подробнее.",
+      "calculationHint": "Хотите узнать больше о CO₂ в Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Нажмите здесь"
+    },
+    "lubrication": {
+      "title": "Параметры смазки",
+      "viscosityRatio": "Коэффициент вязкости",
+      "operatingViscosity": "Рабочая вязкость",
+      "referenceViscosity": "Контрольная вязкость",
+      "lifeAdjustmentFactor": "Корректирующий коэффициент срока службы",
+      "lowerGuideIntervalRelubrication": "Нижнее ориентировочное значение для повторной смазки",
+      "upperGuideIntervalRelubrication": "Верхнее ориентировочное значение для повторной смазки",
+      "lowerGuideIntervalServiceLife": "Нижнее ориентировочное значение срока службы смазки",
+      "upperGuideIntervalServiceLife": "Верхнее ориентировочное значение срока службы смазки",
+      "guideIntervalRelubrication": "Ориентировочное значение интервала повторной смазки",
+      "guideIntervalServiceLife": "Ориентировочное значение срока службы смазки"
+    },
+    "frictionalPowerloss": {
+      "title": "Потеря мощности вследствие трения",
+      "totalFrictionalTorque": "Общий момент трения",
+      "totalFrictionalPowerLoss": "Общая потеря мощности вследствие трения",
+      "speedDependentFrictionalTorque": "Момент трения в зависимости от скорости",
+      "loadDependentFrictionalTorque": "Момент трения в зависимости от нагрузки",
+      "thermallySafeOperatingSpeed": "Рабочая скорость без риска перегрева"
+    },
+    "calculationDisclaimer": {
+      "title": "Отказ от ответственности при расчете PCF",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Номинальный срок службы",
+      "lh10": "Общий срок службы в часах (номинальный)",
+      "lh_nm_unavailable": "Добавьте к вашим расчетам &quot;Параметры смазки&quot; для отображения этого значения",
+      "lh_nm": "Измененный срок службы в часах",
+      "p": "Эквивалентная динамическая нагрузка",
+      "n": "Эквивалентная скорость",
+      "s0_min": "Защита от статического электричества",
+      "p0_max": "Максимальная эквивалентная статическая нагрузка",
+      "p0": "Эквивалентная статическая нагрузка на расчетный вариант нагрузки",
+      "p_i": "Эквивалентная динамическая нагрузка на расчетный вариант нагрузки"
+    },
+    "overrollingFrequencies": {
+      "title": "Частота перекатывания",
+      "BPFO": "Частота перекатывания тел качения по наружному кольцу",
+      "BPFI": "Частота перекатывания тел качения по внутреннему кольцу",
+      "BSF": "Частота перекатывания тел качения",
+      "RPFB": "Частота контактов кольца на теле качения",
+      "FTF": "Скорость комплекта тел качения",
+      "short": {
+        "BPFO": "На внешнем кольце",
+        "BPFI": "На внутреннем кольце",
+        "BSF": "На теле качения",
+        "RPFB": "Частота контактов кольца на теле качения",
+        "FTF": "Скорость комплекта тел качения"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Показать основные частоты",
+    "dialogTitle": "Основные частоты для подшипника {{bearingDesignation}}",
+    "saveAsPdf": "Сохранить как PDF"
+  },
+  "calculationSelection": {
+    "title": "Выберите расчеты",
+    "selectAll": "Выбрать все",
+    "typeUnavailable": "Этот расчет недоступен для выбранного подшипника.",
+    "calculations": "Расчеты",
+    "calculationTypes": {
+      "ratingLife": "Номинальный срок службы",
+      "lubrication": "Параметр смазки",
+      "frictionalPowerloss": "Потеря мощности вследствие трения",
+      "co2": "Выбросы CO₂e при производстве",
+      "overrollingFrequency": "Частота перекатывания"
+    },
+    "basicFrequency": "Основные частоты",
+    "saveAsPDF": "Сохранить отчет как PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Обратная связь",
+    "feedbackText": "Обратная связь помогает нам постоянно улучшать нашу продукцию."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "Печать",
+    "dataPrivacy": "Конфиденциальность данных",
+    "termsOfUse": "Условия использования",
+    "cookiePolicy": "Политика использования файлов cookie",
+    "cookieSettings": "Настройки файлов cookie"
+  },
+  "sidebar": {
+    "languageSettings": "Языковые настройки"
+  },
+  "pdfReport": {
+    "reportHeading": "Отчет о расчете Medias для подшипника {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "Просмотр в Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "Ввод",
+    "selectedMethods": "Выбранные методы расчетов",
+    "disclaimer": "Все права на данный документ сохраняются, даже в случае выдачи патента или регистрации промышленного образца. Документ должен классифицироваться как «конфиденциальный». Без нашего письменного согласия ни сам документ, ни его копии, полные или частичные, не должны предоставляться третьим сторонам или использоваться получателем ненадлежащим образом. Документ должен быть подготовлен на основе ваших требований, указанных выше, и наших предположений. Наша информация учитывает риски, известные нам на основе предоставленных вами требований. Документ подготовлен исключительно в связи с приобретением нашей продукции. Результаты, показанные в документе, были тщательно подготовлены и в соответствии с современными требованиями, но юридически они не являются явной или подразумеваемой гарантией качества или долговечности. Таким образом, вам необходимо проверять пригодность продукции. Мы несем ответственность за информацию, предоставленную в данном документе, только в случае предумышленного намерения или небрежности. Если документ является частью договора на поставку, применяются указанные в договоре положения об ответственности.",
+    "filename": "Отчет о расчете Medias для {{designation}} - {{date}}",
+    "page": "Страница"
+  }
+}

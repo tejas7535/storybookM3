@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*Povinné",
+    "poweredBy": "Vytvořeno společností {{ name }}",
+    "back": "Zpět"
+  },
+  "breadcrumbs": {
+    "landingPage": "Vstupní stránka",
+    "calculation": "Výpočet"
+  },
+  "homePage": {
+    "description": "Pro výpočet hodnocení životnosti, třecích ztrát, parametrů mazání, frekvencí převalování a emisí CO₂e zadejte označení ložiska",
+    "search": {
+      "placeholder": "Zadejte označení ložiska, např. 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Chcete se dozvědět více o udržitelnosti ve společnosti Schaeffler?",
+      "action": {
+        "title": "Klikněte sem",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "vytvořeno společností Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Katalog produktů Medias"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Odborníci společnosti Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "Vyberte"
+  },
+  "resultValues": {
+    "designation": "Označení",
+    "loadcase": "Skupina zatížení"
+  },
+  "operationConditions": {
+    "title": "Provozní podmínky ložiska",
+    "prototypeWarning": "Hodnoty uvedené v tomto vývojovém prototypu jsou hypotetické a nesmí být použity ve výrobě",
+    "showPresetCalculationParameters": "Zobrazit přednastavené parametry výpočtu",
+    "addLoadCase": "Přidat skupinu zatížení",
+    "loads": "Zatížení",
+    "radialLoad": "Radiální zatížení",
+    "axialLoad": "Axiální zatížení",
+    "totalAmountOfTime": "Celkové množství času:",
+    "loadCaseName": "Skupina zatížení {{number}}",
+    "generalInputsTitle": "Obecné vstupy",
+    "generalInputsTitleTooltip": "To platí pro všechny skupiny zatížení",
+    "emptyState": "Vyberte ze seznamu dostupných výpočtů ten, který chcete provést",
+    "operatingTime": {
+      "title": "Provozní doba",
+      "label": "Procento"
+    },
+    "presetParameters": {
+      "headline": "Přednastavené parametry výpočtu",
+      "hide": "Skrýt hodnoty",
+      "edit": "Upravit"
+    },
+    "confirmationDialog": {
+      "title": "Potvrdit odstranění",
+      "description": "Opravdu chcete odstranit skupinu zatížení?",
+      "cancelAction": "Zrušit",
+      "confirmationAction": "Potvrdit"
+    },
+    "resetInputs": "Resetovat vstupy",
+    "pleaseEnter": "Zadat {{label}}",
+    "tooltip": {
+      "radialLoad": "Zatížení v radiálním směru (zadává se jako absolutní hodnota)",
+      "axialLoad": "Zatížení v axiálním směru (zadává se jako absolutní hodnota)"
+    },
+    "errors": {
+      "min": "Minimální hodnota je {{ min }}",
+      "max": "Maximální hodnota je {{ max }}",
+      "required": "Toto je povinné pole",
+      "lowerThanEnvironmentTemperature": "Nesmí být nižší než okolní teplota",
+      "innerOuterInconsistent": "Vnitřní průměr musí být menší než vnější průměr",
+      "minMaxInconsistent": "Minimální hodnota musí být menší než maximální hodnota",
+      "anyLoad": "Je vyžadováno jedno zatížení",
+      "viscosity": "ny40 musí být větší než ny100",
+      "operatingTimeValueTotal": "Celkové množství skupin zatížení nesmí překročit 100 %",
+      "tmpBoundViolation": "Provozní teplota musí být vyšší než okolní teplota"
+    },
+    "rotatingCondition": {
+      "title": "Vlivy pohybu",
+      "typeOfMotion": "Typ pohybu",
+      "relativeRotationalSpeed": "Rychlost otáčení",
+      "shiftFrequency": "Frekvence posunu",
+      "shiftAngle": "Úhel posunu",
+      "onePerMinute": "1/min",
+      "degree": "°",
+      "rpm": "ot./min",
+      "options": {
+        "LB_ROTATING": "otáčivý",
+        "LB_OSCILLATING": "kmitavý"
+      },
+      "tooltip": {
+        "rotationSpeed": "Relativní rychlost otáčení mezi vnitřním a vnějším kroužkem (zadává se jako absolutní hodnota)",
+        "shiftFrequency": "Počet kmitavých pohybů za minutu (celý cyklus, tam a zpět)",
+        "shiftAngle": "Úhel mezi body otáčení pro kmitavé pohyby"
+      }
+    },
+    "lubrication": {
+      "title": "Podmínky mazání",
+      "notAvailable": "Tento typ mazání není pro vybrané ložisko k dispozici.",
+      "options": {
+        "grease": "Mazivo",
+        "oilBath": "Mazání v olejové lázni",
+        "oilMist": "Mazání olejovou mlhou",
+        "recirculatingOil": "Recirkulační mazání olejem"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Typ maziva",
+          "description": "Vyberte použitý typ maziva k výpočtu pro vaše ložisko.",
+          "tooltip": "Mazivo má významný vliv, protože ovlivňuje faktory jako tření, vznik tepla, opotřebení a celkový výkon ložiska"
+        },
+        "isoVgClass": {
+          "label": "Třída ISO VG",
+          "description": "Vyberte třídu ISO VG maziva.",
+          "tooltip": "Třída ISO VG je klasifikace viskozity maziv"
+        },
+        "viscosity": {
+          "label": "Zadejte viskozitu",
+          "description": "Zadejte vlastní viskozitu při 40 °C (ny40) a při 100 °C (ny100).",
+          "ny40": "Viskozita při 40 °C",
+          "ny100": "Viskozita při 100 °C",
+          "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "Vliv prostředí",
+          "options": {
+            "lowInfluence": "1,0 (mírný)",
+            "averageInfluence": "0,8 (střední)",
+            "heavyInfluence": "0,5 (silný)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Průtok oleje (dV/dt)",
+        "oilTemperatureDifference": "Zvýšení teploty oleje (delta T)",
+        "externalHeatFlow": "Vnější tepelný tok (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "Znečištění",
+      "label": "Znečištění",
+      "options": {
+        "extremeCleanliness": "extrémní čistota",
+        "highCleanliness": "vysoká čistota",
+        "standardCleanliness": "normální čistota",
+        "slightContamination": "mírné znečištění",
+        "typicalContamination": "běžné znečištění",
+        "heavyContamination": "silné znečištění",
+        "veryHeavyContamination": "velmi silné znečištění"
+      }
+    },
+    "temperature": {
+      "title": "Teplota",
+      "operatingTemperature": {
+        "label": "Provozní teplota",
+        "unit": "°C",
+        "tooltip": "Provozní teplota ložiska (v případě potřeby odhadněte)"
+      },
+      "ambientTemperature": {
+        "label": "Okolní teplota",
+        "unit": "°C",
+        "tooltip": "Teplota okolního prostředí stroje"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "Podmínka otáčení",
+      "options": {
+        "rotatingOuterring": "Otáčející se vnější kroužek",
+        "rotatingInnerring": "Otáčející se vnitřní kroužek"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "Zobrazit zprávu",
+    "calculationImpossible": "Pro zadané parametry není výpočet možný.",
+    "calculationMissingInput": "Doplňte zbývající podmínky."
+  },
+  "calculationResult": {
+    "ratingLife": "Životnost",
+    "ratingLifeSubtitle": "Celková životnost (Lh10)",
+    "staticSafetySubtitle": "Statická bezpečnost (S0)",
+    "lubrication": "Parametry mazání",
+    "lubricationSubtitle": "Viskozitní poměr (kappa)",
+    "guideIntervalRelubrication": "Směrný interval domazávání (tfR)",
+    "guideIntervalServiceLife": "Směrná hodnota pro životnost maziva (tfG)",
+    "emissions": "Vypuštěné emise CO₂e",
+    "emissionsTooltip": "Ekvivalent CO₂ (CO₂e) je jednotka pro standardizaci klimatických účinků různých skleníkových plynů. Lze tak porovnávat různé směsi emisí skleníkových plynů.",
+    "overrollingFrequency": "Frekvence převalování",
+    "overrollingFrequencySubtitle": "Frekvence na vnitřním kroužku (BPFI)",
+    "frictionalPowerloss": "Třecí ztráty výkonu",
+    "frictionalPowerlossSubtitle": "Celkový třecí moment (MR)",
+    "frictionalPowerlossUnavailable": "Pro vybrané ložisko není tento výpočet k dispozici.",
+    "production": "Při výrobě",
+    "productionTooltip": "Jedná se o součet všech ekvivalentů CO₂ vypuštěných při výrobě valivého ložiska, včetně potřebných zdrojů a energie."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "Zpráva pro ložisko {{bearingDesignation}}",
+    "reportSectionInput": "Vstup",
+    "reportSectionWarnings": "Chyby/varování/poznámky",
+    "calculationNotAvailable": {
+      "line1": "Pro vybrané ložisko není tento výpočet možný.",
+      "line2": "Pro další informace se obraťte na náš",
+      "linkText": "zákaznický servis",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "Odhad emisí CO₂e na kus",
+      "unit": "CO₂e",
+      "upstreamTitle": "Emise CO₂e vypouštěné při výrobě* (materiálové vstupy)",
+      "upstreamHint": "*Odhadovaná hodnota na základě předpokladů při výrobě",
+      "upstreamHintLinkText": "Další informace.",
+      "calculationHint": "Chcete se dozvědět více o CO₂ ve společnosti Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Klikněte sem"
+    },
+    "lubrication": {
+      "title": "Parametry mazání",
+      "viscosityRatio": "Viskozitní poměr",
+      "operatingViscosity": "Provozní viskozita",
+      "referenceViscosity": "Referenční viskozita",
+      "lifeAdjustmentFactor": "Faktor přizpůsobení životnosti",
+      "lowerGuideIntervalRelubrication": "Spodní směrná hodnota pro interval domazávání",
+      "upperGuideIntervalRelubrication": "Horní směrná hodnota pro interval domazávání",
+      "lowerGuideIntervalServiceLife": "Spodní směrná hodnota pro provozní životnost maziva",
+      "upperGuideIntervalServiceLife": "Horní směrná hodnota pro provozní životnost maziva",
+      "guideIntervalRelubrication": "Směrná hodnota pro interval domazávání",
+      "guideIntervalServiceLife": "Směrná hodnota pro provozní životnost maziva"
+    },
+    "frictionalPowerloss": {
+      "title": "Třecí ztráty výkonu",
+      "totalFrictionalTorque": "Celkový třecí moment",
+      "totalFrictionalPowerLoss": "Celkové třecí ztráty výkonu",
+      "speedDependentFrictionalTorque": "Třecí moment závislý na rychlosti",
+      "loadDependentFrictionalTorque": "Třecí moment závislý na zatížení",
+      "thermallySafeOperatingSpeed": "Tepelně bezpečná provozní rychlost"
+    },
+    "calculationDisclaimer": {
+      "title": "Zřeknutí se odpovědnosti za výpočet PCF",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Životnost",
+      "lh10": "Celková životnost v hodinách (jmenovitá)",
+      "lh_nm_unavailable": "Pro zobrazení této hodnoty přidejte do výpočtu „Parametry mazání“",
+      "lh_nm": "Upravená životnost v hodinách",
+      "p": "Ekvivalentní dynamické zatížení",
+      "n": "Ekvivalentní rychlost",
+      "s0_min": "Statická bezpečnost",
+      "p0_max": "Maximální ekvivalentní statické zatížení",
+      "p0": "Ekvivalentní statické zatížení na případ zatížení",
+      "p_i": "Ekvivalentní dynamické zatížení na skupinu zatížení"
+    },
+    "overrollingFrequencies": {
+      "title": "Frekvence převalování",
+      "BPFO": "Frekvence převalování na vnějším kroužku",
+      "BPFI": "Frekvence převalování na vnitřním kroužku",
+      "BSF": "Frekvence převalování na valivém prvku",
+      "RPFB": "Frekvence průchodu kroužku na valivém prvku",
+      "FTF": "Rychlost sady valivých prvků",
+      "short": {
+        "BPFO": "Na vnějším kroužku",
+        "BPFI": "Na vnitřním kroužku",
+        "BSF": "Na valivém prvku",
+        "RPFB": "Frekvence průchodu kroužku na valivém prvku",
+        "FTF": "Rychlost sady valivých prvků"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Zobrazit základní frekvence",
+    "dialogTitle": "Základní frekvence pro ložisko {{bearingDesignation}}",
+    "saveAsPdf": "Uložit jako PDF"
+  },
+  "calculationSelection": {
+    "title": "Zvolte si výpočty",
+    "selectAll": "Vybrat vše",
+    "typeUnavailable": "Pro vybrané ložisko není tento výpočet k dispozici.",
+    "calculations": "Výpočty",
+    "calculationTypes": {
+      "ratingLife": "Životnost",
+      "lubrication": "Parametr mazání",
+      "frictionalPowerloss": "Třecí ztráty výkonu",
+      "co2": "Emise CO₂e při výrobě",
+      "overrollingFrequency": "Frekvence převalování"
+    },
+    "basicFrequency": "Základní frekvence",
+    "saveAsPDF": "Uložit zprávu jako PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Zpětná vazba",
+    "feedbackText": "Vaše zpětná vazba nám pomáhá neustále zlepšovat náš produkt."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "Tiráž",
+    "dataPrivacy": "Ochrana osobních údajů",
+    "termsOfUse": "Podmínky použití",
+    "cookiePolicy": "Zásady používání souborů cookie",
+    "cookieSettings": "Nastavení souborů cookie"
+  },
+  "sidebar": {
+    "languageSettings": "Nastavení jazyka"
+  },
+  "pdfReport": {
+    "reportHeading": "Zpráva s výpočtem Medias pro ložisko {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "Zobrazit v systému Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "Vstup",
+    "selectedMethods": "Vybrané metody výpočtu",
+    "disclaimer": "Veškerá práva k tomuto dokumentu jsou vyhrazena, a to i v případě, že by byl udělen patent nebo zapsán užitný vzor. S dokumentem musí být nakládáno jako s důvěrným. Bez našeho písemného souhlasu nesmí být samotný dokument ani jeho kopie či jiné interpretace celého obsahu nebo výňatků z něj poskytnuty třetím stranám nebo jakýmkoli jiným způsobem zneužity příjemcem. Dokument byl připraven na základě vašich požadavků uvedených výše a našich vlastních předpokladů. Naše údaje berou v úvahu ta rizika, která nám byla zřejmá na základě vašich požadavků, jak jste nám je poskytli. Tento dokument byl vypracován výhradně v souvislosti s nákupem našich produktů. Výsledky uvedené v tomto dokumentu byly pečlivě zpracovány v souladu se stavem techniky, ale nepředstavují výslovnou ani nevyjádřenou záruku kvality nebo trvanlivosti v právním smyslu. Tím nejste zbaveni povinnosti kontrolovat vhodnost výrobků. Za údaje uvedené v dokumentu odpovídáme pouze v případě úmyslného jednání nebo nedbalosti. Pokud je dokument součástí smlouvy o dodávkách, použijí se ustanovení o odpovědnosti sjednaná v této smlouvě.",
+    "filename": "Zpráva s výpočtem Medias pro {{designation}} – {{date}}",
+    "page": "Stránka"
+  }
+}

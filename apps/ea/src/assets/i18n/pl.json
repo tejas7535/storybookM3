@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "* Obowiązkowe",
+    "poweredBy": "Z technologią {{ name }}",
+    "back": "Wstecz"
+  },
+  "breadcrumbs": {
+    "landingPage": "Strona główna",
+    "calculation": "Obliczenie"
+  },
+  "homePage": {
+    "description": "Wprowadź oznaczenie łożyska, aby obliczyć trwałość znamionową, utratę mocy wskutek tarcia, parametry smarowania, częstotliwości przetaczania i emisję CO₂",
+    "search": {
+      "placeholder": "Wpisz oznaczenie łożyska, np. 6226"
+    },
+    "sustainabilityCard": {
+      "title": "Chcesz dowiedzieć się więcej o zrównoważonym rozwoju w firmie Schaeffler?",
+      "action": {
+        "title": "Kliknij tutaj",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "z technologią Bearinx",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Katalog produktów Medias"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Eksperci Schaeffler"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "Wybierz"
+  },
+  "resultValues": {
+    "designation": "Des",
+    "loadcase": "Przypadek obciążenia"
+  },
+  "operationConditions": {
+    "title": "Warunki pracy łożyska",
+    "prototypeWarning": "Wartości podane w tym prototypie rozwojowym są hipotetyczne i nie należy ich używać w produkcji",
+    "showPresetCalculationParameters": "Pokaż nastawy parametrów obliczenia",
+    "addLoadCase": "Dodaj przypadek obciążenia",
+    "loads": "Obciążenie",
+    "radialLoad": "Obciążenie promieniowe",
+    "axialLoad": "Obciążenie osiowe",
+    "totalAmountOfTime": "Całkowita ilość czasu:",
+    "loadCaseName": "Przypadek obciążenia {{number}}",
+    "generalInputsTitle": "Ogólne dane wejściowe",
+    "generalInputsTitleTooltip": "To dotyczy wszystkich przypadków obciążenia",
+    "emptyState": "Wybierz z listy dostępnych obliczeń to obliczenie, które chcesz wykonać",
+    "operatingTime": {
+      "title": "Czas pracy",
+      "label": "Procent"
+    },
+    "presetParameters": {
+      "headline": "Nastawy parametrów obliczenia",
+      "hide": "Ukryj wartości",
+      "edit": "Edytuj"
+    },
+    "confirmationDialog": {
+      "title": "Potwierdź usunięcie",
+      "description": "Czy na pewno chcesz usunąć przypadek obciążenia?",
+      "cancelAction": "Anuluj",
+      "confirmationAction": "Potwierdź"
+    },
+    "resetInputs": "Zresetuj dane wejściowe",
+    "pleaseEnter": "Wprowadź {{label}}",
+    "tooltip": {
+      "radialLoad": "Obciążenie w kierunku promieniowym (musi być podane jako wartość bezwzględną)",
+      "axialLoad": "Obciążenie w kierunku osiowym (musi być podane jako wartość bezwzględna)"
+    },
+    "errors": {
+      "min": "Minimalna wartość to {{ min }}",
+      "max": "Maksymalna wartość to {{ max }}",
+      "required": "To pole jest obowiązkowe",
+      "lowerThanEnvironmentTemperature": "Nie może być niższa niż temperatura otoczenia",
+      "innerOuterInconsistent": "Średnica otworu musi być mniejsza niż średnica zewnętrzna",
+      "minMaxInconsistent": "Wartość minimalna musi być mniejsza od wartości maksymalnej",
+      "anyLoad": "Wymagane jest jedno obciążenie",
+      "viscosity": "ny40 musi być większe od ny100",
+      "operatingTimeValueTotal": "Całkowita ilość przypadków obciążenia nie może przekroczyć 100%",
+      "tmpBoundViolation": "Temperatura robocza musi być wyższa od temperatury otoczenia"
+    },
+    "rotatingCondition": {
+      "title": "Wpływ ruchu",
+      "typeOfMotion": "Rodzaj ruchu",
+      "relativeRotationalSpeed": "Prędkość obrotowa",
+      "shiftFrequency": "Częstotliwość przesunięcia",
+      "shiftAngle": "Kąt przesunięcia",
+      "onePerMinute": "1/min",
+      "degree": "°",
+      "rpm": "obr./min",
+      "options": {
+        "LB_ROTATING": "obrotowy",
+        "LB_OSCILLATING": "oscylacyjny"
+      },
+      "tooltip": {
+        "rotationSpeed": "Względna prędkość obrotowa pomiędzy pierścieniem wewnętrznym i zewnętrznym (należy określić jako wartość bezwzględną)",
+        "shiftFrequency": "Liczba ruchów oscylacyjnych na minutę (pełny cykl, do tyłu i do przodu)",
+        "shiftAngle": "Kąt między punktami skrętu dla ruchów oscylacyjnych"
+      }
+    },
+    "lubrication": {
+      "title": "Warunki smarowania",
+      "notAvailable": "W wybranym łożysku ten typ smarowania jest niedostępny.",
+      "options": {
+        "grease": "Smar",
+        "oilBath": "Smarowanie w kąpieli olejowej",
+        "oilMist": "Smarowanie mgłą olejową",
+        "recirculatingOil": "Smarowanie obiegiem oleju"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "Rodzaj smaru",
+          "description": "Wybierz stosowany typ smaru do obliczeń dot. łożyska.",
+          "tooltip": "Smar ma duże znaczenie, ponieważ wpływa on na takie czynniki, jak tarcie, wytwarzanie ciepła, zużycie i ogólną wydajność łożyska"
+        },
+        "isoVgClass": {
+          "label": "Klasa ISO VG",
+          "description": "Wybierz klasę ISO VG dla danego smaru.",
+          "tooltip": "Klasa ISO VG jest klasyfikacją lepkości smarów"
+        },
+        "viscosity": {
+          "label": "Wprowadź lepkość",
+          "description": "Wprowadź własną lepkość w temperaturze 40°C (ny 40) i 100°C (ny 100).",
+          "ny40": "Lepkość w 40°C",
+          "ny100": "Lepkość w 100°C",
+          "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "Wpływ na środowisko",
+          "options": {
+            "lowInfluence": "1,0 (słaby)",
+            "averageInfluence": "0,8 (umiarkowany)",
+            "heavyInfluence": "0,5 (silny)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "Przepływ oleju (dV/dt)",
+        "oilTemperatureDifference": "Wzrost temperatury oleju (delta T)",
+        "externalHeatFlow": "Zewnętrzny przepływ ciepła (dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "Zanieczyszczenia",
+      "label": "Zanieczyszczenia",
+      "options": {
+        "extremeCleanliness": "bardzo wysoka czystość",
+        "highCleanliness": "wysoka czystość",
+        "standardCleanliness": "normalna czystość",
+        "slightContamination": "słabe zanieczyszczenia",
+        "typicalContamination": "typowe zanieczyszczenia",
+        "heavyContamination": "silne zanieczyszczenia",
+        "veryHeavyContamination": "bardzo silne zanieczyszczenia"
+      }
+    },
+    "temperature": {
+      "title": "Temperatura",
+      "operatingTemperature": {
+        "label": "Temperatura robocza",
+        "unit": "°C",
+        "tooltip": "Temperatura robocza łożyska (w razie potrzeby, proszę oszacować)"
+      },
+      "ambientTemperature": {
+        "label": "Temperatura otoczenia",
+        "unit": "°C",
+        "tooltip": "Temperatura otoczenia maszyny"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "Warunek obrotów",
+      "options": {
+        "rotatingOuterring": "Wirujący pierścień zewnętrzny",
+        "rotatingInnerring": "Wirujący pierścień wewnętrzny"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "Pokaż raport",
+    "calculationImpossible": "Przeprowadzenie obliczenia na wybranych parametrach jest niemożliwe.",
+    "calculationMissingInput": "Dodaj pozostałe warunki."
+  },
+  "calculationResult": {
+    "ratingLife": "Trwałość znamionowa",
+    "ratingLifeSubtitle": "Całkowita trwałość znamionowa (Lh10)",
+    "staticSafetySubtitle": "Statyczny współczynnik bezpieczeństwa (S0)",
+    "lubrication": "Parametry smarowania",
+    "lubricationSubtitle": "Współczynnik lepkości (kappa)",
+    "guideIntervalRelubrication": "Orientacyjna częstotliwość smarowania (tfR)",
+    "guideIntervalServiceLife": "Orientacyjna wartość okresu eksploatacji smaru (tfG)",
+    "emissions": "Wielkość emisji CO₂e",
+    "emissionsTooltip": "Ekwiwalent CO₂ (CO₂e) to standardowa jednostka kalkulacji wpływu na klimat różnych gazów cieplarnianych. Pozwala ona porównanie emisji różnych mieszanin gazów cieplarnianych.",
+    "overrollingFrequency": "Częstotliwość przetaczania",
+    "overrollingFrequencySubtitle": "Częstotliwość przechodzenia elementu tocznego przez bieżnię wewnętrzną (BPFI)",
+    "frictionalPowerloss": "Utrata mocy wskutek tarcia",
+    "frictionalPowerlossSubtitle": "Całkowity moment tarcia (MR)",
+    "frictionalPowerlossUnavailable": "To obliczenie nie jest dostępne z wybranym łożyskiem.",
+    "production": "Do produkcji",
+    "productionTooltip": "To jest suma wszystkich ekwiwalentów CO₂ wyemitowanych w trakcie produkcji łożyska tocznego, włącznie z zużytymi zasobami i energią."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "Raport dla łożyska {{bearingDesignation}}",
+    "reportSectionInput": "Dane wejściowe",
+    "reportSectionWarnings": "Błędy, ostrzeżenia i uwagi",
+    "calculationNotAvailable": {
+      "line1": "To obliczenie nie jest możliwe z wybranym łożyskiem.",
+      "line2": "Dalszych informacji może udzielić nasz",
+      "linkText": "dział obsługi klienta",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "Oszacowanie emisji CO₂e na sztukę",
+      "unit": "CO₂e",
+      "upstreamTitle": "Wielkość emisji CO₂e w trakcie produkcji* (upstream)",
+      "upstreamHint": "* Szacowana wartość oparta na założeniach przyjętych podczas produkcji",
+      "upstreamHintLinkText": "Więcej informacji.",
+      "calculationHint": "Chcesz dowiedzieć się więcej o CO₂ w firmie Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Kliknij tutaj"
+    },
+    "lubrication": {
+      "title": "Parametry smarowania",
+      "viscosityRatio": "Współczynnik lepkości",
+      "operatingViscosity": "Lepkość robocza",
+      "referenceViscosity": "Lepkość znamionowa",
+      "lifeAdjustmentFactor": "Współczynnik trwałości zmodyfikowanej",
+      "lowerGuideIntervalRelubrication": "Dolna orientacyjna wartość częstotliwości smarowania",
+      "upperGuideIntervalRelubrication": "Górna orientacyjna wartość częstotliwości smarowania",
+      "lowerGuideIntervalServiceLife": "Dolna orientacyjna wartość okresu eksploatacji smaru",
+      "upperGuideIntervalServiceLife": "Górna orientacyjna wartość okresu eksploatacji smaru",
+      "guideIntervalRelubrication": "Orientacyjna wartość częstotliwości smarowania",
+      "guideIntervalServiceLife": "Orientacyjna wartość okresu eksploatacji smaru"
+    },
+    "frictionalPowerloss": {
+      "title": "Utrata mocy wskutek tarcia",
+      "totalFrictionalTorque": "Całkowity moment tarcia",
+      "totalFrictionalPowerLoss": "Całkowita utrata mocy wskutek tarcia",
+      "speedDependentFrictionalTorque": "Moment tarcia zależny od prędkości obrotowej",
+      "loadDependentFrictionalTorque": "Moment tarcia zależny od obciążenia",
+      "thermallySafeOperatingSpeed": "Robocza prędkość obrotowa dopuszczalna termicznie"
+    },
+    "calculationDisclaimer": {
+      "title": "Zastrzeżenie dotyczące obliczania PCF",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "Trwałość znamionowa",
+      "lh10": "Całkowita trwałość znamionowa w godzinach",
+      "lh_nm_unavailable": "Dodaj „Parametry smarowania” do obliczenia, aby wyświetlić tę wartość",
+      "lh_nm": "Zmodyfikowana trwałość znamionowa w godzinach",
+      "p": "Równoważne obciążenie dynamiczne",
+      "n": "Równoważna prędkość",
+      "s0_min": "Statyczny współczynnik bezpieczeństwa",
+      "p0_max": "Maksymalne równoważne obciążenie statyczne",
+      "p0": "Równoważne obciążenie statyczne na przypadek obciążenia",
+      "p_i": "Równoważne obciążenie dynamiczne na przypadek obciążenia"
+    },
+    "overrollingFrequencies": {
+      "title": "Częstotliwość przetaczania",
+      "BPFO": "Częstotliwość przetaczania na pierścieniu zewnętrznym",
+      "BPFI": "Częstotliwość przetaczania na pierścieniu wewnętrznym",
+      "BSF": "Częstotliwość przetaczania na elemencie tocznym",
+      "RPFB": "Częstotliwość przechodzenia elementu tocznego przez bieżnię",
+      "FTF": "Prędkość obrotowa zestawu elementów tocznych",
+      "short": {
+        "BPFO": "Na pierścieniu zewnętrznym",
+        "BPFI": "Na pierścieniu wewnętrznym",
+        "BSF": "Na elemencie tocznym",
+        "RPFB": "Częstotliwość przechodzenia elementu tocznego przez bieżnię",
+        "FTF": "Prędkość obrotowa zestawu elementów tocznych"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "Pokaż podstawowe częstotliwości",
+    "dialogTitle": "Podstawowe częstotliwości łożyska {{bearingDesignation}}",
+    "saveAsPdf": "Zapisz jako PDF"
+  },
+  "calculationSelection": {
+    "title": "Wybierz swoje obliczenia",
+    "selectAll": "Wybierz wszystko",
+    "typeUnavailable": "To obliczenie nie jest dostępne z wybranym łożyskiem.",
+    "calculations": "Obliczenia",
+    "calculationTypes": {
+      "ratingLife": "Trwałość znamionowa",
+      "lubrication": "Parametr smarowania",
+      "frictionalPowerloss": "Utrata mocy wskutek tarcia",
+      "co2": "Emisje CO₂e związane z produkcją",
+      "overrollingFrequency": "Częstotliwość przetaczania"
+    },
+    "basicFrequency": "Częstotliwości podstawowe",
+    "saveAsPDF": "Zapisz raport jako PDF"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "Opinia",
+    "feedbackText": "Twoja opinia pomoże nam w ciągłym doskonaleniu produktu."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "Stopka",
+    "dataPrivacy": "Ochrona danych osobowych",
+    "termsOfUse": "Regulamin",
+    "cookiePolicy": "Zasady stosowania plików cookie",
+    "cookieSettings": "Ustawienia plików cookie"
+  },
+  "sidebar": {
+    "languageSettings": "Ustawienia języka"
+  },
+  "pdfReport": {
+    "reportHeading": "Raport obliczeń Medias dla łożyska {{bearingDesignation}}",
+    "mediasBearingLink": {
+      "text": "Wyświetl w Medias",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "Dane wejściowe",
+    "selectedMethods": "Wybrane metody obliczenia",
+    "disclaimer": "Wszelkie prawa zastrzeżone w odniesieniu do tego dokumentu, nawet w przypadku udzielenia patentu lub zastrzeżenia wzoru użytkowego. Dokument musi być traktowany jako poufny. Bez naszej pisemnej zgody ani sam dokument, ani jego kopie lub inne reprodukcje treści lub jej fragmentów nie mogą być udostępniane osobom trzecim ani wykorzystywane przez odbiorcę w jakikolwiek inny sposób niezgodny z przeznaczeniem. Dokument został sporządzony na podstawie podanych wymagań, które są wymienione powyżej, i naszych własnych założeń. W naszych szczegółach bierzemy pod uwagę ryzyka, które dostrzegliśmy na podstawie udostępnionych nam wymagań. Dokument został sporządzony wyłącznie w związku z zakupem naszych produktów. Wyniki pokazane w dokumencie zostały starannie opracowane zgodnie ze sztuką, ale nie stanowią wyraźnej ani dorozumianej gwarancji jakości lub trwałości w rozumieniu prawnym. Nie zwalniają one zatem z powinności przeprowadzenia kontroli zdatności produktów. Ponosimy odpowiedzialność za szczegóły podane w dokumencie tylko w przypadku działania umyślnego lub rażącej niedbałości. Jeśli dokument stanowi część umowy dostawy, podlega zawartym w niej zasadom podziału odpowiedzialności.",
+    "filename": "Raport obliczeń Medias dla {{designation}} - {{date}}",
+    "page": "Strona"
+  }
+}

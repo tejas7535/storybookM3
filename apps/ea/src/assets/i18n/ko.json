@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*필수 항목",
+    "poweredBy": "{{ name }} 제공",
+    "back": "뒤로"
+  },
+  "breadcrumbs": {
+    "landingPage": "랜딩 페이지",
+    "calculation": "계산"
+  },
+  "homePage": {
+    "description": "정격 수명, 마찰 전력 손실, 윤활 매개 변수, 오버롤링 주파수, CO₂e 배출량을 계산하려면 베어링 명칭을 입력하십시오.",
+    "search": {
+      "placeholder": "베어링 명칭 입력(예: 6226)"
+    },
+    "sustainabilityCard": {
+      "title": "Schaeffler의 지속 가능성에 대해 자세히 알아보시겠습니까?",
+      "action": {
+        "title": "여기를 클릭",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "Bearinx 제공",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias 제품 카탈로그"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler 전문가"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "선택하십시오."
+  },
+  "resultValues": {
+    "designation": "명칭",
+    "loadcase": "하중 케이스"
+  },
+  "operationConditions": {
+    "title": "베어링 작동 조건",
+    "prototypeWarning": "이 개발 프로토타입에 표시된 값은 가상의 값이므로 생산에 사용해서는 안 됩니다.",
+    "showPresetCalculationParameters": "사전 설정 계산 매개 변수 표시",
+    "addLoadCase": "하중 케이스 추가",
+    "loads": "하중",
+    "radialLoad": "경방향 하중",
+    "axialLoad": "축방향 하중",
+    "totalAmountOfTime": "총 시간:",
+    "loadCaseName": "하중 케이스 {{number}}",
+    "generalInputsTitle": "일반 입력",
+    "generalInputsTitleTooltip": "이는 모든 하중 케이스에 적용됩니다.",
+    "emptyState": "사용 가능한 계산 목록에서 수행할 계산을 선택하십시오.",
+    "operatingTime": {
+      "title": "작동 시간",
+      "label": "백분율"
+    },
+    "presetParameters": {
+      "headline": "사전 설정 계산 매개 변수",
+      "hide": "값 숨기기",
+      "edit": "편집"
+    },
+    "confirmationDialog": {
+      "title": "삭제 확인",
+      "description": "하중 케이스를 삭제하시겠습니까?",
+      "cancelAction": "취소",
+      "confirmationAction": "확인"
+    },
+    "resetInputs": "입력 재설정",
+    "pleaseEnter": "{{label}} 입력",
+    "tooltip": {
+      "radialLoad": "경방향의 하중(절대값으로 지정)",
+      "axialLoad": "축방향의 하중(절대값으로 지정)"
+    },
+    "errors": {
+      "min": "최소값은 {{ min }}입니다.",
+      "max": "최대값은 {{ max }}입니다.",
+      "required": "이 필드는 필수입니다.",
+      "lowerThanEnvironmentTemperature": "주변 온도보다 낮을 수 없습니다.",
+      "innerOuterInconsistent": "내경은 외경보다 작아야 합니다.",
+      "minMaxInconsistent": "최소값은 최대값보다 작아야 합니다.",
+      "anyLoad": "하나의 하중이 필요합니다.",
+      "viscosity": "ny40은 ny100보다 커야 합니다.",
+      "operatingTimeValueTotal": "총 하중 케이스 양은 100%를 초과할 수 없습니다.",
+      "tmpBoundViolation": "작동 온도는 주변 온도보다 높아야 합니다."
+    },
+    "rotatingCondition": {
+      "title": "모션 영향",
+      "typeOfMotion": "모션 유형",
+      "relativeRotationalSpeed": "회전 속도",
+      "shiftFrequency": "이동 주파수",
+      "shiftAngle": "이동 각도",
+      "onePerMinute": "1/분",
+      "degree": "°",
+      "rpm": "RPM",
+      "options": {
+        "LB_ROTATING": "회전",
+        "LB_OSCILLATING": "진동"
+      },
+      "tooltip": {
+        "rotationSpeed": "내측 및 외측 링 사이의 상대 회전 속도(절대값으로 지정)",
+        "shiftFrequency": "분당 진동 모션 수(전체 주기, 앞뒤)",
+        "shiftAngle": "진동 모션의 전환점 사이의 각도"
+      }
+    },
+    "lubrication": {
+      "title": "윤활 조건",
+      "notAvailable": "선택한 베어링에는 이 유형의 윤활을 사용할 수 없습니다.",
+      "options": {
+        "grease": "그리스",
+        "oilBath": "오일 배스 윤활",
+        "oilMist": "오일 미스트 윤활",
+        "recirculatingOil": "재순환 오일 윤활"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "그리스 유형",
+          "description": "베어링 계산에 사용된 그리스 유형을 선택하십시오.",
+          "tooltip": "그리스는 마찰, 발열, 마모, 전반적인 베어링 성능 등의 요인에 영향을 미치므로 그 영향이 상당히 큽니다."
+        },
+        "isoVgClass": {
+          "label": "ISO VG 등급",
+          "description": "윤활유의 ISO VG 등급을 선택하십시오.",
+          "tooltip": "ISO VG 등급은 윤활유의 점도를 분류하는 등급입니다."
+        },
+        "viscosity": {
+          "label": "점도 입력",
+          "description": "40°C(ny 40) 및 100°C(ny 100)에서의 점도를 입력하십시오.",
+          "ny40": "40°C에서의 점도",
+          "ny100": "100°C에서의 점도",
+          "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "환경적 영향",
+          "options": {
+            "lowInfluence": "1.0(경미)",
+            "averageInfluence": "0.8(보통)",
+            "heavyInfluence": "0.5(심함)"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "오일 흐름(dV/dt)",
+        "oilTemperatureDifference": "오일 온도 상승(델타 T)",
+        "externalHeatFlow": "외부 열 흐름(dQ/dt)"
+      }
+    },
+    "contamination": {
+      "title": "오염",
+      "label": "오염",
+      "options": {
+        "extremeCleanliness": "매우 높은 청결도",
+        "highCleanliness": "높은 청결도",
+        "standardCleanliness": "보통 청결도",
+        "slightContamination": "경미한 오염",
+        "typicalContamination": "일반적인 오염",
+        "heavyContamination": "심한 오염",
+        "veryHeavyContamination": "매우 심한 오염"
+      }
+    },
+    "temperature": {
+      "title": "온도",
+      "operatingTemperature": {
+        "label": "작동 온도",
+        "unit": "°C",
+        "tooltip": "베어링 작동 온도(필요한 경우 추정치 사용)"
+      },
+      "ambientTemperature": {
+        "label": "주변 온도",
+        "unit": "°C",
+        "tooltip": "기계의 주변 환경 온도"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "회전 조건",
+      "options": {
+        "rotatingOuterring": "회전 외륜",
+        "rotatingInnerring": "회전 내륜"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "보고서 표시",
+    "calculationImpossible": "지정한 매개 변수의 경우 계산할 수 없습니다.",
+    "calculationMissingInput": "나머지 조건을 추가하십시오."
+  },
+  "calculationResult": {
+    "ratingLife": "정격 수명",
+    "ratingLifeSubtitle": "총 정격 수명(Lh10)",
+    "staticSafetySubtitle": "정적 안전(S0)",
+    "lubrication": "윤활 매개 변수",
+    "lubricationSubtitle": "점도비(카파)",
+    "guideIntervalRelubrication": "재윤활 참고 간격(tfR)",
+    "guideIntervalServiceLife": "그리스 사용 수명에 대한 참고치(tfG)",
+    "emissions": "배출된 CO₂e",
+    "emissionsTooltip": "CO₂ 당량(CO₂e)은 다양한 온실 가스의 기후 영향을 표준화하는 단위입니다. 따라서 온실 가스 배출량의 다양한 혼합을 비교할 수 있습니다.",
+    "overrollingFrequency": "오버롤링 주파수",
+    "overrollingFrequencySubtitle": "내륜의 주파수(BPFI)",
+    "frictionalPowerloss": "마찰 전력 손실",
+    "frictionalPowerlossSubtitle": "총 마찰 토크(MR)",
+    "frictionalPowerlossUnavailable": "선택한 베어링의 경우 이 계산을 사용할 수 없습니다.",
+    "production": "생산용",
+    "productionTooltip": "이는 필요한 자원과 에너지를 포함하여 롤링 베어링 생산을 위해 배출되는 모든 CO₂ 당량의 합계입니다."
+  },
+  "calculationResultReport": {
+    "dialogTitle": "베어링 {{bearingDesignation}} 보고서",
+    "reportSectionInput": "입력",
+    "reportSectionWarnings": "오류/경고/메모",
+    "calculationNotAvailable": {
+      "line1": "선택한 베어링의 경우 이 계산이 불가능합니다.",
+      "line2": "자세한 내용은",
+      "linkText": "고객 지원 팀에 문의하십시오.",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "개당 CO₂e 배출량 추정",
+      "unit": "CO₂e",
+      "upstreamTitle": "생산을 위해 배출되는 CO₂e*(업스트림)",
+      "upstreamHint": "*생산 중 가정에 근거한 추정치",
+      "upstreamHintLinkText": "추가 정보.",
+      "calculationHint": "Schaeffler의 CO₂에 대해 자세히 알아보시겠습니까?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "여기를 클릭"
+    },
+    "lubrication": {
+      "title": "윤활 매개 변수",
+      "viscosityRatio": "점도비",
+      "operatingViscosity": "작동 점도",
+      "referenceViscosity": "기준 점도",
+      "lifeAdjustmentFactor": "수명 조정 계수",
+      "lowerGuideIntervalRelubrication": "재윤활 간격에 대한 하한 참고치",
+      "upperGuideIntervalRelubrication": "재윤활 간격에 대한 상한 참고치",
+      "lowerGuideIntervalServiceLife": "그리스 사용 수명에 대한 하한 참고치",
+      "upperGuideIntervalServiceLife": "그리스 사용 수명에 대한 상한 참고치",
+      "guideIntervalRelubrication": "재윤활 간격에 대한 참고치",
+      "guideIntervalServiceLife": "그리스 사용 수명에 대한 참고치"
+    },
+    "frictionalPowerloss": {
+      "title": "마찰 전력 손실",
+      "totalFrictionalTorque": "총 마찰 토크",
+      "totalFrictionalPowerLoss": "총 마찰 전력 손실",
+      "speedDependentFrictionalTorque": "속도에 따른 마찰 토크",
+      "loadDependentFrictionalTorque": "하중에 따른 마찰 토크",
+      "thermallySafeOperatingSpeed": "열 안전 작동 속도"
+    },
+    "calculationDisclaimer": {
+      "title": "PCF 계산에 대한 면책 조항",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "정격 수명",
+      "lh10": "총 정격 수명(시간)(공칭)",
+      "lh_nm_unavailable": "이 값을 표시하려면 계산에 &quot;윤활 매개 변수&quot;를 추가하십시오",
+      "lh_nm": "수정된 정격 수명(시간)",
+      "p": "등가 동적 하중",
+      "n": "등가 속도",
+      "s0_min": "정적 안전",
+      "p0_max": "최대 등가 정적 하중",
+      "p0": "하중 케이스당 등가 정적 하중",
+      "p_i": "하중 케이스당 등가 동적 하중"
+    },
+    "overrollingFrequencies": {
+      "title": "오버롤링 주파수",
+      "BPFO": "외륜의 오버롤링 주파수",
+      "BPFI": "내륜의 오버롤링 주파수",
+      "BSF": "전동체의 오버롤링 주파수",
+      "RPFB": "전동체의 링 통과 주파수",
+      "FTF": "전동체 세트 속도",
+      "short": {
+        "BPFO": "외륜",
+        "BPFI": "내륜",
+        "BSF": "전동체",
+        "RPFB": "전동체의 링 통과 주파수",
+        "FTF": "전동체 세트 속도"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "기본 주파수 표시",
+    "dialogTitle": "베어링 {{bearingDesignation}}의 기본 주파수",
+    "saveAsPdf": "PDF로 저장"
+  },
+  "calculationSelection": {
+    "title": "계산 선택",
+    "selectAll": "모두 선택",
+    "typeUnavailable": "선택한 베어링의 경우 이 계산을 사용할 수 없습니다.",
+    "calculations": "계산",
+    "calculationTypes": {
+      "ratingLife": "정격 수명",
+      "lubrication": "윤활 매개 변수",
+      "frictionalPowerloss": "마찰 전력 손실",
+      "co2": "생산을 위한 CO₂e 배출량",
+      "overrollingFrequency": "오버롤링 주파수"
+    },
+    "basicFrequency": "기본 주파수",
+    "saveAsPDF": "보고서를 PDF로 저장"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "피드백",
+    "feedbackText": "귀하의 피드백은 제품을 지속적으로 개선하는 데 도움이 됩니다."
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "각인",
+    "dataPrivacy": "데이터 개인정보보호",
+    "termsOfUse": "이용 약관",
+    "cookiePolicy": "쿠키 정책",
+    "cookieSettings": "쿠키 설정"
+  },
+  "sidebar": {
+    "languageSettings": "언어 설정"
+  },
+  "pdfReport": {
+    "reportHeading": "베어링 {{bearingDesignation}}에 대한 Medias 계산 보고서",
+    "mediasBearingLink": {
+      "text": "Medias에서 보기",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "입력",
+    "selectedMethods": "선택한 계산 방법",
+    "disclaimer": "특허가 부여되거나 실용신안이 등록된 경우에도 본 문서와 관련된 모든 권리는 보유됩니다. 본 문서는 기밀로 취급해야 합니다. 당사의 서면 동의 없이는 문서 자체, 문서 사본이나 전체 내용 또는 발췌한 내용의 기타 번역문을 제3자에게 제공하거나 수령인이 다른 방식으로 부적절하게 사용할 수 없습니다. 본 문서는 위에 명시된 귀하의 요구사항과 당사의 가정에 기초하여 작성되었습니다. 당사의 세부정보는 당사가 이용할 수 있는 귀하의 요구사항에 근거하여 당사에 명백히 드러난 위험을 고려합니다. 이 문서는 당사 제품 구매와 관련된 목적으로만 작성되었습니다. 문서에 표시된 결과는 최신 기술에 따라 신중하게 작성되었지만 법적 의미에서 품질이나 내구성에 대한 명시적 또는 묵시적 보증을 구성하지 않습니다. 이로 인해 귀하는 제품의 적합성을 확인해야 합니다. 당사는 고의 또는 과실이 있는 경우에만 문서에 제공된 세부정보에 대해 책임을 집니다. 문서가 공급 계약의 일부인 경우 합의된 책임 조항이 적용됩니다.",
+    "filename": "{{designation}}에 대한 Medias 계산 보고서 - {{date}}",
+    "page": "페이지"
+  }
+}

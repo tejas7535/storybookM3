@@ -1,0 +1,343 @@
+{
+  "appTitle": "Medias EasyCalc",
+  "general": {
+    "requiredInformation": "*必須",
+    "poweredBy": "{{ name }} 搭載",
+    "back": "戻る"
+  },
+  "breadcrumbs": {
+    "landingPage": "ランディングページ",
+    "calculation": "計算"
+  },
+  "homePage": {
+    "description": "定格寿命、摩擦力損失、潤滑パラメータ、オーバーロール周波数、二酸化炭素排出量を計算するためのベアリング名称を入力してください",
+    "search": {
+      "placeholder": "ベアリングの名称を入力します（例：6226）"
+    },
+    "sustainabilityCard": {
+      "title": "シェフラーにおけるサステナビリティについてもっと知りたいですか？",
+      "action": {
+        "title": "ここをクリックしてください",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
+      }
+    },
+    "cards": {
+      "poweredBy": "Bearinx 搭載",
+      "greaseApp": {
+        "title": {
+          "main": "Grease App"
+        },
+        "externalLink": "https://greaseapp.com"
+      },
+      "mountingManager": {
+        "title": {
+          "main": "Mounting Manager"
+        },
+        "externalLink": "https://mountingmanager.dp.schaeffler"
+      },
+      "catalog": {
+        "title": {
+          "main": "Medias 製品カタログ"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "シェフラーのエキスパート"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/stc"
+      }
+    }
+  },
+  "inputs": {
+    "pleaseSelect": "選択してください"
+  },
+  "resultValues": {
+    "designation": "名称",
+    "loadcase": "荷重条件"
+  },
+  "operationConditions": {
+    "title": "ベアリングの動作条件",
+    "prototypeWarning": "この開発プロトタイプに示されている値は仮定に基づいており、実際の生産現場で使用することはできません",
+    "showPresetCalculationParameters": "プリセット計算パラメータの表示",
+    "addLoadCase": "荷重条件の追加",
+    "loads": "荷重",
+    "radialLoad": "ラジアル荷重",
+    "axialLoad": "アキシアル荷重",
+    "totalAmountOfTime": "合計時間：",
+    "loadCaseName": "荷重条件 {{number}}",
+    "generalInputsTitle": "一般条件入力",
+    "generalInputsTitleTooltip": "こちらはすべての荷重条件に適用されます",
+    "emptyState": "使用可能な計算のリストから実行する計算を選択してください",
+    "operatingTime": {
+      "title": "動作時間",
+      "label": "パーセンテージ"
+    },
+    "presetParameters": {
+      "headline": "プリセット計算パラメータ",
+      "hide": "値を非表示にする",
+      "edit": "編集"
+    },
+    "confirmationDialog": {
+      "title": "削除の確認",
+      "description": "荷重条件を削除してよろしいですか？",
+      "cancelAction": "キャンセル",
+      "confirmationAction": "確認"
+    },
+    "resetInputs": "入力のリセット",
+    "pleaseEnter": "{{label}} の入力",
+    "tooltip": {
+      "radialLoad": "ラジアル方向の荷重（絶対値として指定）",
+      "axialLoad": "アキシアル方向の荷重（絶対値として指定）"
+    },
+    "errors": {
+      "min": "最小値は {{ min }}",
+      "max": "最大値は {{ max }}",
+      "required": "このフィールドは必須です",
+      "lowerThanEnvironmentTemperature": "周囲温度より小さくすることはできません",
+      "innerOuterInconsistent": "内径は外径より小さくなければなりません",
+      "minMaxInconsistent": "最小値は最大値より小さくなければなりません",
+      "anyLoad": "1 つの荷重が必要です",
+      "viscosity": "ny40 は ny100 より大きくなければなりません",
+      "operatingTimeValueTotal": "荷重条件の合計数は 100% を超えることはできません",
+      "tmpBoundViolation": "動作温度は周囲温度より高くなければなりません"
+    },
+    "rotatingCondition": {
+      "title": "モーションの影響",
+      "typeOfMotion": "モーションの種類",
+      "relativeRotationalSpeed": "回転速度",
+      "shiftFrequency": "シフト周波数",
+      "shiftAngle": "シフト角度",
+      "onePerMinute": "1/分",
+      "degree": "°",
+      "rpm": "RPM",
+      "options": {
+        "LB_ROTATING": "回転",
+        "LB_OSCILLATING": "往復"
+      },
+      "tooltip": {
+        "rotationSpeed": "内輪と外輪の間の相対回転速度（絶対値として指定）",
+        "shiftFrequency": "1 分あたりの往復動作数（フルサイクル、往復）",
+        "shiftAngle": "往復運動のための転換点間の角度"
+      }
+    },
+    "lubrication": {
+      "title": "潤滑条件",
+      "notAvailable": "この潤滑の種類は、選択したベアリングには使用できません。",
+      "options": {
+        "grease": "グリース",
+        "oilBath": "オイルバス潤滑",
+        "oilMist": "オイルミスト潤滑",
+        "recirculatingOil": "循環オイル潤滑"
+      },
+      "grease": {
+        "typeOfGrease": {
+          "label": "グリースの種類",
+          "description": "ベアリング計算に使用するグリースのタイプを選択します。",
+          "tooltip": "グリースは摩擦、熱生成、摩耗、全体的なベアリング性能などの要因に影響するので、大きなインパクトがあります"
+        },
+        "isoVgClass": {
+          "label": "ISO VG クラス",
+          "description": "潤滑剤の ISO VG クラスを選択します。",
+          "tooltip": "ISO VG クラスは潤滑剤の粘度の分類です"
+        },
+        "viscosity": {
+          "label": "粘度を入力します",
+          "description": "40°C（ny 40）および 100°C（ny 100）での粘度を入力します。",
+          "ny40": "40°C での粘度",
+          "ny100": "100°C での粘度",
+          "unit": "mm²/s"
+        },
+        "environmentalInfluence": {
+          "label": "環境への影響",
+          "options": {
+            "lowInfluence": "1.0（わずか）",
+            "averageInfluence": "0.8（中程度）",
+            "heavyInfluence": "0.5（重大）"
+          }
+        }
+      },
+      "recirculatingOil": {
+        "oilFlow": "オイル流量（dV/dt）",
+        "oilTemperatureDifference": "オイル温度の上昇（delta T）",
+        "externalHeatFlow": "外部熱流量（dQ/dt）"
+      }
+    },
+    "contamination": {
+      "title": "汚染程度",
+      "label": "汚染程度",
+      "options": {
+        "extremeCleanliness": "最高の清浄度",
+        "highCleanliness": "高い清浄度",
+        "standardCleanliness": "標準的な清浄度",
+        "slightContamination": "わずかな汚染度",
+        "typicalContamination": "典型的な汚染度",
+        "heavyContamination": "重度の汚染度",
+        "veryHeavyContamination": "著しい汚染度"
+      }
+    },
+    "temperature": {
+      "title": "温度",
+      "operatingTemperature": {
+        "label": "動作温度",
+        "unit": "°C",
+        "tooltip": "ベアリングの動作温度（必要に応じて推定してください）"
+      },
+      "ambientTemperature": {
+        "label": "周囲温度",
+        "unit": "°C",
+        "tooltip": "機械の周囲環境の温度"
+      }
+    },
+    "conditionOfRotation": {
+      "title": "回転の状態",
+      "options": {
+        "rotatingOuterring": "外輪の回転",
+        "rotatingInnerring": "内輪の回転"
+      }
+    }
+  },
+  "calculation": {
+    "showReport": "レポートの表示",
+    "calculationImpossible": "指定したパラメータは計算できません。",
+    "calculationMissingInput": "その他の条件を追加してください。"
+  },
+  "calculationResult": {
+    "ratingLife": "定格寿命",
+    "ratingLifeSubtitle": "合計定格寿命（Lh10）",
+    "staticSafetySubtitle": "静安全係数（S0）",
+    "lubrication": "潤滑パラメータ",
+    "lubricationSubtitle": "粘度比（kappa）",
+    "guideIntervalRelubrication": "再潤滑の間隔目安（tfR）",
+    "guideIntervalServiceLife": "グリース寿命の指針値（tfG）",
+    "emissions": "CO₂e 排出量",
+    "emissionsTooltip": "CO₂ 換算値（CO₂e）は、さまざまな温室効果ガスの気候に対する影響を標準化するための単位です。これにより、温室効果ガスのさまざまな混合物を比較することができます。",
+    "overrollingFrequency": "オーバーロール周波数",
+    "overrollingFrequencySubtitle": "内輪の周波数（BPFI）",
+    "frictionalPowerloss": "摩擦力損失",
+    "frictionalPowerlossSubtitle": "合計摩擦トルク（MR）",
+    "frictionalPowerlossUnavailable": "選択したベアリングにこの計算は使用できません。",
+    "production": "製造関連",
+    "productionTooltip": "これは、転がり軸受の製造に必要な資源とエネルギーを含む、排出されるすべてのガスの CO₂ 換算値です。"
+  },
+  "calculationResultReport": {
+    "dialogTitle": "ベアリング {{bearingDesignation}} のレポート",
+    "reportSectionInput": "入力",
+    "reportSectionWarnings": "エラー/警告/メモ",
+    "calculationNotAvailable": {
+      "line1": "選択したベアリングにこの計算は使用できません。",
+      "line2": "詳細については、弊社カスタマーサービス",
+      "linkText": "までお問い合わせください。",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
+    "co2Emissions": {
+      "title": "1 個あたりの CO₂e 排出量の推定値",
+      "unit": "CO₂e",
+      "upstreamTitle": "製造における Co₂e 排出量*（上流）",
+      "upstreamHint": "*製造時の仮定に基づく推定値",
+      "upstreamHintLinkText": "詳細情報。",
+      "calculationHint": "シェフラーにおける CO₂ についてもっと知りたいですか？",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "ここをクリックしてください"
+    },
+    "lubrication": {
+      "title": "潤滑パラメータ",
+      "viscosityRatio": "粘度比",
+      "operatingViscosity": "動作粘度",
+      "referenceViscosity": "基準粘度",
+      "lifeAdjustmentFactor": "寿命調整係数",
+      "lowerGuideIntervalRelubrication": "再潤滑間隔の指針値の下限",
+      "upperGuideIntervalRelubrication": "再潤滑間隔の指針値の上限",
+      "lowerGuideIntervalServiceLife": "グリースの寿命の下限指針値",
+      "upperGuideIntervalServiceLife": "グリースの寿命の上限指針値",
+      "guideIntervalRelubrication": "再潤滑間隔の指針値",
+      "guideIntervalServiceLife": "グリースの寿命の指針値"
+    },
+    "frictionalPowerloss": {
+      "title": "摩擦力損失",
+      "totalFrictionalTorque": "合計摩擦トルク",
+      "totalFrictionalPowerLoss": "合計摩擦力損失",
+      "speedDependentFrictionalTorque": "速度依存摩擦トルク",
+      "loadDependentFrictionalTorque": "負荷依存摩擦トルク",
+      "thermallySafeOperatingSpeed": "熱的に安全な動作速度"
+    },
+    "calculationDisclaimer": {
+      "title": "PCF 計算の免責事項",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
+    },
+    "ratingLife": {
+      "title": "定格寿命",
+      "lh10": "公称合計定格寿命（時間）",
+      "lh_nm_unavailable": "この値を表示するには、計算に「潤滑パラメータ」を追加してください",
+      "lh_nm": "変更された定格寿命（時間）",
+      "p": "動等価荷重",
+      "n": "等速度",
+      "s0_min": "静安全性",
+      "p0_max": "最大静等価荷重",
+      "p0": "荷重条件ごとの静等価荷重",
+      "p_i": "荷重条件ごとの動等価荷重"
+    },
+    "overrollingFrequencies": {
+      "title": "オーバーロール周波数",
+      "BPFO": "外輪のオーバーロール周波数",
+      "BPFI": "内輪のオーバーロール周波数",
+      "BSF": "転動体のオーバーロール周波数",
+      "RPFB": "転動体のリングパス周波数",
+      "FTF": "転動体セットの速度",
+      "short": {
+        "BPFO": "外輪上",
+        "BPFI": "内輪上",
+        "BSF": "転動体上",
+        "RPFB": "転動体のリングパス周波数",
+        "FTF": "転動体セットの速度"
+      }
+    }
+  },
+  "basicFrequencies": {
+    "showBasicFrequencies": "基本周波数の表示",
+    "dialogTitle": "ベアリング {{bearingDesignation}} の基本周波数",
+    "saveAsPdf": "PDF として保存"
+  },
+  "calculationSelection": {
+    "title": "計算を選択します",
+    "selectAll": "すべて選択",
+    "typeUnavailable": "選択したベアリングにこの計算は使用できません。",
+    "calculations": "計算",
+    "calculationTypes": {
+      "ratingLife": "定格寿命",
+      "lubrication": "潤滑パラメータ",
+      "frictionalPowerloss": "摩擦力損失",
+      "co2": "製造における CO₂e 排出量",
+      "overrollingFrequency": "オーバーロール周波数"
+    },
+    "basicFrequency": "基本周波数",
+    "saveAsPDF": "レポートを PDF として保存"
+  },
+  "qualtricsInfoBanner": {
+    "feedbackButton": "フィードバック",
+    "feedbackText": "お客様のご意見は、当社の製品の品質向上に役立ちます。"
+  },
+  "unit": {},
+  "legal": {
+    "imprint": "インプリント",
+    "dataPrivacy": "データプライバシー",
+    "termsOfUse": "利用条件",
+    "cookiePolicy": "クッキーポリシー",
+    "cookieSettings": "クッキーの設定"
+  },
+  "sidebar": {
+    "languageSettings": "言語設定"
+  },
+  "pdfReport": {
+    "reportHeading": "ベアリング {{bearingDesignation}} の Medias 計算レポート",
+    "mediasBearingLink": {
+      "text": "Medias で表示",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
+    },
+    "inputHeading": "入力",
+    "selectedMethods": "選択した計算方法",
+    "disclaimer": "特許の取得や実用新案登録の場合でも、この文書に関するすべての権利は、留保されます。本文書は機密として取り扱われます。弊社の書面による同意がない限り、本文書そのもの、その複写、またはそのすべての内容や抜粋の解釈を第三者が利用できるようにすること、または受領者が他の方法で不正に使用することはできません。本文書は、上記の要件および弊社独自の前提条件に基づいて作成されています。弊社の詳細では、提供されたお客様の要件に基づいて当社にとって明らかになったリスクを考慮しています。本文書は、当社製品の購入に関連してのみ作成されています。本文書に記載されている結果は、最新情報に基づいて慎重に作成されていますが、法的な意味での品質または耐久性について明示的または黙示的な保証にはなりません。これにより、お客様は、本製品の適合性を確認することから免除されません。弊社は、故意または過失があった場合にのみ、本文書に記載されている詳細について責任を負います。本文書が供給契約の一部である場合は、合意した責任規定が適用されます。",
+    "filename": "{{designation}} - {{date}} の Medias 計算レポート",
+    "page": "ページ"
+  }
+}
