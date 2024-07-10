@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.10.0...ea-v1.11.0) (2024-07-10)
+
+
+### Features
+
+* **ea:** add languages from translation files ([#6331](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6331)) ([c10e551](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c10e5514fb885de7a6135827f758b9a4ccefb427))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
 ## [1.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.9.1...ea-v1.10.0) (2024-05-27)
 
 
