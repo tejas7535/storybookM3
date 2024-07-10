@@ -17,20 +17,3 @@
     </div>
   </div>
 </ng-template>
-
-<!--Limit Filter and Client Side Pagination-->
-@if (showLimitFilterToggle) {
-  <div class="mb-2 text-subtitle-1">Limit Filter and Pagination</div>
-  <div class="mb-2 text-caption">
-    Activate to enable the Limit Filter with pagination in Results view.<br />The
-    application will be refreshed.
-  </div>
-  <mat-slide-toggle
-    color="primary"
-    [checked]="limitFilterActivated"
-    [disabled]="disableToggles"
-    (change)="onLimitFilterFeatureToggleChange($event)"
-  >
-    Activate Limit Filter
-  </mat-slide-toggle>
-}

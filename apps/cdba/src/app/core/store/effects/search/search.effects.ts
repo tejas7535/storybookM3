@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
@@ -17,6 +18,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  changePaginationVisibility,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -27,7 +29,7 @@ import {
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
 import {
-  getFiltersForRequest,
+  getFiltersForSearchRequest,
   getTooManyResultsThreshold,
 } from '../../selectors';
 
@@ -60,7 +62,7 @@ export class SearchEffects {
     return this.actions$.pipe(
       ofType(search),
       concatLatestFrom(() => [
-        this.store.select(getFiltersForRequest),
+        this.store.select(getFiltersForSearchRequest),
         this.store.select(getTooManyResultsThreshold),
       ]),
       map(([_action, items, threshold]) => ({ items, threshold })),
@@ -122,6 +124,21 @@ export class SearchEffects {
             catchError(() => of(autocompleteFailure({ item: action.filter })))
           )
       )
+    );
+  });
+
+  /**
+   * Set the pagination visibility to false when navigating to the search page
+   */
+  resetPaginationVisibility$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      filter(
+        (action: any) =>
+          action.payload.event.id !== 1 &&
+          action.payload.event.urlAfterRedirects === '/search'
+      ),
+      map(() => changePaginationVisibility({ isVisible: false }))
     );
   });
 

@@ -14,11 +14,11 @@ import {
   getChangedIdValueFilters,
   getFilterByName,
   getFilters,
-  getFiltersWithoutLimit,
   getInitialFiltersLoading,
   getIsDirty,
   getMaterialDesignationOfSelectedRefType,
   getNoResultsFound,
+  getPaginationVisibility,
   getReferenceTypes,
   getReferenceTypesLoading,
   getResultCount,
@@ -105,54 +105,6 @@ describe('Search Selector', () => {
       };
 
       expect(getFilters.projector(entityState)).toEqual(items);
-    });
-  });
-
-  describe('getFiltersWithoutLimit', () => {
-    it('should return filters without the limit filter', () => {
-      const weigth = new FilterItemRange('weigth', 0, 100, 10, 80, 'kg', false);
-
-      const items = [customer, plant, weigth, limit];
-
-      const expectedFilters = [
-        {
-          autocomplete: true,
-          autocompleteLoading: false,
-          disabled: false,
-          items: [
-            { id: 'vw', title: 'VW' } as StringOption,
-            { id: 'vw2', title: 'VW 2' } as StringOption,
-            { id: 'vw3', title: 'VW 3' } as StringOption,
-          ],
-          name: 'customer',
-          selectedItems: [],
-          type: 'ID_VALUE',
-        } as FilterItemIdValue,
-        {
-          autocomplete: false,
-          autocompleteLoading: false,
-          disabled: false,
-          items: [
-            { id: '32', title: '32 | Nice Plant' } as StringOption,
-            { id: '33', title: '33 | Nicer Plant' } as StringOption,
-          ],
-          name: 'plant',
-          selectedItems: [],
-          type: 'ID_VALUE',
-        } as FilterItemIdValue,
-        {
-          name: 'weigth',
-          min: 0,
-          max: 100,
-          minSelected: 10,
-          maxSelected: 80,
-          unit: 'kg',
-          disabled: false,
-          type: 'RANGE',
-        } as FilterItemRange,
-      ];
-
-      expect(getFiltersWithoutLimit.projector(items)).toEqual(expectedFilters);
     });
   });
 
@@ -470,6 +422,12 @@ describe('Search Selector', () => {
   describe('getTooManyResults', () => {
     it('should return info about too many results found', () => {
       expect(getTooManyResults(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getPaginationState', () => {
+    it('should return the pagination state', () => {
+      expect(getPaginationVisibility(fakeState)).toBe(false);
     });
   });
 

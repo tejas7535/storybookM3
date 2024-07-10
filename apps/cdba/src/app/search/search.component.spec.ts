@@ -11,6 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { BlockUiModule } from '@cdba/shared/components';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
+import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
@@ -24,6 +25,7 @@ describe('SearchComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       MockModule(BlockUiModule),
+      MockModule(ReferenceTypesFiltersModule),
     ],
     providers: [
       provideMockStore({

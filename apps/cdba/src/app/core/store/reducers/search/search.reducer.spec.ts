@@ -13,6 +13,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  changePaginationVisibility,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -63,7 +64,7 @@ describe('Search Reducer', () => {
   const errorMessage = 'An error occured';
 
   describe('loadInitialFilters', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = loadInitialFilters();
       const state = searchReducer(initialState, action);
 
@@ -72,7 +73,7 @@ describe('Search Reducer', () => {
   });
 
   describe('loadInitialFiltersSuccess', () => {
-    test('should unset loading and set possible filters', () => {
+    it('should unset loading and set possible filters', () => {
       const items = [filterItemIdValueStub, filterItemRangeStub];
 
       const expected = {
@@ -94,7 +95,7 @@ describe('Search Reducer', () => {
   });
 
   describe('loadInitialFiltersFailure', () => {
-    test('should unset loading / set error message', () => {
+    it('should unset loading / set error message', () => {
       const action = loadInitialFiltersFailure({ errorMessage });
       const fakeState = {
         ...initialState,
@@ -109,7 +110,7 @@ describe('Search Reducer', () => {
   });
 
   describe('search', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = search();
       const state = searchReducer(initialState, action);
 
@@ -121,7 +122,7 @@ describe('Search Reducer', () => {
   });
 
   describe('searchSuccess', () => {
-    test('should unset loading and set ref types', () => {
+    it('should unset loading and set ref types', () => {
       const searchResult = new SearchResult(
         [filterItemIdValueStub, filterItemRangeStub],
         [REFERENCE_TYPE_MOCK],
@@ -149,7 +150,7 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
-    test('should unset loading and keep old filter if searchCount is zero', () => {
+    it('should unset loading and keep old filter if searchCount is zero', () => {
       const searchResult = new SearchResult(
         [filterItemIdValueStub, filterItemRangeStub],
         [REFERENCE_TYPE_MOCK],
@@ -173,7 +174,7 @@ describe('Search Reducer', () => {
       expect(state.filters.items).toEqual(fakeState.filters.items);
     });
 
-    test('should unset loading and set tooManyResults if too many results', () => {
+    it('should unset loading and set tooManyResults if too many results', () => {
       const searchResult = new SearchResult(
         [filterItemIdValueStub, filterItemRangeStub],
         [],
@@ -201,7 +202,7 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
-    test('should unset loading and set update tooManyResults based on results and changed threshold', () => {
+    it('should unset loading and set update tooManyResults based on results and changed threshold', () => {
       const searchResult = new SearchResult(
         [filterItemIdValueStub, filterItemRangeStub, filterItemRangeLimitStub],
         [],
@@ -233,7 +234,7 @@ describe('Search Reducer', () => {
   });
 
   describe('searchFailure', () => {
-    test('should unset loading / set error message', () => {
+    it('should unset loading / set error message', () => {
       const action = searchFailure({ errorMessage });
       const fakeState = {
         ...initialState,
@@ -250,8 +251,18 @@ describe('Search Reducer', () => {
     });
   });
 
+  describe('changePaginationVisibility', () => {
+    it('should change the state of pagination flag', () => {
+      const action = changePaginationVisibility({ isVisible: true });
+
+      const state = searchReducer(initialState, action);
+
+      expect(state.referenceTypes.isPaginationVisible).toBe(true);
+    });
+  });
+
   describe('applyTextSearch', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const textSearch = new TextSearch('plant', 'awe');
       const action = applyTextSearch({ textSearch });
       const state = searchReducer(initialState, action);
@@ -261,7 +272,7 @@ describe('Search Reducer', () => {
   });
 
   describe('applyTextSearchSuccess', () => {
-    test('should unset loading and set ref types', () => {
+    it('should unset loading and set ref types', () => {
       const searchResult = new SearchResult(
         [filterItemIdValueStub, filterItemRangeStub],
         [REFERENCE_TYPE_MOCK],
@@ -289,7 +300,7 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
-    test('should unset loading and tooManyResults if results undefined', () => {
+    it('should unset loading and tooManyResults if results undefined', () => {
       const searchResult = new SearchResult(
         [filterItemIdValueStub, filterItemRangeStub],
         undefined,
@@ -319,7 +330,7 @@ describe('Search Reducer', () => {
   });
 
   describe('applyTextSearchFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = applyTextSearchFailure({ errorMessage });
       const fakeState = {
         ...initialState,
@@ -336,7 +347,7 @@ describe('Search Reducer', () => {
   });
 
   describe('updateFilter', () => {
-    test('should update filter', () => {
+    it('should update filter', () => {
       const filter = new FilterItemIdValue(
         'customer',
         [
@@ -372,7 +383,7 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities.customer).toEqual(filter);
     });
 
-    test('should update tooManyResultsThreshold if limit filter was changed', () => {
+    it('should update tooManyResultsThreshold if limit filter was changed', () => {
       const filter = { ...filterItemRangeLimitStub, maxSelected: 777 };
 
       const fakeState = {
@@ -393,7 +404,7 @@ describe('Search Reducer', () => {
       );
     });
 
-    test('should set dirty flag to true', () => {
+    it('should set dirty flag to true', () => {
       const filter = new FilterItemIdValue(
         'customer',
         [
@@ -416,7 +427,7 @@ describe('Search Reducer', () => {
   });
 
   describe('resetFilters', () => {
-    test('should reset filters', () => {
+    it('should reset filters', () => {
       const customer = new FilterItemIdValue(
         'customer',
         [{ id: 'audi', title: 'Audi' } as StringOption],
@@ -478,7 +489,7 @@ describe('Search Reducer', () => {
       expect(state.referenceTypes.items).toEqual(undefined);
     });
 
-    test('should set dirty flag to false', () => {
+    it('should set dirty flag to false', () => {
       // eslint-disable-next-line max-lines
       const fakeState = {
         ...initialState,
@@ -496,7 +507,7 @@ describe('Search Reducer', () => {
   });
 
   describe('shareSearchResult', () => {
-    test('should not manipulate state', () => {
+    it('should not manipulate state', () => {
       const action = shareSearchResult();
       const state = searchReducer(initialState, action);
 
@@ -505,7 +516,7 @@ describe('Search Reducer', () => {
   });
 
   describe('autocomplete', () => {
-    test('should set autocomplete loading', () => {
+    it('should set autocomplete loading', () => {
       const searchFor = 'Awesome Customer';
       const filter = new FilterItemIdValue('customer', [], [], true, false);
       const action = autocomplete({
@@ -540,7 +551,7 @@ describe('Search Reducer', () => {
   });
 
   describe('autocompleteSuccess', () => {
-    test('should upsert possible filters', () => {
+    it('should upsert possible filters', () => {
       const preparedItem = {
         ...filterItemIdValueStub,
         autocompleteLoading: true,
@@ -562,7 +573,7 @@ describe('Search Reducer', () => {
   });
 
   describe('autocompleteFailure', () => {
-    test('should set autocompleteLoading to false on failed request', () => {
+    it('should set autocompleteLoading to false on failed request', () => {
       const filter = {
         name: 'customer',
         type: FilterItemType.ID_VALUE,
@@ -592,7 +603,7 @@ describe('Search Reducer', () => {
   });
 
   describe('selectReferenceTypes', () => {
-    test('should add/replace selected node ids', () => {
+    it('should add/replace selected node ids', () => {
       const action = selectReferenceTypes({ nodeIds: ['2', '3'] });
       const state = searchReducer(initialState, action);
 
@@ -601,7 +612,7 @@ describe('Search Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return searchReducer', () => {
+    it('should return searchReducer', () => {
       // prepare any action
       const filter = {
         name: 'customer',

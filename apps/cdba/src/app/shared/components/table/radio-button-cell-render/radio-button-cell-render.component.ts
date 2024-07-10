@@ -9,9 +9,9 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
   styleUrls: ['./radio-button-cell-render.component.scss'],
 })
 export class RadioButtonCellRenderComponent {
-  public node: IRowNode;
+  node: IRowNode;
 
-  public agInit(params: ICellRendererParams): void {
+  agInit(params: ICellRendererParams): void {
     this.node = params.node;
   }
 }

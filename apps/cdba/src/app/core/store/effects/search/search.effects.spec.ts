@@ -7,6 +7,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
@@ -23,6 +24,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  changePaginationVisibility,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -40,7 +42,7 @@ import {
   TextSearch,
 } from '../../reducers/search/models';
 import {
-  getFiltersForRequest,
+  getFiltersForSearchRequest,
   getSelectedFilterIdValueOptionsByFilterName,
   getTooManyResultsThreshold,
 } from '../../selectors';
@@ -78,7 +80,7 @@ describe('Search Effects', () => {
     effects = spectator.inject(SearchEffects);
     searchService = spectator.inject(SearchService);
 
-    store.overrideSelector(getFiltersForRequest, []);
+    store.overrideSelector(getFiltersForSearchRequest, []);
     store.overrideSelector(getTooManyResultsThreshold, 500);
     store.overrideSelector(getSelectedFilterIdValueOptionsByFilterName, []);
   });
@@ -88,7 +90,7 @@ describe('Search Effects', () => {
       action = loadInitialFilters();
     });
 
-    test(
+    it(
       'should return loadInitialFiltersSuccess action when REST call is successful',
       marbles((m) => {
         const items = [
@@ -119,7 +121,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should return loadInitialFiltersFailure on REST error',
       marbles((m) => {
         const result = loadInitialFiltersFailure({ errorMessage });
@@ -157,7 +159,7 @@ describe('Search Effects', () => {
       filterRange = new FilterItemRange('length', 0, 200, 0, 200, 'kg', false);
     });
 
-    test(
+    it(
       'should return searchSuccess action when REST call is successful and navigate to results',
       marbles((m) => {
         const ref = REFERENCE_TYPE_MOCK;
@@ -187,7 +189,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should return searchSuccess action when REST call is successful and not navigate to results due to exceeded results limit',
       marbles((m) => {
         const ref = REFERENCE_TYPE_MOCK;
@@ -217,7 +219,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should return searchFailure on REST error',
       marbles((m) => {
         const result = searchFailure({ errorMessage });
@@ -244,7 +246,7 @@ describe('Search Effects', () => {
       action = applyTextSearch({ textSearch });
     });
 
-    test(
+    it(
       'should return applyTextSearchSuccess action when REST call is successful',
       marbles((m) => {
         const filterItemIdVal = new FilterItemIdValue(
@@ -290,7 +292,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should return applyTextSearchFailure on REST error',
       marbles((m) => {
         const result = applyTextSearchFailure({ errorMessage });
@@ -311,7 +313,7 @@ describe('Search Effects', () => {
 
   describe('resetFilters$', () => {
     // eslint-disable-next-line jest/expect-expect
-    test(
+    it(
       'should dispatch loadInitialFilters',
       marbles((m) => {
         actions$ = m.cold('-a', { a: resetFilters() });
@@ -331,7 +333,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test(
+    it(
       'should return autocompleteSuccess action when REST call is successful',
       marbles((m) => {
         const item = new FilterItemIdValue(
@@ -364,7 +366,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should return autocompleteFailure on REST error',
       marbles((m) => {
         const filter = {
@@ -387,6 +389,48 @@ describe('Search Effects', () => {
           action.searchFor,
           action.filter.name
         );
+      })
+    );
+  });
+
+  describe('resetPaginationVisibility$', () => {
+    it(
+      'should dispatch changePaginationVisibility action when navigating to /search page for other than first time',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            event: {
+              id: 2,
+              urlAfterRedirects: '/search',
+            },
+          },
+        } as RouterNavigatedAction;
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = changePaginationVisibility({ isVisible: false });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.resetPaginationVisibility$).toBeObservable(expected);
+      })
+    );
+    it(
+      'should not dispatch changePaginationVisibility action when navigating to other pages',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            event: {
+              id: 2,
+              urlAfterRedirects: '/foo/bar',
+            },
+          },
+        } as RouterNavigatedAction;
+
+        actions$ = m.hot('-a', { a: action });
+
+        m.expect(effects.resetPaginationVisibility$).toBeObservable('');
       })
     );
   });

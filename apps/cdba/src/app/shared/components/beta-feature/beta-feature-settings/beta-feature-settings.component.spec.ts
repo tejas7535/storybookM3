@@ -94,17 +94,5 @@ describe('BetaFeatureSettingsComponent', () => {
 
       expect(window.location.reload).toHaveBeenCalled();
     });
-
-    // Limit Filter
-    describe('onLimitFilterFeatureToggleChange', () => {
-      it('should call handle method', () => {
-        component.onLimitFilterFeatureToggleChange({
-          source: undefined,
-          checked: true,
-        });
-
-        expect(component.handleFeatureToggleChange).toHaveBeenCalled();
-      });
-    });
   });
 });

@@ -4,9 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { PushPipe } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BetaFeatureModule } from '../..';
 import { PaginationControlsComponent } from './pagination-controls.component';
 
 @NgModule({
@@ -15,7 +16,7 @@ import { PaginationControlsComponent } from './pagination-controls.component';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    BetaFeatureModule,
+    PushPipe,
     SharedTranslocoModule,
   ],
   declarations: [PaginationControlsComponent],

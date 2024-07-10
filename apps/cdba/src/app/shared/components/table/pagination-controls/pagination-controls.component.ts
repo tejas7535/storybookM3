@@ -1,9 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { TranslocoService } from '@jsverse/transloco';
+import { Observable } from 'rxjs/internal/Observable';
+
+import { Store } from '@ngrx/store';
 import { GridApi } from 'ag-grid-community';
 
+import { getPaginationVisibility } from '@cdba/core/store';
 import {
+  MIN_PAGE_SIZE,
   PAGE_SIZE_OPTIONS,
   PAGINATION_LOADING_TIMEOUT,
   PaginationType,
@@ -16,7 +20,7 @@ import { PaginationControlsService } from './service/pagination-controls.service
   templateUrl: './pagination-controls.component.html',
   styleUrls: ['./pagination-controls.component.scss'],
 })
-export class PaginationControlsComponent implements OnInit {
+export class PaginationControlsComponent implements OnInit, OnDestroy {
   @Input()
   gridApi: GridApi;
 
@@ -32,21 +36,33 @@ export class PaginationControlsComponent implements OnInit {
   rangeStartIndex = 0;
   rangeEndIndex = 0;
 
+  isPaginationVisible$: Observable<boolean>;
+
   private readonly PAGINATION_LOADING_TIMEOUT = PAGINATION_LOADING_TIMEOUT;
 
-  public constructor(
-    public readonly transLocoService: TranslocoService,
-    private readonly paginationControlsService: PaginationControlsService
+  constructor(
+    public readonly paginationControlsService: PaginationControlsService,
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {
-    this.pageSize = this.paginationControlsService.getPageSize();
+    this.isPaginationVisible$ = this.store.select(getPaginationVisibility);
+
+    this.pageSize =
+      this.paginationControlsService.getPageSizeFromLocalStorage();
 
     this.totalRange = this.paginationControlsService.range;
     this.totalPages = this.paginationControlsService.pages;
 
     this.updateRangeIndexes(this.pageSize, this.totalRange);
-    this.disabled = this.gridApi.paginationGetTotalPages() === this.totalPages;
+
+    this.disabled = this.paginationControlsService.range <= MIN_PAGE_SIZE;
+  }
+
+  ngOnDestroy(): void {
+    this.paginationControlsService.currentPage = 0;
+    this.paginationControlsService.pages = 0;
+    this.paginationControlsService.range = 0;
   }
 
   onPageSizeChange(pageSizeOption: number): void {
@@ -54,7 +70,7 @@ export class PaginationControlsComponent implements OnInit {
     this.gridApi.showLoadingOverlay();
 
     this.pageSize = pageSizeOption;
-    this.paginationControlsService.setPageSize(pageSizeOption);
+    this.paginationControlsService.setPageSizeToLocalStorage(pageSizeOption);
 
     // Without timeout AG Grid cannot render the loading overlay
     setTimeout(() => {
@@ -63,6 +79,8 @@ export class PaginationControlsComponent implements OnInit {
 
       this.gridApi.hideOverlay();
 
+      this.paginationControlsService.currentPage =
+        this.gridApi.paginationGetCurrentPage();
       this.totalPages = this.gridApi.paginationGetTotalPages();
       this.disabled = false;
     }, this.PAGINATION_LOADING_TIMEOUT);
@@ -91,12 +109,13 @@ export class PaginationControlsComponent implements OnInit {
           this.gridApi.paginationGoToPreviousPage();
           break;
         }
-
         default: {
           throw new Error('Unhandled pagination event type');
         }
       }
       this.gridApi.hideOverlay();
+      this.paginationControlsService.currentPage =
+        this.gridApi.paginationGetCurrentPage();
       this.updateRangeIndexes(this.pageSize, this.totalRange);
       this.disabled = false;
     }, this.PAGINATION_LOADING_TIMEOUT);
@@ -107,12 +126,17 @@ export class PaginationControlsComponent implements OnInit {
       this.rangeStartIndex = 1;
       this.rangeEndIndex = totalRange;
     } else {
-      this.rangeStartIndex =
-        this.gridApi.paginationGetCurrentPage() * pageSize + 1;
-      this.rangeEndIndex = Math.min(
-        this.rangeStartIndex + pageSize,
-        totalRange
-      );
+      const currPageTmp = this.gridApi.paginationGetCurrentPage();
+      if (currPageTmp === 0) {
+        this.rangeStartIndex = 1;
+        this.rangeEndIndex = pageSize;
+      } else {
+        this.rangeStartIndex = currPageTmp * pageSize + 1;
+        this.rangeEndIndex = Math.min(
+          this.rangeStartIndex + pageSize,
+          totalRange
+        );
+      }
     }
   }
 }

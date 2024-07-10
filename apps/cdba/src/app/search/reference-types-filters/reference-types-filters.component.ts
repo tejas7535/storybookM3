@@ -10,15 +10,11 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { BetaFeature } from '@cdba/shared/constants/beta-feature';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
-
 import {
   autocomplete,
   getChangedFilters,
   getChangedIdValueFilters,
   getFilters,
-  getFiltersWithoutLimit,
   getTooManyResultsThreshold,
   loadInitialFilters,
   resetFilters,
@@ -43,8 +39,6 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   @ViewChildren(RangeFilterComponent)
   rangeFilters: QueryList<RangeFilterComponent>;
 
-  LIMIT_FILTER_ENABLED = false;
-
   filtersSubscription: Subscription;
 
   filters$: Observable<FilterItem[]>;
@@ -56,19 +50,10 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   );
   filterType = FilterItemType;
 
-  public constructor(
-    private readonly store: Store,
-    private readonly betaFeatureService: BetaFeatureService
-  ) {}
+  constructor(private readonly store: Store) {}
 
-  public ngOnInit(): void {
-    this.LIMIT_FILTER_ENABLED = this.betaFeatureService.getBetaFeature(
-      BetaFeature.LIMIT_FILTER
-    );
-
-    this.filters$ = this.LIMIT_FILTER_ENABLED
-      ? this.store.select(getFilters)
-      : this.store.select(getFiltersWithoutLimit);
+  ngOnInit(): void {
+    this.filters$ = this.store.select(getFilters);
 
     this.filtersSubscription = this.filters$.subscribe((filters) => {
       if (!filters || filters.length === 0) {
@@ -86,14 +71,14 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   /**
    * Updates the given filter
    */
-  public updateFilter(filter: FilterItem): void {
+  updateFilter(filter: FilterItem): void {
     this.store.dispatch(updateFilter({ filter }));
   }
 
   /**
    * Get possible values for user input.
    */
-  public autocomplete(evt: any): void {
+  autocomplete(evt: { searchFor: string; filter: FilterItem }): void {
     this.store.dispatch(
       autocomplete({ searchFor: evt.searchFor, filter: evt.filter })
     );
@@ -102,14 +87,14 @@ export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   /**
    * Search with currently selected filters
    */
-  public search(): void {
+  search(): void {
     this.store.dispatch(search());
   }
 
   /**
    * Reset the Filter to its initial state.
    */
-  public resetFilters(): void {
+  resetFilters(): void {
     this.multiSelectFilters.forEach((filter) => filter.reset());
     this.rangeFilters.forEach((filter) => filter.reset());
     this.store.dispatch(resetFilters());

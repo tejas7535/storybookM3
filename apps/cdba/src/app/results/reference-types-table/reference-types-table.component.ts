@@ -12,7 +12,9 @@ import {
 import { Subscription } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { Store } from '@ngrx/store';
 import {
+  ColumnRowGroupChangedEvent,
   FirstDataRenderedEvent,
   GridOptions,
   GridReadyEvent,
@@ -26,6 +28,10 @@ import {
   StatusPanelDef,
 } from 'ag-grid-enterprise';
 
+import {
+  changePaginationVisibility,
+  getPaginationVisibility,
+} from '@cdba/core/store';
 import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
@@ -65,19 +71,19 @@ export class ReferenceTypesTableComponent
   @Output() readonly selectionChange: EventEmitter<string[]> =
     new EventEmitter();
 
-  public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
+  defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
+  columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
 
-  public gridOptions: GridOptions = GRID_OPTIONS_DEFAULT;
+  gridOptions: GridOptions = GRID_OPTIONS_DEFAULT;
 
-  public rowSelection = 'multiple';
+  rowSelection = 'multiple';
 
-  public rowHeight = 30;
+  rowHeight = 30;
 
-  public pagination = true;
-  public paginationPageSize: number;
+  paginationEnabled$ = this.store.select(getPaginationVisibility);
+  paginationPageSize: number;
 
-  public components = {
+  components = {
     customLoadingOverlay: CustomLoadingOverlayComponent,
     resultsStatusBarComponent: ResultsStatusBarComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
@@ -85,19 +91,19 @@ export class ReferenceTypesTableComponent
     pcmCellRenderer: PcmCellRendererComponent,
   };
 
-  public noRowsOverlayComponent = 'customNoRowsOverlay';
-  public noRowsOverlayComponentParams: NoRowsParams = {
+  noRowsOverlayComponent = 'customNoRowsOverlay';
+  noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => translate('results.referenceTypesTable.noRowsMessage'),
   };
   loadingOverlayComponent = 'customLoadingOverlay';
 
-  public statusBar: {
+  statusBar: {
     statusPanels: StatusPanelDef[];
   } = STATUS_BAR_CONFIG;
 
-  public sideBar: SideBarDef = SIDE_BAR_CONFIG;
+  sideBar: SideBarDef = SIDE_BAR_CONFIG;
 
-  public getMainMenuItems = getMainMenuItems;
+  getMainMenuItems = getMainMenuItems;
 
   private gridApi: GridApi;
 
@@ -105,19 +111,21 @@ export class ReferenceTypesTableComponent
 
   private filtersSubscription: Subscription = new Subscription();
 
-  public constructor(
+  constructor(
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefinitionService,
     private readonly paginationControlsService: PaginationControlsService,
-    private readonly tableStore: TableStore
+    private readonly tableStore: TableStore,
+    private readonly store: Store
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.filtersSubscription = this.tableStore.filters$.subscribe(
       (filters) => (this.tableFilters = filters)
     );
 
-    this.paginationPageSize = this.paginationControlsService.getPageSize();
+    this.paginationPageSize =
+      this.paginationControlsService.getPageSizeFromLocalStorage();
 
     this.paginationControlsService.pages = Math.ceil(
       this.rowData.length / this.paginationPageSize
@@ -125,20 +133,20 @@ export class ReferenceTypesTableComponent
     this.paginationControlsService.range = this.rowData.length;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowData && this.gridApi) {
       this.gridApi.setRowData(changes.rowData.currentValue);
     }
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.filtersSubscription.unsubscribe();
   }
 
   /**
    * Column change listener for table.
    */
-  public columnChange(event: SortChangedEvent): void {
+  columnChange(event: SortChangedEvent): void {
     const columnState = event.columnApi.getColumnState();
 
     this.agGridStateService.setColumnState(
@@ -147,7 +155,7 @@ export class ReferenceTypesTableComponent
     );
   }
 
-  public onGridReady(event: GridReadyEvent): void {
+  onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
 
     const state = this.agGridStateService.getColumnState(
@@ -160,12 +168,25 @@ export class ReferenceTypesTableComponent
     });
 
     event.api.setRowData(this.rowData);
+
+    if (this.paginationControlsService.currentPage !== 0) {
+      this.gridApi.paginationGoToPage(
+        this.paginationControlsService.currentPage
+      );
+    }
+
+    // Hide pagination component when row grouping is active
+    if (event.columnApi.getRowGroupColumns().length > 0) {
+      this.store.dispatch(changePaginationVisibility({ isVisible: false }));
+    } else {
+      this.store.dispatch(changePaginationVisibility({ isVisible: true }));
+    }
   }
 
   /**
    * Autosize columns width when data is loaded.
    */
-  public onFirstDataRendered(params: FirstDataRenderedEvent): void {
+  onFirstDataRendered(params: FirstDataRenderedEvent): void {
     params.columnApi.autoSizeAllColumns(false);
 
     params.api.setFilterModel(this.tableFilters);
@@ -173,11 +194,29 @@ export class ReferenceTypesTableComponent
     params.api.refreshHeader();
   }
 
-  public onSelectionChanged(event: SelectionChangedEvent): void {
+  onSelectionChanged(event: SelectionChangedEvent): void {
     this.selectionChange.emit(event.api.getSelectedNodes().map((el) => el.id));
   }
 
-  public filterChange(): void {
+  /**
+   * React upon user grouping columns. When row grouping is active AG Grid displays whole dataset in the table rendering custom pagination component unusable.
+   */
+  onColumnRowGroupChanged(event: ColumnRowGroupChangedEvent): void {
+    if (event.source === 'toolPanelUi') {
+      if (event.columns.length === 1 && !event.columns[0].isRowGroupActive()) {
+        this.store.dispatch(changePaginationVisibility({ isVisible: true }));
+      } else if (
+        event.columns.length === 1 &&
+        event.columns[0].isRowGroupActive()
+      ) {
+        this.store.dispatch(changePaginationVisibility({ isVisible: false }));
+      } else if (event.columns.length > 1) {
+        this.store.dispatch(changePaginationVisibility({ isVisible: false }));
+      }
+    }
+  }
+
+  filterChange(): void {
     const filters = this.gridApi.getFilterModel();
 
     this.tableStore.setFilters(filters);

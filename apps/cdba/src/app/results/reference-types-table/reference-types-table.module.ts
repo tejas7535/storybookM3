@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
+import { PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -25,6 +26,7 @@ import { TableStore } from './table.store';
     CommonModule,
     AgGridModule,
     MatButtonModule,
+    PushPipe,
     PcmBadgeModule,
     ResultsStatusBarModule,
     SharedTranslocoModule,

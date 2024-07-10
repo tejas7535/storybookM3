@@ -16,6 +16,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  changePaginationVisibility,
   deselectReferenceType,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -246,6 +247,17 @@ describe('Search Actions', () => {
       expect(action).toEqual({
         type: '[Search] Deselect Reference Type',
         nodeId: '3',
+      });
+    });
+  });
+
+  describe('Pagination Actions', () => {
+    test('changePaginationVisibility', () => {
+      const action = changePaginationVisibility({ isVisible: true });
+
+      expect(action).toEqual({
+        type: '[Search] Change Pagination State',
+        isVisible: true,
       });
     });
   });

@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { waitForAsync } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -8,11 +9,14 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { GridApi } from 'ag-grid-community';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { getPaginationVisibility } from '@cdba/core/store';
 import { PaginationType } from '@cdba/shared/constants/pagination';
 
 import { BetaFeatureModule } from '../../beta-feature/beta-feature.module';
@@ -22,6 +26,7 @@ import { PaginationControlsService } from './service/pagination-controls.service
 describe('PaginationControlsComponent', () => {
   let component: PaginationControlsComponent;
   let spectator: Spectator<PaginationControlsComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: PaginationControlsComponent,
@@ -31,15 +36,18 @@ describe('PaginationControlsComponent', () => {
       MatIconModule,
       MatMenuModule,
       MockModule(BetaFeatureModule),
+      MockPipe(PushPipe),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       mockProvider(PaginationControlsService, {
-        getPageSize: jest.fn(),
-        setPageSize: jest.fn(),
-        range: 1,
+        getPageSizeFromLocalStorage: jest.fn(),
+        setPageSizeToLocalStorage: jest.fn(),
+        range: 100,
         pages: 1,
+        currentPage: 0,
       }),
+      provideMockStore({}),
     ],
     detectChanges: false,
   });
@@ -47,6 +55,9 @@ describe('PaginationControlsComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    store = spectator.inject(MockStore);
+
+    store.overrideSelector(getPaginationVisibility, true);
 
     const gridApi = {
       paginationSetPageSize: jest.fn(),
@@ -74,40 +85,47 @@ describe('PaginationControlsComponent', () => {
   describe('ngOninit', () => {
     beforeEach(() => {
       component['updateRangeIndexes'] = jest.fn();
-      component['paginationControlsService'].getPageSize = jest.fn(() => 1);
+      component['paginationControlsService'].getPageSizeFromLocalStorage =
+        jest.fn(() => 1);
     });
 
-    it('should initialise the component with enabled controls', () => {
+    it('should initialise the component with enabled controls', waitForAsync(() => {
       component.gridApi.paginationGetTotalPages = jest.fn(() => 10);
 
       component.ngOnInit();
 
+      component.isPaginationVisible$.subscribe({
+        next: (isVisible) => {
+          expect(isVisible).toBe(true);
+        },
+      });
+
       expect(component.pageSize).toEqual(1);
-      expect(component.totalRange).toEqual(1);
+      expect(component.totalRange).toEqual(100);
       expect(component.totalPages).toEqual(1);
 
-      expect(component['updateRangeIndexes']).toHaveBeenCalledWith(1, 1);
+      expect(component['updateRangeIndexes']).toHaveBeenCalledWith(1, 100);
       expect(component.disabled).toEqual(false);
-      expect(component.gridApi.paginationGetTotalPages).toHaveBeenCalledTimes(
-        1
-      );
-    });
+    }));
 
-    it('should initialise the component with disabled controls', () => {
+    it('should initialise the component with disabled controls', waitForAsync(() => {
       component.gridApi.paginationGetTotalPages = jest.fn(() => 1);
+      component['paginationControlsService'].range = 1;
 
       component.ngOnInit();
 
+      component.isPaginationVisible$.subscribe({
+        next: (isVisible) => {
+          expect(isVisible).toBe(true);
+        },
+      });
+
       expect(component.pageSize).toEqual(1);
       expect(component.totalRange).toEqual(1);
       expect(component.totalPages).toEqual(1);
-
       expect(component['updateRangeIndexes']).toHaveBeenCalledWith(1, 1);
       expect(component.disabled).toEqual(true);
-      expect(component.gridApi.paginationGetTotalPages).toHaveBeenCalledTimes(
-        1
-      );
-    });
+    }));
   });
 
   describe('onPageSizeChange', () => {
@@ -123,7 +141,7 @@ describe('PaginationControlsComponent', () => {
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
       expect(component.pageSize).toEqual(expectedPageSize);
       expect(
-        component['paginationControlsService'].setPageSize
+        component['paginationControlsService'].setPageSizeToLocalStorage
       ).toHaveBeenLastCalledWith(expectedPageSize);
 
       jest.runAllTimers();
@@ -159,7 +177,7 @@ describe('PaginationControlsComponent', () => {
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
       expect(component.pageSize).toEqual(expectedPageSize);
       expect(
-        component['paginationControlsService'].setPageSize
+        component['paginationControlsService'].setPageSizeToLocalStorage
       ).toHaveBeenLastCalledWith(expectedPageSize);
 
       jest.runAllTimers();
@@ -197,7 +215,7 @@ describe('PaginationControlsComponent', () => {
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
       expect(component.pageSize).toEqual(expectedPageSize);
       expect(
-        component['paginationControlsService'].setPageSize
+        component['paginationControlsService'].setPageSizeToLocalStorage
       ).toHaveBeenLastCalledWith(expectedPageSize);
 
       jest.runAllTimers();
@@ -326,7 +344,7 @@ describe('PaginationControlsComponent', () => {
       component['updateRangeIndexes'](100, 1000);
 
       expect(component.rangeStartIndex).toEqual(1);
-      expect(component.rangeEndIndex).toEqual(101);
+      expect(component.rangeEndIndex).toEqual(100);
     });
     it('should update range indexes when range > page size, page != first & page != last', () => {
       component.gridApi.paginationGetCurrentPage = jest.fn(() => 3);

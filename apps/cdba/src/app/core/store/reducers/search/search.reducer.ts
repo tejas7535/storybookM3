@@ -10,6 +10,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  changePaginationVisibility,
   deselectReferenceType,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -52,6 +53,7 @@ export interface SearchState {
     tooManyResults: boolean;
     tooManyResultsThreshold: number;
     resultCount: number;
+    isPaginationVisible: boolean;
     errorMessage: string;
   };
 }
@@ -74,6 +76,7 @@ export const initialState: SearchState = {
     tooManyResults: false,
     tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
     resultCount: 0,
+    isPaginationVisible: false,
     errorMessage: undefined,
   },
 };
@@ -168,6 +171,18 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         errorMessage,
         loading: false,
+      },
+    })
+  ),
+
+  // pagination state change
+  on(
+    changePaginationVisibility,
+    (state: SearchState, { isVisible }): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        isPaginationVisible: isVisible,
       },
     })
   ),

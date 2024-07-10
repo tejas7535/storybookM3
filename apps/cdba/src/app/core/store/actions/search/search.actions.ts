@@ -30,6 +30,11 @@ export const searchFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const changePaginationVisibility = createAction(
+  '[Search] Change Pagination State',
+  props<{ isVisible: boolean }>()
+);
+
 export const updateFilter = createAction(
   '[Search] Update Filter',
   props<{ filter: FilterItem }>()
@@ -96,6 +101,7 @@ const all = union({
   autocompleteFailure,
   selectReferenceTypes,
   deselectReferenceType,
+  changePaginationVisibility,
 });
 
 export type SearchActions = typeof all;

@@ -5,9 +5,12 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { provideMockStore } from '@ngrx/store/testing';
+import { PushPipe } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  Column,
+  ColumnRowGroupChangedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   IRowNode,
@@ -15,14 +18,13 @@ import {
   SortChangedEvent,
 } from 'ag-grid-community';
 import { ColumnApi, GridApi } from 'ag-grid-enterprise';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockPipe } from 'ng-mocks';
 
+import { changePaginationVisibility } from '@cdba/core/store/actions/search/search.actions';
 import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
-import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   CALCULATIONS_MOCK,
   REFERENCE_TYPE_MOCK,
@@ -38,10 +40,15 @@ describe('ReferenceTypesTableComponent', () => {
   let spectator: Spectator<ReferenceTypesTableComponent>;
   let stateService: AgGridStateService;
   let paginationConstrolsService: PaginationControlsService;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: ReferenceTypesTableComponent,
-    imports: [MockModule(AgGridModule), MockModule(ResultsStatusBarModule)],
+    imports: [
+      MockModule(AgGridModule),
+      MockModule(ResultsStatusBarModule),
+      MockPipe(PushPipe),
+    ],
     declarations: [ReferenceTypesTableComponent],
     detectChanges: false,
     providers: [
@@ -50,14 +57,9 @@ describe('ReferenceTypesTableComponent', () => {
       }),
       mockProvider(AgGridStateService),
       TableStore,
-      mockProvider(BetaFeatureService, {
-        getBetaFeature: jest.fn(
-          (feature: BetaFeature) => feature === BetaFeature.LIMIT_FILTER
-        ),
-      }),
       mockProvider(PaginationControlsService, {
-        setPageSize: jest.fn(),
-        getPageSize: jest.fn(() => 100),
+        getPageSizeFromLocalStorage: jest.fn(() => 100),
+        setPageSizeToLocalStorage: jest.fn(),
       }),
       provideMockStore({
         initialState: {
@@ -73,6 +75,7 @@ describe('ReferenceTypesTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    store = spectator.inject(MockStore);
 
     stateService = spectator.inject(AgGridStateService);
     paginationConstrolsService = spectator.inject(PaginationControlsService);
@@ -88,7 +91,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should set values in pagination service', () => {
-      paginationConstrolsService.setPageSize(100);
+      paginationConstrolsService.setPageSizeToLocalStorage(100);
       spectator.setInput('rowData', [REFERENCE_TYPE_MOCK, REFERENCE_TYPE_MOCK]);
 
       component.ngOnInit();
@@ -164,11 +167,18 @@ describe('ReferenceTypesTableComponent', () => {
     const event: GridReadyEvent = {
       api: {
         setRowData: jest.fn(),
+        paginationGoToPage: jest.fn(),
       } as unknown as GridApi,
       columnApi: {
         applyColumnState: jest.fn(),
+        getRowGroupColumns: jest.fn().mockImplementation(() => []),
       } as unknown as ColumnApi,
     } as unknown as GridReadyEvent;
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+      component['paginationControlsService'].currentPage = 0;
+    });
 
     it('should set gridApi', () => {
       component.onGridReady(event);
@@ -190,12 +200,51 @@ describe('ReferenceTypesTableComponent', () => {
 
     it('should set row data', () => {
       const rowData = [{ foo: 'bar' } as unknown as ReferenceType];
-
       component.rowData = rowData;
 
       component.onGridReady(event);
 
       expect(event.api.setRowData).toHaveBeenCalledWith(rowData);
+    });
+
+    it('should go to page if current page is not 0', () => {
+      component['paginationControlsService'].currentPage = 1;
+
+      component.onGridReady(event);
+
+      expect(component['gridApi'].paginationGoToPage).toHaveBeenCalledWith(1);
+    });
+
+    it('should not invoke paginationGoToPage if current page is 0', () => {
+      component.onGridReady(event);
+
+      expect(component['gridApi'].paginationGoToPage).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch changePaginationVisibility with false (hide) if rowGroupColumns is not empty', () => {
+      event.columnApi.getRowGroupColumns = jest
+        .fn()
+        .mockImplementation(() => [{} as Column, {} as Column]);
+      const storeSpy = jest.spyOn(store, 'dispatch');
+
+      component.onGridReady(event);
+
+      expect(storeSpy).toHaveBeenCalledWith(
+        changePaginationVisibility({ isVisible: false })
+      );
+    });
+
+    it('should dispatch changePaginationVisibility with true (show) if rowGroupColumns is empty', () => {
+      event.columnApi.getRowGroupColumns = jest
+        .fn()
+        .mockImplementation(() => []);
+      const storeSpy = jest.spyOn(store, 'dispatch');
+
+      component.onGridReady(event);
+
+      expect(storeSpy).toHaveBeenCalledWith(
+        changePaginationVisibility({ isVisible: true })
+      );
     });
   });
 
@@ -227,6 +276,63 @@ describe('ReferenceTypesTableComponent', () => {
 
       expect(component['selectNodes']).toHaveBeenCalled();
       expect(params.api.refreshHeader).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('onColumnRowGroupChanged', () => {
+    it('should show pagination when column is being changed but row grouping is inactive', () => {
+      const storeSpy = jest.spyOn(store, 'dispatch');
+      const event = {
+        source: 'toolPanelUi',
+        columns: [
+          {
+            isRowGroupActive: jest.fn(() => false),
+          } as unknown as Column,
+        ],
+      } as ColumnRowGroupChangedEvent;
+
+      component.onColumnRowGroupChanged(event);
+
+      expect(storeSpy).toHaveBeenCalledWith(
+        changePaginationVisibility({ isVisible: true })
+      );
+    });
+    it('should hide pagination when column is being changed and row grouping is active', () => {
+      const storeSpy = jest.spyOn(store, 'dispatch');
+      const event = {
+        source: 'toolPanelUi',
+        columns: [
+          {
+            isRowGroupActive: jest.fn(() => true),
+          } as unknown as Column,
+        ],
+      } as ColumnRowGroupChangedEvent;
+
+      component.onColumnRowGroupChanged(event);
+
+      expect(storeSpy).toHaveBeenCalledWith(
+        changePaginationVisibility({ isVisible: false })
+      );
+    });
+    it('should hide pagination when more than one column is being changed', () => {
+      const storeSpy = jest.spyOn(store, 'dispatch');
+      const event = {
+        source: 'toolPanelUi',
+        columns: [
+          {
+            isRowGroupActive: jest.fn(() => true),
+          } as unknown as Column,
+          {
+            isRowGroupActive: jest.fn(() => true),
+          } as unknown as Column,
+        ],
+      } as ColumnRowGroupChangedEvent;
+
+      component.onColumnRowGroupChanged(event);
+
+      expect(storeSpy).toHaveBeenCalledWith(
+        changePaginationVisibility({ isVisible: false })
+      );
     });
   });
 

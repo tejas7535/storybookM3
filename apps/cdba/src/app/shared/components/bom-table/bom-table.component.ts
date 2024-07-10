@@ -81,9 +81,9 @@ export class BomTableComponent implements OnChanges {
   private gridApi: GridApi;
   private gridColumnApi: ColumnApi;
 
-  private readonly customColumnsOrderKey = 'custom_columns_order';
+  private readonly customColumnsOrderKey = 'customColumnsOrder';
 
-  public constructor(
+  constructor(
     protected columnDefinitionService: ColumnDefinitionService,
     protected sidebarService: SidebarService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,

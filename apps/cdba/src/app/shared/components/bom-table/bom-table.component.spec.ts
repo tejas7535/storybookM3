@@ -341,7 +341,7 @@ describe('BomTableComponent', () => {
         colId: 'bar',
       },
     ];
-    const columnKey = 'custom_columns_order';
+    const columnKey = 'customColumnsOrder';
     const mockedColumnMovedEvt = {
       columnApi: {
         getColumnState: jest.fn().mockReturnValue(columnsState),

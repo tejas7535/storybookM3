@@ -29,12 +29,6 @@ const getFiltersEntityState = createSelector(
 
 export const getFilters = createSelector(getFiltersEntityState, selectAll);
 
-export const getFiltersWithoutLimit = createSelector(
-  getFilters,
-  (filters: FilterItem[]) =>
-    filters.filter((filter) => filter.name !== FILTER_NAME_LIMIT)
-);
-
 export const getFilterByName = (filterName: string) =>
   createSelector(getFilters, (filters: FilterItem[]) =>
     filters.find((item) => item.name === filterName)
@@ -84,14 +78,14 @@ export const getChangedIdValueFilters = createSelector(
     )
 );
 
-export const getFiltersForRequest = createSelector(
+export const getFiltersForSearchRequest = createSelector(
   getChangedFilters,
-  // Limit filter will be added by default after it leaves the BetaFeature
   getFilterByName(FILTER_NAME_LIMIT),
   (filters: FilterItem[], limitFilter: FilterItem) =>
     filters.some((item) => item.name === FILTER_NAME_LIMIT)
       ? filters
-      : [...filters, limitFilter]
+      : // Append LIMIT filter even when it wasn't changed
+        [...filters, limitFilter]
 );
 
 const getSelectedOptionsByName = (
@@ -143,6 +137,11 @@ export const getTooManyResults = createSelector(
 export const getTooManyResultsThreshold = createSelector(
   getSearchState,
   (state: SearchState) => state.referenceTypes.tooManyResultsThreshold
+);
+
+export const getPaginationVisibility = createSelector(
+  getSearchState,
+  (state: SearchState) => state.referenceTypes.isPaginationVisible
 );
 
 export const getNoResultsFound = createSelector(

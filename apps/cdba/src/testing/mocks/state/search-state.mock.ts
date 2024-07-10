@@ -255,6 +255,7 @@ export const SEARCH_STATE_MOCK: SearchState = {
     resultCount: 10,
     selectedNodeIds: ['1'],
     errorMessage: undefined,
+    isPaginationVisible: undefined,
     items: [REFERENCE_TYPE_MOCK, REFERENCE_TYPE_MOCK_WITHOUT_SALES_INFORMATION],
   },
 };

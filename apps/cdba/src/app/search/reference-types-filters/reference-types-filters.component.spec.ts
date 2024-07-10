@@ -32,8 +32,8 @@ import {
 import {
   getChangedFilters,
   getFilters,
-  getFiltersWithoutLimit,
   getTooManyResults,
+  getTooManyResultsThreshold,
 } from '../../core/store/selectors/search/search.selector';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
@@ -69,7 +69,6 @@ describe('ReferenceTypesFiltersComponent', () => {
   let component: ReferenceTypesFiltersComponent;
   let spectator: Spectator<ReferenceTypesFiltersComponent>;
   let mockStore: MockStore;
-  let betaFeatureService: BetaFeatureService;
 
   const createComponent = createComponentFactory({
     component: ReferenceTypesFiltersComponent,
@@ -92,8 +91,8 @@ describe('ReferenceTypesFiltersComponent', () => {
         },
         selectors: [
           { selector: getFilters, value: filters },
-          { selector: getFiltersWithoutLimit, value: filters },
           { selector: getTooManyResults, value: false },
+          { selector: getTooManyResultsThreshold, value: 500 },
           { selector: getChangedFilters, value: [] },
         ],
       }),
@@ -109,7 +108,6 @@ describe('ReferenceTypesFiltersComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     mockStore = spectator.inject(MockStore);
-    betaFeatureService = spectator.inject(BetaFeatureService);
   });
 
   it('should create', () => {
@@ -117,28 +115,13 @@ describe('ReferenceTypesFiltersComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should get filters based on BetaFeature.LIMIT_FILTER state', () => {
-      jest.spyOn(mockStore, 'select');
-      betaFeatureService.getBetaFeature = jest.fn(() => true);
-
-      component.ngOnInit();
-
-      expect(mockStore.select).toHaveBeenCalledWith(getFilters);
-
-      betaFeatureService.getBetaFeature = jest.fn(() => false);
-      component.ngOnInit();
-
-      expect(mockStore.select).toHaveBeenCalledWith(getFiltersWithoutLimit);
-    });
-
     it('should dispatch action loadInitialFilters when filters are empty', () => {
       mockStore.dispatch = jest.fn();
-      component.LIMIT_FILTER_ENABLED = false;
 
       component.ngOnInit();
       expect(mockStore.dispatch).not.toHaveBeenCalledWith(loadInitialFilters());
 
-      mockStore.overrideSelector(getFiltersWithoutLimit, []);
+      mockStore.overrideSelector(getFilters, []);
       component.ngOnInit();
       expect(mockStore.dispatch).toHaveBeenCalledWith(loadInitialFilters());
     });

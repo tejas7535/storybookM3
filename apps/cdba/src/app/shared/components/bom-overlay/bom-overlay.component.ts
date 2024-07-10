@@ -26,7 +26,7 @@ export class BomOverlayComponent implements OnInit, OnDestroy {
     this.htmlElement = this.elementRef.nativeElement;
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.observer = new ResizeObserver((entries) => {
       const width = entries[0].contentRect.width;
 
@@ -36,13 +36,13 @@ export class BomOverlayComponent implements OnInit, OnDestroy {
     this.observer.observe(this.htmlElement);
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     if (this.observer) {
       this.observer.unobserve(this.htmlElement);
     }
   }
 
-  public onClose(): void {
+  onClose(): void {
     this.closeOverlay.emit();
   }
 
