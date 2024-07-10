@@ -11,7 +11,10 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import {
+  MAT_DATE_FORMATS,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -112,6 +115,7 @@ const DATE_FORMATS = {
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     ExcelValidatorService,
+    provideNativeDateAdapter(),
   ],
 })
 export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
