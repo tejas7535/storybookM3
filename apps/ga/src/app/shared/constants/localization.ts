@@ -3,11 +3,11 @@ import { Locale } from '@schaeffler/transloco/components';
 export const AVAILABLE_LOCALES: Locale[] = [
   {
     id: 'de-DE',
-    label: 'Deutsch (Deutschland)',
+    label: 'DD.MM.YYYY 2,5',
   },
   {
     id: 'en-US',
-    label: 'English (United States)',
+    label: 'MM/DD/YYYY 2.5',
   },
 ];
 
