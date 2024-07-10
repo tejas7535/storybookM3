@@ -108,15 +108,15 @@
     "@jsverse/transloco-validator": "7.0.0",
     "@ngneat/spectator": "18.0.2",
     "@ngrx/store-devtools": "17.0.1",
-    "@nx/angular": "19.2.0",
-    "@nx/cypress": "19.2.0",
-    "@nx/devkit": "19.2.0",
-    "@nx/eslint": "19.2.0",
-    "@nx/eslint-plugin": "19.2.0",
-    "@nx/jest": "19.2.0",
-    "@nx/js": "19.2.0",
-    "@nx/storybook": "19.2.0",
-    "@nx/workspace": "19.2.0",
+    "@nx/angular": "19.4.2",
+    "@nx/cypress": "19.4.2",
+    "@nx/devkit": "19.4.2",
+    "@nx/eslint": "19.4.2",
+    "@nx/eslint-plugin": "19.4.2",
+    "@nx/jest": "19.4.2",
+    "@nx/js": "19.4.2",
+    "@nx/storybook": "19.4.2",
+    "@nx/workspace": "19.4.2",
     "@schematics/angular": "18.0.7",
     "@storybook/addon-a11y": "7.6.20",
     "@storybook/addon-actions": "7.6.20",
@@ -207,7 +207,8 @@
       "postcss@<8.4.31": ">=8.4.31",
       "@babel/traverse@<7.23.2": ">=7.23.2",
       "follow-redirects@<1.15.6": ">=1.15.6",
-      "hoek": "npm:@hapi/hoek@>=9.0.3"
+      "hoek": "npm:@hapi/hoek@>=9.0.3",
+      "undici@<6.9.12": ">=6.9.12"
     }
   }
 }
