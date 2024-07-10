@@ -9,7 +9,7 @@ export const environment: Environment = {
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   appScope: 'api://ab371c43-8740-4102-b4ad-f49e68270f1a/gqapi',
   envName: 'https://guided-quoting-q-1.dev.dp.schaeffler (pre-release)',
-  oneTrustId: '7fcf20e1-1af1-4a3a-b84b-fdca5daf95f4',
+  oneTrustId: '01909c11-f004-7794-a10a-ee843a798ffc',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '7194543e-f354-4570-aa04-808d2a78b1a3',
