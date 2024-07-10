@@ -11,10 +11,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import {
-  MAT_DATE_FORMATS,
-  provideNativeDateAdapter,
-} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +20,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import {
   MAT_MOMENT_DATE_FORMATS,
   MatMomentDateModule,
+  provideMomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
 import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
@@ -112,11 +109,7 @@ const DATE_FORMATS = {
     // ngrx
     PushPipe,
   ],
-  providers: [
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
-    ExcelValidatorService,
-    provideNativeDateAdapter(),
-  ],
+  providers: [ExcelValidatorService, provideMomentDateAdapter(DATE_FORMATS)],
 })
 export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   possibleMaturity = [10, 9, 8, 7, 6, 5, 2];
