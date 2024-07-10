@@ -1,4 +1,17 @@
 # Release Notes of Cost Database Analytics
+## [5.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.0.0...cdba-v5.1.0) (2024-07-10)
+
+
+### Features
+
+* **cdba:** limit filter moved out of beta ([#6330](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6330)) ([659c682](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/659c682a8ac7780db30624b0c8cf46e0a262c9eb))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **cdba:** fix styling and costs roleGroup ([#6215](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6215)) ([b5c8010](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b5c801032115c6d8f8c1bb1591ad89cccf59dbcd))
+
 ## [5.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v4.3.0...cdba-v5.0.0) (2024-05-06)
 
 
