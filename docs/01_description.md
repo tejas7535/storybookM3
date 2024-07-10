@@ -5,12 +5,12 @@
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nx/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
 
-![@nx/workspace: 19.2.0](https://img.shields.io/badge/%40nx%2Fworkspace-19.2.0-brightgreen)
+![@nx/workspace: 19.4.2](https://img.shields.io/badge/%40nx%2Fworkspace-19.4.2-brightgreen)
 ![typescript: 5.4.5](https://img.shields.io/badge/typescript-5.4.5-brightgreen)
-![@angular/core: 18.0.3](https://img.shields.io/badge/%40angular%2Fcore-18.0.3-brightgreen)
-![@angular/cli: 18.0.5](https://img.shields.io/badge/%40angular%2Fcli-18.0.5-brightgreen)
-![@angular/cdk: 18.0.4](https://img.shields.io/badge/%40angular%2Fcdk-18.0.4-brightgreen)
-![@angular/material: 18.0.4](https://img.shields.io/badge/%40angular%2Fmaterial-18.0.4-brightgreen)
+![@angular/core: 18.0.6](https://img.shields.io/badge/%40angular%2Fcore-18.0.6-brightgreen)
+![@angular/cli: 18.0.7](https://img.shields.io/badge/%40angular%2Fcli-18.0.7-brightgreen)
+![@angular/cdk: 18.0.6](https://img.shields.io/badge/%40angular%2Fcdk-18.0.6-brightgreen)
+![@angular/material: 18.0.6](https://img.shields.io/badge/%40angular%2Fmaterial-18.0.6-brightgreen)
 ![@ngrx/store: 17.0.1](https://img.shields.io/badge/%40ngrx%2Fstore-17.0.1-brightgreen)
 ![jest: 29.6.4](https://img.shields.io/badge/jest-29.6.4-brightgreen)
 ![cypress: 13.9.0](https://img.shields.io/badge/cypress-13.9.0-brightgreen)
