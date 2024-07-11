@@ -18,10 +18,10 @@ describe('InputSelectComponent', () => {
   const createComponent = createComponentFactory({
     component: InputSelectComponent,
     imports: [
-      ReactiveFormsModule,
-      MockModule(MatFormFieldModule),
+      MockModule(ReactiveFormsModule),
+      MatFormFieldModule,
       MockModule(MatInputModule),
-      MatIconTestingModule,
+      MockModule(MatIconTestingModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
