@@ -1,4 +1,4 @@
-@if (quotationDetail) {
+@if (quotationDetail$ | ngrxPush; as quotationDetail) {
   <div>
     <gq-manual-price
       [userHasManualPriceRole]="rolesFacade.userHasManualPriceRole$ | ngrxPush"

@@ -1,17 +1,16 @@
-import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import {
+  getIsQuotationStatusActive,
+  getQuotationCurrency,
+} from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ProcessCaseState } from '@gq/core/store/process-case';
 import { PriceSource, UpdatePrice } from '@gq/shared/models/quotation-detail';
-import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -19,21 +18,16 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
 import {
   AUTH_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
 } from '../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { FilterPricingComponent } from './filter-pricing.component';
-import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
-import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
+import { SapPriceComponent } from './sap-price/sap-price.component';
 import { TargetPriceComponent } from './target-price/target-price.component';
 
 describe('FilterPricingComponent', () => {
@@ -44,17 +38,7 @@ describe('FilterPricingComponent', () => {
   const createComponent = createComponentFactory({
     component: FilterPricingComponent,
     detectChanges: false,
-    imports: [
-      BrowserAnimationsModule,
-      LoadingSpinnerModule,
-      MatIconModule,
-      MatFormFieldModule,
-      MatInputModule,
-      PushPipe,
-      ReactiveFormsModule,
-      SharedPipesModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [PushPipe],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
@@ -69,11 +53,9 @@ describe('FilterPricingComponent', () => {
       }),
     ],
     declarations: [
-      FilterPricingComponent,
-      FilterPricingCardComponent,
       ManualPriceComponent,
       GqPriceComponent,
-      QuantityDisplayComponent,
+      SapPriceComponent,
       TargetPriceComponent,
     ],
   });
@@ -89,113 +71,157 @@ describe('FilterPricingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    beforeEach(() => {
-      jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
-    });
+  describe('observables', () => {
     test(
-      'should initalize observables and variables',
+      'should set quotationCurrency',
       marbles((m) => {
-        component.ngOnInit();
+        mockStore.overrideSelector(getQuotationCurrency, 'EUR');
 
-        m.expect(component.quotationCurrency$).toBeObservable(
-          m.cold('a', { a: QUOTATION_MOCK.currency })
-        );
-        m.expect(component.updateIsLoading$).toBeObservable('a', {
-          a: ACTIVE_CASE_STATE_MOCK.updateLoading,
+        m.expect(component.quotationCurrency$).toBeObservable('a', {
+          a: 'EUR',
         });
-        m.expect(component.quotationIsActive$).toBeObservable('a', {
+      })
+    );
+    test(
+      'should set quotation is loading',
+      marbles((m) => {
+        mockStore.overrideSelector(activeCaseFeature.selectUpdateLoading, true);
+
+        m.expect(component.updateIsLoading$).toBeObservable('a', {
           a: true,
         });
-        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
-          a: false,
+      })
+    );
+
+    test(
+      'should set quotation is active',
+      marbles((m) => {
+        mockStore.overrideSelector(getIsQuotationStatusActive, true);
+
+        m.expect(component.updateIsLoading$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
+
+    test(
+      'should set quotation detail',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          activeCaseFeature.getSelectedQuotationDetail,
+          QUOTATION_DETAIL_MOCK
+        );
+
+        m.expect(component.quotationDetail$).toBeObservable('a', {
+          a: QUOTATION_DETAIL_MOCK,
         });
       })
     );
   });
 
   describe('selectManualPrice', () => {
-    test('should dispatch action', () => {
-      component.quotationDetail = QUOTATION_DETAIL_MOCK;
-      mockStore.dispatch = jest.fn();
-      const updatePrice = new UpdatePrice(
-        QUOTATION_DETAIL_MOCK.recommendedPrice,
-        PriceSource.GQ
-      );
-      component.selectPrice(updatePrice);
+    test(
+      'should dispatch action',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          activeCaseFeature.getSelectedQuotationDetail,
+          QUOTATION_DETAIL_MOCK
+        );
+        mockStore.dispatch = jest.fn();
 
-      expect(mockStore.dispatch).toHaveBeenLastCalledWith(
-        ActiveCaseActions.updateQuotationDetails({
-          updateQuotationDetailList: [
-            {
-              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-              price: QUOTATION_DETAIL_MOCK.recommendedPrice,
-              priceSource: PriceSource.GQ,
-            },
-          ],
-        })
-      );
-    });
+        const updatePrice = new UpdatePrice(
+          QUOTATION_DETAIL_MOCK.recommendedPrice,
+          PriceSource.GQ
+        );
+
+        m.expect(component.quotationDetail$).toBeObservable('a', {
+          a: QUOTATION_DETAIL_MOCK,
+        });
+        m.flush();
+
+        component.selectPrice(updatePrice);
+
+        expect(mockStore.dispatch).toHaveBeenLastCalledWith(
+          ActiveCaseActions.updateQuotationDetails({
+            updateQuotationDetailList: [
+              {
+                gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+                price: QUOTATION_DETAIL_MOCK.recommendedPrice,
+                priceSource: PriceSource.GQ,
+              },
+            ],
+          })
+        );
+      })
+    );
   });
 
   describe('isDetailsLinkVisible$', () => {
-    beforeEach(() => {
-      jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+    describe('not a f number', () => {
+      beforeEach(() => {
+        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
+      });
+
+      test(
+        'should return true when is not f number and strategic price is not set',
+        marbles((m) => {
+          mockStore.overrideSelector(
+            activeCaseFeature.getSelectedQuotationDetail,
+            { ...QUOTATION_DETAIL_MOCK, strategicPrice: undefined }
+          );
+
+          m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+            a: true,
+          });
+        })
+      );
+
+      test(
+        'should return false when is not f number and strategic price is set',
+        marbles((m) => {
+          mockStore.overrideSelector(
+            activeCaseFeature.getSelectedQuotationDetail,
+            { ...QUOTATION_DETAIL_MOCK, strategicPrice: 50 }
+          );
+
+          m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+            a: false,
+          });
+        })
+      );
     });
-    test(
-      'should return true when is not f number and strategic price is not set',
-      marbles((m) => {
-        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
-        component.ngOnInit();
-        component.quotationDetail = QUOTATION_DETAIL_MOCK;
-        component.quotationDetail.strategicPrice = null;
 
-        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
-          a: true,
-        });
-      })
-    );
-
-    test(
-      'should return false when is not f number and strategic price is set',
-      marbles((m) => {
-        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(false);
-        component.ngOnInit();
-        component.quotationDetail = QUOTATION_DETAIL_MOCK;
-        component.quotationDetail.strategicPrice = 50;
-
-        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
-          a: false,
-        });
-      })
-    );
-
-    test(
-      'should return false when is f number and strategic price is not set',
-      marbles((m) => {
+    describe('f number', () => {
+      beforeEach(() => {
         jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
-        component.ngOnInit();
-        component.quotationDetail = QUOTATION_DETAIL_MOCK;
-        component.quotationDetail.strategicPrice = null;
+      });
+      test(
+        'should return false when is f number and strategic price is not set',
+        marbles((m) => {
+          mockStore.overrideSelector(
+            activeCaseFeature.getSelectedQuotationDetail,
+            QUOTATION_DETAIL_MOCK
+          );
 
-        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
-          a: false,
-        });
-      })
-    );
+          m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+            a: false,
+          });
+        })
+      );
 
-    test(
-      'should return false when is f number and strategic price is set',
-      marbles((m) => {
-        jest.spyOn(fPricingUtils, 'isFNumber').mockReturnValue(true);
-        component.ngOnInit();
-        component.quotationDetail = QUOTATION_DETAIL_MOCK;
-        component.quotationDetail.strategicPrice = 50;
+      test(
+        'should return false when is f number and strategic price is set',
+        marbles((m) => {
+          mockStore.overrideSelector(
+            activeCaseFeature.getSelectedQuotationDetail,
+            { ...QUOTATION_DETAIL_MOCK, strategicPrice: 50 }
+          );
 
-        m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
-          a: false,
-        });
-      })
-    );
+          m.expect(component.isDetailsLinkVisible$).toBeObservable('a', {
+            a: false,
+          });
+        })
+      );
+    });
   });
 });

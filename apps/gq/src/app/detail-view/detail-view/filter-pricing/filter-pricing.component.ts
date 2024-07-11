@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, tap } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
@@ -10,10 +10,7 @@ import {
 } from '@gq/core/store/active-case/active-case.selectors';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { RolesFacade } from '@gq/core/store/facades';
-import {
-  QuotationDetail,
-  UpdatePrice,
-} from '@gq/shared/models/quotation-detail';
+import { UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { Store } from '@ngrx/store';
 
@@ -21,38 +18,31 @@ import { Store } from '@ngrx/store';
   selector: 'gq-filter-pricing',
   templateUrl: './filter-pricing.component.html',
 })
-export class FilterPricingComponent implements OnInit {
-  @Input() quotationDetail: QuotationDetail;
+export class FilterPricingComponent {
+  #gqPositionId: string;
+  readonly #store = inject(Store);
+  readonly rolesFacade = inject(RolesFacade);
 
-  readonly #isFNumber: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-  public quotationCurrency$: Observable<string>;
-  public updateIsLoading$: Observable<boolean>;
-  public quotationIsActive$: Observable<boolean>;
-  public isDetailsLinkVisible$: Observable<boolean> = combineLatest([
+  quotationCurrency$ = this.#store.select(getQuotationCurrency);
+  updateIsLoading$ = this.#store.select(activeCaseFeature.selectUpdateLoading);
+  quotationIsActive$ = this.#store.select(getIsQuotationStatusActive);
+  quotationDetail$ = this.#store
+    .select(activeCaseFeature.getSelectedQuotationDetail)
+    .pipe(
+      tap((detail) => {
+        this.#gqPositionId = detail?.gqPositionId;
+      })
+    );
+
+  isDetailsLinkVisible$ = combineLatest([
     this.rolesFacade.userHasAccessToComparableTransactions$,
-    this.#isFNumber,
+    this.quotationDetail$,
   ]).pipe(
     map(
-      ([hasAccess, isFNumberValue]) =>
-        hasAccess && !isFNumberValue && !this.quotationDetail?.strategicPrice
+      ([hasAccess, detail]) =>
+        hasAccess && !isFNumber(detail) && !detail?.strategicPrice
     )
   );
-
-  constructor(
-    public readonly rolesFacade: RolesFacade,
-    private readonly store: Store
-  ) {}
-
-  public ngOnInit(): void {
-    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
-    this.updateIsLoading$ = this.store.select(
-      activeCaseFeature.selectUpdateLoading
-    );
-    this.quotationIsActive$ = this.store.select(getIsQuotationStatusActive);
-    this.#isFNumber.next(isFNumber(this.quotationDetail));
-  }
 
   selectPrice(updatePrice: UpdatePrice): void {
     const { priceSource } = updatePrice;
@@ -60,11 +50,11 @@ export class FilterPricingComponent implements OnInit {
     const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
         priceSource,
+        gqPositionId: this.#gqPositionId,
         price: updatePrice.price,
-        gqPositionId: this.quotationDetail.gqPositionId,
       },
     ];
-    this.store.dispatch(
+    this.#store.dispatch(
       ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
     );
   }

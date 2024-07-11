@@ -107,8 +107,7 @@
     }
     <div class="mx-4 mt-4 flex flex-col md:flex-row">
       <div class="w-full md:w-3/5">
-        <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">
-        </gq-filter-pricing>
+        <gq-filter-pricing> </gq-filter-pricing>
         <ng-container *featureToggle="'fPricing'">
           <ng-container *transloco="let t; read: 'detailView.filterPricing'">
             @if (activeCaseFacade.quotationDetailIsFNumber$ | ngrxPush) {
