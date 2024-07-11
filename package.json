@@ -65,7 +65,7 @@
     "@jsverse/transloco-messageformat": "7.0.0",
     "@jsverse/transloco-persist-lang": "7.0.0",
     "@microsoft/applicationinsights-web": "2.8.18",
-    "@ng-web-apis/common": "2.0.1",
+    "@ng-web-apis/common": "2.2.0",
     "@ngneat/cashew": "3.1.0",
     "@ngrx/component": "17.0.1",
     "@ngrx/component-store": "17.0.1",
