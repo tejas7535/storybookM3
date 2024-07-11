@@ -22,4 +22,5 @@ export const environment: Environment = {
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
   },
+  dmcScanEnabled: false,
 };

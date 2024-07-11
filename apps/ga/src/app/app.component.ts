@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -13,10 +14,15 @@ import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath } from '@schaeffler/legal-pages';
 
-import { SettingsFacade, StorageMessagesActions } from '@ga/core/store';
+import {
+  selectBearing,
+  SettingsFacade,
+  StorageMessagesActions,
+} from '@ga/core/store';
 
 import packageJson from '../../package.json';
 import { getAppFooterLinks } from './core/helpers/app-config-helpers';
+import { ScanDialogComponent } from './features/dmc-scanner/scan-dialog.component';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 import { PartnerVersion } from './shared/models';
 import { EmbeddedGoogleAnalyticsService } from './shared/services/embedded-google-analytics/embedded-google-analytics.service';
@@ -45,6 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly settingsFacade: SettingsFacade,
     private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService,
     private readonly store: Store,
+    private readonly dialog: MatDialog,
     @Optional() private readonly oneTrustService: OneTrustService,
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
@@ -113,6 +120,10 @@ export class AppComponent implements OnInit, OnDestroy {
         const url = (event as NavigationEnd).url?.split('/').pop();
 
         this.isCookiePage = url === LegalPath.CookiePath;
+
+        if (url === 'scan') {
+          this.openScanDialog();
+        }
       });
 
     if (this.embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion()) {
@@ -198,5 +209,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private updateLangAttribute(lang: string) {
     this.document.documentElement.lang = lang;
+  }
+
+  private openScanDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.backdropClass = 'responsive-backdrop';
+    dialogConfig.disableClose = true;
+    const dialogRef = this.dialog.open(ScanDialogComponent, dialogConfig);
+
+    dialogRef.componentInstance.events.subscribe(({ name, ...payload }) => {
+      this.applicationInsightsService.logEvent(name, payload);
+      this.embeddedGoogleAnalyticsService.logEvent(
+        this.embeddedGoogleAnalyticsService.createInteractionEvent(name, name)
+      );
+    });
+
+    dialogRef.componentInstance.selectDesignation.subscribe(
+      (designation: string) => {
+        this.store.dispatch(selectBearing({ bearing: designation }));
+      }
+    );
   }
 }

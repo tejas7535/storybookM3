@@ -19,4 +19,5 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
+  dmcScanEnabled: boolean;
 }

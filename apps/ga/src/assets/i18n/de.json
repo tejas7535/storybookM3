@@ -384,5 +384,48 @@
         "imprint": "<h4>IMPRESSUM UND RECHTLICHE HINWEISE</h4><h5>Verantwortlich für den Inhalt dieser Seiten:</h5><p><table><tr><th rowspan='3' class='align-text-top pr-5'>Anschrift:</th><th>WVW Wälzlager-Vertrieb Wiesbaden GmbH</th></tr><tr><th>Fritz-Ullmann-Straße 4</th></tr><tr><th>55252 Mainz-Kastel</th></tr><tr><th class='text-left'>Telefon:</th><th class='text-left'>06134 – 72 69-0</th></tr><tr><th class='text-left'>Telefax:</th><th class='text-left'>06134 – 72 69-11</th></tr><tr><th class='text-left'>Internet:</th><th class='text-left'>www.schmeckthal-gruppe.de</th></tr><tr><th class='text-left'>E-Mail:</th><th class='text-left'>info@schmeckthal-gruppe.de</th></tr></table></p><p> <b> Geschäftsführer:Dipl.-Wirtschaftsing. (FH) Iris Schmeckthal <br />Dipl.-Ing. (FH) René Schmeckthal <br />Registergericht:Amtsgericht Wiesbaden <br />HRB 3820 <br />Aufsichtsbehörde:Gewerbeamt der Stadt Wiesbaden <br />Gerichtsstand:Wiesbaden <br />Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:DE 113 886 191 <br />Inhaltlich Verantwortlicher gemäß § 55 Abs. 2 RStV:Dipl.-Ing. (FH) René Schmeckthal </b> </p><p> <b> IMPRESSUM <br /> WVW Wälzlager-Vertrieb Wiesbaden GmbH </b> </p><p> Gewerbegebiet Petersweg<br /> Fritz-Ullmann-Straße 4<br /> 55252 Mainz-Kastel<br /> Telefon: 06134 – 7269-0<br /> Telefax: 06134 – 7269-11 <a class='icon icon-mail' data-widget='GATrakken' data-ar-event-category='Engagement' data-ar-event-action='Content/Mailto' data-ar-event-label='info@schaeffler.com mailto:info@schaeffler.com' href='mailto:info@schmeckthal-gruppe.de' target='_self' title='info@schmeckthal-gruppe.de '>E-Mail: info@schmeckthal-gruppe.de</a> </p><p> Vertretungsberechtigte Geschäftsführer:<br /> Dipl.-Wirtschaftsing. (FH) Iris Schmeckthal<br /> Dipl.-Ing. (FH) René Schmeckthal<br /> Sitz der Gesellschaft: Wiesbaden, HRB 3820<br /> Ust.Id-Nr.: DE 113 886 191 </p><p><h4>LAT & SGF Wälzlager- und Industriebedarfs GmbH</h4> Industriegebiet Weidenbusch<br /> Boschring 7<br /> 56422 Wirges / Westerwald<br /> Telefon: 02602 – 949 396-0<br /> Telefax: 02602 – 949 396-11<br /> <a class='icon icon-mail' data-widget='GATrakken' data-ar-event-category='Engagement' data-ar-event-action='Content/Mailto' data-ar-event-label='info@schaeffler.com mailto:info@schaeffler.com' href='mailto:info@schmeckthal-gruppe.de' target='_self' title='info@schmeckthal-gruppe.de '>E-Mail: info@schmeckthal-gruppe.de</a><br /> Vertretungsberechtigte Geschäftsführer:<br /> Dipl.-Wirtschaftsing. (FH) Iris Schmeckthal<br /> Dipl.-Ing. (FH) René Schmeckthal<br /> Sitz der Gesellschaft: Wirges, Amtsgericht Montabaur HRB 7387<br /> Ust.Id-Nr.: DE 188 169 286<br /> </p><p><h4><u>Haftungsausschluss</u></h4> Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. </p>"
       }
     }
+  },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Lager verifiziert",
+      "suspicious": "Verdächtiges Lager",
+      "counterfit": "Gefälschtes Lager"
+    },
+    "requestPermissions": "Berechtigungen anfordern",
+    "notShowAgain": "Nicht erneut anzeigen",
+    "scanAgain": "Erneut scannen",
+    "confirm": "Auswahl bestätigen",
+    "cancel": "Abbrechen",
+    "retry": "Erneut versuchen",
+    "continue": "Fortsetzen",
+    "errors": {
+      "invalidformat": "Dieser Code hat ein ungültiges Format und kann nicht geparst werden. Bitte melden Sie dieses Produkt",
+      "upstream": "Beim Auswerten des Codes ist ein interner Fehler aufgetreten",
+      "nopermissions": "Keine Berechtigung, auf die Kameragerät zuzugreifen",
+      "nocamera": "Keine Kamera auf dem aktuellen Gerät erkannt"
+    },
+    "errorHeading": "Ein Fehler ist aufgetreten",
+    "preface": "Scannen Sie den Produktcode (DMC) auf dem Etikett mit der Kamera Ihres Geräts, um Ihr Lager auszuwählen, dessen Echtheit zu überprüfen und schnell auf Produktinformationen zuzugreifen.",
+    "permissionsHint": "Sie werden um Erlaubnis gebeten, damit unsere Anwendung auf die Kamera Ihres Geräts zugreifen kann",
+    "fallbackRedMessage": "Sie scheinen ein gefälschtes Produkt gescannt zu haben. Bitte kontaktieren Sie unser Kundensupport-Team.",
+    "bearingUnavailableGA": "GreaseApp berechnung wird für das ausgewählte Lager nicht unterstützt",
+    "report": {
+      "error": "Fehler",
+      "codeState": "Code-Status",
+      "message": "Fehlermeldung",
+      "reason": "Grund",
+      "subjectLine": "Verdächtiger Lagerproduktbericht",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Liebes Schaeffler-Team,",
+        "Basierend auf der Überprüfung vermute ich, dass mein Lager eine gefälschte Produkt ist. Bitte helfen Sie mir, die Echtheit meines Produkts zu untersuchen",
+        "",
+        "",
+        ">>> Bitte fügen Sie einige Bilder des Produkts und der Verpackung bei",
+        ">>> Siehe https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_DE.pdf",
+        "",
+        ">>> Bitte ändern Sie nicht unten stehendes"
+      ]
+    }
   }
 }

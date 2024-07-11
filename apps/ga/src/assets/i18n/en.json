@@ -367,5 +367,48 @@
     "content": "Unfortunately an error occured. Please try again later.",
     "confirm": "Confirm",
     "retry": "Retry"
+  },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Bearing verfied",
+      "suspicious": "Suspicious Bearing",
+      "counterfit": "Counterfit Bearing"
+    },
+    "requestPermissions": "request Permissions",
+    "notShowAgain": "Do not show again",
+    "scanAgain": "Scan again",
+    "confirm": "Confirm selection",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "continue": "Continue",
+    "errors": {
+      "invalidformat": "This code has an invalid format and cannot be parsed. Please get in touch to report this product",
+      "upstream": "An internal error occured while evaluating the code",
+      "nopermissions": "No permission to access the device camera",
+      "nocamera": "No camera detected on the current device"
+    },
+    "errorHeading": "An error occured",
+    "preface": "Scan the product code (DMC) on the label with your device's camera to select your bearing, verify its authenticity and quickly access product information.",
+    "permissionsHint": "You will be asked for permission for our application to access your devices camera",
+    "fallbackRedMessage": "You seem to have scanned a counterfeit product. Please get in touch with our customer support team.",
+    "bearingUnavailableGA": "Grease calculation is not supported for the selected bearing",
+    "report": {
+      "error": "Error",
+      "codeState": "Code State",
+      "message": "Error Message",
+      "reason": "Reason",
+      "subjectLine": "Suspicious bearing product report",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Dear Schaeffler Team,",
+        "Based on the verification check, I suspect my bearing to be a counterfeit product. Please help me to investigate the authenticity of my product",
+        "",
+        "",
+        ">>> Please attach some images of the product and the packaging",
+        ">>> See https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Please do not change below"
+      ]
+    }
   }
 }

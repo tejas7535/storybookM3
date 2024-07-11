@@ -1,0 +1,267 @@
+<ng-container *transloco="let t; read: 'origincheck'">
+  <div class="flex p-4 max-md:min-h-[calc(100svh-56px)] flex-col">
+    <button
+      mat-basic-button
+      color="primary"
+      class="mr-auto ml-0 mb-2 flex items-center text-subtitle-2 !text-[#00893d]"
+      (click)="close()"
+    >
+      <mat-icon class="!text-[18px] !h-[18px] !w-[18px]"
+        >arrow_back_ios</mat-icon
+      >
+      <span class="text-subtitle-2">Back</span>
+    </button>
+    <ng-container>
+      @switch (state().name) {
+        @case ('Intro') {
+          <div class="flex flex-col items-center space-y-4 h-full">
+            <div class="header">
+              <img src="/assets/images/scan/scan-label.svg" />
+            </div>
+            <div class="info space-y-2 flex flex-col">
+              <p>
+                {{ t('preface') }}
+              </p>
+              <schaeffler-info-banner class="mt-4">
+                {{ t('permissionsHint') }}
+              </schaeffler-info-banner>
+              <mat-checkbox
+                type="checkbox"
+                name="notShowAgain"
+                [(ngModel)]="notShowAgain"
+              >
+                {{ t('notShowAgain') }}
+              </mat-checkbox>
+            </div>
+            <div
+              class="mb-0 !mt-auto flex flex-col md:flex-row space-y-2 md:space-y-0 w-full md:justify-end md:space-x-2"
+            >
+              <button mat-stroked-button (click)="close()">
+                {{ t('cancel') }}
+              </button>
+              <button mat-raised-button color="primary" (click)="showScanner()">
+                {{ t('continue') }}
+              </button>
+            </div>
+          </div>
+        }
+
+        @case ('Scanner') {
+          <div class="flex flex-col items-center w-full h-full">
+            <zxing-scanner
+              [formats]="allowedCodes"
+              (camerasNotFound)="handleCameraNotFound()"
+              (scanSuccess)="handleDetection($event)"
+              (permissionResponse)="handlePermissionResponse($event)"
+            >
+            </zxing-scanner>
+            <div
+              class="mt-auto md:mb-0 md:mt-2 flex flex-col md:flex-row space-y-2 md:space-y-0 w-full md:justify-end md:space-x-2"
+            >
+              <button mat-stroked-button (click)="close()">
+                {{ t('cancel') }}
+              </button>
+            </div>
+          </div>
+        }
+        @case ('Loading') {
+          <div class="h-28">
+            <schaeffler-loading-spinner></schaeffler-loading-spinner>
+          </div>
+        }
+        @case ('Scanned') {
+          <div class="w-full h-full flex flex-col items-center">
+            @switch ($any(state()).codeFlag) {
+              @case ('GREEN') {
+                <img
+                  [src]="$any(state()).pimData.imageUrl"
+                  class="max-w-[200px]"
+                />
+                <div
+                  class="border inline-flex border-success text-success bg-success rounded-md space-x-2 px-4 py-1 text-caption items-center"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                  <span>{{ t('bearingResult.verified') }}</span>
+                </div>
+                <div
+                  class="flex-grow flex-1 flex flex-col my-2 mx-auto max-w-3xl"
+                >
+                  <h1 class="text-h6 my-2 mx-auto mb-4">
+                    {{ $any(state()).pimData.bearingxDesignation }}
+                  </h1>
+                  @if ($any(state()).message) {
+                    <p>{{ $any(state()).message }}</p>
+                  }
+                  @if (!gaSupported()) {
+                    <ng-container
+                      *ngTemplateOutlet="calculationUnsupported"
+                    ></ng-container>
+                  }
+                </div>
+                <div
+                  class="mb-0 mt-auto flex flex-col md:flex-row space-y-2 md:space-y-0 w-full md:justify-end md:space-x-2"
+                >
+                  <button mat-stroked-button (click)="showScanner()">
+                    {{ t('scanAgain') }}
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="selectBearing()"
+                    [disabled]="!gaSupported()"
+                  >
+                    {{ t('confirm') }}
+                  </button>
+                </div>
+              }
+
+              @case ('YELLOW') {
+                <div
+                  class="flex flex-1 flex-grow flex-col items-center justify-center space-y-2"
+                >
+                  <img
+                    [src]="$any(state()).pimData.imageUrl"
+                    class="max-w-[200px]"
+                  />
+                  <div
+                    class="w-full border flex justify-center border-warning text-warning bg-warning rounded-md space-x-2 px-4 py-1 text-caption items-center"
+                  >
+                    <mat-icon>warning</mat-icon>
+                    <span>{{ t('bearingResult.suspicious') }}</span>
+                  </div>
+
+                  <div class="flex flex-col my-2 mx-auto max-w-3xl">
+                    <h1 class="text-h6 my-2">
+                      {{ $any(state()).pimData.bearingxDesignation }}
+                    </h1>
+                  </div>
+                  <p class="mt-0 mb-auto flex-grow">
+                    {{ $any(state()).message }}
+                  </p>
+                  @if (!gaSupported()) {
+                    <ng-container
+                      *ngTemplateOutlet="calculationUnsupported"
+                    ></ng-container>
+                  }
+                </div>
+
+                <div
+                  class="mb-0 mt-auto pt-3 md:mt-4 flex flex-col md:flex-row space-y-2 md:space-y-0 w-full md:justify-end md:space-x-2"
+                >
+                  <button mat-stroked-button (click)="showScanner()">
+                    {{ t('scanAgain') }}
+                  </button>
+
+                  <a
+                    mat-raised-button
+                    color="primary"
+                    [href]="scanService.reportUrl()"
+                    (click)="track('reportButton')"
+                  >
+                    Schaeffler Contact
+                  </a>
+
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="selectBearing()"
+                    [disabled]="!gaSupported()"
+                  >
+                    {{ t('confirm') }}
+                  </button>
+                </div>
+              }
+
+              @case ('RED') {
+                <div
+                  class="flex flex-1 flex-grow flex-col items-center justify-center"
+                >
+                  <img
+                    src="/assets/images/scan/icon-suspicious.svg"
+                    alt="Icon illustrating an error"
+                    class="my-8 max-w-xs"
+                  />
+                  <p>
+                    @if (!$any(state()).message) {
+                      {{ t('fallbackRedMessage') }}
+                    } @else {
+                      {{ $any(state()).message }}
+                    }
+                  </p>
+                </div>
+                <div
+                  class="mb-0 mt-auto md:mt-4 flex flex-col md:flex-row space-y-2 md:space-y-0 w-full md:justify-end md:space-x-2"
+                >
+                  <button mat-stroked-button (click)="showScanner()">
+                    {{ t('scanAgain') }}
+                  </button>
+                  <a
+                    mat-raised-button
+                    color="primary"
+                    [href]="scanService.reportUrl()"
+                    (click)="track('reportButton')"
+                  >
+                    Schaeffler Contact
+                  </a>
+                </div>
+              }
+            }
+          </div>
+        }
+
+        @case ('Error') {
+          <ng-container>
+            <div class="flex flex-col w-full items-center h-full">
+              <img
+                src="/assets/images/scan/icon-suspicious.svg"
+                alt="Icon illustrating an error"
+                class="my-8"
+              />
+              <h3 class="text-center mx-auto text-subtitle-1 mb-2">
+                {{ t('errorHeading') }}
+              </h3>
+              <p>{{ errorState().description }}</p>
+              <div
+                class="mb-0 mt-auto w-full flex flex-col md:flex-row py-0 md:py-4 md:space-x-2 space-y-2 md:space-y-0"
+              >
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="showScanner()"
+                  class="md:ml-auto"
+                >
+                  {{ t('retry') }}
+                </button>
+                <a
+                  mat-raised-button
+                  color="primary"
+                  [href]="scanService.reportUrl()"
+                  (click)="track('reportButton')"
+                >
+                  Schaeffler Contact
+                </a>
+              </div>
+            </div>
+          </ng-container>
+        }
+      }
+    </ng-container>
+  </div>
+
+  <ng-template #calculationUnsupported>
+    <div
+      class="flex flex-row items-center rounded-md border-[1px] py-2 px-3 border-info bg-info w-full"
+    >
+      <div class="flex items-center">
+        <mat-icon
+          class="mr-4 align-middle self-center flex-shrink-0 text-icon-info"
+          >info_outline
+        </mat-icon>
+
+        <div class="text-subtitle-2 text-info">
+          {{ t('bearingUnavailableGA') }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>

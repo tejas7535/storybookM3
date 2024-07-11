@@ -9,6 +9,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterModule } from '@angular/router';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -29,6 +30,7 @@ import {
   searchBearing,
   selectBearing,
 } from '@ga/core/store';
+import { environment } from '@ga/environments/environment';
 import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-bearing-button';
 
 @Component({
@@ -44,12 +46,15 @@ import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-b
     MatProgressSpinnerModule,
     SearchModule,
     AdvancedBearingButtonComponent,
+    RouterModule,
   ],
   templateUrl: './quick-bearing-selection.component.html',
 })
 export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   @Input() resetOnInit = false;
   @Input() showSelectButton = false;
+
+  public readonly dmcScanEnabled = environment.dmcScanEnabled;
 
   public bearingSelectionLoading$ = this.store.select(
     getBearingSelectionLoading
@@ -75,7 +80,6 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
     if (this.resetOnInit) {
       this.resetBearingSelection();
     }
-
     this.currentLanguage = this.transloco.getActiveLang();
     this.transloco.langChanges$
       .pipe(takeUntil(this.destroy$))

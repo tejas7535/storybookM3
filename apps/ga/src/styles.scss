@@ -75,6 +75,16 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
 #legal-pages {
   @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
 }
+
+.scan-dialog {
+  height: calc(100svh - 56px);
+  @apply md:h-auto;
+  margin-top: 56px;
+}
+
+.responsive-backdrop {
+  @apply md:bg-[rgba(0,0,0,0.32)];
+}
 // This class should usually be part of the styles included from the material CDK library
 // But causes issues when the application is running embedded in an iFrame.
 //

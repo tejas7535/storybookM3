@@ -3,24 +3,34 @@
     *transloco="let t; read: 'bearing.bearingSelection.quickSelection'"
     class="relative"
   >
-    <schaeffler-search
-      appearance="outline"
-      [placeholder]="t('searchPlaceholder')"
-      [stringOptions]="bearingResultList$ | ngrxPush"
-      [initialValue]="
-        selectedBearing
-          ? { id: selectedBearing, title: selectedBearing }
-          : undefined
-      "
-      [noResultsText]="t('noResults')"
-      [loading]="bearingSelectionLoading$ | ngrxPush"
-      (searchUpdated)="onSearchUpdated($event)"
-      (optionSelected)="onOptionSelected($event)"
-    >
-      <div loadingContent class="relative h-16">
-        <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
-      </div>
-    </schaeffler-search>
+    <div class="flex flex-row space-x-4">
+      <schaeffler-search
+        appearance="outline"
+        [placeholder]="t('searchPlaceholder')"
+        [stringOptions]="bearingResultList$ | ngrxPush"
+        [initialValue]="
+          selectedBearing
+            ? { id: selectedBearing, title: selectedBearing }
+            : undefined
+        "
+        [noResultsText]="t('noResults')"
+        [loading]="bearingSelectionLoading$ | ngrxPush"
+        (searchUpdated)="onSearchUpdated($event)"
+        (optionSelected)="onOptionSelected($event)"
+        class="flex-grow flex-1"
+      >
+        <div loadingContent class="relative h-16">
+          <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
+        </div>
+      </schaeffler-search>
+      @if (dmcScanEnabled) {
+        <div class="mb-6 flex items-center">
+          <a [routerLink]="['/scan']">
+            <img src="/assets/images/scan/dmc-code.svg" alt="DMC scan icon" />
+          </a>
+        </div>
+      }
+    </div>
     <div class="text-center md:text-right">
       @if (showSelectButton) {
         <button

@@ -53,6 +53,29 @@ export class EmbeddedGoogleAnalyticsService {
     this.logEvent(externalLinkEvent);
   }
 
+  public logEvent(interactionEvent: InteractionEvent): void {
+    if (!this.isAppEmbedded()) {
+      return;
+    }
+
+    if ((this.window as any).dataLayer && interactionEvent) {
+      (this.window as any).dataLayer.push(interactionEvent);
+    }
+  }
+
+  public createInteractionEvent(
+    action: string,
+    action_formatted: string
+  ): InteractionEvent {
+    return {
+      event: 'grease_app_interaction',
+      raw_action: 'click',
+      raw_action_formatted: 'Click',
+      action,
+      action_formatted,
+    };
+  }
+
   private getInteractionEventByType(
     eventType: InteractionEventType
   ): InteractionEvent | undefined {
@@ -72,16 +95,6 @@ export class EmbeddedGoogleAnalyticsService {
     const appDelivery: string = detectAppDelivery();
 
     return appDelivery === AppDelivery.Embedded;
-  }
-
-  private logEvent(interactionEvent: InteractionEvent): void {
-    if (!this.isAppEmbedded()) {
-      return;
-    }
-
-    if ((this.window as any).dataLayer && interactionEvent) {
-      (this.window as any).dataLayer.push(interactionEvent);
-    }
   }
 
   private getLogExternalLinkEvent(
@@ -134,18 +147,5 @@ export class EmbeddedGoogleAnalyticsService {
       default:
         return undefined;
     }
-  }
-
-  private createInteractionEvent(
-    action: string,
-    action_formatted: string
-  ): InteractionEvent {
-    return {
-      event: 'grease_app_interaction',
-      raw_action: 'click',
-      raw_action_formatted: 'Click',
-      action,
-      action_formatted,
-    };
   }
 }
