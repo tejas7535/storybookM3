@@ -24,6 +24,7 @@ export interface Lubricator {
   isOptime: 0 | 1;
   productImageUrl: string;
   bundle?: Accessory[];
+  technicalAttributes: { [key: string]: string };
 }
 
 export interface Accessory {

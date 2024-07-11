@@ -21,6 +21,9 @@ export const mockResponse: RecommendationResponse = {
       isOptime: 0,
       productImageUrl:
         'https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png',
+      technicalAttributes: {
+        funcPrinciple: 'gas powered',
+      },
     },
     recommendedLubricator: {
       matNr: '0951660500001',
@@ -39,6 +42,9 @@ export const mockResponse: RecommendationResponse = {
       isOptime: 1,
       productImageUrl:
         'https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png',
+      technicalAttributes: {
+        funcPrinciple: 'gas powered',
+      },
     },
   },
 };

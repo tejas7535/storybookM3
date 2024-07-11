@@ -7,9 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { RecommendationResponse } from '@lsa/shared/models';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { AccessoryTableComponent } from './accessory-table/accessory-table.component';
 import { RecommendationTableComponent } from './recommendation-table/recommendation-table.component';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'lsa-result',

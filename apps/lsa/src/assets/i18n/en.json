@@ -82,6 +82,7 @@
       "degreeCelsius": "°C",
       "bar": "bar",
       "millilitre": "ml",
+      "tempRange": "Temperature Range",
       "yes": "Yes",
       "no": "No",
       "heading": "Parts list for {{ designation }}",
@@ -96,7 +97,9 @@
       "totalPrice": "Total net value",
       "configSummary": "Configuration summary",
       "increaseOne": "Increase quantity by one",
-      "decreaseOne": "Decrease quantity by one"
+      "decreaseOne": "Decrease quantity by one",
+      "func_principle": "Functional principle",
+      "mounting_position": "Mounting position"
     }
   }
 }

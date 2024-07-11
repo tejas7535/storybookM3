@@ -16,6 +16,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { Accessory } from '@lsa/shared/models';
 import { PushPipe } from '@ngrx/component';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import {
   generateFormGroup,
   transformAccessories,
@@ -25,7 +27,6 @@ import {
   AccessoryTableFormGroup,
   TableGroupState,
 } from './accessory-table.model';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'lsa-accessory-table',

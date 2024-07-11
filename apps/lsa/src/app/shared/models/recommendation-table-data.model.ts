@@ -1,5 +1,3 @@
-import { Lubricator } from './recommendation-response.model';
-
 export interface RecommendationLubricatorHeaderData {
   isRecommended: boolean;
   productImageUrl: string;
@@ -9,7 +7,7 @@ export interface RecommendationLubricatorHeaderData {
 }
 
 export interface RecommendationTableRow {
-  field: keyof Lubricator;
+  field: string;
   minimum?: string;
   recommended?: string;
 }
