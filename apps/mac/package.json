@@ -1,6 +1,6 @@
 {
   "name": "mac",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "dependencies": {
     "buffer": "6.0.3",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"

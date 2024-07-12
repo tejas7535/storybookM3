@@ -1,4 +1,29 @@
 # Release Notes of Material App Center
+## [1.22.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.21.0...mac-v1.22.0) (2024-07-12)
+
+
+### Features
+
+* **mac:** add SuMa to linked apps in mac - UFTABI-7773 ([#6280](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6280)) ([0e1bd5e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0e1bd5eb5e615017384de859222afd14b2bdf788))
+* **mac:** adding events to azure Application insights (UFTABI-7749) ([#6263](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6263)) ([66f02d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/66f02d8c25120a7a8e66fe0f4754e1e34ee8de03))
+* **mac:** migrate msd to standalone components (UFTABI-7728) ([#6253](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6253)) ([8bcdf0e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8bcdf0e36795908916024247d2c0df821460a473))
+* **mac:** scroll to how to get access on learn more page (UFTABI-7751) ([#6257](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6257)) ([bb76ace](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb76aceaf6cc6d5d08f1c9bc33a74b06b89e2785))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **mac:** add translation for new maturity value 0 ([#6255](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6255)) ([f2001d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2001d1fbe05a9c59e8abd573011332581684c90))
+* **mac:** add validation for duplicate primary keys ([#6348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6348)) ([a53be2f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a53be2f7d03a7476d40e56b7b9d7849f802b5ec5))
+* **mac:** changed validation of businessPartnerId ([#6333](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6333)) ([18aecc4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/18aecc490b2ce60d9a496c86ba0bb2ff07f55470))
+* **mac:** fix datepicker format and default value ([#6362](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6362)) ([0894467](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/089446744f7bdf4000de5e386748305f0eac15d8))
+* **mac:** fix datepicker in msd upload dialog ([#6361](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6361)) ([bcbf741](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcbf741f7251eddefcabc0c222c829e4624bca90))
+* **mac:** fix tootip behaviour on scroll ([#6235](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6235)) ([585b7ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/585b7ffa5187b9a67c1bf8c922e69dcb8b45bf9e))
+* **mac:** open subsequent dialogs from main table ([#6271](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6271)) ([737de43](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/737de4347fe606f9ada33223968e8a4745041b3b))
+* **mac:** update validator for upload dialog owner (UFTABI-7733) ([#6308](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6308)) ([07a8336](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/07a8336013d6c0e6b46b0f281e32025db7625fe2))
+* **mac:** using correct parameter for history view ([#6285](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6285)) ([d399c44](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d399c44eb389342679f23bc53794175632adce80))
+* update emission factor upload verification ([#6325](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6325)) ([99eaca4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/99eaca49338c838760f6177212b84eb17ec5f530))
+
 ## [1.21.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.20.0...mac-v1.21.0) (2024-05-24)
 
 
