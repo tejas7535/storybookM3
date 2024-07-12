@@ -44,8 +44,20 @@ describe('ReferencePricingTableComponent', () => {
     test('should call init', () => {
       component['agGridStateService'].init = jest.fn();
       component['setInitialRowData'] = jest.fn();
+      component.currency = 'EUR';
+
       component.ngOnInit();
+
       expect(component['agGridStateService'].init).toHaveBeenCalledTimes(1);
+      expect(component.gridOptions).toEqual({
+        ...component['columnDefService'].GRID_OPTIONS,
+        context: {
+          componentParent: component,
+          quotation: {
+            currency: component.currency,
+          },
+        },
+      });
       expect(component['setInitialRowData']).toHaveBeenCalledTimes(1);
     });
   });

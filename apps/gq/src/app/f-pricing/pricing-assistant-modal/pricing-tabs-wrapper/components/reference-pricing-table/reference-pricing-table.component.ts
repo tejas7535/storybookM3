@@ -23,6 +23,7 @@ import { COMPONENTS } from './config/components';
 export class ReferencePricingTableComponent implements OnInit {
   @Input() inputRowData: ComparableMaterialsRowData[];
   @Output() comparedMaterialClicked = new EventEmitter<string>();
+  @Input() currency: string;
 
   localeText$: Observable<AgGridLocale>;
   columnDefs = this.columnDefService.COLUMN_DEFS;
@@ -54,7 +55,12 @@ export class ReferencePricingTableComponent implements OnInit {
   ngOnInit(): void {
     this.gridOptions = {
       ...this.columnDefService.GRID_OPTIONS,
-      context: { componentParent: this },
+      context: {
+        componentParent: this,
+        quotation: {
+          currency: this.currency,
+        },
+      },
     };
     this.localeText$ = this.localizationService.locale$;
     this.agGridStateService.init(this.TABLE_KEY);

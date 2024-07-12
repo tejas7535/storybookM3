@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
 import { ReferenceMaterialGroupCellComponent } from '@gq/shared/ag-grid/cell-renderer/reference-material-group-cell/reference-material-group-cell.component';
 import { ShowMoreRowsComponent } from '@gq/shared/ag-grid/cell-renderer/show-more-rows/show-more-rows.component';
 import { ReferencePricingColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { translate } from '@jsverse/transloco';
 import {
   ColDef,
@@ -17,6 +18,8 @@ import {
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
+  readonly #columnUtilityService = inject(ColumnUtilityService);
+
   INITIAL_NUMBER_OF_DISPLAYED_ROWS = 5;
   ROWS_TO_ADD_ON_SHOW_MORE = 10;
 
@@ -98,6 +101,14 @@ export class ColumnDefinitionService {
         'fPricing.pricingAssistantModal.referencePricingTable.price'
       ),
       field: ReferencePricingColumnFields.PRICE,
+      valueFormatter: (params) => {
+        // table will not contain a price for group header and no dash should be displayed
+        if (params.value) {
+          return this.#columnUtilityService.numberCurrencyFormatter(params);
+        }
+
+        return null;
+      },
       filterParams: FILTER_PARAMS,
       resizable: true,
     },

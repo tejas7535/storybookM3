@@ -29,6 +29,7 @@
           !comparableTransactionsLoading && comparableTransactionsAvailable
         ) {
           <gq-reference-pricing-table
+            [currency]="currency"
             [inputRowData]="referencePriceRowData"
             (comparedMaterialClicked)="onComparedMaterialClicked($event)"
           ></gq-reference-pricing-table>
