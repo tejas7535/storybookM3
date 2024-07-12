@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import {
   clearCreateCaseRowData,
@@ -44,13 +44,7 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
   title$: Observable<string>;
 
   userHasOfferTypeAccess$: Observable<boolean> =
-    this.roleFacade.userHasRegionWorldOrGreaterChinaRole$.pipe(
-      tap((hasRole) => {
-        if (hasRole) {
-          this.offerTypeFacade.getAllOfferTypes();
-        }
-      })
-    );
+    this.roleFacade.userHasRegionWorldOrGreaterChinaRole$;
   private readonly shutdown$$: Subject<void> = new Subject<void>();
 
   constructor(

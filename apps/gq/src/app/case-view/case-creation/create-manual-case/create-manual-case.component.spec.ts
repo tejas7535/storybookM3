@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { BehaviorSubject, Subject, take } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import {
   clearCreateCaseRowData,
@@ -23,6 +23,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -92,29 +93,15 @@ describe('CreateManualCaseComponent', () => {
   });
 
   describe('userHasOfferTypeAccess$', () => {
-    test('should call getAllOfferTypes when userHasRegionWorldOrGreaterChinaRole$ emits true', (done) => {
-      component['offerTypeFacade'].getAllOfferTypes = jest.fn();
-
-      mockUserHasAccess$$.next(true);
-      component.userHasOfferTypeAccess$.pipe(take(1)).subscribe(() => {
-        expect(
-          component['offerTypeFacade'].getAllOfferTypes
-        ).toHaveBeenCalledTimes(1);
-        done();
-      });
-    });
-
-    test('should not call getAllOfferTypes when userHasRegionWorldOrGreaterChinaRole$ emits false', (done) => {
-      component['offerTypeFacade'].getAllOfferTypes = jest.fn();
-
-      mockUserHasAccess$$.next(false);
-      component.userHasOfferTypeAccess$.pipe(take(1)).subscribe(() => {
-        expect(
-          component['offerTypeFacade'].getAllOfferTypes
-        ).not.toHaveBeenCalled();
-        done();
-      });
-    });
+    test(
+      'should provide userHasOfferTypeAccess$',
+      marbles((m) => {
+        mockUserHasAccess$$.next(true);
+        m.expect(component.userHasOfferTypeAccess$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
   });
 
   describe('ngOnInit', () => {
