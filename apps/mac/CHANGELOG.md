@@ -1,4 +1,11 @@
 # Release Notes of Material App Center
+## [1.22.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.22.0...mac-v1.22.1) (2024-07-12)
+
+
+### Bug Fixes
+
+* **mac:** fix green steel renderer for empty values ([#6382](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6382)) ([803ecfc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/803ecfc86ee2954dc1d45ac9137f5ca83cb0353f))
+
 ## [1.22.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.21.0...mac-v1.22.0) (2024-07-12)
 
 
