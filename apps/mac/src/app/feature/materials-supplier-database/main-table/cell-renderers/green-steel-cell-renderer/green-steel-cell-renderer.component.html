@@ -6,6 +6,7 @@
   <div class="flex-1 pt-3">
     <mac-material-emission-classification
       [value]="params?.valueFormatted ?? params?.value"
+      [transparent]="!(params?.valueFormatted ?? params?.value)"
     ></mac-material-emission-classification>
   </div>
 
