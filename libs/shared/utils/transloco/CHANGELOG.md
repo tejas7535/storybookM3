@@ -1,4 +1,16 @@
 # Release Notes of Library Shared Utils Transloco
+## [4.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.3.0...transloco-v4.4.0) (2024-07-15)
+
+
+### Features
+
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **transloco:** fix angular lifecycle for availableLocales and defaultLocale ([#6250](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6250)) ([0ae66ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ae66edfd9fef7fe14f003929daf85bfad9cee58))
+
 ## [4.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.2.0...transloco-v4.3.0) (2024-06-11)
 
 
