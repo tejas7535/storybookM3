@@ -18,8 +18,8 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
-import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
+import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
 import {
   GreaseReport,
@@ -78,7 +78,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     private readonly greaseReportService: GreaseReportService,
     private readonly snackbar: MatSnackBar,
     private readonly localeService: TranslocoLocaleService,
-    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService
+    private readonly appAnalyticsService: AppAnalyticsService
   ) {}
 
   public ngOnInit(): void {
@@ -151,7 +151,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   }
 
   public logTogglingInputSection(): void {
-    this.embeddedGoogleAnalyticsService.logInteractionEvent(
+    this.appAnalyticsService.logInteractionEvent(
       InteractionEventType.ShowInput
     );
   }

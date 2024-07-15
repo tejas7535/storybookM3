@@ -9,8 +9,8 @@ import { translate } from '@jsverse/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { alternativeTable, marketGreases } from '@ga/shared/constants';
-import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
-import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
+import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
 import { greaseResultExceptions, WARNINGSOPENED } from '../constants';
 import { itemValue } from '../helpers/grease-helpers';
@@ -34,7 +34,7 @@ export class GreaseReportService {
     private readonly http: HttpClient,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly greaseResultDataSourceService: GreaseResultDataSourceService,
-    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService
+    private readonly appAnalyticsService: AppAnalyticsService
   ) {}
 
   public async getGreaseReport(greaseReportUrl: string) {
@@ -322,7 +322,7 @@ export class GreaseReportService {
   }
 
   public trackWarningsOpened(): void {
-    this.embeddedGoogleAnalyticsService.logInteractionEvent(
+    this.appAnalyticsService.logInteractionEvent(
       InteractionEventType.ErrorsAndWarnings
     );
     this.applicationInsightsService.logEvent(WARNINGSOPENED);

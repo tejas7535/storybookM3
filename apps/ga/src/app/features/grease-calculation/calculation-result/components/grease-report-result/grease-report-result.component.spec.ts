@@ -13,8 +13,8 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { generalHighTemperature } from '@ga/shared/constants';
-import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
-import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
+import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 import { CONCEPT1_LABEL_VALUE_MOCK, greaseResultMock } from '@ga/testing/mocks';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
@@ -44,10 +44,7 @@ describe('GreaseReportResultComponent', () => {
         domainScript: 'mockOneTrustId',
       }),
     ],
-    providers: [
-      provideMockStore(),
-      MockProvider(EmbeddedGoogleAnalyticsService),
-    ],
+    providers: [provideMockStore(), MockProvider(AppAnalyticsService)],
   });
 
   beforeEach(() => {
@@ -93,7 +90,7 @@ describe('GreaseReportResultComponent', () => {
 
     it('should call the logInteractionEvent method', () => {
       const trackingSpy = jest.spyOn(
-        component['embeddedGoogleAnalyticsService'],
+        component['appAnalyticsService'],
         'logInteractionEvent'
       );
 

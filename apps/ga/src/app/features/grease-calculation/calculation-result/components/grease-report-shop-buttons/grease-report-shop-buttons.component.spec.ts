@@ -9,7 +9,7 @@ import { MockModule, MockProvider } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
-import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { GREASE_CONCEPT1_SUITABILITY } from '@ga/testing/mocks/models/grease-concept1-suitability.mock';
 
 import { MEDIASGREASE } from '../../constants';
@@ -30,7 +30,7 @@ describe('GreaseReportShopButtonsComponent', () => {
       MockModule(MatTooltipModule),
       RouterTestingModule,
     ],
-    providers: [MockProvider(EmbeddedGoogleAnalyticsService)],
+    providers: [MockProvider(AppAnalyticsService)],
   });
 
   beforeEach(() => {
@@ -129,7 +129,7 @@ describe('GreaseReportShopButtonsComponent', () => {
 
     it('should call the logOpenExternalLinkEvent method', () => {
       const trackingSpy = jest.spyOn(
-        component['embeddedGoogleAnalyticsService'],
+        component['appAnalyticsService'],
         'logOpenExternalLinkEvent'
       );
 
@@ -197,7 +197,7 @@ describe('GreaseReportShopButtonsComponent', () => {
 
     it('should call the logOpenExternalLinkEvent method', () => {
       const trackingSpy = jest.spyOn(
-        component['embeddedGoogleAnalyticsService'],
+        component['appAnalyticsService'],
         'logOpenExternalLinkEvent'
       );
 

@@ -6,7 +6,7 @@ import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { AppDelivery } from '@ga/shared/models';
 
-import { InteractionEventType } from './interaction-event-type.enum';
+import { InteractionEventType } from '../app-analytics-service/interaction-event-type.enum';
 
 interface InteractionEvent {
   event: string;
@@ -33,13 +33,6 @@ export class EmbeddedGoogleAnalyticsService {
     const routingNavigationEvent: InteractionEvent =
       this.getRoutingNavigationEvent(navigationUrl);
     this.logEvent(routingNavigationEvent);
-  }
-
-  public logShowAllValuesEvent(): void {
-    const showAllValuesEvent = this.getInteractionEventByType(
-      InteractionEventType.ShowAllValues
-    );
-    this.logEvent(showAllValuesEvent);
   }
 
   public logInteractionEvent(eventType: InteractionEventType): void {

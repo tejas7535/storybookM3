@@ -8,6 +8,11 @@ export interface Environment {
   tenantId: string;
   groupId: string;
   oneTrustId: string;
+  oneTrustMobileStorageLocation: string;
+  oneTrustAndroidId: string;
+  oneTrustiOSId: string;
+  oneTrustAndroidFirebaseCategoryId: string;
+  oneTrustiOSFirebaseCategoryId: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;

@@ -15,7 +15,7 @@ import {
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
+import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
@@ -81,7 +81,7 @@ describe('GreaseReportService', () => {
 
     it('should call the logInteractionEvent method', () => {
       const trackingSpy = jest.spyOn(
-        service['embeddedGoogleAnalyticsService'],
+        service['appAnalyticsService'],
         'logInteractionEvent'
       );
 

@@ -26,14 +26,14 @@ import { CoreModule } from './core/core.module';
 import { SettingsFacade, StorageMessagesActions } from './core/store';
 import { UserSettingsModule } from './shared/components/user-settings';
 import { PartnerVersion } from './shared/models';
-import { EmbeddedGoogleAnalyticsService } from './shared/services';
+import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
   let translocoService: TranslocoService;
   let applicationInsightsService: ApplicationInsightsService;
-  let embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService;
+  let appAnalyticsService: AppAnalyticsService;
   let metaService: Meta;
   let titleService: Title;
   let store: Store;
@@ -92,9 +92,7 @@ describe('AppComponent', () => {
     component = spectator.debugElement.componentInstance;
     translocoService = spectator.inject(TranslocoService);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
-    embeddedGoogleAnalyticsService = spectator.inject(
-      EmbeddedGoogleAnalyticsService
-    );
+    appAnalyticsService = spectator.inject(AppAnalyticsService);
 
     metaService = spectator.inject(Meta);
     titleService = spectator.inject(Title);
@@ -189,16 +187,14 @@ describe('AppComponent', () => {
     let trackingSpy: jest.SpyInstance;
     beforeEach(() => {
       trackingSpy = jest.spyOn(
-        component['embeddedGoogleAnalyticsService'],
+        component['appAnalyticsService'],
         'logNavigationEvent'
       );
     });
 
-    describe('when application is of embedded type', () => {
+    describe('when application is of embedded or mobile type', () => {
       beforeEach(() => {
-        embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion = jest.fn(
-          () => true
-        );
+        appAnalyticsService.shouldLogEvents = jest.fn(() => true);
 
         component.ngOnInit();
       });
@@ -210,11 +206,9 @@ describe('AppComponent', () => {
       });
     });
 
-    describe('when application is not embedded', () => {
+    describe('when application is not embedded or mobile type', () => {
       beforeEach(() => {
-        embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion = jest.fn(
-          () => false
-        );
+        appAnalyticsService.shouldLogEvents = jest.fn(() => false);
 
         component.ngOnInit();
       });

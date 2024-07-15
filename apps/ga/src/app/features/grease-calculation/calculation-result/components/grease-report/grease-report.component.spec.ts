@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,8 +18,8 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationParametersService } from '@ga/features/grease-calculation/calculation-parameters/services';
-import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
-import { InteractionEventType } from '@ga/shared/services/embedded-google-analytics/interaction-event-type.enum';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
+import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 import {
   GREASE_RESULT_SUBORDINATES_MOCK,
   greaseResultMock,
@@ -47,7 +47,6 @@ describe('GreaseReportComponent', () => {
     component: GreaseReportComponent,
     imports: [
       CommonModule,
-      HttpClientModule,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       OneTrustModule.forRoot({
@@ -63,7 +62,8 @@ describe('GreaseReportComponent', () => {
       mockProvider(GreaseReportService),
       mockProvider(CalculationParametersService),
       mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
-      mockProvider(EmbeddedGoogleAnalyticsService),
+      mockProvider(AppAnalyticsService),
+      provideHttpClient(),
     ],
   });
 
@@ -230,7 +230,7 @@ describe('GreaseReportComponent', () => {
   describe('logTogglingInputSection', () => {
     it('should call the logInteractionEvent method', () => {
       const trackingSpy = jest.spyOn(
-        component['embeddedGoogleAnalyticsService'],
+        component['appAnalyticsService'],
         'logInteractionEvent'
       );
 

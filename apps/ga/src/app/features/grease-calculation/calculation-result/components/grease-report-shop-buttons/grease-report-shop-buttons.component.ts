@@ -18,7 +18,7 @@ import { RotaryControlComponent } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
-import { EmbeddedGoogleAnalyticsService } from '@ga/shared/services';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 
 import { MEDIASGREASE } from '../../constants';
 import {
@@ -64,7 +64,7 @@ export class GreaseReportShopButtonsComponent implements OnInit {
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly matIconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
-    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService
+    private readonly appAnalyticsService: AppAnalyticsService
   ) {
     this.matIconRegistry.addSvgIcon(
       'concept1',
@@ -99,7 +99,7 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   public trackConcept1Selection(): void {
-    this.embeddedGoogleAnalyticsService.logOpenExternalLinkEvent(
+    this.appAnalyticsService.logOpenExternalLinkEvent(
       `${CONCEPT1} ${this.getShortTitle()} ${this.concept1Selection}`
     );
     this.applicationInsightsService.logEvent(MEDIASGREASE, {
@@ -120,7 +120,7 @@ export class GreaseReportShopButtonsComponent implements OnInit {
   }
 
   public trackGreaseSelection(): void {
-    this.embeddedGoogleAnalyticsService.logOpenExternalLinkEvent(
+    this.appAnalyticsService.logOpenExternalLinkEvent(
       this.greaseResult?.mainTitle
     );
     this.applicationInsightsService.logEvent(MEDIASGREASE, {

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -7,6 +8,8 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
 import {
@@ -31,7 +34,31 @@ import {
   detectPartnerVersion,
 } from './helpers/settings-helpers';
 import { HttpGreaseInterceptor } from './interceptors/http-grease.interceptor';
+import { ConsentValues } from './services/tracking/one-trust.interface';
+import { OneTrustMobileService } from './services/tracking/one-trust-mobile.service';
 import { StoreModule } from './store/store.module';
+
+export function mobileOneTrustInitializer(
+  oneTrustMobileService: OneTrustMobileService
+) {
+  if (Capacitor.isNativePlatform()) {
+    FirebaseAnalytics.setCollectionEnabled({
+      enabled: false,
+    });
+
+    oneTrustMobileService.initTracking();
+
+    oneTrustMobileService.consentChanged$.subscribe((consentChange) => {
+      const trackingEnabled =
+        consentChange.consentStatus === ConsentValues.ConsentGiven;
+      FirebaseAnalytics.setCollectionEnabled({
+        enabled: trackingEnabled,
+      });
+    });
+  }
+
+  return () => {};
+}
 
 export function appInitializer(
   oneTrustService: OneTrustService,
@@ -67,6 +94,12 @@ let providers = [
     multi: true,
   },
   {
+    provide: APP_INITIALIZER,
+    useFactory: mobileOneTrustInitializer,
+    deps: [OneTrustMobileService],
+    multi: true,
+  },
+  {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpGreaseInterceptor,
     multi: true,
@@ -80,7 +113,11 @@ let providers = [
 ];
 
 // needed for mobile app and medias
-if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
+if (
+  detectAppDelivery() !== AppDelivery.Standalone ||
+  environment.localDev ||
+  Capacitor.isNativePlatform()
+) {
   Tracking = [];
   providers = providers.slice(1); // Removes OneTrust Provider
 }

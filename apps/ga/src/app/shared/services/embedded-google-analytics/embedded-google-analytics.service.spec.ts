@@ -6,8 +6,8 @@ import { AppRoutePath } from '@ga/app-route-path.enum';
 import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 
+import { InteractionEventType } from '../app-analytics-service/interaction-event-type.enum';
 import { EmbeddedGoogleAnalyticsService } from './embedded-google-analytics.service';
-import { InteractionEventType } from './interaction-event-type.enum';
 
 jest.mock('@ga/core/helpers/settings-helpers');
 const appDeliveryMock = jest.mocked(detectAppDelivery);
@@ -157,6 +157,16 @@ describe('EmbeddedGoogleAnalyticsService', () => {
         });
       });
     });
+
+    describe('when logInteractionEvent is called with undefined', () => {
+      beforeEach(() => {
+        service.logInteractionEvent(undefined);
+      });
+
+      it('should not push events to data layer', () => {
+        expect(document.defaultView.dataLayer.push).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('when app is not delivered as embedded', () => {
@@ -174,8 +184,6 @@ describe('EmbeddedGoogleAnalyticsService', () => {
         service.logNavigationEvent('/not_defined_url');
 
         service.logOpenExternalLinkEvent('some product name');
-
-        service.logShowAllValuesEvent();
       });
 
       it('should not interact with dataLayer', () => {

@@ -25,7 +25,7 @@ import { getAppFooterLinks } from './core/helpers/app-config-helpers';
 import { ScanDialogComponent } from './features/dmc-scanner/scan-dialog.component';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 import { PartnerVersion } from './shared/models';
-import { EmbeddedGoogleAnalyticsService } from './shared/services/embedded-google-analytics/embedded-google-analytics.service';
+import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
 
 @Component({
   selector: 'ga-root',
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly titleService: Title,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly embeddedGoogleAnalyticsService: EmbeddedGoogleAnalyticsService,
+    private readonly appAnalyticsService: AppAnalyticsService,
     private readonly store: Store,
     private readonly dialog: MatDialog,
     @Optional() private readonly oneTrustService: OneTrustService,
@@ -126,14 +126,14 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.embeddedGoogleAnalyticsService.isApplicationOfEmbeddedVersion()) {
+    if (this.appAnalyticsService.shouldLogEvents()) {
       this.router.events
         .pipe(
           takeUntil(this.destroy$),
           filter((event) => event instanceof NavigationEnd)
         )
         .subscribe((event) => {
-          this.embeddedGoogleAnalyticsService.logNavigationEvent(
+          this.appAnalyticsService.logNavigationEvent(
             (event as NavigationEnd).url
           );
         });
@@ -219,9 +219,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.events.subscribe(({ name, ...payload }) => {
       this.applicationInsightsService.logEvent(name, payload);
-      this.embeddedGoogleAnalyticsService.logEvent(
-        this.embeddedGoogleAnalyticsService.createInteractionEvent(name, name)
-      );
+      this.appAnalyticsService.logRawInteractionEvent(name, name);
     });
 
     dialogRef.componentInstance.selectDesignation.subscribe(

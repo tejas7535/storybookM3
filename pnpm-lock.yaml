@@ -478,6 +478,9 @@ importers:
       '@capacitor-community/file-opener':
         specifier: ^6.0.0
         version: 6.0.0(@capacitor/core@6.1.0)
+      '@capacitor-community/firebase-analytics':
+        specifier: 6.0.0
+        version: 6.0.0(@capacitor/core@6.1.0)
       '@capacitor/core':
         specifier: ^6.1.0
         version: 6.1.0
@@ -2053,13 +2056,18 @@ packages:
       standard-version: 9.1.1
 
   '@capacitor-community/file-opener@6.0.0':
-    resolution: {integrity: sha512-nJ9S5rCqnVDBKfqdjDhrYOIO9JLeScFkRfKLs2G+d6Df73vrJMes8dr+dGSEvKiPhyjRhICW5imDJEbzaD8KpA==}
+    resolution: {integrity: sha512-nJ9S5rCqnVDBKfqdjDhrYOIO9JLeScFkRfKLs2G+d6Df73vrJMes8dr+dGSEvKiPhyjRhICW5imDJEbzaD8KpA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/file-opener/-/file-opener-6.0.0.tgz}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
+  '@capacitor-community/firebase-analytics@6.0.0':
+    resolution: {integrity: sha512-3/B4V8V6exw4pits9H5JWqfyzvgsoW+NfxdaJoimNVx2YcpDYJtYj79DsmuMe5DXf6mxRIbQ+InxfGV4vwoxDA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/firebase-analytics/-/firebase-analytics-6.0.0.tgz}
+    peerDependencies:
+      '@capacitor/core': ^6.0.0
+
   '@capacitor/core@6.1.0':
-    resolution: {integrity: sha512-Kt4ONm0X9xxJXn9Q73oBaKdzep5B/VJw3VjXa2eGul4cD2k37mJwgjpXSMRnLH0Aju5bCiRL8J/hMAfTlokO6A==}
+    resolution: {integrity: sha512-Kt4ONm0X9xxJXn9Q73oBaKdzep5B/VJw3VjXa2eGul4cD2k37mJwgjpXSMRnLH0Aju5bCiRL8J/hMAfTlokO6A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/core/-/core-6.1.0.tgz}
 
   '@capacitor/filesystem@6.0.0':
     resolution: {integrity: sha512-GnC4CBfky7fvG9zSV/aQnZaGs6ZJ90AaQorr53z81ArTCqcrSUeBMuCxWmvti9HrdXLhBavyA1UOjvRGObOFjg==}
@@ -11962,7 +11970,7 @@ packages:
     engines: {node: '>=0.10.0'}
 
   source-map@0.7.3:
-    resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
+    resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/source-map/-/source-map-0.7.3.tgz}
     engines: {node: '>= 8'}
 
   source-map@0.7.4:
@@ -15885,6 +15893,10 @@ snapshots:
       tslib: 2.4.0
 
   '@capacitor-community/file-opener@6.0.0(@capacitor/core@6.1.0)':
+    dependencies:
+      '@capacitor/core': 6.1.0
+
+  '@capacitor-community/firebase-analytics@6.0.0(@capacitor/core@6.1.0)':
     dependencies:
       '@capacitor/core': 6.1.0
 
