@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Feedback banner
+## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/feedback-banner-v0.2.0...feedback-banner-v0.3.0) (2024-07-15)
+
+
+### Features
+
+* **ga:** add DMC scan - UFTABI-7506 ([#6093](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6093)) ([041a5d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/041a5d34e83e1f67ba1d6f0036e9b965c829927e))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/feedback-banner-v0.1.1...feedback-banner-v0.2.0) (2024-06-11)
 
 
