@@ -1,4 +1,16 @@
 # Release Notes of Library Shared Utils Azure Auth
+## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.3.0...azure-auth-v1.4.0) (2024-07-15)
+
+
+### Features
+
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **mac:** update validator for upload dialog owner (UFTABI-7733) ([#6308](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6308)) ([07a8336](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/07a8336013d6c0e6b46b0f281e32025db7625fe2))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.2.1...azure-auth-v1.3.0) (2024-06-11)
 
 
