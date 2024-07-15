@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Application Insights
+## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.3.0...application-insights-v1.4.0) (2024-07-15)
+
+
+### Features
+
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.2.0...application-insights-v1.3.0) (2024-06-11)
 
 
