@@ -4,30 +4,30 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import * as statusbarUtils from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
+import { HideIfQuotationNotActiveOrPendingDirective } from '@gq/shared/directives/hide-if-quotation-not-active-or-pending/hide-if-quotation-not-active-or-pending.directive';
+import { QuotationStatus, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
-import { MockDirective } from 'ng-mocks';
+import { MockDirective, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
-import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
 describe('uploadSelectionToSapButtonComponent', () => {
   let component: UploadSelectionToSapButtonComponent;
   let spectator: Spectator<UploadSelectionToSapButtonComponent>;
-  let store: MockStore;
   let params: IStatusPanelParams;
 
   const createComponent = createComponentFactory({
     component: UploadSelectionToSapButtonComponent,
-    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveOrPendingDirective)],
     imports: [
       MatDialogModule,
       PushPipe,
@@ -40,6 +40,15 @@ describe('uploadSelectionToSapButtonComponent', () => {
         },
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      MockProvider(ActiveCaseFacade, {
+        canEditQuotation$: of(true),
+        isQuotationStatusActive$: of(true),
+        simulationModeEnabled$: of(true),
+        quotationSapId$: of('sap123'),
+        quotationSapSyncStatus$: of(SAP_SYNC_STATUS.SYNCED),
+        quotationStatus$: of(QuotationStatus.ACTIVE),
+        uploadSelectionToSap: jest.fn(),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -47,7 +56,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
+
     params = {
       api: {
         getSelectedRows: jest.fn(() => []),
@@ -58,6 +67,42 @@ describe('uploadSelectionToSapButtonComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('should provide Observables', () => {
+    test(
+      'should provide sapId$',
+      marbles((m) => {
+        m.expect(component.sapId$).toBeObservable(
+          m.cold('(a|)', { a: 'sap123' })
+        );
+      })
+    );
+    test(
+      'should provide simulationModeEnabled$',
+      marbles((m) => {
+        m.expect(component.simulationModeEnabled$).toBeObservable(
+          m.cold('(a|)', { a: true })
+        );
+      })
+    );
+    test(
+      'should provide quotationActive$',
+      marbles((m) => {
+        m.expect(component.quotationActive$).toBeObservable(
+          m.cold('(a|)', { a: true })
+        );
+      })
+    );
+    test(
+      'should provide quotationEditable$',
+      marbles((m) => {
+        m.expect(component.quotationEditable$).toBeObservable(
+          m.cold('(a|)', { a: true })
+        );
+      })
+    );
+  });
+
   describe('agInit', () => {
     test('should set params', () => {
       const statusPanelParams = {
@@ -86,22 +131,10 @@ describe('uploadSelectionToSapButtonComponent', () => {
 
         component.agInit(statusPanelParams);
         m.expect(component.tooltipText$).toBeObservable(
-          m.cold('a', { a: 'anyFancyText' })
+          m.cold('(a|)', { a: 'anyFancyText' })
         );
       })
     );
-  });
-
-  describe('ngOnDestroy', () => {
-    test('should emit', () => {
-      component['shutdown$$'].next = jest.fn();
-      component['shutdown$$'].unsubscribe = jest.fn();
-
-      component.ngOnDestroy();
-
-      expect(component['shutdown$$'].next).toHaveBeenCalled();
-      expect(component['shutdown$$'].unsubscribe).toHaveBeenCalled();
-    });
   });
 
   describe('onGridReady', () => {
@@ -154,7 +187,6 @@ describe('uploadSelectionToSapButtonComponent', () => {
   });
   describe('uploadSelectionToSap', () => {
     test('should upload to SAP', () => {
-      store.dispatch = jest.fn();
       component.selections = [{ gqPositionId: '1' }];
       component['dialog'].open = jest.fn(
         () =>
@@ -177,10 +209,9 @@ describe('uploadSelectionToSapButtonComponent', () => {
           },
         }
       );
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenLastCalledWith(
-        ActiveCaseActions.uploadSelectionToSap({ gqPositionIds: ['1'] })
-      );
+      expect(
+        component['activeCaseFacade'].uploadSelectionToSap
+      ).toHaveBeenCalledTimes(1);
     });
   });
 });

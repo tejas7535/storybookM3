@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { QuotationStatus } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -24,8 +23,8 @@ describe('EditingCommentModalComponent', () => {
   let component: EditingCommentModalComponent;
   let spectator: Spectator<EditingCommentModalComponent>;
 
-  const quotationStatusSubject$$: BehaviorSubject<QuotationStatus> =
-    new BehaviorSubject<QuotationStatus>(QuotationStatus.IN_APPROVAL);
+  const quotationEditableSubject$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   const loadingStoppedSubject$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
@@ -66,7 +65,7 @@ describe('EditingCommentModalComponent', () => {
           updateQuotationDetails: jest.fn(),
           quotationDetailUpdating$: loadingStoppedSubject$$.asObservable(),
           loadingErrorMessage$: loadingErrorMessageSubject$$.asObservable(),
-          quotationStatus$: quotationStatusSubject$$.asObservable(),
+          canEditQuotation$: quotationEditableSubject$$.asObservable(),
         },
       },
     ],
@@ -97,14 +96,16 @@ describe('EditingCommentModalComponent', () => {
 
   describe('should disable/enable commentFormControl', () => {
     test('should enable commentFormControl', () => {
-      component.quotationStatus$ = quotationStatusSubject$$.asObservable();
-      quotationStatusSubject$$.next(QuotationStatus.ACTIVE);
+      component.quotationIsEditable$ =
+        quotationEditableSubject$$.asObservable();
+      quotationEditableSubject$$.next(true);
 
       expect(component.commentFormControl.enabled).toBeTruthy();
     });
     test('should disable commentFormControl', () => {
-      component.quotationStatus$ = quotationStatusSubject$$.asObservable();
-      quotationStatusSubject$$.next(QuotationStatus.IN_APPROVAL);
+      component.quotationIsEditable$ =
+        quotationEditableSubject$$.asObservable();
+      quotationEditableSubject$$.next(false);
 
       expect(component.commentFormControl.disabled).toBeTruthy();
     });

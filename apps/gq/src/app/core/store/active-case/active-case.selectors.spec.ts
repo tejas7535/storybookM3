@@ -151,20 +151,6 @@ describe('Active Case Selectors', () => {
     });
   });
 
-  describe('getDetailViewQueryParams', () => {
-    test('should return queryParams and id', () => {
-      expect(activeCaseSelectors.getDetailViewQueryParams(fakeState)).toEqual({
-        id: 1234,
-        queryParams: {
-          customer_number: CUSTOMER_MOCK.identifier.customerId,
-          sales_org: CUSTOMER_MOCK.identifier.salesOrg,
-          quotation_number: QUOTATION_MOCK.gqId,
-          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-        },
-      });
-    });
-  });
-
   describe('getQuotationOverviewInformation', () => {
     test('should return the calculated pricing information of all quotation details', () => {
       jest.spyOn(pricingUtils, 'calculateStatusBarValues').mockReturnValue({

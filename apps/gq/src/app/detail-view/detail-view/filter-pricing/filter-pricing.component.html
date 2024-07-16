@@ -1,13 +1,13 @@
 @if (quotationDetail$ | ngrxPush; as quotationDetail) {
   <div>
     <gq-manual-price
-      [userHasManualPriceRole]="rolesFacade.userHasManualPriceRole$ | ngrxPush"
+      [userHasManualPriceRole]="userHasManualPriceRole$ | ngrxPush"
       [quotationDetail]="quotationDetail"
       [currency]="quotationCurrency$ | ngrxPush"
       (selectManualPrice)="selectPrice($event)"
       [isLoading]="updateIsLoading$ | ngrxPush"
-      [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
-      [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
+      [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+      [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
     ></gq-manual-price>
     @if (quotationDetail?.recommendedPrice) {
       <gq-price
@@ -15,11 +15,11 @@
         [currency]="quotationCurrency$ | ngrxPush"
         (selectGqPrice)="selectPrice($event)"
         [isLoading]="updateIsLoading$ | ngrxPush"
-        [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
-        [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
+        [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+        [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
         [isDisabled]="
-          !(quotationIsActive$ | ngrxPush) ||
-          !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
+          !(quotationIsEditable$ | ngrxPush) ||
+          !(userHasEditPriceSourceRole$ | ngrxPush)
         "
         [isDetailsButtonVisible]="isDetailsLinkVisible$ | ngrxPush"
       >
@@ -31,11 +31,11 @@
         [currency]="quotationCurrency$ | ngrxPush"
         (selectSapPrice)="selectPrice($event)"
         [isLoading]="updateIsLoading$ | ngrxPush"
-        [userHasGPCRole]="rolesFacade.userHasGPCRole$ | ngrxPush"
-        [userHasSQVRole]="rolesFacade.userHasSQVRole$ | ngrxPush"
+        [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+        [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
         [isDisabled]="
-          !(quotationIsActive$ | ngrxPush) ||
-          !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
+          !(quotationIsEditable$ | ngrxPush) ||
+          !(userHasEditPriceSourceRole$ | ngrxPush)
         "
       >
       </gq-sap-price>
@@ -46,9 +46,9 @@
         [currency]="quotationCurrency$ | ngrxPush"
         [isLoading]="updateIsLoading$ | ngrxPush"
         [isDisabled]="
-          !(quotationIsActive$ | ngrxPush) ||
-          !(rolesFacade.userHasManualPriceRole$ | ngrxPush) ||
-          !(rolesFacade.userHasEditPriceSourceRole$ | ngrxPush)
+          !(quotationIsEditable$ | ngrxPush) ||
+          !(userHasManualPriceRole$ | ngrxPush) ||
+          !(userHasEditPriceSourceRole$ | ngrxPush)
         "
         (targetPriceSelected)="selectPrice($event)"
       >

@@ -1,7 +1,6 @@
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
@@ -54,7 +53,8 @@ describe('QuotationDetailsTableComponent', () => {
   let spectator: Spectator<QuotationDetailsTableComponent>;
   let store: MockStore;
   let router: Router;
-
+  const canEditQuotationSubject$$: BehaviorSubject<boolean> =
+    new BehaviorSubject(true);
   const MOCK_QUOTATION_ID = 1234;
 
   const createComponent = createComponentFactory({
@@ -64,7 +64,7 @@ describe('QuotationDetailsTableComponent', () => {
     imports: [
       AgGridModule,
       PushPipe,
-      RouterTestingModule,
+      RouterModule.forRoot([]),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -74,6 +74,7 @@ describe('QuotationDetailsTableComponent', () => {
       MockProvider(ActiveCaseFacade, {
         quotationHasFNumberMaterials$: of(true),
         quotationHasRfqMaterials$: of(true),
+        canEditQuotation$: canEditQuotationSubject$$.asObservable(),
       }),
       provideMockStore({
         initialState: {
@@ -100,6 +101,9 @@ describe('QuotationDetailsTableComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    beforeEach(() => {
+      canEditQuotationSubject$$.next(true);
+    });
     test('should set columnDefs', () => {
       component.ngOnInit();
 
@@ -255,6 +259,39 @@ describe('QuotationDetailsTableComponent', () => {
         m.expect(component.columnDefs$).toBeObservable(
           m.cold('a', {
             a: mockColDefs,
+          })
+        );
+      })
+    );
+    test(
+      'should remove pricing Assistant column if quotation has F-Numbers but quotation is not editable',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.PRICING_ASSISTANT,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
+        canEditQuotationSubject$$.next(false);
+
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: [mockColDefs[1]],
           })
         );
       })

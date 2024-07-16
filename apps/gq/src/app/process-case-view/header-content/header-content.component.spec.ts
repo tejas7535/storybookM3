@@ -1,12 +1,10 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { HideIfQuotationNotActiveDirective } from '@gq/shared/directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
+import { HideIfQuotationNotActiveOrPendingDirective } from '@gq/shared/directives/hide-if-quotation-not-active-or-pending/hide-if-quotation-not-active-or-pending.directive';
 import {
   Customer,
   Keyboard,
@@ -39,17 +37,13 @@ describe('HeaderContentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HeaderContentComponent,
-    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
+    declarations: [MockDirective(HideIfQuotationNotActiveOrPendingDirective)],
     imports: [
-      MatIconModule,
-      InfoIconModule,
       SharedPipesModule,
       PushPipe,
-      MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       {
         provide: TransformationService,
         useValue: {
@@ -58,6 +52,7 @@ describe('HeaderContentComponent', () => {
       },
     ],
     mocks: [MatDialog],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -372,6 +367,35 @@ describe('HeaderContentComponent', () => {
       });
 
       expect(component.isSapCase).toBe(true);
+    });
+    test('should set showEdit icon to true when status is ACTIVE and sapSyncStatus is not SYNC_PENDING', () => {
+      spectator.setInput('quotation', {
+        ...QUOTATION_MOCK,
+        status: QuotationStatus.ACTIVE,
+        sapSyncStatus: 'PARTIALLY_SYNCED',
+      });
+
+      expect(component.showEditIcon).toBe(true);
+    });
+
+    test('should set showEdit icon to false when status is not ACTIVE', () => {
+      spectator.setInput('quotation', {
+        ...QUOTATION_MOCK,
+        status: QuotationStatus.ARCHIVED,
+        sapSyncStatus: 'PARTIALLY_SYNCED',
+      });
+
+      expect(component.showEditIcon).toBe(false);
+    });
+
+    test('should set showEdit icon to false when sapSyncStatus is SYNC_PENDING', () => {
+      spectator.setInput('quotation', {
+        ...QUOTATION_MOCK,
+        status: QuotationStatus.ACTIVE,
+        sapSyncStatus: 'SYNC_PENDING',
+      });
+
+      expect(component.showEditIcon).toBe(false);
     });
   });
 });

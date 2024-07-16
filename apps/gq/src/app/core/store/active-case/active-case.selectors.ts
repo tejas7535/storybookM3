@@ -3,7 +3,6 @@ import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-p
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
-  DetailViewQueryParams,
   Quotation,
   QuotationDetail,
   QuotationStatus,
@@ -16,7 +15,7 @@ import { groupBy } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
-import { activeCaseFeature, ActiveCaseState } from './active-case.reducer';
+import { activeCaseFeature } from './active-case.reducer';
 import { QuotationIdentifier } from './models';
 
 export const getQuotationCurrency = createSelector(
@@ -84,23 +83,6 @@ export const getGqId = createSelector(
 export const isManualCase = createSelector(
   activeCaseFeature.selectQuotation,
   (quotation: Quotation): boolean => !quotation?.sapId
-);
-
-export const getDetailViewQueryParams = createSelector(
-  activeCaseFeature.selectActiveCaseState,
-  (
-    state: ActiveCaseState
-  ): { queryParams: DetailViewQueryParams; id: number } => ({
-    queryParams: {
-      customer_number: state.customer?.identifier.customerId,
-      sales_org: state.customer?.identifier.salesOrg,
-      quotation_number: state.quotation?.gqId,
-      gqPositionId: state.selectedQuotationDetail,
-    },
-    id: state.quotation?.quotationDetails.find(
-      (detail) => detail.gqPositionId === state.selectedQuotationDetail
-    )?.quotationItemId,
-  })
 );
 
 export const getQuotationOverviewInformation = createSelector(

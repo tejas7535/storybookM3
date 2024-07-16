@@ -1,17 +1,17 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { QuotationStatus, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import { AddItemsButtonComponent } from './add-items-button.component';
 
 describe('AddItemsButtonComponent', () => {
@@ -20,22 +20,17 @@ describe('AddItemsButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AddItemsButtonComponent,
-    imports: [
-      PushPipe,
-      MatIconModule,
-      MatDialogModule,
-      MatTooltipModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [
-      MockProvider(ApprovalFacade),
-      provideMockStore({
-        initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
-        },
+      MockProvider(ActiveCaseFacade, {
+        canEditQuotation$: of(true),
+        quotationStatus$: of(QuotationStatus.ACTIVE),
+        quotationSapSyncStatus$: of(SAP_SYNC_STATUS.SYNCED),
+        simulationModeEnabled$: of(true),
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      provideMockStore({}),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
   beforeEach(() => {
     spectator = createComponent();
@@ -44,5 +39,29 @@ describe('AddItemsButtonComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  test(
+    'should provide Observables',
+    marbles((m) => {
+      m.expect(component.quotationEditable$).toBeObservable(
+        m.cold('(a|)', { a: true })
+      );
+      m.expect(component.simulationModeEnabled$).toBeObservable(
+        m.cold('(a|)', { a: true })
+      );
+    })
+  );
+
+  describe('agInit', () => {
+    test('should set simulationModeEnabled$ and tooltipText$', () => {
+      component.agInit();
+      expect(component.tooltipText$).toBeDefined();
+    });
+    test('should call getTooltipTextKey', () => {
+      component['getTooltipTextKey'] = jest.fn();
+      component.agInit();
+      expect(component['getTooltipTextKey']).toHaveBeenCalled();
+    });
   });
 });

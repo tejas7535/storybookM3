@@ -1,40 +1,36 @@
 import { Component, inject } from '@angular/core';
 
-import { combineLatest, map, tap } from 'rxjs';
+import { combineLatest, map, Observable, tap } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import {
-  getIsQuotationStatusActive,
-  getQuotationCurrency,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { RolesFacade } from '@gq/core/store/facades';
 import { UpdatePrice } from '@gq/shared/models/quotation-detail';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'gq-filter-pricing',
   templateUrl: './filter-pricing.component.html',
 })
 export class FilterPricingComponent {
-  #gqPositionId: string;
-  readonly #store = inject(Store);
-  readonly rolesFacade = inject(RolesFacade);
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
 
-  quotationCurrency$ = this.#store.select(getQuotationCurrency);
-  updateIsLoading$ = this.#store.select(activeCaseFeature.selectUpdateLoading);
-  quotationIsActive$ = this.#store.select(getIsQuotationStatusActive);
-  quotationDetail$ = this.#store
-    .select(activeCaseFeature.getSelectedQuotationDetail)
-    .pipe(
+  private gqPositionId: string;
+
+  quotationCurrency$: Observable<string> =
+    this.activeCaseFacade.quotationCurrency$;
+  updateIsLoading$: Observable<boolean> =
+    this.activeCaseFacade.quotationDetailUpdating$;
+  quotationIsEditable$: Observable<boolean> =
+    this.activeCaseFacade.canEditQuotation$;
+  quotationDetail$: Observable<any> =
+    this.activeCaseFacade.selectedQuotationDetail$.pipe(
       tap((detail) => {
-        this.#gqPositionId = detail?.gqPositionId;
+        this.gqPositionId = detail?.gqPositionId;
       })
     );
-
-  isDetailsLinkVisible$ = combineLatest([
+  isDetailsLinkVisible$: Observable<boolean> = combineLatest([
     this.rolesFacade.userHasAccessToComparableTransactions$,
     this.quotationDetail$,
   ]).pipe(
@@ -43,6 +39,12 @@ export class FilterPricingComponent {
         hasAccess && !isFNumber(detail) && !detail?.strategicPrice
     )
   );
+  userHasManualPriceRole$: Observable<boolean> =
+    this.rolesFacade.userHasManualPriceRole$;
+  userHasGPCRole$: Observable<boolean> = this.rolesFacade.userHasGPCRole$;
+  userHasSQVRole$: Observable<boolean> = this.rolesFacade.userHasSQVRole$;
+  userHasEditPriceSourceRole$: Observable<boolean> =
+    this.rolesFacade.userHasEditPriceSourceRole$;
 
   selectPrice(updatePrice: UpdatePrice): void {
     const { priceSource } = updatePrice;
@@ -50,12 +52,10 @@ export class FilterPricingComponent {
     const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
         priceSource,
-        gqPositionId: this.#gqPositionId,
+        gqPositionId: this.gqPositionId,
         price: updatePrice.price,
       },
     ];
-    this.#store.dispatch(
-      ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
-    );
+    this.activeCaseFacade.updateQuotationDetails(updateQuotationDetailList);
   }
 }

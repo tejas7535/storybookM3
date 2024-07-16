@@ -1,29 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  combineLatest,
-  filter,
-  map,
-  NEVER,
-  Observable,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import { getDetailViewQueryParams } from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import { RfqDataFacade } from '@gq/core/store/rfq-data/rfq-data.facade';
-import {
-  getMaterialCostUpdateAvl,
-  getMaterialStock,
-  getMaterialStockLoading,
-  getPlantMaterialDetails,
-} from '@gq/core/store/selectors';
 import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
 import {
   ApprovalWorkflowInformation,
@@ -37,7 +28,6 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
-import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
@@ -49,38 +39,88 @@ import { AppRoutePath } from '../../app-route-path.enum';
   styleUrls: ['./detail-view.component.scss'],
 })
 export class DetailViewComponent implements OnInit, OnDestroy {
-  quotation$: Observable<Quotation>;
-  quotationDetail$: Observable<QuotationDetail>;
-  materialCostUpdateAvl$: Observable<boolean>;
-  plantMaterialDetails$: Observable<PlantMaterialDetail[]>;
-  materialStock$: Observable<MaterialStock>;
-  materialStockLoading$: Observable<boolean>;
-  dataLoadingComplete$: Observable<boolean>;
+  private readonly breadCrumbsService: BreadcrumbsService =
+    inject(BreadcrumbsService);
+  private readonly router: Router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly agGridService: AgGridStateService =
+    inject(AgGridStateService);
+  private readonly approvalFacade: ApprovalFacade = inject(ApprovalFacade);
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  breadcrumbs$: Observable<Breadcrumb[]>;
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
+  private readonly rfqDataFacade: RfqDataFacade = inject(RfqDataFacade);
+
+  rfqDataUpdateAvl$: Observable<boolean> = this.rfqDataFacade.rfqDataUpdateAvl$;
+
+  quotation$: Observable<Quotation> = this.activeCaseFacade.quotation$;
+  quotationDetail$: Observable<QuotationDetail> =
+    this.activeCaseFacade.selectedQuotationDetail$;
+  materialCostUpdateAvl$: Observable<boolean> =
+    this.activeCaseFacade.materialCostUpdateAvl$;
+
+  plantMaterialDetails$: Observable<PlantMaterialDetail[]> =
+    this.activeCaseFacade.plantMaterialDetails$;
+  materialStock$: Observable<MaterialStock> =
+    this.activeCaseFacade.materialStock$;
+  materialStockLoading$: Observable<boolean> =
+    this.activeCaseFacade.materialStockLoading$;
+
+  dataLoadingComplete$: Observable<boolean> = combineLatest([
+    this.activeCaseFacade.quotationLoading$,
+    this.activeCaseFacade.quotation$,
+    this.approvalFacade.approvalCockpitLoading$,
+    this.approvalFacade.approvalCockpitInformation$,
+    this.approvalFacade.error$,
+  ]).pipe(
+    takeUntilDestroyed(this.destroyRef),
+    map(
+      ([
+        quotationLoading,
+        quotation,
+        approvalInformationLoading,
+        approvalInformation,
+        error,
+      ]: [boolean, Quotation, boolean, ApprovalWorkflowInformation, Error]) =>
+        !quotationLoading &&
+        // Approval information loading status is relevant only if the quotation is synced with SAP and the salesOrg is enabled for the customer
+        (quotation?.sapId && quotation?.customer?.enabledForApprovalWorkflow
+          ? !approvalInformationLoading &&
+            (!!approvalInformation.sapId || !!error)
+          : true)
+    )
+  );
+
+  displayPricingAssistantButton$: Observable<boolean> = combineLatest([
+    this.activeCaseFacade.quotationDetailIsFNumber$,
+    this.activeCaseFacade.canEditQuotation$,
+  ]).pipe(
+    map(([isFNumber, canEditQuotation]) => isFNumber && canEditQuotation)
+  );
+
+  breadcrumbs$: Observable<Breadcrumb[]> =
+    this.activeCaseFacade.detailViewQueryParams$.pipe(
+      map((res) =>
+        this.breadCrumbsService.getDetailViewBreadcrumbs(
+          res.id,
+          res.queryParams,
+          false
+        )
+      )
+    );
+
+  sapStatusPosition$: Observable<SAP_SYNC_STATUS> = this.quotationDetail$.pipe(
+    filter((quotationDetail: QuotationDetail) => !!quotationDetail),
+    map((quotationDetail: QuotationDetail) => quotationDetail.sapSyncStatus)
+  );
+
   quotations: QuotationDetail[];
-
-  sapStatusPosition$: Observable<SAP_SYNC_STATUS> = NEVER;
-
-  private readonly shutDown$$: Subject<void> = new Subject();
-
   readonly sapSyncStatus: typeof SAP_SYNC_STATUS = SAP_SYNC_STATUS;
   readonly quotationStatus: typeof QuotationStatus = QuotationStatus;
 
-  constructor(
-    public readonly activeCaseFacade: ActiveCaseFacade,
-    public readonly rfqDataFacade: RfqDataFacade,
-    private readonly store: Store,
-    private readonly breadCrumbsService: BreadcrumbsService,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly agGridService: AgGridStateService,
-    private readonly approvalFacade: ApprovalFacade,
-    private readonly dialog: MatDialog
-  ) {}
-
   ngOnInit(): void {
-    this.initObservables();
     this.requestApprovalData();
 
     this.quotations = this.agGridService.getColumnData(
@@ -103,9 +143,6 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.approvalFacade.stopApprovalCockpitDataPolling();
-
-    this.shutDown$$.next();
-    this.shutDown$$.complete();
   }
 
   openPricingAssistant(quotationDetail: QuotationDetail): void {
@@ -117,65 +154,10 @@ export class DetailViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initObservables(): void {
-    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
-    this.quotationDetail$ = this.store.select(
-      activeCaseFeature.getSelectedQuotationDetail
-    );
-
-    this.materialCostUpdateAvl$ = this.store.select(getMaterialCostUpdateAvl);
-
-    this.sapStatusPosition$ = this.quotationDetail$.pipe(
-      filter((quotationDetail: QuotationDetail) => !!quotationDetail),
-      map((quotationDetail: QuotationDetail) => quotationDetail.sapSyncStatus)
-    );
-
-    this.plantMaterialDetails$ = this.store.select(getPlantMaterialDetails);
-    this.materialStock$ = this.store.select(getMaterialStock);
-    this.materialStockLoading$ = this.store.select(getMaterialStockLoading);
-
-    this.breadcrumbs$ = this.store
-      .select(getDetailViewQueryParams)
-      .pipe(
-        map((res) =>
-          this.breadCrumbsService.getDetailViewBreadcrumbs(
-            res.id,
-            res.queryParams,
-            false
-          )
-        )
-      );
-
-    this.dataLoadingComplete$ = combineLatest([
-      this.store.select(activeCaseFeature.selectQuotationLoading),
-      this.quotation$,
-      this.approvalFacade.approvalCockpitLoading$,
-      this.approvalFacade.approvalCockpitInformation$,
-      this.approvalFacade.error$,
-    ]).pipe(
-      takeUntil(this.shutDown$$),
-      map(
-        ([
-          quotationLoading,
-          quotation,
-          approvalInformationLoading,
-          approvalInformation,
-          error,
-        ]: [boolean, Quotation, boolean, ApprovalWorkflowInformation, Error]) =>
-          !quotationLoading &&
-          // Approval information loading status is relevant only if the quotation is synced with SAP and the salesOrg is enabled for the customer
-          (quotation?.sapId && quotation?.customer?.enabledForApprovalWorkflow
-            ? !approvalInformationLoading &&
-              (!!approvalInformation.sapId || !!error)
-            : true)
-      )
-    );
-  }
-
   private requestApprovalData(): void {
     this.quotation$
       .pipe(
-        takeUntil(this.shutDown$$),
+        takeUntilDestroyed(this.destroyRef),
         filter((quotation: Quotation) => !!quotation),
         map((quotation: Quotation) =>
           this.approvalFacade.getApprovalCockpitData(

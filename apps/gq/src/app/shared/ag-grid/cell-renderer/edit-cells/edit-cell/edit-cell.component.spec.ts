@@ -1,7 +1,10 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { RolesFacade } from '@gq/core/store/facades';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { UserRoles } from '@gq/shared/constants';
@@ -18,7 +21,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../../testing/mocks';
-import { ACTIVE_CASE_STATE_MOCK } from '../../../../../../testing/mocks/state/active-case-state.mock';
 import { EditCellComponent } from './edit-cell.component';
 
 describe('EditCellComponent', () => {
@@ -30,33 +32,22 @@ describe('EditCellComponent', () => {
   const createComponent = createComponentFactory({
     component: EditCellComponent,
     detectChanges: false,
-    imports: [MatIconModule],
     providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-      provideMockStore({
-        initialState: {
-          activeCase: {
-            ...ACTIVE_CASE_STATE_MOCK,
-          },
-          'azure-auth': {
-            accountInfo: {
-              idTokenClaims: {
-                roles: [
-                  UserRoles.BASIC,
-                  UserRoles.COST_GPC,
-                  UserRoles.REGION_WORLD,
-                  UserRoles.SECTOR_ALL,
-                ],
-              },
-            },
-          },
-        },
-      }),
+      provideMockStore({}),
       mockProvider(EditingModalService),
+      mockProvider(ActiveCaseFacade, {
+        getSimulatedQuotationDetailByItemId$: jest
+          .fn()
+          .mockReturnValue(of(QUOTATION_DETAIL_MOCK)),
+      }),
+      mockProvider(RolesFacade, {
+        userHasRole$: jest
+          .fn()
+          .mockReturnValueOnce(of(true))
+          .mockReturnValueOnce(of(false)),
+      }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {

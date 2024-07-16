@@ -1,23 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import {
-  getDetailViewQueryParams,
-  getQuotationCurrency,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
-import {
-  getSapPriceDetails,
-  getSapPriceDetailsLoading,
-} from '@gq/core/store/selectors';
 import { Quotation } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { TranslocoService } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
@@ -25,55 +16,42 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
   selector: 'gq-sap-view',
   templateUrl: './sap-view.component.html',
 })
-export class SapViewComponent implements OnInit {
-  constructor(
-    private readonly store: Store,
-    private readonly breadCrumbsService: BreadcrumbsService,
-    private readonly translocoService: TranslocoService
-  ) {}
+export class SapViewComponent {
+  private readonly breadCrumbsService: BreadcrumbsService =
+    inject(BreadcrumbsService);
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
 
-  customer$: Observable<Customer>;
-  quotation$: Observable<Quotation>;
-  quotationCurrency$: Observable<string>;
-  quotationDetail$: Observable<QuotationDetail>;
-  quotationLoading$: Observable<boolean>;
-  translationsLoaded$: Observable<boolean>;
-  sapPriceDetailsLoading$: Observable<boolean>;
-  breadcrumbs$: Observable<Breadcrumb[]>;
-  rowData$: Observable<SapPriceConditionDetail[]>;
-  translation$: Observable<any>;
-
-  ngOnInit(): void {
-    this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
-    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
-    this.quotationDetail$ = this.store.select(
-      activeCaseFeature.getSelectedQuotationDetail
-    );
-    this.quotationLoading$ = this.store.select(
-      activeCaseFeature.selectQuotationLoading
-    );
-    this.sapPriceDetailsLoading$ = this.store.select(getSapPriceDetailsLoading);
-    this.rowData$ = this.store.select(getSapPriceDetails);
-    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
-    this.translationsLoaded$ = this.translocoService
-      .selectTranslateObject('sapView', {}, '')
-      .pipe(map((value) => typeof value !== 'string'));
-
-    this.translation$ = this.translocoService.selectTranslateObject(
-      'sapView',
-      {},
-      ''
-    );
-    this.breadcrumbs$ = this.store
-      .select(getDetailViewQueryParams)
-      .pipe(
-        map((res) =>
-          this.breadCrumbsService.getPriceDetailBreadcrumbs(
-            res.id,
-            res.queryParams,
-            false
-          )
+  customer$: Observable<Customer> = this.activeCaseFacade.quotationCustomer$;
+  quotation$: Observable<Quotation> = this.activeCaseFacade.quotation$;
+  quotationCurrency$: Observable<string> =
+    this.activeCaseFacade.quotationCurrency$;
+  quotationDetail$: Observable<QuotationDetail> =
+    this.activeCaseFacade.selectedQuotationDetail$;
+  quotationLoading$: Observable<boolean> =
+    this.activeCaseFacade.quotationLoading$;
+  translationsLoaded$: Observable<boolean> = this.translocoService
+    .selectTranslateObject('sapView', {}, '')
+    .pipe(map((value) => typeof value !== 'string'));
+  sapPriceDetailsLoading$: Observable<boolean> =
+    this.activeCaseFacade.sapPriceDetailsLoading$;
+  breadcrumbs$: Observable<Breadcrumb[]> =
+    this.activeCaseFacade.detailViewQueryParams$.pipe(
+      map((res) =>
+        this.breadCrumbsService.getPriceDetailBreadcrumbs(
+          res.id,
+          res.queryParams,
+          false
         )
-      );
-  }
+      )
+    );
+  rowData$: Observable<SapPriceConditionDetail[]> =
+    this.activeCaseFacade.sapPriceDetails$;
+  translation$: Observable<any> = this.translocoService.selectTranslateObject(
+    'sapView',
+    {},
+    ''
+  );
 }

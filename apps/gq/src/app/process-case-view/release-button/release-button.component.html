@@ -2,7 +2,9 @@
   <ng-container *transloco="let t; read: 'processCaseView.header'">
     <div
       [matTooltip]="
-        disableReleaseButton ? t('releaseButtonTooltip') : undefined
+        disableReleaseButtonTooltipTranslationKey
+          ? t(disableReleaseButtonTooltipTranslationKey)
+          : undefined
       "
     >
       <button

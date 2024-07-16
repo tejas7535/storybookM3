@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import {
   PurchaseOrderType,
   Quotation,
   QuotationStatus,
+  SAP_SYNC_STATUS,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { OfferType } from '@gq/shared/models/offer-type.interface';
@@ -21,34 +22,6 @@ import { TranslocoService } from '@jsverse/transloco';
   templateUrl: './header-content.component.html',
 })
 export class HeaderContentComponent {
-  @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
-
-  gqHeader$: Observable<string>;
-  sapHeader$: Observable<string>;
-  editCaseNameMode = false;
-  caseName: string;
-  saveCaseNameEnabled = false;
-  currency: string;
-  enableSapFieldEditing = false;
-  quotationToDate: string;
-  requestedDeliveryDate: string;
-  customerPurchaseOrderDate: string;
-  bindingPeriodValidityEndDate: string;
-  showEditIcon: boolean;
-  shipToParty: Customer;
-  purchaseOrderType: PurchaseOrderType;
-  partnerRoleType: SectorGpsd;
-  offerType: OfferType;
-  customer: Customer;
-  quotationStatus = QuotationStatus;
-  isSapCase = false;
-
-  constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly matDialog: MatDialog,
-    private readonly transformationService: TransformationService
-  ) {}
-
   @Input() set quotation(value: Quotation) {
     if (value) {
       if (value.caseName) {
@@ -56,7 +29,9 @@ export class HeaderContentComponent {
       }
 
       this.currency = value.currency;
-      this.showEditIcon = value.status === QuotationStatus.ACTIVE;
+      this.showEditIcon =
+        value.status === QuotationStatus.ACTIVE &&
+        value.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING;
 
       this.gqHeader$ = this.translocoService.selectTranslate(
         'header.gqHeader',
@@ -109,7 +84,34 @@ export class HeaderContentComponent {
       this.customer = value.customer;
     }
   }
+  @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
 
+  gqHeader$: Observable<string>;
+  sapHeader$: Observable<string>;
+  editCaseNameMode = false;
+  caseName: string;
+  saveCaseNameEnabled = false;
+  currency: string;
+  enableSapFieldEditing = false;
+  quotationToDate: string;
+  requestedDeliveryDate: string;
+  customerPurchaseOrderDate: string;
+  bindingPeriodValidityEndDate: string;
+  showEditIcon: boolean;
+  shipToParty: Customer;
+  purchaseOrderType: PurchaseOrderType;
+  partnerRoleType: SectorGpsd;
+  offerType: OfferType;
+  customer: Customer;
+  quotationStatus = QuotationStatus;
+  isSapCase = false;
+
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
+  private readonly matDialog: MatDialog = inject(MatDialog);
+  private readonly transformationService: TransformationService = inject(
+    TransformationService
+  );
   openCaseEditingModal(): void {
     this.matDialog
       .open(EditCaseModalComponent, {

@@ -68,7 +68,8 @@
         "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> and <b>GQ-Price</b>.",
         "confirmButton": "Confirm",
         "cancelButton": "Cancel",
-        "updateDisabled": "Costs are not up to date. Please cancel the approval workflow to refresh costs."
+        "updateDisabled": "Costs are not up to date. Please cancel the approval workflow to refresh costs.",
+        "refreshButtonTooltip": "{status,select,SYNC_PENDING {Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed.} ACTIVE {Refresh costs} other {Costs are not up to date. Please cancel the approval workflow to refresh costs.}}"
       },
       "costsUpToDate": "Costs up to date"
     },
@@ -163,7 +164,8 @@
       "nextFreeAtp": "Next Free ATP",
       "dateNextFreeAtp": "Date Next Free ATP",
       "deliveryDate": "Delivery Date"
-    }
+    },
+    "disabledForSyncPendingTooltip": "Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed."
   },
   "headerContent": {
     "slowMover": "Slow mover",

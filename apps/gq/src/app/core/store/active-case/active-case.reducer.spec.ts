@@ -984,5 +984,25 @@ describe('Active Case Feature Selector', () => {
       ).toEqual(QUOTATION_DETAIL_MOCK.leadingPriceUnit);
     });
   });
+
+  describe('getDetailViewQueryParams', () => {
+    test('should return query params', () => {
+      const expected = {
+        queryParams: {
+          customer_number: fakeState.activeCase.customer?.identifier.customerId,
+          sales_org: fakeState.activeCase.customer?.identifier.salesOrg,
+          quotation_number: fakeState.activeCase.quotation?.gqId,
+          gqPositionId: fakeState.activeCase.selectedQuotationDetail,
+        },
+        id: fakeState.activeCase.quotation?.quotationDetails.find(
+          (detail) =>
+            detail.gqPositionId === fakeState.activeCase.selectedQuotationDetail
+        )?.quotationItemId,
+      };
+      expect(activeCaseFeature.getDetailViewQueryParams(fakeState)).toEqual(
+        expected
+      );
+    });
+  });
 });
 // eslint-disable-next-line max-lines

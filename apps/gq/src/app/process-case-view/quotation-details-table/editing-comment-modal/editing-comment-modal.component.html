@@ -3,8 +3,8 @@
   *transloco="let t; read: 'processCaseView.editingCommentModal'"
 >
   <gq-dialog-header
-    *ngrxLet="quotationStatus$ as quotationStatus"
-    [title]="t('title', { id: modalData.quotationItemId, quotationStatus })"
+    *ngrxLet="quotationIsEditable$ as editable"
+    [title]="t('title', { id: modalData.quotationItemId, editable })"
     (closeDialog)="closeDialog()"
   >
   </gq-dialog-header>
@@ -29,7 +29,7 @@
           <mat-hint align="end"> {{ comment.value.length }} / 1000</mat-hint>
         </mat-form-field>
       </div>
-      @if ((quotationStatus$ | ngrxPush) === quotationStatusEnum.ACTIVE) {
+      @if (quotationIsEditable$ | ngrxPush) {
         <div>
           <button
             class="!pl-8 !pr-8"

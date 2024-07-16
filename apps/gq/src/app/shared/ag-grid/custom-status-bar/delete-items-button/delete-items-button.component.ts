@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { QuotationDetail } from '@gq/shared/models';
 import { translate } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
@@ -19,6 +18,14 @@ import { Quotation, QuotationStatus } from '../../../models';
   templateUrl: './delete-items-button.component.html',
 })
 export class DeleteItemsButtonComponent {
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
+
+  private readonly toolPanelOpened$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  private params: IStatusPanelParams;
+
   selections: any[] = [];
   icon = 'delete';
   isSapQuotation: boolean;
@@ -35,20 +42,12 @@ export class DeleteItemsButtonComponent {
         isAllowed || loggedInUser === this.quotationCreatedBy
     )
   );
-  private readonly toolPanelOpened$$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
+
   deleteButtonClass$: Observable<string> = this.toolPanelOpened$$.pipe(
     map((isOpen) =>
       isOpen ? 'panel-opened right-60' : 'panel-closed right-12'
     )
   );
-  private params: IStatusPanelParams;
-
-  public constructor(
-    private readonly store: Store,
-    private readonly dialog: MatDialog,
-    private readonly rolesFacade: RolesFacade
-  ) {}
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -115,9 +114,7 @@ export class DeleteItemsButtonComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(
-          ActiveCaseActions.removePositionsFromQuotation({ gqPositionIds })
-        );
+        this.activeCaseFacade.removePositionsFromQuotation(gqPositionIds);
         this.selections = [];
       }
     });

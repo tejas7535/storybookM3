@@ -1,24 +1,49 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import {
+  Coefficients,
+  Customer,
+  DetailViewQueryParams,
+  PlantMaterialDetail,
+  Quotation,
   QuotationAttachment,
   QuotationDetail,
   QuotationStatus,
+  SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
+import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { MaterialComparableCostsFacade } from '../facades/material-comparable-costs.facade';
+import { MaterialCostDetailsFacade } from '../facades/material-cost-details.facade';
+import { MaterialSalesOrgFacade } from '../facades/material-sales-org.facade';
+import { MaterialStockFacade } from '../facades/material-stock.facade';
+import { PlantMaterialDetailsFacade } from '../facades/plant-material-details.facade';
+import { SapPriceDetailsFacade } from '../facades/sap-price-details.facade';
+import { TransactionsFacade } from '../facades/transactions.facade';
+import {
+  ComparableLinkedTransaction,
+  MaterialStock,
+  SapPriceConditionDetail,
+} from '../reducers/models';
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import {
+  getCoefficients,
+  getIsQuotationStatusActive,
   getQuotationCurrency,
   getQuotationDetailIsFNumber,
   getQuotationHasFNumberMaterials,
   getQuotationHasRfqMaterials,
+  getQuotationSapSyncStatus,
   getQuotationStatus,
   getSapId,
+  getSimulatedQuotationDetailByItemId,
+  getSimulationModeEnabled,
 } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
@@ -26,8 +51,33 @@ import { QuotationIdentifier, UpdateQuotationDetail } from './models';
   providedIn: 'root',
 })
 export class ActiveCaseFacade {
+  private readonly store: Store = inject(Store);
+  private readonly actions$: Actions = inject(Actions);
+  private readonly materialComparableCostsFacade = inject(
+    MaterialComparableCostsFacade
+  );
+  private readonly materialSalesOrgFacade = inject(MaterialSalesOrgFacade);
+  private readonly plantMaterialDetailsFacade = inject(
+    PlantMaterialDetailsFacade
+  );
+  private readonly materialCostDetailsFacade: MaterialCostDetailsFacade =
+    inject(MaterialCostDetailsFacade);
+  private readonly materialStockFacade: MaterialStockFacade =
+    inject(MaterialStockFacade);
+
+  private readonly sapPriceDetailsFacade = inject(SapPriceDetailsFacade);
+  private readonly transactionsFacade = inject(TransactionsFacade);
+
+  quotation$: Observable<Quotation> = this.store.select(
+    activeCaseFeature.selectQuotation
+  );
+
   quotationIdentifier$: Observable<QuotationIdentifier> = this.store.select(
     activeCaseFeature.selectQuotationIdentifier
+  );
+
+  quotationCustomer$: Observable<Customer> = this.store.select(
+    activeCaseFeature.selectCustomer
   );
 
   selectedQuotationDetail$: Observable<QuotationDetail> = this.store.select(
@@ -35,6 +85,24 @@ export class ActiveCaseFacade {
   );
 
   quotationSapId$: Observable<string> = this.store.select(getSapId);
+
+  isQuotationStatusActive$: Observable<boolean> = this.store.select(
+    getIsQuotationStatusActive
+  );
+
+  simulationModeEnabled$: Observable<boolean> = this.store.select(
+    getSimulationModeEnabled
+  );
+
+  getSimulatedQuotationDetailByItemId$(
+    itemId: number
+  ): Observable<QuotationDetail> {
+    return this.store.select(getSimulatedQuotationDetailByItemId(itemId));
+  }
+  detailViewQueryParams$: Observable<{
+    queryParams: DetailViewQueryParams;
+    id: number;
+  }> = this.store.select(activeCaseFeature.getDetailViewQueryParams);
 
   quotationCurrency$: Observable<string> =
     this.store.select(getQuotationCurrency);
@@ -107,14 +175,69 @@ export class ActiveCaseFacade {
     activeCaseFeature.selectQuotationLoadingErrorMessage
   );
 
+  quotationLoading$: Observable<boolean> = this.store.select(
+    activeCaseFeature.selectQuotationLoading
+  );
+
   quotationStatus$: Observable<QuotationStatus> =
     this.store.select(getQuotationStatus);
 
-  constructor(
-    private readonly store: Store,
-    private readonly actions$: Actions
-  ) {}
+  quotationSapSyncStatus$: Observable<SAP_SYNC_STATUS> = this.store.select(
+    getQuotationSapSyncStatus
+  );
 
+  canEditQuotation$: Observable<boolean> = combineLatest([
+    this.quotationStatus$,
+    this.quotationSapSyncStatus$,
+  ]).pipe(
+    map(
+      ([status, sapSyncStatus]) =>
+        status === QuotationStatus.ACTIVE &&
+        sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
+    )
+  );
+  coefficients$: Observable<Coefficients> = this.store.select(getCoefficients);
+
+  materialStock$: Observable<MaterialStock> =
+    this.materialStockFacade.materialStock$;
+  materialStockLoading$: Observable<boolean> =
+    this.materialStockFacade.materialStockLoading$;
+
+  materialCostUpdateAvl$: Observable<boolean> =
+    this.materialCostDetailsFacade.materialCostUpdateAvl$;
+
+  materialComparableCostsLoading$: Observable<boolean> =
+    this.materialComparableCostsFacade.materialComparableCostsLoading$;
+  materialComparableCosts$: Observable<MaterialComparableCost[]> =
+    this.materialComparableCostsFacade.materialComparableCosts$;
+
+  materialSalesOrgLoading$: Observable<boolean> =
+    this.materialSalesOrgFacade.materialSalesOrgLoading$;
+  materialSalesOrg$: Observable<MaterialSalesOrg> =
+    this.materialSalesOrgFacade.materialSalesOrg$;
+  materialSalesOrgDataAvailable$: Observable<boolean> =
+    this.materialSalesOrgFacade.materialSalesOrgDataAvailable$;
+
+  plantMaterialDetailsLoading$: Observable<boolean> =
+    this.plantMaterialDetailsFacade.plantMaterialDetailsLoading$;
+  plantMaterialDetails$: Observable<PlantMaterialDetail[]> =
+    this.plantMaterialDetailsFacade.plantMaterialDetails$;
+
+  sapPriceDetailsLoading$: Observable<boolean> =
+    this.sapPriceDetailsFacade.sapPriceDetailsLoading$;
+  sapPriceDetails$: Observable<SapPriceConditionDetail[]> =
+    this.sapPriceDetailsFacade.sapPriceDetails$;
+
+  transactions$: Observable<ComparableLinkedTransaction[]> =
+    this.transactionsFacade.transactions$;
+  transactionsLoading$: Observable<boolean> =
+    this.transactionsFacade.transactionsLoading$;
+  graphTransactions$: Observable<ComparableLinkedTransaction[]> =
+    this.transactionsFacade.graphTransactions$;
+
+  // ##############################################################################################################
+  // ############################################# methods ########################################################
+  // ##############################################################################################################
   updateCosts(gqPosId: string): void {
     this.store.dispatch(ActiveCaseActions.updateCosts({ gqPosId }));
   }
@@ -145,5 +268,21 @@ export class ActiveCaseFacade {
     this.store.dispatch(
       ActiveCaseActions.updateQuotationDetails({ updateQuotationDetailList })
     );
+  }
+
+  uploadSelectionToSap(gqPositionIds: string[]): void {
+    this.store.dispatch(
+      ActiveCaseActions.uploadSelectionToSap({ gqPositionIds })
+    );
+  }
+
+  removePositionsFromQuotation(gqPositionIds: string[]): void {
+    this.store.dispatch(
+      ActiveCaseActions.removePositionsFromQuotation({ gqPositionIds })
+    );
+  }
+
+  refreshSapPricing(): void {
+    this.store.dispatch(ActiveCaseActions.refreshSapPricing());
   }
 }

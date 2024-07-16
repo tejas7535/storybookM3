@@ -3,20 +3,15 @@
     <div
       *transloco="let t; read: 'shared.customStatusBar.buttons'"
       matTooltipPosition="above"
-      [matTooltip]="
-        (approvalFacade.workflowInProgress$ | ngrxPush) ||
-        (approvalFacade.quotationFullyApproved$ | ngrxPush)
-          ? t('disabledForActiveWorkflowTooltip')
-          : t('disabledForDeletedCasesTooltip')
-      "
-      [matTooltipDisabled]="quotationActive$ | ngrxPush"
+      [matTooltip]="t(tooltipText$ | ngrxPush)"
+      [matTooltipDisabled]="quotationEditable$ | ngrxPush"
     >
       <button
         class="!m-4"
         mat-raised-button
         color="primary"
         (click)="showAddDialog()"
-        [disabled]="!(quotationActive$ | ngrxPush)"
+        [disabled]="!(quotationEditable$ | ngrxPush)"
       >
         <mat-icon class="!align-text-bottom !text-[20px]">add</mat-icon>
         <span class="hidden lg:inline">

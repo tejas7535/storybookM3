@@ -3,14 +3,14 @@
     <div
       *transloco="let t; read: 'shared.customStatusBar.buttons'"
       [matTooltip]="t(tooltipText$ | ngrxPush)"
-      [matTooltipDisabled]="(quotationActive$ | ngrxPush) && !uploadDisabled"
+      [matTooltipDisabled]="(quotationEditable$ | ngrxPush) && !uploadDisabled"
       matTooltipPosition="above"
     >
       <button
         class="!m-4 !mr-0"
         mat-raised-button
         color="primary"
-        [disabled]="uploadDisabled || !(quotationActive$ | ngrxPush)"
+        [disabled]="uploadDisabled || !(quotationEditable$ | ngrxPush)"
         (click)="uploadSelectionToSap()"
       >
         <mat-icon class="!align-text-bottom !text-[20px]">{{ icon }}</mat-icon>

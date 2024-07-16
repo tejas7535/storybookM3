@@ -6,10 +6,8 @@ import { EditingCommentModalComponent } from '@gq/process-case-view/quotation-de
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockDirective } from 'ng-mocks';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
-import { HideIfQuotationNotActiveDirective } from '../../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { EditCommentComponent } from './edit-comment.component';
 
 describe('EditCommentComponent', () => {
@@ -21,7 +19,6 @@ describe('EditCommentComponent', () => {
     component: EditCommentComponent,
     imports: [MatIconModule, MatDialogModule],
     mocks: [MatDialog],
-    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
     providers: [
       provideMockStore(),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

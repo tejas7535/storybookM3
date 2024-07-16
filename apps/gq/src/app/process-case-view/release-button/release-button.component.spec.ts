@@ -103,6 +103,9 @@ describe('ReleaseButtonComponent', () => {
     component.quotation = quotation;
 
     expect(component.disableReleaseButton).toBe(true);
+    expect(component.disableReleaseButtonTooltipTranslationKey).toBe(
+      'releaseButtonTooltip'
+    );
   });
 
   test('should set disableReleaseButton to false when sync status synced', () => {
@@ -117,5 +120,37 @@ describe('ReleaseButtonComponent', () => {
     component.quotation = quotation;
 
     expect(component.disableReleaseButton).toBe(false);
+  });
+
+  test('should set disableReleaseButton to true when sync status is pending', () => {
+    const quotation = {
+      customer: {
+        enabledForApprovalWorkflow: true,
+      },
+      status: QuotationStatus.ACTIVE,
+      sapId: '123',
+      sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+    } as Quotation;
+    component.quotation = quotation;
+
+    expect(component.disableReleaseButton).toBe(true);
+    expect(component.disableReleaseButtonTooltipTranslationKey).toBe(
+      'disabledForSyncPendingTooltip'
+    );
+  });
+
+  test('should set disableReleaseButtonPendingTooltip when sync status is pending', () => {
+    const quotation = {
+      customer: {
+        enabledForApprovalWorkflow: true,
+      },
+      status: QuotationStatus.ACTIVE,
+      sapId: '123',
+      sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+    } as Quotation;
+    component.quotation = quotation;
+    expect(component.disableReleaseButtonTooltipTranslationKey).toBe(
+      'disabledForSyncPendingTooltip'
+    );
   });
 });

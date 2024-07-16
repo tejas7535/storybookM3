@@ -110,7 +110,7 @@
         <gq-filter-pricing> </gq-filter-pricing>
         <ng-container *featureToggle="'fPricing'">
           <ng-container *transloco="let t; read: 'detailView.filterPricing'">
-            @if (activeCaseFacade.quotationDetailIsFNumber$ | ngrxPush) {
+            @if (displayPricingAssistantButton$ | ngrxPush) {
               <div class="flex justify-end md:mr-4">
                 <button
                   *ngrxLet="quotationDetail$ as quotationDetail"
@@ -131,7 +131,7 @@
           [quotationDetail]="quotationDetail$ | ngrxPush"
           [plantMaterialDetails]="plantMaterialDetails$ | ngrxPush"
           [materialCostUpdateAvl]="materialCostUpdateAvl$ | ngrxPush"
-          [rfqDataUpdateAvl]="rfqDataFacade.rfqDataUpdateAvl$ | ngrxPush"
+          [rfqDataUpdateAvl]="rfqDataUpdateAvl$ | ngrxPush"
         >
         </gq-pricing-details>
       </div>

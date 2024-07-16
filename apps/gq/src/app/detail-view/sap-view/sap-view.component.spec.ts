@@ -1,68 +1,51 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
-import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { Quotation } from '@gq/shared/models';
+import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { ShareButtonModule } from '@schaeffler/share-button';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  CUSTOMER_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../testing/mocks';
-import {
-  ACTIVE_CASE_STATE_MOCK,
-  PROCESS_CASE_STATE_MOCK,
-  SAP_PRICE_DETAILS_STATE_MOCK,
-} from '../../../testing/mocks/state';
-import { SapPriceDetailsTableModule } from './sap-price-details-table/sap-price-details-table.module';
+import { CUSTOMER_MOCK, QUOTATION_DETAIL_MOCK } from '../../../testing/mocks';
 import { SapViewComponent } from './sap-view.component';
 
 describe('SapViewComponent', () => {
   let component: SapViewComponent;
   let spectator: Spectator<SapViewComponent>;
-  let store: MockStore;
+  const breadcrumbs = [{ label: '' }];
 
   const createComponent = createComponentFactory({
     component: SapViewComponent,
-    imports: [
-      provideTranslocoTestingModule({}),
-      SubheaderModule,
-      MatCardModule,
-      PushPipe,
-      ShareButtonModule,
-      LoadingSpinnerModule,
-      MaterialPriceHeaderContentModule,
-      SapPriceDetailsTableModule,
-      StatusCustomerInfoHeaderModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
-      provideMockStore({
-        initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
-          activeCase: ACTIVE_CASE_STATE_MOCK,
-          sapPriceDetails: SAP_PRICE_DETAILS_STATE_MOCK,
-        },
+      provideMockStore({}),
+      MockProvider(ActiveCaseFacade, {
+        quotationCustomer$: of(CUSTOMER_MOCK),
+        quotation$: of({ caseName: 'test', gqId: 12_345 } as Quotation),
+        quotationCurrency$: of('EUR'),
+        selectedQuotationDetail$: of(QUOTATION_DETAIL_MOCK),
+        quotationLoading$: of(false),
+        sapPriceDetailsLoading$: of(false),
+        detailViewQueryParams$: of({ id: 1, queryParams: {} } as any),
+        sapPriceDetails$: of([]),
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      MockProvider(BreadcrumbsService, {
+        getPriceDetailBreadcrumbs: jest.fn(() => breadcrumbs),
+      }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
   });
   test('should create', () => {
     expect(component).toBeTruthy();
@@ -72,44 +55,34 @@ describe('SapViewComponent', () => {
     test(
       'should initialize observables',
       marbles((m) => {
-        const breadcrumbs = [{ label: '' }];
-        component['breadCrumbsService'].getPriceDetailBreadcrumbs = jest.fn(
-          () => breadcrumbs
-        );
         component['translocoService'].selectTranslateObject = jest.fn(
           () => new BehaviorSubject({ test: 'test' }) as any
         );
-        store.overrideSelector(
-          activeCaseFeature.getSelectedQuotationDetail,
-          QUOTATION_DETAIL_MOCK
-        );
-
-        component.ngOnInit();
 
         m.expect(component.customer$).toBeObservable(
-          m.cold('a', { a: CUSTOMER_MOCK })
+          m.cold('(a|)', { a: CUSTOMER_MOCK })
         );
         m.expect(component.quotationDetail$).toBeObservable(
-          m.cold('a', { a: QUOTATION_DETAIL_MOCK })
+          m.cold('(a|)', { a: QUOTATION_DETAIL_MOCK })
         );
         m.expect(component.quotationLoading$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
         m.expect(component.sapPriceDetailsLoading$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
-        m.expect(component.rowData$).toBeObservable(m.cold('a', { a: [] }));
+        m.expect(component.rowData$).toBeObservable(m.cold('(a|)', { a: [] }));
         m.expect(component.quotation$).toBeObservable(
-          m.cold('a', {
-            a: QUOTATION_MOCK,
+          m.cold('(a|)', {
+            a: { caseName: 'test', gqId: 12_345 } as Quotation,
           })
         );
         m.expect(component.breadcrumbs$).toBeObservable(
-          m.cold('a', { a: breadcrumbs })
+          m.cold('(a|)', { a: breadcrumbs })
         );
         m.expect(component.translationsLoaded$).toBeObservable(
-          m.hot('a', {
-            a: true,
+          m.cold('a', {
+            a: false,
           })
         );
       })

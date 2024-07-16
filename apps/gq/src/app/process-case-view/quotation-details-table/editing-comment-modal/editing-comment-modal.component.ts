@@ -7,7 +7,6 @@ import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
-import { QuotationStatus } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 
 @Component({
@@ -18,26 +17,22 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 export class EditingCommentModalComponent implements OnInit, OnDestroy {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
-  commentDisabled = true;
-  commentFormControl: UntypedFormControl;
-  updateLoading$: Observable<boolean> =
-    inject(ActiveCaseFacade).quotationDetailUpdating$;
-  loadingErrorMessage$: Observable<string> =
-    inject(ActiveCaseFacade).loadingErrorMessage$;
-  quotationStatus$: Observable<QuotationStatus> =
-    inject(ActiveCaseFacade).quotationStatus$;
-
-  modalData: QuotationDetail = inject(MAT_DIALOG_DATA);
-
   private readonly dialogRef = inject(
     MatDialogRef<EditingCommentModalComponent>
   );
-
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
-
   private readonly subscription: Subscription = new Subscription();
+  modalData: QuotationDetail = inject(MAT_DIALOG_DATA);
 
-  quotationStatusEnum = QuotationStatus;
+  commentDisabled = true;
+  commentFormControl: UntypedFormControl;
+
+  updateLoading$: Observable<boolean> =
+    this.activeCaseFacade.quotationDetailUpdating$;
+  loadingErrorMessage$: Observable<string> =
+    this.activeCaseFacade.loadingErrorMessage$;
+  quotationIsEditable$: Observable<boolean> =
+    this.activeCaseFacade.canEditQuotation$;
 
   ngOnInit(): void {
     this.commentFormControl = new UntypedFormControl(this.modalData.comment);
@@ -47,15 +42,11 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
 
   addSubscriptions(): void {
     this.subscription.add(
-      this.quotationStatus$.subscribe((status) => {
-        if (status === QuotationStatus.ACTIVE) {
-          this.commentFormControl.enable();
-
-          return;
-        }
-
-        this.commentFormControl.disable();
-      })
+      this.quotationIsEditable$.subscribe((editable) =>
+        editable
+          ? this.commentFormControl.enable()
+          : this.commentFormControl.disable()
+      )
     );
 
     const loadingStopped$ = this.updateLoading$.pipe(

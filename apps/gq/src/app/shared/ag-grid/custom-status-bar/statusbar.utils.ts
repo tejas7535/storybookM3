@@ -1,10 +1,15 @@
-import { QuotationStatus } from '@gq/shared/models';
+import { QuotationStatus, SAP_SYNC_STATUS } from '@gq/shared/models';
 
 export function getTooltipTextKeyByQuotationStatus(
   quotationStatus: QuotationStatus,
   selectionLength: number,
-  uploadLimit: number
+  uploadLimit: number,
+  quotationSyncStatus?: SAP_SYNC_STATUS
 ): string {
+  if (quotationSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING) {
+    return 'disabledForSyncPendingTooltip';
+  }
+
   if (
     quotationStatus === QuotationStatus.DELETED ||
     quotationStatus === QuotationStatus.ARCHIVED

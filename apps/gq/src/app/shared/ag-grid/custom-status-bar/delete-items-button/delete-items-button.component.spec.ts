@@ -1,14 +1,13 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { BehaviorSubject, of } from 'rxjs';
 
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
+import { HideIfQuotationNotActiveOrPendingDirective } from '@gq/shared/directives/hide-if-quotation-not-active-or-pending/hide-if-quotation-not-active-or-pending.directive';
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-community';
 import { MockDirective, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -16,18 +15,15 @@ import { marbles } from 'rxjs-marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { DeleteItemsButtonComponent } from './delete-items-button.component';
 
 describe('DeleteItemsButtonComponent', () => {
   let component: DeleteItemsButtonComponent;
   let spectator: Spectator<DeleteItemsButtonComponent>;
   let params: IStatusPanelParams;
-  let store: MockStore;
   const userHasGeneralDeletePositionsRole$$ = new BehaviorSubject<boolean>(
     false
   );
@@ -35,29 +31,21 @@ describe('DeleteItemsButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DeleteItemsButtonComponent,
-    declarations: [
-      DeleteItemsButtonComponent,
-      MockDirective(HideIfQuotationNotActiveDirective),
-    ],
-    imports: [
-      MatButtonModule,
-      MatDialogModule,
-      MatIconModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    declarations: [MockDirective(HideIfQuotationNotActiveOrPendingDirective)],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       MockProvider(RolesFacade, {
         userHasGeneralDeletePositionsRole$:
           userHasGeneralDeletePositionsRole$$.asObservable(),
         loggedInUserId$: loggedInUserId$$.asObservable(),
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      provideMockStore({
-        initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
-        },
+
+      provideMockStore({}),
+      MockProvider(ActiveCaseFacade, {
+        removePositionsFromQuotation: jest.fn(),
       }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -69,7 +57,6 @@ describe('DeleteItemsButtonComponent', () => {
         getOpenedToolPanel: jest.fn(),
       },
     } as unknown as IStatusPanelParams;
-    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -206,8 +193,6 @@ describe('DeleteItemsButtonComponent', () => {
 
   describe('deletePositions', () => {
     test('should open dialog for non sap Quote', () => {
-      store.dispatch = jest.fn();
-
       component['dialog'].open = jest.fn(
         () =>
           ({
@@ -232,11 +217,11 @@ describe('DeleteItemsButtonComponent', () => {
         `processCaseView.confirmDeletePositions.cancelButton`
       );
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(
+        component['activeCaseFacade'].removePositionsFromQuotation
+      ).toHaveBeenCalled();
     });
     test('should open dialog for sap Quote', () => {
-      store.dispatch = jest.fn();
-
       component['dialog'].open = jest.fn(
         () =>
           ({
@@ -261,7 +246,9 @@ describe('DeleteItemsButtonComponent', () => {
         `processCaseView.confirmDeletePositions.cancelButton`
       );
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(
+        component['activeCaseFacade'].removePositionsFromQuotation
+      ).toHaveBeenCalled();
     });
   });
 });

@@ -1,12 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { FilterChangedEvent } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 import { marbles } from 'rxjs-marbles';
 
@@ -17,18 +19,12 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
-import {
-  ACTIVE_CASE_STATE_MOCK,
-  PROCESS_CASE_STATE_MOCK,
-  TRANSACTIONS_STATE_MOCK,
-} from '../../../testing/mocks/state';
 import { TransactionViewComponent } from './transaction-view.component';
 window.ResizeObserver = resize_observer_polyfill;
 
 describe('TransactionViewComponent', () => {
   let component: TransactionViewComponent;
   let spectator: Spectator<TransactionViewComponent>;
-  let store: MockStore;
   const mockTransactions = [
     { ...COMPARABLE_LINKED_TRANSACTION_MOCK, identifier: 1111 },
     { ...COMPARABLE_LINKED_TRANSACTION_MOCK, identifier: 2222 },
@@ -38,20 +34,20 @@ describe('TransactionViewComponent', () => {
   const createComponent = createComponentFactory({
     component: TransactionViewComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
-
     providers: [
-      provideMockStore({
-        initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
-          activeCase: ACTIVE_CASE_STATE_MOCK,
-          transactions: {
-            ...TRANSACTIONS_STATE_MOCK,
-            transactions: mockTransactions,
-          },
-          'azure-auth': {
-            accountInfo: { backendRoles: [] },
-          },
-        },
+      provideMockStore({}),
+      MockProvider(ActiveCaseFacade, {
+        selectedQuotationDetail$: of(QUOTATION_DETAIL_MOCK),
+        quotationLoading$: of(false),
+        quotationCurrency$: of(QUOTATION_MOCK.currency),
+        transactions$: of(mockTransactions),
+        transactionsLoading$: of(false),
+        graphTransactions$: of(mockTransactions),
+        detailViewQueryParams$: of({} as any),
+      }),
+      MockProvider(RolesFacade, {
+        userHasGPCRole$: of(false),
+        userHasRoles$: jest.fn(() => of(false)),
       }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -60,7 +56,6 @@ describe('TransactionViewComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -69,41 +64,35 @@ describe('TransactionViewComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should initalize observables',
+      'should initialize observables',
       marbles((m) => {
-        store.overrideSelector(
-          activeCaseFeature.getSelectedQuotationDetail,
-          QUOTATION_DETAIL_MOCK
-        );
         component['translocoService'].selectTranslateObject = jest.fn(
           () => new BehaviorSubject({ test: 'test' }) as any
         );
 
-        component.ngOnInit();
-
         m.expect(component.quotationDetail$).toBeObservable(
-          m.cold('a', { a: QUOTATION_DETAIL_MOCK })
+          m.cold('(a|)', { a: QUOTATION_DETAIL_MOCK })
         );
         m.expect(component.quotationLoading$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
         m.expect(component.quotationCurrency$).toBeObservable(
-          m.cold('a', { a: QUOTATION_MOCK.currency })
+          m.cold('(a|)', { a: QUOTATION_MOCK.currency })
         );
         m.expect(component.transactions$).toBeObservable(
-          m.cold('a', { a: mockTransactions })
+          m.cold('(a|)', { a: mockTransactions })
         );
         m.expect(component.transactionsLoading$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
         m.expect(component.translationsLoaded$).toBeObservable(
-          m.cold('a', { a: true })
+          m.cold('a', { a: false })
         );
         m.expect(component.hasGpcRole$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
         m.expect(component.hideRolesHint$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
       })
     );

@@ -54,6 +54,7 @@
     "materialDetails": {
       "title": "Materialbeschreibung"
     },
+
     "productionCostDetails": {
       "title": "Produktion und Kosten",
       "gpc": "KHK",
@@ -68,7 +69,8 @@
         "confirmDialogWarning": "Dies führt zu einer Neuberechnung von <b>GPI, GPM </b> und <b>GQ-Preis</b>.",
         "confirmButton": "Bestätigen",
         "cancelButton": "Abbrechen",
-        "updateDisabled": "Kosten nicht aktuell. Bitte breche die Freigabe ab, um die Kosten zu aktualisieren."
+        "updateDisabled": "Kosten nicht aktuell. Bitte breche die Freigabe ab, um die Kosten zu aktualisieren.",
+        "refreshButtonTooltip": "{status,select,SYNC_PENDING {Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht.} ACTIVE {Kosten aktualisieren} other {Kosten nicht aktuell. Bitte breche die Freigabe ab, um die Kosten zu aktualisieren.}}"
       },
       "costsUpToDate": "Kosten aktuell"
     },
@@ -163,7 +165,8 @@
       "nextFreeAtp": "Nächste freie ATP Menge",
       "dateNextFreeAtp": "Termin freie ATP",
       "deliveryDate": "Termin eintreffend"
-    }
+    },
+    "disabledForSyncPendingTooltip": "Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht"
   },
   "headerContent": {
     "slowMover": "Slow mover",

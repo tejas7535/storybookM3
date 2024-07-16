@@ -17,7 +17,19 @@
                     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
                     [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
                     [materialCostUpdateAvl]="materialCostUpdateAvl"
-                    [refreshEnabled]="isQuotationStatusActive$ | ngrxPush"
+                    [refreshEnabled]="isQuotationEditable$ | ngrxPush"
+                    [refreshButtonTooltipText]="
+                      t(
+                        'productionCostDetails.updateCosts.refreshButtonTooltip',
+                        {
+                          status:
+                            (sapSyncStatus$ | ngrxPush) ===
+                            sapSyncStatusEnum.SYNC_PENDING
+                              ? sapSyncStatusEnum.SYNC_PENDING
+                              : (quotationStatus$ | ngrxPush)
+                        }
+                      )
+                    "
                   ></gq-production-cost-details>
                   @if (quotationDetail.rfqData) {
                     <gq-rfq-position-details

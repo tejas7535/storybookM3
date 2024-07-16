@@ -36,7 +36,7 @@
   </span>
   @if (isCellEditingAllowed) {
     <mat-icon
-      *hideIfQuotationNotActive
+      *hideIfQuotationNotActiveOrPending
       class="text-medium-emphasis cursor-pointer align-text-top !text-[16px]"
       (click)="onIconClick()"
       >mode_edit</mat-icon

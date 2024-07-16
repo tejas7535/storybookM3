@@ -48,7 +48,8 @@
       "backToOverview": "Zurück zur Übersicht"
     },
     "save": "Case speichern",
-    "delete": "Case verwerfen"
+    "delete": "Case verwerfen",
+    "disabledForSyncPendingTooltip": "Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht"
   },
   "tabs": {
     "singleQuotes": {
@@ -271,7 +272,7 @@
     }
   },
   "editingCommentModal": {
-    "title": "Kommentar {quotationStatus, select, ACTIVE {bearbeiten} other {ansehen}} für Position {{id}}",
+    "title": "Kommentar {editable, select, true {bearbeiten} other {ansehen}} für Position {{id}}",
     "confirm": "Bestätigen",
     "cancel": "Abbrechen"
   },

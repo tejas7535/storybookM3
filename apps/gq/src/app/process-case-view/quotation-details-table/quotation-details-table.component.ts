@@ -131,16 +131,18 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       ),
       this.activeCaseFacade.quotationHasFNumberMaterials$,
       this.activeCaseFacade.quotationHasRfqMaterials$,
+      this.activeCaseFacade.canEditQuotation$,
     ]).pipe(
-      map(([columnDefs, hasFNumberMaterials, hasRfqMaterials]) => {
+      map(([columnDefs, hasFNumberMaterials, hasRfqMaterials, canEdit]) => {
         let columnDef = ColumnUtilityService.filterSAPColumns(
           columnDefs,
           this.tableContext.quotation
         );
 
-        columnDef = hasFNumberMaterials
-          ? columnDef
-          : ColumnUtilityService.filterPricingAssistantColumns(columnDef);
+        columnDef =
+          hasFNumberMaterials && canEdit
+            ? columnDef
+            : ColumnUtilityService.filterPricingAssistantColumns(columnDef);
 
         return hasRfqMaterials
           ? columnDef

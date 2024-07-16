@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
-import { QuotationDetail } from '@gq/shared/models';
+import { QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { CellClassParams } from 'ag-grid-community';
 
@@ -13,11 +13,15 @@ import { CellClassParams } from 'ag-grid-community';
 export class PricingAssistantActionCellComponent {
   params: CellClassParams;
   isFNumber = false;
+  canEdit = false;
 
   constructor(private readonly dialog: MatDialog) {}
 
   agInit(params: CellClassParams): void {
     this.params = params;
+    this.canEdit =
+      this.params.context?.quotation?.sapSyncStatus !==
+      SAP_SYNC_STATUS.SYNC_PENDING;
     this.isFNumber = isFNumber(params.data as QuotationDetail);
   }
 

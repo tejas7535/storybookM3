@@ -48,7 +48,8 @@
       "backToOverview": "Back to Overview"
     },
     "save": "Save Case",
-    "delete": "Discard Case"
+    "delete": "Discard Case",
+    "disabledForSyncPendingTooltip": "Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed."
   },
   "tabs": {
     "singleQuotes": {
@@ -271,7 +272,7 @@
     }
   },
   "editingCommentModal": {
-    "title": "{quotationStatus, select, ACTIVE {Edit} other {View}} comment for Item {{id}}",
+    "title": "{editable, select, true {Edit} other {View}} comment for Item {{id}}",
     "confirm": "Confirm",
     "cancel": "Cancel"
   },

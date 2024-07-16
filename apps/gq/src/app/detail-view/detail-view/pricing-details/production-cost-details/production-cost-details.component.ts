@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
@@ -16,8 +16,9 @@ export class ProductionCostDetailsComponent {
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
   @Input() refreshEnabled: boolean;
+  @Input() refreshButtonTooltipText: string;
 
-  constructor(private readonly matDialog: MatDialog) {}
+  private readonly matDialog: MatDialog = inject(MatDialog);
 
   updateCosts(): void {
     if (!this.refreshEnabled) {

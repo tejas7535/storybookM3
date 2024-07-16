@@ -1,27 +1,32 @@
-import { getQuotationStatus } from '@gq/core/store/active-case/active-case.selectors';
+import {
+  getQuotationSapSyncStatus,
+  getQuotationStatus,
+} from '@gq/core/store/active-case/active-case.selectors';
 import {
   createDirectiveFactory,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { QuotationStatus } from '../../models';
-import { HideIfQuotationNotActiveDirective } from './hide-if-quotation-not-active.directive';
+import { QuotationStatus, SAP_SYNC_STATUS } from '../../models';
+import { HideIfQuotationNotActiveOrPendingDirective } from './hide-if-quotation-not-active-or-pending.directive';
 
 describe('HideIfQuotationNotActiveDirective', () => {
-  let spectator: SpectatorDirective<HideIfQuotationNotActiveDirective>;
-  let directive: HideIfQuotationNotActiveDirective;
+  let spectator: SpectatorDirective<HideIfQuotationNotActiveOrPendingDirective>;
+  let directive: HideIfQuotationNotActiveOrPendingDirective;
   let store: MockStore;
   const quotationStatus = QuotationStatus;
 
   const createDirective = createDirectiveFactory({
-    directive: HideIfQuotationNotActiveDirective,
+    directive: HideIfQuotationNotActiveOrPendingDirective,
     providers: [provideMockStore()],
     detectChanges: false,
   });
 
   beforeEach(() => {
-    spectator = createDirective(`<div *hideIfQuotationNotActive></div>`);
+    spectator = createDirective(
+      `<div *hideIfQuotationNotActiveOrPending></div>`
+    );
     store = spectator.inject(MockStore);
     directive = spectator.directive;
   });
@@ -44,6 +49,19 @@ describe('HideIfQuotationNotActiveDirective', () => {
     expect(directive['viewContainer'].createEmbeddedView).toHaveBeenCalled();
   });
 
+  test('should clear view if quotation has a forbidden status (active but pending)', () => {
+    jest.spyOn(directive['viewContainer'], 'clear');
+
+    store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
+    store.overrideSelector(
+      getQuotationSapSyncStatus,
+      SAP_SYNC_STATUS.SYNC_PENDING
+    );
+
+    spectator.detectChanges();
+
+    expect(directive['viewContainer'].clear).toHaveBeenCalled();
+  });
   test('should clear view if quotation has a forbidden status', () => {
     jest.spyOn(directive['viewContainer'], 'clear');
 
@@ -57,6 +75,7 @@ describe('HideIfQuotationNotActiveDirective', () => {
   test('should create if quotation status has changed', () => {
     jest.spyOn(directive['viewContainer'], 'createEmbeddedView');
     jest.spyOn(directive['viewContainer'], 'clear');
+    store.overrideSelector(getQuotationSapSyncStatus, SAP_SYNC_STATUS.SYNCED);
 
     // First render: quotation status is ACTIVE
     store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
@@ -77,6 +96,7 @@ describe('HideIfQuotationNotActiveDirective', () => {
 
     // First render: quotation status is ACTIVE
     store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
+    store.overrideSelector(getQuotationSapSyncStatus, SAP_SYNC_STATUS.SYNCED);
     spectator.detectChanges();
 
     // Quotation was updated: quotation status has NOT changed

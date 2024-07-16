@@ -1,22 +1,23 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { UserRoles } from '@gq/shared/constants';
+import { of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades/roles.facade';
+import { QuotationStatus, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  ACTIVE_CASE_STATE_MOCK,
-  AUTH_STATE_MOCK,
   MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
-  MATERIAL_COST_DETAILS_STATE_MOCK,
   MATERIAL_SALES_ORG_STATE_MOCK,
   PLANT_MATERIAL_DETAILS_STATE_MOCK,
-  PROCESS_CASE_STATE_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
 import { PricingDetailsComponent } from './pricing-details.component';
@@ -34,23 +35,27 @@ describe('PricingDetailsComponent', () => {
       PushPipe,
     ],
     providers: [
-      provideMockStore({
-        initialState: {
-          processCase: PROCESS_CASE_STATE_MOCK,
-          activeCase: ACTIVE_CASE_STATE_MOCK,
-          materialSalesOrg: MATERIAL_SALES_ORG_STATE_MOCK,
-          materialComparableCosts: MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
-          plantMaterialDetails: PLANT_MATERIAL_DETAILS_STATE_MOCK,
-          materialCostDetails: MATERIAL_COST_DETAILS_STATE_MOCK,
-          'azure-auth': {
-            ...AUTH_STATE_MOCK,
-            accountInfo: {
-              idTokenClaims: {
-                roles: [UserRoles.COST_GPC, UserRoles.COST_SQV],
-              },
-            },
-          },
-        },
+      provideMockStore({}),
+      MockProvider(ActiveCaseFacade, {
+        quotationCurrency$: of(QUOTATION_MOCK.currency),
+        quotationSapSyncStatus$: of(SAP_SYNC_STATUS.PARTIALLY_SYNCED),
+        quotationStatus$: of(QuotationStatus.ACTIVE),
+        canEditQuotation$: of(true),
+        materialComparableCostsLoading$: of(
+          MATERIAL_COMPARABLE_COSTS_STATE_MOCK.materialComparableCostsLoading
+        ),
+        materialSalesOrgLoading$: of(
+          MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrgLoading
+        ),
+        materialSalesOrg$: of(MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrg),
+        materialSalesOrgDataAvailable$: of(false),
+        plantMaterialDetailsLoading$: of(
+          PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetailsLoading
+        ),
+      }),
+      MockProvider(RolesFacade, {
+        userHasGPCRole$: of(true),
+        userHasSQVRole$: of(true),
       }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -64,44 +69,60 @@ describe('PricingDetailsComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
-  describe('ngOnInit', () => {
+  describe('observables', () => {
     test(
-      'should initialize observables',
+      'should provide observables',
       marbles((m) => {
-        component.ngOnInit();
-
-        m.expect(component.quotationCurrency$).toBeObservable('a', {
-          a: QUOTATION_MOCK.currency,
-        });
-        m.expect(component.materialSalesOrgLoading$).toBeObservable('a', {
-          a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrgLoading,
-        });
-        m.expect(component.materialComparableCostsLoading$).toBeObservable(
-          'a',
-          {
-            a: MATERIAL_COMPARABLE_COSTS_STATE_MOCK.materialComparableCostsLoading,
-          }
+        m.expect(component.quotationCurrency$).toBeObservable(
+          m.cold('(a|)', {
+            a: QUOTATION_MOCK.currency,
+          })
         );
-        m.expect(component.plantMaterialDetailsLoading$).toBeObservable('a', {
-          a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetailsLoading,
-        });
+        m.expect(component.sapSyncStatus$).toBeObservable(
+          m.cold('(a|)', { a: SAP_SYNC_STATUS.PARTIALLY_SYNCED })
+        );
+        m.expect(component.isQuotationEditable$).toBeObservable(
+          m.cold('(a|)', { a: true })
+        );
 
-        m.expect(component.userHasGPCRole$).toBeObservable('a', {
-          a: true,
-        });
+        m.expect(component.materialComparableCostsLoading$).toBeObservable(
+          m.cold('(a|)', {
+            a: MATERIAL_COMPARABLE_COSTS_STATE_MOCK.materialComparableCostsLoading,
+          })
+        );
+        m.expect(component.materialSalesOrgLoading$).toBeObservable(
+          m.cold('(a|)', {
+            a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrgLoading,
+          })
+        );
+        m.expect(component.materialSalesOrg$).toBeObservable(
+          m.cold('(a|)', {
+            a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrg,
+          })
+        );
+        m.expect(component.materialSalesOrgDataAvailable$).toBeObservable(
+          m.cold('(a|)', {
+            a: false,
+          })
+        );
 
-        m.expect(component.userHasSQVRole$).toBeObservable('a', {
-          a: true,
-        });
-        m.expect(component.materialSalesOrg$).toBeObservable('a', {
-          a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrg,
-        });
-        m.expect(component.materialSalesOrgDataAvailable$).toBeObservable('a', {
-          a: false,
-        });
-        m.expect(component.isQuotationStatusActive$).toBeObservable('a', {
-          a: true,
-        });
+        m.expect(component.plantMaterialDetailsLoading$).toBeObservable(
+          m.cold('(a|)', {
+            a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetailsLoading,
+          })
+        );
+
+        m.expect(component.userHasGPCRole$).toBeObservable(
+          m.cold('(a|)', {
+            a: true,
+          })
+        );
+
+        m.expect(component.userHasSQVRole$).toBeObservable(
+          m.cold('(a|)', {
+            a: true,
+          })
+        );
       })
     );
   });

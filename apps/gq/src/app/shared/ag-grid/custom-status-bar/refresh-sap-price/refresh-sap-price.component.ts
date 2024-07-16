@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { translate } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -18,19 +16,19 @@ import { EVENT_NAMES, QuotationStatus } from '../../../models';
   templateUrl: './refresh-sap-price.component.html',
 })
 export class RefreshSapPriceComponent {
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly insightsService: ApplicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
+
   icon = 'update';
-  public simulationModeEnabled$: Observable<boolean>;
-  public quotationStatus = QuotationStatus;
+  simulationModeEnabled$: Observable<boolean> =
+    this.activeCaseFacade.simulationModeEnabled$;
+  quotationStatus = QuotationStatus;
 
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly store: Store,
-    private readonly insightsService: ApplicationInsightsService
-  ) {}
-
-  agInit(): void {
-    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
-  }
+  agInit(): void {}
 
   refreshSapPricing(): void {
     const displayText = translate(
@@ -52,7 +50,7 @@ export class RefreshSapPriceComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(ActiveCaseActions.refreshSapPricing());
+        this.activeCaseFacade.refreshSapPricing();
         this.insightsService.logEvent(EVENT_NAMES.SAP_DATA_REFRESHED);
       }
     });

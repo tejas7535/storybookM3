@@ -1,19 +1,21 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
+import { RfqDataFacade } from '@gq/core/store/rfq-data/rfq-data.facade';
 import { ApprovalWorkflowInformation, Quotation } from '@gq/shared/models';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import {
+  QuotationDetail,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
@@ -21,6 +23,7 @@ import {
   MATERIAL_STOCK_STATE_MOCK,
   PLANT_MATERIAL_DETAILS_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
+  QUOTATION_DETAILS_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
@@ -31,17 +34,29 @@ describe('DetailViewComponent', () => {
   let component: DetailViewComponent;
   let spectator: Spectator<DetailViewComponent>;
   let router: Router;
-  let mockStore: MockStore;
+
+  const approvalCockpitLoadingSubject$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  const approvalCockpitInformationSubject$$: BehaviorSubject<ApprovalWorkflowInformation> =
+    new BehaviorSubject<ApprovalWorkflowInformation>({
+      sapId: '123',
+    } as ApprovalWorkflowInformation);
+  const approvalCockpitErrorSubject$$: BehaviorSubject<Error> =
+    new BehaviorSubject<Error>(undefined as Error);
+
+  const quotationSubject$$: BehaviorSubject<Quotation> =
+    new BehaviorSubject<Quotation>(QUOTATION_MOCK);
+  const quotationLoadingSubject$$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   const createComponent = createComponentFactory({
     component: DetailViewComponent,
     imports: [
       MockDirective(LetDirective),
       MockPipe(PushPipe),
-      RouterTestingModule,
+      RouterModule.forRoot([]),
     ],
     providers: [
-      MockProvider(ActiveCaseFacade),
       provideMockStore({
         initialState: {
           activeCase: {
@@ -60,8 +75,35 @@ describe('DetailViewComponent', () => {
           },
         },
       }),
+      MockProvider(ActiveCaseFacade, {
+        quotation$: quotationSubject$$.asObservable(),
+        selectedQuotationDetail$: of({
+          ...QUOTATION_DETAILS_MOCK[0],
+          sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
+        }),
+        materialCostUpdateAvl$: of(true),
+        plantMaterialDetails$: of(
+          PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetails
+        ),
+        materialStock$: of(MATERIAL_STOCK_MOCK),
+        materialStockLoading$: of(false),
+        quotationLoading$: quotationLoadingSubject$$.asObservable(),
+
+        quotationDetailIsFNumber$: of(false),
+        canEditQuotation$: of(true),
+        detailViewQueryParams$: of({} as any),
+      }),
       MockProvider(AgGridStateService),
-      MockProvider(ApprovalFacade),
+
+      MockProvider(ApprovalFacade, {
+        approvalCockpitLoading$: approvalCockpitLoadingSubject$$.asObservable(),
+        approvalCockpitInformation$:
+          approvalCockpitInformationSubject$$.asObservable(),
+        error$: approvalCockpitErrorSubject$$.asObservable(),
+      }),
+      MockProvider(RfqDataFacade, {
+        rfqDataUpdateAvl$: of(true),
+      }),
       { provide: MatDialog, useValue: {} },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -72,7 +114,6 @@ describe('DetailViewComponent', () => {
     component = spectator.debugElement.componentInstance;
     router = spectator.inject(Router);
     router.navigate = jest.fn();
-    mockStore = spectator.inject(MockStore);
   });
 
   afterEach(() => {
@@ -96,196 +137,111 @@ describe('DetailViewComponent', () => {
           m.cold('a', { a: QUOTATION_MOCK })
         );
         m.expect(component.quotationDetail$).toBeObservable(
-          m.cold('a', { a: QUOTATION_DETAIL_MOCK })
+          m.cold('(a|)', {
+            a: {
+              ...QUOTATION_DETAILS_MOCK[0],
+              sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
+            },
+          })
         );
         m.expect(component.materialCostUpdateAvl$).toBeObservable(
-          m.cold('a', { a: true })
+          m.cold('(a|)', { a: true })
         );
         m.expect(component.materialStock$).toBeObservable(
-          m.cold('a', { a: MATERIAL_STOCK_MOCK })
+          m.cold('(a|)', { a: MATERIAL_STOCK_MOCK })
         );
         m.expect(component.materialStockLoading$).toBeObservable(
-          m.cold('a', { a: false })
+          m.cold('(a|)', { a: false })
         );
         m.expect(component.breadcrumbs$).toBeObservable(
-          m.cold('a', { a: [{ label: 'test' }] })
+          m.cold('(a|)', { a: [{ label: 'test' }] })
         );
         m.expect(component.plantMaterialDetails$).toBeObservable(
-          m.cold('a', {
+          m.cold('(a|)', {
             a: PLANT_MATERIAL_DETAILS_STATE_MOCK.plantMaterialDetails,
           })
         );
 
         m.expect(component.sapStatusPosition$).toBeObservable(
-          m.cold('a', {
-            a: QUOTATION_DETAIL_MOCK.sapSyncStatus,
+          m.cold('(a|)', {
+            a: SAP_SYNC_STATUS.NOT_SYNCED,
           })
         );
 
-        m.expect(component.sapStatusPosition$).toBeObservable(
-          m.cold('a', {
-            a: QUOTATION_DETAIL_MOCK.sapSyncStatus,
-          })
+        m.expect(component.displayPricingAssistantButton$).toBeObservable(
+          m.cold('(a|)', { a: false })
+        );
+        m.expect(component.breadcrumbs$).toBeObservable(
+          m.cold('(a|)', { a: [{ label: 'test' }] })
+        );
+      })
+    );
+  });
+
+  describe('calculate loadingComplete', () => {
+    test(
+      'should return false when ApprovalCockpit is on loading',
+      marbles((m) => {
+        approvalCockpitLoadingSubject$$.next(true);
+        m.expect(component.dataLoadingComplete$).toBeObservable(
+          m.cold('a', { a: false })
         );
       })
     );
 
-    describe('calculate loadingComplete', () => {
-      test(
-        'should return false when ApprovalCockpit is on loading',
-        marbles((m) => {
-          const facadeMock: ApprovalFacade = {
-            approvalCockpitInformation$: of({
-              sapId: undefined,
-            } as ApprovalWorkflowInformation),
-            approvalCockpitLoading$: of(true),
-            getApprovalCockpitData: jest.fn(),
-            error$: of(undefined as Error),
-            stopApprovalCockpitDataPolling: jest.fn(),
-          } as unknown as ApprovalFacade;
+    test(
+      'should return true when ApprovalCockpit loading has finished with an error',
+      marbles((m) => {
+        approvalCockpitLoadingSubject$$.next(false);
+        approvalCockpitErrorSubject$$.next(new Error('test'));
 
-          Object.defineProperty(component, 'approvalFacade', {
-            value: facadeMock,
-          });
+        m.expect(component.dataLoadingComplete$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
 
-          mockStore.overrideSelector(
-            activeCaseFeature.selectQuotationLoading,
-            false
-          );
+    test(
+      'should return false when quotation is on loading',
+      marbles((m) => {
+        approvalCockpitLoadingSubject$$.next(false);
+        quotationLoadingSubject$$.next(true);
 
-          component.ngOnInit();
+        m.expect(component.dataLoadingComplete$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
 
-          m.expect(component.dataLoadingComplete$).toBeObservable(
-            m.cold('a', { a: false })
-          );
-        })
-      );
+    test(
+      'should not consider approval information loading status if quotation is not synced with SAP',
+      marbles((m) => {
+        approvalCockpitLoadingSubject$$.next(true);
+        quotationSubject$$.next({ ...QUOTATION_MOCK, sapId: undefined });
+        quotationLoadingSubject$$.next(false);
 
-      test(
-        'should return true when ApprovalCockpit loading has finished with an error',
-        marbles((m) => {
-          const facadeMock: ApprovalFacade = {
-            approvalCockpitInformation$: of({
-              sapId: undefined,
-            } as ApprovalWorkflowInformation),
-            approvalCockpitLoading$: of(false),
-            getApprovalCockpitData: jest.fn(),
-            error$: of(new Error('error')),
-            stopApprovalCockpitDataPolling: jest.fn(),
-          } as unknown as ApprovalFacade;
+        m.expect(component.dataLoadingComplete$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
 
-          Object.defineProperty(component, 'approvalFacade', {
-            value: facadeMock,
-          });
+    test(
+      'should return true when data received completely',
+      marbles((m) => {
+        approvalCockpitLoadingSubject$$.next(false);
+        quotationLoadingSubject$$.next(false);
+        approvalCockpitInformationSubject$$.next({
+          sapId: '12',
+        } as ApprovalWorkflowInformation);
+        quotationSubject$$.next(QUOTATION_MOCK);
+        approvalCockpitErrorSubject$$.next(undefined as Error);
 
-          mockStore.overrideSelector(
-            activeCaseFeature.selectQuotationLoading,
-            false
-          );
-
-          component.ngOnInit();
-
-          m.expect(component.dataLoadingComplete$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
-
-      test(
-        'should return false when quotation is on loading',
-        marbles((m) => {
-          const facadeMock: ApprovalFacade = {
-            approvalCockpitInformation$: of({
-              sapId: '12',
-            } as ApprovalWorkflowInformation),
-            approvalCockpitLoading$: of(false),
-            getApprovalCockpitData: jest.fn(),
-            error$: of(undefined as Error),
-            stopApprovalCockpitDataPolling: jest.fn(),
-          } as unknown as ApprovalFacade;
-
-          Object.defineProperty(component, 'approvalFacade', {
-            value: facadeMock,
-          });
-
-          mockStore.overrideSelector(
-            activeCaseFeature.selectQuotationLoading,
-            true
-          );
-
-          component.ngOnInit();
-
-          m.expect(component.dataLoadingComplete$).toBeObservable(
-            m.cold('a', { a: false })
-          );
-        })
-      );
-
-      test(
-        'should not consider approval information loading status if quotation is not synced with SAP',
-        marbles((m) => {
-          const facadeMock: ApprovalFacade = {
-            approvalCockpitInformation$: of({
-              sapId: '12',
-            } as ApprovalWorkflowInformation),
-            approvalCockpitLoading$: of(true),
-            getApprovalCockpitData: jest.fn(),
-            error$: of(undefined as Error),
-            stopApprovalCockpitDataPolling: jest.fn(),
-          } as unknown as ApprovalFacade;
-
-          Object.defineProperty(component, 'approvalFacade', {
-            value: facadeMock,
-          });
-
-          mockStore.overrideSelector(
-            activeCaseFeature.selectQuotationLoading,
-            false
-          );
-
-          mockStore.overrideSelector(activeCaseFeature.selectQuotation, {
-            ...ACTIVE_CASE_STATE_MOCK.quotation,
-            sapId: undefined,
-          });
-
-          component.ngOnInit();
-
-          m.expect(component.dataLoadingComplete$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
-
-      test(
-        'should return true when data received completely',
-        marbles((m) => {
-          const facadeMock: ApprovalFacade = {
-            approvalCockpitInformation$: of({
-              sapId: '12',
-            } as ApprovalWorkflowInformation),
-            approvalCockpitLoading$: of(false),
-            getApprovalCockpitData: jest.fn(),
-            error$: of(undefined as Error),
-            stopApprovalCockpitDataPolling: jest.fn(),
-          } as unknown as ApprovalFacade;
-
-          Object.defineProperty(component, 'approvalFacade', {
-            value: facadeMock,
-          });
-
-          mockStore.overrideSelector(
-            activeCaseFeature.selectQuotationLoading,
-            false
-          );
-
-          component.ngOnInit();
-
-          m.expect(component.dataLoadingComplete$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
-    });
+        m.expect(component.dataLoadingComplete$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
   });
 
   describe('ngOnDestroy', () => {
@@ -295,13 +251,9 @@ describe('DetailViewComponent', () => {
       Object.defineProperty(component, 'approvalFacade', {
         value: { stopApprovalCockpitDataPolling },
       });
-      component['shutDown$$'].next = jest.fn();
-      component['shutDown$$'].complete = jest.fn();
 
       component.ngOnDestroy();
 
-      expect(component['shutDown$$'].next).toHaveBeenCalled();
-      expect(component['shutDown$$'].complete).toHaveBeenCalled();
       expect(stopApprovalCockpitDataPolling).toHaveBeenCalled();
     });
   });
@@ -321,7 +273,7 @@ describe('DetailViewComponent', () => {
   describe('requestApprovalData', () => {
     test('should call requestApprovalData', () => {
       const sapId = 'testSapId';
-      component['initObservables'] = jest.fn();
+
       component.quotation$ = of({
         sapId,
         customer: { enabledForApprovalWorkflow: true },
@@ -338,7 +290,6 @@ describe('DetailViewComponent', () => {
     });
 
     test('should not call requestApprovalData', () => {
-      component['initObservables'] = jest.fn();
       component.quotation$ = of(undefined as Quotation);
 
       const getApprovalCockpitDataSpy = jest.spyOn(

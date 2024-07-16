@@ -1,50 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import {
-  getIsQuotationStatusActive,
-  getQuotationCurrency,
-} from '@gq/core/store/active-case/active-case.selectors';
-import {
-  getMaterialComparableCostsLoading,
-  getMaterialSalesOrg,
-  getMaterialSalesOrgDataAvailable,
-  getMaterialSalesOrgLoading,
-  getPlantMaterialDetailsLoading,
-  userHasGPCRole,
-  userHasSQVRole,
-} from '@gq/core/store/selectors';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades/roles.facade';
+import { QuotationStatus } from '@gq/shared/models';
 import {
   PlantMaterialDetail,
   QuotationDetail,
+  SAP_SYNC_STATUS,
 } from '@gq/shared/models/quotation-detail';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'gq-pricing-details',
   templateUrl: './pricing-details.component.html',
 })
-export class PricingDetailsComponent implements OnInit {
+export class PricingDetailsComponent {
   @Input() quotationDetail: QuotationDetail;
   @Input() materialCostUpdateAvl: boolean;
   @Input() rfqDataUpdateAvl: boolean;
-
-  quotationCurrency$: Observable<string>;
-  materialComparableCostsLoading$: Observable<boolean>;
-  materialSalesOrgLoading$: Observable<boolean>;
-  plantMaterialDetailsLoading$: Observable<boolean>;
-  productionPlantStochasticType: string;
-  supplyPlantStochasticType: string;
-  userHasGPCRole$: Observable<boolean>;
-  userHasSQVRole$: Observable<boolean>;
-  isQuotationStatusActive$: Observable<boolean>;
-
-  materialSalesOrg$: Observable<MaterialSalesOrg>;
-  materialSalesOrgDataAvailable$: Observable<boolean>;
-
-  constructor(private readonly store: Store) {}
 
   @Input() set plantMaterialDetails(
     plantMaterialDetails: PlantMaterialDetail[]
@@ -61,27 +36,35 @@ export class PricingDetailsComponent implements OnInit {
       )?.stochasticType || undefined;
   }
 
-  ngOnInit(): void {
-    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
-    this.materialComparableCostsLoading$ = this.store.select(
-      getMaterialComparableCostsLoading
-    );
-    this.materialSalesOrgLoading$ = this.store.select(
-      getMaterialSalesOrgLoading
-    );
-    this.plantMaterialDetailsLoading$ = this.store.select(
-      getPlantMaterialDetailsLoading
-    );
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
+  private readonly rolesFacade = inject(RolesFacade);
 
-    this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
-    this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
+  productionPlantStochasticType: string;
+  supplyPlantStochasticType: string;
 
-    this.materialSalesOrg$ = this.store.select(getMaterialSalesOrg);
-    this.materialSalesOrgDataAvailable$ = this.store.select(
-      getMaterialSalesOrgDataAvailable
-    );
-    this.isQuotationStatusActive$ = this.store.select(
-      getIsQuotationStatusActive
-    );
-  }
+  quotationCurrency$: Observable<string> =
+    this.activeCaseFacade.quotationCurrency$;
+  sapSyncStatus$: Observable<SAP_SYNC_STATUS> =
+    this.activeCaseFacade.quotationSapSyncStatus$;
+  isQuotationEditable$: Observable<boolean> =
+    this.activeCaseFacade.canEditQuotation$;
+  quotationStatus$: Observable<QuotationStatus> =
+    this.activeCaseFacade.quotationStatus$;
+
+  materialComparableCostsLoading$: Observable<boolean> =
+    this.activeCaseFacade.materialComparableCostsLoading$;
+  materialSalesOrgLoading$: Observable<boolean> =
+    this.activeCaseFacade.materialSalesOrgLoading$;
+  materialSalesOrg$: Observable<MaterialSalesOrg> =
+    this.activeCaseFacade.materialSalesOrg$;
+  materialSalesOrgDataAvailable$: Observable<boolean> =
+    this.activeCaseFacade.materialSalesOrgDataAvailable$;
+
+  plantMaterialDetailsLoading$: Observable<boolean> =
+    this.activeCaseFacade.plantMaterialDetailsLoading$;
+
+  userHasGPCRole$: Observable<boolean> = this.rolesFacade.userHasGPCRole$;
+  userHasSQVRole$: Observable<boolean> = this.rolesFacade.userHasSQVRole$;
+
+  sapSyncStatusEnum = SAP_SYNC_STATUS;
 }

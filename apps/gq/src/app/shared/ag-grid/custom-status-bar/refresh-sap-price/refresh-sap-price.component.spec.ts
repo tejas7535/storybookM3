@@ -1,61 +1,51 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { HideIfQuotationNotActiveOrPendingDirective } from '@gq/shared/directives/hide-if-quotation-not-active-or-pending/hide-if-quotation-not-active-or-pending.directive';
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockDirective } from 'ng-mocks';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockDirective, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { HideIfQuotationNotActiveDirective } from '../../../directives/hide-if-quotation-not-active/hide-if-quotation-not-active.directive';
 import { EVENT_NAMES } from '../../../models';
 import { RefreshSapPriceComponent } from './refresh-sap-price.component';
 
 describe('RefreshSapPriceComponent', () => {
   let component: RefreshSapPriceComponent;
   let spectator: Spectator<RefreshSapPriceComponent>;
-  let store: MockStore;
   let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: RefreshSapPriceComponent,
-    declarations: [MockDirective(HideIfQuotationNotActiveDirective)],
-    imports: [
-      MatButtonModule,
-      MatIconModule,
-      MatDialogModule,
-      MatTooltipModule,
-      provideTranslocoTestingModule({ en: {} }),
-      PushPipe,
-    ],
+    declarations: [MockDirective(HideIfQuotationNotActiveOrPendingDirective)],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       provideMockStore({}),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       {
         provide: ApplicationInsightsService,
         useValue: {
           logEvent: jest.fn(),
         },
       },
+      MockProvider(ActiveCaseFacade, {
+        simulationModeEnabled$: of(true),
+        refreshSapPricing: jest.fn(),
+      }),
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
 
-    store.dispatch = jest.fn();
     component['dialog'].open = jest.fn(
       () =>
         ({
@@ -81,11 +71,13 @@ describe('RefreshSapPriceComponent', () => {
       component.refreshSapPricing();
 
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(
+        component['activeCaseFacade'].refreshSapPricing
+      ).toHaveBeenCalledTimes(1);
       expect(translate).toHaveBeenCalledTimes(3);
-      expect(store.dispatch).toHaveBeenLastCalledWith(
-        ActiveCaseActions.refreshSapPricing()
-      );
+      expect(
+        component['activeCaseFacade'].refreshSapPricing
+      ).toHaveBeenCalled();
     });
   });
 

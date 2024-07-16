@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,15 +27,6 @@ import { ReleaseModalComponent } from './release-modal/release-modal.component';
   ],
 })
 export class ReleaseButtonComponent {
-  displayReleaseButton: boolean;
-  disableReleaseButton: boolean;
-
-  private _quotation: Quotation;
-  constructor(private readonly dialog: MatDialog) {}
-
-  get quotation(): Quotation {
-    return this._quotation;
-  }
   @Input() set quotation(quotation: Quotation) {
     this._quotation = quotation;
     const isCustomerEnabledForApprovalWorkflow =
@@ -44,10 +40,30 @@ export class ReleaseButtonComponent {
       isQuotationActive &&
       isSapQuotation;
 
+    this.disableReleaseButtonTooltipTranslationKey = null;
     // disable release button if status is not synced
-    this.disableReleaseButton =
-      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNCED;
+    if (quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNCED) {
+      this.disableReleaseButton = true;
+      this.disableReleaseButtonTooltipTranslationKey = 'releaseButtonTooltip';
+    }
+
+    if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING) {
+      this.disableReleaseButton = true;
+      this.disableReleaseButtonTooltipTranslationKey =
+        'disabledForSyncPendingTooltip';
+    }
   }
+
+  get quotation(): Quotation {
+    return this._quotation;
+  }
+
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private _quotation: Quotation;
+
+  displayReleaseButton: boolean;
+  disableReleaseButton = false;
+  disableReleaseButtonTooltipTranslationKey: string = null;
 
   openDialog() {
     this.dialog.open(ReleaseModalComponent, {

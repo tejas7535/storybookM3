@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { distinctUntilChanged, Observable, take } from 'rxjs';
 
-import { getSimulatedQuotationDetailByItemId } from '@gq/core/store/active-case/active-case.selectors';
-import { userHasRole } from '@gq/core/store/selectors';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
-import { Store } from '@ngrx/store';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { QuotationStatus } from '../../../../models';
@@ -20,20 +19,20 @@ import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-pa
   templateUrl: './edit-cell.component.html',
 })
 export class EditCellComponent implements ICellRendererAngularComp {
+  private readonly editingModalService: EditingModalService =
+    inject(EditingModalService);
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
+
   params: ExtendedEditCellClassParams;
   isCellEditingAllowed: boolean;
-
   isWarningEnabled: boolean;
   isInvalidPriceError: boolean;
   warningTooltip = '';
 
   simulatedQuotation$: Observable<QuotationDetail>;
   quotationStatus = QuotationStatus;
-
-  constructor(
-    private readonly editingModalService: EditingModalService,
-    private readonly store: Store
-  ) {}
 
   agInit(params: ExtendedEditCellClassParams): void {
     this.params = params;
@@ -61,18 +60,16 @@ export class EditCellComponent implements ICellRendererAngularComp {
         ColumnFields.PRICE_SOURCE,
       ].includes(params.field as ColumnFields)
     ) {
-      this.simulatedQuotation$ = this.store
-        .select(
-          getSimulatedQuotationDetailByItemId(params.data.quotationItemId)
-        )
+      this.simulatedQuotation$ = this.activeCaseFacade
+        .getSimulatedQuotationDetailByItemId$(params.data.itemId)
         .pipe(distinctUntilChanged());
     }
   }
 
   handleCellEditing(params: ExtendedEditCellClassParams): void {
     if (params.role) {
-      this.store
-        .pipe(userHasRole(params.role), take(1))
+      this.rolesFacade
+        .userHasRole$(params.role)
         .pipe(take(1))
         .subscribe((userHasNeededRole: boolean) =>
           this.setCellEditingAllowed(params, userHasNeededRole)

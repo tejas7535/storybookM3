@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import {
   Customer,
+  DetailViewQueryParams,
   Quotation,
   QuotationAttachment,
   QuotationDetail,
@@ -562,7 +563,11 @@ export const activeCaseFeature = createFeature({
       })
     )
   ),
-  extraSelectors: ({ selectQuotation, selectSelectedQuotationDetail }) => {
+  extraSelectors: ({
+    selectActiveCaseState,
+    selectQuotation,
+    selectSelectedQuotationDetail,
+  }) => {
     const getSelectedQuotationDetail = createSelector(
       selectQuotation,
       selectSelectedQuotationDetail,
@@ -580,9 +585,27 @@ export const activeCaseFeature = createFeature({
       (detail: QuotationDetail): number => detail?.leadingPriceUnit
     );
 
+    const getDetailViewQueryParams = createSelector(
+      selectActiveCaseState,
+      (
+        state: ActiveCaseState
+      ): { queryParams: DetailViewQueryParams; id: number } => ({
+        queryParams: {
+          customer_number: state.customer?.identifier.customerId,
+          sales_org: state.customer?.identifier.salesOrg,
+          quotation_number: state.quotation?.gqId,
+          gqPositionId: state.selectedQuotationDetail,
+        },
+        id: state.quotation?.quotationDetails.find(
+          (detail) => detail.gqPositionId === state.selectedQuotationDetail
+        )?.quotationItemId,
+      })
+    );
+
     return {
       getSelectedQuotationDetail,
       getPriceUnitOfSelectedQuotationDetail,
+      getDetailViewQueryParams,
     };
   },
 });
