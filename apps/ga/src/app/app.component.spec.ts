@@ -23,10 +23,17 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { detectAppDelivery } from './core/helpers/settings-helpers';
 import { SettingsFacade, StorageMessagesActions } from './core/store';
 import { UserSettingsModule } from './shared/components/user-settings';
-import { PartnerVersion } from './shared/models';
+import { AppDelivery, PartnerVersion } from './shared/models';
 import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
+
+jest.mock('@ga/core/helpers/settings-helpers');
+
+const mockedDetectAppDelivery = jest.mocked(detectAppDelivery, {
+  shallow: true,
+});
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -231,7 +238,7 @@ describe('AppComponent', () => {
 
   describe('assignFooterLinks', () => {
     it('should initially set translated footerLinks', () => {
-      window.origin = 'localhost://';
+      mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Standalone);
 
       component['assignFooterLinks']();
 
@@ -260,7 +267,7 @@ describe('AppComponent', () => {
     });
 
     it('should contain translated footerLinks for capacitor android app', () => {
-      window.origin = 'http://localhost';
+      mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Native);
 
       component['assignFooterLinks']();
 
@@ -284,7 +291,7 @@ describe('AppComponent', () => {
     });
 
     it('should contain translated footerLinks for capacitor ios app', () => {
-      window.origin = 'capacitor://';
+      mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Native);
 
       component['assignFooterLinks']();
 

@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Capacitor } from '@capacitor/core';
+
 import { AppDelivery, PartnerVersion } from '@ga/shared/models';
 
 /**
@@ -7,10 +10,7 @@ import { AppDelivery, PartnerVersion } from '@ga/shared/models';
 export const detectAppDelivery = () => {
   let appDelivery: `${AppDelivery}` = AppDelivery.Standalone;
 
-  if (
-    window.origin.includes('capacitor://') ||
-    window.origin === 'http://localhost'
-  ) {
+  if (Capacitor.isNativePlatform()) {
     appDelivery = AppDelivery.Native;
   } else if (window.self !== window.top) {
     appDelivery = AppDelivery.Embedded;

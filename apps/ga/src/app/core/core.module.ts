@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -8,7 +7,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import { Capacitor } from '@capacitor/core';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
@@ -41,7 +40,7 @@ import { StoreModule } from './store/store.module';
 export function mobileOneTrustInitializer(
   oneTrustMobileService: OneTrustMobileService
 ) {
-  if (Capacitor.isNativePlatform()) {
+  if (detectAppDelivery() === AppDelivery.Native) {
     FirebaseAnalytics.setCollectionEnabled({
       enabled: false,
     });
@@ -113,11 +112,7 @@ let providers = [
 ];
 
 // needed for mobile app and medias
-if (
-  detectAppDelivery() !== AppDelivery.Standalone ||
-  environment.localDev ||
-  Capacitor.isNativePlatform()
-) {
+if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
   Tracking = [];
   providers = providers.slice(1); // Removes OneTrust Provider
 }

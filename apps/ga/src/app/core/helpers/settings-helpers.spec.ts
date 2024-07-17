@@ -2,11 +2,17 @@
  * @jest-environment-options {"url": "http://other-than-localhost"}
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Capacitor } from '@capacitor/core';
+
 import { PartnerVersion } from '@ga/shared/models';
 
 import { detectAppDelivery, detectPartnerVersion } from './settings-helpers';
 
 const { origin, top, self } = window;
+
+const isNativePlatformMock = jest.fn();
+Capacitor.isNativePlatform = isNativePlatformMock;
 
 describe('Settings helpers', () => {
   afterEach(() => {
@@ -21,14 +27,13 @@ describe('Settings helpers', () => {
     });
 
     it('should return native', () => {
-      delete window.origin;
-
-      window.origin = 'capacitor://';
+      isNativePlatformMock.mockReturnValue(true);
 
       expect(detectAppDelivery()).toBe('native');
     });
 
     it('should return embedded', () => {
+      isNativePlatformMock.mockReturnValue(false);
       delete window.top;
       delete window.self;
 
