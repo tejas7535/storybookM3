@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ColumnHeadersModule } from '@gq/shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '@gq/shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
@@ -50,6 +51,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     PushPipe,
     SharedTranslocoModule,
     CustomStatusBarModule,
+    DeleteItemsButtonComponent,
     DialogHeaderModule,
     MatButtonModule,
     MatFormFieldModule,

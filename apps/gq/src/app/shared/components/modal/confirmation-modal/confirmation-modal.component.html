@@ -1,26 +1,38 @@
 <div class="flex h-full flex-col">
   <div class="h-full">
-    <span> {{ data.displayText }}</span>
-    @if (data.list) {
+    <h6>{{ data.title }}</h6>
+    @if (data.subtitle) {
+      <div class="text-body-1 text-medium-emphasis mt-2">
+        {{ data.subtitle }}
+      </div>
+    }
+    @if (data.contentList) {
       <div class="mt-2 max-h-[300px] overflow-y-auto">
-        @for (item of data.list; track $index) {
-          <li>{{ item.id }} | {{ item.value }}</li>
+        @for (item of data.contentList; track $index) {
+          <div>
+            <span class="text-subtitle-2 text-high-emphasis"
+              >{{ item.id }}
+            </span>
+            <span class="text-body-2 text-medium-emphasis">
+              | {{ item.value }}</span
+            >
+          </div>
         }
       </div>
     }
   </div>
-  @if (data.infoText) {
-    <gq-info-banner [infoText]="data.infoText"> </gq-info-banner>
+  @if (data.infoBannerText) {
+    <gq-info-banner [infoText]="data.infoBannerText"> </gq-info-banner>
   }
-  <div class="mt-11 flex flex-row">
+  <div class="mt-4 flex flex-row">
     <button
       color="primary"
       class="!mr-6 text-button font-medium"
       mat-raised-button
       (click)="closeDialog(true)"
     >
-      <mat-icon class="align-middle">{{ data.icon }}</mat-icon>
-      {{ data.confirmButton | uppercase }}
+      <mat-icon class="align-middle">{{ data.confirmButtonIcon }}</mat-icon>
+      {{ data.confirmButtonText | uppercase }}
     </button>
     <button
       color="primary"
@@ -29,7 +41,7 @@
       (click)="closeDialog(false)"
       cdkFocusInitial
     >
-      {{ data.cancelButton | uppercase }}
+      {{ data.cancelButtonText | uppercase }}
     </button>
   </div>
 </div>

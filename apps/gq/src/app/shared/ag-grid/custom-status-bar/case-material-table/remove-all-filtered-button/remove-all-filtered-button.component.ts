@@ -21,6 +21,7 @@ export class RemoveAllFilteredButtonComponent {
   private isCaseView: boolean;
   private gridApi: GridApi;
 
+  private readonly translationPath = `shared.customStatusBar.buttons.resetAllFiltered.`;
   private readonly store = inject(Store);
   private readonly dialog = inject(MatDialog);
 
@@ -40,22 +41,15 @@ export class RemoveAllFilteredButtonComponent {
   }
 
   openConfirmDialog(): void {
-    const displayText = translate(
-      'shared.customStatusBar.buttons.resetAllFiltered.confirmationText'
-    );
+    const title = translate(`${this.translationPath}confirmationText`);
+    const confirmButtonText = translate(`${this.translationPath}removeButton`);
+    const cancelButtonText = translate(`${this.translationPath}cancelButton`);
 
-    const confirmButton = translate(
-      'shared.customStatusBar.buttons.resetAllFiltered.removeButton'
-    );
-
-    const cancelButton = translate(
-      'shared.customStatusBar.buttons.resetAllFiltered.cancelButton'
-    );
     const data: ConfirmationModalData = {
-      displayText,
-      confirmButton,
-      cancelButton,
-      icon: 'delete',
+      title,
+      confirmButtonText,
+      cancelButtonText,
+      confirmButtonIcon: 'delete',
     };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data,

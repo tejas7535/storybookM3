@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
-import { translate } from '@jsverse/transloco';
+import { HashMap, translate } from '@jsverse/transloco';
 
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
@@ -15,23 +15,21 @@ import { ButtonType } from './button-type.enum';
   templateUrl: './update-case-status-button.component.html',
 })
 export class UpdateCaseStatusButtonComponent {
-  public isOnlyVisibleOnSelection = false;
-  public hasPanelCaption = true;
-  public panelCaption = '';
-  public panelIcon = '';
-  public classes = '';
-  public buttonColor = '';
-  public buttonType: ButtonType = ButtonType.unset;
-  public showDialog = false;
-  public selections: ViewQuotation[] = [];
-
-  public readonly buttonDisplayType = ButtonType;
+  private readonly dialog = inject(MatDialog);
+  private readonly overviewCasesFacade = inject(OverviewCasesFacade);
   private params: ExtendedStatusPanelComponentParams;
+  private readonly translationPath = `caseView.confirmDialog`;
 
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly overviewCasesFacade: OverviewCasesFacade
-  ) {}
+  readonly buttonDisplayType = ButtonType;
+  isOnlyVisibleOnSelection = false;
+  hasPanelCaption = true;
+  panelCaption = '';
+  panelIcon = '';
+  classes = '';
+  buttonColor = '';
+  buttonType: ButtonType = ButtonType.unset;
+  showDialog = false;
+  selections: ViewQuotation[] = [];
 
   agInit(params: ExtendedStatusPanelComponentParams): void {
     this.params = params;
@@ -60,14 +58,14 @@ export class UpdateCaseStatusButtonComponent {
 
   updateStatus(): void {
     const list: IdValue[] = this.selections.map((item: ViewQuotation) => ({
-      id: item.customerName,
-      value: item.gqId,
+      id: `${item.gqId}`,
+      value: item.customerName,
     }));
 
     if (this.showDialog) {
       this.updateAndShowConfirmDialog(list);
     } else {
-      this.update(list.map((item) => item.value));
+      this.update(this.selections.map((item) => item.gqId));
     }
   }
 
@@ -77,26 +75,16 @@ export class UpdateCaseStatusButtonComponent {
    * @param list list of gqIds
    */
   private updateAndShowConfirmDialog(list: IdValue[]) {
-    const displayText = translate(
-      `caseView.confirmDialog.displayText.${this.params.quotationStatus.toLowerCase()}`,
-      {
-        variable: list.length,
-      }
-    );
-
-    const confirmButton = translate(
-      `caseView.confirmDialog.confirmButton.${this.params.quotationStatus.toLowerCase()}`
-    );
-    const cancelButton = translate(
-      `caseView.confirmDialog.cancelButton.${this.params.quotationStatus.toLowerCase()}`
-    );
+    const title = this.getTranslation('displayText', { variable: list.length });
+    const confirmButtonText = this.getTranslation('confirmButton');
+    const cancelButtonText = this.getTranslation('cancelButton');
 
     const data: ConfirmationModalData = {
-      displayText,
-      confirmButton,
-      cancelButton,
-      list,
-      icon: this.params.confirmDialogIcon,
+      title,
+      confirmButtonText,
+      cancelButtonText,
+      contentList: list,
+      confirmButtonIcon: this.params.confirmDialogIcon,
     };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
@@ -107,10 +95,17 @@ export class UpdateCaseStatusButtonComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const gqIds = list.map((el) => el.value);
+        const gqIds = list.map((el) => Number(el.value));
         this.update(gqIds);
       }
     });
+  }
+
+  private getTranslation(key: string, params?: HashMap): string {
+    return translate(
+      `${this.translationPath}.${key}.${this.params.quotationStatus.toLowerCase()}`,
+      params
+    );
   }
 
   /**

@@ -1,3 +1,4 @@
+import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { UploadQuoteToSapButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/upload-quote-to-sap-button/upload-quote-to-sap-button.component';
 import { StatusPanelDef } from 'ag-grid-community';
 
@@ -14,6 +15,6 @@ export const STATUS_BAR_CONFIG: {
     { statusPanel: 'RefreshSapPriceComponent', align: 'left' },
     { statusPanel: 'TotalRowCountComponent', align: 'left' },
     { statusPanel: 'QuotationDetailsStatusComponent', align: 'right' },
-    { statusPanel: 'DeleteItemsButtonComponent', align: 'right' },
+    { statusPanel: DeleteItemsButtonComponent, align: 'right' },
   ],
 };

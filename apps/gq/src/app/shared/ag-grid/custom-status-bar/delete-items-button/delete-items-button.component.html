@@ -5,9 +5,15 @@
       class="absolute bottom-20 delete-button-quotation-details"
       [ngClass]="deleteButtonClass$ | ngrxPush"
       *transloco="let t; read: 'shared.customStatusBar.buttons'"
+      [matTooltip]="toolTipText"
     >
       @if (selections.length) {
-        <button mat-fab color="primary" (click)="deletePositions()">
+        <button
+          mat-fab
+          color="primary"
+          (click)="deletePositions()"
+          [disabled]="isDeleteButtonDisabled"
+        >
           <mat-icon>{{ icon }}</mat-icon>
         </button>
       }

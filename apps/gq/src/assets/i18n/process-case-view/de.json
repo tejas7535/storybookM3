@@ -223,21 +223,23 @@
     }
   },
   "confirmDeletePositions": {
-    "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen?",
-    "sapText": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case sowie vom SAP Angebot löschen?",
-    "infoText": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann",
-    "deleteButton": "löschen",
-    "cancelButton": "Abbrechen"
+    "onlyRfqDetailsSelectedToolTip": "Position{multipleSelected, select, true{en} other {}} mit verknüpftem RFQ {multipleSelected, select, true{(können)} other {kann}} nicht gelöscht werden",
+    "defaultTitle": "Möchten Sie diese ({{count}}) Position{multipleSelected, select, true{en} other {}} wirklich aus Ihrem Case löschen?",
+    "sapTitle": "Möchten Sie diese ({{count}}) Position{multipleSelected, select, true{en} other {}} wirklich aus Ihrem Case sowie vom SAP Angebot löschen?",
+    "subTitle": "Ausgewählte Position{multipleSelected, select, true{en können} other { kann}} nicht gelöscht werden, da sie mit einem RFQ verknüpft {multipleSelected, select, true{sind} other {ist}}.",
+    "infoBannerText": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann",
+    "deleteButtonText": "löschen",
+    "cancelButtonText": "abbrechen"
   },
   "confirmUpdatePositions": {
     "text": "Möchten Sie wirklich diese Einträge ({{variable}}) in SAP aktualisieren?",
     "updateButton": "aktualisieren",
-    "cancelButton": "Abbrechen"
+    "cancelButton": "abbrechen"
   },
   "confirmRefreshSapPricing": {
     "text": "Möchten Sie wirklich die SAP-Daten für alle Positionen des Cases aktualisieren? Beachten Sie, dass dadurch die SAP-Daten dieses Cases überschrieben werden.",
     "refreshButton": "aktualisieren",
-    "cancelButton": "Abbrechen"
+    "cancelButton": "abbrechen"
   },
   "calcInProgress": {
     "header": "Wir sind dabei, Ihren Fall zu erstellen ({{variable}} Positionen)",

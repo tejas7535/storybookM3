@@ -202,10 +202,10 @@ describe('uploadSelectionToSapButtonComponent', () => {
         {
           maxHeight: '80%',
           data: {
-            displayText: 'translate it',
-            confirmButton: 'TRANSLATE IT',
-            cancelButton: 'TRANSLATE IT',
-            icon: component.icon,
+            title: 'translate it',
+            confirmButtonText: 'TRANSLATE IT',
+            cancelButtonText: 'TRANSLATE IT',
+            confirmButtonIcon: component.icon,
           },
         }
       );

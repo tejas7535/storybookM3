@@ -67,24 +67,24 @@ export class UploadSelectionToSapButtonComponent {
     const gqPositionIds = this.selections.map(
       (val: QuotationDetail) => val.gqPositionId
     );
-    const displayText = translate(
-      'processCaseView.confirmUpdatePositions.text',
-      { variable: gqPositionIds.length }
-    );
-    const confirmButton = translate(
+    const title = translate('processCaseView.confirmUpdatePositions.text', {
+      variable: gqPositionIds.length,
+    });
+    const confirmButtonText = translate(
       'processCaseView.confirmUpdatePositions.updateButton'
     ).toUpperCase();
 
-    const cancelButton = translate(
+    const cancelButtonText = translate(
       'processCaseView.confirmUpdatePositions.cancelButton'
     ).toUpperCase();
 
     const data: ConfirmationModalData = {
-      displayText,
-      confirmButton,
-      cancelButton,
-      icon: this.icon,
+      title,
+      confirmButtonText,
+      cancelButtonText,
+      confirmButtonIcon: this.icon,
     };
+
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data,
       maxHeight: '80%',

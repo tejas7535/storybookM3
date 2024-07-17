@@ -223,11 +223,13 @@
     }
   },
   "confirmDeletePositions": {
-    "text": "Do you really want to delete these entries ({{variable}}) from this case?",
-    "sapText": "Do you really want to delete these entries ({{variable}}) from this case as well as from the SAP Quote?",
-    "infoText": "Please be aware this change is permanent and cannot be undone",
-    "deleteButton": "delete",
-    "cancelButton": "cancel"
+    "onlyRfqDetailsSelectedToolTip": "Item{multipleSelected, select, true{s} other {}} with linked RFQ can not be deleted",
+    "defaultTitle": "Do you really want to delete {multipleSelected, select, true{these entries} other {this entry}} ({{count}}) from this case?",
+    "sapTitle": "Do you really want to delete {multipleSelected, select, true{these entries} other {this entry}} ({{count}}) from this case as well as from the SAP Quote?",
+    "subTitle": "Selected Item{multipleSelected, select, true{s} other {}} cannot be deleted because {multipleSelected, select, true{they are} other {this is}} linked to a RFQ.",
+    "infoBannerText": "Please be aware this change is permanent and cannot be undone",
+    "deleteButtonText": "delete",
+    "cancelButtonText": "cancel"
   },
   "confirmUpdatePositions": {
     "text": "Do you really want to update these entries ({{variable}}) in SAP?",
