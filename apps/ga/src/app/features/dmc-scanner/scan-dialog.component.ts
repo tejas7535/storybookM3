@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable unicorn/prefer-event-target */
 import { DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';

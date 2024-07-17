@@ -22,6 +22,7 @@ import {
 
 import packageJson from '../../package.json';
 import { getAppFooterLinks } from './core/helpers/app-config-helpers';
+import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
 import { ScanDialogComponent } from './features/dmc-scanner/scan-dialog.component';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 import { PartnerVersion } from './shared/models';
@@ -52,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly store: Store,
     private readonly dialog: MatDialog,
+    private readonly oneTrustMobileService: OneTrustMobileService,
     @Optional() private readonly oneTrustService: OneTrustService,
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
@@ -162,7 +164,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private assignFooterLinks(): void {
-    this.footerLinks = getAppFooterLinks();
+    this.footerLinks = getAppFooterLinks(this.oneTrustMobileService);
   }
 
   private assignMetaTags(): void {

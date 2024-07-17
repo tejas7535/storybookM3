@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -7,7 +8,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { Capacitor } from '@capacitor/core';
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 
@@ -49,7 +50,8 @@ export function mobileOneTrustInitializer(
 
     oneTrustMobileService.consentChanged$.subscribe((consentChange) => {
       const trackingEnabled =
-        consentChange.consentStatus === ConsentValues.ConsentGiven;
+        consentChange.consentStatus === ConsentValues.ConsentGiven &&
+        !Capacitor.DEBUG;
       FirebaseAnalytics.setCollectionEnabled({
         enabled: trackingEnabled,
       });

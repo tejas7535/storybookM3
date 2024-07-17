@@ -5,20 +5,23 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppDelivery } from '@ga/shared/models';
 
+import { OneTrustMobileService } from '../services/tracking/one-trust-mobile.service';
 import { detectAppDelivery } from './settings-helpers';
 
 /**
  * Returns app footer links
  * Defaults to empty array
  */
-export const getAppFooterLinks = (): AppShellFooterLink[] => {
+export const getAppFooterLinks = (
+  oneTrustMobileService: OneTrustMobileService
+): AppShellFooterLink[] => {
   const appDelivery = detectAppDelivery();
 
   if (appDelivery === AppDelivery.Embedded) {
     return [];
   }
 
-  const footerLinks = [
+  const footerLinks: AppShellFooterLink[] = [
     {
       link: `${LegalRoute}/${LegalPath.ImprintPath}`,
       title: translate('legal.imprint'),
@@ -41,6 +44,18 @@ export const getAppFooterLinks = (): AppShellFooterLink[] => {
       link: `${LegalRoute}/${LegalPath.CookiePath}`,
       title: translate('legal.cookiePolicy'),
       external: false,
+    });
+  }
+
+  if (appDelivery === AppDelivery.Native) {
+    footerLinks.push({
+      link: undefined,
+      title: translate('legal.cookiePolicy'),
+      external: false,
+      onClick: ($event: MouseEvent) => {
+        $event.preventDefault();
+        oneTrustMobileService.showPreferenceCenterUI();
+      },
     });
   }
 

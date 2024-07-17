@@ -27,6 +27,7 @@ describe('OneTrustMobileService', () => {
   const shouldShowBannerMock = jest.fn();
   const showBannerMock = jest.fn();
   const observeChangesMock = jest.fn();
+  const showPreferenceCenterUIMock = jest.fn();
 
   delete window.OneTrust;
   window.OneTrust = {
@@ -34,6 +35,7 @@ describe('OneTrustMobileService', () => {
     shouldShowBanner: shouldShowBannerMock,
     showBannerUI: showBannerMock,
     observeChanges: observeChangesMock,
+    showPreferenceCenterUI: showPreferenceCenterUIMock,
   };
 
   const createService = createServiceFactory({
@@ -130,5 +132,15 @@ describe('OneTrustMobileService', () => {
     it('should start one trust mobile sdk', waitForAsync(() => {
       expect(startSDKMock).toHaveBeenCalled();
     }));
+  });
+
+  describe('showPreferenceCenterUI', () => {
+    beforeAll(() => {
+      service.showPreferenceCenterUI();
+    });
+
+    it('should show the preference center ui', () => {
+      expect(showPreferenceCenterUIMock).toHaveBeenCalled();
+    });
   });
 });

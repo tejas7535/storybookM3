@@ -48,6 +48,10 @@ export class OneTrustMobileService {
     }
   }
 
+  public showPreferenceCenterUI(): void {
+    window.OneTrust.showPreferenceCenterUI();
+  }
+
   private getOneTrustMobileDomainId(): string {
     return Capacitor.getPlatform() === 'ios'
       ? environment.oneTrustiOSId

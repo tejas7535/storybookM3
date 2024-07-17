@@ -31,4 +31,5 @@ export interface OneTrustInterface {
   observeChanges: (categoryId: string) => void;
   shouldShowBanner: (callback: (shouldShow: boolean) => void) => void;
   showBannerUI: () => void;
+  showPreferenceCenterUI: () => void;
 }

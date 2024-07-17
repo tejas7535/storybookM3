@@ -287,6 +287,12 @@ describe('AppComponent', () => {
           title: 'de.legal.termsOfUse',
           external: false,
         },
+        {
+          link: undefined,
+          title: 'de.legal.cookiePolicy',
+          external: false,
+          onClick: expect.any(Function),
+        },
       ]);
     });
 
@@ -310,6 +316,12 @@ describe('AppComponent', () => {
           link: `${LegalRoute}/${LegalPath.TermsPath}`,
           title: 'de.legal.termsOfUse',
           external: false,
+        },
+        {
+          link: undefined,
+          title: 'de.legal.cookiePolicy',
+          external: false,
+          onClick: expect.any(Function),
         },
       ]);
     });
