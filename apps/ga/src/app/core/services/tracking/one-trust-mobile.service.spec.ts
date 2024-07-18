@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { waitForAsync } from '@angular/core/testing';
 
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+
 import { Capacitor } from '@capacitor/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -28,6 +30,8 @@ describe('OneTrustMobileService', () => {
   const showBannerMock = jest.fn();
   const observeChangesMock = jest.fn();
   const showPreferenceCenterUIMock = jest.fn();
+  const langChanges$ = new BehaviorSubject<string>('en');
+  const langChangesObservable$ = langChanges$.asObservable();
 
   delete window.OneTrust;
   window.OneTrust = {
@@ -45,6 +49,7 @@ describe('OneTrustMobileService', () => {
         provide: TranslocoService,
         useValue: {
           getActiveLang: getActiveLangMock,
+          langChanges$: langChangesObservable$,
         },
       },
     ],

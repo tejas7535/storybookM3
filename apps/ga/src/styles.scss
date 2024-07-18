@@ -34,6 +34,7 @@ $logoUrl: '/assets/images/schaeffler-logo.png' !default;
   :root {
     --primary: 0, 137, 61;
     --primary-variant: 229, 244, 233;
+    --mat-toolbar-mobile-height: 60px;
   }
 
   :root.partner-version {

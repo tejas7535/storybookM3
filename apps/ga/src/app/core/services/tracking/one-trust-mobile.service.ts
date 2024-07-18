@@ -22,6 +22,7 @@ export class OneTrustMobileService {
   public readonly categoryId = this.getCategoryId();
   public consentChanged$: Observable<ConsentResponse> =
     fromEvent<ConsentResponse>(document, this.categoryId);
+  private currentLanguage: string;
 
   constructor(private readonly translocoService: TranslocoService) {}
 
@@ -29,22 +30,12 @@ export class OneTrustMobileService {
     if (Capacitor.isNativePlatform()) {
       window.OneTrust.observeChanges(this.categoryId);
 
-      window.OneTrust.startSDK(
-        environment.oneTrustMobileStorageLocation,
-        this.getOneTrustMobileDomainId(),
-        this.translocoService.getActiveLang(),
-        {},
-        () => {
-          window.OneTrust.shouldShowBanner((shouldShow: boolean) => {
-            if (shouldShow) {
-              window.OneTrust.showBannerUI();
-            }
-          });
-        },
-        (_error: any) => {
-          // no action required, tracking will not be started.
-        }
-      );
+      this.startSdk();
+
+      this.translocoService.langChanges$.subscribe((lang) => {
+        this.currentLanguage = lang;
+        this.startSdk();
+      });
     }
   }
 
@@ -56,6 +47,25 @@ export class OneTrustMobileService {
     return Capacitor.getPlatform() === 'ios'
       ? environment.oneTrustiOSId
       : environment.oneTrustAndroidId;
+  }
+
+  private startSdk(): void {
+    window.OneTrust.startSDK(
+      environment.oneTrustMobileStorageLocation,
+      this.getOneTrustMobileDomainId(),
+      this.currentLanguage,
+      {},
+      () => {
+        window.OneTrust.shouldShowBanner((shouldShow: boolean) => {
+          if (shouldShow) {
+            window.OneTrust.showBannerUI();
+          }
+        });
+      },
+      (_error: any) => {
+        // no action required, tracking will not be started.
+      }
+    );
   }
 
   private getCategoryId(): string {
