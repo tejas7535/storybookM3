@@ -10,7 +10,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { HtmlTooltipComponent } from '@mac/shared/components/html-tooltip/html-tooltip.component';
 
-import { CATEGORY, EMISSION_FACTOR_KG } from '../../../constants';
+import { EMISSION_FACTOR_KG, MATERIAL_GROUP } from '../../../constants';
 import { MaterialEmissionClassificationComponent } from '../../components/material-emission-classification/material-emission-classification.component';
 import { MaturityInfoComponent } from '../../components/maturity-info/maturity-info.component';
 
@@ -41,11 +41,12 @@ export class PcfMaturityCo2CellRendererComponent
   showMaterialEmissionClassification = false;
 
   // The material emission classification will be displayed only for these categories.
-  private readonly categoriesForMaterialEmissionClassification = [
+  private readonly materialGroupsForMaterialEmissionClassification = [
+    'M011',
+    'M012',
     'M013',
     'M018',
-    'M412',
-    'M422',
+    'M019',
   ];
 
   agInit(params: ICellRendererParams): void {
@@ -69,9 +70,9 @@ export class PcfMaturityCo2CellRendererComponent
   private shouldShowMaterialEmissionClassification(): boolean {
     return (
       this.params.column.getColId() === EMISSION_FACTOR_KG &&
-      this.categoriesForMaterialEmissionClassification.some(
-        (category: string) =>
-          category.toLowerCase() === this.params.data[CATEGORY]?.toLowerCase()
+      this.materialGroupsForMaterialEmissionClassification.some(
+        (group: string) =>
+          this.params.data[MATERIAL_GROUP]?.toUpperCase().startsWith(group)
       )
     );
   }

@@ -6,9 +6,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../../assets/i18n/en.json';
 import {
-  CATEGORY,
   EMISSION_FACTOR_KG,
   EMISSION_FACTOR_PC,
+  MATERIAL_GROUP,
 } from '../../../constants';
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer.component';
@@ -72,27 +72,40 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   });
 
   describe('shouldShowMaterialEmissionClassification', () => {
-    it('should return true if column is emissionFactorKg and the category is part of the defined list', () => {
+    it('should return true if column is emissionFactorKg and the materialGroup is part of the defined list', () => {
       component.params = {
         column: {
           getColId: () => EMISSION_FACTOR_KG,
         },
         data: {
-          [CATEGORY]: 'm018',
+          [MATERIAL_GROUP]: 'M012',
         },
       } as EditCellRendererParams;
-      expect(component['shouldShowMaterialEmissionClassification']()).toBe(
-        true
-      );
+      expect(
+        component['shouldShowMaterialEmissionClassification']()
+      ).toBeTruthy();
     });
-
-    it('should return false if column is emissionFactorKg but the category is not part of the defined list', () => {
+    it('should return false if column is emissionFactorKg and the materialGroup is NULL', () => {
       component.params = {
         column: {
           getColId: () => EMISSION_FACTOR_KG,
         },
         data: {
-          [CATEGORY]: 'M000',
+          [MATERIAL_GROUP]: undefined,
+        },
+      } as EditCellRendererParams;
+      expect(
+        component['shouldShowMaterialEmissionClassification']()
+      ).toBeFalsy();
+    });
+
+    it('should return false if column is emissionFactorKg but the materialGroup is not part of the defined list', () => {
+      component.params = {
+        column: {
+          getColId: () => EMISSION_FACTOR_KG,
+        },
+        data: {
+          [MATERIAL_GROUP]: 'M003',
         },
       } as EditCellRendererParams;
       expect(component['shouldShowMaterialEmissionClassification']()).toBe(
@@ -100,13 +113,13 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
       );
     });
 
-    it('should return false if column is not emissionFactorKg but the category is part of the defined list', () => {
+    it('should return false if column is not emissionFactorKg but the materialGroup is part of the defined list', () => {
       component.params = {
         column: {
           getColId: () => EMISSION_FACTOR_PC,
         },
         data: {
-          [CATEGORY]: 'M018',
+          [MATERIAL_GROUP]: 'M012',
         },
       } as EditCellRendererParams;
       expect(component['shouldShowMaterialEmissionClassification']()).toBe(
