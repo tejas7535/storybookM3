@@ -1,4 +1,4 @@
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 
 import { EnvironmentEnum } from '@gq/shared/models';
 import {
@@ -18,7 +18,7 @@ describe('ProdGuard', () => {
   describe('Dev Environemnt', () => {
     createService = createServiceFactory({
       service: ProdGuard,
-      imports: [RouterTestingModule],
+      imports: [RouterModule],
       providers: [
         { provide: ENV, useValue: { ...getEnv(), environment: 'dev' } },
       ],
@@ -41,11 +41,38 @@ describe('ProdGuard', () => {
   describe('Prod Env', () => {
     createService = createServiceFactory({
       service: ProdGuard,
-      imports: [RouterTestingModule],
+      imports: [RouterModule],
       providers: [
         {
           provide: ENV,
           useValue: { ...getEnv(), environment: EnvironmentEnum.prod },
+        },
+      ],
+    });
+
+    beforeEach(() => {
+      spectator = createService();
+      guard = spectator.inject(ProdGuard);
+    });
+
+    test('navigate to forbidden', () => {
+      guard['router'].navigate = jest.fn().mockImplementation();
+      guard.canActivate({} as any, {} as any);
+      expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
+    });
+  });
+
+  describe('Pre-Release Env', () => {
+    createService = createServiceFactory({
+      service: ProdGuard,
+      imports: [RouterModule],
+      providers: [
+        {
+          provide: ENV,
+          useValue: {
+            ...getEnv(),
+            environment: EnvironmentEnum['pre-release'],
+          },
         },
       ],
     });

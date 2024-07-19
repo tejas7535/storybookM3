@@ -36,6 +36,12 @@ describe('FeatureToggleConfigService', () => {
         expect(localStorage.getItem('config')).toBeUndefined();
       });
 
+      test('on PreProd system should delete existing localstorage', () => {
+        localStorage.setItem('config', JSON.stringify(DEFAULT_CONFIG));
+        service.initializeLocalStorage(EnvironmentEnum['pre-release']);
+        expect(localStorage.getItem('config')).toBeUndefined();
+      });
+
       test('should return default config', () => {
         localStorage.setItem(
           'config',

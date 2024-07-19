@@ -20,7 +20,10 @@ export class ProdGuard {
     private readonly router: Router
   ) {}
   canActivate(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) {
-    if (this.env.environment === EnvironmentEnum.prod) {
+    if (
+      this.env.environment === EnvironmentEnum.prod ||
+      this.env.environment === EnvironmentEnum['pre-release']
+    ) {
       return this.router.navigate([AppRoutePath.ForbiddenPath]);
     }
 

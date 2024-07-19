@@ -87,7 +87,10 @@ export class FeatureToggleConfigService {
    * @param environment environment context, service is currently running
    */
   initializeLocalStorage(environment: EnvironmentEnum): void {
-    if (environment === EnvironmentEnum.prod) {
+    if (
+      environment === EnvironmentEnum.prod ||
+      environment === EnvironmentEnum['pre-release']
+    ) {
       this._isProd = true;
       localStorage.removeItem(this.featureToggleLocalstorageKey);
     } else {
