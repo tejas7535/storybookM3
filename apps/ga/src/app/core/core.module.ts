@@ -55,6 +55,10 @@ export function mobileOneTrustInitializer(
       FirebaseAnalytics.setCollectionEnabled({
         enabled: trackingEnabled,
       });
+
+      if (consentChange.consentStatus === ConsentValues.ConsentNotGiven) {
+        FirebaseAnalytics.reset();
+      }
     });
   }
 
