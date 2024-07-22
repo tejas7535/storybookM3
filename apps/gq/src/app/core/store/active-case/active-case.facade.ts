@@ -99,6 +99,7 @@ export class ActiveCaseFacade {
   ): Observable<QuotationDetail> {
     return this.store.select(getSimulatedQuotationDetailByItemId(itemId));
   }
+
   detailViewQueryParams$: Observable<{
     queryParams: DetailViewQueryParams;
     id: number;
@@ -284,5 +285,9 @@ export class ActiveCaseFacade {
 
   refreshSapPricing(): void {
     this.store.dispatch(ActiveCaseActions.refreshSapPricing());
+  }
+
+  confirmSimulatedQuotation(): void {
+    this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
   }
 }

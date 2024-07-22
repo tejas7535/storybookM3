@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
-import { Store } from '@ngrx/store';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -18,16 +16,21 @@ import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 export class ConfirmSimulationButtonComponent {
   selectedRowCount = 0;
   params: IStatusPanelParams;
-  simulationModeEnabled$: Observable<boolean>;
 
-  constructor(
-    private readonly store: Store,
-    private readonly insightsService: ApplicationInsightsService
-  ) {}
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
+  private readonly insightsService: ApplicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+
+  simulationModeEnabled$: Observable<boolean> =
+    this.activeCaseFacade.simulationModeEnabled$;
+
+  canEditQuotation$: Observable<boolean> =
+    this.activeCaseFacade.canEditQuotation$;
 
   agInit(params: IStatusPanelParams) {
     this.params = params;
-    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
     this.params.api.addEventListener(
       'selectionChanged',
       this.onSelectionChange.bind(this)
@@ -39,7 +42,7 @@ export class ConfirmSimulationButtonComponent {
   }
 
   confirmSimulation(): void {
-    this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
+    this.activeCaseFacade.confirmSimulatedQuotation();
 
     this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_FINISHED, {
       type: this.params.context.simulatedField,

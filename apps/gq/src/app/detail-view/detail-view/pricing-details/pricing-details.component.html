@@ -36,7 +36,23 @@
                       [currency]="currency"
                       [rfqData]="quotationDetail.rfqData"
                       [rfqDataUpdateAvl]="rfqDataUpdateAvl"
-                    >
+                      [refreshEnabled]="isQuotationEditable$ | ngrxPush"
+                      [refreshButtonTooltipText]="
+                        t(
+                          'rfqPositionDetails.updateRfqData.refreshButtonTooltip',
+                          {
+                            status:
+                              (sapSyncStatus$ | ngrxPush) ===
+                              sapSyncStatusEnum.SYNC_PENDING
+                                ? sapSyncStatusEnum.SYNC_PENDING
+                                : (quotationStatus$ | ngrxPush)
+                          }
+                        )
+                      "
+                      ><!--
+                     [refreshEnabled]="isQuotationEditable$ | ngrxPush"
+                     
+                    -->
                     </gq-rfq-position-details>
                   }
                   <gq-material-comparable-cost-details

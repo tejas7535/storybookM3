@@ -1,4 +1,4 @@
-@if (simulationModeEnabled$ | ngrxPush) {
+@if ((simulationModeEnabled$ | ngrxPush) && (canEditQuotation$ | ngrxPush)) {
   <div class="h-full bg-secondary-900">
     <button
       class="!m-4"

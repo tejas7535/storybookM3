@@ -852,4 +852,14 @@ describe('ActiveCaseFacade', () => {
       expect(spy).toHaveBeenCalledWith(action);
     });
   });
+  describe('confirmSimulatedQuotation', () => {
+    test('should dispatch confirm simulated quotation', () => {
+      const action = ActiveCaseActions.confirmSimulatedQuotation();
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.confirmSimulatedQuotation();
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
 });

@@ -61,7 +61,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
       ].includes(params.field as ColumnFields)
     ) {
       this.simulatedQuotation$ = this.activeCaseFacade
-        .getSimulatedQuotationDetailByItemId$(params.data.itemId)
+        .getSimulatedQuotationDetailByItemId$(params.data.quotationItemId)
         .pipe(distinctUntilChanged());
     }
   }

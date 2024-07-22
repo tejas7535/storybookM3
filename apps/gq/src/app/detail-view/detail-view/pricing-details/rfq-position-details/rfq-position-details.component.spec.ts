@@ -38,12 +38,24 @@ describe('RfqPositionDetailsComponent', () => {
   describe('refreshRfqInformation', () => {
     test('should open dialog', () => {
       const openMock = jest.fn();
+      component.refreshEnabled = true;
       component['matDialog'].open = openMock;
       component.rfqData = { gqPositionId: '123' } as any;
 
       component.updateRfqData();
 
       expect(openMock).toBeCalledTimes(1);
+    });
+
+    test('should not open dialog if refresh is disabled', () => {
+      const openMock = jest.fn();
+      component['matDialog'].open = openMock;
+      component.rfqData = { gqPositionId: '123' } as any;
+      component.refreshEnabled = false;
+
+      component.updateRfqData();
+
+      expect(openMock).not.toBeCalled();
     });
   });
 });

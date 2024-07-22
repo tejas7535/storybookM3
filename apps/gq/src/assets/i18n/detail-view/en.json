@@ -97,7 +97,8 @@
         "confirmDialogMessage": "Do you really want to refresh the RFQ information? ",
         "confirmDialogWarning": "This will lead to a recalculation of <b>GPI, GPM </b> and <b>GQ-Price</b> as well potentially to an adjustment of the Production & Cost tile due to a change of the production plant.",
         "confirmButton": "Confirm",
-        "cancelButton": "Cancel"
+        "cancelButton": "Cancel",
+        "refreshButtonTooltip": "{status,select,SYNC_PENDING {Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed.} ACTIVE {Refresh RFQ Information} other {RFQ Information not up to date. Please cancel the approval workflow to refresh RFQ Information.}}"
       },
       "rfqDataUpToDate": "RFQ Information up to date"
     },

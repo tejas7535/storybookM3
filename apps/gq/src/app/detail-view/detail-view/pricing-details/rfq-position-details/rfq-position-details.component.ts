@@ -19,10 +19,16 @@ export class RfqPositionDetailsComponent {
   @Input() rfqData: QuotationRfqData;
   @Input() currency: string;
   @Input() rfqDataUpdateAvl: boolean;
+  @Input() refreshEnabled: boolean;
+  @Input() refreshButtonTooltipText: string;
 
   private readonly matDialog = inject(MatDialog);
 
   updateRfqData(): void {
+    if (!this.refreshEnabled) {
+      return;
+    }
+
     this.matDialog.open(UpdateRfqPositionDetailsComponent, {
       width: '550px',
       autoFocus: false,

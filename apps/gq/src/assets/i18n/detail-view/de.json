@@ -69,8 +69,8 @@
         "confirmDialogWarning": "Dies führt zu einer Neuberechnung von <b>GPI, GPM </b> und <b>GQ-Preis</b>.",
         "confirmButton": "Bestätigen",
         "cancelButton": "Abbrechen",
-        "updateDisabled": "Kosten nicht aktuell. Bitte breche die Freigabe ab, um die Kosten zu aktualisieren.",
-        "refreshButtonTooltip": "{status,select,SYNC_PENDING {Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht.} ACTIVE {Kosten aktualisieren} other {Kosten nicht aktuell. Bitte breche die Freigabe ab, um die Kosten zu aktualisieren.}}"
+        "updateDisabled": "Kosten nicht aktuell. Bitte Freigabe abbrechen, um Kosten zu aktualisieren.",
+        "refreshButtonTooltip": "{status,select,SYNC_PENDING {Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht.} ACTIVE {Kosten aktualisieren} other {Kosten nicht aktuell. Bitte Freigabe abbrechen, um Kosten zu aktualisieren.}}"
       },
       "costsUpToDate": "Kosten aktuell"
     },
@@ -98,7 +98,8 @@
         "confirmDialogMessage": "Möchten Sie die RFQ Informationen aktualisieren?",
         "confirmDialogWarning": "Dies führt zu einer Neuberechnung von <b>KHK, SAW </b> und <b>GQ-Preis</b> sowie möglicherweise zu einer Anpassung der Kachel Produktion und Kosten durch Änderung des Produktionswerks.",
         "confirmButton": "Bestätigen",
-        "cancelButton": "Abbrechen"
+        "cancelButton": "Abbrechen",
+        "refreshButtonTooltip": "{status,select,SYNC_PENDING {Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht.} ACTIVE {RFQ Information aktualisieren} other {RFQ Information nicht aktuell. Bitte Freigabe abbrechen, um RFQ Informationen zu aktualisieren.}}"
       },
       "rfqDataUpToDate": "RFQ Information aktuell"
     },

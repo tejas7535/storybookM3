@@ -1,7 +1,10 @@
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -25,6 +28,11 @@ describe('ConfirmSimulationComponent', () => {
           logEvent: jest.fn(),
         },
       },
+      MockProvider(ActiveCaseFacade, {
+        confirmSimulatedQuotation: jest.fn(),
+        canEditQuotation$: of(true),
+        simulationModeEnabled$: of(true),
+      }),
     ],
   });
 
@@ -83,10 +91,9 @@ describe('ConfirmSimulationComponent', () => {
 
       component.confirmSimulation();
 
-      expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ActiveCaseActions.confirmSimulatedQuotation()
-      );
+      expect(
+        component['activeCaseFacade'].confirmSimulatedQuotation
+      ).toHaveBeenCalledTimes(1);
     });
   });
 

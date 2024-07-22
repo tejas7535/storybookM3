@@ -6,8 +6,13 @@
           @if (rfqDataUpdateAvl) {
             <mat-icon
               (click)="updateRfqData()"
-              class="!w-4 !h-4 !text-[16px] cursor-pointer text-medium-emphasis hover:text-link"
-              [matTooltip]="t('updateRfqData.tooltip')"
+              class="!w-4 !h-4 !text-[16px]"
+              [ngClass]="
+                refreshEnabled
+                  ? 'text-medium-emphasis cursor-pointer hover:text-approval-status-green'
+                  : 'text-low-emphasis'
+              "
+              [matTooltip]="refreshButtonTooltipText"
             >
               refresh</mat-icon
             >
