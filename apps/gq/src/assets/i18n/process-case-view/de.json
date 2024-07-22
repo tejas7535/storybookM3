@@ -223,7 +223,7 @@
     }
   },
   "confirmDeletePositions": {
-    "onlyRfqDetailsSelectedToolTip": "Position{multipleSelected, select, true{en} other {}} mit verknüpftem RFQ {multipleSelected, select, true{(können)} other {kann}} nicht gelöscht werden",
+    "onlyRfqDetailsSelectedToolTip": "Position{multipleSelected, select, true{en} other {}} mit verknüpftem RFQ {multipleSelected, select, true{können} other {kann}} nicht gelöscht werden",
     "defaultTitle": "Möchten Sie diese ({{count}}) Position{multipleSelected, select, true{en} other {}} wirklich aus Ihrem Case löschen?",
     "sapTitle": "Möchten Sie diese ({{count}}) Position{multipleSelected, select, true{en} other {}} wirklich aus Ihrem Case sowie vom SAP Angebot löschen?",
     "subTitle": "Ausgewählte Position{multipleSelected, select, true{en können} other { kann}} nicht gelöscht werden, da sie mit einem RFQ verknüpft {multipleSelected, select, true{sind} other {ist}}.",
