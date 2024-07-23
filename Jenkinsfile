@@ -36,6 +36,12 @@ boolean isPreReleaseTrigger = false
 @Field
 boolean isPreRelease = false
 @Field
+boolean isHotfixTrigger = false
+@Field
+boolean isHotfixRelease = false
+@Field
+boolean isHotfixBaseWithoutChanges = false
+@Field
 boolean isAppRelease = false
 @Field
 boolean isLibsRelease = false
@@ -54,15 +60,20 @@ boolean storybookAffected = false
 @Field
 boolean skipBuild = false
 @Field
-def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release', RENOVATE : 'renovate' ]
+def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release', RENOVATE : 'renovate', HOTFIX: 'hotfix' ]
 @Field
 def releasableApps = ['cdba', 'sedo', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa', 'hc']
 @Field
 def preReleasableApps = ['gq']
 @Field
 def preReleaseBranchPrefix = 'pre-release/'
+@Field
+def hotfixBaseBranchPrefix = "hotfix-base/"
+@Field
+def hotfixBranchPrefix = "hotfix/"
 
 boolean isPreReleaseBranch = env.BRANCH_NAME.startsWith(preReleaseBranchPrefix)
+boolean isHotfixBaseBranch = env.BRANCH_NAME.startsWith(hotfixBaseBranchPrefix)
 
 baselineBranch = 'master'
 
@@ -73,6 +84,10 @@ qualityGate = !isMain ? [threshold: 1, type: 'NEW', unstable: false] : [threshol
 // Functions
 boolean isDepUpdate() {
     return "${BRANCH_NAME}".startsWith('dependabot/') || "${BRANCH_NAME}".startsWith('renovate/')
+}
+
+def isValidHotfixBranchRun() {
+  return env.BRANCH_NAME.startsWith(hotfixBranchPrefix)
 }
 
 void defineIsPreRelease(isPreReleaseBranch) {
@@ -91,9 +106,28 @@ void defineIsAppRelease(isMain, isPreReleaseBranch) {
     }
 }
 
-void defineReleaseScope(isPreReleaseBranch) {
-    // in case of a pre-release we can't get the release scope from the parameter but from the branch name (e.g. pre-release/<app>)
-    env.RELEASE_SCOPE = isPreReleaseBranch ? env.BRANCH_NAME.substring(preReleaseBranchPrefix.length()) : params.RELEASE_SCOPE
+void defineIsHotfixRelease(isHotfixBaseBranch) {
+  // hotfix release = merging the related hotfix branch into the hotfix-base branch 
+  setupGitCredentials()
+  def lastCommitMessage = sh(
+    script: "git log -1 --pretty=format:%s",
+    returnStdout: true
+  ).trim()
+
+  isHotfixRelease = isHotfixBaseBranch && currentBuild.changeSets.size() > 0 && lastCommitMessage.startsWith("fix(${env.RELEASE_SCOPE}): ⚡hotfix")
+  isHotfixBaseWithoutChanges = !isHotfixRelease && isHotfixBaseBranch
+}
+
+void defineReleaseScope(isPreReleaseBranch, isHotfixBaseBranch) {
+    // in case of a pre-release or hotfix process we can't get the release scope from the parameter but from the branch name
+    // (e.g. pre-release/<app>, hotfix-base/<app>, hotfix/<app>)
+    if (isHotfixBaseBranch) {
+        env.RELEASE_SCOPE = env.BRANCH_NAME.substring(hotfixBaseBranchPrefix.length())
+    } else if (env.BRANCH_NAME.startsWith(hotfixBranchPrefix)) {
+        env.RELEASE_SCOPE = env.BRANCH_NAME.substring(hotfixBranchPrefix.length())
+    } else {
+        env.RELEASE_SCOPE = isPreReleaseBranch ? env.BRANCH_NAME.substring(preReleaseBranchPrefix.length()) : params.RELEASE_SCOPE
+    }
 }
 
 void defineIsPreReleaseTrigger(isMain) {
@@ -103,24 +137,54 @@ void defineIsPreReleaseTrigger(isMain) {
 
         if (isPreReleaseTrigger) {
             // throw error if pre-release branch already exists
-            def branchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
-            def getBranchCommand = "git ls-remote --heads origin $branchName"
-            
             withCredentials([usernamePassword(credentialsId: 'SVC_MONO_FRONTEND_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                sh(script:
-                    """#!/bin/sh
-                        git config --global credential.helper '!f() { sleep 1; echo "username=${env.GIT_USERNAME}"; echo "password=${env.GIT_PASSWORD}"; }; f'
-                    """
-                )
-                def branchExists = sh(script: getBranchCommand, returnStdout: true)
-
-                if (branchExists) {
-                    currentBuild.result = 'ABORTED'
-                    error("Pre release already in progress for ${params.RELEASE_SCOPE}")
-                }
+                def branchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
+                verifyNonExistingBranch("${branchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
             }
         }
     }
+}
+
+def defineIsHotfixTrigger() {
+    if (params.BUILD_TYPE == buildTypes.HOTFIX) {
+        // hotfix process is only available for the apps which has pre-release environment
+        isHotfixTrigger = preReleasableApps.any { app -> app.contains(env.RELEASE_SCOPE) }
+
+        if (isHotfixTrigger) {
+            echo 'Verify hotfix and pre-release branches...'
+            // throw error if hotfix-base branch or pre-release already exists
+            withCredentials([usernamePassword(credentialsId: 'SVC_MONO_FRONTEND_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                def preReleaseBranchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
+                verifyNonExistingBranch("${preReleaseBranchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
+
+                def hotfixBaseBranchName = hotfixBaseBranchPrefix + env.RELEASE_SCOPE
+                verifyNonExistingBranch("${hotfixBaseBranchName}", "Hotfix base already exists for ${params.RELEASE_SCOPE}")
+            }
+        }
+    }
+}
+
+def setupGitCredentials() {
+    sh(script: """
+      #!/bin/sh
+      git config --global credential.helper '!f() { sleep 1; echo "username=${env.GIT_USERNAME}"; echo "password=${env.GIT_PASSWORD}"; }; f'
+    """)
+}
+
+def verifyNonExistingBranch(branchName, errorMsg) {
+  setupGitCredentials()
+  def branchExistsCommand = "git ls-remote --heads origin ${branchName}"
+  def branchExists = sh(script: branchExistsCommand, returnStdout: true)
+  if (branchExists) {
+      currentBuild.result = 'ABORTED'
+      error(errorMsg)
+  }
+}
+
+def createGitHubPullRequest(base, head, title, body) {
+  withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
+    sh "gh pr create --base ${base} --head ${head} --title \"${title}\" --body \"${body}\""
+  }
 }
 
 void defineIsLibsRelease(isMain) {
@@ -128,7 +192,7 @@ void defineIsLibsRelease(isMain) {
 }
 
 void defineBuildStorybook(isRelease) {
-    buildStorybook = !skipBuild && !isRelease
+    buildStorybook = !skipBuild && !isRelease && !isPreReleaseTrigger && !isHotfixTrigger && !isHotfixBaseWithoutChanges
 }
 
 void definePublishStorybook(isMain) {
@@ -146,12 +210,14 @@ void defineRunQualityStage(isRelease) {
     // nightly pipeline run
     // libs or app release
     // app pre-release trigger
+    // app hotfix trigger
+    // hotfix-base run without changes
 
-    runQualityStage = !skipBuild && !isRelease && !isPreReleaseTrigger
+    runQualityStage = !skipBuild && !isRelease && !isPreReleaseTrigger && !isHotfixTrigger && !isHotfixBaseWithoutChanges
 }
 
 boolean runDeliverAppsStage(isMain) {
-    return !isLibsRelease && !isDepUpdate()
+    return !isLibsRelease && !isDepUpdate() && !isPreReleaseTrigger && !isHotfixTrigger && !isHotfixBaseWithoutChanges
 }
 
 void defineRunTriggerAppDeploymentsStage(isNightly) {
@@ -160,8 +226,10 @@ void defineRunTriggerAppDeploymentsStage(isNightly) {
     // it is not a nightly pipeline run
     // it is not a libs release
     // it is not a dep update branch
+    // it is not a pre-release/hotfix trigger
+    // it is not a hotfix base run without any change
 
-    triggerAppDeployments = !skipBuild && !isNightly && !isLibsRelease && !isDepUpdate()
+    triggerAppDeployments = !skipBuild && !isNightly && !isLibsRelease && !isDepUpdate() && !isPreReleaseTrigger && !isHotfixTrigger && !isHotfixBaseWithoutChanges
 }
 
 void defineIsRenovate() {
@@ -175,7 +243,7 @@ void defineIsRenovate() {
 }
 
 void defineBuildBase(isMain) {
-    if (isRelease) {
+    if (isRelease || isHotfixRelease || isValidHotfixBranchRun()) {
         latestTag = getLatestGitTag("${env.RELEASE_SCOPE}")
 
         buildBase = sh(
@@ -246,7 +314,7 @@ def defineAffectedAppsAndLibs() {
 boolean ciSkip(isMain, isRelease) {
     Integer ciSkip = sh([script: "git log -1 | grep '.*\\[(ci skip|CI SKIP)\\].*'", returnStatus: true])
 
-    if ((ciSkip == 0 && isMain && !isRelease) || "${BRANCH_NAME}" == 'gh-pages') {
+    if ((ciSkip == 0 && ((isMain && !isRelease) || isValidHotfixBranchRun() || isHotfixRelease)) || "${BRANCH_NAME}" == 'gh-pages') {
         currentBuild.description = 'CI SKIP'
         currentBuild.result = 'SUCCESS'
         skipBuild = true
@@ -283,7 +351,7 @@ def getReleaseTypeForPreRelease(releaseScope){
     } else {
         releaseType = 'patch'
     }
-    
+
     return releaseType
 }
 
@@ -324,7 +392,7 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        disableConcurrentBuilds(abortPrevious: !isMain && !isPreReleaseBranch)
+        disableConcurrentBuilds(abortPrevious: !isMain && !isPreReleaseBranch && !isHotfixBaseBranch)
         timeout(time: 1, unit: 'HOURS')
         timestamps()
         ansiColor('xterm')
@@ -440,14 +508,21 @@ pipeline {
                 echo 'Preparation of some variables'
 
                 script {
-                    discoverGitReferenceBuild referenceJob: projectPath + baselineBranch
                     util.addWorkspaceToGitGlobalSafeDirectory()
-                    defineReleaseScope(isPreReleaseBranch)
+                    defineReleaseScope(isPreReleaseBranch, isHotfixBaseBranch)
+                    defineIsHotfixRelease(isHotfixBaseBranch)
+                    /* NOTE: During hotfix process as a reference branch created from the latest production tag should be taken.
+                    Otherwise master branch should be a reference */
+                    // 'slash' in the 'hotfix-base/<app> needs to be encoded to '%252F' to avoid Jenkins error
+                    def hotfixBaseBranch = "hotfix-base%252F" + env.RELEASE_SCOPE
+                    def referenceJob = isValidHotfixBranchRun() || isHotfixRelease ? projectPath + hotfixBaseBranch : projectPath + baselineBranch
+                    discoverGitReferenceBuild referenceJob: referenceJob
                     defineIsPreRelease(isPreReleaseBranch)
                     defineIsAppRelease(isMain, isPreReleaseBranch)
                     defineIsPreReleaseTrigger(isMain)
+                    defineIsHotfixTrigger()
                     defineIsLibsRelease(isMain)
-                    isRelease = isAppRelease || isLibsRelease
+                    isRelease = isAppRelease || isLibsRelease || isHotfixRelease
                     ciSkip(isMain, isRelease)
                     defineRunQualityStage(isRelease)
                     defineBuildStorybook(isRelease)
@@ -607,6 +682,41 @@ pipeline {
             }
         }
 
+        stage('Hotfix') {
+            when {
+                expression {
+                    /* NOTE: Stage should run only when hotfix is triggered manually */
+                    return isHotfixTrigger
+                }
+            }
+            steps {
+                script {
+                    def scope = env.RELEASE_SCOPE // -> gq
+                    def latestTag = getLatestGitTag("${scope}")
+                    def hotfixBaseBranch = hotfixBaseBranchPrefix + scope // -> ex. /hotfix-base/gq
+                    def hotfixBranch = hotfixBranchPrefix + scope // -> ex. hotfix/gq
+
+                    echo 'Creating and pushing new hotfix-base branch...'
+                    sh "git checkout tags/${latestTag} -b ${hotfixBaseBranch}"
+                    sh "git push origin ${hotfixBaseBranch}"
+
+                    echo 'Creating new hotfix branch...'
+                    sh "git checkout -b ${hotfixBranch}"
+
+                    echo 'Creating empty commit on the hotfix branch to be able to create a PR...'
+                    sh "git commit --allow-empty -m \"chore: empty commit to create a PR [CI SKIP]\""
+
+                    echo 'Pushing hotfix branch to remote...'
+                    sh "git push origin ${hotfixBranch}"
+
+                    echo 'Creating a PR...'
+                    createGitHubPullRequest(hotfixBaseBranch, hotfixBranch, "fix(${scope}): ⚡hotfix <placeholder>", "Please describe your hotfix here and update the PR's title using the conventional commit format. *MAKE SURE TO NOT CHANGE THE BEGINNING OF THE PR TITLE: fix(${scope}): ⚡hotfix *. Otherwise the hotfix won't work.")
+                    // skip the rest of the pipeline
+                    skipBuild = true
+                }
+            }
+        }
+
         stage('PreRelease') {
             when {
                 expression {
@@ -624,7 +734,7 @@ pipeline {
                     }else {
                         sh "git checkout ${env.BRANCH_NAME}"
                     }
-                    
+
                     // create a release candidate for any normal pipeline run
                     if (!preReleasableApps.any { app -> app.contains(env.RELEASE_SCOPE) }) {
                         currentBuild.result = 'ABORTED'
@@ -633,16 +743,19 @@ pipeline {
                     // generate tags and changelog on project level
                     def baseBranch = isPreReleaseTrigger ? preReleaseBranchPrefix + env.RELEASE_SCOPE : env.BRANCH_NAME
                     def standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version --preid=rc --baseBranch=${baseBranch} --skipProjectChangelog"
-                        
+
                     if(isPreReleaseTrigger && params.CUSTOM_VERSION != "${customVersionDefault}") {
                         standardVersionCommand +=" --releaseAs=pre" + params.CUSTOM_VERSION
                     } else {
-                        standardVersionCommand +=" --releaseAs=prerelease"                       
+                        standardVersionCommand +=" --releaseAs=prerelease"
                     }
-                    
+
                     withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', standardVersionCommand)
-                    }            
+                    }
+
+                    // skip the rest of the pipeline
+                    skipBuild = true
                 }
             }
         }
@@ -657,7 +770,7 @@ pipeline {
                 echo 'Preparing Release'
 
                 script {
-                    def targetBranch = (isAppRelease && isPreReleaseBranch) || isPreRelease ? env.BRANCH_NAME : 'master'
+                    def targetBranch = (isAppRelease && isPreReleaseBranch) || isPreRelease || isHotfixRelease ? env.BRANCH_NAME : 'master'
 
                     try {
                         sh "git branch -D ${targetBranch}"
@@ -689,6 +802,9 @@ pipeline {
                         }
                     } else if (isLibsRelease) {
                         standardVersionCommand = "pnpm nx run-many --target=version --projects=${affectedLibs.join(',')}"
+                    } else if (isHotfixRelease) {
+                        // hotfix is always a patch
+                        standardVersionCommand = "pnpm nx run ${env.RELEASE_SCOPE}:version --releaseAs=patch --baseBranch=${env.BRANCH_NAME} --postTargets=${env.RELEASE_SCOPE}:github"
                     }
 
                     withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
@@ -703,7 +819,7 @@ pipeline {
                     sh 'pnpm run generate-readme'
 
                     // generate root changelog
-                    if (isAppRelease) {
+                    if (isAppRelease || isHotfixRelease) {
                         sh "pnpm run generate-changelog --app ${env.RELEASE_SCOPE}"
                     } else if (isLibsRelease) {
                         sh 'pnpm run generate-changelog --libs'
@@ -735,16 +851,16 @@ pipeline {
         stage('Build:Apps') {
             when {
                 expression {
-                    return !skipBuild && !isLibsRelease && !isRenovate
+                    return !skipBuild && !isLibsRelease && !isRenovate && !isHotfixBaseWithoutChanges
                 }
             }
             steps {
                 echo 'Build Apps'
 
                 script {
-                    if (isAppRelease) {
+                    if (isAppRelease || isHotfixRelease) { /* NOTE: Build with Prod config when hotfix branch is merged to hotfix-base branch */
                         sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=production"
-                    } else if (isPreRelease) {
+                    } else if (isPreRelease || isValidHotfixBranchRun()) { /* NOTE: Build with Pre Prod config each time commit is pushed to hotfix PR branch */
                         sh "pnpm nx build ${env.RELEASE_SCOPE} --configuration=${buildTypes.PRE_RELEASE}"
                     } else {
                         if (isMain) {
@@ -758,7 +874,7 @@ pipeline {
                         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: '**/bundle-report.html', reportName: 'bundle-reports', reportTitles: 'bundle-report'])
                     }
 
-                    if(isAppRelease || isPreRelease) {
+                    if (isAppRelease || isPreRelease || isHotfixRelease) {
                         sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
                     }
                 }
@@ -798,7 +914,7 @@ pipeline {
 
                         script {
                             sh 'mkdir -p dist/zips'
-                            def appsToDeploy = isAppRelease || isPreRelease ? [env.RELEASE_SCOPE] : affectedApps
+                            def appsToDeploy = isAppRelease || isPreRelease || isHotfixRelease ? [env.RELEASE_SCOPE] : affectedApps
 
                             // loop over apps and publish them
                             for (app in appsToDeploy) {
@@ -811,13 +927,13 @@ pipeline {
                                     returnStdout: true
                                 ).trim()
 
-                                if (isAppRelease || isPreRelease) {
+                                if (isAppRelease || isPreRelease || isValidHotfixBranchRun() || isHotfixRelease) {
                                     def version = getPackageVersion(app)
-                                    def path = isPreRelease ? "/${buildTypes.PRE_RELEASE}" : ''
+                                    def path = isPreRelease || isValidHotfixBranchRun() ? "/${buildTypes.PRE_RELEASE}" : ''
                                     target1 = "${artifactoryBasePath}/${app}${path}/latest.zip"
                                     deployArtifact(target1, uploadFile, checksum)
 
-                                    def releasePath = isPreRelease ? "${buildTypes.PRE_RELEASE}" : "${buildTypes.RELEASE}"
+                                    def releasePath = isPreRelease || isValidHotfixBranchRun() ? "${buildTypes.PRE_RELEASE}" : "${buildTypes.RELEASE}"
 
                                     target2 = "${artifactoryBasePath}/${app}/${releasePath}/${version}.zip"
                                     deployArtifact(target2, uploadFile, checksum)
@@ -881,7 +997,7 @@ pipeline {
             post {
                 success {
                     script {
-                        def version = isAppRelease || isPreRelease ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
+                        def version = isAppRelease || isPreRelease || isHotfixRelease ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
                         currentBuild.description = "Version: ${version}"
                     }
                 }
@@ -897,10 +1013,10 @@ pipeline {
             steps {
                 echo 'Release new version'
 
-                script {                    
+                script {
                     github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push --follow-tags')
 
-                    if (isAppRelease && isPreReleaseBranch) {
+                    if (isAppRelease && (isPreReleaseBranch || isHotfixRelease)) {
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch')
                         sh 'git checkout master'
                         try {
@@ -913,9 +1029,9 @@ pipeline {
                                 def version = getPackageVersion(env.RELEASE_SCOPE)
                                 sh "gh pr create --base origin/master --head ${env.BRANCH_NAME} --title 'chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master' --body 'Automated merge failed due to conflicts. Please resolve them manually and merge this branch.'"
                             }
-                        }                            
-                    }                   
-                    
+                        }
+                    }
+
                 }
             }
         }
@@ -929,17 +1045,17 @@ pipeline {
             steps {
                 script {
                     def deployments = readJSON file: 'deployments.json'
-                    def appsToBuild = isAppRelease || isPreRelease ? [env.RELEASE_SCOPE] : affectedApps
+                    def appsToBuild = isAppRelease || isPreRelease || isHotfixRelease ? [env.RELEASE_SCOPE] : affectedApps
 
                     for (app in appsToBuild) {
                         def url = deployments[app]
 
                         def version = getPackageVersion(app)
-                        def configuration = isAppRelease ? 'PROD' : isPreRelease ? 'PRE-RELEASE' : (isMain ? 'QA' : 'DEV')
+                        def configuration = isAppRelease || isHotfixRelease ? 'PROD' : isPreRelease || isValidHotfixBranchRun() ? 'PRE-RELEASE' : (isMain ? 'QA' : 'DEV')
 
                         // prod/release/pre-release = latest, master = next, feature build = branch name
-                        def path = isPreRelease ? "/${buildTypes.PRE_RELEASE}" : ''
-                        def fileName = isAppRelease || isPreRelease ? 'latest' : isMain ? 'next' : sanitizedBranchName
+                        def path = isPreRelease || isValidHotfixBranchRun() ? "/${buildTypes.PRE_RELEASE}" : ''
+                        def fileName = isAppRelease || isPreRelease || isHotfixRelease || isValidHotfixBranchRun() ? 'latest' : isMain ? 'next' : sanitizedBranchName
                         def artifactoryTargetPath = "${artifactoryBasePath}/${app}${path}/${fileName}.zip"
 
                         try {
