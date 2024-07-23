@@ -132,7 +132,8 @@
         "selectButton": "เลือกตลับลูกปืน",
         "selectOption": "<span class=\"text-medium-emphasis\">การคำนวณการหล่อลื่นสำหรับตลับลูกปืน</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">ไม่มีการคำนวณการหล่อลื่นที่เป็นไปได้สำหรับ</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "ไม่พบผลลัพธ์"
+        "noResults": "ไม่พบผลลัพธ์",
+        "contact": "ติดต่อผู้เชี่ยวชาญของ Schaeffler"
       },
       "advancedSelection": {
         "filters": {

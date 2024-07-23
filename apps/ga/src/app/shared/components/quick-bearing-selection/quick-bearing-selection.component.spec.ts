@@ -2,16 +2,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { LetDirective } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockDirective, MockModule } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { StringOption } from '@schaeffler/inputs';
 import { SearchModule } from '@schaeffler/inputs/search';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { resetBearing, searchBearing, selectBearing } from '@ga/core/store';
 import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-bearing-button';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { BEARING_SELECTION_STATE_MOCK } from '@ga/testing/mocks';
 
 import { QuickBearingSelectionComponent } from './quick-bearing-selection.component';
@@ -43,6 +50,8 @@ describe('QuickBearingSelectionComponent', () => {
           },
         },
       }),
+      mockProvider(ApplicationInsightsService),
+      mockProvider(AppAnalyticsService),
     ],
   });
 
@@ -108,6 +117,30 @@ describe('QuickBearingSelectionComponent', () => {
       component.onBearingSelectionButtonClick(undefined);
 
       expect(store.dispatch).toHaveBeenCalledWith(resetBearing());
+    });
+
+    it('should open a new tab when the bearing is disabled', () => {
+      Object.defineProperty(window, 'open', {
+        writable: true,
+        value: jest.fn(),
+      });
+      translocoService.translate = jest.fn();
+      translocoService.getActiveLang = jest.fn(() => 'de');
+      component.onOptionSelected({
+        id: 'test',
+        data: {
+          available: false,
+        },
+      } as StringOption);
+
+      expect(component['appInsightsService'].logEvent).toHaveBeenCalledWith(
+        'click_unsupported',
+        { bearing: 'test', language: 'de' }
+      );
+      expect(
+        component['trackingService'].logRawInteractionEvent
+      ).toHaveBeenCalled();
+      expect(window.open).toHaveBeenCalled();
     });
   });
 

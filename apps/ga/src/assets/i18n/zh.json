@@ -132,7 +132,8 @@
         "selectButton": "选择轴承",
         "selectOption": "<span class=\"text-medium-emphasis\">轴承的润滑计算</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">润滑计算不可能为</span> &nbsp;<strong>{{bearing}}</strong>",
-        "noResults": "未找到结果"
+        "noResults": "未找到结果",
+        "contact": "联系舍弗勒专家。"
       },
       "advancedSelection": {
         "filters": {

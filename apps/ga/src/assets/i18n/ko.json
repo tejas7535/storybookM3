@@ -132,7 +132,8 @@
         "selectButton": "베어링 선택",
         "selectOption": "<span class=\"text-medium-emphasis\">베어링</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}의 윤활 계산",
         "disabledOption": "<span class=\"text-medium-emphasis\"></span><strong>{{bearing}}</strong>{{disabled}}의 윤활을 계산할 수 없음",
-        "noResults": "검색 결과가 없음"
+        "noResults": "검색 결과가 없음",
+        "contact": "쉐플러 전문가에게 연락하십시오."
       },
       "advancedSelection": {
         "filters": {

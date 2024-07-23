@@ -132,7 +132,8 @@
         "selectButton": "Chọn vòng bi",
         "selectOption": "Tính chất bôi trơn cho vòng bi  {{bearing}}{{disabled}}",
         "disabledOption": "Không có tính chất bôi trơn nào có thể cho  {{bearing}}{{disabled}}",
-        "noResults": "Không tìm thấy kết quả nào"
+        "noResults": "Không tìm thấy kết quả nào",
+        "contact": "Liên hệ với các chuyên gia Schaeffler"
       },
       "advancedSelection": {
         "filters": {

@@ -74,6 +74,17 @@ export const getQuickBearingSelectionResultList = createSelector(
       .sort(({ disabled: a }, { disabled: b }) => +a - +b)
 );
 
+// modified quick selection list for use with the expert hint
+export const getModifiedBearingResultList = createSelector(
+  getQuickBearingSelectionResultList,
+  (options): StringOption[] =>
+    options?.map((bearing) => ({
+      ...bearing,
+      disabled: false,
+      data: { available: !bearing.disabled },
+    }))
+);
+
 export const getAdvancedBearingSelectionResultList = createSelector(
   getBearingSelectionState,
   (state): StringOption[] =>

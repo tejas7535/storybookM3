@@ -22,6 +22,31 @@
         <div loadingContent class="relative h-16">
           <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
         </div>
+        <ng-template #customOptions let-option="option">
+          @if (option.data.available) {
+            <mat-option [innerHTML]="option.title" />
+          } @else {
+            <div
+              class="flex flex-col md:flex-row py-1 justify-between min-w-full expert-highlight"
+            >
+              <span [innerHTML]="option.title"></span>
+              @if (!(partnerVersion$ | ngrxPush)) {
+                <a
+                  [href]="
+                    transloco.translate('homepage.cards.contact.externalLink')
+                  "
+                  target="_blank"
+                  class="text-link font-medium flex flex-row items-center ml-auto mr-0"
+                >
+                  <mat-icon class="!mr-2 !text-[16px] !w-4 !h-4"
+                    >open_in_new</mat-icon
+                  >
+                  <span class="hover:underline">{{ t('contact') }}</span>
+                </a>
+              }
+            </div>
+          }
+        </ng-template>
       </schaeffler-search>
       @if (dmcScanEnabled) {
         <div class="mb-6 flex items-center">

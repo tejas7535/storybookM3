@@ -132,7 +132,8 @@
         "selectButton": "Выбор подшипника",
         "selectOption": "<span class=\"text-medium-emphasis\">Расчет смазки для подшипника</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Невозможно выполнить расчет смазки для</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "Результаты не найдены"
+        "noResults": "Результаты не найдены",
+        "contact": "Свяжитесь с экспертами Schaeffler"
       },
       "advancedSelection": {
         "filters": {

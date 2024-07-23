@@ -132,7 +132,8 @@
         "selectButton": "軸受を選択",
         "selectOption": "<span class=\"text-medium-emphasis\">軸受の潤滑計算</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">次の潤滑計算はできません</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "結果がありません"
+        "noResults": "結果がありません",
+        "contact": "シェフラーの専門家に連絡してください。"
       },
       "advancedSelection": {
         "filters": {

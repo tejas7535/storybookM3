@@ -109,3 +109,7 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     right: 0;
   }
 }
+
+span.mdc-list-item__primary-text:has(> .expert-highlight) {
+  @apply min-w-full;
+}

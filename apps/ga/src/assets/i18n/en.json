@@ -132,7 +132,8 @@
         "selectButton": "Select bearing",
         "selectOption": "<span class=\"text-medium-emphasis\">Lubrication calculation for bearing</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">No lubrication calculation possible for</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "No results found"
+        "noResults": "No results found",
+        "contact": "Contact Schaeffler Experts"
       },
       "advancedSelection": {
         "filters": {

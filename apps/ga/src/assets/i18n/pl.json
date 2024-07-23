@@ -132,7 +132,8 @@
         "selectButton": "Wybierz łożysko",
         "selectOption": "<span class=\"text-medium-emphasis\">Obliczanie smarowania łożyska</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Nie jest możliwe obliczenie smarowania łożyska</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "Nie znaleziono wyników"
+        "noResults": "Nie znaleziono wyników",
+        "contact": "Skontaktuj się z ekspertami Schaeffler"
       },
       "advancedSelection": {
         "filters": {

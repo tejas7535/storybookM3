@@ -132,7 +132,8 @@
         "selectButton": "Vybrat ložisko",
         "selectOption": "<span class=\"text-medium-emphasis\">Výpočet mazání pro ložisko</span> &nbsp;<strong>{{bearing}}{{disabled}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">Není možný výpočet mazání pro</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "Nebyly nalezeny žádné výsledky"
+        "noResults": "Nebyly nalezeny žádné výsledky",
+        "contact": "Kontaktujte odborníky Schaeffler"
       },
       "advancedSelection": {
         "filters": {

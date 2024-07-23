@@ -132,7 +132,8 @@
         "selectButton": "Selecionar rolamento",
         "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de lubrificação para o rolamento</span> &nbsp;<strong> {{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Não é possível calcular a lubrificação para</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "Não foram encontrados resultados"
+        "noResults": "Não foram encontrados resultados",
+        "contact": "Entre em contato com os especialistas da Schaeffler"
       },
       "advancedSelection": {
         "filters": {

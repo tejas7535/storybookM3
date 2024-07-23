@@ -132,7 +132,8 @@
         "selectButton": "Seleccione el rodamiento",
         "selectOption": "<span class=\"text-medium-emphasis\">Cálculo de la lubricación del rodamiento</span> &nbsp;<strong>{{bearing}}</strong>",
         "disabledOption": "<span class=\"text-medium-emphasis\">No es posible el cálculo de la lubricación para</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "No se han encontrado resultados"
+        "noResults": "No se han encontrado resultados",
+        "contact": "Contacte a los expertos de Schaeffler"
       },
       "advancedSelection": {
         "filters": {

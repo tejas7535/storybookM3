@@ -132,7 +132,8 @@
         "selectButton": "Pilih bantalan",
         "selectOption": "<span class=\"text-medium-emphasis\"> Perhitungan pelumasan untuk bantalan </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\"> Tidak ada perhitungan pelumasan yang dapat dilakukan untuk </span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "Tidak ada hasil yang ditemukan"
+        "noResults": "Tidak ada hasil yang ditemukan",
+        "contact": "Hubungi Pakar Schaeffler"
       },
       "advancedSelection": {
         "filters": {

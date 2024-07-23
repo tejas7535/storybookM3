@@ -132,7 +132,8 @@
         "selectButton": "Seleziona il cuscinetto",
         "selectOption": "<span class=\"text-medium-emphasis\">Calcolo della lubrificazione per il cuscinetto</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
         "disabledOption": "<span class=\"text-medium-emphasis\">Impossibile calcolare la lubrificazione per</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}}",
-        "noResults": "Nessun risultato trovato"
+        "noResults": "Nessun risultato trovato",
+        "contact": "Contatta gli esperti Schaeffler"
       },
       "advancedSelection": {
         "filters": {

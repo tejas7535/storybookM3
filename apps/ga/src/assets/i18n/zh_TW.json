@@ -132,7 +132,8 @@
         "selectButton": "選擇軸承",
         "selectOption": "<span class=\"text-medium-emphasis\">軸承</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}} 的潤滑計算",
         "disabledOption": "<span class=\"text-medium-emphasis\">無法執行</span> &nbsp;<strong>{{bearing}}</strong>{{disabled}} 的潤滑計算",
-        "noResults": "找不到結果"
+        "noResults": "找不到結果",
+        "contact": "聯繫舍弗勒專家。"
       },
       "advancedSelection": {
         "filters": {

@@ -132,7 +132,8 @@
         "selectButton": "Sélectionner le roulement",
         "selectOption": "Calcul de lubrification pour le roulement  {{bearing}}{{disabled}}",
         "disabledOption": "Calcul de lubrification impossible pour  {{bearing}}{{disabled}}",
-        "noResults": "Aucun résultat n’a été trouvé"
+        "noResults": "Aucun résultat n’a été trouvé",
+        "contact": "Contactez les experts de Schaeffler"
       },
       "advancedSelection": {
         "filters": {

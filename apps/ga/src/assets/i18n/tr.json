@@ -132,7 +132,8 @@
         "selectButton": "Rulmanı seç",
         "selectOption": "<strong>{{bearing}}</strong>{{disabled}}&nbsp;<span class=\"text-medium-emphasis\">rulmanı için yağlama hesaplaması</span>",
         "disabledOption": "<strong>{{bearing}}</strong>{{disabled}}&nbsp;<span class=\"text-medium-emphasis\">için yağlama hesaplaması yapılamıyor</span>",
-        "noResults": "Sonuç bulunamadı"
+        "noResults": "Sonuç bulunamadı",
+        "contact": "Schaeffler Uzmanlarına Ulaşın"
       },
       "advancedSelection": {
         "filters": {
