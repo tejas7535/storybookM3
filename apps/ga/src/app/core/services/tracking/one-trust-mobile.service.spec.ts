@@ -30,16 +30,21 @@ describe('OneTrustMobileService', () => {
   const showBannerMock = jest.fn();
   const observeChangesMock = jest.fn();
   const showPreferenceCenterUIMock = jest.fn();
+  const showConsentUIMock = jest.fn();
   const langChanges$ = new BehaviorSubject<string>('en');
   const langChangesObservable$ = langChanges$.asObservable();
 
   delete window.OneTrust;
   window.OneTrust = {
+    devicePermission: {
+      idfa: 'device_idfa',
+    },
     startSDK: startSDKMock,
     shouldShowBanner: shouldShowBannerMock,
     showBannerUI: showBannerMock,
     observeChanges: observeChangesMock,
     showPreferenceCenterUI: showPreferenceCenterUIMock,
+    showConsentUI: showConsentUIMock,
   };
 
   const createService = createServiceFactory({
@@ -131,12 +136,49 @@ describe('OneTrustMobileService', () => {
       isNativePlatformMock.mockReturnValue(true);
       startSDKMock.mockReturnValue(true);
       shouldShowBannerMock.mockResolvedValue(true);
+      showConsentUIMock.mockResolvedValue(true);
       service.initTracking();
     });
 
     it('should start one trust mobile sdk', waitForAsync(() => {
       expect(startSDKMock).toHaveBeenCalled();
     }));
+
+    describe('when the success callback is called', () => {
+      beforeAll(() => {
+        const successCallback = startSDKMock.mock.calls[0][4];
+        successCallback('status');
+      });
+
+      it('should show the consent ui', () => {
+        expect(showConsentUIMock).toHaveBeenCalledWith(
+          'device_idfa',
+          expect.any(Function)
+        );
+      });
+
+      describe('when the consent ui is shown', () => {
+        beforeAll(() => {
+          const consentCallback = showConsentUIMock.mock.calls[0][1];
+          consentCallback('status');
+        });
+
+        it('should show the banner', () => {
+          expect(shouldShowBannerMock).toHaveBeenCalled();
+        });
+
+        describe('when the banner should be shown', () => {
+          beforeAll(() => {
+            const shouldShowCallback = shouldShowBannerMock.mock.calls[0][0];
+            shouldShowCallback(true);
+          });
+
+          it('should show the banner ui', () => {
+            expect(showBannerMock).toHaveBeenCalled();
+          });
+        });
+      });
+    });
   });
 
   describe('showPreferenceCenterUI', () => {

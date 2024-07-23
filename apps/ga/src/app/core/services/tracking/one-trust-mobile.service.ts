@@ -56,6 +56,15 @@ export class OneTrustMobileService {
       this.currentLanguage,
       {},
       () => {
+        if (Capacitor.getPlatform() === 'ios') {
+          window.OneTrust.showConsentUI(
+            window.OneTrust.devicePermission.idfa,
+            (_status) => {
+              // general prompt, action handled by OneTrust native plugin
+            }
+          );
+        }
+
         window.OneTrust.shouldShowBanner((shouldShow: boolean) => {
           if (shouldShow) {
             window.OneTrust.showBannerUI();

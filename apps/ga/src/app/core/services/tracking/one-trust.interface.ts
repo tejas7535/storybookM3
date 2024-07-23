@@ -10,7 +10,13 @@ export interface ConsentResponse {
   consentStatus: ConsentValues;
 }
 
+export interface DevicePermission {
+  idfa?: string;
+}
+
 export interface OneTrustInterface {
+  // used for IOS only
+  devicePermission: DevicePermission;
   /**
    *
    * @param storageLocation location of the storage obtain from oneTrust website once application is configured named CDN Location
@@ -32,4 +38,5 @@ export interface OneTrustInterface {
   shouldShowBanner: (callback: (shouldShow: boolean) => void) => void;
   showBannerUI: () => void;
   showPreferenceCenterUI: () => void;
+  showConsentUI: (idfa: string, callback: (status: any) => void) => void;
 }
