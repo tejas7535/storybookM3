@@ -11,6 +11,7 @@ import {
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Subject, takeUntil } from 'rxjs';
@@ -34,6 +35,7 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
     // angular material
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     MatTooltipModule,
     // forms
     ReactiveFormsModule,

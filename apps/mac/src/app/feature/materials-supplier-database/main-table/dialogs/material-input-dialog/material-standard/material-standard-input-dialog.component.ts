@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,6 +45,7 @@ import { mapProperty } from '../util/form-helpers';
     MaterialStandardComponent,
     MatInputModule,
     MatIconModule,
+    ReactiveFormsModule,
     // libs
     SharedTranslocoModule,
     // ngrx
