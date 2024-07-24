@@ -443,7 +443,7 @@ pipeline {
                         if(BRANCH.startsWith("${buildTypes.PRE_RELEASE}")) {
                             types = types + ["${buildTypes.RELEASE}"]
                         } else if (BRANCH.startsWith('master')) {
-                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}", "${buildTypes.RENOVATE}"]
+                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}", "${buildTypes.RENOVATE}","${buildTypes.HOTFIX}"]
                         }
 
                         return types
