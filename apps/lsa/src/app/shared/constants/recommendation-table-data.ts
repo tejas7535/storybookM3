@@ -18,19 +18,33 @@ type RecommendationTableConfiguration = RecommendationTableRowConfiguration[];
 
 export const recommendationTableConfiguration: RecommendationTableConfiguration =
   [
-    'maxOperatingPressure',
+    {
+      type: 'technical',
+      fieldName: 'func_principle',
+    },
+    {
+      type: 'technical',
+      fieldName: 'dimensions',
+    },
     'volume',
+    'maxOperatingPressure',
+    {
+      type: 'technical',
+      fieldName: 'voltage',
+    },
+    {
+      type: 'technical',
+      fieldName: 'medium_general',
+    },
     {
       type: 'composite',
       fieldName: 'tempRange',
       formatFunction: (lub: Lubricator) => `${lub.minTemp} - ${lub.maxTemp}°C`,
     },
+    'noOfOutlets',
     {
       type: 'technical',
       fieldName: 'mounting_position',
     },
-    {
-      type: 'technical',
-      fieldName: 'func_principle',
-    },
+    'isOptime',
   ];

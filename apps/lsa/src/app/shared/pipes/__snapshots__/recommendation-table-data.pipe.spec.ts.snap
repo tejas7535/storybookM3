@@ -20,7 +20,12 @@ Object {
   },
   "rows": Array [
     Object {
-      "field": "maxOperatingPressure",
+      "field": "func_principle",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "dimensions",
       "minimum": undefined,
       "recommended": undefined,
     },
@@ -30,9 +35,29 @@ Object {
       "recommended": undefined,
     },
     Object {
+      "field": "maxOperatingPressure",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "voltage",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "medium_general",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
       "field": "tempRange",
       "minimum": "-20 - 55°C",
       "recommended": "-25 - 60°C",
+    },
+    Object {
+      "field": "noOfOutlets",
+      "minimum": undefined,
+      "recommended": undefined,
     },
     Object {
       "field": "mounting_position",
@@ -40,7 +65,7 @@ Object {
       "recommended": undefined,
     },
     Object {
-      "field": "func_principle",
+      "field": "isOptime",
       "minimum": undefined,
       "recommended": undefined,
     },
@@ -62,7 +87,12 @@ Object {
   },
   "rows": Array [
     Object {
-      "field": "maxOperatingPressure",
+      "field": "func_principle",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "dimensions",
       "minimum": undefined,
       "recommended": undefined,
     },
@@ -72,9 +102,29 @@ Object {
       "recommended": undefined,
     },
     Object {
+      "field": "maxOperatingPressure",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "voltage",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "medium_general",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
       "field": "tempRange",
       "minimum": "-20 - 55°C",
       "recommended": "-20 - 55°C",
+    },
+    Object {
+      "field": "noOfOutlets",
+      "minimum": undefined,
+      "recommended": undefined,
     },
     Object {
       "field": "mounting_position",
@@ -82,7 +132,7 @@ Object {
       "recommended": undefined,
     },
     Object {
-      "field": "func_principle",
+      "field": "isOptime",
       "minimum": undefined,
       "recommended": undefined,
     },
@@ -98,7 +148,12 @@ Object {
   },
   "rows": Array [
     Object {
-      "field": "maxOperatingPressure",
+      "field": "func_principle",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "dimensions",
       "minimum": undefined,
       "recommended": undefined,
     },
@@ -108,7 +163,27 @@ Object {
       "recommended": undefined,
     },
     Object {
+      "field": "maxOperatingPressure",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "voltage",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "medium_general",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
       "field": "tempRange",
+      "minimum": undefined,
+      "recommended": undefined,
+    },
+    Object {
+      "field": "noOfOutlets",
       "minimum": undefined,
       "recommended": undefined,
     },
@@ -118,7 +193,7 @@ Object {
       "recommended": undefined,
     },
     Object {
-      "field": "func_principle",
+      "field": "isOptime",
       "minimum": undefined,
       "recommended": undefined,
     },

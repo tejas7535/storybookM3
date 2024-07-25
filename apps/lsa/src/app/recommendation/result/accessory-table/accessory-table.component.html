@@ -27,6 +27,7 @@
 
           @if (shouldShowPriceColumn()) {
             <th>15 Euro</th>
+            <!--- integrate as soon as medias API is available -->
           }
           <th>{{ tableGroupStates[group.key].totalQty }} pcs</th>
           <th class="w-12">
@@ -81,6 +82,17 @@
                   >
                 </div>
               </td>
+              @if (shouldShowPriceColumn()) {
+                <td>
+                  <div class="text-center flex flex-col justify-center h-full">
+                    <span class="text-caption text-medium"> 15 Euro </span>
+                    <span
+                      class="text-caption mt-1 text=[12px] text-medium-emphasis"
+                      >per Piece</span
+                    >
+                  </div>
+                </td>
+              }
               <td colspan="2" class="px-2">
                 <div>
                   <span class="text-caption">{{ t('pieces') }}</span>
