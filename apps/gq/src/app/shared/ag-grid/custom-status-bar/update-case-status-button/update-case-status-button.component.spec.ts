@@ -130,8 +130,17 @@ describe('UpdateCaseStatusButtonComponent', () => {
       store.dispatch = jest.fn();
       params = {
         ...params,
+        quotationStatus: QuotationStatus.ACTIVE,
         showDialog: true,
       } as unknown as ExtendedStatusPanelComponentParams;
+
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: () => of(true),
+          }) as any
+      );
+      component['overviewCasesFacade'].updateCasesStatus = jest.fn();
 
       component.agInit(params as unknown as ExtendedStatusPanelComponentParams);
       component.selections = [
@@ -157,7 +166,12 @@ describe('UpdateCaseStatusButtonComponent', () => {
       component.updateStatus();
 
       expect(matDialogSpyObject.open).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(
+        component['overviewCasesFacade'].updateCasesStatus
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['overviewCasesFacade'].updateCasesStatus
+      ).toHaveBeenCalledWith([123], component['params'].quotationStatus);
     });
 
     it('should update the status without confirmDialog', () => {

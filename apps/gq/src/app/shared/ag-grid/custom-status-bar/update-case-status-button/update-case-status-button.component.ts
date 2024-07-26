@@ -95,7 +95,7 @@ export class UpdateCaseStatusButtonComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const gqIds = list.map((el) => Number(el.value));
+        const gqIds = list.map((el) => Number(el.id));
         this.update(gqIds);
       }
     });
