@@ -133,7 +133,7 @@ export class HeaderContentComponent {
             value: this.shipToParty?.name,
             value2: this.shipToParty?.country,
           },
-          salesOrg: this.shipToParty?.identifier?.salesOrg,
+          shipToPartySalesOrg: this.shipToParty?.identifier?.salesOrg,
           caseCustomer: this.customer,
           purchaseOrderType: this.purchaseOrderType,
           partnerRoleType: this.partnerRoleType,

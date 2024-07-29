@@ -190,7 +190,7 @@ describe('HeaderContentComponent', () => {
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
             currency: undefined,
-            salesOrg: CUSTOMER_MOCK.identifier.salesOrg,
+            shipToPartySalesOrg: CUSTOMER_MOCK.identifier.salesOrg,
             shipToParty: {
               id: CUSTOMER_MOCK.identifier.customerId,
               value: CUSTOMER_MOCK.name,
