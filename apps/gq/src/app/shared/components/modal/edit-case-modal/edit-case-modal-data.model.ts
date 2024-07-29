@@ -13,7 +13,7 @@ export interface EditCaseModalData {
   requestedDeliveryDate?: string;
   customerPurchaseOrderDate?: string;
   bindingPeriodValidityEndDate?: string;
-  salesOrg?: string;
+  shipToPartySalesOrg?: string;
 
   purchaseOrderType?: PurchaseOrderType;
   partnerRoleType?: SectorGpsd;

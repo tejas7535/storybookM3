@@ -21,6 +21,7 @@ import {
   clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
+  clearShipToParty,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -33,6 +34,7 @@ import {
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
+  getSalesOrgsForShipToPartySuccess,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
@@ -77,6 +79,11 @@ export interface CreateCaseState {
     salesOrgsLoading: boolean;
     salesOrgs: SalesOrg[];
     errorMessage: string;
+  };
+  shipToParty: {
+    customerId: string;
+    salesOrgsLoading: boolean;
+    salesOrgs: SalesOrg[];
   };
   plSeries: {
     loading: boolean;
@@ -132,6 +139,11 @@ export const initialState: CreateCaseState = {
     salesOrgsLoading: false,
     salesOrgs: [],
     errorMessage: undefined,
+  },
+  shipToParty: {
+    customerId: undefined,
+    salesOrgsLoading: false,
+    salesOrgs: [],
   },
   plSeries: {
     loading: false,
@@ -238,6 +250,14 @@ export const createCaseReducer = createReducer(
           filter === FilterNames.CUSTOMER
             ? option.id
             : state.customer.customerId,
+      },
+      shipToParty: {
+        ...state.shipToParty,
+        salesOrgsLoading: filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+        customerId:
+          filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY
+            ? option.id
+            : state.shipToParty.customerId,
       },
     })
   ),
@@ -478,6 +498,17 @@ export const createCaseReducer = createReducer(
     })
   ),
   on(
+    getSalesOrgsForShipToPartySuccess,
+    (state: CreateCaseState, { salesOrgs }): CreateCaseState => ({
+      ...state,
+      shipToParty: {
+        ...state.shipToParty,
+        salesOrgs,
+        salesOrgsLoading: false,
+      },
+    })
+  ),
+  on(
     getSalesOrgsFailure,
     (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
@@ -536,6 +567,13 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       customer: initialState.customer,
+    })
+  ),
+  on(
+    clearShipToParty,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      shipToParty: initialState.shipToParty,
     })
   ),
   on(

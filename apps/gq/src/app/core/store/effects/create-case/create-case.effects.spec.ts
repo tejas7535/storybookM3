@@ -48,6 +48,7 @@ import {
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
+  getSalesOrgsForShipToPartySuccess,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
@@ -639,7 +640,9 @@ describe('Create Case Effects', () => {
 
         action = selectAutocompleteOption({ option, filter });
         const salesOrgsOfAction = [new SalesOrg('id', true, 'USD')];
-        const result = getSalesOrgsSuccess({ salesOrgs: salesOrgsOfAction });
+        const result = getSalesOrgsForShipToPartySuccess({
+          salesOrgs: salesOrgsOfAction,
+        });
 
         actions$ = m.hot('-a', { a: action });
 

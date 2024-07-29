@@ -43,6 +43,10 @@ describe('Create Case Selector', () => {
         ...initialState.customer,
         salesOrgs,
       },
+      shipToParty: {
+        ...initialState.shipToParty,
+        salesOrgs,
+      },
       rowData: [
         {
           materialNumber: '1234',
@@ -240,7 +244,13 @@ describe('Create Case Selector', () => {
       );
     });
   });
-
+  describe('getSalesOrgsOfShipToParty', () => {
+    test('should return salesOrgsOfShipToParty', () => {
+      expect(
+        createSelectors.getSalesOrgsOfShipToParty.projector(fakeState.case)
+      ).toEqual(fakeState.case.shipToParty.salesOrgs);
+    });
+  });
   describe('getCreateCaseLoading', () => {
     test('should return createCaseLoading', () => {
       expect(

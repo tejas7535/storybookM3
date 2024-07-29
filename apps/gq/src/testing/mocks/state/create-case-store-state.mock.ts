@@ -12,6 +12,11 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
     errorMessage: undefined,
     salesOrgsLoading: false,
   },
+  shipToParty: {
+    customerId: undefined,
+    salesOrgs: undefined,
+    salesOrgsLoading: false,
+  },
   plSeries: {
     errorMessage: undefined,
     loading: false,

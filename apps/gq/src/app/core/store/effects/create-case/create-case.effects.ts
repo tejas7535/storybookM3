@@ -43,6 +43,7 @@ import {
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
+  getSalesOrgsForShipToPartySuccess,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
@@ -302,6 +303,10 @@ export class CreateCaseEffects {
                   currency: item.currency,
                 })
               );
+
+              if (action.filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY) {
+                return getSalesOrgsForShipToPartySuccess({ salesOrgs });
+              }
 
               return getSalesOrgsSuccess({ salesOrgs });
             }),

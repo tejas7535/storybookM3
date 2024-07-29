@@ -30,13 +30,14 @@ import {
 import {
   clearCreateCaseRowData,
   clearCustomer,
+  clearShipToParty,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
-import { getSalesOrgs } from '@gq/core/store/selectors';
+import { getSalesOrgsOfShipToParty } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -64,7 +65,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   options: IdValue[] = [];
   caseModalForm: UntypedFormGroup;
   hasCaseModalFormChange: boolean;
-  salesOrg: string;
+  shipToPartySalesOrg: string;
   isSapCase: boolean;
 
   filterName = FilterNames.CUSTOMER_AND_SHIP_TO_PARTY;
@@ -106,7 +107,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
 
     this.adapter.setLocale(locale || 'en-US');
 
-    this.salesOrg = this.modalData.salesOrg;
+    this.shipToPartySalesOrg = this.modalData.shipToPartySalesOrg;
     this.isSapCase = this.modalData?.isSapCase;
     this.caseModalForm = new FormGroup({
       caseName: new FormControl(
@@ -258,11 +259,11 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       });
 
     this.store
-      .select(getSalesOrgs)
+      .select(getSalesOrgsOfShipToParty)
       .pipe(takeUntil(this.unsubscribe$$))
       .subscribe((salesOrgs: SalesOrg[]) => {
         if (salesOrgs && salesOrgs.length > 0) {
-          this.salesOrg = salesOrgs[0].id;
+          this.shipToPartySalesOrg = salesOrgs[0].id;
         }
       });
 
@@ -303,7 +304,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       shipToParty: shipToParty.value?.id
         ? ({
             customerId: shipToParty.value.id,
-            salesOrg: this.salesOrg,
+            salesOrg: this.shipToPartySalesOrg,
           } as ShipToParty)
         : undefined,
       purchaseOrderTypeId: purchaseOrderType.value?.id,
@@ -388,6 +389,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   private dispatchResetActions(): void {
     this.store.dispatch(resetAllAutocompleteOptions());
     this.store.dispatch(clearCustomer());
+    this.store.dispatch(clearShipToParty());
     this.store.dispatch(clearCreateCaseRowData());
   }
 }

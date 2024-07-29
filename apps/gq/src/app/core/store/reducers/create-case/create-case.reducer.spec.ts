@@ -19,6 +19,7 @@ import {
   clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
+  clearShipToParty,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -31,6 +32,7 @@ import {
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
+  getSalesOrgsForShipToPartySuccess,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
@@ -132,6 +134,10 @@ describe('Create Case Reducer', () => {
             options: fakeOptions,
           },
           { filter: FilterNames.MATERIAL_NUMBER, options: fakeOptions },
+          {
+            filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+            options: fakeOptions,
+          },
         ],
       };
       test('should set customer option selected true', () => {
@@ -166,6 +172,21 @@ describe('Create Case Reducer', () => {
         expect(state.customer.customerId).toEqual(
           fakeState.customer.customerId
         );
+      });
+      test('should set shipToParty option selected true', () => {
+        const action = selectAutocompleteOption({
+          option: selectOption,
+          filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+        });
+
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.autocompleteItems[2].options).toEqual([
+          selectOption,
+          fakeOptions[1],
+        ]);
+        expect(state.shipToParty.salesOrgsLoading).toBeTruthy();
+        expect(state.shipToParty.customerId).toEqual(selectOption.id);
       });
     });
     describe('setSelectedAutocompleteOption', () => {
@@ -820,6 +841,15 @@ describe('Create Case Reducer', () => {
         expect(state.customer.errorMessage).toEqual(errorMessage);
       });
     });
+    describe('getSalesOrgsForShipToPartySuccess', () => {
+      test('should set the state with the salesOrgs', () => {
+        const salesOrgs = [new SalesOrg('id', true)];
+        const action = getSalesOrgsForShipToPartySuccess({ salesOrgs });
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(state.shipToParty.salesOrgs).toEqual(salesOrgs);
+      });
+    });
   });
 
   describe('select SalesOrg', () => {
@@ -978,6 +1008,26 @@ describe('Create Case Reducer', () => {
       expect(state.customer).toEqual(initialState.customer);
     });
   });
+  describe('clearShipToParty', () => {
+    test('should clear shipToParty', () => {
+      const action = clearShipToParty();
+
+      const stateMock = {
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        shipToParty: {
+          customerId: '123',
+          salesOrgs: [{ id: '1', selected: true }],
+          errorMessage: '',
+          salesOrgsLoading: false,
+        },
+      };
+
+      const state = createCaseReducer(stateMock, action);
+
+      expect(state.shipToParty).toEqual(initialState.shipToParty);
+    });
+  });
+
   describe('PLsAndSeries Actions', () => {
     describe('getPLsAndSeries', () => {
       test('should set loading', () => {

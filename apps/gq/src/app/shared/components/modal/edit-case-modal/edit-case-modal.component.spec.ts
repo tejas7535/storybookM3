@@ -23,7 +23,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
-import { getSalesOrgs } from '@gq/core/store/selectors';
+import { getSalesOrgsOfShipToParty } from '@gq/core/store/selectors';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -200,41 +200,41 @@ describe('EditCaseModalComponent', () => {
     });
 
     test('should set salesOrg from array', () => {
-      store.overrideSelector(getSalesOrgs, [
+      store.overrideSelector(getSalesOrgsOfShipToParty, [
         { id: '0267', selected: false },
         { id: '0268', selected: false },
       ]);
 
       component.ngOnInit();
 
-      expect(component.salesOrg).toEqual('0267');
+      expect(component.shipToPartySalesOrg).toEqual('0267');
     });
 
     test('should set salesOrg from modalData if subscription is empty', () => {
       component.modalData = {
-        salesOrg: '0269',
+        shipToPartySalesOrg: '0269',
         caseCustomer: {
           identifier: { customerId: '123456', salesOrg: '0815' },
         },
       } as any;
 
-      store.overrideSelector(getSalesOrgs, []);
+      store.overrideSelector(getSalesOrgsOfShipToParty, []);
 
       component.ngOnInit();
 
-      expect(component.salesOrg).toEqual('0269');
+      expect(component.shipToPartySalesOrg).toEqual('0269');
     });
 
     test('should set isSapCase from modalData', () => {
       component.modalData = {
-        salesOrg: '0269',
+        shipToPartySalesOrg: '0269',
         isSapCase: true,
         caseCustomer: {
           identifier: { customerId: '123456', salesOrg: '0815' },
         },
       } as any;
 
-      store.overrideSelector(getSalesOrgs, []);
+      store.overrideSelector(getSalesOrgsOfShipToParty, []);
 
       component.ngOnInit();
 

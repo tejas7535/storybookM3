@@ -123,9 +123,15 @@ export const getSalesOrgsFailure = createAction(
   '[Create Case] Get Sales Organisations For Customer Failure',
   props<{ errorMessage: string }>()
 );
+export const getSalesOrgsForShipToPartySuccess = createAction(
+  '[Create Case] Get Sales Organizations For Ship to Success',
+  props<{ salesOrgs: SalesOrg[] }>()
+);
 
 export const clearCustomer = createAction('[Create Case] Clear Customer');
-
+export const clearShipToParty = createAction(
+  '[Create Case] Clear Ship to Party'
+);
 export const selectSalesOrg = createAction(
   '[Create Case] Select Sales Organisation For Customer',
   props<{ salesOrgId: string }>()

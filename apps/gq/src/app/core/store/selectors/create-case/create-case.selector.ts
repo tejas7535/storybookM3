@@ -181,6 +181,11 @@ export const getSalesOrgs = createSelector(
   (state: CreateCaseState): SalesOrg[] => state.customer.salesOrgs
 );
 
+export const getSalesOrgsOfShipToParty = createSelector(
+  getCaseState,
+  (state: CreateCaseState): SalesOrg[] => state.shipToParty.salesOrgs
+);
+
 export const getSelectedSalesOrg = createSelector(
   getCaseState,
   (state: CreateCaseState): SalesOrg =>
