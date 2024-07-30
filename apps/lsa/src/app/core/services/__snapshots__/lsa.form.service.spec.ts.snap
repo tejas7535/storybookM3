@@ -3,9 +3,9 @@
 exports[`LsaFormService init should init the form with defaults 1`] = `
 Object {
   "lubricationInterval": "year",
-  "lubricationPoints": null,
+  "lubricationPoints": "1",
   "lubricationQty": 60,
-  "optime": 1,
+  "optime": 2,
   "pipeLength": null,
 }
 `;
@@ -50,9 +50,9 @@ Object {
   },
   "lubricationPoints": Object {
     "lubricationInterval": "year",
-    "lubricationPoints": null,
+    "lubricationPoints": "1",
     "lubricationQty": 60,
-    "optime": 1,
+    "optime": 2,
     "pipeLength": null,
   },
 }

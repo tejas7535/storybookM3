@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
@@ -34,7 +39,7 @@ interface PipeOption {
   templateUrl: './lubrication-points.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LubricationPointsComponent {
+export class LubricationPointsComponent implements OnInit {
   @Input()
   public readonly lubricationPointsForm: FormGroup<LubricationPointsForm>;
 
@@ -118,6 +123,12 @@ export class LubricationPointsComponent {
     { min: 3, max: 5 },
     { min: 5, max: 10 },
   ].map(({ min, max }) => this.createPipeOption(min, max));
+
+  ngOnInit() {
+    this.lubricationPointsForm
+      .get('pipeLength')
+      .setValue(this.pipeLengthOptions[0].value);
+  }
 
   private createPipeOption(min: number, max: number): PipeOption {
     const path = `${translatePath}.pipeLengthOptions`;
