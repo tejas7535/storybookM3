@@ -8,7 +8,11 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '@ga/environments/environment';
 
-import { ConsentResponse, OneTrustInterface } from './one-trust.interface';
+import {
+  ConsentResponse,
+  IdfaStatus,
+  OneTrustInterface,
+} from './one-trust.interface';
 
 declare const window: Window &
   typeof globalThis & {
@@ -59,22 +63,27 @@ export class OneTrustMobileService {
         if (Capacitor.getPlatform() === 'ios') {
           window.OneTrust.showConsentUI(
             window.OneTrust.devicePermission.idfa,
-            (_status) => {
+            (_status: IdfaStatus) => {
               // general prompt, action handled by OneTrust native plugin
+              this.showBanner();
             }
           );
+        } else {
+          this.showBanner();
         }
-
-        window.OneTrust.shouldShowBanner((shouldShow: boolean) => {
-          if (shouldShow) {
-            window.OneTrust.showBannerUI();
-          }
-        });
       },
       (_error: any) => {
         // no action required, tracking will not be started.
       }
     );
+  }
+
+  private showBanner(): void {
+    window.OneTrust.shouldShowBanner((shouldShow: boolean) => {
+      if (shouldShow) {
+        window.OneTrust.showBannerUI();
+      }
+    });
   }
 
   private getCategoryId(): string {

@@ -14,6 +14,12 @@ export interface DevicePermission {
   idfa?: string;
 }
 
+export enum IdfaStatus {
+  NotDetermined = 'notDetermined',
+  Authorized = 'authorized',
+  Denied = 'denied',
+}
+
 export interface OneTrustInterface {
   // used for IOS only
   devicePermission: DevicePermission;
