@@ -1,4 +1,20 @@
 # Release Notes of Grease App
+## [1.12.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.2...ga-v1.12.3) (2024-07-31)
+
+
+### Features
+
+* **ga:**  add ios add consent UI (UFTABI-7797) ([#6397](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6397)) ([2fb55b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2fb55b5455596966aa9e55d694251695c02cc596))
+* **ga:** add DMC scan - UFTABI-7506 ([#6093](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6093)) ([041a5d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/041a5d34e83e1f67ba1d6f0036e9b965c829927e))
+* **ga:** add expert hint for bearings without calculation - UFTABI-7820 ([#6401](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6401)) ([e52bb13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e52bb134c3eb8542db5c6f0b616840413f19b3b5))
+* **ga:** add footer action for native platforms (UFTABI-7797) ([#6390](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6390)) ([dd7d69e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd7d69e7d6c8b5ce5d6cd00de3935e2e1019709f))
+* **ga:** add one trust and firebase (UFTABI-7796) ([#6359](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6359)) ([c275581](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2755810c98e0e065cd926de4228438f66617dda))
+* **ga:** display one trust banner after pre-prompt completion (UFTABI-7690) ([#6412](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6412)) ([d4415e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4415e86e2fc7840f5cabca4e49060b04eca2e34))
+* **ga:** fix language change in one trust  mobile sdk  (UFTABI-7797) ([#6392](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6392)) ([e84e570](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e84e5701dc51dc02cb43dc462f8c4bc8b1bc0be2))
+* **ga:** fix native check for mobile apps (UFTABI-7797) ([#6387](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6387)) ([ca6a9ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca6a9ef3ed166aaa8fb7310101af92b4af868050))
+* **ga:** reset data for not given consent ([#6396](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6396)) ([4e0d6e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4e0d6e2374bf8391c8ea32062ecb94ad0c8b0b32))
+* **ga:** update the localization format for GA ([#6356](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6356)) ([e97f3f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e97f3f66e48a8db1d1980b5957f9f660e87c2544))
+
 ## [1.12.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.1...ga-v1.12.2) (2024-07-05)
 
 
