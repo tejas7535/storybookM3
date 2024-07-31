@@ -45,7 +45,7 @@ export function DynamicDataPrivacy(
   partnerPrefix: string
 ): Observable<string> | void {
   if (!partnerPrefix) {
-    return;
+    return translocoService.selectTranslate('legal.schaefflerDataPrivacy');
   }
 
   return translocoService.selectTranslate(
