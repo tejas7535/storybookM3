@@ -1,4 +1,12 @@
 # Release Notes of Grease App
+## [1.12.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.3...ga-v1.12.4) (2024-07-31)
+
+
+### Bug Fixes
+
+* **ga:** add firebase hint to the legal documents in GA ([#6419](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6419)) ([b9abd59](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b9abd59d0654ab9eaaa8e392aee65b0e1a4a1aac))
+* **ga:** add firebase hint to the legal documents in GA ([#6420](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6420)) ([5618420](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/56184207e518422f5b393db587b9d496d8f9189e))
+
 ## [1.12.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.2...ga-v1.12.3) (2024-07-31)
 
 
