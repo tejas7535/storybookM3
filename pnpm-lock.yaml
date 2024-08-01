@@ -25,8 +25,8 @@ importers:
   .:
     dependencies:
       '@altack/ngx-onetrust':
-        specifier: 1.3.1
-        version: 1.3.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
+        specifier: 1.5.0
+        version: 1.5.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))
       '@angular/animations':
         specifier: 18.1.0
         version: 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))
@@ -567,12 +567,11 @@ packages:
   '@adobe/css-tools@4.3.3':
     resolution: {integrity: sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@adobe/css-tools/-/css-tools-4.3.3.tgz}
 
-  '@altack/ngx-onetrust@1.3.1':
-    resolution: {integrity: sha512-jD1a+999FP32cL2dBaLGU24ACaKBO2bBSObo4jfYpNSBZWsk5LS+7QO+WfC7lZvxpgQItH5s9u5cni8dnjV2wg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@altack/ngx-onetrust/-/ngx-onetrust-1.3.1.tgz}
+  '@altack/ngx-onetrust@1.5.0':
+    resolution: {integrity: sha512-dGkpcVDY7IqvVTpk1HjTr2NUfi9YoCuy2dQALyDkx9eIb68Pz6zU44/SjIXDf+3wiUzO2HI3cQ9vUBMV2NpQSw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@altack/ngx-onetrust/-/ngx-onetrust-1.5.0.tgz}
     peerDependencies:
-      '@angular/common': ^13.2.0
-      '@angular/core': ^13.2.0
-      rxjs: ^6.6.0
+      '@angular/common': ^15.0.0
+      '@angular/core': ^15.0.0
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@ampproject/remapping/-/remapping-2.3.0.tgz}
@@ -13343,11 +13342,10 @@ snapshots:
 
   '@adobe/css-tools@4.3.3': {}
 
-  '@altack/ngx-onetrust@1.3.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)':
+  '@altack/ngx-onetrust@1.5.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))':
     dependencies:
       '@angular/common': 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/core': 18.1.0(rxjs@7.8.1)(zone.js@0.14.7)
-      rxjs: 7.8.1
       tslib: 2.4.0
 
   '@ampproject/remapping@2.3.0':
