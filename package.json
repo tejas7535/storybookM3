@@ -128,7 +128,7 @@
     "@storybook/core-server": "7.6.20",
     "@testing-library/jest-dom": "5.16.5",
     "@types/jest": "29.4.4",
-    "@types/node": "18.16.9",
+    "@types/node": "18.19.42",
     "@types/testing-library__jest-dom": "5.14.5",
     "@typescript-eslint/eslint-plugin": "7.9.0",
     "@typescript-eslint/parser": "7.9.0",
