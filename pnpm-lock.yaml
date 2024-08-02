@@ -195,7 +195,7 @@ importers:
         version: 17.8.1
       '@commitlint/cz-commitlint':
         specifier: 17.8.1
-        version: 17.8.1(@swc/core@1.4.16)(commitizen@4.2.5(@types/node@18.16.9)(typescript@5.4.5))(inquirer@9.2.22)
+        version: 17.8.1(@swc/core@1.4.16)(commitizen@4.3.0(@types/node@18.16.9)(typescript@5.4.5))(inquirer@9.2.22)
       '@geometricpanda/storybook-addon-badges':
         specifier: 2.0.2
         version: 2.0.2(@storybook/blocks@7.6.20(@types/react-dom@16.9.24)(@types/react@18.2.79)(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@storybook/components@7.6.20(@types/react-dom@16.9.24)(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@storybook/core-events@7.6.20)(@storybook/manager-api@7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@storybook/preview-api@7.6.20)(@storybook/theming@7.6.20(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(@storybook/types@7.6.20)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -299,8 +299,8 @@ importers:
         specifier: 1.0.5
         version: 1.0.5
       commitizen:
-        specifier: 4.2.5
-        version: 4.2.5(@types/node@18.16.9)(typescript@5.4.5)
+        specifier: 4.3.0
+        version: 4.3.0(@types/node@18.16.9)(typescript@5.4.5)
       cypress:
         specifier: 13.9.0
         version: 13.9.0
@@ -6455,8 +6455,8 @@ packages:
     resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/commander/-/commander-9.5.0.tgz}
     engines: {node: ^12.20.0 || >=14}
 
-  commitizen@4.2.5:
-    resolution: {integrity: sha512-9sXju8Qrz1B4Tw7kC5KhnvwYQN88qs2zbiB8oyMsnXZyJ24PPGiNM3nHr73d32dnE3i8VJEXddBFIbOgYSEXtQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/commitizen/-/commitizen-4.2.5.tgz}
+  commitizen@4.3.0:
+    resolution: {integrity: sha512-H0iNtClNEhT0fotHvGV3E9tDejDeS04sN1veIebsKYGMuGscFaswRoYJKmT3eW85eIJAs0F28bG2+a/9wCOfPw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/commitizen/-/commitizen-4.3.0.tgz}
     engines: {node: '>= 12'}
     hasBin: true
 
@@ -8617,8 +8617,8 @@ packages:
   injection-js@2.4.0:
     resolution: {integrity: sha512-6jiJt0tCAo9zjHbcwLiPL+IuNe9SQ6a9g0PEzafThW3fOQi0mrmiJGBJvDD6tmhPh8cQHIQtCOrJuBfQME4kPA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/injection-js/-/injection-js-2.4.0.tgz}
 
-  inquirer@8.2.4:
-    resolution: {integrity: sha512-nn4F01dxU8VeKfq192IjLsxu0/OmMZ4Lg3xKAns148rCaXP6ntAoEkVYZThWjwON8AlzdZZi6oqnhNbxUG9hVg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/inquirer/-/inquirer-8.2.4.tgz}
+  inquirer@8.2.5:
+    resolution: {integrity: sha512-QAgPDQMEgrDssk1XiwwHoOGYF9BAbUcc1+j+FhEvaOt8/cKRqyLn0U5qA6F74fGhTMGxf92pOvPBeh29jQJDTQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/inquirer/-/inquirer-8.2.5.tgz}
     engines: {node: '>=12.0.0'}
 
   inquirer@8.2.6:
@@ -9894,8 +9894,8 @@ packages:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/minimist-options/-/minimist-options-4.1.0.tgz}
     engines: {node: '>= 6'}
 
-  minimist@1.2.6:
-    resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/minimist/-/minimist-1.2.6.tgz}
+  minimist@1.2.7:
+    resolution: {integrity: sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/minimist/-/minimist-1.2.7.tgz}
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/minimist/-/minimist-1.2.8.tgz}
@@ -15946,16 +15946,16 @@ snapshots:
   '@commitlint/config-validator@19.0.3':
     dependencies:
       '@commitlint/types': 19.0.3
-      ajv: 8.13.0
+      ajv: 8.16.0
     optional: true
 
-  '@commitlint/cz-commitlint@17.8.1(@swc/core@1.4.16)(commitizen@4.2.5(@types/node@18.16.9)(typescript@5.4.5))(inquirer@9.2.22)':
+  '@commitlint/cz-commitlint@17.8.1(@swc/core@1.4.16)(commitizen@4.3.0(@types/node@18.16.9)(typescript@5.4.5))(inquirer@9.2.22)':
     dependencies:
       '@commitlint/ensure': 17.8.1
       '@commitlint/load': 17.8.1(@swc/core@1.4.16)
       '@commitlint/types': 17.8.1
       chalk: 4.1.2
-      commitizen: 4.2.5(@types/node@18.16.9)(typescript@5.4.5)
+      commitizen: 4.3.0(@types/node@18.16.9)(typescript@5.4.5)
       inquirer: 9.2.22
       lodash.isplainobject: 4.0.6
       word-wrap: 1.2.5
@@ -22073,7 +22073,7 @@ snapshots:
 
   commander@9.5.0: {}
 
-  commitizen@4.2.5(@types/node@18.16.9)(typescript@5.4.5):
+  commitizen@4.3.0(@types/node@18.16.9)(typescript@5.4.5):
     dependencies:
       cachedir: 2.3.0
       cz-conventional-changelog: 3.3.0(@types/node@18.16.9)(typescript@5.4.5)
@@ -22083,10 +22083,10 @@ snapshots:
       find-root: 1.1.0
       fs-extra: 9.1.0
       glob: 7.2.3
-      inquirer: 8.2.4
+      inquirer: 8.2.5
       is-utf8: 0.2.1
       lodash: 4.17.21
-      minimist: 1.2.6
+      minimist: 1.2.7
       strip-bom: 4.0.0
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -22708,7 +22708,7 @@ snapshots:
   cz-conventional-changelog@3.3.0(@types/node@18.16.9)(typescript@5.4.5):
     dependencies:
       chalk: 2.4.2
-      commitizen: 4.2.5(@types/node@18.16.9)(typescript@5.4.5)
+      commitizen: 4.3.0(@types/node@18.16.9)(typescript@5.4.5)
       conventional-commit-types: 3.0.0
       lodash.map: 4.6.0
       longest: 2.0.1
@@ -24764,7 +24764,7 @@ snapshots:
     dependencies:
       tslib: 2.4.0
 
-  inquirer@8.2.4:
+  inquirer@8.2.5:
     dependencies:
       ansi-escapes: 4.3.2
       chalk: 4.1.2
@@ -26385,7 +26385,7 @@ snapshots:
       is-plain-obj: 1.1.0
       kind-of: 6.0.3
 
-  minimist@1.2.6: {}
+  minimist@1.2.7: {}
 
   minimist@1.2.8: {}
 
