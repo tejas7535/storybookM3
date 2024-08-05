@@ -4,14 +4,14 @@
 >
   <div
     class="flex flex-col gap-2"
-    [ngClass]="(isPaginationVisible$ | ngrxPush) ? '' : '@apply hidden'"
+    [ngClass]="paginationState.isVisible ? '' : '@apply hidden'"
   >
     <div class="flex gap-3 items-center grid-auto-columns: min-content">
       <div>
         {{
           t('pages', {
-            pagesStartIndex: this.paginationControlsService.currentPage + 1,
-            pagesEndIndex: totalPages
+            pagesStartIndex: paginationState.currentPage + 1,
+            pagesEndIndex: paginationState.totalPages
           })
         }}
       </div>
@@ -22,10 +22,12 @@
         <button
           mat-raised-button
           [matMenuTriggerFor]="menu"
-          [disabled]="disabled"
-          [ngClass]="disabled ? 'icon-disabled' : 'icon-enabled'"
+          [disabled]="paginationState.isDisabled"
+          [ngClass]="
+            paginationState.isDisabled ? 'icon-disabled' : 'icon-enabled'
+          "
         >
-          {{ pageSize }}
+          {{ (paginationState$ | ngrxPush).pageSize }}
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu xPosition="after" yPosition="above" #menu="matMenu">
@@ -41,9 +43,9 @@
       <div>
         {{
           t('range', {
-            rangeStartIndex: rangeStartIndex,
-            rangeEndIndex: rangeEndIndex,
-            totalRange: totalRange
+            rangeStartIndex: paginationState.currentRangeStartIndex,
+            rangeEndIndex: paginationState.currentRangeEndIndex,
+            totalRange: paginationState.totalRange
           })
         }}
       </div>
@@ -51,11 +53,11 @@
         <button
           mat-icon-button
           [disabled]="
-            disabled || this.paginationControlsService.currentPage === 0
+            paginationState.isDisabled || paginationState.currentPage === 0
           "
           (click)="onPageChange(paginationType.FIRST)"
           [ngClass]="
-            disabled || this.paginationControlsService.currentPage === 0
+            paginationState.isDisabled || paginationState.currentPage === 0
               ? 'icon-disabled'
               : 'icon-enabled'
           "
@@ -65,11 +67,11 @@
         <button
           mat-icon-button
           [disabled]="
-            disabled || this.paginationControlsService.currentPage <= 0
+            paginationState.isDisabled || paginationState.currentPage <= 0
           "
           (click)="onPageChange(paginationType.PREVIOUS)"
           [ngClass]="
-            disabled || this.paginationControlsService.currentPage <= 0
+            paginationState.isDisabled || paginationState.currentPage <= 0
               ? 'icon-disabled'
               : 'icon-enabled'
           "
@@ -79,13 +81,13 @@
         <button
           mat-icon-button
           [disabled]="
-            disabled ||
-            this.paginationControlsService.currentPage + 1 >= totalPages
+            paginationState.isDisabled ||
+            paginationState.currentPage + 1 >= paginationState.totalPages
           "
           (click)="onPageChange(paginationType.NEXT)"
           [ngClass]="
-            disabled ||
-            this.paginationControlsService.currentPage + 1 >= totalPages
+            paginationState.isDisabled ||
+            paginationState.currentPage + 1 >= paginationState.totalPages
               ? 'icon-disabled'
               : 'icon-enabled'
           "
@@ -95,13 +97,13 @@
         <button
           mat-icon-button
           [disabled]="
-            disabled ||
-            this.paginationControlsService.currentPage + 1 === totalPages
+            paginationState.isDisabled ||
+            paginationState.currentPage + 1 === paginationState.totalPages
           "
           (click)="onPageChange(paginationType.LAST)"
           [ngClass]="
-            disabled ||
-            this.paginationControlsService.currentPage + 1 === totalPages
+            paginationState.isDisabled ||
+            paginationState.currentPage + 1 === paginationState.totalPages
               ? 'icon-disabled'
               : 'icon-enabled'
           "

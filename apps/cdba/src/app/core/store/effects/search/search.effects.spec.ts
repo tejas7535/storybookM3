@@ -7,7 +7,6 @@ import {
 } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
@@ -24,7 +23,6 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  changePaginationVisibility,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -32,6 +30,7 @@ import {
   search,
   searchFailure,
   searchSuccess,
+  updatePaginationState,
 } from '../../actions';
 import {
   FilterItem,
@@ -395,42 +394,16 @@ describe('Search Effects', () => {
 
   describe('resetPaginationVisibility$', () => {
     it(
-      'should dispatch changePaginationVisibility action when navigating to /search page for other than first time',
+      'should dispatch changePaginationVisibility action when searching for reference types',
       marbles((m) => {
-        action = {
-          type: ROUTER_NAVIGATED,
-          payload: {
-            event: {
-              id: 2,
-              urlAfterRedirects: '/search',
-            },
-          },
-        } as RouterNavigatedAction;
+        action = search;
 
         actions$ = m.hot('-a', { a: action });
 
-        const result = changePaginationVisibility({ isVisible: false });
+        const result = updatePaginationState({ paginationState: undefined });
         const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.resetPaginationVisibility$).toBeObservable(expected);
-      })
-    );
-    it(
-      'should not dispatch changePaginationVisibility action when navigating to other pages',
-      marbles((m) => {
-        action = {
-          type: ROUTER_NAVIGATED,
-          payload: {
-            event: {
-              id: 2,
-              urlAfterRedirects: '/foo/bar',
-            },
-          },
-        } as RouterNavigatedAction;
-
-        actions$ = m.hot('-a', { a: action });
-
-        m.expect(effects.resetPaginationVisibility$).toBeObservable('');
+        m.expect(effects.resetPaginationState$).toBeObservable(expected);
       })
     );
   });

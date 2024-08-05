@@ -12,14 +12,14 @@ import {
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { GridApi } from 'ag-grid-community';
-import { MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { getPaginationVisibility } from '@cdba/core/store';
+import { getPaginationState, updatePaginationState } from '@cdba/core/store';
+import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
 import { PaginationType } from '@cdba/shared/constants/pagination';
+import { PAGINATION_STATE_MOCK } from '@cdba/testing/mocks';
 
-import { BetaFeatureModule } from '../../beta-feature/beta-feature.module';
 import { PaginationControlsComponent } from './pagination-controls.component';
 import { PaginationControlsService } from './service/pagination-controls.service';
 
@@ -35,19 +35,22 @@ describe('PaginationControlsComponent', () => {
       MatButtonModule,
       MatIconModule,
       MatMenuModule,
-      MockModule(BetaFeatureModule),
-      MockPipe(PushPipe),
+      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       mockProvider(PaginationControlsService, {
         getPageSizeFromLocalStorage: jest.fn(),
         setPageSizeToLocalStorage: jest.fn(),
-        range: 100,
-        pages: 1,
-        currentPage: 0,
       }),
-      provideMockStore({}),
+      provideMockStore({
+        selectors: [
+          {
+            selector: getPaginationState,
+            value: PAGINATION_STATE_MOCK,
+          },
+        ],
+      }),
     ],
     detectChanges: false,
   });
@@ -56,8 +59,6 @@ describe('PaginationControlsComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     store = spectator.inject(MockStore);
-
-    store.overrideSelector(getPaginationVisibility, true);
 
     const gridApi = {
       paginationSetPageSize: jest.fn(),
@@ -82,100 +83,94 @@ describe('PaginationControlsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOninit', () => {
+  describe('ngOnInit', () => {
     beforeEach(() => {
-      component['updateRangeIndexes'] = jest.fn();
-      component['paginationControlsService'].getPageSizeFromLocalStorage =
-        jest.fn(() => 1);
+      component['calculateRangeIndexes'] = jest.fn(() => ({
+        currentRangeStartIndex: 0,
+        currentRangeEndIndex: 1,
+      }));
     });
 
-    it('should initialise the component with enabled controls', waitForAsync(() => {
-      component.gridApi.paginationGetTotalPages = jest.fn(() => 10);
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should invoke calculateRangeIndexes', waitForAsync(() => {
+      const storeSpy = jest.spyOn(store, 'dispatch');
+
+      const expectedPaginationState = {
+        ...PAGINATION_STATE_MOCK,
+        currentRangeStartIndex: 0,
+        currentRangeEndIndex: 1,
+      } as PaginationState;
 
       component.ngOnInit();
 
-      component.isPaginationVisible$.subscribe({
-        next: (isVisible) => {
-          expect(isVisible).toBe(true);
+      expect(component.paginationStateSubscription).toBeTruthy();
+      component.paginationState$.subscribe({
+        next: (state: PaginationState) => {
+          expect(state).toEqual(PAGINATION_STATE_MOCK);
         },
       });
-
-      expect(component.pageSize).toEqual(1);
-      expect(component.totalRange).toEqual(100);
-      expect(component.totalPages).toEqual(1);
-
-      expect(component['updateRangeIndexes']).toHaveBeenCalledWith(1, 100);
-      expect(component.disabled).toEqual(false);
-    }));
-
-    it('should initialise the component with disabled controls', waitForAsync(() => {
-      component.gridApi.paginationGetTotalPages = jest.fn(() => 1);
-      component['paginationControlsService'].range = 1;
-
-      component.ngOnInit();
-
-      component.isPaginationVisible$.subscribe({
-        next: (isVisible) => {
-          expect(isVisible).toBe(true);
-        },
-      });
-
-      expect(component.pageSize).toEqual(1);
-      expect(component.totalRange).toEqual(1);
-      expect(component.totalPages).toEqual(1);
-      expect(component['updateRangeIndexes']).toHaveBeenCalledWith(1, 1);
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenCalledWith(
+        updatePaginationState({ paginationState: expectedPaginationState })
+      );
     }));
   });
 
   describe('onPageSizeChange', () => {
-    it('should change page size', () => {
+    let storeSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      component.paginationState = PAGINATION_STATE_MOCK;
+
+      component['calculateRangeIndexes'] = jest.fn(() => ({
+        currentRangeStartIndex: 0,
+        currentRangeEndIndex: 1,
+      }));
+
+      storeSpy = jest.spyOn(store, 'dispatch');
+
       jest.useFakeTimers();
-      component['updateRangeIndexes'] = jest.fn();
-      component.gridApi.paginationGetTotalPages = jest.fn();
-      const expectedPageSize = 100;
+    });
 
-      component.onPageSizeChange(expectedPageSize);
-
-      expect(component.disabled).toEqual(true);
-      expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
-      expect(component.pageSize).toEqual(expectedPageSize);
-      expect(
-        component['paginationControlsService'].setPageSizeToLocalStorage
-      ).toHaveBeenLastCalledWith(expectedPageSize);
-
-      jest.runAllTimers();
-
-      expect(component.gridApi.paginationSetPageSize).toHaveBeenCalledWith(
-        expectedPageSize
-      );
-      expect(component['updateRangeIndexes']).toHaveBeenCalledTimes(1);
-      expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
-      expect(component.gridApi.paginationGetTotalPages).toHaveBeenCalledTimes(
-        1
-      );
-      expect(component.disabled).toEqual(false);
-
+    afterEach(() => {
       jest.useRealTimers();
     });
-    it('should update indexes when page size decresed', () => {
-      jest.useFakeTimers();
-      component.pageSize = 100;
-      component.totalPages = 10;
-      component.totalRange = 1000;
-      component.gridApi.paginationGetCurrentPage = jest.fn(() => 2);
-      component.gridApi.paginationGetTotalPages = jest.fn(() => 20);
 
-      const expectedPageSize = 50;
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+    it('should update indexes when page size decreased', () => {
+      component.paginationState.pageSize = 100;
+      component.paginationState.totalPages = 10;
+      const expectedTotalRange = 1000;
+      component.paginationState.totalRange = expectedTotalRange;
+
+      const expectedCurrentPage = 2;
+      component.gridApi.paginationGetCurrentPage = jest.fn(
+        () => expectedCurrentPage
+      );
       const expectedTotalPages = 20;
-      const expectedRangeStartIndex = 101;
-      const expectedRangeEndIndex = 151;
+      component.gridApi.paginationGetTotalPages = jest.fn(
+        () => expectedTotalPages
+      );
+      const expectedRangeStartIndex = 0;
+      const expectedRangeEndIndex = 1;
+      const expectedPageSize = 50;
 
       component.onPageSizeChange(expectedPageSize);
 
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        1,
+        updatePaginationState({
+          paginationState: {
+            ...component.paginationState,
+            isDisabled: true,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
-      expect(component.pageSize).toEqual(expectedPageSize);
       expect(
         component['paginationControlsService'].setPageSizeToLocalStorage
       ).toHaveBeenLastCalledWith(expectedPageSize);
@@ -185,35 +180,57 @@ describe('PaginationControlsComponent', () => {
       expect(component.gridApi.paginationSetPageSize).toHaveBeenCalledWith(
         expectedPageSize
       );
-      expect(component.totalPages).toEqual(expectedTotalPages);
-      expect(component.rangeStartIndex).toEqual(expectedRangeStartIndex);
-      expect(component.rangeEndIndex).toEqual(expectedRangeEndIndex);
-      expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
+      expect(component['calculateRangeIndexes']).toHaveBeenCalledWith(50, 1000);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        2,
+        updatePaginationState({
+          paginationState: {
+            isDisabled: false,
+            isVisible: false,
+            currentPage: expectedCurrentPage,
+            totalPages: expectedTotalPages,
+            pageSize: expectedPageSize,
+            currentRangeStartIndex: expectedRangeStartIndex,
+            currentRangeEndIndex: expectedRangeEndIndex,
+            totalRange: expectedTotalRange,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.paginationGetTotalPages).toHaveBeenCalledTimes(
         1
       );
-      expect(component.disabled).toEqual(false);
-
-      jest.useRealTimers();
+      expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
     });
     it('should update indexes when page size increased', () => {
-      jest.useFakeTimers();
-      component.pageSize = 100;
-      component.totalPages = 10;
-      component.totalRange = 1000;
-      component.gridApi.paginationGetCurrentPage = jest.fn(() => 2);
-      component.gridApi.paginationGetTotalPages = jest.fn(() => 4);
+      component.paginationState.pageSize = 100;
+      component.paginationState.totalPages = 10;
+      const expectedTotalRange = 1000;
+      component.paginationState.totalRange = expectedTotalRange;
 
-      const expectedPageSize = 250;
+      const expectedCurrentPage = 2;
+      component.gridApi.paginationGetCurrentPage = jest.fn(
+        () => expectedCurrentPage
+      );
       const expectedTotalPages = 4;
-      const expectedRangeStartIndex = 501;
-      const expectedRangeEndIndex = 751;
+      component.gridApi.paginationGetTotalPages = jest.fn(
+        () => expectedTotalPages
+      );
+      const expectedRangeStartIndex = 0;
+      const expectedRangeEndIndex = 1;
+      const expectedPageSize = 250;
 
       component.onPageSizeChange(expectedPageSize);
 
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        1,
+        updatePaginationState({
+          paginationState: {
+            ...component.paginationState,
+            isDisabled: true,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
-      expect(component.pageSize).toEqual(expectedPageSize);
       expect(
         component['paginationControlsService'].setPageSizeToLocalStorage
       ).toHaveBeenLastCalledWith(expectedPageSize);
@@ -223,29 +240,76 @@ describe('PaginationControlsComponent', () => {
       expect(component.gridApi.paginationSetPageSize).toHaveBeenCalledWith(
         expectedPageSize
       );
-      expect(component.totalPages).toEqual(expectedTotalPages);
-      expect(component.rangeStartIndex).toEqual(expectedRangeStartIndex);
-      expect(component.rangeEndIndex).toEqual(expectedRangeEndIndex);
-      expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
+      expect(component['calculateRangeIndexes']).toHaveBeenNthCalledWith(
+        1,
+        250,
+        1000
+      );
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        2,
+        updatePaginationState({
+          paginationState: {
+            isDisabled: false,
+            isVisible: false,
+            currentPage: expectedCurrentPage,
+            totalPages: expectedTotalPages,
+            pageSize: expectedPageSize,
+            currentRangeStartIndex: expectedRangeStartIndex,
+            currentRangeEndIndex: expectedRangeEndIndex,
+            totalRange: expectedTotalRange,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.paginationGetTotalPages).toHaveBeenCalledTimes(
         1
       );
-      expect(component.disabled).toEqual(false);
-
-      jest.useRealTimers();
+      expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
     });
   });
+
   describe('onPageChange', () => {
+    let storeSpy: jest.SpyInstance;
+
     beforeEach(() => {
-      component['updateRangeIndexes'] = jest.fn();
+      component.paginationState = PAGINATION_STATE_MOCK;
+
+      component['calculateRangeIndexes'] = jest.fn(() => ({
+        currentRangeStartIndex: PAGINATION_STATE_MOCK.currentRangeStartIndex,
+        currentRangeEndIndex: PAGINATION_STATE_MOCK.currentRangeEndIndex,
+      }));
+
+      component.gridApi.paginationGetCurrentPage = jest.fn(
+        () => PAGINATION_STATE_MOCK.currentPage
+      );
+      component.gridApi.paginationGetTotalPages = jest.fn(
+        () => PAGINATION_STATE_MOCK.totalPages
+      );
+
+      storeSpy = jest.spyOn(store, 'dispatch');
+
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    afterAll(() => {
+      jest.clearAllMocks();
     });
 
     it('should go to first page', () => {
-      jest.useFakeTimers();
-
       component.onPageChange(PaginationType.FIRST);
 
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        1,
+        updatePaginationState({
+          paginationState: {
+            ...component.paginationState,
+            isDisabled: true,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();
@@ -254,51 +318,78 @@ describe('PaginationControlsComponent', () => {
         1
       );
       expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
-      expect(component['updateRangeIndexes']).toHaveBeenCalledTimes(1);
-      expect(component.disabled).toEqual(false);
-
-      jest.useRealTimers();
+      expect(component['calculateRangeIndexes']).toHaveBeenCalledTimes(1);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        2,
+        updatePaginationState({
+          paginationState: PAGINATION_STATE_MOCK,
+        })
+      );
     });
     it('should go to last page', () => {
-      jest.useFakeTimers();
-
       component.onPageChange(PaginationType.LAST);
 
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        1,
+        updatePaginationState({
+          paginationState: {
+            ...component.paginationState,
+            isDisabled: true,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();
 
       expect(component.gridApi.paginationGoToLastPage).toHaveBeenCalledTimes(1);
       expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
-      expect(component['updateRangeIndexes']).toHaveBeenCalledTimes(1);
-      expect(component.disabled).toEqual(false);
-
-      jest.useRealTimers();
+      expect(component['calculateRangeIndexes']).toHaveBeenCalledTimes(1);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        2,
+        updatePaginationState({
+          paginationState: PAGINATION_STATE_MOCK,
+        })
+      );
     });
     it('should go to next page', () => {
-      jest.useFakeTimers();
-
       component.onPageChange(PaginationType.NEXT);
 
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        1,
+        updatePaginationState({
+          paginationState: {
+            ...component.paginationState,
+            isDisabled: true,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();
 
       expect(component.gridApi.paginationGoToNextPage).toHaveBeenCalledTimes(1);
       expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
-      expect(component['updateRangeIndexes']).toHaveBeenCalledTimes(1);
-      expect(component.disabled).toEqual(false);
-
-      jest.useRealTimers();
+      expect(component['calculateRangeIndexes']).toHaveBeenCalledTimes(1);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        2,
+        updatePaginationState({
+          paginationState: PAGINATION_STATE_MOCK,
+        })
+      );
     });
     it('should go to previous page', () => {
-      jest.useFakeTimers();
-
       component.onPageChange(PaginationType.PREVIOUS);
 
-      expect(component.disabled).toEqual(true);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        1,
+        updatePaginationState({
+          paginationState: {
+            ...component.paginationState,
+            isDisabled: true,
+          } as PaginationState,
+        })
+      );
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalledTimes(1);
 
       jest.runAllTimers();
@@ -307,68 +398,67 @@ describe('PaginationControlsComponent', () => {
         component.gridApi.paginationGoToPreviousPage
       ).toHaveBeenCalledTimes(1);
       expect(component.gridApi.hideOverlay).toHaveBeenCalledTimes(1);
-      expect(component['updateRangeIndexes']).toHaveBeenCalledTimes(1);
-      expect(component.disabled).toEqual(false);
-
-      jest.useRealTimers();
+      expect(component['calculateRangeIndexes']).toHaveBeenCalledTimes(1);
+      expect(storeSpy).toHaveBeenNthCalledWith(
+        2,
+        updatePaginationState({
+          paginationState: PAGINATION_STATE_MOCK,
+        })
+      );
     });
     it('should throw error on unhandled pagination type', () => {
-      jest.useFakeTimers();
-
       component.onPageChange({} as PaginationType);
 
       expect(() => {
         jest.runAllTimers();
       }).toThrowError(new Error('Unhandled pagination event type'));
-
-      jest.useRealTimers();
     });
   });
 
-  describe('updateRangeIndexes', () => {
+  describe('calculateRangeIndexes', () => {
     it('should update range indexes when range = page size', () => {
-      component['updateRangeIndexes'](100, 100);
+      const result = component['calculateRangeIndexes'](100, 100);
 
-      expect(component.rangeStartIndex).toEqual(1);
-      expect(component.rangeEndIndex).toEqual(100);
+      expect(result.currentRangeStartIndex).toEqual(1);
+      expect(result.currentRangeEndIndex).toEqual(100);
     });
     it('should update range indexes when range < page size', () => {
-      component['updateRangeIndexes'](100, 90);
+      const result = component['calculateRangeIndexes'](100, 90);
 
-      expect(component.rangeStartIndex).toEqual(1);
-      expect(component.rangeEndIndex).toEqual(90);
+      expect(result.currentRangeStartIndex).toEqual(1);
+      expect(result.currentRangeEndIndex).toEqual(90);
     });
     it('should update range indexes when range > page size, page = first', () => {
-      component.gridApi.paginationGetCurrentPage = jest.fn(() => 0);
+      component.paginationState.currentPage = 0;
 
-      component['updateRangeIndexes'](100, 1000);
+      const result = component['calculateRangeIndexes'](100, 1000);
 
-      expect(component.rangeStartIndex).toEqual(1);
-      expect(component.rangeEndIndex).toEqual(100);
+      expect(result.currentRangeStartIndex).toEqual(1);
+      expect(result.currentRangeEndIndex).toEqual(100);
     });
     it('should update range indexes when range > page size, page != first & page != last', () => {
-      component.gridApi.paginationGetCurrentPage = jest.fn(() => 3);
+      component.paginationState.currentPage = 3;
 
-      component['updateRangeIndexes'](100, 1000);
+      const result = component['calculateRangeIndexes'](100, 1000);
 
-      expect(component.rangeStartIndex).toEqual(301);
-      expect(component.rangeEndIndex).toEqual(401);
+      expect(result.currentRangeStartIndex).toEqual(301);
+      expect(result.currentRangeEndIndex).toEqual(401);
     });
     it('should update range indexes when range > page size, page = last', () => {
-      component.gridApi.paginationGetCurrentPage = jest.fn(() => 9);
+      component.paginationState.currentPage = 9;
 
-      component['updateRangeIndexes'](100, 1000);
+      const result = component['calculateRangeIndexes'](100, 1000);
 
-      expect(component.rangeStartIndex).toEqual(901);
-      expect(component.rangeEndIndex).toEqual(1000);
+      expect(result.currentRangeStartIndex).toEqual(901);
+      expect(result.currentRangeEndIndex).toEqual(1000);
     });
     it('should update range indexes when range > page size, page = last, uneven range', () => {
-      component.gridApi.paginationGetCurrentPage = jest.fn(() => 9);
+      component.paginationState.currentPage = 9;
 
-      component['updateRangeIndexes'](100, 988);
+      const result = component['calculateRangeIndexes'](100, 988);
 
-      expect(component.rangeStartIndex).toEqual(901);
-      expect(component.rangeEndIndex).toEqual(988);
+      expect(result.currentRangeStartIndex).toEqual(901);
+      expect(result.currentRangeEndIndex).toEqual(988);
     });
   });
 });

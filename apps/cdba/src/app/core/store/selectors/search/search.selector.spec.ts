@@ -2,13 +2,19 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { ReferenceType } from '@cdba/shared/models';
 
-import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import {
+  PAGINATION_STATE_MOCK,
+  REFERENCE_TYPE_MOCK,
+} from '../../../../../../src/testing/mocks';
 import {
   FilterItemIdValue,
   FilterItemIdValueUpdate,
   FilterItemRange,
 } from '../../reducers/search/models';
-import { initialState } from '../../reducers/search/search.reducer';
+import {
+  initialState,
+  SearchState,
+} from '../../reducers/search/search.reducer';
 import {
   getChangedFilters,
   getChangedIdValueFilters,
@@ -18,7 +24,7 @@ import {
   getIsDirty,
   getMaterialDesignationOfSelectedRefType,
   getNoResultsFound,
-  getPaginationVisibility,
+  getPaginationState,
   getReferenceTypes,
   getReferenceTypesLoading,
   getResultCount,
@@ -44,8 +50,9 @@ describe('Search Selector', () => {
         ...initialState.referenceTypes,
         items: [REFERENCE_TYPE_MOCK],
         selectedNodeIds: ['2', '3'],
+        paginationState: PAGINATION_STATE_MOCK,
       },
-    },
+    } as SearchState,
   };
 
   let customer: FilterItemIdValue;
@@ -427,7 +434,7 @@ describe('Search Selector', () => {
 
   describe('getPaginationState', () => {
     it('should return the pagination state', () => {
-      expect(getPaginationVisibility(fakeState)).toBe(false);
+      expect(getPaginationState(fakeState)).toEqual(PAGINATION_STATE_MOCK);
     });
   });
 

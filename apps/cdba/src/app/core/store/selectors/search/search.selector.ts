@@ -139,9 +139,9 @@ export const getTooManyResultsThreshold = createSelector(
   (state: SearchState) => state.referenceTypes.tooManyResultsThreshold
 );
 
-export const getPaginationVisibility = createSelector(
+export const getPaginationState = createSelector(
   getSearchState,
-  (state: SearchState) => state.referenceTypes.isPaginationVisible
+  (state: SearchState) => state.referenceTypes.paginationState
 );
 
 export const getNoResultsFound = createSelector(

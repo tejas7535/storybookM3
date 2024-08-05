@@ -10,7 +10,6 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  changePaginationVisibility,
   deselectReferenceType,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -22,6 +21,7 @@ import {
   selectReferenceTypes,
   shareSearchResult,
   updateFilter,
+  updatePaginationState,
 } from '../../actions/search/search.actions';
 import {
   filterItemAdapter,
@@ -53,9 +53,20 @@ export interface SearchState {
     tooManyResults: boolean;
     tooManyResultsThreshold: number;
     resultCount: number;
-    isPaginationVisible: boolean;
+    paginationState: PaginationState;
     errorMessage: string;
   };
+}
+
+export interface PaginationState {
+  isDisabled: boolean;
+  isVisible: boolean;
+  pageSize: number;
+  currentPage: number;
+  currentRangeStartIndex: number;
+  currentRangeEndIndex: number;
+  totalPages: number;
+  totalRange: number;
 }
 
 export const initialState: SearchState = {
@@ -76,7 +87,7 @@ export const initialState: SearchState = {
     tooManyResults: false,
     tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
     resultCount: 0,
-    isPaginationVisible: false,
+    paginationState: undefined,
     errorMessage: undefined,
   },
 };
@@ -175,14 +186,14 @@ export const searchReducer = createReducer(
     })
   ),
 
-  // pagination state change
+  // pagination state changes
   on(
-    changePaginationVisibility,
-    (state: SearchState, { isVisible }): SearchState => ({
+    updatePaginationState,
+    (state: SearchState, { paginationState }): SearchState => ({
       ...state,
       referenceTypes: {
         ...state.referenceTypes,
-        isPaginationVisible: isVisible,
+        paginationState,
       },
     })
   ),

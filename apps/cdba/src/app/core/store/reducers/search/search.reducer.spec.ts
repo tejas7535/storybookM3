@@ -4,7 +4,10 @@ import { Action } from '@ngrx/store';
 import { StringOption } from '@schaeffler/inputs';
 
 import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
-import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
+import {
+  PAGINATION_STATE_MOCK,
+  REFERENCE_TYPE_MOCK,
+} from '@cdba/testing/mocks';
 
 import {
   applyTextSearch,
@@ -13,7 +16,6 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  changePaginationVisibility,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -24,6 +26,7 @@ import {
   selectReferenceTypes,
   shareSearchResult,
   updateFilter,
+  updatePaginationState,
 } from '../../actions/search/search.actions';
 import {
   FilterItem,
@@ -251,13 +254,17 @@ describe('Search Reducer', () => {
     });
   });
 
-  describe('changePaginationVisibility', () => {
-    it('should change the state of pagination flag', () => {
-      const action = changePaginationVisibility({ isVisible: true });
+  describe('updatePaginationState', () => {
+    it('should change the state of pagination', () => {
+      const action = updatePaginationState({
+        paginationState: PAGINATION_STATE_MOCK,
+      });
 
       const state = searchReducer(initialState, action);
 
-      expect(state.referenceTypes.isPaginationVisible).toBe(true);
+      expect(state.referenceTypes.paginationState).toEqual(
+        PAGINATION_STATE_MOCK
+      );
     });
   });
 

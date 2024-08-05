@@ -5,6 +5,7 @@ import {
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
+import { PaginationState } from '../../reducers/search/search.reducer';
 
 export const loadInitialFilters = createAction('[Search] Load Initial Filters');
 
@@ -30,9 +31,9 @@ export const searchFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const changePaginationVisibility = createAction(
-  '[Search] Change Pagination State',
-  props<{ isVisible: boolean }>()
+export const updatePaginationState = createAction(
+  '[Search] Update Pagination State',
+  props<{ paginationState: PaginationState }>()
 );
 
 export const updateFilter = createAction(
@@ -101,7 +102,7 @@ const all = union({
   autocompleteFailure,
   selectReferenceTypes,
   deselectReferenceType,
-  changePaginationVisibility,
+  updatePaginationState,
 });
 
 export type SearchActions = typeof all;

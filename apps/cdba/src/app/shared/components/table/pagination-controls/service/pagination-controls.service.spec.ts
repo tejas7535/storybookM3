@@ -30,26 +30,6 @@ describe('PaginationControlsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getters/setters', () => {
-    it('should set and get the current page', () => {
-      const pageNumber = 2;
-      service.currentPage = pageNumber;
-      expect(service.currentPage).toEqual(pageNumber);
-    });
-
-    it('should set and get the number of pages', () => {
-      const pageCount = 5;
-      service.pages = pageCount;
-      expect(service.pages).toEqual(pageCount);
-    });
-
-    it('should set and get the range', () => {
-      const range = 10;
-      service.range = range;
-      expect(service.range).toEqual(range);
-    });
-  });
-
   describe('setPageSizeToLocalStorage', () => {
     it('should set page size to local storage when valid size is provided', () => {
       const pageSize = 100;

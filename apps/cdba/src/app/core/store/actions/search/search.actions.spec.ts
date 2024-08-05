@@ -16,7 +16,6 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  changePaginationVisibility,
   deselectReferenceType,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -28,6 +27,7 @@ import {
   selectReferenceTypes,
   shareSearchResult,
   updateFilter,
+  updatePaginationState,
 } from './search.actions';
 
 describe('Search Actions', () => {
@@ -253,11 +253,11 @@ describe('Search Actions', () => {
 
   describe('Pagination Actions', () => {
     test('changePaginationVisibility', () => {
-      const action = changePaginationVisibility({ isVisible: true });
+      const action = updatePaginationState({ paginationState: undefined });
 
       expect(action).toEqual({
-        type: '[Search] Change Pagination State',
-        isVisible: true,
+        type: '[Search] Update Pagination State',
+        paginationState: undefined,
       });
     });
   });

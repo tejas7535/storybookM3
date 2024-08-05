@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
@@ -18,7 +17,6 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  changePaginationVisibility,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -26,6 +24,7 @@ import {
   search,
   searchFailure,
   searchSuccess,
+  updatePaginationState,
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
 import {
@@ -128,17 +127,18 @@ export class SearchEffects {
   });
 
   /**
-   * Set the pagination visibility to false when navigating to the search page
+   * Unset pagination when navigating to the search page
    */
-  resetPaginationVisibility$ = createEffect(() => {
+  resetPaginationState$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ROUTER_NAVIGATED),
-      filter(
-        (action: any) =>
-          action.payload.event.id !== 1 &&
-          action.payload.event.urlAfterRedirects === '/search'
-      ),
-      map(() => changePaginationVisibility({ isVisible: false }))
+      ofType(search),
+      mergeMap((_) =>
+        of(
+          updatePaginationState({
+            paginationState: undefined,
+          })
+        )
+      )
     );
   });
 

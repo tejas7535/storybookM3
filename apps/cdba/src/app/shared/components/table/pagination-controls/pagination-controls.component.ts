@@ -1,13 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs/internal/Observable';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 import { Store } from '@ngrx/store';
 import { GridApi } from 'ag-grid-community';
 
-import { getPaginationVisibility } from '@cdba/core/store';
+import { getPaginationState, updatePaginationState } from '@cdba/core/store';
+import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
 import {
-  MIN_PAGE_SIZE,
   PAGE_SIZE_OPTIONS,
   PAGINATION_LOADING_TIMEOUT,
   PaginationType,
@@ -24,19 +24,13 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
   @Input()
   gridApi: GridApi;
 
-  disabled = false;
   readonly paginationType = PaginationType;
 
-  pageSize: number;
   pageSizeOptions = PAGE_SIZE_OPTIONS;
 
-  totalRange: number;
-  totalPages: number;
-
-  rangeStartIndex = 0;
-  rangeEndIndex = 0;
-
-  isPaginationVisible$: Observable<boolean>;
+  paginationState: PaginationState;
+  paginationState$ = this.store.select(getPaginationState);
+  paginationStateSubscription: Subscription = new Subscription();
 
   private readonly PAGINATION_LOADING_TIMEOUT = PAGINATION_LOADING_TIMEOUT;
 
@@ -46,48 +40,83 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isPaginationVisible$ = this.store.select(getPaginationVisibility);
+    this.paginationStateSubscription = this.paginationState$.subscribe({
+      next: (state: PaginationState) => (this.paginationState = state),
+    });
 
-    this.pageSize =
-      this.paginationControlsService.getPageSizeFromLocalStorage();
+    const indexes = this.calculateRangeIndexes(
+      this.paginationState.pageSize,
+      this.paginationState.totalRange
+    );
 
-    this.totalRange = this.paginationControlsService.range;
-    this.totalPages = this.paginationControlsService.pages;
-
-    this.updateRangeIndexes(this.pageSize, this.totalRange);
-
-    this.disabled = this.paginationControlsService.range <= MIN_PAGE_SIZE;
+    this.store.dispatch(
+      updatePaginationState({
+        paginationState: {
+          ...this.paginationState,
+          currentRangeStartIndex: indexes.currentRangeStartIndex,
+          currentRangeEndIndex: indexes.currentRangeEndIndex,
+        } as PaginationState,
+      })
+    );
   }
 
   ngOnDestroy(): void {
-    this.paginationControlsService.currentPage = 0;
-    this.paginationControlsService.pages = 0;
-    this.paginationControlsService.range = 0;
+    this.paginationStateSubscription.unsubscribe();
   }
 
   onPageSizeChange(pageSizeOption: number): void {
-    this.disabled = true;
+    this.store.dispatch(
+      updatePaginationState({
+        paginationState: {
+          ...this.paginationState,
+          isDisabled: true,
+        } as PaginationState,
+      })
+    );
     this.gridApi.showLoadingOverlay();
 
-    this.pageSize = pageSizeOption;
     this.paginationControlsService.setPageSizeToLocalStorage(pageSizeOption);
 
     // Without timeout AG Grid cannot render the loading overlay
     setTimeout(() => {
       this.gridApi.paginationSetPageSize(pageSizeOption);
-      this.updateRangeIndexes(this.pageSize, this.totalRange);
+
+      this.paginationState = {
+        ...this.paginationState,
+        currentPage: this.gridApi.paginationGetCurrentPage(),
+      };
+
+      const indexes = this.calculateRangeIndexes(
+        pageSizeOption,
+        this.paginationState.totalRange
+      );
+
+      this.store.dispatch(
+        updatePaginationState({
+          paginationState: {
+            ...this.paginationState,
+            isDisabled: false,
+            pageSize: pageSizeOption,
+            totalPages: this.gridApi.paginationGetTotalPages(),
+            currentRangeStartIndex: indexes.currentRangeStartIndex,
+            currentRangeEndIndex: indexes.currentRangeEndIndex,
+          } as PaginationState,
+        })
+      );
 
       this.gridApi.hideOverlay();
-
-      this.paginationControlsService.currentPage =
-        this.gridApi.paginationGetCurrentPage();
-      this.totalPages = this.gridApi.paginationGetTotalPages();
-      this.disabled = false;
     }, this.PAGINATION_LOADING_TIMEOUT);
   }
 
   onPageChange(paginationType: PaginationType): void {
-    this.disabled = true;
+    this.store.dispatch(
+      updatePaginationState({
+        paginationState: {
+          ...this.paginationState,
+          isDisabled: true,
+        } as PaginationState,
+      })
+    );
     this.gridApi.showLoadingOverlay();
 
     // Without timeout AG Grid cannot render the loading overlay
@@ -113,29 +142,55 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
           throw new Error('Unhandled pagination event type');
         }
       }
+
+      this.paginationState = {
+        ...this.paginationState,
+        currentPage: this.gridApi.paginationGetCurrentPage(),
+      };
+
+      const indexes = this.calculateRangeIndexes(
+        this.paginationState.pageSize,
+        this.paginationState.totalRange
+      );
+
+      this.store.dispatch(
+        updatePaginationState({
+          paginationState: {
+            ...this.paginationState,
+            isDisabled: false,
+            currentPage: this.gridApi.paginationGetCurrentPage(),
+            totalPages: this.gridApi.paginationGetTotalPages(),
+            currentRangeStartIndex: indexes.currentRangeStartIndex,
+            currentRangeEndIndex: indexes.currentRangeEndIndex,
+          } as PaginationState,
+        })
+      );
+
       this.gridApi.hideOverlay();
-      this.paginationControlsService.currentPage =
-        this.gridApi.paginationGetCurrentPage();
-      this.updateRangeIndexes(this.pageSize, this.totalRange);
-      this.disabled = false;
     }, this.PAGINATION_LOADING_TIMEOUT);
   }
 
-  private updateRangeIndexes(pageSize: number, totalRange: number): void {
+  private calculateRangeIndexes(
+    pageSize: number,
+    totalRange: number
+  ): { currentRangeStartIndex: number; currentRangeEndIndex: number } {
     if (totalRange <= pageSize) {
-      this.rangeStartIndex = 1;
-      this.rangeEndIndex = totalRange;
+      return { currentRangeStartIndex: 1, currentRangeEndIndex: totalRange };
     } else {
-      const currPageTmp = this.gridApi.paginationGetCurrentPage();
-      if (currPageTmp === 0) {
-        this.rangeStartIndex = 1;
-        this.rangeEndIndex = pageSize;
+      if (this.paginationState.currentPage === 0) {
+        return { currentRangeStartIndex: 1, currentRangeEndIndex: pageSize };
       } else {
-        this.rangeStartIndex = currPageTmp * pageSize + 1;
-        this.rangeEndIndex = Math.min(
-          this.rangeStartIndex + pageSize,
-          totalRange
-        );
+        const currRangeStartIndexTmp =
+          this.paginationState.currentPage * pageSize + 1;
+
+        return {
+          currentRangeStartIndex:
+            this.paginationState.currentPage * pageSize + 1,
+          currentRangeEndIndex: Math.min(
+            currRangeStartIndexTmp + pageSize,
+            totalRange
+          ),
+        };
       }
     }
   }

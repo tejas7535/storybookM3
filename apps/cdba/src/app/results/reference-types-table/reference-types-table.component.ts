@@ -28,14 +28,13 @@ import {
   StatusPanelDef,
 } from 'ag-grid-enterprise';
 
-import {
-  changePaginationVisibility,
-  getPaginationVisibility,
-} from '@cdba/core/store';
+import { getPaginationState, updatePaginationState } from '@cdba/core/store';
+import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
 import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
+import { MIN_PAGE_SIZE } from '@cdba/shared/constants/pagination';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
@@ -80,8 +79,8 @@ export class ReferenceTypesTableComponent
 
   rowHeight = 30;
 
-  paginationEnabled$ = this.store.select(getPaginationVisibility);
-  paginationPageSize: number;
+  paginationState: PaginationState;
+  paginationState$ = this.store.select(getPaginationState);
 
   components = {
     customLoadingOverlay: CustomLoadingOverlayComponent,
@@ -107,9 +106,10 @@ export class ReferenceTypesTableComponent
 
   private gridApi: GridApi;
 
-  private tableFilters: any;
+  private tableFilters: Record<string, any>;
 
   private filtersSubscription: Subscription = new Subscription();
+  private paginationStateSubscription: Subscription = new Subscription();
 
   constructor(
     private readonly agGridStateService: AgGridStateService,
@@ -120,17 +120,17 @@ export class ReferenceTypesTableComponent
   ) {}
 
   ngOnInit(): void {
-    this.filtersSubscription = this.tableStore.filters$.subscribe(
-      (filters) => (this.tableFilters = filters)
-    );
+    this.filtersSubscription = this.tableStore.filters$.subscribe({
+      next: (filters) => (this.tableFilters = filters),
+    });
 
-    this.paginationPageSize =
-      this.paginationControlsService.getPageSizeFromLocalStorage();
+    this.paginationStateSubscription = this.paginationState$.subscribe({
+      next: (state: PaginationState) => (this.paginationState = state),
+    });
 
-    this.paginationControlsService.pages = Math.ceil(
-      this.rowData.length / this.paginationPageSize
-    );
-    this.paginationControlsService.range = this.rowData.length;
+    if (this.paginationState === undefined) {
+      this.setupInitialPaginationState();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -141,6 +141,7 @@ export class ReferenceTypesTableComponent
 
   ngOnDestroy(): void {
     this.filtersSubscription.unsubscribe();
+    this.paginationStateSubscription.unsubscribe();
   }
 
   /**
@@ -169,17 +170,29 @@ export class ReferenceTypesTableComponent
 
     event.api.setRowData(this.rowData);
 
-    if (this.paginationControlsService.currentPage !== 0) {
-      this.gridApi.paginationGoToPage(
-        this.paginationControlsService.currentPage
-      );
+    if (this.paginationState.currentPage !== 0) {
+      this.gridApi.paginationGoToPage(this.paginationState.currentPage);
     }
 
     // Hide pagination component when row grouping is active
     if (event.columnApi.getRowGroupColumns().length > 0) {
-      this.store.dispatch(changePaginationVisibility({ isVisible: false }));
+      this.store.dispatch(
+        updatePaginationState({
+          paginationState: {
+            ...this.paginationState,
+            isVisible: false,
+          } as PaginationState,
+        })
+      );
     } else {
-      this.store.dispatch(changePaginationVisibility({ isVisible: true }));
+      this.store.dispatch(
+        updatePaginationState({
+          paginationState: {
+            ...this.paginationState,
+            isVisible: true,
+          } as PaginationState,
+        })
+      );
     }
   }
 
@@ -199,20 +212,31 @@ export class ReferenceTypesTableComponent
   }
 
   /**
-   * React upon user grouping columns. When row grouping is active AG Grid displays whole dataset in the table rendering custom pagination component unusable.
+   * React upon user grouping columns.
+   * When row grouping is active AG Grid displays whole dataset in the table making
+   * custom pagination component unusable.
    */
   onColumnRowGroupChanged(event: ColumnRowGroupChangedEvent): void {
     if (event.source === 'toolPanelUi') {
+      let isVisible: boolean;
       if (event.columns.length === 1 && !event.columns[0].isRowGroupActive()) {
-        this.store.dispatch(changePaginationVisibility({ isVisible: true }));
+        isVisible = true;
       } else if (
         event.columns.length === 1 &&
         event.columns[0].isRowGroupActive()
       ) {
-        this.store.dispatch(changePaginationVisibility({ isVisible: false }));
+        isVisible = false;
       } else if (event.columns.length > 1) {
-        this.store.dispatch(changePaginationVisibility({ isVisible: false }));
+        isVisible = false;
       }
+      this.store.dispatch(
+        updatePaginationState({
+          paginationState: {
+            ...this.paginationState,
+            isVisible,
+          } as PaginationState,
+        })
+      );
     }
   }
 
@@ -229,5 +253,22 @@ export class ReferenceTypesTableComponent
       );
       this.gridApi.setNodesSelected({ nodes, newValue: true, source: 'api' });
     }
+  }
+
+  private setupInitialPaginationState(): void {
+    const pageSize =
+      this.paginationControlsService.getPageSizeFromLocalStorage();
+    this.store.dispatch(
+      updatePaginationState({
+        paginationState: {
+          isVisible: true,
+          isDisabled: this.rowData.length <= MIN_PAGE_SIZE,
+          currentPage: 0,
+          pageSize,
+          totalPages: Math.ceil(this.rowData.length / pageSize),
+          totalRange: this.rowData.length,
+        } as PaginationState,
+      })
+    );
   }
 }
