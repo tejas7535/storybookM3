@@ -80,7 +80,12 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
         );
 
         if (!selectedEntry) {
-          return [...gpsds, this.selectedSectorGpsd];
+          const newGpsds = [...gpsds, this.selectedSectorGpsd];
+
+          // make sure that the added gpsd entry is put in the correct order by id (GQUOTE-819)
+          newGpsds.sort((a, b) => a.id.localeCompare(b.id));
+
+          return newGpsds;
         }
       }
 

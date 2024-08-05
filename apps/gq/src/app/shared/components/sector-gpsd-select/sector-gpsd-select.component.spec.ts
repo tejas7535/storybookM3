@@ -138,17 +138,17 @@ describe('SectorGpsdSelectComponent', () => {
       expect(component['selectedSectorGpsd']).toEqual(gpsd);
     });
 
-    test('should add selected gpsd to gpsds if not available in gpsds', (done) => {
-      const gpsd1 = { name: 'test', id: 'test' };
-      const gpsd2 = { name: 'test2', id: 'test2' };
-      const selected = { name: 'test3', id: 'test3' };
+    test('should add selected gpsd to gpsds if not available in gpsds (ordered)', (done) => {
+      const gpsd1 = { name: 'test', id: '123' };
+      const gpsd2 = { name: 'test2', id: '3443' };
+      const selected = { name: 'test3', id: '213' };
 
       component['onChange'] = jest.fn();
       component['onTouched'] = jest.fn();
       component['selectedSectorGpsd'] = selected;
       sectorGpsds$$.next([gpsd1, gpsd2]);
       component['sectorGpsds$'].pipe().subscribe((val) => {
-        expect(val).toEqual([gpsd1, gpsd2, selected]);
+        expect(val).toEqual([gpsd1, selected, gpsd2]);
         done();
       });
     });
