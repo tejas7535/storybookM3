@@ -8,6 +8,7 @@ import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
 import { OfferTypeResponse } from '@gq/shared/models/offer-type.interface';
+import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
 
 import {
@@ -61,6 +62,12 @@ export class QuotationService {
   getQuotation(gqId: number): Observable<Quotation> {
     return this.#http.get<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
+    );
+  }
+
+  getSapSyncStatus(gqId: number): Observable<QuotationSapSyncStatusResult> {
+    return this.#http.get<QuotationSapSyncStatusResult>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_SAP_SYNC_STATUS}`
     );
   }
 

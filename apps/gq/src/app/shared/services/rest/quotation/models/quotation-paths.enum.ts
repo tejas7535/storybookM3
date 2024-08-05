@@ -7,6 +7,7 @@ export enum QuotationPaths {
   PATH_CUSTOMER_QUOTATION = 'customers/quotations',
   PATH_CURRENCIES = 'currencies',
   PATH_SAP_QUOTATION = 'quotation/create-sap-quotation',
+  PATH_SAP_SYNC_STATUS = 'sap-sync-status',
   PATH_ATTACHMENTS = 'attachments',
   PATH_ATTACHMENT_DOWNLOAD = 'download',
   PURCHASE_ORDER_TYPES = 'purchase-order-types',

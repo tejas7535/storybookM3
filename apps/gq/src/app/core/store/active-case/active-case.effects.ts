@@ -530,7 +530,10 @@ export class ActiveCaseEffects {
                   ];
                 }
 
-                return [ActiveCaseActions.createSapQuoteSuccess({ quotation })];
+                return [
+                  ActiveCaseActions.createSapQuoteSuccess({ quotation }),
+                  ActiveCaseActions.getSapSyncStatusInInterval(),
+                ];
               }),
               catchError((errorMessage) =>
                 of(ActiveCaseActions.createSapQuoteFailure({ errorMessage }))

@@ -1112,8 +1112,9 @@ describe('ActiveCaseEffects', () => {
         const response = m.cold('-a|', {
           a: item,
         });
-        const expected = m.cold('--b', {
+        const expected = m.cold('--(bc)', {
           b: ActiveCaseActions.createSapQuoteSuccess({ quotation: item }),
+          c: ActiveCaseActions.getSapSyncStatusInInterval(),
         });
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
@@ -1139,8 +1140,9 @@ describe('ActiveCaseEffects', () => {
         const response = m.cold('-a|', {
           a: item,
         });
-        const expected = m.cold('--b', {
+        const expected = m.cold('--(bc)', {
           b: ActiveCaseActions.createSapQuoteSuccess({ quotation: item }),
+          c: ActiveCaseActions.getSapSyncStatusInInterval(),
         });
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);

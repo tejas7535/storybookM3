@@ -23,4 +23,5 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   attachments: [],
   attachmentErrorMessage: undefined,
   attachmentDeletionInProgress: false,
+  sapSyncStatusErrorMessage: undefined,
 };

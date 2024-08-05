@@ -43,6 +43,7 @@ export interface ActiveCaseState {
   attachments: QuotationAttachment[];
   attachmentErrorMessage: string;
   attachmentDeletionInProgress: boolean;
+  sapSyncStatusErrorMessage: string;
 }
 
 export const initialState: ActiveCaseState = {
@@ -67,6 +68,7 @@ export const initialState: ActiveCaseState = {
   attachmentErrorMessage: undefined,
   attachments: [],
   attachmentDeletionInProgress: false,
+  sapSyncStatusErrorMessage: undefined,
 };
 
 export const activeCaseFeature = createFeature({
@@ -560,6 +562,30 @@ export const activeCaseFeature = createFeature({
         ...state,
         attachments: [...attachments],
         attachmentDeletionInProgress: false,
+      })
+    ),
+    on(
+      ActiveCaseActions.getSapSyncStatusSuccess,
+      (state: ActiveCaseState, { result }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...state.quotation,
+          sapSyncStatus: result.sapSyncStatus,
+          quotationDetails: state.quotation.quotationDetails.map((q) => {
+            const detail = result.quotationDetailSapSyncStatusList.find(
+              (d) => d.gqPositionId === q.gqPositionId
+            );
+
+            return detail ? { ...q, sapSyncStatus: detail.sapSyncStatus } : q;
+          }),
+        },
+      })
+    ),
+    on(
+      ActiveCaseActions.getSapSyncStatusFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        sapSyncStatusErrorMessage: errorMessage,
       })
     )
   ),

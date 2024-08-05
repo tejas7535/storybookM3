@@ -10,6 +10,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { QuotationIdentifier } from './models/quotation-identifier.model';
 import { UpdateQuotationDetail } from './models/update-quotation-detail.model';
+import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 
 export const ActiveCaseActions = createActionGroup({
   source: 'Active Case',
@@ -138,5 +139,13 @@ export const ActiveCaseActions = createActionGroup({
       attachments: QuotationAttachment[];
     }>(),
     'Delete Attachment Failed': props<{ errorMessage: string }>(),
+
+    'Get Sap Sync Status in Interval': emptyProps(),
+    'Get Sap Sync Status': emptyProps(),
+    'Get Sap Sync Status Success': props<{
+      result: QuotationSapSyncStatusResult;
+    }>(),
+    'Get Sap Sync Status Failure': props<{ errorMessage: string }>(),
+    'Get Sap Sync Status Success Fully Completed': emptyProps(),
   },
 });

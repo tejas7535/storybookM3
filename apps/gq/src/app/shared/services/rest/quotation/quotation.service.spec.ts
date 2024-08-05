@@ -5,7 +5,12 @@ import {
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
-import { ApiVersion, QuotationStatus } from '@gq/shared/models';
+import {
+  ApiVersion,
+  QuotationStatus,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models';
+import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import {
   createServiceFactory,
   HttpMethod,
@@ -100,6 +105,29 @@ describe('QuotationService', () => {
 
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(mock);
+    });
+  });
+
+  describe('getSapSyncStatus', () => {
+    test('should call', () => {
+      const gqId = 1000;
+
+      const mock: QuotationSapSyncStatusResult = {
+        sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+        quotationDetailSapSyncStatusList: [
+          { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING },
+        ],
+      };
+
+      service.getSapSyncStatus(gqId).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_SAP_SYNC_STATUS}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
