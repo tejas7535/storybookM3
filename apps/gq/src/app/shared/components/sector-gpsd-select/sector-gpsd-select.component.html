@@ -14,8 +14,9 @@
       @for (type of sectorGpsds; track type.id) {
         <mat-option [value]="type">
           <div class="flex flex-row items-center">
+            <!-- if partner role is not in the DB we show the ID as a name (GQUOTE-4711) -->
             <span class="whitespace-nowrap w-80 text-subtitle-1">{{
-              type.name
+              type.name ?? type.id
             }}</span>
             @if (type.id && type.id !== 'NOT_AVAILABLE') {
               <span class="whitespace-nowrap text-caption text-medium-emphasis">

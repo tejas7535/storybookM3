@@ -73,6 +73,17 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
         return [this.NOT_AVAILABLE];
       }
 
+      // if quotation contains partner role that is not listed in the db, add it to all available gpsds (GQUOTE-4711)
+      if (this.selectedSectorGpsd?.id && gpsds) {
+        const selectedEntry = gpsds.find(
+          (entry) => entry.id === this.selectedSectorGpsd.id
+        );
+
+        if (!selectedEntry) {
+          return [...gpsds, this.selectedSectorGpsd];
+        }
+      }
+
       return gpsds;
     }),
 

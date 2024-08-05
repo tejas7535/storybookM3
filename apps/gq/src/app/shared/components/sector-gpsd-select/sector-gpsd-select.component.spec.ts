@@ -64,13 +64,25 @@ describe('SectorGpsdSelectComponent', () => {
   describe('Display and selection Behavior', () => {
     beforeEach(() => {
       component['selectedSectorGpsd'] = null;
+      component.sectorGpsdControl.disable();
     });
+
+    test('should select the first gpsd when standard option is not in the list', () => {
+      const gpsd1 = { name: 'test', id: 'test' };
+      const gpsd2 = { name: 'test2', id: 'test2' };
+      sectorGpsds$$.next([gpsd1, gpsd2]);
+      expect(component['selectedSectorGpsd']).toEqual(gpsd1);
+      expect(component.sectorGpsdControl.disabled).toBeFalsy();
+      expect(component.sectorGpsdControl.value).toEqual(gpsd1);
+    });
+
     test('should set disabled to FormControl when received gpsd list is undefined', () => {
       component.sectorGpsdControl.enable();
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      sectorGpsds$$.next(undefined);
+      component.sectorGpsdControl.setValue(undefined);
+      sectorGpsds$$.next(undefined as unknown as SectorGpsd[]);
       expect(component.sectorGpsdControl.disabled).toBeTruthy();
     });
+
     test(
       'should add Not_Available to the gpsd list when received gpsd list is empty and select it',
       marbles((m) => {
@@ -104,15 +116,6 @@ describe('SectorGpsdSelectComponent', () => {
       expect(component.sectorGpsdControl.value).toEqual(component.DEFAULT);
     });
 
-    test('should select the first gpsd when standard option is not in the list', () => {
-      const gpsd1 = { name: 'test', id: 'test' };
-      const gpsd2 = { name: 'test2', id: 'test2' };
-      sectorGpsds$$.next([gpsd1, gpsd2]);
-      expect(component['selectedSectorGpsd']).toEqual(gpsd1);
-      expect(component.sectorGpsdControl.disabled).toBeFalsy();
-      expect(component.sectorGpsdControl.value).toEqual(gpsd1);
-    });
-
     test('should not override selectedSectorGpsd when it is set by a formControl', () => {
       const gpsd = { name: 'test', id: 'test' };
       component['selectedSectorGpsd'] = gpsd;
@@ -133,6 +136,21 @@ describe('SectorGpsdSelectComponent', () => {
       expect(component.sectorGpsdSelected.emit).not.toHaveBeenCalledWith(gpsd);
 
       expect(component['selectedSectorGpsd']).toEqual(gpsd);
+    });
+
+    test('should add selected gpsd to gpsds if not available in gpsds', (done) => {
+      const gpsd1 = { name: 'test', id: 'test' };
+      const gpsd2 = { name: 'test2', id: 'test2' };
+      const selected = { name: 'test3', id: 'test3' };
+
+      component['onChange'] = jest.fn();
+      component['onTouched'] = jest.fn();
+      component['selectedSectorGpsd'] = selected;
+      sectorGpsds$$.next([gpsd1, gpsd2]);
+      component['sectorGpsds$'].pipe().subscribe((val) => {
+        expect(val).toEqual([gpsd1, gpsd2, selected]);
+        done();
+      });
     });
   });
   describe('selectionChange', () => {
