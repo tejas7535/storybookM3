@@ -22,22 +22,16 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',
-          items: ['1234567.89 g/1234567.89 mock_unit'],
+          items: ['1234567.9 g/1234567.9 mock_unit'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer365days',
-          items: [
-            '450617279.84999996 g/365 days',
-            '450617279.84999996 mock_unit/365 days',
-          ],
+          items: ['450617279.9 g/365 days', '450617279.9 mock_unit/365 days'],
         },
         {
           itemTitle:
             'calculationResult.relubricationQuantityPer1000OperatingHours',
-          items: [
-            '51440328.74999999 g/hours',
-            '51440328.74999999 mock_unit/hours',
-          ],
+          items: ['51440328.7 g/hours', '51440328.7 mock_unit/hours'],
         },
         {
           itemTitle: 'calculationResult.greaseServiceLife',
@@ -45,17 +39,11 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
         },
         {
           itemTitle: 'calculationResult.relubricationPer30days',
-          items: [
-            '37037036.699999996 g/30 days',
-            '37037036.699999996 mock_unit/30 days',
-          ],
+          items: ['37037036.7 g/30 days', '37037036.7 mock_unit/30 days'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer7days',
-          items: [
-            '8641975.229999999 g/7 days',
-            '8641975.229999999 mock_unit/7 days',
-          ],
+          items: ['8641975.2 g/7 days', '8641975.2 mock_unit/7 days'],
         },
         {
           itemTitle: 'calculationResult.viscosityRatio',
@@ -122,22 +110,16 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',
-          items: ['1234567.89 g/1234567.89 mock_unit'],
+          items: ['1234567.9 g/1234567.9 mock_unit'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer365days',
-          items: [
-            '450617279.84999996 g/365 days',
-            '450617279.84999996 mock_unit/365 days',
-          ],
+          items: ['450617279.9 g/365 days', '450617279.9 mock_unit/365 days'],
         },
         {
           itemTitle:
             'calculationResult.relubricationQuantityPer1000OperatingHours',
-          items: [
-            '51440328.74999999 g/hours',
-            '51440328.74999999 mock_unit/hours',
-          ],
+          items: ['51440328.7 g/hours', '51440328.7 mock_unit/hours'],
         },
         {
           itemTitle: 'calculationResult.greaseServiceLife',
@@ -145,17 +127,11 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
         },
         {
           itemTitle: 'calculationResult.relubricationPer30days',
-          items: [
-            '37037036.699999996 g/30 days',
-            '37037036.699999996 mock_unit/30 days',
-          ],
+          items: ['37037036.7 g/30 days', '37037036.7 mock_unit/30 days'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer7days',
-          items: [
-            '8641975.229999999 g/7 days',
-            '8641975.229999999 mock_unit/7 days',
-          ],
+          items: ['8641975.2 g/7 days', '8641975.2 mock_unit/7 days'],
         },
         {
           itemTitle: 'calculationResult.viscosityRatio',
@@ -209,22 +185,16 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
       items: [
         {
           itemTitle: 'calculationResult.initialGreaseQuantity',
-          items: ['1234567.89 g/1234567.89 mock_unit'],
+          items: ['1234567.9 g/1234567.9 mock_unit'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer365days',
-          items: [
-            '450617279.84999996 g/365 days',
-            '450617279.84999996 mock_unit/365 days',
-          ],
+          items: ['450617279.9 g/365 days', '450617279.9 mock_unit/365 days'],
         },
         {
           itemTitle:
             'calculationResult.relubricationQuantityPer1000OperatingHours',
-          items: [
-            '51440328.74999999 g/hours',
-            '51440328.74999999 mock_unit/hours',
-          ],
+          items: ['51440328.7 g/hours', '51440328.7 mock_unit/hours'],
         },
         {
           itemTitle: 'calculationResult.greaseServiceLife',
@@ -232,17 +202,11 @@ export const GREASE_PDF_RESULT_MOCK: GreasePdfResult = {
         },
         {
           itemTitle: 'calculationResult.relubricationPer30days',
-          items: [
-            '37037036.699999996 g/30 days',
-            '37037036.699999996 mock_unit/30 days',
-          ],
+          items: ['37037036.7 g/30 days', '37037036.7 mock_unit/30 days'],
         },
         {
           itemTitle: 'calculationResult.relubricationPer7days',
-          items: [
-            '8641975.229999999 g/7 days',
-            '8641975.229999999 mock_unit/7 days',
-          ],
+          items: ['8641975.2 g/7 days', '8641975.2 mock_unit/7 days'],
         },
         {
           itemTitle: 'calculationResult.viscosityRatio',

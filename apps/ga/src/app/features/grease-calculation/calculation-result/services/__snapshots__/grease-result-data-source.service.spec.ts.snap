@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GreaseResultDataSourceService initialGreaseQuantity should return the data source item 1`] = `
+Object {
+  "title": "initialGreaseQuantity",
+  "values": "<span>1234567.9 g</span><br><span class=\\"text-low-emphasis\\">1234567.9 mock_unit</span>",
+}
+`;
+
+exports[`GreaseResultDataSourceService relubricationPer7days should rounded result with prefix for small values 1`] = `
+Object {
+  "title": "relubricationPer7days",
+  "values": "<span>~ 0.1 g/7 days</span><br><span class=\\"text-low-emphasis\\">~ 0.1 mock_unit/7 days</span>",
+}
+`;
+
+exports[`GreaseResultDataSourceService relubricationPer365Days should return the data source item 1`] = `
+Object {
+  "title": "relubricationPer365days",
+  "tooltip": "relubricationQuantityPer365daysTooltip",
+  "values": "<span>450617279.9 g/365 days</span><br><span class=\\"text-low-emphasis\\">450617279.9 mock_unit/365 days</span>",
+}
+`;
+
+exports[`GreaseResultDataSourceService relubricationQuantityPer1000OperatingHours should return the data source item 1`] = `
+Object {
+  "title": "relubricationQuantityPer1000OperatingHours",
+  "values": "<span>51440328.8 g/hours</span><br><span class=\\"text-low-emphasis\\">51440328.8 mock_unit/hours</span>",
+}
+`;

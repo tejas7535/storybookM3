@@ -13,7 +13,6 @@ import {
   GREASE_PDF_MESSAGE,
   GREASE_RESULT_SUBORDINATES_MOCK,
 } from '@ga/testing/mocks';
-import { GREASE_PDF_RESULT_MOCK } from '@ga/testing/mocks/models/pdf/grease-pdf-result.mock';
 
 import { GreasePdfInput, GreasePdfMessage, GreasePdfResult } from '../models';
 import { GreaseReportDataGeneratorService } from './grease-report-data-generator.service';
@@ -83,7 +82,7 @@ describe('GreaseReportDataGeneratorService', () => {
         automaticallyLubricated
       );
 
-      expect(result).toEqual(GREASE_PDF_RESULT_MOCK);
+      expect(result).toMatchSnapshot();
     });
 
     it('should gracefully return empty data if empty input provided', () => {
@@ -110,29 +109,7 @@ describe('GreaseReportDataGeneratorService', () => {
         automaticallyLubricated
       );
 
-      expect(result).toEqual({
-        sectionTitle: GREASE_PDF_RESULT_MOCK.sectionTitle,
-        tableItems: [
-          {
-            title: GREASE_PDF_RESULT_MOCK.tableItems[0].title,
-            subTitle: GREASE_PDF_RESULT_MOCK.tableItems[0].subTitle,
-            items: GREASE_PDF_RESULT_MOCK.tableItems[0].items,
-            concept1: undefined,
-          },
-          {
-            title: GREASE_PDF_RESULT_MOCK.tableItems[1].title,
-            subTitle: GREASE_PDF_RESULT_MOCK.tableItems[1].subTitle,
-            items: GREASE_PDF_RESULT_MOCK.tableItems[1].items,
-            concept1: undefined,
-          },
-          {
-            title: GREASE_PDF_RESULT_MOCK.tableItems[2].title,
-            subTitle: GREASE_PDF_RESULT_MOCK.tableItems[2].subTitle,
-            items: GREASE_PDF_RESULT_MOCK.tableItems[2].items,
-            concept1: undefined,
-          },
-        ],
-      });
+      expect(result).toMatchSnapshot();
       expect(localizeNumber).toBeCalled();
     });
   });

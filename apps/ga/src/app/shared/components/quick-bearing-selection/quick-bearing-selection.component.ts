@@ -33,10 +33,10 @@ import {
   searchBearing,
   selectBearing,
 } from '@ga/core/store';
+import { getPartnerVersion } from '@ga/core/store/selectors/settings/settings.selector';
 import { environment } from '@ga/environments/environment';
 import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-bearing-button';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
-import { getPartnerVersion } from '@ga/core/store/selectors/settings/settings.selector';
 
 @Component({
   selector: 'ga-quick-bearing-selection',

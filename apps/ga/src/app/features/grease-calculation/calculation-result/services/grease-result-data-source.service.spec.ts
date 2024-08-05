@@ -195,12 +195,7 @@ describe('GreaseResultDataSourceService', () => {
         subordinateDataMock.rhoMock
       );
 
-      expect(item).toStrictEqual(
-        greaseResultDataMock(
-          subordinateDataMock.dataItemValueNumberMock,
-          subordinateDataMock.dataItemUnitMock
-        )[0]
-      );
+      expect(item).toMatchSnapshot();
     });
 
     it('should return undefined', () => {
@@ -233,12 +228,7 @@ describe('GreaseResultDataSourceService', () => {
         subordinateDataMock.rhoMock
       );
 
-      expect(item).toStrictEqual(
-        greaseResultDataMock(
-          subordinateDataMock.dataItemValueNumberMock,
-          subordinateDataMock.dataItemUnitMock
-        )[1]
-      );
+      expect(item).toMatchSnapshot();
     });
 
     it('should return undefined', () => {
@@ -271,12 +261,7 @@ describe('GreaseResultDataSourceService', () => {
         subordinateDataMock.rhoMock
       );
 
-      expect(item).toStrictEqual(
-        greaseResultDataMock(
-          subordinateDataMock.dataItemValueNumberMock,
-          subordinateDataMock.dataItemUnitMock
-        )[2]
-      );
+      expect(item).toMatchSnapshot();
     });
 
     it('should return undefined', () => {
@@ -324,7 +309,7 @@ describe('GreaseResultDataSourceService', () => {
         expect(item).toStrictEqual({
           title: 'maximumManualRelubricationPerInterval',
           values:
-            '<span>25.55 g/365 days</span><br><span class="text-low-emphasis">25.55 /365 days</span>',
+            '<span>25.6 g/365 days</span><br><span class="text-low-emphasis">25.6 /365 days</span>',
         });
       });
     });
@@ -351,7 +336,7 @@ describe('GreaseResultDataSourceService', () => {
         expect(item).toStrictEqual({
           title: 'maximumManualRelubricationPerInterval',
           values:
-            '<span>19.880000000000003 g/284 days</span><br><span class="text-low-emphasis">19.880000000000003 /284 days</span>',
+            '<span>19.9 g/284 days</span><br><span class="text-low-emphasis">19.9 /284 days</span>',
         });
       });
     });
@@ -491,6 +476,31 @@ describe('GreaseResultDataSourceService', () => {
           subordinateDataMock.dataItemUnitMock
         )[5]
       );
+    });
+
+    it('should rounded result with prefix for small values', () => {
+      const item = service.relubricationPer7Days(
+        [
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            field: SubordinateDataItemField.QVRE_AUT_MIN,
+            value: 0.001,
+          },
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            field: SubordinateDataItemField.QVRE_AUT_MAX,
+            value: 0.0012,
+          },
+          {
+            ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+            field: SubordinateDataItemField.QVIN,
+            value: 2,
+          },
+        ],
+        subordinateDataMock.rhoMock
+      );
+
+      expect(item).toMatchSnapshot();
     });
 
     it('should return undefined', () => {

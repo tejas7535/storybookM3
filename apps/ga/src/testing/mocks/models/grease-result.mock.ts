@@ -29,24 +29,23 @@ export const greaseResultDataMock = (
 ): GreaseResultData => [
   {
     title: 'initialGreaseQuantity',
-    values: `<span>${value} g</span><br><span class="text-low-emphasis">${value} ${unit}</span>`,
+    values: `<span>${(+value).toFixed(1)} g</span><br><span class="text-low-emphasis">${(+value).toFixed(1)} ${unit}</span>`,
   },
   {
     title: 'relubricationPer365days',
-    values: `<span>${
+    values: `<span>${(+value * 365).toFixed(1)} g/365 days</span><br><span class="text-low-emphasis">${(
       +value * 365
-    } g/365 days</span><br><span class="text-low-emphasis">${
-      +value * 365
-    } ${unit}/365 days</span>`,
+    ).toFixed(1)} ${unit}/365 days</span>`,
     tooltip: 'relubricationQuantityPer365daysTooltip',
   },
   {
     title: 'relubricationQuantityPer1000OperatingHours',
-    values: `<span>${
-      (+value / 24) * 1000
-    } g/hours</span><br><span class="text-low-emphasis">${
-      (+value / 24) * 1000
-    } ${unit}/hours</span>`,
+    values: `<span>${((+value / 24) * 1000).toFixed(
+      1
+    )} g/hours</span><br><span class="text-low-emphasis">${(
+      (+value / 24) *
+      1000
+    ).toFixed(1)} ${unit}/hours</span>`,
   },
   {
     title: 'greaseServiceLife',
@@ -54,19 +53,19 @@ export const greaseResultDataMock = (
   },
   {
     title: 'relubricationPer30days',
-    values: `<span>${
+    values: `<span>${(+value * 30).toFixed(
+      1
+    )} g/30 days</span><br><span class="text-low-emphasis">${(
       +value * 30
-    } g/30 days</span><br><span class="text-low-emphasis">${
-      +value * 30
-    } ${unit}/30 days</span>`,
+    ).toFixed(1)} ${unit}/30 days</span>`,
   },
   {
     title: 'relubricationPer7days',
-    values: `<span>${
+    values: `<span>${(+value * 7).toFixed(
+      1
+    )} g/7 days</span><br><span class="text-low-emphasis">${(
       +value * 7
-    } g/7 days</span><br><span class="text-low-emphasis">${
-      +value * 7
-    } ${unit}/7 days</span>`,
+    ).toFixed(1)} ${unit}/7 days</span>`,
   },
   {
     title: 'viscosityRatio',

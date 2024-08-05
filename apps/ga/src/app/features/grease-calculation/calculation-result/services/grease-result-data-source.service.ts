@@ -110,6 +110,10 @@ export class GreaseResultDataSourceService {
       SubordinateDataItemField.QVIN
     );
 
+    const { roundedValue, prefix } = this.roundValue(
+      +initialGreaseQuantityValue
+    );
+
     return initialGreaseQuantityValue
       ? {
           title: 'initialGreaseQuantity',
@@ -119,8 +123,8 @@ export class GreaseResultDataSourceService {
             '',
             true
           )}<br>${helpers.secondaryValue(
-            `${this.localeService.localizeNumber(
-              initialGreaseQuantityValue,
+            `${prefix}${this.localeService.localizeNumber(
+              roundedValue,
               'decimal'
             )} ${helpers.itemUnit(dataItems, SubordinateDataItemField.QVIN)}`
           )}`,
@@ -136,6 +140,10 @@ export class GreaseResultDataSourceService {
     const relubricationQuantityPerOperatingHours =
       helpers.relubricationPerOperatingHours(numberOfHours, dataItems);
 
+    const { roundedValue, prefix } = this.roundValue(
+      relubricationQuantityPerOperatingHours
+    );
+
     return relubricationQuantityPerOperatingHours
       ? {
           title: 'relubricationQuantityPer1000OperatingHours',
@@ -144,8 +152,8 @@ export class GreaseResultDataSourceService {
             relubricationQuantityPerOperatingHours,
             translate('calculationResult.hours', { hours: numberOfHours })
           )}<br>${helpers.secondaryValue(
-            `${this.localeService.localizeNumber(
-              relubricationQuantityPerOperatingHours,
+            `${prefix}${this.localeService.localizeNumber(
+              roundedValue,
               'decimal'
             )} ${helpers.relubricationQuantityUnit(dataItems)}/${translate(
               'calculationResult.hours',
@@ -201,6 +209,8 @@ export class GreaseResultDataSourceService {
       return undefined;
     }
 
+    const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
+
     const result: GreaseResultDataSourceItem = {
       title: `maximumManualRelubricationPerInterval`,
       values: `${this.massTemplate(
@@ -208,8 +218,8 @@ export class GreaseResultDataSourceService {
         relubricationPerDays,
         `${numberOfDays} ${translate('calculationResult.days')}`
       )}<br>${helpers.secondaryValue(
-        `${this.localeService.localizeNumber(
-          relubricationPerDays,
+        `${prefix}${this.localeService.localizeNumber(
+          roundedValue,
           'decimal'
         )} ${helpers.relubricationQuantityUnit(
           dataItems
@@ -462,20 +472,52 @@ export class GreaseResultDataSourceService {
     const value =
       (rho || this.calculationParametersService.getDensity()) * quantity;
 
+    const { roundedValue, prefix } = this.roundValue(value);
+
     return value
       ? `<span>${
           tiny
-            ? this.localeService.localizeNumber(
-                value,
+            ? prefix +
+              this.localeService.localizeNumber(
+                roundedValue,
                 'decimal',
                 undefined,
                 this.tinyNumberFormatOptions
               )
-            : this.localeService.localizeNumber(value, 'decimal')
+            : prefix +
+              this.localeService.localizeNumber(roundedValue, 'decimal')
         } ${this.calculationParametersService.weightUnit()}${
           timespan ? `/${timespan}` : ''
         }</span>`
       : `<span>${translate('calculationResult.undefinedValue')}</span>`;
+  };
+
+  private readonly roundValue = (
+    value: number
+  ): { roundedValue: string; prefix: string } | undefined => {
+    let prefix = '';
+
+    if (!value) {
+      return {
+        roundedValue: '',
+        prefix: '',
+      };
+    }
+
+    const precision = 1;
+    const rounder = Math.pow(10, 2);
+    let result = (Math.round(value * rounder) / rounder).toFixed(precision);
+
+    if (result === '0.0') {
+      prefix = '~ ';
+
+      result = '0.1';
+    }
+
+    return {
+      roundedValue: result,
+      prefix,
+    };
   };
 
   private readonly get60mlHintNote = (
@@ -508,6 +550,8 @@ export class GreaseResultDataSourceService {
       return undefined;
     }
 
+    const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
+
     const result: GreaseResultDataSourceItem = {
       title: `relubricationPer${numberOfDays}days`,
       values: `${this.massTemplate(
@@ -515,8 +559,8 @@ export class GreaseResultDataSourceService {
         relubricationPerDays,
         `${numberOfDays} ${translate('calculationResult.days')}`
       )}<br>${helpers.secondaryValue(
-        `${this.localeService.localizeNumber(
-          relubricationPerDays,
+        `${prefix}${this.localeService.localizeNumber(
+          roundedValue,
           'decimal'
         )} ${helpers.relubricationQuantityUnit(
           dataItems
