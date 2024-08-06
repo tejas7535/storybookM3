@@ -30,6 +30,7 @@
       !(partnerVersion$ | ngrxPush)
     ) {
       <ga-app-store-buttons
+        [title]="'shared.appStoreButtonsTitle' | transloco"
         (appStoreClick)="sendClickEvent($event)"
       ></ga-app-store-buttons>
     }

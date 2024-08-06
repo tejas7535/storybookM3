@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { AppLogoComponent } from '@ga/shared/components/app-logo/app-logo.component';
@@ -31,6 +32,9 @@ import { HomeCardsService } from './services/home-cards.service';
     QualtricsInfoBannerComponent,
     EasyCalcCardComponent,
     AppStoreButtonsComponent,
+
+    // Translation
+    SharedTranslocoModule,
   ],
   providers: [
     HomeCardsService,

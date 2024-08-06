@@ -12,8 +12,11 @@ import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { initialState } from '@ga/core/store/reducers/settings/settings.reducer';
 import { AppLogoComponent } from '@ga/shared/components/app-logo/app-logo.component';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
@@ -37,8 +40,10 @@ describe('HomeComponent', () => {
       MockComponent(HomepageCardComponent),
       MockComponent(QuickBearingSelectionComponent),
       MockComponent(QualtricsInfoBannerComponent),
+      MockComponent(AppStoreButtonsComponent),
       RouterTestingModule,
       PushPipe,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({
