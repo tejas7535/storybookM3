@@ -4,7 +4,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -17,7 +17,9 @@ import {
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { SettingsFacade } from '@ga/core/store';
 import { CalculationParametersService } from '@ga/features/grease-calculation/calculation-parameters/services';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 import {
@@ -42,6 +44,8 @@ describe('GreaseReportComponent', () => {
   let snackBar: MatSnackBar;
   const localizeNumber = jest.fn();
   const localeChanges$ = new Observable();
+  const isAppEmbeddedSubject = new BehaviorSubject<boolean>(false);
+  const isAppEmbedded$ = isAppEmbeddedSubject.asObservable();
 
   const createComponent = createComponentFactory({
     component: GreaseReportComponent,
@@ -63,6 +67,7 @@ describe('GreaseReportComponent', () => {
       mockProvider(CalculationParametersService),
       mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
       mockProvider(AppAnalyticsService),
+      mockProvider(SettingsFacade, { appIsEmbedded$: isAppEmbedded$ }),
       provideHttpClient(),
     ],
   });
@@ -237,6 +242,32 @@ describe('GreaseReportComponent', () => {
       component.logTogglingInputSection();
 
       expect(trackingSpy).toHaveBeenCalledWith(InteractionEventType.ShowInput);
+    });
+  });
+
+  describe('when app is embedded', () => {
+    beforeEach(() => {
+      isAppEmbeddedSubject.next(true);
+    });
+
+    it('should display app store buttons', () => {
+      spectator.detectChanges();
+      const appStoreButtons = spectator.query(AppStoreButtonsComponent);
+
+      expect(appStoreButtons).toBeTruthy();
+    });
+  });
+
+  describe('when app is not embedded', () => {
+    beforeEach(() => {
+      isAppEmbeddedSubject.next(false);
+    });
+
+    it('should not display app store buttons', () => {
+      spectator.detectChanges();
+      const appStoreButtons = spectator.query(AppStoreButtonsComponent);
+
+      expect(appStoreButtons).toBeFalsy();
     });
   });
 });

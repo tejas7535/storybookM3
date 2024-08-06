@@ -106,7 +106,8 @@
     "max": "Maks.",
     "mediasButton": "Pokaż łożysko {{bearing}} w Medias",
     "feedbackButton": "Opinia",
-    "feedbackText": "Twoja opinia pomaga nam cały czas udoskonalać nasz produkt."
+    "feedbackText": "Twoja opinia pomaga nam cały czas udoskonalać nasz produkt.",
+    "appStoreButtonsTitle": "Uzyskaj dostęp do korzyści aplikacji Grease - Pobierz teraz!"
   },
   "bearing": {
     "title": {

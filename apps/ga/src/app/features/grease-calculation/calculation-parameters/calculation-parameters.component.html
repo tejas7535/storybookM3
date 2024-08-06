@@ -244,6 +244,13 @@
           </div>
         </div>
       </div>
+
+      @if (appIsEmbedded$ | ngrxPush) {
+        <ga-app-store-buttons
+          class="mb-8"
+          [title]="'shared.appStoreButtonsTitle' | transloco"
+        ></ga-app-store-buttons>
+      }
     } @else {
       <schaeffler-maintenance></schaeffler-maintenance>
     }

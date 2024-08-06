@@ -106,7 +106,8 @@
     "max": "Max.",
     "mediasButton": "Zeige Lager {{bearing}} in Medias",
     "feedbackButton": "Zur Umfrage",
-    "feedbackText": "Ihr Feedback hilft uns, unser Produkt kontinuierlich zu verbessern."
+    "feedbackText": "Ihr Feedback hilft uns, unser Produkt kontinuierlich zu verbessern.",
+    "appStoreButtonsTitle": "Nutzen Sie die Vorteile der Grease App - Jetzt herunterladen!"
   },
   "bearing": {
     "title": {

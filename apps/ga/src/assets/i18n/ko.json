@@ -106,7 +106,8 @@
     "max": "최대",
     "mediasButton": "{{bearing}} 베어링 Medias에서 보기",
     "feedbackButton": "의견 보내기",
-    "feedbackText": "귀하의 의견은 제품을 지속적으로 개선하는 데 도움이 됩니다."
+    "feedbackText": "귀하의 의견은 제품을 지속적으로 개선하는 데 도움이 됩니다.",
+    "appStoreButtonsTitle": "그리스 앱의 혜택을 누리세요 - 지금 다운로드하세요!"
   },
   "bearing": {
     "title": {

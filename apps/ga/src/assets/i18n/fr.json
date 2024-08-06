@@ -106,7 +106,8 @@
     "max": "Max.",
     "mediasButton": "Afficher le cap {{bearing}} dans les Medias",
     "feedbackButton": "Commentaires",
-    "feedbackText": "Vos commentaires nous aident à améliorer continuellement notre produit."
+    "feedbackText": "Vos commentaires nous aident à améliorer continuellement notre produit.",
+    "appStoreButtonsTitle": "Profitez des avantages de l'application Grease - Téléchargez-la maintenant!"
   },
   "bearing": {
     "title": {

@@ -7,6 +7,7 @@ import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { AppLogoComponent } from '@ga/shared/components/app-logo/app-logo.component';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 
@@ -29,6 +30,7 @@ import { HomeCardsService } from './services/home-cards.service';
     PushPipe,
     QualtricsInfoBannerComponent,
     EasyCalcCardComponent,
+    AppStoreButtonsComponent,
   ],
   providers: [
     HomeCardsService,

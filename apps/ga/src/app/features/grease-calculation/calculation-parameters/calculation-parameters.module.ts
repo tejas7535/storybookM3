@@ -16,6 +16,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationParametersEffects } from '@ga/core/store/effects';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { FormFieldModule } from '@ga/shared/components/form-field';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
@@ -41,6 +42,7 @@ import { CalculationParametersService } from './services';
     PreferredGreaseSelectionComponent,
     MediasButtonComponent,
     QualtricsInfoBannerComponent,
+    AppStoreButtonsComponent,
 
     // Material Modules
     MatButtonModule,

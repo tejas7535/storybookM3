@@ -106,7 +106,8 @@
     "max": "Máx.",
     "mediasButton": "Mostrar orientación {{bearing}} en Medias",
     "feedbackButton": "Comentarios",
-    "feedbackText": "Tu retroalimentación nos ayuda a mejorar continuamente nuestro producto."
+    "feedbackText": "Tu retroalimentación nos ayuda a mejorar continuamente nuestro producto.",
+    "appStoreButtonsTitle": "Aprovecha los beneficios de la aplicación Grease - ¡Descárgala ahora!"
   },
   "bearing": {
     "title": {

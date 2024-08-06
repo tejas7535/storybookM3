@@ -106,7 +106,8 @@
     "max": "最大",
     "mediasButton": "在媒体上显示方位 {{bearing}}",
     "feedbackButton": "反馈意见",
-    "feedbackText": "您的反馈帮助我们不断改进我们的产品。"
+    "feedbackText": "您的反馈帮助我们不断改进我们的产品。",
+    "appStoreButtonsTitle": "享受Grease应用程序的好处 - 立即下载!"
   },
   "bearing": {
     "title": {

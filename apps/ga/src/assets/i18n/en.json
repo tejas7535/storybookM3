@@ -106,7 +106,8 @@
     "max": "Max.",
     "mediasButton": "Show bearing {{bearing}} in Medias",
     "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback helps us to continuously improve our product."
+    "feedbackText": "Your feedback helps us to continuously improve our product.",
+    "appStoreButtonsTitle": "Access the benefits of the Grease App - Download now!"
   },
   "bearing": {
     "title": {

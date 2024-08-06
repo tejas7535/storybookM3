@@ -106,7 +106,8 @@
     "max": "最大",
     "mediasButton": "メディアで方位を表示する {{bearing}} を表示する",
     "feedbackButton": "フィードバック",
-    "feedbackText": "お客様のフィードバックは、製品の継続的な改善に役立ちます。"
+    "feedbackText": "お客様のフィードバックは、製品の継続的な改善に役立ちます。",
+    "appStoreButtonsTitle": "Greaseアプリの利点にアクセス - 今すぐダウンロード!"
   },
   "bearing": {
     "title": {

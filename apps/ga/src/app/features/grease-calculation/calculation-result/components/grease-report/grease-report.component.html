@@ -181,3 +181,10 @@
     }
   }
 </ng-template>
+
+@if (isAppEmbedded$ | ngrxPush) {
+  <ga-app-store-buttons
+    class="flex justify-center mb-8"
+    [title]="'shared.appStoreButtonsTitle' | transloco"
+  ></ga-app-store-buttons>
+}

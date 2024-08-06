@@ -106,7 +106,8 @@
     "max": "Tối đa",
     "mediasButton": "Hiển thị vòng bi {{bearing}} trong Medias",
     "feedbackButton": "Phản hồi",
-    "feedbackText": "Phản hồi của bạn giúp chúng tôi liên tục cải tiến sản phẩm của mình."
+    "feedbackText": "Phản hồi của bạn giúp chúng tôi liên tục cải tiến sản phẩm của mình.",
+    "appStoreButtonsTitle": "Truy cập các lợi ích của Ứng dụng Grease - Tải ngay!"
   },
   "bearing": {
     "title": {

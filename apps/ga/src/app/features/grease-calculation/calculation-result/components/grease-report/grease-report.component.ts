@@ -15,9 +15,12 @@ import { Subscription } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SettingsFacade } from '@ga/core/store';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
@@ -41,6 +44,7 @@ import { GreaseReportResultComponent } from '../grease-report-result';
   standalone: true,
   imports: [
     CommonModule,
+    PushPipe,
     MatExpansionModule,
     MatTooltipModule,
     MatSnackBarModule,
@@ -49,6 +53,7 @@ import { GreaseReportResultComponent } from '../grease-report-result';
     SharedTranslocoModule,
     GreaseReportInputComponent,
     GreaseReportResultComponent,
+    AppStoreButtonsComponent,
   ],
   providers: [
     GreaseReportService,
@@ -65,6 +70,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   public resultsLimit = 3;
   public limitResults = true;
+  public isAppEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public legalNote: string;
   public subordinates: GreaseReportSubordinate[] = [];
   public greaseInput: GreaseReportSubordinate | undefined;
@@ -78,7 +84,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     private readonly greaseReportService: GreaseReportService,
     private readonly snackbar: MatSnackBar,
     private readonly localeService: TranslocoLocaleService,
-    private readonly appAnalyticsService: AppAnalyticsService
+    private readonly appAnalyticsService: AppAnalyticsService,
+    private readonly settingsFacade: SettingsFacade
   ) {}
 
   public ngOnInit(): void {

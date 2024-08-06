@@ -31,6 +31,7 @@ import {
 } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -80,6 +81,7 @@ describe('CalculationParametersComponent', () => {
       MockComponent(MediasButtonComponent),
       MockModule(SubheaderModule),
       MockModule(MaintenanceModule),
+      MockComponent(AppStoreButtonsComponent),
 
       // Material Modules
       MockModule(MatButtonModule),

@@ -106,7 +106,8 @@
     "max": "最大",
     "mediasButton": "Show bearing {{bearing}} in Medias",
     "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback helps us to continuously improve our product."
+    "feedbackText": "Your feedback helps us to continuously improve our product.",
+    "appStoreButtonsTitle": "享受Grease應用程式的好處 - 立即下載!"
   },
   "bearing": {
     "title": {
