@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/jest-when": "3.5.2",
-    "@types/file-saver": "2.0.5",
+    "@types/file-saver": "2.0.7",
     "@types/big.js": "6.2.2"
   }
 }
