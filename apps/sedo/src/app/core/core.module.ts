@@ -24,7 +24,9 @@ const azureConfig = new AzureConfig(
     !environment.production
   ),
   new MsalInterceptorConfig([
-    new ProtectedResource('/api/*', [environment.appScope]),
+    new ProtectedResource(`${environment.baseUrl}/api/*`, [
+      environment.appScope,
+    ]),
   ]),
   new MsalGuardConfig(`/${AppRoutePath.Forbidden}`, [environment.appScope])
 );

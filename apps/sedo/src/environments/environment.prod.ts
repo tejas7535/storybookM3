@@ -8,6 +8,7 @@ export const environment: Environment = {
   clientId: 'ca5945c1-e722-45af-9668-bd72c1ebdf00',
   appScope: 'api://c2fbf9c3-e2f9-48a3-8483-57d946908949/seliapi',
   apiBaseUrl: '/api/v1',
+  baseUrl: 'https://sedo.de.aks.schaeffler.com',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '5f7b3faf-e565-4872-ba33-5e43b14f2f40',

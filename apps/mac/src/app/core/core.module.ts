@@ -41,7 +41,9 @@ const azureConfig = new AzureConfig(
     !environment.production
   ),
   new MsalInterceptorConfig([
-    new ProtectedResource('*/api/*', [environment.appId]),
+    new ProtectedResource(`${environment.baseUrl}/*/api/*`, [
+      environment.appId,
+    ]),
   ]),
   new MsalGuardConfig('/login-failed', [environment.appId])
 );

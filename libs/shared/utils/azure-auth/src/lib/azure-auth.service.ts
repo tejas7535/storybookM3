@@ -131,8 +131,12 @@ export class AzureAuthService {
               account.accessToken
             ).roles;
 
+            // eslint-disable-next-line unused-imports/no-unused-vars
+            const { tenantProfiles, ...activeAccountWithoutTenantProfiles } =
+              activeAccount;
+
             return {
-              ...activeAccount,
+              ...activeAccountWithoutTenantProfiles,
               department,
               backendRoles,
               accessToken: account.accessToken,

@@ -6,6 +6,7 @@ export interface Environment {
   clientId: string;
   appScope: string;
   apiBaseUrl: string;
+  baseUrl: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;

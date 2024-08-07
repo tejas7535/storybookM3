@@ -290,6 +290,38 @@ describe('Azure Auth Service', () => {
     );
 
     test(
+      'should return active acc without tenantProfiles if possible',
+      marbles((m) => {
+        const activeAcc = {
+          name: 'Cho, Chung SF/HZA',
+          tenantProfiles: {},
+        } as unknown as AzureAccountInfo;
+        msalService.instance.getActiveAccount = jest.fn(() => activeAcc);
+        msalService.acquireTokenSilent = jest.fn(() =>
+          of({ accessToken: 'token' } as AuthenticationResult)
+        );
+        service.decodeAccessToken = jest.fn(() => ({ roles: backendRoles }));
+
+        // eslint-disable-next-line unused-imports/no-unused-vars
+        const { tenantProfiles, ...activeAccountWithoutTenantProfiles } =
+          activeAcc;
+        const expectedAccountInfo = {
+          ...activeAccountWithoutTenantProfiles,
+          department: 'SF/HZA',
+          backendRoles,
+          accessToken: 'token',
+        };
+        const expected$ = m.cold('(a|)', { a: expectedAccountInfo });
+
+        const result = service.handleAccount();
+
+        m.expect(result).toBeObservable(expected$);
+        expect(msalService.instance.getActiveAccount).toHaveBeenCalledTimes(1);
+        expect(msalService.instance.getAllAccounts).not.toHaveBeenCalled();
+      })
+    );
+
+    test(
       'should return first acc from available accs',
       marbles((m) => {
         msalService.instance.getActiveAccount = jest.fn(
