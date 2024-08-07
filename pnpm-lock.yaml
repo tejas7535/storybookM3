@@ -291,7 +291,7 @@ importers:
         version: 7.9.0(eslint@8.57.0)(typescript@5.4.5)
       autoprefixer:
         specifier: ^10.4.0
-        version: 10.4.19(postcss@8.4.39)
+        version: 10.4.20(postcss@8.4.39)
       babel-loader:
         specifier: 9.1.3
         version: 9.1.3(@babel/core@7.24.7)(webpack@5.93.0(@swc/core@1.4.16)(esbuild@0.18.20))
@@ -2825,6 +2825,10 @@ packages:
 
   '@inquirer/figures@1.0.3':
     resolution: {integrity: sha512-ErXXzENMH5pJt5/ssXV0DfWUZqly8nGzf0UcBV9xTnP+KyffE2mqyxIMBrZ8ijQck2nU0TQm40EQB53YreyWHw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@inquirer/figures/-/figures-1.0.3.tgz}
+    engines: {node: '>=18'}
+
+  '@inquirer/figures@1.0.5':
+    resolution: {integrity: sha512-79hP/VWdZ2UVc9bFGJnoQ/lQMpL74mGgzSYX1xUqCVk7/v73vJCMw1VuyWN1jGkZ9B3z7THAbySqGbCNefcjfA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@inquirer/figures/-/figures-1.0.5.tgz}
     engines: {node: '>=18'}
 
   '@inquirer/input@2.2.1':
@@ -5873,6 +5877,13 @@ packages:
     peerDependencies:
       postcss: '>=8.4.31'
 
+  autoprefixer@10.4.20:
+    resolution: {integrity: sha512-XY25y5xSv/wEoqzDyXXME4AFfkZI0P23z6Fs3YgymDnKJkCGOnkL0iTxCa85UTqaSgfcqyf3UA6+c7wUvx/16g==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/autoprefixer/-/autoprefixer-10.4.20.tgz}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: '>=8.4.31'
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/available-typed-arrays/-/available-typed-arrays-1.0.7.tgz}
     engines: {node: '>= 0.4'}
@@ -6080,6 +6091,11 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
+  browserslist@4.23.3:
+    resolution: {integrity: sha512-btwCFJVjI4YWDNfau8RhZ+B1Q/VLoUITrm3RlP6y1tYGWIOa+InuYiRGXUBXo8nA1qKmHMyLB/iVQg5TT4eFoA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/browserslist/-/browserslist-4.23.3.tgz}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+
   bs-logger@0.2.6:
     resolution: {integrity: sha512-pd8DCoxmbgc7hyPKOvxtqNcjYoOsABPQdcCUjGp3d42VR2CX1ORhk2A87oqqu5R1kk+76nsxZupkmyd+MVtCog==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bs-logger/-/bs-logger-0.2.6.tgz}
     engines: {node: '>= 6'}
@@ -6186,6 +6202,9 @@ packages:
 
   caniuse-lite@1.0.30001611:
     resolution: {integrity: sha512-19NuN1/3PjA3QI8Eki55N8my4LzfkMCRLgCVfrl/slbSAchQfV0+GwjPrK3rq37As4UCLlM/DHajbKkAqbv92Q==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/caniuse-lite/-/caniuse-lite-1.0.30001611.tgz}
+
+  caniuse-lite@1.0.30001646:
+    resolution: {integrity: sha512-dRg00gudiBDDTmUhClSdv3hqRfpbOnU28IpI1T6PBTLWa+kOj0681C8uML3PifYfREuBrVjDGhL3adYpBT6spw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/caniuse-lite/-/caniuse-lite-1.0.30001646.tgz}
 
   canvg@3.0.10:
     resolution: {integrity: sha512-qwR2FRNO9NlzTeKIPIKpnTY6fqwuYSequ8Ru8c0YkYU7U0oW+hLUvWadLvAu1Rl72OMNiFhoLu4f8eUjQ7l/+Q==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/canvg/-/canvg-3.0.10.tgz}
@@ -7359,6 +7378,9 @@ packages:
 
   electron-to-chromium@1.4.744:
     resolution: {integrity: sha512-nAGcF0yeKKfrP13LMFr5U1eghfFSvFLg302VUFzWlcjPOnUYd52yU5x6PBYrujhNbc4jYmZFrGZFK+xasaEzVA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/electron-to-chromium/-/electron-to-chromium-1.4.744.tgz}
+
+  electron-to-chromium@1.5.4:
+    resolution: {integrity: sha512-orzA81VqLyIGUEA77YkVA1D+N+nNfl2isJVjjmOyrlxuooZ19ynb+dOlaDTqd/idKRS9lDCSBmtzM+kyCsMnkA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/electron-to-chromium/-/electron-to-chromium-1.5.4.tgz}
 
   email-addresses@5.0.0:
     resolution: {integrity: sha512-4OIPYlA6JXqtVn8zpHpGiI7vE6EQOAg16aGnDMIAlZVinnoZ8208tW1hAbjWydgN/4PLTT9q+O1K6AH/vALJGw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/email-addresses/-/email-addresses-5.0.0.tgz}
@@ -10141,6 +10163,9 @@ packages:
   node-releases@2.0.14:
     resolution: {integrity: sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/node-releases/-/node-releases-2.0.14.tgz}
 
+  node-releases@2.0.18:
+    resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/node-releases/-/node-releases-2.0.18.tgz}
+
   nopt@7.2.0:
     resolution: {integrity: sha512-CVDtwCdhYIvnAzFoJ6NJ6dX3oga9/HyciQDnG1vQDjSLMeKLJ4A93ZqYKDrgYSr1FBY5/hMYC+2VCi24pgpkGA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/nopt/-/nopt-7.2.0.tgz}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -11814,6 +11839,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.6.3:
+    resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/semver/-/semver-7.6.3.tgz}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/send/-/send-0.18.0.tgz}
     engines: {node: '>= 0.8.0'}
@@ -12832,6 +12862,12 @@ packages:
 
   update-browserslist-db@1.0.13:
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/update-browserslist-db/-/update-browserslist-db-1.0.13.tgz}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+
+  update-browserslist-db@1.1.0:
+    resolution: {integrity: sha512-EdRAaAyk2cUE1wOf2DkEhzxqOQvFOoRJFNS6NeyJ01Gp2beMRpBAINjM2iDXE3KCuKhwnvHIQCJm6ThL2Z+HzQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/update-browserslist-db/-/update-browserslist-db-1.1.0.tgz}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -14603,7 +14639,7 @@ snapshots:
   '@babel/code-frame@7.24.7':
     dependencies:
       '@babel/highlight': 7.24.7
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   '@babel/compat-data@7.24.7': {}
 
@@ -14653,7 +14689,7 @@ snapshots:
     dependencies:
       '@babel/compat-data': 7.24.7
       '@babel/helper-validator-option': 7.24.7
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       lru-cache: 5.1.1
       semver: 6.3.1
 
@@ -16567,6 +16603,8 @@ snapshots:
 
   '@inquirer/figures@1.0.3': {}
 
+  '@inquirer/figures@1.0.5': {}
+
   '@inquirer/input@2.2.1':
     dependencies:
       '@inquirer/core': 9.0.2
@@ -18370,9 +18408,9 @@ snapshots:
       '@nx/js': 19.4.2(@babel/traverse@7.24.7)(@swc/core@1.4.16)(@types/node@18.19.42)(nx@19.2.0(@swc/core@1.4.16))(typescript@5.4.5)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.4.5)
       ajv: 8.13.0
-      autoprefixer: 10.4.19(postcss@8.4.39)
+      autoprefixer: 10.4.20(postcss@8.4.39)
       babel-loader: 9.1.3(@babel/core@7.24.7)(webpack@5.93.0(@swc/core@1.4.16)(esbuild@0.18.20))
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       chalk: 4.1.2
       copy-webpack-plugin: 10.2.4(webpack@5.93.0(@swc/core@1.4.16)(esbuild@0.18.20))
       css-loader: 6.11.0(webpack@5.93.0(@swc/core@1.4.16)(esbuild@0.18.20))
@@ -21433,13 +21471,13 @@ snapshots:
       postcss: 8.4.38
       postcss-value-parser: 4.2.0
 
-  autoprefixer@10.4.19(postcss@8.4.39):
+  autoprefixer@10.4.20(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
-      caniuse-lite: 1.0.30001611
+      browserslist: 4.23.3
+      caniuse-lite: 1.0.30001646
       fraction.js: 4.3.7
       normalize-range: 0.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       postcss: 8.4.39
       postcss-value-parser: 4.2.0
 
@@ -21712,6 +21750,13 @@ snapshots:
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
 
+  browserslist@4.23.3:
+    dependencies:
+      caniuse-lite: 1.0.30001646
+      electron-to-chromium: 1.5.4
+      node-releases: 2.0.18
+      update-browserslist-db: 1.1.0(browserslist@4.23.3)
+
   bs-logger@0.2.6:
     dependencies:
       fast-json-stable-stringify: 2.1.0
@@ -21819,12 +21864,14 @@ snapshots:
 
   caniuse-api@3.0.0:
     dependencies:
-      browserslist: 4.23.0
-      caniuse-lite: 1.0.30001611
+      browserslist: 4.23.3
+      caniuse-lite: 1.0.30001646
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
   caniuse-lite@1.0.30001611: {}
+
+  caniuse-lite@1.0.30001646: {}
 
   canvg@3.0.10:
     dependencies:
@@ -22282,7 +22329,7 @@ snapshots:
       json-stringify-safe: 5.0.1
       lodash: 4.17.21
       meow: 8.1.2
-      semver: 7.6.2
+      semver: 7.6.3
       split: 1.0.1
       through2: 4.0.2
 
@@ -22416,7 +22463,7 @@ snapshots:
 
   core-js-compat@3.37.0:
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
 
   core-js-pure@3.37.1: {}
 
@@ -22618,7 +22665,7 @@ snapshots:
 
   cssnano-preset-default@6.1.2(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       css-declaration-sorter: 7.2.0(postcss@8.4.39)
       cssnano-utils: 4.0.2(postcss@8.4.39)
       postcss: 8.4.39
@@ -23129,6 +23176,8 @@ snapshots:
       jake: 10.8.7
 
   electron-to-chromium@1.4.744: {}
+
+  electron-to-chromium@1.5.4: {}
 
   email-addresses@5.0.0: {}
 
@@ -24185,7 +24234,7 @@ snapshots:
   git-semver-tags@4.1.1:
     dependencies:
       meow: 8.1.2
-      semver: 7.6.2
+      semver: 7.6.3
 
   git-semver-tags@7.0.1:
     dependencies:
@@ -24818,7 +24867,7 @@ snapshots:
 
   inquirer@9.2.22:
     dependencies:
-      '@inquirer/figures': 1.0.3
+      '@inquirer/figures': 1.0.5
       '@ljharb/through': 2.3.13
       ansi-escapes: 4.3.2
       chalk: 5.3.0
@@ -26658,6 +26707,8 @@ snapshots:
 
   node-releases@2.0.14: {}
 
+  node-releases@2.0.18: {}
+
   nopt@7.2.0:
     dependencies:
       abbrev: 2.0.0
@@ -27320,7 +27371,7 @@ snapshots:
 
   postcss-colormin@6.1.0(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       caniuse-api: 3.0.0
       colord: 2.9.3
       postcss: 8.4.39
@@ -27328,7 +27379,7 @@ snapshots:
 
   postcss-convert-values@6.1.0(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       postcss: 8.4.39
       postcss-value-parser: 4.2.0
 
@@ -27476,7 +27527,7 @@ snapshots:
 
   postcss-merge-rules@6.1.1(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       caniuse-api: 3.0.0
       cssnano-utils: 4.0.2(postcss@8.4.39)
       postcss: 8.4.39
@@ -27496,7 +27547,7 @@ snapshots:
 
   postcss-minify-params@6.1.0(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       cssnano-utils: 4.0.2(postcss@8.4.39)
       postcss: 8.4.39
       postcss-value-parser: 4.2.0
@@ -27569,7 +27620,7 @@ snapshots:
 
   postcss-normalize-unicode@6.1.0(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       postcss: 8.4.39
       postcss-value-parser: 4.2.0
 
@@ -27623,7 +27674,7 @@ snapshots:
       '@csstools/postcss-text-decoration-shorthand': 1.0.0(postcss@8.4.39)
       '@csstools/postcss-trigonometric-functions': 1.0.2(postcss@8.4.39)
       '@csstools/postcss-unset-value': 1.0.2(postcss@8.4.39)
-      autoprefixer: 10.4.19(postcss@8.4.39)
+      autoprefixer: 10.4.20(postcss@8.4.39)
       browserslist: 4.23.0
       css-blank-pseudo: 3.0.3(postcss@8.4.39)
       css-has-pseudo: 3.0.4(postcss@8.4.39)
@@ -27667,7 +27718,7 @@ snapshots:
 
   postcss-reduce-initial@6.1.0(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       caniuse-api: 3.0.0
       postcss: 8.4.39
 
@@ -28630,6 +28681,8 @@ snapshots:
 
   semver@7.6.2: {}
 
+  semver@7.6.3: {}
+
   send@0.18.0:
     dependencies:
       debug: 2.6.9
@@ -28941,7 +28994,7 @@ snapshots:
       find-up: 5.0.0
       fs-access: 1.0.1
       git-semver-tags: 4.1.1
-      semver: 7.6.2
+      semver: 7.6.3
       stringify-package: 1.0.1
       yargs: 16.2.0
 
@@ -29096,7 +29149,7 @@ snapshots:
 
   stylehacks@6.1.1(postcss@8.4.39):
     dependencies:
-      browserslist: 4.23.0
+      browserslist: 4.23.3
       postcss: 8.4.39
       postcss-selector-parser: 6.0.16
 
@@ -29821,6 +29874,12 @@ snapshots:
   update-browserslist-db@1.0.13(browserslist@4.23.0):
     dependencies:
       browserslist: 4.23.0
+      escalade: 3.1.2
+      picocolors: 1.0.1
+
+  update-browserslist-db@1.1.0(browserslist@4.23.3):
+    dependencies:
+      browserslist: 4.23.3
       escalade: 3.1.2
       picocolors: 1.0.1
 
