@@ -86,6 +86,9 @@
     "confirm": "Confirmer",
     "retry": "Réessayer"
   },
+  "shared": {
+    "appStoreButtonsTitle": "Accédez aux avantages de l'application Mounting Manager - Téléchargez-la maintenant !"
+  },
   "meta": {
     "title": "Schaeffler Mounting Manager",
     "description": "Le programme Schaeffler Mounting Manager vous aide à sélectionner le montage approprié de roulements en toute facilité et offre les possibilités suivantes: Il propose plusieurs procédures mécaniques et hydrauliques, Il calcule les paramètres de montage nécessaires, Il donne de précieux conseils pour le montage, Il établit une liste des accessoires et outils nécessaires."

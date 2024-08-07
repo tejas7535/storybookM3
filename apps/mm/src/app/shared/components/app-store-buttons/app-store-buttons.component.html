@@ -1,0 +1,37 @@
+<div class="flex flex-col items-center mt-4">
+  @if (title) {
+    <p class="text-body-2 text-medium-emphasis">{{ title }}</p>
+  }
+  <div
+    class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:max-w-screen-md mt-4"
+  >
+    <div class="flex flex-row justify-center md:justify-end md:col-start-2">
+      <a
+        href="https://apps.apple.com/de/app/mounting-manager/id1596759700"
+        target="_blank"
+        (click)="onAppStoreClick('appStore')"
+      >
+        <img
+          src="/assets/images/icons/store-badges/apple-appstore-badge.svg"
+          class="w-40 md:w-auto md:h-8"
+          alt="Download on Apple App Store badge"
+        />
+      </a>
+    </div>
+    <div
+      class="flex flex-row justify-center md:justify-start col-start md:col-start-3"
+    >
+      <a
+        href="https://play.google.com/store/apps/details?id=com.schaeffler.Mounting"
+        target="_blank"
+      >
+        <img
+          src="/assets/images/icons/store-badges/google-play-badge.png"
+          class="w-40 md:w-auto md:h-8"
+          alt="Download on Google Play Store badge"
+          (click)="onAppStoreClick('play')"
+        />
+      </a>
+    </div>
+  </div>
+</div>

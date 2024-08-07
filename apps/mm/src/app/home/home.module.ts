@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
+import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
@@ -37,6 +38,7 @@ import { ResultPageModule } from './result-page/result-page.module';
     LoadingSpinnerModule,
     HorizontalSeparatorModule,
     CalculationOptionsModule,
+    AppStoreButtonsComponent,
 
     // Dynamic Forms
     DynamicFormsModule.forRoot({

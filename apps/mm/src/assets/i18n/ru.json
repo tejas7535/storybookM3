@@ -85,6 +85,9 @@
     "confirm": "Понятно",
     "retry": "Попробовать снова"
   },
+  "shared": {
+    "appStoreButtonsTitle": "Получите доступ к преимуществам приложения Mounting Manager - Скачайте сейчас!"
+  },
   "settings": "Настройки",
   "meta": {
     "title": "Schaeffler Mounting Manager",

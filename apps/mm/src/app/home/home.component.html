@@ -192,4 +192,11 @@
       </div>
     </div>
   </cae-dynamic-form>
+
+  @if (isAppDeliveryEmbedded) {
+    <mm-app-store-buttons
+      class="flex justify-center mb-8"
+      [title]="t('shared.appStoreButtonsTitle')"
+    ></mm-app-store-buttons>
+  }
 </ng-container>

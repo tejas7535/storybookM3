@@ -28,9 +28,11 @@ import {
 
 import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
 import { TranslocoService } from '@jsverse/transloco';
+import { AppDelivery } from '@mm/shared/models';
 
 import { DIALOG } from '../../mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
+import { detectAppDelivery } from '../core/helpers/settings-helpers';
 import {
   LocaleService,
   MMLocales,
@@ -88,6 +90,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS;
 
   public dialog = DIALOG;
+
+  public isAppDeliveryEmbedded = detectAppDelivery() === AppDelivery.Embedded;
 
   public model: Model = {
     rootObject: {

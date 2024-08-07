@@ -85,6 +85,9 @@
     "confirm": "确认",
     "retry": "重试"
   },
+  "shared": {
+    "appStoreButtonsTitle": "获取 Mounting Manager 应用程序的好处 - 立即下载！"
+  },
   "settings": "设置",
   "meta": {
     "title": "舍弗勒安装管理",

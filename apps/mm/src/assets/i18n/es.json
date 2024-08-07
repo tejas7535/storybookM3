@@ -86,6 +86,9 @@
     "confirm": "Confirmar",
     "retry": "Reintentar"
   },
+  "shared": {
+    "appStoreButtonsTitle": "Accede a los beneficios de la aplicación Mounting Manager - ¡Descárgala ahora!"
+  },
   "meta": {
     "title": "Schaeffler Mounting Manager",
     "description": "El Schaeffler Mounting Manager le facilita la selección cómoda del montaje correcto de los rodamientos y ofrece las siguientes posibilidades: muestra algunos procedimientos mecánicos e hidráulicos, calcula los parámetros de montaje requeridos, ofrece instrucciones de montaje útiles, genera una lista con los accesorios y herramientas necesarios"
