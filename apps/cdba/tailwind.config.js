@@ -35,7 +35,11 @@ module.exports = {
         'light-blue': '#ECF5F7',
       },
       borderColor: {
-        'low-emphasis': colors['dark-low-emphasis'],
+        'low-emphasis': colors['low-emphasis'],
+      },
+      backgroundColor: {
+        'nordic-blue': colors['info'],
+        secondary: secondaryColorPalette,
       },
     },
   },

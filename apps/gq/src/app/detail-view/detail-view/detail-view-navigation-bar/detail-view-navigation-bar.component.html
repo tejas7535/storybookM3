@@ -1,5 +1,5 @@
 <div
-  class="bg-navy-blue absolute bottom-16 left-1/2 flex -translate-x-1/2 flex-row items-center rounded-md py-4"
+  class="bg-[#16223B] absolute bottom-16 left-1/2 flex -translate-x-1/2 flex-row items-center rounded-md py-4"
 >
   <button
     class="ml-6 flex items-center justify-center"
@@ -9,8 +9,8 @@
     <mat-icon
       class="cursor-pointer text-icon"
       [ngClass]="{
-        'text-high-emphasis-dark-bg': selectedCaseIndex > 0,
-        'text-low-emphasis-dark-bg': selectedCaseIndex === 0
+        'text-white-high-emphasis': selectedCaseIndex > 0,
+        'text-icon-disabled': selectedCaseIndex === 0
       }"
       >first_page</mat-icon
     >
@@ -24,8 +24,8 @@
     <mat-icon
       class="cursor-pointer text-icon"
       [ngClass]="{
-        'text-high-emphasis-dark-bg': selectedCaseIndex > 0,
-        'text-low-emphasis-dark-bg': selectedCaseIndex === 0
+        'text-white-high-emphasis': selectedCaseIndex > 0,
+        'text-icon-disabled': selectedCaseIndex === 0
       }"
       >arrow_back</mat-icon
     >
@@ -33,7 +33,7 @@
 
   <input
     matInput
-    class="bg-navy-gray w-24 appearance-none rounded-md px-3 py-2 text-center text-high-emphasis-dark-bg outline-none placeholder:text-high-emphasis-dark-bg focus:placeholder:text-low-emphasis-dark-bg"
+    class="bg-[#444E61] w-24 appearance-none rounded-md px-3 py-2 text-center text-white-high-emphasis outline-none placeholder:text-white-high-emphasis focus:placeholder:text-white-low-emphasis"
     type="text"
     placeholder="{{ selectedCaseIndex + 1 }} / {{ numberOfCases }}"
     [formControl]="customIndexFormControl"
@@ -49,8 +49,8 @@
     <mat-icon
       class="cursor-pointer text-icon"
       [ngClass]="{
-        'text-high-emphasis-dark-bg': selectedCaseIndex < numberOfCases - 1,
-        'text-low-emphasis-dark-bg': selectedCaseIndex >= numberOfCases - 1
+        'text-white-high-emphasis': selectedCaseIndex < numberOfCases - 1,
+        'text-icon-disabled': selectedCaseIndex >= numberOfCases - 1
       }"
       >arrow_forward</mat-icon
     >
@@ -64,8 +64,8 @@
     <mat-icon
       class="cursor-pointer pr-6 text-icon"
       [ngClass]="{
-        'text-high-emphasis-dark-bg': selectedCaseIndex < numberOfCases - 1,
-        'text-low-emphasis-dark-bg': selectedCaseIndex >= numberOfCases - 1
+        'text-white-high-emphasis': selectedCaseIndex < numberOfCases - 1,
+        'text-icon-disabled': selectedCaseIndex >= numberOfCases - 1
       }"
       >last_page</mat-icon
     >

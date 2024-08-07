@@ -2,7 +2,10 @@
   @if (valid) {
     <mat-icon
       class="!flex items-center justify-center !text-[16px]"
-      [ngClass]="{ 'text-link': !isErrorText, 'text-orange': isErrorText }"
+      [ngClass]="{
+        'text-icon-link': !isErrorText,
+        'text-icon-warning': isErrorText
+      }"
       [matTooltip]="toolTipText"
       >check_circle</mat-icon
     >

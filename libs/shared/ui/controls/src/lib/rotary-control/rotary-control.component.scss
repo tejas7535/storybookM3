@@ -88,7 +88,7 @@
           }
 
           &--highlighted {
-            @apply text-high-emphasis-dark-bg;
+            @apply text-white-high-emphasis;
             text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 
             &:after {

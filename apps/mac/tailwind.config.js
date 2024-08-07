@@ -3,6 +3,7 @@ const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
 const { join } = require('path');
+const colors = require('../../libs/shared/ui/styles/src/lib/tailwind/colors');
 
 module.exports = {
   content: [
@@ -14,7 +15,11 @@ module.exports = {
   ],
   presets: [schaefflerTailwindPreset],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: {
+        'nordic-blue': colors['info'],
+      },
+    },
   },
   safelist: [
     'table-auto',

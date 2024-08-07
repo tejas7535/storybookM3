@@ -23,7 +23,7 @@
   (
     theme: material,
     material-primary-color: $primary,
-    material-accent-color: $nordic-blue,
+    material-accent-color: $info,
     checkbox-checked-color: $primary,
   )
 );
@@ -268,7 +268,7 @@ gq-kpi-status-card {
   }
   .mdc-snackbar__surface {
     @apply bg-high-emphasis #{!important};
-    @apply text-high-emphasis-dark-bg #{!important};
+    @apply text-white-high-emphasis #{!important};
   }
 }
 .mdc-tab__content {

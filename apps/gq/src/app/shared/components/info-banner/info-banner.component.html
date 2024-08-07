@@ -1,17 +1,17 @@
 <div
-  class="mt-6 flex w-fit flex-row items-center rounded-md border-[1px] bg-opacity-10 py-3 px-3"
+  class="mt-6 flex w-fit flex-row items-center rounded-md border-[1px] py-3 px-3"
   [ngClass]="{
-    'border-info bg-nordic-blue': !isWarning,
-    'border-warning bg-sunny-yellow': isWarning
+    'border-info bg-info': !isWarning,
+    'border-warning bg-warning': isWarning
   }"
 >
   <mat-icon
     class="mr-4 align-middle !text-info"
     [ngClass]="{
-      '!text-info': !isWarning,
-      '!text-orange': isWarning
+      '!text-icon-info': !isWarning,
+      '!text-icon-warning': isWarning
     }"
     >warning_amber</mat-icon
   >
-  <div class="text-caption">{{ infoText }}</div>
+  <div class="text-caption !text-info">{{ infoText }}</div>
 </div>

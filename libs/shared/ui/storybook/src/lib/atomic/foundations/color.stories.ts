@@ -1,69 +1,20 @@
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
+import { MatIconModule } from '@angular/material/icon';
 import READMEMd from './color/README.md';
-// const colors = require('../../../../../../../../tailwind/colors');
-const colors = {
-  // Color Schema
-  primary: '#00893d',
-  'primary-variant': '#e5f4e9',
-
-  secondary: '#ffffff',
-  'secondary-variant': '#f5f5f5',
-  'secondary-900': '#3c3c3c',
-
-  'background-dark': '#f5f5f5',
-  surface: '#ffffff',
-
-  // Color Accent
-  'nordic-blue': '#4398af',
-  'sunny-yellow': '#fbe06d',
-  lime: '#9ac465',
-  orange: '#ffa026',
-
-  // Text
-  'dark-high-emphasis': 'rgba(0, 0, 0, 0.87)',
-  'dark-medium-emphasis': 'rgba(0, 0, 0, 0.6)',
-  'dark-low-emphasis': 'rgba(0, 0, 0, 0.38)',
-  'dark-disabled': 'rgba(0, 0, 0, 0.38)',
-
-  'light-high-emphasis': '#ffffff',
-  'light-medium-emphasis': 'rgba(255, 255, 255, 0.6)',
-  'light-low-emphasis': 'rgba(255, 255, 255, 0.38)',
-  'light-disabled': 'rgba(0, 0, 0, 0.38)',
-
-  // Special Colors
-  'icon-error': '#cb0b15',
-  'icon-link': '#00893d',
-  'icon-info': '#1c98b5',
-  'icon-warning': '#e9b300',
-  'icon-success': '#a1c861',
-
-  'border-error': '#cb0b15',
-  'border-info': '#1c98b5',
-  'border-warning': '#e9b300',
-  'border-success': '#a1c861',
-
-  'text-error': '#a30f0c',
-  'text-link': '#00893d',
-  'text-info': '#00596e',
-  'text-warning': '#814e00',
-  'text-success': '#517626',
-
-  'bg-error': '#fceee8',
-  'bg-info': '#f0f6fa',
-  'bg-warning': '#fffbef',
-  'bg-success': '#f8fbf4',
-
-  // Outline
-  border: 'rgba(0, 0, 0, 0.12)',
-};
+const colors = require('../../../../../styles/src/lib/tailwind/colors');
 
 export default {
   title: 'Atomic/Foundations/Color',
-  decorators: [withDesign],
+  decorators: [
+    withDesign,
+    moduleMetadata({
+      imports: [MatIconModule],
+    }),
+  ],
   parameters: {
     docs: {
       description: {
@@ -82,76 +33,100 @@ const Template: StoryFn = (args) => ({
   props: args,
   template: `
     <section class="bg-background-dark p-4">
-      <h4>Color Schema</h4>
-      <div class="mat-elevation-z0 bg-primary"><div class="p-4 pt-[60px]">bg-primary {{colors.primary}} (called secondary in design)</div></div>      
+      <h4>Foundational colors</h4>
+      <div class="mat-elevation-z0 bg-primary"><div class="p-4 pt-[60px]">bg-primary {{colors.primary}}</div></div>      
+      <div class="mat-elevation-z0 bg-white"><div class="p-4 pt-[60px]">bg-white {{colors.white}}</div></div>
+      <div class="mat-elevation-z0 bg-disabled"><div class="p-4 pt-[60px]">bg-disabled {{colors.disabled}}</div></div>
+      <div class="mat-elevation-z0 bg-inactive"><div class="p-4 pt-[60px]">bg-inactive {{colors.inactive}}</div></div>
+      <div class="mat-elevation-z0 bg-active text-white-low-emphasis"><div class="p-4 pt-[60px]">bg-active {{colors.active}}</div></div>
+      <div class="mat-elevation-z0 bg-default"><div class="p-4 pt-[60px]">bg-default {{colors.default}}</div></div>
+
+      <h4>Text colors</h4>
+      <div class="mat-elevation-z0 text-link"><div class="p-4 pt-[60px]">text-link {{colors['text-link']}}</div></div>      
+      <div class="mat-elevation-z0 text-low-emphasis"><div class="p-4 pt-[60px]">text-low-emphasis {{colors['low-emphasis']}} </div></div>      
+      <div class="mat-elevation-z0 text-medium-emphasis"><div class="p-4 pt-[60px]">text-medium-emphasis {{colors['medium-emphasis']}}</div></div>      
+      <div class="mat-elevation-z0 text-high-emphasis"><div class="p-4 pt-[60px]">text-high-emphasis {{colors['high-emphasis']}}</div></div>      
+      <div class="mat-elevation-z0 text-white-low-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-low-emphasis {{colors['white-low-emphasis']}}</div></div>      
+      <div class="mat-elevation-z0 text-white-medium-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-medium-emphasis {{colors['white-medium-emphasis']}}</div></div>      
+      <div class="mat-elevation-z0 text-white-high-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-high-emphasis {{colors['white-high-emphasis']}}</div></div>      
+
+      <h4 class="mt-20">Functional Colors</h4>
+      <div class="mat-elevation-z0 bg-secondary border border-info mb-1">
+        <div class="p-4 pt-[60px]">border-info {{ colors['info'] }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-success mb-1">
+        <div class="p-4 pt-[60px]">border-success {{ colors['success'] }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-warning mb-1">
+        <div class="p-4 pt-[60px]">border-warning {{ colors['warning'] }}</div>    
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-error mb-1">
+            <div class="p-4 pt-[60px]">border-error {{ colors['error'] }}</div>    
+      </div>
+
+      <h4 class="mt-20">Functional Text Colors</h4>
+      <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
+        <div class="p-4 pt-[60px] text-info">text-info {{colors['text-info']}}</div>
+        <div class="p-4 pt-[60px] text-success">text-success {{colors['text-success']}}</div>
+        <div class="p-4 pt-[60px] text-warning">text-warning {{colors['text-warning']}}</div>
+        <div class="p-4 pt-[60px] text-error">text-error {{colors['text-error']}}</div>
+      </div>
+
+      <h4 class="mt-20">Text Icon Colors</h4>
+      <div class="mat-elevation-z0 bg-secondary">
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-link">
+          <mat-icon>link</mat-icon>
+          <span>text-icon-link</span>
+          <span>{{colors.link}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-success">
+          <mat-icon>done</mat-icon>
+          <span>text-icon-success</span>
+          <span>{{colors.success}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-info">
+          <mat-icon>info</mat-icon>
+          <span>text-icon-info</span>
+          <span>{{colors.info}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-warning">
+          <mat-icon>warning</mat-icon>
+          <span>text-icon-warning</span>
+          <span>{{colors.warning}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-error">
+          <mat-icon>error</mat-icon>
+          <span>text-icon-error</span>
+          <span>{{colors.error}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-disabled">
+          <mat-icon>edit-off</mat-icon>
+          <span>text-icon-disabled</span>
+          <span>{{colors.disabled}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-inactive">
+          <mat-icon>toggle_off</mat-icon>
+          <span>text-icon-inactive</span>
+          <span>{{colors.inactive}}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-active">
+        <mat-icon>toggle_on</mat-icon>
+          <span>text-icon-active</span>
+          <span>{{colors.active}}</span>
+        </div>
+      </div>
+
+      <h4 class="mt-20">Color Schema</h4>
       <div class="mat-elevation-z0 bg-primary-variant"><div class="p-4 pt-[60px]">bg-primary-variant {{colors['primary-variant']}} (called secondary-variant in design)</div></div>      
       <div class="mat-elevation-z0 bg-secondary"><div class="p-4 pt-[60px]">bg-secondary {{colors.secondary}} (called primary in design)</div></div>
       <div class="mat-elevation-z0 bg-secondary-variant"><div class="p-4 pt-[60px]">bg-secondary-variant {{colors['secondary-variant']}} (called primary-variant in design)</div></div>
-      <div class="mat-elevation-z0 bg-secondary-900"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
+      <div class="mat-elevation-z0 bg-secondary-900 text-white-low-emphasis"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
       <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
       <div class="mat-elevation-z0 bg-surface"><div class="p-4 pt-[60px]">bg-surface {{colors.surface}}</div></div>
       <div class="mat-elevation-z0 bg-success"><div class="p-4 pt-[60px]">bg-success {{colors['bg-success']}}</div></div>
       <div class="mat-elevation-z0 bg-info"><div class="p-4 pt-[60px]">bg-info {{colors['bg-info']}}</div></div>
       <div class="mat-elevation-z0 bg-warning"><div class="p-4 pt-[60px]">bg-warning {{colors['bg-warning']}}</div></div>
       <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors['bg-error']}}</div></div>
-      <div class="mat-elevation-z0 bg-orange"><div class="p-4 pt-[60px]">bg-orange {{colors.orange}}</div></div>
-      
-      <h4 class="mt-20">Color Accent</h4>
-      <div class="mat-elevation-z0 bg-nordic-blue"><div class="p-4 pt-[60px]">bg-nordic-blue {{colors['nordic-blue']}}</div></div>
-      <div class="mat-elevation-z0 bg-sunny-yellow"><div class="p-4 pt-[60px]">bg-sunny-yellow {{colors['sunny-yellow']}}</div></div>
-      <div class="mat-elevation-z0 bg-lime"><div class="p-4 pt-[60px]">bg-lime {{colors.lime}}</div></div>
-      
-      <h4 class="mt-20">Black Text on Primary / White</h4>
-      <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
-        <div class="p-4 pt-[60px] text-high-emphasis">text-high-emphasis</div>
-        <div class="p-4 pt-[60px] text-medium-emphasis">text-medium-emphasis</div>
-        <div class="p-4 pt-[60px] text-low-emphasis">text-low-emphasis</div>
-      </div>
-
-      <h4 class="mt-20">On Surface</h4>
-      <div class="mat-elevation-z0 bg-secondary-900 flex flex-row justify-between">
-        <div class="p-4 pt-[60px] text-high-emphasis-dark-bg">text-high-emphasis-dark-bg</div>
-        <div class="p-4 pt-[60px] text-medium-emphasis-dark-bg">text-medium-emphasis-dark-bg</div>
-        <div class="p-4 pt-[60px] text-low-emphasis-dark-bg">text-low-emphasis-dark-bg</div>
-      </div>
-
-      <h4 class="mt-20">Special Text Color</h4>
-      <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
-      <div class="p-4 pt-[60px] text-link">text-link</div>
-      <div class="p-4 pt-[60px] text-success">text-success</div>
-      <div class="p-4 pt-[60px] text-info">text-info</div>
-      <div class="p-4 pt-[60px] text-warning">text-warning</div>
-      <div class="p-4 pt-[60px] text-error">text-error</div>
-      </div>
-
-      <h4 class="mt-20">Text icon color</h4>
-      <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
-      <div class="p-4 pt-[60px] text-icon-link">text-icon-link</div>
-      <div class="p-4 pt-[60px] text-icon-success">text-icon-success</div>
-      <div class="p-4 pt-[60px] text-icon-info">text-icon-info</div>
-      <div class="p-4 pt-[60px] text-icon-warning">text-icon-warning</div>
-      <div class="p-4 pt-[60px] text-icon-error">text-icon-error</div>
-      </div>
-
-      <h4 class="mt-20">Outline</h4>
-      <div class="mat-elevation-z0 bg-secondary border border-border mb-1">
-        <div class="p-4 pt-[60px] ">border-border {{ colors['border'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-secondary border border-primary mb-1">
-        <div class="p-4 pt-[60px]">border-primary {{ colors['primary'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-secondary border border-success mb-1">
-        <div class="p-4 pt-[60px]">border-success {{ colors['border-success'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-secondary border border-info mb-1">
-        <div class="p-4 pt-[60px]">border-info {{ colors['border-info'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-secondary border border-warning mb-1">
-            <div class="p-4 pt-[60px]">border-warning {{ colors['border-warning'] }}</div>    
-      </div>
-      <div class="mat-elevation-z0 bg-secondary border border-error mb-1">
-            <div class="p-4 pt-[60px]">border-error {{ colors['border-error'] }}</div>    
-      </div>
     </section>
   `,
 });

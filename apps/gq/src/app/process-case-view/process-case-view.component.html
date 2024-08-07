@@ -23,7 +23,8 @@
                     quotation.status === quotationStatus.IN_APPROVAL,
                   'bg-quotation-status-dark-green !bg-opacity-20':
                     quotation.status === quotationStatus.APPROVED,
-                  'bg-error': quotation.status === quotationStatus.REJECTED
+                  'bg-quotation-status-red':
+                    quotation.status === quotationStatus.REJECTED
                 }"
               >
                 <div
@@ -45,7 +46,7 @@
               [ngClass]="{
                 'bg-quotation-status-blue':
                   (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-                'bg-gray-300':
+                'bg-[#F4F4F4]':
                   (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
                 'bg-quotation-status-orange':
                   (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED ||

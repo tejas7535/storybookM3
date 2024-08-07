@@ -44,18 +44,18 @@
                     >
                       <mat-icon
                         [svgIcon]="icon"
-                        class="!h-12 !w-12 text-h1-mobile text-high-emphasis-dark-bg"
+                        class="!h-12 !w-12 text-h1-mobile text-white-high-emphasis"
                         [inline]="false"
                       ></mat-icon>
                       @if (!external) {
                         <div
-                          class="text-center text-caption text-high-emphasis-dark-bg"
+                          class="text-center text-caption text-white-high-emphasis"
                         >
                           {{ t('openApplication') }}
                         </div>
                       } @else {
                         <div
-                          class="text-center text-caption text-high-emphasis-dark-bg"
+                          class="text-center text-caption text-white-high-emphasis"
                         >
                           {{ t('openApplicationInNewWindow') }}
                         </div>
@@ -70,17 +70,17 @@
                     >
                       <mat-icon
                         [svgIcon]="icon"
-                        class="!h-24 !w-24 text-high-emphasis-dark-bg"
+                        class="!h-24 !w-24 text-white-high-emphasis"
                       ></mat-icon>
                       @if (!external) {
                         <div
-                          class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
+                          class="absolute bottom-6 text-center text-caption text-white-high-emphasis"
                         >
                           {{ t('openApplication') }}
                         </div>
                       } @else {
                         <div
-                          class="absolute bottom-6 text-center text-caption text-high-emphasis-dark-bg"
+                          class="absolute bottom-6 text-center text-caption text-white-high-emphasis"
                         >
                           {{ t('openApplicationInNewTab') }}
                         </div>
@@ -111,8 +111,8 @@
         <div
           class="flex h-full w-full flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.2)]"
         >
-          <mat-icon class="text-high-emphasis-dark-bg">lock</mat-icon>
-          <div class="text-caption text-high-emphasis-dark-bg">
+          <mat-icon class="text-white-high-emphasis">lock</mat-icon>
+          <div class="text-caption text-white-high-emphasis">
             {{ t('noAccessText') }}
           </div>
           @if (requestAccessLink) {

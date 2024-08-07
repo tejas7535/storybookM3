@@ -13,6 +13,7 @@
                 quotation.status !== quotationStatus.DELETED &&
                 quotation.status !== quotationStatus.ARCHIVED
               ) {
+                <!-- quotationStatus -->
                 @if (quotation$ | ngrxPush; as quotation) {
                   <div
                     class="relative h-5 w-5 rounded-full"
@@ -21,7 +22,8 @@
                         quotation.status === quotationStatus.IN_APPROVAL,
                       'bg-quotation-status-dark-green !bg-opacity-20':
                         quotation.status === quotationStatus.APPROVED,
-                      'bg-error': quotation.status === quotationStatus.REJECTED
+                      'bg-quotation-status-red':
+                        quotation.status === quotationStatus.REJECTED
                     }"
                   >
                     <div
@@ -38,18 +40,20 @@
                   </div>
                 }
               } @else {
+                <!-- sapSync status -->
                 <div
-                  class="relative h-5 w-5 rounded-full bg-opacity-20"
+                  class="relative h-5 w-5 rounded-full"
                   [ngClass]="{
-                    'bg-nordic-blue':
+                    'bg-quotation-status-blue':
                       (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
-                    '!bg-gray-300':
+                    '!bg-[#F4F4F4]':
                       (sapStatusPosition$ | ngrxPush) ===
-                      sapSyncStatus.NOT_SYNCED,
+                        sapSyncStatus.NOT_SYNCED &&
+                      !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
                     'bg-quotation-status-orange':
                       (sapStatusPosition$ | ngrxPush) ===
                       sapSyncStatus.PARTIALLY_SYNCED,
-                    'bg-error !bg-opacity-100':
+                    'bg-quotation-status-red !bg-opacity-100':
                       (sapStatusPosition$ | ngrxPush) ===
                       sapSyncStatus.SYNC_FAILED
                   }"
@@ -71,7 +75,8 @@
                         sapSyncStatus.SYNCED,
                       'bg-low-emphasis':
                         (sapStatusPosition$ | ngrxPush) ===
-                        sapSyncStatus.NOT_SYNCED,
+                          sapSyncStatus.NOT_SYNCED &&
+                        !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
                       'bg-[#e9b300]':
                         (sapStatusPosition$ | ngrxPush) ===
                         sapSyncStatus.PARTIALLY_SYNCED,

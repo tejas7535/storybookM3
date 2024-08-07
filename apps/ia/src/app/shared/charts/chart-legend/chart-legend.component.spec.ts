@@ -27,7 +27,7 @@ describe('ChartLegendComponent', () => {
     ),
     new ChartLegendItem(
       'organizationalView.worldMap.chartLegend.ok.title',
-      TailwindColor.SUNNY_YELLOW,
+      TailwindColor.WARNING,
       'organizationalView.worldMap.chartLegend.ok.tooltip'
     ),
   ];
@@ -79,6 +79,6 @@ describe('ChartLegendComponent', () => {
 
     expect(indicators[0].nativeElement.className).toContain('bg-primary');
     expect(indicators[1].nativeElement.className).toContain('bg-error');
-    expect(indicators[2].nativeElement.className).toContain('bg-sunny-yellow');
+    expect(indicators[2].nativeElement.className).toContain('bg-warning');
   });
 });

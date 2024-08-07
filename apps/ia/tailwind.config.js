@@ -37,6 +37,12 @@ module.exports = {
       borderColor: {
         'gray-300': '#F0F0F0',
       },
+      gradientColorStops: (theme) => ({
+        'heatmap-blue': 'rgb(3, 147, 240)',
+        'heatmap-deep-magenta': 'rgb(177, 27, 172)',
+        'heatmap-red': 'rgb(251, 36, 36)',
+        ...theme('colors'),
+      }),
     },
   },
   plugins: [],

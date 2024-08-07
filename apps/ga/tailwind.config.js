@@ -20,6 +20,10 @@ const overwriteTextColors = {
   link: generateColorClass('primary'),
 };
 
+const overwriteBackgroundColors = {
+  orange: '#E9B300',
+};
+
 module.exports = {
   content: [
     join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
@@ -36,6 +40,10 @@ module.exports = {
       },
       textColor: {
         ...overwriteTextColors,
+      },
+      backgroundColor: {
+        ...overwriteBackgroundColors,
+        ...overwriteColors,
       },
     },
   },

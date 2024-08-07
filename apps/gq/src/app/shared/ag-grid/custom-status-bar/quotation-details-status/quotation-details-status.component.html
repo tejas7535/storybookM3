@@ -5,9 +5,7 @@
 >
   @if (simulatedQuotation$ | ngrxPush; as simulatedQuotation) {
     <div>
-      <div
-        class="text-high-emphasis-dark-bg flex flex-row gap-16 pr-8 text-left"
-      >
+      <div class="text-white-high-emphasis flex flex-row gap-16 pr-8 text-left">
         @if (quotationCurrency$ | ngrxPush; as currency) {
           <div class="flex flex-row">
             <div>

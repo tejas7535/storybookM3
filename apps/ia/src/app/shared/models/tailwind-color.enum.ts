@@ -1,5 +1,5 @@
 export enum TailwindColor {
   PRIMARY = 'primary',
-  SUNNY_YELLOW = 'sunny-yellow',
+  WARNING = 'warning',
   ERROR = 'error',
 }

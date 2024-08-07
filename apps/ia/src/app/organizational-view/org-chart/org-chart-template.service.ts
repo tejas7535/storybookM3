@@ -116,8 +116,8 @@ export class OrgChartTemplateService {
 
     const relativeFluctuationText = `
       <div>
-        <span class="text-medium-emphasis-dark-bg">${data.textRelativeFluctuation}:</span>
-        <span class="text-high-emphasis-dark-bg">
+        <span class="text-white-medium-emphasis">${data.textRelativeFluctuation}:</span>
+        <span class="text-white-high-emphasis">
           ${data.displayedDirectFluctuationRate}% / ${data.displayedTotalFluctuationRate}%
         </span>
       </div>
@@ -131,8 +131,8 @@ export class OrgChartTemplateService {
 
     const absoluteFluctuationText = `
       <div>
-        <span class="text-medium-emphasis-dark-bg">${data.textAbsoluteFluctuation}:</span>
-        <span class="text-high-emphasis-dark-bg">
+        <span class="text-white-medium-emphasis">${data.textAbsoluteFluctuation}:</span>
+        <span class="text-white-high-emphasis">
           ${data.displayedDirectAbsoluteFluctuation} / ${data.displayedAbsoluteFluctuation}
         </span>
       </div>`;

@@ -100,9 +100,7 @@ export function getColorsForChart(
 
   // fill undefined entries with available colors
   const colorPalette = colors
-    .map((color: Color) =>
-      color === undefined ? remainingColors.shift() : color
-    )
+    .map((color: Color) => color ?? remainingColors.shift())
     .filter((color: Color) => color !== undefined);
 
   return colorPalette;

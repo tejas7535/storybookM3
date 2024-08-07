@@ -127,8 +127,10 @@
             class="flex flex-col items-center gap-2 px-8"
             (click)="openRejectionDialog()"
           >
-            <mat-icon class="text-orange">clear</mat-icon>
-            <span class="text-orange text-[12px]">{{ t('rejectButton') }}</span>
+            <mat-icon class="text-icon-warning">clear</mat-icon>
+            <span class="text-warning text-[12px]">{{
+              t('rejectButton')
+            }}</span>
           </button>
           <button
             mat-stroke-button

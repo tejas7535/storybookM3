@@ -4,7 +4,7 @@
     class="float-left w-full min-w-[100px] truncate"
     [ngClass]="{
       'text-error': isInvalidPriceError,
-      'text-orange': isWarningEnabled
+      'text-warning': isWarningEnabled
     }"
   >
     @if (isWarningEnabled) {
@@ -18,7 +18,7 @@
     }
     <span
       [ngClass]="{
-        'bg-sunny-yellow':
+        'bg-[#e9b300]':
           (simulatedQuotation$ | ngrxPush) &&
           params.formatValue((simulatedQuotation$ | ngrxPush)[params.field]) !==
             '-'

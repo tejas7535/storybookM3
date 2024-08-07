@@ -34,6 +34,9 @@ module.exports = {
         secondary: secondaryColorPalette,
         'medias-grey-background': '#F6F7F8',
       },
+      backgroundColor: {
+        secondary: secondaryColorPalette,
+      },
       textColor: {
         primary: colors.primary,
         secondary: secondaryColorPalette,

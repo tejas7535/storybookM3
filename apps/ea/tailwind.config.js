@@ -34,6 +34,7 @@ module.exports = {
       },
       backgroundColor: {
         inactive: '#DEDEDE',
+        secondary: secondaryColorPalette,
       },
       textColor: {
         primary: colors.primary,

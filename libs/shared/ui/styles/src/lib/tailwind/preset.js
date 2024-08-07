@@ -6,20 +6,51 @@ const fontSizes = require('./font-sizes');
 
 const baseColors = {
   primary: colors.primary,
+  white: colors.white,
+  disabled: colors.disabled,
+  inactive: colors.inactive,
+  active: colors.active,
+  default: colors.default,
   'primary-variant': colors['primary-variant'],
   secondary: colors.secondary,
   'secondary-variant': colors['secondary-variant'],
   'secondary-900': colors['secondary-900'],
-  'background-dark': colors['background-dark'],
-  surface: colors['surface'],
+};
+
+const backgroundColors = {
   error: colors['bg-error'],
   info: colors['bg-info'],
   warning: colors['bg-warning'],
   success: colors['bg-success'],
-  'sunny-yellow': colors['sunny-yellow'],
-  'nordic-blue': colors['nordic-blue'],
-  lime: colors.lime,
-  orange: colors.orange,
+  'background-dark': colors['background-dark'],
+  surface: colors['surface'],
+};
+
+const functionalColors = {
+  error: colors.error,
+  link: colors.link,
+  info: colors.info,
+  warning: colors.warning,
+  success: colors.success,
+};
+
+const functionalIconColors = {
+  'icon-error': colors.error,
+  'icon-link': colors.link,
+  'icon-info': colors.info,
+  'icon-warning': colors.warning,
+  'icon-success': colors.success,
+  'icon-disabled': colors.disabled,
+  'icon-inactive': colors.inactive,
+  'icon-active': colors.active,
+};
+
+const functionalTextColors = {
+  error: colors['text-error'],
+  link: colors['text-link'],
+  info: colors['text-info'],
+  warning: colors['text-warning'],
+  success: colors['text-success'],
 };
 
 const greys = {
@@ -30,29 +61,18 @@ const greys = {
   'backdrop-overlay': 'rgba(0,0,0,0.32)',
 };
 
-const gradientColors = {
-  heatmapBlue: 'rgb(3, 147, 240)',
-  heatmapDeepMagenta: 'rgb(177, 27, 172)',
-  heatmapRed: 'rgb(251, 36, 36)',
-};
-
 const emphasis = {
-  'high-emphasis': colors['dark-high-emphasis'],
-  'medium-emphasis': colors['dark-medium-emphasis'],
-  'low-emphasis': colors['dark-low-emphasis'],
+  'high-emphasis': colors['high-emphasis'],
+  'medium-emphasis': colors['medium-emphasis'],
+  'low-emphasis': colors['low-emphasis'],
 
-  'high-emphasis-dark-bg': colors['light-high-emphasis'],
-  'medium-emphasis-dark-bg': colors['light-medium-emphasis'],
-  'low-emphasis-dark-bg': colors['light-low-emphasis'],
+  'white-low-emphasis': colors['white-low-emphasis'],
+  'white-medium-emphasis': colors['white-medium-emphasis'],
+  'white-high-emphasis': colors['white-high-emphasis'],
 };
 
 const border = {
   border: colors.border,
-  primary: colors.primary,
-  error: colors['border-error'],
-  info: colors['border-info'],
-  warning: colors['border-warning'],
-  success: colors['border-success'],
   'medium-emphasis': colors['medium-emphasis'],
 };
 
@@ -117,15 +137,24 @@ const plugins = [
 const theme = {
   colors: {
     ...baseColors,
+    ...functionalColors,
+    ...greys,
+    ...emphasis,
+    transparent: 'rgba(0,0,0,0)',
+  },
+  backgroundColor: {
+    ...baseColors,
+    ...backgroundColors,
     ...greys,
     ...emphasis,
     transparent: 'rgba(0,0,0,0)',
   },
   gradientColorStops: (theme) => ({
     ...theme('colors'),
-    ...gradientColors,
   }),
   borderColor: {
+    ...baseColors,
+    ...functionalColors,
     ...border,
   },
   fontSize: fontSizes,
@@ -137,16 +166,8 @@ const theme = {
   },
   textColor: {
     white: colors['secondary'],
-    error: colors['text-error'],
-    link: colors['text-link'],
-    info: colors['text-info'],
-    warning: colors['text-warning'],
-    success: colors['text-success'],
-    'icon-error': colors['icon-error'],
-    'icon-link': colors['icon-link'],
-    'icon-info': colors['icon-info'],
-    'icon-warning': colors['icon-warning'],
-    'icon-success': colors['icon-success'],
+    ...functionalTextColors,
+    ...functionalIconColors,
     ...emphasis,
   },
 
