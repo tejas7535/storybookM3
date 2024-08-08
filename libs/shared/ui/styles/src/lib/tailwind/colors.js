@@ -13,6 +13,7 @@ const colors = {
   // Color Schema
   'primary-variant': '#e5f4e9',
   secondary: '#ffffff',
+  'secondary-legacy': '#ffffff', // temporary color to replace occurences of $secondary for m2 theme
   'secondary-variant': '#f5f5f5',
   'secondary-900': '#3c3c3c',
 

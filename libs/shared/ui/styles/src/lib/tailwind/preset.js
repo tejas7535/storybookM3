@@ -13,6 +13,7 @@ const baseColors = {
   default: colors.default,
   'primary-variant': colors['primary-variant'],
   secondary: colors.secondary,
+  'secondary-legacy': colors['secondary-legacy'],
   'secondary-variant': colors['secondary-variant'],
   'secondary-900': colors['secondary-900'],
 };
