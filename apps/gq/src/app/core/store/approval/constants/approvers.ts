@@ -1,109 +1,75 @@
-import { ApprovalLevel } from '@gq/shared/models/approval';
+import { ApprovalLevel } from '@gq/shared/models';
 // ###############################################################################################################
 // ###  For approver Logic see documentation                                                                   ###
-// ###  https://confluence.schaeffler.com/pages/viewpage.action?spaceKey=PARS&title=Advanced+Approval+Process  ###
+// ###  https://confluence.schaeffler.com/x/moxFBg                                                             ###
 // ###############################################################################################################
 
-// Table of Levels when Third Approver is required or NOT --> for First Approver
-// 3rdAppRequired/Level
-//                Level   | L0        | L1	        | L2	| L3	| L4	| L5
-//                      --------------------------------------------------
-// 3rdAppRequired       0	| undefined | L1	        | L2	| L3	| L4	| L4
-//                      1	| undefined | undefined	  | L1	| L2	| L3	| L3
+/**
+ * ApprovalLevel[][] contains the logic for the approvers.
+ * The required approvers can be found by using the approval level as the index of array. e.g. ApprovalLevel.L0 is at index 0, ApprovalLevel.L1 is at index 1,...
 
-export const firstApproverLogic: ApprovalLevel[][] = [
-  [
-    undefined,
-    ApprovalLevel.L1,
-    ApprovalLevel.L2,
-    ApprovalLevel.L3,
-    ApprovalLevel.L4,
-    ApprovalLevel.L4,
-  ],
-  [
-    undefined,
-    undefined,
-    ApprovalLevel.L1,
-    ApprovalLevel.L2,
-    ApprovalLevel.L3,
-    ApprovalLevel.L3,
-  ],
-];
-
-/* Table of Levels when Third Approver is required or NOT --> for Second Approvers
-3rdAppRequired/Level	
-
-           Level      | L0        | L1	      | L2	| L3	| L4	| L5
-                ----------------------------------------------------
- 3rdAppRequired     0	| undefined | L2	      | L3	| L4	| L4	| L5
-                    1	| undefined | undefined	| L2	| L3	| L4	| L4
-
-*/
-export const secondApproverLogic: ApprovalLevel[][] = [
-  [
-    undefined,
-    ApprovalLevel.L2,
-    ApprovalLevel.L3,
-    ApprovalLevel.L4,
-    ApprovalLevel.L4,
-    ApprovalLevel.L5,
-  ],
-  [
-    undefined,
-    undefined,
-    ApprovalLevel.L2,
-    ApprovalLevel.L3,
-    ApprovalLevel.L4,
-    ApprovalLevel.L4,
-  ],
-];
-/*
-  Table of Levels when Third Approver is required or NOT --> for optional Third Approvers
-3rdAppRequired / Level	| L0        | 	 L1	      |	L2	      |	L3	      |	L4	      |	L5
-                    -----------------------------------------------------------------------------
-3rdAppRequired        0 |	undefined | undefined   |	undefined	|	undefined	|	undefined	|	undefined
-                      1	| undefined | undefined	  |	L3	      |	L4	      |	L4	      |	L5
-
-*/
-export const thirdApproverLogic: ApprovalLevel[] = [
-  undefined as any,
-  undefined as any,
-  ApprovalLevel.L3,
-  ApprovalLevel.L4,
-  ApprovalLevel.L4,
-  ApprovalLevel.L5,
-];
-
-/* string combination of requested approval Level of Quotation
-3rdAppRequired / Level	| L0        | L1	        |	 L2	              |	L3	              |	 L4	              |	L5
-                    ---------------------------------------------------------------------------------------------------------------------
-3rdAppRequired        0 |	L0        | L1 + L2     |	 L2 + L3	        |	L3 + L4	          |	 L4 + L4	        |	L4 + L5
-                      1	| undefined | undefined	  |	 L1 + L2 + L3	    |	L2 + L3 + L4	    |	 L3 + L4 + L4     |	L3 + L4 + L5
- 
+ *
+ * Example:
+ * 
+ * When required ApprovalLevel is 0 (L0) get array at Position 0: ApprovalLevel[0] --> result: list of approvers for this level
+ * const logicDefault =
+ * [
+ *  [ApprovalLevel.L0, undefined], <-- ApprovalLevel.L0
+ *  [ApprovalLevel.L1, ApprovalLevel.L2], <-- ApprovalLevel.L1
+ * ]
+ *
+ * For ApprovalLevel.L0, the first entry (index 0) of the array is taken: [ApprovalLevel.L0, undefined]
+ * ApprovalLevel.L0 requires ApprovalLevel.L0
+ *
+ * For ApprovalLevel.L1, the second entry (index 1) of the array is taken: [ApprovalLevel.L1, ApprovalLevel.L2]
+ * ApprovalLevel.L1 requires ApprovalLevel.L1 and ApprovalLevel.L2
  */
-export const approvalLevelOfQuotationLogic: string[][] = [
-  [
-    `${ApprovalLevel[ApprovalLevel.L0]}`,
-    `${ApprovalLevel[ApprovalLevel.L1]} + ${ApprovalLevel[ApprovalLevel.L2]}`,
-    `${ApprovalLevel[ApprovalLevel.L2]} + ${ApprovalLevel[ApprovalLevel.L3]}`,
-    `${ApprovalLevel[ApprovalLevel.L3]} + ${ApprovalLevel[ApprovalLevel.L4]}`,
-    `${ApprovalLevel[ApprovalLevel.L4]} + ${ApprovalLevel[ApprovalLevel.L4]}`,
-    `${ApprovalLevel[ApprovalLevel.L4]} + ${ApprovalLevel[ApprovalLevel.L4]}`,
-  ],
-  [
-    undefined as any,
-    undefined as any,
-    `${ApprovalLevel[ApprovalLevel.L1]} + ${
-      ApprovalLevel[ApprovalLevel.L2]
-    } + ${ApprovalLevel[ApprovalLevel.L3]}`,
-    `${ApprovalLevel[ApprovalLevel.L2]} + ${
-      ApprovalLevel[ApprovalLevel.L3]
-    } + ${ApprovalLevel[ApprovalLevel.L4]}`,
-    `${ApprovalLevel[ApprovalLevel.L3]} + ${
-      ApprovalLevel[ApprovalLevel.L4]
-    } + ${ApprovalLevel[ApprovalLevel.L4]}`,
-    `${ApprovalLevel[ApprovalLevel.L3]} + ${
-      ApprovalLevel[ApprovalLevel.L4]
-    } + ${ApprovalLevel[ApprovalLevel.L5]}`,
-  ],
+
+// Default logic, if no third approver is required
+const logicDefault = [
+  [ApprovalLevel.L0, undefined], // ApprovalLevel.L0
+  [ApprovalLevel.L1, ApprovalLevel.L2], // ApprovalLevel.L1
+  [ApprovalLevel.L2, ApprovalLevel.L3], // ApprovalLevel.L2
+  [ApprovalLevel.L3, ApprovalLevel.L4], // ApprovalLevel.L3
+  [ApprovalLevel.L4, ApprovalLevel.L4], // ApprovalLevel.L4
+  [ApprovalLevel.L4, ApprovalLevel.L5], // ApprovalLevel.L5
 ];
+
+// Logic for third approver
+const logicThirdApprover = [
+  [undefined, undefined, undefined], // ApprovalLevel.L0
+  [undefined, undefined, undefined], // ApprovalLevel.L1
+  [ApprovalLevel.L1, ApprovalLevel.L2, ApprovalLevel.L3], // ApprovalLevel.L2
+  [ApprovalLevel.L2, ApprovalLevel.L3, ApprovalLevel.L4], // ApprovalLevel.L3
+  [ApprovalLevel.L3, ApprovalLevel.L4, ApprovalLevel.L4], // ApprovalLevel.L4
+  [ApprovalLevel.L3, ApprovalLevel.L4, ApprovalLevel.L5], // ApprovalLevel.L5
+];
+
+// Logic for third approver in Greater China
+const logicThirdApproverGreaterChina = [
+  [undefined, undefined, undefined], // ApprovalLevel.L0
+  [ApprovalLevel.L1, ApprovalLevel.L1, ApprovalLevel.L2], // ApprovalLevel.L1
+  [ApprovalLevel.L1, ApprovalLevel.L2, ApprovalLevel.L3], // ApprovalLevel.L2
+  [ApprovalLevel.L1, ApprovalLevel.L3, ApprovalLevel.L4], // ApprovalLevel.L3
+  [ApprovalLevel.L1, ApprovalLevel.L4, ApprovalLevel.L4], // ApprovalLevel.L4
+  [ApprovalLevel.L1, ApprovalLevel.L4, ApprovalLevel.L5], // ApprovalLevel.L5
+];
+
+/**
+ * Gets the approval logic based on the given parameters.
+ *
+ * @param isGreaterChina indicates if the request is for Greater China
+ * @param isThirdApprover indicates if the request requires a third approver
+ *
+ * @returns the approval logic. The position of the array indicates the level of the approver. The array contains the levels of approvers required.
+ */
+export function getApprovalLogic(
+  isGreaterChina: boolean,
+  isThirdApprover: boolean
+): ApprovalLevel[][] {
+  if (!isThirdApprover) {
+    return logicDefault;
+  }
+
+  return isGreaterChina ? logicThirdApproverGreaterChina : logicThirdApprover;
+}

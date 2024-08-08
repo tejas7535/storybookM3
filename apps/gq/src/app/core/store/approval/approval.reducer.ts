@@ -9,16 +9,13 @@ import {
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
   Approver,
+  Quotation,
 } from '@gq/shared/models';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { ApprovalActions } from './approval.actions';
-import {
-  approvalLevelOfQuotationLogic,
-  firstApproverLogic,
-  secondApproverLogic,
-  thirdApproverLogic,
-} from './constants/approvers';
+import { getApprovalLogic } from './constants/approvers';
+import { ApproverOrder } from './model/approver-order.enum';
 export interface ApprovalState {
   approvers: Approver[];
   activeDirectoryUsers: ActiveDirectoryUser[];
@@ -308,60 +305,63 @@ export const approvalFeature = createFeature({
     // ###  For approver Logic see documentation                                                                   ###
     // ###  https://confluence.schaeffler.com/pages/viewpage.action?spaceKey=PARS&title=Advanced+Approval+Process  ###
     // ###############################################################################################################
-    getFirstApprovers: createSelector(
-      selectApprovers,
-      selectApprovalCockpit,
-      (
-        approvers: Approver[],
-        { approvalGeneral }: ApprovalCockpitData
-      ): Approver[] => getApproversForFirstApprover(approvers, approvalGeneral)
-    ),
-    getSecondApprovers: createSelector(
-      selectApprovers,
-      selectApprovalCockpit,
-      (
-        approvers: Approver[],
-        { approvalGeneral }: ApprovalCockpitData
-      ): Approver[] => getApproversForSecondApprover(approvers, approvalGeneral)
-    ),
-    getThirdApprovers: createSelector(
-      selectApprovers,
-      selectApprovalCockpit,
-      (approvers: Approver[], { approvalGeneral }: ApprovalCockpitData) =>
-        getApproversForThirdApprover(approvers, approvalGeneral)
-    ),
-    getApprovalLevelFirstApprover: createSelector(
-      selectApprovalCockpit,
-      ({
-        approvalGeneral: { thirdApproverRequired, approvalLevel },
-      }: ApprovalCockpitData): ApprovalLevel =>
-        firstApproverLogic[+thirdApproverRequired][approvalLevel]
-    ),
-    getApprovalLevelSecondApprover: createSelector(
-      selectApprovalCockpit,
-      ({
-        approvalGeneral: { thirdApproverRequired, approvalLevel },
-      }: ApprovalCockpitData): ApprovalLevel =>
-        secondApproverLogic[+thirdApproverRequired][approvalLevel]
-    ),
-    getApprovalLevelThirdApprover: createSelector(
-      selectApprovalCockpit,
-      ({
-        approvalGeneral: { approvalLevel },
-      }: ApprovalCockpitData): ApprovalLevel =>
-        thirdApproverLogic[approvalLevel]
-    ),
+    getApproversByApproverOrder: (approverOrder: ApproverOrder) =>
+      createSelector(
+        selectApprovers,
+        selectApprovalCockpit,
+        activeCaseFeature.getQuotationSalesOrgIsGreaterChina,
+        (
+          approvers: Approver[],
+          { approvalGeneral }: ApprovalCockpitData,
+          isGreaterChina: boolean
+        ): Approver[] =>
+          getApproversByApproverOrder(
+            approvers,
+            approverOrder,
+            approvalGeneral,
+            isGreaterChina
+          )
+      ),
+    getApprovalLevelByApproverOrder: (approverOrder: ApproverOrder) =>
+      createSelector(
+        selectApprovalCockpit,
+        activeCaseFeature.getQuotationSalesOrgIsGreaterChina,
+        (
+          {
+            approvalGeneral: { thirdApproverRequired, approvalLevel },
+          }: ApprovalCockpitData,
+          isGreaterChina: boolean
+        ): ApprovalLevel =>
+          getApprovalLevelByApproverOrder(
+            approverOrder,
+            approvalLevel,
+            thirdApproverRequired,
+            isGreaterChina
+          )
+      ),
     getRequiredApprovalLevelsForQuotation: createSelector(
       activeCaseFeature.selectQuotation,
       selectApprovalCockpit,
-      (quotation, { approvalGeneral }: ApprovalCockpitData): string =>
-        quotation?.sapId &&
-        approvalGeneral?.approvalLevel !== undefined &&
-        approvalGeneral?.thirdApproverRequired !== undefined
-          ? approvalLevelOfQuotationLogic[
-              +approvalGeneral?.thirdApproverRequired
-            ][approvalGeneral?.approvalLevel]
-          : ''
+      activeCaseFeature.getQuotationSalesOrgIsGreaterChina,
+      (
+        quotation: Quotation,
+        { approvalGeneral }: ApprovalCockpitData,
+        isGreaterChina: boolean
+      ): string => {
+        if (
+          quotation?.sapId &&
+          approvalGeneral?.approvalLevel !== undefined &&
+          approvalGeneral?.thirdApproverRequired !== undefined
+        ) {
+          return getDisplayStringForApprovalLogic(
+            approvalGeneral?.approvalLevel,
+            approvalGeneral?.thirdApproverRequired,
+            isGreaterChina
+          );
+        }
+
+        return '';
+      }
     ),
     getApprovalCockpitInformation: createSelector(
       selectApprovalCockpit,
@@ -460,52 +460,56 @@ export const approvalFeature = createFeature({
 // #################################################################################
 
 /**
- * checks in two dimensions array which ApprovalLevel is to be set
+ * Get the approvers by the given approver order.
  *
- * @param  state {@link ApprovalState}
- * @returns the ApprovalLevel for the first Approver
+ * @param approvers all approvers
+ * @param approverOrder the approver order (first, second, third)
+ * @param thirdApproverRequired if third approver is required
+ * @param approvalLevel the approval level
+ * @returns list of approvers
  */
-function getApproversForFirstApprover(
+function getApproversByApproverOrder(
   approvers: Approver[],
-  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation
+  approverOrder: ApproverOrder,
+  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation,
+  isGreaterChina: boolean
 ): Approver[] {
-  return getApproversByApprovalLevel(
-    approvers,
-    firstApproverLogic[+thirdApproverRequired][approvalLevel]
-  );
+  const logic = getApprovalLogic(isGreaterChina, thirdApproverRequired);
+  const level = logic[approvalLevel][+approverOrder];
+
+  return getApproversByApprovalLevel(approvers, level);
 }
 
 /**
- * checks in two dimensions array which ApprovalLevel is to be set
+ * Gets the required approval levels for given approval level, separated by '+'.
  *
- * @param  state {@link ApprovalState}
- * @returns the ApprovalLevel for the second Approver
+ * @param approvalLevel the approval level
+ * @param thirdApproverRequired  if third approver is required
+ * @param isGreaterChina if the request is for Greater China
  */
-function getApproversForSecondApprover(
-  approvers: Approver[],
-  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation
-): Approver[] {
-  return getApproversByApprovalLevel(
-    approvers,
-    secondApproverLogic[+thirdApproverRequired][approvalLevel]
-  );
+function getDisplayStringForApprovalLogic(
+  approvalLevel: ApprovalLevel,
+  thirdApproverRequired: boolean,
+  isGreaterChina: boolean
+): string {
+  const logic = getApprovalLogic(isGreaterChina, thirdApproverRequired);
+
+  return logic[approvalLevel]
+    .filter((lvl) => lvl !== undefined)
+    .map((lvl) => ApprovalLevel[lvl])
+    .join(' + ');
 }
 
-/**
- * checks in two dimensions array which ApprovalLevel is to be set
- *
- * @param  state {@link ApprovalState}
- * @returns the ApprovalLevel for the third optional Approver
- */
-function getApproversForThirdApprover(
-  approvers: Approver[],
-  { thirdApproverRequired, approvalLevel }: ApprovalWorkflowInformation
-): Approver[] {
-  return thirdApproverRequired
-    ? getApproversByApprovalLevel(approvers, thirdApproverLogic[approvalLevel])
-    : [];
-}
+function getApprovalLevelByApproverOrder(
+  approverOrder: ApproverOrder,
+  approvalLevel: ApprovalLevel,
+  thirdApproverRequired: boolean,
+  isGreaterChina: boolean
+): ApprovalLevel {
+  const logic = getApprovalLogic(isGreaterChina, thirdApproverRequired);
 
+  return logic[approvalLevel][+approverOrder];
+}
 /**
  * Filters approvers by level
  *

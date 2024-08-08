@@ -10,6 +10,7 @@ import {
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
+import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
 import { ActiveCaseActions } from './active-case.action';
 import {
   buildSimulatedQuotation,
@@ -628,10 +629,24 @@ export const activeCaseFeature = createFeature({
       })
     );
 
+    const getQuotationSalesOrgIsGreaterChina = createSelector(
+      selectQuotation,
+      (quotation: Quotation): boolean => {
+        const salesOrg = quotation?.customer?.identifier?.salesOrg;
+
+        if (!salesOrg) {
+          return false;
+        }
+
+        return GREATER_CHINA_SALES_ORGS.includes(salesOrg);
+      }
+    );
+
     return {
       getSelectedQuotationDetail,
       getPriceUnitOfSelectedQuotationDetail,
       getDetailViewQueryParams,
+      getQuotationSalesOrgIsGreaterChina,
     };
   },
 });

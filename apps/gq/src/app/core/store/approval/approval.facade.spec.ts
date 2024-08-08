@@ -16,6 +16,7 @@ import { ApprovalService } from '@gq/shared/services/rest/approval/approval.serv
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -25,12 +26,14 @@ import { APPROVAL_STATE_MOCK } from '../../../../testing/mocks';
 import { ApprovalActions } from './approval.actions';
 import { ApprovalFacade } from './approval.facade';
 import { approvalFeature, ApprovalState } from './approval.reducer';
+import { ApproverOrder } from './model/approver-order.enum';
 
 describe('ApprovalFacade', () => {
   let service: ApprovalFacade;
   let spectator: SpectatorService<ApprovalFacade>;
   let mockStore: MockStore;
   let actions$: Actions;
+  let approverList: Approver[];
 
   const createService = createServiceFactory({
     service: ApprovalFacade,
@@ -52,12 +55,18 @@ describe('ApprovalFacade', () => {
   });
 
   beforeEach(() => {
+    approverList = [{} as Approver];
+    // needs to be mocked BEFORE the test component is created
+    jest
+      .spyOn(approvalFeature, 'getApprovalLevelByApproverOrder')
+      .mockReturnValue(createSelector(() => ApprovalLevel.L1));
+    jest
+      .spyOn(approvalFeature, 'getApproversByApproverOrder')
+      .mockReturnValue(createSelector(() => approverList));
     spectator = createService();
     service = spectator.service;
     mockStore = spectator.inject(MockStore);
     actions$ = spectator.inject(Actions);
-
-    jest.resetAllMocks();
   });
 
   test('should be created', () => {
@@ -147,11 +156,6 @@ describe('ApprovalFacade', () => {
     test(
       'should provide firstApprovers',
       marbles((m) => {
-        const approverList: Approver[] = [{} as Approver];
-        mockStore.overrideSelector(
-          approvalFeature.getFirstApprovers,
-          approverList
-        );
         m.expect(service.firstApprovers$).toBeObservable(
           m.cold('a', { a: approverList })
         );
@@ -160,11 +164,6 @@ describe('ApprovalFacade', () => {
     test(
       'should provide secondApprovers',
       marbles((m) => {
-        const approverList: Approver[] = [{} as Approver];
-        mockStore.overrideSelector(
-          approvalFeature.getSecondApprovers,
-          approverList
-        );
         m.expect(service.secondApprovers$).toBeObservable(
           m.cold('a', { a: approverList })
         );
@@ -173,11 +172,6 @@ describe('ApprovalFacade', () => {
     test(
       'should provide thirdApprovers',
       marbles((m) => {
-        const approverList: Approver[] = [{} as Approver];
-        mockStore.overrideSelector(
-          approvalFeature.getThirdApprovers,
-          approverList
-        );
         m.expect(service.thirdApprovers$).toBeObservable(
           m.cold('a', { a: approverList })
         );
@@ -189,10 +183,6 @@ describe('ApprovalFacade', () => {
     test(
       'should provide Observable for approvalLevel firstApprover',
       marbles((m) => {
-        mockStore.overrideSelector(
-          approvalFeature.getApprovalLevelFirstApprover,
-          ApprovalLevel.L1
-        );
         m.expect(service.approvalLevelFirstApprover$).toBeObservable(
           m.cold('a', { a: ApprovalLevel.L1 })
         );
@@ -201,10 +191,6 @@ describe('ApprovalFacade', () => {
     test(
       'should provide Observable for approvalLevel secondApprover',
       marbles((m) => {
-        mockStore.overrideSelector(
-          approvalFeature.getApprovalLevelSecondApprover,
-          ApprovalLevel.L1
-        );
         m.expect(service.approvalLevelSecondApprover$).toBeObservable(
           m.cold('a', { a: ApprovalLevel.L1 })
         );
@@ -213,10 +199,6 @@ describe('ApprovalFacade', () => {
     test(
       'should provide Observable for approvalLevel thirdApprover',
       marbles((m) => {
-        mockStore.overrideSelector(
-          approvalFeature.getApprovalLevelThirdApprover,
-          ApprovalLevel.L1
-        );
         m.expect(service.approvalLevelThirdApprover$).toBeObservable(
           m.cold('a', { a: ApprovalLevel.L1 })
         );
@@ -1224,10 +1206,10 @@ describe('ApprovalFacade', () => {
           firstApprover,
           secondApprover,
         ]);
-        mockStore.overrideSelector(approvalFeature.getFirstApprovers, [
-          ...APPROVAL_STATE_MOCK.approvers,
-          firstApprover,
-        ]);
+        mockStore.overrideSelector(
+          approvalFeature.getApproversByApproverOrder(ApproverOrder.FIRST),
+          [...APPROVAL_STATE_MOCK.approvers, firstApprover]
+        );
 
         m.expect(service.approversOnUserApprovalStep$).toBeObservable(
           m.cold('a', { a: APPROVAL_STATE_MOCK.approvers })
@@ -1270,10 +1252,10 @@ describe('ApprovalFacade', () => {
           firstApprover,
           secondApprover,
         ]);
-        mockStore.overrideSelector(approvalFeature.getSecondApprovers, [
-          ...APPROVAL_STATE_MOCK.approvers,
-          secondApprover,
-        ]);
+        mockStore.overrideSelector(
+          approvalFeature.getApproversByApproverOrder(ApproverOrder.SECOND),
+          [...APPROVAL_STATE_MOCK.approvers, secondApprover]
+        );
 
         m.expect(service.approversOnUserApprovalStep$).toBeObservable(
           m.cold('a', { a: APPROVAL_STATE_MOCK.approvers })
@@ -1340,10 +1322,10 @@ describe('ApprovalFacade', () => {
           secondApprover,
           thirdApprover,
         ]);
-        mockStore.overrideSelector(approvalFeature.getThirdApprovers, [
-          ...APPROVAL_STATE_MOCK.approvers,
-          thirdApprover,
-        ]);
+        mockStore.overrideSelector(
+          approvalFeature.getApproversByApproverOrder(ApproverOrder.THIRD),
+          [...APPROVAL_STATE_MOCK.approvers, thirdApprover]
+        );
 
         m.expect(service.approversOnUserApprovalStep$).toBeObservable(
           m.cold('a', { a: APPROVAL_STATE_MOCK.approvers })

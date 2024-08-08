@@ -35,6 +35,7 @@ import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
 import { ApprovalActions } from './approval.actions';
 import { approvalFeature } from './approval.reducer';
+import { ApproverOrder } from './model/approver-order.enum';
 @Injectable({
   providedIn: 'root',
 })
@@ -54,27 +55,27 @@ export class ApprovalFacade {
   error$: Observable<Error> = this.store.select(approvalFeature.selectError);
 
   firstApprovers$: Observable<Approver[]> = this.store.select(
-    approvalFeature.getFirstApprovers
+    approvalFeature.getApproversByApproverOrder(ApproverOrder.FIRST)
   );
 
   secondApprovers$: Observable<Approver[]> = this.store.select(
-    approvalFeature.getSecondApprovers
+    approvalFeature.getApproversByApproverOrder(ApproverOrder.SECOND)
   );
 
   thirdApprovers$: Observable<Approver[]> = this.store.select(
-    approvalFeature.getThirdApprovers
+    approvalFeature.getApproversByApproverOrder(ApproverOrder.THIRD)
   );
 
   approvalLevelFirstApprover$: Observable<ApprovalLevel> = this.store.select(
-    approvalFeature.getApprovalLevelFirstApprover
+    approvalFeature.getApprovalLevelByApproverOrder(ApproverOrder.FIRST)
   );
 
   approvalLevelSecondApprover$: Observable<ApprovalLevel> = this.store.select(
-    approvalFeature.getApprovalLevelSecondApprover
+    approvalFeature.getApprovalLevelByApproverOrder(ApproverOrder.SECOND)
   );
 
   approvalLevelThirdApprover$: Observable<ApprovalLevel> = this.store.select(
-    approvalFeature.getApprovalLevelThirdApprover
+    approvalFeature.getApprovalLevelByApproverOrder(ApproverOrder.THIRD)
   );
 
   requiredApprovalLevelsForQuotation$: Observable<string> = this.store.select(

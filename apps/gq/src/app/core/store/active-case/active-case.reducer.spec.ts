@@ -17,6 +17,7 @@ import {
   SIMULATED_QUOTATION_MOCKS_WITH_RFQ,
 } from '../../../../testing/mocks';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
+import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
 import { ActiveCaseActions } from './active-case.action';
 import {
   activeCaseFeature,
@@ -1002,6 +1003,36 @@ describe('Active Case Feature Selector', () => {
       expect(activeCaseFeature.getDetailViewQueryParams(fakeState)).toEqual(
         expected
       );
+    });
+  });
+
+  describe('getQuotationSalesOrgIsGreaterChina', () => {
+    test('should return true', () => {
+      const state = {
+        activeCase: {
+          ...ACTIVE_CASE_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_MOCK,
+            customer: {
+              ...CUSTOMER_MOCK,
+              identifier: {
+                ...CUSTOMER_MOCK.identifier,
+                salesOrg: GREATER_CHINA_SALES_ORGS[0],
+              },
+            },
+          },
+        },
+      };
+
+      expect(
+        activeCaseFeature.getQuotationSalesOrgIsGreaterChina(state)
+      ).toBeTruthy();
+    });
+
+    test('should return false', () => {
+      expect(
+        activeCaseFeature.getQuotationSalesOrgIsGreaterChina(fakeState)
+      ).toBeFalsy();
     });
   });
 });
