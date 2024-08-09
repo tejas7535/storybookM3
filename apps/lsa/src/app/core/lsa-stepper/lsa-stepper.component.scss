@@ -5,7 +5,7 @@
 }
 
 .active {
-  @apply bg-secondary-100;
+  @apply bg-secondary-legacy-100;
   @apply text-link #{!important};
   @apply block;
 }
