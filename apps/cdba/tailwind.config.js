@@ -5,7 +5,7 @@ const {
   schaefflerTailwindPreset,
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
 
-const secondaryColorPalette = {
+const secondaryLegacyColorPalette = {
   50: '#E5F4E9',
   100: '#C0E4C9',
   200: '#98D3A7',
@@ -30,7 +30,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        secondary: secondaryColorPalette,
+        'secondary-legacy': secondaryLegacyColorPalette,
         'light-red': '#EFCCD2',
         'light-blue': '#ECF5F7',
       },
@@ -39,7 +39,7 @@ module.exports = {
       },
       backgroundColor: {
         'nordic-blue': colors['info'],
-        secondary: secondaryColorPalette,
+        'secondary-legacy': secondaryLegacyColorPalette,
       },
     },
   },
