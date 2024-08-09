@@ -43,7 +43,7 @@
             <mat-checkbox
               [disableRipple]="true"
               color="primary"
-              class="hover:bg-secondary-100 hover:text-primary text-medium-emphasis px-4 py-2 hover:rounded"
+              class="hover:bg-secondary-legacy-100 hover:text-primary text-medium-emphasis px-4 py-2 hover:rounded"
               (click)="
                 selectAllChanged(
                   !selectionState.selectAll || selectionState.indeterminate
@@ -79,7 +79,7 @@
                   class="px-4 py-2 hover:rounded w-full"
                   [ngClass]="{
                     'text-low-emphasis cursor-help': config.disabled,
-                    'hover:bg-secondary-100 hover:text-primary':
+                    'hover:bg-secondary-legacy-100 hover:text-primary':
                       !config.disabled,
                     'text-high-emphasis': config.selected,
                     'text-medium-emphasis': !config.selected

@@ -11,7 +11,7 @@
         (click)="onDownloadAction()"
         [hidden]="isDownloadButtonHidden"
         [disabled]="isDownloadDisabled"
-        class="hover:bg-secondary-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+        class="hover:bg-secondary-legacy-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
       >
         <mat-icon class="shrink-0 aspect-square">download</mat-icon>
         <span class="uppercase block w-full flex-grow">{{
@@ -32,7 +32,7 @@
         @for (config of calculationResultTypeSelection; track config) {
           <div
             (click)="onCalculationTypeClicked(config.name)"
-            class="hover:bg-secondary-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
+            class="hover:bg-secondary-legacy-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
           >
             <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon">{{
               config.icon

@@ -170,7 +170,7 @@ engineering-app {
     &.mat-mdc-radio-checked {
       .mdc-form-field {
         @apply rounded-full;
-        @apply bg-secondary-50;
+        @apply bg-secondary-legacy-50;
       }
 
       .mdc-label {

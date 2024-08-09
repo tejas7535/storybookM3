@@ -5,7 +5,7 @@ const {
 } = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
 const colors = require('../../libs/shared/ui/styles/src/lib/tailwind/colors');
 
-const secondaryColorPalette = {
+const secondaryLegacyColorPalette = {
   50: '#E5F4E9',
   100: '#C0E4C9',
   200: '#98D3A7',
@@ -30,15 +30,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        secondary: secondaryColorPalette,
+        'secondary-legacy': secondaryLegacyColorPalette,
       },
       backgroundColor: {
         inactive: '#DEDEDE',
-        secondary: secondaryColorPalette,
+        'secondary-legacy': secondaryLegacyColorPalette,
       },
       textColor: {
         primary: colors.primary,
-        secondary: secondaryColorPalette,
+        'secondary-legacy': secondaryLegacyColorPalette,
       },
     },
   },
