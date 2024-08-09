@@ -18,7 +18,10 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
 import { RoutePath } from './app-routing.module';
+import { detectAppDelivery } from './core/helpers/settings-helpers';
+import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
 import { StorageMessagesActions } from './core/store/actions';
+import { AppDelivery } from './shared/models';
 
 @Component({
   selector: 'mm-root',
@@ -26,7 +29,7 @@ import { StorageMessagesActions } from './core/store/actions';
 })
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'Mounting Manager';
-  public embedded = false;
+  public embedded = detectAppDelivery() === AppDelivery.Embedded;
   public isCookiePage = false;
   public cookieSettings = translate('legal.cookieSettings');
   public destroy$ = new Subject<void>();
@@ -51,7 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly meta: Meta,
     private readonly translocoService: TranslocoService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly oneTrustMobileService: OneTrustMobileService
   ) {
     this.meta.addTags(this.metaTags);
   }
@@ -98,13 +102,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public checkIframe(): void {
-    if (window.self !== window.top) {
+    if (detectAppDelivery() === AppDelivery.Embedded) {
       this.embedded = true;
     }
   }
 
   private updateFooterLinks(): AppShellFooterLink[] {
-    const footerLinks = [
+    const appDelivery = detectAppDelivery();
+    const footerLinks: AppShellFooterLink[] = [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
         title: this.translocoService.translate('legal.imprint'),
@@ -122,10 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
       },
     ];
 
-    if (
-      !window.origin.includes('capacitor://') &&
-      window.origin !== 'http://localhost'
-    ) {
+    if (appDelivery === AppDelivery.Standalone) {
       const cookieLink = {
         link: `${LegalRoute}/${LegalPath.CookiePath}`,
         title: this.translocoService.translate('legal.cookiePolicy'),
@@ -133,6 +135,18 @@ export class AppComponent implements OnInit, OnDestroy {
       };
 
       footerLinks.push(cookieLink);
+    }
+
+    if (appDelivery === AppDelivery.Native) {
+      footerLinks.push({
+        link: undefined,
+        title: translate('legal.cookiePolicy'),
+        external: false,
+        onClick: ($event: MouseEvent) => {
+          $event.preventDefault();
+          this.oneTrustMobileService.showPreferenceCenterUI();
+        },
+      });
     }
 
     return footerLinks;

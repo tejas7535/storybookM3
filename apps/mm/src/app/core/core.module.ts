@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { CommonModule, DecimalPipe } from '@angular/common';
 import {
   HTTP_INTERCEPTORS,
@@ -8,9 +9,12 @@ import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { TranslocoService } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { HttpHostMappingInterceptor } from '@mm/shared/interceptors/http-host-mapping.interceptor';
+import { AppDelivery } from '@mm/shared/models';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -28,6 +32,9 @@ import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interc
 import { SharedModule } from '../shared/shared.module';
 import { PagesStepperModule } from './components/pages-stepper/pages-stepper.module';
 import { SettingsComponent } from './components/settings/settings.component';
+import { detectAppDelivery } from './helpers/settings-helpers';
+import { ConsentValues } from './services/tracking/one-trust.interface';
+import { OneTrustMobileService } from './services/tracking/one-trust-mobile.service';
 
 export class DynamicLocaleId extends String {
   public constructor(protected translocoService: TranslocoService) {
@@ -37,6 +44,33 @@ export class DynamicLocaleId extends String {
   public toString() {
     return this.translocoService.getActiveLang();
   }
+}
+
+export function mobileOneTrustInitializer(
+  oneTrustMobileService: OneTrustMobileService
+) {
+  if (detectAppDelivery() === AppDelivery.Native) {
+    FirebaseAnalytics.setCollectionEnabled({
+      enabled: false,
+    });
+
+    oneTrustMobileService.initTracking();
+
+    oneTrustMobileService.consentChanged$.subscribe((consentChange) => {
+      const trackingEnabled =
+        consentChange.consentStatus === ConsentValues.ConsentGiven &&
+        !Capacitor.DEBUG;
+      FirebaseAnalytics.setCollectionEnabled({
+        enabled: trackingEnabled,
+      });
+
+      if (consentChange.consentStatus === ConsentValues.ConsentNotGiven) {
+        FirebaseAnalytics.reset();
+      }
+    });
+  }
+
+  return () => {};
 }
 
 export function appInitializer(
@@ -73,6 +107,12 @@ let providers = [
     multi: true,
   },
   {
+    provide: APP_INITIALIZER,
+    useFactory: mobileOneTrustInitializer,
+    deps: [OneTrustMobileService],
+    multi: true,
+  },
+  {
     provide: LOCALE_ID,
     useClass: DynamicLocaleId,
     deps: [TranslocoService],
@@ -96,11 +136,7 @@ let providers = [
   DecimalPipe,
 ];
 
-if (
-  window.self !== window.top ||
-  window.origin.includes('capacitor://') ||
-  window.origin === 'http://localhost'
-) {
+if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
   Tracking = [];
   providers = providers.slice(1); // Removes OneTrust Provider
 }

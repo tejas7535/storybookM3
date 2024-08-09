@@ -1,8 +1,12 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Capacitor } from '@capacitor/core';
+
 import { detectAppDelivery } from './settings-helpers';
 
 const { origin, top, self } = window;
 
 const isNativePlatformMock = jest.fn();
+Capacitor.isNativePlatform = isNativePlatformMock;
 
 describe('Settings helpers', () => {
   afterEach(() => {
@@ -14,6 +18,12 @@ describe('Settings helpers', () => {
   describe('detectAppDelivery', () => {
     it('should return standalone', () => {
       expect(detectAppDelivery()).toBe('standalone');
+    });
+
+    it('should return native', () => {
+      isNativePlatformMock.mockReturnValue(true);
+
+      expect(detectAppDelivery()).toBe('native');
     });
 
     it('should return embedded', () => {

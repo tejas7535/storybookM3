@@ -6,6 +6,11 @@ export interface Environment {
   staticStorageUrl: string;
   reportSelector: string;
   oneTrustId: string;
+  oneTrustMobileStorageLocation: string;
+  oneTrustAndroidId: string;
+  oneTrustiOSId: string;
+  oneTrustAndroidFirebaseCategoryId: string;
+  oneTrustiOSFirebaseCategoryId: string;
   preflightPath: string;
   materialsPath: string;
   bearingRelationsPath: string;
