@@ -30,7 +30,7 @@
 
 .table-learnmore {
   tr {
-    @apply even:bg-secondary odd:bg-hover-overlay min-w-full w-full;
+    @apply even:bg-white odd:bg-hover-overlay min-w-full w-full;
 
     td,
     th {
