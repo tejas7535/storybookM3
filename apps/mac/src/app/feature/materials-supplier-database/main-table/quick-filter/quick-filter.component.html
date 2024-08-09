@@ -31,7 +31,7 @@
         class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
         [value]="undefined"
         [ngClass]="{
-          '!bg-secondary !text-high-emphasis': item === active
+          '!bg-white !text-high-emphasis': item === active
         }"
       >
         <mat-icon class="!h-4 !w-4 !text-[16px]">folder_shared</mat-icon>
@@ -42,7 +42,7 @@
           class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
           [value]="item"
           [ngClass]="{
-            '!bg-secondary !text-high-emphasis': item === active
+            '!bg-white !text-high-emphasis': item === active
           }"
         >
           {{ item.title }}
@@ -53,7 +53,7 @@
           class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
           [value]="item"
           [ngClass]="{
-            '!bg-secondary !text-high-emphasis':
+            '!bg-white !text-high-emphasis':
               item === active ||
               (item?.id !== undefined && item?.id === active?.id)
           }"
@@ -84,7 +84,7 @@
           class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
           [value]="item"
           [ngClass]="{
-            '!bg-secondary !text-high-emphasis': item === active
+            '!bg-white !text-high-emphasis': item === active
           }"
         >
           {{ item.title }}
