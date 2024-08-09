@@ -266,7 +266,7 @@ describe('ActiveCaseEffects', () => {
       marbles((m) => {
         action = ActiveCaseActions.getQuotationFailure({
           errorMessage: 'No access',
-          errorId: `${ErrorId.NotAllowdToAccessCustomer}`,
+          errorId: `${ErrorId.NotAllowedToAccessCustomer}`,
         });
         actions$ = m.hot('-a', { a: action });
 
@@ -286,7 +286,7 @@ describe('ActiveCaseEffects', () => {
       marbles((m) => {
         action = ActiveCaseActions.getCustomerDetailsFailure({
           errorMessage: 'No access',
-          errorId: `${ErrorId.NotAllowdToAccessCustomer}`,
+          errorId: `${ErrorId.NotAllowedToAccessCustomer}`,
         });
         actions$ = m.hot('-a', { a: action });
 

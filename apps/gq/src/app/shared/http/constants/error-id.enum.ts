@@ -1,5 +1,5 @@
 export enum ErrorId {
-  NotAllowdToAccessCustomer = 1,
+  NotAllowedToAccessCustomer = 1,
   NotFoundCustomer = 2,
   NotFoundQuotation = 3,
   NotFoundQuotationDetail = 4,
@@ -8,4 +8,5 @@ export enum ErrorId {
   NotFoundMarketValueDriverQuestionid = 7,
   NotFoundMarketValueDriverOptionid = 8,
   NotFoundMaterials = 10,
+  ServiceUnavailableSapSyncFailed = 21,
 }

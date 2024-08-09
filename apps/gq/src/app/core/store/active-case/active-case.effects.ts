@@ -118,7 +118,7 @@ export class ActiveCaseEffects {
           ActiveCaseActions.getCustomerDetailsFailure
         ),
         filter(
-          (action) => +action.errorId === ErrorId.NotAllowdToAccessCustomer
+          (action) => +action.errorId === ErrorId.NotAllowedToAccessCustomer
         ),
         tap(() => {
           this.router.navigate([AppRoutePath.ForbiddenCustomerPath]);
