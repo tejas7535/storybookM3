@@ -199,6 +199,31 @@ describe('ActiveCaseEffects', () => {
       })
     );
     test(
+      'should return getQuotationSuccess and call sap sync status interval',
+      marbles((m) => {
+        quotationService.getQuotation = jest.fn(() => response);
+        const item = QUOTATION_MOCK;
+        item.sapId = '123456';
+        item.sapSyncStatus = SAP_SYNC_STATUS.SYNC_PENDING;
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--(bcd)', {
+          b: ActiveCaseActions.getQuotationSuccess({ item }),
+          c: ActiveCaseActions.getQuotationSuccessFullyCompleted(),
+          d: ActiveCaseActions.getSapSyncStatusInInterval(),
+        });
+
+        m.expect(effects.quotation$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+        expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
+      })
+    );
+    test(
       'should return getQuotationSuccess action with sorted quotation details when REST call is successful and refresh not completed',
       marbles((m) => {
         quotationService.getQuotation = jest.fn(() => response);

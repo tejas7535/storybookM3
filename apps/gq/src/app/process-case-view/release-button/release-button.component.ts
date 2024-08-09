@@ -52,6 +52,12 @@ export class ReleaseButtonComponent {
       this.disableReleaseButtonTooltipTranslationKey =
         'disabledForSyncPendingTooltip';
     }
+
+    // Reset disable button state when status is synced.
+    // It is required due to async sap status refresh in the background
+    if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNCED) {
+      this.disableReleaseButton = false;
+    }
   }
 
   get quotation(): Quotation {

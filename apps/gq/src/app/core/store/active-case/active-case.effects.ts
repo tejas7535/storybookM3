@@ -96,6 +96,18 @@ export class ActiveCaseEffects {
               return [ActiveCaseActions.getQuotationSuccess({ item })];
             }
 
+            // If sap quotation is still in sync pending status set interval to refresh sync status
+            if (
+              item.sapId &&
+              item.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
+            ) {
+              return [
+                ActiveCaseActions.getQuotationSuccess({ item }),
+                ActiveCaseActions.getQuotationSuccessFullyCompleted(),
+                ActiveCaseActions.getSapSyncStatusInInterval(),
+              ];
+            }
+
             // quotation fully loaded, stop timer in quotationInterval$
             return [
               ActiveCaseActions.getQuotationSuccess({ item }),
