@@ -4,20 +4,28 @@ import { from, of, switchMap, timer } from 'rxjs';
 import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
-import { getGqId } from '@gq/core/store/active-case/active-case.selectors';
+import {
+  getGqId,
+  getSapId,
+} from '@gq/core/store/active-case/active-case.selectors';
 import { SAP_SYNC_STATUS } from '@gq/shared/models';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { ApprovalActions } from '../../approval/approval.actions';
+
 @Injectable()
 export class SapSyncStatusEffects {
   getSapSyncStatus$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.getSapSyncStatus),
-      concatLatestFrom(() => this.store.select(getGqId)),
-      switchMap(([_action, gqId]) =>
+      concatLatestFrom(() => [
+        this.store.select(getGqId),
+        this.store.select(getSapId),
+      ]),
+      switchMap(([_action, gqId, sapId]) =>
         this.quotationService.getSapSyncStatus(gqId).pipe(
           mergeMap((result: QuotationSapSyncStatusResult) => {
             if (
@@ -27,6 +35,11 @@ export class SapSyncStatusEffects {
               return [
                 ActiveCaseActions.getSapSyncStatusSuccess({ result }),
                 ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
+                // if a quote was fully synced, the approval data should be reloaded because net value and gpm might have changed
+                ApprovalActions.getApprovalCockpitData({
+                  sapId,
+                  forceLoad: true,
+                }),
               ];
             }
 
