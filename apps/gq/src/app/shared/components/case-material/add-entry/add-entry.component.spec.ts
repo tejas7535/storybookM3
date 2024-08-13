@@ -50,6 +50,7 @@ describe('AddEntryComponent', () => {
       }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -121,6 +122,8 @@ describe('AddEntryComponent', () => {
       const item: MaterialTableItem = {
         materialNumber: '1234',
         materialDescription: 'desc',
+        customerMaterialNumber: 'cust',
+        targetPriceSource: 'noEntry',
         quantity: 10,
         info: {
           description: [ValidationDescription.Not_Validated],
@@ -135,6 +138,11 @@ describe('AddEntryComponent', () => {
       } as any;
       component.matDescInput = {
         searchFormControl: new FormControl(item.materialDescription),
+        clearInput: jest.fn(),
+      } as any;
+
+      component.customerMatNumberInput = {
+        searchFormControl: new FormControl(item.customerMaterialNumber),
         clearInput: jest.fn(),
       } as any;
 

@@ -1,123 +1,289 @@
 <div
-  class="mb-6 flex h-full w-full flex-col"
+  class="flex w-full flex-col @container/addEntry"
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
 >
-  @if (isCaseView) {
-    <div>
-      <div class="mt-6 flex items-end justify-between">
-        <span class="text-h6 text-medium-emphasis">
-          {{ t('addItems') }}
-        </span>
-      </div>
-      <hr class="mt-6 opacity-[12%]" />
-    </div>
-  }
+  @if (newCaseCreation) {
+    <div
+      class="flex gap-4 items-center @[0px]/addEntry:flex-col @[0px]/addEntry:gap-8 @[0px]/addEntry:mb-4 @4xl/addEntry:flex-row @4xl/addEntry:gap-4 @4xl/addEntry:mb-6"
+    >
+      <div class="flex flex-1 w-full">
+        <div class="w-full pt-2 grid grid-cols-3 gap-4">
+          <div
+            *ngrxLet="
+              isCaseView
+                ? autoCompleteFacade.materialDescForCreateCase$
+                : autoCompleteFacade.materialDescForAddEntry$ as materialDesc
+            "
+          >
+            <gq-autocomplete-input
+              #materialDescInput
+              [filterName]="materialDesc.filter"
+              [fitContent]="true"
+              [options]="materialDesc.options"
+              (inputContent)="materialHasInput($event)"
+              (unselected)="
+                autoCompleteFacade.unselectOptions(materialDesc.filter)
+              "
+              (added)="
+                autoCompleteFacade.selectMaterialNumberOrDescription(
+                  $event,
+                  materialDesc.filter
+                )
+              "
+              (isValid)="materialInputValid($event)"
+              [autocompleteLoading]="
+                autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+              "
+              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+            ></gq-autocomplete-input>
+          </div>
 
-  <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-5">
-    @if (
-      autoCompleteFacade.materialDescForAddEntry$ | ngrxPush;
-      as materialDesc
-    ) {
-      <div>
-        <gq-autocomplete-input
-          #materialDescInput
-          [filterName]="materialDesc.filter"
-          [fitContent]="true"
-          [options]="materialDesc.options"
-          (inputContent)="materialHasInput($event)"
-          (unselected)="autoCompleteFacade.unselectOptions(materialDesc.filter)"
-          (added)="
-            autoCompleteFacade.selectMaterialNumberOrDescription(
-              $event,
-              materialDesc.filter
-            )
-          "
-          (isValid)="materialInputValid($event)"
-          [autocompleteLoading]="
-            autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
-          "
-          (autocomplete)="autoCompleteFacade.autocomplete($event)"
-        ></gq-autocomplete-input>
+          <div
+            *ngrxLet="
+              isCaseView
+                ? autoCompleteFacade.materialNumberForCreateCase$
+                : autoCompleteFacade.materialNumberForAddEntry$ as materialNumber
+            "
+          >
+            <gq-autocomplete-input
+              #materialNumberInput
+              [filterName]="materialNumber.filter"
+              [fitContent]="true"
+              [options]="materialNumber.options"
+              (inputContent)="materialHasInput($event)"
+              (unselected)="
+                autoCompleteFacade.unselectOptions(materialNumber.filter)
+              "
+              (added)="
+                autoCompleteFacade.selectMaterialNumberOrDescription(
+                  $event,
+                  materialNumber.filter
+                )
+              "
+              (isValid)="materialInputValid($event)"
+              [autocompleteLoading]="
+                autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+              "
+              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+            ></gq-autocomplete-input>
+          </div>
+
+          <div
+            *ngrxLet="
+              isCaseView
+                ? autoCompleteFacade.customerMaterialNumberForCreateCase$
+                : autoCompleteFacade.customerMaterialNumberForAddEntry$ as customerMaterialNumber
+            "
+          >
+            <gq-autocomplete-input
+              #customerMaterialNumberInput
+              [filterName]="customerMaterialNumber.filter"
+              [fitContent]="true"
+              [options]="customerMaterialNumber.options"
+              (unselected)="
+                autoCompleteFacade.unselectOptions(
+                  customerMaterialNumber.filter
+                )
+              "
+              (added)="
+                autoCompleteFacade.selectCustomerMaterialNumberOrDescription(
+                  $event,
+                  customerMaterialNumber.filter
+                )
+              "
+              [autocompleteLoading]="
+                autoCompleteFacade.customerMaterialNumberLoading$ | ngrxPush
+              "
+              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+            ></gq-autocomplete-input>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>
+                {{ t('quantity.label') }}
+              </mat-label>
+              <input
+                (keydown)="onQuantityKeyPress($event)"
+                class="text-overline"
+                autocomplete="off"
+                matInput
+                #valueInput
+                min="1"
+                type="number"
+                [formControl]="quantityFormControl"
+              />
+              <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+              @if (quantityFormControl.hasError('invalidInput')) {
+                <mat-error>{{ t('quantity.error') }}</mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>
+                {{ t('targetPrice.label') }}
+              </mat-label>
+              <input
+                class="text-overline"
+                autocomplete="off"
+                matInput
+                type="text"
+                [formControl]="targetPriceFormControl"
+              />
+              <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+              @if (targetPriceFormControl.hasError('invalidPrice')) {
+                <mat-error>{{ t('targetPrice.error') }}</mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>{{ t('targetPriceSource.label') }}</mat-label>
+              <mat-select [formControl]="targetPriceSourceFormControl">
+                @for (source of targetPriceSources; track $index) {
+                  <mat-option [value]="source">{{
+                    t('targetPriceSource.values.' + source)
+                  }}</mat-option>
+                }
+              </mat-select>
+              <mat-hint>{{ t('targetPriceSource.hint') }}</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
-    }
-    @if (
-      autoCompleteFacade.materialNumberForAddEntry$ | ngrxPush;
-      as materialNumber
-    ) {
-      <div>
-        <gq-autocomplete-input
-          #materialNumberInput
-          [filterName]="materialNumber.filter"
-          [fitContent]="true"
-          [options]="materialNumber.options"
-          (inputContent)="materialHasInput($event)"
-          (unselected)="
-            autoCompleteFacade.unselectOptions(materialNumber.filter)
-          "
-          (added)="
-            autoCompleteFacade.selectMaterialNumberOrDescription(
-              $event,
-              materialNumber.filter
-            )
-          "
-          (isValid)="materialInputValid($event)"
-          [autocompleteLoading]="
-            autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
-          "
-          (autocomplete)="autoCompleteFacade.autocomplete($event)"
-        ></gq-autocomplete-input>
-      </div>
-    }
-    <div>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>
-          {{ t('quantity.label') }}
-        </mat-label>
-        <input
-          (keydown)="onQuantityKeyPress($event)"
-          class="text-overline"
-          autocomplete="off"
-          matInput
-          #valueInput
-          min="1"
-          type="number"
-          [formControl]="quantityFormControl"
-        />
-        <mat-hint>{{ t('quantity.hint') }}</mat-hint>
-        @if (quantityFormControl.hasError('invalidInput')) {
-          <mat-error>{{ t('quantity.error') }}</mat-error>
-        }
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>
-          {{ t('targetPrice.label') }}
-        </mat-label>
-        <input
-          class="text-overline"
-          autocomplete="off"
-          matInput
-          type="text"
-          [formControl]="targetPriceFormControl"
-        />
-        <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
-        @if (targetPriceFormControl.hasError('invalidPrice')) {
-          <mat-error>{{ t('targetPrice.error') }}</mat-error>
-        }
-      </mat-form-field>
-    </div>
-    <div>
+
       <button
-        class="!mt-4"
-        mat-raised-button
-        color="primary"
-        [disabled]="!addRowEnabled"
+        mat-button
         (click)="addRow()"
+        [disabled]="!addRowEnabled"
+        color="primary"
+        class="h-12 flex gap-4 justify-center items-center px-4 text-button font-medium text-medium-emphasis @[0px]/addEntry:!mb-0 @4xl:!mb-6"
       >
-        <mat-icon>add</mat-icon>
-        {{ t('button') }}
+        <mat-icon> add</mat-icon>
+        {{ t('addPosition') | uppercase }}
       </button>
     </div>
-  </div>
+  } @else {
+    @if (isCaseView) {
+      <div>
+        <div class="mt-6 flex items-end justify-between">
+          <span class="text-h6 text-medium-emphasis">
+            {{ t('addItems') }}
+          </span>
+        </div>
+        <hr class="mt-6 opacity-[12%]" />
+      </div>
+    }
+
+    <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-5">
+      @if (
+        autoCompleteFacade.materialDescForAddEntry$ | ngrxPush;
+        as materialDesc
+      ) {
+        <div>
+          <gq-autocomplete-input
+            #materialDescInput
+            [filterName]="materialDesc.filter"
+            [fitContent]="true"
+            [options]="materialDesc.options"
+            (inputContent)="materialHasInput($event)"
+            (unselected)="
+              autoCompleteFacade.unselectOptions(materialDesc.filter)
+            "
+            (added)="
+              autoCompleteFacade.selectMaterialNumberOrDescription(
+                $event,
+                materialDesc.filter
+              )
+            "
+            (isValid)="materialInputValid($event)"
+            [autocompleteLoading]="
+              autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+            "
+            (autocomplete)="autoCompleteFacade.autocomplete($event)"
+          ></gq-autocomplete-input>
+        </div>
+      }
+      @if (
+        autoCompleteFacade.materialNumberForAddEntry$ | ngrxPush;
+        as materialNumber
+      ) {
+        <div>
+          <gq-autocomplete-input
+            #materialNumberInput
+            [filterName]="materialNumber.filter"
+            [fitContent]="true"
+            [options]="materialNumber.options"
+            (inputContent)="materialHasInput($event)"
+            (unselected)="
+              autoCompleteFacade.unselectOptions(materialNumber.filter)
+            "
+            (added)="
+              autoCompleteFacade.selectMaterialNumberOrDescription(
+                $event,
+                materialNumber.filter
+              )
+            "
+            (isValid)="materialInputValid($event)"
+            [autocompleteLoading]="
+              autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+            "
+            (autocomplete)="autoCompleteFacade.autocomplete($event)"
+          ></gq-autocomplete-input>
+        </div>
+      }
+      <div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>
+            {{ t('quantity.label') }}
+          </mat-label>
+          <input
+            (keydown)="onQuantityKeyPress($event)"
+            class="text-overline"
+            autocomplete="off"
+            matInput
+            #valueInput
+            min="1"
+            type="number"
+            [formControl]="quantityFormControl"
+          />
+          <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+          @if (quantityFormControl.hasError('invalidInput')) {
+            <mat-error>{{ t('quantity.error') }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>
+            {{ t('targetPrice.label') }}
+          </mat-label>
+          <input
+            class="text-overline"
+            autocomplete="off"
+            matInput
+            type="text"
+            [formControl]="targetPriceFormControl"
+          />
+          <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+          @if (targetPriceFormControl.hasError('invalidPrice')) {
+            <mat-error>{{ t('targetPrice.error') }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div>
+        <button
+          class="!mt-4"
+          mat-raised-button
+          color="primary"
+          [disabled]="!addRowEnabled"
+          (click)="addRow()"
+        >
+          <mat-icon>add</mat-icon>
+          {{ t('button') }}
+        </button>
+      </div>
+    </div>
+  }
 </div>

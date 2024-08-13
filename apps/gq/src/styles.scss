@@ -140,9 +140,11 @@ button {
     z-index: 0;
   }
 }
-.edit-case-modal:has(gq-offer-type-select) {
-  mat-dialog-content.mat-mdc-dialog-content {
-    max-height: 87vh !important;
+
+gq-create-manual-case-view:has(.newCaseCreateView) {
+  .ag-root-wrapper-body {
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-radius: 4px;
   }
 }
 
@@ -158,12 +160,17 @@ button {
   }
 
   mat-dialog-content.mat-mdc-dialog-content {
-    max-height: 80vh !important;
+    max-height: 90vh !important;
     color: unset;
     font-family: unset;
   }
 }
 
+.add-material-dialog {
+  gq-material-input-table > div {
+    @apply h-full;
+  }
+}
 .mdc-tooltip__surface {
   @apply py-2 #{!important};
   @apply px-4 #{!important};

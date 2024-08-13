@@ -18,6 +18,13 @@ import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sa
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import {
+  clearOfferType,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
+  clearShipToParty,
+  resetAllAutocompleteOptions,
+} from '../actions/create-case/create-case.actions';
 import { MaterialComparableCostsFacade } from '../facades/material-comparable-costs.facade';
 import { MaterialCostDetailsFacade } from '../facades/material-cost-details.facade';
 import { MaterialSalesOrgFacade } from '../facades/material-sales-org.facade';
@@ -28,8 +35,11 @@ import { TransactionsFacade } from '../facades/transactions.facade';
 import {
   ComparableLinkedTransaction,
   MaterialStock,
+  SalesOrg,
   SapPriceConditionDetail,
 } from '../reducers/models';
+import { SectorGpsdFacade } from '../sector-gpsd/sector-gpsd.facade';
+import { getSalesOrgsOfShipToParty } from '../selectors/create-case/create-case.selector';
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import {
@@ -67,6 +77,8 @@ export class ActiveCaseFacade {
 
   private readonly sapPriceDetailsFacade = inject(SapPriceDetailsFacade);
   private readonly transactionsFacade = inject(TransactionsFacade);
+  private readonly sectorGpsdFacade: SectorGpsdFacade =
+    inject(SectorGpsdFacade);
 
   quotation$: Observable<Quotation> = this.store.select(
     activeCaseFeature.selectQuotation
@@ -199,6 +211,10 @@ export class ActiveCaseFacade {
   );
   coefficients$: Observable<Coefficients> = this.store.select(getCoefficients);
 
+  shipToPartySalesOrgs$: Observable<SalesOrg[]> = this.store.select(
+    getSalesOrgsOfShipToParty
+  );
+
   materialStock$: Observable<MaterialStock> =
     this.materialStockFacade.materialStock$;
   materialStockLoading$: Observable<boolean> =
@@ -289,5 +305,14 @@ export class ActiveCaseFacade {
 
   confirmSimulatedQuotation(): void {
     this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
+  }
+
+  resetEditCaseSettings(): void {
+    this.store.dispatch(resetAllAutocompleteOptions());
+    this.store.dispatch(clearShipToParty());
+    this.store.dispatch(clearSectorGpsd());
+    this.store.dispatch(clearOfferType());
+    this.store.dispatch(clearPurchaseOrderType());
+    this.sectorGpsdFacade.resetAllSectorGpsds();
   }
 }

@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { CurrencyActions } from './currency.actions';
@@ -20,9 +21,10 @@ describe('CurrencyEffects', () => {
 
   const createService = createServiceFactory({
     service: CurrencyEffects,
-    imports: [HttpClientTestingModule],
     providers: [
+      MockProvider(QuotationService),
       provideMockActions(() => actions$),
+      provideHttpClientTesting(),
       provideMockStore({ initialState: { currency: initialState } }),
     ],
   });

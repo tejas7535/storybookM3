@@ -1,19 +1,15 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   MatAutocomplete,
-  MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormField } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 
 import * as rxjs from 'rxjs';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -29,16 +25,10 @@ describe('AutocompleteInputComponent', () => {
   const createComponent = createComponentFactory({
     component: AutocompleteInputComponent,
     declarations: [AutocompleteInputComponent, NoResultsFoundPipe],
-    imports: [
-      MatAutocompleteModule,
-      MatInputModule,
-      MatSelectModule,
-      MatInputModule,
-      ReactiveFormsModule,
-      MatProgressSpinnerModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
+
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -230,6 +220,14 @@ describe('AutocompleteInputComponent', () => {
       );
       expect(component.isValid.emit).toHaveBeenCalledTimes(1);
       expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
+    });
+    test('should call onTouch adn onChange if set', () => {
+      component['onChange'] = jest.fn();
+      component['onTouched'] = jest.fn();
+      component.options = [new IdValue('1', 'test', true)];
+      component.setFormControlValue();
+      expect(component['onChange']).toHaveBeenCalled();
+      expect(component['onTouched']).toHaveBeenCalled();
     });
   });
   describe('sliceMaterialString', () => {
@@ -447,71 +445,117 @@ describe('AutocompleteInputComponent', () => {
       ).toBe(undefined);
     });
   });
-
-  describe('ngAfterViewInit', () => {
-    test('should set autocomplete panel width to auto and width limits if content should fit', () => {
-      jest.useFakeTimers();
-
+  describe('afterViewInit', () => {
+    test('should set the width to auto if fitContent is true', () => {
+      spectator.detectChanges();
       component.fitContent = true;
       component.autocompleteReference = {
-        panelWidth: undefined,
         panel: {
           nativeElement: {
-            style: { minWidth: undefined, maxWidth: undefined },
+            style: { width: undefined },
           },
         },
         opened: of(true),
       } as unknown as MatAutocomplete;
-
-      const formFieldWidth = 500;
 
       component.formFieldReference = {
         getConnectedOverlayOrigin: () => ({
-          nativeElement: { clientWidth: formFieldWidth },
+          nativeElement: { clientWidth: 500 },
         }),
       } as MatFormField;
-
-      component.ngAfterViewInit();
-
-      jest.runOnlyPendingTimers();
+      component['setAutocompletePanelWidthLimits'] = jest.fn();
+      spectator.detectChanges();
 
       expect(component.autocompleteReference.panelWidth).toBe('auto');
-      expect(
-        component.autocompleteReference.panel.nativeElement.style.minWidth
-      ).toBe(`${formFieldWidth}px`);
-      expect(
-        component.autocompleteReference.panel.nativeElement.style.maxWidth
-      ).toBe(component['AUTOCOMPLETE_PANEL_MAX_WIDTH']);
-
-      jest.useRealTimers();
+      expect(component['setAutocompletePanelWidthLimits']).toHaveBeenCalled();
     });
 
-    test('should not set autocomplete panel width to auto and width limits if content should not fit', () => {
+    test('should not set the width to auto if fitContent is false', () => {
+      spectator.detectChanges();
       component.fitContent = false;
       component.autocompleteReference = {
-        panelWidth: undefined,
         panel: {
           nativeElement: {
-            style: { minWidth: undefined, maxWidth: undefined },
+            style: { width: undefined },
           },
         },
         opened: of(true),
       } as unknown as MatAutocomplete;
 
-      const setAutocompletePanelWidthLimitsSpy = jest.spyOn(
-        component as any,
-        'setAutocompletePanelWidthLimits'
-      );
-      component.ngAfterViewInit();
+      component.formFieldReference = {
+        getConnectedOverlayOrigin: () => ({
+          nativeElement: { clientWidth: 500 },
+        }),
+      } as MatFormField;
 
-      expect(setAutocompletePanelWidthLimitsSpy).not.toBeCalled();
-      expect(component.autocompleteReference.panelWidth).toBe(undefined);
+      spectator.detectChanges();
+      component['setAutocompletePanelWidthLimits'] = jest.fn();
+      expect(component.autocompleteReference.panelWidth).toBeUndefined();
+      expect(
+        component['setAutocompletePanelWidthLimits']
+      ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Accessor functions', () => {
+    test('writeValue should set components selectedIdValue', () => {
+      const testValue = { id: 'test', value: 'test' } as IdValue;
+      component.writeValue(testValue);
+      expect(component.selectedIdValue).toEqual(testValue);
+    });
+
+    test('registerOnChange should set onChange', () => {
+      const onChange = jest.fn();
+      component.registerOnChange(onChange);
+      expect(component['onChange']).toEqual(onChange);
+    });
+
+    test('registerOnTouched should set onTouched', () => {
+      const onTouched = jest.fn();
+      component.registerOnTouched(onTouched);
+      expect(component['onTouched']).toEqual(onTouched);
+    });
+
+    test('setDisabledState should set the disabled state to true of the searchFormControl', () => {
+      component.setDisabledState(true);
+      expect(component.searchFormControl.disabled).toEqual(true);
+    });
+    test('setDisabledState should set the disabled state to false of the searchFormControl', () => {
+      component.setDisabledState(false);
+      expect(component.searchFormControl.disabled).toEqual(false);
+    });
+  });
+
+  describe('setAutocompletePanelWidthLimits', () => {
+    test('should set min and max width for the autocomplete panel', () => {
+      // Use Jest's fake timers to control setTimeout
+      jest.useFakeTimers();
+      component.autocompleteReference = {
+        panel: {
+          nativeElement: {
+            style: { width: undefined },
+          },
+        },
+        opened: of(true),
+      } as unknown as MatAutocomplete;
+      component.formFieldReference = {
+        getConnectedOverlayOrigin: () => ({
+          nativeElement: { clientWidth: 200 },
+        }),
+      } as MatFormField;
+      // Call the method
+      component['setAutocompletePanelWidthLimits']();
+
+      // Fast-forward until all timers have been executed
+      jest.runAllTimers();
+
+      // Assertions
       expect(
         component.autocompleteReference.panel.nativeElement.style.minWidth
-      ).toBe(undefined);
+      ).toBe('200px');
       expect(
         component.autocompleteReference.panel.nativeElement.style.maxWidth
-      ).toBe(undefined);
+      ).toBe(component['AUTOCOMPLETE_PANEL_MAX_WIDTH']);
     });
   });
 });

@@ -38,6 +38,10 @@ describe('Create Case Selector', () => {
           filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
           options: [new IdValue('1', '1', true)],
         },
+        {
+          filter: FilterNames.CUSTOMER_MATERIAL_NUMBER,
+          options: [new IdValue('1', '1', true)],
+        },
       ],
       customer: {
         ...initialState.customer,
@@ -116,6 +120,28 @@ describe('Create Case Selector', () => {
         filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
         options: [],
       });
+    });
+  });
+
+  describe('getCustomerMaterialNumber', () => {
+    test('should return customerMaterialNumber', () => {
+      expect(
+        createSelectors
+          .getCustomerMaterialNumber(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
+      ).toEqual(
+        fakeState.case.autocompleteItems.find(
+          (elm) => elm.filter === FilterNames.CUSTOMER_MATERIAL_NUMBER
+        )
+      );
+    });
+
+    test('should return empty options', () => {
+      expect(
+        createSelectors
+          .getCustomerMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+          .projector(fakeState.case)
+      ).toEqual({ filter: FilterNames.CUSTOMER_MATERIAL_NUMBER, options: [] });
     });
   });
   describe('getCustomerAndShipToParty', () => {

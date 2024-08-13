@@ -3,7 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { IdValue } from '../../../models/search';
 
 @Pipe({
-  name: 'noResultsFound',
+  name: 'noResultsFoundPipe',
+  standalone: true,
 })
 export class NoResultsFoundPipe implements PipeTransform {
   /**

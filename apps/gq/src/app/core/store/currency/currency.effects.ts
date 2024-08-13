@@ -1,14 +1,19 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 
 import { CurrencyActions } from './currency.actions';
 
 @Injectable()
-export class CurrencyEffects {
+export class CurrencyEffects implements OnInitEffects {
+  private readonly actions$: Actions = inject(Actions);
+  private readonly quotationService: QuotationService =
+    inject(QuotationService);
+
   loadCurrencies$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CurrencyActions.loadAvailableCurrencies),
@@ -31,8 +36,7 @@ export class CurrencyEffects {
     );
   });
 
-  constructor(
-    private readonly actions$: Actions,
-    private readonly quotationService: QuotationService
-  ) {}
+  ngrxOnInitEffects(): Action {
+    return CurrencyActions.loadAvailableCurrencies();
+  }
 }

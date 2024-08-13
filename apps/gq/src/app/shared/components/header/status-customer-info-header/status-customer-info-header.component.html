@@ -55,10 +55,16 @@
   }
 
   <span
+    *transloco="let t; read: 'shared.customerInfo'"
     class="pt-2 text-caption text-medium-emphasis"
-    [ngClass]="{ 'pl-9': !showStatus }"
+    [ngClass]="!showStatus ? paddingLeftClass : ''"
   >
     {{ customer.name }} | {{ customer.identifier.customerId }} |
-    {{ customer.country | nullableString }}</span
+    {{ customer.country | nullableString }}
+    {{
+      displaySalesOrg
+        ? ' | ' + t('salesOrg') + ' ' + customer.identifier.salesOrg
+        : ''
+    }}</span
   >
 </div>

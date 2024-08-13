@@ -76,7 +76,7 @@ export class CreateCustomerCaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.autocompleteFacade.resetView();
-    this.autocompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+    this.autocompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
 
     this.selectedSalesOrg$ = this.store.select(getSelectedSalesOrg);
     this.selectedCustomerId$ = this.store.select(getSelectedCustomerId);

@@ -3,6 +3,7 @@ import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-nam
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import {
   autocomplete,
@@ -14,6 +15,10 @@ import {
   unselectAutocompleteOptions,
 } from '../actions';
 import { ProcessCaseActions } from '../process-case';
+import {
+  getCaseCustomerAndShipToParty,
+  getCaseMaterialDesc,
+} from '../selectors/create-case/create-case.selector';
 import { AutoCompleteFacade } from './autocomplete.facade';
 
 describe('autocompleteFacade', () => {
@@ -35,6 +40,161 @@ describe('autocompleteFacade', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('Observables', () => {
+    test(
+      'shipToCustomerForEditCase$',
+      marbles((m) => {
+        mockStore.setState({
+          case: {
+            autocompleteItems: [
+              {
+                filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+                options: [],
+              },
+            ],
+            requestingDialog: AutocompleteRequestDialog.EDIT_CASE,
+          },
+        });
+        mockStore.overrideSelector(
+          getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE),
+          { filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY, options: [] }
+        );
+        m.expect(service.shipToCustomerForEditCase$).toBeObservable(
+          m.cold('a', {
+            a: { filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY, options: [] },
+          })
+        );
+      })
+    );
+    test(
+      'shipToCustomerForCreateCase$',
+      marbles((m) => {
+        mockStore.setState({
+          case: {
+            autocompleteItems: [
+              {
+                filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+                options: [],
+              },
+            ],
+            requestingDialog: AutocompleteRequestDialog.CREATE_CASE,
+          },
+        });
+        mockStore.overrideSelector(
+          getCaseCustomerAndShipToParty(AutocompleteRequestDialog.CREATE_CASE),
+          { filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY, options: [] }
+        );
+        m.expect(service.shipToCustomerForEditCase$).toBeObservable(
+          m.cold('a', {
+            a: { filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY, options: [] },
+          })
+        );
+      })
+    );
+
+    test(
+      'should provide materialDescForCreateCase$',
+      marbles((m) => {
+        mockStore.setState({
+          case: {
+            autocompleteItems: [
+              {
+                filter: FilterNames.MATERIAL_DESCRIPTION,
+                options: [],
+              },
+            ],
+            requestingDialog: AutocompleteRequestDialog.CREATE_CASE,
+          },
+        });
+        mockStore.overrideSelector(
+          getCaseMaterialDesc(AutocompleteRequestDialog.CREATE_CASE),
+          { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] }
+        );
+        m.expect(service.materialDescForCreateCase$).toBeObservable(
+          m.cold('a', {
+            a: { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] },
+          })
+        );
+      })
+    );
+
+    test(
+      'should provide materialNumberForCreateCase$',
+      marbles((m) => {
+        mockStore.setState({
+          case: {
+            autocompleteItems: [
+              {
+                filter: FilterNames.MATERIAL_NUMBER,
+                options: [],
+              },
+            ],
+            requestingDialog: AutocompleteRequestDialog.CREATE_CASE,
+          },
+        });
+        mockStore.overrideSelector(
+          getCaseMaterialDesc(AutocompleteRequestDialog.CREATE_CASE),
+          { filter: FilterNames.MATERIAL_NUMBER, options: [] }
+        );
+        m.expect(service.materialNumberForCreateCase$).toBeObservable(
+          m.cold('a', {
+            a: { filter: FilterNames.MATERIAL_NUMBER, options: [] },
+          })
+        );
+      })
+    );
+
+    test(
+      'should provide customerMaterialNumberForCreateCase$',
+      marbles((m) => {
+        mockStore.setState({
+          case: {
+            autocompleteItems: [
+              {
+                filter: FilterNames.CUSTOMER_MATERIAL_NUMBER,
+                options: [],
+              },
+            ],
+            requestingDialog: AutocompleteRequestDialog.CREATE_CASE,
+          },
+        });
+        mockStore.overrideSelector(
+          getCaseCustomerAndShipToParty(AutocompleteRequestDialog.CREATE_CASE),
+          { filter: FilterNames.CUSTOMER_MATERIAL_NUMBER, options: [] }
+        );
+        m.expect(service.customerMaterialNumberForCreateCase$).toBeObservable(
+          m.cold('a', {
+            a: { filter: FilterNames.CUSTOMER_MATERIAL_NUMBER, options: [] },
+          })
+        );
+      })
+    );
+    test(
+      'should provide createCaseCustomerAddEntry$',
+      marbles((m) => {
+        mockStore.setState({
+          case: {
+            autocompleteItems: [
+              {
+                filter: FilterNames.CUSTOMER,
+                options: [],
+              },
+            ],
+            requestingDialog: AutocompleteRequestDialog.ADD_ENTRY,
+          },
+        });
+        mockStore.overrideSelector(
+          getCaseCustomerAndShipToParty(AutocompleteRequestDialog.ADD_ENTRY),
+          { filter: FilterNames.CUSTOMER, options: [] }
+        );
+        m.expect(service.createCaseCustomerAddEntry$).toBeObservable(
+          m.cold('a', {
+            a: { filter: FilterNames.CUSTOMER, options: [] },
+          })
+        );
+      })
+    );
+  });
   describe('autocomplete', () => {
     test('should dispatch autocomplete action', () => {
       mockStore.dispatch = jest.fn();

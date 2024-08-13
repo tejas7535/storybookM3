@@ -1,0 +1,8 @@
+{
+  "title": "Manual Case Creation",
+  "headerInformation": "Header Information",
+  "positionInformation": "Position Information",
+  "mandatoryField": "*Mandatory Input",
+  "createCase": "Create Case",
+  "cancelButton": "Cancel"
+}

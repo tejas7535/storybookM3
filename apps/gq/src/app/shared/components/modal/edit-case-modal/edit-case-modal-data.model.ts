@@ -14,7 +14,6 @@ export interface EditCaseModalData {
   customerPurchaseOrderDate?: string;
   bindingPeriodValidityEndDate?: string;
   shipToPartySalesOrg?: string;
-
   purchaseOrderType?: PurchaseOrderType;
   partnerRoleType?: SectorGpsd;
   offerType?: OfferType;

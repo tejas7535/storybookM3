@@ -852,6 +852,15 @@ describe('Create Case Reducer', () => {
     });
   });
 
+  describe('getSalesOrgsForShipToPartySuccess', () => {
+    test('should set the state with the salesOrgs', () => {
+      const salesOrgs = [new SalesOrg('id', true)];
+      const action = getSalesOrgsForShipToPartySuccess({ salesOrgs });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+      expect(state.shipToParty.salesOrgs).toEqual(salesOrgs);
+    });
+  });
   describe('select SalesOrg', () => {
     test('should select SalesOrg', () => {
       const salesOrgs = [new SalesOrg('id1', true), new SalesOrg('id2', false)];
@@ -1027,7 +1036,6 @@ describe('Create Case Reducer', () => {
       expect(state.shipToParty).toEqual(initialState.shipToParty);
     });
   });
-
   describe('PLsAndSeries Actions', () => {
     describe('getPLsAndSeries', () => {
       test('should set loading', () => {

@@ -9,6 +9,9 @@
         }
       }
     },
+    "customerInfo": {
+      "salesOrg": "VkOrg"
+    },
     "quotationDetailsTable": {
       "gpi": "GPI % (KHK)",
       "gpiInfoText": "(Ausgewählter Nettopreis - KHK) / Ausgewählter Nettopreis",
@@ -160,6 +163,7 @@
           "dialogTitle": "Neue Positionen hinzufügen"
         },
         "addItems": "Positionen hinzufügen",
+        "addPosition": "Position hinzufügen",
         "pasteFromClipboard": "Aus der Zwischenablage einfügen",
         "pasteSnackbar": {
           "message": "Wenn Sie Hilfe beim Importieren aus Excel benötigen, finden Sie hier eine Kurzanleitung",
@@ -167,13 +171,22 @@
         },
         "quantity": {
           "error": "Invalide Menge",
-          "label": "Menge",
+          "label": "Menge *",
           "hint": "Geben Sie die Menge ein"
         },
         "targetPrice": {
           "label": "Zielpreis",
           "hint": "Geben Sie einen Zielpreis ein (optional)",
           "error": "Invalider Zielpreis"
+        },
+        "targetPriceSource": {
+          "label": "Zielpreisquelle",
+          "hint": "Zielpreisquelle auswählen (optional)",
+          "values": {
+            "noEntry": "Kein Eintrag",
+            "customer": "Kunde",
+            "sales": "Sales"
+          }
         },
         "customer": {
           "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
@@ -183,13 +196,13 @@
         },
         "materialNumber": {
           "hint": "Geben Sie eine 15-stellige Materialnummer ein",
-          "label": "Materialnummer",
+          "label": "Materialnummer *",
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
         },
         "materialDescription": {
           "hint": "Geben Sie eine Materialbeschreibung ein",
-          "label": "Materialbeschreibung",
+          "label": "Materialbeschreibung *",
           "nothingFound": "Nichts gefunden",
           "wrongInput": "Bitte geben sie eine valide Materialbeschreibung ein"
         },
@@ -198,6 +211,12 @@
           "label": "Angebotsnummer",
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+        },
+        "customerMaterialNumber": {
+          "hint": "Kundenmaterialnummer eingeben (optional)",
+          "label": "Kundenmaterialnummer",
+          "nothingFound": "Keine Ergebnisse",
+          "wrongInput": "Bitte valide Kundenmaterialnummer eingeben"
         },
         "button": "Hinzufügen",
         "deleteInvalid": {
@@ -219,8 +238,10 @@
         },
         "materialDescription": "Materialbeschreibung",
         "materialNumber": "Materialnummer (15-stellig)",
+        "customerMaterialNumber": "Kundenmaterialnummer",
         "quantity": "Menge",
         "targetPrice": "Zielpreis",
+        "targetPriceSource": "Zielpreisquelle",
         "targetPriceInfoText": "Bitte Zielpreis gegebenfalls an die Preiseinheit umrechnen.",
         "priceUnitOfTargetPrice": "pro",
         "UoM": "Mengeneinheit"
@@ -485,6 +506,24 @@
         "error": "Invalider Zielpreis"
       }
     },
+    "caseHeaderInformation": {
+      "title": "Case Einstellungen",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen",
+      "nameLabel": "Case Bezeichnung",
+      "currencyLabel": "Individuelle Währung",
+      "generalInformation": "Allgemein",
+      "shipToParty": "Warenempfänger",
+      "commentLabel": "Notiz",
+      "additionalInformation": "Zusätzliche Informationen",
+      "quotationToDateLabel": "Angebot bis",
+      "requestedDeliveryDateLabel": "Wunschlieferdatum",
+      "customerPurchaseOrderDateLabel": "Bestelldatum",
+      "bindingPeriodValidityEndDateLabel": "Gültig bis",
+      "dateBeforeTodayValidationMessage": "Datum in der Vergangenheit, bitte prüfen.",
+      "smallerThanPoDateValidationMessage": "Datum muss größer oder gleich dem Bestelldatum sein.",
+      "updateSapCase": "Update SAP Quote"
+    },
     "caseModal": {
       "title": "Case Einstellungen",
       "cancel": "Abbrechen",
@@ -493,7 +532,8 @@
       "currencyLabel": "Individuelle Währung",
       "generalInformation": "Allgemein",
       "shipToParty": "Warenempfänger",
-      "sapInformation": "SAP Information",
+      "commentLabel": "Notiz",
+      "additionalInformation": "Zusätzliche Informationen",
       "quotationToDateLabel": "Angebot bis",
       "requestedDeliveryDateLabel": "Wunschlieferdatum",
       "customerPurchaseOrderDateLabel": "Bestelldatum",
