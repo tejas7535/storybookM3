@@ -625,6 +625,7 @@
     "resultsTable": {
       "columns": {
         "gqId": "GQ Case",
+        "caseName": "Case Name",
         "sapId": "SAP Quotation",
         "customerId": "Customer Number",
         "customerName": "Customer Name",
@@ -637,6 +638,7 @@
       "searchCriteriaLabel": "Search Criteria:",
       "gqId": "GQ Case Number",
       "sapId": "SAP Quotation",
+      "caseName": "Case Name",
       "customerName": "Customer Name",
       "customerId": "Customer Number",
       "gqCreatedByUser": "GQ Created by",

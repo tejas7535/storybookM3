@@ -98,6 +98,7 @@ export enum ReferencePricingColumnFields {
 export enum SearchByCasesOrMaterialsColumnFields {
   GQ_ID = 'gqId',
   SAP_ID = 'sapId',
+  CASE_NAME = 'caseName',
   CUSTOMER_NAME = 'customerName',
   CUSTOMER_ID = 'customerId',
   GQ_CREATED_BY = 'gqCreatedByUser',

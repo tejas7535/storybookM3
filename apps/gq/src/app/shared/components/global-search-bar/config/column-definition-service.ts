@@ -123,6 +123,12 @@ export class ColumnDefinitionService {
   CASES_TABLE_COLUMN_DEFS: ColDef[] = [
     ...this.COLUMN_DEFS,
     {
+      headerName: translate('searchBarAdvanced.resultsTable.columns.caseName'),
+      valueFormatter: GeneralColumnUtilityService.basicTransform,
+      field: SearchByCasesOrMaterialsColumnFields.CASE_NAME,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate(
         'searchBarAdvanced.casesResultsTable.columns.totalNetValue'
       ),

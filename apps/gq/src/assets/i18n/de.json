@@ -626,6 +626,7 @@
       "columns": {
         "gqId": "GQ Case",
         "sapId": "SAP Angebot",
+        "caseName": "Case Bezeichnung",
         "customerId": "Kundennummer",
         "customerName": "Kundenname",
         "gqCreatedByUser": "Case erstellt von",
@@ -637,6 +638,7 @@
       "searchCriteriaLabel": "Suchkriterium:",
       "gqId": "GQ Case Nummer",
       "sapId": "SAP Angebot",
+      "caseName": "Case Bezeichnung",
       "customerName": "Kundenname",
       "customerId": "Kundennummer",
       "gqCreatedByUser": "GQ erstellt von",
