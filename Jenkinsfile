@@ -754,8 +754,11 @@ pipeline {
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', standardVersionCommand)
                     }
 
-                    // skip the rest of the pipeline
-                    skipBuild = true
+                    // if pre release is triggered, rest of the pipeline can be skipped and will be done on pre-release branch
+                    if(isPreReleaseTrigger) {
+                        // skip the rest of the pipeline
+                        skipBuild = true 
+                    }
                 }
             }
         }
