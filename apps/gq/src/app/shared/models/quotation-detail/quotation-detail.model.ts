@@ -1,4 +1,7 @@
-import { SapPriceConditionDetail } from '@gq/core/store/reducers/models';
+import {
+  SapConditionType,
+  SapPriceConditionDetail,
+} from '@gq/core/store/reducers/models';
 
 import { AbcxClassification } from '../quotation/abcx-classification.enum';
 import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
@@ -53,6 +56,7 @@ export class QuotationDetail {
   comment: string;
   sapPrice: number;
   sapPriceCondition: SapPriceCondition;
+  leadingSapConditionType: SapConditionType;
   sapGrossPrice: number;
   materialStockByPlant: MaterialStockByPlant;
   filteredSapConditionDetails: SapPriceConditionDetail[];

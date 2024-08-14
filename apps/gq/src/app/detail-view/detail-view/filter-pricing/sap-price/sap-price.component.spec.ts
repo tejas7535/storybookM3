@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { SapConditionType } from '@gq/core/store/reducers/sap-price-details/models';
 import {
   PriceSource,
   SapPriceCondition,
@@ -8,6 +9,7 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
+import { PriceSourcePipe } from '@gq/shared/pipes/price-source/price-source.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -25,7 +27,11 @@ describe('SapPriceComponent', () => {
   const createComponent = createComponentFactory({
     component: SapPriceComponent,
     detectChanges: false,
-    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      PushPipe,
+      PriceSourcePipe,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -111,6 +117,22 @@ describe('SapPriceComponent', () => {
         new UpdatePrice(
           QUOTATION_DETAIL_MOCK.sapPrice,
           PriceSource.SAP_STANDARD
+        )
+      );
+    });
+    test('should emit Output EventEmitter with sector discount', () => {
+      component.quotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        leadingSapConditionType: SapConditionType.ZSEK,
+      };
+      component.selectSapPrice.emit = jest.fn();
+
+      component.selectPrice();
+
+      expect(component.selectSapPrice.emit).toHaveBeenCalledWith(
+        new UpdatePrice(
+          QUOTATION_DETAIL_MOCK.sapPrice,
+          PriceSource.SECTOR_DISCOUNT
         )
       );
     });

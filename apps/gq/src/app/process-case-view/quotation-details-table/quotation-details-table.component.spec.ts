@@ -5,6 +5,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { SapConditionType } from '@gq/core/store/reducers/sap-price-details/models';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
@@ -964,6 +965,23 @@ describe('QuotationDetailsTableComponent', () => {
         const detail: QuotationDetail = {
           ...QUOTATION_DETAIL_MOCK,
           priceSource: PriceSource.SAP_STANDARD,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: ActiveCaseActions.addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is sector discount', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          priceSource: PriceSource.SECTOR_DISCOUNT,
+          leadingSapConditionType: SapConditionType.ZSEK,
         };
         component.selectedRows = [{ data: detail } as RowNode];
 

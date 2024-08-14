@@ -32,6 +32,7 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { getSapStandardPriceSource } from '@gq/shared/utils/price-source.utils';
 import {
   calculateAffectedKPIs,
   calculateMargin,
@@ -468,7 +469,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
-      return PriceSource.SAP_STANDARD;
+      return getSapStandardPriceSource(detail);
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
@@ -493,7 +494,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
-      return PriceSource.SAP_STANDARD;
+      return getSapStandardPriceSource(detail);
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
