@@ -92,7 +92,13 @@
         "sectorManagement": "Sector Management",
         "subKeyAccount": "Sub Key Account",
         "subRegion": "Sub-Region",
-        "subSector": "Subsector"
+        "subSector": "Subsector",
+        "salesInformation": {
+          "customerKey": "Key",
+          "salesGroup": "Sales Group",
+          "priceGroup": "Price Group",
+          "customerDiscountGroup": "Customer disc. Group"
+        }
       },
       "salesforce": {
         "title": "Salesforce",

@@ -20,6 +20,35 @@
           <span text>{{ customer.identifier.salesOrg }}</span>
         </gq-label-text>
         <gq-horizontal-divider></gq-horizontal-divider>
+
+        @if (userHasAccessToPricingDetails) {
+          <gq-label-text>
+            <span label>{{ t('salesInformation.customerKey') }}</span>
+            <span text>{{
+              customer.salesInformation?.customerKey | nullableString
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('salesInformation.salesGroup') }}</span>
+            <span text>{{
+              customer.salesInformation?.salesGroup | nullableString
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('salesInformation.priceGroup') }}</span>
+            <span text>{{
+              customer.salesInformation?.priceGroup | nullableString
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('salesInformation.customerDiscountGroup') }}</span>
+            <span text>{{
+              customer.salesInformation?.customerDiscountGroup | nullableString
+            }}</span>
+          </gq-label-text>
+          <gq-horizontal-divider></gq-horizontal-divider>
+        }
+
         <gq-label-text>
           <span label>{{ t('netSalesClassification') }}</span>
           <span text>{{ customer.netSalesClassification }}</span>

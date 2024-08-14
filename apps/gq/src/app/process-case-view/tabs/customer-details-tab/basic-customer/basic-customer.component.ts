@@ -10,4 +10,5 @@ export class BasicCustomerComponent {
   @Input() customer: Customer;
   @Input() lastYear: number;
   @Input() currentYear: number;
+  @Input() userHasAccessToPricingDetails: boolean;
 }
