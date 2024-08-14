@@ -1125,6 +1125,7 @@ describe('ActiveCaseEffects', () => {
       marbles((m) => {
         const item: Quotation = {
           ...QUOTATION_MOCK,
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
           sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           sapId: '1',
         };
@@ -1149,10 +1150,39 @@ describe('ActiveCaseEffects', () => {
       })
     );
     test(
+      'shall not get sync status in interval on failure',
+      marbles((m) => {
+        const item: Quotation = {
+          ...QUOTATION_MOCK,
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
+          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
+          sapId: '1',
+        };
+        snackBar.open = jest.fn();
+        quotationService.createSapQuotation = jest.fn(() => response);
+        effects['showCreateSapQuoteToast'] = jest.fn();
+        actions$ = m.hot('-a', {
+          a: ActiveCaseActions.createSapQuote({ gqPositionIds: ['12-12-12-'] }),
+        });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--(b)', {
+          b: ActiveCaseActions.createSapQuoteSuccess({ quotation: item }),
+        });
+
+        m.expect(effects.createSapQuote$).toBeObservable(expected);
+        m.flush();
+        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
+        expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
       'shall call service, should not display snackbar due to missing sapId (asynchronous procedure)',
       marbles((m) => {
         const item: Quotation = {
           ...QUOTATION_MOCK,
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
           sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           sapId: undefined,
         };

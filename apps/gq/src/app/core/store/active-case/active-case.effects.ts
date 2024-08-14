@@ -30,7 +30,7 @@ import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-deta
 import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { saveAs } from 'file-saver';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
@@ -532,20 +532,24 @@ export class ActiveCaseEffects {
                 addCalculationsForDetails(quotation.quotationDetails)
               ),
               mergeMap((quotation: Quotation) => {
+                const actions: Action[] = [
+                  ActiveCaseActions.createSapQuoteSuccess({ quotation }),
+                ];
+
                 if (
                   quotation.sapCallInProgress ||
                   quotation.calculationInProgress
                 ) {
-                  return [
-                    ActiveCaseActions.createSapQuoteSuccess({ quotation }),
-                    ActiveCaseActions.getQuotationInInterval(),
-                  ];
+                  // if the quotation calculation or sapCall is still in progress, set interval to refresh the quotation
+                  actions.push(ActiveCaseActions.getQuotationInInterval());
+                } else if (
+                  quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
+                ) {
+                  // if quotation is pending, set interval to refresh the sap sync status
+                  actions.push(ActiveCaseActions.getSapSyncStatusInInterval());
                 }
 
-                return [
-                  ActiveCaseActions.createSapQuoteSuccess({ quotation }),
-                  ActiveCaseActions.getSapSyncStatusInInterval(),
-                ];
+                return actions;
               }),
               catchError((errorMessage) =>
                 of(ActiveCaseActions.createSapQuoteFailure({ errorMessage }))
