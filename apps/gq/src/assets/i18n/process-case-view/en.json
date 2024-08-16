@@ -237,6 +237,7 @@
     "cancelButton": "cancel"
   },
   "confirmRefreshSapPricing": {
+    "title": "Refresh SAP Price Settings",
     "text": "Do you really want to refresh the SAP Data for all positions of this case? Be aware this will overwrite the SAP Data of this case.",
     "refreshButton": "refresh",
     "cancelButton": "cancel"

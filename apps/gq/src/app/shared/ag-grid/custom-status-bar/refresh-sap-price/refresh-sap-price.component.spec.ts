@@ -74,7 +74,7 @@ describe('RefreshSapPriceComponent', () => {
       expect(
         component['activeCaseFacade'].refreshSapPricing
       ).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenCalledTimes(3);
+      expect(translate).toHaveBeenCalledTimes(4);
       expect(
         component['activeCaseFacade'].refreshSapPricing
       ).toHaveBeenCalled();

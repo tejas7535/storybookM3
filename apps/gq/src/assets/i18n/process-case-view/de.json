@@ -237,6 +237,7 @@
     "cancelButton": "abbrechen"
   },
   "confirmRefreshSapPricing": {
+    "title": "SAP-Preisstellungen aktualisieren",
     "text": "Möchten Sie wirklich die SAP-Daten für alle Positionen des Cases aktualisieren? Beachten Sie, dass dadurch die SAP-Daten dieses Cases überschrieben werden.",
     "refreshButton": "aktualisieren",
     "cancelButton": "abbrechen"
