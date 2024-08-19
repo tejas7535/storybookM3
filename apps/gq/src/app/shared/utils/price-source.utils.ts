@@ -8,6 +8,9 @@ export function getSapStandardPriceSource(
     case SapConditionType.ZSEK: {
       return PriceSource.SECTOR_DISCOUNT;
     }
+    case SapConditionType.ZIEC: {
+      return PriceSource.END_CUSTOMER_DISCOUNT;
+    }
     default: {
       return PriceSource.SAP_STANDARD;
     }

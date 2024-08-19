@@ -136,6 +136,22 @@ describe('SapPriceComponent', () => {
         )
       );
     });
+    test('should emit Output EventEmitter with end customer discount', () => {
+      component.quotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        leadingSapConditionType: SapConditionType.ZIEC,
+      };
+      component.selectSapPrice.emit = jest.fn();
+
+      component.selectPrice();
+
+      expect(component.selectSapPrice.emit).toHaveBeenCalledWith(
+        new UpdatePrice(
+          QUOTATION_DETAIL_MOCK.sapPrice,
+          PriceSource.END_CUSTOMER_DISCOUNT
+        )
+      );
+    });
     test('should emit Output EventEmitter with sap price special', () => {
       component.selectSapPrice.emit = jest.fn();
       component.quotationDetail = {

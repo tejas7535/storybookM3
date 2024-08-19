@@ -994,6 +994,23 @@ describe('QuotationDetailsTableComponent', () => {
           type: ActiveCaseActions.addSimulatedQuotation.type,
         });
       });
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is end customer discount', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          priceSource: PriceSource.END_CUSTOMER_DISCOUNT,
+          leadingSapConditionType: SapConditionType.ZIEC,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: ActiveCaseActions.addSimulatedQuotation.type,
+        });
+      });
       test('should dispatch addSimulatedQuotationAction if target and detail price source is cap_price', () => {
         const detail: QuotationDetail = {
           ...QUOTATION_DETAIL_MOCK,

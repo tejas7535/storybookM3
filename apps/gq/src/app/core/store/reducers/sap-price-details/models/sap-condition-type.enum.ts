@@ -4,4 +4,5 @@ export enum SapConditionType {
   ZDVO = 'ZDVO',
   ZEVO = 'ZEVO',
   ZSEK = 'ZSEK',
+  ZIEC = 'ZIEC',
 }

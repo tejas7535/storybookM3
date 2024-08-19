@@ -61,7 +61,7 @@
       "priceUnit": "pro",
       "priceUnitInfoText": "Preiseinheit",
       "priceSource": "Preisquelle",
-      "priceSourceLabel": "{priceSource,select,GQ{GQ}SAP_STANDARD{SAP Standard}SAP_SPECIAL{SAP Special}CAP_PRICE{CAP Price}STRATEGIC{Strategic}MANUAL{Manual}TARGET_PRICE{Target Price}SECTOR_DISCOUNT{Sector Discount} other{}}",
+      "priceSourceLabel": "{priceSource,select,GQ{GQ}SAP_STANDARD{SAP Standard}SAP_SPECIAL{SAP Special}CAP_PRICE{CAP Price}STRATEGIC{Strategic}MANUAL{Manual}TARGET_PRICE{Target Price}SECTOR_DISCOUNT{Sector Discount}END_CUSTOMER_DISCOUNT{EndCustomer Discount} other{}}",
       "priceSourceInfoText": "Preisquelle des ausgewählten Nettopreises",
       "pricingAssistant": "Preis-Assistent",
       "priceAssistantButton": "Preis-Assistent",
