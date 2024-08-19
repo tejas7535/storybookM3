@@ -475,7 +475,7 @@ describe('EditCaseModalComponent', () => {
       spectator.detectChanges();
 
       const hint = spectator.query('mat-hint');
-      expect(hint.textContent).toEqual('0 / 20');
+      expect(hint.textContent).toEqual('0 / 35');
     });
 
     test('should show correct hint for non-empty name', () => {
@@ -485,7 +485,7 @@ describe('EditCaseModalComponent', () => {
       spectator.detectChanges();
 
       const hint = spectator.query('mat-hint');
-      expect(hint.textContent).toEqual('9 / 20');
+      expect(hint.textContent).toEqual('9 / 35');
     });
   });
 

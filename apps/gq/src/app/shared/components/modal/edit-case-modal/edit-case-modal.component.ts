@@ -60,7 +60,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   private readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
   readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
-  NAME_MAX_LENGTH = 20;
+  NAME_MAX_LENGTH = 35;
 
   options: IdValue[] = [];
   caseModalForm: UntypedFormGroup;
