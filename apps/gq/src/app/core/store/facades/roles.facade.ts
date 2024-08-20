@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 
 import {
+  getColumnDefsForRoles,
   userHasGPCRole,
   userHasManualPriceRole,
   userHasRegionAmericasRole,
@@ -13,6 +14,7 @@ import {
 } from '@gq/core/store/selectors';
 import { UserRoles } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
+import { ColDef } from 'ag-grid-community';
 
 import { getRoles, getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
@@ -90,5 +92,11 @@ export class RolesFacade {
           roles.every((role) => rolesFromStore.includes(role))
         )
       );
+  }
+
+  getColumnDefsForRolesOnQuotationDetailsTable(
+    colDefs: ColDef[]
+  ): Observable<ColDef[]> {
+    return this.store.pipe(getColumnDefsForRoles(colDefs));
   }
 }

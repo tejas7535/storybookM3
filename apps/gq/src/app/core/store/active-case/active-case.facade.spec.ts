@@ -173,6 +173,23 @@ describe('ActiveCaseFacade', () => {
       })
     );
   });
+
+  describe('selectedQuotationDetailIds$', () => {
+    test(
+      'should select the selected quotation detail ids',
+      marbles((m) => {
+        const quotationDetailIds = ['123'];
+        mockStore.overrideSelector(
+          activeCaseFeature.selectSelectedQuotationDetails,
+          quotationDetailIds
+        );
+
+        m.expect(facade.selectedQuotationDetailIds$).toBeObservable(
+          m.cold('a', { a: quotationDetailIds })
+        );
+      })
+    );
+  });
   describe('quotationSapId$', () => {
     test(
       'should select the sapId of the quotation',
@@ -750,6 +767,31 @@ describe('ActiveCaseFacade', () => {
   });
 
   // ############################# methods testing ##############################
+  describe('selectQuotationDetail', () => {
+    test('should dispatch select quotation detail', () => {
+      const gqPositionId = '132';
+      const action = ActiveCaseActions.selectQuotationDetail({ gqPositionId });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.selectQuotationDetail(gqPositionId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('deselectQuotationDetail', () => {
+    test('should dispatch deselect quotation detail', () => {
+      const gqPositionId = '132';
+      const action = ActiveCaseActions.deselectQuotationDetail({
+        gqPositionId,
+      });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.deselectQuotationDetail(gqPositionId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
   describe('updateCosts', () => {
     test('should dispatch update costs', () => {
       const gqPosId = '123';

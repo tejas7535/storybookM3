@@ -348,7 +348,16 @@ mat-hint {
     @apply min-h-screen;
   }
 }
-
+gq-quotation-details-table {
+  .mat-mdc-button-base {
+    z-index: 0;
+  }
+  gq-extended-column-header {
+    .ag-header-cell-label {
+      z-index: 0;
+    }
+  }
+}
 // checks whether gq Table horizontal scrollbar is visible, and if so it will apply the setting
 gq-case-table:has(.ag-body-horizontal-scroll:not([style*='height: 0px;'])),
 gq-quotation-details-table:has(

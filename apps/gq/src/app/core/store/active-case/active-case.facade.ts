@@ -96,6 +96,10 @@ export class ActiveCaseFacade {
     activeCaseFeature.getSelectedQuotationDetail
   );
 
+  selectedQuotationDetailIds$: Observable<string[]> = this.store.select(
+    activeCaseFeature.selectSelectedQuotationDetails
+  );
+
   quotationSapId$: Observable<string> = this.store.select(getSapId);
 
   isQuotationStatusActive$: Observable<boolean> = this.store.select(
@@ -255,6 +259,18 @@ export class ActiveCaseFacade {
   // ##############################################################################################################
   // ############################################# methods ########################################################
   // ##############################################################################################################
+  selectQuotationDetail(gqPositionId: string): void {
+    this.store.dispatch(
+      ActiveCaseActions.selectQuotationDetail({ gqPositionId })
+    );
+  }
+
+  deselectQuotationDetail(gqPositionId: string): void {
+    this.store.dispatch(
+      ActiveCaseActions.deselectQuotationDetail({ gqPositionId })
+    );
+  }
+
   updateCosts(gqPosId: string): void {
     this.store.dispatch(ActiveCaseActions.updateCosts({ gqPosId }));
   }
@@ -305,6 +321,24 @@ export class ActiveCaseFacade {
 
   confirmSimulatedQuotation(): void {
     this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
+  }
+
+  removeSimulatedQuotationDetail(gqPositionId: string): void {
+    this.store.dispatch(
+      ActiveCaseActions.removeSimulatedQuotationDetail({ gqPositionId })
+    );
+  }
+
+  addSimulatedQuotation(
+    gqId: number,
+    quotationDetails: QuotationDetail[]
+  ): void {
+    this.store.dispatch(
+      ActiveCaseActions.addSimulatedQuotation({ gqId, quotationDetails })
+    );
+  }
+  resetSimulatedQuotation(): void {
+    this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
   }
 
   resetEditCaseSettings(): void {

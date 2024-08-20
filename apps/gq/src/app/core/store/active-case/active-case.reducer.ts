@@ -420,8 +420,7 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
         ...state,
         selectedQuotationDetails: [
-          ...state.selectedQuotationDetails,
-          gqPositionId,
+          ...new Set([...state.selectedQuotationDetails, gqPositionId]),
         ],
       })
     ),
