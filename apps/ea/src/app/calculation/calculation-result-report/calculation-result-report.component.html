@@ -263,9 +263,9 @@
             } as messages"
           >
             @if (
-              messages.errors.length > 0 ||
-              messages.warnings.length > 0 ||
-              messages.notes.length > 0
+              messages.errors?.length > 0 ||
+              messages.warnings?.length > 0 ||
+              messages.notes?.length > 0
             ) {
               <ea-expansion-panel
                 [title]="t('reportSectionWarnings')"
