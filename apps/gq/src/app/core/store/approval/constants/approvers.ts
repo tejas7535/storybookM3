@@ -48,7 +48,7 @@ const logicThirdApprover = [
 // Logic for third approver in Greater China
 const logicThirdApproverGreaterChina = [
   [undefined, undefined, undefined], // ApprovalLevel.L0
-  [ApprovalLevel.L1, ApprovalLevel.L1, ApprovalLevel.L2], // ApprovalLevel.L1
+  [ApprovalLevel.L1, ApprovalLevel.L2, ApprovalLevel.L2], // ApprovalLevel.L1
   [ApprovalLevel.L1, ApprovalLevel.L2, ApprovalLevel.L3], // ApprovalLevel.L2
   [ApprovalLevel.L1, ApprovalLevel.L3, ApprovalLevel.L4], // ApprovalLevel.L3
   [ApprovalLevel.L1, ApprovalLevel.L4, ApprovalLevel.L4], // ApprovalLevel.L4
