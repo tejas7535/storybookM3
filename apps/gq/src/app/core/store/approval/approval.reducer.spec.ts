@@ -84,6 +84,21 @@ describe('approvalReducer', () => {
       });
     });
 
+    test('should set approvalCockpitLoading to false and reset error', () => {
+      const action = ApprovalActions.getApprovalCockpitData({
+        sapId: '1',
+        hideLoadingSpinner: true,
+      });
+      const state = approvalFeature.reducer(
+        { ...initialState, error: new Error('error') },
+        action
+      );
+      expect(state).toEqual({
+        ...initialState,
+        approvalCockpitLoading: false,
+      });
+    });
+
     test('should set the error', () => {
       const error = new Error('my error');
       const action = ApprovalActions.getApprovalCockpitDataFailure({ error });
