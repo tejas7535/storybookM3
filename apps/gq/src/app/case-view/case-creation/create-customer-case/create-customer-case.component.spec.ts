@@ -6,6 +6,7 @@ import {
   resetPLsAndSeries,
   resetProductLineAndSeries,
 } from '@gq/core/store/actions';
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -58,6 +59,25 @@ describe('CreateCustomerCaseComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('ngOnInit', () => {
+    test('should init autoCompleteFacade with CREATE_CASE', () => {
+      component.isNewCaseCreation = true;
+      component.autocompleteFacade.initFacade = jest.fn();
+      component.ngOnInit();
+      expect(component.autocompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.CREATE_CASE
+      );
+    });
+
+    test('should init AutoCompleteFacade with ADD_ENTRY', () => {
+      component.isNewCaseCreation = false;
+      component.autocompleteFacade.initFacade = jest.fn();
+      component.ngOnInit();
+      expect(component.autocompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.ADD_ENTRY
+      );
+    });
   });
   describe('closeDialog', () => {
     test('should close matDialog', () => {

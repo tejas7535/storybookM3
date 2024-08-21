@@ -31,6 +31,7 @@ import {
   CaseCreationEventParams,
   EVENT_NAMES,
 } from '@gq/shared/models';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
@@ -55,12 +56,14 @@ export class CreateCustomerCaseComponent implements OnInit {
   createCaseDisabled$: Observable<boolean>;
   createCaseLoading$: Observable<boolean>;
   title$: Observable<string>;
+  isNewCaseCreation = false;
 
   constructor(
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<CreateCustomerCaseComponent>,
     private readonly translocoService: TranslocoService,
     private readonly insightsService: ApplicationInsightsService,
+    private readonly featureToggleConfigService: FeatureToggleConfigService,
     public readonly autocompleteFacade: AutoCompleteFacade
   ) {
     this.title$ = this.translocoService.selectTranslate(
@@ -69,6 +72,9 @@ export class CreateCustomerCaseComponent implements OnInit {
       'case-view'
     );
 
+    this.isNewCaseCreation = this.featureToggleConfigService.isEnabled(
+      'createManualCaseAsView'
+    );
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
       type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
@@ -76,7 +82,11 @@ export class CreateCustomerCaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.autocompleteFacade.resetView();
-    this.autocompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
+    if (this.isNewCaseCreation) {
+      this.autocompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
+    } else {
+      this.autocompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+    }
 
     this.selectedSalesOrg$ = this.store.select(getSelectedSalesOrg);
     this.selectedCustomerId$ = this.store.select(getSelectedCustomerId);
