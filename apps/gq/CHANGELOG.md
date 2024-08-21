@@ -1,4 +1,51 @@
 # Release Notes of Guided Quoting
+## [5.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v5.1.0...gq-v5.2.0) (2024-08-21)
+
+
+### Features
+
+* **gq:** add currency for fpricing transactions (GQUOTE-4470) ([#6375](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6375)) ([0fec3fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0fec3fba41ddeac66724e19dd818fcdb64a05f55))
+* **gq:** adjust approval level for gc (GQUOTE-4844) ([#6472](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6472)) ([f1b172d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f1b172db8cce9135ef9fd44a2affcfe486197962))
+* **gq:** adjust translation (GQUOTE-4668) ([#6360](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6360)) ([54ea57c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/54ea57ca5f454e80c29e175b8b69360ae83f910a))
+* **gq:** consider approval logic for gc (GQUOTE-4759) ([#6438](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6438)) ([9679bde](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9679bdeda7708a1dd867b2dfd6b1f0642de1e187))
+* **gq:** disable deletion of rfq quotation details (GQUOTE-4683) ([#6386](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6386)) ([10a5eff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/10a5effe7d9741adb256773830f125030a8c4246))
+* **gq:** disable partnerRole and shipToParty for synced Cases (GQUOTE-4835) ([#6469](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6469)) ([14849ec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14849ec7a6225e2f5e328e545763972d9b5bc4aa))
+* **gq:** display OfferType in OverviewTab (GQUOTE-4604) ([#6340](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6340)) ([2956877](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2956877e5cbc12fe0304fffabcbffc37420af7a2))
+* **gq:** do not allow rfqData update/confirmSimulation when pending Status (GQUOTE-4724) ([#6393](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6393)) ([f9799b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f9799b505e21cb1cb8c34740620958f0e2f94462))
+* **gq:** edit cases while pending is not allowed (GQUOTE-4650) ([#6368](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6368)) ([f33134a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f33134a572975f685f736aba3c67744fb10e147f))
+* **gq:** enable active sap case editing (GQUOTE-4607) ([#6349](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6349)) ([762c68e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/762c68e9c3c114c1f0d1d924f939d487f1efa1a5))
+* **gq:** get quotation sap sync status (GQUOTE-4744) ([#6421](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6421)) ([c1e0ce7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c1e0ce7ced2173480c7f78f844070dade7c5683c))
+* **gq:** increase case name length (GQUOTE-4841) ([#6470](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6470)) ([ed7bb4f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ed7bb4ff908c6850789f80d38e31825c4e3980fa))
+* **gq:** integrate offerType to Case Creation (GQUOTE-4595) ([#6336](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6336)) ([c82cdfd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c82cdfdf0aef3128af4cb8849644bf21b77c50a6))
+* **gq:** Integrate offerType to CaseSettings Dialog, adjust update call include offerType (GQUOTE-4600) ([#6346](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6346)) ([7db77bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7db77bb29af1fe0eecb1a52ce90512625c2b7121))
+* **gq:** pin gq id column to the left in search bar (GQUOTE-4471) ([#6353](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6353)) ([75d4981](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/75d4981c7fdc137221126a23fb5f21b690be869e))
+* **gq:** provide custom error message for SAP Sync failed (GQUOTE-4764) ([#6447](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6447)) ([becfe28](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/becfe287c17c783d088001d3d9e6025bd4c5c425))
+* **gq:** register effects in active case module (GQUOTE-4744) ([#6430](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6430)) ([b4e4230](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b4e423053852191ac570e1c788127e0eb18620a2))
+* **gq:** replace secondary color to avoid conflict in m3 ([#6453](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6453)) ([2c9c152](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c9c15256d302da3a13277c5698d6849240e92a1))
+* **gq:** request offerTypes initially when user has loggedIn (GQUOTE-4692) ([#6383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6383)) ([a7c0066](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a7c0066d3f7126b7b91f32ad7c20990269237302))
+* **gq:** set automatic refresh when opened case has pending status (GQUOTE-4794) ([#6450](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6450)) ([63650c9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63650c9013deb55faf673d93b72a32b0c585c09a))
+* **gq:** translate Not Available for partnerRole (GQUOTE-4762) ([#6437](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6437)) ([e44cd92](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e44cd9210b92ef077d954c6b78ae1bc387ee716f))
+* **gq:** use partner role ID as name if not avl (GQUOTE-4711) ([#6418](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6418)) ([f162ba0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f162ba0c0ef83e5d283105ea335d326102554b33))
+
+
+### Bug Fixes
+
+* **gq:** adjust offer type response structure (GQUOTE-4651) ([#6354](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6354)) ([1dc2f0f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1dc2f0f8fbb0b8552f4688470d078f68c1ca3dfe))
+* **gq:** adjust onetrust id (GQUOTE-4615) ([#6365](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6365)) ([2a53daa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2a53daa822eaa110eca1fd8b789797cf836a3bda))
+* **gq:** adjust position of delete-button in openCases overview (GQUOTE-4181) ([#6351](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6351)) ([a9977e5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9977e52638e9155ff594221f43a53bf060a2de2))
+* **gq:** block feature toggle config on pre release stage (GQUOTE-4716) ([#6388](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6388)) ([750734f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/750734f9bc507dfd843572ae7eff203898dac728))
+* **gq:** do not display details link for fnumbers (GQUOTE-4396) ([#6367](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6367)) ([280bb92](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/280bb92c2a47e5dbb05e387abda6ccbcf31e7fca))
+* **gq:** do not refresh partnerRole when ShipToParty changes (GQUOTE-4725) ([#6414](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6414)) ([7a9042a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7a9042aa5b5688bad3eb1023bd7d64f55817805b))
+* **gq:** do not request sap sync status when status is not pending (GQUOTE-4829) ([#6464](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6464)) ([fd26ffd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fd26ffda7b0f7009c1a85afd0deffc14a3b40b0e))
+* **gq:** fix translation for deletion of quotation detail (GQUOTE-4193) ([#6403](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6403)) ([425331b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/425331b7c328b4afdd7efd0014954e2d7440de18))
+* **gq:** hide loading spinner when approval action is triggered (GQUOTE-4744) ([#6475](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6475)) ([9a3affa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a3affa409ceefaa7ed8da6fc5793c47bdda77e4))
+* **gq:** init SalesOrg of ShipToParty correctly in EditCase dialog (GQUOTE-4758) ([#6416](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6416)) ([8eaf23e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8eaf23eca76165a152bf0f23bb39ec1286c7ac6e))
+* **gq:** keep order of gpsds (GQUOTE-4711) ([#6429](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6429)) ([48f4122](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/48f4122eb29b9b87ca1d0270faf50bb24b228e90))
+* **gq:** provide correct modalData when refreshing SAP Prices (GQUOTE-4731) ([#6468](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6468)) ([37fa048](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37fa048d320b02b935169cede52dba817543bad8))
+* **gq:** reload approval data when quotation is fully synced (GQUOTE-4806) ([#6458](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6458)) ([8f98a36](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8f98a365a056b9a5d16cd248028b1bcd973015f2))
+* **gq:** use id for case deletion (GQUOTE-4726) ([#6413](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6413)) ([7b4a687](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7b4a687a97e1c3dccbb4ac144ba244b5d1643442))
+* **gq:** use number comparison for gpsd (GQUOTE-4711) ([#6431](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6431)) ([11827ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/11827ed522dc695561af8acaee70768972bc5232))
+
 ## [5.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v5.0.0...gq-v5.1.0) (2024-07-02)
 
 
