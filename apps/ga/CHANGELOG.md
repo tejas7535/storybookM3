@@ -1,4 +1,14 @@
 # Release Notes of Grease App
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.4...ga-v1.13.0) (2024-08-21)
+
+
+### Features
+
+* **ga:**  add mobile apps links in medias (UFTABI- 7983) ([#6432](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6432)) ([4e7cce4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4e7cce4b1faa316a949b6679ff45aff7c59d3c53))
+* **ga:** add app store button title to buttons (UFTABI-7983) ([#6433](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6433)) ([b9e4898](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b9e4898729280661507b457a1950de4f5aa7a46e))
+* **ga:** add grease recommendation - UFTABI-9070 ([#6376](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6376)) ([6769ecd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6769ecd597d18a1e62b3e9687693752560abb83b))
+* **ga:** shorten volumen weight to one decimal (UFTABI-7843) ([#6426](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6426)) ([13238eb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/13238eb33852271907ae462323e81a27d3ab38aa))
+
 ## [1.12.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.3...ga-v1.12.4) (2024-07-31)
 
 
