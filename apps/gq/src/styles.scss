@@ -393,3 +393,17 @@ gq-quotation-details-table:has(
     }
   }
 }
+
+gq-quotation-details-table {
+  .ag-status-bar {
+    .ag-status-bar-left {
+      @apply items-center #{!important};
+    }
+    .ag-status-bar-center {
+      @apply items-center #{!important};
+    }
+    .ag-status-bar-right {
+      @apply items-center #{!important};
+    }
+  }
+}

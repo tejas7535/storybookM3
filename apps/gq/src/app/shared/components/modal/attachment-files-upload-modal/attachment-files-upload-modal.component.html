@@ -48,14 +48,14 @@
     <div class="mt-4">
       @for (fileToDisplay of filesToUpload; track fileToDisplay) {
         <div>
-          <div class="flex flex-row">
+          <div class="flex flex-row items-center">
             @if (
               fileToDisplay.exists ||
               fileToDisplay.sizeExceeded ||
               fileToDisplay.unsupportedFileType
             ) {
               <mat-icon
-                class="text-error mr-2 !w-5 !h-5 !text-body-1"
+                class="text-error mr-2 !w-5 !text-body-1"
                 [matTooltip]="
                   fileToDisplay.exists
                     ? t('fileExitsTooltip')
@@ -68,7 +68,7 @@
               </mat-icon>
             } @else {
               <mat-icon
-                class="text-approval-status-green mr-2 !w-5 !h-5 !text-body-1"
+                class="text-approval-status-green mr-2 !w-5 !text-body-1"
               >
                 check_circle_outline
               </mat-icon>
@@ -79,11 +79,11 @@
             <div class="ml-auto text-approval-status-grey mt-1">
               <div class="group inline-block">
                 <mat-icon
-                  class="!w-5 !h-5 !text-[20px] hover:text-approval-status-green relative text-approval-status-grey"
+                  class="!w-5 !h-5 !icon-5 hover:text-approval-status-green relative text-approval-status-grey"
                 >
                   <span class="group-hover:opacity-0"> delete </span>
                   <mat-icon
-                    class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px]"
+                    class="absolute inset-0 flex items-center justify-center font-bold opacity-0 group-hover:opacity-100 !w-5 !h-5 !icon-5"
                     (click)="removeFile(fileToDisplay)"
                   >
                     delete_forever
