@@ -244,7 +244,7 @@ export abstract class EditingModalComponent
   private initPriceChangeRadioGroup(): void {
     this.editingFormGroup.addControl(
       this.IS_RELATIVE_PRICE_CONTROL_NAME,
-      new FormControl(true, Validators.required)
+      new FormControl(false, Validators.required)
     );
 
     this.isRelativePriceChangeDisabled =
