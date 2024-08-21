@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NOVINKA: Předvýběr produktu (volitelné)"
+        "main": "Předvýběr produktu (volitelné)"
       },
       "grease": {
         "label": "Mazivo",
@@ -221,6 +221,7 @@
     "environmentTemperature": "Okolní teplota",
     "environmentalImpactOnGreaseDuration": "Provozní podmínky",
     "low": "nízká",
+    "application": "případ použití",
     "moderate": "střední",
     "high": "vysoká",
     "greaseSelection": "Výběr maziva",
@@ -253,7 +254,26 @@
       "otherInfluences": "Faktor vlivu vlhkosti, vibrací a&nbsp;rázového zatížení na provozní životnost maziva.",
       "shiftFrequency": "Počet kmitavých pohybů za minutu (celý cyklus, tam a&nbsp;zpět)",
       "shiftAngle": "&Uacute;hel mezi body otáčení pro kmitavé pohyby (viz také často kladené dotazy)"
-    }
+    },
+    "applications": {
+      "All": "Nespecifikovaná aplikace",
+      "BallScrewDrive": "Kuličkový šroubový pohon",
+      "CleanRoomApplications": "Aplikace do čistých prostor",
+      "ConveyorBelts": "Dopravní pásy",
+      "SmallElectricMotors": "Malé elektrické motory",
+      "LargeElectricMotors": "Velké elektrické motory",
+      "HighSpeedElectricMotors": "Vysokorychlostní elektrické motory",
+      "Fans": "Ventilátory",
+      "GreasedGears": "Mazané ozubení",
+      "JawCrushers": "Čelisťové drtiče",
+      "Pumps": "Čerpadla",
+      "VibratingScreens": "Vibrační síta",
+      "RailWheelsetBearings": "Ložiska železničních soukolí",
+      "WindTurbineMainShaft": "Větrná turbína (hlavní hřídel)"
+    },
+    "exclusivityDisclaimer": "Exkluzivně pro uživatele Medias Plus",
+    "signupPrompt": "Zaregistrujte se nyní",
+    "signupUrl": "https://medias.schaeffler.cz/cs/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -344,7 +364,11 @@
     "preferredGreaseHintSelected": "Předem vybrané",
     "preferredGreaseHintAlternative": "Alternativa",
     "preferredGreaseHintAlternativeTooltip": "Toto je alternativní výrobek z&nbsp;portfolia výrobků společnosti Schaeffler na základě jejich údajů z&nbsp;kroku&nbsp;2.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "recommendedChip": "Doporučeno",
+    "resultsWithRecommendation": "Výsledky jsou řazeny podle doporučení a intervalu přemazání",
+    "noRecommendation": "Poskytnuté parametry jsou neobvyklé pro danou aplikaci. Prosím, kontaktujte nás.",
+    "contact": "Kontakt Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -364,5 +388,24 @@
     "content": "Bohužel došlo k&nbsp;chybě. Zkuste to znovu později.",
     "confirm": "Potvrdit",
     "retry": "Zkusit znovu"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Aplikace Medias Plus Grease",
+    "close": "Zavřít",
+    "modalHeading": "Doporučení aplikace Grease",
+    "modalText": "Vezměte prosím na vědomí, že tato funkce je dostupná pouze pro registrované uživatele Medias Plus. Zaregistrujte se nyní zdarma a získejte přístup k doporučení maziva",
+    "registrationCta": "Zaregistrujte se zdarma",
+    "loginQuestion": "Již jste se zaregistrovali?",
+    "loginText": "Přihlásit se",
+    "mediasComparison": {
+      "allfeatures": "Veškerá funkcionalita na medias",
+      "linearconfig": "Lineární konfigurátor",
+      "cadfileslinear": "Stažení CAD souborů pro lineární konfigurace",
+      "linearimport": "Uložit a importovat lineární konfiguraci",
+      "comparison": "Porovnat produkty",
+      "campus": "Schaeffler Training Campus",
+      "wishlists": "Vytvářet a ukládat seznamy přání",
+      "cartrequest": "Vkládat požadavky pomocí funkce košíku"
+    }
   }
 }

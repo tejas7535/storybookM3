@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "新項目：產品預選（選用）"
+        "main": "產品預選（選擇）"
       },
       "grease": {
         "label": "潤滑油",
@@ -221,6 +221,7 @@
     "environmentTemperature": "周圍溫度",
     "environmentalImpactOnGreaseDuration": "運作條件",
     "low": "低",
+    "application": "應用案例",
     "moderate": "中",
     "high": "高",
     "greaseSelection": "潤滑油選擇",
@@ -253,7 +254,26 @@
       "otherInfluences": "在潮濕、振動和衝擊載荷下，影響潤滑油運作壽命的因素。",
       "shiftFrequency": "每分鐘擺動次數（完整循環，來回擺動）",
       "shiftAngle": "擺動轉折點之間的角度（另請參閱常見問題集）"
-    }
+    },
+    "applications": {
+      "All": "未指定的應用程序",
+      "BallScrewDrive": "滾珠絲桿驅動",
+      "CleanRoomApplications": "潔淨室應用",
+      "ConveyorBelts": "輸送帶",
+      "SmallElectricMotors": "小型電機",
+      "LargeElectricMotors": "大型電機",
+      "HighSpeedElectricMotors": "高速電機",
+      "Fans": "風扇",
+      "GreasedGears": "潤滑齒輪",
+      "JawCrushers": "顎式破碎機",
+      "Pumps": "泵",
+      "VibratingScreens": "振動篩",
+      "RailWheelsetBearings": "鐵路車輪軸承",
+      "WindTurbineMainShaft": "風力渦輪機（主軸）"
+    },
+    "exclusivityDisclaimer": "僅限 Medias Plus 用戶",
+    "signupPrompt": "立即註冊",
+    "signupUrl": "https://medias.schaeffler.cn/zh_TW/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -344,7 +364,11 @@
     "preferredGreaseHintSelected": "已預選",
     "preferredGreaseHintAlternative": "替代",
     "preferredGreaseHintAlternativeTooltip": "根據他們在第 2 步驟的輸入，這是來自 Schaeffler 產品組合的替代產品。",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "recommendedChip": "推薦",
+    "resultsWithRecommendation": "結果按推薦和再潤滑間隔排序",
+    "noRecommendation": "對於給定應用程序，所提供的參數不正常。請與我們聯繫。",
+    "contact": "舍弗勒聯繫方式"
   },
   "settings": {
     "stepper": {
@@ -364,5 +388,24 @@
     "content": "很抱歉，發生錯誤。請稍後再試。",
     "confirm": "確認",
     "retry": "重試"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus 潤滑脂應用",
+    "close": "關閉",
+    "modalHeading": "潤滑脂應用推薦",
+    "modalText": "請注意，此功能僅對註冊的 Medias Plus 用戶開放。現在免費註冊以獲取潤滑劑推薦",
+    "registrationCta": "免費註冊",
+    "loginQuestion": "已經註冊過了？",
+    "loginText": "登錄",
+    "mediasComparison": {
+      "allfeatures": "媒體的所有功能",
+      "linearconfig": "線性配置器",
+      "cadfileslinear": "線性配置的 CAD 文件下載",
+      "linearimport": "保存和導入線性配置",
+      "comparison": "比較產品",
+      "campus": "舍弗勒培訓校園",
+      "wishlists": "創建和保存願望清單",
+      "cartrequest": "使用購物車功能下單申請"
+    }
   }
 }

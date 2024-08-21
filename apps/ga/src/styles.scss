@@ -109,6 +109,21 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     right: 0;
   }
 }
+// Styles for the grease recommendation popup
+
+// Blur overlay for marketing popup
+.blur-backdrop {
+  background: rgba(200, 255, 255, 0.15);
+  @apply backdrop-blur-sm;
+}
+// Custom dialog size for grease recommendation
+#grease-recommendation-dialog {
+  max-height: calc(100svh - 150px);
+}
+
+.cdk-overlay-container {
+  z-index: 99999;
+}
 
 span.mdc-list-item__primary-text:has(> .expert-highlight) {
   @apply min-w-full;

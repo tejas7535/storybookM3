@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, firstValueFrom, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,8 @@ import { ReportUrls } from '@ga/shared/models';
 
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
+import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
+import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 
 @Component({
   selector: 'ga-calculation-result',
@@ -55,6 +57,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     private readonly settingsFacade: SettingsFacade,
     private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService,
     private readonly appInsightsService: ApplicationInsightsService,
+    private readonly marketingService: GreaseRecommendationMarketingService,
     @Inject(ENV) private readonly env: Environment
   ) {
     this.isProduction = this.env.production;
@@ -98,7 +101,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public generateReport(selectedBearing: string): void {
+  public async generateReport(selectedBearing: string) {
     const title = this.translocoService.translate(
       'calculationResult.title.main'
     );
@@ -108,10 +111,49 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     );
     const reportTitle = `${title} ${selectedBearing}`;
 
+    const selectedApplication = await firstValueFrom(
+      this.marketingService.selectedApplication$
+    );
+    const applicationLabel = this.translocoService.translate(
+      'parameters.application'
+    );
+    const translatedApplicationSelection = selectedApplication
+      ? this.translocoService.translate(
+          `parameters.applications.${selectedApplication}`
+        )
+      : '';
+    const reportData = [...this.greaseReport.subordinates].map((sub) => {
+      if (sub.titleID === 'STRING_OUTP_INPUT') {
+        const modifiedSubordinate = { ...sub };
+        modifiedSubordinate.subordinates = modifiedSubordinate.subordinates.map(
+          (env) => {
+            if (
+              env.titleID === 'PROPERTY_PAGE_TITLE_TEMPERATURES' &&
+              !!selectedApplication &&
+              selectedApplication !== ApplicationScenario.All
+            ) {
+              const modifiedEnv = { ...env };
+              modifiedEnv.subordinates.push({
+                identifier: 'variableLine',
+                designation: applicationLabel,
+                value: translatedApplicationSelection,
+              });
+
+              return modifiedEnv;
+            }
+
+            return env;
+          }
+        );
+      }
+
+      return sub;
+    });
+
     this.greaseReportGeneratorService.generateReport({
       reportTitle,
       sectionSubTitle: hint,
-      data: this.greaseReport.subordinates,
+      data: reportData,
       legalNote: this.greaseReport.legalNote,
       automaticLubrication: this.greaseReport.automaticLubrication,
     });

@@ -7,9 +7,12 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 
-import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, filter, map, Subject, take, takeUntil } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
@@ -35,11 +38,15 @@ import {
   getParameterUpdating,
   getPreferredGreaseSelection,
   getSelectedMovementType,
+  isApplicationScenarioDisabled,
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { EnvironmentImpact, Load, Movement } from '@ga/shared/models';
+import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
+import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
+import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
 import {
   environmentImpactOptions,
   loadRatioOptions,
@@ -49,6 +56,10 @@ import {
   shiftFrequencyValidators,
   typeOptions,
 } from './constants';
+import {
+  APPLICATION_SCENARIO_OPTIONS,
+  ApplicationScenario,
+} from './constants/application-scenarios.model';
 import { CalculationParametersService } from './services';
 
 @Component({
@@ -67,6 +78,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public axial = new UntypedFormControl(undefined, loadValidators);
   public exact = new UntypedFormControl(false);
   public loadRatio = new UntypedFormControl();
+
+  public shouldShowMarketing$ = this.marketingService.shouldShowMarketing$;
+  public utmSignupUrl$ = this.marketingService.getUtmSignupUrl('signup-cta');
 
   public loadsForm = new UntypedFormGroup(
     {
@@ -108,6 +122,29 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public operatingTemperature =
     this.calculationParametersService.getOperatingTemperatureControl();
 
+  public applicationScenarioOptions = APPLICATION_SCENARIO_OPTIONS;
+  public sortedApplicationScenarios$ = this.translocoService.langChanges$.pipe(
+    map((_) => {
+      const translatedOptions = this.applicationScenarioOptions.map(
+        (scenario) => ({
+          ...scenario,
+          text: this.translocoService.translate(scenario.text),
+        })
+      );
+
+      const sorted = [...translatedOptions].sort((a, b) =>
+        a.text < b.text ? -1 : 0
+      );
+
+      return [
+        translatedOptions[0],
+        ...sorted.filter((option) => option.id !== translatedOptions[0].id),
+      ];
+    })
+  );
+
+  public applicationScenario = new UntypedFormControl(undefined);
+
   public operatingTemperatureErrors: { name: string; message: string }[] = [
     {
       name: 'lowerThanEnvironmentTemperature',
@@ -126,6 +163,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     operatingTemperature: this.operatingTemperature,
     environmentTemperature: this.environmentTemperature,
     environmentImpact: this.environmentImpact,
+    applicationScenario: this.applicationScenario,
   });
 
   form = new UntypedFormGroup({
@@ -148,6 +186,10 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
 
+  public applicationScenarioDisabled$ = this.store.select(
+    isApplicationScenarioDisabled
+  );
+
   public DEBOUNCE_TIME_DEFAULT = 500;
 
   private readonly destroy$ = new Subject<void>();
@@ -156,7 +198,11 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly router: Router,
     private readonly settingsFacade: SettingsFacade,
-    private readonly calculationParametersService: CalculationParametersService
+    private readonly calculationParametersService: CalculationParametersService,
+    private readonly marketingService: GreaseRecommendationMarketingService,
+    private readonly translocoService: TranslocoService,
+    private readonly appAnalyticsService: AppAnalyticsService,
+    private readonly appInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -189,6 +235,17 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: boolean) => this.toggleLoadValidators(value));
 
+    // reset the application and grease preselection value because they are
+    // disabled when motion is set to oscillating
+    this.movementsForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((change) => {
+        if (change.type === Movement.oscillating) {
+          this.applicationScenario.setValue(ApplicationScenario.All);
+          this.store.dispatch(resetPreferredGreaseSelection());
+        }
+      });
+
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
       .subscribe((formValue: CalculationParametersState) => {
@@ -212,6 +269,14 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.operatingTemperature.updateValueAndValidity({ emitEvent: false });
       });
+
+    this.applicationScenarioDisabled$.subscribe((disabled) => {
+      if (disabled) {
+        this.environmentForm.get('applicationScenario').disable();
+      } else {
+        this.environmentForm.get('applicationScenario').enable();
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -274,6 +339,13 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public onResetButtonClick(): void {
     this.form.reset(initialState);
     this.store.dispatch(resetPreferredGreaseSelection());
+  }
+
+  public trackSignupClick(): void {
+    this.appAnalyticsService.logInteractionEvent(
+      InteractionEventType.ClickSignupLink
+    );
+    this.appInsightsService.logEvent('recommendation_click_medias_signup');
   }
 
   private loadValidator(): any {

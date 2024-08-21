@@ -34,3 +34,12 @@ export const detectPartnerVersion = () => {
 
   return partnerVersion;
 };
+
+export const detectMediasLoginState = () => {
+  const url = window.location.search;
+  const parameters = new URLSearchParams(url);
+
+  const customer = parameters.get('medias_customer');
+
+  return !!customer && customer !== 'anonymous';
+};

@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NEW: Product Preselection (optional)"
+        "main": "Product Preselection (optional)"
       },
       "grease": {
         "label": "Grease",
@@ -220,6 +220,7 @@
     "operatingTemperature": "Operating temperature",
     "environmentTemperature": "Ambient temperature",
     "environmentalImpactOnGreaseDuration": "Operating conditions",
+    "application": "Application",
     "low": "low",
     "moderate": "moderate",
     "high": "high",
@@ -253,7 +254,26 @@
       "otherInfluences": "Factor for the influence of moisture, vibrations and shock loading on grease operating life.",
       "shiftFrequency": "Number of oscillation motions per minute (full cycle, back and forth)",
       "shiftAngle": "Angle between the turning points for oscillating motions (see also FAQs)"
-    }
+    },
+    "applications": {
+      "All": "Unspecified Application",
+      "BallScrewDrive": "Ball Screw Drive",
+      "CleanRoomApplications": "Clean Room Applications",
+      "ConveyorBelts": "Conveyor Belts",
+      "SmallElectricMotors": "Small Electric Motors",
+      "LargeElectricMotors": "Large Electric Motors",
+      "HighSpeedElectricMotors": "Highspeed Electric Motors",
+      "Fans": "Fans",
+      "GreasedGears": "Greased Gears",
+      "JawCrushers": "Jaw Crushers",
+      "Pumps": "Pumps",
+      "VibratingScreens": "Vibrating Screens",
+      "RailWheelsetBearings": "Rail Wheelset Bearings",
+      "WindTurbineMainShaft": "Wind Turbine (Main Shaft)"
+    },
+    "exclusivityDisclaimer": "Exclusive for Medias Plus users",
+    "signupPrompt": "Sign Up Now",
+    "signupUrl": "https://medias.schaeffler.us/en/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -261,6 +281,7 @@
       "backButton": "Change operating conditions",
       "247hint": "All results refer to continuous 24/7 operation."
     },
+    "recommendedChip": "Recommended",
     "showCompactView": "Show compact view",
     "reportSectionInput": "Input",
     "shopLinkText": "Available products",
@@ -272,6 +293,7 @@
     "limitResults": "Show first {{ results }} Results",
     "remainingResults": "{{ results }} other Results",
     "resultsDefault": "Results sorted by relubrication interval ({{ amount }}/{{ complete }} greases)",
+    "resultsWithRecommendation": "Results are sorted by recommendadtion and relubrication interval",
     "resultsWithPreferred": "Results for selected and alternative greases sorted by relubrication interval",
     "guideValues": "* guide values",
     "errorsWarningsNotes": "Errors, Warnings & Notes",
@@ -345,7 +367,9 @@
     "preferredGreaseHintAlternative": "Alternative",
     "preferredGreaseHintAlternativeTooltip": "This is an alternative product from the Schaeffler product portfolio based on their input from step 2.",
     "poweredBy": "powered by",
-    "pdfDownload": "PDF Download"
+    "pdfDownload": "PDF Download",
+    "noRecommendation": "The provided parameters are unusual for the given application. Please get in contact.",
+    "contact": "Schaeffler Contact"
   },
   "settings": {
     "stepper": {
@@ -412,6 +436,25 @@
         "",
         ">>> Please do not change below"
       ]
+    }
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus Grease App",
+    "close": "Back",
+    "modalHeading": "Grease App Recommendation",
+    "modalText": "Please note that this feature is only available for registered Medias Plus users. Register now for free to get access to the lubricant recommendation",
+    "registrationCta": "Register for Free",
+    "loginQuestion": "Already signed up?",
+    "loginText": "Log In",
+    "mediasComparison": {
+      "allfeatures": "All functionality on medias",
+      "linearconfig": "Linear Configurator",
+      "cadfileslinear": "CAD File download for linear configurations",
+      "linearimport": "Save and Import linear configuration",
+      "comparison": "Compare products",
+      "campus": "Schaeffler Training Campus",
+      "wishlists": "Create and save wishlists",
+      "cartrequest": "Place requests using the cart function"
     }
   }
 }

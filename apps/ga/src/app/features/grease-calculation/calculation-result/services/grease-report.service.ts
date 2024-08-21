@@ -1,4 +1,5 @@
 /* istanbul ignore file: refactoring for better testability, see UFTABI-5740 */
+/* eslint max-lines: [0] */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -26,6 +27,7 @@ import {
   SubordinateDataItemField,
   SUITABILITY_LABEL,
 } from '../models';
+import { GreaseRecommendationService } from './grease-recommendation.service';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
 @Injectable()
@@ -34,6 +36,7 @@ export class GreaseReportService {
     private readonly http: HttpClient,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly greaseResultDataSourceService: GreaseResultDataSourceService,
+    private readonly recommendationService: GreaseRecommendationService,
     private readonly appAnalyticsService: AppAnalyticsService
   ) {}
 
@@ -52,11 +55,11 @@ export class GreaseReportService {
     );
   }
 
-  public formatGreaseReport(
+  public async formatGreaseReport(
     subordinates: GreaseReportSubordinate[],
     preferredGreaseResult?: PreferredGreaseResult,
     automaticLubrication?: boolean
-  ): GreaseReportSubordinate[] {
+  ): Promise<GreaseReportSubordinate[]> {
     let formattedResult = subordinates || [];
 
     // remove unneeded sections
@@ -240,12 +243,16 @@ export class GreaseReportService {
       const preferredIndex = formattedSubordinates.findIndex(
         (item) => item?.greaseResult?.isPreferred
       );
-
       if (preferredIndex > 0) {
         formattedSubordinates.unshift(
           formattedSubordinates.splice(preferredIndex, 1)[0]
         );
       }
+
+      // Call to highlight the recommended grease from the results
+      await this.recommendationService.processGreaseRecommendation(
+        formattedSubordinates
+      );
 
       // display recommended alternatives only
       if (preferredGreaseResult) {

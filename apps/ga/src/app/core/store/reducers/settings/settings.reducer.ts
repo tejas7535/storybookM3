@@ -4,6 +4,7 @@ import {
   setAppDelivery,
   setCurrentStep,
   setInternalUser,
+  setMediasAuthenticated,
   setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { SettingsState } from '@ga/core/store/models';
@@ -56,6 +57,16 @@ export const settingsReducer = createReducer(
       environment: {
         ...state.environment,
         internalUser,
+      },
+    })
+  ),
+  on(
+    setMediasAuthenticated,
+    (state, { isAuthenticated }): SettingsState => ({
+      ...state,
+      environment: {
+        ...state.environment,
+        mediasAuthenticated: isAuthenticated,
       },
     })
   )

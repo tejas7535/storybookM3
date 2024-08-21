@@ -8,6 +8,7 @@ import { Action } from '@ngrx/store';
 
 import {
   detectAppDelivery,
+  detectMediasLoginState,
   detectPartnerVersion,
 } from '@ga/core/helpers/settings-helpers';
 import { InternalDetectionService } from '@ga/core/services/internal-detection';
@@ -17,6 +18,7 @@ import {
   setAppDelivery,
   setCurrentStep,
   setInternalUser,
+  setMediasAuthenticated,
   setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
@@ -32,6 +34,7 @@ export class SettingsEffects implements OnInitEffects {
         setAppDelivery({ appDelivery: detectAppDelivery() }),
         setPartnerVersion({ partnerVersion: detectPartnerVersion() }),
         getInternalUser(),
+        setMediasAuthenticated({ isAuthenticated: detectMediasLoginState() }),
       ])
     );
   });

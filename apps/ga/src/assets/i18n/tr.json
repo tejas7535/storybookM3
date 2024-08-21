@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "YENİ: Ürün Ön Seçimi (isteğe bağlı)"
+        "main": "Ürün Ön Seçimi (isteğe bağlı)"
       },
       "grease": {
         "label": "Gres",
@@ -221,6 +221,7 @@
     "environmentTemperature": "Ortam sıcaklığı",
     "environmentalImpactOnGreaseDuration": "Çalışma koşulları",
     "low": "düşük",
+    "application": "uygulama durumu",
     "moderate": "orta",
     "high": "yüksek",
     "greaseSelection": "Gres seçimi",
@@ -253,7 +254,26 @@
       "otherInfluences": "Gresin çalışma ömrü üzerindeki nem, titreşim ve darbe yükleme etkisi faktörü.",
       "shiftFrequency": "Dakika başına salınım hareketi sayısı (tam döngü, geri ve ileri)",
       "shiftAngle": "Salınım hareketleri için dönüş noktaları arasındaki açı (ayrıca bkz. SSS)"
-    }
+    },
+    "applications": {
+      "All": "Belirtilmemiş uygulama",
+      "BallScrewDrive": "Bilyalı Vidalı Tahrik",
+      "CleanRoomApplications": "Temiz Oda Uygulamaları",
+      "ConveyorBelts": "Konveyör Bantları",
+      "SmallElectricMotors": "Küçük Elektrik Motorları",
+      "LargeElectricMotors": "Büyük Elektrik Motorları",
+      "HighSpeedElectricMotors": "Yüksek Hızlı Elektrik Motorları",
+      "Fans": "Fanlar",
+      "GreasedGears": "Yağlanmış Dişliler",
+      "JawCrushers": "Çeneli Kırıcılar",
+      "Pumps": "Pompalar",
+      "VibratingScreens": "Titreşimli Elekler",
+      "RailWheelsetBearings": "Demiryolu Teker Seti Rulmanları",
+      "WindTurbineMainShaft": "Rüzgar Türbini (Ana Mil)"
+    },
+    "exclusivityDisclaimer": "Medias Plus kullanıcılarına özel",
+    "signupPrompt": "Şimdi Kayıt Ol",
+    "signupUrl": "https://medias.schaeffler.de/tr/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -344,7 +364,11 @@
     "preferredGreaseHintSelected": "Önceden seçilmiş",
     "preferredGreaseHintAlternative": "Alternatif",
     "preferredGreaseHintAlternativeTooltip": "Bu, adım 2&apos;deki girdilerine dayalı olarak Schaeffler ürün portföyünden alternatif bir üründür.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "recommendedChip": "Önerilen",
+    "resultsWithRecommendation": "Sonuçlar, tavsiye ve yeniden yağlama aralığına göre sıralanır",
+    "noRecommendation": "Sağlanan parametreler, verilen uygulama için alışılmadık bir şekilde. Lütfen bizimle iletişime geçin.",
+    "contact": "Schaeffler İletişim"
   },
   "settings": {
     "stepper": {
@@ -364,5 +388,24 @@
     "content": "Maalesef bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
     "confirm": "Onayla",
     "retry": "Tekrar dene"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus Grease Uygulaması",
+    "close": "Kapat",
+    "modalHeading": "Grease Uygulama Tavsiyesi",
+    "modalText": "Lütfen bu işlevin yalnızca kayıtlı Medias Plus kullanıcıları için kullanılabilir olduğunu unutmayın. Ücretsiz erişim sağlamak için şimdi kaydolun.",
+    "registrationCta": "Ücretsiz Kaydol",
+    "loginQuestion": "Zaten kaydoldunuz mu?",
+    "loginText": "Giriş Yap",
+    "mediasComparison": {
+      "allfeatures": "Medias'taki tüm işlevler",
+      "linearconfig": "Lineer Konfigüratör",
+      "cadfileslinear": "Lineer konfigürasyonlar için CAD Dosyası indirin",
+      "linearimport": "Lineer konfigürasyonu kaydet ve içe aktar",
+      "comparison": "Ürünleri karşılaştır",
+      "campus": "Schaeffler Eğitim Kampüsü",
+      "wishlists": "İstek listeleri oluştur ve kaydet",
+      "cartrequest": "Sepet fonksiyonunu kullanarak talepleri yerleştir"
+    }
   }
 }

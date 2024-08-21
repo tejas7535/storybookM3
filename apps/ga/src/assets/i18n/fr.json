@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NOUVEAU : Présélection de produit (en option)"
+        "main": "Présélection de produit (en option)"
       },
       "grease": {
         "label": "Graisse",
@@ -221,6 +221,7 @@
     "environmentTemperature": "Température ambiante",
     "environmentalImpactOnGreaseDuration": "Conditions de fonctionnement",
     "low": "faible",
+    "application": "cas d'application",
     "moderate": "modérée",
     "high": "élevé",
     "greaseSelection": "Sélection de la graisse",
@@ -253,7 +254,26 @@
       "otherInfluences": "Facteur d’influence de l’humidité, des vibrations et des chocs sur la durée de vie de la graisse.",
       "shiftFrequency": "Nombre de mouvements d’oscillation par minute (cycle complet, avant et arrière)",
       "shiftAngle": "Angle entre les points de rotation pour les mouvements oscillants (voir aussi FAQ)"
-    }
+    },
+    "applications": {
+      "All": "Application non spécifiée",
+      "BallScrewDrive": "Entraînement à vis à billes",
+      "CleanRoomApplications": "Applications en salle blanche",
+      "ConveyorBelts": "Courroies transporteuses",
+      "SmallElectricMotors": "Petits moteurs électriques",
+      "LargeElectricMotors": "Grands moteurs électriques",
+      "HighSpeedElectricMotors": "Moteurs électriques haute vitesse",
+      "Fans": "Ventilateurs",
+      "GreasedGears": "Engrenages graissés",
+      "JawCrushers": "Concasseurs à mâchoires",
+      "Pumps": "Pompes",
+      "VibratingScreens": "Cribles vibrants",
+      "RailWheelsetBearings": "Roulements d'essieux ferroviaires",
+      "WindTurbineMainShaft": "Éolienne (arbre principal)"
+    },
+    "exclusivityDisclaimer": "Exclusif pour les utilisateurs de Medias Plus",
+    "signupPrompt": "Inscrivez-vous maintenant",
+    "signupUrl": "https://medias.schaeffler.fr/fr/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -345,7 +365,11 @@
     "preferredGreaseHintAlternative": "Alternative",
     "preferredGreaseHintAlternativeTooltip": "Il s’agit d’un produit alternatif de la gamme de produits Schaeffler, basé sur les données de l’étape 2.",
     "poweredBy": "powered by",
-    "pdfDownload": "télécharger le PDF"
+    "pdfDownload": "télécharger le PDF",
+    "recommendedChip": "Recommandé",
+    "resultsWithRecommendation": "Les résultats sont triés par recommandation et intervalle de re-lubrification",
+    "noRecommendation": "Les paramètres fournis sont inhabituels pour l'application donnée. Veuillez nous contacter.",
+    "contact": "Contact Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -366,5 +390,24 @@
     "content": "Malheureusement, une erreur s’est produite. Veuillez réessayer ultérieurement.",
     "confirm": "Confirmer",
     "retry": "Réessayer"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Application Medias Plus Grease",
+    "close": "Fermer",
+    "modalHeading": "Recommandation d'Application Graisse",
+    "modalText": "Veuillez noter que cette fonctionnalité n'est disponible que pour les utilisateurs enregistrés de Medias Plus. Inscrivez-vous maintenant gratuitement pour accéder à la recommandation de lubrifiant",
+    "registrationCta": "S'inscrire gratuitement",
+    "loginQuestion": "Déjà inscrit?",
+    "loginText": "Se connecter",
+    "mediasComparison": {
+      "allfeatures": "Toutes les fonctionnalités sur medias",
+      "linearconfig": "Configurateur linéaire",
+      "cadfileslinear": "Téléchargement de fichiers CAD pour configurations linéaires",
+      "linearimport": "Enregistrer et importer la configuration linéaire",
+      "comparison": "Comparer les produits",
+      "campus": "Schaeffler Training Campus",
+      "wishlists": "Créer et sauvegarder des listes de souhaits",
+      "cartrequest": "Faire des demandes en utilisant la fonction de panier"
+    }
   }
 }

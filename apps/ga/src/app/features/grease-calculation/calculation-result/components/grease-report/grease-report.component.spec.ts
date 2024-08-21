@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -13,6 +15,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -61,8 +64,14 @@ describe('GreaseReportComponent', () => {
       MatSnackBarModule,
       GreaseReportInputComponent,
       GreaseReportResultComponent,
+      MatIconModule,
+      MatButtonModule,
     ],
     providers: [
+      provideMockStore({
+        initialState: {},
+        selectors: [],
+      }),
       mockProvider(GreaseReportService),
       mockProvider(CalculationParametersService),
       mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
@@ -100,7 +109,6 @@ describe('GreaseReportComponent', () => {
       component['fetchGreaseReport'] = jest.fn();
 
       component.ngOnInit();
-
       expect(component['fetchGreaseReport']).toHaveBeenCalledTimes(1);
     });
     it('should do nothing if jsonReport and htmlReport are not set', () => {
