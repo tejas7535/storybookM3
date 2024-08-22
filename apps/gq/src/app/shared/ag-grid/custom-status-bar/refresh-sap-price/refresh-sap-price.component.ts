@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { ConfirmationModalData } from '@gq/shared/components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { translate } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -31,6 +32,9 @@ export class RefreshSapPriceComponent {
   agInit(): void {}
 
   refreshSapPricing(): void {
+    const displayTitle = translate(
+      'processCaseView.confirmRefreshSapPricing.title'
+    );
     const displayText = translate(
       'processCaseView.confirmRefreshSapPricing.text'
     );
@@ -46,7 +50,13 @@ export class RefreshSapPriceComponent {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
       width: '40%',
-      data: { displayText, confirmButton, cancelButton, icon: this.icon },
+      data: {
+        title: displayTitle,
+        subtitle: displayText,
+        confirmButtonText: confirmButton,
+        cancelButtonText: cancelButton,
+        confirmButtonIcon: this.icon,
+      } as ConfirmationModalData,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

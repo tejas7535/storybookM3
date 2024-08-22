@@ -95,6 +95,7 @@ describe('SapSyncStatusEffects', () => {
           d: ApprovalActions.getApprovalCockpitData({
             sapId: '800000',
             forceLoad: true,
+            hideLoadingSpinner: true,
           }),
         });
 

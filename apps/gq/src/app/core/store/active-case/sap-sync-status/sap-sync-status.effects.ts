@@ -39,6 +39,7 @@ export class SapSyncStatusEffects {
                 ApprovalActions.getApprovalCockpitData({
                   sapId,
                   forceLoad: true,
+                  hideLoadingSpinner: true,
                 }),
               ];
             }

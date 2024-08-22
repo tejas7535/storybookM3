@@ -99,7 +99,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   private readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
   readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
-  NAME_MAX_LENGTH = 20;
+  NAME_MAX_LENGTH = 35;
 
   options: IdValue[] = [];
   caseModalForm: UntypedFormGroup;
@@ -153,7 +153,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       shipToParty: new FormControl(
         {
           value: this.modalData.shipToParty,
-          disabled: !this.modalData?.enableSapFieldEditing,
+          disabled: this.isSapCase, // TODO: when GQUOTE-4666 is done use '!this.modalData?.enableSapFieldEditing,' instead
         },
         []
       ),
@@ -196,7 +196,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       }),
       partnerRoleType: new FormControl({
         value: this.modalData?.partnerRoleType,
-        disabled: !this.modalData?.enableSapFieldEditing,
+        disabled: this.isSapCase, // TODO: when GQUOTE-4666 is done use '!this.modalData?.enableSapFieldEditing,' instead
       }),
       offerType: new FormControl({
         value: this.modalData?.offerType,
