@@ -128,17 +128,17 @@ export class QuotationDetailsTableComponent implements OnInit {
       ),
       this.activeCaseFacade.quotationHasFNumberMaterials$,
       this.activeCaseFacade.quotationHasRfqMaterials$,
-      this.activeCaseFacade.canEditQuotation$,
+      this.activeCaseFacade.isSapSyncPending$,
     ]).pipe(
       takeUntilDestroyed(this.destroyRef),
-      map(([columnDefs, hasFNumberMaterials, hasRfqMaterials, canEdit]) => {
+      map(([columnDefs, hasFNumberMaterials, hasRfqMaterials, syncPending]) => {
         let columnDef = ColumnUtilityService.filterSAPColumns(
           columnDefs,
           this.tableContext.quotation
         );
 
         columnDef =
-          hasFNumberMaterials && canEdit
+          hasFNumberMaterials && !syncPending
             ? columnDef
             : ColumnUtilityService.filterPricingAssistantColumns(columnDef);
 

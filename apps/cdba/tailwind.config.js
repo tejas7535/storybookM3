@@ -31,13 +31,13 @@ module.exports = {
     extend: {
       colors: {
         'secondary-legacy': secondaryLegacyColorPalette,
-        'light-red': '#EFCCD2',
-        'light-blue': '#ECF5F7',
       },
       borderColor: {
         'low-emphasis': colors['low-emphasis'],
       },
       backgroundColor: {
+        'light-red': '#EFCCD2',
+        'light-blue': '#ECF5F7',
         'nordic-blue': colors['info'],
         'secondary-legacy': secondaryLegacyColorPalette,
       },

@@ -10,6 +10,7 @@ import {
 
 import {
   GridReadyEvent,
+  IRowNode,
   RowSelectedEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
@@ -212,13 +213,22 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   private selectNodes(): void {
     if (this.selectedNodeIds) {
       setTimeout(() => {
-        const latestSelectedNodes = this.gridApi.getRowNode(
-          this.selectedNodeIds[0]
-        );
-        this.selectedNodeIds = this.selectedNodeIds.slice(1);
+        let latestSelectedNodes: IRowNode[];
+
+        if (this.selectedNodeIds.length === 2) {
+          latestSelectedNodes = [
+            this.gridApi.getRowNode(this.selectedNodeIds[0]),
+            this.gridApi.getRowNode(this.selectedNodeIds[1]),
+          ];
+        } else {
+          latestSelectedNodes = [
+            this.gridApi.getRowNode(this.selectedNodeIds[0]),
+          ];
+          this.selectedNodeIds = this.selectedNodeIds.slice(1);
+        }
 
         this.gridApi.setNodesSelected({
-          nodes: [latestSelectedNodes],
+          nodes: latestSelectedNodes,
           newValue: true,
           source: 'api',
         });

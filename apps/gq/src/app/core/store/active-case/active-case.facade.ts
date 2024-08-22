@@ -213,6 +213,10 @@ export class ActiveCaseFacade {
         sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
     )
   );
+
+  isSapSyncPending$: Observable<boolean> = this.quotationSapSyncStatus$.pipe(
+    map((status) => status === SAP_SYNC_STATUS.SYNC_PENDING)
+  );
   coefficients$: Observable<Coefficients> = this.store.select(getCoefficients);
 
   shipToPartySalesOrgs$: Observable<SalesOrg[]> = this.store.select(

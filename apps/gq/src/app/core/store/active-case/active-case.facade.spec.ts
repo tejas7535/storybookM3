@@ -599,6 +599,21 @@ describe('ActiveCaseFacade', () => {
     );
   });
 
+  describe('isSapSyncPending$', () => {
+    test(
+      'should select if SAP sync is pending',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          getQuotationSapSyncStatus,
+          SAP_SYNC_STATUS.SYNC_PENDING
+        );
+        m.expect(facade.isSapSyncPending$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
+
   describe('coefficients$', () => {
     test(
       'should select coefficients',

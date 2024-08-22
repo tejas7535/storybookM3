@@ -52,7 +52,7 @@ describe('QuotationDetailsTableComponent', () => {
   let spectator: Spectator<QuotationDetailsTableComponent>;
   let store: MockStore;
   let router: Router;
-  const canEditQuotationSubject$$: BehaviorSubject<boolean> =
+  const isSapSyncPendingSubject$$: BehaviorSubject<boolean> =
     new BehaviorSubject(true);
   const MOCK_QUOTATION_ID = 1234;
 
@@ -72,7 +72,7 @@ describe('QuotationDetailsTableComponent', () => {
       MockProvider(ActiveCaseFacade, {
         quotationHasFNumberMaterials$: of(true),
         quotationHasRfqMaterials$: of(true),
-        canEditQuotation$: canEditQuotationSubject$$.asObservable(),
+        isSapSyncPending$: isSapSyncPendingSubject$$.asObservable(),
         selectedQuotationDetailIds$: of(['1234']),
         simulationModeEnabled$: of(false),
         selectQuotationDetail: jest.fn(),
@@ -106,7 +106,7 @@ describe('QuotationDetailsTableComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      canEditQuotationSubject$$.next(true);
+      isSapSyncPendingSubject$$.next(false);
     });
     test('should set columnDefs', () => {
       component.ngOnInit();
@@ -263,7 +263,7 @@ describe('QuotationDetailsTableComponent', () => {
       })
     );
     test(
-      'should remove pricing Assistant column if quotation has F-Numbers but quotation is not editable',
+      'should remove pricing Assistant column if quotation has F-Numbers but quotation is in pending',
       marbles((m) => {
         const mockColDefs: ColDef[] = [
           {
@@ -284,7 +284,7 @@ describe('QuotationDetailsTableComponent', () => {
           },
         });
         component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
-        canEditQuotationSubject$$.next(false);
+        isSapSyncPendingSubject$$.next(true);
 
         component.ngOnInit();
 
