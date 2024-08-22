@@ -92,7 +92,13 @@
         "subKeyAccount": "Sub Key Account",
         "subRegion": "Sub Region",
         "subSector": "Teilbranche",
-        "title": "Kunde"
+        "title": "Kunde",
+        "salesInformation": {
+          "customerKey": "Kundenschlüssel",
+          "salesGroup": "Verkäufergruppe",
+          "priceGroup": "Preisgruppe Kunde",
+          "customerDiscountGroup": "Kundenrabattgruppe"
+        }
       },
       "salesforce": {
         "title": "Salesforce",

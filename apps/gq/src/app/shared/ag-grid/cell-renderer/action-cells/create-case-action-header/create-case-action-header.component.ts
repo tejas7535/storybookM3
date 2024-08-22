@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { HeaderClassParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'gq-process-case-action-header',
+  selector: 'gq-create-case-action-header',
   templateUrl: './create-case-action-header.component.html',
 })
 export class CreateCaseActionHeaderComponent {

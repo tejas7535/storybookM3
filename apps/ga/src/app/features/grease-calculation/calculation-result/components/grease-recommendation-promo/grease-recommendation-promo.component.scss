@@ -1,0 +1,10 @@
+.grid-comparison-table {
+  grid-template-rows: 100px repeat(8, auto) 50px;
+  grid-auto-columns: 1fr minmax(max-content, 1fr) minmax(max-content, 1fr);
+  gap: 4px 0;
+  row-gap: 8px;
+}
+
+.medias-comparison-mobile {
+  @apply mx-2;
+}

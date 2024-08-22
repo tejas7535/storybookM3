@@ -7,9 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
-import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { SelectSalesOrgModule } from '@gq/shared/components/select-sales-org/select-sales-org.module';
+import { SelectSalesOrgComponent } from '@gq/shared/components/select-sales-org/select-sales-org.component';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { PushPipe } from '@ngrx/component';
 
@@ -35,8 +35,8 @@ import { StatusBarComponent } from './status-bar/status-bar.component';
     DialogHeaderModule,
     SharedTranslocoModule,
     PushPipe,
-    AutocompleteInputModule,
-    SelectSalesOrgModule,
+    AutocompleteInputComponent,
+    SelectSalesOrgComponent,
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,

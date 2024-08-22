@@ -1,10 +1,25 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+/* eslint-disable @typescript-eslint/member-ordering */
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
+  ReactiveFormsModule,
   UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable } from 'rxjs';
@@ -13,13 +28,19 @@ import { addRowDataItems } from '@gq/core/store/actions';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
@@ -28,9 +49,26 @@ import { PasteMaterialsService } from '../../../services/paste-materials/paste-m
 import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { InfoIconModule } from '../../info-icon/info-icon.module';
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
+  standalone: true,
+  imports: [
+    AutocompleteInputComponent,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    SharedTranslocoModule,
+    SharedDirectivesModule,
+    ReactiveFormsModule,
+    PushPipe,
+    InfoIconModule,
+    CommonModule,
+    LetDirective,
+    MatSelectModule,
+  ],
 })
 export class AddEntryComponent implements OnInit, OnDestroy {
   @Input() readonly isCaseView: boolean;
@@ -38,6 +76,24 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   matNumberInput: AutocompleteInputComponent;
   @ViewChild('materialDescInput')
   matDescInput: AutocompleteInputComponent;
+  @ViewChild('customerMaterialNumberInput')
+  customerMatNumberInput: AutocompleteInputComponent;
+
+  readonly autoCompleteFacade: AutoCompleteFacade = inject(AutoCompleteFacade);
+  private readonly store: Store = inject(Store);
+  private readonly pasteMaterialsService: PasteMaterialsService = inject(
+    PasteMaterialsService
+  );
+  private readonly matSnackBar: MatSnackBar = inject(MatSnackBar);
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+
+  private readonly featureToggleConfigService: FeatureToggleConfigService =
+    inject(FeatureToggleConfigService);
+  newCaseCreation: boolean = this.featureToggleConfigService.isEnabled(
+    'createManualCaseAsView'
+  );
 
   materialNumber$: Observable<CaseFilterItem>;
   materialDesc$: Observable<CaseFilterItem>;
@@ -45,23 +101,30 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   materialNumberAutocompleteLoading$: Observable<boolean>;
   materialDescAutocompleteLoading$: Observable<boolean>;
   materialNumberInput: boolean;
+  customerMaterialHasInput: boolean;
   quantity: number;
   materialInputIsValid = false;
   quantityValid = false;
   addRowEnabled = false;
   quantityFormControl: UntypedFormControl = new UntypedFormControl();
   targetPriceFormControl: FormControl = new FormControl();
-
-  constructor(
-    public readonly autoCompleteFacade: AutoCompleteFacade,
-    private readonly store: Store,
-    private readonly pasteMaterialsService: PasteMaterialsService,
-    private readonly matSnackBar: MatSnackBar,
-    private readonly translocoLocaleService: TranslocoLocaleService
-  ) {}
+  targetPriceSourceFormControl: FormControl = new FormControl({
+    value: TargetPriceSource.NO_ENTRY,
+    disabled: false,
+  });
+  targetPriceSources: string[] = [
+    TargetPriceSource.NO_ENTRY,
+    TargetPriceSource.CUSTOMER,
+    TargetPriceSource.SALES,
+  ];
 
   public ngOnInit(): void {
-    this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+    if (this.newCaseCreation && this.isCaseView) {
+      this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
+    } else {
+      this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+    }
+
     this.addSubscriptions();
   }
 
@@ -119,6 +182,12 @@ export class AddEntryComponent implements OnInit, OnDestroy {
             this.targetPriceFormControl.value?.toString(),
             this.translocoLocaleService.getLocale()
           ) ?? undefined,
+        customerMaterialNumber: this.newCaseCreation
+          ? this.customerMatNumberInput.searchFormControl.value
+          : undefined,
+        targetPriceSource: this.newCaseCreation
+          ? this.targetPriceSourceFormControl.value
+          : undefined,
         info: {
           valid: false,
           description: [ValidationDescription.Not_Validated],
@@ -136,8 +205,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     // clear fields after dispatching action
     this.matNumberInput.clearInput();
     this.matDescInput.clearInput();
+    this.customerMatNumberInput.clearInput();
     this.quantityFormControl.reset();
     this.targetPriceFormControl.reset();
+    this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
     this.materialInputIsValid = false;
   }
 

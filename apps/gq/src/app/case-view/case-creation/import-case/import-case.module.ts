@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
-import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { PushPipe } from '@ngrx/component';
 
@@ -16,7 +16,7 @@ import { ImportCaseComponent } from './import-case.component';
   imports: [
     CommonModule,
     SharedTranslocoModule,
-    AutocompleteInputModule,
+    AutocompleteInputComponent,
     PushPipe,
     MatButtonModule,
     LoadingSpinnerModule,

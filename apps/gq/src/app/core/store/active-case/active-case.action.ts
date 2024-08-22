@@ -5,12 +5,12 @@ import {
   QuotationStatus,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { QuotationIdentifier } from './models/quotation-identifier.model';
 import { UpdateQuotationDetail } from './models/update-quotation-detail.model';
-import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 
 export const ActiveCaseActions = createActionGroup({
   source: 'Active Case',

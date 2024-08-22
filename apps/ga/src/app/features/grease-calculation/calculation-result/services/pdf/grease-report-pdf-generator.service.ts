@@ -7,6 +7,7 @@ import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
 
 import { ShareResult } from '@capacitor/share';
+import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import jsPDF from 'jspdf';
@@ -84,7 +85,8 @@ export class GreaseReportPdfGeneratorService {
     private readonly greaseReportPdfFileSaveService: GreaseReportPdfFileSaveService,
     private readonly fontsLoaderService: FontsLoaderService,
     private readonly settingsFacade: SettingsFacade,
-    private readonly imageLoaderService: ImageLoaderService
+    private readonly imageLoaderService: ImageLoaderService,
+    private readonly translocoService: TranslocoService
   ) {
     this.schaefflerLogo$.subscribe();
     this.partnerStaticContent$.subscribe();
@@ -270,7 +272,6 @@ export class GreaseReportPdfGeneratorService {
         report.data,
         report.automaticLubrication
       );
-
     this.printSectionTitle(data.sectionTitle, doc);
 
     data.tableItems.forEach((result, index) => {
@@ -281,11 +282,25 @@ export class GreaseReportPdfGeneratorService {
       const head = this.getMultiLineTableTitles(result.title, result.subTitle);
       const body = this.getMultiLinesDataRowForResult(result);
 
-      const cellHook: CellHook = this.partnerVersion
-        ? getCellHook(doc, this.schaefflerLogo)
-        : undefined;
+      const recommendedBadgeText = this.translocoService.translate(
+        'calculationResult.recommendedChip'
+      );
+      const recommendationHook: CellHook = this.partnerVersion
+        ? getCellHook(doc, this.schaefflerLogo, true, recommendedBadgeText)
+        : getCellHook(doc, undefined, true, recommendedBadgeText);
 
-      this.printTwoColumnLayoutTable(index, doc, head, body, true, cellHook);
+      const nonRecommendationHook: CellHook = this.partnerVersion
+        ? getCellHook(doc, this.schaefflerLogo, false)
+        : getCellHook(doc, undefined, false, recommendedBadgeText);
+
+      this.printTwoColumnLayoutTable(
+        index,
+        doc,
+        head,
+        body,
+        true,
+        result.isRecommended ? recommendationHook : nonRecommendationHook
+      );
     });
 
     this.setCurrentLinePosition(

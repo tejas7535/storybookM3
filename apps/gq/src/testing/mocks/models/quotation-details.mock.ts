@@ -82,6 +82,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   sapGrossPrice: 100,
   sapPrice: 80,
   sapPriceCondition: SapPriceCondition.STANDARD,
+  leadingSapConditionType: null,
   discount: -100,
   materialStockByPlant: MATERIAL_STOCK_BY_PLANT_MOCK,
   filteredSapConditionDetails: [

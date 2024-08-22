@@ -1,7 +1,8 @@
+/* eslint-disable max-lines */
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -39,12 +40,13 @@ import { SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { getSalesOrgsOfShipToParty } from '@gq/core/store/selectors';
 import { IdValue } from '@gq/shared/models/search';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import moment, { isMoment, Moment } from 'moment';
 
-import { UpdateQuotationRequest } from '../../../services/rest/quotation/models/update-quotation-request.model';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { EditCaseModalData } from './edit-case-modal-data.model';
@@ -56,7 +58,42 @@ import { EditCaseModalData } from './edit-case-modal-data.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCaseModalComponent implements OnInit, OnDestroy {
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
+
+  modalData: EditCaseModalData = inject(MAT_DIALOG_DATA) as EditCaseModalData;
+  dialogRef: MatDialogRef<EditCaseModalComponent> = inject(
+    MatDialogRef<EditCaseModalComponent>
+  );
+
+  private readonly store: Store = inject(Store);
+  private readonly adapter: DateAdapter<any> = inject(DateAdapter);
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+
+  readonly autocomplete: AutoCompleteFacade = inject(AutoCompleteFacade);
+  readonly currencyFacade: CurrencyFacade = inject(CurrencyFacade);
+  readonly sectorGpsdFacade: SectorGpsdFacade = inject(SectorGpsdFacade);
+  readonly rolesFacade: RolesFacade = inject(RolesFacade);
+
+  // TODO: remove translations for shared.caseModal
+  // TODO: clean up the testFile
+  // TODO: comment in when feature toggle is to be removed
+  // of course remove all not needed fields/ imports
+  // closeDialog(): void {
+  //   this.dialogRef.close();
+  // }
+
+  // TODO: when featureToggle is removed, delete the following code from here
+  newCaseCreation: boolean = this.featureToggleService.isEnabled(
+    'createManualCaseAsView'
+  );
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   private readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
   readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
 
@@ -79,19 +116,6 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
         this.userHasOfferTypeAccess = hasRole;
       })
     );
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public modalData: EditCaseModalData,
-    private readonly dialogRef: MatDialogRef<EditCaseModalComponent>,
-    private readonly store: Store,
-    private readonly adapter: DateAdapter<any>,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    readonly autocomplete: AutoCompleteFacade,
-    readonly currencyFacade: CurrencyFacade,
-    readonly sectorGpsdFacade: SectorGpsdFacade,
-    readonly rolesFacade: RolesFacade
-  ) {}
 
   ngOnInit(): void {
     this.sectorGpsdFacade.loadSectorGpsdByCustomerAndSalesOrg(

@@ -146,7 +146,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
   }
 
   compareFn(optionOne: SectorGpsd, optionTwo: SectorGpsd): boolean {
-    return optionOne.id === optionTwo.id;
+    return optionOne?.id === optionTwo?.id;
   }
 
   /**
@@ -156,9 +156,17 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
    */
   writeValue(type: SectorGpsd): void {
     this.selectedSectorGpsd = type;
+    // console.log('value', type);
     this.sectorGpsdControl.setValue(this.selectedSectorGpsd, {
       emitEvent: false,
     });
+    // Call the callbacks when component has been defined as FormControl in parent component
+    if (this.onChange) {
+      this.onChange(this.getValueToEmit());
+    }
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   /**
@@ -190,7 +198,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     }
   }
   private getValueToEmit(): SectorGpsd {
-    return this.selectedSectorGpsd.id === this.NOT_AVAILABLE.id
+    return this.selectedSectorGpsd?.id === this.NOT_AVAILABLE.id
       ? undefined
       : this.selectedSectorGpsd;
   }

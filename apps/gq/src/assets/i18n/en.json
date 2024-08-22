@@ -9,6 +9,9 @@
         }
       }
     },
+    "customerInfo": {
+      "salesOrg": "Sales Org"
+    },
     "quotationDetailsTable": {
       "gpi": "GPI % (GPC)",
       "gpiInfoText": "(Selected Net Price - GPC) / Selected Net Price",
@@ -58,6 +61,7 @@
       "priceUnit": "per",
       "priceUnitInfoText": "Price Unit",
       "priceSource": "Price Source",
+      "priceSourceLabel": "{priceSource,select,GQ{GQ}SAP_STANDARD{SAP Standard}SAP_SPECIAL{SAP Special}CAP_PRICE{CAP Price}STRATEGIC{Strategic}MANUAL{Manual}TARGET_PRICE{Target Price}SECTOR_DISCOUNT{Sector Discount}END_CUSTOMER_DISCOUNT{EndCustomer Discount} other{}}",
       "priceSourceInfoText": "Price Source of Net Price",
       "pricingAssistant": "Pricing Assistant",
       "priceAssistantButton": "Pricing Assistant",
@@ -160,6 +164,7 @@
           "dialogTitle": "Add Material"
         },
         "addItems": "Add Items",
+        "addPosition": "Add Position",
         "pasteFromClipboard": "Paste from clipboard",
         "pasteSnackbar": {
           "message": "If you need help importing from excel here is a quick guide",
@@ -168,12 +173,21 @@
         "quantity": {
           "error": "Invalid Quantity",
           "hint": "Enter a Quantity",
-          "label": "Quantity"
+          "label": "Quantity *"
         },
         "targetPrice": {
           "label": "Target Price",
           "hint": "Enter a Target Price (optional)",
           "error": "Invalid Target Price"
+        },
+        "targetPriceSource": {
+          "label": "Target Price Source",
+          "hint": "Select a Target Price Source (optional)",
+          "values": {
+            "noEntry": "No Entry",
+            "customer": "Customer",
+            "sales": "Sales"
+          }
         },
         "customer": {
           "hint": "Enter a Customer Number or a Customer Name",
@@ -183,13 +197,13 @@
         },
         "materialNumber": {
           "hint": "Enter a 15-digit Material Number",
-          "label": "Material Number",
+          "label": "Material Number *",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid Material Number"
         },
         "materialDescription": {
           "hint": "Enter a Material Description",
-          "label": "Material Description",
+          "label": "Material Description *",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid Material Description"
         },
@@ -198,6 +212,12 @@
           "label": "Quotation Number",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid quotation number"
+        },
+        "customerMaterialNumber": {
+          "hint": "Enter a Customer Material Number (optional)",
+          "label": "Customer Material Number",
+          "nothingFound": "Nothing found",
+          "wrongInput": "Please enter a valid Customer Material Number"
         },
         "button": "Add entry",
         "deleteInvalid": {
@@ -219,8 +239,10 @@
         },
         "materialDescription": "Material Description",
         "materialNumber": "Material Number (15-digits)",
+        "customerMaterialNumber": "Customer Material Number",
         "quantity": "Quantity",
         "targetPrice": "Target Price",
+        "targetPriceSource": "Target Price Source",
         "targetPriceInfoText": "Please consider to convert the Target Price to the price unit, if needed.",
         "priceUnitOfTargetPrice": "per",
         "UoM": "UoM"
@@ -485,6 +507,24 @@
         "error": "Invalid Target Price"
       }
     },
+    "caseHeaderInformation": {
+      "title": "Case settings",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "nameLabel": "Case Name",
+      "currencyLabel": "Custom Currency",
+      "generalInformation": "General",
+      "shipToParty": "Ship-to Party",
+      "commentLabel": "Note",
+      "additionalInformation": "Additional Information",
+      "quotationToDateLabel": "Quotation to",
+      "requestedDeliveryDateLabel": "Requested delivery date",
+      "customerPurchaseOrderDateLabel": "PO Date",
+      "bindingPeriodValidityEndDateLabel": "Valid to",
+      "dateBeforeTodayValidationMessage": "Date is in the past, please check.",
+      "smallerThanPoDateValidationMessage": "Date must be equal to or greater than purchase order date.",
+      "updateSapCase": "Update SAP Quote"
+    },
     "caseModal": {
       "title": "Case settings",
       "cancel": "Cancel",
@@ -493,7 +533,8 @@
       "currencyLabel": "Custom Currency",
       "generalInformation": "General",
       "shipToParty": "Ship-to Party",
-      "sapInformation": "SAP Information",
+      "commentLabel": "Note",
+      "additionalInformation": "Additional Information",
       "quotationToDateLabel": "Quotation to",
       "requestedDeliveryDateLabel": "Requested delivery date",
       "customerPurchaseOrderDateLabel": "PO Date",
@@ -585,6 +626,7 @@
     "resultsTable": {
       "columns": {
         "gqId": "GQ Case",
+        "caseName": "Case Name",
         "sapId": "SAP Quotation",
         "customerId": "Customer Number",
         "customerName": "Customer Name",
@@ -597,6 +639,7 @@
       "searchCriteriaLabel": "Search Criteria:",
       "gqId": "GQ Case Number",
       "sapId": "SAP Quotation",
+      "caseName": "Case Name",
       "customerName": "Customer Name",
       "customerId": "Customer Number",
       "gqCreatedByUser": "GQ Created by",

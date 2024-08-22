@@ -16,10 +16,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColumnHeadersModule } from '@gq/shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '@gq/shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
-import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
+import { EditCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/edit-case-header-information/edit-case-header-information.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { EditingMaterialModalComponent } from '@gq/shared/components/modal/editing-material-modal/editing-material-modal.component';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { StatusBarModalModule } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-select/offer-type-select.component';
@@ -40,11 +40,11 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
   declarations: [
     QuotationDetailsTableComponent,
     EditingCommentModalComponent,
-    EditingMaterialModalComponent,
     EditCaseModalComponent,
   ],
   imports: [
-    AutocompleteInputModule,
+    AutocompleteInputComponent,
+    EditCaseHeaderInformationComponent,
     CommonModule,
     AgGridModule,
     LetDirective,

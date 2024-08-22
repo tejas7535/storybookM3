@@ -1,3 +1,4 @@
+import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
 import {
   EnvironmentImpact,
   LoadLevels,
@@ -23,6 +24,7 @@ export interface CalculationParametersState {
     operatingTemperature: number;
     environmentTemperature: number;
     environmentImpact: EnvironmentImpact;
+    applicationScenario: ApplicationScenario;
   };
   preferredGrease: PreferredGrease;
   automaticLubrication: boolean;

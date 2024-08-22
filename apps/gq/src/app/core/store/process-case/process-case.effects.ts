@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { AppRoutePath } from '@gq/app-route-path.enum';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Customer } from '@gq/shared/models/customer';
 import { MaterialTableItem } from '@gq/shared/models/table';
@@ -13,15 +12,17 @@ import {
   MaterialValidationResponse,
 } from '@gq/shared/services/rest/material/models';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
-import { CurrencyFacade } from '../currency/currency.facade';
 import { ProcessCaseActions } from './process-case.action';
 import { getAddMaterialRowData } from './process-case.selectors';
 
 @Injectable()
 export class ProcessCaseEffects {
+  private readonly actions$: Actions = inject(Actions);
+  private readonly store: Store = inject(Store);
+  private readonly materialService: MaterialService = inject(MaterialService);
+
   validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProcessCaseActions.addNewItemsToMaterialTable),
@@ -70,31 +71,4 @@ export class ProcessCaseEffects {
       )
     );
   });
-
-  loadAvailableCurrencies$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        concatLatestFrom(() => this.currencyFacade.availableCurrencies$),
-        map(([action, currencies]: [RouterNavigatedAction, string[]]) => {
-          if (
-            action.payload.routerState.url.includes(
-              AppRoutePath.ProcessCaseViewPath
-            ) &&
-            currencies?.length === 0
-          ) {
-            this.currencyFacade.loadCurrencies();
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly store: Store,
-    private readonly materialService: MaterialService,
-    private readonly currencyFacade: CurrencyFacade
-  ) {}
 }

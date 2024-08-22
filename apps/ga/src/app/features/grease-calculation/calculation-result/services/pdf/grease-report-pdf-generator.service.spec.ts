@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { of } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createServiceFactory,
@@ -86,6 +87,7 @@ describe('GreaseReportPdfGeneratorService', () => {
       }),
       mockProvider(GreaseReportPdfFileSaveService),
       mockProvider(FontsLoaderService),
+      mockProvider(TranslocoService),
       {
         provide: ImageLoaderService,
         useValue: {

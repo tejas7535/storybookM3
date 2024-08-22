@@ -110,7 +110,7 @@ describe('HeaderContentComponent', () => {
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
             currency: undefined,
-            salesOrg: undefined,
+            shipToPartySalesOrg: undefined,
             shipToParty: {
               id: undefined,
               value: undefined,

@@ -16,8 +16,10 @@ export class StatusCustomerInfoHeaderComponent {
   @Input() customer: Customer;
   @Input() sapStatus$: Observable<SAP_SYNC_STATUS>;
   @Input() statusOfQuotation: QuotationStatus;
+  @Input() displaySalesOrg = false;
   @Input() errorCode = '';
   @Input() showStatus = false;
+  @Input() paddingLeftClass = 'pl-9';
 
   quotationStatusTranslation: string;
 

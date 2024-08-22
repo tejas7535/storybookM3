@@ -3,7 +3,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { LetDirective } from '@ngrx/component';
+import { combineLatest, map } from 'rxjs';
+
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -12,6 +14,7 @@ import { setPreferredGreaseSelection } from '@ga/core/store/actions';
 import {
   getAllGreases,
   getPreferredGrease,
+  isPreselectionDisabled,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import {
   defaultPreferredGreaseOption,
@@ -28,6 +31,7 @@ import { PreferredGreaseOption } from '@ga/shared/models';
     MatIconModule,
     MatSelectModule,
     MatTooltipModule,
+    PushPipe,
   ],
   templateUrl: './preferred-grease-selection.component.html',
 })
@@ -35,6 +39,16 @@ export class PreferredGreaseSelectionComponent implements AfterViewChecked {
   public defaultOption = defaultPreferredGreaseOption;
   public preferredGrease$ = this.store.select(getPreferredGrease);
   public allGreases$ = this.store.select(getAllGreases);
+
+  public isDisabled$ = combineLatest([
+    this.store.select(isPreselectionDisabled),
+    this.preferredGrease$,
+  ]).pipe(
+    map(
+      ([preselectionDisabled, preferred]) =>
+        preselectionDisabled || preferred.loading
+    )
+  );
 
   public constructor(
     private readonly store: Store,

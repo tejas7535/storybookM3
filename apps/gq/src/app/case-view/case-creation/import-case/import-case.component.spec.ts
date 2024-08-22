@@ -9,7 +9,7 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '@gq/core/store/actions';
-import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import {
@@ -38,8 +38,8 @@ describe('ImportCaseComponent', () => {
   const createComponent = createComponentFactory({
     component: ImportCaseComponent,
     imports: [
-      AutocompleteInputModule,
       PushPipe,
+      AutocompleteInputComponent,
       MatButtonModule,
       LoadingSpinnerModule,
       DialogHeaderModule,

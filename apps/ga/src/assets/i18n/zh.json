@@ -195,7 +195,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "新：产品预选（可选）"
+        "main": "产品预选（可选）"
       },
       "grease": {
         "label": "润滑脂",
@@ -221,6 +221,7 @@
     "kindOfMotion": "运动类型",
     "rotating": "旋转",
     "oscillating": "摆动",
+    "application": "应用案例",
     "relativeRotationalSpeed": "转速",
     "onePerMinute": "rpm",
     "shiftFrequency": "漂移频率",
@@ -263,7 +264,26 @@
       "otherInfluences": "湿气、振动和冲击负载对润滑脂使用寿命的影响因素。",
       "shiftFrequency": "每分钟的摆动次数（整个循环，来回）",
       "shiftAngle": "摆动转向点之间的角度（另请参阅常见问题）"
-    }
+    },
+    "applications": {
+      "All": "未指定的应用程序",
+      "BallScrewDrive": "滚珠丝杆驱动",
+      "CleanRoomApplications": "洁净室应用",
+      "ConveyorBelts": "输送带",
+      "SmallElectricMotors": "小型电机",
+      "LargeElectricMotors": "大型电机",
+      "HighSpeedElectricMotors": "高速电机",
+      "Fans": "风扇",
+      "GreasedGears": "润滑齿轮",
+      "JawCrushers": "颚式破碎机",
+      "Pumps": "泵",
+      "VibratingScreens": "振动筛",
+      "RailWheelsetBearings": "铁路车轮轴承",
+      "WindTurbineMainShaft": "风力涡轮机（主轴）"
+    },
+    "exclusivityDisclaimer": "仅限 Medias Plus 用户",
+    "signupPrompt": "立即注册",
+    "signupUrl": "https://medias.schaeffler.cn/cn/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -355,7 +375,11 @@
     "preferredGreaseHintAlternative": "另类的",
     "preferredGreaseHintAlternativeTooltip": "这是根据您在第2步中的输入，从舍弗勒的产品组合中选择的一种产品。",
     "poweredBy": "powered by",
-    "pdfDownload": "PDF下载"
+    "pdfDownload": "PDF下载",
+    "recommendedChip": "推荐",
+    "resultsWithRecommendation": "结果按推荐和再润滑间隔排序",
+    "noRecommendation": "对于给定应用程序，所提供的参数不正常。请联系我们。",
+    "contact": "舍弗勒联系方式"
   },
   "settings": {
     "stepper": {
@@ -379,5 +403,24 @@
     "content": "很遗憾，出现错误。请稍后再试。",
     "confirm": "确认",
     "retry": "重试"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus 润滑脂应用",
+    "close": "关闭",
+    "modalHeading": "润滑脂应用推荐",
+    "modalText": "请注意，此功能仅对注册的 Medias Plus 用户开放。现在免费注册以获取润滑剂推荐",
+    "registrationCta": "免费注册",
+    "loginQuestion": "已经注册过了？",
+    "loginText": "登录",
+    "mediasComparison": {
+      "allfeatures": "媒体的所有功能",
+      "linearconfig": "线性配置器",
+      "cadfileslinear": "线性配置的 CAD 文件下载",
+      "linearimport": "保存和导入线性配置",
+      "comparison": "比较产品",
+      "campus": "舍弗勒培训校园",
+      "wishlists": "创建和保存愿望清单",
+      "cartrequest": "使用购物车功能下单申请"
+    }
   }
 }

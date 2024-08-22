@@ -221,6 +221,7 @@
     "environmentTemperature": "Suhu lingkungan",
     "environmentalImpactOnGreaseDuration": "Kondisi operasi",
     "low": "rendah",
+    "application": "kasus penggunaan",
     "moderate": "sedang",
     "high": "tinggi",
     "greaseSelection": "Pilihan Pelumas",
@@ -253,7 +254,26 @@
       "otherInfluences": "Faktor pengaruh kelembaban, getaran, dan pemuatan kejut pada umur kerja grease.",
       "shiftFrequency": "Jumlah gerakan osilasi per menit (siklus penuh, mundur-maju)",
       "shiftAngle": "Sudut antara titik balik untuk gerakan osilasi (lihat juga FAQ)"
-    }
+    },
+    "applications": {
+      "All": "Aplikasi tidak ditentukan",
+      "BallScrewDrive": "Penggerak Sekrup Bola",
+      "CleanRoomApplications": "Aplikasi Ruang Bersih",
+      "ConveyorBelts": "Sabuk Konveyor",
+      "SmallElectricMotors": "Motor Listrik Kecil",
+      "LargeElectricMotors": "Motor Listrik Besar",
+      "HighSpeedElectricMotors": "Motor Listrik Kecepatan Tinggi",
+      "Fans": "Kipas Angin",
+      "GreasedGears": "Roda Gigi yang Dilumasi",
+      "JawCrushers": "Penghancur Rahang",
+      "Pumps": "Pompa",
+      "VibratingScreens": "Layar Bergetar",
+      "RailWheelsetBearings": "Bantalan Poros Roda Rel",
+      "WindTurbineMainShaft": "Turbin Angin (Poros Utama)"
+    },
+    "exclusivityDisclaimer": "Eksklusif untuk pengguna Medias Plus",
+    "signupPrompt": "Daftar Sekarang",
+    "signupUrl": "https://medias.schaeffler.co.id/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -345,7 +365,11 @@
     "preferredGreaseHintAlternative": "Alternatif",
     "preferredGreaseHintAlternativeTooltip": "Ini adalah produk alternatif dari portofolio produk Schaeffler berdasarkan masukan mereka dari tahap 2.",
     "poweredBy": "ditenagai oleh",
-    "pdfDownload": "unduhan PDF"
+    "pdfDownload": "unduhan PDF",
+    "recommendedChip": "Direkomendasikan",
+    "resultsWithRecommendation": "Hasil diurutkan berdasarkan rekomendasi dan interval pelumasan ulang",
+    "noRecommendation": "Parameter yang diberikan tidak biasa untuk aplikasi yang diberikan. Silakan hubungi kami.",
+    "contact": "Kontak Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -366,5 +390,24 @@
     "content": "Maaf, terjadi kesalahan. Silakan coba lagi nanti.",
     "confirm": "Konfirmasi",
     "retry": "Coba lagi"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Aplikasi Medias Plus Grease",
+    "close": "Tutup",
+    "modalHeading": "Rekomendasi Aplikasi Grease",
+    "modalText": "Harap diingat bahwa fitur ini hanya tersedia untuk pengguna Medias Plus yang terdaftar. Daftarlah sekarang secara gratis untuk mendapatkan akses ke rekomendasi pelumas.",
+    "registrationCta": "Daftar secara Gratis",
+    "loginQuestion": "Sudah terdaftar?",
+    "loginText": "Masuk",
+    "mediasComparison": {
+      "allfeatures": "Semua fungsi di medias",
+      "linearconfig": "Konfigurator Linear",
+      "cadfileslinear": "Unduhan Berkas CAD untuk konfigurasi linear",
+      "linearimport": "Simpan dan Impor konfigurasi linear",
+      "comparison": "Bandingkan produk",
+      "campus": "Kampus Pelatihan Schaeffler",
+      "wishlists": "Buat dan simpan daftar keinginan",
+      "cartrequest": "Ajukan permintaan menggunakan fungsi keranjang"
+    }
   }
 }

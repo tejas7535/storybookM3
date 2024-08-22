@@ -58,6 +58,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('@tailwindcss/container-queries'),
     // we have inconsistencies with text-h6 so, we create this class until we
     // figured which class is correct to use
     plugin(function ({ addUtilities, theme }) {

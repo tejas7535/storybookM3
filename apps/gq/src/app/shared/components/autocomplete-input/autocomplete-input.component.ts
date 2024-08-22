@@ -1,11 +1,16 @@
+/* eslint-disable max-lines */
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
+  forwardRef,
   HostListener,
+  inject,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
   Output,
@@ -13,28 +18,68 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
   UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
 import {
   MatAutocomplete,
+  MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { MatFormField } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
-import { EMPTY, Subscription, timer } from 'rxjs';
-import { debounce, filter, tap } from 'rxjs/operators';
+import { EMPTY, Subject, Subscription, timer } from 'rxjs';
+import { debounce, filter, takeUntil, tap } from 'rxjs/operators';
+
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { Keyboard } from '../../models';
 import { AutocompleteSearch, IdValue } from '../../models/search';
 import { FilterNames } from './filter-names.enum';
+import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
 @Component({
   selector: 'gq-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    SharedTranslocoModule,
+    SharedDirectivesModule,
+    NoResultsFoundPipe,
+    FormsModule,
+  ],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: 'case-view',
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AutocompleteInputComponent),
+      multi: true,
+    },
+  ],
 })
 export class AutocompleteInputComponent
-  implements OnInit, AfterViewInit, OnDestroy
+  implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
   @Input() autocompleteLoading = false;
 
@@ -45,7 +90,7 @@ export class AutocompleteInputComponent
    * in order to display the content completely until the max. allowed width of the panel is reached.
    */
   @Input() fitContent = false;
-
+  private readonly ngZone: NgZone = inject(NgZone);
   private readonly ONE_CHAR_LENGTH = 1;
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
   private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '100%';
@@ -63,8 +108,6 @@ export class AutocompleteInputComponent
   @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement>;
 
   @ViewChild(MatAutocomplete) autocompleteReference: MatAutocomplete;
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Output()
   private readonly autocomplete: EventEmitter<AutocompleteSearch> =
@@ -101,6 +144,9 @@ export class AutocompleteInputComponent
       this.setFormControlValue();
     }
   }
+  // Declare Functions for ControlValueAccessor when Component is defined as a formControl in ParentComponent
+  private onChange: (value: IdValue) => void;
+  private onTouched: () => void;
 
   @HostListener('window:resize')
   handleWindowResize() {
@@ -146,14 +192,24 @@ export class AutocompleteInputComponent
   }
 
   ngAfterViewInit(): void {
-    if (this.fitContent) {
-      this.autocompleteReference.panelWidth = 'auto';
-      this.subscription.add(
-        this.autocompleteReference.opened.subscribe(() =>
-          this.setAutocompletePanelWidthLimits()
-        )
-      );
-    }
+    const unsubscribe$ = new Subject<void>();
+    this.ngZone.onStable
+      .pipe(
+        takeUntil(unsubscribe$),
+        filter(() => !!this.autocompleteReference)
+      )
+      .subscribe(() => {
+        if (this.fitContent) {
+          this.autocompleteReference.panelWidth = 'auto';
+          this.subscription.add(
+            this.autocompleteReference.opened.subscribe(() =>
+              this.setAutocompletePanelWidthLimits()
+            )
+          );
+        }
+        unsubscribe$.next();
+        unsubscribe$.complete();
+      });
   }
 
   ngOnDestroy(): void {
@@ -176,6 +232,14 @@ export class AutocompleteInputComponent
     this.searchFormControl.setValue(formValue, { emitEvent: false });
     this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
     this.inputContent.emit(true);
+
+    // Call the callbacks when component has been defined as FormControl in parent component
+    if (this.onChange) {
+      this.onChange(this.selectedIdValue);
+    }
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   sliceMaterialString(text: string): string {
@@ -227,7 +291,8 @@ export class AutocompleteInputComponent
       (formValue &&
         formValue.length > 0 &&
         this.selectedIdValue &&
-        this.selectedIdValue.id === formValue);
+        this.selectedIdValue.id === formValue) ||
+      this.filterName === FilterNames.CUSTOMER_MATERIAL_NUMBER;
 
     if (!isValid) {
       this.unselect();
@@ -260,6 +325,57 @@ export class AutocompleteInputComponent
     this.searchFormControl.setValue('');
   }
 
+  // Control Value Accessor Implementations
+
+  /**
+   * Implementation of ControlValueAccessor
+   * Writes the value to the formControls input property
+   *
+   */
+  writeValue(value: IdValue): void {
+    this.selectedIdValue = value;
+    this.searchFormControl.setValue(
+      value
+        ? this.transformFormValue(value.value, value.id, value.value2)
+        : value,
+      { emitEvent: false }
+    );
+    // Call the callbacks when component has been defined as FormControl in parent component
+    if (this.onChange) {
+      this.onChange(this.selectedIdValue);
+    }
+    if (this.onTouched) {
+      this.onTouched();
+    }
+  }
+
+  /**
+   * Implementation of ControlValueAccessor
+   * Registers a callback for a changed value
+   */
+  registerOnChange(callback: (value: IdValue) => void): void {
+    this.onChange = callback;
+  }
+
+  /**
+   * Implementation of ControlValueAccessor
+   * Registers a callback for the touched state of the formControl
+   */
+  registerOnTouched(callback: () => void): void {
+    this.onTouched = callback;
+  }
+  /**
+   * Implementation of ControlValueAccessor
+   *
+   * @param isDisabled value to set the disabled state of the formControl
+   */
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.searchFormControl.disable();
+    } else {
+      this.searchFormControl.enable();
+    }
+  }
   private setAutocompletePanelWidthLimits(): void {
     // The timeout is needed because the autocomplete panel might not be rendered when min. and max. width are set!
     setTimeout(() => {

@@ -16,7 +16,10 @@
             'flex-col': userHasOfferType
           }"
         >
-          @if (autocompleteFacade.createCaseCustomer$ | ngrxPush; as customer) {
+          @if (
+            autocompleteFacade.createCaseCustomerAddEntry$ | ngrxPush;
+            as customer
+          ) {
             <gq-autocomplete-input
               class="w-full"
               [filterName]="customer.filter"

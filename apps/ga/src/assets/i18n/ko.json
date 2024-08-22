@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "신규: 제품 사전 선택(옵션)"
+        "main": "제품 사전 선택(옵션)"
       },
       "grease": {
         "label": "그리스",
@@ -221,6 +221,7 @@
     "environmentTemperature": "주변 온도",
     "environmentalImpactOnGreaseDuration": "작동 조건",
     "low": "낮음",
+    "application": "용도",
     "moderate": "중간",
     "high": "높음",
     "greaseSelection": "그리스 선택",
@@ -253,7 +254,26 @@
       "otherInfluences": "그리스 작동 수명에 대한 습기, 진동 및 충격 부하의 영향 요인",
       "shiftFrequency": "분당 진동 모션 수(전체 주기, 앞뒤)",
       "shiftAngle": "진동 모션의 전환점 사이의 각도(FAQ 참조)"
-    }
+    },
+    "applications": {
+      "All": "지정되지 않은 애플리케이션",
+      "BallScrewDrive": "볼 스크류 구동",
+      "CleanRoomApplications": "클린룸 애플리케이션",
+      "ConveyorBelts": "컨베이어 벨트",
+      "SmallElectricMotors": "소형 전기 모터",
+      "LargeElectricMotors": "대형 전기 모터",
+      "HighSpeedElectricMotors": "고속 전기 모터",
+      "Fans": "팬",
+      "GreasedGears": "윤활 장치",
+      "JawCrushers": "죠 크러셔",
+      "Pumps": "펌프",
+      "VibratingScreens": "진동 스크린",
+      "RailWheelsetBearings": "철도 차륜 베어링",
+      "WindTurbineMainShaft": "풍력 터빈 (메인 샤프트)"
+    },
+    "exclusivityDisclaimer": "Medias Plus 사용자 전용",
+    "signupPrompt": "지금 등록하세요",
+    "signupUrl": "https://medias.schaeffler.kr/ko/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -345,7 +365,11 @@
     "preferredGreaseHintAlternative": "대체품",
     "preferredGreaseHintAlternativeTooltip": "이는 2단계의 입력을 기반으로 하는 Schaeffler 제품 포트폴리오의 대체 제품입니다.",
     "poweredBy": "powered by",
-    "pdfDownload": "PDF 다운로드"
+    "pdfDownload": "PDF 다운로드",
+    "recommendedChip": "추천됨",
+    "resultsWithRecommendation": "결과는 추천 및 재윤활 간격에 따라 정렬됩니다",
+    "noRecommendation": "제공된 매개변수는 주어진 응용 프로그램에 대해 비정상적입니다. 연락하십시오.",
+    "contact": "셰플러 연락처"
   },
   "settings": {
     "stepper": {
@@ -366,5 +390,24 @@
     "content": "유감스럽게도 오류가 발생했습니다. 나중에 시도해 주십시오.",
     "confirm": "확인",
     "retry": "다시 시도"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus 그리스 앱",
+    "close": "닫기",
+    "modalHeading": "그리스 앱 추천",
+    "modalText": "이 기능은 등록된 Medias Plus 사용자만 사용할 수 있습니다. 지금 무료로 등록하고 윤활제 추천에 액세스하십시오.",
+    "registrationCta": "무료로 등록",
+    "loginQuestion": "이미 가입하셨나요?",
+    "loginText": "로그인",
+    "mediasComparison": {
+      "allfeatures": "medias의 모든 기능",
+      "linearconfig": "선형 구성기",
+      "cadfileslinear": "선형 구성에 대한 CAD 파일 다운로드",
+      "linearimport": "선형 구성 저장 및 가져오기",
+      "comparison": "제품 비교",
+      "campus": "셰플러 트레이닝 캠퍼스",
+      "wishlists": "위시리스트 생성 및 저장",
+      "cartrequest": "장바구니 기능을 사용하여 요청하기"
+    }
   }
 }

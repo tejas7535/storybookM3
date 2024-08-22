@@ -55,7 +55,7 @@ describe('GlobalSearchBarComponent', () => {
         GlobalSearchAdvancedModalComponent,
         {
           panelClass: 'global-search-advanced-modal',
-          width: '1100px',
+          width: '1200px',
         }
       );
     });

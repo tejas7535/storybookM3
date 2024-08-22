@@ -92,6 +92,7 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     ReactiveFormsModule,
     MatInputModule,
     MatDialogModule,
+    OverlayComponent,
     // ToDo: Move feature store in modal, requires modal to be standalone
     fPricingStoreModule,
     SharedDirectivesModule,
@@ -108,7 +109,6 @@ import { ProductComparisonModalComponent } from './pricing-assistant-modal/produ
     TabsLabelComponent,
     ReferencePricingTableComponent,
 
-    OverlayComponent,
     ProductComparisonModalComponent,
     ComparisonPanelComponent,
     ComparisonDeltaComponent,

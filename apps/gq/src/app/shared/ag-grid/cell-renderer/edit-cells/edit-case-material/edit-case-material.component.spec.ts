@@ -5,13 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
 
-import {
-  resetAutocompleteMaterials,
-  setRequestingAutoCompleteDialog,
-  updateRowDataItem,
-  validateMaterialsOnCustomerAndSalesOrg,
-} from '@gq/core/store/actions';
-import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import {
   createComponentFactory,
   Spectator,
@@ -19,6 +15,9 @@ import {
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ICellRendererParams } from 'ag-grid-community';
+import { MockProvider } from 'ng-mocks';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../../../testing/mocks';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
@@ -34,8 +33,25 @@ describe('EditCaseMaterialComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EditCaseMaterialComponent,
-    imports: [MatIconModule, CommonModule, MatDialogModule],
+    imports: [
+      MatIconModule,
+      CommonModule,
+      MatDialogModule,
+      provideTranslocoTestingModule({}),
+    ],
     providers: [
+      MockProvider(AutoCompleteFacade, {
+        initFacade: jest.fn(),
+        resetAutocompleteMaterials: jest.fn(),
+      }),
+      MockProvider(CreateCaseFacade, {
+        validateMaterialsOnCustomerAndSalesOrg: jest.fn(),
+        updateRowDataItem: jest.fn(),
+      }),
+      MockProvider(ProcessCaseFacade, {
+        validateMaterialTableItems: jest.fn(),
+        updateItemFromMaterialTable: jest.fn(),
+      }),
       provideMockStore({}),
       {
         provide: MATERIAL_SANITY_CHECKS,
@@ -105,7 +121,7 @@ describe('EditCaseMaterialComponent', () => {
       matDialogSpyObject.open.andReturn({
         afterClosed: jest.fn(() => of(MATERIAL_TABLE_ITEM_MOCK)),
       });
-      component['store'].dispatch = jest.fn();
+
       component.params = {
         colDef: {
           field: MaterialColumnFields.MATERIAL,
@@ -134,13 +150,20 @@ describe('EditCaseMaterialComponent', () => {
       component.onIconClick();
 
       expect(component.checkValidationNeeded).toHaveBeenCalled();
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        resetAutocompleteMaterials()
+      expect(
+        component['autoCompleteFacade'].resetAutocompleteMaterials
+      ).toHaveBeenCalled();
+      expect(component['autoCompleteFacade'].initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.ADD_ENTRY
       );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        setRequestingAutoCompleteDialog({
-          dialog: AutocompleteRequestDialog.ADD_ENTRY,
-        })
+    });
+    test('should initAutoCompleteFacade with CREATE_CASE', () => {
+      component.isCaseView = true;
+      component.newCaseCreation = true;
+      component.onIconClick();
+
+      expect(component['autoCompleteFacade'].initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.CREATE_CASE
       );
     });
   });
@@ -183,8 +206,7 @@ describe('EditCaseMaterialComponent', () => {
   });
   describe('dispatchUpdateAction', () => {
     beforeEach(() => {
-      component['store'].dispatch = jest.fn();
-      jest.restoreAllMocks();
+      jest.resetAllMocks();
     });
     test('should dispatch updateAction for createCase', () => {
       component.isCaseView = true;
@@ -194,15 +216,12 @@ describe('EditCaseMaterialComponent', () => {
       } as MaterialTableItem;
       component.dispatchUpdateAction(recentData);
 
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        updateRowDataItem({ item: recentData, revalidate: false })
-      );
-      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        ProcessCaseActions.updateItemFromMaterialTable({
-          item: expect.any(MaterialTableItem),
-          revalidate: expect.any(Boolean),
-        })
-      );
+      expect(
+        component['createCaseFacade'].updateRowDataItem
+      ).toHaveBeenCalledWith(recentData, false);
+      expect(
+        component['processCaseFacade'].updateItemFromMaterialTable
+      ).not.toHaveBeenCalled();
     });
     test('should dispatch updateAction for createCase with revalidate true', () => {
       component.isCaseView = true;
@@ -212,15 +231,12 @@ describe('EditCaseMaterialComponent', () => {
       } as MaterialTableItem;
       component.dispatchUpdateAction(recentData, true);
 
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        updateRowDataItem({ item: recentData, revalidate: true })
-      );
-      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        ProcessCaseActions.updateItemFromMaterialTable({
-          item: expect.any(MaterialTableItem),
-          revalidate: expect.any(Boolean),
-        })
-      );
+      expect(
+        component['createCaseFacade'].updateRowDataItem
+      ).toHaveBeenCalledWith(recentData, true);
+      expect(
+        component['processCaseFacade'].updateItemFromMaterialTable
+      ).not.toHaveBeenCalled();
     });
     test('should dispatch updateAction for processCase', () => {
       component.isCaseView = false;
@@ -230,18 +246,12 @@ describe('EditCaseMaterialComponent', () => {
       } as MaterialTableItem;
       component.dispatchUpdateAction(recentData);
 
-      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        updateRowDataItem({
-          item: expect.any(MaterialTableItem),
-          revalidate: expect.any(Boolean),
-        })
-      );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.updateItemFromMaterialTable({
-          item: recentData,
-          revalidate: false,
-        })
-      );
+      expect(
+        component['createCaseFacade'].updateRowDataItem
+      ).not.toHaveBeenCalled();
+      expect(
+        component['processCaseFacade'].updateItemFromMaterialTable
+      ).toHaveBeenCalledWith(recentData, false);
     });
 
     test('should dispatch updateAction for processCase and revalidate true', () => {
@@ -252,25 +262,18 @@ describe('EditCaseMaterialComponent', () => {
       } as MaterialTableItem;
       component.dispatchUpdateAction(recentData, true);
 
-      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        updateRowDataItem({
-          item: expect.any(MaterialTableItem),
-          revalidate: expect.any(Boolean),
-        })
-      );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.updateItemFromMaterialTable({
-          item: recentData,
-          revalidate: true,
-        })
-      );
+      expect(
+        component['createCaseFacade'].updateRowDataItem
+      ).not.toHaveBeenCalled();
+      expect(
+        component['processCaseFacade'].updateItemFromMaterialTable
+      ).toHaveBeenCalledWith(recentData, true);
     });
   });
 
   describe('dispatchUpdateActionAndValidationAction', () => {
     beforeEach(() => {
-      component['store'].dispatch = jest.fn();
-      jest.restoreAllMocks();
+      jest.resetAllMocks();
     });
     test('should dispatch the actions for createCase', () => {
       component.isCaseView = true;
@@ -286,12 +289,12 @@ describe('EditCaseMaterialComponent', () => {
         true
       );
 
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        validateMaterialsOnCustomerAndSalesOrg()
-      );
-      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        ProcessCaseActions.validateMaterialTableItems()
-      );
+      expect(
+        component['createCaseFacade'].validateMaterialsOnCustomerAndSalesOrg
+      ).toHaveBeenCalled();
+      expect(
+        component['processCaseFacade'].validateMaterialTableItems
+      ).not.toHaveBeenCalled();
     });
     test('should dispatch the actions for processCase', () => {
       component.isCaseView = false;
@@ -307,12 +310,12 @@ describe('EditCaseMaterialComponent', () => {
         recentData,
         true
       );
-      expect(component['store'].dispatch).not.toHaveBeenCalledWith(
-        validateMaterialsOnCustomerAndSalesOrg()
-      );
-      expect(component['store'].dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.validateMaterialTableItems()
-      );
+      expect(
+        component['createCaseFacade'].validateMaterialsOnCustomerAndSalesOrg
+      ).not.toHaveBeenCalled();
+      expect(
+        component['processCaseFacade'].validateMaterialTableItems
+      ).toHaveBeenCalled();
     });
   });
 });

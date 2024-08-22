@@ -12,7 +12,7 @@
     <mat-select
       [value]="preferredGrease?.selectedGrease"
       [compareWith]="compareOptions"
-      [disabled]="preferredGrease?.loading"
+      [disabled]="isDisabled$ | ngrxPush"
       (selectionChange)="onPreferredGreaseSelectionChange($event.value)"
     >
       @if (defaultOption) {

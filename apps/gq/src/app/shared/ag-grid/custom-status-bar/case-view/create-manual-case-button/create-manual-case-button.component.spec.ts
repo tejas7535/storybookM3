@@ -1,8 +1,7 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -16,12 +15,11 @@ describe('CreateManualCaseComponent', () => {
   const createComponent = createComponentFactory({
     component: CreateManualCaseButtonComponent,
     imports: [
-      MatButtonModule,
-      MatIconModule,
-      MatDialogModule,
+      RouterModule.forRoot([]),
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -31,5 +29,34 @@ describe('CreateManualCaseComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('createManualCase', () => {
+    test('should create manual case', () => {
+      component['featureToggleConfigService'].isEnabled = jest
+        .fn()
+        .mockReturnValue(true);
+      component['router'].navigate = jest.fn();
+      component.createManualCase();
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        AppRoutePath.CreateManualCasePath,
+      ]);
+    });
+
+    test('should open create manual case modal', () => {
+      component['featureToggleConfigService'].isEnabled = jest
+        .fn()
+        .mockReturnValue(false);
+      component['dialog'].open = jest.fn();
+      component.createManualCase();
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        expect.any(Function),
+        {
+          width: '70%',
+          height: '95%',
+          panelClass: 'create-manual-case-modal',
+        }
+      );
+    });
   });
 });

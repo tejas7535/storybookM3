@@ -166,7 +166,6 @@ describe('EditCaseModalComponent', () => {
         m.expect(component.userHasOfferTypeAccess$).toBeObservable('t', {
           t: true,
         });
-        expect(component.userHasOfferTypeAccess).toBeTruthy();
       })
     );
 
@@ -177,7 +176,6 @@ describe('EditCaseModalComponent', () => {
         m.expect(component.userHasOfferTypeAccess$).toBeObservable('t', {
           t: false,
         });
-        expect(component.userHasOfferTypeAccess).toBeFalsy();
       })
     );
   });
@@ -326,7 +324,7 @@ describe('EditCaseModalComponent', () => {
     beforeEach(() => {
       userHasAccessToOfferType$$.next(true);
     });
-    test('sould submit caseName and currency and all SAP Data Values', () => {
+    test('should submit caseName and currency and all SAP Data Values', () => {
       component['dialogRef'].close = jest.fn();
 
       spectator.detectChanges();
@@ -345,7 +343,7 @@ describe('EditCaseModalComponent', () => {
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
         moment('2022-12-31T00:00:00.000Z')
       );
-
+      component.userHasOfferTypeAccess$.subscribe();
       component.submitDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
@@ -359,6 +357,7 @@ describe('EditCaseModalComponent', () => {
         purchaseOrderTypeId: 1,
         partnerRoleId: '6000036',
         offerTypeId: 1,
+        shipToParty: undefined,
       });
     });
 
@@ -381,7 +380,7 @@ describe('EditCaseModalComponent', () => {
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
         moment('2022-12-31T00:00:00.000Z')
       );
-
+      component.userHasOfferTypeAccess$.subscribe();
       component.submitDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
@@ -417,7 +416,7 @@ describe('EditCaseModalComponent', () => {
       component.caseModalForm.controls.bindingPeriodValidityEndDate.setValue(
         undefined as any
       );
-
+      component.userHasOfferTypeAccess$.subscribe();
       component.submitDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
@@ -431,7 +430,7 @@ describe('EditCaseModalComponent', () => {
     });
     test('should not provide offerType if user has no access', () => {
       component['dialogRef'].close = jest.fn();
-
+      component.userHasOfferTypeAccess$.subscribe();
       spectator.detectChanges();
 
       component.caseModalForm.controls.caseName.setValue('   new whitespace ');
@@ -460,43 +459,6 @@ describe('EditCaseModalComponent', () => {
         purchaseOrderTypeId: 1,
         partnerRoleId: '6000036',
       });
-    });
-  });
-
-  describe('show hint', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    test('should show correct hint for empty name', () => {
-      spectator.detectChanges();
-      component.caseModalForm.controls.caseName.setValue('');
-
-      spectator.detectChanges();
-
-      const hint = spectator.query('mat-hint');
-      expect(hint.textContent).toEqual('0 / 35');
-    });
-
-    test('should show correct hint for non-empty name', () => {
-      spectator.detectChanges();
-      component.caseModalForm.controls.caseName.setValue('Test Case');
-
-      spectator.detectChanges();
-
-      const hint = spectator.query('mat-hint');
-      expect(hint.textContent).toEqual('9 / 35');
-    });
-  });
-
-  describe('set maxLength', () => {
-    test('should set maxLength attribute on the input', () => {
-      component.NAME_MAX_LENGTH = 10;
-      spectator.detectChanges();
-
-      const input = spectator.query('input') as HTMLInputElement;
-
-      expect(input.maxLength).toEqual(10);
     });
   });
 

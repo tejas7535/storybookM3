@@ -161,7 +161,7 @@ describe('TestEditingModalComponent', () => {
       expect(component.isRelativePriceChangeDisabled).toBe(false);
       expect(
         component.editingFormGroup.get(IS_RELATIVE_PRICE_CONTROL_NAME).value
-      ).toEqual(true);
+      ).toEqual(false);
     });
 
     test('should activate the switch between relative and absolute price but disable relative price', () => {

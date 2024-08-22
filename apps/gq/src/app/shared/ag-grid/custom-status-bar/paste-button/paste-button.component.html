@@ -1,6 +1,7 @@
 <div
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
-  class="!mt-4 !ml-4"
+  class="!mt-4"
+  [ngClass]="isNewCaseCreationView && isCaseView ? '!ml-0' : '!ml-4'"
 >
   <button
     class="!pl-4 !pr-4"

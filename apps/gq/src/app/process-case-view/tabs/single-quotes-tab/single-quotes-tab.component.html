@@ -1,19 +1,25 @@
-<mat-card appearance="outlined" class="flex h-full">
-  <mat-card-content class="h-full">
-    <div class="w-full overflow-x-auto">
-      <schaeffler-view-toggle
-        [views]="customViews$ | ngrxPush"
-        (selectionChange)="onViewToggle($event)"
-        (iconClicked)="onViewToggleIconClicked($event)"
-        (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
-      ></schaeffler-view-toggle>
-    </div>
-    @if (!(updateLoading$ | ngrxPush)) {
+<ng-container *ngrxLet="updateLoading$ as loading">
+  <mat-card appearance="outlined" class="flex h-full">
+    <mat-card-content class="h-full">
+      <div class="w-full overflow-x-auto">
+        <schaeffler-view-toggle
+          [views]="customViews$ | ngrxPush"
+          (selectionChange)="onViewToggle($event)"
+          (iconClicked)="onViewToggleIconClicked($event)"
+          (viewToggleDoubleClicked)="onViewToggleDoubleClicked($event)"
+        ></schaeffler-view-toggle>
+      </div>
       <gq-quotation-details-table
         [quotation]="quotation$ | ngrxPush"
       ></gq-quotation-details-table>
-    } @else {
-      <schaeffler-loading-spinner></schaeffler-loading-spinner>
-    }
-  </mat-card-content>
-</mat-card>
+      <!-- display the loading spinner with the overlay, so that the grid does not render all the time
+        and suppressScrollOnNewData can take effect 
+      -->
+      @if (loading) {
+        <gq-overlay>
+          <schaeffler-loading-spinner></schaeffler-loading-spinner>
+        </gq-overlay>
+      }
+    </mat-card-content>
+  </mat-card>
+</ng-container>

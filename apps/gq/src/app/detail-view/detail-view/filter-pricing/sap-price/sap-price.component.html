@@ -62,6 +62,15 @@
           <span class="font-bold">{{ quotationDetail.sapPriceCondition }}</span>
         </div>
       }
+      @if (quotationDetail.priceSource) {
+        <div class="min-w-[14rem] pt-2">
+          <!-- todo: Create dedicated component to remove duplicates -->
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('priceSource') }}:
+          </div>
+          <span class="font-bold">{{ quotationDetail | priceSource }}</span>
+        </div>
+      }
     </div>
     <gq-detail-button
       link

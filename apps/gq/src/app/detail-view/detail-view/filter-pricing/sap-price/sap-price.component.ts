@@ -6,6 +6,7 @@ import {
   SapPriceCondition,
   UpdatePrice,
 } from '@gq/shared/models/quotation-detail';
+import { getSapStandardPriceSource } from '@gq/shared/utils/price-source.utils';
 import { calculateMargin } from '@gq/shared/utils/pricing.utils';
 
 import { DetailRoutePath } from '../../../detail-route-path.enum';
@@ -34,6 +35,7 @@ export class SapPriceComponent {
       );
       this.isSelected = [
         PriceSource.SAP_STANDARD,
+        PriceSource.SECTOR_DISCOUNT,
         PriceSource.SAP_SPECIAL,
         PriceSource.CAP_PRICE,
       ].includes(quotationDetail.priceSource);
@@ -67,7 +69,7 @@ export class SapPriceComponent {
     this.selectSapPrice.emit(
       new UpdatePrice(
         this.quotationDetail.sapPrice,
-        this.getSapPriceSource(this.quotationDetail.sapPriceCondition)
+        this.getSapPriceSource(this.quotationDetail)
       )
     );
   }
@@ -76,9 +78,12 @@ export class SapPriceComponent {
     return index;
   }
 
-  private getSapPriceSource(sapPriceCondition: SapPriceCondition): PriceSource {
+  private getSapPriceSource(quotationDetail: QuotationDetail): PriceSource {
+    const sapPriceCondition = quotationDetail.sapPriceCondition;
     if (sapPriceCondition === SapPriceCondition.STANDARD) {
-      return PriceSource.SAP_STANDARD;
+      // When price condition is Standard check for special SAP conditions
+      // before update price source to send proper type of SAP_STANDARD
+      return getSapStandardPriceSource(quotationDetail);
     }
     if (sapPriceCondition === SapPriceCondition.CAP_PRICE) {
       return PriceSource.CAP_PRICE;

@@ -18,6 +18,7 @@ import {
   setAppDelivery,
   setCurrentStep,
   setInternalUser,
+  setMediasAuthenticated,
   setPartnerVersion,
 } from '@ga/core/store/actions/settings/settings.actions';
 import { PartnerVersion } from '@ga/shared/models';
@@ -28,6 +29,7 @@ import { SettingsEffects } from './settings.effects';
 jest.mock('@ga/core/helpers/settings-helpers', () => ({
   detectAppDelivery: jest.fn(() => 'standalone'),
   detectPartnerVersion: jest.fn(() => 'schmeckthal-gruppe'),
+  detectMediasLoginState: jest.fn(() => true),
 }));
 
 describe('Settings Effects', () => {
@@ -79,13 +81,17 @@ describe('Settings Effects', () => {
           partnerVersion: PartnerVersion.Schmeckthal,
         });
         const resultGetInternalUser = getInternalUser();
+        const mediasLoginState = setMediasAuthenticated({
+          isAuthenticated: true,
+        });
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected$ = m.cold('-(bcd)', {
+        const expected$ = m.cold('-(bcde)', {
           b: resultAppDelivery,
           c: resultPartnerVersion,
           d: resultGetInternalUser,
+          e: mediasLoginState,
         });
 
         m.expect(effects.initEffects$).toBeObservable(expected$);

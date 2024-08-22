@@ -7,7 +7,7 @@
 >
   <span label>{{ t('title') }}</span>
 
-  <label (click)="openAddFileDialog()">
+  <label class="flex" (click)="openAddFileDialog()">
     <mat-icon class="cursor-pointer">add</mat-icon>
   </label>
 </div>
@@ -58,7 +58,7 @@
             [disabled]="!buttonEnabled"
           >
             <mat-icon
-              class="!w-5 !h-5 !text-[20px] relative text-approval-status-grey hover:!text-approval-status-green"
+              class="!w-5 !h-5 !icon-5 relative text-approval-status-grey hover:!text-approval-status-green"
             >
               <span
                 [ngClass]="
@@ -71,7 +71,7 @@
               </span>
               @if (buttonEnabled) {
                 <mat-icon
-                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !text-[20px] hover:cursor-pointer"
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 !w-5 !h-5 !icon-5 hover:cursor-pointer"
                 >
                   delete_forever
                 </mat-icon>

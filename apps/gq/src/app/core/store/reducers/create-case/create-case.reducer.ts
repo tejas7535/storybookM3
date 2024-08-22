@@ -133,6 +133,10 @@ export const initialState: CreateCaseState = {
       filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
       options: [],
     },
+    {
+      filter: FilterNames.CUSTOMER_MATERIAL_NUMBER,
+      options: [],
+    },
   ],
   customer: {
     customerId: undefined,

@@ -7,6 +7,7 @@ import {
   getAppIsEmbedded,
   getInternalUser,
   getPartnerVersion,
+  shouldShowGreaseRecommendation,
 } from '../selectors/settings/settings.selector';
 
 @Injectable({
@@ -17,6 +18,7 @@ export class SettingsFacade {
   appIsEmbedded$ = this.store.select(getAppIsEmbedded);
   partnerVersion$ = this.store.select(getPartnerVersion);
   internalUser$ = this.store.select(getInternalUser);
+  showGreaseRecommendation$ = this.store.select(shouldShowGreaseRecommendation);
 
   constructor(private readonly store: Store) {}
 

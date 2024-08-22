@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "НОВИНКА: Предварительный выбор продукции (дополнительно)"
+        "main": "Предварительный выбор продукции (дополнительно)"
       },
       "grease": {
         "label": "Смазка",
@@ -221,6 +221,7 @@
     "environmentTemperature": "Температура окружающей среды",
     "environmentalImpactOnGreaseDuration": "Рабочие условия",
     "low": "низк.",
+    "application": "случай применения",
     "moderate": "умеренн.",
     "high": "выс.",
     "greaseSelection": "Выбор смазки",
@@ -253,7 +254,26 @@
       "otherInfluences": "Показатель влияния влажности, вибрации и ударных нагрузок на срок службы смазки.",
       "shiftFrequency": "Количество движений качения в минуту (полный цикл, вперед-назад)",
       "shiftAngle": "Угол между точками поворота при движениях качения (см. также раздел часто задаваемых вопросов)"
-    }
+    },
+    "applications": {
+      "All": "Неуказанное приложение",
+      "BallScrewDrive": "Шарико-винтовая передача",
+      "CleanRoomApplications": "Применения в чистых помещениях",
+      "ConveyorBelts": "Конвейерные ленты",
+      "SmallElectricMotors": "Малые электрические двигатели",
+      "LargeElectricMotors": "Большие электрические двигатели",
+      "HighSpeedElectricMotors": "Высокоскоростные электрические двигатели",
+      "Fans": "Вентиляторы",
+      "GreasedGears": "Смазываемые шестерни",
+      "JawCrushers": "Щековые дробилки",
+      "Pumps": "Насосы",
+      "VibratingScreens": "Вибрационные грохоты",
+      "RailWheelsetBearings": "Подшипники колесных пар",
+      "WindTurbineMainShaft": "Ветряная турбина (главный вал)"
+    },
+    "exclusivityDisclaimer": "Эксклюзивно для пользователей Medias Plus",
+    "signupPrompt": "Зарегистрироваться сейчас",
+    "signupUrl": "https://medias.schaeffler.de/ru/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -344,7 +364,11 @@
     "preferredGreaseHintSelected": "Предварительный выбор",
     "preferredGreaseHintAlternative": "Альтернатива",
     "preferredGreaseHintAlternativeTooltip": "Это альтернативная продукция из портфолио Schaeffler, которая представлена на основании указанной в шаге 2 информации.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "recommendedChip": "Рекомендуется",
+    "resultsWithRecommendation": "Результаты отсортированы по рекомендации и интервалу повторного смазывания",
+    "noRecommendation": "Указанные параметры необычны для данного применения. Пожалуйста, свяжитесь с нами.",
+    "contact": "Контакт Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -364,5 +388,24 @@
     "content": "К сожалению, произошла ошибка. Повторите попытку позже.",
     "confirm": "Подтвердить",
     "retry": "Повторить попытку"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Приложение Medias Plus Grease",
+    "close": "Закрыть",
+    "modalHeading": "Рекомендация по использованию смазки",
+    "modalText": "Обратите внимание, что эта функция доступна только для зарегистрированных пользователей Medias Plus. Зарегистрируйтесь сейчас бесплатно, чтобы получить доступ к рекомендации по смазке.",
+    "registrationCta": "Зарегистрироваться БЕСПЛАТНО",
+    "loginQuestion": "Уже зарегистрированы?",
+    "loginText": "Войти",
+    "mediasComparison": {
+      "allfeatures": "Вся функциональность на medias",
+      "linearconfig": "Линейный конфигуратор",
+      "cadfileslinear": "Скачать CAD файлы для линейных конфигураций",
+      "linearimport": "Сохранить и импортировать линейную конфигурацию",
+      "comparison": "Сравнить продукты",
+      "campus": "Учебный центр Schaeffler",
+      "wishlists": "Создавайте и сохраняйте списки желаемого",
+      "cartrequest": "Оформить запрос используя функцию корзины"
+    }
   }
 }

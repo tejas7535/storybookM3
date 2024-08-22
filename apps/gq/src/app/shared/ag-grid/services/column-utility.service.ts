@@ -209,7 +209,9 @@ export class ColumnUtilityService {
   static transformPriceSource(data: ValueFormatterParams): string {
     return data.value === PriceSource.SAP_SPECIAL
       ? 'SAP_ZP05-ZP17'
-      : data.value;
+      : translate('shared.quotationDetailsTable.priceSourceLabel', {
+          priceSource: data.value,
+        });
   }
 
   static transformLastCustomerPriceCondition(

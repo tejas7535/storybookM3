@@ -1,12 +1,15 @@
 import { Action } from '@ngrx/store';
 
 import {
+  addResultMessage,
   calculationError,
   calculationSuccess,
   getCalculation,
+  setResultMessage,
 } from '@ga/core/store/actions';
 import { CALCULATION_RESULT_MOCK_ID } from '@ga/testing/mocks';
 
+import { CalculationResultMessage } from '../../models';
 import {
   calculationResultReducer,
   initialState,
@@ -52,6 +55,28 @@ describe('calculationResultReducer', () => {
       const state = calculationResultReducer(initialState, action);
 
       expect(state.loading).toBe(false);
+    });
+  });
+
+  const resultMessages: CalculationResultMessage[] = [
+    { translationKey: 'test' },
+    { translationKey: 'test2' },
+  ];
+
+  describe('on setResultMessages', () => {
+    it('should set the result messages', () => {
+      const action: Action = setResultMessage({ messages: resultMessages });
+      const state = calculationResultReducer(initialState, action);
+
+      expect(state.messages).toBe(resultMessages);
+    });
+  });
+  describe('on addResultMessage', () => {
+    it('should update the messagearray', () => {
+      const action: Action = addResultMessage({ message: resultMessages[0] });
+      const state = calculationResultReducer(initialState, action);
+
+      expect(state.messages).toEqual([resultMessages[0]]);
     });
   });
 });

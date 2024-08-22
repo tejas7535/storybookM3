@@ -276,7 +276,7 @@ export class CreateCaseEffects {
   });
 
   /**
-   * Get Sales Orgs for customer
+   * Get Sales Orgs for customer and ship to party
    */
   getSalesOrgs$ = createEffect(() => {
     return this.actions$.pipe(
@@ -303,6 +303,9 @@ export class CreateCaseEffects {
                   currency: item.currency,
                 })
               );
+              if (action.filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY) {
+                return getSalesOrgsForShipToPartySuccess({ salesOrgs });
+              }
 
               if (action.filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY) {
                 return getSalesOrgsForShipToPartySuccess({ salesOrgs });

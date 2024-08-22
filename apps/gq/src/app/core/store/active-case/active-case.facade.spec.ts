@@ -15,6 +15,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
+import {
+  clearOfferType,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
+  clearShipToParty,
+  resetAllAutocompleteOptions,
+} from '../actions';
 import { MaterialCostDetailsFacade } from '../facades';
 import { MaterialComparableCostsFacade } from '../facades/material-comparable-costs.facade';
 import { MaterialSalesOrgFacade } from '../facades/material-sales-org.facade';
@@ -22,6 +29,8 @@ import { MaterialStockFacade } from '../facades/material-stock.facade';
 import { PlantMaterialDetailsFacade } from '../facades/plant-material-details.facade';
 import { SapPriceDetailsFacade } from '../facades/sap-price-details.facade';
 import { TransactionsFacade } from '../facades/transactions.facade';
+import { SectorGpsdFacade } from '../sector-gpsd/sector-gpsd.facade';
+import { getSalesOrgsOfShipToParty } from '../selectors/create-case/create-case.selector';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseFacade } from './active-case.facade';
 import { activeCaseFeature } from './active-case.reducer';
@@ -79,6 +88,9 @@ describe('ActiveCaseFacade', () => {
         transactionsLoading$: of(false),
         transactions$: of([]),
         graphTransactions$: of([]),
+      }),
+      MockProvider(SectorGpsdFacade, {
+        resetAllSectorGpsds: jest.fn(),
       }),
     ],
   });
@@ -157,6 +169,23 @@ describe('ActiveCaseFacade', () => {
 
         m.expect(facade.selectedQuotationDetail$).toBeObservable(
           m.cold('a', { a: quotationDetail })
+        );
+      })
+    );
+  });
+
+  describe('selectedQuotationDetailIds$', () => {
+    test(
+      'should select the selected quotation detail ids',
+      marbles((m) => {
+        const quotationDetailIds = ['123'];
+        mockStore.overrideSelector(
+          activeCaseFeature.selectSelectedQuotationDetails,
+          quotationDetailIds
+        );
+
+        m.expect(facade.selectedQuotationDetailIds$).toBeObservable(
+          m.cold('a', { a: quotationDetailIds })
         );
       })
     );
@@ -583,6 +612,20 @@ describe('ActiveCaseFacade', () => {
       })
     );
   });
+
+  describe('shipToPartySalesOrgs$', () => {
+    test(
+      'should select ship to party sales orgs',
+      marbles((m) => {
+        const salesOrgs = [] as any;
+        mockStore.overrideSelector(getSalesOrgsOfShipToParty, salesOrgs);
+
+        m.expect(facade.shipToPartySalesOrgs$).toBeObservable(
+          m.cold('a', { a: salesOrgs })
+        );
+      })
+    );
+  });
   describe('should provide from MaterialStockFacade', () => {
     test(
       'should provide materialStockLoading$',
@@ -724,6 +767,31 @@ describe('ActiveCaseFacade', () => {
   });
 
   // ############################# methods testing ##############################
+  describe('selectQuotationDetail', () => {
+    test('should dispatch select quotation detail', () => {
+      const gqPositionId = '132';
+      const action = ActiveCaseActions.selectQuotationDetail({ gqPositionId });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.selectQuotationDetail(gqPositionId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('deselectQuotationDetail', () => {
+    test('should dispatch deselect quotation detail', () => {
+      const gqPositionId = '132';
+      const action = ActiveCaseActions.deselectQuotationDetail({
+        gqPositionId,
+      });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.deselectQuotationDetail(gqPositionId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
   describe('updateCosts', () => {
     test('should dispatch update costs', () => {
       const gqPosId = '123';
@@ -860,6 +928,20 @@ describe('ActiveCaseFacade', () => {
       facade.confirmSimulatedQuotation();
 
       expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+  describe('resetEditCaseSettings', () => {
+    test('should dispatch all actions to reset edit case settings', () => {
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.resetEditCaseSettings();
+
+      expect(spy).toHaveBeenCalledWith(resetAllAutocompleteOptions());
+      expect(spy).toHaveBeenCalledWith(clearShipToParty());
+      expect(spy).toHaveBeenCalledWith(clearSectorGpsd());
+      expect(spy).toHaveBeenCalledWith(clearPurchaseOrderType());
+      expect(spy).toHaveBeenCalledWith(clearOfferType());
+      expect(facade['sectorGpsdFacade'].resetAllSectorGpsds).toHaveBeenCalled();
     });
   });
 });

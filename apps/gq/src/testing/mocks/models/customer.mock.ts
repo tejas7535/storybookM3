@@ -1,5 +1,6 @@
 import {
   Customer,
+  CustomerSalesInformation,
   NetSalesClassification,
 } from '../../../app/shared/models/customer';
 import { MARGIN_DETAIL_MOCK } from './margin-detail.mock';
@@ -43,5 +44,6 @@ export const CUSTOMER_MOCK: Customer = {
   sectorClusterChina: 'sectorClusterChina',
   netSalesClassification: NetSalesClassification.A,
   marginDetail: MARGIN_DETAIL_MOCK,
+  salesInformation: {} as CustomerSalesInformation,
   enabledForApprovalWorkflow: true,
 };

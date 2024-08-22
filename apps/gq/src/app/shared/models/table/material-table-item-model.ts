@@ -5,8 +5,10 @@ export class MaterialTableItem {
   id?: number;
   materialDescription?: string;
   materialNumber?: string;
+  customerMaterialNumber?: string;
   quantity?: number;
   targetPrice?: number;
+  targetPriceSource?: string;
   priceUnit?: number;
   UoM?: string;
   currency?: string;

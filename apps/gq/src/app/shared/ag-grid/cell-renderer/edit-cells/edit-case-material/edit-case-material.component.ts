@@ -1,17 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
-import {
-  resetAutocompleteMaterials,
-  setRequestingAutoCompleteDialog,
-  updateRowDataItem,
-  validateMaterialsOnCustomerAndSalesOrg,
-} from '@gq/core/store/actions';
-import { ProcessCaseActions } from '@gq/core/store/process-case';
-import { Store } from '@ngrx/store';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
+import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ICellRendererParams } from 'ag-grid-community';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '../../../../../app-route-path.enum';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
@@ -21,23 +19,36 @@ import { MaterialTableItem } from '../../../../models/table';
 @Component({
   selector: 'gq-edit-case-material',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [
+    MatIconModule,
+    EditingMaterialModalComponent,
+    SharedTranslocoModule,
+  ],
   templateUrl: './edit-case-material.component.html',
 })
 export class EditCaseMaterialComponent {
   public params: ICellRendererParams;
   public cellValue: string;
   public isCaseView: boolean;
-
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly store: Store,
-    private readonly router: Router
-  ) {
-    this.isCaseView = this.router.url === `/${AppRoutePath.CaseViewPath}`;
-  }
+  private readonly dialog: MatDialog = inject(MatDialog);
+  // private readonly store: Store = inject(Store);
+  private readonly router: Router = inject(Router);
+  private readonly autoCompleteFacade: AutoCompleteFacade =
+    inject(AutoCompleteFacade);
+  private readonly createCaseFacade: CreateCaseFacade =
+    inject(CreateCaseFacade);
+  private readonly processCaseFacade: ProcessCaseFacade =
+    inject(ProcessCaseFacade);
+  private readonly featureToggleConfigService: FeatureToggleConfigService =
+    inject(FeatureToggleConfigService);
+  newCaseCreation: boolean = this.featureToggleConfigService.isEnabled(
+    'createManualCaseAsView'
+  );
 
   agInit(params: ICellRendererParams): void {
+    this.isCaseView =
+      this.router.url === `/${AppRoutePath.CaseViewPath}` ||
+      this.router.url === `/${AppRoutePath.CreateManualCasePath}`;
     this.params = params;
 
     this.cellValue = this.getValueToDisplay(params);
@@ -70,13 +81,16 @@ export class EditCaseMaterialComponent {
           this.checkValidationNeeded(result, previousData);
         }
 
-        this.store.dispatch(resetAutocompleteMaterials());
-
-        this.store.dispatch(
-          setRequestingAutoCompleteDialog({
-            dialog: AutocompleteRequestDialog.ADD_ENTRY,
-          })
-        );
+        this.autoCompleteFacade.resetAutocompleteMaterials();
+        if (this.newCaseCreation && this.isCaseView) {
+          this.autoCompleteFacade.initFacade(
+            AutocompleteRequestDialog.CREATE_CASE
+          );
+        } else {
+          this.autoCompleteFacade.initFacade(
+            AutocompleteRequestDialog.ADD_ENTRY
+          );
+        }
       });
   }
 
@@ -98,12 +112,10 @@ export class EditCaseMaterialComponent {
     revalidate: boolean = false
   ): void {
     return this.isCaseView
-      ? this.store.dispatch(updateRowDataItem({ item: recentData, revalidate }))
-      : this.store.dispatch(
-          ProcessCaseActions.updateItemFromMaterialTable({
-            item: recentData,
-            revalidate,
-          })
+      ? this.createCaseFacade.updateRowDataItem(recentData, revalidate)
+      : this.processCaseFacade.updateItemFromMaterialTable(
+          recentData,
+          revalidate
         );
   }
 
@@ -111,7 +123,7 @@ export class EditCaseMaterialComponent {
     this.dispatchUpdateAction(recentData, true);
 
     return this.isCaseView
-      ? this.store.dispatch(validateMaterialsOnCustomerAndSalesOrg())
-      : this.store.dispatch(ProcessCaseActions.validateMaterialTableItems());
+      ? this.createCaseFacade.validateMaterialsOnCustomerAndSalesOrg()
+      : this.processCaseFacade.validateMaterialTableItems();
   }
 }

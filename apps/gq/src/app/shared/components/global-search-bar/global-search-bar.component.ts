@@ -13,7 +13,7 @@ export class GlobalSearchBarComponent {
   openGlobalSearchModal() {
     this.matDialog.open(GlobalSearchAdvancedModalComponent, {
       panelClass: 'global-search-advanced-modal',
-      width: '1100px',
+      width: '1200px',
     });
   }
 }

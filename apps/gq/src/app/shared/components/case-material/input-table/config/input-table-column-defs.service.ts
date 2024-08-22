@@ -104,4 +104,27 @@ export class InputTableColumnDefService {
         Keyboard.DASH,
     },
   ];
+
+  NEW_CASE_CREATION_COLUMN_DEFS: ColDef[] = [
+    { ...this.BASE_COLUMN_DEFS[0], flex: null, width: 120 },
+    { ...this.BASE_COLUMN_DEFS[1], flex: null },
+    { ...this.BASE_COLUMN_DEFS[2], flex: null },
+    {
+      headerName: translate('shared.caseMaterial.table.customerMaterialNumber'),
+      field: 'customerMaterialNumber',
+      sortable: true,
+      filterParams: FILTER_PARAMS,
+      cellRenderer: EditCaseMaterialComponent,
+    },
+    { ...this.BASE_COLUMN_DEFS[3], flex: null, width: 140 },
+    { ...this.BASE_COLUMN_DEFS[4], flex: null },
+    {
+      headerName: translate('shared.caseMaterial.table.targetPriceSource'),
+      field: 'targetPriceSource',
+      sortable: true,
+      filterParams: FILTER_PARAMS,
+      cellRenderer: EditCaseMaterialComponent,
+    },
+    { ...this.BASE_COLUMN_DEFS[5], flex: null, width: 120 },
+  ];
 }

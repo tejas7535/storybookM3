@@ -26,6 +26,7 @@
       "title": "SAP Pricing",
       "priceLabel": "Net price (SAP)",
       "priceCondition": "Price Condition",
+      "priceSource": "Price Source",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
       "gpmRfq": "GPM% (RFQ)",

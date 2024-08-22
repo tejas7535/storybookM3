@@ -1,5 +1,6 @@
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
 import { highTemperaturGreases } from '@ga/shared/constants';
 import { Movement } from '@ga/shared/models';
 import {
@@ -20,6 +21,7 @@ import {
   getParameterValidity,
   getProperties,
   getSelectedMovementType,
+  isPreselectionDisabled,
   radialLoadPossible,
 } from './calculation-parameters.selector';
 
@@ -218,6 +220,69 @@ describe('Calculation Parameters Selector', () => {
         },
       ];
       expect(getAllGreases(mockState)).toEqual(expectedResult);
+    });
+  });
+
+  describe('handle input disabled state', () => {
+    describe('isPreselectionDisabled', () => {
+      it('be true when motion is oscillating', () => {
+        const mock = {
+          ...APP_STATE_MOCK,
+          calculationParameters: {
+            movements: {
+              type: Movement.oscillating,
+            },
+            environment: {
+              applicationScenario: ApplicationScenario.All,
+            },
+          },
+        };
+        const result = isPreselectionDisabled(mock);
+        expect(result).toEqual(true);
+      });
+
+      it('be true when application is selected', () => {
+        const mock = {
+          ...APP_STATE_MOCK,
+          calculationParameters: {
+            movements: {
+              type: Movement.rotating,
+            },
+            environment: {
+              applicationScenario: ApplicationScenario.CleanRoomApplications,
+            },
+          },
+        };
+        const result = isPreselectionDisabled(mock);
+        expect(result).toEqual(true);
+      });
+
+      it('be false when motion is not oscillating and no application is specified', () => {
+        const mock = {
+          calculationParameters: {
+            movements: {
+              type: Movement.rotating,
+            },
+            environment: {
+              applicationScenario: ApplicationScenario.All,
+            },
+          },
+        };
+        const result = isPreselectionDisabled(mock);
+
+        const mock2 = {
+          ...mock,
+          calculationParameters: {
+            ...mock.calculationParameters,
+            environment: {
+              applicationScenario: undefined as any, // important that is is undefined as the value often gets dropped from the form
+            },
+          },
+        };
+        const result2 = isPreselectionDisabled(mock2);
+        expect(result).toEqual(false);
+        expect(result2).toEqual(false);
+      });
     });
   });
 });

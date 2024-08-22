@@ -1,7 +1,12 @@
 import { translate } from '@jsverse/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { greaseCategories, marketGreases } from '@ga/shared/constants';
+import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
+import {
+  defaultPreferredGreaseOption,
+  greaseCategories,
+  marketGreases,
+} from '@ga/shared/constants';
 import {
   CalculationParameters,
   InstallationMode,
@@ -193,4 +198,33 @@ export const getPreferredGreaseSelection = createSelector(
 export const getAutomaticLubrication = createSelector(
   getCalculationParametersState,
   (state) => state?.automaticLubrication
+);
+
+export const getGreaseApplication = createSelector(
+  getCalculationParametersState,
+  (state) => state.environment.applicationScenario
+);
+
+export const isPreselectionDisabled = createSelector(
+  getCalculationParametersState,
+  (state) =>
+    state.movements.type === Movement.oscillating ||
+    !!(
+      state.environment.applicationScenario &&
+      state.environment.applicationScenario !== ApplicationScenario.All
+    )
+);
+
+export const isApplicationScenarioDisabled = createSelector(
+  getCalculationParametersState,
+  (state) =>
+    state.movements.type === Movement.oscillating ||
+    (state.preferredGrease.selectedGrease !== undefined &&
+      state.preferredGrease.selectedGrease.text !==
+        defaultPreferredGreaseOption.text)
+);
+
+export const getMotionType = createSelector(
+  getCalculationParametersState,
+  (state) => state.movements.type
 );

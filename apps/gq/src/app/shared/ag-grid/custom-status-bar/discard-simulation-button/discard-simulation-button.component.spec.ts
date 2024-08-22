@@ -1,9 +1,15 @@
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { EVENT_NAMES } from '../../../models';
 import { DiscardSimulationButtonComponent } from './discard-simulation-button.component';
@@ -11,14 +17,17 @@ import { DiscardSimulationButtonComponent } from './discard-simulation-button.co
 describe('DiscardSimulationButtonComponent', () => {
   let component: DiscardSimulationButtonComponent;
   let spectator: Spectator<DiscardSimulationButtonComponent>;
-  let mockStore: MockStore;
   let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: DiscardSimulationButtonComponent,
-    imports: [PushPipe],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [
-      provideMockStore({}),
+      MockProvider(ActiveCaseFacade, {
+        simulationModeEnabled$: of(true),
+        resetSimulatedQuotation: jest.fn(),
+      } as unknown as ActiveCaseFacade),
+
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -26,12 +35,13 @@ describe('DiscardSimulationButtonComponent', () => {
         },
       },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    mockStore = spectator.inject(MockStore);
+
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
@@ -39,6 +49,14 @@ describe('DiscardSimulationButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  test(
+    'should provide simulationModeEnabled$',
+    marbles((m) => {
+      m.expect(component.simulationModeEnabled$).toBeObservable(
+        m.cold('(a|)', { a: true })
+      );
+    })
+  );
   describe('agInit', () => {
     test('should initialize class variables', () => {
       component.agInit({} as any);
@@ -49,7 +67,6 @@ describe('DiscardSimulationButtonComponent', () => {
 
   describe('discardSimulation', () => {
     test('should dispatch resetSimulationQuotation', () => {
-      mockStore.dispatch = jest.fn();
       component.params = {
         context: {},
         api: {
@@ -59,9 +76,9 @@ describe('DiscardSimulationButtonComponent', () => {
 
       component.discardSimulation();
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ActiveCaseActions.resetSimulatedQuotation()
-      );
+      expect(
+        component['activeCaseFacade'].resetSimulatedQuotation
+      ).toHaveBeenCalled();
     });
   });
 

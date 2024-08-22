@@ -24,7 +24,6 @@ import {
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { ValidationDescription } from '../../../models/table';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
-import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from './editing-material-modal.component';
 
@@ -36,7 +35,7 @@ describe('EditingMaterialModalComponent', () => {
     component: EditingMaterialModalComponent,
     imports: [
       MatInputModule,
-      AutocompleteInputModule,
+      AutocompleteInputComponent,
       PushPipe,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),

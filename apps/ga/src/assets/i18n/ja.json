@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "新規：製品事前選択（オプション）"
+        "main": "製品事前選択（オプション）"
       },
       "grease": {
         "label": "グリース",
@@ -221,6 +221,7 @@
     "environmentTemperature": "雰囲気温度",
     "environmentalImpactOnGreaseDuration": "運転条件",
     "low": "低",
+    "application": "使用事例",
     "moderate": "中",
     "high": "高",
     "greaseSelection": "グリース選択",
@@ -253,7 +254,26 @@
       "otherInfluences": "水分、振動ならびに衝撃荷重がグリース寿命に及ぼす影響の係数",
       "shiftFrequency": "1分当たりの揺動回数（フルストローク、往復）",
       "shiftAngle": "揺動運動の反転ポイント間の角度（FAQご参照）"
-    }
+    },
+    "applications": {
+      "All": "未指定のアプリケーション",
+      "BallScrewDrive": "ボールねじ駆動",
+      "CleanRoomApplications": "クリーンルーム用途",
+      "ConveyorBelts": "コンベヤーベルト",
+      "SmallElectricMotors": "小型電動モーター",
+      "LargeElectricMotors": "大型電動モーター",
+      "HighSpeedElectricMotors": "高速電動モーター",
+      "Fans": "ファン",
+      "GreasedGears": "グリース潤滑ギア",
+      "JawCrushers": "ジョークラッシャー",
+      "Pumps": "ポンプ",
+      "VibratingScreens": "バイブレーティングスクリーン",
+      "RailWheelsetBearings": "鉄道車軸受",
+      "WindTurbineMainShaft": "風力タービン（主軸）"
+    },
+    "exclusivityDisclaimer": "Medias Plusユーザー限定",
+    "signupPrompt": "今すぐ登録",
+    "signupUrl": "https://medias.schaeffler.jp/ja/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -346,7 +366,11 @@
     "preferredGreaseHintAlternative": "代替",
     "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。",
     "poweredBy": "powered by",
-    "pdfDownload": "pdfダウンロード"
+    "pdfDownload": "pdfダウンロード",
+    "recommendedChip": "推奨",
+    "resultsWithRecommendation": "結果は、推奨と再給油間隔によってソートされます",
+    "noRecommendation": "提供されたパラメーターは、指定されたアプリケーションでは異常です。お問い合わせください。",
+    "contact": "シェフラーの連絡先"
   },
   "settings": {
     "stepper": {
@@ -367,5 +391,24 @@
     "content": "エラーが発生しました。後ほどお試しください。",
     "confirm": "確認",
     "retry": "再試行"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus グリースアプリ",
+    "close": "閉じる",
+    "modalHeading": "グリースアプリの推奨",
+    "modalText": "この機能は登録された Medias Plus ユーザーのみが使用できます。今すぐ無料で登録して、潤滑剤の推奨にアクセスしてください。",
+    "registrationCta": "無料で登録",
+    "loginQuestion": "すでにサインアップしていますか?",
+    "loginText": "ログイン",
+    "mediasComparison": {
+      "allfeatures": "mediasのすべての機能",
+      "linearconfig": "リニアコンフィギュレータ",
+      "cadfileslinear": "リニア配置用のCADファイルのダウンロード",
+      "linearimport": "リニア配置の保存とインポート",
+      "comparison": "製品を比較",
+      "campus": "シェフラートレーニングキャンパス",
+      "wishlists": "ウィッシュリストを作成して保存",
+      "cartrequest": "カート機能を使用してリクエストを行う"
+    }
   }
 }

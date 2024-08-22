@@ -112,7 +112,13 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.priceSource'),
       field: ColumnFields.PRICE_SOURCE,
       valueFormatter: ColumnUtilityService.transformPriceSource,
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate('shared.quotationDetailsTable.priceSourceLabel', {
+            priceSource: params.value,
+          }),
+      },
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },

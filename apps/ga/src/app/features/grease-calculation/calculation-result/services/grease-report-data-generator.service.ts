@@ -1,3 +1,4 @@
+/* eslint max-lines: [1] */
 import { Injectable } from '@angular/core';
 
 import { HashMap, TranslocoService } from '@jsverse/transloco';
@@ -86,6 +87,8 @@ export class GreaseReportDataGeneratorService {
       tableItems = greaseReportSubordinate.subordinates.map((item) => ({
         title: item.greaseResult.mainTitle,
         subTitle: item.greaseResult?.subTitle ?? '',
+        isRecommended: item.greaseResult?.isRecommended,
+
         items: this.extractItemsFromGreaseResultData(
           item.greaseResult?.dataSource
         ),

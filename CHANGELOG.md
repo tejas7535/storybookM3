@@ -4,6 +4,7 @@
 
 ## 8/21/2024
 * gq: [5.2.0](./apps/gq/CHANGELOG.md)
+* ga: [1.13.0](./apps/ga/CHANGELOG.md)
 
 ## 7/31/2024
 * ga: [1.12.4](./apps/ga/CHANGELOG.md)

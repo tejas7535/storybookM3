@@ -1,13 +1,12 @@
 /* eslint-disable max-lines */
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { combineLatest, map, Observable, Subject, take, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, Subject } from 'rxjs';
 
-import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import { getColumnDefsForRoles } from '@gq/core/store/selectors';
+import { RolesFacade } from '@gq/core/store/facades';
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { excelStyles } from '@gq/shared/ag-grid/custom-status-bar/export-to-excel-button/excel-styles.constants';
@@ -32,13 +31,13 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { getSapStandardPriceSource } from '@gq/shared/utils/price-source.utils';
 import {
   calculateAffectedKPIs,
   calculateMargin,
   calculateNetValue,
   calculatePriceDiff,
 } from '@gq/shared/utils/pricing.utils';
-import { Store } from '@ngrx/store';
 import {
   ColDef,
   ColumnState,
@@ -47,6 +46,7 @@ import {
   FirstDataRenderedEvent,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
+  GridApi,
   GridReadyEvent,
   IRowNode,
   MenuItemDef,
@@ -72,7 +72,28 @@ import { TableContext } from './config/tablecontext.model';
   templateUrl: './quotation-details-table.component.html',
   styles: [basicTableStyle, statusBarSimulation, statusBarWithBorderStyle],
 })
-export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
+export class QuotationDetailsTableComponent implements OnInit {
+  @Input() set quotation(quotation: Quotation) {
+    this.rowData = quotation?.quotationDetails;
+    this.tableContext.quotation = quotation;
+  }
+
+  private readonly agGridStateService: AgGridStateService =
+    inject(AgGridStateService);
+  private readonly columnDefinitionService: ColumnDefService =
+    inject(ColumnDefService);
+  private readonly localizationService: LocalizationService =
+    inject(LocalizationService);
+  private readonly router: Router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
   sideBar: SideBarDef = SIDE_BAR;
   defaultColumnDefs: ColDef = { ...DEFAULT_COLUMN_DEFS, minWidth: 150 };
   statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
@@ -98,41 +119,18 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
 
   unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private readonly store: Store,
-    private readonly agGridStateService: AgGridStateService,
-    private readonly columnDefinitionService: ColumnDefService,
-    private readonly localizationService: LocalizationService,
-    private readonly router: Router,
-    private readonly activeCaseFacade: ActiveCaseFacade,
-    private readonly featureToggleService: FeatureToggleConfigService
-  ) {}
-
-  @Input() set quotation(quotation: Quotation) {
-    this.rowData = quotation?.quotationDetails;
-    this.tableContext.quotation = quotation;
-  }
-
-  ngOnDestroy(): void {
-    if (this.unsubscribe$) {
-      this.unsubscribe$.next(true);
-      this.unsubscribe$.unsubscribe();
-    }
-  }
-
   ngOnInit(): void {
     this.columnDefs$ = combineLatest([
-      this.store.pipe(
-        getColumnDefsForRoles(
-          this.featureToggleService.isEnabled('fPricing')
-            ? this.columnDefinitionService.COLUMN_DEFS
-            : this.columnDefinitionService.COLUMN_DEFS_WITHOUT_PRICING_ASSISTANT
-        )
+      this.rolesFacade.getColumnDefsForRolesOnQuotationDetailsTable(
+        this.featureToggleService.isEnabled('fPricing')
+          ? this.columnDefinitionService.COLUMN_DEFS
+          : this.columnDefinitionService.COLUMN_DEFS_WITHOUT_PRICING_ASSISTANT
       ),
       this.activeCaseFacade.quotationHasFNumberMaterials$,
       this.activeCaseFacade.quotationHasRfqMaterials$,
       this.activeCaseFacade.canEditQuotation$,
     ]).pipe(
+      takeUntilDestroyed(this.destroyRef),
       map(([columnDefs, hasFNumberMaterials, hasRfqMaterials, canEdit]) => {
         let columnDef = ColumnUtilityService.filterSAPColumns(
           columnDefs,
@@ -156,11 +154,20 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     this.tableContext.onPriceSourceSimulation =
       this.onPriceSourceSimulation.bind(this);
 
-    this.store
-      .select(activeCaseFeature.selectSelectedQuotationDetails)
-      .pipe(take(1))
+    this.activeCaseFacade.selectedQuotationDetailIds$
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
         this.selectedQuotationIds = val;
+      });
+
+    this.activeCaseFacade.simulationModeEnabled$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((enabled) => {
+        if (!enabled) {
+          this.simulatedField = undefined;
+          this.simulatedValue = undefined;
+          this.simulatedPriceSource = undefined;
+        }
       });
   }
 
@@ -197,6 +204,8 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
         node.setSelected(true);
       });
     }
+
+    this.selectQuotationDetails(event.api);
   }
 
   updateColumnData(
@@ -209,22 +218,40 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       columnData
     );
   }
-
+  private selectQuotationDetails(
+    api: GridApi,
+    ensureIndexVisible = false
+  ): void {
+    api.forEachNode((node) => {
+      if (this.selectedQuotationIds.includes(node.data.gqPositionId)) {
+        node.setSelected(true);
+        // when simulation has been performed or changes made via editing Modal, scroll to the position with the highest rowIndex
+        if (ensureIndexVisible) {
+          api.ensureIndexVisible(node.rowIndex, 'middle');
+        }
+      }
+    });
+  }
   onGridReady(event: GridReadyEvent): void {
+    // when from positionDetailView make sure this row is visible in the table
+    if (this.route.snapshot.queryParams.gqPositionId) {
+      const index = this.rowData.findIndex(
+        (row) =>
+          row.gqPositionId === this.route.snapshot.queryParams.gqPositionId
+      );
+      event.api.ensureIndexVisible(index, 'middle');
+    }
+
     const quotationId = this.tableContext.quotation.gqId.toString();
     if (!this.agGridStateService.getColumnData(quotationId)) {
       const columnData = this.buildColumnData(event);
       this.agGridStateService.setColumnData(quotationId, columnData);
     }
 
-    event.api.forEachNode((node) => {
-      if (this.selectedQuotationIds.includes(node.data.gqPositionId)) {
-        node.setSelected(true);
-      }
-    });
+    this.selectQuotationDetails(event.api, true);
 
     this.agGridStateService.columnState
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((colState: ColumnState[]) => {
         if (colState?.length === 0) {
           event?.columnApi?.resetColumnState();
@@ -237,10 +264,10 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       });
 
     this.agGridStateService.filterState
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((filterState: FilterState[]) => {
         const curFilter = filterState.find(
-          (filter) => filter.actionItemId === quotationId
+          (filterVal) => filterVal.actionItemId === quotationId
         );
         event?.api?.setFilterModel?.(curFilter?.filterModels || {});
       });
@@ -259,20 +286,23 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           ].includes(s as ColumnFields)
       );
     columnIds.forEach((colId) => event.columnApi.autoSizeColumn(colId, false));
+
+    // highlight the row of the selected quotationDetail
+    if (this.route.snapshot.queryParams.gqPositionId) {
+      const index = this.rowData.findIndex(
+        (row) =>
+          row.gqPositionId === this.route.snapshot.queryParams.gqPositionId
+      );
+      event.api.setFocusedCell(index, ColumnFields.QUOTATION_ITEM_ID);
+    }
   }
 
   onRowSelected(event: RowSelectedEvent): void {
     if (event.node.isSelected()) {
-      this.store.dispatch(
-        ActiveCaseActions.selectQuotationDetail({
-          gqPositionId: event.node.data.gqPositionId,
-        })
-      );
+      this.activeCaseFacade.selectQuotationDetail(event.node.data.gqPositionId);
     } else {
-      this.store.dispatch(
-        ActiveCaseActions.deselectQuotationDetail({
-          gqPositionId: event.node.data.gqPositionId,
-        })
+      this.activeCaseFacade.deselectQuotationDetail(
+        event.node.data.gqPositionId
       );
     }
 
@@ -292,18 +322,18 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           this.isInputInvalid
         );
       } else {
-        this.store.dispatch(
-          ActiveCaseActions.removeSimulatedQuotationDetail({
-            gqPositionId: event.node.data.gqPositionId,
-          })
+        this.activeCaseFacade.removeSimulatedQuotationDetail(
+          event.node.data.gqPositionId
         );
       }
-    } else if (this.selectedRows.length === 0) {
+    }
+    // must be performed when confirming simulation
+    else if (this.selectedRows.length === 0) {
       this.simulatedField = undefined;
       this.simulatedValue = undefined;
       this.simulatedPriceSource = undefined;
 
-      this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
+      this.activeCaseFacade.resetSimulatedQuotation();
     }
   }
 
@@ -390,11 +420,9 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
       })
       .filter(Boolean);
 
-    this.store.dispatch(
-      ActiveCaseActions.addSimulatedQuotation({
-        gqId: this.tableContext.quotation.gqId,
-        quotationDetails: simulatedRows,
-      })
+    this.activeCaseFacade.addSimulatedQuotation(
+      this.tableContext.quotation.gqId,
+      simulatedRows
     );
   }
 
@@ -468,7 +496,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
-      return PriceSource.SAP_STANDARD;
+      return getSapStandardPriceSource(detail);
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
@@ -493,7 +521,7 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
-      return PriceSource.SAP_STANDARD;
+      return getSapStandardPriceSource(detail);
     }
 
     if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
@@ -550,11 +578,9 @@ export class QuotationDetailsTableComponent implements OnInit, OnDestroy {
           this.getSimulatedRow(field, value, row)
         );
 
-    this.store.dispatch(
-      ActiveCaseActions.addSimulatedQuotation({
-        gqId: this.tableContext.quotation.gqId,
-        quotationDetails: simulatedRows,
-      })
+    this.activeCaseFacade.addSimulatedQuotation(
+      this.tableContext.quotation.gqId,
+      simulatedRows
     );
   }
 
