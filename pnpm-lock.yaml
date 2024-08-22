@@ -492,13 +492,13 @@ importers:
         version: 6.0.1(@capacitor/core@6.1.0)
       '@zxing/browser':
         specifier: 0.1.5
-        version: 0.1.5(@zxing/library@0.21.2)
+        version: 0.1.5(@zxing/library@0.21.3)
       '@zxing/library':
-        specifier: 0.21.2
-        version: 0.21.2
+        specifier: 0.21.3
+        version: 0.21.3
       '@zxing/ngx-scanner':
         specifier: 18.0.1
-        version: 18.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(@zxing/browser@0.1.5(@zxing/library@0.21.2))(@zxing/library@0.21.2)(rxjs@7.8.1)
+        version: 18.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(@zxing/browser@0.1.5(@zxing/library@0.21.3))(@zxing/library@0.21.3)(rxjs@7.8.1)
       jspdf:
         specifier: ^2.5.1
         version: 2.5.1
@@ -5628,8 +5628,8 @@ packages:
     peerDependencies:
       '@zxing/library': ^0.21.0
 
-  '@zxing/library@0.21.2':
-    resolution: {integrity: sha512-VMCCSUJSld3tqG6aREJ6XBCxYuoQFcjrF1kowKPFqTA6QG1ixfm6bVfD7gP4jjfM0MX20wVB65DEXtjRsBmV6w==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@zxing/library/-/library-0.21.2.tgz}
+  '@zxing/library@0.21.3':
+    resolution: {integrity: sha512-hZHqFe2JyH/ZxviJZosZjV+2s6EDSY0O24R+FQmlWZBZXP9IqMo7S3nb3+2LBWxodJQkSurdQGnqE7KXqrYgow==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@zxing/library/-/library-0.21.3.tgz}
     engines: {node: '>= 10.4.0'}
 
   '@zxing/ngx-scanner@18.0.1':
@@ -21554,25 +21554,25 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  '@zxing/browser@0.1.5(@zxing/library@0.21.2)':
+  '@zxing/browser@0.1.5(@zxing/library@0.21.3)':
     dependencies:
-      '@zxing/library': 0.21.2
+      '@zxing/library': 0.21.3
     optionalDependencies:
       '@zxing/text-encoding': 0.9.0
 
-  '@zxing/library@0.21.2':
+  '@zxing/library@0.21.3':
     dependencies:
       ts-custom-error: 3.3.1
     optionalDependencies:
       '@zxing/text-encoding': 0.9.0
 
-  '@zxing/ngx-scanner@18.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(@zxing/browser@0.1.5(@zxing/library@0.21.2))(@zxing/library@0.21.2)(rxjs@7.8.1)':
+  '@zxing/ngx-scanner@18.0.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(@zxing/browser@0.1.5(@zxing/library@0.21.3))(@zxing/library@0.21.3)(rxjs@7.8.1)':
     dependencies:
       '@angular/common': 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/core': 18.1.0(rxjs@7.8.1)(zone.js@0.14.7)
       '@angular/forms': 18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
-      '@zxing/browser': 0.1.5(@zxing/library@0.21.2)
-      '@zxing/library': 0.21.2
+      '@zxing/browser': 0.1.5(@zxing/library@0.21.3)
+      '@zxing/library': 0.21.3
       rxjs: 7.8.1
       tslib: 2.4.0
 
