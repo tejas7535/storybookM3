@@ -8,6 +8,8 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import { CalculationResultState } from '../models/calculation-result-state.model';
+import { calculationResultReducer } from './calculation-result/calculation-result.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -17,10 +19,12 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  calculationResult: CalculationResultState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
+  calculationResult: calculationResultReducer,
 };
 
 // eslint-disable-next-line unicorn/no-negated-condition

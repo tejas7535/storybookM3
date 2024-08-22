@@ -8,6 +8,7 @@ import { of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { ReportModule } from '@schaeffler/report';
@@ -42,6 +43,7 @@ describe('ResultPageComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      provideMockStore({}),
     ],
   });
 

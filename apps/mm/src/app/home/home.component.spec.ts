@@ -17,6 +17,7 @@ import {
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MockDirective, MockPipe } from 'ng-mocks';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
@@ -121,6 +122,7 @@ describe('HomeComponent', () => {
           getLoadOptions: jest.fn(() => of(LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX)),
         },
       },
+      provideMockStore({}),
     ],
     declarations: [HomeComponent],
   });

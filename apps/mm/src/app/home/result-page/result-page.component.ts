@@ -15,6 +15,7 @@ import {
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
 
 import { environment } from '../../../environments/environment';
 import { RawValue, RawValueContent, Result } from '../../shared/models';
@@ -43,7 +44,8 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   public constructor(
     private readonly resultPageService: ResultPageService,
     private readonly snackbar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly calculationResultFacade: CalculationResultFacade
   ) {}
 
   public get errorMsg(): string {
@@ -131,13 +133,22 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
 
     this.result$
       .pipe(
-        filter((result) => !!result?.pdfReportUrl),
+        filter((result) => !!result?.pdfReportUrl || !!result?.jsonReportUrl),
         take(1)
       )
       .subscribe((result) => {
-        this.resultPageService
-          .getPdfReportReady(result.pdfReportUrl)
-          .subscribe((ready) => this.pdfReportReady$.next(ready));
+        if (result.pdfReportUrl) {
+          this.resultPageService
+            .getPdfReportReady(result.pdfReportUrl)
+            .subscribe((ready) => {
+              this.pdfReportReady$.next(ready);
+            });
+        }
+        if (result.jsonReportUrl) {
+          this.calculationResultFacade.fetchCalculationResult(
+            result.jsonReportUrl
+          );
+        }
       });
   }
 

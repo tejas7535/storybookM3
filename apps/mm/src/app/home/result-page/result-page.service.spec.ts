@@ -31,6 +31,10 @@ describe('ResultPageService testing', () => {
         rel: 'body',
         href: 'mockRefBody',
       },
+      {
+        rel: 'json',
+        href: 'mockRefJson',
+      },
     ],
   };
 
@@ -42,6 +46,7 @@ describe('ResultPageService testing', () => {
         useValue: {
           getBearingCalculationResult: jest.fn(() => of(mockResponse)),
           getPdfReportRespone: jest.fn(() => of(true)),
+          getJsonReportResponse: jest.fn(() => of(true)),
         },
       },
       {
@@ -80,6 +85,10 @@ describe('ResultPageService testing', () => {
             rel: 'pdf',
             href: 'pdfLink',
           },
+          {
+            rel: 'json',
+            href: 'jsonLink',
+          },
         ],
       };
 
@@ -89,6 +98,7 @@ describe('ResultPageService testing', () => {
         expect(response).toEqual({
           htmlReportUrl: 'mockRefBody',
           pdfReportUrl: 'mockRefPdf',
+          jsonReportUrl: 'mockRefJson',
         });
         expect(
           service['restService'].getBearingCalculationResult
@@ -124,6 +134,18 @@ describe('ResultPageService testing', () => {
       service.trackProperties(mockFormProperties);
 
       expect(trackingSpy).toHaveBeenCalledWith(PROPERTIES, mockFormProperties);
+    });
+  });
+
+  describe('#getJsonReport', () => {
+    it('should getJsonReport from rest service', (done) => {
+      service.getJsonReport('jsonURL').subscribe((response) => {
+        expect(response).toBe(true);
+        expect(
+          service['restService'].getJsonReportResponse
+        ).toHaveBeenCalledWith('jsonURL');
+        done();
+      });
     });
   });
 });

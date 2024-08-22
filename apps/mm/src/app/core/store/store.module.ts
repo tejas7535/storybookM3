@@ -7,6 +7,7 @@ import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../../../environments/environment';
+import { CalculationResultEffects } from './effects/calculation-result/calculation-result.effects';
 import { StorageMessagesEffects } from './effects/storage-messages/storage-messages.effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
@@ -20,7 +21,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
         strictActionSerializability: true,
       },
     }),
-    EffectsModule.forRoot([StorageMessagesEffects]),
+    EffectsModule.forRoot([StorageMessagesEffects, CalculationResultEffects]),
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
       routerState: RouterState.Minimal,

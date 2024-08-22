@@ -1,3 +1,5 @@
+import { BearinxOnlineResult } from '@mm/core/services/bearinx-result.interface';
+
 import {
   IDMM_HYDRAULIC_NUT_TYPE,
   IDMM_INNER_RING_EXPANSION,
@@ -120,4 +122,19 @@ export const LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX: MMComplexResponse = {
       },
     ],
   },
+};
+
+export const JSON_REPORT_RESPONSE_MOCK: BearinxOnlineResult = {
+  programName: 'some name',
+  programNameID: '123',
+  isBeta: false,
+  method: '',
+  methodID: '',
+  companyInformation: undefined,
+  timeStamp: '',
+  programVersion: '12.0',
+  transactionFileName: '',
+  identifier: '',
+  title: '',
+  titleID: '',
 };
