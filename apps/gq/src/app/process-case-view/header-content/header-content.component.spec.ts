@@ -202,6 +202,44 @@ describe('HeaderContentComponent', () => {
         }
       );
     });
+    test('should pass caseCreationDate', () => {
+      component.caseCreationDate = '2022-02-01';
+
+      component.openCaseEditingModal();
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        EditCaseModalComponent,
+        {
+          width: '660px',
+          position: {
+            top: '50px',
+          },
+          panelClass: 'edit-case-modal',
+          data: {
+            caseName: undefined,
+            bindingPeriodValidityEndDate: undefined,
+            customerPurchaseOrderDate: undefined,
+            enableSapFieldEditing: false,
+            quotationToDate: undefined,
+            requestedDeliveryDate: undefined,
+            currency: undefined,
+            shipToPartySalesOrg: undefined,
+            shipToParty: {
+              id: undefined,
+              value: undefined,
+              value2: undefined,
+            },
+            caseCustomer: undefined,
+            purchaseOrderType: undefined,
+            partnerRoleType: undefined,
+            offerType: undefined,
+            disabled: false,
+            isSapCase: false,
+            caseCreationDate: '2022-02-01',
+          },
+        }
+      );
+    });
 
     test('should emit output for caseName and currency', () => {
       matDialogSpyObject.open.andReturn({

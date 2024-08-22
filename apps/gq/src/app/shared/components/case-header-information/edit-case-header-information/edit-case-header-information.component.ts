@@ -38,8 +38,8 @@ import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { DATE_FORMATS } from '@gq/process-case-view/header-content/header-content.module';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
+import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import moment from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -149,35 +149,55 @@ export class EditCaseHeaderInformationComponent
       quotationToDate: new FormControl(
         {
           value: this.modalData?.quotationToDate
-            ? moment(this.modalData?.quotationToDate)
+            ? getMomentUtcStartOfDayDate(this.modalData?.quotationToDate)
             : undefined,
           disabled: !this.modalData?.enableSapFieldEditing,
         },
-        [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
+        [this.validateDateGreaterOrEqualInquiryDate]
       ),
       requestedDeliveryDate: new FormControl(
         {
           value: this.modalData?.requestedDeliveryDate
-            ? moment(this.modalData?.requestedDeliveryDate)
+            ? getMomentUtcStartOfDayDate(this.modalData?.requestedDeliveryDate)
             : undefined,
           disabled: !this.modalData?.enableSapFieldEditing,
         },
-        [this.validateDateGreaterOrEqualToday]
+        [
+          this.validateDateGreaterOrEqualReferenceDate(
+            getMomentUtcStartOfDayDate(this.modalData?.caseCreationDate)
+          ),
+        ]
       ),
-      customerPurchaseOrderDate: new FormControl({
-        value: this.modalData?.customerPurchaseOrderDate
-          ? moment(this.modalData?.customerPurchaseOrderDate)
-          : undefined,
-        disabled: !this.modalData?.enableSapFieldEditing,
-      }),
+      customerInquiryDate: new FormControl(
+        {
+          value: this.modalData?.customerInquiryDate
+            ? getMomentUtcStartOfDayDate(this.modalData?.customerInquiryDate)
+            : undefined,
+          disabled: !this.modalData?.enableSapFieldEditing,
+        },
+        [
+          this.validateDateSmallerOrEqualReferenceDate(
+            getMomentUtcStartOfDayDate(this.modalData?.caseCreationDate)
+          ),
+        ]
+      ),
       bindingPeriodValidityEndDate: new FormControl(
         {
           value: this.modalData?.bindingPeriodValidityEndDate
-            ? moment(this.modalData?.bindingPeriodValidityEndDate)
+            ? getMomentUtcStartOfDayDate(
+                this.modalData?.bindingPeriodValidityEndDate
+              )
             : undefined,
           disabled: !this.modalData?.enableSapFieldEditing,
         },
-        [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
+        [
+          this.validateDateGreaterReferenceDate(
+            getMomentUtcStartOfDayDate(this.modalData?.caseCreationDate)
+          ),
+          this.validateDateMoreThan18MonthsInFutureFromReferenceDate(
+            getMomentUtcStartOfDayDate(this.modalData?.caseCreationDate)
+          ),
+        ]
       ),
       purchaseOrderType: new FormControl({
         value: this.modalData?.purchaseOrderType,
@@ -221,7 +241,7 @@ export class EditCaseHeaderInformationComponent
       currency,
       quotationToDate,
       requestedDeliveryDate,
-      customerPurchaseOrderDate,
+      customerInquiryDate,
       bindingPeriodValidityEndDate,
       shipToParty,
       purchaseOrderType,
@@ -234,7 +254,7 @@ export class EditCaseHeaderInformationComponent
       currency: currency.value,
       quotationToDate: quotationToDate.value?.toISOString(),
       requestedDelDate: requestedDeliveryDate.value?.toISOString(),
-      customerPurchaseOrderDate: customerPurchaseOrderDate.value?.toISOString(),
+      customerInquiryDate: customerInquiryDate.value?.toISOString(),
       validTo: bindingPeriodValidityEndDate.value?.toISOString(),
       shipToParty: shipToParty.value?.id
         ? ({

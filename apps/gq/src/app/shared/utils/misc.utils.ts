@@ -54,6 +54,9 @@ export const calculateDuration = (
   };
 };
 
+export const getMomentUtcStartOfDayDate = (date: string): moment.Moment =>
+  moment(date).utc().startOf('day');
+
 export const parseLocalizedInputValue = (
   val: string,
   locale: string

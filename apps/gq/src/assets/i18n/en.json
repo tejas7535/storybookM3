@@ -173,16 +173,16 @@
         "quantity": {
           "error": "Invalid Quantity",
           "hint": "Enter a Quantity",
-          "label": "Quantity *"
+          "label": "Quantity*"
         },
         "targetPrice": {
           "label": "Target Price",
-          "hint": "Enter a Target Price (optional)",
+          "hint": "Enter a Target Price",
           "error": "Invalid Target Price"
         },
         "targetPriceSource": {
           "label": "Target Price Source",
-          "hint": "Select a Target Price Source (optional)",
+          "hint": "Select a Target Price Source",
           "values": {
             "noEntry": "No Entry",
             "customer": "Customer",
@@ -191,19 +191,19 @@
         },
         "customer": {
           "hint": "Enter a Customer Number or a Customer Name",
-          "label": "Customer",
+          "label": "Customer*",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid customer name or customer number"
         },
         "materialNumber": {
           "hint": "Enter a 15-digit Material Number",
-          "label": "Material Number *",
+          "label": "Material Number*",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid Material Number"
         },
         "materialDescription": {
           "hint": "Enter a Material Description",
-          "label": "Material Description *",
+          "label": "Material Description*",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid Material Description"
         },
@@ -214,7 +214,7 @@
           "wrongInput": "Please enter a valid quotation number"
         },
         "customerMaterialNumber": {
-          "hint": "Enter a Customer Material Number (optional)",
+          "hint": "Enter a Customer Material Number",
           "label": "Customer Material Number",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid Customer Material Number"
@@ -520,9 +520,15 @@
       "quotationToDateLabel": "Quotation to",
       "requestedDeliveryDateLabel": "Requested delivery date",
       "customerPurchaseOrderDateLabel": "PO Date",
+      "customerInquiryDateLabel": "Inquiry Date",
       "bindingPeriodValidityEndDateLabel": "Valid to",
-      "dateBeforeTodayValidationMessage": "Date is in the past, please check.",
-      "smallerThanPoDateValidationMessage": "Date must be equal to or greater than purchase order date.",
+      "dateBeforeTodayValidationMessage": "Select Date in the future.",
+      "smallerThanInquiryDateValidationMessage": "Date must be equal to or greater than Inquiry Date.",
+      "requiredFieldValidationMessage": "{{field}} required",
+      "dateInFutureValidationMessage": "{date,select, today{Select today or past date.} caseCreation{Select date up to and including 'Case Created On'.} other{Select today or past date.}}",
+      "dateInPastValidationMessage": "{date,select, today{Select today or future date.} caseCreation{ Select date from and including 'Case Created On'.} other{Select today or future date.}}",
+      "dateNotInFutureValidationMessage": "{date,select, today{Select future date.} caseCreation{ Select date from 'Case Created On'.} other{Select future date.}}",
+      "validateDateMoreThan18MonthsInFutureFromReferenceDate": "{date,select,today{Select a date up to a max of 18 months in the future.}caseCreation{Select date up to a max of 18 months from 'Case Created On'.} other{Select a date up to a max of 18 months in the future.}}",
       "updateSapCase": "Update SAP Quote"
     },
     "caseModal": {

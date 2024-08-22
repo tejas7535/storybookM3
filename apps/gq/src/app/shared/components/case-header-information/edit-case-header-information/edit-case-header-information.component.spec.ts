@@ -11,6 +11,7 @@ import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { Customer, PurchaseOrderType } from '@gq/shared/models';
+import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import moment from 'moment';
@@ -86,7 +87,7 @@ describe('EditCaseHeaderInformationComponent', () => {
           currency: 'EUR',
           quotationToDate: '2022-12-31T00:00:00.000Z',
           requestedDeliveryDate: '2022-12-31T00:00:00.000Z',
-          customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+          customerInquiryDate: '2022-12-31T00:00:00.000Z',
           bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
           purchaseOrderType: { id: 1, name: 'ZOR' },
           partnerRoleType: { id: '6000036', name: 'MRO Mining' },
@@ -141,7 +142,7 @@ describe('EditCaseHeaderInformationComponent', () => {
         currency: 'EUR',
         quotationToDate: '2022-12-31T00:00:00.000Z',
         requestedDeliveryDate: '2022-12-31T00:00:00.000Z',
-        customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+        customerInquiryDate: '2022-12-31T00:00:00.000Z',
         bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
         purchaseOrderType: { id: '1', name: 'ZOR' } as PurchaseOrderType,
         partnerRoleType: { id: '6000036', name: 'MRO Mining' },
@@ -160,16 +161,16 @@ describe('EditCaseHeaderInformationComponent', () => {
       expect(component.headerInfoForm.controls.currency.value).toBe('EUR');
       expect(
         component.headerInfoForm.controls.quotationToDate.value
-      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(getMomentUtcStartOfDayDate('2022-12-31T00:00:00.000Z'));
       expect(
         component.headerInfoForm.controls.requestedDeliveryDate.value
-      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(getMomentUtcStartOfDayDate('2022-12-31T00:00:00.000Z'));
       expect(
-        component.headerInfoForm.controls.customerPurchaseOrderDate.value
-      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
+        component.headerInfoForm.controls.customerInquiryDate.value
+      ).toStrictEqual(getMomentUtcStartOfDayDate('2022-12-31T00:00:00.000Z'));
       expect(
         component.headerInfoForm.controls.bindingPeriodValidityEndDate.value
-      ).toStrictEqual(moment('2022-12-31T00:00:00.000Z'));
+      ).toStrictEqual(getMomentUtcStartOfDayDate('2022-12-31T00:00:00.000Z'));
     });
 
     test('should set salesOrg from modalData if subscription is empty', () => {
@@ -250,7 +251,7 @@ describe('EditCaseHeaderInformationComponent', () => {
       currency: 'EUR',
       quotationToDate: '2022-12-31T00:00:00.000Z',
       requestedDeliveryDate: '2022-12-31T00:00:00.000Z',
-      customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+      customerInquiryDate: '2022-12-31T00:00:00.000Z',
       bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
       purchaseOrderType: { id: 1, name: 'ZOR' },
       partnerRoleType: { id: '6000036', name: 'MRO Mining' },
@@ -277,7 +278,7 @@ describe('EditCaseHeaderInformationComponent', () => {
       component.headerInfoForm.controls.quotationToDate.setValue(
         moment('2022-12-31T00:00:00.000Z')
       );
-      component.headerInfoForm.controls.customerPurchaseOrderDate.setValue(
+      component.headerInfoForm.controls.customerInquiryDate.setValue(
         moment('2022-12-31T00:00:00.000Z')
       );
       component.headerInfoForm.controls.requestedDeliveryDate.setValue(
@@ -295,7 +296,7 @@ describe('EditCaseHeaderInformationComponent', () => {
         currency: 'USD',
         quotationToDate: '2022-12-31T00:00:00.000Z',
         requestedDelDate: '2022-12-31T00:00:00.000Z',
-        customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+        customerInquiryDate: '2022-12-31T00:00:00.000Z',
         validTo: '2022-12-31T00:00:00.000Z',
         purchaseOrderTypeId: 1,
         partnerRoleId: '6000036',
@@ -313,7 +314,7 @@ describe('EditCaseHeaderInformationComponent', () => {
       component.headerInfoForm.controls.quotationToDate.setValue(
         moment('2022-12-31T00:00:00.000Z')
       );
-      component.headerInfoForm.controls.customerPurchaseOrderDate.setValue(
+      component.headerInfoForm.controls.customerInquiryDate.setValue(
         moment('2022-12-31T00:00:00.000Z')
       );
       component.headerInfoForm.controls.requestedDeliveryDate.setValue(
@@ -331,7 +332,7 @@ describe('EditCaseHeaderInformationComponent', () => {
         currency: 'USD',
         quotationToDate: '2022-12-31T00:00:00.000Z',
         requestedDelDate: '2022-12-31T00:00:00.000Z',
-        customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+        customerInquiryDate: '2022-12-31T00:00:00.000Z',
         validTo: '2022-12-31T00:00:00.000Z',
         purchaseOrderTypeId: 1,
         partnerRoleId: '6000036',
@@ -349,7 +350,7 @@ describe('EditCaseHeaderInformationComponent', () => {
       component.headerInfoForm.controls.quotationToDate.setValue(
         undefined as any
       );
-      component.headerInfoForm.controls.customerPurchaseOrderDate.setValue(
+      component.headerInfoForm.controls.customerInquiryDate.setValue(
         undefined as any
       );
       component.headerInfoForm.controls.requestedDeliveryDate.setValue(
@@ -380,7 +381,7 @@ describe('EditCaseHeaderInformationComponent', () => {
       component.headerInfoForm.controls.quotationToDate.setValue(
         undefined as any
       );
-      component.headerInfoForm.controls.customerPurchaseOrderDate.setValue(
+      component.headerInfoForm.controls.customerInquiryDate.setValue(
         undefined as any
       );
       component.headerInfoForm.controls.requestedDeliveryDate.setValue(
