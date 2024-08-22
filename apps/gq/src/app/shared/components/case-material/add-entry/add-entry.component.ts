@@ -205,11 +205,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     // clear fields after dispatching action
     this.matNumberInput.clearInput();
     this.matDescInput.clearInput();
-    this.customerMatNumberInput.clearInput();
+
     this.quantityFormControl.reset();
     this.targetPriceFormControl.reset();
-    this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
+
     this.materialInputIsValid = false;
+
+    if (this.newCaseCreation) {
+      this.customerMatNumberInput.clearInput();
+      this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
+    }
   }
 
   onQuantityKeyPress(event: KeyboardEvent): void {

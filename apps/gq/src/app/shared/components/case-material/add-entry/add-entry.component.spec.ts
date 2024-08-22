@@ -154,14 +154,25 @@ describe('AddEntryComponent', () => {
         reset: jest.fn(),
       } as any;
 
+      component.targetPriceSourceFormControl = {
+        setValue: jest.fn(),
+      } as any;
+
+      component.newCaseCreation = true;
       component.addRow();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable({ items: [item] })
+        ProcessCaseActions.addNewItemsToMaterialTable({
+          items: [{ ...item, targetPriceSource: undefined }],
+        })
       );
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.quantityFormControl.reset).toHaveBeenCalledTimes(1);
       expect(component.targetPriceFormControl.reset).toHaveBeenCalledTimes(1);
+      expect(component.customerMatNumberInput.clearInput).toHaveBeenCalled();
+      expect(
+        component.targetPriceSourceFormControl.setValue
+      ).toHaveBeenCalled();
     });
   });
   describe('onQuantityKeyPress', () => {
