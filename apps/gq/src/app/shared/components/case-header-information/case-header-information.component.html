@@ -129,7 +129,10 @@
           </div>
         </div></ng-container
       >
-      <div class="flex flex-col">
+      <div
+        class="flex flex-col"
+        *ngrxLet="isEditMode ? 'caseCreation' : 'today' as referenceDate"
+      >
         <span class="text-medium-emphasis pb-2 text-[14px]">
           {{ t('additionalInformation') }}</span
         >
@@ -137,20 +140,38 @@
           class="grid gap-4 @[0rem]/caseHeader:grid-cols-1 @sm/caseHeader:grid-cols-2"
         >
           <mat-form-field class="col-span-1" appearance="outline">
-            <mat-label>{{ t('customerPurchaseOrderDateLabel') }}</mat-label>
+            <mat-label>{{ t('customerInquiryDateLabel') }}</mat-label>
             <input
               matInput
               autocomplete="off"
-              formControlName="customerPurchaseOrderDate"
-              [matDatepicker]="customerPurchaseOrderDatePicker"
+              formControlName="customerInquiryDate"
+              [matDatepicker]="customerInquiryDateDatePicker"
+              [required]="true"
             />
             <mat-datepicker-toggle
               matSuffix
-              [for]="customerPurchaseOrderDatePicker"
+              [for]="customerInquiryDateDatePicker"
             >
               <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
             </mat-datepicker-toggle>
-            <mat-datepicker #customerPurchaseOrderDatePicker></mat-datepicker>
+            <mat-datepicker #customerInquiryDateDatePicker></mat-datepicker>
+            @if (headerInfoForm.get('customerInquiryDate')?.errors?.required) {
+              <mat-error>{{
+                t('requiredFieldValidationMessage', {
+                  field: t('customerInquiryDateLabel')
+                })
+              }}</mat-error>
+            }
+            @if (
+              headerInfoForm.get('customerInquiryDate')?.errors
+                ?.greaterThanReferenceDate
+            ) {
+              <mat-error>{{
+                t('dateInFutureValidationMessage', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
           </mat-form-field>
           <mat-form-field class="col-span-1" appearance="outline">
             <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
@@ -165,10 +186,11 @@
             </mat-datepicker-toggle>
             <mat-datepicker #quotationToDatePicker></mat-datepicker>
             @if (
-              headerInfoForm.get('quotationToDate')?.errors?.smallerThanPoDate
+              headerInfoForm.get('quotationToDate')?.errors
+                ?.smallerThanInquiryDate
             ) {
               <mat-error>{{
-                t('smallerThanPoDateValidationMessage')
+                t('smallerThanInquiryDateValidationMessage')
               }}</mat-error>
             }
           </mat-form-field>
@@ -186,11 +208,13 @@
             <mat-datepicker #requestedDeliveryDatePicker></mat-datepicker>
             @if (
               headerInfoForm.get('requestedDeliveryDate')?.errors
-                ?.smallerThanToday
+                ?.smallerThanReferenceDate
             ) {
-              <mat-hint class="text-info">{{
-                t('dateBeforeTodayValidationMessage')
-              }}</mat-hint>
+              <mat-error>{{
+                t('dateInPastValidationMessage', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
             }
           </mat-form-field>
           <mat-form-field class="col-span-1" appearance="outline">
@@ -200,6 +224,7 @@
               autocomplete="off"
               formControlName="bindingPeriodValidityEndDate"
               [matDatepicker]="bindingPeriodValidityEndDatePicker"
+              [required]="true"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -211,10 +236,32 @@
             ></mat-datepicker>
             @if (
               headerInfoForm.get('bindingPeriodValidityEndDate')?.errors
-                ?.smallerThanPoDate
+                ?.smallerOrEqualThanReferenceDate
             ) {
               <mat-error>{{
-                t('smallerThanPoDateValidationMessage')
+                t('dateNotInFutureValidationMessage', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
+            @if (
+              headerInfoForm.get('bindingPeriodValidityEndDate')?.errors
+                ?.moreThan18MonthsInFuture
+            ) {
+              <mat-error>{{
+                t('validateDateMoreThan18MonthsInFutureFromReferenceDate', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
+            @if (
+              headerInfoForm.get('bindingPeriodValidityEndDate')?.errors
+                ?.required
+            ) {
+              <mat-error>{{
+                t('requiredFieldValidationMessage', {
+                  field: t('bindingPeriodValidityEndDateLabel')
+                })
               }}</mat-error>
             }
           </mat-form-field>

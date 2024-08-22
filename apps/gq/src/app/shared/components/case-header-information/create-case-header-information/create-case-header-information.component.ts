@@ -134,25 +134,33 @@ export class CreateCaseHeaderInformationComponent
           value: undefined,
           disabled: false,
         },
-        [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
+        [this.validateDateGreaterOrEqualInquiryDate]
       ),
       requestedDeliveryDate: new FormControl(
         {
           value: undefined,
           disabled: false,
         },
-        [this.validateDateGreaterOrEqualToday]
+        [this.validateDateGreaterOrEqualReferenceDate(this.today)]
       ),
-      customerPurchaseOrderDate: new FormControl({
-        value: undefined,
-        disabled: false,
-      }),
+      customerInquiryDate: new FormControl(
+        {
+          value: this.today,
+          disabled: false,
+        },
+        [this.validateDateSmallerOrEqualReferenceDate(this.today)]
+      ),
       bindingPeriodValidityEndDate: new FormControl(
         {
           value: undefined,
           disabled: false,
         },
-        [this.validateDateGreaterOrEqualThanPurchaseOrderDate]
+        [
+          this.validateDateGreaterReferenceDate(this.today),
+          this.validateDateMoreThan18MonthsInFutureFromReferenceDate(
+            this.today
+          ),
+        ]
       ),
       purchaseOrderType: new FormControl({
         value: undefined,

@@ -8,7 +8,7 @@ export interface HeaderInformationData {
   bindingPeriodValidityEndDate?: Moment;
   caseName?: string;
   currency?: string;
-  customerPurchaseOrderDate?: Moment;
+  customerInquiryDate?: Moment;
   offerType?: OfferType;
   partnerRoleType?: SectorGpsd;
   purchaseOrderType?: PurchaseOrderType;

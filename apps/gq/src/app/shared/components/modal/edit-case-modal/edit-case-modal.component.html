@@ -6,6 +6,7 @@
     <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
     </gq-dialog-header>
 
+    <!-- TODO: remove when createManualCaseAsView feature toggle is removed if else can be removed-->
     @if (newCaseCreation) {
       <gq-edit-case-header-information></gq-edit-case-header-information>
     } @else {

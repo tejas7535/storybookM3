@@ -73,6 +73,19 @@ describe('MiscUtils', () => {
       done();
     });
   });
+
+  describe('getMomentUtcStartOfDayDate', () => {
+    test('should return the correct moment date when it is already midnight', () => {
+      const date = '2023-06-30T00:00:00Z';
+      const result = miscUtils.getMomentUtcStartOfDayDate(date);
+      expect(result.format()).toEqual('2023-06-30T00:00:00Z');
+    });
+    test('should return the correct moment date when it is not midnight', () => {
+      const date = '2023-06-30T12:00:00Z';
+      const result = miscUtils.getMomentUtcStartOfDayDate(date);
+      expect(result.format()).toEqual('2023-06-30T00:00:00Z');
+    });
+  });
   describe('getCurrentYear', () => {
     test('getCurrentYear', () => {
       Date.prototype.getFullYear = jest.fn(() => 2020);

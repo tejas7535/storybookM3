@@ -81,7 +81,7 @@ class TestCaseHeaderInformationComponent
         value: undefined,
         disabled: false,
       }),
-      customerPurchaseOrderDate: new FormControl({
+      customerInquiryDate: new FormControl({
         value: undefined,
         disabled: false,
       }),
@@ -143,7 +143,7 @@ describe('CaseHeaderInformationComponent', () => {
           currency: 'EUR',
           quotationToDate: '2022-12-31T00:00:00.000Z',
           requestedDeliveryDate: '2022-12-31T00:00:00.000Z',
-          customerPurchaseOrderDate: '2022-12-31T00:00:00.000Z',
+          customerInquiryDate: '2022-12-31T00:00:00.000Z',
           bindingPeriodValidityEndDate: '2022-12-31T00:00:00.000Z',
           purchaseOrderType: { id: 1, name: 'ZOR' },
           partnerRoleType: { id: '6000036', name: 'MRO Mining' },
@@ -235,16 +235,14 @@ describe('CaseHeaderInformationComponent', () => {
       expect(component.hasHeaderInfoFormChange).toBeTruthy();
     });
 
-    test('Should set hasCaseModalForm to true for customerPurchaseOrderDate', () => {
+    test('Should set hasCaseModalForm to true for customerInquiryDate', () => {
       expect(component.hasHeaderInfoFormChange).toBeFalsy();
-      component['validatePurchaseOrderDateDependentDates'] = jest.fn();
+      component['validateInquiryDateDependentDates'] = jest.fn();
       component.headerInfoForm
-        .get('customerPurchaseOrderDate')
+        .get('customerInquiryDate')
         .setValue(moment('2019-01-01T00:00:00.000Z'));
       expect(component.hasHeaderInfoFormChange).toBeTruthy();
-      expect(
-        component['validatePurchaseOrderDateDependentDates']
-      ).toHaveBeenCalled();
+      expect(component['validateInquiryDateDependentDates']).toHaveBeenCalled();
     });
     test('should handle autocomplete resetAutocompleteMaterials', () => {
       Object.defineProperty(component, 'autocomplete', {
@@ -293,7 +291,7 @@ describe('CaseHeaderInformationComponent', () => {
     });
   });
 
-  describe('validateDateGreaterOrEqualToday', () => {
+  describe('validateDateGreaterOrEqualReferenceDate', () => {
     beforeEach(() => {
       Object.defineProperty(component, 'today', {
         value: new Date('2019-01-01T00:00:00.000Z'),
@@ -304,7 +302,9 @@ describe('CaseHeaderInformationComponent', () => {
       const control: FormControl = new FormControl(
         moment({ year: 2019, month: 1, day: 2 })
       );
-      const result = component['validateDateGreaterOrEqualToday'](control);
+      const result = component['validateDateGreaterOrEqualReferenceDate'](
+        component.today
+      )(control);
       expect(result).toBeUndefined();
     });
 
@@ -312,20 +312,90 @@ describe('CaseHeaderInformationComponent', () => {
       const control: FormControl = new FormControl(
         moment({ year: 2018, month: 1, day: 1 })
       );
-      const result = component['validateDateGreaterOrEqualToday'](control);
-      expect(result).toEqual({ smallerThanToday: true });
+      const result = component['validateDateGreaterOrEqualReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toEqual({ smallerThanReferenceDate: true });
     });
     it('should return undefined if control has no value', () => {
       const control: FormControl = new FormControl(undefined);
-      const result = component['validateDateGreaterOrEqualToday'](control);
+      const result = component['validateDateGreaterOrEqualReferenceDate'](
+        component.today
+      )(control);
       expect(result).toBeUndefined();
     });
   });
 
-  describe('validatePurchaseOrderDateDependentDates', () => {
-    test('should update validity of dependent dates when customPurchaseOrder Date has changed', () => {
+  describe('validateDateGreaterReferenceDate', () => {
+    beforeEach(() => {
+      Object.defineProperty(component, 'today', {
+        value: new Date('2019-01-01T00:00:00.000Z'),
+      });
+    });
+
+    test('should return undefined as Error', () => {
+      const control: FormControl = new FormControl(
+        moment({ year: 2019, month: 1, day: 2 })
+      );
+      const result = component['validateDateGreaterReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toBeUndefined();
+    });
+
+    test('should return an error as Error', () => {
+      const control: FormControl = new FormControl(component.today);
+      const result = component['validateDateGreaterReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toEqual({ smallerOrEqualThanReferenceDate: true });
+    });
+
+    test('should return undefined if control has no value', () => {
+      const control: FormControl = new FormControl(undefined);
+      const result = component['validateDateGreaterReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('validateDateSmallerOrEqualReferenceDate', () => {
+    beforeEach(() => {
+      Object.defineProperty(component, 'today', {
+        value: new Date('2019-01-01T00:00:00.000Z'),
+      });
+    });
+
+    test('Should return undefined as Error', () => {
+      const control: FormControl = new FormControl(component.today);
+      const result = component['validateDateSmallerOrEqualReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toBeUndefined();
+    });
+
+    test('Should return an error as Error', () => {
+      const control: FormControl = new FormControl(
+        moment({ year: 2019, month: 1, day: 2 })
+      );
+      const result = component['validateDateSmallerOrEqualReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toEqual({ greaterThanReferenceDate: true });
+    });
+    test('should return undefined if control has no value', () => {
+      const control: FormControl = new FormControl(undefined);
+      const result = component['validateDateSmallerOrEqualReferenceDate'](
+        component.today
+      )(control);
+      expect(result).toBeUndefined();
+    });
+  });
+  describe('validateInquiryDateDependentDates', () => {
+    test('should update validity of dependent dates when customerInquiryDate Date has changed', () => {
       component.ngOnInit();
-      component.headerInfoForm.controls.customerPurchaseOrderDate.setValue(
+      component.headerInfoForm.controls.customerInquiryDate.setValue(
         moment('2019-01-01T00:00:00.000Z')
       );
 
@@ -337,15 +407,7 @@ describe('CaseHeaderInformationComponent', () => {
       component.headerInfoForm.controls.quotationToDate.markAsTouched =
         jest.fn();
 
-      component.headerInfoForm.controls.bindingPeriodValidityEndDate.setValue(
-        moment('2019-01-02T00:00:00.000Z')
-      );
-      component.headerInfoForm.controls.bindingPeriodValidityEndDate.updateValueAndValidity =
-        jest.fn();
-      component.headerInfoForm.controls.bindingPeriodValidityEndDate.markAsTouched =
-        jest.fn();
-
-      component['validatePurchaseOrderDateDependentDates']();
+      component['validateInquiryDateDependentDates']();
 
       expect(
         component.headerInfoForm.controls.quotationToDate.updateValueAndValidity
@@ -353,22 +415,14 @@ describe('CaseHeaderInformationComponent', () => {
       expect(
         component.headerInfoForm.controls.quotationToDate.markAsTouched
       ).toHaveBeenCalled();
-      expect(
-        component.headerInfoForm.controls.bindingPeriodValidityEndDate
-          .updateValueAndValidity
-      ).toHaveBeenCalled();
-      expect(
-        component.headerInfoForm.controls.bindingPeriodValidityEndDate
-          .markAsTouched
-      ).toHaveBeenCalled();
     });
   });
 
-  describe('validateDateGreaterOrEqualThanPurchaseOrderDate', () => {
+  describe('validateDateGreaterOrEqualThanCustomerInquiryDate', () => {
     beforeEach(() => {
       component.ngOnInit();
       component.headerInfoForm
-        .get('customerPurchaseOrderDate')
+        .get('customerInquiryDate')
         .setValue(moment('2019-01-01T00:00:00.000Z'));
     });
 
@@ -377,7 +431,7 @@ describe('CaseHeaderInformationComponent', () => {
         moment('2019-01-02T00:00:00.000Z')
       );
       const result: ValidationErrors | null =
-        component['validateDateGreaterOrEqualThanPurchaseOrderDate'](control);
+        component['validateDateGreaterOrEqualInquiryDate'](control);
       expect(result).toBeUndefined();
     });
 
@@ -385,10 +439,10 @@ describe('CaseHeaderInformationComponent', () => {
       const control: FormControl = new FormControl(
         moment('2018-01-01T00:00:00.000Z')
       );
-      const expectedError: ValidationErrors = { smallerThanPoDate: true };
+      const expectedError: ValidationErrors = { smallerThanInquiryDate: true };
 
       const result: ValidationErrors | null =
-        component['validateDateGreaterOrEqualThanPurchaseOrderDate'](control);
+        component['validateDateGreaterOrEqualInquiryDate'](control);
       expect(result).toEqual(expectedError);
     });
     it('Should not return an error when values equal', () => {
@@ -397,40 +451,50 @@ describe('CaseHeaderInformationComponent', () => {
       );
 
       const result: ValidationErrors | null =
-        component['validateDateGreaterOrEqualThanPurchaseOrderDate'](control);
+        component['validateDateGreaterOrEqualInquiryDate'](control);
       expect(result).toBeUndefined();
     });
     it('should return undefined if control has no value', () => {
       const control: FormControl = new FormControl(undefined);
       const result: ValidationErrors | null =
-        component['validateDateGreaterOrEqualThanPurchaseOrderDate'](control);
+        component['validateDateGreaterOrEqualInquiryDate'](control);
       expect(result).toBeUndefined();
     });
   });
 
-  describe('isTheSameDay', () => {
-    test('should return true if dates are the same day', () => {
-      const date1 = moment('2019-01-01T00:00:00');
-      const date2 = '2019-01-01T00:00:00';
-      expect(component['isTheSameDay'](date1, date2)).toEqual(true);
+  describe('validateDateMoreThan18MonthsInFutureFromReferenceDate', () => {
+    beforeEach(() => {
+      Object.defineProperty(component, 'today', {
+        value: new Date('2019-01-01T00:00:00.000Z'),
+      });
     });
 
-    test('should return false if dates are not the same day', () => {
-      const date1 = moment('2019-01-01T00:00:00');
-      const date2 = '2019-01-02T00:00:00';
-      expect(component['isTheSameDay'](date1, date2)).toEqual(false);
+    test('should return undefined as Error', () => {
+      const control: FormControl = new FormControl(
+        moment({ year: 2019, month: 7, day: 1 })
+      );
+      const result = component[
+        'validateDateMoreThan18MonthsInFutureFromReferenceDate'
+      ](component.today)(control);
+      expect(result).toBeUndefined();
     });
 
-    test('should return false if second date is undefined', () => {
-      const date1 = moment('2019-01-01T00:00:00');
-
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(component['isTheSameDay'](date1, undefined)).toEqual(false);
+    test('should return an error as Error', () => {
+      const control: FormControl = new FormControl(
+        moment({ year: 2020, month: 7, day: 2 })
+      );
+      const result = component[
+        'validateDateMoreThan18MonthsInFutureFromReferenceDate'
+      ](component.today)(control);
+      expect(result).toEqual({ moreThan18MonthsInFuture: true });
     });
 
-    test('should return true if both dates are undefined', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(component['isTheSameDay'](undefined, undefined)).toEqual(true);
+    test('should return undefined if control has no value', () => {
+      const control: FormControl = new FormControl(undefined);
+      const result = component[
+        'validateDateMoreThan18MonthsInFutureFromReferenceDate'
+      ](component.today)(control);
+      expect(result).toBeUndefined();
     });
   });
 

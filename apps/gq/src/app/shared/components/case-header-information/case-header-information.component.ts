@@ -23,6 +23,7 @@ import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { IdValue } from '@gq/shared/models/search';
+import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import _ from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
@@ -69,7 +70,8 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
 
   readonly NAME_MAX_LENGTH = 20;
   readonly DEBOUNCE_TIME_DEFAULT = 500;
-  readonly today: Date = new Date(new Date().setHours(0, 0, 0, 0));
+
+  readonly today: Moment = getMomentUtcStartOfDayDate(new Date().toISOString());
   readonly MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE = 2;
   readonly COMMENT_INPUT_MAX_LENGTH = 200;
 
@@ -111,10 +113,10 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
 
         if (
           this.hasHeaderInfoFormChange &&
-          formValues.customerPurchaseOrderDate !==
-            this.initialFormValues.customerPurchaseOrderDate
+          formValues.customerInquiryDate !==
+            this.initialFormValues.customerInquiryDate
         ) {
-          this.validatePurchaseOrderDateDependentDates();
+          this.validateInquiryDateDependentDates();
         }
 
         this.headerInfoFormChanged$$.next(
@@ -173,35 +175,64 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
     }
   }
 
-  protected validateDateGreaterOrEqualToday: ValidatorFn = (
-    control: AbstractControl
-  ): ValidationErrors | null => {
-    if (!control.value) {
+  protected validateDateGreaterOrEqualReferenceDate(
+    referenceDate: Moment
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return undefined;
+      }
+
+      if (getMomentUtcStartOfDayDate(control.value).isBefore(referenceDate)) {
+        return { smallerThanReferenceDate: true };
+      }
+
       return undefined;
-    }
+    };
+  }
 
-    if (control.value.valueOf() < this.today.valueOf()) {
-      return { smallerThanToday: true };
-    }
+  protected validateDateGreaterReferenceDate(
+    referenceDate: Moment
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return undefined;
+      }
 
-    return undefined;
-  };
+      if (
+        getMomentUtcStartOfDayDate(control.value).isSameOrBefore(referenceDate)
+      ) {
+        return { smallerOrEqualThanReferenceDate: true };
+      }
 
-  protected validatePurchaseOrderDateDependentDates = () => {
+      return undefined;
+    };
+  }
+  protected validateDateSmallerOrEqualReferenceDate(
+    referenceDate: Moment
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return undefined;
+      }
+
+      if (
+        getMomentUtcStartOfDayDate(control.value).isAfter(referenceDate, 'day')
+      ) {
+        return { greaterThanReferenceDate: true };
+      }
+
+      return undefined;
+    };
+  }
+
+  protected validateInquiryDateDependentDates = () => {
     const quotationToDateControl = this.headerInfoForm.get('quotationToDate');
     quotationToDateControl?.updateValueAndValidity({ emitEvent: false });
     quotationToDateControl?.markAsTouched();
-
-    const bindingPeriodValidityEndDateControl = this.headerInfoForm.get(
-      'bindingPeriodValidityEndDate'
-    );
-    bindingPeriodValidityEndDateControl?.updateValueAndValidity({
-      emitEvent: false,
-    });
-    bindingPeriodValidityEndDateControl?.markAsTouched();
   };
 
-  protected validateDateGreaterOrEqualThanPurchaseOrderDate: ValidatorFn = (
+  protected validateDateGreaterOrEqualInquiryDate: ValidatorFn = (
     control: AbstractControl
   ): ValidationErrors | null => {
     if (!control.value) {
@@ -209,16 +240,32 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
     }
 
     if (this.headerInfoForm) {
-      const poDate = this.headerInfoForm.get('customerPurchaseOrderDate');
+      const inquiryDate = this.headerInfoForm.get('customerInquiryDate');
 
-      if (poDate && control.value.isBefore(moment(poDate.value))) {
-        return { smallerThanPoDate: true };
+      if (inquiryDate && control.value.isBefore(moment(inquiryDate.value))) {
+        return { smallerThanInquiryDate: true };
       }
     }
 
     return undefined;
   };
 
+  protected validateDateMoreThan18MonthsInFutureFromReferenceDate(
+    referenceDate: Moment
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return undefined;
+      }
+
+      const date = getMomentUtcStartOfDayDate(control.value);
+      if (referenceDate && date.diff(referenceDate, 'months', true) > 18) {
+        return { moreThan18MonthsInFuture: true };
+      }
+
+      return undefined;
+    };
+  }
   protected formatAutocompleteResult(value: IdValue) {
     if (!value?.id || !value?.value) {
       return '';
@@ -227,18 +274,5 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
     return `${value.id} | ${value.value} ${
       value.value2 ? `| ${value.value2}` : ''
     }`;
-  }
-
-  protected isTheSameDay(date1: Moment, date2: string): boolean {
-    if (!date1 && !date2) {
-      return true;
-    }
-
-    // moment(undefined) would create a today date -> prevent that
-    if (!date2) {
-      return false;
-    }
-
-    return date1.isSame(moment(date2), 'day');
   }
 }

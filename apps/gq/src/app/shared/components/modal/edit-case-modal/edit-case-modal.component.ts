@@ -86,7 +86,9 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   //   this.dialogRef.close();
   // }
 
-  // TODO: when featureToggle is removed, delete the following code from here
+  // TODO: remove when createManualCaseAsView feature toggle is removed. delete the following code from here
+  // and clean up the testFile
+
   newCaseCreation: boolean = this.featureToggleService.isEnabled(
     'createManualCaseAsView'
   );

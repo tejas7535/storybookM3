@@ -125,9 +125,9 @@ describe('CreateCaseHeaderInformationComponent', () => {
       expect(
         component.headerInfoForm.get('requestedDeliveryDate')?.value
       ).toBeUndefined();
-      expect(
-        component.headerInfoForm.get('customerPurchaseOrderDate')?.value
-      ).toBeUndefined();
+      expect(component.headerInfoForm.get('customerInquiryDate')?.value).toBe(
+        component.today
+      );
       expect(
         component.headerInfoForm.get('bindingPeriodValidityEndDate')?.value
       ).toBeUndefined();
