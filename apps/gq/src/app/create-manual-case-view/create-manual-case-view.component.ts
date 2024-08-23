@@ -28,7 +28,7 @@ import { PushPipe } from '@ngrx/component';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-
+type typeAnimation = 'fade-in' | 'fade-out';
 @Component({
   standalone: true,
   selector: 'gq-create-manual-case-view',
@@ -64,6 +64,7 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
   private readonly headerInformationHasChangesSubject$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
+  animationType: typeAnimation = 'fade-in';
   displayHeader = true;
 
   headerInformationData: HeaderInformationData;
@@ -108,12 +109,15 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
   }
 
   backToCaseOverView(): void {
+    this.animationType = 'fade-out';
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
 
-    this.router.navigate([AppRoutePath.CaseViewPath]);
-    this.createCaseFacade.resetCaseCreationInformation();
+    setTimeout(() => {
+      this.router.navigate([AppRoutePath.CaseViewPath]);
+      this.createCaseFacade.resetCaseCreationInformation();
+    }, 200);
   }
 
   handleHeaderInformationHasChanges(

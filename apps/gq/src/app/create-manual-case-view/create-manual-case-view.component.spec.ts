@@ -161,11 +161,16 @@ describe('manualCaseViewComponent', () => {
 
   describe('backToCaseOverview', () => {
     test('should navigate to case view', () => {
+      jest.useFakeTimers();
       component.backToCaseOverView();
+      jest.advanceTimersByTime(200);
+      jest.runAllTimers();
       expect(router.navigate).toHaveBeenCalledWith([AppRoutePath.CaseViewPath]);
       expect(
         component['createCaseFacade'].resetCaseCreationInformation
       ).toHaveBeenCalled();
+      jest.clearAllTimers();
+      jest.useRealTimers();
     });
   });
 

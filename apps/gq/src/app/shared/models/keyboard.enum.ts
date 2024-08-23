@@ -7,4 +7,5 @@ export enum Keyboard {
   COMMA = ',',
   CONTROL = 'Control',
   ENTER = 'Enter',
+  TAB = 'Tab',
 }

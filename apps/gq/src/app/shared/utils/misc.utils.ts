@@ -91,7 +91,9 @@ export const parseNullableLocalizedInputValue = (
 
 export const validateQuantityInputKeyPress = (event: KeyboardEvent): void => {
   const inputIsAllowedSpecialKey =
-    Keyboard.BACKSPACE === event.key || Keyboard.DELETE === event.key;
+    Keyboard.BACKSPACE === event.key ||
+    Keyboard.DELETE === event.key ||
+    Keyboard.TAB === event.key;
 
   if (
     Number.isNaN(Number.parseInt(event.key, 10)) &&

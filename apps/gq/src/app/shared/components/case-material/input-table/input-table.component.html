@@ -1,4 +1,7 @@
-<div class="h-full">
+<div
+  class="h-full"
+  [ngClass]="{ enableHorizontalScroll: isNewCaseCreationView }"
+>
   <ag-grid-angular
     class="ag-theme-material h-full w-full"
     [rowData]="rowData"

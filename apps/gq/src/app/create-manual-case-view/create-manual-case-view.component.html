@@ -1,6 +1,7 @@
 <div
   *transloco="let t; read: 'createManualCaseView'"
-  class="flex w-full flex-col h-full"
+  class="flex w-full flex-col h-full transition-opacity"
+  [ngClass]="animationType === 'fade-in' ? 'animate-fadeIn' : 'animate-fadeOut'"
 >
   <schaeffler-subheader
     class="pt-5"
@@ -13,7 +14,7 @@
       </div>
     </ng-container>
   </schaeffler-subheader>
-  <div class="flex overflow-auto flex-1 w-full px-4 py-2">
+  <div class="flex overflow-auto flex-1 w-full px-4 py-4">
     <div
       class="h-full flex flex-col gap-2 lg:gap-4 transition-[width] duration-300 ease-in-out"
       [ngClass]="{
@@ -61,7 +62,7 @@
             {{ t('positionInformation') }}
           </span>
         </div>
-        <div class="flex">
+        <div class="flex items-center">
           <span class="text-medium-emphasis text-caption">{{
             t('mandatoryField')
           }}</span>

@@ -24,7 +24,6 @@ import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../../ag-grid/services/localization.service';
 import {
   basicTableStyle,
-  disableTableHorizontalScrollbar,
   statusBarStlye,
 } from '../../../constants/table-styles';
 import { StatusBarConfig } from '../../../models/table/status-bar-config.model';
@@ -35,7 +34,7 @@ import { InputTableColumnDefService } from './config/input-table-column-defs.ser
 @Component({
   selector: 'gq-material-input-table',
   templateUrl: './input-table.component.html',
-  styles: [basicTableStyle, statusBarStlye, disableTableHorizontalScrollbar],
+  styles: [basicTableStyle, statusBarStlye],
   standalone: true,
   imports: [AgGridModule, CommonModule, CellRendererModule, PushPipe],
 })
