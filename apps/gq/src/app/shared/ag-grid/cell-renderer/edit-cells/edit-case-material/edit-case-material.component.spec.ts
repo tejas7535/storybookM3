@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseFacade } from '@gq/core/store/process-case';
@@ -30,7 +32,9 @@ describe('EditCaseMaterialComponent', () => {
   let component: EditCaseMaterialComponent;
   let spectator: Spectator<EditCaseMaterialComponent>;
   let matDialogSpyObject: SpyObject<MatDialog>;
-
+  const routerUrlSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
+    `/${AppRoutePath.CaseViewPath}`
+  );
   const createComponent = createComponentFactory({
     component: EditCaseMaterialComponent,
     imports: [
@@ -57,6 +61,9 @@ describe('EditCaseMaterialComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      MockProvider(Router, {
+        url: routerUrlSubject.value,
+      } as unknown as Router),
     ],
     mocks: [MatDialog],
   });
@@ -72,6 +79,21 @@ describe('EditCaseMaterialComponent', () => {
   });
 
   describe('agInit', () => {
+    test('should determine isCaseView to true when caseViewPath', () => {
+      routerUrlSubject.next(`/${AppRoutePath.CaseViewPath}`);
+      component.agInit({} as any);
+      expect(component.isCaseView).toBeTruthy();
+    });
+    test('should determine isCaseView to true when caseViewPath+ /anyFollowingString', () => {
+      routerUrlSubject.next(`/${AppRoutePath.CaseViewPath}/anyFollowingString`);
+      component.agInit({} as any);
+      expect(component.isCaseView).toBeTruthy();
+    });
+    test('should determine isCaseView to true when createManualCasePath', () => {
+      routerUrlSubject.next(`/${AppRoutePath.CreateManualCasePath}`);
+      component.agInit({} as any);
+      expect(component.isCaseView).toBeTruthy();
+    });
     test('should set params and cellValue', () => {
       const params = {
         value: 'test',

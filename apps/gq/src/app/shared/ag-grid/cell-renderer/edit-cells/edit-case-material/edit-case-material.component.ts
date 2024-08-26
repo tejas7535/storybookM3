@@ -31,7 +31,6 @@ export class EditCaseMaterialComponent {
   public cellValue: string;
   public isCaseView: boolean;
   private readonly dialog: MatDialog = inject(MatDialog);
-  // private readonly store: Store = inject(Store);
   private readonly router: Router = inject(Router);
   private readonly autoCompleteFacade: AutoCompleteFacade =
     inject(AutoCompleteFacade);
@@ -47,8 +46,8 @@ export class EditCaseMaterialComponent {
 
   agInit(params: ICellRendererParams): void {
     this.isCaseView =
-      this.router.url === `/${AppRoutePath.CaseViewPath}` ||
-      this.router.url === `/${AppRoutePath.CreateManualCasePath}`;
+      this.router.url.startsWith(`/${AppRoutePath.CaseViewPath}`) ||
+      this.router.url.startsWith(`/${AppRoutePath.CreateManualCasePath}`);
     this.params = params;
 
     this.cellValue = this.getValueToDisplay(params);
