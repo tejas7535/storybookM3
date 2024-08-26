@@ -19,7 +19,7 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 
 import packageJson from '../../package.json';
-import { URL_FAQ, URL_S_CONNECT } from '../app/shared/constants/urls';
+import { URL_FAQ, URL_MY_SCHAEFFLER } from '../app/shared/constants/urls';
 import { AppRoutePath } from './app-route-path.enum';
 
 @Component({
@@ -36,8 +36,8 @@ export class AppComponent implements OnInit {
       external: true,
     },
     {
-      link: URL_S_CONNECT,
-      title: 'CDBA@SConnect',
+      link: URL_MY_SCHAEFFLER,
+      title: 'CDBA@MySchaeffler',
       external: true,
     },
     {

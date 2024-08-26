@@ -22,7 +22,6 @@ export class RoleDescriptionsComponent implements OnInit, OnDestroy {
   @Input() public showHeading?: boolean = true;
 
   public urlServiceNow = urls.URL_SERVICE_NOW;
-  public urlProductLines = urls.URL_PRODUCT_LINES;
   public urlRoleAssignments = urls.URL_ROLE_ASSIGNMENTS;
 
   public rolesGroups: RolesGroup[] = [];
