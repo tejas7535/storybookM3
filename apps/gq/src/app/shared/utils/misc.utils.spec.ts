@@ -4,7 +4,7 @@ import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
-import { Keyboard } from '../models';
+import { Keyboard, QuotationStatus, SAP_SYNC_STATUS } from '../models';
 import * as miscUtils from './misc.utils';
 
 describe('MiscUtils', () => {
@@ -321,6 +321,44 @@ describe('MiscUtils', () => {
       expect(
         params[`${FILTER_PARAM_INDICATOR}${ColumnFields.CUSTOMER_MATERIAL}`]
       ).toEqual('customerMaterial');
+    });
+  });
+
+  describe('getTagTypeByStatus', () => {
+    test('should return info for QuotationStatus.IN_APPROVAL', () => {
+      expect(miscUtils.getTagTypeByStatus(QuotationStatus.IN_APPROVAL)).toEqual(
+        'info'
+      );
+    });
+    test('should return success for QuotationStatus.APPROVED', () => {
+      expect(miscUtils.getTagTypeByStatus(QuotationStatus.APPROVED)).toEqual(
+        'success'
+      );
+    });
+    test('should return error for QuotationStatus.REJECTED', () => {
+      expect(miscUtils.getTagTypeByStatus(QuotationStatus.REJECTED)).toEqual(
+        'error'
+      );
+    });
+    test('should return info for SAP_SYNC_STATUS.SYNCED', () => {
+      expect(miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.SYNCED)).toEqual(
+        'info'
+      );
+    });
+    test('should return neutral for SAP_SYNC_STATUS.NOT_SYNCED', () => {
+      expect(miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.NOT_SYNCED)).toEqual(
+        'neutral'
+      );
+    });
+    test('should return warning for SAP_SYNC_STATUS.SYNC_PENDING', () => {
+      expect(
+        miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.SYNC_PENDING)
+      ).toEqual('warning');
+    });
+    test('should return warning for SAP_SYNC_STATUS.PARTIAL_SYNCED', () => {
+      expect(
+        miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.PARTIALLY_SYNCED)
+      ).toEqual('warning');
     });
   });
 });

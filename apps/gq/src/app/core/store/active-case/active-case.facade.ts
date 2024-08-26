@@ -1,7 +1,9 @@
+/* eslint-disable max-lines */
 import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
   Customer,
@@ -15,6 +17,8 @@ import {
 } from '@gq/shared/models';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
+import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -54,6 +58,7 @@ import {
   getSapId,
   getSimulatedQuotationDetailByItemId,
   getSimulationModeEnabled,
+  getTabsForProcessCaseView,
 } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
@@ -196,6 +201,10 @@ export class ActiveCaseFacade {
     activeCaseFeature.selectQuotationLoading
   );
 
+  customerLoading$: Observable<boolean> = this.store.select(
+    activeCaseFeature.selectCustomerLoading
+  );
+
   quotationStatus$: Observable<QuotationStatus> =
     this.store.select(getQuotationStatus);
 
@@ -221,6 +230,23 @@ export class ActiveCaseFacade {
 
   shipToPartySalesOrgs$: Observable<SalesOrg[]> = this.store.select(
     getSalesOrgsOfShipToParty
+  );
+
+  tabsForProcessCaseView$: Observable<Tab[]> = this.store.select(
+    getTabsForProcessCaseView()
+  );
+
+  tagType$: Observable<TagType> = combineLatest([
+    this.quotation$,
+    this.quotationSapSyncStatus$,
+  ]).pipe(
+    map(([quotation, sapSyncStatus]: [Quotation, SAP_SYNC_STATUS]) =>
+      quotation.status !== QuotationStatus.ACTIVE &&
+      quotation.status !== QuotationStatus.DELETED &&
+      quotation.status !== QuotationStatus.ARCHIVED
+        ? getTagTypeByStatus(quotation.status)
+        : getTagTypeByStatus(sapSyncStatus)
+    )
   );
 
   materialStock$: Observable<MaterialStock> =
@@ -297,6 +323,12 @@ export class ActiveCaseFacade {
 
   deleteAttachment(attachment: QuotationAttachment): void {
     this.store.dispatch(ActiveCaseActions.deleteAttachment({ attachment }));
+  }
+
+  updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotation(updateQuotationRequest)
+    );
   }
 
   updateQuotationDetails(

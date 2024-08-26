@@ -2,11 +2,13 @@ import { of } from 'rxjs';
 
 import {
   DetailViewQueryParams,
+  Quotation,
   QuotationAttachment,
   QuotationDetail,
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -45,6 +47,7 @@ import {
   getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
+  getTabsForProcessCaseView,
 } from './active-case.selectors';
 import * as fromActiveCaseSelectors from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
@@ -539,6 +542,22 @@ describe('ActiveCaseFacade', () => {
       })
     );
   });
+
+  describe('customerLoading$', () => {
+    test(
+      'should select customer loading',
+      marbles((m) => {
+        mockStore.overrideSelector(
+          activeCaseFeature.selectCustomerLoading,
+          true
+        );
+
+        m.expect(facade.customerLoading$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
   describe('quotationStatus$', () => {
     test(
       'should select quotation status',
@@ -641,6 +660,52 @@ describe('ActiveCaseFacade', () => {
       })
     );
   });
+
+  describe('tabsForProcessCaseView$', () => {
+    test(
+      'should select tabs for process case view',
+      marbles((m) => {
+        const tabs = [
+          {
+            label: 'processCaseView.tabs.singleQuotes.title',
+            link: 'single-quotes',
+            parentPath: 'process-case',
+          },
+          {
+            label: 'processCaseView.tabs.customerDetails.title',
+            link: 'customer-details',
+            parentPath: 'process-case',
+          },
+        ] as any;
+        mockStore.overrideSelector(getTabsForProcessCaseView(), tabs);
+
+        m.expect(facade.tabsForProcessCaseView$).toBeObservable(
+          m.cold('a', { a: tabs })
+        );
+      })
+    );
+  });
+
+  describe('tagType$', () => {
+    test(
+      'should select tag type',
+      marbles((m) => {
+        const tagType = 'info';
+        const quotation: Quotation = {
+          status: QuotationStatus.ACTIVE,
+        } as Quotation;
+        const sapSyncStatus = SAP_SYNC_STATUS.SYNCED;
+        mockStore.overrideSelector(
+          activeCaseFeature.selectQuotation,
+          quotation
+        );
+        mockStore.overrideSelector(getQuotationSapSyncStatus, sapSyncStatus);
+
+        m.expect(facade.tagType$).toBeObservable(m.cold('a', { a: tagType }));
+      })
+    );
+  });
+
   describe('should provide from MaterialStockFacade', () => {
     test(
       'should provide materialStockLoading$',
@@ -878,7 +943,20 @@ describe('ActiveCaseFacade', () => {
       expect(spy).toHaveBeenCalledWith(action);
     });
   });
+  describe('updateQuotation', () => {
+    test('should dispatch update quotation', () => {
+      const updateQuotationRequest = {
+        gqId: 123,
+        quotation: {},
+      } as UpdateQuotationRequest;
+      const action = ActiveCaseActions.updateQuotation(updateQuotationRequest);
+      const spy = jest.spyOn(mockStore, 'dispatch');
 
+      facade.updateQuotation(updateQuotationRequest);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
   describe('updateQuotationDetails', () => {
     test('should dispatch update quotation details', () => {
       const updateQuotationDetailList = [

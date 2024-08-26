@@ -19,6 +19,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DetailViewComponent } from './detail-view.component';
@@ -55,6 +56,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     SharedDirectivesModule,
     RfqDataModule,
     FPricingModule,
+    TagComponent,
   ],
 })
 export class DetailViewModule {}

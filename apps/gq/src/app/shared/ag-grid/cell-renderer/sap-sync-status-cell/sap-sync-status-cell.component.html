@@ -2,27 +2,12 @@
   class="flex h-full items-center overflow-hidden"
   *transloco="let t; read: 'shared.sapStatusLabels'"
 >
-  <div
-    class="flex items-center overflow-hidden rounded-full px-3 py-1 text-caption uppercase"
-    [ngClass]="{
-      'text-info bg-quotation-status-blue': syncedStatus === synced,
-      'text-low-emphasis bg-quotation-status-grey': syncedStatus === notSynced,
-      'text-warning bg-warning':
-        syncedStatus === partiallySynced || syncedStatus === syncPending,
-      'text-error bg-quotation-status-red': syncedStatus === syncFailed
-    }"
+  <schaeffler-tag
+    [type]="tagType"
+    [styleClass]="'uppercase'"
+    size="small"
+    [withDot]="syncedStatus !== syncPending"
   >
-    @if (syncedStatus !== syncPending) {
-      <span
-        class="mr-1 block min-h-[6px] min-w-[6px] rounded-full"
-        [ngClass]="{
-          'bg-nordic-blue': syncedStatus === synced,
-          'bg-low-emphasis': syncedStatus === notSynced,
-          'bg-[#e9b300]': syncedStatus === partiallySynced,
-          'bg-[#cb0b15]': syncedStatus === syncFailed
-        }"
-      ></span>
-    }
     <span
       class="truncate text-[8px] font-bold"
       [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
@@ -33,5 +18,5 @@
         })
       }}
     </span>
-  </div>
+  </schaeffler-tag>
 </div>

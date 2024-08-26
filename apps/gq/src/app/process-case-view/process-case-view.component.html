@@ -10,68 +10,10 @@
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
       >
         <ng-container subheaderStatusIcon>
-          @if (
-            quotation.status !== quotationStatus.ACTIVE &&
-            quotation.status !== quotationStatus.DELETED &&
-            quotation.status !== quotationStatus.ARCHIVED
-          ) {
-            @if (quotation$ | ngrxPush; as quotation) {
-              <div
-                class="relative h-5 w-5 rounded-full"
-                [ngClass]="{
-                  'bg-quotation-status-blue':
-                    quotation.status === quotationStatus.IN_APPROVAL,
-                  'bg-quotation-status-dark-green !bg-opacity-20':
-                    quotation.status === quotationStatus.APPROVED,
-                  'bg-quotation-status-red':
-                    quotation.status === quotationStatus.REJECTED
-                }"
-              >
-                <div
-                  class="absolute top-1 left-1 h-3 w-3 rounded-full"
-                  [ngClass]="{
-                    'bg-nordic-blue':
-                      quotation.status === quotationStatus.IN_APPROVAL,
-                    'bg-quotation-status-dark-green':
-                      quotation.status === quotationStatus.APPROVED,
-                    'bg-[#cb0b15]':
-                      quotation.status === quotationStatus.REJECTED
-                  }"
-                ></div>
-              </div>
-            }
-          } @else {
-            <div
-              class="relative h-5 w-5 rounded-full"
-              [ngClass]="{
-                'bg-quotation-status-blue':
-                  (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-                'bg-[#F4F4F4]':
-                  (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
-                'bg-quotation-status-orange':
-                  (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED ||
-                  (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_PENDING,
-                'bg-quotation-status-red':
-                  (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
-              }"
-            >
-              <div
-                class="absolute top-1 left-1 h-3 w-3 rounded-full"
-                [ngClass]="{
-                  'bg-nordic-blue':
-                    (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
-                  'bg-low-emphasis':
-                    (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED,
-                  'bg-[#e9b300]':
-                    (sapStatus$ | ngrxPush) ===
-                      sapSyncStatus.PARTIALLY_SYNCED ||
-                    (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_PENDING,
-                  'bg-[#cb0b15]':
-                    (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_FAILED
-                }"
-              ></div>
-            </div>
-          }
+          <schaeffler-tag
+            [type]="tagType$ | ngrxPush"
+            class="subheader-status-icon"
+          ></schaeffler-tag>
         </ng-container>
         <ng-container subheaderTitleContent>
           <div class="flex flex-row items-center">

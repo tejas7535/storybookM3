@@ -1,7 +1,12 @@
 import { Params } from '@angular/router';
 
 import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
-import { Duration, Keyboard } from '@gq/shared/models';
+import {
+  Duration,
+  Keyboard,
+  QuotationStatus,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models';
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import moment from 'moment';
 
@@ -163,6 +168,45 @@ export const addMaterialFilterToQueryParams = (
     }
     default: {
       break;
+    }
+  }
+};
+export type TagType =
+  | 'error'
+  | 'primary'
+  | 'info'
+  | 'warning'
+  | 'success'
+  | 'neutral'
+  | 'category2'
+  | 'category3';
+export const getTagTypeByStatus = (
+  status: QuotationStatus | SAP_SYNC_STATUS
+): TagType => {
+  switch (status) {
+    case QuotationStatus.IN_APPROVAL:
+    case SAP_SYNC_STATUS.SYNCED: {
+      return 'info';
+    }
+    case QuotationStatus.APPROVED: {
+      return 'success';
+    }
+
+    case QuotationStatus.REJECTED:
+    case SAP_SYNC_STATUS.SYNC_FAILED: {
+      return 'error';
+    }
+
+    case SAP_SYNC_STATUS.NOT_SYNCED: {
+      return 'neutral';
+    }
+    case SAP_SYNC_STATUS.SYNC_PENDING:
+    case SAP_SYNC_STATUS.PARTIALLY_SYNCED: {
+      return 'warning';
+    }
+
+    default: {
+      return 'info';
     }
   }
 };

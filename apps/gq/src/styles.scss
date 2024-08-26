@@ -45,6 +45,40 @@ gq-root {
     sans-serif !important;
 }
 
+// schaeffler-Tag overrides
+schaeffler-tag {
+  .tag-success {
+    @apply text-quotation-status-green #{!important};
+  }
+  .tag-neutral {
+    @apply text-low-emphasis bg-quotation-status-grey #{!important};
+
+    .tag-dot {
+      @apply bg-low-emphasis #{!important};
+    }
+  }
+}
+
+schaeffler-tag.subheader-status-icon {
+  .tag-info,
+  .tag-success,
+  .tag-warning,
+  .tag-neutral,
+  .tag-error {
+    @apply p-1 min-h-[unset] min-w-[unset] #{!important};
+  }
+  .tag-dot {
+    @apply p-1 h-3 w-3 mr-[unset] #{!important};
+  }
+
+  .tag-success {
+    @apply bg-quotation-status-dark-green bg-opacity-20 #{!important};
+    .tag-dot {
+      @apply bg-quotation-status-dark-green #{!important};
+    }
+  }
+}
+
 .ag-theme-material {
   --ag-font-family: 'Noto sans';
   --ag-selected-row-background-color: #eee;
