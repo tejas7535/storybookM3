@@ -1,0 +1,7 @@
+{
+  "reportSectionInput": "Entrada",
+  "reportSectionWarnings": "Erros/alertas/notas",
+  "errors": "Erros",
+  "warnings": "Avisos",
+  "notes": "Notas"
+}

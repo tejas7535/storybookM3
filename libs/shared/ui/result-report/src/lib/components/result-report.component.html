@@ -1,0 +1,25 @@
+<ng-container *transloco="let t; read: ''">
+  <div
+    class="md:overflow-y-auto md:overflow-x-hidden w-full md:pr-4 md:max-w-[80vw] md:w-full"
+  >
+    <ng-content select="[report-header-content]"></ng-content>
+
+    @if (reportInputs) {
+      <schaeffler-report-expansion-panel [title]="t('reportSectionInput')">
+        <schaeffler-calculation-result-report-input
+          [reportInput]="reportInputs"
+        >
+        </schaeffler-calculation-result-report-input>
+      </schaeffler-report-expansion-panel>
+    }
+
+    <ng-content select="[report-main-content]"></ng-content>
+
+    <schaeffler-report-messages [messages]="messages">
+    </schaeffler-report-messages>
+
+    <ng-content select="[report-footer-content]"></ng-content>
+  </div>
+
+  <ng-content select="[report-right-sidebar]"></ng-content>
+</ng-container>

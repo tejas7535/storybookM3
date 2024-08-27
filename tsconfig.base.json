@@ -76,6 +76,9 @@
       ],
       "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
       "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
+      "@schaeffler/result-report": [
+        "libs/shared/ui/result-report/src/index.ts"
+      ],
       "@schaeffler/rich-tooltip": ["libs/shared/ui/rich-tooltip/src/index.ts"],
       "@schaeffler/roles-and-rights": [
         "libs/shared/ui/roles-and-rights/src/index.ts"

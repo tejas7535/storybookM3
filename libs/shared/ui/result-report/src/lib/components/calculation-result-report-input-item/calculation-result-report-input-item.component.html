@@ -1,0 +1,12 @@
+@if (reportInputItem) {
+  <div class="p-3 font-medium">
+    {{ reportInputItem.title }}
+  </div>
+  @if (labelValues) {
+    <schaeffler-label-value
+      [labelValues]="labelValues"
+      [labelMinWidth]="labelWidth"
+      [labelMaxWidth]="labelWidth"
+    ></schaeffler-label-value>
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "reportSectionInput": "Vstup",
+  "reportSectionWarnings": "Chyby/varování/poznámky",
+  "errors": "Chyby",
+  "warnings": "Varování",
+  "notes": "Poznámky"
+}

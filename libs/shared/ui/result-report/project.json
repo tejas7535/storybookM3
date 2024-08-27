@@ -1,0 +1,53 @@
+{
+  "name": "shared-ui-result-report",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/ui/result-report/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/result-report/tsconfig.lib.json",
+        "project": "libs/shared/ui/result-report/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/result-report/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/result-report/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/result-report/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/result-report"],
+      "options": {
+        "jestConfig": "libs/shared/ui/result-report/jest.config.ts"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "result-report-v",
+        "changelogHeader": "# Release Notes of Library Shared UI Result Report",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": []
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": ["shared-ui-styles"]
+}
