@@ -15,7 +15,10 @@
 
     <ng-content select="[report-main-content]"></ng-content>
 
-    <schaeffler-report-messages [messages]="messages">
+    <schaeffler-report-messages
+      [messages]="messages"
+      [isMessageSectionExpanded]="isMessageSectionExpanded"
+    >
     </schaeffler-report-messages>
 
     <ng-content select="[report-footer-content]"></ng-content>

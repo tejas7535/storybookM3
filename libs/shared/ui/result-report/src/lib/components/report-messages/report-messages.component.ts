@@ -22,6 +22,7 @@ export class ReportMessagesComponent {
     notes: [],
     errors: [],
     warnings: [],
-    isMessageSectionExpanded: false,
   };
+
+  @Input() public isMessageSectionExpanded = false;
 }

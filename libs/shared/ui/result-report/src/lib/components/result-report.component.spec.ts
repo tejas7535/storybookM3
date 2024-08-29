@@ -51,7 +51,7 @@ describe('ResultReportComponent', () => {
       expect(messageComponent?.messages.errors).toEqual([]);
       expect(messageComponent?.messages.notes).toEqual([]);
       expect(messageComponent?.messages.warnings).toEqual([]);
-      expect(messageComponent?.messages.isMessageSectionExpanded).toBe(false);
+      expect(messageComponent?.isMessageSectionExpanded).toBe(false);
     });
   });
 

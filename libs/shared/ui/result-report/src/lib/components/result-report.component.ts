@@ -45,8 +45,9 @@ export class ResultReportComponent implements ResultReportComponentInterface {
     notes: [],
     errors: [],
     warnings: [],
-    isMessageSectionExpanded: false,
   };
+
+  @Input() public isMessageSectionExpanded = false;
 
   public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');

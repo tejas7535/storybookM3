@@ -37,8 +37,8 @@ describe('ReportMessagesComponent', () => {
         notes: ['note 1', 'note 2'],
         errors: [],
         warnings: [],
-        isMessageSectionExpanded: false,
       });
+      spectator.setInput('isMessageSectionExpanded', false);
     });
 
     it('should render messages sections', () => {
@@ -67,8 +67,9 @@ describe('ReportMessagesComponent', () => {
         notes: ['note 1', 'note 2'],
         errors: [],
         warnings: [],
-        isMessageSectionExpanded: true,
       });
+
+      spectator.setInput('isMessageSectionExpanded', true);
     });
 
     it('should expand panel', () => {
