@@ -17,290 +17,270 @@
     </div>
 
     <div class="h-full px-2 dialog-body">
-      <div class="flex h-full flex-row justify-between">
-        <div
-          *ngrxLet="
-            calculationParametersFacade.getCalculationTypes$
-              | ngrxPush as calculationTypes
+      <ng-container
+        *ngrxLet="{
+          errors: calculationResultFacade.calculationReportErrors$ | ngrxPush,
+          warnings:
+            calculationResultFacade.calculationReportWarnings$ | ngrxPush,
+          notes: calculationResultFacade.calculationReportNotes$ | ngrxPush
+        } as messages"
+      >
+        <schaeffler-result-report
+          class="flex h-full flex-row justify-between"
+          [reportInputs]="
+            calculationResultFacade.calculationReportInput$ | ngrxPush
           "
-          class="md:overflow-y-auto md:overflow-x-hidden w-full md:pr-4 md:max-w-[80vw] md:w-full"
+          [isMessageSectionExpanded]="
+            !!(calculationResultFacade.getCatalogCalculationError$ | ngrxPush)
+          "
+          [messages]="messages"
         >
-          <ea-qualtrics-info-banner
-            [bearingDesingation]="bearingDesignation$ | ngrxPush"
-            class="md:mr-[255px]"
-          ></ea-qualtrics-info-banner>
-          <span class="block w-full h-4"></span>
-          <!-- CO2 input notes -->
-          @if (
-            calculationResultFacade.calculationReportInput$ | ngrxPush;
-            as calculationInput
-          ) {
-            <ea-expansion-panel [title]="t('reportSectionInput')">
-              <ea-calculation-result-report-input
-                [reportInput]="calculationInput"
-              >
-              </ea-calculation-result-report-input>
-            </ea-expansion-panel>
-          }
-
-          <!-- Rating life -->
-          <ng-container
-            *transloco="let t; read: 'calculationResultReport.ratingLife'"
-          >
-            @if (
-              calculationResultFacade.isRatingLifeResultAvailable$ | ngrxPush
-            ) {
-              <ea-expansion-panel
-                id="ratingLife"
-                icon="animation"
-                [title]="t('title')"
-                [hidden]="calculationTypes?.ratingLife.selected === false"
-                [expanded]="true"
-              >
-                @if (
-                  calculationResultFacade.calculationReportRatingLife$
-                    | ngrxPush;
-                  as ratingLife
-                ) {
-                  <ea-calculation-result-report-large-items
-                    [items]="ratingLife"
-                    translocoRoot="calculationResultReport.ratingLife"
-                  ></ea-calculation-result-report-large-items>
-                }
-              </ea-expansion-panel>
-            }
+          <ng-container report-header-content>
+            <ea-qualtrics-info-banner
+              [bearingDesingation]="bearingDesignation$ | ngrxPush"
+              class="md:mr-[255px]"
+            ></ea-qualtrics-info-banner>
+            <span class="block w-full h-4"></span>
           </ng-container>
-
-          <!-- Frictional power loss -->
           <ng-container
-            *transloco="
-              let t;
-              read: 'calculationResultReport.frictionalPowerloss'
+            report-main-content
+            *ngrxLet="
+              calculationParametersFacade.getCalculationTypes$
+                | ngrxPush as calculationTypes
             "
           >
-            @if (
-              calculationResultFacade.isFrictionResultAvailable$ | ngrxPush
-            ) {
-              <ea-expansion-panel
-                id="frictionalPowerloss"
-                icon="compress"
-                [title]="t('title')"
-                [hidden]="
-                  calculationTypes?.frictionalPowerloss.selected === false
-                "
-                [expanded]="true"
-              >
-                @if (
-                  calculationResultFacade.calculationReportFrictionalPowerloss$
-                    | ngrxPush;
-                  as frictionalPowerloss
-                ) {
-                  <ea-calculation-result-report-large-items
-                    [items]="frictionalPowerloss"
-                    translocoRoot="calculationResultReport.frictionalPowerloss"
-                  ></ea-calculation-result-report-large-items>
-                } @else {
-                  <div
-                    class="item-center flex content-center p-4 md:p-8 w-full border-border border-t"
-                  >
-                    <ea-info-banner [className]="'w-full'">
-                      <div class="flex w-full flex-col">
-                        <div>{{ t('calculationNotAvailable.line1') }}</div>
-                        <div>
-                          {{ t('calculationNotAvailable.line2') }}
+            <!-- Rating life -->
+            <ng-container
+              *transloco="let t; read: 'calculationResultReport.ratingLife'"
+            >
+              @if (
+                calculationResultFacade.isRatingLifeResultAvailable$ | ngrxPush
+              ) {
+                <schaeffler-report-expansion-panel
+                  id="ratingLife"
+                  icon="animation"
+                  [title]="t('title')"
+                  [hidden]="calculationTypes?.ratingLife.selected === false"
+                  [expanded]="true"
+                >
+                  @if (
+                    calculationResultFacade.calculationReportRatingLife$
+                      | ngrxPush;
+                    as ratingLife
+                  ) {
+                    <ea-calculation-result-report-large-items
+                      [items]="ratingLife"
+                      translocoRoot="calculationResultReport.ratingLife"
+                    ></ea-calculation-result-report-large-items>
+                  }
+                </schaeffler-report-expansion-panel>
+              }
+            </ng-container>
+
+            <!-- Frictional power loss -->
+            <ng-container
+              *transloco="
+                let t;
+                read: 'calculationResultReport.frictionalPowerloss'
+              "
+            >
+              @if (
+                calculationResultFacade.isFrictionResultAvailable$ | ngrxPush
+              ) {
+                <schaeffler-report-expansion-panel
+                  id="frictionalPowerloss"
+                  icon="compress"
+                  [title]="t('title')"
+                  [hidden]="
+                    calculationTypes?.frictionalPowerloss.selected === false
+                  "
+                  [expanded]="true"
+                >
+                  @if (
+                    calculationResultFacade.calculationReportFrictionalPowerloss$
+                      | ngrxPush;
+                    as frictionalPowerloss
+                  ) {
+                    <ea-calculation-result-report-large-items
+                      [items]="frictionalPowerloss"
+                      translocoRoot="calculationResultReport.frictionalPowerloss"
+                    ></ea-calculation-result-report-large-items>
+                  } @else {
+                    <div
+                      class="item-center flex content-center p-4 md:p-8 w-full border-border border-t"
+                    >
+                      <ea-info-banner [className]="'w-full'">
+                        <div class="flex w-full flex-col">
+                          <div>
+                            {{ t('calculationNotAvailable.line1') }}
+                          </div>
+                          <div>
+                            {{ t('calculationNotAvailable.line2') }}
+                            <a
+                              [href]="t('calculationNotAvailable.link')"
+                              class="underline"
+                              target="_blank"
+                              >{{ t('calculationNotAvailable.linkText') }}
+                              <mat-icon class="align-middle" [inline]="true"
+                                >open_in_new</mat-icon
+                              >
+                            </a>
+                          </div>
+                        </div>
+                      </ea-info-banner>
+                    </div>
+                  }
+                </schaeffler-report-expansion-panel>
+              }
+            </ng-container>
+
+            <!-- Lubrication Parameters -->
+            <ng-container
+              *transloco="let t; read: 'calculationResultReport.lubrication'"
+            >
+              @if (
+                calculationResultFacade.isLubricationResultAvailable$ | ngrxPush
+              ) {
+                <schaeffler-report-expansion-panel
+                  id="lubrication"
+                  svgIcon="water_drop"
+                  [title]="t('title')"
+                  [hidden]="calculationTypes?.lubrication.selected === false"
+                  [expanded]="true"
+                >
+                  @if (
+                    calculationResultFacade.calculationReportLubrication$
+                      | ngrxPush;
+                    as ratingLife
+                  ) {
+                    <ea-calculation-result-report-large-items
+                      [items]="ratingLife"
+                      translocoRoot="calculationResultReport.lubrication"
+                    ></ea-calculation-result-report-large-items>
+                  }
+                </schaeffler-report-expansion-panel>
+              }
+            </ng-container>
+
+            <!-- CO2 Emissions -->
+            <ng-container
+              *transloco="let t; read: 'calculationResultReport.co2Emissions'"
+            >
+              @if (
+                calculationResultFacade.isEmissionResultAvailable$ | ngrxPush
+              ) {
+                <schaeffler-report-expansion-panel
+                  id="emission"
+                  svgIcon="co2"
+                  [title]="t('title')"
+                  [titleTooltip]="
+                    'calculationResult.emissionsTooltip' | transloco
+                  "
+                  [hidden]="calculationTypes?.emission.selected === false"
+                  [expanded]="true"
+                >
+                  @if (
+                    calculationResultFacade.calculationReportCO2Emission$
+                      | ngrxPush;
+                    as co2Emissions
+                  ) {
+                    <div
+                      class="text-body-2 border-border flex w-full flex-col border-t"
+                    >
+                      <ea-calculation-result-report-large-items
+                        class="w-full"
+                        translocoRoot="calculationResultReport.co2Emissions"
+                        [items]="co2ResultItem$ | ngrxPush"
+                      ></ea-calculation-result-report-large-items>
+                      <div class="text-medium-emphasis py-4 px-4 md:px-8">
+                        <div class="md:mx-2">
+                          {{ t('upstreamHint') }} -
                           <a
-                            [href]="t('calculationNotAvailable.link')"
-                            class="underline"
-                            target="_blank"
-                            >{{ t('calculationNotAvailable.linkText') }}
-                            <mat-icon class="align-middle" [inline]="true"
-                              >open_in_new</mat-icon
-                            >
-                          </a>
+                            class="text-primary"
+                            (click)="showCalculationDisclaimerDialog()"
+                            role="button"
+                            >{{ t('upstreamHintLinkText') }}</a
+                          >
                         </div>
                       </div>
-                    </ea-info-banner>
-                  </div>
-                }
-              </ea-expansion-panel>
-            }
-          </ng-container>
-
-          <!-- Lubrication Parameters -->
-          <ng-container
-            *transloco="let t; read: 'calculationResultReport.lubrication'"
-          >
-            @if (
-              calculationResultFacade.isLubricationResultAvailable$ | ngrxPush
-            ) {
-              <ea-expansion-panel
-                id="lubrication"
-                svgIcon="water_drop"
-                [title]="t('title')"
-                [hidden]="calculationTypes?.lubrication.selected === false"
-                [expanded]="true"
-              >
-                @if (
-                  calculationResultFacade.calculationReportLubrication$
-                    | ngrxPush;
-                  as ratingLife
-                ) {
-                  <ea-calculation-result-report-large-items
-                    [items]="ratingLife"
-                    translocoRoot="calculationResultReport.lubrication"
-                  ></ea-calculation-result-report-large-items>
-                }
-              </ea-expansion-panel>
-            }
-          </ng-container>
-
-          <!-- CO2 Emissions -->
-          <ng-container
-            *transloco="let t; read: 'calculationResultReport.co2Emissions'"
-          >
-            @if (
-              calculationResultFacade.isEmissionResultAvailable$ | ngrxPush
-            ) {
-              <ea-expansion-panel
-                id="emission"
-                svgIcon="co2"
-                [title]="t('title')"
-                [titleTooltip]="
-                  'calculationResult.emissionsTooltip' | transloco
-                "
-                [hidden]="calculationTypes?.emission.selected === false"
-                [expanded]="true"
-              >
-                @if (
-                  calculationResultFacade.calculationReportCO2Emission$
-                    | ngrxPush;
-                  as co2Emissions
-                ) {
+                    </div>
+                  }
                   <div
-                    class="text-body-2 border-border flex w-full flex-col border-t"
+                    class="border-border flex flex-row items-center border-t px-4 py-2"
                   >
-                    <ea-calculation-result-report-large-items
-                      class="w-full"
-                      translocoRoot="calculationResultReport.co2Emissions"
-                      [items]="co2ResultItem$ | ngrxPush"
-                    ></ea-calculation-result-report-large-items>
-                    <div class="text-medium-emphasis py-4 px-4 md:px-8">
-                      <div class="md:mx-2">
-                        {{ t('upstreamHint') }} -
-                        <a
-                          class="text-primary"
-                          (click)="showCalculationDisclaimerDialog()"
-                          role="button"
-                          >{{ t('upstreamHintLinkText') }}</a
-                        >
-                      </div>
+                    <div class="mr-2 flex-shrink-0">
+                      <mat-icon color="primary">info_outline</mat-icon>
+                    </div>
+                    <div class="text-body-2 text-medium-emphasis">
+                      {{ t('calculationHint') }} -
+                      <a
+                        class="text-primary"
+                        [href]="t('calculationHintLink')"
+                        role="button"
+                        target="_blank"
+                        >{{ t('calculationHintLinkText') }}</a
+                      >
                     </div>
                   </div>
-                }
-                <div
-                  class="border-border flex flex-row items-center border-t px-4 py-2"
+                </schaeffler-report-expansion-panel>
+              }
+            </ng-container>
+
+            <!--- Overrolling frequencies -->
+            <ng-container
+              *transloco="
+                let t;
+                read: 'calculationResultReport.overrollingFrequencies'
+              "
+            >
+              @if (
+                calculationResultFacade.isOverrollingFrequenciesAvailable$
+                  | ngrxPush
+              ) {
+                <schaeffler-report-expansion-panel
+                  id="overrollingFrequency"
+                  svgIcon="airwaves"
+                  [title]="t('title')"
+                  [hidden]="
+                    calculationTypes?.overrollingFrequency.selected === false
+                  "
+                  [expanded]="true"
                 >
-                  <div class="mr-2 flex-shrink-0">
-                    <mat-icon color="primary">info_outline</mat-icon>
-                  </div>
-                  <div class="text-body-2 text-medium-emphasis">
-                    {{ t('calculationHint') }} -
-                    <a
-                      class="text-primary"
-                      [href]="t('calculationHintLink')"
-                      role="button"
-                      target="_blank"
-                      >{{ t('calculationHintLinkText') }}</a
-                    >
-                  </div>
-                </div>
-              </ea-expansion-panel>
-            }
+                  @if (
+                    calculationResultFacade.getOverrollingFrequencies$
+                      | ngrxPush;
+                    as overrollingFrequencies
+                  ) {
+                    <ea-calculation-result-report-large-items
+                      [items]="overrollingFrequencies"
+                      translocoRoot="calculationResultReport.overrollingFrequencies"
+                      [firstItemLarge]="false"
+                    ></ea-calculation-result-report-large-items>
+                  }
+                </schaeffler-report-expansion-panel>
+              }
+            </ng-container>
           </ng-container>
-
-          <!--- Overrolling frequencies -->
+          <ng-container report-right-sidebar>
+            <!-- Right Hand Navigation -->
+            <ea-calculation-result-report-selection
+              [calculationResultTypeSelection]="
+                calculationResultFacade.getSelectedCalculations$ | ngrxPush
+              "
+              [isDownloadDisabled]="
+                (calculationResultFacade.isPDFReportAvailable$ | ngrxPush) ===
+                false
+              "
+              (downloadClicked)="downloadPdfReport()"
+              (calculationTypeClicked)="scrollIntoView($event)"
+            >
+            </ea-calculation-result-report-selection>
+          </ng-container>
           <ng-container
-            *transloco="
-              let t;
-              read: 'calculationResultReport.overrollingFrequencies'
-            "
+            report-footer-content
+            *transloco="let t; read: 'calculationSelection'"
           >
-            @if (
-              calculationResultFacade.isOverrollingFrequenciesAvailable$
-                | ngrxPush
-            ) {
-              <ea-expansion-panel
-                id="overrollingFrequency"
-                svgIcon="airwaves"
-                [title]="t('title')"
-                [hidden]="
-                  calculationTypes?.overrollingFrequency.selected === false
-                "
-                [expanded]="true"
-              >
-                @if (
-                  calculationResultFacade.getOverrollingFrequencies$ | ngrxPush;
-                  as overrollingFrequencies
-                ) {
-                  <ea-calculation-result-report-large-items
-                    [items]="overrollingFrequencies"
-                    translocoRoot="calculationResultReport.overrollingFrequencies"
-                    [firstItemLarge]="false"
-                  ></ea-calculation-result-report-large-items>
-                }
-              </ea-expansion-panel>
-            }
-          </ng-container>
-
-          <!-- Errors, Warnings and notes -->
-          <ng-container
-            *ngrxLet="{
-              errors:
-                calculationResultFacade.calculationReportErrors$ | ngrxPush,
-              warnings:
-                calculationResultFacade.calculationReportWarnings$ | ngrxPush,
-              notes: calculationResultFacade.calculationReportNotes$ | ngrxPush
-            } as messages"
-          >
-            @if (
-              messages.errors?.length > 0 ||
-              messages.warnings?.length > 0 ||
-              messages.notes?.length > 0
-            ) {
-              <ea-expansion-panel
-                [title]="t('reportSectionWarnings')"
-                icon="report_problem"
-                [iconClassName]="'!text-icon-warning'"
-                [expanded]="
-                  !!(
-                    calculationResultFacade.getCatalogCalculationError$
-                    | ngrxPush
-                  )
-                "
-              >
-                <div class="px-4 md:px-8 pb-4">
-                  <ea-calculation-result-messages
-                    [title]="t('errors')"
-                    [messages]="messages.errors"
-                  >
-                  </ea-calculation-result-messages>
-                  <ea-calculation-result-messages
-                    [title]="t('warnings')"
-                    [messages]="messages.warnings"
-                  >
-                  </ea-calculation-result-messages>
-                  <ea-calculation-result-messages
-                    [title]="t('notes')"
-                    [messages]="messages.notes"
-                  >
-                  </ea-calculation-result-messages>
-                </div>
-              </ea-expansion-panel>
-            }
-          </ng-container>
-
-          <!-- Mobile PDF Button --->
-          <ng-container *transloco="let t; read: 'calculationSelection'">
+            <!-- Mobile PDF Button --->
             <button
               (click)="downloadPdfReport()"
               [disabled]="
@@ -322,29 +302,8 @@
               }"
             ></span>
           </ng-container>
-        </div>
-
-        <!-- Right Hand Navigation -->
-        <ea-calculation-result-report-selection
-          [calculationResultTypeSelection]="
-            calculationResultFacade.getSelectedCalculations$ | ngrxPush
-          "
-          [isDownloadDisabled]="
-            (calculationResultFacade.isPDFReportAvailable$ | ngrxPush) === false
-          "
-          (downloadClicked)="downloadPdfReport()"
-          (calculationTypeClicked)="scrollIntoView($event)"
-        >
-        </ea-calculation-result-report-selection>
-      </div>
+        </schaeffler-result-report>
+      </ng-container>
     </div>
-
-    <ng-template #loadingTemplate>
-      <div class="item-center flex content-center p-8">
-        <div class="ml-auto mr-auto">
-          <mat-spinner diameter="20"></mat-spinner>
-        </div>
-      </div>
-    </ng-template>
   </ng-container>
 </div>
