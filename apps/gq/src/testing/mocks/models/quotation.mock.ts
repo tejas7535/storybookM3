@@ -52,4 +52,5 @@ export const QUOTATION_MOCK: Quotation = {
     id: 1,
     name: 'offer type name',
   },
+  metadata: undefined,
 };

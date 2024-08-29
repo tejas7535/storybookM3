@@ -1,5 +1,6 @@
 export * from './abcx-classification.enum';
 export * from './quotation.model';
+export * from './quotation-metadata.interface';
 export * from './quotation-pricing-overview.model';
 export * from './quotation-search-result.model';
 export * from './quotation-status.enum';

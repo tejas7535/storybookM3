@@ -24,6 +24,7 @@ import { PushPipe } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { HeaderContentComponent } from './header-content.component';
+import { QuotationNoteIconComponent } from './quotation-note/icon/quotation-note-icon.component';
 
 // needed to display leading zeros
 export const DATE_FORMATS = {
@@ -47,6 +48,7 @@ export const DATE_FORMATS = {
     SharedDirectivesModule,
     CommonModule,
     MatDialogModule,
+    QuotationNoteIconComponent,
   ],
   exports: [HeaderContentComponent],
   providers: [

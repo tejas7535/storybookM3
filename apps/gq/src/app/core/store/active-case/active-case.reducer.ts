@@ -18,6 +18,7 @@ import {
   sortQuotationDetails,
 } from './active-case.utils';
 import { QuotationIdentifier } from './models';
+import { QuotationMetadataReducers } from './quotation-metadata/quotation-metadata.reducer';
 
 /**
  * Currently selected/active quotation state.
@@ -30,6 +31,9 @@ export interface ActiveCaseState {
   customerLoadingErrorMessage: string;
 
   quotationLoading: boolean;
+  quotationMetadataLoading: boolean;
+  quotationMetadataLoadingErrorMessage: string;
+
   quotation: Quotation;
   simulatedItem: SimulatedQuotation;
   selectedQuotationDetail: string;
@@ -53,6 +57,9 @@ export const initialState: ActiveCaseState = {
   customerLoading: false,
   customer: undefined,
   customerLoadingErrorMessage: undefined,
+
+  quotationMetadataLoading: false,
+  quotationMetadataLoadingErrorMessage: undefined,
 
   quotationLoading: false,
   quotation: undefined,
@@ -587,7 +594,8 @@ export const activeCaseFeature = createFeature({
         ...state,
         sapSyncStatusErrorMessage: errorMessage,
       })
-    )
+    ),
+    ...QuotationMetadataReducers
   ),
   extraSelectors: ({
     selectActiveCaseState,

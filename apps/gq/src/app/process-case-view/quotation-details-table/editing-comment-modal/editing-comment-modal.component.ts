@@ -8,7 +8,6 @@ import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-
 @Component({
   selector: 'gq-editing-comment-modal',
   templateUrl: './editing-comment-modal.component.html',

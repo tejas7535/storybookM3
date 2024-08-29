@@ -49,7 +49,19 @@
     },
     "save": "Case speichern",
     "delete": "Case verwerfen",
-    "disabledForSyncPendingTooltip": "Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht"
+    "disabledForSyncPendingTooltip": "Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht",
+    "noteModal": {
+      "title": "Notiz {quotationActive, select, true{bearbeiten} other {anzeigen} } für {{gqId}}",
+      "inputLabel": "Notiz",
+      "buttons": {
+        "confirm": "Bestätigen",
+        "cancel": "Abbrechen"
+      },
+      "snackBarMessages": {
+        "noteSaved": "Notiz wurde erfolgreich gespeichert.",
+        "error": "Ein unerwarteter Fehler ist aufgetreten."
+      }
+    }
   },
   "tabs": {
     "singleQuotes": {

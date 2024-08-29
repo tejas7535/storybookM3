@@ -1,0 +1,57 @@
+@if (quotationMetadataLoading$ | ngrxPush) {
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+} @else {
+  <div
+    class="flex h-full flex-col"
+    *transloco="let t; read: 'processCaseView.header.noteModal'"
+  >
+    <gq-dialog-header
+      class="mb-2"
+      [title]="
+        t('title', {
+          gqId: gqId$ | ngrxPush | gqQuotation,
+          quotationActive: modalData.isQuotationStatusActive
+        })
+      "
+      (closeDialog)="closeDialog()"
+    >
+    </gq-dialog-header>
+    <div>
+      <mat-form-field class="py-4 w-full" appearance="outline">
+        <mat-label> {{ t('inputLabel') }} </mat-label>
+        <textarea
+          class="!h-24"
+          [formControl]="quotationNoteForm"
+          type="text"
+          matInput
+        ></textarea>
+        <mat-hint align="end"
+          >{{
+            quotationNoteForm.value?.length.toString() +
+              ' / ' +
+              QUOTATION_NOTE_MAX_LENGTH
+          }}
+        </mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- Mat buttons for confirm and cancel -->
+  <div *transloco="let t; read: 'processCaseView.header.noteModal.buttons'">
+    <button
+      color="primary"
+      mat-raised-button
+      [disabled]="quotationNoteForm.invalid || !quotationNoteForm.dirty"
+      (click)="onSave()"
+    >
+      {{ t('confirm') }}
+    </button>
+    <button
+      class="ml-4"
+      color="primary"
+      mat-stroked-button
+      (click)="onCancel()"
+    >
+      {{ t('cancel') }}
+    </button>
+  </div>
+}
