@@ -95,7 +95,7 @@ export class QuotationDetailsTableComponent implements OnInit {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   sideBar: SideBarDef = SIDE_BAR;
-  defaultColumnDefs: ColDef = { ...DEFAULT_COLUMN_DEFS, minWidth: 150 };
+  defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
   statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
   components = COMPONENTS;
   columnDefs$: Observable<ColDef[]>;
