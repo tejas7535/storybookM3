@@ -51,7 +51,7 @@
     "delete": "Discard Case",
     "disabledForSyncPendingTooltip": "Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed.",
     "noteModal": {
-      "title": "{quotationActive, select, true{Edit} other {View} } Note for {{gqId}}",
+      "title": "{quotationActive, select, true{Edit} other {View} } note for {{gqId}}",
       "inputLabel": "Note",
       "buttons": {
         "confirm": "Confirm",
