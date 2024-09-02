@@ -18,6 +18,6 @@ describe('DeltaTagTypePipe', () => {
 
   test('should return neutral if value.absolute is 0', () => {
     const pipe = new DeltaTagTypePipe();
-    expect(pipe.transform({ absolute: 0 } as any)).toBe('neutral');
+    expect(pipe.transform({ absolute: 0 } as any)).toBe('category2');
   });
 });

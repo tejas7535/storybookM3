@@ -7,13 +7,13 @@ import { PropertyDelta } from '@gq/core/store/f-pricing/models/property-delta.in
   standalone: true,
 })
 export class DeltaTagTypePipe implements PipeTransform {
-  transform(value: PropertyDelta): 'error' | 'success' | 'neutral' {
+  transform(value: PropertyDelta): 'error' | 'success' | 'category2' {
     if (value?.absolute < 0) {
       return 'error';
     } else if (value?.absolute > 0) {
       return 'success';
     }
 
-    return 'neutral';
+    return 'category2';
   }
 }

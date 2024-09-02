@@ -44,18 +44,10 @@ gq-root {
     Noto Sans,
     sans-serif !important;
 }
-
 // schaeffler-Tag overrides
 schaeffler-tag {
   .tag-success {
     @apply text-quotation-status-green #{!important};
-  }
-  .tag-neutral {
-    @apply text-low-emphasis bg-quotation-status-grey #{!important};
-
-    .tag-dot {
-      @apply bg-low-emphasis #{!important};
-    }
   }
 }
 
