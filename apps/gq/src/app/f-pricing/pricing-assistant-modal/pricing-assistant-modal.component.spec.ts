@@ -224,6 +224,17 @@ describe('PricingAssistant.modalComponent', () => {
       expect(component.manualPriceGPMToDisplay).toBe(15);
     });
 
+    test('should update the manualPriceToDisplay and manualPriceGPMToDisplay with init values', () => {
+      component.manualPriceData.quotationDetail.price = 100;
+      component.manualPriceData.quotationDetail.gpm = 15;
+      component.manualPriceChanged([
+        { key: 'price', value: 0 },
+        { key: 'gpm', value: null },
+      ]);
+      expect(component.manualPriceToDisplay).toBe(100);
+      expect(component.manualPriceGPMToDisplay).toBe(15);
+    });
+
     test('should call the facades method', () => {
       component['fPricingFacade'].changePrice = jest.fn();
       component.manualPriceChanged([

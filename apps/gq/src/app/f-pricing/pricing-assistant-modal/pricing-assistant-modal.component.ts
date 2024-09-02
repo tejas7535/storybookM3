@@ -163,6 +163,14 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
     this.manualPriceToDisplay = kpis.find((kpi) => kpi.key === 'price').value;
     this.manualPriceGPMToDisplay = kpis.find((kpi) => kpi.key === 'gpm').value;
 
+    // If kpi price is falsy (0, null, undefined etc.) set initial values from quotation detail.
+    // This is needed for example when we open Pricing Assistant with Manual price currently selected
+    // or click Add Manual Price option for the first time. (See GQUOTE-4884)
+    if (!this.manualPriceToDisplay) {
+      this.manualPriceToDisplay = this.manualPriceData.quotationDetail.price;
+      this.manualPriceGPMToDisplay = this.manualPriceData.quotationDetail.gpm;
+    }
+
     this.fPricingFacade.changePrice(this.manualPriceToDisplay);
   }
 
