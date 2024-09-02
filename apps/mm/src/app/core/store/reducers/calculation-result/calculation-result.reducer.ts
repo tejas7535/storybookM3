@@ -10,6 +10,13 @@ export const initialState: CalculationResultState = {
 export const calculationResultReducer = createReducer(
   initialState,
   on(
+    CalculationResultActions.fetchCalculationResultResourcesLinks,
+    (state): CalculationResultState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on(
     CalculationResultActions.fetchCalculationJsonResult,
     (state): CalculationResultState => ({
       ...state,

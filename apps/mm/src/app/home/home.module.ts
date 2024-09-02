@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
+import { ENV, getEnv } from '@mm/environments/environments.provider';
 import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -22,6 +23,7 @@ import { BearingSearchComponent } from './bearing-search/bearing-search.componen
 import { CalculationOptionsModule } from './calculation-options/calculations-options.module';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
+import { ReportResultPageComponent } from './report-result-page/report-result-page.component';
 import { ResultPageModule } from './result-page/result-page.module';
 
 @NgModule({
@@ -39,6 +41,7 @@ import { ResultPageModule } from './result-page/result-page.module';
     HorizontalSeparatorModule,
     CalculationOptionsModule,
     AppStoreButtonsComponent,
+    ReportResultPageComponent,
 
     // Dynamic Forms
     DynamicFormsModule.forRoot({
@@ -53,6 +56,12 @@ import { ResultPageModule } from './result-page/result-page.module';
       lazyListLoader: LazyListLoaderService,
       runtimeRequester: RuntimeRequesterService,
     }),
+  ],
+  providers: [
+    {
+      provide: ENV,
+      useFactory: getEnv,
+    },
   ],
 })
 export class HomeModule {}

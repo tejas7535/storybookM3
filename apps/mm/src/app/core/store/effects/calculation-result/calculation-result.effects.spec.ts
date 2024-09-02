@@ -10,6 +10,7 @@ import { Action } from '@ngrx/store';
 import { marbles } from 'rxjs-marbles';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
+import { CalculationParametersFacade } from '../../facades/calculation-parameters/calculation-parameters.facade';
 import { CalculationResultEffects } from './calculation-result.effects';
 
 describe('CalculationResultEffects', () => {
@@ -19,10 +20,16 @@ describe('CalculationResultEffects', () => {
 
   const resultPageServiceMock = {
     getJsonReport: jest.fn(),
+    getResult: jest.fn(),
   };
 
   const reportParserServiceMock = {
     parseResponse: jest.fn(),
+  };
+
+  const calculationParametersFacadeMock = {
+    getCalculationParameters$: of({}),
+    setCalculationParameters: jest.fn(),
   };
 
   const createService = createServiceFactory({
@@ -31,6 +38,10 @@ describe('CalculationResultEffects', () => {
       provideMockActions(() => actions$),
       { provide: ResultPageService, useValue: resultPageServiceMock },
       { provide: ReportParserService, useValue: reportParserServiceMock },
+      {
+        provide: CalculationParametersFacade,
+        useValue: calculationParametersFacadeMock,
+      },
     ],
   });
 
@@ -41,6 +52,71 @@ describe('CalculationResultEffects', () => {
 
   it('should be created', () => {
     expect(effects).toBeTruthy();
+  });
+
+  describe('fetchCalculationResultResourcesLinks$', () => {
+    it('should fetch calculation result resources links', () => {
+      const getResultSpy = jest
+        .spyOn(resultPageServiceMock, 'getResult')
+        .mockImplementation(() =>
+          of({ jsonReportUrl: 'https://bearing-api/report.json' })
+        );
+
+      return marbles((m) => {
+        const action =
+          CalculationResultActions.fetchCalculationResultResourcesLinks({
+            formProperties: {} as any,
+          });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CalculationResultActions.fetchCalculationJsonResult({
+            jsonReportUrl: 'https://bearing-api/report.json',
+          }),
+        });
+
+        m.expect(effects.fetchCalculationResultResourcesLinks$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(getResultSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should handle failure', () => {
+      const errorResponse = new HttpErrorResponse({
+        error: { detail: 'Error detail' },
+        status: 500,
+      });
+
+      jest
+        .spyOn(resultPageServiceMock, 'getResult')
+        .mockImplementation(() => throwError(() => errorResponse));
+
+      return marbles((m) => {
+        const action =
+          CalculationResultActions.fetchCalculationResultResourcesLinks({
+            formProperties: {} as any,
+          });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CalculationResultActions.fetchCalculationResultResourcesLinksFailure(
+            {
+              error: 'Error detail',
+            }
+          ),
+        });
+
+        m.expect(effects.fetchCalculationResultResourcesLinks$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })();
+    });
   });
 
   describe('fetchCalculationJsonResult$', () => {

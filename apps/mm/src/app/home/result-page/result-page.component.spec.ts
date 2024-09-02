@@ -1,8 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { of, throwError } from 'rxjs';
 
@@ -28,16 +29,17 @@ describe('ResultPageComponent', () => {
   const createComponent = createComponentFactory({
     component: ResultPageComponent,
     imports: [
-      HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       ReportModule,
       PushPipe,
       MatSnackBarModule,
-      RouterTestingModule,
       ApplicationInsightsModule.forRoot(environment.applicationInsights),
     ],
     declarations: [ResultPageComponent],
     providers: [
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      provideRouter([]),
       ResultPageService,
       {
         provide: MATERIAL_SANITY_CHECKS,

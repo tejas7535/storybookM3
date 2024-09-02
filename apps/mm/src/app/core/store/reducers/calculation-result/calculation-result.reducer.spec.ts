@@ -1,4 +1,5 @@
 import { CalculationResultActions } from '../../actions/calculation-result';
+import { CalculationParameters } from '../../models/calculation-parameters-state.model';
 import {
   CalculationResult,
   CalculationResultState,
@@ -6,6 +7,28 @@ import {
 import { calculationResultReducer } from './calculation-result.reducer';
 
 describe('CalculationParametersReducer', () => {
+  describe('fetch calculation result resources links', () => {
+    it('should set isLoading to true', () => {
+      const initialState: CalculationResultState = {
+        isLoading: false,
+      };
+
+      const newState = calculationResultReducer(
+        initialState,
+        CalculationResultActions.fetchCalculationResultResourcesLinks({
+          formProperties:
+            {} as Partial<CalculationParameters> as CalculationParameters,
+        })
+      );
+
+      expect(newState).toEqual(
+        expect.objectContaining({
+          isLoading: true,
+        })
+      );
+    });
+  });
+
   describe('fetch calculation result', () => {
     it('should set isLoading to true', () => {
       const initialState: CalculationResultState = {

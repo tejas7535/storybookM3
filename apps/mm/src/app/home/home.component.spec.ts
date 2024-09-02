@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -15,6 +16,7 @@ import {
   PageMetaStatus,
   RuntimeRequestService,
 } from '@caeonline/dynamic-forms';
+import { ENV, getEnv } from '@mm/environments/environments.provider';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -31,10 +33,7 @@ import { MMLocales, RestService } from '../core/services';
 import { LocaleService } from '../core/services/locale/locale.service';
 import { FormValue, FormValueProperty } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
-import {
-  PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
-  PAGE_MOUNTING_MANAGER_SEAT,
-} from './../shared/constants/dialog-constant';
+import { PAGE_MOUNTING_MANAGER_SEAT } from './../shared/constants/dialog-constant';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
 import { ResultPageModule } from './result-page/result-page.module';
@@ -83,7 +82,6 @@ describe('HomeComponent', () => {
 
       MockDirective(LetDirective),
       MockPipe(PushPipe),
-      HttpClientTestingModule,
 
       PagesStepperModule,
       ResultPageModule,
@@ -123,6 +121,9 @@ describe('HomeComponent', () => {
         },
       },
       provideMockStore({}),
+      provideHttpClientTesting(),
+      provideHttpClient(),
+      { provide: ENV, useValue: { ...getEnv() } },
     ],
     declarations: [HomeComponent],
   });
@@ -291,39 +292,6 @@ describe('HomeComponent', () => {
         component['stepper']
       );
       expect(component['resultPage'].send).not.toHaveBeenCalled();
-    });
-    it('should call next and fetch the result if currentPage 2 or 3 is valid and result is next', () => {
-      component.next = jest.fn();
-      Object.defineProperty(component['stepper'], 'hasResultNext', {
-        value: true,
-      });
-      Object.defineProperty(component['resultPage'], 'send', {
-        value: jest.fn(),
-      });
-
-      const mockedPageId = PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS;
-      const mockedPagedMetas: PagedMeta[] = [
-        {
-          metas: [],
-          controls: [{ pristine: false } as any],
-          valid$: of(true),
-          page: {
-            id: PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
-          } as PageMetaStatus,
-          children: [],
-        },
-      ];
-
-      component.checkTriggerNext(mockedPageId, mockedPagedMetas);
-
-      expect(component.next).toHaveBeenCalledWith(
-        mockedPageId,
-        mockedPagedMetas,
-        component['stepper']
-      );
-      expect(component['resultPage'].send).toHaveBeenCalledWith(
-        component['form']
-      );
     });
   });
 

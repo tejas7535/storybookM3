@@ -15,7 +15,6 @@ import {
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
 
 import { environment } from '../../../environments/environment';
 import { RawValue, RawValueContent, Result } from '../../shared/models';
@@ -44,8 +43,7 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   public constructor(
     private readonly resultPageService: ResultPageService,
     private readonly snackbar: MatSnackBar,
-    private readonly translocoService: TranslocoService,
-    private readonly calculationResultFacade: CalculationResultFacade
+    private readonly translocoService: TranslocoService
   ) {}
 
   public get errorMsg(): string {
@@ -74,6 +72,10 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public resetWizard(): void {
+    window.location.reload();
   }
 
   public send(form: UntypedFormGroup): void {
@@ -133,7 +135,7 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
 
     this.result$
       .pipe(
-        filter((result) => !!result?.pdfReportUrl || !!result?.jsonReportUrl),
+        filter((result) => !!result?.pdfReportUrl),
         take(1)
       )
       .subscribe((result) => {
@@ -144,15 +146,6 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
               this.pdfReportReady$.next(ready);
             });
         }
-        if (result.jsonReportUrl) {
-          this.calculationResultFacade.fetchCalculationResult(
-            result.jsonReportUrl
-          );
-        }
       });
-  }
-
-  public resetWizard(): void {
-    window.location.reload();
   }
 }

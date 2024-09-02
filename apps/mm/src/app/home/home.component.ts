@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Inject,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -28,6 +29,8 @@ import {
 
 import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
 import { TranslocoService } from '@jsverse/transloco';
+import { Environment } from '@mm/environments/environment.model';
+import { ENV } from '@mm/environments/environments.provider';
 import { AppDelivery } from '@mm/shared/models';
 
 import { DIALOG } from '../../mock';
@@ -79,6 +82,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
   @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
 
+  public isProduction = false;
+  public showCompactView = true;
+
   public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
   public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
@@ -125,8 +131,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService,
     private readonly localeService: LocaleService,
     private readonly restService: RestService,
-    private readonly homeStore: HomeStore
-  ) {}
+    private readonly homeStore: HomeStore,
+    @Inject(ENV) private readonly env: Environment
+  ) {
+    this.isProduction = this.env.production;
+  }
 
   public ngOnInit(): void {
     this.translocoService.langChanges$.subscribe((lang: string) => {
@@ -195,7 +204,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       currentPagedMeta.valid$.pipe(take(1)).subscribe((valid: any) => {
         if (valid && currentPageTouched) {
           this.next(currentPagedMeta.page.id, pagedMetas, this.stepper);
-          if (this.stepper.hasResultNext) {
+          if (this.stepper.hasResultNext && !this.showCompactView) {
             this.resultPage.send(this.form);
           }
         }

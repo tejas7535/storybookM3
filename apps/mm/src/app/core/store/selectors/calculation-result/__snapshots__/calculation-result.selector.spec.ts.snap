@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationResultSelector getCalculationInputs when inputs are defined should return inputs 1`] = `
+Array [
+  Object {
+    "hasNestedStructure": true,
+    "title": "some title",
+  },
+]
+`;
+
+exports[`CalculationResultSelector getCalculationMessages when messages are defined should return messages 1`] = `
+Object {
+  "errors": Array [],
+  "notes": Array [
+    "some note",
+  ],
+  "warnings": Array [],
+}
+`;

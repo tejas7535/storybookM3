@@ -1,0 +1,23 @@
+<div>
+  @if (isResultAvailable$ | ngrxPush) {
+    <schaeffler-result-report
+      class="flex h-full flex-row justify-between"
+      [reportInputs]="inputs$ | ngrxPush"
+      [messages]="messages$ | ngrxPush"
+      [isMessageSectionExpanded]="false"
+    >
+      <div class="h-32" report-main-content>
+        <p>main content will go here...</p>
+      </div>
+      <div report-right-sidebar>
+        <p>sidebar content will go here...</p>
+      </div>
+    </schaeffler-result-report>
+  } @else {
+    <div class="item-center flex content-center p-8">
+      <div class="ml-auto mr-auto">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+    </div>
+  }
+</div>
