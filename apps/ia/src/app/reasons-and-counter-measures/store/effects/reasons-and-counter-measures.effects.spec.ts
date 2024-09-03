@@ -9,41 +9,21 @@ import { marbles } from 'rxjs-marbles/marbles';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
-import { filterSelected } from '../../../core/store/actions';
 import {
+  getCurrentBenchmarkFilters,
   getCurrentFilters,
-  getSelectedTimeRange,
 } from '../../../core/store/selectors';
-import { FilterService } from '../../../filter-section/filter.service';
-import {
-  EmployeesRequest,
-  FilterDimension,
-  IdValue,
-  SelectedFilter,
-} from '../../../shared/models';
+import { EmployeesRequest, FilterDimension } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
-  comparedFilterDimensionSelected,
-  comparedFilterSelected,
-  loadComparedFilterDimensionData,
-  loadComparedFilterDimensionDataFailure,
-  loadComparedFilterDimensionDataSuccess,
-  loadComparedOrgUnits,
-  loadComparedOrgUnitsFailure,
-  loadComparedOrgUnitsSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
-  loadReasonsAndCounterMeasuresData,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
-import {
-  getComparedSelectedTimeRange,
-  getCurrentComparedFilters,
-} from '../selectors/reasons-and-counter-measures.selector';
 import { ReasonsAndCounterMeasuresEffects } from './reasons-and-counter-measures.effects';
 
 describe('ReasonsAndCounterMeasures Effects', () => {
@@ -53,7 +33,6 @@ describe('ReasonsAndCounterMeasures Effects', () => {
   let action: any;
   let effects: ReasonsAndCounterMeasuresEffects;
   let store: MockStore;
-  let filterService: FilterService;
 
   const error = {
     message: 'An error message occured',
@@ -70,12 +49,6 @@ describe('ReasonsAndCounterMeasures Effects', () => {
           getResignedEmployees: jest.fn(),
         },
       },
-      {
-        provide: FilterService,
-        useValue: {
-          getOrgUnits: jest.fn(),
-        },
-      },
     ],
   });
 
@@ -86,20 +59,19 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     reasonsAndCounterMeasuresService = spectator.inject(
       ReasonsAndCounterMeasuresService
     );
-    filterService = spectator.inject(FilterService);
     store = spectator.inject(MockStore);
   });
 
   describe('filterChange$', () => {
     test(
-      'should return loadReasonsAndCounterMeasuresData when url /reasons-and-counter-measures',
+      'should return loadReasonsWhyPeopleLeft when url /reasons-and-counter-measures',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
             url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
-        action = loadReasonsAndCounterMeasuresData();
+        action = loadReasonsWhyPeopleLeft();
         actions$ = m.hot('-', { a: action });
         const expected = m.cold('-');
 
@@ -108,7 +80,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     );
 
     test(
-      'should not return loadReasonsAndCounterMeasuresData when url different than /reasons-and-counter-measures',
+      'should not return loadReasonsWhyPeopleLeft when url different than /reasons-and-counter-measures',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
@@ -123,26 +95,35 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     );
   });
 
-  describe('loadReasonsAndCounterMeasuresData$', () => {
+  describe('benchmarkFilterChange$', () => {
     test(
-      'filterSelected - should do nothing when organization is not set',
+      'should return loadComparedReasonsWhyPeopleLeft when url /reasons-and-counter-measures',
       marbles((m) => {
-        const filter = new SelectedFilter('nice', {
-          id: 'best',
-          value: 'best',
-        });
-        action = filterSelected({ filter });
-        store.overrideSelector(
-          getCurrentFilters,
-          {} as EmployeesRequest as any
-        );
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = loadComparedReasonsWhyPeopleLeft();
+        actions$ = m.hot('-', { a: action });
+        const expected = m.cold('-');
 
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-        m.expect(effects.loadReasonsAndCounterMeasuresData$).toBeObservable(
-          expected
-        );
+    test(
+      'should not return loadComparedReasonsWhyPeopleLeft when url different than /reasons-and-counter-measures',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/different-path`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        actions$ = m.hot('-', { a: EMPTY });
+        const expected = m.cold('-');
+
+        m.expect(effects.benchmarkFilterChange$).toBeObservable(expected);
       })
     );
   });
@@ -151,17 +132,22 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
-      action = loadReasonsWhyPeopleLeft({ request });
+      request = {
+        filterDimension: FilterDimension.BOARD,
+        timeRange: '123|321',
+        value: 'B01',
+      } as EmployeesRequest;
+      action = loadReasonsWhyPeopleLeft();
     });
 
     test(
       'should return loadReasonsWhyPeopleLeftSuccess action when REST call is successful',
       marbles((m) => {
-        const data: ReasonForLeavingStats[] = [];
+        const data: ReasonForLeavingStats = {} as ReasonForLeavingStats;
         const result = loadReasonsWhyPeopleLeftSuccess({
           data,
         });
+        store.overrideSelector(getCurrentFilters, request);
 
         actions$ = m.hot('-a', { a: action });
 
@@ -192,6 +178,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getCurrentFilters, request);
 
         reasonsAndCounterMeasuresService.getReasonsWhyPeopleLeft = jest
           .fn()
@@ -206,57 +193,26 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     );
   });
 
-  describe('comparedFilterChange$', () => {
-    test(
-      'comparedFilterSelected - should trigger load actions if dimension, value and time range are set',
-      marbles((m) => {
-        const filterDimension = FilterDimension.ORG_UNIT;
-        const filter = new SelectedFilter(filterDimension, {
-          id: '123',
-          value: 'Awesome Date',
-        });
-        const timeRange = '123-321';
-        const request = {
-          filterDimension,
-          value: filter.idValue.id,
-          timeRange,
-        } as EmployeesRequest;
-
-        action = comparedFilterSelected({ filter });
-        store.overrideSelector(getCurrentComparedFilters, {
-          ...request,
-        });
-
-        const resultComparedReasonsWhyPeopleLeft =
-          loadComparedReasonsWhyPeopleLeft({
-            request,
-          });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-(b)', {
-          b: resultComparedReasonsWhyPeopleLeft,
-        });
-        m.expect(effects.comparedFilterChange$).toBeObservable(expected);
-      })
-    );
-  });
-
   describe('loadComparedReasonsWhyPeopleLeft$', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
-      action = loadComparedReasonsWhyPeopleLeft({ request });
+      request = {
+        filterDimension: FilterDimension.BOARD,
+        timeRange: '123|321',
+        value: 'B01',
+      } as EmployeesRequest;
+      action = loadComparedReasonsWhyPeopleLeft();
     });
 
     test(
       'should return loadComparedReasonsWhyPeopleLeftSuccess action when REST call is successful',
       marbles((m) => {
-        const data: ReasonForLeavingStats[] = [];
+        const data: ReasonForLeavingStats = {} as ReasonForLeavingStats;
         const result = loadComparedReasonsWhyPeopleLeftSuccess({
           data,
         });
+        store.overrideSelector(getCurrentBenchmarkFilters, request);
 
         actions$ = m.hot('-a', { a: action });
 
@@ -289,6 +245,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getCurrentBenchmarkFilters, request);
 
         reasonsAndCounterMeasuresService.getReasonsWhyPeopleLeft = jest
           .fn()
@@ -301,157 +258,6 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         expect(
           reasonsAndCounterMeasuresService.getReasonsWhyPeopleLeft
         ).toHaveBeenCalledWith(request);
-      })
-    );
-  });
-
-  describe('loadComparedOrgUnits', () => {
-    const searchFor = 'search';
-    const timeRange = '123|456';
-
-    beforeEach(() => {
-      action = loadComparedOrgUnits({ searchFor });
-      store.overrideSelector(getComparedSelectedTimeRange, {
-        id: timeRange,
-        value: timeRange,
-      });
-    });
-    test(
-      'should return loadComparedOrgUnitsSuccess action when REST call is successful',
-      marbles((m) => {
-        const items = [new IdValue('Department1', 'Department1')];
-        const result = loadComparedOrgUnitsSuccess({
-          items,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-c', { c: items });
-
-        const expected = m.cold('--b', { b: result });
-
-        filterService.getOrgUnits = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadComparedOrgUnits$).toBeObservable(expected);
-        m.flush();
-        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
-      })
-    );
-
-    test(
-      'should return loadComparedOrgUnitsFailure on REST error',
-      marbles((m) => {
-        const result = loadComparedOrgUnitsFailure({
-          errorMessage: error.message,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, error);
-        const expected = m.cold('--b', { b: result });
-
-        filterService.getOrgUnits = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadComparedOrgUnits$).toBeObservable(expected);
-        m.flush();
-        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
-      })
-    );
-  });
-
-  describe('loadFilterDimensionData', () => {
-    const searchFor = 'search';
-    const timeRange = '123|456';
-    const filterDimension = FilterDimension.BOARD;
-    const items = [new IdValue('Department1', 'Department1')];
-
-    beforeEach(() => {
-      action = loadComparedFilterDimensionData({ filterDimension, searchFor });
-      store.overrideSelector(getComparedSelectedTimeRange, {
-        id: timeRange,
-        value: timeRange,
-      });
-      action = loadComparedFilterDimensionData({ filterDimension, searchFor });
-    });
-
-    test(
-      'should return loadComparedFilterDimensionDataSuccess when REST call is successful',
-      marbles((m) => {
-        const result = loadComparedFilterDimensionDataSuccess({
-          filterDimension,
-          items,
-        });
-        store.overrideSelector(getSelectedTimeRange, {
-          id: '123',
-          value: 'avc',
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-c', { c: items });
-
-        const expected = m.cold('--b', { b: result });
-
-        filterService.getDataForFilterDimension = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
-        m.flush();
-        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
-          1
-        );
-      })
-    );
-
-    test(
-      'should return loadComparedFilterDimensionDataFailure on REST error',
-      marbles((m) => {
-        const result = loadComparedFilterDimensionDataFailure({
-          errorMessage: error.message,
-          filterDimension,
-        });
-        store.overrideSelector(getSelectedTimeRange, {
-          id: '123',
-          value: 'avc',
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, error);
-        const expected = m.cold('--b', { b: result });
-
-        filterService.getDataForFilterDimension = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadFilterDimensionData$).toBeObservable(expected);
-        m.flush();
-        expect(filterService.getDataForFilterDimension).toHaveBeenCalledTimes(
-          1
-        );
-      })
-    );
-  });
-
-  describe('comparedFilterDimensionSelected$', () => {
-    test(
-      'should return comparedFilterSelected action',
-      marbles((m) => {
-        const filterDimension = FilterDimension.BOARD;
-        const filter = new SelectedFilter('abcv', new IdValue('1', 'abc'));
-        const result = comparedFilterSelected({ filter });
-
-        action = comparedFilterDimensionSelected({ filterDimension, filter });
-
-        actions$ = m.cold('-a', { a: action });
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.comparedFilterDimensionSelected$).toBeObservable(
-          expected
-        );
       })
     );
   });

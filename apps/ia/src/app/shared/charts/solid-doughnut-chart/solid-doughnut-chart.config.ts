@@ -1,5 +1,5 @@
 import { EChartsOption, SeriesOption } from 'echarts';
-import { MediaUnit } from 'echarts/types/src/util/types';
+import { CallbackDataParams } from 'echarts/types/src/util/types';
 
 import { Color } from '../../models/color.enum';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
@@ -13,18 +13,24 @@ export function createSolidDoughnutChartBaseOptions(
     title: {
       text: config.title,
       textStyle: {
-        color: Color.BLACK,
-        fontSize: '1.5rem',
-        fontWeight: 'normal',
-      },
-      subtext: config.subTitle,
-      subtextStyle: {
-        color: Color.LIGHT_GREY,
-        fontSize: '1rem',
+        fontFamily: 'Noto Sans',
+        color: 'rgba(0, 0, 0, 0.60)',
+        fontStyle: 'normal',
+        fontWeight: 400,
+        align: 'center',
       },
     },
+    textStyle: {
+      fontFamily: 'Noto Sans',
+    },
     legend: {
-      show: false,
+      top: 'middle',
+      left: config.side === 'left' ? '0' : 'auto',
+      right: config.side === 'right' ? '0' : 'auto',
+      orient: 'vertical',
+      itemWidth: 8,
+      itemHeight: 8,
+      icon: 'circle',
     },
   };
   setTooltipFormatter(option, config.tooltipFormatter);
@@ -46,51 +52,46 @@ export function setTooltipFormatter(option: EChartsOption, formatter: string) {
   }
 }
 
-export function createSolidDoughnutChartSeries(title: string): SeriesOption[] {
+export function createSolidDoughnutChartSeries(
+  side: 'left' | 'right',
+  title: string
+): SeriesOption[] {
   return [
     {
-      name: title,
       type: 'pie',
+      radius: ['40%', '65%'],
+      center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
+      top: 0,
+      avoidLabelOverlap: true,
       label: {
-        formatter: '{d}%',
         position: 'inside',
-        color: Color.WHITE,
-        fontSize: '0.6rem',
+        formatter: (p: CallbackDataParams) => `${p.percent.toFixed(1)}%`,
       },
-      radius: ['65%', '95%'],
-      height: '80%',
-      center: ['50%', '50%'],
-      top: 'middle',
-    },
-  ];
-}
-
-export function createMediaQueries(): MediaUnit[] {
-  return [
-    {
-      query: {
-        minWidth: 450,
-        maxWidth: 750,
-      },
-      option: {
-        height: '70%',
+      labelLine: {
+        show: false,
       },
     },
     {
-      query: {
-        maxWidth: 450,
+      type: 'pie',
+      radius: ['0%', '0%'],
+      center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
+      top: 0,
+      avoidLabelOverlap: true,
+      label: {
+        position: 'center',
+        formatter: title,
       },
-      option: {
-        height: '80%',
+      labelLine: {
+        show: false,
       },
-    },
-    {
-      query: {
-        minWidth: 750,
-      },
-      option: {
-        height: '80%',
-      },
+      legendHoverLink: false,
+      data: [
+        {
+          value: 0,
+          name: '',
+          itemStyle: { color: 'transparent' },
+        },
+      ],
     },
   ];
 }

@@ -1,4 +1,7 @@
+import { Reason } from '.';
+
 export interface ReasonForLeavingStats {
-  actionReason: string;
-  leavers: number;
+  reasons: Reason[];
+  totalInterviews: number;
+  conductedInterviews: number;
 }

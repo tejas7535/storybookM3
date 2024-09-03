@@ -1,71 +1,30 @@
 <mat-card *transloco="let t; read: 'reasonsAndCounterMeasures'">
-  <h5 class="mb-5 font-bold">
-    {{ t('topFiveReasons.title') }}
+  <h5 class="font-bold">
+    {{ t('reasonsForLeaving.title') }}
   </h5>
-  <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-3">
-    <ia-filter
-      class="order-1 mt-8"
-      [layout]="filterLayout.SLIM"
-      [availableDimensions]="availableDimensions$ | ngrxPush"
-      [activeDimension]="activeDimension$ | ngrxPush"
-      [selectedDimensionIdValue]="selectedOrgUnit$ | ngrxPush"
-      [disableFilters]="true"
-      [timePeriods]="timePeriods$ | ngrxPush"
-      [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
-      [selectedTime]="selectedTime$ | ngrxPush"
-      [dimensionFilterTranslation]="dimensionFilterTranslation$ | ngrxPush"
-    >
-    </ia-filter>
-    <ia-reasons-for-leaving-chart
-      class="order-5 row-span-2 min-h-[592px] lg:order-2"
-      [isLoading]="reasonsLoading$ | ngrxPush"
-      [config]="reasonsChartConfig$ | ngrxPush"
-      [data]="chartData$ | ngrxPush"
-      [combinedLegend]="reasonsChartLegend$ | ngrxPush"
-      [orgUnit]="getOrgUnitShortName((selectedOrgUnit$ | ngrxPush)?.value)"
-      [comparedConfig]="comparedReasonsChartConfig$ | ngrxPush"
-      [comparedOrgUnit]="
-        getOrgUnitShortName((comparedSelectedOrgUnit$ | ngrxPush)?.value)
-      "
-    ></ia-reasons-for-leaving-chart>
-    <div class="relative order-3 mt-12 lg:order-3 lg:col-end-4 lg:mt-0">
-      <button
-        mat-stroked-button
-        class="!absolute !right-0 !-top-10"
-        [disabled]="!(comparedReasonsChartData$ | ngrxPush)"
-        (click)="resetCompareMode()"
-      >
-        {{ t('topFiveReasons.resetCompareMode') }}
-      </button>
-      <ia-filter
-        [layout]="filterLayout.SLIM"
-        [availableDimensions]="availableDimensions$ | ngrxPush"
-        [activeDimension]="comparedActiveDimension$ | ngrxPush"
-        [dimensionFilter]="comparedDimensionFilter$ | ngrxPush"
-        [orgUnitsLoading]="comparedSelectedOrgUnitLoading$ | ngrxPush"
-        [selectedDimensionIdValue]="comparedSelectedOrgUnit$ | ngrxPush"
-        [timePeriods]="timePeriods$ | ngrxPush"
-        [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
-        [selectedTime]="comparedSelectedTime$ | ngrxPush"
-        [dimensionFilterTranslation]="dimensionFilterTranslation$ | ngrxPush"
-        (selectDimension)="comparedDimensionSelected($event)"
-        (selectDimensionOption)="comparedFilterSelected($event)"
-        (autoCompleteInput)="comparedAutoCompleteOrgUnitsChange($event)"
-        (selectTimePeriod)="comparedTimePeriodSelected($event)"
-      >
-      </ia-filter>
+  <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-5">
+    <div class="flex flex-col lg:col-span-2">
+      <ia-reasons-for-leaving-chart
+        side="left"
+        [data]="reasonsChartData$ | ngrxPush"
+        [conductedInterviewsInfo]="conductedInterviewsInfo$ | ngrxPush"
+      ></ia-reasons-for-leaving-chart>
+      <ia-reasons-for-leaving-table [data]="reasonsTableData$ | ngrxPush">
+      </ia-reasons-for-leaving-table>
     </div>
-    <ia-reasons-for-leaving-table
-      class="order-2 lg:order-4"
-      [data]="reasonsTableData$ | ngrxPush"
-      [loading]="reasonsLoading$ | ngrxPush"
-    >
-    </ia-reasons-for-leaving-table>
-
-    <ia-reasons-for-leaving-table
-      class="order-4 lg:order-5"
-      [data]="comparedReasonsTableData$ | ngrxPush"
-    >
-    </ia-reasons-for-leaving-table>
+    <div class="lg:col-span-1"></div>
+    <div class="flex flex-col lg:col-span-2">
+      <ia-reasons-for-leaving-chart
+        side="right"
+        [data]="comparedReasonsChartData$ | ngrxPush"
+        [conductedInterviewsInfo]="comparedConductedInterviewsInfo$ | ngrxPush"
+      ></ia-reasons-for-leaving-chart>
+      <ia-reasons-for-leaving-table
+        class="w-full"
+        side="right"
+        [data]="comparedReasonsTableData$ | ngrxPush"
+      >
+      </ia-reasons-for-leaving-table>
+    </div>
   </div>
 </mat-card>

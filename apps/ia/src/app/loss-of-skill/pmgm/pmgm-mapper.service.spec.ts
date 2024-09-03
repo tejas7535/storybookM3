@@ -161,6 +161,22 @@ describe('PmgmMapperService', () => {
       };
     });
 
+    test('should return GREY when overallPerformanceRating is undefined', () => {
+      dto.overallPerformanceRating = undefined;
+
+      const result = service.calculateAssessment(dto);
+
+      expect(result).toBe(PmgmAssessment.GREY);
+    });
+
+    test('should return GREY when overallPerformanceRating is null', () => {
+      dto.overallPerformanceRating = null;
+
+      const result = service.calculateAssessment(dto);
+
+      expect(result).toBe(PmgmAssessment.GREY);
+    });
+
     test('should assess unrated when UNRATED rating', () => {
       dto.overallPerformanceRating = PerformanceRating.UNRATED;
       service.assessUnrated = jest.fn();

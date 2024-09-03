@@ -1,590 +1,160 @@
-import { translate, TranslocoModule } from '@jsverse/transloco';
-
-import { FilterData } from '../../../core/store/reducers/filter/filter.reducer';
-import { DoughnutChartData } from '../../../shared/charts/models';
-import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
-import {
-  Filter,
-  FilterDimension,
-  FilterKey,
-  IdValue,
-  SelectedFilter,
-  TimePeriod,
-} from '../../../shared/models';
+import { ReasonImpact } from '../../models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
-  getComparedOrgUnitsFilter,
-  getComparedReasonsChartConfig,
-  getComparedReasonsChartData,
+  getComparedConductedInterviewsInfo,
   getComparedReasonsData,
-  getComparedReasonsLoading,
-  getComparedReasonsTableData,
-  getComparedSelectedDimension,
-  getComparedSelectedDimensionFilter,
-  getComparedSelectedDimensionIdValue,
-  getComparedSelectedOrgUnitLoading,
-  getComparedSelectedTimePeriod,
-  getComparedSelectedTimeRange,
-  getCurrentComparedFilters,
-  getReasonsChartConfig,
-  getReasonsChartData,
-  getReasonsCombinedLegend,
-  getReasonsData,
+  getConductedInterviewsInfo,
+  getOverallComparedReasonsChartData,
+  getOverallComparedReasonsTableData,
+  getOverallReasonsChartData,
+  getOverallReasonsTableData,
   getReasonsLoading,
-  getReasonsTableData,
 } from './reasons-and-counter-measures.selector';
-import * as utils from './reasons-and-counter-measures.selector.utils';
-
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn((key) => key),
-}));
 
 describe('ReasonsAndCounterMeasures Selector', () => {
-  const leaverStats = [
-    {
-      position: 1,
-      actionReason: 'Family',
-      leavers: 10,
-      percentage: 0.38,
-    },
-    {
-      position: 2,
-      actionReason: 'Private',
-      leavers: 5,
-      percentage: 0.19,
-    },
-    {
-      position: 3,
-      actionReason: 'Opportunity',
-      leavers: 4,
-      percentage: 0.15,
-    },
-    {
-      position: 4,
-      actionReason: 'Leadership',
-      leavers: 3,
-      percentage: 0.12,
-    },
-    {
-      position: 5,
-      actionReason: 'Team spirit',
-      leavers: 2,
-      percentage: 0.77,
-    },
-    {
-      position: 6,
-      actionReason: 'Perspective',
-      leavers: 1,
-      percentage: 0.04,
-    },
-    {
-      position: 7,
-      actionReason: 'Atmosphere',
-      leavers: 1,
-      percentage: 0.04,
-    },
-  ];
-  const fakeState: ReasonsAndCounterMeasuresState = {
-    reasonsForLeaving: {
-      comparedSelectedDimension: FilterDimension.ORG_UNIT,
-      data: {
-        [FilterDimension.ORG_UNIT]: {
-          loading: true,
-          items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
-          errorMessage: '',
-        },
-      } as Record<FilterDimension, FilterData>,
-      comparedSelectedFilters: {
-        ids: [FilterDimension.ORG_UNIT, FilterKey.TIME_RANGE],
-        entities: {
-          [FilterDimension.ORG_UNIT]: {
-            name: FilterDimension.ORG_UNIT,
-            idValue: {
-              id: 'Schaeffler_IT_1',
-              value: 'Schaeffler_IT_1',
-            },
+  const fakeState: {
+    reasonsAndCounterMeasures: ReasonsAndCounterMeasuresState;
+  } = {
+    reasonsAndCounterMeasures: {
+      reasonsForLeaving: {
+        reasons: {
+          loading: false,
+          data: {
+            totalInterviews: 32,
+            conductedInterviews: 14,
+            reasons: [
+              {
+                reason: 'Reason 1',
+                detailedReason: 'Detailed Reason 1',
+                impact: ReasonImpact.HIGH,
+              },
+            ],
           },
-          [FilterKey.TIME_RANGE]: {
-            name: FilterKey.TIME_RANGE,
-            idValue: {
-              id: '1577863715000|1609399715000',
-              value: '1/1/2020 - 12/31/2020',
-            },
-          },
+          errorMessage: 'Fancy Error',
         },
-      },
-      comparedSelectedTimePeriod: TimePeriod.YEAR,
-      reasons: {
-        data: leaverStats,
-        loading: false,
-        errorMessage: undefined,
-      },
-      comparedReasons: {
-        data: leaverStats,
-        loading: false,
-        errorMessage: undefined,
+        comparedReasons: {
+          loading: false,
+          data: {
+            totalInterviews: 32,
+            conductedInterviews: 14,
+            reasons: [
+              {
+                reason: 'Reason 2',
+                detailedReason: 'Detailed Reason 2',
+                impact: ReasonImpact.LOW,
+              },
+            ],
+          },
+          errorMessage: 'Fancy Error',
+        },
       },
     },
   };
-  const tooltipFormatter = '{b}<br><b>{c}</b> employees - <b>{d}%</b>';
-
-  describe('getComparedSelectedTimePeriod', () => {
-    test('should return selected time period', () => {
-      expect(getComparedSelectedTimePeriod.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.comparedSelectedTimePeriod
-      );
-    });
-  });
 
   describe('getReasonsData', () => {
-    test('should return data for reasons', () => {
-      expect(getReasonsData.projector(fakeState, true)).toEqual(
-        fakeState.reasonsForLeaving.reasons.data
-      );
+    test('should return reasons data', () => {
+      expect(getOverallReasonsTableData(fakeState)).toEqual([
+        {
+          leavers: 1,
+          percentage: 100,
+          rank: 1,
+          reason: 'Reason 1',
+        },
+      ]);
     });
   });
 
-  describe('getReasonsTableData', () => {
-    test('should return data for table', () => {
-      const expectedResult = [
+  describe('getOverallReasonsTableData', () => {
+    test('shuold map reasons', () => {
+      expect(getOverallReasonsTableData(fakeState)).toEqual([
         {
-          actionReason: 'Family',
-          leavers: 10,
-          percentage: 38.5,
-          position: 1,
-        },
-        {
-          actionReason: 'Private',
-          leavers: 5,
-          percentage: 19.2,
-          position: 2,
-        },
-        {
-          actionReason: 'Opportunity',
-          leavers: 4,
-          percentage: 15.4,
-          position: 3,
-        },
-        {
-          actionReason: 'Leadership',
-          leavers: 3,
-          percentage: 11.5,
-          position: 4,
-        },
-        {
-          actionReason: 'Team spirit',
-          leavers: 2,
-          percentage: 7.7,
-          position: 5,
-        },
-        {
-          actionReason: 'Perspective',
           leavers: 1,
-          percentage: 3.8,
-          position: 6,
+          percentage: 100,
+          rank: 1,
+          reason: 'Reason 1',
         },
-        {
-          actionReason: 'Atmosphere',
-          leavers: 1,
-          percentage: 3.8,
-          position: 6,
-        },
-      ];
-
-      expect(getReasonsTableData.projector(leaverStats)).toEqual(
-        expectedResult
-      );
+      ]);
     });
   });
 
   describe('getReasonsLoading', () => {
-    test('should return loading status of reasons data', () => {
-      expect(getReasonsLoading.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.reasons.loading
-      );
+    test('should return loading', () => {
+      expect(getReasonsLoading(fakeState)).toBeFalsy();
     });
   });
 
-  describe('getReasonsChartData', () => {
-    test('should get data for chart', () => {
-      const expectedResult = [
-        { name: 'Family', value: 10 },
-        { name: 'Private', value: 5 },
-        { name: 'Opportunity', value: 4 },
-        { name: 'Leadership', value: 3 },
-        { name: 'Team spirit', value: 2 },
+  describe('getOverallReasonsChartData', () => {
+    test('should map reasons', () => {
+      expect(getOverallReasonsChartData(fakeState)).toEqual([
         {
-          name: 'reasonsAndCounterMeasures.topFiveReasons.chart.others',
-          value: 2,
+          name: 'Reason 1',
+          value: 1,
         },
-      ];
-      expect(getReasonsChartData.projector(leaverStats)).toEqual(
-        expectedResult
-      );
-    });
-
-    test('should get undefined as data for chart when data not ready', () => {
-      expect(getReasonsChartData.projector(undefined as any)).toBeDefined();
-    });
-
-    test('should get empty array as data for chart when no data', () => {
-      expect(getReasonsChartData.projector([])).toEqual([]);
+      ]);
     });
   });
 
-  describe('getReasonsChartConfig', () => {
-    beforeAll(() => {
-      (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
-      (utils.getColorsForChart as any) = jest.fn(() => []);
-    });
-
-    test('should return config for reasons chart', () => {
-      const beautifiedTimeRange = {
-        id: '123321',
-        value: '21.01.2020 - 21.01.2021',
-      };
-
-      expect(
-        getReasonsChartConfig.projector(
-          fakeState.reasonsForLeaving.reasons.data,
-          beautifiedTimeRange,
-          TimePeriod.YEAR,
-          []
-        )
-      ).toEqual({
-        title: beautifiedTimeRange.value,
-        subTitle: undefined,
-        tooltipFormatter,
-        color: [],
-      });
-    });
-
-    test('should return config with last 12 months title when selected', () => {
-      const beautifiedTimeRange = {
-        id: '123321',
-        value: '21.01.2020 - 21.01.2021',
-      };
-
-      expect(
-        getReasonsChartConfig.projector(
-          fakeState.reasonsForLeaving.reasons.data,
-          beautifiedTimeRange,
-          TimePeriod.LAST_12_MONTHS,
-          []
-        )
-      ).toEqual({
-        title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
-        subTitle: undefined,
-        tooltipFormatter,
-        color: [],
-      });
-    });
-
-    test('should return no data sub title when no data', () => {
-      const beautifiedTimeRange = {
-        id: '123321',
-        value: '21.01.2020 - 21.01.2021',
-      };
-
-      expect(
-        getReasonsChartConfig.projector(
-          [],
-          beautifiedTimeRange,
-          TimePeriod.YEAR,
-          []
-        )
-      ).toEqual({
-        title: beautifiedTimeRange.value,
-        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
-        tooltipFormatter,
-        color: [],
-      });
-    });
-  });
-
-  describe('getComparedOrgUnitsFilter', () => {
-    test('should return compared organization units filter', () => {
-      expect(
-        getComparedOrgUnitsFilter.projector(fakeState).options.length
-      ).toEqual(1);
-    });
-  });
-
-  describe('getComparedSelectedTimeRange', () => {
-    test('should return compared selected time range', () => {
-      expect(
-        getComparedSelectedTimeRange.projector(
-          Object.values(
-            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
-          )
-        )
-      ).toEqual({
-        id: '1577863715000|1609399715000',
-        value: '1/1/2020 - 12/31/2020',
-      });
-    });
-  });
-
-  describe('getComparedMomentSelectedTimeRange', () => {
-    test('should return compared selected time range', () => {
-      expect(
-        getComparedSelectedTimeRange.projector(
-          Object.values(
-            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
-          )
-        )
-      ).toEqual({
-        id: '1577863715000|1609399715000',
-        value: '1/1/2020 - 12/31/2020',
-      });
-    });
-  });
-
-  describe('getComparedSelectedDimension', () => {
-    test('should return compared selected dimension', () => {
-      expect(getComparedSelectedDimension.projector(fakeState)).toEqual(
-        FilterDimension.ORG_UNIT
-      );
-    });
-  });
-
-  describe('getComparedSelectedOrgUnitLoading', () => {
-    test('should return compared org unit loading status', () => {
-      expect(
-        getComparedSelectedOrgUnitLoading.projector(
-          fakeState,
-          FilterDimension.ORG_UNIT
-        )
-      ).toBeTruthy();
-    });
-  });
-
-  describe('getCurrentComparedFilters', () => {
-    test('should return currently compared selected filters and time range', () => {
-      const filterDimension = FilterDimension.BOARD;
-      const value = new IdValue('BR04', 'Finance');
-      const timeRange = new IdValue('last12Months', '123-321');
-
-      expect(
-        getCurrentComparedFilters.projector(filterDimension, value, timeRange)
-      ).toEqual({
-        filterDimension,
-        value: value.id,
-        timeRange: timeRange.id,
+  describe('getConductedInterviewsInfo', () => {
+    test('should return conducted interviews info', () => {
+      expect(getConductedInterviewsInfo(fakeState)).toEqual({
+        conducted: 14,
+        percentage: 43.8,
       });
     });
   });
 
   describe('getComparedReasonsData', () => {
-    test('should return compared reason data', () => {
-      expect(getComparedReasonsData.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.comparedReasons.data
-      );
+    test('should return compared reasons data', () => {
+      expect(getComparedReasonsData(fakeState)).toEqual({
+        totalInterviews: 32,
+        conductedInterviews: 14,
+        reasons: [
+          {
+            reason: 'Reason 2',
+            detailedReason: 'Detailed Reason 2',
+            impact: ReasonImpact.LOW,
+          },
+        ],
+      });
     });
   });
 
-  describe('getComparedReasonsTableData', () => {
-    test('should return compared reason data', () => {
-      const expectedResult = utils.mapReasonsToTableData(
-        fakeState.reasonsForLeaving.comparedReasons.data
-      );
-      expect(
-        getComparedReasonsTableData.projector(
-          fakeState.reasonsForLeaving.comparedReasons.data
-        )
-      ).toEqual(expectedResult);
+  describe('getOverallComparedReasonsTableData', () => {
+    test('shuold map reasons', () => {
+      expect(getOverallComparedReasonsTableData(fakeState)).toEqual([
+        {
+          leavers: 1,
+          percentage: 100,
+          rank: 1,
+          reason: 'Reason 2',
+        },
+      ]);
     });
   });
 
   describe('getComparedReasonsLoading', () => {
-    test('should return loading status of reasons data', () => {
-      expect(getComparedReasonsLoading.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.comparedReasons.loading
-      );
+    test('should return loading', () => {
+      expect(getReasonsLoading(fakeState)).toBeFalsy();
     });
   });
 
-  describe('getComparedReasonsChartData', () => {
-    test('should return top 5 reasons if reasons set', () => {
-      (utils.getTop5ReasonsForChart as any) = jest.fn(() => []);
-      expect(
-        getComparedReasonsChartData.projector(
-          fakeState.reasonsForLeaving.comparedReasons.data
-        )
-      ).toEqual([]);
-      expect(utils.getTop5ReasonsForChart).toHaveBeenCalledWith(leaverStats);
-    });
-
-    test('should return undefined if reasons not set', () => {
-      (utils.getTop5ReasonsForChart as any) = jest.fn(() => []);
-      expect(
-        getComparedReasonsChartData.projector(undefined as any)
-      ).toBeUndefined();
-      expect(utils.getTop5ReasonsForChart).not.toHaveBeenCalled();
+  describe('getOverallComparedReasonsChartData', () => {
+    test('should map reasons', () => {
+      expect(getOverallComparedReasonsChartData(fakeState)).toEqual([
+        {
+          name: 'Reason 2',
+          value: 1,
+        },
+      ]);
     });
   });
 
-  describe('getComparedReasonsChartConfig', () => {
-    beforeAll(() => {
-      (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
-      (utils.getColorsForChart as any) = jest.fn(() => []);
-    });
-
-    test('should return config for reasons chart', () => {
-      const beautifiedTimeRange = {
-        id: '21.01.2020 - 21.01.2021',
-        value: '21.01.2020 - 21.01.2021',
-      };
-
-      expect(
-        getComparedReasonsChartConfig.projector(
-          fakeState.reasonsForLeaving.comparedReasons.data,
-          beautifiedTimeRange,
-          TimePeriod.YEAR,
-          [],
-          []
-        )
-      ).toEqual({
-        title: beautifiedTimeRange.value,
-        subTitle: undefined,
-        tooltipFormatter,
-        color: [],
+  describe('getComparedConductedInterviewsInfo', () => {
+    test('should return conducted interviews info', () => {
+      expect(getComparedConductedInterviewsInfo(fakeState)).toEqual({
+        conducted: 14,
+        percentage: 43.8,
       });
-    });
-
-    test('should return config with last 12 months title when selected', () => {
-      const beautifiedTimeRange = {
-        id: '21.01.2020 - 21.01.2021',
-        value: '21.01.2020 - 21.01.2021',
-      };
-
-      expect(
-        getComparedReasonsChartConfig.projector(
-          fakeState.reasonsForLeaving.comparedReasons.data,
-          beautifiedTimeRange,
-          TimePeriod.LAST_12_MONTHS,
-          [],
-          []
-        )
-      ).toEqual({
-        title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
-        subTitle: undefined,
-        tooltipFormatter,
-        color: [],
-      });
-    });
-
-    test('should return no data sub title when no data', () => {
-      const beautifiedTimeRange = {
-        id: '21.01.2020 - 21.01.2021',
-        value: '21.01.2020 - 21.01.2021',
-      };
-
-      expect(
-        getComparedReasonsChartConfig.projector(
-          [],
-          beautifiedTimeRange,
-          TimePeriod.YEAR,
-          [],
-          []
-        )
-      ).toEqual({
-        title: beautifiedTimeRange.value,
-        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
-        tooltipFormatter,
-        color: [],
-      });
-    });
-  });
-
-  describe('getReasonsCombinedLegend', () => {
-    beforeAll(() => {
-      (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
-      (utils.getColorsForChart as any) = jest.fn((data, comparedData) =>
-        data && comparedData
-          ? ['red', 'blue', 'green', 'yellow', 'orange']
-          : ['yellow', 'orange']
-      );
-    });
-
-    test('should return legend when compared data undefined', () => {
-      const data: DoughnutChartData[] = [
-        new DoughnutChartData(0, 'January'),
-        new DoughnutChartData(1, 'February'),
-      ];
-      const expectedLegend = [
-        new ChartLegendItem(data[0].name, 'yellow', undefined, true),
-        new ChartLegendItem(data[1].name, 'orange', undefined, true),
-      ];
-
-      const result = getReasonsCombinedLegend.projector(
-        data,
-        undefined as DoughnutChartData[]
-      );
-
-      expect(result).toEqual(expectedLegend);
-    });
-
-    test('should return combined legend when compared data defined', () => {
-      const data: DoughnutChartData[] = [
-        new DoughnutChartData(0, 'January'),
-        new DoughnutChartData(1, 'February'),
-      ];
-      const comparedData: DoughnutChartData[] = [
-        new DoughnutChartData(0, 'January'),
-        new DoughnutChartData(2, 'March'),
-        new DoughnutChartData(1, 'February'),
-      ];
-      const expectedLegend = [
-        new ChartLegendItem(data[0].name, 'yellow', undefined, true),
-        new ChartLegendItem(data[1].name, 'orange', undefined, true),
-        new ChartLegendItem(comparedData[1].name, 'blue', undefined, true),
-      ];
-      const result = getReasonsCombinedLegend.projector(data, comparedData);
-
-      expect(result).toEqual(expectedLegend);
-    });
-  });
-
-  describe('getComparedSelectedDimensionIdValue', () => {
-    test('should return selected dimension id value', () => {
-      const selectedDimension = FilterDimension.ORG_UNIT;
-      const filter = new SelectedFilter(
-        selectedDimension,
-        new IdValue('1', 'abc')
-      );
-      const selectedFilters: SelectedFilter[] = [filter];
-      const result = getComparedSelectedDimensionIdValue.projector(
-        selectedFilters,
-        selectedDimension
-      );
-      expect(result).toBe(filter.idValue);
-    });
-  });
-
-  describe('getComparedSelectedDimensionFilter', () => {
-    test('should return selected dimension filter', () => {
-      const selectedDimension = FilterDimension.ORG_UNIT;
-      const items = [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')];
-      const expected = new Filter(selectedDimension, items);
-      const result = getComparedSelectedDimensionFilter.projector(
-        fakeState,
-        selectedDimension
-      );
-
-      expect(result).toEqual(expected);
-    });
-
-    test('should return empty array when items undefined', () => {
-      const selectedDimension = FilterDimension.SEGMENT;
-      const result = getComparedSelectedDimensionFilter.projector(
-        fakeState,
-        selectedDimension
-      );
-      const expected = new Filter(selectedDimension, []);
-
-      expect(result).toEqual(expected);
     });
   });
 });

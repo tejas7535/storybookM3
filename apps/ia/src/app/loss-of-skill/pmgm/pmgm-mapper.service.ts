@@ -88,6 +88,10 @@ export class PmgmMapperService {
   calculateAssessment(dto: PmgmDataDto): PmgmAssessment {
     let result: PmgmAssessment;
 
+    if (!dto.overallPerformanceRating) {
+      return PmgmAssessment.GREY;
+    }
+
     switch (dto.overallPerformanceRating) {
       case PerformanceRating.UNRATED: {
         result = this.assessUnrated(dto.highRiskOfLoss, dto.highImpactOfLoss);

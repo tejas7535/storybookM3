@@ -1,17 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
-import { ColDef, RowDataUpdatedEvent } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 
-import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import { ReasonForLeavingRank } from '../../models';
 
 @Component({
   selector: 'ia-reasons-for-leaving-table',
   templateUrl: './reasons-for-leaving-table.component.html',
+  styles: [
+    `
+      ::ng-deep .ia-ag-header-align-right {
+        .ag-header-cell-label {
+          justify-content: flex-end;
+        }
+      }
+    `,
+  ],
 })
 export class ReasonsForLeavingTableComponent implements OnInit {
   @Input() loading: boolean; // not used at the moment
-  @Input() data: ReasonForLeavingStats[];
+  @Input() data: ReasonForLeavingRank[];
 
   components = {};
 
@@ -38,45 +47,42 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = [
       {
-        field: 'position',
+        field: 'rank',
         headerName: translate(
-          'reasonsAndCounterMeasures.topFiveReasons.table.position'
+          'reasonsAndCounterMeasures.reasonsForLeaving.table.position'
         ),
         sort: 'asc',
         floatingFilter: false,
+        minWidth: 86,
       },
       {
-        field: 'actionReason',
+        field: 'reason',
         headerName: translate(
-          'reasonsAndCounterMeasures.topFiveReasons.table.actionReason'
+          'reasonsAndCounterMeasures.reasonsForLeaving.table.actionReason'
         ),
+        flex: 5,
       },
       {
         field: 'percentage',
         headerName: translate(
-          'reasonsAndCounterMeasures.topFiveReasons.table.percentage'
+          'reasonsAndCounterMeasures.reasonsForLeaving.table.percentage'
         ),
         type: 'numericColumn',
-        headerClass: this.headerClass,
+        headerClass: [this.headerClass, 'ia-ag-header-align-right'],
         filter: 'agNumberColumnFilter',
+        valueGetter: (params) => params.data.percentage.toFixed(1),
+        minWidth: 82,
       },
       {
         field: 'leavers',
         headerName: translate(
-          'reasonsAndCounterMeasures.topFiveReasons.table.leavers'
+          'reasonsAndCounterMeasures.reasonsForLeaving.table.leavers'
         ),
         type: 'numericColumn',
-        headerClass: this.headerClass,
+        headerClass: [this.headerClass, 'ia-ag-header-align-right'],
         filter: 'agNumberColumnFilter',
+        minWidth: 94,
       },
     ];
-    if (!this.data) {
-      this.data = [];
-    }
-  }
-
-  onRowDataUpdated(event: RowDataUpdatedEvent): void {
-    // autosize reason column to show full content
-    event.columnApi.autoSizeColumns(['detailedReason'], false);
   }
 }

@@ -3,7 +3,7 @@ import { ECharts } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedModule } from '../../shared.module';
-import { LegendSelectAction } from '../models';
+import { LegendSelectAction, SolidDoughnutChartConfig } from '../models';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartComponent } from './solid-doughnut-chart.component';
 import * as doughnutConfig from './solid-doughnut-chart.config';
@@ -42,9 +42,10 @@ describe('SolidDoughnutChartComponent', () => {
 
   describe('initialConfig', () => {
     test('should set base options', () => {
-      const config = {
+      const config: SolidDoughnutChartConfig = {
         title: '2021',
         subTitle: 'Top 5 Reasons why people left',
+        side: 'left',
       };
 
       component.setCurrentData = jest.fn();
@@ -53,8 +54,7 @@ describe('SolidDoughnutChartComponent', () => {
 
       expect(
         doughnutConfig.createSolidDoughnutChartSeries
-      ).toHaveBeenCalledWith(config.title);
-      expect(doughnutConfig.createMediaQueries).toHaveBeenCalled();
+      ).toHaveBeenCalledWith('left', config.subTitle);
       expect(
         doughnutConfig.createSolidDoughnutChartBaseOptions
       ).toHaveBeenCalledWith(config);
@@ -70,60 +70,12 @@ describe('SolidDoughnutChartComponent', () => {
         { value: 12, name: 'Third' },
       ];
 
-      component.resetSelection = jest.fn();
       component.data = data;
 
-      expect((component.mergeOptions.series as any[])[0].data).toHaveLength(3);
-      expect((component.mergeOptions.series as any[])[0].data).toContain(
-        data[0]
-      );
-      expect((component.mergeOptions.series as any[])[0].data).toContain(
-        data[1]
-      );
-      expect((component.mergeOptions.series as any[])[0].data).toContain(
-        data[2]
-      );
-      expect(component.resetSelection).toHaveBeenCalledTimes(1);
-    });
-
-    test('should update legend in merge options', () => {
-      const data = [
-        { value: 23, name: 'First' },
-        { value: 34, name: 'Second' },
-        { value: 12, name: 'Third' },
-      ];
-
-      component.resetSelection = jest.fn();
-      component.data = data;
-
-      expect(component.mergeOptions.legend).toBeDefined();
-      expect(component.resetSelection).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setTitlePosition', () => {
-    test('should set title centered', () => {
-      component.mergeOptions = { title: { top: 0, left: 2 } };
-      component.setTitlePosition(true);
-
-      expect(
-        (component.mergeOptions.title as { top: string | number }).top
-      ).toEqual('middle');
-      expect(
-        (component.mergeOptions.title as { left: string | number }).left
-      ).toEqual('center');
-    });
-
-    test('should set title top and left', () => {
-      component.mergeOptions = { title: { top: 0, left: 2 } };
-      component.setTitlePosition(false);
-
-      expect(
-        (component.mergeOptions.title as { top: string | number }).top
-      ).toEqual('top');
-      expect(
-        (component.mergeOptions.title as { left: string | number }).left
-      ).toEqual('auto');
+      expect((component.mergeOptions.series as any).data).toHaveLength(3);
+      expect((component.mergeOptions.series as any).data).toContain(data[0]);
+      expect((component.mergeOptions.series as any).data).toContain(data[1]);
+      expect((component.mergeOptions.series as any).data).toContain(data[2]);
     });
   });
 

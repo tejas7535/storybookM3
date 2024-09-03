@@ -13,7 +13,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { SharedModule } from '../../shared.module';
-import { CombinedLegendModule } from '../external-legend/external-legend.module';
 import { SolidDoughnutChartComponent } from './solid-doughnut-chart.component';
 
 echarts.use([
@@ -30,7 +29,6 @@ echarts.use([
     SharedModule,
     NgxEchartsModule.forRoot({ echarts }),
     LoadingSpinnerModule,
-    CombinedLegendModule,
   ],
   exports: [SolidDoughnutChartComponent],
 })

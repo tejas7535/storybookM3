@@ -22,14 +22,14 @@ export class ReasonsAndCounterMeasuresService {
 
   getReasonsWhyPeopleLeft(
     employeesRequest: EmployeesRequest
-  ): Observable<ReasonForLeavingStats[]> {
+  ): Observable<ReasonForLeavingStats> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
     );
 
-    return this.http.get<ReasonForLeavingStats[]>(
+    return this.http.get<ReasonForLeavingStats>(
       `${ApiVersion.V1}/${this.REASONS_WHY_PEOPLE_LEFT}`,
       {
         params,
