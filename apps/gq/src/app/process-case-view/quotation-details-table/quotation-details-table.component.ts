@@ -174,13 +174,9 @@ export class QuotationDetailsTableComponent implements OnInit {
   onColumnChange(event: SortChangedEvent): void {
     this.updateColumnData(event);
 
-    const viewId = this.agGridStateService.getCurrentViewId();
-
-    if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
-      this.agGridStateService.setColumnStateForCurrentView(
-        event.columnApi.getColumnState()
-      );
-    }
+    this.agGridStateService.setColumnStateForCurrentView(
+      event.columnApi.getColumnState()
+    );
   }
 
   onFilterChanged(event: FilterChangedEvent): void {
@@ -255,10 +251,15 @@ export class QuotationDetailsTableComponent implements OnInit {
       .subscribe((colState: ColumnState[]) => {
         if (colState?.length === 0) {
           event?.columnApi?.resetColumnState();
+          this.autoSizeColumns(event);
         } else {
+          // for the default view, only the width, not the order should be applied
+          const viewId = this.agGridStateService.getCurrentViewId();
+          const applyOrder = viewId !== this.agGridStateService.DEFAULT_VIEW_ID;
+
           event?.columnApi?.applyColumnState({
             state: colState,
-            applyOrder: true,
+            applyOrder,
           });
         }
       });
@@ -273,7 +274,8 @@ export class QuotationDetailsTableComponent implements OnInit {
       });
   }
 
-  onFirstDataRendered(event: FirstDataRenderedEvent): void {
+  private autoSizeColumns(event: GridReadyEvent): void {
+    // do not apply for columns with custom cell renderer
     const columnIds = event.columnApi
       .getAllGridColumns()
       .map((col) => col.getColId())
@@ -286,7 +288,9 @@ export class QuotationDetailsTableComponent implements OnInit {
           ].includes(s as ColumnFields)
       );
     columnIds.forEach((colId) => event.columnApi.autoSizeColumn(colId, false));
+  }
 
+  onFirstDataRendered(event: FirstDataRenderedEvent): void {
     // highlight the row of the selected quotationDetail
     if (this.route.snapshot.queryParams.gqPositionId) {
       const index = this.rowData.findIndex(

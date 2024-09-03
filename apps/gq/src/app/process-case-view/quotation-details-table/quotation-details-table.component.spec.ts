@@ -458,18 +458,6 @@ describe('QuotationDetailsTableComponent', () => {
       ).toHaveBeenCalledWith(MOCK_QUOTATION_ID.toString(), filterModels);
     });
 
-    test('should NOT set column state for default column', () => {
-      component['agGridStateService'].getCurrentViewId = jest
-        .fn()
-        .mockReturnValue(0);
-
-      component.onColumnChange(event);
-
-      expect(
-        component['agGridStateService'].setColumnStateForCurrentView
-      ).toHaveBeenCalledTimes(0);
-    });
-
     test('should NOT set column filters for default column', () => {
       component['agGridStateService'].getCurrentViewId = jest
         .fn()
@@ -499,6 +487,11 @@ describe('QuotationDetailsTableComponent', () => {
         columnApi: {
           resetColumnState: jest.fn(),
           applyColumnState: jest.fn(),
+          getAllGridColumns: jest.fn(() => [
+            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
+            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
+          ]),
+          autoSizeColumn: jest.fn(),
         },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
@@ -524,6 +517,8 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnData
       ).toHaveBeenCalledTimes(1);
+      expect(mockEvent.columnApi.resetColumnState).toHaveBeenCalledTimes(1);
+      expect(mockEvent.columnApi.getAllGridColumns).toHaveBeenCalledTimes(1);
     });
 
     test('should NOT set column data if already exist', () => {
@@ -563,6 +558,14 @@ describe('QuotationDetailsTableComponent', () => {
           forEachNodeAfterFilterAndSort: jest.fn(),
           ensureIndexVisible: jest.fn(),
         },
+        columnApi: {
+          getAllGridColumns: jest.fn(() => [
+            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
+            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
+          ]),
+          resetColumnState: jest.fn(),
+          autoSizeColumn: jest.fn(),
+        },
       } as any;
 
       component.selectedQuotationIds = ['1234'];
@@ -587,32 +590,9 @@ describe('QuotationDetailsTableComponent', () => {
   });
 
   describe('onFirstDataRenderer', () => {
-    test('should call autoSizeAllColumns', () => {
-      component.onGridReady = jest.fn();
-      const params = {
-        columnApi: {
-          getAllGridColumns: jest.fn(() => [
-            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
-            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
-          ]),
-          setFilterModel: jest.fn(),
-          resetColumnState: jest.fn(),
-          autoSizeColumn: jest.fn(),
-        },
-      } as any;
-
-      component.onFirstDataRendered(params);
-
-      expect(params.columnApi.getAllGridColumns).toHaveBeenCalledTimes(1);
-      expect(params.columnApi.autoSizeColumn).toHaveBeenCalledTimes(1);
-    });
     test('should scroll to QuotationDetail when routeSnapshot contains gqPositionsId', () => {
       const params = {
         columnApi: {
-          getAllGridColumns: jest.fn(() => [
-            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
-            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
-          ]),
           setFilterModel: jest.fn(),
           resetColumnState: jest.fn(),
           autoSizeColumn: jest.fn(),
