@@ -139,6 +139,11 @@ export class LostJobProfilesComponent {
     suppressMenu: true,
     flex: 1,
     headerClass: () => 'bg-selected-overlay',
+    filterParams: {
+      buttons: ['reset', 'apply'],
+      closeOnApply: true,
+      closeOnReset: true,
+    },
   };
 
   currentDate = moment.utc();

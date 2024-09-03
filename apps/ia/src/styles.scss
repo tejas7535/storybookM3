@@ -59,6 +59,14 @@ button {
     border-left: none;
     border-right: none;
   }
+
+  .ag-filter-apply-panel {
+    @apply flex items-center justify-between;
+
+    :nth-child(1) {
+      @apply m-0;
+    }
+  }
 }
 
 mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {

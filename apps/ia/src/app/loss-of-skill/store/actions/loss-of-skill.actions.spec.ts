@@ -1,6 +1,10 @@
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
-import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
+import {
+  LostJobProfilesResponse,
+  PmgmData,
+  WorkforceResponse,
+} from '../../models';
 import {
   clearLossOfSkillDimensionData,
   loadJobProfiles,
@@ -12,6 +16,9 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
+  loadPmgmData,
+  loadPmgmDataFailure,
+  loadPmgmDataSuccess,
 } from './loss-of-skill.actions';
 
 describe('LossOfSkill Actions', () => {
@@ -110,6 +117,41 @@ describe('LossOfSkill Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Loss of Skill] Load Loss of Skill Leavers Failure',
+    });
+  });
+
+  describe('loadPmgmData', () => {
+    test('should create an action', () => {
+      const request = {} as EmployeesRequest;
+      const action = loadPmgmData({ request });
+
+      expect(action).toEqual({
+        request,
+        type: '[Loss of Skill] Load PMGM Data',
+      });
+    });
+  });
+
+  describe('loadPmgmDataSuccess', () => {
+    test('should create an action', () => {
+      const data = [] as PmgmData[];
+      const action = loadPmgmDataSuccess({ data });
+
+      expect(action).toEqual({
+        data,
+        type: '[Loss of Skill] Load PMGM Data Success',
+      });
+    });
+  });
+
+  describe('loadPmgmDataFailure', () => {
+    test('should create an action', () => {
+      const action = loadPmgmDataFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Loss of Skill] Load PMGM Data Failure',
+      });
     });
   });
 });

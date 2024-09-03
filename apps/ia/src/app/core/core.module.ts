@@ -34,7 +34,7 @@ import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { HttpHeaderInterceptor } from '../shared/http/http-header.interceptor';
-import { PERSON_ALERT_ICON } from '../shared/models/svg';
+import { PERSON_ALERT_ICON, TALL_HAT_GENTLEMAN } from '../shared/models/svg';
 import { StoreModule } from './store';
 
 const azureConfig = new AzureConfig(
@@ -120,6 +120,10 @@ export class CoreModule {
     iconRegistry.addSvgIconLiteral(
       'person-alert',
       sanitizer.bypassSecurityTrustHtml(PERSON_ALERT_ICON)
+    );
+    iconRegistry.addSvgIconLiteral(
+      'tall-hat-gentleman',
+      sanitizer.bypassSecurityTrustHtml(TALL_HAT_GENTLEMAN)
     );
   }
 }

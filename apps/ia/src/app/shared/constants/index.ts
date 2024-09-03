@@ -1,4 +1,4 @@
-import { FilterDimension } from '../models';
+import { FilterDimension, TimePeriod } from '../models';
 
 export const LOCAL_STORAGE_APP_KEY = 'ia';
 export const COMPANY_NAME = 'Schaeffler';
@@ -40,6 +40,23 @@ export const DIMENSIONS_WITH_2021_DATA = [
   FilterDimension.HR_LOCATION,
   FilterDimension.PERSONAL_AREA,
 ];
+
+export const DEFAULT_TIME_PERIOD_FILTERS = [
+  {
+    id: TimePeriod.LAST_12_MONTHS,
+    value: TimePeriod.LAST_12_MONTHS,
+  },
+  {
+    id: TimePeriod.YEAR,
+    value: TimePeriod.YEAR,
+  },
+  {
+    id: TimePeriod.MONTH,
+    value: TimePeriod.MONTH,
+  },
+];
+
+export const LOSS_OF_SKILL_MIN_YEAR = 2022;
 
 /** for autocomplete */
 export const ASYNC_SEARCH_MIN_CHAR_LENGTH = 2;

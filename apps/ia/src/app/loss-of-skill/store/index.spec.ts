@@ -1,8 +1,14 @@
 import { Action } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
-import { Employee, EmployeesRequest } from '../../shared/models';
-import { LostJobProfilesResponse, WorkforceResponse } from '../models';
+import { Employee, EmployeesRequest, LeavingType } from '../../shared/models';
+import {
+  LostJobProfilesResponse,
+  PmgmArrow,
+  PmgmAssessment,
+  PmgmData,
+  WorkforceResponse,
+} from '../models';
 import { initialState, lossOfSkillReducer, LossOfSkillState, reducer } from '.';
 import {
   clearLossOfSkillDimensionData,
@@ -15,6 +21,9 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
+  loadPmgmData,
+  loadPmgmDataFailure,
+  loadPmgmDataSuccess,
 } from './actions/loss-of-skill.actions';
 
 describe('LossOfSkill Reducer', () => {
@@ -121,7 +130,7 @@ describe('LossOfSkill Reducer', () => {
         ...initialState,
         workforce: {
           data: {} as WorkforceResponse,
-          errorMesssage: undefined,
+          errorMessage: undefined,
           loading: false,
         },
       };
@@ -145,7 +154,7 @@ describe('LossOfSkill Reducer', () => {
         ...initialState,
         workforce: {
           data: {} as WorkforceResponse,
-          errorMesssage: undefined,
+          errorMessage: undefined,
           loading: true,
         },
       };
@@ -166,7 +175,7 @@ describe('LossOfSkill Reducer', () => {
         ...initialState,
         workforce: {
           data: {} as WorkforceResponse,
-          errorMesssage: undefined,
+          errorMessage: undefined,
           loading: true,
         },
       };
@@ -174,7 +183,7 @@ describe('LossOfSkill Reducer', () => {
       const state = lossOfSkillReducer(fakeState, action);
 
       expect(state.workforce.loading).toBeFalsy();
-      expect(state.workforce.errorMesssage).toBe(errorMessage);
+      expect(state.workforce.errorMessage).toBe(errorMessage);
     });
   });
 
@@ -187,7 +196,7 @@ describe('LossOfSkill Reducer', () => {
         ...initialState,
         leavers: {
           data: {} as ExitEntryEmployeesResponse,
-          errorMesssage: undefined,
+          errorMessage: undefined,
           loading: false,
         },
       };
@@ -211,7 +220,7 @@ describe('LossOfSkill Reducer', () => {
         ...initialState,
         leavers: {
           data: {} as ExitEntryEmployeesResponse,
-          errorMesssage: undefined,
+          errorMessage: undefined,
           loading: true,
         },
       };
@@ -232,7 +241,7 @@ describe('LossOfSkill Reducer', () => {
         ...initialState,
         workforce: {
           data: {} as WorkforceResponse,
-          errorMesssage: undefined,
+          errorMessage: undefined,
           loading: true,
         },
       };
@@ -240,7 +249,76 @@ describe('LossOfSkill Reducer', () => {
       const state = lossOfSkillReducer(fakeState, action);
 
       expect(state.leavers.loading).toBeFalsy();
-      expect(state.leavers.errorMesssage).toBe(errorMessage);
+      expect(state.leavers.errorMessage).toBe(errorMessage);
+    });
+  });
+
+  describe('loadPmgmData', () => {
+    test('should set loading as true', () => {
+      const action = loadPmgmData({ request: {} as EmployeesRequest });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        pmgm: {
+          data: {} as PmgmData[],
+          errorMessage: undefined,
+          loading: false,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.pmgm.loading).toBeTruthy();
+      expect(state.pmgm.errorMessage).toBeUndefined();
+      expect(state.pmgm.data).toBeUndefined();
+    });
+  });
+
+  describe('loadPmgmDataSuccess', () => {
+    test('should set loading as false and set data', () => {
+      const data: PmgmData[] = [
+        {
+          employee: 'Hans',
+          managerChange: PmgmArrow.RIGHT,
+          fluctuationType: LeavingType.FORCED,
+          isManager: true,
+          assessment: PmgmAssessment.GREEN,
+        } as unknown as PmgmData,
+      ];
+      const action = loadPmgmDataSuccess({ data });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        pmgm: {
+          data: {} as PmgmData[],
+          errorMessage: undefined,
+          loading: true,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.pmgm.loading).toBeFalsy();
+      expect(state.pmgm.data).toBe(data);
+    });
+  });
+
+  describe('loadPmgmDataFailure', () => {
+    test('should set loading as false and set error message', () => {
+      const action = loadPmgmDataFailure({
+        errorMessage,
+      });
+      const fakeState: LossOfSkillState = {
+        ...initialState,
+        pmgm: {
+          data: {} as PmgmData[],
+          errorMessage: undefined,
+          loading: true,
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.pmgm.loading).toBeFalsy();
+      expect(state.pmgm.errorMessage).toBe(errorMessage);
     });
   });
 

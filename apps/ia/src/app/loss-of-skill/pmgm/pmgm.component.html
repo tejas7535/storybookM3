@@ -1,0 +1,17 @@
+<ag-grid-angular
+  #agGrid
+  class="ag-theme-material border-border w-full h-[450px] border"
+  [defaultColDef]="defaultColDef"
+  [columnDefs]="columnDefs"
+  [components]="components"
+  [scrollbarWidth]="8"
+  [animateRows]="true"
+  [suppressCsvExport]="true"
+  [suppressExcelExport]="true"
+  [suppressCellFocus]="true"
+  [rowSelection]="'multiple'"
+  [suppressRowClickSelection]="true"
+  (rowDataUpdated)="onRowDataUpdated($event)"
+  (gridReady)="onGridReady($event)"
+>
+</ag-grid-angular>

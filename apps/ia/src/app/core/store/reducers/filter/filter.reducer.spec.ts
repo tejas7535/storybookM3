@@ -10,6 +10,7 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 import {
+  activateTimePeriodFilters,
   benchmarkFilterSelected,
   filterDimensionSelected,
   filterSelected,
@@ -17,6 +18,7 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  setAvailableTimePeriods,
   timePeriodSelected,
 } from '../../actions/filter/filter.action';
 import {
@@ -342,6 +344,58 @@ describe('Filter Reducer', () => {
       expect(result.entities[FilterKey.TIME_RANGE].idValue.value).toEqual(
         '2021'
       );
+    });
+  });
+
+  describe('activateTimePeriodFilters', () => {
+    test('should set time period filters for loss of skill tab', () => {
+      const action = activateTimePeriodFilters({
+        timePeriods: [{ id: TimePeriod.YEAR, value: TimePeriod.YEAR }],
+        activeTimePeriod: TimePeriod.YEAR,
+        timeRange: {
+          id: '1651363200|1654041599',
+          value: '2022',
+        },
+        timeRangeConstraints: {
+          min: 1_672_531_200,
+          max: 1_654_041_599,
+        },
+      });
+
+      const state = filterReducer(initialState, action);
+
+      expect(state.timePeriods).toEqual([
+        {
+          id: TimePeriod.YEAR,
+          value: TimePeriod.YEAR,
+        },
+      ]);
+      expect(state.selectedTimePeriod).toEqual(TimePeriod.YEAR);
+      expect(state.selectedFilters.entities[FilterKey.TIME_RANGE]).toEqual({
+        idValue: {
+          id: '1651363200|1654041599',
+          value: '2022',
+        },
+        name: FilterKey.TIME_RANGE,
+      });
+      expect(state.timeRangeConstraints).toEqual({
+        min: 1_672_531_200,
+        max: 1_654_041_599,
+      });
+    });
+  });
+
+  describe('setAvailableTimePeriods', () => {
+    test('should set available time periods', () => {
+      const timePeriods = [
+        { id: TimePeriod.YEAR, value: TimePeriod.YEAR },
+        { id: TimePeriod.MONTH, value: TimePeriod.MONTH },
+      ];
+      const action = setAvailableTimePeriods({ timePeriods });
+
+      const state = filterReducer(initialState, action);
+
+      expect(state.timePeriods).toEqual(timePeriods);
     });
   });
 

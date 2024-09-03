@@ -26,6 +26,11 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     suppressMenu: true,
     headerClass: () => this.headerClass,
     flex: 1,
+    filterParams: {
+      buttons: ['reset', 'apply'],
+      closeOnApply: true,
+      closeOnReset: true,
+    },
   };
 
   columnDefs: ColDef[] = [];

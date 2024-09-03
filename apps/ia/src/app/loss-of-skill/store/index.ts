@@ -1,7 +1,11 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { ExitEntryEmployeesResponse } from '../../overview/models';
-import { LostJobProfilesResponse, WorkforceResponse } from '../models';
+import {
+  LostJobProfilesResponse,
+  PmgmData,
+  WorkforceResponse,
+} from '../models';
 import {
   clearLossOfSkillDimensionData,
   loadJobProfiles,
@@ -13,6 +17,9 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
+  loadPmgmData,
+  loadPmgmDataFailure,
+  loadPmgmDataSuccess,
 } from './actions/loss-of-skill.actions';
 
 export const lossOfSkillFeatureKey = 'lossOfSkill';
@@ -26,12 +33,17 @@ export interface LossOfSkillState {
   workforce: {
     loading: boolean;
     data: WorkforceResponse;
-    errorMesssage: string;
+    errorMessage: string;
   };
   leavers: {
     loading: boolean;
     data: ExitEntryEmployeesResponse;
-    errorMesssage: string;
+    errorMessage: string;
+  };
+  pmgm: {
+    loading: boolean;
+    data: PmgmData[];
+    errorMessage: string;
   };
 }
 
@@ -44,12 +56,17 @@ export const initialState: LossOfSkillState = {
   workforce: {
     loading: false,
     data: undefined,
-    errorMesssage: undefined,
+    errorMessage: undefined,
   },
   leavers: {
     loading: false,
     data: undefined,
-    errorMesssage: undefined,
+    errorMessage: undefined,
+  },
+  pmgm: {
+    loading: false,
+    data: undefined,
+    errorMessage: undefined,
   },
 };
 
@@ -119,7 +136,7 @@ export const lossOfSkillReducer = createReducer(
       workforce: {
         ...state.workforce,
         loading: false,
-        errorMesssage: errorMessage,
+        errorMessage,
       },
     })
   ),
@@ -169,7 +186,40 @@ export const lossOfSkillReducer = createReducer(
       leavers: {
         ...state.leavers,
         loading: false,
-        errorMesssage: errorMessage,
+        errorMessage,
+      },
+    })
+  ),
+  on(
+    loadPmgmData,
+    (state: LossOfSkillState): LossOfSkillState => ({
+      ...state,
+      pmgm: {
+        ...state.pmgm,
+        data: undefined,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadPmgmDataSuccess,
+    (state: LossOfSkillState, { data }): LossOfSkillState => ({
+      ...state,
+      pmgm: {
+        ...state.pmgm,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadPmgmDataFailure,
+    (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
+      ...state,
+      pmgm: {
+        ...state.pmgm,
+        loading: false,
+        errorMessage,
       },
     })
   )

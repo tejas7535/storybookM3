@@ -1,11 +1,11 @@
-<div
-  class="bg-surface grid grid-cols-2 gap-3"
-  *transloco="let t; read: 'lossOfSkill'"
->
-  <mat-card class="!flex flex-col pb-2">
+<div class="bg-surface" *transloco="let t; read: 'lossOfSkill'">
+  <mat-card class="mt-4">
+    <h5 class="mb-5 font-bold">{{ t('pmgm.title') }}</h5>
+    <ia-pmgm [data]="pmgmData$ | ngrxPush"></ia-pmgm>
+  </mat-card>
+  <mat-card class="mt-4">
     <h5 class="mb-5 font-bold">{{ t('lostJobProfiles.title') }}</h5>
     <ia-lost-job-profiles
-      class="h-[390px]"
       [filters]="beautifiedFilters$ | ngrxPush"
       [timeRange]="timeRange$ | ngrxPush"
       [openPositionsAvailable]="areOpenPositionsAvailable$ | ngrxPush"
@@ -18,9 +18,5 @@
       (workforceRequested)="triggerLoadWorkforce($event)"
       (leaversRequested)="triggerLoadLeavers($event)"
     ></ia-lost-job-profiles>
-  </mat-card>
-  <mat-card>
-    <h5 class="mb-5 font-bold">{{ t('riskOfLeaving.title') }}</h5>
-    <ia-risk-of-leaving></ia-risk-of-leaving>
   </mat-card>
 </div>

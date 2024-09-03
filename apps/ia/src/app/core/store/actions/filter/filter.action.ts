@@ -65,6 +65,24 @@ export const benchmarDimensionSelected = createAction(
 
 export const triggerLoad = createAction('[Filter] Trigger Load');
 
+export const activateTimePeriodFilters = createAction(
+  '[Filter] Activate Time Period Filters',
+  props<{
+    timePeriods: IdValue[];
+    activeTimePeriod: TimePeriod;
+    timeRange: IdValue;
+    timeRangeConstraints: {
+      min: number;
+      max: number;
+    };
+  }>()
+);
+
+export const setAvailableTimePeriods = createAction(
+  '[Filter] Set Available Time Periods',
+  props<{ timePeriods: IdValue[] }>()
+);
+
 const all = union({
   loadFilterDimensionData,
   loadFilterDimensionDataSuccess,

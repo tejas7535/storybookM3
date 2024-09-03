@@ -1,0 +1,13 @@
+<div
+  class="flex w-full h-full"
+  *transloco="let t; read: 'lossOfSkill.pmgm.table.tooltip.assessment'"
+>
+  <mat-icon
+    class="my-auto"
+    [ngStyle]="color"
+    [matTooltip]="tooltipPath ? t(tooltipPath) : undefined"
+    [matTooltipDisabled]="!showTooltip"
+    matTooltipPosition="before"
+    >local_fire_department</mat-icon
+  >
+</div>
