@@ -59,7 +59,7 @@ describe('Filter Selector', () => {
           [FilterKey.TIME_RANGE]: {
             name: FilterKey.TIME_RANGE,
             idValue: {
-              id: '1577863715000|1609399715000',
+              id: '1577863715|1609399715',
               value: '1/1/2020 - 12/31/2020',
             },
           },
@@ -78,7 +78,7 @@ describe('Filter Selector', () => {
           [FilterKey.TIME_RANGE]: {
             name: FilterKey.TIME_RANGE,
             idValue: {
-              id: '1577863715000|1609399715000',
+              id: '1577863715|1609399715',
               value: '1/1/2020 - 12/31/2020',
             },
           },
@@ -174,7 +174,7 @@ describe('Filter Selector', () => {
   describe('getSelectedTimeRange', () => {
     test('should return selected time range', () => {
       expect(getSelectedTimeRange(fakeState)).toEqual({
-        id: '1577863715000|1609399715000',
+        id: '1577863715|1609399715',
         value: '1/1/2020 - 12/31/2020',
       });
     });
@@ -236,7 +236,7 @@ describe('Filter Selector', () => {
       const result = getAreAllFiltersSelected.projector({
         filterDimension: FilterDimension.BOARD,
         value: 'Schaeffler_IT_1',
-        timeRange: '1577863715000|1609399715000',
+        timeRange: '1577863715|1609399715',
       });
 
       expect(result).toBeTruthy();
@@ -246,7 +246,7 @@ describe('Filter Selector', () => {
       const result = getAreAllFiltersSelected.projector({
         filterDimension: undefined,
         value: 'Schaeffler_IT_1',
-        timeRange: '1577863715000|1609399715000',
+        timeRange: '1577863715|1609399715',
       });
 
       expect(result).toBeFalsy();
@@ -256,7 +256,7 @@ describe('Filter Selector', () => {
       const result = getAreAllFiltersSelected.projector({
         filterDimension: FilterDimension.BOARD,
         value: undefined,
-        timeRange: '1577863715000|1609399715000',
+        timeRange: '1577863715|1609399715',
       });
 
       expect(result).toBeFalsy();
@@ -286,7 +286,7 @@ describe('Filter Selector', () => {
         {
           name: FilterKey.TIME_RANGE,
           idValue: {
-            id: '1577863715000|1609399715000',
+            id: '1577863715|1609399715',
             value: '1/1/2020 - 12/31/2020',
           },
         },
@@ -299,7 +299,7 @@ describe('Filter Selector', () => {
       expect(getCurrentFilters(fakeState)).toEqual({
         filterDimension: FilterDimension.ORG_UNIT,
         value: 'Schaeffler_IT_1',
-        timeRange: '1577863715000|1609399715000',
+        timeRange: '1577863715|1609399715',
       } as EmployeesRequest);
     });
   });
@@ -339,7 +339,7 @@ describe('Filter Selector', () => {
   describe('getBeautifiedFilterValues', () => {
     test('should return selected filter values when last 12 months', () => {
       const expectedResult = {
-        timeRange: 'translate it',
+        timeRange: 'January 2020 - December 2020',
         value: 'Schaeffler_IT_1',
         filterDimension: 'translate it',
       };
