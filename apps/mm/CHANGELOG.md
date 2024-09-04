@@ -1,4 +1,11 @@
 # Release Notes of Mounting Manager
+## [0.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.5.0...mm-v0.5.1) (2024-09-04)
+
+
+### Bug Fixes
+
+* **mm:** add json report url optional for time of new api delivery ([#6517](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6517)) ([c790d66](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c790d66beb066938edfb6de08967b97dac70e762))
+
 ## [0.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.4.1...mm-v0.5.0) (2024-09-04)
 
 
