@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
 
   public isProduction = false;
-  public showCompactView = true;
+  public showCompactView = false;
 
   public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;

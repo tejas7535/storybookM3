@@ -61,6 +61,11 @@ mat-horizontal-stepper.primary-stepper
   @apply hidden md:block;
 }
 
+mat-horizontal-stepper.primary-stepper
+  mat-step-header[aria-labelledby='disabled'] {
+  @apply pointer-events-none cursor-not-allowed;
+}
+
 schaeffler-html-report .mat-expansion-panel-content h2 {
   @apply text-h6 sm:text-h5;
 }

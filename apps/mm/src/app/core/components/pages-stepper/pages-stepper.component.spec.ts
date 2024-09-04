@@ -154,26 +154,6 @@ describe('PagesStepperComponent', () => {
         done();
       }, 100);
     });
-
-    it('should select the previous page for diabled pages', (done) => {
-      const spy = jest.spyOn(component.activePageIdChange, 'emit');
-      const selectSpy = jest.fn(() => {});
-      const mockPage = {
-        selectedStep: { label: 'MOCK_PAGE_ID', ariaLabelledby: 'disabled' },
-        previouslySelectedStep: {
-          label: 'ANOTHER_PAGE_ID',
-          select: selectSpy,
-        } as unknown as CdkStep,
-      } as StepperSelectionEvent;
-
-      component.activate(mockPage);
-
-      setTimeout(() => {
-        expect(spy).not.toHaveBeenCalled();
-        expect(selectSpy).toHaveBeenCalledTimes(1);
-        done();
-      }, 100);
-    });
   });
 
   describe('#prev', () => {
