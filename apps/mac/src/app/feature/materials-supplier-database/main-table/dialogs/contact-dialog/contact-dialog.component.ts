@@ -7,7 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ContactData, contacts } from './contact-data';
+import {
+  ContactData,
+  contactSupplierDevelopment,
+  contactSustainability,
+} from './contact-data';
 
 @Component({
   selector: 'mac-contact-dialog',
@@ -35,8 +39,11 @@ export class ContactDialogComponent {
     );
   }
 
-  getContacts(): ContactData[] {
-    return contacts;
+  getContacts(): {
+    contactSupplierDevelopment: ContactData[];
+    contactSustainability: ContactData[];
+  } {
+    return { contactSupplierDevelopment, contactSustainability };
   }
 
   trackEmail() {

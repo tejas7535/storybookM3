@@ -5,7 +5,45 @@ export interface ContactData {
   name: string;
   email?: string;
 }
-export const contacts: ContactData[] = [
+
+export const contactSustainability: ContactData[] = [
+  {
+    section: MaterialClass.STEEL,
+    name: `${MaterialClass.STEEL}`,
+    email: `${MaterialClass.STEEL}`,
+  },
+  {
+    section: MaterialClass.ALUMINUM,
+    name: MaterialClass.ALUMINUM,
+    email: MaterialClass.ALUMINUM,
+  },
+  {
+    section: MaterialClass.POLYMER,
+    name: MaterialClass.POLYMER,
+    email: MaterialClass.POLYMER,
+  },
+  {
+    section: MaterialClass.COPPER,
+    name: MaterialClass.COPPER,
+    email: MaterialClass.COPPER,
+  },
+  {
+    section: MaterialClass.CERAMIC,
+    name: MaterialClass.CERAMIC,
+    email: MaterialClass.CERAMIC,
+  },
+  {
+    section: MaterialClass.LUBRICANTS,
+    name: MaterialClass.LUBRICANTS,
+    email: MaterialClass.LUBRICANTS,
+  },
+  {
+    section: MaterialClass.SAP_MATERIAL,
+    name: MaterialClass.SAP_MATERIAL,
+  },
+];
+
+export const contactSupplierDevelopment: ContactData[] = [
   {
     section: MaterialClass.STEEL,
     name: `${MaterialClass.STEEL}1`,

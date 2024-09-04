@@ -867,8 +867,8 @@
           "moreInformationTitle": "Schaeffler internal Green Steel classification",
           "moreInformationImg": "/assets/img/msd_steel_classification_info.png",
           "moreInformationImgCaption": "Source: Decision by Executive Board, 02/23",
-          "moreInformationContact": "Kroemer, Oliver",
-          "moreInformationContactLink": "mailto:kroemoiv@schaeffler.com"
+          "moreInformationContact": "Schwab, Michael",
+          "moreInformationContactLink": "mailto:michael.schwab@schaeffler.com"
         },
         "maturity": {
           "0": "Unlisted",
@@ -1096,34 +1096,67 @@
       }
     },
     "contactdialog": {
-      "section": {
-        "st": "Steel",
-        "al": "Aluminum alloys",
-        "px": "Polymers",
-        "cu": "Copper alloys",
-        "ce": "Ceramics",
-        "lu": "Lubricants",
-        "sap": "SAP material numbers"
+      "sustainability": {
+        "section": {
+          "st": "Steel",
+          "al": "Aluminum alloys",
+          "px": "Polymers",
+          "cu": "Copper alloys",
+          "ce": "Ceramics",
+          "lu": "Lubricants",
+          "sap": "SAP material numbers"
+        },
+        "name": {
+          "st": "Schwab, Michael ST/ZHZ-CE",
+          "al": "Boesch, Dominik ST/ZHZ-CE",
+          "px": "Topraksal, Ece ST/ZHZ-CE",
+          "cu": "Boesch, Dominik ST/ZHZ-CE",
+          "ce": "Wunder, Kirsten ST/SWE-CMWE",
+          "lu": "Zuercher, Manuel ST/ZHZ-CE",
+          "sap": "Responsible Data Owner"
+        },
+        "email": {
+          "st": "michael.schwab@schaeffler.com",
+          "al": "dominik.boesch@schaeffler.com",
+          "px": "ece.topraksal@schaeffler.com",
+          "cu": "dominik.boesch@schaeffler.com",
+          "ce": "kirsten.wunder@schaeffler.com",
+          "lu": "manuel.zuercher@schaeffler.com",
+          "sap": "--"
+        },
+        "title": "Contacts Sustainability"
       },
-      "name": {
-        "st1": "Kroemer, Oliver ST/HZA-CMWL",
-        "st2": "Kleinert, Simone ST/HZA-CMWL",
-        "al": "Herrmann, Julia ST/HZA-CMWE",
-        "px": "Kurzbeck, Stefan ST/HZA-CMK",
-        "cu": "Wuestenberg, Patrick ST/HZA-CMWL",
-        "ce": "Wunder, Kirsten ST/SWE-CMWE",
-        "lu": "Dellwo, Ulrike ST/SWE-CCS",
-        "sap": "Responsible Data Owner"
-      },
-      "email": {
-        "st1": "kroemoiv@schaeffler.com",
-        "st2": "kleinsmo@schaeffler.com",
-        "al": "julia.herrmann@schaeffler.com",
-        "px": "kurzbsef@schaeffler.com",
-        "cu": "patrick.wuestenberg@schaeffler.com",
-        "ce": "kirsten.wunder@schaeffler.com",
-        "lu": "dellwuri@schaeffler.com",
-        "sap": "--"
+      "development": {
+        "section": {
+          "st": "Steel",
+          "al": "Aluminum alloys",
+          "px": "Polymers",
+          "cu": "Copper alloys",
+          "ce": "Ceramics",
+          "lu": "Lubricants",
+          "sap": "SAP material numbers"
+        },
+        "name": {
+          "st1": "Kroemer, Oliver ST/HZA-CMWL",
+          "st2": "Kleinert, Simone ST/HZA-CMWL",
+          "al": "Herrmann, Julia ST/HZA-CMWE",
+          "px": "Kurzbeck, Stefan ST/HZA-CMK",
+          "cu": "Wuestenberg, Patrick ST/HZA-CMWL",
+          "ce": "Wunder, Kirsten ST/SWE-CMWE",
+          "lu": "Dellwo, Ulrike ST/SWE-CCS",
+          "sap": "Responsible Data Owner"
+        },
+        "email": {
+          "st1": "kroemoiv@schaeffler.com",
+          "st2": "kleinsmo@schaeffler.com",
+          "al": "julia.herrmann@schaeffler.com",
+          "px": "kurzbsef@schaeffler.com",
+          "cu": "patrick.wuestenberg@schaeffler.com",
+          "ce": "kirsten.wunder@schaeffler.com",
+          "lu": "dellwuri@schaeffler.com",
+          "sap": "--"
+        },
+        "title": "Contacts Supplier Development"
       },
       "title": "Support for Material groups",
       "learnMoreText": "Find more information on our learn more page",
