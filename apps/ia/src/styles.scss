@@ -144,6 +144,14 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   display: none !important;
 }
 
+.ag-filter-apply-panel {
+  @apply flex justify-between;
+
+  button {
+    @apply ml-auto;
+  }
+}
+
 // Custom Scrollbar
 ::-webkit-scrollbar-track {
   background-color: transparent;
