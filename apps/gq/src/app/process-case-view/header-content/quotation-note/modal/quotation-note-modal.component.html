@@ -17,7 +17,11 @@
     >
     </gq-dialog-header>
     <div>
-      <mat-form-field class="py-4 w-full" appearance="outline">
+      <mat-form-field
+        class="py-4 w-full"
+        appearance="outline"
+        data-cy="note-form-field"
+      >
         <mat-label> {{ t('inputLabel') }} </mat-label>
         <textarea
           class="!h-24"
@@ -42,7 +46,8 @@
       color="primary"
       mat-raised-button
       [disabled]="quotationNoteForm.invalid || !quotationNoteForm.dirty"
-      (click)="onSave()"
+      (click)="onConfirm()"
+      data-cy="confirm-button"
     >
       {{ t('confirm') }}
     </button>
@@ -50,6 +55,7 @@
       class="ml-4"
       color="primary"
       mat-stroked-button
+      data-cy="cancel-button"
       (click)="onCancel()"
     >
       {{ t('cancel') }}

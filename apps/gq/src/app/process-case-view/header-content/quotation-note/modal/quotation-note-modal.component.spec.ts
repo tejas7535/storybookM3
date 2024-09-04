@@ -112,7 +112,7 @@ describe('QuotationNoteModalComponent', () => {
       component.quotationNoteForm.setValue('Test note');
 
       component.updateQuotationMetadataSuccess$ = of();
-      component.onSave();
+      component.onConfirm();
 
       expect(dispatchMock).toHaveBeenCalledWith({
         type: '[Quotation Metadata] Update Quotation Metadata',
@@ -133,7 +133,7 @@ describe('QuotationNoteModalComponent', () => {
       component.updateQuotationMetadataSuccess$ = of(
         QuotationMetadataActions.updateQuotationMetadataSuccess
       );
-      component.onSave();
+      component.onConfirm();
 
       expect(dispatchMock).toHaveBeenCalledWith({
         type: '[Quotation Metadata] Update Quotation Metadata',

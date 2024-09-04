@@ -82,7 +82,7 @@ export class QuotationNoteModalComponent implements OnInit {
     this.#dialogRef.close();
   }
 
-  onSave(): void {
+  onConfirm(): void {
     this.#store.dispatch(
       QuotationMetadataActions.updateQuotationMetadata({
         quotationMetadata: {
