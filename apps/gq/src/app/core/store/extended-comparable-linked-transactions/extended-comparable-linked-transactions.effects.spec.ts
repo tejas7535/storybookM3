@@ -1,6 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { getGqId } from '@gq/core/store/active-case/active-case.selectors';
+import { ExtendedComparableLinkedTransactionsActions } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
+import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -8,12 +10,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import {
-  loadExtendedComparableLinkedTransaction,
-  loadExtendedComparableLinkedTransactionFailure,
-  loadExtendedComparableLinkedTransactionSuccess,
-} from '../../actions';
-import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
 import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions.effects';
 
 describe('ExtendedComparableLinkedTransactionsEffect', () => {
@@ -46,17 +42,22 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
 
     beforeEach(() => {
       store.overrideSelector(getGqId, quotationNumber);
-      action = loadExtendedComparableLinkedTransaction();
+      action =
+        ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForSelectedQuotationDetail();
     });
 
     test(
       'should return loadExtendedComparableLinkedTransactionsSuccess',
       marbles((m) => {
-        action = loadExtendedComparableLinkedTransaction();
+        action =
+          ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForSelectedQuotationDetail();
 
-        const result = loadExtendedComparableLinkedTransactionSuccess({
-          extendedComparableLinkedTransactions,
-        });
+        const result =
+          ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForQuotationDetailSuccess(
+            {
+              extendedComparableLinkedTransactions,
+            }
+          );
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
           a: extendedComparableLinkedTransactions,
@@ -79,10 +80,14 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
     test(
       'should return loadExtendedComparableLinkedTransactionsFailure',
       marbles((m) => {
-        action = loadExtendedComparableLinkedTransaction();
-        const result = loadExtendedComparableLinkedTransactionFailure({
-          errorMessage,
-        });
+        action =
+          ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForSelectedQuotationDetail();
+        const result =
+          ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForQuotationDetailFailure(
+            {
+              errorMessage,
+            }
+          );
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });

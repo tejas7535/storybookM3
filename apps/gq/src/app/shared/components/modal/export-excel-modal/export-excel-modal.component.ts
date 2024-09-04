@@ -4,14 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
 
-import {
-  loadExtendedComparableLinkedTransaction,
-  loadExtendedSapPriceConditionDetails,
-} from '@gq/core/store/actions';
-import {
-  getExtendedComparableLinkedTransactionsErrorMessage,
-  getExtendedComparableLinkedTransactionsLoading,
-} from '@gq/core/store/selectors';
+import { loadExtendedSapPriceConditionDetails } from '@gq/core/store/actions';
+import { ExtendedComparableLinkedTransactionsFacade } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.facade';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -33,6 +27,7 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private readonly extendedComparableLinkedTransactionsFacade: ExtendedComparableLinkedTransactionsFacade,
     private readonly insightsService: ApplicationInsightsService,
     @Inject(MAT_DIALOG_DATA)
     public dialogData: { extendedDownloadEnabled: boolean },
@@ -58,16 +53,14 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
       ? ExportExcel.DETAILED_DOWNLOAD
       : ExportExcel.BASIC_DOWNLOAD;
 
-    this.transactionsLoading$ = this.store.select(
-      getExtendedComparableLinkedTransactionsLoading
-    );
+    this.transactionsLoading$ =
+      this.extendedComparableLinkedTransactionsFacade.transactionsLoading$;
     const loadingStopped$ = this.transactionsLoading$.pipe(
       pairwise(),
       map(([preVal, curVal]) => preVal && !curVal)
     );
-    const isErrorMessage$ = this.store.select(
-      getExtendedComparableLinkedTransactionsErrorMessage
-    );
+    const isErrorMessage$ =
+      this.extendedComparableLinkedTransactionsFacade.isErrorMessage$;
     this.addSubscription(isErrorMessage$, loadingStopped$);
 
     this.insightsService.logEvent(EVENT_NAMES.EXCEL_DOWNLOAD_MODAL_OPENED);
@@ -100,7 +93,7 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
     }
 
     if (this.exportExcelOption === ExportExcel.DETAILED_DOWNLOAD) {
-      this.store.dispatch(loadExtendedComparableLinkedTransaction());
+      this.extendedComparableLinkedTransactionsFacade.loadExtendedComparableLinkedTransactionsForSelectedQuotationDetail();
       this.store.dispatch(loadExtendedSapPriceConditionDetails());
     }
   }

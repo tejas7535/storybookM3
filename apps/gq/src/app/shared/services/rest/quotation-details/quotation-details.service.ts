@@ -7,9 +7,9 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case/models';
+import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models';
 import {
   ComparableLinkedTransaction,
-  ExtendedComparableLinkedTransaction,
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';

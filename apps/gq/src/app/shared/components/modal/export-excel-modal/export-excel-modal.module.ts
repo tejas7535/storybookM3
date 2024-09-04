@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { ExtendedComparableLinkedTransactionsModule } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.module';
 import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -27,6 +28,7 @@ import { ExportExcelModalComponent } from './export-excel-modal.component';
     LoadingSpinnerModule,
     PushPipe,
     DialogHeaderModule,
+    ExtendedComparableLinkedTransactionsModule,
   ],
   exports: [ExportExcelModalComponent],
 })

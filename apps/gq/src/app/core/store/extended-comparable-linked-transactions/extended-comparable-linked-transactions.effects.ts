@@ -4,22 +4,19 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { getGqId } from '@gq/core/store/active-case/active-case.selectors';
+import { ExtendedComparableLinkedTransactionsActions } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
+import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-
-import {
-  loadExtendedComparableLinkedTransaction,
-  loadExtendedComparableLinkedTransactionFailure,
-  loadExtendedComparableLinkedTransactionSuccess,
-} from '../../actions';
-import { ExtendedComparableLinkedTransaction } from '../../reducers/models';
 
 @Injectable()
 export class ExtendedComparableLinkedTransactionsEffect {
   loadExtendedComparableLinkedTransactions$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadExtendedComparableLinkedTransaction.type),
+      ofType(
+        ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForSelectedQuotationDetail
+      ),
       concatLatestFrom(() => this.store.select(getGqId)),
       map(([_action, gqId]) => gqId),
       mergeMap((quotationNumber: number) =>
@@ -28,12 +25,18 @@ export class ExtendedComparableLinkedTransactionsEffect {
             (
               extendedComparableLinkedTransactions: ExtendedComparableLinkedTransaction[]
             ) =>
-              loadExtendedComparableLinkedTransactionSuccess({
-                extendedComparableLinkedTransactions,
-              })
+              ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForQuotationDetailSuccess(
+                {
+                  extendedComparableLinkedTransactions,
+                }
+              )
           ),
           catchError((errorMessage) =>
-            of(loadExtendedComparableLinkedTransactionFailure({ errorMessage }))
+            of(
+              ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForQuotationDetailFailure(
+                { errorMessage }
+              )
+            )
           )
         )
       )

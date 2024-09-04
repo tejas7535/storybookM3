@@ -10,7 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { from, of } from 'rxjs';
 
-import { loadExtendedComparableLinkedTransaction } from '@gq/core/store/actions';
+import { ExtendedComparableLinkedTransactionsActions } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -111,7 +111,7 @@ describe('ExportExcelModalComponent', () => {
       component.fetchTransactions();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        loadExtendedComparableLinkedTransaction()
+        ExtendedComparableLinkedTransactionsActions.loadExtendedComparableLinkedTransactionsForSelectedQuotationDetail()
       );
     });
 

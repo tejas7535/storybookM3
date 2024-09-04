@@ -11,7 +11,6 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
-import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
 import * as fromMaterialCostDetails from './material-cost-details/material-cost-details.reducer';
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
@@ -30,7 +29,6 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   case: fromCase.CreateCaseState;
   transactions: fromTransactions.TransactionsState;
-  extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialComparableCosts: fromMaterialComparableCosts.MaterialComparableCostsState;
   materialSalesOrg: fromMaterialSalesOrg.MaterialSalesOrgsState;
   sapPriceDetails: fromSapPriceDetails.SapPriceDetailsState;
@@ -43,8 +41,6 @@ export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   case: fromCase.createCaseReducer,
   transactions: fromTransactions.transactionsReducer,
-  extendedComparableLinkedTransactions:
-    fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
   materialComparableCosts:
     fromMaterialComparableCosts.materialComparableCostsReducer,
   materialSalesOrg: fromMaterialSalesOrg.materialSalesOrgReducer,
@@ -68,10 +64,6 @@ export const getCaseState =
   createFeatureSelector<fromCase.CreateCaseState>('case');
 export const getTransactionsState =
   createFeatureSelector<fromTransactions.TransactionsState>('transactions');
-export const getExtendedComparableLinkedTransactionsState =
-  createFeatureSelector<fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState>(
-    'extendedComparableLinkedTransactions'
-  );
 
 export const getMaterialComparableCostsState =
   createFeatureSelector<fromMaterialComparableCosts.MaterialComparableCostsState>(
