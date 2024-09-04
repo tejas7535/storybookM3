@@ -32,9 +32,12 @@ export class ResultPageService {
           .filter((report: Report) => report.rel === 'pdf')
           .pop().href;
 
-        const jsonReportUrl = reports
+        // fallback for old API, new API should always return a json report, will need to be fixed before release of new report design
+        const jsonReport = reports
           .filter((report: Report) => report.rel === 'json')
-          .pop().href;
+          .pop();
+
+        const jsonReportUrl = jsonReport?.href ?? undefined;
 
         return { htmlReportUrl, pdfReportUrl, jsonReportUrl };
       }),

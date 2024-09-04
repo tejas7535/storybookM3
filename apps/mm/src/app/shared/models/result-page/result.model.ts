@@ -8,7 +8,7 @@ export interface Report {
 export interface Result {
   pdfReportUrl: string;
   htmlReportUrl: string;
-  jsonReportUrl: string;
+  jsonReportUrl?: string;
 }
 
 export interface RawValueContent {
