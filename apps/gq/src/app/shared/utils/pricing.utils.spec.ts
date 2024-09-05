@@ -225,6 +225,12 @@ describe('PricingUtils', () => {
   });
 
   describe('calculateDiscount', () => {
+    test('should skip discount calculation when price is 0', () => {
+      const result = pricingUtils.calculateDiscount(0, 200);
+
+      expect(result).toEqual(0);
+    });
+
     test('should return discount', () => {
       const result = pricingUtils.calculateDiscount(100, 200);
 

@@ -240,6 +240,11 @@ export const calculateDiscount = (
   price: number,
   sapGrossPrice: number
 ): number => {
+  // If price is 0, discount is not applicable
+  if (price === 0) {
+    return 0;
+  }
+
   const discount = 1 - price / sapGrossPrice;
 
   return roundPercentageToTwoDecimals(discount);
