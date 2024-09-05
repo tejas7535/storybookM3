@@ -226,6 +226,12 @@ describe('ExcelValidatorService', () => {
       [5.25, 5.24, undefined, undefined],
       [5.25, undefined, undefined, undefined],
       [undefined, undefined, undefined, undefined],
+      [3, '1', '1', '1'],
+      [3, '1', 1, 1],
+      [0, 0, 0, 0],
+      [2, 0, 1, 1],
+      [2, 1, 0, 1],
+      [2, 1, 1, 0],
     ])(
       'should pass for emissionFactorKg [%p], directSupplierEmissions [%p], indirectSupplierEmissions [%p], upstreamEmissions [%p]',
       (
@@ -248,7 +254,7 @@ describe('ExcelValidatorService', () => {
 
     it.each([
       [25.5, 10, 5.5, 15.5],
-      [25.5, 25.5, undefined, undefined],
+      [25.5, 25.6, undefined, undefined],
       [25.5, undefined, 25.6, undefined],
       [25.5, undefined, undefined, 30],
       [undefined, 10, 5.5, 15.5],
