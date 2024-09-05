@@ -173,10 +173,13 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   onColumnChange(event: SortChangedEvent): void {
     this.updateColumnData(event);
+    const viewId = this.agGridStateService.getCurrentViewId();
 
-    this.agGridStateService.setColumnStateForCurrentView(
-      event.columnApi.getColumnState()
-    );
+    if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
+      this.agGridStateService.setColumnStateForCurrentView(
+        event.columnApi.getColumnState()
+      );
+    }
   }
 
   onFilterChanged(event: FilterChangedEvent): void {
@@ -251,15 +254,10 @@ export class QuotationDetailsTableComponent implements OnInit {
       .subscribe((colState: ColumnState[]) => {
         if (colState?.length === 0) {
           event?.columnApi?.resetColumnState();
-          this.autoSizeColumns(event);
         } else {
-          // for the default view, only the width, not the order should be applied
-          const viewId = this.agGridStateService.getCurrentViewId();
-          const applyOrder = viewId !== this.agGridStateService.DEFAULT_VIEW_ID;
-
           event?.columnApi?.applyColumnState({
             state: colState,
-            applyOrder,
+            applyOrder: true,
           });
         }
       });
@@ -291,6 +289,7 @@ export class QuotationDetailsTableComponent implements OnInit {
   }
 
   onFirstDataRendered(event: FirstDataRenderedEvent): void {
+    this.autoSizeColumns(event);
     // highlight the row of the selected quotationDetail
     if (this.route.snapshot.queryParams.gqPositionId) {
       const index = this.rowData.findIndex(

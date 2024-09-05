@@ -487,10 +487,6 @@ describe('QuotationDetailsTableComponent', () => {
         columnApi: {
           resetColumnState: jest.fn(),
           applyColumnState: jest.fn(),
-          getAllGridColumns: jest.fn(() => [
-            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
-            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
-          ]),
           autoSizeColumn: jest.fn(),
         },
         api: {
@@ -518,7 +514,6 @@ describe('QuotationDetailsTableComponent', () => {
         component['agGridStateService'].setColumnData
       ).toHaveBeenCalledTimes(1);
       expect(mockEvent.columnApi.resetColumnState).toHaveBeenCalledTimes(1);
-      expect(mockEvent.columnApi.getAllGridColumns).toHaveBeenCalledTimes(1);
     });
 
     test('should NOT set column data if already exist', () => {
@@ -596,6 +591,10 @@ describe('QuotationDetailsTableComponent', () => {
           setFilterModel: jest.fn(),
           resetColumnState: jest.fn(),
           autoSizeColumn: jest.fn(),
+          getAllGridColumns: jest.fn(() => [
+            { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
+            { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
+          ]),
         },
         api: {
           setFocusedCell: jest.fn(),
@@ -608,6 +607,7 @@ describe('QuotationDetailsTableComponent', () => {
         0,
         ColumnFields.QUOTATION_ITEM_ID
       );
+      expect(params.columnApi.getAllGridColumns).toHaveBeenCalledTimes(1);
     });
   });
 
