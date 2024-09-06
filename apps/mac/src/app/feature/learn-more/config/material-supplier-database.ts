@@ -61,5 +61,30 @@ export const materialSupplierDbLearnMoreData: LearnMoreData = {
         },
       ],
     },
+    {
+      title: 'linkgroup_materials2',
+      links: [
+        {
+          uri: 'linkgroup_materials2_1_uri',
+          name: 'linkgroup_materials2_1_name',
+        },
+        {
+          uri: 'linkgroup_materials2_2_uri',
+          name: 'linkgroup_materials2_2_name',
+        },
+        {
+          uri: 'linkgroup_materials2_3_uri',
+          name: 'linkgroup_materials2_3_name',
+        },
+        {
+          uri: 'linkgroup_materials2_4_uri',
+          name: 'linkgroup_materials2_4_name',
+        },
+        {
+          uri: 'linkgroup_materials2_5_uri',
+          name: 'linkgroup_materials2_5_name',
+        },
+      ],
+    },
   ],
 };

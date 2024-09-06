@@ -197,7 +197,7 @@
 
       "linkgroup1": "Contact",
       "linkgroup1_1_name": "Pfenning, Stefan  ST/SWE-CO",
-      "linkgroup1_1_uri": "https://sconnect.schaeffler.com/people/pfennsef"
+      "linkgroup1_1_uri": "mailto:pfennsef@schaeffler.com"
     },
     "materialPropertiesEstimator": {
       "title": "Material Properties Estimator",
@@ -212,7 +212,7 @@
       ],
       "linkgroup1": "Contact",
       "linkgroup1_1_name": "Johannes Weninger SP/HZA-AS",
-      "linkgroup1_1_uri": "https://sconnect.schaeffler.com/people/weninjha",
+      "linkgroup1_1_uri": "mailto:weninjha@schaeffler.com",
 
       "linkgroup2": "Links for further information:",
       "linkgroup2_1_name": "S 130999 - EN (schaeffler.com)",
@@ -242,42 +242,54 @@
         "../../../assets/img/learnmore/msd/msd_3.png",
         "<i>Screenshot of the Materials Supplier Database (2022-09-12)</i>",
         "<b>5. Troubleshooting / known bugs</b>",
-        "<ul><li>Sometimes - even after access has been successfully granted - the application is not loading or still displayed as \"No access\". In this case, please try the following:<ul><li>Refresh the page (e.g. pressing F5 or typing CTRL+R or clicking the refresh button of your browser).</li><li>If this does not work, reload your personal permissions by launching a browser window in incognito mode (CTRL+SHIFT+N) and try to open the application again.</li><li>If this does help either, kindly contact <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"https://sconnect.schaeffler.com/people/berndcri\">Berndt, Christian</a> for support.</li></ul></li><li>Sometimes the data table is not displayed at all. Try to solve this problem by navigating to a public website (e.g. <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"https://www.ard.de\">ard.de</a>) and reload the Materials Supplier Database. If the problem persists please contact <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"https://sconnect.schaeffler.com/people/berndcri\">Berndt, Christian</a> for support.</li><li>Sometimes very long and technical terms are shown instead of human-readable descriptions, e.g. \"materialsSupplierDatabase.mainTable.columns.rating\" is displayed instead of \"Supplier Rating\". To solve this, perform the following steps in Microsoft Edge:<ul><li>Press ALT+F (or the three dots in the upper right corner)</li><li>Go to \"Settings\" (\"Einstellungen\")</li><li>Click on \"Privacy, search, and services\" (\"Datenschutz, Suche und Dateien\")</li><li>Click on \"Clear browsing data\" (\"Browserdaten löschen\")</li><li>Click on \"Choose what to clear\" (\"Zu löschende Elemente auswählen\")</li><li>Select \"Cached images and files\" (\"Zwischengespeicherte Bilder und Dateien\")</li><li>Click on \"Clear now\" (\"Jetzt löschen\")</li></ul></li></ul>"
+        "<ul><li>Sometimes - even after access has been successfully granted - the application is not loading or still displayed as \"No access\". In this case, please try the following:<ul><li>Refresh the page (e.g. pressing F5 or typing CTRL+R or clicking the refresh button of your browser).</li><li>If this does not work, reload your personal permissions by launching a browser window in incognito mode (CTRL+SHIFT+N) and try to open the application again.</li><li>If this does help either, kindly contact <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"mailto:berndcri@schaeffler.com\">Berndt, Christian</a> for support.</li></ul></li><li>Sometimes the data table is not displayed at all. Try to solve this problem by navigating to a public website (e.g. <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"https://www.ard.de\">ard.de</a>) and reload the Materials Supplier Database. If the problem persists please contact <a class=\"text-link hover:underline hover:cursor-pointer\" target=\"_blank\" href=\"mailto:berndcri@schaeffler.com\">Berndt, Christian</a> for support.</li><li>Sometimes very long and technical terms are shown instead of human-readable descriptions, e.g. \"materialsSupplierDatabase.mainTable.columns.rating\" is displayed instead of \"Supplier Rating\". To solve this, perform the following steps in Microsoft Edge:<ul><li>Press ALT+F (or the three dots in the upper right corner)</li><li>Go to \"Settings\" (\"Einstellungen\")</li><li>Click on \"Privacy, search, and services\" (\"Datenschutz, Suche und Dateien\")</li><li>Click on \"Clear browsing data\" (\"Browserdaten löschen\")</li><li>Click on \"Choose what to clear\" (\"Zu löschende Elemente auswählen\")</li><li>Select \"Cached images and files\" (\"Zwischengespeicherte Bilder und Dateien\")</li><li>Click on \"Clear now\" (\"Jetzt löschen\")</li></ul></li></ul>"
       ],
 
       "linkgroup1": "Related information",
       "linkgroup1_1_name": "S 266042",
       "linkgroup1_1_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S266042&doktl=EN",
       "linkgroup1_2_name": "Steel Supplier Development Department",
-      "linkgroup1_2_uri": "https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials/materials-technology/supplier-development-metallic-materials",
+      "linkgroup1_2_uri": "https://worksite.sharepoint.com/sites/Central-Technologies/SitePages/Supplier-Development.aspx?locale=en-us",
 
       "linkgroup2": "Contact",
       "linkgroup2_1_name": "Moeller, Johannes (General)",
-      "linkgroup2_1_uri": "https://sconnect.schaeffler.com/people/moelljha",
+      "linkgroup2_1_uri": "mailto:johannes.moeller@schaeffler.com",
       "linkgroup2_2_name": "IT & Digitalization: Eichstaedt, Timm (product owner)",
-      "linkgroup2_2_uri": "https://sconnect.schaeffler.com/people/eichstmm",
+      "linkgroup2_2_uri": "mailto:timm.eichstaedt@schaeffler.com",
       "linkgroup2_3_name": "IT & Digitalization: Berndt, Christian (software engineer)",
-      "linkgroup2_3_uri": "https://sconnect.schaeffler.com/people/berndcri",
+      "linkgroup2_3_uri": "mailto:berndcri@schaeffler.com",
       "linkgroup2_4_name": "Data quality: Kroemer, Oliver",
-      "linkgroup2_4_uri": "https://sconnect.schaeffler.com/people/kroemoiv",
+      "linkgroup2_4_uri": "mailto:kroemoiv@schaeffler.com",
       "linkgroup2_5_name": "Data quality: Haering, Wolfgang",
-      "linkgroup2_5_uri": "https://sconnect.schaeffler.com/people/haeriwlf",
+      "linkgroup2_5_uri": "mailto:haeriwlf@schaeffler.com",
 
-      "linkgroup_materials": "Contact Material Responsibles",
+      "linkgroup_materials": "Contact Material Responsibles (Supplier development)",
       "linkgroup_materials_1_name": "Kroemer, Oliver (Steel)",
-      "linkgroup_materials_1_uri": "https://sconnect.schaeffler.com/people/kroemoiv",
+      "linkgroup_materials_1_uri": "mailto:kroemoiv@schaeffler.com",
       "linkgroup_materials_2_name": "Kleinert, Simone (Steel)",
-      "linkgroup_materials_2_uri": "https://sconnect.schaeffler.com/people/kleinsmo",
+      "linkgroup_materials_2_uri": "mailto:kleinsmo@schaeffler.com",
       "linkgroup_materials_3_name": "Herrmann, Julia (Aluminum)",
-      "linkgroup_materials_3_uri": "https://sconnect.schaeffler.com/people/herrmjli",
+      "linkgroup_materials_3_uri": "mailto:julia.herrmann@schaeffler.com",
       "linkgroup_materials_4_name": "Kurzbeck, Stefan (Polymer)",
-      "linkgroup_materials_4_uri": "https://sconnect.schaeffler.com/people/kurzbsef",
+      "linkgroup_materials_4_uri": "mailto:kurzbsef@schaeffler.com",
       "linkgroup_materials_5_name": "Wuestenberg, Patrick (Copper)",
-      "linkgroup_materials_5_uri": "https://sconnect.schaeffler.com/people/wuestpat",
+      "linkgroup_materials_5_uri": "mailto:patrick.wuestenberg@schaeffler.com",
       "linkgroup_materials_6_name": "Wunder, Kirsten (Ceramic)",
-      "linkgroup_materials_6_uri": "https://sconnect.schaeffler.com/people/wundekrs",
-      "linkgroup_materials_7_name": "Dellwo, Ulrike (Lubricatns)",
-      "linkgroup_materials_7_uri": "https://sconnect.schaeffler.com/people/dellwuri"
+      "linkgroup_materials_6_uri": "mailto:kirsten.wunder@schaeffler.com",
+      "linkgroup_materials_7_name": "Dellwo, Ulrike (Lubricants)",
+      "linkgroup_materials_7_uri": "mailto:dellwuri@schaeffler.com",
+
+      "linkgroup_materials2": "Contact Material Responsibles (Sustainability)",
+      "linkgroup_materials2_1_name": "Schwab, Michael (Steel)",
+      "linkgroup_materials2_1_uri": "mailto:michael.schwab@schaeffler.com",
+      "linkgroup_materials2_2_name": "Boesch, Dominik (Aluminum & Copper)",
+      "linkgroup_materials2_2_uri": "mailto:dominik.boesch@schaeffler.com",
+      "linkgroup_materials2_3_name": "Topraksal, Ece (Polymer)",
+      "linkgroup_materials2_3_uri": "mailto:ece.topraksal@schaeffler.com",
+      "linkgroup_materials2_4_name": "Wunder, Kirsten (Ceramic)",
+      "linkgroup_materials2_4_uri": "mailto:kirsten.wunder@schaeffler.com",
+      "linkgroup_materials2_5_name": "Zuercher, Manuel (Lubricants)",
+      "linkgroup_materials2_5_uri": "mailto:manuel.zuercher@schaeffler.com"
     },
     "hardnessConverter": {
       "content": [
@@ -356,7 +368,7 @@
       "linkgroup2_6_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASP&doknr=DINENISO6508-1&doktl=DE",
       "linkgroup3": "Contact",
       "linkgroup3_1_name": "Materials App Center",
-      "linkgroup3_1_uri": "https://sconnect.schaeffler.com/groups/material-app-center",
+      "linkgroup3_1_uri": "https://worksite.sharepoint.com/sites/Central-Technologies/SitePages/Materials-App-C.aspx",
       "linkgroup3_2_name": "Email - Materials App Center",
       "linkgroup3_2_uri": "mailto:materials-app-center@schaeffler.com",
       "subTitle": "Hardness converting tool",
@@ -386,9 +398,9 @@
       "linkgroup1_2_uri": "http://sapdms.schaeffler.com:8080/jsf/dd.faces?sap=EP1&dokar=ASI&doknr=S130998&doktl=EN",
       "linkgroup2": "Contact",
       "linkgroup2_1_name": "Hullin, Gregor",
-      "linkgroup2_1_uri": "https://sconnect.schaeffler.com/people/hulligeg",
+      "linkgroup2_1_uri": "mailto:gregor.hullin@schaeffler.com",
       "linkgroup2_2_name": "Nuetzel, Ralf",
-      "linkgroup2_2_uri": "https://sconnect.schaeffler.com/people/nuetzrlf"
+      "linkgroup2_2_uri": "mailto:ralf.nuetzel@schaeffler.com"
     },
     "openApp": "Open Application",
     "overview": "Overview",
@@ -890,7 +902,7 @@
           "secondaryData": "Secondary data:",
           "secondaryDataText": "industry-average data (e.g., from published databases, government statistics, literature studies, and industry associations",
           "bottomText_prefix": "See",
-          "bottomText_link": "https://sconnect.schaeffler.com/docs/DOC-395560",
+          "bottomText_link": "https://worksite.sharepoint.com/sites/Purchasing/SitePages/Explanation-of-MSD-Data-Sources.aspx",
           "bottomText_linkText": "here",
           "bottomText_postfix": "for further details and background on the data sources.",
           "moreInformationContact": "Moeller, Johannes ST/ZHZ-CE",
