@@ -19,9 +19,13 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
   }
 
   handlePriceChangeTypeSwitch(isRelative: boolean): void {
+    // Calculate proper KpiValue properties which are needed to display
     this.setAffectedKpis(
       isRelative ? this.modalData.quotationDetail.targetPrice : 0
     );
+    // Reset values when switching between absolute and relative price (GQUOTE-4894)
+    this.resetKpiValues();
+    this.affectedKpiOutput.emit(this.affectedKpis);
   }
 
   protected validateInput(value: string): boolean {

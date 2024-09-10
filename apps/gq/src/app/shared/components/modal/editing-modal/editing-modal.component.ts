@@ -219,6 +219,13 @@ export abstract class EditingModalComponent
     this.affectedKpiOutput.emit(this.affectedKpis);
   }
 
+  protected resetKpiValues() {
+    this.affectedKpis = this.affectedKpis.map((kpi) => ({
+      ...kpi,
+      value: undefined,
+    }));
+  }
+
   /**
    * Check if the given value is relative and if yes, calculate the absolute value based on it and on the initial value.
    * Otherwise, return the given value without changes.

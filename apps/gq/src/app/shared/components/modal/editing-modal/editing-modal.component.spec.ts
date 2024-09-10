@@ -660,4 +660,13 @@ describe('TestEditingModalComponent', () => {
       expect(component.hasValueChanged).toBe(false);
     });
   });
+  describe('resetKpiValues', () => {
+    test('should reset kpi values', () => {
+      component.affectedKpis = [{ key: ColumnFields.PRICE, value: 1 }];
+      component['resetKpiValues']();
+      expect(component.affectedKpis).toEqual([
+        { key: ColumnFields.PRICE, value: undefined },
+      ]);
+    });
+  });
 });

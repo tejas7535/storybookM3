@@ -27,13 +27,6 @@ export class PriceEditingModalComponent extends EditingModalComponent {
     this.affectedKpiOutput.emit(this.affectedKpis);
   }
 
-  resetKpiValues() {
-    this.affectedKpis = this.affectedKpis.map((kpi) => ({
-      ...kpi,
-      value: undefined,
-    }));
-  }
-
   protected validateInput(value: string): boolean {
     const locale = this.translocoLocaleService.getLocale();
 
