@@ -5,7 +5,10 @@
     <ng-content select="[report-header-content]"></ng-content>
 
     @if (reportInputs) {
-      <schaeffler-report-expansion-panel [title]="t('reportSectionInput')">
+      <schaeffler-report-expansion-panel
+        id="reportInputs"
+        [title]="t('reportSectionInput')"
+      >
         <schaeffler-calculation-result-report-input
           [reportInput]="reportInputs"
         >
@@ -16,6 +19,7 @@
     <ng-content select="[report-main-content]"></ng-content>
 
     <schaeffler-report-messages
+      id="reportMessages"
       [messages]="messages"
       [isMessageSectionExpanded]="isMessageSectionExpanded"
     >
