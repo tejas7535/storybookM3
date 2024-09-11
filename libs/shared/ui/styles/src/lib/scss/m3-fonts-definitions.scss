@@ -1,0 +1,114 @@
+@use '@angular/material' as mat;
+
+@mixin set-theme-fonts-variables($theme) {
+  //font sizes
+  --font-display-large: #{mat.get-theme-typography($theme, display-large, font)};
+  --font-display-medium: #{mat.get-theme-typography(
+      $theme,
+      display-medium,
+      font
+    )};
+  --font-display-small: #{mat.get-theme-typography($theme, display-small, font)};
+
+  --font-headline-large: #{mat.get-theme-typography(
+      $theme,
+      headline-large,
+      font
+    )};
+  --font-headline-medium: #{mat.get-theme-typography(
+      $theme,
+      headline-medium,
+      font
+    )};
+  --font-headline-small: #{mat.get-theme-typography(
+      $theme,
+      headline-small,
+      font
+    )};
+  --font-title-large: #{mat.get-theme-typography($theme, title-large, font)};
+  --font-title-medium: #{mat.get-theme-typography($theme, title-medium, font)};
+  --font-title-small: #{mat.get-theme-typography($theme, title-small, font)};
+  --font-body-large: #{mat.get-theme-typography($theme, body-large, font)};
+  --font-body-medium: #{mat.get-theme-typography($theme, body-medium, font)};
+  --font-body-small: #{mat.get-theme-typography($theme, body-small, font)};
+  --font-label-large: #{mat.get-theme-typography($theme, label-large, font)};
+  --font-label-medium: #{mat.get-theme-typography($theme, label-medium, font)};
+  --font-label-small: #{mat.get-theme-typography($theme, label-small, font)};
+
+  // letter spacing
+  --display-large-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      display-large,
+      letter-spacing
+    )};
+  --display-medium-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      display-medium,
+      letter-spacing
+    )};
+  --display-small-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      display-small,
+      letter-spacing
+    )};
+  --headline-large-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      headline-large,
+      letter-spacing
+    )};
+  --headline-medium-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      headline-medium,
+      letter-spacing
+    )};
+  --headline-small-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      headline-small,
+      letter-spacing
+    )};
+  --title-large-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      title-large,
+      letter-spacing
+    )};
+  --title-medium-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      title-medium,
+      letter-spacing
+    )};
+  --title-small-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      title-small,
+      letter-spacing
+    )};
+  --body-large-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      body-large,
+      letter-spacing
+    )};
+  --body-medium-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      body-medium,
+      letter-spacing
+    )};
+  --body-small-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      body-small,
+      letter-spacing
+    )};
+  --label-large-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      label-large,
+      letter-spacing
+    )};
+  --label-medium-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      label-medium,
+      letter-spacing
+    )};
+  --label-small-letter-spacing: #{mat.get-theme-typography(
+      $theme,
+      label-small,
+      letter-spacing
+    )};
+}

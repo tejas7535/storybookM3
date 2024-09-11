@@ -1,0 +1,34 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@use './theme-overrides' as overrides;
+
+@import './schaeffler-colors.scss';
+@import './m3-role-colors.scss';
+
+@import './m3-theme-definition.scss';
+@import './m3-component-classes.scss';
+@import './m3-fonts-definitions.scss';
+
+$my-theme: $schaeffler-m3-theme-light;
+
+html {
+  @include mat.all-component-themes($my-theme);
+  @include mat.strong-focus-indicators-theme(purple);
+  @include set-theme-colors($my-theme);
+  @include set-components-colors-variants($my-theme);
+  @include set-theme-fonts-variables($my-theme);
+}
+
+html.dark {
+  $my-theme: $schaeffler-m3-theme-dark;
+  @include mat.all-component-colors($my-theme);
+  @include set-theme-colors($my-theme);
+  @include set-components-colors-variants($my-theme);
+  @include set-theme-fonts-variables($my-theme);
+}
+
+@include mat.core();
+
+@include mat.typography-hierarchy($my-theme);
+$prefix: '' !default;
+@include overrides.schaeffler-theme-overrides-m3($my-theme, $prefix);

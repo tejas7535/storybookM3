@@ -4,15 +4,71 @@ const plugin = require('tailwindcss/plugin');
 const colors = require('./colors');
 const fontSizes = require('./font-sizes');
 
+// generate color class based on variable with opacity option
+const generateColorClass = (variable) => {
+  return ({ opacityValue }) =>
+    opacityValue
+      ? `rgba(var(--${variable}), ${opacityValue})`
+      : `rgb(var(--${variable}))`;
+};
+
+const materialsRoleColors = {
+  primary: generateColorClass('primary-color'),
+  'on-primary': 'var(--on-primary-color)',
+  'primary-container': 'var(--primary-container-color)',
+  'on-primary-container': 'var(--on-primary-container-color)',
+  'primary-fixed': 'var(--primary-fixed-color)',
+  'primary-fixed-dim': 'var(--primary-fixed-dim-color)',
+  'on-primary-fixed': 'var(--on-primary-fixed-color)',
+  'on-primary-fixed-variant': 'var(--on-primary-fixed-variant-color)',
+  secondary: {
+    DEFAULT: generateColorClass('secondary-color'),
+  },
+  'on-secondary': 'var(--on-secondary-color)',
+  'secondary-container': 'var(--secondary-container-color)',
+  'on-secondary-container': 'var(--on-secondary-container-color)',
+  'secondary-fixed': 'var(--secondary-fixed-color)',
+  'secondary-fixed-dim': 'var(--secondary-fixed-dim-color)',
+  'on-secondary-fixed': 'var(--on-secondary-fixed-color)',
+  'on-secondary-fixed-variant': 'var(--on-secondary-fixed-variant-color)',
+  tertiary: 'var(--tertiary-color)',
+  'on-tertiary': 'var(--on-tertiary-color)',
+  'tertiary-container': 'var(--tertiary-container-color)',
+  'on-tertiary-container': 'var(--on-tertiary-container-color)',
+  'tertiary-fixed': 'var(--tertiary-fixed-color)',
+  'tertiary-fixed-dim': 'var(--tertiary-fixed-dim-color)',
+  'on-tertiary-fixed': 'var(--on-tertiary-fixed-color)',
+  'on-tertiary-fixed-variant': 'var(--on-tertiary-fixed-variant-color)',
+  error: 'var(--error-color)',
+  'on-error': 'var(--on-error-color)',
+  'error-container': 'var(--error-container-color)',
+  'on-error-container': 'var(--on-error-container-color)',
+  'surface-dim': 'var(--surface-dim-color)',
+  surface: 'var(--surface-color)',
+  'surface-bright': 'var(--surface-bright-color)',
+  'surface-container-lowest': 'var(--surface-container-lowest-color)',
+  'surface-container-low': 'var(--surface-container-low-color)',
+  'surface-container': 'var(--surface-container-color)',
+  'surface-container-high': 'var(--surface-container-high-color)',
+  'surface-container-highest': 'var(--surface-container-highest-color)',
+  'on-surface': 'var(--on-surface-color)',
+  'on-surface-variant': 'var(--on-surface-variant-color)',
+  outline: 'var(--outline-color)',
+  'outline-variant': 'var(--outline-variant-color)',
+  'inverse-surface': 'var(--inverse-surface-color)',
+  'inverse-on-surface': 'var(--inverse-on-surface-color)',
+  'inverse-primary': 'var(--inverse-primary-color)',
+  scrim: 'var(--scrim-color)',
+  shadow: 'var(--shadow-color)',
+};
+
 const baseColors = {
-  primary: colors.primary,
   white: colors.white,
   disabled: colors.disabled,
   inactive: colors.inactive,
   active: colors.active,
   default: colors.default,
   'primary-variant': colors['primary-variant'],
-  secondary: colors.secondary,
   'secondary-legacy': colors['secondary-legacy'],
   'secondary-variant': colors['secondary-variant'],
   'secondary-900': colors['secondary-900'],
@@ -111,6 +167,66 @@ const plugins = [
         fontSize: theme('fontSize.h6'),
         lineHeight: fontSizes['h6'][1].lineHeight,
       },
+      '.text-display-large': {
+        font: 'var(--font-display-large)',
+        letterSpacing: 'var(--display-large-letter-spacing)',
+      },
+      '.text-display-medium': {
+        font: 'var(--font-display-medium)',
+        letterSpacing: 'var(--display-medium-letter-spacing)',
+      },
+      '.text-display-small': {
+        font: 'var(--font-display-small)',
+        letterSpacing: 'var(--display-small-letter-spacing)',
+      },
+      '.text-headline-large': {
+        font: 'var(--font-headline-large)',
+        letterSpacing: 'var(--headline-large-letter-spacing)',
+      },
+      '.text-headline-medium': {
+        font: 'var(--font-headline-medium)',
+        letterSpacing: 'var(--headline-medium-letter-spacing)',
+      },
+      '.text-headline-small': {
+        font: 'var(--font-headline-small)',
+        letterSpacing: 'var(--headline-small-letter-spacing)',
+      },
+      '.text-title-large': {
+        font: 'var(--font-title-large)',
+        letterSpacing: 'var(--title-large-letter-spacing)',
+      },
+      '.text-title-medium': {
+        font: 'var(--font-title-medium)',
+        letterSpacing: 'var(--title-medium-letter-spacing)',
+      },
+      '.text-title-small': {
+        font: 'var(--font-title-small)',
+        letterSpacing: 'var(--title-small-letter-spacing)',
+      },
+      '.text-body-large': {
+        font: 'var(--font-body-large)',
+        letterSpacing: 'var(--body-large-letter-spacing)',
+      },
+      '.text-body-medium': {
+        font: 'var(--font-body-medium)',
+        letterSpacing: 'var(--body-medium-letter-spacing)',
+      },
+      '.text-body-small': {
+        font: 'var(--font-body-small)',
+        letterSpacing: 'var(--body-small-letter-spacing)',
+      },
+      '.text-label-large': {
+        font: 'var(--font-label-large)',
+        letterSpacing: 'var(--label-large-letter-spacing)',
+      },
+      '.text-label-medium': {
+        font: 'var(--font-label-medium)',
+        letterSpacing: 'var(--label-medium-letter-spacing)',
+      },
+      '.text-label-small': {
+        font: 'var(--font-label-small)',
+        letterSpacing: 'var(--label-small-letter-spacing)',
+      },
     });
   }),
   plugin(function ({ addComponents, theme }) {
@@ -142,6 +258,7 @@ const theme = {
     ...functionalColors,
     ...greys,
     ...emphasis,
+    ...materialsRoleColors,
     transparent: 'rgba(0,0,0,0)',
   },
   backgroundColor: {
@@ -149,6 +266,7 @@ const theme = {
     ...backgroundColors,
     ...greys,
     ...emphasis,
+    ...materialsRoleColors,
     transparent: 'rgba(0,0,0,0)',
   },
   gradientColorStops: (theme) => ({
@@ -158,6 +276,7 @@ const theme = {
     ...baseColors,
     ...functionalColors,
     ...border,
+    ...materialsRoleColors,
   },
   fontSize: fontSizes,
   fontFamily: {
@@ -171,6 +290,7 @@ const theme = {
     ...functionalTextColors,
     ...functionalIconColors,
     ...emphasis,
+    ...materialsRoleColors,
   },
 
   screens: {

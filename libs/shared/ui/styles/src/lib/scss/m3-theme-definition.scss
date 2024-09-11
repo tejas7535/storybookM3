@@ -1,0 +1,40 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@use './theme-overrides' as overrides;
+@import './schaeffler-colors.scss';
+@import './m3-role-colors.scss';
+
+$_rest: (
+  secondary: map.get($schaeffler-palette-m3, secondary),
+  neutral: map.get($schaeffler-palette-m3, neutral),
+  neutral-variant: map.get($schaeffler-palette-m3, neutral-variant),
+  error: map.get($schaeffler-palette-m3, error),
+);
+$_primary: map.merge(map.get($schaeffler-palette-m3, primary), $_rest);
+$_tertiary: map.merge(map.get($schaeffler-palette-m3, tertiary), $_rest);
+
+$schaeffler-m3-theme-light: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: $_primary,
+      tertiary: $_tertiary,
+    ),
+    typography: (
+      plain-family: 'Noto Sans',
+    ),
+  )
+);
+
+$schaeffler-m3-theme-dark: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: $_primary,
+      tertiary: $_tertiary,
+    ),
+    typography: (
+      plain-family: 'Noto Sans',
+    ),
+  )
+);
