@@ -20,6 +20,12 @@ import {
 
 import { BehaviorSubject, of } from 'rxjs';
 
+import {
+  clearCreateCaseRowData,
+  clearCustomer,
+  clearShipToParty,
+  resetAllAutocompleteOptions,
+} from '@gq/core/store/actions';
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
@@ -600,6 +606,23 @@ describe('EditCaseModalComponent', () => {
     test('should return true if both dates are undefined', () => {
       // eslint-disable-next-line unicorn/no-useless-undefined
       expect(component['isTheSameDay'](undefined, undefined)).toEqual(true);
+    });
+  });
+  describe('should dispatch reset actions', () => {
+    test('should dispatch reset actions', () => {
+      store.dispatch = jest.fn();
+
+      component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        resetAllAutocompleteOptions()
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(clearCustomer());
+      expect(store.dispatch).toHaveBeenCalledWith(clearShipToParty());
+      expect(store.dispatch).toHaveBeenCalledWith(clearCreateCaseRowData());
+      expect(
+        component['sectorGpsdFacade'].resetAllSectorGpsds
+      ).toHaveBeenCalled();
     });
   });
 });

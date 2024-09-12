@@ -417,5 +417,6 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(clearCustomer());
     this.store.dispatch(clearShipToParty());
     this.store.dispatch(clearCreateCaseRowData());
+    this.sectorGpsdFacade.resetAllSectorGpsds();
   }
 }
