@@ -80,6 +80,31 @@
     "downloadReport": "Download Report",
     "startNewCalculation": "Start new Calculation"
   },
+  "reportResult": {
+    "mediasBaseUrl": "https://medias.schaeffler.de/en",
+    "viewProductButton": "View Product",
+    "mountingInstructions": "Mounting Instructions",
+    "mountingToolsAndUtilities": "Mounting tools and utilities",
+    "hydraulicNut": "Hydraulic Nut",
+    "lockNut": "Lock Nut",
+    "sleeveConnectors": "Sleeve connectors",
+    "pumps": {
+      "title": "Pumps",
+      "recommended": "Recommended",
+      "alternative": "Alternative"
+    },
+    "additionalTools": {
+      "title": "Additional Tools"
+    },
+    "reportSelection": {
+      "title": "Report",
+      "reportInputs": "Input",
+      "mountingToolsAndUtilities": "Mounting tools and utilities",
+      "mountingInstructions": "Mounting Instructions",
+      "reportMessages": "Errors, Warning & Notes",
+      "downloadPdf": "Download PDF"
+    }
+  },
   "error": {
     "content": "Unfortunately an error occured. Please try again later.",
     "confirm": "Confirm",

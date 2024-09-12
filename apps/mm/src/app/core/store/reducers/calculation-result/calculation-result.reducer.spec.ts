@@ -54,6 +54,7 @@ describe('CalculationParametersReducer', () => {
     it('should set isLoading to false and set result', () => {
       const initialState: CalculationResultState = {
         isLoading: true,
+        result: undefined,
       };
 
       const newState = calculationResultReducer(
@@ -78,6 +79,7 @@ describe('CalculationParametersReducer', () => {
     it('should set isLoading to false', () => {
       const initialState: CalculationResultState = {
         isLoading: true,
+        result: undefined,
       };
 
       const newState = calculationResultReducer(

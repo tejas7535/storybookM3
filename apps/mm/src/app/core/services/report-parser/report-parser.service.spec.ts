@@ -99,7 +99,7 @@ describe('ReportParserService', () => {
       });
 
       it('should have empty pumps', () => {
-        expect(result.mountingTools.pumps).toEqual([]);
+        expect(result.mountingTools.pumps).toEqual({ title: '', items: [] });
       });
 
       it('should have empty nut data', () => {
@@ -115,7 +115,7 @@ describe('ReportParserService', () => {
       });
 
       it('should have empty sleeve connectors data', () => {
-        expect(result.mountingTools.sleveConnectors).toEqual([]);
+        expect(result.mountingTools.sleeveConnectors).toEqual([]);
       });
 
       it('should have empty input data', () => {
@@ -145,7 +145,7 @@ describe('ReportParserService', () => {
       });
 
       it('should parse sleeve connectors data', () => {
-        expect(result.mountingTools.sleveConnectors).toMatchSnapshot();
+        expect(result.mountingTools.sleeveConnectors).toMatchSnapshot();
       });
 
       it('should have empty notes section', () => {

@@ -38,13 +38,28 @@ export interface PumpItem {
 export interface MountingTools {
   additionalTools: ResultItem[];
   hydraulicNut: ResultItem[];
-  pumps: PumpItem[];
+  pumps: {
+    title: string;
+    items: PumpItem[];
+  };
   locknut: ResultItem[];
-  sleveConnectors: ResultItem[];
+  sleeveConnectors: ResultItem[];
 }
 
 export interface ReportMessages {
   warnings: string[];
   errors: string[];
   notes: string[];
+}
+
+export type ResultType =
+  | 'reportInputs'
+  | 'startPosition'
+  | 'endPosition'
+  | 'mountingToolsAndUtilities'
+  | 'mountingInstructions'
+  | 'reportMessages';
+
+export interface ResultTypeConfig {
+  name: ResultType;
 }

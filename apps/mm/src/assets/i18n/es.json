@@ -80,6 +80,31 @@
     "downloadReport": "Descargar el informe",
     "startNewCalculation": "Iniciar un nuevo cálculo"
   },
+  "reportResult": {
+    "mediasBaseUrl": "https://medias.schaeffler.es/es",
+    "viewProductButton": "Ver Producto",
+    "mountingInstructions": "Instrucciones de Montaje",
+    "mountingToolsAndUtilities": "Herramientas y Utilidades de Montaje",
+    "hydraulicNut": "Tuerca Hidráulica",
+    "lockNut": "Tuerca de seguridad",
+    "sleeveConnectors": "Conectores de manga",
+    "pumps": {
+      "title": "Bombas",
+      "recommended": "Recomendado",
+      "alternative": "Alternativa"
+    },
+    "additionalTools": {
+      "title": "Herramientas Adicionales"
+    },
+    "reportSelection": {
+      "title": "Informe",
+      "reportInputs": "Entrada",
+      "mountingToolsAndUtilities": "Herramientas y utilidades de montaje",
+      "mountingInstructions": "Instrucciones de montaje",
+      "reportMessages": "Errores, Advertencias y Notas",
+      "downloadPdf": "Descargar PDF"
+    }
+  },
   "settings": "Ajustes",
   "error": {
     "content": "Lamentablemente se ha producido un error. Por favor, inténtelo de nuevo más tarde.",

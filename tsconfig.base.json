@@ -48,6 +48,7 @@
       "@mac/testing/*": ["apps/mac/src/testing/*"],
       "@mm/*": ["apps/mm/src/app/*"],
       "@mm/environments/*": ["apps/mm/src/environments/*"],
+      "@mm/testing/*": ["apps/mm/src/testing/*"],
       "@schaeffler/app-shell": ["libs/shared/ui/app-shell/src/index.ts"],
       "@schaeffler/application-insights": [
         "libs/shared/utils/application-insights/src/index.ts"

@@ -1,0 +1,17 @@
+@if (mountingRecommendations.length > 0) {
+  <div class="mt-8" *transloco="let t; read: 'reportResult'">
+    <h3 class="text-subtitle-1">{{ t('mountingInstructions') }}</h3>
+    <mat-card class="p-3 mt-2 overflow-hidden py-4">
+      <mat-card-content>
+        <ul class="list-disc">
+          @for (
+            mountingRecommendation of mountingRecommendations;
+            track mountingRecommendation
+          ) {
+            <li>{{ mountingRecommendation }}</li>
+          }
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+}

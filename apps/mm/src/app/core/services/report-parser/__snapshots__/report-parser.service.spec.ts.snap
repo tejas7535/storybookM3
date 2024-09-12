@@ -310,23 +310,26 @@ Array [
 `;
 
 exports[`ReportParserService parseResponse when result is defined should have pumps with recommended and alternative boolean flag 1`] = `
-Array [
-  Object {
-    "field": "Pump for hydraulic nut",
-    "isRecommended": true,
-    "value": "PUMP1000-2,2",
-  },
-  Object {
-    "field": "Pump for hydraulic nut",
-    "isRecommended": false,
-    "value": "PUMP700-2L",
-  },
-  Object {
-    "field": "Pump for hydraulic nut",
-    "isRecommended": false,
-    "value": "PUMP1000-5L-AIR",
-  },
-]
+Object {
+  "items": Array [
+    Object {
+      "field": "Pump for hydraulic nut",
+      "isRecommended": true,
+      "value": "PUMP1000-2,2",
+    },
+    Object {
+      "field": "Pump for hydraulic nut",
+      "isRecommended": false,
+      "value": "PUMP700-2L",
+    },
+    Object {
+      "field": "Pump for hydraulic nut",
+      "isRecommended": false,
+      "value": "PUMP1000-5L-AIR",
+    },
+  ],
+  "title": "Pump for hydraulic nut",
+}
 `;
 
 exports[`ReportParserService parseResponse when result is defined should have warnings 1`] = `
@@ -338,10 +341,10 @@ Array [
 
 exports[`ReportParserService parseResponse when result is defined should parse mounting recommendations data 1`] = `
 Array [
-  "- The measurement of radial clearance with a feeler gage is hardly possible for radial self-aligning ball bearings.",
-  "- Radial self-aligning ball bearings with an inner diameter up to 75 mm are mounted with a special tool (LOCKNUT-DOUBLEHOOK).",
-  "- The desired radial clearance results from the given torque or the torsion angle.",
-  "- The detailed mounting procedure is described in the manual BA28.",
+  "The measurement of radial clearance with a feeler gage is hardly possible for radial self-aligning ball bearings.",
+  "Radial self-aligning ball bearings with an inner diameter up to 75 mm are mounted with a special tool (LOCKNUT-DOUBLEHOOK).",
+  "The desired radial clearance results from the given torque or the torsion angle.",
+  "The detailed mounting procedure is described in the manual BA28.",
   "some nested text",
 ]
 `;

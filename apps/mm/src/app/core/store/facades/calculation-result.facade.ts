@@ -22,6 +22,22 @@ export class CalculationResultFacade {
     CalculationResultSelector.isResultAvailable
   );
 
+  public readonly mountingRecommendations$ = this.store.select(
+    CalculationResultSelector.getMountingRecommendations
+  );
+
+  public readonly mountingTools$ = this.store.select(
+    CalculationResultSelector.getMountingTools
+  );
+
+  public readonly hasMountingTools$ = this.store.select(
+    CalculationResultSelector.hasMountingTools
+  );
+
+  public readonly reportSelectionTypes$ = this.store.select(
+    CalculationResultSelector.getReportSelectionTypes
+  );
+
   constructor(private readonly store: Store) {}
 
   fetchCalculationResultResourcesLinks(

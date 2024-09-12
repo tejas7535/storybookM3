@@ -1,0 +1,13 @@
+@if (hydraulicOrLockNut.length > 0) {
+  <div class="grid grid-cols-1 gap-8">
+    <mm-product-card
+      [imagePath]="imagePath"
+      [productTitle]="title"
+      [productValue]="hydraulicOrLockNut[0].value"
+      [imagePath]="imagePath"
+      [productSectionClass]="'md:text-h6'"
+      [cardClass]="'pt-4'"
+    >
+    </mm-product-card>
+  </div>
+}

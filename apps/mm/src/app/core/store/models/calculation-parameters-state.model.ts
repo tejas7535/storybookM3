@@ -1,5 +1,5 @@
 export interface CalculationParametersState {
-  parameters?: CalculationParameters;
+  parameters: CalculationParameters;
 }
 
 export interface CalculationParameters {

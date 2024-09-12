@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
+import { PagesStepperComponent } from '@mm/core/components/pages-stepper/pages-stepper.component';
 import { ENV, getEnv } from '@mm/environments/environments.provider';
 import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
+import { HorizontalSeparatorComponent } from '@mm/shared/components/horizontal-seperator/horizontal-separator.component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
@@ -11,7 +13,6 @@ import {
   LazyListLoaderService,
   RuntimeRequesterService,
 } from '../core/services';
-import { HorizontalSeparatorModule } from '../shared/components/horizontal-seperator/horizontal-separator.module';
 import {
   ListMemberComponent,
   StringNumberMemberComponent,
@@ -38,10 +39,11 @@ import { ResultPageModule } from './result-page/result-page.module';
     BearingSearchComponent,
     ResultPageModule,
     LoadingSpinnerModule,
-    HorizontalSeparatorModule,
+    HorizontalSeparatorComponent,
     CalculationOptionsModule,
     AppStoreButtonsComponent,
     ReportResultPageComponent,
+    PagesStepperComponent,
 
     // Dynamic Forms
     DynamicFormsModule.forRoot({

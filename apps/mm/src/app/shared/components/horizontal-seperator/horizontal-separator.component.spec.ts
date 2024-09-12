@@ -8,12 +8,11 @@ describe('HorizontalSeparatorComponent', () => {
 
   const createComponent = createComponentFactory({
     component: HorizontalSeparatorComponent,
-    declarations: [HorizontalSeparatorComponent],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
   });
 
   it('should create', () => {

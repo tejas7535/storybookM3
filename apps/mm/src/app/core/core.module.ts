@@ -30,7 +30,6 @@ import { LanguageSelectModule } from '@schaeffler/transloco/components';
 import { environment } from '../../environments/environment';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { SharedModule } from '../shared/shared.module';
-import { PagesStepperModule } from './components/pages-stepper/pages-stepper.module';
 import { SettingsComponent } from './components/settings/settings.component';
 import { detectAppDelivery } from './helpers/settings-helpers';
 import { ConsentValues } from './services/tracking/one-trust.interface';
@@ -143,13 +142,12 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
 
 @NgModule({
   declarations: [SettingsComponent],
-  exports: [SettingsComponent, PagesStepperModule],
+  exports: [SettingsComponent],
   imports: [
     CommonModule,
     RouterModule,
     AppShellModule,
     // UI Modules
-    PagesStepperModule,
     SharedModule,
     // Translation
     SharedTranslocoModule.forRoot(

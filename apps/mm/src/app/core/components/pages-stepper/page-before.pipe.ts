@@ -4,6 +4,7 @@ import { PageMetaStatus } from '@caeonline/dynamic-forms';
 
 @Pipe({
   name: 'mmPageBefore',
+  standalone: true,
 })
 export class PageBeforePipe implements PipeTransform {
   transform(

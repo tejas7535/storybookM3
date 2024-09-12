@@ -1,0 +1,31 @@
+<mat-card class="mt-2 overflow-hidden cursor-pointer" [ngClass]="cardClass">
+  <mat-card-content>
+    <div class="flex">
+      <div class="flex items-center">
+        <img alt="pump" ngSrc="{{ imagePath }}" width="160" height="88" />
+      </div>
+      <mat-divider class="!mx-2 sm:!mx-4" vertical="true"></mat-divider>
+      <div class="flex flex-col flex-grow">
+        <ng-content select="[additional-header-content]"></ng-content>
+        <div>
+          <div class="text-caption text-medium-emphasis">
+            {{ productTitle }}
+          </div>
+        </div>
+        <div
+          class="text-high-emphasis text-subtitle-1"
+          [ngClass]="productSectionClass"
+        >
+          {{ productValue }}
+        </div>
+
+        <mat-divider class="!my-2"></mat-divider>
+
+        <mm-medias-view-product-button
+          class="self-end"
+          [productId]="productValue"
+        ></mm-medias-view-product-button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

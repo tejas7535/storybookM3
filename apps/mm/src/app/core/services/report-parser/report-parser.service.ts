@@ -72,7 +72,7 @@ export class ReportParserService {
       hydraulicNut: this.extractHydraulicNut(response),
       pumps: this.extractPumps(response),
       locknut: this.extractLockNut(response),
-      sleveConnectors: this.extractSleeveConnectors(response),
+      sleeveConnectors: this.extractSleeveConnectors(response),
     };
   }
 
@@ -198,22 +198,45 @@ export class ReportParserService {
     );
   }
 
-  private extractPumps(originalResult: BearinxOnlineResult): PumpItem[] {
+  private extractPumps(originalResult: BearinxOnlineResult): {
+    title: string;
+    items: PumpItem[];
+  } {
     const pumpsSubordinates: BearinxOnlineResultSubordinate =
       this.extractSubordinatesFromPath(
         originalResult,
         this.getMountingToolsItemPath(STRING_OUTP_PUMPS, TABLE)
       );
 
-    return (
+    const items =
       pumpsSubordinates?.data?.items
         .filter(([firstItem, secondItem]) => firstItem && secondItem)
         .map(([firstItem, secondItem]) => ({
           isRecommended: firstItem.value === 'recommended',
           field: secondItem.field,
           value: secondItem.value,
-        })) || []
-    );
+        })) || [];
+
+    return {
+      title: this.extractPumpsTitle(pumpsSubordinates),
+      items,
+    };
+  }
+
+  private extractPumpsTitle(
+    pumpsSubordinates: BearinxOnlineResultSubordinate
+  ): string {
+    const fields = pumpsSubordinates?.data?.fields || [];
+
+    switch (fields.length) {
+      case 2:
+      case 3:
+        return fields[1];
+      case 4:
+        return fields[1] + fields[2];
+      default:
+        return '';
+    }
   }
 
   private extractMountingRecommendations(
@@ -238,7 +261,21 @@ export class ReportParserService {
       return mountingRecommendationsValue;
     }
 
-    return this.formatMessageSubordinates(mountingRecommendations.subordinates);
+    const mountingRecommendationsWithDashes = this.formatMessageSubordinates(
+      mountingRecommendations.subordinates
+    );
+
+    return this.removeLeadingDashFromMountingRecommendations(
+      mountingRecommendationsWithDashes
+    );
+  }
+
+  private removeLeadingDashFromMountingRecommendations(
+    originalMountingRecommendations: string[]
+  ): string[] {
+    return originalMountingRecommendations.map((recommendation) =>
+      recommendation.replace(/^-/, '').trim()
+    );
   }
 
   private extractSubordinatesFromPath(

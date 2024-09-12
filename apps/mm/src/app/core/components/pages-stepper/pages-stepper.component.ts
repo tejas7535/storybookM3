@@ -1,4 +1,5 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -7,25 +8,39 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatStepper } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
+import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { StepperModule } from '@schaeffler/stepper';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { STEPNAME } from '../../../shared/constants/tracking-names';
+import { PageBeforePipe } from './page-before.pipe';
 
 // TODO use Ids for active state
 @Component({
   selector: 'mm-pages-stepper',
   templateUrl: './pages-stepper.component.html',
   styleUrls: ['./pages-stepper.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatStepperModule,
+    StepperModule,
+    SharedTranslocoModule,
+    QualtricsInfoBannerComponent,
+    PageBeforePipe,
+  ],
+  providers: [PageBeforePipe],
   // changeDetection: ChangeDetectionStrategy.OnPush, // TODO Enable when pageVisibility is async
 })
 export class PagesStepperComponent implements OnChanges {
   @Input() public pages: PageMetaStatus[] = [];
 
-  @Input() public activePageId?: string;
+  @Input() public activePageId: string;
 
   @Input() public maxPageId?: string;
 
@@ -38,6 +53,15 @@ export class PagesStepperComponent implements OnChanges {
   public constructor(
     private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
+
+  get pageTitleTranslationKey(): string {
+    const currentPage = this.pages.find(
+      (page) => page.id === this.activePageId
+    );
+
+    // remove optional chaining operator once home component will be refactored as test are using stepper implementation.
+    return currentPage?.page?.text;
+  }
 
   public get hasNext(): boolean {
     const lastPage = this.getVisiblePages().at(-1);

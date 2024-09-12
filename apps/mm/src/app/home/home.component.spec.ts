@@ -28,7 +28,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { environment } from '../../environments/environment';
 import { LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX } from '../../testing/mocks/rest.service.mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
-import { PagesStepperModule } from '../core/components/pages-stepper/pages-stepper.module';
 import { MMLocales, RestService } from '../core/services';
 import { LocaleService } from '../core/services/locale/locale.service';
 import { FormValue, FormValueProperty } from '../shared/models';
@@ -83,9 +82,8 @@ describe('HomeComponent', () => {
       MockDirective(LetDirective),
       MockPipe(PushPipe),
 
-      PagesStepperModule,
       ResultPageModule,
-
+      PagesStepperComponent,
       RouterTestingModule,
 
       provideTranslocoTestingModule({ en: {} }),
