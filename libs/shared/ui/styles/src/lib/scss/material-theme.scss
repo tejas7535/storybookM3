@@ -44,7 +44,6 @@ $custom-typography: mat.m2-define-legacy-typography-config(
 // @include mat.all-legacy-component-themes($schaeffler-theme);
 
 :root {
-  //@include set-theme-colors($schaeffler-theme);
   //define action colors and fonts that could be instanly used in shared components based on the m3 theme
   @include set-theme-colors($schaeffler-m3-theme-light);
   @include set-theme-fonts-variables($schaeffler-m3-theme-light);
