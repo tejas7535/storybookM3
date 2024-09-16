@@ -1,3 +1,4 @@
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { AbcxClassification } from '@gq/shared/models/quotation';
 
 import { SimulatedQuotation } from '../../../app/shared/models';
@@ -139,6 +140,7 @@ export const QUOTATION_DETAILS_MOCK = [
 
 export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
   gqId: 1234,
+  simulatedField: ColumnFields.PRICE,
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   previousStatusBar: STATUS_BAR_PROPERTIES_MOCK,
   simulatedStatusBar: STATUS_BAR_PROPERTIES_MOCK,
@@ -146,6 +148,7 @@ export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
 
 export const SIMULATED_QUOTATION_MOCKS_WITH_RFQ: SimulatedQuotation = {
   gqId: 1234,
+  simulatedField: ColumnFields.PRICE,
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   previousStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,

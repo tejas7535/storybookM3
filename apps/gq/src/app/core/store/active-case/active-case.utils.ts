@@ -1,3 +1,4 @@
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { SimulatedQuotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import {
@@ -154,10 +155,12 @@ export const checkEqualityOfIdentifier = (
 
 export const buildSimulatedQuotation = (
   gqId: number,
+  simulatedField: ColumnFields,
   simulatedDetails: QuotationDetail[],
   details: QuotationDetail[]
 ): SimulatedQuotation => ({
   gqId,
+  simulatedField,
   quotationDetails: simulatedDetails,
   simulatedStatusBar: {
     ...calculateStatusBarValues(getSimulatedDetails(details, simulatedDetails)),

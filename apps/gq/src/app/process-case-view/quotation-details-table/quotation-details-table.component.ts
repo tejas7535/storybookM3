@@ -16,7 +16,6 @@ import {
   ColumnUtilityService,
 } from '@gq/shared/ag-grid/services';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
-import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import {
   basicTableStyle,
   statusBarSimulation,
@@ -24,20 +23,9 @@ import {
 } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
 import { FilterState } from '@gq/shared/models/grid-state.model';
-import {
-  PriceSource,
-  QuotationDetail,
-  SapPriceCondition,
-} from '@gq/shared/models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
-import { getSapStandardPriceSource } from '@gq/shared/utils/price-source.utils';
-import {
-  calculateAffectedKPIs,
-  calculateMargin,
-  calculateNetValue,
-  calculatePriceDiff,
-} from '@gq/shared/utils/pricing.utils';
 import {
   ColDef,
   ColumnState,
@@ -66,6 +54,8 @@ import {
   STATUS_BAR_CONFIG,
 } from './config';
 import { TableContext } from './config/tablecontext.model';
+import { PriceSimulationService } from './services/simulation/price-simulation.service';
+import { PriceSourceSimulationService } from './services/simulation/price-source-simulation.service';
 
 @Component({
   selector: 'gq-quotation-details-table',
@@ -84,6 +74,10 @@ export class QuotationDetailsTableComponent implements OnInit {
     inject(ColumnDefService);
   private readonly localizationService: LocalizationService =
     inject(LocalizationService);
+  private readonly priceSimulationService = inject(PriceSimulationService);
+  private readonly priceSourceSimulationService = inject(
+    PriceSourceSimulationService
+  );
   private readonly router: Router = inject(Router);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly activeCaseFacade: ActiveCaseFacade =
@@ -112,7 +106,6 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   simulatedField: ColumnFields;
   simulatedValue: number;
-  isInputInvalid: boolean;
   simulatedPriceSource: PriceSourceOptions;
 
   selectedQuotationIds: string[] = [];
@@ -319,10 +312,11 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.simulatedValue
     ) {
       if (event.node.isSelected()) {
-        this.simulateMaterial(
+        this.priceSimulationService.simulateSelectedQuotationDetails(
           this.simulatedField,
           this.simulatedValue,
-          this.isInputInvalid
+          this.selectedRows,
+          this.tableContext.quotation.gqId
         );
       } else {
         this.activeCaseFacade.removeSimulatedQuotationDetail(
@@ -338,95 +332,6 @@ export class QuotationDetailsTableComponent implements OnInit {
 
       this.activeCaseFacade.resetSimulatedQuotation();
     }
-  }
-
-  onMultipleMaterialSimulation(
-    valId: ColumnFields,
-    value: number,
-    isInvalid: boolean
-  ) {
-    this.simulatedField = valId;
-    this.simulatedValue = value;
-    this.isInputInvalid = isInvalid;
-    this.tableContext.simulatedField = this.simulatedField;
-    this.tableContext.simulatedValue = this.simulatedValue;
-
-    this.simulateMaterial(valId, value, isInvalid);
-  }
-
-  onPriceSourceSimulation(priceSourceOption: PriceSourceOptions) {
-    this.simulatedPriceSource = priceSourceOption;
-
-    const simulatedRows = this.selectedRows
-      .map((row: IRowNode) => {
-        const detail: QuotationDetail = row.data;
-
-        const targetPriceSource = this.getTargetPriceSource(
-          detail,
-          priceSourceOption
-        );
-
-        /**
-         * Do not simulate if
-         * 1. priceSource is already correct
-         * 2. GQ Price is targetPriceSource but no GQ Price is available
-         * 3. StrategicPrice is targetPriceSource but no strategic Price is available
-         * 4. SAP Price is targetPriceSource but not SAP Price is available
-         * 5. Target Price is targetPriceSource but no Target Price is available
-         */
-        if (
-          detail.priceSource === targetPriceSource ||
-          (targetPriceSource === PriceSource.GQ && !detail.recommendedPrice) ||
-          (targetPriceSource === PriceSource.STRATEGIC &&
-            !detail.strategicPrice) ||
-          (targetPriceSource !== PriceSource.GQ &&
-            targetPriceSource !== PriceSource.TARGET_PRICE &&
-            !detail.sapPriceCondition) ||
-          (targetPriceSource === PriceSource.TARGET_PRICE &&
-            !detail.targetPrice)
-        ) {
-          return undefined as any;
-        }
-        // set new price according to targetPriceSource and available data of the position
-        const newPrice = this.getPriceByTargetPriceSource(
-          targetPriceSource,
-          detail
-        );
-
-        // set new price source according to targetPriceSource and available data of the position
-        const newPriceSource = this.getPriceSource(targetPriceSource, detail);
-        const affectedKpis = calculateAffectedKPIs(
-          newPrice,
-          ColumnFields.PRICE,
-          row.data,
-          false
-        );
-
-        const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
-
-        const simulatedRow: QuotationDetail = {
-          ...row.data,
-          price: simulatedPrice,
-          priceSource: newPriceSource,
-          netValue: calculateNetValue(simulatedPrice, row.data),
-          gpi: this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
-          gpm: this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
-          discount: this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
-          priceDiff: calculatePriceDiff(
-            row.data.lastCustomerPrice,
-            simulatedPrice
-          ),
-          rlm: calculateMargin(simulatedPrice, row.data.relocationCost),
-        };
-
-        return simulatedRow;
-      })
-      .filter(Boolean);
-
-    this.activeCaseFacade.addSimulatedQuotation(
-      this.tableContext.quotation.gqId,
-      simulatedRows
-    );
   }
 
   onRowDoubleClicked(event: RowDoubleClickedEvent) {
@@ -470,150 +375,6 @@ export class QuotationDetailsTableComponent implements OnInit {
     ];
   }
 
-  private getPriceByTargetPriceSource(
-    targetPriceSource: PriceSource,
-    detail: QuotationDetail
-  ) {
-    if (targetPriceSource === PriceSource.GQ) {
-      return detail.recommendedPrice;
-    }
-    if (targetPriceSource === PriceSource.STRATEGIC) {
-      return detail.strategicPrice;
-    }
-    if (targetPriceSource === PriceSource.TARGET_PRICE) {
-      return detail.targetPrice;
-    }
-
-    return detail.sapPrice;
-  }
-  private getTargetPriceSource(
-    detail: QuotationDetail,
-    priceSourceOption: PriceSourceOptions
-  ) {
-    if (priceSourceOption === PriceSourceOptions.GQ) {
-      return detail.recommendedPrice ? PriceSource.GQ : PriceSource.STRATEGIC;
-    }
-
-    if (priceSourceOption === PriceSourceOptions.TARGET_PRICE) {
-      return PriceSource.TARGET_PRICE;
-    }
-
-    if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
-      return getSapStandardPriceSource(detail);
-    }
-
-    if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
-      return PriceSource.CAP_PRICE;
-    }
-
-    return PriceSource.SAP_SPECIAL;
-  }
-
-  private getPriceSource(
-    targetPriceSource: PriceSource,
-    detail: QuotationDetail
-  ) {
-    if (
-      [
-        PriceSource.GQ,
-        PriceSource.STRATEGIC,
-        PriceSource.TARGET_PRICE,
-      ].includes(targetPriceSource)
-    ) {
-      return targetPriceSource;
-    }
-
-    if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
-      return getSapStandardPriceSource(detail);
-    }
-
-    if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
-      return PriceSource.CAP_PRICE;
-    }
-
-    return PriceSource.SAP_SPECIAL;
-  }
-
-  private getSimulatedRow(
-    field: ColumnFields,
-    value: number,
-    row: IRowNode
-  ): QuotationDetail {
-    if (!this.shouldSimulate(field, row.data)) {
-      return row.data;
-    }
-
-    const affectedKpis = calculateAffectedKPIs(value, field, row.data);
-    const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
-
-    const simulatedRow: QuotationDetail = {
-      ...row.data,
-      price: simulatedPrice,
-      priceSource: PriceSource.MANUAL,
-      netValue: calculateNetValue(simulatedPrice, row.data),
-      gpi:
-        field === ColumnFields.GPI
-          ? value
-          : this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
-      gpm:
-        field === ColumnFields.GPM
-          ? value
-          : this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
-      discount:
-        field === ColumnFields.DISCOUNT
-          ? value
-          : this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
-      priceDiff: calculatePriceDiff(row.data.lastCustomerPrice, simulatedPrice),
-      rlm: calculateMargin(simulatedPrice, row.data.relocationCost),
-    };
-
-    return simulatedRow;
-  }
-
-  private simulateMaterial(
-    field: ColumnFields,
-    value: number,
-    isInvalid: boolean
-  ) {
-    const simulatedRows = isInvalid
-      ? []
-      : this.selectedRows.map((row: IRowNode) =>
-          this.getSimulatedRow(field, value, row)
-        );
-
-    this.activeCaseFacade.addSimulatedQuotation(
-      this.tableContext.quotation.gqId,
-      simulatedRows
-    );
-  }
-
-  private shouldSimulate(
-    field: ColumnFields,
-    detail: QuotationDetail
-  ): boolean {
-    switch (field) {
-      case ColumnFields.DISCOUNT: {
-        return detail.sapGrossPrice && detail.sapGrossPrice > 0;
-      }
-      case ColumnFields.GPI: {
-        return detail.gpc && detail.gpc > 0;
-      }
-      case ColumnFields.GPM: {
-        return detail.sqv && detail.sqv > 0;
-      }
-      default: {
-        return true;
-      }
-    }
-  }
-
-  private getAffectedKpi(
-    kpis: KpiValue[],
-    kpiName: string
-  ): number | undefined {
-    return kpis.find((kpi: KpiValue) => kpi.key === kpiName)?.value;
-  }
-
   private readonly buildColumnData = (event: RowDataUpdatedEvent) => {
     const columnData: QuotationDetail[] = [];
     event.api.forEachNodeAfterFilterAndSort((node: IRowNode) => {
@@ -622,4 +383,36 @@ export class QuotationDetailsTableComponent implements OnInit {
 
     return columnData;
   };
+
+  // Methods for simulation, forwards the simulation to the simulation services
+
+  onMultipleMaterialSimulation(
+    simulatedField: ColumnFields,
+    value: number,
+    isInvalid: boolean
+  ) {
+    this.simulatedField = simulatedField;
+    this.simulatedValue = value;
+    this.tableContext.simulatedField = this.simulatedField;
+    this.tableContext.simulatedValue = this.simulatedValue;
+
+    if (!isInvalid) {
+      this.priceSimulationService.simulateSelectedQuotationDetails(
+        simulatedField,
+        value,
+        this.selectedRows,
+        this.tableContext.quotation.gqId
+      );
+    }
+  }
+
+  onPriceSourceSimulation(priceSourceOption: PriceSourceOptions) {
+    this.simulatedPriceSource = priceSourceOption;
+
+    this.priceSourceSimulationService.onPriceSourceSimulation(
+      priceSourceOption,
+      this.tableContext.quotation.gqId,
+      this.selectedRows
+    );
+  }
 }

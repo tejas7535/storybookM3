@@ -309,6 +309,7 @@ export class ColumnDefService {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.targetPriceInfoText'
         ),
+        editableColumn: true,
       },
     },
     {

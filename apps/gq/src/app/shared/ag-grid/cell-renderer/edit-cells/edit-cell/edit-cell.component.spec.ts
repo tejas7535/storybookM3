@@ -39,6 +39,7 @@ describe('EditCellComponent', () => {
         getSimulatedQuotationDetailByItemId$: jest
           .fn()
           .mockReturnValue(of(QUOTATION_DETAIL_MOCK)),
+        simulatedField$: of(ColumnFields.PRICE),
       }),
       mockProvider(RolesFacade, {
         userHasRole$: jest

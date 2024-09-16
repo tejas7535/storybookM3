@@ -359,11 +359,12 @@ export const activeCaseFeature = createFeature({
       ActiveCaseActions.addSimulatedQuotation,
       (
         state: ActiveCaseState,
-        { gqId, quotationDetails }
+        { gqId, quotationDetails, simulatedField }
       ): ActiveCaseState => ({
         ...state,
         simulatedItem: buildSimulatedQuotation(
           gqId,
+          simulatedField,
           quotationDetails,
           state.quotation.quotationDetails
         ),

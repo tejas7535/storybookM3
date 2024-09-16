@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
@@ -56,6 +57,7 @@ import {
   getQuotationSapSyncStatus,
   getQuotationStatus,
   getSapId,
+  getSimulatedField,
   getSimulatedQuotationDetailByItemId,
   getSimulationModeEnabled,
   getTabsForProcessCaseView,
@@ -114,6 +116,9 @@ export class ActiveCaseFacade {
   simulationModeEnabled$: Observable<boolean> = this.store.select(
     getSimulationModeEnabled
   );
+
+  simulatedField$: Observable<ColumnFields> =
+    this.store.select(getSimulatedField);
 
   getSimulatedQuotationDetailByItemId$(
     itemId: number
@@ -367,10 +372,15 @@ export class ActiveCaseFacade {
 
   addSimulatedQuotation(
     gqId: number,
-    quotationDetails: QuotationDetail[]
+    quotationDetails: QuotationDetail[],
+    simulatedField: ColumnFields
   ): void {
     this.store.dispatch(
-      ActiveCaseActions.addSimulatedQuotation({ gqId, quotationDetails })
+      ActiveCaseActions.addSimulatedQuotation({
+        gqId,
+        quotationDetails,
+        simulatedField,
+      })
     );
   }
   resetSimulatedQuotation(): void {

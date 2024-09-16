@@ -11,6 +11,13 @@ import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 
 @Component({
   selector: 'gq-discard-simulation-button',
+  styles: [
+    `
+      :host {
+        @apply h-full;
+      }
+    `,
+  ],
   templateUrl: './discard-simulation-button.component.html',
 })
 export class DiscardSimulationButtonComponent {

@@ -1,3 +1,4 @@
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   Quotation,
   QuotationAttachment,
@@ -93,6 +94,7 @@ export const ActiveCaseActions = createActionGroup({
     'Add Simulated Quotation': props<{
       gqId: number;
       quotationDetails: QuotationDetail[];
+      simulatedField: ColumnFields;
     }>(),
     'Remove Simulated Quotation Detail': props<{ gqPositionId: string }>(),
 

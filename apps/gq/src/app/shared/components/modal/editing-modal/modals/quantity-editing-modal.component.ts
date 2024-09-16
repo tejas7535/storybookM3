@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
-import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
+import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/validation/quotation-details-table-validation.service';
 import { getQuantityRegex } from '@gq/shared/constants';
 import { validateQuantityInputKeyPress } from '@gq/shared/utils/misc.utils';
 import { translate } from '@jsverse/transloco';

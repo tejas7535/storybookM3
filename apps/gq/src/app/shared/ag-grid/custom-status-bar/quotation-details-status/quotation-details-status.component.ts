@@ -24,7 +24,8 @@ import { calculateFilteredRows } from '../statusbar.utils';
   styles: [
     `
       :host {
-        width: 100%;
+        @apply h-full;
+        @apply w-full;
       }
     `,
   ],

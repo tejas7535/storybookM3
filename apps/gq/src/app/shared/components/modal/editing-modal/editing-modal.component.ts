@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -25,12 +26,10 @@ import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
+import { SimulationService } from '@gq/process-case-view/quotation-details-table/services/simulation/simulation.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
-import {
-  calculateAffectedKPIs,
-  multiplyAndRoundValues,
-} from '@gq/shared/utils/pricing.utils';
+import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 
@@ -41,6 +40,20 @@ import { KpiValue } from './models/kpi-value.model';
 export abstract class EditingModalComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  private readonly simulationService: SimulationService =
+    inject(SimulationService);
+  protected translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+  protected transformationService: TransformationService = inject(
+    TransformationService
+  );
+  private readonly dialogRef: MatDialogRef<EditingModalComponent> =
+    inject(MatDialogRef);
+  private readonly store: Store = inject(Store);
+  private readonly changeDetectorRef: ChangeDetectorRef =
+    inject(ChangeDetectorRef);
+
   @Input() modalData: EditingModal;
   @Input() isDialog = true;
   @Input() isDisabled = false;
@@ -82,14 +95,6 @@ export abstract class EditingModalComponent
   protected value: number;
 
   protected readonly subscription: Subscription = new Subscription();
-
-  constructor(
-    protected translocoLocaleService: TranslocoLocaleService,
-    protected transformationService: TransformationService,
-    private readonly dialogRef: MatDialogRef<EditingModalComponent>,
-    private readonly store: Store,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.editingFormGroup
@@ -198,7 +203,7 @@ export abstract class EditingModalComponent
   }
 
   protected setAffectedKpis(value: number): void {
-    this.affectedKpis = calculateAffectedKPIs(
+    this.affectedKpis = this.simulationService.calculateAffectedKPIs(
       value,
       this.modalData.field,
       this.modalData.quotationDetail,

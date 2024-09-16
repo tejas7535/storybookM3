@@ -1,5 +1,6 @@
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
@@ -50,6 +51,12 @@ export const getSimulatedQuotationDetailByItemId = (itemId: number) =>
         (detail: QuotationDetail) => detail.quotationItemId === itemId
       )
   );
+
+export const getSimulatedField = createSelector(
+  activeCaseFeature.selectSimulatedItem,
+  (simulatedItem: SimulatedQuotation): ColumnFields =>
+    simulatedItem?.simulatedField
+);
 
 export const getSimulationModeEnabled = createSelector(
   activeCaseFeature.selectSimulatedItem,

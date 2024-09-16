@@ -15,6 +15,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import { URL_SUPPORT } from '@gq/shared/http/constants/urls';
 import { Customer, Quotation, QuotationAttachment } from '@gq/shared/models';
@@ -496,11 +497,12 @@ export class ActiveCaseEffects {
       ),
       map(([_action, simulatedQuotation]) => simulatedQuotation),
       mergeMap((simulatedQuotation) => {
-        const updateQuotationDetailList: UpdateQuotationDetail[] =
+        const updateQuotationDetailList =
           simulatedQuotation.quotationDetails.map((detail) => ({
             gqPositionId: detail.gqPositionId,
-            price: detail.price,
-            priceSource: detail.priceSource,
+            ...(simulatedQuotation.simulatedField === ColumnFields.TARGET_PRICE
+              ? { targetPrice: detail.targetPrice }
+              : { price: detail.price, priceSource: detail.priceSource }),
           }));
 
         return [
