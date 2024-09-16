@@ -22,5 +22,12 @@ export const MATERIALSTANDARD_LINK_FORMATTER = (
 
 export const MATERIALSTOFFID_LINK_FORMATTER = (params: ValueFormatterParams) =>
   params.value
-    ? `${params.value}|https://wiamp.schaeffler.com:8443/rdc/de.wiam.ext.schaeffler.rdc/sheets/raw?parameters=x[0,0,0[i1267680281-1673865505844-76_xEN3${params.data.materialStandardWiamId}-1011`
+    ? `${params.value}|https://wiamp.schaeffler.com:8443/rdc/de.wiam.ext.schaeffler.rdc/sheets/raw?parameters=x[0,0,0[i1267680281-1673865505844-76_xEN3${params.data.materialStandardWiamId}-1011]]`
+    : undefined;
+
+export const SAP_MATERIALSTOFFID_LINK_FORMATTER = (
+  params: ValueFormatterParams
+) =>
+  params.value
+    ? `${params.value}|https://wiamp.schaeffler.com:8443/rdc/de.wiam.ext.schaeffler.rdc/sheets/raw?parameters=x[0,0,0[i1267680281-1673865505844-76_xEN3${params.data.wiamId}-1011]]`
     : undefined;

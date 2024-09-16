@@ -69,6 +69,7 @@ import {
   YEAR_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
 
+import { LinkCellRendererComponent } from '../../../cell-renderers/link-cell-renderer/link-cell-renderer.component';
 import { PcfMaturityCo2CellRendererComponent } from '../../../cell-renderers/pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
 import { UrlCellRendererComponent } from '../../../cell-renderers/url-cell-renderer/url-cell-renderer.component';
 import {
@@ -79,6 +80,7 @@ import {
   MATURITY_FORMATTER,
   PERCENT_FORMATTER,
   SAP_MATERIALS_DATE_FORMATTER,
+  SAP_MATERIALSTOFFID_LINK_FORMATTER,
 } from '../../helpers';
 import { HISTORY_COLUMN_DEFINITION } from '../base';
 
@@ -444,6 +446,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     headerName: RAW_MATERIAL,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
+    headerTooltip: 'url',
     hide: true,
   },
   {
@@ -477,6 +480,9 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
     hide: true,
+    tooltipValueGetter: (params) => (params.value ? 'wiamLink' : undefined),
+    valueFormatter: SAP_MATERIALSTOFFID_LINK_FORMATTER,
+    cellRenderer: LinkCellRendererComponent,
   },
   {
     field: DATA_DATE,

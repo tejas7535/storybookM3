@@ -50,6 +50,7 @@ export interface SAPMaterial {
   indirectSupplierEmissions: number;
   upstreamEmissions: number;
   stoffId: string;
+  wiamId?: string;
   owner: string;
   maturity: number;
   modifiedBy: string;

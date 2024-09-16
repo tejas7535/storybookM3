@@ -38,6 +38,7 @@ import {
   RELEASE_DATE_VALUE_GETTER,
   replaceColumn,
   SAP_MATERIALS_DATE_FORMATTER,
+  SAP_MATERIALSTOFFID_LINK_FORMATTER,
   SELF_CERTIFIED_VALUE_GETTER,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
@@ -439,6 +440,18 @@ describe('helpers', () => {
     it('should not make a link', () => {
       const params = {} as ValueFormatterParams;
       expect(MATERIALSTOFFID_LINK_FORMATTER(params)).toBeFalsy();
+    });
+  });
+
+  describe('link-value-formatter sap stoffId', () => {
+    it('should make link to wiam', () => {
+      const params = { value: '11', data: {} } as ValueFormatterParams;
+      expect(SAP_MATERIALSTOFFID_LINK_FORMATTER(params)).toBeTruthy();
+    });
+
+    it('should not make link to wiam', () => {
+      const params = {} as ValueFormatterParams;
+      expect(SAP_MATERIALSTOFFID_LINK_FORMATTER(params)).toBeFalsy();
     });
   });
 
