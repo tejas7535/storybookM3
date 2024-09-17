@@ -13,7 +13,7 @@
         class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:!hidden"
         [value]="item"
         [ngClass]="{
-          '!bg-secondary !font-medium !text-high-emphasis':
+          '!bg-secondary-legacy !font-medium !text-high-emphasis':
             item.id === active.id,
           'hover:!font-medium hover:!text-high-emphasis ': !item.disabled,
           '!text-low-emphasis': item.disabled
