@@ -25,6 +25,7 @@ const colors = {
 
   'background-dark': '#f5f5f5',
   surface: '#ffffff',
+  'surface-legacy': '#ffffff', // temporary color to replace occurences of $surface for m2 theme
 
   // Functional colors
   error: '#cb0b15',

@@ -22,6 +22,7 @@ $bg-success: #f8fbf4;
 
 $background-dark: $secondary-variant;
 $surface: $secondary;
+$surface-legacy: $secondary-legacy; // temporary color to replace occurences of $secondary for m2 theme
 
 // Functional colors
 $error: #cb0b15;

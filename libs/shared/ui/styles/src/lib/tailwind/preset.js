@@ -25,6 +25,7 @@ const backgroundColors = {
   success: colors['bg-success'],
   'background-dark': colors['background-dark'],
   surface: colors['surface'],
+  'surface-legacy': colors['surface-legacy'],
 };
 
 const functionalColors = {
