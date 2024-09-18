@@ -72,5 +72,5 @@ schaeffler-html-report .mat-expansion-panel-content h2 {
 
 //verify those overides once m3 styling will be in place as it looks like a standard m3 card component
 .mat-mdc-card.mdc-card {
-  @apply rounded-xl border border-border bg-surface shadow-none;
+  @apply rounded-xl border border-border bg-surface-legacy shadow-none;
 }

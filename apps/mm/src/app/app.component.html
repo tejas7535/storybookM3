@@ -20,7 +20,7 @@
 }
 @if (embedded) {
   <div class="fixed h-full w-full">
-    <div class="fixed z-10 bg-surface">
+    <div class="fixed z-10 bg-surface-legacy">
       <button (click)="drawer.toggle()" mat-icon-button aria-label="settings">
         <mat-icon class="text-icon">menu</mat-icon>
       </button>
@@ -37,12 +37,12 @@
 
 <ng-template #content>
   <div
-    [ngClass]="embedded ? 'bg-surface' : 'bg-background-dark'"
+    [ngClass]="embedded ? 'bg-surface-legacy' : 'bg-background-dark'"
     class="flex min-h-full flex-col"
   >
     <div
       [ngClass]="embedded ? 'm-0 mt-5 p-0 pt-5' : 'px-4 pb-4 md:m-4'"
-      class="flex flex-auto flex-col bg-surface"
+      class="flex flex-auto flex-col bg-surface-legacy"
     >
       <div class="max-w-full flex-1">
         <router-outlet></router-outlet>
