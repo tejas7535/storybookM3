@@ -44,6 +44,7 @@ export const parameters = {
       brandTitle: 'Schaeffler Design System',
       brandImage: logo,
     },
+    classTarget: 'html',
   },
   backgrounds: {
     default: 'light',
