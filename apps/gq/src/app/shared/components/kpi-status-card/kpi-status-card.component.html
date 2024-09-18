@@ -10,7 +10,7 @@
           class="relative h-5 w-5 rounded-full"
           [ngClass]="{
             'bg-success': rating === ratingStatus.GOOD,
-            'bg-error': rating === ratingStatus.LOW,
+            'bg-error-container': rating === ratingStatus.LOW,
             'bg-warning': rating === ratingStatus.MEDIUM
           }"
         >
