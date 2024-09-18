@@ -16,12 +16,12 @@ Array [
   },
   Object {
     "action": [Function],
-    "imagePath": "/assets/images/homepage/catalog.jpg",
+    "imagePath": "assetPath/images/homepage/catalog.jpg",
     "mainTitle": "homePage.cards.catalog.title.main",
   },
   Object {
     "action": [Function],
-    "imagePath": "/assets/images/homepage/contact.jpg",
+    "imagePath": "assetPath/images/homepage/contact.jpg",
     "mainTitle": "homePage.cards.contact.title.main",
   },
 ]

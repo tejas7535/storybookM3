@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { combineLatest, map } from 'rxjs';
 
-import { environment } from '@ea/environments/environment';
+import { getAssetsPath } from '@ea/core/services/assets-path-resolver/assets-path-resolver.helper';
 import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
@@ -59,7 +59,9 @@ export class HomeCardsService {
     ])
   );
 
-  private readonly imagePathBase = `${environment.assetsPath}/images/homepage`;
+  private readonly assetsPath = getAssetsPath();
+
+  private readonly imagePathBase = `${this.assetsPath}/images/homepage`;
   constructor(private readonly translocoService: TranslocoService) {}
 
   private getCardImageUrl(imagePath: string): string {

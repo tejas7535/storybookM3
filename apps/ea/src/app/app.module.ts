@@ -14,6 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { combineLatest, tap } from 'rxjs';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { Capacitor } from '@capacitor/core';
 import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
@@ -89,59 +90,75 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.storagePeriod');
 }
 
+let tracking = [
+  OneTrustModule.forRoot({
+    cookiesGroups: COOKIE_GROUPS,
+    domainScript: environment.oneTrustId,
+  }),
+  ApplicationInsightsModule.forRoot(environment.applicationInsights),
+];
+
+let providers = [
+  {
+    provide: APP_INITIALIZER,
+    deps: [ApplicationInsightsService, SettingsFacade, OneTrustService],
+    useFactory: (
+      appInsightService: ApplicationInsightsService,
+      settingsFacade: SettingsFacade,
+      oneTrustService: OneTrustService
+    ) => {
+      const customProps: CustomProps = {
+        tag: 'application',
+        value: '[Medias - EasyCalc]',
+      };
+
+      return () =>
+        combineLatest([settingsFacade.isStandalone$]).pipe(
+          tap(([standalone]) => {
+            if (standalone) {
+              oneTrustService.loadOneTrust();
+              appInsightService.initTracking(
+                oneTrustService.consentChanged$(),
+                customProps
+              );
+            }
+          })
+        );
+    },
+    multi: true,
+  },
+  TranslocoDecimalPipe,
+  { provide: OverlayContainer, useClass: AppOverlayContainer },
+  {
+    provide: PERSON_RESPONSIBLE,
+    useValue: 'Schaeffler Technologies AG & Co. KG',
+  },
+  {
+    provide: TERMS_OF_USE,
+    useFactory: DynamicTermsOfUse,
+    deps: [TranslocoService],
+  },
+  {
+    provide: PURPOSE,
+    useFactory: DynamicPurpose,
+    deps: [TranslocoService],
+  },
+  {
+    provide: STORAGE_PERIOD,
+    useFactory: DynamicStoragePeriod,
+    deps: [TranslocoService],
+  },
+];
+
+// needed for mobile app and medias
+if (Capacitor.isNativePlatform()) {
+  tracking = [];
+  providers = providers.slice(1); // Removes OneTrust Provider
+}
+
 @NgModule({
   declarations: [AppComponent],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      deps: [ApplicationInsightsService, SettingsFacade, OneTrustService],
-      useFactory: (
-        appInsightService: ApplicationInsightsService,
-        settingsFacade: SettingsFacade,
-        oneTrustService: OneTrustService
-      ) => {
-        const customProps: CustomProps = {
-          tag: 'application',
-          value: '[Medias - EasyCalc]',
-        };
-
-        return () =>
-          combineLatest([settingsFacade.isStandalone$]).pipe(
-            tap(([standalone]) => {
-              if (standalone) {
-                oneTrustService.loadOneTrust();
-                appInsightService.initTracking(
-                  oneTrustService.consentChanged$(),
-                  customProps
-                );
-              }
-            })
-          );
-      },
-      multi: true,
-    },
-    TranslocoDecimalPipe,
-    { provide: OverlayContainer, useClass: AppOverlayContainer },
-    {
-      provide: PERSON_RESPONSIBLE,
-      useValue: 'Schaeffler Technologies AG & Co. KG',
-    },
-    {
-      provide: TERMS_OF_USE,
-      useFactory: DynamicTermsOfUse,
-      deps: [TranslocoService],
-    },
-    {
-      provide: PURPOSE,
-      useFactory: DynamicPurpose,
-      deps: [TranslocoService],
-    },
-    {
-      provide: STORAGE_PERIOD,
-      useFactory: DynamicStoragePeriod,
-      deps: [TranslocoService],
-    },
-  ],
+  providers: [...providers],
   imports: [
     BrowserModule,
     CoreModule,
@@ -157,11 +174,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     LanguageSelectModule,
     QualtricsInfoBannerComponent,
     LegacyAppComponent,
-    OneTrustModule.forRoot({
-      cookiesGroups: COOKIE_GROUPS,
-      domainScript: environment.oneTrustId,
-    }),
-    ApplicationInsightsModule.forRoot(environment.applicationInsights),
+    ...tracking,
   ],
 })
 export class AppModule implements DoBootstrap {

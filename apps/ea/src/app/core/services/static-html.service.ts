@@ -4,7 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { map, Observable } from 'rxjs';
 
-import { environment } from '@ea/environments/environment';
+import { getAssetsPath } from '@ea/core/services/assets-path-resolver/assets-path-resolver.helper';
 import { HashMap, TranslocoService } from '@jsverse/transloco';
 @Injectable({ providedIn: 'root' })
 export class StaticHTMLService {
@@ -36,7 +36,9 @@ export class StaticHTMLService {
         ? localizedFilePath
         : `/${localizedFilePath}`;
 
-    return this.getHtmlContent(`${environment.assetsPath}${localizedFilePath}`);
+    const assetsPath = getAssetsPath();
+
+    return this.getHtmlContent(`${assetsPath}${localizedFilePath}`);
   }
 
   /**

@@ -1,5 +1,5 @@
 import { WarningIcon } from '@ea/shared/constants/pdf-icons';
-import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
+import jsPDF from 'jspdf';
 
 import {
   DefaultComponentRenderProps,

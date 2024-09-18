@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { map } from 'rxjs';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
+import { PdfFileSaveService } from '@ea/core/services/pdfreport/pdf-file-save.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   CalculationParametersFacade,
@@ -97,7 +98,8 @@ export class CalculationResultReportComponent {
     private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService,
     private readonly trackingService: TrackingService,
-    private readonly reportService: PDFReportService
+    private readonly reportService: PDFReportService,
+    private readonly pdfFileSaveService: PdfFileSaveService
   ) {}
 
   closeDialog() {
@@ -124,6 +126,7 @@ export class CalculationResultReportComponent {
     this.trackingService.logDownloadReport();
     const report = await this.reportService.generate();
     const reportName = await this.reportService.generateFilename();
-    report.document.save(reportName);
+
+    this.pdfFileSaveService.saveAndOpenFile(report.document, reportName);
   }
 }

@@ -60,8 +60,8 @@
               <div
                 class="text-high-emphasis whitespace-nowrap"
                 [ngClass]="{
-                  'text-h4 leading-9': isFirst && firstItemLarge,
-                  'text-h6': !isFirst || !firstItemLarge
+                  'text-h6 sm:text-h4 leading-9': isFirst && firstItemLarge,
+                  'text-body-1 sm:text-h6': !isFirst || !firstItemLarge
                 }"
               >
                 {{ (item.value | meaningfulRound) || '-' }}
@@ -122,8 +122,8 @@
                   <div
                     class="text-high-emphasis whitespace-nowrap"
                     [ngClass]="{
-                      'text-h4 leading-9': isFirst && firstItemLarge,
-                      'text-h6': !isFirst || !firstItemLarge
+                      'text-h6 sm:text-h4 leading-9': isFirst && firstItemLarge,
+                      'text-body-1 sm:text-h6': !isFirst || !firstItemLarge
                     }"
                   >
                     {{ (loadcaseValue.value | meaningfulRound) || '-' }}

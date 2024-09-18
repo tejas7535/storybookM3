@@ -1,5 +1,5 @@
 import { waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { firstValueFrom } from 'rxjs';
 
@@ -10,13 +10,22 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { Card } from './card.model';
 import { HomeCardsService } from './home-cards.service';
 
+const assetsPath = 'assetPath';
+jest.mock(
+  '@ea/core/services/assets-path-resolver/assets-path-resolver.helper',
+  () => ({
+    getAssetsPath: jest.fn(() => assetsPath),
+  })
+);
+
 describe('HomeCardsService', () => {
   let spectator: SpectatorService<HomeCardsService>;
   let service: HomeCardsService;
 
   const createServiceWithProductionConfig = createServiceFactory({
     service: HomeCardsService,
-    imports: [RouterTestingModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [provideRouter([])],
   });
 
   beforeEach(() => {

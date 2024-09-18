@@ -1,6 +1,6 @@
 import { ResultReportLargeItem } from '@ea/calculation/calculation-result-report-large-items/result-report-large-item';
 import { CalculationResultReportInput } from '@ea/core/store/models';
-import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
+import jsPDF from 'jspdf';
 
 import { Notices, ResultBlock } from '../data';
 import { renderCalculationMethods } from './calculation-methods';

@@ -21,6 +21,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { Capacitor } from '@capacitor/core';
 import { isLanguageAvailable } from '@ea/shared/helper/language-helpers';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -99,9 +100,14 @@ export class AppComponent
         link: `${LegalRoute}/${LegalPath.CookiePath}`,
         title,
         external: false,
-      }))
+      })),
+      filter(() => !Capacitor.isNativePlatform()),
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      startWith(undefined)
     ),
-  ]);
+  ]).pipe(
+    map((links) => links.filter(Boolean)) // Filter out any null values
+  );
 
   private readonly destroyScrollThreshold$ = new Subject<boolean>();
 
