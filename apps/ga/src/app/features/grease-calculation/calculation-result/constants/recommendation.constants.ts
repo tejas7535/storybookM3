@@ -25,7 +25,7 @@ export const RecommendationMappings: RecommendationMappingType<
   JawCrushers: ['Arcanol LOAD1000'],
   Pumps: ['Arcanol MULTITOP'],
   VibratingScreens: ['Arcanol MOTION 2'],
-  RailWheelsetBearings: ['Arcanol LOAD220'],
+  RailWheelsetBearings: ['Arcanol MULTITOP'],
   WindTurbineMainShaft: ['Arcanol LOAD400'],
 };
 
