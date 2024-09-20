@@ -113,7 +113,8 @@ export class KpiListComponent {
     } else if (
       kpi.key === ColumnFields.PRICE &&
       this.editingModalData.quotationDetail.msp &&
-      kpi.value < this.editingModalData.quotationDetail.msp
+      kpi.value < this.editingModalData.quotationDetail.msp &&
+      kpi.value !== 0
     ) {
       hasError = true;
       warningText = translate('shared.validation.priceLowerThanMsp');

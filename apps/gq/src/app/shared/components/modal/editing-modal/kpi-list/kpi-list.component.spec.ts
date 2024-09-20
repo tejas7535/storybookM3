@@ -279,5 +279,26 @@ describe('KpiListComponent', () => {
         },
       ]);
     });
+    test('should not display warning if price is equal to 0', () => {
+      const kpi = {
+        key: ColumnFields.PRICE,
+        value: 0,
+      } as KpiValue;
+
+      component.editingModalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.kpis = [kpi];
+
+      expect(component.displayedKpis).toEqual([
+        {
+          ...component.displayedKpis[0],
+          hasWarning: false,
+          hasError: false,
+          warningText: undefined,
+        },
+      ]);
+    });
   });
 });
