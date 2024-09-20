@@ -11,9 +11,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { from, of } from 'rxjs';
 
 import { ExtendedComparableLinkedTransactionsActions } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
+import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockDirective } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -44,6 +46,7 @@ describe('ExportExcelModalComponent', () => {
       PushPipe,
       LoadingSpinnerModule,
       DialogHeaderModule,
+      MockDirective(DragDialogDirective),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

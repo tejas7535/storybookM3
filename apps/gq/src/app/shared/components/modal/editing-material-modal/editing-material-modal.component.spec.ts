@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
@@ -12,7 +13,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { when } from 'jest-when';
-import { MockProvider } from 'ng-mocks';
+import { MockModule, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -38,6 +39,7 @@ describe('EditingMaterialModalComponent', () => {
       AutocompleteInputComponent,
       PushPipe,
       ReactiveFormsModule,
+      MockModule(DialogHeaderModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

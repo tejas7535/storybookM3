@@ -1,7 +1,9 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockDirective } from 'ng-mocks';
 
 import { InfoBannerComponent } from '../../info-banner/info-banner.component';
 import { ConfirmationModalComponent } from './confirmation-modal.component';
@@ -15,7 +17,11 @@ describe('ConfirmationModalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ConfirmationModalComponent,
-    imports: [MatIconModule, InfoBannerComponent],
+    imports: [
+      MatIconModule,
+      InfoBannerComponent,
+      MockDirective(DragDialogDirective),
+    ],
     providers: [
       {
         provide: MatDialogRef,

@@ -12,6 +12,7 @@ import {
 import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -21,6 +22,7 @@ import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockDirective } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -43,6 +45,7 @@ describe('ImportCaseComponent', () => {
       MatButtonModule,
       LoadingSpinnerModule,
       DialogHeaderModule,
+      MockDirective(DragDialogDirective),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

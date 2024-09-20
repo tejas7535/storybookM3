@@ -6,10 +6,12 @@ import { of } from 'rxjs';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { getGqId } from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationMetadataActions } from '@gq/core/store/active-case/quotation-metadata/quotation-metadata.action';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -27,7 +29,10 @@ describe('QuotationNoteModalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QuotationNoteModalComponent,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      MockModule(DialogHeaderModule),
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       provideMockActions(() => actions$),
       {
