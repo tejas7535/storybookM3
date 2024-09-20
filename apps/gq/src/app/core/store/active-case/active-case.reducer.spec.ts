@@ -537,7 +537,6 @@ describe('Active Case Feature Reducer', () => {
     test('should add new simulated quotation', () => {
       const quotationDetail: QuotationDetail = {
         ...QUOTATION_DETAIL_MOCK,
-        gpmRfq: null,
         rfqData: null,
       };
       const action: Action = ActiveCaseActions.addSimulatedQuotation({
@@ -562,7 +561,19 @@ describe('Active Case Feature Reducer', () => {
         ...SIMULATED_QUOTATION_MOCK,
         previousStatusBar: {
           ...SIMULATED_QUOTATION_MOCK.previousStatusBar,
-          gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+          gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+          gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi * 100,
+          priceDiff: Math.round(
+            SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff * 100
+          ),
+        },
+        simulatedStatusBar: {
+          ...SIMULATED_QUOTATION_MOCK.simulatedStatusBar,
+          gpm: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpm * 100,
+          gpi: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpi * 100,
+          priceDiff: Math.round(
+            SIMULATED_QUOTATION_MOCK.simulatedStatusBar.priceDiff * 100
+          ),
         },
         quotationDetails: [quotationDetail],
       });

@@ -154,8 +154,8 @@ describe('PriceSourceSimulationService', () => {
           gpi: 80,
           gpm: 60,
           discount: 20,
-          priceDiff: -92.94,
-          rlm: -104.17,
+          priceDiff: -0.9294,
+          rlm: -1.0417,
         };
 
         // when:
@@ -204,8 +204,8 @@ describe('PriceSourceSimulationService', () => {
           gpi: 80,
           gpm: 60,
           discount: 20,
-          priceDiff: -92.94,
-          rlm: -104.17,
+          priceDiff: -0.9294,
+          rlm: -1.0417,
         };
 
         // when:

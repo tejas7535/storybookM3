@@ -19,15 +19,13 @@ export const calculatePriceDiff = (
   lastPrice: number,
   currentPrice: number
 ): number =>
-  lastPrice
-    ? roundPercentageToTwoDecimals((currentPrice - lastPrice) / lastPrice)
-    : 0;
+  lastPrice ? roundToFourDecimals((currentPrice - lastPrice) / lastPrice) : 0;
 
 export const calculateMargin = (price: number, costValue: number): number => {
   if (price && price > 0 && costValue && costValue > 0) {
     const margin = (price - costValue) / price;
 
-    return roundPercentageToTwoDecimals(margin);
+    return roundToFourDecimals(margin);
   }
 
   return undefined;
@@ -67,9 +65,9 @@ export const calculateStatusBarValues = (
       if (row.gpi) {
         sumGPINetValue += row.gpi * row.netValue;
       }
-      if (row.gpm || row.gpmRfq) {
+      if (row.gpm || row.rfqData?.gpm) {
         // when there's and RFQ the total Avg GPM is calculated with the GPM of the RFQ
-        const gpmToCalculateWith = row.gpmRfq || row.gpm;
+        const gpmToCalculateWith = row.rfqData?.gpm || row.gpm;
 
         netValueGPM += row.netValue;
         sumGPMNetValue += gpmToCalculateWith * row.netValue;
@@ -81,14 +79,18 @@ export const calculateStatusBarValues = (
     }
   });
   if (netValueGPM !== 0) {
-    totalWeightedGPM = roundToTwoDecimals(sumGPMNetValue / netValueGPM);
+    totalWeightedGPM = roundToTwoDecimals((sumGPMNetValue / netValueGPM) * 100);
   }
   if (totalNetValue !== 0) {
-    totalWeightedGPI = roundToTwoDecimals(sumGPINetValue / totalNetValue);
+    totalWeightedGPI = roundToTwoDecimals(
+      (sumGPINetValue / totalNetValue) * 100
+    );
     totalNetValue = roundToTwoDecimals(totalNetValue);
   }
   if (sumPriceDiffNetValue !== 0) {
-    totalPriceDiff = roundToTwoDecimals(sumPriceDiff / sumPriceDiffNetValue);
+    totalPriceDiff = roundToTwoDecimals(
+      (sumPriceDiff / sumPriceDiffNetValue) * 100
+    );
   }
 
   return new StatusBarProperties(
@@ -155,8 +157,11 @@ export const calculateDiscount = (
 
   const discount = 1 - price / sapGrossPrice;
 
-  return roundPercentageToTwoDecimals(discount);
+  return roundToFourDecimals(discount);
 };
 
 export const roundPercentageToTwoDecimals = (number: number): number =>
   Math.round(number * 10_000) / 100;
+
+export const roundToFourDecimals = (number: number): number =>
+  Math.round(number * 10_000) / 10_000;

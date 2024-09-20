@@ -66,8 +66,8 @@ describe('PriceSimulationService', () => {
           gpi: 80,
           gpm: 60,
           discount: 20,
-          rlm: -104.17,
-          priceDiff: -92.94,
+          rlm: -1.0417,
+          priceDiff: -0.9294,
           priceSource: PriceSource.MANUAL,
         };
 
@@ -128,8 +128,8 @@ describe('PriceSimulationService', () => {
           gpi: 80,
           gpm: 20,
           discount: 20,
-          rlm: -104.17,
-          priceDiff: -92.94,
+          rlm: -1.0417,
+          priceDiff: -0.9294,
           priceSource: PriceSource.MANUAL,
         };
 
@@ -190,8 +190,8 @@ describe('PriceSimulationService', () => {
           gpi: 20,
           gpm: 80,
           discount: 20,
-          rlm: -104.17,
-          priceDiff: -92.94,
+          rlm: -1.0417,
+          priceDiff: -0.9294,
           priceSource: PriceSource.MANUAL,
         };
 
@@ -252,8 +252,8 @@ describe('PriceSimulationService', () => {
           gpi: 20,
           gpm: 80,
           discount: 20,
-          rlm: -104.17,
-          priceDiff: -92.94,
+          rlm: -1.0417,
+          priceDiff: -0.9294,
           priceSource: PriceSource.MANUAL,
         };
 

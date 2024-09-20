@@ -15,4 +15,5 @@ export interface QuotationRfqData {
   createdBy: string;
   deliveryTime: number;
   deliveryUnit: RfqDataDeliveryUnit;
+  gpm: number;
 }

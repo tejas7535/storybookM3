@@ -69,12 +69,6 @@ export class ColumnUtilityService {
     );
   }
 
-  gpiGetter(params: ValueGetterParams): string {
-    const data = params.data;
-
-    return `${data?.gpi * 100}`;
-  }
-
   netValueFormatter(params: ValueFormatterParams): string {
     return this.transformationService.transformNumberCurrency(
       params.value,

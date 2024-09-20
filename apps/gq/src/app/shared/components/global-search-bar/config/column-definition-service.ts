@@ -191,9 +191,7 @@ export class ColumnDefinitionService {
       field: SearchByCasesOrMaterialsColumnFields.GPI,
       filter: NUMBER_COLUMN_FILTER,
       valueFormatter: (params: ValueFormatterParams) =>
-        this.generalColumnUtilityService.percentageFormatter(params),
-      valueGetter: (params: ValueGetterParams) =>
-        this.searchResultsColumnUtilityService.gpiGetter(params),
+        this.generalColumnUtilityService.percentageFormatter(params, false),
       comparator: GeneralColumnUtilityService.numberAsStringComparator,
     },
   ];

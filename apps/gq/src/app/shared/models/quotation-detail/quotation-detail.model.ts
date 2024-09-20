@@ -73,16 +73,16 @@ export class QuotationDetail {
   rfqData: QuotationRfqData;
   fPricing: QuotationFPricingData;
 
-  // properties added in GQ application
   priceDiff: number;
   netValue: number;
   gpi: number;
   lastCustomerPriceGpi: number;
   gpm: number;
-  gpmRfq: number;
   lastCustomerPriceGpm: number;
   rlm: number;
   discount: number;
+
+  // properties added in GQ application
   msp: number;
   rsp: number;
   sapVolumeScale: number;

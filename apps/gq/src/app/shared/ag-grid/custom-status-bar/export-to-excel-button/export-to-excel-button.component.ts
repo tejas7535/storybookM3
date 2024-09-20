@@ -39,6 +39,7 @@ import {
   ColumnFields,
   DateColumns,
   ExportExcelNumberColumns,
+  PercentColumns,
   PriceColumns,
   SapPriceDetailsColumnFields,
 } from '../../constants/column-fields.enum';
@@ -230,7 +231,10 @@ export class ExportToExcelButtonComponent implements OnInit {
     } else if (
       ExportExcelNumberColumns.includes(colDef.field as ColumnFields)
     ) {
-      return this.transformationService.transformNumberExcel(params.value);
+      return this.transformationService.transformNumberExcel(
+        params.value,
+        PercentColumns.includes(colDef.field as ColumnFields)
+      );
     }
 
     return params.value;
@@ -871,7 +875,10 @@ export class ExportToExcelButtonComponent implements OnInit {
     if (value === undefined || value === null) {
       return '';
     } else if (ExportExcelNumberColumns.includes(key as ColumnFields)) {
-      return this.transformationService.transformNumberExcel(value as number);
+      return this.transformationService.transformNumberExcel(
+        value as number,
+        PercentColumns.includes(key as ColumnFields)
+      );
     } else if (DateColumns.includes(key as SapPriceDetailsColumnFields)) {
       return this.transformationService.transformDate(value.toString());
     } else {

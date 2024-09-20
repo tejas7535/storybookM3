@@ -37,7 +37,7 @@
         <gq-label-text>
           <span label>{{ t('gpi') }}</span>
           <span text>{{
-            quotationDetail.lastCustomerPriceGpi | percentage
+            quotationDetail.lastCustomerPriceGpi | percentage: false
           }}</span>
         </gq-label-text>
       }
@@ -45,7 +45,7 @@
         <gq-label-text>
           <span label>{{ t('gpm') }}</span>
           <span text>{{
-            quotationDetail.lastCustomerPriceGpm | percentage
+            quotationDetail.lastCustomerPriceGpm | percentage: false
           }}</span>
         </gq-label-text>
       }

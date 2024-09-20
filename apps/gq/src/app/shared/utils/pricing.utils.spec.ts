@@ -51,8 +51,8 @@ describe('PricingUtils', () => {
 
   describe('calculatePriceDiff should', () => {
     test.each([
-      { lastCustomerPrice: 110, price: 120, expected: 9.09 },
-      { lastCustomerPrice: 100, price: 50, expected: -50 },
+      { lastCustomerPrice: 110, price: 120, expected: 0.0909 },
+      { lastCustomerPrice: 100, price: 50, expected: -0.5 },
       { lastCustomerPrice: 137, price: 137, expected: 0 },
       { lastCustomerPrice: 0.237, price: 0.237, expected: 0 },
     ])('calculate diff in %', ({ lastCustomerPrice, price, expected }) => {
@@ -80,7 +80,7 @@ describe('PricingUtils', () => {
 
       const result = pricingUtils.calculateMargin(price, margin);
 
-      expect(result).toEqual(20);
+      expect(result).toEqual(0.2);
     });
 
     test('should return undefined if cost value is 0', () => {
@@ -107,7 +107,7 @@ describe('PricingUtils', () => {
 
       const result = pricingUtils.calculateMargin(price, margin);
 
-      expect(result).toEqual(20);
+      expect(result).toEqual(0.2);
     });
 
     test('should return undefined if price value is 0', () => {
@@ -144,9 +144,9 @@ describe('PricingUtils', () => {
       expect(result).toEqual(
         new StatusBarProperties(
           QUOTATION_DETAIL_MOCK.netValue,
-          QUOTATION_DETAIL_MOCK.gpi,
-          QUOTATION_DETAIL_MOCK.gpm,
-          QUOTATION_DETAIL_MOCK.priceDiff,
+          QUOTATION_DETAIL_MOCK.gpi * 100,
+          QUOTATION_DETAIL_MOCK.gpm * 100,
+          Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100),
           details.length
         )
       );
@@ -160,9 +160,9 @@ describe('PricingUtils', () => {
       expect(result).toEqual(
         new StatusBarProperties(
           QUOTATION_DETAIL_MOCK.netValue,
-          QUOTATION_DETAIL_MOCK.gpi,
-          QUOTATION_DETAIL_MOCK.gpmRfq,
-          QUOTATION_DETAIL_MOCK.priceDiff,
+          QUOTATION_DETAIL_MOCK.gpi * 100,
+          QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+          Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100),
           details.length
         )
       );
@@ -172,7 +172,7 @@ describe('PricingUtils', () => {
         QUOTATION_DETAILS_MOCK
       );
       expect(result).toEqual(
-        new StatusBarProperties(2020.4, 24.74, 0.99, 0.2, 3)
+        new StatusBarProperties(2020.4, 2474.13, 99, 20, 3)
       );
     });
   });
@@ -232,7 +232,7 @@ describe('PricingUtils', () => {
     test('should return discount', () => {
       const result = pricingUtils.calculateDiscount(100, 200);
 
-      expect(result).toEqual(50);
+      expect(result).toEqual(0.5);
     });
   });
 

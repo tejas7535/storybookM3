@@ -2,10 +2,6 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { SimulatedQuotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import {
-  calculateDiscount,
-  calculateMargin,
-  calculateNetValue,
-  calculatePriceDiff,
   calculateStatusBarValues,
   multiplyAndRoundValues,
   roundToTwoDecimals,
@@ -19,48 +15,7 @@ const CUSTOMER_NUMBER_QUERY_PARAMETER = 'customer_number';
 const SALES_ORG_QUERY_PARAMETER = 'sales_org';
 
 export const addCalculationsForDetails = (details: QuotationDetail[]): void => {
-  details.forEach((detail) => addCalculationsForDetail(detail));
-};
-
-export const addCalculationsForDetail = (detail: QuotationDetail): void => {
-  if (
-    typeof detail.price === 'number' &&
-    typeof detail.orderQuantity === 'number'
-  ) {
-    detail.netValue = calculateNetValue(detail.price, detail);
-  }
-
-  if (
-    typeof detail.lastCustomerPrice === 'number' &&
-    typeof detail.price === 'number'
-  ) {
-    detail.priceDiff = calculatePriceDiff(
-      detail.lastCustomerPrice,
-      detail.price
-    );
-  }
-
-  if (
-    typeof detail.price === 'number' &&
-    typeof detail.sapGrossPrice === 'number'
-  ) {
-    detail.discount = calculateDiscount(detail.price, detail.sapGrossPrice);
-  }
-
-  detail.gpi = calculateMargin(detail.price, detail.gpc);
-  detail.lastCustomerPriceGpi = calculateMargin(
-    detail.lastCustomerPrice,
-    detail.gpc
-  );
-  detail.gpm = calculateMargin(detail.price, detail.sqv);
-  detail.gpmRfq = calculateMargin(detail.price, detail.rfqData?.sqv);
-
-  detail.lastCustomerPriceGpm = calculateMargin(
-    detail.lastCustomerPrice,
-    detail.sqv
-  );
-  detail.rlm = calculateMargin(detail.price, detail.relocationCost);
-  calculateSapPriceValues(detail);
+  details.forEach((detail) => calculateSapPriceValues(detail));
 };
 
 export const calculateSapPriceValues = (detail: QuotationDetail): void => {
@@ -79,7 +34,7 @@ export const calculateSapPriceValues = (detail: QuotationDetail): void => {
         (el) =>
           el.sapConditionType === SapConditionType.ZDVO ||
           el.sapConditionType === SapConditionType.ZEVO
-      )?.amount || undefined;
+      )?.amount / 100 || undefined;
   }
 };
 

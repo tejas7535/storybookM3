@@ -36,6 +36,9 @@ describe('PercentagePipe', () => {
 
     pipe.transform(10);
     expect(transformationService.transformPercentage).toHaveBeenCalledTimes(1);
-    expect(transformationService.transformPercentage).toHaveBeenCalledWith(10);
+    expect(transformationService.transformPercentage).toHaveBeenCalledWith(
+      10,
+      true
+    );
   });
 });

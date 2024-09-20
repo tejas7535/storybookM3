@@ -107,15 +107,15 @@ describe('SimulationService', () => {
           { key: ColumnFields.PRICE, value: 11 },
           {
             key: ColumnFields.GPI,
-            value: -81.82,
+            value: -0.8182,
           },
           {
             key: ColumnFields.GPM,
-            value: -172.73,
+            value: -1.7273,
           },
           {
             key: ColumnFields.DISCOUNT,
-            value: 89,
+            value: 0.89,
           },
         ]);
       });
@@ -136,11 +136,11 @@ describe('SimulationService', () => {
           { key: ColumnFields.PRICE, value: 22.22 },
           {
             key: ColumnFields.GPM,
-            value: -35.01,
+            value: -0.3501,
           },
           {
             key: ColumnFields.DISCOUNT,
-            value: 77.78,
+            value: 0.7778,
           },
         ]);
       });

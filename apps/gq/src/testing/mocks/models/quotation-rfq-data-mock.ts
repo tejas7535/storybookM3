@@ -22,4 +22,5 @@ export const QUOTATION_RFQ_DATA_MOCK: QuotationRfqData = {
   createdBy: 'a user',
   deliveryTime: 5,
   deliveryUnit: RfqDataDeliveryUnit.WEEKS,
+  gpm: 10.32,
 };

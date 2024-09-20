@@ -526,9 +526,7 @@ describe('ExportToExcelButtonComponent', () => {
     test('should return quotation summary', () => {
       const result = component.addQuotationSummary({
         ...QUOTATION_MOCK,
-        quotationDetails: [
-          { ...QUOTATION_DETAIL_MOCK, rfqData: null, gpmRfq: null },
-        ],
+        quotationDetails: [{ ...QUOTATION_DETAIL_MOCK, rfqData: null }],
       });
       const type = 'String';
 
@@ -648,7 +646,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `85 %`,
+                value: `8500 %`,
               },
               styleId: excelStyleObjects.excelTextBorderBold.id,
             },
@@ -666,7 +664,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `90 %`,
+                value: `9000 %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -684,7 +682,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `${QUOTATION_DETAIL_MOCK.priceDiff} %`,
+                value: `${Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100)} %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -832,7 +830,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `80 %`,
+                value: `1032 %`,
               },
               styleId: excelStyleObjects.excelTextBorderBold.id,
             },
@@ -850,7 +848,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `90 %`,
+                value: `9000 %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -868,7 +866,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `${QUOTATION_DETAIL_MOCK.priceDiff} %`,
+                value: `${Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100)} %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -1291,7 +1289,8 @@ describe('ExportToExcelButtonComponent', () => {
           Object.values(translations).length
         );
         expect(transformationService.transformNumberExcel).toHaveBeenCalledWith(
-          EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
+          EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin,
+          true
         );
       });
 
@@ -1391,7 +1390,8 @@ describe('ExportToExcelButtonComponent', () => {
       );
 
       expect(transformationService.transformNumberExcel).toHaveBeenCalledWith(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin,
+        true
       );
     });
 
@@ -1402,7 +1402,8 @@ describe('ExportToExcelButtonComponent', () => {
       );
 
       expect(transformationService.transformNumberExcel).toHaveBeenCalledWith(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price,
+        false
       );
     });
 

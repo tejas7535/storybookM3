@@ -71,7 +71,6 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   priceSource: PriceSource.GQ,
   gpi: 90,
   gpm: 85,
-  gpmRfq: 80,
   customerMaterial: 'mockCustomerMaterial',
   coefficient1: 0.88,
   coefficient2: 2.5,
@@ -152,10 +151,16 @@ export const SIMULATED_QUOTATION_MOCKS_WITH_RFQ: SimulatedQuotation = {
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   previousStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,
-    gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+    gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+    gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi * 100,
+    priceDiff: Math.round(
+      SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff * 100
+    ),
   },
   simulatedStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,
-    gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+    gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+    gpi: STATUS_BAR_PROPERTIES_MOCK.gpi * 100,
+    priceDiff: Math.round(STATUS_BAR_PROPERTIES_MOCK.priceDiff * 100),
   },
 };

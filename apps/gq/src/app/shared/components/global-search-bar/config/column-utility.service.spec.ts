@@ -103,18 +103,6 @@ describe('ColumnUtilityService', () => {
     });
   });
 
-  describe('gpiGetter', () => {
-    test('should return the gpi', () => {
-      const params = {
-        data: {
-          gpi: 0.1234,
-        },
-      } as ValueGetterParams;
-      const result = service.gpiGetter(params);
-      expect(result).toEqual('12.34');
-    });
-  });
-
   describe('netValueFormatter', () => {
     test('should return the totalNetValue', () => {
       const params = {

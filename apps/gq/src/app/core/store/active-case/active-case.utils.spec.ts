@@ -8,39 +8,13 @@ import { SapConditionType, SapPriceConditionDetail } from '../reducers/models';
 import * as processCaseUtils from './active-case.utils';
 
 describe('ActiveCaseUtils', () => {
-  describe('addCalculationForDetails', () => {
-    test('should call addCalculationForDetail', () => {
+  describe('addCalculationsForDetails', () => {
+    test('should call calculateSapPriceValues', () => {
       const details = [QUOTATION_DETAIL_MOCK];
-      jest.spyOn(processCaseUtils, 'addCalculationsForDetail');
+      jest.spyOn(processCaseUtils, 'calculateSapPriceValues');
 
       processCaseUtils.addCalculationsForDetails(details);
-      expect(processCaseUtils.addCalculationsForDetail).toHaveBeenCalledTimes(
-        1
-      );
-    });
-  });
-
-  describe('addCalculationForDetail', () => {
-    test('should set netValueBySapPriceUnit', () => {
-      const detail = {
-        price: 100,
-        orderQuantity: 10,
-        leadingPriceUnit: 100,
-      } as QuotationDetail;
-
-      processCaseUtils.addCalculationsForDetail(detail);
-      expect(detail.netValue).toEqual(10);
-    });
-
-    test('should set netValue by materialPriceUnit', () => {
-      const detail = {
-        price: 100,
-        orderQuantity: 10,
-        leadingPriceUnit: 100,
-      } as QuotationDetail;
-
-      processCaseUtils.addCalculationsForDetail(detail);
-      expect(detail.netValue).toEqual(10);
+      expect(processCaseUtils.calculateSapPriceValues).toHaveBeenCalledTimes(1);
     });
   });
 

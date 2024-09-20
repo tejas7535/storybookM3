@@ -83,7 +83,7 @@ export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
       ...this.dialogData,
       // when rfqData is present use these values, otherwise use the values from the dialogData
       sqv: this.dialogData.rfqData?.sqv ?? this.dialogData.sqv,
-      gpm: this.dialogData.gpmRfq ?? this.dialogData.gpm,
+      gpm: this.dialogData.rfqData?.gpm ?? this.dialogData.gpm,
     },
   };
 

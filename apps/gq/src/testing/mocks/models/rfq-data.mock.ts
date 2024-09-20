@@ -17,4 +17,5 @@ export const RFQ_DATA_MOCK: RfqData = {
   createdOn: '2023-12-12',
   deliveryTime: 5,
   deliveryUnit: RfqDataDeliveryUnit.WEEKS,
+  gpm: 10.21,
 };

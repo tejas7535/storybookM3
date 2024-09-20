@@ -50,13 +50,16 @@ export class TransformationService {
       }
     )} ${unit}`;
   }
-  transformNumberExcel(number: number): string {
+  transformNumberExcel(
+    number: number,
+    needsPercentageMultiplier: boolean = false
+  ): string {
     if (!number) {
       return Keyboard.DASH;
     }
 
     return this.translocoLocaleService.localizeNumber(
-      number,
+      needsPercentageMultiplier ? number * 100 : number,
       'decimal',
       'en-US', // en-US is needed for Excel export due to Excel import issues with other seperators
       {
@@ -89,12 +92,16 @@ export class TransformationService {
       : falsyValueReturn;
   }
 
-  transformPercentage(percentage: number): string {
+  transformPercentage(
+    percentage: number,
+    isPercentageFormat: boolean = true
+  ): string {
     const locale = this.translocoLocaleService.getLocale();
+    const value = isPercentageFormat ? percentage : percentage * 100;
 
-    return percentage
+    return value
       ? this.translocoLocaleService.localizeNumber(
-          percentage / 100,
+          value / 100,
           'percent',
           locale,
           {

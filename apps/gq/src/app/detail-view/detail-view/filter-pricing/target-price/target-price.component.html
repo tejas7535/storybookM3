@@ -28,13 +28,13 @@
       <div class="min-w-[8rem] pt-2">
         <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
         <div>
-          <span class="font-bold">{{ gpi | percentage }}</span>
+          <span class="font-bold">{{ gpi | percentage: false }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-2">
         <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
         <div>
-          <span class="font-bold">{{ gpm | percentage }}</span>
+          <span class="font-bold">{{ gpm | percentage: false }}</span>
         </div>
       </div>
       @if (gpmRfq) {
@@ -43,7 +43,7 @@
             {{ t('gpmRfq) }}:
           </div>
           <div>
-            <span class="font-bold">{{ gpmRfq | percentage }}</span>
+            <span class="font-bold">{{ gpmRfq | percentage: false }}</span>
           </div>
         </div>
       }
