@@ -49,6 +49,18 @@
           <span text>{{ rfqData.productionPlant | plantDisplay }}</span>
         </gq-label-text>
         <gq-label-text>
+          <span label>{{ t('deliveryTime') }}</span>
+          <span text>{{ rfqData.deliveryTime | undefinedToDash }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('deliveryUnit.label') }}</span>
+          <span text>{{
+            rfqData.deliveryUnit
+              ? t('deliveryUnit.' + rfqData.deliveryUnit)
+              : (rfqData.deliveryUnit | undefinedToDash)
+          }}</span>
+        </gq-label-text>
+        <gq-label-text>
           <span label>{{ t('rfqSqv') }}</span>
           <span text>{{ rfqData.sqv | numberCurrency: currency }}</span>
         </gq-label-text>

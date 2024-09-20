@@ -101,7 +101,13 @@
         "cancelButton": "Cancel",
         "refreshButtonTooltip": "{status,select,SYNC_PENDING {Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed.} ACTIVE {Refresh RFQ Information} other {RFQ Information not up to date. Please cancel the approval workflow to refresh RFQ Information.}}"
       },
-      "rfqDataUpToDate": "RFQ Information up to date"
+      "rfqDataUpToDate": "RFQ Information up to date",
+      "deliveryTime": "Delivery Time",
+      "deliveryUnit": {
+        "label": "Delivery Unit",
+        "WEEKS": "Weeks",
+        "MONTHS": "Months"
+      }
     },
     "materialComparableCostDetails": {
       "title": "Comparable Cost #{{number}}",

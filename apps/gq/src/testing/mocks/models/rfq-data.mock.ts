@@ -1,4 +1,4 @@
-import { RfqData } from '@gq/shared/models';
+import { RfqData, RfqDataDeliveryUnit } from '@gq/shared/models';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
 
@@ -15,4 +15,6 @@ export const RFQ_DATA_MOCK: RfqData = {
   type: RfqType.TYPE_2,
   createdBy: 'Me:-)',
   createdOn: '2023-12-12',
+  deliveryTime: 5,
+  deliveryUnit: RfqDataDeliveryUnit.WEEKS,
 };

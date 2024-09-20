@@ -13,6 +13,7 @@ export * from './product-type.enum';
 export * from './quotation-detail.model';
 export * from './quotation-f-pricing-data.interface';
 export * from './quotation-rfq-data.interface';
+export * from './rfq-data-delivery-unit.enum';
 export * from './sap-error-message-code.enum';
 export * from './sap-price-condition.enum';
 export * from './sap-sync-status.enum';
