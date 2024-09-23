@@ -15,7 +15,7 @@
 
   &.mat-button-toggle-checked,
   &:hover {
-    @apply bg-surface #{!important};
+    @apply bg-surface-legacy #{!important};
 
     .mat-button-toggle-label-content {
       color: #00893d;
@@ -42,7 +42,7 @@
 
     &.mat-button-toggle-checked,
     &:hover {
-      @apply bg-surface #{!important};
+      @apply bg-surface-legacy #{!important};
 
       .mat-button-toggle-label-content {
         color: #00893d;
