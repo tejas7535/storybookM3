@@ -106,7 +106,7 @@ lubricator-selection-assistant {
     }
 
     .accessory-item {
-      @apply bg-surface [&>td]:py-4 border-l-2 border-border last-of-type:border-b-4 last-of-type:border-[#f5f5f5];
+      @apply bg-surface-legacy [&>td]:py-4 border-l-2 border-border last-of-type:border-b-4 last-of-type:border-[#f5f5f5];
 
       td:first-of-type {
         @apply border-l-4 border-l-[#f5f5f5];
