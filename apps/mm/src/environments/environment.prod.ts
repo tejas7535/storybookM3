@@ -28,4 +28,6 @@ export const environment: Environment = {
     ngrxIgnorePattern: ['@ngrx/*'],
     consent: true,
   },
+  internalDetectionUrl:
+    'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
 };

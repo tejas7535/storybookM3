@@ -26,4 +26,5 @@ export interface Environment {
     ngrxIgnorePattern: string[];
     consent: boolean;
   };
+  internalDetectionUrl: string;
 }

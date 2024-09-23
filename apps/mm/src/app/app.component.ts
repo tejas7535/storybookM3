@@ -14,11 +14,13 @@ import {
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
 import { RoutePath } from './app-routing.module';
 import { detectAppDelivery } from './core/helpers/settings-helpers';
+import { InternalDetectionService } from './core/services/internal-detection/internal-detection.service';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
 import { StorageMessagesActions } from './core/store/actions';
 import { AppDelivery } from './shared/models';
@@ -55,7 +57,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly meta: Meta,
     private readonly translocoService: TranslocoService,
     private readonly store: Store,
-    private readonly oneTrustMobileService: OneTrustMobileService
+    private readonly oneTrustMobileService: OneTrustMobileService,
+    private readonly internalDetection: InternalDetectionService,
+    private readonly appInsights: ApplicationInsightsService
   ) {
     this.meta.addTags(this.metaTags);
   }
@@ -92,6 +96,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
+
+    this.internalDetection
+      .getInternalHelloEndpoint()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isInternalUser) =>
+        this.appInsights.addCustomPropertyToTelemetryData(
+          'internalUser',
+          `${isInternalUser}`
+        )
+      );
 
     this.store.dispatch(StorageMessagesActions.getStorageMessage());
   }
