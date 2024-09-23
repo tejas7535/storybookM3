@@ -34,7 +34,7 @@
 
   // input overrides
   .mat-form-field-appearance-outline .mat-form-field-outline {
-    @apply #{$prefix}bg-surface;
+    @apply #{$prefix}bg-surface-legacy;
     border-radius: 5px;
   }
 
