@@ -36,7 +36,7 @@ export class BetaFeatureSettingsComponent {
       timeoutDelay = 5000;
 
       this.dialog.open(this.highFiveDialogTemplate, {
-        backdropClass: ['!bg-surface', '!opacity-90'],
+        backdropClass: ['!bg-surface-legacy', '!opacity-90'],
         panelClass: 'high-five-dialog',
       });
     }
