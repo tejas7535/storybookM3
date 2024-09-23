@@ -18,7 +18,7 @@ $footer-min-height: 48px;
   ::ng-deep {
     mat-toolbar {
       @apply fixed;
-      @apply bg-surface;
+      @apply bg-surface-legacy;
 
       .mat-icon-button .mat-icon {
         @apply absolute;
