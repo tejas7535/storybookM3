@@ -122,7 +122,7 @@ const Template: StoryFn = (args) => ({
       <div class="mat-elevation-z0 bg-secondary-variant"><div class="p-4 pt-[60px]">bg-secondary-variant {{colors['secondary-variant']}} (called primary-variant in design)</div></div>
       <div class="mat-elevation-z0 bg-secondary-900 text-white-low-emphasis"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
       <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
-      <div class="mat-elevation-z0 bg-surface"><div class="p-4 pt-[60px]">bg-surface {{colors.surface}}</div></div>
+      <div class="mat-elevation-z0 bg-surface-legacy"><div class="p-4 pt-[60px]">bg-surface-legacy {{colors.surface-legacy}}</div></div>
       <div class="mat-elevation-z0 bg-success"><div class="p-4 pt-[60px]">bg-success {{colors['bg-success']}}</div></div>
       <div class="mat-elevation-z0 bg-info"><div class="p-4 pt-[60px]">bg-info {{colors['bg-info']}}</div></div>
       <div class="mat-elevation-z0 bg-warning"><div class="p-4 pt-[60px]">bg-warning {{colors['bg-warning']}}</div></div>
