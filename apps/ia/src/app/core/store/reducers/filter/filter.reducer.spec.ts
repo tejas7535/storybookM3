@@ -378,6 +378,13 @@ describe('Filter Reducer', () => {
         },
         name: FilterKey.TIME_RANGE,
       });
+      expect(state.benchmarkFilters.entities[FilterKey.TIME_RANGE]).toEqual({
+        idValue: {
+          id: '1651363200|1654041599',
+          value: '2022',
+        },
+        name: FilterKey.TIME_RANGE,
+      });
       expect(state.timeRangeConstraints).toEqual({
         min: 1_672_531_200,
         max: 1_654_041_599,

@@ -289,6 +289,10 @@ export const filterReducer = createReducer(
         new SelectedFilter(FilterKey.TIME_RANGE, timeRange),
         state.selectedFilters
       ),
+      benchmarkFilters: filterAdapter.upsertOne(
+        new SelectedFilter(FilterKey.TIME_RANGE, timeRange),
+        state.benchmarkFilters
+      ),
       timeRangeConstraints,
     })
   ),
