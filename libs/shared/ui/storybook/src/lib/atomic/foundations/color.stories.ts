@@ -51,21 +51,21 @@ const Template: StoryFn = (args) => ({
       <div class="mat-elevation-z0 text-white-high-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-high-emphasis {{colors['white-high-emphasis']}}</div></div>      
 
       <h4 class="mt-20">Functional Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary border border-info mb-1">
+      <div class="mat-elevation-z0 bg-secondary-legacy border border-info mb-1">
         <div class="p-4 pt-[60px]">border-info {{ colors['info'] }}</div>
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-success mb-1">
+      <div class="mat-elevation-z0 bg-secondary-legacy border border-success mb-1">
         <div class="p-4 pt-[60px]">border-success {{ colors['success'] }}</div>
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-warning mb-1">
+      <div class="mat-elevation-z0 bg-secondary-legacy border border-warning mb-1">
         <div class="p-4 pt-[60px]">border-warning {{ colors['warning'] }}</div>    
       </div>
-      <div class="mat-elevation-z0 bg-secondary border border-error mb-1">
+      <div class="mat-elevation-z0 bg-secondary-legacy border border-error mb-1">
             <div class="p-4 pt-[60px]">border-error {{ colors['error'] }}</div>    
       </div>
 
       <h4 class="mt-20">Functional Text Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
+      <div class="mat-elevation-z0 bg-secondary-legacy flex flex-row justify-between">
         <div class="p-4 pt-[60px] text-info">text-info {{colors['text-info']}}</div>
         <div class="p-4 pt-[60px] text-success">text-success {{colors['text-success']}}</div>
         <div class="p-4 pt-[60px] text-warning">text-warning {{colors['text-warning']}}</div>
@@ -73,7 +73,7 @@ const Template: StoryFn = (args) => ({
       </div>
 
       <h4 class="mt-20">Text Icon Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary">
+      <div class="mat-elevation-z0 bg-secondary-legacy">
         <div class="p-4 pt-[60px] flex gap-4 text-icon-link">
           <mat-icon>link</mat-icon>
           <span>text-icon-link</span>
@@ -118,7 +118,7 @@ const Template: StoryFn = (args) => ({
 
       <h4 class="mt-20">Color Schema</h4>
       <div class="mat-elevation-z0 bg-primary-variant"><div class="p-4 pt-[60px]">bg-primary-variant {{colors['primary-variant']}} (called secondary-variant in design)</div></div>      
-      <div class="mat-elevation-z0 bg-secondary"><div class="p-4 pt-[60px]">bg-secondary {{colors.secondary}} (called primary in design)</div></div>
+      <div class="mat-elevation-z0 bg-secondary-legacy"><div class="p-4 pt-[60px]">bg-secondary-legacy {{colors['secondary-legacy']}} </div></div>
       <div class="mat-elevation-z0 bg-secondary-variant"><div class="p-4 pt-[60px]">bg-secondary-variant {{colors['secondary-variant']}} (called primary-variant in design)</div></div>
       <div class="mat-elevation-z0 bg-secondary-900 text-white-low-emphasis"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
       <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
