@@ -1,4 +1,11 @@
 # Release Notes of Guided Quoting
+## [5.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v5.2.0...gq-v5.2.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* **gq:** ⚡hotfix adjust logic for displaying price deviation (GQUOTE-4973) ([#6542](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6542)) ([fb5c02a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fb5c02af5ecd8f852fc889a5e79d4cc3f91552e2))
+
 ## [5.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v5.1.0...gq-v5.2.0) (2024-08-21)
 
 
