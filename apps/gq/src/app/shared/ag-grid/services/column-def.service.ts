@@ -795,6 +795,12 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.brandName'),
+      field: 'material.brandName',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.strategicHierarchy'),
       field: ColumnFields.STRATEGIC_HIERARCHY,
       valueFormatter: ColumnUtilityService.basicTransform,
