@@ -89,20 +89,28 @@ export class TransformationService {
       : falsyValueReturn;
   }
 
-  transformPercentage(percentage: number): string {
+  transformPercentage(
+    percentage: number,
+    keepZeroValue: boolean = false
+  ): string {
     const locale = this.translocoLocaleService.getLocale();
+    const localizedNumber = () =>
+      this.translocoLocaleService.localizeNumber(
+        percentage / 100,
+        'percent',
+        locale,
+        {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }
+      );
 
-    return percentage
-      ? this.translocoLocaleService.localizeNumber(
-          percentage / 100,
-          'percent',
-          locale,
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }
-        )
-      : Keyboard.DASH;
+    const falsyValueReturn =
+      keepZeroValue && percentage !== null && percentage !== undefined
+        ? localizedNumber() ?? `${percentage} %`
+        : Keyboard.DASH;
+
+    return percentage ? localizedNumber() : falsyValueReturn;
   }
 
   transformDate(date: string, includeTime: boolean = false): string {

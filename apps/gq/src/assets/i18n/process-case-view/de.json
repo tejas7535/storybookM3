@@ -142,7 +142,7 @@
       "ratingCardSubtitle": "auf Basis des GQ-Algorithmus",
       "priceDeviationCardTitle": "Preisunterschied",
       "priceDeviationCardSubtitle": "zum letzten Kundenpreis",
-      "deviationCardTitleWarning": "Preisabweichung vom GQ Case",
+      "deviationCardTitleWarning": "Preisabweichung aus SAP Angebot",
       "quotationByProductionLineOrGPSD": {
         "titlePL": "GQ Case nach Produktlinie",
         "titleGPSD": "GQ Case nach GPSD",

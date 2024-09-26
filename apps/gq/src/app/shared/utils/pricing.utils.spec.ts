@@ -177,6 +177,19 @@ describe('PricingUtils', () => {
         new StatusBarProperties(2020.4, 24.74, 0.99, 0.2, 3)
       );
     });
+
+    test('return calculatedValues for statusBar when all incoming Values are undefined', () => {
+      const details = [
+        {
+          material: {
+            materialNumber15: '123456789',
+          },
+        } as unknown as QuotationDetail,
+      ];
+
+      const result = pricingUtils.calculateStatusBarValues(details);
+      expect(result).toEqual(new StatusBarProperties(0, 0, 0, null, 1));
+    });
   });
 
   describe('keepMaxQuantityIfDuplicate should', () => {

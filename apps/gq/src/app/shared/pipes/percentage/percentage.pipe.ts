@@ -8,7 +8,7 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 export class PercentagePipe implements PipeTransform {
   constructor(private readonly transformationService: TransformationService) {}
 
-  transform(value: number): string {
-    return this.transformationService.transformPercentage(value);
+  transform(value: number, keepValue: boolean = false): string {
+    return this.transformationService.transformPercentage(value, keepValue);
   }
 }

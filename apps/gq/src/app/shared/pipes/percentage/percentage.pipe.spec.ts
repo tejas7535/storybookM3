@@ -36,6 +36,23 @@ describe('PercentagePipe', () => {
 
     pipe.transform(10);
     expect(transformationService.transformPercentage).toHaveBeenCalledTimes(1);
-    expect(transformationService.transformPercentage).toHaveBeenCalledWith(10);
+    expect(transformationService.transformPercentage).toHaveBeenCalledWith(
+      10,
+      false
+    );
+  });
+
+  test('should call TransformationService with keepValue', () => {
+    jest.resetAllMocks();
+    spectator = createPipe();
+    transformationService = spectator.inject(TransformationService);
+
+    const pipe = new PercentagePipe(transformationService);
+    pipe.transform(10, true);
+    expect(transformationService.transformPercentage).toHaveBeenCalledTimes(1);
+    expect(transformationService.transformPercentage).toHaveBeenCalledWith(
+      10,
+      true
+    );
   });
 });

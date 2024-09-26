@@ -116,8 +116,8 @@ describe('OverviewTabComponent', () => {
           deviation: {
             value:
               APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
-                .priceDeviation, // no warning when gq and approval value differ
-            warning: false,
+                .priceDeviation,
+            warning: true,
           },
         };
         store.overrideSelector(getQuotationDetails, QUOTATION_DETAILS_MOCK);
@@ -187,9 +187,9 @@ describe('OverviewTabComponent', () => {
           value: {
             getApprovers: jest.fn(),
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
-            approvalCockpitInformation$: of(
-              {} as unknown as ApprovalWorkflowInformation
-            ),
+            approvalCockpitInformation$: of({
+              priceDeviation: null,
+            } as unknown as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
 
@@ -219,7 +219,224 @@ describe('OverviewTabComponent', () => {
           },
           deviation: {
             value: mockQuotationOverviewInformation.deviation.value,
+            warning: false,
+          },
+        };
+
+        store.overrideSelector(
+          getQuotationOverviewInformation,
+          mockQuotationOverviewInformation
+        );
+
+        component.ngOnInit();
+        m.expect(component.pricingInformation$).toBeObservable('a', {
+          a: expectedPricingInformation,
+        });
+      })
+    );
+
+    test(
+      'should init Observables and use SAP price Deviation when value is "0.00" and set warning t true',
+      marbles((m) => {
+        Object.defineProperty(component, 'approvalFacade', {
+          value: {
+            getApprovers: jest.fn(),
+            requiredApprovalLevelsForQuotation$: of('approvalLevel'),
+            approvalCockpitInformation$: of({
+              priceDeviation: 0,
+            } as ApprovalWorkflowInformation),
+          } as unknown as ApprovalFacade,
+        });
+
+        const mockQuotationOverviewInformation: QuotationPricingOverview = {
+          gpi: { value: 24.74, warning: undefined },
+          gpm: { value: 0.99, warning: undefined },
+          netValue: { value: 2020.4, warning: undefined },
+          avgGqRating: { value: 2, warning: undefined },
+          deviation: { value: 15, warning: undefined },
+        };
+        const expectedPricingInformation: QuotationPricingOverview = {
+          netValue: {
+            value: mockQuotationOverviewInformation.netValue.value,
+            warning: undefined,
+          },
+          avgGqRating: {
+            value: mockQuotationOverviewInformation.avgGqRating.value,
+            warning: undefined,
+          },
+          gpi: {
+            value: mockQuotationOverviewInformation.gpi.value,
+            warning: undefined,
+          },
+          gpm: {
+            value: mockQuotationOverviewInformation.gpm.value,
+            warning: undefined,
+          },
+          deviation: {
+            value: 0,
             warning: true,
+          },
+        };
+
+        store.overrideSelector(
+          getQuotationOverviewInformation,
+          mockQuotationOverviewInformation
+        );
+
+        component.ngOnInit();
+        m.expect(component.pricingInformation$).toBeObservable('a', {
+          a: expectedPricingInformation,
+        });
+      })
+    );
+    test(
+      'should init Observables and use null when SAP and GQ price Deviation is null and set warning to false',
+      marbles((m) => {
+        Object.defineProperty(component, 'approvalFacade', {
+          value: {
+            getApprovers: jest.fn(),
+            requiredApprovalLevelsForQuotation$: of('approvalLevel'),
+            approvalCockpitInformation$: of({
+              priceDeviation: null,
+            } as ApprovalWorkflowInformation),
+          } as unknown as ApprovalFacade,
+        });
+
+        const mockQuotationOverviewInformation: QuotationPricingOverview = {
+          gpi: { value: 24.74, warning: undefined },
+          gpm: { value: 0.99, warning: undefined },
+          netValue: { value: 2020.4, warning: undefined },
+          avgGqRating: { value: 2, warning: undefined },
+          deviation: { value: null, warning: undefined },
+        };
+        const expectedPricingInformation: QuotationPricingOverview = {
+          netValue: {
+            value: mockQuotationOverviewInformation.netValue.value,
+            warning: undefined,
+          },
+          avgGqRating: {
+            value: mockQuotationOverviewInformation.avgGqRating.value,
+            warning: undefined,
+          },
+          gpi: {
+            value: mockQuotationOverviewInformation.gpi.value,
+            warning: undefined,
+          },
+          gpm: {
+            value: mockQuotationOverviewInformation.gpm.value,
+            warning: undefined,
+          },
+          deviation: {
+            value: null,
+            warning: false,
+          },
+        };
+
+        store.overrideSelector(
+          getQuotationOverviewInformation,
+          mockQuotationOverviewInformation
+        );
+
+        component.ngOnInit();
+        m.expect(component.pricingInformation$).toBeObservable('a', {
+          a: expectedPricingInformation,
+        });
+      })
+    );
+    test(
+      'should init Observables and use sap deviationValue even when it is same as GQ and set warning to false',
+      marbles((m) => {
+        Object.defineProperty(component, 'approvalFacade', {
+          value: {
+            getApprovers: jest.fn(),
+            requiredApprovalLevelsForQuotation$: of('approvalLevel'),
+            approvalCockpitInformation$: of({
+              priceDeviation: 15,
+            } as ApprovalWorkflowInformation),
+          } as unknown as ApprovalFacade,
+        });
+
+        const mockQuotationOverviewInformation: QuotationPricingOverview = {
+          gpi: { value: 24.74, warning: undefined },
+          gpm: { value: 0.99, warning: undefined },
+          netValue: { value: 2020.4, warning: undefined },
+          avgGqRating: { value: 2, warning: undefined },
+          deviation: { value: 15, warning: undefined },
+        };
+        const expectedPricingInformation: QuotationPricingOverview = {
+          netValue: {
+            value: mockQuotationOverviewInformation.netValue.value,
+            warning: undefined,
+          },
+          avgGqRating: {
+            value: mockQuotationOverviewInformation.avgGqRating.value,
+            warning: undefined,
+          },
+          gpi: {
+            value: mockQuotationOverviewInformation.gpi.value,
+            warning: undefined,
+          },
+          gpm: {
+            value: mockQuotationOverviewInformation.gpm.value,
+            warning: undefined,
+          },
+          deviation: {
+            value: 15,
+            warning: false,
+          },
+        };
+
+        store.overrideSelector(
+          getQuotationOverviewInformation,
+          mockQuotationOverviewInformation
+        );
+
+        component.ngOnInit();
+        m.expect(component.pricingInformation$).toBeObservable('a', {
+          a: expectedPricingInformation,
+        });
+      })
+    );
+    test(
+      'should init Observables and use Gq Deviation when quotation is not synced and therefor sapPriceDeviation will be undefined',
+      marbles((m) => {
+        Object.defineProperty(component, 'approvalFacade', {
+          value: {
+            getApprovers: jest.fn(),
+            requiredApprovalLevelsForQuotation$: of('approvalLevel'),
+            approvalCockpitInformation$: of({
+              priceDeviation: undefined,
+            } as ApprovalWorkflowInformation),
+          } as unknown as ApprovalFacade,
+        });
+
+        const mockQuotationOverviewInformation: QuotationPricingOverview = {
+          gpi: { value: 24.74, warning: undefined },
+          gpm: { value: 0.99, warning: undefined },
+          netValue: { value: 2020.4, warning: undefined },
+          avgGqRating: { value: 2, warning: undefined },
+          deviation: { value: 15, warning: undefined },
+        };
+        const expectedPricingInformation: QuotationPricingOverview = {
+          netValue: {
+            value: mockQuotationOverviewInformation.netValue.value,
+            warning: undefined,
+          },
+          avgGqRating: {
+            value: mockQuotationOverviewInformation.avgGqRating.value,
+            warning: undefined,
+          },
+          gpi: {
+            value: mockQuotationOverviewInformation.gpi.value,
+            warning: undefined,
+          },
+          gpm: {
+            value: mockQuotationOverviewInformation.gpm.value,
+            warning: undefined,
+          },
+          deviation: {
+            value: 15,
+            warning: false,
           },
         };
 

@@ -16,7 +16,7 @@ export class StatusBarProperties {
     public netValue = 0,
     public gpi = 0,
     public gpm = 0,
-    public priceDiff = 0,
+    public priceDiff = null as number,
     public rows = 0
   ) {}
 }
