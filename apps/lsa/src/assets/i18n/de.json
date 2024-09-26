@@ -102,5 +102,18 @@
       "increaseOne": "Menge um eins erhöhen",
       "decreaseOne": "Menge um eins verringern"
     }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Bitte geben Sie hier die durchschnittlich benötigte Schmierstoffmenge pro Schmierstelle und Intervall an. Weichen die einzelnen Schmierstoffmengen pro Schmierstelle stark voneinander ab, kann es erforderlich sein, separate Berechnungen durchzuführen.",
+      "pipeLength": "",
+      "optime": "Das OPTIME Ecosystem von Schaeffler ermöglicht die Integration verschiedenster Instandhaltungssysteme in einer digitalen Lösung und zeichnet sich durch eine sehr gute Übersichtlichkeit und einfache Bedienbarkeit aus. Wenn die Integration des Schmiersystems in OPTIME für Sie ein wichtiges Kriterium ist, beantworten Sie diese Frage bitte mit „ja“."
+    },
+    "application": {
+      "temps": "Bitte geben Sie hier die möglichen MIN- und MAX-Werte der Umgebungstemperatur an, in der das Schmiersystem installiert ist. Bitte beachten Sie, dass sich dies auf den Einbauort des Schmierstoffgebers bezieht und nicht z.B. auf die Lagertemperatur."
+    },
+    "lubricant": {
+      "lubricant": "Schaeffler-Schmierstoffe wurden speziell für den Einsatz in Wälzlagern entwickelt und hinsichtlich ihrer Leistungsfähigkeit optimiert. Schaeffler bietet ein umfangreiches Portfolio an unterschiedlichen Schmierstoffen für alle möglichen Anwendungen und Anforderungen."
+    }
   }
 }
