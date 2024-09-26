@@ -15,6 +15,11 @@ export const environment: Environment = {
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: 'http://localhost:8000/assets',
   oneTrustId: '7046149d-287b-4943-823f-02838a51a445-test',
+  oneTrustMobileStorageLocation: 'cdn.cookielaw.org',
+  oneTrustAndroidId: '01922318-86c1-787f-93f9-87b5102311d9-test',
+  oneTrustiOSId: '0192231a-96ab-779d-9f23-ab558c7ff673-test',
+  oneTrustAndroidFirebaseCategoryId: '0190a6df-479e-733f-8b9f-fdaf88a8cc34',
+  oneTrustiOSFirebaseCategoryId: '0190a6ed-ae99-750d-a458-b4c746cc8ae0',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '1c13d904-fb90-4598-82b4-ebba31a8e172',

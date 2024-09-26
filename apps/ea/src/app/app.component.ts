@@ -30,6 +30,7 @@ import { Store } from '@ngrx/store';
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
+import { OneTrustMobileService } from './core/services/tracking-service/one-trust-mobile.service';
 import { SettingsFacade } from './core/store';
 import {
   ProductSelectionActions,
@@ -105,6 +106,20 @@ export class AppComponent
       // eslint-disable-next-line unicorn/no-useless-undefined
       startWith(undefined)
     ),
+    this.translocoService.selectTranslate('legal.cookiePolicy').pipe(
+      map((title) => ({
+        link: undefined,
+        title,
+        external: false,
+        onClick: ($event: MouseEvent) => {
+          $event.preventDefault();
+          this.oneTrustMobileService.showPreferenceCenterUI();
+        },
+      })),
+      filter(() => Capacitor.isNativePlatform()),
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      startWith(undefined)
+    ),
   ]).pipe(
     map((links) => links.filter(Boolean)) // Filter out any null values
   );
@@ -117,7 +132,8 @@ export class AppComponent
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
     private readonly elementRef: ElementRef,
-    private readonly localeService: TranslocoLocaleService
+    private readonly localeService: TranslocoLocaleService,
+    private readonly oneTrustMobileService: OneTrustMobileService
   ) {}
 
   ngAfterViewInit(): void {

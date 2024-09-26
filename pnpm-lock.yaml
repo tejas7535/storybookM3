@@ -478,6 +478,9 @@ importers:
       '@capacitor-community/file-opener':
         specifier: ^6.0.0
         version: 6.0.0(@capacitor/core@6.1.0)
+      '@capacitor-community/firebase-analytics':
+        specifier: 6.0.0
+        version: 6.0.0(@capacitor/core@6.1.0)
       '@capacitor/core':
         specifier: ^6.1.0
         version: 6.1.0
@@ -2154,7 +2157,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor-community/firebase-analytics@6.0.0':
-    resolution: {integrity: sha512-3/B4V8V6exw4pits9H5JWqfyzvgsoW+NfxdaJoimNVx2YcpDYJtYj79DsmuMe5DXf6mxRIbQ+InxfGV4vwoxDA==}
+    resolution: {integrity: sha512-3/B4V8V6exw4pits9H5JWqfyzvgsoW+NfxdaJoimNVx2YcpDYJtYj79DsmuMe5DXf6mxRIbQ+InxfGV4vwoxDA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/firebase-analytics/-/firebase-analytics-6.0.0.tgz}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 

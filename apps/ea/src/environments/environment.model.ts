@@ -9,6 +9,11 @@ export interface Environment {
   staticStorageUrl: string;
   oldUIFallbackUrl: string;
   tenantId: string;
+  oneTrustMobileStorageLocation: string;
+  oneTrustAndroidId: string;
+  oneTrustiOSId: string;
+  oneTrustAndroidFirebaseCategoryId: string;
+  oneTrustiOSFirebaseCategoryId: string;
   groupId: string;
   assetsPath: string;
   oneTrustId: string;
