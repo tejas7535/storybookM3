@@ -2,7 +2,7 @@ import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-mo
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 
-import { ComparableMaterialsRowData } from '../../reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { ComparableMaterialsRowData } from '../../transactions/models/f-pricing-comparable-materials.interface';
 // eslint-disable-next-line @nx/workspace/gq-scoped-import
 import { FPricingState } from '../f-pricing.reducer';
 import { MarketValueDriverWarningLevel } from './market-value-driver-warning-level.enum';

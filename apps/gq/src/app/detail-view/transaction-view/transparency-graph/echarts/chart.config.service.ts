@@ -4,6 +4,7 @@ import {
   ComparableLinkedTransaction,
   SalesIndication,
 } from '@gq/core/store/reducers/models';
+import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { Customer } from '@gq/shared/models/customer';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
@@ -47,19 +48,34 @@ export class ChartConfigService {
     nameGap: 40,
   };
 
-  Y_AXIS_CONFIG: YAXisComponentOption = {
+  getYAxisConfig = (
+    recommendationType: RecommendationType,
+    transactions: ComparableLinkedTransaction[]
+  ): YAXisComponentOption => ({
     splitLine: {
       lineStyle: {
         type: 'dashed',
       },
     },
-    name: translate(`transactionView.graph.y-axis`),
+    name: translate(`transactionView.graph.y-axis`, { recommendationType }),
     nameGap: 20,
-    max: 100,
+    max:
+      recommendationType === RecommendationType.MARGIN
+        ? 100
+        : this.getMaxPriceForYAxis(transactions),
     axisLabel: {
       formatter: (value: number) =>
         this.transformationService.transformNumber(value, false),
     },
+  });
+
+  private readonly getMaxPriceForYAxis = (
+    transactions: ComparableLinkedTransaction[]
+  ): number => {
+    const maxPrice = Math.max(...transactions.map((t) => t.price));
+
+    // always round up to the next 10
+    return Math.ceil(maxPrice / 10) * 10;
   };
 
   constructor(private readonly transformationService: TransformationService) {}
@@ -84,21 +100,33 @@ export class ChartConfigService {
     return item;
   };
 
-  getRegressionForToolTipFormatter = (data: DataPoint): string => {
+  getRegressionForToolTipFormatter = (
+    data: DataPoint,
+    recommendationType: RecommendationType
+  ): string => {
     const dataPoint = this.regressionData.find(
       (d) => d[0] === data.value[this.INDEX_X_AXIS]
     );
 
-    const gpi = `${this.transformationService.transformPercentage(
-      dataPoint[this.INDEX_Y_AXIS]
-    )}`;
+    const value =
+      recommendationType === RecommendationType.MARGIN
+        ? this.transformationService.transformPercentage(
+            dataPoint[this.INDEX_Y_AXIS]
+          )
+        : this.transformationService.transformNumberCurrency(
+            dataPoint[this.INDEX_Y_AXIS],
+            data.currency,
+            false
+          );
 
     let items = `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.2">`;
 
     items += this.getLineForToolTipFormatter(
       DataPointColor.REGRESSION,
-      'regression',
-      gpi
+      recommendationType === RecommendationType.MARGIN
+        ? 'marginRegression'
+        : 'priceRegression',
+      `${value}`
     );
 
     return items;
@@ -125,9 +153,7 @@ export class ChartConfigService {
         );
       }
       case ToolTipItems.PROFIT_MARGIN: {
-        return this.transformationService.transformPercentage(
-          data.value[this.INDEX_Y_AXIS]
-        );
+        return this.transformationService.transformPercentage(data.gpi);
       }
       default: {
         return ``;
@@ -135,9 +161,12 @@ export class ChartConfigService {
     }
   };
 
-  tooltipFormatter = (param: any, showGpi: boolean): string => {
+  tooltipFormatter = (
+    param: any,
+    showGpi: boolean,
+    recommendationType: RecommendationType
+  ): string => {
     const data: DataPoint = param.data;
-
     const listedItems = [
       ToolTipItems.QUANTITY,
       ToolTipItems.PRICE,
@@ -162,15 +191,19 @@ export class ChartConfigService {
 
     // tooltip data for regression
     if (showGpi) {
-      items += this.getRegressionForToolTipFormatter(data);
+      items += this.getRegressionForToolTipFormatter(data, recommendationType);
     }
 
     return items;
   };
 
-  getToolTipConfig = (showGpi: boolean): TooltipComponentOption => ({
+  getToolTipConfig = (
+    showGpi: boolean,
+    recommendationType: RecommendationType
+  ): TooltipComponentOption => ({
     ...TOOLTIP_CONFIG,
-    formatter: (param) => this.tooltipFormatter(param, showGpi),
+    formatter: (param) =>
+      this.tooltipFormatter(param, showGpi, recommendationType),
   });
 
   calculateAxisMax = (datapoints: DataPoint[], index: number): number => {
@@ -250,20 +283,29 @@ export class ChartConfigService {
 
   buildDataPoints = (
     transactions: ComparableLinkedTransaction[],
-    currency: string
+    currency: string,
+    recommendationType: RecommendationType
   ): DataPoint[] => {
     const dataPoints: DataPoint[] = [];
 
     transactions.forEach((transaction) => {
+      const roundedGpi = roundToTwoDecimals(transaction.profitMargin);
+      const roundedPrice = roundToTwoDecimals(transaction.price);
+
       dataPoints.push({
         currency,
         value: [
           transaction.quantity,
-          roundToTwoDecimals(transaction.profitMargin),
+          roundToTwoDecimals(
+            recommendationType === RecommendationType.PRICE
+              ? transaction.price
+              : roundedGpi
+          ),
         ],
         salesIndication: transaction.salesIndication,
         year: transaction.year,
-        price: roundToTwoDecimals(transaction.price),
+        gpi: roundedGpi,
+        price: roundedPrice,
         customerName: transaction.customerName,
         customerId: transaction.customerId,
       });

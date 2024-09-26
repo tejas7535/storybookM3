@@ -36,9 +36,7 @@ import { MaterialSalesOrgFacade } from '../facades/material-sales-org.facade';
 import { MaterialStockFacade } from '../facades/material-stock.facade';
 import { PlantMaterialDetailsFacade } from '../facades/plant-material-details.facade';
 import { SapPriceDetailsFacade } from '../facades/sap-price-details.facade';
-import { TransactionsFacade } from '../facades/transactions.facade';
 import {
-  ComparableLinkedTransaction,
   MaterialStock,
   SalesOrg,
   SapPriceConditionDetail,
@@ -83,7 +81,6 @@ export class ActiveCaseFacade {
     inject(MaterialStockFacade);
 
   private readonly sapPriceDetailsFacade = inject(SapPriceDetailsFacade);
-  private readonly transactionsFacade = inject(TransactionsFacade);
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
 
@@ -283,13 +280,6 @@ export class ActiveCaseFacade {
     this.sapPriceDetailsFacade.sapPriceDetailsLoading$;
   sapPriceDetails$: Observable<SapPriceConditionDetail[]> =
     this.sapPriceDetailsFacade.sapPriceDetails$;
-
-  transactions$: Observable<ComparableLinkedTransaction[]> =
-    this.transactionsFacade.transactions$;
-  transactionsLoading$: Observable<boolean> =
-    this.transactionsFacade.transactionsLoading$;
-  graphTransactions$: Observable<ComparableLinkedTransaction[]> =
-    this.transactionsFacade.graphTransactions$;
 
   // ##############################################################################################################
   // ############################################# methods ########################################################

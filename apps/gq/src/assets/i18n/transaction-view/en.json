@@ -32,7 +32,7 @@
     "info-hover": "Comparable transactions with a negative GPI (%) are not taken into account when calculating the Guided Quoting price recommendation. Therefore these transactions are not shown in the graph, but are available in the table."
   },
   "graph": {
-    "title": "Margin Volume Graph",
+    "title": "{recommendationType,select,MARGIN {Margin Volume} PRICE {Price Quantity} other{}} Graph",
     "hint": "Some transactions might be filtered out due to missing roles",
     "salesIndication": {
       "invoice": "Invoice",
@@ -45,10 +45,11 @@
       "profitMargin": "GPI",
       "price": "Price",
       "year": "Year",
-      "regression": "GQ GPI"
+      "marginRegression": "GQ GPI",
+      "priceRegression": "GQ Price"
     },
     "x-axis": "Quantity",
-    "y-axis": "GPI %"
+    "y-axis": "{recommendationType,select, MARGIN {GPI %} PRICE {Price} other {}}"
   },
   "savingInProgress": {
     "headerWithRolesHint": "The GQ Pricing Details are currently being calculated or the details are not available due to missing roles",

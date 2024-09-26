@@ -27,7 +27,7 @@ import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import {
   ComparableMaterialsRowData,
   FPricingComparableMaterials,
-} from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+} from '../transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingCalculations } from './models/f-pricing-calculations.interface';
 import { MarketValueDriverWarningLevel } from './models/market-value-driver-warning-level.enum';

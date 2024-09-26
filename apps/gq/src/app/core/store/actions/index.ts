@@ -1,3 +1,4 @@
+export * from '../transactions/transactions.actions';
 export * from './create-case/create-case.actions';
 export * from './material-comparable-costs/material-comparable-costs.actions';
 export * from './material-cost-details/material-cost-details.actions';
@@ -5,4 +6,3 @@ export * from './material-sales-org/material-sales-org.actions';
 export * from './material-stock/material-stock.actions';
 export * from './plant-material-details/plant-material-details.actions';
 export * from './sap-price-details/sap-price-details.actions';
-export * from './transactions/transactions.actions';

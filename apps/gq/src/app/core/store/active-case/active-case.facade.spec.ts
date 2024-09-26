@@ -30,9 +30,9 @@ import { MaterialSalesOrgFacade } from '../facades/material-sales-org.facade';
 import { MaterialStockFacade } from '../facades/material-stock.facade';
 import { PlantMaterialDetailsFacade } from '../facades/plant-material-details.facade';
 import { SapPriceDetailsFacade } from '../facades/sap-price-details.facade';
-import { TransactionsFacade } from '../facades/transactions.facade';
 import { SectorGpsdFacade } from '../sector-gpsd/sector-gpsd.facade';
 import { getSalesOrgsOfShipToParty } from '../selectors/create-case/create-case.selector';
+import { TransactionsFacade } from '../transactions/transactions.facade';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseFacade } from './active-case.facade';
 import { activeCaseFeature } from './active-case.reducer';
@@ -813,33 +813,6 @@ describe('ActiveCaseFacade', () => {
       'should provide sapPriceDetails$',
       marbles((m) => {
         m.expect(facade.sapPriceDetails$).toBeObservable(
-          m.cold('(a|)', { a: [] })
-        );
-      })
-    );
-  });
-
-  describe('provide from TransactionsFacade', () => {
-    test(
-      'should provide transactionsLoading$',
-      marbles((m) => {
-        m.expect(facade.transactionsLoading$).toBeObservable(
-          m.cold('(a|)', { a: false })
-        );
-      })
-    );
-    test(
-      'should provide transactions$',
-      marbles((m) => {
-        m.expect(facade.transactions$).toBeObservable(
-          m.cold('(a|)', { a: [] })
-        );
-      })
-    );
-    test(
-      'should provide graphTransactions$',
-      marbles((m) => {
-        m.expect(facade.graphTransactions$).toBeObservable(
           m.cold('(a|)', { a: [] })
         );
       })

@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
+import { TransactionsFacade } from '@gq/core/store/transactions/transactions.facade';
 import { UserRoles } from '@gq/shared/constants';
 import { Customer } from '@gq/shared/models/customer';
 import {
@@ -31,6 +33,9 @@ export class TransactionViewComponent {
     inject(BreadcrumbsService);
   private readonly activeCaseFacade: ActiveCaseFacade =
     inject(ActiveCaseFacade);
+  private readonly transactionsFacade: TransactionsFacade =
+    inject(TransactionsFacade);
+
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
 
   filteredTransactionIdentifier = new BehaviorSubject<number[] | undefined>(
@@ -42,16 +47,20 @@ export class TransactionViewComponent {
     this.activeCaseFacade.quotationLoading$;
   quotationCurrency$: Observable<string> =
     this.activeCaseFacade.quotationCurrency$;
+
   transactions$: Observable<ComparableLinkedTransaction[]> =
-    this.activeCaseFacade.transactions$;
+    this.transactionsFacade.transactions$;
   transactionsLoading$: Observable<boolean> =
-    this.activeCaseFacade.transactionsLoading$;
+    this.transactionsFacade.transactionsLoading$;
+  recommendationType$: Observable<RecommendationType> =
+    this.transactionsFacade.recommendationType$;
+
   translationsLoaded$: Observable<boolean> = this.translocoService
     .selectTranslateObject('transactions', {}, 'transaction-view')
     .pipe(map((res) => typeof res !== 'string'));
   graphTransactions$: Observable<ComparableLinkedTransaction[]> = combineLatest(
     [
-      this.activeCaseFacade.graphTransactions$,
+      this.transactionsFacade.graphTransactions$,
       this.filteredTransactionIdentifier,
     ]
   ).pipe(

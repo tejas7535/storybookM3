@@ -1,4 +1,4 @@
-import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
+import { ComparableLinkedTransaction } from '../../transactions/models/comparable-linked-transaction.model';
 
 export interface ExtendedComparableLinkedTransaction
   extends ComparableLinkedTransaction {

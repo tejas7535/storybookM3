@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
+import { TransactionsModule } from '@gq/core/store/transactions/transactions.module';
 import { MaterialPriceHeaderContentModule } from '@gq/shared/components/header/material-price-header-content/material-price-header-content.module';
 import { StatusCustomerInfoHeaderModule } from '@gq/shared/components/header/status-customer-info-header/status-customer-info-header.module';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@jsverse/transloco';
@@ -23,6 +24,7 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
   declarations: [TransactionViewComponent, SavingInProgressComponent],
   imports: [
     TranslocoModule,
+    TransactionsModule,
     TransactionViewRoutingModule,
     ComparableTransactionsModule,
     TransparencyGraphModule,

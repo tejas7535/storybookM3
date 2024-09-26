@@ -8,7 +8,7 @@ import {
   CreateCaseState,
   initialState,
 } from '../../reducers/create-case/create-case.reducer';
-import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
+import { SalesIndication } from '../../transactions/models/sales-indication.enum';
 import * as createSelectors from './create-case.selector';
 
 describe('Create Case Selector', () => {

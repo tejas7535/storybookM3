@@ -3,7 +3,7 @@ import {
   ComparableMaterialsRowData,
   FPricingComparableMaterials,
   Material,
-} from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+} from '@gq/core/store/transactions/models/f-pricing-comparable-materials.interface';
 
 export const COMPARABLE_MATERIALS_ROW_DATA_MOCK: ComparableMaterialsRowData[] =
   [

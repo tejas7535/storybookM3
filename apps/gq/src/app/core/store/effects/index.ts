@@ -5,11 +5,9 @@ import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.
 import { MaterialStockEffects } from './material-stock/material-stock.effects';
 import { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
 import { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
-import { TransactionsEffect } from './transactions/transactions.effects';
 
 export const ROOT_EFFECTS = [
   CreateCaseEffects,
-  TransactionsEffect,
   MaterialComparableCostEffect,
   MaterialSalesOrgEffect,
   SapPriceDetailsEffects,
@@ -25,4 +23,3 @@ export { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.
 export { MaterialStockEffects } from './material-stock/material-stock.effects';
 export { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
 export { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
-export { TransactionsEffect } from './transactions/transactions.effects';

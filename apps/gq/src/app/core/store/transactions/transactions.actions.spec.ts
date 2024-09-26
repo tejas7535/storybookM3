@@ -1,4 +1,5 @@
-import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
+import { ComparableLinkedTransactionResponse } from './models/comparable-linked-transaction-response.interface';
+import { RecommendationType } from './models/recommendation-type.enum';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,
@@ -27,10 +28,16 @@ describe('TransactionsActions', () => {
   });
   describe('loadComparableTransactionsSuccess', () => {
     test('loadComparableTransactionsSuccess', () => {
-      const transactions: ComparableLinkedTransaction[] = [];
-      action = loadComparableTransactionsSuccess({ transactions });
+      const comparableLinkedTransactionResponse: ComparableLinkedTransactionResponse =
+        {
+          recommendationType: RecommendationType.MARGIN,
+          comparableLinkedTransactions: [],
+        };
+      action = loadComparableTransactionsSuccess({
+        comparableLinkedTransactionResponse,
+      });
       expect(action).toEqual({
-        transactions,
+        comparableLinkedTransactionResponse,
         type: '[Transactions] Load Comparable Transactions for QuotationDetail Success',
       });
     });

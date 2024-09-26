@@ -9,14 +9,15 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
-import { AppRoutePath } from '../../../../app-route-path.enum';
+import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { ComparableLinkedTransactionResponse } from './models/comparable-linked-transaction-response.interface';
+import { RecommendationType } from './models/recommendation-type.enum';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
-} from '../../actions';
-import { ComparableLinkedTransaction } from '../../reducers/models';
+} from './transactions.actions';
 import { TransactionsEffect } from './transactions.effects';
 
 describe('TransactionsEffect', () => {
@@ -69,11 +70,15 @@ describe('TransactionsEffect', () => {
 
   describe('transactions$', () => {
     const gqPositionId = '5678';
-    const transactions: ComparableLinkedTransaction[] = [];
+    const comparableLinkedTransactionResponse: ComparableLinkedTransactionResponse =
+      {
+        recommendationType: RecommendationType.MARGIN,
+        comparableLinkedTransactions: [COMPARABLE_LINKED_TRANSACTION_MOCK],
+      };
 
     beforeEach(() => {
       (effects as any).executeTransactionComputations = jest.fn(
-        () => transactions
+        () => comparableLinkedTransactionResponse.comparableLinkedTransactions
       );
       action = loadComparableTransactions({ gqPositionId });
     });
@@ -82,9 +87,13 @@ describe('TransactionsEffect', () => {
       'should return loadComparableTransactionsSuccess',
       marbles((m) => {
         action = loadComparableTransactions({ gqPositionId });
-        const result = loadComparableTransactionsSuccess({ transactions });
+        const result = loadComparableTransactionsSuccess({
+          comparableLinkedTransactionResponse,
+        });
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', { a: transactions });
+        const response = m.cold('-a|', {
+          a: comparableLinkedTransactionResponse,
+        });
         quotationDetailsService.getTransactions = jest.fn(() => response);
         const expected$ = m.cold('--b', { b: result });
 
@@ -118,23 +127,5 @@ describe('TransactionsEffect', () => {
         );
       })
     );
-  });
-
-  describe('executeTransactionComputations', () => {
-    test('should return multipliedTransacitons', () => {
-      const transactions = [
-        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, profitMargin: 0.511_11 },
-      ];
-
-      const result = effects['executeTransactionComputations'](transactions);
-
-      expect(result).toEqual([
-        {
-          ...COMPARABLE_LINKED_TRANSACTION_MOCK,
-          price: 10,
-          profitMargin: 0.51,
-        },
-      ]);
-    });
   });
 });

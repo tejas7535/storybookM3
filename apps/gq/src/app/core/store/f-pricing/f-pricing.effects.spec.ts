@@ -22,7 +22,7 @@ import { UpdateQuotationDetail } from '../active-case/models';
 import {
   FPricingComparableMaterials,
   Material,
-} from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+} from '../transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingEffects } from './f-pricing.effects';
 import { fPricingFeature, initialState } from './f-pricing.reducer';

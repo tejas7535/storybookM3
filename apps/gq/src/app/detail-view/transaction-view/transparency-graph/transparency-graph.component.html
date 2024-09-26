@@ -1,7 +1,7 @@
 <div *transloco="let t; read: 'transactionView.graph'" class="h-full">
   <div class="mb-6">
     <span class="block w-full text-h6 text-medium-emphasis">
-      {{ t('title') }}
+      {{ t('title', { recommendationType }) }}
     </span>
     @if (!hideRolesHint) {
       <span class="block w-full text-caption text-low-emphasis">

@@ -2,12 +2,8 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { ComparableLinkedTransaction } from '../reducers/transactions/models/comparable-linked-transaction.model';
-import {
-  getGraphTransactions,
-  getTransactions,
-  getTransactionsLoading,
-} from '../selectors';
+import { ComparableLinkedTransaction } from '../transactions/models/comparable-linked-transaction.model';
+import { transactionsFeature } from '../transactions/transactions.reducer';
 import { TransactionsFacade } from './transactions.facade';
 describe('TransactionsFacade', () => {
   let service: TransactionsFacade;
@@ -31,7 +27,10 @@ describe('TransactionsFacade', () => {
     test(
       'should provide getTransactionsLoading$',
       marbles((m) => {
-        mockStore.overrideSelector(getTransactionsLoading, true);
+        mockStore.overrideSelector(
+          transactionsFeature.selectTransactionsLoading,
+          true
+        );
         m.expect(service.transactionsLoading$).toBeObservable(
           m.cold('a', { a: true })
         );
@@ -42,7 +41,7 @@ describe('TransactionsFacade', () => {
       'should provide getTransactions$',
       marbles((m) => {
         mockStore.overrideSelector(
-          getTransactions,
+          transactionsFeature.selectTransactions,
           {} as ComparableLinkedTransaction[]
         );
         m.expect(service.transactions$).toBeObservable(
@@ -55,7 +54,7 @@ describe('TransactionsFacade', () => {
       'should provide getGraphTransactions$',
       marbles((m) => {
         mockStore.overrideSelector(
-          getGraphTransactions,
+          transactionsFeature.getGraphTransactions,
           {} as ComparableLinkedTransaction[]
         );
         m.expect(service.graphTransactions$).toBeObservable(

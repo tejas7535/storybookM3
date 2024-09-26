@@ -3,7 +3,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { FPricingFacade } from '@gq/core/store/f-pricing/f-pricing.facade';
 import { MarketValueDriverWarningLevel } from '@gq/core/store/f-pricing/models/market-value-driver-warning-level.enum';
-import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { ComparableMaterialsRowData } from '@gq/core/store/transactions/models/f-pricing-comparable-materials.interface';
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
 
