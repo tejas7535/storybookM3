@@ -12,6 +12,7 @@ import { selectRouterState } from '../../../core/store';
 import {
   filterSelected,
   loadFilterDimensionData,
+  timePeriodSelected,
 } from '../../../core/store/actions';
 import {
   getCurrentDimensionValue,
@@ -69,7 +70,12 @@ export class OrganizationalViewEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
+      ofType(
+        filterSelected,
+        timePeriodSelected,
+        routerNavigationAction,
+        updateUserSettingsSuccess
+      ),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
         ([_action, router]) => router.state.url === this.ORGANIZATIONAL_VIEW_URL

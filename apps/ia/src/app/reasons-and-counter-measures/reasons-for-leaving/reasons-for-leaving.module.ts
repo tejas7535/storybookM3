@@ -7,6 +7,7 @@ import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { FilterModule } from '../../shared/filter/filter.module';
+import { NavButtonsComponent } from '../../shared/nav-buttons/nav-buttons.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
 import { ReasonsForLeavingChartModule } from './reasons-for-leaving-chart/reasons-for-leaving-chart.module';
@@ -16,6 +17,7 @@ import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reason
   declarations: [ReasonsForLeavingComponent],
   imports: [
     SharedModule,
+    NavButtonsComponent,
     MatButtonModule,
     MatCardModule,
     SharedTranslocoModule,

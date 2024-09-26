@@ -1,5 +1,6 @@
-import { EChartsOption, SeriesOption } from 'echarts';
-import { CallbackDataParams } from 'echarts/types/src/util/types';
+import { EChartsOption, PieSeriesOption } from 'echarts';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
+import { OptionDataItem } from 'echarts/types/src/util/types';
 
 import { Color } from '../../models/color.enum';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
@@ -8,7 +9,6 @@ export function createSolidDoughnutChartBaseOptions(
   config: SolidDoughnutChartConfig
 ): EChartsOption {
   let option: EChartsOption = {
-    type: 'pie',
     backgroundColor: Color.WHITE,
     title: {
       text: config.title,
@@ -31,9 +31,30 @@ export function createSolidDoughnutChartBaseOptions(
       itemWidth: 8,
       itemHeight: 8,
       icon: 'circle',
+      formatter: (name: string) => {
+        // Break the label into multiple lines if it is too long
+        const maxLineLength = 32; // Adjust as needed
+        const words = name.split(' ');
+        let formattedName = '';
+        let line = '';
+
+        words.forEach((word) => {
+          if ((line + word).length > maxLineLength) {
+            formattedName += `${line}\n`;
+            line = '';
+          }
+          line += `${word} `;
+        });
+
+        formattedName += line.trim();
+
+        return formattedName;
+      },
+    },
+    tooltip: {
+      show: true,
     },
   };
-  setTooltipFormatter(option, config.tooltipFormatter);
 
   // set custom color if provided
   if (config.color) {
@@ -43,35 +64,64 @@ export function createSolidDoughnutChartBaseOptions(
   return option;
 }
 
-export function setTooltipFormatter(option: EChartsOption, formatter: string) {
-  if (formatter) {
-    option.tooltip = {
-      show: true,
-      formatter,
-    };
-  }
-}
+export const tooltipFormatter = (params: CallbackDataParams) =>
+  params.percent === undefined
+    ? undefined
+    : `${params.name}: <b>${params.percent.toFixed(1)}%</b>`;
 
 export function createSolidDoughnutChartSeries(
   side: 'left' | 'right',
   title: string
-): SeriesOption[] {
+): PieSeriesOption[] {
   return [
     {
+      id: 'reasons',
       type: 'pie',
-      radius: ['40%', '65%'],
+      radius: ['38%', '56%'],
       center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
       top: 0,
       avoidLabelOverlap: true,
+      selectedMode: 'single',
       label: {
         position: 'inside',
-        formatter: (p: CallbackDataParams) => `${p.percent.toFixed(1)}%`,
+        formatter: (p: CallbackDataParams) =>
+          `${(p.data as OptionDataItem & { percent: number }).percent.toFixed(1)}%`,
       },
       labelLine: {
         show: false,
       },
+      tooltip: {
+        show: true,
+        formatter: tooltipFormatter,
+      },
     },
     {
+      id: 'detailedReasons',
+      type: 'pie',
+      radius: ['60%', '80%'],
+      center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
+      top: 0,
+      avoidLabelOverlap: true,
+      labelLine: {
+        show: false,
+      },
+      label: {
+        position: 'inside',
+        rotate: 0,
+        precision: 1,
+        formatter: (p: CallbackDataParams) =>
+          (p.data as { percent: number }).percent
+            ? `${(p.data as OptionDataItem & { percent: number }).percent.toFixed(1)}%`
+            : undefined,
+      },
+
+      data: [{ value: 0, name: '', itemStyle: { color: 'transparent' } }],
+      tooltip: {
+        formatter: tooltipFormatter,
+      },
+    },
+    {
+      id: 'title',
       type: 'pie',
       radius: ['0%', '0%'],
       center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
@@ -81,10 +131,10 @@ export function createSolidDoughnutChartSeries(
         position: 'center',
         formatter: title,
       },
+      emphasis: { disabled: true },
       labelLine: {
         show: false,
       },
-      legendHoverLink: false,
       data: [
         {
           value: 0,
@@ -92,6 +142,9 @@ export function createSolidDoughnutChartSeries(
           itemStyle: { color: 'transparent' },
         },
       ],
+      tooltip: {
+        show: false,
+      },
     },
   ];
 }

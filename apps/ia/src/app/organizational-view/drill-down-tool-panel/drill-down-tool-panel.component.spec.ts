@@ -58,14 +58,12 @@ describe('DrillDownToolPanelComponent', () => {
   describe('onFluctuationTypeChange', () => {
     test('should emit value', () => {
       component.fluctuationTypeChanged.emit = jest.fn();
-      const event: MatButtonToggleChange = {
-        value: FluctuationType.REMAINING,
-      } as unknown as MatButtonToggleChange;
+      const fluctuationType = FluctuationType.REMAINING;
 
-      component.onFluctuationTypeChange(event);
+      component.onFluctuationTypeChange(fluctuationType);
 
       expect(component.fluctuationTypeChanged.emit).toHaveBeenCalledWith(
-        event.value
+        fluctuationType
       );
     });
   });

@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { PieChart } from 'echarts/charts';
+import { PieChart, SunburstChart } from 'echarts/charts';
 import {
   LegendComponent,
   TitleComponent,
   TooltipComponent,
+  VisualMapComponent,
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -19,7 +20,9 @@ echarts.use([
   TitleComponent,
   LegendComponent,
   TooltipComponent,
+  VisualMapComponent,
   PieChart,
+  SunburstChart,
   CanvasRenderer,
 ]);
 

@@ -8,9 +8,17 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ReasonForLeavingTab } from '../models';
+import { selectReasonsForLeavingTab } from '../store/actions/reasons-and-counter-measures.actions';
 import {
-  getOverallComparedReasonsTableData,
-  getOverallReasonsTableData,
+  getComparedConductedInterviewsInfo,
+  getComparedReasonsChartData,
+  getComparedReasonsTableData,
+  getConductedInterviewsInfo,
+  getCurrentTab,
+  getReasonsChartData,
+  getReasonsChildren,
+  getReasonsTableData,
 } from '../store/selectors/reasons-and-counter-measures.selector';
 import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
 import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
@@ -51,12 +59,39 @@ describe('ReasonsForLeavingComponent', () => {
       marbles((m) => {
         const result = 'a' as any;
 
-        store.overrideSelector(getOverallReasonsTableData, result);
-        store.overrideSelector(getOverallComparedReasonsTableData, result);
+        store.overrideSelector(getCurrentTab, result);
+        store.overrideSelector(getReasonsTableData, result);
+        store.overrideSelector(getReasonsChartData, result);
+        store.overrideSelector(getReasonsChildren, result);
+        store.overrideSelector(getConductedInterviewsInfo, result);
+        store.overrideSelector(getComparedReasonsTableData, result);
+        store.overrideSelector(getComparedReasonsChartData, result);
+        store.overrideSelector(getReasonsChildren, result);
+        store.overrideSelector(getComparedConductedInterviewsInfo, result);
 
         component.ngOnInit();
 
+        m.expect(component.selectedTab$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
         m.expect(component.reasonsTableData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.reasonsChartData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.reasonsChildren$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.conductedInterviewsInfo$).toBeObservable(
           m.cold('a', {
             a: result,
           })
@@ -66,7 +101,36 @@ describe('ReasonsForLeavingComponent', () => {
             a: result,
           })
         );
+        m.expect(component.comparedReasonsChartData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedReasonsChildren$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedConductedInterviewsInfo$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
       })
     );
+  });
+
+  describe('onSelectedTabChange', () => {
+    test('should emit selected tab', () => {
+      store.dispatch = jest.fn();
+
+      component.onSelectedTabChange(ReasonForLeavingTab.TOP_REASONS);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectReasonsForLeavingTab({
+          selectedTab: ReasonForLeavingTab.TOP_REASONS,
+        })
+      );
+    });
   });
 });

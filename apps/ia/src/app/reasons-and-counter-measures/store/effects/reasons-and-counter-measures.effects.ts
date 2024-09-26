@@ -11,6 +11,7 @@ import { selectRouterState } from '../../../core/store';
 import {
   benchmarkFilterSelected,
   filterSelected,
+  timePeriodSelected,
 } from '../../../core/store/actions';
 import {
   getCurrentBenchmarkFilters,
@@ -36,7 +37,12 @@ export class ReasonsAndCounterMeasuresEffects {
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, routerNavigationAction, updateUserSettingsSuccess),
+      ofType(
+        filterSelected,
+        timePeriodSelected,
+        routerNavigationAction,
+        updateUserSettingsSuccess
+      ),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
         ([_action, router]) =>
@@ -48,7 +54,12 @@ export class ReasonsAndCounterMeasuresEffects {
 
   benchmarkFilterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(benchmarkFilterSelected, routerNavigationAction),
+      ofType(
+        benchmarkFilterSelected,
+        timePeriodSelected,
+        routerNavigationAction,
+        routerNavigationAction
+      ),
       concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
         ([_action, router]) =>

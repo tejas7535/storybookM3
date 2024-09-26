@@ -1,14 +1,16 @@
-import { ReasonImpact } from '../../models';
+import { ReasonForLeavingTab, ReasonImpact } from '../../models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
   getComparedConductedInterviewsInfo,
+  getComparedReasonsChartData,
+  getComparedReasonsChildren,
   getComparedReasonsData,
+  getComparedReasonsTableData,
   getConductedInterviewsInfo,
-  getOverallComparedReasonsChartData,
-  getOverallComparedReasonsTableData,
-  getOverallReasonsChartData,
-  getOverallReasonsTableData,
+  getCurrentTab,
+  getReasonsChartData,
   getReasonsLoading,
+  getReasonsTableData,
 } from './reasons-and-counter-measures.selector';
 
 describe('ReasonsAndCounterMeasures Selector', () => {
@@ -17,6 +19,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   } = {
     reasonsAndCounterMeasures: {
       reasonsForLeaving: {
+        selectedTab: ReasonForLeavingTab.OVERALL_REASONS,
         reasons: {
           loading: false,
           data: {
@@ -24,9 +27,20 @@ describe('ReasonsAndCounterMeasures Selector', () => {
             conductedInterviews: 14,
             reasons: [
               {
+                interviewId: 1,
                 reason: 'Reason 1',
+                reasonId: 2,
                 detailedReason: 'Detailed Reason 1',
+                detailedReasonId: 12,
                 impact: ReasonImpact.HIGH,
+              },
+              {
+                interviewId: 2,
+                reason: 'Reason 1a',
+                reasonId: 3,
+                detailedReason: 'Detailed Reason 1',
+                detailedReasonId: 13,
+                impact: ReasonImpact.MEDIUM,
               },
             ],
           },
@@ -39,9 +53,20 @@ describe('ReasonsAndCounterMeasures Selector', () => {
             conductedInterviews: 14,
             reasons: [
               {
+                interviewId: 1,
                 reason: 'Reason 2',
+                reasonId: 4,
                 detailedReason: 'Detailed Reason 2',
+                detailedReasonId: 14,
                 impact: ReasonImpact.LOW,
+              },
+              {
+                interviewId: 1,
+                reason: 'Reason 2a',
+                reasonId: 4,
+                detailedReason: 'Detailed Reason 2a',
+                detailedReasonId: 14,
+                impact: ReasonImpact.HIGH,
               },
             ],
           },
@@ -51,27 +76,62 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     },
   };
 
-  describe('getReasonsData', () => {
-    test('should return reasons data', () => {
-      expect(getOverallReasonsTableData(fakeState)).toEqual([
-        {
-          leavers: 1,
-          percentage: 100,
-          rank: 1,
-          reason: 'Reason 1',
-        },
-      ]);
+  const fakStateTopReasons: {
+    reasonsAndCounterMeasures: ReasonsAndCounterMeasuresState;
+  } = {
+    ...fakeState,
+    reasonsAndCounterMeasures: {
+      ...fakeState.reasonsAndCounterMeasures,
+      reasonsForLeaving: {
+        ...fakeState.reasonsAndCounterMeasures.reasonsForLeaving,
+        selectedTab: ReasonForLeavingTab.TOP_REASONS,
+      },
+    },
+  };
+
+  describe('getCurrentTab', () => {
+    test('should return current tab', () => {
+      expect(getCurrentTab(fakeState)).toEqual(
+        ReasonForLeavingTab.OVERALL_REASONS
+      );
     });
   });
 
-  describe('getOverallReasonsTableData', () => {
-    test('shuold map reasons', () => {
-      expect(getOverallReasonsTableData(fakeState)).toEqual([
+  describe('getReasonsTableData', () => {
+    test('should return reasons data', () => {
+      expect(getReasonsTableData(fakeState)).toEqual([
         {
           leavers: 1,
-          percentage: 100,
+          percentage: 50,
           rank: 1,
           reason: 'Reason 1',
+          reasonId: 2,
+        },
+        {
+          leavers: 1,
+          percentage: 50,
+          rank: 1,
+          reason: 'Reason 1a',
+          reasonId: 3,
+        },
+      ]);
+    });
+
+    test('should return top reasons', () => {
+      expect(getReasonsTableData(fakStateTopReasons)).toEqual([
+        {
+          leavers: 1,
+          percentage: 50,
+          rank: 1,
+          reason: 'Reason 1',
+          reasonId: 2,
+        },
+        {
+          leavers: 1,
+          percentage: 50,
+          rank: 1,
+          reason: 'Reason 1a',
+          reasonId: 3,
         },
       ]);
     });
@@ -83,12 +143,33 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getOverallReasonsChartData', () => {
+  describe('getReasonsChartData', () => {
     test('should map reasons', () => {
-      expect(getOverallReasonsChartData(fakeState)).toEqual([
+      expect(getReasonsChartData(fakeState)).toEqual([
         {
           name: 'Reason 1',
           value: 1,
+          percent: 50,
+        },
+        {
+          name: 'Reason 1a',
+          value: 1,
+          percent: 50,
+        },
+      ]);
+    });
+
+    test('should map top reasons', () => {
+      expect(getReasonsChartData(fakStateTopReasons)).toEqual([
+        {
+          name: 'Reason 1',
+          value: 1,
+          percent: 50,
+        },
+        {
+          name: 'Reason 1a',
+          value: 1,
+          percent: 50,
         },
       ]);
     });
@@ -105,28 +186,56 @@ describe('ReasonsAndCounterMeasures Selector', () => {
 
   describe('getComparedReasonsData', () => {
     test('should return compared reasons data', () => {
-      expect(getComparedReasonsData(fakeState)).toEqual({
+      const result = getComparedReasonsData(fakeState);
+
+      expect(result).toEqual({
         totalInterviews: 32,
         conductedInterviews: 14,
         reasons: [
           {
+            interviewId: 1,
             reason: 'Reason 2',
+            reasonId: 4,
             detailedReason: 'Detailed Reason 2',
+            detailedReasonId: 14,
             impact: ReasonImpact.LOW,
+          },
+          {
+            interviewId: 1,
+            reason: 'Reason 2a',
+            reasonId: 4,
+            detailedReason: 'Detailed Reason 2a',
+            detailedReasonId: 14,
+            impact: ReasonImpact.HIGH,
           },
         ],
       });
     });
   });
 
-  describe('getOverallComparedReasonsTableData', () => {
+  describe('getComparedReasonsTableData', () => {
     test('shuold map reasons', () => {
-      expect(getOverallComparedReasonsTableData(fakeState)).toEqual([
+      expect(getComparedReasonsTableData(fakeState)).toEqual([
+        {
+          leavers: 2,
+          percentage: 100,
+          rank: 1,
+          reason: 'Reason 2',
+          reasonId: 4,
+        },
+      ]);
+    });
+
+    test('should map top reasons', () => {
+      const result = getComparedReasonsTableData(fakStateTopReasons);
+
+      expect(result).toEqual([
         {
           leavers: 1,
           percentage: 100,
           rank: 1,
-          reason: 'Reason 2',
+          reason: 'Reason 2a',
+          reasonId: 4,
         },
       ]);
     });
@@ -140,10 +249,48 @@ describe('ReasonsAndCounterMeasures Selector', () => {
 
   describe('getOverallComparedReasonsChartData', () => {
     test('should map reasons', () => {
-      expect(getOverallComparedReasonsChartData(fakeState)).toEqual([
+      expect(getComparedReasonsChartData(fakeState)).toEqual([
         {
           name: 'Reason 2',
+          percent: 100,
+          value: 2,
+        },
+      ]);
+    });
+
+    test('should map top reasons', () => {
+      expect(getComparedReasonsChartData(fakStateTopReasons)).toEqual([
+        {
+          name: 'Reason 2a',
+          percent: 100,
           value: 1,
+        },
+      ]);
+    });
+  });
+
+  describe('getOverallComparedReasonsChildren', () => {
+    test('should return overall comapred reasons children', () => {
+      expect(getComparedReasonsChildren(fakeState)).toEqual([
+        {
+          reason: 'Reason 1',
+          children: [
+            {
+              name: 'Detailed Reason 1',
+              value: 1,
+              percent: 100,
+            },
+          ],
+        },
+        {
+          reason: 'Reason 1a',
+          children: [
+            {
+              name: 'Detailed Reason 1',
+              value: 1,
+              percent: 100,
+            },
+          ],
         },
       ]);
     });

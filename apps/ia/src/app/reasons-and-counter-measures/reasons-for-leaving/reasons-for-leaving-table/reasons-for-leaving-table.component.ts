@@ -81,7 +81,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         type: 'numericColumn',
         headerClass: [this.headerClass, 'ia-ag-header-align-right'],
         filter: 'agNumberColumnFilter',
-        minWidth: 94,
+        minWidth: 130,
       },
     ];
   }

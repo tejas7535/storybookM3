@@ -1,9 +1,6 @@
-import { translate } from '@jsverse/transloco';
-
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import { Color } from '../../../shared/models/color.enum';
-import { Reason, ReasonForLeavingRank } from '../../models';
-import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import { Reason, ReasonForLeavingRank, ReasonImpact } from '../../models';
 
 export function mapReasonsToTableData(
   reasons: Reason[]
@@ -13,6 +10,10 @@ export function mapReasonsToTableData(
   }
   const reasonsArray: ReasonForLeavingRank[] = prepareReaonsForRanking(reasons);
 
+  return rankReasons(reasonsArray);
+}
+
+export function rankReasons(reasonsArray: ReasonForLeavingRank[]) {
   let currentRank = 1;
   let currentLeavers = reasonsArray[0].leavers;
   reasonsArray.forEach((item, index) => {
@@ -26,22 +27,54 @@ export function mapReasonsToTableData(
   return reasonsArray;
 }
 
-function prepareReaonsForRanking(reasons: Reason[]) {
-  const reasonCountMap: { [key: string]: number } = {};
-  reasons.forEach((item) => {
-    if (reasonCountMap[item.reason]) {
-      reasonCountMap[item.reason] += 1;
+export function filterTopReasons(reasons: Reason[]): Reason[] {
+  const interviewReasons = new Map<number, Reason[]>();
+  reasons.forEach((reason) => {
+    if (interviewReasons.has(reason.interviewId)) {
+      interviewReasons.get(reason.interviewId).push(reason);
     } else {
-      reasonCountMap[item.reason] = 1;
+      interviewReasons.set(reason.interviewId, [reason]);
+    }
+  });
+
+  const topReasons: Reason[] = [];
+
+  interviewReasons.forEach((value) => {
+    const importantReasons = value.filter(
+      (item) => item.impact === ReasonImpact.HIGH
+    );
+    if (importantReasons.length > 0) {
+      topReasons.push(...importantReasons);
+    } else if (value.length === 1) {
+      topReasons.push(value[0]);
+    }
+  });
+
+  return topReasons;
+}
+
+export function prepareReaonsForRanking(reasons: Reason[]): {
+  reason: string;
+  leavers: number;
+  rank: number;
+  percentage: number;
+}[] {
+  const reasonCountMap: { [key: number]: number } = {};
+  reasons.forEach((item) => {
+    if (reasonCountMap[item.reasonId]) {
+      reasonCountMap[item.reasonId] += 1;
+    } else {
+      reasonCountMap[item.reasonId] = 1;
     }
   });
 
   const reasonsArray: ReasonForLeavingRank[] = Object.keys(reasonCountMap).map(
-    (reason) => ({
-      reason,
-      leavers: reasonCountMap[reason],
+    (reasonId) => ({
+      reasonId: +reasonId,
+      reason: reasons.find((item) => item.reasonId === +reasonId).reason,
+      leavers: reasonCountMap[+reasonId],
       rank: undefined,
-      percentage: getPercentageValue(reasonCountMap[reason], reasons.length),
+      percentage: getPercentageValue(reasonCountMap[+reasonId], reasons.length),
     })
   );
 
@@ -50,27 +83,56 @@ function prepareReaonsForRanking(reasons: Reason[]) {
   return reasonsArray;
 }
 
-export function mapReasonsToChartData(reasons: Reason[]) {
+export function mapReasonsToChartData(reasons: Reason[]): DoughnutChartData[] {
   const rankedReasons = prepareReaonsForRanking(reasons);
+  const totalReasons = rankedReasons.reduce(
+    (acc, item) => acc + item.leavers,
+    0
+  );
 
   return rankedReasons.map((item) => ({
     name: item.reason,
     value: item.leavers,
+    percent: getPercentageValue(item.leavers, totalReasons),
   }));
 }
 
-export function getTop5ReasonsForChart(
-  _data: ReasonForLeavingStats
-): DoughnutChartData[] {
-  return [];
-}
+export function mapReasonsToChildren(
+  reasons: Reason[]
+): { reason: string; children: DoughnutChartData[] }[] {
+  const reasonsMap = new Map<string, Map<string, number>>();
 
-export function getTooltipFormatter(): string {
-  const leavers = translate(
-    'reasonsAndCounterMeasures.topFiveReasons.chart.tooltip.leavers'
-  );
+  reasons.forEach((reason) => {
+    if (!reasonsMap.has(reason.reason)) {
+      reasonsMap.set(reason.reason, new Map<string, number>());
+    }
 
-  return `{b}<br><b>{c}</b> ${leavers} - <b>{d}%</b>`;
+    const reasonMap = reasonsMap.get(reason.reason);
+    if (reasonMap.has(reason.detailedReason)) {
+      reasonMap.set(
+        reason.detailedReason,
+        reasonMap.get(reason.detailedReason) + 1
+      );
+    } else {
+      reasonMap.set(reason.detailedReason, 1);
+    }
+  });
+
+  return [...reasonsMap.entries()].map(([reason, detailedReasons]) => {
+    const totalDetailedReasons = [...detailedReasons.values()].reduce(
+      (acc, item) => acc + item,
+      0
+    );
+
+    return {
+      reason,
+      children: [...detailedReasons.entries()].map(([name, count]) => ({
+        name,
+        value: count,
+        percent: getPercentageValue(count, totalDetailedReasons),
+      })),
+    };
+  });
 }
 
 export const COLOR_PALETTE = [

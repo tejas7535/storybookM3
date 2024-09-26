@@ -7,8 +7,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { PmgmComponent } from './pmgm.component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { PmgmComponent } from './pmgm.component';
 
 @NgModule({
   declarations: [PmgmComponent],

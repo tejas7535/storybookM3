@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
 
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
+import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { ReasonForLeavingTab } from '../../models';
 import { COLOR_PALETTE } from '../../store/selectors/reasons-and-counter-measures.selector.utils';
 
 @Component({
@@ -12,13 +19,20 @@ import { COLOR_PALETTE } from '../../store/selectors/reasons-and-counter-measure
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReasonsForLeavingChartComponent {
+  config: SolidDoughnutChartConfig;
   @Input() data: DoughnutChartData[];
   @Input() isLoading: boolean;
+  @Input() children: { reason: string; children: DoughnutChartData[] }[];
 
-  config: SolidDoughnutChartConfig;
+  @ViewChild(SolidDoughnutChartComponent) chart: SolidDoughnutChartComponent;
+
+  @Input() set selectedTab(_tab: ReasonForLeavingTab) {
+    this.chart?.resetChart();
+  }
 
   @Input() set side(side: 'left' | 'right') {
     this.config = {
+      ...this.config,
       title: '',
       color: COLOR_PALETTE,
       side,
@@ -39,9 +53,6 @@ export class ReasonsForLeavingChartComponent {
     if (info) {
       this.config = {
         ...this.config,
-        title: translate(
-          'reasonsAndCounterMeasures.reasonsForLeaving.chart.titleOverallReasons'
-        ),
         subTitle: translate(
           'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfo',
           {

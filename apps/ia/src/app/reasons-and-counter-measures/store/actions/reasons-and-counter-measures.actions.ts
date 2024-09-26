@@ -1,6 +1,11 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import { ReasonForLeavingStats, ReasonForLeavingTab } from '../../models';
+
+export const selectReasonsForLeavingTab = createAction(
+  '[ReasonsAndCounterMeasures] Select ReasonsForLeaving Tab',
+  props<{ selectedTab: ReasonForLeavingTab }>()
+);
 
 export const loadReasonsWhyPeopleLeft = createAction(
   '[ReasonsAndCounterMeasures] Load ReasonsWhyPeopleLeft'
@@ -31,6 +36,7 @@ export const loadComparedReasonsWhyPeopleLeftFailure = createAction(
 );
 
 const all = union({
+  selectReasonsForLeavingTab,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftSuccess,
   loadReasonsWhyPeopleLeftFailure,

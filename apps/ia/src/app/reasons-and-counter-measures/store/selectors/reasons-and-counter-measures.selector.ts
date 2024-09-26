@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { ReasonForLeavingStats } from '../../models';
+import { ReasonForLeavingStats, ReasonForLeavingTab } from '../../models';
 import {
   ReasonsAndCounterMeasuresState,
   selectReasonsAndCounterMeasuresState,
@@ -8,16 +8,32 @@ import {
 import * as utils from './reasons-and-counter-measures.selector.utils';
 import { getPercentageValue } from './reasons-and-counter-measures.selector.utils';
 
+export const getCurrentTab = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) => state.reasonsForLeaving.selectedTab
+);
+
 export const getReasonsData = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
     state.reasonsForLeaving.reasons.data
 );
 
-export const getOverallReasonsTableData = createSelector(
+export const getReasonsTableData = createSelector(
+  getCurrentTab,
   getReasonsData,
-  (data: ReasonForLeavingStats) =>
-    data ? utils.mapReasonsToTableData(data.reasons) : []
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToTableData(reasons);
+    } else {
+      return [];
+    }
+  }
 );
 
 export const getReasonsLoading = createSelector(
@@ -26,10 +42,38 @@ export const getReasonsLoading = createSelector(
     state.reasonsForLeaving.reasons.loading
 );
 
-export const getOverallReasonsChartData = createSelector(
+export const getReasonsChartData = createSelector(
+  getCurrentTab,
   getReasonsData,
-  (data: ReasonForLeavingStats) =>
-    data ? utils.mapReasonsToChartData(data.reasons) : []
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToChartData(reasons);
+    } else {
+      return [];
+    }
+  }
+);
+
+export const getReasonsChildren = createSelector(
+  getCurrentTab,
+  getReasonsData,
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToChildren(reasons);
+    } else {
+      return [];
+    }
+  }
 );
 
 export const getConductedInterviewsInfo = createSelector(
@@ -52,10 +96,21 @@ export const getComparedReasonsData = createSelector(
     state.reasonsForLeaving.comparedReasons.data
 );
 
-export const getOverallComparedReasonsTableData = createSelector(
+export const getComparedReasonsTableData = createSelector(
+  getCurrentTab,
   getComparedReasonsData,
-  (data: ReasonForLeavingStats) =>
-    data ? utils.mapReasonsToTableData(data.reasons) : []
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToTableData(reasons);
+    } else {
+      return [];
+    }
+  }
 );
 
 export const getComparedReasonsLoading = createSelector(
@@ -64,10 +119,38 @@ export const getComparedReasonsLoading = createSelector(
     state.reasonsForLeaving.comparedReasons.loading
 );
 
-export const getOverallComparedReasonsChartData = createSelector(
+export const getComparedReasonsChartData = createSelector(
+  getCurrentTab,
   getComparedReasonsData,
-  (data: ReasonForLeavingStats) =>
-    data ? utils.mapReasonsToChartData(data.reasons) : []
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToChartData(reasons);
+    } else {
+      return [];
+    }
+  }
+);
+
+export const getComparedReasonsChildren = createSelector(
+  getCurrentTab,
+  getReasonsData,
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return data ? utils.mapReasonsToChildren(reasons) : [];
+    } else {
+      return [];
+    }
+  }
 );
 
 export const getComparedConductedInterviewsInfo = createSelector(

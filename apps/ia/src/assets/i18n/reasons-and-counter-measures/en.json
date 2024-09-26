@@ -1,8 +1,11 @@
 {
   "reasonsForLeaving": {
     "title": "Digital Exit Interviews",
+    "tabs": {
+      "overallReasons": "Overall Reasons",
+      "topReasons": "Top Reasons"
+    },
     "chart": {
-      "titleOverallReasons": "Overall reasons",
       "others": "Others",
       "noData": "No data for selected filters",
       "conductedInfo": "{conducted} of interviews\r\nconducted\r\n\r\n{percentage}% of interviews\r\nconducted"

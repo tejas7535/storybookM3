@@ -8,6 +8,7 @@ import {
   getMonth12MonthsAgo,
   getTimeRangeFromDates,
 } from '../../shared/utils/utilities';
+import { ReasonForLeavingTab } from '../models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
   loadComparedReasonsWhyPeopleLeft,
@@ -16,6 +17,7 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  selectReasonsForLeavingTab,
 } from './actions/reasons-and-counter-measures.actions';
 
 export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
@@ -35,6 +37,7 @@ export const getInitialSelectedTimeRange = (today: Moment) => {
 
 export interface ReasonsAndCounterMeasuresState {
   reasonsForLeaving: {
+    selectedTab: ReasonForLeavingTab;
     reasons: {
       data: ReasonForLeavingStats;
       loading: boolean;
@@ -50,6 +53,7 @@ export interface ReasonsAndCounterMeasuresState {
 
 export const initialState: ReasonsAndCounterMeasuresState = {
   reasonsForLeaving: {
+    selectedTab: ReasonForLeavingTab.OVERALL_REASONS,
     reasons: {
       data: undefined,
       loading: false,
@@ -65,6 +69,19 @@ export const initialState: ReasonsAndCounterMeasuresState = {
 
 export const reasonsAndCounterMeasuresReducer = createReducer(
   initialState,
+  on(
+    selectReasonsForLeavingTab,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { selectedTab }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        selectedTab,
+      },
+    })
+  ),
   on(
     loadReasonsWhyPeopleLeft,
     (

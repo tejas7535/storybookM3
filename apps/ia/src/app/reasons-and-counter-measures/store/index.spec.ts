@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 
+import { ReasonForLeavingTab } from '../models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import { initialState, reasonsAndCounterMeasuresReducer, reducer } from '.';
 import {
@@ -9,6 +10,7 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  selectReasonsForLeavingTab,
 } from './actions/reasons-and-counter-measures.actions';
 
 describe('ReasonsAndCounterMeasures Reducer', () => {
@@ -19,6 +21,19 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
       const action: Action = { type: 'Test' };
       expect(reducer(initialState, action)).toEqual(
         reasonsAndCounterMeasuresReducer(initialState, action)
+      );
+    });
+  });
+
+  describe('selectReasonsForLeavingTab', () => {
+    test('should set selected tab', () => {
+      const action = selectReasonsForLeavingTab({
+        selectedTab: ReasonForLeavingTab.TOP_REASONS,
+      });
+      const state = reasonsAndCounterMeasuresReducer(initialState, action);
+
+      expect(state.reasonsForLeaving.selectedTab).toBe(
+        ReasonForLeavingTab.TOP_REASONS
       );
     });
   });

@@ -10,10 +10,19 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import {
+  benchmarkFilterSelected,
+  filterSelected,
+  timePeriodSelected,
+} from '../../../core/store/actions';
+import {
   getCurrentBenchmarkFilters,
   getCurrentFilters,
 } from '../../../core/store/selectors';
-import { EmployeesRequest, FilterDimension } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  FilterDimension,
+  TimePeriod,
+} from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
@@ -64,6 +73,44 @@ describe('ReasonsAndCounterMeasures Effects', () => {
 
   describe('filterChange$', () => {
     test(
+      'should return loadReasonsWhyPeopleLeft when filterSelected action is dispatched',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = filterSelected({
+          filter: { idValue: { id: 'B01', value: 'B01' }, name: 'xyz' },
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: loadReasonsWhyPeopleLeft() });
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return loadReasonsWhyPeopleLeft when timePeriodSelected action is dispatched',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = timePeriodSelected({
+          timePeriod: TimePeriod.LAST_12_MONTHS,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: loadReasonsWhyPeopleLeft() });
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
       'should return loadReasonsWhyPeopleLeft when url /reasons-and-counter-measures',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
@@ -96,6 +143,48 @@ describe('ReasonsAndCounterMeasures Effects', () => {
   });
 
   describe('benchmarkFilterChange$', () => {
+    test(
+      'should return loadComparedReasonsWhyPeopleLeft when benchmarkFilterSelected action is dispatched',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = benchmarkFilterSelected({
+          filter: { idValue: { id: 'B01', value: 'B01' }, name: 'xyz' },
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: loadComparedReasonsWhyPeopleLeft(),
+        });
+
+        m.expect(effects.benchmarkFilterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return loadComparedReasonsWhyPeopleLeft when timePeriodSelected action is dispatched',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        action = timePeriodSelected({
+          timePeriod: TimePeriod.LAST_12_MONTHS,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: loadComparedReasonsWhyPeopleLeft(),
+        });
+
+        m.expect(effects.benchmarkFilterChange$).toBeObservable(expected);
+      })
+    );
+
     test(
       'should return loadComparedReasonsWhyPeopleLeft when url /reasons-and-counter-measures',
       marbles((m) => {

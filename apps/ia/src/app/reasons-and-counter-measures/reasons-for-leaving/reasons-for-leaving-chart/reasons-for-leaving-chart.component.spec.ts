@@ -2,6 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 
 import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { ReasonForLeavingTab } from '../../models';
 import { ReasonsForLeavingChartComponent } from './reasons-for-leaving-chart.component';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -39,6 +40,18 @@ describe('ReasonsForLeavingChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('selectedTab', () => {
+    test('should reset chart', () => {
+      component.chart = {
+        resetChart: jest.fn(),
+      } as unknown as SolidDoughnutChartComponent;
+
+      component.selectedTab = ReasonForLeavingTab.TOP_REASONS;
+
+      expect(component.chart.resetChart).toHaveBeenCalled();
+    });
+  });
+
   describe('set side', () => {
     test('should set config side', () => {
       component.side = 'left';
@@ -56,13 +69,12 @@ describe('ReasonsForLeavingChartComponent', () => {
   });
 
   describe('set conductedInterviewsInfo', () => {
-    test('should set config title and subTitle', () => {
+    test('should set config and subTitle', () => {
       component.conductedInterviewsInfo = {
         conducted: 1,
         percentage: 2,
       };
 
-      expect(component.config.title).toBe('titleOverallReasons');
       expect(component.config.subTitle).toBe(
         'conductedInfo, conducted: 1, percentage: 2'
       );

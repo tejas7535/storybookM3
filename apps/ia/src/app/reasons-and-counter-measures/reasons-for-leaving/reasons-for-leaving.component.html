@@ -2,12 +2,18 @@
   <h5 class="font-bold">
     {{ t('reasonsForLeaving.title') }}
   </h5>
+  <ia-nav-buttons
+    [items]="navItems"
+    (selectedTabChange)="onSelectedTabChange($event)"
+  ></ia-nav-buttons>
   <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-5">
     <div class="flex flex-col lg:col-span-2">
       <ia-reasons-for-leaving-chart
         side="left"
         [data]="reasonsChartData$ | ngrxPush"
+        [children]="reasonsChildren$ | ngrxPush"
         [conductedInterviewsInfo]="conductedInterviewsInfo$ | ngrxPush"
+        [selectedTab]="selectedTab$ | ngrxPush"
       ></ia-reasons-for-leaving-chart>
       <ia-reasons-for-leaving-table [data]="reasonsTableData$ | ngrxPush">
       </ia-reasons-for-leaving-table>
@@ -17,7 +23,9 @@
       <ia-reasons-for-leaving-chart
         side="right"
         [data]="comparedReasonsChartData$ | ngrxPush"
+        [children]="comparedReasonsChildren$ | ngrxPush"
         [conductedInterviewsInfo]="comparedConductedInterviewsInfo$ | ngrxPush"
+        [selectedTab]="selectedTab$ | ngrxPush"
       ></ia-reasons-for-leaving-chart>
       <ia-reasons-for-leaving-table
         class="w-full"

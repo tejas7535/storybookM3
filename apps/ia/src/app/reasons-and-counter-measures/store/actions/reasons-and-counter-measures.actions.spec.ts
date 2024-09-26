@@ -1,3 +1,4 @@
+import { ReasonForLeavingTab } from '../../models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import {
   loadComparedReasonsWhyPeopleLeft,
@@ -6,10 +7,22 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  selectReasonsForLeavingTab,
 } from './reasons-and-counter-measures.actions';
 
 describe('Reasons and Counter Measures Actions', () => {
   const errorMessage = 'An error occured';
+
+  test('selectReasonsForLeavingTab', () => {
+    const selectedTab = ReasonForLeavingTab.TOP_REASONS;
+
+    const action = selectReasonsForLeavingTab({ selectedTab });
+
+    expect(action).toEqual({
+      selectedTab,
+      type: '[ReasonsAndCounterMeasures] Select ReasonsForLeaving Tab',
+    });
+  });
 
   test('loadReasonsWhyPeopleLeft', () => {
     const action = loadReasonsWhyPeopleLeft();
