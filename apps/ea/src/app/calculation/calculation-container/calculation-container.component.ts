@@ -26,6 +26,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
 export class CalculationContainerComponent {
   public isStandalone$ = this.settingsFacade.isStandalone$;
   public isResultPreviewSticky$ = this.settingsFacade.isResultPreviewSticky$;
+  public isKeyboardVisible$ = this.settingsFacade.isMobileKeyboardVisible$;
 
   constructor(private readonly settingsFacade: SettingsFacade) {}
 }

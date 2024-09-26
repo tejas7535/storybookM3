@@ -487,6 +487,9 @@ importers:
       '@capacitor/filesystem':
         specifier: ^6.0.1
         version: 6.0.1(@capacitor/core@6.1.0)
+      '@capacitor/keyboard':
+        specifier: 6.0.2
+        version: 6.0.2(@capacitor/core@6.1.0)
       '@capacitor/share':
         specifier: ^6.0.2
         version: 6.0.2(@capacitor/core@6.1.0)
@@ -2157,7 +2160,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor-community/firebase-analytics@6.0.0':
-    resolution: {integrity: sha512-3/B4V8V6exw4pits9H5JWqfyzvgsoW+NfxdaJoimNVx2YcpDYJtYj79DsmuMe5DXf6mxRIbQ+InxfGV4vwoxDA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/firebase-analytics/-/firebase-analytics-6.0.0.tgz}
+    resolution: {integrity: sha512-3/B4V8V6exw4pits9H5JWqfyzvgsoW+NfxdaJoimNVx2YcpDYJtYj79DsmuMe5DXf6mxRIbQ+InxfGV4vwoxDA==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -2166,6 +2169,11 @@ packages:
 
   '@capacitor/filesystem@6.0.1':
     resolution: {integrity: sha512-eHhXm6tzBIQhErzFnfOE6eA1U+15DHc2212/COfzzGGRk/dyGympoVV3ct2YPVzvpTSxMEW3xFocORv/xD9gFg==}
+    peerDependencies:
+      '@capacitor/core': ^6.0.0
+
+  '@capacitor/keyboard@6.0.2':
+    resolution: {integrity: sha512-fOfO3rQ0ZXuTHpK03INVTwmBnpqMiH8EHPpNaHjwjKwdrVRWBvtgIFhuyHNXh53rdcXw+uHB+1RIiNabnCrITw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/keyboard/-/keyboard-6.0.2.tgz}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -16341,6 +16349,10 @@ snapshots:
       tslib: 2.4.0
 
   '@capacitor/filesystem@6.0.1(@capacitor/core@6.1.0)':
+    dependencies:
+      '@capacitor/core': 6.1.0
+
+  '@capacitor/keyboard@6.0.2(@capacitor/core@6.1.0)':
     dependencies:
       '@capacitor/core': 6.1.0
 
