@@ -6,6 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { Capacitor } from '@capacitor/core';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { CalculationParametersFacade, SettingsFacade } from '@ea/core/store';
 import { CalculationResultFacade } from '@ea/core/store/facades/calculation-result/calculation-result.facade';
@@ -41,7 +42,7 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
 export class CalculationResultPreviewComponent {
   @Input() sticky = true;
   public errorsExpanded = false;
-
+  public isMobile = Capacitor.isNativePlatform();
   public overlayData$ =
     this.calculationResultFacade.getCalculationResultPreviewData$;
 
@@ -73,6 +74,10 @@ export class CalculationResultPreviewComponent {
 
   showReport() {
     this.analyticsService.logShowReport();
-    this.dialog.open(CalculationResultReportComponent, { id: 'result-report' });
+    const panelClass = this.isMobile ? 'mobile-report' : '';
+    this.dialog.open(CalculationResultReportComponent, {
+      id: 'result-report',
+      panelClass,
+    });
   }
 }

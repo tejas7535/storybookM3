@@ -206,6 +206,18 @@ engineering-app {
   .mdc-notched-outline__notch {
     border-right: none !important;
   }
+
+  // helper to avoid the overlay being cropped by the notch on ios devices
+  .preview-mobile {
+    bottom: env(safe-area-inset-bottom);
+  }
+  .mobile-report {
+    margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .mobile-report #result-report {
+    min-height: auto;
+  }
 }
 
 schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {

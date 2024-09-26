@@ -8,7 +8,8 @@
       'md:inset-y-auto relative md:fixed max-w-[100vw]':
         (isStandalone$ | ngrxPush) && !sticky,
       'relative h-auto': !isStandalone$ | ngrxPush,
-      fixed: isStandalone$ | ngrxPush
+      fixed: isStandalone$ | ngrxPush,
+      'preview-mobile': isMobile
     }"
   >
     <div
