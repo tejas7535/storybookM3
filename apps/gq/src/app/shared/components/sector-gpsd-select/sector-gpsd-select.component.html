@@ -10,6 +10,7 @@
       [formControl]="sectorGpsdControl"
       (selectionChange)="selectionChange($event)"
       [compareWith]="compareFn"
+      [attr.data-cy]="'sector-gpsd-select'"
     >
       @for (type of sectorGpsds; track type.id) {
         <mat-option [value]="type">

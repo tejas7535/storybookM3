@@ -149,6 +149,12 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.unselectedOptions.length).toBe(0);
     });
+    test('Should reset the formControl when Filter is CustomerMaterial, but selectedValue.id is null', () => {
+      component.searchFormControl.setValue('aValue');
+      component.filterName = FilterNames.CUSTOMER_MATERIAL;
+      component.options = [new IdValue(null, 'test', true, 'test2')];
+      expect(component.searchFormControl.value).toBeNull();
+    });
   });
   describe('setFormControlValue', () => {
     test('should set value for Customer', () => {
@@ -221,7 +227,7 @@ describe('AutocompleteInputComponent', () => {
       expect(component.isValid.emit).toHaveBeenCalledTimes(1);
       expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
     });
-    test('should call onTouch adn onChange if set', () => {
+    test('should call onTouch and onChange if set', () => {
       component['onChange'] = jest.fn();
       component['onTouched'] = jest.fn();
       component.options = [new IdValue('1', 'test', true)];
@@ -353,6 +359,15 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.unselect).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ invalidInput: true });
+    });
+    test('should unselect on invalidValue but not set Form as Invalid when Filter is CustomerMaterial', () => {
+      component.selectedIdValue = { id: '1' } as any;
+      component.unselect = jest.fn();
+      component.filterName = FilterNames.CUSTOMER_MATERIAL;
+      const result = component.isInputValid({ value: '1 | 2' } as any);
+
+      expect(component.unselect).toHaveBeenCalledTimes(1);
+      expect(result).toBeUndefined();
     });
   });
 

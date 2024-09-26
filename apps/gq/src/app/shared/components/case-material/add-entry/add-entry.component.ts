@@ -2,12 +2,14 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormControl,
@@ -22,9 +24,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Observable } from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
 import { addRowDataItems } from '@gq/core/store/actions';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
@@ -42,7 +46,7 @@ import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { Keyboard } from '../../../models';
+import { Customer, CustomerId, Keyboard } from '../../../models';
 import { MaterialTableItem } from '../../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../../models/table/validation-description.enum';
 import { PasteMaterialsService } from '../../../services/paste-materials/paste-materials.service';
@@ -80,6 +84,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   customerMatNumberInput: AutocompleteInputComponent;
 
   readonly autoCompleteFacade: AutoCompleteFacade = inject(AutoCompleteFacade);
+  private readonly createCaseFacade = inject(CreateCaseFacade);
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
+  private readonly destroyRef = inject(DestroyRef);
+
   private readonly store: Store = inject(Store);
   private readonly pasteMaterialsService: PasteMaterialsService = inject(
     PasteMaterialsService
@@ -95,6 +103,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     'createManualCaseAsView'
   );
 
+  CUSTOMER_MATERIAL_MAX_LENGTH = 35;
   materialNumber$: Observable<CaseFilterItem>;
   materialDesc$: Observable<CaseFilterItem>;
   autoSelectMaterial$: Observable<CaseFilterItem>;
@@ -118,9 +127,31 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     TargetPriceSource.SALES,
   ];
 
+  customerIdentifierForCaseCreation$: Observable<CustomerId> =
+    this.createCaseFacade.customerIdentifier$;
+  customerIdentifierForActiveCase$: Observable<CustomerId> =
+    this.activeCaseFacade.quotationCustomer$.pipe(
+      map((customer: Customer) => customer.identifier)
+    );
+  customerIdForCaseCreation$: Observable<string> =
+    this.createCaseFacade.customerIdForCaseCreation$;
+
   public ngOnInit(): void {
     if (this.newCaseCreation && this.isCaseView) {
       this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
+
+      combineLatest([
+        this.createCaseFacade.customerIdForCaseCreation$,
+        this.createCaseFacade.selectedCustomerSalesOrg$,
+      ])
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter(([id, salesOrg]) => !!id || !!salesOrg)
+        )
+        .subscribe(() => {
+          this.autoCompleteFacade.resetAutocompleteMaterials();
+          this.clearFields();
+        });
     } else {
       this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
     }
@@ -202,19 +233,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
           ProcessCaseActions.addNewItemsToMaterialTable({ items })
         );
 
-    // clear fields after dispatching action
-    this.matNumberInput.clearInput();
-    this.matDescInput.clearInput();
-
-    this.quantityFormControl.reset();
-    this.targetPriceFormControl.reset();
-
-    this.materialInputIsValid = false;
-
-    if (this.newCaseCreation) {
-      this.customerMatNumberInput.clearInput();
-      this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
-    }
+    this.clearFields();
   }
 
   onQuantityKeyPress(event: KeyboardEvent): void {
@@ -245,5 +264,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         )
         .focus();
     });
+  }
+
+  private clearFields(): void {
+    // clear fields after dispatching action
+    this.matNumberInput.clearInput();
+    this.matDescInput.clearInput();
+
+    this.quantityFormControl.reset();
+    this.targetPriceFormControl.reset();
+
+    this.materialInputIsValid = false;
+
+    if (this.newCaseCreation) {
+      this.customerMatNumberInput.clearInput();
+      this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
+    }
   }
 }

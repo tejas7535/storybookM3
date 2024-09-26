@@ -11,6 +11,7 @@
         [formControl]="salesOrgFormControl"
         (selectionChange)="selectionChange($event)"
         [value]="selectedSalesOrg?.id"
+        [attr.data-cy]="'sales-org-select'"
       >
         @for (salesOrg of salesOrgs; track $index) {
           <mat-option [value]="salesOrg.id">

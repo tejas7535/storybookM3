@@ -39,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { EMPTY, Subject, Subscription, timer } from 'rxjs';
 import { debounce, filter, takeUntil, tap } from 'rxjs/operators';
 
+import { MATERIAL_FILTERS } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
@@ -84,6 +85,7 @@ export class AutocompleteInputComponent
   @Input() autocompleteLoading = false;
 
   @Input() filterName: string;
+  @Input() maxLength: number;
 
   /**
    * If true, the autocomplete panel will dynamically increase its width,
@@ -94,6 +96,7 @@ export class AutocompleteInputComponent
   private readonly ONE_CHAR_LENGTH = 1;
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
   private readonly AUTOCOMPLETE_PANEL_MAX_WIDTH = '100%';
+  readonly filterNames = FilterNames;
 
   @Output() readonly unselected: EventEmitter<any> = new EventEmitter();
 
@@ -120,6 +123,7 @@ export class AutocompleteInputComponent
   unselectedOptions: IdValue[];
 
   searchFormControl: UntypedFormControl = new UntypedFormControl();
+  MATERIAL_FILTERS: typeof MATERIAL_FILTERS;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() set isDisabled(isDisabled: boolean) {
@@ -132,16 +136,27 @@ export class AutocompleteInputComponent
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @Input() set options(itemOptions: IdValue[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
-    this.unselectedOptions = itemOptions.filter((it) => !it.selected);
+    this.unselectedOptions = itemOptions.filter(
+      (it) => !it.selected && it.id !== null
+    );
     if (
       this.unselectedOptions.length === 1 &&
-      this.filterName === FilterNames.MATERIAL_NUMBER
+      (this.filterName === FilterNames.MATERIAL_NUMBER ||
+        this.filterName === FilterNames.CUSTOMER_MATERIAL)
     ) {
       this.unselectedOptions = [];
     }
     if (this.selectedIdValue) {
       this.debounceIsActive = true;
       this.setFormControlValue();
+    }
+    if (
+      this.filterName === FilterNames.CUSTOMER_MATERIAL &&
+      this.selectedIdValue &&
+      this.selectedIdValue.id === null
+    ) {
+      this.unselectedOptions = [];
+      this.searchFormControl.reset();
     }
   }
   // Declare Functions for ControlValueAccessor when Component is defined as a formControl in ParentComponent
@@ -219,15 +234,14 @@ export class AutocompleteInputComponent
   setFormControlValue(): void {
     let id = this.selectedIdValue.value;
     let value = this.selectedIdValue.id;
+    let value2 = this.selectedIdValue.value2;
 
-    if (
-      this.filterName === FilterNames.MATERIAL_NUMBER ||
-      this.filterName === FilterNames.MATERIAL_DESCRIPTION
-    ) {
+    if (MATERIAL_FILTERS.includes(this.filterName)) {
       id = this.selectedIdValue.id;
       value = undefined;
+      value2 = undefined;
     }
-    const value2 = this.selectedIdValue.value2;
+
     const formValue = this.transformFormValue(id, value, value2);
     this.searchFormControl.setValue(formValue, { emitEvent: false });
     this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
@@ -291,13 +305,13 @@ export class AutocompleteInputComponent
       (formValue &&
         formValue.length > 0 &&
         this.selectedIdValue &&
-        this.selectedIdValue.id === formValue) ||
-      this.filterName === FilterNames.CUSTOMER_MATERIAL_NUMBER;
+        this.selectedIdValue.id === formValue);
 
     if (!isValid) {
       this.unselect();
-
-      return { invalidInput: true };
+      if (this.filterName !== FilterNames.CUSTOMER_MATERIAL) {
+        return { invalidInput: true };
+      }
     }
 
     return undefined;

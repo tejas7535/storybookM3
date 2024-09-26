@@ -214,7 +214,7 @@
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid quotation number"
         },
-        "customerMaterialNumber": {
+        "customerMaterial": {
           "hint": "Enter a Customer Material Number",
           "label": "Customer Material Number",
           "nothingFound": "Nothing found",

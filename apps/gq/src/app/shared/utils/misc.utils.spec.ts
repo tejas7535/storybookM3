@@ -1,6 +1,7 @@
 import { Params } from '@angular/router';
 
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
+import { FilterNames } from '../components/autocomplete-input/filter-names.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
@@ -359,6 +360,114 @@ describe('MiscUtils', () => {
       expect(
         miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.PARTIALLY_SYNCED)
       ).toEqual('warning');
+    });
+  });
+
+  describe('mapMaterialAutocompleteToIdValue', () => {
+    test('should map to IdValue when filter is MaterialNumber', () => {
+      const value = {
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      };
+      const result = miscUtils.mapMaterialAutocompleteToIdValue(
+        value,
+        FilterNames.MATERIAL_NUMBER
+      );
+      expect(result).toEqual({
+        id: '123',
+        value: 'desc',
+        value2: 'cust',
+        selected: false,
+      });
+    });
+    test('should map to IdValue when filter is MaterialDescription', () => {
+      const value = {
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      };
+      const result = miscUtils.mapMaterialAutocompleteToIdValue(
+        value,
+        FilterNames.MATERIAL_DESCRIPTION
+      );
+      expect(result).toEqual({
+        id: 'desc',
+        value: '123',
+        value2: 'cust',
+        selected: false,
+      });
+    });
+    test('should map to IdValue when filter is CustomerMaterial', () => {
+      const value = {
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      };
+      const result = miscUtils.mapMaterialAutocompleteToIdValue(
+        value,
+        FilterNames.CUSTOMER_MATERIAL
+      );
+      expect(result).toEqual({
+        id: 'cust',
+        value: '123',
+        value2: 'desc',
+        selected: false,
+      });
+    });
+  });
+
+  describe('mapIdValueToMaterialAutoComplete', () => {
+    test('should map to MaterialAutoComplete when filter is MaterialNumber', () => {
+      const value = {
+        id: '123',
+        value: 'desc',
+        value2: 'cust',
+        selected: false,
+      };
+      const result = miscUtils.mapIdValueToMaterialAutoComplete(
+        value,
+        FilterNames.MATERIAL_NUMBER
+      );
+      expect(result).toEqual({
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      });
+    });
+    test('should map to MaterialAutoComplete when filter is MaterialDescription', () => {
+      const value = {
+        id: 'desc',
+        value: '123',
+        value2: 'cust',
+        selected: false,
+      };
+      const result = miscUtils.mapIdValueToMaterialAutoComplete(
+        value,
+        FilterNames.MATERIAL_DESCRIPTION
+      );
+      expect(result).toEqual({
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      });
+    });
+    test('should map to MaterialAutoComplete when filter is CustomerMaterial', () => {
+      const value = {
+        id: 'cust',
+        value: '123',
+        value2: 'desc',
+        selected: false,
+      };
+      const result = miscUtils.mapIdValueToMaterialAutoComplete(
+        value,
+        FilterNames.CUSTOMER_MATERIAL
+      );
+      expect(result).toEqual({
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      });
     });
   });
 });

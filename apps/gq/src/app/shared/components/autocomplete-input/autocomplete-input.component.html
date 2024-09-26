@@ -16,12 +16,21 @@
       #valueInput
       [matAutocomplete]="auto"
       cdkFocusInitial
+      [maxlength]="maxLength"
       pinDropDown="matAutocompleteTrigger"
+      [attr.data-cy]="'autocomplete-' + filterName + '_input'"
     />
     @if (autocompleteLoading) {
       <mat-spinner matSuffix [diameter]="18"></mat-spinner>
     }
     <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
+    @if (maxLength) {
+      <mat-hint align="end">{{
+        (searchFormControl.value?.length?.toString() || '0') +
+          ' / ' +
+          maxLength.toString()
+      }}</mat-hint>
+    }
     @if (searchFormControl.hasError('invalidInput')) {
       <mat-error>{{ t(filterName + '.wrongInput') }}</mat-error>
     }
@@ -32,7 +41,7 @@
       @for (idValue of unselectedOptions; track $index) {
         <mat-option [value]="idValue">
           <span> {{ idValue.id }} | {{ idValue.value }}</span>
-          @if (idValue.value2) {
+          @if (idValue.value2 && !MATERIAL_FILTERS?.includes(filterName)) {
             <span> | {{ idValue.value2 }}</span>
           }
         </mat-option>

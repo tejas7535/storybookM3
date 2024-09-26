@@ -93,7 +93,7 @@ export const getCustomerMaterialNumber = (dialog: AutocompleteRequestDialog) =>
   createSelector(
     getCaseState,
     (state: CreateCaseState): CaseFilterItem =>
-      getAutocompleteItems(state, dialog, FilterNames.CUSTOMER_MATERIAL_NUMBER)
+      getAutocompleteItems(state, dialog, FilterNames.CUSTOMER_MATERIAL)
   );
 const getAutocompleteItems = (
   state: CreateCaseState,

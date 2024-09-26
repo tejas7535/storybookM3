@@ -214,8 +214,8 @@
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
         },
-        "customerMaterialNumber": {
-          "hint": "Kundenmaterialnummer eingeben (optional)",
+        "customerMaterial": {
+          "hint": "Kundenmaterialnummer eingeben",
           "label": "Kundenmaterialnummer",
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte valide Kundenmaterialnummer eingeben"

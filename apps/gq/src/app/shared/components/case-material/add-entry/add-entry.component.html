@@ -5,6 +5,11 @@
   @if (newCaseCreation) {
     <div
       class="flex gap-4 items-center @[0px]/addEntry:flex-col @[0px]/addEntry:gap-8 @[0px]/addEntry:mb-4 @4xl/addEntry:flex-row @4xl/addEntry:gap-4 @4xl/addEntry:mb-6"
+      *ngrxLet="
+        isCaseView
+          ? customerIdentifierForCaseCreation$
+          : customerIdentifierForActiveCase$ as customerIdentifier
+      "
     >
       <div class="flex flex-1 w-full">
         <div class="w-full pt-2 grid grid-cols-3 gap-4">
@@ -34,7 +39,10 @@
               [autocompleteLoading]="
                 autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
               "
-              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (autocomplete)="
+                autoCompleteFacade.autocomplete($event, customerIdentifier)
+              "
+              [isDisabled]="!(customerIdForCaseCreation$ | ngrxPush)"
             ></gq-autocomplete-input>
           </div>
 
@@ -64,7 +72,10 @@
               [autocompleteLoading]="
                 autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
               "
-              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (autocomplete)="
+                autoCompleteFacade.autocomplete($event, customerIdentifier)
+              "
+              [isDisabled]="!(customerIdForCaseCreation$ | ngrxPush)"
             ></gq-autocomplete-input>
           </div>
 
@@ -94,10 +105,13 @@
               [autocompleteLoading]="
                 autoCompleteFacade.customerMaterialNumberLoading$ | ngrxPush
               "
-              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (autocomplete)="
+                autoCompleteFacade.autocomplete($event, customerIdentifier)
+              "
+              [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
+              [isDisabled]="!(customerIdForCaseCreation$ | ngrxPush)"
             ></gq-autocomplete-input>
           </div>
-
           <div>
             <mat-form-field appearance="outline" class="w-full">
               <mat-label>
@@ -112,6 +126,7 @@
                 min="1"
                 type="number"
                 [formControl]="quantityFormControl"
+                [attr.data-cy]="'add-entry-quantity'"
               />
               <mat-hint>{{ t('quantity.hint') }}</mat-hint>
               @if (quantityFormControl.hasError('invalidInput')) {
@@ -130,6 +145,7 @@
                 matInput
                 type="text"
                 [formControl]="targetPriceFormControl"
+                [attr.data-cy]="'add-entry-target-price'"
               />
               <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
               @if (targetPriceFormControl.hasError('invalidPrice')) {
@@ -140,7 +156,10 @@
           <div>
             <mat-form-field appearance="outline" class="w-full">
               <mat-label>{{ t('targetPriceSource.label') }}</mat-label>
-              <mat-select [formControl]="targetPriceSourceFormControl">
+              <mat-select
+                [formControl]="targetPriceSourceFormControl"
+                [attr.data-cy]="'add-entry-target-price-source'"
+              >
                 @for (source of targetPriceSources; track $index) {
                   <mat-option [value]="source">{{
                     t('targetPriceSource.values.' + source)
@@ -159,6 +178,7 @@
         [disabled]="!addRowEnabled"
         color="primary"
         class="h-12 flex justify-center items-center px-4 text-button font-medium text-medium-emphasis @[0px]/addEntry:!mb-0 @4xl:!mb-6"
+        [attr.data-cy]="'add-entry-add-position-btn'"
       >
         <mat-icon> add</mat-icon>
         {{ t('addPosition') | uppercase }}

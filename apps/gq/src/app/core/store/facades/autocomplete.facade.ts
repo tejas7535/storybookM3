@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { CustomerId } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Store } from '@ngrx/store';
@@ -120,7 +121,7 @@ export class AutoCompleteFacade {
 
   public customerMaterialNumberLoading$: Observable<boolean> =
     this.store.select(
-      getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL_NUMBER)
+      getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL)
     );
 
   /**
@@ -136,7 +137,19 @@ export class AutoCompleteFacade {
     this.store.dispatch(resetAutocompleteMaterials());
   }
 
-  public autocomplete(autocompleteSearch: AutocompleteSearch): void {
+  public autocomplete(
+    autocompleteSearch: AutocompleteSearch,
+    customerId?: CustomerId
+  ): void {
+    if (
+      autocompleteSearch.filter === FilterNames.CUSTOMER_MATERIAL &&
+      !customerId?.customerId
+    ) {
+      return;
+    }
+
+    autocompleteSearch.customerIdentifier = customerId;
+
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
 
@@ -165,11 +178,15 @@ export class AutoCompleteFacade {
   }
 
   public unselectOptions(filter: string): void {
-    const filterName =
-      filter === FilterNames.MATERIAL_NUMBER
-        ? FilterNames.MATERIAL_DESCRIPTION
-        : FilterNames.MATERIAL_NUMBER;
-    this.store.dispatch(unselectAutocompleteOptions({ filter: filterName }));
+    const resets: FilterNames[] = [
+      FilterNames.MATERIAL_NUMBER,
+      FilterNames.MATERIAL_DESCRIPTION,
+      FilterNames.CUSTOMER_MATERIAL,
+    ];
+    const resetFor = resets.filter((reset) => reset !== filter);
+    resetFor.forEach((reset) => {
+      this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
+    });
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 

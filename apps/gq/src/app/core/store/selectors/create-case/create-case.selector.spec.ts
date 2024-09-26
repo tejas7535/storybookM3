@@ -39,7 +39,7 @@ describe('Create Case Selector', () => {
           options: [new IdValue('1', '1', true)],
         },
         {
-          filter: FilterNames.CUSTOMER_MATERIAL_NUMBER,
+          filter: FilterNames.CUSTOMER_MATERIAL,
           options: [new IdValue('1', '1', true)],
         },
       ],
@@ -131,7 +131,7 @@ describe('Create Case Selector', () => {
           .projector(fakeState.case)
       ).toEqual(
         fakeState.case.autocompleteItems.find(
-          (elm) => elm.filter === FilterNames.CUSTOMER_MATERIAL_NUMBER
+          (elm) => elm.filter === FilterNames.CUSTOMER_MATERIAL
         )
       );
     });
@@ -141,7 +141,7 @@ describe('Create Case Selector', () => {
         createSelectors
           .getCustomerMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
           .projector(fakeState.case)
-      ).toEqual({ filter: FilterNames.CUSTOMER_MATERIAL_NUMBER, options: [] });
+      ).toEqual({ filter: FilterNames.CUSTOMER_MATERIAL, options: [] });
     });
   });
   describe('getCustomerAndShipToParty', () => {

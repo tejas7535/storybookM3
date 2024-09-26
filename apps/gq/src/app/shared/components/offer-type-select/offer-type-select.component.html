@@ -9,6 +9,7 @@
       [formControl]="offerTypeControl"
       (selectionChange)="selectionChange($event)"
       [compareWith]="compareFn"
+      [attr.data-cy]="'offer-type-select'"
     >
       <mat-option [value]="NO_ENTRY"> {{ t('emptyValue') }}</mat-option>
       @for (type of offerTypes; track $index) {

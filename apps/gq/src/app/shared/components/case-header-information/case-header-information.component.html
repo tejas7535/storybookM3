@@ -33,7 +33,7 @@
               <mat-label>{{ t('currencyLabel') }}</mat-label>
               <mat-select
                 formControlName="currency"
-                data-cy="edit-case-modal_custom-currency-input"
+                data-cy="case-header-information_currency-select"
               >
                 @for (
                   currency of availableCurrencies$ | ngrxPush;
@@ -63,6 +63,7 @@
                 [matAutocomplete]="auto"
                 #shipToPartyInput
                 pinDropDown="matAutocompleteTrigger"
+                [attr.data-cy]="'case-header-information_ship-to-party-input'"
               />
 
               @if (!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)) {
@@ -83,6 +84,9 @@
                   matSuffix
                   class="absolute bottom-1 right-2"
                   [diameter]="18"
+                  [attr.data-cy]="
+                    'case-header-information_ship-to-party-spinner'
+                  "
                 ></mat-spinner>
               }
 
@@ -116,7 +120,7 @@
                 type="text"
                 autocomplete="off"
                 matInput
-                data-cy="edit-case-modal_custom-name-input"
+                data-cy="case-header-information_case-name-input"
                 [maxlength]="NAME_MAX_LENGTH"
               />
               <mat-hint align="end">{{
@@ -147,6 +151,9 @@
               formControlName="customerInquiryDate"
               [matDatepicker]="customerInquiryDateDatePicker"
               [required]="true"
+              [attr.data-cy]="
+                'case-header-information_customer-inquiry-date-input'
+              "
             />
             <mat-datepicker-toggle
               matSuffix
@@ -180,6 +187,7 @@
               autocomplete="off"
               formControlName="quotationToDate"
               [matDatepicker]="quotationToDatePicker"
+              [attr.data-cy]="'case-header-information_quotation-to-date-input'"
             />
             <mat-datepicker-toggle matSuffix [for]="quotationToDatePicker"
               ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
@@ -201,6 +209,9 @@
               autocomplete="off"
               formControlName="requestedDeliveryDate"
               [matDatepicker]="requestedDeliveryDatePicker"
+              [attr.data-cy]="
+                'case-header-information_requested-delivery-input'
+              "
             />
             <mat-datepicker-toggle matSuffix [for]="requestedDeliveryDatePicker"
               ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
@@ -225,6 +236,9 @@
               formControlName="bindingPeriodValidityEndDate"
               [matDatepicker]="bindingPeriodValidityEndDatePicker"
               [required]="true"
+              [attr.data-cy]="
+                'case-header-information_binding-period-validity-end-input'
+              "
             />
             <mat-datepicker-toggle
               matSuffix
@@ -275,7 +289,7 @@
           color="primary"
           mat-raised-button
           [disabled]="!hasHeaderInfoFormChange || !headerInfoForm.valid"
-          data-cy="edit-case-modal_update-btn"
+          [attr.data-cy]="'case-header-information_edit-case_update-btn'"
         >
           <span>
             {{ t(isSapCase ? 'updateSapCase' : 'confirm') | uppercase }}
@@ -286,7 +300,7 @@
           mat-stroked-button
           type="button"
           (click)="closeDialog()"
-          data-cy="edit-case-modal_close-btn"
+          [attr.data-cy]="'case-header-information_edit-case_close-btn'"
         >
           <span> {{ t('cancel') | uppercase }} </span>
         </button>

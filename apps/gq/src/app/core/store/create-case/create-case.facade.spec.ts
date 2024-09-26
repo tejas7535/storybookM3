@@ -19,6 +19,8 @@ import { SectorGpsdFacade } from '../sector-gpsd/sector-gpsd.facade';
 import {
   getSalesOrgs,
   getSalesOrgsOfShipToParty,
+  getSelectedCustomerId,
+  getSelectedSalesOrg,
 } from '../selectors/create-case/create-case.selector';
 import { CreateCaseFacade } from './create-case.facade';
 
@@ -49,11 +51,33 @@ describe('CreateCaseFacade', () => {
 
   describe('should provide Observables', () => {
     test(
+      'customerIdForCaseCreation$',
+      marbles((m) => {
+        mockStore.overrideSelector(getSelectedCustomerId, 'customerId');
+        m.expect(facade.customerIdForCaseCreation$).toBeObservable(
+          m.cold('a', { a: 'customerId' })
+        );
+      })
+    );
+    test(
       'customerSalesOrgs$',
       marbles((m) => {
         mockStore.overrideSelector(getSalesOrgs, []);
         m.expect(facade.customerSalesOrgs$).toBeObservable(
           m.cold('a', { a: [] })
+        );
+      })
+    );
+
+    test(
+      'selectedCustomerSalesOrg$',
+      marbles((m) => {
+        mockStore.overrideSelector(getSelectedSalesOrg, {
+          id: 'id',
+          selected: true,
+        });
+        m.expect(facade.selectedCustomerSalesOrg$).toBeObservable(
+          m.cold('a', { a: { id: 'id', selected: true } })
         );
       })
     );
@@ -63,6 +87,19 @@ describe('CreateCaseFacade', () => {
         mockStore.overrideSelector(getSalesOrgsOfShipToParty, []);
         m.expect(facade.shipToPartySalesOrgs$).toBeObservable(
           m.cold('a', { a: [] })
+        );
+      })
+    );
+    test(
+      'customerIdentifier$',
+      marbles((m) => {
+        mockStore.overrideSelector(getSelectedCustomerId, 'customerId');
+        mockStore.overrideSelector(getSelectedSalesOrg, {
+          id: 'id',
+          selected: true,
+        });
+        m.expect(facade.customerIdentifier$).toBeObservable(
+          m.cold('a', { a: { customerId: 'customerId', salesOrg: 'id' } })
         );
       })
     );

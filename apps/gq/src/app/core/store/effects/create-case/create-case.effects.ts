@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { MATERIAL_FILTERS } from '@gq/shared/constants/material-filters.const';
 import { Quotation } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
 import { MaterialTableItem } from '@gq/shared/models/table';
@@ -86,8 +87,14 @@ export class CreateCaseEffects {
   autocomplete$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(autocomplete.type),
-      mergeMap((action: any) =>
-        this.searchService.autocomplete(action.autocompleteSearch).pipe(
+      mergeMap((action: any) => {
+        const httpRes$ = MATERIAL_FILTERS.includes(
+          action.autocompleteSearch.filter
+        )
+          ? this.materialService.autocompleteMaterial(action.autocompleteSearch)
+          : this.searchService.autocomplete(action.autocompleteSearch);
+
+        return httpRes$.pipe(
           map((options) =>
             autocompleteSuccess({
               options,
@@ -95,8 +102,8 @@ export class CreateCaseEffects {
             })
           ),
           catchError((_e) => of(autocompleteFailure()))
-        )
-      )
+        );
+      })
     );
   });
 

@@ -9,6 +9,7 @@
       [formControl]="purchaseOrderTypeControl"
       (selectionChange)="selectionChange($event)"
       [compareWith]="compareFn"
+      [attr.data-cy]="'purchase-order-type-select'"
     >
       <mat-option [value]="NO_ENTRY"> {{ t('emptyValue') }}</mat-option>
       @for (type of purchaseOrderTypes; track $index) {
