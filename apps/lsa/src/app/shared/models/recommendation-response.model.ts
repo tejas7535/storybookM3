@@ -8,6 +8,10 @@ export interface RecommendationResponse {
   };
 }
 
+export class ErrorResponse extends Error {
+  message: string;
+}
+
 export interface Lubricator {
   matNr: string;
   name: string;
