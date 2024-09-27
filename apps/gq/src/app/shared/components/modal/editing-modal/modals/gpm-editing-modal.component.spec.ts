@@ -115,7 +115,7 @@ describe('GpmEditingModalComponent', () => {
     });
     expect(getManualPriceByMarginAndCostSpy).toHaveBeenCalledWith(
       QUOTATION_DETAIL_MOCK.sqv,
-      600
+      6
     );
   });
 });

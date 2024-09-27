@@ -32,13 +32,17 @@
             @if (userHasGPCRole$ | ngrxPush) {
               <gq-label-text>
                 <span label>{{ t('gpi') }}</span>
-                <span text>{{ materialComparableCost.gpi | percentage }}</span>
+                <span text>{{
+                  materialComparableCost.gpi | percentage: false
+                }}</span>
               </gq-label-text>
             }
             @if (userHasSQVRole$ | ngrxPush) {
               <gq-label-text>
                 <span label>{{ t('gpm') }}</span>
-                <span text>{{ materialComparableCost.gpm | percentage }}</span>
+                <span text>{{
+                  materialComparableCost.gpm | percentage: false
+                }}</span>
               </gq-label-text>
             }
           }

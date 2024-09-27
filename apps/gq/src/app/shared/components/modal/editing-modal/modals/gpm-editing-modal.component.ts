@@ -4,6 +4,7 @@ import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { getPercentageRegex } from '@gq/shared/constants';
 import { PriceSource } from '@gq/shared/models/quotation-detail';
 import { getManualPriceByMarginAndCost } from '@gq/shared/utils/pricing.utils';
+import Big from 'big.js';
 
 import { EditingModalComponent } from '../editing-modal.component';
 
@@ -34,9 +35,12 @@ export class GpmEditingModalComponent extends EditingModalComponent {
   }
 
   protected buildUpdateQuotationDetail(value: number): UpdateQuotationDetail {
+    // tranform to decimal value first
+    const percentageValue = new Big(value).div(100);
+
     const price = getManualPriceByMarginAndCost(
       this.modalData.quotationDetail.sqv,
-      value
+      percentageValue.toNumber()
     );
 
     return {
