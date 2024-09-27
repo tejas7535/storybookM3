@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map, ReplaySubject, take } from 'rxjs';
+import { catchError, map, ReplaySubject, take, throwError } from 'rxjs';
 
 import { environment } from '@lsa/environments/environment';
 import {
+  ErrorResponse,
   Grease,
   RecommendationRequest,
   RecommendationResponse,
@@ -14,7 +15,9 @@ import { GreaseRequest } from '@lsa/shared/models/grease-request.model';
 @Injectable({ providedIn: 'root' })
 export class RestService {
   public greases$ = new ReplaySubject<Grease[]>(1);
-  public recommendation$ = new ReplaySubject<RecommendationResponse>(1);
+  public recommendation$ = new ReplaySubject<
+    RecommendationResponse | ErrorResponse
+  >(1);
 
   private readonly BASE_URL = environment.lsaApiBaseUrl;
 
@@ -38,7 +41,22 @@ export class RestService {
   public getLubricatorRecommendation(request: RecommendationRequest): void {
     this.http
       .post<RecommendationResponse>(`${this.BASE_URL}/recommendation`, request)
-      .pipe(take(1))
-      .subscribe((recommendation) => this.recommendation$.next(recommendation));
+      .pipe(
+        take(1),
+        catchError((response) => {
+          const err: ErrorResponse = {
+            name: response.error.errorId,
+            message: response.error.message,
+          };
+
+          return throwError(() => err);
+        })
+      )
+      .subscribe({
+        next: (recommendation) => this.recommendation$.next(recommendation),
+        error: (errResponse) => {
+          this.recommendation$.next(errResponse);
+        },
+      });
   }
 }
