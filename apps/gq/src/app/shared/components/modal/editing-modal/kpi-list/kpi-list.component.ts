@@ -75,9 +75,13 @@ export class KpiListComponent {
     const quotationDetail = this.editingModalData.quotationDetail as any;
 
     if (valueFormatter === KpiValueFormatter.PERCENT) {
-      displayValue = this.transformationService.transformPercentage(kpi.value);
+      displayValue = this.transformationService.transformPercentage(
+        kpi.value,
+        false
+      );
       previousDisplayValue = this.transformationService.transformPercentage(
-        quotationDetail[kpi.key]
+        quotationDetail[kpi.key],
+        false
       );
     } else if (valueFormatter === KpiValueFormatter.NUMBER_CURRENCY) {
       displayValue = this.transformationService.transformNumberCurrency(
@@ -113,7 +117,8 @@ export class KpiListComponent {
     } else if (
       kpi.key === ColumnFields.PRICE &&
       this.editingModalData.quotationDetail.msp &&
-      kpi.value < this.editingModalData.quotationDetail.msp
+      kpi.value < this.editingModalData.quotationDetail.msp &&
+      kpi.value !== 0
     ) {
       hasError = true;
       warningText = translate('shared.validation.priceLowerThanMsp');

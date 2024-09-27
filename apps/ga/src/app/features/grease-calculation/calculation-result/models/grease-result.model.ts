@@ -22,5 +22,6 @@ export interface GreaseResult {
   subTitle?: string;
   isSufficient: boolean;
   isPreferred?: boolean;
+  isRecommended?: boolean;
   dataSource: GreaseResultData;
 }

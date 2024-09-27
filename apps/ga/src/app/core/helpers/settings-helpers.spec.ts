@@ -7,7 +7,11 @@ import { Capacitor } from '@capacitor/core';
 
 import { PartnerVersion } from '@ga/shared/models';
 
-import { detectAppDelivery, detectPartnerVersion } from './settings-helpers';
+import {
+  detectAppDelivery,
+  detectMediasLoginState,
+  detectPartnerVersion,
+} from './settings-helpers';
 
 const { origin, top, self } = window;
 
@@ -17,6 +21,7 @@ Capacitor.isNativePlatform = isNativePlatformMock;
 describe('Settings helpers', () => {
   afterEach(() => {
     window.origin = origin;
+    window.location = { href: 'https://localhost:4200' } as Location;
     Object.defineProperty(window, 'top', { ...top, writable: true });
     Object.defineProperty(window, 'self', { ...self, writable: true });
   });
@@ -56,6 +61,34 @@ describe('Settings helpers', () => {
 
         expect(detectPartnerVersion()).toBe(partnerVersion);
       }
+    });
+  });
+
+  describe('detectMediasLoginState', () => {
+    it('should return false with the medias_customer set to anonymous', () => {
+      delete window.location;
+      window.location = {
+        search: new URL('https://localhost:4200/app?medias_customer=anonymous')
+          .search,
+      } as Location;
+      expect(detectMediasLoginState()).toBe(false);
+    });
+
+    it('should return true with medias_customer set and not being anoynmous', () => {
+      delete window.location;
+      window.location = {
+        search: new URL('https://localhost:4200/app?medias_customer=Doe')
+          .search,
+      } as Location;
+      expect(detectMediasLoginState()).toBe(true);
+    });
+
+    it('should detect false when the parameter is not present', () => {
+      delete window.location;
+      window.location = {
+        search: new URL('https://localhost:4200/app').search,
+      } as Location;
+      expect(detectMediasLoginState()).toBe(false);
     });
   });
 });

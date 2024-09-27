@@ -9,13 +9,16 @@
       [formControl]="offerTypeControl"
       (selectionChange)="selectionChange($event)"
       [compareWith]="compareFn"
+      [attr.data-cy]="'offer-type-select'"
     >
       <mat-option [value]="NO_ENTRY"> {{ t('emptyValue') }}</mat-option>
       @for (type of offerTypes; track $index) {
         <mat-option [value]="type">
           <div class="flex flex-row items-center">
             @if (type.name) {
-              <span class="whitespace-nowrap text-caption text-medium-emphasis">
+              <span
+                class="whitespace-nowrap text-subtitle-1 text-medium-emphasis"
+              >
                 {{ type.name }}</span
               >
             }

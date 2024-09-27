@@ -1,4 +1,20 @@
 # Release Notes of Cost Database Analytics
+## [5.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.1.0...cdba-v5.2.0) (2024-08-26)
+
+
+### Features
+
+* **cdba:** links update ([#6493](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6493)) ([cddcb40](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cddcb40e8151c47979de24679e12bd7fc8b266d2))
+* **cdba:** moved pagination state to store ([#6370](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6370)) ([5ccf604](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5ccf604bc4d1bada813025116d9e6f43c375c54e))
+* **cdba:** replace secondary color for m3 migration ([#6448](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6448)) ([9170f58](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9170f5803d9ffcf31010f850426c6c4b1becfdfc))
+
+
+### Bug Fixes
+
+* **cdba:** added handling multiple selected nodes on navigation change ([#6488](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6488)) ([36f5ad9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/36f5ad9c6dcba285778ab8f34530e2d38c3d6dd0))
+* **cdba:** exclude tests and remove unused file ([#6459](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6459)) ([3522bd0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3522bd0668585ff887102bc1757d5baa231c2db9))
+* **cdba:** moved colors to backgroundColor ([#6484](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6484)) ([76b7b15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76b7b150fef4ad7f1effc6a75213c76494960d5a))
+
 ## [5.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.0.0...cdba-v5.1.0) (2024-07-10)
 
 

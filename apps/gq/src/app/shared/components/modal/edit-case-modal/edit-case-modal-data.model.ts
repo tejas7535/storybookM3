@@ -11,13 +11,15 @@ export interface EditCaseModalData {
   shipToParty?: IdValue;
   quotationToDate?: string;
   requestedDeliveryDate?: string;
+  // TODO: remove customerPurchaseOrderDate when createManualCaseAsView feature toggle is removed
   customerPurchaseOrderDate?: string;
+  customerInquiryDate?: string;
   bindingPeriodValidityEndDate?: string;
   shipToPartySalesOrg?: string;
-
   purchaseOrderType?: PurchaseOrderType;
   partnerRoleType?: SectorGpsd;
   offerType?: OfferType;
   disabled?: boolean;
   isSapCase?: boolean;
+  caseCreationDate?: string;
 }

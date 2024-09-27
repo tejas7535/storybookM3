@@ -6,17 +6,28 @@
   "
 >
   <div class="mr-2 flex-1">
+    <!-- if there are values to display (i guess only relevant for unit test) -->
     @if (params) {
-      <!-- The emissions value is expected to be per ton but the value in SAP Materials is PCF per kg.
-      Therefore, we need the factor 1000 in this case! -->
-      <mac-material-emission-classification
-        [value]="params.value ? params.value * 1000 : undefined"
-        [displayValue]="params.valueFormatted"
-        [transparent]="!showMaterialEmissionClassification"
-      ></mac-material-emission-classification>
+      @if ((isUploader | ngrxPush) || maturity >= 5) {
+        <!-- The emissions value (for green material) is expected to be per ton but the value in SAP Materials is PCF per kg.
+        Therefore, we need the factor 1000 in this case to show the correct badge! -->
+        <mac-material-emission-classification
+          [value]="params.value ? params.value * 1000 : undefined"
+          [displayValue]="params.valueFormatted"
+          [transparent]="!showMaterialEmissionClassification"
+        ></mac-material-emission-classification>
+      } @else if (hasValue) {
+        <span
+          [matTooltip]="
+            t('tooltip_insufficient', { owner: params.data['owner'] })
+          "
+        >
+          ---
+        </span>
+      }
     }
   </div>
-  @if (hasValue()) {
+  @if (hasValue) {
     <div class="flex-1 align-baseline text-right">
       <ng-container>
         <span
@@ -24,11 +35,11 @@
           cdkOverlayOrigin
           #indicator="cdkOverlayOrigin"
         >
-          {{ t(getMaturity()) }}
+          {{ t(maturity) }}
           <span
             class="bg-secondary-900 text-white rounded-[50%] text-center w-5 h-5 inline-block line leading-5"
           >
-            {{ getMaturity() }}
+            {{ maturity }}
           </span>
         </span>
         <mac-html-tooltip

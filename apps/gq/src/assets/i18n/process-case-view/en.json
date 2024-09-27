@@ -49,7 +49,19 @@
     },
     "save": "Save Case",
     "delete": "Discard Case",
-    "disabledForSyncPendingTooltip": "Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed."
+    "disabledForSyncPendingTooltip": "Cases with pending SAP sync cannot be edited; for editing option please wait until the sync is completed.",
+    "noteModal": {
+      "title": "{quotationActive, select, true{Edit} other {View} } note for {{gqId}}",
+      "inputLabel": "Note",
+      "buttons": {
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      },
+      "snackBarMessages": {
+        "noteSaved": "Note was saved successfully.",
+        "error": "An error occurred while saving the note."
+      }
+    }
   },
   "tabs": {
     "singleQuotes": {
@@ -92,7 +104,13 @@
         "sectorManagement": "Sector Management",
         "subKeyAccount": "Sub Key Account",
         "subRegion": "Sub-Region",
-        "subSector": "Subsector"
+        "subSector": "Subsector",
+        "salesInformation": {
+          "customerKey": "Key",
+          "salesGroup": "Sales Group",
+          "priceGroup": "Price Group",
+          "customerDiscountGroup": "Customer disc. Group"
+        }
       },
       "salesforce": {
         "title": "Salesforce",

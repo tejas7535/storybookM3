@@ -1,7 +1,5 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
@@ -11,10 +9,17 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  getEnvironmentTemperatures,
+  getGreaseApplication,
+  getMotionType,
+} from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import { Movement } from '@ga/shared/models';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
 
@@ -25,7 +30,6 @@ import { GreaseReportService } from './grease-report.service';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
 describe('GreaseReportService', () => {
-  let httpMock: HttpTestingController;
   let spectator: SpectatorService<GreaseReportService>;
   let service: GreaseReportService;
   const localizeNumber = jest.fn();
@@ -34,7 +38,6 @@ describe('GreaseReportService', () => {
     service: GreaseReportService,
     imports: [
       RouterTestingModule,
-      HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       OneTrustModule.forRoot({
         cookiesGroups: COOKIE_GROUPS,
@@ -42,6 +45,18 @@ describe('GreaseReportService', () => {
       }),
     ],
     providers: [
+      provideHttpClient(),
+      provideMockStore({
+        initialState: {},
+        selectors: [
+          { selector: getGreaseApplication, value: undefined },
+          { selector: getMotionType, value: Movement.rotating },
+          {
+            selector: getEnvironmentTemperatures,
+            value: { operatingTemperature: 90 },
+          },
+        ],
+      }),
       mockProvider(TranslocoLocaleService, { localizeNumber }),
       GreaseResultDataSourceService,
       UndefinedValuePipe,
@@ -49,14 +64,13 @@ describe('GreaseReportService', () => {
     ],
   });
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     spectator = createService();
     service = spectator.service;
-    httpMock = spectator.inject(HttpTestingController);
-  });
+  }));
 
-  afterEach(() => {
-    httpMock.verify();
+  it('should create the service', () => {
+    expect(service).toBeTruthy();
   });
 
   describe('getResultAmount', () => {
@@ -73,7 +87,6 @@ describe('GreaseReportService', () => {
         service['applicationInsightsService'],
         'logEvent'
       );
-
       service.trackWarningsOpened();
 
       expect(trackingSpy).toHaveBeenCalledWith(WARNINGSOPENED);
@@ -85,11 +98,16 @@ describe('GreaseReportService', () => {
         'logInteractionEvent'
       );
 
+      const aiTrackingSpy = jest.spyOn(
+        service['applicationInsightsService'],
+        'logEvent'
+      );
       service.trackWarningsOpened();
 
       expect(trackingSpy).toHaveBeenCalledWith(
         InteractionEventType.ErrorsAndWarnings
       );
+      expect(aiTrackingSpy).toHaveBeenCalled();
     });
   });
 });

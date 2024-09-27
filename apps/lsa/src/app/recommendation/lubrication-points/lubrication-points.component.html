@@ -15,16 +15,17 @@
   <mat-divider></mat-divider>
 
   <div class="flex flex-col gap-6">
-    <span class="text-h6 text-medium-emphasis">{{
-      t('questionRelubricationQuantity')
-    }}</span>
+    <span class="text-h6 text-medium-emphasis">
+      {{ t('questionRelubricationQuantity') }}
+      <lsa-info-tooltip translationKey="tooltips.lubricationPoints.quantity" />
+    </span>
     <lsa-radio-button-group
       [options]="lubricationIntervalOptions"
       [control]="lubricationPointsForm.controls.lubricationInterval"
     >
       <ng-template radioOptionContent="lubricationQuantity">
         <div
-          class="border border-border md:border-none md:bg-transparent rounded-lg gap-4 pt-4 px-2 md:p-0 flex-1 bg-surface border-primary"
+          class="border border-border md:border-none md:bg-transparent rounded-lg gap-4 pt-4 px-2 md:p-0 flex-1 bg-surface-legacy border-primary"
         >
           <mat-form-field
             appearance="outline"
@@ -52,9 +53,9 @@
   <mat-divider></mat-divider>
 
   <div class="flex flex-col gap-6">
-    <span class="text-h6 text-medium-emphasis">{{
-      t('questionPipeLength')
-    }}</span>
+    <span class="text-h6 text-medium-emphasis">
+      {{ t('questionPipeLength') }}
+    </span>
     <lsa-radio-button-group
       [options]="pipeLengthOptions"
       [control]="lubricationPointsForm.controls.pipeLength"
@@ -64,7 +65,10 @@
   <mat-divider></mat-divider>
 
   <div class="flex flex-col gap-6">
-    <span class="text-h6 text-medium-emphasis">{{ t('questionOptime') }}</span>
+    <span class="text-h6 text-medium-emphasis">
+      {{ t('questionOptime') }}
+      <lsa-info-tooltip translationKey="tooltips.lubricationPoints.optime" />
+    </span>
     <lsa-radio-button-group
       [options]="optimeOptions"
       [control]="lubricationPointsForm.controls.optime"

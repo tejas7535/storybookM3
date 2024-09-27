@@ -1,14 +1,26 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 
-import { ExternalLegendComponent } from '../../../shared/charts/external-legend/external-legend.component';
-import {
-  DoughnutChartData,
-  LegendSelectAction,
-} from '../../../shared/charts/models';
 import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { ReasonForLeavingTab } from '../../models';
 import { ReasonsForLeavingChartComponent } from './reasons-for-leaving-chart.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  translate: (key: string, params: any) => {
+    if (
+      key ===
+      'reasonsAndCounterMeasures.reasonsForLeaving.chart.titleOverallReasons'
+    ) {
+      return 'titleOverallReasons';
+    } else if (
+      key === 'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfo'
+    ) {
+      return `conductedInfo, conducted: ${params.conducted}, percentage: ${params.percentage}`;
+    } else {
+      return '';
+    }
+  },
+}));
 describe('ReasonsForLeavingChartComponent', () => {
   let component: ReasonsForLeavingChartComponent;
   let spectator: Spectator<ReasonsForLeavingChartComponent>;
@@ -16,10 +28,7 @@ describe('ReasonsForLeavingChartComponent', () => {
   const createComponent = createComponentFactory({
     component: ReasonsForLeavingChartComponent,
     detectChanges: false,
-    declarations: [
-      MockComponent(SolidDoughnutChartComponent),
-      MockComponent(ExternalLegendComponent),
-    ],
+    declarations: [MockComponent(SolidDoughnutChartComponent)],
   });
 
   beforeEach(() => {
@@ -31,33 +40,44 @@ describe('ReasonsForLeavingChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('set data', () => {
-    test('should set data if available', () => {
-      const data1 = [] as DoughnutChartData[];
-      const data2 = [] as DoughnutChartData[];
+  describe('selectedTab', () => {
+    test('should reset chart', () => {
+      component.chart = {
+        resetChart: jest.fn(),
+      } as unknown as SolidDoughnutChartComponent;
 
-      component.data = [data1, data2];
+      component.selectedTab = ReasonForLeavingTab.TOP_REASONS;
 
-      expect(component.defaultData).toEqual(data1);
-      expect(component.comparedData).toEqual(data2);
-    });
-
-    test('should set data to undefined if not available', () => {
-      const data2 = [] as DoughnutChartData[];
-
-      component.data = [undefined, data2];
-
-      expect(component.defaultData).toBeUndefined();
-      expect(component.comparedData).toEqual(data2);
+      expect(component.chart.resetChart).toHaveBeenCalled();
     });
   });
 
-  describe('onSelectedLegendItem', () => {
-    test('should trigger selection action', () => {
-      const action: LegendSelectAction = { America: true };
-      component.onSelectedLegendItem(action);
+  describe('set side', () => {
+    test('should set config side', () => {
+      component.side = 'left';
 
-      expect(component.legendSelectAction).toEqual(action);
+      expect(component.config.side).toBe('left');
+    });
+  });
+
+  describe('set title', () => {
+    test('should set config title', () => {
+      component.title = 'title';
+
+      expect(component.config.title).toBe('title');
+    });
+  });
+
+  describe('set conductedInterviewsInfo', () => {
+    test('should set config and subTitle', () => {
+      component.conductedInterviewsInfo = {
+        conducted: 1,
+        percentage: 2,
+      };
+
+      expect(component.config.subTitle).toBe(
+        'conductedInfo, conducted: 1, percentage: 2'
+      );
     });
   });
 });

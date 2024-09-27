@@ -1,0 +1,460 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReportParserService parse Response with checknut and clearances when result is defined should have empty notes section 1`] = `Array []`;
+
+exports[`ReportParserService parse Response with checknut and clearances when result is defined should parse clearance classes data 1`] = `
+Array [
+  Object {
+    "items": Array [
+      Object {
+        "designation": "CN",
+        "unit": "µm",
+        "value": "300,0",
+      },
+      Object {
+        "designation": "C3",
+        "unit": "µm",
+        "value": "430,0",
+      },
+      Object {
+        "designation": "C4",
+        "unit": "µm",
+        "value": "640,0",
+      },
+    ],
+    "title": "Check values for clearance classes",
+  },
+]
+`;
+
+exports[`ReportParserService parse Response with checknut and clearances when result is defined should parse locknut data 1`] = `
+Array [
+  Object {
+    "abbreviation": undefined,
+    "designation": "Locknut",
+    "unit": undefined,
+    "value": "HM30/1000-H",
+  },
+  Object {
+    "abbreviation": "D_m",
+    "designation": "Outer diameter",
+    "unit": "mm",
+    "value": "1140,0",
+  },
+  Object {
+    "abbreviation": "d_2",
+    "designation": "Inner diameter",
+    "unit": "mm",
+    "value": "1000,0",
+  },
+  Object {
+    "abbreviation": "b_1",
+    "designation": "Width",
+    "unit": "mm",
+    "value": "100,0",
+  },
+  Object {
+    "abbreviation": "m",
+    "designation": "Groove width",
+    "unit": "mm",
+    "value": "60,0",
+  },
+  Object {
+    "abbreviation": "n",
+    "designation": "Groove depth",
+    "unit": "mm",
+    "value": "25,0",
+  },
+  Object {
+    "abbreviation": undefined,
+    "designation": "Thread",
+    "unit": undefined,
+    "value": "Tr1000x8",
+  },
+  Object {
+    "abbreviation": undefined,
+    "designation": "Lock washer",
+    "unit": undefined,
+    "value": "MS30/1000",
+  },
+]
+`;
+
+exports[`ReportParserService parse Response with checknut and clearances when result is defined should parse radial clearance data 1`] = `
+Array [
+  Object {
+    "items": Array [
+      Object {
+        "designation": "Min",
+        "unit": "µm",
+        "value": "410,0",
+      },
+      Object {
+        "designation": "Max",
+        "unit": "µm",
+        "value": "550,0",
+      },
+    ],
+    "title": "Radial clearance reduction by mounting",
+  },
+  Object {
+    "items": Array [
+      Object {
+        "designation": "Min",
+        "unit": "µm",
+        "value": "6300,0",
+      },
+      Object {
+        "designation": "Max",
+        "unit": "µm",
+        "value": "8500,0",
+      },
+    ],
+    "title": "Axial displacement",
+  },
+]
+`;
+
+exports[`ReportParserService parse Response with checknut and clearances when result is defined should parse sleeve connectors data 1`] = `
+Array [
+  Object {
+    "abbreviation": undefined,
+    "designation": "Sleeve connector",
+    "unit": undefined,
+    "value": "PUMP.SLEEVE-CONNECTOR-G1/8",
+  },
+  Object {
+    "abbreviation": undefined,
+    "designation": "Number of sleeve connectors",
+    "unit": undefined,
+    "value": "1",
+  },
+]
+`;
+
+exports[`ReportParserService parseResponse when result is defined should have empty errors 1`] = `Array []`;
+
+exports[`ReportParserService parseResponse when result is defined should have inputs 1`] = `
+Array [
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "Designation",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "2205-K-2RS-TVH-C3",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Design",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "Self-aligning ball bearing",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Series",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "22",
+      },
+      Object {
+        "abbreviation": "B",
+        "designation": "Width",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": "mm",
+        "value": "18,000",
+      },
+      Object {
+        "abbreviation": "D",
+        "designation": "Outside diameter",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": "mm",
+        "value": "52,000",
+      },
+      Object {
+        "abbreviation": "d",
+        "designation": "Inside diameter",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": "mm",
+        "value": "25,000",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Bore type",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "conical 1:12",
+      },
+    ],
+    "title": "Bearing data",
+    "titleID": "STRING_OUTP_BEARING_DATA",
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": "d_sft",
+        "designation": "Inner shaft diameter",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": "mm",
+        "value": "0,000",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Shaft material",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "steel",
+      },
+      Object {
+        "abbreviation": "E",
+        "designation": "Modulus of Elasticity",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": "N/mm²",
+        "value": "210000",
+      },
+      Object {
+        "abbreviation": "Nue",
+        "designation": "Poisson ratio",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "0,30",
+      },
+    ],
+    "title": "Shaft data",
+    "titleID": "STRING_OUTP_SHAFT_DATA",
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "Bearing seat",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "tapered shaft",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Measuring method",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "radial clearance reduction",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "Mounting method",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "hydraulically supported with hydraulic nut",
+      },
+    ],
+    "title": "Mounting",
+    "titleID": "STRING_OUTP_MOUNTING",
+  },
+]
+`;
+
+exports[`ReportParserService parseResponse when result is defined should have notes 1`] = `
+Array [
+  "The calculated values only apply for steel shafts that are either solid or have a bore diameter not bigger than the half outer diameter.",
+]
+`;
+
+exports[`ReportParserService parseResponse when result is defined should have nut data 1`] = `
+Array [
+  Object {
+    "abbreviation": undefined,
+    "designation": "Hydraulic nut type",
+    "unit": undefined,
+    "value": "not available",
+  },
+  Object {
+    "abbreviation": "A_k",
+    "designation": "Piston face",
+    "unit": "cm²",
+    "value": "0,000",
+  },
+]
+`;
+
+exports[`ReportParserService parseResponse when result is defined should have pumps with recommended and alternative boolean flag 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "field": "Pump for hydraulic nut",
+      "isRecommended": true,
+      "value": "PUMP1000-2,2",
+    },
+    Object {
+      "field": "Pump for hydraulic nut",
+      "isRecommended": false,
+      "value": "PUMP700-2L",
+    },
+    Object {
+      "field": "Pump for hydraulic nut",
+      "isRecommended": false,
+      "value": "PUMP1000-5L-AIR",
+    },
+  ],
+  "title": "Pump for hydraulic nut",
+}
+`;
+
+exports[`ReportParserService parseResponse when result is defined should have warnings 1`] = `
+Array [
+  "There is no hydraulic nut available for the selected bearing.",
+  "  · 2205-K-2RS-TVH-C3",
+]
+`;
+
+exports[`ReportParserService parseResponse when result is defined should parse mounting recommendations data 1`] = `
+Array [
+  "The measurement of radial clearance with a feeler gage is hardly possible for radial self-aligning ball bearings.",
+  "Radial self-aligning ball bearings with an inner diameter up to 75 mm are mounted with a special tool (LOCKNUT-DOUBLEHOOK).",
+  "The desired radial clearance results from the given torque or the torsion angle.",
+  "The detailed mounting procedure is described in the manual BA28.",
+  "some nested text",
+]
+`;
+
+exports[`ReportParserService parseResponse when result is defined should parse response end positions data 1`] = `
+Array [
+  Object {
+    "abbreviation": "dx_mnt",
+    "designation": "Displacement (start to end position)",
+    "unit": "mm",
+    "value": "0,190",
+  },
+  Object {
+    "abbreviation": "delta_sr",
+    "designation": "Radial clearance reduction",
+    "unit": "µm",
+    "value": "8,7",
+  },
+]
+`;
+
+exports[`ReportParserService when parsing input with all possible identifier types should parse inputs 1`] = `
+Array [
+  Object {
+    "hasNestedStructure": true,
+    "subItems": Array [
+      Object {
+        "hasNestedStructure": true,
+        "subItems": Array [
+          Object {
+            "designation": "apple",
+            "hasNestedStructure": false,
+            "unit": "kg",
+            "value": "delicious apple",
+          },
+          Object {
+            "designation": "bannana",
+            "hasNestedStructure": false,
+            "unit": "qt",
+            "value": "delicious bannana",
+          },
+          Object {
+            "designation": "tomato",
+            "hasNestedStructure": false,
+            "unit": undefined,
+            "value": "some cherry tomatoes",
+          },
+          Object {
+            "designation": "resultValues.designation",
+            "hasNestedStructure": false,
+            "unit": undefined,
+            "value": "designation",
+          },
+        ],
+        "title": undefined,
+        "titleID": undefined,
+      },
+    ],
+    "title": "inner Block",
+    "titleID": undefined,
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "reference rating life",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "nominal",
+      },
+    ],
+    "title": "title variable Block 1",
+    "titleID": undefined,
+  },
+  Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": "BPFFO",
+        "designation": "Overrolling frequency factor on outer ring",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "4.1181",
+      },
+      Object {
+        "abbreviation": "BPFFI",
+        "designation": "Overrolling frequency factor on inner ring",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "5.8819",
+      },
+      Object {
+        "abbreviation": "BSFF",
+        "designation": "Overrolling frequency factor on rolling element",
+        "hasNestedStructure": false,
+        "title": undefined,
+        "titleID": undefined,
+        "unit": undefined,
+        "value": "2.7465",
+      },
+    ],
+    "title": "Basic frequencies factor",
+    "titleID": "STRING_OUTP_BASIC_FREQUENCIES_FACTOR",
+  },
+]
+`;

@@ -234,6 +234,32 @@ describe('CalculationsTableComponent', () => {
 
       expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
     });
+
+    it('should select multiple nodes selected', () => {
+      const rowNodes: IRowNode[] = [
+        { id: '7' } as IRowNode as any,
+        { id: '8' } as IRowNode as any,
+      ];
+      component['gridApi'].getRowNode = jest
+        .fn()
+        .mockImplementation((index: string) =>
+          index === '7' ? rowNodes[0] : rowNodes[1]
+        );
+
+      component['gridApi'].setNodesSelected = jest.fn();
+      component.selectedNodeIds = ['7', '8'];
+
+      component['selectNodes']();
+
+      jest.advanceTimersByTime(10);
+      expect(component['gridApi'].getRowNode).toHaveBeenNthCalledWith(1, '7');
+      expect(component['gridApi'].getRowNode).toHaveBeenNthCalledWith(2, '8');
+      expect(component['gridApi'].setNodesSelected).toHaveBeenCalledWith({
+        nodes: rowNodes,
+        newValue: true,
+        source: 'api',
+      });
+    });
   });
 
   describe('columnChange', () => {

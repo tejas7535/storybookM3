@@ -22,6 +22,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { StatusCustomerInfoHeaderModule } from '../../app/shared/components/header/status-customer-info-header/status-customer-info-header.module';
@@ -71,6 +72,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     FPricingModule,
     SharedQuotationButtonComponent,
     OfferTypeSelectComponent,
+    TagComponent,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })

@@ -1,19 +1,14 @@
-<div class="flex h-full items-center overflow-hidden">
-  <div
-    *transloco="let t; read: 'shared.quotationStatusLabels'"
-    class="flex items-center overflow-hidden rounded-full px-3 py-1 text-caption uppercase"
-    [ngClass]="{
-      'text-info': status === quotationStatus.IN_APPROVAL,
-      'bg-quotation-status-blue': status === quotationStatus.IN_APPROVAL,
-      'text-quotation-status-green': status === quotationStatus.APPROVED,
-      'bg-quotation-status-green': status === quotationStatus.APPROVED,
-      'text-error': status === quotationStatus.REJECTED,
-      'bg-quotation-status-red': status === quotationStatus.REJECTED
-    }"
+<div
+  class="flex h-full items-center overflow-hidden"
+  *transloco="let t; read: 'shared.quotationStatusLabels'"
+>
+  <schaeffler-tag
+    [type]="tagType"
+    [value]="t(status)"
+    [styleClass]="'uppercase'"
+    size="small"
+    [withDot]="false"
   >
-    <span class="truncate text-[8px] font-bold">
-      {{ t(status) }}
-    </span>
     @if (statusVerified === false) {
       <mat-icon
         class="ml-1 !text-[12px] !h-3 !w-3"
@@ -21,5 +16,5 @@
         >hourglass_empty</mat-icon
       >
     }
-  </div>
+  </schaeffler-tag>
 </div>

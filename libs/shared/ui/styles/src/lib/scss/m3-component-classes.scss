@@ -1,0 +1,62 @@
+@use '@angular/material' as mat;
+
+@import './schaeffler-colors.scss';
+
+//overrides based on available variants https://material.angular.io/guide/theming#using-component-color-variants
+
+@mixin set-components-colors-variants($theme) {
+  .secondary-fab {
+    @include mat.fab-color($theme, $color-variant: secondary);
+  }
+
+  .tertriary-fab {
+    @include mat.fab-color($theme, $color-variant: tertiary);
+  }
+
+  .tertiary-button {
+    @include mat.button-color($theme, $color-variant: tertiary);
+  }
+
+  .tertiary-button {
+    @include mat.button-color($theme, $color-variant: tertiary);
+  }
+
+  .tonal-button {
+    --mdc-filled-button-container-color: var(--secondary-container-color);
+    --mdc-filled-button-label-text-color: var(--on-secondary-container-color);
+    --mat-filled-button-state-layer-color: var(--on-secondary-container-color);
+  }
+
+  .icon-button-primary {
+    @include mat.icon-color($theme, $color-variant: primary);
+    @include mat.icon-button-color($theme);
+  }
+
+  .secondary-checkbox {
+    @include mat.checkbox-color($theme, $color-variant: secondary);
+    @include mat.pseudo-checkbox-color($theme, $color-variant: secondary);
+  }
+
+  .error-checkbox {
+    @include mat.checkbox-color($theme, $color-variant: error);
+  }
+
+  // existing bug should match outline-variant instead of outline https://github.com/angular/components/issues/29494
+  --mat-divider-color: #{mat.get-theme-color($theme, outline-variant)};
+
+  //Datepicker
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: #{mat.get-theme-color(
+      $theme,
+      on-secondary-container
+    )};
+  --mat-datepicker-calendar-date-in-range-state-background-color: #{mat.get-theme-color(
+      $theme,
+      secondary-container
+    )};
+
+  .mat-calendar-body-today:not(.mat-calendar-body-selected):not(
+      .mat-calendar-body-comparison-identical
+    ) {
+    @apply text-primary;
+  }
+}

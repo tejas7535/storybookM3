@@ -1,0 +1,34 @@
+<mat-expansion-panel
+  [id]="id"
+  class="border-border w-full border !shadow-none mb-4"
+  [expanded]="expanded"
+>
+  <mat-expansion-panel-header class="h-[64px]">
+    <mat-panel-title>
+      <div class="flex flex-row">
+        <div class="my-auto">
+          <mat-icon
+            color="primary"
+            [svgIcon]="svgIcon"
+            [ngClass]="iconClassName"
+            >{{ icon }}</mat-icon
+          >
+        </div>
+        <div class="my-auto ml-2">
+          {{ title }}
+          @if (titleTooltip) {
+            <schaeffler-info-button
+              class="inline-flex align-bottom"
+              [inline]="true"
+              [tooltip]="titleTooltip"
+            ></schaeffler-info-button>
+          }
+        </div>
+      </div>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="full-w full-h !-mx-6 !-mb-4">
+    <ng-content></ng-content>
+  </div>
+</mat-expansion-panel>

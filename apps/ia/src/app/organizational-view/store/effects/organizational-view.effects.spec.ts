@@ -12,6 +12,7 @@ import { RouterStateUrl, selectRouterState } from '../../../core/store';
 import {
   filterSelected,
   loadFilterDimensionData,
+  timePeriodSelected,
 } from '../../../core/store/actions';
 import {
   getCurrentDimensionValue,
@@ -28,6 +29,7 @@ import {
   MonthlyFluctuation,
   MonthlyFluctuationOverTime,
   SelectedFilter,
+  TimePeriod,
 } from '../../../shared/models';
 import { SharedService } from '../../../shared/shared.service';
 import { ChartType, DimensionFluctuationData } from '../../models';
@@ -109,6 +111,56 @@ describe('Organizational View Effects', () => {
   });
 
   describe('filterChange$', () => {
+    test(
+      'should return loadOrganizationalViewData when filter selected',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.DrillDownPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+
+        action = filterSelected({
+          filter: {
+            name: 'orgUnit',
+            idValue: {
+              id: 'best',
+              value: 'best',
+            },
+          },
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: loadOrganizationalViewData(),
+        });
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return loadOrganizationalViewData when time period selected',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.DrillDownPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+
+        action = timePeriodSelected({
+          timePeriod: TimePeriod.LAST_12_MONTHS,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: loadOrganizationalViewData(),
+        });
+
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
+
     test(
       'should return loadOrganizationalViewData when url /organizational-view',
       marbles((m) => {

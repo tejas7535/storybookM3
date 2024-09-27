@@ -11,6 +11,7 @@ import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kp
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { UndefinedToDashPipe } from '@gq/shared/pipes/undefined-to-dash/undefined-to-dash.pipe';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
@@ -57,6 +58,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     MatTooltipModule,
     MatButtonModule,
     DialogHeaderModule,
+    UndefinedToDashPipe,
   ],
   providers: [
     {

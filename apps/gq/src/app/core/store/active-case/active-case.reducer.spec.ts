@@ -1,3 +1,4 @@
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   PriceSource,
   Quotation,
@@ -536,11 +537,11 @@ describe('Active Case Feature Reducer', () => {
     test('should add new simulated quotation', () => {
       const quotationDetail: QuotationDetail = {
         ...QUOTATION_DETAIL_MOCK,
-        gpmRfq: null,
         rfqData: null,
       };
       const action: Action = ActiveCaseActions.addSimulatedQuotation({
         gqId: 1234,
+        simulatedField: ColumnFields.PRICE,
         quotationDetails: [quotationDetail],
       });
       const state = activeCaseFeature.reducer(
@@ -560,7 +561,15 @@ describe('Active Case Feature Reducer', () => {
         ...SIMULATED_QUOTATION_MOCK,
         previousStatusBar: {
           ...SIMULATED_QUOTATION_MOCK.previousStatusBar,
-          gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+          gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+          gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi,
+          priceDiff: SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff,
+        },
+        simulatedStatusBar: {
+          ...SIMULATED_QUOTATION_MOCK.simulatedStatusBar,
+          gpm: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpm,
+          gpi: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpi,
+          priceDiff: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.priceDiff,
         },
         quotationDetails: [quotationDetail],
       });
@@ -569,6 +578,7 @@ describe('Active Case Feature Reducer', () => {
     test('should add new simulated quotation when RFQ-Data is present', () => {
       const action: Action = ActiveCaseActions.addSimulatedQuotation({
         gqId: 1234,
+        simulatedField: ColumnFields.PRICE,
         quotationDetails: [{ ...QUOTATION_DETAIL_MOCK }],
       });
       const state = activeCaseFeature.reducer(

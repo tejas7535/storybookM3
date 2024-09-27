@@ -1,7 +1,8 @@
 <div
   class="flex flex-row border p-3 rounded gap-2 my-3"
   [ngClass]="{
-    'bg-error border-error text-error': message.type === 'error',
+    'bg-error-container border-error text-on-error-container':
+      message.type === 'error',
     'bg-warning border-warning text-warning': message.type === 'warning',
     'bg-info border-info text-info': message.type === 'info'
   }"

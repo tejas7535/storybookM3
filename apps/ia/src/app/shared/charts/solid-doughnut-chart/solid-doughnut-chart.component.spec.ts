@@ -1,9 +1,14 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ECharts } from 'echarts';
+import {
+  ECharts,
+  EChartsOption,
+  LegendComponentOption,
+  SeriesOption,
+} from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedModule } from '../../shared.module';
-import { LegendSelectAction } from '../models';
+import { LegendSelectAction, SolidDoughnutChartConfig } from '../models';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartComponent } from './solid-doughnut-chart.component';
 import * as doughnutConfig from './solid-doughnut-chart.config';
@@ -42,9 +47,10 @@ describe('SolidDoughnutChartComponent', () => {
 
   describe('initialConfig', () => {
     test('should set base options', () => {
-      const config = {
+      const config: SolidDoughnutChartConfig = {
         title: '2021',
         subTitle: 'Top 5 Reasons why people left',
+        side: 'left',
       };
 
       component.setCurrentData = jest.fn();
@@ -53,8 +59,7 @@ describe('SolidDoughnutChartComponent', () => {
 
       expect(
         doughnutConfig.createSolidDoughnutChartSeries
-      ).toHaveBeenCalledWith(config.title);
-      expect(doughnutConfig.createMediaQueries).toHaveBeenCalled();
+      ).toHaveBeenCalledWith('left', config.subTitle);
       expect(
         doughnutConfig.createSolidDoughnutChartBaseOptions
       ).toHaveBeenCalledWith(config);
@@ -69,61 +74,235 @@ describe('SolidDoughnutChartComponent', () => {
         { value: 34, name: 'Second' },
         { value: 12, name: 'Third' },
       ];
+      component.options = { series: [{ data: [] }] } as EChartsOption;
 
-      component.resetSelection = jest.fn();
       component.data = data;
 
-      expect((component.mergeOptions.series as any[])[0].data).toHaveLength(3);
-      expect((component.mergeOptions.series as any[])[0].data).toContain(
-        data[0]
-      );
-      expect((component.mergeOptions.series as any[])[0].data).toContain(
-        data[1]
-      );
-      expect((component.mergeOptions.series as any[])[0].data).toContain(
-        data[2]
-      );
-      expect(component.resetSelection).toHaveBeenCalledTimes(1);
+      expect(
+        (component.mergeOptions.series as SeriesOption[])[0].data
+      ).toHaveLength(3);
+      expect(
+        (component.mergeOptions.series as SeriesOption[])[0].data
+      ).toContain(data[0]);
+      expect(
+        (component.mergeOptions.series as SeriesOption[])[0].data
+      ).toContain(data[1]);
+      expect(
+        (component.mergeOptions.series as SeriesOption[])[0].data
+      ).toContain(data[2]);
     });
+  });
 
-    test('should update legend in merge options', () => {
-      const data = [
+  describe('setSelectedReasons', () => {
+    test('should set active and inactive reaons', () => {
+      component._data = [
         { value: 23, name: 'First' },
         { value: 34, name: 'Second' },
         { value: 12, name: 'Third' },
       ];
+      component.children = [
+        {
+          reason: 'First',
+          children: [
+            { value: 23, name: 'First' },
+            { value: 34, name: 'Second' },
+            { value: 12, name: 'Third' },
+          ],
+        },
+      ];
+      component.mergeOptions = {
+        series: [{ data: component.data }, { data: [] }],
+      };
 
-      component.resetSelection = jest.fn();
-      component.data = data;
+      component.setSelectedReasons('First');
 
-      expect(component.mergeOptions.legend).toBeDefined();
-      expect(component.resetSelection).toHaveBeenCalledTimes(1);
+      expect(component._data[0].itemStyle.opacity).toBe(
+        component.OPACITY_ACTIVE
+      );
+      expect(component._data[1].itemStyle.opacity).toBe(
+        component.OPACITY_INACTIVE
+      );
+      expect(component._data[2].itemStyle.opacity).toBe(
+        component.OPACITY_INACTIVE
+      );
     });
   });
 
-  describe('setTitlePosition', () => {
-    test('should set title centered', () => {
-      component.mergeOptions = { title: { top: 0, left: 2 } };
-      component.setTitlePosition(true);
+  describe('removeChildrenOnToggle', () => {
+    test('should remove children when clicked on the same reason', () => {
+      component._data = [
+        { value: 23, name: 'First' },
+        { value: 34, name: 'Second' },
+        { value: 12, name: 'Third' },
+      ];
+      const options = {
+        series: [
+          { data: component.data },
+          { id: 'detailedReaons', data: component.children },
+        ],
+      };
+      component.options = options;
+      component.mergeOptions = options;
+      component.selected = 'First';
 
-      expect(
-        (component.mergeOptions.title as { top: string | number }).top
-      ).toEqual('middle');
-      expect(
-        (component.mergeOptions.title as { left: string | number }).left
-      ).toEqual('center');
+      component.removeChildrenOnToggle('First');
+
+      const result: DoughnutChartData[] = (
+        component.mergeOptions.series as SeriesOption[]
+      )[1].data as DoughnutChartData[];
+
+      expect(result).toHaveLength(1);
+      expect(result[0]).toEqual({
+        value: 0,
+        name: '',
+        itemStyle: { color: 'transparent' },
+      });
+    });
+  });
+
+  describe('manageOnClickEvent', () => {
+    test('should set selected data point', () => {
+      component._data = [
+        { value: 23, name: 'First' },
+        { value: 34, name: 'Second' },
+        { value: 12, name: 'Third' },
+      ];
+      component.children = [
+        {
+          reason: 'First',
+          children: [
+            { value: 23, name: 'First' },
+            { value: 34, name: 'Second' },
+            { value: 12, name: 'Third' },
+          ],
+        },
+      ];
+      component.mergeOptions = {
+        series: [{ data: component.data }, { data: [] }],
+      };
+      const event = { data: { name: 'First' } };
+      component.manageSelectedDataPoint = jest.fn();
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as unknown as ECharts;
+
+      component.manageOnClickEvent(event);
+
+      expect(component.manageSelectedDataPoint).toHaveBeenCalledWith('First');
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith(
+        component.mergeOptions
+      );
     });
 
-    test('should set title top and left', () => {
-      component.mergeOptions = { title: { top: 0, left: 2 } };
-      component.setTitlePosition(false);
+    test('should unset the legend when 2nd click on the same data', () => {
+      component._data = [
+        { value: 23, name: 'First' },
+        { value: 34, name: 'Second' },
+        { value: 12, name: 'Third' },
+      ];
+      component.children = [
+        {
+          reason: 'First',
+          children: [
+            { value: 23, name: 'First' },
+            { value: 34, name: 'Second' },
+            { value: 12, name: 'Third' },
+          ],
+        },
+      ];
+      component.mergeOptions = {
+        series: [{ data: component.data }, { data: [] }],
+      };
+      const event = { data: { name: 'First' } };
+      component.manageSelectedDataPoint = jest.fn();
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as unknown as ECharts;
+      component.selected = 'First';
 
+      component.manageOnClickEvent(event);
+
+      expect(component.manageSelectedDataPoint).toHaveBeenCalledWith('First');
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith(
+        component.mergeOptions
+      );
       expect(
-        (component.mergeOptions.title as { top: string | number }).top
-      ).toEqual('top');
-      expect(
-        (component.mergeOptions.title as { left: string | number }).left
-      ).toEqual('auto');
+        (component.mergeOptions.legend as LegendComponentOption).data
+      ).toBeUndefined();
+    });
+
+    test('should not set selected data point if clicked item is not a reason', () => {
+      component._data = [
+        { value: 23, name: 'First' },
+        { value: 34, name: 'Second' },
+        { value: 12, name: 'Third' },
+      ];
+      const event = { data: { name: 'Fourth' } };
+      component.manageSelectedDataPoint = jest.fn();
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as unknown as ECharts;
+
+      component.manageOnClickEvent(event);
+
+      expect(component.manageSelectedDataPoint).not.toHaveBeenCalled();
+      expect(component.echartsInstance.setOption).not.toHaveBeenCalled();
+    });
+
+    test('should not set selected data point if clicked item is not a data', () => {
+      component._data = [
+        { value: 23, name: 'First' },
+        { value: 34, name: 'Second' },
+        { value: 12, name: 'Third' },
+      ];
+      const event = {};
+      component.manageSelectedDataPoint = jest.fn();
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as unknown as ECharts;
+
+      component.manageOnClickEvent(event);
+
+      expect(component.manageSelectedDataPoint).not.toHaveBeenCalled();
+      expect(component.echartsInstance.setOption).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('manageSelectedDataPoint', () => {
+    test('should manage selected data point when previous selection equal', () => {
+      component.setSelectedReasons = jest.fn();
+      component.removeChildrenOnToggle = jest.fn();
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as unknown as ECharts;
+      component.selected = 'First';
+
+      component.manageSelectedDataPoint('First');
+
+      expect(component.setSelectedReasons).toHaveBeenCalledWith('First');
+      expect(component.removeChildrenOnToggle).toHaveBeenCalledWith('First');
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith(
+        component.mergeOptions
+      );
+      expect(component.selected).toBeUndefined();
+    });
+
+    test('should manage selected data point when previous selection different', () => {
+      component.setSelectedReasons = jest.fn();
+      component.removeChildrenOnToggle = jest.fn();
+      component.echartsInstance = {
+        setOption: jest.fn(),
+      } as unknown as ECharts;
+      component.selected = 'Second';
+
+      component.manageSelectedDataPoint('First');
+
+      expect(component.setSelectedReasons).toHaveBeenCalledWith('First');
+      expect(component.removeChildrenOnToggle).toHaveBeenCalledWith('First');
+      expect(component.echartsInstance.setOption).toHaveBeenCalledWith(
+        component.mergeOptions
+      );
+      expect(component.selected).toEqual('First');
     });
   });
 
@@ -184,6 +363,36 @@ describe('SolidDoughnutChartComponent', () => {
       expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
         type: 'legendAllSelect',
       });
+    });
+  });
+
+  describe('resetChart', () => {
+    test('should reset chart', () => {
+      component.selected = 'A';
+      component.mergeOptions = {
+        series: [{ data: [{ name: 'A' }, { name: 'B' }] }],
+      };
+      component.manageOnClickEvent = jest.fn();
+      component.echartsInstance = {
+        dispatchAction: jest.fn(),
+      } as unknown as ECharts;
+
+      component.resetChart();
+
+      expect(component.manageOnClickEvent).toHaveBeenCalledWith({
+        data: { name: 'A' },
+      });
+      expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
+        type: 'unselect',
+        seriesIndex: 0,
+        dataIndex: 0,
+      });
+      expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
+        type: 'unselect',
+        seriesIndex: 0,
+        dataIndex: 1,
+      });
+      expect(component.echartsInstance.dispatchAction).toHaveBeenCalledTimes(2);
     });
   });
 });

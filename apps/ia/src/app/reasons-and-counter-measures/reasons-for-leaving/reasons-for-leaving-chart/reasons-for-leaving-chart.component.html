@@ -1,37 +1,6 @@
-<div class="h-full">
-  <div class="grid" [ngClass]="{ 'grid-cols-2': comparedData !== undefined }">
-    <div class="flex flex-col">
-      <h5 class="text-high-emphasis line-clamp-2 pl-1 h-[4rem]">
-        {{ orgUnit }}
-      </h5>
-      <div class="grow">
-        <ia-solid-doughnut-chart
-          [initialConfig]="config"
-          [data]="defaultData"
-          [isLoading]="isLoading"
-          [titleInside]="comparedData === undefined"
-          [legendSelectAction]="legendSelectAction"
-        ></ia-solid-doughnut-chart>
-      </div>
-    </div>
-    @if (comparedData) {
-      <div class="flex flex-col">
-        <h5 class="text-high-emphasis line-clamp-2 pl-1 h-[4rem]">
-          {{ comparedOrgUnit }}
-        </h5>
-        <div class="grow">
-          <ia-solid-doughnut-chart
-            [initialConfig]="comparedConfig"
-            [data]="comparedData"
-            [isLoading]="isLoading"
-            [legendSelectAction]="legendSelectAction"
-          ></ia-solid-doughnut-chart>
-        </div>
-      </div>
-    }
-  </div>
-  <ia-external-legend
-    [legend]="combinedLegend"
-    (selectedLegendItem)="onSelectedLegendItem($event)"
-  ></ia-external-legend>
-</div>
+<ia-solid-doughnut-chart
+  [initialConfig]="config"
+  [data]="data"
+  [children]="children"
+  [isLoading]="isLoading"
+></ia-solid-doughnut-chart>

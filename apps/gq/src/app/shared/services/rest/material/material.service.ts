@@ -1,13 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { mergeMap, Observable, of } from 'rxjs';
+import { map, mergeMap, Observable, of } from 'rxjs';
 
 import { MaterialStock } from '@gq/core/store/reducers/models';
+import { AutocompleteSearch } from '@gq/shared/models/search';
+import { IdValue } from '@gq/shared/models/search/id-value.model';
+import { mapMaterialAutocompleteToIdValue } from '@gq/shared/utils/misc.utils';
 
 import { ApiVersion } from '../../../models';
 import { PlantMaterialDetail } from '../../../models/quotation-detail';
 import {
+  MaterialAutoCompleteResponse,
   MaterialValidationRequest,
   MaterialValidationResponse,
 } from './models';
@@ -23,6 +27,12 @@ export class MaterialService {
   private readonly CURRENCY_PARAM_KEY = 'currency';
   private readonly PRICE_UNIT_PARAM_KEY = 'priceUnit';
   private readonly MATERIAL_NUMBER_PARAM_KEY = 'material_number_15';
+
+  private readonly PATH_AUTOCOMPLETE = 'materials/auto-complete';
+  private readonly PARAM_SEARCH_FOR = 'search_for';
+  private readonly PARAM_LIMIT = 'limit';
+  private readonly PARAM_CUSTOMER_ID = 'customer_id';
+  private readonly PARAM_SALES_ORG = 'sales_org';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -80,5 +90,41 @@ export class MaterialService {
       `${ApiVersion.V1}/materials/${materialNumber15}/material-cost-details`,
       { params }
     );
+  }
+
+  autocompleteMaterial(
+    autocompleteSearch: AutocompleteSearch
+  ): Observable<IdValue[]> {
+    let httpParams = new HttpParams()
+      .set(this.PARAM_SEARCH_FOR, autocompleteSearch.searchFor)
+      .append(this.PARAM_LIMIT, autocompleteSearch?.limit || 100);
+
+    if (
+      autocompleteSearch?.customerIdentifier?.customerId &&
+      autocompleteSearch?.customerIdentifier?.salesOrg
+    ) {
+      httpParams = httpParams
+        .append(
+          this.PARAM_CUSTOMER_ID,
+          autocompleteSearch.customerIdentifier.customerId
+        )
+        .append(
+          this.PARAM_SALES_ORG,
+          autocompleteSearch.customerIdentifier.salesOrg
+        );
+    }
+
+    return this.http
+      .get<MaterialAutoCompleteResponse>(
+        `${ApiVersion.V1}/${this.PATH_AUTOCOMPLETE}/${autocompleteSearch.filter}`,
+        { params: httpParams }
+      )
+      .pipe(
+        map((response: MaterialAutoCompleteResponse) =>
+          response.results.map((value) =>
+            mapMaterialAutocompleteToIdValue(value, autocompleteSearch.filter)
+          )
+        )
+      );
   }
 }

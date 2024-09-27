@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { QuotationStatus } from '@gq/shared/models';
+import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
@@ -8,6 +9,8 @@ import { ICellRendererParams } from 'ag-grid-community';
   templateUrl: './quotation-status-cell.component.html',
 })
 export class QuotationStatusCellComponent {
+  protected tagType: TagType;
+
   status: QuotationStatus;
   statusVerified: boolean;
 
@@ -16,5 +19,6 @@ export class QuotationStatusCellComponent {
   agInit(params: ICellRendererParams): void {
     this.status = params.value;
     this.statusVerified = params.data.statusVerified;
+    this.tagType = getTagTypeByStatus(this.status);
   }
 }

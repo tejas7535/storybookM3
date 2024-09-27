@@ -1,4 +1,8 @@
 {
+  "shared": {
+    "yes": "Yes",
+    "no": "No"
+  },
   "banner": {
     "dismiss": "Dismiss",
     "nextMessage": "Next Message"

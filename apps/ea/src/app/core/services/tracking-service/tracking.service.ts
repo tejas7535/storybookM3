@@ -12,6 +12,7 @@ import {
   GoogleAnalyticsService,
   LoadCaseEvent,
 } from '../google-analytics';
+import { MobileFirebaseAnalyticsService } from '../mobile-frebase-analytics/mobile-firebase-analytics.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class TrackingService {
 
   constructor(
     private readonly gaService: GoogleAnalyticsService,
-    private readonly aiService: ApplicationInsightsService
+    private readonly aiService: ApplicationInsightsService,
+    private readonly firebaseService: MobileFirebaseAnalyticsService
   ) {}
 
   public logDownloadReport(): void {
@@ -83,6 +85,7 @@ export class TrackingService {
   private logEvent<T extends BasicEvent>(event: T): void {
     this.aiService.logEvent(event.action, event);
     this.gaService.logEvent(event);
+    this.firebaseService.logEvent(event);
 
     return;
   }

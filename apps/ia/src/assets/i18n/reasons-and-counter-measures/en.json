@@ -1,19 +1,20 @@
 {
-  "topFiveReasons": {
-    "title": "Top 5 reasons why people left",
+  "reasonsForLeaving": {
+    "title": "Digital Exit Interviews",
+    "tabs": {
+      "overallReasons": "Overall Reasons",
+      "topReasons": "Top Reasons"
+    },
     "chart": {
       "others": "Others",
       "noData": "No data for selected filters",
-      "tooltip": {
-        "leavers": "leavers"
-      }
+      "conductedInfo": "{conducted} of interviews\r\nconducted\r\n\r\n{percentage}% of interviews\r\nconducted"
     },
     "table": {
       "position": "#",
       "actionReason": "Reason",
       "percentage": "%",
       "leavers": "Leavers"
-    },
-    "resetCompareMode": "Reset Compare Mode"
+    }
   }
 }

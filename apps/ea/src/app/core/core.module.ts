@@ -24,7 +24,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { HttpBearinxInterceptor } from './interceptor/http-bearinx.interceptor';
 import { HttpCatalogWebApiInterceptor } from './interceptor/http-catalog-web-api.interceptor';
 import { HttpCO2UpstreamInterceptor } from './interceptor/http-co2-upstream.interceptor';
+import { getAssetsPath } from './services/assets-path-resolver/assets-path-resolver.helper';
 import { StoreModule } from './store/store.module';
+
+const assetsPath = getAssetsPath();
 
 @NgModule({
   exports: [StoreModule, SharedTranslocoModule],
@@ -39,7 +42,7 @@ import { StoreModule } from './store/store.module';
       true,
       !environment.localDev,
       undefined,
-      `${environment.assetsPath}/i18n/`
+      `${assetsPath}/i18n/`
     ),
   ],
   providers: [
@@ -95,7 +98,7 @@ export class CoreModule {
     };
     for (const [name, url] of Object.entries(iconSet)) {
       const setUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        `${environment.assetsPath}/icons/${url}`
+        `${assetsPath}/icons/${url}`
       );
       this.matIconRegistry.addSvgIcon(name, setUrl);
     }

@@ -30,23 +30,23 @@ const defaultTemplate = `
   <div class="bg-background-dark p-4">
     <h5>Documentation of responsive breakpoints</h5>
     <div class="my-4">
-      <div class="w-[1920px] p-2 mat-elevation-z2 bg-surface">
+      <div class="w-[1920px] p-2 mat-elevation-z2 bg-surface-legacy">
         <p>Default</p>
       </div>
-      <div class="ml-[600px] w-[1320px] m-1 p-2 mat-elevation-z2 bg-surface">
+      <div class="ml-[600px] w-[1320px] m-1 p-2 mat-elevation-z2 bg-surface-legacy">
         SM
       </div>
-      <div class="ml-[904px] w-[1016px] p-2 mat-elevation-z2 bg-surface">
+      <div class="ml-[904px] w-[1016px] p-2 mat-elevation-z2 bg-surface-legacy">
         MD
       </div>
-      <div class="ml-[1239px] w-[681px] m-1 p-2 mat-elevation-z2 bg-surface">
+      <div class="ml-[1239px] w-[681px] m-1 p-2 mat-elevation-z2 bg-surface-legacy">
         LG
       </div>
-      <div class="ml-[1439px] w-[481px] p-2 mat-elevation-z2 bg-surface">
+      <div class="ml-[1439px] w-[481px] p-2 mat-elevation-z2 bg-surface-legacy">
         XL
       </div>
     </div>
-    <div class="flex flex-row h-[250px] w-[1920px] bg-surface  text-center">
+    <div class="flex flex-row h-[250px] w-[1920px] bg-surface-legacy  text-center">
       <div class="w-[600px] mat-elevation-z2 h-full p-4">
       <p class="text-center">0-600px<p>
       Mobile<br>

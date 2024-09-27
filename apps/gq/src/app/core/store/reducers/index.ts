@@ -11,14 +11,12 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
-import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
 import * as fromMaterialCostDetails from './material-cost-details/material-cost-details.reducer';
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromMaterialStock from './material-stock/material-stock.reducer';
 import * as fromPlantMaterialDetails from './plant-material-details/plant-material-details.reducer';
 import * as fromSapPriceDetails from './sap-price-details/sap-price-details.reducer';
-import * as fromTransactions from './transactions/transactions.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -29,8 +27,6 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   case: fromCase.CreateCaseState;
-  transactions: fromTransactions.TransactionsState;
-  extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialComparableCosts: fromMaterialComparableCosts.MaterialComparableCostsState;
   materialSalesOrg: fromMaterialSalesOrg.MaterialSalesOrgsState;
   sapPriceDetails: fromSapPriceDetails.SapPriceDetailsState;
@@ -42,9 +38,6 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   case: fromCase.createCaseReducer,
-  transactions: fromTransactions.transactionsReducer,
-  extendedComparableLinkedTransactions:
-    fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
   materialComparableCosts:
     fromMaterialComparableCosts.materialComparableCostsReducer,
   materialSalesOrg: fromMaterialSalesOrg.materialSalesOrgReducer,
@@ -66,12 +59,6 @@ export const getRouterState =
 
 export const getCaseState =
   createFeatureSelector<fromCase.CreateCaseState>('case');
-export const getTransactionsState =
-  createFeatureSelector<fromTransactions.TransactionsState>('transactions');
-export const getExtendedComparableLinkedTransactionsState =
-  createFeatureSelector<fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState>(
-    'extendedComparableLinkedTransactions'
-  );
 
 export const getMaterialComparableCostsState =
   createFeatureSelector<fromMaterialComparableCosts.MaterialComparableCostsState>(

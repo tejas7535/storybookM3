@@ -58,7 +58,7 @@ export class ManualPriceComponent {
     if (this.quotationDetail.priceSource === PriceSource.MANUAL) {
       this.price = this.quotationDetail.price;
       this.gpm = this.quotationDetail.gpm;
-      this.gpmRfq = this.quotationDetail.gpmRfq;
+      this.gpmRfq = this.quotationDetail.rfqData?.gpm;
       this.gpi = this.quotationDetail.gpi;
     } else {
       this.price = undefined;

@@ -4,4 +4,5 @@ export enum CasesCriteriaSelection {
   CUSTOMER_ID = 'customerId',
   CUSTOMER_NAME = 'customerName',
   GQ_CREATED_BY = 'gqCreatedByUser',
+  CASE_NAME = 'caseName',
 }

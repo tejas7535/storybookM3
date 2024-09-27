@@ -1,6 +1,7 @@
-import { RfqData } from '@gq/shared/models';
+import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data-delivery-unit.enum';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
 import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
+import { RfqData } from '@gq/shared/models/rfq-data.interface';
 
 export const RFQ_DATA_MOCK: RfqData = {
   sapId: '123',
@@ -15,4 +16,7 @@ export const RFQ_DATA_MOCK: RfqData = {
   type: RfqType.TYPE_2,
   createdBy: 'Me:-)',
   createdOn: '2023-12-12',
+  deliveryTime: 5,
+  deliveryUnit: RfqDataDeliveryUnit.WEEKS,
+  gpm: 10.21,
 };

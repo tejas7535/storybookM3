@@ -4,6 +4,9 @@
 @use './theme-overrides' as overrides;
 
 @import './schaeffler-colors.scss';
+@import './m3-role-colors.scss';
+@import './m3-theme-definition.scss';
+@import './m3-fonts-definitions.scss';
 // Plus imports for other components in your app.
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
@@ -39,6 +42,12 @@ $custom-typography: mat.m2-define-legacy-typography-config(
 // @include mat.all-legacy-component-typographies($custom-typography);
 // @include mat.legacy-core();
 // @include mat.all-legacy-component-themes($schaeffler-theme);
+
+:root {
+  //define action colors and fonts that could be instanly used in shared components based on the m3 theme
+  @include set-theme-colors($schaeffler-m3-theme-light);
+  @include set-theme-fonts-variables($schaeffler-m3-theme-light);
+}
 
 @include mat.all-component-themes($schaeffler-theme);
 $prefix: '' !default;

@@ -220,6 +220,7 @@
     "operatingTemperature": "Nhiệt độ hoạt động",
     "environmentTemperature": "Nhiệt độ xung quanh",
     "environmentalImpactOnGreaseDuration": "Điều kiện vận hành",
+    "application": "trường hợp sử dụng",
     "low": "thấp",
     "moderate": "vừa",
     "high": "cao",
@@ -253,7 +254,26 @@
       "otherInfluences": "Yếu tố ảnh hưởng của tải hơi ẩm, rung và sốc lên tuổi thọ hoạt động của mỡ.",
       "shiftFrequency": "Số dao động mỗi phút (toàn chu kỳ, tiến và lùi)",
       "shiftAngle": "Góc giữa điểm xoay cho chuyển động dao động (xem Câu hỏi thường gặp)"
-    }
+    },
+    "applications": {
+      "All": "Ứng dụng không xác định",
+      "BallScrewDrive": "Truyền động vít bi",
+      "CleanRoomApplications": "Ứng dụng phòng sạch",
+      "ConveyorBelts": "Băng tải",
+      "SmallElectricMotors": "Động cơ điện nhỏ",
+      "LargeElectricMotors": "Động cơ điện lớn",
+      "HighSpeedElectricMotors": "Động cơ điện tốc độ cao",
+      "Fans": "Quạt",
+      "GreasedGears": "Bánh răng bôi trơn",
+      "JawCrushers": "Máy nghiền hàm",
+      "Pumps": "Máy bơm",
+      "VibratingScreens": "Màn hình rung",
+      "RailWheelsetBearings": "Vòng bi trục bánh xe đường sắt",
+      "WindTurbineMainShaft": "Tua bin gió (Trục chính)"
+    },
+    "exclusivityDisclaimer": "Độc quyền cho người dùng Medias Plus",
+    "signupPrompt": "Đăng ký ngay",
+    "signupUrl": "https://medias.schaeffler.vn/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -345,7 +365,11 @@
     "preferredGreaseHintAlternative": "Sản phẩm thay thế",
     "preferredGreaseHintAlternativeTooltip": "Đây là sản phẩm thay thế từ danh mục sản phẩm của Schaeffler dựa trên thông tin đầu vào từ bước 2.",
     "poweredBy": "powered by",
-    "pdfDownload": "Tải xuống bản PDF"
+    "pdfDownload": "Tải xuống bản PDF",
+    "recommendedChip": "Được đề xuất",
+    "resultsWithRecommendation": "Kết quả được sắp xếp theo đề xuất và khoảng thời gian bôi trơn lại",
+    "noRecommendation": "Các thông số được cung cấp là không bình thường cho ứng dụng đã cho. Xin vui lòng liên hệ với chúng tôi.",
+    "contact": "Liên hệ Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -366,5 +390,24 @@
     "content": "Rất tiếc, đã xảy ra lỗi. Xin hãy thử lại sau.",
     "confirm": "Xác nhận",
     "retry": "Thử lại"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Ứng Dụng Medias Plus Grease",
+    "close": "Đóng",
+    "modalHeading": "Khuyến Nghị Ứng Dụng Grease",
+    "modalText": "Xin lưu ý rằng tính năng này chỉ khả dụng cho người dùng đã đăng ký Medias Plus. Đăng ký ngay miễn phí để truy cập khuyến nghị dầu mỡ.",
+    "registrationCta": "Đăng Ký Miễn Phí",
+    "loginQuestion": "Đã đăng ký chưa?",
+    "loginText": "Đăng Nhập",
+    "mediasComparison": {
+      "allfeatures": "Tất cả tính năng trên medias",
+      "linearconfig": "Trình Cấu Hình Tuyến Tính",
+      "cadfileslinear": "Tải xuống tệp CAD cho các cấu hình tuyến tính",
+      "linearimport": "Lưu và nhập cấu hình tuyến tính",
+      "comparison": "So sánh sản phẩm",
+      "campus": "Khuôn Viên Đào Tạo Schaeffler",
+      "wishlists": "Tạo và lưu danh sách mong muốn",
+      "cartrequest": "Gửi yêu cầu bằng cách sử dụng chức năng giỏ hàng"
+    }
   }
 }

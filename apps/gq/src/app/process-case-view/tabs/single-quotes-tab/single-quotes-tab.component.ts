@@ -47,6 +47,7 @@ export class SingleQuotesTabComponent implements OnInit {
       activeCaseFeature.selectUpdateLoading
     );
     this.gridStateService.init('process_case');
+    this.gridStateService.setActiveView(this.gridStateService.DEFAULT_VIEW_ID);
 
     this.customViews$ = this.gridStateService.views.asObservable().pipe(
       map((views: ViewToggle[]) => {

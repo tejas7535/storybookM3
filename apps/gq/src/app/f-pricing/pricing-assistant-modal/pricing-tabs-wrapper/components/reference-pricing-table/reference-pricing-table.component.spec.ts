@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { ComparableMaterialsRowData } from '@gq/core/store/transactions/models/f-pricing-comparable-materials.interface';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';

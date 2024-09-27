@@ -14,6 +14,8 @@ export const MATERIAL_DETAILS_MOCK: MaterialDetails = {
   materialNumber13: '205538452000011',
   materialNumber15: '205538452000011',
   materialStatus: 'F',
+  brandKey: '01',
+  brandName: 'INA',
   materialType: 'ERZ',
   outerDiameter: '30',
   productHierarchy: 'Z',

@@ -1,0 +1,60 @@
+<ng-container
+  *transloco="let t; read: 'lossOfSkill.pmgm.table.tooltip.performance'"
+>
+  @if (rating === PERFORMANCE_RATING.BELOW_EXPECTATIONS) {
+    <div
+      class="flex gap-1 w-full h-full"
+      matTooltipPosition="after"
+      [matTooltip]="t('belowExpectations')"
+    >
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-low-emphasis border-border border-2"
+      ></div>
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-high-emphasis-dark-bg border-border border-2"
+      ></div>
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-high-emphasis-dark-bg border-border border-2"
+      ></div>
+    </div>
+  } @else if (rating === PERFORMANCE_RATING.MEETS_EXPECTATIONS) {
+    <div
+      class="flex gap-1 w-full h-full"
+      matTooltipPosition="after"
+      [matTooltip]="t('meetsExpectations')"
+    >
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-low-emphasis border-border border-2"
+      ></div>
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-low-emphasis border-border border-2"
+      ></div>
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-high-emphasis-dark-bg border-border border-2"
+      ></div>
+    </div>
+  } @else if (rating === PERFORMANCE_RATING.EXCEEDS_EXPECTATIONS) {
+    <div
+      class="flex gap-1 w-full h-full"
+      matTooltipPosition="after"
+      [matTooltip]="t('exceedsExpectations')"
+    >
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-low-emphasis border-border border-2"
+      ></div>
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-low-emphasis border-border border-2"
+      ></div>
+      <div
+        class="w-5 h-5 my-auto rounded-full bg-low-emphasis border-border border-2"
+      ></div>
+    </div>
+  } @else {
+    <span
+      class="text-gray-400"
+      matTooltipPosition="after"
+      [matTooltip]="t('unrated')"
+      >{{ PERFORMANCE_RATING.UNRATED }}</span
+    >
+  }
+</ng-container>

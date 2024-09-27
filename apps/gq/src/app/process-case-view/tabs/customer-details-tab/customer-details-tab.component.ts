@@ -1,29 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { RolesFacade } from '@gq/core/store/facades';
 import { Customer } from '@gq/shared/models/customer';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'gq-customer-details-tab',
   templateUrl: './customer-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomerDetailsTabComponent implements OnInit {
-  currentYear: number;
-  lastYear: number;
+export class CustomerDetailsTabComponent {
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
 
-  customer$: Observable<Customer>;
-
-  constructor(private readonly store: Store) {}
-
-  ngOnInit(): void {
-    this.currentYear = getCurrentYear();
-    this.lastYear = getLastYear();
-
-    this.customer$ = this.store.select(activeCaseFeature.selectCustomer);
-  }
+  currentYear: number = getCurrentYear();
+  lastYear: number = getLastYear();
+  customer$: Observable<Customer> = this.activeCaseFacade.quotationCustomer$;
+  userHasAccessToPricingDetails$ =
+    this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$;
 }

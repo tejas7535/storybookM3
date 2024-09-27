@@ -113,7 +113,6 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "deployUrl": "https://medias-easycalc-d.dev.dp.schaeffler/",
           "optimization": {
             "scripts": true,
             "styles": {
@@ -142,7 +141,6 @@
         "qa": {
           "outputHashing": "bundles",
           "statsJson": true,
-          "deployUrl": "https://medias-easycalc-q.dev.dp.schaeffler/",
           "optimization": {
             "scripts": true,
             "styles": {
@@ -170,7 +168,6 @@
         },
         "production": {
           "outputHashing": "bundles",
-          "deployUrl": "https://medias-easycalc.com/",
           "optimization": {
             "scripts": true,
             "styles": {

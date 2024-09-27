@@ -32,7 +32,7 @@
     "info-hover": "Vergleichbare Transaktionen mit negativem GPI (%) werden bei der Kalkulation der Guided Quoting Preisempfehlung nicht berücksichtigt. Deshalb werden diese Transaktionen nicht im Graph angezeigt, sind jedoch in der Tabelle verfügbar."
   },
   "graph": {
-    "title": "Margen-Mengen Graph",
+    "title": "{recommendationType,select,MARGIN {Margen} PRICE{Preis} other{}}-Mengen Graph",
     "hint": "Einzelne Transaktionen können aufgrund fehlender Berechtigungen ausgefiltert sein",
     "salesIndication": {
       "invoice": "Faktura",
@@ -45,10 +45,11 @@
       "profitMargin": "GPI",
       "price": "Nettopreis",
       "year": "Jahr",
-      "regression": "GQ GPI"
+      "marginRegression": "GQ GPI",
+      "priceRegression": "GQ Preis"
     },
     "x-axis": "Menge",
-    "y-axis": "Marge %"
+    "y-axis": "{recommendationType,select, MARGIN {Marge %} PRICE {Preis} other {}}"
   },
   "savingInProgress": {
     "headerWithRolesHint": "Die GQ-Preisdetails werden aktuell kalkuliert oder die Detailansicht ist aufgrund fehlender Berechtigungen nicht verfügbar",

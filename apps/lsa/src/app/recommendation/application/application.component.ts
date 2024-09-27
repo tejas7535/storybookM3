@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
+import { InfoTooltipComponent } from '@lsa/shared/components/info-tooltip/info-tooltip.component';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { PowerSupply } from '@lsa/shared/constants';
 import { ApplicationForm } from '@lsa/shared/models';
@@ -27,6 +28,7 @@ const translatePath = 'recommendation.application';
     MatIconModule,
     MatSliderModule,
     FormsModule,
+    InfoTooltipComponent,
   ],
   templateUrl: './application.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

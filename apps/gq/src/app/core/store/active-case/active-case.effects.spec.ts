@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import {
   Quotation,
@@ -1101,6 +1102,34 @@ describe('ActiveCaseEffects', () => {
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
             price: QUOTATION_DETAIL_MOCK.price,
             priceSource: QUOTATION_DETAIL_MOCK.priceSource,
+          },
+        ];
+
+        const resultB = ActiveCaseActions.updateQuotationDetails({
+          updateQuotationDetailList,
+        });
+        const resultC = ActiveCaseActions.resetSimulatedQuotation();
+        const expected = m.cold('-(bc)', { b: resultB, c: resultC });
+
+        m.expect(effects.confirmSimulatedQuotation$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should updateQuotationDetails and resetSimulatedQuotation for targetPrice',
+      marbles((m) => {
+        store.overrideSelector(activeCaseFeature.selectSimulatedItem, {
+          ...SIMULATED_QUOTATION_MOCK,
+          simulatedField: ColumnFields.TARGET_PRICE,
+        });
+
+        action = ActiveCaseActions.confirmSimulatedQuotation();
+        actions$ = m.hot('-a', { a: action });
+
+        const updateQuotationDetailList: UpdateQuotationDetail[] = [
+          {
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+            targetPrice: QUOTATION_DETAIL_MOCK.targetPrice,
           },
         ];
 

@@ -115,7 +115,6 @@ export class DeleteItemsButtonComponent {
         this.activeCaseFacade.removePositionsFromQuotation(
           nonRfqDetails.map((detail) => detail.gqPositionId)
         );
-
         this.params.api.deselectAll();
       }
     });

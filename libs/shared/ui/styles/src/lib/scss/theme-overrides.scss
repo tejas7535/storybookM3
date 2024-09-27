@@ -34,7 +34,7 @@
 
   // input overrides
   .mat-form-field-appearance-outline .mat-form-field-outline {
-    @apply #{$prefix}bg-surface;
+    @apply #{$prefix}bg-surface-legacy;
     border-radius: 5px;
   }
 
@@ -198,5 +198,16 @@
     .mat-ripple.mat-mdc-focus-indicator
     .mat-ripple-element {
     @apply #{$prefix}absolute #{$prefix}top-0 #{$prefix}left-0 #{$prefix}max-w-full #{$prefix}max-h-full #{$prefix}rounded-full #{!important};
+  }
+}
+
+@mixin schaeffler-theme-overrides-m3($theme, $prefix) {
+  /*
+    weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
+    in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
+    preflight, which can case other issues for tailwind
+    */
+  .mdc-notched-outline__notch {
+    border-right: none !important;
   }
 }

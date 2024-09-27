@@ -1,4 +1,5 @@
 import { SalesIndication } from '@gq/core/store/reducers/models';
+import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { translate, TranslocoModule } from '@jsverse/transloco';
@@ -63,7 +64,7 @@ describe('ChartConfigService', () => {
     });
   });
   describe('getRegressionForToolTipFormatter', () => {
-    test('should return regression line', () => {
+    test('should return margin regression line', () => {
       transformationService.transformPercentage = jest
         .fn()
         .mockReturnValue('100%');
@@ -73,12 +74,40 @@ describe('ChartConfigService', () => {
 
       service.getLineForToolTipFormatter = jest.fn(() => '');
 
-      const result = service.getRegressionForToolTipFormatter(data);
+      const result = service.getRegressionForToolTipFormatter(
+        data,
+        RecommendationType.MARGIN
+      );
 
       expect(service.getLineForToolTipFormatter).toHaveBeenCalledWith(
         DataPointColor.REGRESSION,
-        'regression',
+        'marginRegression',
         '100%'
+      );
+      expect(result).toEqual(
+        `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.2">`
+      );
+    });
+
+    test('should return price regression line', () => {
+      transformationService.transformNumberCurrency = jest
+        .fn()
+        .mockReturnValue('100€');
+
+      const data = { value: [0, 1], currency: 'EUR' } as any;
+      service.regressionData = [[0, 100]];
+
+      service.getLineForToolTipFormatter = jest.fn(() => '');
+
+      const result = service.getRegressionForToolTipFormatter(
+        data,
+        RecommendationType.PRICE
+      );
+
+      expect(service.getLineForToolTipFormatter).toHaveBeenCalledWith(
+        DataPointColor.REGRESSION,
+        'priceRegression',
+        '100€'
       );
       expect(result).toEqual(
         `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.2">`
@@ -86,6 +115,36 @@ describe('ChartConfigService', () => {
     });
   });
 
+  describe('getYAxisConfig', () => {
+    test('should return for MARGIN', () => {
+      const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
+      const result = service.getYAxisConfig(
+        RecommendationType.MARGIN,
+        transactions
+      );
+
+      expect(result.max).toEqual(100);
+      expect(result.name).toEqual('translate it');
+      expect(translate).toHaveBeenCalledWith(`transactionView.graph.y-axis`, {
+        recommendationType: RecommendationType.MARGIN,
+      });
+    });
+    test('should return for PRICE', () => {
+      const transactions = [
+        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, price: 18 },
+      ];
+      const result = service.getYAxisConfig(
+        RecommendationType.PRICE,
+        transactions
+      );
+
+      expect(result.max).toEqual(20);
+      expect(result.name).toEqual('translate it');
+      expect(translate).toHaveBeenCalledWith(`transactionView.graph.y-axis`, {
+        recommendationType: RecommendationType.PRICE,
+      });
+    });
+  });
   describe('getToolTipConfig', () => {
     test('should return tooltipconfig', () => {
       service.tooltipFormatter = jest.fn();
@@ -93,9 +152,10 @@ describe('ChartConfigService', () => {
 
       const expected = {
         ...TOOLTIP_CONFIG,
-        formatter: (param: any) => formatter(param, true),
+        formatter: (param: any) =>
+          formatter(param, true, RecommendationType.MARGIN),
       };
-      const result = service.getToolTipConfig(true);
+      const result = service.getToolTipConfig(true, RecommendationType.MARGIN);
 
       expect(JSON.stringify(expected)).toEqual(JSON.stringify(result));
     });
@@ -151,7 +211,11 @@ describe('ChartConfigService', () => {
       service.getValueForToolTipItem = jest.fn();
       service.getLineForToolTipFormatter = jest.fn(() => '');
 
-      const result = service.tooltipFormatter(param, true);
+      const result = service.tooltipFormatter(
+        param,
+        true,
+        RecommendationType.MARGIN
+      );
 
       expect(result).toEqual(
         `<span style="font-family: 'Noto Sans';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
@@ -167,7 +231,11 @@ describe('ChartConfigService', () => {
       service.getValueForToolTipItem = jest.fn();
       service.getLineForToolTipFormatter = jest.fn(() => '');
 
-      const result = service.tooltipFormatter(param, false);
+      const result = service.tooltipFormatter(
+        param,
+        false,
+        RecommendationType.MARGIN
+      );
 
       expect(result).toEqual(
         `<span style="font-family: 'Noto Sans';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
@@ -294,7 +362,11 @@ describe('ChartConfigService', () => {
     test('should build dataPoints from transactions', () => {
       const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
       const currency = 'EUR';
-      const result = service.buildDataPoints(transactions, currency);
+      const result = service.buildDataPoints(
+        transactions,
+        currency,
+        RecommendationType.MARGIN
+      );
 
       const expected: DataPoint = {
         currency,
@@ -302,6 +374,7 @@ describe('ChartConfigService', () => {
         customerName: COMPARABLE_LINKED_TRANSACTION_MOCK.customerName,
         customerId: COMPARABLE_LINKED_TRANSACTION_MOCK.customerId,
         price: COMPARABLE_LINKED_TRANSACTION_MOCK.price,
+        gpi: COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin,
         year: COMPARABLE_LINKED_TRANSACTION_MOCK.year,
         value: [
           COMPARABLE_LINKED_TRANSACTION_MOCK.quantity,

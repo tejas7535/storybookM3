@@ -49,6 +49,7 @@
                   [customer]="customer$ | ngrxPush"
                   [userHasGpcRole]="hasGpcRole$ | ngrxPush"
                   [hideRolesHint]="hideRolesHint$ | ngrxPush"
+                  [recommendationType]="recommendationType$ | ngrxPush"
                 ></gq-transparency-graph>
               } @else {
                 <schaeffler-loading-spinner></schaeffler-loading-spinner>

@@ -79,3 +79,14 @@ export const getCurrentStep = createSelector(
   getStepperState,
   (stepper) => stepper.currentStep
 );
+
+export const getIsMediasAuthenticated = createSelector(
+  getSettingsState,
+  (state) => !!state.environment.mediasAuthenticated
+);
+
+export const shouldShowGreaseRecommendation = createSelector(
+  getIsMediasAuthenticated,
+  getAppIsEmbedded,
+  (authenticated, embedded) => authenticated && embedded
+);

@@ -16,8 +16,9 @@
     <mat-divider></mat-divider>
     <div class="flex flex-col gap-6">
       <span class="text-h6 text-medium-emphasis">
-        {{ t('questionSchaefflerArcanol') }}</span
-      >
+        {{ t('questionSchaefflerArcanol') }}
+        <lsa-info-tooltip translationKey="tooltips.lubricant.lubricant" />
+      </span>
       @if (greases) {
         <schaeffler-select
           appearance="outline"

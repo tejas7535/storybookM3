@@ -55,6 +55,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     new EventEmitter<SectorGpsd>();
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly sectorGpsdFacade = inject(SectorGpsdFacade);
 
   readonly NOT_AVAILABLE: SectorGpsd = {
     name: 'Not available',
@@ -65,8 +66,18 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     disabled: true,
   });
 
-  sectorGpsdLoading$ = inject(SectorGpsdFacade).sectorGpsdLoading$;
-  sectorGpsds$ = inject(SectorGpsdFacade).sectorGpsds$.pipe(
+  sectorGpsd = this.sectorGpsdFacade.selectedSectorGpsd$;
+  sectorGpsdLoading$ = this.sectorGpsdFacade.sectorGpsdLoading$.pipe(
+    tap((loading) => {
+      // Reset selectedSectorGpsd when loading - for example when customer has changed
+      // This change will prevent unwanted options in the dropdown (GQUOTE-4925)
+      if (loading) {
+        this.selectedSectorGpsd = null;
+      }
+    })
+  );
+
+  sectorGpsds$ = this.sectorGpsdFacade.sectorGpsds$.pipe(
     takeUntilDestroyed(this.destroyRef),
     map((gpsds: SectorGpsd[]) => {
       if (gpsds?.length === 0) {
@@ -80,7 +91,10 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
         );
 
         if (!selectedEntry) {
-          const newGpsds = [...gpsds, this.selectedSectorGpsd];
+          // make sure to filter out Not Available option (GQUOTE-4828)
+          const newGpsds = [...gpsds, this.selectedSectorGpsd].filter(
+            (entry) => entry.id !== this.NOT_AVAILABLE.id
+          );
 
           // make sure that the added gpsd entry is put in the correct order by id (GQUOTE-819)
           newGpsds.sort((a, b) => +a.id - +b.id);
@@ -146,7 +160,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
   }
 
   compareFn(optionOne: SectorGpsd, optionTwo: SectorGpsd): boolean {
-    return optionOne.id === optionTwo.id;
+    return optionOne?.id === optionTwo?.id;
   }
 
   /**
@@ -156,9 +170,17 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
    */
   writeValue(type: SectorGpsd): void {
     this.selectedSectorGpsd = type;
+    // console.log('value', type);
     this.sectorGpsdControl.setValue(this.selectedSectorGpsd, {
       emitEvent: false,
     });
+    // Call the callbacks when component has been defined as FormControl in parent component
+    if (this.onChange) {
+      this.onChange(this.getValueToEmit());
+    }
+    if (this.onTouched) {
+      this.onTouched();
+    }
   }
 
   /**
@@ -190,7 +212,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     }
   }
   private getValueToEmit(): SectorGpsd {
-    return this.selectedSectorGpsd.id === this.NOT_AVAILABLE.id
+    return this.selectedSectorGpsd?.id === this.NOT_AVAILABLE.id
       ? undefined
       : this.selectedSectorGpsd;
   }

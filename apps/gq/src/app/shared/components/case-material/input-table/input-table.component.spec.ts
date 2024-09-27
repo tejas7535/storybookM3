@@ -12,15 +12,18 @@ import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/
 import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { RemoveAllFilteredButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/remove-all-filtered-button/remove-all-filtered-button.component';
+import { MaterialValidationStatusComponent } from '@gq/shared/ag-grid/custom-status-bar/material-validation-status/material-validation-status.component';
 import { PasteButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/paste-button/paste-button.component';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
 import { StatusBarConfig } from '@gq/shared/models/table';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColDef } from 'ag-grid-community';
-import { MockProvider } from 'ng-mocks';
+import { MockComponent, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -62,8 +65,20 @@ describe('InputTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: InputTableComponent,
-    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      PushPipe,
+      provideTranslocoTestingModule({ en: {} }),
+      MockComponent(AddMaterialButtonComponent),
+      MockComponent(CreateCaseButtonComponent),
+      MockComponent(CreateCaseResetAllButtonComponent),
+      MockComponent(ProcessCaseResetAllButtonComponent),
+      MockComponent(RemoveAllFilteredButtonComponent),
+      MockComponent(PasteButtonComponent),
+      MockComponent(MaterialValidationStatusComponent),
+    ],
+
     providers: [
+      MockProvider(PasteMaterialsService),
       provideMockStore({
         initialState: {
           processCase: {
@@ -82,7 +97,11 @@ describe('InputTableComponent', () => {
         BASE_COLUMN_DEFS: [],
       }),
       MockProvider(LocalizationService),
+      MockProvider(FeatureToggleConfigService, {
+        isEnabled: jest.fn(() => false),
+      }),
     ],
+    detectChanges: false,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
   beforeEach(() => {
@@ -96,7 +115,11 @@ describe('InputTableComponent', () => {
 
   describe('initStatusBar', () => {
     test('should return StatusBarConfig for createCase', () => {
-      const result = component.initStatusBar(true, BASE_STATUS_BAR_CONFIG);
+      const result = component.initStatusBar(
+        true,
+        false,
+        BASE_STATUS_BAR_CONFIG
+      );
 
       const expected: StatusBarConfig = {
         statusPanels: [
@@ -110,6 +133,40 @@ describe('InputTableComponent', () => {
             align: 'left',
             statusPanelParams: {
               isCaseView: true,
+              isNewCaseCreationView: false,
+            },
+          },
+          {
+            statusPanel: RemoveAllFilteredButtonComponent,
+            align: 'right',
+            statusPanelParams: {
+              isCaseView: true,
+            },
+          },
+          {
+            statusPanel: CreateCaseResetAllButtonComponent,
+            align: 'right',
+          },
+        ],
+      };
+      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
+    });
+    test('should return StatusBarConfig for newCreateCase', () => {
+      const result = component.initStatusBar(
+        true,
+        true,
+        BASE_STATUS_BAR_CONFIG
+      );
+
+      const expected: StatusBarConfig = {
+        statusPanels: [
+          ...BASE_STATUS_BAR_CONFIG.statusPanels,
+          {
+            statusPanel: PasteButtonComponent,
+            align: 'left',
+            statusPanelParams: {
+              isCaseView: true,
+              isNewCaseCreationView: true,
             },
           },
           {
@@ -128,7 +185,11 @@ describe('InputTableComponent', () => {
       expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     });
     test('should return StatusBarConfig for processCase', () => {
-      const result = component.initStatusBar(false, BASE_STATUS_BAR_CONFIG);
+      const result = component.initStatusBar(
+        false,
+        false,
+        BASE_STATUS_BAR_CONFIG
+      );
 
       const expected: StatusBarConfig = {
         statusPanels: [
@@ -142,6 +203,7 @@ describe('InputTableComponent', () => {
             align: 'left',
             statusPanelParams: {
               isCaseView: false,
+              isNewCaseCreationView: false,
             },
           },
           {

@@ -58,7 +58,6 @@ export class BreadcrumbsService {
 
     const processCaseViewParams: DetailViewQueryParams = {
       ...queryParams,
-      gqPositionId: undefined,
     };
 
     return [

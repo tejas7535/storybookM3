@@ -7,12 +7,12 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case/models';
+import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models';
 import {
-  ComparableLinkedTransaction,
-  ExtendedComparableLinkedTransaction,
   ExtendedSapPriceConditionDetail,
   SapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
+import { ComparableLinkedTransactionResponse } from '@gq/core/store/transactions/models/comparable-linked-transaction-response.interface';
 
 import { ApiVersion, Quotation, RfqData } from '../../../models';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';
@@ -73,8 +73,8 @@ export class QuotationDetailsService {
 
   public getTransactions(
     gqPositionId: string
-  ): Observable<ComparableLinkedTransaction[]> {
-    return this.http.get<ComparableLinkedTransaction[]>(
+  ): Observable<ComparableLinkedTransactionResponse> {
+    return this.http.get<ComparableLinkedTransactionResponse>(
       `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_TRANSACTIONS}`
     );
   }

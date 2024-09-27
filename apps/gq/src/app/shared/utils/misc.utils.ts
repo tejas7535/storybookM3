@@ -1,14 +1,22 @@
 import { Params } from '@angular/router';
 
 import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
-import { Duration, Keyboard } from '@gq/shared/models';
+import {
+  Duration,
+  Keyboard,
+  QuotationStatus,
+  SAP_SYNC_STATUS,
+} from '@gq/shared/models';
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import moment from 'moment';
 
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
+import { FilterNames } from '../components/autocomplete-input/filter-names.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { Rating } from '../models/rating.enum';
+import { IdValue } from '../models/search/id-value.model';
+import { MaterialAutoComplete } from '../services/rest/material/models';
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
@@ -54,6 +62,9 @@ export const calculateDuration = (
   };
 };
 
+export const getMomentUtcStartOfDayDate = (date: string): moment.Moment =>
+  moment(date).utc().startOf('day');
+
 export const parseLocalizedInputValue = (
   val: string,
   locale: string
@@ -88,7 +99,9 @@ export const parseNullableLocalizedInputValue = (
 
 export const validateQuantityInputKeyPress = (event: KeyboardEvent): void => {
   const inputIsAllowedSpecialKey =
-    Keyboard.BACKSPACE === event.key || Keyboard.DELETE === event.key;
+    Keyboard.BACKSPACE === event.key ||
+    Keyboard.DELETE === event.key ||
+    Keyboard.TAB === event.key;
 
   if (
     Number.isNaN(Number.parseInt(event.key, 10)) &&
@@ -158,6 +171,116 @@ export const addMaterialFilterToQueryParams = (
     }
     default: {
       break;
+    }
+  }
+};
+export type TagType =
+  | 'error'
+  | 'primary'
+  | 'info'
+  | 'warning'
+  | 'success'
+  | 'neutral'
+  | 'category2'
+  | 'category3';
+export const getTagTypeByStatus = (
+  status: QuotationStatus | SAP_SYNC_STATUS
+): TagType => {
+  switch (status) {
+    case QuotationStatus.IN_APPROVAL:
+    case SAP_SYNC_STATUS.SYNCED: {
+      return 'info';
+    }
+    case QuotationStatus.APPROVED: {
+      return 'success';
+    }
+
+    case QuotationStatus.REJECTED:
+    case SAP_SYNC_STATUS.SYNC_FAILED: {
+      return 'error';
+    }
+
+    case SAP_SYNC_STATUS.NOT_SYNCED: {
+      return 'neutral';
+    }
+    case SAP_SYNC_STATUS.SYNC_PENDING:
+    case SAP_SYNC_STATUS.PARTIALLY_SYNCED: {
+      return 'warning';
+    }
+
+    default: {
+      return 'info';
+    }
+  }
+};
+
+export const mapMaterialAutocompleteToIdValue = (
+  matAutocomplete: MaterialAutoComplete,
+  filter: string
+): IdValue => {
+  switch (filter) {
+    case FilterNames.MATERIAL_NUMBER: {
+      return {
+        id: matAutocomplete.materialNumber15,
+        value: matAutocomplete.materialDescription,
+        value2: matAutocomplete.customerMaterial,
+        selected: false,
+      } as IdValue;
+    }
+
+    case FilterNames.MATERIAL_DESCRIPTION: {
+      return {
+        id: matAutocomplete.materialDescription,
+        value: matAutocomplete.materialNumber15,
+        value2: matAutocomplete.customerMaterial,
+        selected: false,
+      } as IdValue;
+    }
+
+    case FilterNames.CUSTOMER_MATERIAL: {
+      return {
+        id: matAutocomplete.customerMaterial,
+        value: matAutocomplete.materialNumber15,
+        value2: matAutocomplete.materialDescription,
+        selected: false,
+      } as IdValue;
+    }
+
+    default: {
+      return null;
+    }
+  }
+};
+
+export const mapIdValueToMaterialAutoComplete = (
+  idValueOption: IdValue,
+  filter: string
+): MaterialAutoComplete => {
+  switch (filter) {
+    // convert Option to more readable MaterialAutoComplete
+    case FilterNames.MATERIAL_NUMBER: {
+      return {
+        customerMaterial: idValueOption.value2,
+        materialDescription: idValueOption.value,
+        materialNumber15: idValueOption.id,
+      };
+    }
+    case FilterNames.MATERIAL_DESCRIPTION: {
+      return {
+        customerMaterial: idValueOption.value2,
+        materialDescription: idValueOption.id,
+        materialNumber15: idValueOption.value,
+      };
+    }
+    case FilterNames.CUSTOMER_MATERIAL: {
+      return {
+        customerMaterial: idValueOption.id,
+        materialDescription: idValueOption.value2,
+        materialNumber15: idValueOption.value,
+      };
+    }
+    default: {
+      return null;
     }
   }
 };

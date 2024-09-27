@@ -1,3 +1,4 @@
+import { PmgmData } from '../../models';
 import { LossOfSkillState } from '..';
 import {
   getJobProfilesData,
@@ -6,6 +7,7 @@ import {
   getLossOfSkillLeaversLoading,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
+  getPmgmData,
 } from './loss-of-skill.selector';
 
 describe('LossOfSkill Selector', () => {
@@ -31,12 +33,17 @@ describe('LossOfSkill Selector', () => {
       },
       workforce: {
         data: { employees: [], responseModified: false },
-        errorMesssage: undefined,
+        errorMessage: undefined,
         loading: false,
       },
       leavers: {
         data: { employees: [], responseModified: false },
-        errorMesssage: undefined,
+        errorMessage: undefined,
+        loading: false,
+      },
+      pmgm: {
+        data: [{ employee: 'Helmans' } as PmgmData],
+        errorMessage: undefined,
         loading: false,
       },
     },
@@ -99,6 +106,14 @@ describe('LossOfSkill Selector', () => {
       const result = getLossOfSkillLeaversLoading(fakeState);
 
       expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getPmgmData', () => {
+    test('should get data', () => {
+      const result = getPmgmData(fakeState);
+
+      expect(result).toBe(fakeState.lossOfSkill.pmgm.data);
     });
   });
 });

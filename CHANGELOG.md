@@ -4,6 +4,21 @@
 
 ## 9/26/2024
 * gq: [5.2.1](./apps/gq/CHANGELOG.md)
+## 9/6/2024
+* mac: [1.23.0](./apps/mac/CHANGELOG.md)
+
+## 9/4/2024
+* mm: [0.5.1](./apps/mm/CHANGELOG.md)
+
+## 9/4/2024
+* mm: [0.5.0](./apps/mm/CHANGELOG.md)
+
+## 8/26/2024
+* cdba: [5.2.0](./apps/cdba/CHANGELOG.md)
+
+## 8/21/2024
+* gq: [5.2.0](./apps/gq/CHANGELOG.md)
+* ga: [1.13.0](./apps/ga/CHANGELOG.md)
 
 ## 7/31/2024
 * ga: [1.12.4](./apps/ga/CHANGELOG.md)

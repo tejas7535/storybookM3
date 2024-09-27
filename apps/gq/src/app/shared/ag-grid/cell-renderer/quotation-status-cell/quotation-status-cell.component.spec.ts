@@ -41,6 +41,7 @@ describe('QuotationStatusCellComponent', () => {
 
       expect(component.status).toBe(QuotationStatus.ACTIVE);
       expect(component.statusVerified).toBe(false);
+      expect(component['tagType']).toBe('info');
     });
   });
 });

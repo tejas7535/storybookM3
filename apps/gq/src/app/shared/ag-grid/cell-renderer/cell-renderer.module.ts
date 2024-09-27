@@ -10,6 +10,7 @@ import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { PushPipe } from '@ngrx/component';
 
+import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -71,6 +72,7 @@ import { ShowMoreRowsComponent } from './show-more-rows/show-more-rows.component
     SharedDirectivesModule,
     SharedPipesModule,
     NgOptimizedImage,
+    TagComponent,
   ],
   exports: [
     ProcessCaseActionCellComponent,

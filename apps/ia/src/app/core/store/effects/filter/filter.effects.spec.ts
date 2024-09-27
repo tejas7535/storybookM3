@@ -1,18 +1,26 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { routerNavigationAction, RouterReducerState } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import moment from 'moment';
 import { marbles } from 'rxjs-marbles/jest';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import { FilterService } from '../../../../filter-section/filter.service';
 import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
 import {
   clearOverviewBenchmarkData,
   clearOverviewDimensionData,
 } from '../../../../overview/store/actions/overview.action';
-import { FilterDimension, IdValue } from '../../../../shared/models';
+import {
+  FilterDimension,
+  IdValue,
+  TimePeriod,
+} from '../../../../shared/models';
 import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
 import {
+  activateTimePeriodFilters,
   benchmarDimensionSelected as benchmarkDimensionSelected,
   benchmarkFilterSelected,
   dimensionSelected,
@@ -22,6 +30,7 @@ import {
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
 } from '../../actions/filter/filter.action';
+import { RouterStateUrl, selectRouterState } from '../../reducers';
 import {
   getBenchmarkIdValue,
   getCurrentFilters,
@@ -31,6 +40,10 @@ import {
 } from '../../selectors';
 import { FilterEffects } from './filter.effects';
 
+jest.mock('../../../../shared/utils/utilities', () => ({
+  ...jest.requireActual('../../../../shared/utils/utilities'),
+  getToday: jest.fn(() => moment.utc('2025-04-13')),
+}));
 describe('Filter Effects', () => {
   let spectator: SpectatorService<FilterEffects>;
   let actions$: any;
@@ -405,6 +418,42 @@ describe('Filter Effects', () => {
           effects.loadFilterDimensionDataBenchmarkFilterSelected$
         ).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
+
+  describe('setTimePeriodsFiltersForCurrentTab$', () => {
+    test(
+      'should return activateTimePeriodFilters when current route loss of skill',
+      marbles((m) => {
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.LossOfSkillPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+
+        const props = {
+          timePeriods: [
+            { id: TimePeriod.YEAR, value: TimePeriod.YEAR } as IdValue,
+          ],
+          activeTimePeriod: TimePeriod.YEAR,
+          timeRange: { id: '1704067200|1735689599', value: '2024' } as IdValue,
+          timeRangeConstraints: {
+            min: 1_640_995_200,
+            max: 1_735_689_599,
+          },
+        };
+
+        action = routerNavigationAction({} as any);
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: activateTimePeriodFilters(props),
+        });
+
+        m.expect(effects.setTimePeriodsFiltersForCurrentTab$).toBeObservable(
+          expected
+        );
       })
     );
   });

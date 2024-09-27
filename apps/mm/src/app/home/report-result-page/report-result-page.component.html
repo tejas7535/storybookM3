@@ -1,0 +1,68 @@
+<div *transloco="let t; read: 'reportResult'">
+  @if (isResultAvailable$ | ngrxPush) {
+    <schaeffler-result-report
+      class="flex h-full flex-row justify-between"
+      [reportInputs]="inputs$ | ngrxPush"
+      [messages]="messages$ | ngrxPush"
+      [isMessageSectionExpanded]="false"
+    >
+      <div class="my-8 flex flex-col" report-main-content>
+        <ng-container
+          *ngrxLet="{
+            recommendations: mountingRecommendations$ | ngrxPush,
+            tools: mountingTools$ | ngrxPush,
+            hasMountingTools: hasMountingTools$ | ngrxPush
+          } as data"
+        >
+          @if (data.hasMountingTools) {
+            <h3 id="mountingToolsAndUtilities" class="text-subtitle-1 mb-4">
+              {{ t('mountingToolsAndUtilities') }}
+            </h3>
+          }
+
+          <mm-hydraulic-or-lock-nut
+            [hydraulicOrLockNut]="data.tools.hydraulicNut"
+            [title]="t('hydraulicNut')"
+          ></mm-hydraulic-or-lock-nut>
+
+          <mm-hydraulic-or-lock-nut
+            [hydraulicOrLockNut]="data.tools.locknut"
+            [title]="t('lockNut')"
+          ></mm-hydraulic-or-lock-nut>
+
+          <mm-additional-tools [additionalTools]="data.tools.additionalTools">
+          </mm-additional-tools>
+
+          <mm-report-pumps
+            [pumps]="data.tools.pumps.items"
+            [subTitle]="data.tools.pumps.title"
+          ></mm-report-pumps>
+
+          <mm-sleeve-connector
+            [title]="t('sleeveConnectors')"
+            [sleeveConnectors]="data.tools.sleeveConnectors"
+          >
+          </mm-sleeve-connector>
+
+          <mm-mounting-recommendation
+            id="mountingInstructions"
+            [mountingRecommendations]="data.recommendations"
+          >
+          </mm-mounting-recommendation>
+        </ng-container>
+      </div>
+      <ng-container report-right-sidebar>
+        <mm-report-selection
+          [selectionTypes]="reportSelectionTypes$ | ngrxPush"
+          (calculationTypeClicked)="scrollIntoView($event)"
+        ></mm-report-selection>
+      </ng-container>
+    </schaeffler-result-report>
+  } @else {
+    <div class="item-center flex content-center p-8">
+      <div class="ml-auto mr-auto">
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+    </div>
+  }
+</div>

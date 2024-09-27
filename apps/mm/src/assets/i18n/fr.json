@@ -80,6 +80,31 @@
     "downloadReport": "Télécharger le rapport",
     "startNewCalculation": "Commencer un nouveau calcul"
   },
+  "reportResult": {
+    "mediasBaseUrl": "https://medias.schaeffler.de/en",
+    "viewProductButton": "Voir le Produit",
+    "mountingInstructions": "Instructions de Montage",
+    "mountingToolsAndUtilities": "Outils et Accessoires de Montage",
+    "hydraulicNut": "Écrou Hydraulique",
+    "lockNut": "Écrou de blocage",
+    "sleeveConnectors": "connecteurs de manche",
+    "pumps": {
+      "title": "Pompes",
+      "recommended": "Recommandé",
+      "alternative": "Alternative"
+    },
+    "additionalTools": {
+      "title": "Outils Additionnels"
+    },
+    "reportSelection": {
+      "title": "Rapport",
+      "reportInputs": "Entrée",
+      "mountingToolsAndUtilities": "Outils et utilitaires de montage",
+      "mountingInstructions": "Instructions de montage",
+      "reportMessages": "Erreurs, Avertissements et Notes",
+      "downloadPdf": "Télécharger le PDF"
+    }
+  },
   "settings": "Paramètres",
   "error": {
     "content": "Malheureusement, une erreur s'est produite. Veuillez réessayer plus tard.",

@@ -63,7 +63,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.assignMetaTags();
     this.assignFooterLinks();
     this.updateLangAttribute(this.currentLanguage);
-
     this.partnerVersion$.pipe(take(1)).subscribe((partnerVersion) => {
       this.applicationInsightsService.addCustomPropertyToTelemetryData(
         'partnerVersion',

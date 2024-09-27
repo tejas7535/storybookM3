@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { ComparableMaterialsRowData } from '@gq/core/store/transactions/models/f-pricing-comparable-materials.interface';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';

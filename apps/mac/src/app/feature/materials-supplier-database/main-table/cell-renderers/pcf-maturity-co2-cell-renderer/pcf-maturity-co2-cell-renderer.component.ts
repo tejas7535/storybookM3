@@ -2,12 +2,15 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { PushPipe } from '@ngrx/component';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { HtmlTooltipComponent } from '@mac/shared/components/html-tooltip/html-tooltip.component';
 
 import { EMISSION_FACTOR_KG, MATERIAL_GROUP } from '../../../constants';
@@ -26,19 +29,25 @@ import { MaturityInfoComponent } from '../../components/maturity-info/maturity-i
     HtmlTooltipComponent,
     MaturityInfoComponent,
     // angular material
+    MatTooltipModule,
     MatIconModule,
     // cdk
     OverlayModule,
     // libs
     SharedTranslocoModule,
+    // ngrx
+    PushPipe,
   ],
 })
 export class PcfMaturityCo2CellRendererComponent
   implements ICellRendererAngularComp
 {
-  params: ICellRendererParams;
-  hovered = false;
-  showMaterialEmissionClassification = false;
+  public params: ICellRendererParams;
+  public hovered = false;
+  public showMaterialEmissionClassification = false;
+  public hasValue = false;
+  public maturity = 0;
+  public isUploader = this.dataFacade.hasMatnrUploaderRole$;
 
   // The material emission classification will be displayed only for these categories.
   private readonly materialGroupsForMaterialEmissionClassification = [
@@ -49,22 +58,19 @@ export class PcfMaturityCo2CellRendererComponent
     'M019',
   ];
 
+  constructor(private readonly dataFacade: DataFacade) {}
+
   agInit(params: ICellRendererParams): void {
     this.params = params;
     this.showMaterialEmissionClassification =
       this.shouldShowMaterialEmissionClassification();
+
+    this.hasValue = !!(this.params.value === 0 || this.params.value);
+    this.maturity = this.params.data['maturity'];
   }
 
   refresh(): boolean {
     return false;
-  }
-
-  hasValue(): boolean {
-    return !!(this.params?.value === 0 || this.params?.value);
-  }
-
-  getMaturity() {
-    return this.params.data['maturity'];
   }
 
   private shouldShowMaterialEmissionClassification(): boolean {

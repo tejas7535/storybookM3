@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
+import { SimulationService } from '@gq/process-case-view/quotation-details-table/services/simulation/simulation.service';
 import { PriceSource } from '@gq/shared/models';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
@@ -103,6 +104,7 @@ describe('TestEditingModalComponent', () => {
         },
       },
     ],
+    mocks: [SimulationService],
     detectChanges: false,
   });
 
@@ -113,6 +115,7 @@ describe('TestEditingModalComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    component['simulationService'].calculateAffectedKPIs = jest.fn();
     store = spectator.inject(MockStore);
     transformationService = spectator.inject(TransformationService);
     spectator.setInput('modalData', {
@@ -161,7 +164,7 @@ describe('TestEditingModalComponent', () => {
       expect(component.isRelativePriceChangeDisabled).toBe(false);
       expect(
         component.editingFormGroup.get(IS_RELATIVE_PRICE_CONTROL_NAME).value
-      ).toEqual(true);
+      ).toEqual(false);
     });
 
     test('should activate the switch between relative and absolute price but disable relative price', () => {
@@ -269,7 +272,7 @@ describe('TestEditingModalComponent', () => {
   describe('setAffectedKpis', () => {
     test('should set affected kpis', () => {
       jest
-        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .spyOn(component['simulationService'], 'calculateAffectedKPIs')
         .mockImplementation(() => []);
       component['setAffectedKpis'](1);
 
@@ -280,7 +283,7 @@ describe('TestEditingModalComponent', () => {
       component.isPriceChangeTypeAvailable = true;
       component.ngOnInit();
       jest
-        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .spyOn(component['simulationService'], 'calculateAffectedKPIs')
         .mockImplementation(() => [{ key: ColumnFields.PRICE, value: 1 }]);
       component.modalData = {
         field: ColumnFields.PRICE,
@@ -292,7 +295,9 @@ describe('TestEditingModalComponent', () => {
         .setValue(false);
       component['setAffectedKpis'](1);
 
-      expect(pricingUtils.calculateAffectedKPIs).toHaveBeenCalledWith(
+      expect(
+        component['simulationService'].calculateAffectedKPIs
+      ).toHaveBeenCalledWith(
         1,
         ColumnFields.PRICE,
         QUOTATION_DETAIL_MOCK,
@@ -307,7 +312,7 @@ describe('TestEditingModalComponent', () => {
       component.isPriceChangeTypeAvailable = true;
       component.ngOnInit();
       jest
-        .spyOn(pricingUtils, 'calculateAffectedKPIs')
+        .spyOn(component['simulationService'], 'calculateAffectedKPIs')
         .mockImplementation(() => []);
       component.modalData = {
         field: ColumnFields.PRICE,
@@ -318,7 +323,9 @@ describe('TestEditingModalComponent', () => {
         .setValue(true);
       component['setAffectedKpis'](1);
 
-      expect(pricingUtils.calculateAffectedKPIs).toHaveBeenCalledWith(
+      expect(
+        component['simulationService'].calculateAffectedKPIs
+      ).toHaveBeenCalledWith(
         1,
         ColumnFields.PRICE,
         QUOTATION_DETAIL_MOCK,
@@ -658,6 +665,15 @@ describe('TestEditingModalComponent', () => {
       updateFormValue(currentValue.toString());
 
       expect(component.hasValueChanged).toBe(false);
+    });
+  });
+  describe('resetKpiValues', () => {
+    test('should reset kpi values', () => {
+      component.affectedKpis = [{ key: ColumnFields.PRICE, value: 1 }];
+      component['resetKpiValues']();
+      expect(component.affectedKpis).toEqual([
+        { key: ColumnFields.PRICE, value: undefined },
+      ]);
     });
   });
 });

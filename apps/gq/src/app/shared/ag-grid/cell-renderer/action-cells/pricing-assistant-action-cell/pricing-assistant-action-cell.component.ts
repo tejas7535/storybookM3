@@ -13,13 +13,13 @@ import { CellClassParams } from 'ag-grid-community';
 export class PricingAssistantActionCellComponent {
   params: CellClassParams;
   isFNumber = false;
-  canEdit = false;
+  canDisplay = false;
 
   constructor(private readonly dialog: MatDialog) {}
 
   agInit(params: CellClassParams): void {
     this.params = params;
-    this.canEdit =
+    this.canDisplay =
       this.params.context?.quotation?.sapSyncStatus !==
       SAP_SYNC_STATUS.SYNC_PENDING;
     this.isFNumber = isFNumber(params.data as QuotationDetail);

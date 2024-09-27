@@ -31,6 +31,7 @@ import {
 } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
+import { isApplicationScenarioDisabled } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
@@ -59,6 +60,7 @@ import {
   shiftAngleValidators,
   shiftFrequencyValidators,
 } from './constants';
+import { ApplicationScenario } from './constants/application-scenarios.model';
 import { CalculationParametersService } from './services';
 
 describe('CalculationParametersComponent', () => {
@@ -103,8 +105,12 @@ describe('CalculationParametersComponent', () => {
             ...CALCULATION_PARAMETERS_STATE_MOCK,
             preferredGrease: PREFERRED_GREASE_MOCK,
             properties: PROPERTIES_MOCK,
+            environment: {
+              applicationScenario: ApplicationScenario.All,
+            },
           },
         },
+        selectors: [{ selector: isApplicationScenarioDisabled, value: false }],
       }),
       CalculationParametersService,
       {
@@ -172,6 +178,7 @@ describe('CalculationParametersComponent', () => {
                 environmentImpact: EnvironmentImpact.moderate,
                 environmentTemperature: 20,
                 operatingTemperature: 70,
+                applicationScenario: ApplicationScenario.All,
               },
               loads: {
                 axial: undefined,
@@ -205,6 +212,7 @@ describe('CalculationParametersComponent', () => {
                 environmentImpact: EnvironmentImpact.moderate,
                 environmentTemperature: 20,
                 operatingTemperature: 70,
+                applicationScenario: ApplicationScenario.All,
               },
               loads: {
                 radial: undefined,

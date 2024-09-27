@@ -44,6 +44,32 @@ gq-root {
     Noto Sans,
     sans-serif !important;
 }
+// schaeffler-Tag overrides
+schaeffler-tag {
+  .tag-success {
+    @apply text-quotation-status-green #{!important};
+  }
+}
+
+schaeffler-tag.subheader-status-icon {
+  .tag-info,
+  .tag-success,
+  .tag-warning,
+  .tag-neutral,
+  .tag-error {
+    @apply p-1 min-h-[unset] min-w-[unset] #{!important};
+  }
+  .tag-dot {
+    @apply p-1 h-3 w-3 mr-[unset] #{!important};
+  }
+
+  .tag-success {
+    @apply bg-quotation-status-dark-green bg-opacity-20 #{!important};
+    .tag-dot {
+      @apply bg-quotation-status-dark-green #{!important};
+    }
+  }
+}
 
 .ag-theme-material {
   --ag-font-family: 'Noto sans';
@@ -140,9 +166,11 @@ button {
     z-index: 0;
   }
 }
-.edit-case-modal:has(gq-offer-type-select) {
-  mat-dialog-content.mat-mdc-dialog-content {
-    max-height: 87vh !important;
+
+gq-create-manual-case-view:has(.newCaseCreateView) {
+  .ag-root-wrapper-body {
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    border-radius: 4px;
   }
 }
 
@@ -158,12 +186,17 @@ button {
   }
 
   mat-dialog-content.mat-mdc-dialog-content {
-    max-height: 80vh !important;
+    max-height: 90vh !important;
     color: unset;
     font-family: unset;
   }
 }
 
+.add-material-dialog {
+  gq-material-input-table > div {
+    @apply h-full;
+  }
+}
 .mdc-tooltip__surface {
   @apply py-2 #{!important};
   @apply px-4 #{!important};
@@ -341,7 +374,17 @@ mat-hint {
     @apply min-h-screen;
   }
 }
-
+gq-quotation-details-table {
+  .mat-mdc-button-base {
+    z-index: 0;
+  }
+  gq-extended-column-header {
+    .ag-header-cell-label {
+      z-index: 0;
+    }
+    overflow: hidden !important;
+  }
+}
 // checks whether gq Table horizontal scrollbar is visible, and if so it will apply the setting
 gq-case-table:has(.ag-body-horizontal-scroll:not([style*='height: 0px;'])),
 gq-quotation-details-table:has(
@@ -374,6 +417,20 @@ gq-quotation-details-table:has(
     }
     .delete-button-quotation-details.panel-closed {
       @apply right-20 #{!important};
+    }
+  }
+}
+
+gq-quotation-details-table {
+  .ag-status-bar {
+    .ag-status-bar-left {
+      @apply items-center #{!important};
+    }
+    .ag-status-bar-center {
+      @apply items-center #{!important};
+    }
+    .ag-status-bar-right {
+      @apply items-center #{!important};
     }
   }
 }

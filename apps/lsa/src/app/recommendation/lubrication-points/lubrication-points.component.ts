@@ -9,6 +9,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
+import { InfoTooltipComponent } from '@lsa/shared/components/info-tooltip/info-tooltip.component';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { RadioOptionContentDirective } from '@lsa/shared/components/radio-button-group/radio-option-content.directive';
 import {
@@ -35,6 +36,7 @@ interface PipeOption {
     MatSelectModule,
     ReactiveFormsModule,
     RadioOptionContentDirective,
+    InfoTooltipComponent,
   ],
   templateUrl: './lubrication-points.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

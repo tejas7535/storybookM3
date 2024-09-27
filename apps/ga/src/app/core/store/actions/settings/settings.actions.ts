@@ -27,3 +27,8 @@ export const setInternalUser = createAction(
   '[Settings] Set Internal User',
   props<{ internalUser: boolean }>()
 );
+
+export const setMediasAuthenticated = createAction(
+  '[Settings] Set Medias User authenticated',
+  props<{ isAuthenticated: boolean }>()
+);

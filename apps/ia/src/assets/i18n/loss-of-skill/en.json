@@ -12,8 +12,38 @@
       "titleLeavers": "Leavers"
     }
   },
-  "riskOfLeaving": {
-    "title": "Lost Performance"
+  "pmgm": {
+    "title": "Lost Performance and Employee Assessment",
+    "tooltip": {
+      "showComparissonToPreviousYear": "The arrows show the changes (improvement, deterioration or neutral) compared to the previous year. If \"n/a\" appears, a comparisson with the previous year is not possible (due to i.e. missing data)."
+    },
+    "table": {
+      "employee": "Name",
+      "position": "Position",
+      "fluctuationType": "Fluctuation Type",
+      "overallPerformanceRating": "Overall Performance Rating",
+      "highImpactOfLoss": "High Impact of Loss",
+      "highRiskOfLoss": "High Risk of Loss",
+      "assessment": "Assessment",
+      "previousYear": "Previous Year",
+      "tooltip": {
+        "performance": {
+          "belowExpectations": "Below Expectations",
+          "meetsExpectations": "Meets Expectations",
+          "exceedsExpectations": "Exceeds Expectations",
+          "unrated": "Unrated"
+        },
+        "assessment": {
+          "red": "Recommendation to speak with responsible Manager",
+          "yellow": "Please be aware of employee's performance evaluation",
+          "headerInfo": "The assesment is based on the SuccessFactors input of Overall Performance Rating, High Risk of Loss and High Impact of Loss.\nIf at least two of them are evaluated either \"Yes\" or \"Exceeds Expectations\", the assesment turns red.\nIf one of them does have this evaluation, the assesment turns yellow.\nIf neither is true, the assesment turns green.\nIf the employee is unrated in PMGM the assessment is grey."
+        },
+        "position": {
+          "manager": "Manager",
+          "employee": "Employee"
+        }
+      }
+    }
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,19 +13,26 @@ import { isCaseViewParams } from '../../models/is-case-view-params.model';
 @Component({
   selector: 'gq-paste-button',
   templateUrl: './paste-button.component.html',
-  imports: [MatIconModule, MatButtonModule, TranslocoModule, InfoIconModule],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    TranslocoModule,
+    InfoIconModule,
+  ],
   standalone: true,
 })
 export class PasteButtonComponent {
-  public isCaseView: boolean;
-
-  constructor(
-    private readonly pasteMaterialsService: PasteMaterialsService,
-    private readonly matSnackBar: MatSnackBar
-  ) {}
+  private readonly pasteMaterialsService: PasteMaterialsService = inject(
+    PasteMaterialsService
+  );
+  private readonly matSnackBar: MatSnackBar = inject(MatSnackBar);
+  isCaseView: boolean;
+  isNewCaseCreationView: boolean;
 
   agInit(params: isCaseViewParams): void {
     this.isCaseView = params.isCaseView;
+    this.isNewCaseCreationView = params.isNewCaseCreationView;
   }
 
   pasteFromClipboard(): void {

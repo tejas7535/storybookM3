@@ -8,9 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
+import { OverlayComponent } from '@gq/f-pricing/pricing-assistant-modal/overlay/overlay.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -46,6 +47,8 @@ import { SingleQuotesTabRoutingModule } from './single-quotes-tab.routing.module
     DialogHeaderModule,
     FormsModule,
     ReactiveFormsModule,
+    LetDirective,
+    OverlayComponent,
   ],
   exports: [SingleQuotesTabComponent],
 })

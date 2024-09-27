@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -15,6 +16,7 @@ describe('SapStatusCellComponent', () => {
   const createComponent = createComponentFactory({
     component: SapStatusCellComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), MatTooltipModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -36,6 +38,10 @@ describe('SapStatusCellComponent', () => {
     test('should set value from Params', () => {
       component.agInit(cellParams);
       expect(component.syncedStatus).toBe(SAP_SYNC_STATUS.SYNCED);
+    });
+    test('should set the tagType based on the status', () => {
+      component.agInit(cellParams);
+      expect(component['tagType']).toBe('info');
     });
 
     test('should set default Value when params value is not present', () => {

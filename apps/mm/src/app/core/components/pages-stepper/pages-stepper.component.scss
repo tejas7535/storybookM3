@@ -1,9 +1,5 @@
 @import 'libs/shared/ui/stepper';
 
-::ng-deep .mat-step-header[aria-labelledby='disabled'] {
-  @apply pointer-events-none cursor-not-allowed opacity-60;
-}
-
 ::ng-deep
   .mat-step-label.mat-step-label-active.mat-step-label-selected
   .mat-step-text-label {

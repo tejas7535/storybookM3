@@ -80,6 +80,31 @@
     "downloadReport": "下载报告",
     "startNewCalculation": "启动计算"
   },
+  "reportResult": {
+    "mediasBaseUrl": "https://medias.schaeffler.cn/zh",
+    "viewProductButton": "查看产品",
+    "mountingInstructions": "安装说明",
+    "mountingToolsAndUtilities": "安装工具和设备",
+    "hydraulicNut": "液压螺母",
+    "lockNut": "锁紧螺母",
+    "sleeveConnectors": "套管连接器",
+    "pumps": {
+      "title": "泵",
+      "recommended": "推荐",
+      "alternative": "替代"
+    },
+    "additionalTools": {
+      "title": "其他工具"
+    },
+    "reportSelection": {
+      "title": "报告",
+      "reportInputs": "输入",
+      "mountingToolsAndUtilities": "安装工具和实用程序",
+      "mountingInstructions": "安装说明",
+      "reportMessages": "错误、警告和备注",
+      "downloadPdf": "下载PDF"
+    }
+  },
   "error": {
     "content": "发生错误.  请稍后再试",
     "confirm": "确认",

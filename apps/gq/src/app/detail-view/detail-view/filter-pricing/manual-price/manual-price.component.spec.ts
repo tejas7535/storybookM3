@@ -78,7 +78,9 @@ describe('ManualPriceComponent', () => {
         recommendedPrice: 20,
         gpi: 0.5,
         gpm: 0.6,
-        gpmRfq: 0.7,
+        rfqData: {
+          gpm: 0.7,
+        },
         priceSource: PriceSource.MANUAL,
       } as any;
 

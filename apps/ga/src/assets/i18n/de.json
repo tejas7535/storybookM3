@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NEU: Produktvorauswahl (optional)"
+        "main": "Produktvorauswahl (optional)"
       },
       "grease": {
         "label": "Fett",
@@ -220,6 +220,7 @@
     "operatingTemperature": "Betriebstemperatur",
     "environmentTemperature": "Umgebungstemperatur",
     "environmentalImpactOnGreaseDuration": "Umgebungseinfluss",
+    "application": "Anwendungsfall",
     "low": "gering",
     "moderate": "mittel",
     "high": "stark",
@@ -253,7 +254,26 @@
       "otherInfluences": "Faktor zum Einfluss von Feuchtigkeit, Rüttelkräften und Stößen auf die Fettgebrauchsdauer",
       "shiftFrequency": "Anzahl der Schwenkbewegungen pro Minute (volle Bewegung, hin und her)",
       "shiftAngle": "Winkel zwischen den Umkehrpunkten bei der Schwenkbewegung (Darstellung s. FAQs)"
-    }
+    },
+    "applications": {
+      "All": "Keine Anwendung gewählt",
+      "BallScrewDrive": "Kugelgewindetrieb",
+      "CleanRoomApplications": "Reinraumanwendungen",
+      "ConveyorBelts": "Förderbänder",
+      "SmallElectricMotors": "Elektromotoren (klein)",
+      "LargeElectricMotors": "Elektromotoren (groß)",
+      "HighSpeedElectricMotors": "Elektromotoren (hohe Drehzahl)",
+      "Fans": "Ventilatoren",
+      "GreasedGears": "Getriebe (fettgeschmiert)",
+      "JawCrushers": "Backenbrecher",
+      "Pumps": "Pumpen",
+      "VibratingScreens": "Schwingsiebe",
+      "RailWheelsetBearings": "Radsatzlager (Bahn)",
+      "WindTurbineMainShaft": "Hauptwelle von Windkraftanlagen"
+    },
+    "exclusivityDisclaimer": "Exklusiv für medias Plus Nutzer",
+    "signupPrompt": "Jetzt registrieren",
+    "signupUrl": "https://medias.schaeffler.de/de/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -261,6 +281,7 @@
       "backButton": "Betriebsbedingungen ändern",
       "247hint": "Alle Ergebnisse beziehen sich auf durchgehenden 24/7 Betrieb."
     },
+    "recommendedChip": "Empfohlen",
     "showCompactView": "Anzeige mit kompakter Darstellung",
     "reportSectionInput": "Eingaben",
     "shopLinkText": "Verfügbare Produkte",
@@ -273,6 +294,7 @@
     "remainingResults": "{{ results }} weitere Ergebnisse",
     "resultsDefault": "Ergebnisse sortiert nach Nachschmierinterval ({{ amount }}/{{ complete }} Fette)",
     "resultsWithPreferred": "Ergebnisse für ausgewählte und alternative Fette sortiert nach Nachschmierintervall",
+    "resultsWithRecommendation": "Ergebnisse sortiert nach Empfehlung und dem Nachschmierintervall",
     "guideValues": "* Zahlen sind Richtwerte",
     "errorsWarningsNotes": "Fehler, Warnungen & Hinweise",
     "concept1": "CONCEPT1 Kartuscheneinstellung",
@@ -345,7 +367,9 @@
     "preferredGreaseHintAlternative": "Alternativ",
     "preferredGreaseHintAlternativeTooltip": "Dies ist ein alternatives Produkt aus dem Schaeffler Produktportfolio basierend auf ihren Eingaben aus Schritt 2.",
     "poweredBy": "powered by",
-    "pdfDownload": "PDF Download"
+    "pdfDownload": "PDF Download",
+    "noRecommendation": "Die angegebenen Parameter sind untypisch für die ausgewählte Anwendung. Bitte nehmen Sie Kontakt auf",
+    "contact": "Schaeffler Kontakt"
   },
   "settings": {
     "stepper": {
@@ -428,6 +452,25 @@
         "",
         ">>> Bitte ändern Sie nicht unten stehendes"
       ]
+    }
+  },
+  "recommendationPopup": {
+    "modalTitle": "Medias Plus Grease App",
+    "close": "Schließen",
+    "modalHeading": "Grease App Schmierstoffempfehlung",
+    "modalText": "Bitte beachten Sie, dass diese Funktion nur für registrierte Medias Plus Nutzer verfügbar ist. Registrieren Sie sich jetzt kostenlos um Zugriff auf die Schmierstoffempfehlung zu erhalten",
+    "registrationCta": "Kostenfrei Registrieren",
+    "loginQuestion": "Bereits registriert?",
+    "loginText": "Anmelden",
+    "mediasComparison": {
+      "allfeatures": "Alle medias Funktionen",
+      "linearconfig": "Linearkonfigurator",
+      "cadfileslinear": "CAD Daten für Lienarkonfigurationen herunterladen",
+      "linearimport": "Linear Konfigurationen speichern und importieren",
+      "comparison": "Produkte vergleichen",
+      "campus": "Schaeffler Training Campus",
+      "wishlists": "Merkzettel erstellen und speichern",
+      "cartrequest": "Anfragen über die Warenkorb Funktion platzieren"
     }
   }
 }

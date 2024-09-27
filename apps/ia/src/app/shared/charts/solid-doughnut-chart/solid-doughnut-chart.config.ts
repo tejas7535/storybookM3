@@ -1,5 +1,6 @@
-import { EChartsOption, SeriesOption } from 'echarts';
-import { MediaUnit } from 'echarts/types/src/util/types';
+import { EChartsOption, PieSeriesOption } from 'echarts';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
+import { OptionDataItem } from 'echarts/types/src/util/types';
 
 import { Color } from '../../models/color.enum';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
@@ -8,26 +9,52 @@ export function createSolidDoughnutChartBaseOptions(
   config: SolidDoughnutChartConfig
 ): EChartsOption {
   let option: EChartsOption = {
-    type: 'pie',
     backgroundColor: Color.WHITE,
     title: {
       text: config.title,
       textStyle: {
-        color: Color.BLACK,
-        fontSize: '1.5rem',
-        fontWeight: 'normal',
+        fontFamily: 'Noto Sans',
+        color: 'rgba(0, 0, 0, 0.60)',
+        fontStyle: 'normal',
+        fontWeight: 400,
+        align: 'center',
       },
-      subtext: config.subTitle,
-      subtextStyle: {
-        color: Color.LIGHT_GREY,
-        fontSize: '1rem',
-      },
+    },
+    textStyle: {
+      fontFamily: 'Noto Sans',
     },
     legend: {
-      show: false,
+      top: 'middle',
+      left: config.side === 'left' ? '0' : 'auto',
+      right: config.side === 'right' ? '0' : 'auto',
+      orient: 'vertical',
+      itemWidth: 8,
+      itemHeight: 8,
+      icon: 'circle',
+      formatter: (name: string) => {
+        // Break the label into multiple lines if it is too long
+        const maxLineLength = 32; // Adjust as needed
+        const words = name.split(' ');
+        let formattedName = '';
+        let line = '';
+
+        words.forEach((word) => {
+          if ((line + word).length > maxLineLength) {
+            formattedName += `${line}\n`;
+            line = '';
+          }
+          line += `${word} `;
+        });
+
+        formattedName += line.trim();
+
+        return formattedName;
+      },
+    },
+    tooltip: {
+      show: true,
     },
   };
-  setTooltipFormatter(option, config.tooltipFormatter);
 
   // set custom color if provided
   if (config.color) {
@@ -37,59 +64,86 @@ export function createSolidDoughnutChartBaseOptions(
   return option;
 }
 
-export function setTooltipFormatter(option: EChartsOption, formatter: string) {
-  if (formatter) {
-    option.tooltip = {
-      show: true,
-      formatter,
-    };
-  }
-}
+export const tooltipFormatter = (params: CallbackDataParams) =>
+  params.percent === undefined
+    ? undefined
+    : `${params.name}: <b>${params.percent.toFixed(1)}%</b>`;
 
-export function createSolidDoughnutChartSeries(title: string): SeriesOption[] {
+export function createSolidDoughnutChartSeries(
+  side: 'left' | 'right',
+  title: string
+): PieSeriesOption[] {
   return [
     {
-      name: title,
+      id: 'reasons',
       type: 'pie',
+      radius: ['38%', '56%'],
+      center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
+      top: 0,
+      avoidLabelOverlap: true,
+      selectedMode: 'single',
       label: {
-        formatter: '{d}%',
         position: 'inside',
-        color: Color.WHITE,
-        fontSize: '0.6rem',
+        formatter: (p: CallbackDataParams) =>
+          `${(p.data as OptionDataItem & { percent: number }).percent.toFixed(1)}%`,
       },
-      radius: ['65%', '95%'],
-      height: '80%',
-      center: ['50%', '50%'],
-      top: 'middle',
+      labelLine: {
+        show: false,
+      },
+      tooltip: {
+        show: true,
+        formatter: tooltipFormatter,
+      },
     },
-  ];
-}
+    {
+      id: 'detailedReasons',
+      type: 'pie',
+      radius: ['60%', '80%'],
+      center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
+      top: 0,
+      avoidLabelOverlap: true,
+      labelLine: {
+        show: false,
+      },
+      label: {
+        position: 'inside',
+        rotate: 0,
+        precision: 1,
+        formatter: (p: CallbackDataParams) =>
+          (p.data as { percent: number }).percent
+            ? `${(p.data as OptionDataItem & { percent: number }).percent.toFixed(1)}%`
+            : undefined,
+      },
 
-export function createMediaQueries(): MediaUnit[] {
-  return [
-    {
-      query: {
-        minWidth: 450,
-        maxWidth: 750,
-      },
-      option: {
-        height: '70%',
+      data: [{ value: 0, name: '', itemStyle: { color: 'transparent' } }],
+      tooltip: {
+        formatter: tooltipFormatter,
       },
     },
     {
-      query: {
-        maxWidth: 450,
+      id: 'title',
+      type: 'pie',
+      radius: ['0%', '0%'],
+      center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
+      top: 0,
+      avoidLabelOverlap: true,
+      label: {
+        position: 'center',
+        formatter: title,
       },
-      option: {
-        height: '80%',
+      emphasis: { disabled: true },
+      labelLine: {
+        show: false,
       },
-    },
-    {
-      query: {
-        minWidth: 750,
-      },
-      option: {
-        height: '80%',
+      data: [
+        {
+          value: 0,
+          name: '',
+          itemStyle: { color: 'transparent' },
+        },
+      ],
+      tooltip: {
+        show: false,
       },
     },
   ];

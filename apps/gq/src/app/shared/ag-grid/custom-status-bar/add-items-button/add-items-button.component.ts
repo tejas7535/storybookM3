@@ -35,6 +35,7 @@ export class AddItemsButtonComponent {
     this.dialog.open(AddMaterialDialogComponent, {
       width: '71%',
       height: '75%',
+      panelClass: 'add-material-dialog',
     });
   }
 

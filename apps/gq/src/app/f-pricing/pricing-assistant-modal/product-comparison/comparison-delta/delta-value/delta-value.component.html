@@ -1,12 +1,5 @@
 @if (delta?.isDelta) {
-  <div
-    class="delta-chip"
-    [ngClass]="{
-      'text-neutral-variant-20 bg-neutral-variant-95': !delta.absolute,
-      'text-success bg-success': delta.absolute >= 0,
-      'text-error bg-error': delta.absolute < 0
-    }"
-  >
+  <schaeffler-tag [withDot]="false" [type]="delta | deltaTagType">
     @if (delta.absolute) {
       <mat-icon
         class="!text-caption !h-4 !w-4"
@@ -18,5 +11,5 @@
       </mat-icon>
     }
     <span>{{ delta | deltaDisplay | uppercase }}</span>
-  </div>
+  </schaeffler-tag>
 }

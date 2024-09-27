@@ -1,5 +1,5 @@
 import { CalculationResultReportInput } from '@ea/core/store/models';
-import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
+import jsPDF from 'jspdf';
 
 import {
   DefaultDocumentColors,

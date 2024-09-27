@@ -10,7 +10,7 @@ import { PROPERTIES } from '../../shared/constants/tracking-names';
 import { Report, Result } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ResultPageService {
   public constructor(
     private readonly restService: RestService,
@@ -32,7 +32,14 @@ export class ResultPageService {
           .filter((report: Report) => report.rel === 'pdf')
           .pop().href;
 
-        return { htmlReportUrl, pdfReportUrl };
+        // fallback for old API, new API should always return a json report, will need to be fixed before release of new report design
+        const jsonReport = reports
+          .filter((report: Report) => report.rel === 'json')
+          .pop();
+
+        const jsonReportUrl = jsonReport?.href ?? undefined;
+
+        return { htmlReportUrl, pdfReportUrl, jsonReportUrl };
       }),
       catchError(() =>
         throwError(() => this.translocoService.translate('error.content'))
@@ -46,5 +53,9 @@ export class ResultPageService {
 
   public trackProperties(properties: any): void {
     this.applicationInsightsService.logEvent(PROPERTIES, properties);
+  }
+
+  public getJsonReport(jsonReportUrl: string): Observable<any> {
+    return this.restService.getJsonReportResponse(jsonReportUrl);
   }
 }

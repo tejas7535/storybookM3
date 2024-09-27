@@ -1,4 +1,27 @@
 # Release Notes of Mounting Manager
+## [0.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.5.0...mm-v0.5.1) (2024-09-04)
+
+
+### Bug Fixes
+
+* **mm:** add json report url optional for time of new api delivery ([#6517](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6517)) ([c790d66](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c790d66beb066938edfb6de08967b97dac70e762))
+
+## [0.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.4.1...mm-v0.5.0) (2024-09-04)
+
+
+### Features
+
+* **mm:** add mobile links to medias view (UFTABI-7983) ([#6435](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6435)) ([489425a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/489425ad29c6d4a4028f335e99e5e5cf1c004a57))
+* **mm:** add one trust mobile and firebase integration (UFTABI-7981)  ([#6443](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6443)) ([711a1f5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/711a1f5486b2cfe7482a80d04eb0fc650e20c5ae))
+* **mm:** add result report in mm ( UFTABI-8027)  ([#6507](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6507)) ([ec5888d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ec5888d0b1bd86cdd53ac5bea3b00212f5b87e7e))
+* **mm:** parse mm report data (UFTABI-7991) ([#6478](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6478)) ([4cc3b94](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4cc3b94bc26d40ede85cb1f48953f40212cc1800))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **mm:** fix view loading issue (UFTABI-8047) ([#6516](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6516)) ([6d6ab5d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d6ab5d220f87007aeb1e6c00d9c06f2b9ef8c63))
+
 ## [0.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.4.0...mm-v0.4.1) (2024-06-12)
 
 

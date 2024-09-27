@@ -18,7 +18,12 @@ import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
+import {
+  LostJobProfilesResponse,
+  PmgmDataDto,
+  WorkforceResponse,
+} from '../../models';
+import { PmgmMapperService } from '../../pmgm/pmgm-mapper.service';
 import {
   clearLossOfSkillDimensionData,
   loadJobProfiles,
@@ -31,6 +36,9 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
+  loadPmgmData,
+  loadPmgmDataFailure,
+  loadPmgmDataSuccess,
 } from '../actions/loss-of-skill.actions';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
@@ -55,7 +63,10 @@ export class LossOfSkillEffects {
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => !!(request.timeRange && request.value)),
-      mergeMap((request: EmployeesRequest) => [loadJobProfiles({ request })])
+      mergeMap((request: EmployeesRequest) => [
+        loadJobProfiles({ request }),
+        loadPmgmData({ request }),
+      ])
     );
   });
 
@@ -140,9 +151,29 @@ export class LossOfSkillEffects {
     )
   );
 
+  loadPmgmData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadPmgmData),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.lossOfSkillService.getPmgmData(request).pipe(
+          map((data: PmgmDataDto[]) =>
+            loadPmgmDataSuccess({
+              data: this.pmgmMapperService.mapPmgmDataDtoToPmgmData(data),
+            })
+          ),
+          catchError((error) =>
+            of(loadPmgmDataFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly lossOfSkillService: LossOfSkillService,
+    private readonly pmgmMapperService: PmgmMapperService,
     private readonly store: Store
   ) {}
 }

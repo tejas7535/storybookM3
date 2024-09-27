@@ -13,6 +13,7 @@ import {
   SAP_SYNC_STATUS,
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
+import { TagType } from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -92,6 +93,7 @@ describe('DetailViewComponent', () => {
         quotationDetailIsFNumber$: of(false),
         canEditQuotation$: of(true),
         detailViewQueryParams$: of({} as any),
+        tagType$: of('info' as TagType),
       }),
       MockProvider(AgGridStateService),
 
@@ -173,6 +175,10 @@ describe('DetailViewComponent', () => {
         );
         m.expect(component.breadcrumbs$).toBeObservable(
           m.cold('(a|)', { a: [{ label: 'test' }] })
+        );
+
+        m.expect(component.tagType$).toBeObservable(
+          m.cold('(a|)', { a: 'info' })
         );
       })
     );

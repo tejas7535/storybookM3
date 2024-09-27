@@ -26,7 +26,7 @@
             <router-outlet></router-outlet>
             <div
               *transloco="let t; read: 'legal'"
-              class="bg-surface mx-auto w-full max-w-screen-md"
+              class="bg-surface-legacy mx-auto w-full max-w-screen-md"
               [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
             >
               <div class="px-4 py-3">

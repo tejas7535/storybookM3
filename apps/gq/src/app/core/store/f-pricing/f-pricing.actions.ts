@@ -8,7 +8,7 @@ import {
 import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { FPricingComparableMaterials } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { FPricingComparableMaterials } from '../transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingCalculations } from './models/f-pricing-calculations.interface';
 
 export const FPricingActions = createActionGroup({

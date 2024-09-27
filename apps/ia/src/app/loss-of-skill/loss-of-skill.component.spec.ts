@@ -9,7 +9,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
-import { RiskOfLeavingModule } from './risk-of-leaving/risk-of-leaving.module';
 
 describe('LossOfSkillComponent', () => {
   let component: LossOfSkillComponent;
@@ -20,7 +19,6 @@ describe('LossOfSkillComponent', () => {
     detectChanges: false,
     imports: [
       LostJobProfilesModule,
-      RiskOfLeavingModule,
       MatCardModule,
       provideTranslocoTestingModule({ en: {} }),
       PushPipe,

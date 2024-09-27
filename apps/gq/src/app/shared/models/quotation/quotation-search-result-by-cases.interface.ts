@@ -7,6 +7,7 @@ export interface QuotationSearchByCasesResponse {
 export interface QuotationSearchResultByCases {
   gqId: number;
   sapId: number;
+  caseName: string;
   customerName: string;
   customerId: string;
   salesOrg: string;

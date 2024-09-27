@@ -15,13 +15,17 @@
           'text-error': statusOfQuotation === quotationStatus.REJECTED
         }"
       >
-        <span class="text-caption">
+        <span
+          class="text-caption"
+          [attr.data-cy]="'customer-info_quotation-status'"
+        >
           {{ t(statusOfQuotation) }}
         </span>
         @if (!(isLatestApprovalEventVerified$ | ngrxPush)) {
           <mat-icon
             class="ml-2 !text-[12px] !font-medium !h-3 !w-3"
             [matTooltip]="t('ongoingSapVerification')"
+            [attr.data-cy]="'customer-info_hourGlass'"
             >hourglass_empty</mat-icon
           >
         }
@@ -43,6 +47,7 @@
         }"
         *transloco="let t; read: 'shared.sapStatusLabels'"
         [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
+        [attr.data-cy]="'customer-info_sap-sync-status'"
       >
         {{
           t('sapSyncStatus', {
@@ -55,10 +60,17 @@
   }
 
   <span
+    *transloco="let t; read: 'shared.customerInfo'"
     class="pt-2 text-caption text-medium-emphasis"
-    [ngClass]="{ 'pl-9': !showStatus }"
+    [ngClass]="!showStatus ? paddingLeftClass : ''"
+    [attr.data-cy]="'customer-info_customer_country_salesOrg'"
   >
     {{ customer.name }} | {{ customer.identifier.customerId }} |
-    {{ customer.country | nullableString }}</span
+    {{ customer.country | nullableString }}
+    {{
+      displaySalesOrg
+        ? ' | ' + t('salesOrg') + ' ' + customer.identifier.salesOrg
+        : ''
+    }}</span
   >
 </div>

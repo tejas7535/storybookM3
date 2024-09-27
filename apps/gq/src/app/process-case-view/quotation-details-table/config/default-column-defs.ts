@@ -7,4 +7,5 @@ export const DEFAULT_COLUMN_DEFS: ColDef = {
   menuTabs: ['generalMenuTab'],
   sortable: true,
   resizable: true,
+  minWidth: 100,
 };

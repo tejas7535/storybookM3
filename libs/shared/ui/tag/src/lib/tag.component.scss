@@ -35,10 +35,10 @@
 }
 
 .tag-error {
-  @apply text-error bg-error;
+  @apply text-on-error-container bg-error-container;
 
   .tag-dot {
-    @apply bg-[#cb0b15];
+    @apply bg-error;
   }
 }
 

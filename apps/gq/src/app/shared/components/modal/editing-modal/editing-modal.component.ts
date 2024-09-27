@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -25,14 +26,14 @@ import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
+import { SimulationService } from '@gq/process-case-view/quotation-details-table/services/simulation/simulation.service';
+import { PercentColumns } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
-import {
-  calculateAffectedKPIs,
-  multiplyAndRoundValues,
-} from '@gq/shared/utils/pricing.utils';
+import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
+import Big from 'big.js';
 
 import { EditingModal } from './models/editing-modal.model';
 import { KpiValue } from './models/kpi-value.model';
@@ -41,6 +42,20 @@ import { KpiValue } from './models/kpi-value.model';
 export abstract class EditingModalComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  private readonly simulationService: SimulationService =
+    inject(SimulationService);
+  protected translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+  protected transformationService: TransformationService = inject(
+    TransformationService
+  );
+  private readonly dialogRef: MatDialogRef<EditingModalComponent> =
+    inject(MatDialogRef);
+  private readonly store: Store = inject(Store);
+  private readonly changeDetectorRef: ChangeDetectorRef =
+    inject(ChangeDetectorRef);
+
   @Input() modalData: EditingModal;
   @Input() isDialog = true;
   @Input() isDisabled = false;
@@ -82,14 +97,6 @@ export abstract class EditingModalComponent
   protected value: number;
 
   protected readonly subscription: Subscription = new Subscription();
-
-  constructor(
-    protected translocoLocaleService: TranslocoLocaleService,
-    protected transformationService: TransformationService,
-    private readonly dialogRef: MatDialogRef<EditingModalComponent>,
-    private readonly store: Store,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.editingFormGroup
@@ -194,11 +201,16 @@ export abstract class EditingModalComponent
   }
 
   protected getLocaleValue(value: number): string {
-    return this.transformationService.transformNumber(value, true);
+    // if percentage number then multiply with 100
+    const updatedValue = PercentColumns.includes(this.modalData.field)
+      ? Big(value).times(100).toNumber()
+      : value;
+
+    return this.transformationService.transformNumber(updatedValue, true);
   }
 
   protected setAffectedKpis(value: number): void {
-    this.affectedKpis = calculateAffectedKPIs(
+    this.affectedKpis = this.simulationService.calculateAffectedKPIs(
       value,
       this.modalData.field,
       this.modalData.quotationDetail,
@@ -217,6 +229,13 @@ export abstract class EditingModalComponent
     this.isInvalidOrUnchanged.emit(invalid || unchanged);
 
     this.affectedKpiOutput.emit(this.affectedKpis);
+  }
+
+  protected resetKpiValues() {
+    this.affectedKpis = this.affectedKpis.map((kpi) => ({
+      ...kpi,
+      value: undefined,
+    }));
   }
 
   /**
@@ -244,7 +263,7 @@ export abstract class EditingModalComponent
   private initPriceChangeRadioGroup(): void {
     this.editingFormGroup.addControl(
       this.IS_RELATIVE_PRICE_CONTROL_NAME,
-      new FormControl(true, Validators.required)
+      new FormControl(false, Validators.required)
     );
 
     this.isRelativePriceChangeDisabled =

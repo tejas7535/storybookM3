@@ -8,9 +8,10 @@
         t('salesOrg')
       }}</mat-label>
       <mat-select
-        [disabled]="salesOrgs.length <= 1"
+        [formControl]="salesOrgFormControl"
         (selectionChange)="selectionChange($event)"
         [value]="selectedSalesOrg?.id"
+        [attr.data-cy]="'sales-org-select'"
       >
         @for (salesOrg of salesOrgs; track $index) {
           <mat-option [value]="salesOrg.id">

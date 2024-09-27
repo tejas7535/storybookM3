@@ -18,10 +18,19 @@ import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import {
   EmployeesRequest,
   FilterDimension,
+  LeavingType,
   SelectedFilter,
 } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { LostJobProfilesResponse, WorkforceResponse } from '../../models';
+import {
+  LostJobProfilesResponse,
+  PmgmArrow,
+  PmgmAssessment,
+  PmgmData,
+  PmgmDataDto,
+  WorkforceResponse,
+} from '../../models';
+import { PmgmMapperService } from '../../pmgm/pmgm-mapper.service';
 import {
   clearLossOfSkillDimensionData,
   loadJobProfiles,
@@ -34,6 +43,9 @@ import {
   loadLossOfSkillWorkforce,
   loadLossOfSkillWorkforceFailure,
   loadLossOfSkillWorkforceSuccess,
+  loadPmgmData,
+  loadPmgmDataFailure,
+  loadPmgmDataSuccess,
 } from '../actions/loss-of-skill.actions';
 import { LossOfSkillEffects } from './loss-of-skill.effects';
 
@@ -44,6 +56,7 @@ describe('LossOfSkill Effects', () => {
   let action: any;
   let effects: LossOfSkillEffects;
   let store: MockStore;
+  let pmgmMapperService: PmgmMapperService;
 
   const error = {
     message: 'An error message occured',
@@ -69,6 +82,7 @@ describe('LossOfSkill Effects', () => {
     effects = spectator.inject(LossOfSkillEffects);
     lossOfSkillService = spectator.inject(LossOfSkillService);
     store = spectator.inject(MockStore);
+    pmgmMapperService = spectator.inject(PmgmMapperService);
   });
 
   describe('filterChange$', () => {
@@ -106,7 +120,7 @@ describe('LossOfSkill Effects', () => {
 
   describe('loadLossOfSkillData$', () => {
     test(
-      'loadLossOfSkillData - should trigger loadLostJobProfiles if orgUnit is set',
+      'loadLossOfSkillData - should trigger loadJobProfiles and loadPmgmData if orgUnit is set',
       marbles((m) => {
         const request = {
           filterDimension: FilterDimension.ORG_UNIT,
@@ -116,10 +130,12 @@ describe('LossOfSkill Effects', () => {
         action = loadLossOfSkillData();
         store.overrideSelector(getCurrentFilters, request);
         const resultJobProfiles = loadJobProfiles({ request });
+        const resultPmgmData = loadPmgmData({ request });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', {
+        const expected = m.cold('-(bc)', {
           b: resultJobProfiles,
+          c: resultPmgmData,
         });
 
         m.expect(effects.loadLossOfSkillData$).toBeObservable(expected);
@@ -454,6 +470,94 @@ describe('LossOfSkill Effects', () => {
         m.expect(effects.loadLossOfSkillLeavers$).toBeObservable(expected);
         m.flush();
         expect(lossOfSkillService.getLeavers).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadPmgmData$', () => {
+    let request: EmployeesRequest;
+    let data: PmgmDataDto[];
+    let mappedData: PmgmData[];
+
+    beforeEach(() => {
+      request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: 'AVC',
+        timeRange: '12',
+      } as EmployeesRequest;
+      data = [
+        {
+          employee: 'Joe Doe',
+          employeeKey: '123',
+          highImpactOfLoss: false,
+          highRiskOfLoss: false,
+          isManager: true,
+          orgUnit: 'SG/XYZ',
+          orgUnitKey: '123321',
+          overallPerformanceRating: '2',
+          fluctuationType: LeavingType.UNFORCED,
+          personalArea: '1923',
+        },
+      ] as PmgmDataDto[];
+      mappedData = [
+        {
+          ...data[0],
+          assessment: PmgmAssessment.GREEN,
+          managerChange: PmgmArrow.RIGHT,
+          overallPerformanceRatingChange: PmgmArrow.RIGHT,
+          highImpactOfLossChange: PmgmArrow.RIGHT,
+          highRiskOfLossChange: PmgmArrow.RIGHT,
+        } as PmgmData,
+      ];
+    });
+
+    test(
+      'should load pmgm data',
+      marbles((m) => {
+        pmgmMapperService.mapPmgmDataDtoToPmgmData = jest.fn(() => mappedData);
+        action = loadPmgmData({ request });
+
+        const result = loadPmgmDataSuccess({
+          data: mappedData,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getPmgmData = jest.fn(() => response);
+
+        m.expect(effects.loadPmgmData$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getPmgmData).toHaveBeenCalledWith(request);
+        expect(pmgmMapperService.mapPmgmDataDtoToPmgmData).toHaveBeenCalledWith(
+          data
+        );
+      })
+    );
+
+    test(
+      'should return loadPmgmDataFailure on REST error',
+      marbles((m) => {
+        action = loadPmgmData({ request });
+
+        const result = loadPmgmDataFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getPmgmData = jest.fn(() => response);
+
+        m.expect(effects.loadPmgmData$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getPmgmData).toHaveBeenCalledWith(request);
       })
     );
   });

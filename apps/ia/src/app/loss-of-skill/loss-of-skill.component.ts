@@ -12,7 +12,7 @@ import {
 import { ExitEntryEmployeesResponse } from '../overview/models';
 import { EmployeeListDialogMetaFilters } from '../shared/dialogs/employee-list-dialog/models';
 import { IdValue } from '../shared/models';
-import { JobProfile, WorkforceResponse } from './models';
+import { JobProfile, PmgmData, WorkforceResponse } from './models';
 import {
   loadLossOfSkillLeavers,
   loadLossOfSkillWorkforce,
@@ -24,6 +24,7 @@ import {
   getLossOfSkillLeaversLoading,
   getLossOfSkillWorkforceData,
   getLossOfSkillWorkforceLoading,
+  getPmgmData,
 } from './store/selectors/loss-of-skill.selector';
 
 @Component({
@@ -40,6 +41,7 @@ export class LossOfSkillComponent implements OnInit {
   lossOfSkillWorkforceLoading$: Observable<boolean>;
   lossOfSkillLeaversData$: Observable<ExitEntryEmployeesResponse>;
   lossOfSkillLeaversLoading$: Observable<boolean>;
+  pmgmData$: Observable<PmgmData[]>;
 
   constructor(private readonly store: Store) {}
 
@@ -61,6 +63,7 @@ export class LossOfSkillComponent implements OnInit {
     this.lossOfSkillLeaversLoading$ = this.store.select(
       getLossOfSkillLeaversLoading
     );
+    this.pmgmData$ = this.store.select(getPmgmData);
   }
 
   triggerLoadWorkforce(jobKey: string): void {

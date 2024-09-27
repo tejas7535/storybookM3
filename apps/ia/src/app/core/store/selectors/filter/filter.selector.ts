@@ -306,26 +306,26 @@ export const getBeautifiedFilterValues = createSelector(
     timePeriod: TimePeriod
   ) => {
     let timeframe: string;
-    const timeRange = moment
-      .unix(
-        +filters
-          .find((filter) => filter.name === FilterKey.TIME_RANGE)
-          ?.idValue.id?.split('|')[1]
-      )
-      .utc();
+    const timeRange = filters
+      .find((filter) => filter.name === FilterKey.TIME_RANGE)
+      ?.idValue.id?.split('|');
+
+    const timeRangeStart = moment.unix(+timeRange[0]).utc();
+    const timeRangeEnd = moment.unix(+timeRange[1]).utc();
+
     switch (timePeriod) {
       case TimePeriod.LAST_12_MONTHS: {
-        timeframe = translate('filters.periodOfTime.last12Months');
+        timeframe = `${timeRangeStart.format('MMMM YYYY')} - ${timeRangeEnd.format('MMMM YYYY')}`;
 
         break;
       }
       case TimePeriod.MONTH: {
-        timeframe = timeRange.format('MMMM YYYY');
+        timeframe = timeRangeEnd.format('MMMM YYYY');
 
         break;
       }
       case TimePeriod.YEAR: {
-        timeframe = timeRange.format('YYYY');
+        timeframe = timeRangeEnd.format('YYYY');
 
         break;
       }

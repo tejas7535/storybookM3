@@ -10,5 +10,10 @@
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "include": ["**/*.d.ts", "**/index.ts"],
-  "exclude": ["src/test-setup.ts", "**/*.spec.ts", "jest.config.ts"]
+  "exclude": [
+    "src/test-setup.ts",
+    "**/*.spec.ts",
+    "jest.config.ts",
+    "src/testing/*"
+  ]
 }

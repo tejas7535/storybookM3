@@ -1,5 +1,8 @@
+import { EventEmitter } from '@angular/core';
+
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { LOCALE_DE } from '@gq/shared/constants';
 import * as constants from '@gq/shared/constants';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
@@ -65,6 +68,9 @@ describe('TargetPriceEditingModalComponent', () => {
   describe('handlePriceChangeTypeSwitch', () => {
     beforeEach(() => {
       component['setAffectedKpis'] = jest.fn();
+      component['resetKpiValues'] = jest.fn();
+      component.affectedKpiOutput = new EventEmitter<KpiValue[]>();
+      component.affectedKpiOutput.emit = jest.fn();
     });
 
     test('should call setAffectedKpis with target price', () => {
@@ -72,11 +78,15 @@ describe('TargetPriceEditingModalComponent', () => {
       expect(component['setAffectedKpis']).toBeCalledWith(
         QUOTATION_DETAIL_MOCK.targetPrice
       );
+      expect(component['resetKpiValues']).toHaveBeenCalled();
+      expect(component.affectedKpiOutput.emit).toHaveBeenCalled();
     });
 
     test('should call setAffectedKpis with 0', () => {
       component.handlePriceChangeTypeSwitch(false);
       expect(component['setAffectedKpis']).toBeCalledWith(0);
+      expect(component['resetKpiValues']).toHaveBeenCalled();
+      expect(component.affectedKpiOutput.emit).toHaveBeenCalled();
     });
   });
 

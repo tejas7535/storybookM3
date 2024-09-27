@@ -18,6 +18,7 @@ import {
   sortQuotationDetails,
 } from './active-case.utils';
 import { QuotationIdentifier } from './models';
+import { QuotationMetadataReducers } from './quotation-metadata/quotation-metadata.reducer';
 
 /**
  * Currently selected/active quotation state.
@@ -30,6 +31,9 @@ export interface ActiveCaseState {
   customerLoadingErrorMessage: string;
 
   quotationLoading: boolean;
+  quotationMetadataLoading: boolean;
+  quotationMetadataLoadingErrorMessage: string;
+
   quotation: Quotation;
   simulatedItem: SimulatedQuotation;
   selectedQuotationDetail: string;
@@ -53,6 +57,9 @@ export const initialState: ActiveCaseState = {
   customerLoading: false,
   customer: undefined,
   customerLoadingErrorMessage: undefined,
+
+  quotationMetadataLoading: false,
+  quotationMetadataLoadingErrorMessage: undefined,
 
   quotationLoading: false,
   quotation: undefined,
@@ -352,11 +359,12 @@ export const activeCaseFeature = createFeature({
       ActiveCaseActions.addSimulatedQuotation,
       (
         state: ActiveCaseState,
-        { gqId, quotationDetails }
+        { gqId, quotationDetails, simulatedField }
       ): ActiveCaseState => ({
         ...state,
         simulatedItem: buildSimulatedQuotation(
           gqId,
+          simulatedField,
           quotationDetails,
           state.quotation.quotationDetails
         ),
@@ -420,8 +428,7 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
         ...state,
         selectedQuotationDetails: [
-          ...state.selectedQuotationDetails,
-          gqPositionId,
+          ...new Set([...state.selectedQuotationDetails, gqPositionId]),
         ],
       })
     ),
@@ -588,7 +595,8 @@ export const activeCaseFeature = createFeature({
         ...state,
         sapSyncStatusErrorMessage: errorMessage,
       })
-    )
+    ),
+    ...QuotationMetadataReducers
   ),
   extraSelectors: ({
     selectActiveCaseState,

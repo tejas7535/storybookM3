@@ -7,25 +7,32 @@ import { waitForAsync } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@jsverse/transloco';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import jsPDF from 'jspdf'; // eslint-disable-line import/no-extraneous-dependencies
+import jsPDF from 'jspdf';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FontsLoaderService } from './fonts-loader.service';
 import { DocumentFonts } from './pdfreport/data';
 
+const assetsPath = 'assetPath';
+jest.mock(
+  '@ea/core/services/assets-path-resolver/assets-path-resolver.helper',
+  () => ({
+    getAssetsPath: jest.fn(() => assetsPath),
+  })
+);
+
 describe('FontsLoaderService', () => {
   let spectator: SpectatorService<FontsLoaderService>;
   let service: FontsLoaderService;
   let httpMock: HttpTestingController;
-  const assetBasePath = environment.assetsPath;
+  const assetBasePath = assetsPath;
 
   const langChanges$ = new BehaviorSubject<string>('zh');
   const langChangesObservable$: Observable<string> =

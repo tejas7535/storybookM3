@@ -221,7 +221,7 @@ Adjustments to app.component.html:
     <router-outlet></router-outlet>
     <div
         *transloco="let t; read: 'legal'"
-        class="mx-auto w-full max-w-screen-md bg-surface"
+        class="mx-auto w-full max-w-screen-md bg-surface-legacy"
         [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
     >
         <div class="py-3 px-4">

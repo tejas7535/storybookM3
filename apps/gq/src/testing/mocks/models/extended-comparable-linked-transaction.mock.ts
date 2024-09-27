@@ -1,5 +1,6 @@
-import { ExtendedComparableLinkedTransaction } from '../../../app/core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
-import { SalesIndication } from '../../../app/core/store/reducers/transactions/models/sales-indication.enum';
+import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+
+import { SalesIndication } from '../../../app/core/store/transactions/models/sales-indication.enum';
 import { NetSalesClassification } from '../../../app/shared/models/customer';
 
 export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLinkedTransaction =

@@ -20,7 +20,7 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { ComparableMaterialsRowData } from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { ComparableMaterialsRowData } from '../transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { fPricingFeature, FPricingState } from './f-pricing.reducer';
 import { FPricingPositionData } from './models/f-pricing-position-data.interface';

@@ -11,6 +11,13 @@ import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 
 @Component({
   selector: 'gq-confirm-simulation-button',
+  styles: [
+    `
+      :host {
+        @apply h-full;
+      }
+    `,
+  ],
   templateUrl: './confirm-simulation-button.component.html',
 })
 export class ConfirmSimulationButtonComponent {

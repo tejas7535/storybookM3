@@ -1,4 +1,20 @@
 # Release Notes of Material App Center
+## [1.23.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.22.1...mac-v1.23.0) (2024-09-06)
+
+
+### Features
+
+* **mac:** adjust contact dialogs ([#6512](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6512)) ([2086bc7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2086bc7475d9529dbcda5cb5bd1e3b29f9eb9870))
+* **mac:** replace secondary color to avoid conflict with m3 ([#6452](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6452)) ([6ae4af8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6ae4af82dcfd1ce17496c9f85ecc60542dfcd6b9))
+* **mac:** switch category for green steel products to material group ([#6395](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6395)) ([e0ab733](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e0ab7336bceabbe3a270557e161aac514df612d9))
+
+
+### Bug Fixes
+
+* **mac:** fix excel validation ([#6477](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6477)) ([a6de226](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a6de226901283f18335f0405248da9af37560d48))
+* **mac:** fix some imports after standalone migration (UFTABI-7908) ([#6408](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6408)) ([3a36467](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3a3646752373d0a9a5a4c20377368949dd0f8ae6))
+* **mac:** replace sconnect links ([#6520](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6520)) ([85296ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85296ae7797b1c7da6cca25262569025d929b139))
+
 ## [1.22.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.22.0...mac-v1.22.1) (2024-07-12)
 
 

@@ -1,6 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
-import { RowDataUpdatedEvent } from 'ag-grid-community';
 
 import { ReasonsForLeavingTableComponent } from './reasons-for-leaving-table.component';
 
@@ -30,23 +29,6 @@ describe('ReasonsForLeavingTableComponent', () => {
       component.ngOnInit();
 
       expect(component.columnDefs.length).toEqual(4);
-    });
-  });
-
-  describe('onRowDataUpdated', () => {
-    test('should autosize detailedReason column', () => {
-      const params = {
-        columnApi: {
-          autoSizeColumns: jest.fn(),
-        },
-      } as unknown as RowDataUpdatedEvent;
-
-      component.onRowDataUpdated(params);
-
-      expect(params.columnApi.autoSizeColumns).toHaveBeenCalledWith(
-        ['detailedReason'],
-        false
-      );
     });
   });
 });

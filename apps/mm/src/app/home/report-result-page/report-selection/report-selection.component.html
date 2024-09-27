@@ -1,0 +1,44 @@
+<div
+  class="text-medium-emphasis ml-8 md:flex md:min-w-[250px] h-full mb-auto flex-row hidden"
+  *transloco="let t; read: 'reportResult.reportSelection'"
+>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div
+    class="mb-2 ml-8 mr-4 w-full md:overflow-y-auto md:max-h-[calc(65vh-20px)] md:pr-4"
+  >
+    <div class="mb-4">
+      <button
+        [hidden]="true"
+        [disabled]="true"
+        class="hover:bg-secondary-legacy-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+      >
+        <mat-icon class="shrink-0 aspect-square">download</mat-icon>
+        <span class="uppercase block w-full flex-grow">{{
+          t('downloadPdf')
+        }}</span>
+      </button>
+    </div>
+
+    <div class="mb-2">
+      <div class="flex items-center">
+        <mat-icon class="mr-2 flex-shrink-0">calculate</mat-icon>
+        <div>{{ t('title') }}</div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    @if (selectionTypes.length > 0) {
+      <div class="flex pt-4 flex-col">
+        @for (type of selectionTypes; track type) {
+          <div
+            (click)="onCalculationTypeClicked(type.name)"
+            class="hover:bg-secondary-legacy-100 hover:text-primary mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer"
+          >
+            <div class="text-subtitle-2 whitespace-normal">
+              {{ t(type.name) }}
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,338 @@
+<ng-container *transloco="let t; read: 'shared.caseHeaderInformation'">
+  <form [formGroup]="headerInfoForm" (ngSubmit)="submitDialog()">
+    <div
+      class="flex w-full flex-col @container/caseHeader"
+      [ngClass]="{ 'pb-4': isEditMode }"
+    >
+      <ng-container *ngrxLet="userHasOfferTypeAccess$ as offerType">
+        <div class="flex flex-col">
+          <div
+            class="grid gap-4 @[0rem]/caseHeader:grid-cols-1 @sm/caseHeader:grid-cols-2"
+          >
+            @if (isEditMode) {
+              <ng-template [ngTemplateOutlet]="customerEditInfo"></ng-template>
+            } @else {
+              <ng-template
+                [ngTemplateOutlet]="customerCreateInfo"
+              ></ng-template>
+            }
+
+            <gq-sector-gpsd-select
+              [ngClass]="
+                isEditMode
+                  ? '@[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2'
+                  : 'col-span-1'
+              "
+              formControlName="partnerRoleType"
+            ></gq-sector-gpsd-select>
+
+            <gq-purchase-order-type-select
+              formControlName="purchaseOrderType"
+            ></gq-purchase-order-type-select>
+            <mat-form-field>
+              <mat-label>{{ t('currencyLabel') }}</mat-label>
+              <mat-select
+                formControlName="currency"
+                data-cy="case-header-information_currency-select"
+              >
+                @for (
+                  currency of availableCurrencies$ | ngrxPush;
+                  track currency
+                ) {
+                  <mat-option [value]="currency">{{ currency }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            @if (offerType) {
+              <gq-offer-type-select
+                class="@[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
+                formControlName="offerType"
+              ></gq-offer-type-select>
+            }
+            <mat-form-field
+              class="@[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
+              appearance="outline"
+            >
+              <mat-label>{{ t('shipToParty') }}</mat-label>
+              <input
+                matInput
+                color="primary"
+                class="!mx-2 w-full !max-w-[90%] truncate leading-7 !outline-none"
+                type="text"
+                formControlName="shipToParty"
+                [matAutocomplete]="auto"
+                #shipToPartyInput
+                pinDropDown="matAutocompleteTrigger"
+                [attr.data-cy]="'case-header-information_ship-to-party-input'"
+              />
+
+              @if (!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)) {
+                <mat-icon
+                  matSuffix
+                  class="absolute bottom-1 right-2"
+                  (click)="shipToPartyInput.select()"
+                  [ngClass]="{
+                    'text-low-emphasis':
+                      headerInfoForm.get('shipToParty').disabled
+                  }"
+                >
+                  edit
+                </mat-icon>
+              }
+              @if (autocomplete.customerAndShipToPartyLoading$ | ngrxPush) {
+                <mat-spinner
+                  matSuffix
+                  class="absolute bottom-1 right-2"
+                  [diameter]="18"
+                  [attr.data-cy]="
+                    'case-header-information_ship-to-party-spinner'
+                  "
+                ></mat-spinner>
+              }
+
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="formatAutocompleteResult"
+                (optionSelected)="
+                  autocomplete.selectCustomer($event.option.value, filterName)
+                "
+              >
+                @for (
+                  idValue of (shipToParty$ | ngrxPush)?.options;
+                  track idValue
+                ) {
+                  <mat-option [value]="idValue">
+                    <span> {{ idValue.id }} | {{ idValue.value }}</span>
+                    @if (idValue.value2) {
+                      <span> | {{ idValue.value2 }}</span>
+                    }
+                  </mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field
+              class="@[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
+              appearance="outline"
+            >
+              <mat-label>{{ t('nameLabel') }}</mat-label>
+              <input
+                formControlName="caseName"
+                type="text"
+                autocomplete="off"
+                matInput
+                data-cy="case-header-information_case-name-input"
+                [maxlength]="NAME_MAX_LENGTH"
+              />
+              <mat-hint align="end">{{
+                (headerInfoForm.controls.caseName.value?.length.toString() ||
+                  '0') +
+                  ' / ' +
+                  NAME_MAX_LENGTH.toString()
+              }}</mat-hint>
+            </mat-form-field>
+          </div>
+        </div></ng-container
+      >
+      <div
+        class="flex flex-col"
+        *ngrxLet="isEditMode ? 'caseCreation' : 'today' as referenceDate"
+      >
+        <span class="text-medium-emphasis pb-4 text-[14px]">
+          {{ t('additionalInformation') }}</span
+        >
+        <div
+          class="grid gap-4 @[0rem]/caseHeader:grid-cols-1 @sm/caseHeader:grid-cols-2"
+        >
+          <mat-form-field class="col-span-1" appearance="outline">
+            <mat-label>{{ t('customerInquiryDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="customerInquiryDate"
+              [matDatepicker]="customerInquiryDateDatePicker"
+              [required]="true"
+              [attr.data-cy]="
+                'case-header-information_customer-inquiry-date-input'
+              "
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="customerInquiryDateDatePicker"
+            >
+              <mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #customerInquiryDateDatePicker></mat-datepicker>
+            @if (headerInfoForm.get('customerInquiryDate')?.errors?.required) {
+              <mat-error>{{
+                t('requiredFieldValidationMessage', {
+                  field: t('customerInquiryDateLabel')
+                })
+              }}</mat-error>
+            }
+            @if (
+              headerInfoForm.get('customerInquiryDate')?.errors
+                ?.greaterThanReferenceDate
+            ) {
+              <mat-error>{{
+                t('dateInFutureValidationMessage', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field class="col-span-1" appearance="outline">
+            <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="quotationToDate"
+              [matDatepicker]="quotationToDatePicker"
+              [attr.data-cy]="'case-header-information_quotation-to-date-input'"
+            />
+            <mat-datepicker-toggle matSuffix [for]="quotationToDatePicker"
+              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #quotationToDatePicker></mat-datepicker>
+            @if (
+              headerInfoForm.get('quotationToDate')?.errors
+                ?.smallerThanInquiryDate
+            ) {
+              <mat-error>{{
+                t('smallerThanInquiryDateValidationMessage')
+              }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field class="col-span-1" appearance="outline">
+            <mat-label>{{ t('requestedDeliveryDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="requestedDeliveryDate"
+              [matDatepicker]="requestedDeliveryDatePicker"
+              [attr.data-cy]="
+                'case-header-information_requested-delivery-input'
+              "
+            />
+            <mat-datepicker-toggle matSuffix [for]="requestedDeliveryDatePicker"
+              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #requestedDeliveryDatePicker></mat-datepicker>
+            @if (
+              headerInfoForm.get('requestedDeliveryDate')?.errors
+                ?.smallerThanReferenceDate
+            ) {
+              <mat-error>{{
+                t('dateInPastValidationMessage', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field class="col-span-1" appearance="outline">
+            <mat-label>{{ t('bindingPeriodValidityEndDateLabel') }}</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="bindingPeriodValidityEndDate"
+              [matDatepicker]="bindingPeriodValidityEndDatePicker"
+              [required]="true"
+              [attr.data-cy]="
+                'case-header-information_binding-period-validity-end-input'
+              "
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="bindingPeriodValidityEndDatePicker"
+              ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker
+              #bindingPeriodValidityEndDatePicker
+            ></mat-datepicker>
+            @if (
+              headerInfoForm.get('bindingPeriodValidityEndDate')?.errors
+                ?.smallerOrEqualThanReferenceDate
+            ) {
+              <mat-error>{{
+                t('dateNotInFutureValidationMessage', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
+            @if (
+              headerInfoForm.get('bindingPeriodValidityEndDate')?.errors
+                ?.moreThan18MonthsInFuture
+            ) {
+              <mat-error>{{
+                t('validateDateMoreThan18MonthsInFutureFromReferenceDate', {
+                  date: isEditMode ? 'caseCreation' : 'today'
+                })
+              }}</mat-error>
+            }
+            @if (
+              headerInfoForm.get('bindingPeriodValidityEndDate')?.errors
+                ?.required
+            ) {
+              <mat-error>{{
+                t('requiredFieldValidationMessage', {
+                  field: t('bindingPeriodValidityEndDateLabel')
+                })
+              }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    @if (isEditMode) {
+      <div class="flex w-full">
+        <button
+          class="!pl-8 !pr-8"
+          color="primary"
+          mat-raised-button
+          [disabled]="!hasHeaderInfoFormChange || !headerInfoForm.valid"
+          [attr.data-cy]="'case-header-information_edit-case_update-btn'"
+        >
+          <span>
+            {{ t(isSapCase ? 'updateSapCase' : 'confirm') | uppercase }}
+          </span></button
+        ><button
+          class="!ml-6 !pl-8 !pr-8"
+          color="primary"
+          mat-stroked-button
+          type="button"
+          (click)="closeDialog()"
+          [attr.data-cy]="'case-header-information_edit-case_close-btn'"
+        >
+          <span> {{ t('cancel') | uppercase }} </span>
+        </button>
+      </div>
+    }
+    <ng-template #customerCreateInfo>
+      @if (autocomplete.createCaseCustomer$ | ngrxPush; as customer) {
+        <gq-autocomplete-input
+          formControlName="customer"
+          class="w-full pt-2 @[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
+          [isDisabled]="isEditMode"
+          [filterName]="customer.filter"
+          [options]="customer.options"
+          (unselected)="autocomplete.unselectOptions(customer.filter)"
+          (added)="autocomplete.selectCustomer($event, customer.filter)"
+          [autocompleteLoading]="autocomplete.customerLoading$ | ngrxPush"
+          (autocomplete)="autocomplete.autocomplete($event)"
+          (inputContent)="
+            !$event ? autocomplete.unselectOptions(customer.filter) : null
+          "
+        ></gq-autocomplete-input>
+      }
+
+      <gq-select-sales-org formControlName="salesOrg"></gq-select-sales-org>
+    </ng-template>
+    <ng-template #customerEditInfo>
+      <gq-status-customer-info-header
+        class="col-span-2 @[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
+        [customer]="modalData?.caseCustomer"
+        [paddingLeftClass]="'pl-0'"
+        [displaySalesOrg]="true"
+      ></gq-status-customer-info-header>
+    </ng-template>
+  </form>
+</ng-container>

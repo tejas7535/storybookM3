@@ -1,10 +1,8 @@
-import { ReasonForLeavingStats } from './reason-for-leaving-stats.model';
-
-export class ReasonForLeavingRank implements ReasonForLeavingStats {
+export class ReasonForLeavingRank {
   constructor(
-    public position: number,
-    public actionReason: string,
-    public percentage: number,
-    public leavers: number
+    public rank: number,
+    public reason: string,
+    public leavers: number,
+    public percentage: number
   ) {}
 }

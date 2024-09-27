@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "ใหม่: การเลือกผลิตภัณฑ์ล่วงหน้า (ไม่บังคับ)"
+        "main": "การคัดเลือกสินค้าเบื้องต้น (ทางเลือก)"
       },
       "grease": {
         "label": "จาระบี",
@@ -221,6 +221,7 @@
     "environmentTemperature": "อุณหภูมิรอบข้าง",
     "environmentalImpactOnGreaseDuration": "สภาวะในการทำงาน",
     "low": "ต่ำ",
+    "application": "กรณีการใช้งาน",
     "moderate": "ปานกลาง",
     "high": "สูง",
     "greaseSelection": "การเลือกจาระบี",
@@ -253,7 +254,26 @@
       "otherInfluences": "ปัจจัยสำหรับอิทธิพลของความชื้น แรงสั่นสะเทือน และแรงกระแทกในการโหลดต่ออายุการใช้งานของจาระบี",
       "shiftFrequency": "จำนวนการเคลื่อนไหวแบบแกว่ง (เต็มวง ไปกลับ)",
       "shiftAngle": "มุมระหว่างจุดวกกลับสำหรับการเคลื่อนไหวแบบแกว่ง (ดูในคำถามที่พบบ่อยได้เช่นกัน)"
-    }
+    },
+    "applications": {
+      "All": "แอปพลิเคชันที่ไม่ได้ระบุ",
+      "BallScrewDrive": "บอลสกรูไดรฟ์",
+      "CleanRoomApplications": "แอพพลิเคชั่นห้องสะอาด",
+      "ConveyorBelts": "สายพานลำเลียง",
+      "SmallElectricMotors": "มอเตอร์ไฟฟ้าขนาดเล็ก",
+      "LargeElectricMotors": "มอเตอร์ไฟฟ้าขนาดใหญ่",
+      "HighSpeedElectricMotors": "มอเตอร์ไฟฟ้าความเร็วสูง",
+      "Fans": "พัดลม",
+      "GreasedGears": "เกียร์ทาจาระบี",
+      "JawCrushers": "เครื่องบดกราม",
+      "Pumps": "ปั๊ม",
+      "VibratingScreens": "หน้าจอสั่น",
+      "RailWheelsetBearings": "แบริ่งชุดล้อรถไฟ",
+      "WindTurbineMainShaft": "กังหันลม (เพลาหลัก)"
+    },
+    "exclusivityDisclaimer": "เฉพาะสำหรับผู้ใช้ Medias Plus เท่านั้น",
+    "signupPrompt": "สมัครตอนนี้",
+    "signupUrl": "https://medias.schaeffler.co.th/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -345,7 +365,11 @@
     "preferredGreaseHintAlternative": "ทางเลือก",
     "preferredGreaseHintAlternativeTooltip": "นี่คือผลิตภัณฑ์ทางเลือกจากแฟ้มผลิตภัณฑ์ของแชฟฟ์เลอร์ ซึ่งอ้างอิงตามอินพุตจากขั้นตอนที่ 2",
     "poweredBy": "powered by",
-    "pdfDownload": "ดาวน์โหลด PDF"
+    "pdfDownload": "ดาวน์โหลด PDF",
+    "recommendedChip": "แนะนำ",
+    "resultsWithRecommendation": "ผลลัพธ์จะเรียงตามคำแนะนำและช่วงเวลาการหล่อลื่นใหม่",
+    "noRecommendation": "พารามิเตอร์ที่ให้มาไม่ปกติสำหรับการใช้งานที่กำหนด โปรดติดต่อเรา",
+    "contact": "ติดต่อ Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -366,5 +390,24 @@
     "content": "ขออภัย เกิดข้อผิดพลาด โปรดลองอีกครั้งในภายหลัง",
     "confirm": "ยืนยัน",
     "retry": "ลองอีกครั้ง"
+  },
+  "recommendationPopup": {
+    "modalTitle": "แอป Grease ของ Medias Plus",
+    "close": "ปิด",
+    "modalHeading": "คำแนะนำการใช้แอป Grease",
+    "modalText": "โปรดทราบว่าฟังก์ชันนี้สามารถใช้ได้เฉพาะกับผู้ใช้ที่ลงทะเบียนของ Medias Plus เท่านั้น ลงทะเบียนตอนนี้ฟรีเพื่อเข้าถึงคำแนะนำการใช้น้ำมันหล่อลื่น",
+    "registrationCta": "ลงทะเบียนฟรี",
+    "loginQuestion": "ลงทะเบียนแล้วหรือ?",
+    "loginText": "เข้าสู่ระบบ",
+    "mediasComparison": {
+      "allfeatures": "ฟังก์ชันทั้งหมดใน medias",
+      "linearconfig": "เครื่องกำหนดค่าลิเนียร์",
+      "cadfileslinear": "ดาวน์โหลดไฟล์ CAD สำหรับการกำหนดค่าลิเนียร์",
+      "linearimport": "บันทึกและนำเข้าการกำหนดค่าลิเนียร์",
+      "comparison": "เปรียบเทียบผลิตภัณฑ์",
+      "campus": "ศูนย์ฝึกอบรม Schaeffler",
+      "wishlists": "สร้างและบันทึกรายการสิ่งที่ต้องการ",
+      "cartrequest": "ทำการร้องขอโดยใช้ฟังก์ชันตะกร้า"
+    }
   }
 }

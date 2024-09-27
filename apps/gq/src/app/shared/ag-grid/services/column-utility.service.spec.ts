@@ -581,11 +581,12 @@ describe('CreateColumnService', () => {
       } as ValueFormatterParams);
       expect(result).toEqual('SAP_ZP05-ZP17');
     });
-    test('should return untransformed price source', () => {
+    test('should return translated price source', () => {
       const result = ColumnUtilityService.transformPriceSource({
         value: PriceSource.GQ,
       } as ValueFormatterParams);
-      expect(result).toEqual(PriceSource.GQ);
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(result).toEqual('translate it');
     });
   });
 

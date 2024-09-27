@@ -1,10 +1,11 @@
 import { Params } from '@angular/router';
 
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
+import { FilterNames } from '../components/autocomplete-input/filter-names.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
-import { Keyboard } from '../models';
+import { Keyboard, QuotationStatus, SAP_SYNC_STATUS } from '../models';
 import * as miscUtils from './misc.utils';
 
 describe('MiscUtils', () => {
@@ -71,6 +72,19 @@ describe('MiscUtils', () => {
         )
       ).toEqual({ years: 0, months: 2, days: 21 });
       done();
+    });
+  });
+
+  describe('getMomentUtcStartOfDayDate', () => {
+    test('should return the correct moment date when it is already midnight', () => {
+      const date = '2023-06-30T00:00:00Z';
+      const result = miscUtils.getMomentUtcStartOfDayDate(date);
+      expect(result.format()).toEqual('2023-06-30T00:00:00Z');
+    });
+    test('should return the correct moment date when it is not midnight', () => {
+      const date = '2023-06-30T12:00:00Z';
+      const result = miscUtils.getMomentUtcStartOfDayDate(date);
+      expect(result.format()).toEqual('2023-06-30T00:00:00Z');
     });
   });
   describe('getCurrentYear', () => {
@@ -308,6 +322,152 @@ describe('MiscUtils', () => {
       expect(
         params[`${FILTER_PARAM_INDICATOR}${ColumnFields.CUSTOMER_MATERIAL}`]
       ).toEqual('customerMaterial');
+    });
+  });
+
+  describe('getTagTypeByStatus', () => {
+    test('should return info for QuotationStatus.IN_APPROVAL', () => {
+      expect(miscUtils.getTagTypeByStatus(QuotationStatus.IN_APPROVAL)).toEqual(
+        'info'
+      );
+    });
+    test('should return success for QuotationStatus.APPROVED', () => {
+      expect(miscUtils.getTagTypeByStatus(QuotationStatus.APPROVED)).toEqual(
+        'success'
+      );
+    });
+    test('should return error for QuotationStatus.REJECTED', () => {
+      expect(miscUtils.getTagTypeByStatus(QuotationStatus.REJECTED)).toEqual(
+        'error'
+      );
+    });
+    test('should return info for SAP_SYNC_STATUS.SYNCED', () => {
+      expect(miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.SYNCED)).toEqual(
+        'info'
+      );
+    });
+    test('should return neutral for SAP_SYNC_STATUS.NOT_SYNCED', () => {
+      expect(miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.NOT_SYNCED)).toEqual(
+        'neutral'
+      );
+    });
+    test('should return warning for SAP_SYNC_STATUS.SYNC_PENDING', () => {
+      expect(
+        miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.SYNC_PENDING)
+      ).toEqual('warning');
+    });
+    test('should return warning for SAP_SYNC_STATUS.PARTIAL_SYNCED', () => {
+      expect(
+        miscUtils.getTagTypeByStatus(SAP_SYNC_STATUS.PARTIALLY_SYNCED)
+      ).toEqual('warning');
+    });
+  });
+
+  describe('mapMaterialAutocompleteToIdValue', () => {
+    test('should map to IdValue when filter is MaterialNumber', () => {
+      const value = {
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      };
+      const result = miscUtils.mapMaterialAutocompleteToIdValue(
+        value,
+        FilterNames.MATERIAL_NUMBER
+      );
+      expect(result).toEqual({
+        id: '123',
+        value: 'desc',
+        value2: 'cust',
+        selected: false,
+      });
+    });
+    test('should map to IdValue when filter is MaterialDescription', () => {
+      const value = {
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      };
+      const result = miscUtils.mapMaterialAutocompleteToIdValue(
+        value,
+        FilterNames.MATERIAL_DESCRIPTION
+      );
+      expect(result).toEqual({
+        id: 'desc',
+        value: '123',
+        value2: 'cust',
+        selected: false,
+      });
+    });
+    test('should map to IdValue when filter is CustomerMaterial', () => {
+      const value = {
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      };
+      const result = miscUtils.mapMaterialAutocompleteToIdValue(
+        value,
+        FilterNames.CUSTOMER_MATERIAL
+      );
+      expect(result).toEqual({
+        id: 'cust',
+        value: '123',
+        value2: 'desc',
+        selected: false,
+      });
+    });
+  });
+
+  describe('mapIdValueToMaterialAutoComplete', () => {
+    test('should map to MaterialAutoComplete when filter is MaterialNumber', () => {
+      const value = {
+        id: '123',
+        value: 'desc',
+        value2: 'cust',
+        selected: false,
+      };
+      const result = miscUtils.mapIdValueToMaterialAutoComplete(
+        value,
+        FilterNames.MATERIAL_NUMBER
+      );
+      expect(result).toEqual({
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      });
+    });
+    test('should map to MaterialAutoComplete when filter is MaterialDescription', () => {
+      const value = {
+        id: 'desc',
+        value: '123',
+        value2: 'cust',
+        selected: false,
+      };
+      const result = miscUtils.mapIdValueToMaterialAutoComplete(
+        value,
+        FilterNames.MATERIAL_DESCRIPTION
+      );
+      expect(result).toEqual({
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      });
+    });
+    test('should map to MaterialAutoComplete when filter is CustomerMaterial', () => {
+      const value = {
+        id: 'cust',
+        value: '123',
+        value2: 'desc',
+        selected: false,
+      };
+      const result = miscUtils.mapIdValueToMaterialAutoComplete(
+        value,
+        FilterNames.CUSTOMER_MATERIAL
+      );
+      expect(result).toEqual({
+        materialNumber15: '123',
+        materialDescription: 'desc',
+        customerMaterial: 'cust',
+      });
     });
   });
 });

@@ -21,3 +21,13 @@ export const getReportUrls = createSelector(
       jsonReportUrl: `${environment.baseUrl}/${modelId}/output/${resultId}`,
     }
 );
+
+export const hasResultMessage = createSelector(
+  getCalculationResultState,
+  (state): boolean => state.messages.length > 0
+);
+
+export const getResultMessages = createSelector(
+  getCalculationResultState,
+  (state) => state.messages
+);

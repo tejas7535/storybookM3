@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationResultSelector getCalculationInputs when inputs are defined should return inputs 1`] = `
+Array [
+  Object {
+    "hasNestedStructure": true,
+    "title": "some title",
+  },
+]
+`;
+
+exports[`CalculationResultSelector getCalculationMessages when messages are defined should return messages 1`] = `
+Object {
+  "errors": Array [],
+  "notes": Array [
+    "some note",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`CalculationResultSelector getMountingRecommendations when mounting recommendations are defined should return mounting recommendations 1`] = `
+Array [
+  "first recommendation",
+  "second recommendation",
+]
+`;
+
+exports[`CalculationResultSelector getMountingTools when mounting tools are defined should return mounting tools 1`] = `
+Object {
+  "additionalTools": Array [],
+  "hydraulicNut": Array [],
+  "locknut": Array [],
+  "pumps": Object {
+    "items": Array [],
+    "title": "",
+  },
+  "sleeveConnectors": Array [],
+}
+`;
+
+exports[`CalculationResultSelector isResultAvailable getReportSelectionTypes when reports types are available should return types list 1`] = `
+Array [
+  Object {
+    "name": "reportInputs",
+  },
+  Object {
+    "name": "mountingToolsAndUtilities",
+  },
+  Object {
+    "name": "mountingInstructions",
+  },
+  Object {
+    "name": "reportMessages",
+  },
+]
+`;

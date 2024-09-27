@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -8,18 +9,31 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { Subscription } from 'rxjs';
 
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { PushPipe } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import {
@@ -29,12 +43,27 @@ import {
 import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 
 const QUANTITY_FORM_CONTROL_NAME = 'quantity';
 const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
 @Component({
   selector: 'gq-editing-material-modal',
   templateUrl: './editing-material-modal.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    AutocompleteInputComponent,
+    MatInputModule,
+    DialogHeaderModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PushPipe,
+    SharedPipesModule,
+    MatButtonModule,
+    MatIconModule,
+    SharedTranslocoModule,
+  ],
 })
 export class EditingMaterialModalComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -221,7 +250,7 @@ export class EditingMaterialModalComponent
   }
 
   /**
-   * edit the material to update data and return MaterialTableItem as DialogResult
+   *  edit the material to update data and return MaterialTableItem as DialogResult
    */
   update(): void {
     this.autoCompleteFacade.resetView();

@@ -23,6 +23,8 @@ export class MaterialDetails {
   series: string;
   weightUnit: string;
   width: string;
+  brandKey: string;
+  brandName: string;
   productType?: ProductType;
 
   // strategic hierarchy and strategic pl is only relevant for greater china

@@ -1,19 +1,15 @@
 import { CreateCaseEffects } from './create-case/create-case.effects';
-import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.effects';
 import { MaterialComparableCostEffect } from './material-comparable-costs/material-comparable-costs.effects';
 import { MaterialCostDetailsEffects } from './material-cost-details/material-cost-details.effects';
 import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 import { MaterialStockEffects } from './material-stock/material-stock.effects';
 import { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
 import { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
-import { TransactionsEffect } from './transactions/transactions.effects';
 
 export const ROOT_EFFECTS = [
   CreateCaseEffects,
-  TransactionsEffect,
   MaterialComparableCostEffect,
   MaterialSalesOrgEffect,
-  ExtendedComparableLinkedTransactionsEffect,
   SapPriceDetailsEffects,
   MaterialStockEffects,
   PlantMaterialDetailsEffects,
@@ -21,11 +17,9 @@ export const ROOT_EFFECTS = [
 ];
 
 export { CreateCaseEffects } from './create-case/create-case.effects';
-export { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.effects';
 export { MaterialComparableCostEffect } from './material-comparable-costs/material-comparable-costs.effects';
 export { MaterialCostDetailsEffects } from './material-cost-details/material-cost-details.effects';
 export { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 export { MaterialStockEffects } from './material-stock/material-stock.effects';
 export { PlantMaterialDetailsEffects } from './plant-material-details/plant-material-details.effects';
 export { SapPriceDetailsEffects } from './sap-price-details/sap-price-details.effects';
-export { TransactionsEffect } from './transactions/transactions.effects';

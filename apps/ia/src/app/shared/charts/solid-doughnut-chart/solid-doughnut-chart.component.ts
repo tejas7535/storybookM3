@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { EChartsOption, SeriesOption } from 'echarts';
+import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 
 import { ExternalLegend } from '../external-legend';
 import { LegendSelectAction } from '../models';
-import { ChartLegendItem } from '../models/chart-legend-item.model';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
 import {
-  createMediaQueries,
   createSolidDoughnutChartBaseOptions,
   createSolidDoughnutChartSeries,
 } from './solid-doughnut-chart.config';
@@ -22,35 +20,43 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
   options: EChartsOption;
   mergeOptions: EChartsOption;
   _data: DoughnutChartData[];
-  legend: ChartLegendItem[];
+  _initialConfig: SolidDoughnutChartConfig;
+  selected: string;
 
   @Input() isLoading: boolean;
+  @Input() children: { reason: string; children: DoughnutChartData[] }[];
 
-  @Input() set titleInside(inside: boolean) {
-    this.setTitlePosition(inside);
-  }
+  readonly OPACITY_INACTIVE = 0.3;
+  readonly OPACITY_ACTIVE = 1;
 
   @Input() set initialConfig(config: SolidDoughnutChartConfig) {
+    this._initialConfig = config;
     const baseOptions: EChartsOption =
       createSolidDoughnutChartBaseOptions(config);
 
-    const series: SeriesOption[] = createSolidDoughnutChartSeries(config.title);
-    const media = createMediaQueries();
+    const series: SeriesOption[] = createSolidDoughnutChartSeries(
+      config.side,
+      config.subTitle
+    );
     this.options = {
       ...baseOptions,
       series,
-      media,
     };
+    this.mergeOptions = undefined;
 
     this.setCurrentData();
   }
 
   @Input() set data(data: DoughnutChartData[]) {
+    this.selected = undefined;
     this._data = data;
     if (data) {
-      this.resetSelection();
       this.setData(data);
     }
+  }
+
+  get data(): DoughnutChartData[] {
+    return this._data;
   }
 
   @Input() set legendSelectAction(action: LegendSelectAction) {
@@ -63,43 +69,103 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
     }
   }
 
-  setData(data: DoughnutChartData[]): void {
-    this.mergeOptions = {
-      ...this.mergeOptions,
-      title: {
-        ...this.mergeOptions?.title,
-        textStyle: {
-          fontFamily: 'Noto Sans',
-          color: 'rgba(0, 0, 0, 0.60)',
-          fontSize: '1rem',
-          fontStyle: 'normal',
-          fontWeight: 400,
-        },
-      },
-      series: [{ data }],
-      legend: {
-        top: 'bottom',
-        textStyle: {
-          fontSize: '0.75rem',
-        },
-      },
-    };
+  onChartInit(ec: ECharts): void {
+    super.onChartInit(ec);
+    this.echartsInstance.on('click', (event: any) => {
+      this.manageOnClickEvent(event);
+    });
   }
 
-  setTitlePosition(titleInside: boolean): void {
+  manageSelectedDataPoint(name: string): void {
+    this.setSelectedReasons(name);
+    this.removeChildrenOnToggle(name);
+    this.echartsInstance.setOption(this.mergeOptions);
+    this.selected = this.selected === name ? undefined : name;
+  }
+
+  removeChildrenOnToggle(name: string): void {
+    if (this.selected === name) {
+      (this.options.series as SeriesOption[])[1].data = [
+        { value: 0, name: '', itemStyle: { color: 'transparent' } },
+      ];
+    }
+  }
+
+  setSelectedReasons(name: string): void {
+    this.data.forEach((dataPoint) => {
+      dataPoint.itemStyle =
+        dataPoint.name === name || name === this.selected
+          ? {
+              opacity: this.OPACITY_ACTIVE,
+            }
+          : {
+              opacity: this.OPACITY_INACTIVE,
+            };
+    });
+  }
+
+  setData(data: DoughnutChartData[]): void {
+    const series = this.options.series as SeriesOption[];
+    series[0].data = data;
     this.mergeOptions = {
       ...this.mergeOptions,
-      title: {
-        ...this.mergeOptions.title,
-        top: titleInside ? 'middle' : 'top',
-        left: titleInside ? 'center' : 'auto',
-      },
+      series,
     };
   }
 
   setCurrentData(): void {
     if (this._data) {
       this.setData(this._data);
+    }
+  }
+
+  manageOnClickEvent(event: any): void {
+    // check if the clicked item is a reason
+    if (
+      !event.data?.name ||
+      !this.data.map((d) => d.name).includes(event.data.name)
+    ) {
+      return;
+    }
+
+    // get the detailed reasons for the clicked reason
+    const children = this.children.find(
+      (child) => child.reason === event.data.name
+    )?.children;
+
+    // set the detailed reasons
+    (this.mergeOptions.series as SeriesOption[])[1].data = children;
+
+    if (this.selected === event.data.name) {
+      this.mergeOptions.legend = {
+        data: undefined,
+      };
+    } else {
+      this.mergeOptions = {
+        ...this.mergeOptions,
+        legend: { data: [event.data.name, ...children.map((c) => c.name)] },
+      };
+    }
+
+    this.echartsInstance.setOption(this.mergeOptions);
+
+    this.manageSelectedDataPoint(event.data.name);
+  }
+
+  resetChart(): void {
+    this.manageOnClickEvent({ data: { name: this.selected } });
+
+    const dataSize = (
+      (this.mergeOptions.series as SeriesOption[])[0]
+        .data as DoughnutChartData[]
+    ).length;
+
+    for (let i = 0; i < dataSize; i += 1) {
+      this.echartsInstance.dispatchAction({
+        type: 'unselect',
+        seriesIndex: 0,
+        dataIndex: i,
+      });
     }
   }
 }

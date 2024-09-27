@@ -28,7 +28,7 @@ import { F_PRICING_STATE_MOCK } from '../../../../testing/mocks/state/f-pricing-
 import {
   FPricingComparableMaterials,
   Material,
-} from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+} from '../transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import {
   calculatePriceRecommendationAfterSanityChecks,

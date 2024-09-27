@@ -89,7 +89,12 @@ export const getCaseMaterialNumberOrDesc = (
         FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION
       )
   );
-
+export const getCustomerMaterialNumber = (dialog: AutocompleteRequestDialog) =>
+  createSelector(
+    getCaseState,
+    (state: CreateCaseState): CaseFilterItem =>
+      getAutocompleteItems(state, dialog, FilterNames.CUSTOMER_MATERIAL)
+  );
 const getAutocompleteItems = (
   state: CreateCaseState,
   dialog: AutocompleteRequestDialog,
@@ -180,7 +185,6 @@ export const getSalesOrgs = createSelector(
   getCaseState,
   (state: CreateCaseState): SalesOrg[] => state.customer.salesOrgs
 );
-
 export const getSalesOrgsOfShipToParty = createSelector(
   getCaseState,
   (state: CreateCaseState): SalesOrg[] => state.shipToParty.salesOrgs

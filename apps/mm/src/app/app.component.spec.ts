@@ -4,6 +4,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import {
   createComponentFactory,
@@ -17,6 +19,7 @@ import { MockModule } from 'ng-mocks';
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
   ApplicationInsightsModule,
+  ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
 import { BannerModule } from '@schaeffler/banner';
@@ -28,6 +31,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { SettingsComponent } from './core/components/settings/settings.component';
 import { detectAppDelivery } from './core/helpers/settings-helpers';
+import { InternalDetectionService } from './core/services/internal-detection/internal-detection.service';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
 import { MaterialModule } from './shared/material.module';
 import { AppDelivery } from './shared/models';
@@ -69,6 +73,10 @@ describe('AppComponent', () => {
         useValue: false,
       },
       mockProvider(OneTrustMobileService),
+      mockProvider(ApplicationInsightsService),
+      mockProvider(InternalDetectionService, {
+        getInternalHelloEndpoint: () => of(true),
+      }),
     ],
     declarations: [AppComponent, SettingsComponent],
   });

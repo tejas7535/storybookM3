@@ -5,6 +5,7 @@ import moment, { Moment } from 'moment';
 import {
   DATA_IMPORT_DAY,
   DATE_FORMAT_BEAUTY,
+  DEFAULT_TIME_PERIOD_FILTERS,
   DIMENSIONS_WITH_2021_DATA,
 } from '../../../../shared/constants';
 import {
@@ -21,6 +22,7 @@ import {
   getTimeRangeFromDates,
 } from '../../../../shared/utils/utilities';
 import {
+  activateTimePeriodFilters,
   benchmarkFilterSelected,
   filterDimensionSelected,
   filterSelected,
@@ -28,6 +30,7 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  setAvailableTimePeriods,
   timePeriodSelected,
 } from '../../actions/filter/filter.action';
 
@@ -94,20 +97,7 @@ export const initialState: FilterState = {
       {} as any
     ),
   },
-  timePeriods: [
-    {
-      id: TimePeriod.YEAR,
-      value: TimePeriod.YEAR,
-    },
-    {
-      id: TimePeriod.MONTH,
-      value: TimePeriod.MONTH,
-    },
-    {
-      id: TimePeriod.LAST_12_MONTHS,
-      value: TimePeriod.LAST_12_MONTHS,
-    },
-  ],
+  timePeriods: DEFAULT_TIME_PERIOD_FILTERS,
   selectedFilters: filterAdapter.getInitialState({
     ids: [FilterKey.TIME_RANGE],
     entities: {
@@ -284,6 +274,33 @@ export const filterReducer = createReducer(
                 .unix()
             : getMaxDate(),
       },
+    })
+  ),
+  on(
+    activateTimePeriodFilters,
+    (
+      state: FilterState,
+      { timePeriods, activeTimePeriod, timeRange, timeRangeConstraints }
+    ): FilterState => ({
+      ...state,
+      timePeriods,
+      selectedTimePeriod: activeTimePeriod,
+      selectedFilters: filterAdapter.upsertOne(
+        new SelectedFilter(FilterKey.TIME_RANGE, timeRange),
+        state.selectedFilters
+      ),
+      benchmarkFilters: filterAdapter.upsertOne(
+        new SelectedFilter(FilterKey.TIME_RANGE, timeRange),
+        state.benchmarkFilters
+      ),
+      timeRangeConstraints,
+    })
+  ),
+  on(
+    setAvailableTimePeriods,
+    (state: FilterState, { timePeriods }): FilterState => ({
+      ...state,
+      timePeriods,
     })
   )
 );

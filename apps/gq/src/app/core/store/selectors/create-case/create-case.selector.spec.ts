@@ -8,7 +8,7 @@ import {
   CreateCaseState,
   initialState,
 } from '../../reducers/create-case/create-case.reducer';
-import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
+import { SalesIndication } from '../../transactions/models/sales-indication.enum';
 import * as createSelectors from './create-case.selector';
 
 describe('Create Case Selector', () => {
@@ -36,6 +36,10 @@ describe('Create Case Selector', () => {
         },
         {
           filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
+          options: [new IdValue('1', '1', true)],
+        },
+        {
+          filter: FilterNames.CUSTOMER_MATERIAL,
           options: [new IdValue('1', '1', true)],
         },
       ],
@@ -116,6 +120,28 @@ describe('Create Case Selector', () => {
         filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
         options: [],
       });
+    });
+  });
+
+  describe('getCustomerMaterialNumber', () => {
+    test('should return customerMaterialNumber', () => {
+      expect(
+        createSelectors
+          .getCustomerMaterialNumber(AutocompleteRequestDialog.EMPTY)
+          .projector(fakeState.case)
+      ).toEqual(
+        fakeState.case.autocompleteItems.find(
+          (elm) => elm.filter === FilterNames.CUSTOMER_MATERIAL
+        )
+      );
+    });
+
+    test('should return empty options', () => {
+      expect(
+        createSelectors
+          .getCustomerMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+          .projector(fakeState.case)
+      ).toEqual({ filter: FilterNames.CUSTOMER_MATERIAL, options: [] });
     });
   });
   describe('getCustomerAndShipToParty', () => {

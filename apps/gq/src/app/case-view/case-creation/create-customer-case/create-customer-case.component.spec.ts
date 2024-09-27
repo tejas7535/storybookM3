@@ -1,19 +1,12 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
 
 import {
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
 } from '@gq/core/store/actions';
-import { AutocompleteInputModule } from '@gq/shared/components/autocomplete-input/autocomplete-input.module';
-import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { SelectSalesOrgModule } from '@gq/shared/components/select-sales-org/select-sales-org.module';
+import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -25,15 +18,10 @@ import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { VIEW_CASE_STATE_MOCK } from '../../../../testing/mocks';
-import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
-import { FilterSelectionComponent } from './additional-filters/filter-selection/filter-selection.component';
 import { CreateCustomerCaseComponent } from './create-customer-case.component';
-import { MaterialSelectionComponent } from './material-selection/material-selection.component';
-import { StatusBarComponent } from './status-bar/status-bar.component';
 
 describe('CreateCustomerCaseComponent', () => {
   let component: CreateCustomerCaseComponent;
@@ -43,22 +31,8 @@ describe('CreateCustomerCaseComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CreateCustomerCaseComponent,
-    imports: [
-      PushPipe,
-      DialogHeaderModule,
-      MatIconModule,
-      MatCheckboxModule,
-      SelectSalesOrgModule,
-      AutocompleteInputModule,
-      MatFormFieldModule,
-      MatSelectModule,
-      ReactiveFormsModule,
-      LoadingSpinnerModule,
-      SharedPipesModule,
-      provideTranslocoTestingModule({}),
-    ],
+    imports: [PushPipe, SharedPipesModule, provideTranslocoTestingModule({})],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: { case: VIEW_CASE_STATE_MOCK },
       }),
@@ -73,12 +47,7 @@ describe('CreateCustomerCaseComponent', () => {
         },
       },
     ],
-    declarations: [
-      StatusBarComponent,
-      MaterialSelectionComponent,
-      AdditionalFiltersComponent,
-      FilterSelectionComponent,
-    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 
   beforeEach(() => {
@@ -90,6 +59,25 @@ describe('CreateCustomerCaseComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('ngOnInit', () => {
+    test('should init autoCompleteFacade with CREATE_CASE', () => {
+      component.isNewCaseCreation = true;
+      component.autocompleteFacade.initFacade = jest.fn();
+      component.ngOnInit();
+      expect(component.autocompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.CREATE_CASE
+      );
+    });
+
+    test('should init AutoCompleteFacade with ADD_ENTRY', () => {
+      component.isNewCaseCreation = false;
+      component.autocompleteFacade.initFacade = jest.fn();
+      component.ngOnInit();
+      expect(component.autocompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.ADD_ENTRY
+      );
+    });
   });
   describe('closeDialog', () => {
     test('should close matDialog', () => {

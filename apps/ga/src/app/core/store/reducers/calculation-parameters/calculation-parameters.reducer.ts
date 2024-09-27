@@ -3,6 +3,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { adaptPreferredGreaseOptionsFromDialogResponseListValues } from '@ga/core/helpers/grease-helpers';
 import * as parametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { CalculationParametersState } from '@ga/core/store/models';
+import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
 
 export const initialState: CalculationParametersState = {
   loads: {
@@ -21,6 +22,7 @@ export const initialState: CalculationParametersState = {
     operatingTemperature: undefined,
     environmentTemperature: undefined,
     environmentImpact: undefined,
+    applicationScenario: ApplicationScenario.All,
   },
   preferredGrease: {
     greaseOptions: [],

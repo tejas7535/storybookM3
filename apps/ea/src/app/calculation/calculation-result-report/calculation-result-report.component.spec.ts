@@ -1,8 +1,10 @@
 import { DialogModule, DialogRef } from '@angular/cdk/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { translate } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
@@ -23,7 +25,6 @@ import { CalculationResultReportComponent } from './calculation-result-report.co
 describe('CalculationResultReportComponent', () => {
   let component: CalculationResultReportComponent;
   let spectator: Spectator<CalculationResultReportComponent>;
-
   const dialogRefMock = {
     close: jest.fn(),
   };
@@ -34,7 +35,6 @@ describe('CalculationResultReportComponent', () => {
       MatIconTestingModule,
       MockModule(DialogModule),
       provideTranslocoTestingModule({ en: {} }),
-      RouterTestingModule,
     ],
     providers: [
       provideMockStore({
@@ -47,12 +47,14 @@ describe('CalculationResultReportComponent', () => {
       },
       { provide: DialogRef, useValue: dialogRefMock },
       mockProvider(PDFReportService),
+      provideRouter([]),
     ],
+    mocks: [TrackingService, MatDialog],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
 
     spectator.detectChanges();
   });

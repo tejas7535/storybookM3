@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import { withCache } from '@ngneat/cashew';
@@ -12,12 +13,14 @@ import {
   MMResponseVariants,
   PreflightRequestBody,
 } from '../../../shared/models';
+import { BearinxOnlineResult } from '../bearinx-result.interface';
 import { environment } from './../../../../environments/environment';
 import {
   BEARING_CALCULATION_RESULT_MOCK,
   BEARING_MATERIAL_RESPONSE_MOCK,
   BEARING_PREFLIGHT_RESPONSE_MOCK,
   BEARING_SEARCH_RESULT_MOCK,
+  JSON_REPORT_RESPONSE_MOCK,
   LOAD_OPTIONS_RESPONSE_MOCK,
 } from './../../../../testing/mocks/rest.service.mock';
 import { SearchResult } from './../../../shared/models/bearing-search/bearing-search.model';
@@ -30,8 +33,8 @@ describe('RestService', () => {
 
   const createService = createServiceFactory({
     service: RestService,
-    imports: [HttpClientTestingModule],
-    providers: [RestService],
+    imports: [],
+    providers: [RestService, provideHttpClient(), provideHttpClientTesting()],
   });
 
   beforeEach(() => {
@@ -192,6 +195,21 @@ describe('RestService', () => {
       const req = httpMock.expectOne('testUrl');
       expect(req.request.method).toBe('GET');
       req.flush(new Blob());
+    });
+  });
+
+  describe('#getJsonReportResponse', () => {
+    it('should get json report data', (done) => {
+      service
+        .getJsonReportResponse('jsonUrl')
+        .subscribe((result: BearinxOnlineResult) => {
+          expect(result).toEqual(JSON_REPORT_RESPONSE_MOCK);
+          done();
+        });
+
+      const req = httpMock.expectOne('jsonUrl');
+      expect(req.request.method).toBe('GET');
+      req.flush(JSON_REPORT_RESPONSE_MOCK);
     });
   });
 });

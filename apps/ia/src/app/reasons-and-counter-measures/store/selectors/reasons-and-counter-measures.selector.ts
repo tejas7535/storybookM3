@@ -1,53 +1,39 @@
-import { translate } from '@jsverse/transloco';
 import { createSelector } from '@ngrx/store';
-import moment from 'moment';
 
-import {
-  getAreAllFiltersSelected,
-  getSelectedTimePeriod,
-  getSelectedTimeRange,
-} from '../../../core/store/selectors';
-import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
-import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
-import {
-  Filter,
-  FilterDimension,
-  FilterKey,
-  IdValue,
-  SelectedFilter,
-  TimePeriod,
-} from '../../../shared/models';
-import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import { ReasonForLeavingStats, ReasonForLeavingTab } from '../../models';
 import {
   ReasonsAndCounterMeasuresState,
-  selectAllComparedSelectedFilters,
   selectReasonsAndCounterMeasuresState,
 } from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
-import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
+import { getPercentageValue } from './reasons-and-counter-measures.selector.utils';
 
-export const getComparedSelectedDimension = createSelector(
+export const getCurrentTab = createSelector(
   selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedDimension
-);
-
-export const getComparedSelectedTimePeriod = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedTimePeriod
+  (state: ReasonsAndCounterMeasuresState) => state.reasonsForLeaving.selectedTab
 );
 
 export const getReasonsData = createSelector(
   selectReasonsAndCounterMeasuresState,
-  getAreAllFiltersSelected,
-  (state: ReasonsAndCounterMeasuresState, areAllFiltersSelected: boolean) =>
-    areAllFiltersSelected ? state.reasonsForLeaving.reasons.data : undefined
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.reasons.data
 );
 
 export const getReasonsTableData = createSelector(
+  getCurrentTab,
   getReasonsData,
-  (data: ReasonForLeavingStats[]) => utils.mapReasonsToTableData(data)
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToTableData(reasons);
+    } else {
+      return [];
+    }
+  }
 );
 
 export const getReasonsLoading = createSelector(
@@ -57,103 +43,51 @@ export const getReasonsLoading = createSelector(
 );
 
 export const getReasonsChartData = createSelector(
+  getCurrentTab,
   getReasonsData,
-  (reasons: ReasonForLeavingStats[]) =>
-    reasons ? utils.getTop5ReasonsForChart(reasons) : []
-);
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
 
-export const getReasonsChartConfig = createSelector(
-  getReasonsData,
-  getSelectedTimeRange,
-  getSelectedTimePeriod,
-  getReasonsChartData,
-  (
-    stats: ReasonForLeavingStats[],
-    timeRange: IdValue,
-    timePeriod: TimePeriod,
-    originalData: DoughnutChartData[]
-  ) => ({
-    title: getTimeRangeTitle(timePeriod, timeRange.value),
-    subTitle:
-      stats === undefined || stats.length === 0
-        ? translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData')
-        : undefined,
-    tooltipFormatter: utils.getTooltipFormatter(),
-    color: utils.getColorsForChart(originalData),
-  })
-);
-
-const getComparedSelectedFilters = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedFilters
-);
-
-const getAllComparedSelectedFilters = createSelector(
-  getComparedSelectedFilters,
-  selectAllComparedSelectedFilters
-);
-
-export const getComparedSelectedDimensionIdValue = createSelector(
-  getAllComparedSelectedFilters,
-  getComparedSelectedDimension,
-  (selectedFilters: SelectedFilter[], selectedDimension: FilterDimension) =>
-    selectedFilters.find((filter) => filter.name === selectedDimension)?.idValue
-);
-
-export const getComparedOrgUnitsFilter = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    new Filter(
-      FilterDimension.ORG_UNIT,
-      state.reasonsForLeaving.data[FilterDimension.ORG_UNIT]?.items
-    )
-);
-
-export const getComparedSelectedDimensionFilter = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  getComparedSelectedDimension,
-  (state: ReasonsAndCounterMeasuresState, selectedDimension: FilterDimension) =>
-    new Filter(
-      selectedDimension,
-      state.reasonsForLeaving.data[selectedDimension]?.items ?? []
-    )
-);
-
-export const getComparedSelectedTimeRange = createSelector(
-  getAllComparedSelectedFilters,
-  (filters: SelectedFilter[]) =>
-    filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
-);
-
-export const getComparedMomentSelectedTimeRange = createSelector(
-  getComparedSelectedTimeRange,
-  (timeRange: IdValue) => {
-    const timeRangeSplit = timeRange.id.split('|');
-
-    return {
-      from: moment.unix(+timeRangeSplit[0]).utc(),
-      to: moment.unix(+timeRangeSplit[1]).utc(),
-    };
+      return utils.mapReasonsToChartData(reasons);
+    } else {
+      return [];
+    }
   }
 );
 
-export const getComparedSelectedOrgUnitLoading = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  getComparedSelectedDimension,
-  (state: ReasonsAndCounterMeasuresState, selectedDimension: FilterDimension) =>
-    state.reasonsForLeaving.data[selectedDimension]?.loading
+export const getReasonsChildren = createSelector(
+  getCurrentTab,
+  getReasonsData,
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToChildren(reasons);
+    } else {
+      return [];
+    }
+  }
 );
 
-export const getCurrentComparedFilters = createSelector(
-  getComparedSelectedDimension,
-  getComparedSelectedDimensionIdValue,
-  getComparedSelectedTimeRange,
-  (filterDimension: FilterDimension, idValue: IdValue, timeRange: IdValue) => ({
-    filterDimension,
-    timeRange: timeRange?.id,
-    value: idValue?.id,
-  })
+export const getConductedInterviewsInfo = createSelector(
+  getReasonsData,
+  (data: ReasonForLeavingStats) =>
+    data
+      ? {
+          conducted: data.conductedInterviews,
+          percentage: getPercentageValue(
+            data.conductedInterviews,
+            data.totalInterviews
+          ),
+        }
+      : undefined
 );
 
 export const getComparedReasonsData = createSelector(
@@ -163,8 +97,20 @@ export const getComparedReasonsData = createSelector(
 );
 
 export const getComparedReasonsTableData = createSelector(
+  getCurrentTab,
   getComparedReasonsData,
-  (data: ReasonForLeavingStats[]) => utils.mapReasonsToTableData(data)
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return utils.mapReasonsToTableData(reasons);
+    } else {
+      return [];
+    }
+  }
 );
 
 export const getComparedReasonsLoading = createSelector(
@@ -174,64 +120,49 @@ export const getComparedReasonsLoading = createSelector(
 );
 
 export const getComparedReasonsChartData = createSelector(
+  getCurrentTab,
   getComparedReasonsData,
-  (reasons: ReasonForLeavingStats[]) =>
-    reasons ? utils.getTop5ReasonsForChart(reasons) : undefined
-);
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
 
-export const getComparedReasonsChartConfig = createSelector(
-  getComparedReasonsData,
-  getComparedSelectedTimeRange,
-  getComparedSelectedTimePeriod,
-  getReasonsChartData,
-  getComparedReasonsChartData,
-  (
-    stats: ReasonForLeavingStats[],
-    timeRange: IdValue,
-    timePeriod: TimePeriod,
-    originalData: DoughnutChartData[],
-    compareData: DoughnutChartData[]
-  ) => ({
-    title: getTimeRangeTitle(timePeriod, timeRange.value),
-    subTitle:
-      stats === undefined || stats.length === 0
-        ? translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData')
-        : undefined,
-    tooltipFormatter: utils.getTooltipFormatter(),
-    color: utils.getColorsForChart(originalData, compareData),
-  })
-);
-
-export const getReasonsCombinedLegend = createSelector(
-  getReasonsChartData,
-  getComparedReasonsChartData,
-  (data, comparedData) => {
-    const colors = getColorsForChart(data);
-    const items = utils.mapDataToLegendItems(data, colors);
-
-    if (comparedData) {
-      const comparedLegendColors = getColorsForChart(data, comparedData);
-      const comparedLegendItems: ChartLegendItem[] = utils.mapDataToLegendItems(
-        comparedData,
-        comparedLegendColors
-      );
-      const uniqueComparedItems =
-        utils.getUniqueChartLegendItemsFromComparedLegend(
-          items,
-          comparedLegendItems
-        );
-
-      return [...items, ...uniqueComparedItems];
+      return utils.mapReasonsToChartData(reasons);
     } else {
-      return items;
+      return [];
     }
   }
 );
 
-const getTimeRangeTitle = (
-  timePeriod: TimePeriod,
-  timeRange: string
-): string =>
-  timePeriod === TimePeriod.LAST_12_MONTHS
-    ? translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`)
-    : timeRange;
+export const getComparedReasonsChildren = createSelector(
+  getCurrentTab,
+  getReasonsData,
+  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+    if (data) {
+      const reasons =
+        tab === ReasonForLeavingTab.TOP_REASONS
+          ? utils.filterTopReasons(data.reasons)
+          : data.reasons;
+
+      return data ? utils.mapReasonsToChildren(reasons) : [];
+    } else {
+      return [];
+    }
+  }
+);
+
+export const getComparedConductedInterviewsInfo = createSelector(
+  getComparedReasonsData,
+  (data: ReasonForLeavingStats) =>
+    data
+      ? {
+          conducted: data.conductedInterviews,
+          percentage: getPercentageValue(
+            data.conductedInterviews,
+            data.totalInterviews
+          ),
+        }
+      : undefined
+);

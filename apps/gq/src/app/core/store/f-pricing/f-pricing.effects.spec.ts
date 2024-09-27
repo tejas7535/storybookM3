@@ -22,7 +22,7 @@ import { UpdateQuotationDetail } from '../active-case/models';
 import {
   FPricingComparableMaterials,
   Material,
-} from '../reducers/transactions/models/f-pricing-comparable-materials.interface';
+} from '../transactions/models/f-pricing-comparable-materials.interface';
 import { FPricingActions } from './f-pricing.actions';
 import { FPricingEffects } from './f-pricing.effects';
 import { fPricingFeature, initialState } from './f-pricing.reducer';
@@ -162,7 +162,7 @@ describe('FPricingEffects', () => {
         const result = FPricingActions.triggerFPricingCalculationsSuccess({
           response: {
             ...response,
-            gpm: response.gpm * 100,
+            gpm: response.gpm,
             sanityCheck: {
               ...response.sanityCheck,
               sqv: requestData.sanityCheck.sqv,

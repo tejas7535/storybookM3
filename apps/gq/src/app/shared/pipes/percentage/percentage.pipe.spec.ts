@@ -38,6 +38,7 @@ describe('PercentagePipe', () => {
     expect(transformationService.transformPercentage).toHaveBeenCalledTimes(1);
     expect(transformationService.transformPercentage).toHaveBeenCalledWith(
       10,
+      true,
       false
     );
   });
@@ -48,10 +49,11 @@ describe('PercentagePipe', () => {
     transformationService = spectator.inject(TransformationService);
 
     const pipe = new PercentagePipe(transformationService);
-    pipe.transform(10, true);
+    pipe.transform(10, undefined, true);
     expect(transformationService.transformPercentage).toHaveBeenCalledTimes(1);
     expect(transformationService.transformPercentage).toHaveBeenCalledWith(
       10,
+      true,
       true
     );
   });

@@ -31,6 +31,7 @@ describe('TransparencyGraphComponent', () => {
           buildDataPoints: jest.fn(),
           getToolTipConfig: jest.fn(),
           getXAxisConfig: jest.fn(),
+          getYAxisConfig: jest.fn(),
           getSeriesConfig: jest.fn(() => ({
             series: [],
             options: [],

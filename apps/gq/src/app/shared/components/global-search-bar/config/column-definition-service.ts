@@ -123,6 +123,12 @@ export class ColumnDefinitionService {
   CASES_TABLE_COLUMN_DEFS: ColDef[] = [
     ...this.COLUMN_DEFS,
     {
+      headerName: translate('searchBarAdvanced.resultsTable.columns.caseName'),
+      valueFormatter: GeneralColumnUtilityService.basicTransform,
+      field: SearchByCasesOrMaterialsColumnFields.CASE_NAME,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate(
         'searchBarAdvanced.casesResultsTable.columns.totalNetValue'
       ),
@@ -185,9 +191,7 @@ export class ColumnDefinitionService {
       field: SearchByCasesOrMaterialsColumnFields.GPI,
       filter: NUMBER_COLUMN_FILTER,
       valueFormatter: (params: ValueFormatterParams) =>
-        this.generalColumnUtilityService.percentageFormatter(params),
-      valueGetter: (params: ValueGetterParams) =>
-        this.searchResultsColumnUtilityService.gpiGetter(params),
+        this.generalColumnUtilityService.percentageFormatter(params, false),
       comparator: GeneralColumnUtilityService.numberAsStringComparator,
     },
   ];

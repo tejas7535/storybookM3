@@ -1,10 +1,9 @@
 /* eslint-disable max-lines */
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -98,9 +97,11 @@ describe('Create Case Effects', () => {
 
   const createService = createServiceFactory({
     service: CreateCaseEffects,
-    imports: [MatSnackBarModule, RouterTestingModule, HttpClientTestingModule],
+    imports: [MatSnackBarModule, RouterModule.forRoot([])],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      provideHttpClient(),
+      provideHttpClientTesting(),
+
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: { search: initialState },
@@ -191,10 +192,44 @@ describe('Create Case Effects', () => {
         );
       })
     );
+    test(
+      'should return autocompleteMaterialNumberSuccess action when REST call is successful',
+      marbles((m) => {
+        autocompleteSearch = new AutocompleteSearch(
+          FilterNames.MATERIAL_NUMBER,
+          '12345'
+        );
+        action = autocomplete({ autocompleteSearch });
+        const options: IdValue[] = [];
+        const result = autocompleteSuccess({
+          options,
+          filter: FilterNames.MATERIAL_NUMBER,
+        });
 
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: options,
+        });
+        validationService.autocompleteMaterial = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
+
+        expect(validationService.autocompleteMaterial).toHaveBeenCalledTimes(1);
+        expect(validationService.autocompleteMaterial).toHaveBeenCalledWith(
+          autocompleteSearch
+        );
+      })
+    );
     test(
       'should return autocompleteFailure on REST error',
       marbles((m) => {
+        autocompleteSearch = new AutocompleteSearch(
+          FilterNames.CUSTOMER,
+          'Aud'
+        );
+        action = autocomplete({ autocompleteSearch });
         const error = new Error('damn');
         const result = autocompleteFailure();
 
@@ -208,6 +243,29 @@ describe('Create Case Effects', () => {
         m.flush();
 
         expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
+      'should return autocompleteFailure on REST error when autocomplete for material',
+      marbles((m) => {
+        autocompleteSearch = new AutocompleteSearch(
+          FilterNames.MATERIAL_NUMBER,
+          'Aud'
+        );
+        action = autocomplete({ autocompleteSearch });
+        const error = new Error('damn');
+        const result = autocompleteFailure();
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        validationService.autocompleteMaterial = jest.fn(() => response);
+
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
+
+        expect(validationService.autocompleteMaterial).toHaveBeenCalledTimes(1);
       })
     );
   });

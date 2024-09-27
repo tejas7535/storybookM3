@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NUEVO: Preselección de productos (opt)"
+        "main": "Preselección de productos (opt)"
       },
       "grease": {
         "label": "Grasa",
@@ -221,6 +221,7 @@
     "environmentTemperature": "Temperatura ambiente",
     "environmentalImpactOnGreaseDuration": "Condiciones de funcionamiento",
     "low": "baja",
+    "application": "caso de aplicación",
     "moderate": "moderada",
     "high": "alta",
     "greaseSelection": "Selección de grasa",
@@ -253,7 +254,26 @@
       "otherInfluences": "Factores de influencia de la humedad, las vibraciones y la carga de impacto en la vida útil de la grasa.",
       "shiftFrequency": "Número de movimientos oscilantes por minuto (ciclo completo, adelante y atrás)",
       "shiftAngle": "Ángulo entre los puntos de giro de los movimientos oscilantes (consulte también las preguntas frecuentes)"
-    }
+    },
+    "applications": {
+      "All": "Aplicación no especificada",
+      "BallScrewDrive": "Accionamiento de husillo de bolas",
+      "CleanRoomApplications": "Aplicaciones de sala limpia",
+      "ConveyorBelts": "Cintas transportadoras",
+      "SmallElectricMotors": "Motores eléctricos pequeños",
+      "LargeElectricMotors": "Motores eléctricos grandes",
+      "HighSpeedElectricMotors": "Motores eléctricos de alta velocidad",
+      "Fans": "Ventiladores",
+      "GreasedGears": "Engranajes lubricados",
+      "JawCrushers": "Trituradoras de mandíbulas",
+      "Pumps": "Bombas",
+      "VibratingScreens": "Cribas vibratorias",
+      "RailWheelsetBearings": "Rodamientos de ejes ferroviarios",
+      "WindTurbineMainShaft": "Turbina eólica (eje principal)"
+    },
+    "exclusivityDisclaimer": "Exclusivo para usuarios de Medias Plus",
+    "signupPrompt": "Regístrate ahora",
+    "signupUrl": "https://medias.schaeffler.es/es/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -345,7 +365,11 @@
     "preferredGreaseHintAlternative": "Alternativa",
     "preferredGreaseHintAlternativeTooltip": "Se trata de un producto alternativo de la cartera de productos de Schaeffler basado en su información del paso 2.",
     "poweredBy": "powered by",
-    "pdfDownload": "descargar PDF"
+    "pdfDownload": "descargar PDF",
+    "recommendedChip": "Recomendado",
+    "resultsWithRecommendation": "Los resultados están ordenados por recomendación y el intervalo de relubricación",
+    "noRecommendation": "Los parámetros proporcionados son inusuales para la aplicación dada. Por favor contáctenos.",
+    "contact": "Contacto Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -369,5 +393,24 @@
     "content": "Lo sentimos, se ha producido un error. Inténtelo de nuevo más tarde.",
     "confirm": "Confirmar",
     "retry": "Reintentar"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Aplicación Medias Plus Grease",
+    "close": "Cerrar",
+    "modalHeading": "Recomendación de Aplicación Grease",
+    "modalText": "Tenga en cuenta que esta función solo está disponible para usuarios registrados de Medias Plus. Regístrese ahora gratis para obtener acceso a la recomendación de lubricantes",
+    "registrationCta": "Registro Gratis",
+    "loginQuestion": "¿Ya está registrado?",
+    "loginText": "Iniciar sesión",
+    "mediasComparison": {
+      "allfeatures": "Toda la funcionalidad en medias",
+      "linearconfig": "Configurador lineal",
+      "cadfileslinear": "Descarga de archivos CAD para configuraciones lineales",
+      "linearimport": "Guardar e importar configuración lineal",
+      "comparison": "Comparar productos",
+      "campus": "Campus de Formación Schaeffler",
+      "wishlists": "Crear y guardar listas de deseos",
+      "cartrequest": "Realizar solicitudes utilizando la función de carrito"
+    }
   }
 }

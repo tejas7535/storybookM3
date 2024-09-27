@@ -48,6 +48,7 @@
       "@mac/testing/*": ["apps/mac/src/testing/*"],
       "@mm/*": ["apps/mm/src/app/*"],
       "@mm/environments/*": ["apps/mm/src/environments/*"],
+      "@mm/testing/*": ["apps/mm/src/testing/*"],
       "@schaeffler/app-shell": ["libs/shared/ui/app-shell/src/index.ts"],
       "@schaeffler/application-insights": [
         "libs/shared/utils/application-insights/src/index.ts"
@@ -76,6 +77,9 @@
       ],
       "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
       "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
+      "@schaeffler/result-report": [
+        "libs/shared/ui/result-report/src/index.ts"
+      ],
       "@schaeffler/rich-tooltip": ["libs/shared/ui/rich-tooltip/src/index.ts"],
       "@schaeffler/roles-and-rights": [
         "libs/shared/ui/roles-and-rights/src/index.ts"

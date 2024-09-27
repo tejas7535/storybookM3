@@ -1,0 +1,11 @@
+<a
+  *transloco="let t"
+  mat-button
+  color="primary"
+  target="_blank"
+  [href]="getProductMediasUrl()"
+  (click)="trackBearingSelection()"
+>
+  {{ t('reportResult.viewProductButton') }}
+  <mat-icon class="!ml-0.5" iconPositionEnd fontIcon="arrow_forward"></mat-icon>
+</a>

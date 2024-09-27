@@ -1,8 +1,10 @@
 import { of } from 'rxjs';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { UserRoles } from '@gq/shared/constants';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ColDef } from 'ag-grid-community';
 import { marbles } from 'rxjs-marbles';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
@@ -391,5 +393,52 @@ describe('RolesFacade', () => {
         ).toBeObservable(m.cold('a', { a: false }));
       })
     );
+
+    describe('getColumnDefsForRolesOnQuotationDetailsTable', () => {
+      test(
+        'should return the column definitions for the given roles',
+        marbles((m) => {
+          mockStore.setState({
+            'azure-auth': {
+              accountInfo: {
+                idTokenClaims: {
+                  roles: [UserRoles.BASIC],
+                },
+              },
+            },
+          });
+          const colDef: ColDef[] = [
+            {
+              headerName: 'Column 1',
+              field: ColumnFields.GPC,
+            },
+            {
+              headerName: 'Column 2',
+              field: ColumnFields.PRICE,
+            },
+            {
+              headerName: 'Column 3',
+              field: ColumnFields.NEXT_FREE_ATP,
+            },
+          ];
+
+          const expectedColDefs: ColDef[] = [
+            {
+              headerName: 'Column 2',
+              field: ColumnFields.PRICE,
+            },
+            {
+              headerName: 'Column 3',
+              field: ColumnFields.NEXT_FREE_ATP,
+            },
+          ];
+
+          // gpcColumnsAre Filtered out
+          m.expect(
+            service.getColumnDefsForRolesOnQuotationDetailsTable(colDef)
+          ).toBeObservable(m.cold('a', { a: expectedColDefs }));
+        })
+      );
+    });
   });
 });

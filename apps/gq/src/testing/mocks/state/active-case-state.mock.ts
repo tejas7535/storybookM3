@@ -8,6 +8,9 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   customer: CUSTOMER_MOCK,
   customerLoadingErrorMessage: undefined,
 
+  quotationMetadataLoading: false,
+  quotationMetadataLoadingErrorMessage: undefined,
+
   quotationLoading: false,
   selectedQuotationDetail: undefined,
   quotationLoadingErrorMessage: undefined,

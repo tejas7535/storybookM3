@@ -74,6 +74,10 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
+  public resetWizard(): void {
+    window.location.reload();
+  }
+
   public send(form: UntypedFormGroup): void {
     this.error$.next(false);
     this.lastFormData = form;
@@ -135,13 +139,13 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
         take(1)
       )
       .subscribe((result) => {
-        this.resultPageService
-          .getPdfReportReady(result.pdfReportUrl)
-          .subscribe((ready) => this.pdfReportReady$.next(ready));
+        if (result.pdfReportUrl) {
+          this.resultPageService
+            .getPdfReportReady(result.pdfReportUrl)
+            .subscribe((ready) => {
+              this.pdfReportReady$.next(ready);
+            });
+        }
       });
-  }
-
-  public resetWizard(): void {
-    window.location.reload();
   }
 }

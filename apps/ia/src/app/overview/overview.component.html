@@ -1,5 +1,5 @@
 <div *transloco="let t; read: 'overview'">
-  <div class="bg-surface flex flex-wrap gap-4 p-4 lg:flex-nowrap">
+  <div class="bg-surface-legacy flex flex-wrap gap-4 p-4 lg:flex-nowrap">
     <div class="flex w-full flex-col p-4 shadow lg:w-[24%]">
       <div class="flex-1">
         <div class="flex h-full flex-col">
@@ -163,7 +163,7 @@
   <h5>
     {{ t('attritionRateDetails.title') }}
   </h5>
-  <div class="bg-surface">
+  <div class="bg-surface-legacy">
     <ia-overview-chart
       [dataLoading]="attritionRateLoading$ | ngrxPush"
       [data]="attritionData$ | ngrxPush"

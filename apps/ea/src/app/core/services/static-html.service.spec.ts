@@ -1,19 +1,27 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { of } from 'rxjs';
 
-import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { StaticHTMLService } from './static-html.service';
+
+const assetsPath = 'assetPath';
+jest.mock(
+  '@ea/core/services/assets-path-resolver/assets-path-resolver.helper',
+  () => ({
+    getAssetsPath: jest.fn(() => assetsPath),
+  })
+);
 
 describe('Static HTML Service', () => {
   let spectator: SpectatorService<StaticHTMLService>;
@@ -22,10 +30,7 @@ describe('Static HTML Service', () => {
 
   const createService = createServiceFactory({
     service: StaticHTMLService,
-    imports: [
-      HttpClientTestingModule,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
         provide: DomSanitizer,
@@ -39,6 +44,8 @@ describe('Static HTML Service', () => {
           translate: jest.fn(() => '/test.html'),
         },
       },
+      provideHttpClient(),
+      provideHttpClientTesting(),
     ],
   });
 
@@ -57,7 +64,7 @@ describe('Static HTML Service', () => {
       htmlService.getHtmlContent = jest.fn(() =>
         of('Hello World! - HTML Content Mock')
       );
-      const expectedFileUrl = `${environment.assetsPath}/test.html`;
+      const expectedFileUrl = `${assetsPath}/test.html`;
       htmlService
         .getHtmlContentByTranslationKey(
           'calculationResultReport.calculationDisclaimer.disclaimerFile'
@@ -85,7 +92,7 @@ describe('Static HTML Service', () => {
       expect(htmlService['translocoService'].translate('test')).toBe(
         'test.html'
       );
-      const expectedFileUrl = `${environment.assetsPath}/test.html`;
+      const expectedFileUrl = `${assetsPath}/test.html`;
       htmlService
         .getHtmlContentByTranslationKey(
           'calculationResultReport.calculationDisclaimer.disclaimerFile'

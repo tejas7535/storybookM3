@@ -104,5 +104,18 @@
       "func_principle": "Functional principle",
       "mounting_position": "Mounting position"
     }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Please specify here the average quantity of lubricant required per lubrication point and interval. If the individual lubrication quantities per lubrication point differ significantly, it may be required to carry out separate calculations.",
+      "pipeLength": "",
+      "optime": "Schaeffler's OPTIME Ecosystem enables the integration of a wide variety of maintenance systems in one digital solution and features a very clear overview and simple usability. \n\nIf you consider the integration of the lubrication system in OPTIME to be an important criteria, please answer this question with \"yes\"."
+    },
+    "application": {
+      "temps": "Please specify here the possible MIN and MAX values of the ambient temperature in which the lubrication system is installed. Please note that this refers to the installation location of the lubricator and not, e.g. the bearing temperature."
+    },
+    "lubricant": {
+      "lubricant": "Schaeffler lubricants have been specially developed for use in rolling bearings and optimized with regard to their performance. Schaeffler offers an extensive portfolio of different lubricants for all possible applications and requirements."
+    }
   }
 }

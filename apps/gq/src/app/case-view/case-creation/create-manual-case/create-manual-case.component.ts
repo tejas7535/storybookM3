@@ -9,6 +9,7 @@ import {
   clearOfferType,
   clearPurchaseOrderType,
   clearSectorGpsd,
+  clearShipToParty,
   resetAllAutocompleteOptions,
 } from '@gq/core/store/actions';
 import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
@@ -113,6 +114,7 @@ export class CreateManualCaseComponent implements OnDestroy, OnInit {
   private dispatchResetActions(): void {
     this.store.dispatch(resetAllAutocompleteOptions());
     this.store.dispatch(clearCustomer());
+    this.store.dispatch(clearShipToParty());
     this.store.dispatch(clearCreateCaseRowData());
     this.store.dispatch(clearPurchaseOrderType());
     this.store.dispatch(clearSectorGpsd());

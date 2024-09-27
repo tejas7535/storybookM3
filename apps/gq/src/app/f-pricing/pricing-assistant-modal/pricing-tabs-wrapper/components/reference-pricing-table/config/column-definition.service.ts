@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { ComparableMaterialsRowData } from '@gq/core/store/reducers/transactions/models/f-pricing-comparable-materials.interface';
+import { ComparableMaterialsRowData } from '@gq/core/store/transactions/models/f-pricing-comparable-materials.interface';
 import { ReferenceMaterialGroupCellComponent } from '@gq/shared/ag-grid/cell-renderer/reference-material-group-cell/reference-material-group-cell.component';
 import { ShowMoreRowsComponent } from '@gq/shared/ag-grid/cell-renderer/show-more-rows/show-more-rows.component';
 import { ReferencePricingColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';

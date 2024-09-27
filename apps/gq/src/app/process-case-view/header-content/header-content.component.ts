@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
+import { EditCaseModalData } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal-data.model';
 import {
   PurchaseOrderType,
   Quotation,
@@ -54,6 +55,7 @@ export class HeaderContentComponent {
       this.requestedDeliveryDate = value.requestedDelDate ?? undefined;
       this.customerPurchaseOrderDate =
         value.sapCustomerPurchaseOrderDate ?? undefined;
+      this.customerInquiryDate = value.sapCustomerInquiryDate ?? undefined;
       this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
       this.enableSapFieldEditing = value.status === QuotationStatus.ACTIVE;
       this.shipToParty = value.shipToParty ?? undefined;
@@ -82,6 +84,7 @@ export class HeaderContentComponent {
       this.offerType = value.offerType;
 
       this.customer = value.customer;
+      this.caseCreationDate = value.gqCreated;
     }
   }
   @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
@@ -96,6 +99,7 @@ export class HeaderContentComponent {
   quotationToDate: string;
   requestedDeliveryDate: string;
   customerPurchaseOrderDate: string;
+  customerInquiryDate: string;
   bindingPeriodValidityEndDate: string;
   showEditIcon: boolean;
   shipToParty: Customer;
@@ -105,6 +109,7 @@ export class HeaderContentComponent {
   customer: Customer;
   quotationStatus = QuotationStatus;
   isSapCase = false;
+  caseCreationDate: string;
 
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
@@ -127,6 +132,7 @@ export class HeaderContentComponent {
           quotationToDate: this.quotationToDate,
           requestedDeliveryDate: this.requestedDeliveryDate,
           customerPurchaseOrderDate: this.customerPurchaseOrderDate,
+          customerInquiryDate: this.customerInquiryDate,
           bindingPeriodValidityEndDate: this.bindingPeriodValidityEndDate,
           shipToParty: {
             id: this.shipToParty?.identifier?.customerId,
@@ -140,7 +146,8 @@ export class HeaderContentComponent {
           offerType: this.offerType,
           disabled: !this.showEditIcon,
           isSapCase: this.isSapCase,
-        },
+          caseCreationDate: this.caseCreationDate,
+        } as EditCaseModalData,
       })
       .afterClosed()
       .subscribe((result?: UpdateQuotationRequest) => {

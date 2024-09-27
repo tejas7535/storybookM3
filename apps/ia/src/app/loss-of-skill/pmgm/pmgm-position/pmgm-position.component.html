@@ -1,0 +1,20 @@
+<div
+  class="flex w-full h-full"
+  *transloco="let t; read: 'lossOfSkill.pmgm.table.tooltip.position'"
+>
+  @if (isManager) {
+    <mat-icon
+      svgIcon="tall-hat-gentleman"
+      class="my-auto !w-5 !h-5"
+      matTooltipPosition="after"
+      [matTooltip]="t('manager')"
+    ></mat-icon>
+  } @else {
+    <mat-icon
+      class="my-auto"
+      matTooltipPosition="after"
+      [matTooltip]="t('employee')"
+      >person</mat-icon
+    >
+  }
+</div>

@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationParametersSelector getCalculationParameters when parameters are defined should return inputs 1`] = `
+Object {
+  "RSY_BEARING_SERIES": "some series",
+}
+`;

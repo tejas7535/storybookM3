@@ -1,0 +1,12 @@
+<mat-tab-group
+  mat-stretch-tabs="false"
+  mat-align-tabs="center"
+  animationDuration="0ms"
+  [fitInkBarToContent]="true"
+  (selectedIndexChange)="onSelectedIndexChange($event)"
+  *transloco="let t"
+>
+  @for (item of items; track $index) {
+    <mat-tab [label]="t(item.translation)"></mat-tab>
+  }
+</mat-tab-group>

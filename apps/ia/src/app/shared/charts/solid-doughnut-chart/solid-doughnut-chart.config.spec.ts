@@ -1,41 +1,51 @@
 import { EChartsOption } from 'echarts';
-import { TooltipOption } from 'echarts/types/src/component/tooltip/TooltipModel';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
 
 import { Color } from '../../models/color.enum';
+import { SolidDoughnutChartConfig } from '../models';
 import {
-  createMediaQueries,
   createSolidDoughnutChartBaseOptions,
   createSolidDoughnutChartSeries,
-  setTooltipFormatter,
+  tooltipFormatter,
 } from './solid-doughnut-chart.config';
 
 describe('solid-doughnut-chart config', () => {
   describe('createSolidDoughnutChartBaseOptions', () => {
     test('should create base options', () => {
-      const config = {
+      const config: SolidDoughnutChartConfig = {
         title: 'Top 5 reasons',
         subTitle: '2021',
-        color: [Color.COLORFUL_CHART_0],
+        color: [Color.COLORFUL_CHART_1],
+        side: 'left',
       };
       const expectedResult = {
-        type: 'pie',
         backgroundColor: Color.WHITE,
+        color: [Color.COLORFUL_CHART_1],
         title: {
           text: config.title,
           textStyle: {
-            color: Color.BLACK,
-            fontSize: '1.5rem',
-            fontWeight: 'normal',
-          },
-          subtext: config.subTitle,
-          subtextStyle: {
-            color: Color.LIGHT_GREY,
-            fontSize: '1rem',
+            fontFamily: 'Noto Sans',
+            color: 'rgba(0, 0, 0, 0.60)',
+            fontStyle: 'normal',
+            fontWeight: 400,
+            align: 'center',
           },
         },
-        color: [Color.COLORFUL_CHART_0],
+        textStyle: {
+          fontFamily: 'Noto Sans',
+        },
         legend: {
-          show: false,
+          top: 'middle',
+          left: '0',
+          right: 'auto',
+          orient: 'vertical',
+          itemWidth: 8,
+          itemHeight: 8,
+          icon: 'circle',
+          formatter: expect.any(Function),
+        },
+        tooltip: {
+          show: true,
         },
       };
 
@@ -46,84 +56,97 @@ describe('solid-doughnut-chart config', () => {
   });
 
   describe('createSolidDoughnutChartSeries', () => {
-    test('should create series', () => {
-      const title = 'Demo';
-      const expectedResult = [
+    test('should create chart series', () => {
+      const title = 'Top 5 reasons';
+      const expected: EChartsOption[] = [
         {
-          name: title,
-          height: '80%',
+          id: 'reasons',
           type: 'pie',
-          radius: ['65%', '95%'],
+          radius: ['38%', '56%'],
+          center: ['70%', '50%'],
+          top: 0,
+          avoidLabelOverlap: true,
+          selectedMode: 'single',
           label: {
-            formatter: '{d}%',
             position: 'inside',
-            color: Color.WHITE,
-            fontSize: '0.6rem',
+            formatter: expect.any(Function),
           },
-          center: ['50%', '50%'],
-          top: 'middle',
+          labelLine: {
+            show: false,
+          },
+          tooltip: {
+            show: true,
+            formatter: expect.any(Function),
+          },
+        },
+        {
+          id: 'detailedReasons',
+          type: 'pie',
+          radius: ['60%', '80%'],
+          center: ['70%', '50%'],
+          top: 0,
+          avoidLabelOverlap: true,
+          labelLine: {
+            show: false,
+          },
+          label: {
+            position: 'inside',
+            rotate: 0,
+            precision: 1,
+            formatter: expect.any(Function),
+          },
+
+          data: [{ value: 0, name: '', itemStyle: { color: 'transparent' } }],
+          tooltip: {
+            formatter: expect.any(Function),
+          },
+        },
+        {
+          id: 'title',
+          type: 'pie',
+          radius: ['0%', '0%'],
+          center: ['70%', '50%'],
+          top: 0,
+          avoidLabelOverlap: true,
+          label: {
+            position: 'center',
+            formatter: title,
+          },
+          emphasis: { disabled: true },
+          labelLine: {
+            show: false,
+          },
+          data: [
+            {
+              value: 0,
+              name: '',
+              itemStyle: { color: 'transparent' },
+            },
+          ],
+          tooltip: {
+            show: false,
+          },
         },
       ];
 
-      const result = createSolidDoughnutChartSeries(title);
+      const result = createSolidDoughnutChartSeries('left', title);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual(expected);
     });
   });
 
-  describe('setTooltipFormatter', () => {
-    test('should set tooltip formatter', () => {
-      const option: EChartsOption = {};
-      const tooltipFormatter = 'a';
+  describe('tooltipFormatter', () => {
+    test('should format tooltip', () => {
+      const params = {
+        name: 'Reason A',
+        value: 1,
+        percent: 50,
+      };
+      const expected = 'Reason A: <b>50.0%</b>';
 
-      setTooltipFormatter(option, tooltipFormatter);
+      const result = tooltipFormatter(params as CallbackDataParams);
 
-      expect((option.tooltip as TooltipOption).formatter).toEqual(
-        tooltipFormatter
-      );
-      expect((option.tooltip as TooltipOption).show).toBeTruthy();
-    });
-
-    test('should not set tooltip formatter if formatter undefined', () => {
-      const option: EChartsOption = {};
-
-      setTooltipFormatter(option, undefined as string);
-
-      expect(option.tooltip).toBeUndefined();
-    });
-  });
-
-  describe('createMediaQueries', () => {
-    test('should return media queries', () => {
-      const media = createMediaQueries();
-
-      expect(media).toEqual([
-        {
-          query: {
-            minWidth: 450,
-            maxWidth: 750,
-          },
-          option: {
-            height: '70%',
-          },
-        },
-        {
-          query: {
-            maxWidth: 450,
-          },
-          option: {
-            height: '80%',
-          },
-        },
-        {
-          query: {
-            minWidth: 750,
-          },
-          option: {
-            height: '80%',
-          },
-        },
-      ]);
+      expect(result).toEqual(expected);
     });
   });
 });

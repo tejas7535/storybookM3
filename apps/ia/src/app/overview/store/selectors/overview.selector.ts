@@ -22,7 +22,6 @@ import {
   LeavingType,
   MonthlyFluctuation,
 } from '../../../shared/models';
-import { getPercentageValueSigned } from '../../../shared/utils/utilities';
 import {
   FluctuationKpi,
   FluctuationRate,
@@ -30,6 +29,7 @@ import {
 } from '../../models';
 import { OverviewState, selectOverviewState } from '..';
 import * as utils from './overview-selector-utils';
+import { getPercentageValueSigned } from '../../../shared/utils/utilities';
 
 const DIMENSION_SERIE_ID = 'dimension';
 const BENCHMARK_SERIE_ID = 'benchmark';

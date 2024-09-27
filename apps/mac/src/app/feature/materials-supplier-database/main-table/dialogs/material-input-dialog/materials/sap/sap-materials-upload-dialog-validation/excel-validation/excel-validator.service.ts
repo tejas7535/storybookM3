@@ -295,16 +295,16 @@ export class ExcelValidatorService implements AsyncValidator {
       const upstreamEmissions = row[UPSTREAM_EMISSIONS];
       let pcfSupplierEmissions = 0;
 
-      if (directSupplierEmissions) {
-        pcfSupplierEmissions += directSupplierEmissions;
+      if (directSupplierEmissions !== undefined) {
+        pcfSupplierEmissions += +directSupplierEmissions || 0;
       }
 
-      if (indirectSupplierEmissions) {
-        pcfSupplierEmissions += indirectSupplierEmissions;
+      if (indirectSupplierEmissions !== undefined) {
+        pcfSupplierEmissions += +indirectSupplierEmissions || 0;
       }
 
-      if (upstreamEmissions) {
-        pcfSupplierEmissions += upstreamEmissions;
+      if (upstreamEmissions !== undefined) {
+        pcfSupplierEmissions += +upstreamEmissions || 0;
       }
 
       const exception = new ValidationError(
@@ -321,18 +321,19 @@ export class ExcelValidatorService implements AsyncValidator {
       const efkv = Math.round(emissionFactorKgValue * 10_000);
 
       if (
-        directSupplierEmissions &&
-        indirectSupplierEmissions &&
-        upstreamEmissions
+        directSupplierEmissions !== undefined &&
+        indirectSupplierEmissions !== undefined &&
+        upstreamEmissions !== undefined
       ) {
         if (pcfse !== efkv) {
           throw exception;
         }
       } else if (
-        (directSupplierEmissions ||
-          indirectSupplierEmissions ||
-          upstreamEmissions) &&
-        pcfse >= efkv
+        (directSupplierEmissions !== undefined ||
+          indirectSupplierEmissions !== undefined ||
+          upstreamEmissions !== undefined) &&
+        // as single values can be 0, the sum may also be equal to the entered total
+        pcfse > efkv
       ) {
         throw exception;
       }

@@ -5,6 +5,8 @@ import moment, { Moment } from 'moment';
 import { DATE_FORMAT_BEAUTY } from '../constants';
 import { TimePeriod } from '../models';
 
+export const getToday = () => moment.utc();
+
 export const getTimeRangeHint = (timePeriod: TimePeriod): string => {
   switch (timePeriod) {
     case TimePeriod.YEAR: {

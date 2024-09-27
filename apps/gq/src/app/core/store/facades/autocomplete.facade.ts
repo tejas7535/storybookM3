@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { CustomerId } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Store } from '@ngrx/store';
 
 import {
@@ -25,13 +27,16 @@ import {
   getCaseMaterialDesc,
   getCaseMaterialNumber,
   getCaseMaterialNumberOrDesc,
+  getCustomerMaterialNumber,
 } from '../selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutoCompleteFacade {
-  constructor(private readonly store: Store) {}
+  private readonly store: Store = inject(Store);
+  private readonly featureToggleConfigService: FeatureToggleConfigService =
+    inject(FeatureToggleConfigService);
 
   public materialDescForAddEntry$: Observable<CaseFilterItem> =
     this.store.select(getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY));
@@ -39,6 +44,12 @@ export class AutoCompleteFacade {
     this.store.select(
       getCaseMaterialDesc(AutocompleteRequestDialog.EDIT_MATERIAL)
     );
+
+  public materialDescForCreateCase$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseMaterialDesc(AutocompleteRequestDialog.CREATE_CASE)
+    );
+
   public materialNumberForAddEntry$: Observable<CaseFilterItem> =
     this.store.select(
       getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
@@ -47,16 +58,45 @@ export class AutoCompleteFacade {
     this.store.select(
       getCaseMaterialNumber(AutocompleteRequestDialog.EDIT_MATERIAL)
     );
+
+  public materialNumberForCreateCase$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseMaterialNumber(AutocompleteRequestDialog.CREATE_CASE)
+    );
+
   public materialNumberOrDescForGlobalSearch$: Observable<CaseFilterItem> =
     this.store.select(
       getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.GLOBAL_SEARCH)
     );
-  public shipToCustomer$: Observable<CaseFilterItem> = this.store.select(
-    getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE)
-  );
+
+  public customerMaterialNumberForAddEntry$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCustomerMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+    );
+
+  public customerMaterialNumberForCreateCase$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCustomerMaterialNumber(AutocompleteRequestDialog.CREATE_CASE)
+    );
+  public shipToCustomerForEditCase$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE)
+    );
+
+  public shipToCustomerForCaseCreation$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCaseCustomerAndShipToParty(AutocompleteRequestDialog.CREATE_CASE)
+    );
   public createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
-    getCaseCustomer(AutocompleteRequestDialog.ADD_ENTRY)
+    getCaseCustomer(
+      this.featureToggleConfigService.isEnabled('createManualCaseAsView')
+        ? AutocompleteRequestDialog.CREATE_CASE
+        : AutocompleteRequestDialog.ADD_ENTRY
+    )
   );
+
+  public createCaseCustomerAddEntry$: Observable<CaseFilterItem> =
+    this.store.select(getCaseCustomer(AutocompleteRequestDialog.ADD_ENTRY));
 
   public materialNumberAutocompleteLoading$: Observable<boolean> =
     this.store.select(getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER));
@@ -79,6 +119,11 @@ export class AutoCompleteFacade {
       getCaseAutocompleteLoading(FilterNames.CUSTOMER_AND_SHIP_TO_PARTY)
     );
 
+  public customerMaterialNumberLoading$: Observable<boolean> =
+    this.store.select(
+      getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL)
+    );
+
   /**
    * This Facades needs to be initialized
    *
@@ -92,7 +137,19 @@ export class AutoCompleteFacade {
     this.store.dispatch(resetAutocompleteMaterials());
   }
 
-  public autocomplete(autocompleteSearch: AutocompleteSearch): void {
+  public autocomplete(
+    autocompleteSearch: AutocompleteSearch,
+    customerId?: CustomerId
+  ): void {
+    if (
+      autocompleteSearch.filter === FilterNames.CUSTOMER_MATERIAL &&
+      !customerId?.customerId
+    ) {
+      return;
+    }
+
+    autocompleteSearch.customerIdentifier = customerId;
+
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
 
@@ -108,13 +165,28 @@ export class AutoCompleteFacade {
       })
     );
   }
+  selectCustomerMaterialNumberOrDescription(
+    option: IdValue,
+    filter: string
+  ): void {
+    this.store.dispatch(
+      setSelectedAutocompleteOption({
+        filter,
+        option,
+      })
+    );
+  }
 
   public unselectOptions(filter: string): void {
-    const filterName =
-      filter === FilterNames.MATERIAL_NUMBER
-        ? FilterNames.MATERIAL_DESCRIPTION
-        : FilterNames.MATERIAL_NUMBER;
-    this.store.dispatch(unselectAutocompleteOptions({ filter: filterName }));
+    const resets: FilterNames[] = [
+      FilterNames.MATERIAL_NUMBER,
+      FilterNames.MATERIAL_DESCRIPTION,
+      FilterNames.CUSTOMER_MATERIAL,
+    ];
+    const resetFor = resets.filter((reset) => reset !== filter);
+    resetFor.forEach((reset) => {
+      this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
+    });
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 

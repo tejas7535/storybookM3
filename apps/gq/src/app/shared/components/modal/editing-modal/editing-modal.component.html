@@ -23,17 +23,6 @@
           [formControlName]="IS_RELATIVE_PRICE_CONTROL_NAME"
         >
           <mat-radio-button
-            [value]="true"
-            color="primary"
-            (change)="callPriceChangeTypeSwitchHandler(true)"
-            [disabled]="isRelativePriceChangeDisabled || isDisabled"
-            [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
-          >
-            <span class="pl-2">
-              {{ t('relative') }}
-            </span>
-          </mat-radio-button>
-          <mat-radio-button
             [value]="false"
             color="primary"
             [disabled]="isDisabled"
@@ -42,6 +31,17 @@
           >
             <span class="pl-2">
               {{ t('absolute') }}
+            </span>
+          </mat-radio-button>
+          <mat-radio-button
+            [value]="true"
+            color="primary"
+            (change)="callPriceChangeTypeSwitchHandler(true)"
+            [disabled]="isRelativePriceChangeDisabled || isDisabled"
+            [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
+          >
+            <span class="pl-2">
+              {{ t('relative') }}
             </span>
           </mat-radio-button>
         </mat-radio-group>

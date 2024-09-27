@@ -12,7 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LossOfSkillRoutingModule } from './loss-of-skill-routing.module';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
-import { RiskOfLeavingModule } from './risk-of-leaving/risk-of-leaving.module';
+import { PmgmModule } from './pmgm/pmgm.module';
 import * as fromLossOfSkill from './store';
 import { LossOfSkillEffects } from './store/effects/loss-of-skill.effects';
 
@@ -28,7 +28,7 @@ import { LossOfSkillEffects } from './store/effects/loss-of-skill.effects';
     ),
     EffectsModule.forFeature([LossOfSkillEffects]),
     LostJobProfilesModule,
-    RiskOfLeavingModule,
+    PmgmModule,
     MatCardModule,
     PushPipe,
   ],

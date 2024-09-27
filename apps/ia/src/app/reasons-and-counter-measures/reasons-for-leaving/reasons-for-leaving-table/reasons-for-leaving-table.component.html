@@ -1,12 +1,11 @@
 <div class="flex w-full flex-col">
   <ag-grid-angular
-    class="ag-theme-material border-border h-[592px] border"
+    class="ag-theme-material border-border h-[452px] border"
     [rowData]="data"
     [scrollbarWidth]="8"
     [defaultColDef]="defaultColDef"
     [columnDefs]="columnDefs"
     [components]="components"
-    (rowDataUpdated)="onRowDataUpdated($event)"
     [animateRows]="true"
     [suppressCsvExport]="true"
     [suppressExcelExport]="true"

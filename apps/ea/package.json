@@ -5,6 +5,12 @@
     "@tailwindcss/typography": "^0.5.10"
   },
   "dependencies": {
-    "jspdf": "^2.5.1"
+    "jspdf": "^2.5.1",
+    "@capacitor-community/file-opener": "^6.0.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/share": "^6.0.2",
+    "@capacitor/filesystem": "^6.0.1",
+    "@capacitor-community/firebase-analytics": "6.0.0",
+    "@capacitor/keyboard": "6.0.2"
   }
 }

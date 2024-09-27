@@ -28,7 +28,9 @@ import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { PartnerVersion } from '@ga/shared/models';
 
+import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
+import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
 import { CalculationResultComponent } from './calculation-result.component';
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services';
@@ -70,6 +72,12 @@ describe('CalculationResultComponent', () => {
       mockProvider(SettingsFacade),
       mockProvider(GreaseReportPdfGeneratorService),
       { provide: ENV, useValue: { ...getEnv(), production: false } },
+      {
+        provide: GreaseRecommendationMarketingService,
+        useValue: {
+          selectedApplication$: of(ApplicationScenario.All),
+        },
+      },
     ],
   });
 

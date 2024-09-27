@@ -8,6 +8,7 @@ import { ContextMenuModule } from '@gq/shared/components/contextMenu/context-men
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kpi-status-card.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { PriceSourcePipe } from '@gq/shared/pipes/price-source/price-source.pipe';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -48,6 +49,7 @@ import { TargetPriceComponent } from './target-price/target-price.component';
     MatMenuModule,
     ContextMenuModule,
     KpiStatusCardComponent,
+    PriceSourcePipe,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

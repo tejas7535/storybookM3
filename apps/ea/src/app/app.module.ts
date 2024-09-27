@@ -11,9 +11,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
-import { combineLatest, tap } from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
+import { Capacitor } from '@capacitor/core';
+import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
@@ -28,6 +30,7 @@ import {
 } from '@schaeffler/application-insights';
 import { BannerModule } from '@schaeffler/banner';
 import {
+  CUSTOM_DATA_PRIVACY,
   PERSON_RESPONSIBLE,
   PURPOSE,
   STORAGE_PERIOD,
@@ -42,6 +45,8 @@ import { AppRoutePath } from './app-route-path.enum';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
+import { ConsentValues } from './core/services/tracking-service/one-trust.interface';
+import { OneTrustMobileService } from './core/services/tracking-service/one-trust-mobile.service';
 import { SettingsFacade } from './core/store';
 import { BearingDesignationProvidedGuard } from './guards/bearing-designation-provided.guard';
 import { LanguageGuard } from './guards/language.guard';
@@ -81,6 +86,12 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.termsOfUseContent');
 }
 
+export function DynamicDataPrivacy(
+  translocoService: TranslocoService
+): Observable<string> | void {
+  return translocoService.selectTranslateObject('legal.schaefflerDataPrivacy');
+}
+
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');
 }
@@ -89,59 +100,113 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.storagePeriod');
 }
 
+export function mobileOneTrustInitializer(
+  oneTrustMobileService: OneTrustMobileService
+) {
+  if (Capacitor.isNativePlatform()) {
+    FirebaseAnalytics.setCollectionEnabled({
+      enabled: false,
+    });
+
+    oneTrustMobileService.initTracking();
+
+    oneTrustMobileService.consentChanged$.subscribe((consentChange) => {
+      const trackingEnabled =
+        consentChange.consentStatus === ConsentValues.ConsentGiven &&
+        !Capacitor.DEBUG;
+      FirebaseAnalytics.setCollectionEnabled({
+        enabled: trackingEnabled,
+      });
+
+      if (consentChange.consentStatus === ConsentValues.ConsentNotGiven) {
+        FirebaseAnalytics.reset();
+      }
+    });
+  }
+
+  return () => {};
+}
+
+let tracking = [
+  OneTrustModule.forRoot({
+    cookiesGroups: COOKIE_GROUPS,
+    domainScript: environment.oneTrustId,
+  }),
+  ApplicationInsightsModule.forRoot(environment.applicationInsights),
+];
+
+let providers = [
+  {
+    provide: APP_INITIALIZER,
+    deps: [ApplicationInsightsService, SettingsFacade, OneTrustService],
+    useFactory: (
+      appInsightService: ApplicationInsightsService,
+      settingsFacade: SettingsFacade,
+      oneTrustService: OneTrustService
+    ) => {
+      const customProps: CustomProps = {
+        tag: 'application',
+        value: '[Medias - EasyCalc]',
+      };
+
+      return () =>
+        combineLatest([settingsFacade.isStandalone$]).pipe(
+          tap(([standalone]) => {
+            if (standalone) {
+              oneTrustService.loadOneTrust();
+              appInsightService.initTracking(
+                oneTrustService.consentChanged$(),
+                customProps
+              );
+            }
+          })
+        );
+    },
+    multi: true,
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: mobileOneTrustInitializer,
+    deps: [OneTrustMobileService],
+    multi: true,
+  },
+  TranslocoDecimalPipe,
+  { provide: OverlayContainer, useClass: AppOverlayContainer },
+  {
+    provide: PERSON_RESPONSIBLE,
+    useValue: 'Schaeffler Technologies AG & Co. KG',
+  },
+  {
+    provide: TERMS_OF_USE,
+    useFactory: DynamicTermsOfUse,
+    deps: [TranslocoService],
+  },
+  {
+    provide: PURPOSE,
+    useFactory: DynamicPurpose,
+    deps: [TranslocoService],
+  },
+  {
+    provide: STORAGE_PERIOD,
+    useFactory: DynamicStoragePeriod,
+    deps: [TranslocoService],
+  },
+  {
+    provide: CUSTOM_DATA_PRIVACY,
+    useFactory: DynamicDataPrivacy,
+    deps: [TranslocoService],
+  },
+];
+
+// needed for mobile app and medias
+if (Capacitor.isNativePlatform()) {
+  tracking = [];
+  providers = providers.slice(1); // Removes OneTrust Provider
+}
+
 @NgModule({
   declarations: [AppComponent],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      deps: [ApplicationInsightsService, SettingsFacade, OneTrustService],
-      useFactory: (
-        appInsightService: ApplicationInsightsService,
-        settingsFacade: SettingsFacade,
-        oneTrustService: OneTrustService
-      ) => {
-        const customProps: CustomProps = {
-          tag: 'application',
-          value: '[Medias - EasyCalc]',
-        };
-
-        return () =>
-          combineLatest([settingsFacade.isStandalone$]).pipe(
-            tap(([standalone]) => {
-              if (standalone) {
-                oneTrustService.loadOneTrust();
-                appInsightService.initTracking(
-                  oneTrustService.consentChanged$(),
-                  customProps
-                );
-              }
-            })
-          );
-      },
-      multi: true,
-    },
-    TranslocoDecimalPipe,
-    { provide: OverlayContainer, useClass: AppOverlayContainer },
-    {
-      provide: PERSON_RESPONSIBLE,
-      useValue: 'Schaeffler Technologies AG & Co. KG',
-    },
-    {
-      provide: TERMS_OF_USE,
-      useFactory: DynamicTermsOfUse,
-      deps: [TranslocoService],
-    },
-    {
-      provide: PURPOSE,
-      useFactory: DynamicPurpose,
-      deps: [TranslocoService],
-    },
-    {
-      provide: STORAGE_PERIOD,
-      useFactory: DynamicStoragePeriod,
-      deps: [TranslocoService],
-    },
-  ],
+  providers: [...providers],
   imports: [
     BrowserModule,
     CoreModule,
@@ -157,11 +222,7 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     LanguageSelectModule,
     QualtricsInfoBannerComponent,
     LegacyAppComponent,
-    OneTrustModule.forRoot({
-      cookiesGroups: COOKIE_GROUPS,
-      domainScript: environment.oneTrustId,
-    }),
-    ApplicationInsightsModule.forRoot(environment.applicationInsights),
+    ...tracking,
   ],
 })
 export class AppModule implements DoBootstrap {

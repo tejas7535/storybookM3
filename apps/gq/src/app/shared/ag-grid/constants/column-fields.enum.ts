@@ -7,7 +7,7 @@ export enum ColumnFields {
   GPI = 'gpi',
   PROFIT_MARGIN = 'profitMargin',
   GPM = 'gpm',
-  GPM_RFQ = 'gpmRfq',
+  GPM_RFQ = 'rfqData.gpm',
   ABCX_CLASSIFICATION = 'abcxClassification',
   RLM = 'rlm',
   PRICE = 'price',
@@ -98,6 +98,7 @@ export enum ReferencePricingColumnFields {
 export enum SearchByCasesOrMaterialsColumnFields {
   GQ_ID = 'gqId',
   SAP_ID = 'sapId',
+  CASE_NAME = 'caseName',
   CUSTOMER_NAME = 'customerName',
   CUSTOMER_ID = 'customerId',
   GQ_CREATED_BY = 'gqCreatedByUser',
@@ -137,6 +138,7 @@ export const PercentColumns = [
   ColumnFields.LAST_CUSTOMER_PRICE_GPI,
   ColumnFields.LAST_CUSTOMER_PRICE_GPM,
   ColumnFields.SAP_VOLUME_SCALE,
+  ColumnFields.DISCOUNT,
 ];
 
 export const DateColumns = [SapPriceDetailsColumnFields.SAP_VALID_TO];

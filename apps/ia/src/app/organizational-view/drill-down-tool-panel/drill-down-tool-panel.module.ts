@@ -7,12 +7,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { NavButtonsComponent } from '../../shared/nav-buttons/nav-buttons.component';
 import { DrillDownToolPanelComponent } from './drill-down-tool-panel.component';
 
 @NgModule({
   declarations: [DrillDownToolPanelComponent],
   imports: [
     CommonModule,
+    NavButtonsComponent,
     MatButtonToggleModule,
     MatIconModule,
     MatTooltipModule,

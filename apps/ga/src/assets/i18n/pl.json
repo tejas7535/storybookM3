@@ -185,7 +185,7 @@
     },
     "productPreselection": {
       "title": {
-        "main": "NOWOŚĆ: Ustawienie domyślnego produktu (opcjonalnie)"
+        "main": "Ustawienie domyślnego produktu (opcjonalnie)"
       },
       "grease": {
         "label": "Smar",
@@ -221,6 +221,7 @@
     "environmentTemperature": "Temperatura otoczenia",
     "environmentalImpactOnGreaseDuration": "Warunki pracy",
     "low": "niska",
+    "application": "przypadek użycia",
     "moderate": "umiarkowana",
     "high": "wysoka",
     "greaseSelection": "Wybór smaru",
@@ -253,7 +254,26 @@
       "otherInfluences": "Współczynnik wpływu wilgoci, drgań i obciążeń udarowych na żywotność smaru.",
       "shiftFrequency": "Liczba ruchów oscylacyjnych na minutę (pełny cykl, do tyłu i do przodu)",
       "shiftAngle": "Kąt między punktami zwrotnymi ruchów oscylacyjnych (patrz także odpowiedzi na często zadawane pytania)"
-    }
+    },
+    "applications": {
+      "All": "Niesprecyzowana aplikacja",
+      "BallScrewDrive": "Napęd Śrubowy Kulkowy",
+      "CleanRoomApplications": "Aplikacje do Clean Room",
+      "ConveyorBelts": "Taśmy Przenośnikowe",
+      "SmallElectricMotors": "Małe Silniki Elektryczne",
+      "LargeElectricMotors": "Duże Silniki Elektryczne",
+      "HighSpeedElectricMotors": "Wysokoprędkościowe Silniki Elektryczne",
+      "Fans": "Wentylatory",
+      "GreasedGears": "Smarowane Przekładnie",
+      "JawCrushers": "Kruszarki Szczękowe",
+      "Pumps": "Pompy",
+      "VibratingScreens": "Przesiewacze Wibracyjne",
+      "RailWheelsetBearings": "Łożyska Zestawów Kołowych Kolejowych",
+      "WindTurbineMainShaft": "Turbina Wiatrowa (Wał Główny)"
+    },
+    "exclusivityDisclaimer": "Wyłącznie dla użytkowników Medias Plus",
+    "signupPrompt": "Zarejestruj się teraz",
+    "signupUrl": "https://medias.schaeffler.pl/pl/registered/user"
   },
   "calculationResult": {
     "title": {
@@ -344,7 +364,11 @@
     "preferredGreaseHintSelected": "Domyślnie wybrane",
     "preferredGreaseHintAlternative": "Zamiennik",
     "preferredGreaseHintAlternativeTooltip": "Jest to zamiennik z portfolio produktów Schaeffler, oparty na danych wejściowych z kroku 2.",
-    "poweredBy": "powered by"
+    "poweredBy": "powered by",
+    "recommendedChip": "Zalecane",
+    "resultsWithRecommendation": "Wyniki są sortowane według zalecenia i interwału przelubrykowania",
+    "noRecommendation": "Podane parametry są nietypowe dla danego zastosowania. Proszę się z nami skontaktować.",
+    "contact": "Kontakt Schaeffler"
   },
   "settings": {
     "stepper": {
@@ -364,5 +388,24 @@
     "content": "Niestety, wystąpił błąd. Spróbuj ponownie później.",
     "confirm": "Potwierdź",
     "retry": "Ponów próbę"
+  },
+  "recommendationPopup": {
+    "modalTitle": "Aplikacja Medias Plus Grease",
+    "close": "Zamknij",
+    "modalHeading": "Rekomendacja Aplikacji Grease",
+    "modalText": "Pamiętaj, że ta funkcja jest dostępna tylko dla zarejestrowanych użytkowników Medias Plus. Zarejestruj się teraz bezpłatnie, aby uzyskać dostęp do rekomendacji smarów.",
+    "registrationCta": "Zarejestruj się za darmo",
+    "loginQuestion": "Już zarejestrowany?",
+    "loginText": "Zaloguj się",
+    "mediasComparison": {
+      "allfeatures": "Wszystkie funkcje na medias",
+      "linearconfig": "Konfigurator liniowy",
+      "cadfileslinear": "Pobieranie plików CAD dla konfiguracji liniowych",
+      "linearimport": "Zapisz i zaimportuj konfigurację liniową",
+      "comparison": "Porównaj produkty",
+      "campus": "Kampus szkoleniowy Schaeffler",
+      "wishlists": "Utwórz i zapisz listy życzeń",
+      "cartrequest": "Składaj zamówienia za pomocą funkcji koszyka"
+    }
   }
 }

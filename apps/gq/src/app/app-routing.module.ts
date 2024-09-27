@@ -8,6 +8,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app-route-path.enum';
 import { ProdGuard, RoleGuard } from './core/guards';
+import { CreateManualCaseGuard } from './core/guards/create-manual-case.guard';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutePaths: Routes = [
@@ -61,6 +62,14 @@ export const appRoutePaths: Routes = [
         (m) => m.DetailViewModule
       ),
     canActivateChild: [RoleGuard],
+  },
+  {
+    path: AppRoutePath.CreateManualCasePath,
+    loadChildren: () =>
+      import(
+        './create-manual-case-view/create-manual-case-view-routing.module'
+      ).then((m) => m.CreateManualCaseViewRoutingModule),
+    canActivateChild: [CreateManualCaseGuard],
   },
   {
     path: AppRoutePath.FeatureToggleConfig,

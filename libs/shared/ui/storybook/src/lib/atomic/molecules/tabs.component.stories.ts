@@ -20,7 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'tabs-component-example',
   template: `
-    <div class="grid gap-4 bg-surface p-4">
+    <div class="grid gap-4 bg-surface-legacy p-4">
       <mat-tab-group mat-stretch-tabs animationDuration="0ms">
         <mat-tab label="First">Content 1</mat-tab>
         <mat-tab label="Second">Content 2</mat-tab>

@@ -1,3 +1,4 @@
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { AbcxClassification } from '@gq/shared/models/quotation';
 
 import { SimulatedQuotation } from '../../../app/shared/models';
@@ -47,8 +48,8 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   recommendedPrice: 250,
   strategicPrice: undefined,
   lastCustomerPrice: 170,
-  lastCustomerPriceGpi: 88.24,
-  lastCustomerPriceGpm: 82.35,
+  lastCustomerPriceGpi: 0.8824,
+  lastCustomerPriceGpm: 0.8235,
   lastCustomerPriceDate: '2020-12-17T09:29:34',
   lastCustomerPriceCondition: LastCustomerPriceCondition.CA,
   lastCustomerPriceQuantity: 50,
@@ -59,7 +60,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   rfqData: QUOTATION_RFQ_DATA_MOCK,
   fPricing: QUOTATION_F_PRICING_MOCK,
 
-  priceDiff: 17.65,
+  priceDiff: 0.1765,
   gpc: 20,
   gpcDate: '2022-01-01T00:00:00',
   sqv: 30,
@@ -68,21 +69,21 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   productionSegment: '10',
   netValue: 2000,
   priceSource: PriceSource.GQ,
-  gpi: 90,
-  gpm: 85,
-  gpmRfq: 80,
+  gpi: 0.9,
+  gpm: 0.85,
   customerMaterial: 'mockCustomerMaterial',
   coefficient1: 0.88,
   coefficient2: 2.5,
   relocationCost: 24.5,
   relocatedProductionPlant: PLANT_MOCK,
-  rlm: 87.75,
+  rlm: 0.8775,
   lastOfferDetail: LAST_OFFER_DETAIL_MOCK,
   comment: 'testcomment',
   sapGrossPrice: 100,
   sapPrice: 80,
   sapPriceCondition: SapPriceCondition.STANDARD,
-  discount: -100,
+  leadingSapConditionType: null,
+  discount: -1,
   materialStockByPlant: MATERIAL_STOCK_BY_PLANT_MOCK,
   filteredSapConditionDetails: [
     SAP_PRICE_DETAIL_ZMIN_MOCK,
@@ -102,8 +103,8 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
 
 export const QUOTATION_DETAILS_MOCK = [
   {
-    gpi: 43.28,
-    gpm: 25.37,
+    gpi: 0.4328,
+    gpm: 0.2537,
     netValue: 13.4,
     orderQuantity: 10,
     priceDiff: 0.1,
@@ -113,8 +114,8 @@ export const QUOTATION_DETAILS_MOCK = [
     gqRating: 2,
   } as QuotationDetail,
   {
-    gpi: 24.75,
-    gpm: 0.99,
+    gpi: 0.2475,
+    gpm: 0.0099,
     netValue: 2020,
     orderQuantity: 2000,
     priceDiff: 0.2,
@@ -124,7 +125,7 @@ export const QUOTATION_DETAILS_MOCK = [
     gqRating: 2,
   } as QuotationDetail,
   {
-    gpi: -19,
+    gpi: -0.19,
     gpm: 0,
     netValue: 0.4,
     orderQuantity: 20,
@@ -138,6 +139,7 @@ export const QUOTATION_DETAILS_MOCK = [
 
 export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
   gqId: 1234,
+  simulatedField: ColumnFields.PRICE,
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   previousStatusBar: STATUS_BAR_PROPERTIES_MOCK,
   simulatedStatusBar: STATUS_BAR_PROPERTIES_MOCK,
@@ -145,13 +147,18 @@ export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
 
 export const SIMULATED_QUOTATION_MOCKS_WITH_RFQ: SimulatedQuotation = {
   gqId: 1234,
+  simulatedField: ColumnFields.PRICE,
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   previousStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,
-    gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+    gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+    gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi,
+    priceDiff: SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff,
   },
   simulatedStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,
-    gpm: QUOTATION_DETAIL_MOCK.gpmRfq,
+    gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+    gpi: STATUS_BAR_PROPERTIES_MOCK.gpi,
+    priceDiff: STATUS_BAR_PROPERTIES_MOCK.priceDiff,
   },
 };

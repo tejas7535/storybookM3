@@ -1,0 +1,22 @@
+<div
+  class="flex items-center gap-0.5"
+  *transloco="let t; read: 'lossOfSkill.pmgm.table.tooltip.assessment'"
+>
+  <span class="cursor-pointer" (click)="onSortRequested($event)">
+    {{ displayName }}
+  </span>
+  <mat-icon matTooltipPosition="before" [matTooltip]="t('headerInfo')"
+    >info</mat-icon
+  >
+  <div
+    class="flex w-4 items-center justify-center cursor-pointer"
+    (click)="onSortRequested($event)"
+  >
+    @if (sort === 'asc') {
+      <span class="ag-icon ag-icon-asc"></span>
+    }
+    @if (sort === 'desc') {
+      <span class="ag-icon ag-icon-desc"></span>
+    }
+  </div>
+</div>

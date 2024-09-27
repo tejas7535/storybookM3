@@ -10,15 +10,8 @@ import {
   GoogleAnalyticsService,
   LoadCaseEvent,
 } from '../google-analytics';
+import { MobileFirebaseAnalyticsService } from '../mobile-frebase-analytics/mobile-firebase-analytics.service';
 import { TrackingService } from './tracking.service';
-
-const GA_SERVICE_MOCK: Partial<GoogleAnalyticsService> = {
-  logEvent: jest.fn(),
-};
-
-const AI_SERVICE_MOCK: Partial<ApplicationInsightsService> = {
-  logEvent: jest.fn(),
-};
 
 const MOCK_BASIC_EVENT: BasicEvent = {
   action: 'Mockable Event',
@@ -33,6 +26,9 @@ const MOCK_LOAD_CASE_EVENT: LoadCaseEvent = {
 describe('TrackingService', () => {
   let spectator: SpectatorService<TrackingService>;
   let service: TrackingService;
+  let firebaseService: MobileFirebaseAnalyticsService;
+  let googleAnalyticsService: GoogleAnalyticsService;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const settingsFacadeMock = {
     isStandalone$: of(false),
@@ -45,20 +41,20 @@ describe('TrackingService', () => {
         provide: SettingsFacade,
         useValue: settingsFacadeMock,
       },
-      {
-        provide: GoogleAnalyticsService,
-        useValue: GA_SERVICE_MOCK,
-      },
-      {
-        provide: ApplicationInsightsService,
-        useValue: AI_SERVICE_MOCK,
-      },
+    ],
+    mocks: [
+      MobileFirebaseAnalyticsService,
+      GoogleAnalyticsService,
+      ApplicationInsightsService,
     ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(TrackingService);
+    firebaseService = spectator.inject(MobileFirebaseAnalyticsService);
+    googleAnalyticsService = spectator.inject(GoogleAnalyticsService);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
     jest.resetAllMocks();
   });
 
@@ -73,11 +69,15 @@ describe('TrackingService', () => {
         MOCK_LOAD_CASE_EVENT.numberOfLoadcases
       );
 
-      expect(service['gaService'].logEvent).toHaveBeenCalledWith(
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith(
         MOCK_LOAD_CASE_EVENT
       );
-      expect(service['aiService'].logEvent).toHaveBeenCalledWith(
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
         MOCK_LOAD_CASE_EVENT.action,
+        MOCK_LOAD_CASE_EVENT
+      );
+
+      expect(firebaseService.logEvent).toHaveBeenCalledWith(
         MOCK_LOAD_CASE_EVENT
       );
     });
@@ -85,13 +85,15 @@ describe('TrackingService', () => {
     it('the general log event call should be redirect to both tracking services', () => {
       service['logEvent'](MOCK_BASIC_EVENT);
 
-      expect(service['gaService'].logEvent).toHaveBeenCalledWith(
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith(
         MOCK_BASIC_EVENT
       );
-      expect(service['aiService'].logEvent).toHaveBeenCalledWith(
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
         MOCK_BASIC_EVENT.action,
         MOCK_BASIC_EVENT
       );
+
+      expect(firebaseService.logEvent).toHaveBeenCalledWith(MOCK_BASIC_EVENT);
     });
   });
 });

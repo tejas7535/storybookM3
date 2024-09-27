@@ -36,3 +36,8 @@ export const getLossOfSkillLeaversLoading = createSelector(
   selectLossOfSkillState,
   (state: LossOfSkillState) => state.leavers.loading
 );
+
+export const getPmgmData = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state.pmgm.data
+);

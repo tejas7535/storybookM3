@@ -4,6 +4,8 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
+import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
+import { TransactionsFacade } from '@gq/core/store/transactions/transactions.facade';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -40,10 +42,13 @@ describe('TransactionViewComponent', () => {
         selectedQuotationDetail$: of(QUOTATION_DETAIL_MOCK),
         quotationLoading$: of(false),
         quotationCurrency$: of(QUOTATION_MOCK.currency),
+        detailViewQueryParams$: of({} as any),
+      }),
+      MockProvider(TransactionsFacade, {
         transactions$: of(mockTransactions),
         transactionsLoading$: of(false),
         graphTransactions$: of(mockTransactions),
-        detailViewQueryParams$: of({} as any),
+        recommendationType$: of(RecommendationType.MARGIN),
       }),
       MockProvider(RolesFacade, {
         userHasGPCRole$: of(false),
@@ -87,6 +92,9 @@ describe('TransactionViewComponent', () => {
         );
         m.expect(component.translationsLoaded$).toBeObservable(
           m.cold('a', { a: false })
+        );
+        m.expect(component.recommendationType$).toBeObservable(
+          m.cold('(a|)', { a: RecommendationType.MARGIN })
         );
         m.expect(component.hasGpcRole$).toBeObservable(
           m.cold('(a|)', { a: false })

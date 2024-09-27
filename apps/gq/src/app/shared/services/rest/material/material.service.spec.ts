@@ -1,16 +1,22 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
+import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ApiVersion } from '../../../models';
 import { MaterialService } from './material.service';
-import { MaterialValidationRequest } from './models';
-
+import {
+  MaterialAutoComplete,
+  MaterialAutoCompleteResponse,
+  MaterialValidationRequest,
+} from './models';
 describe('MaterialService', () => {
   let httpMock: HttpTestingController;
   let spectator: SpectatorService<MaterialService>;
@@ -18,7 +24,7 @@ describe('MaterialService', () => {
 
   const createService = createServiceFactory({
     service: MaterialService,
-    imports: [HttpClientTestingModule],
+    providers: [provideHttpClient(), provideHttpClientTesting()],
   });
 
   beforeEach(() => {
@@ -136,6 +142,53 @@ describe('MaterialService', () => {
       );
 
       expect(req.request.method).toBe('GET');
+    });
+  });
+  describe('autocompleteMaterial', () => {
+    test('should call', () => {
+      const autocompleteSearch = {
+        searchFor: 'search',
+        filter: 'filter',
+        limit: 5,
+        customerIdentifier: { customerId: '123', salesOrg: '0815' },
+      };
+
+      service.autocompleteMaterial(autocompleteSearch).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_AUTOCOMPLETE']}/${autocompleteSearch.filter}?${service['PARAM_SEARCH_FOR']}=${autocompleteSearch.searchFor}&${service['PARAM_LIMIT']}=${autocompleteSearch?.limit || 100}&${service['PARAM_CUSTOMER_ID']}=${autocompleteSearch.customerIdentifier.customerId}&${service['PARAM_SALES_ORG']}=${autocompleteSearch.customerIdentifier.salesOrg}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush([]);
+    });
+    test('should map the result', () => {
+      const mapSpy = jest.spyOn(miscUtils, 'mapMaterialAutocompleteToIdValue');
+      const response: MaterialAutoCompleteResponse = {
+        results: [
+          {
+            customerMaterial: 'customerMaterial',
+            materialDescription: 'materialDescription',
+            materialNumber15: 'materialNumber15',
+          } as MaterialAutoComplete,
+        ],
+      };
+      const autocompleteSearch = {
+        searchFor: 'search',
+        filter: FilterNames.CUSTOMER_MATERIAL,
+        limit: 5,
+        customerIdentifier: { customerId: '123', salesOrg: '0815' },
+      };
+
+      service.autocompleteMaterial(autocompleteSearch).subscribe(() => {
+        expect(mapSpy).toHaveBeenCalled();
+      });
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_AUTOCOMPLETE']}/${autocompleteSearch.filter}?${service['PARAM_SEARCH_FOR']}=${autocompleteSearch.searchFor}&${service['PARAM_LIMIT']}=${autocompleteSearch?.limit || 100}&${service['PARAM_CUSTOMER_ID']}=${autocompleteSearch.customerIdentifier.customerId}&${service['PARAM_SALES_ORG']}=${autocompleteSearch.customerIdentifier.salesOrg}`
+      );
+      req.flush(response);
     });
   });
 });

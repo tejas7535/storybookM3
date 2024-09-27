@@ -1,4 +1,4 @@
-import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/quotation-details-table-validation.service';
+import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/validation/quotation-details-table-validation.service';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import * as constants from '@gq/shared/constants';

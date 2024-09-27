@@ -112,7 +112,13 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.priceSource'),
       field: ColumnFields.PRICE_SOURCE,
       valueFormatter: ColumnUtilityService.transformPriceSource,
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate('shared.quotationDetailsTable.priceSourceLabel', {
+            priceSource: params.value,
+          }),
+      },
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -263,7 +269,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.discount'),
       field: ColumnFields.DISCOUNT,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       editable: true,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
@@ -283,7 +289,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.sapVolumeScale'),
       field: ColumnFields.SAP_VOLUME_SCALE,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
@@ -303,6 +309,7 @@ export class ColumnDefService {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.targetPriceInfoText'
         ),
+        editableColumn: true,
       },
     },
     {
@@ -356,7 +363,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpi'),
       field: ColumnFields.GPI,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.GPC },
@@ -375,7 +382,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpm'),
       field: ColumnFields.GPM,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.SQV },
@@ -394,7 +401,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpmRfq'),
       field: ColumnFields.GPM_RFQ,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -420,7 +427,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.rlm'),
       field: ColumnFields.RLM,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -468,7 +475,7 @@ export class ColumnDefService {
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPI,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -483,7 +490,7 @@ export class ColumnDefService {
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPM,
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -527,7 +534,7 @@ export class ColumnDefService {
         ),
       },
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params),
+        this.columnUtilityService.percentageFormatter(params, false),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -784,6 +791,12 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.materialStatus'),
       field: 'material.materialStatus',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.brandName'),
+      field: 'material.brandName',
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
     },

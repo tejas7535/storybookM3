@@ -1,9 +1,17 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
 
-import { LegendSelectAction } from '../../../shared/charts/models';
-import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
-import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
+import { translate } from '@jsverse/transloco';
+
+import { DoughnutChartData } from '../../../shared/charts/models';
 import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
+import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { ReasonForLeavingTab } from '../../models';
+import { COLOR_PALETTE } from '../../store/selectors/reasons-and-counter-measures.selector.utils';
 
 @Component({
   selector: 'ia-reasons-for-leaving-chart',
@@ -11,31 +19,48 @@ import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-do
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReasonsForLeavingChartComponent {
-  @Input() config: SolidDoughnutChartConfig;
+  config: SolidDoughnutChartConfig;
+  @Input() data: DoughnutChartData[];
   @Input() isLoading: boolean;
-  @Input() orgUnit: string;
+  @Input() children: { reason: string; children: DoughnutChartData[] }[];
 
-  @Input() comparedConfig: SolidDoughnutChartConfig;
-  @Input() comparedIsLoading: boolean;
-  @Input() comparedOrgUnit: string;
+  @ViewChild(SolidDoughnutChartComponent) chart: SolidDoughnutChartComponent;
 
-  @Input() combinedLegend: ChartLegendItem[] = [];
-
-  _data: [DoughnutChartData[], DoughnutChartData[]];
-
-  defaultData: DoughnutChartData[]; // left chart
-  comparedData: DoughnutChartData[]; // right chart
-
-  legendSelectAction: LegendSelectAction;
-
-  @Input()
-  set data(data: [DoughnutChartData[], DoughnutChartData[]]) {
-    // copy of data is needed to trigger internal reset
-    this.defaultData = data[0] ? [...data[0]] : undefined;
-    this.comparedData = data[1] ? [...data[1]] : undefined;
+  @Input() set selectedTab(_tab: ReasonForLeavingTab) {
+    this.chart?.resetChart();
   }
 
-  onSelectedLegendItem(action: LegendSelectAction): void {
-    this.legendSelectAction = action;
+  @Input() set side(side: 'left' | 'right') {
+    this.config = {
+      ...this.config,
+      title: '',
+      color: COLOR_PALETTE,
+      side,
+    };
+  }
+
+  @Input() set title(title: string) {
+    this.config = {
+      ...this.config,
+      title,
+    };
+  }
+
+  @Input() set conductedInterviewsInfo(info: {
+    conducted: number;
+    percentage: number;
+  }) {
+    if (info) {
+      this.config = {
+        ...this.config,
+        subTitle: translate(
+          'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfo',
+          {
+            conducted: info.conducted,
+            percentage: info.percentage,
+          }
+        ),
+      };
+    }
   }
 }

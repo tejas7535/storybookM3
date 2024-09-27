@@ -3,17 +3,29 @@ import { Injectable } from '@angular/core';
 import { catchError, EMPTY, filter, map, mergeMap, of } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
+import { Moment } from 'moment';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import { FilterService } from '../../../../filter-section/filter.service';
 import { clearLossOfSkillDimensionData } from '../../../../loss-of-skill/store/actions/loss-of-skill.actions';
 import {
   clearOverviewBenchmarkData,
   clearOverviewDimensionData,
 } from '../../../../overview/store/actions/overview.action';
-import { IdValue, SelectedFilter } from '../../../../shared/models';
+import {
+  DEFAULT_TIME_PERIOD_FILTERS,
+  LOSS_OF_SKILL_MIN_YEAR,
+} from '../../../../shared/constants';
+import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
+import {
+  getTimeRangeFromDates,
+  getToday,
+} from '../../../../shared/utils/utilities';
 import { loadUserSettingsDimensionData } from '../../../../user/store/actions/user.action';
 import {
+  activateTimePeriodFilters,
   autocompleteBenchmarkDimensionData,
   autocompleteDimensionData,
   benchmarDimensionSelected,
@@ -23,7 +35,9 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  setAvailableTimePeriods,
 } from '../../actions';
+import { selectRouterState } from '../../reducers';
 import {
   getBenchmarkIdValue,
   getCurrentFilters,
@@ -136,6 +150,56 @@ export class FilterEffects {
       })
     );
   });
+
+  setTimePeriodsFiltersForCurrentTab$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(routerNavigationAction),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
+      map(([_, routerStateAction]) => routerStateAction.state.url),
+      mergeMap((url) => {
+        if (url === `/${AppRoutePath.LossOfSkillPath}`) {
+          const lossOfSkillTimePeriods = [
+            { id: TimePeriod.YEAR, value: TimePeriod.YEAR },
+          ];
+          const lossOfSkillMinDate = this.getStartOfPreviousYearDate();
+          const lossOfSkillMaxDate = this.getEndOfPreviousYearDate();
+
+          return of(
+            activateTimePeriodFilters({
+              timePeriods: lossOfSkillTimePeriods,
+              activeTimePeriod: TimePeriod.YEAR,
+              timeRange: {
+                id: getTimeRangeFromDates(
+                  lossOfSkillMinDate,
+                  lossOfSkillMaxDate
+                ),
+                value: lossOfSkillMaxDate.year().toString(),
+              },
+              timeRangeConstraints: {
+                min: getToday()
+                  .clone()
+                  .year(LOSS_OF_SKILL_MIN_YEAR)
+                  .startOf('year')
+                  .unix(),
+                max: lossOfSkillMaxDate.unix(),
+              },
+            })
+          );
+        } else {
+          return of(
+            setAvailableTimePeriods({
+              timePeriods: DEFAULT_TIME_PERIOD_FILTERS,
+            })
+          );
+        }
+      })
+    );
+  });
+
+  getStartOfPreviousYearDate = (): Moment =>
+    getToday().clone().subtract(1, 'year').startOf('year');
+  getEndOfPreviousYearDate = (): Moment =>
+    getToday().clone().subtract(1, 'year').endOf('year');
 
   constructor(
     private readonly actions$: Actions,

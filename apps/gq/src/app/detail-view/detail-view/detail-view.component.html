@@ -8,85 +8,10 @@
             [breadcrumbs]="breadcrumbs$ | ngrxPush"
           >
             <ng-container subheaderStatusIcon>
-              @if (
-                quotation.status !== quotationStatus.ACTIVE &&
-                quotation.status !== quotationStatus.DELETED &&
-                quotation.status !== quotationStatus.ARCHIVED
-              ) {
-                <!-- quotationStatus -->
-                @if (quotation$ | ngrxPush; as quotation) {
-                  <div
-                    class="relative h-5 w-5 rounded-full"
-                    [ngClass]="{
-                      'bg-quotation-status-blue':
-                        quotation.status === quotationStatus.IN_APPROVAL,
-                      'bg-quotation-status-dark-green !bg-opacity-20':
-                        quotation.status === quotationStatus.APPROVED,
-                      'bg-quotation-status-red':
-                        quotation.status === quotationStatus.REJECTED
-                    }"
-                  >
-                    <div
-                      class="absolute top-1 left-1 h-3 w-3 rounded-full"
-                      [ngClass]="{
-                        'bg-nordic-blue':
-                          quotation.status === quotationStatus.IN_APPROVAL,
-                        'bg-quotation-status-dark-green':
-                          quotation.status === quotationStatus.APPROVED,
-                        'bg-[#cb0b15]':
-                          quotation.status === quotationStatus.REJECTED
-                      }"
-                    ></div>
-                  </div>
-                }
-              } @else {
-                <!-- sapSync status -->
-                <div
-                  class="relative h-5 w-5 rounded-full"
-                  [ngClass]="{
-                    'bg-quotation-status-blue':
-                      (sapStatusPosition$ | ngrxPush) === sapSyncStatus.SYNCED,
-                    '!bg-[#F4F4F4]':
-                      (sapStatusPosition$ | ngrxPush) ===
-                        sapSyncStatus.NOT_SYNCED &&
-                      !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
-                    'bg-quotation-status-orange':
-                      (sapStatusPosition$ | ngrxPush) ===
-                      sapSyncStatus.PARTIALLY_SYNCED,
-                    'bg-quotation-status-red !bg-opacity-100':
-                      (sapStatusPosition$ | ngrxPush) ===
-                      sapSyncStatus.SYNC_FAILED
-                  }"
-                  *transloco="let t; read: 'shared.sapStatusLabels'"
-                  [matTooltip]="
-                    (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
-                      ? t(
-                          'errorCodes.' +
-                            (quotationDetail$ | ngrxPush)?.sapSyncErrorCode
-                        )
-                      : undefined
-                  "
-                >
-                  <div
-                    class="absolute top-1 left-1 h-3 w-3 rounded-full"
-                    [ngClass]="{
-                      'bg-nordic-blue':
-                        (sapStatusPosition$ | ngrxPush) ===
-                        sapSyncStatus.SYNCED,
-                      'bg-low-emphasis':
-                        (sapStatusPosition$ | ngrxPush) ===
-                          sapSyncStatus.NOT_SYNCED &&
-                        !(quotationDetail$ | ngrxPush)?.sapSyncErrorCode,
-                      'bg-[#e9b300]':
-                        (sapStatusPosition$ | ngrxPush) ===
-                        sapSyncStatus.PARTIALLY_SYNCED,
-                      'bg-[#cb0b15]':
-                        (sapStatusPosition$ | ngrxPush) ===
-                        sapSyncStatus.SYNC_FAILED
-                    }"
-                  ></div>
-                </div>
-              }
+              <schaeffler-tag
+                [type]="tagType$ | ngrxPush"
+                class="subheader-status-icon"
+              ></schaeffler-tag>
             </ng-container>
             <ng-container subheaderTitleContent>
               <gq-detail-view-header-content

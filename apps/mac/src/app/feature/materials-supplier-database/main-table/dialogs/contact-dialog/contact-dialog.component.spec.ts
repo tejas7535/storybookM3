@@ -8,6 +8,10 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../../assets/i18n/en.json';
+import {
+  contactSupplierDevelopment,
+  contactSustainability,
+} from './contact-data';
 import { ContactDialogComponent } from './contact-dialog.component';
 
 describe('ContactDialogComponent', () => {
@@ -36,6 +40,17 @@ describe('ContactDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getContacts', () => {
+    it('should return the contacts', () => {
+      const expected = {
+        contactSupplierDevelopment,
+        contactSustainability,
+      };
+
+      expect(component.getContacts()).toEqual(expected);
+    });
   });
 
   describe('track', () => {

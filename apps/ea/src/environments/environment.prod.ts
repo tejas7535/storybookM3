@@ -15,6 +15,11 @@ export const environment: Environment = {
   groupId: 'c4c115f9-a73a-4761-a7d1-daa07e6deda1',
   assetsPath: 'https://medias-easycalc.com/assets',
   oneTrustId: '018e319b-539e-71d4-81ef-009e587d0bf9',
+  oneTrustMobileStorageLocation: 'cdn.cookielaw.org',
+  oneTrustAndroidId: '01922318-86c1-787f-93f9-87b5102311d9',
+  oneTrustiOSId: '0192231a-96ab-779d-9f23-ab558c7ff673',
+  oneTrustAndroidFirebaseCategoryId: '0190a6df-479e-733f-8b9f-fdaf88a8cc34',
+  oneTrustiOSFirebaseCategoryId: '0190a6ed-ae99-750d-a458-b4c746cc8ae0',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'cfecb843-072b-4edf-9c7d-2b52d7309d6d',

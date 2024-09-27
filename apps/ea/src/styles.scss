@@ -120,7 +120,7 @@ engineering-app {
       background: #fff;
       min-height: 95svh;
       max-height: 95svh;
-      @apply px-6 pt-6 rounded-md shadow-lg flex flex-col justify-start;
+      @apply px-3 sm:px-6 pt-3 sm:pt-6 rounded-md shadow-lg flex flex-col justify-start;
 
       .dialog-title {
         @apply flex-shrink-0 flex-grow-0;
@@ -205,6 +205,18 @@ engineering-app {
   */
   .mdc-notched-outline__notch {
     border-right: none !important;
+  }
+
+  // helper to avoid the overlay being cropped by the notch on ios devices
+  .preview-mobile {
+    bottom: env(safe-area-inset-bottom);
+  }
+  .mobile-report {
+    margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .mobile-report #result-report {
+    min-height: auto;
   }
 }
 

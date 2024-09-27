@@ -74,10 +74,12 @@ describe('KpiListComponent', () => {
       component.kpis = [kpi];
 
       expect(transformationService.transformPercentage).toBeCalledWith(
-        kpi.value
+        kpi.value,
+        false
       );
       expect(transformationService.transformPercentage).toBeCalledWith(
-        QUOTATION_DETAIL_MOCK.gpi
+        QUOTATION_DETAIL_MOCK.gpi,
+        false
       );
       expect(component.displayedKpis).toEqual([
         {
@@ -101,10 +103,12 @@ describe('KpiListComponent', () => {
       component.kpis = [kpi];
 
       expect(transformationService.transformPercentage).toBeCalledWith(
-        kpi.value
+        kpi.value,
+        false
       );
       expect(transformationService.transformPercentage).toBeCalledWith(
-        QUOTATION_DETAIL_MOCK.gpm
+        QUOTATION_DETAIL_MOCK.gpm,
+        false
       );
       expect(component.displayedKpis).toEqual([
         {
@@ -128,10 +132,12 @@ describe('KpiListComponent', () => {
       component.kpis = [kpi];
 
       expect(transformationService.transformPercentage).toBeCalledWith(
-        kpi.value
+        kpi.value,
+        false
       );
       expect(transformationService.transformPercentage).toBeCalledWith(
-        QUOTATION_DETAIL_MOCK.discount
+        QUOTATION_DETAIL_MOCK.discount,
+        false
       );
       expect(component.displayedKpis).toEqual([
         {
@@ -276,6 +282,27 @@ describe('KpiListComponent', () => {
           hasWarning: false,
           hasError: true,
           warningText: 'translate it',
+        },
+      ]);
+    });
+    test('should not display warning if price is equal to 0', () => {
+      const kpi = {
+        key: ColumnFields.PRICE,
+        value: 0,
+      } as KpiValue;
+
+      component.editingModalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.kpis = [kpi];
+
+      expect(component.displayedKpis).toEqual([
+        {
+          ...component.displayedKpis[0],
+          hasWarning: false,
+          hasError: false,
+          warningText: undefined,
         },
       ]);
     });

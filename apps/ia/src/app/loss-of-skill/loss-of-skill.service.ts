@@ -8,7 +8,11 @@ import { withCache } from '@ngneat/cashew';
 import { ExitEntryEmployeesResponse } from '../overview/models';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
-import { LostJobProfilesResponse, WorkforceResponse } from './models';
+import {
+  LostJobProfilesResponse,
+  PmgmDataDto,
+  WorkforceResponse,
+} from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +22,7 @@ export class LossOfSkillService {
   readonly OPEN_POSITIONS = 'open-positions';
   readonly WORKFORCE = 'workforce';
   readonly LEAVERS = 'leavers';
+  readonly PMGM_DATA = 'pmgm-data';
 
   constructor(
     private readonly http: HttpClient,
@@ -78,5 +83,18 @@ export class LossOfSkillService {
         context: withCache(),
       }
     );
+  }
+
+  getPmgmData(employeesRequest: EmployeesRequest): Observable<PmgmDataDto[]> {
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
+      employeesRequest.filterDimension,
+      employeesRequest.value,
+      employeesRequest.timeRange
+    );
+
+    return this.http.get<PmgmDataDto[]>(`${ApiVersion.V1}/${this.PMGM_DATA}`, {
+      params,
+      context: withCache(),
+    });
   }
 }

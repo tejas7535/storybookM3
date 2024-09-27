@@ -6,6 +6,7 @@ Object {
   "tableItems": Array [
     Object {
       "concept1": undefined,
+      "isRecommended": undefined,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
@@ -119,6 +120,7 @@ Object {
     },
     Object {
       "concept1": undefined,
+      "isRecommended": undefined,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
@@ -232,6 +234,7 @@ Object {
     },
     Object {
       "concept1": undefined,
+      "isRecommended": undefined,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
@@ -365,6 +368,7 @@ Object {
         },
         "title": "calculationResult.concept1",
       },
+      "isRecommended": undefined,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
@@ -490,6 +494,7 @@ Object {
         },
         "title": "calculationResult.concept1",
       },
+      "isRecommended": undefined,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",
@@ -603,6 +608,7 @@ Object {
     },
     Object {
       "concept1": undefined,
+      "isRecommended": undefined,
       "items": Array [
         Object {
           "itemTitle": "calculationResult.initialGreaseQuantity",

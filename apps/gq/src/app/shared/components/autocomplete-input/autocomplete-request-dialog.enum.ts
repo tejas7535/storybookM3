@@ -4,4 +4,5 @@ export enum AutocompleteRequestDialog {
   EDIT_MATERIAL = 'editMaterial',
   GLOBAL_SEARCH = 'globalSearch',
   EDIT_CASE = 'editCase',
+  CREATE_CASE = 'createCase',
 }

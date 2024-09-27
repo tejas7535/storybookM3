@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { map } from 'rxjs';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
+import { PdfFileSaveService } from '@ea/core/services/pdfreport/pdf-file-save.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   CalculationParametersFacade,
@@ -18,7 +19,6 @@ import {
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
-import { ExpansionPanelComponent } from '@ea/shared/expansion-panel/expansion-panel.component';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -27,11 +27,13 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import {
+  ReportExpansionPanelComponent,
+  ResultReportComponent,
+} from '@schaeffler/result-report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
-import { CalculationResultMessagesComponent } from '../calculation-result-messages/calculation-result-messages.component';
-import { CalculationResultReportInputComponent } from '../calculation-result-report-input';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
@@ -52,14 +54,13 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     MeaningfulRoundPipe,
     TranslocoModule,
     CalculationTypesSelectionComponent,
-    CalculationResultReportInputComponent,
-    CalculationResultMessagesComponent,
+    ReportExpansionPanelComponent,
     InfoBannerComponent,
-    ExpansionPanelComponent,
     CalculationResultReportLargeItemsComponent,
     QualtricsInfoBannerComponent,
     DialogModule,
     CalculationResultReportSelectionComponent,
+    ResultReportComponent,
   ],
   providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
@@ -97,7 +98,8 @@ export class CalculationResultReportComponent {
     private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService,
     private readonly trackingService: TrackingService,
-    private readonly reportService: PDFReportService
+    private readonly reportService: PDFReportService,
+    private readonly pdfFileSaveService: PdfFileSaveService
   ) {}
 
   closeDialog() {
@@ -124,6 +126,7 @@ export class CalculationResultReportComponent {
     this.trackingService.logDownloadReport();
     const report = await this.reportService.generate();
     const reportName = await this.reportService.generateFilename();
-    report.document.save(reportName);
+
+    this.pdfFileSaveService.saveAndOpenFile(report.document, reportName);
   }
 }

@@ -57,7 +57,7 @@ import {
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
-import { SalesIndication } from '../transactions/models/sales-indication.enum';
+import { SalesIndication } from '../../transactions/models/sales-indication.enum';
 import {
   createCaseReducer,
   CreateCaseState,
@@ -109,6 +109,34 @@ describe('Create Case Reducer', () => {
 
         const stateItem = state.autocompleteItems[0].options;
         expect(stateItem).toEqual([fakeOptions[0]]);
+      });
+      test('should set the autoSelectMaterial', () => {
+        const autoCompleteOptions = [new IdValue('mcd', 'mercedes', false)];
+
+        const fakeOptions = [
+          new IdValue('mcd', 'mercedes', true),
+          new IdValue('aud', 'audi', false),
+        ];
+
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteLoading: FilterNames.MATERIAL_NUMBER,
+          autocompleteItems: [
+            { filter: FilterNames.MATERIAL_NUMBER, options: fakeOptions },
+          ],
+        };
+
+        const action = autocompleteSuccess({
+          options: autoCompleteOptions,
+          filter: FilterNames.MATERIAL_NUMBER,
+        });
+
+        const state = createCaseReducer(fakeState, action);
+
+        const stateItem = state.autocompleteItems[0].options;
+        const autoSelectMaterial = state.autoSelectMaterial;
+        expect(stateItem.length).toEqual(1);
+        expect(autoSelectMaterial.options[0]).toEqual(autoCompleteOptions[0]);
       });
     });
     describe('autocompleteFailure', () => {
@@ -190,16 +218,17 @@ describe('Create Case Reducer', () => {
       });
     });
     describe('setSelectedAutocompleteOption', () => {
-      test('should set option for materialNumber and Description', () => {
+      test('should set option for materialNumber, Description and customerMaterial', () => {
         const fakeState: CreateCaseState = {
           ...CREATE_CASE_STORE_STATE_MOCK,
           autocompleteItems: [
             { filter: FilterNames.MATERIAL_NUMBER, options: [] },
             { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] },
+            { filter: FilterNames.CUSTOMER_MATERIAL, options: [] },
           ],
         };
 
-        const option = new IdValue('mcd', 'mercedes', true);
+        const option = new IdValue('mcd', 'mercedes', true, 'customerMat');
         const action = setSelectedAutocompleteOption({
           filter: FilterNames.MATERIAL_NUMBER,
           option,
@@ -215,7 +244,123 @@ describe('Create Case Reducer', () => {
           state.autocompleteItems.find(
             (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
           ).options
-        ).toEqual([{ selected: true, id: option.value, value: option.id }]);
+        ).toEqual([
+          {
+            selected: true,
+            id: option.value,
+            value: option.id,
+            value2: option.value2,
+          },
+        ]);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.CUSTOMER_MATERIAL
+          ).options
+        ).toEqual([
+          {
+            selected: true,
+            id: option.value2,
+            value: option.id,
+            value2: option.value,
+          },
+        ]);
+      });
+      test('should set option for materialDescription, matNumber and customerMaterial', () => {
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            { filter: FilterNames.MATERIAL_NUMBER, options: [] },
+            { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] },
+            { filter: FilterNames.CUSTOMER_MATERIAL, options: [] },
+          ],
+        };
+
+        const option = new IdValue('matDesc', 'matNumber', true, 'customerMat');
+        const action = setSelectedAutocompleteOption({
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+          option,
+        });
+        const state = createCaseReducer(fakeState, action);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
+          ).options
+        ).toEqual([option]);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.MATERIAL_NUMBER
+          ).options
+        ).toEqual([
+          {
+            selected: true,
+            id: option.value,
+            value: option.id,
+            value2: option.value2,
+          },
+        ]);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.CUSTOMER_MATERIAL
+          ).options
+        ).toEqual([
+          {
+            selected: true,
+            id: option.value2,
+            value: option.value,
+            value2: option.id,
+          },
+        ]);
+      });
+      test('should set option for customerMaterial, materialNumber and materialDescription', () => {
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            { filter: FilterNames.MATERIAL_NUMBER, options: [] },
+            { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] },
+            { filter: FilterNames.CUSTOMER_MATERIAL, options: [] },
+          ],
+        };
+
+        const option = new IdValue(
+          'customerMat',
+          'matNumber',
+          true,
+          'matDescription'
+        );
+        const action = setSelectedAutocompleteOption({
+          filter: FilterNames.CUSTOMER_MATERIAL,
+          option,
+        });
+        const state = createCaseReducer(fakeState, action);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.CUSTOMER_MATERIAL
+          ).options
+        ).toEqual([option]);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.MATERIAL_NUMBER
+          ).options
+        ).toEqual([
+          {
+            selected: true,
+            id: option.value,
+            value: option.value2,
+            value2: option.id,
+          },
+        ]);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
+          ).options
+        ).toEqual([
+          {
+            selected: true,
+            id: option.value2,
+            value: option.value,
+            value2: option.id,
+          },
+        ]);
       });
       test('should set option for customer', () => {
         const fakeState: CreateCaseState = {
@@ -852,6 +997,15 @@ describe('Create Case Reducer', () => {
     });
   });
 
+  describe('getSalesOrgsForShipToPartySuccess', () => {
+    test('should set the state with the salesOrgs', () => {
+      const salesOrgs = [new SalesOrg('id', true)];
+      const action = getSalesOrgsForShipToPartySuccess({ salesOrgs });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+      expect(state.shipToParty.salesOrgs).toEqual(salesOrgs);
+    });
+  });
   describe('select SalesOrg', () => {
     test('should select SalesOrg', () => {
       const salesOrgs = [new SalesOrg('id1', true), new SalesOrg('id2', false)];
@@ -1027,7 +1181,6 @@ describe('Create Case Reducer', () => {
       expect(state.shipToParty).toEqual(initialState.shipToParty);
     });
   });
-
   describe('PLsAndSeries Actions', () => {
     describe('getPLsAndSeries', () => {
       test('should set loading', () => {

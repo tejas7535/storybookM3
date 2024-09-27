@@ -30,19 +30,25 @@
         >
           <mat-panel-title class="w-full">
             @if (isGreaseResultSection(subordinate.titleID)) {
-              <span class="truncate">
-                {{
-                  t(
-                    preferredGreaseResult?.id
-                      ? 'resultsWithPreferred'
-                      : 'resultsDefault',
-                    {
-                      amount: limitResults ? resultsLimit : getResultAmount(),
-                      complete: getResultAmount()
-                    }
-                  )
-                }}
-              </span>
+              @if (hasRecommendation$$ | ngrxPush) {
+                <span class="truncate">
+                  {{ t('resultsWithRecommendation') }}
+                </span>
+              } @else {
+                <span class="truncate">
+                  {{
+                    t(
+                      preferredGreaseResult?.id
+                        ? 'resultsWithPreferred'
+                        : 'resultsDefault',
+                      {
+                        amount: limitResults ? resultsLimit : getResultAmount(),
+                        complete: getResultAmount()
+                      }
+                    )
+                  }}
+                </span>
+              }
             } @else {
               <span>{{ subordinate.title }}</span>
             }
@@ -54,6 +60,30 @@
             isGreaseResultSection(subordinate.titleID) ? 'px-0' : 'px-4'
           "
         >
+          @if (hasMessages$ | ngrxPush) {
+            @for (
+              entry of resultMessages$ | ngrxPush;
+              let i = $index;
+              track i
+            ) {
+              <div
+                class="mx-3 flex items-center text-warning min-w-0 flex-row gap-4 justify-between rounded border border-warning bg-warning p-3 lg:m-0 lg:mb-3"
+              >
+                <div class="text-caption font-normal text-warning">
+                  {{ entry.text }}
+                </div>
+                <div>
+                  @for (link of entry.links; let k = $index; track k) {
+                    <a [href]="link.url" mat-raised-button>
+                      <mat-icon>open_in_new</mat-icon>
+                      {{ link.text }}
+                    </a>
+                  }
+                </div>
+              </div>
+            }
+          }
+
           @if (
             isGreaseResultSection(subordinate.titleID) && concept1Impossible()
           ) {
@@ -76,6 +106,7 @@
             >
             </ng-template>
           </div>
+
           @if (
             isGreaseResultSection(subordinate.titleID) &&
             getResultAmount() > resultsLimit

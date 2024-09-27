@@ -1,0 +1,8 @@
+{
+  "title": "Manuellen Case Erstellen",
+  "headerInformation": "Kopfdaten",
+  "positionInformation": "Positionsinformationen",
+  "mandatoryField": "*Pflichtfeld",
+  "createCase": "Case erstellen",
+  "cancelButton": "Abbrechen"
+}

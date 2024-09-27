@@ -1,5 +1,5 @@
 @if (appIsEmbedded$ | ngrxPush) {
-  <div class="bg-surface">
+  <div class="bg-surface-legacy">
     <schaeffler-banner></schaeffler-banner>
     <div class="border-t border-border"></div>
     <router-outlet></router-outlet>
@@ -30,7 +30,7 @@
         </div>
         <div
           *transloco="let t; read: 'legal'"
-          class="mx-auto w-full max-w-2xl bg-surface"
+          class="mx-auto w-full max-w-2xl bg-surface-legacy"
           id="cookie-settings"
           [ngClass]="{ hidden: !isCookiePage }"
         >

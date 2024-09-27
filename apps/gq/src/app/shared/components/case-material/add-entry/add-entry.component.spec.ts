@@ -2,10 +2,16 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { BehaviorSubject, of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { SalesOrg } from '@gq/core/store/reducers/models';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { Customer, CustomerId } from '@gq/shared/models';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -27,6 +33,12 @@ describe('AddEntryComponent', () => {
   let component: AddEntryComponent;
   let mockStore: MockStore;
   let spectator: Spectator<AddEntryComponent>;
+  const createCaseCustomerIdSubject: BehaviorSubject<CustomerId> =
+    new BehaviorSubject<CustomerId>({ customerId: '1234', salesOrg: '0815' });
+  const customerIdForCaseCreationSubject: BehaviorSubject<string> =
+    new BehaviorSubject<string>('1234');
+  const selectedCustomerSalesOrgSubject: BehaviorSubject<SalesOrg> =
+    new BehaviorSubject<SalesOrg>({ id: '0815', selected: true });
 
   const createComponent = createComponentFactory({
     component: AddEntryComponent,
@@ -43,6 +55,18 @@ describe('AddEntryComponent', () => {
       MockProvider(TranslocoLocaleService, {
         getLocale: jest.fn(() => LOCALE_DE.id),
       }),
+      MockProvider(CreateCaseFacade, {
+        customerIdentifier$: createCaseCustomerIdSubject.asObservable(),
+        customerIdForCaseCreation$:
+          customerIdForCaseCreationSubject.asObservable(),
+        selectedCustomerSalesOrg$:
+          selectedCustomerSalesOrgSubject.asObservable(),
+      }),
+      MockProvider(ActiveCaseFacade, {
+        quotationCustomer$: of({
+          identifier: { customerId: '1234', salesOrg: '0815' },
+        } as Customer),
+      }),
       provideMockStore({
         initialState: {
           case: CREATE_CASE_STORE_STATE_MOCK,
@@ -50,6 +74,7 @@ describe('AddEntryComponent', () => {
       }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -74,9 +99,32 @@ describe('AddEntryComponent', () => {
       expect(component.quantity).toEqual(10);
       expect(component.rowInputValid).toHaveBeenCalled();
     });
+
+    test('should reset inputFields, when For CreateCase, the CustomerId changes', () => {
+      component.newCaseCreation = true;
+      Object.defineProperty(component, 'isCaseView', {
+        value: true,
+      });
+      component['clearFields'] = jest.fn();
+      customerIdForCaseCreationSubject.next('555');
+      component.ngOnInit();
+      customerIdForCaseCreationSubject.next('666');
+      expect(component['clearFields']).toHaveBeenCalled();
+    });
+    test('should clearFields when ForCreateCase and selectedCustomerSalesOrg changes', () => {
+      component.newCaseCreation = true;
+      Object.defineProperty(component, 'isCaseView', {
+        value: true,
+      });
+      component['clearFields'] = jest.fn();
+      selectedCustomerSalesOrgSubject.next({ id: '0816', selected: true });
+      component.ngOnInit();
+      selectedCustomerSalesOrgSubject.next({ id: '0817', selected: true });
+      expect(component['clearFields']).toHaveBeenCalled();
+    });
   });
   describe('materialNumberValid', () => {
-    test('should set materialNumberisValid', () => {
+    test('should set materialNumberIsValid', () => {
       component.rowInputValid = jest.fn();
       component.materialInputValid(true);
 
@@ -121,6 +169,8 @@ describe('AddEntryComponent', () => {
       const item: MaterialTableItem = {
         materialNumber: '1234',
         materialDescription: 'desc',
+        customerMaterialNumber: 'cust',
+        targetPriceSource: 'noEntry',
         quantity: 10,
         info: {
           description: [ValidationDescription.Not_Validated],
@@ -138,6 +188,11 @@ describe('AddEntryComponent', () => {
         clearInput: jest.fn(),
       } as any;
 
+      component.customerMatNumberInput = {
+        searchFormControl: new FormControl(item.customerMaterialNumber),
+        clearInput: jest.fn(),
+      } as any;
+
       component.quantityFormControl = {
         reset: jest.fn(),
       } as any;
@@ -146,14 +201,25 @@ describe('AddEntryComponent', () => {
         reset: jest.fn(),
       } as any;
 
+      component.targetPriceSourceFormControl = {
+        setValue: jest.fn(),
+      } as any;
+
+      component.newCaseCreation = true;
       component.addRow();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable({ items: [item] })
+        ProcessCaseActions.addNewItemsToMaterialTable({
+          items: [{ ...item, targetPriceSource: undefined }],
+        })
       );
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.quantityFormControl.reset).toHaveBeenCalledTimes(1);
       expect(component.targetPriceFormControl.reset).toHaveBeenCalledTimes(1);
+      expect(component.customerMatNumberInput.clearInput).toHaveBeenCalled();
+      expect(
+        component.targetPriceSourceFormControl.setValue
+      ).toHaveBeenCalled();
     });
   });
   describe('onQuantityKeyPress', () => {

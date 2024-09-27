@@ -10,6 +10,7 @@ import {
   MatButtonToggleGroup,
 } from '@angular/material/button-toggle';
 
+import { NavItem } from '../../shared/nav-buttons/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { ChartType, ZoomButton } from '../models';
 
@@ -20,10 +21,28 @@ import { ChartType, ZoomButton } from '../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrillDownToolPanelComponent {
-  fluctuationTypeEnum = FluctuationType;
   fluctuationType: FluctuationType = FluctuationType.TOTAL;
+  translationPath = 'organizationalView.orgChart.type';
   possibleChartTypes = ChartType;
   zoomButtonEnum = ZoomButton;
+  navButtons: NavItem[] = [
+    {
+      label: FluctuationType.TOTAL,
+      translation: `${this.translationPath}.total`,
+    },
+    {
+      label: FluctuationType.UNFORCED,
+      translation: `${this.translationPath}.unforced`,
+    },
+    {
+      label: FluctuationType.FORCED,
+      translation: `${this.translationPath}.forced`,
+    },
+    {
+      label: FluctuationType.REMAINING,
+      translation: `${this.translationPath}.remaining`,
+    },
+  ];
 
   @Input() selectedChart: ChartType;
 
@@ -42,8 +61,11 @@ export class DrillDownToolPanelComponent {
     this.chartTypeChanged.emit(event.value);
   }
 
-  onFluctuationTypeChange(event: MatButtonToggleChange) {
-    this.fluctuationTypeChanged.emit(event.value);
+  onFluctuationTypeChange(tab: string): void {
+    const fluctuationType = Object.values(FluctuationType).find(
+      (key) => FluctuationType[key] === tab
+    );
+    this.fluctuationTypeChanged.emit(fluctuationType);
   }
 
   onExportBtnClick(): void {

@@ -1,5 +1,6 @@
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { MATERIAL_FILTERS } from '@gq/shared/constants';
 import { PurchaseOrderType } from '@gq/shared/models';
 import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { IdValue } from '@gq/shared/models/search';
@@ -9,6 +10,10 @@ import {
   ValidationDescription,
 } from '@gq/shared/models/table';
 import { TableService } from '@gq/shared/services/table/table.service';
+import {
+  mapIdValueToMaterialAutoComplete,
+  mapMaterialAutocompleteToIdValue,
+} from '@gq/shared/utils/misc.utils';
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
@@ -61,7 +66,7 @@ import {
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
-import { SalesIndication } from '../transactions/models/sales-indication.enum';
+import { SalesIndication } from '../../transactions/models/sales-indication.enum';
 import {
   CaseFilterItem,
   CreateCaseResponse,
@@ -133,6 +138,10 @@ export const initialState: CreateCaseState = {
       filter: FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION,
       options: [],
     },
+    {
+      filter: FilterNames.CUSTOMER_MATERIAL,
+      options: [],
+    },
   ],
   customer: {
     customerId: undefined,
@@ -166,9 +175,7 @@ export const initialState: CreateCaseState = {
 };
 
 const isOnlyOptionForMaterial = (options: any, filter: any): boolean =>
-  options.length === 1 &&
-  (filter === FilterNames.MATERIAL_NUMBER ||
-    filter === FilterNames.MATERIAL_DESCRIPTION);
+  MATERIAL_FILTERS.includes(filter) && options.length === 1;
 
 export const createCaseReducer = createReducer(
   initialState,
@@ -267,26 +274,25 @@ export const createCaseReducer = createReducer(
       ...state,
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
-        const setFor =
-          filter === FilterNames.MATERIAL_NUMBER
-            ? FilterNames.MATERIAL_DESCRIPTION
-            : FilterNames.MATERIAL_NUMBER;
-
         if (temp.filter === filter) {
           return { ...temp, options: selectOption(temp.options, option) };
-        } else if (temp.filter === setFor) {
-          return {
-            ...temp,
-            options: selectOption(temp.options, {
-              selected: true,
-              id: option.value,
-              value: option.id,
-              value2: option.value2,
-            }),
-          };
         }
 
-        return temp;
+        const setFor: string[] = MATERIAL_FILTERS.filter((f) => f !== filter);
+        if (!setFor.includes(temp.filter)) {
+          return temp;
+        }
+
+        const optionToSelect: IdValue = mapIdValueFromOneFilterToAnother(
+          option,
+          filter,
+          temp.filter
+        );
+
+        return {
+          ...temp,
+          options: selectOption(temp.options, optionToSelect),
+        };
       }),
     })
   ),
@@ -749,6 +755,16 @@ const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
 
   return itemOptions;
 };
+
+const mapIdValueFromOneFilterToAnother = (
+  option: IdValue,
+  fromFilter: string,
+  toFilter: string
+): IdValue =>
+  mapMaterialAutocompleteToIdValue(
+    mapIdValueToMaterialAutoComplete(option, fromFilter),
+    toFilter
+  );
 
 /**
  * returns the currency of the selected SalesOrg or undefined if no salesOrg is selected

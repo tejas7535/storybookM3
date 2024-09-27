@@ -9,7 +9,7 @@ import {
   SalesOrg,
 } from '../../reducers/create-case/models';
 import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
-import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
+import { SalesIndication } from '../../transactions/models/sales-indication.enum';
 import {
   addRowDataItems,
   autocomplete,

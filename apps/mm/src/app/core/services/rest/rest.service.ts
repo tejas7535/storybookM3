@@ -14,6 +14,7 @@ import {
   Report,
   SearchResult,
 } from '../../../shared/models';
+import { BearinxOnlineResult } from '../bearinx-result.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -89,5 +90,11 @@ export class RestService {
         delay: (_error, count) => timer(count <= 10 ? 3000 : 10_000),
       })
     );
+  }
+
+  public getJsonReportResponse(
+    jsonReportUrl: string
+  ): Observable<BearinxOnlineResult> {
+    return this.httpClient.get<BearinxOnlineResult>(jsonReportUrl);
   }
 }

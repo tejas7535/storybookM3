@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
+
 import { InfoBannerComponent } from '../../info-banner/info-banner.component';
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
@@ -15,6 +17,7 @@ import { ConfirmationModalComponent } from './confirmation-modal.component';
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
+    DragDialogDirective,
   ],
   exports: [ConfirmationModalComponent],
 })

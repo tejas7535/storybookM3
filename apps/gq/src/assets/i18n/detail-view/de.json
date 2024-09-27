@@ -26,6 +26,7 @@
       "title": "SAP Preis",
       "priceLabel": "Nettopreis",
       "priceCondition": "Preiskondition",
+      "priceSource": "Preisquelle",
       "gpi": "GPI% (KHK)",
       "gpm": "GPM% (SAW)",
       "gpmRfq": "GPM% (RFQ)",
@@ -101,7 +102,13 @@
         "cancelButton": "Abbrechen",
         "refreshButtonTooltip": "{status,select,SYNC_PENDING {Bearbeitung nicht möglich, da die Synchronisierung mit SAP noch aussteht.} ACTIVE {RFQ Information aktualisieren} other {RFQ Information nicht aktuell. Bitte Freigabe abbrechen, um RFQ Informationen zu aktualisieren.}}"
       },
-      "rfqDataUpToDate": "RFQ Information aktuell"
+      "rfqDataUpToDate": "RFQ Information aktuell",
+      "deliveryTime": "Lieferzeit",
+      "deliveryUnit": {
+        "label": "Lieferungseinheit",
+        "WEEKS": "Wochen",
+        "MONTHS": "Monate"
+      }
     },
     "materialComparableCostDetails": {
       "title": "Vergleichbare Kosten #{{number}}",

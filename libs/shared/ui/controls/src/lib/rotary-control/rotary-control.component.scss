@@ -36,7 +36,7 @@
 
     .cover-ring {
       @include circleAndCenter(350px);
-      @apply bg-surface;
+      @apply bg-surface-legacy;
       z-index: 1;
       box-shadow: 0 0 18px 3px rgba(0, 0, 0, 0.6) inset;
 
@@ -54,7 +54,7 @@
 
         &:after {
           @include circleAndCenter(280px);
-          @apply bg-surface;
+          @apply bg-surface-legacy;
           content: '';
           box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.6) inset;
         }

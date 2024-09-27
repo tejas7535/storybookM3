@@ -1,0 +1,30 @@
+@if (
+  messages.errors.length || messages.warnings.length || messages.notes.length
+) {
+  <ng-container *transloco="let t; read: ''">
+    <schaeffler-report-expansion-panel
+      [title]="t('reportSectionWarnings')"
+      icon="report_problem"
+      [iconClassName]="'!text-icon-warning'"
+      [expanded]="isMessageSectionExpanded"
+    >
+      <div class="px-4 md:px-8 pb-4">
+        <schaeffler-calculation-result-messages
+          [title]="t('errors')"
+          [messages]="messages.errors"
+        >
+        </schaeffler-calculation-result-messages>
+        <schaeffler-calculation-result-messages
+          [title]="t('warnings')"
+          [messages]="messages.warnings"
+        >
+        </schaeffler-calculation-result-messages>
+        <schaeffler-calculation-result-messages
+          [title]="t('notes')"
+          [messages]="messages.notes"
+        >
+        </schaeffler-calculation-result-messages>
+      </div>
+    </schaeffler-report-expansion-panel>
+  </ng-container>
+}

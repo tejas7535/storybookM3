@@ -160,10 +160,7 @@
                         mat-raised-button
                         [disabled]="!(pagedMeta.valid$ | ngrxPush)"
                         color="primary"
-                        (click)="
-                          next(pagedMeta.page.id, pagedMetas, stepper);
-                          stepper.hasResultNext && resultPage.send(form)
-                        "
+                        (click)="next(pagedMeta.page.id, pagedMetas, stepper)"
                         class="w-full uppercase md:max-w-xs"
                       >
                         {{
@@ -183,12 +180,28 @@
           }
         }
 
+        @if (!stepper.hasNext && !isProduction) {
+          <div class="mb-4 flex w-full justify-end">
+            <mat-slide-toggle
+              color="primary"
+              labelPosition="before"
+              [(ngModel)]="showCompactView"
+            >
+              {{ 'show compact view' }}
+            </mat-slide-toggle>
+          </div>
+        }
+
         <mm-result-page
-          [active]="!stepper.hasNext"
+          [active]="!stepper.hasNext && !showCompactView"
           [bearing]="activeBearing$ | ngrxPush"
           [form]="form"
           #resultPage
         ></mm-result-page>
+
+        @if (!stepper.hasNext && showCompactView) {
+          <mm-report-result-page [form]="form"> </mm-report-result-page>
+        }
       </div>
     </div>
   </cae-dynamic-form>

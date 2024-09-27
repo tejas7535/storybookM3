@@ -12,13 +12,14 @@
         Show form errors
       </mat-slide-toggle>
       @if (showRawErrors.checked) {
-        <pre class="bg-surface border-border border rounded-md mt-2 p-2">
+        <pre class="bg-surface-legacy border-border border rounded-md mt-2 p-2">
           Status: {{ operationConditionsForm.status }}</pre
         >
         @if (operationConditionsForm.invalid) {
-          <pre class="bg-surface border-border border rounded-md mt-2 p-2">{{
-            validationErrors | json
-          }}</pre>
+          <pre
+            class="bg-surface-legacy border-border border rounded-md mt-2 p-2"
+            >{{ validationErrors | json }}</pre
+          >
         }
       }
     </div>
@@ -33,9 +34,10 @@
         Show form value
       </mat-slide-toggle>
       @if (showFormValue.checked) {
-        <pre class="bg-surface border-border border rounded-md mt-2 p-2">{{
-          operationConditionsForm.value | json
-        }}</pre>
+        <pre
+          class="bg-surface-legacy border-border border rounded-md mt-2 p-2"
+          >{{ operationConditionsForm.value | json }}</pre
+        >
       }
     </div>
   </div>

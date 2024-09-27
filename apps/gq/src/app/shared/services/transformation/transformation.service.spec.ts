@@ -114,17 +114,21 @@ describe('TransformationService', () => {
       expect(result).toEqual(Keyboard.DASH);
     });
     test('should return dash if undefined and keepValue', () => {
-      const result = service.transformPercentage(undefined as any, true);
+      const result = service.transformPercentage(
+        undefined as any,
+        undefined,
+        true
+      );
 
       expect(result).toEqual(Keyboard.DASH);
     });
     test('should return dash if null and keepValue', () => {
-      const result = service.transformPercentage(null, true);
+      const result = service.transformPercentage(null, undefined, true);
 
       expect(result).toEqual(Keyboard.DASH);
     });
     test('should return 0.00% when value is 0 and keepValue true', () => {
-      const result = service.transformPercentage(0, true);
+      const result = service.transformPercentage(0, undefined, true);
 
       expect(result).toEqual('0.00%');
     });

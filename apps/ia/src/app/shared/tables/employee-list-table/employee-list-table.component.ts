@@ -51,7 +51,9 @@ export class EmployeeListTableComponent implements OnInit {
     filter: true,
     floatingFilter: true,
     filterParams: {
-      buttons: ['reset'],
+      buttons: ['reset', 'apply'],
+      closeOnApply: true,
+      closeOnReset: true,
     },
     resizable: true,
     suppressMenu: true,

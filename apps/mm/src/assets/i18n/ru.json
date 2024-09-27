@@ -80,6 +80,31 @@
     "downloadReport": "Скачать отчёт",
     "startNewCalculation": "Начать новый расчет"
   },
+  "reportResult": {
+    "mediasBaseUrl": "https://medias.schaeffler.de/en",
+    "viewProductButton": "Просмотреть продукт",
+    "mountingInstructions": "Инструкции по установке",
+    "mountingToolsAndUtilities": "Инструменты и принадлежности для установки",
+    "hydraulicNut": "Гидравлическая гайка",
+    "lockNut": "Стопорная гайка",
+    "sleeveConnectors": "разъемы для рукавов",
+    "pumps": {
+      "title": "Насосы",
+      "recommended": "Рекомендуется",
+      "alternative": "Альтернатива"
+    },
+    "additionalTools": {
+      "title": "Дополнительные инструменты"
+    },
+    "reportSelection": {
+      "title": "Отчет",
+      "reportInputs": "Входные данные",
+      "mountingToolsAndUtilities": "Инструменты и утилиты для монтажа",
+      "mountingInstructions": "Инструкции по монтажу",
+      "reportMessages": "Ошибки, Предупреждения и Заметки",
+      "downloadPdf": "Скачать PDF"
+    }
+  },
   "error": {
     "content": "Произошла ошибка. Пожалуйста, повторите попытку позже.",
     "confirm": "Понятно",

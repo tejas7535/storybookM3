@@ -2,12 +2,11 @@
   class="flex h-full flex-col"
   *transloco="let t; read: 'shared.caseMaterial'"
 >
-  <h6 class="!mb-2">
-    {{ t('addEntry.processCase.dialogTitle') }}
-    <mat-icon class="float-right cursor-pointer" (click)="closeDialog()"
-      >close</mat-icon
-    >
-  </h6>
+  <gq-dialog-header
+    [title]="t('addEntry.processCase.dialogTitle')"
+    (closeDialog)="closeDialog()"
+  >
+  </gq-dialog-header>
   @if (customer$ | ngrxPush; as customer) {
     <div class="text-caption text-medium-emphasis">
       <span>{{ customer.name }}</span>

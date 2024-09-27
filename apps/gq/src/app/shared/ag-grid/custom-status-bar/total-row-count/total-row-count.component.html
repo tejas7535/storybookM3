@@ -46,8 +46,8 @@
         class="text-left"
         [ngClass]="
           simulationModeEnabled
-            ? 'text-white-high-emphasis '
-            : 'text-high-emphasis-emphasis'
+            ? 'text-white-medium-emphasis'
+            : 'text-high-emphasis'
         "
       >
         {{ selectedRowCount }}</span
@@ -59,7 +59,7 @@
         class="text-left"
         [ngClass]="
           simulationModeEnabled
-            ? 'text-medium-emphasis-dark-bg'
+            ? 'text-white-medium-emphasis'
             : 'text-low-emphasis'
         "
       >
@@ -69,8 +69,8 @@
         class="text-left"
         [ngClass]="
           simulationModeEnabled
-            ? 'text-high-emphasis-dark-bg '
-            : 'text-high-emphasis-emphasis'
+            ? 'text-white-medium-emphasis'
+            : 'text-high-emphasis'
         "
       >
         {{ filteredRowCount }}</span

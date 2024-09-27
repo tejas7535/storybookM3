@@ -1,5 +1,6 @@
 import { AccountPotential } from './account-potential.model';
 import { CustomerId } from './customer-ids.model';
+import { CustomerSalesInformation } from './customer-sales-information.interface';
 import { MarginDetail } from './margin-detail.model';
 import { NetSalesClassification } from './net-sales-classification';
 
@@ -33,5 +34,6 @@ export class Customer {
   public netSalesClassification: NetSalesClassification;
   public marginDetail: MarginDetail;
   public accountPotential: AccountPotential;
+  public salesInformation: CustomerSalesInformation;
   public enabledForApprovalWorkflow: boolean;
 }

@@ -5,6 +5,7 @@ export interface SettingsState {
     appDelivery: `${AppDelivery}`;
     partnerVersion?: `${PartnerVersion}`;
     internalUser?: boolean;
+    mediasAuthenticated?: boolean;
   };
   stepper: {
     currentStep: number;

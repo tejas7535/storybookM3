@@ -6,16 +6,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
+import { extendedComparableLinkedTransactionsFeature } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
+import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models';
 import { RolesFacade } from '@gq/core/store/facades';
 import {
   CalculationType,
-  ExtendedComparableLinkedTransaction,
   ExtendedSapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
-import {
-  getExtendedComparableLinkedTransactions,
-  getExtendedSapPriceConditionDetails,
-} from '@gq/core/store/selectors';
+import { getExtendedSapPriceConditionDetails } from '@gq/core/store/selectors';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
@@ -41,6 +39,7 @@ import {
   ColumnFields,
   DateColumns,
   ExportExcelNumberColumns,
+  PercentColumns,
   PriceColumns,
   SapPriceDetailsColumnFields,
 } from '../../constants/column-fields.enum';
@@ -89,7 +88,9 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   ngOnInit(): void {
     this.transactions$ = combineLatest([
-      this.store.select(getExtendedComparableLinkedTransactions),
+      this.store.select(
+        extendedComparableLinkedTransactionsFeature.selectExtendedComparableLinkedTransactions
+      ),
       this.store.select(getExtendedSapPriceConditionDetails),
     ]);
 
@@ -230,7 +231,10 @@ export class ExportToExcelButtonComponent implements OnInit {
     } else if (
       ExportExcelNumberColumns.includes(colDef.field as ColumnFields)
     ) {
-      return this.transformationService.transformNumberExcel(params.value);
+      return this.transformationService.transformNumberExcel(
+        params.value,
+        PercentColumns.includes(colDef.field as ColumnFields)
+      );
     }
 
     return params.value;
@@ -871,7 +875,10 @@ export class ExportToExcelButtonComponent implements OnInit {
     if (value === undefined || value === null) {
       return '';
     } else if (ExportExcelNumberColumns.includes(key as ColumnFields)) {
-      return this.transformationService.transformNumberExcel(value as number);
+      return this.transformationService.transformNumberExcel(
+        value as number,
+        PercentColumns.includes(key as ColumnFields)
+      );
     } else if (DateColumns.includes(key as SapPriceDetailsColumnFields)) {
       return this.transformationService.transformDate(value.toString());
     } else {

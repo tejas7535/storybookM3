@@ -1,144 +1,317 @@
 import { DoughnutChartData } from '../../../shared/charts/models';
-import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
-import { Color } from '../../../shared/models/color.enum';
-import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import { Reason, ReasonImpact } from '../../models';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
 describe('mapReasonsToTableData', () => {
   test('should map reasons to data', () => {
-    const data: ReasonForLeavingStats[] = [
-      { actionReason: 'Family', leavers: 23 },
-      { actionReason: 'Work Life Balance', leavers: 50 },
+    const reasonA = 'Reason A';
+    const reasonB = 'Reason B';
+    const reasonC = 'Reason C';
+    const reasonD = 'Reason D';
+    const reasonE = 'Reason E';
+    const reasonF = 'Reason F';
+    const data: Reason[] = [
+      {
+        impact: ReasonImpact.HIGH,
+        reason: reasonA,
+        detailedReason: 'Detailed Reason A1',
+        interviewId: 1,
+        reasonId: 1,
+        detailedReasonId: 1,
+      },
+      {
+        impact: ReasonImpact.HIGH,
+        reason: reasonA,
+        detailedReason: 'Detailed Reason A2',
+        interviewId: 1,
+        reasonId: 1,
+        detailedReasonId: 2,
+      },
+      {
+        impact: ReasonImpact.LOW,
+        reason: reasonB,
+        detailedReason: 'Detailed Reason B1',
+        interviewId: 3,
+        reasonId: 2,
+        detailedReasonId: 3,
+      },
+      {
+        impact: ReasonImpact.MEDIUM,
+        reason: reasonB,
+        detailedReason: 'Detailed Reason B2',
+        interviewId: 4,
+        reasonId: 2,
+        detailedReasonId: 4,
+      },
+      {
+        impact: ReasonImpact.MEDIUM,
+        reason: reasonA,
+        detailedReason: 'Detailed Reason A3',
+        interviewId: 5,
+        reasonId: 1,
+        detailedReasonId: 5,
+      },
+      {
+        impact: ReasonImpact.HIGH,
+        reason: reasonC,
+        detailedReason: 'Detailed Reason C1',
+        interviewId: 6,
+        reasonId: 3,
+        detailedReasonId: 6,
+      },
+      {
+        impact: ReasonImpact.HIGH,
+        reason: reasonC,
+        detailedReason: 'Detailed Reason C2',
+        interviewId: 7,
+        reasonId: 3,
+        detailedReasonId: 7,
+      },
+      {
+        impact: ReasonImpact.LOW,
+        reason: reasonD,
+        detailedReason: 'Detailed Reason D1',
+        interviewId: 8,
+        reasonId: 4,
+        detailedReasonId: 8,
+      },
+      {
+        impact: ReasonImpact.MEDIUM,
+        reason: reasonE,
+        detailedReason: 'Detailed Reason E1',
+        interviewId: 9,
+        reasonId: 5,
+        detailedReasonId: 9,
+      },
+      {
+        impact: ReasonImpact.MEDIUM,
+        reason: reasonE,
+        detailedReason: 'Detailed Reason E1',
+        interviewId: 10,
+        reasonId: 5,
+        detailedReasonId: 10,
+      },
+      {
+        impact: ReasonImpact.HIGH,
+        reason: reasonF,
+        detailedReason: 'Detailed Reason F1',
+        interviewId: 11,
+        reasonId: 6,
+        detailedReasonId: 11,
+      },
+      {
+        impact: ReasonImpact.HIGH,
+        reason: reasonF,
+        detailedReason: 'Detailed Reason F2',
+        interviewId: 12,
+        reasonId: 6,
+        detailedReasonId: 12,
+      },
     ];
 
     const result = utils.mapReasonsToTableData(data);
 
-    expect(result).toHaveLength(2);
-
-    expect(result[0].actionReason).toEqual(data[0].actionReason);
-    expect(result[0].leavers).toEqual(data[0].leavers);
-    expect(result[0].percentage).toEqual(31.5);
-    expect(result[0].position).toEqual(2);
-
-    expect(result[1].actionReason).toEqual(data[1].actionReason);
-    expect(result[1].leavers).toEqual(data[1].leavers);
-    expect(result[1].percentage).toEqual(68.5);
-    expect(result[1].position).toEqual(1);
-  });
-
-  test('should return undefined when data undefined', () => {
-    const data: ReasonForLeavingStats[] = undefined;
-
-    const result = utils.mapReasonsToTableData(data);
-
-    expect(result).toBeUndefined();
-  });
-});
-
-describe('getColorsForChart', () => {
-  test('should return default colors when nothing to compare', () => {
-    const colors = utils.getColorsForChart([]);
-
-    expect(colors).toEqual([
-      Color.COLORFUL_CHART_11,
-      Color.COLORFUL_CHART_10,
-      Color.COLORFUL_CHART_9,
-      Color.COLORFUL_CHART_8,
-      Color.COLORFUL_CHART_7,
-      Color.COLORFUL_CHART_6,
-      Color.COLORFUL_CHART_5,
-      Color.COLORFUL_CHART_4,
-      Color.COLORFUL_CHART_3,
-      Color.COLORFUL_CHART_2,
-      Color.COLORFUL_CHART_1,
-      Color.COLORFUL_CHART_0,
+    expect(result).toEqual([
+      { reason: reasonA, leavers: 3, rank: 1, percentage: 25, reasonId: 1 },
+      { reason: reasonB, leavers: 2, rank: 2, percentage: 16.7, reasonId: 2 },
+      { reason: reasonC, leavers: 2, rank: 2, percentage: 16.7, reasonId: 3 },
+      { reason: reasonE, leavers: 2, rank: 2, percentage: 16.7, reasonId: 5 },
+      { reason: reasonF, leavers: 2, rank: 2, percentage: 16.7, reasonId: 6 },
+      { reason: reasonD, leavers: 1, rank: 6, percentage: 8.3, reasonId: 4 },
     ]);
   });
 
-  test('should sync colors when comparing two charts', () => {
-    const defaultData = [
-      {
-        value: 9,
-        name: 'Test 1',
-      },
-      {
-        value: 7,
-        name: 'Test 2',
-      },
-      {
-        value: 3,
-        name: 'Test 5',
-      },
-    ];
-
-    const compareData = [
-      {
-        value: 3,
-        name: 'Test 4',
-      },
-      {
-        value: 2,
-        name: 'Test 3',
-      },
-      {
-        value: 1,
-        name: 'Test 1',
-      },
-    ];
-
-    const colors = utils.getColorsForChart(defaultData, compareData);
-
-    expect(colors).toEqual([
-      Color.COLORFUL_CHART_8,
-      Color.COLORFUL_CHART_7,
-      Color.COLORFUL_CHART_11,
-      Color.COLORFUL_CHART_6,
-      Color.COLORFUL_CHART_5,
-      Color.COLORFUL_CHART_4,
-      Color.COLORFUL_CHART_3,
-      Color.COLORFUL_CHART_2,
-      Color.COLORFUL_CHART_1,
-      Color.COLORFUL_CHART_0,
-    ]);
-  });
-
-  describe('mapDataToLegendItems', () => {
-    test('should map array of DoughnutChartData to array of ChartLegendItem', () => {
-      const dataToMap: DoughnutChartData[] = [
-        new DoughnutChartData(0, 'Lewandowski'),
-        new DoughnutChartData(0, 'Reus'),
-      ];
-      const colors = ['red', 'green', 'blue'];
-      const expectedResult = [
-        new ChartLegendItem(dataToMap[0].name, colors[0], undefined, true),
-        new ChartLegendItem(dataToMap[1].name, colors[1], undefined, true),
+  describe('prepareReaonsForRanking', () => {
+    test('should preapre reasons for ranking', () => {
+      const reasons: Reason[] = [
+        {
+          reason: 'Reason A',
+          detailedReason: 'Detailed Reason A',
+          impact: ReasonImpact.HIGH,
+          interviewId: 1,
+          reasonId: 1,
+          detailedReasonId: 1,
+        },
+        {
+          reason: 'Reason A',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.HIGH,
+          interviewId: 2,
+          reasonId: 1,
+          detailedReasonId: 2,
+        },
+        {
+          reason: 'Reason B',
+          detailedReason: 'Detailed Reason A',
+          impact: ReasonImpact.LOW,
+          interviewId: 3,
+          reasonId: 2,
+          detailedReasonId: 3,
+        },
+        {
+          reason: 'Reason B',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.MEDIUM,
+          interviewId: 4,
+          reasonId: 2,
+          detailedReasonId: 4,
+        },
       ];
 
-      const result = utils.mapDataToLegendItems(dataToMap, colors);
+      const result = utils.prepareReaonsForRanking(reasons);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual([
+        {
+          reason: 'Reason A',
+          leavers: 2,
+          percentage: 50,
+          reasonId: 1,
+        },
+        {
+          reason: 'Reason B',
+          leavers: 2,
+          percentage: 50,
+          reasonId: 2,
+        },
+      ]);
     });
   });
 
-  describe('getUniqueChartLegendItemsFromComparedLegend', () => {
-    test('should get unique chart legend items', () => {
-      const legend: ChartLegendItem[] = [
-        new ChartLegendItem('Lewandowski', 'red', undefined, true),
-        new ChartLegendItem('Reus', 'blue', undefined, true),
+  describe('mapReasonsToChartData', () => {
+    test('should map reasons to chart data', () => {
+      const reasons: Reason[] = [
+        {
+          reason: 'Reason A',
+          detailedReason: 'Detailed Reason A',
+          impact: ReasonImpact.HIGH,
+          interviewId: 1,
+          reasonId: 1,
+          detailedReasonId: 1,
+        },
+        {
+          reason: 'Reason A',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.HIGH,
+          interviewId: 2,
+          reasonId: 1,
+          detailedReasonId: 2,
+        },
+        {
+          reason: 'Reason B',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.LOW,
+          interviewId: 3,
+          reasonId: 2,
+          detailedReasonId: 3,
+        },
+        {
+          reason: 'Reason C',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.MEDIUM,
+          interviewId: 4,
+          reasonId: 3,
+          detailedReasonId: 4,
+        },
       ];
-      const comparedLegend: ChartLegendItem[] = [
-        new ChartLegendItem('Hummels', 'orange', undefined, true),
-        new ChartLegendItem('Lewandowski', 'black', undefined, true),
-        new ChartLegendItem('Kimmich', 'white', undefined, true),
+
+      const result: DoughnutChartData[] = utils.mapReasonsToChartData(reasons);
+
+      expect(result).toEqual([
+        {
+          value: 2,
+          name: 'Reason A',
+          percent: 50,
+        },
+        {
+          value: 1,
+          name: 'Reason B',
+          percent: 25,
+        },
+        {
+          value: 1,
+          name: 'Reason C',
+          percent: 25,
+        },
+      ]);
+    });
+  });
+
+  describe('mapReasonsToChildren', () => {
+    test('should map reasons to children', () => {
+      const reasons: Reason[] = [
+        {
+          reason: 'Reason A',
+          detailedReason: 'Detailed Reason A',
+          impact: ReasonImpact.HIGH,
+          interviewId: 1,
+          reasonId: 1,
+          detailedReasonId: 1,
+        },
+        {
+          reason: 'Reason A',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.HIGH,
+          interviewId: 2,
+          reasonId: 1,
+          detailedReasonId: 2,
+        },
+        {
+          reason: 'Reason B',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.LOW,
+          interviewId: 3,
+          reasonId: 2,
+          detailedReasonId: 3,
+        },
+        {
+          reason: 'Reason C',
+          detailedReason: 'Detailed Reason B',
+          impact: ReasonImpact.MEDIUM,
+          interviewId: 4,
+          reasonId: 3,
+          detailedReasonId: 4,
+        },
       ];
-      const expectedResult = [comparedLegend[0], comparedLegend[2]];
 
-      const result = utils.getUniqueChartLegendItemsFromComparedLegend(
-        legend,
-        comparedLegend
-      );
+      const result = utils.mapReasonsToChildren(reasons);
 
-      expect(result).toEqual(expectedResult);
+      expect(result).toEqual([
+        {
+          reason: 'Reason A',
+          children: [
+            {
+              name: 'Detailed Reason A',
+              value: 1,
+              percent: 50,
+            },
+            {
+              name: 'Detailed Reason B',
+              value: 1,
+              percent: 50,
+            },
+          ],
+        },
+        {
+          reason: 'Reason B',
+          children: [
+            {
+              name: 'Detailed Reason B',
+              value: 1,
+              percent: 100,
+            },
+          ],
+        },
+        {
+          reason: 'Reason C',
+          children: [
+            {
+              name: 'Detailed Reason B',
+              value: 1,
+              percent: 100,
+            },
+          ],
+        },
+      ]);
     });
   });
 

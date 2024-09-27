@@ -5,6 +5,7 @@ import {
   TimePeriod,
 } from '../../../../shared/models';
 import {
+  activateTimePeriodFilters,
   autocompleteBenchmarkDimensionData,
   autocompleteDimensionData,
   benchmarDimensionSelected,
@@ -15,6 +16,7 @@ import {
   loadFilterDimensionData,
   loadFilterDimensionDataFailure,
   loadFilterDimensionDataSuccess,
+  setAvailableTimePeriods,
   timePeriodSelected,
   triggerLoad,
 } from '../';
@@ -150,6 +152,36 @@ describe('Filter Actions', () => {
       expect(action).toEqual({
         type: '[Filter] Benchmark Dimension Selected',
       });
+    });
+  });
+
+  test('activateTimePeriodFilters', () => {
+    const props = {
+      timePeriods: [{ id: TimePeriod.YEAR, value: TimePeriod.YEAR } as IdValue],
+      activeTimePeriod: TimePeriod.YEAR,
+      timeRange: { id: '123|321', value: 'YEAR' } as IdValue,
+      timeRangeConstraints: {
+        min: 12,
+        max: 33,
+      },
+    };
+    const action = activateTimePeriodFilters(props);
+
+    expect(action).toEqual({
+      ...props,
+      type: '[Filter] Activate Time Period Filters',
+    });
+  });
+
+  test('setAvailableTimePeriods', () => {
+    const timePeriods = [
+      { id: TimePeriod.YEAR, value: TimePeriod.YEAR } as IdValue,
+    ];
+    const action = setAvailableTimePeriods({ timePeriods });
+
+    expect(action).toEqual({
+      timePeriods,
+      type: '[Filter] Set Available Time Periods',
     });
   });
 

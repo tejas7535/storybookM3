@@ -1,0 +1,50 @@
+@if (pumps.length > 0) {
+  <ng-container class="mt-8" *transloco="let t; read: 'reportResult.pumps'">
+    <h3 class="text-subtitle-1 my-4">{{ t('title') }}</h3>
+    <h4 class="text-caption text-medium-emphasis">{{ subTitle }}</h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      @for (pump of pumps; track pump) {
+        @if (pump.isRecommended) {
+          <mm-product-card
+            [imagePath]="
+              'https://cdn.schaeffler-ecommerce.com/cdn/00168CD8_d.png'
+            "
+            [productTitle]="pump.field"
+            [productValue]="pump.value"
+            [cardClass]="'md:col-span-2 !border-primary'"
+            [productSectionClass]="'md:text-h6'"
+            class="md:col-span-2"
+          >
+            <ng-container additional-header-content>
+              <div
+                class="flex items-center self-end w-fit py-1.5 px-2 bg-primary text-white text-caption rounded-2xl"
+              >
+                <mat-icon
+                  class="!text-[16px] !w-4 !h-4 !mr-1"
+                  fontIcon="thumb_up"
+                ></mat-icon>
+                <span>{{ t('recommended') }}</span>
+              </div>
+            </ng-container>
+          </mm-product-card>
+        } @else {
+          <mm-product-card
+            [imagePath]="
+              'https://cdn.schaeffler-ecommerce.com/cdn/00168CD8_d.png'
+            "
+            [productTitle]="pump.field"
+            [productValue]="pump.value"
+          >
+            <ng-container additional-header-content>
+              <div
+                class="flex items-center self-end w-fit py-1.5 px-2 bg-secondary-variant text-medium-emphasis text-caption rounded-2xl"
+              >
+                <span>{{ t('alternative') }}</span>
+              </div>
+            </ng-container>
+          </mm-product-card>
+        }
+      }
+    </div>
+  </ng-container>
+}

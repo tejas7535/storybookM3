@@ -1,0 +1,13 @@
+@if (quotation$ | async; as quotation) {
+  <ng-container *ngrxLet="quotationStatusActive$; let quotationStatusActive">
+    <mat-icon
+      data-cy="quotation-note-icon"
+      class="cursor-pointer text-medium-emphasis"
+      (click)="
+        openQuotationNoteModal(quotation.metadata, quotationStatusActive)
+      "
+    >
+      {{ quotationStatusActive ? 'speaker_notes' : 'speaker_notes_off' }}
+    </mat-icon>
+  </ng-container>
+}

@@ -5,7 +5,9 @@ export interface UpdateQuotationRequest {
   currency?: string;
   quotationToDate?: string;
   requestedDelDate?: string;
+  // TODO: remove when createManualCaseAsView feature toggle is removed
   customerPurchaseOrderDate?: string;
+  customerInquiryDate?: string;
   validTo?: string;
   shipToParty?: ShipToParty;
   purchaseOrderTypeId?: string;

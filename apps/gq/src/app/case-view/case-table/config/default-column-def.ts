@@ -8,4 +8,5 @@ export const DEFAULT_COLUMN_DEFS: ColDef = {
   sortable: true,
   filter: true,
   floatingFilter: true,
+  minWidth: 100,
 };

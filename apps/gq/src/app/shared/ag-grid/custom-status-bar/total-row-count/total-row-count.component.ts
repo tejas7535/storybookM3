@@ -10,6 +10,13 @@ import { calculateFilteredRows } from '../statusbar.utils';
 
 @Component({
   selector: 'gq-total-row-count',
+  styles: [
+    `
+      :host {
+        @apply h-full;
+      }
+    `,
+  ],
   templateUrl: './total-row-count.component.html',
 })
 export class TotalRowCountComponent {

@@ -1,7 +1,10 @@
+/* eslint-disable max-lines */
 import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
   Coefficients,
   Customer,
@@ -15,21 +18,31 @@ import {
 } from '@gq/shared/models';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
+import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
+import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import {
+  clearOfferType,
+  clearPurchaseOrderType,
+  clearSectorGpsd,
+  clearShipToParty,
+  resetAllAutocompleteOptions,
+} from '../actions/create-case/create-case.actions';
 import { MaterialComparableCostsFacade } from '../facades/material-comparable-costs.facade';
 import { MaterialCostDetailsFacade } from '../facades/material-cost-details.facade';
 import { MaterialSalesOrgFacade } from '../facades/material-sales-org.facade';
 import { MaterialStockFacade } from '../facades/material-stock.facade';
 import { PlantMaterialDetailsFacade } from '../facades/plant-material-details.facade';
 import { SapPriceDetailsFacade } from '../facades/sap-price-details.facade';
-import { TransactionsFacade } from '../facades/transactions.facade';
 import {
-  ComparableLinkedTransaction,
   MaterialStock,
+  SalesOrg,
   SapPriceConditionDetail,
 } from '../reducers/models';
+import { SectorGpsdFacade } from '../sector-gpsd/sector-gpsd.facade';
+import { getSalesOrgsOfShipToParty } from '../selectors/create-case/create-case.selector';
 import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import {
@@ -42,8 +55,10 @@ import {
   getQuotationSapSyncStatus,
   getQuotationStatus,
   getSapId,
+  getSimulatedField,
   getSimulatedQuotationDetailByItemId,
   getSimulationModeEnabled,
+  getTabsForProcessCaseView,
 } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
@@ -66,7 +81,8 @@ export class ActiveCaseFacade {
     inject(MaterialStockFacade);
 
   private readonly sapPriceDetailsFacade = inject(SapPriceDetailsFacade);
-  private readonly transactionsFacade = inject(TransactionsFacade);
+  private readonly sectorGpsdFacade: SectorGpsdFacade =
+    inject(SectorGpsdFacade);
 
   quotation$: Observable<Quotation> = this.store.select(
     activeCaseFeature.selectQuotation
@@ -84,6 +100,10 @@ export class ActiveCaseFacade {
     activeCaseFeature.getSelectedQuotationDetail
   );
 
+  selectedQuotationDetailIds$: Observable<string[]> = this.store.select(
+    activeCaseFeature.selectSelectedQuotationDetails
+  );
+
   quotationSapId$: Observable<string> = this.store.select(getSapId);
 
   isQuotationStatusActive$: Observable<boolean> = this.store.select(
@@ -93,6 +113,9 @@ export class ActiveCaseFacade {
   simulationModeEnabled$: Observable<boolean> = this.store.select(
     getSimulationModeEnabled
   );
+
+  simulatedField$: Observable<ColumnFields> =
+    this.store.select(getSimulatedField);
 
   getSimulatedQuotationDetailByItemId$(
     itemId: number
@@ -180,6 +203,10 @@ export class ActiveCaseFacade {
     activeCaseFeature.selectQuotationLoading
   );
 
+  customerLoading$: Observable<boolean> = this.store.select(
+    activeCaseFeature.selectCustomerLoading
+  );
+
   quotationStatus$: Observable<QuotationStatus> =
     this.store.select(getQuotationStatus);
 
@@ -197,7 +224,32 @@ export class ActiveCaseFacade {
         sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
     )
   );
+
+  isSapSyncPending$: Observable<boolean> = this.quotationSapSyncStatus$.pipe(
+    map((status) => status === SAP_SYNC_STATUS.SYNC_PENDING)
+  );
   coefficients$: Observable<Coefficients> = this.store.select(getCoefficients);
+
+  shipToPartySalesOrgs$: Observable<SalesOrg[]> = this.store.select(
+    getSalesOrgsOfShipToParty
+  );
+
+  tabsForProcessCaseView$: Observable<Tab[]> = this.store.select(
+    getTabsForProcessCaseView()
+  );
+
+  tagType$: Observable<TagType> = combineLatest([
+    this.quotation$,
+    this.quotationSapSyncStatus$,
+  ]).pipe(
+    map(([quotation, sapSyncStatus]: [Quotation, SAP_SYNC_STATUS]) =>
+      quotation.status !== QuotationStatus.ACTIVE &&
+      quotation.status !== QuotationStatus.DELETED &&
+      quotation.status !== QuotationStatus.ARCHIVED
+        ? getTagTypeByStatus(quotation.status)
+        : getTagTypeByStatus(sapSyncStatus)
+    )
+  );
 
   materialStock$: Observable<MaterialStock> =
     this.materialStockFacade.materialStock$;
@@ -229,16 +281,21 @@ export class ActiveCaseFacade {
   sapPriceDetails$: Observable<SapPriceConditionDetail[]> =
     this.sapPriceDetailsFacade.sapPriceDetails$;
 
-  transactions$: Observable<ComparableLinkedTransaction[]> =
-    this.transactionsFacade.transactions$;
-  transactionsLoading$: Observable<boolean> =
-    this.transactionsFacade.transactionsLoading$;
-  graphTransactions$: Observable<ComparableLinkedTransaction[]> =
-    this.transactionsFacade.graphTransactions$;
-
   // ##############################################################################################################
   // ############################################# methods ########################################################
   // ##############################################################################################################
+  selectQuotationDetail(gqPositionId: string): void {
+    this.store.dispatch(
+      ActiveCaseActions.selectQuotationDetail({ gqPositionId })
+    );
+  }
+
+  deselectQuotationDetail(gqPositionId: string): void {
+    this.store.dispatch(
+      ActiveCaseActions.deselectQuotationDetail({ gqPositionId })
+    );
+  }
+
   updateCosts(gqPosId: string): void {
     this.store.dispatch(ActiveCaseActions.updateCosts({ gqPosId }));
   }
@@ -261,6 +318,12 @@ export class ActiveCaseFacade {
 
   deleteAttachment(attachment: QuotationAttachment): void {
     this.store.dispatch(ActiveCaseActions.deleteAttachment({ attachment }));
+  }
+
+  updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
+    this.store.dispatch(
+      ActiveCaseActions.updateQuotation(updateQuotationRequest)
+    );
   }
 
   updateQuotationDetails(
@@ -289,5 +352,37 @@ export class ActiveCaseFacade {
 
   confirmSimulatedQuotation(): void {
     this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
+  }
+
+  removeSimulatedQuotationDetail(gqPositionId: string): void {
+    this.store.dispatch(
+      ActiveCaseActions.removeSimulatedQuotationDetail({ gqPositionId })
+    );
+  }
+
+  addSimulatedQuotation(
+    gqId: number,
+    quotationDetails: QuotationDetail[],
+    simulatedField: ColumnFields
+  ): void {
+    this.store.dispatch(
+      ActiveCaseActions.addSimulatedQuotation({
+        gqId,
+        quotationDetails,
+        simulatedField,
+      })
+    );
+  }
+  resetSimulatedQuotation(): void {
+    this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
+  }
+
+  resetEditCaseSettings(): void {
+    this.store.dispatch(resetAllAutocompleteOptions());
+    this.store.dispatch(clearShipToParty());
+    this.store.dispatch(clearSectorGpsd());
+    this.store.dispatch(clearOfferType());
+    this.store.dispatch(clearPurchaseOrderType());
+    this.sectorGpsdFacade.resetAllSectorGpsds();
   }
 }

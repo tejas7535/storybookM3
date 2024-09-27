@@ -6,6 +6,7 @@ import { MockDirective } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { setPreferredGreaseSelection } from '@ga/core/store/actions';
+import { isPreselectionDisabled } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { PREFERRED_GREASE_OPTION_MOCK } from '@ga/testing/mocks';
 
 import { PreferredGreaseSelectionComponent } from './preferred-grease-selection.component';
@@ -21,7 +22,12 @@ describe('PreferredGreaseSelectionComponent', () => {
       MockDirective(LetDirective),
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore({
+        initialState: {},
+        selectors: [{ selector: isPreselectionDisabled, value: false }],
+      }),
+    ],
   });
 
   beforeEach(() => {

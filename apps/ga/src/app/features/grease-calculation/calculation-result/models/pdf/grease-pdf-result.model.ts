@@ -20,6 +20,7 @@ export interface GreasePdfResultTable {
   subTitle: string;
   items: GreasePdfResultItem[];
   concept1?: GreasePdfConcept1Result;
+  isRecommended?: boolean;
 }
 
 export interface GreasePdfResult {

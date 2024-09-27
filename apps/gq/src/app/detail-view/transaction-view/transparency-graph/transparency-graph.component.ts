@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
+import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { Customer } from '@gq/shared/models/customer';
 import { Coefficients } from '@gq/shared/models/quotation-detail';
 import { EChartsOption } from 'echarts';
@@ -33,6 +34,7 @@ export class TransparencyGraphComponent implements OnInit {
   @Input() customer: Customer;
   @Input() userHasGpcRole: boolean;
   @Input() hideRolesHint: boolean;
+  @Input() recommendationType: RecommendationType;
 
   transactionValues: ComparableLinkedTransaction[] = [];
 
@@ -45,7 +47,8 @@ export class TransparencyGraphComponent implements OnInit {
   private updateOptions(transactions: ComparableLinkedTransaction[]) {
     const dataPoints = this.chartConfigService.buildDataPoints(
       transactions,
-      this.currency
+      this.currency,
+      this.recommendationType
     );
 
     const regressionData = this.regressionService.buildRegressionPoints(
@@ -60,9 +63,15 @@ export class TransparencyGraphComponent implements OnInit {
     );
 
     this.options = {
-      tooltip: this.chartConfigService.getToolTipConfig(this.userHasGpcRole),
+      tooltip: this.chartConfigService.getToolTipConfig(
+        this.userHasGpcRole,
+        this.recommendationType
+      ),
       xAxis: this.chartConfigService.getXAxisConfig(dataPoints),
-      yAxis: this.chartConfigService.Y_AXIS_CONFIG,
+      yAxis: this.chartConfigService.getYAxisConfig(
+        this.recommendationType,
+        transactions
+      ),
       series: seriesConfig.series,
       grid: GRID_CONFIG,
       dataZoom: DATA_ZOOM,

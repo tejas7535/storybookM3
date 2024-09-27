@@ -14,7 +14,7 @@ import { ValidationDescription } from '@gq/shared/models/table';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
-import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
+import { roundToFourDecimals } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
@@ -209,7 +209,9 @@ export class ColumnUtilityService {
   static transformPriceSource(data: ValueFormatterParams): string {
     return data.value === PriceSource.SAP_SPECIAL
       ? 'SAP_ZP05-ZP17'
-      : data.value;
+      : translate('shared.quotationDetailsTable.priceSourceLabel', {
+          priceSource: data.value,
+        });
   }
 
   static transformLastCustomerPriceCondition(
@@ -369,9 +371,13 @@ export class ColumnUtilityService {
     return this.transformationService.transformNumber(data.value, false);
   }
 
-  percentageFormatter(data: ValueFormatterParams): string {
+  percentageFormatter(
+    data: ValueFormatterParams,
+    isPercentageFormat: boolean = true
+  ): string {
     return this.transformationService.transformPercentage(
-      roundToTwoDecimals(data.value)
+      roundToFourDecimals(data.value),
+      isPercentageFormat
     );
   }
 
