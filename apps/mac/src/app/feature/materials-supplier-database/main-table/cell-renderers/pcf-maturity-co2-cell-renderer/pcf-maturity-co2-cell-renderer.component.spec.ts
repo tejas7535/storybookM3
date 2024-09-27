@@ -4,6 +4,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
+
 import * as en from '../../../../../../assets/i18n/en.json';
 import {
   EMISSION_FACTOR_KG,
@@ -21,9 +23,18 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
     component: PcfMaturityCo2CellRendererComponent,
     imports: [provideTranslocoTestingModule({ en })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [
+      {
+        provide: DataFacade,
+        useValue: {
+          deleteEntity: jest.fn(),
+        },
+      },
+    ],
   });
 
   const mockparams = {
+    column: { getColId: () => 'x' },
     value: 77,
     data: { maturity: 9 },
   } as EditCellRendererParams;
@@ -32,6 +43,7 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component.params = mockparams;
+    component.agInit(component.params);
   });
 
   describe('create', () => {
@@ -49,25 +61,24 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   describe('hasValue', () => {
     it('should return true for any int', () => {
       component.params.value = 7;
-      expect(component.hasValue()).toBeTruthy();
+      component.agInit(component.params);
+      expect(component.hasValue).toBeTruthy();
     });
     it('should return false for undefined', () => {
       component.params.value = undefined;
-      expect(component.hasValue()).toBeFalsy();
+      component.agInit(component.params);
+      expect(component.hasValue).toBeFalsy();
     });
     it('should return true for 0', () => {
       component.params.value = 0;
-      expect(component.hasValue()).toBeTruthy();
-    });
-    it('should return false without params', () => {
-      component.params = undefined;
-      expect(component.hasValue()).toBeFalsy();
+      component.agInit(component.params);
+      expect(component.hasValue).toBeTruthy();
     });
   });
 
   describe('getMaturity', () => {
     it('should return set maturity', () => {
-      expect(component.getMaturity()).toBe(9);
+      expect(component.maturity).toBe(9);
     });
   });
 

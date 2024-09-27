@@ -894,6 +894,7 @@
           "8": "Good",
           "9": "Good",
           "10": "Best",
+          "tooltip_insufficient": "PCF not displayed due to insufficient data quality. Please contact '{{owner}}' for more information.",
           "tooltip": "Data maturity.",
           "moreInformation": "More information",
           "moreInformationTitle": "Classification of data maturity",

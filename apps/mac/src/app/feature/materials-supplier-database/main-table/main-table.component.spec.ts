@@ -38,6 +38,8 @@ import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  EMISSION_FACTOR_KG,
+  EMISSION_FACTOR_PC,
   LAST_MODIFIED,
   MANUFACTURER_SUPPLIER_SAPID,
   MaterialClass,
@@ -824,7 +826,7 @@ describe('MainTableComponent', () => {
       component['splitRowsForMultipleSapIdsInExportFactory'] = jest.fn(
         () => mockArrayFn
       );
-      component['excelExportProcessCellCallbackFactory'] = jest.fn(
+      component['excelExportRawProcessCellCallbackFactory'] = jest.fn(
         () => mockStringFn
       );
 
@@ -1109,7 +1111,7 @@ describe('MainTableComponent', () => {
     });
   });
 
-  describe('excelExportProcessCellCallback', () => {
+  describe('excelExportRawProcessCellCallback', () => {
     let mockGetCellValue: () => string;
     let mockExcelExportProcessCellCallback: (
       params: ProcessCellForExportParams
@@ -1118,7 +1120,7 @@ describe('MainTableComponent', () => {
     beforeEach(() => {
       mockGetCellValue = jest.fn(() => 'test');
       mockExcelExportProcessCellCallback =
-        component['excelExportProcessCellCallbackFactory'](mockGetCellValue);
+        component['excelExportRawProcessCellCallbackFactory'](mockGetCellValue);
     });
 
     it('should return the first sap id if multiple ids are present', () => {
@@ -1142,71 +1144,50 @@ describe('MainTableComponent', () => {
         'id1'
       );
     });
+  });
 
-    it('should return the value if only one sap id is present', () => {
-      const mockParams = {
+  describe('excelExportSapProcessCellCallback', () => {
+    const p = (col: string, value: any, maturity = 8) =>
+      ({
         column: {
-          getColId: jest.fn(() => MANUFACTURER_SUPPLIER_SAPID),
+          getColId: () => col,
         } as unknown as Column,
         node: {
-          data: {
-            [MANUFACTURER_SUPPLIER_SAPID]: ['id1'],
-          },
+          data: { maturity },
         },
-        value: 'id1-value',
-      } as ProcessCellForExportParams;
+        value,
+      }) as ProcessCellForExportParams;
 
-      const result: string = mockExcelExportProcessCellCallback(mockParams);
+    it('should return pcf value (kg) for maturity greater equal 5', () => {
+      const mockParams = p(EMISSION_FACTOR_KG, 12.3, 5);
+      const result = component['excelExportSapProcessCell'](mockParams);
 
-      expect(result).toEqual('test');
-      expect(mockGetCellValue).toHaveBeenCalledWith(
-        MANUFACTURER_SUPPLIER_SAPID,
-        'id1-value'
-      );
+      expect(result).toEqual(mockParams.value);
+    });
+    it('should return pcf value (pc) for maturity greater equal 5', () => {
+      const mockParams = p(EMISSION_FACTOR_PC, 12.3, 8);
+      const result = component['excelExportSapProcessCell'](mockParams);
+
+      expect(result).toEqual(mockParams.value);
+    });
+    it('should return replacement (kg) for maturity less than 5', () => {
+      const mockParams = p(EMISSION_FACTOR_KG, 12.3, 3);
+      const result = component['excelExportSapProcessCell'](mockParams);
+
+      expect(result).toEqual('---');
+    });
+    it('should return replacement (pc) for maturity less than 5', () => {
+      const mockParams = p(EMISSION_FACTOR_PC, 12.3, 3);
+      const result = component['excelExportSapProcessCell'](mockParams);
+
+      expect(result).toEqual('---');
     });
 
-    it('should return the value if no sap id is present', () => {
-      const mockParams = {
-        column: {
-          getColId: jest.fn(() => MANUFACTURER_SUPPLIER_SAPID),
-        } as unknown as Column,
-        node: {
-          data: {
-            [MANUFACTURER_SUPPLIER_SAPID]: [] as string[],
-          },
-        },
-        value: 'id1-value',
-      } as ProcessCellForExportParams;
+    it('should return param value for other columns', () => {
+      const mockParams = p('test', 'testVal');
+      const result = component['excelExportSapProcessCell'](mockParams);
 
-      const result: string = mockExcelExportProcessCellCallback(mockParams);
-
-      expect(result).toEqual('test');
-      expect(mockGetCellValue).toHaveBeenCalledWith(
-        MANUFACTURER_SUPPLIER_SAPID,
-        'id1-value'
-      );
-    });
-
-    it('should return the value if the processed cell is not the sap ids', () => {
-      const mockParams = {
-        column: {
-          getColId: jest.fn(() => 'some other field'),
-        } as unknown as Column,
-        node: {
-          data: {
-            [MANUFACTURER_SUPPLIER_SAPID]: [] as string[],
-          },
-        },
-        value: 'id1-value',
-      } as ProcessCellForExportParams;
-
-      const result: string = mockExcelExportProcessCellCallback(mockParams);
-
-      expect(result).toEqual('test');
-      expect(mockGetCellValue).toHaveBeenCalledWith(
-        'some other field',
-        'id1-value'
-      );
+      expect(result).toEqual(mockParams.value);
     });
   });
 

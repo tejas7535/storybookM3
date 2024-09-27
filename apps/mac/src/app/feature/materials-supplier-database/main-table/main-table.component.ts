@@ -44,6 +44,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   ACTION,
+  EMISSION_FACTOR_KG,
+  EMISSION_FACTOR_PC,
   HISTORY,
   LAST_MODIFIED,
   MANUFACTURER_SUPPLIER_SAPID,
@@ -483,7 +485,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         ? this.splitRowsForMultipleSapIdsInExportFactory(this.getCellValue)
         : undefined,
       processCellCallback: isSapIdVisible
-        ? this.excelExportProcessCellCallbackFactory(this.getCellValue)
+        ? this.excelExportRawProcessCellCallbackFactory(this.getCellValue)
         : undefined,
     });
   }
@@ -494,6 +496,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
     // event handler function to create the excel file
+    let hasMatnrUploaderRoleValue = false;
+    this.hasMatnrUploaderRole$
+      .pipe(take(1))
+      .subscribe((v) => (hasMatnrUploaderRoleValue = v));
     const eventHandler = () => {
       this.agGridApi.removeEventListener('modelUpdated', eventHandler);
       // get a sorted list of all columns, starting with visible columns
@@ -505,7 +511,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             (column: ColDef) => !this.visibleColumns.includes(column.field)
           ),
       ].filter((column: ColDef) => !this.NON_EXCEL_COLUMNS.has(column.field));
-
       // list of columns to add to export
       const columnKeys = columnList.map((column) => column.field);
       // get list of column headers (translated)
@@ -538,6 +543,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         sheetName: translate(
           'materialsSupplierDatabase.mainTable.excelExport.matNrSheetName'
         ),
+        processCellCallback: hasMatnrUploaderRoleValue
+          ? undefined
+          : this.excelExportSapProcessCell,
       });
       // reset default block size
       this.agGridApi.setCacheBlockSize(this.DEFAULT_BLOCK_SIZE);
@@ -684,7 +692,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  private excelExportProcessCellCallbackFactory(
+  private excelExportRawProcessCellCallbackFactory(
     getCellValueFn: (columnName: string, value?: any) => string
   ) {
     return (params: ProcessCellForExportParams) => {
@@ -698,6 +706,16 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
       return getCellValueFn(columnName, value);
     };
+  }
+
+  private excelExportSapProcessCell(params: ProcessCellForExportParams) {
+    const columnName = params.column.getColId();
+
+    return (columnName === EMISSION_FACTOR_KG ||
+      columnName === EMISSION_FACTOR_PC) &&
+      params.node.data['maturity'] < 5
+      ? '---'
+      : params.value;
   }
 
   private getCellValue(columnName: string, value?: any): string {
