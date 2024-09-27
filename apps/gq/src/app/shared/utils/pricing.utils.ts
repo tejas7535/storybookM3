@@ -49,15 +49,15 @@ export const calculateNetValue = (
 export const calculateStatusBarValues = (
   details: QuotationDetail[]
 ): StatusBarProperties => {
-  let totalNetValue = 0;
-  let netValueGPM = 0;
-  let sumGPINetValue = 0;
-  let sumGPMNetValue = 0;
-  let totalWeightedGPI = 0;
-  let totalWeightedGPM = 0;
-  let sumPriceDiffNetValue = 0;
-  let sumPriceDiff = 0;
-  let totalPriceDiff = 0;
+  let totalNetValue = null as number;
+  let netValueGPM = null as number;
+  let sumGPINetValue = null as number;
+  let sumGPMNetValue = null as number;
+  let totalWeightedGPI = null as number;
+  let totalWeightedGPM = null as number;
+  let sumPriceDiffNetValue = null as number;
+  let sumPriceDiff = null as number;
+  let totalPriceDiff = null as number;
 
   keepMaxQuantityIfDuplicate(details).forEach((row: QuotationDetail) => {
     if (row.netValue) {

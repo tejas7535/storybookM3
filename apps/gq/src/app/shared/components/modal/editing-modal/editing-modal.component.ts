@@ -308,27 +308,40 @@ export abstract class EditingModalComponent
   }
 
   private subscribeInputValueChanges(): void {
+    const control = this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME);
     this.subscription.add(
-      this.editingFormGroup
-        .get(this.VALUE_FORM_CONTROL_NAME)
-        .valueChanges.subscribe((value: string) => {
-          let parsedValue = parseLocalizedInputValue(
-            value,
-            this.translocoLocaleService.getLocale()
-          );
+      control.valueChanges.subscribe((value: string) => {
+        let parsedValue = parseLocalizedInputValue(
+          value,
+          this.translocoLocaleService.getLocale()
+        );
 
-          if (this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).invalid) {
-            parsedValue = Number.NaN;
-          }
+        if (control.invalid) {
+          parsedValue = Number.NaN;
+        } else if (PercentColumns.includes(this.modalData.field)) {
+          parsedValue = Big(parsedValue).div(100).toNumber();
+        }
 
-          this.hasValueChanged =
-            (this.modalData.quotationDetail as any)[this.modalData.field] !==
-            this.determineAbsoluteValue(parsedValue);
+        this.handleHasValueChanged(parsedValue);
 
-          // trigger dynamic kpi simulation
-          this.setAffectedKpis(parsedValue);
-        })
+        // trigger dynamic kpi simulation
+        this.setAffectedKpis(parsedValue);
+      })
     );
+  }
+
+  private handleHasValueChanged(parsedValue: number): void {
+    const oldValue = (this.modalData.quotationDetail as any)[
+      this.modalData.field
+    ];
+
+    // if percentage field only consider 4 digits as input allows only 4 digits
+    const formattedOldValue = PercentColumns.includes(this.modalData.field)
+      ? Number.parseFloat(oldValue.toFixed(4))
+      : oldValue;
+
+    this.hasValueChanged =
+      formattedOldValue !== this.determineAbsoluteValue(parsedValue);
   }
 
   /**

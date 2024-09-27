@@ -115,7 +115,7 @@ describe('GpiEditingModalComponent', () => {
     });
     expect(getManualPriceByMarginAndCostSpy).toHaveBeenCalledWith(
       QUOTATION_DETAIL_MOCK.gpc,
-      450
+      4.5
     );
   });
 });

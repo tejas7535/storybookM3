@@ -115,7 +115,7 @@ describe('DiscountEditingModalComponent', () => {
     });
     expect(getManualPriceByDiscountSpy).toHaveBeenCalledWith(
       QUOTATION_DETAIL_MOCK.sapGrossPrice,
-      320
+      3.2
     );
   });
 });
