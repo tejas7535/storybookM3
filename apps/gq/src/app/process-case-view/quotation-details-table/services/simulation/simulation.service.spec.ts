@@ -120,7 +120,7 @@ describe('SimulationService', () => {
         ]);
       });
       test('should return the updated gpi', () => {
-        const value = 10;
+        const value = 0.1;
         const simulatedField = ColumnFields.GPI;
         const detail: QuotationDetail = { ...QUOTATION_DETAIL_MOCK, price: 10 };
         const isRelativePrice = true;

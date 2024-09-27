@@ -562,18 +562,14 @@ describe('Active Case Feature Reducer', () => {
         previousStatusBar: {
           ...SIMULATED_QUOTATION_MOCK.previousStatusBar,
           gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
-          gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi * 100,
-          priceDiff: Math.round(
-            SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff * 100
-          ),
+          gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi,
+          priceDiff: SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff,
         },
         simulatedStatusBar: {
           ...SIMULATED_QUOTATION_MOCK.simulatedStatusBar,
-          gpm: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpm * 100,
-          gpi: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpi * 100,
-          priceDiff: Math.round(
-            SIMULATED_QUOTATION_MOCK.simulatedStatusBar.priceDiff * 100
-          ),
+          gpm: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpm,
+          gpi: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpi,
+          priceDiff: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.priceDiff,
         },
         quotationDetails: [quotationDetail],
       });

@@ -27,11 +27,13 @@ import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { SimulationService } from '@gq/process-case-view/quotation-details-table/services/simulation/simulation.service';
+import { PercentColumns } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
 import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
+import Big from 'big.js';
 
 import { EditingModal } from './models/editing-modal.model';
 import { KpiValue } from './models/kpi-value.model';
@@ -199,7 +201,12 @@ export abstract class EditingModalComponent
   }
 
   protected getLocaleValue(value: number): string {
-    return this.transformationService.transformNumber(value, true);
+    // if percentage number then multiply with 100
+    const updatedValue = PercentColumns.includes(this.modalData.field)
+      ? Big(value).times(100).toNumber()
+      : value;
+
+    return this.transformationService.transformNumber(updatedValue, true);
   }
 
   protected setAffectedKpis(value: number): void {

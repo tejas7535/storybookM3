@@ -162,7 +162,7 @@ describe('FPricingEffects', () => {
         const result = FPricingActions.triggerFPricingCalculationsSuccess({
           response: {
             ...response,
-            gpm: response.gpm * 100,
+            gpm: response.gpm,
             sanityCheck: {
               ...response.sanityCheck,
               sqv: requestData.sanityCheck.sqv,

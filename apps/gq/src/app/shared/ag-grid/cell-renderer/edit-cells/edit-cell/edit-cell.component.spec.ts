@@ -434,7 +434,7 @@ describe('EditCellComponent', () => {
     });
 
     test('should set invalid price if gpi < threshold', () => {
-      component.checkPriceValidity(30, 20, 5, 50);
+      component.checkPriceValidity(30, 20, 0.05, 0.55);
 
       expect(component.warningTooltip).toEqual('gpmOrGpiTooLow');
       expect(component.isInvalidPriceError).toBeFalsy();
@@ -442,7 +442,7 @@ describe('EditCellComponent', () => {
     });
 
     test('should set invalid price if gpm < threshold', () => {
-      component.checkPriceValidity(30, 20, 50, 6);
+      component.checkPriceValidity(30, 20, 0.5, 0.06);
 
       expect(component.warningTooltip).toEqual('gpmOrGpiTooLow');
       expect(component.isInvalidPriceError).toBeFalsy();

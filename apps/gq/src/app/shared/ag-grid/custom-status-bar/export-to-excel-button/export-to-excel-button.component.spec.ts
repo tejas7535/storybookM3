@@ -646,7 +646,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `8500 %`,
+                value: `85 %`,
               },
               styleId: excelStyleObjects.excelTextBorderBold.id,
             },
@@ -664,7 +664,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `9000 %`,
+                value: `90 %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -682,7 +682,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `${Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100)} %`,
+                value: `${QUOTATION_DETAIL_MOCK.priceDiff * 100} %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -830,7 +830,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `1032 %`,
+                value: `10.32 %`,
               },
               styleId: excelStyleObjects.excelTextBorderBold.id,
             },
@@ -848,7 +848,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `9000 %`,
+                value: `90 %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -866,7 +866,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `${Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100)} %`,
+                value: `${QUOTATION_DETAIL_MOCK.priceDiff * 100} %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },

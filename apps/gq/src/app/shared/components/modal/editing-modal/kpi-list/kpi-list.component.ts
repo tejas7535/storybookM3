@@ -75,9 +75,13 @@ export class KpiListComponent {
     const quotationDetail = this.editingModalData.quotationDetail as any;
 
     if (valueFormatter === KpiValueFormatter.PERCENT) {
-      displayValue = this.transformationService.transformPercentage(kpi.value);
+      displayValue = this.transformationService.transformPercentage(
+        kpi.value,
+        false
+      );
       previousDisplayValue = this.transformationService.transformPercentage(
-        quotationDetail[kpi.key]
+        quotationDetail[kpi.key],
+        false
       );
     } else if (valueFormatter === KpiValueFormatter.NUMBER_CURRENCY) {
       displayValue = this.transformationService.transformNumberCurrency(

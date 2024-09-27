@@ -132,16 +132,21 @@ export const getManualPriceByMarginAndCost = (
   cost: number,
   margin: number
 ): number => {
-  const newPrice = cost / (-margin / 100 + 1);
+  const costBig = new Big(cost);
+  const marginBig = new Big(margin);
+  const one = new Big(1);
 
-  return roundToTwoDecimals(newPrice);
+  // cost / (-margin + 1)
+  const newPrice = costBig.div(marginBig.neg().plus(one));
+
+  return roundToTwoDecimals(newPrice.toNumber());
 };
 
 export const getManualPriceByDiscount = (
   sapGrossPrice: number,
   discount: number
 ): number => {
-  const newPrice = (1 - discount / 100) * sapGrossPrice;
+  const newPrice = (1 - discount) * sapGrossPrice;
 
   return roundToTwoDecimals(newPrice);
 };

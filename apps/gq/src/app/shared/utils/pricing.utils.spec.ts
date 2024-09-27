@@ -146,7 +146,7 @@ describe('PricingUtils', () => {
           QUOTATION_DETAIL_MOCK.netValue,
           QUOTATION_DETAIL_MOCK.gpi * 100,
           QUOTATION_DETAIL_MOCK.gpm * 100,
-          Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100),
+          QUOTATION_DETAIL_MOCK.priceDiff * 100,
           details.length
         )
       );
@@ -162,7 +162,7 @@ describe('PricingUtils', () => {
           QUOTATION_DETAIL_MOCK.netValue,
           QUOTATION_DETAIL_MOCK.gpi * 100,
           QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
-          Math.round(QUOTATION_DETAIL_MOCK.priceDiff * 100),
+          QUOTATION_DETAIL_MOCK.priceDiff * 100,
           details.length
         )
       );
@@ -172,7 +172,7 @@ describe('PricingUtils', () => {
         QUOTATION_DETAILS_MOCK
       );
       expect(result).toEqual(
-        new StatusBarProperties(2020.4, 2474.13, 99, 20, 3)
+        new StatusBarProperties(2020.4, 24.74, 0.99, 20, 3)
       );
     });
   });
@@ -208,7 +208,7 @@ describe('PricingUtils', () => {
 
   describe('getManualPriceByMarginAndCost', () => {
     test('should return manualPrice', () => {
-      const manualPrice = pricingUtils.getManualPriceByMarginAndCost(100, 20);
+      const manualPrice = pricingUtils.getManualPriceByMarginAndCost(100, 0.2);
 
       expect(manualPrice).toEqual(125);
     });
@@ -216,7 +216,7 @@ describe('PricingUtils', () => {
 
   describe('getManualPriceByDiscount', () => {
     test('should return manualPrice', () => {
-      const manualPrice = pricingUtils.getManualPriceByDiscount(100, 20);
+      const manualPrice = pricingUtils.getManualPriceByDiscount(100, 0.2);
 
       expect(manualPrice).toEqual(80);
     });
