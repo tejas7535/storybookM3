@@ -85,7 +85,8 @@
         [title]="t('tabs.overview.priceDeviationCardTitle')"
         [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
         [kpiValue]="
-          (pricingInformation$ | ngrxPush)?.deviation.value | percentage: true
+          (pricingInformation$ | ngrxPush)?.deviation.value
+            | percentage: undefined : true
         "
         [warning]="(pricingInformation$ | ngrxPush)?.deviation.warning"
         [warningInfo]="t('tabs.overview.deviationCardTitleWarning')"
