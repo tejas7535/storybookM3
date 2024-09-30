@@ -20,7 +20,9 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
         text-on-primary for text color.
       </p>
 
-      <div class="grid grid-cols-4 gap-2">
+      <div
+        class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:gap-2 lg:grid-cols-4 "
+      >
         <!-- Primary colors-->
         <div class="flex flex-col gap-2">
           <div class="bg-primary h-10 p-3">
@@ -53,7 +55,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="grid grid-cols-2 h-20">
+          <div class="grid grid-cols-2 h-fit">
             <div class="bg-primary-fixed h-full p-3">
               <p
                 class="text-on-primary-fixed"
@@ -69,7 +71,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
               ></p>
             </div>
           </div>
-          <div class="bg-on-primary-fixed h-10 p-3">
+          <div class="bg-on-primary-fixed h-fit p-3">
             <p
               class="text-primary-fixed"
               colorBackgroundText
@@ -85,7 +87,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="bg-surface-dim h-10 p-3">
+          <div class="bg-surface-dim h-fit p-3">
             <p
               class="text-on-surface"
               colorBackgroundText
@@ -93,7 +95,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="grid grid-cols-2 h-20">
+          <div class="grid grid-cols-2 h-fit">
             <div class="bg-surface-container-lowest h-full p-3">
               <p
                 class="text-on-surface"
@@ -110,7 +112,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             </div>
           </div>
 
-          <div class="grid grid-cols-2 h-20">
+          <div class="grid grid-cols-2 h-">
             <div class="bg-on-surface h-full p-3">
               <p
                 class="text-surface-container-lowest"
@@ -160,7 +162,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="grid grid-cols-2 h-20">
+          <div class="grid grid-cols-2 h-fit">
             <div class="bg-secondary-fixed h-full p-3">
               <p
                 class="text-on-secondary-fixed"
@@ -176,7 +178,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
               ></p>
             </div>
           </div>
-          <div class="bg-on-secondary-fixed h-10 p-3">
+          <div class="bg-on-secondary-fixed h-fit p-3">
             <p
               class="text-secondary-fixed"
               colorBackgroundText
@@ -200,7 +202,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="grid grid-cols-2 h-20">
+          <div class="grid grid-cols-2 h-fit">
             <div class="bg-surface-container h-full p-3">
               <p
                 class="text-on-surface"
@@ -273,7 +275,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
               ></p>
             </div>
           </div>
-          <div class="bg-on-tertiary-fixed h-10 p-3">
+          <div class="bg-on-tertiary-fixed h-fit p-3">
             <p
               class="text-tertiary-fixed"
               colorBackgroundText
@@ -289,7 +291,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="bg-surface-bright h-10 p-3">
+          <div class="bg-surface-bright h-fit p-3">
             <p
               class="text-on-surface"
               colorBackgroundText
@@ -330,21 +332,21 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="bg-error-container h-10 p-3">
+          <div class="bg-error-container h-fit  p-3">
             <p
               class="text-on-error-container"
               colorBackgroundText
               [isDarkModeEnabled]="isDarkMode"
             ></p>
           </div>
-          <div class="bg-on-error-container h-10 p-3">
+          <div class="bg-on-error-container h-fit p-3">
             <p
               class="text-error-container"
               colorBackgroundText
               [isDarkModeEnabled]="isDarkMode"
             ></p>
           </div>
-          <div class="bg-inverse-surface h-10 p-3 mt-[12.5rem]">
+          <div class="bg-inverse-surface h-fit p-3 mt-[12.5rem]">
             <p
               class="text-surface"
               colorBackgroundText
