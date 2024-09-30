@@ -139,10 +139,13 @@
 
     --on-surface-color: #{mat.get-theme-color($theme, on-surface)};
 
-    --on-surface-variant-color: #{mat.get-theme-color(
-        $theme,
-        on-surface-variant
-      )};
+    // override requested by UX team
+    @if mat.get-theme-type($theme) == dark {
+      --on-surface-variant-color: #{mat.get-theme-color($theme, neutral, 70)};
+    } @else {
+      --on-surface-variant-color: #{mat.get-theme-color($theme, neutral, 40)};
+    }
+
     --outline-color: #{mat.get-theme-color($theme, outline)};
     --outline-variant-color: #{mat.get-theme-color($theme, outline-variant)};
     --inverse-surface-color: #{mat.get-theme-color($theme, inverse-surface)};
