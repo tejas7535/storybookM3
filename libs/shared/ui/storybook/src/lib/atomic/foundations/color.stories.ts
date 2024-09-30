@@ -588,7 +588,6 @@ class ColorComponentExample implements OnInit {
           this.m3SectionTitle = this.isDarkMode
             ? 'Dark Scheme'
             : 'Light Scheme';
-          console.log('isDarkMode', this.isDarkMode);
         }
       });
     });
