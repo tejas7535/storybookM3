@@ -1,4 +1,23 @@
 # Release Notes of Engineering App
+## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.11.0...ea-v1.12.0) (2024-09-30)
+
+
+### Features
+
+* **ea:**  add mobile tracking (UFTABI-8048) ([#6556](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6556)) ([fc44d2d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc44d2dbbbcd297234b18c99b974538d0dc0e3eb))
+* **ea:**  update easy calc with shared result report (UFTABI-8027) ([#6498](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6498)) ([3231db7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3231db79556cf3a10975b1c06ffe634dd55de147))
+* **ea:** adjust ea code to work with mobile (UFTABI-7581 ) ([#6534](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6534)) ([7ef8201](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7ef8201c188cfaed58bf2995b93d3b722bbd1b72))
+* **ea:** hide result preview when keyboard visible (UFTABI-8048) ([#6567](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6567)) ([f22481f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f22481fe0608d4ff165379d4730478efc3dc9769))
+* **ea:** replace secondary color to avoid conflict with m3 colors ([#6451](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6451)) ([6ff8ee4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6ff8ee44689e770b39f235fe55eb0462e54f825b))
+* **ea:** update surface legacy color in ea ([#6537](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6537)) ([f69820f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f69820f4b040811387d89bc97a91ebd2020817df))
+
+
+### Bug Fixes
+
+* **ea:** fix cropped result preview on mobile - UFTABI-8122 ([#6565](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6565)) ([5cb42ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5cb42ad4f388ad19044e92140511eebb718a91f5))
+* **ea:** fix offcenter modal when only Co2 is selected - UFTABI-8037 ([#6476](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6476)) ([551af0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/551af0ab643dd203ea96d91f2cad91ad3caeac07))
+* **ea:** overlapping top notch ([#6555](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6555)) ([ee0f321](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee0f321e6759cb4348b095c71b5f3f15fea5c081))
+
 ## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.10.0...ea-v1.11.0) (2024-07-10)
 
 
