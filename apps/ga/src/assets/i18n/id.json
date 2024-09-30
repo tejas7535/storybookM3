@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Eksklusif untuk pengguna Medias Plus",
     "signupPrompt": "Daftar Sekarang",
-    "signupUrl": "https://medias.schaeffler.co.id/registered/user"
+    "signupUrl": "https://medias.schaeffler.co.id/registered/user",
+    "axisOrientation": {
+      "title": "Orientasi Poros",
+      "explainer": "Dalam perhitungan umur pakai pelumas dan interval pelumasan ulang, diasumsikan bahwa poros berada pada posisi horizontal. Harap perhatikan bahwa dalam kasus poros vertikal, referensi dalam TPI 176 \"Pelumasan Bantalan\" terkait desain lingkungan bantalan perlu dipertimbangkan, karena kehilangan pelumas dapat terjadi lebih sering. Oleh karena itu, disarankan untuk melakukan pelumasan ulang dengan jumlah pelumas yang sama dalam interval waktu yang lebih singkat untuk segera menggantikan kehilangan pelumas. Karena ini sering kali sulit dilakukan secara manual, disarankan untuk menggunakan pelumas otomatis. *)",
+      "supportCta": "Jika Anda memiliki pertanyaan tentang aplikasi spesifik Anda, silakan hubungi Dukungan Teknis.",
+      "footnote": "*) Penggunaan jumlah pelumas awal yang lebih besar atau jumlah pelumas ulang yang lebih besar per waktu tidak disarankan, ini bisa, terutama pada kecepatan tinggi terkait dengan pekerjaan mekanis dan perkembangan suhu, kontraproduktif. Pelumas otomatis memasok jumlah kecil secara teratur ke titik pelumasan dan mencegah peningkatan suhu yang lebih tinggi.",
+      "disclaimer": "Semua perhitungan dilakukan dengan poros horizontal. Pemilihan posisi poros Vertikal atau Diagonal tidak diperhitungkan dalam perhitungan",
+      "close": "Tutup",
+      "confirm": "Konfirmasi",
+      "orientations": {
+        "Horizontal": "Horizontal",
+        "Vertical": "Vertikal",
+        "Diagonal": "Diagonal"
+      }
+    }
   },
   "calculationResult": {
     "title": {

@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Medias Plus kullanıcılarına özel",
     "signupPrompt": "Şimdi Kayıt Ol",
-    "signupUrl": "https://medias.schaeffler.de/tr/registered/user"
+    "signupUrl": "https://medias.schaeffler.de/tr/registered/user",
+    "axisOrientation": {
+      "title": "Eksen Yönelimi",
+      "explainer": "Yağlama süresi ve yeniden yağlama aralıklarının hesaplanmasında yatay eksen yönelimi varsayılmaktadır. Eksenin dikey yönelimi durumunda, yağ kaybı daha fazla olabileceğinden, yatağın çevre tasarımı için TPI 176 \"Rulman Yağlaması\" içindeki bilgileri göz önünde bulundurun. Bu nedenle, aynı yağlama miktarını daha kısa aralıklarla yeniden yağlamanın, yağ kaybını zamanında telafi etmesi için mantıklıdır. Bu manuel olarak sık sık zor olduğundan, otomatik bir yağlayıcı kullanımı önerilir.*)",
+      "supportCta": "Belirli uygulama durumunuzla ilgili sorularınız varsa lütfen Teknik Destek ile iletişime geçin.",
+      "footnote": "*) Daha büyük başlangıç ​​yağ miktarlarının veya belirli bir zaman dilimi başına daha büyük yeniden yağlama miktarlarının kullanılması mantıklı değildir. Bunlar, özellikle yüksek hızlarda yoğurma işi ve sıcaklık gelişimi açısından, ters etki yapabilir. Bir yağlayıcı, küçük miktarları düzenli aralıklarla yağlama noktasına getirir ve daha büyük bir sıcaklık artışını önler.",
+      "disclaimer": "Tüm hesaplamalar yatay eksen yönelimi ile yapılır. Hesaplamada dikey veya çapraz eksen yönelimi seçimi dikkate alınmaz",
+      "close": "Kapat",
+      "confirm": "Onayla",
+      "orientations": {
+        "Horizontal": "Yatay",
+        "Vertical": "Dikey",
+        "Diagonal": "Çapraz"
+      }
+    }
   },
   "calculationResult": {
     "title": {

@@ -1,9 +1,13 @@
+/* eslint max-lines: [1] */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatRadioChange } from '@angular/material/radio';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 
@@ -42,7 +46,13 @@ import {
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
-import { EnvironmentImpact, Load, Movement } from '@ga/shared/models';
+import { AxisOrientationModalComponent } from '@ga/shared/components/axis-orientation/axis-orientation-modal.component';
+import {
+  AxisOrientation,
+  EnvironmentImpact,
+  Load,
+  Movement,
+} from '@ga/shared/models';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
@@ -97,6 +107,11 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   ]);
   public typeOptions = typeOptions;
 
+  public orientations = Object.keys(AxisOrientation);
+  public axisOrientation = new FormControl<AxisOrientation>(
+    AxisOrientation.Horizontal
+  );
+
   public rotationalSpeed = new UntypedFormControl(
     undefined,
     rotationalSpeedValidators
@@ -114,6 +129,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     rotationalSpeed: this.rotationalSpeed,
     shiftFrequency: this.shiftFrequency,
     shiftAngle: this.shiftAngle,
+    axisOrientation: this.axisOrientation,
   });
 
   public temperatureUnit = this.calculationParametersService.temperatureUnit();
@@ -202,7 +218,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     private readonly marketingService: GreaseRecommendationMarketingService,
     private readonly translocoService: TranslocoService,
     private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly appInsightsService: ApplicationInsightsService
+    private readonly appInsightsService: ApplicationInsightsService,
+    private readonly matDialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -346,6 +363,36 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
       InteractionEventType.ClickSignupLink
     );
     this.appInsightsService.logEvent('recommendation_click_medias_signup');
+  }
+
+  public updateAxisOrientation(_: MatRadioChange) {
+    if (this.axisOrientation.value !== AxisOrientation.Horizontal) {
+      const ref = this.matDialog.open(AxisOrientationModalComponent);
+      ref.afterClosed().subscribe((confirmed) => {
+        if (confirmed) {
+          this.appAnalyticsService.logRawInteractionEvent(
+            'axis_orientation_modal_confirm',
+            'axis_orientation_modal_confirm'
+          );
+          this.appAnalyticsService.logRawInteractionEvent(
+            `axis_orientation_select_${this.axisOrientation.value}`,
+            `axis_orientation_select_${this.axisOrientation.value}`
+          );
+          this.appInsightsService.logEvent('axis_orientation_select', {
+            orientation: this.axisOrientation.value,
+          });
+        } else {
+          this.axisOrientation.setValue(AxisOrientation.Horizontal);
+          this.appAnalyticsService.logRawInteractionEvent(
+            'axis_orientation_modal_cancel',
+            'axis_orientation_modal_cancel'
+          );
+        }
+        this.appInsightsService.logEvent('axis_orientation_modal', {
+          confirmed,
+        });
+      });
+    }
   }
 
   private loadValidator(): any {

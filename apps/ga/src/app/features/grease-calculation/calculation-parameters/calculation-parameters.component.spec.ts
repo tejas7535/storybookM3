@@ -42,6 +42,7 @@ import {
   Movement,
   PartnerVersion,
 } from '@ga/shared/models';
+import { AxisOrientation } from '@ga/shared/models/calculation-parameters/axis-orientation.model';
 import {
   AUTOMATIC_LUBRICATON_MOCK,
   BEARING_SELECTION_STATE_MOCK,
@@ -191,6 +192,7 @@ describe('CalculationParametersComponent', () => {
                 rotationalSpeed: undefined,
                 shiftFrequency: undefined,
                 shiftAngle: undefined,
+                axisOrientation: AxisOrientation.Horizontal,
               },
               valid: false,
             } as CalculationParametersState,
@@ -225,6 +227,7 @@ describe('CalculationParametersComponent', () => {
                 rotationalSpeed: 1,
                 shiftFrequency: undefined,
                 shiftAngle: undefined,
+                axisOrientation: AxisOrientation.Horizontal,
               },
               valid: true,
             } as CalculationParametersState,

@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Exclusivo para usuarios de Medias Plus",
     "signupPrompt": "Regístrate ahora",
-    "signupUrl": "https://medias.schaeffler.es/es/registered/user"
+    "signupUrl": "https://medias.schaeffler.es/es/registered/user",
+    "axisOrientation": {
+      "title": "Orientación del eje",
+      "explainer": "Para el cálculo de la duración del uso de la grasa y de los intervalos de relubricación, se asume una orientación del eje horizontal. Tenga en cuenta la información en el TPI 176 \"Lubricación de rodamientos\" sobre el diseño del entorno de los rodamientos en caso de una orientación del eje vertical, ya que puede ocurrir una mayor pérdida de lubricante. Por esta razón, también es aconsejable realizar la relubricación a intervalos más cortos con la misma cantidad de relubricante por tiempo para compensar la pérdida de lubricante de manera oportuna. Dado que esto a menudo puede ser difícil de realizar manualmente, se recomienda el uso de un dispensador de lubricante automático.*)",
+      "supportCta": "Si tiene preguntas sobre su caso específico de aplicación, por favor contacte con el Soporte Técnico.",
+      "footnote": "*) El uso de mayores cantidades iniciales de grasa o mayores cantidades de relubricante por tiempo no es aconsejable, ya que pueden, especialmente a altas velocidades, ser contraproducentes en relación con el trabajo de amasado y el desarrollo de la temperatura. Un dispensador de lubricante aplica pequeñas cantidades a intervalos regulares en el punto de lubricación y evita un aumento significativo de la temperatura.",
+      "disclaimer": "Todos los cálculos se realizan con la orientación del eje horizontal. La selección de la orientación vertical o diagonal del eje no se tiene en cuenta en el cálculo",
+      "close": "Cerrar",
+      "confirm": "Confirmar",
+      "orientations": {
+        "Horizontal": "Horizontal",
+        "Vertical": "Vertical",
+        "Diagonal": "Diagonal"
+      }
+    }
   },
   "calculationResult": {
     "title": {

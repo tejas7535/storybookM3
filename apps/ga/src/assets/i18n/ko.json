@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Medias Plus 사용자 전용",
     "signupPrompt": "지금 등록하세요",
-    "signupUrl": "https://medias.schaeffler.kr/ko/registered/user"
+    "signupUrl": "https://medias.schaeffler.kr/ko/registered/user",
+    "axisOrientation": {
+      "title": "축의 방향",
+      "explainer": "그리스 사용 기간 및 재윤활 간격을 계산할 때 수평 샤프트 위치를 기준으로 합니다. 수직 샤프트 위치의 경우 윤활유 손실이 증가할 수 있으므로 TPI 176 '회전 베어링 윤활'의 베어링 환경 설계 지침을 고려해 주세요. 따라서 동일한 재윤활량을 시간당 더 짧은 간격으로 수행하여 윤활유 손실을 즉시 보상하는 것이 합리적입니다. 수동으로는 어려울 수 있으므로 자동 윤활제 공급기를 사용하는 것이 좋습니다. *)",
+      "supportCta": "구체적인 애플리케이션 사례에 대한 질문이 있을 경우 기술 지원팀에 문의해 주세요.",
+      "footnote": "*) 더 많은 초기 그리스량 또는 시간당 더 많은 재윤활량을 사용하는 것은 특히 높은 회전 속도에서 흡입 작업 및 온도 상승과 관련하여 역효과를 낼 수 있으므로 권장하지 않습니다. 윤활제 공급기는 작은 양을 균일한 간격으로 윤활 지점에 전달하여 더 큰 온도 상승을 방지합니다.",
+      "disclaimer": "모든 계산은 수평 샤프트 위치로 수행됩니다. 계산에는 수직 또는 대각선 샤프트 위치의 선택이 고려되지 않습니다.",
+      "close": "닫기",
+      "confirm": "확인",
+      "orientations": {
+        "Horizontal": "수평",
+        "Vertical": "수직",
+        "Diagonal": "대각선"
+      }
+    }
   },
   "calculationResult": {
     "title": {

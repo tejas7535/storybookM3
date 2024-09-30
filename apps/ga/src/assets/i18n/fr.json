@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Exclusif pour les utilisateurs de Medias Plus",
     "signupPrompt": "Inscrivez-vous maintenant",
-    "signupUrl": "https://medias.schaeffler.fr/fr/registered/user"
+    "signupUrl": "https://medias.schaeffler.fr/fr/registered/user",
+    "axisOrientation": {
+      "title": "Orientation de l’axe",
+      "explainer": "Pour le calcul de la durée d'utilisation de la graisse et des intervalles de relubrification, une orientation horizontale de l'axe est supposée. Veuillez tenir compte des informations dans le TPI 176 \"Lubrification des roulements\" concernant la conception de l'environnement des roulements en cas d'orientation verticale de l'axe, car une perte de lubrifiant accrue peut se produire. Pour cette raison, il est également conseillé d'effectuer la relubrification à des intervalles plus courts avec la même quantité de lubrifiant par unité de temps pour compenser la perte de lubrifiant en temps opportun. Comme cela peut souvent être difficile à réaliser manuellement, l'utilisation d'un distributeur de lubrifiant automatique est recommandée.*)",
+      "supportCta": "Si vous avez des questions concernant votre cas d'application spécifique, veuillez contacter le Support Technique.",
+      "footnote": "*) L'utilisation de quantités initiales plus importantes de graisse ou de quantités plus importantes de relubrificant par unité de temps n'est pas recommandée, car cela peut, en particulier à des vitesses élevées, être contre-productif en termes de travail de pétrissage et de développement de température. Un distributeur de lubrifiant applique de petites quantités à intervalles réguliers au point de lubrification et empêche une augmentation significative de la température.",
+      "disclaimer": "Tous les calculs sont effectués avec une orientation horizontale de l'axe. La sélection d'une orientation verticale ou diagonale de l'axe n'est pas prise en compte dans le calcul",
+      "close": "Fermer",
+      "confirm": "Confirmer",
+      "orientations": {
+        "Horizontal": "Horizontal",
+        "Vertical": "Vertical",
+        "Diagonal": "Diagonal"
+      }
+    }
   },
   "calculationResult": {
     "title": {

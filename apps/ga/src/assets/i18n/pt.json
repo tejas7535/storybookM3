@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Exclusivo para usuários Medias Plus",
     "signupPrompt": "Inscreva-se agora",
-    "signupUrl": "https://medias.schaeffler.es/pt/registered/user"
+    "signupUrl": "https://medias.schaeffler.es/pt/registered/user",
+    "axisOrientation": {
+      "title": "Orientação do Eixo",
+      "explainer": "Na hora de calcular a duração do uso da gordura e os intervalos de lubrificação, assume-se uma posição do eixo horizontal. Por favor, leve em consideração no caso de uma posição do eixo vertical as informações do TPI 176 'Lubrificação de Rolamentos', sobre o design do ambiente do rolamento, pois a perda de lubrificante pode ser mais intensa. Por esta razão, também é recomendável realizar a lubrificação em intervalos menores com a mesma quantidade de lubrificante para compensar a perda de lubrificante de forma oportuna. Como isso pode ser difícil de fazer manualmente, recomenda-se o uso de um lubrificador automático de lubrificante. *)",
+      "supportCta": "Em caso de dúvidas sobre seu caso específico de aplicação, entre em contato com o Suporte Técnico.",
+      "footnote": "*) O uso de maiores quantidades iniciais de gordura ou maiores quantidades de lubrificação por tempo não é recomendado, pois pode ser contraproducente, especialmente em altas velocidades em relação ao trabalho de cisalhamento e desenvolvimento de temperatura. Um lubrificador de lubrificante fornece pequenas quantidades de maneira uniforme ao ponto de lubrificação e evita um aumento maior da temperatura.",
+      "disclaimer": "Todos os cálculos são realizados com a posição do eixo horizontal. A seleção de posição do eixo vertical ou diagonal não é considerada no cálculo",
+      "close": "Fechar",
+      "confirm": "Confirmar",
+      "orientations": {
+        "Horizontal": "Horizontal",
+        "Vertical": "Vertical",
+        "Diagonal": "Diagonal"
+      }
+    }
   },
   "calculationResult": {
     "title": {

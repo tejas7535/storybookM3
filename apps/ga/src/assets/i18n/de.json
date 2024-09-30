@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Exklusiv für medias Plus Nutzer",
     "signupPrompt": "Jetzt registrieren",
-    "signupUrl": "https://medias.schaeffler.de/de/registered/user"
+    "signupUrl": "https://medias.schaeffler.de/de/registered/user",
+    "axisOrientation": {
+      "title": "Wellenlage",
+      "explainer": "Bei der Berechnung der Fettgebrauchsdauer und der Nachschmierintervalle wird von einer horizontalenWellenlage ausgegangen. Bitte berücksichtigen Sie im Fall einer vertikalen Wellenlage die Angaben in der TPI 176 „Schmierung von Wälzlagern“ zur Gestaltung der Lagerumgebung, da Schmierstoffverlust verstärkt auftreten kann. Aus diesem Grund ist es auch sinnvoll, die Nachschmierung bei gleicher Nachschmiermenge je Zeit in kürzeren Intervallen vorzunehmen und so den Schmierstoffverlust zeitnah auszugleichen. Da dies manuell häufig nur schwer realisiert werden kann, wird die Verwendung eines automatischen Schmierstoffgebers empfohlen. *)",
+      "supportCta": "Im Fall von Fragen zu Ihrem konkreten Anwendungsfall kontaktieren Sie bitte den Technischen Support.",
+      "footnote": "*) Die Verwendung größerer initialer Fettmengen oder größerer Nachschmiermengen je Zeit ist nicht sinnvoll, diese können, insbesondere bei hohen Drehzahlen in Bezug auf Walkarbeit und Temperaturentwicklung, kontraproduktiv sein. Ein Schmierstoffgeber bringt kleine Mengen in gleichmäßigem Abstand an die Schmierstelle und verhindert eine stärkere Temperaturerhöhung.",
+      "disclaimer": "Alle Berechnungen werden mit horizontaler Wellenlage durchgeführt. Die Auswahl von Vertikaler- oder Diagnoaler Wellenlage wird bei der Berechnung nicht beachtet",
+      "close": "Schließen",
+      "confirm": "Bestätigen",
+      "orientations": {
+        "Horizontal": "Horizontal",
+        "Vertical": "Vertikal",
+        "Diagonal": "Diagonal"
+      }
+    }
   },
   "calculationResult": {
     "title": {

@@ -22,10 +22,10 @@ import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-ca
 import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 import { ReportUrls } from '@ga/shared/models';
 
+import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
+import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
-import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
-import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 
 @Component({
   selector: 'ga-calculation-result',

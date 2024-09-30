@@ -6,6 +6,7 @@ import {
   PreferredGrease,
   Property,
 } from '@ga/shared/models';
+import { AxisOrientation } from '@ga/shared/models/calculation-parameters/axis-orientation.model';
 
 export interface CalculationParametersState {
   loads: {
@@ -19,6 +20,7 @@ export interface CalculationParametersState {
     rotationalSpeed: number;
     shiftFrequency: number;
     shiftAngle: number;
+    axisOrientation?: AxisOrientation;
   };
   environment: {
     operatingTemperature: number;

@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Exkluzivně pro uživatele Medias Plus",
     "signupPrompt": "Zaregistrujte se nyní",
-    "signupUrl": "https://medias.schaeffler.cz/cs/registered/user"
+    "signupUrl": "https://medias.schaeffler.cz/cs/registered/user",
+    "axisOrientation": {
+      "title": "Orientace osy",
+      "explainer": "Při výpočtu životnosti maziva a intervalů přemazávání se předpokládá horizontální orientace osy. V případě svislé orientace osy zohledněte informace v TPI 176 „Mazání valivých ložisek“ týkající se návrhu okolí ložiska, protože může docházet k intenzivnějšímu úniku maziva. Z tohoto důvodu je také rozumné provádět přemazávání při stejné dávce v kratších intervalech, aby se okamžitě vyrovnal únik maziva. Jelikož je to často obtížné realizovat ručně, doporučuje se použití automatického maznice.*)",
+      "supportCta": "Pokud máte dotazy ke konkrétnímu případu použití, obraťte se prosím na technickou podporu.",
+      "footnote": "*) Použití většího množství počátečního tuku nebo větší množství přemazávání v čase není účelné, mohou být, zejména při vysokých rychlostech, kontraproduktivní z hlediska hnětení a vývoje teploty. Maznice zavádí malé množství ve stejných intervalech k mazacímu místu a zabraňuje většímu nárůstu teploty.",
+      "disclaimer": "Veškeré výpočty jsou prováděny s horizontální orientací osy. Volba svislé nebo diagonální orientace osy se při výpočtu nezohledňuje",
+      "close": "Zavřít",
+      "confirm": "Potvrdit",
+      "orientations": {
+        "Horizontal": "Horizontální",
+        "Vertical": "Vertikální",
+        "Diagonal": "Diagonální"
+      }
+    }
   },
   "calculationResult": {
     "title": {

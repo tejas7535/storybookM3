@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Medias Plusユーザー限定",
     "signupPrompt": "今すぐ登録",
-    "signupUrl": "https://medias.schaeffler.jp/ja/registered/user"
+    "signupUrl": "https://medias.schaeffler.jp/ja/registered/user",
+    "axisOrientation": {
+      "title": "軸の方向",
+      "explainer": "グリース使用寿命および再潤滑間隔の計算においては、水平軸位置を前提としています。垂直軸位置の場合、TPI 176「転がり軸受の潤滑」に記載されている軸受環境の設計に関する指示を考慮してください。潤滑剤の損失が増加する可能性があるためです。この理由から、同じ再潤滑量でより短い間隔で再潤滑を行い、即時に潤滑剤の損失を補うことが賢明です。手動での実施が難しい場合が多いため、潤滑剤自動供給装置の使用が推奨されます。*)",
+      "supportCta": "具体的なアプリケーションケースに関する質問がある場合は、技術サポートまでお問い合わせください。",
+      "footnote": "*) 初期の大量のグリースや時間ごとの大量の再潤滑は特に高回転速度において歩留まり作業と温度上昇に関して逆効果になる可能性があるため、推奨されません。潤滑剤供給装置は小さな量を均等に間隔を置いて潤滑位置に供給し、より大きな温度上昇を防ぎます。",
+      "disclaimer": "すべての計算は水平軸位置で行われます。計算において、垂直軸位置や対角軸位置の選択は考慮されません。",
+      "close": "閉じる",
+      "confirm": "確認",
+      "orientations": {
+        "Horizontal": "水平",
+        "Vertical": "垂直",
+        "Diagonal": "対角"
+      }
+    }
   },
   "calculationResult": {
     "title": {

@@ -128,3 +128,40 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
 span.mdc-list-item__primary-text:has(> .expert-highlight) {
   @apply min-w-full;
 }
+
+//radio button overrides
+//taken from ea codebase
+.mat-mdc-radio-button.mat-primary {
+  --mat-radio-checked-ripple-color: none;
+}
+
+.mat-mdc-radio-button {
+  @apply text-subtitle-2;
+
+  .mdc-radio {
+    transform: scale(0.7);
+    @apply pr-1 #{!important};
+  }
+
+  .mdc-form-field {
+    height: 24px;
+    @apply pr-2;
+  }
+
+  // green background
+  &.mat-mdc-radio-checked {
+    .mdc-form-field {
+      @apply rounded-full;
+      @apply bg-[#e5f4e9];
+    }
+
+    .mdc-label {
+      @apply text-primary #{!important};
+      padding-left: 0px;
+    }
+  }
+
+  &:not(.mat-mdc-radio-checked) {
+    @apply text-medium-emphasis;
+  }
+}

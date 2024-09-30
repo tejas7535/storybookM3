@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Exclusive for Medias Plus users",
     "signupPrompt": "Sign Up Now",
-    "signupUrl": "https://medias.schaeffler.us/en/registered/user"
+    "signupUrl": "https://medias.schaeffler.us/en/registered/user",
+    "axisOrientation": {
+      "title": "Orientation of axis",
+      "explainer": "When calculating the grease service life and relubrication intervals, a horizontal shaft position is assumed. In the case of a vertical shaft position, please take into account the specifications in TPI 176 \"Lubrication of rolling bearings\" for the design of the bearing environment, as lubricant loss can occur more frequently. For this reason, it also makes sense to re-lubricate more frequently with the same relubrication quantity per time and thus compensate for the loss of lubricant in a timely manner. Since this is often difficult to do manually, the use of an automatic lubricator is recommended. *)",
+      "supportCta": "If you have any questions about your specific application, please contact us.",
+      "footnote": "*) The use of larger initial quantities of grease or larger relubrication quantities per time does not make sense, as these can be counterproductive, especially at high speeds in terms of churning losses work and temperature development. A lubricator brings small quantities into the lubrication point at an even time intervals and prevents a greater increase in temperature.",
+      "disclaimer": "All calculations are done with a horizontal orientation. Other orientations are dismissed for the calculation",
+      "close": "Close",
+      "confirm": "Confirm",
+      "orientations": {
+        "Horizontal": "Horizontal",
+        "Vertical": "Vertical",
+        "Diagonal": "Diagonal"
+      }
+    }
   },
   "calculationResult": {
     "title": {

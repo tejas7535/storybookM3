@@ -273,7 +273,21 @@
     },
     "exclusivityDisclaimer": "Wyłącznie dla użytkowników Medias Plus",
     "signupPrompt": "Zarejestruj się teraz",
-    "signupUrl": "https://medias.schaeffler.pl/pl/registered/user"
+    "signupUrl": "https://medias.schaeffler.pl/pl/registered/user",
+    "axisOrientation": {
+      "title": "Orientacja osi",
+      "explainer": "Przy obliczaniu okresu trwałości smaru i okresów dosmarowywania zakłada się położenie wału poziome. Proszę wziąć pod uwagę przy położeniu wału pionowym zalecenia TPI 176 „Smarowanie łożysk tocznych“ dotyczące konstrukcji otoczenia łożyska, ponieważ intensywniejsza utrata smaru może wystąpić. Z tego powodu warto również wykonać dosmarowywanie przy tej samej ilości smaru co jakiś czas w krótszych odstępach czasu, aby zrekompensować utratę smaru na bieżąco. Ponieważ ręczne dosmarowywanie często może być trudne, zaleca się stosowanie automatycznego urządzenia do dozowania smaru. *)",
+      "supportCta": "W przypadku pytań dotyczących Państwa konkretnego zastosowania, prosimy o kontakt z pomocą techniczną.",
+      "footnote": "*) Stosowanie większych początkowych ilości smaru lub większych ilości dosmarowywania co jakiś czas nie ma sensu, ponieważ mogą one, zwłaszcza przy wysokich prędkościach obrotowych w odniesieniu do pracy mechanicznej i wzrostu temperatury, być kontraproduktywne. Urządzenie do dozowania smaru wprowadza małe ilości smaru w równych odstępach do miejsca smarowania i zapobiega większemu wzrostowi temperatury.",
+      "disclaimer": "Wszystkie obliczenia są przeprowadzane z poziomym położeniem wału. Wybór położenia pionowego lub skośnego wału nie jest brany pod uwagę przy obliczeniach",
+      "close": "Zamknij",
+      "confirm": "Potwierdź",
+      "orientations": {
+        "Horizontal": "Poziome",
+        "Vertical": "Pionowe",
+        "Diagonal": "Skośne"
+      }
+    }
   },
   "calculationResult": {
     "title": {

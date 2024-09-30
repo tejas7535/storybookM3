@@ -144,6 +144,40 @@
                   ></ga-input>
                 }
               }
+
+              <div class="md:col-span-2 mb-4">
+                <p class="text-body-2 mb-2 text-low-emphasis">
+                  {{ t('axisOrientation.title') }}
+                </p>
+                <mat-radio-group
+                  (change)="updateAxisOrientation($event)"
+                  [formControl]="axisOrientation"
+                  [ariaLabel]="t('axisOrientation.title')"
+                  class="flex space-x-2 overflow-x-auto overflow-y-clip pb-1 md:pb-0"
+                >
+                  <mat-radio-button
+                    color="primary"
+                    [value]="'Horizontal'"
+                    class="mr-2"
+                  >
+                    {{ t('axisOrientation.orientations.Horizontal') }}
+                  </mat-radio-button>
+                  <mat-divider [vertical]="true" />
+
+                  <mat-radio-button [value]="'Vertical'" color="primary">
+                    {{ t('axisOrientation.orientations.Vertical') }}
+                  </mat-radio-button>
+                  <mat-divider [vertical]="true" />
+
+                  <mat-radio-button
+                    color="primary"
+                    [value]="'Diagonal'"
+                    class="mr-2"
+                  >
+                    {{ t('axisOrientation.orientations.Diagonal') }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
             </div>
           </div>
           <div

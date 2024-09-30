@@ -1,3 +1,4 @@
+export * from './axis-orientation.model';
 export * from './calculation-parameters.model';
 export * from './dialog-response.model';
 export * from './dropdown-option.model';
