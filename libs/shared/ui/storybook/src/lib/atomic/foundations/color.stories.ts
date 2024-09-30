@@ -623,30 +623,6 @@ export default {
   },
 } as Meta<ColorComponentExample>;
 
-// const Template: StoryFn = (args) => {
-//   const htmlElement = document.getElementsByTagName('html')[0];
-//   let isDarkMode = htmlElement.classList.contains('dark');
-
-//   const observer = new MutationObserver((mutations) => {
-//     mutations.forEach((mutation) => {
-//       if (mutation.attributeName === 'class') {
-//         isDarkMode = htmlElement.classList.contains('dark');
-//         console.log('isDarkMode', isDarkMode);
-//       }
-//     });
-//   });
-
-//   observer.observe(htmlElement, {
-//     attributes: true,
-//     attributeFilter: ['class'],
-//   });
-
-//   return {
-//     props: { ...args, isDarkMode },
-//     template:
-//   };
-// };
-
 const Template: StoryFn<ColorComponentExample> = (
   args: ColorComponentExample
 ) => ({
