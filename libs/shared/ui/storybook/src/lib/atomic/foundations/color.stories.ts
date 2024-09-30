@@ -5,14 +5,606 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 import { MatIconModule } from '@angular/material/icon';
 import READMEMd from './color/README.md';
+import { BackgroundColorDirective } from './color/background-color.directive';
+import { Component, Input, OnInit } from '@angular/core';
 const colors = require('../../../../../styles/src/lib/tailwind/colors');
+
+@Component({
+  selector: 'color-component-example',
+  template: `
+    <section class="bg-surface p-4">
+      <h4 class="text-on-surface text-h6 p-4 ">{{ m3SectionTitle }}</h4>
+      <p class="text-on-surface p-2 ">
+        Colors based of the M3 color palette. All colors are available with
+        prefixes: 'text-', 'bg-' and 'border-' eg. bg-primary for container and
+        text-on-primary for text color.
+      </p>
+
+      <div class="grid grid-cols-4 gap-2">
+        <!-- Primary colors-->
+        <div class="flex flex-col gap-2">
+          <div class="bg-primary h-10 p-3">
+            <p
+              class="text-on-primary"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-primary p-3">
+            <p
+              class="text-primary"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-primary-container h-20 p-3">
+            <p
+              class="text-on-primary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-primary-container h-20 p-3">
+            <p
+              class="text-primary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="grid grid-cols-2 h-20">
+            <div class="bg-primary-fixed h-full p-3">
+              <p
+                class="text-on-primary-fixed"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-primary-fixed-dim h-full p-3">
+              <p
+                class="text-on-primary-fixed"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+          <div class="bg-on-primary-fixed h-10 p-3">
+            <p
+              class="text-primary-fixed"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-on-primary-fixed-variant h-20 p-3">
+            <p
+              class="text-primary-fixed-dim"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-surface-dim h-10 p-3">
+            <p
+              class="text-on-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="grid grid-cols-2 h-20">
+            <div class="bg-surface-container-lowest h-full p-3">
+              <p
+                class="text-on-surface"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-surface-container-low h-full p-3">
+              <p
+                class="text-on-surface"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 h-20">
+            <div class="bg-on-surface h-full p-3">
+              <p
+                class="text-surface-container-lowest"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-on-surface-variant h-full p-3">
+              <p
+                class="text-surface-container-lowest"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary colors-->
+        <div class="flex flex-col gap-2">
+          <div class="bg-secondary h-10 p-3">
+            <p
+              class="text-on-secondary"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-secondary p-3">
+            <p
+              class="text-secondary"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-secondary-container h-20 p-3">
+            <p
+              class="text-on-secondary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-secondary-container h-20 p-3">
+            <p
+              class="text-secondary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="grid grid-cols-2 h-20">
+            <div class="bg-secondary-fixed h-full p-3">
+              <p
+                class="text-on-secondary-fixed"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-secondary-fixed-dim h-full p-3">
+              <p
+                class="text-on-secondary-fixed"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+          <div class="bg-on-secondary-fixed h-10 p-3">
+            <p
+              class="text-secondary-fixed"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-on-secondary-fixed-variant h-20 p-3">
+            <p
+              class="text-secondary-fixed-dim"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-surface h-10 p-3">
+            <p
+              class="text-on-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="grid grid-cols-2 h-20">
+            <div class="bg-surface-container h-full p-3">
+              <p
+                class="text-on-surface"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-surface-container-high h-full p-3">
+              <p
+                class="text-on-surface"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+          <div class="bg-outline h-20 p-3">
+            <p
+              class="text-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+
+        <!-- Tertiary colors -->
+        <div class="flex flex-col gap-2">
+          <div class="bg-tertiary h-10 p-3">
+            <p
+              class="text-on-tertiary"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-tertiary p-3">
+            <p
+              class="text-tertiary"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-tertiary-container h-20 p-3">
+            <p
+              class="text-on-tertiary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-tertiary-container h-20 p-3">
+            <p
+              class="text-tertiary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="grid grid-cols-2 h-20">
+            <div class="bg-tertiary-fixed h-full p-3">
+              <p
+                class="text-on-tertiary-fixed"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-tertiary-fixed-dim h-full p-3">
+              <p
+                class="text-on-tertiary-fixed"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+          <div class="bg-on-tertiary-fixed h-10 p-3">
+            <p
+              class="text-tertiary-fixed"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-on-tertiary-fixed-variant h-20 p-3">
+            <p
+              class="text-tertiary-fixed-dim"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-surface-bright h-10 p-3">
+            <p
+              class="text-on-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-surface-container-highest h-20 p-3">
+            <p
+              class="text-on-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-outline-variant h-20 p-3">
+            <p
+              class="text-inverse-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+
+        <!-- Error colors-->
+        <div class="flex flex-col gap-2">
+          <div class="bg-error h-10 p-3">
+            <p
+              class="text-on-error"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-error p-3">
+            <p
+              class="text-error"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-error-container h-10 p-3">
+            <p
+              class="text-on-error-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-on-error-container h-10 p-3">
+            <p
+              class="text-error-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-inverse-surface h-10 p-3 mt-[12.5rem]">
+            <p
+              class="text-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-inverse-on-surface h-20 p-3">
+            <p
+              class="text-inverse-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-inverse-primary h-20 p-3">
+            <p
+              class="text-on-primary-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="grid grid-cols-2 h-20 gap-2">
+            <div class="bg-scrim h-full p-3">
+              <p
+                class="text-white"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+            <div class="bg-shadow h-full p-3">
+              <p
+                class="text-white"
+                colorBackgroundText
+                [isDarkModeEnabled]="isDarkMode"
+              ></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="bg-background-dark p-4">
+      <h4>Foundational colors</h4>
+      <div class="mat-elevation-z0 bg-white">
+        <div class="p-4 pt-[60px]">bg-white {{ colors.white }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-disabled">
+        <div class="p-4 pt-[60px]">bg-disabled {{ colors.disabled }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-inactive">
+        <div class="p-4 pt-[60px]">bg-inactive {{ colors.inactive }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-active text-white-low-emphasis">
+        <div class="p-4 pt-[60px]">bg-active {{ colors.active }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-default">
+        <div class="p-4 pt-[60px]">bg-default {{ colors.default }}</div>
+      </div>
+
+      <h4>Text colors</h4>
+      <div class="mat-elevation-z0 text-link">
+        <div class="p-4 pt-[60px]">text-link {{ colors['text-link'] }}</div>
+      </div>
+      <div class="mat-elevation-z0 text-low-emphasis">
+        <div class="p-4 pt-[60px]">
+          text-low-emphasis {{ colors['low-emphasis'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 text-medium-emphasis">
+        <div class="p-4 pt-[60px]">
+          text-medium-emphasis {{ colors['medium-emphasis'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 text-high-emphasis">
+        <div class="p-4 pt-[60px]">
+          text-high-emphasis {{ colors['high-emphasis'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 text-white-low-emphasis bg-secondary-900">
+        <div class="p-4 pt-[60px]">
+          text-white-low-emphasis {{ colors['white-low-emphasis'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 text-white-medium-emphasis bg-secondary-900">
+        <div class="p-4 pt-[60px]">
+          text-white-medium-emphasis {{ colors['white-medium-emphasis'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 text-white-high-emphasis bg-secondary-900">
+        <div class="p-4 pt-[60px]">
+          text-white-high-emphasis {{ colors['white-high-emphasis'] }}
+        </div>
+      </div>
+
+      <h4 class="mt-20">Functional Colors</h4>
+      <div class="mat-elevation-z0 bg-secondary-legacy border border-info mb-1">
+        <div class="p-4 pt-[60px]">border-info {{ colors['info'] }}</div>
+      </div>
+      <div
+        class="mat-elevation-z0 bg-secondary-legacy border border-success mb-1"
+      >
+        <div class="p-4 pt-[60px]">border-success {{ colors['success'] }}</div>
+      </div>
+      <div
+        class="mat-elevation-z0 bg-secondary-legacy border border-warning mb-1"
+      >
+        <div class="p-4 pt-[60px]">border-warning {{ colors['warning'] }}</div>
+      </div>
+      <div
+        class="mat-elevation-z0 bg-secondary-legacy border border-error mb-1"
+      >
+        <div class="p-4 pt-[60px]">border-error {{ colors['error'] }}</div>
+      </div>
+
+      <h4 class="mt-20">Functional Text Colors</h4>
+      <div
+        class="mat-elevation-z0 bg-secondary-legacy flex flex-row justify-between"
+      >
+        <div class="p-4 pt-[60px] text-info">
+          text-info {{ colors['text-info'] }}
+        </div>
+        <div class="p-4 pt-[60px] text-success">
+          text-success {{ colors['text-success'] }}
+        </div>
+        <div class="p-4 pt-[60px] text-warning">
+          text-warning {{ colors['text-warning'] }}
+        </div>
+        <div class="p-4 pt-[60px] text-error">
+          text-error {{ colors['text-error'] }}
+        </div>
+      </div>
+
+      <h4 class="mt-20">Text Icon Colors</h4>
+      <div class="mat-elevation-z0 bg-secondary-legacy">
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-link">
+          <mat-icon>link</mat-icon>
+          <span>text-icon-link</span>
+          <span>{{ colors.link }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-success">
+          <mat-icon>done</mat-icon>
+          <span>text-icon-success</span>
+          <span>{{ colors.success }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-info">
+          <mat-icon>info</mat-icon>
+          <span>text-icon-info</span>
+          <span>{{ colors.info }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-warning">
+          <mat-icon>warning</mat-icon>
+          <span>text-icon-warning</span>
+          <span>{{ colors.warning }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-error">
+          <mat-icon>error</mat-icon>
+          <span>text-icon-error</span>
+          <span>{{ colors.error }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-disabled">
+          <mat-icon>edit-off</mat-icon>
+          <span>text-icon-disabled</span>
+          <span>{{ colors.disabled }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-inactive">
+          <mat-icon>toggle_off</mat-icon>
+          <span>text-icon-inactive</span>
+          <span>{{ colors.inactive }}</span>
+        </div>
+        <div class="p-4 pt-[60px] flex gap-4 text-icon-active">
+          <mat-icon>toggle_on</mat-icon>
+          <span>text-icon-active</span>
+          <span>{{ colors.active }}</span>
+        </div>
+      </div>
+
+      <h4 class="mt-20">Color Schema</h4>
+      <div class="mat-elevation-z0 bg-primary-variant">
+        <div class="p-4 pt-[60px]">
+          bg-primary-variant {{ colors['primary-variant'] }} (called
+          secondary-variant in design)
+        </div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary-legacy">
+        <div class="p-4 pt-[60px]">
+          bg-secondary-legacy {{ colors['secondary-legacy'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary-variant">
+        <div class="p-4 pt-[60px]">
+          bg-secondary-variant {{ colors['secondary-variant'] }} (called
+          primary-variant in design)
+        </div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary-900 text-white-low-emphasis">
+        <div class="p-4 pt-[60px]">
+          bg-secondary-900 {{ colors['secondary-900'] }} (called grey/900 in
+          design)
+        </div>
+      </div>
+      <div class="mat-elevation-z0 bg-background-dark">
+        <div class="p-4 pt-[60px]">
+          bg-background-dark {{ colors['background-dark'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 bg-surface-legacy">
+        <div class="p-4 pt-[60px]">
+          bg-surface-legacy {{ colors['surface-legacy'] }}
+        </div>
+      </div>
+      <div class="mat-elevation-z0 bg-success">
+        <div class="p-4 pt-[60px]">bg-success {{ colors['bg-success'] }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-info">
+        <div class="p-4 pt-[60px]">bg-info {{ colors['bg-info'] }}</div>
+      </div>
+      <div class="mat-elevation-z0 bg-warning">
+        <div class="p-4 pt-[60px]">bg-warning {{ colors['bg-warning'] }}</div>
+      </div>
+    </section>
+  `,
+})
+class ColorComponentExample implements OnInit {
+  @Input() public colors: any;
+
+  public isDarkMode = false;
+
+  public m3SectionTitle = '';
+
+  ngOnInit(): void {
+    const htmlElement = document.getElementsByTagName('html')[0];
+    this.isDarkMode = htmlElement.classList.contains('dark');
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          this.isDarkMode = htmlElement.classList.contains('dark');
+          this.m3SectionTitle = this.isDarkMode
+            ? 'Dark Scheme'
+            : 'Light Scheme';
+          console.log('isDarkMode', this.isDarkMode);
+        }
+      });
+    });
+
+    observer.observe(htmlElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  }
+}
 
 export default {
   title: 'Atomic/Foundations/Color',
+  component: ColorComponentExample,
   decorators: [
     withDesign,
     moduleMetadata({
-      imports: [MatIconModule],
+      imports: [MatIconModule, BackgroundColorDirective],
     }),
   ],
   parameters: {
@@ -27,111 +619,42 @@ export default {
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=152%3A944',
     },
   },
-} as Meta;
+} as Meta<ColorComponentExample>;
 
-const Template: StoryFn = (args) => ({
-  props: args,
-  template: `
-    <section class="bg-background-dark p-4">
-      <h4>Foundational colors</h4>
-      <div class="mat-elevation-z0 bg-primary"><div class="p-4 pt-[60px]">bg-primary {{colors.primary}}</div></div>      
-      <div class="mat-elevation-z0 bg-white"><div class="p-4 pt-[60px]">bg-white {{colors.white}}</div></div>
-      <div class="mat-elevation-z0 bg-disabled"><div class="p-4 pt-[60px]">bg-disabled {{colors.disabled}}</div></div>
-      <div class="mat-elevation-z0 bg-inactive"><div class="p-4 pt-[60px]">bg-inactive {{colors.inactive}}</div></div>
-      <div class="mat-elevation-z0 bg-active text-white-low-emphasis"><div class="p-4 pt-[60px]">bg-active {{colors.active}}</div></div>
-      <div class="mat-elevation-z0 bg-default"><div class="p-4 pt-[60px]">bg-default {{colors.default}}</div></div>
+// const Template: StoryFn = (args) => {
+//   const htmlElement = document.getElementsByTagName('html')[0];
+//   let isDarkMode = htmlElement.classList.contains('dark');
 
-      <h4>Text colors</h4>
-      <div class="mat-elevation-z0 text-link"><div class="p-4 pt-[60px]">text-link {{colors['text-link']}}</div></div>      
-      <div class="mat-elevation-z0 text-low-emphasis"><div class="p-4 pt-[60px]">text-low-emphasis {{colors['low-emphasis']}} </div></div>      
-      <div class="mat-elevation-z0 text-medium-emphasis"><div class="p-4 pt-[60px]">text-medium-emphasis {{colors['medium-emphasis']}}</div></div>      
-      <div class="mat-elevation-z0 text-high-emphasis"><div class="p-4 pt-[60px]">text-high-emphasis {{colors['high-emphasis']}}</div></div>      
-      <div class="mat-elevation-z0 text-white-low-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-low-emphasis {{colors['white-low-emphasis']}}</div></div>      
-      <div class="mat-elevation-z0 text-white-medium-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-medium-emphasis {{colors['white-medium-emphasis']}}</div></div>      
-      <div class="mat-elevation-z0 text-white-high-emphasis bg-secondary-900"><div class="p-4 pt-[60px]">text-white-high-emphasis {{colors['white-high-emphasis']}}</div></div>      
+//   const observer = new MutationObserver((mutations) => {
+//     mutations.forEach((mutation) => {
+//       if (mutation.attributeName === 'class') {
+//         isDarkMode = htmlElement.classList.contains('dark');
+//         console.log('isDarkMode', isDarkMode);
+//       }
+//     });
+//   });
 
-      <h4 class="mt-20">Functional Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary-legacy border border-info mb-1">
-        <div class="p-4 pt-[60px]">border-info {{ colors['info'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-secondary-legacy border border-success mb-1">
-        <div class="p-4 pt-[60px]">border-success {{ colors['success'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-secondary-legacy border border-warning mb-1">
-        <div class="p-4 pt-[60px]">border-warning {{ colors['warning'] }}</div>    
-      </div>
-      <div class="mat-elevation-z0 bg-secondary-legacy border border-error mb-1">
-            <div class="p-4 pt-[60px]">border-error {{ colors['error'] }}</div>    
-      </div>
+//   observer.observe(htmlElement, {
+//     attributes: true,
+//     attributeFilter: ['class'],
+//   });
 
-      <h4 class="mt-20">Functional Text Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary-legacy flex flex-row justify-between">
-        <div class="p-4 pt-[60px] text-info">text-info {{colors['text-info']}}</div>
-        <div class="p-4 pt-[60px] text-success">text-success {{colors['text-success']}}</div>
-        <div class="p-4 pt-[60px] text-warning">text-warning {{colors['text-warning']}}</div>
-        <div class="p-4 pt-[60px] text-error">text-error {{colors['text-error']}}</div>
-      </div>
+//   return {
+//     props: { ...args, isDarkMode },
+//     template:
+//   };
+// };
 
-      <h4 class="mt-20">Text Icon Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary-legacy">
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-link">
-          <mat-icon>link</mat-icon>
-          <span>text-icon-link</span>
-          <span>{{colors.link}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-success">
-          <mat-icon>done</mat-icon>
-          <span>text-icon-success</span>
-          <span>{{colors.success}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-info">
-          <mat-icon>info</mat-icon>
-          <span>text-icon-info</span>
-          <span>{{colors.info}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-warning">
-          <mat-icon>warning</mat-icon>
-          <span>text-icon-warning</span>
-          <span>{{colors.warning}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-error">
-          <mat-icon>error</mat-icon>
-          <span>text-icon-error</span>
-          <span>{{colors.error}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-disabled">
-          <mat-icon>edit-off</mat-icon>
-          <span>text-icon-disabled</span>
-          <span>{{colors.disabled}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-inactive">
-          <mat-icon>toggle_off</mat-icon>
-          <span>text-icon-inactive</span>
-          <span>{{colors.inactive}}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-active">
-        <mat-icon>toggle_on</mat-icon>
-          <span>text-icon-active</span>
-          <span>{{colors.active}}</span>
-        </div>
-      </div>
-
-      <h4 class="mt-20">Color Schema</h4>
-      <div class="mat-elevation-z0 bg-primary-variant"><div class="p-4 pt-[60px]">bg-primary-variant {{colors['primary-variant']}} (called secondary-variant in design)</div></div>      
-      <div class="mat-elevation-z0 bg-secondary-legacy"><div class="p-4 pt-[60px]">bg-secondary-legacy {{colors['secondary-legacy']}} </div></div>
-      <div class="mat-elevation-z0 bg-secondary-variant"><div class="p-4 pt-[60px]">bg-secondary-variant {{colors['secondary-variant']}} (called primary-variant in design)</div></div>
-      <div class="mat-elevation-z0 bg-secondary-900 text-white-low-emphasis"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
-      <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
-      <div class="mat-elevation-z0 bg-surface-legacy"><div class="p-4 pt-[60px]">bg-surface-legacy {{colors['surface-legacy']}}</div></div>
-      <div class="mat-elevation-z0 bg-success"><div class="p-4 pt-[60px]">bg-success {{colors['bg-success']}}</div></div>
-      <div class="mat-elevation-z0 bg-info"><div class="p-4 pt-[60px]">bg-info {{colors['bg-info']}}</div></div>
-      <div class="mat-elevation-z0 bg-warning"><div class="p-4 pt-[60px]">bg-warning {{colors['bg-warning']}}</div></div>
-      <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors['bg-error']}}</div></div>
-    </section>
-  `,
+const Template: StoryFn<ColorComponentExample> = (
+  args: ColorComponentExample
+) => ({
+  component: ColorComponentExample,
+  props: { ...args },
 });
 
 export const Default = Template.bind({});
 Default.args = {
-  colors,
+  colors: {
+    ...colors,
+  },
 };
