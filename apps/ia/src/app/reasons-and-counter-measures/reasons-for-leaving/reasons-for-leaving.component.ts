@@ -4,16 +4,30 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import {
+  getBeautifiedFilterValues,
+  getSelectedTimeRange,
+} from '../../core/store/selectors';
+import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { DoughnutChartData } from '../../shared/charts/models';
+import { EmployeeListDialogMetaFilters } from '../../shared/dialogs/employee-list-dialog/models';
+import { IdValue } from '../../shared/models';
 import { NavItem } from '../../shared/nav-buttons/models';
 import { ReasonForLeavingRank, ReasonForLeavingTab } from '../models';
-import { selectReasonsForLeavingTab } from '../store/actions/reasons-and-counter-measures.actions';
+import {
+  loadComparedLeaversByReason,
+  loadLeaversByReason,
+  selectReasonsForLeavingTab,
+} from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedConductedInterviewsInfo,
   getComparedReasonsChartData,
+  getComparedReasonsChildren,
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
+  getLeaversByReasonData,
+  getLeaversByReasonLoading,
   getReasonsChartData,
   getReasonsChildren,
   getReasonsTableData,
@@ -56,6 +70,10 @@ export class ReasonsForLeavingComponent implements OnInit {
     conducted: number;
     percentage: number;
   }>;
+  leaversLoading$: Observable<boolean>;
+  leaversData$: Observable<ExitEntryEmployeesResponse>;
+  beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;
+  timeRange$: Observable<IdValue>;
 
   constructor(private readonly store: Store) {}
 
@@ -73,10 +91,24 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.comparedReasonsChartData$ = this.store.select(
       getComparedReasonsChartData
     );
-    this.comparedReasonsChildren$ = this.store.select(getReasonsChildren);
+    this.comparedReasonsChildren$ = this.store.select(
+      getComparedReasonsChildren
+    );
     this.comparedConductedInterviewsInfo$ = this.store.select(
       getComparedConductedInterviewsInfo
     );
+    this.leaversLoading$ = this.store.select(getLeaversByReasonLoading);
+    this.leaversData$ = this.store.select(getLeaversByReasonData);
+    this.beautifiedFilters$ = this.store.select(getBeautifiedFilterValues);
+    this.timeRange$ = this.store.select(getSelectedTimeRange);
+  }
+
+  onLeaversRequested(reasonId: number): void {
+    this.store.dispatch(loadLeaversByReason({ reasonId }));
+  }
+
+  onComparedLeaversRequested(reasonId: number): void {
+    this.store.dispatch(loadComparedLeaversByReason({ reasonId }));
   }
 
   onSelectedTabChange(selectedTab: string): void {

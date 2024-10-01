@@ -1,10 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatTooltipModule],
   selector: 'ia-amount-cell-renderer',
   templateUrl: './amount-cell-renderer.component.html',
 })

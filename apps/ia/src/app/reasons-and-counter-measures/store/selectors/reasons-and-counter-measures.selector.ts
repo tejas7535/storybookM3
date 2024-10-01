@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { ReasonForLeavingStats, ReasonForLeavingTab } from '../../models';
 import {
   ReasonsAndCounterMeasuresState,
@@ -138,7 +139,7 @@ export const getComparedReasonsChartData = createSelector(
 
 export const getComparedReasonsChildren = createSelector(
   getCurrentTab,
-  getReasonsData,
+  getComparedReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
     if (data) {
       const reasons =
@@ -165,4 +166,39 @@ export const getComparedConductedInterviewsInfo = createSelector(
           ),
         }
       : undefined
+);
+
+export const getLeaversByReasonLoading = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.leavers.loading
+);
+
+export const getLeaversByReasonData = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) => {
+    if (!state.reasonsForLeaving.leavers.data) {
+      return undefined as ExitEntryEmployeesResponse;
+    }
+    if (
+      state.reasonsForLeaving.selectedTab ===
+      ReasonForLeavingTab.OVERALL_REASONS
+    ) {
+      return state.reasonsForLeaving.leavers.data;
+    } else {
+      const topReasons = utils.filterTopReasons(
+        state.reasonsForLeaving.reasons.data.reasons
+      );
+
+      const leavers = state.reasonsForLeaving.leavers.data.employees.filter(
+        (item) =>
+          topReasons.some((reason) => reason.interviewId === +item.interviewId)
+      );
+
+      return {
+        employees: leavers,
+        responseModified: topReasons.length === leavers.length,
+      };
+    }
+  }
 );

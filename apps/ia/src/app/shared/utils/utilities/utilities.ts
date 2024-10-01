@@ -2,8 +2,8 @@ import { translate } from '@jsverse/transloco';
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
-import { DATE_FORMAT_BEAUTY } from '../constants';
-import { TimePeriod } from '../models';
+import { DATE_FORMAT_BEAUTY } from '../../constants';
+import { TimePeriod } from '../../models';
 
 export const getToday = () => moment.utc();
 

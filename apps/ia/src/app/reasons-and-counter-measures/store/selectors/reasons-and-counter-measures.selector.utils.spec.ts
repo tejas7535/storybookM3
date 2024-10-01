@@ -112,12 +112,12 @@ describe('mapReasonsToTableData', () => {
     const result = utils.mapReasonsToTableData(data);
 
     expect(result).toEqual([
-      { reason: reasonA, leavers: 3, rank: 1, percentage: 25, reasonId: 1 },
-      { reason: reasonB, leavers: 2, rank: 2, percentage: 16.7, reasonId: 2 },
-      { reason: reasonC, leavers: 2, rank: 2, percentage: 16.7, reasonId: 3 },
-      { reason: reasonE, leavers: 2, rank: 2, percentage: 16.7, reasonId: 5 },
-      { reason: reasonF, leavers: 2, rank: 2, percentage: 16.7, reasonId: 6 },
-      { reason: reasonD, leavers: 1, rank: 6, percentage: 8.3, reasonId: 4 },
+      { reason: reasonA, leavers: 2, rank: 1, percentage: 18.2, reasonId: 1 },
+      { reason: reasonB, leavers: 2, rank: 1, percentage: 18.2, reasonId: 2 },
+      { reason: reasonC, leavers: 2, rank: 1, percentage: 18.2, reasonId: 3 },
+      { reason: reasonE, leavers: 2, rank: 1, percentage: 18.2, reasonId: 5 },
+      { reason: reasonF, leavers: 2, rank: 1, percentage: 18.2, reasonId: 6 },
+      { reason: reasonD, leavers: 1, rank: 6, percentage: 9.1, reasonId: 4 },
     ]);
   });
 

@@ -56,4 +56,30 @@ describe('ReasonsAndCounterMeasuresService', () => {
       req.flush(request);
     });
   });
+
+  describe('getLeaversByReason', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler1';
+      const timeRange = '123-321';
+      const reasonId = 1;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+        reasonId,
+      } as EmployeesRequest;
+
+      const response = [] as ReasonForLeavingStats[];
+
+      service.getLeaversByReason(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/reasons-leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&reason_id=${reasonId}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
+    });
+  });
 });

@@ -53,28 +53,34 @@ export function filterTopReasons(reasons: Reason[]): Reason[] {
   return topReasons;
 }
 
-export function prepareReaonsForRanking(reasons: Reason[]): {
-  reason: string;
-  leavers: number;
-  rank: number;
-  percentage: number;
-}[] {
-  const reasonCountMap: { [key: number]: number } = {};
+export function prepareReaonsForRanking(
+  reasons: Reason[]
+): ReasonForLeavingRank[] {
+  // key - reasonId, value - set of interview ids
+  const reasonCountMap: Map<number, Set<number>> = new Map();
   reasons.forEach((item) => {
-    if (reasonCountMap[item.reasonId]) {
-      reasonCountMap[item.reasonId] += 1;
+    if (reasonCountMap.get(item.reasonId)) {
+      reasonCountMap.get(item.reasonId).add(item.interviewId);
     } else {
-      reasonCountMap[item.reasonId] = 1;
+      reasonCountMap.set(item.reasonId, new Set([item.interviewId]));
     }
   });
 
-  const reasonsArray: ReasonForLeavingRank[] = Object.keys(reasonCountMap).map(
+  const totalReasons = [...reasonCountMap.values()].reduce(
+    (acc, item) => acc + item.size,
+    0
+  );
+
+  const reasonsArray: ReasonForLeavingRank[] = [...reasonCountMap.keys()].map(
     (reasonId) => ({
       reasonId: +reasonId,
-      reason: reasons.find((item) => item.reasonId === +reasonId).reason,
-      leavers: reasonCountMap[+reasonId],
+      reason: reasons.find((item) => item.reasonId === +reasonId)?.reason,
+      leavers: reasonCountMap.get(+reasonId).size,
       rank: undefined,
-      percentage: getPercentageValue(reasonCountMap[+reasonId], reasons.length),
+      percentage: getPercentageValue(
+        reasonCountMap.get(+reasonId).size,
+        totalReasons
+      ),
     })
   );
 

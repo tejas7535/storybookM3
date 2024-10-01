@@ -15,7 +15,14 @@
         [conductedInterviewsInfo]="conductedInterviewsInfo$ | ngrxPush"
         [selectedTab]="selectedTab$ | ngrxPush"
       ></ia-reasons-for-leaving-chart>
-      <ia-reasons-for-leaving-table [data]="reasonsTableData$ | ngrxPush">
+      <ia-reasons-for-leaving-table
+        [data]="reasonsTableData$ | ngrxPush"
+        [leaversData]="leaversData$ | ngrxPush"
+        [leaversLoading]="leaversLoading$ | ngrxPush"
+        [filters]="beautifiedFilters$ | ngrxPush"
+        [timeRange]="timeRange$ | ngrxPush"
+        (leaversRequested)="onLeaversRequested($event)"
+      >
       </ia-reasons-for-leaving-table>
     </div>
     <div class="lg:col-span-1"></div>
@@ -28,9 +35,12 @@
         [selectedTab]="selectedTab$ | ngrxPush"
       ></ia-reasons-for-leaving-chart>
       <ia-reasons-for-leaving-table
-        class="w-full"
-        side="right"
         [data]="comparedReasonsTableData$ | ngrxPush"
+        [leaversData]="leaversData$ | ngrxPush"
+        [leaversLoading]="leaversLoading$ | ngrxPush"
+        [filters]="beautifiedFilters$ | ngrxPush"
+        [timeRange]="timeRange$ | ngrxPush"
+        (leaversRequested)="onComparedLeaversRequested($event)"
       >
       </ia-reasons-for-leaving-table>
     </div>

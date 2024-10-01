@@ -2,6 +2,7 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { Moment } from 'moment';
 
+import { ExitEntryEmployeesResponse } from '../../overview/models';
 import { DATA_IMPORT_DAY } from '../../shared/constants';
 import { filterAdapter } from '../../shared/models';
 import {
@@ -11,9 +12,13 @@ import {
 import { ReasonForLeavingTab } from '../models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
+  loadComparedLeaversByReason,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
+  loadLeaversByReason,
+  loadLeaversByReasonFailure,
+  loadLeaversByReasonSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -48,6 +53,11 @@ export interface ReasonsAndCounterMeasuresState {
       loading: boolean;
       errorMessage: string;
     };
+    leavers: {
+      data: ExitEntryEmployeesResponse;
+      loading: boolean;
+      errorMessage: string;
+    };
   };
 }
 
@@ -62,6 +72,11 @@ export const initialState: ReasonsAndCounterMeasuresState = {
     comparedReasons: {
       data: undefined,
       loading: undefined,
+      errorMessage: undefined,
+    },
+    leavers: {
+      data: undefined,
+      loading: false,
       errorMessage: undefined,
     },
   },
@@ -175,6 +190,74 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
         ...state.reasonsForLeaving,
         comparedReasons: {
           ...state.reasonsForLeaving.comparedReasons,
+          data: undefined,
+          errorMessage,
+          loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    loadLeaversByReason,
+    (
+      state: ReasonsAndCounterMeasuresState
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        leavers: {
+          ...state.reasonsForLeaving.leavers,
+          data: undefined,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedLeaversByReason,
+    (
+      state: ReasonsAndCounterMeasuresState
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        leavers: {
+          ...state.reasonsForLeaving.leavers,
+          data: undefined,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadLeaversByReasonSuccess,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { data }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        leavers: {
+          ...state.reasonsForLeaving.leavers,
+          data,
+          loading: false,
+          errorMessage: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    loadLeaversByReasonFailure,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { errorMessage }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        leavers: {
+          ...state.reasonsForLeaving.leavers,
           data: undefined,
           errorMessage,
           loading: false,

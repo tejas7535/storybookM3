@@ -8,14 +8,25 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  getBeautifiedFilterValues,
+  getSelectedTimeRange,
+} from '../../core/store/selectors';
 import { ReasonForLeavingTab } from '../models';
-import { selectReasonsForLeavingTab } from '../store/actions/reasons-and-counter-measures.actions';
+import {
+  loadComparedLeaversByReason,
+  loadLeaversByReason,
+  selectReasonsForLeavingTab,
+} from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedConductedInterviewsInfo,
   getComparedReasonsChartData,
+  getComparedReasonsChildren,
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
+  getLeaversByReasonData,
+  getLeaversByReasonLoading,
   getReasonsChartData,
   getReasonsChildren,
   getReasonsTableData,
@@ -66,8 +77,12 @@ describe('ReasonsForLeavingComponent', () => {
         store.overrideSelector(getConductedInterviewsInfo, result);
         store.overrideSelector(getComparedReasonsTableData, result);
         store.overrideSelector(getComparedReasonsChartData, result);
-        store.overrideSelector(getReasonsChildren, result);
+        store.overrideSelector(getComparedReasonsChildren, result);
         store.overrideSelector(getComparedConductedInterviewsInfo, result);
+        store.overrideSelector(getLeaversByReasonLoading, result);
+        store.overrideSelector(getLeaversByReasonData, result);
+        store.overrideSelector(getBeautifiedFilterValues, result);
+        store.overrideSelector(getSelectedTimeRange, result);
 
         component.ngOnInit();
 
@@ -116,6 +131,26 @@ describe('ReasonsForLeavingComponent', () => {
             a: result,
           })
         );
+        m.expect(component.leaversLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.leaversData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.beautifiedFilters$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.timeRange$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
       })
     );
   });
@@ -131,6 +166,30 @@ describe('ReasonsForLeavingComponent', () => {
           selectedTab: ReasonForLeavingTab.TOP_REASONS,
         })
       );
+    });
+  });
+
+  describe('onLeaversRequested', () => {
+    test('should dispatch loadLeaversByReason', () => {
+      const reasonId = 1;
+      const action = loadLeaversByReason({ reasonId });
+      store.dispatch = jest.fn();
+
+      component.onLeaversRequested(reasonId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('onComparedLeaversRequested', () => {
+    test('should dispatch loadComparedLeaversByReason', () => {
+      const reasonId = 1;
+      const action = loadComparedLeaversByReason({ reasonId });
+      store.dispatch = jest.fn();
+
+      component.onComparedLeaversRequested(reasonId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });
 });

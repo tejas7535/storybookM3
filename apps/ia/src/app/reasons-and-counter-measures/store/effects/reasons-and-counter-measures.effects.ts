@@ -17,14 +17,19 @@ import {
   getCurrentBenchmarkFilters,
   getCurrentFilters,
 } from '../../../core/store/selectors';
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
+  loadComparedLeaversByReason,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
+  loadLeaversByReason,
+  loadLeaversByReasonFailure,
+  loadLeaversByReasonSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -57,7 +62,6 @@ export class ReasonsAndCounterMeasuresEffects {
       ofType(
         benchmarkFilterSelected,
         timePeriodSelected,
-        routerNavigationAction,
         routerNavigationAction
       ),
       concatLatestFrom(() => this.store.select(selectRouterState)),
@@ -115,6 +119,62 @@ export class ReasonsAndCounterMeasuresEffects {
               )
             )
           )
+      )
+    )
+  );
+
+  loadLeaversByReason$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadLeaversByReason),
+      concatLatestFrom(() => [this.store.select(getCurrentFilters)]),
+      filter(([_action, b]) => !!(b.filterDimension && b.timeRange && b.value)),
+      map(
+        ([action, request]): EmployeesRequest => ({
+          ...request,
+          reasonId: action.reasonId,
+        })
+      ),
+      switchMap((request: EmployeesRequest) =>
+        this.reasonsAndCounterMeasuresService.getLeaversByReason(request).pipe(
+          map((data: ExitEntryEmployeesResponse) =>
+            loadLeaversByReasonSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadLeaversByReasonFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadComparedLeaversByReason$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadComparedLeaversByReason),
+      concatLatestFrom(() => [this.store.select(getCurrentBenchmarkFilters)]),
+      filter(([_action, b]) => !!(b.filterDimension && b.timeRange && b.value)),
+      map(
+        ([action, request]): EmployeesRequest => ({
+          ...request,
+          reasonId: action.reasonId,
+        })
+      ),
+      switchMap((request: EmployeesRequest) =>
+        this.reasonsAndCounterMeasuresService.getLeaversByReason(request).pipe(
+          map((data: ExitEntryEmployeesResponse) =>
+            loadLeaversByReasonSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadLeaversByReasonFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
       )
     )
   );

@@ -10,16 +10,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { EmployeeListDialogModule } from '../../shared/dialogs/employee-list-dialog/employee-list-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
-import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 import { OpenPositionsCellRendererComponent } from './open-positions-cell-renderer/open-positions-cell-renderer.component';
 
 @NgModule({
-  declarations: [
-    LostJobProfilesComponent,
-    AmountCellRendererComponent,
-    OpenPositionsCellRendererComponent,
-  ],
+  declarations: [LostJobProfilesComponent, OpenPositionsCellRendererComponent],
   imports: [
     SharedModule,
     MatIconModule,

@@ -1,3 +1,4 @@
+import { EmployeeWithAction } from '../../../shared/models';
 import { ReasonForLeavingTab, ReasonImpact } from '../../models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
@@ -8,6 +9,7 @@ import {
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
+  getLeaversByReasonData,
   getReasonsChartData,
   getReasonsLoading,
   getReasonsTableData,
@@ -72,11 +74,19 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           },
           errorMessage: 'Fancy Error',
         },
+        leavers: {
+          loading: false,
+          data: {
+            employees: [{ employeeName: 'Max' } as EmployeeWithAction],
+            responseModified: false,
+          },
+          errorMessage: 'Fancy Error',
+        },
       },
     },
   };
 
-  const fakStateTopReasons: {
+  const fakeStateTopReasons: {
     reasonsAndCounterMeasures: ReasonsAndCounterMeasuresState;
   } = {
     ...fakeState,
@@ -84,6 +94,19 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ...fakeState.reasonsAndCounterMeasures,
       reasonsForLeaving: {
         ...fakeState.reasonsAndCounterMeasures.reasonsForLeaving,
+        leavers: {
+          data: {
+            employees: [
+              {
+                interviewId: 1,
+                employeeName: 'Max',
+              } as unknown as EmployeeWithAction,
+            ],
+            responseModified: false,
+          },
+          errorMessage: undefined,
+          loading: false,
+        },
         selectedTab: ReasonForLeavingTab.TOP_REASONS,
       },
     },
@@ -118,7 +141,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return top reasons', () => {
-      expect(getReasonsTableData(fakStateTopReasons)).toEqual([
+      expect(getReasonsTableData(fakeStateTopReasons)).toEqual([
         {
           leavers: 1,
           percentage: 50,
@@ -160,7 +183,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should map top reasons', () => {
-      expect(getReasonsChartData(fakStateTopReasons)).toEqual([
+      expect(getReasonsChartData(fakeStateTopReasons)).toEqual([
         {
           name: 'Reason 1',
           value: 1,
@@ -217,7 +240,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     test('shuold map reasons', () => {
       expect(getComparedReasonsTableData(fakeState)).toEqual([
         {
-          leavers: 2,
+          leavers: 1,
           percentage: 100,
           rank: 1,
           reason: 'Reason 2',
@@ -227,7 +250,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should map top reasons', () => {
-      const result = getComparedReasonsTableData(fakStateTopReasons);
+      const result = getComparedReasonsTableData(fakeStateTopReasons);
 
       expect(result).toEqual([
         {
@@ -253,13 +276,13 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         {
           name: 'Reason 2',
           percent: 100,
-          value: 2,
+          value: 1,
         },
       ]);
     });
 
     test('should map top reasons', () => {
-      expect(getComparedReasonsChartData(fakStateTopReasons)).toEqual([
+      expect(getComparedReasonsChartData(fakeStateTopReasons)).toEqual([
         {
           name: 'Reason 2a',
           percent: 100,
@@ -273,20 +296,20 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     test('should return overall comapred reasons children', () => {
       expect(getComparedReasonsChildren(fakeState)).toEqual([
         {
-          reason: 'Reason 1',
+          reason: 'Reason 2',
           children: [
             {
-              name: 'Detailed Reason 1',
+              name: 'Detailed Reason 2',
               value: 1,
               percent: 100,
             },
           ],
         },
         {
-          reason: 'Reason 1a',
+          reason: 'Reason 2a',
           children: [
             {
-              name: 'Detailed Reason 1',
+              name: 'Detailed Reason 2a',
               value: 1,
               percent: 100,
             },
@@ -301,6 +324,30 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(getComparedConductedInterviewsInfo(fakeState)).toEqual({
         conducted: 14,
         percentage: 43.8,
+      });
+    });
+  });
+
+  describe('getLeaversByReasonLoading', () => {
+    test('should return loading', () => {
+      expect(getReasonsLoading(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getLeaversByReasonData', () => {
+    test('should return leavers by reason data when overall reasons selected', () => {
+      expect(getLeaversByReasonData(fakeState)).toEqual({
+        employees: [{ employeeName: 'Max' } as EmployeeWithAction],
+        responseModified: false,
+      });
+    });
+
+    test('should return leavers by reason data when top reasons selected', () => {
+      expect(getLeaversByReasonData(fakeStateTopReasons)).toEqual({
+        employees: [
+          { employeeName: 'Max', interviewId: 1 } as EmployeeWithAction,
+        ],
+        responseModified: false,
       });
     });
   });

@@ -26,8 +26,9 @@ import {
 } from '../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeListDialogMetaHeadings } from '../../shared/dialogs/employee-list-dialog/models/employee-list-dialog-meta-headings.model';
 import { EmployeeWithAction, IdValue } from '../../shared/models';
+import { AmountCellRendererComponent } from '../../shared/tables/employee-list-table/amount-cell-renderer/amount-cell-renderer.component';
+import { countComparator } from '../../shared/utils/comparators';
 import { JobProfile, Workforce, WorkforceResponse } from '../models';
-import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 import { OpenPositionsCellRendererComponent } from './open-positions-cell-renderer/open-positions-cell-renderer.component';
 
 type CellType = 'workforce' | 'leavers';
@@ -168,7 +169,7 @@ export class LostJobProfilesComponent {
         count: params.data.employeesCount,
         restrictedAccess: false,
       }),
-      comparator: this.countComparator,
+      comparator: countComparator,
     },
     {
       field: 'leavers',
@@ -183,7 +184,7 @@ export class LostJobProfilesComponent {
         count: params.data.leaversCount,
         restrictedAccess: false,
       }),
-      comparator: this.countComparator,
+      comparator: countComparator,
     },
     {
       field: 'openPositions',
@@ -219,14 +220,6 @@ export class LostJobProfilesComponent {
   );
 
   constructor(private readonly dialog: MatDialog) {}
-
-  countComparator(a: { count: number }, b: { count: number }): number {
-    if (a.count === b.count) {
-      return 0;
-    }
-
-    return a.count > b.count ? 1 : -1;
-  }
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;

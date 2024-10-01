@@ -20,7 +20,6 @@ describe('AmountCellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: AmountCellRendererComponent,
     imports: [MatIconModule, MatTooltipModule],
-    declarations: [AmountCellRendererComponent],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       mockProvider(TranslocoService, { translate }),

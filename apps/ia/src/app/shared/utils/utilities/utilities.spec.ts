@@ -1,7 +1,7 @@
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment from 'moment';
 
-import { TimePeriod } from '../models';
+import { TimePeriod } from '../../models';
 import {
   convertTimeRangeToUTC,
   getBeautifiedTimeRange,

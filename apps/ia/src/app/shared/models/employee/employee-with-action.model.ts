@@ -16,4 +16,5 @@ export interface EmployeeWithAction {
   previousDimensionValue: string;
   nextDimensionValue: string;
   currentDimensionValue: string;
+  interviewId: string | number;
 }

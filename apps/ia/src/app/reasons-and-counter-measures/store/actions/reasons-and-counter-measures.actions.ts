@@ -1,5 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { ReasonForLeavingStats, ReasonForLeavingTab } from '../../models';
 
 export const selectReasonsForLeavingTab = createAction(
@@ -35,6 +36,26 @@ export const loadComparedReasonsWhyPeopleLeftFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadLeaversByReason = createAction(
+  '[ReasonsAndCounterMeasures] Load LeaversByReason',
+  props<{ reasonId: number }>()
+);
+
+export const loadComparedLeaversByReason = createAction(
+  '[ReasonsAndCounterMeasures] Load ComparedLeaversByReason',
+  props<{ reasonId: number }>()
+);
+
+export const loadLeaversByReasonSuccess = createAction(
+  '[ReasonsAndCounterMeasures] Load LeaversByReason Success',
+  props<{ data: ExitEntryEmployeesResponse }>()
+);
+
+export const loadLeaversByReasonFailure = createAction(
+  '[ReasonsAndCounterMeasures] Load LeaversByReason Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   selectReasonsForLeavingTab,
   loadReasonsWhyPeopleLeft,
@@ -43,6 +64,9 @@ const all = union({
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftSuccess,
   loadComparedReasonsWhyPeopleLeftFailure,
+  loadLeaversByReason,
+  loadLeaversByReasonSuccess,
+  loadLeaversByReasonFailure,
 });
 
 export type ReasonsAndCounterMeasuresActions = typeof all;

@@ -7,6 +7,7 @@ export class EmployeesRequest {
     public value: string,
     public timeRange: string,
     public jobKey?: string,
-    public type?: MonthlyFluctuationOverTime[]
+    public type?: MonthlyFluctuationOverTime[],
+    public reasonId?: number
   ) {}
 }

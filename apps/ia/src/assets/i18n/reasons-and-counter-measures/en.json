@@ -14,7 +14,10 @@
       "position": "#",
       "actionReason": "Reason",
       "percentage": "%",
-      "leavers": "Leavers"
+      "leavers": "Leavers",
+      "popup": {
+        "titleLeavers": "Leavers"
+      }
     }
   }
 }

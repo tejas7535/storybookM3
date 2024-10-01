@@ -1,9 +1,13 @@
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { ReasonForLeavingTab } from '../../models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import {
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
+  loadLeaversByReason,
+  loadLeaversByReasonFailure,
+  loadLeaversByReasonSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -81,6 +85,40 @@ describe('Reasons and Counter Measures Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[ReasonsAndCounterMeasures] Load ComparedReasonsWhyPeopleLeft Failure',
+    });
+  });
+
+  test('loadLeaversByReason', () => {
+    const reasonId = 1;
+
+    const action = loadLeaversByReason({ reasonId });
+
+    expect(action).toEqual({
+      reasonId,
+      type: '[ReasonsAndCounterMeasures] Load LeaversByReason',
+    });
+  });
+
+  test('loadLeaversByReasonSuccess', () => {
+    const data: ExitEntryEmployeesResponse =
+      {} as unknown as ExitEntryEmployeesResponse;
+
+    const action = loadLeaversByReasonSuccess({
+      data,
+    });
+
+    expect(action).toEqual({
+      data,
+      type: '[ReasonsAndCounterMeasures] Load LeaversByReason Success',
+    });
+  });
+
+  test('loadLeaversByReasonFailure', () => {
+    const action = loadLeaversByReasonFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[ReasonsAndCounterMeasures] Load LeaversByReason Failure',
     });
   });
 });

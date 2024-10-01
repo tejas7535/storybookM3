@@ -18,6 +18,7 @@ import {
   getCurrentBenchmarkFilters,
   getCurrentFilters,
 } from '../../../core/store/selectors';
+import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import {
   EmployeesRequest,
   FilterDimension,
@@ -26,9 +27,13 @@ import {
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
+  loadComparedLeaversByReason,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
+  loadLeaversByReason,
+  loadLeaversByReasonFailure,
+  loadLeaversByReasonSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -347,6 +352,140 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         expect(
           reasonsAndCounterMeasuresService.getReasonsWhyPeopleLeft
         ).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadLeaversByReason$', () => {
+    const reasonId = 1;
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      action = loadLeaversByReason({ reasonId });
+      request = {
+        filterDimension: FilterDimension.BOARD,
+        timeRange: '123|321',
+        value: 'B01',
+      } as EmployeesRequest;
+    });
+
+    test(
+      'should load leavers by reason when REST call is successful',
+      marbles((m) => {
+        const data: ExitEntryEmployeesResponse =
+          {} as ExitEntryEmployeesResponse;
+        const result = loadLeaversByReasonSuccess({
+          data,
+        });
+        store.overrideSelector(getCurrentFilters, request);
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        reasonsAndCounterMeasuresService.getLeaversByReason = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadLeaversByReason$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getLeaversByReason
+        ).toHaveBeenCalledWith({ ...request, reasonId });
+      })
+    );
+
+    test(
+      'should return loadLeaversByReasonFailure on REST error',
+      marbles((m) => {
+        const result = loadLeaversByReasonFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getCurrentFilters, request);
+
+        reasonsAndCounterMeasuresService.getLeaversByReason = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadLeaversByReason$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getLeaversByReason
+        ).toHaveBeenCalledWith({ ...request, reasonId });
+      })
+    );
+  });
+
+  describe('loadComparedLeaversByReason$', () => {
+    const reasonId = 1;
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      action = loadComparedLeaversByReason({ reasonId });
+      request = {
+        filterDimension: FilterDimension.BOARD,
+        timeRange: '123|321',
+        value: 'B01',
+      } as EmployeesRequest;
+    });
+
+    test(
+      'should load leavers by reason when REST call is successful',
+      marbles((m) => {
+        const data: ExitEntryEmployeesResponse =
+          {} as ExitEntryEmployeesResponse;
+        const result = loadLeaversByReasonSuccess({
+          data,
+        });
+        store.overrideSelector(getCurrentBenchmarkFilters, request);
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        reasonsAndCounterMeasuresService.getLeaversByReason = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadComparedLeaversByReason$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getLeaversByReason
+        ).toHaveBeenCalledWith({ ...request, reasonId });
+      })
+    );
+
+    test(
+      'should return loadLeaversByReasonFailure on REST error',
+      marbles((m) => {
+        const result = loadLeaversByReasonFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+        store.overrideSelector(getCurrentBenchmarkFilters, request);
+
+        reasonsAndCounterMeasuresService.getLeaversByReason = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadComparedLeaversByReason$).toBeObservable(expected);
+        m.flush();
+        expect(
+          reasonsAndCounterMeasuresService.getLeaversByReason
+        ).toHaveBeenCalledWith({ ...request, reasonId });
       })
     );
   });
