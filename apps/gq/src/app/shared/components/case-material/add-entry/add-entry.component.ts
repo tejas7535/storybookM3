@@ -123,8 +123,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   });
   targetPriceSources: string[] = [
     TargetPriceSource.NO_ENTRY,
+    TargetPriceSource.INTERNAL,
     TargetPriceSource.CUSTOMER,
-    TargetPriceSource.SALES,
   ];
 
   customerIdentifierForCaseCreation$: Observable<CustomerId> =
@@ -165,6 +165,37 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       priceValidator(this.translocoLocaleService.getLocale()).bind(this),
     ]);
     this.targetPriceFormControl.markAllAsTouched();
+    this.targetPriceFormControl.valueChanges.subscribe((data) => {
+      if (
+        data &&
+        this.targetPriceSourceFormControl.value ===
+          TargetPriceSource.NO_ENTRY &&
+        this.targetPriceFormControl.valid
+      ) {
+        this.targetPriceSourceFormControl.setValue(TargetPriceSource.INTERNAL, {
+          emitEvent: false,
+        });
+
+        return;
+      }
+      if (!data || data === '') {
+        this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY, {
+          emitEvent: false,
+        });
+
+        return;
+      }
+    });
+
+    this.targetPriceSourceFormControl.valueChanges.subscribe((data) => {
+      if (
+        data &&
+        data === TargetPriceSource.NO_ENTRY &&
+        this.targetPriceFormControl.value
+      ) {
+        this.targetPriceFormControl.reset(null, { emitEvent: false });
+      }
+    });
   }
 
   quantityValidator(control: AbstractControl): ValidationErrors {
@@ -203,6 +234,13 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
 
   addRow(): void {
+    const targetPriceValue = this.targetPriceFormControl.value;
+    const targetPriceSourceValue =
+      this.targetPriceSourceFormControl.value === TargetPriceSource.NO_ENTRY ||
+      !targetPriceValue
+        ? undefined
+        : this.targetPriceSourceFormControl.value;
+
     const items: MaterialTableItem[] = [
       {
         materialNumber: this.matNumberInput.searchFormControl.value,
@@ -217,7 +255,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
           ? this.customerMatNumberInput.searchFormControl.value
           : undefined,
         targetPriceSource: this.newCaseCreation
-          ? this.targetPriceSourceFormControl.value
+          ? targetPriceSourceValue
           : undefined,
         info: {
           valid: false,

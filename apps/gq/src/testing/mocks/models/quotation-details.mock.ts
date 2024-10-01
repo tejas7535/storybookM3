@@ -1,5 +1,6 @@
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { AbcxClassification } from '@gq/shared/models/quotation';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 
 import { SimulatedQuotation } from '../../../app/shared/models';
 import {
@@ -56,6 +57,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
   abcxClassification: AbcxClassification.UR1,
   targetPrice: 90.55,
+  targetPriceSource: TargetPriceSource.INTERNAL,
   mrpData: MRP_DATA_MOCK,
   rfqData: QUOTATION_RFQ_DATA_MOCK,
   fPricing: QUOTATION_F_PRICING_MOCK,

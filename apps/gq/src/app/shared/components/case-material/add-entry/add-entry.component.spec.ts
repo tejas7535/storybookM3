@@ -12,6 +12,7 @@ import { SalesOrg } from '@gq/core/store/reducers/models';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { Customer, CustomerId } from '@gq/shared/models';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -27,6 +28,7 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
+import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { AddEntryComponent } from './add-entry.component';
 
 describe('AddEntryComponent', () => {
@@ -121,6 +123,150 @@ describe('AddEntryComponent', () => {
       component.ngOnInit();
       selectedCustomerSalesOrgSubject.next({ id: '0817', selected: true });
       expect(component['clearFields']).toHaveBeenCalled();
+    });
+    test('should init AutocompleteFacade with CREATE_CASE for new CaseCreation', () => {
+      Object.defineProperty(component, 'isCaseView', {
+        value: true,
+        writable: true,
+      });
+      component['clearFields'] = jest.fn();
+      component.newCaseCreation = true;
+      component.autoCompleteFacade.initFacade = jest.fn();
+      component.ngOnInit();
+      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.CREATE_CASE
+      );
+    });
+    test('should init AutocompleteFacade with Add_ENTRY for old CaseCreation', () => {
+      Object.defineProperty(component, 'isCaseView', {
+        value: true,
+        writable: true,
+      });
+      component['clearFields'] = jest.fn();
+      component.newCaseCreation = false;
+      component.autoCompleteFacade.initFacade = jest.fn();
+      component.ngOnInit();
+      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
+        AutocompleteRequestDialog.ADD_ENTRY
+      );
+    });
+  });
+
+  describe('subscriptions', () => {
+    describe('targetPriceFormControlChanges', () => {
+      test('should set targetPriceSource to NO_ENTRY when targetPrice null', () => {
+        Object.defineProperty(component.targetPriceFormControl, 'value', {
+          value: '123',
+          writable: true,
+        });
+        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceFormControl.setValue(null);
+        expect(
+          component.targetPriceSourceFormControl.setValue
+        ).toHaveBeenCalledWith(TargetPriceSource.NO_ENTRY, {
+          emitEvent: false,
+        });
+      });
+      test('should set targetPriceSource to NO_ENTRY when targetPrice undefined', () => {
+        Object.defineProperty(component.targetPriceFormControl, 'value', {
+          value: '123',
+          writable: true,
+        });
+        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceFormControl.setValue(undefined);
+        expect(
+          component.targetPriceSourceFormControl.setValue
+        ).toHaveBeenCalledWith(TargetPriceSource.NO_ENTRY, {
+          emitEvent: false,
+        });
+      });
+      test('should set targetPriceSource to NO_ENTRY when targetPrice emptyString', () => {
+        Object.defineProperty(component.targetPriceFormControl, 'value', {
+          value: '123',
+          writable: true,
+        });
+        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceFormControl.setValue('');
+        expect(
+          component.targetPriceSourceFormControl.setValue
+        ).toHaveBeenCalledWith(TargetPriceSource.NO_ENTRY, {
+          emitEvent: false,
+        });
+      });
+      test('should set the targetPriceSource to INTERNAL when targetPriceSource is NO_ENTRY and targetPriceFormControl is valid', () => {
+        component.targetPriceFormControl.setValue(null);
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.NO_ENTRY
+        );
+        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceFormControl.setValue('123');
+        expect(
+          component.targetPriceSourceFormControl.setValue
+        ).toHaveBeenCalledWith(TargetPriceSource.INTERNAL, {
+          emitEvent: false,
+        });
+      });
+      test('should not set set the TargetPriceSource when targetPriceFormControl is NOT valid', () => {
+        component.targetPriceFormControl.setValue(null);
+        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceFormControl.setValue('sdf');
+        expect(
+          component.targetPriceSourceFormControl.setValue
+        ).not.toHaveBeenCalled();
+      });
+      test('should not update the targetPriceSource when it is already set to <> No_ENTRY when targetPrice is set/changed', () => {
+        component.targetPriceFormControl.setValue(null);
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.CUSTOMER
+        );
+        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceFormControl.setValue('123');
+        expect(
+          component.targetPriceSourceFormControl.setValue
+        ).not.toHaveBeenCalled();
+        expect(component.targetPriceSourceFormControl.value).toEqual(
+          TargetPriceSource.CUSTOMER
+        );
+      });
+    });
+
+    describe('targetPriceSourceFormControlChanges', () => {
+      test('should not reset targetPriceFormControl when targetPriceSource is NO_ENTRY and targetPriceFormControl is null', () => {
+        component.targetPriceFormControl.reset = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.NO_ENTRY
+        );
+        expect(component.targetPriceFormControl.reset).not.toHaveBeenCalled();
+      });
+      test('should reset targetPriceFormControl when targetPriceSource is NO_ENTRY', () => {
+        component.targetPriceFormControl.setValue('123');
+        component.targetPriceFormControl.reset = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.NO_ENTRY
+        );
+        expect(component.targetPriceFormControl.reset).toHaveBeenCalledWith(
+          null,
+          {
+            emitEvent: false,
+          }
+        );
+      });
+      test('should not reset targetPriceFormControl when targetPriceSource is not NO_ENTRY', () => {
+        component.targetPriceFormControl.reset = jest.fn();
+        component.addSubscriptions();
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.INTERNAL
+        );
+        expect(component.targetPriceFormControl.reset).not.toHaveBeenCalled();
+      });
     });
   });
   describe('materialNumberValid', () => {
@@ -220,6 +366,113 @@ describe('AddEntryComponent', () => {
       expect(
         component.targetPriceSourceFormControl.setValue
       ).toHaveBeenCalled();
+    });
+
+    test('should set targetPriceSource to undefined when targetPriceFormControl is empty', () => {
+      const item: MaterialTableItem = {
+        materialNumber: '1234',
+        materialDescription: 'desc',
+        customerMaterialNumber: 'cust',
+        targetPriceSource: undefined,
+        quantity: 10,
+        info: {
+          description: [ValidationDescription.Not_Validated],
+          valid: false,
+        },
+      };
+      component.quantity = item.quantity;
+      mockStore.dispatch = jest.fn();
+      component.matNumberInput = {
+        searchFormControl: new FormControl(item.materialNumber),
+        clearInput: jest.fn(),
+      } as any;
+      component.matDescInput = {
+        searchFormControl: new FormControl(item.materialDescription),
+        clearInput: jest.fn(),
+      } as any;
+
+      component.customerMatNumberInput = {
+        searchFormControl: new FormControl(item.customerMaterialNumber),
+        clearInput: jest.fn(),
+      } as any;
+
+      component.quantityFormControl = {
+        reset: jest.fn(),
+      } as any;
+
+      component.targetPriceFormControl = {
+        setValue: jest.fn(),
+        reset: jest.fn(),
+      } as any;
+
+      component.targetPriceSourceFormControl = {
+        value: TargetPriceSource.CUSTOMER,
+        setValue: jest.fn(),
+      } as any;
+
+      component.newCaseCreation = true;
+      component.targetPriceFormControl.setValue(null);
+
+      component.addRow();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ProcessCaseActions.addNewItemsToMaterialTable({
+          items: [item],
+        })
+      );
+    });
+    test('should set the targetPriceSource when the Value when <> NO Entry and targetPrice has a value', () => {
+      const item: MaterialTableItem = {
+        materialNumber: '1234',
+        materialDescription: 'desc',
+        customerMaterialNumber: 'cust',
+        targetPrice: 15,
+        targetPriceSource: TargetPriceSource.CUSTOMER,
+        quantity: 10,
+        info: {
+          description: [ValidationDescription.Not_Validated],
+          valid: false,
+        },
+      };
+      component.quantity = item.quantity;
+      mockStore.dispatch = jest.fn();
+      component.matNumberInput = {
+        searchFormControl: new FormControl(item.materialNumber),
+        clearInput: jest.fn(),
+      } as any;
+      component.matDescInput = {
+        searchFormControl: new FormControl(item.materialDescription),
+        clearInput: jest.fn(),
+      } as any;
+
+      component.customerMatNumberInput = {
+        searchFormControl: new FormControl(item.customerMaterialNumber),
+        clearInput: jest.fn(),
+      } as any;
+
+      component.quantityFormControl = {
+        reset: jest.fn(),
+      } as any;
+
+      component.targetPriceFormControl = {
+        value: 15,
+        setValue: jest.fn(),
+        reset: jest.fn(),
+      } as any;
+
+      component.targetPriceSourceFormControl = {
+        value: TargetPriceSource.CUSTOMER,
+        setValue: jest.fn(),
+      } as any;
+
+      component.newCaseCreation = true;
+      component.targetPriceFormControl.setValue('123');
+
+      component.addRow();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        ProcessCaseActions.addNewItemsToMaterialTable({
+          items: [item],
+        })
+      );
     });
   });
   describe('onQuantityKeyPress', () => {

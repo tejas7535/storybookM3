@@ -122,7 +122,23 @@ export class InputTableColumnDefService {
       headerName: translate('shared.caseMaterial.table.targetPriceSource'),
       field: 'targetPriceSource',
       sortable: true,
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          params.value
+            ? translate(
+                `shared.caseMaterial.addEntry.targetPriceSource.values.${params.value}`
+              )
+            : ColumnUtilityService.basicTransform(params),
+      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        params.data.targetPriceSource
+          ? translate(
+              `shared.caseMaterial.addEntry.targetPriceSource.values.${params.data.targetPriceSource}`
+            )
+          : ColumnUtilityService.basicTransform({
+              value: params.data.targetPriceSource,
+            } as ValueFormatterParams),
       cellRenderer: EditCaseMaterialComponent,
     },
     { ...this.BASE_COLUMN_DEFS[5], flex: null, width: 120 },

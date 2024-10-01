@@ -187,7 +187,7 @@
           "values": {
             "noEntry": "No Entry",
             "customer": "Customer",
-            "sales": "Sales"
+            "internal": "Internal"
           }
         },
         "customer": {

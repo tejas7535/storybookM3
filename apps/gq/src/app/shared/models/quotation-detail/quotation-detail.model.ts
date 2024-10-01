@@ -4,6 +4,7 @@ import {
 } from '@gq/core/store/reducers/models';
 
 import { AbcxClassification } from '../quotation/abcx-classification.enum';
+import { TargetPriceSource } from '../quotation/target-price-source.enum';
 import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
@@ -69,6 +70,7 @@ export class QuotationDetail {
   leadingPriceUnit: number;
   abcxClassification: AbcxClassification;
   targetPrice: number;
+  targetPriceSource: TargetPriceSource;
   mrpData: MrpData;
   rfqData: QuotationRfqData;
   fPricing: QuotationFPricingData;
