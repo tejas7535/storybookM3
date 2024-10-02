@@ -6,7 +6,7 @@
 * Angular Material, material design components
 * see https://material.angular.io
 */
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
 
 /***************************************************************************************************
   * UTILITIES
@@ -48,7 +48,7 @@ lubricator-selection-assistant {
   }
 
   .mat-mdc-radio-button {
-    @apply text-subtitle-2;
+    @apply text-title-small;
 
     .mdc-radio {
       transform: scale(0.7);
@@ -95,7 +95,7 @@ lubricator-selection-assistant {
   .accessory-table {
     @apply w-full;
     th {
-      @apply text-caption;
+      @apply text-body-small;
     }
     .accessory-group {
       @apply [&>th]:py-2 [&>th]:px-2 bg-background-dark text-left rounded-t-md border-x-4 border-[#f5f5f5];

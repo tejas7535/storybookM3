@@ -1,3 +1,8 @@
+.default {
+  @apply bg-surface-bright;
+  @apply text-on-surface #{!important};
+}
+
 .completed {
   border: 1px solid #3c7029;
   @apply bg-success;

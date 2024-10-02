@@ -1,9 +1,5 @@
 <ng-container *transloco="let t; read: 'recommendation.result'">
-  <mat-radio-group
-    class="flex gap-4 mb-4"
-    color="primary"
-    (change)="onSelectionChange($event)"
-  >
+  <mat-radio-group class="flex gap-4 mb-4" (change)="onSelectionChange($event)">
     @if(hasMinimumData) {
     <lsa-recommendation-selection-radio-button
       class="flex"
