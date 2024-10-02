@@ -207,7 +207,7 @@
   }
 
   .mat-mdc-slider .mdc-slider__track--inactive {
-    @apply #{$prefix}opacity-100;
+    @apply #{$prefix}opacity-100 #{!important};
   }
 
   /*
