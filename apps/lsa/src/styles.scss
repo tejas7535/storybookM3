@@ -63,7 +63,7 @@ lubricator-selection-assistant {
     .mdc-label {
       @apply pr-1;
       @apply cursor-pointer;
-      @apply text-medium-emphasis;
+      @apply text-on-surface-variant;
     }
 
     // green background
@@ -79,7 +79,7 @@ lubricator-selection-assistant {
     }
 
     &:not(.mat-mdc-radio-checked) {
-      @apply text-medium-emphasis;
+      @apply text-on-surface-variant;
     }
   }
 
