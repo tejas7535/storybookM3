@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Subject, takeUntil } from 'rxjs';
 
+import { environment } from '@lsa/environments/environment';
 import { Accessory } from '@lsa/shared/models';
 import { PushPipe } from '@ngrx/component';
 
@@ -59,6 +60,7 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
   private readonly formUpdate$ = new Subject<void>();
 
   public showEmptyState = true;
+  public imagePlaceholder = `${environment.assetsPath}/images/placeholder.png`;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.accessories.currentValue) {

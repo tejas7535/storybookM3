@@ -55,7 +55,9 @@
                   class="flex items-center flex-col md:flex-row space-y-1 md:space-y-0"
                 >
                   <img
-                    [src]="item.product_image"
+                    [src]="
+                      item.product_image ? item.product_image : imagePlaceholder
+                    "
                     class="mr-1 aspect-square object-cover w-16 h-16 flex-shrink-0"
                     alt=""
                   />
