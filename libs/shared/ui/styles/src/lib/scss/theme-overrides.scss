@@ -202,6 +202,14 @@
 }
 
 @mixin schaeffler-theme-overrides-m3($theme, $prefix) {
+  .mat-mdc-form-field-icon-suffix {
+    @apply #{$prefix}mr-2;
+  }
+
+  .mat-mdc-slider .mdc-slider__track--inactive {
+    @apply #{$prefix}opacity-100;
+  }
+
   /*
     weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
     in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust

@@ -27,7 +27,7 @@
     --mat-filled-button-state-layer-color: var(--on-secondary-container-color);
   }
 
-  .icon-button-primary {
+  .icon-button-primary:not(:disabled) {
     @include mat.icon-color($theme, $color-variant: primary);
     @include mat.icon-button-color($theme);
   }
@@ -49,7 +49,14 @@
       $theme,
       on-secondary-container
     )};
+
   --mat-datepicker-calendar-date-in-range-state-background-color: #{mat.get-theme-color(
+      $theme,
+      secondary-container
+    )};
+
+  //slider overrides
+  --mdc-slider-inactive-track-color: #{mat.get-theme-color(
       $theme,
       secondary-container
     )};
