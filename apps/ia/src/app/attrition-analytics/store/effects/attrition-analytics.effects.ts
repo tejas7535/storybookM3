@@ -1,205 +1,71 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
 
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { routerNavigationAction } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
+
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { selectRouterState } from '../../../core/store';
 import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-
-import { triggerLoad } from '../../../core/store/actions';
+  filterSelected,
+  timePeriodSelected,
+} from '../../../core/store/actions';
+import { getCurrentFilters } from '../../../core/store/selectors';
+import { EmployeesRequest } from '../../../shared/models';
+import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
-import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
+import { EmployeeCluster } from '../../models';
 import {
-  changeSelectedFeatures,
-  initializeSelectedFeatures,
-  loadAvailableFeatures,
-  loadAvailableFeaturesFailure,
-  loadAvailableFeaturesSuccess,
-  loadEmployeeAnalytics,
-  loadEmployeeAnalyticsFailure,
-  loadEmployeeAnalyticsSuccess,
-  loadFeatureImportance,
-  loadFeatureImportanceFailure,
-  loadFeatureImportanceSuccess,
-  selectRegion,
+  loadAvailableClusters,
+  loadAvailableClustersFailure,
+  loadAvailableClustersSuccess,
 } from '../actions/attrition-analytics.action';
-import {
-  getFeatureImportanceHasNext,
-  getFeatureImportancePageable,
-  getFeatureImportanceSort,
-  getMonthFromCurrentFilters,
-  getSelectedFeatureParams,
-  getSelectedFeatures,
-  getSelectedRegion,
-  getYearFromCurrentFilters,
-} from '../selectors/attrition-analytics.selector';
 
 @Injectable()
-export class AttritionAnalyticsEffects implements OnInitEffects {
-  loadAvailableFeatures$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadAvailableFeatures),
-      switchMap(() =>
-        this.attritionAnalyticsService.getAvailableFeatures().pipe(
-          map((data) => loadAvailableFeaturesSuccess({ data })),
-          catchError((error) =>
-            of(loadAvailableFeaturesFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    );
-  });
+export class AttritionAnalyticsEffects {
+  readonly FLUCTUATION_ANALYTICS_URL = `/${AppRoutePath.FluctuationAnalyticsPath}`;
 
-  loadEmployeeAnalytics$ = createEffect(() => {
+  filterChange$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadEmployeeAnalytics),
-      switchMap((result) =>
-        this.attritionAnalyticsService.getEmployeeAnalytics(result.params).pipe(
-          map((data) => loadEmployeeAnalyticsSuccess({ data })),
-          catchError((error) =>
-            of(loadEmployeeAnalyticsFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    );
-  });
-
-  initializeSelectedFeatures$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(initializeSelectedFeatures),
-      mergeMap((data) =>
-        this.store.select(getSelectedFeatureParams).pipe(
-          // eslint-disable-next-line ngrx/avoid-mapping-selectors
-          map((featuresSelectedByUser) => {
-            const features =
-              featuresSelectedByUser.length > 0
-                ? featuresSelectedByUser
-                : data.features;
-
-            return changeSelectedFeatures({ features });
-          })
-        )
-      )
-    );
-  });
-
-  selectRegion$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(selectRegion),
-      concatLatestFrom(() => this.store.select(getSelectedFeatureParams)),
-      mergeMap(([region, selectedFeatureParams]) =>
-        of(
-          loadEmployeeAnalytics({
-            params: selectedFeatureParams?.filter(
-              (feature) => feature.region === region.selectedRegion
-            ),
-          })
-        )
-      )
-    );
-  });
-
-  changeSelectedFeatures$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(changeSelectedFeatures),
-      concatLatestFrom(() => [
-        this.store.select(getSelectedFeatures),
-        this.store.select(getSelectedRegion),
-      ]),
-      tap(([action, _filters]) =>
-        this.stateService.setSelectedFeatures(action.features)
+      ofType(
+        filterSelected,
+        timePeriodSelected,
+        routerNavigationAction,
+        updateUserSettingsSuccess
       ),
-      switchMap(([params, _filters, selectedRegion]) =>
-        of(
-          loadEmployeeAnalytics({
-            params: params.features.filter(
-              (feature) => feature.region === selectedRegion
-            ),
-          })
-        )
-      )
-    );
-  });
-
-  loadNextFeatureImportance$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadFeatureImportance, selectRegion),
-      concatLatestFrom(() => [
-        this.store.select(getFeatureImportanceHasNext),
-        this.store.select(getFeatureImportancePageable),
-        this.store.select(getFeatureImportanceSort),
-        this.store.select(getSelectedRegion),
-        this.store.select(getYearFromCurrentFilters),
-        this.store.select(getMonthFromCurrentFilters),
-      ]),
+      concatLatestFrom(() => this.store.select(selectRouterState)),
       filter(
-        ([_action, hasNext, _pageable, _sort, selectedRegion, year, month]) =>
-          hasNext && !!selectedRegion && !!year && !!month
+        ([_action, router]) =>
+          router.state.url === this.FLUCTUATION_ANALYTICS_URL
       ),
-      switchMap(
-        ([_action, _hasNext, pageable, sort, selectedRegion, year, month]) =>
-          this.attritionAnalyticsService
-            .getFeatureImportance(
-              selectedRegion,
-              year,
-              month,
-              pageable.pageNumber + 1, // load next features
-              pageable.pageSize,
-              sort.property,
-              sort.direction
-            )
-            .pipe(
-              map((data) => loadFeatureImportanceSuccess({ data })),
-              catchError((error) =>
-                of(
-                  loadFeatureImportanceFailure({ errorMessage: error.message })
-                )
-              )
-            )
-      )
+      mergeMap(() => [loadAvailableClusters()])
     );
   });
 
-  loadFeatureImportance$ = createEffect(() => {
+  loadAvailableClusters$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadAvailableFeaturesSuccess),
-      switchMap(() => of(loadFeatureImportance()))
+      ofType(loadAvailableClusters),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([_action, request]) => request),
+      filter((request) => !!(request.timeRange && request.value)),
+      switchMap((request: EmployeesRequest) =>
+        this.attritionAnalyticsService.getAvailableClusters(request).pipe(
+          map((data: EmployeeCluster[]) =>
+            loadAvailableClustersSuccess({ data })
+          ),
+          catchError((error) =>
+            of(loadAvailableClustersFailure({ errorMessage: error.message }))
+          )
+        )
+      )
     );
   });
 
   constructor(
     private readonly store: Store,
-    private readonly actions$: Actions,
     private readonly attritionAnalyticsService: AttritionAnalyticsService,
-    private readonly stateService: AttritionAnalyticsStateService
+    private readonly actions$: Actions
   ) {}
-
-  ngrxOnInitEffects(): Action {
-    // load available features
-    this.store.dispatch(loadAvailableFeatures());
-
-    // set default features
-    const selectedFeatures = this.stateService.getSelectedFeatures();
-    if (selectedFeatures.length > 0) {
-      this.store.dispatch(
-        selectRegion({
-          // get latest saved feature's region
-          selectedRegion: selectedFeatures.at(-1).region,
-        })
-      );
-    }
-
-    this.store.dispatch(
-      initializeSelectedFeatures({
-        features: selectedFeatures,
-      })
-    );
-
-    return triggerLoad();
-  }
 }

@@ -1,4 +1,8 @@
 :host ::ng-deep {
+  .ia-badge {
+    @apply ml-1 text-white rounded-xl p-1 text-[10px] leading-none inline-block align-super;
+  }
+
   .mat-mdc-tab-header {
     --mdc-secondary-navigation-tab-container-height: 32px;
   }

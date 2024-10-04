@@ -13,12 +13,11 @@ import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { SharedModule } from '../shared/shared.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { AttritionAnalyticsRoutingModule } from './attrition-analytics.routing.module';
-import { EditFeatureSelectionModule } from './edit-feature-selection/edit-feature-selection.module';
 import { FeatureAnalysisModule } from './feature-analysis/feature-analysis.module';
-import { FeatureImportanceModule } from './feature-importance/feature-importance.module';
 import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import * as fromAttritionAnalytics from './store';
 import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.effects';
+import { NavButtonsComponent } from '../shared/nav-buttons/nav-buttons.component';
 
 @NgModule({
   declarations: [AttritionAnalyticsComponent],
@@ -32,10 +31,9 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     ),
     EffectsModule.forFeature([AttritionAnalyticsEffects]),
     SharedTranslocoModule,
-    EditFeatureSelectionModule,
-    FeatureImportanceModule,
     FeatureAnalysisModule,
     FeaturesDialogModule,
+    NavButtonsComponent,
     SelectInputModule,
     MatIconModule,
     MatDialogModule,

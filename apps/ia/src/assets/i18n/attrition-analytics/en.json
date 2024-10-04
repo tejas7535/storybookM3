@@ -1,4 +1,7 @@
 {
+  "cluster": {
+    "moreFeaturesAvailableTooltip": "More features are available"
+  },
   "unforcedFluctuationAnalytics": {
     "title": "Unforced Fluctuation",
     "filter": {
@@ -6,18 +9,6 @@
       "hint": "Select a region or subregion"
     },
     "editButtonTitle": "Edit feature selection"
-  },
-  "addAnalysis": {
-    "buttonText": "Add analysis",
-    "featuresDialog": {
-      "title": "Choose analysis features",
-      "availableFeatures": "Available Features",
-      "selectedFeatures": "Selected Features",
-      "confirm": "Confirm",
-      "amountSelected": "{{ selected }} of {{ total }} selected",
-      "selectedFeaturesMaxInfo": "You may only select up to {{ selectedFeaturesMax }} features"
-    },
-    "add": "Add analysis"
   },
   "edit": "Edit",
   "move": "Move",
@@ -28,68 +19,5 @@
     "attritionRate": "Unforced fluctuation",
     "totalEmployees": "Total employees",
     "totalUnforcedLeavers": "Total unforced leavers"
-  },
-  "featureImportance": {
-    "title": "Top Drivers of Unforced Fluctuation",
-    "xAxisName": "SHAP value",
-    "legend": {
-      "title": "Feature Value",
-      "top": "High",
-      "bottom": "Low"
-    },
-    "loadMore": "Load more features"
-  },
-  "features": {
-    "absenceDays": "Absence Days",
-    "age": "Age",
-    "board": "Board",
-    "businessArea2": "Business Area 2",
-    "certificate": "Certificate",
-    "challengeGroup": "Challenge Group",
-    "childrenNumber": "Children Number",
-    "classifiedEmployeeSubgroup": "Classified Employee Subgroup",
-    "collarType": "Collar Type",
-    "commutingDistance": "Commuting Distance (in km)",
-    "companyCodeEp1": "Company Code Ep1",
-    "contractType": "Contract Type",
-    "country": "Country",
-    "divisionSegment": "Division Segment",
-    "education": "Education",
-    "educationEstablishment": "Education Establishment",
-    "educationalEstablishment": "Educational Establishment",
-    "flagDirect": "Flag Direct",
-    "flagDirectIndirect": "Flag Direct Indirect",
-    "function": "Function",
-    "gender": "Gender",
-    "job": "Job",
-    "jobCatalog": "Job Catalog",
-    "jobFamily": "Job Family",
-    "jobObject": "Job Object",
-    "level": "Level",
-    "longtermSick": "Long-Term Sick",
-    "marriage": "Marriage",
-    "national": "National",
-    "ohArea": "Oh Area",
-    "paScore": "Pa Score",
-    "personalGrowth": "Personal Growth",
-    "position": "Position",
-    "positionGrading": "Position Grading",
-    "positionGrowth": "Position Growth",
-    "positionType": "Position Type",
-    "probationPeriodStatus": "Probation Period Status",
-    "psg": "Psg",
-    "reportingObject": "Reporting Object",
-    "retirementStatus": "Retirement Status",
-    "segmentUnit": "Segment Unit",
-    "serviceLength": "Service Length (in years)",
-    "stereoType": "Stereo Type",
-    "subBoard": "Sub Board",
-    "subEntity": "Sub Entity",
-    "subFunction": "Sub Function",
-    "subJobFamily": "Sub Job Family",
-    "subregion": "Sub Region",
-    "subSegment": "Sub Segment",
-    "weeklyWorkingHour": "Weekly Working Hour",
-    "workLocation": "Work Location"
   }
 }

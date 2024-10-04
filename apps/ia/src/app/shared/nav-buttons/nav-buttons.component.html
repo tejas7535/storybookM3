@@ -7,6 +7,22 @@
   *transloco="let t"
 >
   @for (item of items; track $index) {
-    <mat-tab [label]="t(item.translation)"></mat-tab>
+    <mat-tab #matTab>
+      <ng-template mat-tab-label>
+        <span>
+          {{ item.translation ? t(item.translation) : item.label }}
+        </span>
+        @if (item.badge) {
+          <sup
+            class="ia-badge"
+            [class.bg-medium-emphasis]="$index === selectedIndex"
+            [class.bg-low-emphasis]="$index !== selectedIndex"
+            [matTooltip]="t(item.tooltipTranslation)"
+            matTooltipPosition="above"
+            >{{ item.badge }}
+          </sup>
+        }
+      </ng-template>
+    </mat-tab>
   }
 </mat-tab-group>

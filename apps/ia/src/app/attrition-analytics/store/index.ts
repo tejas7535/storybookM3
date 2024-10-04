@@ -1,255 +1,79 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { Pageable, Sort, SortDirection } from '../../shared/models';
+import { EmployeeCluster } from '../models';
 import {
-  EmployeeAnalytics,
-  FeatureImportanceGroup,
-  FeatureParams,
-} from '../models';
-import {
-  changeSelectedFeatures,
-  loadAvailableFeatures,
-  loadAvailableFeaturesFailure,
-  loadAvailableFeaturesSuccess,
-  loadEmployeeAnalytics,
-  loadEmployeeAnalyticsFailure,
-  loadEmployeeAnalyticsSuccess,
-  loadFeatureImportance,
-  loadFeatureImportanceFailure,
-  loadFeatureImportanceSuccess,
-  selectRegion,
+  loadAvailableClusters,
+  loadAvailableClustersFailure,
+  loadAvailableClustersSuccess,
 } from './actions/attrition-analytics.action';
 
 export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
 
 export interface AttritionAnalyticsState {
-  filter: {
-    regions: string[];
-    selectedRegion: string;
-  };
-  employeeAnalytics: {
-    features: {
-      data: EmployeeAnalytics[];
+  clusters: {
+    data: {
+      data: EmployeeCluster[];
       loading: boolean;
       errorMessage: string;
     };
-    availableFeatures: {
-      data: FeatureParams[];
-      loading: boolean;
-      errorMessage: string;
-    };
-  };
-  featureImportance: {
-    data: FeatureImportanceGroup[];
-    hasNext: boolean;
-    pageable: Pageable;
-    sort: Sort;
-    loading: boolean;
-    errorMessage: string;
-  };
-  selectedByUser: {
-    features: FeatureParams[];
+    selected: string;
   };
 }
 
 export const initialState: AttritionAnalyticsState = {
-  filter: {
-    regions: undefined,
-    selectedRegion: undefined,
-  },
-  employeeAnalytics: {
-    features: {
+  clusters: {
+    data: {
       data: undefined,
       loading: false,
       errorMessage: undefined,
     },
-    availableFeatures: {
-      data: undefined,
-      loading: false,
-      errorMessage: undefined,
-    },
-  },
-  selectedByUser: {
-    features: [],
-  },
-  featureImportance: {
-    data: undefined,
-    pageable: {
-      pageNumber: -1, // will automatically use pageNumber + 1
-      pageSize: 10,
-    },
-    sort: {
-      property: 'max_y_pos',
-      direction: SortDirection.DESC,
-    },
-    hasNext: true, // initial call
-    loading: false,
-    errorMessage: undefined,
+    selected: undefined,
   },
 };
 
 export const attritionAnalyticsReducer = createReducer(
   initialState,
   on(
-    selectRegion,
-    (
-      state: AttritionAnalyticsState,
-      { selectedRegion }
-    ): AttritionAnalyticsState => ({
-      ...state,
-      filter: {
-        ...state.filter,
-        selectedRegion,
-      },
-      featureImportance: {
-        ...initialState.featureImportance,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    loadEmployeeAnalytics,
+    loadAvailableClusters,
     (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
       ...state,
-      employeeAnalytics: {
-        features: {
-          ...state.employeeAnalytics.features,
-          loading: true,
-        },
-        availableFeatures: {
-          ...state.employeeAnalytics.availableFeatures,
-        },
-      },
-    })
-  ),
-  on(
-    loadEmployeeAnalyticsSuccess,
-    (state: AttritionAnalyticsState, { data }): AttritionAnalyticsState => ({
-      ...state,
-      employeeAnalytics: {
-        ...state.employeeAnalytics,
-        features: {
-          ...state.employeeAnalytics.features,
-          data,
-          loading: false,
-        },
-      },
-    })
-  ),
-  on(
-    loadEmployeeAnalyticsFailure,
-    (
-      state: AttritionAnalyticsState,
-      { errorMessage }
-    ): AttritionAnalyticsState => ({
-      ...state,
-      employeeAnalytics: {
-        features: {
-          ...state.employeeAnalytics.features,
-          data: undefined,
-          loading: false,
-          errorMessage,
-        },
-        availableFeatures: {
-          ...state.employeeAnalytics.availableFeatures,
-        },
-      },
-    })
-  ),
-  on(
-    changeSelectedFeatures,
-    (
-      state: AttritionAnalyticsState,
-      { features: employeeAnalyticsFeatures }
-    ): AttritionAnalyticsState => ({
-      ...state,
-      selectedByUser: {
-        ...state.selectedByUser,
-        features: employeeAnalyticsFeatures,
-      },
-    })
-  ),
-  on(
-    loadAvailableFeatures,
-    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
-      ...state,
-      employeeAnalytics: {
-        ...state.employeeAnalytics,
-        availableFeatures: {
-          ...state.employeeAnalytics.availableFeatures,
+      clusters: {
+        ...state.clusters,
+        data: {
+          ...state.clusters.data,
           loading: true,
         },
       },
     })
   ),
   on(
-    loadAvailableFeaturesSuccess,
+    loadAvailableClustersSuccess,
     (state: AttritionAnalyticsState, { data }): AttritionAnalyticsState => ({
       ...state,
-      employeeAnalytics: {
-        ...state.employeeAnalytics,
-        availableFeatures: {
-          ...state.employeeAnalytics.availableFeatures,
+      clusters: {
+        ...state.clusters,
+        data: {
           data,
           loading: false,
+          errorMessage: undefined,
         },
       },
     })
   ),
   on(
-    loadAvailableFeaturesFailure,
+    loadAvailableClustersFailure,
     (
       state: AttritionAnalyticsState,
       { errorMessage }
     ): AttritionAnalyticsState => ({
       ...state,
-      employeeAnalytics: {
-        ...state.employeeAnalytics,
-        availableFeatures: {
-          ...state.employeeAnalytics.availableFeatures,
-          errorMessage,
+      clusters: {
+        ...state.clusters,
+        data: {
+          ...state.clusters.data,
           loading: false,
+          errorMessage,
         },
-      },
-    })
-  ),
-  on(
-    loadFeatureImportance,
-    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
-      ...state,
-      featureImportance: {
-        ...state.featureImportance,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    loadFeatureImportanceSuccess,
-    (state: AttritionAnalyticsState, { data }): AttritionAnalyticsState => ({
-      ...state,
-      featureImportance: {
-        ...state.featureImportance,
-        data:
-          state.featureImportance.data === undefined
-            ? [...data.content].reverse() // reverse to have most important feature on top
-            : [...[...data.content].reverse(), ...state.featureImportance.data],
-        hasNext: data.hasNext,
-        pageable: data.pageable,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    loadFeatureImportanceFailure,
-    (
-      state: AttritionAnalyticsState,
-      { errorMessage }
-    ): AttritionAnalyticsState => ({
-      ...state,
-      featureImportance: {
-        ...state.featureImportance,
-        errorMessage,
-        loading: false,
       },
     })
   )

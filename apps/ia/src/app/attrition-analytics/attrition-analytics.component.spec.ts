@@ -6,32 +6,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
-import { marbles } from 'rxjs-marbles/marbles';
 
 import { LoadingSpinnerComponent } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
-import { IdValue } from '../shared/models';
 import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
-import { EditFeatureSelectionComponent } from './edit-feature-selection/edit-feature-selection.component';
 import { FeatureAnalysisComponent } from './feature-analysis/feature-analysis.component';
-import { FeatureImportanceComponent } from './feature-importance/feature-importance.component';
-import { FeatureParams } from './models/feature-params.model';
 import { initialState } from './store';
-import {
-  changeSelectedFeatures,
-  loadFeatureImportance,
-  selectRegion,
-} from './store/actions/attrition-analytics.action';
-import {
-  getEmployeeAnalyticsLoading,
-  getFeatureImportanceGroups,
-  getFeatureImportanceHasNext,
-  getFeatureImportanceLoading,
-  getFeatureOverallAttritionRate,
-} from './store/selectors/attrition-analytics.selector';
 
 describe('AttritionAnalyticsComponent', () => {
   let component: AttritionAnalyticsComponent;
@@ -57,9 +39,7 @@ describe('AttritionAnalyticsComponent', () => {
     ],
     declarations: [
       MockComponent(FeatureAnalysisComponent),
-      MockComponent(FeatureImportanceComponent),
       MockComponent(LoadingSpinnerComponent),
-      MockComponent(EditFeatureSelectionComponent),
     ],
   });
 
@@ -69,144 +49,9 @@ describe('AttritionAnalyticsComponent', () => {
 
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
-    component.allSelectedFeatures = [];
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    test(
-      'should set bar chart configs',
-      marbles((m) => {
-        const expected = m.cold('a', { config: [] as BarChartConfig[] });
-
-        component.ngOnInit();
-
-        m.expect(component.barChartConfigs$).toBeObservable(expected);
-      })
-    );
-
-    test(
-      'should set featureAnalysisLoading',
-      marbles((m) => {
-        store.overrideSelector(getEmployeeAnalyticsLoading, true);
-
-        m.expect(component.featureAnalysisLoading$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
-
-    test(
-      'should set featureImportanceLoading',
-      marbles((m) => {
-        store.overrideSelector(getFeatureImportanceLoading, true);
-
-        m.expect(component.featureImportanceLoading$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
-
-    test(
-      'should set featureImportanceGroups',
-      marbles((m) => {
-        store.overrideSelector(getFeatureImportanceGroups, []);
-
-        m.expect(component.featureImportanceGroups$).toBeObservable(
-          m.cold('a', { a: [] })
-        );
-      })
-    );
-
-    test(
-      'should set featureImportanceHasNext',
-      marbles((m) => {
-        store.overrideSelector(getFeatureImportanceHasNext, true);
-
-        m.expect(component.featureImportanceHasNext$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
-
-    test(
-      'should set featureAnalysisOverallAttritionRate',
-      marbles((m) => {
-        store.overrideSelector(getFeatureOverallAttritionRate, 0.3);
-
-        m.expect(component.featureAnalysisOverallAttritionRate$).toBeObservable(
-          m.cold('a', { a: 0.3 })
-        );
-      })
-    );
-  });
-
-  describe('changeSelectedFeatures', () => {
-    test('should dispatch selected features', () => {
-      const feature1 = { feature: 'test 1' } as FeatureParams;
-      const feature2 = { feature: 'test 2' } as FeatureParams;
-      const features = [feature1, feature2];
-      component.replaceRegionSelectedFeatures = jest
-        .fn()
-        .mockReturnValue(features);
-
-      component.changeSelectedFeatures(features);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        changeSelectedFeatures({ features })
-      );
-    });
-  });
-
-  describe('loadNextFeatureImportance', () => {
-    test('should dispatch action', () => {
-      component.loadNextFeatureImportance();
-
-      expect(store.dispatch).toHaveBeenCalledWith(loadFeatureImportance());
-    });
-  });
-
-  describe('regionSelected', () => {
-    test('should dispatch action', () => {
-      const region = new IdValue('AP', 'Asia Pacific');
-      component.regionSelected(region);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        selectRegion({ selectedRegion: region.id })
-      );
-    });
-  });
-
-  describe('replaceRegionSelectedFeatures', () => {
-    test('should replace region selected features', () => {
-      const region = 'AP';
-      const europeFeature = { feature: 'Distance', region: 'Europe' };
-      component.region = region;
-
-      const allSelectedFeatures = [
-        { feature: 'Age', region },
-        { feature: 'Gender', region },
-        { feature: 'Position', region },
-        europeFeature,
-      ] as FeatureParams[];
-
-      const regionFeatures = [
-        { feature: 'Height', region },
-        { feature: 'Gender', region },
-      ] as FeatureParams[];
-
-      const result = component.replaceRegionSelectedFeatures(
-        allSelectedFeatures,
-        regionFeatures
-      );
-
-      expect(result.length).toBe(3);
-      expect(result[0]).toBe(europeFeature);
-      expect(result[1]).toBe(regionFeatures[0]);
-      expect(result[2]).toBe(regionFeatures[1]);
-    });
   });
 });

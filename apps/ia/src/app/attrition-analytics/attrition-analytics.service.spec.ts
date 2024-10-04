@@ -5,19 +5,19 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { Slice, SortDirection } from '../shared/models';
+import { EmployeesRequest, FilterDimension } from '../shared/models';
 import { AttritionAnalyticsService } from './attrition-analytics.service';
-import {
-  EmployeeAnalytics,
-  FeatureImportanceGroup,
-  FeatureImportanceType,
-  FeatureParams,
-} from './models';
+import { EmployeeCluster } from './models';
 
 describe('AttritionAnalyticsService', () => {
   let httpMock: HttpTestingController;
   let service: AttritionAnalyticsService;
   let spectator: SpectatorService<AttritionAnalyticsService>;
+  const employeeRequest: EmployeesRequest = {
+    filterDimension: FilterDimension.BOARD,
+    value: 'Test',
+    timeRange: '123|321',
+  };
 
   const createService = createServiceFactory({
     service: AttritionAnalyticsService,
@@ -38,83 +38,15 @@ describe('AttritionAnalyticsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getAvailableFeatures', () => {
-    test('should get available features', () => {
-      const mock: FeatureParams[] = [];
-      service.getAvailableFeatures().subscribe((response) => {
+  describe('getAvailableClusters', () => {
+    test('should get available clusters', () => {
+      const mock: EmployeeCluster[] = [];
+      service.getAvailableClusters(employeeRequest).subscribe((response) => {
         expect(response).toEqual(mock);
       });
-
-      const req = httpMock.expectOne(`api/v1/available-features`);
-      expect(req.request.method).toBe('GET');
-      req.flush(mock);
-    });
-  });
-
-  describe('getEmployeeAnalytics', () => {
-    test('should get employee analytics', () => {
-      const mock: EmployeeAnalytics[] = [];
-      const param: FeatureParams[] = [
-        { feature: 'Age', region: 'Nebrasca', year: 2021, month: 11 },
-      ];
-      service.getEmployeeAnalytics(param).subscribe((response) => {
-        expect(response).toEqual(mock);
-      });
-
-      const req = httpMock.expectOne(`api/v1/employee-analytics`);
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(param);
-      req.flush(mock);
-    });
-  });
-
-  describe('getFeatureImportance', () => {
-    test('should get feature importance', () => {
-      const mock: Slice<FeatureImportanceGroup> = {
-        hasNext: true,
-        hasPrevious: false,
-        pageable: {
-          pageNumber: 0,
-          pageSize: 10,
-        },
-        content: [
-          {
-            feature: 'Test',
-            type: FeatureImportanceType.NUMERIC,
-            dataPoints: [
-              {
-                shapValue: 1,
-                value: 'test a',
-                yaxisPos: 18,
-                colorMap: 0.3,
-              },
-            ],
-          },
-        ],
-      };
-      const region = 'Test';
-      const year = 2022;
-      const month = 8;
-      const page = 0;
-      const size = 10;
-      const sortProperty = 'max_y_post';
-      const sortDirection = SortDirection.DESC;
-      service
-        .getFeatureImportance(
-          region,
-          year,
-          month,
-          page,
-          size,
-          sortProperty,
-          sortDirection
-        )
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
 
       const req = httpMock.expectOne(
-        `api/v1/feature-importance?region=${region}&year=${year}&month=${month}&page=${page}&size=${size}&sort=${sortProperty},${sortDirection}`
+        `api/v1/available-clusters?dimension=BOARD&value=Test&time_range=123%7C321`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

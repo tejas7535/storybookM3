@@ -22,9 +22,7 @@
           !(isLegalRouteActive$ | ngrxPush) &&
           !(isCookieRouteActive$ | ngrxPush)
         ) {
-          @if (!(isFluctuationAnalyticsPageActive$ | ngrxPush)) {
-            <ia-filter-section></ia-filter-section>
-          }
+          <ia-filter-section></ia-filter-section>
           <nav
             mat-tab-nav-bar
             *transloco="let t; read: 'tabs'"

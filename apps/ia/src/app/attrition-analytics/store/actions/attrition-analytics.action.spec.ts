@@ -1,91 +1,36 @@
-import { FeatureImportanceGroup } from '../../models';
-import { EmployeeAnalytics } from '../../models/employee-analytics.model';
-import { FeatureParams } from '../../models/feature-params.model';
+import { EmployeeCluster } from '../../models';
 import {
-  changeSelectedFeatures,
-  loadEmployeeAnalytics,
-  loadEmployeeAnalyticsFailure,
-  loadEmployeeAnalyticsSuccess,
-  loadFeatureImportance,
-  loadFeatureImportanceFailure,
-  loadFeatureImportanceSuccess,
+  loadAvailableClusters,
+  loadAvailableClustersFailure,
+  loadAvailableClustersSuccess,
 } from './attrition-analytics.action';
 
 describe('Attrition Analytics Actions', () => {
   const errorMessage = 'An error occured';
 
-  test('loadEmployeeAnalytics', () => {
-    const action = loadEmployeeAnalytics({ params: [] });
-
-    expect(action).toEqual({
-      params: [],
-      type: '[AttritionAnalytics] Load Employee Analytics',
+  test('should load available clusters', () => {
+    expect(loadAvailableClusters()).toEqual({
+      type: '[AttritionAnalytics] Load Available Clusters',
     });
   });
 
-  test('loadEmployeeAnalyticsSuccess', () => {
-    const data: EmployeeAnalytics[] = [];
-    const action = loadEmployeeAnalyticsSuccess({ data });
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Load Employee Analytics Success',
-      data,
-    });
-  });
-
-  test('loadEmployeeAnalyticsFailure', () => {
-    const action = loadEmployeeAnalyticsFailure({ errorMessage });
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Load Employee Analytics Failure',
-      errorMessage,
-    });
-  });
-
-  test('changeSelectedFeatures', () => {
-    const features: FeatureParams[] = [];
-    const action = changeSelectedFeatures({ features });
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Change Selected Features',
-      features,
-    });
-  });
-
-  test('loadFeatureImportance', () => {
-    const action = loadFeatureImportance();
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Load Feature Importance',
-    });
-  });
-
-  test('loadFeatureImportanceSuccess', () => {
-    const data = {
-      hasNext: true,
-      hasPrevious: false,
-      pageable: {
-        pageNumber: 0,
-        pageSize: 10,
+  test('should load available clusters success', () => {
+    const data: EmployeeCluster[] = [
+      {
+        name: 'Cluster 1',
+        allFeatures: 20,
+        availableFeatures: 10,
       },
-      content: [] as FeatureImportanceGroup[],
-    };
-
-    const action = loadFeatureImportanceSuccess({
-      data,
-    });
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Load Feature Importance Success',
+    ];
+    expect(loadAvailableClustersSuccess({ data })).toEqual({
+      type: '[AttritionAnalytics] Load Available Clusters Success',
       data,
     });
   });
 
-  test('loadFeatureImportanceFailure', () => {
-    const action = loadFeatureImportanceFailure({ errorMessage });
-
-    expect(action).toEqual({
-      type: '[AttritionAnalytics] Load Feature Importance Failure',
+  test('should load available clusters failure', () => {
+    expect(loadAvailableClustersFailure({ errorMessage })).toEqual({
+      type: '[AttritionAnalytics] Load Available Clusters Failure',
       errorMessage,
     });
   });

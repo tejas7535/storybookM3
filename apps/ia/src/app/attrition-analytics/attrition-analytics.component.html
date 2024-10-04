@@ -1,51 +1,8 @@
 <ng-container *transloco="let t; read: 'attritionAnalytics'">
   <div class="flex flex-col lg:grid lg:grid-cols-12 gap-4 pb-4">
-    <div class="col-span-5 self-center mr-auto text-high-emphasis">
-      <h5>
-        {{ t('unforcedFluctuationAnalytics.title') }}
-        {{ year$ | ngrxPush }}
-        @if (featureAnalysisOverallAttritionRate$ | ngrxPush) {
-          ({{
-            featureAnalysisOverallAttritionRate$ | ngrxPush | percent: '1.0-2'
-          }})
-        }
-      </h5>
-    </div>
-    <div class="col-span-3 xl:col-span-2">
-      <ia-select-input
-        [appearance]="'fill'"
-        [options]="availableRegions$ | ngrxPush"
-        [selectedOption]="region"
-        [disabled]="false"
-        [label]="t('unforcedFluctuationAnalytics.filter.label')"
-        [hint]="t('unforcedFluctuationAnalytics.filter.hint')"
-        (selected)="regionSelected($event)"
-      ></ia-select-input>
-    </div>
-    <div class="col-start-10 col-span-3 self-center justify-self-end">
-      <ia-edit-feature-selection
-        [region]="region"
-        [selectors]="selectors$ | ngrxPush"
-        (changeSelectedFeatures)="changeSelectedFeatures($event)"
-      ></ia-edit-feature-selection>
-    </div>
+    <div class="col-span-5 self-center mr-auto text-high-emphasis"></div>
   </div>
+  <ia-nav-buttons [items]="clusters | ngrxPush"></ia-nav-buttons>
 
-  <div class="lg:col-span-2 col-span-4 flex flex-col gap-4">
-    <ia-feature-analysis
-      [barChartConfigs]="barChartConfigs$ | ngrxPush"
-      [loading]="featureAnalysisLoading$ | ngrxPush"
-      [region]="region"
-      [selectedFeatures]="selectedFeaturesForSelectedRegion$ | ngrxPush"
-      (reorderFeatures)="changeSelectedFeatures($event)"
-      (editFeatureSelection)="openEditFeatureSelectionDialog()"
-    ></ia-feature-analysis>
-    <ia-feature-importance
-      class="w-full"
-      [loading]="featureImportanceLoading$ | ngrxPush"
-      [hasNextFeatures]="featureImportanceHasNext$ | ngrxPush"
-      [groups]="featureImportanceGroups$ | ngrxPush"
-      (loadNext)="loadNextFeatureImportance()"
-    ></ia-feature-importance>
-  </div>
+  <div class="lg:col-span-2 col-span-4 flex flex-col gap-4"></div>
 </ng-container>

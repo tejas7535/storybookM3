@@ -1,5 +1,6 @@
 export * from './employee-analytics.model';
 export * from './employee-analytics-translations.model';
+export * from './employee-cluster.model';
 export * from './feature-change.model';
 export * from './feature-importance-data-point.model';
 export * from './feature-importance-data-point.model';
