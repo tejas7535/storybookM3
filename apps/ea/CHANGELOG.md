@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.12.0...ea-v1.12.1) (2024-10-07)
+
+
+### Features
+
+* **ea:** add advertising id consent change to not display one trust … ([#6586](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6586)) ([2bf5a02](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2bf5a02d4b50c55767813985c4c6a9d6e0877d10))
+
 ## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.11.0...ea-v1.12.0) (2024-09-30)
 
 
