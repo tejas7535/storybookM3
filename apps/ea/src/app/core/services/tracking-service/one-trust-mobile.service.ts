@@ -6,6 +6,7 @@ import { Capacitor } from '@capacitor/core';
 import { environment } from '@ea/environments/environment';
 import { TranslocoService } from '@jsverse/transloco';
 
+import { AdvertisingIdService } from './advertising-id.service';
 import {
   ConsentResponse,
   IdfaStatus,
@@ -26,7 +27,10 @@ export class OneTrustMobileService {
     fromEvent<ConsentResponse>(document, this.categoryId);
   private currentLanguage: string;
 
-  constructor(private readonly translocoService: TranslocoService) {}
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly addvertisingIdService: AdvertisingIdService
+  ) {}
 
   public initTracking(): void {
     if (Capacitor.isNativePlatform()) {
@@ -59,19 +63,34 @@ export class OneTrustMobileService {
       {},
       () => {
         if (Capacitor.getPlatform() === 'ios') {
-          window.OneTrust.showConsentUI(
-            window.OneTrust.devicePermission.idfa,
-            (_status: IdfaStatus) => {
-              // general prompt, action handled by OneTrust native plugin
-              this.showBanner();
-            }
-          );
+          this.handleiOSConsentChange();
         } else {
           this.showBanner();
         }
       },
       (_error: any) => {
         // no action required, tracking will not be started.
+      }
+    );
+  }
+
+  private handleiOSConsentChange(): void {
+    this.addvertisingIdService.initializeStatusObservable();
+
+    window.OneTrust.showConsentUI(
+      window.OneTrust.devicePermission.idfa,
+      (_status: IdfaStatus) => {
+        if (_status === IdfaStatus.Authorized) {
+          this.showBanner();
+
+          return;
+        }
+
+        this.addvertisingIdService.getAddStatus().subscribe((status) => {
+          if (status === this.addvertisingIdService.authorized) {
+            this.showBanner();
+          }
+        });
       }
     );
   }

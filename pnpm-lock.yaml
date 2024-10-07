@@ -475,6 +475,9 @@ importers:
 
   apps/ea:
     dependencies:
+      '@capacitor-community/advertising-id':
+        specifier: 6.0.0
+        version: 6.0.0(@capacitor/core@6.1.0)
       '@capacitor-community/file-opener':
         specifier: ^6.0.0
         version: 6.0.0(@capacitor/core@6.1.0)
@@ -2153,6 +2156,11 @@ packages:
       '@angular/forms': ~15.2.3
       standard-version: 9.1.1
 
+  '@capacitor-community/advertising-id@6.0.0':
+    resolution: {integrity: sha512-VNwjdaNufiBvzh6h/2hgE5NGRe259Da+lMxuioz6cBfXg6yWYk6CRSFZCAs2HEuUn1dIv596MY2TMjWdcNLNVw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor-community/advertising-id/-/advertising-id-6.0.0.tgz}
+    peerDependencies:
+      '@capacitor/core': ^6.0.0
+
   '@capacitor-community/file-opener@6.0.0':
     resolution: {integrity: sha512-nJ9S5rCqnVDBKfqdjDhrYOIO9JLeScFkRfKLs2G+d6Df73vrJMes8dr+dGSEvKiPhyjRhICW5imDJEbzaD8KpA==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
@@ -2173,7 +2181,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor/keyboard@6.0.2':
-    resolution: {integrity: sha512-fOfO3rQ0ZXuTHpK03INVTwmBnpqMiH8EHPpNaHjwjKwdrVRWBvtgIFhuyHNXh53rdcXw+uHB+1RIiNabnCrITw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/keyboard/-/keyboard-6.0.2.tgz}
+    resolution: {integrity: sha512-fOfO3rQ0ZXuTHpK03INVTwmBnpqMiH8EHPpNaHjwjKwdrVRWBvtgIFhuyHNXh53rdcXw+uHB+1RIiNabnCrITw==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -16335,6 +16343,10 @@ snapshots:
       '@angular/forms': 18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
       standard-version: 9.1.1
       tslib: 2.4.0
+
+  '@capacitor-community/advertising-id@6.0.0(@capacitor/core@6.1.0)':
+    dependencies:
+      '@capacitor/core': 6.1.0
 
   '@capacitor-community/file-opener@6.0.0(@capacitor/core@6.1.0)':
     dependencies:

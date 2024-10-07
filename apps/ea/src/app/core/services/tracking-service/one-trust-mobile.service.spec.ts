@@ -7,7 +7,8 @@ import { Capacitor } from '@capacitor/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { OneTrustInterface } from './one-trust.interface';
+import { AdvertisingIdService } from './advertising-id.service';
+import { IdfaStatus, OneTrustInterface } from './one-trust.interface';
 import { OneTrustMobileService } from './one-trust-mobile.service';
 const getActiveLangMock = jest.fn().mockReturnValue('pl');
 
@@ -25,6 +26,7 @@ declare const window: Window &
 describe('OneTrustMobileService', () => {
   let spectator: SpectatorService<OneTrustMobileService>;
   let service: OneTrustMobileService;
+  let advertisingIdServiceMock: AdvertisingIdService;
   const startSDKMock = jest.fn();
   const shouldShowBannerMock = jest.fn();
   const showBannerMock = jest.fn();
@@ -57,12 +59,21 @@ describe('OneTrustMobileService', () => {
           langChanges$: langChangesObservable$,
         },
       },
+      {
+        provide: AdvertisingIdService,
+        useValue: {
+          initializeStatusObservable: jest.fn(),
+          getAddStatus: jest.fn(),
+          authorized: 'Authorized',
+        },
+      },
     ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(OneTrustMobileService);
+    advertisingIdServiceMock = spectator.inject(AdvertisingIdService);
   });
 
   it('should be created', () => {
@@ -150,6 +161,12 @@ describe('OneTrustMobileService', () => {
         successCallback('status');
       });
 
+      it('should intialize the advertising id status observable', () => {
+        expect(
+          advertisingIdServiceMock.initializeStatusObservable
+        ).toHaveBeenCalled();
+      });
+
       it('should show the consent ui', () => {
         expect(showConsentUIMock).toHaveBeenCalledWith(
           'device_idfa',
@@ -158,23 +175,68 @@ describe('OneTrustMobileService', () => {
       });
 
       describe('when the consent ui is shown', () => {
-        beforeAll(() => {
-          const consentCallback = showConsentUIMock.mock.calls[0][1];
-          consentCallback('status');
-        });
-
-        it('should show the banner', () => {
-          expect(shouldShowBannerMock).toHaveBeenCalled();
-        });
-
-        describe('when the banner should be shown', () => {
+        describe('when the consent is authorized', () => {
           beforeAll(() => {
-            const shouldShowCallback = shouldShowBannerMock.mock.calls[0][0];
-            shouldShowCallback(true);
+            const consentCallback = showConsentUIMock.mock.calls[0][1];
+            consentCallback(IdfaStatus.Authorized);
           });
 
-          it('should show the banner ui', () => {
-            expect(showBannerMock).toHaveBeenCalled();
+          it('should show the banner', () => {
+            expect(shouldShowBannerMock).toHaveBeenCalled();
+          });
+
+          it('should not subscirbe to the advertising id status observable', () => {
+            expect(
+              advertisingIdServiceMock.getAddStatus
+            ).not.toHaveBeenCalled();
+          });
+
+          describe('when the banner should be shown', () => {
+            beforeAll(() => {
+              const shouldShowCallback = shouldShowBannerMock.mock.calls[0][0];
+              shouldShowCallback(true);
+            });
+
+            it('should show the banner ui', () => {
+              expect(showBannerMock).toHaveBeenCalled();
+            });
+          });
+        });
+
+        describe('when the consent is not determined', () => {
+          const addStatus: BehaviorSubject<string> =
+            new BehaviorSubject<string>('Not Determined');
+
+          beforeAll(() => {
+            (
+              advertisingIdServiceMock.getAddStatus as jest.Mock
+            ).mockReturnValue(addStatus.asObservable());
+
+            const consentCallback = showConsentUIMock.mock.calls[0][1];
+            consentCallback(IdfaStatus.NotDetermined);
+            shouldShowBannerMock.mockReset();
+          });
+
+          it('should not show the banner', () => {
+            expect(shouldShowBannerMock).not.toHaveBeenCalled();
+          });
+
+          it('should subscirbe to the advertising id status observable', () => {
+            expect(advertisingIdServiceMock.getAddStatus).toHaveBeenCalled();
+          });
+
+          describe('when the advertising id status changes', () => {
+            beforeAll(() => {
+              addStatus.next('Authorized');
+            });
+
+            it('should show the banner', () => {
+              expect(shouldShowBannerMock).toHaveBeenCalled();
+            });
+
+            it('should show the banner ui', () => {
+              expect(showBannerMock).toHaveBeenCalled();
+            });
           });
         });
       });
