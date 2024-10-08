@@ -17,8 +17,8 @@
     @include mat.button-color($theme, $color-variant: tertiary);
   }
 
-  .tertiary-button {
-    @include mat.button-color($theme, $color-variant: tertiary);
+  .secondary-button {
+    @include mat.button-color($theme, $color-variant: secondary);
   }
 
   .tonal-button {
