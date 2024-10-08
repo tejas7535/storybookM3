@@ -29,50 +29,66 @@ export default {
 const Template: StoryFn = (args) => ({
   props: args,
   template: `
-    <section>
+    <section class="bg-surface text-on-surface p-2">
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 2</span>
-        <h2>{{ typographyText }}</h2>
+        <span class="w-44 shrink-0">text-display-large (m2 text-h2) </span>
+        <h2 class="text-display-large">{{ typographyText }} I</h2>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 3</span>
-        <h3>{{ typographyText }}</h3>
+        <span class="w-44 shrink-0">text-display-medium (m2 text-h3) </span>
+         <h3 class="text-display-medium" >{{ typographyText }}</h3>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 4</span>
-        <h4>{{ typographyText }}</h4>
+        <span class="w-44 shrink-0">text-display-small (m2 text-h4)</span>
+          <h4 class="text-display-small">{{ typographyText }}</h4>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 5</span>
-        <h5>{{ typographyText }}</h5>
+        <span class="w-44 shrink-0">text-headline-large (new in m3)</span>
+        <h5 class="text-headline-large">{{ typographyText }}</h5>
+      </div>
+       <div class="flex flex-row items-center gap-8 py-1">
+        <span class="w-44 shrink-0">text-headline-medium (new in m3)</span>
+        <h5 class="text-headline-medium">{{ typographyText }}</h5>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 6</span>
-        <h6>{{ typographyText }}</h6>
+        <span class="w-44 shrink-0">text-headline-small (m2 text-h5)</span>
+        <h5 class="text-headline-small">{{ typographyText }}</h5>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Subtitle 1</span>
-        <span class="text-subtitle-1">{{ typographyText }}</span>
+        <span class="w-44 shrink-0">text-title-large (m2 text-h6)</span>
+        <h6 class="text-title-large">{{ typographyText }}</h6>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Subtitle 2</span>
-        <span class="text-subtitle-2">{{ typographyText }}</span>
+        <span class="w-44 shrink-0">text-title-medium (m2 text-subtitle-1) </span>
+         <span class="text-title-medium">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Body 1</span>
-        <span class="text-body-1">{{ typographyText }}</span>
+        <span class="w-44 shrink-0">text-title-small (m2 text-subtitle-2)</span>
+        <span class="text-title-small">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Body 2</span>
-        <span class="text-body-2">{{ typographyText }}</span>
+        <span class="w-44 shrink-0">text-body-large (m2 text-body-1)</span>
+        <span class="text-body-large">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Caption</span>
-        <span class="text-caption">{{ typographyText }}</span>
+        <span class="w-44 shrink-0">text-body-medium (m2 text-body-2)</span>
+        <span class="text-body-medium">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Overline</span>
-        <span class="text-overline">{{ typographyText }}</span>
+        <span class="w-44 shrink-0">text-body-small (m2 text-caption)</span>
+        <span class="text-body-small">{{ typographyText }}</span>
+      </div>
+      <div class="flex flex-row items-center gap-8 py-1">
+        <span class="w-44 shrink-0">text-label-large (m2 text-button)</span>
+        <span class="text-label-large">{{ typographyText }}</span>
+      </div>
+      <div class="flex flex-row items-center gap-8 py-1">
+        <span class="w-44 shrink-0">text-label-medium (new in m3)</span>
+        <span class="text-label-medium">{{ typographyText }}</span>
+      </div>
+      <div class="flex flex-row items-center gap-8 py-1">
+        <span class="w-44 shrink-0">text-label-small (m2 text-overline)</span>
+        <span class="text-label-small">{{ typographyText }}</span>
       </div>
     </section>
   `,
