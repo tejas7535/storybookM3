@@ -219,9 +219,19 @@ const plugins = [
         font: 'var(--font-label-large)',
         letterSpacing: 'var(--label-large-letter-spacing)',
       },
+      '.text-label-large-prominent': {
+        font: 'var(--font-label-large)',
+        letterSpacing: 'var(--label-large-letter-spacing)',
+        fontWeight: 600,
+      },
       '.text-label-medium': {
         font: 'var(--font-label-medium)',
         letterSpacing: 'var(--label-medium-letter-spacing)',
+      },
+      '.text-label-medium-prominent': {
+        font: 'var(--font-label-medium)',
+        letterSpacing: 'var(--label-medium-letter-spacing)',
+        fontWeight: 600,
       },
       '.text-label-small': {
         font: 'var(--font-label-small)',
