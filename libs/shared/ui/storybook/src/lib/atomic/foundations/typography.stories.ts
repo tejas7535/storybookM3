@@ -32,7 +32,7 @@ const Template: StoryFn = (args) => ({
     <section class="bg-surface text-on-surface p-2">
       <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-44 shrink-0">text-display-large (m2 text-h2) </span>
-        <h2 class="text-display-large">{{ typographyText }} I</h2>
+        <h2 class="text-display-large">{{ typographyText }}</h2>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-44 shrink-0">text-display-medium (m2 text-h3) </span>
