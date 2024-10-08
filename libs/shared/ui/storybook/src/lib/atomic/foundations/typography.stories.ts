@@ -82,9 +82,17 @@ const Template: StoryFn = (args) => ({
         <span class="w-44 shrink-0">text-label-large (m2 text-button)</span>
         <span class="text-label-large">{{ typographyText }}</span>
       </div>
+        <div class="flex flex-row items-center gap-8 py-1">
+        <span class="w-44 shrink-0">text-label-large-prominent (new in m3)</span>
+        <span class="text-label-large-prominent">{{ typographyText }}</span>
+      </div>
       <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-44 shrink-0">text-label-medium (new in m3)</span>
         <span class="text-label-medium">{{ typographyText }}</span>
+      </div>
+      <div class="flex flex-row items-center gap-8 py-1">
+        <span class="w-44 shrink-0">text-label-medium-prominent (new in m3)</span>
+        <span class="text-label-medium-prominent">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-44 shrink-0">text-label-small (m2 text-overline)</span>
