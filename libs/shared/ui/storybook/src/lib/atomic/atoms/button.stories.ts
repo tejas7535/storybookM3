@@ -36,7 +36,7 @@ const Template: StoryFn = (args) => ({
   <section class="bg-surface text-on-surface p-4 mb-4 text-headline-large rounded-xl">
   <h2 class="text-display-medium">Buttons</h2>
   <div class="flex flex-col gap-1">
-    <a class="text-primary text-body-large underline" href="https://m3.material.io/components/buttons/overview" target="_blank"> See design buildline </a>
+    <a class="text-primary text-body-large underline" href="https://m3.material.io/components/buttons/overview" target="_blank"> See design guideline </a>
       <a class="text-primary text-body-large underline" href="https://www.figma.com/design/jPgVjpKYDTrPu78wev2tdS/%F0%9F%93%9A-Material-3-Design-Kit-%5BLatest-20.09.24%5D?node-id=53923-27457&node-type=instance&t=hsjeeAluIc74Xhh1-0"
       target="_blank"> Find in Figma</a>
   </div>
