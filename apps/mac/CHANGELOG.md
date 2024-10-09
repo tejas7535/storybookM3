@@ -1,4 +1,13 @@
 # Release Notes of Material App Center
+## [1.24.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.23.0...mac-v1.24.0) (2024-10-09)
+
+
+### Features
+
+* hide pcf values based on maturity for non-uploaders (UFTABI-8083) ([#6570](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6570)) ([5f13969](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5f13969c1e9870dfb3e9155c1c95fa9e0f388f0e))
+* **mac:** adjustments for sap wiam mapping ([#6526](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6526)) ([26dbb7d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26dbb7dfff5786f0e28ea80aade66e7cfaadaf3a))
+* **mac:** update legacy color in mac ([#6538](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6538)) ([0901e8a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0901e8a23003ad68f81735aac1203de762551502))
+
 ## [1.23.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.22.1...mac-v1.23.0) (2024-09-06)
 
 
