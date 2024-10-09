@@ -12,7 +12,7 @@
         (click)="onDownloadAction()"
         [hidden]="isDownloadButtonHidden"
         [disabled]="isDownloadDisabled"
-        color="primary"
+        class="hover:bg-secondary-legacy-100 hover:text-primary text-center flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-title-small disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
       >
         <mat-icon class="shrink-0 aspect-square">download</mat-icon>
         <span class="uppercase block w-full flex-grow">{{
@@ -38,7 +38,7 @@
             <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon">{{
               config.icon
             }}</mat-icon>
-            <div class="text-subtitle-2 whitespace-normal">
+            <div class="text-title-small whitespace-normal">
               {{ t(config.label) }}
             </div>
           </div>

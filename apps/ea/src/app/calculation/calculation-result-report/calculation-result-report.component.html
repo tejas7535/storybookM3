@@ -2,12 +2,12 @@
   <ng-container *transloco="let t; read: 'calculationResultReport'">
     <div class="flex flex-col dialog-title justify-between">
       <div class="flex flex-row content-around justify-between pb-2 pr-2">
-        <button (click)="closeDialog()" mat-button color="primary">
+        <button (click)="closeDialog()" mat-button>
           <mat-icon class="!mr-0">arrow_back</mat-icon>
           {{ 'general.back' | transloco }}
         </button>
       </div>
-      <div class="text-h6 text-high-emphasis mb-4">
+      <div class="text-title-large text-high-emphasis mb-4">
         {{
           t('dialogTitle', {
             bearingDesignation: bearingDesignation$ | ngrxPush
@@ -59,6 +59,7 @@
                 <schaeffler-report-expansion-panel
                   id="ratingLife"
                   icon="animation"
+                  iconClassName="!text-primary"
                   [title]="t('title')"
                   [hidden]="calculationTypes?.ratingLife.selected === false"
                   [expanded]="true"
@@ -90,6 +91,7 @@
                 <schaeffler-report-expansion-panel
                   id="frictionalPowerloss"
                   icon="compress"
+                  iconClassName="!text-primary"
                   [title]="t('title')"
                   [hidden]="
                     calculationTypes?.frictionalPowerloss.selected === false
@@ -144,6 +146,7 @@
                 <schaeffler-report-expansion-panel
                   id="lubrication"
                   svgIcon="water_drop"
+                  iconClassName="!text-primary"
                   [title]="t('title')"
                   [hidden]="calculationTypes?.lubrication.selected === false"
                   [expanded]="true"
@@ -172,6 +175,7 @@
                 <schaeffler-report-expansion-panel
                   id="emission"
                   svgIcon="co2"
+                  iconClassName="!text-primary"
                   [title]="t('title')"
                   [titleTooltip]="
                     'calculationResult.emissionsTooltip' | transloco
@@ -185,7 +189,7 @@
                     as co2Emissions
                   ) {
                     <div
-                      class="text-body-2 border-border flex w-full flex-col border-t"
+                      class="text-body-medium border-border flex w-full flex-col border-t"
                     >
                       <ea-calculation-result-report-large-items
                         class="w-full"
@@ -209,9 +213,9 @@
                     class="border-border flex flex-row items-center border-t px-4 py-2"
                   >
                     <div class="mr-2 flex-shrink-0">
-                      <mat-icon color="primary">info_outline</mat-icon>
+                      <mat-icon class="text-primary">info_outline</mat-icon>
                     </div>
-                    <div class="text-body-2 text-medium-emphasis">
+                    <div class="text-body-medium text-medium-emphasis">
                       {{ t('calculationHint') }} -
                       <a
                         class="text-primary"
@@ -240,6 +244,7 @@
                 <schaeffler-report-expansion-panel
                   id="overrollingFrequency"
                   svgIcon="airwaves"
+                  iconClassName="!text-primary"
                   [title]="t('title')"
                   [hidden]="
                     calculationTypes?.overrollingFrequency.selected === false
@@ -288,8 +293,7 @@
                 (calculationResultFacade.isPDFReportAvailable$ | ngrxPush) ===
                 false
               "
-              class="w-full mb-3 md:hidden text-center flex flex-row items-center cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug"
-              color="primary"
+              class="hover:bg-secondary-legacy-100 mx-auto max-w-sm md:hidden hover:text-primary text-center mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-title-small disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
             >
               <mat-icon class="shrink-0 aspect-square">download</mat-icon>
               <span class="uppercase block w-full flex-grow">{{

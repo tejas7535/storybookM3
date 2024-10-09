@@ -7,15 +7,11 @@
       [ngClass]="styleClass"
     >
       <div class="flex items-center mx-4">
-        <mat-icon
-          [svgIcon]="_item.svgIcon"
-          color="primary"
-          class="flex-shrink-0"
-        >
+        <mat-icon [svgIcon]="_item.svgIcon" class="flex-shrink-0 text-primary">
           {{ _item.icon }}
         </mat-icon>
         <div
-          class="text-caption text-medium-emphasis flex-shrink-0 font-medium"
+          class="text-body-small text-medium-emphasis flex-shrink-0 font-medium"
         >
           {{ t('title') }}
         </div>
@@ -37,7 +33,7 @@
                   [@enterExitAnimation]
                   data-testid="data-value"
                 >
-                  <div class="text-caption text-medium-emphasis flex-1">
+                  <div class="text-body-small text-medium-emphasis flex-1">
                     {{ t(value.value.title) }}
                   </div>
                   <div class="flex items-center h-full shrink-0">
@@ -69,14 +65,14 @@
             class="flex flex-shrink-0 flex-grow items-center"
             [matTooltip]="_item?.values?.[0]?.calculationError"
           >
-            <mat-icon color="error" class="!text-body-2 mx-auto"
+            <mat-icon class="!text-body-medium mx-auto text-error"
               >warning</mat-icon
             >
           </div>
         }
       }
       @if (_item.loadcaseName && _item.loadcaseName !== '') {
-        <div class="text-caption text-medium-emphasis py-2">
+        <div class="text-body-small text-medium-emphasis py-2">
           {{ _item.loadcaseName }}
         </div>
       }
@@ -85,7 +81,7 @@
           class="flex flex-shrink-0 flex-grow items-center"
           [matTooltip]="_item?.values?.[0]?.calculationError"
         >
-          <mat-icon color="error" class="!text-body-2 mx-auto"
+          <mat-icon class="!text-body-medium mx-auto text-error"
             >warning</mat-icon
           >
         </div>

@@ -29,10 +29,10 @@
         @if (isCalculationMissingInput$ | ngrxPush) {
           <div class="flex max-w-[180px] flex-row items-center justify-center">
             <div class="flex flex-shrink-0">
-              <mat-icon color="primary">info_outline</mat-icon>
+              <mat-icon class="icon-button-primary">info_outline</mat-icon>
             </div>
             <div
-              class="text-caption text-high-emphasis ml-2 text-center md:text-left"
+              class="text-body-small text-high-emphasis ml-2 text-center md:text-left"
             >
               {{ t('calculationMissingInput') }}
             </div>
@@ -48,11 +48,11 @@
           <div class="flex flex-shrink-0 flex-row items-center">
             @if (calculationFailureData?.errors?.length === 0) {
               <div class="flex flex-shrink-0">
-                <mat-icon color="error">warning</mat-icon>
+                <mat-icon class="text-error">warning</mat-icon>
               </div>
             }
             <div
-              class="text-caption text-high-emphasis ml-2 flex-shrink-0"
+              class="text-body-small text-high-emphasis ml-2 flex-shrink-0"
               [style]="{ 'max-width': '220px' }"
             >
               @if (calculationFailureData?.errors?.length === 0) {
@@ -122,8 +122,7 @@
         class="result-button w-full md:w-auto flex flex-shrink-0 flex-grow md:flex-grow-0 md:justify-end items-center md:ml-auto md:mr-0"
       >
         <button
-          mat-raised-button
-          color="primary"
+          mat-flat-button
           class="grow md:mx-0 mx-4"
           [class.hidden]="
             calculationFailureData?.errors?.length > 0 && errorsExpanded

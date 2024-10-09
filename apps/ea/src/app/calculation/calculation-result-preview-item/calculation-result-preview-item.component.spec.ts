@@ -70,7 +70,7 @@ describe('CalculationResultPreviewItemComponent', () => {
 
     it('should show two values and one title', () => {
       spectator.detectChanges();
-      expect(spectator.queryAll('.text-caption').length).toBe(3);
+      expect(spectator.queryAll('.text-body-small').length).toBe(3);
     });
   });
 });

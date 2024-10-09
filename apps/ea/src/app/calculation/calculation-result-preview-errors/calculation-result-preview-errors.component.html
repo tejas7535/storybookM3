@@ -5,7 +5,7 @@
   >
     <div class="flex flex-row flex-wrap gap-1 md:gap-4 justify-center">
       @for (item of catalogCalculationData; track item; let isLast = $last) {
-        <div class="flex gap-1 md:gap-3 text-medium-emphasis text-caption">
+        <div class="flex gap-1 md:gap-3 text-medium-emphasis text-body-small">
           <span>
             {{ t(item.title) }}
           </span>
@@ -22,17 +22,21 @@
       [class.expanded-errors]="expanded"
     >
       <div class="flex flex-shrink-0 mr-3">
-        <mat-icon color="error">warning</mat-icon>
+        <mat-icon class="text-error">warning</mat-icon>
       </div>
       @if (inlineErrors) {
         <div
-          class="text-body-2 text-high-emphasis flex max-h-12 overflow-hidden transition-all duration-500 ease-in-out"
+          class="text-body-medium text-high-emphasis flex max-h-12 overflow-hidden transition-all duration-500 ease-in-out"
           [class.expanded-errors-content]="expanded"
         >
           {{ inlineErrors }}
         </div>
       }
-      <button (click)="toggleErrors()" mat-icon-button color="primary">
+      <button
+        class="icon-button-primary"
+        (click)="toggleErrors()"
+        mat-icon-button
+      >
         @if (!expanded) {
           <mat-icon class="hidden md:block">chevron_right</mat-icon>
         }

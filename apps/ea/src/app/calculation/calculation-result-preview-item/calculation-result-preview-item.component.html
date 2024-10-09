@@ -6,14 +6,13 @@
     >
       <div class="flex flex-shrink-0 flex-row items-center justify-center px-2">
         <mat-icon
-          color="primary"
           [svgIcon]="_item.svgIcon"
-          class="mr-1 flex-shrink-0"
+          class="mr-1 flex-shrink-0 text-primary"
         >
           {{ _item.icon }}
         </mat-icon>
         <div
-          class="text-caption text-medium-emphasis inline-flex flex-shrink-0 font-medium"
+          class="text-body-small text-medium-emphasis inline-flex flex-shrink-0 font-medium"
         >
           {{ t(_item.title) }}
           @if (_item.titleTooltip) {
@@ -32,7 +31,7 @@
             [class.items-center]="isSingleItem"
           >
             <div
-              class="text-caption text-medium-emphasis mb-2"
+              class="text-body-small text-medium-emphasis mb-2"
               [class.text-center]="isSingleItem"
             >
               {{ value.title && t(value.title) }}
@@ -47,11 +46,11 @@
             @if (!value.isLoading) {
               <div class="flex flex-row items-end justify-start">
                 @if (!value.calculationError && !value.calculationWarning) {
-                  <div class="text-body-2 text-high-emphasis">
+                  <div class="text-body-medium text-high-emphasis">
                     {{ (value.value | meaningfulRound) || '-' }}
                   </div>
                   @if (value.unit) {
-                    <div class="text-body-2 text-high-emphasis pl-1">
+                    <div class="text-body-medium text-high-emphasis pl-1">
                       {{ value.unit }}
                     </div>
                   }
@@ -66,7 +65,7 @@
                         >info_outline
                       </mat-icon>
                       <div
-                        class="text-caption text-medium-emphasis md:max-w-[12rem] md:text-left text-center"
+                        class="text-body-small text-medium-emphasis md:max-w-[12rem] md:text-left text-center"
                       >
                         {{ t(value.calculationWarning) }}
                       </div>
@@ -78,7 +77,7 @@
                     class="flex flex-shrink-0 flex-grow"
                     [matTooltip]="value.calculationError"
                   >
-                    <mat-icon color="error" class="!text-body-2 mx-auto"
+                    <mat-icon class="!text-body-medium mx-auto text-error"
                       >warning</mat-icon
                     >
                   </div>
@@ -90,7 +89,7 @@
                       >info_outline
                     </mat-icon>
                     <div
-                      class="text-caption text-medium-emphasis md:max-w-[12rem] md:text-left text-center"
+                      class="text-body-small text-medium-emphasis md:max-w-[12rem] md:text-left text-center"
                     >
                       {{ t(value.calculationWarning) }}
                     </div>
@@ -103,7 +102,7 @@
               </div>
             }
             @if (_item.loadcaseName && _item.loadcaseName !== '') {
-              <div class="text-caption text-medium-emphasis py-2">
+              <div class="text-body-small text-medium-emphasis py-2">
                 {{ _item.loadcaseName }}
               </div>
             }

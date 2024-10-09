@@ -1,7 +1,7 @@
 @if (tooltip) {
   <mat-icon
-    [color]="inline ? 'inherit' : 'primary'"
-    class="cursor-help"
+    class="cursor-help text-primary"
+    [ngClass]="{ 'text-primary': !inline }"
     [inline]="inline"
     #tooltipRef="matTooltip"
     [matTooltip]="tooltip"

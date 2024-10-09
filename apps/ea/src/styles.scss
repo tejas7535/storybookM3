@@ -6,7 +6,7 @@
 * Angular Material, material design components
 * see https://material.angular.io
 */
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
 engineering-app {
   /*
   * Fix for the cutoff form input labels when embedded in medias
@@ -51,7 +51,7 @@ engineering-app {
 
 engineering-app {
   /** fix font size for medias integration */
-  @apply text-body-1 #{!important};
+  @apply text-body-large #{!important};
 
   @layer resets {
     * {
@@ -154,7 +154,7 @@ engineering-app {
   }
 
   .mat-mdc-radio-button {
-    @apply text-subtitle-2;
+    @apply text-title-small;
 
     .mdc-radio {
       transform: scale(0.7);

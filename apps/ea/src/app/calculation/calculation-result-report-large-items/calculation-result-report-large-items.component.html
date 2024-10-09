@@ -60,13 +60,15 @@
               <div
                 class="text-high-emphasis whitespace-nowrap"
                 [ngClass]="{
-                  'text-h6 sm:text-h4 leading-9': isFirst && firstItemLarge,
-                  'text-body-1 sm:text-h6': !isFirst || !firstItemLarge
+                  'text-title-large sm:text-display-small leading-9':
+                    isFirst && firstItemLarge,
+                  'text-body-large sm:text-title-large':
+                    !isFirst || !firstItemLarge
                 }"
               >
                 {{ (item.value | meaningfulRound) || '-' }}
               </div>
-              <div class="text-body-2 text-high-emphasis pl-1">
+              <div class="text-body-medium text-high-emphasis pl-1">
                 {{ item.unit }}
               </div>
             </div>
@@ -76,7 +78,7 @@
               <div class="pr-1 text-icon-warning">
                 <mat-icon>info_outline</mat-icon>
               </div>
-              <div class="text-high-emphasis text-caption">
+              <div class="text-high-emphasis text-body-small">
                 {{ t(item.warning) }}
               </div>
             </div>
@@ -113,7 +115,9 @@
               }"
             >
               @if (valuesLength > 1) {
-                <div class="text-caption !text-[8px] text-medium-emphasis mb-2">
+                <div
+                  class="text-body-small !text-[8px] text-medium-emphasis mb-2"
+                >
                   {{ loadcaseValue.loadcaseName }}
                 </div>
               }
@@ -122,14 +126,16 @@
                   <div
                     class="text-high-emphasis whitespace-nowrap"
                     [ngClass]="{
-                      'text-h6 sm:text-h4 leading-9': isFirst && firstItemLarge,
-                      'text-body-1 sm:text-h6': !isFirst || !firstItemLarge
+                      'text-title-large sm:text-display-small leading-9':
+                        isFirst && firstItemLarge,
+                      'text-body-large sm:text-title-large':
+                        !isFirst || !firstItemLarge
                     }"
                   >
                     {{ (loadcaseValue.value | meaningfulRound) || '-' }}
                   </div>
                   <div
-                    class="text-body-2 text-high-emphasis pl-1 whitespace-nowrap"
+                    class="text-body-medium text-high-emphasis pl-1 whitespace-nowrap"
                   >
                     {{ item.unit }}
                   </div>
@@ -140,7 +146,7 @@
                   <div class="pr-1 text-icon-warning">
                     <mat-icon>info_outline</mat-icon>
                   </div>
-                  <div class="text-high-emphasis text-caption">
+                  <div class="text-high-emphasis text-body-small">
                     {{ t(item.warning) }}
                   </div>
                 </div>
@@ -149,7 +155,7 @@
           }
         }
       </div>
-      <div class="text-caption text-medium-emphasis lg:mt-4 mt-auto">
+      <div class="text-body-small text-medium-emphasis lg:mt-4 mt-auto">
         {{ t(item.title) }}
         @if (item.titleTooltip) {
           <ea-info-button

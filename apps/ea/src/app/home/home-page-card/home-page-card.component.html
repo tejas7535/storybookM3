@@ -14,8 +14,7 @@
       <div class="aspect-video rounded-lg bg-cover w-28">
         <div class="aspect-video rounded-lg bg-cover w-28">
           <mat-icon
-            class="!m-auto w-full h-full"
-            color="primary"
+            class="!m-auto w-full h-full text-primary"
             svgIcon="{{ card.svgIcon }}"
           ></mat-icon>
         </div>
@@ -23,11 +22,11 @@
     }
 
     <div class="px-2 text-center flex gap-2 items-center flex-col self-center">
-      <div class="truncate mr-auto text-body-2 leading-6 font-medium">
+      <div class="truncate mr-auto text-body-medium leading-6 font-medium">
         {{ t(card.mainTitle) }}
       </div>
       <div
-        class="truncate text-caption text-medium-emphasis mr-auto"
+        class="truncate text-body-small text-medium-emphasis mr-auto"
         [innerHTML]="card?.subTitle ? t(card.subTitle) : ''"
       ></div>
     </div>

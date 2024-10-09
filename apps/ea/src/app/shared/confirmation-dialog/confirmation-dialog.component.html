@@ -2,7 +2,7 @@
   <div
     class="inline-flex w-full flex-row content-around justify-between pl-4 pb-3 pr-2"
   >
-    <div class="my-auto text-h6 text-high-emphasis">
+    <div class="my-auto text-title-large text-high-emphasis">
       {{ data.title }}
     </div>
     <div class="flex flex-row">
@@ -20,10 +20,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="justify-end">
-  <button mat-stroked-button (click)="closeDialog()" color="primary">
+  <button mat-stroked-button (click)="closeDialog()">
     {{ data.cancelActionText }}
   </button>
-  <button mat-raised-button color="primary" class="" (click)="applyDialog()">
+  <button mat-flat-button class="" (click)="applyDialog()">
     {{ data.confirmActionText }}
   </button>
 </mat-dialog-actions>

@@ -57,7 +57,7 @@ describe('CalculationResultPreviewErrorsComponent', () => {
 
     it('should show titles', () => {
       spectator.detectChanges();
-      expect(spectator.queryAll('.text-caption').length).toBe(2);
+      expect(spectator.queryAll('.text-body-small').length).toBe(2);
     });
   });
 

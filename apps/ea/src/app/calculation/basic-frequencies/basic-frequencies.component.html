@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'basicFrequencies'">
   <div mat-dialog-title class="px-0">
     <div class="flex flex-row content-around justify-between pb-2 pl-4 pr-2">
-      <div class="text-h6 text-high-emphasis my-auto">
+      <div class="text-title-large text-high-emphasis my-auto">
         {{
           t('dialogTitle', {
             bearingDesignation: bearingDesignation$ | ngrxPush
@@ -19,7 +19,9 @@
   <mat-dialog-content class="!px-4 pb-4">
     @if (basicFrequencies$ | ngrxPush; as basicFrequencies) {
       <div class="border-border rounded border overflow-auto min-w-[400px]">
-        <div class="border-border text-subtitle-1 border-b md:px-4 md:py-2 p-2">
+        <div
+          class="border-border text-title-medium border-b md:px-4 md:py-2 p-2"
+        >
           {{ basicFrequencies.title }}
         </div>
         <div class="md:px-8 p-0 md:py-4">
@@ -63,7 +65,7 @@
     }
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button color="primary" (click)="saveAsPdf()">
+    <button mat-button (click)="saveAsPdf()">
       <mat-icon>download</mat-icon>
       {{ t('saveAsPdf') }}
     </button>
