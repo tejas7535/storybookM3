@@ -513,6 +513,7 @@
       "cancel": "Cancel",
       "confirm": "Confirm",
       "nameLabel": "Case Name",
+      "nameHint": "e.g. Inquiry ID",
       "currencyLabel": "Custom Currency",
       "generalInformation": "General",
       "shipToParty": "Ship-to Party",

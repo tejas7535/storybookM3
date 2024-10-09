@@ -513,6 +513,7 @@
       "cancel": "Abbrechen",
       "confirm": "Bestätigen",
       "nameLabel": "Case Bezeichnung",
+      "nameHint": "z.B. Anfrage-ID",
       "currencyLabel": "Individuelle Währung",
       "generalInformation": "Allgemein",
       "shipToParty": "Warenempfänger",

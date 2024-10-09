@@ -68,7 +68,7 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
 
   readonly sectorGpsdFacade: SectorGpsdFacade = inject(SectorGpsdFacade);
 
-  readonly NAME_MAX_LENGTH = 20;
+  readonly NAME_MAX_LENGTH = 35;
   readonly DEBOUNCE_TIME_DEFAULT = 500;
 
   readonly today: Moment = getMomentUtcStartOfDayDate(new Date().toISOString());

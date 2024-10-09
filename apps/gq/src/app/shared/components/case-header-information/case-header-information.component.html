@@ -123,6 +123,7 @@
                 data-cy="case-header-information_case-name-input"
                 [maxlength]="NAME_MAX_LENGTH"
               />
+              <mat-hint align="start">{{ t('nameHint') }}</mat-hint>
               <mat-hint align="end">{{
                 (headerInfoForm.controls.caseName.value?.length.toString() ||
                   '0') +
@@ -137,7 +138,7 @@
         class="flex flex-col"
         *ngrxLet="isEditMode ? 'caseCreation' : 'today' as referenceDate"
       >
-        <span class="text-medium-emphasis pb-4 text-[14px]">
+        <span class="text-medium-emphasis pb-4 pt-2 text-[14px]">
           {{ t('additionalInformation') }}</span
         >
         <div
