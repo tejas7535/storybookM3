@@ -33,19 +33,19 @@ export default {
 const Template: StoryFn = (args) => ({
   props: args,
   template: `
-  <section class="bg-surface text-on-surface p-4 mb-4 text-headline-large rounded-xl">
-  <h2 class="text-display-medium">Buttons</h2>
-  <div class="flex flex-col gap-1">
+  <section class="bg-surface text-on-surface p-4 mb-6 text-headline-large rounded-xl">
+  <h2 class="text-display-medium mb-6">Buttons</h2>
+  <div class="flex flex-col gap-6">
     <a class="text-primary text-body-large underline" href="https://m3.material.io/components/buttons/overview" target="_blank"> See design guideline </a>
       <a class="text-primary text-body-large underline" href="https://www.figma.com/design/jPgVjpKYDTrPu78wev2tdS/%F0%9F%93%9A-Material-3-Design-Kit-%5BLatest-20.09.24%5D?node-id=53923-27457&node-type=instance&t=hsjeeAluIc74Xhh1-0"
       target="_blank"> Find in Figma</a>
   </div>
-  <p class="text-body-medium">Buttons help people take actions, such as sending an email, sharing a document, or liking a comment.</p>
+  <p class="text-body-medium mt-6">Buttons help people take actions, such as sending an email, sharing a document, or liking a comment.</p>
   </section>
 
   <mat-card appearance="outlined">
-  <mat-card-content>
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  <mat-card-content class="bg-surface rounded-xl">
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
       <div>
         <h6 class="text-on-surface text-body-medium mt-4">Filled buttons (Default for Primary action)</h6>
         <div class="flex flex-col">
