@@ -106,7 +106,7 @@ const Template: StoryFn = (args) => ({
       <div>
         <h6 class="text-on-surface text-body-medium mt-12 md:mt-4 ">FAB (default)</h6>
         <div class="flex flex-row gap-6 py-3">
-          <button mat-fab aria-label="Example icon button with a edit icon">
+          <button mat-fab aria-label="Example icon button with an edit icon">
             <mat-icon>edit</mat-icon>
           </button>
             <button class="secondary-fab" mat-fab aria-label="Example icon button with a edit icon">
