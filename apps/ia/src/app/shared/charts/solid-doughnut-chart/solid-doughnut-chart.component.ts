@@ -143,7 +143,17 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
     } else {
       this.mergeOptions = {
         ...this.mergeOptions,
-        legend: { data: [event.data.name, ...children.map((c) => c.name)] },
+        legend: {
+          data: [
+            {
+              name: event.data.name,
+              textStyle: {
+                fontWeight: 'bold',
+              },
+            },
+            ...children.map((c) => c.name),
+          ],
+        },
       };
     }
 

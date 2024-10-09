@@ -5,6 +5,7 @@ import {
   LegendComponentOption,
   SeriesOption,
 } from 'echarts';
+import { LegendOption } from 'echarts/types/dist/shared';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedModule } from '../../shared.module';
@@ -192,6 +193,37 @@ describe('SolidDoughnutChartComponent', () => {
       expect(component.echartsInstance.setOption).toHaveBeenCalledWith(
         component.mergeOptions
       );
+      expect((component.mergeOptions.legend as LegendOption).data.length).toBe(
+        4
+      );
+      expect(
+        ((component.mergeOptions.legend as LegendOption).data[0] as any)
+          .textStyle
+      ).toEqual({ fontWeight: 'bold' });
+      expect(
+        ((component.mergeOptions.legend as LegendOption).data[0] as any).name
+      ).toEqual('First');
+      expect(
+        (component.mergeOptions.legend as LegendOption).data[1] as string
+      ).toEqual('First');
+      expect(
+        ((component.mergeOptions.legend as LegendOption).data[1] as any)
+          .textStyle
+      ).toBeUndefined();
+      expect(
+        (component.mergeOptions.legend as LegendOption).data[2] as string
+      ).toEqual('Second');
+      expect(
+        ((component.mergeOptions.legend as LegendOption).data[2] as any)
+          .textStyle
+      ).toBeUndefined();
+      expect(
+        (component.mergeOptions.legend as LegendOption).data[3] as string
+      ).toEqual('Third');
+      expect(
+        ((component.mergeOptions.legend as LegendOption).data[3] as any)
+          .textStyle
+      ).toBeUndefined();
     });
 
     test('should unset the legend when 2nd click on the same data', () => {
