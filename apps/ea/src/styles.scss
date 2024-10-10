@@ -218,6 +218,15 @@ engineering-app {
   .mobile-report #result-report {
     min-height: auto;
   }
+
+  // devices with top notch iOS and newer Android devices
+  .mat-drawer-inner-container {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .schaeffler-header-logo {
+    margin-right: env(safe-area-inset-right);
+  }
 }
 
 schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {
