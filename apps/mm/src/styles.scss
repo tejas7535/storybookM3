@@ -74,3 +74,12 @@ schaeffler-html-report .mat-expansion-panel-content h2 {
 .mat-mdc-card.mdc-card {
   @apply rounded-xl border border-border bg-surface-legacy shadow-none;
 }
+
+// devices with top notch iOS and newer Android devices
+.mat-drawer-inner-container {
+  padding-top: env(safe-area-inset-top);
+}
+
+.schaeffler-header-logo {
+  margin-right: env(safe-area-inset-right);
+}
