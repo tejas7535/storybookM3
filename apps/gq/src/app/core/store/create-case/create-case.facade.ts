@@ -7,6 +7,7 @@ import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-m
 import { Store } from '@ngrx/store';
 
 import {
+  addRowDataItems,
   clearCreateCaseRowData,
   clearCustomer,
   clearOfferType,
@@ -14,6 +15,8 @@ import {
   clearSectorGpsd,
   clearShipToParty,
   resetAllAutocompleteOptions,
+  setRowDataCurrency,
+  updateCurrencyOfPositionItems,
   updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
 } from '../actions/create-case/create-case.actions';
@@ -59,6 +62,9 @@ export class CreateCaseFacade {
   // ###############################     methods     #####################################
   // #####################################################################################
 
+  addRowDataItems(items: MaterialTableItem[]): void {
+    this.store.dispatch(addRowDataItems({ items }));
+  }
   updateRowDataItem(
     recentData: MaterialTableItem,
     revalidate: boolean = false
@@ -79,5 +85,11 @@ export class CreateCaseFacade {
     this.store.dispatch(clearPurchaseOrderType());
     this.sectorGpsdFacade.resetAllSectorGpsds();
     this.store.dispatch(clearCreateCaseRowData());
+    this.store.dispatch(setRowDataCurrency({ currency: undefined }));
+  }
+
+  updateCurrencyOfPositionItems(currency: string): void {
+    this.store.dispatch(setRowDataCurrency({ currency }));
+    this.store.dispatch(updateCurrencyOfPositionItems());
   }
 }

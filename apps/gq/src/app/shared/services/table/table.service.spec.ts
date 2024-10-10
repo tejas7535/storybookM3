@@ -206,6 +206,22 @@ describe('TableService', () => {
       expect(result).toStrictEqual(expected);
     });
   });
+
+  describe('updateCurrencyOfItems', () => {
+    test('should update the currency of each item', () => {
+      const input: MaterialTableItem[] = [
+        { id: 1, currency: 'USD' } as MaterialTableItem,
+        { id: 2, currency: 'USD' } as MaterialTableItem,
+      ];
+      const expected: MaterialTableItem[] = [
+        { id: 1, currency: 'EUR' } as MaterialTableItem,
+        { id: 2, currency: 'EUR' } as MaterialTableItem,
+      ];
+      const result = TableService.updateCurrencyOfItems(input, 'EUR');
+      expect(result).toStrictEqual(expected);
+    });
+  });
+
   describe('deleteItem', () => {
     test('should delete an Item', () => {
       const rowData: MaterialTableItem[] = [

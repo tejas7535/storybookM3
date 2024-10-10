@@ -29,6 +29,7 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
   createCaseLoading: false,
   errorMessage: undefined,
   rowData: [],
+  rowDataCurrency: undefined,
   validationLoading: false,
   sectorGpsd: { id: '14', name: 'Sector GPSD' },
   offerType: { id: 1, name: 'Offer Type' },

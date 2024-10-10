@@ -27,6 +27,21 @@ describe('ProcessCaseFacade', () => {
   });
 
   describe('methods', () => {
+    describe('addNewItemsToMaterialTable', () => {
+      test('should dispatch addNewItemsToMaterialTable action', () => {
+        const items = [
+          {
+            id: 1,
+            currency: 'EUR',
+          },
+        ] as MaterialTableItem[];
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.addItemsToMaterialTable(items);
+        expect(spy).toHaveBeenCalledWith(
+          ProcessCaseActions.addNewItemsToMaterialTable({ items })
+        );
+      });
+    });
     describe('updateItemFromMaterialTable', () => {
       test('should dispatch updateItemFromMaterialTable action', () => {
         const recentData = {

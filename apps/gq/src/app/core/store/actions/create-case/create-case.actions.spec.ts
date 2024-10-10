@@ -41,11 +41,13 @@ import {
   selectAutocompleteOption,
   selectSalesOrg,
   setRequestingAutoCompleteDialog,
+  setRowDataCurrency,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
+  updateCurrencyOfPositionItems,
   updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrgFailure,
@@ -474,6 +476,23 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         type: '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Failure',
+      });
+    });
+
+    test('should call setRowDataCurrency', () => {
+      const currency = 'USD';
+      const action = setRowDataCurrency({ currency });
+
+      expect(action).toEqual({
+        currency,
+        type: '[Create Case] Set RowData Currency',
+      });
+    });
+    test('should call updateCurrencyOfPositionItems', () => {
+      const action = updateCurrencyOfPositionItems();
+
+      expect(action).toEqual({
+        type: '[Create Case] Update Currency of Position Items',
       });
     });
   });

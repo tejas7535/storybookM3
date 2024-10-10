@@ -26,11 +26,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { combineLatest, filter, map, Observable } from 'rxjs';
 
-import { addRowDataItems } from '@gq/core/store/actions';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
-import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
@@ -42,7 +41,6 @@ import {
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -86,9 +84,9 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   readonly autoCompleteFacade: AutoCompleteFacade = inject(AutoCompleteFacade);
   private readonly createCaseFacade = inject(CreateCaseFacade);
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
+  private readonly processCaseFacade = inject(ProcessCaseFacade);
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly store: Store = inject(Store);
   private readonly pasteMaterialsService: PasteMaterialsService = inject(
     PasteMaterialsService
   );
@@ -266,10 +264,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     // dispatch action depending on page
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.isCaseView
-      ? this.store.dispatch(addRowDataItems({ items }))
-      : this.store.dispatch(
-          ProcessCaseActions.addNewItemsToMaterialTable({ items })
-        );
+      ? this.createCaseFacade.addRowDataItems(items)
+      : this.processCaseFacade.addItemsToMaterialTable(items);
 
     this.clearFields();
   }

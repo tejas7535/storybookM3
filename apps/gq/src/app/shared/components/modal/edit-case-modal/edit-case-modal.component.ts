@@ -78,6 +78,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
   readonly sectorGpsdFacade: SectorGpsdFacade = inject(SectorGpsdFacade);
   readonly rolesFacade: RolesFacade = inject(RolesFacade);
 
+  // https://jira.schaeffler.com/browse/GQUOTE-5048 - remove when feature toggle is removed
   // TODO: remove translations for shared.caseModal
   // TODO: clean up the testFile
   // TODO: comment in when feature toggle is to be removed

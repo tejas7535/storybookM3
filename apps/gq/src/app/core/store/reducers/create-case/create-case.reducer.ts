@@ -56,11 +56,13 @@ import {
   selectSalesOrg,
   selectSectorGpsd,
   setRequestingAutoCompleteDialog,
+  setRowDataCurrency,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
+  updateCurrencyOfPositionItems,
   updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrgFailure,
@@ -105,6 +107,7 @@ export interface CreateCaseState {
   createCaseLoading: boolean;
   errorMessage: string;
   rowData: MaterialTableItem[];
+  rowDataCurrency: string;
   validationLoading: boolean;
   sectorGpsd: SectorGpsd;
   offerType: OfferType;
@@ -169,6 +172,7 @@ export const initialState: CreateCaseState = {
   createCaseLoading: false,
   errorMessage: undefined,
   rowData: [],
+  rowDataCurrency: undefined,
   validationLoading: false,
   sectorGpsd: undefined,
   offerType: undefined,
@@ -361,9 +365,12 @@ export const createCaseReducer = createReducer(
   on(addRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
     rowData: TableService.addItems(
+      // the "old" case Creation needs the Currency of selectedSalesOrg
+      // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
       TableService.addCurrencyToMaterialItems(
         items,
-        getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
+        state.rowDataCurrency ??
+          getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
       ),
       [...state.rowData]
     ),
@@ -376,9 +383,12 @@ export const createCaseReducer = createReducer(
   on(updateRowDataItem, (state: CreateCaseState, { item, revalidate }) => ({
     ...state,
     rowData: TableService.updateItem(
+      // the "old" case Creation needs the Currency of selectedSalesOrg
+      // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
       TableService.addCurrencyToMaterialItem(
         item,
-        getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
+        state.rowDataCurrency ??
+          getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
       ),
       state.rowData,
       revalidate
@@ -736,6 +746,23 @@ export const createCaseReducer = createReducer(
     (state: CreateCaseState): CreateCaseState => ({
       ...state,
       offerType: initialState.offerType,
+    })
+  ),
+  on(
+    setRowDataCurrency,
+    (state: CreateCaseState, { currency }): CreateCaseState => ({
+      ...state,
+      rowDataCurrency: currency,
+    })
+  ),
+  on(
+    updateCurrencyOfPositionItems,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      rowData: TableService.updateCurrencyOfItems(
+        [...state.rowData],
+        state.rowDataCurrency
+      ),
     })
   )
 );

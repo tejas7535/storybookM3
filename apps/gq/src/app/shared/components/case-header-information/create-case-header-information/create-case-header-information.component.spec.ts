@@ -31,6 +31,8 @@ describe('CreateCaseHeaderInformationComponent', () => {
   let spectator: Spectator<CreateCaseHeaderInformationComponent>;
   const customerSalesOrgSubject$$: BehaviorSubject<SalesOrg[]> =
     new BehaviorSubject<SalesOrg[]>([]);
+  const selectedSalesOrgSubject$$: BehaviorSubject<SalesOrg> =
+    new BehaviorSubject<SalesOrg>({} as SalesOrg);
 
   const createComponent = createComponentFactory({
     component: CreateCaseHeaderInformationComponent,
@@ -45,7 +47,9 @@ describe('CreateCaseHeaderInformationComponent', () => {
       MockProvider(CreateCaseFacade, {
         shipToPartySalesOrgs$: of([]),
         customerSalesOrgs$: customerSalesOrgSubject$$.asObservable(),
+        selectedCustomerSalesOrg$: selectedSalesOrgSubject$$.asObservable(),
         resetCaseCreationInformation: jest.fn(),
+        updateCurrencyOfPositionItems: jest.fn(),
       }),
       MockProvider(TranslocoLocaleService),
       {
@@ -100,6 +104,21 @@ describe('CreateCaseHeaderInformationComponent', () => {
       );
     })
   );
+
+  test(
+    'should provide selectedCustomerSalesOrg$',
+    marbles((m) => {
+      const salesOrg: SalesOrg = {
+        id: '0615',
+        selected: true,
+        currency: 'EUR',
+      };
+      selectedSalesOrgSubject$$.next(salesOrg);
+      m.expect(component.selectedCustomerSalesOrg$).toBeObservable(
+        m.cold('a', { a: salesOrg })
+      );
+    })
+  );
   describe('reset', () => {
     test('should call resetCaseCreationInformation', () => {
       component['createCaseFacade'].resetCaseCreationInformation = jest.fn();
@@ -111,6 +130,7 @@ describe('CreateCaseHeaderInformationComponent', () => {
   });
   describe('ngOnInit', () => {
     test('should init all form controls with value undefined', () => {
+      selectedSalesOrgSubject$$.next(null);
       component.ngOnInit();
       expect(component.headerInfoForm.get('customer')?.value).toBeUndefined();
       expect(component.headerInfoForm.get('salesOrg')?.value).toBeUndefined();
@@ -150,7 +170,27 @@ describe('CreateCaseHeaderInformationComponent', () => {
         component.headerInfoForm.get('partnerRoleType')?.value
       ).toBeUndefined();
     });
+    test('should init currency with selectedSalesOrg Currency', () => {
+      component.headerInfoForm.get('currency')?.setValue('EUR');
+      spectator.detectChanges();
+      selectedSalesOrgSubject$$.next({
+        id: '0615',
+        currency: 'USD',
+      } as SalesOrg);
+      expect(component.headerInfoForm.get('currency').value).toBe('USD');
+    });
 
+    test('should call update currency of position items', () => {
+      spectator.detectChanges();
+      selectedSalesOrgSubject$$.next({
+        id: '0615',
+        currency: 'USD',
+      } as SalesOrg);
+
+      expect(
+        component['createCaseFacade'].updateCurrencyOfPositionItems
+      ).toHaveBeenCalled();
+    });
     test('should emit the values of the form', () => {
       component.hasChanges.emit = jest.fn();
       component.isValid.emit = jest.fn();

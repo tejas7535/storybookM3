@@ -33,7 +33,7 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { Observable, tap } from 'rxjs';
+import { distinctUntilChanged, filter, Observable } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
@@ -101,6 +101,9 @@ export class CreateCaseHeaderInformationComponent
     inject(CreateCaseFacade);
   shipToPartySalesOrgs$: Observable<SalesOrg[]> =
     this.createCaseFacade.shipToPartySalesOrgs$;
+  selectedCustomerSalesOrg$: Observable<SalesOrg> =
+    this.createCaseFacade.selectedCustomerSalesOrg$;
+
   shipToParty$: Observable<CaseFilterItem> =
     this.autocomplete.shipToCustomerForCaseCreation$;
   isEditMode = false;
@@ -182,14 +185,32 @@ export class CreateCaseHeaderInformationComponent
     super.ngOnInit();
     // when the customer sales orgs are loading, reset the partner role type
     this.createCaseFacade.customerSalesOrgs$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((_loading) => {
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        this.headerInfoForm.get('partnerRoleType')?.setValue(undefined);
+      });
+
+    this.selectedCustomerSalesOrg$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        tap((_loading) => {
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          this.headerInfoForm.get('partnerRoleType')?.setValue(undefined);
-        })
+        filter((salesOrg: SalesOrg) => !!salesOrg),
+        distinctUntilChanged()
       )
-      .subscribe();
+      .subscribe((salesOrg: SalesOrg) => {
+        this.headerInfoForm.get('currency')?.setValue(salesOrg.currency);
+      });
+
+    this.headerInfoForm
+      .get('currency')
+      ?.valueChanges.pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((currency: string) => !!currency),
+        distinctUntilChanged()
+      )
+      .subscribe((currency: string) => {
+        this.createCaseFacade.updateCurrencyOfPositionItems(currency);
+      });
 
     this.headerInfoFormChanged$
       .pipe(takeUntilDestroyed(this.destroyRef))

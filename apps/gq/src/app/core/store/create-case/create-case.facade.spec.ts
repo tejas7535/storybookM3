@@ -12,6 +12,8 @@ import {
   clearSectorGpsd,
   clearShipToParty,
   resetAllAutocompleteOptions,
+  setRowDataCurrency,
+  updateCurrencyOfPositionItems,
   updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
 } from '../actions/create-case/create-case.actions';
@@ -141,6 +143,20 @@ describe('CreateCaseFacade', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(clearOfferType());
       expect(mockStore.dispatch).toHaveBeenCalledWith(clearPurchaseOrderType());
       expect(facade['sectorGpsdFacade'].resetAllSectorGpsds).toHaveBeenCalled();
+    });
+
+    describe('updateCurrencyOfPositionItems', () => {
+      test('should dispatch setRowDataCurrency and updateCurrencyOfPositionItems actions', () => {
+        mockStore.dispatch = jest.fn();
+        facade.updateCurrencyOfPositionItems('currency');
+
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          setRowDataCurrency({ currency: 'currency' })
+        );
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateCurrencyOfPositionItems()
+        );
+      });
     });
   });
 });

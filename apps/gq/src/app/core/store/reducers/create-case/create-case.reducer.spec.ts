@@ -47,11 +47,13 @@ import {
   selectPurchaseOrderType,
   selectSalesOrg,
   selectSectorGpsd,
+  setRowDataCurrency,
   setSelectedAutocompleteOption,
   setSelectedGpsdGroups,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
+  updateCurrencyOfPositionItems,
   updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
   validateMaterialsOnCustomerAndSalesOrgFailure,
@@ -543,7 +545,7 @@ describe('Create Case Reducer', () => {
         expect(state.rowData).toEqual([fakeData[0], ...items]);
         expect(state.validationLoading).toBe(true);
       });
-      test('should addItem to Row Data and update currency', () => {
+      test('should addItem to Row Data and update currency with salesOrg Currency', () => {
         const fakeData = [
           {
             id: 0,
@@ -589,6 +591,54 @@ describe('Create Case Reducer', () => {
         expect(state.rowData).toEqual([fakeData[0], ...expected]);
         expect(state.validationLoading).toBe(true);
       });
+
+      test('should addItem to Row Data and update currency with rowDataCurrency', () => {
+        const fakeData = [
+          {
+            id: 0,
+            materialNumber: '123',
+            targetPrice: 100,
+            quantity: 10,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+        const items = [
+          {
+            id: 1,
+            materialNumber: '1234',
+            quantity: 105,
+            targetPrice: 100,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+
+        const expected = [
+          {
+            id: 1,
+            materialNumber: '1234',
+            quantity: 105,
+            targetPrice: 100,
+            currency: 'USD',
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          customer: {
+            ...CREATE_CASE_STORE_STATE_MOCK.customer,
+            salesOrgs: [{ currency: 'EUR', selected: false } as SalesOrg],
+          },
+          rowData: fakeData,
+          rowDataCurrency: 'USD',
+        };
+
+        const action = addRowDataItems({ items });
+
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.rowData).toEqual([fakeData[0], ...expected]);
+        expect(state.validationLoading).toBe(true);
+      });
     });
     describe('duplicateRowDataItem', () => {
       test('should call table service duplicate', () => {
@@ -613,7 +663,7 @@ describe('Create Case Reducer', () => {
     });
 
     describe('updateRowDataItem', () => {
-      test('should update item with revalidation', () => {
+      test('should update item with revalidation and currency from SelectedSalesOrg', () => {
         const mockedRowData: MaterialTableItem[] = [
           {
             id: 0,
@@ -638,6 +688,7 @@ describe('Create Case Reducer', () => {
           id: 0,
           materialDescription: 'descUpdated',
           materialNumber: 'matNumberUpdated',
+          targetPrice: 12,
           quantity: 2,
           info: { valid: true, description: [ValidationDescription.Valid] },
         };
@@ -662,6 +713,63 @@ describe('Create Case Reducer', () => {
               description: [ValidationDescription.Not_Validated],
               errorCode: undefined,
             },
+            currency: 'EUR',
+          },
+          mockedRowData[1],
+        ]);
+      });
+      test('should update item with revalidation and currency from rowDataCurrency', () => {
+        const mockedRowData: MaterialTableItem[] = [
+          {
+            id: 0,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: {
+              valid: false,
+              description: [ValidationDescription.QuantityInValid],
+            },
+          },
+          {
+            id: 1,
+            materialDescription: 'desc',
+            materialNumber: 'matNumber',
+            quantity: 1,
+            info: { valid: true, description: [ValidationDescription.Valid] },
+          },
+        ];
+
+        const item: MaterialTableItem = {
+          id: 0,
+          materialDescription: 'descUpdated',
+          materialNumber: 'matNumberUpdated',
+          targetPrice: 12,
+          quantity: 2,
+          info: { valid: true, description: [ValidationDescription.Valid] },
+        };
+
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          customer: {
+            ...CREATE_CASE_STORE_STATE_MOCK.customer,
+            salesOrgs: [{ currency: 'EUR', selected: false } as SalesOrg],
+          },
+          rowData: mockedRowData,
+          rowDataCurrency: 'USD',
+        };
+
+        const action = updateRowDataItem({ item, revalidate: true });
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.rowData).toEqual([
+          {
+            ...item,
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
+              errorCode: undefined,
+            },
+            currency: 'USD',
           },
           mockedRowData[1],
         ]);
@@ -1351,6 +1459,53 @@ describe('Create Case Reducer', () => {
       const action = clearOfferType();
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.offerType).toEqual(initialState.offerType);
+    });
+  });
+
+  describe('setRowDataCurrency', () => {
+    test('should set rowDataCurrency', () => {
+      const currency = 'USD';
+      const action = setRowDataCurrency({ currency });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.rowDataCurrency).toEqual(currency);
+    });
+  });
+
+  describe('updateCurrencyOfPositionItems', () => {
+    test('should update currency of position items', () => {
+      const currency = 'USD';
+      const fakeData = [
+        {
+          id: 0,
+          materialNumber: '123',
+          quantity: 10,
+          currency: 'EUR',
+          info: { valid: true, description: [ValidationDescription.Valid] },
+        },
+        {
+          id: 1,
+          materialNumber: '1234',
+          quantity: 10,
+          currency: 'EUR',
+          info: { valid: true, description: [ValidationDescription.Valid] },
+        },
+      ];
+
+      const expected = [
+        { ...fakeData[0], currency },
+        { ...fakeData[1], currency },
+      ];
+
+      const action = updateCurrencyOfPositionItems();
+      const state = createCaseReducer(
+        {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          rowData: fakeData,
+          rowDataCurrency: currency,
+        },
+        action
+      );
+      expect(state.rowData).toEqual(expected);
     });
   });
   describe('Reducer function', () => {

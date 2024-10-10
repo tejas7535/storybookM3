@@ -7,7 +7,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
-import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import { SalesOrg } from '@gq/core/store/reducers/models';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -18,7 +18,7 @@ import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -33,7 +33,7 @@ import { AddEntryComponent } from './add-entry.component';
 
 describe('AddEntryComponent', () => {
   let component: AddEntryComponent;
-  let mockStore: MockStore;
+
   let spectator: Spectator<AddEntryComponent>;
   const createCaseCustomerIdSubject: BehaviorSubject<CustomerId> =
     new BehaviorSubject<CustomerId>({ customerId: '1234', salesOrg: '0815' });
@@ -63,6 +63,10 @@ describe('AddEntryComponent', () => {
           customerIdForCaseCreationSubject.asObservable(),
         selectedCustomerSalesOrg$:
           selectedCustomerSalesOrgSubject.asObservable(),
+        addRowDataItems: jest.fn(),
+      }),
+      MockProvider(ProcessCaseFacade, {
+        addItemsToMaterialTable: jest.fn(),
       }),
       MockProvider(ActiveCaseFacade, {
         quotationCustomer$: of({
@@ -82,7 +86,6 @@ describe('AddEntryComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -324,7 +327,6 @@ describe('AddEntryComponent', () => {
         },
       };
       component.quantity = item.quantity;
-      mockStore.dispatch = jest.fn();
       component.matNumberInput = {
         searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
@@ -353,11 +355,10 @@ describe('AddEntryComponent', () => {
 
       component.newCaseCreation = true;
       component.addRow();
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable({
-          items: [{ ...item, targetPriceSource: undefined }],
-        })
-      );
+      expect(
+        component['processCaseFacade'].addItemsToMaterialTable
+      ).toHaveBeenCalledWith([{ ...item, targetPriceSource: undefined }]);
+
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.quantityFormControl.reset).toHaveBeenCalledTimes(1);
@@ -381,7 +382,6 @@ describe('AddEntryComponent', () => {
         },
       };
       component.quantity = item.quantity;
-      mockStore.dispatch = jest.fn();
       component.matNumberInput = {
         searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
@@ -414,11 +414,9 @@ describe('AddEntryComponent', () => {
       component.targetPriceFormControl.setValue(null);
 
       component.addRow();
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable({
-          items: [item],
-        })
-      );
+      expect(
+        component['processCaseFacade'].addItemsToMaterialTable
+      ).toHaveBeenCalledWith([item]);
     });
     test('should set the targetPriceSource when the Value when <> NO Entry and targetPrice has a value', () => {
       const item: MaterialTableItem = {
@@ -434,7 +432,6 @@ describe('AddEntryComponent', () => {
         },
       };
       component.quantity = item.quantity;
-      mockStore.dispatch = jest.fn();
       component.matNumberInput = {
         searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
@@ -468,11 +465,9 @@ describe('AddEntryComponent', () => {
       component.targetPriceFormControl.setValue('123');
 
       component.addRow();
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable({
-          items: [item],
-        })
-      );
+      expect(
+        component['processCaseFacade'].addItemsToMaterialTable
+      ).toHaveBeenCalledWith([item]);
     });
   });
   describe('onQuantityKeyPress', () => {

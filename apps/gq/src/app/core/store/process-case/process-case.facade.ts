@@ -13,6 +13,12 @@ export class ProcessCaseFacade {
   // #################################################################
   // ############################# methods ###########################
   // #################################################################
+  addItemsToMaterialTable(items: MaterialTableItem[]): void {
+    this.store.dispatch(
+      ProcessCaseActions.addNewItemsToMaterialTable({ items })
+    );
+  }
+
   updateItemFromMaterialTable(
     recentData: MaterialTableItem,
     revalidate: boolean = false

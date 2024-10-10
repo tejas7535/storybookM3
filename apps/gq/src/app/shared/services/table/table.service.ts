@@ -107,6 +107,17 @@ export class TableService {
       return newItem;
     });
   }
+
+  static updateCurrencyOfItems(
+    currentRowData: MaterialTableItem[],
+    currency: string
+  ): MaterialTableItem[] {
+    return currentRowData.map((item: MaterialTableItem) => ({
+      ...item,
+      currency,
+    }));
+  }
+
   static deleteItem(
     id: number,
     rowData: MaterialTableItem[]

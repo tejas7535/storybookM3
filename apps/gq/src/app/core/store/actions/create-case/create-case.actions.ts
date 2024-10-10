@@ -221,6 +221,14 @@ export const selectOfferType = createAction(
 
 export const clearOfferType = createAction('[Create Case] Reset Offer Type');
 
+export const setRowDataCurrency = createAction(
+  '[Create Case] Set RowData Currency',
+  props<{ currency: string }>()
+);
+export const updateCurrencyOfPositionItems = createAction(
+  '[Create Case] Update Currency of Position Items'
+);
+
 const all = union({
   addRowDataItems,
   duplicateRowDataItem,
@@ -247,6 +255,8 @@ const all = union({
   selectSectorGpsd,
   clearPurchaseOrderType,
   clearSectorGpsd,
+  setRowDataCurrency,
+  updateCurrencyOfPositionItems,
 });
 
 export type createCaseActions = typeof all;

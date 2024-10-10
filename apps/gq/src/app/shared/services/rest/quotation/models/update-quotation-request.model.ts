@@ -5,7 +5,7 @@ export interface UpdateQuotationRequest {
   currency?: string;
   quotationToDate?: string;
   requestedDelDate?: string;
-  // TODO: remove when createManualCaseAsView feature toggle is removed
+  // TODO: remove when createManualCaseAsView feature toggle is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
   customerPurchaseOrderDate?: string;
   customerInquiryDate?: string;
   validTo?: string;

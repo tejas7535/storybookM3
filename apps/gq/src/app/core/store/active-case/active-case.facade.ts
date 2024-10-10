@@ -373,6 +373,7 @@ export class ActiveCaseFacade {
       })
     );
   }
+
   resetSimulatedQuotation(): void {
     this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
   }
