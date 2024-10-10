@@ -18,7 +18,7 @@
         isCalculationImpossible: isCalculationImpossible$ | ngrxPush,
         isCalculationGeneralError: calculationGeneralError$ | ngrxPush
       } as calculationFailureData"
-      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-6 pt-4 md:py-6 md:px-6 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
+      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-6 md:py-6 md:px-6 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
       [ngClass]="{
         'rounded-b-lg rounded-none drop-shadow-none md:rounded-lg md:drop-shadow-lg':
           'sticky',
@@ -70,7 +70,7 @@
         @if (overlayData$ | ngrxPush; as overlayData) {
           <div
             class="result-data"
-            class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4"
+            class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4 active-scrollbar pb-1"
           >
             @if (calculationFailureData?.errors?.length > 0) {
               <div class="snap-center my-1 md:my-0 min-w-max">

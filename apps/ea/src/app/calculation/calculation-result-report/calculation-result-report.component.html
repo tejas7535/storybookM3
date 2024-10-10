@@ -277,17 +277,19 @@
             </ea-calculation-result-report-selection>
           </ng-container>
           <ng-container
-            report-footer-content
+            report-header-content
             *transloco="let t; read: 'calculationSelection'"
           >
             <!-- Mobile PDF Button --->
             <button
+              mat-raised-button
               (click)="downloadPdfReport()"
               [disabled]="
                 (calculationResultFacade.isPDFReportAvailable$ | ngrxPush) ===
                 false
               "
-              class="hover:bg-secondary-legacy-100 mx-auto max-w-sm md:hidden hover:text-primary text-center mt-4 flex w-full flex-row items-center px-4 py-2 hover:rounded cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug text-primary"
+              class="w-full mb-3 md:hidden text-center flex flex-row items-center cursor-pointer text-subtitle-2 disabled:text-medium-emphasis disabled:hover:bg-transparent disabled:cursor-auto font-semibold leading-snug"
+              color="primary"
             >
               <mat-icon class="shrink-0 aspect-square">download</mat-icon>
               <span class="uppercase block w-full flex-grow">{{
@@ -295,7 +297,7 @@
               }}</span>
             </button>
             <span
-              class="block w-full"
+              class="block w-auto"
               [ngClass]="{
                 'h-9': settingsFacade.isResultPreviewSticky$ | ngrxPush,
                 'h-32': (settingsFacade.isStandalone$ | ngrxPush) === false

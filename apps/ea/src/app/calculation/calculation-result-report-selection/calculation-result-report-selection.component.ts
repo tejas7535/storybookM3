@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,7 +11,7 @@ import { TranslocoModule } from '@jsverse/transloco';
   templateUrl: './calculation-result-report-selection.component.html',
   standalone: true,
   selector: 'ea-calculation-result-report-selection',
-  imports: [MatDividerModule, MatIconModule, TranslocoModule],
+  imports: [MatDividerModule, MatIconModule, TranslocoModule, MatButtonModule],
 })
 export class CalculationResultReportSelectionComponent {
   @Input()

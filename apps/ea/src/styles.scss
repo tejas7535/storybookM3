@@ -248,3 +248,25 @@ schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {
 .cdk-global-scrollblock body {
   overflow: hidden;
 }
+
+// helper to show always the scrollbar in the result preview
+.active-scrollbar::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.active-scrollbar::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+
+.active-scrollbar::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+
+.active-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.active-scrollbar::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

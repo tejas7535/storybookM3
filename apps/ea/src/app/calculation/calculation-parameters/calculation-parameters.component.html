@@ -18,7 +18,7 @@
               class="hidden sm:block end-to-end-test-element text-medium-emphasis"
               >{{ t('title') }}&nbsp;</span
             >
-            <span class="truncate text-medium-emphasis">{{
+            <span class="truncate text-medium-emphasis text-[24px]">{{
               selectedBearing
             }}</span>
           </ng-container>
@@ -43,6 +43,7 @@
         </div>
 
         <div
+          *transloco="let h; read: 'calculationSelection'"
           class="flex flex-row items-center min-[1100px]:hidden justify-between mb-4"
         >
           <!-- Mobile Empty state-->
@@ -62,9 +63,10 @@
             extended
             color="primary"
             (click)="onShowCalculationTypesClick()"
-            class="ml-auto mr-2 h-8 px-4"
+            class="ml-auto mr-2 h-8 px-4 gap-1"
           >
             <mat-icon class="!m-auto">tune</mat-icon>
+            {{ h('calculations') }}
           </button>
         </div>
 
