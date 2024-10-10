@@ -165,3 +165,12 @@ span.mdc-list-item__primary-text:has(> .expert-highlight) {
     @apply text-medium-emphasis;
   }
 }
+
+// devices with top notch iOS and newer Android devices
+.mat-drawer-inner-container {
+  padding-top: env(safe-area-inset-top);
+}
+
+.schaeffler-header-logo {
+  margin-right: env(safe-area-inset-right);
+}
