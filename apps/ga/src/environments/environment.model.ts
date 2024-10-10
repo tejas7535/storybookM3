@@ -25,4 +25,5 @@ export interface Environment {
     ngrxIgnorePattern: string[];
   };
   dmcScanEnabled: boolean;
+  dmcBackendUrl: string;
 }

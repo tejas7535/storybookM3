@@ -20,6 +20,8 @@ import {
 
 import { TranslocoService } from '@jsverse/transloco';
 
+import { environment } from '@ga/environments/environment';
+
 import {
   DialogState,
   EABackendVerificationResponse,
@@ -28,8 +30,7 @@ import {
   ScannedState,
 } from './scan.models';
 
-const EA_BACKEND_BASE_URL = 'https://engineeringapps-d.dev.dp.schaeffler';
-// const EA_BACKEND_BASE_URL = 'http://localhost:8000';
+const EA_BACKEND_BASE_URL = environment.dmcBackendUrl;
 
 @Injectable({ providedIn: 'root' })
 export class ScanService {

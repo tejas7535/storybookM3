@@ -28,4 +28,5 @@ export const environment: Environment = {
     ngrxIgnorePattern: ['@ngrx/*'],
   },
   dmcScanEnabled: true,
+  dmcBackendUrl: 'https://engineeringapps-d.dev.dp.schaeffler',
 };
