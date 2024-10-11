@@ -92,7 +92,6 @@ export class UploadSelectionToSapButtonComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.activeCaseFacade.uploadSelectionToSap(gqPositionIds);
-        this.selections = [];
       }
     });
   }

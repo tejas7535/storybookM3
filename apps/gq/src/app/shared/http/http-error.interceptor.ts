@@ -20,6 +20,7 @@ import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 
 export const SHOW_DEFAULT_SNACKBAR_ACTION = new HttpContextToken(() => true);
 const ERROR_ID = 'errorId';
+const ADDITIONAL_ERROR_PARAM = 'additionalErrorParam';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -48,13 +49,22 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           error.error?.parameters &&
           Object.keys(error.error.parameters).length > 0
         ) {
-          const parameterKey = Object.keys(error.error.parameters)[0];
-          const additionalErrorParam = Object.keys(error.error.parameters)[1];
+          const indexOfParameterKey = Object.prototype.hasOwnProperty.call(
+            error.error.parameters,
+            ERROR_ID
+          )
+            ? Object.keys(error.error.parameters).indexOf(ERROR_ID)
+            : 0;
+
+          const parameterKey = Object.keys(error.error.parameters)[
+            indexOfParameterKey
+          ];
+
           if (parameterKey === ERROR_ID) {
             errorId = error.error.parameters[parameterKey];
             errorMessage = translate(`${ERROR_ID}.${errorId}`, {
               additionalErrorParam:
-                error.error.parameters[additionalErrorParam],
+                error.error.parameters[ADDITIONAL_ERROR_PARAM],
               fallback: `${error.error.localizedMessage}`,
             });
           } else {
