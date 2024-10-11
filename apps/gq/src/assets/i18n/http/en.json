@@ -13,6 +13,7 @@
     "7": "Market Value Driver Question Id not found",
     "8": "Market Value Driver Option Id not found",
     "10": "No materials could be found for the selected filters.",
-    "21": "Update failed - please try again later."
+    "21": "Update failed - please try again later.",
+    "24": "SAP Sales Document is currently being processed (by User {additionalErrorParam})"
   }
 }

@@ -49,9 +49,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           Object.keys(error.error.parameters).length > 0
         ) {
           const parameterKey = Object.keys(error.error.parameters)[0];
+          const additionalErrorParam = Object.keys(error.error.parameters)[1];
           if (parameterKey === ERROR_ID) {
             errorId = error.error.parameters[parameterKey];
             errorMessage = translate(`${ERROR_ID}.${errorId}`, {
+              additionalErrorParam:
+                error.error.parameters[additionalErrorParam],
               fallback: `${error.error.localizedMessage}`,
             });
           } else {

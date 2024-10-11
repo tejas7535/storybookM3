@@ -13,6 +13,7 @@
     "7": "Marktwerttreiber nicht gefunden",
     "8": "Auswahl für Marktwerttreiber nicht gefunden",
     "10": "Es konnten keine Materialien für die ausgewählten Filter gefunden werden.",
-    "21": "Update fehlgeschlagen – bitte versuchen Sie es später erneut."
+    "21": "Update fehlgeschlagen – bitte versuchen Sie es später erneut.",
+    "24": "Der SAP Verkaufsbeleg ist zur Zeit in Bearbeitung (Benutzer {additionalErrorParam}"
   }
 }
