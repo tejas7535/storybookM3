@@ -33,3 +33,10 @@
   [sticky]="isResultPreviewSticky$ | ngrxPush"
   [class.hidden]="isKeyboardVisible$ | ngrxPush"
 ></ea-calculation-result-preview>
+
+@if (isKeyboardVisible$ | ngrxPush) {
+  <ea-calculation-indication-mobile
+    [isCalculationLoading]="isAnyServiceLoading$ | ngrxPush"
+    [isCalculationResultAvailable]="isCalculationResultAvailable$ | ngrxPush"
+  ></ea-calculation-indication-mobile>
+}

@@ -18,6 +18,8 @@ export class MobileKeyboardVisibilityService implements OnDestroy {
 
   constructor() {
     if (Capacitor.isNativePlatform()) {
+      Keyboard.setAccessoryBarVisible({ isVisible: true });
+
       Keyboard.addListener('keyboardWillShow', () => {
         this.isKeyboardVisibleSubject.next(true);
       });

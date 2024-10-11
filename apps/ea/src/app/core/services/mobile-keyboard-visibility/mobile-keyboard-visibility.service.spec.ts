@@ -19,6 +19,7 @@ jest.mock('@capacitor/keyboard', () => ({
       return { remove: jest.fn() };
     }),
     removeAllListeners: jest.fn(),
+    setAccessoryBarVisible: jest.fn(),
   },
 }));
 
@@ -53,6 +54,12 @@ describe('MobileKeyboardVisibilityService', () => {
 
     it('should be created', () => {
       expect(spectator.service).toBeTruthy();
+    });
+
+    it('should set accessory bar visible', () => {
+      expect(Keyboard.setAccessoryBarVisible).toHaveBeenCalledWith({
+        isVisible: true,
+      });
     });
 
     it('should update isKeyboardVisibleSubject when keyboardWillShow event is triggered', () => {

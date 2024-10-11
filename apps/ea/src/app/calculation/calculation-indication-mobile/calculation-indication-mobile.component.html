@@ -1,0 +1,17 @@
+@if (isCalculationLoading || isCalculationResultAvailable) {
+  <div
+    class="preview-mobile left-0 flex w-full items-center justify-center box-border bottom-0 z-20 transition-all duration-150 fixed"
+  >
+    <div
+      class="relative bar bg-surface flex flex-col items-center rounded-t-lg min-w-full min-[1000px]:min-w-[890px] z-50 space-y-1 overflow-hidden overflow-y-visible md:mx-4 rounded-b-lg rounded-none drop-shadow-none"
+    >
+      @if (isCalculationLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+
+      @if (isCalculationResultAvailable) {
+        <mat-progress-bar mode="determinate" [value]="100"></mat-progress-bar>
+      }
+    </div>
+  </div>
+}
