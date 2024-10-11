@@ -1,4 +1,15 @@
 # Release Notes of Grease App
+## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.13.0...ga-v1.14.0) (2024-10-11)
+
+
+### Features
+
+* **ga:** change rail recommendation to MULTITOP - UFTABI-8069 ([#6546](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6546)) ([f71f36c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f71f36c83bcc0242fa6568090d2d8d173d5be1f8))
+* **ga:** fix clipped settings for native devices with safe area (UFTABI-8149) ([7c8627d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c8627d44d3eab54de3a34d47c3614a66415dd19))
+* **ga:** implement axis orientation - UFTABI-8021 ([#6572](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6572)) ([76c7cfd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76c7cfdfd1277ecf9fb8b9d9f93e4e7b0e083709))
+* **ga:** release adjustments for DMC scan ([#6602](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6602)) ([dcf308e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dcf308ef70cefd3e99e2dbacb50a55978227bb7d))
+* **ga:** update legacy color in ga ([#6540](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6540)) ([b58cd0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b58cd0a58f3336037edca32154bf3326b3b3f860))
+
 ## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.12.4...ga-v1.13.0) (2024-08-21)
 
 
