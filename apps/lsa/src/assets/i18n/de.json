@@ -100,7 +100,13 @@
       "totalPrice": "Gesamtwert netto",
       "configSummary": "Konfigurationsübersicht",
       "increaseOne": "Menge um eins erhöhen",
-      "decreaseOne": "Menge um eins verringern"
+      "decreaseOne": "Menge um eins verringern",
+      "error": {
+        "heading": "Kein kompatibles Gerät ",
+        "body": "Basierend auf Ihren angaben konnte kein passendes Produkt gefunden werden. Kontaktieren Sie den technischen Support um Hilfe bei der Auswahl einer geeigneten Schmierlösung zu erhalten.",
+        "ctaLink": "https://medias.schaeffler.de/de/stc",
+        "ctaText": "Schaeffler Technischer Support"
+      }
     }
   },
   "tooltips": {

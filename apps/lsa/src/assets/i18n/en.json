@@ -102,7 +102,13 @@
       "increaseOne": "Increase quantity by one",
       "decreaseOne": "Decrease quantity by one",
       "func_principle": "Functional principle",
-      "mounting_position": "Mounting position"
+      "mounting_position": "Mounting position",
+      "error": {
+        "heading": "No compatible device",
+        "body": "We could not find a device that matches the application criteria you provided. To get help with your search for a suitable lubrication solution, please get in contact with our experts at the technical support",
+        "ctaLink": "https://medias.schaeffler.de/en/stc",
+        "ctaText": "Schaeffler Technical Support"
+      }
     }
   },
   "tooltips": {

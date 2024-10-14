@@ -45,5 +45,22 @@
     </div>
   </div>
 } @else {
-  <p>Error: {{ errorInstance.name }}</p>
+  <ng-container *transloco="let t; read: 'recommendation.result.error'">
+    <div class="w-full">
+      <div
+        class="mx-auto max-w-xl rounded-lg border-border border px-2 py-3 flex flex-col shadow-low-emphasis"
+      >
+        <h2 class="text-on-surface-variant text-title-large mb-2">
+          {{ t('heading') }}
+        </h2>
+        <p>
+          {{ t('body') }}
+        </p>
+        <!-- Clicks onto this link should be tracked as soon as the tracking is implemented-->
+        <a [href]="t('ctaLink')" mat-flat-button class="mt-4 ml-auto mr-0">
+          {{ t('ctaText') }}
+        </a>
+      </div>
+    </div>
+  </ng-container>
 }
