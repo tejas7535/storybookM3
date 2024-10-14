@@ -1,4 +1,8 @@
-<mat-card class="mt-2 overflow-hidden cursor-pointer" [ngClass]="cardClass">
+<mat-card
+  class="mt-2 overflow-hidden cursor-pointer"
+  appearance="outlined"
+  [ngClass]="cardClass"
+>
   <mat-card-content>
     <div class="flex">
       <div class="flex items-center">
@@ -8,12 +12,12 @@
       <div class="flex flex-col flex-grow">
         <ng-content select="[additional-header-content]"></ng-content>
         <div>
-          <div class="text-caption text-medium-emphasis">
+          <div class="text-body-small text-medium-emphasis">
             {{ productTitle }}
           </div>
         </div>
         <div
-          class="text-high-emphasis text-subtitle-1"
+          class="text-high-emphasis text-title-medium"
           [ngClass]="productSectionClass"
         >
           {{ productValue }}

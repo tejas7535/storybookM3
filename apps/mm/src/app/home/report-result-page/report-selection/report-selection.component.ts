@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,7 +11,12 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   selector: 'mm-report-selection',
   templateUrl: './report-selection.component.html',
   standalone: true,
-  imports: [MatDividerModule, MatIconModule, SharedTranslocoModule],
+  imports: [
+    MatDividerModule,
+    MatButtonModule,
+    MatIconModule,
+    SharedTranslocoModule,
+  ],
 })
 export class ReportSelectionComponent {
   @Input() selectionTypes: ResultTypeConfig[] = [];

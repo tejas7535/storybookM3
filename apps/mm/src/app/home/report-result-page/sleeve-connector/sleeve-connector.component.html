@@ -1,24 +1,24 @@
 @if (sleeveConnectors.length === 2) {
-  <h3 class="text-subtitle-1 my-4">{{ title }}</h3>
+  <h3 class="text-title-medium my-4">{{ title }}</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    <mat-card class="mt-2 overflow-hidden cursor-pointer">
+    <mat-card class="mt-2 overflow-hidden cursor-pointer" appearance="outlined">
       <mat-card-content>
         <div class="flex flex-col">
           <div class="flex flex-col">
-            <p class="text-caption text-medium-emphasis">
+            <p class="text-body-small text-medium-emphasis">
               {{ sleeveConnectors[0].designation }}
             </p>
-            <p class="text-subtitle-1 text-high-emphasis">
+            <p class="text-title-medium text-high-emphasis">
               {{ sleeveConnectors[0].value }}
             </p>
           </div>
           <mat-divider class="!my-2"></mat-divider>
           <div class="flex flex-col flex-grow">
             <div class="py-2">
-              <p class="text-caption text-medium-emphasis">
+              <p class="text-body-small text-medium-emphasis">
                 {{ sleeveConnectors[1].value }}
               </p>
-              <p class="text-medium-emphasis text-body-2">
+              <p class="text-medium-emphasis text-body-medium">
                 {{ sleeveConnectors[1].designation }}
               </p>
             </div>

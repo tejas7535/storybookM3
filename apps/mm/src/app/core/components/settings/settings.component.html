@@ -1,9 +1,9 @@
 <div *transloco="let t; read: 'sidebar'">
   <div class="w-full px-4" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
-    <div class="mb-1 text-subtitle-1 text-medium-emphasis">
+    <div class="mb-1 text-title-medium text-medium-emphasis">
       {{ t('language.title.main') }}
     </div>
-    <div class="mb-4 text-caption text-medium-emphasis">
+    <div class="mb-4 text-body-small text-medium-emphasis">
       {{ t('language.title.sub') }}
     </div>
     <schaeffler-language-select

@@ -43,8 +43,8 @@ describe('ProductCardComponent', () => {
     });
 
     it('should display the product card', () => {
-      expect(spectator.query('.text-caption')).toHaveText('Product Title');
-      expect(spectator.query('.text-subtitle-1')).toHaveText('Product Value');
+      expect(spectator.query('.text-body-small')).toHaveText('Product Title');
+      expect(spectator.query('.text-title-medium')).toHaveText('Product Value');
     });
   });
 });

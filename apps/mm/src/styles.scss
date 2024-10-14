@@ -8,7 +8,7 @@
 
  */
 
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
 
 /***************************************************************************************************
    * UTILITIES
@@ -25,6 +25,18 @@
 /***************************************************************************************************
    * OVERRIDES
    */
+
+@layer base {
+  :root {
+    --mat-stepper-line-color: var(--outline-variant-color);
+    --mat-stepper-header-done-state-icon-background-color: var(
+      --primary-color-hex
+    );
+    --mat-stepper-header-done-state-icon-foreground-color: var(
+      --on-primary-color
+    );
+  }
+}
 
 button {
   outline: none !important;
@@ -67,12 +79,7 @@ mat-horizontal-stepper.primary-stepper
 }
 
 schaeffler-html-report .mat-expansion-panel-content h2 {
-  @apply text-h6 sm:text-h5;
-}
-
-//verify those overides once m3 styling will be in place as it looks like a standard m3 card component
-.mat-mdc-card.mdc-card {
-  @apply rounded-xl border border-border bg-surface-legacy shadow-none;
+  @apply text-title-large sm:text-headline-small;
 }
 
 // devices with top notch iOS and newer Android devices
