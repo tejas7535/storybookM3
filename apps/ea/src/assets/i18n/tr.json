@@ -311,7 +311,7 @@
       "overrollingFrequency": "Aşırı yuvarlanma frekansları"
     },
     "basicFrequency": "Basit Frekanslar",
-    "saveAsPDF": "Raporu PDF olarak Kaydet"
+    "saveAsPDF": "PDF İndir"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Geri bildirim",

@@ -311,7 +311,7 @@
       "overrollingFrequency": "過滾頻率"
     },
     "basicFrequency": "基礎頻率",
-    "saveAsPDF": "將報告另存為 PDF"
+    "saveAsPDF": "PDF 下載"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "意見反應",

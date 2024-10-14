@@ -296,7 +296,7 @@
   "basicFrequencies": {
     "showBasicFrequencies": "기본 주파수 표시",
     "dialogTitle": "베어링 {{bearingDesignation}}의 기본 주파수",
-    "saveAsPdf": "PDF로 저장"
+    "saveAsPdf": "PDF 다운로드"
   },
   "calculationSelection": {
     "title": "계산 선택",
@@ -311,7 +311,7 @@
       "overrollingFrequency": "오버롤링 주파수"
     },
     "basicFrequency": "기본 주파수",
-    "saveAsPDF": "보고서를 PDF로 저장"
+    "saveAsPDF": "PDF 다운로드"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "피드백",

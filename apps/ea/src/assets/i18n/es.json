@@ -311,7 +311,7 @@
       "overrollingFrequency": "Frecuencias de exposición al paso de los elementos rodantes"
     },
     "basicFrequency": "Frecuencias básicas",
-    "saveAsPDF": "Guardar informe como PDF"
+    "saveAsPDF": "descargar PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Comentarios",

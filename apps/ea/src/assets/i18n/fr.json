@@ -311,7 +311,7 @@
       "overrollingFrequency": "Fréquences de dépassement"
     },
     "basicFrequency": "Fréquences de base",
-    "saveAsPDF": "Enregistrer le rapport en tant que PDF"
+    "saveAsPDF": "télécharger le PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Retour d’informations",

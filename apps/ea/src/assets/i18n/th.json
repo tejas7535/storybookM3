@@ -311,7 +311,7 @@
       "overrollingFrequency": "ความถี่การโอเวอร์โรล"
     },
     "basicFrequency": "ความถี่พื้นฐาน",
-    "saveAsPDF": "บันทึกรายงานเป็น PDF"
+    "saveAsPDF": "ดาวน์โหลด PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "คำติชม",

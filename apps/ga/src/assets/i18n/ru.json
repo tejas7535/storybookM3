@@ -104,9 +104,9 @@
     },
     "min": "Мин.",
     "max": "Макс.",
-    "mediasButton": "Show bearing {{bearing}} in Medias",
-    "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback helps us to continuously improve our product.",
+    "mediasButton": "Показать подшипник {{bearing}} в Medias",
+    "feedbackButton": "обратная связь",
+    "feedbackText": "Ваши отзывы помогают нам постоянно улучшать наш продукт.",
     "appStoreButtonsTitle": "Получите преимущества приложения Grease - Скачайте сейчас!"
   },
   "bearing": {
@@ -379,6 +379,7 @@
     "preferredGreaseHintAlternative": "Альтернатива",
     "preferredGreaseHintAlternativeTooltip": "Это альтернативная продукция из портфолио Schaeffler, которая представлена на основании указанной в шаге 2 информации.",
     "poweredBy": "powered by",
+    "pdfDownload": "Скачать PDF",
     "recommendedChip": "Рекомендуется",
     "resultsWithRecommendation": "Результаты отсортированы по рекомендации и интервалу повторного смазывания",
     "noRecommendation": "Указанные параметры необычны для данного применения. Пожалуйста, свяжитесь с нами.",

@@ -104,9 +104,9 @@
     },
     "min": "Min.",
     "max": "Maks.",
-    "mediasButton": "Show bearing {{bearing}} in Medias",
-    "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback helps us to continuously improve our product.",
+    "mediasButton": "Medias'ta {{bearing}} rulmanını göster",
+    "feedbackButton": "Geri bildirim",
+    "feedbackText": "Geri bildiriminiz, ürünümüzü sürekli olarak geliştirmemize yardımcı oluyor.",
     "appStoreButtonsTitle": "Grease Uygulaması'nın avantajlarına eriş - Şimdi indir!"
   },
   "bearing": {
@@ -379,6 +379,7 @@
     "preferredGreaseHintAlternative": "Alternatif",
     "preferredGreaseHintAlternativeTooltip": "Bu, adım 2&apos;deki girdilerine dayalı olarak Schaeffler ürün portföyünden alternatif bir üründür.",
     "poweredBy": "powered by",
+    "pdfDownload": "PDF İndir",
     "recommendedChip": "Önerilen",
     "resultsWithRecommendation": "Sonuçlar, tavsiye ve yeniden yağlama aralığına göre sıralanır",
     "noRecommendation": "Sağlanan parametreler, verilen uygulama için alışılmadık bir şekilde. Lütfen bizimle iletişime geçin.",

@@ -311,7 +311,7 @@
       "overrollingFrequency": "Tần suất lăn quá mức"
     },
     "basicFrequency": "Tần số cơ bản",
-    "saveAsPDF": "Lưu báo cáo dưới dạng PDF"
+    "saveAsPDF": "Tải xuống bản PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Phản hồi",

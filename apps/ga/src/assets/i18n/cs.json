@@ -104,9 +104,9 @@
     },
     "min": "Min.",
     "max": "Max.",
-    "mediasButton": "Show bearing {{bearing}} in Medias",
-    "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback helps us to continuously improve our product.",
+    "mediasButton": "Zobrazit ložisko {{bearing}} v Medias",
+    "feedbackButton": "Zpětná vazba",
+    "feedbackText": "Vaše zpětná vazba nám pomáhá neustále zlepšovat náš produkt.",
     "appStoreButtonsTitle": "Využijte výhody aplikace Grease - Stáhněte si ji nyní!"
   },
   "bearing": {
@@ -379,6 +379,7 @@
     "preferredGreaseHintAlternative": "Alternativa",
     "preferredGreaseHintAlternativeTooltip": "Toto je alternativní výrobek z&nbsp;portfolia výrobků společnosti Schaeffler na základě jejich údajů z&nbsp;kroku&nbsp;2.",
     "poweredBy": "powered by",
+    "pdfDownload": "Stáhnout PDF",
     "recommendedChip": "Doporučeno",
     "resultsWithRecommendation": "Výsledky jsou řazeny podle doporučení a intervalu přemazání",
     "noRecommendation": "Poskytnuté parametry jsou neobvyklé pro danou aplikaci. Prosím, kontaktujte nás.",

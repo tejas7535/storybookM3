@@ -321,7 +321,7 @@
       "overrollingFrequency": "滚过频率"
     },
     "basicFrequency": "基础频率",
-    "saveAsPDF": "保存为 PDF"
+    "saveAsPDF": "PDF下载"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "反馈",

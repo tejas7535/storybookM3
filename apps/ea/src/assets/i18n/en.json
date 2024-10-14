@@ -321,7 +321,7 @@
       "overrollingFrequency": "Overrolling frequencies"
     },
     "basicFrequency": "Basic Frequencies",
-    "saveAsPDF": "Save Report as PDF"
+    "saveAsPDF": "PDF Download"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Feedback",

@@ -306,7 +306,7 @@
   "basicFrequencies": {
     "showBasicFrequencies": "Grundfrequenzen anzeigen",
     "dialogTitle": "Grundfrequenzen für Lager {{bearingDesignation}}",
-    "saveAsPdf": "Als PDF speichern"
+    "saveAsPdf": "PDF Download"
   },
   "calculationSelection": {
     "title": "Wählen Sie Ihre Berechnungen aus",
@@ -321,7 +321,7 @@
       "overrollingFrequency": "Überrollfrequenzen"
     },
     "basicFrequency": "Grundfrequenzen",
-    "saveAsPDF": "Als pdf speichern"
+    "saveAsPDF": "PDF herunterladen"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Feedback",

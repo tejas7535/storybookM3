@@ -296,7 +296,7 @@
   "basicFrequencies": {
     "showBasicFrequencies": "Pokaż podstawowe częstotliwości",
     "dialogTitle": "Podstawowe częstotliwości łożyska {{bearingDesignation}}",
-    "saveAsPdf": "Zapisz jako PDF"
+    "saveAsPdf": "PDF Download"
   },
   "calculationSelection": {
     "title": "Wybierz swoje obliczenia",
@@ -311,7 +311,7 @@
       "overrollingFrequency": "Częstotliwość przetaczania"
     },
     "basicFrequency": "Częstotliwości podstawowe",
-    "saveAsPDF": "Zapisz raport jako PDF"
+    "saveAsPDF": "Pobierz PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Opinia",

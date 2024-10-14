@@ -311,7 +311,7 @@
       "overrollingFrequency": "Частота перекатывания"
     },
     "basicFrequency": "Основные частоты",
-    "saveAsPDF": "Сохранить отчет как PDF"
+    "saveAsPDF": "Скачать PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Обратная связь",

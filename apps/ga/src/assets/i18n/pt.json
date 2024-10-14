@@ -104,9 +104,9 @@
     },
     "min": "Mín.",
     "max": "Máx.",
-    "mediasButton": "Show bearing {{bearing}} in Medias",
+    "mediasButton": "Mostrar o rolamento {{bearing}} no Medias",
     "feedbackButton": "Feedback",
-    "feedbackText": "Your feedback helps us to continuously improve our product.",
+    "feedbackText": "Seu feedback nos ajuda a melhorar continuamente nosso produto.",
     "appStoreButtonsTitle": "Acesse os benefícios do aplicativo Grease - Baixe agora!"
   },
   "bearing": {
@@ -379,6 +379,7 @@
     "preferredGreaseHintAlternative": "Alternativa",
     "preferredGreaseHintAlternativeTooltip": "Este é um produto alternativo do portefólio de produtos da Schaeffler, com base nos dados introduzidos no passo&nbsp;2.",
     "poweredBy": "powered by",
+    "pdfDownload": "Download de PDF",
     "recommendedChip": "Recomendado",
     "resultsWithRecommendation": "Os resultados são classificados por recomendação e intervalo de relubrificação",
     "noRecommendation": "Os parâmetros fornecidos são incomuns para a aplicação dada. Por favor, entre em contato.",

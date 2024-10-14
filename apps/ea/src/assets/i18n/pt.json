@@ -311,7 +311,7 @@
       "overrollingFrequency": "Frequências de rolamento excessivo"
     },
     "basicFrequency": "Frequências básicas",
-    "saveAsPDF": "Guardar o relatório como um ficheiro PDF"
+    "saveAsPDF": "Download de PDF"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "Comentários",

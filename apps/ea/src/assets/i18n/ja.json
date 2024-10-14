@@ -311,7 +311,7 @@
       "overrollingFrequency": "オーバーロール周波数"
     },
     "basicFrequency": "基本周波数",
-    "saveAsPDF": "レポートを PDF として保存"
+    "saveAsPDF": "pdfダウンロード"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "フィードバック",
