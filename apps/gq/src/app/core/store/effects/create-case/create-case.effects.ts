@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -80,6 +80,19 @@ import { CreationType } from './creation-type.enum';
  */
 @Injectable()
 export class CreateCaseEffects {
+  private readonly actions$: Actions = inject(Actions);
+  private readonly searchService: SearchService = inject(SearchService);
+  private readonly quotationService: QuotationService =
+    inject(QuotationService);
+  private readonly customerService: CustomerService = inject(CustomerService);
+  private readonly router: Router = inject(Router);
+  private readonly store: Store = inject(Store);
+  private readonly materialService: MaterialService = inject(MaterialService);
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+  private readonly sectorGpsdFacade: SectorGpsdFacade =
+    inject(SectorGpsdFacade);
+  private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+
   /**
    * Get possible values for a form field
    *
@@ -372,19 +385,6 @@ export class CreateCaseEffects {
       )
     );
   });
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly searchService: SearchService,
-    private readonly quotationService: QuotationService,
-    private readonly customerService: CustomerService,
-    private readonly router: Router,
-    private readonly store: Store,
-    private readonly materialService: MaterialService,
-    private readonly snackBar: MatSnackBar,
-    private readonly sectorGpsdFacade: SectorGpsdFacade,
-    private readonly rolesFacade: RolesFacade
-  ) {}
 
   navigateAfterCaseCreate(
     customerId: string,

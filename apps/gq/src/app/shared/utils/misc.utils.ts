@@ -225,6 +225,8 @@ export const mapMaterialAutocompleteToIdValue = (
         value: matAutocomplete.materialDescription,
         value2: matAutocomplete.customerMaterial,
         selected: false,
+        deliveryUnit: matAutocomplete.deliveryUnit,
+        uom: matAutocomplete.unitOfMeasurement,
       } as IdValue;
     }
 
@@ -234,6 +236,8 @@ export const mapMaterialAutocompleteToIdValue = (
         value: matAutocomplete.materialNumber15,
         value2: matAutocomplete.customerMaterial,
         selected: false,
+        deliveryUnit: matAutocomplete.deliveryUnit,
+        uom: matAutocomplete.unitOfMeasurement,
       } as IdValue;
     }
 
@@ -243,6 +247,8 @@ export const mapMaterialAutocompleteToIdValue = (
         value: matAutocomplete.materialNumber15,
         value2: matAutocomplete.materialDescription,
         selected: false,
+        deliveryUnit: matAutocomplete.deliveryUnit,
+        uom: matAutocomplete.unitOfMeasurement,
       } as IdValue;
     }
 
@@ -263,6 +269,8 @@ export const mapIdValueToMaterialAutoComplete = (
         customerMaterial: idValueOption.value2,
         materialDescription: idValueOption.value,
         materialNumber15: idValueOption.id,
+        deliveryUnit: idValueOption.deliveryUnit,
+        unitOfMeasurement: idValueOption.uom,
       };
     }
     case FilterNames.MATERIAL_DESCRIPTION: {
@@ -270,6 +278,8 @@ export const mapIdValueToMaterialAutoComplete = (
         customerMaterial: idValueOption.value2,
         materialDescription: idValueOption.id,
         materialNumber15: idValueOption.value,
+        deliveryUnit: idValueOption.deliveryUnit,
+        unitOfMeasurement: idValueOption.uom,
       };
     }
     case FilterNames.CUSTOMER_MATERIAL: {
@@ -277,6 +287,8 @@ export const mapIdValueToMaterialAutoComplete = (
         customerMaterial: idValueOption.id,
         materialDescription: idValueOption.value2,
         materialNumber15: idValueOption.value,
+        deliveryUnit: idValueOption.deliveryUnit,
+        unitOfMeasurement: idValueOption.uom,
       };
     }
     default: {

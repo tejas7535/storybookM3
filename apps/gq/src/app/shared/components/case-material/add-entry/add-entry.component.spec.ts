@@ -13,6 +13,7 @@ import { LOCALE_DE } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { Customer, CustomerId } from '@gq/shared/models';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
+import { IdValue } from '@gq/shared/models/search';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -42,6 +43,16 @@ describe('AddEntryComponent', () => {
   const selectedCustomerSalesOrgSubject: BehaviorSubject<SalesOrg> =
     new BehaviorSubject<SalesOrg>({ id: '0815', selected: true });
 
+  const selectedMaterialAutocompleteSubject: BehaviorSubject<IdValue> =
+    new BehaviorSubject<IdValue>({
+      id: 'MatNumber',
+      value: 'MatDesc',
+      value2: null,
+      selected: true,
+      deliveryUnit: 1,
+      uom: 'PC',
+    });
+
   const createComponent = createComponentFactory({
     component: AddEntryComponent,
     imports: [
@@ -51,9 +62,26 @@ describe('AddEntryComponent', () => {
       PushPipe,
     ],
     providers: [
-      MockProvider(PasteMaterialsService),
+      MockProvider(PasteMaterialsService, {
+        onPasteStart: jest.fn(),
+      }),
       MockProvider(MatSnackBar),
-      MockProvider(AutoCompleteFacade),
+      MockProvider(AutoCompleteFacade, {
+        materialDescAutocompleteLoading$: of(false),
+        materialDescForCreateCase$: of(null),
+        materialDescForAddEntry$: of(null),
+        materialNumberAutocompleteLoading$: of(false),
+        materialNumberForCreateCase$: of(null),
+        materialNumberForAddEntry$: of(null),
+        customerMaterialNumberLoading$: of(false),
+        customerMaterialNumberForCreateCase$: of(null),
+        customerMaterialNumberForAddEntry$: of(null),
+        getSelectedAutocompleteMaterialNumber$:
+          selectedMaterialAutocompleteSubject.asObservable(),
+        autocomplete: jest.fn(),
+        unselectOptions: jest.fn(),
+        selectMaterialNumberDescriptionOrCustomerMaterial: jest.fn(),
+      }),
       MockProvider(TranslocoLocaleService, {
         getLocale: jest.fn(() => LOCALE_DE.id),
       }),
@@ -100,8 +128,6 @@ describe('AddEntryComponent', () => {
       const testValue = 10;
       component.quantityFormControl.setValue(testValue);
 
-      expect(component.quantityValid).toBeTruthy();
-      expect(component.quantity).toEqual(10);
       expect(component.rowInputValid).toHaveBeenCalled();
     });
 
@@ -152,6 +178,31 @@ describe('AddEntryComponent', () => {
       expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
         AutocompleteRequestDialog.ADD_ENTRY
       );
+    });
+
+    test('should set the quantity to the next multiple of deliveryUnit when quantity < deliveryUnit', () => {
+      component.quantityFormControl.setValue('2');
+      selectedMaterialAutocompleteSubject.next(
+        new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
+      );
+      component.ngOnInit();
+      expect(component.quantityFormControl.value).toEqual(6);
+    });
+    test('should set the quantity to the next multiple of deliveryUnit when quantity > deliveryUnit', () => {
+      component.quantityFormControl.setValue('8');
+      selectedMaterialAutocompleteSubject.next(
+        new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
+      );
+      component.ngOnInit();
+      expect(component.quantityFormControl.value).toEqual(12);
+    });
+    test('should set the quantity to deliveryUnit when quantity is falsy', () => {
+      component.quantityFormControl.setValue('');
+      selectedMaterialAutocompleteSubject.next(
+        new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
+      );
+      component.ngOnInit();
+      expect(component.quantityFormControl.value).toEqual(6);
     });
   });
 
@@ -271,8 +322,7 @@ describe('AddEntryComponent', () => {
         expect(component.targetPriceFormControl.reset).not.toHaveBeenCalled();
       });
     });
-  });
-  describe('materialNumberValid', () => {
+
     test('should set materialNumberIsValid', () => {
       component.rowInputValid = jest.fn();
       component.materialInputValid(true);
@@ -288,28 +338,43 @@ describe('AddEntryComponent', () => {
     });
     test('should set addRowEnabled to true', () => {
       component.materialInputIsValid = true;
-      component.quantityValid = true;
-      component.quantity = 10;
+      component.materialNumberInput = true;
+      selectedMaterialAutocompleteSubject.next(
+        new IdValue('MatNumber', 'MatDesc', true, null, 5, 'PC')
+      );
+      component.quantityFormControl.setValue(10);
+
       component.rowInputValid();
       expect(component.addRowEnabled).toBeTruthy();
     });
-    test('should set addRowEnabled to false', () => {
+    test('should set addRowEnabled to false when materialInputIsValid is false', () => {
       component.materialInputIsValid = false;
       component.rowInputValid();
       expect(component.addRowEnabled).toBeFalsy();
     });
-  });
-  describe('quantityValidator', () => {
-    test('should return undefined', () => {
-      const control = { value: 10 } as unknown as any;
-      component.rowInputValid = jest.fn();
-      const response = component.quantityValidator(control);
-
-      expect(component.quantityValid).toBeTruthy();
-      expect(component.quantity).toEqual(10);
-      expect(component.quantityValid).toBeTruthy();
-      expect(component.rowInputValid).toHaveBeenCalledTimes(1);
-      expect(response).toBeUndefined();
+    test('should set addRowEnabled to false when materialNumberInput is false', () => {
+      component.materialInputIsValid = true;
+      component.materialNumberInput = false;
+      component.rowInputValid();
+      expect(component.addRowEnabled).toBeFalsy();
+    });
+    test('should set addRowEnabled to false when targetPriceFormControl is not Valid', () => {
+      component.materialInputIsValid = true;
+      component.materialNumberInput = true;
+      component.targetPriceFormControl.setValue('abc');
+      component.rowInputValid();
+      expect(component.addRowEnabled).toBeFalsy();
+    });
+    test('should set addRowEnabled to false when quantityFormControl is not Valid', () => {
+      component.materialInputIsValid = true;
+      component.materialNumberInput = true;
+      component.targetPriceFormControl.setValue('1');
+      selectedMaterialAutocompleteSubject.next(
+        new IdValue('MatNumber', 'MatDesc', true, null, 5, 'PC')
+      );
+      component.quantityFormControl.setValue(6);
+      component.rowInputValid();
+      expect(component.addRowEnabled).toBeFalsy();
     });
   });
 
@@ -326,7 +391,7 @@ describe('AddEntryComponent', () => {
           valid: false,
         },
       };
-      component.quantity = item.quantity;
+
       component.matNumberInput = {
         searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
@@ -342,6 +407,7 @@ describe('AddEntryComponent', () => {
       } as any;
 
       component.quantityFormControl = {
+        value: 10,
         reset: jest.fn(),
       } as any;
 
@@ -381,7 +447,7 @@ describe('AddEntryComponent', () => {
           valid: false,
         },
       };
-      component.quantity = item.quantity;
+
       component.matNumberInput = {
         searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
@@ -397,6 +463,7 @@ describe('AddEntryComponent', () => {
       } as any;
 
       component.quantityFormControl = {
+        value: 10,
         reset: jest.fn(),
       } as any;
 
@@ -431,7 +498,7 @@ describe('AddEntryComponent', () => {
           valid: false,
         },
       };
-      component.quantity = item.quantity;
+
       component.matNumberInput = {
         searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
@@ -447,6 +514,7 @@ describe('AddEntryComponent', () => {
       } as any;
 
       component.quantityFormControl = {
+        value: 10,
         reset: jest.fn(),
       } as any;
 
@@ -518,6 +586,45 @@ describe('AddEntryComponent', () => {
       component.materialNumberInput = false;
       component.materialHasInput(true);
       expect(component.materialNumberInput).toBeTruthy();
+    });
+  });
+
+  describe('pasteFromClipboard', () => {
+    test('should call pasteMaterialsService.pasteFromClipboard', () => {
+      component.pasteFromClipboard();
+      expect(
+        component['pasteMaterialsService'].onPasteStart
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('displaySnackBar', () => {
+    test('should call snackBar.open', () => {
+      component['matSnackBar'].open = jest.fn();
+      component.displaySnackBar();
+      expect(component['matSnackBar'].open).toHaveBeenCalled();
+    });
+  });
+  describe('autoComplete Methods', () => {
+    test('should call autocompleteFacade.autocomplete', () => {
+      component.autocomplete(expect.anything(), expect.anything());
+      expect(component['autoCompleteFacade'].autocomplete).toHaveBeenCalled();
+    });
+    test('should call autocompleteFacade.selectMaterialNumberDescriptionOrCustomerMaterial', () => {
+      component.autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
+        expect.anything(),
+        expect.anything()
+      );
+      expect(
+        component['autoCompleteFacade']
+          .selectMaterialNumberDescriptionOrCustomerMaterial
+      ).toHaveBeenCalled();
+    });
+    test('should call autocompleteFacade.unselectOptions', () => {
+      component.autocompleteUnselectOptions(expect.anything());
+      expect(
+        component['autoCompleteFacade'].unselectOptions
+      ).toHaveBeenCalled();
     });
   });
 });

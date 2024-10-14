@@ -173,7 +173,9 @@
         },
         "quantity": {
           "error": "Invalid Quantity",
-          "hint": "Enter a Quantity",
+          "errorDeliveryUnit": "Consider Delivery Unit {{unit}} {{uom}}",
+          "hint": "Delivery Unit {{unit}} {{uom}}",
+          "hintOld": "Enter a Quantity",
           "label": "Quantity*"
         },
         "targetPrice": {

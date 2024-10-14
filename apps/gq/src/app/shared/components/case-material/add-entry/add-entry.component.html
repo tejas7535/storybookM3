@@ -22,8 +22,8 @@
             <div
               *ngrxLet="
                 isCaseView
-                  ? autoCompleteFacade.materialDescForCreateCase$
-                  : autoCompleteFacade.materialDescForAddEntry$ as materialDesc
+                  ? materialDescForCreateCase$
+                  : materialDescForAddEntry$ as materialDesc
               "
             >
               <gq-autocomplete-input
@@ -32,22 +32,18 @@
                 [fitContent]="true"
                 [options]="materialDesc.options"
                 (inputContent)="materialHasInput($event)"
-                (unselected)="
-                  autoCompleteFacade.unselectOptions(materialDesc.filter)
-                "
+                (unselected)="autocompleteUnselectOptions(materialDesc.filter)"
                 (added)="
-                  autoCompleteFacade.selectMaterialNumberOrDescription(
+                  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
                     $event,
                     materialDesc.filter
                   )
                 "
                 (isValid)="materialInputValid($event)"
                 [autocompleteLoading]="
-                  autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+                  materialDescAutocompleteLoading$ | ngrxPush
                 "
-                (autocomplete)="
-                  autoCompleteFacade.autocomplete($event, customerIdentifier)
-                "
+                (autocomplete)="autocomplete($event, customerIdentifier)"
                 [isDisabled]="isAutoCompleteDisabled"
               ></gq-autocomplete-input>
             </div>
@@ -55,8 +51,8 @@
             <div
               *ngrxLet="
                 isCaseView
-                  ? autoCompleteFacade.materialNumberForCreateCase$
-                  : autoCompleteFacade.materialNumberForAddEntry$ as materialNumber
+                  ? materialNumberForCreateCase$
+                  : materialNumberForAddEntry$ as materialNumber
               "
             >
               <gq-autocomplete-input
@@ -66,22 +62,19 @@
                 [options]="materialNumber.options"
                 (inputContent)="materialHasInput($event)"
                 (unselected)="
-                  autoCompleteFacade.unselectOptions(materialNumber.filter)
+                  autocompleteUnselectOptions(materialNumber.filter)
                 "
                 (added)="
-                  autoCompleteFacade.selectMaterialNumberOrDescription(
+                  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
                     $event,
                     materialNumber.filter
                   )
                 "
                 (isValid)="materialInputValid($event)"
                 [autocompleteLoading]="
-                  autoCompleteFacade.materialNumberAutocompleteLoading$
-                    | ngrxPush
+                  materialNumberAutocompleteLoading$ | ngrxPush
                 "
-                (autocomplete)="
-                  autoCompleteFacade.autocomplete($event, customerIdentifier)
-                "
+                (autocomplete)="autocomplete($event, customerIdentifier)"
                 [isDisabled]="isAutoCompleteDisabled"
               ></gq-autocomplete-input>
             </div>
@@ -89,8 +82,8 @@
             <div
               *ngrxLet="
                 isCaseView
-                  ? autoCompleteFacade.customerMaterialNumberForCreateCase$
-                  : autoCompleteFacade.customerMaterialNumberForAddEntry$ as customerMaterialNumber
+                  ? customerMaterialNumberForCreateCase$
+                  : customerMaterialNumberForAddEntry$ as customerMaterialNumber
               "
             >
               <gq-autocomplete-input
@@ -99,27 +92,27 @@
                 [fitContent]="true"
                 [options]="customerMaterialNumber.options"
                 (unselected)="
-                  autoCompleteFacade.unselectOptions(
-                    customerMaterialNumber.filter
-                  )
+                  autocompleteUnselectOptions(customerMaterialNumber.filter)
                 "
                 (added)="
-                  autoCompleteFacade.selectCustomerMaterialNumberOrDescription(
+                  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
                     $event,
                     customerMaterialNumber.filter
                   )
                 "
                 [autocompleteLoading]="
-                  autoCompleteFacade.customerMaterialNumberLoading$ | ngrxPush
+                  customerMaterialNumberLoading$ | ngrxPush
                 "
-                (autocomplete)="
-                  autoCompleteFacade.autocomplete($event, customerIdentifier)
-                "
+                (autocomplete)="autocomplete($event, customerIdentifier)"
                 [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
                 [isDisabled]="isAutoCompleteDisabled"
               ></gq-autocomplete-input>
             </div>
-            <div>
+            <div
+              *ngrxLet="
+                selectedMaterialAutocomplete$ | ngrxPush as selectedMaterial
+              "
+            >
               <mat-form-field appearance="outline" class="w-full">
                 <mat-label>
                   {{ t('quantity.label') }}
@@ -130,14 +123,36 @@
                   autocomplete="off"
                   matInput
                   #valueInput
-                  min="1"
+                  [min]="selectedMaterial?.deliveryUnit ?? 1"
                   type="number"
+                  [step]="selectedMaterial?.deliveryUnit ?? 1"
                   [formControl]="quantityFormControl"
                   [attr.data-cy]="'add-entry-quantity'"
                 />
-                <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+                @if (selectedMaterial?.deliveryUnit) {
+                  <mat-hint>{{
+                    t('quantity.hint', {
+                      unit: selectedMaterial.deliveryUnit,
+                      uom: selectedMaterial.uom | uom
+                    })
+                  }}</mat-hint>
+                }
+
                 @if (quantityFormControl.hasError('invalidInput')) {
                   <mat-error>{{ t('quantity.error') }}</mat-error>
+                }
+                @if (
+                  quantityFormControl.hasError('invalidDeliveryUnit') ||
+                  quantityFormControl.hasError('min')
+                ) {
+                  <mat-error>{{
+                    selectedMaterial?.deliveryUnit
+                      ? t('quantity.errorDeliveryUnit', {
+                          unit: selectedMaterial.deliveryUnit,
+                          uom: selectedMaterial.uom | uom
+                        })
+                      : t('quantity.error')
+                  }}</mat-error>
                 }
               </mat-form-field>
             </div>
@@ -276,8 +291,9 @@
             type="number"
             [formControl]="quantityFormControl"
           />
-          <mat-hint>{{ t('quantity.hint') }}</mat-hint>
-          @if (quantityFormControl.hasError('invalidInput')) {
+
+          <mat-hint>{{ t('quantity.hintOld) }}</mat-hint>
+          @if (quantityFormControl.hasError('min')) {
             <mat-error>{{ t('quantity.error') }}</mat-error>
           }
         </mat-form-field>

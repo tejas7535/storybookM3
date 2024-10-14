@@ -18,6 +18,7 @@ import { ProcessCaseActions } from '../process-case';
 import {
   getCaseCustomerAndShipToParty,
   getCaseMaterialDesc,
+  getSelectedAutocompleteMaterialNumber,
 } from '../selectors/create-case/create-case.selector';
 import { AutoCompleteFacade } from './autocomplete.facade';
 
@@ -41,6 +42,21 @@ describe('autocompleteFacade', () => {
   });
 
   describe('Observables', () => {
+    test('getSelectedAutocompleteMaterialNumber$', () => {
+      mockStore.setState({
+        case: {
+          selectedAutocompleteMaterialNumber: { id: '1', value: 'Audi' },
+        },
+      });
+      mockStore.overrideSelector(getSelectedAutocompleteMaterialNumber, {
+        id: '1',
+        value: 'Audi',
+        selected: false,
+      });
+      service.getSelectedAutocompleteMaterialNumber$.subscribe((result) => {
+        expect(result).toEqual({ id: '1', value: 'Audi' });
+      });
+    });
     test(
       'shipToCustomerForEditCase$',
       marbles((m) => {
@@ -195,6 +211,30 @@ describe('autocompleteFacade', () => {
       })
     );
   });
+  describe('initFacade', () => {
+    test('should dispatch resetRequestingAutoCompleteDialog action', () => {
+      mockStore.dispatch = jest.fn();
+
+      service.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        setRequestingAutoCompleteDialog({
+          dialog: AutocompleteRequestDialog.ADD_ENTRY,
+        })
+      );
+    });
+  });
+  describe('resetAutocompleteMaterials', () => {
+    test('should dispatch resetAutocompleteMaterials action', () => {
+      mockStore.dispatch = jest.fn();
+
+      service.resetAutocompleteMaterials();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        resetAutocompleteMaterials()
+      );
+    });
+  });
   describe('autocomplete', () => {
     test('should dispatch autocomplete action', () => {
       mockStore.dispatch = jest.fn();
@@ -229,10 +269,10 @@ describe('autocompleteFacade', () => {
     test('should call unselect options for MatNumber and MatDescription when FilterName is CustomerMaterail', () => {
       mockStore.dispatch = jest.fn();
       service.unselectOptions(FilterNames.CUSTOMER_MATERIAL);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
+      expect(mockStore.dispatch).not.toHaveBeenCalledWith(
         unselectAutocompleteOptions({ filter: FilterNames.MATERIAL_NUMBER })
       );
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
+      expect(mockStore.dispatch).not.toHaveBeenCalledWith(
         unselectAutocompleteOptions({
           filter: FilterNames.MATERIAL_DESCRIPTION,
         })
@@ -264,6 +304,42 @@ describe('autocompleteFacade', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         setSelectedAutocompleteOption({ option, filter })
+      );
+    });
+  });
+
+  describe('selectMaterialNumberDescriptionOrCustomerMaterial', () => {
+    test('should dispatch setSelectedAutocompleteOption action for MaterialNumber', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filter = FilterNames.MATERIAL_NUMBER;
+      service.selectMaterialNumberDescriptionOrCustomerMaterial(option, filter);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        setSelectedAutocompleteOption({ option, filter })
+      );
+      expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+        unselectAutocompleteOptions({
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+        })
+      );
+      expect(mockStore.dispatch).not.toHaveBeenCalledWith(
+        unselectAutocompleteOptions({ filter: FilterNames.MATERIAL_NUMBER })
+      );
+    });
+    test('should dispatch unselectAutocompleteOptions action for MaterialNumber and MaterialDescription', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filter = FilterNames.CUSTOMER_MATERIAL;
+      service.selectMaterialNumberDescriptionOrCustomerMaterial(option, filter);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({ filter: FilterNames.MATERIAL_NUMBER })
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+        })
       );
     });
   });

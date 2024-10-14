@@ -173,8 +173,10 @@
         },
         "quantity": {
           "error": "Invalide Menge",
+          "errorDeliveryUnit": "Beachte Liefereinheit {{unit}} {{uom}}",
           "label": "Menge*",
-          "hint": "Geben Sie die Menge ein"
+          "hint": "Liefereinheit {{unit}} {{uom}}",
+          "hintOld": "Geben Sie die Menge ein"
         },
         "targetPrice": {
           "label": "Zielpreis",

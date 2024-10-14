@@ -113,7 +113,12 @@ export class InputTableColumnDefService {
       headerName: translate('shared.caseMaterial.table.customerMaterialNumber'),
       field: 'customerMaterialNumber',
       sortable: true,
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          ColumnUtilityService.basicTransform(params),
+      },
+      valueFormatter: (params) => ColumnUtilityService.basicTransform(params),
       cellRenderer: EditCaseMaterialComponent,
     },
     { ...this.BASE_COLUMN_DEFS[3], flex: null, width: 140 },
@@ -142,5 +147,6 @@ export class InputTableColumnDefService {
       cellRenderer: EditCaseMaterialComponent,
     },
     { ...this.BASE_COLUMN_DEFS[5], flex: null, width: 120 },
+    { ...this.BASE_COLUMN_DEFS[6], flex: null, width: 120 },
   ];
 }

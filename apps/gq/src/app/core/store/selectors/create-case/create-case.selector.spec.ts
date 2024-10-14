@@ -27,6 +27,10 @@ describe('Create Case Selector', () => {
           options: [new IdValue('1', '1', true)],
         },
         {
+          filter: FilterNames.MATERIAL_NUMBER,
+          options: [new IdValue('1', '1', false), new IdValue('2', '2', true)],
+        },
+        {
           filter: FilterNames.MATERIAL_DESCRIPTION,
           options: [new IdValue('1', '1', true)],
         },
@@ -234,7 +238,15 @@ describe('Create Case Selector', () => {
       ).toBeTruthy();
     });
   });
-
+  describe('getSelectedAutocompleteMaterialNumber', () => {
+    test('should return the selected AutoComplete CaseFilterItem of MaterialNumber', () => {
+      expect(
+        createSelectors.getSelectedAutocompleteMaterialNumber.projector(
+          fakeState.case
+        )
+      ).toEqual(new IdValue('2', '2', true));
+    });
+  });
   describe('getCreateCaseData', () => {
     test('should return data to create a case', () => {
       expect(

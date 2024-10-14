@@ -153,6 +153,19 @@ export const getCustomerConditionsValid = createSelector(
     return customerValid === undefined ? false : rowDataValid;
   }
 );
+
+export const getSelectedAutocompleteMaterialNumber = createSelector(
+  getCaseState,
+  (state: CreateCaseState): IdValue => {
+    // find the selectedDeliveryUnit from the selectedMaterial, either by filter MaterialNumber, MaterialDescription or CustomerMaterial
+    // the first found result can be taken
+    const selectedOption = state.autocompleteItems
+      .find((item) => item.filter === FilterNames.MATERIAL_NUMBER)
+      ?.options.find((option) => option.selected);
+
+    return selectedOption;
+  }
+);
 export const getCreateCaseData = (userHasOfferTypeAccess: boolean = false) =>
   createSelector(getCaseState, (state: CreateCaseState): CreateCase => {
     const { customerId, salesOrgs } = state.customer;

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { MATERIAL_FILTERS } from '@gq/shared/constants';
 import { CustomerId } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
@@ -28,6 +29,7 @@ import {
   getCaseMaterialNumber,
   getCaseMaterialNumberOrDesc,
   getCustomerMaterialNumber,
+  getSelectedAutocompleteMaterialNumber,
 } from '../selectors';
 
 @Injectable({
@@ -37,6 +39,9 @@ export class AutoCompleteFacade {
   private readonly store: Store = inject(Store);
   private readonly featureToggleConfigService: FeatureToggleConfigService =
     inject(FeatureToggleConfigService);
+
+  public getSelectedAutocompleteMaterialNumber$: Observable<IdValue> =
+    this.store.select(getSelectedAutocompleteMaterialNumber);
 
   public materialDescForAddEntry$: Observable<CaseFilterItem> =
     this.store.select(getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY));
@@ -157,6 +162,7 @@ export class AutoCompleteFacade {
     this.store.dispatch(selectAutocompleteOption({ filter, option }));
   }
 
+  // TODO: check if can be removed when oldCaseCreation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
   selectMaterialNumberOrDescription(option: IdValue, filter: string): void {
     this.store.dispatch(
       setSelectedAutocompleteOption({
@@ -165,10 +171,20 @@ export class AutoCompleteFacade {
       })
     );
   }
-  selectCustomerMaterialNumberOrDescription(
+
+  // see https://confluence.schaeffler.com/display/PARS/GQ+Autocomplete+Component
+  selectMaterialNumberDescriptionOrCustomerMaterial(
     option: IdValue,
     filter: string
   ): void {
+    if (filter === FilterNames.CUSTOMER_MATERIAL) {
+      const resetFor = MATERIAL_FILTERS.filter((reset) => reset !== filter);
+
+      resetFor.forEach((reset) => {
+        this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
+      });
+    }
+
     this.store.dispatch(
       setSelectedAutocompleteOption({
         filter,
@@ -177,16 +193,15 @@ export class AutoCompleteFacade {
     );
   }
 
+  // see https://confluence.schaeffler.com/display/PARS/GQ+Autocomplete+Component
   public unselectOptions(filter: string): void {
-    const resets: FilterNames[] = [
-      FilterNames.MATERIAL_NUMBER,
-      FilterNames.MATERIAL_DESCRIPTION,
-      FilterNames.CUSTOMER_MATERIAL,
-    ];
-    const resetFor = resets.filter((reset) => reset !== filter);
-    resetFor.forEach((reset) => {
-      this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
-    });
+    if (filter !== FilterNames.CUSTOMER_MATERIAL) {
+      const resetFor = MATERIAL_FILTERS.filter((reset) => reset !== filter);
+
+      resetFor.forEach((reset) => {
+        this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
+      });
+    }
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 

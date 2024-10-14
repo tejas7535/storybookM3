@@ -186,6 +186,17 @@ export class AutocompleteInputComponent
               typeof this.searchFormControl.value === 'string'
             );
           }),
+          tap(() => {
+            // emit for parent component  errorHandling such as disabling buttons
+            if (
+              this.searchFormControl.value.length === this.ONE_CHAR_LENGTH &&
+              MATERIAL_FILTERS.includes(this.filterName)
+            ) {
+              this.isValid.emit(
+                !this.searchFormControl.hasError('invalidInput')
+              );
+            }
+          }),
           debounce(() =>
             this.searchFormControl.value.length > this.ONE_CHAR_LENGTH
               ? timer(this.DEBOUNCE_TIME_DEFAULT)
@@ -407,6 +418,10 @@ export class AutocompleteInputComponent
     value: string,
     value2?: string
   ): string {
+    if (!id) {
+      return id;
+    }
+
     let string = `${id}`;
 
     if (value) {

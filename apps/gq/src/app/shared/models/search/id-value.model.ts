@@ -3,6 +3,8 @@ export class IdValue {
     public id: string,
     public value: string,
     public selected: boolean,
-    public value2?: string
+    public value2?: string,
+    public deliveryUnit?: number,
+    public uom?: string
   ) {}
 }
