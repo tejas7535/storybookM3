@@ -71,6 +71,7 @@ import {
   ApplicationScenario,
 } from './constants/application-scenarios.model';
 import { CalculationParametersService } from './services';
+import { environment } from '@ga/environments/environment';
 
 @Component({
   selector: 'ga-calculation-parameters',
@@ -80,6 +81,8 @@ import { CalculationParametersService } from './services';
   ],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
+  public axisOrientationEnabled = environment.axisOrientationEnabled;
+
   public movement = Movement;
   public loadUnit = this.calculationParametersService.loadUnit();
   public loadRatioOptions = loadRatioOptions;

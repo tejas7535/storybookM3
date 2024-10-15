@@ -26,4 +26,5 @@ export interface Environment {
   };
   dmcScanEnabled: boolean;
   dmcBackendUrl: string;
+  axisOrientationEnabled: boolean;
 }
