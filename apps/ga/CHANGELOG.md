@@ -1,4 +1,16 @@
 # Release Notes of Grease App
+## [1.14.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.1...ga-v1.14.2) (2024-10-15)
+
+
+### Features
+
+* **ga:** update ga download pdf button ([74cd4e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/74cd4e8668d9f82b6320c55f81ec77892ce2eeff))
+
+
+### Bug Fixes
+
+* **ga:** fix ui errors in DMC scan ([#6614](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6614)) ([9ec2884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ec288489e5a8178d69ba3fe8d505aa441ad2f52))
+
 ## [1.14.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.0...ga-v1.14.1) (2024-10-11)
 
 ## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.13.0...ga-v1.14.0) (2024-10-11)
