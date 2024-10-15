@@ -16,6 +16,7 @@ import {
   of,
   Subject,
   switchMap,
+  timeout,
 } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
@@ -133,9 +134,14 @@ export class ScanService {
         language: this.translocoService.getActiveLang(),
       })
       .pipe(
+        timeout(2500),
         catchError((err, _caught) => {
-          if (err.error.detail.code) {
+          if (err.error?.detail?.code) {
             this.error$.next(err.error.detail.code);
+          } else if (err.name) {
+            this.error$.next(err.name);
+          } else {
+            this.error$.next('unknown');
           }
 
           return of();

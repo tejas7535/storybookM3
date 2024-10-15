@@ -403,6 +403,52 @@
     "confirm": "Conferma",
     "retry": "Riprova"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Cuscinetto verificato",
+      "suspicious": "Cuscinetto sospetto",
+      "counterfit": "Cuscinetto contraffatto"
+    },
+    "requestPermissions": "richiedi permessi",
+    "reportButton": "Segnalazione di contraffazione",
+    "notShowAgain": "Non mostrare più",
+    "scanAgain": "Scansiona di nuovo",
+    "confirm": "Conferma selezione",
+    "cancel": "Annulla",
+    "retry": "Riprova",
+    "continue": "Continua",
+    "errors": {
+      "invalidformat": "Questo codice ha un formato non valido e non può essere elaborato. Si prega di contattare per segnalare questo prodotto",
+      "upstream": "Si è verificato un errore interno durante la valutazione del codice",
+      "nopermissions": "Nessuna autorizzazione per accedere alla fotocamera del dispositivo",
+      "nocamera": "Nessuna fotocamera rilevata sul dispositivo corrente",
+      "unknown": "Si è verificato un errore sconosciuto",
+      "TimeoutError": "Richiesta scaduta, riprova più tardi o contatta il supporto"
+    },
+    "errorHeading": "Si è verificato un errore",
+    "preface": "Scansiona il codice prodotto (DMC) sull'etichetta con la fotocamera del tuo dispositivo per selezionare il tuo cuscinetto, verificarne l'autenticità e accedere rapidamente alle informazioni sul prodotto.",
+    "permissionsHint": "Ti verrà chiesto il permesso per la nostra applicazione di accedere alla fotocamera del tuo dispositivo",
+    "fallbackRedMessage": "Sembra che tu abbia scansionato un prodotto contraffatto. Si prega di contattare il nostro team di supporto clienti.",
+    "bearingUnavailableGA": "Il calcolo del grasso non è supportato per il cuscinetto selezionato",
+    "report": {
+      "error": "Errore",
+      "codeState": "Stato del codice",
+      "message": "Messaggio di errore",
+      "reason": "Ragione",
+      "subjectLine": "Segnalazione di cuscinetto sospetto",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Gentile team Schaeffler,",
+        "In base al controllo di verifica, sospetto che il mio cuscinetto sia un prodotto contraffatto. Per favore, aiutatemi a verificare l'autenticità del mio prodotto",
+        "",
+        "",
+        ">>> Si prega di allegare alcune immagini del prodotto e dell'imballaggio",
+        ">>> Vedi https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_IT.pdf",
+        "",
+        ">>> Si prega di non modificare sotto"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "App Medias Plus Grease",
     "close": "Chiudi",

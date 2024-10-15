@@ -408,6 +408,52 @@
     "confirm": "Confirmar",
     "retry": "Reintentar"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Rodamiento verificado",
+      "suspicious": "Rodamiento sospechoso",
+      "counterfit": "Rodamiento falsificado"
+    },
+    "requestPermissions": "solicitar permisos",
+    "reportButton": "Informe de falsificación",
+    "notShowAgain": "No mostrar de nuevo",
+    "scanAgain": "Escanear de nuevo",
+    "confirm": "Confirmar selección",
+    "cancel": "Cancelar",
+    "retry": "Reintentar",
+    "continue": "Continuar",
+    "errors": {
+      "invalidformat": "Este código tiene un formato inválido y no puede ser analizado. Por favor, póngase en contacto con nosotros para informar de este producto",
+      "upstream": "Ocurrió un error interno al evaluar el código",
+      "nopermissions": "No hay permiso para acceder a la cámara del dispositivo",
+      "nocamera": "No se detectó cámara en el dispositivo actual",
+      "unknown": "Ocurrió un error desconocido",
+      "TimeoutError": "Se agotó el tiempo de la solicitud, por favor, inténtelo más tarde o contacte al soporte"
+    },
+    "errorHeading": "Ocurrió un error",
+    "preface": "Escanee el código del producto (DMC) en la etiqueta con la cámara de su dispositivo para seleccionar su rodamiento, verificar su autenticidad y acceder rápidamente a la información del producto.",
+    "permissionsHint": "Se le pedirá permiso para que nuestra aplicación acceda a la cámara de su dispositivo",
+    "fallbackRedMessage": "Parece que ha escaneado un producto falsificado. Por favor, póngase en contacto con nuestro equipo de soporte al cliente.",
+    "bearingUnavailableGA": "El cálculo de la grasa no es compatible con el rodamiento seleccionado",
+    "report": {
+      "error": "Error",
+      "codeState": "Estado del código",
+      "message": "Mensaje de error",
+      "reason": "Razón",
+      "subjectLine": "Informe de producto de rodamiento sospechoso",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Estimado equipo de Schaeffler,",
+        "Con base en la verificación, sospecho que mi rodamiento es un producto falsificado. Por favor, ayúdame a verificar la autenticidad de mi producto",
+        "",
+        "",
+        ">>> Por favor, adjunte algunas imágenes del producto y del embalaje",
+        ">>> Ver https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Por favor, no cambie lo siguiente"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Aplicación Medias Plus Grease",
     "close": "Cerrar",

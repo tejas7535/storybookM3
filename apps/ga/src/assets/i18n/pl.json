@@ -403,6 +403,52 @@
     "confirm": "Potwierdź",
     "retry": "Ponów próbę"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Łożysko zweryfikowane",
+      "suspicious": "Podejrzane łożysko",
+      "counterfit": "Podrobione łożysko"
+    },
+    "requestPermissions": "zażądaj uprawnień",
+    "reportButton": "Raport podróbki",
+    "notShowAgain": "Nie pokazuj ponownie",
+    "scanAgain": "Skanuj ponownie",
+    "confirm": "Potwierdź wybór",
+    "cancel": "Anuluj",
+    "retry": "Spróbuj ponownie",
+    "continue": "Kontynuuj",
+    "errors": {
+      "invalidformat": "Ten kod ma nieprawidłowy format i nie można go przetworzyć. Prosimy o kontakt w celu zgłoszenia tego produktu",
+      "upstream": "Wystąpił błąd wewnętrzny podczas oceny kodu",
+      "nopermissions": "Brak uprawnień do korzystania z kamery urządzenia",
+      "nocamera": "Nie wykryto kamery na bieżącym urządzeniu",
+      "unknown": "Wystąpił nieznany błąd",
+      "TimeoutError": "Przekroczono limit czasu żądania, spróbuj ponownie później lub skontaktuj się z pomocą techniczną"
+    },
+    "errorHeading": "Wystąpił błąd",
+    "preface": "Zeskanuj kod produktu (DMC) na etykiecie za pomocą kamery urządzenia, aby wybrać swoje łożysko, zweryfikować jego autentyczność i szybko uzyskać dostęp do informacji o produkcie.",
+    "permissionsHint": "Zostaniesz poproszony o pozwolenie dla naszej aplikacji na dostęp do kamery twojego urządzenia",
+    "fallbackRedMessage": "Wygląda na to, że zeskanowałeś podrobiony produkt. Skontaktuj się z naszym zespołem obsługi klienta.",
+    "bearingUnavailableGA": "Obliczanie smaru nie jest obsługiwane dla wybranego łożyska",
+    "report": {
+      "error": "Błąd",
+      "codeState": "Stan kodu",
+      "message": "Komunikat o błędzie",
+      "reason": "Powód",
+      "subjectLine": "Raport podejrzanego łożyska",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Drogi zespole Schaeffler,",
+        "Na podstawie kontroli weryfikacyjnej podejrzewam, że moje łożysko jest podrobionym produktem. Proszę pomóżcie mi zbadać autentyczność mojego produktu",
+        "",
+        "",
+        ">>> Proszę załączyć kilka zdjęć produktu i opakowania",
+        ">>> Zobacz https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_PL.pdf",
+        "",
+        ">>> Proszę nie zmieniać poniżej"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Aplikacja Medias Plus Grease",
     "close": "Zamknij",

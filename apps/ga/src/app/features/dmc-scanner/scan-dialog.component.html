@@ -90,7 +90,7 @@
                     {{ $any(state()).pimData.bearingxDesignation }}
                   </h1>
                   @if ($any(state()).message) {
-                    <p>{{ $any(state()).message }}</p>
+                    <p class="mb-1">{{ $any(state()).message }}</p>
                   }
                   @if (!gaSupported()) {
                     <ng-container

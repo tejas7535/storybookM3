@@ -406,6 +406,52 @@
     "confirm": "確認",
     "retry": "再試行"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "ベアリング確認済み",
+      "suspicious": "疑わしいベアリング",
+      "counterfit": "偽造ベアリング"
+    },
+    "requestPermissions": "権限をリクエスト",
+    "reportButton": "偽造品報告",
+    "notShowAgain": "再び表示しない",
+    "scanAgain": "再度スキャン",
+    "confirm": "選択を確認",
+    "cancel": "キャンセル",
+    "retry": "リトライ",
+    "continue": "続行",
+    "errors": {
+      "invalidformat": "このコードは無効な形式であり、解析できません。この製品を報告するにはご連絡ください。",
+      "upstream": "コードの評価中に内部エラーが発生しました",
+      "nopermissions": "デバイスのカメラにアクセスする権限がありません",
+      "nocamera": "現在のデバイスにカメラが検出されませんでした",
+      "unknown": "不明なエラーが発生しました",
+      "TimeoutError": "リクエストがタイムアウトしました。後で再確認するかサポートに連絡してください"
+    },
+    "errorHeading": "エラーが発生しました",
+    "preface": "デバイスのカメラでラベル上の製品コード（DMC）をスキャンして、ベアリングを選択し、その真正性を確認し、製品情報にすばやくアクセスしてください。",
+    "permissionsHint": "デバイスのカメラにアクセスするための許可を当社のアプリケーションに求められます",
+    "fallbackRedMessage": "偽造品をスキャンしたようです。カスタマーサポートチームにご連絡ください。",
+    "bearingUnavailableGA": "選択したベアリングではグリース計算はサポートされていません",
+    "report": {
+      "error": "エラー",
+      "codeState": "コードの状態",
+      "message": "エラーメッセージ",
+      "reason": "理由",
+      "subjectLine": "疑わしいベアリング製品報告",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "シェフラーの皆様、",
+        "検証チェックに基づいて、私のベアリングが偽造品であると疑っています。製品の真正性を調査するのを手伝ってください",
+        "",
+        "",
+        ">>> 製品と包装のいくつかの画像を添付してください",
+        ">>> https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_JP.pdfを参照してください",
+        "",
+        ">>> 以下は変更しないでください"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Medias Plus グリースアプリ",
     "close": "閉じる",

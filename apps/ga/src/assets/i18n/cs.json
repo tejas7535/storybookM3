@@ -403,6 +403,52 @@
     "confirm": "Potvrdit",
     "retry": "Zkusit znovu"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Ložisko ověřeno",
+      "suspicious": "Podezřelé ložisko",
+      "counterfit": "Padělané ložisko"
+    },
+    "requestPermissions": "požádat o oprávnění",
+    "reportButton": "Ohlásit padělek",
+    "notShowAgain": "Nezobrazovat znovu",
+    "scanAgain": "Skenovat znovu",
+    "confirm": "Potvrdit výběr",
+    "cancel": "Zrušit",
+    "retry": "Zkusit znovu",
+    "continue": "Pokračovat",
+    "errors": {
+      "invalidformat": "Tento kód má neplatný formát a nelze jej zpracovat. Prosím, kontaktujte nás pro nahlášení tohoto výrobku",
+      "upstream": "Došlo k interní chybě při vyhodnocování kódu",
+      "nopermissions": "Žádné oprávnění pro přístup ke kameře zařízení",
+      "nocamera": "Na aktuálním zařízení nebyla nalezena kamera",
+      "unknown": "Došlo k neznámé chybě",
+      "TimeoutError": "Časový limit vypršel. Zkuste to prosím později nebo kontaktujte podporu"
+    },
+    "errorHeading": "Došlo k chybě",
+    "preface": "Naskenujte kód produktu (DMC) na etiketě pomocí kamery vašeho zařízení, abyste mohli vybrat své ložisko, ověřit jeho pravost a rychle získat informace o produktu.",
+    "permissionsHint": "Budete požádáni o oprávnění k přístupu na kameru vašeho zařízení",
+    "fallbackRedMessage": "Zdá se, že jste naskenovali padělaný produkt. Prosím, kontaktujte náš zákaznický tým podpory.",
+    "bearingUnavailableGA": "Výpočet maziva není pro vybrané ložisko podporován",
+    "report": {
+      "error": "Chyba",
+      "codeState": "Stav kódu",
+      "message": "Chybová zpráva",
+      "reason": "Důvod",
+      "subjectLine": "Ohlášení podezřelého ložiskového produktu",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Vážený tým Schaeffler,",
+        "Na základě ověřovací kontroly mám podezření, že mé ložisko je padělaný produkt. Prosím, pomozte mi ověřit pravost mého produktu",
+        "",
+        "",
+        ">>> Přiložte prosím několik obrázků produktu a obalu",
+        ">>> Viz https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Prosím, neměňte níže uvedené"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Aplikace Medias Plus Grease",
     "close": "Zavřít",

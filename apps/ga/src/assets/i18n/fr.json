@@ -405,6 +405,52 @@
     "confirm": "Confirmer",
     "retry": "Réessayer"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Palier vérifié",
+      "suspicious": "Palier suspect",
+      "counterfit": "Palier contrefait"
+    },
+    "requestPermissions": "demander des autorisations",
+    "reportButton": "Rapport de contrefaçon",
+    "notShowAgain": "Ne plus afficher",
+    "scanAgain": "Scanner à nouveau",
+    "confirm": "Confirmer la sélection",
+    "cancel": "Annuler",
+    "retry": "Réessayer",
+    "continue": "Continuer",
+    "errors": {
+      "invalidformat": "Ce code a un format invalide et ne peut pas être analysé. Veuillez nous contacter pour signaler ce produit",
+      "upstream": "Une erreur interne s'est produite lors de l'évaluation du code",
+      "nopermissions": "Aucune autorisation pour accéder à la caméra de l'appareil",
+      "nocamera": "Aucune caméra détectée sur l'appareil actuel",
+      "unknown": "Une erreur inconnue est survenue",
+      "TimeoutError": "Délai de la requête dépassé, veuillez réessayer plus tard ou contacter le support"
+    },
+    "errorHeading": "Une erreur est survenue",
+    "preface": "Scannez le code produit (DMC) sur l'étiquette avec la caméra de votre appareil pour sélectionner votre palier, vérifier son authenticité et accéder rapidement aux informations sur le produit.",
+    "permissionsHint": "Il vous sera demandé de donner la permission à notre application d'accéder à la caméra de votre appareil",
+    "fallbackRedMessage": "Il semble que vous ayez scanné un produit contrefait. Veuillez contacter notre équipe de support client.",
+    "bearingUnavailableGA": "Le calcul de la graisse n'est pas pris en charge pour le palier sélectionné",
+    "report": {
+      "error": "Erreur",
+      "codeState": "État du code",
+      "message": "Message d'erreur",
+      "reason": "Raison",
+      "subjectLine": "Rapport de produit de palier suspect",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Chère équipe Schaeffler,",
+        "Sur la base de la vérification, je soupçonne que mon palier est un produit contrefait. Veuillez m'aider à vérifier l'authenticité de mon produit",
+        "",
+        "",
+        ">>> Veuillez joindre quelques images du produit et de l'emballage",
+        ">>> Voir https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Veuillez ne pas modifier ce qui suit"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Application Medias Plus Grease",
     "close": "Fermer",

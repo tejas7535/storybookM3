@@ -405,6 +405,52 @@
     "confirm": "Konfirmasi",
     "retry": "Coba lagi"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Bantalan diverifikasi",
+      "suspicious": "Bantalan mencurigakan",
+      "counterfit": "Bantalan palsu"
+    },
+    "requestPermissions": "minta izin",
+    "reportButton": "Laporan pemalsuan",
+    "notShowAgain": "Jangan tampilkan lagi",
+    "scanAgain": "Pindai lagi",
+    "confirm": "Konfirmasi pilihan",
+    "cancel": "Batalkan",
+    "retry": "Coba lagi",
+    "continue": "Lanjutkan",
+    "errors": {
+      "invalidformat": "Kode ini memiliki format yang tidak valid dan tidak dapat diproses. Silakan hubungi kami untuk melaporkan produk ini",
+      "upstream": "Terjadi kesalahan internal saat mengevaluasi kode",
+      "nopermissions": "Tidak ada izin untuk mengakses kamera perangkat",
+      "nocamera": "Tidak ada kamera yang terdeteksi pada perangkat saat ini",
+      "unknown": "Terjadi kesalahan yang tidak diketahui",
+      "TimeoutError": "Permintaan telah melewati batas waktu, silakan periksa lagi nanti atau hubungi dukungan"
+    },
+    "errorHeading": "Terjadi kesalahan",
+    "preface": "Pindai kode produk (DMC) pada label dengan kamera perangkat Anda untuk memilih bantalan Anda, memverifikasi keasliannya, dan dengan cepat mengakses informasi produk.",
+    "permissionsHint": "Anda akan diminta izin supaya aplikasi kami dapat mengakses kamera perangkat Anda",
+    "fallbackRedMessage": "Tampaknya Anda telah memindai produk palsu. Silakan hubungi tim dukungan pelanggan kami.",
+    "bearingUnavailableGA": "Perhitungan pelumas tidak didukung untuk bantalan yang dipilih",
+    "report": {
+      "error": "Kesalahan",
+      "codeState": "Status Kode",
+      "message": "Pesan Kesalahan",
+      "reason": "Alasan",
+      "subjectLine": "Laporan produk bantalan mencurigakan",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Tim Schaeffler yang terhormat,",
+        "Berdasarkan pemeriksaan verifikasi, saya menduga bantalan saya adalah produk palsu. Tolong bantu saya untuk memverifikasi keaslian produk saya",
+        "",
+        "",
+        ">>> Harap lampirkan beberapa gambar produk dan kemasannya",
+        ">>> Lihat https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Jangan ubah yang di bawah ini"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Aplikasi Medias Plus Grease",
     "close": "Tutup",

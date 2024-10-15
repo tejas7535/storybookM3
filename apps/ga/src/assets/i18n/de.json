@@ -443,7 +443,9 @@
       "invalidformat": "Dieser Code hat ein ungültiges Format und kann nicht geparst werden. Bitte melden Sie dieses Produkt",
       "upstream": "Beim Auswerten des Codes ist ein interner Fehler aufgetreten",
       "nopermissions": "Keine Berechtigung, auf die Kameragerät zuzugreifen",
-      "nocamera": "Keine Kamera auf dem aktuellen Gerät erkannt"
+      "nocamera": "Keine Kamera auf dem aktuellen Gerät erkannt",
+      "unknown": "Ein unbekannter Fehler ist aufgetreten",
+      "TimeoutError": "Es ist ein Fehler bei der Anfrage aufgetreten, bitte versuchen Sie es später erneut oder kontaktieren Sie den Schaeffler support"
     },
     "errorHeading": "Ein Fehler ist aufgetreten",
     "preface": "Scannen Sie den Produktcode (DMC) auf dem Etikett mit der Kamera Ihres Geräts, um Ihr Lager auszuwählen, dessen Echtheit zu überprüfen und schnell auf Produktinformationen zuzugreifen.",

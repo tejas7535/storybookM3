@@ -403,6 +403,52 @@
     "confirm": "Onayla",
     "retry": "Tekrar dene"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Rulman doğrulandı",
+      "suspicious": "Şüpheli Rulman",
+      "counterfit": "Sahte Rulman"
+    },
+    "requestPermissions": "İzinleri isteyin",
+    "reportButton": "Sahtecilik bildirimi",
+    "notShowAgain": "Bir daha gösterme",
+    "scanAgain": "Tekrar Tara",
+    "confirm": "Seçimi onayla",
+    "cancel": "İptal",
+    "retry": "Tekrar Dene",
+    "continue": "Devam Et",
+    "errors": {
+      "invalidformat": "Bu kod geçersiz bir biçime sahip ve çözümlenemiyor. Lütfen bu ürünü bildirmek için iletişime geçin",
+      "upstream": "Kodu değerlendirirken iç hatası oluştu",
+      "nopermissions": "Cihaz kamerasına erişim izni yok",
+      "nocamera": "Mevcut cihazda kamera algılanmadı",
+      "unknown": "Bilinmeyen bir hata oluştu",
+      "TimeoutError": "İstek zaman aşımına uğradı, lütfen daha sonra tekrar kontrol edin veya destekle iletişime geçin"
+    },
+    "errorHeading": "Bir hata oluştu",
+    "preface": "Kameranızla etiketteki ürün kodunu (DMC) tarayın, rulmanınızı seçin, doğruluğunu doğrulayın ve ürün bilgilerine hızlıca erişin.",
+    "permissionsHint": "Uygulamamızın cihaz kamerasına erişmesi için izin istenecek",
+    "fallbackRedMessage": "Görünüşe göre sahte bir ürün taradınız. Lütfen müşteri destek ekibimizle iletişime geçin.",
+    "bearingUnavailableGA": "Seçilen rulman için gres hesaplaması desteklenmiyor",
+    "report": {
+      "error": "Hata",
+      "codeState": "Kod Durumu",
+      "message": "Hata Mesajı",
+      "reason": "Sebep",
+      "subjectLine": "Şüpheli rulman ürün raporu",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Sevgili Schaeffler Ekibi,",
+        "Doğrulama kontrolüne göre, rulmanımın sahte bir ürün olduğunu düşünüyorum. Lütfen ürünümün doğruluğunu incelememe yardımcı olun",
+        "",
+        "",
+        ">>> Lütfen ürün ve ambalajın birkaç resmini ekleyin",
+        ">>> Bakınız https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Lütfen aşağıdakileri değiştirmeyin"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Medias Plus Grease Uygulaması",
     "close": "Kapat",

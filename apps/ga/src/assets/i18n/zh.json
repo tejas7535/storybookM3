@@ -418,6 +418,52 @@
     "confirm": "确认",
     "retry": "重试"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "轴承已验证",
+      "suspicious": "可疑轴承",
+      "counterfit": "伪造轴承"
+    },
+    "requestPermissions": "请求权限",
+    "reportButton": "伪造报告",
+    "notShowAgain": "不再显示",
+    "scanAgain": "再次扫描",
+    "confirm": "确认选择",
+    "cancel": "取消",
+    "retry": "重试",
+    "continue": "继续",
+    "errors": {
+      "invalidformat": "此代码格式无效，无法解析。请联系报告此产品",
+      "upstream": "评估代码时发生内部错误",
+      "nopermissions": "无权限访问设备摄像头",
+      "nocamera": "当前设备未检测到摄像头",
+      "unknown": "发生未知错误",
+      "TimeoutError": "请求超时，请稍后检查或联系支持"
+    },
+    "errorHeading": "发生错误",
+    "preface": "使用设备的摄像头扫描标签上的产品代码（DMC）以选择轴承，验证其真实性并快速访问产品信息。",
+    "permissionsHint": "您将被要求允许我们的应用程序访问您的设备摄像头",
+    "fallbackRedMessage": "您似乎扫描了一个伪造产品。请与我们的客户支持团队联系。",
+    "bearingUnavailableGA": "所选轴承不支持润滑脂计算",
+    "report": {
+      "error": "错误",
+      "codeState": "代码状态",
+      "message": "错误信息",
+      "reason": "原因",
+      "subjectLine": "可疑轴承产品报告",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "尊敬的舍弗勒团队，",
+        "根据验证检查，我怀疑我的轴承是伪造产品。请帮助我调查我的产品的真实性",
+        "",
+        "",
+        ">>> 请附上一些产品和包装的图片",
+        ">>> 请参见 https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> 请不要更改以下内容"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Medias Plus 润滑脂应用",
     "close": "关闭",

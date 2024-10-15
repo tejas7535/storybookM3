@@ -427,7 +427,9 @@
       "invalidformat": "This code has an invalid format and cannot be parsed. Please get in touch to report this product",
       "upstream": "An internal error occured while evaluating the code",
       "nopermissions": "No permission to access the device camera",
-      "nocamera": "No camera detected on the current device"
+      "nocamera": "No camera detected on the current device",
+      "unknown": "An unknown error occured",
+      "TimeoutError": "Request timed out, please check back later or contact support"
     },
     "errorHeading": "An error occured",
     "preface": "Scan the product code (DMC) on the label with your device's camera to select your bearing, verify its authenticity and quickly access product information.",

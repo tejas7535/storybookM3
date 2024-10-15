@@ -405,6 +405,52 @@
     "confirm": "확인",
     "retry": "다시 시도"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "베어링 확인됨",
+      "suspicious": "의심되는 베어링",
+      "counterfit": "위조 베어링"
+    },
+    "requestPermissions": "권한 요청",
+    "reportButton": "위조품 보고",
+    "notShowAgain": "다시 표시하지 않기",
+    "scanAgain": "다시 스캔",
+    "confirm": "선택 확인",
+    "cancel": "취소",
+    "retry": "재시도",
+    "continue": "계속",
+    "errors": {
+      "invalidformat": "이 코드는 유효하지 않은 형식이며 파싱할 수 없습니다. 이 제품을 신고하려면 연락 주십시오",
+      "upstream": "코드를 평가하는 동안 내부 오류가 발생했습니다",
+      "nopermissions": "디바이스 카메라에 액세스할 수 있는 권한이 없습니다",
+      "nocamera": "현재 장치에서 카메라가 감지되지 않았습니다",
+      "unknown": "알 수 없는 오류가 발생했습니다",
+      "TimeoutError": "요청이 시간 초과되었습니다. 나중에 다시 확인하거나 지원에 문의하십시오"
+    },
+    "errorHeading": "오류가 발생했습니다",
+    "preface": "디바이스의 카메라로 라벨의 제품 코드(DMC)를 스캔하여 베어링을 선택하고, 정품 여부를 확인하고, 제품 정보를 빠르게 액세스하세요.",
+    "permissionsHint": "디바이스 카메라에 액세스하기 위한 권한이 당사의 애플리케이션에 요청됩니다",
+    "fallbackRedMessage": "위조품을 스캔한 것 같습니다. 고객 지원 팀에 문의하십시오.",
+    "bearingUnavailableGA": "선택한 베어링에 대한 그리스 계산을 지원하지 않습니다",
+    "report": {
+      "error": "오류",
+      "codeState": "코드 상태",
+      "message": "오류 메시지",
+      "reason": "이유",
+      "subjectLine": "의심스러운 베어링 제품 보고",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Schaeffler 팀에,",
+        "검증 검사에 따라 내 베어링이 위조 제품일 가능성이 있다고 의심됩니다. 내 제품의 진위를 조사하는데 도움을 주세요",
+        "",
+        "",
+        ">>> 제품 및 포장의 이미지를 몇 장 첨부해 주세요",
+        ">>> https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_KR.pdf를 참고하십시오",
+        "",
+        ">>> 아래에 아무것도 변경하지 마십시오"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Medias Plus 그리스 앱",
     "close": "닫기",

@@ -405,6 +405,52 @@
     "confirm": "Xác nhận",
     "retry": "Thử lại"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Vòng bi đã được xác minh",
+      "suspicious": "Vòng bi đáng ngờ",
+      "counterfit": "Vòng bi giả"
+    },
+    "requestPermissions": "yêu cầu quyền",
+    "reportButton": "Báo cáo hàng giả",
+    "notShowAgain": "Không hiển thị lại",
+    "scanAgain": "Quét lại",
+    "confirm": "Xác nhận lựa chọn",
+    "cancel": "Hủy bỏ",
+    "retry": "Thử lại",
+    "continue": "Tiếp tục",
+    "errors": {
+      "invalidformat": "Mã này có định dạng không hợp lệ và không thể được phân tích. Vui lòng liên hệ để báo cáo sản phẩm này",
+      "upstream": "Đã xảy ra lỗi nội bộ khi đánh giá mã",
+      "nopermissions": "Không có quyền truy cập vào máy ảnh của thiết bị",
+      "nocamera": "Không phát hiện thấy máy ảnh trên thiết bị hiện tại",
+      "unknown": "Đã xảy ra lỗi không xác định",
+      "TimeoutError": "Yêu cầu đã hết thời gian chờ, vui lòng kiểm tra lại sau hoặc liên hệ hỗ trợ"
+    },
+    "errorHeading": "Đã xảy ra lỗi",
+    "preface": "Quét mã sản phẩm (DMC) trên nhãn bằng máy ảnh của bạn để chọn vòng bi của bạn, xác minh tính xác thực của nó và truy cập nhanh chóng thông tin sản phẩm.",
+    "permissionsHint": "Bạn sẽ được yêu cầu cấp quyền cho ứng dụng của chúng tôi truy cập vào máy ảnh của thiết bị của bạn",
+    "fallbackRedMessage": "Có vẻ bạn đã quét phải sản phẩm giả. Vui lòng liên hệ với đội ngũ hỗ trợ khách hàng của chúng tôi.",
+    "bearingUnavailableGA": "Không hỗ trợ tính toán mỡ bôi trơn cho vòng bi đã chọn",
+    "report": {
+      "error": "Lỗi",
+      "codeState": "Trạng thái mã",
+      "message": "Thông báo lỗi",
+      "reason": "Lý do",
+      "subjectLine": "Báo cáo sản phẩm vòng bi đáng ngờ",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Kính gửi đội ngũ Schaeffler,",
+        "Dựa trên kiểm tra xác minh, tôi nghi ngờ vòng bi của tôi là một sản phẩm giả. Vui lòng giúp tôi xác minh tính xác thực của sản phẩm của tôi",
+        "",
+        "",
+        ">>> Vui lòng đính kèm một số hình ảnh của sản phẩm và bao bì",
+        ">>> Xem https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Vui lòng không thay đổi phía dưới"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Ứng Dụng Medias Plus Grease",
     "close": "Đóng",

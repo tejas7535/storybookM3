@@ -403,6 +403,52 @@
     "confirm": "Confirmar",
     "retry": "Tentar novamente"
   },
+  "origincheck": {
+    "bearingResult": {
+      "verified": "Rolamento verificado",
+      "suspicious": "Rolamento suspeito",
+      "counterfit": "Rolamento falsificado"
+    },
+    "requestPermissions": "solicitar permissões",
+    "reportButton": "Relatório de falsificação",
+    "notShowAgain": "Não mostrar novamente",
+    "scanAgain": "Digitalizar novamente",
+    "confirm": "Confirmar seleção",
+    "cancel": "Cancelar",
+    "retry": "Tentar novamente",
+    "continue": "Continuar",
+    "errors": {
+      "invalidformat": "Este código tem um formato inválido e não pode ser analisado. Por favor, entre em contacto para relatar este produto",
+      "upstream": "Ocorreu um erro interno ao avaliar o código",
+      "nopermissions": "Sem permissão para aceder à câmara do dispositivo",
+      "nocamera": "Nenhuma câmara detectada no dispositivo atual",
+      "unknown": "Ocorreu um erro desconhecido",
+      "TimeoutError": "Pedido expirado, por favor verifique mais tarde ou contacte o suporte"
+    },
+    "errorHeading": "Ocorreu um erro",
+    "preface": "Digitalize o código do produto (DMC) no rótulo com a câmara do seu dispositivo para selecionar o seu rolamento, verificar a sua autenticidade e aceder rapidamente às informações do produto.",
+    "permissionsHint": "Ser-lhe-á pedido permissão para que a nossa aplicação aceda à câmara do seu dispositivo",
+    "fallbackRedMessage": "Parece que digitalizou um produto falsificado. Por favor, contacte a nossa equipa de apoio ao cliente.",
+    "bearingUnavailableGA": "O cálculo da graxa não é suportado para o rolamento selecionado",
+    "report": {
+      "error": "Erro",
+      "codeState": "Estado do código",
+      "message": "Mensagem de erro",
+      "reason": "Razão",
+      "subjectLine": "Relatório de produto de rolamento suspeito",
+      "receiverAddress": "piracy@schaeffler.com",
+      "mailBody": [
+        "Caro Equipa Schaeffler,",
+        "Com base na verificação, suspeito que o meu rolamento seja um produto falsificado. Por favor, ajudem-me a investigar a autenticidade do meu produto",
+        "",
+        "",
+        ">>> Por favor anexe algumas imagens do produto e da embalagem",
+        ">>> Veja https://cdn.schaeffler-ecommerce.com/frontend/One_Code_Photo_Guideline/Photo_Guideline_One_Code_EN.pdf",
+        "",
+        ">>> Por favor, não altere abaixo"
+      ]
+    }
+  },
   "recommendationPopup": {
     "modalTitle": "Aplicação Medias Plus Grease",
     "close": "Fechar",
