@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.14.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.2...ga-v1.14.3) (2024-10-15)
+
+
+### Bug Fixes
+
+* **ga:** disable orientation of axis selection ([#6618](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6618)) ([ff0cf24](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ff0cf243ecfe8951b340b379327dc128cf01d15f))
+
 ## [1.14.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.1...ga-v1.14.2) (2024-10-15)
 
 
