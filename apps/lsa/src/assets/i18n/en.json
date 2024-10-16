@@ -123,5 +123,19 @@
     "lubricant": {
       "lubricant": "Schaeffler lubricants have been specially developed for use in rolling bearings and optimized with regard to their performance. Schaeffler offers an extensive portfolio of different lubricants for all possible applications and requirements."
     }
+  },
+  "inputs": {
+    "title": "Your inputs",
+    "relubricationQuantity": {
+      "title": "Relubrication quantity per point",
+      "value": "< {{quantity}} ccm per {{interval}}"
+    },
+    "temperature": {
+      "title": "Ambient temperature in application",
+      "value": "{{min}}°C to {{max}}°C"
+    },
+    "maxPipeLengthTitle": "Max. pipe length",
+    "powerSupplyTitle": "Power supply",
+    "optimeTitle": "OPTIME integration"
   }
 }

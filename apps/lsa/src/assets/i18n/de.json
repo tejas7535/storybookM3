@@ -121,5 +121,19 @@
     "lubricant": {
       "lubricant": "Schaeffler-Schmierstoffe wurden speziell für den Einsatz in Wälzlagern entwickelt und hinsichtlich ihrer Leistungsfähigkeit optimiert. Schaeffler bietet ein umfangreiches Portfolio an unterschiedlichen Schmierstoffen für alle möglichen Anwendungen und Anforderungen."
     }
+  },
+  "inputs": {
+    "title": "Ihre Eingaben",
+    "relubricationQuantity": {
+      "title": "Nachschmiermenge pro Punkt",
+      "value": "< {{quantity}} ccm pro {{interval}}"
+    },
+    "temperature": {
+      "title": "Umgebungstemperatur in der Anwendung",
+      "value": "{{min}}°C bis {{max}}°C"
+    },
+    "maxPipeLengthTitle": "Max. Rohrlänge",
+    "powerSupplyTitle": "Stromversorgung",
+    "optimeTitle": "OPTIME-Integration"
   }
 }
