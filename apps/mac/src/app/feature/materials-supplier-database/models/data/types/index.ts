@@ -60,6 +60,8 @@ import {
   SteelMaterialStandardForm,
   SteelMaterialStandardFormValue,
   SteelMaterialStandardTableValue,
+  SteelProductCategoryRule,
+  SteelProductCategoryRuleTableValue,
 } from '@mac/msd/models';
 
 export type Material =
@@ -136,3 +138,5 @@ export type MaterialStandardTableValue =
   | SteelMaterialStandardTableValue
   | CopperMaterialStandardTableValue
   | CeramicMaterialStandardTableValue;
+export type ProductCategoryRule = SteelProductCategoryRule;
+export type ProductCategoryRuleTableValue = SteelProductCategoryRuleTableValue;

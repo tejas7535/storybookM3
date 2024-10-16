@@ -28,6 +28,7 @@ describe('DetailCellRendererComponent', () => {
   const matStdHistorySubject = new Subject<any[]>();
   const supplierHistorySubject = new Subject<any[]>();
   const sapMaterialHistorySubject = new Subject<any[]>();
+  const productCategoryRulesHistorySubject = new Subject<any[]>();
   let navigationSpy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
   let store: MockStore;
 
@@ -49,8 +50,12 @@ describe('DetailCellRendererComponent', () => {
           ),
           getHistoryForMaterial: jest.fn(() => materialHistorySubject),
           getHistoryForSAPMaterial: jest.fn(() => sapMaterialHistorySubject),
+          getHistoryForProductCategoryRule: jest.fn(
+            () => productCategoryRulesHistorySubject
+          ),
           mapStandardsToTableView: jest.fn((std) => std),
           mapSuppliersToTableView: jest.fn((suppliers) => suppliers),
+          mapProductCategoryRulesToTableView: jest.fn((pcrs) => pcrs),
         },
       },
     ],
@@ -168,6 +173,18 @@ describe('DetailCellRendererComponent', () => {
         done();
       });
       supplierHistorySubject.next(expected);
+    }, 1500);
+    it('should call ProductCategoryRuleHistory', (done) => {
+      setNavigation(
+        MaterialClass.STEEL,
+        NavigationLevel.PRODUCT_CATEGORY_RULES
+      );
+      const expected = ['44'];
+      component['getObservable']({ id: 4 }).subscribe((result) => {
+        expect(result).toBe(expected);
+        done();
+      });
+      productCategoryRulesHistorySubject.next(expected);
     }, 1500);
 
     it('should call SAPMaterialHistory', () => {

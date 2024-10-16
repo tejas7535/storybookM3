@@ -105,3 +105,7 @@ export const INDIRECT_SUPPLIER_EMISSIONS = 'indirectSupplierEmissions';
 export const UPSTREAM_EMISSIONS = 'upstreamEmissions';
 export const STOFF_ID = 'stoffId';
 export const YEARS = 'years';
+export const FILENAME = 'filename';
+export const ALLOCATION_TO_SIDE_PRODUCTS = 'allocationToSideProducts';
+export const VERSION = 'version';
+export const TITLE = 'title';

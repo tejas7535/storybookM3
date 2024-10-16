@@ -24,6 +24,8 @@ import {
   MaterialStandard,
   MaterialStandardTableValue,
   PolymerMaterial,
+  ProductCategoryRule,
+  ProductCategoryRuleTableValue,
   SAPMaterial,
   SAPMaterialHistoryValue,
   SapMaterialsDatabaseUploadStatus,
@@ -337,6 +339,57 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials/st/materialStandards`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchProductCategoryRules', () => {
+    it('should return a list of productCategoryRules', (done) => {
+      const mockResponse: ProductCategoryRule[] = [
+        {
+          id: 1,
+          timestamp: 0,
+          title: 'test',
+          allocationToSideProducts: false,
+          materialClass: MaterialClass.STEEL,
+          modifiedBy: 'dev',
+          uploadFile: {
+            azureReference: 'ref',
+            filename: 'test',
+            id: 1,
+            type: 'pcr',
+          },
+          validUntil: 0,
+          version: '1',
+        },
+        {
+          id: 2,
+          timestamp: 0,
+          title: 'test2',
+          allocationToSideProducts: false,
+          materialClass: MaterialClass.STEEL,
+          modifiedBy: 'dev',
+          uploadFile: {
+            azureReference: 'ref',
+            filename: 'test2',
+            id: 2,
+            type: 'pcr',
+          },
+          validUntil: 0,
+          version: '1',
+        },
+      ];
+      service
+        .fetchProductCategoryRules(MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/productCategoryRules`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -1133,6 +1186,21 @@ describe('MsdDataService', () => {
     });
   });
 
+  describe('getHistoryForProductCategoryRule', () => {
+    it('should pull historical data', (done) => {
+      const id = 79;
+      service
+        .getHistoryForProductCategoryRule(MaterialClass.STEEL, id)
+        .subscribe(() => done());
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/history/productCategoryRules/${id}?current=true`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush('[]');
+    });
+  });
+
   describe('mapSuppliersToTableView', () => {
     it('should return expected', () => {
       const srcArray: ManufacturerSupplier[] = [
@@ -1245,6 +1313,73 @@ describe('MsdDataService', () => {
         },
       ];
       expect(service.mapStandardsToTableView(srcArray)).toStrictEqual(expected);
+    });
+  });
+  describe('mapProductCategoryRulesToTableView', () => {
+    it('should return expected', () => {
+      const srcArray: ProductCategoryRule[] = [
+        {
+          id: 1,
+          timestamp: 0,
+          title: 'test',
+          allocationToSideProducts: false,
+          materialClass: MaterialClass.STEEL,
+          modifiedBy: 'dev',
+          uploadFile: {
+            azureReference: 'ref',
+            filename: 'test',
+            id: 1,
+            type: 'pcr',
+          },
+          validUntil: 0,
+          version: '1',
+        },
+        {
+          id: 2,
+          timestamp: 0,
+          title: 'test2',
+          allocationToSideProducts: false,
+          materialClass: MaterialClass.STEEL,
+          modifiedBy: 'dev',
+          uploadFile: {
+            azureReference: 'ref',
+            filename: 'test2',
+            id: 2,
+            type: 'pcr',
+          },
+          validUntil: 0,
+          version: '1',
+        },
+      ];
+      const expected: ProductCategoryRuleTableValue[] = [
+        {
+          id: 1,
+          lastModified: 0,
+          title: 'test',
+          allocationToSideProducts: false,
+          materialClass: MaterialClass.STEEL,
+          modifiedBy: 'dev',
+          filename: 'test',
+          uploadFileId: 1,
+          validUntil: 0,
+          version: '1',
+        },
+        {
+          id: 2,
+          lastModified: 0,
+          title: 'test2',
+          allocationToSideProducts: false,
+          materialClass: MaterialClass.STEEL,
+          modifiedBy: 'dev',
+          filename: 'test2',
+          uploadFileId: 2,
+          validUntil: 0,
+          version: '1',
+        },
+      ];
+      expect(
+        service.mapProductCategoryRulesToTableView(srcArray)
+      ).toStrictEqual(expected);
     });
   });
 

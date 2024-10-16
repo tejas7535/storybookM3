@@ -12,7 +12,7 @@
               {{
                 t('changedBy', {
                   name: item.modifiedBy,
-                  date: item.timestamp | date: 'dd.MM.YYYY HH:mm'
+                  date: item.timestamp ?? item.date | date: 'dd.MM.YYYY HH:mm'
                 })
               }}
             </dt>
@@ -37,7 +37,8 @@
             {{
               t('createdBy', {
                 name: initial.modifiedBy,
-                date: initial.timestamp | date: 'dd.MM.YYYY HH:mm'
+                date:
+                  initial.timestamp ?? initial.date | date: 'dd.MM.YYYY HH:mm'
               })
             }}
           </span>

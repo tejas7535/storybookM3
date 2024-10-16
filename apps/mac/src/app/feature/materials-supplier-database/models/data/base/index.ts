@@ -11,3 +11,5 @@ export * from './base-material-standard.model';
 export * from './base-material-standard-form.model';
 export * from './base-material-standard-form-value.model';
 export * from './base-material-standard-table-value.model';
+export * from './base-product-category-rule.model';
+export * from './base-product-category-rule-table-value.model';

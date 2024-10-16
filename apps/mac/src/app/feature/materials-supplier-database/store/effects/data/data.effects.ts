@@ -17,6 +17,8 @@ import {
   ManufacturerSupplierTableValue,
   Material,
   MaterialStandardTableValue,
+  ProductCategoryRule,
+  ProductCategoryRuleTableValue,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
 } from '@mac/msd/models';
@@ -45,6 +47,9 @@ export class DataEffects {
           }
           case NavigationLevel.STANDARD: {
             return [DataActions.fetchMaterialStandards()];
+          }
+          case NavigationLevel.PRODUCT_CATEGORY_RULES: {
+            return [DataActions.fetchProductCategoryRules()];
           }
           default: {
             return [];
@@ -200,6 +205,30 @@ export class DataEffects {
           ),
           // TODO: implement proper error handling
           catchError(() => of(DataActions.fetchMaterialStandardsFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchProductCategoryRules$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchProductCategoryRules),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchProductCategoryRules(materialClass).pipe(
+          map((productCategoryRules: ProductCategoryRule[]) =>
+            this.msdDataService.mapProductCategoryRulesToTableView(
+              productCategoryRules
+            )
+          ),
+          map((productCategoryRules: ProductCategoryRuleTableValue[]) =>
+            DataActions.fetchProductCategoryRulesSuccess({
+              materialClass,
+              productCategoryRules,
+            })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchProductCategoryRulesFailure()))
         )
       )
     );

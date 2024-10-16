@@ -10,6 +10,18 @@ export interface ViewState {
   active?: boolean;
 }
 
+export interface MsdAgGridStateV3 {
+  version: number;
+  materials: {
+    [material in MaterialClass]?: {
+      [NavigationLevel.MATERIAL]?: ViewState;
+      [NavigationLevel.SUPPLIER]?: ViewState;
+      [NavigationLevel.STANDARD]?: ViewState;
+      [NavigationLevel.PRODUCT_CATEGORY_RULES]?: ViewState;
+    };
+  };
+}
+
 export interface MsdAgGridStateV2 {
   version: number;
   materials: {
@@ -28,6 +40,9 @@ export interface MsdAgGridStateV1 {
   };
 }
 
-export type MsdAgGridStateLegacy = MsdAgGridStateV1;
-export type MsdAgGridStateCurrent = MsdAgGridStateV2;
-export type MsdAgGridState = MsdAgGridStateV1 | MsdAgGridStateV2;
+export type MsdAgGridStateLegacy = MsdAgGridStateV1 | MsdAgGridStateV2;
+export type MsdAgGridStateCurrent = MsdAgGridStateV3;
+export type MsdAgGridState =
+  | MsdAgGridStateV1
+  | MsdAgGridStateV2
+  | MsdAgGridStateV3;

@@ -33,6 +33,7 @@
         [ngClass]="{
           '!bg-white !text-high-emphasis': item === active
         }"
+        [disabled]="navigationLevel === 'productCategoryRules'"
       >
         <mat-icon class="!h-4 !w-4 !text-[16px]">folder_shared</mat-icon>
       </mat-button-toggle>

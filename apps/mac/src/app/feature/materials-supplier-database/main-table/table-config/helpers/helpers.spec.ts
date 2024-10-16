@@ -42,6 +42,7 @@ import {
   SELF_CERTIFIED_VALUE_GETTER,
   STATUS_VALUE_GETTER,
   TRANSLATE_VALUE_FORMATTER_FACTORY,
+  YES_NO_VALUE_GETTER_FACTORY,
 } from './index';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -656,6 +657,32 @@ describe('helpers', () => {
           value: value as number[],
         } as ValueFormatterParams)
       ).toEqual(expected);
+    });
+  });
+
+  describe('YES_NO_VALUE_GETTER_FACTORY', () => {
+    it('should return yes', () => {
+      const data = {
+        field: true,
+      };
+
+      expect(
+        YES_NO_VALUE_GETTER_FACTORY('field')({
+          data,
+        } as unknown as ValueGetterParams)
+      ).toEqual('materialsSupplierDatabase.mainTable.yes');
+    });
+
+    it('should return no', () => {
+      const data = {
+        field: false,
+      };
+
+      expect(
+        YES_NO_VALUE_GETTER_FACTORY('field')({
+          data,
+        } as unknown as ValueGetterParams)
+      ).toEqual('materialsSupplierDatabase.mainTable.no');
     });
   });
 });

@@ -139,6 +139,41 @@ describe('QuickFilterComponent', () => {
       expect(component.managementTabSelected.emit).toHaveBeenCalledWith(false);
     });
 
+    it('should not init if navigation goes to product category rules', () => {
+      const mockStaticQuickFilter = {} as QuickFilter;
+      const mockSubject = new Subject<{
+        materialClass: MaterialClass;
+        navigationLevel: NavigationLevel;
+      }>();
+      component['dataFacade'].navigation$ = mockSubject;
+      component['msdAgGridConfigService'].getStaticQuickFilters = jest.fn(
+        () => [mockStaticQuickFilter]
+      );
+      component['qfFacade'].fetchPublishedQuickFilters = jest.fn();
+      component['qfFacade'].fetchSubscribedQuickFilters = jest.fn();
+      component.managementTabSelected.emit = jest.fn();
+
+      component.ngOnInit();
+      mockSubject.next({
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.PRODUCT_CATEGORY_RULES,
+      });
+
+      expect(
+        component['msdAgGridConfigService'].getStaticQuickFilters
+      ).not.toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
+      expect(
+        component['qfFacade'].fetchPublishedQuickFilters
+      ).not.toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
+      expect(
+        component['qfFacade'].fetchSubscribedQuickFilters
+      ).not.toHaveBeenCalledWith(MaterialClass.STEEL, NavigationLevel.MATERIAL);
+      expect(component.isManagementTabSelected).toBe(false);
+      expect(component.managementTabSelected.emit).not.toHaveBeenCalledWith(
+        false
+      );
+    });
+
     it('should init localStoreage and subscribe to agGrid event', () => {
       const gridApi = {} as GridApi;
       const columnApi = {} as ColumnApi;

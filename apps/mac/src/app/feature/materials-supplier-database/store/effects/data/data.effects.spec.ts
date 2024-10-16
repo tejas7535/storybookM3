@@ -20,6 +20,8 @@ import {
   Material,
   MaterialStandard,
   MaterialStandardTableValue,
+  ProductCategoryRule,
+  ProductCategoryRuleTableValue,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
 } from '@mac/msd/models';
@@ -44,6 +46,9 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProductCategoryRules,
+  fetchProductCategoryRulesFailure,
+  fetchProductCategoryRulesSuccess,
   fetchResult,
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
@@ -117,6 +122,7 @@ describe('Data Effects', () => {
       [NavigationLevel.STANDARD, fetchMaterialStandards],
       [NavigationLevel.MATERIAL, undefined, MaterialClass.SAP_MATERIAL],
       [undefined, undefined],
+      [NavigationLevel.PRODUCT_CATEGORY_RULES, fetchProductCategoryRules],
     ])(
       'should dispatch the correct action for the navigationLevel',
       (
@@ -554,6 +560,120 @@ describe('Data Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchMaterialStandards).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('fetchProductCategoryRules$', () => {
+    it(
+      'should fetch product category rules and return success action on success',
+      marbles((m) => {
+        action = fetchProductCategoryRules();
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: ProductCategoryRule[] = [
+          {
+            id: 1,
+            timestamp: 0,
+            title: 'test',
+            allocationToSideProducts: false,
+            materialClass: MaterialClass.STEEL,
+            modifiedBy: 'dev',
+            uploadFile: {
+              azureReference: 'ref',
+              filename: 'test',
+              id: 1,
+              type: 'pcr',
+            },
+            validUntil: 0,
+            version: '1',
+          },
+          {
+            id: 2,
+            timestamp: 0,
+            title: 'test2',
+            allocationToSideProducts: false,
+            materialClass: MaterialClass.STEEL,
+            modifiedBy: 'dev',
+            uploadFile: {
+              azureReference: 'ref',
+              filename: 'test2',
+              id: 2,
+              type: 'pcr',
+            },
+            validUntil: 0,
+            version: '1',
+          },
+        ];
+
+        const expectedProductCategoryRules: ProductCategoryRuleTableValue[] = [
+          {
+            id: 1,
+            lastModified: 0,
+            title: 'test',
+            allocationToSideProducts: false,
+            materialClass: MaterialClass.STEEL,
+            modifiedBy: 'dev',
+            filename: 'test',
+            uploadFileId: 1,
+            validUntil: 0,
+            version: '1',
+          },
+          {
+            id: 2,
+            lastModified: 0,
+            title: 'test2',
+            allocationToSideProducts: false,
+            materialClass: MaterialClass.STEEL,
+            modifiedBy: 'dev',
+            filename: 'test2',
+            uploadFileId: 2,
+            validUntil: 0,
+            version: '1',
+          },
+        ];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchProductCategoryRules = jest.fn(() => response);
+        msdDataService.mapProductCategoryRulesToTableView = jest.fn(
+          () => expectedProductCategoryRules
+        );
+
+        const result = fetchProductCategoryRulesSuccess({
+          materialClass: MaterialClass.STEEL,
+          productCategoryRules: expectedProductCategoryRules,
+        });
+
+        let received;
+        effects.fetchProductCategoryRules$.subscribe((r) => (received = r));
+
+        m.flush();
+
+        expect(received).toEqual(result);
+        expect(msdDataService.fetchProductCategoryRules).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should fetch product category rules and return failure action on failure',
+      marbles((m) => {
+        action = fetchProductCategoryRules();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchProductCategoryRules = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchProductCategoryRulesFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchProductCategoryRules$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchProductCategoryRules).toHaveBeenCalledWith(
           MaterialClass.STEEL
         );
       })

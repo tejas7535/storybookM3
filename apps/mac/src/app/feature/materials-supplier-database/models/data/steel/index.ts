@@ -11,3 +11,4 @@ export * from './steel-material-standard.model';
 export * from './steel-material-standard-form.model';
 export * from './steel-material-standard-form-value.model';
 export * from './steel-material-standard-table-value.model';
+export * from './steel-types';

@@ -178,22 +178,25 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         this.materialClass = materialClass;
         this.navigationLevel = navigationLevel;
 
-        this.qfFacade.fetchPublishedQuickFilters(
-          materialClass,
-          navigationLevel
-        );
-        this.qfFacade.fetchSubscribedQuickFilters(
-          materialClass,
-          navigationLevel
-        );
+        if (navigationLevel !== NavigationLevel.PRODUCT_CATEGORY_RULES) {
+          this.qfFacade.fetchPublishedQuickFilters(
+            materialClass,
+            navigationLevel
+          );
+          this.qfFacade.fetchSubscribedQuickFilters(
+            materialClass,
+            navigationLevel
+          );
 
-        this.staticFilters = this.msdAgGridConfigService.getStaticQuickFilters(
-          materialClass,
-          navigationLevel
-        );
-        this.active = this.staticFilters[0];
-        this.activePublishedFilterChanged$ = of(false);
-        this.setManagementTabSelected(false);
+          this.staticFilters =
+            this.msdAgGridConfigService.getStaticQuickFilters(
+              materialClass,
+              navigationLevel
+            );
+          this.active = this.staticFilters[0];
+          this.activePublishedFilterChanged$ = of(false);
+          this.setManagementTabSelected(false);
+        }
       });
   }
 

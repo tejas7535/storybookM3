@@ -8,6 +8,7 @@ import {
   ManufacturerSupplierTableValue,
   Material,
   MaterialStandardTableValue,
+  ProductCategoryRuleTableValue,
   SAPMaterial,
   SAPMaterialsRequest,
 } from '@mac/msd/models';
@@ -125,6 +126,22 @@ export const fetchMaterialStandardsSuccess = createAction(
 
 export const fetchMaterialStandardsFailure = createAction(
   '[MSD - Data] Fetch Material Standards Failure'
+);
+
+export const fetchProductCategoryRules = createAction(
+  '[MSD - Data] Fetch Product Category Rules'
+);
+
+export const fetchProductCategoryRulesSuccess = createAction(
+  '[MSD - Data] Fetch Product Category Rules Success',
+  props<{
+    materialClass: MaterialClass;
+    productCategoryRules: ProductCategoryRuleTableValue[];
+  }>()
+);
+
+export const fetchProductCategoryRulesFailure = createAction(
+  '[MSD - Data] Fetch Product Category Rules Failure'
 );
 
 export const deleteEntity = createAction(

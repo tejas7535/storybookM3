@@ -44,6 +44,7 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
     'lastModified',
     'modifiedBy',
     'productCategory',
+    'uploadFileId',
   ]);
 
   private materialClass: MaterialClass;
@@ -120,6 +121,15 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
           this.materialClass,
           id
         );
+      }
+      case NavigationLevel.PRODUCT_CATEGORY_RULES: {
+        return this.msdDataService
+          .getHistoryForProductCategoryRule(this.materialClass, id)
+          .pipe(
+            map((pcr) =>
+              this.msdDataService.mapProductCategoryRulesToTableView(pcr)
+            )
+          );
       }
       default: {
         return this.msdDataService.getHistoryForMaterial(

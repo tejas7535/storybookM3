@@ -3,6 +3,7 @@ import {
   DataResult,
   ManufacturerSupplierTableValue,
   MaterialStandardTableValue,
+  ProductCategoryRuleTableValue,
   SAPMaterialsRequest,
 } from '@mac/msd/models';
 
@@ -20,6 +21,9 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProductCategoryRules,
+  fetchProductCategoryRulesFailure,
+  fetchProductCategoryRulesSuccess,
   fetchResult,
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
@@ -290,6 +294,41 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Data] Fetch Material Standards Failure',
+      });
+    });
+  });
+  describe('Fetch Product Category Rules', () => {
+    it('fetchProductCategoryRules', () => {
+      const action = fetchProductCategoryRules();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Product Category Rules',
+      });
+    });
+  });
+
+  describe('Fetch Product Category Rules Success', () => {
+    it('fetchProductCategoryRulesSuccess', () => {
+      const mockProductCategoryRules = [{} as ProductCategoryRuleTableValue];
+      const action = fetchProductCategoryRulesSuccess({
+        materialClass: MaterialClass.STEEL,
+        productCategoryRules: mockProductCategoryRules,
+      });
+
+      expect(action).toEqual({
+        materialClass: MaterialClass.STEEL,
+        productCategoryRules: mockProductCategoryRules,
+        type: '[MSD - Data] Fetch Product Category Rules Success',
+      });
+    });
+  });
+
+  describe('Fetch Product Category Rules Failure', () => {
+    it('fetchProductCategoryRulesFailure', () => {
+      const action = fetchProductCategoryRulesFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Product Category Rules Failure',
       });
     });
   });

@@ -23,6 +23,8 @@ import {
   MaterialResponse,
   MaterialStandard,
   MaterialStandardTableValue,
+  ProductCategoryRule,
+  ProductCategoryRuleTableValue,
   SAPMaterial,
   SAPMaterialHistoryValue,
   SapMaterialsDatabaseUploadStatusResponse,
@@ -171,6 +173,30 @@ export class MsdDataService {
     standards: MaterialStandard[]
   ): MaterialStandardTableValue[] {
     return standards.map((std) => this.mapStandards(std));
+  }
+
+  public fetchProductCategoryRules(materialClass: MaterialClass) {
+    return this.httpClient.get<ProductCategoryRule[]>(
+      `${this.BASE_URL}/materials/${materialClass}/productCategoryRules`
+    );
+  }
+
+  public getHistoryForProductCategoryRule(
+    materialClass: MaterialClass,
+    id: number
+  ) {
+    return this.httpClient.get<ProductCategoryRule[]>(
+      `${this.BASE_URL}/materials/${materialClass}/history/productCategoryRules/${id}`,
+      {
+        params: { current: true },
+      }
+    );
+  }
+
+  public mapProductCategoryRulesToTableView(
+    productCategoryRules: ProductCategoryRule[]
+  ): ProductCategoryRuleTableValue[] {
+    return productCategoryRules.map((pcr) => this.mapProductCategoryRule(pcr));
   }
 
   public fetchRatings() {
@@ -775,6 +801,23 @@ export class MsdDataService {
       lastModified: std.timestamp,
       modifiedBy: std.modifiedBy,
     } as MaterialStandardTableValue;
+  }
+
+  private mapProductCategoryRule(
+    pcr: ProductCategoryRule
+  ): ProductCategoryRuleTableValue {
+    return {
+      id: pcr.id,
+      materialClass: pcr.materialClass,
+      title: pcr.title,
+      lastModified: pcr.timestamp,
+      allocationToSideProducts: pcr.allocationToSideProducts,
+      filename: pcr.uploadFile.filename,
+      uploadFileId: pcr.uploadFile.id,
+      validUntil: pcr.validUntil,
+      version: pcr.version,
+      modifiedBy: pcr.modifiedBy,
+    };
   }
 
   private mapSapMaterial(sapMaterial: SAPMaterial): SAPMaterialHistoryValue {

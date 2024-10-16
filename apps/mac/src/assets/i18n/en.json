@@ -429,6 +429,7 @@
     "filterTooLong": "The table filter is too long to be put into a link",
     "suppliers": "Suppliers",
     "materialStandards": "Material Standards",
+    "productCategoryRules": "Product Category Rules",
     "mainTable": {
       "columns": {
         "blocked": "blocked",
@@ -542,7 +543,12 @@
         "directSupplierEmissions": "Direct supplier emissions ",
         "indirectSupplierEmissions": "Indirect supplier emissions",
         "upstreamEmissions": "Upstream emissions",
-        "years": "Purchased in years"
+        "years": "Purchased in years",
+        "title": "Title",
+        "filename": "PCR",
+        "allocationToSideProducts": "Allocation to side products",
+        "version": "Version",
+        "date": "Date"
       },
       "confirmDialog": {
         "cancel": "Cancel",

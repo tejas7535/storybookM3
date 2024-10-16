@@ -329,6 +329,59 @@ describe('dataReducer', () => {
         filter: { ...initialState.filter, loading: false },
       });
     });
+    it('should set loading on fetchProductCategoryRules', () => {
+      const action = DataActions.fetchProductCategoryRules();
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: {
+          ...initialState.filter,
+          loading: true,
+        },
+      });
+    });
+    it('should set product category rules on fetchProductCategoryRulesSuccess', () => {
+      const action = DataActions.fetchProductCategoryRulesSuccess({
+        materialClass: MaterialClass.STEEL,
+        productCategoryRules: [],
+      });
+      const newState = dataReducer(
+        { ...state, filter: { ...state.filter, loading: true } },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: {
+          ...initialState.filter,
+          loading: false,
+        },
+        result: {
+          ...initialState.result,
+          [MaterialClass.STEEL]: {
+            ...initialState.result[MaterialClass.STEEL],
+            productCategoryRules: [],
+          },
+        },
+      });
+    });
+
+    it('should set loading to false on fetchProductCategoryRulesFailure', () => {
+      const action = DataActions.fetchProductCategoryRulesFailure();
+      const newState = dataReducer(
+        {
+          ...state,
+          filter: { ...state.filter, loading: true },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        filter: { ...initialState.filter, loading: false },
+      });
+    });
 
     it('should set string value of ag grid filter for given navigation if filterModel is defined', () => {
       const filterModel = {

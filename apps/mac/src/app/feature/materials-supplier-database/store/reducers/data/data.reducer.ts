@@ -6,6 +6,7 @@ import {
   ManufacturerSupplierTableValue,
   Material,
   MaterialStandardTableValue,
+  ProductCategoryRuleTableValue,
 } from '@mac/msd/models';
 import {
   fetchClassOptions,
@@ -20,6 +21,9 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProductCategoryRules,
+  fetchProductCategoryRulesFailure,
+  fetchProductCategoryRulesSuccess,
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
   fetchSAPMaterialsSuccess,
@@ -37,6 +41,7 @@ export interface DataState {
         [NavigationLevel.MATERIAL]?: string;
         [NavigationLevel.SUPPLIER]?: string;
         [NavigationLevel.STANDARD]?: string;
+        [NavigationLevel.PRODUCT_CATEGORY_RULES]?: string;
       };
     };
     loading: boolean;
@@ -59,6 +64,7 @@ export interface DataState {
       [NavigationLevel.MATERIAL]?: Material[];
       [NavigationLevel.SUPPLIER]?: ManufacturerSupplierTableValue[];
       [NavigationLevel.STANDARD]?: MaterialStandardTableValue[];
+      [NavigationLevel.PRODUCT_CATEGORY_RULES]?: ProductCategoryRuleTableValue[];
     };
   };
 }
@@ -251,6 +257,43 @@ export const dataReducer = createReducer(
   ),
   on(
     fetchMaterialStandardsFailure,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    fetchProductCategoryRules,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    fetchProductCategoryRulesSuccess,
+    (state, { materialClass, productCategoryRules }): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+      result: {
+        ...state.result,
+        [materialClass]: {
+          ...state.result[materialClass],
+          productCategoryRules,
+        },
+      },
+    })
+  ),
+  on(
+    fetchProductCategoryRulesFailure,
     (state): DataState => ({
       ...state,
       filter: {
