@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResultInputsService when getting non arcanol inputs should return result inputs 1`] = `
+Object {
+  "sections": Array [
+    Object {
+      "inputs": Array [
+        Object {
+          "title": "pages.lubricationPoints.title",
+          "value": "2-4",
+        },
+        Object {
+          "title": "inputs.relubricationQuantity.title",
+          "value": "inputs.relubricationQuantity.value",
+        },
+        Object {
+          "title": "inputs.maxPipeLength",
+          "value": "1 - 3m",
+        },
+        Object {
+          "title": "inputs.optime.title",
+          "value": "recommendation.lubricationPoints.optime.0",
+        },
+      ],
+      "stepIndex": 0,
+      "title": "pages.lubricationPoints.title",
+    },
+    Object {
+      "inputs": Array [
+        Object {
+          "title": "pages.lubricant.title",
+          "value": "recommendation.lubrication.options.grease",
+        },
+      ],
+      "stepIndex": 1,
+      "title": "pages.lubricant.title",
+    },
+    Object {
+      "inputs": Array [
+        Object {
+          "title": "inputs.temperature.title",
+          "value": "inputs.temperature.value",
+        },
+        Object {
+          "title": "inputs.powerSupply.title",
+          "value": "recommendation.application.powerOptions.external",
+        },
+      ],
+      "stepIndex": 2,
+      "title": "pages.application.title",
+    },
+  ],
+}
+`;
+
+exports[`ResultInputsService when getting result inputs should return result inputs 1`] = `
+Object {
+  "sections": Array [
+    Object {
+      "inputs": Array [
+        Object {
+          "title": "pages.lubricationPoints.title",
+          "value": "2-4",
+        },
+        Object {
+          "title": "inputs.relubricationQuantity.title",
+          "value": "inputs.relubricationQuantity.value",
+        },
+        Object {
+          "title": "inputs.maxPipeLength",
+          "value": "1 - 3m",
+        },
+        Object {
+          "title": "inputs.optime.title",
+          "value": "recommendation.lubricationPoints.optime.0",
+        },
+      ],
+      "stepIndex": 0,
+      "title": "pages.lubricationPoints.title",
+    },
+    Object {
+      "inputs": Array [
+        Object {
+          "title": "pages.lubricant.title",
+          "value": "Arcanol MULTI2",
+        },
+      ],
+      "stepIndex": 1,
+      "title": "pages.lubricant.title",
+    },
+    Object {
+      "inputs": Array [
+        Object {
+          "title": "inputs.temperature.title",
+          "value": "inputs.temperature.value",
+        },
+        Object {
+          "title": "inputs.powerSupply.title",
+          "value": "recommendation.application.powerOptions.external",
+        },
+      ],
+      "stepIndex": 2,
+      "title": "pages.application.title",
+    },
+  ],
+}
+`;
