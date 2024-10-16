@@ -45,7 +45,7 @@
                 (firstDataRendered)="setAgGridFilter($event)"
                 [rowClass]="['!border-l-0', '!border-t-0']"
                 [rowClassRules]="{
-                  '!bg-opacity-5 !bg-error': isBlockedRow,
+                  '!bg-opacity-5 !bg-[#cb0b15]': isBlockedRow,
                   '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
                 }"
                 (columnVisible)="onColumnChange($event)"
@@ -74,7 +74,7 @@
                 [tooltipShowDelay]="agGridTooltipDelay"
                 [rowClass]="['!border-l-0', '!border-t-0']"
                 [rowClassRules]="{
-                  '!bg-opacity-5 !bg-error': isBlockedRow,
+                  '!bg-opacity-5 !bg-[#cb0b15]': isBlockedRow,
                   '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
                 }"
                 [cacheBlockSize]="DEFAULT_BLOCK_SIZE"
