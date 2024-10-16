@@ -7,9 +7,10 @@ import { LsaStepperComponent } from '@lsa/core/lsa-stepper/lsa-stepper.component
 import { LsaAppService } from '@lsa/core/services/lsa-app.service';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { RestService } from '@lsa/core/services/rest.service';
+import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -33,12 +34,19 @@ describe('RecommendationContainerComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       CommonModule,
       MockModule(CdkStepperModule),
+      MockComponent(LsaStepperComponent),
     ],
     providers: [
       {
         provide: RestService,
         useValue: {
           getLubricatorRecommendation: jest.fn(),
+        },
+      },
+      {
+        provide: ResultInputsService,
+        useValue: {
+          getResultInputs: jest.fn(),
         },
       },
       {
@@ -53,6 +61,12 @@ describe('RecommendationContainerComponent', () => {
           getLubricationPointsForm: jest.fn(() => ({}) as unknown as FormGroup),
           getLubricantForm: jest.fn(() => ({}) as unknown as FormGroup),
           getApplicationForm: jest.fn(() => ({}) as unknown as FormGroup),
+        },
+      },
+      {
+        provide: LsaStepperComponent,
+        useValue: {
+          selectStepByIndex: jest.fn(),
         },
       },
     ],
@@ -94,6 +108,16 @@ describe('RecommendationContainerComponent', () => {
       expect(restService.getLubricatorRecommendation).toHaveBeenCalledWith(
         component.form.getRawValue()
       );
+    });
+
+    it('should call getResultInputs', () => {
+      component.form.getRawValue = jest.fn();
+      component.fetchResult();
+
+      expect(component.form.getRawValue).toHaveBeenCalled();
+      expect(
+        component['resultInputService'].getResultInputs
+      ).toHaveBeenCalledWith(component.form.getRawValue());
     });
   });
 
@@ -155,5 +179,22 @@ describe('RecommendationContainerComponent', () => {
       );
       expect(component.currentStep$.next).toHaveBeenCalledWith(2);
     });
+  });
+
+  it('should call selectStepByIndex on stepper with the correct step', () => {
+    const stepper = component['stepper'];
+    stepper.selectStepByIndex = jest.fn();
+    const stepIndex = 2;
+
+    const selectStepByIndexSpy = jest.spyOn(stepper, 'selectStepByIndex');
+
+    component.navigateToStep(stepIndex);
+
+    expect(selectStepByIndexSpy).toHaveBeenCalledWith(stepIndex);
+  });
+
+  it('should have stepper as ViewChild', () => {
+    expect(component['stepper']).toBeTruthy();
+    expect(component['stepper']).toBeInstanceOf(LsaStepperComponent);
   });
 });
