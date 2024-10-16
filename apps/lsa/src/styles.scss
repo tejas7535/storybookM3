@@ -88,10 +88,6 @@ lubricator-selection-assistant {
     @apply w-full #{!important};
   }
 
-  .mat-column-field {
-    @apply w-40 sm:w-24 md:w-52;
-  }
-
   .accessory-table {
     @apply w-full;
     th {
@@ -122,6 +118,20 @@ lubricator-selection-assistant {
         height: 25px;
         @apply border-t-4 border-[#f5f5f5];
       }
+    }
+  }
+
+  .recommendation-table {
+    .mat-column-field {
+      @apply w-40 sm:w-24 md:w-60;
+    }
+
+    .mat-column-recommended {
+      @apply w-40 sm:w-24 md:w-72 lg:min-w-[240px] xl:w-60;
+    }
+
+    .mat-column-minimum {
+      @apply w-40 sm:w-24  md:w-72 lg:min-w-[240px] xl:w-60;
     }
   }
 }
