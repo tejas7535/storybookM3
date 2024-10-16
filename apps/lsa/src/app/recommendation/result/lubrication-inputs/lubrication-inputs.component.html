@@ -1,0 +1,45 @@
+<mat-expansion-panel
+  *transloco="let t"
+  (opened)="panelOpenState.set(true)"
+  (closed)="panelOpenState.set(false)"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title class="whitespace-nowrap">
+      {{ t('inputs.title') }}
+    </mat-panel-title>
+    <mat-panel-description> </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div>
+    <div class="flex flex-col">
+      @for (section of inputs.sections; let last = $last; track section.title) {
+        <div
+          class="text-on-surface-variant text-title-small font-bold flex items-center"
+        >
+          <p>
+            {{ section.title }}
+          </p>
+          <button
+            class="ml-3"
+            mat-icon-button
+            aria-label="Edit"
+            (click)="navigate(section.stepIndex)"
+          >
+            <mat-icon class="icon-button-primary">edit</mat-icon>
+          </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 md:gap-10">
+          @for (input of section.inputs; track input.title) {
+            <lsa-lubrication-input
+              [title]="input.title"
+              [value]="input.value"
+            ></lsa-lubrication-input>
+          }
+        </div>
+        @if (!last) {
+          <mat-divider class="!my-2"></mat-divider>
+        }
+      }
+    </div>
+  </div>
+</mat-expansion-panel>
