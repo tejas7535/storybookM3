@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.14.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.3...ga-v1.14.4) (2024-10-17)
+
+
+### Bug Fixes
+
+* **ga:** disable DMC scan entirely ([#6630](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6630)) ([c84c882](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c84c8824b2fb9dde6546eb5ce425b79a304620e2))
+
 ## [1.14.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.2...ga-v1.14.3) (2024-10-15)
 
 
