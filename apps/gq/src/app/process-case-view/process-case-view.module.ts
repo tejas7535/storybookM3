@@ -11,6 +11,7 @@ import { ProcessCaseModule } from '@gq/core/store/process-case';
 import { FPricingModule } from '@gq/f-pricing/f-pricing.module';
 import { SharedQuotationButtonComponent } from '@gq/process-case-view/shared-quotation-button/shared-quotation-button.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { ExportExcelModalModule } from '@gq/shared/components/modal/export-excel-modal/export-excel-modal.module';
 import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-select/offer-type-select.component';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
@@ -43,6 +44,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     CancelWorkflowModalComponent,
   ],
   imports: [
+    EditCaseModalComponent,
     ReleaseButtonComponent,
     CommonModule,
     MatSidenavModule,

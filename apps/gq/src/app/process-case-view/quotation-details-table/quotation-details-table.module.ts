@@ -19,7 +19,6 @@ import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar
 import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { EditCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/edit-case-header-information/edit-case-header-information.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
-import { EditCaseModalComponent } from '@gq/shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
 import { StatusBarModalModule } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-select/offer-type-select.component';
@@ -37,11 +36,7 @@ import { EditingCommentModalComponent } from './editing-comment-modal/editing-co
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 @NgModule({
-  declarations: [
-    QuotationDetailsTableComponent,
-    EditingCommentModalComponent,
-    EditCaseModalComponent,
-  ],
+  declarations: [QuotationDetailsTableComponent, EditingCommentModalComponent],
   imports: [
     AutocompleteInputComponent,
     EditCaseHeaderInformationComponent,

@@ -1,4 +1,6 @@
 /* eslint-disable max-lines */
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,13 +12,28 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { DateAdapter } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {
   debounce,
@@ -44,11 +61,20 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import moment, { isMoment, Moment } from 'moment';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import { EditCaseHeaderInformationComponent } from '../../case-header-information/edit-case-header-information/edit-case-header-information.component';
+import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
+import { OfferTypeSelectComponent } from '../../offer-type-select/offer-type-select.component';
+import { PurchaseOrderTypeSelectComponent } from '../../purchase-order-type-select/purchase-order-type-select.component';
+import { SectorGpsdSelectComponent } from '../../sector-gpsd-select/sector-gpsd-select.component';
 import { EditCaseModalData } from './edit-case-modal-data.model';
 
 @Component({
@@ -56,6 +82,33 @@ import { EditCaseModalData } from './edit-case-modal-data.model';
   templateUrl: './edit-case-modal.component.html',
   styleUrls: ['./edit-case-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    SharedTranslocoModule,
+    PushPipe,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    TextFieldModule,
+    LoadingSpinnerModule,
+    FormsModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    PurchaseOrderTypeSelectComponent,
+    SectorGpsdSelectComponent,
+    OfferTypeSelectComponent,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    EditCaseHeaderInformationComponent,
+    DialogHeaderModule,
+    LetDirective,
+    MatDialogModule,
+    MatIconModule,
+  ],
 })
 export class EditCaseModalComponent implements OnInit, OnDestroy {
   private readonly featureToggleService: FeatureToggleConfigService = inject(
@@ -289,7 +342,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       .select(getSalesOrgsOfShipToParty)
       .pipe(takeUntil(this.unsubscribe$$))
       .subscribe((salesOrgs: SalesOrg[]) => {
-        if (salesOrgs && salesOrgs.length > 0) {
+        if (salesOrgs && salesOrgs?.length > 0) {
           this.shipToPartySalesOrg = salesOrgs[0].id;
         }
       });

@@ -1,22 +1,14 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import {
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  ValidationErrors,
-} from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormControl, ValidationErrors } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MatMomentDateModule,
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
+import { RouterModule } from '@angular/router';
 
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -36,55 +28,54 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import moment from 'moment';
-import { MockComponent } from 'ng-mocks';
+import { MockComponent, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
-import { FilterNames } from '../../autocomplete-input/filter-names.enum';
-import { DialogHeaderComponent } from '../../header/dialog-header/dialog-header.component';
 import { OfferTypeSelectComponent } from '../../offer-type-select/offer-type-select.component';
 import { PurchaseOrderTypeSelectComponent } from '../../purchase-order-type-select/purchase-order-type-select.component';
 import { SectorGpsdSelectComponent } from '../../sector-gpsd-select/sector-gpsd-select.component';
+import { SelectSalesOrgComponent } from '../../select-sales-org/select-sales-org.component';
 import { EditCaseModalComponent } from './edit-case-modal.component';
 describe('EditCaseModalComponent', () => {
   let component: EditCaseModalComponent;
   let spectator: Spectator<EditCaseModalComponent>;
   let store: MockStore;
+
   const userHasAccessToOfferType$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
   const createComponent = createComponentFactory({
     component: EditCaseModalComponent,
     imports: [
+      RouterModule.forRoot([]),
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
       MockComponent(PurchaseOrderTypeSelectComponent),
       MockComponent(SectorGpsdSelectComponent),
       MockComponent(OfferTypeSelectComponent),
-      MatFormFieldModule,
-      MatDatepickerModule,
-      MatMomentDateModule,
-      MatSelectModule,
-      MatInputModule,
-      FormsModule,
-      ReactiveFormsModule,
-      PushPipe,
-      MatAutocompleteModule,
-      LetDirective,
+      MockComponent(SelectSalesOrgComponent),
       provideTranslocoTestingModule({ en: {} }),
     ],
-    declarations: [MockComponent(DialogHeaderComponent)],
     providers: [
+      provideHttpClient(),
+      provideHttpClientTesting(),
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
       {
         provide: MatDialogRef,
-        useValue: {
-          beforeClosed: jest.fn().mockReturnValue(of([])),
-        },
+        useValue: {} as unknown as MatDialogRef<EditCaseModalComponent>,
       },
+      MockProvider(MatDialogRef, {
+        beforeClosed: jest.fn().mockReturnValue(of([])),
+        close: jest.fn(),
+      } as unknown as MatDialogRef<EditCaseModalComponent>),
+
       {
         provide: MAT_DIALOG_DATA,
         useValue: {
@@ -116,32 +107,22 @@ describe('EditCaseModalComponent', () => {
         provide: DateAdapter,
         useClass: MomentDateAdapter,
       },
-      {
-        provide: AutoCompleteFacade,
-        useValue: {
-          resetView: jest.fn(),
-          initFacade: jest.fn(),
-          autocomplete: jest.fn(),
-          resetAutocompleteMaterials: jest.fn(),
-          materialNumberOrDescForGlobalSearch$: of({
-            filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
-            items: [],
-          }),
-        },
-      },
-      {
-        provide: CurrencyFacade,
-        useValue: {
-          availableCurrencies$: of([]),
-        },
-      },
-      {
-        provide: SectorGpsdFacade,
-        useValue: {
-          loadSectorGpsdByCustomerAndSalesOrg: jest.fn(),
-          resetAllSectorGpsds: jest.fn(),
-        },
-      },
+
+      MockProvider(AutoCompleteFacade, {
+        resetView: jest.fn(),
+        initFacade: jest.fn(),
+        autocomplete: jest.fn(),
+        resetAutocompleteMaterials: jest.fn(),
+      }),
+      MockProvider(CurrencyFacade, {
+        availableCurrencies$: of([]),
+      }),
+
+      MockProvider(SectorGpsdFacade, {
+        loadSectorGpsdByCustomerAndSalesOrg: jest.fn(),
+        resetAllSectorGpsds: jest.fn(),
+      }),
+
       {
         provide: RolesFacade,
         useValue: {
@@ -150,14 +131,15 @@ describe('EditCaseModalComponent', () => {
         },
       },
     ],
-    detectChanges: true,
-    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    component.ngOnInit();
   });
 
   it('should create', () => {
@@ -259,6 +241,8 @@ describe('EditCaseModalComponent', () => {
     });
 
     test('should request sectorGpsd data', () => {
+      component['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg =
+        jest.fn();
       component.ngOnInit();
       expect(
         component['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
@@ -316,6 +300,7 @@ describe('EditCaseModalComponent', () => {
   describe('close dialog', () => {
     test('should close dialog and reset sectorGpsd', () => {
       component['dialogRef'].close = jest.fn();
+      component['sectorGpsdFacade'].resetAllSectorGpsds = jest.fn();
 
       component.closeDialog();
 
@@ -330,11 +315,8 @@ describe('EditCaseModalComponent', () => {
     beforeEach(() => {
       userHasAccessToOfferType$$.next(true);
     });
+
     test('should submit caseName and currency and all SAP Data Values', () => {
-      component['dialogRef'].close = jest.fn();
-
-      spectator.detectChanges();
-
       component.caseModalForm.controls.caseName.setValue('new-case-name');
       component.caseModalForm.controls.currency.setValue('USD');
       component.caseModalForm.controls.quotationToDate.setValue(
@@ -370,8 +352,6 @@ describe('EditCaseModalComponent', () => {
     test('should trim case name before submitting', () => {
       component['dialogRef'].close = jest.fn();
 
-      spectator.detectChanges();
-
       component.caseModalForm.controls.caseName.setValue('   new whitespace ');
       component.caseModalForm.controls.currency.setValue('USD');
       component.caseModalForm.controls.quotationToDate.setValue(
@@ -406,8 +386,6 @@ describe('EditCaseModalComponent', () => {
     test('should update case name with missing dates', () => {
       component['dialogRef'].close = jest.fn();
 
-      spectator.detectChanges();
-
       component.caseModalForm.controls.caseName.setValue('   new whitespace ');
       component.caseModalForm.controls.currency.setValue('USD');
       component.caseModalForm.controls.quotationToDate.setValue(
@@ -437,7 +415,6 @@ describe('EditCaseModalComponent', () => {
     test('should not provide offerType if user has no access', () => {
       component['dialogRef'].close = jest.fn();
       component.userHasOfferTypeAccess$.subscribe();
-      spectator.detectChanges();
 
       component.caseModalForm.controls.caseName.setValue('   new whitespace ');
       component.caseModalForm.controls.currency.setValue('USD');
@@ -611,6 +588,7 @@ describe('EditCaseModalComponent', () => {
   describe('should dispatch reset actions', () => {
     test('should dispatch reset actions', () => {
       store.dispatch = jest.fn();
+      component['sectorGpsdFacade'].resetAllSectorGpsds = jest.fn();
 
       component.ngOnInit();
 
