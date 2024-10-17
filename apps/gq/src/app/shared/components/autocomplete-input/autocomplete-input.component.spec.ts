@@ -155,6 +155,19 @@ describe('AutocompleteInputComponent', () => {
       component.options = [new IdValue(null, 'test', true, 'test2')];
       expect(component.searchFormControl.value).toBeNull();
     });
+
+    test('should emit added, when filter or not MATERIAL_FILTERS, so that to only option is selected', () => {
+      component.valueInput = {
+        nativeElement: { value: '009003843000001' },
+      } as any;
+      component.filterName = FilterNames.CUSTOMER;
+      component.added.emit = jest.fn();
+      component.options = [
+        new IdValue('F-234517.DKLFA#E', '009003843000001', false),
+      ];
+      expect(component.added.emit).toHaveBeenCalledTimes(1);
+      expect(component.unselectedOptions.length).toBe(0);
+    });
   });
   describe('setFormControlValue', () => {
     test('should set value for Customer', () => {
