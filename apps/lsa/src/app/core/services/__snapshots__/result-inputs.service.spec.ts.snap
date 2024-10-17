@@ -14,11 +14,11 @@ Object {
           "value": "inputs.relubricationQuantity.value",
         },
         Object {
-          "title": "inputs.maxPipeLength",
+          "title": "inputs.maxPipeLengthTitle",
           "value": "1 - 3m",
         },
         Object {
-          "title": "inputs.optime.title",
+          "title": "inputs.optimeTitle",
           "value": "recommendation.lubricationPoints.optime.0",
         },
       ],
@@ -42,7 +42,7 @@ Object {
           "value": "inputs.temperature.value",
         },
         Object {
-          "title": "inputs.powerSupply.title",
+          "title": "inputs.powerSupplyTitle",
           "value": "recommendation.application.powerOptions.external",
         },
       ],
@@ -67,11 +67,11 @@ Object {
           "value": "inputs.relubricationQuantity.value",
         },
         Object {
-          "title": "inputs.maxPipeLength",
+          "title": "inputs.maxPipeLengthTitle",
           "value": "1 - 3m",
         },
         Object {
-          "title": "inputs.optime.title",
+          "title": "inputs.optimeTitle",
           "value": "recommendation.lubricationPoints.optime.0",
         },
       ],
@@ -95,7 +95,7 @@ Object {
           "value": "inputs.temperature.value",
         },
         Object {
-          "title": "inputs.powerSupply.title",
+          "title": "inputs.powerSupplyTitle",
           "value": "recommendation.application.powerOptions.external",
         },
       ],
