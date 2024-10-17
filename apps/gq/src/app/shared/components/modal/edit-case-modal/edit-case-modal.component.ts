@@ -207,7 +207,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       shipToParty: new FormControl(
         {
           value: this.modalData.shipToParty,
-          disabled: this.isSapCase, // TODO: when GQUOTE-4666 is done use '!this.modalData?.enableSapFieldEditing,' instead
+          disabled: !this.modalData?.enableSapFieldEditing,
         },
         []
       ),
@@ -250,7 +250,7 @@ export class EditCaseModalComponent implements OnInit, OnDestroy {
       }),
       partnerRoleType: new FormControl({
         value: this.modalData?.partnerRoleType,
-        disabled: this.isSapCase, // TODO: when GQUOTE-4666 is done use '!this.modalData?.enableSapFieldEditing,' instead
+        disabled: !this.modalData?.enableSapFieldEditing,
       }),
       offerType: new FormControl({
         value: this.modalData?.offerType,
