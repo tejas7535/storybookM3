@@ -186,7 +186,7 @@
     "tsickle": "0.46.3",
     "tsutils": "3.21.0",
     "typescript": "5.4.5",
-    "webpack": "5.93.0",
+    "webpack": "5.95.0",
     "webpack-bundle-analyzer": "4.7.0",
     "yargs": "17.6.2"
   },
