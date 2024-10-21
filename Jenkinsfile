@@ -462,7 +462,7 @@ pipeline {
                 script: [
                     sandbox: true,
                     script: """
-                        if(BUILD_TYPE == "${buildTypes.PRE_RELEASE}") {
+                        if(BUILD_TYPE == "${buildTypes.PRE_RELEASE}" || BUILD_TYPE == "${buildTypes.HOTFIX}") {
                             return ["${preReleasableApps.join('","')}"]
                         }
                         if(BUILD_TYPE == "${buildTypes.RELEASE}") {
@@ -877,7 +877,7 @@ pipeline {
                         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: '**/bundle-report.html', reportName: 'bundle-reports', reportTitles: 'bundle-report'])
                     }
 
-                    if (isAppRelease || isPreRelease || isHotfixRelease) {
+                    if (isAppRelease || isPreRelease || isHotfixRelease || isValidHotfixBranchRun()) {
                         sh "pnpm nx run ${env.RELEASE_SCOPE}:transloco-optimize"
                     }
                 }
