@@ -17,6 +17,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import deJson from '../../assets/i18n/de.json';
 import enJson from '../../assets/i18n/en.json';
 
+const assetPath = environment.assetsPath;
+
 @NgModule({
   exports: [SharedTranslocoModule],
   imports: [
@@ -27,7 +29,9 @@ import enJson from '../../assets/i18n/en.json';
       FALLBACK_LANGUAGE.id,
       LANGUAGE_STORAGE_KEY,
       true,
-      !environment.localDev
+      !environment.localDev,
+      undefined,
+      `${assetPath}/i18n`
     ),
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
