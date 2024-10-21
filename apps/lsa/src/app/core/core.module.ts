@@ -31,7 +31,7 @@ const assetPath = environment.assetsPath;
       true,
       !environment.localDev,
       undefined,
-      `${assetPath}/i18n`
+      `${assetPath}/i18n/`
     ),
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
