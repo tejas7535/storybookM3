@@ -36,7 +36,8 @@
         "REJECT_QUOTATION": "Angebot wurde abgelehnt",
         "FORWARD_WF_ITEM": "Freigabeprozess wurde weitergeleitet",
         "CANCEL_WORKFLOW": "Freigabeprozess wurde abgebrochen"
-      }
+      },
+      "priceLowerThanMsp": "Nettopreis von mindestens einer Position ist unter dem Mindestverkaufspreis (MSP)"
     },
     "cancelWorkflow": "Freigabe abbrechen",
     "cancelWorkflowModal": {

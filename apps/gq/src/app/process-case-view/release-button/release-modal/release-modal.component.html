@@ -110,7 +110,7 @@
             }
           </div>
         }
-        <div class="pb-10">
+        <div [ngClass]="{ 'pb-10': !priceLowerThanMsp }">
           <p class="text-subtitle-2 pb-5 pt-6">
             {{ t('additionalInformation') }}
           </p>
@@ -150,6 +150,15 @@
             >
           </mat-form-field>
         </div>
+
+        @if (priceLowerThanMsp) {
+          <div class="mb-6">
+            <gq-info-banner
+              [infoText]="t('priceLowerThanMsp')"
+              [isWarning]="true"
+            ></gq-info-banner>
+          </div>
+        }
       </div>
       <div class="flex w-full gap-4 border-t border-[#000000]/[0.12] px-4 py-4">
         @if (

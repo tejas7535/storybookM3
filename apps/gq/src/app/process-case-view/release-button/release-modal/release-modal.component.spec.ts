@@ -21,6 +21,7 @@ import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { QUOTATION_MOCK } from '../../../../testing/mocks';
 import { ReleaseModalComponent } from './release-modal.component';
 
 describe('ReleaseModalComponent', () => {
@@ -421,6 +422,26 @@ describe('ReleaseModalComponent', () => {
 
         component.formGroup.get('approverCC').setValue('' as any);
         expect(component.hasValueChanged).toBe(false);
+      });
+    });
+
+    describe('is price lower than msp', () => {
+      test('should return true when price is lower than msp', () => {
+        component.dialogData = QUOTATION_MOCK;
+        // Set msp to be higher than price
+        component.dialogData.quotationDetails[0].msp = 300;
+
+        component.ngOnInit();
+        expect(component.priceLowerThanMsp).toBeTruthy();
+      });
+
+      test('should return false when price is lower than msp', () => {
+        component.dialogData = QUOTATION_MOCK;
+        // Set msp to be lower than price
+        component.dialogData.quotationDetails[0].msp = 100;
+
+        component.ngOnInit();
+        expect(component.priceLowerThanMsp).toBeFalsy();
       });
     });
   });

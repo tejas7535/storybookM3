@@ -6,12 +6,20 @@
   }"
 >
   <mat-icon
-    class="mr-4 align-middle !text-info"
+    class="mr-4 align-middle"
     [ngClass]="{
       '!text-icon-info': !isWarning,
       '!text-icon-warning': isWarning
     }"
     >warning_amber</mat-icon
   >
-  <div class="text-caption !text-info">{{ infoText }}</div>
+  <div
+    class="text-caption"
+    [ngClass]="{
+      '!text-info': !isWarning,
+      '!text-warning': isWarning
+    }"
+  >
+    {{ infoText }}
+  </div>
 </div>

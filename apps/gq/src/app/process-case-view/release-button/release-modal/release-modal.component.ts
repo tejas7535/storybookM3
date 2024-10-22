@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -37,6 +38,7 @@ import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { UserSelectComponent } from '@gq/process-case-view/user-select/user-select.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
 import {
   ActiveDirectoryUser,
   ApprovalLevel,
@@ -75,6 +77,8 @@ interface ReleaseModalFormControl {
     UserSelectComponent,
     DialogHeaderModule,
     ReactiveFormsModule,
+    InfoBannerComponent,
+    NgClass,
   ],
   selector: 'gq-release-modal',
   templateUrl: './release-modal.component.html',
@@ -123,6 +127,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
   readonly INVALID_SELECTION_APPROVER = '';
 
   isInvalidInput = false;
+  priceLowerThanMsp = false;
 
   constructor(
     public readonly approvalFacade: ApprovalFacade,
@@ -174,6 +179,11 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.approvalFacade.saveApprovalWorkflowInformationSucceeded$
       .pipe(takeUntil(this.shutdown$$))
       .subscribe(() => this.closeDialog());
+
+    // check if any price is lower than msp (GQUOTE-4723)
+    this.priceLowerThanMsp = this.dialogData.quotationDetails?.some(
+      (qd) => qd.price < qd.msp
+    );
   }
 
   onPaste(event: ClipboardEvent): void {
