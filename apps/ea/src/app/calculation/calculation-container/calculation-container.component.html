@@ -38,5 +38,6 @@
   <ea-calculation-indication-mobile
     [isCalculationLoading]="isAnyServiceLoading$ | ngrxPush"
     [isCalculationResultAvailable]="isCalculationResultAvailable$ | ngrxPush"
+    [isVirtualKeyboardVisible]="isKeyboardVisible$ | ngrxPush"
   ></ea-calculation-indication-mobile>
 }

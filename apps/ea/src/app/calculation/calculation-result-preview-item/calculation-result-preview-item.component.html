@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
   @if (_item) {
     <div
-      class="flex flex-shrink-0 flex-col items-center justify-between w-auto md:justify-center disabled-border border-border md:border-0 md:w-auto pt-2 md:h-auto h-full md:bg-transparent rounded-lg"
+      class="flex flex-shrink-0 flex-col items-center justify-between md:justify-center disabled-border border-border md:border-0 md:w-auto pt-1 sm:pt-2 md:h-auto h-full md:bg-transparent rounded-lg"
       [ngClass]="styleClass"
     >
       <div class="flex flex-shrink-0 flex-row items-center justify-center px-2">
@@ -27,7 +27,7 @@
       <div class="flex flex-row">
         @for (value of _item.values; track value; let last = $last) {
           <div
-            class="flex flex-col md:pt-2 px-1 sm:px-4"
+            class="flex flex-col md:pt-2 px-2 sm:px-4"
             [class.items-center]="isSingleItem"
           >
             <div

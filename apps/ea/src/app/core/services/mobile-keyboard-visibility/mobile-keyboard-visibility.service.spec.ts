@@ -92,9 +92,103 @@ describe('MobileKeyboardVisibilityService', () => {
     });
   });
 
+  describe('when is mobile web platform', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+
+      isNativePlatformMock.mockReturnValue(false);
+      Object.defineProperty(navigator, 'userAgent', {
+        value:
+          'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1',
+        writable: true,
+      });
+
+      Object.defineProperty(window, 'visualViewport', {
+        value: {
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+          dispatchEvent: jest.fn(),
+        },
+        writable: true,
+      });
+
+      Object.defineProperty(window, 'innerHeight', {
+        value: 800,
+        writable: true,
+      });
+
+      spectator = createService();
+    });
+
+    it('should add resize listener', () => {
+      const addListenerSpy = jest.spyOn(
+        window.visualViewport,
+        'addEventListener'
+      );
+
+      expect(addListenerSpy).toHaveBeenCalledWith(
+        'resize',
+        expect.any(Function)
+      );
+    });
+
+    it('should clean up on ngOnDestroy', () => {
+      const removeEventListenerSpy = jest.spyOn(
+        window.visualViewport,
+        'removeEventListener'
+      );
+
+      spectator.service.ngOnDestroy();
+
+      expect(removeEventListenerSpy).toHaveBeenCalled();
+    });
+
+    it('should update isKeyboardVisibleSubject when keyboard is visible', () => {
+      const isKeyboardVisible$ = spectator.service.isKeyboardVisible$;
+      let isVisible: boolean | undefined;
+      isKeyboardVisible$.subscribe((visible) => (isVisible = visible));
+
+      const handleResize = (window.visualViewport.addEventListener as jest.Mock)
+        .mock.calls[0][1];
+
+      handleResize({ target: { height: 100 } });
+
+      expect(isVisible).toBe(true);
+    });
+
+    it('should update isKeyboardVisibleSubject when keyboard is not visible', () => {
+      const isKeyboardVisible$ = spectator.service.isKeyboardVisible$;
+      let isVisible: boolean | undefined;
+      isKeyboardVisible$.subscribe((visible) => (isVisible = visible));
+
+      const handleResize = (window.visualViewport.addEventListener as jest.Mock)
+        .mock.calls[0][1];
+
+      handleResize({ target: { height: 800 } });
+
+      expect(isVisible).toBe(false);
+    });
+  });
+
   describe('when is not native mobile platform', () => {
     beforeEach(() => {
       isNativePlatformMock.mockReturnValue(false);
+
+      Object.defineProperty(navigator, 'userAgent', {
+        value:
+          'Mozilla/5.0 (Widnows95; CPU intel ) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14E5239e Safari/602.1',
+        writable: true,
+      });
+
+      Object.defineProperty(window, 'visualViewport', {
+        value: {
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+          dispatchEvent: jest.fn(),
+        },
+        writable: true,
+      });
+
       spectator = createService();
     });
 
@@ -110,6 +204,26 @@ describe('MobileKeyboardVisibilityService', () => {
       spectator.service.ngOnDestroy();
 
       expect(removeAllListenersSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not add resize listener', () => {
+      const addListenerSpy = jest.spyOn(
+        window.visualViewport,
+        'addEventListener'
+      );
+
+      expect(addListenerSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not remove resize listener', () => {
+      const removeEventListenerSpy = jest.spyOn(
+        window.visualViewport,
+        'removeEventListener'
+      );
+
+      spectator.service.ngOnDestroy();
+
+      expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
   });
 });

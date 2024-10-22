@@ -18,16 +18,18 @@
         isCalculationImpossible: isCalculationImpossible$ | ngrxPush,
         isCalculationGeneralError: calculationGeneralError$ | ngrxPush
       } as calculationFailureData"
-      class="relative bar bg-background-dark flex flex-col items-center md:flex-row pb-2 px-6 md:py-6 md:px-6 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
+      class="relative bar bg-background-dark md:pt-4 flex flex-col items-center md:flex-row pb-2 pl-2 pr-1 sm:px-6 md:py-6 md:px-6 rounded-t-lg min-w-full md:min-w-[800px] md:max-w-[calc(100vw-350px)] min-[1000px]:min-w-[890px] drop-shadow-lg z-50 space-y-1 md:space-y-0 overflow-hidden md:rounded-b-lg overflow-y-visible md:mx-4"
       [ngClass]="{
         'rounded-b-lg rounded-none drop-shadow-none md:rounded-lg md:drop-shadow-lg':
           'sticky',
         'mx-auto': !isStandalone$ | ngrxPush
       }"
     >
-      <div class="user-hints flex items-center flex-grow-0 flex-shrink-0">
+      <div class="user-hints flex items-center flex-grow-0 flex-shrink-0 pt-1">
         @if (isCalculationMissingInput$ | ngrxPush) {
-          <div class="flex max-w-[180px] flex-row items-center justify-center">
+          <div
+            class="flex md:max-w-[180px] flex-row items-center justify-center"
+          >
             <div class="flex flex-shrink-0">
               <mat-icon class="icon-button-primary">info_outline</mat-icon>
             </div>
@@ -73,7 +75,7 @@
             class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4 active-scrollbar pb-1"
           >
             @if (calculationFailureData?.errors?.length > 0) {
-              <div class="snap-center my-1 md:my-0 min-w-max">
+              <div class="snap-center mb-1 sm:my-1 md:my-0 w-max min-w-max">
                 <ea-calculation-result-preview-errors
                   [errors]="calculationFailureData.errors"
                   [overlayData]="overlayData$ | ngrxPush"
@@ -81,7 +83,7 @@
                 ></ea-calculation-result-preview-errors>
               </div>
             }
-            @for (item of overlayData; track item) {
+            @for (item of overlayData; let isFirst = $first; track item) {
               <div
                 [class.hidden]="
                   (calculationFailureData?.errors?.length > 0 &&
@@ -89,10 +91,23 @@
                   (calculationFailureData?.errors?.length && errorsExpanded)
                 "
               >
-                @if (!item.title.includes('overrolling')) {
-                  <div class="snap-center my-1 md:my-0 min-w-max">
+                @if (item.title.includes('overrolling')) {
+                  <div class="snap-center mb-1 sm:my-1 md:my-0 min-w-[220px]">
+                    <ea-overrolling-frequencies-preview-item
+                      [item]="item"
+                      styleClass="w-auto"
+                    />
+                  </div>
+                } @else {
+                  <div class="snap-center mb-1 sm:my-1 md:my-0 w-max min-w-max">
                     <ea-calculation-result-preview-item
-                      styleClass="w-[70vw] sm:w-[50vw]"
+                      [styleClass]="
+                        isFirst
+                          ? item.title.includes('ratingLife')
+                            ? 'w-[82vw] sm:w-auto'
+                            : 'w-[60vw] sm:w-auto'
+                          : 'w-auto'
+                      "
                       [item]="item"
                     >
                       @if (item.title.includes('emissions')) {
@@ -100,13 +115,6 @@
                         </ea-calculation-result-preview-emissions-tooltip>
                       }
                     </ea-calculation-result-preview-item>
-                  </div>
-                } @else {
-                  <div class="snap-center my-1 md:my-0 min-w-[220px]">
-                    <ea-overrolling-frequencies-preview-item
-                      [item]="item"
-                      styleClass="w-[70vw] sm:w-[50vw]"
-                    />
                   </div>
                 }
                 <mat-divider

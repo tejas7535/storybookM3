@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { combineLatest, map } from 'rxjs';
+
 import { MobileKeyboardVisibilityService } from '@ea/core/services/mobile-keyboard-visibility/mobile-keyboard-visibility.service';
 import { Action, Store } from '@ngrx/store';
 
@@ -17,8 +19,14 @@ export class SettingsFacade {
     isResultPreviewSticky
   );
 
-  public readonly isMobileKeyboardVisible$ =
-    this.mobileKeyboardVisibilityService.isKeyboardVisible$;
+  public readonly isMobileKeyboardVisible$ = combineLatest([
+    this.isStandalone$,
+    this.mobileKeyboardVisibilityService.isKeyboardVisible$,
+  ]).pipe(
+    map(([isStandaloneApp, isKeyboardVisible]) =>
+      isStandaloneApp ? isKeyboardVisible : false
+    )
+  );
 
   constructor(
     private readonly store: Store,
