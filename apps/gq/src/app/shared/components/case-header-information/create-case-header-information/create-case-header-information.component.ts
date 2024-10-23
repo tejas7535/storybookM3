@@ -38,7 +38,7 @@ import { distinctUntilChanged, filter, Observable } from 'rxjs';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
-import { DATE_FORMATS } from '@gq/process-case-view/header-content/header-content.module';
+import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';

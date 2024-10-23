@@ -139,12 +139,15 @@ export class AutocompleteInputComponent
     this.unselectedOptions = itemOptions.filter(
       (it) => !it.selected && it.id !== null
     );
-    if (this.unselectedOptions.length === 1 && itemOptions.length === 1) {
+    if (
+      this.unselectedOptions.length === 1 &&
+      itemOptions.length === 1 &&
+      !MATERIAL_FILTERS.includes(this.filterName)
+    ) {
       this.selectedIdValue = this.unselectedOptions[0];
       this.unselectedOptions = [];
-      if (!MATERIAL_FILTERS.includes(this.filterName)) {
-        this.added.emit(this.selectedIdValue);
-      }
+
+      this.added.emit(this.selectedIdValue);
     }
     if (this.selectedIdValue) {
       this.debounceIsActive = true;

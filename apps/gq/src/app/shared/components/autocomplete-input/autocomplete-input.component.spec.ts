@@ -137,11 +137,11 @@ describe('AutocompleteInputComponent', () => {
       expect(component.setFormControlValue).toHaveBeenCalledTimes(1);
     });
 
-    test('should clear unselectedOptions, if filterName equals MATERIAL_NUMBER', () => {
+    test('should clear unselectedOptions, if filterName equals CUSTOMER', () => {
       component.valueInput = {
         nativeElement: { value: '009003843000001' },
       } as any;
-      component.filterName = FilterNames.MATERIAL_NUMBER;
+      component.filterName = FilterNames.CUSTOMER;
 
       component.options = [
         new IdValue('F-234517.DKLFA#E', '009003843000001', false),

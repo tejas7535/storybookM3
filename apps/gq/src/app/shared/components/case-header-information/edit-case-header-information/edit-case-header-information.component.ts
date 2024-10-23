@@ -35,7 +35,7 @@ import { Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
-import { DATE_FORMATS } from '@gq/process-case-view/header-content/header-content.module';
+import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';

@@ -12,11 +12,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
+import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -26,14 +26,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { HeaderContentComponent } from './header-content.component';
 import { QuotationNoteIconComponent } from './quotation-note/icon/quotation-note-icon.component';
 
-// needed to display leading zeros
-export const DATE_FORMATS = {
-  parse: { ...MAT_MOMENT_DATE_FORMATS.parse },
-  display: {
-    ...MAT_MOMENT_DATE_FORMATS.display,
-    dateInput: 'L',
-  },
-};
 @NgModule({
   declarations: [HeaderContentComponent],
   imports: [
