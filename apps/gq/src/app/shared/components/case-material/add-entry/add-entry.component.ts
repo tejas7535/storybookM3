@@ -233,6 +233,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.quantityFormControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
+        this.quantityFormControl.markAsTouched();
         this.rowInputValid();
       });
   }

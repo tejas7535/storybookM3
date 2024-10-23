@@ -121,14 +121,16 @@ describe('AddEntryComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should set quantityvalid if when quantityFormControl valuechanges', () => {
+    test('should set quantityValid if when quantityFormControl valueChanges', () => {
       component.rowInputValid = jest.fn();
+      component.quantityFormControl.markAsTouched = jest.fn();
 
       component.ngOnInit();
       const testValue = 10;
       component.quantityFormControl.setValue(testValue);
 
       expect(component.rowInputValid).toHaveBeenCalled();
+      expect(component.quantityFormControl.markAsTouched).toHaveBeenCalled();
     });
 
     test('should reset inputFields, when For CreateCase, the CustomerId changes', () => {
