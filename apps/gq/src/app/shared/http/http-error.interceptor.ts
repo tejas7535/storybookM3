@@ -6,16 +6,14 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { translate, TranslocoService } from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 
-import deJson from '../../../assets/i18n/http/de.json';
-import enJson from '../../../assets/i18n/http/en.json';
 import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 
 export const SHOW_DEFAULT_SNACKBAR_ACTION = new HttpContextToken(() => true);
@@ -24,13 +22,7 @@ const ADDITIONAL_ERROR_PARAM = 'additionalErrorParam';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  public constructor(
-    private readonly snackbar: MatSnackBar,
-    private readonly translocoService: TranslocoService
-  ) {
-    this.translocoService.setTranslation(enJson, 'en');
-    this.translocoService.setTranslation(deJson, 'de');
-  }
+  private readonly snackbar: MatSnackBar = inject(MatSnackBar);
 
   intercept(
     request: HttpRequest<any>,
@@ -60,9 +52,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             indexOfParameterKey
           ];
 
-          if (parameterKey === ERROR_ID) {
-            errorId = error.error.parameters[parameterKey];
-            errorMessage = translate(`${ERROR_ID}.${errorId}`, {
+          if (ERROR_ID in error.error.parameters) {
+            errorId = error.error.parameters[ERROR_ID];
+            errorMessage = translate(`http.${ERROR_ID}.${errorId}`, {
               additionalErrorParam:
                 error.error.parameters[ADDITIONAL_ERROR_PARAM],
               fallback: `${error.error.localizedMessage}`,
@@ -75,7 +67,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         } else {
           // default error message
           duration = 2000;
-          errorMessage += translate('errorInterceptorMessageDefault');
+          errorMessage += translate('http.errorInterceptorMessageDefault');
         }
 
         // only show toasts for errors not triggered by auth lib
@@ -84,7 +76,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             .open(
               errorMessage,
               showSnackBarAction
-                ? translate('errorInterceptorActionDefault')
+                ? translate('http.errorInterceptorActionDefault')
                 : '',
               {
                 duration,

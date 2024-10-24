@@ -19,6 +19,7 @@ import {
 } from '@gq/shared/constants/language';
 import { HttpErrorInterceptor } from '@gq/shared/http/http-error.interceptor';
 import { HttpHeaderInterceptor } from '@gq/shared/http/http-header.interceptor';
+import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { PushPipe } from '@ngrx/component';
 
@@ -129,6 +130,7 @@ export function appInitializer(
       provide: ENV,
       useValue: { ...getEnv() },
     },
+    { provide: TRANSLOCO_SCOPE, useValue: 'http' },
   ],
   exports: [AppComponent],
 })

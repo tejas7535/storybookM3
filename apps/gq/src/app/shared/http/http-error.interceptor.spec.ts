@@ -2,10 +2,12 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpContext,
+  provideHttpClient,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
@@ -77,12 +79,11 @@ describe(`HttpHeaderInterceptor`, () => {
 
   const createService = createServiceFactory({
     service: ExampleService,
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      HttpClientTestingModule,
-      NoopAnimationsModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), NoopAnimationsModule],
     providers: [
+      provideHttpClient(withInterceptorsFromDi()),
+      provideHttpClientTesting(),
+
       {
         provide: HTTP_INTERCEPTORS,
         useClass: HttpErrorInterceptor,

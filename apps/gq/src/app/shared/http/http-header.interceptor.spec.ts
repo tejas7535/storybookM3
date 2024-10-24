@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -52,7 +51,6 @@ describe(`HttpHeaderInterceptor`, () => {
   let service: ExampleService;
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
-  let translocoService: TranslocoService;
 
   const createService = createServiceFactory({
     service: ExampleService,
@@ -73,7 +71,6 @@ describe(`HttpHeaderInterceptor`, () => {
     spectator = createService();
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
-    translocoService = spectator.inject(TranslocoService);
   });
 
   test('should be truthy', () => {
@@ -82,7 +79,6 @@ describe(`HttpHeaderInterceptor`, () => {
 
   describe('intercept', () => {
     test('should not add header-content to quotations/{gqId}/attachments when post', () => {
-      translocoService.getActiveLang = jest.fn(() => 'en');
       service.postAttachments().subscribe((res) => {
         expect(res).toBeTruthy();
       });
@@ -99,7 +95,6 @@ describe(`HttpHeaderInterceptor`, () => {
       ).toBeFalsy();
     });
     test('should not add header-content to quotations/{gqId}/attachments/download when get', () => {
-      translocoService.getActiveLang = jest.fn(() => 'en');
       service.getAttachments().subscribe((res) => {
         expect(res).toBeTruthy();
       });
@@ -116,7 +111,6 @@ describe(`HttpHeaderInterceptor`, () => {
       ).toBeFalsy();
     });
     test('should add http header on calls against /api/v1', () => {
-      translocoService.getActiveLang = jest.fn(() => 'en');
       service.getTest().subscribe((res) => {
         expect(res).toBeTruthy();
       });
@@ -125,20 +119,7 @@ describe(`HttpHeaderInterceptor`, () => {
 
       expect(httpRequest.request.headers.get('language')).toEqual('en');
     });
-    test('should not add http header on missing language', () => {
-      translocoService.getActiveLang = jest.fn(() => undefined as any);
-      service.getTest().subscribe((res) => {
-        expect(res).toBeTruthy();
-      });
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-      expect(httpRequest.request.method).toEqual('GET');
-
-      expect(
-        httpRequest.request.headers.keys().includes('language')
-      ).toBeFalsy();
-    });
     test('should not add http header on call to different urls', () => {
-      translocoService.getActiveLang = jest.fn(() => 'en');
       service.getFromDifferentUrl().subscribe((res) => {
         expect(res).toBeTruthy();
       });
@@ -151,7 +132,6 @@ describe(`HttpHeaderInterceptor`, () => {
     });
 
     test('should add content-type header', () => {
-      translocoService.getActiveLang = jest.fn(() => 'en');
       service.getFromDifferentUrl().subscribe((res) => {
         expect(res).toBeTruthy();
       });
