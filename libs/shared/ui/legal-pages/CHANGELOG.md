@@ -1,4 +1,7 @@
 # Release Notes of Library Shared UI Legal Pages
+## 1.4.0 (2024-10-25)
+Manual release to keep repository in sync with published versions on Artifactory.
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v1.2.0...legal-pages-v1.3.0) (2024-07-15)
 
 

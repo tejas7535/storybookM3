@@ -1,4 +1,7 @@
 # Release Notes of Library Shared UI Banner
+## 3.8.0 (2024-10-25)
+Manual release to keep repository in sync with published versions on Artifactory.
+
 ## [3.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.6.0...banner-v3.7.0) (2024-07-15)
 
 

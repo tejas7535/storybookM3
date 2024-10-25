@@ -965,9 +965,9 @@ pipeline {
 
                         script {
                             withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_SVC_FRONTEND_MONO', passwordVariable: 'ENCODED_AUTH', usernameVariable: 'USERNAME')]) {
-                                sh "npm config set //artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/:_auth=${ENCODED_AUTH}"
+                                sh "npm config set //artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/:_authToken '${ENCODED_AUTH}'"
                                 sh "npm config set email=${USERNAME}@schaeffler.com"
-                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/ --parallel=1"
+                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/ --parallel=1" 
                             }
                         }
                     }

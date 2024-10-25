@@ -1,4 +1,7 @@
 # Release Notes of Library Shared Utils Application Insights
+## 1.5.0 (2024-10-25)
+Manual release to keep repository in sync with published versions on Artifactory.
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.3.0...application-insights-v1.4.0) (2024-07-15)
 
 

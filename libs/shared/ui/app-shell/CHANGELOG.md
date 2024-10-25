@@ -1,4 +1,7 @@
 # Release Notes of Library Shared UI App Shell
+## 1.6.0 (2024-10-25)
+Manual release to keep repository in sync with published versions on Artifactory.
+
 ## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.4.0...app-shell-v1.5.0) (2024-07-15)
 
 

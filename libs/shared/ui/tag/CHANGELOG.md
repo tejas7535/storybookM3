@@ -1,4 +1,7 @@
 # Release Notes of Library Shared UI Tag
+## 0.3.0 (2024-10-25)
+Manual release to keep repository in sync with published versions on Artifactory.
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/tag-v0.1.0...tag-v0.2.0) (2024-07-15)
 
 

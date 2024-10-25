@@ -1,4 +1,7 @@
 # Release Notes of Library Shared UI Styles
+## 1.12.0 (2024-10-25)
+Manual release to keep repository in sync with published versions on Artifactory.
+
 ## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.10.0...styles-v1.11.0) (2024-07-15)
 
 
