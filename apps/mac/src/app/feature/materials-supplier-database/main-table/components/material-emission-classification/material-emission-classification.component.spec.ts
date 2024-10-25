@@ -40,14 +40,14 @@ describe('MaterialEmissionClassificationComponent', () => {
 
   describe('ngOnInit', () => {
     it('should check value validity and determineClassificationClass if value is valid', () => {
-      component['isValueValid'] = jest.fn(() => true);
+      component['shouldShowTooltip'] = jest.fn(() => true);
       component['determineClassificationClass'] = jest.fn(
         () => ClassificationClass.GREEN
       );
 
       component.ngOnInit();
 
-      expect(component.valueValid).toBe(true);
+      expect(component.showTooltip).toBe(true);
       expect(component['determineClassificationClass']).toHaveBeenCalledTimes(
         1
       );
@@ -55,33 +55,38 @@ describe('MaterialEmissionClassificationComponent', () => {
     });
 
     it('should check value validity but not determineClassificationClass if value is not valid', () => {
-      component['isValueValid'] = jest.fn(() => false);
+      component['shouldShowTooltip'] = jest.fn(() => false);
       component['determineClassificationClass'] = jest.fn();
 
       component.ngOnInit();
 
-      expect(component.valueValid).toBe(false);
+      expect(component.showTooltip).toBe(false);
       expect(component['determineClassificationClass']).not.toHaveBeenCalled();
       expect(component.classificationClass).toBeUndefined();
     });
   });
 
-  describe('isValueValid', () => {
+  describe('shouldShowTooltip', () => {
     it('negative values are valid', () => {
       component.value = -1;
-      expect(component['isValueValid']()).toBe(true);
+      expect(component['shouldShowTooltip']()).toBe(true);
     });
     it('zero values are valid', () => {
       component.value = 0;
-      expect(component['isValueValid']()).toBe(true);
+      expect(component['shouldShowTooltip']()).toBe(true);
     });
     it('positive values are valid', () => {
       component.value = 1;
-      expect(component['isValueValid']()).toBe(true);
+      expect(component['shouldShowTooltip']()).toBe(true);
     });
     it('undefined values are invalid', () => {
       component.value = undefined;
-      expect(component['isValueValid']()).toBe(false);
+      expect(component['shouldShowTooltip']()).toBe(false);
+    });
+    it('null values are invalid', () => {
+      // eslint-disable-next-line unicorn/no-null
+      component.value = null;
+      expect(component['shouldShowTooltip']()).toBe(false);
     });
   });
 

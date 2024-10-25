@@ -16,7 +16,7 @@
   >
     {{ displayValue !== undefined ? displayValue : value }}
   </span>
-  @if (valueValid) {
+  @if (showTooltip) {
     <mac-html-tooltip
       [tooltipOrigin]="indicator"
       [tooltipShowDelay]="500"

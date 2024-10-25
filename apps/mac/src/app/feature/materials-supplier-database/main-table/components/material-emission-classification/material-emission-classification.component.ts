@@ -45,15 +45,15 @@ export class MaterialEmissionClassificationComponent implements OnInit {
   @Input() displayValue?: number;
   @Input() transparent?: boolean;
 
-  valueValid: boolean;
+  showTooltip: boolean;
   classificationClass: ClassificationClass;
 
   constructor(private readonly dialogService: MsdDialogService) {}
 
   ngOnInit(): void {
-    this.valueValid = this.isValueValid();
+    this.showTooltip = this.shouldShowTooltip();
 
-    if (this.valueValid) {
+    if (this.showTooltip) {
       this.classificationClass = this.determineClassificationClass();
     }
   }
@@ -92,7 +92,7 @@ export class MaterialEmissionClassificationComponent implements OnInit {
     return ClassificationClass.GREY;
   }
 
-  private isValueValid(): boolean {
-    return this.value !== undefined && this.value !== null;
+  private shouldShowTooltip(): boolean {
+    return !this.transparent && this.value !== undefined && this.value !== null;
   }
 }
