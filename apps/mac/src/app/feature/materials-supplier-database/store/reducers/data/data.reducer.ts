@@ -58,6 +58,8 @@ export interface DataState {
     totalRows?: number;
     subTotalRows?: number;
     startRow: number;
+    errorCode?: number;
+    retryCount?: number;
   };
   result: {
     [key in MaterialClass]?: {
@@ -144,6 +146,16 @@ export const dataReducer = createReducer(
     })
   ),
   on(
+    fetchMaterialsFailure,
+    (state): DataState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        loading: false,
+      },
+    })
+  ),
+  on(
     fetchSAPMaterialsSuccess,
     (
       state,
@@ -166,21 +178,13 @@ export const dataReducer = createReducer(
     })
   ),
   on(
-    fetchMaterialsFailure,
-    (state): DataState => ({
-      ...state,
-      filter: {
-        ...state.filter,
-        loading: false,
-      },
-    })
-  ),
-  on(
     fetchSAPMaterialsFailure,
-    (state, { startRow }): DataState => ({
+    (state, { startRow, errorCode, retryCount }): DataState => ({
       ...state,
       sapMaterialsRows: {
         startRow,
+        errorCode,
+        retryCount,
       },
       result: {
         ...state.result,

@@ -172,7 +172,11 @@ describe('dataReducer', () => {
     });
 
     it('should set the startRow and unset the result', () => {
-      const action = DataActions.fetchSAPMaterialsFailure({ startRow: 0 });
+      const action = DataActions.fetchSAPMaterialsFailure({
+        startRow: 0,
+        errorCode: 1,
+        retryCount: 2,
+      });
       const newState = dataReducer(
         {
           ...state,
@@ -196,6 +200,8 @@ describe('dataReducer', () => {
         ...initialState,
         sapMaterialsRows: {
           startRow: 0,
+          errorCode: 1,
+          retryCount: 2,
         },
         result: {
           [MaterialClass.SAP_MATERIAL]: {

@@ -29,4 +29,5 @@ export interface SAPMaterialsRequest {
     colId: string;
     sort: 'asc' | 'desc';
   }[];
+  retryCount?: number;
 }

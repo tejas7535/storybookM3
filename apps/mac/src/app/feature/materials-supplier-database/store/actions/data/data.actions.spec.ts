@@ -171,11 +171,17 @@ describe('Data Actions', () => {
   });
   describe('Fetch SAP Materials Failure', () => {
     it('fetchSAPMaterialsSuccess', () => {
-      const action = fetchSAPMaterialsFailure({ startRow: 0 });
+      const action = fetchSAPMaterialsFailure({
+        startRow: 0,
+        errorCode: 1,
+        retryCount: 2,
+      });
 
       expect(action).toEqual({
         type: '[MSD - Data] Fetch SAP Materials Failure',
         startRow: 0,
+        errorCode: 1,
+        retryCount: 2,
       });
     });
   });

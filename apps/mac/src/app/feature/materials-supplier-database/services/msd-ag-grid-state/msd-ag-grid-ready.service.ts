@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, filter } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
 import {
   ColumnApi,
   GridApi,
@@ -30,15 +31,25 @@ export class MsdAgGridReadyService {
     IServerSideGetRowsParams
   >();
   private readonly sapResult$ = this.dataFacade.sapResult$;
+  private readonly delayConfiguration: number[] = [5, 10, 20];
 
   constructor(private readonly dataFacade: DataFacade) {
     this.sapResult$
       .pipe(filter((result) => this.serverSideParamsStore.size > 0 && !!result))
       .subscribe((result) => {
-        if (result.data) {
-          this.paramSuccess(result as SAPMaterialsResponse, result.startRow);
+        const serverSideParams = this.serverSideParamsStore.get(
+          result.startRow
+        );
+        if (!serverSideParams) {
+          // nothing to do
+        } else if (result.data) {
+          this.paramSuccess(serverSideParams, result as SAPMaterialsResponse);
         } else {
-          this.paramFailure(result.startRow);
+          this.paramFailure(
+            serverSideParams,
+            result.errorCode,
+            result.retryCount
+          );
         }
       });
   }
@@ -58,27 +69,48 @@ export class MsdAgGridReadyService {
   }
 
   private paramSuccess(
-    { data, subTotalRows }: SAPMaterialsResponse,
-    startRow: number
+    serverSideParams: IServerSideGetRowsParams,
+    { data, subTotalRows }: SAPMaterialsResponse
   ) {
-    const serverSideParams = this.serverSideParamsStore.get(startRow);
-    if (!serverSideParams) {
-      return;
-    }
     const params: SAPMaterialsResult = {
       rowData: data,
       rowCount: subTotalRows,
     };
     serverSideParams.success(params);
-    this.serverSideParamsStore.delete(startRow);
+    this.serverSideParamsStore.delete(serverSideParams.request.startRow);
   }
 
-  private paramFailure(startRow: number) {
-    const serverSideParams = this.serverSideParamsStore.get(startRow);
-    if (!serverSideParams) {
-      return;
+  private paramFailure(
+    serverSideParams: IServerSideGetRowsParams,
+    errorCode: number,
+    retryCount: number
+  ) {
+    // copy request to avoid mutation
+    const request = { ...serverSideParams.request } as SAPMaterialsRequest;
+    if (errorCode === 0 && retryCount < this.delayConfiguration.length) {
+      // error code 0 is mostly caused by a gateway timeout - make a retry
+      const seconds = this.delayConfiguration[retryCount];
+      request.retryCount = retryCount + 1;
+      const message = translate(
+        'materialsSupplierDatabase.loading.snackbar.failedDataLoad',
+        {
+          retryCount: request.retryCount,
+          seconds,
+        }
+      );
+      this.dataFacade.errorSnackBar(message);
+      setTimeout(
+        () => this.dataFacade.fetchSAPMaterials(request),
+        seconds * 1000
+      );
+    } else {
+      // other error codes just fail
+      serverSideParams.fail();
+      this.serverSideParamsStore.delete(request.startRow);
+      const message = translate(
+        'materialsSupplierDatabase.loading.snackbar.failedDataLoadFinal'
+      );
+      this.dataFacade.errorSnackBar(message);
     }
-    serverSideParams.fail();
-    this.serverSideParamsStore.delete(startRow);
   }
 }

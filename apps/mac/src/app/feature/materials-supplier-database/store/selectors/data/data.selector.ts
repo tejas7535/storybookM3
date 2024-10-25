@@ -96,6 +96,8 @@ export const getSAPResult = createSelector(
         totalRows?: number;
         subTotalRows?: number;
         startRow?: number;
+        errorCode?: number;
+        retryCount?: number;
       }
     | undefined =>
     sapMaterialsRows?.startRow === undefined

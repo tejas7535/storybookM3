@@ -84,6 +84,7 @@ import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classe
 import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { DetailCellRendererComponent } from './cell-renderers/detail-cell-renderer/detail-cell-renderer.component';
+import { LoadingCellRendererComponent } from './components/loading-cell-renderer/loading-cell-renderer.component';
 import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { QuickFilterManagementComponent } from './quick-filter/quick-filter-management/quick-filter-management.component';
@@ -125,6 +126,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // master detail cell renderer
   public detailCellRenderer = DetailCellRendererComponent;
+  // loading cell renderer
+  public loadingCellRenderer = LoadingCellRendererComponent;
 
   public optionsLoading$ = this.dataFacade.optionsLoading$;
   public resultLoading$ = this.dataFacade.resultLoading$;

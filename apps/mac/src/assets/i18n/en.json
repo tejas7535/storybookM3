@@ -1182,6 +1182,14 @@
       "learnMoreLink": "Open learn more page",
       "learnMoreUri": "/learn-more/materials-supplier-database"
     },
+    "loading": {
+      "loading": "Loading data ...",
+      "loadingFailed": "Failed to load data from server! Please try again later or inform Support!",
+      "snackbar": {
+        "failedDataLoad": "Failed to load data from server! Retrying (#{{retryCount}}) in {{seconds}} seconds",
+        "failedDataLoadFinal": "Failed to load data from server! Please try again later or inform Support!"
+      }
+    },
     "reload": "Reload",
     "resetTable": "Reset Table",
     "resume": "Resume",

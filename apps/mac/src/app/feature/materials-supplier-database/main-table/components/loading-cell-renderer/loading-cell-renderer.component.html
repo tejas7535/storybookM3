@@ -1,0 +1,10 @@
+<div
+  class="ag-custom-loading-cell ml-12"
+  *transloco="let t; read: 'materialsSupplierDatabase.loading'"
+>
+  @if (params.node.failedLoad) {
+    {{ t('loadingFailed') }}
+  } @else {
+    {{ t('loading') }}
+  }
+</div>

@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { of, throwError } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
@@ -251,15 +253,21 @@ describe('Data Effects', () => {
         });
 
         action = fetchSAPMaterials({
-          request: { startRow: 0 } as SAPMaterialsRequest,
+          request: { startRow: 0, retryCount: 2 } as SAPMaterialsRequest,
         });
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.fetchSAPMaterials = jest
           .fn()
-          .mockReturnValue(throwError(() => new Error('error')));
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 404 }))
+          );
 
-        const result = fetchSAPMaterialsFailure({ startRow: 0 });
+        const result = fetchSAPMaterialsFailure({
+          startRow: 0,
+          errorCode: 404,
+          retryCount: 2,
+        });
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.fetchMaterials$).toBeObservable(expected);
@@ -267,6 +275,7 @@ describe('Data Effects', () => {
 
         expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
           startRow: 0,
+          retryCount: 2,
         } as SAPMaterialsRequest);
       })
     );

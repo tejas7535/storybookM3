@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import {
   ColumnApi,
@@ -15,6 +16,11 @@ import {
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { MsdAgGridReadyService } from './msd-ag-grid-ready.service';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('MsdAgGridStateService', () => {
   let spectator: SpectatorService<MsdAgGridReadyService>;
@@ -129,8 +135,8 @@ describe('MsdAgGridStateService', () => {
       mockSubject.next(mockResultSuccessBase);
 
       expect(service['paramSuccess']).toHaveBeenCalledWith(
-        mockResultSuccessBase as SAPMaterialsResponse,
-        0
+        {},
+        mockResultSuccessBase as SAPMaterialsResponse
       );
       expect(service['paramFailure']).not.toHaveBeenCalled();
     });
@@ -179,9 +185,9 @@ describe('MsdAgGridStateService', () => {
   describe('paramSuccess', () => {
     it('should call success function of params', () => {
       const mockParams = {
+        request: { startRow: 0 },
         success: jest.fn(),
       } as unknown as IServerSideGetRowsParams;
-      service['serverSideParamsStore'].get = jest.fn(() => mockParams);
       service['serverSideParamsStore'].delete = jest.fn();
 
       const mockResult = {
@@ -189,52 +195,42 @@ describe('MsdAgGridStateService', () => {
         subTotalRows: 100,
       } as SAPMaterialsResponse;
 
-      service['paramSuccess'](mockResult, 0);
+      service['paramSuccess'](mockParams, mockResult);
 
-      expect(service['serverSideParamsStore'].get).toHaveBeenCalledWith(0);
       expect(service['serverSideParamsStore'].delete).toHaveBeenCalledWith(0);
       expect(mockParams.success).toHaveBeenCalledWith({
         rowData: mockResult.data,
         rowCount: mockResult.subTotalRows,
       });
     });
-    it('should do nothing if params are not in the store', () => {
-      service['serverSideParamsStore'].get = jest.fn();
-      service['serverSideParamsStore'].delete = jest.fn();
-
-      const mockResult = {
-        data: [],
-        subTotalRows: 100,
-      } as SAPMaterialsResponse;
-
-      service['paramSuccess'](mockResult, 0);
-
-      expect(service['serverSideParamsStore'].get).toHaveBeenCalledWith(0);
-      expect(service['serverSideParamsStore'].delete).not.toHaveBeenCalled();
-    });
   });
 
   describe('paramFailure', () => {
     it('should call fail function of params', () => {
       const mockParams = {
+        request: { startRow: 0 },
         fail: jest.fn(),
       } as unknown as IServerSideGetRowsParams;
-      service['serverSideParamsStore'].get = jest.fn(() => mockParams);
       service['serverSideParamsStore'].delete = jest.fn();
+      service['dataFacade'].errorSnackBar = jest.fn();
 
-      service['paramFailure'](0);
+      service['paramFailure'](mockParams, 404, 0);
 
-      expect(service['serverSideParamsStore'].get).toHaveBeenCalledWith(0);
       expect(service['serverSideParamsStore'].delete).toHaveBeenCalledWith(0);
+      expect(service['dataFacade'].errorSnackBar).toHaveBeenCalled();
       expect(mockParams.fail).toHaveBeenCalled();
     });
-    it('should do nothing if params are not in the store', () => {
-      service['serverSideParamsStore'].get = jest.fn();
+    it('should retry data load', () => {
+      const mockParams = {
+        request: { startRow: 0 },
+        fail: jest.fn(),
+      } as unknown as IServerSideGetRowsParams;
+      service['dataFacade'].errorSnackBar = jest.fn();
       service['serverSideParamsStore'].delete = jest.fn();
 
-      service['paramFailure'](0);
+      service['paramFailure'](mockParams, 0, 0);
 
-      expect(service['serverSideParamsStore'].get).toHaveBeenCalledWith(0);
+      expect(service['dataFacade'].errorSnackBar).toHaveBeenCalled();
       expect(service['serverSideParamsStore'].delete).not.toHaveBeenCalled();
     });
   });

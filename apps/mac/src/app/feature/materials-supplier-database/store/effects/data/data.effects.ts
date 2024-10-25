@@ -1,10 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { TypedAction } from '@ngrx/store/src/models';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -95,16 +95,13 @@ export class DataEffects {
                 result,
               })
             ),
-            catchError(() =>
-              // TODO: implement proper error handling
-              of(DataActions.fetchMaterialsFailure())
+            catchError((e: HttpErrorResponse) =>
+              this.handleError(e, DataActions.fetchMaterialsFailure())
             )
           );
         }
 
-        const sapAction = action as {
-          request: SAPMaterialsRequest;
-        } & TypedAction<'[MSD - Data] Fetch SAP Materials'>;
+        const sapAction = action as { request: SAPMaterialsRequest };
 
         return this.msdDataService.fetchSAPMaterials(sapAction.request).pipe(
           map((result: SAPMaterialsResponse) =>
@@ -113,10 +110,13 @@ export class DataEffects {
               startRow: sapAction.request.startRow,
             })
           ),
-          catchError(() =>
-            of(
+          catchError((e: HttpErrorResponse) =>
+            this.handleError(
+              e,
               DataActions.fetchSAPMaterialsFailure({
                 startRow: sapAction.request.startRow,
+                errorCode: e.status || 0,
+                retryCount: sapAction.request.retryCount || 0,
               })
             )
           )
@@ -351,4 +351,10 @@ export class DataEffects {
     private readonly dataFacade: DataFacade,
     private readonly matSnackBar: MsdSnackbarService
   ) {}
+
+  private handleError(e: Error, value: any) {
+    this.applicationInsightsService.logException(e);
+
+    return of(value);
+  }
 }

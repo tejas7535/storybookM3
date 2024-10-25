@@ -70,7 +70,11 @@ export const fetchMaterialsFailure = createAction(
 
 export const fetchSAPMaterialsFailure = createAction(
   '[MSD - Data] Fetch SAP Materials Failure',
-  props<{ startRow: number }>()
+  props<{
+    startRow: number;
+    errorCode: number;
+    retryCount: number;
+  }>()
 );
 
 export const setAgGridFilter = createAction(
